@@ -6,6 +6,16 @@ import SocialSecurityNumber from '../../../common/components/questions/SocialSec
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
 import { binaryGenders } from '../../utils/options-for-select';
+import { isValidDateOver17, isValidAnyDate, validateIfDirtyDate } from '../../../common/utils/validations';
+
+function getDateMessage({ month, day, year }) {
+  if (isValidAnyDate(day.value, month.value, year.value)
+      && !isValidDateOver17(day.value, month.value, year.value)) {
+    return 'You must be at least 17 to apply';
+  }
+
+  return 'Please provide a valid date of birth';
+}
 
 export default class PersonalInformationFields extends React.Component {
   render() {
@@ -22,7 +32,8 @@ export default class PersonalInformationFields extends React.Component {
               ssn={this.props.data.veteranSocialSecurityNumber}
               onValueChange={(update) => {this.props.onStateChange('veteranSocialSecurityNumber', update);}}/>
           <DateInput required
-              errorMessage="Please provide a valid date of birth"
+              errorMessage={getDateMessage(this.props.data.veteranDateOfBirth)}
+              validation={validateIfDirtyDate(this.props.data.veteranDateOfBirth.day, this.props.data.veteranDateOfBirth.month, this.props.data.veteranDateOfBirth.year, isValidDateOver17)}
               name="veteranBirth"
               day={this.props.data.veteranDateOfBirth.day}
               month={this.props.data.veteranDateOfBirth.month}

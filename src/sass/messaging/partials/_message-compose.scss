@@ -11,6 +11,7 @@
 
   @media (min-width: $medium-screen) {
     margin-bottom: 3rem;
+    margin-top: 1.5rem;
 
     .usa-input-error-message {
       margin: 0 0 0 11.5rem;
@@ -18,8 +19,7 @@
   }
 }
 
-[id=msg-compose] label,
-.msg-from-label {
+[id=msg-compose] label {
   margin: 0;
   font-weight: bold;
 }
@@ -48,8 +48,9 @@
 .msg-subject-group {
   margin-top: 0;
   padding: 1.5rem 0;
-
+  
   @media (min-width: $medium-screen) {
+    border-left: 4px solid transparent;
     display: inline-block;
     width: 95%;
   }
@@ -61,12 +62,6 @@
 }
 
 .msg-subject-group-inner {
-  @media (min-width: $medium-screen) {
-    -webkit-align-items: center;
-    align-items: center;
-    display: flex;
-  }
-
   .usa-input-error-message {
     margin-left: 0rem;
   }
@@ -112,16 +107,6 @@
 }
 
 .msg-recipient > div,
-.msg-from {
-  -webkit-align-items: center;
-  align-items: center;
-  display: -webkit-flex;
-  display: flex;
-  margin-bottom: 0;
-}
-
-.msg-recipient > div,
-.msg-from,
 .msg-subject-group {
   padding: 1.5rem;
 
@@ -139,6 +124,8 @@
 
 .msg-subject {
   @media (min-width: $medium-screen) {
+    -webkit-flex: 1 1 60%;
+    flex: 1 1 60%;
     margin-left: 1rem;
   }
 }
@@ -147,24 +134,20 @@
   @media (min-width: $medium-screen) {
     display: -webkit-flex;
     display: flex;
-  }  
+  }
 }
 
-.msg-recipient label,
-.msg-from-label {
+.msg-recipient label {
   padding-right: 1rem;
+}
 
-  @media (min-width: $medium-screen) {
-    -webkit-flex: 0 0 10rem;
-    flex:  0 0 10rem;
-    text-align: right;
-  }
+.msg-recipient {
+  border-top: none;
 }
 
 .msg-send-group {
   background: $color-gray-lightest;
   border: 1px solid $color-gray;
-  border-top-width: 0;
   padding: 1rem;
   position: relative;
 
@@ -179,20 +162,6 @@
     padding: 1.5rem;
   }
 
-  [type="button"] {
-    margin: 0 1rem 0 0;
-
-    @media (max-width: $medium-screen) {
-      -webkit-flex: 0 0 48%;
-      flex: 0 0 48%;
-      margin: 1.5rem 0rem .5rem;
-    }
-
-    &[disabled] {
-      background: $color-gray;
-    }
-  }
-
   .messaging-btn-delete {
     @media (max-width: $medium-screen) {
       display: none;
@@ -205,6 +174,42 @@
   }
 }
 
+.msg-send-buttons {
+  display: inline-flex;
+  margin-right: 1rem;
+
+  [type="button"] {
+    margin: 0 1rem 0 0;
+
+    &[disabled] {
+      background: $color-gray;
+    }
+  }
+
+  @media (max-width: $medium-screen) {
+    margin: 0;
+    width: 100%;
+
+    [type="button"] {
+      -webkit-flex: 0 1 50%;
+      flex: 0 1 50%;
+      margin: 1.5rem 1rem .5rem;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+button.msg-btn-save {
+  font-weight: bold;
+}
+
 .msg-btn-save {
   background: transparent !important;
 
@@ -215,6 +220,7 @@
 }
 
 .msg-write-group {
+  border-bottom: none;
   margin-top: 0;
 
   .usa-input-error {
@@ -228,8 +234,8 @@
 
   textarea {
     border: 0;
-    padding: 0rem;
-    margin: 1rem 0 0 0;
+    padding: 0;
+    margin-bottom: 0;
     max-width: 100%;
     position: relative;
     resize: none;
@@ -247,14 +253,14 @@
   }
 }
 
-.msg-compose-error .msg-send-group {
+.msg-compose-write {
   @media (min-width: $medium-screen) {
-    margin-left: 1.5rem;
+    padding-left: 1.5rem;
   }
 }
 
 .msg-write {
-  padding: 1rem;
+  padding: 1.5rem 1.5rem 2rem;
 
   @media (min-width: $medium-screen) {
     padding: 0;
@@ -311,6 +317,10 @@
     order: -2;
   }
 
+  input:focus + label {
+    box-shadow: 0 0 3px $color-focus, 0 0 7px $color-focus;
+  }
+
   label {
     background-color: inherit;
     cursor: pointer;
@@ -337,7 +347,7 @@
     color: $color-primary;
     text-decoration: underline;
   }
-  
+
   input {
     border: 0;
     height: auto;
@@ -347,18 +357,6 @@
     position: absolute;
     top: 0;
     width: auto;
-  }
-}
-
-@media (min-width: $medium-screen) {
-  .msg-from {
-    padding: 0 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .msg-subject {
-    -webkit-flex: 1 1 60%;
-    flex: 1 1 60%;
   }
 }
 
@@ -412,26 +410,23 @@
     padding: 0;
   }
 
-  legend {
-    @media (min-width: $medium-screen) {
-      transform: translateY(50%);
-    }  
-  }
-
   textarea {
     border: 3px solid $color-secondary;
     padding: 1rem;
   }
 
-  .msg-write {
-    padding-left: 1.5rem;
+  .msg-write,
+  .msg-send-group {
+    @media (min-width: $medium-screen) {
+      margin-left: 1.5rem;
+    }
   }
 }
 
 .msg-compose-error-message {
   margin: 0;
   padding: 0;
-} 
+}
 
 .msg-compose-error--subject {
   select {
@@ -446,7 +441,7 @@
 }
 
 // Overrides some USWDS shenanigans
-.msg-compose-error { 
+.msg-compose-error {
   select,
   textarea,
   input {
@@ -454,6 +449,90 @@
 
     @media (min-width: $medium-screen) {
       width: 100%;
+    }
+  }
+}
+
+#msg-reply {
+  // Overrides USWDS positioning
+  .usa-input-error {
+    position: static;
+    right: auto;
+  }
+
+  .msg-compose-error {
+    .msg-write {
+      padding: .25rem 1rem 1rem;
+      margin-left: 0;
+    }
+
+    .msg-send-group {
+      margin-left: 0;
+    }
+  }
+
+  .msg-field {
+    border-top: none;
+  }
+
+  .msg-reply-detail {
+    border-bottom: 1px solid $color-gray;
+    padding: 1.5rem;
+
+    label {
+      display: inline-block;
+    }
+  }
+
+  label {
+    font-weight: bold;
+    margin: 0;
+  }
+
+  @media (min-width: $medium-screen) {
+    margin: 3rem 2rem;
+
+    .msg-reply-detail {
+      border: none;
+      display: none;
+      padding: 0;
+
+      &:first-child {
+        display: block;
+      }
+    }
+
+    .msg-reply-details {
+      border: 1px solid $color-gray;
+      border-bottom: none;
+      cursor: pointer;
+      padding: 1rem;
+
+      &.opened {
+        .msg-reply-detail {
+          display: block;
+        }
+      }
+    }
+
+    .msg-field {
+      border: none;
+    }
+
+    .msg-compose-error .msg-write {
+      border-color: $color-gray;
+      border-style: solid;
+      border-width: 1px 1px 0;
+    }
+
+    .msg-write {
+      label {
+        display: none;
+      }
+    }
+
+    textarea {
+      margin: 0;
     }
   }
 }

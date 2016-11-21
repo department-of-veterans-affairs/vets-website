@@ -1,5 +1,4 @@
-import { api } from '../config';
-import { isJson } from '../utils/helpers';
+import { apiRequest } from '../utils/helpers';
 
 import {
   ADD_DRAFT_ATTACHMENTS,
@@ -7,16 +6,20 @@ import {
   CREATE_FOLDER_FAILURE,
   CREATE_FOLDER_SUCCESS,
   DELETE_DRAFT_ATTACHMENT,
-  DELETE_MESSAGE_SUCCESS,
   DELETE_MESSAGE_FAILURE,
-  FETCH_THREAD_SUCCESS,
+  DELETE_MESSAGE_SUCCESS,
   FETCH_THREAD_FAILURE,
-  MOVE_MESSAGE_SUCCESS,
+  FETCH_THREAD_SUCCESS,
+  FETCH_THREAD_MESSAGE_FAILURE,
+  FETCH_THREAD_MESSAGE_SUCCESS,
+  LOADING_THREAD,
   MOVE_MESSAGE_FAILURE,
-  SAVE_DRAFT_SUCCESS,
+  MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_FAILURE,
-  SEND_MESSAGE_SUCCESS,
+  SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_FAILURE,
+  SEND_MESSAGE_SUCCESS,
+  TOGGLE_THREAD_FORM,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -24,7 +27,7 @@ import {
   UPDATE_DRAFT
 } from '../utils/constants';
 
-const baseUrl = `${api.url}/messages`;
+const baseUrl = '/messages';
 
 export function addDraftAttachments(files) {
   return { type: ADD_DRAFT_ATTACHMENTS, files };
@@ -42,14 +45,12 @@ export function deleteMessage(id) {
   const url = `${baseUrl}/${id}`;
 
   return dispatch => {
-    fetch(url, api.settings.delete)
-    .then(response => {
-      const action = response.ok
-                   ? { type: DELETE_MESSAGE_SUCCESS }
-                   : { type: DELETE_MESSAGE_FAILURE };
-
-      return dispatch(action);
-    });
+    apiRequest(
+      url,
+      { method: 'DELETE' },
+      () => dispatch({ type: DELETE_MESSAGE_SUCCESS }),
+      () => dispatch({ type: DELETE_MESSAGE_FAILURE })
+    );
   };
 }
 
@@ -58,15 +59,37 @@ export function fetchThread(id) {
   const threadUrl = `${messageUrl}/thread`;
 
   return dispatch => {
+    dispatch({ type: LOADING_THREAD });
+
     Promise.all([messageUrl, threadUrl].map(url =>
-      fetch(url, api.settings.get).then(res => res.json())
+      apiRequest(
+        url,
+        null,
+        response => response,
+        () => dispatch({ type: FETCH_THREAD_FAILURE })
+      )
     )).then(
       data => dispatch({
         type: FETCH_THREAD_SUCCESS,
         message: data[0],
         thread: data[1].data
+      })
+    );
+  };
+}
+
+export function fetchThreadMessage(id) {
+  return dispatch => {
+    const messageUrl = `${baseUrl}/${id}`;
+
+    apiRequest(
+      messageUrl,
+      null,
+      data => dispatch({
+        type: FETCH_THREAD_MESSAGE_SUCCESS,
+        message: data
       }),
-      err => dispatch({ type: FETCH_THREAD_FAILURE, err })
+      () => dispatch({ type: FETCH_THREAD_MESSAGE_FAILURE })
     );
   };
 }
@@ -74,103 +97,112 @@ export function fetchThread(id) {
 export function moveMessageToFolder(messageId, folder) {
   const folderId = folder.folderId;
   const url = `${baseUrl}/${messageId}/move?folder_id=${folderId}`;
-  return dispatch => {
-    fetch(url, api.settings.patch)
-    .then(response => {
-      const action = response.ok
-                   ? { type: MOVE_MESSAGE_SUCCESS, folder }
-                   : { type: MOVE_MESSAGE_FAILURE };
 
-      return dispatch(action);
-    });
+  return dispatch => {
+    apiRequest(
+      url,
+      { method: 'PATCH' },
+      () => dispatch({ type: MOVE_MESSAGE_SUCCESS, folder }),
+      () => dispatch({ type: MOVE_MESSAGE_FAILURE })
+    );
   };
 }
 
 export function createFolderAndMoveMessage(folderName, messageId) {
-  const foldersUrl = `${api.url}/folders`;
+  const foldersUrl = '/folders';
   const folderData = { folder: { name: folderName } };
-  const settings = Object.assign({}, api.settings.postJson, {
+
+  const settings = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(folderData)
-  });
+  };
 
   return dispatch => {
-    fetch(foldersUrl, settings)
-    .then(response => {
-      if (!response.ok) {
-        return dispatch({ type: CREATE_FOLDER_FAILURE });
-      }
-
-      return response.json().then(
-        data => {
-          const folder = data.data.attributes;
-          dispatch({ type: CREATE_FOLDER_SUCCESS, folder, noAlert: true });
-          return dispatch(moveMessageToFolder(messageId, folder));
-        },
-        error => dispatch({ type: MOVE_MESSAGE_FAILURE, error })
-      );
-    });
+    apiRequest(
+      foldersUrl,
+      settings,
+      (data) => {
+        const folder = data.data.attributes;
+        dispatch({ type: CREATE_FOLDER_SUCCESS, folder, noAlert: true });
+        return dispatch(moveMessageToFolder(messageId, folder));
+      },
+      () => dispatch({ type: CREATE_FOLDER_FAILURE })
+    );
   };
 }
 
 export function saveDraft(message) {
-  const draftsUrl = `${api.url}/message_drafts`;
+  const draftsUrl = '/message_drafts';
   const payload = {
     messageDraft: {
-      category: message.category,
-      subject: message.subject,
       body: message.body,
-      recipientId: message.recipientId
+      category: message.category,
+      recipientId: message.recipientId,
+      subject: message.subject
     }
   };
 
-  // Save the message as a new draft if it doesn't have an id yet.
-  // Update the draft if it does have an id.
-  const isNewDraft = message.messageId === undefined;
+  const isReply = message.replyMessageId !== undefined;
+  const isSavedDraft = message.messageId !== undefined;
+  let url = draftsUrl;
+  let method = 'POST';
 
-  const url = isNewDraft
-            ? draftsUrl
-            : `${draftsUrl}/${message.messageId}`;
+  if (isReply) {
+    url = `${url}/${message.replyMessageId}/replydraft`;
+  }
 
-  const defaultSettings = isNewDraft
-                        ? api.settings.postJson
-                        : api.settings.put;
+  // Update the draft if it already has an id.
+  // Save a new draft if it doesn't have an id yet.
+  if (isSavedDraft) {
+    url = `${url}/${message.messageId}`;
+    method = 'PUT';
+  }
 
-  const settings = Object.assign({}, defaultSettings, {
+  const settings = {
+    method,
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
-  });
+  };
 
   return dispatch => {
-    fetch(url, settings).then(response => {
-      if (isJson(response)) {
-        return response.json().then(
-          data => {
-            if (data.errors) {
-              return dispatch({
-                type: SAVE_DRAFT_FAILURE,
-                error: data.errors
-              });
-            }
+    apiRequest(
+      url,
+      settings,
+      (response) => {
+        if (isSavedDraft) {
+          return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
+        }
 
-            return dispatch({
-              type: SAVE_DRAFT_SUCCESS,
-              message: data.data.attributes
-            });
-          },
-          error => dispatch({ type: SAVE_DRAFT_FAILURE, error })
-        );
-      } else if (response.ok && !isNewDraft) {
-        return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
-      }
-      return dispatch({ type: SAVE_DRAFT_FAILURE });
-    });
+        return dispatch({
+          type: SAVE_DRAFT_SUCCESS,
+          message: response.data.attributes
+        });
+      },
+      () => dispatch({ type: SAVE_DRAFT_FAILURE })
+    );
   };
 }
 
 export function sendMessage(message) {
+  let url = baseUrl;
   const payload = new FormData();
-  payload.append('message[recipient_id]', message.recipientId);
-  payload.append('message[category]', message.category);
-  payload.append('message[subject]', message.subject);
+  const isReply = message.replyMessageId !== undefined;
+  const isSavedDraft = message.messageId !== undefined;
+
+  // Deletes draft (if it was saved) once message is successfully sent.
+  if (isSavedDraft) {
+    payload.append('message[draft_id]', message.messageId);
+  }
+
+  if (isReply) {
+    url = `${url}/${message.replyMessageId}/reply`;
+  } else {
+    payload.append('message[recipient_id]', message.recipientId);
+    payload.append('message[category]', message.category);
+    payload.append('message[subject]', message.subject);
+  }
+
   payload.append('message[body]', message.body);
 
   // Add each attachment as a separate item
@@ -178,65 +210,20 @@ export function sendMessage(message) {
     payload.append('uploads[]', file);
   });
 
-  const settings = Object.assign({}, api.settings.postFormData, {
+  const settings = {
+    method: 'POST',
     body: payload
-  });
-
-  return dispatch => {
-    fetch(baseUrl, settings)
-    .then(res => res.json())
-    .then(
-      data => {
-        if (data.errors) {
-          return dispatch({
-            type: SEND_MESSAGE_FAILURE,
-            error: data.errors
-          });
-        }
-
-        return dispatch({
-          type: SEND_MESSAGE_SUCCESS,
-          message: data.data.attributes
-        });
-      },
-      error => dispatch({ type: SEND_MESSAGE_FAILURE, error })
-    );
   };
-}
-
-export function sendReply(message) {
-  const replyUrl = `${baseUrl}/${message.replyMessageId}/reply`;
-  const payload = { message: { body: message.body } };
-  const settings = Object.assign({}, api.settings.postJson, {
-    body: JSON.stringify(payload)
-  });
 
   return dispatch => {
-    fetch(replyUrl, settings)
-    .then(response => {
-      // Delete the draft (if it exists) once the reply is successfully sent.
-      const isSavedDraft = message.messageId !== undefined;
-      if (response.ok && isSavedDraft) {
-        const messageUrl = `${baseUrl}/${message.messageId}`;
-        fetch(messageUrl, api.settings.delete);
-      }
-
-      return response.json();
-    }).then(
-      data => {
-        if (data.errors) {
-          return dispatch({
-            type: SEND_MESSAGE_FAILURE,
-            error: data.errors
-          });
-        }
-
-        return dispatch({
-          type: SEND_MESSAGE_SUCCESS,
-          message: data.data.attributes
-        });
-      },
-      error => dispatch({ type: SEND_MESSAGE_FAILURE, error })
+    apiRequest(
+      url,
+      settings,
+      response => dispatch({
+        type: SEND_MESSAGE_SUCCESS,
+        message: response.data.attributes
+      }),
+      () => dispatch({ type: SEND_MESSAGE_FAILURE })
     );
   };
 }
@@ -253,8 +240,12 @@ export function toggleReplyDetails() {
   return { type: TOGGLE_REPLY_DETAILS };
 }
 
-export function updateDraft(field) {
-  return { type: UPDATE_DRAFT, field };
+export function toggleThreadForm() {
+  return { type: TOGGLE_THREAD_FORM };
+}
+
+export function updateDraft(key, field) {
+  return { type: UPDATE_DRAFT, key, field };
 }
 
 export function toggleMoveTo() {

@@ -2,18 +2,32 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
 
 class DetailsPage extends React.Component {
   componentDidMount() {
-    document.title = 'Your Disability Compensation Claim';
+    document.title = 'Details - Your Disability Compensation Claim';
+    if (!isTab(this.props.lastPage)) {
+      if (!this.props.loading) {
+        setUpPage();
+      } else {
+        scrollToTop();
+      }
+    } else {
+      setFocus('.va-tab-trigger--current');
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.loading && prevProps.loading && !isTab(this.props.lastPage)) {
+      setUpPage(false);
+    }
   }
   render() {
     const { claim, loading } = this.props;
 
-    return (
-      <ClaimDetailLayout
-          claim={claim}
-          loading={loading}>
+    let content = null;
+    if (!loading) {
+      content = (
         <div className="claim-details">
           <div className="claim-types">
             <h6>Claim Type</h6>
@@ -37,6 +51,15 @@ class DetailsPage extends React.Component {
             <p>{claim.attributes.vaRepresentative || 'Not Available'}</p>
           </div>
         </div>
+      );
+    }
+
+    return (
+      <ClaimDetailLayout
+          claim={claim}
+          currentTab="Details"
+          loading={loading}>
+        {content}
       </ClaimDetailLayout>
     );
   }
@@ -45,7 +68,8 @@ class DetailsPage extends React.Component {
 function mapStateToProps(state) {
   return {
     loading: state.claimDetail.loading,
-    claim: state.claimDetail.detail
+    claim: state.claimDetail.detail,
+    lastPage: state.routing.lastPage
   };
 }
 

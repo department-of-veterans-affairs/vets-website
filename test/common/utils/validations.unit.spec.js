@@ -1,6 +1,15 @@
 import { expect } from 'chai';
+import moment from 'moment';
 
-import { isValidDate, isValidSSN, isValidName, isNotBlank, isBlank, isValidMonetaryValue } from '../../../src/js/common/utils/validations.js';
+import {
+  isValidDate,
+  isValidSSN,
+  isValidName,
+  isNotBlank,
+  isBlank,
+  isValidMonetaryValue,
+  isValidDateOver17
+} from '../../../src/js/common/utils/validations.js';
 
 describe('Validations unit tests', () => {
   describe('isValidSSN', () => {
@@ -125,6 +134,18 @@ describe('Validations unit tests', () => {
       expect(isValidMonetaryValue('1,000')).to.be.false;
       expect(isValidMonetaryValue('abc')).to.be.false;
       expect(isValidMonetaryValue('$100')).to.be.false;
+    });
+  });
+
+  describe('isValidDateOver17', () => {
+    it('validates turning 17 today', () => {
+      const date = moment().startOf('day').subtract(17, 'years');
+      expect(isValidDateOver17(date.date(), date.month() + 1, date.year())).to.be.true;
+    });
+
+    it('does not validate turning 17 tomorrow', () => {
+      const date = moment().startOf('day').subtract(17, 'years').add(1, 'days');
+      expect(isValidDateOver17(date.date(), date.month() + 1, date.year())).to.be.false;
     });
   });
 });

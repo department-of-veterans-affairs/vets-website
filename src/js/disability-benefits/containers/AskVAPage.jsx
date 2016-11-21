@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
-import { submitRequest } from '../actions';
+import { submitRequest, getClaimDetail } from '../actions';
+import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
@@ -15,9 +16,11 @@ class AskVAPage extends React.Component {
   }
   componentDidMount() {
     document.title = 'Ask VA for a Claim Decision';
+    setUpPage();
   }
   componentWillReceiveProps(props) {
     if (props.decisionRequested) {
+      props.getClaimDetail(this.props.params.id);
       this.goToStatusPage();
     }
   }
@@ -40,14 +43,18 @@ class AskVAPage extends React.Component {
     return (
       <div>
         <div className="row">
-          <div className="medium-8 columns">
+          <div className="medium-12 columns">
             <nav className="va-nav-breadcrumbs">
               <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
-                <li><Link to={`your-claims/${this.props.params.id}`}>Your Compensation Claim</Link></li>
+                <li><Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link></li>
                 <li className="active">Ask VA for a Claim Decision</li>
               </ul>
             </nav>
+          </div>
+        </div>
+        <div className="row">
+          <div className="medium-8 columns">
             <div>
               <h1>Ask VA for a Claim Decision</h1>
               <p className="first-of-type">You should have received a letter in the mail requesting additional evidence VA needs to support your claim.</p>
@@ -78,7 +85,9 @@ class AskVAPage extends React.Component {
                 : null}
             </div>
           </div>
-          <AskVAQuestions/>
+          <div className="small-12 medium-4 columns">
+            <AskVAQuestions/>
+          </div>
         </div>
       </div>
     );
@@ -95,7 +104,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  submitRequest
+  submitRequest,
+  getClaimDetail
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AskVAPage));

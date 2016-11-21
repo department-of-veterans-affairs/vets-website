@@ -7,18 +7,17 @@ import {
   DELETE_COMPOSE_ATTACHMENT,
   DELETE_COMPOSE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
-  FETCH_RECIPIENTS_FAILURE,
   RESET_MESSAGE_OBJECT,
   SET_MESSAGE_FIELD,
 } from '../utils/constants';
 
 const initialState = {
   message: {
+    attachments: [],
+    body: makeField(''),
     category: makeField(''),
     recipient: makeField(''),
-    subject: makeField(''),
-    text: makeField(''),
-    attachments: []
+    subject: makeField('')
   },
   // List of potential recipients
   recipients: []
@@ -44,7 +43,7 @@ const resetMessage = (state) => {
   msg = set('message.recipient', initialState.message.recipient, msg);
   msg = set('message.subject', initialState.message.subject, msg);
   msg = set('message.attachments', initialState.message.attachments, msg);
-  msg = set('message.text', initialState.message.text, msg);
+  msg = set('message.body', initialState.message.body, msg);
   return msg;
 };
 
@@ -67,7 +66,6 @@ export default function compose(state = initialState, action) {
       return resetMessage(state);
     case SET_MESSAGE_FIELD:
       return set(action.path, action.field, state);
-    case FETCH_RECIPIENTS_FAILURE:
     default:
       return state;
   }

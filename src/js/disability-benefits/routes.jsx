@@ -9,6 +9,7 @@ import DetailsPage from './containers/DetailsPage.jsx';
 import AskVAPage from './containers/AskVAPage.jsx';
 import DocumentRequestPage from './containers/DocumentRequestPage.jsx';
 import TurnInEvidencePage from './containers/TurnInEvidencePage.jsx';
+import ClaimEstimationPage from './components/ClaimEstimationPage.jsx';
 
 const routes = [
   <Route
@@ -39,6 +40,10 @@ const routes = [
     <Route
         component={DocumentRequestPage}
         path="document-request/:trackedItemId"/>
+    <Route
+        component={ClaimEstimationPage}
+        key="claim-estimate"
+        path="claim-estimate"/>,
   </Route>,
 ];
 

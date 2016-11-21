@@ -12,13 +12,21 @@ const initialState = {
   consolidatedModal: false
 };
 
+// We want to sort claims without dates below claims with dates
+function phaseChangeDate(claim) {
+  return claim.attributes && claim.attributes.phaseChangeDate
+    ? claim.attributes.phaseChangeDate
+    : '0';
+}
+
 export default function claimsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIMS: {
+      const sortedList = _.orderBy([phaseChangeDate, 'id'], 'desc', action.claims);
       const current = (state.page - 1) * ROWS_PER_PAGE;
-      return _.merge(state, {
-        list: action.claims,
-        visibleRows: action.claims.slice(current, current + ROWS_PER_PAGE),
+      return _.assign(state, {
+        list: sortedList,
+        visibleRows: sortedList.slice(current, current + ROWS_PER_PAGE),
         pages: Math.ceil(action.claims.length / ROWS_PER_PAGE)
       });
     }

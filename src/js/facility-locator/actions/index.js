@@ -1,14 +1,14 @@
-import sampleData from 'json!../sampleData/sampleData.json';
+import { api } from '../config';
+import { find, compact } from 'lodash';
 import { mapboxClient } from '../components/MapboxClient';
-import { find, filter } from 'lodash';
 
-export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
 export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
-export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
-export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
-export const SEARCH_FAILED = 'SEARCH_FAILED';
-export const SEARCH_STARTED = 'SEARCH_STARTED';
+export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
 export const LOCATION_UPDATED = 'LOCATION_UPDATED';
+export const SEARCH_FAILED = 'SEARCH_FAILED';
+export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
+export const SEARCH_STARTED = 'SEARCH_STARTED';
+export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
 
 export function updateSearchQuery(query) {
   return {
@@ -27,65 +27,6 @@ export function updateLocation(propertyPath, value) {
   };
 }
 
-const mockFacility = {
-  id: 539,
-  type: 'va_health_facility',
-  attributes: {
-    visnId: 20,
-    name: 'Portland VA Medical Center-Vancouver',
-    classification: 'VA Medical Center (VAMC)',
-    address: {
-      building: null,
-      street: '1601 East 4th Plain Boulevard',
-      suite: null,
-      city: 'Vancouver',
-      state: 'WA',
-      zip: '98661',
-      zip4: '3753'
-    },
-    phone: {
-      main: '360-759-1901',
-      fax: '360-690-0864',
-      afterHours: '360-696-4061',
-      patientAdvocate: '503-273-5308',
-      enrollmentCoordinator: '503-273-5069',
-      pharmacy: '503-273-5183',
-    },
-    hours: {
-      monday: '7:30am-4:30pm',
-      tuesday: '7:30am-6:30pm',
-      wednesday: '7:30am-4:30pm',
-      thursday: '7:30am-4:30pm',
-      friday: '7:30am-4:30pm',
-      saturday: '8:00am-10:00am',
-      sunday: '-',
-    },
-    services: [
-      ['Audiology', []],
-      ['DentalServices', []],
-      ['DiagnosticServices', ['ImagingAndRadiology']],
-      ['EyeCare', []],
-      ['MentalHealthCare', ['OutpatientMHCare', 'OutpatientSpecMHCare',
-        'VocationalAssistance'
-      ]],
-      ['OutpatientSurgicalSpecialty', ['Podiatry']],
-      ['PrimaryCare', []],
-      ['Rehabilitation', []],
-      ['WellnessAndPreventativeCare', []]
-    ],
-    lat: 45.63941626,
-    'long': -122.65528736,
-  }
-};
-
-/* eslint-disable camelcase */
-const facilityTypes = {
-  va_health_facility: 'VA Medical Center',
-  va_benefits_facility: 'VA Benefits Office',
-  va_cemetery: 'VA Cemetery',
-};
-/* eslint-enable camelcase */
-
 export function fetchVAFacility(id, facility = null) {
   if (facility) {
     return {
@@ -94,67 +35,51 @@ export function fetchVAFacility(id, facility = null) {
     };
   }
 
-  const specificSampleFacility = find(sampleData, d => {
-    return d.id === parseInt(id, 10);
-  });
+  const url = `${api.url}/${id}`;
 
-  return {
-    type: FETCH_VA_FACILITY,
-    payload: {
-      ...specificSampleFacility,
-      attributes: {
-        ...mockFacility.attributes,
-        address: {
-          ...specificSampleFacility.attributes.address,
-          city: 'Denver',
-          state: 'CO',
-          zip: 80123,
-        },
-        name: ((specificSampleFacility.type === undefined || specificSampleFacility.type === 'all') ? specificSampleFacility.attributes.name.slice(3) : `${facilityTypes[specificSampleFacility.type]}-${specificSampleFacility.attributes.name.split('-')[1]}`),
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+      payload: {
+        active: true,
       },
-      id,
-    },
+    });
+
+    return fetch(url, api.settings)
+      .then(res => res.json())
+      .then(
+        data => dispatch({ type: FETCH_VA_FACILITY, payload: data.data }),
+        err => dispatch({ type: SEARCH_FAILED, err })
+      );
   };
 }
 
-export function fetchVAFacilities(bounds, type) {
-  let resultData;
+export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
+  const params = compact([
+    ...bounds.map(c => `bbox[]=${c}`),
+    facilityType ? `type=${facilityType}` : null,
+    serviceType ? `services[]=${serviceType}` : null,
+    `page=${page}`
+  ]).join('&');
+  const url = `${api.url}?${params}`;
 
-  if (type === undefined || type === 'all') {
-    resultData = sampleData.slice(0, 10);
-  } else {
-    resultData = filter(sampleData, f => {
-      return f.type === type;
-    }).slice(0, 10);
-  }
-
-  const mockResults = resultData.map((o) => {
-    const specificSampleFacility = find(sampleData, d => {
-      return d.id === o.id;
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+      payload: {
+        page,
+        active: true,
+      },
     });
 
-    return {
-      ...mockFacility,
-      attributes: {
-        ...mockFacility.attributes,
-        address: {
-          ...specificSampleFacility.attributes.address,
-          city: 'Denver',
-          state: 'CO',
-          zip: 80123,
+    return fetch(url, api.settings)
+      .then(res => res.json())
+      .then(
+        data => {
+          dispatch({ type: FETCH_VA_FACILITIES, payload: data });
         },
-        name: ((type === undefined || type === 'all') ? specificSampleFacility.attributes.name.slice(3) : `${facilityTypes[specificSampleFacility.type]}-${specificSampleFacility.attributes.name.split('-')[1]}`),
-      },
-      type: ((type === undefined || type === 'all') ? specificSampleFacility.type : type),
-      id: o.id,
-      lat: bounds.latitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
-      'long': bounds.longitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
-    };
-  });
-
-  return {
-    type: FETCH_VA_FACILITIES,
-    payload: mockResults,
+        err => dispatch({ type: SEARCH_FAILED, err })
+      );
   };
 }
 
@@ -167,14 +92,16 @@ export function searchWithAddress(query) {
       },
     });
 
-    mapboxClient.geocodeForward(query.searchString, (err, res) => {
+    mapboxClient.geocodeForward(query.searchString, {
+      country: 'us,vi,pr,ph,gu,as,mp',
+    }, (err, res) => {
       const coordinates = res.features[0].center;
       const zipCode = (find(res.features[0].context, (v) => {
         return v.id.includes('postcode');
       }) || {}).text || res.features[0].place_name;
 
       if (!err) {
-        dispatch({
+        const dispatchObj = {
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
@@ -183,16 +110,19 @@ export function searchWithAddress(query) {
               latitude: coordinates[1],
               longitude: coordinates[0],
             },
+            bounds: res.features[0].bbox || [
+              coordinates[0] - 0.5,
+              coordinates[1] - 0.5,
+              coordinates[0] + 0.5,
+              coordinates[1] + 0.5,
+            ],
+            zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
           }
+        };
+        dispatch(dispatchObj);
+        dispatch({
+          type: SEARCH_SUCCEEDED,
         });
-
-        // TODO (bshyong): replace this with a call to the API
-        dispatch(
-          fetchVAFacilities({
-            latitude: coordinates[1],
-            longitude: coordinates[0],
-          }, query.facilityType)
-        );
       } else {
         dispatch({
           type: SEARCH_FAILED,
@@ -200,22 +130,5 @@ export function searchWithAddress(query) {
         });
       }
     });
-  };
-}
-
-export function searchWithCoordinates(bounds) {
-  // TODO (bshyong): replace this with a call to the API
-  return dispatch => {
-    dispatch({
-      type: SEARCH_STARTED,
-      payload: {
-        active: true,
-      },
-    });
-
-    dispatch(fetchVAFacilities({
-      latitude: bounds.latitude,
-      longitude: bounds.longitude,
-    }));
   };
 }

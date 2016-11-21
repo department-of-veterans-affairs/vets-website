@@ -15,13 +15,12 @@ import { testData } from '../../util/messaging-helpers';
 
 const initialState = {
   message: {
+    attachments: [],
+    body: makeField(''),
     category: makeField(''),
     recipient: makeField(''),
-    subject: makeField(''),
-    text: makeField(''),
-    attachments: []
+    subject: makeField('')
   },
-  // List of potential recipients
   recipients: []
 };
 

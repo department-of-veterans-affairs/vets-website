@@ -1,3 +1,4 @@
+import assign from 'lodash/fp/assign';
 import set from 'lodash/fp/set';
 
 import { makeField } from '../../common/model/fields';
@@ -7,6 +8,9 @@ import {
   CLEAR_DRAFT,
   DELETE_DRAFT_ATTACHMENT,
   FETCH_THREAD_SUCCESS,
+  FETCH_THREAD_MESSAGE_SUCCESS,
+  LOADING_THREAD,
+  TOGGLE_THREAD_FORM,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -20,10 +24,15 @@ const initialState = {
     thread: [],
     draft: {
       attachments: [],
-      body: makeField('')
+      body: makeField(''),
+      category: makeField(''),
+      recipient: makeField(''),
+      subject: makeField('')
     }
   },
   ui: {
+    formVisible: false,
+    loading: false,
     messagesCollapsed: new Set(),
     moveToOpened: false,
     replyDetailsCollapsed: true
@@ -46,43 +55,57 @@ export default function messages(state = initialState, action) {
       return resetDraft(state);
 
     case DELETE_DRAFT_ATTACHMENT:
-      state.message.attachments.splice(action.index, 1);
+      state.data.draft.attachments.splice(action.index, 1);
       return set('data.draft.attachments', state.data.draft.attachments, state);
+
+    case FETCH_THREAD_MESSAGE_SUCCESS: {
+      const updatedMessage = assign(
+        action.message.data.attributes,
+        { attachments: action.message.included }
+      );
+
+      const messageIndex = state.data.thread.findIndex(message =>
+        message.messageId === updatedMessage.messageId
+      );
+
+      return set(`data.thread[${messageIndex}]`, updatedMessage, state);
+    }
 
     case FETCH_THREAD_SUCCESS: {
       // Consolidate message attributes and attachments
-      const currentMessage = Object.assign({}, action.message.data.attributes, { attachments: action.message.included });
-      const thread = action.thread.map(message => message.attributes);
+      const currentMessage = assign(
+        action.message.data.attributes,
+        { attachments: action.message.included }
+      );
+
+      // Thread is received in most recent order.
+      // Reverse to display most recent message at the bottom.
+      const thread = action.thread.map(
+        message => message.attributes
+      ).reverse();
 
       // Collapse all the previous messages in the thread.
       const messagesCollapsed = new Set(thread.map((message) => {
         return message.messageId;
       }));
 
-      // Thread is received in most recent order.
-      // Reverse to display most recent message at the bottom.
-      thread.reverse();
+      const draft = assign({}, initialState.data.draft);
+      draft.category = makeField(currentMessage.category);
+      draft.subject = makeField(currentMessage.subject);
 
       // The message is the draft if it hasn't been sent yet.
       // Otherwise, the draft is an new, unsaved reply to the message.
-      let draft;
       if (!currentMessage.sentDate) {
-        draft = Object.assign({}, currentMessage, {
-          // TODO: Get attachments from the draft.
-          attachments: [],
-          body: makeField(currentMessage.body),
-          replyMessageId: thread.length === 0 ?
-                          undefined :
-                          thread[thread.length - 1].messageId
-        });
+        draft.attachments = currentMessage.attachments || [];
+        draft.body = makeField(currentMessage.body);
+        draft.messageId = currentMessage.messageId;
+        draft.recipient = makeField(currentMessage.recipientId.toString());
+        draft.replyMessageId = thread.length === 0
+                             ? undefined
+                             : thread[thread.length - 1].messageId;
       } else {
-        draft = Object.assign({}, initialState.data.draft, {
-          attachments: [],
-          category: currentMessage.category,
-          recipientId: currentMessage.senderId,
-          replyMessageId: currentMessage.messageId,
-          subject: currentMessage.subject
-        });
+        draft.recipient = makeField(currentMessage.senderId.toString());
+        draft.replyMessageId = currentMessage.messageId;
       }
 
       let newState = set('ui', { ...initialState.ui, messagesCollapsed }, state);
@@ -90,6 +113,9 @@ export default function messages(state = initialState, action) {
       newState = set('data.draft', draft, newState);
       return set('data.message', currentMessage, newState);
     }
+
+    case LOADING_THREAD:
+      return set('ui.loading', true, state);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
@@ -102,6 +128,9 @@ export default function messages(state = initialState, action) {
 
       return set('ui.messagesCollapsed', newMessagesCollapsed, state);
     }
+
+    case TOGGLE_THREAD_FORM:
+      return set('ui.formVisible', !state.ui.formVisible, state);
 
     case TOGGLE_MESSAGES_COLLAPSED: {
       // If any messages are collapsed at all, toggling
@@ -126,9 +155,7 @@ export default function messages(state = initialState, action) {
       return set('ui.replyDetailsCollapsed', !state.ui.replyDetailsCollapsed, state);
 
     case UPDATE_DRAFT:
-      return set('data.draft', {
-        body: action.field
-      }, state);
+      return set(`data.draft.${action.key}`, action.field, state);
 
     default:
       return state;

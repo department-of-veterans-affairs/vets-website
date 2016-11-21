@@ -5,12 +5,12 @@
 
 // RX-specific partials
 @import "partials/rx-contact-card";
+@import "partials/rx-prescriptions";
 @import "partials/rx-detail";
 @import "partials/rx-disclaimer";
 @import "partials/rx-glossary";
 @import "partials/rx-history";
 @import "partials/rx-modal";
-@import "partials/rx-prescriptions";
 @import "partials/rx-sort-list";
 @import "partials/rx-table";
 
@@ -35,6 +35,10 @@
   padding: 3rem 1.5rem;
   margin: auto;
   max-width: $site-max-width;
+
+  .va-alert {
+    margin-bottom: 2rem;
+  }
 }
 
 // Enhances a USWDS style that has higher specificity.
@@ -64,11 +68,6 @@ button.usa-button-outline {
   margin: 0 0 3rem;
 }
 
-.rx-refill-form {
-  display: inline-block;
-  padding: 0;
-}
-
 // Used to make functional buttons look like links.
 .rx-trigger {
   background: transparent;
@@ -86,5 +85,25 @@ button.usa-button-outline {
     background: rgba(0, 0, 0, 0.05);
     color: $color-link-default;
     text-decoration: inherit;
+  }
+}
+
+.rx-heading {
+  border-bottom: 4px solid #112e51;
+  margin-bottom: 1rem !important;
+  padding-bottom: .5rem !important;
+}
+
+.rx-tab-explainer {
+  padding: 1rem 0;
+}
+
+.rx-loading-error {
+  font-weight: bold;
+}
+
+#rx-active, #rx-history, #rx-detail {
+  .loading-indicator-container {
+    margin-top: 2rem;
   }
 }

@@ -3,6 +3,11 @@
 @import 'modules/m-modal';
 @import 'modules/m-progress-bar';
 
+.claim-alert-status {
+  margin-top: 0;
+  margin-bottom: 2em;
+}
+
 .claim-list {
   margin-bottom: 2em;
 }
@@ -42,13 +47,18 @@
     display: inline-block;
     margin: 0;
     text-transform: none;
-    padding-right: 5px !important;
+    padding-right: 3px !important;
+    @media (min-width: $medium-screen) {
+      padding-right: 5px !important;
+    }
   }
 }
 
+.claims-requested-files-container {
+  margin-bottom: 1.5em;
+}
 
 .submitted-files-list {
-  margin-top: 1.5em;
   margin-bottom: 2em;
   .submitted-file-list-item {
     margin: 0.5em 0;
@@ -61,9 +71,9 @@
         margin-right: 6px;
       }
     }
-    p {
+    p, .submission-item {
       margin: 0;
-      padding: 0;
+      padding: 0 0 0.5em 0;
     }
     .submission-file-type {
       color: $color-primary-darkest;
@@ -71,6 +81,10 @@
       font-size: 1.15em;
       line-height: 1.5;
       font-weight: bold;
+      padding-bottom: 0;
+      &.additional-evidence {
+        padding-bottom: 0.5em;
+      }
     }
     .submission-item {
       display: block;
@@ -85,34 +99,40 @@
   }
 }
 
-.file-request-list {
-  margin-top: 1.5em;
-}
-
 .file-request-list-item {
-  .item-container {
-    margin: 0.5em 0;
-    float: left;
-    h6 {
-      display: inline-block;
-      text-transform: none;
-      i {
-        margin-right: 6px;
-      }
-    }
-    p {
-      display: inline-block;
-      margin: 0;
-    }
-    button {
-      float: right;
-    }
-  }
-  .button-container {
-    float: right;
-  }
+  margin-top: 1.5em;
   &:last-child {
     border: none;
+  }
+  .file-request-title {
+    padding-bottom: 0 !important;
+  }
+}
+
+.file-request-list-item-optional {
+  background-color: $color-gray-lightest;
+}
+
+.item-container {
+  margin: 0 0 0.5em 0;
+  float: left;
+  h6 {
+    display: inline-block;
+    text-transform: none;
+  }
+  p {
+    display: inline-block;
+    margin: 0;
+  }
+  @media (min-width: $medium-screen) {
+    width: 66%;
+  }
+}
+
+.past-due > i {
+  margin-right: 3px;
+  @media (min-width: $medium-screen) {
+    margin-right: 6px;
   }
 }
 
@@ -152,7 +172,6 @@
 
 .claim-decision-is-ready,
 .you-have-no-claims {
-  margin-bottom: 1em;
   h4, p {
     margin: 0.5em 0;
     padding: 0;
@@ -169,7 +188,10 @@
 
 .form-process li.section-complete:before {
   background: $color-green;
-  content: "\2714";
+  content: "\2714\fe0e";
+  @media (max-width: $small-screen) {
+    content: "\2713\fe0e";
+  }
 }
 
 .form-process li.section-current {
@@ -226,22 +248,15 @@ a.claim-list-item {
 }
 
 .your-claims {
-  h1, h3 {
+  padding-top: 1em;
+  h3 {
     margin-top: 1em;
   }
 }
 
 .ask-va-questions {
-  margin-top: 1.5em;
-  h4 {
-    border-bottom: 2px solid $color-primary;
-  }
-  p {
-    padding: 0;
-    margin-top: 0;
-  }
   .talk {
-    margin: .5em 0;
+    margin: 0.5em 0;
     padding: 0;
   }
   .phone-number {
@@ -254,27 +269,41 @@ a.claim-list-item {
   }
 }
 
+.ask-va-questions.claims-sidebar-box {
+  padding-top: 0.6em;
+  @media (max-width: $small-screen) {
+    padding: 2em 0;
+  }
+}
+
+.claims-sidebar-box {
+  padding-top: 0.3em;
+  .claims-sidebar-header {
+    border-bottom: 2px solid $color-primary;
+  }
+}
+
+.claim-title {
+  margin: 0;
+  display: inline-block;
+}
+
 .claim-conditions {
-  h1, p {
+  margin-top: 0.5em;
+  margin-bottom: 2em;
+  p {
     margin: 0;
   }
   h6, p {
     display: inline-block;
   }
-  p {
-    margin-top: 10px;
-  }
-  .request-decision-button {
-    margin-bottom: 1
-  }
-  .list {
-    margin-left: 6px;
+  h6 {
+    margin-right: 6px !important;
+    padding-bottom: 0 !important;
   }
 }
 
 .claim-details {
-  margin-top: 1.5em;
-
   .claim-conditions-list,
   .claim-date-recieved,
   .claim-va-representative {
@@ -298,8 +327,6 @@ a.claim-list-item {
 }
 
 // CSS for Tab-based navigation
-// TODO: Move these to vets-website
-
 .va-tabs {
   list-style: none;
   // Prevents wrapping, forces horizontal scrolling
@@ -318,11 +345,6 @@ a.claim-list-item {
     border-style: solid;
     display: inline-block;
   }
-
-  // Center navigation in viewports < 600px;
-  @media (max-width: $medium-screen) {
-    text-align: center;
-  }
 }
 
 .va-tab-trigger {
@@ -332,7 +354,6 @@ a.claim-list-item {
   border-bottom-color: $color-gray;
   color: $color-gray;
   display: inline-block;
-  // font-size: 1.17rem;
   padding: 1rem;
   margin: 0px -1px;
   text-decoration: none;
@@ -350,16 +371,15 @@ a.claim-list-item {
   }
 
   @media (min-width: $small-screen) {
-    font-size: inherit;
     padding-left: 4rem;
     padding-right: 4rem;
   }
 }
 
 .va-tab-content {
+  padding-top: 2em;
   border-top: 1px solid $color-gray;
 }
-
 
 .clearfix:after {
   content: " ";
@@ -368,8 +388,6 @@ a.claim-list-item {
   height: 0;
   clear: both;
  }
-
-// TODO: Add media queries for responsiveness
 
 .loading-message-center-spinner {
   > img {
@@ -398,18 +416,24 @@ a.claim-list-item {
 }
 
 .disability-benefits-timeline {
-  > li.step:not(.section-current) {
+  padding-top: 0;
+  > li.step.section-current:not(.last), > li.step.section-complete:not(.last) {
     cursor: pointer;
   }
+  > li > h5 {
+    padding-right: 23px !important;
+  }
+}
+
+.claim-timeline-icon {
+  float: right;
+  margin-top: 6px;
+  font-size: 17px;
 }
 
 button.older-updates {
   margin-top: 1em;
   margin-bottom: 0;
-}
-
-.claims-alert {
-  margin-bottom: 1.5em;
 }
 
 .claims-alert-checkbox {
@@ -444,12 +468,16 @@ p.first-of-type {
   background-color: $color-gray-lightest;
   padding: 1em;
   margin-bottom: 1.5em;
-  .document-title-size {
+  .document-title-text-container {
     float: left;
-  }
-  .document-size-text {
-    p {
-      margin: 0;
+    word-break: break-all;
+    .document-title-header {
+      width: 17.5em;
+    }
+    .document-size-text {
+      p {
+        margin: 0;
+      }
     }
   }
   .remove-document-button {
@@ -457,6 +485,9 @@ p.first-of-type {
     > button {
       margin: 0;
     }
+  }
+  &:focus {
+    outline: none;
   }
 }
 
@@ -467,12 +498,13 @@ p.first-of-type {
 }
 
 .disability-claims-warning {
-  background-color: #FAC922;
+  background-color: $color-warning-message;
   text-align: left;
   font-weight: bold;
 }
 
 .claims-unavailable {
+  margin-top: 0.6em;
   margin-bottom: 1.5em;
 }
 
@@ -520,7 +552,6 @@ p.first-of-type {
 
 .claims-alert {
   position: relative;
-  margin-bottom: 0.5em;
   &.usa-alert {
     background-size: 4.1rem;
     background-position: 1rem 1.9rem;
@@ -531,15 +562,115 @@ p.first-of-type {
   > .usa-alert-body {
     padding-left: 4.2rem;
   }
-  a.usa-button {
-    position: absolute;
-    top: .75em;
-    right: 1em;
-    width: auto;
-    margin: 0;
+  &:focus {
+    outline: none;
   }
+} 
+
+.claims-alert.phase-back-alert {
+  margin-top: 0;
+  margin-bottom: 0;
+  background-position: 1rem 1.4rem;
+}
+
+.claims-alert-status {
+  margin-top: 0;
+  margin-bottom: 2em;
 }
 
 .claims-header {
   margin: 0;
+}
+
+.estimation-header {
+  padding: 0.5em 0 0 !important;
+}
+
+.claims-files-cancel {
+  margin-left: 0;
+  @media (min-width: $small-screen) {
+    margin-left: 32px;
+  }
+}
+
+.disability-benefits-content {
+  margin: 0 5px;
+}
+
+.usa-input-error {
+  padding-left: 1rem;
+  right: 0.9em;
+}
+
+.item-title-container {
+  float: left;
+  width: 63%;
+  @media (max-width: $small-screen) {
+    float: none;
+    width: 100%;
+  }
+}
+.ask-va-alert, .file-request-list-item, .additional-evidence-alert, .need-files-alert {
+  position: relative;
+  padding-bottom: 3.5em;
+  @media (min-width: $medium-screen) {
+    padding-bottom: 1em;
+  }
+}
+
+.need-files-alert {
+  padding-bottom: 4em;
+  @media (min-width: $medium-screen) {
+    padding-bottom: 1em;
+  }
+}
+
+.view-details-button {
+  float: right;
+  margin: 0;
+  @media (max-width: $medium-screen) {
+    float: none;
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
+    width: calc(100% - 2em) !important;
+  }
+}
+
+.tab-li {
+  @media (max-width: $small-screen) {
+    width: 33.33%;
+    text-align: center;
+  }
+  a {
+    @media (max-width: $small-screen) {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+}
+
+.claims-optional-desc {
+  font-size: 0.9em;
+  line-height: 0.3em;
+  margin-top: 5px;
+}
+
+h1:focus {
+  outline: none;
+}
+
+.va-nav-breadcrumbs:focus {
+  outline: none
+}
+
+h6.claims-turnedin-file-header {
+  padding: 0 !important;
+}
+
+.notification-close {
+  @media (max-width: $small-screen) {
+    margin: -5px 5px 0 0;
+    width: 0;
+  }
 }

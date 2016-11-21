@@ -1,51 +1,72 @@
 import { bindActionCreators } from 'redux';
-import { compact } from 'lodash';
 import { connect } from 'react-redux';
 import { fetchVAFacility } from '../actions';
 import { Link, browserHistory } from 'react-router';
+import AccessToCare from '../components/AccessToCare';
+import FacilityAddress from '../components/search-results/FacilityAddress';
+import FacilityDirectionsLink from '../components/search-results/FacilityDirectionsLink';
 import FacilityHours from '../components/FacilityHours';
 import FacilityMap from '../components/FacilityMap';
+import FacilityPhoneLink from '../components/search-results/FacilityPhoneLink';
 import React, { Component } from 'react';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 
 class FacilityDetail extends Component {
   componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id);
+    window.scrollTo(0, 0);
+  }
+
+  renderFacilityWebsite() {
+    const { facility } = this.props;
+    const { website } = facility.attributes;
+
+    if (!website) {
+      return null;
+    }
+
+    return (
+      <span>
+        <a href={website} target="_blank">
+          <i className="fa fa-globe"/>Website
+        </a>
+      </span>
+    );
   }
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { address, phone, name } = facility.attributes;
-    const addressString = [
-      compact([address.building, address.street, address.suite]).join(' '),
-      `${address.city}, ${address.state} ${address.zip}-${address.zip4}`
-    ];
+    const { name } = facility.attributes;
 
     return (
       <div>
         <h3>{name}</h3>
         <div>
-          {addressString[0]} {addressString[1]}
+          <FacilityAddress facility={facility}/>
         </div>
-        <p>
-          <a href={`tel:${phone.main}`}>
-            <i className="fa fa-phone"/> {phone.main}
-          </a>
-        </p>
-        <p>
-          <span>
-            <a href="#" target="_blank">
-              <i className="fa fa-globe" style={{ marginRight: '0.5rem' }}/> Website
-            </a>
-          </span>
-        </p>
-        <p>
-          <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString.join(' ')}`} target="_blank">
-            <i className="fa fa-map"/> Directions
-          </a>
-        </p>
+        <div>
+          <FacilityPhoneLink facility={facility}/>
+        </div>
+        <div>
+          {this.renderFacilityWebsite()}
+        </div>
+        <div>
+          <FacilityDirectionsLink facility={facility}/>
+        </div>
         <p>Planning to visit? Please call first as information on this page may change.</p>
       </div>
+    );
+  }
+
+  renderAccessToCare() {
+    const { facility } = this.props;
+
+    if (facility.attributes.facility_type !== 'va_health_facility') {
+      return null;
+    }
+
+    return (
+      <AccessToCare facility={facility}/>
     );
   }
 
@@ -71,10 +92,9 @@ class FacilityDetail extends Component {
           <div>
             <FacilityMap info={facility}/>
             <div className="mb2">
-              <h4>Hours of Operation:</h4>
-              <hr className="title"/>
               <FacilityHours facility={facility}/>
             </div>
+            {this.renderAccessToCare()}
           </div>
         </div>
       </div>

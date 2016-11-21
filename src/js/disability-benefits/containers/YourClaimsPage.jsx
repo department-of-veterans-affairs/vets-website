@@ -1,5 +1,4 @@
 import React from 'react';
-import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
@@ -8,19 +7,10 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsListItem from '../components/ClaimsListItem';
 import NoClaims from '../components/NoClaims';
 import Pagination from '../../common/components/Pagination';
-import Loading from '../components/Loading';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
-
-const Element = Scroll.Element;
-const scroller = Scroll.scroller;
-
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
+import FeaturesWarning from '../components/FeaturesWarning';
+import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 
 class YourClaimsPage extends React.Component {
   constructor(props) {
@@ -29,7 +19,17 @@ class YourClaimsPage extends React.Component {
   }
   componentDidMount() {
     this.props.getClaims();
-    document.title = 'Your Claims';
+    document.title = 'Track Claims: Vets.gov';
+    if (this.props.loading) {
+      scrollToTop();
+    } else {
+      setUpPage();
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.loading && prevProps.loading) {
+      setPageFocus();
+    }
   }
   changePage(page) {
     this.props.changePage(page);
@@ -41,26 +41,25 @@ class YourClaimsPage extends React.Component {
     let content;
 
     if (loading) {
-      content = <Loading/>;
+      content = <LoadingIndicator message="Loading claims list" setFocus/>;
     } else if (claims.length > 0) {
       content = (<div className="claim-list">
         {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
-        <Pagination page={page} pages={pages} onPageSelect={this.props.changePage}/>
+        <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
       </div>);
     } else {
       content = <NoClaims/>;
     }
 
     return (
-      <div>
-        <Element name="topScrollElement"/>
+      <div className="your-claims">
         <div className="row">
-          <div className="large-8 columns your-claims">
+          <div className="small-12 medium-8 columns">
             <div>
               <h1>Your Claims</h1>
             </div>
             <p>
-              <a href onClick={(evt) => {
+              <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
                 this.props.showConsolidatedMessage(true);
               }}>Sometimes claims get combined. Find out why.</a>
@@ -73,7 +72,10 @@ class YourClaimsPage extends React.Component {
                 cssClass="claims-upload-modal"
                 contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>
-          <AskVAQuestions/>
+          <div className="small-12 medium-4 columns">
+            <FeaturesWarning/>
+            <AskVAQuestions/>
+          </div>
         </div>
       </div>
     );

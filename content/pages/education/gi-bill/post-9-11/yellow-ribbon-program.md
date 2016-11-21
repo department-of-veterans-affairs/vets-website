@@ -30,7 +30,7 @@ What benefits can I get?
 ### How it works
 
 <ol class="process">
-<li class="step one wow fadeIn animated">
+<li class="step one">
 
 <div markdown="1">
 
@@ -39,16 +39,17 @@ If you apply and qualify for Post-9/11 GI Bill benefits, you'll get a Certificat
 </div>
 </li>
 
-<li class="step two wow fadeIn animated">
+<li class="step two">
 <div markdown="1">
 
 ##### Apply for the Yellow Ribbon Program
 Bring your COE to your school's VA certifying official, financial aid or military liaison office, and ask to apply to the Yellow Ribbon Program. Each school decides how many students will get Yellow Ribbon benefits, and it's on a first-come, first-serve basis. That means you should apply for the program as soon as you get your COE. Your school will tell you if you were accepted.  
 
+
 </div>
 </li>
 
-<li class="step three last wow fadeIn animated">
+<li class="step three last">
 <div markdown="1">
 
 ##### Follow up

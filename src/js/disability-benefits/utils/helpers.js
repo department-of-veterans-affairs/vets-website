@@ -1,3 +1,7 @@
+import _ from 'lodash/fp';
+import environment from '../../common/helpers/environment';
+import { SET_UNAUTHORIZED } from '../actions';
+
 const evidenceGathering = 'Evidence gathering, review, and decision';
 
 const phaseMap = {
@@ -9,6 +13,13 @@ const phaseMap = {
   6: evidenceGathering,
   7: 'Preparation for decision notification',
   8: 'Complete'
+};
+
+const microPhaseMap = {
+  3: 'Gathering of evidence',
+  4: 'Review of evidence',
+  5: 'Preparation for decision',
+  6: 'Pending Decision approval'
 };
 
 export function getPhaseDescription(phase) {
@@ -23,6 +34,18 @@ export function getUserPhaseDescription(phase) {
   }
 
   return phaseMap[phase + 3];
+}
+
+export function getHistoryPhaseDescription(phase) {
+  if (phase === 3) {
+    return microPhaseMap[phase];
+  }
+
+  return getUserPhaseDescription(phase);
+}
+
+export function getMicroPhaseDescription(phase) {
+  return microPhaseMap[phase] || phaseMap[phase];
 }
 
 export function getPhaseDescriptionFromEvent(event) {
@@ -40,32 +63,60 @@ export function getUserPhase(phase) {
   return phase - 3;
 }
 
+export function getItemDate(item) {
+  if (item.receivedDate) {
+    return item.receivedDate;
+  } else if (item.documents && item.documents.length) {
+    return item.documents[item.documents.length - 1].uploadDate;
+  } else if (item.type === 'other_documents_list' && item.uploadDate) {
+    return item.uploadDate;
+  }
+
+  return item.date;
+}
+
+function getPhaseNumber(phase) {
+  return parseInt(phase.replace('phase', ''), 10);
+}
+
+function isEventOrPrimaryPhase(event) {
+  if (event.type === 'phase_entered') {
+    return event.phase <= 3 || event.phase >= 7;
+  }
+
+  return !!getItemDate(event);
+}
+
 export function groupTimelineActivity(events) {
   const phases = {};
-  const phaseEvents = events;
   let activity = [];
-  let lastPhaseNumber = 1;
+
+  const phaseEvents = events
+    .map(event => {
+      if (event.type.startsWith('phase')) {
+        return {
+          type: 'phase_entered',
+          phase: getPhaseNumber(event.type) + 1,
+          date: event.date
+        };
+      }
+
+      return event;
+    })
+    .filter(isEventOrPrimaryPhase);
 
   phaseEvents.forEach(event => {
     if (event.type.startsWith('phase')) {
-      const phaseNumber = parseInt(event.type.replace('phase', ''), 10);
-      const userPhaseNumber = getUserPhase(phaseNumber);
-      if (userPhaseNumber !== lastPhaseNumber) {
-        activity.push({
-          type: 'phase_entered',
-          date: event.date
-        });
-      }
-      phases[userPhaseNumber + 1] = (phases[userPhaseNumber + 1] || []).concat(activity);
+      activity.push(event);
+      phases[getUserPhase(event.phase)] = activity;
       activity = [];
-      lastPhaseNumber = userPhaseNumber;
     } else {
       activity.push(event);
     }
   });
 
   if (activity.length > 0) {
-    phases[lastPhaseNumber] = (phases[lastPhaseNumber] || []).concat(activity);
+    phases[1] = activity;
   }
 
   return phases;
@@ -113,7 +164,7 @@ export function getDocTypeDescription(docType) {
   return DOC_TYPES.filter(type => type.value === docType)[0].label;
 }
 
-export function isCompleteClaim({ attributes }) {
+export function isPopulatedClaim({ attributes }) {
   return !!attributes.claimType
     && (attributes.contentionList && !!attributes.contentionList.length)
     && !!attributes.dateFiled
@@ -122,4 +173,78 @@ export function isCompleteClaim({ attributes }) {
 
 export function hasBeenReviewed(trackedItem) {
   return trackedItem.type.startsWith('received_from') && trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW';
+}
+
+// Adapted from http://stackoverflow.com/a/26230989/487883
+export function getTopPosition(elem) {
+  const box = elem.getBoundingClientRect();
+  const body = document.body;
+  const docEl = document.documentElement;
+
+  const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+  const clientTop = docEl.clientTop || body.clientTop || 0;
+
+  return Math.round(box.top + scrollTop - clientTop);
+}
+
+export function truncateDescription(text) {
+  const maxLength = 120;
+  if (text && text.length > maxLength) {
+    return `${text.substr(0, maxLength)}…`;
+  }
+
+  return text;
+}
+
+export function isClaimComplete(claim) {
+  return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;
+}
+
+export function itemsNeedingAttentionFromVet(events) {
+  return events.filter(event => event.status === 'NEEDED' && event.type === 'still_need_from_you_list').length;
+}
+
+export function makeAuthRequest(url, userOptions, dispatch, onSuccess, onError) {
+  const options = _.merge({
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'X-Key-Inflection': 'camel',
+      Authorization: `Token token=${sessionStorage.userToken}`
+    },
+    responseType: 'json',
+  }, userOptions);
+
+  fetch(`${environment.API_URL}${url}`, options)
+    .then((resp) => {
+      if (resp.ok) {
+        if (options.responseType) {
+          return resp[options.responseType]();
+        }
+        return Promise.resolve();
+      }
+
+      return Promise.reject(resp);
+    })
+    .then(onSuccess)
+    .catch((resp) => {
+      if (resp.status === 401) {
+        dispatch({
+          type: SET_UNAUTHORIZED
+        });
+      } else {
+        onError(resp);
+      }
+    });
+}
+
+export function getCompletedDate(claim) {
+  if (claim.attributes && claim.attributes.eventsTimeline) {
+    const completedEvents = claim.attributes.eventsTimeline.filter(event => event.type === 'completed');
+    if (completedEvents.length) {
+      return completedEvents[0].date;
+    }
+  }
+
+  return null;
 }

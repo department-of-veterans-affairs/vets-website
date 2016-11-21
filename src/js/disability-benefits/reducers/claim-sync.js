@@ -3,37 +3,35 @@ import _ from 'lodash/fp';
 import {
   SET_CLAIM_DETAIL,
   SET_CLAIMS,
-  SET_UNAVAILABLE
+  SET_UNAVAILABLE,
+  SET_UNAUTHORIZED
 } from '../actions';
 
 const initialState = {
   synced: true,
-  syncedDate: null,
-  available: true
+  available: true,
+  authorized: true
 };
 
 export default function claimDetailReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIM_DETAIL:
-      return _.merge(state, {
-        synced: action.claim.attributes.successfulSync,
-        syncedDate: action.claim.attributes.updatedAt,
-        available: true
+      return _.assign(state, {
+        synced: action.meta.successfulSync,
+        available: true,
+        authorized: true
       });
     case SET_CLAIMS:
-      if (action.claims.length) {
-        return _.merge(state, {
-          synced: action.claims[0].attributes.successfulSync,
-          syncedDate: action.claims[0].attributes.updatedAt,
-          available: true
-        });
-      }
-
-      return state;
+      return _.assign(state, {
+        synced: action.meta.successfulSync,
+        available: true,
+        authorized: true
+      });
     case SET_UNAVAILABLE:
       return _.set('available', false, state);
+    case SET_UNAUTHORIZED:
+      return _.set('authorized', false, state);
     default:
       return state;
   }
 }
-

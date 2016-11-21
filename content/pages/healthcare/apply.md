@@ -11,7 +11,7 @@ VA health care includes regular checkups with your primary care doctor and acces
 
 ### Other ways to apply
 
-- Call 1-877-222-8387 Monday through Friday, 8:00 a.m. to 8:00 p.m. (EST) to get help with your application.
+- Call the vets.gov Help Desk 855-574-7286 Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
 - Mail in your application. You can download, print, and fill out the [10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf), then send it to this address:
 
@@ -35,7 +35,7 @@ VA health care includes regular checkups with your primary care doctor and acces
 
 ### How long will it take to process your application?
 
-Less than one week. If more than a week has passed since you submitted your application and you haven't heard back, please don’t apply again. Call **1-877-222-VETS** (8387), then press 2.
+Less than one week. If more than a week has passed since you submitted your application and you haven't heard back, please don’t apply again. Call **855-574-7286**.
 
 ### Are you eligible for VA health care?
 
@@ -63,12 +63,10 @@ If none of the above apply to you, you may still qualify for care based on your 
 To update your personal, insurance, or financial information from a previous application, download and fill out a [10-10EZR](/healthcare/forms/vha-10-10ezr-fill.pdf).
 
 <span id="additional-forms"></span>
-### Additional forms for caregivers and active-duty Servicemembers
+### Additional forms for caregivers, National Guard, and Reserve Servicemembers
 
-- [Apply as active-duty military (10-10AD)](/healthcare/forms/1010ez-AD.pdf)
 - [Apply as a caregiver (10-10CG)](/healthcare/forms/vha-10-10CG.pdf)
 - [Apply as National Guard and Reserve (10-10EZ-Demob)](/healthcare/forms/10-10EZ-DEMOB.pdf)
-- [Apply as a member of the Justice Outreach Program (10-10EZ-JO)](/healthcare/forms/10-10EZ-JO.pdf)
 
 #### Instructions for downloading the forms
 

@@ -24,9 +24,13 @@ const initialState = {
         totalEntries: 0,
         totalPages: 0
       },
-      persistFolder: 0
+      persistFolder: 0,
+      sort: {
+        value: 'sentDate',
+        order: 'DESC'
+      }
     },
-    items: []
+    items: new Map()
   },
   ui: {
     nav: {
@@ -43,25 +47,31 @@ describe('folders reducer', () => {
       type: CREATE_FOLDER_SUCCESS,
       folder
     });
-    expect(newState.data.items).to.have.lengthOf(1);
-    expect(newState.data.items).to.contain(folder);
+    expect(newState.data.items.size).to.equal(1);
+    expect(Array.from(newState.data.items.values())).to.contain(folder);
   });
 
   it('should delete a folder', () => {
     const state = {
       data: {
-        items: testData.folders.data.map(folder => folder.attributes)
+        items: new Map([
+          ['test-folder-123', { id: 123, name: 'test folder 123' }],
+          ['test-folder-456', { id: 456, name: 'test folder 456' }],
+          ['test-folder-789', { id: 789, name: 'test folder 789' }]
+        ])
       }
     };
 
     const newState = foldersReducer(state, {
       type: DELETE_FOLDER_SUCCESS,
-      folder: state.data.items[1]
+      folder: state.data.items.get('test-folder-456')
     });
 
-    expect(newState.data.items).to.have.lengthOf(2);
-    expect(newState.data.items).to.contain(state.data.items[0]);
-    expect(newState.data.items).to.contain(state.data.items[2]);
+    expect(newState.data.items.size).to.equal(2);
+    expect(Array.from(newState.data.items.values()))
+      .to.contain(state.data.items.get('test-folder-123'));
+    expect(Array.from(newState.data.items.values()))
+      .to.contain(state.data.items.get('test-folder-789'));
   });
 
   it('should set a folder fetched from the server', () => {
@@ -90,7 +100,7 @@ describe('folders reducer', () => {
       data
     });
 
-    expect(newState.data.items)
+    expect(Array.from(newState.data.items.values()))
       .to.eql(data.data.map(folder => folder.attributes));
   });
 

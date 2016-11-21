@@ -5,15 +5,6 @@ import MessageSend from './MessageSend';
 import MessageAttachments from './MessageAttachments';
 
 class MessageWriteGroup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleMessageChange = this.handleMessageChange.bind(this);
-  }
-
-  handleMessageChange(valueObj) {
-    this.props.onTextChange('message.text', valueObj);
-  }
-
   render() {
     const errItemClass = classNames(
       this.props.cssClass,
@@ -28,16 +19,16 @@ class MessageWriteGroup extends React.Component {
         <MessageWrite
             cssClass="msg-write"
             errorMessage={this.props.errorMessage}
-            onValueChange={this.handleMessageChange}
+            onValueChange={this.props.onTextChange}
             placeholder={this.props.placeholder}
             text={this.props.messageText}/>
         <MessageAttachments
             files={this.props.files}
             onClose={this.props.onAttachmentsClose}/>
         <MessageSend
+            disabled={!this.props.messageText.value.length}
             allowedMimeTypes={this.props.allowedMimeTypes}
             attachedFiles={this.props.files}
-            cssClass="msg-send-group"
             maxFiles={this.props.maxFiles}
             maxFileSize={this.props.maxFileSize}
             maxTotalFileSize={this.props.maxTotalFileSize}
