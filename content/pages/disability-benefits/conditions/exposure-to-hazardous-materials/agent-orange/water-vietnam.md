@@ -53,5 +53,6 @@ If you didn’t go ashore or serve aboard a ship that entered the inland waterwa
 
 Having trouble figuring out if you had contact with Agent Orange? We can help after you file a claim for disability benefits. 
 [File a claim now](/disability-benefits/claims-process/).
-[Get help from an accredited representative](/disability-benefits/apply-for-benefits/help/).
+
+Connect with a trained professional who can help you. [Find an accredited representative](/disability-benefits/apply-for-benefits/help/).
 
