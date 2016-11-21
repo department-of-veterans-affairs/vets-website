@@ -2,11 +2,10 @@ import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { updateSearchQuery, searchWithAddress, searchWithBounds, fetchVAFacility } from '../actions';
-import { map, find, compact } from 'lodash';
+import { map, find, compact, isEmpty, debounce } from 'lodash';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
-import DivMarker from '../components/markers/DivMarker';
 import isMobile from 'ismobilejs';
 import CemeteryMarker from '../components/markers/CemeteryMarker';
 import HealthMarker from '../components/markers/HealthMarker';
@@ -21,56 +20,42 @@ class VAMap extends Component {
     router: React.PropTypes.object
   };
 
+  constructor(props) {
+    super(props);
+
+    this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(0.5), 2500, {
+      leading: true,
+    });
+  }
+
   componentDidMount() {
     const { location, currentQuery } = this.props;
-    let shouldGeolocate = true;
 
-    this.props.updateSearchQuery({
-      zoomLevel: location.query.zoomLevel || currentQuery.zoomLevel,
-      currentPage: location.query.page || currentQuery.currentPage,
-    });
+    // navigating back from a facility page preserves previous search results
+    if (!isEmpty(this.props.facilities)) {
+      return;
+    }
 
-    // populate search bar with parameters from URL
     if (location.query.address) {
       this.props.searchWithAddress({
         searchString: location.query.address,
         context: location.query.context,
       });
-    }
-
-    if (location.query.location) {
-      shouldGeolocate = false;
-      const coords = location.query.location.split(',').map(Number);
-      this.props.updateSearchQuery({
-        position: {
-          latitude: coords[0],
-          longitude: coords[1],
-        }
-      });
-
-      if (!location.query.address) {
-        this.reverseGeocode({
-          latitude: coords[0],
-          longitude: coords[1],
-        });
-      }
-    }
-
-    if (navigator.geolocation && shouldGeolocate) {
+    } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((currentPosition) => {
         this.props.updateSearchQuery({
           position: currentPosition.coords,
         });
-        this.updateUrlParams({
-          location: [currentPosition.coords.latitude, currentPosition.coords.longitude].join(','),
-        });
+
         this.reverseGeocode(currentPosition.coords);
+      }, () => {
+        this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
       });
+    } else {
+      this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
     }
 
     Tabs.setUseDefaultStyles(false);
-
-    this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -92,8 +77,36 @@ class VAMap extends Component {
       });
     }
 
-    if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds)) {
+    if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds) && !newQuery.inProgress) {
       this.props.searchWithBounds(newQuery.bounds, newQuery.facilityType, newQuery.serviceType, newQuery.currentPage);
+    }
+
+    if (!isEmpty(nextProps.facilities) || newQuery.inProgress) {
+      this.zoomOut.cancel();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { currentQuery } = prevProps;
+    const newQuery = this.props.currentQuery;
+
+    if (isEmpty(this.props.facilities) && !newQuery.inProgress && currentQuery.inProgress && newQuery.bounds && parseInt(newQuery.zoomLevel, 10) > 2) {
+      if (isMobile.any) {
+        this.props.updateSearchQuery({
+          bounds: [
+            newQuery.bounds[0] - 0.5,
+            newQuery.bounds[1] - 0.5,
+            newQuery.bounds[2] + 0.5,
+            newQuery.bounds[3] + 0.5,
+          ],
+        });
+      } else {
+        this.zoomOut();
+      }
+    }
+
+    if (!isEmpty(this.props.facilities) || currentQuery.inProgress) {
+      this.zoomOut.cancel();
     }
   }
 
@@ -303,14 +316,10 @@ class VAMap extends Component {
               </div>
             </TabPanel>
             <TabPanel>
-              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
+              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false} zoomSnap={0.5} zoomDelta={0.5} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
                 <TileLayer
                     url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                     attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
-                <DivMarker position={position} popupContent={<span>You are here</span>}>
-                  <div className="current-position-icon map-marker">
-                  </div>
-                </DivMarker>
                 <FeatureGroup ref="facilityMarkers">
                   {this.renderFacilityMarkers()}
                 </FeatureGroup>
@@ -344,14 +353,10 @@ class VAMap extends Component {
             </div>
           </div>
           <div className="columns medium-8 small-12" style={{ minHeight: '75vh' }}>
-            <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
+            <Map ref="map" center={position} zoomSnap={0.5} zoomDelta={0.5} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged}>
               <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
-              <DivMarker position={position} popupContent={<span>You are here</span>}>
-                <div className="current-position-icon map-marker">
-                </div>
-              </DivMarker>
               <FeatureGroup ref="facilityMarkers">
                 {this.renderFacilityMarkers()}
               </FeatureGroup>
