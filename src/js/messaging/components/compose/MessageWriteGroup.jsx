@@ -7,7 +7,6 @@ import MessageAttachments from './MessageAttachments';
 class MessageWriteGroup extends React.Component {
   render() {
     const errItemClass = classNames(
-      this.props.cssClass,
       'msg-write-group',
       'msg-field',
       { 'msg-compose-error': !!this.props.errorMessage },

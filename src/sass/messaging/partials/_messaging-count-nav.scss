@@ -4,9 +4,7 @@
 }
 
 .messaging-message-nav {
-  position: absolute;
-  right: 0;
-  top: 0;
+  float: right;
 
   @media (max-width: $medium-screen) {
     display: none;
@@ -31,6 +29,7 @@
 }
 
 .messaging-move {
+  background: inherit;
   padding: .5rem .75rem;
 }
 

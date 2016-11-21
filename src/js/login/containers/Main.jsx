@@ -4,7 +4,7 @@ import $ from 'jquery';
 import moment from 'moment';
 
 import environment from '../../common/helpers/environment.js';
-import { getUserData } from '../../common/helpers/login-helpers';
+import { getUserData, addEvent } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateLogInUrl, logOut } from '../../common/actions';
 import SignInProfileButton from '../components/SignInProfileButton';
@@ -21,7 +21,27 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('message', this.setMyToken);
+    if (sessionStorage.userToken) {
+      $.ajax({
+        url: `${environment.API_URL}/v0/sessions`,
+        type: 'DELETE',
+        headers: {
+          Authorization: `Token token=${sessionStorage.userToken}`
+        },
+        success: (result) => {
+          this.setState({ logoutUrl: result.logout_via_get });
+        }
+      });
+    }
+
+    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
+      this.setState({ loginUrl: result.authenticate_via_get });
+    });
+
+    addEvent(window, 'message', (evt) => {
+      this.setMyToken(evt);
+    });
+
     window.onload = this.checkTokenStatus();
   }
 
@@ -29,32 +49,22 @@ class Main extends React.Component {
     this.serverRequest.abort();
   }
 
-  setMyToken() {
+  setMyToken(event) {
     if (event.data === sessionStorage.userToken) {
       this.getUserData();
     }
   }
 
   handleLogin() {
-    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
-      const myLoginUrl = result.authenticate_via_get;
-      const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-      receiver.focus();
-    });
+    const myLoginUrl = this.state.loginUrl;
+    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
   }
 
   handleLogout() {
-    fetch(`${environment.API_URL}/v0/sessions`, {
-      method: 'delete',
-      headers: new Headers({
-        Authorization: `Token token=${sessionStorage.userToken}`
-      })
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      const myLogoutUrl = json.logout_via_get;
-      window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    });
+    const myLogoutUrl = this.state.logoutUrl;
+    const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
   }
 
   checkTokenStatus() {
