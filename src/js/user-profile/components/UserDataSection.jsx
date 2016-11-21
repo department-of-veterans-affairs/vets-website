@@ -14,7 +14,7 @@ class UserDataSection extends React.Component {
       content = (
         <span>
           <p><span className="label medium-4 columns">Name:</span>{_.startCase(_.toLower(name))}</p>
-          <p><span className="label medium-4 columns">Sex:</span>{`${this.props.profile.gender === 'F' ? 'Female' : 'Male'}`}</p>
+          <p><span className="label medium-4 columns">Birth Sex:</span>{`${this.props.profile.gender === 'F' ? 'Female' : 'Male'}`}</p>
           <p><span className="label medium-4 columns">Date of Birth:</span>{moment(`${this.props.profile.dob}`).format('MMM D, YYYY')}</p>
         </span>
       );
