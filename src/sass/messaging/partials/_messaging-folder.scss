@@ -1,5 +1,5 @@
 #messaging-folder-controls {
-  margin: 0;  
+  margin: 0;
   position: relative;
   width: 100%;
 
@@ -31,6 +31,24 @@
   margin: 0;
 }
 
+.msg-folder-sort-select {
+  padding: 1rem 2rem 2rem;
+
+  @media (min-width: $medium-screen) {
+    display: none;
+  }
+}
+
+.msg-table-list {
+  margin-top: 0;
+
+  @media (max-width: $medium-screen) {
+    border-color: $color-gray-light;
+    border-style: solid;
+    border-width: 1px 0;
+  }
+}
+
 .messaging-message-row {
   &--unread {
     font-weight: bold;
@@ -53,5 +71,42 @@
 
   td {
     padding: 0;
+  }
+
+  @media (max-width: $medium-screen) {
+    position: relative;
+
+    a {
+      overflow: hidden;
+      padding: 2rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    td {
+      display: block;
+
+      &:nth-child(1),
+      &:nth-child(3) {
+        position: absolute;
+        top: 0;
+      }
+
+      &:nth-child(1) {
+        left: 0;
+        width: 70%;
+      }
+
+      &:nth-child(2) {
+        padding-top: 4rem;
+      }
+
+      &:nth-child(3) {
+        font-weight: normal;
+        right: 0;
+        text-align: right;
+        width: 30%;
+      }
+    }
   }
 }
