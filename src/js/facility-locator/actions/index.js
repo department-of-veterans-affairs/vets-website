@@ -54,50 +54,6 @@ export function fetchVAFacility(id, facility = null) {
   };
 }
 
-export function searchWithAddress(query) {
-  return dispatch => {
-    dispatch({
-      type: SEARCH_STARTED,
-      payload: {
-        active: true,
-      },
-    });
-
-    mapboxClient.geocodeForward(query.searchString, (err, res) => {
-      const coordinates = res.features[0].center;
-      const zipCode = (find(res.features[0].context, (v) => {
-        return v.id.includes('postcode');
-      }) || {}).text || res.features[0].place_name;
-
-      if (!err) {
-        dispatch({
-          type: SEARCH_QUERY_UPDATED,
-          payload: {
-            ...query,
-            context: zipCode,
-            bounds: res.features[0].bbox || [
-              coordinates[0] - 0.5,
-              coordinates[1] - 0.5,
-              coordinates[0] + 0.5,
-              coordinates[1] + 0.5,
-            ],
-            position: {
-              latitude: coordinates[1],
-              longitude: coordinates[0],
-            },
-            zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
-          }
-        });
-      } else {
-        dispatch({
-          type: SEARCH_FAILED,
-          err,
-        });
-      }
-    });
-  };
-}
-
 export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
   const params = compact([
     ...bounds.map(c => `bbox[]=${c}`),
@@ -120,10 +76,59 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
       .then(res => res.json())
       .then(
         data => {
-          dispatch({ type: SEARCH_SUCCEEDED });
           dispatch({ type: FETCH_VA_FACILITIES, payload: data });
         },
         err => dispatch({ type: SEARCH_FAILED, err })
       );
+  };
+}
+
+export function searchWithAddress(query) {
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+      payload: {
+        active: true,
+      },
+    });
+
+    mapboxClient.geocodeForward(query.searchString, {
+      country: 'us,vi,pr,ph,gu,as,mp',
+    }, (err, res) => {
+      const coordinates = res.features[0].center;
+      const zipCode = (find(res.features[0].context, (v) => {
+        return v.id.includes('postcode');
+      }) || {}).text || res.features[0].place_name;
+
+      if (!err) {
+        const dispatchObj = {
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            ...query,
+            context: zipCode,
+            position: {
+              latitude: coordinates[1],
+              longitude: coordinates[0],
+            },
+            bounds: res.features[0].bbox || [
+              coordinates[0] - 0.5,
+              coordinates[1] - 0.5,
+              coordinates[0] + 0.5,
+              coordinates[1] + 0.5,
+            ],
+            zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
+          }
+        };
+        dispatch(dispatchObj);
+        dispatch({
+          type: SEARCH_SUCCEEDED,
+        });
+      } else {
+        dispatch({
+          type: SEARCH_FAILED,
+          err,
+        });
+      }
+    });
   };
 }
