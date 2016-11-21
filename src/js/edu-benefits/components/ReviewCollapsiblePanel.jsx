@@ -69,19 +69,22 @@ export default class ReviewCollapsiblePanel extends React.Component {
             return (
               <div key={page.path} className="form-review-panel-page">
                 <Element name={`${page.path}ScrollElement`}/>
-                {!editing &&
+                {!editing && !!ReviewComponent &&
                   <div className="form-review-panel-page-header-row">
                     <h5 className="form-review-panel-page-header">{pageCount > 1 && page.name}</h5>
                     <button
                         className="edit-btn primary-outline"
                         onClick={() => this.handleEdit(page.path)}><i className="fa before-text fa-pencil"></i>Edit</button>
                   </div>}
-                {!editing
-                    ? <ReviewComponent data={this.props.data}/>
-                    : <Component
-                        data={this.props.data}
-                        onStateChange={this.props.onStateChange}
-                        initializeFields={this.props.onFieldsInitialized}/>}
+                {(editing || !ReviewComponent) &&
+                  <Component
+                      data={this.props.data}
+                      editing={editing}
+                      inReview
+                      onStateChange={this.props.onStateChange}
+                      initializeFields={this.props.onFieldsInitialized}/>}
+                {!editing && !!ReviewComponent &&
+                  <ReviewComponent data={this.props.data}/>}
                 {editing && <button
                     className="usa-button-primary"
                     onClick={() => this.handleSave(page.path)}>Update page</button>}

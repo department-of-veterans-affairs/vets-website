@@ -32,7 +32,6 @@ class ReviewPage extends React.Component {
           .filter(route => {
             return route.chapter &&
               route.path !== '/review-and-submit' &&
-              route.reviewComponent &&
               isActivePage(route, data);
           }),
         route => route.chapter

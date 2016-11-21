@@ -11,6 +11,14 @@ import { isValidPage, isValidEmploymentPeriod } from '../../utils/validations';
 import { yesNo } from '../../utils/options-for-select';
 
 export default class EmploymentHistoryFields extends React.Component {
+  constructor() {
+    super();
+    this.addAnotherTour = this.addAnotherTour.bind(this);
+  }
+  addAnotherPeriod() {
+    const periods = this.props.data.nonMilitaryJobs.concat(createEmploymentPeriod());
+    this.props.onStateChange('nonMilitaryJobs', periods);
+  }
   render() {
     const periodFields = [
       'name',
@@ -19,7 +27,21 @@ export default class EmploymentHistoryFields extends React.Component {
       'postMilitaryJob'
     ];
 
-    return (<fieldset>
+    const periodsTable = (
+      <GrowableTable
+          component={EmploymentPeriod}
+          componentHasEdit
+          createRow={createEmploymentPeriod}
+          data={this.props.data}
+          initializeCurrentElement={() => this.props.initializeFields(periodFields, 'nonMilitaryJobs')}
+          onRowsUpdate={(update) => {this.props.onStateChange('nonMilitaryJobs', update);}}
+          path="/employment-history/employment-information"
+          rows={this.props.data.nonMilitaryJobs}
+          isValidSection={isValidPage}
+          isValidRow={isValidEmploymentPeriod}/>
+    );
+
+    const editView = (<fieldset>
       <legend className="hide-for-small-only">Employment history</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
@@ -35,22 +57,25 @@ export default class EmploymentHistoryFields extends React.Component {
           <div className="input-section">
             <h4>Employment</h4>
             <div className="input-section">
-              <GrowableTable
-                  component={EmploymentPeriod}
-                  createRow={createEmploymentPeriod}
-                  data={this.props.data}
-                  initializeCurrentElement={() => this.props.initializeFields(periodFields, 'nonMilitaryJobs')}
-                  onRowsUpdate={(update) => {this.props.onStateChange('nonMilitaryJobs', update);}}
-                  path="/employment-history/employment-information"
-                  rows={this.props.data.nonMilitaryJobs}
-                  isValidSection={isValidPage}
-                  isValidRow={isValidEmploymentPeriod}/>
+              {periodsTable}
             </div>
           </div>
         </ExpandingGroup>
       </div>
     </fieldset>
     );
+
+    const reviewView = (<div>
+      <div className="form-review-panel-page-header-row edu-service-periods-review-header">
+        <h5 className="form-review-panel-page-header">Service periods</h5>
+        <button
+            className="edit-btn primary-outline"
+            onClick={this.addAnotherPeriod}><i className="fa before-text fa-pencil"></i>Add Another</button>
+      </div>
+      {periodsTable}
+    </div>);
+
+    return this.props.inReview ? reviewView : editView;
   }
 }
 

@@ -13,7 +13,6 @@ import BenefitsRelinquishmentFields from './components/benefits-eligibility/Bene
 import MilitaryServiceReview from './components/military-history/MilitaryServiceReview';
 import MilitaryServiceFields from './components/military-history/MilitaryServiceFields';
 import ServicePeriodsFields from './components/military-history/ServicePeriodsFields';
-import ServicePeriodsReview from './components/military-history/ServicePeriodsReview';
 import RotcHistoryReview from './components/military-history/RotcHistoryReview';
 import RotcHistoryFields from './components/military-history/RotcHistoryFields';
 import ContributionsReview from './components/military-history/ContributionsReview';
@@ -70,7 +69,6 @@ const routes = [
   <Route
       component={FormPage}
       fieldsComponent={ServicePeriodsFields}
-      reviewComponent={ServicePeriodsReview}
       key="/military-history/service-periods"
       path="/military-history/service-periods"
       chapter={chapterNames.militaryHistory}

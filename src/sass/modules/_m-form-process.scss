@@ -73,7 +73,7 @@
       background-color: $color-primary-darkest;
     }
   }
-  .usa-button-outline {
+  button.usa-button-outline {
     color: $color-primary;
     background-color: white;
     &:hover {
@@ -118,8 +118,30 @@
   legend.hide-for-small-only {
     display: none !important;
   }
-  .review-growable {
-    background-color: $color-gray-lightest;
+  table.review {
+    margin: 1em 0;
+  }
+}
+// dealing with overly broad style in m_table
+.review-growable {
+  background-color: $color-gray-lightest;
+  table.review {
+    margin: 0;
+  }
+  tr {
+    > td {
+      background: $color-gray-lightest;
+    }
+    &:first-child {
+      > td {
+        border-top-style: none;
+      }
+    }
+    &:last-child {
+      > td {
+        border-bottom-style: none;
+      }
+    }
   }
 }
 
