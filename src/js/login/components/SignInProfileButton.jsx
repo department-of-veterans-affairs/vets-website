@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { updateLoggedInStatus } from '../../common/actions';
 
@@ -7,12 +8,20 @@ import { updateLoggedInStatus } from '../../common/actions';
 class SignInProfileButton extends React.Component {
   render() {
     let content;
+    let greeting;
+
+    if (this.props.profile.userFullName.first) {
+      const firstName = _.startCase(_.toLower(this.props.profile.userFullName.first));
+      greeting = `Hello, ${firstName}`;
+    } else {
+      greeting = this.props.profile.email;
+    }
 
     if (this.props.login.currentlyLoggedIn) {
       content = (
         <span>
-          <span>Hello, {this.props.profile.email}</span><span className="signin-spacer">|</span>
-          <a href="/profile">Profile</a><span className="signin-spacer">|</span>
+          <span>{greeting}</span><span className="signin-spacer">|</span>
+          <a href="/profile">Account</a><span className="signin-spacer">|</span>
           <a href="#" onClick={this.props.onUserLogout}>Sign Out</a>
         </span>
       );
