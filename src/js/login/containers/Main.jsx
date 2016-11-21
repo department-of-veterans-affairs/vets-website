@@ -48,18 +48,6 @@ class Main extends React.Component {
     }
   }
 
-  handleLogin() {
-    const myLoginUrl = this.state.loginUrl;
-    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
-  }
-
-  handleLogout() {
-    const myLogoutUrl = this.state.logoutUrl;
-    const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
-  }
-
   getLogoutUrl() {
     $.ajax({
       url: `${environment.API_URL}/v0/sessions`,
@@ -71,6 +59,18 @@ class Main extends React.Component {
         this.setState({ logoutUrl: result.logout_via_get });
       }
     });
+  }
+
+  handleLogin() {
+    const myLoginUrl = this.state.loginUrl;
+    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  }
+
+  handleLogout() {
+    const myLogoutUrl = this.state.logoutUrl;
+    const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
   }
 
   checkTokenStatus() {
