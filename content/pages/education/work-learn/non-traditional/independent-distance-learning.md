@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Independent and Distance Learning
 template: 4-action-page-pending
+plainlanguage: 11-21-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
