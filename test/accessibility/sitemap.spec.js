@@ -31,9 +31,9 @@ module.exports = {
       this.verify.fail('No URLs found in sitemap');
     }
 
+    // do not check old facility locator
     sitemapURLs.forEach(url => {
-      // TODO(@jkassemi): When @bshyong completes new FL remove this exclusion
-      if (url.endsWith('facility-locator/index.html')) {
+      if (url.endsWith('facility-locator/') || url.endsWith('auth/login/callback/')) {
         return;
       }
 
