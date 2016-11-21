@@ -101,10 +101,10 @@ You may have had contact if you served in any of these ways:
   </li>
   <li>
   <dl class="panel-list">
-    <dt>In Waters in the Vicinity of Vietnam</dt>
+    <dt>In Waters in or near Vietnam</dt>
     <dd>Between January 9, 1962, and May 7, 1975</dd>
     <dd>
-      <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/water-vietnam/">Learn more <span class="sr-only">about waters in the Vicinity of Vietnam and Agent Orange</span></a>
+      <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/water-vietnam/">Learn more <span class="sr-only">about waters in or near Vietnam and Agent Orange</span></a>
     </dd>
   </dl>
 </li>
