@@ -157,7 +157,9 @@ button.msg-btn-newfolder[type="button"],
 }
 
 #messaging-content-header {
-  display: none;
+  h2 {
+    padding: 0 !important;
+  }
 
   @media (max-width: $medium-screen) {
     align-items: center;
@@ -166,41 +168,47 @@ button.msg-btn-newfolder[type="button"],
     position: relative;
 
     h2 {
+      flex: 1;
       line-height: inherit !important;
       overflow: hidden;
-      min-width: 66.66%;
       padding: 0 1.5rem !important;
       text-align: center;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
+    &.messaging-folder-header {
+      h2 {
+        max-width: 65%;
+      }
+    }
   }
 }
 
 .messaging-cancel-link {
-  display: block;
-  flex: 0;
+  display: none;
   line-height: inherit;
   padding: 1.5rem 0;
   margin-left: 1.5rem;
+
+  @media (max-width: $medium-screen) {
+    display: block;
+  }
 }
 
 .messaging-menu-button,
 .messaging-send-button {
   background: $color-primary;
   border-radius: 0;
+  display: none;
   line-height: inherit;
   margin: 0;
   padding: 1.5rem;
   width: auto;
-}
 
-.messaging-menu-button {
-  flex: 0;
-}
-
-.messaging-send-button {
-  flex: 1;
+  @media (max-width: $medium-screen) {
+    display: block;
+  }
 }
 
 .messaging-modal {
