@@ -16,6 +16,10 @@
     .usa-input-error-message {
       margin: 0 0 0 11.5rem;
     }
+
+    .msg-write-group {
+      padding: .75rem 0;
+    }
   }
 }
 
@@ -29,28 +33,23 @@
     border-bottom: 1px solid $color-gray;
     border-top: 1px solid $color-gray;
   }
-
-  @media (min-width: $medium-screen) {
-    border-left: 4px solid transparent;
-  }
 }
 
 
 .msg-field.usa-input-error {
   @media (max-width: $medium-screen) {
     margin: 0;
+    padding: 0;
   }
 
-  padding: 0;
   border-left: 4px solid $color-secondary;
 }
 
 .msg-subject-group {
   margin-top: 0;
   padding: 1.5rem 0;
-  
+
   @media (min-width: $medium-screen) {
-    border-left: 4px solid transparent;
     display: inline-block;
     width: 95%;
   }
@@ -108,11 +107,11 @@
 
 .msg-recipient > div,
 .msg-subject-group {
-  padding: 1.5rem;
+  padding-top: .75rem;
+  padding-bottom: .75rem;
 
-  @media (min-width: $medium-screen) {
-    padding-top: .75rem;
-    padding-bottom: .75rem;
+  @media (max-width: $medium-screen) {
+    padding: 1.5rem;
   }
 }
 
@@ -250,12 +249,6 @@ button.msg-btn-save {
       border-width: 1px 1px 0 1px;
       padding: 1rem;
     }
-  }
-}
-
-.msg-compose-write {
-  @media (min-width: $medium-screen) {
-    padding-left: 1.5rem;
   }
 }
 
@@ -415,6 +408,7 @@ button.msg-btn-save {
     padding: 1rem;
   }
 
+  .msg-subject-group-inner,
   .msg-write,
   .msg-send-group {
     @media (min-width: $medium-screen) {
@@ -458,17 +452,6 @@ button.msg-btn-save {
   .usa-input-error {
     position: static;
     right: auto;
-  }
-
-  .msg-compose-error {
-    .msg-write {
-      padding: .25rem 1rem 1rem;
-      margin-left: 0;
-    }
-
-    .msg-send-group {
-      margin-left: 0;
-    }
   }
 
   .msg-field {
@@ -519,10 +502,18 @@ button.msg-btn-save {
       border: none;
     }
 
-    .msg-compose-error .msg-write {
-      border-color: $color-gray;
-      border-style: solid;
-      border-width: 1px 1px 0;
+    .msg-compose-error {
+      .msg-write {
+        border-color: $color-gray;
+        border-style: solid;
+        border-width: 1px 1px 0;
+        padding: .25rem 1rem 1rem;
+        margin-left: 0;
+      }
+
+      .msg-send-group {
+        margin-left: 0;
+      }
     }
 
     .msg-write {
