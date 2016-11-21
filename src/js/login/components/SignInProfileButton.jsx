@@ -10,14 +10,14 @@ class SignInProfileButton extends React.Component {
     let content;
     let greeting;
 
-    if (this.props.profile.userFullName.first) {
-      const firstName = _.startCase(_.toLower(this.props.profile.userFullName.first));
-      greeting = `Hello, ${firstName}`;
-    } else {
-      greeting = this.props.profile.email;
-    }
-
     if (this.props.login.currentlyLoggedIn) {
+      if (this.props.profile.userFullName.first) {
+        const firstName = _.startCase(_.toLower(this.props.profile.userFullName.first));
+        greeting = `Hello, ${firstName}`;
+      } else {
+        greeting = this.props.profile.email;
+      }
+
       content = (
         <span>
           <span>{greeting}</span><span className="signin-spacer">|</span>
