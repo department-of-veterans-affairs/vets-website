@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
 import { dirtyAllFields } from '../../common/model/fields';
 import NoticeBox from '../components/NoticeBox';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import NewMessageForm from '../components/forms/NewMessageForm';
-import { paths } from '../config';
 import * as validations from '../utils/validations';
 
 import {
@@ -104,11 +102,11 @@ export class Compose extends React.Component {
     return (
       <div>
         <div id="messaging-content-header">
-          <Link
+          <a
               className="messaging-cancel-link"
-              to={paths.DRAFTS_URL}>
+              onClick={this.props.toggleConfirmDelete}>
             Cancel
-          </Link>
+          </a>
           <h2>New message</h2>
           <button
               className="messaging-send-button"

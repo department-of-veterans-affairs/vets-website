@@ -9,21 +9,17 @@ const routes = {
   path: '/',
   component: MessagingApp,
   indexRoute: {
-    onEnter: (nextState, replace) => replace('/folder/0')
+    onEnter: (nextState, replace) => replace('/inbox')
   },
   childRoutes: [
     {
       path: '',
       component: Main,
       childRoutes: [
-        {
-          path: 'folder',
-          onEnter: (nextState, replace) => { replace('/folder/0'); }
-        },
         { path: 'compose', component: Compose },
-        { path: 'folder/:id', component: Folder },
-        { path: 'thread/:id', component: Thread },
-        { path: 'settings', component: Settings }
+        { path: 'settings', component: Settings },
+        { path: ':folderName', component: Folder },
+        { path: ':folderName/:messageId', component: Thread },
       ]
     }
   ]
