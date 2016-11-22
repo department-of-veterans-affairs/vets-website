@@ -42,4 +42,4 @@ As a transitioning Servicemember, you're eligible to receive the following servi
 - Select "Vocational Rehabilitation and Employment Benefits."
 - Apply for "Educational and Career Counseling."
 
-If you are eligible, VA will invite you to attend an orientation session at the nearest VA regional office. You can also use CareerScope&reg; to help identify careers that you might enjoy.  Use [CareerScope](education/tools-programs/careerscope/). 
+If you are eligible, VA will invite you to attend an orientation session at the nearest VA regional office. You can also use CareerScope&reg; to help identify careers that you might enjoy.  Use [CareerScope](/education/tools-programs/careerscope/). 
