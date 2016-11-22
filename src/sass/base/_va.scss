@@ -224,6 +224,24 @@ hr {
   // TODO: clean up #content .main.interior a then remove !important
   text-decoration: none !important;
 }
+// Option for adding exit-icon to ghost buttons
+.usa-button-outline-exit.usa-button-primary[href^=http]::after {
+  background-image: url(/img/icons/exit-icon-primary.png);
+  background-size: 1em auto;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  // Content must have a decender in it
+  content: "leave vets.gov"; 
+  background-repeat: no-repeat;
+  background-position: top center;
+  margin-left: .3em;
+  text-indent: -9999em;
+  padding-right: 1.1em;
+}
+.usa-button-outline-exit.usa-button-primary[href^=http]:hover::after {
+  background-image: url(/img/icons/exit-icon-primary-darker.png);
+}
 
 // Logo and Header
 .header {
