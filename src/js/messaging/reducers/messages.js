@@ -7,14 +7,15 @@ import {
   ADD_DRAFT_ATTACHMENTS,
   CLEAR_DRAFT,
   DELETE_DRAFT_ATTACHMENT,
+  FETCH_THREAD_FAILURE,
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_MESSAGE_SUCCESS,
   LOADING_THREAD,
-  TOGGLE_THREAD_FORM,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
   TOGGLE_REPLY_DETAILS,
+  TOGGLE_THREAD_FORM,
   UPDATE_DRAFT
 } from '../utils/constants';
 
@@ -71,6 +72,9 @@ export default function messages(state = initialState, action) {
       return set(`data.thread[${messageIndex}]`, updatedMessage, state);
     }
 
+    case FETCH_THREAD_FAILURE:
+      return set('ui.loading', false, state);
+
     case FETCH_THREAD_SUCCESS: {
       // Consolidate message attributes and attachments
       const currentMessage = assign(
@@ -115,7 +119,7 @@ export default function messages(state = initialState, action) {
     }
 
     case LOADING_THREAD:
-      return set('ui.loading', true, state);
+      return set('ui.loading', true, initialState);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
