@@ -38,6 +38,10 @@ export default class EducationPeriodReview extends React.Component {
               <td scope="col">Name of degree, diploma, or certificate</td>
               <td scope="col">{period.degreeReceived.value}</td>
             </tr>
+            <tr>
+              <td scope="col">Major or course of study</td>
+              <td scope="col">{period.major.value}</td>
+            </tr>
           </tbody>
         </table>
       </div>
