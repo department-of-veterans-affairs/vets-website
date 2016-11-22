@@ -107,8 +107,10 @@ export default function folders(state = initialState, action) {
       return set('data.items', items, state);
     }
 
-    case LOADING_FOLDER:
-      return set('ui.loading', true, state);
+    case LOADING_FOLDER: {
+      const newState = ('data.currentItem', initialState.data.currentItem, state);
+      return set('ui.loading', true, newState);
+    }
 
     case TOGGLE_FOLDER_NAV:
       return set('ui.nav.visible', !state.ui.nav.visible, state);
