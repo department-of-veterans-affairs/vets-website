@@ -29,7 +29,7 @@ class ConfirmRefillModal extends React.Component {
         <section className="va-modal rx-modal" id="rx-confirm-refill">
           <form className="va-modal-inner" onSubmit={this.handleConfirmRefill}>
             <div>
-              <h3 className="rx-modal-title">Confirm refill</h3>
+              <h3 className="va-modal-title">Confirm refill</h3>
               <div className="rx-modal-refillinfo va-modal-body">
                 <div>
                   <span className="rx-modal-drug">{prescription.prescriptionName}</span>
