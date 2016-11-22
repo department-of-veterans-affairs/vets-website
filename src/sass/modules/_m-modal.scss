@@ -18,6 +18,8 @@
       min-width: 710px;
 
       @media #{$small-only} {
+        top: 20%;
+        transform: translateY(-20%);
         min-width: auto;
         .usa-button-primary {
           display: block;
