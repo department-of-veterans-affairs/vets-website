@@ -44,12 +44,12 @@ export default class RequestedFilesInfo extends React.Component {
 
         <div className="submit-file-container">
           <div className="submit-additional-evidence">
-            <h4 className="hightlight claim-file-border">Turn in more evidence</h4>
+            <h4 className="hightlight claim-file-border">Additional Evidence</h4>
             <div className="usa-alert additional-evidence-alert">
               <div className="item-container">
                 <p>Do you have additional evidence to submit in order to support your claim? Upload it here now.</p>
               </div>
-              <Link aria-label="View details for additional evidence" title="View details for additional evidence" className="usa-button usa-button-outline view-details-button" to={`your-claims/${id}/turn-in-evidence`}>View Details</Link>
+              <Link aria-label="View details for additional evidence" title="View details for additional evidence" className="usa-button usa-button-outline view-details-button" to={`your-claims/${id}/additional-evidence`}>View Details</Link>
               <div className="clearfix"></div>
             </div>
           </div>

@@ -30,7 +30,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .click('.additional-evidence-alert .usa-button')
         .waitForElementVisible('.upload-files', Timeouts.normal);
 
-      client.assert.urlContains('turn-in-evidence');
+      client.assert.urlContains('additional-evidence');
 
       client
         .expect.element('.upload-files button.usa-button').text.to.equal('Submit Files for Review');
