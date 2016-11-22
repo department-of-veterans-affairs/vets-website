@@ -7,6 +7,7 @@ import {
   ADD_DRAFT_ATTACHMENTS,
   CLEAR_DRAFT,
   DELETE_DRAFT_ATTACHMENT,
+  FETCH_THREAD_FAILURE,
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_MESSAGE_SUCCESS,
   LOADING_THREAD,
@@ -70,6 +71,9 @@ export default function messages(state = initialState, action) {
 
       return set(`data.thread[${messageIndex}]`, updatedMessage, state);
     }
+
+    case FETCH_THREAD_FAILURE:
+      return set('ui.loading', false, state);
 
     case FETCH_THREAD_SUCCESS: {
       // Consolidate message attributes and attachments

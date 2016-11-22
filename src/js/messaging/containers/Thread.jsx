@@ -63,15 +63,17 @@ export class Thread extends React.Component {
     }
 
     if (!this.props.loading) {
+      const message = this.props.message;
+      const requestedId = +this.props.params.messageId;
+      const shouldFetchMessage =
+        message && message.messageId !== requestedId;
+
       if (this.props.isNewMessage && this.props.recipients.length === 0) {
         this.props.fetchRecipients();
       }
 
-      const message = this.props.message;
-      const newId = +this.props.params.messageId;
-
-      if (!message || newId !== message.messageId) {
-        this.props.fetchThread(newId);
+      if (shouldFetchMessage) {
+        this.props.fetchThread(requestedId);
       }
     }
   }
@@ -249,6 +251,10 @@ export class Thread extends React.Component {
   render() {
     if (this.props.loading) {
       return <LoadingIndicator message="is loading the thread..."/>;
+    }
+
+    if (!this.props.message) {
+      return <b>Sorry, this message does not exist.</b>;
     }
 
     const header = this.makeHeader();
