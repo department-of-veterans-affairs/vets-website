@@ -53,7 +53,7 @@ Money for tuition or training
 -----
 
 ### How do I get these benefits?
-You need to apply. [Apply for benefits](education/apply-for-education-benefits/). You may receive benefits for up to 8 semesters (4 years) of traditional academic education. The benefits, paid monthly, depend upon the following factors:
+You need to apply. [Apply for benefits](/education/apply-for-education-benefits/). You may receive benefits for up to 8 semesters (4 years) of traditional academic education. The benefits, paid monthly, depend upon the following factors:
 
 - length of service
 - type of training
@@ -75,7 +75,7 @@ You need to apply. [Apply for benefits](education/apply-for-education-benefits/)
 - [National testing program](/education/advanced-training-and-certifications/national-testing-program/)
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 
-Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to compare benefits at schools. 
+Use the [GI Bill Comparison Tool](https://vets.gov/gi-bill-comparison-tool/) to compare benefits at schools. 
 
 “GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
 
