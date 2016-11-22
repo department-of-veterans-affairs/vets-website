@@ -1,14 +1,15 @@
 // Nesting because USWDS uses high-specificity selectors.
 [id=msg-search] {
-  padding: 2rem 0;
   position: relative;
-  
-  @media (max-width: $medium-screen) {
-    margin: 0 2rem;
+
+  @media (min-width: $medium-screen) {
+    margin-bottom: 2rem;
   }
 
-  label {margin-top: 0;}
- 
+  label {
+    margin-top: 0;
+  }
+
   .msg-search-btn {
     border-radius: 0 0.3rem 0.3rem 0;
     margin: 0;
@@ -23,18 +24,19 @@
   button {
     @media (min-width: $medium-screen) {
       width: auto;
-    }  
+    }
   }
 
   .msg-search-btn,
   [name=mquery] {
     position: relative;
-    &:focus, 
+
+    &:focus,
     &:hover {
       z-index: 1;
     }
   }
-  
+
   .va-flex {
     width: 100%;
   }
@@ -73,7 +75,7 @@
   &-text {
     position: absolute;
     left: -9999rem;
-    
+
     @media (min-width: $medium-screen) {
       position: static;
     }
@@ -91,18 +93,18 @@
 .msg-search-advanced-group {
   @media (min-width: $medium-screen) {
     align-items: center;
-    display: flex; 
+    display: flex;
   }
 
   label {
     @media (min-width: $medium-screen) {
       -webkit-flex: 1 0 10rem;
-      flex:  1 0 10rem; 
+      flex:  1 0 10rem;
       width: auto;
     }
   }
 
-  > div:not(.form-checkbox) { 
+  > div:not(.form-checkbox) {
     margin-bottom: 1.5rem;
 
     @media (min-width: $medium-screen) {
@@ -112,7 +114,7 @@
       // Affects the element itself, since it's a flex child
       flex: 0 1 75%;
     }
-  } 
+  }
 
   .form-checkbox {
     -webkit-flex: 0 1 25%;
@@ -124,7 +126,7 @@
 
     label {
       white-space: nowrap;
-      
+
       @media (min-width: $medium-screen) {
         margin: -1.5rem 0 0 1.5rem;
         padding-left: 1.5rem;
@@ -134,19 +136,19 @@
 
   [type=text] {
     flex: 1 1 100%;
-  } 
+  }
 }
 
 .msg-search-date-range-legend {
   font: inherit;
   padding-top: 0rem;
-  
+
   @media (min-width: $medium-screen) {
     flex: 0 1 10rem;
   }
 }
 
-.msg-search-date-range { 
+.msg-search-date-range {
   @media (max-width: $medium-screen) {
     > div {
       text-align: center;
