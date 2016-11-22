@@ -77,7 +77,7 @@ class VAMap extends Component {
       });
     }
 
-    if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds) && !newQuery.inProgress) {
+    if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds) && !newQuery.searchBoundsInProgress) {
       this.props.searchWithBounds(newQuery.bounds, newQuery.facilityType, newQuery.serviceType, newQuery.currentPage);
     }
 
