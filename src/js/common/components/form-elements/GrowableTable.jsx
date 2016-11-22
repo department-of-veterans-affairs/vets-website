@@ -47,7 +47,7 @@ class GrowableTable extends React.Component {
     }
   }
   componentDidMount() {
-    if (this.props.rows.length === 0) {
+    if (this.props.createRowIfEmpty && this.props.rows.length === 0) {
       this.createNewElement();
     }
   }
@@ -231,7 +231,8 @@ GrowableTable.propTypes = {
   alwaysShowUpdateRemoveButtons: React.PropTypes.bool,
   showSingleRowExpanded: React.PropTypes.bool,
   showEditButton: React.PropTypes.bool,
-  showAddAnotherButton: React.PropTypes.bool
+  showAddAnotherButton: React.PropTypes.bool,
+  createRowIfEmpty: React.PropTypes.bool
 };
 
 GrowableTable.defaultProps = {
@@ -240,7 +241,8 @@ GrowableTable.defaultProps = {
   alwaysShowUpdateRemoveButtons: false,
   showEditButton: true,
   showSingleRowExpanded: true,
-  showAddAnotherButton: true
+  showAddAnotherButton: true,
+  createRowIfEmpty: true
 };
 
 export default GrowableTable;

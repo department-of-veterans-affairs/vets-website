@@ -33,6 +33,7 @@ export default class EmploymentHistoryFields extends React.Component {
           component={EmploymentPeriod}
           alwaysShowUpdateRemoveButtons={this.props.inReview}
           showSingleRowExpanded={!this.props.inReview}
+          createRowIfEmpty={!this.props.inReview}
           showEditButton={false}
           showAddAnotherButton={!this.props.inReview}
           createRow={createEmploymentPeriod}
@@ -92,7 +93,7 @@ export default class EmploymentHistoryFields extends React.Component {
       </div>
       {this.props.data.hasNonMilitaryJobs.value === 'Y' &&
         <div className="form-review-panel-page">
-          <div className="form-review-panel-page-header-row edu-service-periods-review-header">
+          <div className="form-review-panel-page-header-row edu-growable-review-header">
             <h5 className="form-review-panel-page-header">Service periods</h5>
             <button
                 className="edit-btn primary-outline"

@@ -1,17 +1,17 @@
 import React from 'react';
+import { displayDateIfValid } from '../../utils/helpers.js';
 
-import { getLabel } from '../../utils/helpers';
-import { employmentPeriodTiming } from '../../utils/options-for-select';
-
-export default class EmploymentHistoryReview extends React.Component {
+export default class EducationPeriodReview extends React.Component {
   render() {
     const period = this.props.period;
+
     if (period.name.value) {
       return (<div className="review-growable">
         <table className="review usa-table-borderless">
           <tbody className="edu-growable-review-desc">
             <tr>
-              <td><strong>{period.name.value}</strong><br/>{getLabel(employmentPeriodTiming, period.postMilitaryJob.value)}</td>
+              <td>{period.name.value}<br/>
+              {displayDateIfValid(period.dateRange.from)} &mdash; {displayDateIfValid(period.dateRange.to)}</td>
               <td>
                 <button className="usa-button-outline float-right" onClick={this.props.onEdit}>Edit</button>
               </td>
@@ -19,12 +19,24 @@ export default class EmploymentHistoryReview extends React.Component {
           </tbody>
           <tbody className="edu-growable-expanded">
             <tr>
-              <td>Number of months worked:</td>
-              <td>{period.months.value}</td>
+              <td scope="col">City</td>
+              <td scope="col">{period.city.value}</td>
             </tr>
             <tr>
-              <td>Licenses or rating:</td>
-              <td>{period.licenseOrRating.value}</td>
+              <td scope="col">State</td>
+              <td scope="col">{period.state.value}</td>
+            </tr>
+            <tr>
+              <td scope="col">Hours completed</td>
+              <td scope="col">{period.hours.value}</td>
+            </tr>
+            <tr>
+              <td scope="col">Type of hours</td>
+              <td scope="col">{period.hoursType.value}</td>
+            </tr>
+            <tr>
+              <td scope="col">Name of degree, diploma, or certificate</td>
+              <td scope="col">{period.degreeReceived.value}</td>
             </tr>
           </tbody>
         </table>
@@ -48,7 +60,7 @@ export default class EmploymentHistoryReview extends React.Component {
   }
 }
 
-EmploymentHistoryReview.propTypes = {
+EducationPeriodReview.propTypes = {
   period: React.PropTypes.object.isRequired,
   onEdit: React.PropTypes.func
 };
