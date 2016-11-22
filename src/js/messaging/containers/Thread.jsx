@@ -65,12 +65,18 @@ export class Thread extends React.Component {
     if (!this.props.loading) {
       const message = this.props.message;
       const requestedId = +this.props.params.messageId;
-      const shouldFetchMessage =
-        message && message.messageId !== requestedId;
 
-      if (this.props.isNewMessage && this.props.recipients.length === 0) {
+      const shouldFetchRecipients =
+        message &&
+        this.props.isNewMessage &&
+        this.props.recipients.length === 0;
+
+      if (shouldFetchRecipients) {
         this.props.fetchRecipients();
       }
+
+      const shouldFetchMessage =
+        message && message.messageId !== requestedId;
 
       if (shouldFetchMessage) {
         this.props.fetchThread(requestedId);
