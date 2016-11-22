@@ -14,7 +14,7 @@
   cursor: pointer;
 
   &-split {
-    .va-modal-inner {
+    &-inner {
       min-width: 710px;
     }
     &-container {
@@ -25,16 +25,21 @@
       flex: 1;
       padding: 0 20px;
     }
-    p:first-child,
-    h5:first-child {
-      margin-top: 0;
-    }
-    ul {
-      margin-top: 10px;
-    }
+    &-title { margin-top: 0; }
+    &-list { margin-top: 10px; }
     &-divider {
       width: 3px;
       background: $color-primary-alt-lightest;
+    }
+    &-mobile-only {
+      display: none;
+    }
+    @media #{$small-only} {
+      &-desktop-only { display: none; }
+      &-mobile-only { display: block; }
+      &-container { 
+        flex-flow: column; 
+      }
     }
   }
 
@@ -57,6 +62,16 @@
     transform: translateY(-50%);
     width: 100%;
     cursor: auto;
+
+    @media #{$small-only} {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      margin: 0;
+      transform: none;
+      width: #{($small-screen) - 20};
+    }
   }
 
   &-body {
@@ -109,3 +124,4 @@
     color: $color-base;
   }
 } 
+
