@@ -68,7 +68,7 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
       type: SEARCH_STARTED,
       payload: {
         page,
-        active: true,
+        searchBoundsInProgress: true,
       },
     });
 
@@ -87,9 +87,6 @@ export function searchWithAddress(query) {
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
-      payload: {
-        active: true,
-      },
     });
 
     mapboxClient.geocodeForward(query.searchString, {
@@ -101,7 +98,7 @@ export function searchWithAddress(query) {
       }) || {}).text || res.features[0].place_name;
 
       if (!err) {
-        const dispatchObj = {
+        dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
@@ -118,10 +115,6 @@ export function searchWithAddress(query) {
             ],
             zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
           }
-        };
-        dispatch(dispatchObj);
-        dispatch({
-          type: SEARCH_SUCCEEDED,
         });
       } else {
         dispatch({

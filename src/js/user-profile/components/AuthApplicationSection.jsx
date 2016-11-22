@@ -29,15 +29,15 @@ class AuthApplicationSection extends React.Component {
           <p><a href="/healthcare/apply">Apply for healthcare</a></p>
           <p><a href="/education/apply-for-education-benefits">Apply for education benefits</a></p>
           <p><span className="label">You need to <a href="#" onClick={this.handleVerify}>verify your account</a> in order to:</span></p>
-          <p><a href="/healthcare/prescriptions">Refill your prescription</a></p>
-          <p><a href="/disability-benefits/track-claims">Check your disability compensation claim status</a></p>
+          <p>Refill your prescription</p>
+          <p>Check your disability compensation claim status</p>
         </div>
       );
     }
 
     return (
       <div className="profile-section medium-12 columns">
-        <h4 className="section-header">Available services</h4>
+        <h4 className="section-header">Available Services</h4>
         {content}
       </div>
     );
