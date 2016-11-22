@@ -57,7 +57,13 @@ class AuthApp extends React.Component {
     let view;
 
     if (this.props.location.query.token) {
-      view = <h3>Logging you in...</h3>;
+      view = (
+        <div className="overlay">
+          <div className="overlay-content">
+            <h3>Signing in to Vets.gov...</h3>
+          </div>
+        </div>
+      );
     } else {
       view = (
         <div>
