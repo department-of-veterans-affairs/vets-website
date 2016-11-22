@@ -26,4 +26,4 @@ Institutions that don't charge tuition and fees aren't required to comply with t
 - On-the-job training and apprenticeship programs
 - Residency and internship programs
 
-Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to learn which schools participate. You can also compare beneifts between different schools. 
+Use the [GI Bill Comparison Tool](https://vets.gov/gi-bill-comparison-tool/) to learn which schools participate. You can also compare beneifts between different schools. 
