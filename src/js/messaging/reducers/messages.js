@@ -119,7 +119,7 @@ export default function messages(state = initialState, action) {
     }
 
     case LOADING_THREAD:
-      return set('ui.loading', true, state);
+      return set('ui.loading', true, initialState);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
