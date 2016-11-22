@@ -26,7 +26,7 @@ function expectInputToNotBeSelected(client, field) {
 
 function overrideVetsGovApi(client) {
   client.execute(() => {
-    window.VetsGov.api.url = 'http://localhost:4000';
+    window.VetsGov.api.url = `http://localhost:${process.env.API_PORT || 4000}`;
     return window.VetsGov.api.url;
   },
   [],
@@ -37,8 +37,8 @@ function overrideVetsGovApi(client) {
 }
 
 module.exports = {
-  baseUrl: 'http://localhost:3333',
-  apiUrl: 'http://localhost:4000',
+  baseUrl: `http://localhost:${process.env.WEB_PORT || 3333}`,
+  apiUrl: `http://localhost:${process.env.API_PORT || 4000}`,
   createE2eTest,
   expectNavigateAwayFrom,
   expectValueToBeBlank,
