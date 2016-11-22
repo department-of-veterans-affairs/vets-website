@@ -80,12 +80,14 @@ export default class ReviewCollapsiblePanel extends React.Component {
                   <Component
                       data={this.props.data}
                       editing={editing}
+                      onEdit={() => this.handleEdit(page.path)}
+                      onSave={() => this.handleSave(page.path)}
                       inReview
                       onStateChange={this.props.onStateChange}
                       initializeFields={this.props.onFieldsInitialized}/>}
                 {!editing && !!ReviewComponent &&
                   <ReviewComponent data={this.props.data}/>}
-                {editing && <button
+                {editing && !!ReviewComponent && <button
                     className="usa-button-primary"
                     onClick={() => this.handleSave(page.path)}>Update page</button>}
               </div>

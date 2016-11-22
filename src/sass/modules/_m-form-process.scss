@@ -147,6 +147,9 @@
 
 .form-review-panel-page {
   margin-bottom: 5rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 .form-review-panel-page-header-row {
   display: flex;

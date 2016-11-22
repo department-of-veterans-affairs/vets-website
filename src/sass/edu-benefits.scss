@@ -176,15 +176,15 @@ ul.claim-list{
   top: 10px;
 }
 
-.edu-service-expanded {
+.edu-growable-expanded {
   display: none;
 }
 
 .form-review-panel-page {
-  .edu-service-expanded {
+  .edu-growable-expanded {
     display: table-row-group;
   }
-  .edu-service-review-desc {
+  .edu-growable-review-desc {
     > tr > td {
       border-bottom-style: solid;
     }
@@ -194,10 +194,10 @@ ul.claim-list{
   display: none;
 }
 
-.edu-service-periods-review-header {
+.edu-growable-review-header {
   margin-bottom: 1em;
 }
-.edu-service-periods-form {
+.edu-growable-form {
   table.review td {
     padding: 0;
   }

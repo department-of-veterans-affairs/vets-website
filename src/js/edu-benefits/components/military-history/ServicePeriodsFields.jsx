@@ -28,7 +28,10 @@ export default class ServicePeriodsFields extends React.Component {
     const toursTable = (
       <GrowableTable
           component={MilitaryServiceTour}
-          componentHasEdit
+          alwaysShowUpdateRemoveButtons={this.props.inReview}
+          showSingleRowExpanded={!this.props.inReview}
+          showEditButton={false}
+          showAddAnotherButton={!this.props.inReview}
           createRow={createTour}
           data={this.props.data}
           initializeCurrentElement={() => this.props.initializeFields(tourFields, 'toursOfDuty')}
@@ -43,7 +46,7 @@ export default class ServicePeriodsFields extends React.Component {
           isValidRow={isValidTourOfDuty}/>
     );
 
-    const editView = (<fieldset className={this.props.inReview ? 'edu-service-periods-review' : 'edu-service-periods-form'}>
+    const editView = (<fieldset className={this.props.inReview ? 'edu-growable-review' : 'edu-growable-form'}>
       <legend>Service periods</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
@@ -56,7 +59,7 @@ export default class ServicePeriodsFields extends React.Component {
     );
 
     const reviewView = (<div>
-      <div className="form-review-panel-page-header-row edu-service-periods-review-header">
+      <div className="form-review-panel-page-header-row edu-growable-review-header">
         <h5 className="form-review-panel-page-header">Service periods</h5>
         <button
             className="edit-btn primary-outline"

@@ -137,9 +137,7 @@ class GrowableTable extends React.Component {
     let reactKey = 0;
     let rowContent;
     const state = this.state;
-    const collapseRows = typeof this.props.collapseRows === 'undefined'
-      ? this.props.rows.length > 1
-      : this.props.collapseRows;
+    const collapseRows = !this.props.showSingleRowExpanded || this.props.rows.length > 1;
 
     const rowElements = this.props.rows.map((obj, index) => {
       const stateKey = state[obj.key];
@@ -147,7 +145,7 @@ class GrowableTable extends React.Component {
         const collapsedComponent = React.createElement(this.props.component,
           { data: obj,
             view: 'collapsed',
-            onEdit: this.props.componentHasEdit ? () => this.handleEdit(obj.key) : null,
+            onEdit: () => this.handleEdit(obj.key),
             onValueChange: (subfield, update) => {
               const newRows = set(`[${index}].${subfield}`, update, this.props.rows);
               this.props.onRowsUpdate(newRows);
@@ -155,16 +153,16 @@ class GrowableTable extends React.Component {
           });
         rowContent = (
           <div key={reactKey++} className="va-growable-background">
-            {this.props.componentHasEdit
-                ? collapsedComponent
-                : <div className="row small-collapse" key={obj.key}>
-                  <div className="small-9 columns">
-                    {collapsedComponent}
-                  </div>
-                  <div className="small-3 columns">
-                    <button className="usa-button-outline float-right" onClick={() => this.handleEdit(obj.key)} data-key={obj.key}>Edit</button>
-                  </div>
-                </div>}
+            {this.props.showEditButton
+              ? <div className="row small-collapse" key={obj.key}>
+                <div className="small-9 columns">
+                  {collapsedComponent}
+                </div>
+                <div className="small-3 columns">
+                  <button className="usa-button-outline float-right" onClick={() => this.handleEdit(obj.key)} data-key={obj.key}>Edit</button>
+                </div>
+              </div>
+              : collapsedComponent}
           </div>
         );
       } else {
@@ -172,7 +170,7 @@ class GrowableTable extends React.Component {
         if (collapseRows) {
           buttons = (
             <div className="row small-collapse">
-              {stateKey !== 'incomplete' || this.props.collapseRows
+              {stateKey !== 'incomplete' || this.props.alwaysShowUpdateRemoveButtons
                 ? <div className="small-6 left columns">
                   <button className="float-left" onClick={(event) => this.handleSave(event, index)} data-key={obj.key}>Update</button>
                 </div>
@@ -212,7 +210,7 @@ class GrowableTable extends React.Component {
       <div className="va-growable">
         <Element name="topOfTable"/>
         {rowElements}
-        <button className="usa-button-outline va-growable-add-btn" onClick={this.handleAdd}>{this.props.addNewMessage || 'Add Another'}</button>
+        {this.props.showAddAnotherButton && <button className="usa-button-outline va-growable-add-btn" onClick={this.handleAdd}>{this.props.addNewMessage || 'Add Another'}</button>}
       </div>
     );
   }
@@ -230,12 +228,19 @@ GrowableTable.propTypes = {
   addNewMessage: React.PropTypes.string,
   minimumRows: React.PropTypes.number,
   rowTitle: React.PropTypes.string,
-  collapseRows: React.PropTypes.bool
+  alwaysShowUpdateRemoveButtons: React.PropTypes.bool,
+  showSingleRowExpanded: React.PropTypes.bool,
+  showEditButton: React.PropTypes.bool,
+  showAddAnotherButton: React.PropTypes.bool
 };
 
 GrowableTable.defaultProps = {
   isValidSection,
-  minimumRows: 0
+  minimumRows: 0,
+  alwaysShowUpdateRemoveButtons: false,
+  showEditButton: true,
+  showSingleRowExpanded: true,
+  showAddAnotherButton: true
 };
 
 export default GrowableTable;

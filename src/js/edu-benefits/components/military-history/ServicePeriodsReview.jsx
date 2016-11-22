@@ -8,7 +8,7 @@ export default class ServicePeriodsReview extends React.Component {
     return (
       <div className="review-growable">
         <table className="review usa-table-borderless">
-          <tbody className="edu-service-review-desc">
+          <tbody className="edu-growable-review-desc">
             <tr>
               <td>
                 <strong>{tour.serviceBranch.value}</strong><br/>
@@ -19,7 +19,7 @@ export default class ServicePeriodsReview extends React.Component {
               </td>
             </tr>
           </tbody>
-          <tbody className="edu-service-expanded">
+          <tbody className="edu-growable-expanded">
             <tr>
               <td>Service status:</td>
               <td>{tour.serviceStatus.value}</td>

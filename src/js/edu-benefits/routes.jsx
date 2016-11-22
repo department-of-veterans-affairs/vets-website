@@ -18,7 +18,6 @@ import RotcHistoryReview from './components/military-history/RotcHistoryReview';
 import RotcHistoryFields from './components/military-history/RotcHistoryFields';
 import ContributionsReview from './components/military-history/ContributionsReview';
 import ContributionsFields from './components/military-history/ContributionsFields';
-import EmploymentHistoryReview from './components/employment-history/EmploymentHistoryReview';
 import EmploymentHistoryFields from './components/employment-history/EmploymentHistoryFields';
 import SchoolSelectionReview from './components/school-selection/SchoolSelectionReview';
 import SchoolSelectionFields from './components/school-selection/SchoolSelectionFields';
@@ -109,7 +108,6 @@ const routes = [
   <Route
       component={FormPage}
       fieldsComponent={EmploymentHistoryFields}
-      reviewComponent={EmploymentHistoryReview}
       key="/employment-history/employment-information"
       path="/employment-history/employment-information"
       chapter={chapterNames.employmentHistory}
