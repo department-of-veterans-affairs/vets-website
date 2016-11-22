@@ -1,14 +1,15 @@
 // Nesting because USWDS uses high-specificity selectors.
 [id=msg-search] {
-  padding: 2rem 0;
   position: relative;
-  
-  @media (max-width: $medium-screen) {
-    margin: 0 2rem;
+
+  @media (min-width: $medium-screen) {
+    margin-bottom: 2rem;
   }
 
-  label {margin-top: 0;}
- 
+  label {
+    margin-top: 0;
+  }
+
   .msg-search-btn {
     border-radius: 0 0.3rem 0.3rem 0;
     margin: 0;
@@ -21,18 +22,21 @@
   }
 
   button {
-    width: auto;
+    @media (min-width: $medium-screen) {
+      width: auto;
+    }
   }
 
   .msg-search-btn,
   [name=mquery] {
     position: relative;
-    &:focus, 
+
+    &:focus,
     &:hover {
       z-index: 1;
     }
   }
-  
+
   .va-flex {
     width: 100%;
   }
@@ -71,7 +75,7 @@
   &-text {
     position: absolute;
     left: -9999rem;
-    
+
     @media (min-width: $medium-screen) {
       position: static;
     }
@@ -83,30 +87,33 @@
 }
 
 .msg-search-advanced-controls {
-  padding-top: 1.5rem;
   text-align: left;
-
-  &::after {
-    content: '\a0';
-    display: block;
-  }
 }
 
 .msg-search-advanced-group {
-  position: relative;
-
-  @media (max-width: $medium-screen) {
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
+  @media (min-width: $medium-screen) {
+    align-items: center;
+    display: flex;
   }
 
-  > div:not(.form-checkbox) { 
-    -webkit-align-items: inherit;  
-    align-items: inherit;
-    display: inherit;
-    -webkit-flex: 1 1 100%;
-    flex: 1 1 100%;
+  label {
+    @media (min-width: $medium-screen) {
+      -webkit-flex: 1 0 10rem;
+      flex:  1 0 10rem;
+      width: auto;
+    }
+  }
+
+  > div:not(.form-checkbox) {
     margin-bottom: 1.5rem;
+
+    @media (min-width: $medium-screen) {
+      // Affects the element's  children
+      align-items: center;
+      display: flex;
+      // Affects the element itself, since it's a flex child
+      flex: 0 1 75%;
+    }
   }
 
   .form-checkbox {
@@ -119,52 +126,61 @@
 
     label {
       white-space: nowrap;
-      
+
       @media (min-width: $medium-screen) {
         margin: -1.5rem 0 0 1.5rem;
         padding-left: 1.5rem;
       }
     }
   }
-  
-  label {
-    width: 7rem;
 
-    @media (min-width: $medium-screen) {
-      -webkit-flex: 1 0 10rem;
-      flex:  1 0 10rem; 
-      width: auto;
-    }
-  }
-  
   [type=text] {
-    -webkit-flex: 1 1 100%;
     flex: 1 1 100%;
-  } 
+  }
 }
 
 .msg-search-date-range-legend {
   font: inherit;
-  padding-top: 1rem;
+  padding-top: 0rem;
 
-  @media (max-width: $medium-screen) {
-    padding-top: 0;
-    width: 7rem;
+  @media (min-width: $medium-screen) {
+    flex: 0 1 10rem;
   }
 }
 
 .msg-search-date-range {
-  margin-left: 7rem;
-  position: relative;
-  top: -3.2rem;
-  
+  @media (max-width: $medium-screen) {
+    > div {
+      text-align: center;
+      width: 100%
+    }
+  }
+
   @media (min-width: $medium-screen) {
-    margin-left: 10rem;
+    display: flex;
+    align-items: center;
   }
- 
+
   span {
-    padding: 0 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+
+    @media (max-width: $medium-screen) {
+      display: block;
+      text-align: center;
+      padding-bottom: .25rem;
+      padding-top: .25rem;
+    }
+
+    @media (min-width: $medium-screen) {
+      display: flex;
+      align-items: center;
+    }
   }
+}
+
+.react-datepicker__input-container {
+  flex: 1 0 22rem;
 }
 
 .msg-search-advanced-toggle {
@@ -189,7 +205,7 @@
 // Using an longer selector because of a form[type="submit"]
 // somewhere in the CSS
 form .msg-search-advanced-submit[type="submit"] {
-  margin: 0 0 0 7rem;
+  margin: 0;
 
   @media (min-width: $medium-screen) {
     margin-left: 10rem;

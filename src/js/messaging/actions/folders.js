@@ -1,7 +1,7 @@
-import assign from 'lodash/fp/assign';
-
-import { api } from '../config';
-import { createUrlWithQuery } from '../utils/helpers';
+import {
+  apiRequest,
+  createUrlWithQuery
+} from '../utils/helpers';
 
 import {
   CREATE_FOLDER_SUCCESS,
@@ -12,12 +12,14 @@ import {
   FETCH_FOLDERS_FAILURE,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDER_FAILURE,
+  LOADING_FOLDER,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS,
+  RESET_REDIRECT,
   SET_CURRENT_FOLDER
 } from '../utils/constants';
 
-const baseUrl = `${api.url}/folders`;
+const baseUrl = '/folders';
 
 export function fetchFolders() {
   // Get the max number of folders.
@@ -27,11 +29,11 @@ export function fetchFolders() {
   const url = createUrlWithQuery(baseUrl, query);
 
   return dispatch => {
-    fetch(`${url}`, api.settings.get)
-    .then(res => res.json())
-    .then(
+    apiRequest(
+      url,
+      null,
       data => dispatch({ type: FETCH_FOLDERS_SUCCESS, data }),
-      err => dispatch({ type: FETCH_FOLDERS_FAILURE, err })
+      () => dispatch({ type: FETCH_FOLDERS_FAILURE })
     );
   };
 }
@@ -41,15 +43,21 @@ export function fetchFolder(id, query = {}) {
   const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
 
   return dispatch => {
+    dispatch({ type: LOADING_FOLDER });
+
     Promise.all([folderUrl, messagesUrl].map(url =>
-      fetch(url, api.settings.get).then(res => res.json())
+      apiRequest(
+        url,
+        null,
+        response => response,
+        () => dispatch({ type: FETCH_FOLDER_FAILURE })
+      )
     )).then(
       data => dispatch({
         type: FETCH_FOLDER_SUCCESS,
         folder: data[0],
         messages: data[1]
-      }),
-      err => dispatch({ type: FETCH_FOLDER_FAILURE, err })
+      })
     );
   };
 }
@@ -65,23 +73,24 @@ export function toggleManagedFolders() {
 }
 
 export function createNewFolder(folderName) {
-  // create JSON payload
   const folderData = { folder: {} };
   folderData.folder.name = folderName;
 
-  const settings = assign(api.settings.postJson, {
+  const settings = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(folderData)
-  });
+  };
 
   return dispatch => {
-    fetch(baseUrl, settings)
-    .then(res => res.json())
-    .then(
+    apiRequest(
+      baseUrl,
+      settings,
       data => dispatch({
         type: CREATE_FOLDER_SUCCESS,
         folder: data.data.attributes
       }),
-      error => dispatch({ type: CREATE_FOLDER_FAILURE, error })
+      () => dispatch({ type: CREATE_FOLDER_FAILURE })
     );
   };
 }
@@ -89,14 +98,12 @@ export function createNewFolder(folderName) {
 export function deleteFolder(folder) {
   const url = `${baseUrl}/${folder.folderId}`;
   return dispatch => {
-    fetch(url, api.settings.delete)
-    .then(response => {
-      const action = response.ok
-                   ? { type: DELETE_FOLDER_SUCCESS, folder }
-                   : { type: DELETE_FOLDER_FAILURE };
-
-      return dispatch(action);
-    });
+    apiRequest(
+      url,
+      { method: 'DELETE' },
+      () => dispatch({ type: DELETE_FOLDER_SUCCESS, folder }),
+      () => dispatch({ type: DELETE_FOLDER_FAILURE })
+    );
   };
 }
 
@@ -106,4 +113,8 @@ export function setCurrentFolder(folderId) {
     type: SET_CURRENT_FOLDER,
     folderId
   };
+}
+
+export function resetRedirect() {
+  return { type: RESET_REDIRECT };
 }
