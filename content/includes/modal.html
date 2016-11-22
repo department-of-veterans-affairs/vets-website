@@ -50,7 +50,7 @@ content.
 <script>
 (function($){
   // TODO: eliminate jQuery dependency
-  var modal = $('#va-modal').click(close);
+  var modal = $('#va-modal').click(close).focus();
   if (document.location.hash === '#modal'){
     open(); 
   }
@@ -69,7 +69,8 @@ content.
     } else {
       window.location.hash = '';
     } 
-    modal.hide(); 
+    modal.hide();
+    $('#content').focus();
   }
 })($);
 </script>
