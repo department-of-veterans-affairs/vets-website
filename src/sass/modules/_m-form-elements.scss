@@ -99,6 +99,15 @@ button.form-button-disabled {
   }
 }
 
+.form-expanding-group-active-radio {
+  margin-left: 28px;
+}
+
+.form-expanding-group-active-radio.form-expanding-group-inner-enter,
+  .form-expanding-group-active-radio.form-expanding-group-inner-leave-active {
+	margin-top: -16px;
+}
+
 .form-expanding-group-inner-leave {
   max-height: 800px;
   opacity: 1;

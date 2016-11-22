@@ -38,7 +38,6 @@ export class NewMessageForm extends React.Component {
             subject={message.subject}
             subjectPlaceholder={composeMessage.placeholders.subject}/>
         <MessageWriteGroup
-            cssClass="msg-compose-write"
             allowedMimeTypes={allowedMimeTypes}
             errorMessage={validations.isValidMessageBody(message.body) ? undefined : composeMessage.errors.message}
             files={this.props.message.attachments}
