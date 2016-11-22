@@ -14,6 +14,7 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.setMyToken = this.setMyToken.bind(this);
+    this.getLogoutUrl = this.getLogoutUrl.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.checkTokenStatus = this.checkTokenStatus.bind(this);
@@ -22,16 +23,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     if (sessionStorage.userToken) {
-      $.ajax({
-        url: `${environment.API_URL}/v0/sessions`,
-        type: 'DELETE',
-        headers: {
-          Authorization: `Token token=${sessionStorage.userToken}`
-        },
-        success: (result) => {
-          this.setState({ logoutUrl: result.logout_via_get });
-        }
-      });
+      this.getLogoutUrl();
     }
 
     this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
@@ -52,7 +44,21 @@ class Main extends React.Component {
   setMyToken(event) {
     if (event.data === sessionStorage.userToken) {
       this.getUserData();
+      this.getLogoutUrl();
     }
+  }
+
+  getLogoutUrl() {
+    $.ajax({
+      url: `${environment.API_URL}/v0/sessions`,
+      type: 'DELETE',
+      headers: {
+        Authorization: `Token token=${sessionStorage.userToken}`
+      },
+      success: (result) => {
+        this.setState({ logoutUrl: result.logout_via_get });
+      }
+    });
   }
 
   handleLogin() {
