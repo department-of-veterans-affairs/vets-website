@@ -8,6 +8,7 @@ import {
   DELETE_COMPOSE_MESSAGE,
   DELETE_FOLDER_SUCCESS,
   DELETE_MESSAGE_SUCCESS,
+  FETCH_FOLDER_FAILURE,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
   LOADING_FOLDER,
@@ -68,6 +69,9 @@ export default function folders(state = initialState, action) {
       newFolders.delete(folderKey(folder.name));
       return set('data.items', newFolders, state);
     }
+
+    case FETCH_FOLDER_FAILURE:
+      return set('ui.loading', false, state);
 
     case FETCH_FOLDER_SUCCESS: {
       const attributes = action.folder.data.attributes;
