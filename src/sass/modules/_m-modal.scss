@@ -13,8 +13,9 @@
   z-index: 3;
   cursor: pointer;
 
+  // "Forked" modal styles
   &-split {
-    &-inner {
+    .va-modal-inner {
       min-width: 710px;
     }
     &-container {
@@ -31,14 +32,10 @@
       width: 3px;
       background: $color-primary-alt-lightest;
     }
-    &-mobile-only {
-      display: none;
-    }
+    
     @media #{$small-only} {
-      &-desktop-only { display: none; }
-      &-mobile-only { display: block; }
-      &-container { 
-        flex-flow: column; 
+      &-container {
+        flex-flow: column;
       }
     }
   }
@@ -65,12 +62,13 @@
 
     @media #{$small-only} {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      margin: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      min-width: auto;
+      margin: 10px;
+      overflow: hidden;
       transform: none;
-      width: #{($small-screen) - 20};
     }
   }
 
@@ -94,6 +92,14 @@
   }
   .usa-button-outline:hover {
     background: transparent !important;
+  }
+    
+  @media #{$small-only} {
+    &-desktop-only { display: none; }
+    &-mobile-only { display: block; }
+  }
+  &-mobile-only {
+    display: none;
   }
 }
 
