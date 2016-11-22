@@ -67,7 +67,7 @@ To update your personal, insurance, or financial information from a previous app
 
 - [Apply as a caregiver (10-10CG)](/healthcare/forms/vha-10-10CG.pdf)
 
-#### Instructions for downloading the forms
+#### Instructions for downloading the form
 
 <dl>
     <dd><strong>Internet Explorer:</strong></dd>
