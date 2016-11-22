@@ -30,6 +30,7 @@ export default class ServicePeriodsFields extends React.Component {
           component={MilitaryServiceTour}
           alwaysShowUpdateRemoveButtons={this.props.inReview}
           showSingleRowExpanded={!this.props.inReview}
+          createRowIfEmpty={!this.props.inReview}
           showEditButton={false}
           showAddAnotherButton={!this.props.inReview}
           createRow={createTour}
