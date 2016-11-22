@@ -29,6 +29,10 @@ const props = {
   messageCount: 5,
   page: 1,
   params: { folderName: 'inbox' },
+  sort: {
+    value: 'sentDate',
+    order: 'DESC'
+  },
   totalPages: 1,
 
   // No-op function to override dispatch
