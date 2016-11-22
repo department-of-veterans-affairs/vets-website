@@ -37,7 +37,11 @@ export default class BenefitsRelinquishmentFields extends React.Component {
         if (benefit.additional) {
           option.additional = (
             <div>
-              <p>{benefit.additional}</p>
+              <div className="usa-alert usa-alert-warning usa-content secondary">
+                <div className="usa-alert-body">
+                  <span>{benefit.additional}</span>
+                </div>
+              </div>
               {dateFields}
             </div>
           );
