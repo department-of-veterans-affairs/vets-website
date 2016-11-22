@@ -109,13 +109,7 @@
       width: auto;
     }
   }
-  .usa-button-outline:hover {
-    background: transparent !important;
-  }
-}
 
-.va-modal button {
-  white-space: nowrap;
   span.exit-icon {
     background-image: url(/img/icons/exit-icon-primary.png);
     background-position: 100% 50%;
@@ -123,6 +117,14 @@
     background-size: 1em auto;
     padding-right: 1.2em;
   }
+
+  .usa-button-outline:hover {
+    background: transparent !important;
+  }
+}
+
+.va-modal button {
+  white-space: nowrap;
 } 
 
 .va-modal-close {
