@@ -21,7 +21,7 @@ export default function ExpandingGroup({ children, open, showPlus, additionalCla
   return (
     <div className={classNames}>
       {children[0]}
-      <ReactCSSTransitionGroup transitionName="form-expanding-group-inner" transitionEnterTimeout={700} transitionLeaveTimeout={500}>
+      <ReactCSSTransitionGroup transitionName="form-expanding-group-inner" transitionEnterTimeout={700} transitionLeave={false}>
         {open
           ? <div key="removable-group" className={additionalClass}>
             {children[1]}

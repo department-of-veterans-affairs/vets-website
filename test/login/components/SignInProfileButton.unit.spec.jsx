@@ -24,7 +24,7 @@ describe('<SignInProfileButton>', () => {
 
   it('should present profile and sign out buttons when currentlyLoggedIn is true', () => {
     const signedInData = { currentlyLoggedIn: true, loginUrl: '' };
-    const profileData = { email: 'fake@aol.com' };
+    const profileData = { email: 'fake@aol.com', userFullName: { first: 'Sharon' } };
     tree = SkinDeep.shallowRender(<SignInProfileButton login={signedInData} profile={profileData}/>);
     const link = tree.everySubTree('a');
     expect(link).to.have.lengthOf(2);
