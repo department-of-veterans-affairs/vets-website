@@ -74,10 +74,6 @@
   padding-bottom: 2rem;
   position: relative;
 
-  > * {
-    vertical-align: middle;
-  }
-
   button {
     width: auto;
   }
@@ -88,8 +84,9 @@
 
   i {
     margin-left: .5rem;
+    font-size: inherit !important;
   }
-
+  
   .messaging-btn-delete,
   .messaging-btn-print {
     display: none;
