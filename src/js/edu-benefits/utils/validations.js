@@ -418,6 +418,7 @@ export {
   initializeNullValues,
   isBlank,
   isNotBlank,
+  isNotBlankDateField,
   isValidDate,
   isValidName,
   isValidSSN,
