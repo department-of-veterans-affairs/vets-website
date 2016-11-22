@@ -41,6 +41,49 @@ describe('veteranToApplication', () => {
 
     expect(applicationData.toursOfDuty[0].fromDate).to.equal('1996-09-06');
   });
+  it('converts date ranges to iso', () => {
+    const formData = createVeteran();
+    formData.toursOfDuty.push({
+      serviceBranch: makeField('army'),
+      dateRange: {
+        from: {
+          month: makeField('9'),
+          day: makeField('6'),
+          year: makeField('1996')
+        },
+        to: {
+          month: makeField('9'),
+          day: makeField('6'),
+          year: makeField('1997')
+        }
+      }
+    });
+    const applicationData = JSON.parse(veteranToApplication(formData));
+
+    expect(applicationData.toursOfDuty[0].dateRange.from).to.equal('1996-09-06');
+    expect(applicationData.toursOfDuty[0].dateRange.to).to.equal('1997-09-06');
+  });
+  it('removes partial date ranges', () => {
+    const formData = createVeteran();
+    formData.toursOfDuty.push({
+      serviceBranch: makeField('army'),
+      dateRange: {
+        to: {
+          month: makeField('9'),
+          day: makeField(''),
+          year: makeField('1996')
+        },
+        from: {
+          month: makeField('9'),
+          day: makeField('6'),
+          year: makeField('1997')
+        }
+      }
+    });
+    const applicationData = JSON.parse(veteranToApplication(formData));
+
+    expect(applicationData.toursOfDuty[0].dateRange).to.be.undefined;
+  });
   it('converts yes/no fields to booleans', () => {
     const formData = createVeteran();
     formData.serviceBefore1977.married.value = 'Y';
