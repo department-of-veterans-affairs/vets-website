@@ -278,7 +278,7 @@ export class Folder extends React.Component {
         );
       }
 
-      return <b>Sorry, this folder does not exist.</b>;
+      return <p>Sorry, this folder does not exist.</p>;
     }
 
     const folderName = _.get(this.props.attributes, 'name');
