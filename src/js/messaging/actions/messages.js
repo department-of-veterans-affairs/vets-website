@@ -59,8 +59,13 @@ export function fetchThread(id) {
   const threadUrl = `${messageUrl}/thread`;
 
   return dispatch => {
-    const errorHandler = () => dispatch({ type: FETCH_THREAD_FAILURE });
-    dispatch({ type: LOADING_THREAD });
+    const errorHandler =
+      () => dispatch({ type: FETCH_THREAD_FAILURE });
+
+    dispatch({
+      type: LOADING_THREAD,
+      requestId: id
+    });
 
     Promise.all([messageUrl, threadUrl].map(
       url => apiRequest(url, null, response => response, errorHandler)
