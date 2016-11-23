@@ -37,7 +37,7 @@ You can use up to $368 per month in financial assistance for the following types
 
 ### How do I get these benefits? 
 
-You need to apply. [Apply for benefits](education/apply-for-education-benefits/).
+You need to apply. [Apply for benefits](/education/apply-for-education-benefits/).
 
 ### Learn more
 - Visit the [GI Bill customer service page](http://gibill.custhelp.com/) to search Frequently Asked Questions or to ask a question online.
