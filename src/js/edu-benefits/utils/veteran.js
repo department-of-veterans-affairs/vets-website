@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import { makeField } from '../../common/model/fields';
-import { isValidAddressField } from '../utils/validations';
+import { isValidAddressField, isNotBlankDateField } from '../utils/validations';
 import { dateToMoment } from './helpers';
 import moment from 'moment';
 
@@ -263,12 +263,16 @@ export function veteranToApplication(veteran) {
 
         return Number(value.value.replace('$', ''));
 
+      case 'activeDutyRepayingPeriod':
       case 'dateRange':
-        if (value.from.month.value === '' && value.to.month.value === '') {
-          return undefined;
+        if (isNotBlankDateField(value.from) && isNotBlankDateField(value.to)) {
+          return {
+            from: dateToMoment(value.from).format('YYYY-MM-DD'),
+            to: dateToMoment(value.to).format('YYYY-MM-DD')
+          };
         }
 
-        return value;
+        return undefined;
       default:
         // fall through.
     }

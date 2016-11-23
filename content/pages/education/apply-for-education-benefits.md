@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Apply for Education Benefits
 template: 6-info-page
+modal: true 
 concurrence: complete
 showactionbar: false
 stickyactionbox: true

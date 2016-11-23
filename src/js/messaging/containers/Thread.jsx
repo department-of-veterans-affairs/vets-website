@@ -50,8 +50,8 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.loading) {
-      const id = this.props.params.messageId;
+    if (!this.props.loading.inProgress) {
+      const id = +this.props.params.messageId;
       this.props.fetchThread(id);
     }
   }
@@ -62,16 +62,26 @@ export class Thread extends React.Component {
       return;
     }
 
-    if (!this.props.loading) {
-      if (this.props.isNewMessage && this.props.recipients.length === 0) {
+    const loading = this.props.loading;
+
+    if (!loading.inProgress) {
+      const message = this.props.message;
+
+      const shouldFetchRecipients =
+        message &&
+        this.props.isNewMessage &&
+        this.props.recipients.length === 0;
+
+      if (shouldFetchRecipients) {
         this.props.fetchRecipients();
       }
 
-      const message = this.props.message;
-      const newId = +this.props.params.messageId;
+      const requestedId = +this.props.params.messageId;
+      const lastRequestedId = loading.requestId;
+      const shouldFetchMessage = requestedId !== lastRequestedId;
 
-      if (!message || newId !== message.messageId) {
-        this.props.fetchThread(newId);
+      if (shouldFetchMessage) {
+        this.props.fetchThread(requestedId);
       }
     }
   }
@@ -247,8 +257,29 @@ export class Thread extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
+    const loading = this.props.loading;
+
+    if (loading.inProgress) {
       return <LoadingIndicator message="is loading the thread..."/>;
+    }
+
+    if (!this.props.message) {
+      const lastRequestedId = loading.requestId;
+
+      if (lastRequestedId !== null) {
+        const reloadMessage = () => {
+          this.props.fetchThread(lastRequestedId);
+        };
+
+        return (
+          <p>
+            Could not retrieve the message.&nbsp;
+            <a onClick={reloadMessage}>Click here to try again.</a>
+          </p>
+        );
+      }
+
+      return <p>Sorry, this message does not exist.</p>;
     }
 
     const header = this.makeHeader();
