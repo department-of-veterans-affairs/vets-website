@@ -33,7 +33,10 @@ const initialState = {
   },
   ui: {
     formVisible: false,
-    loading: false,
+    loading: {
+      inProgress: false,
+      requestId: null
+    },
     messagesCollapsed: new Set(),
     moveToOpened: false,
     replyDetailsCollapsed: true
@@ -73,7 +76,7 @@ export default function messages(state = initialState, action) {
     }
 
     case FETCH_THREAD_FAILURE:
-      return set('ui.loading', false, state);
+      return set('ui.loading.inProgress', false, state);
 
     case FETCH_THREAD_SUCCESS: {
       // Consolidate message attributes and attachments
@@ -112,14 +115,25 @@ export default function messages(state = initialState, action) {
         draft.replyMessageId = currentMessage.messageId;
       }
 
-      let newState = set('ui', { ...initialState.ui, messagesCollapsed }, state);
+      let newState = set('ui', {
+        ...initialState.ui,
+        messagesCollapsed,
+        loading: {
+          inProgress: false,
+          requestId: state.ui.loading.requestId
+        }
+      }, state);
+
       newState = set('data.thread', thread, newState);
       newState = set('data.draft', draft, newState);
       return set('data.message', currentMessage, newState);
     }
 
     case LOADING_THREAD:
-      return set('ui.loading', true, initialState);
+      return set('ui.loading', {
+        inProgress: true,
+        requestId: action.requestId
+      }, initialState);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
