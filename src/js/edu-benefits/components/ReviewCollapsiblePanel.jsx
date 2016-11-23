@@ -28,7 +28,14 @@ export default class ReviewCollapsiblePanel extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo('topScrollReviewPanel', {
+    scroller.scrollTo(`chapter${this.props.chapter}ScrollElement`, {
+      duration: 500,
+      delay: 2,
+      smooth: true,
+    });
+  }
+  scrollToPage(path) {
+    scroller.scrollTo(`${path}ScrollElement`, {
       duration: 500,
       delay: 2,
       smooth: true,
@@ -42,17 +49,23 @@ export default class ReviewCollapsiblePanel extends React.Component {
     this.props.onFieldsInitialized(pageFields);
     if (validations.isValidPage(path, formData)) {
       this.props.onUpdateEditStatus(path, false);
+      this.scrollToTop();
+    } else {
+      this.scrollToPage(path);
     }
-    // this.scrollToTop();
   }
 
   handleEdit(path) {
     this.props.onUpdateEditStatus(path, true);
-    // this.scrollToTop();
+    this.scrollToPage(path);
   }
 
   toggleChapter() {
+    const isOpening = !this.state.open;
     this.setState({ open: !this.state.open });
+    if (isOpening) {
+      this.scrollToTop();
+    }
   }
 
   render() {
@@ -99,6 +112,7 @@ export default class ReviewCollapsiblePanel extends React.Component {
 
     return (
       <div id={`${this.id}-collapsiblePanel`} className="usa-accordion-bordered form-review-panel">
+        <Element name={`chapter${this.props.chapter}ScrollElement`}/>
         <ul className="usa-unstyled-list">
           <li>
             <div className="accordion-header clearfix" >

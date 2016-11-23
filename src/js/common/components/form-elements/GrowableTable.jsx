@@ -35,10 +35,13 @@ class GrowableTable extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.scrollToTop = this.scrollToTop.bind(this);
+    this.scrollToRow = this.scrollToRow.bind(this);
     this.state = {};
   }
 
   componentWillMount() {
+    this.tableId = _.uniqueId('growable-table');
     if (this.props.rows.length > 0) {
       this.props.rows.map((obj) => {
         this.setState({ [obj.key]: 'complete' });
@@ -57,20 +60,32 @@ class GrowableTable extends React.Component {
       if (!row.key) {
         row.key = _.uniqueId('key-'); // eslint-disable-line no-param-reassign
         this.setState({ [row.key]: 'incomplete' });
-        this.scrollToTop();
+        this.scrollToRow(row.key);
       }
     });
   }
 
   scrollToTop() {
-    scroller.scrollTo('topOfTable', {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-      offset: -50
-    });
+    setTimeout(() => {
+      scroller.scrollTo(`topOfTable${this.tableId}`, {
+        duration: 500,
+        delay: 0,
+        smooth: true,
+        offset: -60
+      });
+    }, 100);
   }
 
+  scrollToRow(key) {
+    setTimeout(() => {
+      scroller.scrollTo(`table${this.tableId}Row${key}`, {
+        duration: 500,
+        delay: 0,
+        smooth: true,
+        offset: 0
+      });
+    }, 100);
+  }
   createNewElement() {
     const blankRowData = this.props.createRow();
     blankRowData.key = _.uniqueId('key-');
@@ -79,6 +94,8 @@ class GrowableTable extends React.Component {
     this.props.onRowsUpdate(rows);
 
     this.setState({ [blankRowData.key]: 'incomplete' });
+
+    return blankRowData.key;
   }
 
   findIncomplete() {
@@ -90,12 +107,14 @@ class GrowableTable extends React.Component {
     const success = this.handleSave();
 
     if (success) {
-      this.createNewElement();
+      const key = this.createNewElement();
+      this.scrollToRow(key);
     }
   }
 
   handleEdit(key) {
     this.setState({ [key]: 'edit' });
+    this.scrollToRow(key);
   }
 
   handleSave(event, index) {
@@ -153,6 +172,7 @@ class GrowableTable extends React.Component {
           });
         rowContent = (
           <div key={reactKey++} className="va-growable-background">
+            <Element name={`table${this.tableId}Row${obj.key}`}/>
             {this.props.showEditButton
               ? <div className="row small-collapse" key={obj.key}>
                 <div className="small-9 columns">
@@ -183,6 +203,7 @@ class GrowableTable extends React.Component {
         }
         rowContent = (
           <div key={reactKey++} className={(stateKey === 'edit' || collapseRows) ? 'va-growable-background' : null}>
+            <Element name={`table${this.tableId}Row${obj.key}`}/>
             <div className="row small-collapse" key={obj.key}>
               <div className="small-12 columns va-growable-expanded">
                 {(stateKey === 'incomplete' && this.props.rowTitle && this.props.rows.length > 1)
@@ -208,7 +229,7 @@ class GrowableTable extends React.Component {
 
     return (
       <div className="va-growable">
-        <Element name="topOfTable"/>
+        <Element name={`topOfTable${this.tableId}`}/>
         {rowElements}
         {this.props.showAddAnotherButton && <button className="usa-button-outline va-growable-add-btn" onClick={this.handleAdd}>{this.props.addNewMessage || 'Add Another'}</button>}
       </div>

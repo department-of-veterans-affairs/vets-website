@@ -91,7 +91,7 @@ class ErrorableRadioButtons extends React.Component {
       const checked = optionValue === storedValue ? 'checked=true' : '';
       const matchingSubSection = this.getMatchingSubSection(optionValue === storedValue, optionValue);
       const radioButton = (
-        <div className="form-radio-buttons">
+        <div key={reactKey++} className="form-radio-buttons">
           <input
               checked={checked}
               id={`${this.inputId}-${index}`}
