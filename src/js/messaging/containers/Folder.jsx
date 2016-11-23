@@ -54,12 +54,12 @@ export class Folder extends React.Component {
 
       // Only proceed with fetching the requested folder
       // if it's not the same as the most recent request.
-      const shouldUpdate =
+      const shouldFetchFolder =
         !lastRequest ||
         requestedId !== lastRequest.id ||
         !_.isEqual(query, lastRequest.query);
 
-      if (shouldUpdate) {
+      if (shouldFetchFolder) {
         this.props.fetchFolder(requestedId, query);
       }
     }
