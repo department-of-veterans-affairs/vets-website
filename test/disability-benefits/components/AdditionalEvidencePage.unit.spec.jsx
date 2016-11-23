@@ -4,12 +4,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 
-import { TurnInEvidencePage } from '../../../src/js/disability-benefits/containers/TurnInEvidencePage';
+import { AdditionalEvidencePage } from '../../../src/js/disability-benefits/containers/AdditionalEvidencePage';
 
-describe('<TurnInEvidencePage>', () => {
+describe('<AdditionalEvidencePage>', () => {
   it('should render loading div', () => {
     const tree = SkinDeep.shallowRender(
-      <TurnInEvidencePage
+      <AdditionalEvidencePage
           loading/>
     );
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
@@ -25,7 +25,7 @@ describe('<TurnInEvidencePage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <TurnInEvidencePage
+      <AdditionalEvidencePage
           claim={claim}
           message={message}/>
     );
@@ -43,7 +43,7 @@ describe('<TurnInEvidencePage>', () => {
     const clearNotification = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <TurnInEvidencePage
+      <AdditionalEvidencePage
           claim={claim}
           clearNotification={clearNotification}
           message={message}/>
@@ -64,7 +64,7 @@ describe('<TurnInEvidencePage>', () => {
     const clearNotification = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <TurnInEvidencePage
+      <AdditionalEvidencePage
           claim={claim}
           uploadComplete
           clearNotification={clearNotification}
@@ -81,7 +81,7 @@ describe('<TurnInEvidencePage>', () => {
     };
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <TurnInEvidencePage
+      <AdditionalEvidencePage
           claim={claim}
           files={files}
           submitFiles={onSubmit}/>
@@ -98,14 +98,14 @@ describe('<TurnInEvidencePage>', () => {
     mainDiv.classList.add('va-nav-breadcrumbs');
     document.body.appendChild(mainDiv);
     ReactTestUtils.renderIntoDocument(
-      <TurnInEvidencePage
+      <AdditionalEvidencePage
           claim={claim}
           files={[]}
           uploadField={{ value: null, dirty: false }}
           resetUploads={resetUploads}/>
     );
 
-    expect(document.title).to.equal('Turn in More Evidence');
+    expect(document.title).to.equal('Additional Evidence');
     expect(resetUploads.called).to.be.true;
   });
   it('should set details and go to files page if complete', () => {
@@ -119,7 +119,7 @@ describe('<TurnInEvidencePage>', () => {
     const resetUploads = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <TurnInEvidencePage
+      <AdditionalEvidencePage
           claim={claim}
           files={[]}
           uploadComplete
