@@ -49,10 +49,8 @@ export default class ReviewCollapsiblePanel extends React.Component {
     this.props.onFieldsInitialized(pageFields);
     if (validations.isValidPage(path, formData)) {
       this.props.onUpdateEditStatus(path, false);
-      this.scrollToTop();
-    } else {
-      this.scrollToPage(path);
     }
+    this.scrollToPage(path);
   }
 
   handleEdit(path) {
