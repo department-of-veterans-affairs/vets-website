@@ -227,11 +227,19 @@ export class Folder extends React.Component {
 
     const folderId = this.props.attributes.folderId;
     const folderName = this.props.attributes.name;
+    const isDraftsFolder = folderName === 'Drafts';
+    const isSentFolder = folderName === 'Sent';
     const moveToFolders = [];
     const markUnread = folderId >= 0;
 
-    if (folderName === 'Drafts' || folderName === 'Sent') {
+    if (isDraftsFolder || isSentFolder) {
       fields[0] = { label: 'To', value: 'recipientName' };
+
+      // Hide 'Date' column for Drafts. There is no creation date
+      // available, and drafts don't have sent dates.
+      if (isDraftsFolder) {
+        fields.pop();
+      }
     } else {
       fields.push({ label: '', value: 'moveToButton' });
 
