@@ -11,14 +11,14 @@ module.exports = {
       },
       {
         term: 'Expired',
-        definition: 'A prescription which is too old to fill. This does not refer to the expiration date of the medication in the bottle. Contact your VA healthcare team if you need more.'
+        definition: 'A prescription which is too old to fill. This does not refer to the expiration date of the medication in the container. Contact your VA healthcare team if you need more of this medication.'
       },
       {
-        term: 'Hold',
-        definition: 'This prescription cannot be refilled until a hold is resolved by the pharmacy. Contact your VA pharmacy if you need this prescription now.'
+        term: 'Active - Hold',
+        definition: 'An active prescription that will not be filled until the pharmacy resolves the issue. Contact your VA pharmacy if you need this medication now.'
       },
       {
-        term: 'Suspended',
+        term: 'Active - Suspended',
         definition: 'An active prescription that is not scheduled to be filled yet. You should receive it before you run out. Contact your VA pharmacy if you need this medication now.'
       },
       {
@@ -28,11 +28,11 @@ module.exports = {
     Refill: [
       {
         term: 'In process',
-        definition: 'This prescription was sent to the pharmacy for review. Contact your VA pharmacy if you need this medication now.'
+        definition: 'A prescription that was sent to the pharmacy for review. Contact your VA pharmacy if you need this medication now.'
       },
       {
         term: 'Submitted',
-        definition: 'Your prescription refill has been submitted.'
+        definition: 'A prescription refill that has been submitted.'
       }
     ]
   },
@@ -44,11 +44,11 @@ module.exports = {
     discontinuedByProvider: 'Discontinued',
     discontinuedEdit: 'Discontinued',
     expired: 'Expired',
-    hold: 'Hold',
+    hold: 'Active - Hold',
     nonVerified: 'Unknown',
-    providerHold: 'Hold',
+    providerHold: 'Active - Hold',
     submitted: 'Submitted',
-    suspended: 'Suspended',
+    suspended: 'Active - Suspended',
     refillinprocess: 'In process',
     unknown: 'Unknown'
   },

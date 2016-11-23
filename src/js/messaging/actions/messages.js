@@ -55,26 +55,27 @@ export function deleteMessage(id) {
 }
 
 export function fetchThread(id) {
-  const messageUrl = `${baseUrl}/${id}`;
-  const threadUrl = `${messageUrl}/thread`;
-
   return dispatch => {
-    dispatch({ type: LOADING_THREAD });
+    const errorHandler =
+      () => dispatch({ type: FETCH_THREAD_FAILURE });
 
-    Promise.all([messageUrl, threadUrl].map(url =>
-      apiRequest(
-        url,
-        null,
-        response => response,
-        () => dispatch({ type: FETCH_THREAD_FAILURE })
-      )
-    )).then(
-      data => dispatch({
-        type: FETCH_THREAD_SUCCESS,
-        message: data[0],
-        thread: data[1].data
-      })
-    );
+    dispatch({
+      type: LOADING_THREAD,
+      requestId: id
+    });
+
+    const messageUrl = `${baseUrl}/${id}`;
+    const threadUrl = `${messageUrl}/thread`;
+
+    Promise.all([messageUrl, threadUrl].map(
+      url => apiRequest(url, null, response => response, errorHandler)
+    ))
+    .then(data => dispatch({
+      type: FETCH_THREAD_SUCCESS,
+      message: data[0],
+      thread: data[1].data
+    }))
+    .catch(errorHandler);
   };
 }
 

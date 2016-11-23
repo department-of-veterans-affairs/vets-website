@@ -45,6 +45,7 @@
     font-weight: normal;
     margin: 0 1rem;
     padding: 0;
+    vertical-align: middle;
     width: auto;
 
     &:hover,
@@ -74,20 +75,22 @@
   padding-bottom: 2rem;
   position: relative;
 
-  > * {
-    vertical-align: middle;
-  }
-
   button {
     width: auto;
   }
 
   a {
     margin-right: 1rem;
+    max-width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
   }
 
   i {
     margin-left: .5rem;
+    font-size: inherit !important;
   }
 
   .messaging-btn-delete,
@@ -107,10 +110,8 @@
     }
 
     a {
-      left: 0;
-      padding: 1.25rem 2rem;
-      position: absolute;
-      top: 0;
+      float: left;
+      margin: .5rem 1rem;
     }
   }
 }

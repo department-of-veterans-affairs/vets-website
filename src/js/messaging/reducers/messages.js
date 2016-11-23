@@ -7,14 +7,15 @@ import {
   ADD_DRAFT_ATTACHMENTS,
   CLEAR_DRAFT,
   DELETE_DRAFT_ATTACHMENT,
+  FETCH_THREAD_FAILURE,
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_MESSAGE_SUCCESS,
   LOADING_THREAD,
-  TOGGLE_THREAD_FORM,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
   TOGGLE_REPLY_DETAILS,
+  TOGGLE_THREAD_FORM,
   UPDATE_DRAFT
 } from '../utils/constants';
 
@@ -32,7 +33,10 @@ const initialState = {
   },
   ui: {
     formVisible: false,
-    loading: false,
+    loading: {
+      inProgress: false,
+      requestId: null
+    },
     messagesCollapsed: new Set(),
     moveToOpened: false,
     replyDetailsCollapsed: true
@@ -71,6 +75,9 @@ export default function messages(state = initialState, action) {
       return set(`data.thread[${messageIndex}]`, updatedMessage, state);
     }
 
+    case FETCH_THREAD_FAILURE:
+      return set('ui.loading.inProgress', false, state);
+
     case FETCH_THREAD_SUCCESS: {
       // Consolidate message attributes and attachments
       const currentMessage = assign(
@@ -108,14 +115,25 @@ export default function messages(state = initialState, action) {
         draft.replyMessageId = currentMessage.messageId;
       }
 
-      let newState = set('ui', { ...initialState.ui, messagesCollapsed }, state);
+      let newState = set('ui', {
+        ...initialState.ui,
+        messagesCollapsed,
+        loading: {
+          inProgress: false,
+          requestId: state.ui.loading.requestId
+        }
+      }, state);
+
       newState = set('data.thread', thread, newState);
       newState = set('data.draft', draft, newState);
       return set('data.message', currentMessage, newState);
     }
 
     case LOADING_THREAD:
-      return set('ui.loading', true, state);
+      return set('ui.loading', {
+        inProgress: true,
+        requestId: action.requestId
+      }, initialState);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);

@@ -18,6 +18,7 @@ const INITIAL_STATE = {
   inProgress: false,
   currentPage: 1,
   zoomLevel: 11,
+  searchBoundsInProgress: false,
 };
 
 export default function (state = INITIAL_STATE, action) {
@@ -38,6 +39,7 @@ export default function (state = INITIAL_STATE, action) {
       return {
         ...state,
         inProgress: false,
+        searchBoundsInProgress: false,
       };
     case FETCH_VA_FACILITY:
       return {

@@ -19,7 +19,7 @@ class GlossaryModal extends React.Component {
       element = (
         <section className="va-modal rx-modal" id="rx-glossary-modal">
           <div className="va-modal-inner">
-            <h3 className="rx-modal-title">Glossary</h3>
+            <h3 className="va-modal-title">Glossary</h3>
             <div className="va-modal-body rx-modal-body">
               <GlossaryList terms={this.props.content}/>
               <div className="va-modal-button-group cf">
