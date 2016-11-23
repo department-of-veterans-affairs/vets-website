@@ -27,16 +27,34 @@ export default class ContributionsFields extends React.Component {
             name="additionalContributions"
             checked={this.props.data.additionalContributions}
             onValueChange={(update) => {this.props.onStateChange('additionalContributions', update);}}/>
-        <ErrorableCheckbox
-            label="I qualify for an Active Duty Kicker (sometimes called a college fund)."
-            name="activeDutyKicker"
-            checked={this.props.data.activeDutyKicker}
-            onValueChange={(update) => {this.props.onStateChange('activeDutyKicker', update);}}/>
-        <ErrorableCheckbox
-            label="I qualify for a Reserve Kicker (sometimes called a college fund)."
-            name="reserveKicker"
-            checked={this.props.data.reserveKicker}
-            onValueChange={(update) => {this.props.onStateChange('reserveKicker', update);}}/>
+        <ExpandingGroup
+            additionalClass="edu-benefits-active-group"
+            open={this.props.data.activeDutyKicker}>
+          <ErrorableCheckbox
+              label="I qualify for an Active Duty Kicker (sometimes called a college fund)."
+              name="activeDutyKicker"
+              checked={this.props.data.activeDutyKicker}
+              onValueChange={(update) => {this.props.onStateChange('activeDutyKicker', update);}}/>
+          <div className="usa-alert usa-alert-warning usa-content secondary">
+            <div className="usa-alert-body">
+              <span>You can only transfer a kicker from a benefit that you relinquish (give up). You chose to relinquish <strong>MGIB-SR</strong> so you won't get your Active Duty kicker.</span>
+            </div>
+          </div>
+        </ExpandingGroup>
+        <ExpandingGroup
+            additionalClass="edu-benefits-active-group"
+            open={this.props.data.reserveKicker}>  
+          <ErrorableCheckbox
+              label="I qualify for a Reserve Kicker (sometimes called a college fund)."
+              name="reserveKicker"
+              checked={this.props.data.reserveKicker}
+              onValueChange={(update) => {this.props.onStateChange('reserveKicker', update);}}/>
+          <div className="usa-alert usa-alert-warning usa-content secondary">
+              <div className="usa-alert-body">
+                <span>You can only transfer a kicker from a benefit that you relinquish (give up). You chose to relinquish <strong>MGIB-AD</strong> so you won't get your Active Duty kicker.</span>
+              </div>
+            </div>
+        </ExpandingGroup>
         <ExpandingGroup
             additionalClass="edu-benefits-active-group"
             open={this.props.data.activeDutyRepaying}>
