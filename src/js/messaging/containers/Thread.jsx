@@ -22,9 +22,9 @@ import {
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
-  toggleMoveTo,
   toggleReplyDetails,
   toggleThreadForm,
+  toggleThreadMoveTo,
   updateDraft
 } from '../actions';
 
@@ -178,7 +178,7 @@ export class Thread extends React.Component {
           onCreateFolder={this.props.openMoveToNewFolderModal}
           onDeleteMessage={this.handleMessageDelete}
           onToggleThread={this.props.toggleMessagesCollapsed}
-          onToggleMoveTo={this.props.toggleMoveTo}/>
+          onToggleMoveTo={this.props.toggleThreadMoveTo}/>
     );
   }
 
@@ -388,7 +388,7 @@ const mapDispatchToProps = {
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
-  toggleMoveTo,
+  toggleThreadMoveTo,
   toggleReplyDetails,
   toggleThreadForm,
   updateDraft

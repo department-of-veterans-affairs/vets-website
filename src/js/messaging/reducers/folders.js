@@ -17,6 +17,7 @@ import {
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
   SET_CURRENT_FOLDER,
+  TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS
 } from '../utils/constants';
@@ -46,6 +47,7 @@ const initialState = {
       inProgress: false,
       request: null
     },
+    moveToId: null,
     nav: {
       foldersExpanded: false,
       visible: false
@@ -127,6 +129,14 @@ export default function folders(state = initialState, action) {
         inProgress: true,
         request: action.request
       }, newState);
+    }
+
+    case TOGGLE_FOLDER_MOVE_TO: {
+      const id = state.ui.moveToId === action.messageId
+               ? null
+               : action.messageId;
+
+      return set('ui.moveToId', id, state);
     }
 
     case TOGGLE_FOLDER_NAV:

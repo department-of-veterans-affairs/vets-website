@@ -15,8 +15,8 @@ import {
   setDateRange,
   setSearchParam,
   toggleAdvancedSearch,
-  toggleFolderNav,
-  toggleMoveTo
+  toggleFolderMoveTo,
+  toggleFolderNav
 } from '../actions';
 
 import ComposeButton from '../components/ComposeButton';
@@ -255,11 +255,11 @@ export class Folder extends React.Component {
       const moveToButton = (
         <MoveTo
             folders={moveToFolders}
-            isOpen={!this.props.moveToIsOpen}
+            isOpen={id !== this.props.moveToId}
             messageId={id}
             onChooseFolder={this.props.moveMessageToFolder}
             onCreateFolder={this.props.openMoveToNewFolderModal}
-            onToggleMoveTo={this.props.toggleMoveTo}/>
+            onToggleMoveTo={() => this.props.toggleFolderMoveTo(id)}/>
       );
 
       return {
@@ -377,6 +377,7 @@ const mapStateToProps = (state) => {
     loading: state.folders.ui.loading,
     messageCount: totalCount,
     messages,
+    moveToId: state.folders.ui.moveToId,
     page,
     totalPages,
     isAdvancedVisible: state.search.advanced.visible,
@@ -393,8 +394,8 @@ const mapDispatchToProps = {
   setDateRange,
   setSearchParam,
   toggleAdvancedSearch,
-  toggleFolderNav,
-  toggleMoveTo
+  toggleFolderMoveTo,
+  toggleFolderNav
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Folder);
