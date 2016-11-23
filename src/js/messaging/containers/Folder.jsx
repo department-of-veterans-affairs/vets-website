@@ -222,7 +222,12 @@ export class Folder extends React.Component {
     ];
 
     const folderId = this.props.attributes.folderId;
+    const folderName = this.props.attributes.name;
     const markUnread = folderId >= 0;
+
+    if (folderName === 'Drafts' || folderName === 'Sent') {
+      fields[0] = { label: 'To', value: 'recipientName' };
+    }
 
     const data = this.props.messages.map(message => {
       const id = message.messageId;
@@ -235,6 +240,7 @@ export class Folder extends React.Component {
       return {
         id,
         rowClass,
+        recipientName: makeMessageLink(message.recipientName, id),
         senderName: makeMessageLink(message.senderName, id),
         subject: makeMessageLink(message.subject, id),
         sentDate: makeMessageLink(formattedDate(message.sentDate), id)
