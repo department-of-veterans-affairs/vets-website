@@ -37,7 +37,7 @@ export class Folder extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.loading.inProgress && this.props.folders.length) {
+    if (!this.props.loading.inProgress && this.props.folders.size) {
       const id = this.getRequestedFolderId();
       const query = this.getQueryParams();
       this.props.fetchFolder(id, query);
@@ -47,7 +47,7 @@ export class Folder extends React.Component {
   componentDidUpdate() {
     const loading = this.props.loading;
 
-    if (loading.inProgress || !this.props.folders.length) {
+    if (loading.inProgress || !this.props.folders.size) {
       return;
     }
 
@@ -260,7 +260,9 @@ export class Folder extends React.Component {
       return <LoadingIndicator message="is loading the folder..."/>;
     }
 
-    if (this.props.attributes.folderId === undefined) {
+    const folderId = _.get(this.props.attributes, 'folderId', null);
+
+    if (folderId === null) {
       const lastRequest = loading.request;
 
       if (lastRequest && lastRequest.id !== null) {
