@@ -18,7 +18,10 @@ const props = {
     ['personal-folder', {}],
   ]),
   filter: undefined,
-  loading: false,
+  loading: {
+    inProgress: false,
+    request: null
+  },
   messages: [
     { body: 'test1' },
     { body: 'test2' },
