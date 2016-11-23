@@ -9,16 +9,20 @@ import SortableTable from '../../common/components/SortableTable';
 
 import {
   fetchFolder,
+  moveMessageToFolder,
   openAlert,
+  openMoveToNewFolderModal,
   setDateRange,
   setSearchParam,
   toggleAdvancedSearch,
-  toggleFolderNav
+  toggleFolderNav,
+  toggleMoveTo
 } from '../actions';
 
 import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
 import MessageSearch from '../components/MessageSearch';
+import MoveTo from '../components/MoveTo';
 import { formattedDate } from '../utils/helpers';
 
 export class Folder extends React.Component {
@@ -223,10 +227,21 @@ export class Folder extends React.Component {
 
     const folderId = this.props.attributes.folderId;
     const folderName = this.props.attributes.name;
+    const moveToFolders = [];
     const markUnread = folderId >= 0;
 
     if (folderName === 'Drafts' || folderName === 'Sent') {
       fields[0] = { label: 'To', value: 'recipientName' };
+    } else {
+      fields.push({ label: '', value: 'moveToButton' });
+
+      // Exclude the current folder from the list of folders
+      // that are passed down to the MoveTo component.
+      this.props.folders.forEach((folder) => {
+        if (folderId !== folder.folderId) {
+          moveToFolders.push(folder);
+        }
+      });
     }
 
     const data = this.props.messages.map(message => {
@@ -237,13 +252,24 @@ export class Folder extends React.Component {
           markUnread && message.readReceipt !== 'READ'
       });
 
+      const moveToButton = (
+        <MoveTo
+            folders={moveToFolders}
+            isOpen={!this.props.moveToIsOpen}
+            messageId={id}
+            onChooseFolder={this.props.moveMessageToFolder}
+            onCreateFolder={this.props.openMoveToNewFolderModal}
+            onToggleMoveTo={this.props.toggleMoveTo}/>
+      );
+
       return {
         id,
         rowClass,
         recipientName: makeMessageLink(message.recipientName, id),
         senderName: makeMessageLink(message.senderName, id),
         subject: makeMessageLink(message.subject, id),
-        sentDate: makeMessageLink(formattedDate(message.sentDate), id)
+        sentDate: makeMessageLink(formattedDate(message.sentDate), id),
+        moveToButton
       };
     });
 
@@ -361,11 +387,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchFolder,
+  moveMessageToFolder,
   openAlert,
+  openMoveToNewFolderModal,
   setDateRange,
   setSearchParam,
   toggleAdvancedSearch,
-  toggleFolderNav
+  toggleFolderNav,
+  toggleMoveTo
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Folder);
