@@ -177,6 +177,14 @@ export class Folder extends React.Component {
       { label: 'sender', value: 'senderName', order: 'ASC' }
     ];
 
+    const folderName = this.props.attributes.name;
+    const isDraftsFolder = folderName === 'Drafts';
+    const isSentFolder = folderName === 'Sent';
+
+    if (isDraftsFolder || isSentFolder) {
+      fields[2] = { label: 'recipient', value: 'recipientName', order: 'ASC' };
+    }
+
     const sortOptions = fields.map(field => {
       return (
         <option
