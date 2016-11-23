@@ -16,8 +16,10 @@ Yes, if:
 -	You are a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for two years or less.
 -	Your tuition and fees exceed 200% of the monthly amount of educational assistance you would otherwise be eligible to receive during the certified period of enrollment.
 
-### Who is covered
-You
+**Exception:** This benefit is not available under the Post-9/11 GI Bill, Dependents’ Educational Assistance program, or VEAP.
+
+### Who's covered
+Veterans
 </div>
 
 ### Available benefits
@@ -47,5 +49,3 @@ And, you must certify that you intend to seek employment in one of the [followin
 - Aerospace
 - Weapons
 - Nuclear technology
-
-**Exception:** This benefit is not available under the Post-9/11 GI Bill, Dependents’ Educational Assistance program, or VEAP.

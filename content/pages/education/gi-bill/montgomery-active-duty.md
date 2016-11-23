@@ -5,17 +5,15 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-If you served at least two years on active duty, you may be eligible for the MGIB-AD program.
+If you served at least 2 years on active duty, you may be eligible for the Montgomery GI Bill Active Duty (MGIB-AD) program.
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for education benefits?
+### Can I get education benefits?
 
-Yes, if:
-
--	You were honorably discharged.
--	You have a high school diploma, GED, or 12 hours of college credit.
--	You meet the requirements of one of the categories below:
+You can get education benefits if you were honorably discharged, and 
+-	You have a high school diploma, GED, or 12 hours of college credit, and
+-	You meet the requirements of 1 of the categories below:
 
 **CATEGORY I**
 
@@ -31,7 +29,7 @@ Yes, if:
 
 **CATEGORY III**
 
-- You are not eligible for MGIB under categories I or II.
+- You aren't eligible for MGIB under categories I or II.
 - You were on active duty on September 30, 1990, and you separated involuntarily after February 2, 1991.
 - Or you involuntarily separated on or after November 30, 1993.
 - Or you voluntarily separated under either the Voluntary Separation Incentive (VSI) program or the Special Separation Benefit (SSB) program.
@@ -43,19 +41,19 @@ Yes, if:
 - Or you entered full-time National Guard duty under title 32, USC, between July 1, 1985, and November 28, 1989, and you elected MGIB between October 9, 1996, and July 9, 1997.
 - You had military pay reduced by $100 a month for 12 months or made a $1,200 lump-sum contribution.
 
-### Who is covered
+### Who's covered?
 
-You
+Veterans
 </div>
 
-### Available benefits
+### What benefits can I get?
 
-School tuition or training fees
+Money for tuition or training
 
 -----
 
-### How it works
-You may receive benefits for up to eight semesters (four years) of traditional academic education. The benefits, paid monthly, depend upon the following factors:
+### How do I get these benefits?
+You need to apply. [Apply for benefits](/education/apply-for-education-benefits/). You may receive benefits for up to 8 semesters (4 years) of traditional academic education. The benefits, paid monthly, depend upon the following factors:
 
 - length of service
 - type of training
@@ -77,7 +75,7 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 - [National testing program](/education/advanced-training-and-certifications/national-testing-program/)
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 
-Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
+Use the [GI Bill Comparison Tool](https://vets.gov/gi-bill-comparison-tool/) to compare benefits at schools. 
 
 “GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
 

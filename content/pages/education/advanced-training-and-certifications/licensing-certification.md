@@ -5,27 +5,26 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-If you are a Veteran looking for employment in a field that requires a license or certification, you may be eligible for GI Bill reimbursement for licensing or certification exams.
+VA may pay Veterans back for licensing or certification exam costs.
+
 <div class="call-out" markdown="1">
 
-### Are you eligible for compensation?
-Yes, if:
+### Can I get paid back for licensing and certification test fees?
+You can get paid back if:
 
-  -	You are eligible for the GI Bill.
-  -	You are taking an exam that costs less than $2,000.
+  -	You qualify for the GI Bill, and 
+  -	You're taking an exam that costs less than $2,000.
 
-### Who is covered
-You
+### Who's covered?
+Veterans
+
 </div>
 
-### Available benefits
-Reimbursement under the GI Bill
+### What kind of benefits can I get?
+If you paid for a test(s) to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional, we may pay you back. There's no limit to the number of tests you can take, or the number of times you take the same test. We pay for tests even when you don’t score high enough to get your license or certification, but VA won't pay for fees or costs you need to pay to get your license or certification.
 
-### How it works
-VA may reimburse you for tests necessary for you to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional.
+### How do I get this benefit?
+You have to turn in proof of payment. [Fill out VA Form 22-0803](http://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf) (Application for Reimbursement of Licensing or Certification Test). THen either [upload it on the GI Bill site](https://gibill.custhelp.com/app/utils/login_form/) or [mail it to your nearest VA regional processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
-After you submit proof of payment, VA will reimburse you. There is no limit to the number of tests you can take, or the number of times you take the same test. VA pays for tests even when you don’t score high enough to achieve your license or certification.
+Find out [how your GI Bill entitlement will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) if you use the licensing and certification benefit.
 
-Find out [how your GI Bill entitlement will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for using a licensing and certification benefit.
-
-Fees associated with obtaining a license or certification are not reimbursable.
