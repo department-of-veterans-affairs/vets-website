@@ -1,5 +1,5 @@
-// Global site style.
-require('../sass/style.scss');
+// No-react styles.
+require('../sass/no-react.scss');
 
 require('./common');
 
