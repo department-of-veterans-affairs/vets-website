@@ -51,8 +51,7 @@ class FilesPage extends React.Component {
             <RequestedFilesInfo
                 id={claim.id}
                 filesNeeded={filesNeeded}
-                optionalFiles={optionalFiles}
-                waiverSubmitted={claim.attributes.waiverSubmitted}/>}
+                optionalFiles={optionalFiles}/>}
           <div className="submitted-files-list">
             <h4 className="hightlight claim-file-border">Documents filed</h4>
             {documentsTurnedIn.length === 0

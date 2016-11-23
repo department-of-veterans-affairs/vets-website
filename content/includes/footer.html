@@ -111,6 +111,12 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
     </div>
   </div>
 <!-- End mobile crisis line overlay -->
+
+<!-- Begin generic overlay modal -->
+{% if modal %}
+  {% include "content/includes/modal.html" %}
+{% endif %}
+
 <script>
 UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/NDkEKHU7ZuU64RQKkUL9Q.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
 
