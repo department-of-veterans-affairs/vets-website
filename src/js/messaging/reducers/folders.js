@@ -42,7 +42,10 @@ const initialState = {
     items: new Map()
   },
   ui: {
-    loading: false,
+    loading: {
+      inProgress: false,
+      request: null
+    },
     nav: {
       foldersExpanded: false,
       visible: false
@@ -71,7 +74,7 @@ export default function folders(state = initialState, action) {
     }
 
     case FETCH_FOLDER_FAILURE:
-      return set('ui.loading', false, state);
+      return set('ui.loading.inProgress', false, state);
 
     case FETCH_FOLDER_SUCCESS: {
       const attributes = action.folder.data.attributes;
@@ -94,7 +97,7 @@ export default function folders(state = initialState, action) {
         sort: { value: sortValue, order: sortOrder },
       }, state);
 
-      return set('ui.loading', false, newState);
+      return set('ui.loading.inProgress', false, newState);
     }
 
     case FETCH_FOLDERS_SUCCESS: {
@@ -109,7 +112,10 @@ export default function folders(state = initialState, action) {
 
     case LOADING_FOLDER: {
       const newState = ('data.currentItem', initialState.data.currentItem, state);
-      return set('ui.loading', true, newState);
+      return set('ui.loading', {
+        inProgress: true,
+        request: action.request
+      }, newState);
     }
 
     case TOGGLE_FOLDER_NAV:

@@ -37,77 +37,33 @@ export class Folder extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.loading) {
+    if (!this.props.loading.inProgress && this.props.folders.length) {
       const id = this.getRequestedFolderId();
-      if (id !== null) {
-        const query = this.getQueryParams();
-        this.props.fetchFolder(id, query);
-      }
+      const query = this.getQueryParams();
+      this.props.fetchFolder(id, query);
     }
   }
 
   componentDidUpdate() {
-    if (!this.props.loading) {
-      const oldId = this.props.attributes.folderId;
-      const newId = this.getRequestedFolderId();
-      if (newId === null) { return; }
-      const idChanged = newId !== oldId;
+    const loading = this.props.loading;
 
-      const query = this.getQueryParams();
+    if (loading.inProgress || !this.props.folders.length) {
+      return;
+    }
 
-      const pageChanged = () => {
-        const oldPage = this.props.page;
-        const newPage = +query.page || oldPage;
-        return newPage !== oldPage;
-      };
+    const lastRequest = loading.request;
+    const requestedId = this.getRequestedFolderId();
+    const query = this.getQueryParams();
 
-      const sortChanged = () => {
-        const oldSort = this.formattedSortParam(
-          this.props.sort.value,
-          this.props.sort.order
-        );
-        const newSort = query.sort || oldSort;
-        return newSort !== oldSort;
-      };
+    // Only proceed with fetching the requested folder
+    // if it's not the same as the most recent request.
+    const shouldUpdate =
+      !lastRequest ||
+      requestedId !== lastRequest.id ||
+      !_.isEqual(query, lastRequest.query);
 
-      const filterChanged = () => {
-        const fromDateSearchChanged =
-          query['filter[[sent_date][gteq]]'] !==
-          _.get(this.props.filter, 'sentDate.gteq');
-
-        const toDateSearchChanged =
-          query['filter[[sent_date][lteq]]'] !==
-          _.get(this.props.filter, 'sentDate.lteq');
-
-        const senderSearchChanged =
-          (query['filter[[sender_name][eq]]'] !==
-          _.get(this.props.filter, 'senderName.eq')) ||
-          (query['filter[[sender_name][match]]'] !==
-          _.get(this.props.filter, 'senderName.match'));
-
-        const subjectSearchChanged =
-          (query['filter[[subject][eq]]'] !==
-          _.get(this.props.filter, 'subject.eq')) ||
-          (query['filter[[subject][match]]'] !==
-          _.get(this.props.filter, 'subject.match'));
-
-        return (
-          fromDateSearchChanged ||
-          toDateSearchChanged ||
-          senderSearchChanged ||
-          subjectSearchChanged
-        );
-      };
-
-      const shouldUpdate =
-        idChanged ||
-        pageChanged() ||
-        sortChanged() ||
-        filterChanged();
-
-      if (shouldUpdate) {
-        this.props.fetchFolder(newId, query);
-      }
+    if (shouldUpdate) {
+      this.props.fetchFolder(requestedId, query);
     }
   }
 
@@ -298,11 +254,28 @@ export class Folder extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
+    const loading = this.props.loading;
+
+    if (loading.inProgress) {
       return <LoadingIndicator message="is loading the folder..."/>;
     }
 
-    if (this.getRequestedFolderId() === null) {
+    if (this.props.attributes.folderId === undefined) {
+      const lastRequest = loading.request;
+
+      if (lastRequest && lastRequest.id !== null) {
+        const reloadFolder = () => {
+          this.props.fetchFolder(lastRequest.id, lastRequest.query);
+        }
+
+        return (
+          <p>
+            Could not retrieve the folder.&nbsp;
+            <a onClick={reloadFolder}>Click here to try again.</a>
+          </p>
+        );
+      }
+
       return <b>Sorry, this folder does not exist.</b>;
     }
 
