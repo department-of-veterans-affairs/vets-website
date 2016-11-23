@@ -268,7 +268,7 @@ export class Folder extends React.Component {
       if (lastRequest && lastRequest.id !== null) {
         const reloadFolder = () => {
           this.props.fetchFolder(lastRequest.id, lastRequest.query);
-        }
+        };
 
         return (
           <p>

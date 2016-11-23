@@ -39,9 +39,6 @@ export function fetchFolders() {
 }
 
 export function fetchFolder(id, query = {}) {
-  const folderUrl = `${baseUrl}/${id}`;
-  const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
-
   return dispatch => {
     const errorHandler =
       () => dispatch({ type: FETCH_FOLDER_FAILURE });
@@ -51,17 +48,22 @@ export function fetchFolder(id, query = {}) {
       request: { id, query }
     });
 
-    if (id === null) { return errorHandler(); }
+    if (id !== null) {
+      const folderUrl = `${baseUrl}/${id}`;
+      const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
 
-    Promise.all([folderUrl, messagesUrl].map(
-      url => apiRequest(url, null, response => response, errorHandler)
-    ))
-    .then(data => dispatch({
-      type: FETCH_FOLDER_SUCCESS,
-      folder: data[0],
-      messages: data[1]
-    }))
-    .catch(errorHandler);
+      Promise.all([folderUrl, messagesUrl].map(
+        url => apiRequest(url, null, response => response, errorHandler)
+      ))
+      .then(data => dispatch({
+        type: FETCH_FOLDER_SUCCESS,
+        folder: data[0],
+        messages: data[1]
+      }))
+      .catch(errorHandler);
+    } else {
+      errorHandler();
+    }
   };
 }
 

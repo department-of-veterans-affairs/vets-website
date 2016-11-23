@@ -269,7 +269,7 @@ export class Thread extends React.Component {
       if (lastRequestedId !== null) {
         const reloadMessage = () => {
           this.props.fetchThread(lastRequestedId);
-        }
+        };
 
         return (
           <p>
