@@ -255,7 +255,7 @@ export class Folder extends React.Component {
       const moveToButton = (
         <MoveTo
             folders={moveToFolders}
-            isOpen={id !== this.props.moveToId}
+            isOpen={id === this.props.moveToId}
             messageId={id}
             onChooseFolder={this.props.moveMessageToFolder}
             onCreateFolder={this.props.openMoveToNewFolderModal}

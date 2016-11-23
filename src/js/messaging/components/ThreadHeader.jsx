@@ -27,7 +27,7 @@ class ThreadHeader extends React.Component {
           <Link to={backUrl}>&lt; Back to {this.props.folderName}</Link>
           <MoveTo
               folders={this.props.moveToFolders}
-              isOpen={!this.props.moveToIsOpen}
+              isOpen={this.props.moveToIsOpen}
               messageId={this.props.message.messageId}
               onChooseFolder={this.props.onChooseFolder}
               onCreateFolder={this.props.onCreateFolder}
