@@ -55,12 +55,17 @@ export function deleteMessage(id) {
 }
 
 export function fetchThread(id) {
-  const messageUrl = `${baseUrl}/${id}`;
-  const threadUrl = `${messageUrl}/thread`;
-
   return dispatch => {
-    const errorHandler = () => dispatch({ type: FETCH_THREAD_FAILURE });
-    dispatch({ type: LOADING_THREAD });
+    const errorHandler =
+      () => dispatch({ type: FETCH_THREAD_FAILURE });
+
+    dispatch({
+      type: LOADING_THREAD,
+      requestId: id
+    });
+
+    const messageUrl = `${baseUrl}/${id}`;
+    const threadUrl = `${messageUrl}/thread`;
 
     Promise.all([messageUrl, threadUrl].map(
       url => apiRequest(url, null, response => response, errorHandler)
