@@ -12,6 +12,7 @@ export default class ContributionsFields extends React.Component {
       this.props.data.activeDutyRepayingPeriod.to,
       this.props.data.activeDutyRepayingPeriod.from
     );
+    const relinquished = this.props.data.benefitsRelinquished.value;
     return (<fieldset>
       <legend>Contributions</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
@@ -29,7 +30,7 @@ export default class ContributionsFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('additionalContributions', update);}}/>
         <ExpandingGroup
             additionalClass="edu-benefits-active-group"
-            open={this.props.data.activeDutyKicker}>
+            open={this.props.data.activeDutyKicker && relinquished === 'chapter1606'}>
           <ErrorableCheckbox
               label="I qualify for an Active Duty Kicker (sometimes called a college fund)."
               name="activeDutyKicker"
@@ -43,7 +44,7 @@ export default class ContributionsFields extends React.Component {
         </ExpandingGroup>
         <ExpandingGroup
             additionalClass="edu-benefits-active-group"
-            open={this.props.data.reserveKicker}>  
+            open={this.props.data.reserveKicker && relinquished === 'chapter30'}>
           <ErrorableCheckbox
               label="I qualify for a Reserve Kicker (sometimes called a college fund)."
               name="reserveKicker"
