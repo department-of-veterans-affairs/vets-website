@@ -111,7 +111,18 @@ export default function folders(state = initialState, action) {
     }
 
     case LOADING_FOLDER: {
-      const newState = ('data.currentItem', initialState.data.currentItem, state);
+      let newState = set(
+        'data.currentItem',
+        initialState.data.currentItem,
+        state
+      );
+
+      newState = set(
+        'data.currentItem.persistFolder',
+        action.request.id,
+        newState
+      );
+
       return set('ui.loading', {
         inProgress: true,
         request: action.request
