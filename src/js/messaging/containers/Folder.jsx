@@ -47,23 +47,21 @@ export class Folder extends React.Component {
   componentDidUpdate() {
     const loading = this.props.loading;
 
-    if (loading.inProgress || !this.props.folders.size) {
-      return;
-    }
+    if (!loading.inProgress && this.props.folders.size) {
+      const lastRequest = loading.request;
+      const requestedId = this.getRequestedFolderId();
+      const query = this.getQueryParams();
 
-    const lastRequest = loading.request;
-    const requestedId = this.getRequestedFolderId();
-    const query = this.getQueryParams();
+      // Only proceed with fetching the requested folder
+      // if it's not the same as the most recent request.
+      const shouldUpdate =
+        !lastRequest ||
+        requestedId !== lastRequest.id ||
+        !_.isEqual(query, lastRequest.query);
 
-    // Only proceed with fetching the requested folder
-    // if it's not the same as the most recent request.
-    const shouldUpdate =
-      !lastRequest ||
-      requestedId !== lastRequest.id ||
-      !_.isEqual(query, lastRequest.query);
-
-    if (shouldUpdate) {
-      this.props.fetchFolder(requestedId, query);
+      if (shouldUpdate) {
+        this.props.fetchFolder(requestedId, query);
+      }
     }
   }
 
