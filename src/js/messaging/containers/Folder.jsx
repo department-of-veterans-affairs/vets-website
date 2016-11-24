@@ -49,6 +49,13 @@ export class Folder extends React.Component {
   }
 
   componentDidUpdate() {
+    const redirect = this.props.redirect;
+
+    if (redirect && redirect !== this.props.location.pathname) {
+      this.context.router.replace(redirect);
+      return;
+    }
+
     const loading = this.props.loading;
 
     if (!loading.inProgress && this.props.folders.size) {
@@ -57,8 +64,10 @@ export class Folder extends React.Component {
       const query = this.getQueryParams();
 
       // Only proceed with fetching the requested folder
-      // if it's not the same as the most recent request.
+      // if a redirect has been set (as after moving a message)
+      // or if it's not the same as the most recent request.
       const shouldFetchFolder =
+        redirect ||
         !lastRequest ||
         requestedId !== lastRequest.id ||
         !_.isEqual(query, lastRequest.query);
@@ -395,6 +404,7 @@ const mapStateToProps = (state) => {
     messages,
     moveToId: state.folders.ui.moveToId,
     page,
+    redirect: state.folders.ui.redirect,
     totalPages,
     isAdvancedVisible: state.search.advanced.visible,
     searchParams: state.search.params,

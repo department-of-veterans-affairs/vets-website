@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import merge from 'lodash/fp/merge';
 import set from 'lodash/fp/set';
 
 import { folderUrl } from '../utils/helpers';
@@ -99,7 +100,10 @@ export default function folders(state = initialState, action) {
         sort: { value: sortValue, order: sortOrder },
       }, state);
 
-      return set('ui.loading.inProgress', false, newState);
+      return set('ui', merge(initialState.ui, {
+        loading: { request: newState.ui.loading.request },
+        nav: { foldersExpanded: newState.ui.nav.foldersExpanded }
+      }), newState);
     }
 
     case FETCH_FOLDERS_SUCCESS: {
@@ -115,14 +119,10 @@ export default function folders(state = initialState, action) {
     case LOADING_FOLDER: {
       let newState = set(
         'data.currentItem',
-        initialState.data.currentItem,
+        merge(initialState.data.currentItem, {
+          persistFolder: action.request.id
+        }),
         state
-      );
-
-      newState = set(
-        'data.currentItem.persistFolder',
-        action.request.id,
-        newState
       );
 
       return set('ui.loading', {
