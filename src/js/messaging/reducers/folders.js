@@ -97,12 +97,19 @@ export default function folders(state = initialState, action) {
         messages,
         pagination,
         persistFolder,
-        sort: { value: sortValue, order: sortOrder },
+        sort: {
+          value: sortValue,
+          order: sortOrder
+        },
       }, state);
 
       return set('ui', merge(initialState.ui, {
-        loading: { request: newState.ui.loading.request },
-        nav: { foldersExpanded: newState.ui.nav.foldersExpanded }
+        loading: {
+          request: _.get(newState, 'ui.loading.request')
+        },
+        nav: {
+          foldersExpanded: _.get(newState, 'ui.nav.foldersExpanded')
+        }
       }), newState);
     }
 
