@@ -117,7 +117,7 @@ export default function folders(state = initialState, action) {
     }
 
     case LOADING_FOLDER: {
-      let newState = set(
+      const newState = set(
         'data.currentItem',
         merge(initialState.data.currentItem, {
           persistFolder: action.request.id
