@@ -105,10 +105,10 @@ export default function folders(state = initialState, action) {
 
       return set('ui', merge(initialState.ui, {
         loading: {
-          request: _.get(newState, 'ui.loading.request')
+          request: _.get(newState, 'ui.loading.request', null)
         },
         nav: {
-          foldersExpanded: _.get(newState, 'ui.nav.foldersExpanded')
+          foldersExpanded: _.get(newState, 'ui.nav.foldersExpanded', false)
         }
       }), newState);
     }
