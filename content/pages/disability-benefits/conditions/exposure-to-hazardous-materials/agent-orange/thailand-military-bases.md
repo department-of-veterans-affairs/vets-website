@@ -41,7 +41,7 @@ To prove contact with Agent Orange based on Thailand service, you'll need to sen
 
 
 ### Get more information
-Having trouble figuring out if you had contact with Agent Orange? We can help after you file a claim for disability benefits. [File a claim now](/disability-benefits/claims-process/). 
+Having trouble figuring out if you had contact with Agent Orange? We can help after you file a claim for disability benefits. [File a claim now](/disability-benefits/claims-process/).<br />
 [Get help from an accredited representative](https://www.va.gov/ogc/apps/accreditation/).
 
 Want to figure out where you may have come into contact with Agent Orange? [See locations linked to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
