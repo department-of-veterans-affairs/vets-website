@@ -5,7 +5,7 @@ template: 1-topic-landing
 showtempbar: true
 ---
 
-With VA  health care, you’re covered for regular checkups with your primary care doctor and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and elder care, plus medical equipment, prosthetics, and prescriptions.
+With VA health care, you’re covered for regular checkups with your primary care doctor and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and elder care, plus medical equipment, prosthetics, and prescriptions.
 
 <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply online for VA health care</a>
 
