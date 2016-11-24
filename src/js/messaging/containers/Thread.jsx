@@ -58,7 +58,7 @@ export class Thread extends React.Component {
 
   componentDidUpdate() {
     if (this.props.redirect) {
-      this.context.router.push(this.props.redirect);
+      this.context.router.replace(this.props.redirect);
       return;
     }
 
