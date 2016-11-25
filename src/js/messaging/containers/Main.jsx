@@ -67,7 +67,7 @@ export class Main extends React.Component {
               isExpanded={this.props.nav.foldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
               onCreateNewFolder={this.props.openCreateFolderModal}
-              onFolderChange={this.handleOnFolderChange}/>
+              onFolderChange={this.handleFolderChange}/>
         </div>
         <div id="messaging-content">
           {this.props.children}
@@ -98,10 +98,13 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const folders = [];
+  state.folders.data.items.forEach(folder => folders.push(folder));
+
   return {
     attachmentsModal: state.modals.attachments,
     createFolderModal: state.modals.createFolder,
-    folders: state.folders.data.items,
+    folders,
     nav: state.folders.ui.nav,
     persistFolder: state.folders.data.currentItem.persistFolder
   };

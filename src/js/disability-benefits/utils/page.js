@@ -2,6 +2,8 @@ import Scroll from 'react-scroll';
 
 const scroller = Scroll.animateScroll;
 
+export const basename = '/disability-benefits/track-claims';
+
 export function scrollToTop() {
   scroller.scrollToTop({
     duration: 500,
