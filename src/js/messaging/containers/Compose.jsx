@@ -110,7 +110,8 @@ export class Compose extends React.Component {
           <h2>New message</h2>
           <button
               className="messaging-send-button"
-              type="button">
+              type="button"
+              disabled={!this.props.message.body.value.length}>
             Send
           </button>
         </div>

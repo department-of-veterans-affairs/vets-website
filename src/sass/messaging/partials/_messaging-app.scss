@@ -206,6 +206,10 @@ button.msg-btn-newfolder[type="button"],
   padding: 1.5rem;
   width: auto;
 
+  &[disabled] {
+    background: $color-gray;
+  }
+
   @media (max-width: $medium-screen) {
     display: block;
   }
