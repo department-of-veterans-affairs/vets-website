@@ -4,17 +4,19 @@ import {
 } from '../utils/helpers';
 
 import {
-  CREATE_FOLDER_SUCCESS,
   CREATE_FOLDER_FAILURE,
-  DELETE_FOLDER_SUCCESS,
+  CREATE_FOLDER_SUCCESS,
   DELETE_FOLDER_FAILURE,
-  FETCH_FOLDERS_SUCCESS,
-  FETCH_FOLDERS_FAILURE,
-  FETCH_FOLDER_SUCCESS,
+  DELETE_FOLDER_SUCCESS,
   FETCH_FOLDER_FAILURE,
+  FETCH_FOLDER_SUCCESS,
+  FETCH_FOLDERS_FAILURE,
+  FETCH_FOLDERS_SUCCESS,
+  LOADING_FOLDER,
+  RESET_REDIRECT,
+  SET_CURRENT_FOLDER,
   TOGGLE_FOLDER_NAV,
-  TOGGLE_MANAGED_FOLDERS,
-  SET_CURRENT_FOLDER
+  TOGGLE_MANAGED_FOLDERS
 } from '../utils/constants';
 
 const baseUrl = '/folders';
@@ -37,24 +39,31 @@ export function fetchFolders() {
 }
 
 export function fetchFolder(id, query = {}) {
-  const folderUrl = `${baseUrl}/${id}`;
-  const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
-
   return dispatch => {
-    Promise.all([folderUrl, messagesUrl].map(url =>
-      apiRequest(
-        url,
-        null,
-        response => response,
-        () => dispatch({ type: FETCH_FOLDER_FAILURE })
-      )
-    )).then(
-      data => dispatch({
+    const errorHandler =
+      () => dispatch({ type: FETCH_FOLDER_FAILURE });
+
+    dispatch({
+      type: LOADING_FOLDER,
+      request: { id, query }
+    });
+
+    if (id !== null) {
+      const folderUrl = `${baseUrl}/${id}`;
+      const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
+
+      Promise.all([folderUrl, messagesUrl].map(
+        url => apiRequest(url, null, response => response, errorHandler)
+      ))
+      .then(data => dispatch({
         type: FETCH_FOLDER_SUCCESS,
         folder: data[0],
         messages: data[1]
-      })
-    );
+      }))
+      .catch(errorHandler);
+    } else {
+      errorHandler();
+    }
   };
 }
 
@@ -109,4 +118,8 @@ export function setCurrentFolder(folderId) {
     type: SET_CURRENT_FOLDER,
     folderId
   };
+}
+
+export function resetRedirect() {
+  return { type: RESET_REDIRECT };
 }

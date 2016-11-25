@@ -23,9 +23,17 @@ class SearchControls extends Component {
   }
 
   handleFilterChange = (e) => {
-    this.props.updateSearchQuery({
-      [e.target.name]: e.target.value,
-    });
+    const { facilityType } = this.props.currentQuery;
+
+    if (facilityType === 'benefits' && e.target.value === 'All') {
+      this.props.updateSearchQuery({
+        [e.target.name]: null,
+      });
+    } else {
+      this.props.updateSearchQuery({
+        [e.target.name]: e.target.value,
+      });
+    }
   }
 
   handleSearch = (e) => {
@@ -105,7 +113,7 @@ class SearchControls extends Component {
       case 'cemetery':
         return (<span className="flex-center"><span className="legend cemetery-icon"></span>Cemetery</span>);
       default:
-        return (<span className="flex-center">All Facilities</span>);
+        return (<span className="flex-center"><span className="legend spacer"></span>All Facilities</span>);
     }
   }
 
@@ -132,8 +140,10 @@ class SearchControls extends Component {
           </div>
           <div className="columns medium-3">
             <label htmlFor="facilityType">Select Facility Type</label>
-            <div tabIndex="1" className={`facility-dropdown-wrapper ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown} onBlur={() => {this.setState({ facilityDropdownActive: false });}}>
-              {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
+            <div tabIndex="1" className={`facility-dropdown-wrapper ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown}>
+              <div className="flex-center">
+                {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
+              </div>
               <ul className="dropdown">
                 <li onClick={this.handleFacilityFilterSelect.bind(this, null)}>{this.renderSelectOptionWithIcon()}</li>
                 <li onClick={this.handleFacilityFilterSelect.bind(this, 'health')}>{this.renderSelectOptionWithIcon('health')}</li>
@@ -149,7 +159,9 @@ class SearchControls extends Component {
               {this.renderServiceFilterOptions()}
             </select>
           </div>
-          <input type="submit" className="columns medium-2" value="Search" onClick={this.handleSearch}/>
+          <div className="columns medium-2">
+            <input type="submit" value="Search" onClick={this.handleSearch}/>
+          </div>
         </form>
       </div>
     );

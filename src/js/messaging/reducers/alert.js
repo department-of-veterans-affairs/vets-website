@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import { folderUrl } from '../utils/helpers';
+
 import {
   alertStatus,
   CLOSE_ALERT,
@@ -48,12 +50,8 @@ export default function alert(state = initialState, action) {
       );
 
     case CREATE_FOLDER_SUCCESS: {
-      const link = (
-        <Link to={`/folder/${action.folder.folderId}`}>
-          {action.folder.name}
-        </Link>
-      );
-
+      const folderName = action.folder.name;
+      const link = <Link to={folderUrl(folderName)}>{folderName}</Link>;
       return createAlert(
         <b>You have successfully created {link}.</b>,
         alertStatus.SUCCESS
@@ -91,12 +89,8 @@ export default function alert(state = initialState, action) {
       );
 
     case MOVE_MESSAGE_SUCCESS: {
-      const link = (
-        <Link to={`/folder/${action.folder.folderId}`}>
-          {action.folder.name}
-        </Link>
-      );
-
+      const folderName = action.folder.name;
+      const link = <Link to={folderUrl(folderName)}>{folderName}</Link>;
       return createAlert(
         <b>Your message has been moved to {link}.</b>,
         alertStatus.SUCCESS
@@ -110,12 +104,8 @@ export default function alert(state = initialState, action) {
       );
 
     case SAVE_DRAFT_SUCCESS: {
-      const link = (
-        <Link to={`/thread/${action.message.messageId}`}>
-          View message.
-        </Link>
-      );
-
+      const messageId = action.message.messageId;
+      const link = <Link to={`/drafts/${messageId}`}>View message.</Link>;
       return createAlert(
         <b>Your draft has been saved. {link}</b>,
         alertStatus.SUCCESS
@@ -129,15 +119,11 @@ export default function alert(state = initialState, action) {
       );
 
     case SEND_MESSAGE_SUCCESS: {
-      const link = (
-        <Link to={`/thread/${action.message.messageId}`}>
-          View message.
-        </Link>
-      );
-
+      const messageId = action.message.messageId;
+      const link = <Link to={`/sent/${messageId}`}>View message.</Link>;
       const content = (
         <b>
-          Your message has been sent. {link} Please allow up to 72 hours for a response from your health care team.
+          Your message has been sent. {link} Please allow up to three working days for a response from your health care team.
         </b>
       );
 

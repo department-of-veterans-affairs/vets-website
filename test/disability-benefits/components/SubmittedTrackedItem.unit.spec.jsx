@@ -101,4 +101,42 @@ describe('<SubmittedTrackedItem>', () => {
 
     expect(tree.subTree('.submitted-file-list-item').text()).to.contain('Reviewed by VA');
   });
+  it('should render no longer needed item by type', () => {
+    const item = {
+      trackedItemId: 1,
+      displayName: 'Request 1',
+      date: '2010-01-01',
+      description: 'Testing',
+      type: 'never_received_from_you_list',
+      status: 'ACCEPTED',
+      documents: [
+      ]
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <SubmittedTrackedItem
+          item={item}/>
+    );
+
+    expect(tree.subTree('.submitted-file-list-item').text()).to.contain('No longer requested or needed');
+  });
+  it('should render no longer needed item by status', () => {
+    const item = {
+      trackedItemId: 1,
+      displayName: 'Request 1',
+      date: '2010-01-01',
+      description: 'Testing',
+      type: 'still_need_from_you_list',
+      status: 'NO_LONGER_REQUIRED',
+      documents: [
+      ]
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <SubmittedTrackedItem
+          item={item}/>
+    );
+
+    expect(tree.subTree('.submitted-file-list-item').text()).to.contain('No longer requested or needed');
+  });
 });

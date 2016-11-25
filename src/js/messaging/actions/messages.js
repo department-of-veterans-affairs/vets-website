@@ -12,6 +12,7 @@ import {
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_MESSAGE_FAILURE,
   FETCH_THREAD_MESSAGE_SUCCESS,
+  LOADING_THREAD,
   MOVE_MESSAGE_FAILURE,
   MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_FAILURE,
@@ -54,24 +55,27 @@ export function deleteMessage(id) {
 }
 
 export function fetchThread(id) {
-  const messageUrl = `${baseUrl}/${id}`;
-  const threadUrl = `${messageUrl}/thread`;
-
   return dispatch => {
-    Promise.all([messageUrl, threadUrl].map(url =>
-      apiRequest(
-        url,
-        null,
-        response => response,
-        () => dispatch({ type: FETCH_THREAD_FAILURE })
-      )
-    )).then(
-      data => dispatch({
-        type: FETCH_THREAD_SUCCESS,
-        message: data[0],
-        thread: data[1].data
-      })
-    );
+    const errorHandler =
+      () => dispatch({ type: FETCH_THREAD_FAILURE });
+
+    dispatch({
+      type: LOADING_THREAD,
+      requestId: id
+    });
+
+    const messageUrl = `${baseUrl}/${id}`;
+    const threadUrl = `${messageUrl}/thread`;
+
+    Promise.all([messageUrl, threadUrl].map(
+      url => apiRequest(url, null, response => response, errorHandler)
+    ))
+    .then(data => dispatch({
+      type: FETCH_THREAD_SUCCESS,
+      message: data[0],
+      thread: data[1].data
+    }))
+    .catch(errorHandler);
   };
 }
 
