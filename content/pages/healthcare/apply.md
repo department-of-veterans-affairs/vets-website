@@ -60,7 +60,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 ### Already enrolled?
 
-To update your personal, insurance, or financial information from a prior application, fill out a 10-10EZR. [Download the 10-10EZR](/healthcare/forms/vha-10-10ezr-fill.pdf). 
+To update your personal, insurance, or financial information from a prior application, fill out a 10-10EZR. [Download the 10-10EZR](/healthcare/forms/vha-10-10ezr-fill.pdf).
 
 <span id="additional-forms"></span>
 ### Forms for caregivers, National Guard, and Reserve Servicemembers

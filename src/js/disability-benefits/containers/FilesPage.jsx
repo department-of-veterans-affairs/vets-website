@@ -43,7 +43,7 @@ class FilesPage extends React.Component {
       const optionalFiles = trackedItems
         .filter(event => event.status === NEED_ITEMS_STATUS && event.type === 'still_need_from_others_list');
       const documentsTurnedIn = trackedItems
-        .filter(event => event.status !== NEED_ITEMS_STATUS || event.type.startsWith('received_from'));
+        .filter(event => event.status !== NEED_ITEMS_STATUS || !event.type.startsWith('still_need_from'));
 
       content = (
         <div>
@@ -51,8 +51,7 @@ class FilesPage extends React.Component {
             <RequestedFilesInfo
                 id={claim.id}
                 filesNeeded={filesNeeded}
-                optionalFiles={optionalFiles}
-                waiverSubmitted={claim.attributes.waiverSubmitted}/>}
+                optionalFiles={optionalFiles}/>}
           <div className="submitted-files-list">
             <h4 className="hightlight claim-file-border">Documents filed</h4>
             {documentsTurnedIn.length === 0

@@ -68,11 +68,6 @@ button.usa-button-outline {
   margin: 0 0 3rem;
 }
 
-.rx-refill-form {
-  display: inline-block;
-  padding: 0;
-}
-
 // Used to make functional buttons look like links.
 .rx-trigger {
   background: transparent;
@@ -91,12 +86,6 @@ button.usa-button-outline {
     color: $color-link-default;
     text-decoration: inherit;
   }
-}
-
-.rx-heading {
-  border-bottom: 4px solid #112e51;
-  margin-bottom: 1rem !important;
-  padding-bottom: .5rem !important;
 }
 
 .rx-tab-explainer {
