@@ -1,13 +1,25 @@
 import React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 
+import { formattedDate } from '../utils/helpers';
 import MessageDetails from './MessageDetails';
+import MessageAttachmentsView from './MessageAttachmentsView';
 
 class Message extends React.Component {
   constructor(props) {
     super(props);
     this.handleToggleCollapsed = this.handleToggleCollapsed.bind(this);
+  }
+
+  componentDidUpdate() {
+    const shouldFetchMessage =
+      !this.props.isCollapsed &&
+      this.props.attrs.attachment &&
+      !this.props.attrs.attachments;
+
+    if (shouldFetchMessage) {
+      this.props.fetchMessage(this.props.attrs.messageId);
+    }
   }
 
   handleToggleCollapsed() {
@@ -26,6 +38,7 @@ class Message extends React.Component {
     let details;
     let headerOnClick;
     let messageOnClick;
+    let attachments;
 
     if (this.props.isCollapsed) {
       messageOnClick = this.handleToggleCollapsed;
@@ -38,6 +51,13 @@ class Message extends React.Component {
       );
 
       headerOnClick = this.handleToggleCollapsed;
+
+      if (this.props.attrs.attachment) {
+        attachments = (
+          <MessageAttachmentsView
+              attachments={this.props.attrs.attachments}/>
+        );
+      }
     }
 
     return (
@@ -45,21 +65,18 @@ class Message extends React.Component {
         <div
             className="messaging-message-header"
             onClick={headerOnClick}>
+          <div className="messaging-message-sent-date">
+            {formattedDate(this.props.attrs.sentDate, { fromNow: true })}
+          </div>
           <div className="messaging-message-sender">
             {this.props.attrs.senderName}
           </div>
-          <div className="messaging-message-sent-date">
-            {
-              moment(
-                this.props.attrs.sentDate
-              ).format('DD MMM YYYY [@] HH[:]mm')
-            }
-          </div>
           {details}
         </div>
-        <p className="messaging-message-body">
+        <div className="messaging-message-body">
           {this.props.attrs.body}
-        </p>
+        </div>
+        {attachments}
       </div>
     );
   }
@@ -81,6 +98,7 @@ Message.propTypes = {
   }).isRequired,
   isCollapsed: React.PropTypes.bool,
   onToggleCollapsed: React.PropTypes.func,
+  fetchMessage: React.PropTypes.func
 };
 
 export default Message;

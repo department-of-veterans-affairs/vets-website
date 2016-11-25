@@ -1,4 +1,7 @@
 /* Prescription cards for Active page. */
+.rx-refill-form {
+  padding: 0;
+}
 
 .rx-prescription-items {
   padding-top: 3rem;
@@ -8,6 +11,8 @@
   border-color: $color-white;
   border-style: solid;
   border-width: 1rem 0;
+  min-width: 25rem;
+  position: relative;
 
   @media (min-width: $medium-screen) {
     float: left;
@@ -25,12 +30,17 @@
 
 .rx-prescription-inner {
   background: $color-gray-lightest;
-  padding: 2rem;
+  height: 27rem;
   position: relative;
+}
+
+.rx-prescription-info {
+  margin: 2rem;
 }
 
 .rx-prescription-title {
   color: $color-primary;
+  font-size: 1.4em;
   line-height: 1;
   margin: 0;
   text-overflow: ellipsis;
@@ -48,24 +58,16 @@
   }
 }
 
-.rx-prescription-refilled {
-  margin-bottom: 5rem;
-}
-
-.rx-prescription-number {
-  font-weight: bold;
-}
-
-.rx-prescription-button {
-  white-space: nowrap;
-}
-
 button.rx-prescription-button,
 [type=submit].rx-prescription-button {
   background: transparent;
   display: inline-block;
   font-weight: bold;
   margin: 0;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  white-space: nowrap;
+  width: 100%;
 
   @media (max-width: $small-screen) {
     padding: 1rem;
@@ -73,9 +75,8 @@ button.rx-prescription-button,
 }
 
 .rx-prescription-count {
-  position: absolute;
-  bottom: 0;
-  display: inline-block;
+  line-height: .85;
+  white-space: nowrap;
   &-zero {
     color: $color-secondary;
   }
@@ -89,26 +90,53 @@ button.rx-prescription-button,
   }
 }
 
-.rx-prescription-action {
-  bottom: 0;
-  position: absolute;
-  right: 0;
-}
-
 .rx-prescription-countaction {
   bottom: 0;
-  line-height: 2rem;
-  padding-top: 2rem;
-  position: relative;
+  padding: 2rem;
+  position: absolute;
+  width: 100%;
+
+  > div {
+    display: flex;
+    align-items: flex-end;
+  }
 }
 
-.rx-prescription-status,
+.rx-prescription-action {
+  flex: 0 0 35%;
+}
+
+.rx-prescription-count {
+  flex: 1 1 65%;
+}
+
+.rx-prescription-status {
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.rx-prescription-status span,
 .rx-prescription-refill-requested {
   font-weight: bold;
 }
 
+.rx-prescription-status,
+.rx-call-provider {
+  line-height: 1;
+  margin-top: .75rem;
+  text-align: right;
+}
+
+.rx-prescription-refill-requested {
+  margin-bottom: .75rem;
+  text-align: right;
+} 
+
 .rx-track-package-link {
-  margin: 0;  
+  display: block;
+  margin: 0 0 1rem;
+  white-space: nowrap;
+  width: auto;
 }
 
 //====== Prescription group

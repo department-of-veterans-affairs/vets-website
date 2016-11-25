@@ -1,0 +1,37 @@
+<div class="section one va-quicklinks">
+  <div class="row">
+
+    {% if secondarylinks %}
+    <div class="small-12 medium-6 columns">
+      <h3 class="va-h-ruled">{{secondarylinkstitle}}</h3>
+      <ul class="plain">
+        {% for link in secondarylinks %}
+        <li>
+          <a href="{{link.url}}" class="external">{{link.title}}</a>
+          {% if link.description %}
+          <span>{{link.description}}</span>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% if relatedlinks %}
+    <div class="small-12 medium-6 columns">
+      <h3 class="va-h-ruled">{{relatedlinkstitle}}</h3>
+      <ul class="plain">
+        {% for link in relatedlinks %}
+        <li>
+          <a href="{{link.url}}" class="external">{{link.title}}</a>
+          {% if link.description %}
+          <span>{{link.description}}</span>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+  </div>
+</div>

@@ -12,7 +12,7 @@ class PrescriptionGroup extends React.Component {
   render() {
     return (
       <section className="rx-prescription-group cf">
-        <h3 className="rx-pgroup-title va-h-ruled">{this.props.title}</h3>
+        <h3 className="va-h-ruled">{this.props.title}</h3>
         <div>{this.props.items}</div>
       </section>
     );

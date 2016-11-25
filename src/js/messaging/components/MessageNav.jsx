@@ -1,6 +1,24 @@
 import React from 'react';
 
 class MessageNav extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClickNext = this.handleClickNext.bind(this);
+    this.handleClickPrev = this.handleClickPrev.bind(this);
+  }
+
+  handleClickNext() {
+    if (this.props.itemNumber < this.props.totalItems) {
+      this.props.onItemSelect(this.props.itemNumber + 1);
+    }
+  }
+
+  handleClickPrev() {
+    if (this.props.itemNumber > 1) {
+      this.props.onItemSelect(this.props.itemNumber - 1);
+    }
+  }
+
   render() {
     return (
       <div className="messaging-message-nav">
@@ -11,15 +29,15 @@ class MessageNav extends React.Component {
         </span>
         <button
             type="button"
-            disabled={!this.props.onClickPrev}
-            onClick={this.props.onClickPrev}>
+            disabled={this.props.itemNumber <= 1}
+            onClick={this.handleClickPrev}>
           <i className="fa fa-chevron-left"></i>
           <span>Previous</span>
         </button>
         <button
             type="button"
-            disabled={!this.props.onClickNext}
-            onClick={this.props.onClickNext}>
+            disabled={this.props.itemNumber >= this.props.totalItems}
+            onClick={this.handleClickNext}>
           <span>Next</span>
           <i className="fa fa-chevron-right"></i>
         </button>
@@ -34,8 +52,9 @@ MessageNav.propTypes = {
     React.PropTypes.string
   ]).isRequired,
   messageCount: React.PropTypes.number.isRequired,
-  onClickPrev: React.PropTypes.func,
-  onClickNext: React.PropTypes.func
+  onItemSelect: React.PropTypes.func,
+  itemNumber: React.PropTypes.number.isRequired,
+  totalItems: React.PropTypes.number.isRequired
 };
 
 export default MessageNav;

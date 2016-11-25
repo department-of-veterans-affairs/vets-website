@@ -1,6 +1,15 @@
 import { expect } from 'chai';
+import moment from 'moment';
 
-import { isValidDate, isValidSSN, isValidName, isNotBlank, isBlank, isValidMonetaryValue } from '../../../src/js/common/utils/validations.js';
+import {
+  isValidDate,
+  isValidSSN,
+  isValidName,
+  isNotBlank,
+  isBlank,
+  isValidMonetaryValue,
+  isValidDateOver17
+} from '../../../src/js/common/utils/validations.js';
 
 describe('Validations unit tests', () => {
   describe('isValidSSN', () => {
@@ -16,6 +25,10 @@ describe('Validations unit tests', () => {
       expect(isValidSSN('900-22-1234')).to.be.true;
       expect(isValidSSN('111221234')).to.be.true;
       expect(isValidSSN('111111112')).to.be.true;
+
+      // Values with all the same digit are allowed in some cases
+      expect(isValidSSN('222222222')).to.be.true;
+      expect(isValidSSN('444-44-4444')).to.be.true;
     });
 
     it('rejects invalid ssn format', () => {
@@ -33,6 +46,7 @@ describe('Validations unit tests', () => {
       // No leading or trailing spaces.
       expect(isValidSSN('111-22-1A34 ')).to.be.false;
       expect(isValidSSN(' 111-22-1234')).to.be.false;
+      expect(isValidSSN('-11-11111111')).to.be.false;
 
       // Too few numbers is invalid.
       expect(isValidSSN('111-22-123')).to.be.false;
@@ -120,6 +134,18 @@ describe('Validations unit tests', () => {
       expect(isValidMonetaryValue('1,000')).to.be.false;
       expect(isValidMonetaryValue('abc')).to.be.false;
       expect(isValidMonetaryValue('$100')).to.be.false;
+    });
+  });
+
+  describe('isValidDateOver17', () => {
+    it('validates turning 17 today', () => {
+      const date = moment().startOf('day').subtract(17, 'years');
+      expect(isValidDateOver17(date.date(), date.month() + 1, date.year())).to.be.true;
+    });
+
+    it('does not validate turning 17 tomorrow', () => {
+      const date = moment().startOf('day').subtract(17, 'years').add(1, 'days');
+      expect(isValidDateOver17(date.date(), date.month() + 1, date.year())).to.be.false;
     });
   });
 });

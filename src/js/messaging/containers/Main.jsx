@@ -3,26 +3,24 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import {
+  closeAttachmentsModal,
+  closeCreateFolderModal,
+  createFolderAndMoveMessage,
   createNewFolder,
+  openCreateFolderModal,
   setCurrentFolder,
+  setNewFolderName,
   toggleFolderNav,
   toggleManagedFolders
-} from '../actions/folders';
-
-import { createFolderAndMoveMessage } from '../actions/messages';
-
-import {
-  setNewFolderName,
-  closeCreateFolderModal,
-  openCreateFolderModal
-} from '../actions/modals';
+} from '../actions';
 
 import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
+import ModalAttachments from '../components/compose/ModalAttachments';
 import ModalCreateFolder from '../components/ModalCreateFolder';
 
-class Main extends React.Component {
+export class Main extends React.Component {
   constructor(props) {
     super(props);
     this.handleFolderChange = this.handleFolderChange.bind(this);
@@ -69,11 +67,18 @@ class Main extends React.Component {
               isExpanded={this.props.nav.foldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
               onCreateNewFolder={this.props.openCreateFolderModal}
-              onFolderChange={this.handleOnFolderChange}/>
+              onFolderChange={this.handleFolderChange}/>
         </div>
         <div id="messaging-content">
           {this.props.children}
         </div>
+        <ModalAttachments
+            cssClass="messaging-modal"
+            text={this.props.attachmentsModal.message.text}
+            title={this.props.attachmentsModal.message.title}
+            id="messaging-add-attachments"
+            onClose={this.props.closeAttachmentsModal}
+            visible={this.props.attachmentsModal.visible}/>
         <ModalCreateFolder
             cssClass="messaging-modal"
             folders={this.props.folders}
@@ -93,23 +98,28 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const folders = [];
+  state.folders.data.items.forEach(folder => folders.push(folder));
+
   return {
+    attachmentsModal: state.modals.attachments,
     createFolderModal: state.modals.createFolder,
-    folders: state.folders.data.items,
+    folders,
     nav: state.folders.ui.nav,
     persistFolder: state.folders.data.currentItem.persistFolder
   };
 };
 
 const mapDispatchToProps = {
+  closeAttachmentsModal,
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
   openCreateFolderModal,
-  toggleFolderNav,
-  toggleManagedFolders,
   setCurrentFolder,
-  setNewFolderName
+  setNewFolderName,
+  toggleFolderNav,
+  toggleManagedFolders
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

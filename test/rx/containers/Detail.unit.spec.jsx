@@ -8,10 +8,13 @@ import { prescriptions } from '../../util/rx-helpers.js';
 const item = prescriptions.data[0];
 
 const props = {
-  prescriptions: {
-    currentItem: {
-      rx: item
-    }
+  alert: {
+    content: '',
+    status: 'info',
+    visible: false
+  },
+  prescription: {
+    rx: item
   },
   params: {
     id: item.id

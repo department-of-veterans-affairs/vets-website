@@ -28,7 +28,7 @@ class Disclaimer extends React.Component {
           <p
               className="rx-disclaimer-body"
               hidden={!this.props.isOpen}>
-          We only list prescriptions VA can refill by mail. If you have any questions about your medication list, please contact your health care team.</p>
+          If you have any questions about your medication list, please contact your health care team.</p>
           <button
               className="rx-disclaimer-close usa-button-unstyled"
               onClick={this.props.handleClose}>

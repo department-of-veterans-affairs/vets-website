@@ -1,29 +1,40 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import RequiredLoginView from '../../common/components/RequiredLoginView';
+import { closeDisclaimer } from '../actions/disclaimer';
+import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
+import { refillPrescription } from '../actions/prescriptions';
+import Disclaimer from '../components/Disclaimer';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import GlossaryModal from '../components/GlossaryModal';
 
-import { openAlert } from '../actions/alert.js';
-import { openRefillModal, closeRefillModal, closeGlossaryModal } from '../actions/modal.js';
-import { refillPrescription } from '../actions/prescriptions.js';
-
 class RxRefillsApp extends React.Component {
   render() {
-    return (
+    const view = (
       <div>
-        {this.props.children}
+        <Disclaimer
+            isOpen={this.props.disclaimer.open}
+            handleClose={this.props.closeDisclaimer}/>
+        <div className="rx-app row">
+          {this.props.children}
+        </div>
         <ConfirmRefillModal
-            {...this.props.modal.refill.prescription}
-            isVisible={this.props.modal.refill.visible}
-            openAlert={this.props.openAlert}
+            prescription={this.props.refillModal.prescription}
+            isVisible={this.props.refillModal.visible}
             refillPrescription={this.props.refillPrescription}
             onCloseModal={this.props.closeRefillModal}/>
         <GlossaryModal
-            content={this.props.modal.glossary.content}
-            isVisible={this.props.modal.glossary.visible}
+            content={this.props.glossaryModal.content}
+            isVisible={this.props.glossaryModal.visible}
             onCloseModal={this.props.closeGlossaryModal}/>
       </div>
+    );
+
+    return (
+      <RequiredLoginView authRequired={3} serviceRequired={"rx"}>
+        {view}
+      </RequiredLoginView>
     );
   }
 }
@@ -32,16 +43,21 @@ RxRefillsApp.propTypes = {
   children: React.PropTypes.element
 };
 
-// TODO: fill this out
 const mapStateToProps = (state) => {
-  return state;
+  const modals = state.modals;
+
+  return {
+    disclaimer: state.disclaimer,
+    glossaryModal: modals.glossary,
+    refillModal: modals.refill
+  };
 };
 
-export default connect(
-  mapStateToProps, {
-    openAlert,
-    openRefillModal,
-    closeGlossaryModal,
-    closeRefillModal,
-    refillPrescription
-  })(RxRefillsApp);
+const mapDispatchToProps = {
+  closeDisclaimer,
+  closeGlossaryModal,
+  closeRefillModal,
+  refillPrescription
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RxRefillsApp);

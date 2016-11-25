@@ -5,6 +5,10 @@ html, body {
   margin: 0;
 }
 
+html {
+    overflow: -moz-scrollbars-vertical;
+}
+
 body {
   color: $color-gray-dark;
   font-family: $font-sans;
@@ -13,7 +17,7 @@ body {
 
 // General
 body, .home {
-  background: $color-primary-darkest url(/img/design/background/thread.png) top left no-repeat;
+  background: $color-primary-darkest;
   background-size: contain;
   color: $color-white;
 }
@@ -175,6 +179,15 @@ button,
   }
 }
 
+.usa-button-outline.transparent,
+.usa-button-outline.transparent:hover {
+  background-color: rgba(0,0,0,0);
+}
+
+input.va-input-medium-large {
+  max-width: 18rem;
+}
+
 hr {
   margin: 2.5em 0;
   margin: 3rem 0 2.5rem;
@@ -211,12 +224,49 @@ hr {
   // TODO: clean up #content .main.interior a then remove !important
   text-decoration: none !important;
 }
+// Option for adding exit-icon to ghost buttons
+.usa-button-outline-exit.usa-button-primary[href^=http]::after {
+  background-image: url(/img/icons/exit-icon-primary.png);
+  background-size: 1em auto;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  // Content must have a decender in it
+  content: "leave vets.gov"; 
+  background-repeat: no-repeat;
+  background-position: top center;
+  margin-left: .3em;
+  text-indent: -9999em;
+  padding-right: 1.1em;
+}
+.usa-button-outline-exit.usa-button-primary[href^=http]:hover::after {
+  background-image: url(/img/icons/exit-icon-primary-darker.png);
+}
 
 // Logo and Header
 .header {
   clear: both;
-  padding: 0 0 .5em 0;
+  padding: 0;
   margin: 0;
+
+  .login-container {
+    background: $color-white;
+    padding: 0.5em 0;
+
+    .row {
+      padding: 0 0.75em;
+    }
+  }
+
+  .top-banner {
+    padding: 1em 0.75em;
+  }
+
+  .flex-auto {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+  }
 }
 
 .va-header-logo {
@@ -245,7 +295,7 @@ hr {
     }
 
     @media #{$small} {
-      width: 263px;
+      width: 225px;
       height: 50px;
     }
   }
@@ -296,32 +346,140 @@ h6 {
   margin: 0;
   padding: 0;
   color: $color-gray-dark;
+  overflow: hidden;
+}
+
+#content .popular-container {
+  background: $color-white;
+  text-align: center;
+
+  .column-padded {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  .flex {
+    @media #{$small} {
+      display: block;
+    }
+    @media #{$medium} {
+      display: flex;
+    }
+
+    @media #{$large} {
+      display: flex;
+    }
+  }
+
+  .mx-auto {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  h2.gold-ruled {
+    color: $color-primary-darker;
+    padding-bottom: 0.5em;
+    border-bottom: #988530 solid 2px;
+  }
+
+  a {
+    text-decoration: none;
+    color: $color-base;
+
+    &:hover {
+      background: $color-white;
+    }
+  }
+
+  .outline-link-block {
+    border: $color-gray-light solid 1px;
+    margin: 0.5em 0;
+    padding: 0.5em 1em;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+    font-size: 1.2em;
+  }
+
+  .stars-tagline {
+    &:before{
+      content: "";
+      background: url(/img/stars.png) no-repeat top center;
+      background-size: 100%;
+      display: inline-block;
+      height: 2em;
+      width: 12em;
+      margin-top: 2em;
+    }
+
+    margin-top: 0em;
+  }
 }
 
 #content .splash {
-  padding: 0 0 .5em 0;
   margin: 0;
+  background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+
 
   p {
     color: $color-white;
     font-family: $font-sans;
   }
 
-  @media #{$small} {padding: 1em 0;}
-  @media #{$medium} {padding: 2em 0;}
-  @media #{$large} {padding: 2.5em 0;}
+  h2.tagline {
+    max-width: 11em;
+    font-size: 2.5rem;
+    font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
+  }
 
   span, h2 {
     padding: 0;
     display: inline;
-    line-height: 1.3em;
-    margin: .5em 0 0 0;
+    line-height: 1em;
+    margin: 0;
     white-space: pre-wrap;
     color: $color-gray-dark;
-    a {background: $color-gold; color: $color-va-gray-cool-dark;}
+    a {background: $color-white; color: $color-primary-darker;}
   }
 
-  h2 span {clear: both; padding: .04em; display: inline-block; background: $color-gold; font-weight: normal;}
+  h2 span {
+    clear: both;
+    padding: 0.5em 0.4em;
+    display: inline-block;
+    line-height: 30px;
+    background: $color-white;
+    font-weight: bold;
+    color: $color-primary-darker;
+  }
+
+  @media #{$medium} {
+    h2 span {
+      padding: 0.5em .75em;
+      line-height: 1.3em;
+      font-size: 3.5rem;
+    }
+
+    h2.tagline {
+      max-width: 15em;
+    }
+  }
+
+  @media #{$large} {
+    h2 span {
+      padding: 0.5em 0.4em;
+      line-height: 1.3em;
+      font-size: 3.5rem;
+    }
+
+    h2.tagline {
+      max-width: 15em;
+    }
+  }
+
   h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
   h2 {
     font-size: 1em;
@@ -330,6 +488,24 @@ h6 {
   }
 
   h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
+}
+
+.home {
+  #content .splash {
+    @media #{$small} {
+      padding: 1em 0;
+      min-height: 14em;
+    }
+    @media #{$medium} {
+      padding: 2em 0;
+      min-height: 422px;
+    }
+
+    @media #{$large} {
+      padding: 2.5em 0;
+      min-height: 422px;
+    }
+  }
 }
 
 .splash--app {
@@ -346,6 +522,7 @@ h6 {
 // TODO: Remove !important once #content ul.breadcrumbs li.active
 // is refactored.
 .splash--alternate {
+
   li a {
     color: $color-primary-darkest !important;
     border-bottom: 2px solid $secondary-color !important;
@@ -366,6 +543,8 @@ h6 {
 
 
 .pitch {
+  text-align: center;
+
   @media #{$small} {
     padding: .5em 0;
   }
@@ -422,6 +601,15 @@ h6 {
   }
 }
 
+.secondary {
+  p:nth-child(1),
+  p:first-of-type {
+    color: initial;
+    font-size: 1em;
+    padding: 0;
+  }
+}
+
 // TODO: Integrate USWDS and elements/_typography.scss
 // and eliminate this declaration
 .usa-content {
@@ -430,7 +618,7 @@ h6 {
 
 // Use to add a horizontal rule under the heading
 .va-h-ruled {
-  border-bottom: 6px solid $color-primary-darkest;
+  border-bottom: 4px solid $color-primary-darkest;
 }
 
 // tagline
@@ -532,6 +720,18 @@ ul, ol {
 
 // Home page, 404 page
 .navigation--major {
+  .va-cards--2across {
+    @media #{$small} {
+      display:block;
+    }
+
+    @media #{$medium-only} {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
   .fourohfour &,
   .home & {
     padding-top: 1.5em;
@@ -623,12 +823,8 @@ ul, ol {
   }
 
   .section.main-menu {
-    padding: .5em .5em 2.35em .5em;
+    padding: 0em .5em 4em .5em;
     overflow: hidden;
-
-    @media #{$small} {
-      padding: 1em 0 1.5em 0;
-    }
   }
 
 
@@ -1167,13 +1363,43 @@ a.twitter {
 
 }
 
+.header {
+  .message {
+    padding-top: 0.5em 0.75em;
+  }
+
+  .va-notice--banner {
+    background: $color-gray-lightest;
+    color: $color-base;
+    margin: 0;
+    padding: 0;
+
+    .header {
+      padding: 0.5em 0;
+    }
+
+    a {
+      color: $color-base;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .row {
+      padding: 0 0.75em;
+    }
+  }
+}
+
 // Notice / feedback banners
 .va-notice--banner {
   background: $color-primary-darker;
   margin: 0 0 .75em 0;
-  padding: .5em;
+  padding: 0;
   font-size: .9em;
   font-weight: 300;
+  color: $color-white;
 
   p {
     margin: 0;
@@ -1186,7 +1412,20 @@ a.twitter {
   }
 
   .row {
-    max-width: 70em;
+    max-width: 69.4em;
+  }
+}
+
+.incompatible-browser-warning {
+  padding: 0.5em;
+  font-weight: bold;
+  background: $color-gold-lightest;
+  color: $color-black;
+  font-size: .9em;
+  display: none;
+
+  &.visible {
+    display: block;
   }
 }
 
@@ -1490,6 +1729,7 @@ margin: 0;
     margin: 0 !important;
   &.last {
     border-left: 0;
+    padding-left: calc(2em + 8px);
   }
 
   }
@@ -1500,7 +1740,7 @@ margin: 0;
   &.step.seven.last
    {
     &:before {
-    margin-left: -2.4em
+    margin-left: -2.7em
     }
   }
 
@@ -1935,14 +2175,6 @@ html.touchevents {
   .no-touch {display: none;}
 }
 
-// Animate CSS components
-.animated {
-  -webkit-animation-duration: 1.25s;
-  animation-duration: 1.25s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
 @-webkit-keyframes fadeIn {
   0% {
     opacity: 0;
@@ -2007,4 +2239,43 @@ pre[class*='language-']  {
 .va-flex--stretch {
   -webkit-align-items: stretch;
   align-items: stretch;
+}
+
+.sticky-action-box--container {
+  position: relative;
+}
+
+.sticky-action-box {
+  background-color: $color-gray-lightest;
+  padding: 1.5rem;
+  z-index: 1;
+
+  a {
+    margin-right: 0;
+  }
+
+  .show-for-large-up & {
+    position: absolute;
+    right: 0;
+    top: 30px;
+    width: 22rem;
+  }
+
+  .hide-for-large-up & {
+    width: 35rem;
+  }
+
+  #content & p,
+  #content & h3 {
+    padding: 0;
+    margin: 0;
+  }
+
+  p.small {
+    font-size: 1em;
+  }
+}
+
+.react-conatiner {
+  padding: 2em 0;
 }

@@ -1,22 +1,16 @@
-// TODO: Update the paths so they import from the
-// vets-website repo (or other designated common)
-// elements version of these files.
-
 @import "../style";
 @import "../modules/m-modal";
-
-// TODO: Contributed these back to core / Vanguard.
-@import "partials/va-tabs";
-@import "partials/va-pagination";
+@import "../modules/va-pagination";
+@import "../modules/va-tabs";
 
 // RX-specific partials
 @import "partials/rx-contact-card";
+@import "partials/rx-prescriptions";
 @import "partials/rx-detail";
 @import "partials/rx-disclaimer";
 @import "partials/rx-glossary";
 @import "partials/rx-history";
 @import "partials/rx-modal";
-@import "partials/rx-prescriptions";
 @import "partials/rx-sort-list";
 @import "partials/rx-table";
 
@@ -41,6 +35,10 @@
   padding: 3rem 1.5rem;
   margin: auto;
   max-width: $site-max-width;
+
+  .va-alert {
+    margin-bottom: 2rem;
+  }
 }
 
 // Enhances a USWDS style that has higher specificity.
@@ -70,11 +68,6 @@ button.usa-button-outline {
   margin: 0 0 3rem;
 }
 
-.rx-refill-form {
-  display: inline-block;
-  padding: 0;
-}
-
 // Used to make functional buttons look like links.
 .rx-trigger {
   background: transparent;
@@ -87,7 +80,7 @@ button.usa-button-outline {
   text-align: left;
   text-decoration: underline;
   width: auto !important;
-  
+
   &:hover {
     background: rgba(0, 0, 0, 0.05);
     color: $color-link-default;
@@ -95,7 +88,16 @@ button.usa-button-outline {
   }
 }
 
-// TODO: Contribute this back to core
-.va-required-span {
-  color: $color-secondary-dark;
+.rx-tab-explainer {
+  padding: 1rem 0;
+}
+
+.rx-loading-error {
+  font-weight: bold;
+}
+
+#rx-active, #rx-history, #rx-detail {
+  .loading-indicator-container {
+    margin-top: 2rem;
+  }
 }

@@ -1,19 +1,38 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import UserDataSection from '../components/UserDataSection';
+import AuthApplicationSection from '../components/AuthApplicationSection';
+import AccountManagementSection from '../components/AccountManagementSection';
+
+import RequiredLoginView from '../../common/components/RequiredLoginView';
+
 class UserProfileApp extends React.Component {
   render() {
-    return (
-      <div>
-        {this.props.children}
+    let view;
+
+    view = (
+      <div className="row">
+        <div className="medium-8 small-12 columns">
+          <h1>Your Vets.gov Account</h1>
+          <div>
+            <UserDataSection/>
+            <AuthApplicationSection/>
+            <AccountManagementSection/>
+          </div>
+        </div>
       </div>
     );
+
+    return (
+      <div>
+        <RequiredLoginView authRequired={1} serviceRequired={"user-profile"}>
+          {view}
+        </RequiredLoginView>
+      </div>
+      );
   }
 }
-
-UserProfileApp.propTypes = {
-  children: React.PropTypes.element
-};
 
 // TODO: fill this out
 const mapStateToProps = (state) => {

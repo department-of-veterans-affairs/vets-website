@@ -21,11 +21,15 @@ import { validateIfDirty, isBlank, isValidPhone } from '../../utils/validations.
  */
 class Phone extends React.Component {
   render() {
-    let errorMessage;
+    let errorMessage = 'Phone numbers must be 10 digits';
+    const additional = this.props.additionalError;
+    if (additional) {
+      errorMessage = `${additional} ${errorMessage}`;
+    }
     if (this.props.required) {
-      errorMessage = validateIfDirty(this.props.value, isValidPhone) ? undefined : 'Phone numbers must be 10 digits and include only numbers (no dashes)';
+      errorMessage = validateIfDirty(this.props.value, isValidPhone) ? undefined : errorMessage;
     } else {
-      errorMessage = isBlank(this.props.value.value) || validateIfDirty(this.props.value, isValidPhone) ? undefined : 'Phone numbers must be 10 digits and include only numbers (no dashes)';
+      errorMessage = isBlank(this.props.value.value) || validateIfDirty(this.props.value, isValidPhone) ? undefined : errorMessage;
     }
 
     return (
@@ -33,10 +37,10 @@ class Phone extends React.Component {
         <ErrorableTextInput
             errorMessage={errorMessage}
             label={this.props.label}
-            name="phone"
+            name={this.props.name}
             autocomplete="tel"
-            placeholder="xxxxxxxxxx"
             field={this.props.value}
+            required={this.props.required}
             additionalClass={this.props.additionalClass}
             onValueChange={this.props.onValueChange}/>
       </div>
@@ -52,7 +56,13 @@ Phone.propTypes = {
     dirty: React.PropTypes.bool,
   }).isRequired,
   additionalClass: React.PropTypes.string,
+  additionalError: React.PropTypes.string,
   onValueChange: React.PropTypes.func.isRequired,
+  name: React.PropTypes.string
+};
+
+Phone.defaultProps = {
+  name: 'phone'
 };
 
 export default Phone;

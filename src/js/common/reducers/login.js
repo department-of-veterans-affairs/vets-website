@@ -1,34 +1,25 @@
-import _ from 'lodash';
-import lodashDeep from 'lodash-deep';
+import _ from 'lodash/fp';
 
 import { UPDATE_LOGGEDIN_STATUS, UPDATE_LOGIN_URL, LOG_OUT } from '../actions';
 
-// Add deep object manipulation routines to lodash.
-_.mixin(lodashDeep);
-
-
 const initialState = {
   currentlyLoggedIn: false,
-  loginUrl: '',
+  loginUrl: {
+    first: null,
+    third: null
+  },
 };
 
 function loginStuff(state = initialState, action) {
-  let newState = undefined;
   switch (action.type) {
     case UPDATE_LOGGEDIN_STATUS:
-      newState = Object.assign({}, state);
-      _.set(newState, 'currentlyLoggedIn', action.value);
-      return newState;
+      return _.set('currentlyLoggedIn', action.value, state);
 
     case UPDATE_LOGIN_URL:
-      newState = Object.assign({}, state);
-      _.set(newState, 'loginUrl', action.value);
-      return newState;
+      return _.set(`loginUrl.${action.propertyPath}`, action.value, state);
 
     case LOG_OUT:
-      newState = Object.assign({}, state);
-      _.set(newState, 'currentlyLoggedIn', false);
-      return newState;
+      return _.set('currentlyLoggedIn', false, state);
 
     default:
       return state;

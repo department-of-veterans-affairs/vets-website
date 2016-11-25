@@ -9,7 +9,6 @@ const commandLineArgs = require('command-line-args');
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
 const filenames = require('metalsmith-filenames');
-const ignore = require('metalsmith-ignore');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdownit');
@@ -67,6 +66,9 @@ switch (options.buildtype) {
     // No extra checks needed in dev.
     break;
 
+  case 'staging':
+    break;
+
   case 'production':
     if (options['no-sanity-check-node-env'] === false) {
       if (env !== 'prod') {
@@ -89,19 +91,28 @@ smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
 
 // Ignore files that aren't ready for production.
+//
+// Maintain as minimal a difference between the staging and production
+// environments as possible. The staging environment is simply the easiest
+// workaround to allow end to end testing of resources outside of our direct
+// control. This becomes an axis of divergence that may cause _major_ problems
+// with the production build that cannot be easily detected, so it should
+// be used sparingly.
+//
+// Ideally, as soon as a feature has been tested, it should be added to the
+// ignoreList again to maintain parity between the staging and production
+// environments.
+//
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
-const ignoreList = ['memorial-benefits/*'];
-if (options.buildtype === 'production') {
-  ignoreList.push('disability-benefits/track-claims/*');
-  ignoreList.push('education/apply-for-education-benefits/application.md');
-  ignoreList.push('facilities/*');
-  ignoreList.push('messaging/*');
-  ignoreList.push('rx/*');
-  ignoreList.push('profile/*');
-  ignoreList.push('auth/*');
-}
-smith.use(ignore(ignoreList));
+
+// To use:
+// const ignore = require('metalsmith-ignore');
+// const ignoreList = [];
+// if (options.buildtype === 'production') {
+//   ignoreList.push('disability-benefits/track-claims/*');
+// }
+// smith.use(ignore(ignoreList));
 
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
 // during templating end up not showing which file they came from. Load it very early in in the
@@ -174,7 +185,10 @@ smith.use(layouts({
 }));
 
 // TODO(awong): This URL needs to change based on target environment.
-smith.use(sitemap('http://www.vets.gov'));
+smith.use(sitemap({
+  hostname: 'http://www.vets.gov',
+  omitIndex: true
+}));
 // TODO(awong): Does anything even use the results of this plugin?
 
 if (options.watch) {
@@ -198,8 +212,8 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
-        { from: '^/messaging(.*)', to: '/messaging/' },
-        { from: '^/rx(.*)', to: '/rx/' },
+        { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
+        { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -229,6 +243,7 @@ if (options.watch) {
         auth: api.auth,
         secure: true,
         changeOrigin: true,
+        pathRewrite: { '^/api': '' },
         rewrite: function rewrite(req) {
           /* eslint-disable no-param-reassign */
           req.headers.host = api.host;
@@ -251,22 +266,14 @@ if (options.watch) {
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
     allowRegex: new RegExp(
-        ['/disability-benefits/',
-          '/disability-benefits/apply-for-benefits/',
-          '/disability-benefits/learn/',
-          '/disability-benefits/learn/eligibility/.*',
-          '/employment/commitments',
+        ['/employment/commitments',
           '/employment/employers',
-          '/employment/employers/',
           '/employment/job-seekers/create-resume',
           '/employment/job-seekers/search-jobs',
           '/employment/job-seekers/skills-translator',
-          '/employment/users/sign_in',
           '/gi-bill-comparison-tool/',
-          '/gibill/',
-          '/healthcare/apply/application',
-          '/veterans-employment-center/',
-          'Employment-Resources/'].join('|'))
+          '/education/apply-for-education-benefits/application',
+          '/healthcare/apply/application'].join('|'))
   }));
 
   smith.use(webpack(webpackConfig));

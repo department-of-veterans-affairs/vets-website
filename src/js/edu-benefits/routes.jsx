@@ -1,19 +1,24 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import { chapterNames, groupPagesIntoChapters, getPageList, hasServiceBefore1978 } from './utils/helpers';
+import { chapterNames, hasServiceBefore1978 } from './utils/helpers';
+import { groupPagesIntoChapters, getPageList } from '../common/utils/helpers';
 
 import IntroductionPage from './containers/IntroductionPage.jsx';
 import VeteranInformationReview from './components/veteran-information/VeteranInformationReview';
 import VeteranInformationFields from './components/veteran-information/VeteranInformationFields';
 import BenefitsSelectionReview from './components/benefits-eligibility/BenefitsSelectionReview';
 import BenefitsSelectionFields from './components/benefits-eligibility/BenefitsSelectionFields';
+import BenefitsRelinquishmentReview from './components/benefits-eligibility/BenefitsRelinquishmentReview';
+import BenefitsRelinquishmentFields from './components/benefits-eligibility/BenefitsRelinquishmentFields';
 import MilitaryServiceReview from './components/military-history/MilitaryServiceReview';
 import MilitaryServiceFields from './components/military-history/MilitaryServiceFields';
+import ServicePeriodsFields from './components/military-history/ServicePeriodsFields';
+import ServicePeriodsReview from './components/military-history/ServicePeriodsReview';
 import RotcHistoryReview from './components/military-history/RotcHistoryReview';
 import RotcHistoryFields from './components/military-history/RotcHistoryFields';
-import BenefitsHistoryReview from './components/military-history/BenefitsHistoryReview';
-import BenefitsHistoryFields from './components/military-history/BenefitsHistoryFields';
+import ContributionsReview from './components/military-history/ContributionsReview';
+import ContributionsFields from './components/military-history/ContributionsFields';
 import EmploymentHistoryReview from './components/employment-history/EmploymentHistoryReview';
 import EmploymentHistoryFields from './components/employment-history/EmploymentHistoryFields';
 import SchoolSelectionReview from './components/school-selection/SchoolSelectionReview';
@@ -28,8 +33,6 @@ import SecondaryContactReview from './components/personal-information/SecondaryC
 import SecondaryContactFields from './components/personal-information/SecondaryContactFields';
 import DirectDepositReview from './components/personal-information/DirectDepositReview';
 import DirectDepositFields from './components/personal-information/DirectDepositFields';
-import PreviousClaimsFields from './components/benefits-eligibility/PreviousClaimsFields';
-import PreviousClaimsReview from './components/benefits-eligibility/PreviousClaimsReview';
 import ReviewPage from './containers/ReviewPage';
 import FormPage from './containers/FormPage';
 import SubmitPage from './containers/SubmitPage';
@@ -58,13 +61,21 @@ const routes = [
       name="Benefits selection"/>,
   <Route
       component={FormPage}
-      fieldsComponent={PreviousClaimsFields}
-      reviewComponent={PreviousClaimsReview}
-      key="/benefits-eligibility/previous-claims"
-      path="/benefits-eligibility/previous-claims"
+      fieldsComponent={BenefitsRelinquishmentFields}
+      reviewComponent={BenefitsRelinquishmentReview}
+      key="/benefits-eligibility/benefits-relinquishment"
+      path="/benefits-eligibility/benefits-relinquishment"
       chapter={chapterNames.benefitsEligibility}
-      depends={{ previouslyFiledClaimWithVa: { value: 'Y' } }}
-      name="Previous claims"/>,
+      depends={{ chapter33: true }}
+      name="Benefits relinquishment"/>,
+  <Route
+      component={FormPage}
+      fieldsComponent={ServicePeriodsFields}
+      reviewComponent={ServicePeriodsReview}
+      key="/military-history/service-periods"
+      path="/military-history/service-periods"
+      chapter={chapterNames.militaryHistory}
+      name="Service periods"/>,
   <Route
       component={FormPage}
       fieldsComponent={MilitaryServiceFields}
@@ -79,17 +90,16 @@ const routes = [
       reviewComponent={RotcHistoryReview}
       key="/military-history/rotc-history"
       path="/military-history/rotc-history"
-      depends={{ seniorRotcCommissioned: { value: 'Y' } }}
       chapter={chapterNames.militaryHistory}
       name="ROTC history"/>,
   <Route
       component={FormPage}
-      fieldsComponent={BenefitsHistoryFields}
-      reviewComponent={BenefitsHistoryReview}
-      key="/military-history/benefits-history"
-      path="/military-history/benefits-history"
+      fieldsComponent={ContributionsFields}
+      reviewComponent={ContributionsReview}
+      key="/military-history/contributions"
+      path="/military-history/contributions"
       chapter={chapterNames.militaryHistory}
-      name="Benefits history"/>,
+      name="Contributions"/>,
   <Route
       component={FormPage}
       fieldsComponent={EducationHistoryFields}

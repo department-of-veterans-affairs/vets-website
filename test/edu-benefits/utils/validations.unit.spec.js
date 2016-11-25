@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { isValidDateRange, isValidFutureOrPastDateField, isValidPage, isValidRoutingNumber } from '../../../src/js/edu-benefits/utils/validations.js';
-import { createVeteran, createPreviousClaim } from '../../../src/js/edu-benefits/utils/veteran.js';
+import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran.js';
 
 describe('Validations unit tests', () => {
   describe('isValidDateRange', () => {
@@ -67,6 +67,37 @@ describe('Validations unit tests', () => {
       };
       expect(isValidDateRange(fromDate, toDate)).to.be.false;
     });
+    it('does not validate with partial dates', () => {
+      const fromDate = {
+        day: {
+          value: '',
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: 2006,
+          dirty: true
+        }
+      };
+      const toDate = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 4,
+          dirty: true
+        },
+        year: {
+          value: 2008,
+          dirty: true
+        }
+      };
+      expect(isValidDateRange(fromDate, toDate)).to.be.false;
+    });
   });
   describe('isValidPage:', () => {
     describe('EmploymentHistory', () => {
@@ -93,14 +124,6 @@ describe('Validations unit tests', () => {
           }
         });
         expect(isValidPage('/employment-history/employment-information', veteran)).to.be.true;
-      });
-    });
-    describe('PreviousClaims', () => {
-      it('validates page with blank claim type', () => {
-        const veteran = createVeteran();
-        const previousClaim = createPreviousClaim();
-        veteran.previousVaClaims.push(previousClaim);
-        expect(isValidPage('/benefits-eligibility/previous-claims', veteran)).to.be.true;
       });
     });
   });

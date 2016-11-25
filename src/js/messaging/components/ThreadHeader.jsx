@@ -1,18 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { paths, systemFolders } from '../config';
 import ButtonDelete from './buttons/ButtonDelete';
 import MoveTo from './MoveTo';
-import ButtonPrint from './buttons/ButtonPrint';
 import MessageNav from './MessageNav';
 import ToggleThread from './ToggleThread';
+import { folderUrl } from '../utils/helpers';
 
 class ThreadHeader extends React.Component {
   render() {
     let toggleThread;
-    let returnUrlText;
-    let returnUrlPath;
 
     if (this.props.threadMessageCount > 1) {
       toggleThread = (
@@ -22,18 +19,12 @@ class ThreadHeader extends React.Component {
       );
     }
 
-    if (this.props.persistedFolder === undefined) {
-      returnUrlText = 'Inbox';
-      returnUrlPath = `${paths.FOLDERS_URL}/0`;
-    } else {
-      returnUrlText = systemFolders[Math.abs(this.props.persistedFolder)];
-      returnUrlPath = `${paths.FOLDERS_URL}/${this.props.persistedFolder}`;
-    }
+    const backUrl = folderUrl(this.props.folderName);
 
     return (
       <div className="messaging-thread-header">
         <div className="messaging-thread-nav">
-          <Link to={returnUrlPath}>&lt; Back to {returnUrlText}</Link>
+          <Link to={backUrl}>&lt; Back to {this.props.folderName}</Link>
           <MoveTo
               folders={this.props.moveToFolders}
               isOpen={!this.props.moveToIsOpen}
@@ -44,20 +35,19 @@ class ThreadHeader extends React.Component {
           <MessageNav
               currentRange={this.props.currentMessageNumber}
               messageCount={this.props.folderMessageCount}
-              onClickPrev={this.props.onClickPrev}
-              onClickNext={this.props.onClickNext}/>
+              onItemSelect={this.props.onMessageSelect}
+              itemNumber={this.props.currentMessageNumber}
+              totalItems={this.props.folderMessageCount}/>
           <ButtonDelete
               onClickHandler={this.props.onDeleteMessage}/>
-          <ButtonPrint/>
         </div>
         <div className="messaging-thread-title">
-          <h2 className="messaging-thread-subject">{this.props.message.subject}</h2>
           <div className="messaging-thread-controls">
             {toggleThread}
             <ButtonDelete
                 onClickHandler={this.props.onDeleteMessage}/>
-            <ButtonPrint/>
           </div>
+          <h2 className="messaging-thread-subject">{this.props.message.subject}</h2>
         </div>
       </div>
     );
@@ -75,8 +65,7 @@ ThreadHeader.propTypes = {
     })
   ).isRequired,
   folderMessageCount: React.PropTypes.number.isRequired,
-  onClickPrev: React.PropTypes.func,
-  onClickNext: React.PropTypes.func,
+  folderName: React.PropTypes.string.isRequired,
   message: React.PropTypes.shape({
     messageId: React.PropTypes.number,
     subject: React.PropTypes.string
@@ -87,9 +76,9 @@ ThreadHeader.propTypes = {
   onChooseFolder: React.PropTypes.func,
   onCreateFolder: React.PropTypes.func,
   onDeleteMessage: React.PropTypes.func,
+  onMessageSelect: React.PropTypes.func,
   onToggleThread: React.PropTypes.func,
-  onToggleMoveTo: React.PropTypes.func,
-  persistedFolder: React.PropTypes.number
+  onToggleMoveTo: React.PropTypes.func
 };
 
 export default ThreadHeader;

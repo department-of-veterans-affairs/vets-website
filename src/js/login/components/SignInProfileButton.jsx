@@ -1,35 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
-import { updateLoggedInStatus, logOut } from '../../common/actions';
+import { updateLoggedInStatus } from '../../common/actions';
 
 
 class SignInProfileButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.clearUserToken = this.clearUserToken.bind(this);
-  }
-
-  clearUserToken() {
-    localStorage.removeItem('userToken');
-    this.props.onUpdateLoggedInStatus(false);
-    this.props.onClearUserData();
-  }
-
   render() {
     let content;
+    let greeting;
 
     if (this.props.login.currentlyLoggedIn) {
+      if (this.props.profile.userFullName.first) {
+        const firstName = _.startCase(_.toLower(this.props.profile.userFullName.first));
+        greeting = `Hello, ${firstName}`;
+      } else {
+        greeting = this.props.profile.email;
+      }
+
       content = (
         <span>
-          <span>Hello, {this.props.profile.email}</span><span className="signin-spacer">|</span>
-          <a href="/profile">Profile</a><span className="signin-spacer">|</span>
-          <a href="#" onClick={this.clearUserToken}>Sign Out</a>
+          <span>{greeting}</span><span className="signin-spacer">|</span>
+          <a href="/profile">Account</a><span className="signin-spacer">|</span>
+          <a href="#" onClick={this.props.onUserLogout}>Sign Out</a>
         </span>
       );
     } else {
       content = (
-        <a href="#" onClick={this.props.onButtonClick}>Sign In<span className="signin-spacer">|</span>Register</a>
+        <a href="#" onClick={this.props.onUserLogin}>Sign In<span className="signin-spacer">|</span>Register</a>
       );
     }
     return (
@@ -51,9 +49,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
-    },
-    onClearUserData: () => {
-      dispatch(logOut());
     }
   };
 };

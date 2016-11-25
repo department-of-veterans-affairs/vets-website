@@ -9,7 +9,7 @@ import { createTour } from '../../../src/js/edu-benefits/utils/veteran';
 describe('<MilitaryServiceTour>', () => {
   it('should render active duty section', () => {
     let tour = createTour();
-    tour.doNotApplyPeriodToSelected = true;
+    tour.applyPeriodToSelected = false;
     const onStateChange = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -18,6 +18,6 @@ describe('<MilitaryServiceTour>', () => {
           view="expanded"
           onStateChange={onStateChange}/>
     );
-    expect(tree.everySubTree('ErrorableRadioButtons').some(box => box.props.name === 'benefitsToApplyTo')).to.be.true;
+    expect(tree.everySubTree('ErrorableTextarea').some(box => box.props.name === 'benefitsToApplyTo')).to.be.true;
   });
 });

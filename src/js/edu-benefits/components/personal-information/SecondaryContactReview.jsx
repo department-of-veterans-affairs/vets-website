@@ -20,25 +20,26 @@ export default class SecondaryContactReview extends React.Component {
         </tbody>
         {this.props.data.secondaryContact.sameAddress
           ? null
-          : <tbody><tr>
-            <td>Street:</td>
-            <td>{this.props.data.secondaryContact.address.street.value}</td>
-          </tr>
-            <tr>
-              <td>City:</td>
-              <td>{this.props.data.secondaryContact.address.city.value}</td>
-            </tr>
+          : <tbody>
             <tr>
               <td>Country:</td>
               <td>{this.props.data.secondaryContact.address.country.value}</td>
             </tr>
             <tr>
-              <td>State/Province:</td>
-              <td>{this.props.data.secondaryContact.address.state.value || this.props.data.secondaryContact.address.provinceCode.value}</td>
+              <td>Street:</td>
+              <td>{this.props.data.secondaryContact.address.street.value}</td>
             </tr>
             <tr>
-              <td>ZIP/Postal Code:</td>
-              <td>{this.props.data.secondaryContact.address.zipcode.value || this.props.data.secondaryContact.address.postalCode.value}</td>
+              <td>City:</td>
+              <td>{this.props.data.secondaryContact.address.city.value}</td>
+            </tr>
+            <tr>
+              <td>State/Province:</td>
+              <td>{this.props.data.secondaryContact.address.state.value}</td>
+            </tr>
+            <tr>
+              <td>Postal code:</td>
+              <td>{this.props.data.secondaryContact.address.postalCode.value}</td>
             </tr></tbody>}
       </table>
     );

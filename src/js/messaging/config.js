@@ -1,50 +1,4 @@
-const headers = {
-  'X-Key-Inflection': 'camel'
-};
-
 module.exports = {
-  // Basic config for making API requests.
-  api: {
-    url: '/api/v0/messaging/health',
-    settings: {
-      get: {
-        method: 'GET',
-        headers
-      },
-      post: {
-        method: 'POST',
-        headers: Object.assign({}, headers, {
-          'Content-Type': 'application/json'
-        })
-      },
-      put: {
-        method: 'PUT',
-        headers: Object.assign({}, headers, {
-          'Content-Type': 'application/json'
-        })
-      },
-      'delete': {
-        method: 'DELETE',
-        headers
-      },
-      patch: {
-        method: 'PATCH',
-        headers
-      }
-    }
-  },
-
-  paths: {
-    INBOX_URL: '/messaging',
-    COMPOSE_URL: '/messaging/compose',
-    FOLDERS_URL: '/messaging/folder'
-  },
-
-  // The indices of systemFolders are positive. The
-  // actual folder IDs are negative. Remember to invert
-  // when needed.
-  systemFolders: ['Inbox', 'Sent', 'Drafts', 'Deleted'],
-
   // An array of objects containing the category name (label) and a
   // value for use with select, radio button inputs.
   messageCategories: [
@@ -76,14 +30,31 @@ module.exports = {
       message: 'Type your message here'
     },
     errors: {
-      category: 'Please select a category.',
+      attachments: {
+        tooLarge: {
+          title: 'Attachment size limit',
+          text: 'The file(s) you are trying to attach exceed the 3MB attachment size limit and the total size of attachments cannot exceed 6MB'
+        },
+        tooMany: {
+          title: 'Attachments limit',
+          text: 'You may not attach more than four files.'
+        }
+      },
+      subjectLine: {
+        category: 'Please select a category.',
+        subject: 'Please add subject description.'
+      },
       message: 'Please enter your message.',
-      subject: 'Please add subject description.',
       recipient: 'Please select a recipient from your health care team.'
     },
     maxChars: {
-      message: 2000,
       subject: 512
+    },
+    // Using bytes
+    attachments: {
+      maxNum: 4,
+      maxSingleFile: 3000000,
+      maxTotalFiles: 6000000
     }
   },
 

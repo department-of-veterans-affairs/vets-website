@@ -1,10 +1,16 @@
 ---
-title: User Profile Page
+title: Your Vets.gov Account
 layout: page-react.html
 entryname: user-profile
 ---
-
 <div id="main">
+  <nav class="va-nav-breadcrumbs">
+    <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+      <li><a href="/">Home</a></li>
+      <li class="active">Your Account</li>
+    </ul>
+  </nav>
+
   <div class="section">
     <div id="react-root">
       <div class="loading-message">
@@ -13,4 +19,5 @@ entryname: user-profile
       </div>
     </div>
   </div>
+  <!-- HCA Application End -->
 </div>

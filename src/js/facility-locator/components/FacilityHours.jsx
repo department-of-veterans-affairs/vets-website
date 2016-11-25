@@ -1,74 +1,58 @@
+import { values, every, capitalize } from 'lodash';
 import React, { Component } from 'react';
 
 export default class FacilityHours extends Component {
+  renderNotes(notes) {
+    if (notes) {
+      return (
+        <div className="row">
+          <div className="small-12 columns">
+            <p>Notes: {notes}</p>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  }
+
   render() {
-    if (!this.props.info) {
+    const { facility } = this.props;
+
+    if (!facility) {
       return null;
     }
 
     const {
       attributes: { hours }
-    } = this.props.info;
+    } = facility;
+
+    if (every(values(hours), h => !h)) {
+      return null;
+    }
+
+    const hourRows = Object.keys(hours).map(h => {
+      if (h !== 'notes' && hours[h] && hours[h] !== '') {
+        return (
+          <div className="row" key={h}>
+            <div className="small-6 columns">
+              {capitalize(h)}:
+            </div>
+            <div className="small-6 columns">
+              {capitalize(hours[h])}
+            </div>
+          </div>
+        );
+      }
+      return null;
+    });
 
     return (
-      <div className="mb2">
-        <h4>Hours of Operation:</h4>
+      <div>
+        <h4>Hours of Operation</h4>
         <hr className="title"/>
-        <div className="row">
-          <div className="medium-6 columns">
-              Monday:
-          </div>
-          <div className="medium-6 columns">
-              {hours.monday}
-          </div>
-        </div>
-        <div className="row">
-          <div className="medium-6 columns">
-              Tuesday:
-          </div>
-          <div className="medium-6 columns">
-              {hours.tuesday}
-          </div>
-        </div>
-        <div className="row">
-          <div className="medium-6 columns">
-              Wednesday:
-          </div>
-          <div className="medium-6 columns">
-              {hours.wednesday}
-          </div>
-        </div>
-        <div className="row">
-          <div className="medium-6 columns">
-              Thursday:
-          </div>
-          <div className="medium-6 columns">
-              {hours.thursday}
-          </div>
-        </div>
-        <div className="row">
-          <div className="medium-6 columns">
-              Friday:
-          </div>
-          <div className="medium-6 columns">
-              {hours.friday}
-          </div>
-        </div>
-        <div className="row">
-          <div className="medium-6 columns">
-              Saturday:
-          </div>
-          <div className="medium-6 columns">
-              {hours.saturday}
-          </div>
-        </div>
-        <div className="row">
-          <div className="medium-6 columns">
-              Sunday:
-          </div>
-          <div className="medium-6 columns">
-              {hours.sunday}
-          </div>
+        <div>
+          {hourRows}
         </div>
       </div>
     );

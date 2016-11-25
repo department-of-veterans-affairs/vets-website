@@ -1,50 +1,69 @@
-import { api } from '../config';
-import { createUrlWithQuery } from '../utils/helpers';
+import {
+  apiRequest,
+  createUrlWithQuery
+} from '../utils/helpers';
 
-export const CREATE_FOLDER_SUCCESS = 'CREATE_FOLDER_SUCCESS';
-export const CREATE_FOLDER_FAILURE = 'CREATE_FOLDER_FAILURE';
-export const DELETE_FOLDER_SUCCESS = 'DELETE_FOLDER_SUCCESS';
-export const DELETE_FOLDER_FAILURE = 'DELETE_FOLDER_FAILURE';
-export const FETCH_FOLDERS_SUCCESS = 'FETCH_FOLDERS_SUCCESS';
-export const FETCH_FOLDERS_FAILURE = 'FETCH_FOLDERS_FAILURE';
-export const FETCH_FOLDER_SUCCESS = 'FETCH_FOLDER_SUCCESS';
-export const FETCH_FOLDER_FAILURE = 'FETCH_FOLDER_FAILURE';
-export const TOGGLE_FOLDER_NAV = 'TOGGLE_FOLDER_NAV';
-export const TOGGLE_MANAGED_FOLDERS = 'TOGGLE_MANAGED_FOLDERS';
-export const SET_CURRENT_FOLDER = 'SET_CURRENT_FOLDER';
+import {
+  CREATE_FOLDER_FAILURE,
+  CREATE_FOLDER_SUCCESS,
+  DELETE_FOLDER_FAILURE,
+  DELETE_FOLDER_SUCCESS,
+  FETCH_FOLDER_FAILURE,
+  FETCH_FOLDER_SUCCESS,
+  FETCH_FOLDERS_FAILURE,
+  FETCH_FOLDERS_SUCCESS,
+  LOADING_FOLDER,
+  RESET_REDIRECT,
+  SET_CURRENT_FOLDER,
+  TOGGLE_FOLDER_NAV,
+  TOGGLE_MANAGED_FOLDERS
+} from '../utils/constants';
 
-const baseUrl = `${api.url}/folders`;
+const baseUrl = '/folders';
 
 export function fetchFolders() {
   // Get the max number of folders.
-  const query = { perPage: 100 };
+  const query = {};
+  const perPage = 'per_page';
+  query[perPage] = 100;
   const url = createUrlWithQuery(baseUrl, query);
 
   return dispatch => {
-    fetch(`${url}`, api.settings.get)
-    .then(res => res.json())
-    .then(
+    apiRequest(
+      url,
+      null,
       data => dispatch({ type: FETCH_FOLDERS_SUCCESS, data }),
-      err => dispatch({ type: FETCH_FOLDERS_FAILURE, err })
+      () => dispatch({ type: FETCH_FOLDERS_FAILURE })
     );
   };
 }
 
 export function fetchFolder(id, query = {}) {
-  const folderUrl = `${baseUrl}/${id}`;
-  const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
-
   return dispatch => {
-    Promise.all([folderUrl, messagesUrl].map(url =>
-      fetch(url, api.settings.get).then(res => res.json())
-    )).then(
-      data => dispatch({
+    const errorHandler =
+      () => dispatch({ type: FETCH_FOLDER_FAILURE });
+
+    dispatch({
+      type: LOADING_FOLDER,
+      request: { id, query }
+    });
+
+    if (id !== null) {
+      const folderUrl = `${baseUrl}/${id}`;
+      const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
+
+      Promise.all([folderUrl, messagesUrl].map(
+        url => apiRequest(url, null, response => response, errorHandler)
+      ))
+      .then(data => dispatch({
         type: FETCH_FOLDER_SUCCESS,
         folder: data[0],
         messages: data[1]
-      }),
-      err => dispatch({ type: FETCH_FOLDER_FAILURE, err })
-    );
+      }))
+      .catch(errorHandler);
+    } else {
+      errorHandler();
+    }
   };
 }
 
@@ -59,23 +78,24 @@ export function toggleManagedFolders() {
 }
 
 export function createNewFolder(folderName) {
-  // create JSON payload
   const folderData = { folder: {} };
   folderData.folder.name = folderName;
 
-  const settings = Object.assign({}, api.settings.post, {
+  const settings = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(folderData)
-  });
+  };
 
   return dispatch => {
-    fetch(baseUrl, settings)
-    .then(res => res.json())
-    .then(
+    apiRequest(
+      baseUrl,
+      settings,
       data => dispatch({
         type: CREATE_FOLDER_SUCCESS,
         folder: data.data.attributes
       }),
-      error => dispatch({ type: CREATE_FOLDER_FAILURE, error })
+      () => dispatch({ type: CREATE_FOLDER_FAILURE })
     );
   };
 }
@@ -83,14 +103,12 @@ export function createNewFolder(folderName) {
 export function deleteFolder(folder) {
   const url = `${baseUrl}/${folder.folderId}`;
   return dispatch => {
-    fetch(url, api.settings.delete)
-    .then(response => {
-      const action = response.ok
-                   ? { type: DELETE_FOLDER_SUCCESS, folder }
-                   : { type: DELETE_FOLDER_FAILURE };
-
-      return dispatch(action);
-    });
+    apiRequest(
+      url,
+      { method: 'DELETE' },
+      () => dispatch({ type: DELETE_FOLDER_SUCCESS, folder }),
+      () => dispatch({ type: DELETE_FOLDER_FAILURE })
+    );
   };
 }
 
@@ -100,4 +118,8 @@ export function setCurrentFolder(folderId) {
     type: SET_CURRENT_FOLDER,
     folderId
   };
+}
+
+export function resetRedirect() {
+  return { type: RESET_REDIRECT };
 }

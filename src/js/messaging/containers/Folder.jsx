@@ -4,121 +4,303 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { fetchFolder, toggleFolderNav } from '../actions/folders';
-import { toggleAdvancedSearch, setDateRange } from '../actions/search';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import SortableTable from '../../common/components/SortableTable';
+
+import {
+  fetchFolder,
+  openAlert,
+  setDateRange,
+  setSearchParam,
+  toggleAdvancedSearch,
+  toggleFolderNav
+} from '../actions';
 
 import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
 import MessageSearch from '../components/MessageSearch';
+import { formattedDate } from '../utils/helpers';
 
-class Folder extends React.Component {
-  componentDidMount() {
-    const id = this.props.params.id;
-    this.props.fetchFolder(id);
+export class Folder extends React.Component {
+  constructor(props) {
+    super(props);
+    this.buildSearchQuery = this.buildSearchQuery.bind(this);
+    this.getQueryParams = this.getQueryParams.bind(this);
+    this.getRequestedFolderId = this.getRequestedFolderId.bind(this);
+    this.formattedSortParam = this.formattedSortParam.bind(this);
+    this.handlePageSelect = this.handlePageSelect.bind(this);
+    this.handleSort = this.handleSort.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.makeMessageNav = this.makeMessageNav.bind(this);
+    this.makeMessagesTable = this.makeMessagesTable.bind(this);
+    this.makeSortMenu = this.makeSortMenu.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    const oldId = prevProps.params.id;
-    const newId = this.props.params.id;
-    if (oldId !== newId) {
-      this.props.fetchFolder(newId);
+  componentDidMount() {
+    if (!this.props.loading.inProgress && this.props.folders.size) {
+      const id = this.getRequestedFolderId();
+      const query = this.getQueryParams();
+      this.props.fetchFolder(id, query);
     }
+  }
+
+  componentDidUpdate() {
+    const loading = this.props.loading;
+
+    if (!loading.inProgress && this.props.folders.size) {
+      const lastRequest = loading.request;
+      const requestedId = this.getRequestedFolderId();
+      const query = this.getQueryParams();
+
+      // Only proceed with fetching the requested folder
+      // if it's not the same as the most recent request.
+      const shouldFetchFolder =
+        !lastRequest ||
+        requestedId !== lastRequest.id ||
+        !_.isEqual(query, lastRequest.query);
+
+      if (shouldFetchFolder) {
+        this.props.fetchFolder(requestedId, query);
+      }
+    }
+  }
+
+  getRequestedFolderId() {
+    const folderName = this.props.params.folderName;
+    const folder = this.props.folders.get(folderName);
+    return folder ? folder.folderId : null;
+  }
+
+  getQueryParams() {
+    const queryParams = [
+      'page',
+      'sort',
+      'filter[[sent_date][gteq]]',
+      'filter[[sent_date][lteq]]',
+      'filter[[sender_name][eq]]',
+      'filter[[sender_name][match]]',
+      'filter[[subject][eq]]',
+      'filter[[subject][match]]'
+    ];
+    return _.pick(this.props.location.query, queryParams);
+  }
+
+  formattedSortParam(value, order) {
+    const formattedValue = _.snakeCase(value);
+    const sort = order === 'DESC'
+                    ? `-${formattedValue}`
+                    : formattedValue;
+    return sort;
+  }
+
+  buildSearchQuery(object) {
+    const filters = {};
+
+    if (object.term.value) {
+      filters['filter[[subject][match]]'] = object.term.value;
+    }
+
+    if (object.from.field.value) {
+      const fromExact = object.from.exact ? 'eq' : 'match';
+      filters[`filter[[sender_name][${fromExact}]]`] = object.from.field.value;
+    }
+
+    if (object.subject.field.value) {
+      const subjectExact = object.subject.exact ? 'eq' : 'match';
+      filters[`filter[[subject][${subjectExact}]]`] = object.subject.field.value;
+    }
+
+    if (object.dateRange.start) {
+      filters['filter[[sent_date][gteq]]'] = object.dateRange.start.format();
+    }
+
+    if (object.dateRange.end) {
+      filters['filter[[sent_date][lteq]]'] = object.dateRange.end.format();
+    }
+
+    return filters;
+  }
+
+  handlePageSelect(page) {
+    this.context.router.push({
+      ...this.props.location,
+      query: { ...this.props.location.query, page }
+    });
+  }
+
+  handleSort(value, order) {
+    const sort = this.formattedSortParam(value, order);
+    this.context.router.push({
+      ...this.props.location,
+      query: { ...this.props.location.query, sort }
+    });
+  }
+
+  handleSearch(searchParams) {
+    const filters = this.buildSearchQuery(searchParams);
+
+    this.context.router.push({
+      ...this.props.location,
+      query: filters
+    });
   }
 
   makeMessageNav() {
-    const { folder, currentRange, messageCount, page, totalPages } = this.props;
+    const { currentRange, messageCount, page, totalPages } = this.props;
 
     if (messageCount === 0) {
       return null;
-    }
-
-    const folderId = folder.attributes.folderId;
-    let handleClickPrev;
-    let handleClickNext;
-
-    if (page > 1) {
-      handleClickPrev = () => {
-        this.props.fetchFolder(folderId, { page: page - 1 });
-      };
-    }
-
-    if (page < totalPages) {
-      handleClickNext = () => {
-        this.props.fetchFolder(folderId, { page: page + 1 });
-      };
     }
 
     return (
       <MessageNav
           currentRange={currentRange}
           messageCount={messageCount}
-          onClickPrev={handleClickPrev}
-          onClickNext={handleClickNext}/>
+          onItemSelect={this.handlePageSelect}
+          itemNumber={page}
+          totalItems={totalPages}/>
     );
   }
 
-  makeMessagesTable(messages) {
-    if (messages.length === 0) {
+  makeSortMenu() {
+    if (!this.props.messages || this.props.messages.length === 0) {
       return null;
     }
 
-    const makeMessageLink = (content, id) => {
-      return <Link to={`/messaging/thread/${id}`}>{content}</Link>;
-    };
+    const fields = [
+      { label: 'most recent', value: 'sentDate', order: 'DESC' },
+      { label: 'subject line', value: 'subject', order: 'ASC' },
+      { label: 'sender', value: 'senderName', order: 'ASC' }
+    ];
 
-    const rows = messages.map((message) => {
-      const id = message.messageId;
-      const rowClass = classNames({
-        'messaging-message-row': true,
-        'messaging-message-row--unread': message.readReceipt === 'UNREAD'
-      });
-
+    const sortOptions = fields.map(field => {
       return (
-        <tr key={id} className={rowClass}>
-          <td>
-            {makeMessageLink(message.senderName, id)}
-          </td>
-          <td>
-            {makeMessageLink(message.subject, id)}
-          </td>
-          <td>
-            {makeMessageLink(message.sentDate, id)}
-          </td>
-        </tr>
+        <option
+            key={field.value}
+            value={field.value}
+            data-order={field.order}>
+          Sort by {field.label}
+        </option>
       );
     });
 
-    // TODO: Use SortableTable here.
+    const handleSort = (event) => {
+      const menu = event.target;
+      const selectedIndex = menu.selectedIndex;
+      const sortValue = menu.value;
+      const sortOrder = menu[selectedIndex].dataset.order;
+      this.handleSort(sortValue, sortOrder);
+    };
+
     return (
-      <table className="usa-table-borderless">
-        <thead>
-          <tr>
-            <th>From</th>
-            <th>Subject line</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
+      <div className="msg-folder-sort-select">
+        <label htmlFor="folderSort" className="usa-sr-only">Sort by</label>
+        <select
+            id="folderSort"
+            value={this.props.sort.value}
+            onChange={handleSort}>
+          {sortOptions}
+        </select>
+      </div>
+    );
+  }
+
+  makeMessagesTable() {
+    const messages = this.props.messages;
+    if (!messages || messages.length === 0) {
+      return <p className="msg-nomessages">You have no messages in this folder.</p>;
+    }
+
+    const makeMessageLink = (content, id) => {
+      return <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>;
+    };
+
+    const fields = [
+      { label: 'From', value: 'senderName' },
+      { label: 'Subject line', value: 'subject' },
+      { label: 'Date', value: 'sentDate' }
+    ];
+
+    const folderId = this.props.attributes.folderId;
+    const markUnread = folderId >= 0;
+
+    const data = this.props.messages.map(message => {
+      const id = message.messageId;
+      const rowClass = classNames({
+        'messaging-message-row': true,
+        'messaging-message-row--unread':
+          markUnread && message.readReceipt !== 'READ'
+      });
+
+      return {
+        id,
+        rowClass,
+        senderName: makeMessageLink(message.senderName, id),
+        subject: makeMessageLink(message.subject, id),
+        sentDate: makeMessageLink(formattedDate(message.sentDate), id)
+      };
+    });
+
+    return (
+      <SortableTable
+          className="usa-table-borderless va-table-list msg-table-list"
+          currentSort={this.props.sort}
+          data={data}
+          fields={fields}
+          onSort={this.handleSort}/>
     );
   }
 
   render() {
-    const { attributes, messages } = this.props.folder;
-    let folderName;
+    const loading = this.props.loading;
 
-    if (!_.isEmpty(attributes)) {
-      folderName = attributes.name;
+    if (loading.inProgress) {
+      return <LoadingIndicator message="is loading the folder..."/>;
     }
 
+    const folderId = _.get(this.props.attributes, 'folderId', null);
+
+    if (folderId === null) {
+      const lastRequest = loading.request;
+
+      if (lastRequest && lastRequest.id !== null) {
+        const reloadFolder = () => {
+          this.props.fetchFolder(lastRequest.id, lastRequest.query);
+        };
+
+        return (
+          <p>
+            Could not retrieve the folder.&nbsp;
+            <a onClick={reloadFolder}>Click here to try again.</a>
+          </p>
+        );
+      }
+
+      return <p>Sorry, this folder does not exist.</p>;
+    }
+
+    const folderName = _.get(this.props.attributes, 'name');
     const messageNav = this.makeMessageNav();
-    const folderMessages = this.makeMessagesTable(messages);
+    const sortMenu = this.makeSortMenu();
+    const folderMessages = this.makeMessagesTable();
+
+    let messageSearch;
+    if (this.props.messages && this.props.messages.length) {
+      messageSearch = (<MessageSearch
+          isAdvancedVisible={this.props.isAdvancedVisible}
+          onAdvancedSearch={this.props.toggleAdvancedSearch}
+          onDateChange={this.props.setDateRange}
+          onError={this.props.openAlert}
+          onFieldChange={this.props.setSearchParam}
+          onSubmit={this.handleSearch}
+          params={this.props.searchParams}/>);
+    }
 
     return (
       <div>
-        <div id="messaging-content-header">
+        <div
+            id="messaging-content-header"
+            className="messaging-folder-header">
           <button
               className="messaging-menu-button"
               type="button"
@@ -127,25 +309,25 @@ class Folder extends React.Component {
           </button>
           <h2>{folderName}</h2>
         </div>
-        <MessageSearch
-            isAdvancedVisible={this.props.isAdvancedVisible}
-            searchDateRangeEnd={this.props.searchDateRangeEnd}
-            onAdvancedSearch={this.props.toggleAdvancedSearch}
-            onDateChange={this.props.setDateRange}
-            searchDateRangeStart={this.props.searchDateRangeStart}
-            onSubmit={(e) => { e.preventDefault(); }}/>
         <div id="messaging-folder-controls">
           <ComposeButton/>
+          {messageSearch}
           {messageNav}
         </div>
+        {sortMenu}
         {folderMessages}
       </div>
     );
   }
 }
 
+Folder.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
+
 const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
+  const { attributes, messages } = folder;
   const pagination = folder.pagination;
   const page = pagination.currentPage;
   const perPage = pagination.perPage;
@@ -156,22 +338,28 @@ const mapStateToProps = (state) => {
   const endCount = Math.min(totalCount, page * perPage);
 
   return {
-    folder,
+    attributes,
     currentRange: `${startCount} - ${endCount}`,
+    filter: folder.filter,
+    folders: state.folders.data.items,
+    loading: state.folders.ui.loading,
     messageCount: totalCount,
+    messages,
     page,
     totalPages,
     isAdvancedVisible: state.search.advanced.visible,
-    searchDateRangeStart: state.search.advanced.params.dateRange.start,
-    searchDateRangeEnd: state.search.advanced.params.dateRange.end
+    searchParams: state.search.params,
+    sort: folder.sort
   };
 };
 
 const mapDispatchToProps = {
   fetchFolder,
-  toggleFolderNav,
+  openAlert,
+  setDateRange,
+  setSearchParam,
   toggleAdvancedSearch,
-  setDateRange
+  toggleFolderNav
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Folder);
