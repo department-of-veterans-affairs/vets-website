@@ -7,6 +7,7 @@ import {
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
+  fetchFolders,
   openCreateFolderModal,
   setCurrentFolder,
   setNewFolderName,
@@ -26,6 +27,10 @@ export class Main extends React.Component {
     this.handleFolderChange = this.handleFolderChange.bind(this);
     this.handleFolderNameChange = this.handleFolderNameChange.bind(this);
     this.handleSubmitCreateNewFolder = this.handleSubmitCreateNewFolder.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.fetchFolders();
   }
 
   handleFolderChange(domEvent) {
@@ -115,6 +120,7 @@ const mapDispatchToProps = {
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
+  fetchFolders,
   openCreateFolderModal,
   setCurrentFolder,
   setNewFolderName,
