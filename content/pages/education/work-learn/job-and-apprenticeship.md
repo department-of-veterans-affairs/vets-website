@@ -5,28 +5,28 @@ concurrence: incomplete
 template: 4-action-page-pending
 ---
 
-If you want to learn a trade or skill through on-the-job training (OJT) or apprenticeships, VA benefits are available.
+VA offers education benefits to support you while you learn a trade or skill through on-the-job training (OJT) or apprenticeships. Find out if you can get education benefits.
 
 <div class="call-out" markdown="1">
 
-### Can I get these benefits? 
-You can take advantage of on-the-job training or apprenticeships if:
+### Can I get education benefits? 
+You can get education benefits during OJT or apprenticeships if:
 
   -	You're eligible for the GI Bill.
-  -	You're interested in working in an industry or job where (OJT) training is available, like:
+  -	You want to work in an industry or do a job that has OJT, like:
       -	Plumbing
       -	Hotel management
       -	Firefighting
 
 ### Who's covered?
 Veterans
-**Exception:** OJT isn't available if you are an active-duty Servicemember, and it isn't available to spouses using a transferred benefit.
+**Note:** You can't get OJT if you're an active-duty Servicemember or a spouse using a transferred benefit.
 </div>
 
 ### What benefits can I get?
 
 -	Money for books and supplies, up to $83 per month
--	Money for housing 
+-	Money for housing, if you're covered under the Post-9/11 GI Bill
 
 -----
 
@@ -34,14 +34,14 @@ Veterans
 
 You'll need to make sure the program is approved by a State Approving Agency (SAA). [Check with your local VA office](/facilities). 
 
-You'll most likely need to enter into a training contract for a specific amount of time with an employer or union. During training you'll probably get a salary from the employer or union, which typically goes up as you gain more skills. At the end of your training period, you'll get a job certification or journeyman status.
+You'll most likely need to enter into a training contract for a set amount of time with an employer or union. During training, you'll probably get a salary from the employer or union, which can go up as you gain more skills. When you finish your training, you'll get a job certification or journeyman status.
 
-Veterans in an approved program can use their GI Bill benefit and get a tax-free stipend. The Post-9/11 GI Bill pays a monthly housing allowance (MHA), which is paid in addition to the entry-level wage. VA issues GI Bill payments each month after getting verification of your hours from your employer or union.
+If you're a Veteran in an approved program, you can use your GI Bill benefit and get tax-free money for books and supplies. The Post-9/11 GI Bill offers you a monthly housing allowance (MHA) in addition to your entry-level wage. We issue GI Bill payments each month after your employer or union reports your hours to us.
 
-Your payment will depend on the which GI Bill program you're using. [View the payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+Your payment depends on which GI Bill program you're using. [View the payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
 #### Post-9/11 GI Bill MHA Payment Rates
-You will receive 100% of your applicable MHA during the first six months of training in these increments:
+You'll get 100% of your applicable MHA during the first 6 months of training. Then you'll get:
 
 - 80% of your applicable MHA during the second 6 months of training
 - 60% of your applicable MHA during the third 6 months of training
