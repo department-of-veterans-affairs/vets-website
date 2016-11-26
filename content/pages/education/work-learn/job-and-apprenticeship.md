@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: On-the-Job Training and Apprenticeships
 concurrence: incomplete
+plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
