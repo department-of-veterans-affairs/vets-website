@@ -11,16 +11,16 @@ VA offers education benefits to support you while you learn a trade or skill thr
 <div class="call-out" markdown="1">
 
 ### Can I get education benefits? 
-You can get education benefits during OJT or apprenticeships if:
+You can get benefits if:
 
-  -	You're eligible for the GI Bill.
-  -	You want to work in an industry or do a job that has OJT, like:
+  -	You qualify for the GI Bill, **and**
+  -	You want to work in an industry or job that has OJT, like:
       -	Plumbing
       -	Hotel management
       -	Firefighting
 
 ### Who's covered?
-Veterans
+Veterans<br />
 **Note:** You can't get OJT if you're an active-duty Servicemember or a spouse using a transferred benefit.
 </div>
 
@@ -47,12 +47,12 @@ You'll get 100% of your applicable MHA during the first 6 months of training. Th
 - 80% of your applicable MHA during the second 6 months of training
 - 60% of your applicable MHA during the third 6 months of training
 - 40% of your applicable MHA during the fourth 6 months of training
-- 20% of your applicable MHA during the remainder of the training
+- 20% of your applicable MHA during the rest of the training period
 
 #### All other GI Bill Programs Payment Rates
 
 - 75% of the full-time GI Bill rate for the first 6 months of training
 - 55% of the full-time GI Bill rate for the second 6 months of training
-- 35% of the full-time GI Bill rate for the remainder of the training program
+- 35% of the full-time GI Bill rate for the rest of the training period
 
-[Get more information about On-the-Job &amp; Apprenticeship Training Programs](http://www.benefits.va.gov/gibill/docs/factsheets/OJT_Factsheet.pdf).
+[Get more information about on-the-job and apprenticeship training programs](http://www.benefits.va.gov/gibill/docs/factsheets/OJT_Factsheet.pdf).
