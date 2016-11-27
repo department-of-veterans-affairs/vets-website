@@ -13,7 +13,7 @@ With co-op training, you can get full-time work experience in between periods of
 ### Can I get education benefits for co-op training?
 You can get money for books, tuition, and housing if:
 
-  - You're using VA educational assistance
+  - You're using VA educational assistance, **and**
   - You're in an educational program that requires part-time study and part-time work or training
 
 ### Who's covered?
