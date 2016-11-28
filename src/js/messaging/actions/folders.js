@@ -15,6 +15,7 @@ import {
   LOADING_FOLDER,
   RESET_REDIRECT,
   SET_CURRENT_FOLDER,
+  TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS
 } from '../utils/constants';
@@ -117,6 +118,13 @@ export function setCurrentFolder(folderId) {
   return {
     type: SET_CURRENT_FOLDER,
     folderId
+  };
+}
+
+export function toggleFolderMoveTo(id) {
+  return {
+    type: TOGGLE_FOLDER_MOVE_TO,
+    messageId: id
   };
 }
 
