@@ -9,8 +9,27 @@ const scroller = Scroll.scroller;
 
 /**
  * A component for the review page to validate information is correct.
+ * The panel contains one chapter and a list of pages that can be viewed and edited
+ * indepepndently.
  *
  * Required props
+ * chapter - The chapter title for this panel
+ * pages - The array of pages for this chapter. Each pages contains the name and components to render it
+ * data - The current form data
+ * uiState - The current ui state for each page (i.e. whether each chapter is collapsed or not)
+ * onStateChange - Called when form data is changed
+ * onFieldsInitialized - Sets all fields to dirty when saving/continuing on page
+ * onUpdateEditStatus - toggles editOnReview property that expands/collapses chapter panel
+ *
+ * Page props:
+ *
+ * path - Url for the page, used to check editOnReview state
+ * fieldsComponent - Component that renders editable view of page (or both edit and view states if
+ *   no review component is passed)
+ * reviewComponent - Component used to render read view of page. Optional if fieldsComponent can handle review state
+ * name - Name of the page
+ *
+ * The fieldsComponent is passed some state props: inReview (always true here) and editing.
  */
 
 export default class ReviewCollapsiblePanel extends React.Component {
@@ -127,8 +146,11 @@ export default class ReviewCollapsiblePanel extends React.Component {
 }
 
 ReviewCollapsiblePanel.propTypes = {
+  chapter: React.PropTypes.string.isRequired,
+  pages: React.PropTypes.array.isRequired,
   data: React.PropTypes.object.isRequired,
   uiData: React.PropTypes.object.isRequired,
   onFieldsInitialized: React.PropTypes.func.isRequired,
+  onStateChange: React.PropTypes.func.isRequired,
   onUpdateEditStatus: React.PropTypes.func.isRequired
 };
