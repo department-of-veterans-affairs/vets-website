@@ -111,6 +111,7 @@ export class Compose extends React.Component {
           <button
               className="messaging-send-button"
               type="button"
+              onClick={this.sendMessage}
               disabled={!this.props.message.body.value.length}>
             Send
           </button>

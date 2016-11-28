@@ -323,6 +323,7 @@ export class Thread extends React.Component {
             <button
                 className="messaging-send-button"
                 type="button"
+                onClick={this.handleDraftSend}
                 disabled={!this.props.draft.body.value.length}>
               Send
             </button>
