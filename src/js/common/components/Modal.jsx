@@ -1,12 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 
-function focusListener() {
+function focusListener(selector) {
   const listener = event => {
     const modal = document.querySelector('.va-modal');
     if (!modal.contains(event.target)) {
       event.stopPropagation();
-      modal.focus();
+      document.querySelector(selector).focus();
     }
   };
   document.addEventListener('focus', listener, true);
@@ -22,7 +22,7 @@ class Modal extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.visible && !this.props.visible) {
-      this.setState({ lastFocus: document.activeElement, focusListener: focusListener() });
+      this.setState({ lastFocus: document.activeElement, focusListener: focusListener(newProps.focusSelector) });
     } else if (!newProps.visible && this.props.visible) {
       document.removeEventListener('focus', this.state.focusListener, true);
       this.state.lastFocus.focus();
@@ -31,7 +31,7 @@ class Modal extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
-      document.querySelector('.va-modal').focus();
+      document.querySelector(this.props.focusSelector).focus();
     }
   }
 
@@ -57,7 +57,7 @@ class Modal extends React.Component {
     );
 
     return (
-      <div className={modalCss} id={this.props.id} role="alertdialog" tabIndex="-1">
+      <div className={modalCss} id={this.props.id} role="dialog" aria-describedby={this.props.describedBy}>
         <div className="va-modal-inner">
           {closeButton}
           <div className="va-modal-body">
@@ -75,7 +75,13 @@ Modal.propTypes = {
   id: React.PropTypes.string,
   onClose: React.PropTypes.func.isRequired,
   visible: React.PropTypes.bool.isRequired,
-  hideCloseButton: React.PropTypes.bool
+  hideCloseButton: React.PropTypes.bool,
+  describedBy: React.PropTypes.string,
+  focusSelector: React.PropTypes.string
+};
+
+Modal.defaultProps = {
+  focusSelector: '.va-modal button, .va-modal input, .va-modal select, .va-modal a'
 };
 
 export default Modal;
