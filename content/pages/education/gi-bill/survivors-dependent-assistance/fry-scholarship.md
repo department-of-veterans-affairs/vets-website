@@ -9,10 +9,10 @@ The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) provide
 
 <div class="call-out usa-content" markdown="1">
 
-###Can I get Fry Scholarship benefits?
+### Can I get Fry Scholarship benefits?
 You may be able to get the Fry Scholarship if are the child or surviving spouse of an active-duty Servicemember who died in the line of duty on or after September 11, 2001.
 
-###Who's covered?
+### Who's covered?
 Qualified dependents
 Qualified survivors
 </div>
