@@ -17,6 +17,7 @@ class Main extends React.Component {
     this.getLogoutUrl = this.getLogoutUrl.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
     this.checkTokenStatus = this.checkTokenStatus.bind(this);
     this.getUserData = getUserData;
   }
@@ -63,7 +64,13 @@ class Main extends React.Component {
 
   handleLogin() {
     const myLoginUrl = this.state.loginUrl;
-    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  }
+
+  handleSignup() {
+    const myLoginUrl = this.state.loginUrl;
+    const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 
@@ -96,7 +103,7 @@ class Main extends React.Component {
 
     if (__BUILDTYPE__ !== 'production') {
       content = (
-        <SignInProfileButton onUserLogin={this.handleLogin} onUserLogout={this.handleLogout}/>
+        <SignInProfileButton onUserLogin={this.handleLogin} onUserSignup={this.handleSignup} onUserLogout={this.handleLogout}/>
       );
     } else {
       content = null;
