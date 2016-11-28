@@ -13,10 +13,10 @@ class RxRefillsApp extends React.Component {
   render() {
     const view = (
       <div>
-        <Disclaimer
+        <div className="rx-app row">
+          <Disclaimer
             isOpen={this.props.disclaimer.open}
             handleClose={this.props.closeDisclaimer}/>
-        <div className="rx-app row">
           {this.props.children}
         </div>
         <ConfirmRefillModal

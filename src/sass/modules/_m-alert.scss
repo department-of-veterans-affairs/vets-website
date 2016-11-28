@@ -1,21 +1,29 @@
 .va-alert {
-  display: table;
-  margin: 0;
-  width: 100%;
+  background-size: auto 1.5em;
+  background-position: 1rem 1.75rem;
+  position: relative;
+
+  &-title, h5 {
+    padding-bottom: 0 !important;
+  }
+
+  p {
+    margin: 0 !important;
+  }
 }
 
 .va-alert-body {
-  font-size: 2rem;
-  vertical-align: middle;
+  padding-left: 3.5rem;
 }
 
 .va-alert-close {
-  background: transparent;
-  color: $color-gray-dark;
-  display: table-cell;
-  float: right;
+  color: $color-base;
   margin: 0;
-  padding: 1rem;
+  padding: .5rem;
+  position: absolute;
+  right: 2rem;
+  top: 1.75rem;
+  width: auto;
 
   &:hover {
     background: transparent;
