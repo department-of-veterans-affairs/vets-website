@@ -92,7 +92,7 @@
     "libxmljs": "^0.18.0",
     "lodash": "^4.5.1",
     "lodash-deep": "^2.0.0",
-    "mapbox": "^1.0.0-beta3",
+    "mapbox": "^1.0.0-beta5",
     "metalsmith": "^2.1.0",
     "metalsmith-archive": "^0.1.1",
     "metalsmith-assets": "^0.1.0",

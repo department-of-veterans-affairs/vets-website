@@ -22,9 +22,9 @@ import {
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
-  toggleMoveTo,
   toggleReplyDetails,
   toggleThreadForm,
+  toggleThreadMoveTo,
   updateDraft
 } from '../actions';
 
@@ -50,21 +50,22 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.loading) {
-      const id = this.props.params.messageId;
+    if (!this.props.loading.inProgress) {
+      const id = +this.props.params.messageId;
       this.props.fetchThread(id);
     }
   }
 
   componentDidUpdate() {
     if (this.props.redirect) {
-      this.context.router.push(this.props.redirect);
+      this.context.router.replace(this.props.redirect);
       return;
     }
 
-    if (!this.props.loading) {
+    const loading = this.props.loading;
+
+    if (!loading.inProgress) {
       const message = this.props.message;
-      const requestedId = +this.props.params.messageId;
 
       const shouldFetchRecipients =
         message &&
@@ -75,8 +76,9 @@ export class Thread extends React.Component {
         this.props.fetchRecipients();
       }
 
-      const shouldFetchMessage =
-        message && message.messageId !== requestedId;
+      const requestedId = +this.props.params.messageId;
+      const lastRequestedId = loading.requestId;
+      const shouldFetchMessage = requestedId !== lastRequestedId;
 
       if (shouldFetchMessage) {
         this.props.fetchThread(requestedId);
@@ -176,7 +178,7 @@ export class Thread extends React.Component {
           onCreateFolder={this.props.openMoveToNewFolderModal}
           onDeleteMessage={this.handleMessageDelete}
           onToggleThread={this.props.toggleMessagesCollapsed}
-          onToggleMoveTo={this.props.toggleMoveTo}/>
+          onToggleMoveTo={this.props.toggleThreadMoveTo}/>
     );
   }
 
@@ -255,12 +257,29 @@ export class Thread extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
+    const loading = this.props.loading;
+
+    if (loading.inProgress) {
       return <LoadingIndicator message="is loading the thread..."/>;
     }
 
     if (!this.props.message) {
-      return <b>Sorry, this message does not exist.</b>;
+      const lastRequestedId = loading.requestId;
+
+      if (lastRequestedId !== null) {
+        const reloadMessage = () => {
+          this.props.fetchThread(lastRequestedId);
+        };
+
+        return (
+          <p>
+            Could not retrieve the message.&nbsp;
+            <a onClick={reloadMessage}>Click here to try again.</a>
+          </p>
+        );
+      }
+
+      return <p>Sorry, this message does not exist.</p>;
     }
 
     const header = this.makeHeader();
@@ -369,7 +388,7 @@ const mapDispatchToProps = {
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
-  toggleMoveTo,
+  toggleThreadMoveTo,
   toggleReplyDetails,
   toggleThreadForm,
   updateDraft

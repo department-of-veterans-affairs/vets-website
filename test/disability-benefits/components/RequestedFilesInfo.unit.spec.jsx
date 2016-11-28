@@ -17,22 +17,6 @@ describe('<RequestedFilesInfo>', () => {
     );
     expect(tree.everySubTree('.no-documents')).not.to.be.empty;
   });
-  it('should render decision message', () => {
-    const filesNeeded = [{
-      type: 'still_need_from_you_list',
-      status: 'NEEDED'
-    }];
-    const optionalFiles = [];
-
-    const tree = SkinDeep.shallowRender(
-      <RequestedFilesInfo
-          id="1"
-          waiverSubmitted
-          filesNeeded={filesNeeded}
-          optionalFiles={optionalFiles}/>
-    );
-    expect(tree.everySubTree('.va-to-make-decision')).not.to.be.empty;
-  });
   it('should display requested items', () => {
     const filesNeeded = [
       {

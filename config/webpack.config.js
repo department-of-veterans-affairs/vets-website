@@ -80,7 +80,8 @@ const configGenerator = (options) => {
           test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'file-loader'
         }
-      ]
+      ],
+      noParse: [/mapbox\/vendor\/promise.js$/],
     },
     resolve: {
       alias: {

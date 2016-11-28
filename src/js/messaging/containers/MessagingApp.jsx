@@ -3,17 +3,9 @@ import { connect } from 'react-redux';
 
 import AlertBox from '../../common/components/AlertBox';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-
-import {
-  closeAlert,
-  fetchFolders
-} from '../actions';
+import { closeAlert } from '../actions';
 
 class MessagingApp extends React.Component {
-  componentDidMount() {
-    this.props.fetchFolders();
-  }
-
   render() {
     const view = (
       <div id="messaging-app" className="row">
@@ -49,8 +41,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  closeAlert,
-  fetchFolders
+  closeAlert
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessagingApp);

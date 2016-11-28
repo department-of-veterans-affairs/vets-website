@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import merge from 'lodash/fp/merge';
 import set from 'lodash/fp/set';
 
 import { folderUrl } from '../utils/helpers';
@@ -17,6 +18,7 @@ import {
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
   SET_CURRENT_FOLDER,
+  TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS
 } from '../utils/constants';
@@ -42,7 +44,11 @@ const initialState = {
     items: new Map()
   },
   ui: {
-    loading: false,
+    loading: {
+      inProgress: false,
+      request: null
+    },
+    moveToId: null,
     nav: {
       foldersExpanded: false,
       visible: false
@@ -71,7 +77,7 @@ export default function folders(state = initialState, action) {
     }
 
     case FETCH_FOLDER_FAILURE:
-      return set('ui.loading', false, state);
+      return set('ui.loading.inProgress', false, state);
 
     case FETCH_FOLDER_SUCCESS: {
       const attributes = action.folder.data.attributes;
@@ -91,10 +97,20 @@ export default function folders(state = initialState, action) {
         messages,
         pagination,
         persistFolder,
-        sort: { value: sortValue, order: sortOrder },
+        sort: {
+          value: sortValue,
+          order: sortOrder
+        },
       }, state);
 
-      return set('ui.loading', false, newState);
+      return set('ui', merge(initialState.ui, {
+        loading: {
+          request: _.get(newState, 'ui.loading.request', null)
+        },
+        nav: {
+          foldersExpanded: _.get(newState, 'ui.nav.foldersExpanded', false)
+        }
+      }), newState);
     }
 
     case FETCH_FOLDERS_SUCCESS: {
@@ -107,8 +123,28 @@ export default function folders(state = initialState, action) {
       return set('data.items', items, state);
     }
 
-    case LOADING_FOLDER:
-      return set('ui.loading', true, state);
+    case LOADING_FOLDER: {
+      const newState = set(
+        'data.currentItem',
+        merge(initialState.data.currentItem, {
+          persistFolder: action.request.id
+        }),
+        state
+      );
+
+      return set('ui.loading', {
+        inProgress: true,
+        request: action.request
+      }, newState);
+    }
+
+    case TOGGLE_FOLDER_MOVE_TO: {
+      const id = state.ui.moveToId === action.messageId
+               ? null
+               : action.messageId;
+
+      return set('ui.moveToId', id, state);
+    }
 
     case TOGGLE_FOLDER_NAV:
       return set('ui.nav.visible', !state.ui.nav.visible, state);
