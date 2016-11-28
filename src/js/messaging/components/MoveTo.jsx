@@ -46,7 +46,7 @@ class MoveTo extends React.Component {
       <div className="msg-move-to">
         <ButtonMove onClick={this.props.onToggleMoveTo}/>
         <form
-            hidden={this.props.isOpen}
+            hidden={!this.props.isOpen}
             onChange={this.handleChooseFolder}>
           <fieldset>
             <legend className="usa-sr-only">
