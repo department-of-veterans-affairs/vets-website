@@ -11,7 +11,6 @@ majorlinks:
   - url: /healthcare/prescriptions/
     title: Refill Prescriptions
     description: Refill prescriptions online, and track the status of your refills.
-
   - url: /healthcare/messaging/
     title: Send a Message to Your Health Care Team
     description: Send a secure, private note to your doctor or other members of your VA health care team.
