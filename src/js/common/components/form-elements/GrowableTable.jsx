@@ -25,6 +25,21 @@ const scroller = Scroll.scroller;
  * another or update an existing one. Incomplete is set for the new row added after clicking Add Another.
  *
  * All rows are set to complete when the component is mounted (i.e. you're coming back to the page after adding a row previously).
+ * component - The component to render for each item in the table
+ * createRow - Function called to create a new row
+ * data - Form data
+ * initializeCurrentElement - Function called to set all fields in element to dirty
+ * onRowsUpdate - Function called to update form data with row changes
+ * path - Path for current page of form
+ * rows - Array of data for this component
+ * isValidSection - Function to check if the current page is valid
+ * addNewMessage - Message displayed at the top of new rows in editing mode
+ * rowTitle - Title used for Update button text
+ * alwaysShowUpdateRemoveButtons (default: false) - Always show the Update/Remove buttons, instead of hiding them on first row
+ * showSingleRowExpanded (default: true) - Show table in editing mode if only one row
+ * showEditButton (default: true) - Show edit button in collapsed view
+ * showAddAnotherButton (default: true) - Show the add another button at the bottom of the table
+ * createRowIfEmpty (default: true) - If rows prop is empty, create an empty row as a placeholder
 */
 
 class GrowableTable extends React.Component {
@@ -247,7 +262,6 @@ GrowableTable.propTypes = {
   rows: React.PropTypes.array.isRequired,
   isValidSection: React.PropTypes.func.isRequired,
   addNewMessage: React.PropTypes.string,
-  minimumRows: React.PropTypes.number,
   rowTitle: React.PropTypes.string,
   alwaysShowUpdateRemoveButtons: React.PropTypes.bool,
   showSingleRowExpanded: React.PropTypes.bool,
@@ -258,7 +272,6 @@ GrowableTable.propTypes = {
 
 GrowableTable.defaultProps = {
   isValidSection,
-  minimumRows: 0,
   alwaysShowUpdateRemoveButtons: false,
   showEditButton: true,
   showSingleRowExpanded: true,
