@@ -38,7 +38,6 @@ class AuthApp extends React.Component {
     }).then(json => {
       const userData = json.data.attributes.profile;
       if (userData.loa.highest === 3) {
-        // This will require a user to MFA if they have not verified in the last 2 mins.
         if (userData.loa.current === 3 && sessionStorage.mfa_start) {
           this.setMyToken(myToken);
         } else {

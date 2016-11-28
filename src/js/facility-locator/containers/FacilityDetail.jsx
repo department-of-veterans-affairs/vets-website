@@ -8,6 +8,7 @@ import FacilityDirectionsLink from '../components/search-results/FacilityDirecti
 import FacilityHours from '../components/FacilityHours';
 import FacilityMap from '../components/FacilityMap';
 import FacilityPhoneLink from '../components/search-results/FacilityPhoneLink';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import React, { Component } from 'react';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 
@@ -71,10 +72,19 @@ class FacilityDetail extends Component {
   }
 
   render() {
-    const { facility } = this.props;
+    const { facility, currentQuery } = this.props;
 
     if (!facility) {
       return null;
+    }
+
+
+    if (currentQuery.inProgress) {
+      return (
+        <div>
+          <LoadingIndicator message="Loading information..."/>
+        </div>
+      );
     }
 
     return (
@@ -107,7 +117,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { facility: state.facilities.selectedFacility };
+  return { facility: state.facilities.selectedFacility, currentQuery: state.searchQuery };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FacilityDetail);
