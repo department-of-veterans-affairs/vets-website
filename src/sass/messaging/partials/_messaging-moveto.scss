@@ -1,25 +1,47 @@
 .msg-move-to {
   display: inline-block;
   position: relative;
+  vertical-align: middle;
+}
+
+.messaging-move {
+  background: inherit;
+  border-radius: 0;
+  border: 1px solid $color-black;
+  color: $color-black;
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 1rem;
+
+  &:hover,
+  &:active {
+    background: inherit;
+    color: inherit;
+    border-bottom: 1px solid $color-black;
+  }
+
+  > i {
+    margin-left: .5rem;
+  }
 }
 
 // Creates a radio input but with a hidden
 // control. Using high-specificity selector because
 // USWDS does.
 .msg-hidden-radio[type=radio] {
-  // Overrides some silly USWDS input stuff 
+  // Overrides some silly USWDS input stuff
   height: auto;
   width: auto;
-  
+
   & + label {
     &:hover {
       background: $color-gray-lightest;
     }
   }
-  
+
   &:checked + label,
   + label {
-
+    margin: 0;
     &::before {
       display: none;
       content: '';
@@ -34,8 +56,18 @@
   margin: -1px 0 0 0;
   padding-left: 0;
   position: absolute;
+  text-align: left;
   z-index: 3;
-  
+
+  @media (max-width: $medium-screen) {
+    width: 20rem;
+    right: 0;
+  }
+
+  @media (min-width: $medium-screen) {
+    min-width: 25rem;
+  }
+
   .msg-btn-newfolder[type="button"] {
     display: block;
     padding: .5rem;
@@ -50,6 +82,5 @@
   overflow: hidden;
   padding: 1rem;
   text-overflow: ellipsis;
-  width: 25rem;
   white-space: nowrap;
 }

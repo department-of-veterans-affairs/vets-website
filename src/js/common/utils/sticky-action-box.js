@@ -43,7 +43,7 @@ function moveActionBoxOnScroll(actionBox, offset, positionFunction, resetFunctio
   }, 100));
 }
 
-window.onload = function stickyActionBox() {
+function stickyActionBox() {
   const largeActionBox = document.querySelectorAll('.show-for-large-up .sticky-action-box')[0];
 
   if (largeActionBox) {
@@ -57,4 +57,11 @@ window.onload = function stickyActionBox() {
     const offsetSmall = smallActionBox.getBoundingClientRect();
     moveActionBoxOnScroll(smallActionBox, offsetSmall, setSmallActionBoxAtTop, resetSmallActionBox);
   }
-};
+}
+
+if (window.addEventListener) {
+  window.addEventListener('load', stickyActionBox, false);
+} else {
+  window.attachEvent('onload', stickyActionBox);
+}
+
