@@ -15,8 +15,8 @@ class RxRefillsApp extends React.Component {
       <div>
         <div className="rx-app row">
           <Disclaimer
-            isOpen={this.props.disclaimer.open}
-            handleClose={this.props.closeDisclaimer}/>
+              isOpen={this.props.disclaimer.open}
+              handleClose={this.props.closeDisclaimer}/>
           {this.props.children}
         </div>
         <ConfirmRefillModal
