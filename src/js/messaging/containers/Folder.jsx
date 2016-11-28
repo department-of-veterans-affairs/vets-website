@@ -9,16 +9,20 @@ import SortableTable from '../../common/components/SortableTable';
 
 import {
   fetchFolder,
+  moveMessageToFolder,
   openAlert,
+  openMoveToNewFolderModal,
   setDateRange,
   setSearchParam,
   toggleAdvancedSearch,
+  toggleFolderMoveTo,
   toggleFolderNav
 } from '../actions';
 
 import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
 import MessageSearch from '../components/MessageSearch';
+import MoveTo from '../components/MoveTo';
 import { formattedDate } from '../utils/helpers';
 
 export class Folder extends React.Component {
@@ -37,76 +41,42 @@ export class Folder extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.loading) {
+    if (!this.props.loading.inProgress && this.props.folders.size) {
       const id = this.getRequestedFolderId();
-      if (id !== null) {
-        const query = this.getQueryParams();
-        this.props.fetchFolder(id, query);
-      }
+      const query = this.getQueryParams();
+      this.props.fetchFolder(id, query);
     }
   }
 
   componentDidUpdate() {
-    if (!this.props.loading) {
-      const oldId = this.props.attributes.folderId;
-      const newId = this.getRequestedFolderId();
-      if (newId === null) { return; }
-      const idChanged = newId !== oldId;
+    const redirect = this.props.redirect;
 
+    // In the typical case of redirects, we go to the most recent folder
+    // and proceed with fetching its data. If that's not the case,
+    // go ahead to the URL specified in the redirect.
+    if (redirect && redirect !== this.props.location.pathname) {
+      this.context.router.replace(redirect);
+      return;
+    }
+
+    const loading = this.props.loading;
+
+    if (!loading.inProgress && this.props.folders.size) {
+      const lastRequest = loading.request;
+      const requestedId = this.getRequestedFolderId();
       const query = this.getQueryParams();
 
-      const pageChanged = () => {
-        const oldPage = this.props.page;
-        const newPage = +query.page || oldPage;
-        return newPage !== oldPage;
-      };
+      // Only proceed with fetching the requested folder
+      // if a redirect has been set (as after moving a message)
+      // or if it's not the same as the most recent request.
+      const shouldFetchFolder =
+        redirect ||
+        !lastRequest ||
+        requestedId !== lastRequest.id ||
+        !_.isEqual(query, lastRequest.query);
 
-      const sortChanged = () => {
-        const oldSort = this.formattedSortParam(
-          this.props.sort.value,
-          this.props.sort.order
-        );
-        const newSort = query.sort || oldSort;
-        return newSort !== oldSort;
-      };
-
-      const filterChanged = () => {
-        const fromDateSearchChanged =
-          query['filter[[sent_date][gteq]]'] !==
-          _.get(this.props.filter, 'sentDate.gteq');
-
-        const toDateSearchChanged =
-          query['filter[[sent_date][lteq]]'] !==
-          _.get(this.props.filter, 'sentDate.lteq');
-
-        const senderSearchChanged =
-          (query['filter[[sender_name][eq]]'] !==
-          _.get(this.props.filter, 'senderName.eq')) ||
-          (query['filter[[sender_name][match]]'] !==
-          _.get(this.props.filter, 'senderName.match'));
-
-        const subjectSearchChanged =
-          (query['filter[[subject][eq]]'] !==
-          _.get(this.props.filter, 'subject.eq')) ||
-          (query['filter[[subject][match]]'] !==
-          _.get(this.props.filter, 'subject.match'));
-
-        return (
-          fromDateSearchChanged ||
-          toDateSearchChanged ||
-          senderSearchChanged ||
-          subjectSearchChanged
-        );
-      };
-
-      const shouldUpdate =
-        idChanged ||
-        pageChanged() ||
-        sortChanged() ||
-        filterChanged();
-
-      if (shouldUpdate) {
-        this.props.fetchFolder(newId, query);
+      if (shouldFetchFolder) {
+        this.props.fetchFolder(requestedId, query);
       }
     }
   }
@@ -219,6 +189,20 @@ export class Folder extends React.Component {
       { label: 'sender', value: 'senderName', order: 'ASC' }
     ];
 
+    const folderName = this.props.attributes.name;
+    const isDraftsFolder = folderName === 'Drafts';
+    const isSentFolder = folderName === 'Sent';
+
+    if (isDraftsFolder || isSentFolder) {
+      fields[2] = { label: 'recipient', value: 'recipientName', order: 'ASC' };
+
+      // Disable sorting by 'Date' for Drafts. There is no
+      // save date available, and drafts don't have sent dates.
+      if (isDraftsFolder) {
+        fields.splice(0, 1);
+      }
+    }
+
     const sortOptions = fields.map(field => {
       return (
         <option
@@ -268,7 +252,31 @@ export class Folder extends React.Component {
     ];
 
     const folderId = this.props.attributes.folderId;
+    const folderName = this.props.attributes.name;
+    const isDraftsFolder = folderName === 'Drafts';
+    const isSentFolder = folderName === 'Sent';
+    const moveToFolders = [];
     const markUnread = folderId >= 0;
+
+    if (isDraftsFolder || isSentFolder) {
+      fields[0] = { label: 'To', value: 'recipientName' };
+
+      // Hide 'Date' column for Drafts. There is no save date
+      // available, and drafts don't have sent dates.
+      if (isDraftsFolder) {
+        fields.pop();
+      }
+    } else {
+      fields.push({ label: '', value: 'moveToButton' });
+
+      // Exclude the current folder from the list of folders
+      // that are passed down to the MoveTo component.
+      this.props.folders.forEach((folder) => {
+        if (folderId !== folder.folderId) {
+          moveToFolders.push(folder);
+        }
+      });
+    }
 
     const data = this.props.messages.map(message => {
       const id = message.messageId;
@@ -278,12 +286,24 @@ export class Folder extends React.Component {
           markUnread && message.readReceipt !== 'READ'
       });
 
+      const moveToButton = (
+        <MoveTo
+            folders={moveToFolders}
+            isOpen={id === this.props.moveToId}
+            messageId={id}
+            onChooseFolder={this.props.moveMessageToFolder}
+            onCreateFolder={this.props.openMoveToNewFolderModal}
+            onToggleMoveTo={() => this.props.toggleFolderMoveTo(id)}/>
+      );
+
       return {
         id,
         rowClass,
+        recipientName: makeMessageLink(message.recipientName, id),
         senderName: makeMessageLink(message.senderName, id),
         subject: makeMessageLink(message.subject, id),
-        sentDate: makeMessageLink(formattedDate(message.sentDate), id)
+        sentDate: makeMessageLink(formattedDate(message.sentDate), id),
+        moveToButton
       };
     });
 
@@ -298,12 +318,31 @@ export class Folder extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
+    const loading = this.props.loading;
+
+    if (loading.inProgress) {
       return <LoadingIndicator message="is loading the folder..."/>;
     }
 
-    if (this.getRequestedFolderId() === null) {
-      return <b>Sorry, this folder does not exist.</b>;
+    const folderId = _.get(this.props.attributes, 'folderId', null);
+
+    if (folderId === null) {
+      const lastRequest = loading.request;
+
+      if (lastRequest && lastRequest.id !== null) {
+        const reloadFolder = () => {
+          this.props.fetchFolder(lastRequest.id, lastRequest.query);
+        };
+
+        return (
+          <p>
+            Could not retrieve the folder.&nbsp;
+            <a onClick={reloadFolder}>Click here to try again.</a>
+          </p>
+        );
+      }
+
+      return <p>Sorry, this folder does not exist.</p>;
     }
 
     const folderName = _.get(this.props.attributes, 'name');
@@ -372,7 +411,9 @@ const mapStateToProps = (state) => {
     loading: state.folders.ui.loading,
     messageCount: totalCount,
     messages,
+    moveToId: state.folders.ui.moveToId,
     page,
+    redirect: state.folders.ui.redirect,
     totalPages,
     isAdvancedVisible: state.search.advanced.visible,
     searchParams: state.search.params,
@@ -382,10 +423,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchFolder,
+  moveMessageToFolder,
   openAlert,
+  openMoveToNewFolderModal,
   setDateRange,
   setSearchParam,
   toggleAdvancedSearch,
+  toggleFolderMoveTo,
   toggleFolderNav
 };
 

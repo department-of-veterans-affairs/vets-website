@@ -44,7 +44,7 @@
 
 .msg-search-simple-wrap {
   > div {
-    flex: 1 1 100%
+    flex: 1 1 30rem;
   }
   label {
     position: absolute;
@@ -59,8 +59,7 @@
 }
 
 .msg-search-btn {
-  -webkit-flex: 0 1 4rem;
-  flex: 0 1 4rem;
+  flex: 0 1 5rem;
 
   .fa.fa-search {
     font-size: 2rem;
@@ -193,7 +192,7 @@
   width: auto;
 
   &:hover {
-    background: inherit;
+    background: $color-white;
     color: $color-primary-darker;
   }
 

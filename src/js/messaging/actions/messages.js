@@ -19,10 +19,10 @@ import {
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_FAILURE,
   SEND_MESSAGE_SUCCESS,
-  TOGGLE_THREAD_FORM,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
-  TOGGLE_MOVE_TO,
+  TOGGLE_THREAD_FORM,
+  TOGGLE_THREAD_MOVE_TO,
   TOGGLE_REPLY_DETAILS,
   UPDATE_DRAFT
 } from '../utils/constants';
@@ -55,12 +55,17 @@ export function deleteMessage(id) {
 }
 
 export function fetchThread(id) {
-  const messageUrl = `${baseUrl}/${id}`;
-  const threadUrl = `${messageUrl}/thread`;
-
   return dispatch => {
-    const errorHandler = () => dispatch({ type: FETCH_THREAD_FAILURE });
-    dispatch({ type: LOADING_THREAD });
+    const errorHandler =
+      () => dispatch({ type: FETCH_THREAD_FAILURE });
+
+    dispatch({
+      type: LOADING_THREAD,
+      requestId: id
+    });
+
+    const messageUrl = `${baseUrl}/${id}`;
+    const threadUrl = `${messageUrl}/thread`;
 
     Promise.all([messageUrl, threadUrl].map(
       url => apiRequest(url, null, response => response, errorHandler)
@@ -244,6 +249,6 @@ export function updateDraft(key, field) {
   return { type: UPDATE_DRAFT, key, field };
 }
 
-export function toggleMoveTo() {
-  return { type: TOGGLE_MOVE_TO };
+export function toggleThreadMoveTo() {
+  return { type: TOGGLE_THREAD_MOVE_TO };
 }

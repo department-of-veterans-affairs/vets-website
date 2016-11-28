@@ -6,7 +6,7 @@ import { truncateDescription } from '../utils/helpers';
 
 export default class RequestedFilesInfo extends React.Component {
   render() {
-    const { id, waiverSubmitted, filesNeeded, optionalFiles } = this.props;
+    const { id, filesNeeded, optionalFiles } = this.props;
 
     return (
       <div className="claims-requested-files-container">
@@ -44,21 +44,14 @@ export default class RequestedFilesInfo extends React.Component {
 
         <div className="submit-file-container">
           <div className="submit-additional-evidence">
-            <h4 className="hightlight claim-file-border">Turn in more evidence</h4>
-            {waiverSubmitted
-              ?
-              <div className="va-to-make-decision">
-                <p>You asked VA to make a decision on your claims based on the evidence you filed. You don't have to do anything else.</p>
+            <h4 className="hightlight claim-file-border">Additional Evidence</h4>
+            <div className="usa-alert additional-evidence-alert">
+              <div className="item-container">
+                <p>Do you have additional evidence to submit in order to support your claim? Upload it here now.</p>
               </div>
-              :
-              <div className="usa-alert additional-evidence-alert">
-                <div className="item-container">
-                  <p>Do you have additional evidence to submit in order to support your claim? Upload it here now.</p>
-                </div>
-                <Link aria-label="View details for additional evidence" title="View details for additional evidence" className="usa-button usa-button-outline view-details-button" to={`your-claims/${id}/turn-in-evidence`}>View Details</Link>
-                <div className="clearfix"></div>
-              </div>
-            }
+              <Link aria-label="View details for additional evidence" title="View details for additional evidence" className="usa-button usa-button-outline view-details-button" to={`your-claims/${id}/additional-evidence`}>View Details</Link>
+              <div className="clearfix"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -68,7 +61,6 @@ export default class RequestedFilesInfo extends React.Component {
 
 RequestedFilesInfo.propTypes = {
   id: React.PropTypes.string.isRequired,
-  waiverSubmitted: React.PropTypes.bool.isRequired,
   filesNeeded: React.PropTypes.array.isRequired,
   optionalFiles: React.PropTypes.array.isRequired
 };
