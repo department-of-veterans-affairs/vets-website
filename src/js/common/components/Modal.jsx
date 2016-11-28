@@ -6,7 +6,10 @@ function focusListener(selector) {
     const modal = document.querySelector('.va-modal');
     if (!modal.contains(event.target)) {
       event.stopPropagation();
-      document.querySelector(selector).focus();
+      const focusableElement = document.querySelector(selector);
+      if (focusableElement) {
+        focusableElement.focus();
+      }
     }
   };
   document.addEventListener('focus', listener, true);
@@ -31,7 +34,10 @@ class Modal extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
-      document.querySelector(this.props.focusSelector).focus();
+      const focusableElement = document.querySelector(this.props.focusSelector);
+      if (focusableElement) {
+        focusableElement.focus();
+      }
     }
   }
 
@@ -57,7 +63,7 @@ class Modal extends React.Component {
     );
 
     return (
-      <div className={modalCss} id={this.props.id} role="dialog" aria-describedby={this.props.describedBy}>
+      <div className={modalCss} id={this.props.id} role="alertdialog">
         <div className="va-modal-inner">
           {closeButton}
           <div className="va-modal-body">
@@ -76,7 +82,6 @@ Modal.propTypes = {
   onClose: React.PropTypes.func.isRequired,
   visible: React.PropTypes.bool.isRequired,
   hideCloseButton: React.PropTypes.bool,
-  describedBy: React.PropTypes.string,
   focusSelector: React.PropTypes.string
 };
 

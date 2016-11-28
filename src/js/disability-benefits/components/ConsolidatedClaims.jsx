@@ -3,7 +3,7 @@ import React from 'react';
 export default function ConsolidatedClaims({ onClose }) {
   return (
     <div>
-      <div className="claims-status-upload-header" id="consolidatedTitle">Claim status update</div>
+      <div className="claims-status-upload-header">Claim status update</div>
       <div className="claims-status-upload-inner">
         <h4 className="modal-title">A note about consolidated claims</h4>
         <p>

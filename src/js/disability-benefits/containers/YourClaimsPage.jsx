@@ -70,7 +70,6 @@ class YourClaimsPage extends React.Component {
                 visible={this.props.consolidatedModal}
                 hideCloseButton
                 cssClass="claims-upload-modal"
-                describedBy="consolidatedTitle"
                 contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>
           <div className="small-12 medium-4 columns">
