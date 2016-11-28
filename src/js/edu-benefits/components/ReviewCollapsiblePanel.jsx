@@ -75,7 +75,7 @@ export default class ReviewCollapsiblePanel extends React.Component {
           {this.props.pages.map(page => {
             const ReviewComponent = page.reviewComponent;
             const Component = page.fieldsComponent;
-            const editing = this.props.uiData.pages[page.path].reviewEdit;
+            const editing = this.props.uiData.pages[page.path].editOnReview;
 
             return (
               <div key={page.path} className="form-review-panel-page">

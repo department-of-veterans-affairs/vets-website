@@ -40,10 +40,10 @@ describe('<ReviewCollapsiblePanel>', () => {
     const uiData = {
       pages: {
         '/school-selection/school-information': {
-          reviewEdit: false
+          editOnReview: false
         },
         '/personal-information/contact-information': {
-          reviewEdit: true
+          editOnReview: true
         }
       }
     };
@@ -58,10 +58,10 @@ describe('<ReviewCollapsiblePanel>', () => {
     const uiData = {
       pages: {
         '/school-selection/school-information': {
-          reviewEdit: false
+          editOnReview: false
         },
         '/personal-information/contact-information': {
-          reviewEdit: false
+          editOnReview: false
         }
       }
     };
@@ -76,13 +76,13 @@ describe('<ReviewCollapsiblePanel>', () => {
     const uiData = {
       pages: {
         '/school-selection/school-information': {
-          reviewEdit: false
+          editOnReview: false
         },
         '/personal-information/contact-information': {
-          reviewEdit: false
+          editOnReview: false
         },
         '/personal-information/secondary-contact': {
-          reviewEdit: false
+          editOnReview: false
         }
       }
     };
@@ -97,13 +97,13 @@ describe('<ReviewCollapsiblePanel>', () => {
     const uiData = {
       pages: {
         '/school-selection/school-information': {
-          reviewEdit: false
+          editOnReview: false
         },
         '/personal-information/contact-information': {
-          reviewEdit: false
+          editOnReview: false
         },
         '/personal-information/secondary-contact': {
-          reviewEdit: false
+          editOnReview: false
         }
       }
     };

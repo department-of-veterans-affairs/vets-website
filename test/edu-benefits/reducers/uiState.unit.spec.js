@@ -37,12 +37,12 @@ describe('uiState reducer', () => {
     const uiState = {
       pages: {
         '/path': {
-          reviewEdit: true
+          editOnReview: true
         }
       }
     };
     const newState = uiStateReducer(uiState, { type: UPDATE_EDIT_STATUS, path: '/path', value: false });
-    expect(newState.pages['/path'].reviewEdit).to.be.false;
+    expect(newState.pages['/path'].editOnReview).to.be.false;
   });
   it('should set the submission status', () => {
     const uiState = {

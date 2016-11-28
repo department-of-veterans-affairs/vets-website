@@ -20,67 +20,67 @@ const ui = {
   },
   pages: {
     '/introduction': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: []
     },
     '/benefits-eligibility/benefits-selection': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['chapter30', 'chapter32', 'chapter33', 'chapter1606', 'checkedBenefit']
     },
     '/benefits-eligibility/benefits-relinquishment': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['benefitsRelinquished', 'benefitsRelinquishedDate']
     },
     '/military-history/service-periods': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['toursOfDuty']
     },
     '/military-history/military-service': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty']
     },
     '/military-history/rotc-history': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['seniorRotc', 'seniorRotcScholarshipProgram', 'seniorRotcCommissioned']
     },
     '/military-history/contributions': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['civilianBenefitsAssistance', 'additionalContributions', 'activeDutyKicker', 'reserveKicker', 'activeDutyRepaying', 'activeDutyRepayingPeriod']
     },
     '/education-history/education-information': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['highSchoolOrGedCompletionDate', 'postHighSchoolTrainings']
     },
     '/employment-history/employment-information': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['hasNonMilitaryJobs', 'nonMilitaryJobs']
     },
     '/school-selection/school-information': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['educationType', 'school']
     },
     '/veteran-information': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['veteranFullName', 'veteranSocialSecurityNumber', 'veteranDateOfBirth', 'gender']
     },
     '/personal-information/contact-information': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['veteranAddress', 'email', 'emailConfirmation', 'homePhone', 'mobilePhone', 'preferredContactMethod']
     },
     '/personal-information/secondary-contact': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['secondaryContact']
     },
     '/personal-information/dependents': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['serviceBefore1977']
     },
     '/personal-information/direct-deposit': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: ['bankAccount']
     },
     '/review-and-submit': {
-      reviewEdit: false,
+      editOnReview: false,
       fields: []
     }
   }
@@ -95,7 +95,7 @@ function uiState(state = ui, action) {
       return _.set(['pages', action.path, 'complete'], false, state);
 
     case UPDATE_EDIT_STATUS:
-      return _.set(['pages', action.path, 'reviewEdit'], action.value, state);
+      return _.set(['pages', action.path, 'editOnReview'], action.value, state);
 
     case UPDATE_SUBMISSION_STATUS:
       return _.set('submission.status', action.value, state);
