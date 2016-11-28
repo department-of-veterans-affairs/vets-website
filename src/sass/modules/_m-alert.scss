@@ -1,9 +1,13 @@
 .va-alert {
-  background-size: auto 1.5em;
-  background-position: 1rem 1.75rem;
+  background-size: 1.5em;
+  background-position: 1.25rem 2.2rem;
+  color: $color-gray-dark !important;
   position: relative;
 
   &-title, h5 {
+    // Duplicating this rule  and abusing !important until 
+    // #content .section h5 gets cleared up.
+    color: $color-gray-dark !important;
     padding-bottom: 0 !important;
   }
 
@@ -13,7 +17,7 @@
 }
 
 .va-alert-body {
-  padding-left: 3.5rem;
+  padding-left: 2.5rem;
 }
 
 .va-alert-close {
