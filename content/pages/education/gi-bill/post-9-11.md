@@ -6,43 +6,42 @@ concurrence: complete
 ---
 
 
-If you are seeking education or training opportunities and have served on active duty after September 10, 2001, you may be eligible for the Post-9/11 GI Bill. The Post-9/11 GI Bill is the largest expansion of education benefits since the Montgomery GI Bill.
+If you're interested in education or training opportunities and you've served on active duty after September 10, 2001, you may qualify for the Post-9/11 GI Bill. The Post-9/11 GI Bill is the largest expansion of education benefits since the Montgomery GI Bill.
 
 <div class="call-out usa-content" markdown="1">
 
-### Are you eligible for benefits?
+### Can I get education benefits?
 
-Yes, if:
+You can get education benefits if you meet the basic requirements for any GI Bill program, and 
+-  You've served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001.
 
--  You meet the basic requirements for any GI Bill program.
--  You have served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001.
+If you're eligible for more than 1 VA education benefit, you may be asked to pick which one you want to use. This is an irrevocable decision, meaning you can't change your mind. 
 
-If you are eligible for more than one VA education benefit, you may be asked to make an irrevocable election. Making an “irrevocable election” means that you can't change back to another GI Bill program for which you may also be eligible after you receive Post-9/11 GI Bill benefits.
+### Who's covered?
 
-### Who is covered
-
-You and your eligible dependents
+Veterans
+Qualified dependents
 
 </div>
 
-### Available benefits
+### What benefits can I get? 
 
 - Tuition and fees
-- A monthly housing allowance (for those attending more than half time)
-- A books and supplies stipend (up to $1,000 per academic year)
+- Money for housing (for those attending more than half time)
+- Money for books and supplies (up to $1,000 per academic year)
 
 -------
 
-### How it works
+### How do I get these benefits?
 
-The benefit amount varies according to where you use the benefit, the amount of your active-duty service since September 10, 2001, and how many credits or training hours you are taking.
+You'll need to apply. [Apply for education benefits](/education/apply-for-education-benefits/). The benefit amount depends on where you use the benefit, the amount of your active-duty service since September 10, 2001, and how many credits or training hours you're taking.
 
 #### The program
 
 - Covers the entire in-state tuition for state schools and up to the national maximum ($21,084.89) for private or foreign schools.
-- Pays eligible individuals a Basic Allowance for Housing (BAH) based on the cost of living for the specific location of your school.
+- Pays qualified Veterans or dependents a Basic Allowance for Housing (BAH) based on the cost of living for the specific location of your school.
 
-**Example:** If you were attending University of California, Los Angeles, in 2015 (at the 100% benefit level, while attending school full time), you would receive a BAH of up to $2,433 a month while in school. If you were attending the University of Virginia in Charlottesville, you would receive up to $1,638 while in school.
+**Example:** If you were attending University of California, Los Angeles, in 2015 (at the 100% benefit level, while attending school full time), you would get a BAH of up to $2,433 a month while in school. If you were attending the University of Virginia in Charlottesville, you would get up to $1,638 while in school.
 
 - Provides up to 36 months of education benefits, generally payable for 15 years following your release from active duty
 - Uses a percentage-of-maximum-benefit scale based on how much active service you have had since September 10, 2001
@@ -51,10 +50,10 @@ The benefit amount varies according to where you use the benefit, the amount of 
 
 #### Other potential benefits
 
-- The Yellow Ribbon Program may provide additional support to cover higher private-school and out-of-state tuition and fees.
+- The Yellow Ribbon Program may provide additional money to cover higher private-school and out-of-state tuition and fees.
 - The Transfer of Entitlement option enables eligible Servicemembers to transfer all 36 months or a portion of Post-9/11 GI Bill benefits to a spouse or children. Transfer eligibility is determined by the Department of Defense.
 
-Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
+Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to compare benefits by school. 
 
 Get information about the [Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/) for dependents of Servicemembers who died in the line of duty after September 10, 2001.
 
