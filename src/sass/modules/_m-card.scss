@@ -77,14 +77,14 @@
   // because this grid uses Foundation, not USWDS
   // Roughly a 640px breakpoint.
   @media #{$small} {
-    height: 10em;
+    height: 11em;
     border-bottom: none;
     text-align: left;
     border-radius: .2em;
   }
 
   @media #{$medium} {
-    padding: 1.2em 1.5em;
+    padding: 1.25em;
   }
 }
 
