@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import merge from 'lodash/fp/merge';
 import set from 'lodash/fp/set';
 
 import { folderUrl } from '../utils/helpers';
@@ -17,6 +18,7 @@ import {
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
   SET_CURRENT_FOLDER,
+  TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS
 } from '../utils/constants';
@@ -46,6 +48,7 @@ const initialState = {
       inProgress: false,
       request: null
     },
+    moveToId: null,
     nav: {
       foldersExpanded: false,
       visible: false
@@ -94,10 +97,20 @@ export default function folders(state = initialState, action) {
         messages,
         pagination,
         persistFolder,
-        sort: { value: sortValue, order: sortOrder },
+        sort: {
+          value: sortValue,
+          order: sortOrder
+        },
       }, state);
 
-      return set('ui.loading.inProgress', false, newState);
+      return set('ui', merge(initialState.ui, {
+        loading: {
+          request: _.get(newState, 'ui.loading.request', null)
+        },
+        nav: {
+          foldersExpanded: _.get(newState, 'ui.nav.foldersExpanded', false)
+        }
+      }), newState);
     }
 
     case FETCH_FOLDERS_SUCCESS: {
@@ -111,22 +124,26 @@ export default function folders(state = initialState, action) {
     }
 
     case LOADING_FOLDER: {
-      let newState = set(
+      const newState = set(
         'data.currentItem',
-        initialState.data.currentItem,
+        merge(initialState.data.currentItem, {
+          persistFolder: action.request.id
+        }),
         state
-      );
-
-      newState = set(
-        'data.currentItem.persistFolder',
-        action.request.id,
-        newState
       );
 
       return set('ui.loading', {
         inProgress: true,
         request: action.request
       }, newState);
+    }
+
+    case TOGGLE_FOLDER_MOVE_TO: {
+      const id = state.ui.moveToId === action.messageId
+               ? null
+               : action.messageId;
+
+      return set('ui.moveToId', id, state);
     }
 
     case TOGGLE_FOLDER_NAV:
