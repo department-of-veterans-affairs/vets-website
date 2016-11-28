@@ -178,11 +178,17 @@ button.msg-btn-newfolder[type="button"],
     }
 
     &.messaging-folder-header {
+      margin: 0;
+
       h2 {
         max-width: 65%;
       }
     }
   }
+}
+
+.messaging-folder-header {
+  margin-bottom: 2rem;
 }
 
 .messaging-cancel-link {
