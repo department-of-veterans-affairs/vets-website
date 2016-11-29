@@ -9,15 +9,15 @@ If your school participates in the Yellow Ribbon Program, you may be able to low
 <div class="call-out" markdown="1">
 
 ### Can I get this benefit?
-You can if you are a Veteran or the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill, or you're the child of an active-duty Servicemember who is the recipient of a transfer of entitlement, and:
+You can if you're a Veteran or the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill, or you're the child of an active-duty Servicemember who is the recipient of a transfer of entitlement, and:
   - You're eligible to get 100% of your Post-9/11 GI Bill benefits. [Is this me?](https://gibill.custhelp.com/app/answers/detail/a_id/947)
   - Your school participates in the [Yellow Ribbon Program for the 2015-16 school year](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp ), **and**
   - You maintain continuous enrollment, full- or part-time, as defined by your school, **and**
-  - You are working toward the completion of your enrolled program.
+  - You're working toward the completion of your enrolled program.
 
 ### Who's covered?
-Veterans
-Qualified dependents
+- Veterans
+- Qualified dependents
 </div>
 
 ### What benefits can I get?
@@ -59,7 +59,7 @@ Bring your COE to your school's certifying official, financial aid, military lia
 <div markdown="1">
 
 ##### Follow up
-You'll get a notice from your school about whether you have been accepted to the program and how much money you'll get to put towards your tuition.
+You'll get a notice from your school about whether you have been accepted to the program and how much money you'll get for tuition.
 </div>
 </li>
 
