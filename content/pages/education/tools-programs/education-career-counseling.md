@@ -44,6 +44,6 @@ As a transitioning Servicemember, you qualify to get these services:
 1. Log in to [eBenefits](https://www.ebenefits.va.gov).
 2. Select "Apply."
 3. Select "Vocational Rehabilitation and Employment Benefits."
-4. Apply for "Educational and Career Counseling."
+4. Apply for "Educational and Career Counseling."<br /><br />
 
 If you qualify, we'll invite you to an orientation session at a VA regional office near you. You can also use CareerScope&reg; to find careers you might enjoy. Use [CareerScope](/education/tools-programs/careerscope/). 
