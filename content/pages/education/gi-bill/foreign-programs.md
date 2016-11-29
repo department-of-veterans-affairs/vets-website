@@ -37,7 +37,7 @@ You can get education benefits if you qualify for—or already get—VA educatio
 <li class="step one wow fadeIn animated" markdown="1">
 
 
-Contact the school or [Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) to learn if your program is approved for benefits. Provide the name of the foreign school, the complete address, and the name of the program you intend to pursue. We'll let you know whether your program has already been approved. Allow for extra time if you are applying to a program that we haven't approved.
+Contact the school or [submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) to learn if your program is approved for benefits. Provide the name of the foreign school, the complete address, and the name of the program you intend to pursue. We'll let you know whether your program has already been approved. Allow for extra time if you are applying to a program that we haven't approved.
 
 We'll accept degrees from schools or establishments in foreign countries that are similar to degrees granted by accredited U.S. colleges and universities. If you're considering getting a degree or its equivalent from a private institution overseas, the degree must be comparable to those granted by public colleges and universities in the same country. In addition, programs at private institutions must have the same entrance requirements as programs offered by public colleges and universities in the same country. Independent study (distance learning) courses must be accredited by a nationally recognized accrediting association.
 
@@ -64,8 +64,7 @@ If you're approved for benefits, turn in your Certificate of Eligibility (COE) t
 <li class="step three wow fadeIn animated" markdown="0">
 
 
--Be sure you have enough money to care for all of your needs until VA payments begin.
--Make arrangements with the school for acceptance, enrollment, payment of tuition and fees, and housing.
+Be sure you have enough money to care for all of your needs until VA payments begin. And make arrangements with the school for acceptance, enrollment, payment of tuition and fees, and housing.
 
 </li>
 
@@ -73,7 +72,7 @@ If you're approved for benefits, turn in your Certificate of Eligibility (COE) t
 
 You must provide written permission for school officials to release information as necessary to us. If you don't, it could affect when you get benefits. 
 
-Normally, foreign schools certify their students for 1 academic year. If you want to continue your education at the foreign school for longer than 1 academic year, you may have to reapply. Within 120 days of your reenrollment, you should notify the school of your intention to reenroll and have the appropriate certifying official submit an enrollment certification for your reenrollment. You should keep the school advised of your plans for continuing enrollment in order to avoid any delay in getting your benefits.
+Normally, foreign schools certify their students for 1 academic year. If you want to continue your education at the foreign school for longer than 1 academic year, you may have to reapply. Within 120 days of your enrollment, you should notify the school of your intention to reenroll and have the appropriate certifying official submit an enrollment certification for you. You should keep the school advised of your plans for continuing enrollment in order to avoid any delay in getting your benefits.
 
 
 </ol>
