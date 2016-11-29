@@ -5,7 +5,7 @@ import { lastNameCharMin } from '../../common/utils/validations';
 class HcaFullName extends React.Component {
   render() {
     return (
-      <FullName {...this.props} lastNameCharMin={lastNameCharMin} />
+      <FullName {...this.props} lastNameCharMin={lastNameCharMin}/>
     );
   }
 }
