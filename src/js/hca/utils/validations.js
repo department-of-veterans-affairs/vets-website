@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { states } from '../../common/utils/options-for-select';
+import { lastNameCharMin } from '../../common/utils/validations';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -125,9 +126,11 @@ function isValidDateField(field) {
 }
 
 function isValidFullNameField(field) {
+  let lastName = field.last.value;
+
   return isValidName(field.first.value) &&
     (isBlank(field.middle.value) || isValidName(field.middle.value)) &&
-    isValidName(field.last.value);
+    isValidName(lastName) && lastName.length >= lastNameCharMin;
 }
 
 function isValidAddressField(field) {

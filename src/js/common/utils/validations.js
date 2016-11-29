@@ -2,6 +2,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
 
+const lastNameCharMin = 2;
+
 function validateIfDirty(field, validator) {
   if (field.dirty) {
     return validator(field.value);
@@ -493,6 +495,7 @@ function initializeNullValues(value) {
 }
 
 export {
+  lastNameCharMin,
   validateIfDirty,
   validateIfDirtyDate,
   validateIfDirtyProvider,
