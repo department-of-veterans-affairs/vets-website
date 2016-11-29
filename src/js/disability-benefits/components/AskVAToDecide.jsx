@@ -9,6 +9,8 @@ export default class AskVAToDecide extends React.Component {
           <h4>Ask VA for a Claim Decision</h4>
         </div>
         <Link
+            aria-label="View details about asking VA for a claim decision"
+            title="View details about asking VA for a claim decision"
             className="usa-button view-details-button"
             to={`/your-claims/${this.props.id}/ask-va-to-decide`}>
           View Details
