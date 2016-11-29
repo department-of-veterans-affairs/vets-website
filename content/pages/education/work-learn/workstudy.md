@@ -5,7 +5,7 @@ concurrence: incomplete
 template: 4-action-page-pending
 ---
 
-If you are a full-time or three-quarter-time college, vocational, or professional student using VA education benefits, you may be eligible to earn money while you go to school through the VA's work-study program. 
+If you are a full-time or three-quarter-time college, vocational, or professional student using VA education benefits, you may qualify to earn money while you go to school through our work-study program. 
 
 <div class="call-out" markdown="1">
 
@@ -24,9 +24,10 @@ You can be a part of the VA's work-study program if you're enrolled at least thr
     - [Vocational Rehabilitation and Employment program](http://www.benefits.va.gov/vocrehab/index.asp) (VR&E)
 
 
-### Who's eligible?
-Veterans
-Qualified dependents using education benefits 
+### Who's covered?
+
+- Veterans
+- Qualified dependents using education benefits 
 </div>
 
 ### What kind of benefits can I get? 
@@ -39,19 +40,19 @@ A paid, part-time job while you study
 
 You need to apply for the work-study program. Download a copy of the [Application for Work-Study Allowance](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf). You can ontact the [Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp) that handles your claim if you have questions. Veterans with service-connected disabilities of at least 30% may be given priority consideration.
 
-#### Under the VA work-study you can work in jobs like the following:
+#### Under the VA work-study you can:
 
-- Working at a VA facility.
-- Working at Department of Defense, Coast Guard, or National Guard facilities engaged in the administration of the MGIB-SR or REAP.
-- Working at a state Veterans agency to help Veterans get VR&E benefits.
-- Working at a Center of Excellence for Veteran Student Success to support and coordinate the academic, financial, physical, and social needs of Veteran students.
-- Working in a cooperative program carried out jointly by VA and an institution of higher learning.
-- Working in any Veterans-related position in an institution of higher learning, such as providing assistance to Veteran students with general inquiries about Veteran benefits, processing necessary documents, or maintaining and organizing Veteran-related files.
+- Work at a VA facility.
+- Work at Department of Defense, Coast Guard, or National Guard facilities engaged in the administration of the MGIB-SR or REAP.
+- Work at a state Veterans agency to help Veterans get VR&E benefits.
+- Work at a Center of Excellence for Veteran Student Success to support and coordinate the academic, financial, physical, and social needs of Veteran students.
+- Work in a cooperative program carried out jointly by VA and an institution of higher learning.
+- Work in any Veterans-related position in an institution of higher learning, such as providing assistance to Veteran students with general inquiries about Veteran benefits, processing necessary documents, or maintaining and organizing Veteran-related files.
 
 #### How much will I earn?
 
-You’ll earn an hourly wage that's the same as the federal minimum wage or your state minimum wage, whichever is greater. If you’re in a work-study job at a college or university, your school may pay you the difference between the amount VA pays and the amount the school normally pays other work-study students doing the same job.
+You’ll earn an hourly wage that's the same as the federal minimum wage or your state minimum wage, whichever is greater. If you’re in a work-study job at a college or university, your school may pay you the difference between the amount we pay and the amount the school normally pays other work-study students doing the same job.
 
-You may elect to be paid in advance for 40% of the number of hours in your work-study agreement, or for 50 hours, whichever is fewer. After you’ve completed the hours covered by your first payment, VA will pay you each time you complete 50 hours of service, or biweekly, whichever comes first.
+You may elect to be paid in advance for 40% of the number of hours in your work-study agreement, or for 50 hours, whichever is fewer. After you’ve completed the hours covered by your first payment, we'll pay you each time you complete 50 hours of service, or biweekly, whichever comes first.
 
 You may work during or between periods of enrollment. The total number of hours you work during your enrollment can’t be more than 25 times the number of weeks in your enrollment period.
