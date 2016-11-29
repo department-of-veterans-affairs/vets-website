@@ -5,7 +5,7 @@ template: 1-topic-landing
 concurrence: incomplete
 ---
 
-The Principles of Excellence program requires participating educational institutions to:
+The Principles of Excellence program are guidelines for schools getting federal funding, like through the GI Bill.  Schools that are a part of the program must:
 
 - Provide a personalized form to help you understand the total cost of your educational program, including:
   - Costs covered by your benefits.
@@ -19,11 +19,11 @@ The Principles of Excellence program requires participating educational institut
 - Align their refund policies with those under Title IV, which governs the administration of federal student financial aid programs.
 - End fraudulent and aggressive recruiting techniques and misrepresentations.
 
-Institutions that don't charge tuition and fees aren't required to comply with the Principles of Excellence. This includes:
+Institutions that don't charge tuition and fees don't have to comply with the Principles of Excellence. This includes:
 
 - Foreign schools
 - High schools
 - On-the-job training and apprenticeship programs
 - Residency and internship programs
 
-Use the [GI Bill Comparison Tool](https://vets.gov/gi-bill-comparison-tool/) to learn which schools participate. You can also compare beneifts between different schools. 
+Use the [GI Bill Comparison Tool](https://vets.gov/gi-bill-comparison-tool/) to learn which schools are part of the program. You can also compare beneifts between different schools. 
