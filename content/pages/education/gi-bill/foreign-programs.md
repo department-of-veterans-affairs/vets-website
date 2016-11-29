@@ -11,15 +11,16 @@ If you plan to study at a foreign school, you can use VA benefits to cover your 
 <div class="call-out usa-content" markdown="1">
 
 ### Can I get VA education benefits to study at a foreign school?
-You can get education benefits if you qualify for—or already receive—VA educational assistance and:
+You can get education benefits if you qualify for—or already get—VA educational assistance and:
   - We have approved your program, **and**
   - Your program is at an institution of higher learning where you'll earn a standard college degree or something of equal value at that foreign school
 
-##### **Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
+#### **Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may get VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
 
 ### Who's covered?
-Veterans
-Qualified dependents 
+
+- Veterans
+- Qualified dependents 
 
 </div>
 
