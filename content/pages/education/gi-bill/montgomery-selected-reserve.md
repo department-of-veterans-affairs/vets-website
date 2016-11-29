@@ -5,10 +5,7 @@ concurrence: complete
 template: 4-action-page-pending
 ---
 
-If you're an eligible member of the Army Reserve, Navy Reserve, Air Force Reserve, Marine Corps Reserve, Coast Guard Reserve, Army National Guard, or Air National Guard, you may receive up to 36 months of education and training benefits under the Montgomery GI Bill Selected Reserve (MGIB-SR) program.
-
-View [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
-<div class="call-out" markdown="1">
+If you're a member of the Army Reserve, Navy Reserve, Air Force Reserve, Marine Corps Reserve, Coast Guard Reserve, Army National Guard, or Air National Guard, you may qualify for up to 36 months of education and training benefits under the Montgomery GI Bill Selected Reserve (MGIB-SR) program.
 
 ### Can I get education benefits under this program?
 You can if you have a 6 year service obligation in the Selected Reserve. If you're an officer, you must have agreed to serve 6 years in addition to your original obligation, and 
@@ -33,6 +30,10 @@ You can use up to $368 per month in financial assistance for the following types
 - [Correspondence courses](/education/work-learn/non-traditional/correspondence-training/)
 - Under certain circumstances, remedial, deficiency, and refresher courses
 
+
+View [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
+<div class="call-out" markdown="1">
+
 -----
 
 ### How do I get these benefits? 
@@ -41,7 +42,7 @@ You need to apply. [Apply for benefits](/education/apply-for-education-benefits/
 
 ### Learn more
 - Visit the [GI Bill customer service page](http://gibill.custhelp.com/) to search Frequently Asked Questions or to ask a question online.
-- Call 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
-- For TDD/TYY, use 1-800-829-4833.
+- Call <span class="tel">888-442-4551</span> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
+- For TDD/TYY, use 800-829-4833.
 
 GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol&reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our Terms of Use.
