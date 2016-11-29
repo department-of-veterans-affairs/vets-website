@@ -22,7 +22,7 @@ You can get this benefit if you're the dependent of a Veteran eligible for [tran
 </div>
 
 ### What benefits can I get?
-Additional money for tuition
+Money for tuition
 
 
 ### How do I get this benefit?
