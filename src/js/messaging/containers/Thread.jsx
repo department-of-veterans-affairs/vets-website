@@ -163,6 +163,12 @@ export class Thread extends React.Component {
       this.context.router.push(`/${this.props.params.folderName}/${selectedId}`);
     };
 
+    // If the message is a draft, the delete button should prompt, since the
+    // draft would get deleted entirely instead of being moved to a folder.
+    const deleteMessageHandler = this.props.isSavedDraft
+                               ? this.props.toggleConfirmDelete
+                               : this.handleMessageDelete;
+
     return (
       <ThreadHeader
           currentMessageNumber={currentIndex + 1}
@@ -176,7 +182,7 @@ export class Thread extends React.Component {
           moveToIsOpen={this.props.moveToOpened}
           onChooseFolder={this.props.moveMessageToFolder}
           onCreateFolder={this.props.openMoveToNewFolderModal}
-          onDeleteMessage={this.handleMessageDelete}
+          onDeleteMessage={deleteMessageHandler}
           onToggleThread={this.props.toggleMessagesCollapsed}
           onToggleMoveTo={this.props.toggleThreadMoveTo}/>
     );
