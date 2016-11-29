@@ -46,7 +46,7 @@ class ErrorableTextInput extends React.Component {
     this.props.onValueChange(makeField(fieldValue, true));
 
     this.setState({
-      errorMessage: fieldValue.length < charMin ? `Min. ${this.props.charMin} characters` : null
+      errorMessage: fieldValue.length < charMin ? `Min. ${charMin} characters` : null
     });
   }
 
