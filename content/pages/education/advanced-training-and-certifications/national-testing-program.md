@@ -5,17 +5,18 @@ template: 4-action-page-pending
 concurrence: complete
 ---
 
-If you have to pay for a test(s) as part of the application process for college or other training, VA may pay you back.
+If you have to pay for a test(s) as part of the application process for college or other training, we may pay you back.
 
 <div class="call-out" markdown="1">
 
 ### Can I get paid back for exam fees?
 
-You can get paid back for the cost of exams if you are a Veteran or Servicemember and you're eligible for the GI Bill. 
+You can get paid back for the cost of exams if you are a Veteran or Servicemember and you qualify for the GI Bill. 
 
 ### Who's covered
-Veterans
-Servicemembers
+
+- Veterans
+- Servicemembers
 </div>
 
 ### What kind of benefits can I get? 
@@ -28,18 +29,18 @@ Payment for testing fees, including:
 
 -----
 
-### How it works
+### How do I get these benefits?
 - Proof of payment may be required.
 - [Learn how your GI Bill benefit package will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for testing expenses.
-- VA can only pay you back for mandatory test fees.
+- We can only pay you back for mandatory test fees.
 
-#### VA won't reimburse you for the following fees:
+#### We won't reimburse you for the following fees:
 
 - Fees associated with pretests (such as Kaplan tests)
 - Fees to get scores quickly
 - Optional items not required to take an approved test
 
-#### VA has approved the following tests for reimbursement:
+#### We have approved the following tests for reimbursement:
 
 - SAT (formerly "Scholastic Assessment Test")
 - LSAT (Law School Admission Test)
