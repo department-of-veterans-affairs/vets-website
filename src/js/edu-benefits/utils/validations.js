@@ -170,6 +170,10 @@ function isBlankDateField(field) {
   return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
 }
 
+function isBlankMonthYear(field) {
+  return isBlank(field.month.value) && isBlank(field.year.value);
+}
+
 function isNotBlankDateField(field) {
   return isNotBlank(field.day.value) && isNotBlank(field.month.value) && isNotBlank(field.year.value);
 }
@@ -296,7 +300,7 @@ function isValidEducationPeriod(data) {
 }
 
 function isValidEducationHistoryPage(data) {
-  return (isBlankDateField(data.highSchoolOrGedCompletionDate) || isValidDateField(data.highSchoolOrGedCompletionDate))
+  return (isBlankMonthYear(data.highSchoolOrGedCompletionDate) || isValidDateField(data.highSchoolOrGedCompletionDate))
     && data.postHighSchoolTrainings.every(isValidEducationPeriod);
 }
 
