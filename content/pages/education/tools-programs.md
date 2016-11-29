@@ -19,4 +19,4 @@ relatedlinks:
 
 ---
 
-Navigating your transition from military to civilian life can be challenging. VA offers tools and counseling programs to help you make the most of your options. 
+Navigating your transition from military to civilian life can be challenging. We offer tools and counseling programs to help you make the most of your options. 
