@@ -9,7 +9,9 @@ import { folderUrl } from '../utils/helpers';
 
 class ThreadHeader extends React.Component {
   render() {
+    const folderName = this.props.folderName;
     let toggleThread;
+    let moveTo;
     let deleteButton;
 
     if (this.props.threadMessageCount > 1) {
@@ -20,17 +22,16 @@ class ThreadHeader extends React.Component {
       );
     }
 
-    if (this.props.folderName !== 'Sent') {
+    // Hide the 'Delete' button for sent messages,
+    // since they can't be deleted.
+    if (folderName !== 'Sent') {
       deleteButton =
         <ButtonDelete onClickHandler={this.props.onDeleteMessage}/>;
-    }
 
-    const backUrl = folderUrl(this.props.folderName);
-
-    return (
-      <div className="messaging-thread-header">
-        <div className="messaging-thread-nav">
-          <Link to={backUrl}>&lt; Back to {this.props.folderName}</Link>
+      // Hide the 'Move' button for drafts and sent messages,
+      // since they can't be moved to other folders.
+      if (folderName !== 'Drafts') {
+        moveTo = (
           <MoveTo
               folders={this.props.moveToFolders}
               isOpen={this.props.moveToIsOpen}
@@ -38,12 +39,23 @@ class ThreadHeader extends React.Component {
               onChooseFolder={this.props.onChooseFolder}
               onCreateFolder={this.props.onCreateFolder}
               onToggleMoveTo={this.props.onToggleMoveTo}/>
+        );
+      }
+    }
+
+    const backUrl = folderUrl(folderName);
+
+    return (
+      <div className="messaging-thread-header">
+        <div className="messaging-thread-nav">
+          <Link to={backUrl}>&lt; Back to {folderName}</Link>
           <MessageNav
               currentRange={this.props.currentMessageNumber}
               messageCount={this.props.folderMessageCount}
               onItemSelect={this.props.onMessageSelect}
               itemNumber={this.props.currentMessageNumber}
               totalItems={this.props.folderMessageCount}/>
+          {moveTo}
           {deleteButton}
         </div>
         <div className="messaging-thread-title">
