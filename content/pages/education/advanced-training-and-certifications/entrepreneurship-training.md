@@ -5,7 +5,7 @@ template: 1-topic-landing
 ---
 
 
-VA gives entrepreneurship training for Veterans who'd like start a business. Training is done through the Small Business Administration. You don't have to use your GI Bill to be a part of this program.
+We offer entrepreneurship training for Veterans who'd like start a business. Training is done through the Small Business Administration. You don't have to use your GI Bill to be a part of this program.
 
 <div class="call-out" markdown="1">
 
