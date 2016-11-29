@@ -31,17 +31,25 @@ function resetSmallActionBox(smallActionBox) {
 }
 
 function moveActionBoxOnScroll(actionBox, offset, positionFunction, resetFunction) {
-  const initialPosition = offset.top + document.body.scrollTop;
+  let initialPosition = offset.height > 0 ? offset.top + document.body.scrollTop : null;
   window.addEventListener('scroll', _.throttle(() => {
     if (offset.top < 0) {
       positionFunction(actionBox);
       offset = actionBox.getBoundingClientRect();
     }
 
-    if (document.body.scrollTop > initialPosition) {
+    if (initialPosition && document.body.scrollTop > initialPosition) {
       positionFunction(actionBox);
     } else {
       resetFunction(actionBox);
+    }
+  }, 100));
+  window.addEventListener('resize', _.throttle(() => {
+    if (!initialPosition) {
+      const newOffset = actionBox.getBoundingClientRect();
+      if (newOffset.height) {
+        initialPosition = newOffset.top + document.body.scrollTop;
+      }
     }
   }, 100));
 }
@@ -67,4 +75,3 @@ if (window.addEventListener) {
 } else {
   window.attachEvent('onload', stickyActionBox);
 }
-
