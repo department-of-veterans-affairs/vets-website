@@ -27,7 +27,7 @@ You can get education benefits if you qualify for—or already get—VA educatio
 ### What benefits can I get? 
 
 - Money for school 
-- Money to pay for your living expenses during enrollment
+- Money for your living expenses during enrollment
 
 -----
 
@@ -49,30 +49,27 @@ We'll accept degrees from schools or establishments in foreign countries that ar
 
 <li class="step two wow fadeIn animated" markdown="0">
 
-You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). Turn in your application to us at least 90 days before your departure. Make sure you send your application to the appropriate regional office for the fastest service. Your benefit will be processed depending on your school’s location. 
+You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). Turn in your application to us at least 90 days before your departure. Your benefit will be processed depending on your school’s location. 
 
-If you're approved, turn in your Certificate of Eligibility (COE) to the school’s certifying official as verification that you are eligible to receive VA benefits. Your school’s certifying official will submit your enrollment information on VA Form 22-1999. Please note that you won't receive payments until your enrollment information has been received and processed by VA.
+If you're approved, turn in your Certificate of Eligibility (COE) to the school’s certifying official as verification that you are eligible to receive VA benefits. Your school’s certifying official will submit your enrollment information on VA Form 22-1999. Please note that you won't get payments until we have received your enrollment information processed it.
 
+-	If you or your eligible dependent wants to enroll in a program that we haven't approved, you'll need to ask the school to request approval. We can't take any action until a request for approval is received from a school official (not from you). If your program is not approved, you'll be responsible for all costs at the school, including tuition and fees.
+-	School officials should [follow these instructions](http://benefits.va.gov/gibill/foreign_program_approval_information_for_schools.asp) when applying for approval of education programs.
+- If you are training in Puerto Rico or the U.S. Virgin Islands, your claim will be handled by the Atlanta Regional Processing Office (in Decatur, Georgia).
+- If you are training in the Republic of the Philippines, American Samoa, Guam, Midway, Wake Island, any of the islands in the Federated States of the Marshall Islands, the Republic of Micronesia, or the Republic of Palau, your claim will be handled by the Muskogee Regional Processing Office.
+- If you are training in any other foreign country or area, your claim will be handled by the Buffalo Regional Processing Office.
 
 </li>
 
 <li class="step three wow fadeIn animated" markdown="0">
 
 
--	If you or your eligible dependent wants to enroll in a program that we haven't approved, you'll need to ask the school to request approval. We can't take any action until a request for approval is received from a school official (not from you). If your program is not approved, you'll be responsible for all costs at the school, including tuition and fees.
--	School officials should [follow these instructions](http://benefits.va.gov/gibill/foreign_program_approval_information_for_schools.asp) when applying for approval of education programs.
-
-
-</li>
-
-<li class="step four wow fadeIn animated" markdown="0">
-
 -Be sure you have enough money to care for all of your needs until VA payments begin.
 -Make arrangements with the school for acceptance, enrollment, payment of tuition and fees, and housing.
 
 </li>
 
-<li class="step five last wow fadeIn animated" markdown="0">
+<li class="step four last wow fadeIn animated" markdown="0">
 
 You must provide written permission for school officials to release information as necessary to us. If you don't, it could affect when you get benefits. 
 
@@ -83,7 +80,7 @@ Normally, foreign schools certify their students for 1 academic year. If you wan
 
 For applications and further information, the following offices or representatives can help:
 
-- Any [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) (from outside the United States, call 001-918-781-5678 during business hours, 7:00 a.m.–6:00 p.m. (CST), Monday through Friday)
+- Any [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) (from outside the United States, call <span class="tel">001-918-781-5678</span> during business hours, 7:00 a.m.– 6:00 p.m. (CST), Monday through Friday)
 - Local representatives of Veterans organizations and the American Red Cross
 - Foreign service posts
 - Canadian Department of Veterans Affairs (Canadian schools only)
