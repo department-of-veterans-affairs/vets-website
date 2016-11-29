@@ -39,7 +39,7 @@ class Provider extends React.Component {
 
           <ErrorableTextInput required
               errorMessage={validateIfDirtyProvider(this.props.data.insurancePolicyNumber, this.props.data.insuranceGroupCode, isValidInsurancePolicy) ? undefined : 'Please enter the policy number or group code'}
-              charMax={30}              
+              charMax={30}
               label="Group code (either this or policy number is required)"
               name="insuranceGroupCode"
               field={this.props.data.insuranceGroupCode}
