@@ -4,7 +4,7 @@ import ErrorableSelect from '../../../common/components/form-elements/ErrorableS
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import DateInput from '../../../common/components/form-elements/DateInput';
-import FullName from '../../../common/components/questions/FullName';
+import HcaFullName from '../HcaFullName';
 import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
 
 import { childRelationships, yesNo } from '../../../common/utils/options-for-select.js';
@@ -42,7 +42,7 @@ class Child extends React.Component {
           <legend>Child's Name</legend>
           <div className="row">
             <div className="small-12 columns">
-              <FullName required
+              <HcaFullName required
                   name={this.props.data.childFullName}
                   onUserInput={(update) => {this.props.onValueChange('childFullName', update);}}/>
             </div>

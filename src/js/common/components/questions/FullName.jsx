@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
-import { validateIfDirty, isValidName, isBlank, lastNameCharMin } from '../../utils/validations';
+import { validateIfDirty, isValidName, isBlank } from '../../utils/validations';
 import { suffixes } from '../../utils/options-for-select';
 
 /**
@@ -74,7 +74,7 @@ class FullName extends React.Component {
             name="lname"
             autocomplete="family-name"
             charMax={30}
-            charMin={lastNameCharMin}
+            charMin={this.props.lastNameCharMin}
             required={this.props.required}
             field={this.props.name.last}
             onValueChange={(update) => {this.handleChange('last', update);}}/>
