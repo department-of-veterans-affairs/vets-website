@@ -1369,16 +1369,16 @@ a.twitter {
   }
 
   .va-notice--banner {
-    background: $color-gray-lightest;
-    color: $color-base;
     margin: 0;
     padding: 0;
+    background: $color-primary-darker;
+    color: $color-white;
 
     .header {
       padding: 0.5em 0;
     }
 
-    a {
+    a.va-crisis-line {
       color: $color-base;
     }
 
