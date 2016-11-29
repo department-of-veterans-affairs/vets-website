@@ -232,7 +232,7 @@ hr {
   width: 1em;
   height: 1em;
   // Content must have a decender in it
-  content: "leave vets.gov"; 
+  content: "leave vets.gov";
   background-repeat: no-repeat;
   background-position: top center;
   margin-left: .3em;
@@ -392,7 +392,7 @@ h6 {
   }
 
   .outline-link-block {
-    border: $color-gray-light solid 1px;
+    border: $color-gray-light solid 2px;
     margin: 0.5em 0;
     padding: 0.5em 1em;
     display: flex;
@@ -400,6 +400,10 @@ h6 {
     height: 100%;
     justify-content: center;
     font-size: 1.2em;
+
+    &:hover {
+      border: $color-primary-darker solid 2px;
+    }
   }
 
   .stars-tagline {
