@@ -15,13 +15,12 @@ You can get education benefits if you qualify for—or already get—VA educatio
   - We have approved your program, **and**
   - Your program is at an institution of higher learning where you'll earn a standard college degree or something of equal value at that foreign school
 
-#### **Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may get VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
-
 ### Who's covered?
 
 - Veterans
 - Qualified dependents 
 
+**Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may get VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
 </div>
 
 ### What benefits can I get? 
@@ -44,20 +43,21 @@ We'll accept degrees from schools or establishments in foreign countries that ar
 
 **Exception:** Programs at schools located in the United States that offer courses in a foreign country under contract with the Department of Defense are not considered foreign training. Likewise, year abroad and similar programs offered by schools in the United States aren't considered foreign training.
 
-
-</li>
-
-<li class="step two wow fadeIn animated" markdown="0">
-
-You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). Turn in your application to us at least 90 days before your departure. Your benefit will be processed depending on your school’s location. 
-
-If you're approved, turn in your Certificate of Eligibility (COE) to the school’s certifying official as verification that you are eligible to receive VA benefits. Your school’s certifying official will submit your enrollment information on VA Form 22-1999. Please note that you won't get payments until we have received your enrollment information processed it.
-
 -	If you or your eligible dependent wants to enroll in a program that we haven't approved, you'll need to ask the school to request approval. We can't take any action until a request for approval is received from a school official (not from you). If your program is not approved, you'll be responsible for all costs at the school, including tuition and fees.
 -	School officials should [follow these instructions](http://benefits.va.gov/gibill/foreign_program_approval_information_for_schools.asp) when applying for approval of education programs.
 - If you are training in Puerto Rico or the U.S. Virgin Islands, your claim will be handled by the Atlanta Regional Processing Office (in Decatur, Georgia).
 - If you are training in the Republic of the Philippines, American Samoa, Guam, Midway, Wake Island, any of the islands in the Federated States of the Marshall Islands, the Republic of Micronesia, or the Republic of Palau, your claim will be handled by the Muskogee Regional Processing Office.
 - If you are training in any other foreign country or area, your claim will be handled by the Buffalo Regional Processing Office.
+
+
+</li>
+
+<li class="step two wow fadeIn animated" markdown="0">
+
+Once the school is approved, you'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). Turn in your application to us at least 90 days before your departure. Your benefit will be processed depending on your school’s location. 
+
+If you're approved for benefits, turn in your Certificate of Eligibility (COE) to the school’s certifying official as verification that you qualify to get VA benefits. Your school’s certifying official will submit your enrollment information on VA Form 22-1999. Please note that you won't get payments until we have received your enrollment information processed it.
+
 
 </li>
 
