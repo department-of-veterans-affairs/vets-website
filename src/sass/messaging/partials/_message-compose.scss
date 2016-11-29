@@ -13,10 +13,6 @@
     margin-bottom: 3rem;
     margin-top: 1.5rem;
 
-    .usa-input-error-message {
-      margin: 0 0 0 11.5rem;
-    }
-
     .msg-write-group {
       padding: .75rem 0;
     }
@@ -39,7 +35,6 @@
 .msg-field.usa-input-error {
   @media (max-width: $medium-screen) {
     margin: 0;
-    padding: 0;
   }
 
   border-left: 4px solid $color-secondary;
@@ -61,10 +56,6 @@
 }
 
 .msg-subject-group-inner {
-  .usa-input-error-message {
-    margin-left: 0rem;
-  }
-
   label {
     position: absolute;
     left: -999em;
@@ -105,19 +96,13 @@
   }
 }
 
-.msg-recipient > div,
+.msg-recipient,
 .msg-subject-group {
   padding-top: .75rem;
   padding-bottom: .75rem;
 
   @media (max-width: $medium-screen) {
     padding: 1.5rem;
-  }
-}
-
-.msg-recipient .usa-input-error-message {
-  @media (max-width: $medium-screen) {
-    padding: 1.5rem 1.5rem 0;
   }
 }
 
@@ -134,10 +119,6 @@
     display: -webkit-flex;
     display: flex;
   }
-}
-
-.msg-recipient label {
-  padding-right: 1rem;
 }
 
 .msg-recipient {
@@ -221,6 +202,7 @@ button.msg-btn-save {
 .msg-write-group {
   border-bottom: none;
   margin-top: 0;
+  padding: 0;
 
   .usa-input-error {
     padding-bottom: 0;
@@ -415,11 +397,6 @@ button.msg-btn-save {
       margin-left: 1.5rem;
     }
   }
-}
-
-.msg-compose-error-message {
-  margin: 0;
-  padding: 0;
 }
 
 .msg-compose-error--subject {
