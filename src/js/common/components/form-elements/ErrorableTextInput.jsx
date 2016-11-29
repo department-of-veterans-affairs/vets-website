@@ -40,11 +40,13 @@ class ErrorableTextInput extends React.Component {
   }
 
   handleBlur() {
-    this.props.onValueChange(makeField(this.props.field.value, true));
-
+    let fieldValue = this.props.field.value;
     let charMin = this.props.charMin;
+
+    this.props.onValueChange(makeField(fieldValue, true));
+
     this.setState({
-      errorMessage: this.props.field.value.length < charMin ? `Min. ${this.props.charMin} characters` : null
+      errorMessage: fieldValue.length < charMin ? `Min. ${this.props.charMin} characters` : null
     });
   }
 
