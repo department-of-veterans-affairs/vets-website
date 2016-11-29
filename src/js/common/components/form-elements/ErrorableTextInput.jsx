@@ -96,7 +96,7 @@ class ErrorableTextInput extends React.Component {
             name={this.props.name}
             tabIndex={this.props.tabIndex}
             autoComplete={this.props.autocomplete}
-            type="text"
+            type={this.props.type}
             maxLength={this.props.charMax}
             value={this.props.field.value}
             onChange={this.handleChange}
@@ -122,6 +122,11 @@ ErrorableTextInput.propTypes = {
   additionalClass: React.PropTypes.string,
   charMax: React.PropTypes.number,
   onValueChange: React.PropTypes.func.isRequired,
+  type: React.PropTypes.string
+};
+
+ErrorableTextInput.defaultProps = {
+  type: 'text'
 };
 
 export default ErrorableTextInput;
