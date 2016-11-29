@@ -22,4 +22,4 @@ relatedlinks:
 
 ---
 
-Your VA education benefits, including the GI Bill, may help you pay for non-traditional education programs, like on-the-job-training, apprenticeships, overseas schools, and correspondence training. Some of these may allow you to work and get training at the same time. 
+We may help you pay for non-traditional education programs, like on-the-job-training, apprenticeships, overseas schools, and correspondence training. Some of these may allow you to work and get training at the same time. 
