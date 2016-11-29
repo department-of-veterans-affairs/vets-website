@@ -21,7 +21,6 @@
 
 [id=msg-compose] label {
   margin: 0;
-  font-weight: bold;
 }
 
 .msg-field {
@@ -56,26 +55,6 @@
 }
 
 .msg-subject-group-inner {
-  label {
-    position: absolute;
-    left: -999em;
-  }
-
-  legend {
-    display: block;
-    font-size: inherit;
-    white-space: nowrap;
-
-    @media (min-width: $medium-screen) {
-      -webkit-flex: 0 0 10.5rem;
-      flex: 0 0 10.5rem;
-    }
-
-    @media (max-width: $medium-screen) {
-      width: 100%;
-    }
-  }
-
   > div {
     flex: 1 1 100%;
   }
@@ -107,6 +86,10 @@
 }
 
 .msg-subject {
+  @media (max-width: $medium-screen) {
+    margin-top: 2rem;
+  }
+
   @media (min-width: $medium-screen) {
     -webkit-flex: 1 1 60%;
     flex: 1 1 60%;

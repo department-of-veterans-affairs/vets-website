@@ -17,13 +17,13 @@ export class NewMessageForm extends React.Component {
 
     // Tests the subject group for errors
     const subjectError = validations.isValidSubjectLine(message.category, message.subject);
-
+  
     return (
       <form
           id="msg-compose"
           onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
         <MessageRecipient
-            errorMessage={validations.isValidRecipient(message.recipient) ? '' : composeMessage.errors.recipient}
+            errorMessage={validations.isValidRecipient(message.recipient) ? undefined : composeMessage.errors.recipient}
             cssClass="msg-recipient msg-field"
             onValueChange={this.props.onRecipientChange}
             options={this.props.recipients}
