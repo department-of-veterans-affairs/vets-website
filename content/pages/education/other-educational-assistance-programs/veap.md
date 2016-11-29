@@ -5,30 +5,28 @@ concurrence: complete
 template: 1-topic-landing
 ---
 
-If you are interested in pursuing continuing-education programs, and are willing to make contributions from your military pay, the VEAP is a $2-to-$1 government-match program for educational assistance.
+If you're interested in pursuing continuing-education programs, and are willing to make contributions from your military pay, Veterans' Educational Assistance Program (VEAP) is a $2-to-$1 government-match program for educational assistance.
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for benefits?
-Yes, if:
-
-  - You entered service for the first time between January 1, 1977, and June 30, 1985.
-  - You opened and contributed to your account before April 1, 1987.
-  - You voluntarily contributed $25–$2700.
+### Can I get this benefit?
+You can get this benefit if you entered service for the first time between January 1, 1977, and June 30, 1985, **and**
+  - You opened and contributed to your account before April 1, 1987, **and**
+  - You voluntarily contributed $25–$2700, **and**
   - You completed your first period of service and were discharged or released from service under conditions other than dishonorable.
 
-### Who is covered
-You
+### Who's covered?
+Veterans
 </div>
 
-### Available benefits
-Tuition assistance
+### What benefits can I get?
+Help paying tuition
 
 ------
 
-### How it works
+### How do I get this benefit?
 
-VEAP benefits can be applied to the following programs:
+You need to apply for benefits. [Apply for benefits](/education/apply-for-education-benefits/). VEAP benefits can be applied to the following programs:
 
 - [Undergraduate and graduate programs](/education/gi-bill/higher-learning/)
 - [Co-op training](/education/work-learn/co-op-training/)
@@ -44,7 +42,7 @@ VEAP benefits can be applied to the following programs:
 VEAP may also be used for remedial, deficiency, and refresher courses. Your monthly contributions will determine the length of your entitlements (1–36 months), and you have 10 years from your release from active duty to use VEAP benefits. If VEAP benefits go unused after that 10-year period, you can request a refund for the amount left in your fund.
 
 **Active Duty**
-If you are currently on active duty and wish to receive VEAP, you must have at least three months of contributions available.
+If you're currently on active duty and wish to receive VEAP, you must have at least 3 months of contributions available.
 
 **Withdrawals**
 Contributions may be withdrawn if you do not meet basic eligibility requirements or if you formally request a refund.
