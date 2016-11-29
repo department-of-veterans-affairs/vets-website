@@ -126,7 +126,7 @@ function isValidDateField(field) {
 }
 
 function isValidFullNameField(field) {
-  let lastName = field.last.value;
+  const lastName = field.last.value;
 
   return isValidName(field.first.value) &&
     (isBlank(field.middle.value) || isValidName(field.middle.value)) &&

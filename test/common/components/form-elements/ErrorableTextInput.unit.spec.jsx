@@ -45,12 +45,12 @@ describe('<ErrorableTextInput>', () => {
     const testCharMin = (charMin, field, hasError) => {
       context(`with charMin set to ${charMin} and field set to ${field}`, () => {
         it(`should ${hasError ? '' : 'not '}have a min characters error`, () => {
-          let errorableInput = ReactTestUtils.renderIntoDocument(
+          const errorableInput = ReactTestUtils.renderIntoDocument(
             <ErrorableTextInput charMin={charMin} field={makeField(field)} label="test" onValueChange={(_update) => {}}/>
           );
-
           errorableInput.handleBlur();
-          expect(errorableInput.state.errorMessage).to.eql(hasError ? 'Min. 2 characters' : null)
+
+          expect(errorableInput.state.errorMessage).to.eql(hasError ? 'Min. 2 characters' : null);
         });
       });
     };
