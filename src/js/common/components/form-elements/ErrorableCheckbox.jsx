@@ -66,6 +66,7 @@ class ErrorableCheckbox extends React.Component {
     return (
       <div className={className}>
         <input
+            autoComplete="false"
             aria-describedby={errorSpanId}
             checked={this.props.checked}
             id={this.inputId}
