@@ -16,6 +16,7 @@ You can if you qualify for the [maximum benefit rate under the Post-9/11 GI Bill
 
 You can get this benefit if you're the dependent of a Veteran eligible for [transfer of entitlement for the Post-9/11 GI Bill](https://www.vets.gov/education/gi-bill/transfer/).
 
+
 ### Who's covered?
 - Veterans
 - Qualified dependents
