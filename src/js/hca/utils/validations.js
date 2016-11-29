@@ -511,5 +511,6 @@ export {
   isValidGeneralInsurance,
   isValidMedicareMedicaid,
   isValidServiceInformation,
-  isValidSection
+  isValidSection,
+  isValidFullNameField
 };
