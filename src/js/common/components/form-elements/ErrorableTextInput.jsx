@@ -26,6 +26,7 @@ import { makeField } from '../../model/fields.js';
 class ErrorableTextInput extends React.Component {
   constructor() {
     super();
+    this.state = {};
     this.handleChange = this.handleChange.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
   }
@@ -40,6 +41,11 @@ class ErrorableTextInput extends React.Component {
 
   handleBlur() {
     this.props.onValueChange(makeField(this.props.field.value, true));
+
+    let charMin = this.props.charMin;
+    this.setState({
+      errorMessage: this.props.field.value.length < charMin ? `Min. ${this.props.charMin} characters` : null
+    });
   }
 
   render() {
@@ -49,9 +55,10 @@ class ErrorableTextInput extends React.Component {
     let errorSpanId = undefined;
     let inputErrorClass = undefined;
     let labelErrorClass = undefined;
-    if (this.props.errorMessage) {
+    let errorMessage = this.props.errorMessage || this.state.errorMessage;
+    if (errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
-      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
+      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{errorMessage}</span>;
       inputErrorClass = 'usa-input-error';
       labelErrorClass = 'usa-input-error-label';
     }
