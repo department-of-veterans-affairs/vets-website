@@ -6,6 +6,7 @@ concurrence: incomplete
 ---
 
 The Yellow Ribbon Program can help you pay for higher out-of-state, private, or graduate school tuition that the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) doesn't cover.
+<div class="call-out" markdown="1">
 
 ### Can I use the Yellow Ribbon Program?
 You can use the Yellow Ribbon Program if:
@@ -17,17 +18,19 @@ You can use the Yellow Ribbon Program if:
   - You're the dependent of a Veteran eligible for [transfer of entitlement for the Post-9/11 GI Bill](https://www.vets.gov/education/gi-bill/transfer/).
  
 
-Who's covered?
+### Who's covered?
+
 - Veterans
 - Qualified dependents 
+</div>
 
-What benefits can I get? 
-- Extra money for tuition
+### What benefits can I get? 
+Extra money for tuition
 
 
 ------
 
-### How it works
+### How do I get this benefit?
 
 <ol class="process">
 <li class="step one">
@@ -35,7 +38,7 @@ What benefits can I get?
 <div markdown="1">
 
 ##### Apply for GI Bill benefits
-If you apply and qualify for Post-9/11 GI Bill benefits, you'll get a Certificate of Eligibility (COE).
+If you apply and qualify for Post-9/11 GI Bill benefits, you'll get a Certificate of Eligibility (COE). [Apply for benefits](/education/apply-for-education-benefits/).
 </div>
 </li>
 
