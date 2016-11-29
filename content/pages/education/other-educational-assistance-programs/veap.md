@@ -10,7 +10,7 @@ If you're interested in pursuing continuing-education programs, and are willing 
 <div class="call-out" markdown="1">
 
 ### Can I get this benefit?
-You can get this benefit if you entered service for the first time between January 1, 1977, and June 30, 1985, **and**
+You can get this benefit if you entered service for the first time between January 1, 1977, and June 30, 1985, and:
   - You opened and contributed to your account before April 1, 1987, **and**
   - You voluntarily contributed $25–$2700, **and**
   - You completed your first period of service and were discharged or released from service under conditions other than dishonorable.
