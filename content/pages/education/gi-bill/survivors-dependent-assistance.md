@@ -14,14 +14,17 @@ You can get education benefits if, you are the child or spouse of a Servicemembe
   - Is missing in action or was captured in the line of duty by a hostile force, **or**
   -	Was forcibly detained in the line of duty by a foreign government or power, **or**
   -	Is hospitalized or receiving outpatient treatment for a service-connected permanent and total disability and likely to be discharged for that disability.
+  
 
-You can get benefits if you are the child or spouse of a Veteran who is permanently and totally disabled due to a service-connected disability, or
+### You can get benefits if you are the child or spouse of a Veteran who is permanently and totally disabled due to a service-connected disability, or
   -	Who died while on active duty or as a result of a service-connected disability.
 
 You can get benefits if you qualify to receive a transfer of Post-9/11 GI Bill benefits.
 
+
 ### Who's covered?
-Qualified spouses and dependents
+- Qualified spouses
+- Qualified dependents
 </div>
 
 ### What benefits can I get? 
@@ -40,7 +43,7 @@ You'll need to apply for benefits. There are 2 main GI Bill programs offering ed
 - [The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/) is available for children and spouses of Servicemembers who died in the line of duty after September 10, 2001.
 - [The Survivors' and Dependents' Educational Assistance (DEA) program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) offers education and training opportunities to eligible dependents of Veterans who are permanently and totally disabled due to a service-related condition or who died while on active duty or as a result of a service-related condition.
 
-You may be eligible for both of these programs, but you can use only 1 of them. You’ll have to decide which one when you apply, and once you make this decision, you can't change your mind. 
+You may qualify for both of these programs, but you can use only 1 of them. You’ll have to decide which one when you apply, and once you make this decision, you can't change your mind. 
 
 **Exception:** As a beneficiary, you cannot use the same qualifying event for more than one benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
 
