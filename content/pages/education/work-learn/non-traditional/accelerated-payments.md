@@ -5,28 +5,28 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-If you’re enrolled in a high-tech program and intend to work in a high-tech industry, you may be eligible to receive a lump-sum payment of 60% of tuition and fees. VA issues accelerated payment to you instead of the monthly benefits you would otherwise receive. This program covers the higher per-month costs associated with these courses of study.
+If you’re enrolled in a high-tech program and intend to work in a high-tech industry, you may be eligible to receive a lump-sum payment of 60% of tuition and fees. We issue accelerated payment to you instead of the monthly benefits you would otherwise get. This program covers the higher per-month costs associated with these courses of study.
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for education benefits?
-Yes, if:
+### Can I get these education benefits?
+You can get these benefits if you're an active-duty GI Bill recipient, in which case both degree and non-degree programs qualify and:
+-	You are a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for two years or less, **and**
+-	Your tuition and fees exceed 200% of the monthly amount of educational assistance you would otherwise be eligible to get during the certified period of enrollment.
 
--	You are an active-duty GI Bill recipient, in which case both degree and non-degree programs qualify.
--	You are a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for two years or less.
--	Your tuition and fees exceed 200% of the monthly amount of educational assistance you would otherwise be eligible to receive during the certified period of enrollment.
+**Exception:** This benefit isn't available under the Post-9/11 GI Bill, Dependents’ Educational Assistance (DEA) program, or VEAP.
 
-**Exception:** This benefit is not available under the Post-9/11 GI Bill, Dependents’ Educational Assistance program, or VEAP.
-
-### Who's covered
+### Who's covered?
 Veterans
 </div>
 
-### Available benefits
+### What benefits can I get?
 
 Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs.
 
-### How it works
+### How do I get these benefits?
+
+Ask your school to include your request for accelerated payment to us when it turns in your enrollment information. 
 
 You must be enrolled in one of the following categories:
 
@@ -37,7 +37,7 @@ You must be enrolled in one of the following categories:
 -	Computer specialties
 -	Engineering, science, and computer management
 
-And, you must certify that you intend to seek employment in one of the [following industries](http://www.gpo.gov/fdsys/granule/USCODE-2011-title38/USCODE-2011-title38-partIII-chap30-subchapII-sec3014A):
+**And**, you must certify that you intend to seek employment in one of the [following industries](http://www.gpo.gov/fdsys/granule/USCODE-2011-title38/USCODE-2011-title38-partIII-chap30-subchapII-sec3014A):
 
 - Biotechnology
 - Life science technologies
