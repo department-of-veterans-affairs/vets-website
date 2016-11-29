@@ -178,8 +178,7 @@ describe('Disability benefits helpers: ', () => {
           contentionList: [
             'thing'
           ],
-          dateFiled: 'asdf',
-          vaRepresentative: null
+          dateFiled: '',
         }
       };
 
@@ -194,7 +193,7 @@ describe('Disability benefits helpers: ', () => {
             'thing'
           ],
           dateFiled: 'asdf',
-          vaRepresentative: 'asdf'
+          vaRepresentative: null
         }
       };
 
