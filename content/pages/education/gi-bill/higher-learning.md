@@ -2,26 +2,33 @@
 layout: page-breadcrumbs.html
 title: Undergraduate and Graduate Degrees
 template: 4-action-page-pending
+plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
-If you'd like to earn an undergraduate or graduate degree at an institution of higher learning, including 4-year universities, community colleges, and schools offering advanced degrees, VA education and training benefits may be available to you.
+Want to earn an undergraduate or graduate degree at an institution of higher learning, including 4-year universities, community colleges, and schools offering advanced degrees? Find out if you can get VA education and training benefits.
 
-The number of classes you attend and the hours spent in those classes determine your payments.
 
 <div class="call-out" markdown="1">
-
-### For example, for most undergraduate degrees, a college considers:
+### How we decide what your payments will be
+We decide your payment amounts based on the number of classes you go to and the hours spent in those classes. For example, for most undergraduate degrees, a college considers:
   -	12 or more hours full time
-  -	9-11 hours three-quarter time
-  -	6-8 hours half time
-  -	Less than 6 hours as reimbursable at a rate that’s no more than the tuition and fees charged for the course(s)
+  -	Between 9 and 11 hours three-quarter time
+  -	Between 6 and 8 hours half time
+  -	Less than 6 hours reimbursable at a rate that’s no more than the tuition and fees charged for the course(s)
 </div>
 
-If you're interested in graduate-level training, the school determines how each hour is rated. For example, if a 2-hour class is considered full time in a graduate program at your school, we'll pay you the full-time rate.
+If you're interested in graduate-level training, the school decides how to rate each hour. For example, if a graduate program at your school considers a 2-hour class full time, we'll pay you the full-time rate.
 
-You can attend more than 1 college at a time under the GI Bill as long as the classes at both institutions count toward your degree, and the school granting your degree accepts the classes at the second school as part of your requirements. However, the GI Bill will not pay you to take the same class twice, unless you receive a failing grade in a class that is a graduation requirement.
+You can enroll at more than 1 college at a time under the GI Bill as long as: 
+- The classes at both schools count toward your degree, **and** 
+- The school granting your degree considers the classes at the second school to be required in order to get your degree
 
-The GI Bill can pay you for the classes required to achieve more than 1 degree. Once you earn a degree, you could pursue another one if you have remaining entitlement on your GI Bill.
+**Note:** The GI Bill won't pay you to take the same class twice unless you get a failing grade in a class that the school requires for graduation.
 
-We issue payments after each month’s classes. For example, you will get the November payment in December. For the Post-9/11 GI Bill, the tuition and fees are paid directly to the school, money for books is paid to you at the beginning of the term, and the housing allowance is paid to you at the end of each month.
+The GI Bill will pay you for the classes you need to get more than 1 degree. Once you earn a degree, you can work toward another one if you still have GI Bill benefits left.
+
+We issue payments after each month’s classes. For example, you will get the payment for November classes in December. For the Post-9/11 GI Bill, we pay: 
+- Tuition and fees directly to the school
+- Money for books to you at the beginning of the term, and 
+- Housing allowance to you at the end of each month
