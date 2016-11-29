@@ -19,7 +19,7 @@ You can get education benefits through the GI Bill if:
 ### Who's covered? 
 - Veterans
 - Servicemembers
-- Eligible dependents 
+- Qualified dependents 
 
 </div>
 
