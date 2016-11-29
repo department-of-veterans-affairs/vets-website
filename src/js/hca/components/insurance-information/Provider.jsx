@@ -22,6 +22,7 @@ class Provider extends React.Component {
 
           <ErrorableTextInput required
               errorMessage={validateIfDirty(this.props.data.insurancePolicyHolderName, isNotBlank) ? undefined : 'Please enter the name of the policy holder'}
+              charMax={50}
               label="Name of policy holder"
               name="insurancePolicyHolderName"
               field={this.props.data.insurancePolicyHolderName}
