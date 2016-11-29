@@ -10,6 +10,7 @@ import { folderUrl } from '../utils/helpers';
 class ThreadHeader extends React.Component {
   render() {
     let toggleThread;
+    let deleteButton;
 
     if (this.props.threadMessageCount > 1) {
       toggleThread = (
@@ -17,6 +18,11 @@ class ThreadHeader extends React.Component {
             messagesCollapsed={this.props.messagesCollapsed}
             onClick={this.props.onToggleThread}/>
       );
+    }
+
+    if (this.props.folderName !== 'Sent') {
+      deleteButton =
+        <ButtonDelete onClickHandler={this.props.onDeleteMessage}/>;
     }
 
     const backUrl = folderUrl(this.props.folderName);
@@ -38,14 +44,12 @@ class ThreadHeader extends React.Component {
               onItemSelect={this.props.onMessageSelect}
               itemNumber={this.props.currentMessageNumber}
               totalItems={this.props.folderMessageCount}/>
-          <ButtonDelete
-              onClickHandler={this.props.onDeleteMessage}/>
+          {deleteButton}
         </div>
         <div className="messaging-thread-title">
           <div className="messaging-thread-controls">
             {toggleThread}
-            <ButtonDelete
-                onClickHandler={this.props.onDeleteMessage}/>
+            {deleteButton}
           </div>
           <h2 className="messaging-thread-subject">{this.props.message.subject}</h2>
         </div>
