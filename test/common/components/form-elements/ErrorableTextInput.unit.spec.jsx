@@ -41,6 +41,25 @@ describe('<ErrorableTextInput>', () => {
     return expect(updatePromise).to.eventually.eql(makeField(1, true));
   });
 
+  describe('min characters checking', () => {
+    const testCharMin = (charMin, field, hasError) => {
+      context(`with charMin set to ${charMin} and field set to ${field}`, () => {
+        it(`should ${hasError ? '' : 'not '}have a min characters error`, () => {
+          let errorableInput = ReactTestUtils.renderIntoDocument(
+            <ErrorableTextInput charMin={charMin} field={makeField(field)} label="test" onValueChange={(_update) => {}}/>
+          );
+
+          errorableInput.handleBlur();
+          expect(errorableInput.state.errorMessage).to.eql(hasError ? 'Min. 2 characters' : null)
+        });
+      });
+    };
+
+    testCharMin(2, '1', true);
+    testCharMin(2, '12', false);
+    testCharMin(null, '1', false);
+  });
+
   it('no error styles when errorMessage undefined', () => {
     const tree = SkinDeep.shallowRender(
       <ErrorableTextInput field={makeField(1)} label="my label" onValueChange={(_update) => {}}/>);
