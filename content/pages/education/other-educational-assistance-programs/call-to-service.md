@@ -4,41 +4,38 @@ title: National Call to Service Program
 concurrence: incomplete
 template: 1-topic-landing
 ---
-If you performed a period of national service, you may be eligible for the National Call to Service program, which allows you to choose an education benefit as an alternative to the Montgomery GI Bill.
+If you performed a period of national service, you may qualify for the National Call to Service program, which allows you to choose an education benefit as an alternative to the Montgomery GI Bill (MGIB).
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for benefits?
+### Can I get this benefit?
 
-Yes, if:
-
--	You completed your initial entry training, and then continued to serve on active duty in a military occupational specialty designated by the Secretary of Defense for a period of 15 months.
--	You then, without a break in service, served either an additional period of active duty as determined by the Secretary of Defense or a period of 24 months in active status in the Selected Reserve.
--	You then, without a break in service, spent the remainder of your obligated service as follows:
-  - On active duty in the Armed Forces, or
-  - In the Selected Reserve, or
-  -	In the Individual Ready Reserve, or
+You qualify for the National Call to Service program if you completed your initial entry training, and then continued to serve on active duty in a military occupational specialty designated by the Secretary of Defense for a period of 15 months, **and**
+-	 Then, without a break in service, served either an additional period of active duty as determined by the Secretary of Defense or a period of 24 months in active status in the Selected Reserve, **and**
+-	Then, without a break in service, spent the remainder of your obligated service as follows:
+  - On active duty in the Armed Forces, **or**
+  - In the Selected Reserve, **or**
+  -	In the Individual Ready Reserve, **or**
   -	In AmeriCorps, or another domestic national service program jointly designated by the Secretary of Defense.
 
-### Who is covered
-
-You
+### Who's covered?
+Veterans
 </div>
 
-### Available benefits
+### What benefits can I get?
 
-You may select from the following:
+You may chose from the following:
 
 -	A cash bonus of $5,000.
--	Repayment of a qualifying student loan not to exceed $18,000.
+-	Repayment of a qualifying student loan not to go over $18,000.
 -	Educational assistance equal to the three-year monthly Montgomery GI Bill Active Duty rate for 12 months.
 -	Educational assistance equal to 50% of the less-than-three-year monthly Montgomery GI Bill Active Duty rate for 36 months.
 
 ------
 
-### How it works
+### How do I get these benefits?
 
-If you enlist under the National Call to Service program, you are not eligible for the MGIB, unless you reenlist at a later date for an additional period of service. Contact your recruiter to discuss your eligibility and to enroll in the National Call to Service program. This benefit affects your service contract.
+If you enlist under the National Call to Service program, you aren't eligible for the MGIB, unless you reenlist at a later date for an additional period of service. Contact your recruiter to see if you qualify and to enroll in the National Call to Service program. This benefit affects your service contract.
 
 ### Learn more
 
