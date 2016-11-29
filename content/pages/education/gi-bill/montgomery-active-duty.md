@@ -5,7 +5,7 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-If you served at least 2 years on active duty, you may be eligible for the Montgomery GI Bill Active Duty (MGIB-AD) program.
+If you served at least 2 years on active duty, you may qualify for the Montgomery GI Bill Active Duty (MGIB-AD) program.
 
 <div class="call-out" markdown="1">
 
@@ -53,13 +53,13 @@ Money for tuition or training
 -----
 
 ### How do I get these benefits?
-You need to apply. [Apply for benefits](/education/apply-for-education-benefits/). You may receive benefits for up to 8 semesters (4 years) of traditional academic education. The benefits, paid monthly, depend upon the following factors:
+You need to apply. [Apply for benefits](/education/apply-for-education-benefits/). You may receive benefits for up to 8 semesters (4 years) of traditional academic education. The benefits are paid monthly and depend upon the following factors:
 
-- length of service
-- type of training
-- your category (as defined below)
-- college-fund eligibility
-- your contribution to the $600 Buy-Up program
+- Length of service
+- Type of training
+- Your category (as defined below)
+- College-fund eligibility
+- Your contribution to the $600 Buy-Up program
 
 #### Several related funding or training programs fall under the MGIB-AD umbrella:
 
