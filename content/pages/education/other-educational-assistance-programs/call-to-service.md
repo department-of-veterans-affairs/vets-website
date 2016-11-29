@@ -11,7 +11,8 @@ If you performed a period of national service, you may qualify for the National 
 ### Can I get this benefit?
 
 You qualify for the National Call to Service program if you completed your initial entry training, and then continued to serve on active duty in a military occupational specialty designated by the Secretary of Defense for a period of 15 months, **and**
--	 Then, without a break in service, served either an additional period of active duty as determined by the Secretary of Defense or a period of 24 months in active status in the Selected Reserve, **and**
+-	 Then, without a break in service, served either an additional period of active duty as determined by the Secretary of Defense or a period of 24 months in active status in the Selected Reserve, and:
+
 -	Then, without a break in service, spent the remainder of your obligated service as follows:
   - On active duty in the Armed Forces, **or**
   - In the Selected Reserve, **or**
