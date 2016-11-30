@@ -167,8 +167,7 @@ export function getDocTypeDescription(docType) {
 export function isPopulatedClaim({ attributes }) {
   return !!attributes.claimType
     && (attributes.contentionList && !!attributes.contentionList.length)
-    && !!attributes.dateFiled
-    && !!attributes.vaRepresentative;
+    && !!attributes.dateFiled;
 }
 
 export function hasBeenReviewed(trackedItem) {
