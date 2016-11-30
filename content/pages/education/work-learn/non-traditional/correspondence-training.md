@@ -15,9 +15,10 @@ If you'd like to learn at home or you live far away from any schools, correspond
 You can, if you qualify for any GI Bill program.
 
 ### Who's covered?
-Veterans
-Qualified dependents 
-**Exception:** Dependents using the Dependents’ Educational Assistance program may not enroll in correspondence training.
+- Veterans
+- Qualified dependents 
+
+**Exception:**<br> Dependents using the Dependents’ Educational Assistance program may not enroll in correspondence training.
 </div>
 
 ### What benefits can I get? 
@@ -26,10 +27,10 @@ You can get paid back for the cost of classes.
 
 ### How do I get these benefits? 
 
-You'll need to apply for benefits. [Apply for education benefits](/education/apply-for-education-benefits/). 
+- You'll need to apply for benefits. [Apply for education benefits](/education/apply-for-education-benefits/). 
 
-We base payment amounts on the specific GI Bill program you're using. If you're enrolled in correspondence training, we decide your payment amount and then pay it quarterly after your school lets us know that you've finished your course of study. 
+- We base payment amounts on the specific GI Bill program you're using. If you're enrolled in correspondence training, we decide your payment amount and then pay it quarterly after your school lets us know that you've finished your course of study. 
 
-If you're covered under the Post-9/11 GI Bill, we pay you back for the actual costs of the school’s in-state tuition and fees, up to the maximum amount allowed by law. For all other GI Bill recipients, VA reimburses 55% of the approved costs. [View the current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+- If you're covered under the Post-9/11 GI Bill, we pay you back for the actual costs of the school’s in-state tuition and fees, up to the maximum amount allowed by law. For all other GI Bill recipients, we reimburse 55% of the approved costs. [View the current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
 
