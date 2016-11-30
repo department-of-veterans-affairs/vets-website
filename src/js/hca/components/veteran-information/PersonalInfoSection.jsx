@@ -38,7 +38,8 @@ class PersonalInfoSection extends React.Component {
               customValidation={isValidMinimumName}
               customErrorMessage="Please enter a valid name. Must be at least 2 characters."
               onUserInput={(update) => {this.props.onStateChange('veteranFullName', update);}}/>
-          <MothersMaidenName value={this.props.data.mothersMaidenName}
+          <MothersMaidenName
+              value={this.props.data.mothersMaidenName}
               onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);}}/>
         </div>
       </fieldset>);

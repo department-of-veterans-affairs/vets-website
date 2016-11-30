@@ -485,6 +485,7 @@ export {
   isDirty,
   isBlank,
   isNotBlank,
+  isValidRequiredField,
   isValidDate,
   isValidName,
   isValidMinimumName,
