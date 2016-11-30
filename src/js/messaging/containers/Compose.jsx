@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { dirtyAllFields } from '../../common/model/fields';
 import NoticeBox from '../components/NoticeBox';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
+import ModalSaveDraft from '../components/compose/ModalSaveDraft';
 import NewMessageForm from '../components/forms/NewMessageForm';
 import * as validations from '../utils/validations';
 
@@ -19,6 +20,7 @@ import {
   sendMessage,
   setMessageField,
   toggleConfirmDelete,
+  toggleDraftModal,
   updateComposeCharacterCount
 } from '../actions';
 
@@ -30,6 +32,7 @@ export class Compose extends React.Component {
     this.isValidForm = this.isValidForm.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.saveDraft = this.saveDraft.bind(this);
+    this.saveDraftIfNoAttachments = this.saveDraftIfNoAttachments.bind(this);
   }
 
   componentDidMount() {
@@ -92,6 +95,14 @@ export class Compose extends React.Component {
     this.props.saveDraft(this.apiFormattedMessage());
   }
 
+  saveDraftIfNoAttachments() {
+    if (this.props.message.attachments.length) {
+      this.props.toggleDraftModal();
+    } else {
+      this.saveDraft();
+    }
+  }
+
   handleConfirmDelete(domEvent) {
     domEvent.preventDefault();
     this.props.toggleConfirmDelete();
@@ -125,7 +136,7 @@ export class Compose extends React.Component {
             onBodyChange={this.props.setMessageField.bind(null, 'message.body')}
             onCategoryChange={this.props.setMessageField.bind(null, 'message.category')}
             onRecipientChange={this.props.setMessageField.bind(null, 'message.recipient')}
-            onSaveMessage={this.saveDraft}
+            onSaveMessage={this.saveDraftIfNoAttachments}
             onSendMessage={this.sendMessage}
             onSubjectChange={this.props.setMessageField.bind(null, 'message.subject')}
             toggleConfirmDelete={this.props.toggleConfirmDelete}/>
@@ -135,6 +146,11 @@ export class Compose extends React.Component {
             onClose={this.props.toggleConfirmDelete}
             onDelete={this.handleConfirmDelete}
             visible={this.props.deleteConfirmModal.visible}/>
+        <ModalSaveDraft
+            cssClass="messaging-modal"
+            onClose={this.props.toggleDraftModal}
+            onSave={this.saveDraft}
+            visible={this.props.saveDraftModal.visible}/>
       </div>
     );
   }
@@ -149,7 +165,8 @@ const mapStateToProps = (state) => {
     message: state.compose.message,
     recipients: state.compose.recipients,
     redirect: state.folders.ui.redirect,
-    deleteConfirmModal: state.modals.deleteConfirm
+    deleteConfirmModal: state.modals.deleteConfirm,
+    saveDraftModal: state.modals.saveDraft
   };
 };
 
@@ -165,6 +182,7 @@ const mapDispatchToProps = {
   sendMessage,
   setMessageField,
   toggleConfirmDelete,
+  toggleDraftModal,
   updateComposeCharacterCount
 };
 
