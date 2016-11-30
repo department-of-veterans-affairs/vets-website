@@ -67,8 +67,7 @@ Be sure you have enough money to care for all of your needs until VA payments be
 
 You must provide written permission for school officials to release information as necessary to us. If you don't, it could affect when you get benefits. 
 
-Normally, foreign schools certify their students for 1 academic year. If you want to continue your education at the foreign school for longer than 1 academic year, you may have to reapply. Within 120 days of your enrollment, you should notify the school of your intention to reenroll and have the appropriate certifying official submit an enrollment certification for you. You should keep the school advised of your plans for continuing enrollment in order to avoid any delay in getting your benefits.
-
+Normally, foreign schools certify their students for 1 academic year. Within 120 days of your enrollment, you should notify the school of your intention to reenroll and have the appropriate certifying official submit an enrollment certification for you. You should keep the school advised of your plans for continuing enrollment in order to avoid any delay in getting your benefits.
 
 </ol>
 
