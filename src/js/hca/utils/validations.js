@@ -289,7 +289,7 @@ function isValidSpouseInformation(data) {
       isNotBlank(data.sameAddress.value);
   }
 
-  if (data.sameAddress === 'N') {
+  if (data.sameAddress.value === 'N') {
     isValidSpouseAddress = isValidAddressField(data.spouseAddress) &&
         isValidField(isValidPhone, data.spousePhone);
   }
