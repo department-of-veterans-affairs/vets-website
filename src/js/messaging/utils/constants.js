@@ -6,6 +6,7 @@ export const alertStatus = {
 };
 
 export const RESET_REDIRECT = 'RESET_REDIRECT';
+export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 
 // Alert action types
 export const CLOSE_ALERT = 'CLOSE_ALERT';
