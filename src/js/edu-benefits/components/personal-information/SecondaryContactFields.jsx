@@ -15,6 +15,7 @@ export default class SecondaryContactFields extends React.Component {
         <div className="input-section">
           <ErrorableTextInput
               label="Name"
+              autocomplete="name"
               name="secondaryContactName"
               field={this.props.data.secondaryContact.fullName}
               onValueChange={(update) => {this.props.onStateChange('secondaryContact.fullName', update);}}/>

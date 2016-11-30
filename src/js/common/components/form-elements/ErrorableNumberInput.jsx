@@ -67,6 +67,7 @@ class ErrorableNumberInput extends React.Component {
         </label>
         {errorSpan}
         <input
+            autoComplete={this.props.autocomplete}
             className={this.props.additionalClass}
             aria-describedby={errorSpanId}
             id={this.inputId}

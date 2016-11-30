@@ -20,6 +20,7 @@ import {
   saveDraft,
   sendMessage,
   toggleConfirmDelete,
+  toggleConfirmSave,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleReplyDetails,
@@ -32,6 +33,7 @@ import Message from '../components/Message';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
+import ModalConfirmSave from '../components/compose/ModalConfirmSave';
 import NewMessageForm from '../components/forms/NewMessageForm';
 import ReplyForm from '../components/forms/ReplyForm';
 
@@ -40,6 +42,7 @@ export class Thread extends React.Component {
     super(props);
     this.apiFormattedDraft = this.apiFormattedDraft.bind(this);
     this.getCurrentFolder = this.getCurrentFolder.bind(this);
+    this.handleConfirmDraftSave = this.handleConfirmDraftSave.bind(this);
     this.handleDraftDelete = this.handleDraftDelete.bind(this);
     this.handleDraftSave = this.handleDraftSave.bind(this);
     this.handleDraftSend = this.handleDraftSend.bind(this);
@@ -119,8 +122,20 @@ export class Thread extends React.Component {
     }
   }
 
-  handleDraftSave() {
+  handleConfirmDraftSave() {
+    if (this.props.modals.saveConfirm.visible) {
+      this.props.toggleConfirmSave();
+    }
+
     this.props.saveDraft(this.apiFormattedDraft());
+  }
+
+  handleDraftSave() {
+    if (this.props.draft.attachments.length) {
+      this.props.toggleConfirmSave();
+    } else {
+      this.handleConfirmDraftSave();
+    }
   }
 
   handleDraftSend() {
@@ -342,6 +357,11 @@ export class Thread extends React.Component {
             onClose={this.props.toggleConfirmDelete}
             onDelete={this.handleDraftDelete}
             visible={this.props.modals.deleteConfirm.visible}/>
+        <ModalConfirmSave
+            cssClass="messaging-modal"
+            onClose={this.props.toggleConfirmSave}
+            onSave={this.handleConfirmDraftSave}
+            visible={this.props.modals.saveConfirm.visible}/>
       </div>
     );
   }
@@ -394,6 +414,7 @@ const mapDispatchToProps = {
   saveDraft,
   sendMessage,
   toggleConfirmDelete,
+  toggleConfirmSave,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleThreadMoveTo,

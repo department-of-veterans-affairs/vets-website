@@ -109,7 +109,6 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
       // Review and Submit Page.
-      client.expect.element('button.edit-btn').to.be.visible;
       client
         .click('.form-progress-buttons .usa-button-primary');
       client.expect.element('.js-test-location').attribute('data-location')
