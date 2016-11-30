@@ -47,7 +47,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .expect.element('.submitted-file-list-item:last-child h6').text.to.equal('Submitted');
       // should show a reviewed date message
       client
-        .expect.element('.submitted-file-list-item h6').text.to.equal('Reviewed By VA');
+        .expect.element('.submitted-file-list-item h6').text.to.equal('Reviewed by VA');
 
       client.end();
     }
