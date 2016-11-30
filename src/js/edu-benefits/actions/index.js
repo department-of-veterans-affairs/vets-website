@@ -4,8 +4,7 @@ import environment from '../../common/helpers/environment';
 
 export const UPDATE_COMPLETED_STATUS = 'UPDATE_COMPLETED_STATUS';
 export const UPDATE_INCOMPLETE_STATUS = 'UPDATE_INCOMPLETE_STATUS';
-export const UPDATE_REVIEW_STATUS = 'UPDATE_REVIEW_STATUS';
-export const UPDATE_VERIFIED_STATUS = 'UPDATE_VERIFIED_STATUS';
+export const UPDATE_EDIT_STATUS = 'UPDATE_EDIT_STATUS';
 export const UPDATE_SUBMISSION_STATUS = 'UPDATE_SUBMISSION_STATUS';
 export const UPDATE_SUBMISSION_ID = 'UPDATE_SUBMISSION_ID';
 export const UPDATE_SUBMISSION_TIMESTAMP = 'UPDATE_SUBMISSION_TIMESTAMP';
@@ -52,17 +51,9 @@ export function updateIncompleteStatus(path) {
   };
 }
 
-export function updateReviewStatus(path, value) {
+export function updateEditStatus(path, value) {
   return {
-    type: UPDATE_REVIEW_STATUS,
-    path,
-    value
-  };
-}
-
-export function updateVerifiedStatus(path, value) {
-  return {
-    type: UPDATE_VERIFIED_STATUS,
+    type: UPDATE_EDIT_STATUS,
     path,
     value
   };

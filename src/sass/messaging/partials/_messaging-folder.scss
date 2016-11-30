@@ -49,6 +49,8 @@
   }
 }
 
+// Also see messaging-moveto.scss for styles related
+// to the MoveTo component contained by the message table.
 .messaging-message-row {
   &--unread {
     font-weight: bold;
