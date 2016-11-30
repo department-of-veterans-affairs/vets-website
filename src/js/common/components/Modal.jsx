@@ -6,7 +6,7 @@ function focusListener(selector) {
     const modal = document.querySelector('.va-modal');
     if (!modal.contains(event.target)) {
       event.stopPropagation();
-      const focusableElement = document.querySelector(selector);
+      const focusableElement = modal.querySelector(selector);
       if (focusableElement) {
         focusableElement.focus();
       }
@@ -34,7 +34,7 @@ class Modal extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.visible && this.props.visible) {
-      const focusableElement = document.querySelector(this.props.focusSelector);
+      const focusableElement = document.querySelector('.va-modal').querySelector(this.props.focusSelector);
       if (focusableElement) {
         focusableElement.focus();
       }
@@ -86,7 +86,7 @@ Modal.propTypes = {
 };
 
 Modal.defaultProps = {
-  focusSelector: '.va-modal button, .va-modal input, .va-modal select, .va-modal a'
+  focusSelector: 'button, input, select, a'
 };
 
 export default Modal;
