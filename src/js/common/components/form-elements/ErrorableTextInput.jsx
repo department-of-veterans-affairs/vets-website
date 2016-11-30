@@ -110,7 +110,7 @@ class ErrorableTextInput extends React.Component {
 
 ErrorableTextInput.propTypes = {
   errorMessage: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
+  label: React.PropTypes.any.isRequired,
   placeholder: React.PropTypes.string,
   name: React.PropTypes.string,
   autocomplete: React.PropTypes.string,
