@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Career Counseling
 concurrence: incomplete
+plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 relatedlinks:
   - url: /education/tools-programs/education-career-counseling/
@@ -19,4 +20,4 @@ relatedlinks:
 
 ---
 
-Navigating your transition from military to civilian life can be challenging. We offer tools and counseling programs to help you make the most of your options. 
+Figuring out how to shift from military to civilian life can be hard. We offer tools and counseling programs to help you make the most of your options. 
