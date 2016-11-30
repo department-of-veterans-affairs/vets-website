@@ -43,9 +43,9 @@ export default class ClaimEstimationPage extends React.Component {
                 <li>We have a high volume of claims that we weren’t expecting</li>
               </ul>
               <h2 className="estimation-header">When we don’t meet the estimated decision date:</h2>
-                <p>The above reasons sometimes result in your claim needing additional time that exceeds the estimated completion date. We are working to process your claim as quickly as possible.</p>
+              <p>The above reasons sometimes result in your claim needing additional time that exceeds the estimated completion date. We are working to process your claim as quickly as possible.</p>
               <h2 className="estimation-header">When we don’t give you an estimated decision date:</h2>
-                <p>Sometimes we can’t estimate the decision date because we don’t have enough information. We can give you an estimated decision date after we have gathered all the information we need.</p>
+              <p>Sometimes we can’t estimate the decision date because we don’t have enough information. We can give you an estimated decision date after we have gathered all the information we need.</p>
             </div>
             <p>You can help speed up the process by promptly and electronically uploading the documents requested by VA.</p>
             <p>If you have questions, call VA at 855-574-7286, Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.</p>
