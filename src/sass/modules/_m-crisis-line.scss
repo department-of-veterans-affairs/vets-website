@@ -2,6 +2,7 @@
 
 .crisis-line-container {
   position: relative;
+  background: $color-gray-lightest;
 
   .crisis-line-body {
     position: absolute;
@@ -20,7 +21,6 @@
   position: relative;
   z-index: -1;
   width: 100%;
-  left: 0.03em;
 
   a {
     padding: 0;
@@ -86,7 +86,7 @@
 }
 
 a.va-crisis-line {
-  background: $color-white url(/img/arrow-down.png) no-repeat calc(100% - 0.5em) center;
+  background: $color-gray-lightest url(/img/arrow-down.png) no-repeat calc(100% - 0.5em) center;
   background-size: .8em auto;
   margin: 0;
   text-align: left;
@@ -107,22 +107,6 @@ a.va-crisis-line {
     height: 2em;
     margin: 0.3em 0.5em -0.3em 0.5em;
   }
-
-  // @media #{$medium-only} {
-  //   span.vcl {
-  //     width: 3em;
-  //     height: 3em;
-  //     margin: 0.5em 1em 0 0;
-  //   }
-  // }
-  //
-  // @media #{$small-only} {
-  //   span.vcl {
-  //     width: 4em;
-  //     height: 2em;
-  //     margin: 0.5em 1em 0 0;
-  //   }
-  // }
 }
 
 .va-crisis-panel--open {
