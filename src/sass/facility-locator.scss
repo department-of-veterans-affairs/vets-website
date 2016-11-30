@@ -258,6 +258,11 @@
         color: $color-black;
       }
 
+      &.disabled {
+        cursor: default;
+        background-color: $color-gray-lightest;
+      }
+
       span {
         min-height: 2.4em;
       }
