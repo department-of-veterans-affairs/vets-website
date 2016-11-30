@@ -54,6 +54,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       E2eHelpers.expectNavigateAwayFrom(client, '/military-history/contributions');
 
       // Education history
+      client.click('input[name="highSchoolOrGedCompletionDateYear"]');
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/education-history/education-information');
 
