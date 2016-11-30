@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Address from '../Address';
 import DateInput from '../../../common/components/form-elements/DateInput';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
-import FullName from '../../../common/components/questions/FullName';
+import HcaFullName from '../HcaFullName';
 import Phone from '../../../common/components/questions/Phone';
 import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
 import { yesNo } from '../../../common/utils/options-for-select.js';
@@ -80,7 +80,7 @@ class SpouseInformationSection extends React.Component {
 
       spouseInformationFields = (
         <div className="input-section">
-          <FullName required
+          <HcaFullName required
               name={this.props.data.spouseFullName}
               onUserInput={(update) => {this.props.onStateChange('spouseFullName', update);}}/>
 

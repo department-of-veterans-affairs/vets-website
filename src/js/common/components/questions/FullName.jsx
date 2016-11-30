@@ -74,6 +74,7 @@ class FullName extends React.Component {
             name="lname"
             autocomplete="family-name"
             charMax={30}
+            charMin={this.props.lastNameCharMin}
             required={this.props.required}
             field={this.props.name.last}
             onValueChange={(update) => {this.handleChange('last', update);}}/>

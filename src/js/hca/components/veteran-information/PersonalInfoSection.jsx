@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import FullName from '../../../common/components/questions/FullName';
+import HcaFullName from '../HcaFullName';
 import MothersMaidenName from './MothersMaidenName';
 import { veteranUpdateField } from '../../actions';
 
@@ -32,7 +32,7 @@ class PersonalInfoSection extends React.Component {
         <legend>Personal Information</legend>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
-          <FullName required
+          <HcaFullName required
               name={this.props.data.veteranFullName}
               onUserInput={(update) => {this.props.onStateChange('veteranFullName', update);}}/>
           <MothersMaidenName value={this.props.data.mothersMaidenName}
