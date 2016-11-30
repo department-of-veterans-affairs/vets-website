@@ -29,30 +29,24 @@ You can get education benefits if you qualify for—or already get—VA educatio
 - Money for your housing costs during enrollment
 
 -----
+### Is the application process different for foreign schools? 
+
+The application process is different. First, contact the school or [submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) to learn if your program is approved for benefits. Provide the name of the foreign school, the complete address, and the name of the program you intend to pursue. We'll let you know whether your program has already been approved. Allow for extra time if you are applying to a program that we haven't approved. 
+
+- If you or your eligible dependent wants to enroll in a program that we haven't approved, you'll need to ask the school to request approval. We can't take any action until a request for approval is received from a school official (not from you). If your program is not approved, you'll be responsible for all costs at the school, including tuition and fees.
+
+### Can I attend any foreign school? 
+
+We'll accept degrees from schools or establishments in foreign countries that are similar to degrees granted by accredited U.S. colleges and universities. For private institution overseas, the degree must be comparable to those granted by public colleges and universities in the same country **and** have the same entrance requirements. Independent study (distance learning) courses must be accredited by a nationally recognized accrediting association.
+
+**Exception:** Programs at schools located in the United States that offer courses in a foreign country under contract with the Department of Defense are not considered foreign training. Likewise, year abroad and similar programs offered by schools in the United States aren't considered foreign training.
+
 
 ### How do I get these benefits? 
 
 
 <ol class="process">
 <li class="step one wow fadeIn animated" markdown="1">
-
-
-Contact the school or [submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) to learn if your program is approved for benefits. Provide the name of the foreign school, the complete address, and the name of the program you intend to pursue. We'll let you know whether your program has already been approved. Allow for extra time if you are applying to a program that we haven't approved.
-
-We'll accept degrees from schools or establishments in foreign countries that are similar to degrees granted by accredited U.S. colleges and universities. If you're considering getting a degree or its equivalent from a private institution overseas, the degree must be comparable to those granted by public colleges and universities in the same country. In addition, programs at private institutions must have the same entrance requirements as programs offered by public colleges and universities in the same country. Independent study (distance learning) courses must be accredited by a nationally recognized accrediting association.
-
-**Exception:** Programs at schools located in the United States that offer courses in a foreign country under contract with the Department of Defense are not considered foreign training. Likewise, year abroad and similar programs offered by schools in the United States aren't considered foreign training.
-
--	If you or your eligible dependent wants to enroll in a program that we haven't approved, you'll need to ask the school to request approval. We can't take any action until a request for approval is received from a school official (not from you). If your program is not approved, you'll be responsible for all costs at the school, including tuition and fees.
--	School officials should [follow these instructions](http://benefits.va.gov/gibill/foreign_program_approval_information_for_schools.asp) when applying for approval of education programs.
-- If you are training in Puerto Rico or the U.S. Virgin Islands, your claim will be handled by the Atlanta Regional Processing Office (in Decatur, Georgia).
-- If you are training in the Republic of the Philippines, American Samoa, Guam, Midway, Wake Island, any of the islands in the Federated States of the Marshall Islands, the Republic of Micronesia, or the Republic of Palau, your claim will be handled by the Muskogee Regional Processing Office.
-- If you are training in any other foreign country or area, your claim will be handled by the Buffalo Regional Processing Office.
-
-
-</li>
-
-<li class="step two wow fadeIn animated" markdown="0">
 
 Once the school is approved, you'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). Turn in your application to us at least 90 days before your departure. Your benefit will be processed depending on your school’s location. 
 
@@ -61,14 +55,15 @@ If you're approved for benefits, turn in your Certificate of Eligibility (COE) t
 
 </li>
 
-<li class="step three wow fadeIn animated" markdown="0">
+<li class="step two wow fadeIn animated" markdown="0">
 
 
 Be sure you have enough money to care for all of your needs until VA payments begin. And make arrangements with the school for acceptance, enrollment, payment of tuition and fees, and housing.
 
+
 </li>
 
-<li class="step four last wow fadeIn animated" markdown="0">
+<li class="step three wow fadeIn animated" markdown="0">
 
 You must provide written permission for school officials to release information as necessary to us. If you don't, it could affect when you get benefits. 
 
