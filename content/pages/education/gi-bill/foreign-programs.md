@@ -20,13 +20,13 @@ You can get education benefits if you qualify for—or already get—VA educatio
 - Veterans
 - Qualified dependents 
 
-**Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may get VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
+**Exception:** Family members who qualify for Survivors’ and Dependents’ Educational Assistance can get VA benefits while in approved postsecondary (after high school) non-college degree programs at training locations in the Philippines.
 </div>
 
 ### What benefits can I get? 
 
 - Money for school 
-- Money for your living expenses during enrollment
+- Money for your housing costs during enrollment
 
 -----
 
@@ -77,11 +77,12 @@ Normally, foreign schools certify their students for 1 academic year. If you wan
 
 </ol>
 
-For applications and further information, the following offices or representatives can help:
+### Need help?
 
-- Any [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) (from outside the United States, call <span class="tel">001-918-781-5678</span> during business hours, 7:00 a.m.– 6:00 p.m. (CST), Monday through Friday)
+Get more information or help with your application from:
+- Any [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) (from outside the United States, call <span class="tel">001-918-781-5678</span> during business hours, 7:00 a.m. to 6:00 p.m. (CST), Monday through Friday)
 - Local representatives of Veterans organizations and the American Red Cross
 - Foreign service posts
 - Canadian Department of Veterans Affairs (Canadian schools only)
 
-You can also check your approval status or send us questions by email 24 hours a day, 7 days a week, by using the [Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) section of our website.
+You can also check your approval status or send us questions by email 24 hours a day, 7 days a week, by using the Submit a Question section of our website. [Go to Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/).
