@@ -8,7 +8,7 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 
 import { isValidDateRange, isValidDateField, validateIfDirtyDateObj } from '../../utils/validations';
 import { states, hoursTypes } from '../../utils/options-for-select';
-import { displayDateIfValid } from '../../utils/helpers';
+import EducationPeriodReview from './EducationPeriodReview';
 
 export default class EducationPeriod extends React.Component {
   render() {
@@ -76,19 +76,7 @@ export default class EducationPeriod extends React.Component {
       </div>
     );
 
-    let reviewFields;
-    if (period.name.value) {
-      reviewFields = (
-        <div>
-          <div><strong>{period.name.value}</strong></div>
-          <div>{displayDateIfValid(period.dateRange.from)} &mdash; {displayDateIfValid(period.dateRange.to)}</div>
-        </div>
-      );
-    } else {
-      reviewFields = (<div>This entry may be missing information</div>);
-    }
-
-    return view === 'collapsed' ? reviewFields : formFields;
+    return view === 'collapsed' ? <EducationPeriodReview period={this.props.data} onEdit={this.props.onEdit}/> : formFields;
   }
 }
 

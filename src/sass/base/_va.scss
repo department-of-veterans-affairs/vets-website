@@ -1932,7 +1932,6 @@ button[class*='usa-button-'] {
 .disclaimer {
   padding: 1em 0;
   border-top: 1px solid #ddd;
-  z-index:500;
   color: $color-va-gray-cool-dark;
   background: $color-white;
 
@@ -2262,7 +2261,8 @@ pre[class*='language-']  {
   }
 
   .hide-for-large-up & {
-    width: 35rem;
+    width: calc(100% + 0.9375rem + 0.9375rem);
+    margin-left: -0.9375rem;
   }
 
   #content & p,
