@@ -31,15 +31,15 @@ You can get education benefits if you qualify for—or already get—VA educatio
 -----
 ### Is the application process different for foreign schools? 
 
-The application process is different. First, contact the school or [submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) to learn if your program is approved for benefits. Provide the name of the foreign school, the complete address, and the name of the program you intend to pursue. We'll let you know whether your program has already been approved. Allow for extra time if you are applying to a program that we haven't approved. 
+Yes. The application process is different. First, contact the school or [submit a question to us](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) to find out if we have approved your program so you can get benefits. Give us the name of the foreign school, the complete address, and the name of the program you want to enroll in. We'll let you know if your program has already been approved. 
 
-- If you or your eligible dependent wants to enroll in a program that we haven't approved, you'll need to ask the school to request approval. We can't take any action until a request for approval is received from a school official (not from you). If your program is not approved, you'll be responsible for all costs at the school, including tuition and fees.
+- If you or your qualified dependent wants to enroll in a program that we haven't approved, you'll need to ask the school to request approval. We can't take any action until an official from your school (not you) requests approval. If we don't approve your program, you'll have to pay all costs at the school, including tuition and fees.
 
 ### Can I attend any foreign school? 
 
-We'll accept degrees from schools or establishments in foreign countries that are similar to degrees granted by accredited U.S. colleges and universities. For private institution overseas, the degree must be comparable to those granted by public colleges and universities in the same country **and** have the same entrance requirements. Independent study (distance learning) courses must be accredited by a nationally recognized accrediting association.
+We'll accept degrees from schools in foreign countries that are similar to degrees granted by U.S. colleges and universities that are accredited (meaning approved and recognized according to certain standards). For private schools overseas, the degree must be of equal value to those granted by public colleges and universities in the same country, and the school must have the same entrance requirements. Independent study (distance learning) courses must be accredited by a nationally recognized accrediting association.
 
-**Exception:** Programs at schools located in the United States that offer courses in a foreign country under contract with the Department of Defense are not considered foreign training. Likewise, year abroad and similar programs offered by schools in the United States aren't considered foreign training.
+**Exception:** Programs at schools located in the United States that offer courses in a foreign country under contract with the Department of Defense don't qualify as foreign training. Likewise, year abroad and similar programs offered by schools in the United States don't qualify as foreign training.
 
 
 ### How do I get these benefits? 
@@ -48,9 +48,11 @@ We'll accept degrees from schools or establishments in foreign countries that ar
 <ol class="process">
 <li class="step one wow fadeIn animated" markdown="1">
 
-Once the school is approved, you'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). Turn in your application to us at least 90 days before your departure. Your benefit will be processed depending on your school’s location. 
+After we approve the school, you'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
 
-If you're approved for benefits, turn in your Certificate of Eligibility (COE) to the school’s certifying official as verification that you qualify to get VA benefits. Your school’s certifying official will submit your enrollment information on VA Form 22-1999. Please note that you won't get payments until we have received your enrollment information processed it.
+Turn in your application to us at least 90 days before you leave for your new school. We'll decide what benefits you get based on your school’s location. 
+
+If you get approved for benefits, turn in your Certificate of Eligibility (COE) to the school’s certifying official to show that you qualify for VA benefits. Your school’s certifying official will submit your enrollment information with VA Form 22-1999. Please note that you won't get payments until we have received and processed your enrollment information.
 
 
 </li>
@@ -58,16 +60,16 @@ If you're approved for benefits, turn in your Certificate of Eligibility (COE) t
 <li class="step two wow fadeIn animated" markdown="0">
 
 
-Be sure you have enough money to care for all of your needs until VA payments begin. And make arrangements with the school for acceptance, enrollment, payment of tuition and fees, and housing.
+Be sure you have enough money to cover all your needs until VA payments begin. And make arrangements with the school for acceptance, enrollment, payment of tuition and fees, and housing.
 
 
 </li>
 
 <li class="step three wow fadeIn animated" markdown="0">
 
-You must provide written permission for school officials to release information as necessary to us. If you don't, it could affect when you get benefits. 
+You must give written permission for school officials to release information to us as necessary. If you don't, it could affect when you get benefits. 
 
-Normally, foreign schools certify their students for 1 academic year. Within 120 days of your enrollment, you should notify the school of your intention to reenroll and have the appropriate certifying official submit an enrollment certification for you. You should keep the school advised of your plans for continuing enrollment in order to avoid any delay in getting your benefits.
+Normally, foreign schools certify their students for 1 academic year. Within 120 days of your enrollment, you should let the school know if you plan to re-enroll, and ask the certifying official to submit an enrollment certification for you. You should make sure the school knows your plans for continued enrollment in order to avoid any delay in getting your benefits.
 
 </ol>
 
