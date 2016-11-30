@@ -2,9 +2,7 @@ import { expect } from 'chai';
 
 import _ from 'lodash';
 
-import {
-  isValidSpouseInformation
-} from '../../../src/js/hca/utils/validations.js';
+import { isValidSpouseInformation } from '../../../src/js/hca/utils/validations.js';
 
 describe('Validations unit tests', () => {
   describe('isValidSpouseInformation', () => {
