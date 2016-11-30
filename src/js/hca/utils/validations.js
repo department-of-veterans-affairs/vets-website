@@ -88,7 +88,11 @@ function isValidDate(day, month, year) {
 }
 
 function isValidName(value) {
-  return /^[a-zA-Z][a-zA-Z '\-]*$/.test(value);
+  return /^[a-zA-Z '\-]*$/.test(value);
+}
+
+function isValidMinimumName(value) {
+  return /^[a-zA-Z '\-]{2,}$/.test(value);
 }
 
 function isValidMonetaryValue(value) {
@@ -127,7 +131,7 @@ function isValidDateField(field) {
 function isValidFullNameField(field) {
   return isValidName(field.first.value) &&
     (isBlank(field.middle.value) || isValidName(field.middle.value)) &&
-    isValidName(field.last.value);
+    isValidMinimumName(field.last.value);
 }
 
 function isValidAddressField(field) {
@@ -483,6 +487,7 @@ export {
   isNotBlank,
   isValidDate,
   isValidName,
+  isValidMinimumName,
   isValidSSN,
   isValidMonetaryValue,
   isValidPhone,
