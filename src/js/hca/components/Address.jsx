@@ -158,7 +158,7 @@ class Address extends React.Component {
               required={false}
               onValueChange={(update) => {this.handleChange('provinceCode', update);}}/>
 
-          <ErrorableTextInput errorMessage={this.validatePostalCode(this.props.value.postalCode) ? undefined : 'Please enter a valid Postal code'}
+          <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.postalCode) ? undefined : 'Please enter a valid Postal code'}
               additionalClass="usa-input-medium"
               label="Postal code"
               name="postalCode"
