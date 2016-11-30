@@ -10,7 +10,7 @@ import {
   OPEN_CREATE_FOLDER,
   SET_NEW_FOLDER_NAME,
   TOGGLE_CONFIRM_DELETE,
-  TOGGLE_DRAFT_MODAL
+  TOGGLE_CONFIRM_SAVE
 } from '../utils/constants';
 
 const initialState = {
@@ -28,7 +28,7 @@ const initialState = {
     visible: false,
     newFolderName: makeField('')
   },
-  saveDraft: {
+  saveConfirm: {
     visible: false
   }
 };
@@ -55,8 +55,8 @@ export default function modals(state = initialState, action) {
       }, state);
     case SET_NEW_FOLDER_NAME:
       return set('createFolder.newFolderName', action.folderName, state);
-    case TOGGLE_DRAFT_MODAL:
-      return set('saveDraft.visible', !state.saveDraft.visible, state);
+    case TOGGLE_CONFIRM_SAVE:
+      return set('saveConfirm.visible', !state.saveConfirm.visible, state);
     default:
       return state;
   }

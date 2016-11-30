@@ -2,7 +2,7 @@ import React from 'react';
 
 import Modal from '../../../common/components/Modal';
 
-class ModalSaveDraft extends React.Component {
+class ModalConfirmSave extends React.Component {
   constructor(props) {
     super(props);
     this.saveDraft = this.saveDraft.bind(this);
@@ -46,7 +46,7 @@ class ModalSaveDraft extends React.Component {
   }
 }
 
-ModalSaveDraft.propTypes = {
+ModalConfirmSave.propTypes = {
   cssClass: React.PropTypes.string,
   id: React.PropTypes.string,
   onClose: React.PropTypes.func.isRequired,
@@ -54,4 +54,4 @@ ModalSaveDraft.propTypes = {
   visible: React.PropTypes.bool.isRequired
 };
 
-export default ModalSaveDraft;
+export default ModalConfirmSave;

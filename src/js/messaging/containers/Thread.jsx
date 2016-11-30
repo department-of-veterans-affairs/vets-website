@@ -20,7 +20,7 @@ import {
   saveDraft,
   sendMessage,
   toggleConfirmDelete,
-  toggleDraftModal,
+  toggleConfirmSave,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleReplyDetails,
@@ -33,7 +33,7 @@ import Message from '../components/Message';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
-import ModalSaveDraft from '../components/compose/ModalSaveDraft';
+import ModalConfirmSave from '../components/compose/ModalConfirmSave';
 import NewMessageForm from '../components/forms/NewMessageForm';
 import ReplyForm from '../components/forms/ReplyForm';
 
@@ -123,8 +123,8 @@ export class Thread extends React.Component {
   }
 
   handleConfirmDraftSave() {
-    if (this.props.modals.saveDraft.visible) {
-      this.props.toggleDraftModal();
+    if (this.props.modals.saveConfirm.visible) {
+      this.props.toggleConfirmSave();
     }
 
     this.props.saveDraft(this.apiFormattedDraft());
@@ -132,7 +132,7 @@ export class Thread extends React.Component {
 
   handleDraftSave() {
     if (this.props.draft.attachments.length) {
-      this.props.toggleDraftModal();
+      this.props.toggleConfirmSave();
     } else {
       this.handleConfirmDraftSave();
     }
@@ -357,11 +357,11 @@ export class Thread extends React.Component {
             onClose={this.props.toggleConfirmDelete}
             onDelete={this.handleDraftDelete}
             visible={this.props.modals.deleteConfirm.visible}/>
-        <ModalSaveDraft
+        <ModalConfirmSave
             cssClass="messaging-modal"
-            onClose={this.props.toggleDraftModal}
+            onClose={this.props.toggleConfirmSave}
             onSave={this.handleConfirmDraftSave}
-            visible={this.props.modals.saveDraft.visible}/>
+            visible={this.props.modals.saveConfirm.visible}/>
       </div>
     );
   }
@@ -414,7 +414,7 @@ const mapDispatchToProps = {
   saveDraft,
   sendMessage,
   toggleConfirmDelete,
-  toggleDraftModal,
+  toggleConfirmSave,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleThreadMoveTo,
