@@ -92,6 +92,10 @@ export class Compose extends React.Component {
   }
 
   saveDraft() {
+    if (this.props.saveDraftModal.visible) {
+      this.props.toggleDraftModal();
+    }
+
     this.props.saveDraft(this.apiFormattedMessage());
   }
 
