@@ -35,6 +35,7 @@ class Phone extends React.Component {
     return (
       <div>
         <ErrorableTextInput
+            type="tel"
             errorMessage={errorMessage}
             label={this.props.label}
             name={this.props.name}
