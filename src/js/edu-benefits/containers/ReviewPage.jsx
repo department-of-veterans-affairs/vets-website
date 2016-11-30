@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import routes from '../routes';
 
 import ReviewCollapsiblePanel from '../components/ReviewCollapsiblePanel';
 
-import { ensureFieldsInitialized, updateIncompleteStatus, updateVerifiedStatus, updateCompletedStatus, veteranUpdateField } from '../actions';
+import { ensureFieldsInitialized, updateEditStatus, veteranUpdateField } from '../actions';
 import { isActivePage } from '../../common/utils/helpers';
 
 class ReviewPage extends React.Component {
@@ -25,35 +26,30 @@ class ReviewPage extends React.Component {
         </div>
       );
     } else {
-      content = (<div>
-        <p>You can review your application information here. When you’re done, click submit.</p>
-        <p>VA will usually process your claim within 30 days. VA will send you a letter by U.S. mail with your claim decision.</p>
-        {routes
+      const chapters = _.groupBy(
+        routes
           .map(route => route.props)
           .filter(route => {
             return route.chapter &&
               route.path !== '/review-and-submit' &&
-              route.reviewComponent &&
               isActivePage(route, data);
-          })
-          .map(route => {
-            const Component = route.fieldsComponent;
-            const ReviewComponent = route.reviewComponent;
+          }),
+        route => route.chapter
+      );
+      content = (<div>
+        <p>You can review your application information here. When you’re done, click submit.</p>
+        <p>VA will usually process your claim within 30 days. VA will send you a letter by U.S. mail with your claim decision.</p>
+        {Object.keys(chapters)
+          .map(chapter => {
             return (<ReviewCollapsiblePanel
-                key={route.path}
+                key={chapter}
+                chapter={chapter}
                 uiData={this.props.uiData}
                 data={this.props.data}
                 onUpdateEditStatus={this.props.onUpdateEditStatus}
-                onUpdateSaveStatus={this.props.onUpdateSaveStatus}
                 onFieldsInitialized={this.props.onFieldsInitialized}
-                onUpdateVerifiedStatus={this.props.onUpdateVerifiedStatus}
-                pageLabel={route.name}
-                updatePath={route.path}
-                component={<Component
-                    data={this.props.data}
-                    onStateChange={this.props.onStateChange}
-                    initializeFields={this.props.onFieldsInitialized}/>}
-                reviewComponent={<ReviewComponent data={this.props.data}/>}/>
+                onStateChange={this.props.onStateChange}
+                pages={chapters[chapter]}/>
             );
           })}
       </div>);
@@ -80,14 +76,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onUpdateEditStatus: (path) => {
-      dispatch(updateIncompleteStatus(path));
-    },
-    onUpdateSaveStatus: (path) => {
-      dispatch(updateCompletedStatus(path));
-    },
-    onUpdateVerifiedStatus: (path, update) => {
-      dispatch(updateVerifiedStatus(path, update));
+    onUpdateEditStatus: (...args) => {
+      dispatch(updateEditStatus(...args));
     },
     onFieldsInitialized(...args) {
       dispatch(ensureFieldsInitialized(...args));
