@@ -73,7 +73,7 @@ class FullName extends React.Component {
             onValueChange={(update) => {this.handleChange('middle', update);}}/>
 
         <ErrorableTextInput
-            errorMessage={this.validateRequiredFields(this.props.name.last, this.props.required, true) ? undefined : errorMessage}
+            errorMessage={this.validateRequiredFields(this.props.name.last, this.props.required, this.props.customValidation ? true : false) ? undefined : errorMessage}
             label="Last name"
             name="lname"
             autocomplete="family-name"
