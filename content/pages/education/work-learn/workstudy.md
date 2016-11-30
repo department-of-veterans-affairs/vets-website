@@ -13,13 +13,13 @@ If you are a full-time or three-quarter-time college, vocational, or professiona
 You can be a part of VA's work-study program if you're enrolled at least three-quarter time at an institution of higher learning and:
 
   - There's an open job either at a nearby VA facility or in a VA-related role at your school, **and**
-  - You can finish the work-study contract while you still qualify for education benefits, **and**
+  - You can finish the work-study contract in the timeframe when you still qualify for education benefits, **and**
   - You're using one of these VA education benefits: 
 
     - Post-9/11 GI Bill ([Veterans](/education/gi-bill/post-9-11/) and [family members using transferred benefits](/education/gi-bill/transfer/))
     - Montgomery GI Bill ([Active Duty](/education/gi-bill/montgomery-active-duty/) (MGIB-AD) and [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR)
     - [Veterans' Educational Assistance Program](/education/other-educational-assistance-programs/veap/) (VEAP)
-    - [Survivors’ and Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (**Note:** Dependents who qualify under 38 U.S.C. Chapter 35 may use work study only while enrolled a school in one of the 50 states.)
+    - [Survivors’ and Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (**Note:** Dependents who qualify under 38 U.S.C. Chapter 35 may use work study only while enrolled at a school in one of the 50 states.)
     - [National Call to Service](/education/other-educational-assistance-programs/call-to-service/)
     - [Vocational Rehabilitation and Employment program](http://www.benefits.va.gov/vocrehab/index.asp) (VR&E)
 
@@ -38,14 +38,14 @@ You can get a paid, part-time job while you study.
 
 ### How do I get these benefits? 
 
-You'll need to apply for the work-study program. [Download a copy of the Application for Work-Study Allowance](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf). 
+You'll need to apply for the work-study program. [Download the Application for Work-Study Allowance](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf). 
 
 Get in touch with the Regional Processing Office that handles your claim if you have questions. Veterans with disabilities related to their service (called service-connected disabilities) rated at least at 30% may be considered first. [Contact your Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
 ### What kind of job can I get?
 Under VA's work-study program, you can:
 - Work at a VA facility
-- Work at Department of Defense, Coast Guard, or National Guard facilities that oversee MGIB-SR or REAP
+- Work at Department of Defense, Coast Guard, or National Guard locations that oversee MGIB-SR or REAP
 - Work at a state Veterans agency to help Veterans get VR&E benefits
 - Work at a Center of Excellence for Veteran Student Success to support the academic, financial, physical, and social needs of Veteran students
 - Work in a cooperative program carried out jointly by VA and an institution of higher learning
