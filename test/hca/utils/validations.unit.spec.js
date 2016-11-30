@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import _ from 'lodash';
 
-import { isValidSpouseInformation, isValidMinimumName } from '../../../src/js/hca/utils/validations.js';
+import { isValidSpouseInformation, isValidLastName } from '../../../src/js/hca/utils/validations.js';
 
 describe('Validations unit tests', () => {
   describe('isValidSpouseInformation', () => {
@@ -50,7 +50,7 @@ describe('Validations unit tests', () => {
 });
 
 describe('Validations unit tests', () => {
-  describe('isValidMinimumName', () => {
+  describe('isValidLastName', () => {
     [
       {
         lastName: 'fo',
@@ -66,7 +66,7 @@ describe('Validations unit tests', () => {
       },
     ].forEach((lastNameTest) => {
       it(`should${lastNameTest.allowed ? '' : "n't"} allow a last name of ${lastNameTest.lastName}`, () => {
-        expect(isValidMinimumName(lastNameTest.lastName)).to.eql(lastNameTest.allowed);
+        expect(isValidLastName(lastNameTest.lastName)).to.eql(lastNameTest.allowed);
       });
     });
   });

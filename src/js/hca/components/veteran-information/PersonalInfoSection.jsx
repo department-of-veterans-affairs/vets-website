@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import FullName from '../../../common/components/questions/FullName';
 import MothersMaidenName from './MothersMaidenName';
 import { veteranUpdateField } from '../../actions';
-import { isValidMinimumName } from '../../utils/validations.js';
+import { isValidLastName } from '../../utils/validations.js';
 
 /**
  * Props:
@@ -35,7 +35,7 @@ class PersonalInfoSection extends React.Component {
         <div className="input-section">
           <FullName required
               name={this.props.data.veteranFullName}
-              customValidation={isValidMinimumName}
+              customValidation={isValidLastName}
               customErrorMessage="Please enter a valid name. Must be at least 2 characters."
               onUserInput={(update) => {this.props.onStateChange('veteranFullName', update);}}/>
           <MothersMaidenName
