@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
 import { dateToMoment, showRelinquishedEffectiveDate } from './helpers';
-import { isValidDateOver17 } from '../../common/utils/validations';
+import { isValidDateOver17, isBlankAddress } from '../../common/utils/validations';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -40,13 +40,6 @@ function isBlank(value) {
 
 function isNotBlank(value) {
   return value !== '';
-}
-
-function isBlankAddress(address) {
-  return isBlank(address.city.value)
-    && isBlank(address.state.value)
-    && isBlank(address.street.value)
-    && isBlank(address.postalCode.value);
 }
 
 function isValidYear(value) {
@@ -448,7 +441,6 @@ export {
   isValidValue,
   isValidFutureDateField,
   isValidRelinquishedDate,
-  isBlankAddress,
   isValidTourOfDuty,
   isValidEmploymentPeriod,
   isValidRotcScholarshipAmount
