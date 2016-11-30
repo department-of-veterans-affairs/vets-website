@@ -6,7 +6,7 @@ plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-VA offers education benefits to support you while you learn a trade or skill through on-the-job training (OJT) or apprenticeships. Find out if you can get education benefits.
+We offer education benefits to support you while you learn a trade or skill through on-the-job training (OJT) or apprenticeships. Find out if you can get education benefits.
 
 <div class="call-out" markdown="1">
 
