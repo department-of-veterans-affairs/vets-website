@@ -1995,6 +1995,21 @@ button[class*='usa-button-'] {
 }
 
 @media #{$small-only} {
+  .va-mobile-searchclose  {
+    border-radius: 0;
+    display: block !important;
+    width: 100% !important;
+    margin: 0;
+    width: auto;
+    background: $color-primary;
+  }
+
+  .va-mobile-searchtrigger {
+    padding: .5em;
+    margin-top: 0;
+    border-radius: .15em;
+  }
+
   .va-overlay {
     background: rgba($color-primary-darkest, .95);
     height: 100%;
@@ -2012,21 +2027,6 @@ button[class*='usa-button-'] {
       -webkit-appearance: none;
       border-radius: 3px 0 0 3px;
     }
-  }
-
-  .va-mobile-searchclose  {
-    border-radius: 0;
-    display: block !important;
-    width: 100% !important;
-    margin: 0;
-    width: auto;
-    background: $color-primary;
-  }
-
-  .va-mobile-searchtrigger {
-    padding: .5em;
-    margin-top: 0;
-    border-radius: .15em;
   }
 
   .va-overlay--open {
