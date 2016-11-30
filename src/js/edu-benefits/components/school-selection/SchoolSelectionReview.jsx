@@ -36,7 +36,7 @@ export default class SchoolSelectionReview extends React.Component {
               </tr>
               <tr>
                 <td>Postal code:</td>
-                <td>{this.props.data.school.address.postalCode}</td>
+                <td>{this.props.data.school.address.postalCode.value}</td>
               </tr>
             </tbody>
           : null}
