@@ -8,7 +8,7 @@ template: 6-info-page
 Did you get a decision notice from us that confirms your disability rating (the rating that measures the severity of your disability)? If yes, you may be able to get disability compensation or benefits. This may include financial compensation (payments) as well as other benefits—like health care or job training.
 
 If you haven’t gotten your decision notice:
-- [Check your status]/disability-benefits/track-claims/), **or**
+- [Check your status](/disability-benefits/track-claims/), **or**
 - [Contact your local VA or eligibility office](/facility-locator/)
 
 #### When will I get my first payment?
