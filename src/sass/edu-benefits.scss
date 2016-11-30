@@ -179,3 +179,30 @@ ul.claim-list{
   position: relative;
   top: 10px;
 }
+
+.edu-growable-expanded {
+  display: none;
+}
+
+.form-review-panel-page {
+  .edu-growable-expanded {
+    display: table-row-group;
+  }
+  .edu-growable-review-desc {
+    > tr > td {
+      border-bottom-style: solid;
+    }
+  }
+}
+.form-review-panel-page .va-growable-add-btn {
+  display: none;
+}
+
+.edu-growable-review-header {
+  margin-bottom: 1em;
+}
+.edu-growable-form {
+  table.review td {
+    padding: 0;
+  }
+}

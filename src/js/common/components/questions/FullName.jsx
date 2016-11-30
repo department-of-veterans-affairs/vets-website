@@ -79,6 +79,7 @@ class FullName extends React.Component {
             onValueChange={(update) => {this.handleChange('last', update);}}/>
 
         <ErrorableSelect
+            autocomplete="false"
             additionalClass="form-select-medium"
             label="Suffix"
             name="suffix"
