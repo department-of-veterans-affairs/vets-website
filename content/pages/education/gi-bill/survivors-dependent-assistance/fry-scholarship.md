@@ -10,7 +10,7 @@ The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) provide
 <div class="call-out usa-content" markdown="1">
 
 ### Can I get Fry Scholarship benefits?
-You may be able to get the Fry Scholarship if are the child or surviving spouse of an active-duty Servicemember who died in the line of duty on or after September 11, 2001.
+You may be able to get the Fry Scholarship if you're the child or surviving spouse of an active-duty Servicemember who died in the line of duty on or after September 11, 2001.
 
 ### Who's covered?
 - Qualified dependents
@@ -27,11 +27,11 @@ You may be able to get the Fry Scholarship if are the child or surviving spouse 
 
 ### Do I qualify for these benefits? 
 
-Children qualify as of their 18th birthday or after graduating high school, whichever comes first. Childrens’ eligibility ends on their 33rd birthday. A spouse has 15 years from the Servicemember’s death to use the benefit.
+- Children qualify as of their 18th birthday or after graduating high school, whichever comes first. Childrens’ eligibility ends on their 33rd birthday. A spouse has 15 years from the Servicemember’s death to use the benefit.
 
-If you are a dependent and your parent died in the line of duty before August 1, 2011, you may be eligible for both the Fry Scholarship and the [Survivors' and Dependents' Educational Assistance](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (DEA) program, but you can use only one program at a time. Combined benefits are capped at 81 months of full-time training.
+- If you're a dependent and your parent died in the line of duty before August 1, 2011, you may be eligible for both the Fry Scholarship and the Survivors' and Dependents' Educational Assistance (DEA) program, but you can use only one program at a time. Combined benefits are capped at 81 months of full-time training. [Read about the DEA program](/education/gi-bill/survivors-dependent-assistance/dependents-education/).
 
-Surviving spouses are eligible to receive [Dependency and Indemnity Compensation](http://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp) (DIC) while using the Fry Scholarship. Children over 18 who receive DIC benefits will need to give up those payments when they start to use the Fry Scholarship.
+- Surviving spouses are eligible to receive Dependency and Indemnity Compensation (DIC) while using the Fry Scholarship. Children over 18 who receive DIC benefits will need to give up those payments when they start to use the Fry Scholarship. [Read about DIC](http://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp).
 
 **Exception:**<br>
 Spouses who remarry won't be able to get the Fry Scholarship.
@@ -56,7 +56,7 @@ Spouses who remarry won't be able to get the Fry Scholarship.
 
 ##### Apply for benefits
 
-- Fill out [VA Form 22-5490 (Dependents' Application for VA Education Benefits)](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490). Send it to the VA regional office in the region where you want to go to school.
+- [Fill out VA Form 22-5490 (Dependents' Application for VA Education Benefits)](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490). Send it to the VA regional office in the region where you want to go to school.
 - If you aren't legally an adult, your parent or guardian must sign the application.
 - If you have already started your educational program, ask a certifying official from your school or your employer to fill out [VA Form 22-1999](http://www.lepsn.org/images/pdfs/VA%20Form%2022-1999%20-%20VA%20Enrollment%20Certification.pdf) (Enrollment Certification). They certifying official will need to complete it, and submit it online using VA-ONCE.
 </div>
