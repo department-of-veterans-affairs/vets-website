@@ -63,13 +63,13 @@ class SortMenu extends React.Component {
     return (
       <form className="rx-sort va-dnp">
         <div className="rx-sort-wide">
-          <span>Sort by </span>
+          <span>Sort by</span>
           <ul className="va-list-ib">
             {sortLinks(sortBys)}
           </ul>
         </div>
         <div className="rx-sort-narrow">
-          <label htmlFor={this.selectId} className="usa-sr-only">Sort by</label>
+          <label htmlFor={this.selectId}>Sort by</label>
           <select
               id={this.selectId}
               value={this.props.selected}
