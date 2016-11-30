@@ -1369,7 +1369,7 @@ a.twitter {
 
 .header {
   .message {
-    padding-top: 0.5em 0.75em;
+    padding: 0.5em 0;
   }
 
   .va-notice--banner {
@@ -1388,6 +1388,12 @@ a.twitter {
 
     .flex {
       display: flex;
+    }
+
+    .flex-lg {
+      @media #{$large-only} {
+        display: flex;
+      }
     }
 
     .row {
