@@ -39,9 +39,9 @@ class FullName extends React.Component {
     this.props.onUserInput(name);
   }
 
-  validateRequiredFields(field, isRequired, useCustomValidation) {
-    if (useCustomValidation) {
-      return validateIfDirty(field, this.props.customValidation);
+  validateRequiredFields(field, isRequired, customValidation) {
+    if (customValidation) {
+      return validateIfDirty(field, customValidation);
     } else if (isRequired) {
       return validateIfDirty(field, isValidName);
     }
@@ -73,7 +73,7 @@ class FullName extends React.Component {
             onValueChange={(update) => {this.handleChange('middle', update);}}/>
 
         <ErrorableTextInput
-            errorMessage={this.validateRequiredFields(this.props.name.last, this.props.required, this.props.customValidation ? true : false) ? undefined : errorMessage}
+            errorMessage={this.validateRequiredFields(this.props.name.last, this.props.required, this.props.customValidation) ? undefined : errorMessage}
             label="Last name"
             name="lname"
             autocomplete="family-name"
