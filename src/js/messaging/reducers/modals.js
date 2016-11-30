@@ -9,7 +9,8 @@ import {
   OPEN_ATTACHMENTS_MODAL,
   OPEN_CREATE_FOLDER,
   SET_NEW_FOLDER_NAME,
-  TOGGLE_CONFIRM_DELETE
+  TOGGLE_CONFIRM_DELETE,
+  TOGGLE_CONFIRM_SAVE
 } from '../utils/constants';
 
 const initialState = {
@@ -26,6 +27,9 @@ const initialState = {
   createFolder: {
     visible: false,
     newFolderName: makeField('')
+  },
+  saveConfirm: {
+    visible: false
   }
 };
 
@@ -51,6 +55,8 @@ export default function modals(state = initialState, action) {
       }, state);
     case SET_NEW_FOLDER_NAME:
       return set('createFolder.newFolderName', action.folderName, state);
+    case TOGGLE_CONFIRM_SAVE:
+      return set('saveConfirm.visible', !state.saveConfirm.visible, state);
     default:
       return state;
   }

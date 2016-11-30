@@ -7,6 +7,7 @@ import { createHistory } from 'history';
 import initReact from '../common/init-react';
 import routes from './routes';
 import { store } from './store';
+import { updateRoute } from './actions';
 
 require('../common');  // Bring in the common javascript.
 require('../../sass/messaging/messaging.scss');
@@ -18,6 +19,8 @@ const history = useRouterHistory(createHistory)({
 });
 
 function init() {
+  history.listen((location) => store.dispatch(updateRoute(location)));
+
   ReactDOM.render((
     <Provider store={store}>
       <Router history={history} routes={routes}/>
