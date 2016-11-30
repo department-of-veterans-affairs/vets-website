@@ -17,7 +17,7 @@ export class NewMessageForm extends React.Component {
 
     // Tests the subject group for errors
     const subjectError = validations.isValidSubjectLine(message.category, message.subject);
-  
+
     return (
       <form
           id="msg-compose"
