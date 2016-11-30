@@ -11,7 +11,7 @@ const phaseMap = {
   4: evidenceGathering,
   5: evidenceGathering,
   6: evidenceGathering,
-  7: 'Preparation for decision notification',
+  7: 'Preparation for notification',
   8: 'Complete'
 };
 
