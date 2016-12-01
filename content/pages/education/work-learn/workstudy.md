@@ -17,7 +17,7 @@ You can be a part of VA's work-study program if you're enrolled at least three-q
   - You're using one of these VA education benefits: 
 
     - Post-9/11 GI Bill ([Veterans](/education/gi-bill/post-9-11/) and [family members using transferred benefits](/education/gi-bill/transfer/))
-    - Montgomery GI Bill ([Active Duty](/education/gi-bill/montgomery-active-duty/) (MGIB-AD) and [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR)
+    - Montgomery GI Bill ([Active Duty](/education/gi-bill/montgomery-active-duty/) (MGIB-AD) and [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR))
     - [Veterans' Educational Assistance Program](/education/other-educational-assistance-programs/veap/) (VEAP)
     - [Survivors’ and Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (**Note:** Dependents who qualify under 38 U.S.C. Chapter 35 may use work study only while enrolled at a school in one of the 50 states.)
     - [National Call to Service](/education/other-educational-assistance-programs/call-to-service/)
@@ -32,7 +32,7 @@ You can be a part of VA's work-study program if you're enrolled at least three-q
 
 ### What kind of benefits can I get? 
 
-You can get a paid, part-time job while you study.
+You can get a paid for a part-time job while you study.
 
 -----
 
