@@ -33,11 +33,11 @@ export function dateToMoment(dateField) {
   });
 }
 
-export function displayDateIfValid(dateObject) {
+export function displayDateIfValid(dateObject, format = 'M/D/YYYY') {
   if (typeof dateObject === 'object') {
     const momentDate = dateToMoment(dateObject);
     if (momentDate.isValid()) {
-      return momentDate.format('M/D/YYYY');
+      return momentDate.format(format);
     }
   }
   return null;
