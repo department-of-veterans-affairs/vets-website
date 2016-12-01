@@ -4,48 +4,44 @@ import { displayDateIfValid } from '../../utils/helpers';
 
 export default class ServicePeriodsReview extends React.Component {
   render() {
+    const tour = this.props.tour;
     return (
-      <div>
-        {this.props.data.toursOfDuty.map((tour, index) => {
-          return (<table key={index} className="review usa-table-borderless">
-            <thead>
-              <tr>
-                <td scope="col">Service Period - {tour.serviceBranch.value}</td>
-                <td scope="col"></td>
+      <div className="review-growable">
+        <table className="review usa-table-borderless">
+          <tbody className="edu-growable-review-desc">
+            <tr>
+              <td>
+                <strong>{tour.serviceBranch.value}</strong><br/>
+                {displayDateIfValid(tour.dateRange.from)} &mdash; {displayDateIfValid(tour.dateRange.to)}
+              </td>
+              <td>
+                <button className="usa-button-outline float-right" onClick={this.props.onEdit}>Edit</button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody className="edu-growable-expanded">
+            <tr>
+              <td>Service status:</td>
+              <td>{tour.serviceStatus.value}</td>
+            </tr>
+            <tr>
+              <td>Apply this service period to the benefit I’m applying for.</td>
+              <td>{tour.applyPeriodToSelected ? 'Yes' : 'No'}</td>
+            </tr>
+            {!tour.applyPeriodToSelected
+              ? <tr>
+                <td>Please explain how you’d like this service period applied.</td>
+                <td className="edu-benefits-pre">{tour.benefitsToApplyTo.value}</td>
               </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Service status:</td>
-                <td>{tour.serviceStatus.value}</td>
-              </tr>
-              <tr>
-                <td>Start of service period:</td>
-                <td>{displayDateIfValid(tour.dateRange.from)}</td>
-              </tr>
-              <tr>
-                <td>End of service period:</td>
-                <td>{displayDateIfValid(tour.dateRange.to)}</td>
-              </tr>
-              <tr>
-                <td>Apply this service period to the benefit I’m applying for.</td>
-                <td>{tour.applyPeriodToSelected ? 'Yes' : 'No'}</td>
-              </tr>
-              {!tour.applyPeriodToSelected
-                ? <tr>
-                  <td>Please explain how you’d like this service period applied.</td>
-                  <td className="edu-benefits-pre">{tour.benefitsToApplyTo.value}</td>
-                </tr>
-                : null}
-            </tbody>
-          </table>
-          );
-        })}
+              : null}
+          </tbody>
+        </table>
       </div>
     );
   }
 }
 
 ServicePeriodsReview.propTypes = {
-  data: React.PropTypes.object.isRequired
+  tour: React.PropTypes.object.isRequired,
+  onEdit: React.PropTypes.func
 };

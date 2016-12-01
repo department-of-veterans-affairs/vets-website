@@ -20,7 +20,8 @@
     "test:unit:rx": "mocha --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
     "test:unit:login": "mocha --recursive 'test/login/**/*.unit.spec.js?(x)' ",
     "test:watch": "mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
-    "watch": "node script/build.js --watch"
+    "watch": "node script/build.js --watch",
+    "watch:static": "npm run watch -- --entry no-react"
   },
   "repository": {
     "type": "git",

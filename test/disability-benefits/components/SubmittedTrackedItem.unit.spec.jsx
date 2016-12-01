@@ -118,7 +118,7 @@ describe('<SubmittedTrackedItem>', () => {
           item={item}/>
     );
 
-    expect(tree.subTree('.submitted-file-list-item').text()).to.contain('No longer requested or needed');
+    expect(tree.subTree('.submitted-file-list-item').text()).to.contain('No longer needed');
   });
   it('should render no longer needed item by status', () => {
     const item = {
@@ -137,6 +137,6 @@ describe('<SubmittedTrackedItem>', () => {
           item={item}/>
     );
 
-    expect(tree.subTree('.submitted-file-list-item').text()).to.contain('No longer requested or needed');
+    expect(tree.subTree('.submitted-file-list-item').text()).to.contain('No longer needed');
   });
 });

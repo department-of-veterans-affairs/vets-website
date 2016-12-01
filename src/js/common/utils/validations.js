@@ -173,6 +173,13 @@ function isValidAddressField(field) {
   return initialOk && isNotBlank(field.postalCode.value);
 }
 
+function isBlankAddress(address) {
+  return isBlank(address.city.value)
+    && isBlank(address.state.value)
+    && isBlank(address.street.value)
+    && isBlank(address.postalCode.value);
+}
+
 function isValidInsurancePolicy(policyNumber, groupCode) {
   if (policyNumber !== null || groupCode !== null) {
     return isNotBlank(policyNumber) || isNotBlank(groupCode);
@@ -294,7 +301,7 @@ function isValidContactInformationSection(data) {
 }
 
 function isValidFinancialDisclosure(data) {
-  return validateIfDirty(data.understandsFinancialDisclosure, _.identity);
+  return validateIfDirty(data.discloseFinancialInformation, isNotBlank);
 }
 
 function isValidIncome(income) {
@@ -520,6 +527,7 @@ export {
   isValidVaInformation,
   isValidVAFacility,
   isValidVeteranAddress,
+  isBlankAddress,
   isValidContactInformationSection,
   isValidSpouseInformation,
   isValidChildren,
