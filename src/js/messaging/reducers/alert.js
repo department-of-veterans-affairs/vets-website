@@ -18,7 +18,8 @@ import {
   SAVE_DRAFT_FAILURE,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_FAILURE,
-  SEND_MESSAGE_SUCCESS
+  SEND_MESSAGE_SUCCESS,
+  UPDATE_ROUTE
 } from '../utils/constants';
 
 const createAlert = (content, status, visible = true) => {
@@ -37,6 +38,7 @@ export default function alert(state = initialState, action) {
   }
 
   switch (action.type) {
+    case UPDATE_ROUTE:
     case CLOSE_ALERT:
       return createAlert('', alertStatus.INFO, false);
 
