@@ -4,7 +4,8 @@ import {
   OPEN_ATTACHMENTS_MODAL,
   CLOSE_ATTACHMENTS_MODAL,
   TOGGLE_CONFIRM_DELETE,
-  SET_NEW_FOLDER_NAME
+  SET_NEW_FOLDER_NAME,
+  TOGGLE_CONFIRM_SAVE
 } from '../utils/constants';
 
 export function closeCreateFolderModal() {
@@ -42,4 +43,8 @@ export function setNewFolderName(folderName) {
     type: SET_NEW_FOLDER_NAME,
     folderName
   };
+}
+
+export function toggleConfirmSave() {
+  return { type: TOGGLE_CONFIRM_SAVE };
 }

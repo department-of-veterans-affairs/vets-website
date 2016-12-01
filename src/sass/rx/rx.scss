@@ -1,5 +1,6 @@
 @import "../style";
 @import "../modules/m-modal";
+@import "../modules/m-alert";
 @import "../modules/va-pagination";
 @import "../modules/va-tabs";
 
@@ -7,7 +8,6 @@
 @import "partials/rx-contact-card";
 @import "partials/rx-prescriptions";
 @import "partials/rx-detail";
-@import "partials/rx-disclaimer";
 @import "partials/rx-glossary";
 @import "partials/rx-history";
 @import "partials/rx-modal";
@@ -35,10 +35,6 @@
   padding: 3rem 1.5rem;
   margin: auto;
   max-width: $site-max-width;
-
-  .va-alert {
-    margin-bottom: 2rem;
-  }
 }
 
 // Enhances a USWDS style that has higher specificity.

@@ -2,6 +2,7 @@
   display: inline-block;
   position: relative;
   vertical-align: middle;
+  z-index: 1;
 }
 
 .messaging-move {
@@ -65,7 +66,7 @@
   }
 
   @media (min-width: $medium-screen) {
-    min-width: 25rem;
+    width: 25rem;
   }
 
   .msg-btn-newfolder[type="button"] {
@@ -83,4 +84,14 @@
   padding: 1rem;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+// Exception for button in message table. 
+.messaging-message-row {
+  .msg-move-to {
+    position: static;
+  }
+  .msg-move-to-options {
+    margin-left: -18.15rem;
+  }
 }
