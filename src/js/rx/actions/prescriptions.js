@@ -82,6 +82,8 @@ export function refillPrescription(prescription) {
     const url = `/${prescription.prescriptionId}/refill`;
 
     return dispatch => {
+      dispatch({ type: 'REFILL_SUBMITTED' });
+
       apiRequest(url, { method: 'PATCH' })
       .then(response => {
         return (response.ok) ?
