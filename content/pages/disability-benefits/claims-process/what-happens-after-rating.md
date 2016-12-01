@@ -4,12 +4,14 @@ title: What to expect after you get a disability rating
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 ---
+<div class="call-out usa-content" markdown="1">
 
 Did you get a decision notice from us that confirms your disability rating (the rating that measures the severity of your disability)? If yes, you may be able to get disability compensation or benefits. This may include financial compensation (payments) as well as other benefits—like health care or job training.
 
 If you haven’t gotten your decision notice:
 - [Check your status](/disability-benefits/track-claims/), **or**
 - [Contact your local VA or eligibility office](/facility-locator/)
+</div>
 
 #### When will I get my first payment?
 
