@@ -65,7 +65,7 @@ Be sure you have enough money to cover all your needs until VA payments begin. A
 
 </li>
 
-<li class="step three wow fadeIn animated" markdown="0">
+<li class="step three last wow fadeIn animated" markdown="0">
 
 You must give written permission for school officials to release information to us as necessary. If you don't, it could affect when you get benefits. 
 
