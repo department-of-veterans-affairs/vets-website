@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { states } from '../../common/utils/options-for-select';
+import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/validations';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -88,7 +89,11 @@ function isValidDate(day, month, year) {
 }
 
 function isValidName(value) {
-  return /^[a-zA-Z][a-zA-Z '\-]*$/.test(value);
+  return /^[a-zA-Z '\-]*$/.test(value);
+}
+
+function isValidLastName(value) {
+  return /^[a-zA-Z '\-]{2,}$/.test(value);
 }
 
 function isValidMonetaryValue(value) {
@@ -127,7 +132,7 @@ function isValidDateField(field) {
 function isValidFullNameField(field) {
   return isValidName(field.first.value) &&
     (isBlank(field.middle.value) || isValidName(field.middle.value)) &&
-    isValidName(field.last.value);
+    isValidLastName(field.last.value);
 }
 
 function isValidAddressField(field) {
@@ -135,12 +140,22 @@ function isValidAddressField(field) {
     isNotBlank(field.city.value) &&
     isNotBlank(field.country.value);
 
+  let isValidPostalCode = true;
+
+  if (field.country.value === 'USA') {
+    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidUSZipCode, field.zipcode);
+  }
+
+  if (field.country.value === 'CAN') {
+    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidCanPostalCode, field.zipcode);
+  }
+
   // if we have a defined list of values, they will
   // be set as the state and zipcode keys
   if (_.hasIn(states, field.country.value)) {
     return initialOk &&
       isNotBlank(field.state.value) &&
-      isNotBlank(field.zipcode.value);
+      isValidPostalCode;
   }
   // if the entry was non-USA/CAN/MEX, only postal is
   // required, not provinceCode
@@ -481,8 +496,10 @@ export {
   isDirty,
   isBlank,
   isNotBlank,
+  isValidRequiredField,
   isValidDate,
   isValidName,
+  isValidLastName,
   isValidSSN,
   isValidMonetaryValue,
   isValidPhone,
