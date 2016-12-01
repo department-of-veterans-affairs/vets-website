@@ -34,19 +34,19 @@ if [[ $TRAVIS_BRANCH =~ ^content/wip/.* ]]
 then
   if [[ $BUILDTYPE == "development" ]]
   then
-    npm run build -- --buildtype development
+    time npm run build -- --buildtype development
   fi
 
   exit 1; # These builds always fail with Travis to prevent merges
 fi
 
 # Run package security checks
-npm install -g nsp
-nsp check
+time npm install -g nsp
+time nsp check
 
 # Run lint and perform a build
-npm run lint;
-npm run build -- --buildtype $BUILDTYPE;
+time npm run lint;
+time npm run build -- --buildtype $BUILDTYPE;
 
 # Add build details to BUILD.txt
 BUILD_DETAILS_FILE=build/$BUILDTYPE/BUILD.txt
@@ -69,13 +69,13 @@ then
 fi
 
 # Run unit tests
-npm run test:unit;
+time npm run test:unit;
 
 # Bootstrap selenium for all nightwatch-based tests
-npm run selenium:bootstrap;
+time npm run selenium:bootstrap;
 
 # Run end to end tests
-npm run test:e2e;
+time npm run test:e2e;
 
 # Run accessibility tests
 #
@@ -87,5 +87,5 @@ npm run test:e2e;
 # we should remove this condition and perform this across all build types.
 if [[ $BUILDTYPE == "development" ]]
 then
-  npm run test:accessibility;
+  time npm run test:accessibility;
 fi
