@@ -1,6 +1,4 @@
 import React from 'react';
-import Dropdown from './Dropdown';
-import Modal from '../../common/components/Modal';
 import If from './If';
 import InstitutionNameInput from './InstitutionNameInput';
 
