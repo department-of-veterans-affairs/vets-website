@@ -8,6 +8,13 @@ export default class SubmitMessage extends React.Component {
     this.state = { isExpanded: false };
     this.handleClick = this.handleClick.bind(this);
   }
+  componentDidMount() {
+    const title = document.querySelector('.edu-page-title');
+    if (title) {
+      title.setAttribute('tabindex', '-1');
+      title.focus();
+    }
+  }
   handleClick(e) {
     e.preventDefault();
     this.setState({ isExpanded: !this.state.isExpanded });
@@ -38,7 +45,7 @@ export default class SubmitMessage extends React.Component {
     }
     return (
       <div className="edu-benefits-submit-success">
-        <h3>Claim received</h3>
+        <h3 className="edu-page-title">Claim received</h3>
         <p>Normally processed within <strong>30 days</strong></p>
         <p>
           VA may contact you for more information or documents.<br/>

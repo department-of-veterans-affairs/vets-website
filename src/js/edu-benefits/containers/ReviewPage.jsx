@@ -10,6 +10,13 @@ import { ensureFieldsInitialized, updateEditStatus, veteranUpdateField } from '.
 import { isActivePage } from '../../common/utils/helpers';
 
 class ReviewPage extends React.Component {
+  componentDidMount() {
+    const title = document.querySelector('.edu-page-title');
+    if (title) {
+      title.setAttribute('tabindex', '-1');
+      title.focus();
+    }
+  }
   render() {
     let content;
     const data = this.props.data;
@@ -56,7 +63,7 @@ class ReviewPage extends React.Component {
     }
     return (
       <div>
-        <h4>Review application</h4>
+        <h4 className="edu-page-title">Review application</h4>
         <div className="input-section">
           {content}
         </div>
