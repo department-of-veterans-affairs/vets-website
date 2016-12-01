@@ -116,9 +116,12 @@ smith.destination(`../build/${options.buildtype}`);
 // }
 // smith.use(ignore(ignoreList));
 
-// Should I want to do this?
-// ignoreList.push('gi-bill-comparison-tool/*');
-
+const ignore = require('metalsmith-ignore');
+const ignoreList = [];
+if (options.buildtype === 'production') {
+  ignoreList.push('gi-bill-comparison-tool/*');
+}
+smith.use(ignore(ignoreList));
 
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
 // during templating end up not showing which file they came from. Load it very early in in the
