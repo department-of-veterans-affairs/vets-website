@@ -250,8 +250,8 @@ hr {
   margin: 0;
 
   .login-container {
-    background: $color-white;
-    padding: 0.5em 0;
+    background: $color-primary-darkest;
+    padding: 0.3em 0 1em;
 
     .row {
       padding: 0 0.75em;
@@ -259,7 +259,9 @@ hr {
   }
 
   .top-banner {
-    padding: 1em 0.75em;
+    padding: 1em 0.75em 0;
+    display: flex;
+    align-items: center;
   }
 
   .flex-auto {
@@ -295,8 +297,8 @@ hr {
     }
 
     @media #{$small} {
-      width: 225px;
-      height: 50px;
+      width: 164px;
+      height: 40px;
     }
   }
   // See va-playbook for styles
