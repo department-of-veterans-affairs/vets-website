@@ -8,7 +8,7 @@ import FullName from '../../../common/components/questions/FullName';
 import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
 
 import { childRelationships, yesNo } from '../../../common/utils/options-for-select.js';
-import { isNotBlank, validateIfDirty, isValidDependentDateField } from '../../utils/validations';
+import { isNotBlank, validateIfDirty, isValidDependentDateField, isValidLastName } from '../../utils/validations';
 import { getMonetaryErrorMessage } from '../../utils/messages';
 
 // TODO: create unique nodes for each child in applicationData
@@ -44,6 +44,8 @@ class Child extends React.Component {
             <div className="small-12 columns">
               <FullName required
                   name={this.props.data.childFullName}
+                  customValidation={isValidLastName}
+                  customErrorMessage="Please enter a valid name. Must be at least 2 characters."
                   onUserInput={(update) => {this.props.onValueChange('childFullName', update);}}/>
             </div>
           </div>
