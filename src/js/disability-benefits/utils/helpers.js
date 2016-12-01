@@ -15,13 +15,6 @@ const phaseMap = {
   8: 'Complete'
 };
 
-const microPhaseMap = {
-  3: 'Gathering of evidence',
-  4: 'Review of evidence',
-  5: 'Preparation for decision',
-  6: 'Pending Decision approval'
-};
-
 export function getPhaseDescription(phase) {
   return phaseMap[phase];
 }
@@ -34,18 +27,6 @@ export function getUserPhaseDescription(phase) {
   }
 
   return phaseMap[phase + 3];
-}
-
-export function getHistoryPhaseDescription(phase) {
-  if (phase === 3) {
-    return microPhaseMap[phase];
-  }
-
-  return getUserPhaseDescription(phase);
-}
-
-export function getMicroPhaseDescription(phase) {
-  return microPhaseMap[phase] || phaseMap[phase];
 }
 
 export function getPhaseDescriptionFromEvent(event) {
