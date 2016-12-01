@@ -12,9 +12,8 @@ class LandingPage extends React.Component {
           { this.renderBreadcrumbs() }
           { this.renderHeader() }
         </div>
-
         <div className="row">
-          <LandingPageForm />
+          <LandingPageForm queryParams={this.props.queryParams}/>
         </div>
       </span>
     );
@@ -47,5 +46,9 @@ class LandingPage extends React.Component {
   }
 
 }
+
+LandingPage.propTypes = {
+  queryParams: React.PropTypes.object.isRequired
+};
 
 export default LandingPage;

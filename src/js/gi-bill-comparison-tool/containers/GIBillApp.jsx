@@ -3,6 +3,8 @@ import LandingPage from './LandingPage';
 import SearchPage from './SearchPage';
 import ProfilePage from './ProfilePage';
 import AboutThisTool from '../components/AboutThisTool';
+import Estimator from '../utils/Estimator';
+
 
 class GIBillApp extends React.Component {
 
@@ -26,6 +28,10 @@ class GIBillApp extends React.Component {
       (<LandingPage queryParams={this.props.location.query} />);
   }
 
+}
+
+GIBillApp.defaultProps = {
+  estimator: new Estimator
 }
 
 export default GIBillApp;

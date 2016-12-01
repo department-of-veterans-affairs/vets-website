@@ -1,4 +1,5 @@
 import React from 'react';
+import Estimator from '../utils/Estimator';
 
 class SearchResult extends React.Component {
 
@@ -11,9 +12,31 @@ class SearchResult extends React.Component {
     this.renderTuition = this.renderTuition.bind(this);
     this.renderHousing = this.renderHousing.bind(this);
     this.renderBooks = this.renderBooks.bind(this);
+    this.estimate = this.estimate.bind(this);
+  }
+
+  // WIP
+  estimate() {
+    // get current values about the user
+    let e = this.props.estimator;
+    e.set_military_status = 'active duty';
+    e.set_spouse_active_duty = 'yes';
+    e.set_gi_bill_chap = '31';
+    e.set_number_of_depend = '2';
+    e.set_post_911_elig = 'yes';
+    e.set_cumulative_service = '1.0';
+    e.set_enlistment_service = '3123412314';
+    e.set_consecutive_service = '3123412314';
+    e.set_online = 'yes';
+    // set institution values
+    e.set_institution_type = 'private';
+    e.set_country = 'usa';
+    e.set_bah = '1.1';
   }
 
   render() {
+    this.estimate();
+
     return (
       <div id={this.props.facility_code} className="school_summary large-4 medium-5-center small-12-center columns">
         { this.props.caution_flag && this.renderCautionFlag() }
@@ -79,7 +102,9 @@ class SearchResult extends React.Component {
     return (
       <div className="search-value-each small-4 column">
         <div className="icon"><i className="fa fa-graduation-cap fa-search-result"></i></div>
-        <div id={`$(thihs.props.facility_code)-est-tuition-fees`}></div>
+        <div id={`$(thihs.props.facility_code)-est-tuition-fees`}>
+          { this.props.estimator.renderTuitionFees() }
+        </div>
       </div>
     );
   }
@@ -88,7 +113,9 @@ class SearchResult extends React.Component {
     return (
       <div className="search-value-each small-4 column">
         <div className="icon"><i className="fa fa-home fa-search-result"></i></div>
-        <div id={`$(thihs.props.facility_code)-est-housing-allowance`}></div>
+        <div id={`$(thihs.props.facility_code)-est-housing-allowance`}>
+          { this.props.estimator.renderHousingAllowance() }
+        </div>
       </div>
     );
   }
@@ -97,7 +124,9 @@ class SearchResult extends React.Component {
     return (
       <div className="search-value-each small-4 column">
         <div className="icon"><i className="fa fa-book fa-search-result"></i></div>
-        <div id={`$(thihs.props.facility_code)-est-book-stipend`}></div>
+        <div id={`$(thihs.props.facility_code)-est-book-stipend`}>
+          { this.props.estimator.renderBookStipend() }
+        </div>
       </div>
     );
   }
@@ -105,62 +134,20 @@ class SearchResult extends React.Component {
 }
 
 SearchResult.propTypes = {
-  facility_code: React.PropTypes.string,
-  caution_flag: React.PropTypes.bool,
-  institution: React.PropTypes.string,
-  country: React.PropTypes.string,
-  city: React.PropTypes.string,
-  state: React.PropTypes.string,
+  facility_code: React.PropTypes.string.isRequired,
+  caution_flag: React.PropTypes.bool.isRequired,
+  institution: React.PropTypes.string.isRequired,
+  country: React.PropTypes.string.isRequired,
+  city: React.PropTypes.string.isRequired,
+  state: React.PropTypes.string.isRequired,
+  estimator: React.PropTypes.object.isRequired
 };
 
 SearchResult.defaultProps = {
   facility_code: 'facility_code',
   institution: 'name goes here',
-  caution_flag: true
+  caution_flag: true,
+  estimator: new Estimator()
 };
 
 export default SearchResult;
-
-
-// <div id="10718013" class="school_summary large-4 medium-5-center small-12-center columns" data-id="8399" data-facility-code="10718013 %>" data-institution="CITY OF HARVARD POLICE DEPARTMENT" data-city="HARVARD" data-state="IL" data-country="USA" data-type="ojt" data-institution-type="employer" data-poe="false" data-student-veteran="false" data-eight-keys="" data-yr="false" data-bah="1749.0">
-//
-//   <div class="search-content"><!-- Start SEARCH RESULTS CONTENT DIV -->
-//     <!-- Divs added to preserve consistent heights regardless of # of lines -->
-//     <div class="search-insitution-name"><!-- Institution name -->
-//       <h6><a class="a-8399 noback" href="/gi-bill-comparison-tool/institutions/profile?military_status=veteran&amp;spouse_active_duty=no&amp;gi_bill_chapter=33&amp;cumulative_service=1.0&amp;enlistment_service=3&amp;consecutive_service=0.8&amp;elig_for_post_gi_bill=no&amp;number_of_dependents=0&amp;online_classes=no&amp;source=search&amp;institution_search=harvard&amp;type_name=employer&amp;page=1&amp;facility_code=10718013">
-//         CITY OF HARVARD POLICE DEPARTMENT</a></h6>
-//     </div><!-- END Institution name -->
-//
-//     <div class="search-locality"><!-- locality data -->
-//         HARVARD, IL
-//     </div><!-- END locality data -->
-//
-//     <div class="search-vet-count"><!-- # of Student Vets -->
-// 	    <span class="vet-count-value">0</span> GI Bill Students
-//     </div><!-- END # of Student Vets -->
-//
-//     <div class="search-benefits-values-container"><!-- Contains the benefit values divs -->
-//       <div class="search-selections-label">You may be eligible for up to:</div>
-// 		    <div class="search-value-each small-4 column"> <!-- tuition -->
-//           <div class="icon"><i class="fa fa-graduation-cap fa-search-result"></i></div>
-//           <div id="10718013-est-tuition-fees">N/A</div>
-//         </div><!-- END tuition -->
-//
-// 		    <div class="search-value-each small-4 column"><!-- housing -->
-//           <div class="icon"><i class="fa fa-home fa-search-result"></i></div>
-//           <div id="10718013-est-housing-allowance"><span class="estimator-dollar-sign">$</span>1,749<br><span class="estimate-qualifier">per month</span></div>
-//         </div><!-- END Housing -->
-//
-// 		    <div class="search-value-each small-4 column"><!-- Books -->
-//           <div class="icon"><i class="fa fa-book fa-search-result"></i></div>
-//           <div id="10718013-est-book-stipend"><span class="estimator-dollar-sign">$</span>1,000<br><span class="estimate-qualifier">per year</span></div>
-//         </div><!-- END books -->
-//       </div><!-- Contains the benefit values divs -->
-//
-//       <div class="row">
-//         <div class="search-learnmore-div"><!-- Contains the learn more div for consistent position -->
-//           <a class="button filter-button va-search-learnmore" href="/gi-bill-comparison-tool/institutions/profile?military_status=veteran&amp;spouse_active_duty=no&amp;gi_bill_chapter=33&amp;cumulative_service=1.0&amp;enlistment_service=3&amp;consecutive_service=0.8&amp;elig_for_post_gi_bill=no&amp;number_of_dependents=0&amp;online_classes=no&amp;source=search&amp;institution_search=harvard&amp;type_name=employer&amp;page=1&amp;facility_code=10718013">Learn More</a>
-//       </div>
-//     </div>
-//   </div><!-- END learn more div -->
-// </div>

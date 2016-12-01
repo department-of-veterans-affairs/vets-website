@@ -1,18 +1,14 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
-
 import If from './If';
 
+import autocomplete_data from '../mocks/autocomplete';
+
 const api_base_url = 'http://localhost:3000/v0/gibct'
+// note: '/institutions/autocomplete?term=' + value;
 
-const getSuggestionValue = suggestion => suggestion.value;
-
-// Use your imagination to render suggestions.
-const renderSuggestion = suggestion => (
-  <div>
-    {suggestion.label}
-  </div>
-);
+const getSuggestionValue = suggestion => suggestion.value; // label would be better ux
+const renderSuggestion = suggestion => <div>{suggestion.label}</div>;
 
 class InstitutionNameInput extends React.Component {
 
@@ -20,6 +16,8 @@ class InstitutionNameInput extends React.Component {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
+    this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
 
     this.state = {
       value: props.defaultValue,
@@ -34,18 +32,11 @@ class InstitutionNameInput extends React.Component {
     });
   };
 
-  autocomplete_url(value) {
-    // not URL safe
-    return api_base_url + '/institutions/autocomplete?term=' + value;
-  }
-
   getSuggestions = value => {
-    let result = [];
-    $.getJSON(this.autocomplete_url(value), function(data) {
-      result = data;
-      console.log('fetched',result)
-      return result;
+    let suggestions = autocomplete_data().filter((school) => {
+      return school.label.toLowerCase().startsWith(value.trim().toLowerCase())
     });
+    return suggestions || [];
   }
 
   onSuggestionsFetchRequested = ({ value }) => {

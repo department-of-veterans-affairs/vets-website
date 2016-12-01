@@ -28,25 +28,31 @@ class AboutYourselfFields extends React.Component {
   }
 
   handleDropdownChange(event) {
+    const delay = 80; // todo: proper animation
+
     let field = event.target.name;
     let value = event.target.value;
 
     if (field === 'military_status') {
-      this.setState((state, props) => {
-        state.dropdowns['spouse_active_duty'] = (value === 'spouse')
-        return state;
-      });
+      setTimeout(() => {
+        this.setState((state, props) => {
+          state.dropdowns['spouse_active_duty'] = (value === 'spouse');
+          return state;
+        });
+      }, delay);
     }
 
     if (field === 'gi_bill_chapter') {
-      this.setState((state, props) => {
-        state.dropdowns['cumulative_service'] = (value === '33')
-        state.dropdowns['enlistment_service'] = (value === '30')
-        state.dropdowns['consecutive_service'] = (value === '1607')
-        state.dropdowns['elig_for_post_gi_bill'] = (value === '31')
-        state.dropdowns['number_of_dependents'] = (value === '31')
-        return state;
-      });
+      setTimeout(() => {
+        this.setState((state, props) => {
+          state.dropdowns['cumulative_service'] = (value === '33');
+          state.dropdowns['enlistment_service'] = (value === '30');
+          state.dropdowns['consecutive_service'] = (value === '1607');
+          state.dropdowns['elig_for_post_gi_bill'] = (value === '31');
+          state.dropdowns['number_of_dependents'] = (value === '31');
+          return state;
+        });
+      }, delay);
     }
   }
 

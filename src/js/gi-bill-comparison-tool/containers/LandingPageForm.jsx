@@ -29,7 +29,7 @@ class LandingPageForm extends React.Component {
                 Step 2: About Your School
               </div>
               <div className="usa-card-content">
-                  <AboutYourSchoolFields labels={true} />
+                <AboutYourSchoolFields labels={true} online_classes={this.props.queryParams.online_classes} />
               </div>
             </div>
           </div>
@@ -44,5 +44,13 @@ class LandingPageForm extends React.Component {
   }
 
 }
+
+LandingPageForm.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
+
+LandingPageForm.propTypes = {
+  queryParams: React.PropTypes.object.isRequired
+};
 
 export default LandingPageForm;

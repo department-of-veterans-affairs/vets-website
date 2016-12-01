@@ -20,16 +20,20 @@ class AboutYourSchoolFields extends React.Component {
           <If condition={this.props.labels}>
             <div id="online-classes-form" className="form-group">
               <label>Will you be taking classes online? </label>
-              <input type="radio" id="online-classes-all" name="online_classes"
-                value="yes" /> {/* 'checked' if "all" == @inputs[:online_classes] */}
+
+              <input type="radio" id="online-classes-all"
+                name="online_classes" value="yes"
+                defaultChecked={this.props.online_classes && this.props.online_classes == 'all'} />
               <label className="radio" htmlFor="online-classes-all" style={{display:'inline-block'}}>All</label>
 
-              <input type="radio" id="online-classes-no" name="online_classes"
-                value="no" defaultChecked/> {/* 'checked' if "no" == @inputs[:online_classes] */}
+              <input type="radio" id="online-classes-no"
+                name="online_classes" value="no"
+                defaultChecked={!this.props.online_classes || this.props.online_classes == 'no'} />
               <label className="radio" htmlFor="online-classes-no" style={{display:'inline-block'}}>No</label>
 
-              <input type="radio" id="online-classes-both" name="online_classes"
-                value="both" /> {/* 'checked' if "both" == @inputs[:online_classes] */}
+              <input type="radio" id="online-classes-both"
+                name="online_classes" value="both"
+                defaultChecked={this.props.online_classes && this.props.online_classes == 'both'} />
               <label className="radio" htmlFor="online-classes-both" style={{display:'inline-block'}}>Both</label>
             </div>
           </If>
