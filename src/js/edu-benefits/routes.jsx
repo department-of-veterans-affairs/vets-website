@@ -14,17 +14,14 @@ import BenefitsRelinquishmentFields from './components/benefits-eligibility/Bene
 import MilitaryServiceReview from './components/military-history/MilitaryServiceReview';
 import MilitaryServiceFields from './components/military-history/MilitaryServiceFields';
 import ServicePeriodsFields from './components/military-history/ServicePeriodsFields';
-import ServicePeriodsReview from './components/military-history/ServicePeriodsReview';
 import RotcHistoryReview from './components/military-history/RotcHistoryReview';
 import RotcHistoryFields from './components/military-history/RotcHistoryFields';
 import ContributionsReview from './components/military-history/ContributionsReview';
 import ContributionsFields from './components/military-history/ContributionsFields';
-import EmploymentHistoryReview from './components/employment-history/EmploymentHistoryReview';
 import EmploymentHistoryFields from './components/employment-history/EmploymentHistoryFields';
 import SchoolSelectionReview from './components/school-selection/SchoolSelectionReview';
 import SchoolSelectionFields from './components/school-selection/SchoolSelectionFields';
 import EducationHistoryFields from './components/education-history/EducationHistoryFields';
-import EducationHistoryReview from './components/education-history/EducationHistoryReview';
 import ContactInformationReview from './components/personal-information/ContactInformationReview';
 import ContactInformationFields from './components/personal-information/ContactInformationFields';
 import DependentInformationReview from './components/personal-information/DependentInformationReview';
@@ -71,7 +68,6 @@ const routes = [
   <Route
       component={FormPage}
       fieldsComponent={ServicePeriodsFields}
-      reviewComponent={ServicePeriodsReview}
       key="/military-history/service-periods"
       path="/military-history/service-periods"
       chapter={chapterNames.militaryHistory}
@@ -103,7 +99,6 @@ const routes = [
   <Route
       component={FormPage}
       fieldsComponent={EducationHistoryFields}
-      reviewComponent={EducationHistoryReview}
       key="/education-history/education-information"
       path="/education-history/education-information"
       chapter={chapterNames.educationHistory}
@@ -111,7 +106,6 @@ const routes = [
   <Route
       component={FormPage}
       fieldsComponent={EmploymentHistoryFields}
-      reviewComponent={EmploymentHistoryReview}
       key="/employment-history/employment-information"
       path="/employment-history/employment-information"
       chapter={chapterNames.employmentHistory}

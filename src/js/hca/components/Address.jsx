@@ -4,6 +4,7 @@ import _ from 'lodash';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 import { isBlank, isNotBlank, validateIfDirty } from '../utils/validations';
+import { isValidUSZipCode, isValidCanPostalCode, isBlankAddress } from '../../common/utils/validations';
 import { countries, states } from '../../common/utils/options-for-select';
 
 /**
@@ -16,6 +17,7 @@ class Address extends React.Component {
     super();
     this.handleChange = this.handleChange.bind(this);
     this.validateAddressField = this.validateAddressField.bind(this);
+    this.validatePostalCode = this.validatePostalCode.bind(this);
   }
 
   componentWillMount() {
@@ -48,6 +50,24 @@ class Address extends React.Component {
     }
 
     return validateIfDirty(field, isBlank) || validateIfDirty(field, isNotBlank);
+  }
+
+  validatePostalCode(postalCodeField) {
+    let isValid = true;
+
+    if (this.props.required || !isBlankAddress(this.props.value)) {
+      isValid = isValid && validateIfDirty(postalCodeField, isNotBlank);
+    }
+
+    if (this.props.value.country.value === 'USA' && isNotBlank(postalCodeField.value)) {
+      isValid = isValid && validateIfDirty(postalCodeField, isValidUSZipCode);
+    }
+
+    if (this.props.value.country.value === 'CAN' && isNotBlank(postalCodeField.value)) {
+      isValid = isValid && validateIfDirty(postalCodeField, isValidCanPostalCode);
+    }
+
+    return isValid;
   }
 
   render() {
@@ -118,7 +138,7 @@ class Address extends React.Component {
               required={this.props.required}
               onValueChange={(update) => {this.handleChange('state', update);}}/>
 
-          <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.zipcode) ? undefined : 'Please enter a valid ZIP code'}
+          <ErrorableTextInput errorMessage={this.validatePostalCode(this.props.value.zipcode) ? undefined : 'Please enter a valid ZIP code'}
               additionalClass="usa-input-medium"
               label="ZIP code"
               name="zip"

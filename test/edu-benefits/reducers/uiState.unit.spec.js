@@ -4,8 +4,7 @@ import uiStateReducer from '../../../src/js/edu-benefits/reducers/uiState/index'
 import {
   UPDATE_COMPLETED_STATUS,
   UPDATE_INCOMPLETE_STATUS,
-  UPDATE_REVIEW_STATUS,
-  UPDATE_VERIFIED_STATUS,
+  UPDATE_EDIT_STATUS,
   UPDATE_SUBMISSION_STATUS,
   UPDATE_SUBMISSION_ID,
   UPDATE_SUBMISSION_TIMESTAMP
@@ -34,27 +33,16 @@ describe('uiState reducer', () => {
     const newState = uiStateReducer(uiState, { type: UPDATE_INCOMPLETE_STATUS, path: '/path' });
     expect(newState.pages['/path'].complete).to.be.false;
   });
-  it('should set the review status', () => {
+  it('should set the edit status', () => {
     const uiState = {
       pages: {
         '/path': {
-          complete: true
+          editOnReview: true
         }
       }
     };
-    const newState = uiStateReducer(uiState, { type: UPDATE_REVIEW_STATUS, path: '/path', value: false });
-    expect(newState.pages['/path'].complete).to.be.false;
-  });
-  it('should set the verified status', () => {
-    const uiState = {
-      pages: {
-        '/path': {
-          verified: true
-        }
-      }
-    };
-    const newState = uiStateReducer(uiState, { type: UPDATE_VERIFIED_STATUS, path: '/path', value: false });
-    expect(newState.pages['/path'].verified).to.be.false;
+    const newState = uiStateReducer(uiState, { type: UPDATE_EDIT_STATUS, path: '/path', value: false });
+    expect(newState.pages['/path'].editOnReview).to.be.false;
   });
   it('should set the submission status', () => {
     const uiState = {

@@ -7,7 +7,7 @@ import ExpandingGroup from '../../../common/components/form-elements/ExpandingGr
 import DateInput from '../../../common/components/form-elements/DateInput';
 
 import { validateIfDirtyDateObj, validateIfDirty, isNotBlank, isValidDateField, isValidDateRange } from '../../utils/validations';
-import { displayDateIfValid } from '../../utils/helpers';
+import ServicePeriodsReview from './ServicePeriodsReview';
 
 export default class MilitaryServiceTour extends React.Component {
   render() {
@@ -72,7 +72,9 @@ export default class MilitaryServiceTour extends React.Component {
       </div>
     );
 
-    return view === 'collapsed' ? (<div><strong>{tour.serviceBranch.value}</strong><br/>{displayDateIfValid(tour.dateRange.from)} &mdash; {displayDateIfValid(tour.dateRange.to)}</div>) : formFields;
+    return view === 'collapsed'
+      ? <ServicePeriodsReview tour={tour} onEdit={this.props.onEdit}/>
+      : formFields;
   }
 }
 

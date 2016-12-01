@@ -28,6 +28,9 @@ const props = {
     },
     deleteConfirm: {
       visible: false
+    },
+    saveConfirmModal: {
+      visible: false
     }
   },
   moveToOpened: false,
