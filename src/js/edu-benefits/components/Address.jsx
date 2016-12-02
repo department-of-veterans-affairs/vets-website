@@ -4,8 +4,7 @@ import { set } from 'lodash/fp';
 
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import { isNotBlank, validateIfDirty, isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/validations';
-import { isBlankAddress } from '../utils/validations';
+import { isNotBlank, isBlankAddress, validateIfDirty, isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/validations';
 import { countries, states } from '../utils/options-for-select';
 
 /**

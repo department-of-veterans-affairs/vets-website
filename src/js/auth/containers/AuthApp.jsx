@@ -20,9 +20,21 @@ class AuthApp extends React.Component {
   }
 
   setMyToken(token) {
-    window.opener.sessionStorage.removeItem('userToken');
-    window.opener.sessionStorage.setItem('userToken', token);
-    window.opener.postMessage(token, environment.BASE_URL);
+    // Internet Explorer 6-11
+    const isIE = /*@cc_on!@*/false || !!document.documentMode; // eslint-disable-line spaced-comment
+    // Edge 20+
+    const isEdge = !isIE && !!window.StyleMedia;
+
+    const parent = window.opener;
+    parent.sessionStorage.removeItem('userToken');
+    parent.sessionStorage.setItem('userToken', token);
+    parent.postMessage(token, environment.BASE_URL);
+
+    // This will trigger a browser reload if the user is using IE or Edge.
+    if (isIE || isEdge) {
+      // TODO(crew): Figure out the best alternative to postMessage because it is unreliable in IE.
+      window.opener.location.reload();
+    }
     window.close();
   }
 

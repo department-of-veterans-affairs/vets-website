@@ -44,7 +44,7 @@ export default class RequestedFilesInfo extends React.Component {
 
         <div className="submit-file-container">
           <div className="submit-additional-evidence">
-            <h4 className="hightlight claim-file-border">Additional Evidence</h4>
+            <h4 className="hightlight claim-file-border">Additional evidence</h4>
             <div className="usa-alert additional-evidence-alert">
               <div className="item-container">
                 <p>Do you have additional evidence to submit in order to support your claim? Upload it here now.</p>
