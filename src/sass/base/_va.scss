@@ -209,7 +209,8 @@ hr {
 
 // Adds external icon to all links that begin
 // with http (including https)
-[href^=http] {
+[href^="http://"]:not([href*="vets.gov"]),
+[href^="https://"]:not([href*="vets.gov"]),  {
   // Using longhand properties instead of the shorthand to limit
   // risk and impact of side effects
   background-image: url(/img/icons/exit-icon.png);
