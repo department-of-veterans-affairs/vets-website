@@ -141,7 +141,7 @@ class SearchControls extends Component {
       case 'cemetery':
         return (<span className="flex-center"><span className="legend cemetery-icon"></span>Cemetery</span>);
       default:
-        return (<span className="flex-center"><span className="legend spacer"></span>All Facilities</span>);
+        return (<span className="flex-center all-facilities"><span className="legend spacer"></span>All Facilities</span>);
     }
   }
 

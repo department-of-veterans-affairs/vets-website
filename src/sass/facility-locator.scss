@@ -302,11 +302,14 @@
           padding: 0.25em 1em;
           text-decoration: none;
           z-index: 1011;
+          border-bottom: solid 1px $color-black;
+          border-left: solid 1px $color-black;
+          border-right: solid 1px $color-black;
         }
 
         li:hover {
           color: $color-white;
-          background: $color-link-default;
+          background: $color-primary-darker;
         }
       }
 
@@ -314,6 +317,19 @@
         .dropdown {
           opacity: 1;
           pointer-events: auto;
+        }
+
+        .all-facilities {
+          &:after {
+            display: inline-block;
+            font: normal normal normal 1em FontAwesome;
+            content: "\F077";
+            width: 0;
+            height: 0;
+            position: absolute;
+            right: 25px;
+            color: $color-black;
+          }
         }
       }
     }
