@@ -63,7 +63,7 @@ You can apply for benefits if:
 
 <div class="info-block usa-content" markdown="1">
 
-In November 2016, we took an average of about 125 days to process a disability claim. If your claim is complex, it may take us longer to review.
+In November 2016, we took an average of about 115 days to process a disability claim. If your claim is complex, it may take us longer to review.
 
 
 </div>
