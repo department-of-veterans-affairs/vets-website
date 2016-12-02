@@ -190,6 +190,8 @@ export class Detail extends React.Component {
         <p className="rx-tab-explainer rx-loading-error">
           We couldn't retrieve your prescription.
           Please refresh this page or try again later.
+          If this problem persists, please call the Vets.gov Help Desk
+          at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
         </p>
       );
     }
