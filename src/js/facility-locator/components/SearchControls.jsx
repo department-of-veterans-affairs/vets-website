@@ -98,22 +98,6 @@ class SearchControls extends Component {
     const { currentQuery: { facilityType } } = this.props;
 
     switch (facilityType) {
-      case 'health':
-        return (
-          <ul className="dropdown">
-            {
-              [
-                'All',
-                'PrimaryCare',
-                'MentalHealth',
-              ].map(e => {
-                return (<li key={e} value={e} onClick={this.handleServiceFilterSelect.bind(this, e)}>
-                  {e.split(/(?=[A-Z])/).join(' ')}
-                </li>);
-              })
-            }
-          </ul>
-        );
       case 'benefits':
         return (
           <ul className="dropdown">
