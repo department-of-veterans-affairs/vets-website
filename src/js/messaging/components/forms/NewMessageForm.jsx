@@ -36,12 +36,12 @@ export class NewMessageForm extends React.Component {
     } else {
       // The request must have failed, so allow the user to retry.
       recipientsField = (
-        <div>
-          <p>No recipients could be found.</p>
+        <p>
+          No recipients could be found.&nbsp;
           <a onClick={this.props.onFetchRecipients}>
             Click here to retry loading recipients.
           </a>
-        </div>
+        </p>
       );
     }
 
