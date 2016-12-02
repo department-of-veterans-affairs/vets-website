@@ -206,7 +206,7 @@ We'll mail you a packet with a decision notice and award details. Please allow 5
 </div>
 
 <div class="actions">
-<a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation" class="usa-button-primary">Track the status of your claim at eBenefits</a>
+<a target="_blank" href="http:www.vets.gov/disability-benefits/track-claims/" class="usa-button-primary">Track the status of your claim</a>
 </div>
 
 <div markdown="1">
