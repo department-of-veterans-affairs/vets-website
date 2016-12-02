@@ -14,7 +14,7 @@ const initialState = {
 export default function recipients(state = initialState, action) {
   switch (action.type) {
     case FETCH_RECIPIENTS_FAILURE:
-      return { data: null, loading: false };
+      return initialState;
 
     case FETCH_RECIPIENTS_SUCCESS: {
       // Take the recipients object returned during the fetch operation
