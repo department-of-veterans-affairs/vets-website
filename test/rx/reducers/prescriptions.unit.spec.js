@@ -74,8 +74,8 @@ describe('prescriptions reducer', () => {
     expect(state.items).to.eql(['item1', 'item2']);
     expect(state.history.sort.value).to.eql('prescriptionName');
     expect(state.history.sort.order).to.eql('ASC');
-    expect(state.history.page).to.eql(1);
-    expect(state.history.pages).to.eql(1);
+    expect(state.history.page).to.equal(1);
+    expect(state.history.pages).to.equal(1);
     expect(state.history.loading).to.be.false;
   });
 
@@ -113,5 +113,107 @@ describe('prescriptions reducer', () => {
 
     expect(newState.items[1].attributes.isRefillable).to.be.false;
     expect(newState.items[1].attributes.refillStatus).to.eql('submitted');
+  });
+
+  it('should sort active prescriptions by prescription name', () => {
+    const state = {
+      items: [
+        {
+          id: 1,
+          attributes: {
+            prescriptionName: 'c'
+          }
+        },
+        {
+          id: 2,
+          attributes: {
+            prescriptionName: 'a'
+          }
+        },
+        {
+          id: 3,
+          attributes: {
+            prescriptionName: 'b'
+          }
+        },
+      ]
+    };
+
+    const newState = prescriptionsReducer(state, {
+      type: 'SORT_PRESCRIPTIONS',
+      sort: 'prescriptionName'
+    });
+
+    expect(newState.items[0].id).to.equal(2);
+    expect(newState.items[1].id).to.equal(3);
+    expect(newState.items[2].id).to.equal(1);
+  });
+
+  it('should sort active prescriptions by facility name', () => {
+    const state = {
+      items: [
+        {
+          id: 1,
+          attributes: {
+            facilityName: 'c'
+          }
+        },
+        {
+          id: 2,
+          attributes: {
+            facilityName: 'b'
+          }
+        },
+        {
+          id: 3,
+          attributes: {
+            facilityName: 'a'
+          }
+        },
+      ]
+    };
+
+    const newState = prescriptionsReducer(state, {
+      type: 'SORT_PRESCRIPTIONS',
+      sort: 'facilityName'
+    });
+
+    expect(newState.items[0].id).to.equal(3);
+    expect(newState.items[1].id).to.equal(2);
+    expect(newState.items[2].id).to.equal(1);
+  });
+
+  it('should sort active prescriptions by last submit date', () => {
+    const state = {
+      items: [
+        {
+          id: 1,
+          attributes: {
+            refillSubmitDate: 2
+          }
+        },
+        {
+          id: 2,
+          attributes: {
+            refillSubmitDate: 3
+          }
+        },
+        {
+          id: 3,
+          attributes: {
+            refillSubmitDate: 1
+          }
+        },
+      ]
+    };
+
+    const newState = prescriptionsReducer(state, {
+      type: 'SORT_PRESCRIPTIONS',
+      sort: 'lastSubmitDate'
+    });
+
+    expect(newState.items[0].id).to.equal(3);
+    expect(newState.items[1].id).to.equal(1);
+    expect(newState.items[2].id).to.equal(2);
   });
 });
