@@ -275,10 +275,6 @@ hr {
   line-height: 1em;
   margin: 0;
 
-  @media #{$small} {
-    margin: .25em 0 0 0;
-  }
-
   a {
     color: white;
     text-indent: 180%;
@@ -286,17 +282,17 @@ hr {
     overflow: hidden;
     display: block;
     background: url(/img/design/logo/logo.png) top left no-repeat;
-    width: 180px;
-    height: 30px;
     background-size: contain;
     border-bottom: none;
     text-decoration: none;
+    height: 50px;
+    width: 205px;
 
     &:hover, &:active, &:focus {
       background-image: url(/img/design/logo/logo-hover.png);
     }
 
-    @media #{$small} {
+    @media #{$small-only} {
       width: 164px;
       height: 40px;
     }
