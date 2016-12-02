@@ -70,8 +70,7 @@ In September 2016, we took an average of about 125 days to process a disability 
 
 <div class="disclaimer minimal" markdown="1">
 
-If you’ve already filed a claim, check your claim's status on eBenefits.
-[Check your claim's status](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
+If you’ve already filed a claim, you can check your disability compensation claim status. [Check your status](/disability-benefits/track-claims/).
 </div>
 
 </div>
