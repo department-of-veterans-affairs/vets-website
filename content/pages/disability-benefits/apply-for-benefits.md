@@ -70,6 +70,7 @@ In September 2016, we took an average of about 125 days to process a disability 
 
 <div class="disclaimer minimal" markdown="1">
 
+
 If you’ve already filed a claim, you can check your disability compensation claim status. [Check your status](/disability-benefits/track-claims/).
 </div>
 
@@ -154,12 +155,50 @@ The amount of time it takes to review your claim depends on:
 
 ###### What happens after I file my claim?
 
-1. We receive your claim. (Claim status: **Claim Received**)
-2. A Veterans Service Representative (VSR) looks at your claim to figure out if we need any more information to make a decision. (Claim status: **Under Review**)
-3. If we need more information, the VSR asks you for it or asks other governmental agencies for it on your behalf. (Claim status: **Gathering of Evidence**)
-4. Once we get—or we've tried to get—all the information we need, the VSR makes sure each issue claimed is ready for a decision.
-(Claim status: **Review of Evidence**)
-5. The VSR electronically sends your claim and supporting documents to a Rating Veterans Service Representative (RVSR) for a final decision. (Claim status: **Preparation for a Decision**)
+<ol class="process">
+<li class="step one wow fadeIn animated" markdown="1">
+
+Claim Received
+You will see a notice from us in your Open Claims list within about 1 hour if you applied online with VONAPP Direct Connect. If you applied through the U.S. mail, you’ll need to allow for mailing time plus 1 week before you get a note in Open Claims telling you we have your claim.
+
+
+</li>
+
+<li class="step two wow fadeIn animated" markdown="0">
+
+Initial Review
+A Veterans Service Representative (VSR) will review your claim. It will move to step 3 if we don’t need any more evidence to support it. 
+
+
+</li>
+
+<li class="step three wow fadeIn animated" markdown="0">
+
+Evidence Gathering, Review, and Decision
+
+During this step, the VSR will do 3 things: 
+- Ask for evidence from you, health care providers, governmental agencies, or others
+- Review the evidence 
+- Make a decision 
+
+If we need more evidence during the review, your claim may return to this step more than once. After we make a final decision about your claim and approve an award, we’ll send you a letter by U.S. mail. 
+
+
+</li>
+
+<li class="step four wow fadeIn animated" markdown="0">
+
+Preparation for notification
+
+We'll get your entire claim decision packet ready to be mailed. 
+
+
+</li>
+
+<li class="step five last wow fadeIn animated" markdown="0">
+
+Claim Closed 
+We will mail you a packet with a decision notice and award details. Please allow 5-7 business days for your packet to arrive before you contact a VA call center. 
 
 </div>
 
