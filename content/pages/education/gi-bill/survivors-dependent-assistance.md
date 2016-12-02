@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Survivors' and Dependents' Assistance
 concurrence: incomplete
+plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
@@ -9,16 +10,17 @@ If you're a dependent or survivor of a Veteran, you may qualify for educational 
 <div class="call-out" markdown="1">
 
 ### Can I get education benefits?
-You can get education benefits if, you are the child or spouse of a Servicemember who:
-  - Died in the line of duty after September 10, 2001, **or**
-  - Is missing in action or was captured in the line of duty by a hostile force, **or**
-  -	Was forcibly detained in the line of duty by a foreign government or power, **or**
-  -	Is hospitalized or receiving outpatient treatment for a service-connected permanent and total disability and likely to be discharged for that disability.
+You can get education benefits if you're the child or spouse of a Servicemember who:
+- Died in the line of duty after September 10, 2001, **or**
+- Is missing in action or was captured in the line of duty by a hostile force, **or**
+-	Was detained (held) by force while in the line of duty by a foreign government or power, **or**
+-	Is in the hospital or getting outpatient treatment for a service-connected permanent and total disability (meaning a disability resulting from your service that doesn't go away) and is likely to be discharged for that disability.
   
-You can get benefits if you are the child or spouse of a Veteran who is permanently and totally disabled due to a service-connected disability, or
-  -	Who died while on active duty or as a result of a service-connected disability.
+You can get education benefits if you're the child or spouse of a Veteran who:
+- Is permanently and totally disabled due to a service-connected disability, **or**
+-	Died while on active duty or as a result of a service-connected disability.
 
-You can get benefits if you qualify to receive a transfer of Post-9/11 GI Bill benefits.
+You can get education benefits if you qualify for a transfer of Post-9/11 GI Bill benefits.
 
 
 ### Who's covered?
@@ -28,7 +30,7 @@ You can get benefits if you qualify to receive a transfer of Post-9/11 GI Bill b
 
 ### What benefits can I get? 
 
-- Education and training opportunities
+- Education and training
 - Money for tuition
 - Money for housing
 - Money for books and supplies
@@ -37,12 +39,14 @@ You can get benefits if you qualify to receive a transfer of Post-9/11 GI Bill b
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. There are 2 main GI Bill programs offering educational assistance to survivors and dependents of Veterans:
+You'll need to apply. [Apply for education benefits](/education/apply-for-education-benefits).
 
-- [The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/) is available for children and spouses of Servicemembers who died in the line of duty after September 10, 2001.
-- [The Survivors' and Dependents' Educational Assistance (DEA) program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) offers education and training opportunities to eligible dependents of Veterans who are permanently and totally disabled due to a service-related condition or who died while on active duty or as a result of a service-related condition.
+There are 2 main GI Bill programs offering educational assistance to survivors and dependents of Veterans:
 
-You may qualify for both of these programs, but you can use only 1 of them. Youâ€™ll have to decide which one when you apply, and once you make this decision, you can't change your mind. 
+- [The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/) is for children and spouses of Servicemembers who died in the line of duty after September 10, 2001.
+- [The Survivors' and Dependents' Educational Assistance (DEA) program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) offers education and training to qualified dependents of Veterans who are permanently and totally disabled due to a service-related condition or who died while on active duty or as a result of a service-related condition.
+
+You may qualify for both of these programs, but you can use only 1 of them. Youâ€™ll have to decide which one when you apply. Once you make this decision, you can't change your mind. 
 
 **Exception:** As a beneficiary, you can't use the same qualifying event for more than 1 benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
 
@@ -59,14 +63,14 @@ You may qualify for both of these programs, but you can use only 1 of them. Youâ
 <tbody>
   <tr>
     <th scope="row"><strong>Benefit Payments</strong></th>
-    <td>VA pays the monthly amount directly to the student. The current monthly payment for full-time training is $1,018.</td>
+    <td>We pay the monthly amount directly to the student. The current monthly payment for full-time training is $1,018.</td>
     <td>
     <ul>
-      <li><strong>Tuition and Fee Payment (paid to the school)</strong>: VA covers the full in-state tuition costs for training at public institutions and up to $20,035.02 per year at private institutions.<br /><br /></li>
+      <li><strong>Tuition and Fee Payment (paid to the school)</strong>: We cover the full in-state tuition costs for training at public schools and up to $20,035.02 per year at private schools.<br /><br /></li>
       <li><strong>Books and Supplies Stipend (paid to the student)</strong>:
-    VA covers up to $1,000 a year, divided up equally among the terms, for books and supplies.<br /><br /></li>
+    We cover up to $1,000 a year, divided up equally among the terms, for books and supplies.<br /><br /></li>
       <li><strong>Monthly Housing Allowance (paid to the student)</strong>:
-      VA bases this allowance on local BAH for E-5 with dependents and pays it monthly. Online students receive half of the BAH national average.</li>
+      We base this amount on the local Basic Allowance for Housing (BAH) for E-5 with dependents and pay it monthly. Online students get half of the BAH national average.</li>
     </ul>
   Â  </td>
   </tr>
@@ -86,7 +90,7 @@ You may qualify for both of these programs, but you can use only 1 of them. Youâ
   </tr>
 
   <tr>
-    <th scope="row"><strong>Simultaneous Receipt of DIC and Education Benefits for Spouse</strong></th>
+    <th scope="row"><strong>Getting both DIC and Education Benefits for Spouse</strong></th>
     <td>Yes</td>
     <td>Yes</td>
   </tr>
