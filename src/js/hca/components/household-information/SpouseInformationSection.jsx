@@ -8,7 +8,7 @@ import FullName from '../../../common/components/questions/FullName';
 import Phone from '../../../common/components/questions/Phone';
 import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
 import { yesNo } from '../../../common/utils/options-for-select.js';
-import { isNotBlank, validateIfDirty, isValidMarriageDate } from '../../utils/validations';
+import { isNotBlank, validateIfDirty, isValidMarriageDate, isValidLastName } from '../../utils/validations';
 import { veteranUpdateField, updateSpouseAddress } from '../../actions';
 
 // TODO: Consider adding question for marital status here so if user
@@ -82,6 +82,8 @@ class SpouseInformationSection extends React.Component {
         <div className="input-section">
           <FullName required
               name={this.props.data.spouseFullName}
+              customValidation={isValidLastName}
+              customErrorMessage="Please enter a valid name. Must be at least 2 characters."
               onUserInput={(update) => {this.props.onStateChange('spouseFullName', update);}}/>
 
           <SocialSecurityNumber required
