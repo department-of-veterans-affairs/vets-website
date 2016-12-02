@@ -158,7 +158,8 @@ The amount of time it takes to review your claim depends on:
 <ol class="process">
 <li class="step one wow fadeIn animated" markdown="1">
 
-Claim Received
+**Claim Received**
+
 You will see a notice from us in your Open Claims list within about 1 hour if you applied online with VONAPP Direct Connect. If you applied through the U.S. mail, you’ll need to allow for mailing time plus 1 week before you get a note in Open Claims telling you we have your claim.
 
 
@@ -166,7 +167,8 @@ You will see a notice from us in your Open Claims list within about 1 hour if yo
 
 <li class="step two wow fadeIn animated" markdown="0">
 
-Initial Review
+**Initial Review**
+
 A Veterans Service Representative (VSR) will review your claim. It will move to step 3 if we don’t need any more evidence to support it. 
 
 
@@ -174,7 +176,7 @@ A Veterans Service Representative (VSR) will review your claim. It will move to 
 
 <li class="step three wow fadeIn animated" markdown="0">
 
-Evidence Gathering, Review, and Decision
+**Evidence Gathering, Review, and Decision**
 
 During this step, the VSR will do 3 things: 
 - Ask for evidence from you, health care providers, governmental agencies, or others
@@ -188,7 +190,7 @@ If we need more evidence during the review, your claim may return to this step m
 
 <li class="step four wow fadeIn animated" markdown="0">
 
-Preparation for notification
+**Preparation for notification**
 
 We'll get your entire claim decision packet ready to be mailed. 
 
@@ -197,7 +199,8 @@ We'll get your entire claim decision packet ready to be mailed.
 
 <li class="step five last wow fadeIn animated" markdown="0">
 
-Claim Closed 
+**Claim Closed**
+
 We will mail you a packet with a decision notice and award details. Please allow 5-7 business days for your packet to arrive before you contact a VA call center. 
 
 </div>
