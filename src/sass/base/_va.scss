@@ -232,7 +232,7 @@ hr {
   width: 1em;
   height: 1em;
   // Content must have a decender in it
-  content: "leave vets.gov";
+  content: 'leave vets.gov';
   background-repeat: no-repeat;
   background-position: top center;
   margin-left: .3em;
@@ -410,7 +410,7 @@ h6 {
 
   .stars-tagline {
     &:before{
-      content: "";
+      content: '';
       background: url(/img/stars.png) no-repeat top center;
       background-size: 100%;
       display: inline-block;
