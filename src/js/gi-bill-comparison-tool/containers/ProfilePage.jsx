@@ -26,7 +26,7 @@ class ProfilePage extends React.Component {
     return (
       <div className="row">
         <div className="column">
-          <h1 className="va-heading-sans">GI Bill<sup className="trademark">®</sup> Comparison Tool</h1>
+          <h1 className="va-heading-sans">GI Bill Comparison Tool</h1>
         </div>
         <div className="small-12 medium-8 columns teaser-container">
           <h4 className="home-teaser">Learn about education programs and compare estimated benefits by school.</h4>
