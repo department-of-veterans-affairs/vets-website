@@ -43,6 +43,7 @@ class RxRefillsApp extends React.Component {
           </div>
           <ConfirmRefillModal
               prescription={this.props.refillModal.prescription}
+              isLoading={this.props.refillModal.loading}
               isVisible={this.props.refillModal.visible}
               refillPrescription={this.props.refillPrescription}
               onCloseModal={this.props.closeRefillModal}/>
