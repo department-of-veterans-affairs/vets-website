@@ -15,14 +15,14 @@ class Dropdown extends React.Component {
       return null;
     }
     return (
-      <div id={this.props.identifier+'-form'} className={this.props.className}>
-        { this.renderLabel() }
+      <div id={this.props.identifier + '-form'} className={this.props.className}>
+        {this.renderLabel()}
         <select id={this.props.identifier}
-                name={this.props.identifier.replace(/\-/g, '_')}
-                alt={this.props.alt}
-                onChange={(e) => { this.props.onChange(e) && this.setState({value: event.target.value}) }}
-                defaultValue={this.props.defaultOption}>
-          { this.renderDropdownOptions(this.props.options) }
+            name={this.props.identifier.replace(/\-/g, '_')}
+            alt={this.props.alt}
+            onChange={(e) => { this.props.onChange(e) && this.setState({ value: event.target.value }); }}
+            defaultValue={this.props.defaultOption}>
+          {this.renderDropdownOptions(this.props.options)}
         </select>
       </div>
     );
@@ -74,6 +74,6 @@ Dropdown.defaultProps = {
   ],
   defaultOption: 'two',
   visible: false
-}
+};
 
 export default Dropdown;

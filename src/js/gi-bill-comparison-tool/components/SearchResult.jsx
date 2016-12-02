@@ -39,18 +39,18 @@ class SearchResult extends React.Component {
 
     return (
       <div id={this.props.facility_code} className="school_summary large-4 medium-5-center small-12-center columns">
-        { this.props.caution_flag && this.renderCautionFlag() }
+        {this.props.caution_flag && this.renderCautionFlag()}
         <div className="search-content">
-          { this.renderName() }
-          { this.renderLocality() }
-          { this.renderVetCount() }
+          {this.renderName()}
+          {this.renderLocality()}
+          {this.renderVetCount()}
           <div className="search-benefits-values-container">
             <div className="search-selections-label">
               You may be eligible for up to:
             </div>
-            { this.renderTuition() }
-            { this.renderHousing() }
-            { this.renderBooks() }
+            {this.renderTuition()}
+            {this.renderHousing()}
+            {this.renderBooks()}
           </div>
           <div className="row">
             <div className="search-learnmore-div">
@@ -65,7 +65,7 @@ class SearchResult extends React.Component {
   renderCautionFlag() {
     return (
       <div className="caution">
-        <a className="searchresults-caution noback" href={`#$(this.props.facility_code)`}>
+        <a className="searchresults-caution noback" href={'#$(this.props.facility_code)'}>
           <i className="fa fa-exclamation-triangle"></i> Caution Flag
         </a>
       </div>
@@ -76,8 +76,8 @@ class SearchResult extends React.Component {
     return (
       <div className="search-insitution-name">
         <h6>
-          <a className={`a-$(this.props.institution_id) noback`} href="#">
-            { this.props.institution.toUpperCase() }
+          <a className={'a-$(this.props.institution_id) noback'} href="#">
+            {this.props.institution.toUpperCase()}
           </a>
         </h6>
       </div>
@@ -102,8 +102,8 @@ class SearchResult extends React.Component {
     return (
       <div className="search-value-each small-4 column">
         <div className="icon"><i className="fa fa-graduation-cap fa-search-result"></i></div>
-        <div id={`$(thihs.props.facility_code)-est-tuition-fees`}>
-          { this.props.estimator.renderTuitionFees() }
+        <div id={'$(thihs.props.facility_code)-est-tuition-fees'}>
+          {this.props.estimator.renderTuitionFees()}
         </div>
       </div>
     );
@@ -113,8 +113,8 @@ class SearchResult extends React.Component {
     return (
       <div className="search-value-each small-4 column">
         <div className="icon"><i className="fa fa-home fa-search-result"></i></div>
-        <div id={`$(thihs.props.facility_code)-est-housing-allowance`}>
-          { this.props.estimator.renderHousingAllowance() }
+        <div id={'$(thihs.props.facility_code)-est-housing-allowance'}>
+          {this.props.estimator.renderHousingAllowance()}
         </div>
       </div>
     );
@@ -124,8 +124,8 @@ class SearchResult extends React.Component {
     return (
       <div className="search-value-each small-4 column">
         <div className="icon"><i className="fa fa-book fa-search-result"></i></div>
-        <div id={`$(thihs.props.facility_code)-est-book-stipend`}>
-          { this.props.estimator.renderBookStipend() }
+        <div id={'$(thihs.props.facility_code)-est-book-stipend'}>
+          {this.props.estimator.renderBookStipend()}
         </div>
       </div>
     );

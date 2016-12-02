@@ -5,9 +5,9 @@ class FilterFields extends React.Component {
 
   render() {
     const count_all = 39349,
-          count_school = 23434,
-          count_ojt = 3434,
-          student_veteran_count = 238;
+      count_school = 23434,
+      count_ojt = 3434,
+      student_veteran_count = 238;
 
     const type_name = this.props.queryParams.type_name;
 
@@ -18,20 +18,20 @@ class FilterFields extends React.Component {
           <p>Institution</p>
           <p className="filter-p">
       			<input type="radio" id="all-school" name="institution_type"
-              className="filter" value="all"
-              checked={type_name === 'all'} />
+          className="filter" value="all"
+          checked={type_name === 'all'}/>
             <label id="all-school-label" htmlFor="all-school">All ({count_all})</label>
       		</p>
       		<p className="filter-p">
       			<input type="radio" id="school" name="institution_type"
-              className="filter" value="school"
-              checked={type_name === 'school'} />
+          className="filter" value="school"
+          checked={type_name === 'school'}/>
             <label id="school-label" htmlFor="school">School ({count_school})</label>
       		</p>
       		<p className="filter-p">
       			<input type="radio" id="employer" name="institution_type"
-      				className="filter" value="employer"
-              checked={type_name === 'employer'} />
+          className="filter" value="employer"
+          checked={type_name === 'employer'}/>
             <label id="employer-label" htmlFor="employer">Employer ({count_ojt})</label>
           </p>
         </div>
@@ -55,32 +55,32 @@ class FilterFields extends React.Component {
           <p>School Features</p>
           <p className="filter-p">
             <input type="checkbox" id="student-veteran" name="student_veteran"
-              className="filter" value="true"
-              checked={this.props.queryParams.hasOwnProperty('student_veteran_group')} />
+                className="filter" value="true"
+                checked={this.props.queryParams.hasOwnProperty('student_veteran_group')}/>
             <label id="student-veteran-label" htmlFor="student-veteran">
               Student Vet Group ({student_veteran_count})
             </label>
           </p>
           <p className="filter-p">
             <input type="checkbox" id="student-veteran" name="student_veteran"
-              className="filter" value="true"
-              checked={this.props.queryParams.hasOwnProperty('student_veteran_group')} />
+                className="filter" value="true"
+                checked={this.props.queryParams.hasOwnProperty('student_veteran_group')}/>
             <label id="student-veteran-label" htmlFor="student-veteran">
               Yellow Ribbon ({student_veteran_count})
             </label>
           </p>
           <p className="filter-p">
             <input type="checkbox" id="student-veteran" name="student_veteran"
-              className="filter" value="true"
-              checked={this.props.queryParams.hasOwnProperty('student_veteran_group')} />
+                className="filter" value="true"
+                checked={this.props.queryParams.hasOwnProperty('student_veteran_group')}/>
             <label id="student-veteran-label" htmlFor="student-veteran">
               Principles of Excellence ({student_veteran_count})
             </label>
           </p>
           <p className="filter-p">
             <input type="checkbox" id="student-veteran" name="student_veteran"
-              className="filter" value="true"
-              checked={this.props.queryParams.hasOwnProperty('student_veteran_group')} />
+                className="filter" value="true"
+                checked={this.props.queryParams.hasOwnProperty('student_veteran_group')}/>
             <label id="student-veteran-label" htmlFor="student-veteran">
               8 Keys to Vet Success ({student_veteran_count})
             </label>
@@ -105,11 +105,9 @@ FilterFields.propTypes = {
 
 FilterFields.defaultProps = {
   queryParams: {}
-}
+};
 
 export default FilterFields;
-
-
 
 
 // <% count_all = @kilter.count_all %>

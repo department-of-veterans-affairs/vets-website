@@ -13,7 +13,7 @@ class GIBillApp extends React.Component {
       <span id="gi-bill-app">
         {this.renderPage(this.props.params.page)}
         <div className="row">
-          <AboutThisTool />
+          <AboutThisTool/>
         </div>
       </span>
     );
@@ -21,17 +21,17 @@ class GIBillApp extends React.Component {
 
   renderPage(page) {
     const pages = {
-      'search':  (<SearchPage queryParams={this.props.location.query} />),
-      'profile': (<ProfilePage queryParams={this.props.location.query} />)
-    }
+      'search': (<SearchPage queryParams={this.props.location.query}/>),
+      'profile': (<ProfilePage queryParams={this.props.location.query}/>)
+    };
     return pages[page] ||
-      (<LandingPage queryParams={this.props.location.query} />);
+      (<LandingPage queryParams={this.props.location.query}/>);
   }
 
 }
 
 GIBillApp.defaultProps = {
   estimator: new Estimator
-}
+};
 
 export default GIBillApp;

@@ -1,7 +1,7 @@
 import React from 'react';
-import AboutYourselfFields from '../components/AboutYourselfFields'
-import FilterFields from '../components/FilterFields'
-import SearchResult from '../components/SearchResult'
+import AboutYourselfFields from '../components/AboutYourselfFields';
+import FilterFields from '../components/FilterFields';
+import SearchResult from '../components/SearchResult';
 
 class SearchPage extends React.Component {
 
@@ -9,8 +9,8 @@ class SearchPage extends React.Component {
     return (
       <span>
         <div className="section">
-          { this.renderBreadcrumbs() }
-          { this.renderHeader() }
+          {this.renderBreadcrumbs()}
+          {this.renderHeader()}
         </div>
 
         <div className="action-bar">
@@ -37,7 +37,7 @@ class SearchPage extends React.Component {
                   <div id="panel-filters" className="content">
                     <div id="search-filters">
                       <div className="usa-card-content">
-                        <FilterFields queryParams={this.props.queryParams} />
+                        <FilterFields queryParams={this.props.queryParams}/>
                       </div>
                     </div>
                   </div>
@@ -57,7 +57,7 @@ class SearchPage extends React.Component {
                 locals: { url: @kilter.to_href(profile_path, @inputs, page: @page) }
               %>
               */}
-              <SearchResult facility_code="123423423" caution_flag={true} gibill={21} institution="harvard" country="usa" city="Boston" state="ma" />
+              <SearchResult facility_code="123423423" caution_flag gibill={21} institution="harvard" country="usa" city="Boston" state="ma"/>
             </div>
 
           </div>
@@ -72,7 +72,7 @@ class SearchPage extends React.Component {
       <div className="row">
         <h1 className="va-heading-sans">GI Bill<sup className="trademark">®</sup> Comparison Tool Search Results</h1>
       </div>
-    )
+    );
   }
 
   renderBreadcrumbs() {

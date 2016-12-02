@@ -1,9 +1,9 @@
 import React from 'react';
 
-import AboutYourselfTeaser from '../components/AboutYourselfTeaser'
-import AboutYourselfFields from '../components/AboutYourselfFields'
-import AboutYourSchoolFields from '../components/AboutYourSchoolFields'
-import AdditionalResources from '../components/AdditionalResources'
+import AboutYourselfTeaser from '../components/AboutYourselfTeaser';
+import AboutYourselfFields from '../components/AboutYourselfFields';
+import AboutYourSchoolFields from '../components/AboutYourSchoolFields';
+import AdditionalResources from '../components/AdditionalResources';
 
 class LandingPageForm extends React.Component {
 
@@ -19,9 +19,9 @@ class LandingPageForm extends React.Component {
               </div>
               <div className="usa-card-content nested">
                 <div className="medium-6 columns">
-                  <AboutYourselfFields labels={true} />
+                  <AboutYourselfFields labels/>
                 </div>
-                <AboutYourselfTeaser />
+                <AboutYourselfTeaser/>
               </div>
             </div>
             <div className="usa-card">
@@ -29,13 +29,13 @@ class LandingPageForm extends React.Component {
                 Step 2: About Your School
               </div>
               <div className="usa-card-content">
-                <AboutYourSchoolFields labels={true} online_classes={this.props.queryParams.online_classes} />
+                <AboutYourSchoolFields labels online_classes={this.props.queryParams.online_classes}/>
               </div>
             </div>
           </div>
 
           <div className="small-12 medium-4 columns">
-            <AdditionalResources />
+            <AdditionalResources/>
           </div>
 
         </form>

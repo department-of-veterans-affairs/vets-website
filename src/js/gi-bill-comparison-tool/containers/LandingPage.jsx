@@ -9,8 +9,8 @@ class LandingPage extends React.Component {
     return (
       <span>
         <div className="section">
-          { this.renderBreadcrumbs() }
-          { this.renderHeader() }
+          {this.renderBreadcrumbs()}
+          {this.renderHeader()}
         </div>
         <div className="row">
           <LandingPageForm queryParams={this.props.queryParams}/>

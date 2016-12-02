@@ -3,11 +3,11 @@ import React from 'react';
 class Estimator {
   constructor() {
     // Values from forms
-  	this.military_status = null;
-  	this.spouse_active_duty = null;
-  	this.gi_bill_chap = null;
-  	this.number_of_depend = null;
-  	this.post_911_elig = null;
+    this.military_status = null;
+    this.spouse_active_duty = null;
+    this.gi_bill_chap = null;
+    this.number_of_depend = null;
+    this.post_911_elig = null;
     this.cumulative_service = null;
     this.enlistment_service = null;
     this.consecutive_service = null;
@@ -177,7 +177,7 @@ class Estimator {
     else if (this.gi_bill_chap === 31 && this.number_of_depend > 2 && this.institution_type === 'ojt')
       this.monthly_rate = this.VRE2DEPRATEOJT + ((this.number_of_depend - 2) * this.VREINCRATEOJT);
     else if (this.gi_bill_chap === 31 && this.number_of_depend > 2)
-      this.monthly_rate = this.VRE2DEPRATE + ((this.number_of_depend-2) * this.VREINCRATE);
+      this.monthly_rate = this.VRE2DEPRATE + ((this.number_of_depend - 2) * this.VREINCRATE);
   }
 
   // Returns true when school is a flight school
@@ -211,7 +211,7 @@ class Estimator {
   }
 
   // renders formatted currency per period elements
-  per_qualifier_html(v,q) {
+  per_qualifier_html(v, q) {
     return (
       <span>
         <span className="estimator-dollar-sign">$</span>
@@ -308,7 +308,7 @@ class Estimator {
 // Constants
 Estimator.prototype.TFCAP = 21970.46;
 Estimator.prototype.AVGBAH = 1611;
-Estimator.prototype.BSCAP  = 1000,
+Estimator.prototype.BSCAP = 1000,
 Estimator.prototype.FLTTFCAP = 12554.54;
 Estimator.prototype.CORRESPONDTFCAP = 10671.35;
 

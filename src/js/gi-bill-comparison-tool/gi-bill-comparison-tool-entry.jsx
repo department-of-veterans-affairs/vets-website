@@ -8,7 +8,7 @@ require('../../sass/gi-bill-comparison-tool/gi-bill-comparison-tool.scss');
 
 function init() {
   ReactDOM.render(
-    <Router history={browserHistory} routes={routes} />,
+    <Router history={browserHistory} routes={routes}/>,
     document.getElementById('react-root')
   );
 }

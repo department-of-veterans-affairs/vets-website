@@ -5,10 +5,6 @@ import InstitutionNameInput from './InstitutionNameInput';
 
 class AboutYourSchoolFields extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <span>
@@ -20,23 +16,23 @@ class AboutYourSchoolFields extends React.Component {
               <label>Will you be taking classes online? </label>
 
               <input type="radio" id="online-classes-all"
-                name="online_classes" value="yes"
-                defaultChecked={this.props.online_classes && this.props.online_classes == 'all'} />
-              <label className="radio" htmlFor="online-classes-all" style={{display:'inline-block'}}>All</label>
+                  name="online_classes" value="yes"
+                  defaultChecked={this.props.online_classes && this.props.online_classes == 'all'}/>
+              <label className="radio" htmlFor="online-classes-all" style={{ display: 'inline-block' }}>All</label>
 
               <input type="radio" id="online-classes-no"
-                name="online_classes" value="no"
-                defaultChecked={!this.props.online_classes || this.props.online_classes == 'no'} />
-              <label className="radio" htmlFor="online-classes-no" style={{display:'inline-block'}}>No</label>
+                  name="online_classes" value="no"
+                  defaultChecked={!this.props.online_classes || this.props.online_classes == 'no'}/>
+              <label className="radio" htmlFor="online-classes-no" style={{ display: 'inline-block' }}>No</label>
 
               <input type="radio" id="online-classes-both"
-                name="online_classes" value="both"
-                defaultChecked={this.props.online_classes && this.props.online_classes == 'both'} />
-              <label className="radio" htmlFor="online-classes-both" style={{display:'inline-block'}}>Both</label>
+                  name="online_classes" value="both"
+                  defaultChecked={this.props.online_classes && this.props.online_classes == 'both'}/>
+              <label className="radio" htmlFor="online-classes-both" style={{ display: 'inline-block' }}>Both</label>
             </div>
           </If>
 
-          <InstitutionNameInput name="institution_search" />
+          <InstitutionNameInput name="institution_search"/>
 
           <div className="row">
             <div className="small-12 columns" role="search">

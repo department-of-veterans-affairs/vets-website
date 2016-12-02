@@ -4,7 +4,7 @@ import If from './If';
 
 import autocomplete_data from '../mocks/autocomplete';
 
-const api_base_url = 'http://localhost:3000/v0/gibct'
+const api_base_url = 'http://localhost:3000/v0/gibct';
 // note: '/institutions/autocomplete?term=' + value;
 
 const getSuggestionValue = suggestion => suggestion.value; // label would be better ux
@@ -30,11 +30,11 @@ class InstitutionNameInput extends React.Component {
       prevState.value = newValue;
       return prevState;
     });
-  };
+  }
 
   getSuggestions = value => {
     let suggestions = autocomplete_data().filter((school) => {
-      return school.label.toLowerCase().startsWith(value.trim().toLowerCase())
+      return school.label.toLowerCase().startsWith(value.trim().toLowerCase());
     });
     return suggestions || [];
   }
@@ -52,7 +52,7 @@ class InstitutionNameInput extends React.Component {
     this.setState({
       suggestions: []
     });
-  };
+  }
 
   shouldRenderSuggestions = value => {
     return value.trim().length > 2;
@@ -76,8 +76,8 @@ class InstitutionNameInput extends React.Component {
       <span>
         <If condition={this.props.showLabel}>
           <label
-            className="institution-search-label"
-            htmlFor={this.identifier(this.props.name)}>
+              className="institution-search-label"
+              htmlFor={this.identifier(this.props.name)}>
             Enter a city, school or employer name:
           </label>
         </If>
@@ -85,13 +85,13 @@ class InstitutionNameInput extends React.Component {
         <div className="row">
           <div className="small-12 columns search-button-div" role="search">
             <Autosuggest
-              suggestions={suggestions}
-              onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-              onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-              getSuggestionValue={getSuggestionValue}
-              renderSuggestion={renderSuggestion}
-              shouldRenderSuggestions={this.shouldRenderSuggestions}
-              inputProps={inputProps} />
+                suggestions={suggestions}
+                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                getSuggestionValue={getSuggestionValue}
+                renderSuggestion={renderSuggestion}
+                shouldRenderSuggestions={this.shouldRenderSuggestions}
+                inputProps={inputProps}/>
           </div>
         </div>
       </span>
@@ -113,6 +113,6 @@ InstitutionNameInput.defaultProps = {
   showLabel: true,
   name: 'institution_search',
   defaultValue: ''
-}
+};
 
 export default InstitutionNameInput;
