@@ -51,7 +51,7 @@ You can apply for benefits if:
 <div class="small-12 medium-3 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="number" markdown="0">125.2</span>
+<span class="number" markdown="0">115.7</span>
 <span class="description" markdown="0">Days</span>
 <span class="heading" markdown="0">(Average time)</span>
 
@@ -63,7 +63,7 @@ You can apply for benefits if:
 
 <div class="info-block usa-content" markdown="1">
 
-In September 2016, we took an average of about 125 days to process a disability claim. If your claim is complex, it may take us longer to review.
+In November 2016, we took an average of about 125 days to process a disability claim. If your claim is complex, it may take us longer to review.
 
 
 </div>
@@ -125,7 +125,7 @@ For all disability claims, please provide:
 
 Choose 1 of 3 ways:
 
-- [Apply online at eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
+- [Apply online at eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
 - [Work with an accredited representative](/disability-benefits/apply-for-benefits/help/index.html), or
 - [Get help at a VA regional office](http://www.benefits.va.gov/benefits/offices.asp)
 
@@ -160,7 +160,7 @@ The amount of time it takes to review your claim depends on:
 
 **Claim Received**
 
-You will see a notice from us in your Open Claims list within about 1 hour if you applied online with VONAPP Direct Connect. If you applied through the U.S. mail, you’ll need to allow for mailing time plus 1 week before you get a note in Open Claims telling you we have your claim.
+You'll see a notice from us in your Open Claims list within about 1 hour if you applied online with VONAPP Direct Connect. If you applied through the U.S. mail, you’ll need to allow for mailing time plus 1 week before you get a note in Open Claims telling you we have your claim.
 
 
 </li>
@@ -190,7 +190,7 @@ If we need more evidence during the review, your claim may return to this step m
 
 <li class="step four wow fadeIn animated" markdown="0">
 
-**Preparation for notification**
+**Preparation for Notification**
 
 We'll get your entire claim decision packet ready to be mailed. 
 
@@ -201,7 +201,7 @@ We'll get your entire claim decision packet ready to be mailed.
 
 **Claim Closed**
 
-We will mail you a packet with a decision notice and award details. Please allow 5-7 business days for your packet to arrive before you contact a VA call center. 
+We'll mail you a packet with a decision notice and award details. Please allow 5-7 business days for your packet to arrive before you contact a VA call center. 
 
 </div>
 
