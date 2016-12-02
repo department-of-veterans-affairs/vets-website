@@ -78,4 +78,40 @@ describe('prescriptions reducer', () => {
     expect(state.history.pages).to.eql(1);
     expect(state.history.loading).to.be.false;
   });
+
+  it('should handle a successful refill', () => {
+    const state = {
+      items: [
+        {
+          id: 1,
+          attributes: {
+            refillStatus: 'active',
+            isRefillable: true
+          }
+        },
+        {
+          id: 2,
+          attributes: {
+            refillStatus: 'active',
+            isRefillable: true
+          }
+        },
+        {
+          id: 3,
+          attributes: {
+            refillStatus: 'active',
+            isRefillable: true
+          }
+        },
+      ]
+    };
+
+    const newState = prescriptionsReducer(state, {
+      type: 'REFILL_SUCCESS',
+      prescription: { prescriptionId: 2 }
+    });
+
+    expect(newState.items[1].attributes.isRefillable).to.be.false;
+    expect(newState.items[1].attributes.refillStatus).to.eql('submitted');
+  });
 });
