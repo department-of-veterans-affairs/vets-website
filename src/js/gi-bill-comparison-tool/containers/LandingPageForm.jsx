@@ -19,7 +19,7 @@ class LandingPageForm extends React.Component {
               </div>
               <div className="usa-card-content nested">
                 <div className="medium-6 columns">
-                  <AboutYourselfFields labels/>
+                  <AboutYourselfFields labels={true}/>
                 </div>
                 <AboutYourselfTeaser/>
               </div>
@@ -29,7 +29,7 @@ class LandingPageForm extends React.Component {
                 Step 2: About Your School
               </div>
               <div className="usa-card-content">
-                <AboutYourSchoolFields labels online_classes={this.props.queryParams.online_classes}/>
+                <AboutYourSchoolFields labels={true} onlineClasses={this.props.queryParams.online_classes}/>
               </div>
             </div>
           </div>

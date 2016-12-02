@@ -18,48 +18,20 @@ class SearchResult extends React.Component {
   // WIP
   estimate() {
     // get current values about the user
-    let e = this.props.estimator;
-    e.set_military_status = 'active duty';
-    e.set_spouse_active_duty = 'yes';
-    e.set_gi_bill_chap = '31';
-    e.set_number_of_depend = '2';
-    e.set_post_911_elig = 'yes';
-    e.set_cumulative_service = '1.0';
-    e.set_enlistment_service = '3123412314';
-    e.set_consecutive_service = '3123412314';
-    e.set_online = 'yes';
+    const e = this.props.estimator;
+    e.setMilitaryStatus = 'active duty';
+    e.setSpouseActiveDuty = 'yes';
+    e.setGiBillChap = '31';
+    e.setNumberOfDepend = '2';
+    e.setPost911Elig = 'yes';
+    e.setCumulativeService = '1.0';
+    e.setEnlistmentService = '3123412314';
+    e.setConsecutiveService = '3123412314';
+    e.setOnline = 'yes';
     // set institution values
-    e.set_institution_type = 'private';
-    e.set_country = 'usa';
-    e.set_bah = '1.1';
-  }
-
-  render() {
-    this.estimate();
-
-    return (
-      <div id={this.props.facility_code} className="school_summary large-4 medium-5-center small-12-center columns">
-        {this.props.caution_flag && this.renderCautionFlag()}
-        <div className="search-content">
-          {this.renderName()}
-          {this.renderLocality()}
-          {this.renderVetCount()}
-          <div className="search-benefits-values-container">
-            <div className="search-selections-label">
-              You may be eligible for up to:
-            </div>
-            {this.renderTuition()}
-            {this.renderHousing()}
-            {this.renderBooks()}
-          </div>
-          <div className="row">
-            <div className="search-learnmore-div">
-              <a className="button filter-button va-search-learnmore" href="#">Learn More</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    e.setInstitutionType = 'private';
+    e.setCountry = 'usa';
+    e.setBah = '1.1';
   }
 
   renderCautionFlag() {
@@ -87,7 +59,7 @@ class SearchResult extends React.Component {
   renderLocality() {
     const domestic = <div className="search-locality">{this.props.city}, {this.props.state.toUpperCase()}</div>;
     const foreign = <div className="search-locality">{this.props.city}, {this.props.country}</div>;
-    return ('usa' === this.props.country.toLowerCase() ? domestic : foreign);
+    return (this.props.country.toLowerCase() === 'usa' ? domestic : foreign);
   }
 
   renderVetCount() {
@@ -131,11 +103,39 @@ class SearchResult extends React.Component {
     );
   }
 
+  render() {
+    this.estimate();
+
+    return (
+      <div id={this.props.facility_code} className="school_summary large-4 medium-5-center small-12-center columns">
+        {this.props.caution_flag && this.renderCautionFlag()}
+        <div className="search-content">
+          {this.renderName()}
+          {this.renderLocality()}
+          {this.renderVetCount()}
+          <div className="search-benefits-values-container">
+            <div className="search-selections-label">
+              You may be eligible for up to:
+            </div>
+            {this.renderTuition()}
+            {this.renderHousing()}
+            {this.renderBooks()}
+          </div>
+          <div className="row">
+            <div className="search-learnmore-div">
+              <a className="button filter-button va-search-learnmore" href="#">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
 }
 
 SearchResult.propTypes = {
-  facility_code: React.PropTypes.string.isRequired,
-  caution_flag: React.PropTypes.bool.isRequired,
+  facilityCode: React.PropTypes.string.isRequired,
+  cautionFlag: React.PropTypes.bool.isRequired,
   institution: React.PropTypes.string.isRequired,
   country: React.PropTypes.string.isRequired,
   city: React.PropTypes.string.isRequired,
@@ -144,9 +144,9 @@ SearchResult.propTypes = {
 };
 
 SearchResult.defaultProps = {
-  facility_code: 'facility_code',
+  facilityCode: 'facility_code',
   institution: 'name goes here',
-  caution_flag: true,
+  cautionFlag: true,
   estimator: new Estimator()
 };
 

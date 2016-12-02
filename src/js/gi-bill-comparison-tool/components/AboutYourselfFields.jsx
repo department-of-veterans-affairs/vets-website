@@ -13,44 +13,45 @@ class AboutYourselfFields extends React.Component {
 
     this.state = {
       modals: {
-        military_status: false,
-        gi_bill_chapter: false,
-        cumulative_service: false,
-        enlistment_service: false,
-        consecutive_service: false
+        militaryStatus: false,
+        giBillChapter: false,
+        cumulativeService: false,
+        enlistmentService: false,
+        consecutiveService: false
       },
       dropdowns: {
-        military_status: true,
-        gi_bill_chapter: true,
-        cumulative_service: true
+        militaryStatus: true,
+        giBillChapter: true,
+        cumulativeService: true
       }
     };
   }
 
   handleDropdownChange(event) {
     const delay = 80; // todo: proper animation
+    const field = event.target.name;
+    const value = event.target.value;
 
-    let field = event.target.name;
-    let value = event.target.value;
-
-    if (field === 'military_status') {
+    if (field === 'militaryStatus') {
       setTimeout(() => {
-        this.setState((state, props) => {
-          state.dropdowns['spouse_active_duty'] = (value === 'spouse');
-          return state;
+        this.setState((state) => {
+          const newState = state;
+          newState.dropdowns.spouseActiveDuty = (value === 'spouse');
+          return newState;
         });
       }, delay);
     }
 
-    if (field === 'gi_bill_chapter') {
+    if (field === 'giBillChapter') {
       setTimeout(() => {
-        this.setState((state, props) => {
-          state.dropdowns['cumulative_service'] = (value === '33');
-          state.dropdowns['enlistment_service'] = (value === '30');
-          state.dropdowns['consecutive_service'] = (value === '1607');
-          state.dropdowns['elig_for_post_gi_bill'] = (value === '31');
-          state.dropdowns['number_of_dependents'] = (value === '31');
-          return state;
+        this.setState((state) => {
+          const newState = state;
+          newState.dropdowns.cumulativeService = (value === '33');
+          newState.dropdowns.enlistmentService = (value === '30');
+          newState.dropdowns.consecutiveService = (value === '1607');
+          newState.dropdowns.eligForPostGiBill = (value === '31');
+          newState.dropdowns.numberOfDependents = (value === '31');
+          return newState;
         });
       }, delay);
     }
@@ -60,6 +61,19 @@ class AboutYourselfFields extends React.Component {
     this.setState({ modals: {
       [name]: !(this.state.modals[name])
     } });
+  }
+
+  renderVREBenefitsMessage() {
+    // onClick="track('Tool Tips', 'Voc Rehab Warning');"
+    return (
+      <div className="form-group top-aligned" id="voc-rehab-warning">
+        <p className="caption">To apply for VR&E benefits,
+          please <a href="http://vabenefits.vba.va.gov/vonapp/main.asp"
+              target="_blank">
+          visit this site.</a>
+        </p>
+      </div>
+    );
   }
 
   render() {
@@ -80,12 +94,12 @@ class AboutYourselfFields extends React.Component {
             ]}
             defaultOption="veteran"
             alt="Select military status"
-            visible={this.state.dropdowns.military_status}
+            visible={this.state.dropdowns.militaryStatus}
             onChange={this.handleDropdownChange}
             showLabel={this.props.labels}>
           <label htmlFor="military-status">
             Military Status:
-            <a onClick={() => {this.toggleModalDisplay('military_status');}} className="info-icons">
+            <a onClick={() => {this.toggleModalDisplay('militaryStatus');}} className="info-icons">
               <i className="fa fa-info-circle info-icons"></i>
             </a>
           </label>
@@ -99,7 +113,7 @@ class AboutYourselfFields extends React.Component {
             ]}
             defaultOption="no"
             alt="Spouse Active Duty? Yes/No"
-            visible={this.state.dropdowns.spouse_active_duty}
+            visible={this.state.dropdowns.spouseActiveDuty}
             onChange={this.handleDropdownChange}
             showLabel={this.props.labels}>
           <label htmlFor="spouse-active-duty">
@@ -119,12 +133,12 @@ class AboutYourselfFields extends React.Component {
             ]}
             defaultOption="33"
             alt="Select which GI Bill benefit you are thinking of using"
-            visible={this.state.dropdowns.gi_bill_chapter}
+            visible={this.state.dropdowns.giBillChapter}
             onChange={this.handleDropdownChange}
             showLabel={this.props.labels}>
           <label htmlFor="gi-bill-chapter">
             Which GI Bill benefit are you thinking of using?
-            <a onClick={() => {this.toggleModalDisplay('gi_bill_chapter');}} className="info-icons">
+            <a onClick={() => {this.toggleModalDisplay('giBillChapter');}} className="info-icons">
               <i className="fa fa-info-circle info-icons"></i>
             </a>
           </label>
@@ -146,12 +160,12 @@ class AboutYourselfFields extends React.Component {
             ]}
             defaultOption="1.0"
             alt="Select amount of cumulative Post 9-11 Active Duty Service"
-            visible={this.state.dropdowns.cumulative_service}
+            visible={this.state.dropdowns.cumulativeService}
             onChange={this.handleDropdownChange}
             showLabel={this.props.labels}>
           <label htmlFor="cumulative-service">
             Cumulative Post 9-11 Active Duty Service:
-            <a onClick={() => {this.toggleModalDisplay('cumulative_service');}} className="info-icons">
+            <a onClick={() => {this.toggleModalDisplay('cumulativeService');}} className="info-icons">
               <i className="fa fa-info-circle info-icons"></i>
             </a>
           </label>
@@ -165,12 +179,12 @@ class AboutYourselfFields extends React.Component {
             ]}
             defaultOption="3"
             alt="Select length of your enlistment"
-            visible={this.state.dropdowns.enlistment_service}
+            visible={this.state.dropdowns.enlistmentService}
             onChange={this.handleDropdownChange}
             showLabel={this.props.labels}>
           <label htmlFor="enlistment-service">
             Completed an enlistment of:
-            <a onClick={() => {this.toggleModalDisplay('enlistment_service');}} className="info-icons">
+            <a onClick={() => {this.toggleModalDisplay('enlistmentService');}} className="info-icons">
               <i className="fa fa-info-circle info-icons"></i>
             </a>
           </label>
@@ -185,12 +199,12 @@ class AboutYourselfFields extends React.Component {
             ]}
             defaultOption="0.8"
             alt="Select the length of your longest actice duty tour"
-            visible={this.state.dropdowns.consecutive_service}
+            visible={this.state.dropdowns.consecutiveService}
             onChange={this.handleDropdownChange}
             showLabel={this.props.labels}>
           <label htmlFor="consecutive-service">
             Length of Longest Active Duty Tour:
-            <a onClick={() => {this.toggleModalDisplay('consecutive_service');}} className="info-icons">
+            <a onClick={() => {this.toggleModalDisplay('consecutiveService');}} className="info-icons">
               <i className="fa fa-info-circle info-icons"></i>
             </a>
           </label>
@@ -204,7 +218,7 @@ class AboutYourselfFields extends React.Component {
             ]}
             defaultOption="no"
             alt="Eligible for Post 9/11 GI Bill?"
-            visible={this.state.dropdowns.elig_for_post_gi_bill}
+            visible={this.state.dropdowns.eligForPostGiBill}
             onChange={this.handleDropdownChange}
             showLabel={this.props.labels}>
           {this.renderVREBenefitsMessage()}
@@ -225,7 +239,7 @@ class AboutYourselfFields extends React.Component {
             ]}
             defaultOption="0"
             alt="Select the number of dependents you have"
-            visible={this.state.dropdowns.number_of_dependents}
+            visible={this.state.dropdowns.numberOfDependents}
             onChange={this.handleDropdownChange}
             showLabel={this.props.labels}>
           <label htmlFor="number-of-dependents">
@@ -242,115 +256,99 @@ class AboutYourselfFields extends React.Component {
             ]}
             defaultOption="no"
             alt="Online? Yes/No"
-            visible={this.state.dropdowns.online_classes || !this.props.labels}
+            visible={this.state.dropdowns.onlineClasses || !this.props.labels}
             onChange={this.handleDropdownChange}
             showLabel={this.props.labels}/>
 
-
-        <Modal onClose={() => {this.toggleModalDisplay('military_status');}} visible={this.state.modals.military_status}>
-            <h3>Military Status</h3>
-            <p>
-              <a title="Post 9/11 GI Bill"
-                  href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
-                  id="anch_378" target="_blank">
-              Post 9/11 GI Bill</a> recipients serving on Active Duty (or
-              transferee spouses of a servicemember on active duty) are not
-              eligible to receive a monthly housing allowance.
-            </p>
+          <Modal onClose={() => {this.toggleModalDisplay('militaryStatus')}} visible={!!this.state.modals.militaryStatus}>
+          <h3>Military Status</h3>
+          <p>
+            <a title="Post 9/11 GI Bill"
+                href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
+                id="anch_378" target="_blank">
+            Post 9/11 GI Bill</a> recipients serving on Active Duty (or
+            transferee spouses of a servicemember on active duty) are not
+            eligible to receive a monthly housing allowance.
+          </p>
         </Modal>
 
-        <Modal onClose={() => {this.toggleModalDisplay('gi_bill_chapter');}} visible={this.state.modals.gi_bill_chapter}>
-            <h3>Which GI Bill benefit are you thinking of using?</h3>
-            <p>
-              You may be eligible for several types of VA education and training
-              benefits depending on when and how long you served. There are
-              several things to consider before you apply for a GI Bill program.
-              One person may benefit more by using the Montgomery GI Bill while
-              another may make an irrevocable election and use the Post-9/11 GI
-              Bill instead. This tool allows you to compare the different
-              programs and make an educated decision on which benefit best suits
-              your needs.
-            </p>
-            <p>
-              For more detailed information on eligibility requirements and
-              general program benefits, please check out
-              <a href="http://www.benefits.va.gov/gibill/comparison_tool.asp"
-                  target="_blank">this page</a>.
-            </p>
+        <Modal onClose={() => {this.toggleModalDisplay('giBillChapter')}} visible={!!this.state.modals.giBillChapter}>
+          <h3>Which GI Bill benefit are you thinking of using?</h3>
+          <p>
+            You may be eligible for several types of VA education and training
+            benefits depending on when and how long you served. There are
+            several things to consider before you apply for a GI Bill program.
+            One person may benefit more by using the Montgomery GI Bill while
+            another may make an irrevocable election and use the Post-9/11 GI
+            Bill instead. This tool allows you to compare the different
+            programs and make an educated decision on which benefit best suits
+            your needs.
+          </p>
+          <p>
+            For more detailed information on eligibility requirements and
+            general program benefits, please check out
+            <a href="http://www.benefits.va.gov/gibill/comparison_tool.asp"
+                target="_blank">this page</a>.
+          </p>
         </Modal>
 
-        <Modal onClose={() => {this.toggleModalDisplay('cumulative_service');}} visible={this.state.modals.cumulative_service}>
-            <h3>Cumulative Post-9/11 Service</h3>
-            <p>
-              The <a title="Post-9/11 GI Bill" href="../post911_gibill.asp" id="anch_375">
-              Post-9/11 GI Bill</a> provides financial support for education and a
-              housing allowance to qualifying individuals with at least 90 days of
-              aggregate service after September 10, 2001, or individuals discharged
-              with a service-connected disability after 30 days. You must have received
-              an honorable discharge to be eligible for the Post-9/11 GI Bill.
-            </p>
-            <p>
-              For more detailed information Cumulative Post-9/11 Service, please check out <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice" target="_blank">this page</a>.
-            </p>
+        <Modal onClose={() => {this.toggleModalDisplay('cumulativeService')}} visible={!!this.state.modals.cumulativeService}>
+          <h3>Cumulative Post-9/11 Service</h3>
+          <p>
+            The <a title="Post-9/11 GI Bill" href="../post911_gibill.asp" id="anch_375">
+            Post-9/11 GI Bill</a> provides financial support for education and a
+            housing allowance to qualifying individuals with at least 90 days of
+            aggregate service after September 10, 2001, or individuals discharged
+            with a service-connected disability after 30 days. You must have received
+            an honorable discharge to be eligible for the Post-9/11 GI Bill.
+          </p>
+          <p>
+            For more detailed information Cumulative Post-9/11 Service, please check out <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice" target="_blank">this page</a>.
+          </p>
         </Modal>
 
-        <Modal onClose={() => {this.toggleModalDisplay('enlistment_service');}} visible={this.state.modals.enlistment_service}>
-            <h3>Completed an enlistment of (MGIB):</h3>
-            <p>
-              The Montgomery GI Bill – Active Duty provides education benefits
-              to Veterans and Servicemembers who have served at least two years
-              of active duty. When using this tool, you will need to select the
-              length of your original active duty enlistment obligation in order
-              to get an estimate of your monthly benefit. The amount of time you
-              served (2 year enlistment vs. 3+ year enlistment) will impact your
-              monthly payment amount when using the Montgomery GI Bill. To learn
-              more about MGIB please visit
-              <a href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
-                  id="anch_399" target="_blank">
-                http://www.benefits.va.gov/gibill/mgib_ad.asp
-              </a>.
-            </p>
+        <Modal onClose={() => {this.toggleModalDisplay('enlistmentService')}} visible={!!this.state.modals.enlistmentService}>
+          <h3>Completed an enlistment of (MGIB):</h3>
+          <p>
+            The Montgomery GI Bill – Active Duty provides education benefits
+            to Veterans and Servicemembers who have served at least two years
+            of active duty. When using this tool, you will need to select the
+            length of your original active duty enlistment obligation in order
+            to get an estimate of your monthly benefit. The amount of time you
+            served (2 year enlistment vs. 3+ year enlistment) will impact your
+            monthly payment amount when using the Montgomery GI Bill. To learn
+            more about MGIB please visit
+            <a href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
+                id="anch_399" target="_blank">
+              http://www.benefits.va.gov/gibill/mgib_ad.asp
+            </a>.
+          </p>
         </Modal>
 
-        <Modal onClose={() => {this.toggleModalDisplay('consecutive_service');}} visible={this.state.modals.consecutive_service}>
-            <h3>Length of Longest Active Duty Tour (REAP)</h3>
-            <p>
-              The REAP program pays benefits to eligible Reservists or Guard
-              members who were called or ordered to active duty for at least 90
-              consecutive days in response to a war or national emergency
-              declared by the President or Congress. REAP payment amounts are
-              based on length of consecutive days of active duty service with
-              rates increasing at one year and again at two years of consecutive
-              service. To learn more about REAP please visit
-              <a href="http://www.benefits.va.gov/gibill/reap.asp"
-                  id="anch_403" target="_blank">
-                http://www.benefits.va.gov/gibill/reap.asp
-              </a>.
-            </p>
+        <Modal onClose={() => {this.toggleModalDisplay('consecutiveService')}} visible={!!this.state.modals.consecutiveService}>
+          <h3>Length of Longest Active Duty Tour (REAP)</h3>
+          <p>
+            The REAP program pays benefits to eligible Reservists or Guard
+            members who were called or ordered to active duty for at least 90
+            consecutive days in response to a war or national emergency
+            declared by the President or Congress. REAP payment amounts are
+            based on length of consecutive days of active duty service with
+            rates increasing at one year and again at two years of consecutive
+            service. To learn more about REAP please visit
+            <a href="http://www.benefits.va.gov/gibill/reap.asp"
+                id="anch_403" target="_blank">
+              http://www.benefits.va.gov/gibill/reap.asp
+            </a>.
+          </p>
         </Modal>
 
       </div>
     );
   }
-
-  renderVREBenefitsMessage() {
-    // onClick="track('Tool Tips', 'Voc Rehab Warning');"
-    return (
-      <div className="form-group top-aligned" id="voc-rehab-warning">
-        <p className="caption">To apply for VR&E benefits,
-          please <a href="http://vabenefits.vba.va.gov/vonapp/main.asp"
-              target="_blank">
-          visit this site.</a>
-        </p>
-      </div>
-    );
-  }
-
 }
 
 AboutYourselfFields.propTypes = {
-  labels: React.PropTypes.bool,
-  dropdowns: React.PropTypes.object
+  labels: React.PropTypes.bool
 };
 
 AboutYourselfFields.defaultProps = {

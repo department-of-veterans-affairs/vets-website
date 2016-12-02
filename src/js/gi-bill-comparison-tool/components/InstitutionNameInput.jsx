@@ -2,9 +2,9 @@ import React from 'react';
 import Autosuggest from 'react-autosuggest';
 import If from './If';
 
-import autocomplete_data from '../mocks/autocomplete';
+import autocompleteData from '../mocks/autocomplete';
 
-const api_base_url = 'http://localhost:3000/v0/gibct';
+// const apiBaseUrl = 'http://localhost:3000/v0/gibct';
 // note: '/institutions/autocomplete?term=' + value;
 
 const getSuggestionValue = suggestion => suggestion.value; // label would be better ux
@@ -25,20 +25,6 @@ class InstitutionNameInput extends React.Component {
     };
   }
 
-  handleChange(event, { newValue }) {
-    this.setState((prevState, props) => {
-      prevState.value = newValue;
-      return prevState;
-    });
-  }
-
-  getSuggestions = value => {
-    let suggestions = autocomplete_data().filter((school) => {
-      return school.label.toLowerCase().startsWith(value.trim().toLowerCase());
-    });
-    return suggestions || [];
-  }
-
   onSuggestionsFetchRequested = ({ value }) => {
     if (this.state.suggestions) {
       this.setState({
@@ -54,10 +40,28 @@ class InstitutionNameInput extends React.Component {
     });
   }
 
+  getSuggestions = value => {
+    const suggestions = autocompleteData().filter((school) => {
+      return school.label.toLowerCase().startsWith(value.trim().toLowerCase());
+    });
+    return suggestions || [];
+  }
+
+  handleChange(event, { newValue }) {
+    this.setState((prevState) => {
+      const newState = prevState;
+      newState.value = newValue;
+      return newState;
+    });
+  }
+
   shouldRenderSuggestions = value => {
     return value.trim().length > 2;
   }
 
+  identifier(name) {
+    return name.replace(/_/g, '-');
+  }
 
   render() {
     const { value, suggestions } = this.state;
@@ -96,10 +100,6 @@ class InstitutionNameInput extends React.Component {
         </div>
       </span>
     );
-  }
-
-  identifier(name) {
-    return name.replace(/\_/g, '-');
   }
 }
 

@@ -2,7 +2,6 @@ import React from 'react';
 import If from './If';
 import InstitutionNameInput from './InstitutionNameInput';
 
-
 class AboutYourSchoolFields extends React.Component {
 
   render() {
@@ -17,17 +16,17 @@ class AboutYourSchoolFields extends React.Component {
 
               <input type="radio" id="online-classes-all"
                   name="online_classes" value="yes"
-                  defaultChecked={this.props.online_classes && this.props.online_classes === 'all'}/>
+                  defaultChecked={this.props.onlineClasses && this.props.onlineClasses === 'all'}/>
               <label className="radio" htmlFor="online-classes-all" style={{ display: 'inline-block' }}>All</label>
 
               <input type="radio" id="online-classes-no"
                   name="online_classes" value="no"
-                  defaultChecked={!this.props.online_classes || this.props.online_classes === 'no'}/>
+                  defaultChecked={!this.props.onlineClasses || this.props.onlineClasses === 'no'}/>
               <label className="radio" htmlFor="online-classes-no" style={{ display: 'inline-block' }}>No</label>
 
               <input type="radio" id="online-classes-both"
                   name="online_classes" value="both"
-                  defaultChecked={this.props.online_classes && this.props.online_classes === 'both'}/>
+                  defaultChecked={this.props.onlineClasses && this.props.onlineClasses === 'both'}/>
               <label className="radio" htmlFor="online-classes-both" style={{ display: 'inline-block' }}>Both</label>
             </div>
           </If>
@@ -50,7 +49,8 @@ class AboutYourSchoolFields extends React.Component {
 }
 
 AboutYourSchoolFields.propTypes = {
-  labels: React.PropTypes.bool
+  labels: React.PropTypes.bool,
+  onlineClasses: React.PropTypes.string.isRequired
 };
 
 AboutYourSchoolFields.defaultProps = {

@@ -57,7 +57,7 @@ class SearchPage extends React.Component {
                 locals: { url: @kilter.to_href(profile_path, @inputs, page: @page) }
               %>
               */}
-              <SearchResult facility_code="123423423" caution_flag gibill={21} institution="harvard" country="usa" city="Boston" state="ma"/>
+              <SearchResult facilityCode="123423423" cautionFlag gibill={21} institution="harvard" country="usa" city="Boston" state="ma"/>
             </div>
 
           </div>

@@ -10,22 +10,17 @@ class Dropdown extends React.Component {
     };
   }
 
-  render() {
-    if (!this.props.visible) {
-      return null;
+  // renders a list of options defined as an array
+  // in the form of [value1, label1, value2, label2...]
+  renderDropdownOptions(optionsArray) {
+    const options = Object.assign([], optionsArray);
+    const results = [];
+    while (options.length > 1) {
+      let key = options.shift();
+      let label = options.shift();
+      results.push(<option key={key} value={key}>{label}</option>);
     }
-    return (
-      <div id={this.props.identifier + '-form'} className={this.props.className}>
-        {this.renderLabel()}
-        <select id={this.props.identifier}
-            name={this.props.identifier.replace(/\-/g, '_')}
-            alt={this.props.alt}
-            onChange={(e) => { this.props.onChange(e) && this.setState({ value: event.target.value }); }}
-            defaultValue={this.props.defaultOption}>
-          {this.renderDropdownOptions(this.props.options)}
-        </select>
-      </div>
-    );
+    return results;
   }
 
   renderLabel() {
@@ -35,22 +30,23 @@ class Dropdown extends React.Component {
     return this.props.children;
   }
 
-  renderDropdownOptions(optionsArray) {
-    optionsArray = Object.assign([], optionsArray);
-    if (optionsArray.length % 2 !== 0) {
-      console.warn(optionsArray, 'contains odd number of elements');
+  render() {
+    if (!this.props.visible) {
+      return null;
     }
-    let results = [];
-    while (optionsArray.length > 1) {
-      let key = optionsArray.shift();
-      let label = optionsArray.shift();
-      results.push(
-        <option key={key} value={key}>{label}</option>
-      );
-    }
-    return results;
+    return (
+      <div id="{this.props.identifier}-form" className={this.props.className}>
+        {this.renderLabel()}
+        <select id={this.props.identifier}
+            name={this.props.identifier.replace(/\-/g, '_')}
+            alt={this.props.alt}
+            onChange={(e) => { return this.props.onChange(e) && this.setState({ value: event.target.value }); }}
+            defaultValue={this.props.defaultOption}>
+          {this.renderDropdownOptions(this.props.options)}
+        </select>
+      </div>
+    );
   }
-
 }
 
 Dropdown.propTypes = {
