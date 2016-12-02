@@ -146,8 +146,10 @@ class SearchControls extends Component {
   }
 
   renderServiceSelectOption(serviceType) {
+    const { isMobile } = this.props;
+
     return (
-      <span className="flex-center">{truncate((serviceType || 'All').split(/(?=[A-Z])/).join(' '), { length: 20 })}</span>
+      <span className="flex-center">{truncate((serviceType || 'All').split(/(?=[A-Z])/).join(' '), { length: (isMobile ? 38 : 27) })}</span>
     );
   }
 
