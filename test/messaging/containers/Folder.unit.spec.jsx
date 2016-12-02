@@ -18,7 +18,10 @@ const props = {
     ['personal-folder', {}],
   ]),
   filter: undefined,
-  loading: false,
+  loading: {
+    inProgress: false,
+    request: null
+  },
   messages: [
     { body: 'test1' },
     { body: 'test2' },
@@ -29,6 +32,10 @@ const props = {
   messageCount: 5,
   page: 1,
   params: { folderName: 'inbox' },
+  sort: {
+    value: 'sentDate',
+    order: 'DESC'
+  },
   totalPages: 1,
 
   // No-op function to override dispatch

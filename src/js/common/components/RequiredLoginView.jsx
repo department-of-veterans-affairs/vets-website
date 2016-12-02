@@ -2,7 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 
 import environment from '../helpers/environment.js';
-import { handleVerify } from '../helpers/login-helpers.js';
+import { handleVerify, addEvent } from '../helpers/login-helpers.js';
 
 import SystemDownView from './SystemDownView';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -12,6 +12,7 @@ class RequiredLoginView extends React.Component {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
     this.setUserLevel = this.setUserLevel.bind(this);
     this.setInitialLevel = this.setInitialLevel.bind(this);
 
@@ -34,13 +35,16 @@ class RequiredLoginView extends React.Component {
       this.setState({ loginUrl: result.authenticate_via_get });
     });
 
-    window.addEventListener('message', this.setInitialLevel);
+    addEvent(window, 'message', (evt) => {
+      this.setInitialLevel(evt);
+    });
+
     setTimeout(() => {
       this.setState({ loading: false });
     }, 2000);
   }
 
-  setInitialLevel() {
+  setInitialLevel(event) {
     if (event.data === sessionStorage.userToken) {
       this.setUserLevel();
     }
@@ -72,8 +76,13 @@ class RequiredLoginView extends React.Component {
 
   handleLogin() {
     const myLoginUrl = this.state.loginUrl;
-    // TODO(crew): Check on how this opens on mobile.
-    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  }
+
+  handleSignup() {
+    const myLoginUrl = this.state.loginUrl;
+    const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 
@@ -94,7 +103,7 @@ class RequiredLoginView extends React.Component {
             <p>To refill a prescription, send a secure message to your healthcare provider, or check the status of a disability claim, sign in to Vets.gov.</p>
             <p>
               <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Sign In</strong></button>
-              <button className="va-button-secondary usa-button-big" onClick={this.handleLogin}><strong>Create an account</strong></button>
+              <button className="va-button-secondary usa-button-big" onClick={this.handleSignup}><strong>Create an account</strong></button>
             </p>
           </div>
         </div>

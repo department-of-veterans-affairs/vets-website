@@ -6,10 +6,10 @@ permalink: /employment/index.html
 template: L2-section-landing
 concurrence: complete
 majorlinks:
-  - url: http://www.dol.gov/veterans/findajob/
+  - url: https://www.dol.gov/veterans/findajob/
     title: Find a Job
     description: Search for jobs and check out our career-development resources.
-  - url: http://www.dol.gov/veterans/hireaveteran
+  - url: https://www.dol.gov/veterans/hireaveteran/
     title: Hire a Veteran
     description: Post jobs and learn about hiring qualified Veterans.
 secondarylinkstitle: "Explore other ways to start a career"

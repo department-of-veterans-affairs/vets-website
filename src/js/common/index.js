@@ -30,3 +30,4 @@ require('polyfill-function-prototype-bind');
 // Used in the footer.
 require('../legacy/menu.js');
 require('../legacy/toggle-veterans-crisis-line.js');
+require('./utils/sticky-action-box.js');

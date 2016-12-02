@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import {
+  closeAdvancedSearch,
   closeAttachmentsModal,
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
+  fetchFolders,
   openCreateFolderModal,
   setCurrentFolder,
   setNewFolderName,
@@ -28,9 +30,18 @@ export class Main extends React.Component {
     this.handleSubmitCreateNewFolder = this.handleSubmitCreateNewFolder.bind(this);
   }
 
+  componentDidMount() {
+    this.props.fetchFolders();
+  }
+
   handleFolderChange(domEvent) {
     const folderId = domEvent.target.dataset.folderid;
     this.props.setCurrentFolder(folderId);
+    this.props.toggleFolderNav();
+
+    if (this.props.isVisibleAdvancedSearch) {
+      this.props.closeAdvancedSearch();
+    }
   }
 
   handleFolderNameChange(field) {
@@ -67,7 +78,7 @@ export class Main extends React.Component {
               isExpanded={this.props.nav.foldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
               onCreateNewFolder={this.props.openCreateFolderModal}
-              onFolderChange={this.handleOnFolderChange}/>
+              onFolderChange={this.handleFolderChange}/>
         </div>
         <div id="messaging-content">
           {this.props.children}
@@ -105,16 +116,19 @@ const mapStateToProps = (state) => {
     attachmentsModal: state.modals.attachments,
     createFolderModal: state.modals.createFolder,
     folders,
+    isVisibleAdvancedSearch: state.search.advanced.visible,
     nav: state.folders.ui.nav,
     persistFolder: state.folders.data.currentItem.persistFolder
   };
 };
 
 const mapDispatchToProps = {
+  closeAdvancedSearch,
   closeAttachmentsModal,
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
+  fetchFolders,
   openCreateFolderModal,
   setCurrentFolder,
   setNewFolderName,
