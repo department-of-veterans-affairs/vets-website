@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Work and Learn
 concurrence: complete
+plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 relatedlinks:
   - url: /education/work-learn/workstudy/
@@ -22,4 +23,4 @@ relatedlinks:
 
 ---
 
-We may help you pay for non-traditional education programs, like on-the-job-training, apprenticeships, overseas schools, and correspondence training. Some of these may allow you to work and get training at the same time. 
+We can help you pay for non-traditional education programs, like on-the-job-training, apprenticeships, overseas schools, and correspondence training. Some of these programs allow you to work and get training at the same time. Find out if you qualify for these non-traditional education programs.
