@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Education Benefits
+plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 permalink: /education/index.html
 template: L2-section-landing
 showactionbar: false
@@ -27,8 +28,8 @@ relatedlinks:
    description: Explore on-the-job training, online and correspondence study, and other programs.
  - url: /education/other-educational-assistance-programs/
    title: Other Educational Assistance Programs
-   description: REAP, VEAP, and Call to Service.
+   description: If you don't qualify for the Post-9/11 GI Bill, you can apply for education benefits through VEAP and Call to Service. REAP ended in 2015, but some benefits stay in place for a couple more years.
 ---
 
-We offer Veterans, Servicemembers, and their families generous educational opportunities and benefits like tuition, help finding the right school or training program, and career counseling.   
+We offer Veterans, Servicemembers, and their families education benefits like tuition, help finding the right school or training program, and career counseling.   
 
