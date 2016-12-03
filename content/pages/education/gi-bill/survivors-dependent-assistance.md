@@ -90,7 +90,7 @@ You may qualify for both of these programs, but you can use only 1 of them. Youâ
   </tr>
 
   <tr>
-    <th scope="row"><strong>Getting both DIC and Education Benefits for Spouse</strong></th>
+    <th scope="row"><strong>Spouse Gets Both DIC and Education Benefits at Once</strong></th>
     <td>Yes</td>
     <td>Yes</td>
   </tr>
