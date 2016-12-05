@@ -3,6 +3,10 @@
 
 
 .facility-locator {
+  .highlight {
+    margin-bottom: 0.5em !important;;
+  }
+
   .title-section {
     padding: 0.5rem 0;
   }
@@ -13,8 +17,8 @@
   }
 
   .leaflet-container {
-      height: 500px;
-      width: 100%;
+    height: 500px;
+    width: 100%;
   }
 
   .facility-phone-table
