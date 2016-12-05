@@ -1414,6 +1414,12 @@ a.twitter {
       }
     }
 
+    .crisis-row {
+      @media #{$medium-only} {
+        padding-right: 0em;
+      }
+    }
+
     .row {
       padding: 0 0.75em;
     }
