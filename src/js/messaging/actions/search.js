@@ -1,4 +1,6 @@
 import {
+  CLOSE_ADVANCED_SEARCH,
+  OPEN_ADVANCED_SEARCH,
   SET_ADVSEARCH_START_DATE,
   SET_ADVSEARCH_END_DATE,
   SET_SEARCH_PARAM,
@@ -8,6 +10,18 @@ import {
 export function toggleAdvancedSearch() {
   return {
     type: TOGGLE_ADVANCED_SEARCH
+  };
+}
+
+export function closeAdvancedSearch() {
+  return {
+    type: CLOSE_ADVANCED_SEARCH
+  };
+}
+
+export function openAdvancedSearch() {
+  return {
+    type: OPEN_ADVANCED_SEARCH
   };
 }
 
