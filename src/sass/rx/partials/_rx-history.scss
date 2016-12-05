@@ -31,7 +31,7 @@
       // Get the prescription name to appear above the other fields.
       &:nth-child(3) { display: table-header-group; }
 
-      &:nth-child(1):before { content: "Last requested date: "; }
+      &:nth-child(1):before { content: "Last submit date: "; }
       &:nth-child(2):before { content: "Last fill date: "; }
       &:nth-child(4):before { content: "Prescription status: "; }
     }

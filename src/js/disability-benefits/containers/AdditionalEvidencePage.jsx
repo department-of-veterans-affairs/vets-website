@@ -81,7 +81,7 @@ class AdditionalEvidencePage extends React.Component {
                 <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                   <li><Link to="your-claims">Your claims</Link></li>
                   <li><Link to={filesPath}>Your Disability Compensation Claim</Link></li>
-                  <li className="active">Additional Evidence</li>
+                  <li className="active">Additional evidence</li>
                 </ul>
               </nav>
             </div>
@@ -94,7 +94,7 @@ class AdditionalEvidencePage extends React.Component {
                     <Element name="uploadError"/>
                     <Notification title={message.title} body={message.body} type={message.type}/>
                   </div>}
-                <h1 className="claims-header">Additional Evidence</h1>
+                <h1 className="claims-header">Additional evidence</h1>
                 <EvidenceWarning/>
                 <AddFilesForm
                     field={this.props.uploadField}
