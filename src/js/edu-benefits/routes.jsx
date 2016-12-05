@@ -52,19 +52,19 @@ const routes = [
       component={FormPage}
       fieldsComponent={BenefitsSelectionFields}
       reviewComponent={BenefitsSelectionReview}
-      key="/benefits-eligibility/benefits-selection"
-      path="/benefits-eligibility/benefits-selection"
+      key="/benefits-eligibility/benefit-selection"
+      path="/benefits-eligibility/benefit-selection"
       chapter={chapterNames.benefitsEligibility}
-      name="Benefits selection"/>,
+      name="Benefit selection"/>,
   <Route
       component={FormPage}
       fieldsComponent={BenefitsRelinquishmentFields}
       reviewComponent={BenefitsRelinquishmentReview}
-      key="/benefits-eligibility/benefits-relinquishment"
-      path="/benefits-eligibility/benefits-relinquishment"
+      key="/benefits-eligibility/benefit-relinquishment"
+      path="/benefits-eligibility/benefit-relinquishment"
       chapter={chapterNames.benefitsEligibility}
       depends={{ chapter33: true }}
-      name="Benefits relinquishment"/>,
+      name="Benefit relinquishment"/>,
   <Route
       component={FormPage}
       fieldsComponent={ServicePeriodsFields}
