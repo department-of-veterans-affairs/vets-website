@@ -2,7 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 
 import environment from '../helpers/environment.js';
-import { handleVerify, addEvent } from '../helpers/login-helpers.js';
+import { addEvent } from '../helpers/login-helpers.js';
 
 import SystemDownView from './SystemDownView';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -15,8 +15,8 @@ class RequiredLoginView extends React.Component {
     this.handleSignup = this.handleSignup.bind(this);
     this.setUserLevel = this.setUserLevel.bind(this);
     this.setInitialLevel = this.setInitialLevel.bind(this);
+    this.handleVerify = this.handleVerify.bind(this);
 
-    this.handleVerify = handleVerify;
     this.state = {
       accountType: 0,
       services: null,
@@ -33,6 +33,10 @@ class RequiredLoginView extends React.Component {
 
     this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
       this.setState({ loginUrl: result.authenticate_via_get });
+    });
+
+    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
+      this.setState({ verifyUrl: result.authenticate_via_get });
     });
 
     addEvent(window, 'message', (evt) => {
@@ -83,6 +87,11 @@ class RequiredLoginView extends React.Component {
   handleSignup() {
     const myLoginUrl = this.state.loginUrl;
     const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  }
+
+  handleVerify() {
+    const receiver = window.open(`${this.state.verifyUrl}`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 

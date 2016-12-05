@@ -1,12 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 
-import { handleVerify } from '../../common/helpers/login-helpers.js';
+import environment from '../../common/helpers/environment.js';
 
 class AuthApplicationSection extends React.Component {
   constructor(props) {
     super(props);
-    this.handleVerify = handleVerify;
+    this.handleVerify = this.handleVerify.bind(this);
+    this.state = {
+      verifyUrl: 0,
+    };
+  }
+  componentDidMount() {
+    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
+      this.setState({ verifyUrl: result.authenticate_via_get });
+    });
+  }
+
+  handleVerify() {
+    const receiver = window.open(`${this.state.verifyUrl}`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
   }
 
   render() {
