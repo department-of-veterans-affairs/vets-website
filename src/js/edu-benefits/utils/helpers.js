@@ -3,7 +3,7 @@ import moment from 'moment';
 
 export const chapterNames = {
   veteranInformation: 'Veteran Information',
-  benefitsEligibility: 'Benefits Eligibility',
+  benefitsEligibility: 'Benefits',
   militaryHistory: 'Military History',
   educationHistory: 'Education History',
   employmentHistory: 'Employment History',
