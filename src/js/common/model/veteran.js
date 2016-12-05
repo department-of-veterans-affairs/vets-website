@@ -786,7 +786,7 @@ function veteranToApplication(veteran) {
         if (value.value === '') {
           return undefined;
         }
-        return value.value.replace(/[- )(]/g, '');
+        return value.value.replace(/[^\d]/g, '');
 
       default:
         // fall through.
