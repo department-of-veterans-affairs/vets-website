@@ -99,16 +99,7 @@ class Main extends React.Component {
   }
 
   render() {
-    let content;
-
-    if (__BUILDTYPE__ !== 'production') {
-      content = (
-        <SignInProfileButton onUserLogin={this.handleLogin} onUserSignup={this.handleSignup} onUserLogout={this.handleLogout}/>
-      );
-    } else {
-      content = null;
-    }
-    return content;
+    return <SignInProfileButton onUserLogin={this.handleLogin} onUserSignup={this.handleSignup} onUserLogout={this.handleLogout}/>;
   }
 }
 
