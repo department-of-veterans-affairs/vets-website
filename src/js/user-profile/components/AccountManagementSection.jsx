@@ -6,9 +6,9 @@ class AccountManagementSection extends React.Component {
     return (
       <div className="profile-section medium-12 columns">
         <h4 className="section-header">Account Management</h4>
-        <div className="button-container medium-4 columns">
-          <a href="https://wallet.id.me/settings" target="_blank">
-            <button className="usa-button-outline va-button-warn">Delete Your Account</button>
+        <div className="button-container medium-12 columns">
+          <a href="https://wallet.id.me/settings" target="_blank" className="warn-exit usa-button-primary usa-button-outline usa-button-outline-exit transparent">
+            Delete Your Account
           </a>
         </div>
       </div>
