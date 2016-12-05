@@ -19,6 +19,7 @@ class AuthApplicationSection extends React.Component {
           <p><a href="/healthcare/apply">Apply for Healthcare</a></p>
           <p><a href="/education/apply-for-education-benefits">Apply for Education Benefits</a></p>
           <p><a href="/healthcare/prescriptions">Refill your prescription</a></p>
+          <p><a href="/healthcare/messaging">Message your health care team</a></p>
           <p><a href="/disability-benefits/track-claims">Check your disability compensation claim status</a></p>
         </div>
       );
@@ -30,6 +31,7 @@ class AuthApplicationSection extends React.Component {
           <p><a href="/education/apply-for-education-benefits">Apply for education benefits</a></p>
           <p><span className="label">You need to <a href="#" onClick={this.handleVerify}>verify your account</a> in order to:</span></p>
           <p>Refill your prescription</p>
+          <p>Message your health care team</p>
           <p>Check your disability compensation claim status</p>
         </div>
       );
