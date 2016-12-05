@@ -119,7 +119,7 @@ smith.destination(`../build/${options.buildtype}`);
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('gi-bill-comparison-tool/*');
+  ignoreList.push('gi/*');
 }
 smith.use(ignore(ignoreList));
 

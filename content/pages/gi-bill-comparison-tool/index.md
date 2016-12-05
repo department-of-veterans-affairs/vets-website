@@ -1,7 +1,7 @@
 ---
 title: GI Bill Comparison Tool
 layout: page-gi-bill-tool.html
-entryname: gi-bill-comparison-tool
+entryname: gi
 ---
 <div id="main">
   <div class="section">

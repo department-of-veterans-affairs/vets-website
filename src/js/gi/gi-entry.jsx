@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 import routes from './routes';
 
-require('../../sass/gi-bill-comparison-tool/gi-bill-comparison-tool.scss');
+require('../../sass/gi/gi.scss');
 
 function init() {
   ReactDOM.render(
