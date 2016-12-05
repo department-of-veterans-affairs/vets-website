@@ -319,8 +319,8 @@ function isValidContactInformationPage(data) {
   }
 
   return isValidAddressField(data.veteranAddress) &&
-      isValidField(isValidEmail, data.email) &&
-      isValidField(isValidEmail, data.emailConfirmation) &&
+      isValidRequiredField(isValidEmail, data.email) &&
+      isValidRequiredField(isValidEmail, data.emailConfirmation) &&
       emailConfirmationValid &&
       (isPhoneRequired ? isValidRequiredField(isValidPhone, data.homePhone) : isValidField(isValidPhone, data.homePhone)) &&
       isValidField(isValidPhone, data.mobilePhone);
