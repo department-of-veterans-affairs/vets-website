@@ -19,28 +19,29 @@ export class NewMessageForm extends React.Component {
     // Tests the subject group for errors
     const subjectError = validations.isValidSubjectLine(message.category, message.subject);
 
-    if (this.props.recipients) {
-      if (this.props.recipients.length) {
-        recipientsField = (
-          <MessageRecipient
-              errorMessage={validations.isValidRecipient(message.recipient) ? '' : composeMessage.errors.recipient}
-              cssClass="msg-recipient msg-field"
-              onValueChange={this.props.onRecipientChange}
-              options={this.props.recipients}
-              recipient={message.recipient}/>
-        );
-      } else {
-        // The list of recipients somehow came back empty.
-        recipientsField = <p>No recipients could be found.</p>;
-      }
+    if (this.props.recipients && this.props.recipients.length) {
+      recipientsField = (
+        <MessageRecipient
+            errorMessage={validations.isValidRecipient(message.recipient) ? '' : composeMessage.errors.recipient}
+            cssClass="msg-recipient msg-field"
+            onValueChange={this.props.onRecipientChange}
+            options={this.props.recipients}
+            recipient={message.recipient}/>
+      );
     } else {
-      // The request must have failed, so allow the user to retry.
+      // When there is no recipients list, it means the request has failed,
+      // so allow the user to retry. If the request returned an empty list
+      // for some reason, it could indicate a server-side issue.
+      const retryLink = !this.props.recipients && (
+        <a onClick={this.props.onFetchRecipients}>
+          Click here to retry loading recipients.
+        </a>
+      );
+
       recipientsField = (
         <p>
           No recipients could be found.&nbsp;
-          <a onClick={this.props.onFetchRecipients}>
-            Click here to retry loading recipients.
-          </a>
+          {retryLink}
         </p>
       );
     }
