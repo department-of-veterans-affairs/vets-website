@@ -3,8 +3,10 @@ import React from 'react';
 class IntroductionPage extends React.Component {
   componentDidMount() {
     const breadcrumbs = document.querySelector('.va-nav-breadcrumbs-list');
-    breadcrumbs.setAttribute('tabindex', '-1');
-    breadcrumbs.focus();
+    if (breadcrumbs) {
+      breadcrumbs.setAttribute('tabindex', '-1');
+      breadcrumbs.focus();
+    }
   }
   render() {
     return (
