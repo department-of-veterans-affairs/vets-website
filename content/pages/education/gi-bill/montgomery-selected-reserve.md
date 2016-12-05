@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Montgomery GI Bill Selected Reserve (MGIB-SR)
 concurrence: complete
+plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
