@@ -123,7 +123,7 @@ function isValidMonetaryValue(value) {
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
   // Strip spaces, dashes, and parens
-  const stripped = value.replace(/[- )(]/g, '');
+  const stripped = value.replace(/[^\d]/g, '');
   // Count number of digits
   return /^\d{10}$/.test(stripped);
 }
