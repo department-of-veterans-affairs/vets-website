@@ -3,6 +3,9 @@
 .crisis-line-container {
   position: relative;
   background: $color-gray-lightest;
+  @media #{$medium-up} {
+    width: 283px;
+  }
 
   .crisis-line-body {
     position: absolute;

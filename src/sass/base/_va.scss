@@ -1388,6 +1388,7 @@ a.twitter {
     color: $color-white;
     font-size: 0.8em;
     font-weight: 400;
+    flex: 1;
   }
 
   .va-notice--banner {
@@ -1395,10 +1396,6 @@ a.twitter {
     padding: 0;
     background: $color-primary-darker;
     color: $color-white;
-
-    .header {
-      padding: 0.5em 0;
-    }
 
     a.va-crisis-line {
       color: $color-base;
@@ -1419,6 +1416,11 @@ a.twitter {
     }
 
     .crisis-row {
+      @media #{$medium-up} {
+        display: flex;
+        align-items: flex-start;
+      }
+
       @media #{$medium-only} {
         padding-right: 0em;
       }
