@@ -1,9 +1,8 @@
-{% if (majorlinks.length % 3) %}
+{% if majorlinks.length === 3 %}
   {% assign gridnum = 3 %}
 {% else %}
   {% assign gridnum = 2 %}
 {% endif %}
-
 
 <div class="navigation--major">
   <div class="row">

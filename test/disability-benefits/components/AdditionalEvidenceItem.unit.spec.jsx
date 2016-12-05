@@ -18,7 +18,7 @@ describe('<AdditionalEvidenceItem>', () => {
           item={item}/>
     );
 
-    expect(tree.subTree('.additional-evidence').text()).to.equal('Additional Evidence');
+    expect(tree.subTree('.additional-evidence').text()).to.equal('Additional evidence');
     expect(tree.subTree('.submission-item').text()).contain('File: testfile.pdf');
     expect(tree.subTree('.submission-item').text()).contain('Type: Test Type');
     expect(tree.everySubTree('.submission-date')).not.to.be.empty;
