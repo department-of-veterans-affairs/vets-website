@@ -12,9 +12,9 @@ majorlinks:
   - url: /employment/
     title: Careers and Employment
     description: Meaningful employment and career development for Veterans and their families.
-  - url: /healthcare/apply/
+  - url: /healthcare/
     title: Health Care
-    description: Apply for VA health care, including preventive care, primary care, and more.
+    description: Apply for and manage VA health care.
 
 ---
 <div class="splash">
@@ -49,9 +49,9 @@ majorlinks:
     </a>
   </div>
   <div class="medium-4 columns">
-    <a href="/gi-bill-comparison-tool/">
+    <a href="/education/apply-for-education-benefits/">
       <div class="outline-link-block">
-        View education benefits by school
+        Apply for education benefits
       </div>
     </a>
   </div>
