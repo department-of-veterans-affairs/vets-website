@@ -152,8 +152,8 @@ The amount of time it takes to review your claim depends on:
 
 ###### What happens after I file my claim?
 
-<ol class="process">
-<li class="step one wow fadeIn animated" markdown="1">
+<ol class="">
+<li>
 
 **Claim Received**
 
@@ -162,7 +162,7 @@ You'll see a notice from us in your Open Claims list within about 1 hour if you 
 
 </li>
 
-<li class="step two wow fadeIn animated" markdown="0">
+<li>
 
 **Initial Review**
 
@@ -171,7 +171,7 @@ A Veterans Service Representative (VSR) will review your claim. It will move to 
 
 </li>
 
-<li class="step three wow fadeIn animated" markdown="0">
+<li>
 
 **Evidence Gathering, Review, and Decision**
 
@@ -185,7 +185,7 @@ If we need more evidence during the review, your claim may return to this step m
 
 </li>
 
-<li class="step four wow fadeIn animated" markdown="0">
+<li>
 
 **Preparation for Notification**
 
@@ -194,7 +194,7 @@ We'll get your entire claim decision packet ready to be mailed.
 
 </li>
 
-<li class="step five last wow fadeIn animated" markdown="0">
+<li>
 
 **Claim Closed**
 
