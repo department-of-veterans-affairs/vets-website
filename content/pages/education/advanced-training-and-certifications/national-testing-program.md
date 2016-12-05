@@ -2,16 +2,17 @@
 layout: page-breadcrumbs.html
 title: National Testing Program
 template: 4-action-page-pending
+plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 concurrence: complete
 ---
 
-If you have to pay for a test(s) as part of the application process for college or other training, we may pay you back.
+Sometimes a college or training course requires you to take a test as part of the application process. We may pay you back for the cost of testing.
 
 <div class="call-out" markdown="1">
 
-### Can I get paid back for exam fees?
+### Can I get paid back for testing fees?
 
-You can get paid back for the cost of exams if you are a Veteran or Servicemember and you qualify for the GI Bill. 
+We will pay you back for the cost of exam and testing fees if you are a Veteran or Servicemember and you qualify for the GI Bill. 
 
 ### Who's covered
 
@@ -23,24 +24,26 @@ You can get paid back for the cost of exams if you are a Veteran or Servicemembe
 
 Payment for testing fees, including:
 
-- Registration fees
-- Fees for specialized tests
+- The cost to register
+- The cost of specialized tests
 - Administrative fees
 
 -----
 
 ### How do I get these benefits?
-- Proof of payment may be required.
-- [Learn how your GI Bill benefit package will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for testing expenses.
-- We can only pay you back for mandatory test fees.
 
-#### We won't reimburse you for the following fees:
+We will charge your GI Bill benefit package for testing expenses. [Learn about how we charge your GI Bill benefit package](https://gibill.custhelp.com/app/answers/detail/a_id/29).
 
-- Fees associated with pretests (such as Kaplan tests)
+- You may need to provide your proof of payment.
+- We'll pay you back only for mandatory test fees.
+
+#### We won't pay you back for:
+
+- Pretest costs (such as Kaplan tests)
 - Fees to get scores quickly
 - Optional items not required to take an approved test
 
-#### We have approved the following tests for reimbursement:
+#### We have approved and will pay you back for these tests:
 
 - SAT (formerly "Scholastic Assessment Test")
 - LSAT (Law School Admission Test)
