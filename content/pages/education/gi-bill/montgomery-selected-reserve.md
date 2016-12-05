@@ -7,6 +7,8 @@ template: 4-action-page-pending
 
 If you're a member of the Army Reserve, Navy Reserve, Air Force Reserve, Marine Corps Reserve, Coast Guard Reserve, Army National Guard, or Air National Guard, you may qualify for up to 36 months of education and training benefits under the Montgomery GI Bill Selected Reserve (MGIB-SR) program.
 
+<div class="call-out usa-content" markdown="1">
+
 ### Can I get education benefits under this program?
 You can if you have a 6 year service obligation in the Selected Reserve. If you're an officer, you must have agreed to serve 6 years in addition to your original obligation, and 
   - You complete your initial active duty for training (IADT), **and**
@@ -32,9 +34,6 @@ You can use up to $368 per month in financial assistance for the following types
 
 
 View [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
-<div class="call-out" markdown="1">
-
------
 
 ### How do I get these benefits? 
 
