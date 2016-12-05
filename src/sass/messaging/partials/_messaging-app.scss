@@ -3,20 +3,14 @@
   max-width: $site-max-width;
 
   @media (min-width: $medium-screen) {
-    padding: 3rem 0;
+    padding: 3rem 1.5rem;
   }
 }
 
 
 #messaging-app-header {
-  padding: 0 1.5rem;
-}
-
-#messaging-main {
-  padding: 0 1.5rem;
-
   @media (max-width: $medium-screen) {
-    padding: 0;
+    padding: 0 1.5rem;
   }
 }
 
