@@ -15,7 +15,7 @@ majorlinks:
     description: Track the status of your disability claim
   - url: /disability-benefits/conditions/
     title: Conditions
-    description: Discover what illness or injuries (also known as conditions) qualify you for benefits
+    description: Discover what illness or injuries qualify you for benefits
   - url: /disability-benefits/claims-appeal/
     title: Appeals
     description: What to do if you disagree with your disability rating decision
@@ -25,8 +25,6 @@ relatedlinks:
     description: Understand the process and prepare carefully before applying.     
 ---
 
-If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. A disability can be a physical illness or injury (like cancer or damage to a knee) or a mental-health condition (like anxiety or PTSD).
+If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. A disability can be a physical illness or injury (like cancer or damage to a knee) or a mental-health condition (like anxiety or PTSD). This includes conditions that don't appear until years after your service ends, but are still related to your time in the military.
 
-VA disability compensation provides financial support and other benefits like health care to help Veterans with disabilities, illnesses, or injuries caused or made worse by active military service. This includes conditions that don't appear until years after your service ends, but are still related to your time in the military.
-
-Get answers to some common questions about disability benefits below.
+Find out how to get financial support and other benefits like health care.
