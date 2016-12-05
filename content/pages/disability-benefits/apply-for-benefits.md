@@ -4,6 +4,7 @@ title: Apply for Disability Benefits
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 7-get-page-alt
 showactionbar: false
+stickyactionbox: true
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
     title: What's the fastest way to get a claim decision?
@@ -25,21 +26,18 @@ relatedlinks:
     description: ""
 ---
 
-### Can I apply for disability benefits? 
+### Can I apply for disability benefits?
 
 <div class="row" markdown="0">
-<div class="small-12 medium-8 columns usa-content"  markdown="1">
+<div class="small-12 columns"  markdown="1">
 
 You can apply for benefits if:
 - You're a Veteran filing a claim for disability compensation or benefits
 - You're a Servicemember getting ready to end your active military service
 - You're a survivor of a Veteran or Servicemember who may qualify for these benefits
+
 </div>
 
-
-<div class="small-12 medium-4 columns actions">
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a>
-</div>
 </div>
 
 <div class="row" markdown="0"><br>
@@ -78,8 +76,7 @@ If you’ve already filed a claim, you can check your disability compensation cl
 </div>
 </div>
 
-<div class="row" markdown="0">
-<div class="small-12 columns divider margin top usa-content"  markdown="1">
+
 
 ### What are the steps to filing a disability claim?
 
@@ -144,7 +141,7 @@ Choose 1 of 3 ways:
 ###### How long will it take for VA to review my claim?
 The amount of time it takes to review your claim depends on:
 
-- The type of claim you filed 
+- The type of claim you filed
 - How many injuries or disabilities you claimed and how complex they are
 - How long it takes us to collect the evidence needed to decide your claim
 
@@ -169,7 +166,7 @@ You'll see a notice from us in your Open Claims list within about 1 hour if you 
 
 **Initial Review**
 
-A Veterans Service Representative (VSR) will review your claim. It will move to step 3 if we don’t need any more evidence to support it. 
+A Veterans Service Representative (VSR) will review your claim. It will move to step 3 if we don’t need any more evidence to support it.
 
 
 </li>
@@ -178,12 +175,12 @@ A Veterans Service Representative (VSR) will review your claim. It will move to 
 
 **Evidence Gathering, Review, and Decision**
 
-During this step, the VSR will do 3 things: 
+During this step, the VSR will do 3 things:
 - Ask for evidence from you, health care providers, governmental agencies, or others
-- Review the evidence 
-- Make a decision 
+- Review the evidence
+- Make a decision
 
-If we need more evidence during the review, your claim may return to this step more than once. After we make a final decision about your claim and approve an award, we’ll send you a letter by U.S. mail. 
+If we need more evidence during the review, your claim may return to this step more than once. After we make a final decision about your claim and approve an award, we’ll send you a letter by U.S. mail.
 
 
 </li>
@@ -192,7 +189,7 @@ If we need more evidence during the review, your claim may return to this step m
 
 **Preparation for Notification**
 
-We'll get your entire claim decision packet ready to be mailed. 
+We'll get your entire claim decision packet ready to be mailed.
 
 
 </li>
@@ -201,7 +198,7 @@ We'll get your entire claim decision packet ready to be mailed.
 
 **Claim Closed**
 
-We'll mail you a packet with a decision notice and award details. Please allow 5-7 business days for your packet to arrive before you contact a VA call center. 
+We'll mail you a packet with a decision notice and award details. Please allow 5-7 business days for your packet to arrive before you contact a VA call center.
 
 </div>
 
