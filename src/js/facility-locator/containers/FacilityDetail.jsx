@@ -41,7 +41,7 @@ class FacilityDetail extends Component {
 
     return (
       <div>
-        <h3>{name}</h3>
+        <h1>{name}</h1>
         <div className="p1">
           <FacilityAddress facility={facility}/>
         </div>
