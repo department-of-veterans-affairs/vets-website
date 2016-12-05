@@ -15,10 +15,10 @@ majorlinks:
     description: Track the status of your disability claim
   - url: /disability-benefits/conditions/
     title: Conditions
-    description: What illness or injuries (also known as conditions) qualify me for benefits?
+    description: Discover what illness or injuries (also known as conditions) qualify you for benefits
   - url: /disability-benefits/claims-appeal/
     title: Appeals
-    description: What if I disagree with my disability rating decision?
+    description: What to do if you disagree with your disability rating decision
 relatedlinks:
   - url: /disability-benefits/claims-process/
     title: Claims process
