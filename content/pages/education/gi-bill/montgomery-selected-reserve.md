@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Montgomery GI Bill Selected Reserve (MGIB-SR)
 concurrence: complete
+
 template: 4-action-page-pending
 ---
 
@@ -10,38 +11,45 @@ If you're a member of the Army, Navy, Air Force, Marine Corps or Coast Guard Res
 <div class="call-out usa-content" markdown="1">
 
 ### Can I get education benefits under this program?
-You can if you have a 6 year service obligation in the Selected Reserve. If you're an officer, you must have agreed to serve 6 years in addition to your original obligation, and 
-  - You complete your initial active duty for training (IADT), **and**
-  - You receive a high school diploma or equivalency certificate before completing IADT, **and**
-  - You remain in good standing while serving in an active Selected Reserve unit.
+You can get education benefits if:
+- You have a 6-year service obligation (you agreed to serve 6 years) in the Selected Reserve **or**
+- You're an officer in the Selected Reserve and you agreed to serve 6 years in addition to your initial service obligation
+
+And all of these are true:
+- You finish your initial active duty for training (IADT), **and**
+- You get a high school diploma or something of equal value, like a High School Equivalency Diploma or GED, before finishing IADT, **and**
+- You stay in good standing while serving in an active Selected Reserve unit.
 </div>
 
 ### What benefits can I get? 
 
-You can use up to $368 per month in financial assistance for the following types of training:
+We'll give you up to $368 per month in compensation (payments) for these types of training:
 
 - [Undergraduate and graduate programs](/education/gi-bill/higher-learning/)
 - [Co-op training](/education/work-learn/co-op-training/)
 - [Technical or vocational courses (non-college degree programs)](/education/work-learn/non-college-degree-program/)
 - [Flight training](/education/advanced-training-and-certifications/flight-training/)
 - [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
-- [High-tech training](/education/work-learn/non-traditional/accelerated-payments/) for Reservists pursuing a non-degree program of education lasting two years or less
+- [High-tech training](/education/work-learn/non-traditional/accelerated-payments/) for Reservists in a non-degree educational program lasting two years or less
 - [Licensing and certification tests](/education/advanced-training-and-certifications/licensing-certification/)
 - [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
 - [Certain entrance examinations (national testing)](/education/advanced-training-and-certifications/national-testing-program/)
 - [Correspondence courses](/education/work-learn/non-traditional/correspondence-training/)
-- Under certain circumstances, remedial, deficiency, and refresher courses
+- In some cases:
+  - Remedial courses (classes some students must take to build up their basic skills in math, reading, or English before they can take regular college courses),
+  - Deficiency courses (classes some student must take in order to be admitted to a certain college)
+  - Refresher courses (brief courses that help people review and improve their knowledge in a certain subject area)
 
 
-View [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
+Take a look at [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
 
 ### How do I get these benefits? 
 
-You need to apply. [Apply for benefits](/education/apply-for-education-benefits/).
+You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/).
 
-### Learn more
+### Get more information
 - Visit the [GI Bill customer service page](http://gibill.custhelp.com/) to search Frequently Asked Questions or to ask a question online.
-- Call <span class="tel">888-442-4551</span> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
-- For TDD/TYY, use 800-829-4833.
+- Call <span class="tel">888-442-4551</span> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) Monday through Friday.
+- For TDD/TYY, use <span class="tel">800-829-4833</span>.
 
 GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol&reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our Terms of Use.
