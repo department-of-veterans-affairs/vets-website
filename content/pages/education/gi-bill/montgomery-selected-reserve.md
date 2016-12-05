@@ -1,7 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Montgomery GI Bill Selected Reserve 
-(MGIB-SR)
+title: Montgomery GI Bill Selected Reserve (MGIB-SR)
 concurrence: complete
 template: 4-action-page-pending
 ---
