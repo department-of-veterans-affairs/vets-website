@@ -73,7 +73,7 @@ export class Thread extends React.Component {
       const shouldFetchRecipients =
         message &&
         this.props.isNewMessage &&
-        this.props.recipients.length === 0;
+        !this.props.recipients;
 
       if (shouldFetchRecipients) {
         this.props.fetchRecipients();
@@ -243,13 +243,12 @@ export class Thread extends React.Component {
         <NewMessageForm
             message={this.props.draft}
             recipients={this.props.recipients}
-            isDeleteModalVisible={this.props.modals.deleteConfirm.visible}
             onAttachmentsClose={this.props.deleteDraftAttachment}
             onAttachmentUpload={this.props.addDraftAttachments}
             onAttachmentsError={this.props.openAttachmentsModal}
             onBodyChange={this.props.updateDraft.bind(null, 'body')}
             onCategoryChange={this.props.updateDraft.bind(null, 'category')}
-            onDeleteMessage={this.handleDraftDelete}
+            onFetchRecipients={this.props.fetchRecipients}
             onRecipientChange={this.props.updateDraft.bind(null, 'recipient')}
             onSaveMessage={this.handleDraftSave}
             onSendMessage={this.handleDraftSend}
@@ -278,6 +277,10 @@ export class Thread extends React.Component {
   }
 
   render() {
+    if (this.props.isNewMessage && this.props.loadingRecipients) {
+      return <LoadingIndicator message="Loading the application..."/>;
+    }
+
     const loading = this.props.loading;
 
     if (loading.inProgress) {
@@ -387,11 +390,12 @@ const mapStateToProps = (state) => {
     isNewMessage,
     isSavedDraft,
     loading: state.messages.ui.loading,
+    loadingRecipients: state.recipients.loading,
     message,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
-    recipients: state.compose.recipients,
+    recipients: state.recipients.data,
     redirect: state.folders.ui.redirect,
     replyDetailsCollapsed: state.messages.ui.replyDetailsCollapsed,
     thread: state.messages.data.thread

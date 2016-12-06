@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { dirtyAllFields } from '../../common/model/fields';
 import NoticeBox from '../components/NoticeBox';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
@@ -114,6 +115,10 @@ export class Compose extends React.Component {
   }
 
   render() {
+    if (this.props.loading) {
+      return <LoadingIndicator message="Loading your application..."/>;
+    }
+
     return (
       <div>
         <div id="messaging-content-header">
@@ -139,6 +144,7 @@ export class Compose extends React.Component {
             onAttachmentsError={this.props.openAttachmentsModal}
             onBodyChange={this.props.setMessageField.bind(null, 'message.body')}
             onCategoryChange={this.props.setMessageField.bind(null, 'message.category')}
+            onFetchRecipients={this.props.fetchRecipients}
             onRecipientChange={this.props.setMessageField.bind(null, 'message.recipient')}
             onSaveMessage={this.saveDraftIfNoAttachments}
             onSendMessage={this.sendMessage}
@@ -167,7 +173,8 @@ Compose.contextTypes = {
 const mapStateToProps = (state) => {
   return {
     message: state.compose.message,
-    recipients: state.compose.recipients,
+    loading: state.recipients.loading,
+    recipients: state.recipients.data,
     redirect: state.folders.ui.redirect,
     deleteConfirmModal: state.modals.deleteConfirm,
     saveConfirmModal: state.modals.saveConfirm

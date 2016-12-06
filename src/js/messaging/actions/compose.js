@@ -4,6 +4,7 @@ import {
   DELETE_COMPOSE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
+  LOADING_RECIPIENTS,
   RESET_MESSAGE_OBJECT,
   SET_MESSAGE_FIELD,
 } from '../utils/constants';
@@ -39,6 +40,8 @@ export function deleteComposeAttachment(index) {
 export function fetchRecipients() {
   const url = '/recipients';
   return dispatch => {
+    dispatch({ type: LOADING_RECIPIENTS });
+
     apiRequest(
       url,
       null,
