@@ -63,7 +63,7 @@ relatedlinks:
 
 Average number of days to process disability-related claims during November 2016.
 
-If you’ve already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
+If you’ve already filed a claim, you can check your disability compensation claim status. [Check your status](/disability-benefits/track-claims/).
 
 </div>
 
@@ -162,7 +162,7 @@ Choose one of three ways:
 </div>
 
 <div class="actions">
-<a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation" class="usa-button-primary">Track the status of your claim at eBenefits</a>
+<a target="_blank" href="/disability-benefits/track-claims/" class="usa-button-primary">Track the status of your claim</a>
 </div>
 
 <div markdown="1">
