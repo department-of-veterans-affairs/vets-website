@@ -964,7 +964,7 @@ ul, ol {
 // Breadcrumbs
 .va-nav-breadcrumbs {
   background: $color-white;
-  color: $color-primary;
+  color: $color-link-default;
   font-size: inherit;
   padding: 1em 0;
 
@@ -992,7 +992,7 @@ ul, ol {
     }
   }
   a {
-    color: $color-primary;
+    color: $color-link-default;
     display: inline-block;
     padding: 2px;
 
