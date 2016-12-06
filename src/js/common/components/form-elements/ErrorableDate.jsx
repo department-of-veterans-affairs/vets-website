@@ -51,15 +51,20 @@ class ErrorableDate extends React.Component {
       daysForSelectedMonth = days[month.value];
     }
 
+    // we want to do validations in a specific order, so we show the message
+    // that makes the most sense to the user
     let isValid = true;
     let errorMessage;
     if (isDirtyDate(this.props.date)) {
+      // make sure the user enters a full date first, if required
       if (this.props.required && !isNotBlankDateField(this.props.date)) {
         isValid = false;
         errorMessage = this.props.requiredMessage;
+      // make sure the user has entered a minimally valid date
       } else if (!isValidPartialDate(day.value, month.value, year.value)) {
         isValid = false;
         errorMessage = this.props.invalidMessage;
+      // show any custom validation for this field once we know it's at least partially valid
       } else if (this.props.validation && !this.props.validation.valid) {
         isValid = this.props.validation.valid;
         errorMessage = this.props.validation.message;
