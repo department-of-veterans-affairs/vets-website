@@ -24,7 +24,7 @@ Georgia, North Carolina, Puerto Rico, U.S. Virgin Islands
 </p>
 <p>P.O. Box 100022<br>
 Decatur, GA 30031-7022<br>
-(800) 827-1000
+800-827-1000
 </p>
 
 <p>Office location:<br>
@@ -37,8 +37,8 @@ Decatur, GA 30033<br>
 <p>Buffalo RPO:
 Connecticut, Delaware, District of Columbia, Maine, Maryland, Massachusetts, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont, Virginia, foreign schools
 <p>P.O. Box 4616<br>
-Buffalo, NY 14240-4616
-(800) 827-1000
+Buffalo, NY 14240-4616<br>
+800-827-1000
 </p>
 
 <p>Office location:<br>
@@ -51,8 +51,8 @@ Buffalo, NY 14202<br>
 Alabama, Alaska, Arizona, Arkansas, California, Florida, Hawaii, Idaho, Louisiana, Mississippi, New Mexico, Nevada, Oklahoma, South Carolina, Texas, Utah, Washington, Trust Territories/Philippines
 </p>
 <p>P.O. Box 8888<br>
-Muskogee, OK 74402-8888
-(800) 827-1000
+Muskogee, OK 74402-8888<br>
+800-827-1000
 </p>
 
 <p>Office location:<br>
@@ -65,8 +65,8 @@ Muskogee, OK 74401<br>
 Colorado, Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Minnesota, Missouri, Montana, Nebraska, North Dakota, Ohio, South Dakota, Tennessee, Wisconsin, West Virginia, Wyoming
 </p>
 <p>P.O. Box 66830<br>
-St. Louis, MO 63166-6830
-(800) 827-1000
+St. Louis, MO 63166-6830<br>
+800-827-1000
 </p>
 
 
