@@ -1,23 +1,24 @@
 ---
 layout: page-breadcrumbs.html
 title: Entrepreneurship Training
+plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
 
-We offer entrepreneurship training for Veterans who'd like start a business. Training is done through the Small Business Administration. You don't have to use your GI Bill to be a part of this program.
+Want to start a business? We offer entrepreneurship training through the Small Business Administration. You can use your GI Bill benefits or other educational assistance programs to take part in entrepreneurship training.
 
 <div class="call-out" markdown="1">
 
 ### Can I get entrepreneurship training to start my own business?
 
-You can get entrepreneurship training if you qualify for any of these programs:
+You can get this training if you qualify for any of these programs:
 
-- [Post-9/11 GI Bill](/education/gi-bill/post-9-11)
-- Montgomery GI Bill, [Active Duty](/education/gi-bill/montgomery-active-duty) or [Selected Reserve](/education/gi-bill/montgomery-selected-reserve)
-- [Veterans' Educational Assistance Program (VEAP)](/education/other-educational-assistance-programs/veap)
+- [The Post-9/11 GI Bill](/education/gi-bill/post-9-11)
+- The Montgomery GI Bill, [Active Duty](/education/gi-bill/montgomery-active-duty) or [Selected Reserve](/education/gi-bill/montgomery-selected-reserve)
+- [The Veterans' Educational Assistance Program (VEAP)](/education/other-educational-assistance-programs/veap)
 
-**Note:** Dependents aren't able to get this training under DEA.
+**Note:** Dependents can't get this training under the Survivors’ and Dependents’ Educational Assistance (DEA) program.
 
 </div>
 
@@ -25,4 +26,4 @@ You can get entrepreneurship training if you qualify for any of these programs:
 
 [Contact your local VA Small Business Liaison](http://www.va.gov/osdbu/about/contacts.asp).
 
-Think about going to a [conference or informational event](http://www.va.gov/osdbu/library/events.asp). You can talk directly to VA Small Business Liaisons and entrepreneurs who often go to these events. 
+Go to a conference or event to talk directly to VA Small Business Liaisons and entrepreneurs. [Find a conference or event](http://www.va.gov/osdbu/library/events.asp).
