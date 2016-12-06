@@ -73,7 +73,6 @@ class ErrorableRadioButtons extends React.Component {
 
     const options = _.isArray(this.props.options) ? this.props.options : [];
     const storedValue = this.props.value.value;
-    let reactKey = 0;
     const optionElements = options.map((obj, index) => {
       let optionLabel;
       let optionValue;
@@ -91,8 +90,9 @@ class ErrorableRadioButtons extends React.Component {
       const checked = optionValue === storedValue ? 'checked=true' : '';
       const matchingSubSection = this.getMatchingSubSection(optionValue === storedValue, optionValue);
       const radioButton = (
-        <div className="form-radio-buttons">
+        <div key={optionAdditional ? undefined : index} className="form-radio-buttons">
           <input
+              autoComplete="false"
               checked={checked}
               id={`${this.inputId}-${index}`}
               name={`${this.props.name}-${index}`}
@@ -114,7 +114,7 @@ class ErrorableRadioButtons extends React.Component {
           <ExpandingGroup
               additionalClass="form-expanding-group-active-radio"
               open={checked}
-              key={reactKey++}>
+              key={index}>
             {radioButton}
             <div>{optionAdditional}</div>
           </ExpandingGroup>
