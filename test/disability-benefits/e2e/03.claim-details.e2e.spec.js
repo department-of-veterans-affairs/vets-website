@@ -30,7 +30,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .expect.element('a.va-tab-trigger.va-tab-trigger--current').text.to.equal('Details');
 
       client
-        .expect.element('.claim-types h6').text.to.equal('CLAIM TYPE');
+        .expect.element('.claim-types h6').text.to.equal('Claim Type');
       client
         .expect.element('.claim-conditions-list h6').text.to.equal('YOUR CLAIMED CONDITIONS');
       client
