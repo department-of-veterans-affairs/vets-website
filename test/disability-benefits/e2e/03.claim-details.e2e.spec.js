@@ -32,11 +32,11 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client
         .expect.element('.claim-types h6').text.to.equal('Claim Type');
       client
-        .expect.element('.claim-conditions-list h6').text.to.equal('YOUR CLAIMED CONDITIONS');
+        .expect.element('.claim-conditions-list h6').text.to.equal('Your Claimed Conditions');
       client
-        .expect.element('.claim-date-recieved h6').text.to.equal('DATE RECEIVED');
+        .expect.element('.claim-date-recieved h6').text.to.equal('Date Recieved');
       client
-        .expect.element('.claim-va-representative h6').text.to.equal('YOUR REPRESENTATIVE FOR VA CLAIMS');
+        .expect.element('.claim-va-representative h6').text.to.equal('Your Representative For VA Claims');
 
       client.end();
     }
