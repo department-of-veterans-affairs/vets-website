@@ -34,7 +34,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client
         .expect.element('.claim-conditions-list h6').text.to.equal('Your Claimed Conditions');
       client
-        .expect.element('.claim-date-recieved h6').text.to.equal('Date Recieved');
+        .expect.element('.claim-date-recieved h6').text.to.equal('Date Received');
       client
         .expect.element('.claim-va-representative h6').text.to.equal('Your Representative For VA Claims');
 
