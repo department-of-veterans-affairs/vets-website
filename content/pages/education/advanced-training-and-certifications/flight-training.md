@@ -5,7 +5,7 @@ template: 1-topic-landing
 concurrence: incomplete
 ---
 
-VA can help you pursue a career as a pilot in the aviation industry.
+Want to become a pilot? Find out how your VA education benefits can help pay for flight training.
 
 <div class="call-out" markdown="1">
 
