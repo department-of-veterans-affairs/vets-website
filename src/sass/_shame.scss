@@ -69,18 +69,6 @@ body .row {
   }
 }
 
-.review {
-  tbody {
-    tr {
-      td {
-        &:first-child {
-          color: $color-primary-darker;
-        }
-      }
-    }
-  }
-}
-
 .hidden {
   display: none !important;
 }
