@@ -28,7 +28,7 @@ export function showSchoolAddress(educationType) {
 export function dateToMoment(dateField) {
   return moment({
     year: dateField.year.value,
-    month: dateField.month.value - 1,
+    month: dateField.month.value ? parseInt(dateField.month.value, 10) - 1 : '',
     day: dateField.day.value
   });
 }

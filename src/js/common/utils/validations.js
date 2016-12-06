@@ -10,6 +10,10 @@ function validateIfDirty(field, validator) {
   return true;
 }
 
+function isDirtyDate(date) {
+  return date.day.dirty && date.year.dirty && date.month.dirty;
+}
+
 function validateIfDirtyDate(dayField, monthField, yearField, validator) {
   if (dayField.dirty && monthField.dirty && yearField.dirty) {
     return validator(dayField.value, monthField.value, yearField.value);
@@ -34,6 +38,13 @@ function isNotBlank(value) {
   return value !== '';
 }
 
+function isNotBlankDateField(field) {
+  return isNotBlank(field.day.value) && isNotBlank(field.month.value) && isNotBlank(field.year.value);
+}
+
+function isBlankDate(day, month, year) {
+  return isBlank(day) && isBlank(year) && isBlank(month);
+}
 // Conditions for valid SSN from the original 1010ez pdf form:
 // '123456789' is not a valid SSN
 // A value where the first 3 digits are 0 is not a valid SSN
@@ -88,9 +99,21 @@ function isValidDate(day, month, year) {
 function isValidAnyDate(day, month, year) {
   return moment({
     day,
-    month: parseInt(month, 10) - 1,
+    month: month ? parseInt(month, 10) - 1 : month,
     year
   }).isValid();
+}
+
+function isValidPartialDate(day, month, year) {
+  if ((day || month) && !year) {
+    return false;
+  }
+
+  if (year && Number(year) < 1900) {
+    return false;
+  }
+
+  return isBlankDate(day, month, year) || isValidAnyDate(day, month, year);
 }
 
 function isValidDateOver17(day, month, year) {
@@ -148,6 +171,10 @@ function isBlankDateField(field) {
 
 function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
+}
+
+function isValidPartialDateField(field) {
+  return isValidPartialDate(field.day.value, field.month.value, field.year.value);
 }
 
 function isValidFullNameField(field) {
@@ -538,5 +565,10 @@ export {
   isValidServiceInformation,
   isValidSection,
   isValidAnyDate,
-  isValidDateOver17
+  isValidDateOver17,
+  isDirtyDate,
+  isNotBlankDateField,
+  isValidPartialDate,
+  isValidDateField,
+  isValidPartialDateField
 };
