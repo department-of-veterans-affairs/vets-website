@@ -5,7 +5,7 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-We may pay Veterans back for licensing or certification exam costs.
+If you paid for 1 or more tests to become a licensed or certified professional, we may pay you back. Find out how.
 
 <div class="call-out" markdown="1">
 
