@@ -8,6 +8,7 @@ import {
   DELETE_DRAFT_ATTACHMENT,
   DELETE_MESSAGE_FAILURE,
   DELETE_MESSAGE_SUCCESS,
+  DELETING_MESSAGE,
   FETCH_THREAD_FAILURE,
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_MESSAGE_FAILURE,
@@ -15,10 +16,13 @@ import {
   LOADING_THREAD,
   MOVE_MESSAGE_FAILURE,
   MOVE_MESSAGE_SUCCESS,
+  MOVING_MESSAGE,
   SAVE_DRAFT_FAILURE,
   SAVE_DRAFT_SUCCESS,
+  SAVING_DRAFT,
   SEND_MESSAGE_FAILURE,
   SEND_MESSAGE_SUCCESS,
+  SENDING_MESSAGE,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_THREAD_FORM,
@@ -45,6 +49,8 @@ export function deleteMessage(id) {
   const url = `${baseUrl}/${id}`;
 
   return dispatch => {
+    dispatch({ type: DELETING_MESSAGE });
+
     apiRequest(
       url,
       { method: 'DELETE' },
@@ -100,6 +106,8 @@ export function moveMessageToFolder(messageId, folder) {
   const url = `${baseUrl}/${messageId}/move?folder_id=${folderId}`;
 
   return dispatch => {
+    dispatch({ type: MOVING_MESSAGE });
+
     apiRequest(
       url,
       { method: 'PATCH' },
@@ -120,6 +128,8 @@ export function createFolderAndMoveMessage(folderName, messageId) {
   };
 
   return dispatch => {
+    dispatch({ type: MOVING_MESSAGE });
+
     apiRequest(
       foldersUrl,
       settings,
@@ -167,6 +177,8 @@ export function saveDraft(message) {
   };
 
   return dispatch => {
+    dispatch({ type: SAVING_DRAFT });
+
     apiRequest(
       url,
       settings,
@@ -217,6 +229,8 @@ export function sendMessage(message) {
   };
 
   return dispatch => {
+    dispatch({ type: SENDING_MESSAGE });
+
     apiRequest(
       url,
       settings,
