@@ -2,28 +2,29 @@
 layout: page-breadcrumbs.html
 title: Principles of Excellence Program
 template: 1-topic-landing
+plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
-The Principles of Excellence program are guidelines for schools getting federal funding, like through the GI Bill.  Schools that are a part of the program must:
+The Principles of Excellence program requires schools that get federal funding through programs such as the GI Bill to follow certain guidelines. Schools that are a part of the program must:
 
-- Provide a personalized form to help you understand the total cost of your educational program, including:
-  - Costs covered by your benefits.
-  - Financial aid you may qualify for.
-  - Your estimated student-loan debt upon graduation.
+- Give you a written personal summary of the total cost of your educational program, including:
+  - The costs covered by your benefits.
+  - The financial aid you may qualify for.
+  - Your expected student-loan debt after you graduate.
   - Other information to help you compare aid packages offered by different schools.
-- Provide an educational plan with a completion timeline that shows how and when you can fulfill the requirements for graduation.
-- Designate a point of contact to provide you with ongoing academic and financial advice (including access to disability counseling).
-- Accommodate both long and short absences due to service obligations for active-duty Servicemembers and Reservists.
-- Ensure accreditation of all new programs before enrolling students.
-- Align their refund policies with those under Title IV, which governs the administration of federal student financial aid programs.
-- End fraudulent and aggressive recruiting techniques and misrepresentations.
+- Give you an educational plan with a timeline showing how and when you can fulfill everything required for you to graduate.
+- Assign you a point of contact who will give you ongoing academic and financial advice (including access to disability counseling).
+- Allow for you to be gone for both long and short periods of time due to service obligations (service you must fulfill) for active-duty Servicemembers and Reservists.
+- Make sure all new programs are accredited (officially approved) before enrolling students.
+- Make sure their refund policies follow Title IV rules, which guide federal student financial aid programs.
+- End fraudulent (deceitful) and aggressive methods of recruiting.
 
-Institutions that don't charge tuition and fees don't have to comply with the Principles of Excellence. This includes:
+Schools that don't charge tuition and fees don't have to follow the Principles of Excellence guidelines. These include:
 
 - Foreign schools
 - High schools
 - On-the-job training and apprenticeship programs
 - Residency and internship programs
 
-Use the [GI Bill Comparison Tool](https://vets.gov/gi-bill-comparison-tool/) to learn which schools are part of the program. You can also compare beneifts between different schools. 
+Use the GI Bill Comparison Tool to learn which schools are part of the program. You can also compare benefits offered by different schools. [Use the GI Bill Comparison Tool](https://vets.gov/gi-bill-comparison-tool/).
