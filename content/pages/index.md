@@ -12,7 +12,7 @@ majorlinks:
   - url: /employment/
     title: Careers and Employment
     description: Meaningful employment and career development for Veterans and their families.
-  - url: /healthcare/apply/
+  - url: /healthcare/
     title: Health Care
     description: Apply for VA health care, including preventive care, primary care, and more.
 
