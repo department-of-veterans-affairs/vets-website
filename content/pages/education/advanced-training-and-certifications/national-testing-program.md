@@ -6,7 +6,7 @@ plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 concurrence: complete
 ---
 
-Sometimes a college or training course requires you to take a test as part of the application process. We may pay you back for the cost of testing.
+If you had to take a test when you applied to a college or for a training course, we may pay you back for the cost of the test. Find out how.
 
 <div class="call-out" markdown="1">
 
