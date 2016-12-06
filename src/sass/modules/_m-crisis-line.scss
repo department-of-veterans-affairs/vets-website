@@ -1,18 +1,25 @@
 // TODO: Remove !important when .footer a selector gets simplified
 
-.header {
-  .flex-center {
-    display: flex;
-    align-items: center;
+.crisis-line-container {
+  position: relative;
+  background: $color-gray-lightest;
+  @media #{$medium-up} {
+    width: 283px;
   }
 
-  .crisis-line-container {
-    background: $color-white;
-    display: flex;
-    flex-direction: column;
-    padding: 0em 0.75em;
+  .crisis-line-body {
+    position: absolute;
+    right: 0;
+    background: $color-gray-lightest;
+    border-radius: 0 0 0.2em 0.2em;
+  }
+
+  .stacked {
+    margin: 0 auto;
+    padding: 0.4em 0 0.3em;
   }
 }
+
 
 .va-crisis-panel {
   color: $color-primary-darkest;
@@ -22,7 +29,6 @@
   position: relative;
   z-index: -1;
   width: 100%;
-  left: 0.03em;
 
   a {
     padding: 0;
@@ -35,6 +41,10 @@
   list-style: inherit;
   margin: 0;
   padding: 0;
+
+  a {
+    color: $color-base;
+  }
 
   p {
     margin: 0;
@@ -84,10 +94,9 @@
 }
 
 a.va-crisis-line {
-  background: $color-white url(/img/arrow-down.png) no-repeat 95% center;
+  background: $color-gray-lightest url(/img/arrow-down.png) no-repeat calc(100% - 0.5em) center;
   background-size: .8em auto;
   margin: 0;
-  padding: 0.25em 1em;
   text-align: left;
   font-size: 1em;
   width: 100%;
@@ -95,6 +104,8 @@ a.va-crisis-line {
   align-items: center;
   text-decoration: none;
   font-weight: bold;
+  padding-right: 26px;
+  border-radius: 0 0 0.2em 0.2em;
 
   span.vcl {
     content: "";
@@ -103,23 +114,7 @@ a.va-crisis-line {
     display: inline-block;
     width: 2em;
     height: 2em;
-    margin: 0.5em 0.5em 0 0.5em;
-  }
-
-  @media #{$medium-only} {
-    span.vcl {
-      width: 3em;
-      height: 3em;
-      margin: 0.5em 1em 0 0;
-    }
-  }
-
-  @media #{$small-only} {
-    span.vcl {
-      width: 4em;
-      height: 2em;
-      margin: 0.5em 1em 0 0;
-    }
+    margin: 0.3em 0.5em -0.3em 0.5em;
   }
 }
 
