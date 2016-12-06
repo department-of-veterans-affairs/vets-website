@@ -176,8 +176,7 @@ class ServicesAtFacility extends Component {
 
     return (
       <div>
-        <h4>Services</h4>
-        <hr className="title"/>
+        <h2 className="highlight">Services</h2>
         {services}
       </div>
     );
