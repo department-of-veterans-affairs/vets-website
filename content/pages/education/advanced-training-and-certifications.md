@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Advanced Training and Certifications
 concurrence: incomplete
+plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 relatedlinks:
   - url: /education/advanced-training-and-certifications/entrepreneurship-training
@@ -19,4 +20,4 @@ relatedlinks:
 ---
 
 
-You can use the GI Bill for more than just college. Get advanced training and certifications to work as a certified mechanic, medical technician, attorney, therapist, website developer, or in other professions and we'll help you pay the fees.   
+You can use the GI Bill for more than just college. Get advanced training or certification (credentials that vouch for your skills) to find a job as a skilled worker or professional such as a certified mechanic, a medical technician, an attorney, a therapist, or a website developer. We'll help you pay the fees.   
