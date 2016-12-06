@@ -6,13 +6,16 @@ import {
 import {
   CREATE_FOLDER_FAILURE,
   CREATE_FOLDER_SUCCESS,
+  CREATING_FOLDER,
   DELETE_FOLDER_FAILURE,
   DELETE_FOLDER_SUCCESS,
+  DELETING_FOLDER,
   FETCH_FOLDER_FAILURE,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_FAILURE,
   FETCH_FOLDERS_SUCCESS,
   LOADING_FOLDER,
+  LOADING_FOLDERS,
   RESET_REDIRECT,
   SET_CURRENT_FOLDER,
   TOGGLE_FOLDER_MOVE_TO,
@@ -30,6 +33,8 @@ export function fetchFolders() {
   const url = createUrlWithQuery(baseUrl, query);
 
   return dispatch => {
+    dispatch({ type: LOADING_FOLDERS });
+
     apiRequest(
       url,
       null,
@@ -89,6 +94,8 @@ export function createNewFolder(folderName) {
   };
 
   return dispatch => {
+    dispatch({ type: CREATING_FOLDER });
+
     apiRequest(
       baseUrl,
       settings,
@@ -104,6 +111,8 @@ export function createNewFolder(folderName) {
 export function deleteFolder(folder) {
   const url = `${baseUrl}/${folder.folderId}`;
   return dispatch => {
+    dispatch({ type: DELETING_FOLDER });
+
     apiRequest(
       url,
       { method: 'DELETE' },
