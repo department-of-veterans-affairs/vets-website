@@ -123,7 +123,7 @@ function isValidMonetaryValue(value) {
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
   // Strip spaces, dashes, and parens
-  const stripped = value.replace(/[- )(]/g, '');
+  const stripped = value.replace(/[^\d]/g, '');
   // Count number of digits
   return /^\d{10}$/.test(stripped);
 }
@@ -319,8 +319,8 @@ function isValidContactInformationPage(data) {
   }
 
   return isValidAddressField(data.veteranAddress) &&
-      isValidField(isValidEmail, data.email) &&
-      isValidField(isValidEmail, data.emailConfirmation) &&
+      isValidRequiredField(isValidEmail, data.email) &&
+      isValidRequiredField(isValidEmail, data.emailConfirmation) &&
       emailConfirmationValid &&
       (isPhoneRequired ? isValidRequiredField(isValidPhone, data.homePhone) : isValidField(isValidPhone, data.homePhone)) &&
       isValidField(isValidPhone, data.mobilePhone);
