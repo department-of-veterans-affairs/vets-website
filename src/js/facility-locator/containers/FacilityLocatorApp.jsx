@@ -1,11 +1,12 @@
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import React from 'react';
 
 class FacilityLocatorApp extends React.Component {
   renderBreadcrumbs() {
-    const { location } = this.props;
+    const { location, selectedFacility } = this.props;
 
-    if (location.pathname.match(/facilities\/facility\/\d/)) {
+    if (location.pathname.match(/facility\/[a-z]+_\d/) && selectedFacility) {
       return (
         <span>
           <li>
@@ -14,11 +15,12 @@ class FacilityLocatorApp extends React.Component {
             </Link>
           </li>
           <li className="active">
-            Facility Details
+            {selectedFacility.attributes.name}
           </li>
         </span>
       );
     }
+
     return (
       <li className="active">
         Facility Locator
@@ -47,4 +49,10 @@ class FacilityLocatorApp extends React.Component {
   }
 }
 
-export { FacilityLocatorApp };
+function mapStateToProps(state) {
+  return {
+    selectedFacility: state.facilities.selectedFacility,
+  };
+}
+
+export default connect(mapStateToProps, null)(FacilityLocatorApp);
