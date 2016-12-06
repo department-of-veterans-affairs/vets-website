@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Regional Offices
 concurrence: incomplete
+plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
@@ -12,10 +13,10 @@ template: 4-action-page-pending
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-Call <span class="tel">888-GIBILL-1 (888-442-4551)</span> between 7 a.m. - 6 p.m. Central Time, Monday-Friday if you need help with GI Bill claims. 
+Call <span class="tel">888-442-4551</span> (888-GIBILL-1) from 7:00 a.m. to 6:00 p.m. (CT), Monday through Friday, if you need help with your GI Bill claim. 
 
-You an also contact your VA Regional Processing Office (RPO) dirctly. 
-There are 4 RPOs in the United States. Here are the locations and the states included in each area. 
+You can also contact your VA Regional Processing Office (RPO) dirctly. 
+There are 4 RPOs in the United States. Here are the locations and the states that each RPO serves. 
 
 #### Atlanta, Georgia
 <p>Atlanta RPO:
@@ -27,7 +28,7 @@ Decatur, GA 30031-7022<br>
 </p>
 
 <p>Office location:<br>
-1700 Clairmont Rd<br>
+1700 Clairmont Rd.<br>
 Decatur, GA 30033<br>
 
 </p>
@@ -41,7 +42,7 @@ Buffalo, NY 14240-4616
 </p>
 
 <p>Office location:<br>
-130 S Elmwood Ave #601<br>
+130 S. Elmwood Ave. #601<br>
 Buffalo, NY 14202<br>
 </p>
 
@@ -55,7 +56,7 @@ Muskogee, OK 74402-8888
 </p>
 
 <p>Office location:<br>
-125 S Main St.<br>
+125 S. Main St.<br>
 Muskogee, OK 74401<br>
 </p>
 
@@ -70,7 +71,7 @@ St. Louis, MO 63166-6830
 
 
 <p>Office location:<br>
-400 S 18th St.<br>
+400 S. 18th St.<br>
 St. Louis, MO 63103<br>
 </p>
 
