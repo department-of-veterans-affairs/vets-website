@@ -20,4 +20,4 @@ relatedlinks:
 ---
 
 
-You can use the GI Bill for more than just college. Get advanced training or certification (credentials that vouch for your skills) to find a job as a skilled worker or professional such as a certified mechanic, a medical technician, an attorney, a therapist, or a website developer. We'll help you pay the fees.   
+You can use the GI Bill to help pay for more than just college. Start or advance your career as a skilled worker or professional—like a certified mechanic, medical technician, attorney, therapist, or website developer. Find out how we can help you pay for advanced training or certification (proof that you’ve fulfilled training requirements) in a range of professions.
