@@ -10,7 +10,7 @@ class FacilityLocatorApp extends React.Component {
       return (
         <span>
           <li>
-            <Link to="/facilities">
+            <Link to="/">
               Facility Locator
             </Link>
           </li>
