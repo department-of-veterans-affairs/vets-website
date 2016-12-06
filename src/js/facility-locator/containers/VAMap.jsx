@@ -372,7 +372,7 @@ class VAMap extends Component {
     return (
       <div>
         <div className="title-section">
-          <h3>Facility and Service Locator</h3>
+          <h1>Facility and Service Locator</h1>
         </div>
         {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
       </div>
