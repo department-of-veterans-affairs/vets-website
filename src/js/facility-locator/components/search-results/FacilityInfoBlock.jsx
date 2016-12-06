@@ -15,7 +15,7 @@ class FacilityInfoBlock extends Component {
       );
       return (
         <p>
-          Distance: <strong>{distance.toFixed(1)} miles</strong>
+          <strong>Distance:</strong> {distance.toFixed(1)} miles
         </p>
       );
     }
@@ -45,7 +45,7 @@ class FacilityInfoBlock extends Component {
         </p>
         {this.renderDistance()}
         <p>
-          <span>Facility type: <strong>{facilityTypes[facilityType]}</strong></span>
+          <span><strong>Facility type:</strong> {facilityTypes[facilityType]}</span>
         </p>
       </div>
     );

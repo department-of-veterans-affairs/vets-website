@@ -98,22 +98,6 @@ class SearchControls extends Component {
     const { currentQuery: { facilityType } } = this.props;
 
     switch (facilityType) {
-      case 'health':
-        return (
-          <ul className="dropdown">
-            {
-              [
-                'All',
-                'PrimaryCare',
-                'MentalHealth',
-              ].map(e => {
-                return (<li key={e} value={e} onClick={this.handleServiceFilterSelect.bind(this, e)}>
-                  {e.split(/(?=[A-Z])/).join(' ')}
-                </li>);
-              })
-            }
-          </ul>
-        );
       case 'benefits':
         return (
           <ul className="dropdown">
@@ -157,13 +141,15 @@ class SearchControls extends Component {
       case 'cemetery':
         return (<span className="flex-center"><span className="legend cemetery-icon"></span>Cemetery</span>);
       default:
-        return (<span className="flex-center"><span className="legend spacer"></span>All Facilities</span>);
+        return (<span className="flex-center all-facilities"><span className="legend spacer"></span>All Facilities</span>);
     }
   }
 
   renderServiceSelectOption(serviceType) {
+    const { isMobile } = this.props;
+
     return (
-      <span className="flex-center">{truncate((serviceType || 'All').split(/(?=[A-Z])/).join(' '), { length: 20 })}</span>
+      <span className="flex-center">{truncate((serviceType || 'All').split(/(?=[A-Z])/).join(' '), { length: (isMobile ? 38 : 27) })}</span>
     );
   }
 
