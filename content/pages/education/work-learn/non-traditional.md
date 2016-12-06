@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Non-Traditional Options
 concurrence: incomplete
+plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 relatedlinks:
   - url: /education/work-learn/non-traditional/accelerated-payments/
@@ -15,4 +16,4 @@ relatedlinks:
     description: ""
 ---
 
-You may find that mainstream college programs aren't a good fit for you. If you qualify for the GI Bill, you can use your benefit in a variety of non-traditional ways. 
+You may find that mainstream college programs aren't a good fit for you. If you qualify for the GI Bill, you can use your benefit in many non-traditional ways. 
