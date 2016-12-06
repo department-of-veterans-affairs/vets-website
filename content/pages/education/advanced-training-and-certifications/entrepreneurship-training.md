@@ -6,7 +6,7 @@ template: 1-topic-landing
 ---
 
 
-Want to start a business? We offer entrepreneurship training through the Small Business Administration. You can use your GI Bill benefits or other educational assistance programs to take part in entrepreneurship training.
+Want to start a business? We offer entrepreneurship training through the Small Business Administration. Find out how you can use your GI Bill benefits or our other educational assistance programs for training to become a business owner or entrepreneur. 
 
 <div class="call-out" markdown="1">
 
