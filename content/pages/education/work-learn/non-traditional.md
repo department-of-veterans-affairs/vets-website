@@ -16,4 +16,4 @@ relatedlinks:
     description: ""
 ---
 
-You may find that mainstream college programs aren't a good fit for you. If you qualify for the GI Bill, you can use your benefit in many non-traditional ways. 
+If college programs aren’t for you, you may be able to use your GI Bill benefit to help pay for other types of education. Learn more about non-traditional educational options below. 
