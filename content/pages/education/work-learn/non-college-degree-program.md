@@ -6,7 +6,7 @@ plainlanguage: 11-22-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
-Want to get specific training through a program that's not a college degree program? The GI Bill may pay all or part of your tuition for a program like HVAC repair, truck driving, or Emergency Medical Technician (EMT) training.
+Find out how to use the GI Bill to pay for specific training programs, like HVAC repair, truck driving, or Emergency Medical Technician (EMT) training.
 
 <div class="call-out" markdown="1">
 
