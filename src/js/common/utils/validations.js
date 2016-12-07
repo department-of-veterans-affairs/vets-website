@@ -15,7 +15,7 @@ function isDirtyDate(date) {
 }
 
 function validateIfDirtyDate(dayField, monthField, yearField, validator) {
-  if (dayField.dirty && monthField.dirty && yearField.dirty) {
+  if (isDirtyDate({ day: dayField, month: monthField, year: yearField })) {
     return validator(dayField.value, monthField.value, yearField.value);
   }
 
