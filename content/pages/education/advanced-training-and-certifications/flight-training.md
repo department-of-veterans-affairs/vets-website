@@ -28,7 +28,7 @@ You'll need to apply for benefits. [Apply for education benefits](/education/app
 
 #### The benefits depend on the benefit program you use:
 
-- If you use the MGIB or REAP, we will pay you back for 60% of the approved fees. [Learn more about the payments](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+- If you use the MGIB or REAP, we will pay you back for 60% of the approved fees. [Get more information about payments](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 - If you use the Post-9/11 GI Bill, your payment depends on what flight course you take and what type of school you attend.
     - If your school is a standalone Part 141 pilot school, we pay the school for the full cost of training up to a yearly limit*. See the [annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
     - If your school is a public college or university, we reimburses the school the full cost of tuition and fees*. 
