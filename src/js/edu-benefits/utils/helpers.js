@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import moment from 'moment';
+
+import { dateToMoment } from '../../common/utils/helpers';
 
 export const chapterNames = {
   veteranInformation: 'Veteran Information',
@@ -23,14 +24,6 @@ export function showSchoolAddress(educationType) {
     || educationType === 'flightTraining'
     || educationType === 'apprenticeship'
     || educationType === 'correspondence';
-}
-
-export function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value ? parseInt(dateField.month.value, 10) - 1 : '',
-    day: dateField.day.value
-  });
 }
 
 export function displayDateIfValid(dateObject) {
