@@ -4,7 +4,7 @@ title: Locate a School
 template: 1-topic-landing
 plainlanguage: 11-27-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
---
+---
 
 You can use VA education benefits at some—but not all—schools. 
 
