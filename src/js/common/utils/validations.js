@@ -22,13 +22,13 @@ function validateIfDirtyDate(dayField, monthField, yearField, validator) {
   return true;
 }
 
-function validateIfDirtyProvider(field1, field2, validator) {
-  if (field1.dirty || field2.dirty) {
-    return validator(field1.value, field2.value);
-  }
+// function validateIfDirtyProvider(field1, field2, validator) {
+//   if (field1.dirty || field2.dirty) {
+//     return validator(field1.value, field2.value);
+//   }
 
-  return true;
-}
+//   return true;
+// }
 
 function validateCustomFormComponent(customValidation) {
   // Allow devs to pass in an array of validations with messages and display the first failed one
@@ -553,26 +553,29 @@ function isValidSection(completePath, sectionData) {
   }
 }
 
-function initializeNullValues(value) {
-  if (value === null) {
-    return '';
-  } else if (_.isPlainObject(value)) {
-    return _.mapValues(value, (v, _k) => { return initializeNullValues(v); });
-  } else if (_.isArray(value)) {
-    return value.map(initializeNullValues);
-  }
+// function initializeNullValues(value) {
+//   if (value === null) {
+//     return '';
+//   } else if (_.isPlainObject(value)) {
+//     return _.mapValues(value, (v, _k) => { return initializeNullValues(v); });
+//   } else if (_.isArray(value)) {
+//     return value.map(initializeNullValues);
+//   }
 
-  return value;
-}
+//   return value;
+// }
 
 export {
   validateIfDirty,
   validateIfDirtyDate,
-  validateIfDirtyProvider,
-  initializeNullValues,
+  // validateIfDirtyProvider,
+  // initializeNullValues,
   isBlank,
+  isBlankDateField,
   isNotBlank,
+  isValidRequiredField,
   isValidDate,
+  isValidDateField,
   isValidName,
   isValidSSN,
   isValidMonetaryValue,
