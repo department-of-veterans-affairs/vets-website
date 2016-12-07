@@ -6,7 +6,7 @@ plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-We offer education benefits to support you while you learn a trade or skill through on-the-job training (OJT) or apprenticeships. Find out if you can get education benefits.
+You can get help paying for books, supplies, and housing while you’re learning a trade or skill through on-the-job training (OJT) or apprenticeships. Find out how to get education benefits.
 
 <div class="call-out" markdown="1">
 
