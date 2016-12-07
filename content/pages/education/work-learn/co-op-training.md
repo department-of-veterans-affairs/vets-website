@@ -28,7 +28,7 @@ Veterans
 
 -----
 
-### How much will I get if I join a co-op training?
+### How much will I get if I join a co-op training program?
 
 The amount we cover depends on the benefit you use. [View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
