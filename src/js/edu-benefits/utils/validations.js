@@ -27,14 +27,6 @@ function validateIfDirtyDateObj(date, validator) {
   });
 }
 
-// function validateIfDirtyProvider(field1, field2, validator) {
-//   if (field1.dirty || field2.dirty) {
-//     return validator(field1.value, field2.value);
-//   }
-
-//   return true;
-// }
-
 function isBlank(value) {
   return value === '';
 }
@@ -415,8 +407,6 @@ export {
   validateIfDirty,
   validateIfDirtyDate,
   validateIfDirtyDateObj,
-  // validateIfDirtyProvider,
-  initializeNullValues,
   isBlank,
   isNotBlank,
   isNotBlankDateField,
