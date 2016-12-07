@@ -27,14 +27,6 @@ function validateIfDirtyDateObj(date, validator) {
   });
 }
 
-// function validateIfDirtyProvider(field1, field2, validator) {
-//   if (field1.dirty || field2.dirty) {
-//     return validator(field1.value, field2.value);
-//   }
-
-//   return true;
-// }
-
 function isBlank(value) {
   return value === '';
 }
@@ -411,24 +403,10 @@ function isValidPage(completePath, pageData) {
   }
 }
 
-function initializeNullValues(value) {
-  if (value === null) {
-    return '';
-  } else if (_.isPlainObject(value)) {
-    return _.mapValues(value, (v, _k) => { return initializeNullValues(v); });
-  } else if (_.isArray(value)) {
-    return value.map(initializeNullValues);
-  }
-
-  return value;
-}
-
 export {
   validateIfDirty,
   validateIfDirtyDate,
   validateIfDirtyDateObj,
-  // validateIfDirtyProvider,
-  initializeNullValues,
   isBlank,
   isNotBlank,
   isNotBlankDateField,
