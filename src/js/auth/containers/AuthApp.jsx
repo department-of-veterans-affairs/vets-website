@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import $ from 'jquery';
 
 import environment from '../../common/helpers/environment.js';
@@ -21,9 +20,21 @@ class AuthApp extends React.Component {
   }
 
   setMyToken(token) {
-    window.opener.sessionStorage.removeItem('userToken');
-    window.opener.sessionStorage.setItem('userToken', token);
-    window.opener.postMessage(token, environment.BASE_URL);
+    // Internet Explorer 6-11
+    const isIE = /*@cc_on!@*/false || !!document.documentMode; // eslint-disable-line spaced-comment
+    // Edge 20+
+    const isEdge = !isIE && !!window.StyleMedia;
+
+    const parent = window.opener;
+    parent.sessionStorage.removeItem('userToken');
+    parent.sessionStorage.setItem('userToken', token);
+    parent.postMessage(token, environment.BASE_URL);
+
+    // This will trigger a browser reload if the user is using IE or Edge.
+    if (isIE || isEdge) {
+      // TODO(crew): Figure out the best alternative to postMessage because it is unreliable in IE.
+      window.opener.location.reload();
+    }
     window.close();
   }
 
@@ -39,10 +50,10 @@ class AuthApp extends React.Component {
     }).then(json => {
       const userData = json.data.attributes.profile;
       if (userData.loa.highest === 3) {
-        // This will require a user to MFA if they have not verified in the last 2 mins.
-        if (userData.loa.current === 3 && !(moment() > moment(userData.last_signed_in).add(2, 'm'))) {
+        if (userData.loa.current === 3 && sessionStorage.mfa_start) {
           this.setMyToken(myToken);
         } else {
+          sessionStorage.setItem('mfa_start', true);
           this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
             window.location.href = result.authenticate_via_get;
           });
@@ -57,7 +68,13 @@ class AuthApp extends React.Component {
     let view;
 
     if (this.props.location.query.token) {
-      view = <h3>Logging you in...</h3>;
+      view = (
+        <div className="overlay">
+          <div className="overlay-content">
+            <h3>Signing in to Vets.gov...</h3>
+          </div>
+        </div>
+      );
     } else {
       view = (
         <div>

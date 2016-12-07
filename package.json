@@ -14,13 +14,14 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
-    "test:unit": "BUILDTYPE=development mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
-    "test:coverage": "BUILDTYPE=development NODE_ENV=test nyc --all --reporter=text --reporter=html mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
+    "test:unit": "mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
+    "test:coverage": "NODE_ENV=test nyc --all --reporter=text --reporter=html mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:unit:msg": "mocha --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
     "test:unit:rx": "mocha --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
     "test:unit:login": "mocha --recursive 'test/login/**/*.unit.spec.js?(x)' ",
-    "test:watch": "BUILDTYPE=development mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
-    "watch": "node script/build.js --watch"
+    "test:watch": "mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
+    "watch": "node script/build.js --watch",
+    "watch:static": "npm run watch -- --entry no-react"
   },
   "repository": {
     "type": "git",
@@ -92,7 +93,7 @@
     "libxmljs": "^0.18.0",
     "lodash": "^4.5.1",
     "lodash-deep": "^2.0.0",
-    "mapbox": "^1.0.0-beta3",
+    "mapbox": "^1.0.0-beta5",
     "metalsmith": "^2.1.0",
     "metalsmith-archive": "^0.1.1",
     "metalsmith-assets": "^0.1.0",
@@ -154,6 +155,7 @@
     "tinyliquid": "^0.2.33",
     "url-loader": "^0.5.7",
     "uswds": "^0.10.0",
+    "vets-json-schema": "git://github.com/department-of-veterans-affairs/vets-json-schema#fb8a774f888a144c75f38096c89f33c548ff6085",
     "webpack": "^1.13.1",
     "whatwg-fetch": "http://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-1.0.0.tgz",
     "winston": "^2.2.0"

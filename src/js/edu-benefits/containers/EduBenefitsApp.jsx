@@ -62,8 +62,8 @@ class EduBenefitsApp extends React.Component {
     return (
       <div className="row">
         {devPanel}
+        <Element name="topScrollElement"/>
         <div className="medium-4 columns show-for-medium-up">
-          <Element name="topScrollElement"/>
           <Nav
               data={data}
               pages={pageState}

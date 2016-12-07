@@ -124,7 +124,7 @@ function isValidCanPostalCode(value) {
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
   // Strip spaces, dashes, and parens
-  const stripped = value.replace(/[- )(]/g, '');
+  const stripped = value.replace(/[^\d]/g, '');
   // Count number of digits
   return /^\d{10}$/.test(stripped);
 }
@@ -171,6 +171,13 @@ function isValidAddressField(field) {
   // if the entry was non-USA/CAN/MEX, only postal is
   // required, not provinceCode
   return initialOk && isNotBlank(field.postalCode.value);
+}
+
+function isBlankAddress(address) {
+  return isBlank(address.city.value)
+    && isBlank(address.state.value)
+    && isBlank(address.street.value)
+    && isBlank(address.postalCode.value);
 }
 
 function isValidInsurancePolicy(policyNumber, groupCode) {
@@ -294,7 +301,7 @@ function isValidContactInformationSection(data) {
 }
 
 function isValidFinancialDisclosure(data) {
-  return validateIfDirty(data.understandsFinancialDisclosure, _.identity);
+  return validateIfDirty(data.discloseFinancialInformation, isNotBlank);
 }
 
 function isValidIncome(income) {
@@ -520,6 +527,7 @@ export {
   isValidVaInformation,
   isValidVAFacility,
   isValidVeteranAddress,
+  isBlankAddress,
   isValidContactInformationSection,
   isValidSpouseInformation,
   isValidChildren,

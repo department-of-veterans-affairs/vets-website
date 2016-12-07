@@ -1,5 +1,6 @@
 @import "../style";
 @import "../modules/m-modal";
+@import "../modules/m-alert";
 @import "../modules/va-pagination";
 @import "../modules/va-tabs";
 
@@ -7,7 +8,6 @@
 @import "partials/rx-contact-card";
 @import "partials/rx-prescriptions";
 @import "partials/rx-detail";
-@import "partials/rx-disclaimer";
 @import "partials/rx-glossary";
 @import "partials/rx-history";
 @import "partials/rx-modal";
@@ -35,10 +35,6 @@
   padding: 3rem 1.5rem;
   margin: auto;
   max-width: $site-max-width;
-
-  .va-alert {
-    margin-bottom: 2rem;
-  }
 }
 
 // Enhances a USWDS style that has higher specificity.
@@ -68,11 +64,6 @@ button.usa-button-outline {
   margin: 0 0 3rem;
 }
 
-.rx-refill-form {
-  display: inline-block;
-  padding: 0;
-}
-
 // Used to make functional buttons look like links.
 .rx-trigger {
   background: transparent;
@@ -93,18 +84,13 @@ button.usa-button-outline {
   }
 }
 
-.rx-heading {
-  border-bottom: 4px solid #112e51;
-  margin-bottom: 1rem !important;
-  padding-bottom: .5rem !important;
-}
-
 .rx-tab-explainer {
   padding: 1rem 0;
 }
 
 .rx-loading-error {
   font-weight: bold;
+  width: 66%;
 }
 
 #rx-active, #rx-history, #rx-detail {

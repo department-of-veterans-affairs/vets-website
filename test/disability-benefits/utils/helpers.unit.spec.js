@@ -9,7 +9,6 @@ import {
   displayFileSize,
   getUserPhase,
   getUserPhaseDescription,
-  getHistoryPhaseDescription,
   getPhaseDescription,
   truncateDescription,
   getItemDate,
@@ -178,8 +177,7 @@ describe('Disability benefits helpers: ', () => {
           contentionList: [
             'thing'
           ],
-          dateFiled: 'asdf',
-          vaRepresentative: null
+          dateFiled: '',
         }
       };
 
@@ -194,7 +192,7 @@ describe('Disability benefits helpers: ', () => {
             'thing'
           ],
           dateFiled: 'asdf',
-          vaRepresentative: 'asdf'
+          vaRepresentative: null
         }
       };
 
@@ -278,13 +276,6 @@ describe('Disability benefits helpers: ', () => {
       const desc = getUserPhaseDescription(3);
 
       expect(desc).to.equal('Evidence gathering, review, and decision');
-    });
-  });
-  describe('getHistoryPhaseDescription', () => {
-    it('should use micro phases for phase 3', () => {
-      const desc = getHistoryPhaseDescription(3);
-
-      expect(desc).to.equal('Gathering of evidence');
     });
   });
   describe('getPhaseDescription', () => {
@@ -399,7 +390,7 @@ describe('Disability benefits helpers: ', () => {
       makeAuthRequest('/testing', null, sinon.spy(), onSuccess);
 
       expect(fetchMock.called).to.be.true;
-      expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
+      expect(fetchMock.firstCall.args[0]).to.contain('/testing');
       expect(fetchMock.firstCall.args[1].method).to.equal('GET');
     });
     it('should reject promise when there is an error', (done) => {
@@ -415,7 +406,7 @@ describe('Disability benefits helpers: ', () => {
       makeAuthRequest('/testing', null, sinon.spy(), sinon.spy(), onError);
 
       expect(fetchMock.called).to.be.true;
-      expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
+      expect(fetchMock.firstCall.args[0]).to.contain('/testing');
       expect(fetchMock.firstCall.args[1].method).to.equal('GET');
     });
     it('should dispatch auth error', (done) => {

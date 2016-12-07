@@ -1,7 +1,6 @@
-export function closeRefillModal(rx) {
+export function closeRefillModal() {
   return {
-    type: 'CLOSE_REFILL_MODAL',
-    rx
+    type: 'CLOSE_REFILL_MODAL'
   };
 }
 

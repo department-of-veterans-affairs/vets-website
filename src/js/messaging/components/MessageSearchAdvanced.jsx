@@ -59,7 +59,7 @@ class MessageSearchAdvanced extends React.Component {
       advancedSearchForm = (
         <fieldset className="msg-search-advanced-controls">
           <legend className="usa-sr-only">Search using additional criteria</legend>
-          <div className="va-flex va-flex--ctr msg-search-advanced-group">
+          <div className="msg-search-advanced-group">
             <ErrorableTextInput
                 field={this.props.params.from.field}
                 label="From"
@@ -71,7 +71,7 @@ class MessageSearchAdvanced extends React.Component {
                 onValueChange={this.handleFromExactChange}/>
           </div>
 
-          <div className="va-flex va-flex--ctr msg-search-advanced-group">
+          <div className="msg-search-advanced-group">
             <ErrorableTextInput
                 field={this.props.params.subject.field}
                 label="Subject line"
@@ -82,26 +82,28 @@ class MessageSearchAdvanced extends React.Component {
                 onValueChange={this.handleSubjectExactChange}/>
           </div>
 
-          <fieldset className="va-flex va-flex--ctr msg-search-advanced-group">
-            <legend className="msg-search-date-range-legend">Date range</legend>
-            <div className="msg-search-date-range">
-              <label
-                  className="usa-sr-only"
-                  htmlFor="msg-search-date-start">Start date range</label>
-              <DatePicker
-                  id="msg-search-date-start"
-                  onChange={this.handleStartDateChange}
-                  placeholderText="MM/DD/YYYY"
-                  selected={this.props.params.dateRange.start}/>
-              <span>to</span>
-              <label
-                  className="usa-sr-only"
-                  htmlFor="msg-search-date-end">End date range</label>
-              <DatePicker
-                  id="msg-search-date-end"
-                  onChange={this.handleEndDateChange}
-                  placeholderText="MM/DD/YYYY"
-                  selected={this.props.params.dateRange.end}/>
+          <fieldset className="msg-search-advanced-group">
+            <div>
+              <legend className="msg-search-date-range-legend">Date range</legend>
+              <div className="msg-search-date-range">
+                <label
+                    className="usa-sr-only"
+                    htmlFor="msg-search-date-start">Start date range</label>
+                <DatePicker
+                    id="msg-search-date-start"
+                    onChange={this.handleStartDateChange}
+                    placeholderText="MM/DD/YYYY"
+                    selected={this.props.params.dateRange.start}/>
+                <span>to</span>
+                <label
+                    className="usa-sr-only"
+                    htmlFor="msg-search-date-end">End date range</label>
+                <DatePicker
+                    id="msg-search-date-end"
+                    onChange={this.handleEndDateChange}
+                    placeholderText="MM/DD/YYYY"
+                    selected={this.props.params.dateRange.end}/>
+              </div>
             </div>
           </fieldset>
           <button

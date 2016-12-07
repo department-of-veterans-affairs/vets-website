@@ -6,12 +6,11 @@ import ErrorableFileInput from '../../common/components/form-elements/ErrorableF
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 
 import Modal from '../../common/components/Modal';
-import { validateIfDirty, isNotBlank } from '../../common/utils/validations';
 
 import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
-import { isValidFile, isValidDocument, isValidFileSize, isValidFileType, FILE_TYPES } from '../utils/validations';
+import { validateIfDirty, isNotBlank, isValidFile, isValidDocument, isValidFileSize, isValidFileType, FILE_TYPES } from '../utils/validations';
 import { setFocus } from '../utils/page';
 
 const displayTypes = FILE_TYPES.map(type => (type === 'pdf' ? 'pdf (unlocked)' : type)).join(', ');
@@ -155,6 +154,7 @@ class AddFilesForm extends React.Component {
             onClose={() => true}
             visible={this.props.showMailOrFax}
             hideCloseButton
+            focusSelector="button"
             cssClass="claims-upload-modal"
             contents={<MailOrFax onClose={() => this.props.onShowMailOrFax(false)}/>}/>
       </div>

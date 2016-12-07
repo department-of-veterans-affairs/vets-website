@@ -2,25 +2,30 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+
 import {
   addDraftAttachments,
   clearDraft,
   deleteDraftAttachment,
   deleteMessage,
+  fetchFolder,
   fetchRecipients,
   fetchThread,
   fetchThreadMessage,
   moveMessageToFolder,
   openAttachmentsModal,
   openMoveToNewFolderModal,
+  resetRedirect,
   saveDraft,
   sendMessage,
   toggleConfirmDelete,
+  toggleConfirmSave,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
-  toggleMoveTo,
   toggleReplyDetails,
   toggleThreadForm,
+  toggleThreadMoveTo,
   updateDraft
 } from '../actions';
 
@@ -28,6 +33,7 @@ import Message from '../components/Message';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
+import ModalConfirmSave from '../components/compose/ModalConfirmSave';
 import NewMessageForm from '../components/forms/NewMessageForm';
 import ReplyForm from '../components/forms/ReplyForm';
 
@@ -35,6 +41,8 @@ export class Thread extends React.Component {
   constructor(props) {
     super(props);
     this.apiFormattedDraft = this.apiFormattedDraft.bind(this);
+    this.getCurrentFolder = this.getCurrentFolder.bind(this);
+    this.handleConfirmDraftSave = this.handleConfirmDraftSave.bind(this);
     this.handleDraftDelete = this.handleDraftDelete.bind(this);
     this.handleDraftSave = this.handleDraftSave.bind(this);
     this.handleDraftSend = this.handleDraftSend.bind(this);
@@ -45,21 +53,50 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
-    const id = this.props.params.id;
-    this.props.fetchThread(id);
+    if (!this.props.loading.inProgress) {
+      const id = +this.props.params.messageId;
+      this.props.fetchThread(id);
+    }
   }
 
   componentDidUpdate() {
-    if (this.props.isNewMessage && this.props.recipients.length === 0) {
-      this.props.fetchRecipients();
+    if (this.props.redirect) {
+      this.context.router.replace(this.props.redirect);
+      return;
     }
 
-    const message = this.props.message;
-    const newId = +this.props.params.id;
+    const loading = this.props.loading;
 
-    if (!message || newId !== message.messageId) {
-      this.props.fetchThread(newId);
+    if (!loading.inProgress) {
+      const message = this.props.message;
+
+      const shouldFetchRecipients =
+        message &&
+        this.props.isNewMessage &&
+        !this.props.recipients;
+
+      if (shouldFetchRecipients) {
+        this.props.fetchRecipients();
+      }
+
+      const requestedId = +this.props.params.messageId;
+      const lastRequestedId = loading.requestId;
+      const shouldFetchMessage = requestedId !== lastRequestedId;
+
+      if (shouldFetchMessage) {
+        this.props.fetchThread(requestedId);
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetRedirect();
+  }
+
+  getCurrentFolder() {
+    const folderName = this.props.params.folderName;
+    const folder = this.props.folders.get(folderName);
+    return folder;
   }
 
   apiFormattedDraft() {
@@ -85,8 +122,20 @@ export class Thread extends React.Component {
     }
   }
 
-  handleDraftSave() {
+  handleConfirmDraftSave() {
+    if (this.props.modals.saveConfirm.visible) {
+      this.props.toggleConfirmSave();
+    }
+
     this.props.saveDraft(this.apiFormattedDraft());
+  }
+
+  handleDraftSave() {
+    if (this.props.draft.attachments.length) {
+      this.props.toggleConfirmSave();
+    } else {
+      this.handleConfirmDraftSave();
+    }
   }
 
   handleDraftSend() {
@@ -102,11 +151,15 @@ export class Thread extends React.Component {
       return null;
     }
 
+    const currentFolder = this.getCurrentFolder();
+
     // Exclude the current folder from the list of folders
     // that are passed down to the MoveTo component.
-    const moveToFolders = this.props.folders.filter((folder) => {
-      return folder.folderId !== this.props.persistFolder &&
-             folder.name !== 'Sent';
+    const moveToFolders = [];
+    this.props.folders.forEach((folder) => {
+      if (folder.folderId !== currentFolder.folderId) {
+        moveToFolders.push(folder);
+      }
     });
 
     const folderMessages = this.props.folderMessages;
@@ -122,25 +175,31 @@ export class Thread extends React.Component {
     const handleMessageSelect = (messageNumber) => {
       const index = messageNumber - 1;
       const selectedId = folderMessages[index].messageId;
-      this.context.router.push(`/thread/${selectedId}`);
+      this.context.router.push(`/${this.props.params.folderName}/${selectedId}`);
     };
+
+    // If the message is a draft, the delete button should prompt, since the
+    // draft would get deleted entirely instead of being moved to a folder.
+    const deleteMessageHandler = this.props.isSavedDraft
+                               ? this.props.toggleConfirmDelete
+                               : this.handleMessageDelete;
 
     return (
       <ThreadHeader
           currentMessageNumber={currentIndex + 1}
           moveToFolders={moveToFolders}
           folderMessageCount={folderMessageCount}
+          folderName={currentFolder.name}
           message={this.props.message}
           onMessageSelect={handleMessageSelect}
-          persistedFolder={this.props.persistFolder}
           threadMessageCount={this.props.thread.length + 1}
           messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
           moveToIsOpen={this.props.moveToOpened}
           onChooseFolder={this.props.moveMessageToFolder}
           onCreateFolder={this.props.openMoveToNewFolderModal}
-          onDeleteMessage={this.handleMessageDelete}
+          onDeleteMessage={deleteMessageHandler}
           onToggleThread={this.props.toggleMessagesCollapsed}
-          onToggleMoveTo={this.props.toggleMoveTo}/>
+          onToggleMoveTo={this.props.toggleThreadMoveTo}/>
     );
   }
 
@@ -184,13 +243,12 @@ export class Thread extends React.Component {
         <NewMessageForm
             message={this.props.draft}
             recipients={this.props.recipients}
-            isDeleteModalVisible={this.props.modals.deleteConfirm.visible}
             onAttachmentsClose={this.props.deleteDraftAttachment}
             onAttachmentUpload={this.props.addDraftAttachments}
             onAttachmentsError={this.props.openAttachmentsModal}
             onBodyChange={this.props.updateDraft.bind(null, 'body')}
             onCategoryChange={this.props.updateDraft.bind(null, 'category')}
-            onDeleteMessage={this.handleDraftDelete}
+            onFetchRecipients={this.props.fetchRecipients}
             onRecipientChange={this.props.updateDraft.bind(null, 'recipient')}
             onSaveMessage={this.handleDraftSave}
             onSendMessage={this.handleDraftSend}
@@ -219,6 +277,35 @@ export class Thread extends React.Component {
   }
 
   render() {
+    if (this.props.isNewMessage && this.props.loadingRecipients) {
+      return <LoadingIndicator message="Loading the application..."/>;
+    }
+
+    const loading = this.props.loading;
+
+    if (loading.inProgress) {
+      return <LoadingIndicator message="is loading the thread..."/>;
+    }
+
+    if (!this.props.message) {
+      const lastRequestedId = loading.requestId;
+
+      if (lastRequestedId !== null) {
+        const reloadMessage = () => {
+          this.props.fetchThread(lastRequestedId);
+        };
+
+        return (
+          <p>
+            Could not retrieve the message.&nbsp;
+            <a onClick={reloadMessage}>Click here to try again.</a>
+          </p>
+        );
+      }
+
+      return <p>Sorry, this message does not exist.</p>;
+    }
+
     const header = this.makeHeader();
     const thread = this.makeThread();
     const form = this.makeForm();
@@ -240,7 +327,7 @@ export class Thread extends React.Component {
           {thread}
           <div className="messaging-thread-form-trigger">
             <button
-                className="usa-button msg-form-trigger"
+                className="usa-button"
                 type="button"
                 onClick={this.props.toggleThreadForm}>
               {this.props.isSavedDraft ? 'Edit draft' : 'Reply'}
@@ -259,7 +346,9 @@ export class Thread extends React.Component {
             <h2>{this.props.isNewMessage ? 'New message' : 'Reply'}</h2>
             <button
                 className="messaging-send-button"
-                type="button">
+                type="button"
+                onClick={this.handleDraftSend}
+                disabled={!this.props.draft.body.value.length}>
               Send
             </button>
           </div>
@@ -271,6 +360,11 @@ export class Thread extends React.Component {
             onClose={this.props.toggleConfirmDelete}
             onDelete={this.handleDraftDelete}
             visible={this.props.modals.deleteConfirm.visible}/>
+        <ModalConfirmSave
+            cssClass="messaging-modal"
+            onClose={this.props.toggleConfirmSave}
+            onSave={this.handleConfirmDraftSave}
+            visible={this.props.modals.saveConfirm.visible}/>
       </div>
     );
   }
@@ -295,12 +389,14 @@ const mapStateToProps = (state) => {
     isFormVisible: state.messages.ui.formVisible,
     isNewMessage,
     isSavedDraft,
+    loading: state.messages.ui.loading,
+    loadingRecipients: state.recipients.loading,
     message,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
-    persistFolder: folder.persistFolder,
-    recipients: state.compose.recipients,
+    recipients: state.recipients.data,
+    redirect: state.folders.ui.redirect,
     replyDetailsCollapsed: state.messages.ui.replyDetailsCollapsed,
     thread: state.messages.data.thread
   };
@@ -311,18 +407,21 @@ const mapDispatchToProps = {
   clearDraft,
   deleteDraftAttachment,
   deleteMessage,
+  fetchFolder,
   fetchRecipients,
   fetchThread,
   fetchThreadMessage,
   moveMessageToFolder,
   openAttachmentsModal,
   openMoveToNewFolderModal,
+  resetRedirect,
   saveDraft,
   sendMessage,
   toggleConfirmDelete,
+  toggleConfirmSave,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
-  toggleMoveTo,
+  toggleThreadMoveTo,
   toggleReplyDetails,
   toggleThreadForm,
   updateDraft
