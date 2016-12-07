@@ -6,7 +6,7 @@ plainlanguage: 11-28-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
-If you plan to study at a foreign school, you can use VA benefits to cover your tuition and fees.
+If you plan to study at a foreign school, find out how you can use VA benefits to cover your tuition and fees.
 
 <div class="call-out usa-content" markdown="1">
 
