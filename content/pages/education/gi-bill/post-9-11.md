@@ -7,7 +7,9 @@ concurrence: complete
 ---
 
 
-If you want to get benefits for education or training and you've served on active duty after September 10, 2001, you may qualify for the Post-9/11 GI Bill. The Post-9/11 GI Bill is the largest expansion of education benefits since the Montgomery GI Bill.
+If you need help paying for school or job training and you’ve served on active duty after September 10, 2001, you may qualify for the Post-9/11 GI Bill. Find out how. 
+
+The Post-9/11 GI Bill is the largest expansion of education benefits since the Montgomery GI Bill.
 
 <div class="call-out usa-content" markdown="1">
 
