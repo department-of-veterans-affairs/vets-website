@@ -64,13 +64,14 @@ class ErrorableDate extends React.Component {
       } else if (!isValidPartialDate(day.value, month.value, year.value)) {
         isValid = false;
         errorMessage = this.props.invalidMessage;
-      // show any custom validation for this field once we know it's at least partially valid
-      } else if (this.props.validation && !this.props.validation.valid) {
+      // Allow devs to pass in an array of validations with messages and display the first failed one
+      } else if (Array.isArray(this.props.validation) && this.props.validation.some(validator => !validator.valid)) {
+        isValid = false;
+        errorMessage = this.props.validation.filter(validator => !validator.valid)[0].message;
+      // Allow validation objects for simpler cases
+      } else if (typeof this.props.validation === 'object' && !this.props.validation.valid) {
         isValid = this.props.validation.valid;
         errorMessage = this.props.validation.message;
-      } else {
-        isValid = true;
-        errorMessage = null;
       }
     }
 

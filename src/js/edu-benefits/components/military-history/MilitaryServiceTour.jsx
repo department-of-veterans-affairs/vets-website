@@ -8,19 +8,7 @@ import ErrorableCurrentOrPastDate from '../../../common/components/form-elements
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 
 import { validateIfDirty, isNotBlank, isValidDateRange } from '../../utils/validations';
-import { isDirtyDate } from '../../../common/utils/validations';
 import ServicePeriodsReview from './ServicePeriodsReview';
-
-function validEndDate(tour) {
-  if (isDirtyDate(tour.dateRange.to)) {
-    return {
-      valid: isValidDateRange(tour.dateRange.from, tour.dateRange.to),
-      message: 'End of service must be after start of service'
-    };
-  }
-
-  return { valid: true, message: null };
-}
 
 export default class MilitaryServiceTour extends React.Component {
   render() {
@@ -48,7 +36,10 @@ export default class MilitaryServiceTour extends React.Component {
               date={tour.dateRange.from}
               onValueChange={(update) => {onValueChange('dateRange.from', update);}}/>
           <ErrorableDate
-              validation={validEndDate(tour)}
+              validation={{
+                valid: isValidDateRange(tour.dateRange.from, tour.dateRange.to),
+                message: 'End of service must be after start of service'
+              }}
               label="End of service period"
               name="toDate"
               date={tour.dateRange.to}
