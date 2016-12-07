@@ -5,7 +5,7 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-If you are using VA educational assistance, and you’re struggling with the course work, you may qualify for a financial supplement to pay for a tutor.
+If you're using VA educational assistance, and you’re struggling with the course work, you may be able to get money to pay for a tutor. Find out how.
 
 <div class="call-out" markdown="1">
 
