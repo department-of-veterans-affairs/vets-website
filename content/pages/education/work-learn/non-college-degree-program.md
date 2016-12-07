@@ -11,8 +11,10 @@ Find out how to use the GI Bill to pay for specific training programs, like HVAC
 <div class="call-out" markdown="1">
 
 ### Can I get education benefits for a non-college degree program?
-You can get education benefits through the GI Bill you qualify for the GI Bill, and
-  -	You enroll, or plan to enroll, in a non-degree program at an approved school
+You can get education benefits through the GI Bill if:
+
+- You qualify for the GI Bill, **and**
+- You enroll, or plan to enroll, in a non-degree program at an approved school
 
 ### Who's covered? 
 - Veterans
