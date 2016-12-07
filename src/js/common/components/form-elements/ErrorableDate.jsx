@@ -8,7 +8,7 @@ import ErrorableNumberInput from './ErrorableNumberInput';
 
 import ToolTip from './ToolTip';
 
-import { isDirtyDate, isValidPartialDate, isNotBlankDateField } from '../../utils/validations';
+import { isDirtyDate, isValidPartialDate, isNotBlankDateField, validateCustomFormComponent } from '../../utils/validations';
 import { months, days } from '../../utils/options-for-select.js';
 
 /**
@@ -64,14 +64,10 @@ class ErrorableDate extends React.Component {
       } else if (!isValidPartialDate(day.value, month.value, year.value)) {
         isValid = false;
         errorMessage = this.props.invalidMessage;
-      // Allow devs to pass in an array of validations with messages and display the first failed one
-      } else if (Array.isArray(this.props.validation) && this.props.validation.some(validator => !validator.valid)) {
-        isValid = false;
-        errorMessage = this.props.validation.filter(validator => !validator.valid)[0].message;
-      // Allow validation objects for simpler cases
-      } else if (typeof this.props.validation === 'object' && !this.props.validation.valid) {
-        isValid = this.props.validation.valid;
-        errorMessage = this.props.validation.message;
+      } else {
+        const validationResult = validateCustomFormComponent(this.props.validation);
+        isValid = validationResult.valid;
+        errorMessage = validationResult.message;
       }
     }
 

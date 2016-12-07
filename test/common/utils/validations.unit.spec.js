@@ -9,7 +9,8 @@ import {
   isBlank,
   isValidMonetaryValue,
   isValidDateOver17,
-  isValidPartialDate
+  isValidPartialDate,
+  validateCustomFormComponent
 } from '../../../src/js/common/utils/validations.js';
 
 describe('Validations unit tests', () => {
@@ -176,6 +177,39 @@ describe('Validations unit tests', () => {
     });
     it('should not validate year more than 100 years in future', () => {
       expect(isValidPartialDate('', '', moment().add(101, 'year').year())).to.be.false;
+    });
+  });
+  describe('validateCustomFormComponent', () => {
+    it('should return object validation results', () => {
+      const validation = {
+        valid: false,
+        message: 'Test'
+      };
+
+      expect(validateCustomFormComponent(validation)).to.equal(validation);
+    });
+    it('should return passing object validation results', () => {
+      const validation = {
+        valid: true,
+        message: 'Test'
+      };
+
+      expect(validateCustomFormComponent(validation).valid).to.be.true;
+      expect(validateCustomFormComponent(validation).message).to.be.null;
+    });
+    it('should return array validation results', () => {
+      const validation = [
+        {
+          valid: true,
+          message: 'DoNotShow'
+        },
+        {
+          valid: false,
+          message: 'Test'
+        }
+      ];
+
+      expect(validateCustomFormComponent(validation)).to.equal(validation[1]);
     });
   });
 });
