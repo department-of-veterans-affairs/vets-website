@@ -9,8 +9,8 @@ If you're on active duty and plan to use the the Montgomery GI Bill (MGIB) or Re
 
 ### How do I get this benefit? 
 
-- Decide how much extra you want to contribute. With a $600 contribution, you can get up to $5,400 more in GI Bill benefits. [This table](http://www.benefits.va.gov/gibill/resources/benefits_resources/rates/600_buyup.asp) shows how much your payments will be. 
-- Fill out [Form DD-2366](http://www.dtic.mil/whs/directives/forms/eforms/dd2366-1.pdf) and take it to your payroll or personnel office. 
+- Decide how much extra you want to contribute. With a $600 contribution, you can get up to $5,400 more in GI Bill benefits. [View the rate table](http://www.benefits.va.gov/gibill/resources/benefits_resources/rates/600_buyup.asp). 
+- Fill out Form DD-2366 and take it to your payroll or personnel office. [Form DD-2366]((http://www.dtic.mil/whs/directives/forms/eforms/dd2366-1.pdf).
 - Keep copies of the form and any other paperwork that shows you made the payment. 
 
-**Note:** This program is can't be used with the Post 9/11 GI Bill.
+**Note:** This program can't be used with the Post 9/11 GI Bill.
