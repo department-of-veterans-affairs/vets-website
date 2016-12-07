@@ -5,7 +5,7 @@ template: 1-topic-landing
 concurrence: incomplete
 ---
 
-If you're the dependent of a Veteran who has died or who was permanently and totally disabled while on active duty or due to a service-related condition, you may qualify for 45 months of college or graduate degree, certificate courses, apprenticeship, and on-the-job training under the Survivors' and Dependents’ Educational Assistance (DEA) program.
+If you’re the child or spouse of a Veteran who has died or is disabled, find out if you can get help paying for school or job training through the Survivors’ and Dependents’ Educational Assistance (DEA) program.
 
 <div class="call-out usa-content" markdown="1">
 
@@ -41,7 +41,13 @@ Qualified dependents
 
 ### What benefits can I get? 
 
-A monthly payment of up to $1,021. [View current payment rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp).
+We will make a monthly payment to the school of up to $1,021 for up to 45 months for:
+- College or graduate degree programs
+- Career-training certificate courses
+- Apprenticeships
+- On-the-job training
+
+[View current payment rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp).
 
 For both children and spouses, if you're eligible for both DEA and the Fry Scholarship, you must pick one or the other. Once you make this choice, you can't change it. [Read about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
 
