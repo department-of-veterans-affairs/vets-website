@@ -5,7 +5,8 @@ template: 1-topic-landing
 concurrence: incomplete
 ---
 
-The Yellow Ribbon Program can help you pay for higher out-of-state, private, or graduate school tuition that the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) doesn't cover.
+The Yellow Ribbon Program can help you pay for higher out-of-state, private, or graduate school tuition that the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) doesn’t cover. Find out if your school is a part of this program.
+
 <div class="call-out" markdown="1">
 
 ### Can I get this benefit?
