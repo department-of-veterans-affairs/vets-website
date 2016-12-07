@@ -6,15 +6,15 @@ plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-With co-op training, you can get full-time work experience in between periods of going to school full time. If you're enrolled at an approved Institution of Higher Learning (IHL) and you're part of a co-op training program, we may cover some of your costs.
+A college or university co-op training program lets you get full-time work experience in between periods of going to school full time.  You may be able to get help paying for some of your costs—like books, tuition, and housing—if you’re part of a co-op. Find out how.
 
 <div class="call-out" markdown="1">
 
 ### Can I get education benefits for co-op training?
-You can get money for books, tuition, and housing if:
-
-  - You're using VA educational assistance, **and**
-  - You're in an educational program that requires part-time study and part-time work or training
+You may be able to get money for books, tuition, and housing if:
+- You’re using VA educational assistance, **and**
+- You’re enrolled at an approved Institution of Higher Learning (IHL), **and**
+- You’re in an educational program that requires part-time study and part-time work or training
 
 ### Who's covered?
 Veterans
