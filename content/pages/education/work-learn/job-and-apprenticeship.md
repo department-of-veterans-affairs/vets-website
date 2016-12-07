@@ -11,9 +11,7 @@ You can get help paying for books, supplies, and housing while you’re learning
 <div class="call-out" markdown="1">
 
 ### Can I get education benefits? 
-You can get benefits if:
-
-  -	You qualify for the GI Bill, **and**
+You can get benefits if you qualify for the GI Bill, and:
   -	You want to work in an industry or job that has OJT, like:
       -	Plumbing
       -	Hotel management
@@ -21,7 +19,9 @@ You can get benefits if:
 
 ### Who's covered?
 Veterans<br />
-**Note:** You can't get OJT if you're an active-duty Servicemember or a spouse using a transferred benefit.
+
+**Exception:** 
+You can't get OJT if you're an active-duty Servicemember or a spouse using a transferred benefit.
 </div>
 
 ### What benefits can I get?
