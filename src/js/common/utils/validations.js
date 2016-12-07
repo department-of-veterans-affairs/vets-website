@@ -42,9 +42,6 @@ function isNotBlankDateField(field) {
   return isNotBlank(field.day.value) && isNotBlank(field.month.value) && isNotBlank(field.year.value);
 }
 
-function isBlankDate(day, month, year) {
-  return isBlank(day) && isBlank(year) && isBlank(month);
-}
 // Conditions for valid SSN from the original 1010ez pdf form:
 // '123456789' is not a valid SSN
 // A value where the first 3 digits are 0 is not a valid SSN
@@ -105,15 +102,11 @@ function isValidAnyDate(day, month, year) {
 }
 
 function isValidPartialDate(day, month, year) {
-  if ((day || month) && !year) {
+  if (year && (Number(year) < 1900 || Number(year) > moment().add(100, 'year').year())) {
     return false;
   }
 
-  if (year && Number(year) < 1900) {
-    return false;
-  }
-
-  return isBlankDate(day, month, year) || isValidAnyDate(day, month, year);
+  return true;
 }
 
 function isValidDateOver17(day, month, year) {

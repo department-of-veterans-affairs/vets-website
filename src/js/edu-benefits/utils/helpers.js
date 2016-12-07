@@ -88,3 +88,21 @@ export function showYesNo(field) {
 
   return field.value === 'Y' ? 'Yes' : 'No';
 }
+
+function formatDayMonth(val) {
+  if (!val || !val.length || !Number(val)) {
+    return 'XX';
+  } else if (val.length === 1) {
+    return `0${val}`;
+  }
+
+  return val.toString();
+}
+
+export function formatPartialDate(field) {
+  if (!field.day.value && !field.month.value && !field.year.value) {
+    return undefined;
+  }
+
+  return `${field.year.value || 'XXXX'}-${formatDayMonth(field.month.value)}-${formatDayMonth(field.day.value)}`;
+}

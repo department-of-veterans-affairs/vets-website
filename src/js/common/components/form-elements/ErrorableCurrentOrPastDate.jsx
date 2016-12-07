@@ -1,6 +1,9 @@
 import React from 'react';
+import moment from 'moment';
+
 import ErrorableDate from './ErrorableDate';
-import { isValidDateField, isDirtyDate } from '../../utils/validations';
+import { isDirtyDate } from '../../utils/validations';
+import { dateToMoment } from '../../utils/helpers';
 
 export default function ErrorableCurrentOrPastDate(props) {
   let validation = {
@@ -12,7 +15,7 @@ export default function ErrorableCurrentOrPastDate(props) {
   // the past date check, because if you want to override that check
   // you should just be using ErrorableDate
   if (isDirtyDate(props.date)) {
-    if (!isValidDateField(props.date)) {
+    if (dateToMoment(props.date).isAfter(moment().startOf('day'))) {
       validation = {
         valid: false,
         message: props.invalidMessage
