@@ -1,22 +1,16 @@
 import _ from 'lodash';
 import { states } from '../../common/utils/options-for-select';
-import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/validations';
-
-function validateIfDirty(field, validator) {
-  if (field.dirty) {
-    return validator(field.value);
-  }
-
-  return true;
-}
-
-function validateIfDirtyDate(dayField, monthField, yearField, validator) {
-  if (dayField.dirty || monthField.dirty || yearField.dirty) {
-    return validator(dayField.value, monthField.value, yearField.value);
-  }
-
-  return true;
-}
+import {
+  isBlank,
+  isNotBlank,
+  isValidField,
+  isValidRequiredField,
+  isBlankDateField,
+  isValidDateField,
+  isValidUSZipCode,
+  isValidCanPostalCode,
+  validateIfDirty
+} from '../../common/utils/validations';
 
 function validateIfDirtyProvider(field1, field2, validator) {
   if (field1.dirty || field2.dirty) {
@@ -24,18 +18,6 @@ function validateIfDirtyProvider(field1, field2, validator) {
   }
 
   return true;
-}
-
-function isBlank(value) {
-  return value === '';
-}
-
-function isDirty(field) {
-  return field.dirty;
-}
-
-function isNotBlank(value) {
-  return value !== '';
 }
 
 // Conditions for valid SSN from the original 1010ez pdf form:
@@ -68,26 +50,6 @@ function isValidSSN(value) {
   return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
 }
 
-function isValidDate(day, month, year) {
-  // Use the date class to see if the date parses back sanely as a
-  // validation check. Not sure is a great idea...
-  const adjustedMonth = Number(month) - 1;  // JS Date object 0-indexes months. WTF.
-  const date = new Date(year, adjustedMonth, day);
-  const today = new Date();
-
-  if (today < date) {
-    return false;
-  }
-
-  if (Number(year) < 1900) {
-    return false;
-  }
-
-  return date.getDate() === Number(day) &&
-    date.getMonth() === adjustedMonth &&
-    date.getFullYear() === Number(year);
-}
-
 function isValidName(value) {
   return /^[a-zA-Z '\-]*$/.test(value);
 }
@@ -114,22 +76,6 @@ function isValidPhone(value) {
 function isValidEmail(value) {
   // Comes from StackOverflow: http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
   return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
-}
-
-function isValidField(validator, field) {
-  return isBlank(field.value) || validator(field.value);
-}
-
-function isValidRequiredField(validator, field) {
-  return isNotBlank(field.value) && validator(field.value);
-}
-
-function isBlankDateField(field) {
-  return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
-}
-
-function isValidDateField(field) {
-  return isValidDate(field.day.value, field.month.value, field.year.value);
 }
 
 function isValidFullNameField(field) {
@@ -479,28 +425,8 @@ function isValidSection(completePath, sectionData) {
   }
 }
 
-function initializeNullValues(value) {
-  if (value === null) {
-    return '';
-  } else if (_.isPlainObject(value)) {
-    return _.mapValues(value, (v, _k) => { return initializeNullValues(v); });
-  } else if (_.isArray(value)) {
-    return value.map(initializeNullValues);
-  }
-
-  return value;
-}
-
 export {
-  validateIfDirty,
-  validateIfDirtyDate,
   validateIfDirtyProvider,
-  initializeNullValues,
-  isDirty,
-  isBlank,
-  isNotBlank,
-  isValidRequiredField,
-  isValidDate,
   isValidName,
   isValidLastName,
   isValidSSN,
@@ -512,7 +438,6 @@ export {
   isValidDischargeDateField,
   isValidDependentDateField,
   isValidMarriageDate,
-  isValidField,
   isValidFinancialDisclosure,
   isValidForm,
   isValidPersonalInfoSection,
