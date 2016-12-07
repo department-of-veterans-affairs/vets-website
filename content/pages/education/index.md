@@ -31,5 +31,5 @@ relatedlinks:
    description: If you don't qualify for the Post-9/11 GI Bill, you can apply for education benefits through VEAP and Call to Service. REAP ended in 2015, but some benefits stay in place for a couple more years.
 ---
 
-We offer Veterans, Servicemembers, and their families education benefits like tuition, help finding the right school or training program, and career counseling.   
+We offer Veterans, Servicemembers, and their families education benefits like tuition, help finding the right school or training program, and career counseling. Explore your benefit options.   
 
