@@ -16,4 +16,4 @@ relatedlinks:
     description: ""
 ---
 
-If college programs aren’t for you, you may be able to use your GI Bill benefit to help pay for other types of education. Learn more about non-traditional educational options below. 
+If college programs aren’t for you, you may be able to use your GI Bill benefit to help pay for other types of education. Get more information about non-traditional educational options below. 
