@@ -6,7 +6,7 @@ plainlanguage: 11-21-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
-If you'd like to learn at home or you live far away from any schools, correspondence training may be a good option for you. This type of training doesn't have to be finished within a quarter, semester, or term. You get coursework assignments in the mail and send them back when you're done.
+Correspondence training (coursework completed by mail) may be a good option for you if you want to take classes from home or if you live far from any schools. Find out how your VA education benefits may help pay for correspondence training.
 
 <div class="call-out" markdown="1">
 
@@ -23,7 +23,7 @@ You can, if you qualify for any GI Bill program.
 
 ### What benefits can I get? 
 
-You can get paid back for the cost of classes.
+You can get paid back for the cost of your correspondence training classes. 
 
 ### How do I get these benefits? 
 
