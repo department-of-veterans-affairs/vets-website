@@ -5,7 +5,7 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-If you’re enrolled in a high-tech program and intend to work in a high-tech industry, you may qualify for a lump-sum payment of 60% of tuition and fees. We issue accelerated payment to you instead of the monthly benefits you would otherwise get. This program covers the higher per-month costs associated with these courses of study.
+Are you enrolled in a high-tech program with the goal of working in a high-tech industry? You may be able to get a lump-sum payment to cover the higher per-month costs for these courses of study. Find out how.
 
 <div class="call-out" markdown="1">
 
@@ -22,7 +22,7 @@ Veterans
 
 ### What benefits can I get?
 
-Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs.
+Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs. We issue an accelerated payment to you instead of the monthly benefits you would otherwise get. 
 
 ### How do I get these benefits?
 
