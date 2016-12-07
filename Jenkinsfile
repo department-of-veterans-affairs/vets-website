@@ -16,7 +16,7 @@ pipeline {
     }
 
     stage('Build stuff') {
-      steps { sh 'npm run build' }
+      steps { sh 'npm run build -- --buildtype development' }
     }
 
     stage('Run checks') {
