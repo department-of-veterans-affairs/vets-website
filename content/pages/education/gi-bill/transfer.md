@@ -5,7 +5,7 @@ template: 1-topic-landing
 concurrence: complete
 ---
 
-If you haven't used all of your Post-9/11 GI Bill benefits, you may be able to transfer up to 36 months of benefits to your spouse or dependent children. Once the Department of Defense (DOD) approves the transfer, the new beneficiaries can apply for VA benefits.
+Find out if you can transfer any of your unused Post-9/11 GI Bill benefits to your spouse or dependent children.
 
 **Note:** The Department of Defense (DOD) determines whether or not you can transfer benefits to your family.
 <div class="call-out" markdown="1">
@@ -23,8 +23,12 @@ Qualified dependents
 
 ### What benefits can they get?
 
-- Money for tuition
-- Money for housing 
+If the Department of Defense (DOD) approves the transfer, your spouse or dependent children can apply for up to 36 months of benefits, and may be able to get money for: 
+
+- Tuition
+- Housing
+- Books and supplies
+
 
 ------
 
