@@ -54,3 +54,14 @@ export function isActivePage(page, data) {
 export function getActivePages(pages, data) {
   return pages.filter(page => isActivePage(page, data));
 }
+
+export function focusElement(selectorOrElement) {
+  const el = typeof selectorOrElement === 'string'
+    ? document.querySelector(selectorOrElement)
+    : selectorOrElement;
+
+  if (el) {
+    el.setAttribute('tabindex', '-1');
+    el.focus();
+  }
+}
