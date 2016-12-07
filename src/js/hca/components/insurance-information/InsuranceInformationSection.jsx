@@ -7,7 +7,7 @@ import Provider from './Provider.jsx';
 import { yesNo } from '../../../common/utils/options-for-select.js';
 import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
 import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
-
+import { isValidSection } from '../../utils/validations';
 import { makeField } from '../../../common/model/fields';
 
 /**
@@ -41,7 +41,8 @@ class InsuranceInformationSection extends React.Component {
             initializeCurrentElement={() => {this.props.initializeFields(fields);}}
             onRowsUpdate={(update) => {this.props.onStateChange('providers', update);}}
             path="/insurance-information/general"
-            rows={this.props.data.providers}/>
+            rows={this.props.data.providers}
+            isValidSection={isValidSection}/>
       );
     } else {
       this.props.data.providers.length = 0;

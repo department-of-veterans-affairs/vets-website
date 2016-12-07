@@ -7,6 +7,7 @@ import GrowableTable from '../../../common/components/form-elements/GrowableTabl
 import { yesNo } from '../../../common/utils/options-for-select.js';
 import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
 import { createBlankChild } from '../../../common/model/child';
+import { isValidSection } from '../../utils/validations';
 import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
 
 /**
@@ -110,7 +111,8 @@ class ChildInformationSection extends React.Component {
               initializeCurrentElement={() => {this.props.initializeFields(fields);}}
               onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
               path="/household-information/child-information"
-              rows={this.props.data.children}/>
+              rows={this.props.data.children}
+              isValidSection={isValidSection}/>
         </div>
       );
     } else {
