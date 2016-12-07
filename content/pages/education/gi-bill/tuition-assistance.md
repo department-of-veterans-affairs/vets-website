@@ -6,7 +6,8 @@ template: 4-action-page-pending
 ---
 
 
-If your tuition amounts to more than what’s covered by the Tuition Assistance (TA) program, you may be eligible for additional assistance. Tuition Assistance Top-Up covers the difference between the full cost of a college course and the amount covered under active-duty TA for up to 36 months.
+Does your college tuition cost more than what’s covered by the Tuition Assistance (TA) program? Find out if you can get more money to help pay for school through the Tuition Assistance Top-Up program.
+
 <div class="call-out" markdown="1">
 
 ### Can I get tuition assistance?
@@ -20,7 +21,7 @@ Veterans
 
 ### What benefits can I get?
 
-Additional tuition funding
+Added tuition funding to cover the difference between the full cost of a college course and the amount covered under active-duty TA for up to 36 months
 
 -----
 
