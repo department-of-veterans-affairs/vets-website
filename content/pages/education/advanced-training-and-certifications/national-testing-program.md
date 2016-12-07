@@ -14,7 +14,7 @@ If you had to take a test when you applied to a college or for a training course
 
 We'll pay you back for the cost of exam and testing fees if you're a Veteran or Servicemember and you qualify for the GI Bill. 
 
-### Who's covered
+### Who's covered?
 
 - Veterans
 - Servicemembers
