@@ -18,7 +18,7 @@ Veterans who qualify for any of the GI Bill programs.
 
 - Under [the Montgomery GI Bill](/education/gi-bill/montgomery-active-duty/) (MGIB) or [Reserve Educational Assistance Program (REAP)](/education/other-educational-assistance-programs/reap/), we pay you back for part of flight training costs at an approved pilot school. 
 
-- Under the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/), we pay the pilot school the full cost of your flight training, up to a yearly limit (in proportion to your level of eligibility). If flight training is part of your college degree at an approved college or university, we pay the required tuition and fees, a monthly housing allowance, and a books and supplies stipend. If you're enrolled in a vocational flight training program you can be paid back the lesser of the full cost of training or the annual maximum amount of training. [Review the rate tables](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+- Under the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/), we pay the pilot school the full cost of your flight training, up to a yearly limit (in proportion to your level of eligibility). If flight training is part of your college degree at an approved college or university, we pay the required tuition and fees, a monthly housing allowance, and a books and supplies stipend. If you're enrolled in a vocational flight training program you can be paid back the lesser of the full cost of training or the annual maximum amount of training. [Review the rate tables](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp). [Find out more about the Post-9/11 GI Bill](/education/gi-bill/post-9-11/).
 
 ------
 
@@ -36,11 +36,11 @@ You'll need to apply for benefits. [Apply for education benefits](/education/app
 
 *Your level of eligibility and remaining entitlement will limit the payment amount.
 
-#### Some examples of avaiable flight training licenses and ratings include:
+#### Some examples of available flight training licenses and ratings include:
 
 - Commercial pilot
 - Certified flight instructor (airplane, instrument, multi-engine)
 - Flight engineer certification
 - Fixed wing and rotorcraft
 
-Find out more about the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/).
+
