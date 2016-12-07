@@ -141,7 +141,7 @@ class ServicesAtFacility extends Component {
 
     return (
       <div>
-        <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment().subtract(9, 'd').format('MMMM D, YYYY')}</strong></p>
+        <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment(services.last_updated).format('MMMM D, YYYY')}</strong></p>
         <div className="call-out clearfix">
           <div className="columns small-1">
             <h3><i className="fa fa-exclamation-circle"></i></h3>
