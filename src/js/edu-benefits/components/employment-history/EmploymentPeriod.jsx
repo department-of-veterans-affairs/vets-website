@@ -3,6 +3,7 @@ import React from 'react';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
+import EmploymentPeriodReview from './EmploymentPeriodReview';
 import { isValidMonths, validateIfDirty } from '../../utils/validations';
 import { employmentPeriodTiming } from '../../utils/options-for-select';
 
@@ -38,19 +39,7 @@ export default class EmploymentPeriod extends React.Component {
       </div>
     );
 
-    let reviewFields;
-    if (period.name.value) {
-      reviewFields = (
-        <div>
-          <div><strong>{period.name.value}</strong></div>
-          <div>{period.postMilitaryJob.value === 'before' ? 'Before military service' : 'After military service'}</div>
-        </div>
-      );
-    } else {
-      reviewFields = (<div>This entry may be missing information</div>);
-    }
-
-    return view === 'collapsed' ? reviewFields : formFields;
+    return view === 'collapsed' ? <EmploymentPeriodReview period={period} onEdit={this.props.onEdit}/> : formFields;
   }
 }
 

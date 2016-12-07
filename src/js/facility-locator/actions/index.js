@@ -54,16 +54,44 @@ export function fetchVAFacility(id, facility = null) {
   };
 }
 
-export function searchWithAddress(query) {
+export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
+  const params = compact([
+    ...bounds.map(c => `bbox[]=${c}`),
+    facilityType ? `type=${facilityType}` : null,
+    serviceType ? `services[]=${serviceType}` : null,
+    `page=${page}`
+  ]).join('&');
+  const url = `${api.url}?${params}`;
+
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
       payload: {
-        active: true,
+        page,
+        searchBoundsInProgress: true,
       },
     });
 
-    mapboxClient.geocodeForward(query.searchString, (err, res) => {
+    return fetch(url, api.settings)
+      .then(res => res.json())
+      .then(
+        data => {
+          dispatch({ type: FETCH_VA_FACILITIES, payload: data });
+        },
+        err => dispatch({ type: SEARCH_FAILED, err })
+      );
+  };
+}
+
+export function searchWithAddress(query) {
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+    });
+
+    mapboxClient.geocodeForward(query.searchString, {
+      country: 'us,vi,pr,ph,gu,as,mp',
+    }, (err, res) => {
       const coordinates = res.features[0].center;
       const zipCode = (find(res.features[0].context, (v) => {
         return v.id.includes('postcode');
@@ -79,6 +107,13 @@ export function searchWithAddress(query) {
               latitude: coordinates[1],
               longitude: coordinates[0],
             },
+            bounds: res.features[0].bbox || [
+              coordinates[0] - 0.5,
+              coordinates[1] - 0.5,
+              coordinates[0] + 0.5,
+              coordinates[1] + 0.5,
+            ],
+            zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
           }
         });
       } else {
@@ -88,30 +123,5 @@ export function searchWithAddress(query) {
         });
       }
     });
-  };
-}
-
-export function searchWithBounds(bounds, facilityType, serviceType) {
-  const params = compact([
-    ...bounds.map(c => `bbox[]=${c}`),
-    facilityType ? `type=${facilityType}` : null,
-    serviceType ? `services[]=${serviceType}` : null,
-  ]).join('&');
-  const url = `${api.url}?${params}`;
-
-  return dispatch => {
-    dispatch({
-      type: SEARCH_STARTED,
-      payload: {
-        active: true,
-      },
-    });
-
-    return fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
-        data => dispatch({ type: FETCH_VA_FACILITIES, payload: data.data }),
-        err => dispatch({ type: SEARCH_FAILED, err })
-      );
   };
 }

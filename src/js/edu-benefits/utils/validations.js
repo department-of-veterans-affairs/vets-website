@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
 import { dateToMoment, showRelinquishedEffectiveDate } from './helpers';
-import { isValidDateOver17 } from '../../common/utils/validations';
+import { isValidDateOver17, isBlankAddress } from '../../common/utils/validations';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -40,13 +40,6 @@ function isBlank(value) {
 
 function isNotBlank(value) {
   return value !== '';
-}
-
-function isBlankAddress(address) {
-  return isBlank(address.city.value)
-    && isBlank(address.state.value)
-    && isBlank(address.street.value)
-    && isBlank(address.postalCode.value);
 }
 
 function isValidYear(value) {
@@ -130,7 +123,7 @@ function isValidMonetaryValue(value) {
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
   // Strip spaces, dashes, and parens
-  const stripped = value.replace(/[- )(]/g, '');
+  const stripped = value.replace(/[^\d]/g, '');
   // Count number of digits
   return /^\d{10}$/.test(stripped);
 }
@@ -170,6 +163,14 @@ function isBlankDateField(field) {
   return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
 }
 
+function isBlankMonthYear(field) {
+  return isBlank(field.month.value) && isBlank(field.year.value);
+}
+
+function isNotBlankDateField(field) {
+  return isNotBlank(field.day.value) && isNotBlank(field.month.value) && isNotBlank(field.year.value);
+}
+
 function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
 }
@@ -190,7 +191,7 @@ function isValidFutureDateField(field) {
 }
 
 function isValidFutureOrPastDateField(field) {
-  if (!isBlankDateField(field)) {
+  if (isNotBlankDateField(field)) {
     const momentDate = dateToMoment(field);
     return momentDate.isValid() && momentDate.year() > 1900;
   }
@@ -199,14 +200,14 @@ function isValidFutureOrPastDateField(field) {
 }
 
 function isValidDateRange(fromDate, toDate) {
-  if (!isBlankDateField(fromDate) && !isBlankDateField(toDate)) {
+  if (isNotBlankDateField(fromDate) && isNotBlankDateField(toDate)) {
     const momentStart = dateToMoment(fromDate);
     const momentEnd = dateToMoment(toDate);
 
     return momentStart.isBefore(momentEnd);
   }
 
-  return true;
+  return isBlankDateField(fromDate) && isBlankDateField(toDate);
 }
 
 function isValidFullNameField(field) {
@@ -250,7 +251,7 @@ function isValidRelinquishedDate(field) {
   const pastDate = moment().subtract(2, 'years');
   const date = dateToMoment(field);
 
-  return !isBlankDateField(field) && date.isValid() && date.isAfter(pastDate);
+  return isNotBlankDateField(field) && date.isValid() && date.isAfter(pastDate);
 }
 
 function isValidBenefitsRelinquishmentPage(data) {
@@ -292,7 +293,7 @@ function isValidEducationPeriod(data) {
 }
 
 function isValidEducationHistoryPage(data) {
-  return (isBlankDateField(data.highSchoolOrGedCompletionDate) || isValidDateField(data.highSchoolOrGedCompletionDate))
+  return (isBlankMonthYear(data.highSchoolOrGedCompletionDate) || isValidDateField(data.highSchoolOrGedCompletionDate))
     && data.postHighSchoolTrainings.every(isValidEducationPeriod);
 }
 
@@ -318,8 +319,8 @@ function isValidContactInformationPage(data) {
   }
 
   return isValidAddressField(data.veteranAddress) &&
-      isValidField(isValidEmail, data.email) &&
-      isValidField(isValidEmail, data.emailConfirmation) &&
+      isValidRequiredField(isValidEmail, data.email) &&
+      isValidRequiredField(isValidEmail, data.emailConfirmation) &&
       emailConfirmationValid &&
       (isPhoneRequired ? isValidRequiredField(isValidPhone, data.homePhone) : isValidField(isValidPhone, data.homePhone)) &&
       isValidField(isValidPhone, data.mobilePhone);
@@ -331,8 +332,8 @@ function isValidDirectDepositPage(data) {
 
 function isValidContributionsPage(data) {
   return !data.activeDutyRepaying ||
-    (!isBlankDateField(data.activeDutyRepayingPeriod.from)
-    && !isBlankDateField(data.activeDutyRepayingPeriod.to)
+    (isNotBlankDateField(data.activeDutyRepayingPeriod.from)
+    && isNotBlankDateField(data.activeDutyRepayingPeriod.to)
     && isValidDateRange(data.activeDutyRepayingPeriod.from, data.activeDutyRepayingPeriod.to));
 }
 
@@ -414,6 +415,7 @@ export {
   initializeNullValues,
   isBlank,
   isNotBlank,
+  isNotBlankDateField,
   isValidDate,
   isValidName,
   isValidSSN,
@@ -439,7 +441,6 @@ export {
   isValidValue,
   isValidFutureDateField,
   isValidRelinquishedDate,
-  isBlankAddress,
   isValidTourOfDuty,
   isValidEmploymentPeriod,
   isValidRotcScholarshipAmount

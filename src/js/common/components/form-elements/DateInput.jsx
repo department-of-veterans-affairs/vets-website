@@ -71,7 +71,7 @@ class DateInput extends React.Component {
     if (this.props.required) {
       isValid = validateIfDirtyDate(day, month, year, dateValidator) && (this.props.validation !== undefined ? this.props.validation : true);
     } else {
-      isValid = (isBlank(day.value) && isBlank(month.value) && isBlank(year.value)) ||
+      isValid = ((isBlank(day.value) || this.props.hideDayField) && isBlank(month.value) && isBlank(year.value)) ||
         (validateIfDirtyDate(day, month, year, dateValidator) && (this.props.validation !== undefined ? this.props.validation : true));
     }
 
@@ -102,6 +102,7 @@ class DateInput extends React.Component {
       dayField = (
         <div className="form-datefield-day">
           <ErrorableSelect errorMessage={isValid ? undefined : ''}
+              autocomplete="false"
               label="Day"
               name={`${this.props.name}Day`}
               options={daysForSelectedMonth}
@@ -122,6 +123,7 @@ class DateInput extends React.Component {
           <div className="usa-date-of-birth row">
             <div className="form-datefield-month">
               <ErrorableSelect errorMessage={isValid ? undefined : ''}
+                  autocomplete="false"
                   label="Month"
                   name={`${this.props.name}Month`}
                   options={months}
@@ -131,6 +133,7 @@ class DateInput extends React.Component {
             {dayField}
             <div className="usa-datefield usa-form-group usa-form-group-year">
               <ErrorableNumberInput errorMessage={isValid ? undefined : ''}
+                  autocomplete="false"
                   label="Year"
                   name={`${this.props.name}Year`}
                   max={new Date().getFullYear()}

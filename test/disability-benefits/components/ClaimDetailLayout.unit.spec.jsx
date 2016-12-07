@@ -30,6 +30,28 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.subTree('.list').text()).to.contain('Condition 1, Condition 2');
   });
+  it('should render see all link if long contention list', () => {
+    const claim = {
+      id: 5,
+      attributes: {
+        contentionList: [
+          'Condition 1',
+          'Condition 2',
+          'Condition 3',
+          'Condition 4',
+          'Condition 5',
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ClaimDetailLayout
+          claim={claim}/>
+    );
+
+    expect(tree.subTree('.list').text()).to.contain('Condition 1, Condition 2, Condition 3');
+    expect(tree.subTree('.claim-conditions').subTree('Link').props.to).to.equal('your-claims/5/details');
+  });
   it('should render not available if no contention list', () => {
     const claim = {
       attributes: {
@@ -45,9 +67,10 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.subTree('.list').text()).to.contain('Not available');
   });
-  it('should render adding details info', () => {
+  it('should render adding details info if open', () => {
     const claim = {
       attributes: {
+        open: true,
         contentionList: [
           'Condition 1',
           'Condition 2'
@@ -61,6 +84,24 @@ describe('<ClaimDetailLayout>', () => {
     );
 
     expect(tree.everySubTree('AddingDetails')).not.to.be.empty;
+  });
+  it('should not render adding details info if closed', () => {
+    const claim = {
+      attributes: {
+        open: false,
+        contentionList: [
+          'Condition 1',
+          'Condition 2'
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ClaimDetailLayout
+          claim={claim}/>
+    );
+
+    expect(tree.everySubTree('AddingDetails')).to.be.empty;
   });
   it('should render normal info', () => {
     const claim = {

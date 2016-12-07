@@ -7,7 +7,7 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 import VaMedicalFacility from './VaMedicalFacility';
 import { veteranUpdateField } from '../../actions';
 import { states, vaMedicalFacilities, yesNo } from '../../../common/utils/options-for-select';
-import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
+import { validateIfDirty, isNotBlank } from '../../utils/validations';
 import { displayLabel } from '../../store/calculated';
 
 /**
@@ -65,7 +65,7 @@ class AdditionalInformationSection extends React.Component {
               value={this.props.data.vaMedicalFacility}
               facilityState={this.props.data.facilityState}
               onValueChange={(update) => {this.props.onStateChange('vaMedicalFacility', update);}}/>
-          OR <a target="_blank" href="/facility-locator">Find locations with the VA Facility Locator</a>
+          OR <a target="_blank" href="/facilities">Find locations with the VA Facility Locator</a>
         </div>
 
         <div className="input-section">

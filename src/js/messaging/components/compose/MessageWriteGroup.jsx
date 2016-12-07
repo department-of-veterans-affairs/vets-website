@@ -7,7 +7,6 @@ import MessageAttachments from './MessageAttachments';
 class MessageWriteGroup extends React.Component {
   render() {
     const errItemClass = classNames(
-      this.props.cssClass,
       'msg-write-group',
       'msg-field',
       { 'msg-compose-error': !!this.props.errorMessage },
@@ -26,9 +25,9 @@ class MessageWriteGroup extends React.Component {
             files={this.props.files}
             onClose={this.props.onAttachmentsClose}/>
         <MessageSend
+            disabled={!this.props.messageText.value.length}
             allowedMimeTypes={this.props.allowedMimeTypes}
             attachedFiles={this.props.files}
-            cssClass="msg-send-group"
             maxFiles={this.props.maxFiles}
             maxFileSize={this.props.maxFileSize}
             maxTotalFileSize={this.props.maxTotalFileSize}

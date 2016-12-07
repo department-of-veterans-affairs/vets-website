@@ -20,10 +20,16 @@ describe('<ReviewCollapsiblePanel>', () => {
       <ReviewCollapsiblePanel
           data={data}
           uiData={uiData}
-          pageLabel="Test"
-          updatePath={path}
-          component={<FakeFields/>}
-          reviewComponent={<FakeReview/>}
+          pages={
+            [
+              {
+                name: 'Test',
+                path,
+                fieldsComponent: FakeFields,
+                reviewComponent: FakeReview
+              }
+            ]
+          }
           onFieldsInitialized={onFieldsInitialized}
           onUpdateSaveStatus={onUpdateSaveStatus}
           onUpdateVerifiedStatus={onUpdateVerifiedStatus}
@@ -34,55 +40,49 @@ describe('<ReviewCollapsiblePanel>', () => {
     const uiData = {
       pages: {
         '/school-selection/school-information': {
-          complete: true,
-          verified: true
+          editOnReview: false
         },
         '/personal-information/contact-information': {
-          complete: false,
-          verified: false
+          editOnReview: true
         }
       }
     };
 
     const tree = renderCollapsiblePanel(uiData);
+    tree.getMountedInstance().toggleChapter();
 
     expect(tree.everySubTree('FakeFields').length).to.equal(1);
-    expect(tree.everySubTree('button')[0].text()).to.equal('Update page');
+    expect(tree.everySubTree('button')[1].text()).to.equal('Update page');
   });
   it('should render review fields', () => {
     const uiData = {
       pages: {
         '/school-selection/school-information': {
-          complete: true,
-          verified: true
+          editOnReview: false
         },
         '/personal-information/contact-information': {
-          complete: true,
-          verified: false
+          editOnReview: false
         }
       }
     };
 
     const tree = renderCollapsiblePanel(uiData);
+    tree.getMountedInstance().toggleChapter();
 
     expect(tree.everySubTree('FakeReview').length).to.equal(1);
-    expect(tree.everySubTree('button')[0].text()).to.equal('Edit');
-    expect(tree.everySubTree('button')[1].text()).to.equal('Next');
+    expect(tree.everySubTree('button')[1].text()).to.equal('Edit');
   });
   it('should render nothing', () => {
     const uiData = {
       pages: {
         '/school-selection/school-information': {
-          complete: true,
-          verified: true
+          editOnReview: false
         },
         '/personal-information/contact-information': {
-          complete: true,
-          verified: false
+          editOnReview: false
         },
         '/personal-information/secondary-contact': {
-          complete: false,
-          verified: false
+          editOnReview: false
         }
       }
     };
@@ -91,22 +91,19 @@ describe('<ReviewCollapsiblePanel>', () => {
 
     expect(tree.everySubTree('FakeReview').length).to.equal(0);
     expect(tree.everySubTree('FakeFields').length).to.equal(0);
-    expect(tree.everySubTree('button').length).to.equal(0);
+    expect(tree.everySubTree('button').length).to.equal(1);
   });
-  it('should render just an edit button', () => {
+  it('should expand when clicked', () => {
     const uiData = {
       pages: {
         '/school-selection/school-information': {
-          complete: true,
-          verified: true
+          editOnReview: false
         },
         '/personal-information/contact-information': {
-          complete: true,
-          verified: true
+          editOnReview: false
         },
         '/personal-information/secondary-contact': {
-          complete: true,
-          verified: true
+          editOnReview: false
         }
       }
     };
@@ -114,8 +111,7 @@ describe('<ReviewCollapsiblePanel>', () => {
     const tree = renderCollapsiblePanel(uiData);
 
     expect(tree.everySubTree('FakeReview').length).to.equal(0);
-    expect(tree.everySubTree('FakeFields').length).to.equal(0);
-    expect(tree.everySubTree('button').length).to.equal(1);
-    expect(tree.everySubTree('button')[0].text()).to.equal('Edit');
+    tree.getMountedInstance().toggleChapter();
+    expect(tree.everySubTree('FakeReview').length).to.equal(1);
   });
 });

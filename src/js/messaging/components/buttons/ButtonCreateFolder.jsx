@@ -4,7 +4,7 @@ class ButtonCreateFolder extends React.Component {
   render() {
     return (
       <button
-          className="usa-button-unstyled msg-btn-newfolder"
+          className="msg-btn-newfolder"
           onClick={this.props.onClick}
           type="button">
         <i className="fa fa-plus"></i>

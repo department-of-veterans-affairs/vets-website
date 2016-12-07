@@ -1,6 +1,13 @@
 import { expect } from 'chai';
 
-import { isValidDateRange, isValidFutureOrPastDateField, isValidPage, isValidRoutingNumber } from '../../../src/js/edu-benefits/utils/validations.js';
+import {
+  isValidContactInformationPage,
+  isValidDateRange,
+  isValidFutureOrPastDateField,
+  isValidPage,
+  isValidRoutingNumber
+} from '../../../src/js/edu-benefits/utils/validations.js';
+
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran.js';
 
 describe('Validations unit tests', () => {
@@ -62,6 +69,37 @@ describe('Validations unit tests', () => {
         },
         year: {
           value: 2005,
+          dirty: true
+        }
+      };
+      expect(isValidDateRange(fromDate, toDate)).to.be.false;
+    });
+    it('does not validate with partial dates', () => {
+      const fromDate = {
+        day: {
+          value: '',
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: 2006,
+          dirty: true
+        }
+      };
+      const toDate = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 4,
+          dirty: true
+        },
+        year: {
+          value: 2008,
           dirty: true
         }
       };
@@ -171,6 +209,56 @@ describe('Validations unit tests', () => {
       invalidRoutingNumbers.forEach((num) => {
         expect(isValidRoutingNumber(num)).to.be.false;
       });
+    });
+  });
+  describe('isValidContactInformationPage', () => {
+    it('should require phone number', () => {
+      const data = {
+        veteranAddress: {
+          street: {
+            value: 'Test',
+            dirty: true
+          },
+          city: {
+            value: 'Test',
+            dirty: true
+          },
+          country: {
+            value: 'USA',
+            dirty: true
+          },
+          state: {
+            value: 'MA',
+            dirty: true
+          },
+          postalCode: {
+            value: '01060',
+            dirty: true
+          },
+        },
+        preferredContactMethod: {
+          value: '',
+          dirty: true
+        },
+        email: {
+          value: '',
+          dirty: true
+        },
+        emailConfirmation: {
+          value: '',
+          dirty: true
+        },
+        homePhone: {
+          value: '',
+          dirty: true
+        },
+        mobilePhone: {
+          value: '',
+          dirty: true
+        }
+      };
+
+      expect(isValidContactInformationPage(data)).to.be.false;
     });
   });
 });

@@ -11,6 +11,7 @@ import {
   openRefillModal
 } from '../actions/modals';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import PrescriptionList from '../components/PrescriptionList';
 import SortMenu from '../components/SortMenu';
 import { sortOptions } from '../config';
@@ -22,7 +23,9 @@ class Active extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadPrescriptions({ active: true });
+    if (!this.props.loading) {
+      this.props.loadPrescriptions({ active: true });
+    }
   }
 
   componentDidUpdate() {
@@ -42,10 +45,11 @@ class Active extends React.Component {
   }
 
   render() {
-    const prescriptions = this.props.prescriptions;
     let content;
 
-    if (prescriptions) {
+    if (this.props.loading) {
+      content = <LoadingIndicator message="is loading your prescriptions..."/>;
+    } else if (this.props.prescriptions) {
       const sortValue = this.props.sort;
 
       content = (
@@ -69,11 +73,14 @@ class Active extends React.Component {
         <p className="rx-tab-explainer rx-loading-error">
           We couldn't retrieve your prescriptions.
           Please refresh this page or try again later.
-        </p>);
+          If this problem persists, please call the Vets.gov Help Desk
+          at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
+        </p>
+      );
     }
 
     return (
-      <div className="va-tab-content">
+      <div id="rx-active" className="va-tab-content">
         {content}
       </div>
     );
@@ -86,8 +93,8 @@ Active.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    ...state.prescriptions.active,
     prescriptions: state.prescriptions.items,
-    sort: state.prescriptions.active.sort
   };
 };
 

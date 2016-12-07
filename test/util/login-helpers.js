@@ -4,7 +4,7 @@ const Timeouts = require('./timeouts');
 
 function setUserToken(client) {
   client.execute(() => {
-    window.localStorage.userToken = '1234567';
+    window.sessionStorage.userToken = '1234567';
   },
   [],
   (val) => {
@@ -34,6 +34,15 @@ function initUserMock(level) {
               last_name: 'Doe',
               gender: 'F',
               birth_date: '1985-01-01'
+            },
+            services: ['facilities', 'hca', 'edu-benefits', 'disability-benefits', 'user-profile', 'rx', 'messaging'],
+            va_profile: {
+              status: 'OK',
+              birth_date: '19511118',
+              family_name: 'Hunter',
+              gender: 'M',
+              given_names: ['Julio', 'E'],
+              active_status: 'active'
             }
           }
         }

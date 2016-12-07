@@ -2,11 +2,10 @@ import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { updateSearchQuery, searchWithAddress, searchWithBounds, fetchVAFacility } from '../actions';
-import { map, find } from 'lodash';
+import { map, find, compact, isEmpty, debounce } from 'lodash';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
-import DivMarker from '../components/markers/DivMarker';
 import isMobile from 'ismobilejs';
 import CemeteryMarker from '../components/markers/CemeteryMarker';
 import HealthMarker from '../components/markers/HealthMarker';
@@ -17,52 +16,43 @@ import SearchControls from '../components/SearchControls';
 import MobileSearchResult from '../components/MobileSearchResult';
 
 class VAMap extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(0.5), 2500, {
+      leading: true,
+    });
+  }
 
   componentDidMount() {
     const { location, currentQuery } = this.props;
-    let shouldGeolocate = true;
 
-    this.updateUrlParams({
-      location: [currentQuery.position.latitude, currentQuery.position.longitude].join(','),
-      context: currentQuery.context,
-    });
+    // navigating back from a facility page preserves previous search results
+    if (!isEmpty(this.props.facilities)) {
+      return;
+    }
 
-    // populate search bar with address in Url
     if (location.query.address) {
-      this.props.updateSearchQuery({
+      this.props.searchWithAddress({
         searchString: location.query.address,
         context: location.query.context,
       });
-    }
-
-    if (location.query.location) {
-      shouldGeolocate = false;
-      const coords = location.query.location.split(',').map(Number);
-      this.props.updateSearchQuery({
-        position: {
-          latitude: coords[0],
-          longitude: coords[1],
-        }
-      });
-
-      if (!location.query.address) {
-        this.reverseGeocode({
-          latitude: coords[0],
-          longitude: coords[1],
-        });
-      }
-    }
-
-    if (navigator.geolocation && shouldGeolocate) {
+    } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((currentPosition) => {
         this.props.updateSearchQuery({
           position: currentPosition.coords,
         });
-        this.updateUrlParams({
-          location: [currentPosition.coords.latitude, currentPosition.coords.longitude].join(','),
-        });
+
         this.reverseGeocode(currentPosition.coords);
+      }, () => {
+        this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
       });
+    } else {
+      this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
     }
 
     Tabs.setUseDefaultStyles(false);
@@ -76,23 +66,67 @@ class VAMap extends Component {
       this.updateUrlParams({
         location: `${newQuery.position.latitude},${newQuery.position.longitude}`,
         context: newQuery.context,
+        address: newQuery.searchString,
       });
+    }
+
+    // reset to page 1 if zoom level changes
+    if ((currentQuery.zoomLevel !== newQuery.zoomLevel) && (currentQuery.currentPage !== 1)) {
+      this.props.updateSearchQuery({
+        currentPage: 1,
+      });
+    }
+
+    if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds) && !newQuery.searchBoundsInProgress) {
+      this.props.searchWithBounds(newQuery.bounds, newQuery.facilityType, newQuery.serviceType, newQuery.currentPage);
+    }
+
+    if (!isEmpty(nextProps.facilities) || newQuery.inProgress) {
+      this.zoomOut.cancel();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { currentQuery } = prevProps;
+    const newQuery = this.props.currentQuery;
+
+    if (isEmpty(this.props.facilities) && !newQuery.inProgress && currentQuery.inProgress && newQuery.bounds && parseInt(newQuery.zoomLevel, 10) > 2) {
+      if (isMobile.any) {
+        this.props.updateSearchQuery({
+          bounds: [
+            newQuery.bounds[0] - 0.5,
+            newQuery.bounds[1] - 0.5,
+            newQuery.bounds[2] + 0.5,
+            newQuery.bounds[3] + 0.5,
+          ],
+        });
+      } else {
+        this.zoomOut();
+      }
+    }
+
+    if (!isEmpty(this.props.facilities) || currentQuery.inProgress) {
+      this.zoomOut.cancel();
     }
   }
 
   // pushes coordinates to URL so that map link is useful for sharing
   // TODO (bshyong): try out existing query-string npm library
-  updateUrlParams(params) {
-    const { location } = this.props;
+  updateUrlParams = (params) => {
+    const { location, currentQuery } = this.props;
 
-    const queryParams = map({
+    const queryParams = compact(map({
       ...location.query,
+      zoomLevel: currentQuery.zoomLevel,
+      page: currentQuery.currentPage,
+      address: currentQuery.searchString,
       ...params,
     }, (v, k) => {
       if (v) { return `${k}=${v}`; }
       return null;
-    }).join('&');
-    browserHistory.push(`${location.pathname}?${queryParams}`);
+    })).join('&');
+
+    browserHistory.push(`/facilities${location.pathname}?${queryParams}`);
   }
 
   // takes obj of form {latitude: 0, longitude: 0}
@@ -100,16 +134,23 @@ class VAMap extends Component {
     mapboxClient.geocodeReverse(position, {
       types: 'address',
     }, (err, res) => {
-      // TODO (bshyong): handle error case
+      const coordinates = res.features[0].center;
       const placeName = res.features[0].place_name;
       const zipCode = find(res.features[0].context, (v) => {
         return v.id.includes('postcode');
       }).text;
 
       this.props.updateSearchQuery({
+        bounds: res.features[0].bbox || [
+          coordinates[0] - 0.5,
+          coordinates[1] - 0.5,
+          coordinates[0] + 0.5,
+          coordinates[1] + 0.5,
+        ],
         searchString: placeName,
         context: zipCode,
       });
+
       this.updateUrlParams({
         address: placeName,
         context: zipCode,
@@ -120,28 +161,47 @@ class VAMap extends Component {
   handleSearch = () => {
     const { currentQuery } = this.props;
 
-    this.updateUrlParams({
-      address: currentQuery.searchString,
-    });
-    this.props.searchWithAddress(currentQuery);
-    this.handleBoundsChanged();
+    if (currentQuery.searchString && currentQuery.searchString.trim() !== '') {
+      this.updateUrlParams({
+        address: currentQuery.searchString,
+      });
+
+      this.props.searchWithAddress(currentQuery);
+    }
   }
 
   handleBoundsChanged = () => {
-    const { currentQuery: { facilityType, serviceType } } = this.props;
-    const bounds = this.refs.map.leafletElement.getBounds();
-    const boundsArray = [
-      bounds._southWest.lng,
-      bounds._southWest.lat,
-      bounds._northEast.lng,
-      bounds._northEast.lat,
-    ];
+    const { currentQuery } = this.props;
+    const { position } = currentQuery;
+
+    let center = {
+      lat: position.latitude,
+      lng: position.longitude,
+    };
+    let boundsArray = currentQuery.bounds;
+    let zoom = currentQuery.zoomLevel;
+
+    if (this.refs.map) {
+      center = this.refs.map.leafletElement.getCenter();
+      zoom = this.refs.map.leafletElement.getZoom();
+      const bounds = this.refs.map.leafletElement.getBounds();
+
+      boundsArray = [
+        bounds._southWest.lng,
+        bounds._southWest.lat,
+        bounds._northEast.lng,
+        bounds._northEast.lat,
+      ];
+    }
 
     this.props.updateSearchQuery({
       bounds: boundsArray,
+      position: {
+        latitude: center.lat,
+        longitude: center.lng,
+      },
+      zoomLevel: zoom,
     });
-
-    this.props.searchWithBounds(boundsArray, facilityType, serviceType);
   }
 
   centerMap = () => {
@@ -168,7 +228,7 @@ class VAMap extends Component {
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, e) => {
       e.preventDefault();
-      browserHistory.push(`/facilities/facility/${id}`);
+      this.context.router.push(`facility/${id}`);
     };
 
     return facilities.map(f => {
@@ -238,7 +298,7 @@ class VAMap extends Component {
   renderMobileView() {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, facilities } = this.props;
+    const { currentQuery, facilities, pagination } = this.props;
 
     return (
       <div>
@@ -252,19 +312,14 @@ class VAMap extends Component {
             <TabPanel>
               <div className="facility-search-results">
                 <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
-                <ResultsList facilities={facilities} isMobile/>
+                <ResultsList facilities={facilities} pagination={pagination} isMobile currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>
             </TabPanel>
             <TabPanel>
-              <Map ref="map" center={position} zoom={12} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}>
+              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false} zoomSnap={0.5} zoomDelta={0.5} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
                 <TileLayer
                     url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                     attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
-                <DivMarker position={position} popupContent={<span>You are here</span>}>
-                  <div className="current-position-icon">
-                    <i className="fa fa-star"></i>
-                  </div>
-                </DivMarker>
                 <FeatureGroup ref="facilityMarkers">
                   {this.renderFacilityMarkers()}
                 </FeatureGroup>
@@ -279,7 +334,7 @@ class VAMap extends Component {
 
   renderDesktopView() {
     // defaults to White House coordinates initially
-    const { currentQuery, facilities } = this.props;
+    const { currentQuery, facilities, pagination } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
 
@@ -293,20 +348,15 @@ class VAMap extends Component {
             <div className="facility-search-results">
               <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
               <div>
-                <ResultsList facilities={facilities}/>
+                <ResultsList facilities={facilities} pagination={pagination} currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>
             </div>
           </div>
           <div className="columns medium-8 small-12" style={{ minHeight: '75vh' }}>
-            <Map ref="map" center={position} zoom={12} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
+            <Map ref="map" center={position} zoomSnap={0.5} zoomDelta={0.5} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged}>
               <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
-              <DivMarker position={position} popupContent={<span>You are here</span>}>
-                <div className="current-position-icon">
-                  <i className="fa fa-star"></i>
-                </div>
-              </DivMarker>
               <FeatureGroup ref="facilityMarkers">
                 {this.renderFacilityMarkers()}
               </FeatureGroup>
@@ -322,7 +372,7 @@ class VAMap extends Component {
     return (
       <div>
         <div className="title-section">
-          <h3>Facility and Service Locator</h3>
+          <h1>Facility and Service Locator</h1>
         </div>
         {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
       </div>
@@ -334,6 +384,7 @@ function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
     facilities: state.facilities.facilities,
+    pagination: state.facilities.pagination,
     selectedFacility: state.facilities.selectedFacility,
   };
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-class MessageAttachmentsView extends React.Component {
+class MessageAttachmentsViewItem extends React.Component {
   render() {
     return (
       <li>
@@ -13,9 +13,9 @@ class MessageAttachmentsView extends React.Component {
   }
 }
 
-MessageAttachmentsView.propTypes = {
+MessageAttachmentsViewItem.propTypes = {
   name: React.PropTypes.string,
   url: React.PropTypes.string
 };
 
-export default MessageAttachmentsView;
+export default MessageAttachmentsViewItem;

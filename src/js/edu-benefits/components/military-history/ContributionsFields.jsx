@@ -12,36 +12,55 @@ export default class ContributionsFields extends React.Component {
       this.props.data.activeDutyRepayingPeriod.to,
       this.props.data.activeDutyRepayingPeriod.from
     );
+    const relinquished = this.props.data.benefitsRelinquished.value;
     return (<fieldset>
       <legend>Contributions</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <p>Select all that apply:</p>
         <ErrorableCheckbox
-            label="I am receiving benefits from the US Government as a civilian employee for the same term I am seeking benefits from VA."
+            label="I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA."
             name="civilianBenefitsAssistance"
             checked={this.props.data.civilianBenefitsAssistance}
             onValueChange={(update) => {this.props.onStateChange('civilianBenefitsAssistance', update);}}/>
         <ErrorableCheckbox
-            label="I made contributions (up to $600.00) to increase the amount of my monthly benefits."
+            label="I made contributions (up to $600) to increase the amount of my monthly benefits."
             name="additionalContributions"
             checked={this.props.data.additionalContributions}
             onValueChange={(update) => {this.props.onStateChange('additionalContributions', update);}}/>
-        <ErrorableCheckbox
-            label="I qualify for an Active Duty Kicker (sometimes called a ‘college fund’)."
-            name="activeDutyKicker"
-            checked={this.props.data.activeDutyKicker}
-            onValueChange={(update) => {this.props.onStateChange('activeDutyKicker', update);}}/>
-        <ErrorableCheckbox
-            label="I qualify for a Reserve Kicker (sometimes called a ‘college fund’)."
-            name="reserveKicker"
-            checked={this.props.data.reserveKicker}
-            onValueChange={(update) => {this.props.onStateChange('reserveKicker', update);}}/>
+        <ExpandingGroup
+            additionalClass="edu-benefits-active-group"
+            open={this.props.data.activeDutyKicker && relinquished === 'chapter1606'}>
+          <ErrorableCheckbox
+              label="I qualify for an Active Duty Kicker (sometimes called a college fund)."
+              name="activeDutyKicker"
+              checked={this.props.data.activeDutyKicker}
+              onValueChange={(update) => {this.props.onStateChange('activeDutyKicker', update);}}/>
+          <div className="usa-alert usa-alert-warning usa-content secondary">
+            <div className="usa-alert-body">
+              <span>You can only transfer a kicker from a benefit that you relinquish (give up). You chose to relinquish <strong>MGIB-SR</strong> so you won't get your Active Duty kicker.</span>
+            </div>
+          </div>
+        </ExpandingGroup>
+        <ExpandingGroup
+            additionalClass="edu-benefits-active-group"
+            open={this.props.data.reserveKicker && relinquished === 'chapter30'}>
+          <ErrorableCheckbox
+              label="I qualify for a Reserve Kicker (sometimes called a college fund)."
+              name="reserveKicker"
+              checked={this.props.data.reserveKicker}
+              onValueChange={(update) => {this.props.onStateChange('reserveKicker', update);}}/>
+          <div className="usa-alert usa-alert-warning usa-content secondary">
+            <div className="usa-alert-body">
+              <span>You can only transfer a kicker from a benefit that you relinquish (give up). You chose to relinquish <strong>MGIB-AD</strong> so you won't get your Active Duty kicker.</span>
+            </div>
+          </div>
+        </ExpandingGroup>
         <ExpandingGroup
             additionalClass="edu-benefits-active-group"
             open={this.props.data.activeDutyRepaying}>
           <ErrorableCheckbox
-              label="I have a period of service that the Department of Defense counts towards an education loan payment."
+              label="I have a period of service that the Department of Defense counts toward an education loan payment."
               name="activeDutyRepaying"
               checked={this.props.data.activeDutyRepaying}
               onValueChange={(update) => {this.props.onStateChange('activeDutyRepaying', update);}}/>

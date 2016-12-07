@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import DateInput from '../../../common/components/form-elements/DateInput';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import { branchesServed, dischargeTypes } from '../../../common/utils/options-for-select.js';
-import { validateIfDirty, isNotBlank, isValidDischargeDateField, isValidEntryDateField } from '../../../common/utils/validations';
+import { validateIfDirty, isNotBlank, isValidDischargeDateField, isValidEntryDateField } from '../../utils/validations';
 import { veteranUpdateField } from '../../actions';
 import { displayLabel } from '../../store/calculated';
 

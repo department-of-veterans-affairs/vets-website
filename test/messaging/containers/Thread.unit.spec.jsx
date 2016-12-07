@@ -16,6 +16,10 @@ const props = {
   folderMessages: [],
   isNewMessage: false,
   isSavedDraft: false,
+  loading: {
+    inProgress: false,
+    requestId: null
+  },
   message: null,
   messagesCollapsed: new Set(),
   modals: {
@@ -23,6 +27,9 @@ const props = {
       visible: false
     },
     deleteConfirm: {
+      visible: false
+    },
+    saveConfirmModal: {
       visible: false
     }
   },

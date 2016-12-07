@@ -2,6 +2,18 @@ const request = require('request');
 const E2eHelpers = require('./e2e-helpers');
 // const Timeouts = require('../util/timeouts.js');
 
+function initAskVAMock() {
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/disability_claims/11/request_decision',
+      verb: 'post',
+      value: {}
+    }
+  });
+}
+
 function initClaimsListMock() {
   request({
     uri: `${E2eHelpers.apiUrl}/mock`,
@@ -20,12 +32,11 @@ function initClaimsListMock() {
               minEstDate: '2013-05-02',
               maxEstDate: '2014-01-02',
               phaseChangeDate: '2016-10-31',
-              open: false,
+              open: true,
               waiverSubmitted: false,
               documentsNeeded: true,
               developmentLetterSent: true,
               decisionLetterSent: true,
-              successfulSync: false,
               updatedAt: '2016-10-28T14:41:26.468Z',
               phase: null
             }
@@ -44,18 +55,20 @@ function initClaimsListMock() {
               documentsNeeded: true,
               developmentLetterSent: true,
               decisionLetterSent: true,
-              successfulSync: false,
               updatedAt: '2016-10-28T14:41:26.468Z',
               phase: null
             }
           }
-        ]
+        ],
+        meta: {
+          successfulSync: false
+        }
       }
     }
   });
 }
 
-function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitted, phase) {
+function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitted, phase, estDate) {
   request({
     uri: `${E2eHelpers.apiUrl}/mock`,
     method: 'POST',
@@ -70,14 +83,13 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
             evssId: 189685,
             dateFiled: '2008-09-23',
             minEstDate: '2013-05-02',
-            maxEstDate: '2014-01-02',
+            maxEstDate: estDate || '2014-01-02',
             phaseChangeDate: '2012-10-31',
-            open: false,
+            open: !decisionLetterSent,
             waiverSubmitted,
             documentsNeeded,
             developmentLetterSent: true,
             decisionLetterSent,
-            successfulSync: true,
             updatedAt: '2016-10-28T14:41:26.468Z',
             phase,
             contentionList: ['Hearing Loss (New)',
@@ -101,18 +113,6 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
               suspenseDate: null,
               documents: [],
               date: '2012-11-29'
-            }, {
-              type: 'phase7',
-              date: '2012-10-31'
-            }, {
-              type: 'phase6',
-              date: '2012-10-30'
-            }, {
-              type: 'phase5',
-              date: '2012-10-29'
-            }, {
-              type: 'phase4',
-              date: '2012-10-28'
             }, {
               type: 'phase3',
               date: '2012-10-27'
@@ -150,7 +150,7 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
               description: 'What was received item one.',
               displayName: 'Request 10',
               overdue: false,
-              status: 'ACCEPTED',
+              status: 'SUBMITTED_AWAITING_REVIEW',
               uploaded: false,
               uploadsAllowed: false,
               openedDate: null,
@@ -196,12 +196,12 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
               documents: [],
               date: '2010-03-15'
             }, {
-              type: 'received_from_others_list',
+              type: 'still_need_from_others_list',
               trackedItemId: 1,
               description: '21-4142',
               displayName: 'Request 9',
               overdue: false,
-              status: 'ACCEPTED',
+              status: 'NEEDED',
               uploaded: false,
               uploadsAllowed: false,
               openedDate: null,
@@ -217,6 +217,9 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
             }],
             claimType: 'Compensation and Pension'
           }
+        },
+        meta: {
+          successfulSync: true
         }
       }
     }
@@ -224,5 +227,6 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
 }
 module.exports = {
   initClaimsListMock,
-  initClaimDetailMocks
+  initClaimDetailMocks,
+  initAskVAMock
 };

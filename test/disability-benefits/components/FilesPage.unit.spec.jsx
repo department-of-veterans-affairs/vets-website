@@ -17,58 +17,33 @@ describe('<FilesPage>', () => {
     );
     expect(tree.props.message).not.to.be.null;
   });
-  it('should display no documents messages', () => {
+  it('should hide requested files when closed', () => {
     const claim = {
       attributes: {
+        open: false,
         eventsTimeline: []
       }
     };
-
     const tree = SkinDeep.shallowRender(
       <FilesPage
           claim={claim}/>
     );
-    expect(tree.everySubTree('.no-documents')).not.to.be.empty;
-    expect(tree.everySubTree('.no-documents-turned-in')).not.to.be.empty;
+
+    expect(tree.subTree('RequestedFilesInfo')).to.be.false;
   });
-  it('should display requested items', () => {
+  it('should show requested files when open', () => {
     const claim = {
       attributes: {
-        eventsTimeline: [{
-          type: 'still_need_from_you_list',
-          displayName: 'Request 1',
-          description: 'Some description',
-          status: 'NEEDED'
-        }]
+        open: true,
+        eventsTimeline: []
       }
     };
-
     const tree = SkinDeep.shallowRender(
       <FilesPage
           claim={claim}/>
     );
-    expect(tree.everySubTree('.file-request-list-item')).not.to.be.empty;
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain(claim.attributes.eventsTimeline[0].displayName);
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain(claim.attributes.eventsTimeline[0].description);
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain('<Link />');
-  });
-  it('should display optional files', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [{
-          type: 'still_need_from_others_list',
-          status: 'NEEDED'
-        }]
-      }
-    };
 
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-          claim={claim}/>
-    );
-    expect(tree.everySubTree('.file-request-list-item')).not.to.be.empty;
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain('we requested this from others');
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain('<Link />');
+    expect(tree.subTree('RequestedFilesInfo')).not.to.be.false;
   });
   it('should display turned in docs', () => {
     const claim = {
@@ -79,14 +54,27 @@ describe('<FilesPage>', () => {
             documents: [{
               filename: 'Filename'
             }],
+            trackedItemId: 2,
             status: 'ACCEPTED'
           },
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FilesPage
+          claim={claim}/>
+    );
+    expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(1);
+  });
+  it('should display additional evidence docs', () => {
+    const claim = {
+      attributes: {
+        eventsTimeline: [
           {
-            type: 'still_need_from_you_list',
-            documents: [{
-              filename: 'Filename'
-            }],
-            status: 'SUBMITTED_AWAITING_REVIEW'
+            filename: 'Filename',
+            fileType: 'Testing',
+            type: 'other_documents_list'
           }
         ]
       }
@@ -96,19 +84,29 @@ describe('<FilesPage>', () => {
       <FilesPage
           claim={claim}/>
     );
-    expect(tree.everySubTree('.submitted-file-list-item').length).to.equal(2);
-    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Filename');
-    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Reviewed by VA');
-    expect(tree.everySubTree('.submitted-file-list-item')[1].text()).to.contain('Submitted');
+    expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
   });
-  it('should render decision message', () => {
+  it('should show never received docs as tracked items', () => {
     const claim = {
       attributes: {
-        waiverSubmitted: true,
-        eventsTimeline: [{
-          type: 'still_need_from_you_list',
-          status: 'NEEDED'
-        }]
+        eventsTimeline: [
+          {
+            type: 'never_received_from_you_list',
+            documents: [{
+              filename: 'Filename'
+            }],
+            trackedItemId: 2,
+            status: 'ACCEPTED'
+          },
+          {
+            type: 'never_received_from_others_list',
+            documents: [{
+              filename: 'Filename'
+            }],
+            trackedItemId: 3,
+            status: 'NEEDED'
+          },
+        ]
       }
     };
 
@@ -116,7 +114,8 @@ describe('<FilesPage>', () => {
       <FilesPage
           claim={claim}/>
     );
-    expect(tree.everySubTree('.va-to-make-decision')).not.to.be.empty;
+    expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(2);
+    expect(tree.everySubTree('AdditionalEvidenceItem')).to.be.empty;
   });
   it('should clear alert', () => {
     const claim = {

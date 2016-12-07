@@ -49,7 +49,7 @@ relatedlinks:
 <div class="small-12 medium-3 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="number" markdown="0">125.2</span>
+<span class="number" markdown="0">115.7</span>
 <span class="description" markdown="0">Days</span>
 <span class="heading" markdown="0">(Average time)</span>
 
@@ -61,9 +61,9 @@ relatedlinks:
 
 <div class="info-block usa-content" markdown="1">
 
-Average number of days to process disability-related claims during September 2016.
+Average number of days to process disability-related claims during November 2016.
 
-If you’ve already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
+If you’ve already filed a claim, you can check your disability compensation claim status. [Check your status](/disability-benefits/track-claims/).
 
 </div>
 
@@ -83,7 +83,7 @@ If you’ve already filed a claim, check on its progress through [eBenefits](htt
 ### What are the steps?
 
 <ol class="process">
-<li class="step one wow fadeIn animated">
+<li class="step one">
 
 <div markdown="1">
 
@@ -115,7 +115,7 @@ For all compensation claims, please provide:
 
 </li>
 
-<li class="step two wow fadeIn animated">
+<li class="step two">
 
 <div markdown="1">
 
@@ -133,7 +133,7 @@ Choose one of three ways:
 
 </li>
 
-<li class="step three wow fadeIn animated">
+<li class="step three">
 
 <div markdown="1">
 
@@ -162,7 +162,7 @@ Choose one of three ways:
 </div>
 
 <div class="actions">
-<a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation" class="usa-button-primary">Track the status of your claim at eBenefits</a>
+<a target="_blank" href="/disability-benefits/track-claims/" class="usa-button-primary">Track the status of your claim</a>
 </div>
 
 <div markdown="1">
@@ -182,7 +182,7 @@ Other than attend scheduled examinations, you don't need to do anything else unl
 
 </li>
 
-<li class="step last four wow fadeIn animated">
+<li class="step last four">
 
 <div markdown="1">
 

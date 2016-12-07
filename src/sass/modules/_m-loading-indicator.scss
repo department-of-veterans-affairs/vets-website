@@ -6,5 +6,8 @@
     background: url(/img/loading-state.gif) center center no-repeat;
     background-size: contain;
     text-align: center;
+    &:focus {
+      outline: none;
+    }
   }
 }
