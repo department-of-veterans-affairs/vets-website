@@ -1,7 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchVAFacility } from '../actions';
-import { Link, browserHistory } from 'react-router';
 import AccessToCare from '../components/AccessToCare';
 import FacilityAddress from '../components/search-results/FacilityAddress';
 import FacilityDirectionsLink from '../components/search-results/FacilityDirectionsLink';
