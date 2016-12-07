@@ -23,4 +23,4 @@ relatedlinks:
 
 ---
 
-We can help you pay for non-traditional education programs, like on-the-job-training, apprenticeships, overseas schools, and correspondence training. Some of these programs allow you to work and get training at the same time. Find out if you qualify for these non-traditional education programs.
+Looking for education and job training options other than college? We can help. Find out if you qualify for a non-traditional education program.
