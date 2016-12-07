@@ -40,7 +40,7 @@ export default class MilitaryServiceTour extends React.Component {
                 valid: isValidDateRange(tour.dateRange.from, tour.dateRange.to),
                 message: 'End of service must be after start of service'
               }}
-              label="End of service period"
+              label="End of service period:"
               name="toDate"
               date={tour.dateRange.to}
               onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
