@@ -16,7 +16,7 @@ relatedlinks:
     title: Learn about the National Call to Service program
 ---
 
-If you are a Servicemember or Veteran applying for education benefits, use Form 22-1990 to apply for your Certificate of Eligibility (COE)—the letter that tells you what benefits you qualify for.
+If you're a Servicemember or Veteran applying for education benefits, use Form 22-1990 to apply for your Certificate of Eligibility (COE)—the letter that tells you what benefits you qualify for.
 
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
 	<div class="usa-alert-body">
