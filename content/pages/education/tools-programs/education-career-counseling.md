@@ -6,7 +6,7 @@ plainlanguage: 11-28-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
-If you're leaving active service soon, you can get free educational and career counseling services.
+If you’re leaving active service soon, find out how to get free educational and career counseling. 
 
 <div class="call-out usa-content" markdown="1">
 
