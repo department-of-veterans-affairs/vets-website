@@ -5,7 +5,7 @@ concurrence: incomplete
 template: 4-action-page-pending
 ---
 
-If you are a full-time or three-quarter-time college, vocational, or professional student using VA education benefits, you may qualify to earn money while you go to school through our work-study program. 
+If you’re a full-time or three-quarter-time college, vocational, or professional student using VA education benefits, find out if you can earn money while you go to school through our work-study program.
 
 <div class="call-out" markdown="1">
 
