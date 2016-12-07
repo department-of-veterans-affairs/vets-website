@@ -6,7 +6,7 @@ plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
-If you're a dependent or survivor of a Veteran, you may qualify for educational assistance through a GI Bill program.
+If you’re the dependent or survivor of a Veteran, find out if you qualify for school or job training through a GI Bill program. 
 <div class="call-out" markdown="1">
 
 ### Can I get education benefits?
