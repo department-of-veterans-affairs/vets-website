@@ -3,18 +3,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { veteranUpdateField, ensureFieldsInitialized } from '../actions/index';
+import { focusElement } from '../../common/utils/helpers';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend');
   if (legend && legend.getBoundingClientRect().height > 0) {
-    legend.setAttribute('tabindex', '-1');
-    legend.focus();
+    focusElement(legend);
   } else {
-    const navHeader = document.querySelector('.nav-header');
-    if (navHeader) {
-      navHeader.setAttribute('tabindex', '-1');
-      navHeader.focus();
-    }
+    focusElement('.nav-header');
   }
 }
 

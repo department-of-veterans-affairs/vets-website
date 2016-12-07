@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import ExpandingGroup from '../../common/components/form-elements/ExpandingGroup';
+import { focusElement } from '../../common/utils/helpers';
 
 export default class SubmitMessage extends React.Component {
   constructor(props) {
@@ -9,11 +10,7 @@ export default class SubmitMessage extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
-    const title = document.querySelector('.edu-page-title');
-    if (title) {
-      title.setAttribute('tabindex', '-1');
-      title.focus();
-    }
+    focusElement('.edu-page-title');
   }
   handleClick(e) {
     e.preventDefault();

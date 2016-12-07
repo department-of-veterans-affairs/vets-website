@@ -7,15 +7,11 @@ import routes from '../routes';
 import ReviewCollapsiblePanel from '../components/ReviewCollapsiblePanel';
 
 import { ensureFieldsInitialized, updateEditStatus, veteranUpdateField } from '../actions';
-import { isActivePage } from '../../common/utils/helpers';
+import { isActivePage, focusElement } from '../../common/utils/helpers';
 
 class ReviewPage extends React.Component {
   componentDidMount() {
-    const title = document.querySelector('.edu-page-title');
-    if (title) {
-      title.setAttribute('tabindex', '-1');
-      title.focus();
-    }
+    focusElement('.edu-page-title');
   }
   render() {
     let content;

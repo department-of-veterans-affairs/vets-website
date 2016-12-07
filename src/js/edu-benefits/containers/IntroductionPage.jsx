@@ -1,12 +1,9 @@
 import React from 'react';
+import { focusElement } from '../../common/utils/helpers';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
-    const breadcrumbs = document.querySelector('.va-nav-breadcrumbs-list');
-    if (breadcrumbs) {
-      breadcrumbs.setAttribute('tabindex', '-1');
-      breadcrumbs.focus();
-    }
+    focusElement('.va-nav-breadcrumbs-list');
   }
   render() {
     return (
