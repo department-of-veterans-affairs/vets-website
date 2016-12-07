@@ -5,7 +5,7 @@ concurrence: complete
 template: 1-topic-landing
 ---
 
-If you're interested in pursuing continuing-education programs, and are willing to make contributions from your military pay, Veterans' Educational Assistance Program (VEAP) is a $2-to-$1 government-match program for educational assistance.
+Do you want to continue your education using part of your military pay to help cover the costs of school? Find out if you can take advantage of the Veterans' Educational Assistance Program (VEAP)—a $2-to-$1 government-match program for educational assistance.
 
 <div class="call-out" markdown="1">
 
