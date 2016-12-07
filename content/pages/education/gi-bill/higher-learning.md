@@ -6,7 +6,7 @@ plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
-Want to earn an undergraduate or graduate degree at an institution of higher learning, including 4-year universities, community colleges, and schools offering advanced degrees? Find out if you can get VA education and training benefits.
+Want to earn an undergraduate or graduate degree? Find out if you can get VA education and training benefits to help pay for courses  at an institution of higher learning—like a 4-year university, community college, or graduate school.
 
 
 <div class="call-out" markdown="1">
