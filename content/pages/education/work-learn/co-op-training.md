@@ -28,7 +28,7 @@ Veterans
 
 -----
 
-### How do I get these benefits?
+### How much will I get if I join a co-op training?
 
 The amount we cover depends on the benefit you use.
 
