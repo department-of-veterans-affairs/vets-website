@@ -14,11 +14,12 @@ You can get these benefits if you're an active-duty GI Bill recipient, in which 
 -	You are a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for two years or less, **and**
 -	Your tuition and fees exceed 200% of the monthly amount of educational assistance you would otherwise be eligible to get during the certified period of enrollment.
 
+**Exception:** 
+This benefit isn't available under the Post-9/11 GI Bill, Dependents’ Educational Assistance (DEA) program, or VEAP.
+
 
 ### Who's covered?
 Veterans
-
-**Exception:** This benefit isn't available under the Post-9/11 GI Bill, Dependents’ Educational Assistance (DEA) program, or VEAP.
 </div>
 
 ### What benefits can I get?
