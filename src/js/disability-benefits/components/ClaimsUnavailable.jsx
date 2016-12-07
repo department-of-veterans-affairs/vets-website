@@ -5,9 +5,9 @@ class ClaimsUnavailable extends React.Component {
     return (
       <div className="usa-alert usa-alert-warning claims-no-icon claims-unavailable">
         <h4 className="warning-title">
-          <i className="fa fa-exclamation-triangle"></i>&nbsp;We weren't able to find your records
+          <i className="fa fa-exclamation-triangle"></i>&nbsp;Claim status is unavailable
         </h4>
-          Please call 1-855-574-7286 between Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
+          We couldn't check your claim status. Please try again later.
       </div>
     );
   }
