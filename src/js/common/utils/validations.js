@@ -553,23 +553,9 @@ function isValidSection(completePath, sectionData) {
   }
 }
 
-// function initializeNullValues(value) {
-//   if (value === null) {
-//     return '';
-//   } else if (_.isPlainObject(value)) {
-//     return _.mapValues(value, (v, _k) => { return initializeNullValues(v); });
-//   } else if (_.isArray(value)) {
-//     return value.map(initializeNullValues);
-//   }
-
-//   return value;
-// }
-
 export {
   validateIfDirty,
   validateIfDirtyDate,
-  // validateIfDirtyProvider,
-  // initializeNullValues,
   isBlank,
   isBlankDateField,
   isNotBlank,
