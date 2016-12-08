@@ -2,7 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 
 import environment from '../helpers/environment.js';
-import { handleVerify } from '../helpers/login-helpers.js';
+import { handleVerify, addEvent } from '../helpers/login-helpers.js';
 
 import SystemDownView from './SystemDownView';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -34,13 +34,16 @@ class RequiredLoginView extends React.Component {
       this.setState({ loginUrl: result.authenticate_via_get });
     });
 
-    window.addEventListener('message', this.setInitialLevel);
+    addEvent(window, 'message', (evt) => {
+      this.setInitialLevel(evt);
+    });
+
     setTimeout(() => {
       this.setState({ loading: false });
     }, 2000);
   }
 
-  setInitialLevel() {
+  setInitialLevel(event) {
     if (event.data === sessionStorage.userToken) {
       this.setUserLevel();
     }
@@ -72,7 +75,6 @@ class RequiredLoginView extends React.Component {
 
   handleLogin() {
     const myLoginUrl = this.state.loginUrl;
-    // TODO(crew): Check on how this opens on mobile.
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }

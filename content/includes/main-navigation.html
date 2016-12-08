@@ -27,4 +27,7 @@
 
 <br/>
 <br/>
-{% include "content/includes/related-links.html" %}
+
+{% if path == 'employment' %}
+{% include "content/includes/employment-related-links.html" %}
+{% endif %}

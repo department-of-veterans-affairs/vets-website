@@ -16,6 +16,10 @@
     .usa-input-error-message {
       margin: 0 0 0 11.5rem;
     }
+
+    .msg-write-group {
+      padding: .75rem 0;
+    }
   }
 }
 
@@ -29,19 +33,15 @@
     border-bottom: 1px solid $color-gray;
     border-top: 1px solid $color-gray;
   }
-
-  @media (min-width: $medium-screen) {
-    border-left: 4px solid transparent;
-  }
 }
 
 
 .msg-field.usa-input-error {
   @media (max-width: $medium-screen) {
     margin: 0;
+    padding: 0;
   }
 
-  padding: 0;
   border-left: 4px solid $color-secondary;
 }
 
@@ -61,12 +61,6 @@
 }
 
 .msg-subject-group-inner {
-  @media (min-width: $medium-screen) {
-    -webkit-align-items: center;
-    align-items: center;
-    display: flex;
-  }
-
   .usa-input-error-message {
     margin-left: 0rem;
   }
@@ -111,21 +105,13 @@
   }
 }
 
-.msg-recipient > div {
-  -webkit-align-items: center;
-  align-items: center;
-  display: -webkit-flex;
-  display: flex;
-  margin-bottom: 0;
-}
-
 .msg-recipient > div,
 .msg-subject-group {
-  padding: 1.5rem;
+  padding-top: .75rem;
+  padding-bottom: .75rem;
 
-  @media (min-width: $medium-screen) {
-    padding-top: .75rem;
-    padding-bottom: .75rem;
+  @media (max-width: $medium-screen) {
+    padding: 1.5rem;
   }
 }
 
@@ -152,12 +138,6 @@
 
 .msg-recipient label {
   padding-right: 1rem;
-
-  @media (min-width: $medium-screen) {
-    -webkit-flex: 0 0 10rem;
-    flex:  0 0 10rem;
-    text-align: right;
-  }
 }
 
 .msg-recipient {
@@ -253,8 +233,8 @@ button.msg-btn-save {
 
   textarea {
     border: 0;
-    padding: 0rem;
-    margin: 1rem 0 0 0;
+    padding: 0;
+    margin-bottom: 0;
     max-width: 100%;
     position: relative;
     resize: none;
@@ -273,7 +253,7 @@ button.msg-btn-save {
 }
 
 .msg-write {
-  padding: 1.5rem 1.5rem 2rem 1.5rem;
+  padding: 1.5rem 1.5rem 2rem;
 
   @media (min-width: $medium-screen) {
     padding: 0;
@@ -423,17 +403,12 @@ button.msg-btn-save {
     padding: 0;
   }
 
-  legend {
-    @media (min-width: $medium-screen) {
-      transform: translateY(50%);
-    }
-  }
-
   textarea {
     border: 3px solid $color-secondary;
     padding: 1rem;
   }
 
+  .msg-subject-group-inner,
   .msg-write,
   .msg-send-group {
     @media (min-width: $medium-screen) {
@@ -477,17 +452,6 @@ button.msg-btn-save {
   .usa-input-error {
     position: static;
     right: auto;
-  }
-
-  .msg-compose-error {
-    .msg-write {
-      padding: 1.5rem;
-      margin-left: 0;
-    }
-
-    .msg-send-group {
-      margin-left: 0;
-    }
   }
 
   .msg-field {
@@ -538,10 +502,18 @@ button.msg-btn-save {
       border: none;
     }
 
-    .msg-compose-error .msg-write {
-      border-color: $color-gray;
-      border-style: solid;
-      border-width: 1px 1px 0;
+    .msg-compose-error {
+      .msg-write {
+        border-color: $color-gray;
+        border-style: solid;
+        border-width: 1px 1px 0;
+        padding: .25rem 1rem 1rem;
+        margin-left: 0;
+      }
+
+      .msg-send-group {
+        margin-left: 0;
+      }
     }
 
     .msg-write {

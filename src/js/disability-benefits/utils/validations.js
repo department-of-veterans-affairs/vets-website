@@ -1,5 +1,3 @@
-import { isNotBlank } from '../../common/utils/validations';
-
 const MAX_FILE_SIZE = 25 * 1024 * 1024;
 export const FILE_TYPES = [
   'pdf',
@@ -12,12 +10,24 @@ export const FILE_TYPES = [
   'txt'
 ];
 
+export function isNotBlank(value) {
+  return value !== '';
+}
+
+export function validateIfDirty(field, validator) {
+  if (field.dirty) {
+    return validator(field.value);
+  }
+
+  return true;
+}
+
 export function isValidFileSize(file) {
   return file.size < MAX_FILE_SIZE;
 }
 
 export function isValidFileType(file) {
-  return FILE_TYPES.some(type => file.name.endsWith(type));
+  return FILE_TYPES.some(type => file.name.toLowerCase().endsWith(type));
 }
 
 export function isValidFile(file) {

@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { getClaimDetail } from '../actions';
 
 class ClaimPage extends React.Component {
   componentDidMount() {
-    this.props.getClaimDetail(this.props.params.id);
+    this.props.getClaimDetail(this.props.params.id, this.props.router);
     document.title = 'Your Disability Compensation Claim';
   }
   render() {
@@ -21,5 +22,5 @@ const mapDispatchToProps = {
   getClaimDetail
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClaimPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ClaimPage));
 
