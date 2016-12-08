@@ -19,7 +19,7 @@ You can get these services if you'll be discharged from active duty within 6 mon
 **Note:** Dependents who qualify for educational assistance may get these services under the following programs:
 - [Post-9/11 GI Bill](/education/gi-bill/transfer)
 - [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/)
-- [The Survivors’ and Dependents’ Educational Assistance Program (DEA)](/education/gi-bill/survivors-dependent-assistance/dependents-education/) may get these services too. 
+- [The Survivors’ and Dependents’ Educational Assistance Program (DEA)](/education/gi-bill/survivors-dependent-assistance/dependents-education/)
 
 ### Who's covered? 
 
