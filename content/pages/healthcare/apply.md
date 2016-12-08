@@ -65,16 +65,15 @@ If none of the above apply to you, you may still qualify for care based on your 
 To update your personal, insurance, or financial information from a prior application, fill out a 10-10EZR. [Download the 10-10EZR](/healthcare/forms/vha-10-10ezr-fill.pdf).
 
 <span id="additional-forms"></span>
-### Forms for caregivers, National Guard, and Reserve Servicemembers
+### Form for caregivers
 
-- [Apply as a caregiver (10-10CG)](/healthcare/forms/vha-10-10CG.pdf).
-- [Apply as National Guard and Reserve (10-10EZ-Demob)](/healthcare/forms/10-10EZ-DEMOB.pdf).
+[Apply as a caregiver (10-10CG)](/healthcare/forms/vha-10-10CG.pdf).
 
-#### How to download the forms
+#### How to download the form
 
 <dl>
     <dd><strong>Internet Explorer:</strong></dd>
-    <dd>1. Right click on 1 of the links above for the form you want to download.</dd>
+    <dd>1. Right click on the link to the form (above).</dd>
     <dd>2. Choose <b>Save Target As...</b></dd>
     <dd>3. Choose where you want to save the file on your hard drive.</dd>
     <dd>4. Click <b>Save</b>.</dd>
@@ -84,7 +83,7 @@ Double click on the downloaded file to open it.
 
 <dl>
     <dd><strong>Firefox or Chrome:</strong></dd>
-    <dd>1. Right click on 1 of the links above for the form you want to download.</dd>
+    <dd>1. Right click on the link to the form (above).</dd>
     <dd>2. Choose <b>Save Link As...</b></dd>
     <dd>3. Choose where you want to save the file on your hard drive.</dd>
     <dd>4. Click <b>Save</b>.</dd>
@@ -94,7 +93,7 @@ Double click on the downloaded file to open it.
 
 <dl>
     <dd><strong>Safari:</strong></dd>
-    <dd>1. Right click on 1 of the links above for the form you want to download.</dd>
+    <dd>1. Right click on the link to the form (above).</dd>
     <dd>2. Choose <b>Download Linked File As...</b> </dd>
     <dd>3. Choose where you want to save the file on your hard drive.</dd>
     <dd>4. Click <b>Save</b>.</dd>
