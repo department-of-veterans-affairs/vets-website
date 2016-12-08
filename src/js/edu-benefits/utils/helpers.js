@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import moment from 'moment';
+
+import { dateToMoment } from '../../common/utils/helpers';
 
 export const chapterNames = {
   veteranInformation: 'Veteran Information',
@@ -25,19 +26,29 @@ export function showSchoolAddress(educationType) {
     || educationType === 'correspondence';
 }
 
-export function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value - 1,
-    day: dateField.day.value
-  });
+function formatDayMonth(val) {
+  if (!val || !val.length || !Number(val)) {
+    return 'XX';
+  } else if (val.length === 1) {
+    return `0${val}`;
+  }
+
+  return val.toString();
+}
+
+export function formatPartialDate(field) {
+  if (!field.day.value && !field.month.value && !field.year.value) {
+    return undefined;
+  }
+
+  return `${field.year.value || 'XXXX'}-${formatDayMonth(field.month.value)}-${formatDayMonth(field.day.value)}`;
 }
 
 export function displayDateIfValid(dateObject) {
   if (typeof dateObject === 'object') {
     const momentDate = dateToMoment(dateObject);
     if (momentDate.isValid()) {
-      return momentDate.format('M/D/YYYY');
+      return formatPartialDate(dateObject);
     }
   }
   return null;
@@ -88,3 +99,4 @@ export function showYesNo(field) {
 
   return field.value === 'Y' ? 'Yes' : 'No';
 }
+
