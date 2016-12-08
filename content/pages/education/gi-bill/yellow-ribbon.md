@@ -11,14 +11,16 @@ The Yellow Ribbon Program can help you pay for higher out-of-state, private, or 
 <div class="call-out" markdown="1">
 
 ### Can I get this benefit?
-You can get this benefit if you qualify for the maximum benefit rate under the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) and:
-  - Your school takes part in the Yellow Ribbon Program, **and**
-  - You served a combined period of 36 months on active duty after September 10, 2001, **and**
-  - You were honorably discharged from active duty for a service-connected disability with at least 30 continuous days  (meaning 30 days with no break in service) after September 10, 2001. 
+You can get this benefit if:
+- You qualify for the maximum benefit rate under the Post-9/11 GI Bill, and
+- Your school takes part in the Yellow Ribbon Program and has confirmed your enrollement with us. 
 
-[Find out if your school takes part in the Yellow Ribbon Program](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp).<br>
+You may get this benefit if:
+- You served a combined period of 36 months on active duty after September 10, 2001, **or**
+- You were honorably discharged from active duty for a service-connected disability with at least 30 continuous days  (meaning 30 days with no break in service) after September 10, 2001, **or** 
+- You're the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill. [Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
 
-You can get this benefit if you're the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill. [Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
+[See the list of schools that offer the Yellow Ribbon Program](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp).<br>
 
 
 ### Who's covered?
