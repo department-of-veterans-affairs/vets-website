@@ -41,14 +41,14 @@ We'll give you up to $368 per month in compensation (payments) for these types o
   - Refresher courses (brief courses that help people review and improve their knowledge in a certain subject area)
 
 
-Take a look at [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
+[See current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
 
 ### How do I get these benefits? 
 
 You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/).
 
 ### Get more information
-- Visit the [GI Bill customer service page](http://gibill.custhelp.com/) to search Frequently Asked Questions or to ask a question online.
+- [Ask questions on GI Bill customer service page](http://gibill.custhelp.com/). You can also search frequently asked questions. 
 - Call <span class="tel">888-442-4551</span> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) Monday through Friday.
 - For TDD/TYY, use <span class="tel">800-829-4833</span>.
 
