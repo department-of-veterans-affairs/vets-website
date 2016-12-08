@@ -106,6 +106,10 @@ function isValidDate(day, month, year) {
 }
 
 function isValidAnyDate(day, month, year) {
+  if (Number(year) < 1900 || Number(year) > moment().add(100, 'year').year()) {
+    return false;
+  }
+
   return moment({
     day,
     month: month ? parseInt(month, 10) - 1 : month,
@@ -122,6 +126,10 @@ function isValidPartialDate(day, month, year) {
 }
 
 function isValidDateOver17(day, month, year) {
+  if (Number(year) < 1900) {
+    return false;
+  }
+
   const momentDate = moment({
     day,
     month: parseInt(month, 10) - 1,

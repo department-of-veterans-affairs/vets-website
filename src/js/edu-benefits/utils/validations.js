@@ -177,6 +177,9 @@ function isValidDateField(field) {
 }
 
 function isValidFutureDate(day, month, year) {
+  if (Number(year) > moment().add(100, 'year').year()) {
+    return false;
+  }
   const today = moment().startOf('day');
   const date = moment({
     day,
@@ -247,6 +250,9 @@ function isValidBenefitsInformationPage(data) {
 }
 
 function isValidRelinquishedDate(field) {
+  if (Number(field.year.value) > moment().add(100, 'year').year()) {
+    return false;
+  }
   // Allow dates up to two years ago
   const pastDate = moment().subtract(2, 'years');
   const date = dateToMoment(field);
