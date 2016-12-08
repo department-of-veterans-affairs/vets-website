@@ -13,7 +13,7 @@ template: 4-action-page-pending
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-Call <span class="tel">888-442-4551</span> (888-GI-BILL-1) from 7:00 a.m. to 6:00 p.m. (CT), Monday through Friday, if you need help with your GI Bill claim. 
+Need help with your GI Bill claim? Call <span class="tel">888-442-4551</span> (888-GI-BILL-1) from 7:00 a.m. to 6:00 p.m. (CT), Monday through Friday. 
 
 You can also contact your VA Regional Processing Office (RPO) directly. 
 There are 4 RPOs in the United States. Here are the locations and the states that each RPO serves. 
