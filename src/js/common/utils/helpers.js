@@ -63,3 +63,14 @@ export function dateToMoment(dateField) {
     day: dateField.day.value
   });
 }
+
+export function focusElement(selectorOrElement) {
+  const el = typeof selectorOrElement === 'string'
+    ? document.querySelector(selectorOrElement)
+    : selectorOrElement;
+
+  if (el) {
+    el.setAttribute('tabindex', '-1');
+    el.focus();
+  }
+}
