@@ -15,7 +15,7 @@ You can transfer benefits if you’re on active duty or in the Selected Reserve,
   - You’re in one of these situations:
      - You have at least 6 years of service on the date of approval and agree to serve 4 additional years from the date of election, **or**
      - You have at least 10 years of service on the date of approval, are prevented by either policy or statute from committing to 4 additional years, but agree to serve for the maximum amount of time allowed, **and**
-  - The peron getting benefits is enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).
+  - The person getting benefits is enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).
 
 ### Who's covered?
 Qualified dependents
@@ -23,7 +23,7 @@ Qualified dependents
 
 ### What benefits can they get?
 
-If the Department of Defense (DOD) approves the transfer, your spouse or dependent children can apply for up to 36 months of benefits, and may be able to get money for: 
+If the DOD approves the transfer, your spouse or dependent children can apply for up to 36 months of benefits, and may be able to get money for: 
 
 - Tuition
 - Housing
@@ -32,7 +32,7 @@ If the Department of Defense (DOD) approves the transfer, your spouse or depende
 
 ------
 
-### Who can I transfer the benefit to?
+### When can they use the transferred benefit?
 
 The following conditions apply to family members using transferred benefits:
 
@@ -47,12 +47,12 @@ The following conditions apply to family members using transferred benefits:
 
 - May start to use the benefit only after you've completed at least 10 years of service.
 - May use the benefit while you're on active duty or after separation.
-- May not use the benefit until they've gotten a secondary school diploma (or equivalency certificate), or have reached 18 years of age.
+- May not use the benefit until they've gotten a high school diploma (or equivalency certificate), or have reached 18 years of age.
 - Are entitled to the monthly housing allowance stipend even when you're on active duty.
-- Don't have to use the benefit within 15 years after your separation from active duty, but they can't use the benefit after reaching 26 years of age.
+- Don't have to use the benefit within 15 years after your separation from active duty, but they can't use the benefit after they've turned 26 years old.
 
 
-Dependent eligibility isn't affected if a child marries or if you and your spouse divorce. However, Servicemembers and Veterans can revoke or change a transfer at any time. If you want to totally revoke transferred benefits for a dependent and you're still in the service, you must submit another transfer request for the dependent through milConnect. If a dependent’s transfer eligibility was previously totally revoked, you can't transfer benefits again to that dependent.
+Dependent eligibility isn't affected if a child marries or if you and your spouse divorce. However, Servicemembers and Veterans can revoke or change a transfer at any time. If you want to totally revoke transferred benefits for a dependent and you're still in the service, you must turn in another transfer request for the dependent through milConnect. If a dependent’s transfer eligibility was previously totally revoked, you can't transfer benefits again to that dependent.
 
 
 ### How do I transfer the benefit?
@@ -61,7 +61,7 @@ While you're still active duty, request to transfer modify, or revoke a Transfer
 
 If the TOE is approved, family members should apply for benefits. [Apply online for benefits](https://www.ebenefits.va.gov/ebenefits/vonapp). They may also print, fill out, and mail VA Form 22-1990e to the nearest VA regional office. [Download Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf). [Find a nearby VA facility](/facilities/)
 
-Once you leave active duty, you can still provide a future effective date for use of TOE, modify the number of months transferred, or revoke the transfer of entitlement by submitting a written request to VA through the TEB website.
+Once you leave active duty, you can still provide a future effective date for the use of the TOE, modify the number of months transferred, or revoke the transfer of entitlement by submitting a written request to VA through milConnect.
 
 
 ### Get more information 
