@@ -14,7 +14,7 @@ You qualify for the National Call to Service program if you completed your initi
 
 Then, without a break in service, served either an additional period of active duty as determined by the Secretary of Defense or a period of 24 months in active status in the Selected Reserve, **and**:
 
--	Then, without a break in service, spent the remainder of your obligated service:
+Then, without a break in service, spent the remainder of your obligated service:
   - On active duty in the Armed Forces, **or**
   - In the Selected Reserve, **or**
   -	In the Individual Ready Reserve, **or**
