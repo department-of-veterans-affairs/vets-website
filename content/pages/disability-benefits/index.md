@@ -18,7 +18,7 @@ majorlinks:
     description: Discover which illnesses or injuries qualify you for benefits.
   - url: /disability-benefits/claims-appeal/
     title: Appeals
-    description: Find out what to do if you disagree with your disability rating decision
+    description: Find out what to do if you disagree with your disability rating decision.
 relatedlinks:
   - url: /disability-benefits/claims-process/
     title: Claims process
