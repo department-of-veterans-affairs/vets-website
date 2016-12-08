@@ -42,28 +42,23 @@ You'll need to apply. [Apply for education benefits](/education/apply-for-educat
 
 The benefit amount depends on which school you go to, how much active-duty service you've had since September 10, 2001, and how many credits or training hours you're taking.
 
-#### Details of the program
+#### What benefits does the Post-9/11 GI Bill include? 
 
-The Post-9/11 GI Bill:
-
-- Covers the full in-state tuition for state schools and up to the national maximum ($21,084.89) for private or foreign schools.
-- Pays qualified Veterans or dependents a Basic Allowance for Housing (BAH) based on the cost of living where your school's located.
+- The full in-state tuition for state schools and up to the national maximum ($21,084.89) for private or foreign schools.
+- A Basic Allowance for Housing (BAH) based on the cost of living where your school is located.
+- Up to 36 months of education benefits, in most cases payable for 15 years after your release from active duty
+- A percentage-of-maximum-benefit scale based on how much active service you've had since September 10, 2001
 
 **Example:** If you were enrolled at the University of California, Los Angeles, in 2015 (at the 100% benefit level, while going to school full time), you would get a BAH of up to $2,433 a month while in school. If you were enrolled at the University of Virginia in Charlottesville, you would get up to $1,638 while in school.
 
-- Offers up to 36 months of education benefits, in most cases payable for 15 years after your release from active duty
-- Uses a percentage-of-maximum-benefit scale based on how much active service you have had since September 10, 2001
-
 **Example:** If you had 90 days of active service since September 10, 2001, you would qualify for 40% of the maximum amount. Three years of active service would qualify you for 100% of the benefit.
 
-#### Other potential benefits
+#### Other possible benefits
 
 - You may be able to get money through the Yellow Ribbon Program to cover higher private-school and out-of-state tuition and fees. [Learn about the Yellow Ribbon Program](/education/gi-bill/yellow-ribbon/).
 - If you're a qualified Servicemember, you can transfer all 36 months or a portion of your Post-9/11 GI Bill benefits to a spouse or child. The Department of Defense approves a transfer of benefits. [Learn about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
+- The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) offers Post-9/11 GI Bill benefits to children and surviving spouses of Servicemembers who died in the line of duty after September 10, 2001. [Learn more about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
 
-Compare benefits by school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/). 
-
-The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) offers Post-9/11 GI Bill benefits to children and surviving spouses of Servicemembers who died in the line of duty after September 10, 2001. [Learn more about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
 
 #### Types of training
 
@@ -84,6 +79,7 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 
 
 ### Get more information
+- Compare benefits by school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/). 
 - [See the current payment rates for the Post-9/11 GI Bill](/education/rates/).
 - [Read the Post-9/11 GI Bill pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf).
 - [See Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/detail/a_id/523).
