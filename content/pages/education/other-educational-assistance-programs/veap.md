@@ -5,22 +5,22 @@ concurrence: complete
 template: 1-topic-landing
 ---
 
-Do you want to continue your education using part of your military pay to help cover the costs of school? Find out if you can take advantage of the Veterans' Educational Assistance Program (VEAP)—a $2-to-$1 government-match program for educational assistance.
+You can continue your education by using part of your military pay to help cover the costs of school. Find out if you can take advantage of the Veterans' Educational Assistance Program (VEAP)—a $2-to-$1 government-match program for educational assistance.
 
 <div class="call-out" markdown="1">
 
 ### Can I get this benefit?
 You can get this benefit if you entered service for the first time between January 1, 1977, and June 30, 1985, and:
-  - You opened and contributed to your account before April 1, 1987, **and**
-  - You voluntarily contributed $25–$2700, **and**
-  - You completed your first period of service and were discharged or released from service under conditions other than dishonorable.
+  - You opened and put money into your contribution account before April 1, 1987, **and**
+  - You put in $25–$2,700 on your own, **and**
+  - You finished your first period of service and were discharged or released from service under conditions other than dishonorable.
 
 ### Who's covered?
 Veterans
 </div>
 
 ### What benefits can I get?
-Help paying tuition
+Money for tuition
 
 ------
 
@@ -39,14 +39,14 @@ You need to apply for benefits. [Apply for benefits](/education/apply-for-educat
 - [Correspondence courses](/education/work-learn/non-traditional/correspondence-training/)
 - Under certain circumstances, remedial, deficiency, and refresher courses
 
-VEAP may also be used for remedial, deficiency, and refresher courses. Your monthly contributions will determine the length of your entitlements (1–36 months), and you have 10 years from your release from active duty to use VEAP benefits. If VEAP benefits go unused after that 10-year period, you can request a refund for the amount left in your fund.
+VEAP may also be used for remedial, deficiency, and refresher courses. How much you put in every month will determine how many months of benefits you get (1–36 months). You have 10 years from your release from active duty to use VEAP benefits. If VEAP benefits go unused after that 10-year period, you can request a refund for the amount left in your fund.
 
-**Active Duty**
-If you're currently on active duty and wish to receive VEAP, you must have at least 3 months of contributions available.
+**Active Duty:**
+If you're currently on active duty and wish to use VEAP, you must have at least 3 months of contributions in the fund.
 
-**Withdrawals**
-Contributions may be withdrawn if you do not meet basic eligibility requirements or if you formally request a refund.
+**Withdrawals:**
+Contributions may be withdrawn if you don't meet basic qualifying requirements or if you formally request a refund.
 
 
-### Learn more
-Read the VEAP [pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch32_pamphlet.pdf).
+### Get more information
+[Read the VEAP pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch32_pamphlet.pdf).
