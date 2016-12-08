@@ -9,16 +9,16 @@ showactionbar: false
 majorlinks:
   - url: /disability-benefits/apply-for-benefits/
     title: Apply
-    description: Get started with a disability claim
+    description: Get started with a disability claim.
   - url: /disability-benefits/track-claims/
     title: Check Status
-    description: Track the status of your disability claim
+    description: Track the status of your disability claim.
   - url: /disability-benefits/conditions/
     title: Conditions
-    description: Discover what illness or injuries qualify you for benefits
+    description: Discover which illnesses or injuries qualify you for benefits.
   - url: /disability-benefits/claims-appeal/
     title: Appeals
-    description: What to do if you disagree with your disability rating decision
+    description: Find out what to do if you disagree with your disability rating decision
 relatedlinks:
   - url: /disability-benefits/claims-process/
     title: Claims process
