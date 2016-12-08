@@ -5,19 +5,20 @@ template: 1-topic-landing
 concurrence: incomplete
 ---
 
-The Yellow Ribbon Program can help you pay for higher out-of-state, private, or graduate school tuition that the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) doesn’t cover. Find out if your school is a part of this program.
+The Yellow Ribbon Program can help you pay for higher out-of-state, private, or graduate school tuition that the Post-9/11 GI Bill doesn’t cover. Find out if your school is a part of this program.
 
 <div class="call-out" markdown="1">
 
-### Can I use the Yellow Ribbon Program?
-You can use the Yellow Ribbon Program if:
+### Can I get this benefit?
+You can get this benefit if:
 
-  - You qualify for the [maximum benefit rate under the Post-9/11 GI Bill](https://www.vets.gov/education/gi-bill/post-9-11/).
-  - Your school voluntarily participates in the [Yellow Ribbon Program](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp ).
-  - You served an combined period of 36 months on active duty after September 10, 2001.
-  - You were honorably discharged from active duty for a service-connected disability with at least 30 continuous days after September 10, 2001.
-  - You're the dependent of a Veteran eligible for [transfer of entitlement for the Post-9/11 GI Bill](https://www.vets.gov/education/gi-bill/transfer/).
- 
+ - You qualify for the maximum benefit rate under the Post-9/11 GI Bill, **and**
+ - Your school takes part in the Yellow Ribbon Program and has confirmed your enrollment with us.
+
+You may get this benefit if:
+ - You’re the dependent of a Veteran who qualifies for a Transfer of Entitlement (TOE) for the Post-9/11 GI Bill. [Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
+
+[See the list of schools that offer the Yellow Ribbon Program](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp).
 
 ### Who's covered?
 
@@ -57,12 +58,12 @@ Bring your COE to your school's VA certifying official, financial aid or militar
 <div markdown="1">
 
 ##### Follow up
-Check back with your school's VA certifying official who will turn in your enrollment information to VA. That person should also work with VA to make sure the Yellow Ribbon Funds are put toward the tuition costs. 
+Check back with your school's VA certifying official who will turn in your enrollment information to VA. That person should also work with us to make sure the Yellow Ribbon Funds are put toward the tuition costs. 
 </div>
 
 </li>
 </ol>
 
-### Learn more:
-- Yellow Ribbon Program pamphlet
-- FAQs about the Yellow Ribbon Program
+### Get more information:
+- [Yellow Ribbon Program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/Yellow_Ribbon_Pamphlet.pdf)
+- [FAQs about the Yellow Ribbon Program](http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf)
