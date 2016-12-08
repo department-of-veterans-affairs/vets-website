@@ -153,6 +153,9 @@
   &:last-child {
     margin-bottom: 0;
   }
+  &:focus {
+    outline: none;
+  }
   tr {
     td {
       &:last-child {
