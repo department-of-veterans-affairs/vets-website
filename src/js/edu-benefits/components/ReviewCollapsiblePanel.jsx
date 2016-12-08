@@ -118,7 +118,7 @@ export default class ReviewCollapsiblePanel extends React.Component {
                     <h5 className="form-review-panel-page-header">{pageCount > 1 && page.name}</h5>
                     <button
                         className="edit-btn primary-outline"
-                        onClick={() => this.handleEdit(page.path)}><i className="fa before-text fa-pencil"></i>Edit</button>
+                        onClick={() => this.handleEdit(page.path)}>Edit</button>
                   </div>}
                 {(editing || !ReviewComponent) &&
                   <Component
