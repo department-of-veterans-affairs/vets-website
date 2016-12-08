@@ -96,7 +96,7 @@ export default class EducationHistoryFields extends React.Component {
           <h5 className="form-review-panel-page-header">Education after high school</h5>
           <button
               className="edit-btn primary-outline"
-              onClick={this.addAnotherPeriod}><i className="fa before-text fa-pencil"></i>Add Another</button>
+              onClick={this.addAnotherPeriod}>Add Another</button>
         </div>
         {periodsTable}
       </div>
