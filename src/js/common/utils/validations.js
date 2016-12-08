@@ -10,12 +10,8 @@ function validateIfDirty(field, validator) {
   return true;
 }
 
-function isDirtyDate(date) {
-  return date.day.dirty && date.year.dirty && date.month.dirty;
-}
-
 function validateIfDirtyDate(dayField, monthField, yearField, validator) {
-  if (isDirtyDate({ day: dayField, month: monthField, year: yearField })) {
+  if (dayField.dirty && monthField.dirty && yearField.dirty) {
     return validator(dayField.value, monthField.value, yearField.value);
   }
 
@@ -30,28 +26,12 @@ function validateIfDirtyProvider(field1, field2, validator) {
   return true;
 }
 
-function validateCustomFormComponent(customValidation) {
-  // Allow devs to pass in an array of validations with messages and display the first failed one
-  if (Array.isArray(customValidation) && customValidation.some(validator => !validator.valid)) {
-    return customValidation.filter(validator => !validator.valid)[0];
-  // Also allow objects for custom validation
-  } else if (typeof customValidation === 'object' && !customValidation.valid) {
-    return customValidation;
-  }
-
-  return { valid: true, message: null };
-}
-
 function isBlank(value) {
   return value === '';
 }
 
 function isNotBlank(value) {
   return value !== '';
-}
-
-function isNotBlankDateField(field) {
-  return isNotBlank(field.day.value) && isNotBlank(field.month.value) && isNotBlank(field.year.value);
 }
 
 // Conditions for valid SSN from the original 1010ez pdf form:
@@ -108,17 +88,9 @@ function isValidDate(day, month, year) {
 function isValidAnyDate(day, month, year) {
   return moment({
     day,
-    month: month ? parseInt(month, 10) - 1 : month,
+    month: parseInt(month, 10) - 1,
     year
   }).isValid();
-}
-
-function isValidPartialDate(day, month, year) {
-  if (year && (Number(year) < 1900 || Number(year) > moment().add(100, 'year').year())) {
-    return false;
-  }
-
-  return true;
 }
 
 function isValidDateOver17(day, month, year) {
@@ -176,10 +148,6 @@ function isBlankDateField(field) {
 
 function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
-}
-
-function isValidPartialDateField(field) {
-  return isValidPartialDate(field.day.value, field.month.value, field.year.value);
 }
 
 function isValidFullNameField(field) {
@@ -570,11 +538,5 @@ export {
   isValidServiceInformation,
   isValidSection,
   isValidAnyDate,
-  isValidDateOver17,
-  isDirtyDate,
-  isNotBlankDateField,
-  isValidPartialDate,
-  isValidDateField,
-  isValidPartialDateField,
-  validateCustomFormComponent
+  isValidDateOver17
 };

@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { makeField } from '../../common/model/fields';
-import { isValidAddressField } from '../utils/validations';
-import { formatPartialDate } from './helpers';
+import { isValidAddressField, isNotBlankDateField } from '../utils/validations';
+import { dateToMoment } from './helpers';
 import moment from 'moment';
 
 export function makeAddressField() {
@@ -264,26 +264,25 @@ export function veteranToApplication(veteran) {
         return Number(value.value.replace('$', ''));
 
       case 'activeDutyRepayingPeriod':
-      case 'dateRange': {
-        const from = formatPartialDate(value.from);
-        const to = formatPartialDate(value.to);
-
-        if (from === undefined && to === undefined) {
-          return undefined;
+      case 'dateRange':
+        if (isNotBlankDateField(value.from) && isNotBlankDateField(value.to)) {
+          return {
+            from: dateToMoment(value.from).format('YYYY-MM-DD'),
+            to: dateToMoment(value.to).format('YYYY-MM-DD')
+          };
         }
 
-        return {
-          from,
-          to
-        };
-      }
-
+        return undefined;
       default:
         // fall through.
     }
 
     if (value.month !== undefined && value.year !== undefined && value.day !== undefined) {
-      return formatPartialDate(value);
+      if (value.month.value !== '' && value.day.value !== '' && value.year.value !== '') {
+        return dateToMoment(value).format('YYYY-MM-DD');
+      }
+
+      return undefined;
     }
 
     // Strips out suffix if the user does not enter it.
