@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router';
 
 import { chapterNames, hasServiceBefore1978 } from './utils/helpers';
-import { groupPagesIntoChapters, getPageList } from '../common/utils/helpers';
+import { groupPagesIntoChapters, getPageList } from '../../common/utils/helpers';
 
 import IntroductionPage from './containers/IntroductionPage.jsx';
 import VeteranInformationReview from './components/veteran-information/VeteranInformationReview';
@@ -38,108 +38,108 @@ const routes = [
   // Introduction route.
   <Route
       component={IntroductionPage}
-      key="/introduction"
-      path="/introduction"/>,
+      key="introduction"
+      path="introduction"/>,
   <Route
       component={FormPage}
       fieldsComponent={VeteranInformationFields}
       reviewComponent={VeteranInformationReview}
-      key="/veteran-information"
-      path="/veteran-information"
+      key="veteran-information"
+      path="veteran-information"
       chapter={chapterNames.veteranInformation}
       name="Veteran information"/>,
   <Route
       component={FormPage}
       fieldsComponent={BenefitsSelectionFields}
       reviewComponent={BenefitsSelectionReview}
-      key="/benefits-eligibility/benefits-selection"
-      path="/benefits-eligibility/benefits-selection"
+      key="benefits-eligibility/benefits-selection"
+      path="benefits-eligibility/benefits-selection"
       chapter={chapterNames.benefitsEligibility}
       name="Benefits selection"/>,
   <Route
       component={FormPage}
       fieldsComponent={BenefitsRelinquishmentFields}
       reviewComponent={BenefitsRelinquishmentReview}
-      key="/benefits-eligibility/benefits-relinquishment"
-      path="/benefits-eligibility/benefits-relinquishment"
+      key="benefits-eligibility/benefits-relinquishment"
+      path="benefits-eligibility/benefits-relinquishment"
       chapter={chapterNames.benefitsEligibility}
       depends={{ chapter33: true }}
       name="Benefits relinquishment"/>,
   <Route
       component={FormPage}
       fieldsComponent={ServicePeriodsFields}
-      key="/military-history/service-periods"
-      path="/military-history/service-periods"
+      key="military-history/service-periods"
+      path="military-history/service-periods"
       chapter={chapterNames.militaryHistory}
       name="Service periods"/>,
   <Route
       component={FormPage}
       fieldsComponent={MilitaryServiceFields}
       reviewComponent={MilitaryServiceReview}
-      key="/military-history/military-service"
-      path="/military-history/military-service"
+      key="military-history/military-service"
+      path="military-history/military-service"
       chapter={chapterNames.militaryHistory}
       name="Military service"/>,
   <Route
       component={FormPage}
       fieldsComponent={RotcHistoryFields}
       reviewComponent={RotcHistoryReview}
-      key="/military-history/rotc-history"
-      path="/military-history/rotc-history"
+      key="military-history/rotc-history"
+      path="military-history/rotc-history"
       chapter={chapterNames.militaryHistory}
       name="ROTC history"/>,
   <Route
       component={FormPage}
       fieldsComponent={ContributionsFields}
       reviewComponent={ContributionsReview}
-      key="/military-history/contributions"
-      path="/military-history/contributions"
+      key="military-history/contributions"
+      path="military-history/contributions"
       chapter={chapterNames.militaryHistory}
       name="Contributions"/>,
   <Route
       component={FormPage}
       fieldsComponent={EducationHistoryFields}
-      key="/education-history/education-information"
-      path="/education-history/education-information"
+      key="education-history/education-information"
+      path="education-history/education-information"
       chapter={chapterNames.educationHistory}
       name="Education history"/>,
   <Route
       component={FormPage}
       fieldsComponent={EmploymentHistoryFields}
-      key="/employment-history/employment-information"
-      path="/employment-history/employment-information"
+      key="employment-history/employment-information"
+      path="employment-history/employment-information"
       chapter={chapterNames.employmentHistory}
       name="Employment history"/>,
   <Route
       component={FormPage}
       fieldsComponent={SchoolSelectionFields}
       reviewComponent={SchoolSelectionReview}
-      key="/school-selection/school-information"
-      path="/school-selection/school-information"
+      key="school-selection/school-information"
+      path="school-selection/school-information"
       chapter={chapterNames.schoolSelection}
       name="School selection"/>,
   <Route
       component={FormPage}
       fieldsComponent={ContactInformationFields}
       reviewComponent={ContactInformationReview}
-      key="/personal-information/contact-information"
-      path="/personal-information/contact-information"
+      key="personal-information/contact-information"
+      path="personal-information/contact-information"
       chapter={chapterNames.personalInformation}
       name="Contact information"/>,
   <Route
       component={FormPage}
       fieldsComponent={SecondaryContactFields}
       reviewComponent={SecondaryContactReview}
-      key="/personal-information/secondary-contact"
-      path="/personal-information/secondary-contact"
+      key="personal-information/secondary-contact"
+      path="personal-information/secondary-contact"
       chapter={chapterNames.personalInformation}
       name="Secondary contact"/>,
   <Route
       component={FormPage}
       fieldsComponent={DependentInformationFields}
       reviewComponent={DependentInformationReview}
-      key="/personal-information/dependents"
-      path="/personal-information/dependents"
+      key="personal-information/dependents"
+      path="personal-information/dependents"
       chapter={chapterNames.personalInformation}
       depends={hasServiceBefore1978}
       name="Dependents"/>,
@@ -147,25 +147,25 @@ const routes = [
       component={FormPage}
       fieldsComponent={DirectDepositFields}
       reviewComponent={DirectDepositReview}
-      key="/personal-information/direct-deposit"
-      path="/personal-information/direct-deposit"
+      key="personal-information/direct-deposit"
+      path="personal-information/direct-deposit"
       chapter={chapterNames.personalInformation}
       name="Direct deposit"/>,
   // Review and Submit route.
   <Route
       component={ReviewPage}
-      key="/review-and-submit"
-      path="/review-and-submit"
+      key="review-and-submit"
+      path="review-and-submit"
       chapter={chapterNames.review}/>,
   // Submit Message route.
   <Route
       component={SubmitPage}
-      key="/submit-message"
-      path="/submit-message"/>
+      key="submit-message"
+      path="submit-message"/>
 ];
 
 export default routes;
 
 // Chapters are groups of form pages that correspond to the steps in the navigation components
-export const chapters = groupPagesIntoChapters(routes);
-export const pages = getPageList(routes);
+export const chapters = groupPagesIntoChapters('/1990/', routes);
+export const pages = getPageList('/1990/', routes);

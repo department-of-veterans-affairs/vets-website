@@ -1,5 +1,5 @@
 import React from 'react';
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement } from '../../../common/utils/helpers';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {

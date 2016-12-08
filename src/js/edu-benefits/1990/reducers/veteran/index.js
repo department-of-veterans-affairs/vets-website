@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import { VETERAN_FIELD_UPDATE, ENSURE_FIELDS_INITIALIZED } from '../../actions';
 import { createVeteran } from '../../utils/veteran';
-import { dirtyAllFields } from '../../../common/model/fields';
+import { dirtyAllFields } from '../../../../common/model/fields';
 
 const blankVeteran = createVeteran();
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import DateInput from '../../../common/components/form-elements/DateInput';
-import GrowableTable from '../../../common/components/form-elements/GrowableTable';
-import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
+import DateInput from '../../../../common/components/form-elements/DateInput';
+import GrowableTable from '../../../../common/components/form-elements/GrowableTable';
+import ErrorableTextarea from '../../../../common/components/form-elements/ErrorableTextarea';
 
 import EducationPeriod from './EducationPeriod';
 import EducationHistoryReview from './EducationHistoryReview';

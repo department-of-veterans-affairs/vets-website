@@ -138,7 +138,7 @@ export default class NavButtons extends React.Component {
           </div>
         </div>
       </div>);
-    } else if (path === '/submit-message') {
+    } else if (path.endsWith('/submit-message')) {
       buttons = (
         <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
@@ -148,7 +148,7 @@ export default class NavButtons extends React.Component {
           </div>
         </div>
       );
-    } else if (path === '/introduction') {
+    } else if (path.endsWith('/introduction')) {
       buttons = (
         <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">

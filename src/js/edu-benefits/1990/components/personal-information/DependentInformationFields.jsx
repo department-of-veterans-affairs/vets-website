@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
 
 import { yesNo } from '../../utils/options-for-select';
 

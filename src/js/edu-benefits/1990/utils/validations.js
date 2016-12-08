@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
 import { dateToMoment, showRelinquishedEffectiveDate } from './helpers';
-import { isValidDateOver17, isBlankAddress } from '../../common/utils/validations';
+import { isValidDateOver17, isBlankAddress } from '../../../common/utils/validations';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -364,31 +364,31 @@ function isValidForm(data) {
 
 function isValidPage(completePath, pageData) {
   switch (completePath) {
-    case '/veteran-information':
+    case '/1990/veteran-information':
       return isValidPersonalInfoPage(pageData);
-    case '/personal-information/contact-information':
+    case '/1990/personal-information/contact-information':
       return isValidContactInformationPage(pageData);
-    case '/benefits-eligibility/benefits-selection':
+    case '/1990/benefits-eligibility/benefits-selection':
       return isValidBenefitsInformationPage(pageData);
-    case '/benefits-eligibility/benefits-relinquishment':
+    case '/1990/benefits-eligibility/benefits-relinquishment':
       return isValidBenefitsRelinquishmentPage(pageData);
-    case '/military-history/service-periods':
+    case '/1990/military-history/service-periods':
       return isValidServicePeriodsPage(pageData);
-    case '/military-history/military-service':
+    case '/1990/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
-    case '/military-history/contributions':
+    case '/1990/military-history/contributions':
       return isValidContributionsPage(pageData);
-    case '/school-selection/school-information':
+    case '/1990/school-selection/school-information':
       return isValidSchoolSelectionPage(pageData);
-    case '/employment-history/employment-information':
+    case '/1990/employment-history/employment-information':
       return isValidEmploymentHistoryPage(pageData);
-    case '/education-history/education-information':
+    case '/1990/education-history/education-information':
       return isValidEducationHistoryPage(pageData);
-    case '/personal-information/secondary-contact':
+    case '/1990/personal-information/secondary-contact':
       return isValidSecondaryContactPage(pageData);
-    case '/personal-information/direct-deposit':
+    case '/1990/personal-information/direct-deposit':
       return isValidDirectDepositPage(pageData);
-    case '/military-history/rotc-history':
+    case '/1990/military-history/rotc-history':
       return isValidRotcHistoryPage(pageData);
     default:
       return true;

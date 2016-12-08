@@ -19,67 +19,67 @@ const ui = {
     regionalAddress: null
   },
   pages: {
-    '/introduction': {
+    '/1990/introduction': {
       editOnReview: false,
       fields: []
     },
-    '/benefits-eligibility/benefits-selection': {
+    '/1990/benefits-eligibility/benefits-selection': {
       editOnReview: false,
       fields: ['chapter30', 'chapter32', 'chapter33', 'chapter1606', 'checkedBenefit']
     },
-    '/benefits-eligibility/benefits-relinquishment': {
+    '/1990/benefits-eligibility/benefits-relinquishment': {
       editOnReview: false,
       fields: ['benefitsRelinquished', 'benefitsRelinquishedDate']
     },
-    '/military-history/service-periods': {
+    '/1990/military-history/service-periods': {
       editOnReview: false,
       fields: ['toursOfDuty']
     },
-    '/military-history/military-service': {
+    '/1990/military-history/military-service': {
       editOnReview: false,
       fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty']
     },
-    '/military-history/rotc-history': {
+    '/1990/military-history/rotc-history': {
       editOnReview: false,
       fields: ['seniorRotc', 'seniorRotcScholarshipProgram', 'seniorRotcCommissioned']
     },
-    '/military-history/contributions': {
+    '/1990/military-history/contributions': {
       editOnReview: false,
       fields: ['civilianBenefitsAssistance', 'additionalContributions', 'activeDutyKicker', 'reserveKicker', 'activeDutyRepaying', 'activeDutyRepayingPeriod']
     },
-    '/education-history/education-information': {
+    '/1990/education-history/education-information': {
       editOnReview: false,
       fields: ['highSchoolOrGedCompletionDate', 'postHighSchoolTrainings']
     },
-    '/employment-history/employment-information': {
+    '/1990/employment-history/employment-information': {
       editOnReview: false,
       fields: ['hasNonMilitaryJobs', 'nonMilitaryJobs']
     },
-    '/school-selection/school-information': {
+    '/1990/school-selection/school-information': {
       editOnReview: false,
       fields: ['educationType', 'school']
     },
-    '/veteran-information': {
+    '/1990/veteran-information': {
       editOnReview: false,
       fields: ['veteranFullName', 'veteranSocialSecurityNumber', 'veteranDateOfBirth', 'gender']
     },
-    '/personal-information/contact-information': {
+    '/1990/personal-information/contact-information': {
       editOnReview: false,
       fields: ['veteranAddress', 'email', 'emailConfirmation', 'homePhone', 'mobilePhone', 'preferredContactMethod']
     },
-    '/personal-information/secondary-contact': {
+    '/1990/personal-information/secondary-contact': {
       editOnReview: false,
       fields: ['secondaryContact']
     },
-    '/personal-information/dependents': {
+    '/1990/personal-information/dependents': {
       editOnReview: false,
       fields: ['serviceBefore1977']
     },
-    '/personal-information/direct-deposit': {
+    '/1990/personal-information/direct-deposit': {
       editOnReview: false,
       fields: ['bankAccount']
     },
-    '/review-and-submit': {
+    '/1990/review-and-submit': {
       editOnReview: false,
       fields: []
     }

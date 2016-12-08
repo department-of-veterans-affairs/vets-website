@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import ExpandingGroup from '../../common/components/form-elements/ExpandingGroup';
-import { focusElement } from '../../common/utils/helpers';
+import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
+import { focusElement } from '../../../common/utils/helpers';
 
 export default class SubmitMessage extends React.Component {
   constructor(props) {

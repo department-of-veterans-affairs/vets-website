@@ -15,13 +15,13 @@ class SubmitPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    name: state.veteran.veteranFullName,
-    chapter33: state.veteran.chapter33,
-    claimedBenefits: getListOfBenefits(state.veteran),
-    relinquishedBenefits: getLabel(relinquishableBenefits, state.veteran.benefitsRelinquished.value),
-    confirmation: state.uiState.submission.id,
-    address: state.uiState.submission.regionalAddress,
-    date: state.uiState.submission.timestamp
+    name: state.form1990.veteran.veteranFullName,
+    chapter33: state.form1990.veteran.chapter33,
+    claimedBenefits: getListOfBenefits(state.form1990.veteran),
+    relinquishedBenefits: getLabel(relinquishableBenefits, state.form1990.veteran.benefitsRelinquished.value),
+    confirmation: state.form1990.uiState.submission.id,
+    address: state.form1990.uiState.submission.regionalAddress,
+    date: state.form1990.uiState.submission.timestamp
   };
 }
 

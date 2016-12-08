@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
-import GrowableTable from '../../../common/components/form-elements/GrowableTable';
-import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
+import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
+import GrowableTable from '../../../../common/components/form-elements/GrowableTable';
+import ExpandingGroup from '../../../../common/components/form-elements/ExpandingGroup';
 
 import EmploymentPeriod from './EmploymentPeriod';
 import EmploymentHistoryReview from './EmploymentHistoryReview';

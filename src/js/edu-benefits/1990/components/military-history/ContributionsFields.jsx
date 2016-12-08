@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
-import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
-import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableCheckbox from '../../../../common/components/form-elements/ErrorableCheckbox';
+import ExpandingGroup from '../../../../common/components/form-elements/ExpandingGroup';
+import DateInput from '../../../../common/components/form-elements/DateInput';
 
 import { validateIfDirtyDateObj, isValidDateField, isValidDateRange } from '../../utils/validations';
 

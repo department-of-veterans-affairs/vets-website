@@ -1,12 +1,12 @@
 import React from 'react';
 
-import DateInput from '../../../common/components/form-elements/DateInput';
-import FullName from '../../../common/components/questions/FullName';
-import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
-import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import DateInput from '../../../../common/components/form-elements/DateInput';
+import FullName from '../../../../common/components/questions/FullName';
+import SocialSecurityNumber from '../../../../common/components/questions/SocialSecurityNumber';
+import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
 
 import { binaryGenders } from '../../utils/options-for-select';
-import { isValidDateOver17, isValidAnyDate, validateIfDirtyDate } from '../../../common/utils/validations';
+import { isValidDateOver17, isValidAnyDate, validateIfDirtyDate } from '../../../../common/utils/validations';
 
 function getDateMessage({ month, day, year }) {
   if (isValidAnyDate(day.value, month.value, year.value)

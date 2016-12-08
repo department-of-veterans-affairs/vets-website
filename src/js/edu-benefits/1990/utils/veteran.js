@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { makeField } from '../../common/model/fields';
+import { makeField } from '../../../common/model/fields';
 import { isValidAddressField, isNotBlankDateField } from '../utils/validations';
 import { dateToMoment } from './helpers';
 import moment from 'moment';

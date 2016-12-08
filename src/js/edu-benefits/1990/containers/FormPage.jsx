@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { veteranUpdateField, ensureFieldsInitialized } from '../actions/index';
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement } from '../../../common/utils/helpers';
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend');
@@ -36,7 +36,7 @@ class FormPage extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    data: state.veteran,
+    data: state.form1990.veteran,
     Fields: ownProps.route.fieldsComponent
   };
 }

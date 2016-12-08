@@ -7,7 +7,7 @@ import routes from '../routes';
 import ReviewCollapsiblePanel from '../components/ReviewCollapsiblePanel';
 
 import { ensureFieldsInitialized, updateEditStatus, veteranUpdateField } from '../actions';
-import { isActivePage, focusElement } from '../../common/utils/helpers';
+import { isActivePage, focusElement } from '../../../common/utils/helpers';
 
 class ReviewPage extends React.Component {
   componentDidMount() {
@@ -72,8 +72,8 @@ class ReviewPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.veteran,
-    uiData: state.uiState
+    data: state.form1990.veteran,
+    uiData: state.form1990.uiState
   };
 }
 

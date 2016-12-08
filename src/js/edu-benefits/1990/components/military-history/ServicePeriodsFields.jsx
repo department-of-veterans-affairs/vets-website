@@ -1,6 +1,6 @@
 import React from 'react';
 
-import GrowableTable from '../../../common/components/form-elements/GrowableTable';
+import GrowableTable from '../../../../common/components/form-elements/GrowableTable';
 
 import MilitaryServiceTour from './MilitaryServiceTour';
 import { createTour } from '../../utils/veteran';

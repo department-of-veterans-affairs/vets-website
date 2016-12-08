@@ -1,9 +1,9 @@
 import React from 'react';
 
 import Address from '../Address';
-import Email from '../../../common/components/questions/Email';
-import Phone from '../../../common/components/questions/Phone';
-import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import Email from '../../../../common/components/questions/Email';
+import Phone from '../../../../common/components/questions/Phone';
+import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
 
 import { contactOptions } from '../../utils/options-for-select';
 import { validateIfDirty, isNotBlank } from '../../utils/validations';

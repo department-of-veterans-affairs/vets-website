@@ -8,9 +8,9 @@ import { withRouter } from 'react-router';
 
 import { chapters, pages } from '../routes';
 
-import Nav from '../../common/components/Nav';
-import NavButtons from '../../common/components/NavButtons';
-import NavHeader from '../../common/components/NavHeader';
+import Nav from '../../../common/components/Nav';
+import NavButtons from '../../../common/components/NavButtons';
+import NavHeader from '../../../common/components/NavHeader';
 
 import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
@@ -95,10 +95,10 @@ class EduBenefitsApp extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    pageState: state.uiState.pages,
+    pageState: state.form1990.uiState.pages,
     currentLocation: ownProps.location,
-    data: state.veteran,
-    submission: state.uiState.submission,
+    data: state.form1990.veteran,
+    submission: state.form1990.uiState.submission,
     router: ownProps.router
   };
 }

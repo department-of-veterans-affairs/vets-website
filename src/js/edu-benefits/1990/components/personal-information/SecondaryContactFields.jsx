@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
-import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
-import Phone from '../../../common/components/questions/Phone';
+import ErrorableTextInput from '../../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableCheckbox from '../../../../common/components/form-elements/ErrorableCheckbox';
+import Phone from '../../../../common/components/questions/Phone';
 import Address from '../Address';
 
 export default class SecondaryContactFields extends React.Component {

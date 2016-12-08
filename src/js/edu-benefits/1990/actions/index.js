@@ -1,6 +1,6 @@
 import { veteranToApplication } from '../utils/veteran';
 
-import environment from '../../common/helpers/environment';
+import environment from '../../../common/helpers/environment';
 
 export const UPDATE_COMPLETED_STATUS = 'UPDATE_COMPLETED_STATUS';
 export const UPDATE_INCOMPLETE_STATUS = 'UPDATE_INCOMPLETE_STATUS';
@@ -16,7 +16,7 @@ export function ensurePageInitialized(page) {
   return (dispatch, getState) => {
     return dispatch({
       type: ENSURE_FIELDS_INITIALIZED,
-      fields: getState().uiState.pages[page].fields,
+      fields: getState().form1990.uiState.pages[page].fields,
     });
   };
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
-import ErrorableGroup from '../../../common/components/form-elements/ErrorableGroup';
-import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
+import ErrorableCheckbox from '../../../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableGroup from '../../../../common/components/form-elements/ErrorableGroup';
+import ExpandingGroup from '../../../../common/components/form-elements/ExpandingGroup';
 
 
 export default class BenefitsSelectionFields extends React.Component {

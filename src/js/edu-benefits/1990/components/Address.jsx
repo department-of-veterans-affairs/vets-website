@@ -2,9 +2,9 @@ import React from 'react';
 import _ from 'lodash';
 import { set } from 'lodash/fp';
 
-import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import { isNotBlank, isBlankAddress, validateIfDirty, isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/validations';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import { isNotBlank, isBlankAddress, validateIfDirty, isValidUSZipCode, isValidCanPostalCode } from '../../../common/utils/validations';
 import { countries, states } from '../utils/options-for-select';
 
 /**
