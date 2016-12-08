@@ -48,7 +48,7 @@ We'll give you up to $368 per month in compensation (payments) for these types o
 You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/).
 
 ### Get more information
-- [Ask questions on GI Bill customer service page](http://gibill.custhelp.com/). You can also search frequently asked questions. 
+- [Ask questions on the GI Bill customer service page](http://gibill.custhelp.com/). You can also search frequently asked questions. 
 - Call <span class="tel">888-442-4551</span> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) Monday through Friday.
 - For TDD/TYY, use <span class="tel">800-829-4833</span>.
 
