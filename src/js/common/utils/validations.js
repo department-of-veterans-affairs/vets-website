@@ -157,7 +157,7 @@ function isValidDateOver17(day, month, year) {
 }
 
 function isValidName(value) {
-  return /^[a-zA-Z '\-]*$/.test(value);
+  return /^[a-zA-Z][a-zA-Z '\-]*$/.test(value);
 }
 
 function isValidMonetaryValue(value) {
