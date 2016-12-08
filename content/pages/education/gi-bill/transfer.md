@@ -23,7 +23,7 @@ Qualified dependents
 
 ### What benefits can they get?
 
-If the DOD approves the transfer, your spouse or dependent children can apply for up to 36 months of benefits, and may be able to get money for: 
+If the DOD approves the Transfer of Entitlement (TOE), your spouse or dependent children can apply for up to 36 months of benefits, and may be able to get money for: 
 
 - Tuition
 - Housing
@@ -52,16 +52,16 @@ The following conditions apply to family members using transferred benefits:
 - Don't have to use the benefit within 15 years after your separation from active duty, but they can't use the benefit after they've turned 26 years old.
 
 
-Dependent eligibility isn't affected if a child marries or if you and your spouse divorce. However, Servicemembers and Veterans can revoke or change a transfer at any time. If you want to totally revoke transferred benefits for a dependent and you're still in the service, you must turn in another transfer request for the dependent through milConnect. If a dependent’s transfer eligibility was previously totally revoked, you can't transfer benefits again to that dependent.
+Your dependents may still qualify even if a child marries or you and your spouse divorce. However, Servicemembers and Veterans can revoke or change a TOE at any time. If you want to totally revoke transferred benefits for a dependent and you're still in the service, you must turn in another transfer request for the dependent through milConnect. If a dependent’s transfer eligibility was previously totally revoked, you can't transfer benefits again to that dependent.
 
 
 ### How do I transfer the benefit?
 
-While you're still active duty, request to transfer modify, or revoke a Transfer of Entitlement (TOE) through milConnect. [Request a transfer](https://www.dmdc.osd.mil/milconnect/). You can't apply for a transfer of benefits through VA. 
+While you're still active duty, request to transfer, modify, or revoke a Transfer of Entitlement (TOE) through milConnect. [Request a transfer](https://www.dmdc.osd.mil/milconnect/). You can't apply for a TOE through VA. 
 
 If the TOE is approved, family members should apply for benefits. [Apply online for benefits](https://www.ebenefits.va.gov/ebenefits/vonapp). They may also print, fill out, and mail VA Form 22-1990e to the nearest VA regional office. [Download Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf). [Find a nearby VA facility](/facilities/)
 
-Once you leave active duty, you can still provide a future effective date for the use of the TOE, modify the number of months transferred, or revoke the transfer of entitlement by submitting a written request to VA through milConnect.
+Once you leave active duty, you can still provide a future effective date that the TOE can be used, modify the number of months transferred, or revoke the TOE by submitting a written request to VA through milConnect.
 
 
 ### Get more information 
