@@ -156,6 +156,14 @@
   &:focus {
     outline: none;
   }
+  tr {
+    td {
+      &:last-child {
+        font-weight: 700;
+        min-width: 3em;
+      }
+    }
+  }
 }
 .form-review-panel-page-header-row {
   display: flex;
