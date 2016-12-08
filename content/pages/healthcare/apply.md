@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Apply for VA Health Care
 template: 1-topic-landing
-plainlanguage: 11-28-16 certified in compliance with the Plain Writing Act
+plainlanguage: 12-08-16 certified in compliance with the Plain Writing Act
 showtempbar: true
 ---
 
@@ -47,7 +47,8 @@ If you separated under a dishonorable discharge, visit healthcare.gov to find ou
 #### You probably qualify for VA health care if at least 1 of these applies to you:
 
 - You receive financial compensation (payments) from VA for a service-connected disability
-- You were discharged for a disability that started or got worse in the line of duty
+- You were discharged for a disability resulting from something that happened to you in the line of duty
+- You were discharged for a disability that got worse in the line of duty
 - You're a recently discharged Combat Veteran
 - You get a VA pension
 - You're a former Prisoner of War (POW)
