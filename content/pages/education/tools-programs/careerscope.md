@@ -10,4 +10,4 @@ In addition to career counseling through VA, you can use CareerScope, a tool tha
 
 After you answer some questions, CareerScope will give you suggestions for careers and fields you may enjoy and in which you'll probably do well. CareerScope also recommends courses or training programs that can help you go after those careers.
 
-Use this [Report Interpretation guide](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf) to help you understand your CareerScope results.
+Use our Report Interpretation guide to help you understand your CareerScope results. [Get the Report Interpretation guide](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf).
