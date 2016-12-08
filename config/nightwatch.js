@@ -58,11 +58,18 @@ module.exports = {
         asyncHookTimeout: 20000,
       },
       desiredCapabilities: {
-        browserName: 'phantomjs',
+        browserName: 'chrome',
         javascriptEnabled: true,
         acceptSslCerts: true,
         webStorageEnabled: true,
-        'phantomjs.binary.path': require('phantomjs-prebuilt').path
+        chromeOptions: {
+          binary: electron
+        }
+      },
+      selenium: {
+        cli_args: {
+          'webdriver.chrome.driver': chromedriver.path
+        }
       }
     }
   }

@@ -16,6 +16,8 @@ if [[ ( $TRAVIS_BRANCH != "production" &&
         $TRAVIS_BRANCH != "master" ) &&
       $TRAVIS_PULL_REQUEST == "false" ]]
 then
+  echo $TRAVIS_BRANCH
+  echo $TRAVIS_PULL_REQUEST
   exit 0;
 fi
 
