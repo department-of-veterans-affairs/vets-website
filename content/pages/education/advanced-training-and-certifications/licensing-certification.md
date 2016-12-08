@@ -13,7 +13,7 @@ If you paid for 1 or more tests to become a licensed or certified professional, 
 You can get paid back if:
 
   -	You qualify for the GI Bill, **and** 
-  -	You're taking an exam that costs less than $2,000.
+  -	You're taking a test or an exam that costs less than $2,000.
 
 ### Who's covered?
 Veterans
@@ -21,10 +21,14 @@ Veterans
 </div>
 
 ### What kind of benefits can I get?
-If you paid for a test(s) to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional, we may pay you back. There's no limit to the number of tests you can take, or the number of times you take the same test. We pay for tests even when you don’t score high enough to get your license or certification, but we won't pay for fees or costs you need to pay to get your license or certification.
+If you paid for a test to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional, we may pay you back. There's no limit to the number of tests you can take, or the number of times you take the same test. We pay for tests even when you don’t score high enough to get your license or certification. We don't pay for fees or costs related to getting the actual license or certification document.
 
 ### How do I get this benefit?
-You have to turn in proof of payment. [Fill out VA Form 22-0803](http://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf) (Application for Reimbursement of Licensing or Certification Test). Then either [upload it on the GI Bill site](https://gibill.custhelp.com/app/utils/login_form/) or [mail it to your nearest VA regional processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
+You have to turn in proof of payment. First, fill out VA Form 22-0803 (Application for Reimbursement of Licensing or Certification Test). [Download VA Form 22-0803](http://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf). 
 
-Get more information about how your GI Bill entitlement will be charged if you use the licensing and certification benefit. [View the rate tables](https://gibill.custhelp.com/app/answers/detail/a_id/29). 
+Then, either upload the form to the GI Bill site or mail it to your nearest VA regional processing office. 
+[Upload VA Form 22-0803 to the GI Bill site](https://gibill.custhelp.com/app/utils/login_form/).
+[Find the address of your nearest VA regional processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
+Find out how we'll use your remaining GI Bill benefit toward licensing or certification. 
+[View the rate tables](https://gibill.custhelp.com/app/answers/detail/a_id/29).
