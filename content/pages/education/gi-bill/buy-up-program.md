@@ -2,10 +2,10 @@
 layout: page-breadcrumbs.html
 title: $600 Buy-Up Program
 template: 4-action-page-pending
+plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
-
-If you're on active duty and plan to use the the Montgomery GI Bill (MGIB) or Reserve Educational Assistance Program (REAP), you can increase your GI Bill monthly payments through the GI Bill buy-up program. Keep in mind that The National Defense Authorization Act of 2016 ended REAP on November 25, 2015. [Be sure and check to see if you can still get REAP benefits](https://www.vets.gov/education/other-educational-assistance-programs/reap/). 
+If you take part in the $600 Montgomery GI Bill Buy-Up program, you’ll get more money each month through your GI Bill monthly payments. Find out how.
 
 ### How do I get this benefit? 
 
