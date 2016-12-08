@@ -1,9 +1,8 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
-import { showRelinquishedEffectiveDate } from './helpers';
-import { isValidDateOver17, isBlankAddress, isValidPartialDateField } from '../../common/utils/validations';
-import { dateToMoment } from '../../common/utils/helpers';
+import { dateToMoment, showRelinquishedEffectiveDate } from './helpers';
+import { isValidDateOver17, isBlankAddress } from '../../common/utils/validations';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -201,13 +200,14 @@ function isValidFutureOrPastDateField(field) {
 }
 
 function isValidDateRange(fromDate, toDate) {
-  if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
-    return true;
-  }
-  const momentStart = dateToMoment(fromDate);
-  const momentEnd = dateToMoment(toDate);
+  if (isNotBlankDateField(fromDate) && isNotBlankDateField(toDate)) {
+    const momentStart = dateToMoment(fromDate);
+    const momentEnd = dateToMoment(toDate);
 
-  return momentStart.isBefore(momentEnd);
+    return momentStart.isBefore(momentEnd);
+  }
+
+  return isBlankDateField(fromDate) && isBlankDateField(toDate);
 }
 
 function isValidFullNameField(field) {
@@ -263,7 +263,7 @@ function isValidBenefitsRelinquishmentPage(data) {
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
     && isValidDateField(tour.dateRange.from)
-    && isValidPartialDateField(tour.dateRange.to)
+    && isValidDateField(tour.dateRange.to)
     && isValidDateRange(tour.dateRange.from, tour.dateRange.to);
 }
 

@@ -74,10 +74,10 @@ describe('Validations unit tests', () => {
       };
       expect(isValidDateRange(fromDate, toDate)).to.be.false;
     });
-    it('does validate with partial dates', () => {
+    it('does not validate with partial dates', () => {
       const fromDate = {
         day: {
-          value: '3',
+          value: '',
           dirty: true
         },
         month: {
@@ -91,11 +91,11 @@ describe('Validations unit tests', () => {
       };
       const toDate = {
         day: {
-          value: '',
+          value: 3,
           dirty: true
         },
         month: {
-          value: '',
+          value: 4,
           dirty: true
         },
         year: {
@@ -103,7 +103,7 @@ describe('Validations unit tests', () => {
           dirty: true
         }
       };
-      expect(isValidDateRange(fromDate, toDate)).to.be.true;
+      expect(isValidDateRange(fromDate, toDate)).to.be.false;
     });
   });
   describe('isValidPage:', () => {
