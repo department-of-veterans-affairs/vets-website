@@ -13,7 +13,7 @@ The Yellow Ribbon Program can help you pay for higher out-of-state, private, or 
 ### Can I get this benefit?
 You can get this benefit if:
 - You qualify for the maximum benefit rate under the Post-9/11 GI Bill, **and**
-- Your school takes part in the Yellow Ribbon Program and has confirmed your enrollement with us. 
+- Your school takes part in the Yellow Ribbon Program and has confirmed your enrollment with us. 
 
 You **may** get this benefit if:
 - You're the dependent of a Veteran who qualifies for transfer of entitlement for the Post-9/11 GI Bill. [Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).<br />
