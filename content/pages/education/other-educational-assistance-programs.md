@@ -17,10 +17,10 @@ relatedlinks:
 ---
 
 If you’re a Guardsman, Reservist, or Veteran who doesn’t qualify for the Post-9/11 GI Bill, you can apply for education benefits through these other programs:
-- The post-Vietnam Era Veterans’ Educational Assistance Program (VEAP, Chapter 32)
-- The Montgomery GI Bill Active Duty (MGIB-AD, Chapter 30)
-- The Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)
-- The National Call to Service program
+- [The post-Vietnam Era Veterans’ Educational Assistance Program](/education/other-educational-assistance-programs/veap/)(VEAP, Chapter 32)
+- [The Montgomery GI Bill Active Duty](/education/gi-bill/montgomery-active-duty/)(MGIB-AD, Chapter 30)
+- [The Montgomery GI Bill Selected Reserve](/education/gi-bill/montgomery-selected-reserve/)(MGIB-SR, Chapter 1606)
+- [The National Call to Service program](/education/other-educational-assistance-programs/call-to-service/)
 
 [Apply for benefits](/education/apply-for-education-benefits/).
 
