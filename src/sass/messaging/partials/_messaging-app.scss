@@ -3,20 +3,14 @@
   max-width: $site-max-width;
 
   @media (min-width: $medium-screen) {
-    padding: 3rem 0;
+    padding: 3rem 1.5rem;
   }
 }
 
 
 #messaging-app-header {
-  padding: 0 1.5rem;
-}
-
-#messaging-main {
-  padding: 0 1.5rem;
-
   @media (max-width: $medium-screen) {
-    padding: 0;
+    padding: 0 1.5rem;
   }
 }
 
@@ -178,11 +172,17 @@ button.msg-btn-newfolder[type="button"],
     }
 
     &.messaging-folder-header {
+      margin: 0;
+
       h2 {
         max-width: 65%;
       }
     }
   }
+}
+
+.messaging-folder-header {
+  margin-bottom: 2rem;
 }
 
 .messaging-cancel-link {
@@ -205,6 +205,10 @@ button.msg-btn-newfolder[type="button"],
   margin: 0;
   padding: 1.5rem;
   width: auto;
+
+  &[disabled] {
+    background: $color-gray;
+  }
 
   @media (max-width: $medium-screen) {
     display: block;

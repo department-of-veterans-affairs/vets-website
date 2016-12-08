@@ -1,6 +1,10 @@
 import React from 'react';
+import { focusElement } from '../../common/utils/helpers';
 
 class IntroductionPage extends React.Component {
+  componentDidMount() {
+    focusElement('.va-nav-breadcrumbs-list');
+  }
   render() {
     return (
       <div>

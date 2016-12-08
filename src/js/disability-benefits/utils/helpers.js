@@ -11,15 +11,8 @@ const phaseMap = {
   4: evidenceGathering,
   5: evidenceGathering,
   6: evidenceGathering,
-  7: 'Preparation for decision notification',
+  7: 'Preparation for notification',
   8: 'Complete'
-};
-
-const microPhaseMap = {
-  3: 'Gathering of evidence',
-  4: 'Review of evidence',
-  5: 'Preparation for decision',
-  6: 'Pending Decision approval'
 };
 
 export function getPhaseDescription(phase) {
@@ -34,18 +27,6 @@ export function getUserPhaseDescription(phase) {
   }
 
   return phaseMap[phase + 3];
-}
-
-export function getHistoryPhaseDescription(phase) {
-  if (phase === 3) {
-    return microPhaseMap[phase];
-  }
-
-  return getUserPhaseDescription(phase);
-}
-
-export function getMicroPhaseDescription(phase) {
-  return microPhaseMap[phase] || phaseMap[phase];
 }
 
 export function getPhaseDescriptionFromEvent(event) {
@@ -167,8 +148,7 @@ export function getDocTypeDescription(docType) {
 export function isPopulatedClaim({ attributes }) {
   return !!attributes.claimType
     && (attributes.contentionList && !!attributes.contentionList.length)
-    && !!attributes.dateFiled
-    && !!attributes.vaRepresentative;
+    && !!attributes.dateFiled;
 }
 
 export function hasBeenReviewed(trackedItem) {

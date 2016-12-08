@@ -49,8 +49,7 @@ export default class FacilityHours extends Component {
 
     return (
       <div>
-        <h4>Hours of Operation</h4>
-        <hr className="title"/>
+        <h4 className="highlight">Hours of Operation</h4>
         <div>
           {hourRows}
         </div>

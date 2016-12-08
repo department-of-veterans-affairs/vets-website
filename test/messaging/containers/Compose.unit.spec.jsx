@@ -17,6 +17,9 @@ const props = {
   deleteConfirmModal: {
     visible: false
   },
+  saveConfirmModal: {
+    visible: false
+  },
 
   // No-op function to override dispatch
   setMessageField: () => {},

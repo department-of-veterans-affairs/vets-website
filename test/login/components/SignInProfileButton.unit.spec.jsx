@@ -19,7 +19,7 @@ describe('<SignInProfileButton>', () => {
 
   it('should present login link when currentlyLoggedIn is false', () => {
     const link = tree.everySubTree('a');
-    expect(link).to.have.lengthOf(1);
+    expect(link).to.have.lengthOf(2);
   });
 
   it('should present profile and sign out buttons when currentlyLoggedIn is true', () => {

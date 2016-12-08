@@ -13,7 +13,7 @@ import {
   LOADING_THREAD,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
-  TOGGLE_MOVE_TO,
+  TOGGLE_THREAD_MOVE_TO,
   TOGGLE_REPLY_DETAILS,
   TOGGLE_THREAD_FORM,
   UPDATE_DRAFT
@@ -166,7 +166,7 @@ export default function messages(state = initialState, action) {
       return set('ui.messagesCollapsed', newMessagesCollapsed, state);
     }
 
-    case TOGGLE_MOVE_TO:
+    case TOGGLE_THREAD_MOVE_TO:
       return set('ui.moveToOpened', !state.ui.moveToOpened, state);
 
     case TOGGLE_REPLY_DETAILS:

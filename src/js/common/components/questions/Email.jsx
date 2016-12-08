@@ -32,6 +32,7 @@ class Email extends React.Component {
     return (
       <div>
         <ErrorableTextInput
+            type="email"
             required={this.props.required}
             errorMessage={errorMessage}
             label={this.props.label}

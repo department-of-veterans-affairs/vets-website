@@ -25,7 +25,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .waitForElementVisible('.estimation-header', Timeouts.normal);
 
       client
-        .expect.element('.disability-benefits-content h1').text.to.equal('How VA Comes Up with Your Estimated Decision Date');
+        .expect.element('.disability-benefits-content h1').text.to.equal('How We Come Up with Your Estimated Decision Date');
 
       client.end();
     }
