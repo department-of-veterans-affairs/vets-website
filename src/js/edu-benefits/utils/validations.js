@@ -268,7 +268,7 @@ function isValidTourOfDuty(tour) {
 }
 
 function isValidMilitaryServicePage(data) {
-  return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
+  return isBlank(data.serviceAcademyGraduationYear.value) || isValidYear(data.serviceAcademyGraduationYear.value);
 }
 
 function isValidServicePeriodsPage(data) {
