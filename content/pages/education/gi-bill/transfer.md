@@ -13,9 +13,9 @@ Find out if you can transfer any of your unused Post-9/11 GI Bill benefits to yo
 ### Can I transfer benefits?
 You can transfer benefits if you’re on active duty or in the Selected Reserve, and:
   - You’re in one of these situations:
-     - You have at least 6 years of service on the date of approval and agree to serve four additional years from the date of election, **or**
+     - You have at least 6 years of service on the date of approval and agree to serve 4 additional years from the date of election, **or**
      - You have at least 10 years of service on the date of approval, are prevented by either policy or statute from committing to 4 additional years, but agree to serve for the maximum amount of time allowed, **and**
-  - The recipient of the benefit is enrolled in DEERS.
+  - The peron getting benefits is enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).
 
 ### Who's covered?
 Qualified dependents
@@ -39,35 +39,36 @@ The following conditions apply to family members using transferred benefits:
 #### Spouses
 
 - May use the benefit immediately.
-- May use the benefit while you are on active duty or after separation.
-- Are not eligible for the monthly housing allowance while you are on active duty.
+- May use the benefit while you're on active duty or after separation.
+- Aren't eligible for the monthly housing allowance while you're on active duty.
 - May use the benefit for up to 15 years after your separation from active duty.
 
 #### Children
 
-- May start to use the benefit only after you have completed at least 10 years of service.
-- May use the benefit while you are on active duty or after separation.
-- May not use the benefit until they have received a secondary school diploma (or equivalency certificate), or have reached 18 years of age.
-- Are entitled to the monthly housing allowance stipend even when you are on active duty.
-- Are not subject to the 15-year delimiting date, but they may not use the benefit after reaching 26 years of age.
+- May start to use the benefit only after you've completed at least 10 years of service.
+- May use the benefit while you're on active duty or after separation.
+- May not use the benefit until they've gotten a secondary school diploma (or equivalency certificate), or have reached 18 years of age.
+- Are entitled to the monthly housing allowance stipend even when you're on active duty.
+- Don't have to use the benefit within 15 years after your separation from active duty, but they can't use the benefit after reaching 26 years of age.
 
-Dependent eligibility isn't affected if a child marries or if you and your spouse divorce. However, Servicemembers and Veterans retain the right to revoke or change a transfer at any time. If you want to totally revoke transferred benefits for a dependent and you're still in the service, you must submit another transfer request for the dependent via milConnect. If a dependent’s transfer eligibility was previously totally revoked, you can't transfer benefits again to that dependent.
+
+Dependent eligibility isn't affected if a child marries or if you and your spouse divorce. However, Servicemembers and Veterans can revoke or change a transfer at any time. If you want to totally revoke transferred benefits for a dependent and you're still in the service, you must submit another transfer request for the dependent through milConnect. If a dependent’s transfer eligibility was previously totally revoked, you can't transfer benefits again to that dependent.
 
 
 ### How do I transfer the benefit?
 
-While you are still active duty, request to transfer modify, and revoke a Transfer of Entitlement (TOE). [Request a transfer](https://www.dmdc.osd.mil/milconnect/). You can't apply for a transfer of benefits through VA. 
+While you're still active duty, request to transfer modify, or revoke a Transfer of Entitlement (TOE) through milConnect. [Request a transfer](https://www.dmdc.osd.mil/milconnect/). You can't apply for a transfer of benefits through VA. 
 
-If the TOE is approved, family members may apply to use transferred benefits. [Apply online for benefits](https://www.ebenefits.va.gov/ebenefits/vonapp). They may also print, fill out, and mail [VA Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf) to the nearest [VA regional office](/facilities/).
+If the TOE is approved, family members should apply for benefits. [Apply online for benefits](https://www.ebenefits.va.gov/ebenefits/vonapp). They may also print, fill out, and mail VA Form 22-1990e to the nearest VA regional office. [Download Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf). [Find a nearby VA facility](/facilities/)
 
-Once you leave military service, you can still provide a future effective date for use of TOE, modify the number of months transferred, or revoke the transfer of entitlement by submitting a written request to VA through the TEB website.
+Once you leave active duty, you can still provide a future effective date for use of TOE, modify the number of months transferred, or revoke the transfer of entitlement by submitting a written request to VA through the TEB website.
 
 
-### Learn more
+### Get more information 
 
-- [DOD website for information on transferability](http://archive.defense.gov/Home/Features/2009/0409_gibill/) (non-VA link)
+- [DOD website for information on transferability](http://archive.defense.gov/Home/Features/2009/0409_gibill/)
 - [Fact sheet on Post-9/11 GI Bill benefits transferability](http://www.benefits.va.gov/gibill/docs/factsheets/Transferability_Factsheet.pdf)
-- To ask about your eligibility, the status of your transfer request, and the TEB Portlet (for service-specific questions), please contact the appropriate career counselor or personnel center from this list:
+- To ask about your eligibility, the status of your transfer request, and the TEB Portlet (for service-specific questions), please contact the right career counselor or personnel center from this list:
   - Army Active-Duty Officer  [Email](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
   - Army Active-Duty Enlisted  [Email](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
   - Army National Guard  [Email](mailto:ng.robinson.ngb-arng-pec.mbx.arng-hrm-o-gi-bill-ch33@mail.mil)
