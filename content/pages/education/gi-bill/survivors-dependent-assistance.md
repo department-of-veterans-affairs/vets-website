@@ -6,7 +6,7 @@ plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
-If you’re the dependent or survivor of a Veteran, find out if you qualify for school or job training through a GI Bill program. 
+If you’re the dependent or survivor of a Veteran, find out if you qualify for education benefits or job training through a GI Bill program. 
 <div class="call-out" markdown="1">
 
 ### Can I get education benefits?
@@ -46,7 +46,7 @@ There are 2 main GI Bill programs offering educational assistance to survivors a
 - The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) is for children and spouses of Servicemembers who died in the line of duty after September 10, 2001. [Get more information about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
 - The Survivors' and Dependents' Educational Assistance (DEA) program offers education and training to qualified dependents of Veterans who are permanently and totally disabled due to a service-related condition or who died while on active duty or as a result of a service-related condition. [Get more information about the DEA program](/education/gi-bill/survivors-dependent-assistance/dependents-education/).
 
-You may qualify for both of these programs, but you can use only 1 of them. You’ll have to decide which one when you apply. Once you make this decision, you can't change your mind. 
+You may qualify for both of these programs, but you can use only 1 of them. You’ll have to pick one when you apply. Once you make this decision, you can't change your mind. 
 
 **Exception:** As a beneficiary, you can't use the same qualifying event for more than 1 benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
 
