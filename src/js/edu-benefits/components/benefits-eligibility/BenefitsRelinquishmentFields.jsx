@@ -1,8 +1,8 @@
 import React from 'react';
 
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
-import DateInput from '../../../common/components/form-elements/DateInput';
-import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidRelinquishedDate } from '../../utils/validations';
+import ErrorableDate from '../../../common/components/form-elements/ErrorableDate';
+import { validateIfDirty, isNotBlank, isValidRelinquishedDate } from '../../utils/validations';
 import { relinquishableBenefits } from '../../utils/options-for-select';
 import { showRelinquishedEffectiveDate } from '../../utils/helpers';
 
@@ -10,15 +10,14 @@ export default class BenefitsRelinquishmentFields extends React.Component {
   render() {
     const dateFields = (
       <div>
-        <DateInput required={showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)}
-            allowFutureDates
-            errorMessage="Date cannot be earlier than 2 years ago"
-            validation={validateIfDirtyDateObj(this.props.data.benefitsRelinquishedDate, isValidRelinquishedDate)}
+        <ErrorableDate required={showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)}
+            validation={{
+              valid: isValidRelinquishedDate(this.props.data.benefitsRelinquishedDate),
+              message: 'Date cannot be earlier than 2 years ago'
+            }}
             label="Effective date"
             name="benefitsRelinquishedDate"
-            day={this.props.data.benefitsRelinquishedDate.day}
-            month={this.props.data.benefitsRelinquishedDate.month}
-            year={this.props.data.benefitsRelinquishedDate.year}
+            date={this.props.data.benefitsRelinquishedDate}
             onValueChange={(update) => {this.props.onStateChange('benefitsRelinquishedDate', update);}}/>
         <div>
           <ul>

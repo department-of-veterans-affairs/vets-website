@@ -52,6 +52,24 @@ describe('edu helpers:', () => {
 
       expect(formatPartialDate(date)).to.equal('XXXX-12-31');
     });
+    it('should format a date with space in year', () => {
+      const date = {
+        month: makeField('12'),
+        day: makeField('31'),
+        year: makeField('2001 ')
+      };
+
+      expect(formatPartialDate(date)).to.equal('2001-12-31');
+    });
+    it('should format a date with non digit characters in year', () => {
+      const date = {
+        month: makeField('12'),
+        day: makeField('31'),
+        year: makeField('2001*')
+      };
+
+      expect(formatPartialDate(date)).to.equal('2001-12-31');
+    });
     it('should return undefined for blank date', () => {
       const date = {
         month: makeField(''),
