@@ -14,7 +14,7 @@ describe('<ErrorableMonthYear>', () => {
     const tree = SkinDeep.shallowRender(
       <ErrorableMonthYear date={date} onValueChange={(_update) => {}}/>);
     expect(tree.everySubTree('ErrorableNumberInput')).to.have.lengthOf(1);
-    expect(tree.everySubTree('ErrorableSelect')).to.have.lengthOf(2);
+    expect(tree.everySubTree('ErrorableSelect')).to.have.lengthOf(1);
   });
   it('displays required message', () => {
     const date = {
@@ -42,7 +42,7 @@ describe('<ErrorableMonthYear>', () => {
       <ErrorableMonthYear date={date} onValueChange={(_update) => {}}/>);
 
     expect(tree.everySubTree('.usa-input-error')).not.to.be.empty;
-    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Please provide a valid date');
+    expect(tree.subTree('.usa-input-error-message').text()).to.equal('Please provide a valid month and/or year');
   });
   it('does not show invalid message for partial date', () => {
     const date = {

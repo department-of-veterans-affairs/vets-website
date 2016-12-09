@@ -124,7 +124,10 @@ function isValidPartialDate(day, month, year) {
 }
 
 function isValidMonthYear(month, year) {
-  if (month && Number(month) > 12 && Number(month) < 1) {
+  if (typeof month === 'object') {
+    throw new Error('Pass a month and a year to function');
+  }
+  if (month && (Number(month) > 12 || Number(month) < 1)) {
     return false;
   }
 
@@ -132,6 +135,9 @@ function isValidMonthYear(month, year) {
 }
 
 function isValidMonthYearInPast(month, year) {
+  if (typeof month === 'object') {
+    throw new Error('Pass a month and a year to function');
+  }
   const momentDate = moment({ year, month: month ? parseInt(month, 10) - 1 : null });
 
   return !year || isValidMonthYear(month, year) && momentDate.isValid() && momentDate.isSameOrBefore(moment().startOf('month'));

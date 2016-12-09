@@ -1,16 +1,20 @@
 import { expect } from 'chai';
+import moment from 'moment';
 
 import {
   isValidContactInformationPage,
   isValidDateRange,
   isValidFutureOrPastDateField,
   isValidPage,
-  isValidRoutingNumber
+  isValidRoutingNumber,
+  isValidMonthYearRange,
+  isValidEducationHistoryPage
 } from '../../../src/js/edu-benefits/utils/validations.js';
 
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran.js';
+import { makeField } from '../../../src/js/common/model/fields.js';
 
-describe('Validations unit tests', () => {
+describe('Validation:', () => {
   describe('isValidDateRange', () => {
     it('validates if to date is after from date', () => {
       const fromDate = {
@@ -259,6 +263,190 @@ describe('Validations unit tests', () => {
       };
 
       expect(isValidContactInformationPage(data)).to.be.false;
+    });
+  });
+  describe('isValidMonthYearRange', () => {
+    it('should validate partial range', () => {
+      const fromDate = {
+        month: {
+          value: '2'
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      const toDate = {
+        month: {
+          value: '3'
+        },
+        year: {
+          value: ''
+        }
+      };
+
+      expect(isValidMonthYearRange(fromDate, toDate)).to.be.true;
+    });
+    it('should not validate invalid range', () => {
+      const fromDate = {
+        month: {
+          value: '2'
+        },
+        year: {
+          value: '2002'
+        }
+      };
+
+      const toDate = {
+        month: {
+          value: '3'
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      expect(isValidMonthYearRange(fromDate, toDate)).to.be.false;
+    });
+    it('should validate same date range', () => {
+      const fromDate = {
+        month: {
+          value: '2'
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      const toDate = {
+        month: {
+          value: '2'
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      expect(isValidMonthYearRange(fromDate, toDate)).to.be.true;
+    });
+    it('should validate year only range', () => {
+      const fromDate = {
+        month: {
+          value: ''
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      const toDate = {
+        month: {
+          value: ''
+        },
+        year: {
+          value: '2002'
+        }
+      };
+
+      expect(isValidMonthYearRange(fromDate, toDate)).to.be.true;
+    });
+  });
+  describe('isValidEducationHistoryPage', () => {
+    it('should validate empty history page fields', () => {
+      const data = {
+        highSchoolOrGedCompletionDate: {
+          month: makeField(''),
+          year: makeField('')
+        },
+        postHighSchoolTrainings: [
+          {
+            dateRange: {
+              from: {
+                month: makeField(''),
+                year: makeField('')
+              },
+              to: {
+                month: makeField(''),
+                year: makeField('')
+              }
+            }
+          }
+        ]
+      };
+
+      expect(isValidEducationHistoryPage(data)).to.be.true;
+    });
+    it('should not validate future completion date', () => {
+      const data = {
+        highSchoolOrGedCompletionDate: {
+          month: makeField(''),
+          year: makeField(moment().add(1, 'year').year())
+        },
+        postHighSchoolTrainings: [
+          {
+            dateRange: {
+              from: {
+                month: makeField(''),
+                year: makeField('')
+              },
+              to: {
+                month: makeField(''),
+                year: makeField('')
+              }
+            }
+          }
+        ]
+      };
+
+      expect(isValidEducationHistoryPage(data)).to.be.false;
+    });
+    it('should not validate bad range', () => {
+      const data = {
+        highSchoolOrGedCompletionDate: {
+          month: makeField(''),
+          year: makeField('')
+        },
+        postHighSchoolTrainings: [
+          {
+            dateRange: {
+              from: {
+                month: makeField(''),
+                year: makeField('2001')
+              },
+              to: {
+                month: makeField(''),
+                year: makeField('2000')
+              }
+            }
+          }
+        ]
+      };
+
+      expect(isValidEducationHistoryPage(data)).to.be.false;
+    });
+    it('should not validate future range', () => {
+      const data = {
+        highSchoolOrGedCompletionDate: {
+          month: makeField(''),
+          year: makeField('')
+        },
+        postHighSchoolTrainings: [
+          {
+            dateRange: {
+              from: {
+                month: makeField(''),
+                year: makeField('2001')
+              },
+              to: {
+                month: makeField(''),
+                year: makeField(moment().add(1, 'year').year())
+              }
+            }
+          }
+        ]
+      };
+
+      expect(isValidEducationHistoryPage(data)).to.be.false;
     });
   });
 });

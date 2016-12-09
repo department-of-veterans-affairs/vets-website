@@ -299,13 +299,14 @@ function isValidEmploymentHistoryPage(data) {
 }
 
 function isValidEducationPeriod(data) {
-  return isValidMonthYearInPast(data.dateRange.from)
-    && isValidMonthYearInPast(data.dateRange.to)
+  return isValidMonthYearInPast(data.dateRange.from.month.value, data.dateRange.from.year.value)
+    && isValidMonthYearInPast(data.dateRange.to.month.value, data.dateRange.to.year.value)
     && isValidMonthYearRange(data.dateRange.from, data.dateRange.to);
 }
 
 function isValidEducationHistoryPage(data) {
-  return (isBlankMonthYear(data.highSchoolOrGedCompletionDate) || isValidMonthYearInPast(data.highSchoolOrGedCompletionDate))
+  return (isBlankMonthYear(data.highSchoolOrGedCompletionDate)
+    || isValidMonthYearInPast(data.highSchoolOrGedCompletionDate.month.value, data.highSchoolOrGedCompletionDate.year.value))
     && data.postHighSchoolTrainings.every(isValidEducationPeriod);
 }
 
@@ -447,6 +448,7 @@ export {
   isValidPersonalInfoPage,
   isValidAddressField,
   isValidContactInformationPage,
+  isValidEducationHistoryPage,
   isValidMilitaryServicePage,
   isValidServicePeriodsPage,
   isValidPage,

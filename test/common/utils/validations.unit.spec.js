@@ -10,7 +10,9 @@ import {
   isValidMonetaryValue,
   isValidDateOver17,
   isValidPartialDate,
-  validateCustomFormComponent
+  validateCustomFormComponent,
+  isValidMonthYear,
+  isValidMonthYearInPast
 } from '../../../src/js/common/utils/validations.js';
 
 describe('Validations unit tests', () => {
@@ -210,6 +212,28 @@ describe('Validations unit tests', () => {
       ];
 
       expect(validateCustomFormComponent(validation)).to.equal(validation[1]);
+    });
+  });
+  describe('isValidMonthYear', () => {
+    it('should validate month and year', () => {
+      expect(isValidMonthYear('2', moment().add(5, 'year').year())).to.be.true;
+    });
+    it('should not validate bad year', () => {
+      expect(isValidMonthYear('2', '2500')).to.be.false;
+    });
+    it('should not validate bad month', () => {
+      expect(isValidMonthYear(20, 2001)).to.be.false;
+    });
+  });
+  describe('isValidMonthYearInPast', () => {
+    it('should validate month and year in past', () => {
+      expect(isValidMonthYearInPast('2', '2001')).to.be.true;
+    });
+    it('should validate month and year that is current', () => {
+      expect(isValidMonthYearInPast(moment().month(), moment().year())).to.be.true;
+    });
+    it('should not validate month and year that is in the future', () => {
+      expect(isValidMonthYearInPast('2', moment().add(2, 'year').year())).to.be.false;
     });
   });
 });
