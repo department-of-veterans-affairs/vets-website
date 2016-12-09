@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
 import { showRelinquishedEffectiveDate } from './helpers';
-import { isValidDateOver17, isBlankAddress, isValidPartialDateField } from '../../common/utils/validations';
+import { isValidDateOver17, isBlankAddress, isValidPartialDateField, isValidYear } from '../../common/utils/validations';
 import { dateToMoment } from '../../common/utils/helpers';
 
 function validateIfDirty(field, validator) {
@@ -43,12 +43,8 @@ function isNotBlank(value) {
   return value !== '';
 }
 
-function isValidYear(value) {
-  return Number(value) >= 1900;
-}
-
 function isValidYearOrBlank(value) {
-  return Number(value) >= 1900 || value === '';
+  return isValidYear(value) || value === '';
 }
 
 function isValidCurrentOrPastYear(value) {
@@ -177,6 +173,9 @@ function isValidDateField(field) {
 }
 
 function isValidFutureDate(day, month, year) {
+  if (!isValidYear(year)) {
+    return false;
+  }
   const today = moment().startOf('day');
   const date = moment({
     day,
@@ -247,6 +246,9 @@ function isValidBenefitsInformationPage(data) {
 }
 
 function isValidRelinquishedDate(field) {
+  if (!isValidYear(field.year.value)) {
+    return false;
+  }
   // Allow dates up to two years ago
   const pastDate = moment().subtract(2, 'years');
   const date = dateToMoment(field);

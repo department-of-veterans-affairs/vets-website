@@ -85,6 +85,10 @@ function isValidSSN(value) {
   return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
 }
 
+function isValidYear(value) {
+  return Number(value) >= 1900 && Number(value) <= moment().add(100, 'year').year();
+}
+
 function isValidDate(day, month, year) {
   // Use the date class to see if the date parses back sanely as a
   // validation check. Not sure is a great idea...
@@ -96,7 +100,7 @@ function isValidDate(day, month, year) {
     return false;
   }
 
-  if (Number(year) < 1900) {
+  if (!isValidYear(year)) {
     return false;
   }
 
@@ -106,6 +110,10 @@ function isValidDate(day, month, year) {
 }
 
 function isValidAnyDate(day, month, year) {
+  if (!isValidYear(year)) {
+    return false;
+  }
+
   return moment({
     day,
     month: month ? parseInt(month, 10) - 1 : month,
@@ -114,7 +122,7 @@ function isValidAnyDate(day, month, year) {
 }
 
 function isValidPartialDate(day, month, year) {
-  if (year && (Number(year) < 1900 || Number(year) > moment().add(100, 'year').year())) {
+  if (year && !isValidYear(year)) {
     return false;
   }
 
@@ -122,6 +130,10 @@ function isValidPartialDate(day, month, year) {
 }
 
 function isValidDateOver17(day, month, year) {
+  if (!isValidYear(year)) {
+    return false;
+  }
+
   const momentDate = moment({
     day,
     month: parseInt(month, 10) - 1,
@@ -576,5 +588,6 @@ export {
   isValidPartialDate,
   isValidDateField,
   isValidPartialDateField,
+  isValidYear,
   validateCustomFormComponent
 };
