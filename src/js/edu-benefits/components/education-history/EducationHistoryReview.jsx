@@ -1,9 +1,9 @@
 import React from 'react';
-import { displayDateIfValid } from '../../utils/helpers.js';
+import { displayMonthYearIfValid } from '../../utils/helpers.js';
 
 export default class EducationHistoryReview extends React.Component {
   render() {
-    const { completionDate } = this.props.data;
+    const completionDate = this.props.data.highSchoolOrGedCompletionDate;
     return (
       <div>
         <div className="form-review-panel-page-header-row">
@@ -15,8 +15,8 @@ export default class EducationHistoryReview extends React.Component {
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
-              <td>If you got a high school diploma or high school equivalency certificate, what date did you get it? (month, day, year)</td>
-              <td>{displayDateIfValid(completionDate)}</td>
+              <td>If you got a high school diploma or high school equivalency certificate, what date did you get it? (month, year)</td>
+              <td>{displayMonthYearIfValid(completionDate)}</td>
             </tr>
             <tr>
               <td>FAA certificates</td>

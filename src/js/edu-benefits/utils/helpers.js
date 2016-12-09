@@ -44,13 +44,19 @@ export function formatPartialDate(field) {
   return `${field.year.value || 'XXXX'}-${formatDayMonth(field.month.value)}-${formatDayMonth(field.day.value)}`;
 }
 
-export function displayDateIfValid(dateObject) {
-  if (typeof dateObject === 'object') {
-    const momentDate = dateToMoment(dateObject);
-    if (momentDate.isValid()) {
-      return formatPartialDate(dateObject);
-    }
+export function displayDateIfValid(field) {
+  if (!field.day.value && !field.month.value && !field.year.value) {
+    return undefined;
   }
+
+  return `${formatDayMonth(field.month.value)}/${formatDayMonth(field.day.value)}/${field.year.value || 'XXXX'}`;
+}
+
+export function displayMonthYearIfValid(dateObject) {
+  if (dateObject.year.value && dateObject.month.value) {
+    return `${dateObject.month.value}/${dateObject.year.value}`;
+  }
+
   return null;
 }
 
