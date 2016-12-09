@@ -36,12 +36,25 @@ function formatDayMonth(val) {
   return val.toString();
 }
 
+function formatYear(val) {
+  if (!val || !val.length) {
+    return 'XXXX';
+  }
+
+  const year = Number(val.replace(/[^\d]/g, ''));
+  if (isNaN(year)) {
+    return 'XXXX';
+  }
+
+  return year.toString();
+}
+
 export function formatPartialDate(field) {
   if (!field.day.value && !field.month.value && !field.year.value) {
     return undefined;
   }
 
-  return `${field.year.value || 'XXXX'}-${formatDayMonth(field.month.value)}-${formatDayMonth(field.day.value)}`;
+  return `${formatYear(field.year.value)}-${formatDayMonth(field.month.value)}-${formatDayMonth(field.day.value)}`;
 }
 
 export function displayDateIfValid(field) {
@@ -49,7 +62,7 @@ export function displayDateIfValid(field) {
     return undefined;
   }
 
-  return `${formatDayMonth(field.month.value)}/${formatDayMonth(field.day.value)}/${field.year.value || 'XXXX'}`;
+  return `${formatDayMonth(field.month.value)}/${formatDayMonth(field.day.value)}/${formatYear(field.year.value)}`;
 }
 
 export function displayMonthYearIfValid(dateObject) {
