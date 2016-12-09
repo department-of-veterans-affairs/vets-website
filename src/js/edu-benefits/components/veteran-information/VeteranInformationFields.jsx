@@ -10,7 +10,7 @@ import { isValidDateOver17 } from '../../../common/utils/validations';
 
 export default class PersonalInformationFields extends React.Component {
   render() {
-    const { day, month, year } = this.props.veteranDateOfBirth;
+    const { day, month, year } = this.props.data.veteranDateOfBirth;
     return (
       <fieldset>
         <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>
