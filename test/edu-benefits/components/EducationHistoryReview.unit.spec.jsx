@@ -20,6 +20,6 @@ describe('<EducationHistoryReview>', () => {
           data={veteran}/>
     );
 
-    expect(tree.everySubTree('td')[1].text()).to.eql('2/1995');
+    expect(tree.everySubTree('td')[1].text()).to.eql('02/1995');
   });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { displayDateIfValid } from '../../utils/helpers.js';
+import { displayMonthYearIfValid } from '../../utils/helpers.js';
 
 export default class EducationHistoryReview extends React.Component {
   render() {
@@ -10,13 +10,13 @@ export default class EducationHistoryReview extends React.Component {
           <div className="form-review-panel-page-header"/>
           <button
               className="edit-btn primary-outline"
-              onClick={this.props.onEdit}><i className="fa before-text fa-pencil"></i>Edit</button>
+              onClick={this.props.onEdit}>Edit</button>
         </div>
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
               <td>If you got a high school diploma or high school equivalency certificate, what date did you get it? (month, year)</td>
-              <td>{displayDateIfValid(completionDate, 'M/YYYY')}</td>
+              <td>{displayMonthYearIfValid(completionDate)}</td>
             </tr>
             <tr>
               <td>FAA certificates</td>

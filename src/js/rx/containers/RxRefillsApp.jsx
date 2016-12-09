@@ -17,11 +17,11 @@ function AppContent({ children, isDataAvailable }) {
 
   if (unregistered) {
     view = (
-      <h4>
-        To refill prescriptions, you need to be registered as a VA patient through MyHealtheVet.
-        To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">visit MyHealtheVet</a>.
+      <p className="info-message">
+        To refill prescriptions, you need to be registered as a VA patient through MyHealth<strong><em>e</em></strong>Vet.
+        To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">visit MyHealth<strong><em>e</em></strong>Vet</a>.
         If you're registered but you don't see your prescriptions here, please call the Vets.gov Help Desk at 1-855-574-7286, Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
-      </h4>
+      </p>
     );
   } else {
     view = children;

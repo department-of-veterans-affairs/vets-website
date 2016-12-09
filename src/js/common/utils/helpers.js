@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 
 export function getPageList(routes) {
   return routes.map(route => {
@@ -53,6 +54,14 @@ export function isActivePage(page, data) {
 
 export function getActivePages(pages, data) {
   return pages.filter(page => isActivePage(page, data));
+}
+
+export function dateToMoment(dateField) {
+  return moment({
+    year: dateField.year.value,
+    month: dateField.month.value ? parseInt(dateField.month.value, 10) - 1 : '',
+    day: dateField.day.value
+  });
 }
 
 export function focusElement(selectorOrElement) {
