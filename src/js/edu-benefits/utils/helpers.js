@@ -53,12 +53,10 @@ export function displayDateIfValid(field) {
 }
 
 export function displayMonthYearIfValid(dateObject) {
-  if (typeof dateObject === 'object') {
-    const momentDate = dateToMoment(dateObject);
-    if (momentDate.isValid()) {
-      return momentDate.format('MM/YYYY');
-    }
+  if (dateObject.year.value && dateObject.month.value) {
+    return `${dateObject.month.value}/${dateObject.year.value}`;
   }
+
   return null;
 }
 
