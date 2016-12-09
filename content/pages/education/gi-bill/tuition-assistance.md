@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Tuition Assistance Top-Up
 concurrence: incomplete
+plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
@@ -27,14 +28,14 @@ More tuition funding to cover the difference between the full cost of a college 
 
 ### How do I get these benefits?
 
-If you're using the Montgomery GI Bill, you will get the difference between the DOD payment and the total cost of the course. If you're using the Post-9/11 GI Bill, your school will be paid back the difference between the DOD payment and the authorized maximum tuition and fees.
+If you're using the Montgomery GI Bill, you'll get the difference between the DOD payment and the total cost of the course. If you're using the Post-9/11 GI Bill, we'll pay back your school the difference between the DOD payment and the authorized (approved) maximum tuition and fees.
 
-**Note:** It's very important that you talk with your education officer and use the GI Bill Comparison Tool before using this benefit. [Use the GI Bill Comparison tool](/gi-bill-comparison-tool/). Using the Top-Up will affect your GI Bill payments, so you should carefully consider your situation before applying for this benefit. If you are going to take more courses after leaving the military, you should figure out if the GI Bill benefits you have left will cover your needs.
+**Note:** It's very important that you talk with your education officer and use the GI Bill Comparison Tool before applying for benefits through this program. Using Top-Up will affect your GI Bill payments, so you'll want to think carefully about your situation before applying. If you're going to take more courses after leaving the military, figure out if the GI Bill benefits you have left will cover your needs. [Use the GI Bill Comparison tool](/gi-bill-comparison-tool/).
 
-- If you use the Montgomery GI Bill, this benefit will be reduced, or charged, one month of entitlement for each payment received that is equal to the full-time monthly [GI Bill rate](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
-- If you use the Post-9/11 GI Bill, this benefit will be charged based on training time no matter how much money you are reimbursed. Half-time training rates reduce your GI Bill benefit by a half-month for each month you are enrolled.
+- If you use the Montgomery GI Bill, this benefit will be reduced, or charged, one month of entitlement for each payment received that is equal to the full-time monthly GI Bill rate. [See the rate tables](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+- If you use the Post-9/11 GI Bill, this benefit will be charged based on training time no matter how much money you're reimbursed. Half-time training rates reduce your GI Bill benefit by a half-month for each month you are enrolled.
 
-**Exception:** In no case will the combined amount paid by DOD and VA exceed the total cost of the course.
+**Exception:** In no case will the combined amount paid by DOD and VA be more than the total cost of the course.
 
 ### Get more information
 
