@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import {
   isValidContactInformationPage,
+  isValidMilitaryServicePage,
   isValidDateRange,
   isValidFutureOrPastDateField,
   isValidPage,
@@ -299,6 +300,28 @@ describe('Validations unit tests', () => {
       };
 
       expect(isValidRelinquishedDate(dateField)).to.be.false;
+    });
+  });
+  describe('isValidMilitaryServicePage', () => {
+    it('should not allow invalid years', () => {
+      const data = {
+        serviceAcademyGraduationYear: {
+          value: '1890',
+          dirty: true
+        }
+      };
+
+      expect(isValidMilitaryServicePage(data)).to.be.false;
+    });
+    it('should allow blank values', () => {
+      const data = {
+        serviceAcademyGraduationYear: {
+          value: '',
+          dirty: true
+        }
+      };
+
+      expect(isValidMilitaryServicePage(data)).to.be.true;
     });
   });
 });
