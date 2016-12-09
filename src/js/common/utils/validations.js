@@ -32,8 +32,10 @@ function validateIfDirtyProvider(field1, field2, validator) {
 
 function validateCustomFormComponent(customValidation) {
   // Allow devs to pass in an array of validations with messages and display the first failed one
-  if (Array.isArray(customValidation) && customValidation.some(validator => !validator.valid)) {
-    return customValidation.filter(validator => !validator.valid)[0];
+  if (Array.isArray(customValidation)) {
+    if (customValidation.some(validator => !validator.valid)) {
+      return customValidation.filter(validator => !validator.valid)[0];
+    }
   // Also allow objects for custom validation
   } else if (typeof customValidation === 'object' && !customValidation.valid) {
     return customValidation;
@@ -119,6 +121,20 @@ function isValidPartialDate(day, month, year) {
   }
 
   return true;
+}
+
+function isValidMonthYear(month, year) {
+  if (month && Number(month) > 12 && Number(month) < 1) {
+    return false;
+  }
+
+  return isValidPartialDate(null, null, year);
+}
+
+function isValidMonthYearInPast(month, year) {
+  const momentDate = moment({ year, month: month ? parseInt(month, 10) - 1 : null });
+
+  return !year || isValidMonthYear(month, year) && momentDate.isValid() && momentDate.isSameOrBefore(moment().startOf('month'));
 }
 
 function isValidDateOver17(day, month, year) {
@@ -576,5 +592,7 @@ export {
   isValidPartialDate,
   isValidDateField,
   isValidPartialDateField,
+  isValidMonthYear,
+  isValidMonthYearInPast,
   validateCustomFormComponent
 };

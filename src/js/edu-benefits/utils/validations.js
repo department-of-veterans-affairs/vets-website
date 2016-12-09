@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
 import { showRelinquishedEffectiveDate } from './helpers';
-import { isValidDateOver17, isBlankAddress, isValidPartialDateField } from '../../common/utils/validations';
+import { isValidDateOver17, isBlankAddress, isValidPartialDateField, isValidMonthYearInPast } from '../../common/utils/validations';
 import { dateToMoment } from '../../common/utils/helpers';
 
 function validateIfDirty(field, validator) {
@@ -210,6 +210,16 @@ function isValidDateRange(fromDate, toDate) {
   return momentStart.isBefore(momentEnd);
 }
 
+function isValidMonthYearRange(fromDate, toDate) {
+  if (!fromDate.year.value || !toDate.year.value) {
+    return true;
+  }
+  const momentStart = dateToMoment(fromDate);
+  const momentEnd = dateToMoment(toDate);
+
+  return momentStart.isSameOrBefore(momentEnd);
+}
+
 function isValidFullNameField(field) {
   return isValidName(field.first.value) &&
     (isBlank(field.middle.value) || isValidName(field.middle.value)) &&
@@ -289,7 +299,9 @@ function isValidEmploymentHistoryPage(data) {
 }
 
 function isValidEducationPeriod(data) {
-  return isValidDateRange(data.dateRange.from, data.dateRange.to);
+  return isValidMonthYearInPast(data.dateRange.from)
+    && isValidMonthYearInPast(data.dateRange.to)
+    && isValidMonthYearRange(data.dateRange.from, data.dateRange.to);
 }
 
 function isValidEducationHistoryPage(data) {
@@ -443,5 +455,6 @@ export {
   isValidRelinquishedDate,
   isValidTourOfDuty,
   isValidEmploymentPeriod,
-  isValidRotcScholarshipAmount
+  isValidRotcScholarshipAmount,
+  isValidMonthYearRange
 };

@@ -37,11 +37,13 @@ function formatDayMonth(val) {
 }
 
 export function formatPartialDate(field) {
-  if (!field.day.value && !field.month.value && !field.year.value) {
+  if (!field.month.value && !field.year.value) {
     return undefined;
   }
 
-  return `${field.year.value || 'XXXX'}-${formatDayMonth(field.month.value)}-${formatDayMonth(field.day.value)}`;
+  const day = field.day ? field.day.value : null;
+
+  return `${field.year.value || 'XXXX'}-${formatDayMonth(field.month.value)}-${formatDayMonth(day)}`;
 }
 
 export function displayDateIfValid(dateObject) {
