@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
 import { showRelinquishedEffectiveDate } from './helpers';
-import { isValidDateOver17, isBlankAddress, isValidPartialDateField } from '../../common/utils/validations';
+import { isValidDateOver17, isBlankAddress, isValidPartialDateField, isValidYear } from '../../common/utils/validations';
 import { dateToMoment } from '../../common/utils/helpers';
 
 function validateIfDirty(field, validator) {
@@ -41,10 +41,6 @@ function isBlank(value) {
 
 function isNotBlank(value) {
   return value !== '';
-}
-
-function isValidYear(value) {
-  return Number(value) >= 1900;
 }
 
 function isValidYearOrBlank(value) {
