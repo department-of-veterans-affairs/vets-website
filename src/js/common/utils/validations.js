@@ -588,5 +588,6 @@ export {
   isValidPartialDate,
   isValidDateField,
   isValidPartialDateField,
+  isValidYear,
   validateCustomFormComponent
 };

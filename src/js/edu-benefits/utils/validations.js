@@ -44,7 +44,7 @@ function isNotBlank(value) {
 }
 
 function isValidYearOrBlank(value) {
-  return Number(value) >= 1900 || value === '';
+  return isValidYear(value) || value === '';
 }
 
 function isValidCurrentOrPastYear(value) {
@@ -173,7 +173,7 @@ function isValidDateField(field) {
 }
 
 function isValidFutureDate(day, month, year) {
-  if (Number(year) > moment().add(100, 'year').year()) {
+  if (!isValidYear(year)) {
     return false;
   }
   const today = moment().startOf('day');
@@ -246,7 +246,7 @@ function isValidBenefitsInformationPage(data) {
 }
 
 function isValidRelinquishedDate(field) {
-  if (Number(field.year.value) > moment().add(100, 'year').year()) {
+  if (!isValidYear(field.year.value)) {
     return false;
   }
   // Allow dates up to two years ago
