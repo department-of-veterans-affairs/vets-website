@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Transferring Post-9/11 GI Bill Benefits
 template: 1-topic-landing
+plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: complete
 ---
 
@@ -11,11 +12,11 @@ Find out if you can transfer any of your unused Post-9/11 GI Bill benefits to yo
 <div class="call-out" markdown="1">
 
 ### Can I transfer benefits?
-You can transfer benefits if you’re on active duty or in the Selected Reserve, and:
+You can transfer benefits if you’re on active duty or in the Selected Reserve and:
   - You’re in one of these situations:
      - You have at least 6 years of service on the date of approval and agree to serve 4 additional years from the date of election, **or**
-     - You have at least 10 years of service on the date of approval, are prevented by either policy or statute from committing to 4 additional years, but agree to serve for the maximum amount of time allowed, **and**
-  - The person getting benefits is enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).
+     - You have at least 10 years of service on the date of approval, can't commit to 4 additional years because of either policy or statute, but agree to serve for the maximum amount of time allowed, **and**
+  - The person getting benefits has enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).
 
 ### Who's covered?
 Qualified dependents
@@ -34,40 +35,44 @@ If the DOD approves the Transfer of Entitlement (TOE), your spouse or dependent 
 
 ### When can they use the transferred benefit?
 
-The following conditions apply to family members using transferred benefits:
+These conditions apply to family members using transferred benefits:
 
 #### Spouses
 
-- May use the benefit immediately.
-- May use the benefit while you're on active duty or after separation.
-- Aren't eligible for the monthly housing allowance while you're on active duty.
-- May use the benefit for up to 15 years after your separation from active duty.
+- May use the benefit right away
+- May use the benefit while you're on active duty or after separation
+- Don't qualify for the monthly housing allowance while you're on active duty
+- May use the benefit for up to 15 years after your separation from active duty
 
 #### Children
 
-- May start to use the benefit only after you've completed at least 10 years of service.
-- May use the benefit while you're on active duty or after separation.
-- May not use the benefit until they've gotten a high school diploma (or equivalency certificate), or have reached 18 years of age.
-- Are entitled to the monthly housing allowance stipend even when you're on active duty.
-- Don't have to use the benefit within 15 years after your separation from active duty, but they can't use the benefit after they've turned 26 years old.
+- May start to use the benefit only after you've finished at least 10 years of service
+- May use the benefit while you're on active duty or after separation
+- May not use the benefit until they've gotten a high school diploma (or equivalency certificate), or have reached 18 years of age
+- Qualify for the monthly housing allowance even when you're on active duty
+- Don't have to use the benefit within 15 years after your separation from active duty, but can't use the benefit after they've turned 26 years old.
 
 
-Your dependents may still qualify even if a child marries or you and your spouse divorce. However, Servicemembers and Veterans can revoke or change a TOE at any time. If you want to totally revoke transferred benefits for a dependent and you're still in the service, you must turn in another transfer request for the dependent through milConnect. If a dependent’s transfer eligibility was previously totally revoked, you can't transfer benefits again to that dependent.
+Your dependents may still qualify even if a child marries or you and your spouse divorce. However, Servicemembers and Veterans can revoke (meaning cancel) or change a TOE at any time. If you want to totally revoke transferred benefits for a dependent and you're still in the service, you must turn in another transfer request for the dependent through milConnect. If a dependent’s transfer eligibility (ability to get a TOE) has been totally revoked, you can't transfer benefits again to that dependent.
 
 
 ### How do I transfer the benefit?
 
-While you're still active duty, request to transfer, modify, or revoke a Transfer of Entitlement (TOE) through milConnect. [Request a transfer](https://www.dmdc.osd.mil/milconnect/). You can't apply for a TOE through VA. 
+While you're still on active duty, you'll request to transfer, change, or revoke a Transfer of Entitlement (TOE) through milConnect. You can't apply for a TOE through us. [Transfer, change, or revoke a TOE](https://www.dmdc.osd.mil/milconnect/). 
 
-If the TOE is approved, family members should apply for benefits. [Apply online for benefits](https://www.ebenefits.va.gov/ebenefits/vonapp). They may also print, fill out, and mail VA Form 22-1990e to the nearest VA regional office. [Download Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf). [Find a nearby VA facility](/facilities/)
+If DOD approves the TOE, family members may apply for benefits. 
+- [Apply online](https://www.ebenefits.va.gov/ebenefits/vonapp). 
+- Apply by mail. You'll need to fill out and mail VA Form 22-1990e to the nearest VA regional office. [Download Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf). 
 
-Once you leave active duty, you can still provide a future effective date that the TOE can be used, modify the number of months transferred, or revoke the TOE by submitting a written request to VA through milConnect.
+[Find a nearby VA facility](/facilities/).
+
+Once you leave active duty, you can still provide a future effective date that the TOE can be used, change the number of months transferred, or revoke the TOE by submitting a written request to VA through milConnect.
 
 
 ### Get more information 
 
-- [DOD website for information on transferability](http://archive.defense.gov/Home/Features/2009/0409_gibill/)
-- [Fact sheet on Post-9/11 GI Bill benefits transferability](http://www.benefits.va.gov/gibill/docs/factsheets/Transferability_Factsheet.pdf)
+- [DOD website for information on transferring benefits](http://archive.defense.gov/Home/Features/2009/0409_gibill/)
+- [Fact sheet on transferring Post-9/11 GI Bill benefits](http://www.benefits.va.gov/gibill/docs/factsheets/Transferability_Factsheet.pdf)
 - To ask about your eligibility, the status of your transfer request, and the TEB Portlet (for service-specific questions), please contact the right career counselor or personnel center from this list:
   - Army Active-Duty Officer  [Email](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
   - Army Active-Duty Enlisted  [Email](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
