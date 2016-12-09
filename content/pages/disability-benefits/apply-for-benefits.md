@@ -198,7 +198,7 @@ We'll get your entire claim decision packet ready to be mailed.
 
 **Claim Closed**
 
-We'll mail you a packet with a decision notice and award details. Please allow 5-7 business days for your packet to arrive before you contact a VA call center.
+We'll mail you a packet with a decision notice and award details. Please allow 5 to 7 business days for your packet to arrive before you contact a VA call center.
 
 </div>
 
