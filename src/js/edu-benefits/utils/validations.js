@@ -305,7 +305,7 @@ function isValidEducationPeriod(data) {
 }
 
 function isValidEducationHistoryPage(data) {
-  return (isBlankMonthYear(data.highSchoolOrGedCompletionDate) || isValidDateField(data.highSchoolOrGedCompletionDate))
+  return (isBlankMonthYear(data.highSchoolOrGedCompletionDate) || isValidMonthYearInPast(data.highSchoolOrGedCompletionDate))
     && data.postHighSchoolTrainings.every(isValidEducationPeriod);
 }
 

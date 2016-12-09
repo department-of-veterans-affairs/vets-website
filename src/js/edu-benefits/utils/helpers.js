@@ -55,8 +55,8 @@ export function displayDateIfValid(field) {
 }
 
 export function displayMonthYearIfValid(dateObject) {
-  if (dateObject.year.value && dateObject.month.value) {
-    return `${dateObject.month.value}/${dateObject.year.value}`;
+  if (dateObject.year.value || dateObject.month.value) {
+    return `${dateObject.month.value || 'XX'}/${dateObject.year.value || 'XXXX'}`;
   }
 
   return null;
