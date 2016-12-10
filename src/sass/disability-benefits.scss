@@ -669,6 +669,7 @@ h6.claims-turnedin-file-header {
 }
 
 .notification-close {
+  background-color: transparent;
   @media (max-width: $small-screen) {
     margin: -5px 5px 0 0;
     width: 0;
