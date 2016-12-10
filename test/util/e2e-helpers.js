@@ -25,11 +25,11 @@ function expectInputToNotBeSelected(client, field) {
 }
 
 function overrideVetsGovApi(client) {
-  client.execute(() => {
-    window.VetsGov.api.url = `http://localhost:${process.env.API_PORT || 4000}`;
+  client.execute((url) => {
+    window.VetsGov.api.url = url;
     return window.VetsGov.api.url;
   },
-  [],
+  [`http://localhost:${process.env.API_PORT || 4000}`],
   (val) => {
     // eslint-disable-next-line no-console
     console.log(`Result of overriding VetsGov.api.url${JSON.stringify(val)}`);
