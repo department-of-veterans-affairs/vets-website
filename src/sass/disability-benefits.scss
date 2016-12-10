@@ -221,7 +221,7 @@
   p {
     margin: 0;
   }
-  p.status {
+  .label {
     font-weight: bold;
   }
   .communications, p.status {
@@ -565,7 +565,7 @@ p.first-of-type {
   &:focus {
     outline: none;
   }
-} 
+}
 
 .claims-alert.phase-back-alert {
   margin-top: 0;
