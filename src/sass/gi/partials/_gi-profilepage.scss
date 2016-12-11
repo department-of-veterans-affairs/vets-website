@@ -2,7 +2,7 @@
 
 
 @media(max-width: $small-screen) {
-    .add-resources {display:none;} 
+    .add-resources {display:none;}
     #about-your-school{display:none;}
     #about-you {display:none;}
     #horiz-filters-noprint {display:none;}
@@ -10,7 +10,7 @@
     }
 
 @media(max-width: $medium-screen) {
-    .add-resources {display:none;} 
+    .add-resources {display:none;}
     #about-your-school{display:none;}
     #about-you {display:none;}
     #horiz-filters-noprint {display:none;}
@@ -55,7 +55,7 @@
             display:none;
         }
     }
-    
+
     a{
         color: #000;
         font-family: $font-sans;
@@ -90,7 +90,7 @@
     margin-right: 1rem;
     padding-bottom: 0;
     margin-bottom: 0;
-    
+
     p{
         margin-bottom: .5rem;
     }
@@ -202,4 +202,54 @@
 }
 .access-sheet{
     margin-top: 1rem;
+}
+
+/* were in-line styles */
+
+.graph {
+  font-size: 10px;
+  min-height: 200px;
+    margin: 0;
+}
+
+.graph .graph-background {
+  fill: #eee;
+  stroke: #eee;
+  stroke-width: 3;
+}
+
+.graph .graph-bar {
+  fill: $va-body-accent-color;
+  stroke: #eee;
+  stroke-width: 3;
+}
+
+.graph .graph-bar.vet{
+  fill: #B1B680;
+}
+
+.graph .graph-bar.all{
+  fill: #FAC922;
+}
+
+.graph .graph-bar-label {
+  text-anchor: middle;
+  font-weight: bold;
+}
+
+.graph .graph-axis-label {
+  font-size: 8px;
+  text-anchor: middle;
+  text-transform: uppercase;
+}
+
+.graph .graph-line {
+  stroke: #000;
+  opacity: 0.18;
+  stroke-width: 0.5;
+}
+
+.graph .graph-line-label {
+  font-size: 8px;
+  dominant-baseline: middle;
 }
