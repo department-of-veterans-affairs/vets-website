@@ -10,12 +10,8 @@ class ProfilePage extends React.Component {
       <span>
         {this.renderHeader()}
         <div className="row">
-          <div className="small-12 medium-8 columns">
+          <div className="small-12 medium-12 columns">
             <h2>ProfilePage</h2>
-          </div>
-
-          <div className="small-12 medium-4 columns">
-            <AdditionalResources/>
           </div>
         </div>
       </span>
