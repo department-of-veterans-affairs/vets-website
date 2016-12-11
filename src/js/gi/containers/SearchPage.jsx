@@ -70,7 +70,7 @@ class SearchPage extends React.Component {
   renderHeader() {
     return (
       <div className="row">
-        <h1 className="va-heading-sans">GI Bill<sup className="trademark">®</sup> Comparison Tool Search Results</h1>
+        <h1 className="va-heading-sans">GI Bill Comparison Tool Search Results</h1>
       </div>
     );
   }
@@ -82,7 +82,7 @@ class SearchPage extends React.Component {
           <li><a href="/">Home</a></li>
           <li><a href="/education/">Education Benefits</a></li>
           <li><a href="/education/gi-bill/">GI Bill</a></li>
-          <li><a href="/gi-bill-comparison-tool/">GI Bill® Comparison Tool</a></li>
+          <li><a href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a></li>
           <li className="active">Search</li>
         </ul>
       </nav>

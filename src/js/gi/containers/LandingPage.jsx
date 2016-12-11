@@ -39,7 +39,7 @@ class LandingPage extends React.Component {
           <li><a href="/">Home</a></li>
           <li><a href="/education/">Education Benefits</a></li>
           <li><a href="/education/gi-bill/">GI Bill</a></li>
-          <li className="active">GI Bill® Comparison Tool</li>
+          <li className="active">GI Bill Comparison Tool</li>
         </ul>
       </nav>
     );
