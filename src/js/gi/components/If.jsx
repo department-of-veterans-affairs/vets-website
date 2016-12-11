@@ -12,7 +12,7 @@ class If extends React.Component {
 }
 
 If.propTypes = {
-  condition: React.PropTypes.bool
+  condition: React.PropTypes.bool.isRequired
 };
 
 If.defaultProps = {

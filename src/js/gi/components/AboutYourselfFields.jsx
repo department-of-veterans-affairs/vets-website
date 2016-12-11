@@ -260,7 +260,7 @@ class AboutYourselfFields extends React.Component {
             onChange={this.handleDropdownChange}
             showLabel={this.props.labels}/>
 
-          <Modal onClose={() => {this.toggleModalDisplay('militaryStatus')}} visible={!!this.state.modals.militaryStatus}>
+        <Modal onClose={() => {this.toggleModalDisplay('militaryStatus')}} visible={!!this.state.modals.militaryStatus}>
           <h3>Military Status</h3>
           <p>
             <a title="Post 9/11 GI Bill"

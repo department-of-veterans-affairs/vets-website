@@ -50,11 +50,12 @@ class AboutYourSchoolFields extends React.Component {
 
 AboutYourSchoolFields.propTypes = {
   labels: React.PropTypes.bool,
-  onlineClasses: React.PropTypes.string.isRequired
+  onlineClasses: React.PropTypes.string
 };
 
 AboutYourSchoolFields.defaultProps = {
-  labels: true
+  labels: true,
+  onlineClasses: 'no'
 };
 
 export default AboutYourSchoolFields;

@@ -8,6 +8,15 @@ import Estimator from '../utils/Estimator';
 
 class GIBillApp extends React.Component {
 
+  renderPage(page) {
+    const pages = {
+      'search': (<SearchPage queryParams={this.props.location.query}/>),
+      'profile': (<ProfilePage queryParams={this.props.location.query}/>)
+    };
+    return pages[page] ||
+      (<LandingPage queryParams={this.props.location.query}/>);
+  }
+
   render() {
     return (
       <span id="gi-bill-app">
@@ -17,15 +26,6 @@ class GIBillApp extends React.Component {
         </div>
       </span>
     );
-  }
-
-  renderPage(page) {
-    const pages = {
-      'search': (<SearchPage queryParams={this.props.location.query}/>),
-      'profile': (<ProfilePage queryParams={this.props.location.query}/>)
-    };
-    return pages[page] ||
-      (<LandingPage queryParams={this.props.location.query}/>);
   }
 
 }
