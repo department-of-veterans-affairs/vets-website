@@ -5,7 +5,34 @@ import SearchResult from '../components/SearchResult';
 
 class SearchPage extends React.Component {
 
+  renderPageTitle(prefix) {
+    document.title = [prefix, 'GI Bill Comparison Tool'].join(' - ');
+  }
+
+  renderHeader() {
+    return (
+      <div className="row">
+        <h1 className="va-heading-sans">GI Bill Comparison Tool Search Results</h1>
+      </div>
+    );
+  }
+
+  renderBreadcrumbs() {
+    return (
+      <nav className="va-nav-breadcrumbs">
+        <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+          <li><a href="/">Home</a></li>
+          <li><a href="/education/">Education Benefits</a></li>
+          <li><a href="/education/gi-bill/">GI Bill</a></li>
+          <li><a href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a></li>
+          <li className="active">Search</li>
+        </ul>
+      </nav>
+    );
+  }
+
   render() {
+    this.renderPageTitle('Search Results - ' + this.props.queryParams.institution_search);
     return (
       <span>
         <div className="section">
@@ -64,28 +91,6 @@ class SearchPage extends React.Component {
         </div>
 
       </span>
-    );
-  }
-
-  renderHeader() {
-    return (
-      <div className="row">
-        <h1 className="va-heading-sans">GI Bill Comparison Tool Search Results</h1>
-      </div>
-    );
-  }
-
-  renderBreadcrumbs() {
-    return (
-      <nav className="va-nav-breadcrumbs">
-        <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-          <li><a href="/">Home</a></li>
-          <li><a href="/education/">Education Benefits</a></li>
-          <li><a href="/education/gi-bill/">GI Bill</a></li>
-          <li><a href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a></li>
-          <li className="active">Search</li>
-        </ul>
-      </nav>
     );
   }
 

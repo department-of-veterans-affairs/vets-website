@@ -5,18 +5,8 @@ import LandingPageForm from './LandingPageForm';
 
 class LandingPage extends React.Component {
 
-  render() {
-    return (
-      <span>
-        <div className="section">
-          {this.renderBreadcrumbs()}
-          {this.renderHeader()}
-        </div>
-        <div className="row">
-          <LandingPageForm queryParams={this.props.queryParams}/>
-        </div>
-      </span>
-    );
+  renderPageTitle() {
+    document.title = 'GI Bill Comparison Tool: Vets.gov';
   }
 
   renderHeader() {
@@ -42,6 +32,21 @@ class LandingPage extends React.Component {
           <li className="active">GI Bill Comparison Tool</li>
         </ul>
       </nav>
+    );
+  }
+
+  render() {
+    this.renderPageTitle();
+    return (
+      <span>
+        <div className="section">
+          {this.renderBreadcrumbs()}
+          {this.renderHeader()}
+        </div>
+        <div className="row">
+          <LandingPageForm queryParams={this.props.queryParams}/>
+        </div>
+      </span>
     );
   }
 
