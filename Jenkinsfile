@@ -4,6 +4,12 @@ def random = new Random()
 
 def port = { random.nextInt(64535) + 1000 }
 
+def env_vars = [
+  "API_PORT=${port()}",
+  "WEB_PORT=${port()}",
+  "SELENIUM_PORT=${port()}",
+]
+
 pipeline {
   agent label:'vets-website-linting'
   stages {
@@ -12,30 +18,37 @@ pipeline {
     }
 
     stage('Ensure selenium is prepared') {
-      steps { sh 'npm run selenium:bootstrap' }
+      steps { sh 'npm --no-color run selenium:bootstrap' }
     }
 
     stage('Build stuff') {
-      steps { sh 'npm run build -- --buildtype development' }
+      steps {
+        withEnv(env_vars) {
+          sh 'npm --no-color run build -- --buildtype development'
+        }
+      }
     }
 
     stage('Run checks') {
       steps {
         parallel (
           "Security Checks": { sh 'nsp check' },
-          "Linting": { sh 'npm run lint' },
-          "Unit Tests": { sh 'npm run test:unit' },
-          "E2E Tests": {
-            withEnv(["API_PORT=${port()}", "WEB_PORT=${port()}"]) {
-              sh 'npm run test:e2e'
-            }
-          },
+          "Linting": { sh 'npm --no-color run lint' },
+          "Unit Tests": { sh 'npm --no-color run test:unit' },
           "Accessibility Checks": {
-            withEnv(["API_PORT=${port()}", "WEB_PORT=${port()}"]) {
-              sh 'npm run test:accessibility'
+            withEnv(env_vars) {
+              sh 'npm --no-color run test:accessibility'
             }
           },
         )
+      }
+    }
+    
+    stage("E2E Tests") {
+      steps {
+        withEnv(env_vars) {
+          sh 'npm --no-color run test:e2e'
+        }
       }
     }
   }

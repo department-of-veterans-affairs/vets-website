@@ -76,7 +76,6 @@ describe('<SubmittedTrackedItem>', () => {
     );
 
     expect(tree.everySubTree('.submission-item').length).to.equal(2);
-    expect(tree.subTree('.claims-turnedin-file-header').text()).to.equal('File 1');
   });
   it('should render reviewed item', () => {
     const item = {
