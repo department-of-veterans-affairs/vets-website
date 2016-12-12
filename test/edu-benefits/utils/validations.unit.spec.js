@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import moment from 'moment';
 
 import {
   isValidContactInformationPage,
@@ -6,7 +7,8 @@ import {
   isValidDateRange,
   isValidFutureOrPastDateField,
   isValidPage,
-  isValidRoutingNumber
+  isValidRoutingNumber,
+  isValidRelinquishedDate
 } from '../../../src/js/edu-benefits/utils/validations.js';
 
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran.js';
@@ -260,6 +262,44 @@ describe('Validations unit tests', () => {
       };
 
       expect(isValidContactInformationPage(data)).to.be.false;
+    });
+  });
+  describe('isValidRelinquishedDate', () => {
+    it('validates date is not earlier than two years ago', () => {
+      const dateField = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: '2013',
+          dirty: true
+        }
+      };
+
+      expect(isValidRelinquishedDate(dateField)).to.be.false;
+    });
+    it('validates date is not later than 100 years in future', () => {
+      const dateField = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: moment().add(101, 'year').year(),
+          dirty: true
+        }
+      };
+
+      expect(isValidRelinquishedDate(dateField)).to.be.false;
     });
   });
   describe('isValidMilitaryServicePage', () => {
