@@ -39,7 +39,7 @@
   }
 
   > .past-due {
-    color: $color-secondary-dark;
+    color: $color-secondary-darkest;
     font-size: 0.9em;
   }
 
@@ -211,6 +211,10 @@
   }
 }
 
+.claim-item-label {
+  font-weight: bold;
+}
+
 .claim-list-item {
   background-color: $color-gray-lightest;
   padding: 1em;
@@ -220,9 +224,6 @@
   }
   p {
     margin: 0;
-  }
-  .label {
-    font-weight: bold;
   }
   .communications, p.status {
     margin-bottom: 0.5em;
@@ -664,10 +665,6 @@ h1:focus {
 
 .va-nav-breadcrumbs:focus {
   outline: none
-}
-
-h6.claims-turnedin-file-header {
-  padding: 0 !important;
 }
 
 .notification-close {
