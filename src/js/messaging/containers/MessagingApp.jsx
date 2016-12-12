@@ -13,7 +13,7 @@ function AppContent({ children, isDataAvailable }) {
 
   if (unregistered) {
     view = (
-     <h4>
+      <h4>
         To use Secure Messaging at this time, you need to be registered as a VA patient with a premium MyHealtheVet account.
         To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">visit MyHealtheVet</a>.
         If you're registered, but you still can't access Secure Messaging, please call the Vets.gov Help Desk at 1-855-574-7286, Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
