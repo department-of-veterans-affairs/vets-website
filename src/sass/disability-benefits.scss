@@ -480,6 +480,7 @@ p.first-of-type {
   .remove-document-button {
     > button {
       margin: 0;
+      font-weight: bold;
     }
   }
   &:focus {
