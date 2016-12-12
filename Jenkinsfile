@@ -14,31 +14,31 @@ pipeline {
   agent label:'vets-website-linting'
   stages {
     stage('Install NPM packages') {
-      steps { sh 'npm install' }
+      steps { sh 'npm --no-color install' }
     }
 
     stage('Ensure selenium is prepared') {
-      steps { sh 'npm run selenium:bootstrap' }
+      steps { sh 'npm --no-color run selenium:bootstrap' }
     }
 
     stage('Build stuff') {
-      steps { sh 'npm run build -- --buildtype development' }
+      steps { sh 'npm --no-color run build -- --buildtype development' }
     }
 
     stage('Run checks') {
       steps {
         parallel (
           "Security Checks": { sh 'nsp check' },
-          "Linting": { sh 'npm run lint' },
-          "Unit Tests": { sh 'npm run test:unit' },
+          "Linting": { sh 'npm --no-color run lint' },
+          "Unit Tests": { sh 'npm --no-color run test:unit' },
           "E2E Tests": {
             withEnv(get_env_vars()) {
-              sh 'npm run test:e2e'
+              sh 'npm --no-color run test:e2e'
             }
           },
           "Accessibility Checks": {
             withEnv(get_env_vars()) {
-              sh 'npm run test:accessibility'
+              sh 'npm --no-color run test:accessibility'
             }
           },
         )
