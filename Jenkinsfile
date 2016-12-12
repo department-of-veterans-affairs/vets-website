@@ -36,7 +36,7 @@ pipeline {
           "Linting": { sh 'npm --no-color run lint' },
           "Unit Tests": { sh 'npm --no-color run test:unit' },
           "Accessibility Checks": {
-            withEnv(vars) {
+            withEnv(env_vars) {
               sh 'npm --no-color run test:accessibility'
             }
           },
