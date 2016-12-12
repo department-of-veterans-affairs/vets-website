@@ -22,7 +22,7 @@ Veterans
 
 ### What benefits can I get?
 
-More tuition funding to cover the difference between the full cost of a college course and the amount covered under active-duty TA for up to 36 months
+You can get more tuition funding to cover the difference between the full cost of a college course and the amount covered under active-duty TA for up to 36 months.
 
 -----
 
@@ -33,7 +33,7 @@ If you're using the Montgomery GI Bill, you'll get the difference between the DO
 **Note:** It's very important that you talk with your education officer and use the GI Bill Comparison Tool before applying for benefits through this program. Using Top-Up will affect your GI Bill payments, so you'll want to think carefully about your situation before applying. If you're going to take more courses after leaving the military, figure out if the GI Bill benefits you have left will cover your needs. [Use the GI Bill Comparison tool](/gi-bill-comparison-tool/).
 
 - If you use the Montgomery GI Bill, this benefit will be reduced, or charged, one month of entitlement for each payment received that is equal to the full-time monthly GI Bill rate. [See the rate tables](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
-- If you use the Post-9/11 GI Bill, this benefit will be charged based on training time no matter how much money you're reimbursed. Half-time training rates reduce your GI Bill benefit by a half-month for each month you are enrolled.
+- If you use the Post-9/11 GI Bill, this benefit will be charged based on training time no matter how much money you're paid back. Half-time training rates reduce your GI Bill benefit by a half-month for each month you're enrolled.
 
 **Exception:** In no case will the combined amount paid by DOD and VA be more than the total cost of the course.
 
