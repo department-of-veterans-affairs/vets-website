@@ -79,5 +79,14 @@ describe('edu helpers:', () => {
 
       expect(formatPartialDate(date)).to.be.undefined;
     });
+    it('should format a partial year', () => {
+      const date = {
+        month: makeField('12'),
+        day: makeField('31'),
+        year: makeField('96')
+      };
+
+      expect(formatPartialDate(date)).to.equal('1996-12-31');
+    });
   });
 });
