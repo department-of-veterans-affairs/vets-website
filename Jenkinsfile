@@ -4,11 +4,11 @@ def random = new Random()
 
 def port = { random.nextInt(64535) + 1000 }
 
-def get_env_vars = {[
+def env_vars = [
   "API_PORT=${port()}",
   "WEB_PORT=${port()}",
   "SELENIUM_PORT=${port()}",
-]}
+]
 
 pipeline {
   agent label:'vets-website-linting'
@@ -22,7 +22,11 @@ pipeline {
     }
 
     stage('Build stuff') {
-      steps { sh 'npm --no-color run build -- --buildtype development' }
+      steps {
+        withEnv(env_vars) {
+          sh 'npm --no-color run build -- --buildtype development'
+        }
+      }
     }
 
     stage('Run checks') {
@@ -32,12 +36,12 @@ pipeline {
           "Linting": { sh 'npm --no-color run lint' },
           "Unit Tests": { sh 'npm --no-color run test:unit' },
           "E2E Tests": {
-            withEnv(get_env_vars()) {
+            withEnv(env_vars) {
               sh 'npm --no-color run test:e2e'
             }
           },
           "Accessibility Checks": {
-            withEnv(get_env_vars()) {
+            withEnv(vars) {
               sh 'npm --no-color run test:accessibility'
             }
           },
