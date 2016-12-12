@@ -14,7 +14,7 @@ pipeline {
   agent label:'vets-website-linting'
   stages {
     stage('Install NPM packages') {
-      steps { sh 'npm --no-color install' }
+      steps { sh 'npm-cache install' }
     }
 
     stage('Ensure selenium is prepared') {
