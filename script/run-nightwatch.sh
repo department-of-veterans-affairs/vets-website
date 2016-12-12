@@ -27,4 +27,4 @@ while ! echo exit | nc localhost ${WEB_PORT:-3333}; do sleep 1; done
 #curl http://localhost:3001/generated/hca.entry.js > /dev/null 2>&1
 
 # Execute the actual tests.
-npm run nightwatch -- "${@}"
+npm --no-color run nightwatch -- "${@}"
