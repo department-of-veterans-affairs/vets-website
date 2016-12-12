@@ -35,17 +35,20 @@ pipeline {
           "Security Checks": { sh 'nsp check' },
           "Linting": { sh 'npm --no-color run lint' },
           "Unit Tests": { sh 'npm --no-color run test:unit' },
-          "E2E Tests": {
-            withEnv(env_vars) {
-              sh 'npm --no-color run test:e2e'
-            }
-          },
           "Accessibility Checks": {
             withEnv(vars) {
               sh 'npm --no-color run test:accessibility'
             }
           },
         )
+      }
+    }
+    
+    stage("E2E Tests") {
+      steps {
+        withEnv(env_vars) {
+          sh 'npm --no-color run test:e2e'
+        }
       }
     }
   }
