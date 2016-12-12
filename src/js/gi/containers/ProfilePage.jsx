@@ -1,4 +1,5 @@
 import React from 'react';
+import Breadcrumbs from '../components/Breadcrumbs';
 import Modal from '../../common/components/Modal';
 import AboutYourselfFields from '../components/AboutYourselfFields';
 import ProfileOverview from '../components/profile/ProfileOverview';
@@ -17,7 +18,6 @@ class ProfilePage extends React.Component {
     super(props);
     this.renderHeader = this.renderHeader.bind(this);
     this.renderPageTitle = this.renderPageTitle.bind(this);
-    this.renderBreadcrumbs = this.renderBreadcrumbs.bind(this);
     this.renderModals = this.renderModals.bind(this);
   }
 
@@ -32,21 +32,6 @@ class ProfilePage extends React.Component {
       <div className="row">
         <h1 className="va-heading-sans">GI Bill Comparison Tool Search Results</h1>
       </div>
-    );
-  }
-
-  renderBreadcrumbs() {
-    const current = 'Institution';
-    return (
-      <nav className="va-nav-breadcrumbs">
-        <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-          <li><a href="/">Home</a></li>
-          <li><a href="/education/">Education Benefits</a></li>
-          <li><a href="/education/gi-bill/">GI Bill</a></li>
-          <li><a href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a></li>
-          <li className="active">{current}</li>
-        </ul>
-      </nav>
     );
   }
 
@@ -136,7 +121,7 @@ class ProfilePage extends React.Component {
     return (
       <span>
         <div className="section">
-          {this.renderBreadcrumbs()}
+          <Breadcrumbs currentLabel="Institution"/>
           {this.renderHeader()}
 
           <div className="action-bar">

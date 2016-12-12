@@ -1,4 +1,5 @@
 import React from 'react';
+import Breadcrumbs from '../components/Breadcrumbs';
 import AboutYourselfFields from '../components/AboutYourselfFields';
 import FilterFields from '../components/FilterFields';
 import SearchResult from '../components/SearchResult';
@@ -17,18 +18,8 @@ class SearchPage extends React.Component {
     );
   }
 
-  renderBreadcrumbs() {
-    return (
-      <nav className="va-nav-breadcrumbs">
-        <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-          <li><a href="/">Home</a></li>
-          <li><a href="/education/">Education Benefits</a></li>
-          <li><a href="/education/gi-bill/">GI Bill</a></li>
-          <li><a href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a></li>
-          <li className="active">Search</li>
-        </ul>
-      </nav>
-    );
+  breadcrumbLabel(search_term) {
+    return (search_term ? `Search for "${search_term}"` : 'Search')
   }
 
   render() {
@@ -36,7 +27,7 @@ class SearchPage extends React.Component {
     return (
       <span>
         <div className="section">
-          {this.renderBreadcrumbs()}
+          <Breadcrumbs currentLabel={this.breadcrumbLabel(this.props.queryParams.institution_search)}/>
           {this.renderHeader()}
         </div>
 

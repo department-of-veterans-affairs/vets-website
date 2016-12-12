@@ -1,6 +1,6 @@
 import React from 'react';
 import Router from 'react-router';
-
+import Breadcrumbs from '../components/Breadcrumbs';
 import LandingPageForm from './LandingPageForm';
 
 class LandingPage extends React.Component {
@@ -22,25 +22,12 @@ class LandingPage extends React.Component {
     );
   }
 
-  renderBreadcrumbs() {
-    return (
-      <nav className="va-nav-breadcrumbs">
-        <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-          <li><a href="/">Home</a></li>
-          <li><a href="/education/">Education Benefits</a></li>
-          <li><a href="/education/gi-bill/">GI Bill</a></li>
-          <li className="active">GI Bill Comparison Tool</li>
-        </ul>
-      </nav>
-    );
-  }
-
   render() {
     this.renderPageTitle();
     return (
       <span>
         <div className="section">
-          {this.renderBreadcrumbs()}
+          <Breadcrumbs/>
           {this.renderHeader()}
         </div>
         <div className="row">
