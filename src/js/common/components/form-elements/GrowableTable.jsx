@@ -54,6 +54,7 @@ class GrowableTable extends React.Component {
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
     this.scrollToFirstError = this.scrollToFirstError.bind(this);
+    this.getRowId = this.getRowId.bind(this);
     this.state = {};
   }
 
@@ -82,9 +83,13 @@ class GrowableTable extends React.Component {
     });
   }
 
+  getRowId(key) {
+    return `table${this.tableId}Row${key}`;
+  }
+
   scrollToFirstError(key) {
     setTimeout(() => {
-      const errorEl = document.querySelector(`#table${this.tableId}Row${key} .usa-input-error, #table${this.tableId}Row${key} .input-error-date`);
+      const errorEl = document.querySelector(`#${this.getRowId(key)} .usa-input-error, #${this.getRowId(key)} .input-error-date`);
       if (errorEl) {
         const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
         Scroll.animateScroll.scrollTo(position - 10, {
@@ -110,7 +115,7 @@ class GrowableTable extends React.Component {
 
   scrollToRow(key) {
     setTimeout(() => {
-      scroller.scrollTo(`table${this.tableId}Row${key}`, {
+      scroller.scrollTo(this.getRowId(key), {
         duration: 500,
         delay: 0,
         smooth: true,
@@ -206,7 +211,7 @@ class GrowableTable extends React.Component {
           });
         rowContent = (
           <div key={reactKey++} className="va-growable-background">
-            <Element name={`table${this.tableId}Row${obj.key}`}/>
+            <Element name={this.getRowId(obj.key)}/>
             {this.props.showEditButton
               ? <div className="row small-collapse" key={obj.key}>
                 <div className="small-9 columns">
@@ -236,7 +241,7 @@ class GrowableTable extends React.Component {
           );
         }
         rowContent = (
-          <div key={reactKey++} className={(stateKey === 'edit' || collapseRows) ? 'va-growable-background' : null} id={`table${this.tableId}Row${obj.key}`}>
+          <div key={reactKey++} className={(stateKey === 'edit' || collapseRows) ? 'va-growable-background' : null} id={this.getRowId(obj.key)}>
             <Element name={`table${this.tableId}Row${obj.key}`}/>
             <div className="row small-collapse" key={obj.key}>
               <div className="small-12 columns va-growable-expanded">
