@@ -4,11 +4,17 @@ def random = new Random()
 
 def port = { random.nextInt(64535) + 1000 }
 
+def get_env_vars = {[
+  "API_PORT=${port()}",
+  "WEB_PORT=${port()}",
+  "SELENIUM_PORT=${port()}",
+]}
+
 pipeline {
   agent label:'vets-website-linting'
   stages {
     stage('Install NPM packages') {
-      steps { sh 'npm-cache install' }
+      steps { sh 'npm install' }
     }
 
     stage('Ensure selenium is prepared') {
@@ -26,12 +32,12 @@ pipeline {
           "Linting": { sh 'npm run lint' },
           "Unit Tests": { sh 'npm run test:unit' },
           "E2E Tests": {
-            withEnv(["API_PORT=${port()}", "WEB_PORT=${port()}"]) {
+            withEnv(get_env_vars()) {
               sh 'npm run test:e2e'
             }
           },
           "Accessibility Checks": {
-            withEnv(["API_PORT=${port()}", "WEB_PORT=${port()}"]) {
+            withEnv(get_env_vars()) {
               sh 'npm run test:accessibility'
             }
           },
