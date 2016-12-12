@@ -1,10 +1,13 @@
 @import 'style';
 @import 'modules/va-pagination';
 
-
 .facility-locator {
+  .highlight {
+    margin-bottom: 0.5em !important;;
+  }
+
   .title-section {
-    padding: 0 1.5rem;
+    padding: 0.5rem 0;
   }
 
   .flex-center {
@@ -13,8 +16,8 @@
   }
 
   .leaflet-container {
-      height: 500px;
-      width: 100%;
+    height: 500px;
+    width: 100%;
   }
 
   .facility-phone-table
@@ -30,6 +33,10 @@
   {
      border:none;
      outline:none;
+  }
+
+  .p1 {
+    padding: 0.5em 0;
   }
 
   label {
@@ -67,10 +74,6 @@
       color: $color-link-default;
     }
 
-    [href^=http] {
-      background: none;
-    }
-
     td {
       vertical-align:top;
     }
@@ -102,16 +105,13 @@
     border-color: $color-black;
     text-align: center;
     background: #eee;
-    border-top: solid 1px $color-black;
-    border-left: solid 1px $color-black;
-    border-right: solid 1px $color-black;
-    border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px 5px 0 0;
+    border: solid 1px $color-black;
+    border-radius: 0 !important;
 
     &.ReactTabs__Tab--selected {
-      border-top: solid 3px $color-primary-darker;
+      border-top: solid 3px $primary-color;
       background: white;
+      border-bottom: none;
     }
   }
 
@@ -302,11 +302,14 @@
           padding: 0.25em 1em;
           text-decoration: none;
           z-index: 1011;
+          border-bottom: solid 1px $color-black;
+          border-left: solid 1px $color-black;
+          border-right: solid 1px $color-black;
         }
 
         li:hover {
           color: $color-white;
-          background: $color-link-default;
+          background: $color-primary-darker;
         }
       }
 
@@ -314,6 +317,19 @@
         .dropdown {
           opacity: 1;
           pointer-events: auto;
+        }
+
+        .all-facilities {
+          &:after {
+            display: inline-block;
+            font: normal normal normal 1em FontAwesome;
+            content: "\F077";
+            width: 0;
+            height: 0;
+            position: absolute;
+            right: 25px;
+            color: $color-black;
+          }
         }
       }
     }
@@ -406,9 +422,5 @@
       margin: 0 0 2rem;
       border: 1px solid #003E73;
     }
-  }
-
-  [href^=http] {
-    background: none;
   }
 }
