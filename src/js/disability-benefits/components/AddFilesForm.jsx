@@ -135,7 +135,7 @@ class AddFilesForm extends React.Component {
                   onValueChange={(update) => this.props.onFieldChange(`files[${index}].docType`, update)}/>
             </div>
           </div>)}
-        <div className="button-container">
+        <div className="button-container file-review">
           <button
               className="usa-button"
               onClick={this.submit}>
