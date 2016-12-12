@@ -10,7 +10,7 @@ export default class EmploymentHistoryReview extends React.Component {
           <div className="form-review-panel-page-header"/>
           <button
               className="edit-btn primary-outline"
-              onClick={this.props.onEdit}><i className="fa before-text fa-pencil"></i>Edit</button>
+              onClick={this.props.onEdit}>Edit</button>
         </div>
         <table className="review usa-table-borderless">
           <tbody>

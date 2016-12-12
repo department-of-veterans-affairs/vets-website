@@ -206,3 +206,10 @@ ul.claim-list{
     padding: 0;
   }
 }
+
+.va-nav-breadcrumbs-list, legend, .nav-header, .edu-page-title {
+  &:focus {
+    outline: none;
+  }
+}
+

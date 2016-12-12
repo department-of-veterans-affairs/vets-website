@@ -30,14 +30,13 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .expect.element('a.va-tab-trigger.va-tab-trigger--current').text.to.equal('Details');
 
       client
-        .expect.element('.claim-types h6').text.to.equal('CLAIM TYPE');
+        .expect.element('.claim-types h6').text.to.equal('Claim Type');
       client
-        .expect.element('.claim-conditions-list h6').text.to.equal('YOUR CLAIMED CONDITIONS');
+        .expect.element('.claim-conditions-list h6').text.to.equal('Your Claimed Conditions');
       client
-        .expect.element('.claim-date-recieved h6').text.to.equal('DATE RECEIVED');
+        .expect.element('.claim-date-recieved h6').text.to.equal('Date Received');
       client
-        .expect.element('.claim-va-representative h6').text.to.equal('YOUR REPRESENTATIVE FOR VA CLAIMS');
-
+        .expect.element('.claim-va-representative h6').text.to.equal('Your Representative for VA Claims');
       client.end();
     }
   );

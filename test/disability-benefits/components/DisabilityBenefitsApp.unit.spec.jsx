@@ -46,7 +46,7 @@ describe('<DisabilityBenefitsApp>', () => {
     );
 
     expect(tree.everySubTree('ClaimSyncWarning')).to.be.empty;
-    expect(tree.everySubTree('ClaimsUnavailable')).not.to.be.empty;
+    expect(tree.everySubTree('MviRecordsUnavailable')).not.to.be.empty;
     expect(tree.everySubTree('ClaimsUnauthorized')).to.be.empty;
   });
   it('should render sync warning', () => {

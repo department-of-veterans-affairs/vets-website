@@ -13,11 +13,11 @@ function AppContent({ children, isDataAvailable }) {
 
   if (unregistered) {
     view = (
-      <h4>
-        To use Secure Messaging, you need to be registered as a VA patient with a premium MyHealtheVet account.
-        To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">visit MyHealtheVet</a>.
+      <p className="info-message">
+        To use Secure Messaging, you need to be registered as a VA patient with a premium MyHealth<strong><em>e</em></strong>Vet account.
+        To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">visit MyHealth<strong><em>e</em></strong>Vet</a>.
         If you're registered, but you still can't access Secure Messaging, please call the Vets.gov Help Desk at 1-855-574-7286, Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).
-      </h4>
+      </p>
     );
   } else {
     view = children;
