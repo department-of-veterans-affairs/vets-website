@@ -291,7 +291,7 @@ function isValidEmploymentHistoryPage(data) {
 }
 
 function isValidEducationPeriod(data) {
-  return isValidDateRange(data.dateRange.from, data.dateRange.to);
+  return isValidDateField(data.dateRange.from) && isValidDateField(data.dateRange.to) && isValidDateRange(data.dateRange.from, data.dateRange.to);
 }
 
 function isValidEducationHistoryPage(data) {
@@ -445,5 +445,6 @@ export {
   isValidRelinquishedDate,
   isValidTourOfDuty,
   isValidEmploymentPeriod,
-  isValidRotcScholarshipAmount
+  isValidRotcScholarshipAmount,
+  isValidEducationPeriod
 };
