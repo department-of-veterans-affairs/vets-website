@@ -82,12 +82,10 @@ const testValues = {
       state: 'NY',
       fromDate: {
         month: 'May',
-        day: '2',
         year: '1996'
       },
       toDate: {
         month: 'May',
-        day: '2',
         year: '1999'
       },
       hours: '9',
@@ -283,14 +281,10 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
       .setValue('select[name="state"]', data.educationPeriods[0].state)
       .clearValue('select[name="fromDateMonth"]')
       .setValue('select[name="fromDateMonth"]', data.educationPeriods[0].fromDate.month)
-      .clearValue('select[name="fromDateDay"]')
-      .setValue('select[name="fromDateDay"]', data.educationPeriods[0].fromDate.day)
       .clearValue('input[name="fromDateYear"]')
       .setValue('input[name="fromDateYear"]', data.educationPeriods[0].fromDate.year)
       .clearValue('select[name="toDateMonth"]')
       .setValue('select[name="toDateMonth"]', data.educationPeriods[0].toDate.month)
-      .clearValue('select[name="toDateDay"]')
-      .setValue('select[name="toDateDay"]', data.educationPeriods[0].toDate.day)
       .clearValue('input[name="toDateYear"]')
       .setValue('input[name="toDateYear"]', data.educationPeriods[0].toDate.year)
       .clearValue('input[name="hours"]')
