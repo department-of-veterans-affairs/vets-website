@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 
 import { dateToMoment } from '../../common/utils/helpers';
 
@@ -41,12 +42,12 @@ function formatYear(val) {
     return 'XXXX';
   }
 
-  const year = Number(val.replace(/[^\d]/g, ''));
-  if (isNaN(year)) {
+  const yearDate = moment(val, 'YYYY');
+  if (!yearDate.isValid()) {
     return 'XXXX';
   }
 
-  return year.toString();
+  return yearDate.format('YYYY');
 }
 
 export function formatPartialDate(field) {
