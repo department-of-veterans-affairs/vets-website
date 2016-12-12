@@ -21,7 +21,7 @@ export default function SubmittedTrackedItem({ item }) {
         : null}
       {closed &&
         <div>
-          <h6>No longer requested or needed</h6>
+          <h6>No longer needed</h6>
         </div>}
       {!closed && reviewed &&
         <div>

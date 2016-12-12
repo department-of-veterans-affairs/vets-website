@@ -41,6 +41,20 @@ describe('veteranToApplication', () => {
 
     expect(applicationData.toursOfDuty[0].fromDate).to.equal('1996-09-06');
   });
+  it('converts partial dates to iso', () => {
+    const formData = createVeteran();
+    formData.toursOfDuty.push({
+      serviceBranch: makeField('army'),
+      fromDate: {
+        month: makeField('9'),
+        day: makeField(''),
+        year: makeField('1996')
+      }
+    });
+    const applicationData = JSON.parse(veteranToApplication(formData));
+
+    expect(applicationData.toursOfDuty[0].fromDate).to.equal('1996-09-XX');
+  });
   it('converts date ranges to iso', () => {
     const formData = createVeteran();
     formData.toursOfDuty.push({
@@ -63,20 +77,20 @@ describe('veteranToApplication', () => {
     expect(applicationData.toursOfDuty[0].dateRange.from).to.equal('1996-09-06');
     expect(applicationData.toursOfDuty[0].dateRange.to).to.equal('1997-09-06');
   });
-  it('removes partial date ranges', () => {
+  it('removes empty date ranges', () => {
     const formData = createVeteran();
     formData.toursOfDuty.push({
       serviceBranch: makeField('army'),
       dateRange: {
         to: {
-          month: makeField('9'),
+          month: makeField(''),
           day: makeField(''),
-          year: makeField('1996')
+          year: makeField('')
         },
         from: {
-          month: makeField('9'),
-          day: makeField('6'),
-          year: makeField('1997')
+          month: makeField(''),
+          day: makeField(''),
+          year: makeField('')
         }
       }
     });

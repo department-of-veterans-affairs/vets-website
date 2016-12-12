@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
-import { dateToMoment, showRelinquishedEffectiveDate } from './helpers';
-import { isValidDateOver17 } from '../../common/utils/validations';
+import { showRelinquishedEffectiveDate } from './helpers';
+import { isValidDateOver17, isBlankAddress, isValidPartialDateField, isValidYear } from '../../common/utils/validations';
+import { dateToMoment } from '../../common/utils/helpers';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -42,19 +43,8 @@ function isNotBlank(value) {
   return value !== '';
 }
 
-function isBlankAddress(address) {
-  return isBlank(address.city.value)
-    && isBlank(address.state.value)
-    && isBlank(address.street.value)
-    && isBlank(address.postalCode.value);
-}
-
-function isValidYear(value) {
-  return Number(value) >= 1900;
-}
-
 function isValidYearOrBlank(value) {
-  return Number(value) >= 1900 || value === '';
+  return isValidYear(value) || value === '';
 }
 
 function isValidCurrentOrPastYear(value) {
@@ -130,7 +120,7 @@ function isValidMonetaryValue(value) {
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
   // Strip spaces, dashes, and parens
-  const stripped = value.replace(/[- )(]/g, '');
+  const stripped = value.replace(/[^\d]/g, '');
   // Count number of digits
   return /^\d{10}$/.test(stripped);
 }
@@ -183,6 +173,9 @@ function isValidDateField(field) {
 }
 
 function isValidFutureDate(day, month, year) {
+  if (!isValidYear(year)) {
+    return false;
+  }
   const today = moment().startOf('day');
   const date = moment({
     day,
@@ -207,14 +200,13 @@ function isValidFutureOrPastDateField(field) {
 }
 
 function isValidDateRange(fromDate, toDate) {
-  if (isNotBlankDateField(fromDate) && isNotBlankDateField(toDate)) {
-    const momentStart = dateToMoment(fromDate);
-    const momentEnd = dateToMoment(toDate);
-
-    return momentStart.isBefore(momentEnd);
+  if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
+    return true;
   }
+  const momentStart = dateToMoment(fromDate);
+  const momentEnd = dateToMoment(toDate);
 
-  return isBlankDateField(fromDate) && isBlankDateField(toDate);
+  return momentStart.isBefore(momentEnd);
 }
 
 function isValidFullNameField(field) {
@@ -254,6 +246,9 @@ function isValidBenefitsInformationPage(data) {
 }
 
 function isValidRelinquishedDate(field) {
+  if (!isValidYear(field.year.value)) {
+    return false;
+  }
   // Allow dates up to two years ago
   const pastDate = moment().subtract(2, 'years');
   const date = dateToMoment(field);
@@ -270,12 +265,12 @@ function isValidBenefitsRelinquishmentPage(data) {
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
     && isValidDateField(tour.dateRange.from)
-    && isValidDateField(tour.dateRange.to)
+    && isValidPartialDateField(tour.dateRange.to)
     && isValidDateRange(tour.dateRange.from, tour.dateRange.to);
 }
 
 function isValidMilitaryServicePage(data) {
-  return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
+  return isBlank(data.serviceAcademyGraduationYear.value) || isValidCurrentOrPastYear(data.serviceAcademyGraduationYear.value);
 }
 
 function isValidServicePeriodsPage(data) {
@@ -326,8 +321,8 @@ function isValidContactInformationPage(data) {
   }
 
   return isValidAddressField(data.veteranAddress) &&
-      isValidField(isValidEmail, data.email) &&
-      isValidField(isValidEmail, data.emailConfirmation) &&
+      isValidRequiredField(isValidEmail, data.email) &&
+      isValidRequiredField(isValidEmail, data.emailConfirmation) &&
       emailConfirmationValid &&
       (isPhoneRequired ? isValidRequiredField(isValidPhone, data.homePhone) : isValidField(isValidPhone, data.homePhone)) &&
       isValidField(isValidPhone, data.mobilePhone);
@@ -448,7 +443,6 @@ export {
   isValidValue,
   isValidFutureDateField,
   isValidRelinquishedDate,
-  isBlankAddress,
   isValidTourOfDuty,
   isValidEmploymentPeriod,
   isValidRotcScholarshipAmount

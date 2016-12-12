@@ -1,12 +1,16 @@
 import React from 'react';
 import moment from 'moment';
 import ExpandingGroup from '../../common/components/form-elements/ExpandingGroup';
+import { focusElement } from '../../common/utils/helpers';
 
 export default class SubmitMessage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isExpanded: false };
     this.handleClick = this.handleClick.bind(this);
+  }
+  componentDidMount() {
+    focusElement('.edu-page-title');
   }
   handleClick(e) {
     e.preventDefault();
@@ -38,7 +42,7 @@ export default class SubmitMessage extends React.Component {
     }
     return (
       <div className="edu-benefits-submit-success">
-        <h3>Claim received</h3>
+        <h3 className="edu-page-title">Claim received</h3>
         <p>Normally processed within <strong>30 days</strong></p>
         <p>
           VA may contact you for more information or documents.<br/>
