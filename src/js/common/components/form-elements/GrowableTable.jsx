@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { set } from 'lodash/fp';
 
 import { isValidSection } from '../../utils/validations';
+import { focusElement } from '../../utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -52,6 +53,7 @@ class GrowableTable extends React.Component {
     this.handleRemove = this.handleRemove.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
+    this.scrollToFirstError = this.scrollToFirstError.bind(this);
     this.state = {};
   }
 
@@ -78,6 +80,21 @@ class GrowableTable extends React.Component {
         this.scrollToRow(row.key);
       }
     });
+  }
+
+  scrollToFirstError(key) {
+    setTimeout(() => {
+      const errorEl = document.querySelector(`#table${this.tableId}Row${key} .usa-input-error, #table${this.tableId}Row${key} .input-error-date`);
+      if (errorEl) {
+        const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
+        Scroll.animateScroll.scrollTo(position - 10, {
+          duration: 500,
+          delay: 0,
+          smooth: true
+        });
+        focusElement(errorEl);
+      }
+    }, 100);
   }
 
   scrollToTop() {
@@ -140,14 +157,16 @@ class GrowableTable extends React.Component {
 
     if (rowIndex !== undefined && this.props.isValidRow && this.props.isValidRow(this.props.rows[rowIndex])) {
       this.setState({ [key]: 'complete' });
+      this.scrollToTop();
     } else if (this.props.isValidSection(this.props.path, this.props.data)) {
       this.setState({ [key]: 'complete' });
+      this.scrollToTop();
     } else {
       this.props.initializeCurrentElement();
       success = false;
+      this.scrollToFirstError(key);
     }
 
-    this.scrollToTop();
 
     return success;
   }
@@ -217,7 +236,7 @@ class GrowableTable extends React.Component {
           );
         }
         rowContent = (
-          <div key={reactKey++} className={(stateKey === 'edit' || collapseRows) ? 'va-growable-background' : null}>
+          <div key={reactKey++} className={(stateKey === 'edit' || collapseRows) ? 'va-growable-background' : null} id={`table${this.tableId}Row${obj.key}`}>
             <Element name={`table${this.tableId}Row${obj.key}`}/>
             <div className="row small-collapse" key={obj.key}>
               <div className="small-12 columns va-growable-expanded">
