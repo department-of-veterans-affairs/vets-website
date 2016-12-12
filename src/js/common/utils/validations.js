@@ -22,14 +22,6 @@ function validateIfDirtyDate(dayField, monthField, yearField, validator) {
   return true;
 }
 
-// function validateIfDirtyProvider(field1, field2, validator) {
-//   if (field1.dirty || field2.dirty) {
-//     return validator(field1.value, field2.value);
-//   }
-
-//   return true;
-// }
-
 function validateCustomFormComponent(customValidation) {
   // Allow devs to pass in an array of validations with messages and display the first failed one
   if (Array.isArray(customValidation)) {
