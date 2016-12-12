@@ -3,17 +3,24 @@
     <li><a href="/">Home</a></li>
       {% assign my_variable = breadcrumb_path | last %}
       {% for crumb in breadcrumb_path %}
+        {% assign crumb_words = crumb.name | split: '-' %}
+        {% capture titlecase_crumb %}
+          {% for word in crumb_words %}
+            {{ word | capitalize }}
+          {% endfor %}
+        {% endcapture %}
+
         {% if my_variable.name == crumb.name %}
           <li class="active">
             {% if title %}
               {{ title }}
             {% else %}
-              {{ crumb.name | replace: '-', ' ' | capitalize }}
+              {{ titlecase_crumb }}
             {% endif %}
           </li>
         {% else %}
           <li><a href="/{{ crumb.path }}">
-            {{ crumb.name | replace: '-', ' ' | capitalize }}
+            {{ titlecase_crumb }}
           </a></li>
         {% endif %}
       {% endfor %}
