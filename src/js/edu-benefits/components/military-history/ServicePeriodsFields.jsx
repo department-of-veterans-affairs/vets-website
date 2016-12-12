@@ -64,7 +64,7 @@ export default class ServicePeriodsFields extends React.Component {
         <h5 className="form-review-panel-page-header">Service periods</h5>
         <button
             className="edit-btn primary-outline"
-            onClick={this.addAnotherTour}><i className="fa before-text fa-pencil"></i>Add Another Service Period</button>
+            onClick={this.addAnotherTour}>Add Another Service Period</button>
       </div>
       {toursTable}
     </div>);

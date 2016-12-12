@@ -221,7 +221,7 @@
   p {
     margin: 0;
   }
-  p.status {
+  .label {
     font-weight: bold;
   }
   .communications, p.status {
@@ -469,11 +469,8 @@ p.first-of-type {
   padding: 1em;
   margin-bottom: 1.5em;
   .document-title-text-container {
-    float: left;
+    padding-right: 1em;
     word-break: break-all;
-    .document-title-header {
-      width: 17.5em;
-    }
     .document-size-text {
       p {
         margin: 0;
@@ -481,14 +478,19 @@ p.first-of-type {
     }
   }
   .remove-document-button {
-    float: right;
     > button {
       margin: 0;
+      font-weight: bold;
     }
   }
   &:focus {
     outline: none;
   }
+}
+
+.document-title-row {
+  display: flex;
+  justify-content: space-between;
 }
 
 #content .section {
@@ -565,7 +567,7 @@ p.first-of-type {
   &:focus {
     outline: none;
   }
-} 
+}
 
 .claims-alert.phase-back-alert {
   margin-top: 0;
@@ -669,6 +671,7 @@ h6.claims-turnedin-file-header {
 }
 
 .notification-close {
+  background-color: transparent;
   @media (max-width: $small-screen) {
     margin: -5px 5px 0 0;
     width: 0;

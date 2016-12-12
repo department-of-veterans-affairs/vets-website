@@ -14,20 +14,43 @@ import MessageWriteGroup from '../compose/MessageWriteGroup';
 export class NewMessageForm extends React.Component {
   render() {
     const message = this.props.message;
+    let recipientsField;
 
     // Tests the subject group for errors
     const subjectError = validations.isValidSubjectLine(message.category, message.subject);
 
-    return (
-      <form
-          id="msg-compose"
-          onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
+    if (this.props.recipients && this.props.recipients.length) {
+      recipientsField = (
         <MessageRecipient
             errorMessage={validations.isValidRecipient(message.recipient) ? undefined : composeMessage.errors.recipient}
             cssClass="msg-recipient msg-field"
             onValueChange={this.props.onRecipientChange}
             options={this.props.recipients}
             recipient={message.recipient}/>
+      );
+    } else {
+      // When there is no recipients list, it means the request has failed,
+      // so allow the user to retry. If the request returned an empty list
+      // for some reason, it could indicate a server-side issue.
+      const retryLink = !this.props.recipients && (
+        <a onClick={this.props.onFetchRecipients}>
+          Click here to retry loading recipients.
+        </a>
+      );
+
+      recipientsField = (
+        <p>
+          No recipients could be found.&nbsp;
+          {retryLink}
+        </p>
+      );
+    }
+
+    return (
+      <form
+          id="msg-compose"
+          onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
+        {recipientsField}
         <MessageSubjectGroup
             categories={messageCategories}
             category={message.category}
@@ -88,13 +111,14 @@ NewMessageForm.propTypes = {
       React.PropTypes.shape({
         label: React.PropTypes.string,
         value: React.PropTypes.string })
-    ])).isRequired,
+    ])),
 
   onAttachmentsClose: React.PropTypes.func,
   onAttachmentUpload: React.PropTypes.func,
   onAttachmentsError: React.PropTypes.func,
   onBodyChange: React.PropTypes.func,
   onCategoryChange: React.PropTypes.func,
+  onFetchRecipients: React.PropTypes.func,
   onRecipientChange: React.PropTypes.func,
   onSaveMessage: React.PropTypes.func.isRequired,
   onSendMessage: React.PropTypes.func.isRequired,
