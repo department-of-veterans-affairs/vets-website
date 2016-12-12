@@ -72,6 +72,9 @@
     &:active {
       background-color: $color-primary-darkest;
     }
+    &:focus {
+      outline: initial;
+    }
   }
   button.usa-button-outline {
     color: $color-primary;
@@ -96,11 +99,11 @@
   .edit-btn {
     &.primary-outline {
       background-color: white;
-      box-shadow: inset 0 0 0 2px $color-primary;
+      border: 2px solid $color-primary;
       color: $color-primary;
       &:hover {
         background-color: white;
-        box-shadow: inset 0 0 0 2px $color-primary-darker;
+        border: 2px solid $color-primary-darker;
         color: $color-primary-darker;
       }
     }
@@ -149,6 +152,17 @@
   margin-bottom: 5rem;
   &:last-child {
     margin-bottom: 0;
+  }
+  &:focus {
+    outline: none;
+  }
+  tr {
+    td {
+      &:last-child {
+        font-weight: 700;
+        min-width: 3em;
+      }
+    }
   }
 }
 .form-review-panel-page-header-row {

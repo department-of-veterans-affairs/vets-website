@@ -15,7 +15,7 @@ const winston = require('winston');
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
-  { name: 'port', type: Number, defaultValue: 4000 },
+  { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 4000) },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },

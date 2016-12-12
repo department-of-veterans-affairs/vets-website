@@ -32,6 +32,10 @@ const scroller = Scroll.scroller;
  * The fieldsComponent is passed some state props: inReview (always true here) and editing.
  */
 
+function getPageId(path) {
+  return `${path.replace(/\//g, '')}Page`;
+}
+
 export default class ReviewCollapsiblePanel extends React.Component {
   constructor() {
     super();
@@ -53,12 +57,21 @@ export default class ReviewCollapsiblePanel extends React.Component {
       smooth: true,
     });
   }
+
   scrollToPage(path) {
     scroller.scrollTo(`${path}ScrollElement`, {
       duration: 500,
       delay: 2,
       smooth: true,
     });
+  }
+
+  focusOnPage(path) {
+    const pageDiv = document.querySelector(`#${getPageId(path)}`);
+    if (pageDiv) {
+      pageDiv.setAttribute('tabindex', '-1');
+      pageDiv.focus();
+    }
   }
 
   handleSave(path) {
@@ -70,11 +83,13 @@ export default class ReviewCollapsiblePanel extends React.Component {
       this.props.onUpdateEditStatus(path, false);
     }
     this.scrollToPage(path);
+    this.focusOnPage(path);
   }
 
   handleEdit(path) {
     this.props.onUpdateEditStatus(path, true);
     this.scrollToPage(path);
+    this.focusOnPage(path);
   }
 
   toggleChapter() {
@@ -84,7 +99,6 @@ export default class ReviewCollapsiblePanel extends React.Component {
       this.scrollToTop();
     }
   }
-
   render() {
     let pageContent = null;
     if (this.state.open) {
@@ -97,14 +111,14 @@ export default class ReviewCollapsiblePanel extends React.Component {
             const editing = this.props.uiData.pages[page.path].editOnReview;
 
             return (
-              <div key={page.path} className="form-review-panel-page">
+              <div key={page.path} className="form-review-panel-page" id={getPageId(page.path)}>
                 <Element name={`${page.path}ScrollElement`}/>
                 {!editing && !!ReviewComponent &&
                   <div className="form-review-panel-page-header-row">
                     <h5 className="form-review-panel-page-header">{pageCount > 1 && page.name}</h5>
                     <button
                         className="edit-btn primary-outline"
-                        onClick={() => this.handleEdit(page.path)}><i className="fa before-text fa-pencil"></i>Edit</button>
+                        onClick={() => this.handleEdit(page.path)}>Edit</button>
                   </div>}
                 {(editing || !ReviewComponent) &&
                   <Component

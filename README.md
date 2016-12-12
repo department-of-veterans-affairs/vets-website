@@ -63,7 +63,7 @@ accidentally modify copies of upstream.
 
 ## Toolchain
 The site is built using 2 tools: [Metalsmith](http://www.metalsmith.io/) and
-[Webpack](https://webpack.github.io/) and is fully node.js stack.o
+[Webpack](https://webpack.github.io/) and is fully node.js stack.
 
 Metalsmith is used as the top-level build coordinator -- it is effectively a generic
 "if file changes here, run this" system -- as well as the static content genertaor. When
