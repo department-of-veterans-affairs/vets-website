@@ -291,7 +291,9 @@ function isValidEmploymentHistoryPage(data) {
 }
 
 function isValidEducationPeriod(data) {
-  return isValidDateField(data.dateRange.from) && isValidDateField(data.dateRange.to) && isValidDateRange(data.dateRange.from, data.dateRange.to);
+  return (isBlankDateField(data.dateRange.from) || isValidDateField(data.dateRange.from))
+    && (isBlankDateField(data.dateRange.to) || isValidDateField(data.dateRange.to))
+    && isValidDateRange(data.dateRange.from, data.dateRange.to);
 }
 
 function isValidEducationHistoryPage(data) {
