@@ -42,6 +42,10 @@ const prescriptions = {
   }
 };
 
+const trackings = {
+  data: []
+};
+
 // Create API routes
 function initApplicationSubmitMock() {
   request({
@@ -67,5 +71,6 @@ function initApplicationSubmitMock() {
 
 module.exports = {
   prescriptions,
+  trackings,
   initApplicationSubmitMock
 };
