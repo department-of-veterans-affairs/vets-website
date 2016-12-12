@@ -61,7 +61,7 @@ export default class ReviewCollapsiblePanel extends React.Component {
 
   scrollToFirstError(path) {
     setTimeout(() => {
-      const errorEl = document.querySelector(`#${getPageId(path)} .usa-input-error`);
+      const errorEl = document.querySelector(`#${getPageId(path)} .usa-input-error, #${getPageId(path)} .input-error-date`);
       if (errorEl) {
         const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
         Scroll.animateScroll.scrollTo(position - 10, {
