@@ -43,10 +43,9 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .click('.usa-button-primary');
 
       // should have gone back to status page
-      client.assert.urlContains('status');
-
       client
-        .waitForElementVisible('.usa-alert-success', Timeouts.normal);
+        .waitForElementVisible('.usa-alert-success', Timeouts.normal)
+        .assert.urlContains('status');
 
       client.end();
     }
