@@ -7,7 +7,7 @@ class MessageWrite extends React.Component {
       <div className={this.props.cssClass}>
         <ErrorableTextarea
             errorMessage={this.props.errorMessage}
-            label="Message:"
+            label="Message"
             onValueChange={this.props.onValueChange}
             placeholder={this.props.placeholder}
             name="messageText"
