@@ -1,6 +1,17 @@
 import { expect } from 'chai';
+import moment from 'moment';
 
-import { isValidDateRange, isValidFutureOrPastDateField, isValidPage, isValidRoutingNumber } from '../../../src/js/edu-benefits/utils/validations.js';
+import {
+  isValidContactInformationPage,
+  isValidMilitaryServicePage,
+  isValidDateRange,
+  isValidFutureOrPastDateField,
+  isValidPage,
+  isValidRoutingNumber,
+  isValidRelinquishedDate,
+  isValidEducationPeriod
+} from '../../../src/js/edu-benefits/utils/validations.js';
+
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran.js';
 
 describe('Validations unit tests', () => {
@@ -67,10 +78,10 @@ describe('Validations unit tests', () => {
       };
       expect(isValidDateRange(fromDate, toDate)).to.be.false;
     });
-    it('does not validate with partial dates', () => {
+    it('does validate with partial dates', () => {
       const fromDate = {
         day: {
-          value: '',
+          value: '3',
           dirty: true
         },
         month: {
@@ -84,11 +95,11 @@ describe('Validations unit tests', () => {
       };
       const toDate = {
         day: {
-          value: 3,
+          value: '',
           dirty: true
         },
         month: {
-          value: 4,
+          value: '',
           dirty: true
         },
         year: {
@@ -96,7 +107,7 @@ describe('Validations unit tests', () => {
           dirty: true
         }
       };
-      expect(isValidDateRange(fromDate, toDate)).to.be.false;
+      expect(isValidDateRange(fromDate, toDate)).to.be.true;
     });
   });
   describe('isValidPage:', () => {
@@ -202,6 +213,148 @@ describe('Validations unit tests', () => {
       invalidRoutingNumbers.forEach((num) => {
         expect(isValidRoutingNumber(num)).to.be.false;
       });
+    });
+  });
+  describe('isValidContactInformationPage', () => {
+    it('should require phone number', () => {
+      const data = {
+        veteranAddress: {
+          street: {
+            value: 'Test',
+            dirty: true
+          },
+          city: {
+            value: 'Test',
+            dirty: true
+          },
+          country: {
+            value: 'USA',
+            dirty: true
+          },
+          state: {
+            value: 'MA',
+            dirty: true
+          },
+          postalCode: {
+            value: '01060',
+            dirty: true
+          },
+        },
+        preferredContactMethod: {
+          value: '',
+          dirty: true
+        },
+        email: {
+          value: '',
+          dirty: true
+        },
+        emailConfirmation: {
+          value: '',
+          dirty: true
+        },
+        homePhone: {
+          value: '',
+          dirty: true
+        },
+        mobilePhone: {
+          value: '',
+          dirty: true
+        }
+      };
+
+      expect(isValidContactInformationPage(data)).to.be.false;
+    });
+  });
+  describe('isValidRelinquishedDate', () => {
+    it('validates date is not earlier than two years ago', () => {
+      const dateField = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: '2013',
+          dirty: true
+        }
+      };
+
+      expect(isValidRelinquishedDate(dateField)).to.be.false;
+    });
+    it('validates date is not later than 100 years in future', () => {
+      const dateField = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: moment().add(101, 'year').year(),
+          dirty: true
+        }
+      };
+
+      expect(isValidRelinquishedDate(dateField)).to.be.false;
+    });
+  });
+  describe('isValidMilitaryServicePage', () => {
+    it('should not allow invalid years', () => {
+      const data = {
+        serviceAcademyGraduationYear: {
+          value: '1890',
+          dirty: true
+        }
+      };
+
+      expect(isValidMilitaryServicePage(data)).to.be.false;
+    });
+    it('should allow blank values', () => {
+      const data = {
+        serviceAcademyGraduationYear: {
+          value: '',
+          dirty: true
+        }
+      };
+
+      expect(isValidMilitaryServicePage(data)).to.be.true;
+    });
+  });
+  describe('isValidEducationPeriod', () => {
+    it('should not validate bad date range', () => {
+      const data = {
+        dateRange: {
+          from: {
+            month: {
+              value: '6'
+            },
+            year: {
+              value: '96'
+            },
+            day: {
+              value: ''
+            }
+          },
+          to: {
+            month: {
+              value: '5'
+            },
+            year: {
+              value: '97'
+            },
+            day: {
+              value: ''
+            }
+          }
+        }
+      };
+
+      expect(isValidEducationPeriod(data)).to.be.false;
     });
   });
 });
