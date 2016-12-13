@@ -57,7 +57,7 @@ export function formatPartialDate(field) {
 
   const day = field.day ? field.day.value : null;
 
-  return `${formatYear(field.year.value)}-${formatDayMonth(field.month.value)}${day ? '-' : ''}${formatDayMonth(day)}`;
+  return `${formatYear(field.year.value)}-${formatDayMonth(field.month.value)}-${formatDayMonth(day)}`;
 }
 
 export function displayDateIfValid(field) {
