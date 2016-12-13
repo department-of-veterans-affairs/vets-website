@@ -1,30 +1,29 @@
 // Style overrides and custom styles for the school profile page
 
-
 @media(max-width: $small-screen) {
-    .add-resources {display:none;}
-    #about-your-school{display:none;}
-    #about-you {display:none;}
-    #horiz-filters-noprint {display:none;}
-    #horiz-filters-noprint2 {display:none;}
-    }
+  .add-resources {display:none;}
+  #about-your-school{display:none;}
+  #about-you {display:none;}
+  #horiz-filters-noprint {display:none;}
+  #horiz-filters-noprint2 {display:none;}
+}
 
 @media(max-width: $medium-screen) {
-    .add-resources {display:none;}
-    #about-your-school{display:none;}
-    #about-you {display:none;}
-    #horiz-filters-noprint {display:none;}
-    #horiz-filters-noprint2 {display:none;}
-    }
+  .add-resources {display:none;}
+  #about-your-school{display:none;}
+  #about-you {display:none;}
+  #horiz-filters-noprint {display:none;}
+  #horiz-filters-noprint2 {display:none;}
+}
 
-.mobile-padding{
+.mobile-padding {
     padding: 0 1rem;
 }
 
-.calc-outputs{
+.calc-outputs {
     padding: 0 1rem;
 }
-.back-chevron, .backlink{
+.back-chevron, .backlink {
     margin-bottom: 1rem;
 }
 .back-chevron{
@@ -35,10 +34,10 @@
 .backlink {
   font-size: 1.6rem;
 }
-.onerempadleft{
+.onerempadleft {
   padding-left: 1rem;
 }
-.complaints-table{
+.complaints-table {
     th, tr, td{
     @media(max-width: $small-screen) {
         padding:.5rem;
@@ -46,7 +45,7 @@
         }
     }
 }
-.caution-profile{
+.caution-profile {
     background-color: $va-body-accent-color;
     height: 2.2rem;
     padding: 0 .5rem .5rem 1rem;
@@ -68,23 +67,20 @@
         }
     }
 }
-.profile-head{
+.profile-head {
     color: $va-primary-color;
         @media(max-width: $small-screen) {
             font-size: 2rem;
             line-height: 2.5rem;
         }
 }
-.profile-institute-qualifier, .profile-institute-value{
-    // font-size: .8rem;
-}
-.profile-institute-qualifier{
+.profile-institute-qualifier {
     color: #444;
     line-height: .5;
     text-transform: uppercase;
     padding: 1rem;
 }
-.profile-institute-descriptors{
+.profile-institute-descriptors {
     text-align: left;
     margin-top: .25rem;
     margin-right: 1rem;
@@ -95,7 +91,7 @@
         margin-bottom: .5rem;
     }
 }
-.profile-institute-value{
+.profile-institute-value {
     font-weight: 600;
     color: $va-primary-color;
     line-height: 1rem;
@@ -103,29 +99,29 @@
     margin-left: .5rem;
     text-align: right;
 }
-.text-center{
+.text-center {
     text-align: center;
 }
-.text-left{
+.text-left {
     text-align: left;
 }
 
-.benefits-estimator-icon-box{
+.benefits-estimator-icon-box {
     width: 100%;
     height: 4.8rem;
 }
-.blueback-header{
+.blueback-header {
     background-color:#E8F5FB;
     padding: .5rem 1rem 0 1rem;
 }
-.profile-benefits-values{
+.profile-benefits-values {
     font-family: $source-sans;
     font-size: 4.16rem !important;
     color: $va-secondary-color;
     line-height: .8;
     text-align: center;
 }
-.benefits-cards{
+.benefits-cards {
     margin-top: .85rem;
     min-height: 19.2rem;
     background-color: none;
@@ -144,7 +140,7 @@
         text-decoration: none;
     }
 }
-.see-yr-rates-summary{
+.see-yr-rates-summary {
     font-size: .75rem;
     color:$va-secondary-color;
     text-align: left;
@@ -159,8 +155,8 @@
     font-size: 1rem;
     margin: .25rem;
 }
-.programs-yes{color:$va-secondary-color}
-.programs-no{color:#888}
+.programs-yes {color:$va-secondary-color}
+.programs-no {color:#888}
 .va-summary-card{
     padding: 0rem;
     background-color: #fff;
@@ -169,17 +165,17 @@
         list-style: none;
     }
 }
-.caution-profile-summary{
+.caution-profile-summary {
     tr td{background-color: $va-body-accent-color;}
         th{
             width: 35%;
             background-color: $va-body-accent-color;
         }
 }
-.outcomes-learnmore{
+.outcomes-learnmore {
     font-size: 1rem;
 }
-.gi-bill-student-count{
+.gi-bill-student-count {
     font-size: 3.2rem;
     color: #0083BE;
 }
@@ -188,19 +184,19 @@
     border-left-style: solid;
     border-left-color: #f1f1f1;
 }
-.borderless tr td{
+.borderless tr td {
     border: none;
     margin: 0;
 }
-.profile-details{
+.profile-details {
     margin-top: 3rem;
     max-width: 400px;
 }
-.accordion-vert-spacing{
+.accordion-vert-spacing {
     margin-top: .5rem;
     margin-bottom: .5rem;
 }
-.access-sheet{
+.access-sheet {
     margin-top: 1rem;
 }
 

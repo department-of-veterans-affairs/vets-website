@@ -12,3 +12,44 @@
 @import "partials/_gi-outcomes";
 @import "partials/_gi-calculator";
 @import "partials/_gi-icons";
+
+
+// from application.scss
+
+.outcome {
+	font-size: 1em;
+
+	/* styling for the line */
+	.axis path,
+	.axis line {
+  	fill: none;
+  	stroke: #000;
+  	shape-rendering: crispEdges;
+	}
+
+	/* This needs to be changed so that there are two colors */
+	.bar {
+	  fill: #FAC922;
+
+	}
+
+    #Vets {
+        fill: #BEC292;
+ }
+
+
+	.x.axis path {
+	  display: none;
+	}
+
+	.line {
+	  fill: none;
+	  stroke: #444;
+	  stroke-width: 1px;
+	}
+}
+
+#search-term {
+  text-align: right;
+  display: inline;
+}
