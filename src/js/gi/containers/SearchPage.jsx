@@ -25,7 +25,7 @@ class SearchPage extends React.Component {
   render() {
     this.renderPageTitle('Search Results - ' + this.props.queryParams.institution_search);
     return (
-      <span>
+      <span className="search-page-component">
         <div className="section">
           <Breadcrumbs currentLabel={this.breadcrumbLabel(this.props.queryParams.institution_search)}/>
           {this.renderHeader()}

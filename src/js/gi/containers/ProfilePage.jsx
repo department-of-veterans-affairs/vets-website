@@ -122,7 +122,7 @@ class ProfilePage extends React.Component {
     if (this.props.institution == null) { return renderNotFound(); }
     this.renderPageTitle();
     return (
-      <span>
+      <span className="profile-page-component">
         <div className="section">
           <Breadcrumbs currentLabel="Institution"/>
           {this.renderHeader()}

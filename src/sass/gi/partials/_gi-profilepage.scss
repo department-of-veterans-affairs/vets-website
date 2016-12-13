@@ -206,50 +206,52 @@
 
 /* were in-line styles */
 
-.graph {
-  font-size: 10px;
-  min-height: 200px;
-    margin: 0;
-}
+span.profile-page-component {
+  .graph {
+    font-size: 10px;
+    min-height: 200px;
+      margin: 0;
+  }
 
-.graph .graph-background {
-  fill: #eee;
-  stroke: #eee;
-  stroke-width: 3;
-}
+  .graph .graph-background {
+    fill: #eee;
+    stroke: #eee;
+    stroke-width: 3;
+  }
 
-.graph .graph-bar {
-  fill: $va-body-accent-color;
-  stroke: #eee;
-  stroke-width: 3;
-}
+  .graph .graph-bar {
+    fill: $va-body-accent-color;
+    stroke: #eee;
+    stroke-width: 3;
+  }
 
-.graph .graph-bar.vet{
-  fill: #B1B680;
-}
+  .graph .graph-bar.vet{
+    fill: #B1B680;
+  }
 
-.graph .graph-bar.all{
-  fill: #FAC922;
-}
+  .graph .graph-bar.all{
+    fill: #FAC922;
+  }
 
-.graph .graph-bar-label {
-  text-anchor: middle;
-  font-weight: bold;
-}
+  .graph .graph-bar-label {
+    text-anchor: middle;
+    font-weight: bold;
+  }
 
-.graph .graph-axis-label {
-  font-size: 8px;
-  text-anchor: middle;
-  text-transform: uppercase;
-}
+  .graph .graph-axis-label {
+    font-size: 8px;
+    text-anchor: middle;
+    text-transform: uppercase;
+  }
 
-.graph .graph-line {
-  stroke: #000;
-  opacity: 0.18;
-  stroke-width: 0.5;
-}
+  .graph .graph-line {
+    stroke: #000;
+    opacity: 0.18;
+    stroke-width: 0.5;
+  }
 
-.graph .graph-line-label {
-  font-size: 8px;
-  dominant-baseline: middle;
+  .graph .graph-line-label {
+    font-size: 8px;
+    dominant-baseline: middle;
+  }
 }

@@ -25,7 +25,7 @@ class LandingPage extends React.Component {
   render() {
     this.renderPageTitle();
     return (
-      <span>
+      <span className="landing-page-component">
         <div className="section">
           <Breadcrumbs/>
           {this.renderHeader()}
