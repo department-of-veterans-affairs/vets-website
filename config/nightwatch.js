@@ -7,7 +7,6 @@ const seleniumServer = require('selenium-server');
 
 require('babel-core/register');
 
-const glob = require('glob');
 const selenium_server_port = process.env.SELENIUM_PORT || 4444;
 
 module.exports = {
@@ -46,8 +45,7 @@ module.exports = {
           'webdriver.chrome.driver': chromedriver.path
         },
         start_process: true,
-        server_path:
-            glob.sync('./node_modules/selenium-standalone/.selenium/selenium-server/*.jar')[0],
+        server_path: seleniumServer.path,
         log_path: './logs/selenium',
         host: '127.0.0.1',
         port: selenium_server_port,
