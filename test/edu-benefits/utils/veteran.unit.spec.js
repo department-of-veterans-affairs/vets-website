@@ -46,14 +46,24 @@ describe('veteranToApplication', () => {
     formData.toursOfDuty.push({
       serviceBranch: makeField('army'),
       fromDate: {
-        month: makeField('9'),
-        day: makeField(''),
+        month: makeField(''),
+        day: makeField('6'),
         year: makeField('1996')
       }
     });
     const applicationData = JSON.parse(veteranToApplication(formData));
 
-    expect(applicationData.toursOfDuty[0].fromDate).to.equal('1996-09-XX');
+    expect(applicationData.toursOfDuty[0].fromDate).to.equal('1996-XX-06');
+  });
+  it('converts month year dates to iso', () => {
+    const formData = createVeteran();
+    formData.highSchoolOrGedCompletionDate = {
+      month: makeField('4'),
+      year: makeField('1996')
+    };
+    const applicationData = JSON.parse(veteranToApplication(formData));
+
+    expect(applicationData.highSchoolOrGedCompletionDate).to.equal('1996-04-XX');
   });
   it('converts date ranges to iso', () => {
     const formData = createVeteran();
