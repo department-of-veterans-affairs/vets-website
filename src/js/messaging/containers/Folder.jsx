@@ -343,9 +343,9 @@ export class Folder extends React.Component {
             </p>
           </div>
         );
+      } else {
+        componentContent = <div className="columns"><p>Sorry, this folder does not exist.</p></div>;
       }
-
-      componentContent = <div className="columns"><p>Sorry, this folder does not exist.</p></div>;
     } else {
       const messageNav = this.makeMessageNav();
       const sortMenu = this.makeSortMenu();
