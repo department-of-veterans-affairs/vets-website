@@ -36,13 +36,11 @@ describe('<Detail>', () => {
 
   it('should display a loading screen', () => {
     const tree = SkinDeep.shallowRender(<Detail {...props } loading />);
-    console.log(tree.toString());
-    expect(tree.dive(['.loading-indicator'])).to.not.be.undefined;
+    expect(tree.dive(['LoadingIndicator'])).to.not.be.undefined;
   });
 
   it('should display details if an item is provided', () => {
     const tree = SkinDeep.shallowRender(<Detail {...props}/>);
-    console.log(tree.toString());
     expect(tree.dive(['.rx-table'])).to.not.be.undefined;
     expect(tree.dive(['h2']).text())
       .to.equal(props.prescription.rx.attributes.prescriptionName);
