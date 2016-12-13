@@ -81,7 +81,7 @@ describe('prescriptions reducer', () => {
     }, {
       type: 'LOAD_PRESCRIPTIONS_SUCCESS',
       data: {
-        data: [ 'item1', 'item2' ],
+        data: ['item1', 'item2'],
         meta: {
           pagination: {
             currentPage: 1,

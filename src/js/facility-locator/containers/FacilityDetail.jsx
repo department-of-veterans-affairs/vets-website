@@ -1,7 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchVAFacility } from '../actions';
-import { Link, browserHistory } from 'react-router';
 import AccessToCare from '../components/AccessToCare';
 import FacilityAddress from '../components/search-results/FacilityAddress';
 import FacilityDirectionsLink from '../components/search-results/FacilityDirectionsLink';
@@ -41,8 +40,8 @@ class FacilityDetail extends Component {
 
     return (
       <div>
-        <h3>{name}</h3>
-        <div>
+        <h1>{name}</h1>
+        <div className="p1">
           <FacilityAddress facility={facility}/>
         </div>
         <div>
@@ -54,7 +53,7 @@ class FacilityDetail extends Component {
         <div>
           <FacilityDirectionsLink facility={facility}/>
         </div>
-        <p>Planning to visit? Please call first as information on this page may change.</p>
+        <p className="p1">Planning to visit? Please call first as information on this page may change.</p>
       </div>
     );
   }
@@ -90,9 +89,6 @@ class FacilityDetail extends Component {
     return (
       <div className="row facility-detail">
         <div className="medium-8 columns">
-          <Link className="facility-back-link" onClick={browserHistory.goBack}>
-            <i className="fa fa-chevron-left" aria-hidden="true"></i>Back to list
-          </Link>
           <div>
             {this.renderFacilityInfo()}
             <ServicesAtFacility facility={facility}/>
