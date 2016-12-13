@@ -52,12 +52,10 @@ export function createEducationPeriod() {
     dateRange: {
       to: {
         month: makeField(''),
-        day: makeField(''),
         year: makeField(''),
       },
       from: {
         month: makeField(''),
-        day: makeField(''),
         year: makeField(''),
       }
     },
@@ -101,7 +99,6 @@ export function createVeteran() {
     faaFlightCertificatesInformation: makeField(''),
     highSchoolOrGedCompletionDate: {
       month: makeField(''),
-      day: makeField(''),
       year: makeField(''),
     },
     seniorRotcCommissioned: makeField(''),
@@ -282,7 +279,7 @@ export function veteranToApplication(veteran) {
         // fall through.
     }
 
-    if (value.month !== undefined && value.year !== undefined && value.day !== undefined) {
+    if (value.month !== undefined && value.year !== undefined) {
       return formatPartialDate(value);
     }
 

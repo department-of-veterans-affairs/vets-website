@@ -51,11 +51,13 @@ function formatYear(val) {
 }
 
 export function formatPartialDate(field) {
-  if (!field.day.value && !field.month.value && !field.year.value) {
+  if (!field.month.value && !field.year.value) {
     return undefined;
   }
 
-  return `${formatYear(field.year.value)}-${formatDayMonth(field.month.value)}-${formatDayMonth(field.day.value)}`;
+  const day = field.day ? field.day.value : null;
+
+  return `${formatYear(field.year.value)}-${formatDayMonth(field.month.value)}-${formatDayMonth(day)}`;
 }
 
 export function displayDateIfValid(field) {
@@ -67,8 +69,8 @@ export function displayDateIfValid(field) {
 }
 
 export function displayMonthYearIfValid(dateObject) {
-  if (dateObject.year.value && dateObject.month.value) {
-    return `${dateObject.month.value}/${dateObject.year.value}`;
+  if (dateObject.year.value || dateObject.month.value) {
+    return `${dateObject.month.value || 'XX'}/${dateObject.year.value || 'XXXX'}`;
   }
 
   return null;
