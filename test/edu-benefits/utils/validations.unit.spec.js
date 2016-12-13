@@ -8,7 +8,8 @@ import {
   isValidFutureOrPastDateField,
   isValidPage,
   isValidRoutingNumber,
-  isValidRelinquishedDate
+  isValidRelinquishedDate,
+  isValidEducationPeriod
 } from '../../../src/js/edu-benefits/utils/validations.js';
 
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran.js';
@@ -322,6 +323,38 @@ describe('Validations unit tests', () => {
       };
 
       expect(isValidMilitaryServicePage(data)).to.be.true;
+    });
+  });
+  describe('isValidEducationPeriod', () => {
+    it('should not validate bad date range', () => {
+      const data = {
+        dateRange: {
+          from: {
+            month: {
+              value: '6'
+            },
+            year: {
+              value: '96'
+            },
+            day: {
+              value: ''
+            }
+          },
+          to: {
+            month: {
+              value: '5'
+            },
+            year: {
+              value: '97'
+            },
+            day: {
+              value: ''
+            }
+          }
+        }
+      };
+
+      expect(isValidEducationPeriod(data)).to.be.false;
     });
   });
 });
