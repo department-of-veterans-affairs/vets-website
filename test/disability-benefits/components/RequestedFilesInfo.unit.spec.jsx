@@ -57,7 +57,7 @@ describe('<RequestedFilesInfo>', () => {
     );
 
     expect(tree.everySubTree('.file-request-list-item')).not.to.be.empty;
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain('we requested this from others');
+    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain('We requested this from others');
     expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain('<Link />');
   });
 });
