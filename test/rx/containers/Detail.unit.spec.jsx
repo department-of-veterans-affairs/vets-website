@@ -41,8 +41,21 @@ describe('<Detail>', () => {
 
   it('should display details if an item is provided', () => {
     const tree = SkinDeep.shallowRender(<Detail {...props}/>);
-    expect(tree.dive(['.rx-table'])).to.not.be.undefined;
     expect(tree.dive(['h2']).text())
-      .to.equal(props.prescription.rx.attributes.prescriptionName);
+      .to.equal(item.attributes.prescriptionName);
+    expect(tree.dive(['#rx-info'])).to.not.be.undefined;
+  });
+
+  it('should display order history if the item has an order history', () => {
+    const tree = SkinDeep.shallowRender(<Detail {...props}/>);
+    expect(tree.dive(['#rx-order-history'])).to.not.be.undefined;
+  });
+
+  it('should display a contact card if there is an item', () => {
+    const tree = SkinDeep.shallowRender(<Detail {...props}/>);
+    const contactCard = tree.subTree('ContactCard');
+    expect(contactCard).to.not.be.false;
+    expect(contactCard.props.facilityName)
+      .to.equal(item.attributes.facilityName);
   });
 });
