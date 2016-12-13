@@ -21,6 +21,20 @@ describe('modal reducer', () => {
     expect(newState.refill.visible).to.be.false;
   });
 
+  it('should display a loader in the refill modal', () => {
+    const state = modalsReducer(
+      {
+        refill: {
+          loading: false,
+          visible: true
+        }
+      },
+      { type: 'REFILL_SUBMITTED' }
+    );
+    expect(state.refill.loading).to.be.true;
+    expect(state.refill.visible).to.be.true;
+  });
+
   it('should open the glossary modal', () => {
     const state = {
       visible: false,

@@ -10,6 +10,7 @@ import {
   isValidRoutingNumber,
   isValidRelinquishedDate,
   isValidMonthYearRange,
+  isValidEducationPeriod,
   isValidEducationHistoryPage
 } from '../../../src/js/edu-benefits/utils/validations.js';
 
@@ -411,6 +412,38 @@ describe('Validation:', () => {
       };
 
       expect(isValidMonthYearRange(fromDate, toDate)).to.be.true;
+    });
+  });
+  describe('isValidEducationPeriod', () => {
+    it('should not validate bad date range', () => {
+      const data = {
+        dateRange: {
+          from: {
+            month: {
+              value: '6'
+            },
+            year: {
+              value: '96'
+            },
+            day: {
+              value: ''
+            }
+          },
+          to: {
+            month: {
+              value: '5'
+            },
+            year: {
+              value: '97'
+            },
+            day: {
+              value: ''
+            }
+          }
+        }
+      };
+
+      expect(isValidEducationPeriod(data)).to.be.false;
     });
   });
   describe('isValidEducationHistoryPage', () => {

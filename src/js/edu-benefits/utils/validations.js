@@ -460,5 +460,6 @@ export {
   isValidTourOfDuty,
   isValidEmploymentPeriod,
   isValidRotcScholarshipAmount,
-  isValidMonthYearRange
+  isValidMonthYearRange,
+  isValidEducationPeriod
 };
