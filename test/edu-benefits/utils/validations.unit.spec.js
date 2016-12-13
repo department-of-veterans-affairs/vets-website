@@ -9,7 +9,7 @@ import {
   isValidPage,
   isValidRoutingNumber,
   isValidRelinquishedDate,
-  isValidMonthYearRange,
+  isValidPartialMonthYearRange,
   isValidEducationPeriod,
   isValidEducationHistoryPage
 } from '../../../src/js/edu-benefits/utils/validations.js';
@@ -328,7 +328,7 @@ describe('Validation:', () => {
       expect(isValidMilitaryServicePage(data)).to.be.true;
     });
   });
-  describe('isValidMonthYearRange', () => {
+  describe('isValidPartialMonthYearRange', () => {
     it('should validate partial range', () => {
       const fromDate = {
         month: {
@@ -348,7 +348,7 @@ describe('Validation:', () => {
         }
       };
 
-      expect(isValidMonthYearRange(fromDate, toDate)).to.be.true;
+      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
     });
     it('should not validate invalid range', () => {
       const fromDate = {
@@ -369,7 +369,7 @@ describe('Validation:', () => {
         }
       };
 
-      expect(isValidMonthYearRange(fromDate, toDate)).to.be.false;
+      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.false;
     });
     it('should validate same date range', () => {
       const fromDate = {
@@ -390,7 +390,7 @@ describe('Validation:', () => {
         }
       };
 
-      expect(isValidMonthYearRange(fromDate, toDate)).to.be.true;
+      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
     });
     it('should validate year only range', () => {
       const fromDate = {
@@ -411,7 +411,7 @@ describe('Validation:', () => {
         }
       };
 
-      expect(isValidMonthYearRange(fromDate, toDate)).to.be.true;
+      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
     });
   });
   describe('isValidEducationPeriod', () => {

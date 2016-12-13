@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
 import { showRelinquishedEffectiveDate } from './helpers';
-import { isValidDateOver17, isBlankAddress, isValidPartialDateField, isValidYear, isValidMonthYearInPast } from '../../common/utils/validations';
+import { isValidDateOver17, isBlankAddress, isValidPartialDateField, isValidYear, isValidPartialMonthYearInPast } from '../../common/utils/validations';
 import { dateToMoment } from '../../common/utils/helpers';
 
 function validateIfDirty(field, validator) {
@@ -209,7 +209,7 @@ function isValidDateRange(fromDate, toDate) {
   return momentStart.isBefore(momentEnd);
 }
 
-function isValidMonthYearRange(fromDate, toDate) {
+function isValidPartialMonthYearRange(fromDate, toDate) {
   if (!fromDate.year.value || !toDate.year.value) {
     return true;
   }
@@ -301,14 +301,14 @@ function isValidEmploymentHistoryPage(data) {
 }
 
 function isValidEducationPeriod(data) {
-  return isValidMonthYearInPast(data.dateRange.from.month.value, data.dateRange.from.year.value)
-    && isValidMonthYearInPast(data.dateRange.to.month.value, data.dateRange.to.year.value)
-    && isValidMonthYearRange(data.dateRange.from, data.dateRange.to);
+  return isValidPartialMonthYearInPast(data.dateRange.from.month.value, data.dateRange.from.year.value)
+    && isValidPartialMonthYearInPast(data.dateRange.to.month.value, data.dateRange.to.year.value)
+    && isValidPartialMonthYearRange(data.dateRange.from, data.dateRange.to);
 }
 
 function isValidEducationHistoryPage(data) {
   return (isBlankMonthYear(data.highSchoolOrGedCompletionDate)
-    || isValidMonthYearInPast(data.highSchoolOrGedCompletionDate.month.value, data.highSchoolOrGedCompletionDate.year.value))
+    || isValidPartialMonthYearInPast(data.highSchoolOrGedCompletionDate.month.value, data.highSchoolOrGedCompletionDate.year.value))
     && data.postHighSchoolTrainings.every(isValidEducationPeriod);
 }
 
@@ -460,6 +460,6 @@ export {
   isValidTourOfDuty,
   isValidEmploymentPeriod,
   isValidRotcScholarshipAmount,
-  isValidMonthYearRange,
+  isValidPartialMonthYearRange,
   isValidEducationPeriod
 };

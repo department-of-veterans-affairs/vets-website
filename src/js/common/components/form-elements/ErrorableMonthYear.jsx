@@ -8,15 +8,15 @@ import ErrorableNumberInput from './ErrorableNumberInput';
 
 import ToolTip from './ToolTip';
 
-import { isValidMonthYear, validateCustomFormComponent } from '../../utils/validations';
+import { isValidPartialMonthYear, validateCustomFormComponent } from '../../utils/validations';
 import { months } from '../../utils/options-for-select.js';
 
 /**
- * A form input with a label that can display error messages.
+ * A date input field that accepts values for month and year
  *
  * Props:
  * `required` - boolean. Render marker indicating field is required.
- * `validation` - object. Result of custom validation. Should include a valid prop and a message prop
+ * `validation` - object or array. Result of custom validation. Should include a valid prop and a message prop
  * `label` - string. Label for entire question.
  * `name` - string. Used to create unique name attributes for each input.
  * `toolTipText` - String with help text for user.
@@ -53,7 +53,7 @@ class ErrorableMonthYear extends React.Component {
         isValid = false;
         errorMessage = this.props.requiredMessage;
       // make sure the user has entered a minimally valid date
-      } else if (!isValidMonthYear(month.value, year.value)) {
+      } else if (!isValidPartialMonthYear(month.value, year.value)) {
         isValid = false;
         errorMessage = this.props.invalidMessage;
       } else {
@@ -81,7 +81,7 @@ class ErrorableMonthYear extends React.Component {
     }
 
     return (
-      <div>
+      <div className={!isValid && 'input-error-date'}>
         <label>
           {this.props.label}
           {this.props.required && <span className="form-required-span">*</span>}

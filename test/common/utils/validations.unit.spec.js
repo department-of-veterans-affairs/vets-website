@@ -11,8 +11,8 @@ import {
   isValidDateOver17,
   isValidPartialDate,
   validateCustomFormComponent,
-  isValidMonthYear,
-  isValidMonthYearInPast
+  isValidPartialMonthYear,
+  isValidPartialMonthYearInPast
 } from '../../../src/js/common/utils/validations.js';
 
 describe('Validations unit tests', () => {
@@ -214,26 +214,26 @@ describe('Validations unit tests', () => {
       expect(validateCustomFormComponent(validation)).to.equal(validation[1]);
     });
   });
-  describe('isValidMonthYear', () => {
+  describe('isValidPartialMonthYear', () => {
     it('should validate month and year', () => {
-      expect(isValidMonthYear('2', moment().add(5, 'year').year())).to.be.true;
+      expect(isValidPartialMonthYear('2', moment().add(5, 'year').year())).to.be.true;
     });
     it('should not validate bad year', () => {
-      expect(isValidMonthYear('2', '2500')).to.be.false;
+      expect(isValidPartialMonthYear('2', '2500')).to.be.false;
     });
     it('should not validate bad month', () => {
-      expect(isValidMonthYear(20, 2001)).to.be.false;
+      expect(isValidPartialMonthYear(20, 2001)).to.be.false;
     });
   });
-  describe('isValidMonthYearInPast', () => {
+  describe('isValidPartialMonthYearInPast', () => {
     it('should validate month and year in past', () => {
-      expect(isValidMonthYearInPast('2', '2001')).to.be.true;
+      expect(isValidPartialMonthYearInPast('2', '2001')).to.be.true;
     });
     it('should validate month and year that is current', () => {
-      expect(isValidMonthYearInPast(moment().month(), moment().year())).to.be.true;
+      expect(isValidPartialMonthYearInPast(moment().month(), moment().year())).to.be.true;
     });
     it('should not validate month and year that is in the future', () => {
-      expect(isValidMonthYearInPast('2', moment().add(2, 'year').year())).to.be.false;
+      expect(isValidPartialMonthYearInPast('2', moment().add(2, 'year').year())).to.be.false;
     });
   });
 });

@@ -12,11 +12,11 @@ import { isDirtyDate, isValidPartialDate, isNotBlankDateField, validateCustomFor
 import { months, days } from '../../utils/options-for-select.js';
 
 /**
- * A form input with a label that can display error messages.
+ * A date input field that accepts values for month and year
  *
  * Props:
  * `required` - boolean. Render marker indicating field is required.
- * `validation` - object. Result of custom validation. Should include a valid prop and a message prop
+ * `validation` - object or array. Result of custom validation. Should include a valid prop and a message prop
  * `label` - string. Label for entire question.
  * `name` - string. Used to create unique name attributes for each input.
  * `toolTipText` - String with help text for user.

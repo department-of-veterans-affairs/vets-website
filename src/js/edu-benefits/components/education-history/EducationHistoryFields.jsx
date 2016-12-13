@@ -9,7 +9,7 @@ import EducationHistoryReview from './EducationHistoryReview';
 import { createEducationPeriod } from '../../utils/veteran';
 
 import { isValidPage, isValidEducationPeriod } from '../../utils/validations';
-import { isValidMonthYearInPast } from '../../../common/utils/validations';
+import { isValidPartialMonthYearInPast } from '../../../common/utils/validations';
 
 export default class EducationHistoryFields extends React.Component {
   constructor() {
@@ -58,7 +58,7 @@ export default class EducationHistoryFields extends React.Component {
       <div className="input-section">
         <ErrorableMonthYear
             validation={{
-              valid: isValidMonthYearInPast(completionDate.month.value, completionDate.year.value),
+              valid: isValidPartialMonthYearInPast(completionDate.month.value, completionDate.year.value),
               message: 'Please provide a valid date in the past'
             }}
             label="When did you earn your high school diploma or equivalency certificate?"

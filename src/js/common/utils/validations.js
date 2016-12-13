@@ -131,7 +131,7 @@ function isValidPartialDate(day, month, year) {
   return true;
 }
 
-function isValidMonthYear(month, year) {
+function isValidPartialMonthYear(month, year) {
   if (typeof month === 'object') {
     throw new Error('Pass a month and a year to function');
   }
@@ -142,13 +142,13 @@ function isValidMonthYear(month, year) {
   return isValidPartialDate(null, null, year);
 }
 
-function isValidMonthYearInPast(month, year) {
+function isValidPartialMonthYearInPast(month, year) {
   if (typeof month === 'object') {
     throw new Error('Pass a month and a year to function');
   }
   const momentDate = moment({ year, month: month ? parseInt(month, 10) - 1 : null });
 
-  return !year || isValidMonthYear(month, year) && momentDate.isValid() && momentDate.isSameOrBefore(moment().startOf('month'));
+  return !year || isValidPartialMonthYear(month, year) && momentDate.isValid() && momentDate.isSameOrBefore(moment().startOf('month'));
 }
 
 function isValidDateOver17(day, month, year) {
@@ -610,8 +610,8 @@ export {
   isValidPartialDate,
   isValidDateField,
   isValidPartialDateField,
-  isValidMonthYear,
+  isValidPartialMonthYear,
   isValidYear,
-  isValidMonthYearInPast,
+  isValidPartialMonthYearInPast,
   validateCustomFormComponent
 };

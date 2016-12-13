@@ -69,7 +69,7 @@ export default class ContributionsFields extends React.Component {
             <ErrorableCurrentOrPastDate required
                 validation={{
                   valid: isValidDateRange(this.props.data.activeDutyRepayingPeriod.from, this.props.data.activeDutyRepayingPeriod.to),
-                  message: 'End date must be after Start date'
+                  message: 'End date must be after start date'
                 }}
                 label="End date"
                 name="to"

@@ -6,8 +6,8 @@ import ErrorableNumberInput from '../../../common/components/form-elements/Error
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
-import { isValidMonthYearRange } from '../../utils/validations';
-import { isValidMonthYearInPast } from '../../../common/utils/validations';
+import { isValidPartialMonthYearRange } from '../../utils/validations';
+import { isValidPartialMonthYearInPast } from '../../../common/utils/validations';
 import { states, hoursTypes } from '../../utils/options-for-select';
 import EducationPeriodReview from './EducationPeriodReview';
 
@@ -36,7 +36,7 @@ export default class EducationPeriod extends React.Component {
             onValueChange={(update) => {onValueChange('state', update);}}/>
         <ErrorableMonthYear
             validation={{
-              valid: isValidMonthYearInPast(period.dateRange.from.month.value, period.dateRange.from.year.value),
+              valid: isValidPartialMonthYearInPast(period.dateRange.from.month.value, period.dateRange.from.year.value),
               message: 'Please provide a valid date in the past'
             }}
             label="From"
@@ -46,11 +46,11 @@ export default class EducationPeriod extends React.Component {
         <ErrorableMonthYear
             validation={[
               {
-                valid: isValidMonthYearInPast(period.dateRange.to.month.value, period.dateRange.to.year.value),
+                valid: isValidPartialMonthYearInPast(period.dateRange.to.month.value, period.dateRange.to.year.value),
                 message: 'Please provide a valid date in the past'
               },
               {
-                valid: isValidMonthYearRange(period.dateRange.from, period.dateRange.to),
+                valid: isValidPartialMonthYearRange(period.dateRange.from, period.dateRange.to),
                 message: 'To date must be after From date'
               },
             ]}
