@@ -11,22 +11,22 @@ class ProfileEstimator extends React.Component {
   // WIP
   estimate() {
     const school = this.props.institution;
-    console.log(school)
+    const params = this.props.queryParams;
     // get current values about the user
     const e = this.props.estimator;
-    e.setMilitaryStatus = 'active duty';
-    e.setSpouseActiveDuty = 'no';
-    e.setGiBillChap = '31';
-    e.setNumberOfDepend = '0';
-    e.setPost911Elig = 'yes';
-    e.setCumulativeService = '1.0';
-    e.setEnlistmentService = '3123412314';
-    e.setConsecutiveService = '3123412314';
-    e.setOnline = 'yes';
+    e.set_military_status = params.military_status;
+    e.set_spouse_active_duty = params.spouse_active_duty;
+    e.set_gi_bill_chap = params.gi_bill_chap;
+    e.set_number_of_depend = params.number_of_depend;
+    e.set_post_911_elig = params.post_911_elig;
+    e.set_cumulative_service = params.cumulative_service;
+    e.set_enlistment_service = params.enlistment_service;
+    e.set_consecutive_service = params.consecutive_service;
+    e.set_online = params.online_classes;
     // set institution values
-    e.setInstitutionType = school.institution_type.name;
-    e.setCountry = school.country.toLowerCase();
-    e.setBah = school.bah;
+    e.set_institution_type = school.institution_type.name;
+    e.set_country = school.country;
+    e.set_bah = school.bah;
   }
 
   render() {
@@ -82,7 +82,8 @@ class ProfileEstimator extends React.Component {
 }
 
 ProfileEstimator.propTypes = {
-  institution: React.PropTypes.object.isRequired
+  institution: React.PropTypes.object.isRequired,
+  queryParams: React.PropTypes.object.isRequired
 };
 
 ProfileEstimator.defaultProps = {

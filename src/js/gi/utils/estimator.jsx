@@ -55,7 +55,11 @@ class Estimator {
   }
 
   set set_spouse_active_duty(str) {
-    this.spouse_active_duty = (str.toLowerCase() === 'yes');
+    if (str) {
+      this.spouse_active_duty = (str.toLowerCase() === 'yes');
+    } else {
+      this.spouse_active_duty = null;
+    }
   }
 
   set set_gi_bill_chap(n) {
@@ -213,7 +217,8 @@ class Estimator {
     return this.institution_type === 'ojt';
   }
 
-  // humanizes currency values by by adding commas
+  // Humanizes currency values by adding commas
+  // and rounding to whole values
   formatCurrency(n) {
     let str = Math.round(Number(n)).toString();
     return str.replace(/\d(?=(\d{3})+$)/g, '$&,');
@@ -243,7 +248,7 @@ class Estimator {
     if (this.institution_type === 'ojt') {
       this.results.tuition.value = 'N/A';
       this.results.tuition.qualifier = null;
-      return this.results.value;
+      return 'N/A';
     }
 
     if (this.gi_bill_chap === 31 && this.isFlightOrCorrespondence()) {
@@ -259,13 +264,13 @@ class Estimator {
     }
 
     if (this.isFlight()) {
-      this.results.tuition.value = this.FLTTFCAP * this.tier;
+      this.results.tuition.value = Math.round(this.FLTTFCAP * this.tier);
       this.results.tuition.qualifier = 'per year';
       return this.per_qualifier_html(this.results.value, this.results.qualifier);
     }
 
     if (this.isCorrespondence()) {
-      this.results.tuition.value = CORRESPONDTFCAP * this.tier;
+      this.results.tuition.value = Math.round(CORRESPONDTFCAP * this.tier);
       this.results.tuition.qualifier = 'per year';
       return this.per_qualifier_html(this.results.value, this.results.qualifier);
     }
@@ -282,7 +287,7 @@ class Estimator {
       );
     }
 
-    this.results.tuition.value = this.TFCAP * this.tier;
+    this.results.tuition.value = Math.round(this.TFCAP * this.tier);
     this.results.tuition.qualifier = 'per year';
     return this.per_qualifier_html(this.results.tuition.value, this.results.tuition.qualifier);
   }
@@ -298,13 +303,13 @@ class Estimator {
     }
 
     if (this.old_gi_bill && this.only_tuition_fees) {
-      this.results.housing.value = this.monthly_rate;
+      this.results.housing.value = Math.round(this.monthly_rate);
       this.results.housing.qualifier = 'per month';
       return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
     }
 
     if (this.old_gi_bill || this.vre_only) {
-      this.results.housing.value = this.monthly_rate;
+      this.results.housing.value = Math.round(this.monthly_rate);
       this.results.housing.qualifier = 'per month';
       return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
     }
@@ -328,24 +333,24 @@ class Estimator {
     }
 
     if (this.isOjt()) {
-      this.results.housing.value = this.tier * this.bah;
+      this.results.housing.value = Math.round(this.tier * this.bah);
       this.results.housing.qualifier = 'per month';
       return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
     }
 
     if (this.online) {
-      this.results.housing.value = this.tier * this.AVGBAH / 2;
+      this.results.housing.value = Math.round(this.tier * this.AVGBAH / 2);
       this.results.housing.qualifier = 'per month';
       return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
     }
 
     if (this.country !== 'usa') {
-      this.results.housing.value = this.tier * this.AVGBAH;
+      this.results.housing.value = Math.round(this.tier * this.AVGBAH);
       this.results.housing.qualifier = 'per month';
       return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
     }
 
-    this.results.housing.value = this.tier * this.bah;
+    this.results.housing.value = Math.round(this.tier * this.bah);
     this.results.housing.qualifier = 'per month';
     return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
   }
@@ -366,7 +371,7 @@ class Estimator {
       return <span className="search-text-values">Full Cost of Books & Supplies</span>;
     }
 
-    this.results.books.value = this.tier * this.BSCAP;
+    this.results.books.value = Math.round(this.tier * this.BSCAP);
     this.results.books.qualifier = 'per year';
     return this.per_qualifier_html(this.results.books.value, this.results.books.qualifier);
   }

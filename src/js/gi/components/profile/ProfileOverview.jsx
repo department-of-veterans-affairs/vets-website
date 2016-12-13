@@ -80,7 +80,7 @@ class ProfileOverview extends React.Component {
         </div>
 
         <div className="row">
-          <ProfileEstimator institution={this.props.institution}/>
+          <ProfileEstimator institution={this.props.institution} queryParams={this.props.queryParams}/>
         </div>
 
         <div className="row">
@@ -96,6 +96,7 @@ class ProfileOverview extends React.Component {
 
 ProfileOverview.propTypes = {
   institution: React.PropTypes.object.isRequired,
+  queryParams: React.PropTypes.object.isRequired,
   expanded: React.PropTypes.bool.isRequired
 };
 

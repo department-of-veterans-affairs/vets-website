@@ -145,7 +145,7 @@ class ProfilePage extends React.Component {
 
             <div className="row">
               <div className="large-12 columns">
-                <ProfileOverview institution={this.props.institution}/>
+                <ProfileOverview institution={this.props.institution} queryParams={this.props.queryParams}/>
               </div>
             </div>
 
@@ -199,7 +199,8 @@ class ProfilePage extends React.Component {
 }
 
 ProfilePage.defaultProps = {
-  institution: schoolData().data[0]
+  institution: schoolData().data[0],
+  queryParams: React.PropTypes.object.isRequired
 };
 
 export default ProfilePage;
