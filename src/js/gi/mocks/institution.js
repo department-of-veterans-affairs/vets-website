@@ -91,7 +91,8 @@ export default function institution_data() {
         "updated_at": "2016-11-02T17:54:25.362Z",
 
         "institution_type": {"name": "ojt"},
-        "highest_degree": 4
+        "highest_degree": 4,
+        "locale_name": "City"
       },
       {
         "id": 91393,
