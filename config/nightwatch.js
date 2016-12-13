@@ -14,7 +14,7 @@ module.exports = {
   live_output: true,
   parallel_process_delay: 10,
   disable_colors: false,
-  test_workers: false,
+  test_workers: true,
   test_settings: {
     'default': {
       launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
