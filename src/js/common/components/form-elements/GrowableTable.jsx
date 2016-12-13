@@ -283,7 +283,7 @@ GrowableTable.propTypes = {
   onRowsUpdate: React.PropTypes.func.isRequired,
   path: React.PropTypes.string.isRequired,
   rows: React.PropTypes.array.isRequired,
-  isValidSection: React.PropTypes.func.isRequired,
+  isValidSection: React.PropTypes.func,
   addNewMessage: React.PropTypes.string,
   rowTitle: React.PropTypes.string,
   alwaysShowUpdateRemoveButtons: React.PropTypes.bool,
