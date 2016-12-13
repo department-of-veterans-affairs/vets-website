@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { Detail } from '../../../src/js/rx/containers/Detail';
 import { prescriptions, trackings } from '../../util/rx-helpers.js';
 
-const item = prescriptions.data[0];
+const rx = prescriptions.data[0];
 
 const props = {
   alert: {
@@ -14,12 +14,9 @@ const props = {
     visible: false
   },
   loading: false,
-  prescription: {
-    rx: item,
-    trackings: trackings.data
-  },
+  prescription: null,
   params: {
-    id: item.id
+    id: rx.id
   },
 
   openGlossaryModal: () => {},
@@ -39,23 +36,32 @@ describe('<Detail>', () => {
     expect(tree.dive(['LoadingIndicator'])).to.not.be.undefined;
   });
 
-  it('should display details if an item is provided', () => {
-    const tree = SkinDeep.shallowRender(<Detail {...props}/>);
+  it('should display details if there is a prescription', () => {
+    const prescription = { rx, trackings }
+    const tree = SkinDeep.shallowRender(
+      <Detail {...props} prescription={prescription}/>
+    );
     expect(tree.dive(['h2']).text())
-      .to.equal(item.attributes.prescriptionName);
+      .to.equal(rx.attributes.prescriptionName);
     expect(tree.dive(['#rx-info'])).to.not.be.undefined;
   });
 
-  it('should display order history if the item has an order history', () => {
-    const tree = SkinDeep.shallowRender(<Detail {...props}/>);
+  it('should display order history if the prescription has an order history', () => {
+    const prescription = { rx, trackings }
+    const tree = SkinDeep.shallowRender(
+      <Detail {...props} prescription={prescription}/>
+    );
     expect(tree.dive(['#rx-order-history'])).to.not.be.undefined;
   });
 
-  it('should display a contact card if there is an item', () => {
-    const tree = SkinDeep.shallowRender(<Detail {...props}/>);
+  it('should display a contact card if there is an prescription', () => {
+    const prescription = { rx, trackings }
+    const tree = SkinDeep.shallowRender(
+      <Detail {...props} prescription={prescription}/>
+    );
     const contactCard = tree.subTree('ContactCard');
     expect(contactCard).to.not.be.false;
     expect(contactCard.props.facilityName)
-      .to.equal(item.attributes.facilityName);
+      .to.equal(rx.attributes.facilityName);
   });
 });
