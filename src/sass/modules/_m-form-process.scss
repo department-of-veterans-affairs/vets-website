@@ -167,7 +167,8 @@
 }
 .form-review-panel-page-header-row {
   display: flex;
-  justify-content: flex-between;
+  justify-content: space-between;
+  align-items: center;
 }
 .form-review-panel-page-header {
   flex: 1;
