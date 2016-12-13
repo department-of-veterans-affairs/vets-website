@@ -25,7 +25,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client.assert.urlContains('/your-claims/11/status');
 
       client
-        .expect.element('.claim-completion-estimation').text.to.contain('based on claims similar to yours');
+        .expect.element('.claim-completion-estimation').text.to.contain('base this on claims similar to yours');
 
       client.end();
     }
