@@ -37,7 +37,7 @@ class ModalCreateFolder extends React.Component {
 
     const modalContents = (
       <form onSubmit={this.handleSubmit}>
-        <h3 className="messaging-modal-title">
+        <h3>
           Create new folder
         </h3>
         <ErrorableTextInput
