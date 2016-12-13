@@ -9,7 +9,7 @@ template: 6-info-page
 
 If the Board of Veterans’ Appeals (Board) has sent you a final disability benefits claim decision that you disagree with, you still have a way to appeal. You can take your appeal to the United States Court of Appeals for Veterans Claims (Court). The Court reviews Board decisions appealed by those who believe the Board made a mistake in its decision. You'll need to wait until you have a final decision from the Board—not the regional office—before you can appeal to this Court. 
 
-If you aren't sure about your claim status, call the BVA status line at 800-923-8387.
+[Appeal a Board of Veterans' Appeals Decision](https://www.uscourts.cavc.gov/index.php). If you aren't sure about your claim status, call the BVA status line at <span class="tel">800-923-8387</span>.
 
 <div class="call-out" markdown="0">
 
