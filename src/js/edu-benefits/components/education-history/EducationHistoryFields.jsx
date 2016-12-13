@@ -93,7 +93,7 @@ export default class EducationHistoryFields extends React.Component {
           : <EducationHistoryReview data={this.props.data} onEdit={this.props.onEdit}/>}
       </div>
       <div className="form-review-panel-page">
-        <div className="form-review-panel-page-header-row edu-growable-review-header">
+        <div className="form-review-panel-page-header-row header-stacked-small edu-growable-review-header">
           <h5 className="form-review-panel-page-header">Education after high school</h5>
           <button
               className="edit-btn primary-outline"
