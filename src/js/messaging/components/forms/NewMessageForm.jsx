@@ -22,7 +22,7 @@ export class NewMessageForm extends React.Component {
     if (this.props.recipients && this.props.recipients.length) {
       recipientsField = (
         <MessageRecipient
-            errorMessage={validations.isValidRecipient(message.recipient) ? '' : composeMessage.errors.recipient}
+            errorMessage={validations.isValidRecipient(message.recipient) ? undefined : composeMessage.errors.recipient}
             cssClass="msg-recipient msg-field"
             onValueChange={this.props.onRecipientChange}
             options={this.props.recipients}
