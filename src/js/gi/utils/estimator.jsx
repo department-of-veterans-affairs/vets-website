@@ -14,6 +14,8 @@ class Estimator {
     this.institution_type = null;
     this.country = null;
     this.online = null;
+
+    // Values from institution model
     this.bah = null;
 
     // Dependent Values
@@ -39,6 +41,13 @@ class Estimator {
     this.renderTuitionFees = this.renderTuitionFees.bind(this);
     this.renderHousingAllowance = this.renderHousingAllowance.bind(this);
     this.renderBookStipend = this.renderBookStipend.bind(this);
+
+    // Results (for tests)
+    this.results = {
+      tuition: {},
+      housing: {},
+      books: {}
+    };
   }
 
   set set_military_status(str) {
@@ -225,26 +234,46 @@ class Estimator {
   renderTuitionFees() {
     this.updateDependentValues();
 
-    if (this.old_gi_bill === true)
-      return this.per_qualifier_html(0, 'per year');
+    if (this.old_gi_bill === true) {
+      this.results.tuition.value = 0;
+      this.results.tuition.qualifier = 'per year';
+      return this.per_qualifier_html(this.results.value, this.results.qualifier);
+    }
 
-    if (this.institution_type === 'ojt')
-      return 'N/A';
+    if (this.institution_type === 'ojt') {
+      this.results.tuition.value = 'N/A';
+      this.results.tuition.qualifier = null;
+      return this.results.value;
+    }
 
-    if (this.gi_bill_chap === 31 && this.isFlightOrCorrespondence())
-      return this.per_qualifier_html(0, 'per year');
+    if (this.gi_bill_chap === 31 && this.isFlightOrCorrespondence()) {
+      this.results.tuition.value = 0;
+      this.results.tuition.qualifier = 'per year'
+      return this.per_qualifier_html(this.results.value, this.results.qualifier);
+    }
 
-    if (this.gi_bill_chap === 31 && !this.isFlightOrCorrespondence())
-      return <span className="search-text-values">Full Cost of Attendance</span>;
+    if (this.gi_bill_chap === 31 && !this.isFlightOrCorrespondence()) {
+      this.results.tuition.value = 'Full Cost of Attendance';
+      this.results.tuition.qualifier = null;
+      return <span className="search-text-values">{this.results.value}</span>;
+    }
 
-    if (this.isFlight())
-      return this.per_qualifier_html(this.FLTTFCAP * this.tier, 'per year');
+    if (this.isFlight()) {
+      this.results.tuition.value = this.FLTTFCAP * this.tier;
+      this.results.tuition.qualifier = 'per year';
+      return this.per_qualifier_html(this.results.value, this.results.qualifier);
+    }
 
-    if (this.isCorrespondence())
-      return this.per_qualifier_html(this.CORRESPONDTFCAP * this.tier, 'per year');
+    if (this.isCorrespondence()) {
+      this.results.tuition.value = CORRESPONDTFCAP * this.tier;
+      this.results.tuition.qualifier = 'per year';
+      return this.per_qualifier_html(this.results.value, this.results.qualifier);
+    }
 
     if (this.isPublic()) {
       const percent = Math.round(this.tier * 100);
+      this.results.tuition.value = percent;
+      this.results.tuition.qualifier = '% of instate tuition';
       return (
         <span>
           {percent}<span className="estimator-dollar-sign">%</span><br/>
@@ -253,54 +282,93 @@ class Estimator {
       );
     }
 
-    return this.per_qualifier_html(this.TFCAP * this.tier, 'per year');
+    this.results.tuition.value = this.TFCAP * this.tier;
+    this.results.tuition.qualifier = 'per year';
+    return this.per_qualifier_html(this.results.tuition.value, this.results.tuition.qualifier);
   }
 
   // Computes and renders the estimated housing allowance
   renderHousingAllowance() {
     this.updateDependentValues();
 
-    if (this.gi_bill_chap === 31 && this.isFlightOrCorrespondence())
-      return this.per_qualifier_html(0, 'per month');
+    if (this.gi_bill_chap === 31 && this.isFlightOrCorrespondence()) {
+      this.results.housing.value = 0;
+      this.results.housing.qualifier = 'per month';
+      return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
+    }
 
-    if (this.old_gi_bill && this.only_tuition_fees)
-      return this.per_qualifier_html(this.monthly_rate, 'per month');
+    if (this.old_gi_bill && this.only_tuition_fees) {
+      this.results.housing.value = this.monthly_rate;
+      this.results.housing.qualifier = 'per month';
+      return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
+    }
 
-    if (this.old_gi_bill || this.vre_only)
-      return this.per_qualifier_html(this.monthly_rate, 'per month');
+    if (this.old_gi_bill || this.vre_only) {
+      this.results.housing.value = this.monthly_rate;
+      this.results.housing.qualifier = 'per month';
+      return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
+    }
 
-    if (this.military_status === 'active duty')
-      return this.per_qualifier_html(0, 'per month');
+    if (this.military_status === 'active duty') {
+      this.results.housing.value = 0;
+      this.results.housing.qualifier = 'per month';
+      return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
+    }
 
-    if (this.military_status === 'spouse' && this.spouse_active_duty)
-      return this.per_qualifier_html(0, 'per month');
+    if (this.military_status === 'spouse' && this.spouse_active_duty) {
+      this.results.housing.value = 0;
+      this.results.housing.qualifier = 'per month';
+      return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
+    }
 
-    if (this.isFlightOrCorrespondence())
-      return this.per_qualifier_html(0, 'per month');
+    if (this.isFlightOrCorrespondence()) {
+      this.results.housing.value = 0;
+      this.results.housing.qualifier = 'per month';
+      return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
+    }
 
-    if (this.isOjt())
-      return this.per_qualifier_html(this.tier * this.bah, 'per month');
+    if (this.isOjt()) {
+      this.results.housing.value = this.tier * this.bah;
+      this.results.housing.qualifier = 'per month';
+      return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
+    }
 
-    if (this.online)
-      return this.per_qualifier_html(this.tier * this.AVGBAH / 2, 'per month');
+    if (this.online) {
+      this.results.housing.value = this.tier * this.AVGBAH / 2;
+      this.results.housing.qualifier = 'per month';
+      return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
+    }
 
-    if (this.country !== 'usa')
-      return this.per_qualifier_html(this.tier * this.AVGBAH, 'per month');
+    if (this.country !== 'usa') {
+      this.results.housing.value = this.tier * this.AVGBAH;
+      this.results.housing.qualifier = 'per month';
+      return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
+    }
 
-    return this.per_qualifier_html(this.tier * this.bah, 'per month');
+    this.results.housing.value = this.tier * this.bah;
+    this.results.housing.qualifier = 'per month';
+    return this.per_qualifier_html(this.results.housing.value, this.results.housing.qualifier);
   }
 
   // Computes and renders the estimated book stipend
   renderBookStipend() {
     this.updateDependentValues();
 
-    if (this.old_gi_bill || this.isFlightOrCorrespondence())
-      return this.per_qualifier_html(0, 'per year');
+    if (this.old_gi_bill || this.isFlightOrCorrespondence()) {
+      this.results.books.value = 0;
+      this.results.books.qualifier = 'per year';
+      return this.per_qualifier_html(this.results.books.value, this.results.books.qualifier);
+    }
 
-    if (this.gi_bill_chap === 31)
+    if (this.gi_bill_chap === 31) {
+      this.results.books.value = 'Full Cost of Books & Supplies';
+      this.results.books.qualifier = null;
       return <span className="search-text-values">Full Cost of Books & Supplies</span>;
+    }
 
-    return this.per_qualifier_html(this.tier * this.BSCAP, 'per year');
+    this.results.books.value = this.tier * this.BSCAP;
+    this.results.books.qualifier = 'per year';
+    return this.per_qualifier_html(this.results.books.value, this.results.books.qualifier);
   }
 
 }
