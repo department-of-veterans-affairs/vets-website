@@ -104,12 +104,12 @@
     }
   }
 
-  > div:not(.form-checkbox) {
-    margin-bottom: 1.5rem;
+  > div {
+    align-items: center;
+    margin-bottom: 1rem;
 
     @media (min-width: $medium-screen) {
       // Affects the element's  children
-      align-items: center;
       display: flex;
       // Affects the element itself, since it's also a flex child
       flex: 0 1 75%;
@@ -120,17 +120,17 @@
     -webkit-flex: 0 1 25%;
     flex: 0 1 25%;
 
+    @media (max-width: $medium-screen) {
+      margin-bottom: 1em;
+    }
+
     @media (min-width: $medium-screen) {
       padding-left: 1.5rem;
     }
 
     label {
+      margin-bottom: 0;
       white-space: nowrap;
-
-      @media (min-width: $medium-screen) {
-        margin: -1.5rem 0 0 1.5rem;
-        padding-left: 1.5rem;
-      }
     }
   }
 }
@@ -163,10 +163,6 @@
   }
 }
 
-.react-datepicker__input-container {
-  
-}
-
 .msg-search-advanced-toggle {
   background: $color-white;
   color: $color-primary;
@@ -186,10 +182,10 @@
   }
 }
 
-// Using an longer selector because of a form[type="submit"]
-// somewhere in the CSS
+// Using an longer selector here because of a form[type="submit"]
+// somewhere else in the CSS
 form .msg-search-advanced-submit[type="submit"] {
-  margin: 0;
+  margin: 2.5rem 0 0 0;
 
   @media (min-width: $medium-screen) {
     margin-left: 10rem;
