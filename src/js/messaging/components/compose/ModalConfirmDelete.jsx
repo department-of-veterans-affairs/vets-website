@@ -6,7 +6,7 @@ class ModalConfirmDelete extends React.Component {
   render() {
     const modalContents = (
       <form onSubmit={this.props.onDelete}>
-        <h3 className="messaging-modal-title">
+        <h3>
             Are you sure you want to delete this draft?
         </h3>
         <p>This draft will not be recoverable after deletion.</p>

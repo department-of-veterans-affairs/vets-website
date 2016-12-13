@@ -6,7 +6,7 @@ class ModalAttachments extends React.Component {
   render() {
     const modalContents = (
       <div>
-        <h3 className="messaging-modal-title">
+        <h3>
           {this.props.title}
         </h3>
         <p>{this.props.text}</p>
