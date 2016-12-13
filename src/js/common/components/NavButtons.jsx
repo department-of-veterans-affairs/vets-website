@@ -1,7 +1,7 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 
-import { getActivePages } from '../utils/helpers';
+import { getActivePages, focusElement } from '../utils/helpers';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
@@ -13,6 +13,21 @@ const scrollToTop = () => {
     delay: 0,
     smooth: true,
   });
+};
+
+const scrollToFirstError = () => {
+  setTimeout(() => {
+    const errorEl = document.querySelector('.usa-input-error, .input-error-date');
+    if (errorEl) {
+      const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
+      Scroll.animateScroll.scrollTo(position - 10, {
+        duration: 500,
+        delay: 0,
+        smooth: true
+      });
+      focusElement(errorEl);
+    }
+  }, 100);
 };
 
 export default class NavButtons extends React.Component {
@@ -28,8 +43,10 @@ export default class NavButtons extends React.Component {
     if (this.props.path === '/introduction' || this.props.isValid) {
       this.props.onNavigate(nextPath);
       this.props.onComplete(this.props.path);
+      scrollToTop();
     } else if (!this.props.isValid) {
       this.props.dirtyPage(this.props.path);
+      scrollToFirstError();
     }
   }
   handleSubmit() {
@@ -43,7 +60,6 @@ export default class NavButtons extends React.Component {
   }
   goForward() {
     this.handleContinue(this.findNeighbor(1));
-    scrollToTop();
   }
   findNeighbor(increment) {
     const { pages, path, data } = this.props;
