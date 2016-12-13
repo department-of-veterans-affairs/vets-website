@@ -40,7 +40,7 @@ export default class ClaimDetailLayout extends React.Component {
                       : 'Not available'}
                   </p>
                   {claim.attributes.contentionList && claim.attributes.contentionList.length > MAX_CONDITIONS
-                      ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all</Link></span>
+                      ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all your claimed conditions</Link>.</span>
                     : null}
                 </div>
                 <TabNav id={this.props.claim.id}/>

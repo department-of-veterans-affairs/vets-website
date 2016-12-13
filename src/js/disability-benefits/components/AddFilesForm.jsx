@@ -87,7 +87,7 @@ class AddFilesForm extends React.Component {
           <p><a href onClick={(evt) => {
             evt.preventDefault();
             this.props.onShowMailOrFax(true);
-          }}>Need to mail or fax your files?</a></p>
+          }}>Need to mail or fax your files</a>?</p>
         </div>
         <Element name="filesList"/>
         <div className="button-container">
