@@ -36,10 +36,6 @@
       z-index: 1;
     }
   }
-
-  .va-flex {
-    width: 100%;
-  }
 }
 
 .msg-search-simple-wrap {
@@ -103,6 +99,13 @@
     }
   }
 
+  legend {
+    @media (min-width: $medium-screen) {
+      -webkit-flex: 0 0 10rem;
+      flex:  0 0 10rem;
+    }
+  }
+
   > div:not(.form-checkbox) {
     margin-bottom: 1.5rem;
 
@@ -110,7 +113,7 @@
       // Affects the element's  children
       align-items: center;
       display: flex;
-      // Affects the element itself, since it's a flex child
+      // Affects the element itself, since it's also a flex child
       flex: 0 1 75%;
     }
   }
@@ -132,54 +135,38 @@
       }
     }
   }
-
-  [type=text] {
-    flex: 1 1 100%;
-  }
 }
 
 .msg-search-date-range-legend {
   font: inherit;
   padding-top: 0rem;
-
+  
   @media (min-width: $medium-screen) {
-    flex: 0 1 10rem;
+    > div {
+      text-align: center;
+    }
   }
 }
 
 .msg-search-date-range {
+  align-items: center;
+  display: flex;
+
   @media (max-width: $medium-screen) {
     > div {
+      flex: 1 0 11rem;
       text-align: center;
-      width: 100%
     }
-  }
-
-  @media (min-width: $medium-screen) {
-    display: flex;
-    align-items: center;
   }
 
   span {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-
-    @media (max-width: $medium-screen) {
-      display: block;
-      text-align: center;
-      padding-bottom: .25rem;
-      padding-top: .25rem;
-    }
-
-    @media (min-width: $medium-screen) {
-      display: flex;
-      align-items: center;
-    }
+    padding-left: .5rem;
+    padding-right: .5rem;
   }
 }
 
 .react-datepicker__input-container {
-  flex: 1 0 22rem;
+  
 }
 
 .msg-search-advanced-toggle {
