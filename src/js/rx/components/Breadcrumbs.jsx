@@ -30,8 +30,8 @@ class Breadcrumbs extends React.Component {
       crumbs.push(<span key="prescriptions"><strong>Prescription Refills</strong></span>);
     }
 
-    return (<div>
-      {[].concat(...crumbs.map(e => [' > ', e])).slice(1)}
+    return (<div className="rx-breadcrumbs">
+      {[].concat(...crumbs.map(e => [' › ', e])).slice(1)}
     </div>);
   }
 }
