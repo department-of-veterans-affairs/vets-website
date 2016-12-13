@@ -2,10 +2,11 @@
 layout: page-breadcrumbs.html
 title: Veterans' Educational Assistance Program (VEAP)
 concurrence: complete
+plainlanguage: 12-12-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
-You can continue your education by using part of your military pay to help cover the costs of school. Find out if you can take advantage of the Veterans' Educational Assistance Program (VEAP)—a $2-to-$1 government-match program for educational assistance.
+You can continue your education by using part of your military pay to help cover the cost of school. Find out if you can get benefits through the Veterans' Educational Assistance Program (VEAP)—a $2-to-$1 government-match program for educational assistance.
 
 <div class="call-out" markdown="1">
 
@@ -26,7 +27,7 @@ Money for tuition
 
 ### How do I get this benefit?
 
-You need to apply. [Apply for benefits](/education/apply-for-education-benefits/). VEAP benefits can be applied to the following programs:
+You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). You can use VEAP benefits for the following programs:
 
 - [Undergraduate and graduate programs](/education/gi-bill/higher-learning/)
 - [Co-op training](/education/work-learn/co-op-training/)
@@ -42,10 +43,10 @@ You need to apply. [Apply for benefits](/education/apply-for-education-benefits/
 How much you put in every month will determine how many months of benefits you get (1–36 months). You have 10 years from your release from active duty to use VEAP benefits. If VEAP benefits go unused after that 10-year period, you can ask for a refund for the amount left in your fund.
 
 **Active Duty:**
-If you're currently on active duty and wish to use VEAP, you must have at least 3 months of contributions in the fund.
+If you're currently on active duty and want to use VEAP, you must have at least 3 months of contributions in the fund.
 
 **Withdrawals:**
-They money in your VEAP account may be withdrawn if you don't meet basic qualifying requirements or if you formally ask for a refund.
+You can withdraw the money in your VEAP account if you don't meet basic qualifying requirements or if you formally ask for a refund.
 
 
 ### Get more information
