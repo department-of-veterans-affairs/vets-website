@@ -1,3 +1,6 @@
+/**
+ * Please use one of the ErrorableDate components instead of this
+ */
 import React from 'react';
 import _ from 'lodash';
 

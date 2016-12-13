@@ -22,6 +22,6 @@ const makeTree = (_veteran) => {
 describe('<EducationHistoryFields>', () => {
   it('should render question', () => {
     const tree = makeTree();
-    expect(tree.everySubTree('DateInput').length).to.equal(1);
+    expect(tree.everySubTree('ErrorableMonthYear').length).to.equal(1);
   });
 });

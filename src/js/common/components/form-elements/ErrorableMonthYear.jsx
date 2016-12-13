@@ -8,8 +8,8 @@ import ErrorableNumberInput from './ErrorableNumberInput';
 
 import ToolTip from './ToolTip';
 
-import { isDirtyDate, isValidPartialDate, isNotBlankDateField, validateCustomFormComponent } from '../../utils/validations';
-import { months, days } from '../../utils/options-for-select.js';
+import { isValidPartialMonthYear, validateCustomFormComponent } from '../../utils/validations';
+import { months } from '../../utils/options-for-select.js';
 
 /**
  * A date input field that accepts values for month and year
@@ -24,7 +24,7 @@ import { months, days } from '../../utils/options-for-select.js';
  * `date` - object. Date value. Should have month, day, and year props
  * `onValueChange` - a function with this prototype: (newValue)
  */
-class ErrorableDate extends React.Component {
+class ErrorableMonthYear extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
@@ -35,33 +35,25 @@ class ErrorableDate extends React.Component {
   }
 
   handleChange(path, update) {
-    let date = set(path, update, this.props.date);
-    if (!date.month.value) {
-      date = set('day.value', '', date);
-    }
+    const date = set(path, update, this.props.date);
 
     this.props.onValueChange(date);
   }
 
   render() {
-    const { day, month, year } = this.props.date;
-
-    let daysForSelectedMonth = [];
-    if (month.value) {
-      daysForSelectedMonth = days[month.value];
-    }
+    const { month, year } = this.props.date;
 
     // we want to do validations in a specific order, so we show the message
     // that makes the most sense to the user
     let isValid = true;
     let errorMessage;
-    if (isDirtyDate(this.props.date)) {
+    if (month.dirty && year.dirty) {
       // make sure the user enters a full date first, if required
-      if (this.props.required && !isNotBlankDateField(this.props.date)) {
+      if (this.props.required && (!month.value || !year.value)) {
         isValid = false;
         errorMessage = this.props.requiredMessage;
       // make sure the user has entered a minimally valid date
-      } else if (!isValidPartialDate(day.value, month.value, year.value)) {
+      } else if (!isValidPartialMonthYear(month.value, year.value)) {
         isValid = false;
         errorMessage = this.props.invalidMessage;
       } else {
@@ -91,7 +83,7 @@ class ErrorableDate extends React.Component {
     return (
       <div className={!isValid && 'input-error-date'}>
         <label>
-          {this.props.label ? this.props.label : 'Date of birth'}
+          {this.props.label}
           {this.props.required && <span className="form-required-span">*</span>}
         </label>
         {errorSpan}
@@ -105,15 +97,6 @@ class ErrorableDate extends React.Component {
                   options={months}
                   value={month}
                   onValueChange={(update) => {this.handleChange('month', update);}}/>
-            </div>
-            <div className="form-datefield-day">
-              <ErrorableSelect errorMessage={isValid ? undefined : ''}
-                  autocomplete="false"
-                  label="Day"
-                  name={`${this.props.name}Day`}
-                  options={daysForSelectedMonth}
-                  value={day}
-                  onValueChange={(update) => {this.handleChange('day', update);}}/>
             </div>
             <div className="usa-datefield usa-form-group usa-form-group-year">
               <ErrorableNumberInput errorMessage={isValid ? undefined : ''}
@@ -134,19 +117,12 @@ class ErrorableDate extends React.Component {
   }
 }
 
-ErrorableDate.propTypes = {
+ErrorableMonthYear.propTypes = {
   required: React.PropTypes.bool,
-  validation: React.PropTypes.shape({
-    valid: React.PropTypes.bool,
-    message: React.PropTypes.string
-  }),
+  validation: React.PropTypes.any,
   label: React.PropTypes.string,
   name: React.PropTypes.string.isRequired,
   date: React.PropTypes.shape({
-    day: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool,
-    }),
     month: React.PropTypes.shape({
       value: React.PropTypes.string,
       dirty: React.PropTypes.bool,
@@ -162,9 +138,9 @@ ErrorableDate.propTypes = {
   invalidMessage: React.PropTypes.string
 };
 
-ErrorableDate.defaultProps = {
+ErrorableMonthYear.defaultProps = {
   requiredMessage: 'Please provide a response',
-  invalidMessage: 'Please provide a valid date'
+  invalidMessage: 'Please provide a valid month and/or year'
 };
 
-export default ErrorableDate;
+export default ErrorableMonthYear;
