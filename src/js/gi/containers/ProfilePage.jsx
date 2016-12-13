@@ -12,6 +12,9 @@ import ProfileSummary from '../components/profile/ProfileSummary';
 import ProfileComplaints from '../components/profile/ProfileComplaints';
 import ProfileHistory from '../components/profile/ProfileHistory';
 
+import schoolData from '../mocks/institution';
+
+
 class ProfilePage extends React.Component {
 
   constructor(props) {
@@ -24,7 +27,7 @@ class ProfilePage extends React.Component {
   renderPageTitle() {
     // school_name = @school.institution.gsub(/\b-\b/, " - ")
     //     .split(/\s/).map(&:capitalize).join(" ").gsub(" - ", "-")
-    document.title = "[school name] - GI Bill Comparison Tool"
+    document.title = "[school name] - GI Bill Comparison Tool";
   }
 
   renderHeader() {
@@ -196,9 +199,7 @@ class ProfilePage extends React.Component {
 }
 
 ProfilePage.defaultProps = {
-  institution: {
-
-  }
+  institution: schoolData().data[0]
 };
 
 export default ProfilePage;

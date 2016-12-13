@@ -89,7 +89,9 @@ export default function institution_data() {
         "complaints_other_by_ope_id_do_not_sum": 0,
         "created_at": "2016-11-02T17:54:25.362Z",
         "updated_at": "2016-11-02T17:54:25.362Z",
-        "name": "ojt"
+
+        "institution_type": {"name": "ojt"},
+        "highest_degree": 4
       },
       {
         "id": 91393,
