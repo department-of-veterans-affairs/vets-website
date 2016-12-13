@@ -227,13 +227,7 @@ Not unless you hear from us. You don't need to do anything else unless we send y
 
 <div markdown="1">
 
-##### Decision
-
-- The RVSR decides your claim after reviewing all evidence in your record (including your application, VA claim exam reports, and service treatment records).
-- After deciding the claim, the RVSR sends it to a VSR to record the decision and write the decision notice (the letter you'll get about your claim decision).
-- A Senior Veterans Service Representative (SVSR) reviews the completed documents, then approves release of the decision notice and any payment.
-
-###### What should I do if I disagree with your decision?
+##### What should I do if I disagree with your decision?
 If you disagree with our decision, you can appeal it. The decision notice will have instructions on how to file an appeal. [File an appeal now](/disability-benefits/claims-appeal/).
 
 </div>
