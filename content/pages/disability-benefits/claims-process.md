@@ -29,4 +29,4 @@ A disability claim is a formal legal request for benefits (like compensation and
 
 An accredited representative (a trained professional trusted to help with VA-related claims) can help you through the process. [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
 
-Get answers to some common questions about how we process disability claims:
+See below for answers to some common questions about how we process disability claims.
