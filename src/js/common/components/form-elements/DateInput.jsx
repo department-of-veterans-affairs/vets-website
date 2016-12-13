@@ -113,7 +113,7 @@ class DateInput extends React.Component {
     }
 
     return (
-      <div>
+      <div className={!isValid && 'input-error-date'}>
         <label>
           {this.props.label ? this.props.label : 'Date of birth'}
           {requiredSpan}
