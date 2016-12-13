@@ -60,7 +60,7 @@ export default class ServicePeriodsFields extends React.Component {
     );
 
     const reviewView = (<div>
-      <div className="form-review-panel-page-header-row edu-growable-review-header">
+      <div className="form-review-panel-page-header-row header-stacked-small edu-growable-review-header">
         <h5 className="form-review-panel-page-header">Service periods</h5>
         <button
             className="edit-btn primary-outline"
