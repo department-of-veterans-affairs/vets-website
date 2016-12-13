@@ -27,7 +27,7 @@ Money for tuition
 
 ### How do I get this benefit?
 
-You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). You can use VEAP benefits for the following programs:
+You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). You can use VEAP benefits for these programs:
 
 - [Undergraduate and graduate programs](/education/gi-bill/higher-learning/)
 - [Co-op training](/education/work-learn/co-op-training/)
