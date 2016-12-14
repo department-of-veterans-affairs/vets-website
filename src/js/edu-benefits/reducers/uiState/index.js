@@ -7,7 +7,8 @@ import {
   UPDATE_SUBMISSION_STATUS,
   UPDATE_SUBMISSION_ID,
   UPDATE_SUBMISSION_TIMESTAMP,
-  UPDATE_SUBMISSION_DETAILS
+  UPDATE_SUBMISSION_DETAILS,
+  SET_ATTEMPTED_SUBMIT
 } from '../../actions';
 
 const ui = {
@@ -16,7 +17,8 @@ const ui = {
     errorMessage: false,
     id: false,
     timestamp: false,
-    regionalAddress: null
+    regionalAddress: null,
+    hasAttemptedSubmit: false
   },
   pages: {
     '/introduction': {
@@ -116,6 +118,10 @@ function uiState(state = ui, action) {
 
       return _.set('submission', submission, state);
     }
+
+    case SET_ATTEMPTED_SUBMIT:
+      return _.set('submission.hasAttemptedSubmit', true, state);
+
     default:
       return state;
   }
