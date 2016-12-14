@@ -158,7 +158,7 @@ The amount of time it takes to review your claim depends on:
 
 **Claim Received**
 
-You'll see a notice from us in your Open Claims list within about 1 hour if you applied online with VONAPP Direct Connect. If you applied through the U.S. mail, you’ll need to allow for mailing time plus 1 week before you get a note in Open Claims telling you we have your claim.
+You'll see a notice from us in your claims list within about 1 hour if you applied online with VONAPP Direct Connect. If you applied through the U.S. mail, you’ll need to allow for mailing time plus 1 week before you get a note telling you we have your claim.
 
 
 </li>
@@ -181,7 +181,7 @@ During this step, the VSR will do 3 things:
 - Review the evidence
 - Make a decision
 
-If we need more evidence during the review, your claim may return to this step more than once. After we make a final decision about your claim and approve an award, we’ll send you a letter by U.S. mail.
+If we need more evidence during the review, your claim may return to this step more than once. 
 
 
 </li>
@@ -197,9 +197,9 @@ We'll get your entire claim decision packet ready to be mailed.
 
 <li>
 
-**Claim Closed**
+**Claim Complete**
 
-We'll mail you a packet with a decision notice and award details. Please allow 5 to 7 business days for your packet to arrive before you contact a VA call center.
+We'll mail you a packet by U.S. mail that includes details of the decision on your claim. Please allow 7 to 10 business days for your packet to arrive before contacting a VA call center.
 
 
 </li>
