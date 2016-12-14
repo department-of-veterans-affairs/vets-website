@@ -7,8 +7,8 @@ class Breadcrumbs extends React.Component {
     const { location: { pathname }, prescription } = this.props;
 
     const crumbs = [
-      <Link href="/" key="home">Home</Link>,
-      <Link href="/healthcare" key="healthcare">Health Care</Link>,
+      <a href="/" key="home">Home</a>,
+      <a href="/healthcare" key="healthcare">Health Care</a>,
     ];
 
     if (pathname.match(/\/\d+$/)) {
@@ -30,7 +30,7 @@ class Breadcrumbs extends React.Component {
     }
 
     return (<div className="rx-breadcrumbs">
-      {[].concat(...crumbs.map(e => [' › ', e])).slice(1)}
+      {crumbs.reduce((content, e) => { return [...content, ' › ', e]; }, crumbs[0]).slice(1)}
     </div>);
   }
 }
