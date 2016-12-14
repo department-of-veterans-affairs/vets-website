@@ -244,7 +244,7 @@ export function sendMessage(message) {
 
   window.dataLayer.push({
     event: 'sm-send-message',
-    has_additional_subject: message.subject.length > 0,
+    hasAdditionalSubject: message.subject.length > 0,
   });
 
   const settings = {
