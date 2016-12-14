@@ -60,7 +60,7 @@ export function dateToMoment(dateField) {
   return moment({
     year: dateField.year.value,
     month: dateField.month.value ? parseInt(dateField.month.value, 10) - 1 : '',
-    day: dateField.day.value
+    day: dateField.day ? dateField.day.value : null
   });
 }
 

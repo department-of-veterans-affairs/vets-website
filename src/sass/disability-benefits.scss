@@ -279,9 +279,6 @@ a.claim-list-item {
 
 .claims-sidebar-box {
   padding-top: 0.3em;
-  .claims-sidebar-header {
-    border-bottom: 2px solid $color-primary;
-  }
 }
 
 .claim-title {
@@ -661,6 +658,12 @@ p.first-of-type {
 
 h1:focus {
   outline: none;
+}
+
+.claim-h2 {
+  font-size: 1.35em;
+  line-height: 1.5;
+  font-weight: bold;
 }
 
 .va-nav-breadcrumbs:focus {
