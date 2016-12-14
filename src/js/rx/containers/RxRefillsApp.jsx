@@ -5,8 +5,9 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { closeDisclaimer } from '../actions/disclaimer';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
-import Disclaimer from '../components/Disclaimer';
+import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
+import Disclaimer from '../components/Disclaimer';
 import GlossaryModal from '../components/GlossaryModal';
 
 // This needs to be a React component for RequiredLoginView to pass down
@@ -35,6 +36,9 @@ class RxRefillsApp extends React.Component {
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"rx"}>
         <AppContent>
+          <div className="row">
+            <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
+          </div>
           <div className="row">
             <Disclaimer
                 isOpen={this.props.disclaimer.open}
@@ -67,7 +71,8 @@ const mapStateToProps = (state) => {
   return {
     disclaimer: state.disclaimer,
     glossaryModal: modals.glossary,
-    refillModal: modals.refill
+    refillModal: modals.refill,
+    prescription: state.prescriptions.currentItem,
   };
 };
 
