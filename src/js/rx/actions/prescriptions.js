@@ -81,6 +81,10 @@ export function refillPrescription(prescription) {
   if (prescription.prescriptionId) {
     const url = `/${prescription.prescriptionId}/refill`;
 
+    window.dataLayer.push({
+      event: 'rx-confirm-refill',
+    });
+
     return dispatch => {
       dispatch({ type: 'REFILL_SUBMITTED' });
 
