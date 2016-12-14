@@ -41,6 +41,13 @@ describe('<Detail>', () => {
     expect(tree.dive(['LoadingIndicator'])).to.not.be.undefined;
   });
 
+  it('should render an error message', () => {
+    const tree = SkinDeep.shallowRender(
+      <Detail {...props } prescription={null}/>
+    );
+    expect(tree.dive(['.rx-loading-error'])).to.not.be.undefined;
+  });
+
   it('should render details if there is a prescription', () => {
     const tree = SkinDeep.shallowRender(<Detail {...props}/>);
     expect(tree.dive(['h2']).text()).to.equal(item.attributes.prescriptionName);
