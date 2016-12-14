@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableMonthYear from '../../../common/components/form-elements/ErrorableMonthYear';
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
 
@@ -9,6 +9,7 @@ import EducationHistoryReview from './EducationHistoryReview';
 import { createEducationPeriod } from '../../utils/veteran';
 
 import { isValidPage, isValidEducationPeriod } from '../../utils/validations';
+import { isValidPartialMonthYearInPast } from '../../../common/utils/validations';
 
 export default class EducationHistoryFields extends React.Component {
   constructor() {
@@ -32,7 +33,6 @@ export default class EducationHistoryFields extends React.Component {
     ];
 
     const completionDate = this.props.data.highSchoolOrGedCompletionDate;
-    const { day, month, year } = completionDate;
 
     const periodsTable = (
       <GrowableTable
@@ -56,13 +56,14 @@ export default class EducationHistoryFields extends React.Component {
       <legend className="hide-for-small-only">Education history</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
-        <DateInput
+        <ErrorableMonthYear
+            validation={{
+              valid: isValidPartialMonthYearInPast(completionDate.month.value, completionDate.year.value),
+              message: 'Please provide a valid date in the past'
+            }}
             label="When did you earn your high school diploma or equivalency certificate?"
             name="highSchoolOrGedCompletionDate"
-            hideDayField
-            day={day}
-            month={month}
-            year={year}
+            date={completionDate}
             onValueChange={(update) => {this.props.onStateChange('highSchoolOrGedCompletionDate', update);}}/>
       </div>
       {!this.props.inReview && <div className="input-section">
@@ -92,7 +93,7 @@ export default class EducationHistoryFields extends React.Component {
           : <EducationHistoryReview data={this.props.data} onEdit={this.props.onEdit}/>}
       </div>
       <div className="form-review-panel-page">
-        <div className="form-review-panel-page-header-row edu-growable-review-header">
+        <div className="form-review-panel-page-header-row header-stacked-small edu-growable-review-header">
           <h5 className="form-review-panel-page-header">Education after high school</h5>
           <button
               className="edit-btn primary-outline"

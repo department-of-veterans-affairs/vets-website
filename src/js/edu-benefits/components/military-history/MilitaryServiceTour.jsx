@@ -3,10 +3,11 @@ import React from 'react';
 import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
+import ErrorableDate from '../../../common/components/form-elements/ErrorableDate';
+import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
-import DateInput from '../../../common/components/form-elements/DateInput';
 
-import { validateIfDirtyDateObj, validateIfDirty, isNotBlank, isValidDateField, isValidDateRange } from '../../utils/validations';
+import { validateIfDirty, isNotBlank, isValidDateRange } from '../../utils/validations';
 import ServicePeriodsReview from './ServicePeriodsReview';
 
 export default class MilitaryServiceTour extends React.Component {
@@ -29,23 +30,19 @@ export default class MilitaryServiceTour extends React.Component {
               name="serviceStatus"
               field={tour.serviceStatus}
               onValueChange={(update) => {onValueChange('serviceStatus', update);}}/>
-          <DateInput required
-              errorMessage="Please provide a valid date"
-              validation={validateIfDirtyDateObj(tour.dateRange.from, isValidDateField)}
+          <ErrorableCurrentOrPastDate required
               label="Start of service period:"
               name="fromDate"
-              day={tour.dateRange.from.day}
-              month={tour.dateRange.from.month}
-              year={tour.dateRange.from.year}
+              date={tour.dateRange.from}
               onValueChange={(update) => {onValueChange('dateRange.from', update);}}/>
-          <DateInput required
-              errorMessage={isValidDateRange(tour.dateRange.from, tour.dateRange.to) ? 'Please provide a valid date' : 'Date separated must be after date entered'}
-              validation={validateIfDirtyDateObj(tour.dateRange.to, date => isValidDateRange(tour.dateRange.from, date))}
-              label="End of service period"
+          <ErrorableDate
+              validation={{
+                valid: isValidDateRange(tour.dateRange.from, tour.dateRange.to),
+                message: 'End of service must be after start of service'
+              }}
+              label="End of service period:"
               name="toDate"
-              day={tour.dateRange.to.day}
-              month={tour.dateRange.to.month}
-              year={tour.dateRange.to.year}
+              date={tour.dateRange.to}
               onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
         </div>
         <div className="input-section">

@@ -169,7 +169,8 @@ function createTestVeteran() {
       routingNumber: makeField(qc.choose(...routingNumbers))
     }),
     applyingUsingOwnBenefits: makeField(qc.choose(...ownBenefitsOptions.map(x => x.value))),
-    benefitsRelinquishedDate: dateGen()
+    benefitsRelinquishedDate: dateGen(),
+    privacyAgreementAccepted: true
   };
 }
 

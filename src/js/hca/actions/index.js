@@ -10,6 +10,7 @@ export const ADD_CHILD_INCOME_FIELDS = 'ADD_CHILD_INCOME_FIELDS';
 export const UPDATE_SUBMISSION_STATUS = 'UPDATE_SUBMISSION_STATUS';
 export const UPDATE_SUBMISSION_ID = 'UPDATE_SUBMISSION_ID';
 export const UPDATE_SUBMISSION_TIMESTAMP = 'UPDATE_SUBMISSION_TIMESTAMP';
+export const SET_ATTEMPTED_SUBMIT = 'SET_ATTEMPTED_SUBMIT';
 
 export function ensureFieldsInitialized(fields, parentNode) {
   return {
@@ -97,5 +98,11 @@ export function updateSubmissionTimestamp(value) {
   return {
     type: UPDATE_SUBMISSION_TIMESTAMP,
     value
+  };
+}
+
+export function setAttemptedSubmit() {
+  return {
+    type: SET_ATTEMPTED_SUBMIT
   };
 }

@@ -101,7 +101,9 @@ const configGenerator = (options) => {
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
         'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+          API_PORT: (process.env.API_PORT || 4000),
+          WEB_PORT: (process.env.WEB_PORT || 3333),
         }
       }),
 
