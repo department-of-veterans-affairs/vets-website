@@ -374,7 +374,8 @@ function isValidForm(data) {
     && isValidSecondaryContactPage(data)
     && isValidDirectDepositPage(data)
     && isValidContributionsPage(data)
-    && isValidRotcHistoryPage(data);
+    && isValidRotcHistoryPage(data)
+    && data.privacyAgreementAccepted;
 }
 
 function isValidPage(completePath, pageData) {
