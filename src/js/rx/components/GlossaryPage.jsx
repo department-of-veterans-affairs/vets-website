@@ -1,5 +1,4 @@
 import React from 'react';
-import BackLink from '../components/BackLink';
 import GlossaryList from '../components/GlossaryList';
 import { glossary } from '../config.js';
 
@@ -19,7 +18,6 @@ class GlossaryPage extends React.Component {
 
     return (
       <section>
-        <BackLink text="Back"/>
         <h1>Glossary</h1>
         {sections}
       </section>
