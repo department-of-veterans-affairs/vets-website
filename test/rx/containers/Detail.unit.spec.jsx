@@ -34,21 +34,30 @@ describe('<Detail>', () => {
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should render a loading screen', () => {
+  it('should display a loading screen', () => {
     const tree = SkinDeep.shallowRender(
       <Detail {...props } loading prescription={null}/>
     );
     expect(tree.dive(['LoadingIndicator'])).to.not.be.undefined;
   });
 
-  it('should render an error message', () => {
+  it('should display loader if prescription doesn\'t match route', () => {
+    // Loading prop may not necessarily be true depending on race conditions
+    // potentially caused by quickly loading pages of different prescriptions.
+    const tree = SkinDeep.shallowRender(
+      <Detail {...props } params={{ id: 0 }}/>
+    );
+    expect(tree.dive(['LoadingIndicator'])).to.not.be.undefined;
+  });
+
+  it('should display an error message', () => {
     const tree = SkinDeep.shallowRender(
       <Detail {...props } prescription={null}/>
     );
     expect(tree.dive(['.rx-loading-error'])).to.not.be.undefined;
   });
 
-  it('should render details if there is a prescription', () => {
+  it('should render header and details if there is a prescription', () => {
     const tree = SkinDeep.shallowRender(<Detail {...props}/>);
     expect(tree.dive(['h2']).text()).to.equal(item.attributes.prescriptionName);
     expect(tree.dive(['#rx-info'])).to.not.be.undefined;
