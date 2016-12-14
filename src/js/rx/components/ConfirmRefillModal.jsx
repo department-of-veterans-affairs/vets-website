@@ -29,10 +29,8 @@ class ConfirmRefillModal extends React.Component {
 
       if (this.props.isLoading) {
         innerElement = (
-          <div className="rx-modal-refillinfo va-modal-body">
-            <LoadingIndicator
-                message="Submitting your refill request..."/>
-          </div>
+          <LoadingIndicator
+              message="Submitting your refill request..."/>
         );
       } else {
         innerElement = (
@@ -44,13 +42,13 @@ class ConfirmRefillModal extends React.Component {
                 </span>
               </div>
               <div className="rx-modal-rxnumber">
-                Prescription <abbr title="number">#</abbr>: {prescription.prescriptionNumber}
+                <strong>Prescription <abbr title="number">#</abbr>:</strong> {prescription.prescriptionNumber}
               </div>
               <div className="rx-modal-facility">
-                Facility name: {prescription.facilityName}
+                <strong>Facility name:</strong> {prescription.facilityName}
               </div>
               <div className="rx-modal-lastrefilled">
-                Last submit date: {formatDate(prescription.refillSubmitDate)}
+                <strong>Last submit date:</strong> {formatDate(prescription.refillSubmitDate)}
               </div>
               <div className="va-modal-button-group cf">
                 <button type="submit">Order refill</button>
