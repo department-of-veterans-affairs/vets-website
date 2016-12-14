@@ -325,6 +325,7 @@ export class Folder extends React.Component {
     }
 
     const folderId = _.get(this.props.attributes, 'folderId', null);
+    let componentContent;
 
     if (folderId === null) {
       const lastRequest = loading.request;
@@ -334,33 +335,48 @@ export class Folder extends React.Component {
           this.props.fetchFolder(lastRequest.id, lastRequest.query);
         };
 
-        return (
-          <p>
-            Could not retrieve the folder.&nbsp;
-            <a onClick={reloadFolder}>Click here to try again.</a>
-          </p>
+        componentContent = (
+          <div className="columns">
+            <p>
+              Could not retrieve the folder.&nbsp;
+              <a onClick={reloadFolder}>Click here to try again.</a>
+            </p>
+          </div>
         );
+      } else {
+        componentContent = <div className="columns"><p>Sorry, this folder does not exist.</p></div>;
+      }
+    } else {
+      const messageNav = this.makeMessageNav();
+      const sortMenu = this.makeSortMenu();
+      const folderMessages = this.makeMessagesTable();
+
+      let messageSearch;
+      if (this.props.messages && this.props.messages.length) {
+        messageSearch = (<MessageSearch
+            isAdvancedVisible={this.props.isAdvancedVisible}
+            onAdvancedSearch={this.props.toggleAdvancedSearch}
+            onDateChange={this.props.setDateRange}
+            onError={this.props.openAlert}
+            onFieldChange={this.props.setSearchParam}
+            onSubmit={this.handleSearch}
+            params={this.props.searchParams}/>);
       }
 
-      return <p>Sorry, this folder does not exist.</p>;
+      componentContent = (
+        <div>
+          <div id="messaging-folder-controls">
+            <ComposeButton/>
+            {messageSearch}
+            {messageNav}
+          </div>
+          {sortMenu}
+          {folderMessages}
+        </div>
+      );
     }
 
     const folderName = _.get(this.props.attributes, 'name');
-    const messageNav = this.makeMessageNav();
-    const sortMenu = this.makeSortMenu();
-    const folderMessages = this.makeMessagesTable();
-
-    let messageSearch;
-    if (this.props.messages && this.props.messages.length) {
-      messageSearch = (<MessageSearch
-          isAdvancedVisible={this.props.isAdvancedVisible}
-          onAdvancedSearch={this.props.toggleAdvancedSearch}
-          onDateChange={this.props.setDateRange}
-          onError={this.props.openAlert}
-          onFieldChange={this.props.setSearchParam}
-          onSubmit={this.handleSearch}
-          params={this.props.searchParams}/>);
-    }
 
     return (
       <div>
@@ -375,13 +391,7 @@ export class Folder extends React.Component {
           </button>
           <h2>{folderName}</h2>
         </div>
-        <div id="messaging-folder-controls">
-          <ComposeButton/>
-          {messageSearch}
-          {messageNav}
-        </div>
-        {sortMenu}
-        {folderMessages}
+        {componentContent}
       </div>
     );
   }

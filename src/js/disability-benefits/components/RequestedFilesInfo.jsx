@@ -11,7 +11,7 @@ export default class RequestedFilesInfo extends React.Component {
     return (
       <div className="claims-requested-files-container">
         <div className="file-request-list">
-          <h4 className="hightlight claim-file-border">File requests</h4>
+          <h2 className="hightlight claim-file-border claim-h2">File requests</h2>
 
           {filesNeeded.length + optionalFiles.length === 0
             ? <div className="no-documents"><p>You don't need to turn in any documents to VA.</p></div>
@@ -44,7 +44,7 @@ export default class RequestedFilesInfo extends React.Component {
 
         <div className="submit-file-container">
           <div className="submit-additional-evidence">
-            <h4 className="hightlight claim-file-border">Additional evidence</h4>
+            <h2 className="hightlight claim-file-border claim-h2">Additional evidence</h2>
             <div className="usa-alert additional-evidence-alert">
               <div className="item-container">
                 <p>Do you have more evidence to submit that supports your claim? Upload it here now.</p>

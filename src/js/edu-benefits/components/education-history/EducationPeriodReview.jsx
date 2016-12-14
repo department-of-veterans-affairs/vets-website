@@ -1,5 +1,5 @@
 import React from 'react';
-import { displayDateIfValid } from '../../utils/helpers.js';
+import { displayMonthYearIfValid } from '../../utils/helpers.js';
 
 export default class EducationPeriodReview extends React.Component {
   render() {
@@ -11,7 +11,7 @@ export default class EducationPeriodReview extends React.Component {
           <tbody className="edu-growable-review-desc">
             <tr>
               <td>{period.name.value}<br/>
-              {displayDateIfValid(period.dateRange.from)} &mdash; {displayDateIfValid(period.dateRange.to)}</td>
+              {displayMonthYearIfValid(period.dateRange.from)} &mdash; {displayMonthYearIfValid(period.dateRange.to)}</td>
               <td>
                 <button className="usa-button-outline float-right" onClick={this.props.onEdit}>Edit</button>
               </td>
