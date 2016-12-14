@@ -39,7 +39,7 @@ class EduBenefitsApp extends React.Component {
     }
   }
   render() {
-    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm, onStateChange, setAttemptedSubmit } = this.props;
+    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm, onStateChange, onAttemptedSubmit } = this.props;
     const navigateTo = path => router.push(path);
     const onSubmit = () => {
       submitBenefitsForm(this.props.data);
@@ -86,7 +86,7 @@ class EduBenefitsApp extends React.Component {
                 onComplete={setComplete}
                 onSubmit={onSubmit}
                 onStateChange={onStateChange}
-                onAttemptedSubmit={setAttemptedSubmit}/>
+                onAttemptedSubmit={onAttemptedSubmit}/>
           </div>
         </div>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
@@ -120,7 +120,7 @@ function mapDispatchToProps(dispatch) {
     onStateChange(...args) {
       dispatch(veteranUpdateField(...args));
     },
-    setAttemptedSubmit: (...args) => {
+    onAttemptedSubmit: (...args) => {
       dispatch(setAttemptedSubmit(...args));
     },
   };

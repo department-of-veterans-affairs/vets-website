@@ -121,7 +121,7 @@ function uiState(state = ui, action) {
 
     case SET_ATTEMPTED_SUBMIT:
       return _.set('submission.hasAttemptedSubmit', true, state);
-    
+
     default:
       return state;
   }
