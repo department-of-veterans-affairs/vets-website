@@ -39,6 +39,9 @@ describe('<Detail>', () => {
       <Detail {...props } loading prescription={null}/>
     );
     expect(tree.dive(['LoadingIndicator'])).to.not.be.undefined;
+    expect(tree.subTree('#rx-info')).to.be.false;
+    expect(tree.subTree('#rx-order-history')).to.be.false;
+    expect(tree.subTree('ContactCard')).to.be.false;
   });
 
   it('should display loader if prescription doesn\'t match route', () => {
@@ -48,6 +51,9 @@ describe('<Detail>', () => {
       <Detail {...props } params={{ id: 0 }}/>
     );
     expect(tree.dive(['LoadingIndicator'])).to.not.be.undefined;
+    expect(tree.subTree('#rx-info')).to.be.false;
+    expect(tree.subTree('#rx-order-history')).to.be.false;
+    expect(tree.subTree('ContactCard')).to.be.false;
   });
 
   it('should display an error message', () => {
@@ -55,6 +61,15 @@ describe('<Detail>', () => {
       <Detail {...props } prescription={null}/>
     );
     expect(tree.dive(['.rx-loading-error'])).to.not.be.undefined;
+    expect(tree.subTree('#rx-info')).to.be.false;
+    expect(tree.subTree('#rx-order-history')).to.be.false;
+    expect(tree.subTree('ContactCard')).to.be.false;
+  });
+
+  it('should not display loader or error if there is a prescription', () => {
+    const tree = SkinDeep.shallowRender(<Detail {...props}/>);
+    expect(tree.subTree('LoadingIndicator')).to.be.false;
+    expect(tree.subTree('.rx-loading-error')).to.be.false;
   });
 
   it('should render header and details if there is a prescription', () => {
