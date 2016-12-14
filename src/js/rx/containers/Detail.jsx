@@ -8,7 +8,6 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { closeAlert } from '../actions/alert.js';
 import { openGlossaryModal, openRefillModal } from '../actions/modals';
 import { loadPrescription } from '../actions/prescriptions';
-import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
 import GlossaryLink from '../components/GlossaryLink';
 import OrderHistory from '../components/OrderHistory';
@@ -205,7 +204,6 @@ export class Detail extends React.Component {
             scrollOnShow
             status={this.props.alert.status}/>
         <h1>Prescription Refill</h1>
-        <BackLink text="Back to list"/>
         {content}
       </div>
     );
