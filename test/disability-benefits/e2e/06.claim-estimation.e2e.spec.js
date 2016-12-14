@@ -21,7 +21,8 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .waitForElementVisible('.claim-title', Timeouts.normal);
 
       client
-        .execute('window.scrollTo(0,8000)')
+        .execute('window.scrollTo(0,1000)')
+        .waitForElementVisible('.claim-completion-estimation a', Timeouts.normal)
         .click('.claim-completion-estimation a')
         .waitForElementVisible('.estimation-header', Timeouts.normal);
 
