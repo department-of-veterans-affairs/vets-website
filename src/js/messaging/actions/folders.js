@@ -93,6 +93,10 @@ export function createNewFolder(folderName) {
     body: JSON.stringify(folderData)
   };
 
+  window.dataLayer.push({
+    event: 'sm-create-folder',
+  });
+
   return dispatch => {
     dispatch({ type: CREATING_FOLDER });
 
