@@ -120,9 +120,7 @@ function uiState(state = ui, action) {
     }
 
     case SET_ATTEMPTED_SUBMIT:
-      newState = Object.assign({}, state);
-      _.set(newState.submission, 'hasAttemptedSubmit', true);
-      return newState;
+      return _.set('submission.hasAttemptedSubmit', true, state);
     
     default:
       return state;

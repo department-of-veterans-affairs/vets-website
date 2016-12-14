@@ -39,7 +39,7 @@ class EduBenefitsApp extends React.Component {
     }
   }
   render() {
-    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm, onStateChange } = this.props;
+    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm, onStateChange, setAttemptedSubmit } = this.props;
     const navigateTo = path => router.push(path);
     const onSubmit = () => {
       submitBenefitsForm(this.props.data);
@@ -85,7 +85,8 @@ class EduBenefitsApp extends React.Component {
                 onNavigate={navigateTo}
                 onComplete={setComplete}
                 onSubmit={onSubmit}
-                onStateChange={onStateChange}/>
+                onStateChange={onStateChange}
+                onAttemptedSubmit={setAttemptedSubmit}/>
           </div>
         </div>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>

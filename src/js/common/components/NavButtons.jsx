@@ -50,6 +50,8 @@ export default class NavButtons extends React.Component {
     }
   }
   handleSubmit() {
+    this.props.onAttemptedSubmit();
+
     if (this.props.canSubmit) {
       this.props.onSubmit();
     }
@@ -202,5 +204,6 @@ NavButtons.propTypes = {
   onSubmit: React.PropTypes.func,
   onNavigate: React.PropTypes.func,
   onComplete: React.PropTypes.func,
-  dirtyPage: React.PropTypes.func
+  dirtyPage: React.PropTypes.func,
+  onAttemptedSubmit: React.PropTypes.func
 };
