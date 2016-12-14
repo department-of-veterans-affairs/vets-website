@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { closeDisclaimer } from '../actions/disclaimer';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
@@ -8,7 +9,6 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import Disclaimer from '../components/Disclaimer';
 import GlossaryModal from '../components/GlossaryModal';
-import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
@@ -37,7 +37,7 @@ class RxRefillsApp extends React.Component {
       <RequiredLoginView authRequired={3} serviceRequired={"rx"}>
         <AppContent>
           <div className="row">
-            <Breadcrumbs location={this.props.location}/>
+            <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
           </div>
           <div className="row">
             <Disclaimer

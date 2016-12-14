@@ -1,19 +1,18 @@
-import React from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
+import { Link } from 'react-router';
+import React from 'react';
 
 class Breadcrumbs extends React.Component {
   render() {
-    const { pathname } = this.props.location;
-    const { prescription } = this.props;
+    const { location: { pathname }, prescription } = this.props;
 
     const crumbs = [
-      <a href="/" key="home">Home</a>,
-      <a href="/healthcare" key="healthcare">Health Care</a>,
+      <Link href="/" key="home">Home</Link>,
+      <Link href="/healthcare" key="healthcare">Health Care</Link>,
     ];
 
     if (pathname.match(/\/\d+$/)) {
-      crumbs.push(<a href="/healthcare/prescriptions" key="prescriptions">Prescription Refills</a>);
+      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
       if (prescription) {
         const prescriptionName = _.get(prescription, [
           'rx',
@@ -24,7 +23,7 @@ class Breadcrumbs extends React.Component {
         crumbs.push(<span key="currentPrescription"><strong>{prescriptionName}</strong></span>);
       }
     } else if (pathname.match(/\/glossary\/$/)) {
-      crumbs.push(<a href="/healthcare/prescriptions" key="prescriptions">Prescription Refills</a>);
+      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
       crumbs.push(<span key="glossary"><strong>Glossary</strong></span>);
     } else {
       crumbs.push(<span key="prescriptions"><strong>Prescription Refills</strong></span>);
@@ -36,10 +35,4 @@ class Breadcrumbs extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    prescription: state.prescriptions.currentItem,
-  };
-};
-
-export default connect(mapStateToProps)(Breadcrumbs);
+export default Breadcrumbs;
