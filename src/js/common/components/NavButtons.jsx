@@ -95,7 +95,6 @@ export default class NavButtons extends React.Component {
       if (submission.status === false) {
         submitButton = (
           <ProgressButton
-              disabled={!this.props.canSubmit}
               onButtonClick={this.handleSubmit}
               buttonText="Submit Application"
               buttonClass="usa-button-primary"/>

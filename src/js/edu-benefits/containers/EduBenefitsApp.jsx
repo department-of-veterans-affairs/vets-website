@@ -16,7 +16,7 @@ import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
 
 import { isValidPage, isValidForm } from '../utils/validations';
-import { ensurePageInitialized, updateCompletedStatus, submitForm, veteranUpdateField } from '../actions/index';
+import { ensurePageInitialized, updateCompletedStatus, submitForm, veteranUpdateField, setAttemptedSubmit } from '../actions/index';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -118,6 +118,9 @@ function mapDispatchToProps(dispatch) {
     },
     onStateChange(...args) {
       dispatch(veteranUpdateField(...args));
+    },
+    setAttemptedSubmit: (...args) => {
+      dispatch(setAttemptedSubmit(...args));
     },
   };
 }
