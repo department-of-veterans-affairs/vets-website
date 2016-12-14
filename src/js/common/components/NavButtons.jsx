@@ -4,7 +4,6 @@ import Scroll from 'react-scroll';
 import { getActivePages, focusElement } from '../utils/helpers';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
-import PrivacyAgreement from './questions/PrivacyAgreement';
 
 const scroller = Scroll.scroller;
 
@@ -70,7 +69,7 @@ export default class NavButtons extends React.Component {
     return filtered[index].name;
   }
   render() {
-    const { submission, path, onStateChange } = this.props;
+    const { submission, path } = this.props;
 
     const backButton = (
       <ProgressButton
@@ -89,16 +88,9 @@ export default class NavButtons extends React.Component {
     );
 
     let buttons;
-    let privacyAgreement;
     if (path === '/review-and-submit') {
       let submitButton;
       let submitMessage;
-
-      privacyAgreement = (
-        <PrivacyAgreement
-            onChange={(update) => onStateChange('privacyAgreementAccepted', update)}
-            checked={this.props.data.privacyAgreementAccepted}/>
-      );
 
       if (submission.status === false) {
         submitButton = (
@@ -145,7 +137,6 @@ export default class NavButtons extends React.Component {
       }
 
       buttons = (<div>
-        {privacyAgreement}
         <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
             {backButton}
