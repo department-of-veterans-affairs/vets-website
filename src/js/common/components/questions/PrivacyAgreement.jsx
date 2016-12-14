@@ -5,6 +5,7 @@ export default function PrivacyAgreement({ onChange, checked, showError }) {
   return (
     <div>
       <ErrorableCheckbox required
+          name="privacyAgreement"
           checked={checked}
           onValueChange={onChange}
           errorMessage={showError && !checked ? 'You must accept the privacy policy before continuing' : undefined}

@@ -233,6 +233,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Review and Submit Page.
     client.expect.element('button.edit-btn').to.be.visible;
+    client.click('[name=privacyAgreement]');
     client.click('.form-panel .usa-button-primary');
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);
