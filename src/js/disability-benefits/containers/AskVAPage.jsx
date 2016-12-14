@@ -15,7 +15,7 @@ class AskVAPage extends React.Component {
     this.state = { submittedDocs: false };
   }
   componentDidMount() {
-    document.title = 'Ask VA for a Claim Decision';
+    document.title = 'Ask for your Claim Decision';
     setUpPage();
   }
   componentWillReceiveProps(props) {
@@ -48,7 +48,7 @@ class AskVAPage extends React.Component {
               <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
                 <li><Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link></li>
-                <li className="active">Ask VA for a Claim Decision</li>
+                <li className="active">Ask for your Claim Decision</li>
               </ul>
             </nav>
           </div>
@@ -56,7 +56,7 @@ class AskVAPage extends React.Component {
         <div className="row">
           <div className="medium-8 columns">
             <div>
-              <h1>Ask VA for a Claim Decision</h1>
+              <h1>Ask for your Claim Decision</h1>
               <p className="first-of-type">We sent you a letter in the mail asking for more evidence to support your claim. We’ll wait 30 days for your evidence. If you don’t have anything more you want to submit, let us know and we’ll go ahead and make a decision on your claim.</p>
               <p>Taking the full 30 days won’t affect:</p>
               <ul>

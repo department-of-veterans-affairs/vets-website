@@ -53,7 +53,7 @@ class FilesPage extends React.Component {
                 filesNeeded={filesNeeded}
                 optionalFiles={optionalFiles}/>}
           <div className="submitted-files-list">
-            <h4 className="hightlight claim-file-border">Documents filed</h4>
+            <h2 className="hightlight claim-file-border claim-h2">Documents filed</h2>
             {documentsTurnedIn.length === 0
               ? <div className="no-documents-turned-in"><p>You haven't turned in any documents to VA.</p></div>
               : null}

@@ -18,22 +18,24 @@
 
 .va-alert-body {
   padding-left: 2.5rem;
+  padding-right: 3.5rem;
 }
 
 .va-alert-close {
+  background: transparent;
   color: $color-base;
   margin: 0;
-  padding: .5rem;
+  padding: 0;
   position: absolute;
   right: 2rem;
   top: 1.75rem;
   width: auto;
 
   &:hover {
-    background: transparent;
+    background: transparent !important;
     color: lighten($color-gray-dark, 30%);
   }
-
+  
   .fa {
     // Override fa font-size.
     font-size: 1.45em !important;

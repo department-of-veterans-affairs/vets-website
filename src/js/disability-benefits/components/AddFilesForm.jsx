@@ -87,7 +87,7 @@ class AddFilesForm extends React.Component {
           <p><a href onClick={(evt) => {
             evt.preventDefault();
             this.props.onShowMailOrFax(true);
-          }}>Need to mail or fax your files?</a></p>
+          }}>Need to mail or fax your files</a>?</p>
         </div>
         <Element name="filesList"/>
         <div className="button-container">
@@ -135,7 +135,7 @@ class AddFilesForm extends React.Component {
                   onValueChange={(update) => this.props.onFieldChange(`files[${index}].docType`, update)}/>
             </div>
           </div>)}
-        <div className="button-container">
+        <div className="button-container file-review">
           <button
               className="usa-button"
               onClick={this.submit}>
