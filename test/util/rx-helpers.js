@@ -62,7 +62,7 @@ const trackings = {
         self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
         prescription: 'http://www.example.com/v0/prescriptions/13650542',
         trackingUrl: 'https://tools.usps.com/go/TrackConfirmAction?tLabels=657068347564'
-      } 
+      }
     },
     {
       id: '345787647659',

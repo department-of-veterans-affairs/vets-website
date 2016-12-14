@@ -35,7 +35,9 @@ describe('<Detail>', () => {
   });
 
   it('should display a loading screen', () => {
-    const tree = SkinDeep.shallowRender(<Detail {...props } loading prescription={null}/>);
+    const tree = SkinDeep.shallowRender(
+      <Detail {...props } loading prescription={null}/>
+    );
     expect(tree.dive(['LoadingIndicator'])).to.not.be.undefined;
   });
 
@@ -53,7 +55,6 @@ describe('<Detail>', () => {
   });
 
   it('should display a contact card if there is an prescription', () => {
-    const prescription = { rx: item, trackings: history }
     const tree = SkinDeep.shallowRender(<Detail {...props}/>);
     const contactCard = tree.subTree('ContactCard');
     expect(contactCard).to.not.be.false;
