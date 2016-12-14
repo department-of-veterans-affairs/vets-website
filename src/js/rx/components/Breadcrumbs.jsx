@@ -30,7 +30,7 @@ class Breadcrumbs extends React.Component {
     }
 
     return (<div className="rx-breadcrumbs">
-      {crumbs.reduce((content, e) => { return [...content, ' › ', e]; }, crumbs[0]).slice(1)}
+      {crumbs.reduce((content, e) => { return [...content, ' › ', e]; }, []).slice(1)}
     </div>);
   }
 }
