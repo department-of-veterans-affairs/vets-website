@@ -21,18 +21,16 @@ class ConfirmRefillModal extends React.Component {
   }
 
   render() {
-    const prescription = this.props.prescription;
-    let element;
+    let innerElement;
 
-    if (this.props.isVisible) {
-      let innerElement;
-
-      if (this.props.isLoading) {
-        innerElement = (
-          <LoadingIndicator
-              message="Submitting your refill request..."/>
-        );
-      } else {
+    if (this.props.isLoading) {
+      innerElement = (
+        <LoadingIndicator
+            message="Submitting your refill request..."/>
+      );
+    } else {
+      if (this.props.prescription) {
+        const prescription = this.props.prescription;
         innerElement = (
           <form onSubmit={this.handleConfirmRefill}>
             <div className="rx-modal-refillinfo">
@@ -59,20 +57,18 @@ class ConfirmRefillModal extends React.Component {
           </form>
         );
       }
-
-      element = (
-        <Modal
-            cssClass="va-modal rx-modal"
-            contents={innerElement}
-            hideCloseButton
-            id="rx-confirm-refill"
-            onClose={this.props.onCloseModal}
-            title="Confirm refill"
-            visible={this.props.isVisible}/>
-      );
-    } else {
-      element = (<div/>);
     }
+
+    const element = (
+      <Modal
+          cssClass="va-modal rx-modal"
+          contents={innerElement}
+          hideCloseButton
+          id="rx-confirm-refill"
+          onClose={this.props.onCloseModal}
+          title="Confirm refill"
+          visible={this.props.isVisible}/>
+      );
 
     return element;
   }
