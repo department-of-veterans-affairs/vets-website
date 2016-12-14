@@ -42,6 +42,89 @@ const prescriptions = {
   }
 };
 
+const trackings = {
+  data: [
+    {
+      id: '657068347564',
+      type: 'trackings',
+      attributes: {
+        trackingNumber: '657068347564',
+        prescriptionId: 13650542,
+        prescriptionNumber: '2719083',
+        prescriptionName: 'ACETAMINOPHEN 325MG TAB',
+        facilityName: 'ABC123',
+        rxInfoPhoneNumber: '(555)772-0956',
+        ndcNumber: '00781171601',
+        shippedDate: '2016-09-07T04:00:00.000Z',
+        deliveryService: 'UsPS'
+      },
+      links: {
+        self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
+        prescription: 'http://www.example.com/v0/prescriptions/13650542',
+        trackingUrl: 'https://tools.usps.com/go/TrackConfirmAction?tLabels=657068347564'
+      }
+    },
+    {
+      id: '345787647659',
+      type: 'trackings',
+      attributes: {
+        trackingNumber: '345787647659',
+        prescriptionId: 13650542,
+        prescriptionNumber: '2719083',
+        prescriptionName: 'ACETAMINOPHEN 325MG TAB',
+        facilityName: 'ABC123',
+        rxInfoPhoneNumber: '(555)772-0956',
+        ndcNumber: '00781171601',
+        shippedDate: '2016-07-06T04:00:00.000Z',
+        deliveryService: 'UsPS'
+      },
+      links: {
+        self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
+        prescription: 'http://www.example.com/v0/prescriptions/13650542',
+        trackingUrl: 'https://tools.usps.com/go/TrackConfirmAction?tLabels=345787647659'
+      }
+    },
+    {
+      id: '345787647654',
+      type: 'trackings',
+      attributes: {
+        trackingNumber: '345787647654',
+        prescriptionId: 13650542,
+        prescriptionNumber: '2719083',
+        prescriptionName: 'ACETAMINOPHEN 325MG TAB',
+        facilityName: 'ABC123',
+        rxInfoPhoneNumber: '(555)772-0956',
+        ndcNumber: '00781171601',
+        shippedDate: '2016-06-26T04:00:00.000Z',
+        deliveryService: 'UsPS'
+      },
+      links: {
+        self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
+        prescription: 'http://www.example.com/v0/prescriptions/13650542',
+        trackingUrl: 'https://tools.usps.com/go/TrackConfirmAction?tLabels=345787647654'
+      }
+    }
+  ],
+  links: {
+    self: 'http://www.example.com/v0/prescriptions/13650542/trackings?',
+    first: 'http://www.example.com/v0/prescriptions/13650542/trackings?page=1&per_page=10',
+    prev: null,
+    next: null,
+    last: 'http://www.example.com/v0/prescriptions/13650542/trackings?page=1&per_page=10'
+  },
+  meta: {
+    updatedAt: 'Mon, 12 Sep 2016 04:30:15 EDT',
+    failedStationList: null,
+    sort: { shippedDate: 'DESC' },
+    pagination: {
+      currentPage: 1,
+      perPage: 10,
+      totalPages: 1,
+      totalEntries: 3
+    }
+  }
+};
+
 // Create API routes
 function initApplicationSubmitMock() {
   request({
@@ -67,5 +150,6 @@ function initApplicationSubmitMock() {
 
 module.exports = {
   prescriptions,
+  trackings,
   initApplicationSubmitMock
 };
