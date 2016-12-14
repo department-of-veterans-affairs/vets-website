@@ -44,6 +44,7 @@ When you file a new claim, you may get:
 - Special monthly payments
 - A shift to Individual Unemployability status (a status given to Veterans who are unable to work because of a disability)
 
+[Apply for disability benefits](/disability-benefits/apply-for-benefits/).
 [Learn more about Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
 
 </div>
