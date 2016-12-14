@@ -77,7 +77,7 @@ ul.claim-list{
 }
 
 .edu-benefits-pre {
-  white-space: pre;
+  white-space: pre-wrap;
 }
 .edu-benefits-list {
   margin-top: 0;
@@ -201,15 +201,20 @@ ul.claim-list{
 .edu-growable-review-header {
   margin-bottom: 1em;
 }
+
+table.review td {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .edu-growable-form {
   table.review td {
     padding: 0;
   }
 }
 
-.va-nav-breadcrumbs-list, legend, .nav-header, .edu-page-title {
+.va-nav-breadcrumbs-list, legend, .nav-header, .edu-page-title, .usa-input-error, .input-error-date {
   &:focus {
     outline: none;
   }
 }
-

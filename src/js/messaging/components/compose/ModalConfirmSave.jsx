@@ -16,7 +16,7 @@ class ModalConfirmSave extends React.Component {
   render() {
     const modalContents = (
       <form onSubmit={this.saveDraft}>
-        <h3 className="messaging-modal-title">
+        <h3>
           Save without attachments
         </h3>
         <p>

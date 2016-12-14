@@ -1,4 +1,3 @@
-import merge from 'lodash/fp/merge';
 import set from 'lodash/fp/set';
 
 const initialState = {
@@ -28,9 +27,7 @@ export default function modals(state = initialState, action) {
       }, initialState);
 
     case 'REFILL_SUBMITTED':
-      return merge(state, {
-        refill: { loading: true }
-      });
+      return set('refill.loading', true, state);
 
     case 'REFILL_SUCCESS':
     case 'REFILL_FAILURE':

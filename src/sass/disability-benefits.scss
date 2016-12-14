@@ -39,7 +39,7 @@
   }
 
   > .past-due {
-    color: $color-secondary-dark;
+    color: $color-secondary-darkest;
     font-size: 0.9em;
   }
 
@@ -211,6 +211,10 @@
   }
 }
 
+.claim-item-label {
+  font-weight: bold;
+}
+
 .claim-list-item {
   background-color: $color-gray-lightest;
   padding: 1em;
@@ -220,9 +224,6 @@
   }
   p {
     margin: 0;
-  }
-  .label {
-    font-weight: bold;
   }
   .communications, p.status {
     margin-bottom: 0.5em;
@@ -278,9 +279,6 @@ a.claim-list-item {
 
 .claims-sidebar-box {
   padding-top: 0.3em;
-  .claims-sidebar-header {
-    border-bottom: 2px solid $color-primary;
-  }
 }
 
 .claim-title {
@@ -662,12 +660,14 @@ h1:focus {
   outline: none;
 }
 
-.va-nav-breadcrumbs:focus {
-  outline: none
+.claim-h2 {
+  font-size: 1.35em;
+  line-height: 1.5;
+  font-weight: bold;
 }
 
-h6.claims-turnedin-file-header {
-  padding: 0 !important;
+.va-nav-breadcrumbs:focus {
+  outline: none
 }
 
 .notification-close {
@@ -676,4 +676,9 @@ h6.claims-turnedin-file-header {
     margin: -5px 5px 0 0;
     width: 0;
   }
+}
+
+.button-container.file-review {
+  display: flex;
+  align-items: center;
 }

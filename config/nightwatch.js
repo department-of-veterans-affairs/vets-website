@@ -5,7 +5,7 @@ require('babel-core/register');
 
 const glob = require('glob');
 
-const selenium_server_port = Math.floor((Math.random() * 64535) + 1000);
+const selenium_server_port = process.env.SELENIUM_PORT || 4444;
 
 module.exports = {
   src_folders: ['./test'],

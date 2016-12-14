@@ -14,7 +14,7 @@ class MessageRecipient extends React.Component {
       <div className={fieldCss}>
         <ErrorableSelect
             errorMessage={this.props.errorMessage}
-            label="To:"
+            label="To"
             name="messageRecipient"
             onValueChange={this.props.onValueChange}
             options={this.props.options}

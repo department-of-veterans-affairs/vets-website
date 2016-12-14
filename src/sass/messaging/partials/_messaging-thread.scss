@@ -160,11 +160,7 @@
 
 .messaging-notice-box {
   background: $color-primary-alt-lightest;
-  padding: 1.5rem 2rem;
-
-  @media (max-width: $medium-screen) {
-    padding: 1.5rem 5rem;
-  }
+  padding: 1.5rem;
 
   i {
     width: 3rem;

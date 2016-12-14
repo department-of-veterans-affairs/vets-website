@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 
 import { dateToMoment } from '../../common/utils/helpers';
 
@@ -41,20 +42,22 @@ function formatYear(val) {
     return 'XXXX';
   }
 
-  const year = Number(val.replace(/[^\d]/g, ''));
-  if (isNaN(year)) {
+  const yearDate = moment(val, 'YYYY');
+  if (!yearDate.isValid()) {
     return 'XXXX';
   }
 
-  return year.toString();
+  return yearDate.format('YYYY');
 }
 
 export function formatPartialDate(field) {
-  if (!field.day.value && !field.month.value && !field.year.value) {
+  if (!field.month.value && !field.year.value) {
     return undefined;
   }
 
-  return `${formatYear(field.year.value)}-${formatDayMonth(field.month.value)}-${formatDayMonth(field.day.value)}`;
+  const day = field.day ? field.day.value : null;
+
+  return `${formatYear(field.year.value)}-${formatDayMonth(field.month.value)}-${formatDayMonth(day)}`;
 }
 
 export function displayDateIfValid(field) {
@@ -66,8 +69,8 @@ export function displayDateIfValid(field) {
 }
 
 export function displayMonthYearIfValid(dateObject) {
-  if (dateObject.year.value && dateObject.month.value) {
-    return `${dateObject.month.value}/${dateObject.year.value}`;
+  if (dateObject.year.value || dateObject.month.value) {
+    return `${dateObject.month.value || 'XX'}/${dateObject.year.value || 'XXXX'}`;
   }
 
   return null;
