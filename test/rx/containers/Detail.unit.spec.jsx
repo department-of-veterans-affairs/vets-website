@@ -34,27 +34,27 @@ describe('<Detail>', () => {
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should display a loading screen', () => {
+  it('should render a loading screen', () => {
     const tree = SkinDeep.shallowRender(
       <Detail {...props } loading prescription={null}/>
     );
     expect(tree.dive(['LoadingIndicator'])).to.not.be.undefined;
   });
 
-  it('should display details if there is a prescription', () => {
+  it('should render details if there is a prescription', () => {
     const tree = SkinDeep.shallowRender(<Detail {...props}/>);
     expect(tree.dive(['h2']).text())
       .to.equal(item.attributes.prescriptionName);
     expect(tree.dive(['#rx-info'])).to.not.be.undefined;
   });
 
-  it('should display order history if the prescription has an order history', () => {
+  it('should render order history if there is order history', () => {
     const tree = SkinDeep.shallowRender(<Detail {...props}/>);
     const orderHistory = tree.dive(['OrderHistory']);
     expect(orderHistory).to.not.be.undefined;
   });
 
-  it('should display a contact card if there is an prescription', () => {
+  it('should render a contact card if there is an prescription', () => {
     const tree = SkinDeep.shallowRender(<Detail {...props}/>);
     const contactCard = tree.subTree('ContactCard');
     expect(contactCard).to.not.be.false;
