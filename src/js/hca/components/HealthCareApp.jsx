@@ -8,7 +8,7 @@ import fetch from 'isomorphic-fetch';
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from '../../common/components/Nav.jsx';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
-import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp } from '../actions';
+import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp, setAttemptedSubmit } from '../actions';
 import { veteranToApplication } from '../../common/model/veteran';
 import * as validations from '../utils/validations';
 import { chapters } from '../routes';
@@ -32,6 +32,7 @@ class HealthCareApp extends React.Component {
     this.getUrl = this.getUrl.bind(this);
     this.removeOnbeforeunload = this.removeOnbeforeunload.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
+    this.state = { hasAttemptedSubmit: false };
   }
 
   componentWillMount() {
@@ -130,8 +131,9 @@ class HealthCareApp extends React.Component {
     const path = this.props.location.pathname;
 
     window.dataLayer.push({ event: 'submit-button-clicked' });
+    const formIsValid = validations.isValidForm(veteran);
 
-    if (validations.isValidForm(veteran)) {
+    if (formIsValid && veteran.privacyAgreementAccepted) {
       this.props.onUpdateSubmissionStatus('submitPending');
 
       // POST data to endpoint
@@ -179,8 +181,13 @@ class HealthCareApp extends React.Component {
         });
       });
     } else {
-      this.scrollToTop();
-      // TODO(crew): Decide on/add validation error message.
+      // don't scroll if the form is valid but privacy box isn't checked
+      if (!formIsValid) {
+        this.scrollToTop();
+        // TODO(crew): Decide on/add validation error message.
+      } else {
+        this.props.setAttemptedSubmit();
+      }
     }
   }
 
@@ -377,6 +384,9 @@ function mapDispatchToProps(dispatch) {
     onCompletedStatus: (route) => {
       dispatch(updateCompletedStatus(route));
     },
+    setAttemptedSubmit: (...args) => {
+      dispatch(setAttemptedSubmit(...args));
+    }
   };
 }
 
