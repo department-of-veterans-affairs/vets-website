@@ -13,6 +13,10 @@
   .msg-search-btn {
     border-radius: 0 0.3rem 0.3rem 0;
     margin: 0;
+
+    @media (max-width: $medium-screen) {
+      flex: 0 1 5rem;
+    }
   }
 
   [type=search],
