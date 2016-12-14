@@ -2,39 +2,115 @@
 layout: page-breadcrumbs.html
 title: Contaminated Drinking Water at Camp Lejeune
 source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_lejeune_water.asp
-template: 1-topic-landing
+template: 4-action-page
 ---
 
-If you served at Camp Lejeune, North Carolina, for 30 days or more from August 1953 through December 1987, you and your family may have been exposed to drinking water contaminated with chemical and organic compounds. There are [15 conditions](http://www.publichealth.va.gov/exposures/camp-lejeune/index.asp) linked to this exposure that qualify you for free VA health care.
+If you served at—or were assigned to—Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants (toxic chemicals) in the drinking water there. We believe that contact with these contaminants during your military service caused certain illnesses. This is known as a presumptive service connection. Find out if you can get disability compensation or benefits for certain illnesses with a presumptive service connection.
 
-<div class="call-out usa-content" markdown="1">
+### Can I get disability benefits from VA?
 
-### Are you eligible for disability benefits?
+You may be able to get disability benefits if you served under official orders or other official assignment at Camp Lejeune or MCAS New River for any period of time from August 1953 through December 1987, and both of these are true:
 
-Yes, if:
+- You were discharged from the military under conditions other than dishonorable, **and**<br /><br /> 
+- You have 1 or more presumptive conditions believed to be caused by contact with contaminants in the Camp Lejeune drinking water. These include:
 
--	You served at Camp Lejeune during the period of contamination (August 1953 through December 1987).
--	You have a current disease and a medical opinion that states the disease is a result of exposure to the contaminated water at Camp Lejeune.
+  - Adult leukemia
+  - Aplastic anemia and other myelodysplastic syndromes
+  - Bladder cancer
+  - Kidney cancer
+  - Liver cancer
+  - Multiple myeloma
+  - Non-Hodgkin’s lymphoma
+  - Parkinson’s disease
 
-<br>
+### Who's covered?
 
-### Who is covered
+- Veterans
+- Servicemembers
+- Reservists
+- Guardsmen
 
-You and your family
+### What kind of disability benefits can I get?
+
+- Health care
+- Compensation (payments)
+
+### How do I get these benefits?
+
+You’ll need to apply for benefits. You can do this in 1 of 3 ways:
+
+- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying because of illnesses linked to contaminants in the water supply at Camp Lejeune, and attach evidence,
+**or**
+- [Get help from an accredited representative or VSO](http://www.va.gov/ogc/apps/accreditation/index.asp),
+**or**
+- [Get help at a VA regional office](https://www.vets.gov/facility-locator/)
+
+When you apply, you'll need to give us:
+
+- Your military records showing you served at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 while on active duty, or in the National Guard or Reserves,
+**and**
+- Evidence, like a doctor’s report or medical test results, stating that you have 1 or more of the 8 illnesses on the presumptive conditions list (see above)
+
+**Note:** We’ll begin reviewing claims filed for Camp Lejeune presumptive service connection in January 2017.
+
+
+### Can family members of Veterans also get help from VA?
+
+Yes. Family members of Veterans who served at Camp Lejeune and MCAS New River can get benefits. We may pay you back for your out-of-pocket health care costs that were related to any of these 15 conditions:
+
+- Bladder cancer
+- Breast cancer
+- Esophageal cancer
+- Female infertility
+- Hepatic steatosis
+- Kidney cancer
+- Leukemia
+- Lung cancer
+- Miscarriage
+- Multiple myeloma
+- Myelodysplastic syndromes
+- Neurobehavioral effects
+- Non-Hodgkin's lymphoma
+- Renal toxicity
+- Scleroderma
+
+### How do I get these benefits as a family member?
+
+You’ll need to apply for benefits in 1 of 2 ways:
+
+-	[Fill out the Camp Lejeune Family Member Application online](https://www.clfamilymembers.fsc.va.gov/App/StepApplicant), **or**
+
+- [Download Form 10-10068](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). Fax it to 512-460-5536, or mail it to:
+
+<div class="panel">
+<dl>
+<dt><b>Department of Veterans Affairs</b><dt>
+<dd>Financial Services Center
+<dd>PO Box 149200</dd>
+<dd>Austin, TX 78714-9200</dd>
 </div>
 
-### Available benefits
+When you apply, please provide:
 
-- Compensation
-- Health care
+- Proof of your relationship to the Veteran who served on active duty for at least 30 days at Camp Lejeune (like a marriage license or a birth certificate), **and**
 
---------
+- Proof that you lived at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 (like utility bills, base housing records, military orders, or tax forms), **and**
 
-### How it works
+- Medical records that show you have 1 of the 15 conditions listed above, **and**
 
-Claims are evaluated on a case-by-case basis, and additional evidence may be necessary to support your claim. VA may require you to have a medical exam to supplement the existing records.
+- [The Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Your doctor needs to fill it out and sign it.  
 
-If you have any of the following material, upload it with your online application:
+<div class="call-out" markdown="1">
 
--	Discharge papers (DD214 or equivalent) and other proof you served at Camp Lejeune for longer than 30 days during the eligible period.
--	Current medical evidence (doctor and hospital reports) stating the disease is a result of contaminated water at Camp Lejeune.
+### What was in the drinking water?
+
+Two on-base water wells that were shut down in 1985 had the following chemicals:
+
+- Trichloroethylene (TCE)
+- Perchloroethylene (PCE)
+- Benzene
+- Vinyl chloride
+- Other compounds
+
+</div>
+
