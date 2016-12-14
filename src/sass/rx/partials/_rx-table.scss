@@ -5,6 +5,20 @@
   th.sortable {
     cursor: pointer;
   }
+
+  a {
+    color: $color-primary;
+
+  }
+
+  td {
+    &:nth-child(1) {
+      a {
+        text-decoration: none;
+        font-weight: bold;
+      }
+    }
+  }
 }
 
 .rx-table-list {
