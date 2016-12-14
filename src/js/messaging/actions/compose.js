@@ -12,6 +12,9 @@ import {
 import { apiRequest } from '../utils/helpers';
 
 export function deleteComposeMessage() {
+  window.dataLayer.push({
+    event: 'sm-delete-compose',
+  });
   return { type: DELETE_COMPOSE_MESSAGE };
 }
 
@@ -24,6 +27,9 @@ export function setMessageField(path, field) {
 }
 
 export function addComposeAttachments(files) {
+  window.dataLayer.push({
+    event: 'sm-add-attachment',
+  });
   return {
     type: ADD_COMPOSE_ATTACHMENTS,
     files
