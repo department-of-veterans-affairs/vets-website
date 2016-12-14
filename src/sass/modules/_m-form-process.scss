@@ -123,6 +123,16 @@
   }
   table.review {
     margin: 1em 0;
+    td {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    td:first-child {
+      padding-right: 1em;
+    }
+  }
+  .usa-accordion-content {
+    padding: 1em;
   }
 }
 // dealing with overly broad style in m_table
@@ -167,11 +177,20 @@
 }
 .form-review-panel-page-header-row {
   display: flex;
-  justify-content: flex-between;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  &.header-stacked-small {
+    @media #{$small-only} {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
 }
+
 .form-review-panel-page-header {
   flex: 1;
   padding-bottom: 0 !important;
-  margin-right: 5px;
+  padding-right: 5px;
   line-height: 37px;
 }
