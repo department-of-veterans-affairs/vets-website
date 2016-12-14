@@ -439,8 +439,7 @@ function isValidForm(data) {
   isValidDeductibleExpenses(data) &&
   isValidVAFacility(data) &&
   isValidGeneralInsurance(data) &&
-  isValidMedicareMedicaid(data) &&
-  data.privacyAgreementAccepted;
+  isValidMedicareMedicaid(data);
 }
 
 function isValidSection(completePath, sectionData) {
