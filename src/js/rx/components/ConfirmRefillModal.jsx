@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Modal from '../../common/components/Modal';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { formatDate } from '../utils/helpers';
 
@@ -36,9 +36,8 @@ class ConfirmRefillModal extends React.Component {
         );
       } else {
         innerElement = (
-          <div>
-            <h3 className="va-modal-title">Confirm refill</h3>
-            <div className="rx-modal-refillinfo va-modal-body">
+          <form onSubmit={this.handleConfirmRefill}>
+            <div className="rx-modal-refillinfo">
               <div>
                 <span className="rx-modal-drug">
                   {prescription.prescriptionName}
@@ -59,16 +58,19 @@ class ConfirmRefillModal extends React.Component {
                     onClick={this.handleCloseModal}>Cancel</button>
               </div>
             </div>
-          </div>
+          </form>
         );
       }
 
       element = (
-        <section className="va-modal rx-modal" id="rx-confirm-refill">
-          <form className="va-modal-inner" onSubmit={this.handleConfirmRefill}>
-            {innerElement}
-          </form>
-        </section>
+        <Modal
+            cssClass="va-modal rx-modal"
+            contents={innerElement}
+            hideCloseButton
+            id="rx-confirm-refill"
+            onClose={this.props.onCloseModal}
+            title="Confirm refill"
+            visible={this.props.isVisible}/>
       );
     } else {
       element = (<div/>);
