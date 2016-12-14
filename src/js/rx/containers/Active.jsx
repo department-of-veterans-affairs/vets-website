@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 
 import {
   loadPrescriptions,
@@ -13,6 +14,7 @@ import {
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import PrescriptionList from '../components/PrescriptionList';
+import PrescriptionTable from '../components/PrescriptionTable';
 import SortMenu from '../components/SortMenu';
 import { sortOptions } from '../config';
 
@@ -20,6 +22,9 @@ class Active extends React.Component {
   constructor(props) {
     super(props);
     this.handleSort = this.handleSort.bind(this);
+    this.state = {
+      view: 'card',
+    };
   }
 
   componentDidMount() {
@@ -44,6 +49,28 @@ class Active extends React.Component {
     });
   }
 
+  renderViewSwitch() {
+    const toggles = [
+      { key: 'card', value: 'Card' },
+      { key: 'list', value: 'List' },
+    ];
+
+    return (
+      <div className="rx-view-toggle">View:&nbsp;
+        <ul>
+          {toggles.map(t => {
+            const classes = classnames({
+              active: this.state.view === t.key,
+            });
+            return (
+              <li key={t.key} className={classes} onClick={() => this.setState({ view: t.key })}>{t.value}</li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  }
+
   render() {
     let content;
 
@@ -52,22 +79,33 @@ class Active extends React.Component {
     } else if (this.props.prescriptions) {
       const sortValue = this.props.sort;
 
-      content = (
-        <div>
-          <p className="rx-tab-explainer">Your active VA prescriptions.</p>
-          <SortMenu
-              onChange={this.handleSort}
-              onClick={this.handleSort}
-              options={sortOptions}
-              selected={sortValue}/>
-          <PrescriptionList
+      if (this.state.view === 'list') {
+        content = (
+          <PrescriptionTable
+              handleSort={this.handleSort}
+              sortValue={sortValue}
               items={this.props.prescriptions}
-              // If we're sorting by facility, tell PrescriptionList to group 'em.
-              grouped={sortValue === 'facilityName'}
               refillModalHandler={this.props.openRefillModal}
               glossaryModalHandler={this.props.openGlossaryModal}/>
-        </div>
-      );
+        );
+      } else {
+        content = (
+          <div>
+            <p className="rx-tab-explainer">Your active VA prescriptions.</p>
+            <SortMenu
+                onChange={this.handleSort}
+                onClick={this.handleSort}
+                options={sortOptions}
+                selected={sortValue}/>
+            <PrescriptionList
+                items={this.props.prescriptions}
+                // If we're sorting by facility, tell PrescriptionList to group 'em.
+                grouped={sortValue === 'facilityName'}
+                refillModalHandler={this.props.openRefillModal}
+                glossaryModalHandler={this.props.openGlossaryModal}/>
+          </div>
+        );
+      }
     } else {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
@@ -81,6 +119,7 @@ class Active extends React.Component {
 
     return (
       <div id="rx-active" className="va-tab-content">
+        {this.renderViewSwitch()}
         {content}
       </div>
     );
@@ -95,6 +134,7 @@ const mapStateToProps = (state) => {
   return {
     ...state.prescriptions.active,
     prescriptions: state.prescriptions.items,
+    history: state.prescriptions.history,
   };
 };
 

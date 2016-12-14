@@ -35,11 +35,13 @@ class PrescriptionTable extends React.Component {
   renderSortableHeader(name, sortKey) {
     const classes = classnames({
       active: sortKey === this.props.sortValue,
+      sortable: true,
     });
 
     return (
       <th className={classes} onClick={this.handleSort.bind(this, sortKey)}>
         {name}
+        {sortKey === this.props.sortValue ? <span>&nbsp;<i className="fa fa-caret-down"></i></span> : null}
       </th>
     );
   }

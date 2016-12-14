@@ -2,6 +2,9 @@
   th, td {
     border-color: $color-gray-light;
   }
+  th.sortable {
+    cursor: pointer;
+  }
 }
 
 .rx-table-list {
