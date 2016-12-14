@@ -9,8 +9,11 @@ template: 6-info-page
 Disability compensation may include financial compensation (payments) as well as other benefits—like health care or job training.
 
 If you haven’t gotten your decision notice:
+
 - [Check your status](/disability-benefits/track-claims/), **or**
+
 - [Contact your local VA or eligibility office](/facility-locator/)
+
 </div>
 
 
