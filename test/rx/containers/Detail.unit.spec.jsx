@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { Detail } from '../../../src/js/rx/containers/Detail';
 import { prescriptions, trackings } from '../../util/rx-helpers.js';
 
-const rx = prescriptions.data[0];
+const item = prescriptions.data[0];
 
 const props = {
   alert: {
@@ -14,9 +14,12 @@ const props = {
     visible: false
   },
   loading: false,
-  prescription: null,
+  prescription: {
+    rx: item,
+    trackings: trackings.data
+  },
   params: {
-    id: rx.id
+    id: item.id
   },
 
   openGlossaryModal: () => {},
@@ -32,36 +35,29 @@ describe('<Detail>', () => {
   });
 
   it('should display a loading screen', () => {
-    const tree = SkinDeep.shallowRender(<Detail {...props } loading />);
+    const tree = SkinDeep.shallowRender(<Detail {...props } loading prescription={null}/>);
     expect(tree.dive(['LoadingIndicator'])).to.not.be.undefined;
   });
 
   it('should display details if there is a prescription', () => {
-    const prescription = { rx, trackings }
-    const tree = SkinDeep.shallowRender(
-      <Detail {...props} prescription={prescription}/>
-    );
+    const tree = SkinDeep.shallowRender(<Detail {...props}/>);
     expect(tree.dive(['h2']).text())
-      .to.equal(rx.attributes.prescriptionName);
+      .to.equal(item.attributes.prescriptionName);
     expect(tree.dive(['#rx-info'])).to.not.be.undefined;
   });
 
   it('should display order history if the prescription has an order history', () => {
-    const prescription = { rx, trackings }
-    const tree = SkinDeep.shallowRender(
-      <Detail {...props} prescription={prescription}/>
-    );
-    expect(tree.dive(['#rx-order-history'])).to.not.be.undefined;
+    const tree = SkinDeep.shallowRender(<Detail {...props}/>);
+    const orderHistory = tree.dive(['OrderHistory']);
+    expect(orderHistory).to.not.be.undefined;
   });
 
   it('should display a contact card if there is an prescription', () => {
-    const prescription = { rx, trackings }
-    const tree = SkinDeep.shallowRender(
-      <Detail {...props} prescription={prescription}/>
-    );
+    const prescription = { rx: item, trackings: history }
+    const tree = SkinDeep.shallowRender(<Detail {...props}/>);
     const contactCard = tree.subTree('ContactCard');
     expect(contactCard).to.not.be.false;
     expect(contactCard.props.facilityName)
-      .to.equal(rx.attributes.facilityName);
+      .to.equal(item.attributes.facilityName);
   });
 });
