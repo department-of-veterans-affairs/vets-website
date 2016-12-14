@@ -5,7 +5,6 @@ export default function PrivacyAgreement({ onChange, checked, showError }) {
   return (
     <div>
       <ErrorableCheckbox required
-          name="privacyAgreement"
           checked={checked}
           onValueChange={onChange}
           name="privacyAgreement"
