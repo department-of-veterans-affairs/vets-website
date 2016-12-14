@@ -3,6 +3,32 @@ import { Link } from 'react-router';
 import classnames from 'classnames';
 
 import { formatDate } from '../utils/helpers';
+import Prescription from './Prescription';
+
+class PrescriptionRow extends Prescription {
+  render() {
+    const { id, attributes } = this.props;
+
+    return (
+      <tr key={id}>
+        <td>
+          <Link to={`/${attributes.prescriptionId}`}>
+            {attributes.prescriptionName}
+          </Link><br/>
+          <span>Prescription #: {id}</span>
+        </td>
+        <td>{formatDate(attributes.refillSubmitDate)}</td>
+        <td>{attributes.facilityName}</td>
+        <td>{attributes.refillRemaining}</td>
+        <td>
+          {this.showTracking()}
+          {this.showRefillStatus()}
+          {this.showMessageProvider()}
+        </td>
+      </tr>
+    );
+  }
+}
 
 class PrescriptionTable extends React.Component {
   constructor(props) {
@@ -66,7 +92,7 @@ class PrescriptionTable extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {items.map(this.renderTableRow)}
+            {items.map((i) => <PrescriptionRow key={i.id} {...i} glossaryModalHandler={this.props.glossaryModalHandler} refillModalHandler={this.props.refillModalHandler}/>)}
           </tbody>
         </table>
       </div>
