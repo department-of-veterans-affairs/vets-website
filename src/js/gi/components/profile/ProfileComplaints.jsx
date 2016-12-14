@@ -12,7 +12,7 @@ class ProfileComplaints extends React.Component {
       <div>
         <ul className="accordion">
           <li className="accordion-navigation">
-            <a href="#">{this.constructor.name}</a>
+            <p>{this.constructor.name}</p>
           </li>
         </ul>
       </div>

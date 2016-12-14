@@ -23,7 +23,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a id="student-veteran-group-info-link" name="status" href="#vetgroups">
+        <a onClick={() => {this.props.toggleModalDisplay('vetgroups')}}>
           Student Veteran Group
         </a>
         {link()}
@@ -47,7 +47,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a id="yellow-ribbon-info-link" name="status" href="#yribbon">
+        <a onClick={() => {this.props.toggleModalDisplay('yribbon')}}>
           Yellow Ribbon
         </a>
         {link()}
@@ -62,7 +62,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a id="go" name="status" href="#poe">{/* id=poe ?? */}
+        <a onClick={() => {this.props.toggleModalDisplay('poe')}}>
           <span className="programs-text">Principles of Excellence</span>
         </a>
       </li>
@@ -76,7 +76,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a id="military-tuition-assistance-info-link" name="status" href="#ta">
+        <a id="military-tuition-assistance-info-link" onClick={() => {this.props.toggleModalDisplay('tool')}}>
           <span className="programs-text">Military Tuition Assistance (TA)</span>
         </a>
       </li>
@@ -112,7 +112,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a id="8-keys-info-link" name="status" href="#8keys">
+        <a id="8-keys-info-link" onClick={() => {this.props.toggleModalDisplay('eightKeys')}}>
           <span className="programs-text">8 Keys to Veteran Success</span>
         </a>
       </li>
@@ -124,7 +124,7 @@ class ProfileVeteranSummary extends React.Component {
       <div className="large-12 columns accordion-vert-spacing">
         <ul className="accordion" data-accordion>
           <li className="accordion-navigation">
-            <a href="#panel1a" aria-expanded="true">Veteran Summary</a>
+            <p>Veteran Summary</p>
             <div id="panel1a" className="content active">
               <div className="va-summary-card multicolumn-text">
                 <ul>
@@ -147,6 +147,7 @@ class ProfileVeteranSummary extends React.Component {
 
 ProfileVeteranSummary.propTypes = {
   institution: React.PropTypes.object.isRequired,
+  toggleModalDisplay: React.PropTypes.func.isRequired,
   expanded: React.PropTypes.bool.isRequired
 };
 

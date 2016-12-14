@@ -251,3 +251,11 @@ span.profile-page-component {
     dominant-baseline: middle;
   }
 }
+
+span.profile-page-component {
+  .accordion-navigation {
+    display: block;
+    background-color: #d6d7d9;
+    padding: 1em;
+  }
+}

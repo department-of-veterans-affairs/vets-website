@@ -51,7 +51,7 @@ class ProfileSchoolHeader extends React.Component {
 
         <p>
           <span className="gi-bill-student-count">{school.gibill}&nbsp;</span>
-          <a id="gi-bill-students-info" rel="leanModal" name="status" href="#gibillstudents">
+          <a onClick={() => {this.props.toggleModalDisplay('gibillstudents')}}>
             <span className="programs-text">GI Bill Students</span>
           </a>
         </p>
@@ -112,7 +112,8 @@ class ProfileSchoolHeader extends React.Component {
 }
 
 ProfileSchoolHeader.propTypes = {
-  institution: React.PropTypes.object.isRequired
+  institution: React.PropTypes.object.isRequired,
+  toggleModalDisplay: React.PropTypes.func
 };
 
 ProfileSchoolHeader.defaultProps = {};
