@@ -6,8 +6,10 @@ import { set } from 'lodash/fp';
 import { isValidSection } from '../../utils/validations';
 import { focusElement } from '../../utils/helpers';
 
+const globals = window.VetsGov || {};
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
+const scrollOptions = globals.scroll || { duration: 500, delay: 0, smooth: true };
 
 /*
  * Each row can be three states: edit, complete, incomplete.
@@ -92,14 +94,14 @@ class GrowableTable extends React.Component {
       const errorEl = document.querySelector(`#${this.getRowId(key)} .usa-input-error, #${this.getRowId(key)} .input-error-date`);
       if (errorEl) {
         const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-        Scroll.animateScroll.scrollTo(position - 10, window.VetsGov.scroll);
+        Scroll.animateScroll.scrollTo(position - 10, scrollOptions);
         focusElement(errorEl);
       }
     }, 100);
   }
 
   scrollToTop() {
-    const options = _.merge({}, window.VetsGov.scroll, { offset: -60 });
+    const options = _.merge({}, scrollOptions, { offset: -60 });
     setTimeout(() => {
       scroller.scrollTo(`topOfTable${this.tableId}`, options);
     }, 100);
@@ -107,7 +109,7 @@ class GrowableTable extends React.Component {
 
   scrollToRow(key) {
     setTimeout(() => {
-      scroller.scrollTo(this.getRowId(key), window.VetsGov.scroll);
+      scroller.scrollTo(this.getRowId(key), scrollOptions);
     }, 100);
   }
   createNewElement() {

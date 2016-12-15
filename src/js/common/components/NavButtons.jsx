@@ -5,10 +5,13 @@ import { getActivePages, focusElement } from '../utils/helpers';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
+const globals = window.VetsGov || {};
+
 const scroller = Scroll.scroller;
+const scrollOptions = globals.scroll || { duration: 500, delay: 0, smooth: true };
 
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', window.VetsGov.scroll);
+  scroller.scrollTo('topScrollElement', scrollOptions);
 };
 
 const scrollToFirstError = () => {
@@ -16,7 +19,7 @@ const scrollToFirstError = () => {
     const errorEl = document.querySelector('.usa-input-error, .input-error-date');
     if (errorEl) {
       const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-      Scroll.animateScroll.scrollTo(position - 10, window.VetsGov.scroll);
+      Scroll.animateScroll.scrollTo(position - 10, scrollOptions);
       focusElement(errorEl);
     }
   }, 100);
