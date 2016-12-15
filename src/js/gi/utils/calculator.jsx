@@ -5,6 +5,7 @@ class Calculator {
   constructor() {
     this.values = {};
     this.outputs = {};
+    this.recalculate = this.recalculate.bind(this);
   }
 
   init(school, profileCalculatorComponent) {
@@ -60,6 +61,357 @@ class Calculator {
     });
 
   }
+
+  recalculate() {
+    this.getValues();
+    this.getDerivedValues();
+    // this.resetVisibility();
+    this.writeOutputs();
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // setMilitaryStatus
+  //
+  // Saves as number.
+  ///////////////////////////////////////////////////////////////////////////////
+  getMilitaryStatus() {
+    // this.military_status = $(id).val();
+    this.military_status = this.component.state.military_status;
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getSpouseActiveDuty
+  // Sets the spouse active duty from the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getSpouseActiveDuty() {
+    // this.spouse_active_duty = $(id).val().toLowerCase() === "yes";
+    this.spouse_active_duty = this.component.state.spouse_active_duty.toLowerCase() === 'yes';
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getGiBillChapter
+  // Sets gi bill chapter value from the element with the id argument. Also sets
+  // the old_gi_bill boolean based on the value of the gi_bill_chapter.
+  //
+  // Saves as number.
+  ///////////////////////////////////////////////////////////////////////////////
+  getGiBillChapter() {
+    // this.gi_bill_chapter = Number($(id).val());
+    this.gi_bill_chapter = Number(this.component.state.gi_bill_chapter)
+
+    this.calc_old_gi_bill = (this.gi_bill_chapter == 30 || this.gi_bill_chapter == 1607
+      || this.gi_bill_chapter == 1606 || this.gi_bill_chapter == 35);
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getEligForPostGiBill
+  // Sets gi bill chapter value from the element with the id argument.
+  //
+  // Saves as bool.
+  ///////////////////////////////////////////////////////////////////////////////
+  getEligForPostGiBill() {
+    // this.elig_for_post_gi_bill = $(id).val().toLowerCase() === 'yes';
+    this.elig_for_post_gi_bill = this.component.state.elig_for_post_gi_bill.toLowerCase() === 'yes';
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getCumulativeService
+  // Sets the cumulative service value from the element with the id argument.
+  //
+  // Saves as float.
+  ///////////////////////////////////////////////////////////////////////////////
+  getCumulativeService() {
+    // var val = $(id).val();
+    var val = this.component.state.service_discharge;
+
+    this.service_discharge = val === "service discharge";
+    this.cumulative_service = this.service_discharge ? 1.0 : parseFloat(val);
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getConsecutiveService
+  // Sets consecutive service value from the element with the id argument.
+  //
+  // Saves as number.
+  ///////////////////////////////////////////////////////////////////////////////
+  getConsecutiveService() {
+    // this.consecutive_service = Number($(id).val());
+    this.consecutive_service = Number(this.component.state.consecutive_service);
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getEnlistmentService
+  // Sets enlistment service value from the element with the id argument.
+  //
+  // Saves as number.
+  ///////////////////////////////////////////////////////////////////////////////
+  getEnlistmentService() {
+    // this.enlistment_service = Number($(id).val());
+    this.enlistment_service = Number(this.component.state.enlistment_service);
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getOnline
+  // Sets online value from the element with the id argument.
+  //
+  // Saves as boolean.
+  ///////////////////////////////////////////////////////////////////////////////
+  getOnline() {
+    // this.online = $(id).val().toLowerCase() === 'yes';
+    this.online = this.component.state.online.toLowerCase() === 'yes';
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getInState
+  // Sets the value and visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getInState() {
+    // this.in_state = $(id + " :input:checked").val().toLowerCase() === "yes";
+    this.in_state = this.component.state.in_state.toLowerCase() === "yes";
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getTuitionFees
+  // Sets the value and visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getTuitionFees() {
+    // this.tuition_fees = this.getCurrency($(id).val());
+    this.tuition_fees = this.getCurrency(this.component.state.tuition_fees);
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getInStateTuitionFees
+  // Sets the value and visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getInStateTuitionFees() {
+    // this.in_state_tuition_fees = this.getCurrency($(id).val());
+    this.in_state_tuition_fees = this.getCurrency(this.component.state.in_state_tuition_fees);
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getBooks
+  // Sets the value and visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getBooks() {
+    // this.books = this.getCurrency($(id).val());
+    this.books = this.getCurrency(this.component.state.books);
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getYellowRibbon
+  // Sets the value and visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getYellowRibbon() {
+    // this.yellow_ribbon = $(id + " :input:checked").val().toLowerCase() === "yes";
+    this.yellow_ribbon = this.component.state.yellow_ribbon.toLowerCase() === "yes";
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getYellowBen
+  // Sets the value and visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getYellowBen() {
+    // this.yellow_ben = this.getCurrency($(id + " :input").val());
+    this.yellow_ben = this.getCurrency(this.component.state.yellow_ben);
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getScholar
+  // Sets the value and visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getScholar() {
+    // this.scholar = this.getCurrency($(id + " :input").val());
+    this.scholar = this.getCurrency(this.component.state.scholar);
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getTuitionAssist
+  // Sets the visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getTuitionAssist() {
+    // this.tuition_assist = this.getCurrency($(id + " :input").val());
+    this.tuition_assist = this.getCurrency(this.component.state.tuition_assist);
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getRop
+  // Sets the visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getRop() {
+    // this.rop = Number($(id + " :input").val());
+    this.rop = this.component.state.rop;
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getRopOld
+  // Sets the visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getRopOld() {
+    // this.rop_old = $(id + " :input").val();
+    this.rop_old = this.component.state.rop_old;
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getCalendar
+  // Sets the visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getCalendar() {
+    // this.calendar = $(id).val();
+    this.calendar = this.component.state.calendar;
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getOjtWorking
+  // Sets the visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getOjtWorking() {
+    // this.ojt_working = $(id + " :input").val();
+    this.ojt_working = this.component.state.ojt_working;
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getNumberNontradTerms
+  // Sets the visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getNumberNontradTerms() {
+    // this.number_nontrad_terms = Number($(id + " :input").val());
+    this.number_nontrad_terms = Number(this.component.state.number_nontrad_terms);
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getLengthNontradTerms
+  // Sets the visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getLengthNontradTerms() {
+    // this.length_nontrad_terms = $(id + " :input").val();
+    this.length_nontrad_terms = this.component.state.length_nontrad_terms;
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getKickerElig
+  // Sets the visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getKickerElig() {
+    // this.kicker_elig = $(id + " :input:checked").val().toLowerCase() === "yes";
+    this.kicker_elig = this.component.state.kicker_elig.toLowerCase() === 'yes';
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getKicker
+  // Sets the visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getKicker() {
+    // this.kicker = this.getCurrency($(id + " :input").val());
+    this.kicker = this.component.state.kicker;
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getBuyUpElig
+  // Sets the visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getBuyUpElig() {
+    // this.buy_up_elig = $(id + " :input:checked").val().toLowerCase() === "yes";
+    this.buy_up_elig = this.component.state.buy_up_elig.toLowerCase() === 'yes';
+
+    return this;
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // getBuyUp
+  // Sets the visibility for the element with the id argument.
+  //
+  // Saves as boolean
+  ///////////////////////////////////////////////////////////////////////////////
+  getBuyUp() {
+    // this.buy_up = Number($(id + " :input").val());
+    this.buy_up = Number(this.component.state.buy_up);
+
+    return this;
+  };
+
 }
 
 // Constants
@@ -224,7 +576,7 @@ Calculator.prototype.writeOutputs = function() {
   // $(this.TOTAL_YEAR).html(this.formatCurrency(this.calc_total_year));
   this.outputs.totalPaidToSchool = this.formatCurrency(this.calc_total_to_school);
   this.outputs.totalPaidToYou = this.formatCurrency(this.calc_total_to_you);
-  this.outputs.total_year = this.formatCurrency(this.calc_total_year);
+  this.outputs.totalYear = this.formatCurrency(this.calc_total_year);
 
   // $(this.TOTAL_TUITION_FEES_CHARGED).html(this.formatCurrency(this.tuition_fees));
   // $(this.TOTAL_SCHOOL_RECEIVED).html(this.formatCurrency(this.calc_total_to_school));
@@ -305,6 +657,10 @@ Calculator.prototype.writeOutputs = function() {
     this.outputs.bookStipendTerm3 += ' /month';
     this.outputs.bookStipendTotal += ' /month';
   }
+
+  Object.keys(this.outputs).forEach(function (key) {
+    this.component.state[key] = this.outputs[key];
+  }.bind(this));
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -312,33 +668,61 @@ Calculator.prototype.writeOutputs = function() {
 // Gets all calculator values.
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getValues = function() {
-  this.getMilitaryStatus(this.MILITARY_STATUS);
-  this.getGiBillChapter(this.GI_BILL_CHAPTER);
-  this.getSpouseActiveDuty(this.SPOUSE_ACTIVE_DUTY);
-  this.getEligForPostGiBill(this.ELIG_FOR_POST_GI_BILL);
-  this.getCumulativeService(this.CUMMULATIVE_SERVICE);
-  this.getEnlistmentService(this.ENLISTMENT_SERVICE);
-  this.getConsecutiveService(this.CONSECUTIVE_SERVICE);
-  this.getOnline(this.ONLINE_CLASSES);
+  // this.getMilitaryStatus(this.MILITARY_STATUS);
+  // this.getGiBillChapter(this.GI_BILL_CHAPTER);
+  // this.getSpouseActiveDuty(this.SPOUSE_ACTIVE_DUTY);
+  // this.getEligForPostGiBill(this.ELIG_FOR_POST_GI_BILL);
+  // this.getCumulativeService(this.CUMMULATIVE_SERVICE);
+  // this.getEnlistmentService(this.ENLISTMENT_SERVICE);
+  // this.getConsecutiveService(this.CONSECUTIVE_SERVICE);
+  // this.getOnline(this.ONLINE_CLASSES);
+  //
+  // this.getInState(this.IN_STATE);
+  // this.getTuitionFees(this.TUITION_FEES_INPUT);
+  // this.getInStateTuitionFees(this.IN_STATE_TUITION_FEES);
+  // this.getBooks(this.BOOKS_INPUT);
+  // this.getYellowRibbon(this.YELLOW_RIBBON_RECIPIENT_FORM);
+  // this.getYellowBen(this.YELLOW_RIBBON_AMOUNT_FORM);
+  // this.getScholar(this.SCHOLARSHIP_AMOUNT_FORM);
+  // this.getTuitionAssist(this.TUITION_ASSIST_FORM);
+  // this.getRop(this.ENROLLED_FORM);
+  // this.getRopOld(this.ENROLLED_FORM_OLD_GI_BILL);
+  // this.getCalendar(this.CALENDAR);
+  // this.getOjtWorking(this.WORKING_FORM);
+  // this.getNumberNontradTerms(this.NUMBER_NON_TRADITIONAL_TERMS_FORM);
+  // this.getLengthNontradTerms(this.LENGTH_NON_TRADITIONAL_TERMS_FORM);
+  // this.getKickerElig(this.KICKER_ELIG_FORM);
+  // this.getKicker(this.KICKER_FORM);
+  // this.getBuyUpElig(this.BUY_UP_FORM);
+  // this.getBuyUp(this.BUY_UP_RATE_FORM);
 
-  this.getInState(this.IN_STATE);
-  this.getTuitionFees(this.TUITION_FEES_INPUT);
-  this.getInStateTuitionFees(this.IN_STATE_TUITION_FEES);
-  this.getBooks(this.BOOKS_INPUT);
-  this.getYellowRibbon(this.YELLOW_RIBBON_RECIPIENT_FORM);
-  this.getYellowBen(this.YELLOW_RIBBON_AMOUNT_FORM);
-  this.getScholar(this.SCHOLARSHIP_AMOUNT_FORM);
-  this.getTuitionAssist(this.TUITION_ASSIST_FORM);
-  this.getRop(this.ENROLLED_FORM);
-  this.getRopOld(this.ENROLLED_FORM_OLD_GI_BILL);
-  this.getCalendar(this.CALENDAR);
-  this.getOjtWorking(this.WORKING_FORM);
-  this.getNumberNontradTerms(this.NUMBER_NON_TRADITIONAL_TERMS_FORM);
-  this.getLengthNontradTerms(this.LENGTH_NON_TRADITIONAL_TERMS_FORM);
-  this.getKickerElig(this.KICKER_ELIG_FORM);
-  this.getKicker(this.KICKER_FORM);
-  this.getBuyUpElig(this.BUY_UP_FORM);
-  this.getBuyUp(this.BUY_UP_RATE_FORM);
+  this.getMilitaryStatus();
+  this.getGiBillChapter();
+  this.getSpouseActiveDuty();
+  this.getEligForPostGiBill();
+  this.getCumulativeService();
+  this.getEnlistmentService();
+  this.getConsecutiveService();
+  this.getOnline();
+
+  this.getInState();
+  this.getTuitionFees();
+  this.getInStateTuitionFees();
+  this.getBooks();
+  this.getYellowRibbon();
+  this.getYellowBen();
+  this.getScholar();
+  this.getTuitionAssist();
+  this.getRop();
+  this.getRopOld();
+  this.getCalendar();
+  this.getOjtWorking();
+  this.getNumberNontradTerms();
+  this.getLengthNontradTerms();
+  this.getKickerElig();
+  this.getKicker();
+  this.getBuyUpElig();
+  this.getBuyUp();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -395,7 +779,6 @@ Calculator.prototype.getDerivedValues = function() {
   this.getTotalText();
   this.getTotalYear();
   this.getMonthlyRateDisplay();
-
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -623,348 +1006,6 @@ Calculator.prototype.getCurrency = function (currency) {
 /***********************************************************************************************************/
 
 
-///////////////////////////////////////////////////////////////////////////////
-// setMilitaryStatus
-//
-// Saves as number.
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getMilitaryStatus = function(id) {
-  // this.military_status = $(id).val();
-  this.military_status = this.component.state.military_status;
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getSpouseActiveDuty
-// Sets the spouse active duty from the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getSpouseActiveDuty = function(id) {
-  // this.spouse_active_duty = $(id).val().toLowerCase() === "yes";
-  this.spouse_active_duty = this.component.state.spouse_active_duty.toLowerCase() === 'yes';
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getGiBillChapter
-// Sets gi bill chapter value from the element with the id argument. Also sets
-// the old_gi_bill boolean based on the value of the gi_bill_chapter.
-//
-// Saves as number.
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getGiBillChapter = function(id) {
-  // this.gi_bill_chapter = Number($(id).val());
-  this.gi_bill_chapter = Number(this.component.state.gi_bill_chapter)
-
-  this.calc_old_gi_bill = (this.gi_bill_chapter == 30 || this.gi_bill_chapter == 1607
-    || this.gi_bill_chapter == 1606 || this.gi_bill_chapter == 35);
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getEligForPostGiBill
-// Sets gi bill chapter value from the element with the id argument.
-//
-// Saves as bool.
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getEligForPostGiBill = function(id) {
-  // this.elig_for_post_gi_bill = $(id).val().toLowerCase() === 'yes';
-  this.elig_for_post_gi_bill = this.component.state.elig_for_post_gi_bill.toLowerCase() === 'yes';
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getCumulativeService
-// Sets the cumulative service value from the element with the id argument.
-//
-// Saves as float.
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getCumulativeService = function(id) {
-  // var val = $(id).val();
-  var val = this.component.state.service_discharge;
-
-  this.service_discharge = val === "service discharge";
-  this.cumulative_service = this.service_discharge ? 1.0 : parseFloat(val);
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getConsecutiveService
-// Sets consecutive service value from the element with the id argument.
-//
-// Saves as number.
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getConsecutiveService = function(id) {
-  // this.consecutive_service = Number($(id).val());
-  this.consecutive_service = Number(this.component.state.consecutive_service);
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getEnlistmentService
-// Sets enlistment service value from the element with the id argument.
-//
-// Saves as number.
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getEnlistmentService = function(id) {
-  // this.enlistment_service = Number($(id).val());
-  this.enlistment_service = Number(this.component.state.enlistment_service);
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getOnline
-// Sets online value from the element with the id argument.
-//
-// Saves as boolean.
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getOnline = function(id) {
-  // this.online = $(id).val().toLowerCase() === 'yes';
-  this.online = this.component.state.online.toLowerCase() === 'yes';
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getInState
-// Sets the value and visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getInState = function(id) {
-  // this.in_state = $(id + " :input:checked").val().toLowerCase() === "yes";
-  this.in_state = this.component.state.in_state.toLowerCase() === "yes";
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getTuitionFees
-// Sets the value and visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getTuitionFees = function(id) {
-  // this.tuition_fees = this.getCurrency($(id).val());
-  this.tuition_fees = this.getCurrency(this.component.state.tuition_fees);
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getInStateTuitionFees
-// Sets the value and visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getInStateTuitionFees = function(id) {
-  // this.in_state_tuition_fees = this.getCurrency($(id).val());
-  this.in_state_tuition_fees = this.getCurrency(this.component.state.in_state_tuition_fees);
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getBooks
-// Sets the value and visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getBooks = function(id) {
-  // this.books = this.getCurrency($(id).val());
-  this.books = this.getCurrency(this.component.state.books);
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getYellowRibbon
-// Sets the value and visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getYellowRibbon = function(id) {
-  // this.yellow_ribbon = $(id + " :input:checked").val().toLowerCase() === "yes";
-  this.yellow_ribbon = this.component.state.yellow_ribbon.toLowerCase() === "yes";
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getYellowBen
-// Sets the value and visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getYellowBen = function(id) {
-  // this.yellow_ben = this.getCurrency($(id + " :input").val());
-  this.yellow_ben = this.getCurrency(this.component.state.yellow_ben);
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getScholar
-// Sets the value and visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getScholar = function(id) {
-  // this.scholar = this.getCurrency($(id + " :input").val());
-  this.scholar = this.getCurrency(this.component.state.scholar);
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getTuitionAssist
-// Sets the visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getTuitionAssist = function(id) {
-  // this.tuition_assist = this.getCurrency($(id + " :input").val());
-  this.tuition_assist = this.getCurrency(this.component.state.tuition_assist);
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getRop
-// Sets the visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getRop = function(id) {
-  // this.rop = Number($(id + " :input").val());
-  this.rop = this.component.state.rop;
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getRopOld
-// Sets the visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getRopOld = function(id) {
-  // this.rop_old = $(id + " :input").val();
-  this.rop_old = this.component.state.rop_old;
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getCalendar
-// Sets the visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getCalendar = function(id) {
-  // this.calendar = $(id).val();
-  this.calendar = this.component.state.calendar;
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getOjtWorking
-// Sets the visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getOjtWorking = function(id) {
-  // this.ojt_working = $(id + " :input").val();
-  this.ojt_working = this.component.state.ojt_working;
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getNumberNontradTerms
-// Sets the visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getNumberNontradTerms = function(id) {
-  // this.number_nontrad_terms = Number($(id + " :input").val());
-  this.number_nontrad_terms = Number(this.component.state.number_nontrad_terms);
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getLengthNontradTerms
-// Sets the visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getLengthNontradTerms = function(id) {
-  this.length_nontrad_terms = $(id + " :input").val();
-  this.length_nontrad_terms = this.component.state.length_nontrad_terms;
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getKickerElig
-// Sets the visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getKickerElig = function(id) {
-  // this.kicker_elig = $(id + " :input:checked").val().toLowerCase() === "yes";
-  this.kicker_elig = this.component.state.kicker_elig.toLowerCase() === 'yes';
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getKicker
-// Sets the visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getKicker = function(id) {
-  // this.kicker = this.getCurrency($(id + " :input").val());
-  this.kicker = this.component.state.kicker;
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getBuyUpElig
-// Sets the visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getBuyUpElig = function(id) {
-  // this.buy_up_elig = $(id + " :input:checked").val().toLowerCase() === "yes";
-  this.buy_up_elig = this.component.state.buy_up_elig.toLowerCase() === 'yes';
-
-  return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-// getBuyUp
-// Sets the visibility for the element with the id argument.
-//
-// Saves as boolean
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getBuyUp = function(id) {
-  // this.buy_up = Number($(id + " :input").val());
-  this.buy_up = Number(this.component.state.buy_up);
-
-  return this;
-};
 
 
 
