@@ -79,6 +79,9 @@ describe('edu helpers:', () => {
 
       expect(formatPartialDate(date)).to.be.undefined;
     });
+    it('should return undefined for undefined date', () => {
+      expect(formatPartialDate()).to.be.undefined;
+    });
     it('should format a partial year', () => {
       const date = {
         month: makeField('12'),
