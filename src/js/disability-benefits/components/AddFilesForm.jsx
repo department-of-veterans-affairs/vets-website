@@ -7,6 +7,8 @@ import ErrorableSelect from '../../common/components/form-elements/ErrorableSele
 
 import Modal from '../../common/components/Modal';
 
+import _ from 'lodash';
+
 import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
@@ -16,23 +18,15 @@ import { setFocus } from '../utils/page';
 const displayTypes = FILE_TYPES.map(type => (type === 'pdf' ? 'pdf (unlocked)' : type)).join(', ');
 
 const scrollToFile = (position) => {
-  Scroll.scroller.scrollTo(`documentScroll${position}`, {
-    duration: 500,
-    delay: 0,
-    offset: -25,
-    smooth: true
-  });
+  const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
+  Scroll.scroller.scrollTo(`documentScroll${position}`, options);
 };
 const scrollToError = () => {
   const errors = document.querySelectorAll('.usa-input-error');
   if (errors.length) {
     const errorPosition = getTopPosition(errors[0]);
-    Scroll.animateScroll.scrollTo(errorPosition, {
-      duration: 500,
-      delay: 0,
-      offset: -15,
-      smooth: true
-    });
+    const options = _.merge({}, window.VetsGov.scroll, { offset: -15 });
+    Scroll.animateScroll.scrollTo(errorPosition, options);
     errors[0].querySelector('label').focus();
   }
 };

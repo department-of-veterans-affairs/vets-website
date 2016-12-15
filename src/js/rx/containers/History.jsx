@@ -72,11 +72,7 @@ class History extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo('history', {
-      duration: 500,
-      delay: 0,
-      smooth: true
-    });
+    scroller.scrollTo('history', window.VetsGov.scroll);
   }
 
   formattedSortParam(value, order) {

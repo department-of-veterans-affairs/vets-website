@@ -5,11 +5,7 @@ const scroller = Scroll.animateScroll;
 export const basename = '/disability-benefits/track-claims';
 
 export function scrollToTop() {
-  scroller.scrollToTop({
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
+  scroller.scrollToTop(window.VetsGov.scroll);
 }
 
 export function setFocus(selector) {

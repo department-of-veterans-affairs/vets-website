@@ -100,11 +100,7 @@ class HealthCareApp extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo('topScrollElement', {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    });
+    scroller.scrollTo('topScrollElement', window.VetsGov.scroll);
   }
 
   handleContinue() {

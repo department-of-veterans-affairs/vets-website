@@ -19,6 +19,11 @@ export default function initReact(onDOMContentLoaded) {
     api: {
       url: '',  // API server. Evetually should be 'https://api.vets.gov' in production.
     },
+    scroll: { // Default scroll settings.  These are overridden by our E2E tests.
+      duration: 500,
+      delay: 0,
+      smooth: true
+    }
   };
 
   // eslint-disable-next-line scanjs-rules/call_addEventListener

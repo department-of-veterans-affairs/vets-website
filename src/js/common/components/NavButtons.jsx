@@ -8,11 +8,7 @@ import ProgressButton from '../../common/components/form-elements/ProgressButton
 const scroller = Scroll.scroller;
 
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
+  scroller.scrollTo('topScrollElement', window.VetsGov.scroll);
 };
 
 const scrollToFirstError = () => {
@@ -20,11 +16,7 @@ const scrollToFirstError = () => {
     const errorEl = document.querySelector('.usa-input-error, .input-error-date');
     if (errorEl) {
       const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-      Scroll.animateScroll.scrollTo(position - 10, {
-        duration: 500,
-        delay: 0,
-        smooth: true
-      });
+      Scroll.animateScroll.scrollTo(position - 10, window.VetsGov.scroll);
       focusElement(errorEl);
     }
   }, 100);

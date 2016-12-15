@@ -22,11 +22,7 @@ const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
+  scroller.scrollTo('topScrollElement', window.VetsGov.scroll);
 };
 
 class EduBenefitsApp extends React.Component {

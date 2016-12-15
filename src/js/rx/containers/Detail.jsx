@@ -153,11 +153,7 @@ export class Detail extends React.Component {
   }
 
   scrollToOrderHistory() {
-    scroller.scrollTo('orderHistory', {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    });
+    scroller.scrollTo('orderHistory', window.VetsGov.scroll);
   }
 
   render() {

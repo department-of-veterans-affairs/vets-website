@@ -36,6 +36,17 @@ function overrideVetsGovApi(client) {
   });
 }
 
+function overrideSmoothScrolling(client) {
+  client.execute(() => {
+    window.VetsGov.scroll = false;
+    return window.VetsGov.scroll;
+  },
+  (val) => {
+    // eslint-disable-next-line no-console
+    console.log(`Setting VetsGov.scroll = ${JSON.stringify(val)}`);
+  });
+}
+
 module.exports = {
   baseUrl: `http://localhost:${process.env.WEB_PORT || 3333}`,
   apiUrl: `http://localhost:${process.env.API_PORT || 4000}`,
@@ -44,4 +55,5 @@ module.exports = {
   expectValueToBeBlank,
   expectInputToNotBeSelected,
   overrideVetsGovApi,
+  overrideSmoothScrolling
 };

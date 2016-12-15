@@ -29,11 +29,8 @@ class ReviewCollapsiblePanel extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo('topScrollReviewPanel', {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    });
+    const options = _.merge({}, window.VetsGov.scroll, { delay: 2 });
+    scroller.scrollTo('topScrollReviewPanel', options);
   }
 
   handleSave() {

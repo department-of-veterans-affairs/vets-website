@@ -52,11 +52,8 @@ export default class ReviewCollapsiblePanel extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo(`chapter${this.props.chapter}ScrollElement`, {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    });
+    const options = _.merge({}, window.VetsGov.scroll, { delay: 2 });
+    scroller.scrollTo(`chapter${this.props.chapter}ScrollElement`, options);
   }
 
   scrollToFirstError(path) {
@@ -64,22 +61,15 @@ export default class ReviewCollapsiblePanel extends React.Component {
       const errorEl = document.querySelector(`#${getPageId(path)} .usa-input-error, #${getPageId(path)} .input-error-date`);
       if (errorEl) {
         const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-        Scroll.animateScroll.scrollTo(position - 10, {
-          duration: 500,
-          delay: 0,
-          smooth: true
-        });
+        Scroll.animateScroll.scrollTo(position - 10, window.VetsGov.scroll);
         focusElement(errorEl);
       }
     }, 100);
   }
 
   scrollToPage(path) {
-    scroller.scrollTo(`${path}ScrollElement`, {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    });
+    const options = _.merge({}, window.VetsGov.scroll, { delay: 2 });
+    scroller.scrollTo(`${path}ScrollElement`, options);
   }
 
   focusOnPage(path) {
