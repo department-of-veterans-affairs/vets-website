@@ -189,7 +189,7 @@ class ProfilePage extends React.Component {
 
   renderProfileSummaryModals() {
     return (
-      <div>
+      <span>
 
         <Modal onClose={() => {this.toggleModalDisplay('accredited')}} visible={!!this.state.modals.accredited}>
           <h3>Is your school accredited</h3>
@@ -218,7 +218,7 @@ class ProfilePage extends React.Component {
           <h3>Credit for Military Training</h3>
           <p>Does the school offer postsecondary credit for experiences and military training?</p>
         </Modal>
-      </div>
+      </span>
     );
   }
 
