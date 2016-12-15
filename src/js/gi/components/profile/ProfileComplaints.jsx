@@ -11,7 +11,7 @@ class ProfileComplaints extends React.Component {
   renderCautionProfileSummary() {
     const school = this.props.institution;
     if (school.caution_flag) {
-      const reason = school.caution_flag_reason; // school.caution_flag_reason.try(:chomp, ',').try(:gsub, /,(?!\W)/, ", ")
+      const reason = school.caution_flag_reason; // TODO: school.caution_flag_reason.try(:chomp, ',').try(:gsub, /,(?!\W)/, ", ")
       return (
         <span>
           <a id="caution-jump-flag" name="caution_jump_flag"></a>
@@ -33,16 +33,20 @@ class ProfileComplaints extends React.Component {
     return (
       <span>
         {/* TODO: replace multiple oldOnClick attributes */}
-        <h3>Complaint Breakdown <span className="caption"><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" oldOnClick="track('Tool Tips', 'Complaint Box / Source');" target="_blank" alt="Click here for more information." title="Download data file used for the GI Bill Comparison Tool.">Source</a></span></h3>
+
+        <h3>Complaint Breakdown <span className="caption"><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank" alt="Click here for more information." title="Download data file used for the GI Bill Comparison Tool.">Source</a></span></h3>
+        {/* TODO: oldOnClick="track('Tool Tips', 'Complaint Box / Source');" */}
         <table className="complaints-table">
           <thead>
             <th id="institution-name-complaint">{ school.institution }</th>
             <th>This Campus</th>
-            <th><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" oldOnClick="track('Tool Tips', 'Complaints / All Campuses');" target="_blank" alt="Click here for more information." title="The number of closed, Principles of Excellence-related, complaints for schools with the same six-digit OPEID code.">All Campuses</a></th>
+            <th><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank" alt="Click here for more information." title="The number of closed, Principles of Excellence-related, complaints for schools with the same six-digit OPEID code.">All Campuses</a></th>
+            {/* oldOnClick="track('Tool Tips', 'Complaints / All Campuses');" */}
           </thead>
           <tbody>
             <tr className="complaints-student">
-              <th><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" oldOnClick="track('Tool Tips', 'Complaints / Breakdown');" target="_blank" alt="Click here for more information." title="The number of closed, Principles of Excellence-related, complaints submitted to VA through the GI Bill Feedback system.">Student Complaints</a></th>
+              <th><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank" alt="Click here for more information." title="The number of closed, Principles of Excellence-related, complaints submitted to VA through the GI Bill Feedback system.">Student Complaints</a></th>
+              {/* oldOnClick="track('Tool Tips', 'Complaints / Breakdown');" */}
               <td id="complaint-total-fc">{ school.complaints_facility_code }</td>
               <td id="complaint-total-all">{ school.complaints_main_campus_roll_up }</td>
             </tr>
