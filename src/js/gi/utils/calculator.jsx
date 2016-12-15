@@ -76,7 +76,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getMilitaryStatus() {
     // this.military_status = $(id).val();
-    this.military_status = this.component.state.military_status;
+    this.military_status = this.component.state.militaryStatus;
 
     return this;
   };
@@ -89,7 +89,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getSpouseActiveDuty() {
     // this.spouse_active_duty = $(id).val().toLowerCase() === "yes";
-    this.spouse_active_duty = this.component.state.spouse_active_duty.toLowerCase() === 'yes';
+    this.spouse_active_duty = this.component.state.spouseActiveDuty.toLowerCase() === 'yes';
 
     return this;
   };
@@ -103,7 +103,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getGiBillChapter() {
     // this.gi_bill_chapter = Number($(id).val());
-    this.gi_bill_chapter = Number(this.component.state.gi_bill_chapter)
+    this.gi_bill_chapter = Number(this.component.state.giBillChapter)
 
     this.calc_old_gi_bill = (this.gi_bill_chapter == 30 || this.gi_bill_chapter == 1607
       || this.gi_bill_chapter == 1606 || this.gi_bill_chapter == 35);
@@ -119,7 +119,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getEligForPostGiBill() {
     // this.elig_for_post_gi_bill = $(id).val().toLowerCase() === 'yes';
-    this.elig_for_post_gi_bill = this.component.state.elig_for_post_gi_bill.toLowerCase() === 'yes';
+    this.elig_for_post_gi_bill = this.component.state.eligForPostGiBill.toLowerCase() === 'yes';
     return this;
   };
 
@@ -131,7 +131,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getCumulativeService() {
     // var val = $(id).val();
-    var val = this.component.state.service_discharge;
+    var val = this.component.state.serviceDischarge;
 
     this.service_discharge = val === "service discharge";
     this.cumulative_service = this.service_discharge ? 1.0 : parseFloat(val);
@@ -147,7 +147,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getConsecutiveService() {
     // this.consecutive_service = Number($(id).val());
-    this.consecutive_service = Number(this.component.state.consecutive_service);
+    this.consecutive_service = Number(this.component.state.consecutiveService);
 
     return this;
   };
@@ -160,7 +160,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getEnlistmentService() {
     // this.enlistment_service = Number($(id).val());
-    this.enlistment_service = Number(this.component.state.enlistment_service);
+    this.enlistment_service = Number(this.component.state.enlistmentService);
 
     return this;
   };
@@ -186,7 +186,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getInState() {
     // this.in_state = $(id + " :input:checked").val().toLowerCase() === "yes";
-    this.in_state = this.component.state.in_state.toLowerCase() === "yes";
+    this.in_state = this.component.state.inState.toLowerCase() === "yes";
 
     return this;
   };
@@ -199,7 +199,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getTuitionFees() {
     // this.tuition_fees = this.getCurrency($(id).val());
-    this.tuition_fees = this.getCurrency(this.component.state.tuition_fees);
+    this.tuition_fees = this.getCurrency(this.component.state.tuitionFees);
 
     return this;
   };
@@ -212,7 +212,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getInStateTuitionFees() {
     // this.in_state_tuition_fees = this.getCurrency($(id).val());
-    this.in_state_tuition_fees = this.getCurrency(this.component.state.in_state_tuition_fees);
+    this.in_state_tuition_fees = this.getCurrency(this.component.state.inStateTuitionFees);
 
     return this;
   };
@@ -238,7 +238,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getYellowRibbon() {
     // this.yellow_ribbon = $(id + " :input:checked").val().toLowerCase() === "yes";
-    this.yellow_ribbon = this.component.state.yellow_ribbon.toLowerCase() === "yes";
+    this.yellow_ribbon = this.component.state.yellowRibbon.toLowerCase() === "yes";
 
     return this;
   };
@@ -251,7 +251,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getYellowBen() {
     // this.yellow_ben = this.getCurrency($(id + " :input").val());
-    this.yellow_ben = this.getCurrency(this.component.state.yellow_ben);
+    this.yellow_ben = this.getCurrency(this.component.state.yellowBen);
 
     return this;
   };
@@ -277,7 +277,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getTuitionAssist() {
     // this.tuition_assist = this.getCurrency($(id + " :input").val());
-    this.tuition_assist = this.getCurrency(this.component.state.tuition_assist);
+    this.tuition_assist = this.getCurrency(this.component.state.tuitionAssist);
 
     return this;
   };
@@ -303,7 +303,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getRopOld() {
     // this.rop_old = $(id + " :input").val();
-    this.rop_old = this.component.state.rop_old;
+    this.rop_old = this.component.state.ropOld;
 
     return this;
   };
@@ -329,7 +329,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getOjtWorking() {
     // this.ojt_working = $(id + " :input").val();
-    this.ojt_working = this.component.state.ojt_working;
+    this.ojt_working = this.component.state.ojtWorking;
 
     return this;
   };
@@ -342,7 +342,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getNumberNontradTerms() {
     // this.number_nontrad_terms = Number($(id + " :input").val());
-    this.number_nontrad_terms = Number(this.component.state.number_nontrad_terms);
+    this.number_nontrad_terms = Number(this.component.state.numberNontradTerms);
 
     return this;
   };
@@ -355,7 +355,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getLengthNontradTerms() {
     // this.length_nontrad_terms = $(id + " :input").val();
-    this.length_nontrad_terms = this.component.state.length_nontrad_terms;
+    this.length_nontrad_terms = this.component.state.lengthNontradTerms;
 
     return this;
   };
@@ -368,7 +368,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getKickerElig() {
     // this.kicker_elig = $(id + " :input:checked").val().toLowerCase() === "yes";
-    this.kicker_elig = this.component.state.kicker_elig.toLowerCase() === 'yes';
+    this.kicker_elig = this.component.state.kickerElig.toLowerCase() === 'yes';
 
     return this;
   };
@@ -394,7 +394,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getBuyUpElig() {
     // this.buy_up_elig = $(id + " :input:checked").val().toLowerCase() === "yes";
-    this.buy_up_elig = this.component.state.buy_up_elig.toLowerCase() === 'yes';
+    this.buy_up_elig = this.component.state.buyUpElig.toLowerCase() === 'yes';
 
     return this;
   };
@@ -407,7 +407,7 @@ class Calculator {
   ///////////////////////////////////////////////////////////////////////////////
   getBuyUp() {
     // this.buy_up = Number($(id + " :input").val());
-    this.buy_up = Number(this.component.state.buy_up);
+    this.buy_up = Number(this.component.state.buyUp);
 
     return this;
   };
