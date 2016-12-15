@@ -27,6 +27,7 @@ class ProfilePage extends React.Component {
     this.renderProfileVeteranSummaryModals = this.renderProfileVeteranSummaryModals.bind(this);
     this.renderProfileSummaryModals = this.renderProfileSummaryModals.bind(this);
     this.renderProfileHistoryModals = this.renderProfileHistoryModals.bind(this);
+    this.renderProfileCautionFlagModals = this.renderProfileCautionFlagModals.bind(this);
     this.toggleModalDisplay = this.toggleModalDisplay.bind(this);
 
     this.state = {
@@ -52,7 +53,9 @@ class ProfilePage extends React.Component {
 
         facilityCode: false,
         ipedsCode: false,
-        opeCode: false
+        opeCode: false,
+
+        cautionInfo: false
       }
     }
   }
@@ -248,6 +251,28 @@ class ProfilePage extends React.Component {
     );
   }
 
+  renderProfileCautionFlagModals() {
+    return (
+      <span>
+        <Modal onClose={() => {this.toggleModalDisplay('cautionInfo')}} visible={!!this.state.modals.cautionInfo}>
+          <h3>Caution Flag</h3>
+          <p>These are indicators VA has determined potential students should pay attention to and consider before enrolling in a program of education. A caution flag means VA or other federal agencies like the Department of Education or Department of Defense have applied increased regulatory or legal scrutiny to a program of education. VA will display other categories of caution flags in future releases of the GI Bill Comparison Tool.</p><br/>
+          <p><a href="http://www.justice.gov/opa/pr/profit-college-company-pay-955-million-settle-claims-illegal-recruiting-consumer-fraud-and" target="_blank">Settlement with U.S. Government</a></p>
+          <p><a href="https://studentaid.ed.gov/sa/about/data-center/school/hcm" target="_blank">Heightened Cash Monitoring</a></p>
+          <p><a href="http://ope.ed.gov/accreditation/" target="_blank">Accreditation</a></p>
+          <p><a href="https://www.dodmou.com/Home/Faq" target="_blank">DoD Probation For Military Tuition Assistance</a></p>
+          <p><a href="https://www.ftc.gov/news-events/press-releases/2016/01/ftc-brings-enforcement-action-against-devry-university" target="_blank">Federal Trade Commission Filed Suit for Deceptive Advertising</a></p>
+          <p><a href="https://studentaid.ed.gov/sa/sites/default/files/devry-limitation-notice.pdf" target="_blank">Notice of Intent Issued by Department of Education (ED)</a></p>
+          <p><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution" target="_blank">Suspended for 85/15 violation – Flight Program</a></p>
+          <p><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution" target="_blank">Denial of Recertification Application to Participate in the Federal Student Financial Assistance Programs</a></p>
+          <p><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ISAA" target="_blank">Iowa SAA approval ends 9/18/16 (Potential lapse in program approval and payment of GI Bill benefits.)</a></p>
+          <p><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#ACICS" target="_blank">Accreditor under review</a></p>
+          <br/><p> To learn more about caution flags, visit the <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#caution" target="_blank">About this Tool</a> page.</p>
+        </Modal>
+      </span>
+    );
+  }
+
   // renderServicemembersOpportunityModals() {
   //   return (
   //     <Modal onClose={() => {this.toggleModalDisplay('servicememberOpportunity')}} visible={!!this.state.modals.servicememberOpportunity}>
@@ -265,6 +290,7 @@ class ProfilePage extends React.Component {
         {this.renderProfileVeteranSummaryModals()}
         {this.renderProfileSummaryModals()}
         {this.renderProfileHistoryModals()}
+        {this.renderProfileCautionFlagModals()}
       </span>
     );
   }
@@ -347,14 +373,21 @@ class ProfilePage extends React.Component {
 
             <div className="row">
               <div className="small-12 columns accordion-vert-spacing">
-                <div className="row">
-                  <RetentionRates institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
-                  <GraduationRates institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
-                </div>
-                <div className="row">
-                  <SalaryRates institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
-                  <RepaymentRates institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
-                </div>
+                <ul className="accordion" data-accordion>
+                  <li className="accordion-navigation">
+                    <a href="#panel-outcomes" aria-expanded="true">Outcomes</a>
+                    <div id="panel-outcomes" className="content active">
+                      <div className="row">
+                        <RetentionRates institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
+                        <GraduationRates institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
+                      </div>
+                      <div className="row">
+                        <SalaryRates institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
+                        <RepaymentRates institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
               </div>
               <div className="small-12 columns access-sheet clearfix">
                 {this.renderOutcomeMeasuresLink()}
@@ -380,7 +413,9 @@ class ProfilePage extends React.Component {
                   <li className="accordion-navigation">
                     <a href="#panel-caution-flags" aria-expanded="true">Caution Flags ({this.props.institution.complaints_main_campus_roll_up} Student Complaints)</a>
                     <div id="panel-caution-flags" className="content active">
-                      <ProfileComplaints institution={this.props.institution}/>
+                      <div id="small-12 columns"> {/* <~~~~~ shouldn't that be className, but probably remove div entirely since was moot */}
+                        <ProfileComplaints institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
+                      </div>
                     </div>
                   </li>
                 </ul>
