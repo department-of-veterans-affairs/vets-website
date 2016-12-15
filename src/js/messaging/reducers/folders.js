@@ -114,6 +114,10 @@ export default function folders(state = initialState, action) {
 
       return set('ui', {
         ...initialState.ui,
+        nav: {
+          foldersExpanded: state.ui.nav.foldersExpanded,
+          visible: false
+        },
         lastRequestedFolder: action.request
       }, newState);
     }

@@ -39,7 +39,6 @@ export class Main extends React.Component {
   handleFolderChange(domEvent) {
     const folderId = domEvent.target.dataset.folderid;
     this.props.setCurrentFolder(folderId);
-    this.props.toggleFolderNav();
 
     if (this.props.isVisibleAdvancedSearch) {
       this.props.closeAdvancedSearch();
