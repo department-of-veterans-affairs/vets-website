@@ -13,6 +13,10 @@
   .msg-search-btn {
     border-radius: 0 0.3rem 0.3rem 0;
     margin: 0;
+
+    @media (max-width: $medium-screen) {
+      flex: 0 1 5rem;
+    }
   }
 
   [type=search],
@@ -35,10 +39,6 @@
     &:hover {
       z-index: 1;
     }
-  }
-
-  .va-flex {
-    width: 100%;
   }
 }
 
@@ -101,14 +101,21 @@
     }
   }
 
-  > div:not(.form-checkbox) {
-    margin-bottom: 1.5rem;
+  legend {
+    @media (min-width: $medium-screen) {
+      -webkit-flex: 0 0 10rem;
+      flex:  0 0 10rem;
+    }
+  }
+
+  > div {
+    align-items: center;
+    margin-bottom: 1rem;
 
     @media (min-width: $medium-screen) {
       // Affects the element's  children
-      align-items: center;
       display: flex;
-      // Affects the element itself, since it's a flex child
+      // Affects the element itself, since it's also a flex child
       flex: 0 1 75%;
     }
   }
@@ -117,67 +124,47 @@
     -webkit-flex: 0 1 25%;
     flex: 0 1 25%;
 
+    @media (max-width: $medium-screen) {
+      margin-bottom: 1em;
+    }
+
     @media (min-width: $medium-screen) {
       padding-left: 1.5rem;
     }
 
     label {
+      margin-bottom: 0;
       white-space: nowrap;
-
-      @media (min-width: $medium-screen) {
-        margin: -1.5rem 0 0 1.5rem;
-        padding-left: 1.5rem;
-      }
     }
-  }
-
-  [type=text] {
-    flex: 1 1 100%;
   }
 }
 
 .msg-search-date-range-legend {
   font: inherit;
   padding-top: 0rem;
-
+  
   @media (min-width: $medium-screen) {
-    flex: 0 1 10rem;
+    > div {
+      text-align: center;
+    }
   }
 }
 
 .msg-search-date-range {
+  align-items: center;
+  display: flex;
+
   @media (max-width: $medium-screen) {
     > div {
+      flex: 1 0 11rem;
       text-align: center;
-      width: 100%
     }
-  }
-
-  @media (min-width: $medium-screen) {
-    display: flex;
-    align-items: center;
   }
 
   span {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-
-    @media (max-width: $medium-screen) {
-      display: block;
-      text-align: center;
-      padding-bottom: .25rem;
-      padding-top: .25rem;
-    }
-
-    @media (min-width: $medium-screen) {
-      display: flex;
-      align-items: center;
-    }
+    padding-left: .5rem;
+    padding-right: .5rem;
   }
-}
-
-.react-datepicker__input-container {
-  flex: 1 0 22rem;
 }
 
 .msg-search-advanced-toggle {
@@ -199,10 +186,10 @@
   }
 }
 
-// Using an longer selector because of a form[type="submit"]
-// somewhere in the CSS
+// Using an longer selector here because of a form[type="submit"]
+// somewhere else in the CSS
 form .msg-search-advanced-submit[type="submit"] {
-  margin: 0;
+  margin: 2.5rem 0 0 0;
 
   @media (min-width: $medium-screen) {
     margin-left: 10rem;

@@ -177,7 +177,8 @@ export function createVeteran() {
       day: makeField(today.date().toString()),
       month: makeField((today.month() + 1).toString()),
       year: makeField(today.year().toString())
-    }
+    },
+    privacyAgreementAccepted: false
   };
 }
 
