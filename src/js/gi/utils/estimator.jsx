@@ -253,7 +253,7 @@ class Estimator {
 
     if (this.gi_bill_chap === 31 && this.isFlightOrCorrespondence()) {
       this.results.tuition.value = 0;
-      this.results.tuition.qualifier = 'per year'
+      this.results.tuition.qualifier = 'per year';
       return this.per_qualifier_html(this.results.value, this.results.qualifier);
     }
 

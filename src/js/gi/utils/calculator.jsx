@@ -14,8 +14,8 @@ class Calculator {
     this.component = profileCalculatorComponent;
 
     // For Profit is the same as private (facility code starts with 2)
-    if (this.institution_type === "for profit") {
-      this.institution_type = "private";
+    if (this.institution_type === 'for profit') {
+      this.institution_type = 'private';
     }
 
     if (!this.institution.bah) {
@@ -35,7 +35,7 @@ class Calculator {
     }
 
     if (!this.institution.country) {
-      this.institution.country = "";
+      this.institution.country = '';
     }
 
     this.populateInputs();
@@ -45,21 +45,20 @@ class Calculator {
     this.writeOutputs();
 
     var othis = this;
-    $(".filter-item").change(function() {
+    $('.filter-item').change(function () {
       othis.getValues();
       othis.getDerivedValues();
       // othis.resetVisibility();
       othis.writeOutputs();
     });
 
-    $(".filter-in-state").change(function() {
+    $('.filter-in-state').change(function () {
       othis.updateInState();
       othis.getValues();
       othis.getDerivedValues();
       // othis.resetVisibility();
       othis.writeOutputs();
     });
-
   }
 
   recalculate() {
@@ -69,348 +68,348 @@ class Calculator {
     this.writeOutputs();
   }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // setMilitaryStatus
   //
   // Saves as number.
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getMilitaryStatus() {
     // this.military_status = $(id).val();
     this.military_status = this.component.state.militaryStatus;
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getSpouseActiveDuty
   // Sets the spouse active duty from the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getSpouseActiveDuty() {
     // this.spouse_active_duty = $(id).val().toLowerCase() === "yes";
     this.spouse_active_duty = this.component.state.spouseActiveDuty.toLowerCase() === 'yes';
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getGiBillChapter
   // Sets gi bill chapter value from the element with the id argument. Also sets
   // the old_gi_bill boolean based on the value of the gi_bill_chapter.
   //
   // Saves as number.
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getGiBillChapter() {
     // this.gi_bill_chapter = Number($(id).val());
-    this.gi_bill_chapter = Number(this.component.state.giBillChapter)
+    this.gi_bill_chapter = Number(this.component.state.giBillChapter);
 
     this.calc_old_gi_bill = (this.gi_bill_chapter == 30 || this.gi_bill_chapter == 1607
       || this.gi_bill_chapter == 1606 || this.gi_bill_chapter == 35);
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getEligForPostGiBill
   // Sets gi bill chapter value from the element with the id argument.
   //
   // Saves as bool.
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getEligForPostGiBill() {
     // this.elig_for_post_gi_bill = $(id).val().toLowerCase() === 'yes';
     this.elig_for_post_gi_bill = this.component.state.eligForPostGiBill.toLowerCase() === 'yes';
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getCumulativeService
   // Sets the cumulative service value from the element with the id argument.
   //
   // Saves as float.
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getCumulativeService() {
     // var val = $(id).val();
     var val = this.component.state.serviceDischarge;
 
-    this.service_discharge = val === "service discharge";
+    this.service_discharge = val === 'service discharge';
     this.cumulative_service = this.service_discharge ? 1.0 : parseFloat(val);
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getConsecutiveService
   // Sets consecutive service value from the element with the id argument.
   //
   // Saves as number.
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getConsecutiveService() {
     // this.consecutive_service = Number($(id).val());
     this.consecutive_service = Number(this.component.state.consecutiveService);
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getEnlistmentService
   // Sets enlistment service value from the element with the id argument.
   //
   // Saves as number.
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getEnlistmentService() {
     // this.enlistment_service = Number($(id).val());
     this.enlistment_service = Number(this.component.state.enlistmentService);
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getOnline
   // Sets online value from the element with the id argument.
   //
   // Saves as boolean.
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getOnline() {
     // this.online = $(id).val().toLowerCase() === 'yes';
     this.online = this.component.state.online.toLowerCase() === 'yes';
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getInState
   // Sets the value and visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getInState() {
     // this.in_state = $(id + " :input:checked").val().toLowerCase() === "yes";
-    this.in_state = this.component.state.inState.toLowerCase() === "yes";
+    this.in_state = this.component.state.inState.toLowerCase() === 'yes';
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getTuitionFees
   // Sets the value and visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getTuitionFees() {
     // this.tuition_fees = this.getCurrency($(id).val());
     this.tuition_fees = this.getCurrency(this.component.state.tuitionFees);
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getInStateTuitionFees
   // Sets the value and visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getInStateTuitionFees() {
     // this.in_state_tuition_fees = this.getCurrency($(id).val());
     this.in_state_tuition_fees = this.getCurrency(this.component.state.inStateTuitionFees);
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getBooks
   // Sets the value and visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getBooks() {
     // this.books = this.getCurrency($(id).val());
     this.books = this.getCurrency(this.component.state.books);
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getYellowRibbon
   // Sets the value and visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getYellowRibbon() {
     // this.yellow_ribbon = $(id + " :input:checked").val().toLowerCase() === "yes";
-    this.yellow_ribbon = this.component.state.yellowRibbon.toLowerCase() === "yes";
+    this.yellow_ribbon = this.component.state.yellowRibbon.toLowerCase() === 'yes';
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getYellowBen
   // Sets the value and visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getYellowBen() {
     // this.yellow_ben = this.getCurrency($(id + " :input").val());
     this.yellow_ben = this.getCurrency(this.component.state.yellowBen);
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getScholar
   // Sets the value and visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getScholar() {
     // this.scholar = this.getCurrency($(id + " :input").val());
     this.scholar = this.getCurrency(this.component.state.scholar);
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getTuitionAssist
   // Sets the visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getTuitionAssist() {
     // this.tuition_assist = this.getCurrency($(id + " :input").val());
     this.tuition_assist = this.getCurrency(this.component.state.tuitionAssist);
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getRop
   // Sets the visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getRop() {
     // this.rop = Number($(id + " :input").val());
     this.rop = this.component.state.rop;
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getRopOld
   // Sets the visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getRopOld() {
     // this.rop_old = $(id + " :input").val();
     this.rop_old = this.component.state.ropOld;
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getCalendar
   // Sets the visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getCalendar() {
     // this.calendar = $(id).val();
     this.calendar = this.component.state.calendar;
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getOjtWorking
   // Sets the visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getOjtWorking() {
     // this.ojt_working = $(id + " :input").val();
     this.ojt_working = this.component.state.ojtWorking;
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getNumberNontradTerms
   // Sets the visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getNumberNontradTerms() {
     // this.number_nontrad_terms = Number($(id + " :input").val());
     this.number_nontrad_terms = Number(this.component.state.numberNontradTerms);
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getLengthNontradTerms
   // Sets the visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getLengthNontradTerms() {
     // this.length_nontrad_terms = $(id + " :input").val();
     this.length_nontrad_terms = this.component.state.lengthNontradTerms;
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getKickerElig
   // Sets the visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getKickerElig() {
     // this.kicker_elig = $(id + " :input:checked").val().toLowerCase() === "yes";
     this.kicker_elig = this.component.state.kickerElig.toLowerCase() === 'yes';
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getKicker
   // Sets the visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getKicker() {
     // this.kicker = this.getCurrency($(id + " :input").val());
     this.kicker = this.component.state.kicker;
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getBuyUpElig
   // Sets the visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getBuyUpElig() {
     // this.buy_up_elig = $(id + " :input:checked").val().toLowerCase() === "yes";
     this.buy_up_elig = this.component.state.buyUpElig.toLowerCase() === 'yes';
 
     return this;
-  };
+  }
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   // getBuyUp
   // Sets the visibility for the element with the id argument.
   //
   // Saves as boolean
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   getBuyUp() {
     // this.buy_up = Number($(id + " :input").val());
     this.buy_up = Number(this.component.state.buyUp);
 
     return this;
-  };
+  }
 
 }
 
@@ -439,99 +438,99 @@ Calculator.prototype.VRE2DEPRATEOJT = 737.77;
 Calculator.prototype.VREINCRATEOJT = 47.99;
 
 // Estimator Ids
-Calculator.prototype.MILITARY_STATUS = "#military-status"
-Calculator.prototype.SPOUSE_ACTIVE_DUTY = "#spouse-active-duty";
-Calculator.prototype.GI_BILL_CHAPTER = "#gi-bill-chapter";
-Calculator.prototype.ELIG_FOR_POST_GI_BILL = "#elig-for-post-gi-bill";
-Calculator.prototype.CUMMULATIVE_SERVICE = "#cumulative-service";
-Calculator.prototype.ENLISTMENT_SERVICE ="#enlistment-service";
-Calculator.prototype.CONSECUTIVE_SERVICE ="#consecutive-service";
-Calculator.prototype.ONLINE_CLASSES = "#online-classes";
+Calculator.prototype.MILITARY_STATUS = '#military-status';
+Calculator.prototype.SPOUSE_ACTIVE_DUTY = '#spouse-active-duty';
+Calculator.prototype.GI_BILL_CHAPTER = '#gi-bill-chapter';
+Calculator.prototype.ELIG_FOR_POST_GI_BILL = '#elig-for-post-gi-bill';
+Calculator.prototype.CUMMULATIVE_SERVICE = '#cumulative-service';
+Calculator.prototype.ENLISTMENT_SERVICE = '#enlistment-service';
+Calculator.prototype.CONSECUTIVE_SERVICE = '#consecutive-service';
+Calculator.prototype.ONLINE_CLASSES = '#online-classes';
 
 // Calculator Tuition
-Calculator.prototype.TUITION_FEES_SECTION = "#tuition-fees-section";
-Calculator.prototype.IN_STATE = "#in-state";
-Calculator.prototype.TUITION_FEES_FORM = "#tuition-fees-form";
-Calculator.prototype.IN_STATE_TUITION_FEES_FORM = "#in-state-tuition-fees-form";
-Calculator.prototype.BOOKS_INPUT_ROW = "#books-input-row";
-Calculator.prototype.YELLOW_RIBBON_RECIPIENT_FORM = "#yellow-ribbon-recipient-form";
-Calculator.prototype.YELLOW_RIBBON_AMOUNT_FORM = "#yellow-ribbon-amount-form";
-Calculator.prototype.YELLOW_RIBBON_RATES_LINK = "#yellow-ribbon-rates-link"
-Calculator.prototype.SCHOLARSHIP_AMOUNT_FORM = "#scholarship-amount-form";
-Calculator.prototype.TUITION_ASSIST_FORM = "#tuition-assist-form";
+Calculator.prototype.TUITION_FEES_SECTION = '#tuition-fees-section';
+Calculator.prototype.IN_STATE = '#in-state';
+Calculator.prototype.TUITION_FEES_FORM = '#tuition-fees-form';
+Calculator.prototype.IN_STATE_TUITION_FEES_FORM = '#in-state-tuition-fees-form';
+Calculator.prototype.BOOKS_INPUT_ROW = '#books-input-row';
+Calculator.prototype.YELLOW_RIBBON_RECIPIENT_FORM = '#yellow-ribbon-recipient-form';
+Calculator.prototype.YELLOW_RIBBON_AMOUNT_FORM = '#yellow-ribbon-amount-form';
+Calculator.prototype.YELLOW_RIBBON_RATES_LINK = '#yellow-ribbon-rates-link';
+Calculator.prototype.SCHOLARSHIP_AMOUNT_FORM = '#scholarship-amount-form';
+Calculator.prototype.TUITION_ASSIST_FORM = '#tuition-assist-form';
 
 // Calculator Enrollment
-Calculator.prototype.ENROLLMENT_SECTION = "#enrollment-section";
-Calculator.prototype.ENROLLED_FORM = "#enrolled-form";
-Calculator.prototype.ENROLLED_FORM_OLD_GI_BILL = "#enrolled-form-old-gi-bill";
-Calculator.prototype.CALENDAR_FORM = "#calendar-form";
-Calculator.prototype.WORKING_FORM = "#working-form";
-Calculator.prototype.NUMBER_NON_TRADITIONAL_TERMS_FORM = "#number-non-traditional-terms-form";
-Calculator.prototype.LENGTH_NON_TRADITIONAL_TERMS_FORM = "#length-non-traditional-terms-form";
-Calculator.prototype.KICKER_ELIG_FORM = "#kicker-elig-form";
-Calculator.prototype.KICKER_FORM = "#kicker-form";
-Calculator.prototype.BUY_UP_FORM = "#buy-up-form";
-Calculator.prototype.BUY_UP_RATE_FORM = "#buy-up-rate-form";
+Calculator.prototype.ENROLLMENT_SECTION = '#enrollment-section';
+Calculator.prototype.ENROLLED_FORM = '#enrolled-form';
+Calculator.prototype.ENROLLED_FORM_OLD_GI_BILL = '#enrolled-form-old-gi-bill';
+Calculator.prototype.CALENDAR_FORM = '#calendar-form';
+Calculator.prototype.WORKING_FORM = '#working-form';
+Calculator.prototype.NUMBER_NON_TRADITIONAL_TERMS_FORM = '#number-non-traditional-terms-form';
+Calculator.prototype.LENGTH_NON_TRADITIONAL_TERMS_FORM = '#length-non-traditional-terms-form';
+Calculator.prototype.KICKER_ELIG_FORM = '#kicker-elig-form';
+Calculator.prototype.KICKER_FORM = '#kicker-form';
+Calculator.prototype.BUY_UP_FORM = '#buy-up-form';
+Calculator.prototype.BUY_UP_RATE_FORM = '#buy-up-rate-form';
 
 // Calculator Output Forms
-Calculator.prototype.CALC_HOUSING_ALLOW_RATE_ROW = "#calc-housing-allow-rate-row";
-Calculator.prototype.CALC_TERM_TOTAL_ROW = "#calc-term-total-row";
-Calculator.prototype.CALC_PAID_TO_SCHOOL_TOTAL_ROW = "#calc-paid-to-school-total-row";
-Calculator.prototype.CALC_PAID_TO_YOU_TOTAL_ROW = "#calc-paid-to-you-total-row";
-Calculator.prototype.CALC_OUT_OF_POCKET_ROW = "#calc-out-of-pocket-row";
-Calculator.prototype.CALC_TUITION_FEES_CHARGED_ROW = "#calc-tuition-fees-charged-row";
-Calculator.prototype.CALC_TUITION_FEES_SCHOLARSHIP_ROW = "#calc-tuition-fees-scholarship-row";
-Calculator.prototype.CALC_SCHOOL_RECEIVED_ROW = "#calc-school-received-row";
-Calculator.prototype.CALC_TUITION_FEES_ROW = "#calc-tuition-fees-row";
-Calculator.prototype.CALC_YELLOW_RIBBON_ROW = "#calc-yellow-ribbon-row";
-Calculator.prototype.CALC_YELLOW_RIBBON_VA_ROW = "#calc-yellow-ribbon-va-row";
+Calculator.prototype.CALC_HOUSING_ALLOW_RATE_ROW = '#calc-housing-allow-rate-row';
+Calculator.prototype.CALC_TERM_TOTAL_ROW = '#calc-term-total-row';
+Calculator.prototype.CALC_PAID_TO_SCHOOL_TOTAL_ROW = '#calc-paid-to-school-total-row';
+Calculator.prototype.CALC_PAID_TO_YOU_TOTAL_ROW = '#calc-paid-to-you-total-row';
+Calculator.prototype.CALC_OUT_OF_POCKET_ROW = '#calc-out-of-pocket-row';
+Calculator.prototype.CALC_TUITION_FEES_CHARGED_ROW = '#calc-tuition-fees-charged-row';
+Calculator.prototype.CALC_TUITION_FEES_SCHOLARSHIP_ROW = '#calc-tuition-fees-scholarship-row';
+Calculator.prototype.CALC_SCHOOL_RECEIVED_ROW = '#calc-school-received-row';
+Calculator.prototype.CALC_TUITION_FEES_ROW = '#calc-tuition-fees-row';
+Calculator.prototype.CALC_YELLOW_RIBBON_ROW = '#calc-yellow-ribbon-row';
+Calculator.prototype.CALC_YELLOW_RIBBON_VA_ROW = '#calc-yellow-ribbon-va-row';
 
 // Calculator Output elements
-Calculator.prototype.HOUSING_ALLOW_RATE = "#housing-allow-rate";
-Calculator.prototype.TOTAL_YEAR = "#total-year";
-Calculator.prototype.TOTAL_PAID_TO_SCHOOL = "#total-paid-to-school";
-Calculator.prototype.TOTAL_PAID_TO_YOU = "#total-paid-to-you";
-Calculator.prototype.TOTAL_LEFT_TO_PAY = "#total-left-to-pay";
-Calculator.prototype.TOTAL_TUITION_FEES_CHARGED = "#total-tuition-fees-charged";
-Calculator.prototype.TOTAL_TUITION_FEES_SCHOLARSHIPS = "#total-tuition-fees-scholarships";
-Calculator.prototype.TOTAL_SCHOOL_RECEIVED = "#total-school-received";
-Calculator.prototype.TUITION_FEES_TERM_1 = "#tuition-fees-term-1";
-Calculator.prototype.TUITION_FEES_TERM_2 = "#tuition-fees-term-2";
-Calculator.prototype.TUITION_FEES_TERM_3 = "#tuition-fees-term-3";
-Calculator.prototype.TUITION_FEES_TOTAL = "#tuition-fees-total";
-Calculator.prototype.YR_BEN_TERM_1 = "#yr-ben-term-1";
-Calculator.prototype.YR_BEN_TERM_2 = "#yr-ben-term-2";
-Calculator.prototype.YR_BEN_TERM_3 = "#yr-ben-term-3";
-Calculator.prototype.YR_BEN_TOTAL = "#yr-ben-total";
-Calculator.prototype.YR_BEN_TERM_VA_1 = "#yr-ben-term-va-1";
-Calculator.prototype.YR_BEN_TERM_VA_2 = "#yr-ben-term-va-2";
-Calculator.prototype.YR_BEN_TERM_VA_3 = "#yr-ben-term-va-3";
-Calculator.prototype.YR_BEN_VA_TOTAL = "#yr-ben-va-total";
-Calculator.prototype.HOUSING_ALLOW_TERM_1 = "#housing-allow-term-1";
-Calculator.prototype.HOUSING_ALLOW_TERM_2 = "#housing-allow-term-2";
-Calculator.prototype.HOUSING_ALLOW_TERM_3 = "#housing-allow-term-3";
-Calculator.prototype.HOUSING_ALLOW_TOTAL = "#housing-allow-total";
-Calculator.prototype.BOOK_STIPEND_TERM_1 = "#book-stipend-term-1";
-Calculator.prototype.BOOK_STIPEND_TERM_2 = "#book-stipend-term-2";
-Calculator.prototype.BOOK_STIPEND_TERM_3 = "#book-stipend-term-3";
-Calculator.prototype.BOOK_STIPEND_TOTAL = "#book-stipend-total";
+Calculator.prototype.HOUSING_ALLOW_RATE = '#housing-allow-rate';
+Calculator.prototype.TOTAL_YEAR = '#total-year';
+Calculator.prototype.TOTAL_PAID_TO_SCHOOL = '#total-paid-to-school';
+Calculator.prototype.TOTAL_PAID_TO_YOU = '#total-paid-to-you';
+Calculator.prototype.TOTAL_LEFT_TO_PAY = '#total-left-to-pay';
+Calculator.prototype.TOTAL_TUITION_FEES_CHARGED = '#total-tuition-fees-charged';
+Calculator.prototype.TOTAL_TUITION_FEES_SCHOLARSHIPS = '#total-tuition-fees-scholarships';
+Calculator.prototype.TOTAL_SCHOOL_RECEIVED = '#total-school-received';
+Calculator.prototype.TUITION_FEES_TERM_1 = '#tuition-fees-term-1';
+Calculator.prototype.TUITION_FEES_TERM_2 = '#tuition-fees-term-2';
+Calculator.prototype.TUITION_FEES_TERM_3 = '#tuition-fees-term-3';
+Calculator.prototype.TUITION_FEES_TOTAL = '#tuition-fees-total';
+Calculator.prototype.YR_BEN_TERM_1 = '#yr-ben-term-1';
+Calculator.prototype.YR_BEN_TERM_2 = '#yr-ben-term-2';
+Calculator.prototype.YR_BEN_TERM_3 = '#yr-ben-term-3';
+Calculator.prototype.YR_BEN_TOTAL = '#yr-ben-total';
+Calculator.prototype.YR_BEN_TERM_VA_1 = '#yr-ben-term-va-1';
+Calculator.prototype.YR_BEN_TERM_VA_2 = '#yr-ben-term-va-2';
+Calculator.prototype.YR_BEN_TERM_VA_3 = '#yr-ben-term-va-3';
+Calculator.prototype.YR_BEN_VA_TOTAL = '#yr-ben-va-total';
+Calculator.prototype.HOUSING_ALLOW_TERM_1 = '#housing-allow-term-1';
+Calculator.prototype.HOUSING_ALLOW_TERM_2 = '#housing-allow-term-2';
+Calculator.prototype.HOUSING_ALLOW_TERM_3 = '#housing-allow-term-3';
+Calculator.prototype.HOUSING_ALLOW_TOTAL = '#housing-allow-total';
+Calculator.prototype.BOOK_STIPEND_TERM_1 = '#book-stipend-term-1';
+Calculator.prototype.BOOK_STIPEND_TERM_2 = '#book-stipend-term-2';
+Calculator.prototype.BOOK_STIPEND_TERM_3 = '#book-stipend-term-3';
+Calculator.prototype.BOOK_STIPEND_TOTAL = '#book-stipend-total';
 
 // Class and control selectors
-Calculator.prototype.TERM1 = ".term1";
-Calculator.prototype.TERM2 = ".term2";
-Calculator.prototype.TERM3 = ".term3";
-Calculator.prototype.TERM4 = ".term4";
+Calculator.prototype.TERM1 = '.term1';
+Calculator.prototype.TERM2 = '.term2';
+Calculator.prototype.TERM3 = '.term3';
+Calculator.prototype.TERM4 = '.term4';
 
 Calculator.prototype.TUITION_FEES_INPUT = '#tuition-fees-input';
 Calculator.prototype.IN_STATE_TUITION_FEES = '#in-state-tuition-fees';
 Calculator.prototype.BOOKS_INPUT = '#books-input';
-Calculator.prototype.CALENDAR = "#calendar";
+Calculator.prototype.CALENDAR = '#calendar';
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // updateInState
 // Update the in/out of state values
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.updateInState = function() {
+// /////////////////////////////////////////////////////////////////////////////
+Calculator.prototype.updateInState = function () {
   if (!this.in_state) {
     // $(this.TUITION_FEES_INPUT).val(this.formatCurrency(this.institution.tuition_out_of_state));
     this.values.tuitionFeesInput = this.formatCurrency(this.institution.tuition_out_of_state);
@@ -541,10 +540,10 @@ Calculator.prototype.updateInState = function() {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // populateInputs
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.populateInputs = function() {
+// /////////////////////////////////////////////////////////////////////////////
+Calculator.prototype.populateInputs = function () {
   const t = this.formatCurrency(this.institution.tuition_in_state);
 
   // $(this.TUITION_FEES_INPUT).val(tis);
@@ -562,13 +561,13 @@ Calculator.prototype.populateInputs = function() {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // writeOutputs
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.writeOutputs = function() {
+// /////////////////////////////////////////////////////////////////////////////
+Calculator.prototype.writeOutputs = function () {
   // $(this.HOUSING_ALLOW_RATE).html(this.formatCurrency(this.calc_monthly_rate_display)+ ' / month');
   // $(this.TOTAL_LEFT_TO_PAY).html(this.formatCurrency(this.calc_total_left_to_pay));
-  this.outputs.housingAllowRate = this.formatCurrency(this.calc_monthly_rate_display)+ ' / month';
+  this.outputs.housingAllowRate = this.formatCurrency(this.calc_monthly_rate_display) + ' / month';
   this.outputs.totalLeftToPay = this.formatCurrency(this.calc_total_left_to_pay);
 
   // $(this.TOTAL_PAID_TO_SCHOOL).html(this.formatCurrency(this.calc_total_to_school));
@@ -663,11 +662,11 @@ Calculator.prototype.writeOutputs = function() {
   }.bind(this));
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getValues
 // Gets all calculator values.
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getValues = function() {
+// /////////////////////////////////////////////////////////////////////////////
+Calculator.prototype.getValues = function () {
   // this.getMilitaryStatus(this.MILITARY_STATUS);
   // this.getGiBillChapter(this.GI_BILL_CHAPTER);
   // this.getSpouseActiveDuty(this.SPOUSE_ACTIVE_DUTY);
@@ -723,11 +722,11 @@ Calculator.prototype.getValues = function() {
   this.getKicker();
   this.getBuyUpElig();
   this.getBuyUp();
-}
+};
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getDerivedValues = function() {
+// /////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
+Calculator.prototype.getDerivedValues = function () {
   this.getVreOnly();
   this.getOnlyTuitionFees();
   this.getMonthlyRate();
@@ -781,9 +780,9 @@ Calculator.prototype.getDerivedValues = function() {
   this.getMonthlyRateDisplay();
 };
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.resetVisibility = function() {
+// /////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
+Calculator.prototype.resetVisibility = function () {
   // Tuition/Fees Input Results
   $(this.TUITION_FEES_SECTION).show();
   $(this.IN_STATE).hide();
@@ -948,9 +947,9 @@ Calculator.prototype.resetVisibility = function() {
     $(this.CALC_YELLOW_RIBBON_VA_ROW).hide();
   }
 
-   if (this.calc_total_scholarship_ta == 0) {
-      $(this.CALC_TUITION_FEES_SCHOLARSHIP_ROW).hide();
-    }
+  if (this.calc_total_scholarship_ta == 0) {
+    $(this.CALC_TUITION_FEES_SCHOLARSHIP_ROW).hide();
+  }
 
   if (this.calc_number_of_terms == 1) {
     $(this.TERM2).hide();
@@ -977,10 +976,10 @@ Calculator.prototype.resetVisibility = function() {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // formatCurrency
 // Formats currency in USD
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.formatCurrency = function (num) {
   var str = Math.round(Number(num)).toString();
 
@@ -988,42 +987,36 @@ Calculator.prototype.formatCurrency = function (num) {
   return '$' + str.replace(/\d(?=(\d{3})+$)/g, '$&,');
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getCurrency
 // Converts a currency string to a number.
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getCurrency = function (currency) {
-  return Number(currency.replace(/[^0-9\.]+/g,''));
-}
+  return Number(currency.replace(/[^0-9\.]+/g, ''));
+};
 
 
-/***********************************************************************************************************/
-/***********************************************************************************************************/
-/***********************************************************************************************************/
-/***********************************************************************************************************/
-/***********************************************************************************************************/
-/***********************************************************************************************************/
-/***********************************************************************************************************/
+/** *********************************************************************************************************/
+/** *********************************************************************************************************/
+/** *********************************************************************************************************/
+/** *********************************************************************************************************/
+/** *********************************************************************************************************/
+/** *********************************************************************************************************/
+/** *********************************************************************************************************/
 
 
+/** ******************************************************************************************************/
+/** ******************************************************************************************************/
+/** ******************************************************************************************************/
+/** ******************************************************************************************************/
 
 
-
-
-/********************************************************************************************************/
-/********************************************************************************************************/
-/********************************************************************************************************/
-/********************************************************************************************************/
-
-
-
-
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // setVreOnly
 // Calculate if eligible for VR&E and Post-9/11 Benefits.
 //
 // Saves as boolean.
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getVreOnly = function () {
   this.calc_vre_only = (this.gi_bill_chapter == 31 && !this.elig_for_post_gi_bill);
 
@@ -1031,10 +1024,10 @@ Calculator.prototype.getVreOnly = function () {
 };
 
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getOnlyTuitionFees
 // Calculate if monthly benefit can only be spent on tuition/fees
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getOnlyTuitionFees = function () {
   if (this.military_status === 'active duty' &&
       (this.gi_bill_chapter == 30 || this.gi_bill_chapter == 1607)) {
@@ -1042,69 +1035,69 @@ Calculator.prototype.getOnlyTuitionFees = function () {
   } else if ((this.institution_type === 'correspondence' ||
       this.institution_type === 'flight') && this.calc_old_gi_bill == true) {
     this.calc_only_tuition_fees = true;
-  } else if ((this.rop_old === "less than half" || this.rop_old === "quarter") &&
+  } else if ((this.rop_old === 'less than half' || this.rop_old === 'quarter') &&
       (this.gi_bill_chapter == 30 || this.gi_bill_chapter == 1607 || this.gi_bill_chapter == 35)) {
     this.calc_only_tuition_fees = true;
   } else {
-      this.calc_only_tuition_fees = false;
+    this.calc_only_tuition_fees = false;
   }
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getMonthlyRate
 // Calculate the monthly benefit rate for non-chapter 33 benefits
-///////////////////////////////////////////////////////////////////////////////
-Calculator.prototype.getMonthlyRate = function ( ) {
+// /////////////////////////////////////////////////////////////////////////////
+Calculator.prototype.getMonthlyRate = function () {
   this.calc_monthlyrate = 0;
 
-  if (this.gi_bill_chapter == 30 && this.enlistment_service == 3 && this.institution_type === 'ojt' ) {
-      this.calc_monthlyrate = this.MGIB3YRRATE * 0.75;
-  } else if (this.gi_bill_chapter == 30 && this.enlistment_service == 3 ) {
-      this.calc_monthlyrate = this.MGIB3YRRATE;
+  if (this.gi_bill_chapter == 30 && this.enlistment_service == 3 && this.institution_type === 'ojt') {
+    this.calc_monthlyrate = this.MGIB3YRRATE * 0.75;
+  } else if (this.gi_bill_chapter == 30 && this.enlistment_service == 3) {
+    this.calc_monthlyrate = this.MGIB3YRRATE;
   } else if (this.gi_bill_chapter == 30 && this.enlistment_service == 2 && this.institution_type === 'ojt') {
-      this.calc_monthlyrate = this.MGIB2YRRATE * 0.75;
-  } else if (this.gi_bill_chapter == 30 && this.enlistment_service == 2 ) {
-      this.calc_monthlyrate = this.MGIB2YRRATE;
+    this.calc_monthlyrate = this.MGIB2YRRATE * 0.75;
+  } else if (this.gi_bill_chapter == 30 && this.enlistment_service == 2) {
+    this.calc_monthlyrate = this.MGIB2YRRATE;
   } else if (this.gi_bill_chapter == 1607 && this.institution_type === 'ojt') {
-      this.calc_monthlyrate = this.MGIB3YRRATE * this.consecutive_service * 0.75;
-  } else if (this.gi_bill_chapter == 1607 ) {
-      this.calc_monthlyrate = this.MGIB3YRRATE* this.consecutive_service;
+    this.calc_monthlyrate = this.MGIB3YRRATE * this.consecutive_service * 0.75;
+  } else if (this.gi_bill_chapter == 1607) {
+    this.calc_monthlyrate = this.MGIB3YRRATE * this.consecutive_service;
   } else if (this.gi_bill_chapter == 1606 && this.institution_type === 'ojt') {
-      this.calc_monthlyrate = this.SRRATE * 0.75;
-  } else if (this.gi_bill_chapter == 1606 ) {
-      this.calc_monthlyrate = this.SRRATE;
+    this.calc_monthlyrate = this.SRRATE * 0.75;
+  } else if (this.gi_bill_chapter == 1606) {
+    this.calc_monthlyrate = this.SRRATE;
   } else if (this.gi_bill_chapter == 35 && this.institution_type === 'ojt') {
-      this.calc_monthlyrate = this.DEARATEOJT;
+    this.calc_monthlyrate = this.DEARATEOJT;
   } else if (this.gi_bill_chapter == 35 && this.institution_type === 'flight') {
-      this.calc_monthlyrate = 0;
+    this.calc_monthlyrate = 0;
   } else if (this.gi_bill_chapter == 35) {
-      this.calc_monthlyrate = this.DEARATE;
+    this.calc_monthlyrate = this.DEARATE;
   } else if (this.gi_bill_chapter == 31 && this.number_of_depend == 0 && this.institution_type === 'ojt') {
-      this.calc_monthlyrate = this.VRE0DEPRATEOJT;
+    this.calc_monthlyrate = this.VRE0DEPRATEOJT;
   } else if (this.gi_bill_chapter == 31 && this.number_of_depend == 0) {
-      this.calc_monthlyrate = this.VRE0DEPRATE;
+    this.calc_monthlyrate = this.VRE0DEPRATE;
   } else if (this.gi_bill_chapter == 31 && this.number_of_depend == 1 && this.institution_type === 'ojt') {
-      this.calc_monthlyrate = this.VRE1DEPRATEOJT;
+    this.calc_monthlyrate = this.VRE1DEPRATEOJT;
   } else if (this.gi_bill_chapter == 31 && this.number_of_depend == 1) {
-      this.calc_monthlyrate = this.VRE1DEPRATE;
+    this.calc_monthlyrate = this.VRE1DEPRATE;
   } else if (this.gi_bill_chapter == 31 && this.number_of_depend == 2 && this.institution_type === 'ojt') {
-      this.calc_monthlyrate = this.VRE2DEPRATEOJT;
+    this.calc_monthlyrate = this.VRE2DEPRATEOJT;
   } else if (this.gi_bill_chapter == 31 && this.number_of_depend == 2) {
-      this.calc_monthlyrate = this.VRE2DEPRATE;
+    this.calc_monthlyrate = this.VRE2DEPRATE;
   } else if (this.gi_bill_chapter == 31 && this.number_of_depend > 2 && this.institution_type === 'ojt') {
-      this.calc_monthlyrate = this.VRE2DEPRATEOJT + ((this.number_of_depend-2) * Vthis.REINCRATEOJT) ;
+    this.calc_monthlyrate = this.VRE2DEPRATEOJT + ((this.number_of_depend - 2) * Vthis.REINCRATEOJT);
   } else if (this.gi_bill_chapter == 31 && this.number_of_depend > 2) {
-      this.calc_monthlyrate = this.VRE2DEPRATE + ((this.number_of_depend-2) * this.VREINCRATE) ;
+    this.calc_monthlyrate = this.VRE2DEPRATE + ((this.number_of_depend - 2) * this.VREINCRATE);
   }
 
   return this;
 };
 
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTier
 // Calculates the tier.
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTier = function () {
   if (this.gi_bill_chapter == 31 && this.post_911_elig == true)
     this.calc_tier = 1;
@@ -1114,20 +1107,20 @@ Calculator.prototype.getTier = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTuitionOutOfState
 // Calculate the prepopulated value out-of-state tuiton rates
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTuitionOutOfState = function () {
   this.calc_tuition_out_of_state = this.institution.tuition_out_of_state;
 
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getNumberOfTerms
 // Calculate the total number of academic terms
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getNumberOfTerms = function () {
   if (this.institution_type === 'ojt')
     this.calc_number_of_terms = 3;
@@ -1142,10 +1135,10 @@ Calculator.prototype.getNumberOfTerms = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTuitionNetPrice
 // Set the net price (Payer of Last Resort)
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTuitionNetPrice = function () {
   this.calc_tuition_net_price = Math.max(0, Math.min(
     this.tuition_fees - this.scholar - this.tuition_assist
@@ -1154,10 +1147,10 @@ Calculator.prototype.getTuitionNetPrice = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTuitionFeesCap
 // Set the proper tuition/fees cap
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTuitionFeesCap = function () {
   if (this.institution_type === 'flight') {
     this.calc_tuition_fees_cap = this.FLTTFCAP;
@@ -1176,24 +1169,24 @@ Calculator.prototype.getTuitionFeesCap = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTuitionFeesPerTerm
 // Calculate the tuition/fees per term
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTuitionFeesPerTerm = function () {
   this.calc_tuition_fees_per_term = this.tuition_fees / this.calc_number_of_terms;
 
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTermLength
 // Calculate the length of each term
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTermLength = function () {
   if (this.calendar == 'semesters') {
     this.calc_term_length = 4.5;
-  } else if (this.calendar === 'quarters')  {
+  } else if (this.calendar === 'quarters') {
     this.calc_term_length = 3;
   } else if (this.calendar === 'nontraditional') {
     this.calc_term_length = this.length_nontrad_terms;
@@ -1204,10 +1197,10 @@ Calculator.prototype.getTermLength = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getAcadYearLength
 // Calculate the length of the academic year
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getAcadYearLength = function () {
   if (this.calendar === 'nontraditional') {
     this.calc_acad_year_length = this.number_nontrad_terms * this.length_nontrad_terms;
@@ -1218,32 +1211,32 @@ Calculator.prototype.getAcadYearLength = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getRopOld
 // Calculate the rate of pursuit for Old GI Bill
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getCalcRopOld = function () {
   if (this.institution_type === 'ojt') {
     this.calc_rop_old = this.ojt_working / 30;
-  } else if (this.rop_old === "full") {
+  } else if (this.rop_old === 'full') {
     this.calc_rop_old = 1;
-  } else if (this.rop_old === "three quarter") {
+  } else if (this.rop_old === 'three quarter') {
     this.calc_rop_old = 0.75;
-  } else if (this.rop_old === "half") {
+  } else if (this.rop_old === 'half') {
     this.calc_rop_old = 0.50;
-  } else if (this.rop_old === "less than half") {
+  } else if (this.rop_old === 'less than half') {
     this.calc_rop_old = 0.50;
-  } else if (this.rop_old === "quarter") {
+  } else if (this.rop_old === 'quarter') {
     this.calc_rop_old = 0.25;
   }
 
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getRopBook
 // Calculate the rate of pursuit for Book Stipend
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getRopBook = function () {
   if (this.rop == 1) {
     this.calc_rop_book = 1;
@@ -1258,20 +1251,20 @@ Calculator.prototype.getRopBook = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getRopOjt
 // Calculate the rate of pursuit for OJT
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getRopOjt = function () {
   this.calc_rop_ojt = this.ojt_working / 30;
 
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // setYellowRibbonEligibility
 // Determine yellow ribbon eligibility
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getYellowRibbonEligibility = function () {
   if (this.calc_tier < 1 || !this.institution.yr || !this.yellow_ribbon
       || this.military_status === 'active duty') {
@@ -1287,10 +1280,10 @@ Calculator.prototype.getYellowRibbonEligibility = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getKickerBenefit
 // Determine kicker benefit level
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getKickerBenefit = function () {
   if (!this.kicker_elig) {
     this.calc_kicker_benefit = 0;
@@ -1305,10 +1298,10 @@ Calculator.prototype.getKickerBenefit = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getBuyUpRate
 // Determine buy up rates
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getBuyUpRate = function () {
   if (!this.buy_up_elig) {
     this.calc_buy_up_rate = 0;
@@ -1321,20 +1314,20 @@ Calculator.prototype.getBuyUpRate = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // Calculate Housing Allowance Rate Final
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getMonthlyRateFinal = function () {
   this.calc_monthly_rate_final = this.calc_rop_old *
-    ((this.calc_monthlyrate + this.calc_buy_up_rate)  + this.calc_kicker_benefit);
+    ((this.calc_monthlyrate + this.calc_buy_up_rate) + this.calc_kicker_benefit);
 
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTerm1
 // Calculate the name of Term #1
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTerm1 = function () {
   if (this.institution_type == 'ojt') {
     this.calc_term1 = 'Months 1-6';
@@ -1349,16 +1342,16 @@ Calculator.prototype.getTerm1 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTerm2
 // Calculate the name of Term #2
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTerm2 = function () {
   if (this.institution_type == 'ojt') {
     this.calc_term2 = 'Months 7-12';
   } else if (this.calendar == 'semesters') {
     this.calc_term2 = 'Spring';
-  } else if (this.calendar == 'quarters')  {
+  } else if (this.calendar == 'quarters') {
     this.calc_term2 = 'Winter';
   } else if (this.calendar == 'nontraditional') {
     this.calc_termterm2 = 'Term 2';
@@ -1367,16 +1360,16 @@ Calculator.prototype.getTerm2 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTerm3
 // Calculate the name of Term #3
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTerm3 = function () {
   if (this.institution_type == 'ojt') {
     this.calc_term3 = 'Months 13-18';
   } else if (this.calendar == 'semesters') {
     this.calc_term3 = '';
-  } else if (this.calendar == 'quarters')  {
+  } else if (this.calendar == 'quarters') {
     this.calc_term3 = 'Spring';
   } else if (this.calendar == 'nontraditional') {
     this.calc_term3 = 'Term 3';
@@ -1385,10 +1378,10 @@ Calculator.prototype.getTerm3 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTerm4
 // Calculate the name of Term #4
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTerm4 = function () {
   if (this.institution_type == 'ojt') {
     this.calc_term4 = 'Months 19-24';
@@ -1399,10 +1392,10 @@ Calculator.prototype.getTerm4 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTuitionFeesTerm1
 // Calculate Tuition Fees for Term #1
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTuitionFeesTerm1 = function () {
   if (this.institution_type === 'ojt') {
     this.calc_tuition_fees_term_1 = 0;
@@ -1425,10 +1418,10 @@ Calculator.prototype.getTuitionFeesTerm1 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTuitionFeesTerm2
 // Calculate Tuition Fees for Term #2
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTuitionFeesTerm2 = function () {
   if (this.institution_type == 'ojt') {
     this.calc_tuition_fees_term_2 = 0;
@@ -1453,10 +1446,10 @@ Calculator.prototype.getTuitionFeesTerm2 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTuitionFeesTerm3
 // Calculate Tuition Fees for Term #3
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTuitionFeesTerm3 = function () {
   if (this.institution_type === 'ojt') {
     this.calc_tuition_fees_term_3 = 0;
@@ -1482,10 +1475,10 @@ Calculator.prototype.getTuitionFeesTerm3 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTuitionFeesTotal
 // Calculate the name of Tuition Fees Total
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTuitionFeesTotal = function () {
   this.calc_tuition_fees_total = this.calc_tuition_fees_term_1 +
       this.calc_tuition_fees_term_2 + this.calc_tuition_fees_term_3;
@@ -1493,10 +1486,10 @@ Calculator.prototype.getTuitionFeesTotal = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getYrBenTerm1
 // Calculate Yellow Ribbon for Term #1
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getYrBenTerm1 = function () {
   if (!this.calc_yellow_ribbon_elig || this.yellow_ben == 0) {
     this.calc_yr_ben_term_1 = 0;
@@ -1515,10 +1508,10 @@ Calculator.prototype.getYrBenTerm1 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getYrBenTerm2
 // Calculate Yellow Ribbon for Term #2
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getYrBenTerm2 = function () {
   if (!this.calc_yellow_ribbon_elig || this.yellow_ben == 0) {
     this.calc_yr_ben_term_2 = 0;
@@ -1540,10 +1533,10 @@ Calculator.prototype.getYrBenTerm2 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getYrBenTerm3
 // Calculate Yellow Ribbon for Term #3
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getYrBenTerm3 = function () {
   if (!this.calc_yellow_ribbon_elig || this.yellow_ben == 0) {
     this.calc_yr_ben_term_3 = 0;
@@ -1567,10 +1560,10 @@ Calculator.prototype.getYrBenTerm3 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getYrBenTotal
 // Calculate Yellow Ribbon for the Year
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getYrBenTotal = function () {
   if (!this.calc_yellow_ribbon_elig || this.yellow_ben == 0) {
     this.calc_yr_ben_total = 0;
@@ -1582,45 +1575,45 @@ Calculator.prototype.getYrBenTotal = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getYrBreakdown
 // Calculate Yellow Ribbon by school / VA contributions
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getYrBreakdown = function () {
-  this.calc_yr_ben_school_term_1   =       this.calc_yr_ben_term_1 / 2;
-  this.calc_yr_ben_va_term_1       =       this.calc_yr_ben_term_1 / 2;
-  this.calc_yr_ben_school_term_2   =       this.calc_yr_ben_term_2 / 2;
-  this.calc_yr_ben_va_term_2       =       this.calc_yr_ben_term_2 / 2;
-  this.calc_yr_ben_school_term_3   =       this.calc_yr_ben_term_3 / 2;
-  this.calc_yr_ben_va_term_3       =       this.calc_yr_ben_term_3 / 2;
-  this.calc_yr_ben_school_total    =       this.calc_yr_ben_total / 2;
-  this.calc_yr_ben_va_total        =       this.calc_yr_ben_total / 2;
+  this.calc_yr_ben_school_term_1 = this.calc_yr_ben_term_1 / 2;
+  this.calc_yr_ben_va_term_1 = this.calc_yr_ben_term_1 / 2;
+  this.calc_yr_ben_school_term_2 = this.calc_yr_ben_term_2 / 2;
+  this.calc_yr_ben_va_term_2 = this.calc_yr_ben_term_2 / 2;
+  this.calc_yr_ben_school_term_3 = this.calc_yr_ben_term_3 / 2;
+  this.calc_yr_ben_va_term_3 = this.calc_yr_ben_term_3 / 2;
+  this.calc_yr_ben_school_total = this.calc_yr_ben_total / 2;
+  this.calc_yr_ben_va_total = this.calc_yr_ben_total / 2;
 
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTotalPaidToSchool
 // Calculate Total Paid to School
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTotalPaidToSchool = function () {
   this.calc_total_to_school = this.calc_tuition_fees_total + this.calc_yr_ben_total;
 
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // Calculate Total Scholarships and Tuition Assistance
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTotalScholarships = function () {
   this.calc_total_scholarship_ta = this.scholar + this.tuition_assist;
 
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // Calculate Total Left to Pay
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTotalLeftToPay = function () {
   this.calc_total_left_to_pay = Math.max(0, this.tuition_fees -
     this.calc_total_to_school - this.scholar - this.tuition_assist);
@@ -1628,10 +1621,10 @@ Calculator.prototype.getTotalLeftToPay = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getHousingAllowTerm1
 // Calculate Housing Allowance for Term #1
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getHousingAllowTerm1 = function () {
   if (this.military_status === 'active duty' && this.institution_type === 'ojt') {
     this.calc_housing_allow_term_1 = 0;
@@ -1641,10 +1634,10 @@ Calculator.prototype.getHousingAllowTerm1 = function () {
   } else if (this.gi_bill_chapter == 35 && this.institution_type === 'ojt') {
     this.calc_housing_allow_term_1 = this.calc_monthly_rate_final;
   } else if (this.calc_old_gi_bill == true && this.institution_type === 'ojt') {
-    this.calc_housing_allow_term_1 =  this.calc_monthly_rate_final;
-  } else if (this.calc_vre_only == true  && this.institution_type === 'ojt') {
     this.calc_housing_allow_term_1 = this.calc_monthly_rate_final;
-  } else if (this.gi_bill_chapter == 31  && (this.institution_type == 'flight' ||
+  } else if (this.calc_vre_only == true && this.institution_type === 'ojt') {
+    this.calc_housing_allow_term_1 = this.calc_monthly_rate_final;
+  } else if (this.gi_bill_chapter == 31 && (this.institution_type == 'flight' ||
       this.institution_type === 'correspondence')) {
     this.calc_tuition_allow_term_1 = 0;
   } else if (this.gi_bill_chapter == 1607 && this.institution_type === 'flight') {
@@ -1662,7 +1655,7 @@ Calculator.prototype.getHousingAllowTerm1 = function () {
       Math.min(this.calc_monthly_rate_final * this.calc_term_length,
         this.calc_tuition_fees_per_term * (this.consecutive_service * .6)
       ));
- } else if (this.gi_bill_chapter == 1606 && this.institution_type === 'correspondence') {
+  } else if (this.gi_bill_chapter == 1606 && this.institution_type === 'correspondence') {
     this.calc_housing_allow_term_1 = Math.max(0,
       Math.min(this.calc_monthly_rate_final * this.calc_term_length,
         this.calc_tuition_fees_per_term * (this.consecutive_service * .6)
@@ -1697,10 +1690,10 @@ Calculator.prototype.getHousingAllowTerm1 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getHousingAllowTerm2
 // Calculate Housing Allowance for Term #2
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getHousingAllowTerm2 = function () {
   if (this.military_status === 'active duty' && this.institution_type === 'ojt') {
     this.calc_housing_allow_term_2 = 0;
@@ -1709,9 +1702,9 @@ Calculator.prototype.getHousingAllowTerm2 = function () {
       this.institution_type === 'ojt') {
     this.calc_housing_allow_term_2 = 0;
   } else if (this.gi_bill_chapter == 35 && this.institution_type === 'ojt') {
-    this.calc_housing_allow_term_2 =  0.75 * this.calc_monthly_rate_final;
+    this.calc_housing_allow_term_2 = 0.75 * this.calc_monthly_rate_final;
   } else if (this.calc_old_gi_bill == true && this.institution_type === 'ojt') {
-    this.calc_housing_allow_term_2 =  (6.6/9) * this.calc_monthly_rate_final;
+    this.calc_housing_allow_term_2 = (6.6 / 9) * this.calc_monthly_rate_final;
   } else if (this.calc_vre_only == true && this.institution_type === 'ojt') {
     this.calc_housing_allow_term_2 = this.calc_monthly_rate_final;
   } else if (this.institution_type === 'ojt') {
@@ -1761,7 +1754,7 @@ Calculator.prototype.getHousingAllowTerm2 = function () {
   } else if (this.institution.country.toLowerCase() !== 'usa') {
     this.calc_housing_allow_term_2 = this.calc_term_length * this.rop *
       (this.calc_tier * this.AVGBAH + this.calc_kicker_benefit);
- } else {
+  } else {
     this.calc_housing_allow_term_2 = this.calc_term_length * this.rop *
       (this.calc_tier * this.institution.bah + this.calc_kicker_benefit);
   }
@@ -1769,10 +1762,10 @@ Calculator.prototype.getHousingAllowTerm2 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getHousingAllowTerm3
 // Calculate Housing Allowance for Term #3
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getHousingAllowTerm3 = function () {
   if (this.military_status === 'active duty' && this.institution_type === 'ojt') {
     this.calc_housing_allow_term_3 = 0;
@@ -1780,10 +1773,10 @@ Calculator.prototype.getHousingAllowTerm3 = function () {
       this.spouse_active_duty && this.institution_type === 'ojt') {
     this.calc_housing_allow_term_3 = 0;
   } else if (this.gi_bill_chapter == 35 && this.institution_type === 'ojt') {
-    this.calc_housing_allow_term_3 =  0.494 * this.calc_monthly_rate_final;
+    this.calc_housing_allow_term_3 = 0.494 * this.calc_monthly_rate_final;
   } else if (this.calc_old_gi_bill == true && this.institution_type === 'ojt') {
-    this.calc_housing_allow_term_3 =  (7/15) * this.calc_monthly_rate_final;
-  } else if (this.calc_vre_only == true  && this.institution_type === 'ojt') {
+    this.calc_housing_allow_term_3 = (7 / 15) * this.calc_monthly_rate_final;
+  } else if (this.calc_vre_only == true && this.institution_type === 'ojt') {
     this.calc_housing_allow_term_3 = this.calc_monthly_rate_final;
   } else if (this.institution_type === 'ojt') {
     this.calc_housing_allow_term_3 = 0.6 * this.calc_rop_ojt *
@@ -1843,18 +1836,18 @@ Calculator.prototype.getHousingAllowTerm3 = function () {
 };
 
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getHousingAllowTotal
 // Calculate Housing Allowance Total for year
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getHousingAllowTotal = function () {
   if (this.military_status === 'active duty' && this.institution_type === 'ojt') {
     this.calc_housing_allow_term_3 = 0;
   } else if (this.gi_bill_chapter == 35 && this.institution_type === 'ojt') {
-    this.calc_housing_allow_total =  0.25 * this.calc_monthly_rate_final;
+    this.calc_housing_allow_total = 0.25 * this.calc_monthly_rate_final;
   } else if (this.calc_old_gi_bill == true && this.institution_type === 'ojt') {
-    this.calc_housing_allow_total =  (7/15) * this.calc_monthly_rate_final;
-  } else if (this.calc_vre_only == true  && this.institution_type === 'ojt') {
+    this.calc_housing_allow_total = (7 / 15) * this.calc_monthly_rate_final;
+  } else if (this.calc_vre_only == true && this.institution_type === 'ojt') {
     this.calc_housing_allow_total = this.calc_monthly_rate_final;
   } else if (this.institution_type === 'ojt') {
     this.calc_housing_allow_total = 0.4 * this.calc_rop_ojt *
@@ -1871,10 +1864,10 @@ Calculator.prototype.getHousingAllowTotal = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getBookStipendTerm1
 // Calculate Book Stipend for Term #1
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getBookStipendTerm1 = function () {
   if (this.institution_type === 'flight' || this.institution_type === 'correspondence') {
     this.calc_book_stipend_term_1 = 0;
@@ -1892,10 +1885,10 @@ Calculator.prototype.getBookStipendTerm1 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getBookStipendTerm2
 // Calculate Book Stipend for Term #2
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getBookStipendTerm2 = function () {
   if (this.institution_type === 'flight' || this.institution_type === 'correspondence') {
     this.calc_book_stipend_term_2 = 0;
@@ -1915,14 +1908,14 @@ Calculator.prototype.getBookStipendTerm2 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getBookStipendTerm3
 // Calculate Book Stipend for Term #3
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getBookStipendTerm3 = function () {
   if (this.institution_type === 'flight' || this.institution_type === 'correspondence') {
     this.calc_book_stipend_term_3 = 0;
-  } else if  (this.institution_type === 'ojt' && this.gi_bill_chapter == 33) {
+  } else if (this.institution_type === 'ojt' && this.gi_bill_chapter == 33) {
     this.calc_book_stipend_term_3 = this.BSOJTMONTH;
   } else if (this.calendar === 'semesters') {
     this.calc_book_stipend_term_3 = 0;
@@ -1940,10 +1933,10 @@ Calculator.prototype.getBookStipendTerm3 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getBookStipendYear
 // Calculate Book Stipend for Year
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getBookStipendYear = function () {
   if (this.institution_type === 'ojt' && this.gi_bill_chapter == 33) {
     this.calc_book_stipend_total = this.BSOJTMONTH;
@@ -1955,20 +1948,20 @@ Calculator.prototype.getBookStipendYear = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTotalPaidToYou
 // Calculate Total Payments to You
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTotalPaidToYou = function () {
   this.calc_total_to_you = this.calc_housing_allow_total + this.calc_book_stipend_total;
 
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTotalTerm1
 // Calculate Total Benefits for Term 1
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTotalTerm1 = function () {
   if (this.institution_type === 'ojt') {
     this.calc_total_term_1 = 0;
@@ -1981,10 +1974,10 @@ Calculator.prototype.getTotalTerm1 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTotalTerm2
 // Calculate Total Benefits for Term 2
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTotalTerm2 = function () {
   if (this.calendar === 'nontraditional' && this.calc_number_of_terms == 1) {
     this.calc_book_stipend_term_2 = 0;
@@ -1992,17 +1985,17 @@ Calculator.prototype.getTotalTerm2 = function () {
     this.calc_total_term_2 = 0;
   } else {
     this.calc_total_term_2 = this.calc_tuition_fees_term_2 +
-      this.calc_yr_ben_term_2 + this.calc_housing_allow_term_2  +
+      this.calc_yr_ben_term_2 + this.calc_housing_allow_term_2 +
         this.calc_book_stipend_term_2;
   }
 
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTotalTerm3
 // Calculate Total Benefits for Term 3
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTotalTerm3 = function () {
   if (this.calendar == 'semesters') {
     this.calc_total_term_3 = 0;
@@ -2019,9 +2012,9 @@ Calculator.prototype.getTotalTerm3 = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // Calculate Text for Total Benefits Row
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTotalText = function () {
   if (this.gi_bill_chapter == 33) {
     this.calc_gi_bill_total_text = 'Total Post-9/11 GI Bill Benefits';
@@ -2040,10 +2033,10 @@ Calculator.prototype.getTotalText = function () {
   return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getTotalYear
 // Calculate Total Benefits for Year
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTotalYear = function () {
   if (this.institution_type === 'ojt') {
     this.calc_total_year = 0;
@@ -2057,10 +2050,10 @@ Calculator.prototype.getTotalYear = function () {
 };
 
 
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 // getMonthlyRateDisplay
 // Calculate Monthly Rate for Display
-///////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getMonthlyRateDisplay = function () {
   if (this.institution_type === 'ojt') {
     this.calc_monthly_rate_display = this.calc_housing_allow_term_1;
