@@ -5,10 +5,25 @@ class ProfileHistory extends React.Component {
   render() {
     const school = this.props.institution;
     const number_with_delimiter = (n) => {
-      return 'x,xxxx.xx';
+      const number = n + '';
+      const delimiter = ',';
+      let split = number.split('.');
+      split[0] = split[0].replace(
+        /(\d)(?=(\d\d\d)+(?!\d))/g,
+        '$1' + delimiter
+      );
+      return split.join('.');
     }
     const number_to_currency = (n) => {
-      return '$xxxx.xx';
+      try {
+        const precision = 2;
+        const unit = '$';
+        const separator = '.';
+        let parts = parseFloat(n).toFixed(precision).split('.');
+        return unit + number_with_delimiter(parts[0]) + separator + parts[1].toString();
+      } catch(e) {
+        return n;
+      }
     }
 
     return (
