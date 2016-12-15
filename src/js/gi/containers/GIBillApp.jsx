@@ -8,8 +8,8 @@ class GIBillApp extends React.Component {
 
   renderPage(page) {
     const pages = {
-      'search': (<SearchPage queryParams={this.props.location.query}/>),
-      'profile': (<ProfilePage queryParams={this.props.location.query}/>)
+      search: (<SearchPage queryParams={this.props.location.query}/>),
+      profile: (<ProfilePage queryParams={this.props.location.query}/>)
     };
     return pages[page] ||
       (<LandingPage queryParams={this.props.location.query}/>);

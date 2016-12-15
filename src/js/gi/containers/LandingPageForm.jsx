@@ -1,5 +1,4 @@
 import React from 'react';
-
 import AboutYourselfTeaser from '../components/AboutYourselfTeaser';
 import AboutYourselfFields from '../components/AboutYourselfFields';
 import AboutYourSchoolFields from '../components/AboutYourSchoolFields';
@@ -19,7 +18,7 @@ class LandingPageForm extends React.Component {
               </div>
               <div className="usa-card-content nested">
                 <div className="medium-6 columns">
-                  <AboutYourselfFields labels={true}/>
+                  <AboutYourselfFields labels/>
                 </div>
                 <AboutYourselfTeaser/>
               </div>
@@ -29,7 +28,7 @@ class LandingPageForm extends React.Component {
                 Step 2: About Your School
               </div>
               <div className="usa-card-content">
-                <AboutYourSchoolFields labels={true} onlineClasses={this.props.queryParams.online_classes}/>
+                <AboutYourSchoolFields labels onlineClasses={this.props.queryParams.online_classes}/>
               </div>
             </div>
           </div>

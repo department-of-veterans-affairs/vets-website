@@ -6,6 +6,10 @@ import SearchResult from '../components/SearchResult';
 
 class SearchPage extends React.Component {
 
+  breadcrumbLabel(searchTerm) {
+    return (searchTerm ? `Search for "${searchTerm}"` : 'Search');
+  }
+
   renderPageTitle(prefix) {
     document.title = [prefix, 'GI Bill Comparison Tool'].join(' - ');
   }
@@ -18,12 +22,8 @@ class SearchPage extends React.Component {
     );
   }
 
-  breadcrumbLabel(search_term) {
-    return (search_term ? `Search for "${search_term}"` : 'Search')
-  }
-
   render() {
-    this.renderPageTitle('Search Results - ' + this.props.queryParams.institution_search);
+    this.renderPageTitle(`Search Results - ${this.props.queryParams.institution_search}`);
     return (
       <span className="search-page-component">
         <div className="section">
