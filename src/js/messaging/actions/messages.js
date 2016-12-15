@@ -48,15 +48,15 @@ export function deleteDraftAttachment(index) {
   return { type: DELETE_DRAFT_ATTACHMENT, index };
 }
 
-export function deleteMessage(id) {
-  const url = `${baseUrl}/${id}`;
+export function deleteMessage(messageId) {
+  const url = `${baseUrl}/${messageId}`;
 
   window.dataLayer.push({
     event: 'sm-delete-message',
   });
 
   return dispatch => {
-    dispatch({ type: DELETING_MESSAGE });
+    dispatch({ type: DELETING_MESSAGE, messageId });
 
     apiRequest(
       url,
@@ -67,17 +67,14 @@ export function deleteMessage(id) {
   };
 }
 
-export function fetchThread(id) {
+export function fetchThread(messageId) {
   return dispatch => {
     const errorHandler =
       () => dispatch({ type: FETCH_THREAD_FAILURE });
 
-    dispatch({
-      type: LOADING_THREAD,
-      requestId: id
-    });
+    dispatch({ type: LOADING_THREAD, messageId });
 
-    const messageUrl = `${baseUrl}/${id}`;
+    const messageUrl = `${baseUrl}/${messageId}`;
     const threadUrl = `${messageUrl}/thread`;
 
     Promise.all([messageUrl, threadUrl].map(
@@ -92,9 +89,9 @@ export function fetchThread(id) {
   };
 }
 
-export function fetchThreadMessage(id) {
+export function fetchThreadMessage(messageId) {
   return dispatch => {
-    const messageUrl = `${baseUrl}/${id}`;
+    const messageUrl = `${baseUrl}/${messageId}`;
 
     apiRequest(
       messageUrl,
@@ -117,7 +114,7 @@ export function moveMessageToFolder(messageId, folder) {
   });
 
   return dispatch => {
-    dispatch({ type: MOVING_MESSAGE });
+    dispatch({ type: MOVING_MESSAGE, messageId });
 
     apiRequest(
       url,

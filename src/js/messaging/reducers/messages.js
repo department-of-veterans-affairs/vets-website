@@ -7,10 +7,14 @@ import {
   ADD_DRAFT_ATTACHMENTS,
   CLEAR_DRAFT,
   DELETE_DRAFT_ATTACHMENT,
+  DELETING_MESSAGE,
   FETCH_THREAD_FAILURE,
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_MESSAGE_SUCCESS,
   LOADING_THREAD,
+  MOVING_MESSAGE,
+  SAVING_DRAFT,
+  SENDING_MESSAGE,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_THREAD_MOVE_TO,
@@ -33,9 +37,13 @@ const initialState = {
   },
   ui: {
     formVisible: false,
+    lastRequestedId: null,
     loading: {
-      inProgress: false,
-      requestId: null
+      thread: false,
+      deleting: new Set(),
+      moving: new Set(),
+      saving: false,
+      sending: false,
     },
     messagesCollapsed: new Set(),
     moveToOpened: false,
@@ -49,6 +57,24 @@ const resetDraft = (state) => {
 
 export default function messages(state = initialState, action) {
   switch (action.type) {
+    case DELETING_MESSAGE: {
+      const deletingItems = new Set(state.ui.loading.deleting);
+      deletingItems.add(action.messageId);
+      return set('ui.loading.deleting', deletingItems, state);
+    }
+
+    case MOVING_MESSAGE: {
+      const movingItems = new Set(state.ui.loading.moving);
+      movingItems.add(action.messageId);
+      return set('ui.loading.moving', movingItems, state);
+    }
+
+    case SAVING_DRAFT:
+      return set('ui.loading.saving', true, state);
+
+    case SENDING_MESSAGE:
+      return set('ui.loading.sending', true, state);
+
     case ADD_DRAFT_ATTACHMENTS:
       return set('data.draft.attachments', [
         ...state.data.draft.attachments,
@@ -76,7 +102,7 @@ export default function messages(state = initialState, action) {
     }
 
     case FETCH_THREAD_FAILURE:
-      return set('ui.loading.inProgress', false, state);
+      return set('ui.loading.thread', false, state);
 
     case FETCH_THREAD_SUCCESS: {
       // Consolidate message attributes and attachments
@@ -116,11 +142,13 @@ export default function messages(state = initialState, action) {
       }
 
       let newState = set('ui', {
-        ...initialState.ui,
+        ...state.ui,
         messagesCollapsed,
         loading: {
-          inProgress: false,
-          requestId: state.ui.loading.requestId
+          ...state.ui.loading,
+          thread: false,
+          saving: false,
+          sending: false
         }
       }, state);
 
@@ -129,11 +157,10 @@ export default function messages(state = initialState, action) {
       return set('data.message', currentMessage, newState);
     }
 
-    case LOADING_THREAD:
-      return set('ui.loading', {
-        inProgress: true,
-        requestId: action.requestId
-      }, initialState);
+    case LOADING_THREAD: {
+      const newState = set('ui.loading.thread', true, initialState);
+      return set('ui.lastRequestedId', action.messageId, newState);
+    }
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
