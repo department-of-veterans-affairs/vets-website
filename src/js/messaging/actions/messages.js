@@ -56,7 +56,7 @@ export function deleteMessage(messageId) {
   });
 
   return dispatch => {
-    dispatch({ type: DELETING_MESSAGE, messageId });
+    dispatch({ type: DELETING_MESSAGE });
 
     apiRequest(
       url,
@@ -114,7 +114,7 @@ export function moveMessageToFolder(messageId, folder) {
   });
 
   return dispatch => {
-    dispatch({ type: MOVING_MESSAGE, messageId });
+    dispatch({ type: MOVING_MESSAGE });
 
     apiRequest(
       url,
