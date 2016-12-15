@@ -26,6 +26,7 @@ class ProfilePage extends React.Component {
     this.renderProfileSchoolHeaderModals = this.renderProfileSchoolHeaderModals.bind(this);
     this.renderProfileVeteranSummaryModals = this.renderProfileVeteranSummaryModals.bind(this);
     this.renderProfileSummaryModals = this.renderProfileSummaryModals.bind(this);
+    this.renderProfileHistoryModals = this.renderProfileHistoryModals.bind(this);
     this.toggleModalDisplay = this.toggleModalDisplay.bind(this);
 
     this.state = {
@@ -47,7 +48,11 @@ class ProfilePage extends React.Component {
         typeAccredited: false,
         tuitionPolicy: false,
         singleContact: false,
-        creditTraining: false
+        creditTraining: false,
+
+        facilityCode: false,
+        ipedsCode: false,
+        opeCode: false
       }
     }
   }
@@ -222,6 +227,36 @@ class ProfilePage extends React.Component {
     );
   }
 
+  renderProfileHistoryModals() {
+    return (
+      <span>
+        <Modal onClose={() => {this.toggleModalDisplay('facilityCode')}} visible={!!this.state.modals.facilityCode}>
+          <h3>VA Facility Code</h3>
+          <p>Unique identifier for VA approved facilities.</p>
+        </Modal>
+
+        <Modal onClose={() => {this.toggleModalDisplay('ipedsCode')}} visible={!!this.state.modals.ipedsCode}>
+          <h3>ED IPEDS Code</h3>
+          <p>Unique identification number assigned to postsecondary institutions surveyed through the Integrated Postsecondary Education Data System (IPEDS). Also referred to as UNITID or IPEDS ID.</p>
+        </Modal>
+
+        <Modal onClose={() => {this.toggleModalDisplay('opeCode')}} visible={!!this.state.modals.opeCode}>
+          <h3>ED OPE Code</h3>
+          <p>Identification number used by the U.S. Department of {'Education\'s'} Office of Postsecondary Education (OPE) to identify schools that have Program Participation Agreements (PPA) so that its students are eligible to participate in Federal Student Financial Assistance programs under Title IV regulations.</p>
+        </Modal>
+      </span>
+    );
+  }
+
+  // renderServicemembersOpportunityModals() {
+  //   return (
+  //     <Modal onClose={() => {this.toggleModalDisplay('servicememberOpportunity')}} visible={!!this.state.modals.servicememberOpportunity}>
+  //       <h3>Servicemember Opportunity College Member</h3>
+  //       <p>Is the school a member of the Servicemembers Opportunity College (SOC)?</p>
+  //     </Modal>
+  //   );
+  // }
+
   renderModals() {
     return (
       <span>
@@ -229,6 +264,7 @@ class ProfilePage extends React.Component {
         {this.renderProfileSchoolHeaderModals()}
         {this.renderProfileVeteranSummaryModals()}
         {this.renderProfileSummaryModals()}
+        {this.renderProfileHistoryModals()}
       </span>
     );
   }
@@ -357,7 +393,7 @@ class ProfilePage extends React.Component {
                   <li className="accordion-navigation">
                     <a href="#panel-historical-info" aria-expanded="true">Historical School Information</a>
                     <div id="panel-historical-info" className="content active">
-                      <ProfileHistory institution={this.props.institution}/>
+                      <ProfileHistory institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
                     </div>
                   </li>
                 </ul>
