@@ -1,7 +1,6 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import { DetailsPage } from '../../../src/js/disability-benefits/containers/DetailsPage';
 
@@ -20,7 +19,6 @@ describe('<DetailsPage>', () => {
       <DetailsPage
           claim={claim}/>
     );
-    debugger
     expect(tree.subTree('.claim-conditions-list').text()).to.contain('Condition 1Condition 2');
   });
 
@@ -35,7 +33,6 @@ describe('<DetailsPage>', () => {
       <DetailsPage
           claim={claim}/>
     );
-    debugger
     expect(tree.subTree('.claim-conditions-list').text()).to.contain('Not Available');
   });
 });
