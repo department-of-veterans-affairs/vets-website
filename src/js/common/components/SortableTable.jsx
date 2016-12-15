@@ -33,6 +33,14 @@ class SortableTable extends React.Component {
       }
     }
 
+    if (field.nonSortable) {
+      return (
+        <th key={field.value}>
+          {field.label}
+        </th>
+      );
+    }
+
     return (
       <th key={field.value}>
         <a onClick={this.handleSort(field.value, nextSortOrder)}>
