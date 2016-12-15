@@ -6,6 +6,7 @@ import { composeMessage } from '../config';
 import {
   CLOSE_ATTACHMENTS_MODAL,
   CLOSE_CREATE_FOLDER,
+  CREATE_FOLDER_FAILURE,
   CREATE_FOLDER_SUCCESS,
   OPEN_ATTACHMENTS_MODAL,
   OPEN_CREATE_FOLDER,
@@ -36,6 +37,7 @@ const initialState = {
 
 export default function modals(state = initialState, action) {
   switch (action.type) {
+    case CREATE_FOLDER_FAILURE:
     case CREATE_FOLDER_SUCCESS:
       return set('createFolder', initialState.createFolder, state);
     case TOGGLE_CONFIRM_DELETE:
