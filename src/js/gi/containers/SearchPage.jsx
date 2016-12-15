@@ -65,16 +65,10 @@ class SearchPage extends React.Component {
 
             { /* results column */ }
             <div className="small-12 medium-9 columns">
-              <div className="search-count">Showing
-                <strong>{3432}</strong> results for the term
+              <div className="search-count">
+                Showing <strong>{3432}</strong> results for the term
                 <strong><i>'{this.props.queryParams.institution_search}'</i></strong>.
               </div>
-              {/*
-              <%= render partial: 'school_summary',
-                collection: @kilter.paged_filtered_rset,
-                locals: { url: @kilter.to_href(profile_path, @inputs, page: @page) }
-              %>
-              */}
               <SearchResult facilityCode="123423423" cautionFlag gibill={21} institution="harvard" country="usa" city="Boston" state="ma"/>
             </div>
 

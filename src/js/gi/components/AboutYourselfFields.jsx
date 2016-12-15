@@ -260,7 +260,7 @@ class AboutYourselfFields extends React.Component {
             onChange={this.handleDropdownChange}
             showLabel={this.props.labels}/>
 
-        <Modal onClose={() => {this.toggleModalDisplay('militaryStatus')}} visible={!!this.state.modals.militaryStatus}>
+        <Modal onClose={() => {this.toggleModalDisplay('militaryStatus');}} visible={!!this.state.modals.militaryStatus}>
           <h3>Military Status</h3>
           <p>
             <a title="Post 9/11 GI Bill"
@@ -272,7 +272,7 @@ class AboutYourselfFields extends React.Component {
           </p>
         </Modal>
 
-        <Modal onClose={() => {this.toggleModalDisplay('giBillChapter')}} visible={!!this.state.modals.giBillChapter}>
+        <Modal onClose={() => {this.toggleModalDisplay('giBillChapter');}} visible={!!this.state.modals.giBillChapter}>
           <h3>Which GI Bill benefit are you thinking of using?</h3>
           <p>
             You may be eligible for several types of VA education and training
@@ -292,7 +292,7 @@ class AboutYourselfFields extends React.Component {
           </p>
         </Modal>
 
-        <Modal onClose={() => {this.toggleModalDisplay('cumulativeService')}} visible={!!this.state.modals.cumulativeService}>
+        <Modal onClose={() => {this.toggleModalDisplay('cumulativeService');}} visible={!!this.state.modals.cumulativeService}>
           <h3>Cumulative Post-9/11 Service</h3>
           <p>
             The <a title="Post-9/11 GI Bill" href="../post911_gibill.asp" id="anch_375">
@@ -307,7 +307,7 @@ class AboutYourselfFields extends React.Component {
           </p>
         </Modal>
 
-        <Modal onClose={() => {this.toggleModalDisplay('enlistmentService')}} visible={!!this.state.modals.enlistmentService}>
+        <Modal onClose={() => {this.toggleModalDisplay('enlistmentService');}} visible={!!this.state.modals.enlistmentService}>
           <h3>Completed an enlistment of (MGIB):</h3>
           <p>
             The Montgomery GI Bill – Active Duty provides education benefits
@@ -325,7 +325,7 @@ class AboutYourselfFields extends React.Component {
           </p>
         </Modal>
 
-        <Modal onClose={() => {this.toggleModalDisplay('consecutiveService')}} visible={!!this.state.modals.consecutiveService}>
+        <Modal onClose={() => {this.toggleModalDisplay('consecutiveService');}} visible={!!this.state.modals.consecutiveService}>
           <h3>Length of Longest Active Duty Tour (REAP)</h3>
           <p>
             The REAP program pays benefits to eligible Reservists or Guard

@@ -182,7 +182,7 @@ class ProfilePage extends React.Component {
         </Modal>
 
         <Modal onClose={() => {this.toggleModalDisplay('tool')}} visible={!!this.state.modals.tool}>
-          <h3>GI Bill® Comparison Tool: About This Tool</h3>
+          <h3>GI Bill Comparison Tool: About This Tool</h3>
           <p>VA is making it easier to research colleges and employers approved for the GI Bill. Answer just a few questions about yourself and the school/employer you are considering. You’ll receive an estimate of your GI Bill benefits and some information about the facility’s value and affordability.</p>
         </Modal>
 

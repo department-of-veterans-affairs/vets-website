@@ -50,11 +50,11 @@ class Estimator {
     };
   }
 
-  set set_military_status(str) {
+  set setMilitaryStatus(str) {
     this.military_status = str; // e.g. 'active duty'
   }
 
-  set set_spouse_active_duty(str) {
+  set setSpouseActiveDuty(str) {
     if (str) {
       this.spouse_active_duty = (str.toLowerCase() === 'yes');
     } else {
@@ -62,7 +62,7 @@ class Estimator {
     }
   }
 
-  set set_gi_bill_chap(n) {
+  set setGiBillChap(n) {
     const chapter = this.gi_bill_chap = Number(n);
     this.old_gi_bill = (
       chapter === 30
@@ -72,43 +72,43 @@ class Estimator {
     );
   }
 
-  set set_number_of_depend(n) {
+  set setNumberOfDepend(n) {
     this.number_of_depend = Number(n);
   }
 
-  set set_post_911_elig(str) {
+  set setPost911Elig(str) {
     this.post_911_elig = (str === 'yes');
   }
 
-  set set_cumulative_service(str) {
+  set setCumulativeService(str) {
     this.service_discharge = (str === 'service discharge');
     this.cumulative_service = this.service_discharge ? 1.0 : parseFloat(str);
   }
 
-  set set_enlistment_service(n) {
+  set setEnlistmentService(n) {
     this.enlistment_service = Number(n);
   }
 
-  set set_consecutive_service(n) {
+  set setConsecutiveService(n) {
     this.consecutive_service = Number(n);
   }
 
-  set set_online(str) {
+  set setOnline(str) {
     this.online = (str === 'yes');
   }
 
-  set set_institution_type(str) {
+  set setInstitutionType(str) {
     this.institution_type = str.toLowerCase();
 
     if (this.institution_type === 'for profit')
       this.institution_type = 'private'; // hacky fix
   }
 
-  set set_country(str) {
+  set setCountry(str) {
     this.country = str.toLowerCase();
   }
 
-  set set_bah(n) {
+  set setBah(n) {
     this.bah = parseFloat(n);
   }
 

@@ -23,7 +23,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a onClick={() => {this.props.toggleModalDisplay('vetgroups')}}>
+        <a onClick={() => {this.props.toggleModalDisplay('vetgroups');}}>
           Student Veteran Group
         </a>
         {link()}
@@ -35,7 +35,7 @@ class ProfileVeteranSummary extends React.Component {
     const school = this.props.institution;
     const feature = school.yr;
     const mark = feature ? <span className="programs-yes">✔</span> : <span className="programs-no">✖</span>;
-    const href = 'http://www.benefits.va.gov/gibill/yellow_ribbon/2015/states/'+school.state+'.asp';
+    const href = `http://www.benefits.va.gov/gibill/yellow_ribbon/2015/states/${school.state}.asp`;
     const link = () => {
       if (!feature) { return null; }
       return (
@@ -47,7 +47,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a onClick={() => {this.props.toggleModalDisplay('yribbon')}}>
+        <a onClick={() => {this.props.toggleModalDisplay('yribbon');}}>
           Yellow Ribbon
         </a>
         {link()}
@@ -62,7 +62,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a onClick={() => {this.props.toggleModalDisplay('poe')}}>
+        <a onClick={() => {this.props.toggleModalDisplay('poe');}}>
           <span className="programs-text">Principles of Excellence</span>
         </a>
       </li>
@@ -76,7 +76,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a id="military-tuition-assistance-info-link" onClick={() => {this.props.toggleModalDisplay('tool')}}>
+        <a id="military-tuition-assistance-info-link" onClick={() => {this.props.toggleModalDisplay('tool');}}>
           <span className="programs-text">Military Tuition Assistance (TA)</span>
         </a>
       </li>
@@ -91,7 +91,7 @@ class ProfileVeteranSummary extends React.Component {
     const link = () => {
       if (!feature || !email) { return null; }
       return (
-        <a target="_blank" href={'mailto:'+email} className="programs-text">
+        <a target="_blank" href={`mailto:${email}`} className="programs-text">
           &nbsp;Email #{feature} >>
         </a>
       );
@@ -112,7 +112,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a id="8-keys-info-link" onClick={() => {this.props.toggleModalDisplay('eightKeys')}}>
+        <a id="8-keys-info-link" onClick={() => {this.props.toggleModalDisplay('eightKeys');}}>
           <span className="programs-text">8 Keys to Veteran Success</span>
         </a>
       </li>

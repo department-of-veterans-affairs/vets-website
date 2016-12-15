@@ -1,5 +1,4 @@
 import React from 'react';
-import Modal from '../../../common/components/Modal';
 import ProfileCautionFlags from './ProfileCautionFlags';
 import ProfileSchoolHeader from './ProfileSchoolHeader';
 import ProfileEstimator from './ProfileEstimator';

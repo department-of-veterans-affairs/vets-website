@@ -17,14 +17,14 @@ class ProfileSchoolHeader extends React.Component {
   }
 
   renderInstitutionLink() {
-    const school_url = this.props.institution.insturl;
-    if (!school_url) {
+    const schoolUrl = this.props.institution.insturl;
+    if (!schoolUrl) {
       return null;
     }
     return (
       <p>
-        <a href="http://{school_url.toLowerCase()}" target="_blank">
-          {school_url.toLowerCase()}
+        <a href="http://{schoolUrl.toLowerCase()}" target="_blank">
+          {schoolUrl.toLowerCase()}
         </a>
       </p>
     );
@@ -41,9 +41,9 @@ class ProfileSchoolHeader extends React.Component {
 
         <div className="medium-7 columns">
           <div id={school.facility_code} className="profile_overview"
-            data-type={school.name  /* @school.institution_type.name */}
-            data-country={school.country}
-            data-bah={school.bah || 0}>
+              data-type={school.name}
+              data-country={school.country}
+              data-bah={school.bah || 0}>
 
             <div>{this.renderLocality()}</div>
           </div>
@@ -51,7 +51,7 @@ class ProfileSchoolHeader extends React.Component {
 
         <p>
           <span className="gi-bill-student-count">{school.gibill}&nbsp;</span>
-          <a onClick={() => {this.props.toggleModalDisplay('gibillstudents')}}>
+          <a onClick={() => {this.props.toggleModalDisplay('gibillstudents');}}>
             <span className="programs-text">GI Bill Students</span>
           </a>
         </p>

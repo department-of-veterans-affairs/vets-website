@@ -14,19 +14,19 @@ class ProfileEstimator extends React.Component {
     const params = this.props.queryParams;
     // get current values about the user
     const e = this.props.estimator;
-    e.set_military_status = params.military_status;
-    e.set_spouse_active_duty = params.spouse_active_duty;
-    e.set_gi_bill_chap = params.gi_bill_chap;
-    e.set_number_of_depend = params.number_of_depend;
-    e.set_post_911_elig = params.post_911_elig;
-    e.set_cumulative_service = params.cumulative_service;
-    e.set_enlistment_service = params.enlistment_service;
-    e.set_consecutive_service = params.consecutive_service;
-    e.set_online = params.online_classes;
+    e.setMilitaryStatus = params.military_status;
+    e.setSpouseActiveDuty = params.spouse_active_duty;
+    e.setGiBillChap = params.gi_bill_chap;
+    e.setNumberOfDepend = params.number_of_depend;
+    e.setPost911Elig = params.post_911_elig;
+    e.setCumulativeService = params.cumulative_service;
+    e.setEnlistmentService = params.enlistment_service;
+    e.setConsecutiveService = params.consecutive_service;
+    e.setOnline = params.online_classes;
     // set institution values
-    e.set_institution_type = school.institution_type.name;
-    e.set_country = school.country;
-    e.set_bah = school.bah;
+    e.setInstitutionType = school.institution_type.name;
+    e.setCountry = school.country;
+    e.setBah = school.bah;
   }
 
   render() {

@@ -4,27 +4,28 @@ class ProfileHistory extends React.Component {
 
   render() {
     const school = this.props.institution;
-    const number_with_delimiter = (n) => {
-      const number = n + '';
+    const numberWithDelimiter = (n) => {
+      const number = String(n);
       const delimiter = ',';
-      let split = number.split('.');
+      let $1;
+      const split = number.split('.');
       split[0] = split[0].replace(
         /(\d)(?=(\d\d\d)+(?!\d))/g,
-        '$1' + delimiter
+        [$1, delimiter].join()
       );
       return split.join('.');
-    }
-    const number_to_currency = (n) => {
+    };
+    const numberToCurrency = (n) => {
       try {
         const precision = 2;
         const unit = '$';
         const separator = '.';
-        let parts = parseFloat(n).toFixed(precision).split('.');
-        return unit + number_with_delimiter(parts[0]) + separator + parts[1].toString();
-      } catch(e) {
+        const parts = parseFloat(n).toFixed(precision).split('.');
+        return unit + numberWithDelimiter(parts[0]) + separator + parts[1].toString();
+      } catch (e) {
         return n;
       }
-    }
+    };
 
     return (
       <div className="usa-width-one-whole">
@@ -39,13 +40,13 @@ class ProfileHistory extends React.Component {
           <tbody>
             <tr>
               <th scope="row" className="text-left">Post-9/11 GI Bill:</th>
-              <td>{ number_with_delimiter(school.p911_recipients) }</td>
-              <td>{ number_to_currency(school.p911_tuition_fees) }</td>
+              <td>{numberWithDelimiter(school.p911_recipients)}</td>
+              <td>{numberToCurrency(school.p911_tuition_fees)}</td>
             </tr>
             <tr>
               <th scope="row" className="text-left">Yellow Ribbon:</th>
-              <td>{ number_with_delimiter(school.p911_yr_recipients) }</td>
-              <td>{ number_to_currency(school.p911_yellow_ribbon) }</td>
+              <td>{numberWithDelimiter(school.p911_yr_recipients)}</td>
+              <td>{numberToCurrency(school.p911_yellow_ribbon)}</td>
             </tr>
           </tbody>
         </table>
@@ -59,17 +60,17 @@ class ProfileHistory extends React.Component {
           </thead>
           <tbody>
             <tr>
-              <td>VA Facility Code:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('facilityCode')}} className="info-icons"><i id="va-facility-code-info" className="fa fa-info-circle info-icons"></i></a></td>
+              <td>VA Facility Code:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('facilityCode');}} className="info-icons"><i id="va-facility-code-info" className="fa fa-info-circle info-icons"></i></a></td>
               <td>{school.facility_code ? school.facility_code : 'No Data'}</td>
               <td></td>
             </tr>
             <tr>
-              <td>ED IPEDS Code:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('ipedsCode')}} className="info-icons"><i id="ipeds-code-info" className="fa fa-info-circle info-icons"></i></a></td>
+              <td>ED IPEDS Code:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('ipedsCode');}} className="info-icons"><i id="ipeds-code-info" className="fa fa-info-circle info-icons"></i></a></td>
               <td>{school.cross ? school.cross : 'No Data'}</td>
               <td></td>
             </tr>
             <tr>
-              <td>ED OPE Code:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('opeCode')}} className="info-icons"><i id="ed-ope-code-info" className="fa fa-info-circle info-icons"></i></a></td>
+              <td>ED OPE Code:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('opeCode');}} className="info-icons"><i id="ed-ope-code-info" className="fa fa-info-circle info-icons"></i></a></td>
               <td>{school.ope ? school.ope : 'No Data'}</td>
               <td></td>
             </tr>
