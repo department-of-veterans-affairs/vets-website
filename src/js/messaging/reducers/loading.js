@@ -1,8 +1,14 @@
 import set from 'lodash/fp/set';
 
 import {
+  CREATING_FOLDER,
+  CREATE_FOLDER_FAILURE,
+  CREATE_FOLDER_SUCCESS,
+  DELETE_FOLDER_FAILURE,
+  DELETE_FOLDER_SUCCESS,
   DELETE_MESSAGE_FAILURE,
   DELETE_MESSAGE_SUCCESS,
+  DELETING_FOLDER,
   DELETING_MESSAGE,
   FETCH_FOLDER_FAILURE,
   FETCH_FOLDER_SUCCESS,
@@ -28,14 +34,22 @@ const initialState = {
   folder: false,
   recipients: false,
   thread: false,
-  deleting: false,
-  moving: false,
-  saving: false,
-  sending: false
+  deletingMessage: false,
+  movingMessage: false,
+  savingDraft: false,
+  sendingMessage: false
 };
 
 export default function loading(state = initialState, action) {
   switch (action.type) {
+    case CREATE_FOLDER_FAILURE:
+    case CREATE_FOLDER_SUCCESS:
+      return set('creatingFolder', false, state);
+
+    case DELETE_FOLDER_FAILURE:
+    case DELETE_FOLDER_SUCCESS:
+      return set('deletingFolder', false, state);
+
     case FETCH_FOLDER_FAILURE:
     case FETCH_FOLDER_SUCCESS:
       return set('folder', false, state);
@@ -50,22 +64,28 @@ export default function loading(state = initialState, action) {
 
     case DELETE_MESSAGE_FAILURE:
     case DELETE_MESSAGE_SUCCESS:
-      return set('deleting', false, state);
+      return set('deletingMessage', false, state);
 
     case MOVE_MESSAGE_FAILURE:
     case MOVE_MESSAGE_SUCCESS:
-      return set('moving', false, state);
+      return set('movingMessage', false, state);
 
     case SAVE_DRAFT_FAILURE:
     case SAVE_DRAFT_SUCCESS:
-      return set('saving', false, state);
+      return set('savingDraft', false, state);
 
     case SEND_MESSAGE_FAILURE:
     case SEND_MESSAGE_SUCCESS:
-      return set('sending', false, state);
+      return set('sendingMessage', false, state);
+
+    case CREATING_FOLDER:
+      return set('creatingFolder', true, state);
+
+    case DELETING_FOLDER:
+      return set('deletingFolder', true, state);
 
     case DELETING_MESSAGE:
-      return set('deleting', true, state);
+      return set('deletingMessage', true, state);
 
     case LOADING_FOLDER:
       return set('folder', true, state);
@@ -77,13 +97,13 @@ export default function loading(state = initialState, action) {
       return set('thread', true, state);
 
     case MOVING_MESSAGE:
-      return set('moving', true, state);
+      return set('movingMessage', true, state);
 
     case SAVING_DRAFT:
-      return set('saving', true, state);
+      return set('savingDraft', true, state);
 
     case SENDING_MESSAGE:
-      return set('sending', true, state);
+      return set('sendingMessage', true, state);
 
     default:
       return state;

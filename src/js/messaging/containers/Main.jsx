@@ -58,27 +58,29 @@ export class Main extends React.Component {
     } else {
       this.props.createNewFolder(folderName);
     }
-
-    this.props.closeCreateFolderModal();
   }
 
   render() {
     const loading = this.props.loading;
 
-    if (loading.deleting) {
-      return <LoadingIndicator message="Deleting the message..."/>;
+    if (loading.deletingFolder) {
+      return <LoadingIndicator message="Deleting your folder..."/>;
     }
 
-    if (loading.moving) {
-      return <LoadingIndicator message="Moving the message..."/>;
+    if (loading.deletingMessage) {
+      return <LoadingIndicator message="Deleting message..."/>;
     }
 
-    if (loading.saving) {
-      return <LoadingIndicator message="Saving the message..."/>;
+    if (loading.movingMessage) {
+      return <LoadingIndicator message="Moving message..."/>;
     }
 
-    if (loading.sending) {
-      return <LoadingIndicator message="Sending the message..."/>;
+    if (loading.savingDraft) {
+      return <LoadingIndicator message="Saving your message..."/>;
+    }
+
+    if (loading.sendingMessage) {
+      return <LoadingIndicator message="Sending your message..."/>;
     }
 
     const navClass = classNames({
@@ -114,6 +116,7 @@ export class Main extends React.Component {
             cssClass="messaging-modal"
             folders={this.props.folders}
             id="messaging-create-folder"
+            loading={loading.creatingFolder}
             onClose={this.props.closeCreateFolderModal}
             onValueChange={this.handleFolderNameChange}
             onSubmit={this.handleSubmitCreateNewFolder}
