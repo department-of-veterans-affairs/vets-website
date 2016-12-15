@@ -51,7 +51,7 @@ function formatYear(val) {
 }
 
 export function formatPartialDate(field) {
-  if (!field.month.value && !field.year.value) {
+  if (!field || (!field.month.value && !field.year.value)) {
     return undefined;
   }
 

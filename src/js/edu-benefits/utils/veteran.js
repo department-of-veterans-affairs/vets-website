@@ -280,6 +280,10 @@ export function veteranToApplication(veteran) {
         // fall through.
     }
 
+    if (typeof value === 'undefined') {
+      return undefined;
+    }
+
     if (value.month !== undefined && value.year !== undefined) {
       return formatPartialDate(value);
     }

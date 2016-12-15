@@ -4,11 +4,17 @@ title: What to expect after you get a disability rating
 template: 6-info-page
 ---
 
+<div class="call-out usa-content" markdown="1">
 
+Disability compensation may include financial compensation (payments) as well as other benefits—like health care or job training.
 
-If you've received a decision notice with your disability rating, you may be eligible for compensation, education, health care, housing, employment, and dependent benefits.  
+If you haven’t gotten your decision notice:
 
-If you haven’t received your decision notice, check your status on [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=va-letters) or contact your [regional VA office](/facilities/).
+- [Check your status](/disability-benefits/track-claims/), **or**
+
+- [Contact your local VA or eligibility office](/facility-locator/)
+
+</div>
 
 
 #### Look for a payment within 15 days  
