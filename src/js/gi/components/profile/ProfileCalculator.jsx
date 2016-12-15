@@ -1,19 +1,38 @@
 import React from 'react';
+import Calculator from '../../utils/Calculator';
 
 class ProfileCalculator extends React.Component {
 
   constructor(props) {
     super(props);
     this.renderInputs = this.renderInputs.bind(this);
+    this.renderOutputs = this.renderOutputs.bind(this);
+    this.renderYellowRibbonLink = this.renderYellowRibbonLink.bind(this);
+
+    const school = this.props.institution;
+    this.props.calculator.init(school, this);
+
+    this.state = {};
+  }
+
+  renderYellowRibbonLink() {
+    const school = this.props.institution;
+    const url = 'http://www.benefits.va.gov/gibill/yellow_ribbon/2015/states/'+school.state+'.asp';
+    if (school.state) {
+      return (
+        <a target="blank" href={url} className="see-yr-rates-summary">See YR Rates</a>
+      );
+    }
+    return null;
   }
 
   renderInputs() {
+    const school = this.props.institution;
     return (
       <div className="calc-questions large-6 columns nopadding">
         <div id="tuition-fees-section">
           <div id="in-state" className="form-group">
-            <label className="question">In-state student?
-            </label>
+            <label className="question">In-state student?</label>
             <input id="in-state-yes" name="in_state" type="radio" value="yes" checked="" className="filter-item filter-in-state"/>
             <label className="radio" htmlFor="in-state-yes">Yes</label>
             <input id="in-state-no" name="in_state" type="radio" value="no" className="filter-item filter-in-state"/>
@@ -21,26 +40,22 @@ class ProfileCalculator extends React.Component {
           </div>
 
           <div id="tuition-fees-form" className="form-group top-aligned">
-            <label htmlFor="tuition-fees-input">Tuition / Fees (/year):&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcTuition')}} className="info-icons"><i id="tuition-fees-info" className="fa fa-info-circle info-icons"></i></a>
-            </label>
+            <label htmlFor="tuition-fees-input">Tuition / Fees (/year):&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcTuition')}} className="info-icons"><i id="tuition-fees-info" className="fa fa-info-circle info-icons"></i></a></label>
             <input id="tuition-fees-input" type="text" value="$0" name="Tuition Fees" alt="Tuition Fees" className="filter-item"/>
           </div>
 
           <div id="in-state-tuition-fees-form" className="form-group top-aligned">
-            <label htmlFor="in-state-tuition-fees">In-state Tuition / Fees (/year): &nbsp;<a onClick={() => {this.props.toggleModalDisplay('retention')}}><i id="in-state-info" className="fa fa-info-circle info-icons"></i></a>
-            </label>
+            <label htmlFor="in-state-tuition-fees">In-state Tuition / Fees (/year): &nbsp;<a onClick={() => {this.props.toggleModalDisplay('retention')}}><i id="in-state-info" className="fa fa-info-circle info-icons"></i></a></label>
             <input id="in-state-tuition-fees" type="text" value="$0" name="In-state Tuition Fees" alt="In-state Tuition Fees" className="filter-item"/>
           </div>
 
           <div id="books-input-row">
-            <label htmlFor="books-input">Books / Supplies (/year):
-            </label>
+            <label htmlFor="books-input">Books / Supplies (/year):</label>
             <input id="books-input" type="text" value="$0" name="Books" alt="Books" className="filter-item"/>
           </div>
 
           <div id="yellow-ribbon-recipient-form">
-            <label className="question">Receiving Yellow Ribbon?&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcYr')}} className="info-icons"><i id="yellow-ribbon-info" className="fa fa-info-circle info-icons"></i></a>
-            </label>
+            <label className="question">Receiving Yellow Ribbon?&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcYr')}} className="info-icons"><i id="yellow-ribbon-info" className="fa fa-info-circle info-icons"></i></a></label>
             <input id="yellow-ribbon-recipient-yes" name="receiving_yellow_ribbon" type="radio" value="yes" className="filter-item"/>
             <label className="radio" htmlFor="yellow-ribbon-recipient-yes">Yes</label>
             <input id="yellow-ribbon-recipient-no" name="receiving_yellow_ribbon" type="radio" value="no" checked className="filter-item"/>
@@ -48,39 +63,28 @@ class ProfileCalculator extends React.Component {
           </div>
 
           <div id="yellow-ribbon-amount-form" className="form-group top-aligned">
-            {/*
-
-              link = @school.state.present? ? "http://www.benefits.va.gov/gibill/yellow_ribbon/2015/states/#{@school.state}.asp" : ""
-
-              l_str = link.present? ? "<a target=\"blank\" href=\"#{link}\" className=\"see-yr-rates-summary\"> See YR Rates</a>" : ""
-
-            */}
-
             {/*  Yellow Ribbon Amount  */}
             <label htmlFor="yellow-ribbon-amount">Yellow Ribbon Amount From School (/year) :</label>
             <input id="yellow-ribbon-amount" type="text" value="$0" name="Yellow Ribbon Amount From School" alt="Yellow Ribbon Amount From School" className="filter-item" />
-            {/* ruby = h(l_str.html_safe) */}
+            {this.renderYellowRibbonLink()}
           </div>
 
           <div id="yellow-ribbon-rates-link" className="form-group"></div>
 
           <div id="scholarship-amount-form" className="form-group top-aligned">
-            <label htmlFor="scholar">Scholarships (not Pell):&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcScholarships')}} className="info-icons"><i id="scholarships-info" className="fa fa-info-circle info-icons"></i></a>
-            </label>
+            <label htmlFor="scholar">Scholarships (not Pell):&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcScholarships')}} className="info-icons"><i id="scholarships-info" className="fa fa-info-circle info-icons"></i></a></label>
             <input id="scholar" type="text" value="$0" name="Scholarships (not Pell)" alt="How much are you receiving in scholarships and not Pell grants" className="filter-item" />
           </div>
         </div>
 
         <div id="tuition-assist-form" className="form-group top-aligned">
-          <label htmlFor="tuition-assist">Military Tuition Assistance:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('retention')}} className="info-icons"><i id="military-tuition-assistance-info" className="fa fa-info-circle info-icons"></i></a>
-          </label>
+          <label htmlFor="tuition-assist">Military Tuition Assistance:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('retention')}} className="info-icons"><i id="military-tuition-assistance-info" className="fa fa-info-circle info-icons"></i></a></label>
           <input id="tuition-assist" type="text" value="$0" name="Military Tuition Assistance" alt="How much are you receiving in military tuition assistance" className="filter-item" />
         </div>
 
         <div id="enrollment-section">
           <div id="enrolled-form">
-            <label htmlFor="enrolled">Enrolled:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcEnrolled')}} className="info-icons"><i id="enrolled-info" className="fa fa-info-circle info-icons"></i></a>
-            </label>
+            <label htmlFor="enrolled">Enrolled:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcEnrolled')}} className="info-icons"><i id="enrolled-info" className="fa fa-info-circle info-icons"></i></a></label>
             <div>
               <select id="enrolled" name="Enrolled" alt="Select your enrollment level" className="filter-item">
                 <option value="1.0">Full Time</option>
@@ -93,8 +97,7 @@ class ProfileCalculator extends React.Component {
 
           {/*  Rate of Pursuit Old  */}
           <div id="enrolled-form-old-gi-bill">
-            <label htmlFor="enrolled-old">Enrolled:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcEnrolled')}} className="info-icons"><i id="enrolled-old-info" className="fa fa-info-circle info-icons"></i></a>
-            </label>
+            <label htmlFor="enrolled-old">Enrolled:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcEnrolled')}} className="info-icons"><i id="enrolled-old-info" className="fa fa-info-circle info-icons"></i></a></label>
             <div>
               <select id="enrolled-old" name="Enrolled" alt="Select your enrollment level" className="filter-item">
                 <option value="full">Full Time</option>
@@ -107,8 +110,7 @@ class ProfileCalculator extends React.Component {
           </div>
 
           <div id="calendar-form">
-            <label htmlFor="calendar">School Calendar:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcSchoolCalendar')}} className="info-icons"><i id="school-calendar-info" className="fa fa-info-circle info-icons"></i></a>
-            </label>
+            <label htmlFor="calendar">School Calendar:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcSchoolCalendar')}} className="info-icons"><i id="school-calendar-info" className="fa fa-info-circle info-icons"></i></a></label>
             <div>
               <select id="calendar" name="School Calendar" alt="Select type of school calendar" className="filter-item">
                 <option value="semesters">Semesters</option>
@@ -119,8 +121,7 @@ class ProfileCalculator extends React.Component {
           </div>
 
           <div id="working-form" className="form-group top-aligned">
-            <label htmlFor="working">Will be working:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('retention')}} className="info-icons"><i id="will-be-working-info" className="fa fa-info-circle info-icons"></i></a>
-            </label>
+            <label htmlFor="working">Will be working:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('retention')}} className="info-icons"><i id="will-be-working-info" className="fa fa-info-circle info-icons"></i></a></label>
             <select id="working" name="Will be working" alt="Select how much you will be working" className="filter-item">
               <option value="30">30+ hrs / week</option>
               <option value="28">28 hrs / week</option>
@@ -150,8 +151,7 @@ class ProfileCalculator extends React.Component {
           </div>
 
           <div id="length-non-traditional-terms-form" className="form-group top-aligned">
-            <label htmlFor="length-non-traditional-terms">How long is each term?
-            </label>
+            <label htmlFor="length-non-traditional-terms">How long is each term?</label>
             <select id="length-non-traditional-terms" name="How long is each term?" alt="Select how long is each term?" className="filter-item">
               <option value="1">1 month</option>
               <option value="2">2 months</option>
@@ -169,8 +169,7 @@ class ProfileCalculator extends React.Component {
           </div>
 
           <div id="kicker-elig-form">
-            <label className="question">Eligible for Kicker:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcKicker')}} className="info-icons"><i id="eligible-for-kicker-info" className="fa fa-info-circle info-icons"></i></a>
-            </label>
+            <label className="question">Eligible for Kicker:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcKicker')}} className="info-icons"><i id="eligible-for-kicker-info" className="fa fa-info-circle info-icons"></i></a></label>
             <input id="kicker-elig-yes" name="kicker_eligible" type="radio" value="yes" className="filter-item"/>
             <label className="radio" htmlFor="kicker-elig-yes">Yes</label>
             <input id="kicker-elig-no" name="kicker_eligible" type="radio" value="no" checked="" className="filter-item"/>
@@ -178,8 +177,7 @@ class ProfileCalculator extends React.Component {
           </div>
 
           <div id="kicker-form" className="form-group top-aligned">
-            <label htmlFor="kicker">How much is your kicker?&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcKicker')}} className="info-icons"><i id="how-much-kicker-info" className="fa fa-info-circle info-icons"></i></a>
-            </label>
+            <label htmlFor="kicker">How much is your kicker?&nbsp;<a onClick={() => {this.props.toggleModalDisplay('calcKicker')}} className="info-icons"><i id="how-much-kicker-info" className="fa fa-info-circle info-icons"></i></a></label>
             <input id="kicker" type ="text" value="$200" name="How much is your kicker?" alt="Tell us how much is your kicker was for?" className="filter-item" />
           </div>
 
@@ -193,8 +191,7 @@ class ProfileCalculator extends React.Component {
           </div>
 
           <div id="buy-up-rate-form" className="form-group top-aligned">
-            <label htmlFor="buy-up-rate">How much did you pay toward buy-up?
-            </label>
+            <label htmlFor="buy-up-rate">How much did you pay toward buy-up?</label>
             <select id="buy-up-rate" name="How much did you pay?" alt="Select how much you paid" className="filter-item">
               <option value="600">$600</option>
               <option value="580">$580</option>
@@ -375,7 +372,8 @@ ProfileCalculator.propTypes = {
 };
 
 ProfileCalculator.defaultProps = {
-  expanded: true
+  expanded: true,
+  calculator: new Calculator()
 };
 
 export default ProfileCalculator;

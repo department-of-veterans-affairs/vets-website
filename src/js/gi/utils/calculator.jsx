@@ -1,56 +1,68 @@
-///////////////////////////////////////////////////////////////////////////////
-// Calculator
-///////////////////////////////////////////////////////////////////////////////
-function Calculator(institution_type, institution) {
-  this.institution = institution;
-  this.institution_type = institution_type.toLowerCase();
+import React from 'react';
 
-  // For Profit is the same as private (facility code starts with 2)
-  if (this.institution_type === "for profit")
-    this.institution_type = "private";
+class Calculator {
 
-  if (!this.institution.bah)
-    this.institution.bah = 0.0;
+  constructor() {
+    this.values = {};
+    this.outputs = {};
+  }
 
-  if (!this.institution.tuition_in_state)
-    this.institution.tuition_in_state = 0.0;
+  init(school, profileCalculatorComponent) {
+    this.institution = school;
+    this.institution_type = school.institution_type.name.toLowerCase();
+    this.component = profileCalculatorComponent;
 
-  if (!this.institution.tuition_out_of_state)
-    this.institution.tuition_out_of_state = 0.0;
+    // For Profit is the same as private (facility code starts with 2)
+    if (this.institution_type === "for profit") {
+      this.institution_type = "private";
+    }
 
-  if (!this.institution.books)
-    this.institution.books = 0.0;
+    if (!this.institution.bah) {
+      this.institution.bah = 0.0;
+    }
 
-  if (!this.institution.country)
-    this.institution.country = "";
+    if (!this.institution.tuition_in_state) {
+      this.institution.tuition_in_state = 0.0;
+    }
 
-  this.populateInputs();
-  this.getValues();
-  this.getDerivedValues();
-  this.resetVisibility();
-  this.writeOutputs();
+    if (!this.institution.tuition_out_of_state) {
+      this.institution.tuition_out_of_state = 0.0;
+    }
 
-  var othis = this;
-  $(".filter-item").change(function() {
-    othis.getValues();
-    othis.getDerivedValues();
-    othis.resetVisibility();
-    othis.writeOutputs();
-  });
+    if (!this.institution.books) {
+      this.institution.books = 0.0;
+    }
 
-  $(".filter-in-state").change(function() {
-    othis.updateInState();
-    othis.getValues();
-    othis.getDerivedValues();
-    othis.resetVisibility();
-    othis.writeOutputs();
-  });
+    if (!this.institution.country) {
+      this.institution.country = "";
+    }
+
+    this.populateInputs();
+    this.getValues();
+    // this.getDerivedValues();
+    // this.resetVisibility();
+    this.writeOutputs();
+
+    var othis = this;
+    $(".filter-item").change(function() {
+      othis.getValues();
+      // othis.getDerivedValues();
+      // othis.resetVisibility();
+      othis.writeOutputs();
+    });
+
+    $(".filter-in-state").change(function() {
+      othis.updateInState();
+      othis.getValues();
+      // othis.getDerivedValues();
+      // othis.resetVisibility();
+      othis.writeOutputs();
+    });
+
+  }
 }
 
-///////////////////////////////////////////////////////////////////////////////
 // Constants
-///////////////////////////////////////////////////////////////////////////////
-
 Calculator.prototype.TFCAP = 21970.46;
 Calculator.prototype.AVGBAH = 1611;
 Calculator.prototype.BSCAP = 1000;
@@ -168,99 +180,136 @@ Calculator.prototype.CALENDAR = "#calendar";
 // Update the in/out of state values
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.updateInState = function() {
-  if (!this.in_state)
-    $(this.TUITION_FEES_INPUT).val(this.formatCurrency(this.institution.tuition_out_of_state));
-  else
-    $(this.TUITION_FEES_INPUT).val(this.formatCurrency(this.institution.tuition_in_state));
+  if (!this.in_state) {
+    // $(this.TUITION_FEES_INPUT).val(this.formatCurrency(this.institution.tuition_out_of_state));
+    this.values.tuitionFeesInput = this.formatCurrency(this.institution.tuition_out_of_state);
+  } else {
+    // $(this.TUITION_FEES_INPUT).val(this.formatCurrency(this.institution.tuition_in_state));
+    this.values.tuitionFeesInput = this.formatCurrency(this.institution.tuition_in_state);
+  }
 };
-
-///////////////////////////////////////////////////////////////////////////////
-// updateTextInputs
-///////////////////////////////////////////////////////////////////////////////
-// Calculator.prototype.updateTextInputs = function() {
-//   $('#tuition-fees-input, #in-state-tuition-fees, #books-input,' +
-//     '#yellow-ribbon-amount, #scholar, #kicker').on('keyup',
-//     function(e) { $(this).change(); });
-// };
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // populateInputs
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.populateInputs = function() {
-  var tis = this.formatCurrency(this.institution.tuition_in_state);
+  const t = this.formatCurrency(this.institution.tuition_in_state);
 
-  $(this.TUITION_FEES_INPUT).val(tis);
-  $(this.IN_STATE_TUITION_FEES).val(tis);
-  $(this.BOOKS_INPUT).val(this.formatCurrency(this.institution.books));
+  // $(this.TUITION_FEES_INPUT).val(tis);
+  // $(this.IN_STATE_TUITION_FEES).val(tis);
+  // $(this.BOOKS_INPUT).val(this.formatCurrency(this.institution.books));
+  this.values.inStateTuitionFees = this.values.tuitionFeesInput = t;
+  this.values.booksInput = this.formatCurrency(this.institutionbooks);
 
   if (this.institution.calendar) {
-    $(this.CALENDAR).val(this.institution.calendar.toLowerCase());
+    // $(this.CALENDAR).val(this.institution.calendar.toLowerCase());
+    this.values.calendar = this.institution.calendar.toLowerCase();
   } else {
-    $(this.CALENDAR).val('semesters');
+    // $(this.CALENDAR).val('semesters');
+    this.values.calendar = 'semesters';
   }
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// populateInputs
+// writeOutputs
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.writeOutputs = function() {
-  $(this.HOUSING_ALLOW_RATE).html(this.formatCurrency(this.calc_monthly_rate_display)+ ' / month');
-  $(this.TOTAL_LEFT_TO_PAY).html(this.formatCurrency(this.calc_total_left_to_pay));
+  // $(this.HOUSING_ALLOW_RATE).html(this.formatCurrency(this.calc_monthly_rate_display)+ ' / month');
+  // $(this.TOTAL_LEFT_TO_PAY).html(this.formatCurrency(this.calc_total_left_to_pay));
+  this.outputs.housingAllowRate = this.formatCurrency(this.calc_monthly_rate_display)+ ' / month';
+  this.outputs.totalLeftToPay = this.formatCurrency(this.calc_total_left_to_pay);
 
-  $(this.TOTAL_PAID_TO_SCHOOL).html(this.formatCurrency(this.calc_total_to_school));
-  $(this.TOTAL_PAID_TO_YOU).html(this.formatCurrency(this.calc_total_to_you));
-  $(this.TOTAL_YEAR).html(this.formatCurrency(this.calc_total_year));
+  // $(this.TOTAL_PAID_TO_SCHOOL).html(this.formatCurrency(this.calc_total_to_school));
+  // $(this.TOTAL_PAID_TO_YOU).html(this.formatCurrency(this.calc_total_to_you));
+  // $(this.TOTAL_YEAR).html(this.formatCurrency(this.calc_total_year));
+  this.outputs.totalPaidToSchool = this.formatCurrency(this.calc_total_to_school);
+  this.outputs.totalPaidToYou = this.formatCurrency(this.calc_total_to_you);
+  this.outputs.total_year = this.formatCurrency(this.calc_total_year);
 
-  $(this.TOTAL_TUITION_FEES_CHARGED).html(this.formatCurrency(this.tuition_fees));
-  $(this.TOTAL_SCHOOL_RECEIVED).html(this.formatCurrency(this.calc_total_to_school));
-  $(this.TOTAL_TUITION_FEES_SCHOLARSHIPS).html(this.formatCurrency(this.calc_total_scholarship_ta));
+  // $(this.TOTAL_TUITION_FEES_CHARGED).html(this.formatCurrency(this.tuition_fees));
+  // $(this.TOTAL_SCHOOL_RECEIVED).html(this.formatCurrency(this.calc_total_to_school));
+  // $(this.TOTAL_TUITION_FEES_SCHOLARSHIPS).html(this.formatCurrency(this.calc_total_scholarship_ta));
+  this.outputs.totalTuitionFeesCharged = this.formatCurrency(this.tuition_fees);
+  this.outputs.totalSchoolReceived = this.formatCurrency(this.calc_total_to_school);
+  this.outputs.totalTuitionFeesScholarships = this.formatCurrency(this.calc_total_scholarship_ta);
 
-  $(this.TERM1).html(this.calc_term1);
-  $(this.TERM2).html(this.calc_term2);
-  $(this.TERM3).html(this.calc_term3);
-  $(this.TERM4).html(this.calc_term4);
+  // $(this.TERM1).html(this.calc_term1);
+  // $(this.TERM2).html(this.calc_term2);
+  // $(this.TERM3).html(this.calc_term3);
+  // $(this.TERM4).html(this.calc_term4);
+  this.outputs.term1 = this.calc_term1;
+  this.outputs.term2 = this.calc_term2;
+  this.outputs.term3 = this.calc_term3;
+  this.outputs.term4 = this.calc_term4;
 
-  $(this.TUITION_FEES_TERM_1).html(this.formatCurrency(this.calc_tuition_fees_term_1));
-  $(this.TUITION_FEES_TERM_2).html(this.formatCurrency(this.calc_tuition_fees_term_2));
-  $(this.TUITION_FEES_TERM_3).html(this.formatCurrency(this.calc_tuition_fees_term_3));
-  $(this.TUITION_FEES_TOTAL).html(this.formatCurrency(this.calc_tuition_fees_total));
+  // $(this.TUITION_FEES_TERM_1).html(this.formatCurrency(this.calc_tuition_fees_term_1));
+  // $(this.TUITION_FEES_TERM_2).html(this.formatCurrency(this.calc_tuition_fees_term_2));
+  // $(this.TUITION_FEES_TERM_3).html(this.formatCurrency(this.calc_tuition_fees_term_3));
+  // $(this.TUITION_FEES_TOTAL).html(this.formatCurrency(this.calc_tuition_fees_total));
+  this.outputs.tuitionFeesTerm1 = this.formatCurrency(this.calc_tuition_fees_term_1);
+  this.outputs.tuitionFeesTerm2 = this.formatCurrency(this.calc_tuition_fees_term_2);
+  this.outputs.tuitionFeesTerm3 = this.formatCurrency(this.calc_tuition_fees_term_3);
+  this.outputs.tuitionFeesTotal = this.formatCurrency(this.calc_tuition_fees_total);
 
-  $(this.YR_BEN_TERM_1).html(this.formatCurrency(this.calc_yr_ben_school_term_1));
-  $(this.YR_BEN_TERM_2).html(this.formatCurrency(this.calc_yr_ben_school_term_2));
-  $(this.YR_BEN_TERM_3).html(this.formatCurrency(this.calc_yr_ben_school_term_3));
-  $(this.YR_BEN_TOTAL).html(this.formatCurrency(this.calc_yr_ben_school_total));
+  // $(this.YR_BEN_TERM_1).html(this.formatCurrency(this.calc_yr_ben_school_term_1));
+  // $(this.YR_BEN_TERM_2).html(this.formatCurrency(this.calc_yr_ben_school_term_2));
+  // $(this.YR_BEN_TERM_3).html(this.formatCurrency(this.calc_yr_ben_school_term_3));
+  // $(this.YR_BEN_TOTAL).html(this.formatCurrency(this.calc_yr_ben_school_total));
+  this.outputs.yrBenTerm1 = this.formatCurrency(this.calc_yr_ben_school_term_1);
+  this.outputs.yrBenTerm2 = this.formatCurrency(this.calc_yr_ben_school_term_2);
+  this.outputs.yrBenTerm3 = this.formatCurrency(this.calc_yr_ben_school_term_3);
+  this.outputs.yrBenTotal = this.formatCurrency(this.calc_yr_ben_school_total);
 
-  $(this.YR_BEN_TERM_VA_1).html(this.formatCurrency(this.calc_yr_ben_va_term_1));
-  $(this.YR_BEN_TERM_VA_2).html(this.formatCurrency(this.calc_yr_ben_va_term_2));
-  $(this.YR_BEN_TERM_VA_3).html(this.formatCurrency(this.calc_yr_ben_va_term_3));
-  $(this.YR_BEN_VA_TOTAL).html(this.formatCurrency(this.calc_yr_ben_va_total));
+  // $(this.YR_BEN_TERM_VA_1).html(this.formatCurrency(this.calc_yr_ben_va_term_1));
+  // $(this.YR_BEN_TERM_VA_2).html(this.formatCurrency(this.calc_yr_ben_va_term_2));
+  // $(this.YR_BEN_TERM_VA_3).html(this.formatCurrency(this.calc_yr_ben_va_term_3));
+  // $(this.YR_BEN_VA_TOTAL).html(this.formatCurrency(this.calc_yr_ben_va_total));
+  this.outputs.yrBenTermVa1 = this.formatCurrency(this.calc_yr_ben_va_term_1);
+  this.outputs.yrBenTermVa2 = this.formatCurrency(this.calc_yr_ben_va_term_2);
+  this.outputs.yrBenTermVa3 = this.formatCurrency(this.calc_yr_ben_va_term_3);
+  this.outputs.yrBenVaTotal = this.formatCurrency(this.calc_yr_ben_va_total);
 
-  $(this.HOUSING_ALLOW_TERM_1).html(this.formatCurrency(this.calc_housing_allow_term_1));
-  $(this.HOUSING_ALLOW_TERM_2).html(this.formatCurrency(this.calc_housing_allow_term_2));
-  $(this.HOUSING_ALLOW_TERM_3).html(this.formatCurrency(this.calc_housing_allow_term_3));
-  $(this.HOUSING_ALLOW_TOTAL).html(this.formatCurrency(this.calc_housing_allow_total));
+  // $(this.HOUSING_ALLOW_TERM_1).html(this.formatCurrency(this.calc_housing_allow_term_1));
+  // $(this.HOUSING_ALLOW_TERM_2).html(this.formatCurrency(this.calc_housing_allow_term_2));
+  // $(this.HOUSING_ALLOW_TERM_3).html(this.formatCurrency(this.calc_housing_allow_term_3));
+  // $(this.HOUSING_ALLOW_TOTAL).html(this.formatCurrency(this.calc_housing_allow_total));
+  this.outputs.housingAllowTerm1 = this.formatCurrency(this.calc_housing_allow_term_1);
+  this.outputs.housingAllowTerm2 = this.formatCurrency(this.calc_housing_allow_term_2);
+  this.outputs.housingAllowTerm3 = this.formatCurrency(this.calc_housing_allow_term_3);
+  this.outputs.housingAllowTotal = this.formatCurrency(this.calc_housing_allow_total);
 
-  $(this.BOOK_STIPEND_TERM_1).html(this.formatCurrency(this.calc_book_stipend_term_1));
-  $(this.BOOK_STIPEND_TERM_2).html(this.formatCurrency(this.calc_book_stipend_term_2));
-  $(this.BOOK_STIPEND_TERM_3).html(this.formatCurrency(this.calc_book_stipend_term_3));
-  $(this.BOOK_STIPEND_TOTAL).html(this.formatCurrency(this.calc_book_stipend_total));
+  // $(this.BOOK_STIPEND_TERM_1).html(this.formatCurrency(this.calc_book_stipend_term_1));
+  // $(this.BOOK_STIPEND_TERM_2).html(this.formatCurrency(this.calc_book_stipend_term_2));
+  // $(this.BOOK_STIPEND_TERM_3).html(this.formatCurrency(this.calc_book_stipend_term_3));
+  // $(this.BOOK_STIPEND_TOTAL).html(this.formatCurrency(this.calc_book_stipend_total));
+  this.outputs.bookStipendTerm1 = this.formatCurrency(this.calc_book_stipend_term_1);
+  this.outputs.bookStipendTerm2 = this.formatCurrency(this.calc_book_stipend_term_2);
+  this.outputs.bookStipendTerm3 = this.formatCurrency(this.calc_book_stipend_term_3);
+  this.outputs.bookStipendTotal = this.formatCurrency(this.calc_book_stipend_total);
 
   if (this.institution_type == 'ojt') {
-    $(this.HOUSING_ALLOW_TERM_1).append(' /month');
-    $(this.HOUSING_ALLOW_TERM_2).append(' /month');
-    $(this.HOUSING_ALLOW_TERM_3).append(' /month');
-    $(this.HOUSING_ALLOW_TOTAL).append(' /month');
-    $(this.BOOK_STIPEND_TERM_1).append(' /month');
-    $(this.BOOK_STIPEND_TERM_2).append(' /month');
-    $(this.BOOK_STIPEND_TERM_3).append(' /month');
-    $(this.BOOK_STIPEND_TOTAL).append(' /month');
+    // $(this.HOUSING_ALLOW_TERM_1).append(' /month');
+    // $(this.HOUSING_ALLOW_TERM_2).append(' /month');
+    // $(this.HOUSING_ALLOW_TERM_3).append(' /month');
+    // $(this.HOUSING_ALLOW_TOTAL).append(' /month');
+    // $(this.BOOK_STIPEND_TERM_1).append(' /month');
+    // $(this.BOOK_STIPEND_TERM_2).append(' /month');
+    // $(this.BOOK_STIPEND_TERM_3).append(' /month');
+    // $(this.BOOK_STIPEND_TOTAL).append(' /month');
+    this.outputs.housingAllowTerm1 += ' /month';
+    this.outputs.housingAllowTerm2 += ' /month';
+    this.outputs.housingAllowTerm3 += ' /month';
+    this.outputs.housingAllowTotal += ' /month';
+    this.outputs.bookStipendTerm1 += ' /month';
+    this.outputs.bookStipendTerm2 += ' /month';
+    this.outputs.bookStipendTerm3 += ' /month';
+    this.outputs.bookStipendTotal += ' /month';
   }
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// setValues
-// Sets all calculator values.
+// getValues
+// Gets all calculator values.
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getValues = function() {
   this.getMilitaryStatus(this.MILITARY_STATUS);
@@ -564,13 +613,24 @@ Calculator.prototype.getCurrency = function (currency) {
   return Number(currency.replace(/[^0-9\.]+/g,''));
 }
 
+
+/***********************************************************************************************************/
+/***********************************************************************************************************/
+/***********************************************************************************************************/
+/***********************************************************************************************************/
+/***********************************************************************************************************/
+/***********************************************************************************************************/
+/***********************************************************************************************************/
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // setMilitaryStatus
 //
 // Saves as number.
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getMilitaryStatus = function(id) {
-  this.military_status = $(id).val();
+  // this.military_status = $(id).val();
+  this.military_status = this.component.state.military_status;
 
   return this;
 };
@@ -582,7 +642,8 @@ Calculator.prototype.getMilitaryStatus = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getSpouseActiveDuty = function(id) {
-  this.spouse_active_duty = $(id).val().toLowerCase() === "yes";
+  // this.spouse_active_duty = $(id).val().toLowerCase() === "yes";
+  this.spouse_active_duty = this.component.state.spouse_active_duty.toLowerCase() === 'yes';
 
   return this;
 };
@@ -595,7 +656,8 @@ Calculator.prototype.getSpouseActiveDuty = function(id) {
 // Saves as number.
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getGiBillChapter = function(id) {
-  this.gi_bill_chapter = Number($(id).val());
+  // this.gi_bill_chapter = Number($(id).val());
+  this.gi_bill_chapter = Number(this.component.state.gi_bill_chapter)
 
   this.calc_old_gi_bill = (this.gi_bill_chapter == 30 || this.gi_bill_chapter == 1607
     || this.gi_bill_chapter == 1606 || this.gi_bill_chapter == 35);
@@ -610,8 +672,8 @@ Calculator.prototype.getGiBillChapter = function(id) {
 // Saves as bool.
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getEligForPostGiBill = function(id) {
-  this.elig_for_post_gi_bill = $(id).val().toLowerCase() === 'yes';
-
+  // this.elig_for_post_gi_bill = $(id).val().toLowerCase() === 'yes';
+  this.elig_for_post_gi_bill = this.component.state.elig_for_post_gi_bill.toLowerCase() === 'yes';
   return this;
 };
 
@@ -622,7 +684,8 @@ Calculator.prototype.getEligForPostGiBill = function(id) {
 // Saves as float.
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getCumulativeService = function(id) {
-  var val = $(id).val();
+  // var val = $(id).val();
+  var val = this.component.state.service_discharge;
 
   this.service_discharge = val === "service discharge";
   this.cumulative_service = this.service_discharge ? 1.0 : parseFloat(val);
@@ -637,7 +700,8 @@ Calculator.prototype.getCumulativeService = function(id) {
 // Saves as number.
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getConsecutiveService = function(id) {
-  this.consecutive_service = Number($(id).val());
+  // this.consecutive_service = Number($(id).val());
+  this.consecutive_service = Number(this.component.state.consecutive_service);
 
   return this;
 };
@@ -649,7 +713,8 @@ Calculator.prototype.getConsecutiveService = function(id) {
 // Saves as number.
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getEnlistmentService = function(id) {
-  this.enlistment_service = Number($(id).val());
+  // this.enlistment_service = Number($(id).val());
+  this.enlistment_service = Number(this.component.state.enlistment_service);
 
   return this;
 };
@@ -661,7 +726,8 @@ Calculator.prototype.getEnlistmentService = function(id) {
 // Saves as boolean.
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getOnline = function(id) {
-  this.online = $(id).val().toLowerCase() === 'yes';
+  // this.online = $(id).val().toLowerCase() === 'yes';
+  this.online = this.component.state.online.toLowerCase() === 'yes';
 
   return this;
 };
@@ -673,7 +739,8 @@ Calculator.prototype.getOnline = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getInState = function(id) {
-  this.in_state = $(id + " :input:checked").val().toLowerCase() === "yes";
+  // this.in_state = $(id + " :input:checked").val().toLowerCase() === "yes";
+  this.in_state = this.component.state.in_state.toLowerCase() === "yes";
 
   return this;
 };
@@ -685,7 +752,8 @@ Calculator.prototype.getInState = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTuitionFees = function(id) {
-  this.tuition_fees = this.getCurrency($(id).val());
+  // this.tuition_fees = this.getCurrency($(id).val());
+  this.tuition_fees = this.getCurrency(this.component.state.tuition_fees);
 
   return this;
 };
@@ -697,7 +765,8 @@ Calculator.prototype.getTuitionFees = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getInStateTuitionFees = function(id) {
-  this.in_state_tuition_fees = this.getCurrency($(id).val());
+  // this.in_state_tuition_fees = this.getCurrency($(id).val());
+  this.in_state_tuition_fees = this.getCurrency(this.component.state.in_state_tuition_fees);
 
   return this;
 };
@@ -709,7 +778,8 @@ Calculator.prototype.getInStateTuitionFees = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getBooks = function(id) {
-  this.books = this.getCurrency($(id).val());
+  // this.books = this.getCurrency($(id).val());
+  this.books = this.getCurrency(this.component.state.books);
 
   return this;
 };
@@ -721,7 +791,8 @@ Calculator.prototype.getBooks = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getYellowRibbon = function(id) {
-  this.yellow_ribbon = $(id + " :input:checked").val().toLowerCase() === "yes";
+  // this.yellow_ribbon = $(id + " :input:checked").val().toLowerCase() === "yes";
+  this.yellow_ribbon = this.component.state.yellow_ribbon.toLowerCase() === "yes";
 
   return this;
 };
@@ -733,7 +804,8 @@ Calculator.prototype.getYellowRibbon = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getYellowBen = function(id) {
-  this.yellow_ben = this.getCurrency($(id + " :input").val());
+  // this.yellow_ben = this.getCurrency($(id + " :input").val());
+  this.yellow_ben = this.getCurrency(this.component.state.yellow_ben);
 
   return this;
 };
@@ -745,7 +817,8 @@ Calculator.prototype.getYellowBen = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getScholar = function(id) {
-  this.scholar = this.getCurrency($(id + " :input").val());
+  // this.scholar = this.getCurrency($(id + " :input").val());
+  this.scholar = this.getCurrency(this.component.state.scholar);
 
   return this;
 };
@@ -757,7 +830,8 @@ Calculator.prototype.getScholar = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getTuitionAssist = function(id) {
-  this.tuition_assist = this.getCurrency($(id + " :input").val());
+  // this.tuition_assist = this.getCurrency($(id + " :input").val());
+  this.tuition_assist = this.getCurrency(this.component.state.tuition_assist);
 
   return this;
 };
@@ -769,7 +843,8 @@ Calculator.prototype.getTuitionAssist = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getRop = function(id) {
-  this.rop = Number($(id + " :input").val());
+  // this.rop = Number($(id + " :input").val());
+  this.rop = this.component.state.rop;
 
   return this;
 };
@@ -781,7 +856,9 @@ Calculator.prototype.getRop = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getRopOld = function(id) {
-  this.rop_old = $(id + " :input").val();
+  // this.rop_old = $(id + " :input").val();
+  this.rop_old = this.component.state.rop_old;
+
   return this;
 };
 
@@ -792,7 +869,8 @@ Calculator.prototype.getRopOld = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getCalendar = function(id) {
-  this.calendar = $(id).val();
+  // this.calendar = $(id).val();
+  this.calendar = this.component.state.calendar;
 
   return this;
 };
@@ -804,7 +882,8 @@ Calculator.prototype.getCalendar = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getOjtWorking = function(id) {
-  this.ojt_working = $(id + " :input").val();
+  // this.ojt_working = $(id + " :input").val();
+  this.ojt_working = this.component.state.ojt_working;
 
   return this;
 };
@@ -816,7 +895,8 @@ Calculator.prototype.getOjtWorking = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getNumberNontradTerms = function(id) {
-  this.number_nontrad_terms = Number($(id + " :input").val());
+  // this.number_nontrad_terms = Number($(id + " :input").val());
+  this.number_nontrad_terms = Number(this.component.state.number_nontrad_terms);
 
   return this;
 };
@@ -829,6 +909,7 @@ Calculator.prototype.getNumberNontradTerms = function(id) {
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getLengthNontradTerms = function(id) {
   this.length_nontrad_terms = $(id + " :input").val();
+  this.length_nontrad_terms = this.component.state.length_nontrad_terms;
 
   return this;
 };
@@ -840,7 +921,8 @@ Calculator.prototype.getLengthNontradTerms = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getKickerElig = function(id) {
-  this.kicker_elig = $(id + " :input:checked").val().toLowerCase() === "yes";
+  // this.kicker_elig = $(id + " :input:checked").val().toLowerCase() === "yes";
+  this.kicker_elig = this.component.state.kicker_elig.toLowerCase() === 'yes';
 
   return this;
 };
@@ -852,7 +934,8 @@ Calculator.prototype.getKickerElig = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getKicker = function(id) {
-  this.kicker = this.getCurrency($(id + " :input").val());
+  // this.kicker = this.getCurrency($(id + " :input").val());
+  this.kicker = this.component.state.kicker;
 
   return this;
 };
@@ -864,7 +947,8 @@ Calculator.prototype.getKicker = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getBuyUpElig = function(id) {
-  this.buy_up_elig = $(id + " :input:checked").val().toLowerCase() === "yes";
+  // this.buy_up_elig = $(id + " :input:checked").val().toLowerCase() === "yes";
+  this.buy_up_elig = this.component.state.buy_up_elig.toLowerCase() === 'yes';
 
   return this;
 };
@@ -876,10 +960,22 @@ Calculator.prototype.getBuyUpElig = function(id) {
 // Saves as boolean
 ///////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.getBuyUp = function(id) {
-  this.buy_up = Number($(id + " :input").val());
+  // this.buy_up = Number($(id + " :input").val());
+  this.buy_up = Number(this.component.state.buy_up);
 
   return this;
 };
+
+
+
+
+/********************************************************************************************************/
+/********************************************************************************************************/
+/********************************************************************************************************/
+/********************************************************************************************************/
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // setVreOnly
@@ -892,6 +988,7 @@ Calculator.prototype.getVreOnly = function () {
 
   return this;
 };
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // getOnlyTuitionFees
@@ -1932,3 +2029,5 @@ Calculator.prototype.getMonthlyRateDisplay = function () {
 
   return this;
 };
+
+export default Calculator;
