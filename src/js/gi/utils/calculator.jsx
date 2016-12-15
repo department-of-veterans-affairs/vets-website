@@ -39,14 +39,14 @@ class Calculator {
 
     this.populateInputs();
     this.getValues();
-    // this.getDerivedValues();
+    this.getDerivedValues();
     // this.resetVisibility();
     this.writeOutputs();
 
     var othis = this;
     $(".filter-item").change(function() {
       othis.getValues();
-      // othis.getDerivedValues();
+      othis.getDerivedValues();
       // othis.resetVisibility();
       othis.writeOutputs();
     });
@@ -54,7 +54,7 @@ class Calculator {
     $(".filter-in-state").change(function() {
       othis.updateInState();
       othis.getValues();
-      // othis.getDerivedValues();
+      othis.getDerivedValues();
       // othis.resetVisibility();
       othis.writeOutputs();
     });
