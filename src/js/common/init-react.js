@@ -15,7 +15,7 @@ export default function initReact(onDOMContentLoaded) {
 
   // Create a Vets.gov global that all code can use. This is mostly useful for overrides for
   // think like api URL endpoints during testing.
-  window.VetsGov = {
+  window.VetsGov = window.VetsGov || {
     api: {
       url: '',  // API server. Evetually should be 'https://api.vets.gov' in production.
     },

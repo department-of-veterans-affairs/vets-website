@@ -6,8 +6,8 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
 
   module.exports = E2eHelpers.createE2eTest(
     (client) => {
+      E2eHelpers.overrideSmoothScrolling(client);
       DisabilityHelpers.initClaimsListMock();
-
       LoginHelpers.logIn(client, '/disability-benefits/track-claims', 3);
 
       // Claim is visible
