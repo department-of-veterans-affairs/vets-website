@@ -28,6 +28,7 @@ class ProfilePage extends React.Component {
     this.renderProfileSummaryModals = this.renderProfileSummaryModals.bind(this);
     this.renderProfileHistoryModals = this.renderProfileHistoryModals.bind(this);
     this.renderProfileCautionFlagModals = this.renderProfileCautionFlagModals.bind(this);
+    this.renderProfileCalculatorModals = this.renderProfileCalculatorModals.bind(this);
     this.toggleModalDisplay = this.toggleModalDisplay.bind(this);
 
     this.state = {
@@ -273,6 +274,48 @@ class ProfilePage extends React.Component {
     );
   }
 
+  renderProfileCalculatorModals() {
+    return (
+      <span>
+        <Modal onClose={() => {this.toggleModalDisplay('calcTuition')}} visible={!!this.state.modals.calcTuition}>
+          <h3>Tuition / Fees (/year)</h3>
+          <p>Enter the total tuition/fees, you will be charged for the academic year.</p>
+          <p>When you select some schools, we import the average tuition/fees for an undergraduate student as reported by the school to the Department of Education through <a href="http://nces.ed.gov/ipeds/datacenter/" id="anch_442" target="blank">IPEDS</a>. This is the same information that is published on <a href="http://nces.ed.gov/collegenavigator/" id="anch_443" target="blank">College Navigator</a>.</p>
+          <p>To learn more, please review our "<a href={'http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school'} target="_blank">About This Tool</a>" page.</p>
+        </Modal>
+
+        <Modal onClose={() => {this.toggleModalDisplay('calcYr')}} visible={!!this.state.modals.calcYr}>
+          <h3>Yellow Ribbon amount from school (/year)</h3>
+          <p>Enter the total tuition/fees, you will be charged for the academic year.</p>
+          <p>How much will you be receiving in Yellow Ribbon support from your school? VA matches each dollar of unmet charges the institution agrees to contribute up to the total cost of tuition and fees.</p>
+          <p><a title="Click here for FAQs about the Yellow Ribbon Program" href="http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf" id="anch_455" target="_blank">Click here for FAQs about the Yellow Ribbon Program</a>&nbsp;</p>
+          <p>To learn more, please review our "<a href={'http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school'} target="_blank">About This Tool</a>" page.</p>
+        </Modal>
+
+        <Modal onClose={() => {this.toggleModalDisplay('calcScholarships')}} visible={!!this.state.modals.calcScholarships}>
+          <h3>Scholarships (not Pell)</h3>
+          <p>Are you receiving any scholarships and grants this year? If so, how much? Please only include scholarships and grants that go directly to pay tuition/fees.</p>
+        </Modal>
+
+        <Modal onClose={() => {this.toggleModalDisplay('calcEnrolled')}} visible={!!this.state.modals.calcEnrolled}>
+          <h3>Enrolled</h3>
+          <p>Are you considered a full-time or part-time student by your school?</p>
+          <p>Students attending school less than full-time receive a pro-rated monthly housing allowance. Students attending school exactly ½ time or less do not receive a monthly housing allowance.</p>
+        </Modal>
+
+        <Modal onClose={() => {this.toggleModalDisplay('calcSchoolCalendar')}} visible={!!this.state.modals.calcSchoolCalendar}>
+          <h3>School Calendar:</h3>
+          <p>Is your school on a semester, quarter or non-traditional calendar system?</p>
+        </Modal>
+
+        <Modal onClose={() => {this.toggleModalDisplay('calcKicker')}} visible={!!this.state.modals.calcKicker}>
+          <h3>Eligble for Kicker?</h3>
+          <p>A kicker bonus is an additional incentive, paid for by the Department of Defense, to extend a tour of duty or retain highly skilled military personnel. The money is a bonus on top of any GI Bill payments paid directly to the Veteran.</p>
+        </Modal>
+      </span>
+    );
+  }
+
   // renderServicemembersOpportunityModals() {
   //   return (
   //     <Modal onClose={() => {this.toggleModalDisplay('servicememberOpportunity')}} visible={!!this.state.modals.servicememberOpportunity}>
@@ -291,6 +334,7 @@ class ProfilePage extends React.Component {
         {this.renderProfileSummaryModals()}
         {this.renderProfileHistoryModals()}
         {this.renderProfileCautionFlagModals()}
+        {this.renderProfileCalculatorModals()}
       </span>
     );
   }
@@ -367,7 +411,14 @@ class ProfilePage extends React.Component {
 
             <div className="row">
               <div className="small-12 columns accordion-vert-spacing">
-                <ProfileCalculator institution={this.props.institution}/>
+                <ul className="accordion" data-accordion>
+                  <li className="accordion-navigation">
+                    <a href="#panel-benefits-calculator" aria-expanded="true">Benefits Calculator</a>
+                    <div id="panel-benefits-calculator" className="content active">
+                      <ProfileCalculator institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
 
