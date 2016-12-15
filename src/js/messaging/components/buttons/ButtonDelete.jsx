@@ -14,7 +14,7 @@ class ButtonDelete extends React.Component {
     return (
       <button
           onClick={this.handleClick}
-          className="va-icon-link messaging-btn-delete"
+          className="va-icon-link msg-btn-delete"
           type="button">
         <i className="fa fa-trash"></i>
         <span>Delete</span>

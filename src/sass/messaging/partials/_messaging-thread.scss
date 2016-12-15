@@ -36,7 +36,7 @@
   padding: 0 0 2.25rem 0;
 
   .messaging-toggle-thread,
-  .messaging-btn-print {
+  .msg-btn-print {
     background: transparent;
     color: $color-black;
     float: none;
@@ -92,8 +92,8 @@
     font-size: inherit !important;
   }
 
-  .messaging-btn-delete,
-  .messaging-btn-print {
+  .msg-btn-delete,
+  .msg-btn-print {
     display: none;
   }
 
@@ -103,8 +103,8 @@
     padding: 1rem;
     text-align: right;
 
-    .messaging-btn-delete,
-    .messaging-btn-print {
+    .msg-btn-delete,
+    .msg-btn-print {
       display: inline-block;
     }
 
@@ -126,8 +126,8 @@
   margin: .25rem 1rem;
 
   @media (max-width: $medium-screen) {
-    .messaging-btn-delete,
-    .messaging-btn-print {
+    .msg-btn-delete,
+    .msg-btn-print {
       display: none;
     }
   }
