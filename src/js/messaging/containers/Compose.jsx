@@ -36,6 +36,11 @@ export class Compose extends React.Component {
   }
 
   componentDidMount() {
+    if (this.props.redirect) {
+      this.context.router.replace(this.props.redirect);
+      return;
+    }
+
     this.props.resetMessage();
     this.props.fetchRecipients();
   }
@@ -161,10 +166,11 @@ Compose.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    deleteConfirmModal: state.modals.deleteConfirm,
     loading: state.loading,
     message: state.compose.message,
     recipients: state.recipients.data,
-    deleteConfirmModal: state.modals.deleteConfirm,
+    redirect: state.folders.ui.redirect,
     saveConfirmModal: state.modals.saveConfirm
   };
 };

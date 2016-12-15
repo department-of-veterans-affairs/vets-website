@@ -52,6 +52,11 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
+    if (this.props.redirect) {
+      this.context.router.replace(this.props.redirect);
+      return;
+    }
+
     if (!this.props.loading.thread) {
       const id = +this.props.params.messageId;
       this.props.fetchThread(id);
@@ -382,6 +387,7 @@ const mapStateToProps = (state) => {
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
     recipients: state.recipients.data,
+    redirect: state.folders.ui.redirect,
     replyDetailsCollapsed: state.messages.ui.replyDetailsCollapsed,
     thread: state.messages.data.thread
   };

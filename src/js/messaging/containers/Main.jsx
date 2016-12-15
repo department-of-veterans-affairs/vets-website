@@ -36,12 +36,6 @@ export class Main extends React.Component {
     this.props.fetchFolders();
   }
 
-  componentDidUpdate() {
-    if (this.props.redirect) {
-      this.context.router.replace(this.props.redirect);
-    }
-  }
-
   handleFolderChange(domEvent) {
     const folderId = domEvent.target.dataset.folderid;
     this.props.setCurrentFolder(folderId);
@@ -134,10 +128,6 @@ Main.propTypes = {
   children: React.PropTypes.node
 };
 
-Main.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
-
 const mapStateToProps = (state) => {
   const folders = [];
   state.folders.data.items.forEach(folder => folders.push(folder));
@@ -149,8 +139,7 @@ const mapStateToProps = (state) => {
     isVisibleAdvancedSearch: state.search.advanced.visible,
     loading: state.loading,
     nav: state.folders.ui.nav,
-    persistFolder: state.folders.data.currentItem.persistFolder,
-    redirect: state.folders.ui.redirect
+    persistFolder: state.folders.data.currentItem.persistFolder
   };
 };
 
