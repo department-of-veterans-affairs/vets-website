@@ -4,7 +4,8 @@ class RetentionRates extends React.Component {
 
   render() {
     const school = this.props.institution;
-    const isNumeric = (n) => { return Number.isNaN(parseFloat(n)) }
+    const heading = <h3>Retention Rate<a onClick={() => {this.props.toggleModalDisplay('retention')}} className="info-icons"><i className="fa fa-info-circle info-icons outcomes-learnmore"></i></a></h3>;
+    const isNumeric = (n) => { return !Number.isNaN(parseFloat(n)) }
     const isa_v = isNumeric(school.get_veteran_retention_rate);
     const isa_c = isNumeric(school.get_all_student_retention_rate);
 
@@ -23,7 +24,7 @@ class RetentionRates extends React.Component {
       // }
       return (
         <div className="medium-6 columns">
-          <h4>Retention Rate<a onClick={() => {this.props.toggleModalDisplay('retention')}} className="info-icons"><i id="retention-rate-info" className="fa fa-info-circle info-icons outcomes-learnmore"></i></a></h4>
+          {heading}
           <div id="retention-rates" className="graph">
             <strong>Chart Goes Here</strong>
             <p>
@@ -38,6 +39,7 @@ class RetentionRates extends React.Component {
 
     return (
       <div className="medium-6 columns">
+        {heading}
         <p>Retention Rate Data Not Available</p>
       </div>
     );
