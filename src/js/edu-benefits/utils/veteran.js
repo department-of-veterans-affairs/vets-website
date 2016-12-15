@@ -177,7 +177,8 @@ export function createVeteran() {
       day: makeField(today.date().toString()),
       month: makeField((today.month() + 1).toString()),
       year: makeField(today.year().toString())
-    }
+    },
+    privacyAgreementAccepted: false
   };
 }
 
@@ -277,6 +278,10 @@ export function veteranToApplication(veteran) {
 
       default:
         // fall through.
+    }
+
+    if (typeof value === 'undefined') {
+      return undefined;
     }
 
     if (value.month !== undefined && value.year !== undefined) {

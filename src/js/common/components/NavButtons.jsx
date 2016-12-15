@@ -50,6 +50,8 @@ export default class NavButtons extends React.Component {
     }
   }
   handleSubmit() {
+    this.props.onAttemptedSubmit();
+
     if (this.props.canSubmit) {
       this.props.onSubmit();
     }
@@ -95,7 +97,6 @@ export default class NavButtons extends React.Component {
       if (submission.status === false) {
         submitButton = (
           <ProgressButton
-              disabled={!this.props.canSubmit}
               onButtonClick={this.handleSubmit}
               buttonText="Submit Application"
               buttonClass="usa-button-primary"/>
@@ -203,5 +204,6 @@ NavButtons.propTypes = {
   onSubmit: React.PropTypes.func,
   onNavigate: React.PropTypes.func,
   onComplete: React.PropTypes.func,
-  dirtyPage: React.PropTypes.func
+  dirtyPage: React.PropTypes.func,
+  onAttemptedSubmit: React.PropTypes.func
 };
