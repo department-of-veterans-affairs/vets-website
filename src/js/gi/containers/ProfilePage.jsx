@@ -312,12 +312,12 @@ class ProfilePage extends React.Component {
             <div className="row">
               <div className="small-12 columns accordion-vert-spacing">
                 <div className="row">
-                  <RetentionRates institution={this.props.institution}/>
-                  <GraduationRates institution={this.props.institution}/>
+                  <RetentionRates institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
+                  <GraduationRates institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
                 </div>
                 <div className="row">
-                  <SalaryRates institution={this.props.institution}/>
-                  <RepaymentRates institution={this.props.institution}/>
+                  <SalaryRates institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
+                  <RepaymentRates institution={this.props.institution} toggleModalDisplay={this.toggleModalDisplay}/>
                 </div>
               </div>
               <div className="small-12 columns access-sheet clearfix">
