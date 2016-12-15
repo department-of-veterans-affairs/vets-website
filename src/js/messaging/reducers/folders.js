@@ -12,13 +12,13 @@ import {
   FETCH_FOLDERS_SUCCESS,
   LOADING_FOLDER,
   MOVE_MESSAGE_SUCCESS,
-  RESET_REDIRECT,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
   SET_CURRENT_FOLDER,
   TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
-  TOGGLE_MANAGED_FOLDERS
+  TOGGLE_MANAGED_FOLDERS,
+  UPDATE_ROUTE
 } from '../utils/constants';
 
 const initialState = {
@@ -153,7 +153,7 @@ export default function folders(state = initialState, action) {
       return set('ui.redirect', url, state);
     }
 
-    case RESET_REDIRECT:
+    case UPDATE_ROUTE:
       return set('ui.redirect', null, state);
 
     default:
