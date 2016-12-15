@@ -22,7 +22,7 @@ With VA health care, you’re covered for regular checkups with your primary car
     <dd>Atlanta, GA 30329</dd>
 </dl>
 
-- Apply in person at your nearest VA medical center or clinic. Bring the 10-10EZ form with you.<br /> [Find a VA medical center or clinic near you](http://www.va.gov/directory/guide/division.asp?dnum=1).<br /> [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+- Apply in person at your nearest VA medical center or clinic. Bring the 10-10EZ form with you.<br /> [Find a VA medical center or clinic near you](/facilities).<br /> [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 <div class="call-out" markdown="1">
 
