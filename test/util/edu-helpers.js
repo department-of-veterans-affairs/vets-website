@@ -175,13 +175,13 @@ function completeVeteranInformation(client, data, onlyRequiredFields) {
 
 function completeBenefitsSelection(client, data, onlyRequiredFields) {
   client
-    .click('label[name="chapter30-label"]');
+    .click('input[name="chapter30"]');
 
   if (!onlyRequiredFields) {
     client
-      .click('label[name="chapter33-label"]')
-      .click('label[name="chapter1606-label"]')
-      .click('label[name="chapter32-label"]');
+      .click('input[name="chapter33"]')
+      .click('input[name="chapter1606"]')
+      .click('input[name="chapter32"]');
   }
 }
 
