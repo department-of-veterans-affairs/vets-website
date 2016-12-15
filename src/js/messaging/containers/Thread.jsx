@@ -60,10 +60,8 @@ export class Thread extends React.Component {
 
   componentDidUpdate() {
     if (!this.props.loading.thread) {
-      const message = this.props.message;
-
       const shouldFetchRecipients =
-        message &&
+        !this.props.loading.recipients &&
         this.props.isNewMessage &&
         !this.props.recipients;
 
