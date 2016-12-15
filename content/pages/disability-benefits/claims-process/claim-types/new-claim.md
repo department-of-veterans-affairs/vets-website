@@ -42,10 +42,7 @@ If you're already getting disability benefits but think you may qualify for more
 When you file a new claim, you may get:
 - More financial support 
 - Special monthly payments
-- A shift to Individual Unemployability status (a status given to Veterans who are unable to work because of a disability)
-
-[Apply for disability benefits](/disability-benefits/apply-for-benefits/).
-[Learn more about Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
+- A shift to Individual Unemployability status (a status given to Veterans who are unable to work because of a disability). [Learn more about Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
 
 </div>
  
