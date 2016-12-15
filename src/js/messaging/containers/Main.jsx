@@ -1,24 +1,104 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
-import { toggleFolderNav } from '../actions/folders';
+import {
+  closeAdvancedSearch,
+  closeAttachmentsModal,
+  closeCreateFolderModal,
+  createFolderAndMoveMessage,
+  createNewFolder,
+  fetchFolders,
+  openCreateFolderModal,
+  setCurrentFolder,
+  setNewFolderName,
+  toggleFolderNav,
+  toggleManagedFolders
+} from '../actions';
+
+import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
+import ModalAttachments from '../components/compose/ModalAttachments';
+import ModalCreateFolder from '../components/ModalCreateFolder';
 
-class Main extends React.Component {
+export class Main extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleFolderChange = this.handleFolderChange.bind(this);
+    this.handleFolderNameChange = this.handleFolderNameChange.bind(this);
+    this.handleSubmitCreateNewFolder = this.handleSubmitCreateNewFolder.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.fetchFolders();
+  }
+
+  handleFolderChange(domEvent) {
+    const folderId = domEvent.target.dataset.folderid;
+    this.props.setCurrentFolder(folderId);
+    this.props.toggleFolderNav();
+
+    if (this.props.isVisibleAdvancedSearch) {
+      this.props.closeAdvancedSearch();
+    }
+  }
+
+  handleFolderNameChange(field) {
+    this.props.setNewFolderName(field);
+  }
+
+  handleSubmitCreateNewFolder(folderName) {
+    const messageId = this.props.createFolderModal.messageId;
+
+    if (messageId !== undefined) {
+      this.props.createFolderAndMoveMessage(folderName, messageId);
+    } else {
+      this.props.createNewFolder(folderName);
+    }
+
+    this.props.closeCreateFolderModal();
+  }
+
   render() {
+    const navClass = classNames({
+      opened: this.props.nav.visible
+    });
+
     return (
-      <div>
-        <div id="messaging-nav">
+      <div id="messaging-main">
+        <div id="messaging-nav" className={navClass}>
+          <ButtonClose
+              className="messaging-folder-nav-close"
+              onClick={this.props.toggleFolderNav}/>
           <ComposeButton/>
           <FolderNav
+              persistFolder={this.props.persistFolder}
               folders={this.props.folders}
-              expanded={this.props.navExpanded}
-              onToggleFolders={this.props.toggleFolderNav}/>
+              isExpanded={this.props.nav.foldersExpanded}
+              onToggleFolders={this.props.toggleManagedFolders}
+              onCreateNewFolder={this.props.openCreateFolderModal}
+              onFolderChange={this.handleFolderChange}/>
         </div>
         <div id="messaging-content">
           {this.props.children}
         </div>
+        <ModalAttachments
+            cssClass="messaging-modal"
+            text={this.props.attachmentsModal.message.text}
+            title={this.props.attachmentsModal.message.title}
+            id="messaging-add-attachments"
+            onClose={this.props.closeAttachmentsModal}
+            visible={this.props.attachmentsModal.visible}/>
+        <ModalCreateFolder
+            cssClass="messaging-modal"
+            folders={this.props.folders}
+            id="messaging-create-folder"
+            onClose={this.props.closeCreateFolderModal}
+            onValueChange={this.handleFolderNameChange}
+            onSubmit={this.handleSubmitCreateNewFolder}
+            visible={this.props.createFolderModal.visible}
+            newFolderName={this.props.createFolderModal.newFolderName}/>
       </div>
     );
   }
@@ -29,14 +109,31 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const folders = [];
+  state.folders.data.items.forEach(folder => folders.push(folder));
+
   return {
-    folders: state.folders.data.items,
-    navExpanded: state.folders.ui.nav.expanded
+    attachmentsModal: state.modals.attachments,
+    createFolderModal: state.modals.createFolder,
+    folders,
+    isVisibleAdvancedSearch: state.search.advanced.visible,
+    nav: state.folders.ui.nav,
+    persistFolder: state.folders.data.currentItem.persistFolder
   };
 };
 
 const mapDispatchToProps = {
-  toggleFolderNav
+  closeAdvancedSearch,
+  closeAttachmentsModal,
+  closeCreateFolderModal,
+  createFolderAndMoveMessage,
+  createNewFolder,
+  fetchFolders,
+  openCreateFolderModal,
+  setCurrentFolder,
+  setNewFolderName,
+  toggleFolderNav,
+  toggleManagedFolders
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

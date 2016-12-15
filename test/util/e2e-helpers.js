@@ -16,12 +16,20 @@ function expectNavigateAwayFrom(client, urlSubstring) {
     .to.not.contain(urlSubstring).before(Timeouts.normal);
 }
 
+function expectValueToBeBlank(client, field) {
+  client.expect.element(field).to.have.value.that.equals('');
+}
+
+function expectInputToNotBeSelected(client, field) {
+  client.expect.element(field).to.not.be.selected;
+}
+
 function overrideVetsGovApi(client) {
-  client.execute(() => {
-    window.VetsGov.api.url = 'http://localhost:4000';
+  client.execute((url) => {
+    window.VetsGov.api.url = url;
     return window.VetsGov.api.url;
   },
-  [],
+  [`http://localhost:${process.env.API_PORT || 4000}`],
   (val) => {
     // eslint-disable-next-line no-console
     console.log(`Result of overriding VetsGov.api.url${JSON.stringify(val)}`);
@@ -29,9 +37,11 @@ function overrideVetsGovApi(client) {
 }
 
 module.exports = {
-  baseUrl: 'http://localhost:3000',
-  apiUrl: 'http://localhost:4000',
+  baseUrl: `http://localhost:${process.env.WEB_PORT || 3333}`,
+  apiUrl: `http://localhost:${process.env.API_PORT || 4000}`,
   createE2eTest,
   expectNavigateAwayFrom,
+  expectValueToBeBlank,
+  expectInputToNotBeSelected,
   overrideVetsGovApi,
 };

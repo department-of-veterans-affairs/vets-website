@@ -1,27 +1,82 @@
 import React from 'react';
+import classNames from 'classnames';
 
-import moment from 'moment';
+import { formattedDate } from '../utils/helpers';
+import MessageDetails from './MessageDetails';
+import MessageAttachmentsView from './MessageAttachmentsView';
 
 class Message extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleToggleCollapsed = this.handleToggleCollapsed.bind(this);
+  }
+
+  componentDidUpdate() {
+    const shouldFetchMessage =
+      !this.props.isCollapsed &&
+      this.props.attrs.attachment &&
+      !this.props.attrs.attachments;
+
+    if (shouldFetchMessage) {
+      this.props.fetchMessage(this.props.attrs.messageId);
+    }
+  }
+
+  handleToggleCollapsed() {
+    if (this.props.onToggleCollapsed) {
+      this.props.onToggleCollapsed(this.props.attrs.messageId);
+    }
+  }
+
   render() {
-    return (
-      <div className="messaging-thread-message">
-        <div className="messaging-message-sender">
-          {this.props.attrs.sender_name}
-        </div>
-        <div className="messaging-message-sent-date">
-          {
-            moment(
-              this.props.attrs.sent_date
-            ).format('DD MMM YYYY [@] HH[:]mm')
-          }
-        </div>
+    const messageClass = classNames({
+      'messaging-thread-message': true,
+      'messaging-thread-message--collapsed': this.props.isCollapsed,
+      'messaging-thread-message--expanded': !this.props.isCollapsed
+    });
+
+    let details;
+    let headerOnClick;
+    let messageOnClick;
+    let attachments;
+
+    if (this.props.isCollapsed) {
+      messageOnClick = this.handleToggleCollapsed;
+    } else {
+      details = (
         <div className="messaging-message-recipient">
-          to {this.props.attrs.recipient_name}
+          to {this.props.attrs.recipientName}
+          <MessageDetails { ...this.props }/>
         </div>
-        <p className="messaging-message-body">
+      );
+
+      headerOnClick = this.handleToggleCollapsed;
+
+      if (this.props.attrs.attachment) {
+        attachments = (
+          <MessageAttachmentsView
+              attachments={this.props.attrs.attachments}/>
+        );
+      }
+    }
+
+    return (
+      <div className={messageClass} onClick={messageOnClick}>
+        <div
+            className="messaging-message-header"
+            onClick={headerOnClick}>
+          <div className="messaging-message-sent-date">
+            {formattedDate(this.props.attrs.sentDate, { fromNow: true })}
+          </div>
+          <div className="messaging-message-sender">
+            {this.props.attrs.senderName}
+          </div>
+          {details}
+        </div>
+        <div className="messaging-message-body">
           {this.props.attrs.body}
-        </p>
+        </div>
+        {attachments}
       </div>
     );
   }
@@ -29,22 +84,21 @@ class Message extends React.Component {
 
 Message.propTypes = {
   attrs: React.PropTypes.shape({
-    // TODO: Remove when we switch to camel case.
-    // Lack of camel case makes eslint complain.
-    /* eslint-disable */
-    message_id: React.PropTypes.number.isRequired,
+    messageId: React.PropTypes.number.isRequired,
     category: React.PropTypes.string.isRequired,
     subject: React.PropTypes.string.isRequired,
     body: React.PropTypes.string.isRequired,
     attachment: React.PropTypes.bool.isRequired,
-    sent_date: React.PropTypes.string.isRequired,
-    sender_id: React.PropTypes.number.isRequired,
-    sender_name: React.PropTypes.string.isRequired,
-    recipient_id: React.PropTypes.number.isRequired,
-    recipient_name: React.PropTypes.string.isRequired,
-    read_receipt: React.PropTypes.oneOf(['READ', 'UNREAD']).isRequired
-    /* eslint-enable */
-  }).isRequired
+    sentDate: React.PropTypes.string.isRequired,
+    senderId: React.PropTypes.number.isRequired,
+    senderName: React.PropTypes.string.isRequired,
+    recipientId: React.PropTypes.number.isRequired,
+    recipientName: React.PropTypes.string.isRequired,
+    readReceipt: React.PropTypes.oneOf(['READ', 'UNREAD'])
+  }).isRequired,
+  isCollapsed: React.PropTypes.bool,
+  onToggleCollapsed: React.PropTypes.func,
+  fetchMessage: React.PropTypes.func
 };
 
 export default Message;

@@ -41,6 +41,73 @@ describe('veteranToApplication', () => {
 
     expect(applicationData.toursOfDuty[0].fromDate).to.equal('1996-09-06');
   });
+  it('converts partial dates to iso', () => {
+    const formData = createVeteran();
+    formData.toursOfDuty.push({
+      serviceBranch: makeField('army'),
+      fromDate: {
+        month: makeField(''),
+        day: makeField('6'),
+        year: makeField('1996')
+      }
+    });
+    const applicationData = JSON.parse(veteranToApplication(formData));
+
+    expect(applicationData.toursOfDuty[0].fromDate).to.equal('1996-XX-06');
+  });
+  it('converts month year dates to iso', () => {
+    const formData = createVeteran();
+    formData.highSchoolOrGedCompletionDate = {
+      month: makeField('4'),
+      year: makeField('1996')
+    };
+    const applicationData = JSON.parse(veteranToApplication(formData));
+
+    expect(applicationData.highSchoolOrGedCompletionDate).to.equal('1996-04-XX');
+  });
+  it('converts date ranges to iso', () => {
+    const formData = createVeteran();
+    formData.toursOfDuty.push({
+      serviceBranch: makeField('army'),
+      dateRange: {
+        from: {
+          month: makeField('9'),
+          day: makeField('6'),
+          year: makeField('1996')
+        },
+        to: {
+          month: makeField('9'),
+          day: makeField('6'),
+          year: makeField('1997')
+        }
+      }
+    });
+    const applicationData = JSON.parse(veteranToApplication(formData));
+
+    expect(applicationData.toursOfDuty[0].dateRange.from).to.equal('1996-09-06');
+    expect(applicationData.toursOfDuty[0].dateRange.to).to.equal('1997-09-06');
+  });
+  it('removes empty date ranges', () => {
+    const formData = createVeteran();
+    formData.toursOfDuty.push({
+      serviceBranch: makeField('army'),
+      dateRange: {
+        to: {
+          month: makeField(''),
+          day: makeField(''),
+          year: makeField('')
+        },
+        from: {
+          month: makeField(''),
+          day: makeField(''),
+          year: makeField('')
+        }
+      }
+    });
+    const applicationData = JSON.parse(veteranToApplication(formData));
+
+    expect(applicationData.toursOfDuty[0].dateRange).to.be.undefined;
+  });
   it('converts yes/no fields to booleans', () => {
     const formData = createVeteran();
     formData.serviceBefore1977.married.value = 'Y';
@@ -80,5 +147,18 @@ describe('veteranToApplication', () => {
     const applicationData = JSON.parse(veteranToApplication(formData));
 
     expect(applicationData.serviceAcademyGraduationYear).to.be.undefined;
+  });
+  it('removes addresses with missing info', () => {
+    const formData = createVeteran();
+    formData.school.address = {
+      city: makeField('Test'),
+      street: makeField(''),
+      state: makeField('MA'),
+      country: makeField('USA'),
+      postalCode: makeField('01060')
+    };
+    const applicationData = JSON.parse(veteranToApplication(formData));
+
+    expect(applicationData.school.address).to.be.undefined;
   });
 });

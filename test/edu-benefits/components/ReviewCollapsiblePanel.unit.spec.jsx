@@ -7,7 +7,7 @@ import ReviewCollapsiblePanel from '../../../src/js/edu-benefits/components/Revi
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran';
 
 describe('<ReviewCollapsiblePanel>', () => {
-  function renderCollapsiblePanel(uiData, path = '/veteran-information/personal-information') {
+  function renderCollapsiblePanel(uiData, path = '/personal-information/contact-information') {
     function FakeFields() {}
     function FakeReview() {}
     let data = createVeteran();
@@ -20,10 +20,16 @@ describe('<ReviewCollapsiblePanel>', () => {
       <ReviewCollapsiblePanel
           data={data}
           uiData={uiData}
-          pageLabel="Test"
-          updatePath={path}
-          component={<FakeFields/>}
-          reviewComponent={<FakeReview/>}
+          pages={
+            [
+              {
+                name: 'Test',
+                path,
+                fieldsComponent: FakeFields,
+                reviewComponent: FakeReview
+              }
+            ]
+          }
           onFieldsInitialized={onFieldsInitialized}
           onUpdateSaveStatus={onUpdateSaveStatus}
           onUpdateVerifiedStatus={onUpdateVerifiedStatus}
@@ -33,64 +39,71 @@ describe('<ReviewCollapsiblePanel>', () => {
   it('should render fields to update', () => {
     const uiData = {
       pages: {
-        '/veteran-information/personal-information': {
-          complete: false,
-          verified: false
+        '/school-selection/school-information': {
+          editOnReview: false
+        },
+        '/personal-information/contact-information': {
+          editOnReview: true
         }
       }
     };
 
     const tree = renderCollapsiblePanel(uiData);
+    tree.getMountedInstance().toggleChapter();
 
     expect(tree.everySubTree('FakeFields').length).to.equal(1);
-    expect(tree.everySubTree('button')[0].text()).to.equal('Update page');
+    expect(tree.everySubTree('button')[1].text()).to.equal('Update page');
   });
   it('should render review fields', () => {
     const uiData = {
       pages: {
-        '/veteran-information/personal-information': {
-          complete: true,
-          verified: false
+        '/school-selection/school-information': {
+          editOnReview: false
+        },
+        '/personal-information/contact-information': {
+          editOnReview: false
         }
       }
     };
 
     const tree = renderCollapsiblePanel(uiData);
+    tree.getMountedInstance().toggleChapter();
 
     expect(tree.everySubTree('FakeReview').length).to.equal(1);
-    expect(tree.everySubTree('button')[0].text()).to.equal('Edit');
-    expect(tree.everySubTree('button')[1].text()).to.equal('Next');
+    expect(tree.everySubTree('button')[1].text()).to.equal('Edit');
   });
   it('should render nothing', () => {
     const uiData = {
       pages: {
-        '/veteran-information/personal-information': {
-          complete: true,
-          verified: false
+        '/school-selection/school-information': {
+          editOnReview: false
         },
-        '/veteran-information/contact-information': {
-          complete: false,
-          verified: false
+        '/personal-information/contact-information': {
+          editOnReview: false
+        },
+        '/personal-information/secondary-contact': {
+          editOnReview: false
         }
       }
     };
 
-    const tree = renderCollapsiblePanel(uiData, '/veteran-information/contact-information');
+    const tree = renderCollapsiblePanel(uiData, '/personal-information/secondary-contact');
 
     expect(tree.everySubTree('FakeReview').length).to.equal(0);
     expect(tree.everySubTree('FakeFields').length).to.equal(0);
-    expect(tree.everySubTree('button').length).to.equal(0);
+    expect(tree.everySubTree('button').length).to.equal(1);
   });
-  it('should render just an edit button', () => {
+  it('should expand when clicked', () => {
     const uiData = {
       pages: {
-        '/veteran-information/personal-information': {
-          complete: true,
-          verified: true
+        '/school-selection/school-information': {
+          editOnReview: false
         },
-        '/veteran-information/contact-information': {
-          complete: true,
-          verified: true
+        '/personal-information/contact-information': {
+          editOnReview: false
+        },
+        '/personal-information/secondary-contact': {
+          editOnReview: false
         }
       }
     };
@@ -98,8 +111,7 @@ describe('<ReviewCollapsiblePanel>', () => {
     const tree = renderCollapsiblePanel(uiData);
 
     expect(tree.everySubTree('FakeReview').length).to.equal(0);
-    expect(tree.everySubTree('FakeFields').length).to.equal(0);
-    expect(tree.everySubTree('button').length).to.equal(1);
-    expect(tree.everySubTree('button')[0].text()).to.equal('Edit');
+    tree.getMountedInstance().toggleChapter();
+    expect(tree.everySubTree('FakeReview').length).to.equal(1);
   });
 });

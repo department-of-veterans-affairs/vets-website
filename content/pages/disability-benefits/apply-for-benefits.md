@@ -49,7 +49,7 @@ relatedlinks:
 <div class="small-12 medium-3 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="number" markdown="0">122</span>
+<span class="number" markdown="0">115.7</span>
 <span class="description" markdown="0">Days</span>
 <span class="heading" markdown="0">(Average time)</span>
 
@@ -61,9 +61,9 @@ relatedlinks:
 
 <div class="info-block usa-content" markdown="1">
 
-Average number of days to process disability-related claims during August 2016.
+Average number of days to process disability-related claims during November 2016.
 
-If you’ve already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
+If you’ve already filed a claim, you can check your disability compensation claim status. [Check your status](/disability-benefits/track-claims/).
 
 </div>
 
@@ -83,7 +83,7 @@ If you’ve already filed a claim, check on its progress through [eBenefits](htt
 ### What are the steps?
 
 <ol class="process">
-<li class="step one wow fadeIn animated">
+<li class="step one">
 
 <div markdown="1">
 
@@ -115,7 +115,7 @@ For all compensation claims, please provide:
 
 </li>
 
-<li class="step two wow fadeIn animated">
+<li class="step two">
 
 <div markdown="1">
 
@@ -133,68 +133,110 @@ Choose one of three ways:
 
 </li>
 
-<li class="step three wow fadeIn animated">
+<li class="step three">
 
 <div markdown="1">
 
 ##### VA Review
 
-###### The amount of time it takes to process your claim depends on several factors:
+###### How long will it take for VA to review my claim?
+The amount of time it takes to review your claim depends on:
 
-- The type of claim you filed, such as compensation, claim for increased evaluation, etc.
-- How many injuries or disabilities you claimed and how complicated they are.
-- How long it takes  for VA to gather the evidence needed to decide your claim.
+- The type of claim you filed
+- How many injuries or disabilities you claimed and how complex they are
+- How long it takes us to collect the evidence needed to decide your claim
+
 
 </div>
-
 
 <div class="feature" markdown="1">
 
-###### Here’s what happens once you’ve filed your claim:
+###### What happens after I file my claim?
 
-1. VA receives your claim. **(Claim Received)**
-2. A Veterans Service Representative (VSR) examines your claim to determine if VA needs any additional information to make a decision. **(Under Review)**
-3. If VA needs additional information, the VSR requests it from you or asks for it on your behalf. **(Gathering of Evidence)**
-4. Once VA obtains, or has completed its efforts to obtain, all the information it needs, the VSR ensures each issue claimed is ready for a decision.
-**(Review of Evidence)**
-5. The VSR electronically routes the claim and supporting information to a Rating Veterans Service Representative (RVSR) for a final decision. **(Preparation for a Decision)**
+<ol class="">
+<li>
 
+**Claim Received**
+
+You'll see a notice from us in your claims list within about 1 hour if you applied online with VONAPP Direct Connect. If you applied through the U.S. mail, you’ll need to allow for mailing time plus 1 week before you get a note telling you we have your claim.
+
+
+</li>
+
+<li>
+
+**Initial Review**
+
+A Veterans Service Representative (VSR) will review your claim. It will move to step 3 if we don’t need any more evidence to support it.
+
+
+</li>
+
+<li>
+
+**Evidence Gathering, Review, and Decision**
+
+During this step, the VSR will do 3 things:
+- Ask for evidence from you, health care providers, governmental agencies, or others
+- Review the evidence
+- Make a decision
+
+If we need more evidence during the review, your claim may return to this step more than once. 
+
+
+</li>
+
+<li>
+
+**Preparation for Notification**
+
+We'll get your entire claim decision packet ready to be mailed.
+
+
+</li>
+
+<li>
+
+**Claim Complete**
+
+We'll send you a packet by U.S. mail that includes details of the decision on your claim. Please allow 7 to 10 business days for your packet to arrive before contacting a VA call center.
+
+
+</li>
+</ol>
 </div>
 
 <div class="actions">
-<a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation" class="usa-button-primary">Track the status of your claim at eBenefits</a>
+<a target="_blank" href="http:www.vets.gov/disability-benefits/track-claims/" class="usa-button-primary">Track the status of your claim</a>
 </div>
 
 <div markdown="1">
 
 ###### What if VA needs more information?
 
-- VA may reach out on your behalf to other governmental agencies, such as the Department of Defense, for records.
-- If VA needs more medical information, it may ask you to provide it. VA may also schedule an examination for you to assess the disabilities you claimed.
+- We may reach out on your behalf to other governmental agencies (like the Department of Defense) for records.
+- If we need more medical information, we may ask you for it. We may also schedule a VA claim exam (also known as a C&P exam) to get more information about the disabilities you claimed.
 
-**Note:**  VA may schedule you for one or more examinations based on the number and type of disabilities claimed, such as joint, lung, or mental conditions.
+**Note:**  We may schedule you for 1 or more exams based on the number and type of disabilities claimed.
 
 ###### Do I need to do anything while I’m waiting?
 
-Other than attend scheduled examinations, you don't need to do anything else unless VA sends you a letter saying it needs more information.
+Not unless you hear from us. You don't need to do anything else unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them.
 
 </div>
 
 </li>
 
-<li class="step last four wow fadeIn animated">
+<li class="step last four">
 
 <div markdown="1">
 
-##### Decision
-
-- The RVSR decides your claim after reviewing all evidence in your record, including the initial application, examination reports, and service treatment records.
-- After deciding the claim, the RVSR routes it to a VSR to input the decision and draft the decision letter. A Senior Veterans Service Representative (SVSR) reviews the completed documents, then authorizes release of the letter and any payment.
-
-If you disagree with the decision, you may appeal it. The decision letter contains appeal information. [File an appeal](/disability-benefits/claims-appeal/).
+##### What should I do if I disagree with your decision?
+If you disagree with our decision, you can appeal it. The decision notice will have instructions on how to file an appeal. [File an appeal now](/disability-benefits/claims-appeal/).
 
 </div>
 
 </li>
 
 </ol>
+

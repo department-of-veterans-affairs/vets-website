@@ -2,11 +2,24 @@
   <div class="section one">
     <div class="primary">
       <div class="row">
+
+        {% if stickyactionbox == true %}
+          <div class="show-for-large-up">
+            {% include "content/includes/sticky-action-box-large.html" %}
+          </div>
+        {% endif %}
+
         <div class="small-12 columns usa-content">        
-        <h1>{{ title }}</h1>
-        <!-- Page content begins -->
-        {{ contents }} 
-        <!-- Page content ends -->
+          <h1>{{ title }}</h1>
+          <!-- Page content begins -->
+          {% if stickyactionbox == true %}
+            <div class="hide-for-large-up">
+              {% include "content/includes/sticky-action-box-small.html" %}
+            </div>
+          {% endif %}
+
+          {{ contents }} 
+          <!-- Page content ends -->
         </div>
       </div>
     </div>

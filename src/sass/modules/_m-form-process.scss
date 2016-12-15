@@ -12,7 +12,10 @@
     &.section-complete {
       &:before {
         background: $color-green;
-        content: "\2714";
+        content: "\2714\fe0e";
+        @media (max-width: $small-screen) {
+          content: "\2713\fe0e";
+        }
       }
     }
     &.section-current {
@@ -54,32 +57,140 @@
   }
 }
 
+// Overriding the accordion button styles that are too broad
 .form-review-panel {
-  button {
-      background-color: $color-primary;
+  button:not(.usa-button-unstyled) {
+    background-image: none;
+    background-color: $color-primary;
+    padding: 1rem 2rem;
+    color: white;
+    width: auto;
+    &:hover {
+      color: white;
+      background-color: $color-primary-darker;
+    }
+    &:active {
+      background-color: $color-primary-darkest;
+    }
+    &:focus {
+      outline: initial;
+    }
+  }
+  button.usa-button-outline {
+    color: $color-primary;
+    background-color: white;
+    &:hover {
+      background-color: white;
+      color: $color-primary-darker;
+    }
+    &:active {
+      background-color: white;
+      color: $color-primary-darkest;
+    }
+  }
+  .edit-btn {
+    background-color: $color-primary;
+    color: $white;
+    &:hover {
+      background-color: $color-primary-darker;
       color: $white;
+    }
+  }
+  .edit-btn {
+    &.primary-outline {
+      background-color: white;
+      border: 2px solid $color-primary;
+      color: $color-primary;
       &:hover {
-        background-color: $color-primary-darker;
-        color: $white;
-      }
-    }
-    .edit-btn {
-      padding: 1rem;
-      &.primary-outline {
-        background-color: transparent;
-        border: 1px solid $color-primary;
-        color: $color-primary;
-        &:hover {
-        border: 1px solid $color-primary-darker;
+        background-color: white;
+        border: 2px solid $color-primary-darker;
         color: $color-primary-darker;
-        }
       }
     }
-  .accordion-header {
+  }
+  .accordion-header > button {
     min-height: 7rem;
-    padding: 1rem;
+    padding: 2.5rem 6.5rem 2.5rem 3rem;
+    font-size: 1.15em;
+    line-height: 1.5;
+    font-weight: bold;
   }
   .section-label {
     padding-bottom: 1rem;
   }
+  legend.hide-for-small-only {
+    display: none !important;
+  }
+  table.review {
+    margin: 1em 0;
+    td {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    td:first-child {
+      padding-right: 1em;
+    }
+  }
+  .usa-accordion-content {
+    padding: 1em;
+  }
+}
+// dealing with overly broad style in m_table
+.review-growable {
+  background-color: $color-gray-lightest;
+  table.review {
+    margin: 0;
+  }
+  tr {
+    > td {
+      background: $color-gray-lightest;
+    }
+    &:first-child {
+      > td {
+        border-top-style: none;
+      }
+    }
+    &:last-child {
+      > td {
+        border-bottom-style: none;
+      }
+    }
+  }
+}
+
+.form-review-panel-page {
+  margin-bottom: 5rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  &:focus {
+    outline: none;
+  }
+  tr {
+    td {
+      &:last-child {
+        font-weight: 700;
+        min-width: 3em;
+      }
+    }
+  }
+}
+.form-review-panel-page-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  &.header-stacked-small {
+    @media #{$small-only} {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+
+.form-review-panel-page-header {
+  flex: 1;
+  padding-bottom: 0 !important;
+  padding-right: 5px;
+  line-height: 37px;
 }

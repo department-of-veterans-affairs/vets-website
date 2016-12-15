@@ -1,28 +1,23 @@
 import React from 'react';
-import _ from 'lodash';
 import classnames from 'classnames';
 
-function lastPage(chapter) {
-  return chapter.pages.slice(-1)[0].path;
+import { isActivePage } from '../utils/helpers';
+
+function allPagesComplete(data, pageState, pages) {
+  return pages.filter(page => isActivePage(page, data)).every(page => pageState[page.path].complete);
 }
 
-// Checks to see if a page's data dependencies are met
-// i.e., has the user filled out the required information?
-function isHidden(page, data) {
-  return page.depends !== undefined && _.matches(page.depends)(data) === false;
-}
-
-function determineChapterStyles(pageState, formChapter, currentUrl) {
+function determineChapterStyles(data, pageState, formChapter, currentUrl) {
   return classnames(
     { 'section-current': formChapter.pages.some(page => page.path === currentUrl) },
-    { 'section-complete': formChapter.pages.length > 0 && pageState[lastPage(formChapter)].complete }
+    { 'section-complete': formChapter.pages.length > 0 && allPagesComplete(data, pageState, formChapter.pages) }
   );
 }
 
 function determinePageStyles(page, currentUrl, data) {
   return classnames(
     { 'sub-section-current': currentUrl === page.path },
-    { 'sub-section-hidden': isHidden(page, data) }
+    { 'sub-section-hidden': !isActivePage(page, data) }
   );
 }
 
@@ -44,7 +39,7 @@ function getStepClassFromIndex(index, length) {
  */
 class Nav extends React.Component {
   render() {
-    const subnavStyles = 'step one wow fadeIn animated';
+    const subnavStyles = 'step one';
     const { data, pages, currentUrl, chapters } = this.props;
 
     return (
@@ -52,7 +47,7 @@ class Nav extends React.Component {
         {chapters.map((chapter, i) => {
           return (
             <li role="presentation" className={`${getStepClassFromIndex(i, chapters.length)} ${subnavStyles}
-              ${determineChapterStyles(pages, chapter, currentUrl)}`} key={chapter.name}>
+              ${determineChapterStyles(data, pages, chapter, currentUrl)}`} key={chapter.name}>
               <div>
                 <h5>{chapter.name}</h5>
                 <ul className="usa-unstyled-list">

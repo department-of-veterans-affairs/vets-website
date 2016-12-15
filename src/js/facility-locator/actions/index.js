@@ -1,101 +1,127 @@
-export function fetchVAFacility(id) {
+import { api } from '../config';
+import { find, compact } from 'lodash';
+import { mapboxClient } from '../components/MapboxClient';
+
+export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
+export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
+export const LOCATION_UPDATED = 'LOCATION_UPDATED';
+export const SEARCH_FAILED = 'SEARCH_FAILED';
+export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
+export const SEARCH_STARTED = 'SEARCH_STARTED';
+export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
+
+export function updateSearchQuery(query) {
   return {
-    type: 'FETCH_VA_FACILITY',
+    type: SEARCH_QUERY_UPDATED,
     payload: {
-      id,
-      name: 'National Capital Region Benefits Office, Specially Adapted Housing Office',
-      facilityType: 'facility',
-      address: {
-        street1: '1722 I Street, NW',
-        street2: '',
-        city: 'Washington',
-        state: 'DC',
-        zip: '20005'
-      },
-      cemetary: {
-        cemetaryType: 'National',
-        operations: 'closed'
-      },
-      phone: {
-        main: '202-530-9010',
-        pharmacy: '202-530-9372',
-        afterHours: '202-530-9373',
-        enrollmentCoordinator: '202-530-9405',
-        fax: '202-530-9046',
-        patientAdvocate: '202-530-9047'
-      },
-      monday: '800am-430pm',
-      tuesday: '800am-430pm',
-      wednesday: '800am-430pm',
-      thursday: '800am-430pm',
-      friday: '800am-430pm',
-      saturday: '-',
-      sunday: '-',
-      longitude: '-89.86923039',
-      latitude: '38.54265307',
-      Audiology: 'NO',
-      ComplementaryAlternativeMed: 'NO',
-      DentalServices: 'NO',
-      DiagnosticServices: 'NO',
-      ImagingAndRadiology: 'NO',
-      LabServices: 'NO',
-      EmergencyDept: 'NO',
-      EyeCare: 'NO',
-      MentalHealthCare: 'NO',
-      OutpatientMHCare: 'NO',
-      OutpatientSpecMHCare: 'NO',
-      VocationalAssistance: 'NO',
-      OutpatientMedicalSpecialty: 'NO',
-      AllergyAndImmunology: 'NO',
-      CardiologyCareServices: 'NO',
-      DermatologyCareServices: 'NO',
-      Diabetes: 'NO',
-      Dialysis: 'NO',
-      Endocrinology: 'NO',
-      Gastroenterology: 'NO',
-      Hematology: 'NO',
-      InfectiousDisease: 'NO',
-      InternalMedicine: 'NO',
-      Nephrology: 'NO',
-      Neurology: 'NO',
-      Oncology: 'NO',
-      PulmonaryRespiratoryDisease: 'NO',
-      Rheumatology: 'NO',
-      SleepMedicine: 'NO',
-      OutpatientSurgicalSpecialty: 'NO',
-      CardiacSurgery: 'NO',
-      ColoRectalSurgery: 'NO',
-      ENT: 'NO',
-      GeneralSurgery: 'NO',
-      Gynecology: 'NO',
-      Neurosurgery: 'NO',
-      Orthopedics: 'NO',
-      PainManagement: 'NO',
-      PlasticSurgery: 'NO',
-      Podiatry: 'NO',
-      ThoracicSurgery: 'NO',
-      Urology: 'NO',
-      VascularSurgery: 'NO',
-      PrimaryCare: 'NO',
-      Rehabilitation: 'NO',
-      UrgentCare: 'NO',
-      WellnessAndPreventativeCare: 'NO'
+      ...query,
     }
   };
 }
 
-export function fetchVAFacilities() {
+export function updateLocation(propertyPath, value) {
   return {
-    type: 'FETCH_VA_FACILITY',
-    payload: [
-      {
-        name: 'VA Facility One',
-        coord: [38.89767, -77.0365]
+    type: LOCATION_UPDATED,
+    propertyPath,
+    value
+  };
+}
+
+export function fetchVAFacility(id, facility = null) {
+  if (facility) {
+    return {
+      type: FETCH_VA_FACILITY,
+      payload: facility,
+    };
+  }
+
+  const url = `${api.url}/${id}`;
+
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+      payload: {
+        active: true,
       },
-      {
-        name: 'VA Facility Two',
-        coord: [38.89769, -77.0369]
+    });
+
+    return fetch(url, api.settings)
+      .then(res => res.json())
+      .then(
+        data => dispatch({ type: FETCH_VA_FACILITY, payload: data.data }),
+        err => dispatch({ type: SEARCH_FAILED, err })
+      );
+  };
+}
+
+export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
+  const params = compact([
+    ...bounds.map(c => `bbox[]=${c}`),
+    facilityType ? `type=${facilityType}` : null,
+    serviceType ? `services[]=${serviceType}` : null,
+    `page=${page}`
+  ]).join('&');
+  const url = `${api.url}?${params}`;
+
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+      payload: {
+        page,
+        searchBoundsInProgress: true,
+      },
+    });
+
+    return fetch(url, api.settings)
+      .then(res => res.json())
+      .then(
+        data => {
+          dispatch({ type: FETCH_VA_FACILITIES, payload: data });
+        },
+        err => dispatch({ type: SEARCH_FAILED, err })
+      );
+  };
+}
+
+export function searchWithAddress(query) {
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+    });
+
+    mapboxClient.geocodeForward(query.searchString, {
+      country: 'us,vi,pr,ph,gu,as,mp',
+    }, (err, res) => {
+      const coordinates = res.features[0].center;
+      const zipCode = (find(res.features[0].context, (v) => {
+        return v.id.includes('postcode');
+      }) || {}).text || res.features[0].place_name;
+
+      if (!err) {
+        dispatch({
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            ...query,
+            context: zipCode,
+            position: {
+              latitude: coordinates[1],
+              longitude: coordinates[0],
+            },
+            bounds: res.features[0].bbox || [
+              coordinates[0] - 0.5,
+              coordinates[1] - 0.5,
+              coordinates[0] + 0.5,
+              coordinates[1] + 0.5,
+            ],
+            zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
+          }
+        });
+      } else {
+        dispatch({
+          type: SEARCH_FAILED,
+          err,
+        });
       }
-    ]
+    });
   };
 }

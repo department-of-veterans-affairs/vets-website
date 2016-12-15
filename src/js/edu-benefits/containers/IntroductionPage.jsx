@@ -1,28 +1,29 @@
 import React from 'react';
+import { focusElement } from '../../common/utils/helpers';
 
 class IntroductionPage extends React.Component {
+  componentDidMount() {
+    focusElement('.va-nav-breadcrumbs-list');
+  }
   render() {
     return (
       <div>
         <div className="row">
           <div className="small-12 columns">
-            <h3>Apply online for education benefits</h3>
+            <h3>Apply for education benefits (Form 22-1990)</h3>
           </div>
         </div>
 
         <div className="row">
           <div className="small-12 columns">
-            <p>
-              Fill out this application with the most accurate information you have. The more accurate it is, the more likely you are to get a rapid response.
-            </p>
-            <p>
-              VA uses the information you submit to determine your eligibility and to provide you with the best service.
-            </p>
-            <p>
-              Federal law provides criminal penalties, including a fine and/or imprisonment for up to 5 years, for concealing a material fact or making a materially false statement. (See <a href="https://www.justice.gov/usam/criminal-resource-manual-903-false-statements-concealment-18-usc-1001" target="_blank">18 U.S.C. 1001</a>)
-            </p>
-            <div className="usa-alert usa-alert-info">
-              <strong>Note:</strong> You will not be able to save your progress once you have started the form.
+            <div className="input-section">
+              <p>Fill out this application to <strong>apply for</strong> your official Certificate of Eligibility (COE) for the education benefit you want. Before you continue, please note that the presence of form fields indicates information is being collected.</p>
+              <div className="usa-alert usa-alert-info">
+                <div className="usa-alert-body">
+                  <span><strong>You won’t be able to save your work or come back to finish</strong>. So before you start, it’s a good idea to gather information about your military and education history, and the school you want to attend.</span>
+                </div>
+              </div>
+              <p>This application is based on VA Form 22-1990.</p>
             </div>
           </div>
         </div>

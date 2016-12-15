@@ -1,8 +1,7 @@
 'use strict';  // eslint-disable-line
 // Veteran resource prototype objects. In common so server unittests can access.
 
-const includes = require('lodash/includes');
-const omit = require('lodash/omit');
+const _ = require('lodash');
 const fields = require('./fields');
 const makeField = fields.makeField;
 
@@ -44,6 +43,8 @@ const blankVeteran = {
 
   veteranAddress: {
     street: makeField(''),
+    street2: makeField(''),
+    street3: makeField(''),
     city: makeField(''),
     country: makeField(''),
     state: makeField(''),
@@ -56,7 +57,7 @@ const blankVeteran = {
   homePhone: makeField(''),
   mobilePhone: makeField(''),
 
-  understandsFinancialDisclosure: makeField(false),  // TODO(awong): Ignored by ES System
+  discloseFinancialInformation: makeField(''),
 
   spouseFullName: {
     first: makeField(''),
@@ -80,6 +81,8 @@ const blankVeteran = {
   provideSupportLastYear: makeField(''),  // TODO(awong): This name should be scoped to spouse.
   spouseAddress: {
     street: makeField(''),
+    street2: makeField(''),
+    street3: makeField(''),
     city: makeField(''),
     country: makeField(''),
     state: makeField(''),
@@ -135,7 +138,8 @@ const blankVeteran = {
   vietnamService: false,
   exposedToRadiation: false,
   radiumTreatments: false,
-  campLejeune: false
+  campLejeune: false,
+  privacyAgreementAccepted: false
 };
 
 const completeVeteran = {
@@ -231,6 +235,14 @@ const completeVeteran = {
       value: '123 NW 5th St',
       dirty: false
     },
+    street2: {
+      value: '',
+      dirty: false
+    },
+    street3: {
+      value: '',
+      dirty: false
+    },
     city: {
       value: 'Ontario',
       dirty: false
@@ -272,8 +284,8 @@ const completeVeteran = {
     value: '1235551234',
     dirty: false
   },
-  understandsFinancialDisclosure: {
-    value: true,
+  discloseFinancialInformation: {
+    value: 'Y',
     dirty: false
   },
   spouseFullName: {
@@ -341,6 +353,14 @@ const completeVeteran = {
   spouseAddress: {
     street: {
       value: '123 NW 8th St',
+      dirty: false
+    },
+    street2: {
+      value: '',
+      dirty: false
+    },
+    street3: {
+      value: '',
       dirty: false
     },
     city: {
@@ -684,7 +704,7 @@ const completeVeteran = {
 };
 
 function veteranToApplication(veteran) {
-  if (includes(['Never Married', 'Widowed', 'Divorced'], veteran.maritalStatus.value)) {
+  if (_.includes(['Never Married', 'Widowed', 'Divorced'], veteran.maritalStatus.value) || veteran.discloseFinancialInformation.value === 'N') {
     /* eslint-disable no-param-reassign*/
     delete veteran.spouseAddress;
     delete veteran.spouseFullName;
@@ -724,6 +744,7 @@ function veteranToApplication(veteran) {
       case 'childAttendedSchoolLastYear':
       case 'childCohabitedLastYear':
       case 'childReceivedSupportLastYear':
+      case 'discloseFinancialInformation':
         return value.value === 'Y';
 
       case 'childEducationExpenses':
@@ -755,13 +776,18 @@ function veteranToApplication(veteran) {
       case 'cityOfBirth':
       case 'stateOfBirth':
       case 'email':
+        if (value.value === '') {
+          return undefined;
+        }
+        break;
+
       case 'homePhone':
       case 'mobilePhone':
       case 'spousePhone':
         if (value.value === '') {
           return undefined;
         }
-        break;
+        return value.value.replace(/[^\d]/g, '');
 
       default:
         // fall through.
@@ -795,7 +821,7 @@ function veteranToApplication(veteran) {
     // Strips out suffix if the user does not enter it.
     // TODO: Strip out other fields that are passing empty string.
     if (value.suffix !== undefined && value.suffix.value === '') {
-      return omit(value, ['suffix']);
+      return _.omit(value, ['suffix']);
     }
 
     // Strip all the dirty flags out of the veteran and flatted it into a single atomic value.

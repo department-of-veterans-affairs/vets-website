@@ -1,124 +1,203 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Scroll from 'react-scroll';
 import _ from 'lodash';
-import moment from 'moment';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Pagination from '../../common/components/Pagination';
+import SortableTable from '../../common/components/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
-import { openGlossaryModal } from '../actions/modal.js';
-import Pagination from '../components/Pagination';
-import SortableTable from '../components/tables/SortableTable';
+import { openGlossaryModal } from '../actions/modals';
+import GlossaryLink from '../components/GlossaryLink';
 import SortMenu from '../components/SortMenu';
-import { glossary } from '../config.js';
+import { rxStatuses } from '../config';
+import { formatDate } from '../utils/helpers';
+
+const ScrollElement = Scroll.Element;
+const scroller = Scroll.scroller;
 
 class History extends React.Component {
   constructor(props) {
     super(props);
-    this.loadData = this.loadData.bind(this);
+    this.formattedSortParam = this.formattedSortParam.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
-    this.openGlossaryModal = this.openGlossaryModal.bind(this);
+    this.scrollToTop = this.scrollToTop.bind(this);
   }
 
-  componentWillMount() {
-    this.loadData();
-  }
-
-  loadData(options) {
-    let combinedOptions;
-    if (options) {
-      combinedOptions = {
-        sort: options.sort || this.props.prescriptions.history.sort,
-        page: options.page || this.props.prescriptions.history.page
-      };
+  componentDidMount() {
+    if (!this.props.loading) {
+      const query = _.pick(this.props.location.query, ['page', 'sort']);
+      this.props.loadPrescriptions(query);
     }
-    this.props.dispatch(loadPrescriptions(combinedOptions));
+  }
+
+  componentDidUpdate(prevProps) {
+    const currentPage = this.props.page;
+    const currentSort = this.formattedSortParam(
+      this.props.sort.value,
+      this.props.sort.order
+    );
+
+    const query = _.pick(this.props.location.query, ['page', 'sort']);
+    const requestedPage = +query.page || currentPage;
+    const requestedSort = query.sort || currentSort;
+
+    // Check if query params requested are different from state.
+    const pageChanged = requestedPage !== currentPage;
+    const sortChanged = requestedSort !== currentSort;
+
+    if (pageChanged || sortChanged) {
+      this.scrollToTop();
+    }
+
+    if (!this.props.loading) {
+      if (pageChanged || sortChanged) {
+        this.props.loadPrescriptions(query);
+      }
+
+      // Check if query params changed in state.
+      const prevSort = this.formattedSortParam(
+        prevProps.sort.value,
+        prevProps.sort.order
+      );
+      const pageUpdated = prevProps.page !== currentPage;
+      const sortUpdated = prevSort !== currentSort;
+
+      if (pageUpdated || sortUpdated) {
+        this.scrollToTop();
+      }
+    }
+  }
+
+  scrollToTop() {
+    scroller.scrollTo('history', {
+      duration: 500,
+      delay: 0,
+      smooth: true
+    });
+  }
+
+  formattedSortParam(value, order) {
+    const formattedValue = _.snakeCase(value);
+    const sort = order === 'DESC'
+               ? `-${formattedValue}`
+               : formattedValue;
+    return sort;
   }
 
   handleSort(value, order) {
-    const sort = { value, order };
-    this.loadData({ sort });
+    const sort = this.formattedSortParam(value, order);
+    this.context.router.push({
+      ...this.props.location,
+      query: { ...this.props.location.query, sort }
+    });
   }
 
   handlePageSelect(page) {
-    this.loadData({ page });
-  }
-
-  openGlossaryModal(term) {
-    const content = glossary.filter(obj => {
-      return obj.term === term;
+    this.context.router.push({
+      ...this.props.location,
+      query: { ...this.props.location.query, page }
     });
-    this.props.dispatch(openGlossaryModal(content));
   }
 
   render() {
-    const items = this.props.prescriptions.items;
+    const items = this.props.prescriptions;
     let content;
 
-    if (items) {
-      const currentSort = this.props.prescriptions.history.sort;
+    if (this.props.loading) {
+      content = <LoadingIndicator message="is loading your prescriptions..."/>;
+    } else if (items) {
+      const currentSort = this.props.sort;
 
       const fields = [
-        { label: 'Last requested', value: 'ordered-date' },
-        { label: 'Last fill date', value: 'dispensed-date' },
-        { label: 'Prescription', value: 'prescription-name' },
-        { label: 'Prescription status', value: 'refill-status' }
+        { label: 'Last submit date', value: 'refillSubmitDate' },
+        { label: 'Last fill date', value: 'refillDate' },
+        { label: 'Prescription', value: 'prescriptionName' },
+        { label: 'Prescription status', value: 'refillStatus' }
       ];
 
       const data = items.map(item => {
         const attrs = item.attributes;
-        const status = _.capitalize(attrs['refill-status']);
+        const status = rxStatuses[attrs.refillStatus];
 
         return {
-          'ordered-date': moment(
-              attrs['ordered-date']
-            ).format('MMM DD, YYYY'),
-          'dispensed-date': moment(
-              attrs['dispensed-date']
-            ).format('MMM DD, YYYY'),
-          'prescription-name': (
-            <Link to={`/rx/prescription/${attrs['prescription-id']}`}>
-              {attrs['prescription-name']}
+          id: item.id,
+
+          refillSubmitDate: formatDate(attrs.refillSubmitDate),
+
+          refillDate: formatDate(attrs.refillDate, { validateInPast: true }),
+
+          prescriptionName: (
+            <Link to={`/${attrs.prescriptionId}`}>
+              {attrs.prescriptionName}
             </Link>
             ),
-          'refill-status': (
-            <a onClick={() => this.openGlossaryModal(status)}>
-              {status}
-            </a>
+
+          refillStatus: (
+            <GlossaryLink
+                term={status}
+                onClick={this.props.openGlossaryModal}/>
             )
         };
       });
 
       content = (
         <div>
+          <p className="rx-tab-explainer">Your VA prescription refill history.</p>
           <SortMenu
-              changeHandler={(e) => this.handleSort(e.target.value)}
+              onChange={this.handleSort}
               options={fields}
-              selected={currentSort}/>
+              selected={currentSort.value}/>
           <SortableTable
-              className="usa-table-borderless rx-table rx-table-list"
+              className="usa-table-borderless va-table-list rx-table rx-table-list"
               currentSort={currentSort}
               data={data}
               fields={fields}
               onSort={this.handleSort}/>
           <Pagination
               onPageSelect={this.handlePageSelect}
-              page={this.props.prescriptions.history.page}
-              pages={this.props.prescriptions.history.pages}/>
+              page={this.props.page}
+              pages={this.props.pages}/>
         </div>
+      );
+    } else {
+      content = (
+        <p className="rx-tab-explainer rx-loading-error">
+          We couldn't retrieve your prescriptions.
+          Please refresh this page or try again later.
+          If this problem persists, please call the Vets.gov Help Desk
+          at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
+        </p>
       );
     }
 
     return (
-      <div id="rx-history" className="va-tab-content">
+      <ScrollElement
+          id="rx-history"
+          name="history"
+          className="va-tab-content">
         {content}
-      </div>
+      </ScrollElement>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return state;
+History.contextTypes = {
+  router: React.PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps)(History);
+const mapStateToProps = (state) => {
+  return {
+    ...state.prescriptions.history,
+    prescriptions: state.prescriptions.items
+  };
+};
+
+const mapDispatchToProps = {
+  loadPrescriptions,
+  openGlossaryModal
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(History);

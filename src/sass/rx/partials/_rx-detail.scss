@@ -1,0 +1,124 @@
+/* Rx detail page */
+
+#rx-detail h2 {
+  font-size: 3rem;
+  // Overriding #content .section h*.
+  margin-top: 2rem !important;
+}
+
+#rx-detail h3 {
+  font-size: 2.5rem;
+}
+
+#rx-detail table {
+  // Get font size to stay the same when table shrinks.
+  display: block;
+  font-size: 1.6rem;
+  margin: 0;
+
+  tbody {
+    &:first-child {
+      th, td {
+        border-top: none;
+      }
+    }
+
+    &:last-child {
+      th, td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  th {
+    white-space: nowrap;
+  }
+
+  td:last-child {
+    width: 99%;
+  }
+
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    min-width: 45rem;
+    width: 45rem;
+  }
+}
+
+#rx-info {
+  margin-bottom: 3.5rem;
+
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    margin-right: 3.5rem;
+    vertical-align: top;
+  }
+
+  td {
+    padding-right: 0;
+    vertical-align: top;
+  }
+
+  th {
+    font-weight: bold;
+    padding-left: 0;
+    vertical-align: top;
+  }
+
+  .rx-refill-form {
+    display: block;
+    margin-top: .5rem;
+  }
+
+  button {
+    margin: 0;
+    width: 100%;
+  }
+}
+
+#rx-detail .rx-contact-card {
+  margin-bottom: 3.5rem;
+  width: 100%;
+
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    width: 30rem;
+  };
+}
+
+.rx-history-tracking {
+  display: inline-block;
+  margin: 0;
+  padding-right: 2.2rem;
+}
+
+.rx-detail-history {
+  margin: 0;
+
+  @media (min-width: $medium-screen) {
+    td {
+      white-space: nowrap;
+    }
+  }
+  
+  @media (max-width: $medium-screen) {
+    td {
+      &:nth-child(1):before { content: "Order status: "; }
+      &:nth-child(2):before { content: "Tracking status: "; }
+    }
+  }
+}
+
+#rx-order-history {
+  @media (min-width: $medium-screen) {
+    p {
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: $medium-screen) {
+    p {
+      margin-bottom: 0;
+    }
+  }
+}

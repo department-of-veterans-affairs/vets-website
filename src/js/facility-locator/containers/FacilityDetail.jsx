@@ -1,32 +1,107 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { fetchVAFacility } from '../actions';
-import FacilityInfo from '../components/FacilityInfo';
+import AccessToCare from '../components/AccessToCare';
+import FacilityAddress from '../components/search-results/FacilityAddress';
+import FacilityDirectionsLink from '../components/search-results/FacilityDirectionsLink';
+import FacilityHours from '../components/FacilityHours';
+import FacilityMap from '../components/FacilityMap';
+import FacilityPhoneLink from '../components/search-results/FacilityPhoneLink';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import React, { Component } from 'react';
 import ServicesAtFacility from '../components/ServicesAtFacility';
-import HowToGetHere from '../components/HowToGetHere';
 
 class FacilityDetail extends Component {
   componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id);
+    window.scrollTo(0, 0);
+  }
+
+  renderFacilityWebsite() {
+    const { facility } = this.props;
+    const { website } = facility.attributes;
+
+    if (!website) {
+      return null;
+    }
+
+    return (
+      <span>
+        <a href={website} target="_blank">
+          <i className="fa fa-globe"/>Website
+        </a>
+      </span>
+    );
+  }
+
+  renderFacilityInfo() {
+    const { facility } = this.props;
+    const { name } = facility.attributes;
+
+    return (
+      <div>
+        <h1>{name}</h1>
+        <div className="p1">
+          <FacilityAddress facility={facility}/>
+        </div>
+        <div>
+          <FacilityPhoneLink facility={facility}/>
+        </div>
+        <div>
+          {this.renderFacilityWebsite()}
+        </div>
+        <div>
+          <FacilityDirectionsLink facility={facility}/>
+        </div>
+        <p className="p1">Planning to visit? Please call first as information on this page may change.</p>
+      </div>
+    );
+  }
+
+  renderAccessToCare() {
+    const { facility } = this.props;
+
+    if (facility.attributes.facility_type !== 'va_health_facility') {
+      return null;
+    }
+
+    return (
+      <AccessToCare facility={facility}/>
+    );
   }
 
   render() {
-    return (
-      <div>
-        <h2>{this.props.facility ? this.props.facility.name : ''}</h2>
+    const { facility, currentQuery } = this.props;
 
-        <div className="medium-4 columns details-map">
-          <h4>Facility Details</h4>
-          <FacilityInfo info={this.props.facility}/>
+    if (!facility) {
+      return null;
+    }
+
+
+    if (currentQuery.inProgress) {
+      return (
+        <div>
+          <LoadingIndicator message="Loading information..."/>
         </div>
-        <div className="medium-4 columns column1">
-          <h4>Services at this Facility</h4>
-          <ServicesAtFacility info={this.props.facility}/>
+      );
+    }
+
+    return (
+      <div className="row facility-detail">
+        <div className="medium-8 columns">
+          <div>
+            {this.renderFacilityInfo()}
+            <ServicesAtFacility facility={facility}/>
+          </div>
         </div>
-        <div className="medium-4 columns clearfix column1">
-          <h4>How to Get Here</h4>
-          <HowToGetHere info={this.props.facility}/>
+        <div className="medium-4 columns">
+          <div>
+            <FacilityMap info={facility}/>
+            <div className="mb2">
+              <FacilityHours facility={facility}/>
+            </div>
+            {this.renderAccessToCare()}
+          </div>
         </div>
       </div>
     );
@@ -38,7 +113,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { facility: state.facilities.facilityDetail };
+  return { facility: state.facilities.selectedFacility, currentQuery: state.searchQuery };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FacilityDetail);

@@ -1,30 +1,34 @@
 import React from 'react';
+import { Link } from 'react-router';
 import GlossaryList from './GlossaryList';
 
 class GlossaryModal extends React.Component {
   constructor(props) {
     super(props);
-    this.handlerCloseModal = this.handlerCloseModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
-  handlerCloseModal(event) {
+  handleCloseModal(event) {
     event.preventDefault();
     this.props.onCloseModal();
   }
 
   render() {
     let element;
-
     if (this.props.isVisible) {
       element = (
-        <section className="rx-modal" id="rx-glossary-modal">
-          <div className="rx-modal-inner">
-            <h3 className="rx-modal-title">Glossary</h3>
-            <div className="rx-modal-body">
+        <section className="va-modal rx-modal" id="rx-glossary-modal">
+          <div className="va-modal-inner">
+            <h3 className="va-modal-title">Glossary</h3>
+            <div className="va-modal-body rx-modal-body">
               <GlossaryList terms={this.props.content}/>
-              <div className="rx-button-group cf">
-                <button type="button" onClick={this.handlerCloseModal}>Close</button>
-                <a href="/rx/glossary/">See all status definitions</a>
+              <div className="va-modal-button-group cf">
+                <button type="button" onClick={this.handleCloseModal}>Close</button>
+                <Link
+                    to="/glossary"
+                    onClick={this.props.onCloseModal}>
+                  See all status definitions
+                </Link>
               </div>
             </div>
           </div>

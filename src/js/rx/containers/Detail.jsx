@@ -1,131 +1,226 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import Scroll from 'react-scroll';
+import _ from 'lodash';
 
-import { loadPrescription } from '../actions/prescriptions.js';
-import BackLink from '../components/BackLink';
+import AlertBox from '../../common/components/AlertBox';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import { closeAlert } from '../actions/alert.js';
+import { openGlossaryModal, openRefillModal } from '../actions/modals';
+import { loadPrescription } from '../actions/prescriptions';
 import ContactCard from '../components/ContactCard';
+import GlossaryLink from '../components/GlossaryLink';
 import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
-import { glossary, rxStatuses } from '../config.js';
 import SubmitRefill from '../components/SubmitRefill';
-import { openGlossaryModal, openRefillModal } from '../actions/modal';
+import { rxStatuses } from '../config';
+import { formatDate } from '../utils/helpers';
+
+const ScrollElement = Scroll.Element;
+const scroller = Scroll.scroller;
 
 export class Detail extends React.Component {
   constructor(props) {
     super(props);
-    this.openGlossaryModal = this.openGlossaryModal.bind(this);
+    this.makeContactCard = this.makeContactCard.bind(this);
+    this.makeHeader = this.makeHeader.bind(this);
+    this.makeInfo = this.makeInfo.bind(this);
+    this.makeOrderHistory = this.makeOrderHistory.bind(this);
+    this.scrollToOrderHistory = this.scrollToOrderHistory.bind(this);
   }
 
-  componentWillMount() {
-    this.props.dispatch(loadPrescription(this.props.params.id));
+  componentDidMount() {
+    scrollTo(0, 0);
+
+    if (!this.props.loading) {
+      this.props.loadPrescription(this.props.params.id);
+    }
   }
 
-  openGlossaryModal(term) {
-    const content = glossary.filter((obj) => {
-      return obj.term === term;
-    });
+  componentDidUpdate() {
+    // If order history was requested, scroll to it after data has been fetched
+    // and the page has updated to a different prescription.
+    const shouldScrollToOrderHistory =
+      !this.props.loading &&
+      this.props.location.hash === '#rx-order-history';
 
-    this.props.openGlossaryModal(content);
+    if (shouldScrollToOrderHistory) {
+      this.scrollToOrderHistory();
+    }
   }
 
-  render() {
-    let header;
-    let rxInfo;
-    let contactCard;
-    let orderHistory;
+  makeContactCard() {
+    const facilityName = _.get(this.props.prescription, [
+      'rx',
+      'attributes',
+      'facilityName'
+    ]);
 
-    const item = this.props.prescriptions.currentItem;
+    const phoneNumber = _.get(this.props.prescription, [
+      'trackings',
+      '0',
+      'attributes',
+      'rxInfoPhoneNumber'
+    ]);
 
-    if (item) {
-      // Compose components from Rx data.
-      if (item.rx) {
-        const attrs = item.rx.attributes;
-        const status = rxStatuses[attrs['refill-status']];
-        const data = {
-          Quantity: attrs.quantity,
-          'Prescription status': (
-            <button
-                className="rx-trigger"
-                onClick={() => this.openGlossaryModal(status)}
-                type="button">
-              {status}
-            </button>
-          ),
-          'Last fill date': moment(
-              attrs['dispensed-date']
-            ).format('MMM DD, YYYY'),
-          'Expiration date': moment(
-              attrs['expiration-date']
-            ).format('MMM DD, YYYY'),
-          'Prescription #': attrs['prescription-number'],
-          Refills: (
-            <div>
-              {attrs['refill-remaining']} remaining
-              <SubmitRefill
-                  cssClass="rx-trigger"
-                  mode="compact"
-                  onSubmit={(e) => { e.preventDefault(); this.props.openRefillModal(attrs); }}
-                  refillId={item.rx.id}
-                  text="Refill Prescription"/>
-            </div>
-          )
-        };
+    return (
+      <ContactCard
+          facilityName={facilityName}
+          phoneNumber={phoneNumber}/>
+    );
+  }
 
-        header = (
-          <h2 className="rx-heading">
-            {attrs['prescription-name']}
-          </h2>
-        );
+  makeHeader() {
+    const prescriptionName = _.get(this.props.prescription, [
+      'rx',
+      'attributes',
+      'prescriptionName'
+    ]);
 
-        rxInfo = (
-          <TableVerticalHeader
-              className="usa-table-borderless rx-table rx-info"
-              data={data}/>
-        );
-      }
+    return <h2>{prescriptionName}</h2>;
+  }
 
-      // Compose components from tracking data.
-      if (item.trackings) {
-        const currentPackage = item.trackings[0].attributes;
-        const facilityName = currentPackage['facility-name'];
-        const phoneNumber = currentPackage['rx-info-phone-number'];
+  makeInfo() {
+    const attrs = _.get(this.props.prescription, 'rx.attributes', {});
+    const status = rxStatuses[attrs.refillStatus];
 
-        contactCard = (
-          <ContactCard
-              facilityName={facilityName}
-              phoneNumber={phoneNumber}/>
-        );
+    const data = {
+      'Prescription #': attrs.prescriptionNumber,
 
-        orderHistory = (
-          <div className="rx-order-history">
-            <h3 className="rx-heading va-h-ruled">Order History</h3>
-            <OrderHistory
-                className="usa-table-borderless rx-table rx-table-list"
-                items={item.trackings}/>
-          </div>
-        );
-      }
+      Quantity: attrs.quantity,
+
+      'Prescription status': status ? (
+        <GlossaryLink
+            term={status}
+            onClick={this.props.openGlossaryModal}/>
+      ) : null,
+
+      'Last fill date': formatDate(
+        attrs.refillDate,
+        { validateInPast: true }
+      ),
+
+      'Expiration date': formatDate(attrs.expirationDate),
+
+      Refills: `${attrs.refillRemaining} remaining`
+    };
+
+    let refillButton;
+
+    if (attrs.isRefillable) {
+      refillButton = (
+        <SubmitRefill
+            onSubmit={(e) => {
+              e.preventDefault();
+              this.props.openRefillModal(attrs);
+            }}
+            refillId={attrs.id}
+            text="Refill Prescription"/>
+      );
     }
 
     return (
-      <div id="rx-detail" className="rx-app row">
-        <h1>Mail Order Prescriptions</h1>
-        <BackLink text="Back to list"/>
-        {header}
-        {rxInfo}
-        {contactCard}
-        {orderHistory}
+      <div id="rx-info">
+        <TableVerticalHeader
+            className="usa-table-borderless rx-table"
+            data={data}/>
+        {refillButton}
+      </div>
+    );
+  }
+
+  makeOrderHistory() {
+    const trackings = this.props.prescription.trackings;
+    let orderHistoryTable;
+
+    if (trackings && trackings.length) {
+      orderHistoryTable = (
+        <OrderHistory
+            className="usa-table-borderless va-table-list rx-table rx-table-list rx-detail-history"
+            items={trackings}/>
+      );
+    }
+
+    return (
+      <ScrollElement
+          id="rx-order-history"
+          name="orderHistory">
+        <h3>Order History</h3>
+        <p>* Tracking information for each order expires 30 days after shipment.</p>
+        {orderHistoryTable}
+      </ScrollElement>
+    );
+  }
+
+  scrollToOrderHistory() {
+    scroller.scrollTo('orderHistory', {
+      duration: 500,
+      delay: 0,
+      smooth: true,
+    });
+  }
+
+  render() {
+    const requestedRxId = this.props.params.id;
+    const currentRxId = _.get(this.props.prescription, 'rx.id');
+    const isSameRx = requestedRxId === currentRxId;
+    let content;
+
+    // If the item in state doesn't reflect the item from the URL,
+    // show the loader until the requested item finishes loading.
+    if (this.props.loading || (this.props.prescription && !isSameRx)) {
+      content = <LoadingIndicator message="is loading your prescription..."/>;
+    } else if (this.props.prescription) {
+      const header = this.makeHeader();
+      const rxInfo = this.makeInfo();
+      const contactCard = this.makeContactCard();
+      const orderHistory = this.makeOrderHistory();
+
+      content = (
+        <div>
+          {header}
+          {rxInfo}
+          {contactCard}
+          {orderHistory}
+        </div>
+      );
+    } else {
+      content = (
+        <p className="rx-tab-explainer rx-loading-error">
+          We couldn't retrieve your prescription.
+          Please refresh this page or try again later.
+          If this problem persists, please call the Vets.gov Help Desk
+          at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
+        </p>
+      );
+    }
+
+    return (
+      <div id="rx-detail">
+        <AlertBox
+            content={this.props.alert.content}
+            isVisible={this.props.alert.visible}
+            onCloseAlert={this.props.closeAlert}
+            scrollOnShow
+            status={this.props.alert.status}/>
+        <h1>Prescription Refill</h1>
+        {content}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    alert: state.alert,
+    loading: state.prescriptions.detail.loading,
+    prescription: state.prescriptions.currentItem
+  };
 };
 
 const mapDispatchToProps = {
+  closeAlert,
+  loadPrescription,
   openGlossaryModal,
   openRefillModal
 };

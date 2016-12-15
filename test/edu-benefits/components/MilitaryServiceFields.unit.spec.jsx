@@ -20,6 +20,5 @@ describe('<MilitaryServiceFields>', () => {
           initializeFields={initializeFields}/>
     );
     expect(tree.everySubTree('ErrorableRadioButtons').some(buttons => buttons.props.name === 'onTerminalLeave')).to.be.true;
-    expect(tree.everySubTree('ErrorableRadioButtons').some(buttons => buttons.props.name === 'nonVaAssistance')).to.be.true;
   });
 });

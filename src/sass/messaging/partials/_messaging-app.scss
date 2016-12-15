@@ -1,16 +1,78 @@
 #messaging-app {
   margin: auto;
   max-width: $site-max-width;
-  padding: 3rem 1.5rem;
+
+  @media (min-width: $medium-screen) {
+    padding: 3rem 1.5rem;
+  }
 }
 
+
+#messaging-app-header {
+  @media (max-width: $medium-screen) {
+    padding: 0 1.5rem;
+  }
+}
+
+.messaging-compose-button {
+  font-size: 1.8rem;
+  padding-top: 1.75rem;
+  padding-bottom: 1.75rem;
+  width: 100%;
+}
+
+// TODO: Refactor these styles so that they're
+// reusable across projects.
 #messaging-nav {
-  box-sizing: border-box;
   display: inline-block;
   width: 20%;
 
-  .rx-compose-button {
+  .messaging-folder-nav-close {
+    background: transparent;
+    color: $color-black;
+    display: none;
+    font-size: 2.5rem;
+    margin: 0 0 2rem 0;
+    text-align: right;
     width: 100%;
+  }
+
+  .messaging-compose-button {
+    margin: 0 0 2rem 0;
+    width: 100%;
+  }
+
+  @media (max-width: $medium-screen) {
+    -webkit-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    transform: translateX(-100%);
+
+    -webkit-transition: -webkit-transform 250ms;
+    transition: transform 250ms;
+
+    background: $color-white;
+    height: 100%;
+    left: 0;
+    padding: 5rem;
+    position: fixed;
+    overflow-y: auto;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+
+    .messaging-compose-button {
+      display: none;
+    }
+
+    .messaging-folder-nav-close {
+      display: block;
+    }
+  }
+
+  &.opened {
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
   }
 }
 
@@ -28,48 +90,146 @@
 }
 
 .messaging-my-folders {
+  span {
+    display: inline-block;
+    width: 90%;
+  }
+
   i {
-    float: right;
-    line-height: 2rem;
+    display: inline-block;
+    font-size: 1.8rem;
+    text-align: right;
+    width: 10%;
   }
 }
 
-.messaging-folder-nav-actions {
-  button {
-    background: transparent;
-    border-radius: 0;
-    color: $color-primary;
-    font-weight: normal;
-    line-height: 1.3;
-    margin: 0;
-    text-align: left;
-    text-decoration: underline;
-    width: 100%;
+// TODO: Refactor so that these styles are more reusable.
+button.msg-btn-newfolder[type="button"],
+.messaging-folder-nav-actions button {
+  background: transparent;
+  border-radius: 0;
+  color: $color-primary;
+  font-weight: normal;
+  line-height: 1.3;
+  margin: 0;
+  text-align: left;
+  text-decoration: underline;
+  width: 100%;
 
-    -webkit-transition-duration: 0.3s;
-            transition-duration: 0.3s;
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
 
-    -webkit-transition-timing-function: ease-in-out;
-            transition-timing-function: ease-in-out;
+  -webkit-transition-timing-function: ease-in-out;
+          transition-timing-function: ease-in-out;
 
-    // Transition only these properties.
-    -webkit-transition-property: color, background-color, border-color;
-            transition-property: color, background-color, border-color;
+  // Transition only these properties.
+  -webkit-transition-property: color, background-color, border-color;
+          transition-property: color, background-color, border-color;
 
-    &:hover {
-      background: $color-gray-lightest;
-    }
+  &:hover {
+    background: $color-gray-lightest;
   }
 
   i {
-    text-decoration: inherit;
+    display: inline;
+    font-size: 1.8rem;
   }
+}
+
+.messaging-folder-nav-actions .msg-btn-newfolder {
+  padding: 1rem 2rem;
+  width: 100%;
 }
 
 #messaging-content {
-  box-sizing: border-box;
-  display: inline-block;
-  padding-left: 3rem;
-  vertical-align: top;
-  width: 80%;
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    padding-left: 3rem;
+    vertical-align: top;
+    width: 80%;
+  }
+}
+
+#messaging-content-header {
+  h2 {
+    padding: 0 !important;
+  }
+
+  @media (max-width: $medium-screen) {
+    align-items: center;
+    background: $color-gray-lightest;
+    display: flex;
+    position: relative;
+
+    h2 {
+      flex: 1;
+      line-height: inherit !important;
+      overflow: hidden;
+      padding: 0 1.5rem !important;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &.messaging-folder-header {
+      margin: 0;
+
+      h2 {
+        max-width: 65%;
+      }
+    }
+  }
+}
+
+.messaging-folder-header {
+  margin-bottom: 2rem;
+}
+
+.messaging-cancel-link {
+  display: none;
+  line-height: inherit;
+  padding: 1.5rem 0;
+  margin-left: 1.5rem;
+
+  @media (max-width: $medium-screen) {
+    display: block;
+  }
+}
+
+.messaging-menu-button,
+.messaging-send-button {
+  background: $color-primary;
+  border-radius: 0;
+  display: none;
+  line-height: inherit;
+  margin: 0;
+  padding: 1.5rem;
+  width: auto;
+
+  &[disabled] {
+    background: $color-gray;
+  }
+
+  @media (max-width: $medium-screen) {
+    display: block;
+  }
+}
+
+.messaging-modal {
+  .va-modal-inner {
+    @media(min-width: $medium-screen) {
+      max-width: 40rem;
+    }
+  }
+
+  form [type=submit] {
+    display: inline;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+// Overrides USWDS styles.
+button.usa-button-outline {
+  font-weight: bold;
 }

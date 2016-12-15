@@ -14,14 +14,17 @@ very secret.
 
 | I want to... | Then you should... |
 | ------------ | ------------------ |
-| clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website` and `npm install`. Run `npm install` anytime `package.json` changes. | 
+| clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, `git submodule init; git submodule update`, `npm install`. Run `npm install` anytime `package.json` changes. | 
 | deploy the site | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Travis will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
 | build the site with dev features enabled. | `npm run build` |
 | build the production site (dev features disabled). | `npm run build -- --buildtype production` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
 | build the site with optimizaitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
-| run the site for local development with hot reloading of javascript, and sass | `npm run watch` then visit `http://localhost:3000/webpack-dev-server/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
+| run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
+| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,no-react`. Valid application names are in `config/webpack.config.js` |
+| run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` | 
+| run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0`. Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
 | run only e2e tests | `npm run test:e2e`.  Note, on a fresh checkout, run `npm run selenium:bootstrap` to install the selenium server into `node_modules`. This only needs to be done once per install. |
@@ -31,6 +34,7 @@ very secret.
 | run automated accessibility tests | `npm run build && npm run test:accessibility` |
 | test for broken links | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
 | add new npm modules | `npm install -D my-module` followed by `npm shrinkwrap --dev`. There are no non-dev modules here. |
+| get the latest json schema | Update vets-json-schema in package.json with the latest commit hash, then run `npm update vets-json-schema && npm shrinkwrap --dev` |
 
 ## Directory structure
 
@@ -59,7 +63,7 @@ accidentally modify copies of upstream.
 
 ## Toolchain
 The site is built using 2 tools: [Metalsmith](http://www.metalsmith.io/) and
-[Webpack](https://webpack.github.io/) and is fully node.js stack.o
+[Webpack](https://webpack.github.io/) and is fully node.js stack.
 
 Metalsmith is used as the top-level build coordinator -- it is effectively a generic
 "if file changes here, run this" system -- as well as the static content genertaor. When
@@ -169,7 +173,7 @@ Similarly, everything in `src/\*` is dependent on the webpack configuration.
 Quirks:
   * metalsmith-watch cannot do broken link detection during incrementals.
   * Webpack Dev Server uses an in-memory filesystem so nothing shows up in `build/${}/generated`
-  * Visit `http://localhost:3000/webpack-dev-server` (no trailing slash!) to see the contents of generated files.
+  * Visit `http://localhost:3001/webpack-dev-server` (no trailing slash!) to see the contents of generated files.
 
 Overall, this runs pretty well.
 
@@ -231,26 +235,29 @@ The automated accessibility tests are contained within the `test/accessibility`
 directory. All URLs from the generated sitemap are scanned with aXe
 rules for 508 compliance.
 
-Automated accessibility tests are run on the `master`, `staging`, and
-`production` branches, but they will only report, not fail, on the `master`
-branch.
+Automated accessibility tests are run by Travis on PRs for the development build
+type.
 
 ### Continuous Integration
 Continuous integration and deployment is done via
 [Travis CI](travis-ci.org/department-of-veterans-affairs/vets-website). All of the configuration
 is stored in `.travis.yml`.
 
-The build configuration will depend on the branch being pushed. The `master`
-branch and any feature branches will trigger a build with the default build type
-(development), while the staging and production branches will use the production
-build type.
+In the interest of preventing a backlog on Travis, some optimizations were
+chosen for the CI pipeline. These require utilizing the pull request workflow
+we've established, and not directly pushing to master or production outside of
+a pull request.
 
-A push to `master`, `staging`, or `production` will trigger additional automated
-accessibility testing. To run these tests locally, use `$ npm run test:accessibility` after
-ensuring you've run a current build.
+Builds are triggered for PRs for all build types. The special branch name
+`content/wip/.*`, will fail by default and not run any builds. This is to allow
+rapid iteration on WIP content team work before builds are tested.
 
-Travis will build with `NODE_ENV=production` and test both "production" and
-"development" `BUILDTYPE`.
+Accessibility tests are run on PRs over the development build type. If features
+are available in production that are not available in development, then this
+optimization will need to be removed.
+
+Please see the `/script/travis-build.sh` file for more documentation and an
+overview of the CI configuration.
 
 ### Deploy
 Because this is a static site, deployment is simply synchronizing the generated artifacts
@@ -258,10 +265,11 @@ with a remote s3 bucket.  Travis handles the synchronization by using the
 [s3-cli](https://www.npmjs.com/package/s3-cli) commandline tool.
 
 Commits to `master` pushes `buildtype=development` to `dev.vets.gov` and
-`buildtype=production` to `staging.vets.gov`.  This means `dev.vets.gov` shows all
-in development features where `staging.vets.gov` mirror real production. Staging's
-build is intentionally conflated with production so that it does not become another
-axis of divergence.
+`buildtype=staging` to `staging.vets.gov`. When absolutely necessary, such as
+when testing features against external services before they make their way to
+production, the `staging` environment may differ slightly from the `production`
+environment. These variations are defined in the `script/webpack.config.js`
+file along with the warning statement.
 
 Commits to `production` pushes `buildtype=production` to `www.vets.gov`.
 

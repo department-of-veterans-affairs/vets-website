@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import { Router, browserHistory } from 'react-router';
+import { createHistory } from 'history';
+import { Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
@@ -11,24 +11,16 @@ import { store } from './store';
 require('../common');  // Bring in the common javascript.
 require('../../sass/rx/rx.scss');
 
-function init() {
-  /*
-   * Invoked when the URL changes. A way to handle query
-   * string data.
-   *
-   * Plan is to make this trigger a sort when the query
-   * parameter is `sortby`.
-   */
-  const handleChangedURL = (event) => {
-    // Here so eslint doesn't tell us about an unused variable.
-    return event;
-  };
-  browserHistory.listen(handleChangedURL);
-  // End URL listening
+require('../login/login-entry.jsx');
 
+const history = useRouterHistory(createHistory)({
+  basename: '/healthcare/prescriptions'
+});
+
+function init() {
   ReactDOM.render((
     <Provider store={store}>
-      <Router history={browserHistory} routes={routes}/>
+      <Router history={history} routes={routes}/>
     </Provider>
     ), document.getElementById('react-root'));
 }

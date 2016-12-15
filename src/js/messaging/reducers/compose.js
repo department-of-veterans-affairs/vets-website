@@ -1,71 +1,51 @@
 import set from 'lodash/fp/set';
 
+import { makeField } from '../../common/model/fields';
+
 import {
-  TOGGLE_CONFIRM_DELETE,
+  ADD_COMPOSE_ATTACHMENTS,
+  DELETE_COMPOSE_ATTACHMENT,
+  DELETE_COMPOSE_MESSAGE,
+  RESET_MESSAGE_OBJECT,
   SET_MESSAGE_FIELD,
-  SET_SUBJECT_REQUIRED,
-  SEND_MESSAGE,
-  SAVE_MESSAGE,
-  FETCH_RECIPIENTS_SUCCESS,
-  FETCH_SENDER_SUCCESS,
-  FETCH_RECIPIENTS_FAILURE
-} from '../actions/compose';
+} from '../utils/constants';
 
 const initialState = {
   message: {
-    sender: {
-      firstName: '',
-      lastName: '',
-      middleName: ''
-    },
-    category: undefined,
-    recipient: undefined,
-    subject: {
-      value: undefined,
-      required: false
-    },
-    text: undefined,
-    attachments: []
-  },
-  modals: {
-    deleteConfirm: {
-      visible: false
-    }
-  },
-  // List of potential recipients
-  recipients: []
+    attachments: [],
+    body: makeField(''),
+    category: makeField(''),
+    recipient: makeField(''),
+    subject: makeField('')
+  }
 };
 
-/*
-* Take the recipients object returned during the fetch operation
-* and one return {label, value} object for each object in the
-* action.recipients.data array.
-* That's all we need.
-*/
-function getRecipients(recipients) {
-  return recipients.map((item) => {
-    return {
-      label: item.attributes.name,
-      value: item.attributes.triage_team_id
-    };
-  });
-}
+const resetMessage = (state) => {
+  let msg = set('message.category', initialState.message.category, state);
+  msg = set('message.recipient', initialState.message.recipient, msg);
+  msg = set('message.subject', initialState.message.subject, msg);
+  msg = set('message.attachments', initialState.message.attachments, msg);
+  msg = set('message.body', initialState.message.body, msg);
+  return msg;
+};
 
 export default function compose(state = initialState, action) {
   switch (action.type) {
+    case ADD_COMPOSE_ATTACHMENTS:
+      return set('message.attachments', [
+        ...state.message.attachments,
+        ...action.files
+      ], state);
+    case DELETE_COMPOSE_ATTACHMENT:
+      // Remove the attachment at the requested index.
+      state.message.attachments.splice(action.index, 1);
+      return set('message.attachments', state.message.attachments, state);
+    case DELETE_COMPOSE_MESSAGE:
+      return initialState;
+    case RESET_MESSAGE_OBJECT:
+      return resetMessage(state);
     case SET_MESSAGE_FIELD:
-      return set(action.path, action.field.value, state);
-    case SET_SUBJECT_REQUIRED:
-      return set('message.subject.required', action.fieldState.required, state);
-    case FETCH_RECIPIENTS_SUCCESS:
-      return set('recipients', getRecipients(action.recipients.data), state);
-    case FETCH_SENDER_SUCCESS:
-      return set('message.sender', action.sender, state);
-    case TOGGLE_CONFIRM_DELETE:
-      return set('modals.deleteConfirm.visible', !state.modals.deleteConfirm.visible, state);
-    case FETCH_RECIPIENTS_FAILURE:
-    case SEND_MESSAGE:
-    case SAVE_MESSAGE:
+      return set(action.path, action.field, state);
     default:
       return state;
   }

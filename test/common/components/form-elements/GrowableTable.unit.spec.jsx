@@ -48,7 +48,7 @@ describe('<GrowableTable>', () => {
 
     it('Add Button adds new row w/o distubing existing entries', () => {
       const buttons = ReactTestUtils.scryRenderedDOMComponentsWithTag(growableTable, 'button');
-      const addButton = buttons.find((element) => { return element.textContent === 'Add'; });
+      const addButton = buttons.find((element) => { return element.textContent === 'Add Another'; });
       expect(addButton).to.not.be.undefined;
       ReactTestUtils.Simulate.click(addButton);
       sinon.assert.calledOnce(onRowsUpdate);

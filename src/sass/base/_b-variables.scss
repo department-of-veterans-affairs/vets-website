@@ -28,7 +28,7 @@ $font-serif:          'Roboto Slab',serif;  // This is not a serif.
 // $color-primary:              #0071bc;
 $color-primary-darker:       #003E73;
 // $color-primary-darkest:      #112e51;
-$color-link-default:         #0058A6;
+$color-link-default:         #004795;
 
 // $color-primary-alt:          #02bfe7;
 // $color-primary-alt-dark:     #00a6d2;
@@ -73,7 +73,7 @@ $color-green-darker:         #195c27; // Added by DSVA
 // $color-cool-blue-lighter:    #8ba6ca; // lighten($color-cool-blue, 60%)
 // $color-cool-blue-lightest:   #dce4ef; // lighten($color-cool-blue, 90%)
 
-// $color-focus:                #3e94cf;
+$color-focus:                #3e94cf;
 // $color-visited:              #4c2c92;
 
 // $color-shadow:               rgba(#000, 0.3);
@@ -113,6 +113,7 @@ $wild-sand: #f6f6f6;
 $green-white: #eff0e6;
 $olso-gray: #849097;
 
+$color-warning-message: #FAC922;
 
 // TODO: These colors is close enough to $color-gray-warm-dark and
 // to each other that maybe we should replace them.

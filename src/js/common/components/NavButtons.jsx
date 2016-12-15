@@ -1,7 +1,34 @@
 import React from 'react';
-import _ from 'lodash';
+import Scroll from 'react-scroll';
+
+import { getActivePages, focusElement } from '../utils/helpers';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
+
+const scroller = Scroll.scroller;
+
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
+
+const scrollToFirstError = () => {
+  setTimeout(() => {
+    const errorEl = document.querySelector('.usa-input-error, .input-error-date');
+    if (errorEl) {
+      const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
+      Scroll.animateScroll.scrollTo(position - 10, {
+        duration: 500,
+        delay: 0,
+        smooth: true
+      });
+      focusElement(errorEl);
+    }
+  }, 100);
+};
 
 export default class NavButtons extends React.Component {
   constructor(props) {
@@ -16,26 +43,29 @@ export default class NavButtons extends React.Component {
     if (this.props.path === '/introduction' || this.props.isValid) {
       this.props.onNavigate(nextPath);
       this.props.onComplete(this.props.path);
+      scrollToTop();
     } else if (!this.props.isValid) {
       this.props.dirtyPage(this.props.path);
+      scrollToFirstError();
     }
   }
   handleSubmit() {
+    this.props.onAttemptedSubmit();
+
     if (this.props.canSubmit) {
       this.props.onSubmit();
     }
   }
   goBack() {
     this.props.onNavigate(this.findNeighbor(-1));
+    scrollToTop();
   }
   goForward() {
     this.handleContinue(this.findNeighbor(1));
   }
   findNeighbor(increment) {
     const { pages, path, data } = this.props;
-    const filtered = pages.filter(page => {
-      return page.depends === undefined || _.matches(page.depends)(data);
-    });
+    const filtered = getActivePages(pages, data);
     const currentIndex = filtered.map(page => page.name).indexOf(path);
     const index = currentIndex + increment;
     return filtered[index].name;
@@ -67,7 +97,6 @@ export default class NavButtons extends React.Component {
       if (submission.status === false) {
         submitButton = (
           <ProgressButton
-              disabled={!this.props.canSubmit}
               onButtonClick={this.handleSubmit}
               buttonText="Submit Application"
               buttonClass="usa-button-primary"/>
@@ -90,10 +119,14 @@ export default class NavButtons extends React.Component {
               beforeText="&#10003;"/>
         );
       } else {
-        submitMessage = (<div className="usa-alert usa-alert-error">
-          <p><strong>Due to a system error, we weren't able to process your application. Please try again later.</strong></p>
-          <p>We apologize for the inconvenience. If you'd like to complete this form by phone, please call 877-222-VETS (8387) and press 2, M-F 7:00 a.m.to 7:00 p.m. (CST), Sat 9:00 a.m. to 5:30 p.m. (CST).</p>
-        </div>);
+        submitMessage = (
+          <div className="usa-alert usa-alert-error">
+            <div className="usa-alert-body">
+              <p><strong>Due to a system error, we weren't able to process your application. Please try again later.</strong></p>
+              <p>We apologize for the inconvenience. If you'd like to complete this form by phone, please call 877-222-VETS (8387) and press 2, M-F 7:00 a.m.to 7:00 p.m. (CST), Sat 9:00 a.m. to 5:30 p.m. (CST).</p>
+            </div>
+          </div>
+        );
         submitButton = (
           <ProgressButton
               onButtonClick={this.handleSubmit}
@@ -171,5 +204,6 @@ NavButtons.propTypes = {
   onSubmit: React.PropTypes.func,
   onNavigate: React.PropTypes.func,
   onComplete: React.PropTypes.func,
-  dirtyPage: React.PropTypes.func
+  dirtyPage: React.PropTypes.func,
+  onAttemptedSubmit: React.PropTypes.func
 };

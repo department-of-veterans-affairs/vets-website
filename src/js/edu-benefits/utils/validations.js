@@ -1,6 +1,9 @@
 import _ from 'lodash';
+import moment from 'moment';
 import { states } from './options-for-select';
-import { dateToMoment } from './helpers';
+import { showRelinquishedEffectiveDate } from './helpers';
+import { isValidDateOver17, isBlankAddress, isValidPartialDateField, isValidYear, isValidPartialMonthYearInPast } from '../../common/utils/validations';
+import { dateToMoment } from '../../common/utils/helpers';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -40,8 +43,12 @@ function isNotBlank(value) {
   return value !== '';
 }
 
-function isValidYear(value) {
-  return Number(value) >= 1900;
+function isValidYearOrBlank(value) {
+  return isValidYear(value) || value === '';
+}
+
+function isValidCurrentOrPastYear(value) {
+  return Number(value) >= 1900 && Number(value) < moment().year() + 1;
 }
 
 function isValidMonths(value) {
@@ -58,8 +65,6 @@ function isValidMonths(value) {
 function isValidSSN(value) {
   if (value === '123456789' || value === '123-45-6789') {
     return false;
-  } else if (/1{9}|2{9}|3{9}|4{9}|5{9}|6{9}|7{9}|8{9}|9{9}/.test(value)) {
-    return false;
   } else if (/^0{3}-?\d{2}-?\d{4}$/.test(value)) {
     return false;
   } else if (/^\d{3}-?0{2}-?\d{4}$/.test(value)) {
@@ -68,11 +73,14 @@ function isValidSSN(value) {
     return false;
   }
 
-  for (let i = 1; i < 10; i++) {
-    const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
-    if (sameDigitRegex.test(value)) {
-      return false;
-    }
+  const noBadSameDigitNumber = _.without(_.range(0, 10), 2, 4, 5)
+    .every(i => {
+      const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
+      return !sameDigitRegex.test(value);
+    });
+
+  if (!noBadSameDigitNumber) {
+    return false;
   }
 
   return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
@@ -104,14 +112,17 @@ function isValidName(value) {
 
 function isValidMonetaryValue(value) {
   if (value !== null) {
-    return /^\d+\.?\d*$/.test(value);
+    return /^[$]{0,1}\d+\.?\d*$/.test(value);
   }
   return true;
 }
 
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
-  return /^\d{10}$/.test(value);
+  // Strip spaces, dashes, and parens
+  const stripped = value.replace(/[^\d]/g, '');
+  // Count number of digits
+  return /^\d{10}$/.test(stripped);
 }
 
 function isValidEmail(value) {
@@ -133,8 +144,12 @@ function isValidRoutingNumber(value) {
   return false;
 }
 
+function isValidValue(validator, value) {
+  return isBlank(value) || validator(value);
+}
+
 function isValidField(validator, field) {
-  return isBlank(field.value) || validator(field.value);
+  return isValidValue(validator, field.value);
 }
 
 function isValidRequiredField(validator, field) {
@@ -145,12 +160,38 @@ function isBlankDateField(field) {
   return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
 }
 
+function isBlankMonthYear(field) {
+  return isBlank(field.month.value) && isBlank(field.year.value);
+}
+
+function isNotBlankDateField(field) {
+  return isNotBlank(field.day.value) && isNotBlank(field.month.value) && isNotBlank(field.year.value);
+}
+
 function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
 }
 
+function isValidFutureDate(day, month, year) {
+  if (!isValidYear(year)) {
+    return false;
+  }
+  const today = moment().startOf('day');
+  const date = moment({
+    day,
+    month: parseInt(month, 10) - 1,
+    year
+  });
+
+  return date.isValid() && date.isSameOrAfter(today);
+}
+
+function isValidFutureDateField(field) {
+  return isValidFutureDate(field.day.value, field.month.value, field.year.value);
+}
+
 function isValidFutureOrPastDateField(field) {
-  if (!isBlankDateField(field)) {
+  if (isNotBlankDateField(field)) {
     const momentDate = dateToMoment(field);
     return momentDate.isValid() && momentDate.year() > 1900;
   }
@@ -159,14 +200,23 @@ function isValidFutureOrPastDateField(field) {
 }
 
 function isValidDateRange(fromDate, toDate) {
-  if (!isBlankDateField(fromDate) && !isBlankDateField(toDate)) {
-    const momentStart = dateToMoment(fromDate);
-    const momentEnd = dateToMoment(toDate);
-
-    return momentStart.isBefore(momentEnd);
+  if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
+    return true;
   }
+  const momentStart = dateToMoment(fromDate);
+  const momentEnd = dateToMoment(toDate);
 
-  return true;
+  return momentStart.isBefore(momentEnd);
+}
+
+function isValidPartialMonthYearRange(fromDate, toDate) {
+  if (!fromDate.year.value || !toDate.year.value) {
+    return true;
+  }
+  const momentStart = dateToMoment(fromDate);
+  const momentEnd = dateToMoment(toDate);
+
+  return momentStart.isSameOrBefore(momentEnd);
 }
 
 function isValidFullNameField(field) {
@@ -185,7 +235,7 @@ function isValidAddressField(field) {
   if (_.hasIn(states, field.country.value)) {
     return initialOk &&
       isNotBlank(field.state.value) &&
-      isNotBlank(field.zipcode.value);
+      isNotBlank(field.postalCode.value);
   }
   // if the entry was non-USA/CAN/MEX, only postal is
   // required, not provinceCode
@@ -195,45 +245,46 @@ function isValidAddressField(field) {
 function isValidPersonalInfoPage(data) {
   return isValidFullNameField(data.veteranFullName) &&
       isValidRequiredField(isValidSSN, data.veteranSocialSecurityNumber) &&
-      isValidDateField(data.veteranDateOfBirth);
-}
-
-function isValidSpouseInformation(data) {
-  let isValidSpouse = true;
-  let isValidSpouseAddress = true;
-
-  if (data.maritalStatus.value === 'Married' || data.maritalStatus.value === 'Separated') {
-    isValidSpouse = isValidFullNameField(data.spouseFullName) &&
-      isValidSSN(data.spouseSocialSecurityNumber.value) &&
-      isValidDateField(data.spouseDateOfBirth) &&
-      isValidDateField(data.dateOfMarriage) &&
-      isNotBlank(data.sameAddress.value);
-  }
-
-  if (data.sameAddress === 'N') {
-    isValidSpouseAddress = isValidAddressField(data.spouseAddress) &&
-        isValidField(isValidPhone, data.spousePhone);
-  }
-
-  return isNotBlank(data.maritalStatus.value) &&
-      isValidSpouse &&
-      isValidSpouseAddress;
+      isValidDateField(data.veteranDateOfBirth) &&
+      isValidDateOver17(data.veteranDateOfBirth.day.value,
+                        data.veteranDateOfBirth.month.value,
+                        data.veteranDateOfBirth.year.value);
 }
 
 function isValidBenefitsInformationPage(data) {
-  return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
+  return data.chapter33 || data.chapter30 || data.chapter32 || data.chapter1606;
 }
 
+function isValidRelinquishedDate(field) {
+  if (!isValidYear(field.year.value)) {
+    return false;
+  }
+  // Allow dates up to two years ago
+  const pastDate = moment().subtract(2, 'years');
+  const date = dateToMoment(field);
+
+  return isNotBlankDateField(field) && date.isValid() && date.isAfter(pastDate);
+}
+
+function isValidBenefitsRelinquishmentPage(data) {
+  return !data.chapter33 ||
+    (isNotBlank(data.benefitsRelinquished.value) &&
+      (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
+        isValidRelinquishedDate(data.benefitsRelinquishedDate)));
+}
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
     && isValidDateField(tour.dateRange.from)
-    && isValidDateField(tour.dateRange.to)
+    && isValidPartialDateField(tour.dateRange.to)
     && isValidDateRange(tour.dateRange.from, tour.dateRange.to);
 }
 
 function isValidMilitaryServicePage(data) {
-  return (!data.chapter33 || isNotBlank(data.benefitsRelinquished.value))
-    && data.toursOfDuty.length > 0
+  return isBlank(data.serviceAcademyGraduationYear.value) || isValidCurrentOrPastYear(data.serviceAcademyGraduationYear.value);
+}
+
+function isValidServicePeriodsPage(data) {
+  return data.toursOfDuty.length > 0
     && data.toursOfDuty.every(isValidTourOfDuty);
 }
 
@@ -242,7 +293,7 @@ function isValidSchoolSelectionPage(data) {
 }
 
 function isValidEmploymentPeriod(data) {
-  return isNotBlank(data.name.value) && (isBlank(data.months.value) || isValidMonths(data.months.value));
+  return isBlank(data.months.value) || isValidMonths(data.months.value);
 }
 
 function isValidEmploymentHistoryPage(data) {
@@ -250,23 +301,25 @@ function isValidEmploymentHistoryPage(data) {
 }
 
 function isValidEducationPeriod(data) {
-  return isNotBlank(data.name)
-    && !isBlankDateField(data.dateRange.from)
-    && !isBlankDateField(data.dateRange.to)
-    && isValidDateRange(data.dateRange.from, data.dateRange.to);
+  return isValidPartialMonthYearInPast(data.dateRange.from.month.value, data.dateRange.from.year.value)
+    && isValidPartialMonthYearInPast(data.dateRange.to.month.value, data.dateRange.to.year.value)
+    && isValidPartialMonthYearRange(data.dateRange.from, data.dateRange.to);
 }
 
 function isValidEducationHistoryPage(data) {
-  return (isBlankDateField(data.highSchoolOrGedCompletionDate) || isValidDateField(data.highSchoolOrGedCompletionDate))
+  return (isBlankMonthYear(data.highSchoolOrGedCompletionDate)
+    || isValidPartialMonthYearInPast(data.highSchoolOrGedCompletionDate.month.value, data.highSchoolOrGedCompletionDate.year.value))
     && data.postHighSchoolTrainings.every(isValidEducationPeriod);
 }
 
 function isValidSecondaryContactPage(data) {
-  return isValidField(isValidPhone, data.secondaryContact.phone);
+  return isValidField(isValidPhone, data.secondaryContact.phone)
+    && (isBlankAddress(data.secondaryContact.address) || isValidAddressField(data.secondaryContact.address));
 }
 
 function isValidContactInformationPage(data) {
   let emailConfirmationValid = true;
+  let isPhoneRequired = false;
 
   if (isNotBlank(data.email.value) && isBlank(data.emailConfirmation.value)) {
     emailConfirmationValid = false;
@@ -276,11 +329,15 @@ function isValidContactInformationPage(data) {
     emailConfirmationValid = false;
   }
 
+  if (data.preferredContactMethod.value === 'phone') {
+    isPhoneRequired = true;
+  }
+
   return isValidAddressField(data.veteranAddress) &&
-      isValidField(isValidEmail, data.email) &&
-      isValidField(isValidEmail, data.emailConfirmation) &&
+      isValidRequiredField(isValidEmail, data.email) &&
+      isValidRequiredField(isValidEmail, data.emailConfirmation) &&
       emailConfirmationValid &&
-      isValidField(isValidPhone, data.homePhone) &&
+      (isPhoneRequired ? isValidRequiredField(isValidPhone, data.homePhone) : isValidField(isValidPhone, data.homePhone)) &&
       isValidField(isValidPhone, data.mobilePhone);
 }
 
@@ -288,56 +345,64 @@ function isValidDirectDepositPage(data) {
   return isValidField(isValidRoutingNumber, data.bankAccount.routingNumber);
 }
 
-function isValidBenefitsHistoryPage(data) {
-  return data.activeDutyRepaying.value !== 'Y' ||
-    (!isBlankDateField(data.activeDutyRepayingPeriod.from)
-    && !isBlankDateField(data.activeDutyRepayingPeriod.to)
+function isValidContributionsPage(data) {
+  return !data.activeDutyRepaying ||
+    (isNotBlankDateField(data.activeDutyRepayingPeriod.from)
+    && isNotBlankDateField(data.activeDutyRepayingPeriod.to)
     && isValidDateRange(data.activeDutyRepayingPeriod.from, data.activeDutyRepayingPeriod.to));
 }
 
 function isValidRotcScholarshipAmount(data) {
-  return isValidField(isValidMonetaryValue, data.amount) && isValidField(isValidYear, data.year);
+  return (isBlank(data.amount.value) || isValidField(isValidMonetaryValue, data.amount))
+    && (isBlank(data.year.value) || isValidField(isValidYear, data.year));
 }
 
 function isValidRotcHistoryPage(data) {
-  return data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount);
+  return data.seniorRotcCommissioned.value !== 'Y' || data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount);
 }
 
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data)
+    && isValidBenefitsRelinquishmentPage(data)
     && isValidPersonalInfoPage(data)
     && isValidContactInformationPage(data)
     && isValidMilitaryServicePage(data)
+    && isValidServicePeriodsPage(data)
     && isValidSchoolSelectionPage(data)
     && isValidEmploymentHistoryPage(data)
     && isValidEducationHistoryPage(data)
     && isValidSecondaryContactPage(data)
     && isValidDirectDepositPage(data)
-    && isValidBenefitsHistoryPage(data)
-    && isValidRotcHistoryPage(data);
+    && isValidContributionsPage(data)
+    && isValidRotcHistoryPage(data)
+    && data.privacyAgreementAccepted;
 }
 
 function isValidPage(completePath, pageData) {
   switch (completePath) {
-    case '/veteran-information/personal-information':
+    case '/veteran-information':
       return isValidPersonalInfoPage(pageData);
-    case '/veteran-information/contact-information':
+    case '/personal-information/contact-information':
       return isValidContactInformationPage(pageData);
     case '/benefits-eligibility/benefits-selection':
       return isValidBenefitsInformationPage(pageData);
+    case '/benefits-eligibility/benefits-relinquishment':
+      return isValidBenefitsRelinquishmentPage(pageData);
+    case '/military-history/service-periods':
+      return isValidServicePeriodsPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
-    case '/military-history/benefits-history':
-      return isValidBenefitsHistoryPage(pageData);
+    case '/military-history/contributions':
+      return isValidContributionsPage(pageData);
     case '/school-selection/school-information':
       return isValidSchoolSelectionPage(pageData);
     case '/employment-history/employment-information':
       return isValidEmploymentHistoryPage(pageData);
     case '/education-history/education-information':
       return isValidEducationHistoryPage(pageData);
-    case '/veteran-information/secondary-contact':
+    case '/personal-information/secondary-contact':
       return isValidSecondaryContactPage(pageData);
-    case '/veteran-information/direct-deposit':
+    case '/personal-information/direct-deposit':
       return isValidDirectDepositPage(pageData);
     case '/military-history/rotc-history':
       return isValidRotcHistoryPage(pageData);
@@ -366,6 +431,7 @@ export {
   initializeNullValues,
   isBlank,
   isNotBlank,
+  isNotBlankDateField,
   isValidDate,
   isValidName,
   isValidSSN,
@@ -373,6 +439,8 @@ export {
   isValidPhone,
   isValidEmail,
   isValidYear,
+  isValidYearOrBlank,
+  isValidCurrentOrPastYear,
   isValidMonths,
   isValidRoutingNumber,
   isValidField,
@@ -383,7 +451,16 @@ export {
   isValidPersonalInfoPage,
   isValidAddressField,
   isValidContactInformationPage,
-  isValidSpouseInformation,
+  isValidEducationHistoryPage,
   isValidMilitaryServicePage,
-  isValidPage
+  isValidServicePeriodsPage,
+  isValidPage,
+  isValidValue,
+  isValidFutureDateField,
+  isValidRelinquishedDate,
+  isValidTourOfDuty,
+  isValidEmploymentPeriod,
+  isValidRotcScholarshipAmount,
+  isValidPartialMonthYearRange,
+  isValidEducationPeriod
 };

@@ -1,21 +1,26 @@
 import React from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import routes from '../routes';
 
 import ReviewCollapsiblePanel from '../components/ReviewCollapsiblePanel';
+import PrivacyAgreement from '../../common/components/questions/PrivacyAgreement';
 
-import { ensureFieldsInitialized, updateIncompleteStatus, updateVerifiedStatus, updateCompletedStatus, veteranUpdateField } from '../actions';
+import { ensureFieldsInitialized, updateEditStatus, veteranUpdateField } from '../actions';
+import { isActivePage, focusElement } from '../../common/utils/helpers';
 
 class ReviewPage extends React.Component {
+  componentDidMount() {
+    focusElement('.edu-page-title');
+  }
   render() {
     let content;
-    const data = this.props.data;
+    const { data, onStateChange } = this.props;
 
     if (this.props.uiData.isApplicationSubmitted) {
       content = (
-        // TODO(crew): We need to figure out why the css isn't working here.
+        // TODO(crew): We need to figure out why the css isn’t working here.
         <div className="usa-alert usa-alert-success">
           <div className="usa-alert-body">
             <h3 className="usa-alert-heading">You have submitted your application for education benefits!</h3>
@@ -25,42 +30,45 @@ class ReviewPage extends React.Component {
         </div>
       );
     } else {
-      content = (<div>
-        <p>Please make sure all your information is correct before submitting your application.</p>
-        {routes
+      const chapters = _.groupBy(
+        routes
           .map(route => route.props)
           .filter(route => {
             return route.chapter &&
               route.path !== '/review-and-submit' &&
-              route.reviewComponent &&
-              (route.depends === undefined || _.matches(route.depends)(data));
-          })
-          .map(route => {
-            const Component = route.fieldsComponent;
-            const ReviewComponent = route.reviewComponent;
+              isActivePage(route, data);
+          }),
+        route => route.chapter
+      );
+      content = (<div>
+        <p>You can review your application information here. When you’re done, click submit.</p>
+        <p>VA will usually process your claim within 30 days. VA will send you a letter by U.S. mail with your claim decision.</p>
+        {Object.keys(chapters)
+          .map(chapter => {
             return (<ReviewCollapsiblePanel
-                key={route.path}
+                key={chapter}
+                chapter={chapter}
                 uiData={this.props.uiData}
                 data={this.props.data}
                 onUpdateEditStatus={this.props.onUpdateEditStatus}
-                onUpdateSaveStatus={this.props.onUpdateSaveStatus}
                 onFieldsInitialized={this.props.onFieldsInitialized}
-                onUpdateVerifiedStatus={this.props.onUpdateVerifiedStatus}
-                pageLabel={route.name}
-                updatePath={route.path}
-                component={<Component
-                    data={this.props.data}
-                    onStateChange={this.props.onStateChange}
-                    initializeFields={this.props.onFieldsInitialized}/>}
-                reviewComponent={<ReviewComponent data={this.props.data}/>}/>
+                onStateChange={this.props.onStateChange}
+                pages={chapters[chapter]}/>
             );
           })}
       </div>);
     }
     return (
       <div>
-        <h4>Review Application</h4>
-        {content}
+        <h4 className="edu-page-title">Review application</h4>
+        <div className="input-section">
+          {content}
+        </div>
+        <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
+        <PrivacyAgreement required
+            showError={this.props.hasAttemptedSubmit}
+            onChange={(update) => onStateChange('privacyAgreementAccepted', update)}
+            checked={this.props.data.privacyAgreementAccepted}/>
       </div>
     );
   }
@@ -69,20 +77,15 @@ class ReviewPage extends React.Component {
 function mapStateToProps(state) {
   return {
     data: state.veteran,
-    uiData: state.uiState
+    uiData: state.uiState,
+    hasAttemptedSubmit: state.uiState.submission.hasAttemptedSubmit
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onUpdateEditStatus: (path) => {
-      dispatch(updateIncompleteStatus(path));
-    },
-    onUpdateSaveStatus: (path) => {
-      dispatch(updateCompletedStatus(path));
-    },
-    onUpdateVerifiedStatus: (path, update) => {
-      dispatch(updateVerifiedStatus(path, update));
+    onUpdateEditStatus: (...args) => {
+      dispatch(updateEditStatus(...args));
     },
     onFieldsInitialized(...args) {
       dispatch(ensureFieldsInitialized(...args));

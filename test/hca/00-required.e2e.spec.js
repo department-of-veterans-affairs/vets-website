@@ -12,148 +12,97 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for Health Care: Vets.gov')
       .waitForElementVisible('.form-panel', Timeouts.slow)  // First render of React may be slow.
-      .axeCheck('#react-root')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('input[name="fname"]').to.be.visible;
+    client.expect.element('input[name="fname"]').to.be.visible;
     HcaHelpers.completePersonalInformation(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/personal-information');
 
     // Birth information page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('select[name="veteranBirthMonth"]').to.be.visible;
+    client.expect.element('select[name="veteranBirthMonth"]').to.be.visible;
     HcaHelpers.completeBirthInformation(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/birth-information');
 
     // Demographic information page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('select[name="gender"]').to.be.visible;
+    client.expect.element('select[name="gender"]').to.be.visible;
     HcaHelpers.completeDemographicInformation(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/demographic-information');
 
     // Veteran Address page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('input[name="address"]').to.be.visible;
+    client.expect.element('input[name="address"]').to.be.visible;
     HcaHelpers.completeVeteranAddress(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/veteran-address');
 
     // Contact Information Page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('input[name="email"]').to.be.visible;
+    client.expect.element('input[name="email"]').to.be.visible;
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/contact-information');
 
     // Military Service Information Page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('select[name="lastServiceBranch"]').to.be.visible;
+    client.expect.element('select[name="lastServiceBranch"]').to.be.visible;
     HcaHelpers.completeMilitaryService(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-service/service-information');
 
     // Military Service Additional Information Page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('input[name="purpleHeartRecipient"] + label').to.be.visible;
+    client.expect.element('input[name="purpleHeartRecipient"] + label').to.be.visible;
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-service/additional-information');
 
     // VA Benefits Basic Info page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('input[name="compensableVaServiceConnected-0"] + label').to.be.visible;
+    client.expect.element('input[name="compensableVaServiceConnected-0"] + label').to.be.visible;
     HcaHelpers.completeVaBenefits(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/va-benefits/basic-information');
 
     // Financial disclosure page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('input[name="understandsFinancialDisclosure"] + label').to.be.visible;
+    client.expect.element('input[name="discloseFinancialInformation-0"] + label').to.be.visible;
     HcaHelpers.completeFinancialDisclosure(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/financial-disclosure');
 
-    // Spouse information Page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('select[name="maritalStatus"]').to.be.visible;
-    HcaHelpers.completeSpouseInformation(client, HcaHelpers.testValues, true);
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/spouse-information');
-
-    // Child Information Page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('input[name="hasChildrenToReport-0"] + label').to.be.visible;
-    HcaHelpers.completeChildInformation(client, HcaHelpers.testValues, true);
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/child-information');
-
-    // Annual Income Page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('input[name="veteranGrossIncome"]').to.be.visible;
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/annual-income');
-
-    // Deductible Expenses Page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('input[name="deductibleMedicalExpenses"]').to.be.visible;
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/deductible-expenses');
+    // Selecting "no" for financial disclosures here causes the application to skip the next several sections:
+    // Spouse information Page
+    // Child Information Page
+    // Annual Income Page
+    // Deductible Expenses Page
 
     // Medicare and Medicaid Page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('input[name="isMedicaidEligible-0"] + label').to.be.visible;
+    client.expect.element('input[name="isMedicaidEligible-0"] + label').to.be.visible;
     HcaHelpers.completeMedicareAndMedicaid(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/medicare');
 
     // Insurance Information Page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('input[name="isCoveredByHealthInsurance-0"] + label').to.be.visible;
+    client.expect.element('input[name="isCoveredByHealthInsurance-0"] + label').to.be.visible;
     HcaHelpers.completeInsuranceInformation(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/general');
 
     // Additional VA Insurance Information Page.
-    client
-      .axeCheck('#react-root')
-      .expect.element('select[name="state"]').to.be.visible;
+    client.expect.element('select[name="state"]').to.be.visible;
     HcaHelpers.completeVaInsuranceInformation(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/va-facility');
 
     // Review and Submit Page.
     client.expect.element('button.edit-btn').to.be.visible;
-    client
-      .axeCheck('#react-root')
-      .click('.form-panel .usa-button-primary');
+    client.click('[name=privacyAgreement]');
+    client.click('.form-panel .usa-button-primary');
     // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);
 
     // Submit message
-    client
-      .axeCheck('#react-root')
-      .expect.element('.success-alert-box').to.be.visible;
+    client.expect.element('.success-alert-box').to.be.visible;
+
 
     client.end();
   });

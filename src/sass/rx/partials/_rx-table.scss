@@ -1,0 +1,19 @@
+.rx-table {
+  th, td {
+    border-color: $color-gray-light;
+  }
+}
+
+.rx-table-list {
+  @media (max-width: $medium-screen) {
+    tr {
+      padding: 1.5rem 0;
+    }
+
+    td {
+      &:before {
+        font-weight: bold;
+      }
+    }
+  }
+}

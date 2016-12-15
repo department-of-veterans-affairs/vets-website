@@ -1,21 +1,19 @@
 import React from 'react';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
-import { makeField } from '../../../common/model/fields.js';
 
 class MessageCategory extends React.Component {
   render() {
     const categories = this.props.categories;
-    const categoryValue = makeField(undefined);
 
     return (
       <div className={this.props.cssClass}>
         <ErrorableSelect
             additionalClass={`${this.props.cssClass}-category`}
-            label="Category"
+            label="Subject line"
             name="messageCategory"
             onValueChange={this.props.onValueChange}
             options={categories}
-            value={categoryValue}/>
+            value={this.props.category}/>
       </div>
     );
   }
@@ -34,7 +32,11 @@ MessageCategory.propTypes = {
       React.PropTypes.shape({
         label: React.PropTypes.string,
         value: React.PropTypes.string }),
-    ])).isRequired
+    ])).isRequired,
+  category: React.PropTypes.shape({
+    value: React.PropTypes.string,
+    dirty: React.PropTypes.bool
+  }).isRequired
 };
 
 export default MessageCategory;

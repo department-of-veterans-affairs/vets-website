@@ -1,24 +1,19 @@
-// TODO: Update the paths so they import from the
-// vets-website repo (or other designated common)
-// elements version of these files.
-
 @import "../style";
-
-// TODO: Contributed these back to core / Vanguard.
-@import "_partials/va-tabs";
-@import "_partials/va-pagination";
+@import "../modules/m-modal";
+@import "../modules/m-alert";
+@import "../modules/va-pagination";
+@import "../modules/va-tabs";
 
 // RX-specific partials
-@import "_partials/rx-contact-card";
-@import "_partials/rx-detail";
-@import "_partials/rx-disclaimer";
-@import "_partials/rx-glossary";
-@import "_partials/rx-history";
-@import "_partials/rx-modal";
-@import "_partials/rx-prescriptions";
-@import "_partials/rx-sort-list";
-@import "_partials/rx-table";
-@import "_partials/rx-alerts";
+@import "partials/rx-contact-card";
+@import "partials/rx-prescriptions";
+@import "partials/rx-detail";
+@import "partials/rx-glossary";
+@import "partials/rx-history";
+@import "partials/rx-modal";
+@import "partials/rx-sort-list";
+@import "partials/rx-table";
+@import "partials/rx-breadcrumbs";
 
 // TODO: Replace this with a clearfix mixin
 // from USWDS or something
@@ -70,11 +65,6 @@ button.usa-button-outline {
   margin: 0 0 3rem;
 }
 
-.rx-refill-form {
-  display: inline-block;
-  padding: 0;
-}
-
 // Used to make functional buttons look like links.
 .rx-trigger {
   background: transparent;
@@ -87,7 +77,7 @@ button.usa-button-outline {
   text-align: left;
   text-decoration: underline;
   width: auto !important;
-  
+
   &:hover {
     background: rgba(0, 0, 0, 0.05);
     color: $color-link-default;
@@ -95,7 +85,17 @@ button.usa-button-outline {
   }
 }
 
-// TODO: Contribute this back to core
-.va-required-span {
-  color: $color-secondary-dark;
+.rx-tab-explainer {
+  padding: 1rem 0;
+}
+
+.rx-loading-error {
+  font-weight: bold;
+  width: 66%;
+}
+
+#rx-active, #rx-history, #rx-detail {
+  .loading-indicator-container {
+    margin-top: 2rem;
+  }
 }

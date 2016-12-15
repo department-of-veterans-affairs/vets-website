@@ -1,22 +1,22 @@
-import { apiUrl } from '../config';
+import {
+  ADD_COMPOSE_ATTACHMENTS,
+  DELETE_COMPOSE_ATTACHMENT,
+  DELETE_COMPOSE_MESSAGE,
+  FETCH_RECIPIENTS_SUCCESS,
+  FETCH_RECIPIENTS_FAILURE,
+  LOADING_RECIPIENTS,
+  RESET_MESSAGE_OBJECT,
+  SET_MESSAGE_FIELD,
+} from '../utils/constants';
 
-export const SET_CATEGORY = 'SET_CATEGORY';
-export const SET_SUBJECT = 'SET_SUBJECT';
-export const SET_RECIPIENT = 'SET_RECIPIENT';
-export const SET_SUBJECT_REQUIRED = 'SET_SUBJECT_REQUIRED';
+import { apiRequest } from '../utils/helpers';
 
-export const FETCH_RECIPIENTS_SUCCESS = 'FETCH_RECIPIENTS_SUCCESS';
-export const FETCH_RECIPIENTS_FAILURE = 'FETCH_RECIPIENTS_FAILURE';
-export const FETCH_SENDER_SUCCESS = 'FETCH_SENDER_SUCCESS';
-
-export const SAVE_MESSAGE = 'SAVE_MESSAGE';
-export const SEND_MESSAGE = 'SEND_MESSAGE';
-
-export const DELETE_DRAFT = 'DELETE_DRAFT';
-export const TOGGLE_CONFIRM_DELETE = 'TOGGLE_CONFIRM_DELETE';
-export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
-
-const baseUrl = `${apiUrl}/recipients`;
+export function deleteComposeMessage() {
+  window.dataLayer.push({
+    event: 'sm-delete-compose',
+  });
+  return { type: DELETE_COMPOSE_MESSAGE };
+}
 
 export function setMessageField(path, field) {
   return {
@@ -26,56 +26,39 @@ export function setMessageField(path, field) {
   };
 }
 
-export function setSubjectRequired(field) {
-  const fieldState = field;
-  fieldState.required = field.value === 'Other';
-
+export function addComposeAttachments(files) {
+  window.dataLayer.push({
+    event: 'sm-add-attachment',
+  });
   return {
-    type: SET_SUBJECT_REQUIRED,
-    fieldState
+    type: ADD_COMPOSE_ATTACHMENTS,
+    files
   };
 }
 
-export function sendMessage() {
+export function deleteComposeAttachment(index) {
   return {
-    type: SEND_MESSAGE
-  };
-}
-
-export function saveMessage() {
-  return {
-    type: SAVE_MESSAGE
-  };
-}
-
-export function confirmDelete() {
-  return {
-    type: TOGGLE_CONFIRM_DELETE
-  };
-}
-
-export function fetchSenderName() {
-  /*
-  TODO: Make this conduct an actual
-  fetch operation for this data
-  */
-  return {
-    type: FETCH_SENDER_SUCCESS,
-    sender: {
-      lastName: 'Veteran',
-      firstName: 'Jane',
-      middleName: 'Q.'
-    }
+    type: DELETE_COMPOSE_ATTACHMENT,
+    index
   };
 }
 
 export function fetchRecipients() {
+  const url = '/recipients';
   return dispatch => {
-    fetch(baseUrl)
-    .then(res => res.json())
-    .then(
-      recipients => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
-      err => dispatch({ type: FETCH_RECIPIENTS_FAILURE, err })
+    dispatch({ type: LOADING_RECIPIENTS });
+
+    apiRequest(
+      url,
+      null,
+      (recipients) => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
+      () => dispatch({ type: FETCH_RECIPIENTS_FAILURE })
     );
+  };
+}
+
+export function resetMessage() {
+  return {
+    type: RESET_MESSAGE_OBJECT
   };
 }

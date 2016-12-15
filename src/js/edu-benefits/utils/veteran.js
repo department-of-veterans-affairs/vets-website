@@ -1,6 +1,18 @@
 import _ from 'lodash/fp';
 import { makeField } from '../../common/model/fields';
-import { dateToMoment } from './helpers';
+import { isValidAddressField } from '../utils/validations';
+import { formatPartialDate } from './helpers';
+import moment from 'moment';
+
+export function makeAddressField() {
+  return {
+    street: makeField(''),
+    city: makeField(''),
+    country: makeField('USA'),
+    state: makeField(''),
+    postalCode: makeField(''),
+  };
+}
 
 export function createTour() {
   return {
@@ -18,11 +30,8 @@ export function createTour() {
     },
     serviceBranch: makeField(''),
     serviceStatus: makeField(''),
-    involuntarilyCalledToDuty: makeField(''),
-    doNotApplyPeriodToSelected: false,
-    applyToChapter30: false,
-    applyToChapter1606: false,
-    applyToChapter32: false
+    applyPeriodToSelected: true,
+    benefitsToApplyTo: makeField('')
   };
 }
 
@@ -43,12 +52,10 @@ export function createEducationPeriod() {
     dateRange: {
       to: {
         month: makeField(''),
-        day: makeField(''),
         year: makeField(''),
       },
       from: {
         month: makeField(''),
-        day: makeField(''),
         year: makeField(''),
       }
     },
@@ -66,13 +73,21 @@ export function createRotcScholarship() {
   };
 }
 
+export function createFlightCertificate() {
+  return {
+    name: makeField('')
+  };
+}
+
 export function createVeteran() {
+  const today = moment();
   return {
     benefitsRelinquished: makeField(''),
     chapter30: false,
     chapter1606: false,
     chapter32: false,
     chapter33: false,
+    checkedBenefit: makeField(''),
     serviceAcademyGraduationYear: makeField(''),
     currentlyActiveDuty: {
       yes: makeField(''),
@@ -84,7 +99,6 @@ export function createVeteran() {
     faaFlightCertificatesInformation: makeField(''),
     highSchoolOrGedCompletionDate: {
       month: makeField(''),
-      day: makeField(''),
       year: makeField(''),
     },
     seniorRotcCommissioned: makeField(''),
@@ -97,7 +111,7 @@ export function createVeteran() {
     additionalContributions: false,
     activeDutyKicker: false,
     reserveKicker: false,
-    activeDutyRepaying: makeField(''),
+    activeDutyRepaying: false,
     activeDutyRepayingPeriod: {
       to: {
         month: makeField(''),
@@ -130,15 +144,7 @@ export function createVeteran() {
     gender: makeField(''),
     hasNonMilitaryJobs: makeField(''),
     nonMilitaryJobs: [],
-    veteranAddress: {
-      street: makeField(''),
-      city: makeField(''),
-      country: makeField(''),
-      state: makeField(''),
-      provinceCode: makeField(''),
-      zipcode: makeField(''),
-      postalCode: makeField(''),
-    },
+    veteranAddress: makeAddressField(),
     email: makeField(''),
     emailConfirmation: makeField(''),
     homePhone: makeField(''),
@@ -147,15 +153,7 @@ export function createVeteran() {
     educationType: makeField(''),
     school: {
       name: makeField(''),
-      address: {
-        street: makeField(''),
-        city: makeField(''),
-        country: makeField(''),
-        state: makeField(''),
-        provinceCode: makeField(''),
-        zipcode: makeField(''),
-        postalCode: makeField('')
-      }
+      address: makeAddressField()
     },
     educationObjective: makeField(''),
     educationStartDate: {
@@ -166,29 +164,28 @@ export function createVeteran() {
     secondaryContact: {
       fullName: makeField(''),
       sameAddress: false,
-      address: {
-        street: makeField(''),
-        city: makeField(''),
-        country: makeField(''),
-        state: makeField(''),
-        provinceCode: makeField(''),
-        zipcode: makeField(''),
-        postalCode: makeField('')
-      },
+      address: makeAddressField(),
       phone: makeField('')
     },
     bankAccount: {
       accountType: makeField(''),
       accountNumber: makeField(''),
       routingNumber: makeField('')
-    }
+    },
+    applyingUsingOwnBenefits: makeField(''),
+    benefitsRelinquishedDate: {
+      day: makeField(today.date().toString()),
+      month: makeField((today.month() + 1).toString()),
+      year: makeField(today.year().toString())
+    },
+    privacyAgreementAccepted: false
   };
 }
 
 export function veteranToApplication(veteran) {
   let data = veteran;
 
-  if (data.activeDutyRepaying.value !== 'Y') {
+  if (!data.activeDutyRepaying) {
     data = _.unset('activeDutyRepayingPeriod', data);
   }
 
@@ -202,19 +199,25 @@ export function veteranToApplication(veteran) {
       case 'activeDutyRepaying':
       case 'hasNonMilitaryJobs':
       case 'emailConfirmation':
+      case 'checkedBenefit':
         return undefined;
 
       case 'serviceAcademyGraduationYear':
       case 'commissionYear':
-      case 'amount':
       case 'year':
       case 'months':
-      case 'hours':
+      case 'hours': {
         if (value.value === '') {
           return undefined;
         }
-        return Number(value.value);
 
+        const val = Number(value.value);
+        if (isNaN(val)) {
+          return undefined;
+        }
+
+        return val;
+      }
       case 'yes':
       case 'onTerminalLeave':
       case 'nonVaAssistance':
@@ -222,6 +225,7 @@ export function veteranToApplication(veteran) {
       case 'married':
       case 'haveDependents':
       case 'parentDependent':
+      case 'previouslyAppliedWithSomeoneElsesService':
         return value.value === 'Y';
 
       case 'postMilitaryJob':
@@ -233,34 +237,51 @@ export function veteranToApplication(veteran) {
         }
         return undefined;
 
-      case 'involuntarilyCalledToDuty':
-        if (value.value) {
-          if (value.value === 'Y') {
-            return 'yes';
-          } else if (value.value === 'N') {
-            return 'no';
-          }
-          return 'n/a';
+      case 'applyingUsingOwnBenefits':
+        if (value.value === 'ownBenefits') {
+          return true;
+        } else if (value.value === '') {
+          return undefined;
         }
-        return undefined;
 
+        return false;
+
+      case 'veteranAddress':
       case 'address':
-        if (value.city.value === '' && value.street.value === '' && value.country.value === '') {
+        if (!isValidAddressField(value)) {
           return undefined;
         }
 
         return value;
 
+      case 'amount':
+        if (value.value === '') {
+          return undefined;
+        }
+
+        return Number(value.value.replace('$', ''));
+
+      case 'activeDutyRepayingPeriod':
+      case 'dateRange': {
+        const from = formatPartialDate(value.from);
+        const to = formatPartialDate(value.to);
+
+        if (from === undefined && to === undefined) {
+          return undefined;
+        }
+
+        return {
+          from,
+          to
+        };
+      }
+
       default:
         // fall through.
     }
 
-    if (value.month !== undefined && value.year !== undefined && value.day !== undefined) {
-      if (value.month.value !== '' && value.day.value !== '' && value.year.value !== '') {
-        return dateToMoment(value).format('YYYY-MM-DD');
-      }
-
-      return undefined;
+    if (value.month !== undefined && value.year !== undefined) {
+      return formatPartialDate(value);
     }
 
     // Strips out suffix if the user does not enter it.

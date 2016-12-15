@@ -1,65 +1,26 @@
 import React from 'react';
-import { displayDateIfValid } from '../../utils/helpers.js';
+import { displayMonthYearIfValid } from '../../utils/helpers.js';
 
 export default class EducationHistoryReview extends React.Component {
   render() {
-    const { completionDate, faaFlightCertificatesInformation } = this.props.data;
+    const completionDate = this.props.data.highSchoolOrGedCompletionDate;
     return (
       <div>
+        <div className="form-review-panel-page-header-row">
+          <div className="form-review-panel-page-header"/>
+          <button
+              className="edit-btn primary-outline"
+              onClick={this.props.onEdit}>Edit</button>
+        </div>
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
-              <td>If you received a high school diploma or high school equivalency certificate, what date was it received? (month, day, year)</td>
-              <td>{displayDateIfValid(completionDate)}</td>
+              <td>If you got a high school diploma or high school equivalency certificate, what date did you get it? (month, year)</td>
+              <td>{displayMonthYearIfValid(completionDate)}</td>
             </tr>
-          </tbody>
-        </table>
-        {this.props.data.postHighSchoolTrainings.map((period, index) => {
-          return (<table key={index} className="review usa-table-borderless">
-            <thead>
-              <tr>
-                <td scope="col">Name of college or other training provider></td>
-                <td scope="col">{period.name.value}</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td scope="col">City</td>
-                <td scope="col">{period.city.value}</td>
-              </tr>
-              <tr>
-                <td scope="col">State</td>
-                <td scope="col">{period.state.value}</td>
-              </tr>
-              <tr>
-                <td scope="col">From</td>
-                <td scope="col">{displayDateIfValid(period.fromDate)}</td>
-              </tr>
-              <tr>
-                <td scope="col">To</td>
-                <td scope="col">{displayDateIfValid(period.toDate)}</td>
-              </tr>
-              <tr>
-                <td scope="col">Hours</td>
-                <td scope="col">{period.hours.value}</td>
-              </tr>
-              <tr>
-                <td scope="col">Type of hours</td>
-                <td scope="col">{period.hoursType.value}</td>
-              </tr>
-              <tr>
-                <td scope="col">Degree, diploma or certificate received</td>
-                <td scope="col">{period.degreeReceived.value}</td>
-              </tr>
-            </tbody>
-          </table>
-          );
-        })}
-        <table className="review usa-table-borderless">
-          <tbody>
             <tr>
-              <td>FAA certificates (ad infinitum)</td>
-              <td scope="col">{faaFlightCertificatesInformation.value}</td>
+              <td>FAA certificates</td>
+              <td className="edu-benefits-pre">{this.props.data.faaFlightCertificatesInformation.value}</td>
             </tr>
           </tbody>
         </table>

@@ -1,11 +1,11 @@
 // Adds external icon to all links that begin
-// with http (including https) 
+// with http (including https)
 [href^=http] {
- 
+
   // TODO: Make this selector less specific.
   #playbook .primary &,
   #playbook .coda & {
-    background-image: url(/assets/images/icons/icon-exit-white.png);
+    background-image: url(/assets/images/icons/exit-icon-white.png);
     margin-right: .1em;
     padding-right: 1.5em;
   }
@@ -16,7 +16,7 @@
     a {
       background-color: inherit;
       background-image: url(../images/design/logo/logo-alt.png);
-     
+
       &:hover, &:active, &:focus {
         background-image: url(../images/design/logo/logo-alt-hover.png);
       }
@@ -38,7 +38,7 @@
 // TODO: Remove !important when #content .splash is refactored
 .splash--blog {
   margin: 0 !important;
-  padding: 0 !important; 
+  padding: 0 !important;
 
   @media #{$small} {
     margin: .5em 0 0 0 !important;
@@ -48,19 +48,19 @@
 
 .splash--hasimg {
   // TODO: Remove !important when #content .splash is refactored
-  padding: 4em 0 !important; 
+  padding: 4em 0 !important;
   background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
   margin-bottom: 1em;
-  
+
   @media #{$small} {
     // TODO: Remove !important when #content .splash is refactored
     padding: 6.1em 0 !important;
   }
 }
 
-.post-date, 
+.post-date,
 .post-author {
   color: $color-va-gray-cool-dark;
 }
@@ -81,37 +81,37 @@
 // Once the specificity of #content .splash h2 block/
 // gets reduced.
 .va-headingflag {
-  margin: .5em 0 !important; 
+  margin: .5em 0 !important;
   padding: 0 !important;
-  margin: 0 0 2em 0 !important; 
-  background: none !important; 
+  margin: 0 0 2em 0 !important;
+  background: none !important;
   color: $color-primary-darkest !important;
-  
+
   @media #{$medium} {
-    position: absolute !important; 
-    margin: 1.35em 0 0 0 !important; 
+    position: absolute !important;
+    margin: 1.35em 0 0 0 !important;
     z-index: 100 !important;
-  }  
+  }
 
   a {
-    text-decoration: none; 
-    margin: 0; 
-    color: $color-primary-darkest; 
-    background: $color-gold; 
-    border-bottom: none; 
-    padding: .5em .25em; 
+    text-decoration: none;
+    margin: 0;
+    color: $color-primary-darkest;
+    background: $color-gold;
+    border-bottom: none;
+    padding: .5em .25em;
     // Transition only these properties.
     -webkit-transition-property: padding;
     transition-property: padding;
-        
+
     &:hover {
       padding: .5em .65em;
     }
   }
-  
+
   @media #{$medium} {
-    position: absolute; 
-    margin: 1.35em 0 0 0; 
+    position: absolute;
+    margin: 1.35em 0 0 0;
     z-index: 100;
   }
 }
@@ -156,32 +156,32 @@
       margin: 0;
       padding: 0;
       border-bottom: 1px solid rgba(0,0,0,.1);
-     
+
       &:last-of-type{
         border-bottom: none;
       }
-      
+
       a {
-        padding: .5em .2em; 
-        margin: 0; 
+        padding: .5em .2em;
+        margin: 0;
         text-decoration: none;
         display: block;
-        
+
         &:hover {
           background: rgba(0,0,0,.08);
           border-left: 4px solid $color-primary;
           padding-left: .5em;
         }
         .post-title {
-          color: $color-primary-darker; 
-          font-size: 1em; 
-          font-weight: bold; 
-          margin: 0; 
+          color: $color-primary-darker;
+          font-size: 1em;
+          font-weight: bold;
+          margin: 0;
           padding: 0;
         }
         .post-date {
-          color: $color-va-gray-cool-dark; 
-          margin: 0; 
+          color: $color-va-gray-cool-dark;
+          margin: 0;
           padding: 0 0 1em 0;
         }
       }
@@ -190,19 +190,19 @@
 }
 
 .post {
-  a, 
-  p, p:nth-child(1), 
-  li, 
-  h1, h2, h3, h4, h5, h6, 
-  dl, dd, dt, 
-  caption, 
-  figure,   
+  a,
+  p, p:nth-child(1),
+  li,
+  h1, h2, h3, h4, h5, h6,
+  dl, dd, dt,
+  caption,
+  figure,
   blockquote {
-    color: $color-va-gray-cool-dark; 
+    color: $color-va-gray-cool-dark;
     line-height: 1.65em;
     font-size: inherit;
   }
- 
+
   a {
     text-decoration: underline;
     color: $color-primary-darker;
@@ -258,7 +258,7 @@
 
     ul {
       margin: 0 0 1.5em 0; padding: 0;
-    
+
       li {
         margin: 0;
         padding: 0;
@@ -271,7 +271,7 @@
       }
     }
   }
- 
+
   ol:nth-child(n+2) {
     li {
       list-style-type:decimal;
@@ -384,12 +384,12 @@
 }
 .discover {
   background: $polar;
-  
+
   li.one {
     margin-top: 1.3em !important;
     padding-top: 0;
   }
-  
+
   .graphic {
     background: url(../images/design/playbook/discover-process.svg) 40% center no-repeat;
   }
@@ -437,7 +437,7 @@
 }
 
 
-.va-list-num--discover { 
+.va-list-num--discover {
   li::before {
     background-color: $polar;
   }

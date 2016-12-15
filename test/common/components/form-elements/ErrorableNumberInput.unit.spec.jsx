@@ -25,7 +25,22 @@ describe('<ErrorableNumberInput>', () => {
     input.value = '1';
     ReactTestUtils.Simulate.change(input);
 
-    return expect(updatePromise).to.eventually.eql(makeField('1', true));
+    return expect(updatePromise).to.eventually.eql(makeField('1', false));
+  });
+
+  it('ensure blur makes field dirty', () => {
+    let errorableInput;
+
+    const updatePromise = new Promise((resolve, _reject) => {
+      errorableInput = ReactTestUtils.renderIntoDocument(
+        <ErrorableNumberInput field={testValue} label="test" onValueChange={(update) => { resolve(update); }}/>
+      );
+    });
+
+    const input = ReactTestUtils.findRenderedDOMComponentWithTag(errorableInput, 'input');
+    ReactTestUtils.Simulate.blur(input);
+
+    return expect(updatePromise).to.eventually.eql(makeField('', true));
   });
 
   it('no error styles when errorMessage undefined', () => {

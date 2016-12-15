@@ -71,7 +71,7 @@
 <![endif]-->
 
 <!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
-<script src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
+<script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
 
 {% if entryname %}
 <script src="/generated/{{ entryname }}.entry.js"></script>
@@ -84,38 +84,102 @@
 
 <a class="show-on-focus" href="#content">Skip to Content</a>
 
-
 <div class="header">
-  <div class="va-notice--banner">
+  <div class="incompatible-browser-warning">
     <div class="row full">
-      <div class="small-12 message">
-        <p><strong>This site is a <a target="_blank" href="https://www.vets.gov/playbook/design/">work in progress.</a></strong> If you don&rsquo;t find what you need, visit <a target="_blank" href="http://www.va.gov">VA.gov</a>.</p>
+      <div class="small-12">
+        Your browser is out of date. To use this website, please <a href="https://whatbrowser.org/">update your browser</a> or use a different device.
+      </div>
+    </div>
+  </div>
+  <div class="va-notice--banner">
+    <div class="row hide-for-medium-up crisis-line-container">
+      <div class="small-12" style="display:flex;">
+        <div class="stacked">
+          <a href="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
+            <span class="vcl"></span>
+            Get help from Veterans Crisis Line
+          </a>
+          <div class="va-util-rel"> <!-- VA Panel no touch screens -->
+            <div class="va-crisis-panel va-crisis-panel--notouch">
+              <div  class="va-crisis-panel-body">
+                <ul>
+                  <li>Call <strong>1-800-273-8255 (Press 1)</strong></li>
+                  <li>Text to <b>838255</b></li>
+                  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat">Chat confidentially now</a></li>
+                </ul>
+                <p>If you are in crisis or having thoughts of suicide,
+          visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> for more resources.</p>
+              </div>
+            </div>
+           <!--END VA Panel no touch screens -->
+           </div>
+        </div>
+      </div>
+    </div>
+    <div class="row crisis-row">
+      <div class="columns small-12 medium-7 message">
+        <p>This site is a <a target="_blank" href="https://www.vets.gov/playbook/design/">work in progress.</a> If you don&rsquo;t find what you need, visit <a target="_blank" href="http://www.va.gov">VA.gov</a>.</p>
+      </div>
+      <div class="columns small-12 medium-5 crisis-line-container">
+        <div class="crisis-line-body show-for-medium-up">
+          <a href="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
+            <span class="vcl"></span>
+            Get help from Veterans Crisis Line
+          </a>
+          <div class="va-util-rel"> <!-- VA Panel no touch screens -->
+            <div class="va-crisis-panel va-crisis-panel--notouch">
+              <div  class="va-crisis-panel-body">
+                <ul>
+                  <li>Call <strong>1-800-273-8255 (Press 1)</strong></li>
+                  <li>Text to <b>838255</b></li>
+                  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat">Chat confidentially now</a></li>
+                </ul>
+                <p>If you are in crisis or having thoughts of suicide,
+          visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> for more resources.</p>
+              </div>
+            </div>
+           <!--END VA Panel no touch screens -->
+           </div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- /header alert box -->
-  <div class="row full">
-    <div class="small-6 medium-4 columns">
+  <div class="row top-banner">
+    <div class="">
       <h1 role="banner" class="va-header-logo"><a href="/">Vets.gov</a></h1>
     </div>
-
+    <div class="flex-auto"></div>
     {% if search != 'false' %}
-      <!-- Mobile search button -->
-      <!-- htmllint attr-bans="[]" id-no-dup="false" -->
+      <div class="hide-for-small-only">
+        <div class="menu">
+          <form accept-charset="UTF-8" class="usa-search usa-search-small" action="https://search.vets.gov/search" method="get">
+            <div role="search">
+              <label class="usa-sr-only" for="search-field-small">Search</label>
+              <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_search" />
+              <input aria-label="search" autocomplete="off" type="search" name="query">
+              <button type="submit">
+                <span class="usa-sr-only">Search</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
       <div class="hide-for-medium-up search-button">
         <button data-show="#mobile-menu" class="va-overlay-trigger va-mobile-searchtrigger usa-button usa-button-outline-inverse" aria-controls="mobile-menu" aria-flowto="mobile-menu">Search</button>
       </div>
 
-      <div id="mobile-menu" class="va-overlay" role="dialog">
+      <div id="mobile-menu" class="va-overlay hide-for-medium-up" role="dialog">
         <div class="medium-5 medium-offset-3 text-right columns">
           <button type="button" class="va-mobile-searchclose va-overlay-close" aria-label="close search form - mobile only">Close</button>
           <div class="menu">
             <form accept-charset="UTF-8" action="https://search.vets.gov/search" id="search_form" method="get">
-              <!-- htmllint attr-bans="[]" -->
-                <div style="margin:0;padding:0;display:inline">
-                  <input name="utf8" type="hidden" value="&#x2713;" /></div>
-              <!-- htmllint attr-bans="$previous" -->
+              <div style="margin:0;padding:0;display:inline">
+                <input name="utf8" type="hidden" value="&#x2713;" />
+              </div>
               <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_search" />
               <label for="mobile-query">Search:</label>
               <div class="row collapse">
@@ -130,8 +194,12 @@
           </div>
         </div>
       </div>
-      <!-- htmllint attr-bans="$previous" id-no-dup="$previous" -->
     {% endif %}
+  </div>
+  <div class="login-container">
+    <div class="row">
+      <div class="text-right" id="login-root"></div>
+    </div>
   </div>
 </div>
 
@@ -140,4 +208,21 @@
   var script = document.createElement("script");
   script.src = "https://search.usa.gov/javascripts/remote.loader.js";
   document.getElementsByTagName("head")[0].appendChild(script);
+
+  (function() {
+    var domReady = function(callback) {
+      document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
+    };
+
+    domReady(function() {
+      // check whether browser is IE10 and older
+      if (window.navigator.userAgent.indexOf('MSIE ') > 0) {
+        var browserWarning = document.getElementsByClassName("incompatible-browser-warning")[0];
+
+        if (browserWarning) {
+          browserWarning.classList.add("visible");
+        }
+      }
+    });
+  })();
 </script>
