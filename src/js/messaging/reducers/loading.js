@@ -34,6 +34,8 @@ const initialState = {
   folder: false,
   recipients: false,
   thread: false,
+  creatingFolder: false,
+  deletingFolder: false,
   deletingMessage: false,
   movingMessage: false,
   savingDraft: false,
