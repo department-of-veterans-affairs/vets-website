@@ -11,6 +11,7 @@ export const UPDATE_SUBMISSION_TIMESTAMP = 'UPDATE_SUBMISSION_TIMESTAMP';
 export const UPDATE_SUBMISSION_DETAILS = 'UPDATE_SUBMISSION_DETAILS';
 export const VETERAN_FIELD_UPDATE = 'VETERAN_FIELD_UPDATE';
 export const ENSURE_FIELDS_INITIALIZED = 'ENSURE_FIELDS_INITIALIZED';
+export const SET_ATTEMPTED_SUBMIT = 'SET_ATTEMPTED_SUBMIT';
 
 export function ensurePageInitialized(page) {
   return (dispatch, getState) => {
@@ -84,6 +85,12 @@ export function updateSubmissionDetails(attributes) {
   return {
     type: UPDATE_SUBMISSION_DETAILS,
     attributes
+  };
+}
+
+export function setAttemptedSubmit() {
+  return {
+    type: SET_ATTEMPTED_SUBMIT
   };
 }
 

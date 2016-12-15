@@ -108,6 +108,28 @@ describe('veteranToApplication', () => {
 
     expect(applicationData.toursOfDuty[0].dateRange).to.be.undefined;
   });
+  it('removes partially empty date ranges', () => {
+    const formData = createVeteran();
+    formData.toursOfDuty.push({
+      serviceBranch: makeField('army'),
+      dateRange: {
+        to: {
+          month: makeField(''),
+          day: makeField(''),
+          year: makeField('')
+        },
+        from: {
+          month: makeField('5'),
+          day: makeField('5'),
+          year: makeField('2001')
+        }
+      }
+    });
+    const applicationData = JSON.parse(veteranToApplication(formData));
+
+    expect(applicationData.toursOfDuty[0].dateRange.to).to.be.undefined;
+    expect(applicationData.toursOfDuty[0].dateRange.from).not.to.be.undefined;
+  });
   it('converts yes/no fields to booleans', () => {
     const formData = createVeteran();
     formData.serviceBefore1977.married.value = 'Y';

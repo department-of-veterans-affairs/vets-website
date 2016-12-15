@@ -173,6 +173,7 @@ module.exports = E2eHelpers.createE2eTest(
     HcaHelpers.completeSpouseInformation(client, vetInfoCopy, true);
     verifyEdit(client, 'Anne Hathaway');
 
+    client.click('[name=privacyAgreement]');
     client.click('.form-panel .usa-button-primary');
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);

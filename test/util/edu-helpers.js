@@ -124,7 +124,8 @@ const testValues = {
     postalCode: '12345-1234'
   },
   accountNumber: '123323',
-  routingNumber: '114923756'
+  routingNumber: '114923756',
+  privacyAgreementAccepted: true
 };
 /* eslint-enable */
 

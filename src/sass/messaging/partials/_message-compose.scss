@@ -125,7 +125,7 @@
     padding: 1.5rem;
   }
 
-  .messaging-btn-delete {
+  .msg-btn-delete {
     @media (max-width: $medium-screen) {
       display: none;
     }
@@ -280,30 +280,13 @@ button.msg-btn-save {
   }
 
   label {
-    background-color: inherit;
+    display: inline-block;
     cursor: pointer;
-    font-weight: inherit;
-    left: 0;
-    margin: 0;
-    position: relative;
-    top: 0;
-    white-space: nowrap;
-    width: auto;
-    z-index: 1;
 
     &:focus span,
     &:hover span {
       color: $color-primary-darker;
     }
-  }
-
-  .fa {
-    padding-right: .5ex;
-  }
-
-  span {
-    color: $color-primary;
-    text-decoration: underline;
   }
 
   input {
