@@ -115,7 +115,7 @@ export class Compose extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
+    if (this.props.loading.recipients) {
       return <LoadingIndicator message="Loading your application..."/>;
     }
 
@@ -172,8 +172,8 @@ Compose.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    loading: state.loading,
     message: state.compose.message,
-    loading: state.recipients.loading,
     recipients: state.recipients.data,
     redirect: state.folders.ui.redirect,
     deleteConfirmModal: state.modals.deleteConfirm,

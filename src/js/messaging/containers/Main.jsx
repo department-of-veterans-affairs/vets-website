@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+
 import {
   closeAdvancedSearch,
   closeAttachmentsModal,
@@ -61,6 +63,24 @@ export class Main extends React.Component {
   }
 
   render() {
+    const loading = this.props.loading;
+
+    if (loading.deleting) {
+      return <LoadingIndicator message="Deleting the message..."/>;
+    }
+
+    if (loading.moving) {
+      return <LoadingIndicator message="Moving the message..."/>;
+    }
+
+    if (loading.saving) {
+      return <LoadingIndicator message="Saving the message..."/>;
+    }
+
+    if (loading.sending) {
+      return <LoadingIndicator message="Sending the message..."/>;
+    }
+
     const navClass = classNames({
       opened: this.props.nav.visible
     });
@@ -117,6 +137,7 @@ const mapStateToProps = (state) => {
     createFolderModal: state.modals.createFolder,
     folders,
     isVisibleAdvancedSearch: state.search.advanced.visible,
+    loading: state.loading,
     nav: state.folders.ui.nav,
     persistFolder: state.folders.data.currentItem.persistFolder
   };

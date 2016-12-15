@@ -53,7 +53,7 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.loadingThread) {
+    if (!this.props.loading.thread) {
       const id = +this.props.params.messageId;
       this.props.fetchThread(id);
     }
@@ -65,7 +65,7 @@ export class Thread extends React.Component {
       return;
     }
 
-    if (!this.props.loadingThread) {
+    if (!this.props.loading.thread) {
       const message = this.props.message;
 
       const shouldFetchRecipients =
@@ -275,32 +275,20 @@ export class Thread extends React.Component {
   }
 
   render() {
-    if (this.props.isNewMessage && this.props.loadingRecipients) {
-      return <LoadingIndicator message="Loading the application..."/>;
+    const loading = this.props.loading;
+
+    if (this.props.isNewMessage && loading.recipients) {
+      return <LoadingIndicator message="Loading your application..."/>;
     }
 
-    if (this.props.loadingThread) {
-      return <LoadingIndicator message="Loading the message..."/>;
-    }
-
-    if (this.props.isDeleting) {
-      return <LoadingIndicator message="Deleting the message..."/>;
-    }
-
-    if (this.props.isMoving) {
-      return <LoadingIndicator message="Moving the message..."/>;
-    }
-
-    if (this.props.isSaving) {
-      return <LoadingIndicator message="Saving the message..."/>;
-    }
-
-    if (this.props.isSending) {
-      return <LoadingIndicator message="Sending the message..."/>;
+    if (loading.thread) {
+      return <LoadingIndicator message="Loading your message..."/>;
     }
 
     if (!this.props.message) {
-      if (this.props.lastRequestedId !== null) {
+      const lastRequestedId = this.props.lastRequestedId;
+
+      if (lastRequestedId !== null) {
         const reloadMessage = () => {
           this.props.fetchThread(lastRequestedId);
         };
@@ -388,7 +376,6 @@ const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
   const message = state.messages.data.message;
   const draft = state.messages.data.draft;
-  const messageLoading = state.messages.ui.loading;
 
   const isSavedDraft = message && !message.sentDate;
   const isNewMessage = draft.replyMessageId === undefined;
@@ -397,16 +384,11 @@ const mapStateToProps = (state) => {
     draft,
     folders: state.folders.data.items,
     folderMessages: folder.messages,
-    isDeleting: message && messageLoading.deleting.has(message.messageId),
     isFormVisible: state.messages.ui.formVisible,
-    isMoving: message && messageLoading.moving.has(message.messageId),
     isNewMessage,
-    isSaving: messageLoading.saving,
     isSavedDraft,
-    isSending: messageLoading.sending,
     lastRequestedId: state.messages.ui.lastRequestedId,
-    loadingThread: messageLoading.thread,
-    loadingRecipients: state.recipients.loading,
+    loading: state.loading,
     message,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
