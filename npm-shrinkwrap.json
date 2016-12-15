@@ -41111,8 +41111,8 @@
     },
     "vets-json-schema": {
       "version": "1.0.0",
-      "from": "git+https://github.com/department-of-veterans-affairs/vets-json-schema.git#ae08be8e67ac550f2fd400445f3c89c324fa9a79",
-      "resolved": "git+https://github.com/department-of-veterans-affairs/vets-json-schema.git#ae08be8e67ac550f2fd400445f3c89c324fa9a79"
+      "from": "git+https://github.com/department-of-veterans-affairs/vets-json-schema.git",
+      "resolved": "git+https://github.com/department-of-veterans-affairs/vets-json-schema.git"
     },
     "vm-browserify": {
       "version": "0.0.4",
