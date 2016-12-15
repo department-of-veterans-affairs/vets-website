@@ -34,9 +34,9 @@ relatedlinks:
     description: ""
 ---
 
-If you have a disability that's related to your military service—but didn't appear until after you ended your service—you can file a postservice claim for disability benefits.
+If you have a disability that's related to your military service—but didn't appear until after you ended your service—you can file a postservice claim for disability benefits. [File a postservice claim now](/disability-benefits/apply-for-benefits/).
 
-### These kinds of disabilities include:
+### What kinds of disabilities are considered postservice?
 
 - [Disabilities that appear within 1 year after discharge](/disability-benefits/apply-for-benefits/one-year/)
 - [Disabilities believed to be caused by contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)
