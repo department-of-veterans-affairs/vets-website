@@ -21,12 +21,7 @@ const initialState = {
 };
 
 const resetMessage = (state) => {
-  let msg = set('message.category', initialState.message.category, state);
-  msg = set('message.recipient', initialState.message.recipient, msg);
-  msg = set('message.subject', initialState.message.subject, msg);
-  msg = set('message.attachments', initialState.message.attachments, msg);
-  msg = set('message.body', initialState.message.body, msg);
-  return msg;
+  return set('message', initialState.message, state);
 };
 
 export default function compose(state = initialState, action) {
