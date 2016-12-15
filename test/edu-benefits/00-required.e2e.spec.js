@@ -22,6 +22,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .waitForElementVisible('div.form-progress-buttons', Timeouts.slow);
       advance();
       E2eHelpers.overrideVetsGovApi(client);
+      E2eHelpers.overrideSmoothScrolling(client);
       E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
       // Veteran information page.
