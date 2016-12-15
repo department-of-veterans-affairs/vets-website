@@ -19,8 +19,7 @@ const props = {
   ]),
   filter: undefined,
   loading: {
-    inProgress: false,
-    request: null
+    folder: false
   },
   messages: [
     { body: 'test1' },
@@ -32,6 +31,7 @@ const props = {
   messageCount: 5,
   page: 1,
   params: { folderName: 'inbox' },
+  recipients: [],
   sort: {
     value: 'sentDate',
     order: 'DESC'

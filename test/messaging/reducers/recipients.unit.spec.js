@@ -4,8 +4,7 @@ import recipientsReducer from '../../../src/js/messaging/reducers/recipients';
 
 import {
   FETCH_RECIPIENTS_FAILURE,
-  FETCH_RECIPIENTS_SUCCESS,
-  LOADING_RECIPIENTS
+  FETCH_RECIPIENTS_SUCCESS
 } from '../../../src/js/messaging/utils/constants';
 
 import { testData } from '../../util/messaging-helpers';
