@@ -40,6 +40,8 @@ relatedlinks:
 
 Sometimes, a disability related to your military service (called service connected) can cause—or worsen—another disability. Even if this other disability isn't service connected, you can file a secondary claim for added disability benefits. [File a secondary claim now](/disability-benefits/apply-for-benefits/).
 
+### What are some examples of secondary claims?
+
 **Example 1**<br>
 A Veteran has a service-connected knee injury that makes him walk with a limp. Because of the limp, he gets arthritis (joint pain) in his hip. The arthritis didn't start while he was serving in the military or become worse because of his service, but we may still consider it service connected if he can show it was caused by his service-connected knee injury.
 
