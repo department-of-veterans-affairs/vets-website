@@ -42,6 +42,10 @@ function sortByLastSubmitDate(items) {
   return new Date(items.attributes.refillSubmitDate).getTime();
 }
 
+function sortByRefillDate(items) {
+  return new Date(items.attributes.refillDate).getTime();
+}
+
 function updateRefillStatus(items, id) {
   const itemToUpdate = items.findIndex((item) => {
     // The + converts to a number for comparison
@@ -127,6 +131,8 @@ export default function prescriptions(state = initialState, action) {
           return set('items', _.orderBy(state.items, sortByFacilityName, [order]), newState);
         case 'lastSubmitDate':
           return set('items', _.orderBy(state.items, sortByLastSubmitDate, [order]), newState);
+        case 'refillDate':
+          return set('items', _.orderBy(state.items, sortByRefillDate, [order]), newState);
         default:
           return set('active.sort', {
             value: 'prescriptionName',
