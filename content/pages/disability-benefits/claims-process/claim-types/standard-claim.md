@@ -34,7 +34,7 @@ relatedlinks:
     description: ""
 ---
 
-If you'd like us to help you gather evidence (supporting documents like a doctor's report and medical test results) to support your disability benefits claim, please file a standard claim. [File a standard claim now](/disability-benefits/apply-for-benefits/).
+If you'd like us to help you gather evidence (supporting documents like a doctor's report and medical test results) to support your disability benefits claim, please file a standard claim. [File a claim now](/disability-benefits/apply-for-benefits/).
 
 With a standard claim, we'll get your permission to gather any needed evidence for you. This may include medical records from:
 - Your non-VA doctor
