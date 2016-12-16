@@ -34,7 +34,7 @@ class Active extends React.Component {
   }
 
   handleSort(sortKey, order) {
-    const sortParam = order === 'DESC' ? sortKey : `-${sortKey}`;
+    const sortParam = order === 'DESC' ? `-${sortKey}` : sortKey;
     this.context.router.push({
       ...this.props.location,
       query: { sort: sortParam }
@@ -129,7 +129,6 @@ const mapStateToProps = (state) => {
   return {
     ...state.prescriptions.active,
     prescriptions: state.prescriptions.items,
-    history: state.prescriptions.history,
   };
 };
 

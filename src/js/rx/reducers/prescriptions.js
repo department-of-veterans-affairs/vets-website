@@ -9,7 +9,7 @@ const initialState = {
     loading: false,
     sort: {
       value: 'prescriptionName',
-      order: 'DESC',
+      order: 'ASC',
     },
   },
   history: {

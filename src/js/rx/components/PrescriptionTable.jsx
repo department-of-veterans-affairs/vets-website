@@ -7,10 +7,8 @@ import Prescription from './Prescription';
 
 class RefillStatus extends Prescription {
   render() {
-    const { id } = this.props;
-
     return (
-      <div key={id}>
+      <div>
         {this.showTracking()}
         {this.showRefillStatus()}
         {this.showMessageProvider()}

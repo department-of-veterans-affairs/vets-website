@@ -13,6 +13,14 @@ class SortableTable extends React.Component {
   }
 
   makeHeader(field) {
+    if (field.nonSortable) {
+      return (
+        <th key={field.value}>
+          {field.label}
+        </th>
+      );
+    }
+
     // Determine what sort order the header will yield on the next click.
     // By default, clicking this header will sort in ascending order.
     // If it's already ascending, next click will sort it in descending order.
@@ -31,14 +39,6 @@ class SortableTable extends React.Component {
       if (this.props.currentSort.order === 'ASC') {
         nextSortOrder = 'DESC';
       }
-    }
-
-    if (field.nonSortable) {
-      return (
-        <th key={field.value}>
-          {field.label}
-        </th>
-      );
     }
 
     return (
