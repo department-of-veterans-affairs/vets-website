@@ -45,7 +45,7 @@
 
   @media (min-width: $medium-screen) {
     display: inline-block;
-    width: 95%;
+    width: 100%;
   }
 }
 
@@ -54,25 +54,9 @@
   margin: .5rem;
 }
 
-.msg-subject-group-inner {
-  > div {
-    flex: 1 1 100%;
-  }
-}
-
 .msg-category {
-  -webkit-flex: 1 1 28rem;
-  flex: 1 1 28rem;
-}
-
-.msg-compose-error--category,
-.msg-compose-error--subject {
-  legend {
-    @media (min-width: $medium-screen) {
-      -webkit-flex-basis: 10rem;
-      flex-basis: 10rem;
-    }
-  }
+  -webkit-flex: 1 1 50%;
+  flex: 1 1 50%;
 }
 
 .msg-recipient,
@@ -91,8 +75,8 @@
   }
 
   @media (min-width: $medium-screen) {
-    -webkit-flex: 1 1 60%;
-    flex: 1 1 60%;
+    -webkit-flex: 1 1 50%;
+    flex: 1 1 50%;
     margin-left: 1rem;
   }
 }
@@ -106,6 +90,10 @@
 
 .msg-recipient {
   border-top: none;
+
+  select {
+    max-width: 100%;
+  }
 }
 
 .msg-send-group {
@@ -125,7 +113,7 @@
     padding: 1.5rem;
   }
 
-  .messaging-btn-delete {
+  .msg-btn-delete {
     @media (max-width: $medium-screen) {
       display: none;
     }
@@ -280,30 +268,13 @@ button.msg-btn-save {
   }
 
   label {
-    background-color: inherit;
+    display: inline-block;
     cursor: pointer;
-    font-weight: inherit;
-    left: 0;
-    margin: 0;
-    position: relative;
-    top: 0;
-    white-space: nowrap;
-    width: auto;
-    z-index: 1;
 
     &:focus span,
     &:hover span {
       color: $color-primary-darker;
     }
-  }
-
-  .fa {
-    padding-right: .5ex;
-  }
-
-  span {
-    color: $color-primary;
-    text-decoration: underline;
   }
 
   input {
@@ -376,7 +347,6 @@ button.msg-btn-save {
     padding: 1rem;
   }
 
-  .msg-subject-group-inner,
   .msg-write,
   .msg-send-group {
     @media (min-width: $medium-screen) {
@@ -385,16 +355,19 @@ button.msg-btn-save {
   }
 }
 
-.msg-compose-error--subject {
-  select {
-    border: 1px solid $color-gray;
-  }
+.msg-compose-error--subject,
+.msg-compose-error--category {
+  padding-left: 1.5rem;
 }
 
-.msg-compose-error--category {
-  input {
-    border: 1px solid $color-gray;
-  }
+.msg-compose-error--subject select,
+.msg-compose-error--category input {
+  border: 1px solid $color-gray;
+}
+
+.msg-compose-error--category .msg-category label,
+.msg-compose-error--subject .msg-subject label {
+  font-weight: bold;
 }
 
 // Overrides some USWDS shenanigans

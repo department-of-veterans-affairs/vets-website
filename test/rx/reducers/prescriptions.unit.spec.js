@@ -71,7 +71,7 @@ describe('prescriptions reducer', () => {
       }
     });
     expect(state.items).to.eql(['item1', 'item2']);
-    expect(state.active.sort).to.eql('prescriptionName');
+    expect(state.active.sort.value).to.eql('prescriptionName');
     expect(state.active.loading).to.be.false;
   });
 
@@ -161,7 +161,8 @@ describe('prescriptions reducer', () => {
 
     const newState = prescriptionsReducer(state, {
       type: 'SORT_PRESCRIPTIONS',
-      sort: 'prescriptionName'
+      sort: 'prescriptionName',
+      order: 'ASC',
     });
 
     expect(newState.items[0].id).to.equal(2);
@@ -195,7 +196,8 @@ describe('prescriptions reducer', () => {
 
     const newState = prescriptionsReducer(state, {
       type: 'SORT_PRESCRIPTIONS',
-      sort: 'facilityName'
+      sort: 'facilityName',
+      order: 'ASC',
     });
 
     expect(newState.items[0].id).to.equal(3);
@@ -229,7 +231,8 @@ describe('prescriptions reducer', () => {
 
     const newState = prescriptionsReducer(state, {
       type: 'SORT_PRESCRIPTIONS',
-      sort: 'lastSubmitDate'
+      sort: 'lastSubmitDate',
+      order: 'ASC',
     });
 
     expect(newState.items[0].id).to.equal(3);
