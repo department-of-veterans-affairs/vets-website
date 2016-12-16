@@ -1,6 +1,5 @@
 import React from 'react';
 import Scroll from 'react-scroll';
-import _ from 'lodash';
 import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
 import AskVAQuestions from '../components/AskVAQuestions';

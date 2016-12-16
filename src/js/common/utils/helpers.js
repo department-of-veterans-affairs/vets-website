@@ -83,6 +83,5 @@ export function getScrollOptions(additionalOptions) {
     delay: 0,
     smooth: true
   };
-  console.log(_.merge({}, defaults, globals.scroll, additionalOptions));
   return _.merge({}, defaults, globals.scroll, additionalOptions);
 }
