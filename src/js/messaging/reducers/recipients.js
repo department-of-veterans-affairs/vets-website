@@ -1,14 +1,10 @@
-import set from 'lodash/fp/set';
-
 import {
   FETCH_RECIPIENTS_FAILURE,
-  FETCH_RECIPIENTS_SUCCESS,
-  LOADING_RECIPIENTS
+  FETCH_RECIPIENTS_SUCCESS
 } from '../utils/constants';
 
 const initialState = {
   data: null,
-  loading: false
 };
 
 export default function recipients(state = initialState, action) {
@@ -27,11 +23,8 @@ export default function recipients(state = initialState, action) {
         };
       });
 
-      return { data, loading: false };
+      return { data };
     }
-
-    case LOADING_RECIPIENTS:
-      return set('loading', true, state);
 
     default:
       return state;
