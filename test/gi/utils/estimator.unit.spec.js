@@ -1,16 +1,14 @@
 import { expect } from 'chai';
 import Estimator from '../../../src/js/gi/utils/Estimator.jsx';
 
-describe('Estimator unit tests', () =>{
-
+describe('Estimator unit tests', () => {
   describe('Minnesota Power Company', () => {
     const school = {};
     school.bah = '1476';
     school.country = 'USA';
-    school.institution_type = {name: 'ojt'};
+    school.institutionType = { name: 'ojt' };
 
     context('default dropdown selections', () => {
-
       const estimator = new Estimator();
       estimator.setMilitaryStatus = 'veteran';
       estimator.setSpouseActiveDuty = 'no';
@@ -21,7 +19,7 @@ describe('Estimator unit tests', () =>{
       estimator.setEnlistmentService = '3';
       estimator.setConsecutiveService = '0.8';
       estimator.setOnline = 'no';
-      estimator.setInstitutionType = school.institution_type.name;
+      estimator.setInstitutionType = school.institutionType.name;
       estimator.setCountry = school.country;
       estimator.setBah = school.bah;
 
@@ -42,19 +40,16 @@ describe('Estimator unit tests', () =>{
         expect(estimator.results.books.qualifier).to.eql('per year');
         expect(estimator.results.books.value).to.eql(1000);
       });
-
     });
-
   });
 
   describe('Northland College', () => {
     const school = {};
     school.bah = '1098';
     school.country = 'USA';
-    school.institution_type = {name: 'private'};
+    school.institutionType = { name: 'private' };
 
     context('default dropdown selections', () => {
-
       const estimator = new Estimator();
       estimator.setMilitaryStatus = 'veteran';
       estimator.setSpouseActiveDuty = 'no';
@@ -65,7 +60,7 @@ describe('Estimator unit tests', () =>{
       estimator.setEnlistmentService = '3';
       estimator.setConsecutiveService = '0.8';
       estimator.setOnline = 'no';
-      estimator.setInstitutionType = school.institution_type.name;
+      estimator.setInstitutionType = school.institutionType.name;
       estimator.setCountry = school.country;
       estimator.setBah = school.bah;
 
@@ -86,19 +81,16 @@ describe('Estimator unit tests', () =>{
         expect(estimator.results.books.qualifier).to.eql('per year');
         expect(estimator.results.books.value).to.eql(1000);
       });
-
     });
-
   });
 
   describe('Stanford University', () => {
     const school = {};
     school.bah = '3600';
     school.country = 'USA';
-    school.institution_type = {name: 'private'};
+    school.institutionType = { name: 'private' };
 
     context('default dropdown selections', () => {
-
       const estimator = new Estimator();
       estimator.setMilitaryStatus = 'veteran';
       estimator.setSpouseActiveDuty = 'no';
@@ -109,7 +101,7 @@ describe('Estimator unit tests', () =>{
       estimator.setEnlistmentService = '3';
       estimator.setConsecutiveService = '0.8';
       estimator.setOnline = 'no';
-      estimator.setInstitutionType = school.institution_type.name;
+      estimator.setInstitutionType = school.institutionType.name;
       estimator.setCountry = school.country;
       estimator.setBah = school.bah;
 
@@ -130,11 +122,9 @@ describe('Estimator unit tests', () =>{
         expect(estimator.results.books.qualifier).to.eql('per year');
         expect(estimator.results.books.value).to.eql(1000);
       });
-
     });
 
     context('vr&e plus post-911 eligible', () => {
-
       const estimator = new Estimator();
       estimator.setMilitaryStatus = 'veteran';
       estimator.setSpouseActiveDuty = 'no';
@@ -145,7 +135,7 @@ describe('Estimator unit tests', () =>{
       estimator.setEnlistmentService = '3';
       estimator.setConsecutiveService = '0.8';
       estimator.setOnline = 'no';
-      estimator.setInstitutionType = school.institution_type.name;
+      estimator.setInstitutionType = school.institutionType.name;
       estimator.setCountry = school.country;
       estimator.setBah = school.bah;
 
@@ -166,11 +156,9 @@ describe('Estimator unit tests', () =>{
         expect(estimator.results.books.qualifier).to.eql(null);
         expect(estimator.results.books.value).to.eql('Full Cost of Books & Supplies');
       });
-
     });
 
     context('vr&e plus post-911 eligible, all online classes', () => {
-
       const estimator = new Estimator();
       estimator.setMilitaryStatus = 'veteran';
       estimator.setSpouseActiveDuty = 'no';
@@ -181,7 +169,7 @@ describe('Estimator unit tests', () =>{
       estimator.setEnlistmentService = '3';
       estimator.setConsecutiveService = '0.8';
       estimator.setOnline = 'yes';
-      estimator.setInstitutionType = school.institution_type.name;
+      estimator.setInstitutionType = school.institutionType.name;
       estimator.setCountry = school.country;
       estimator.setBah = school.bah;
 
@@ -202,10 +190,6 @@ describe('Estimator unit tests', () =>{
         expect(estimator.results.books.qualifier).to.eql(null);
         expect(estimator.results.books.value).to.eql('Full Cost of Books & Supplies');
       });
-
     });
-
-
   });
-
 });

@@ -463,7 +463,6 @@ Calculator.prototype.getOnlyTuitionFees = function getOnlyTuitionFees() {
 // Calculate the monthly benefit rate for non-chapter 33 benefits
 Calculator.prototype.getMonthlyRate = function getMonthlyRate() {
   this.calcMonthlyRate = 0;
-
   if (this.giBillChapter === 30 && this.enlistmentService === 3 && this.institutionType === 'ojt') {
     this.calcMonthlyRate = this.MGIB3YRRATE * 0.75;
   } else if (this.giBillChapter === 30 && this.enlistmentService === 3) {

@@ -11,7 +11,7 @@ class ProfileComplaints extends React.Component {
   renderCautionProfileSummary() {
     const school = this.props.institution;
     if (school.cautionFlag) {
-      const reason = school..cautionFlagReason // TODO: school.cautionFlagReason.try(:chomp, ',').try(:gsub, /,(?!\W)/, ", ")
+      const reason = school.cautionFlagReason; // TODO: school.cautionFlagReason.try(:chomp, ',').try(:gsub, /,(?!\W)/, ", ")
       return (
         <span>
           <a id="caution-jump-flag" name="caution_jump_flag"></a>
