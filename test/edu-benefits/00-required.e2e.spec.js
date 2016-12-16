@@ -16,13 +16,16 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
 
       // Ensure introduction page renders.
       client
-        .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/`)
+        .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/`);
+
+      E2eHelpers.overrideSmoothScrolling(client);
+
+      client
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Apply for education benefits: Vets.gov')
         .waitForElementVisible('div.form-progress-buttons', Timeouts.slow);
       advance();
       E2eHelpers.overrideVetsGovApi(client);
-      E2eHelpers.overrideSmoothScrolling(client);
       E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
       // Veteran information page.

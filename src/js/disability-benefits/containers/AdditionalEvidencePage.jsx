@@ -9,6 +9,7 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
+import { getScrollOptions } from '../../common/utils/helpers';
 
 import {
   addFile,
@@ -24,7 +25,7 @@ import {
 } from '../actions';
 
 const scrollToError = () => {
-  const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
+  const options = getScrollOptions({ offset: -25 });
   Scroll.scroller.scrollTo('uploadError', options);
 };
 const Element = Scroll.Element;

@@ -15,6 +15,7 @@ import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 import SubmitRefill from '../components/SubmitRefill';
 import { rxStatuses } from '../config';
 import { formatDate } from '../utils/helpers';
+import { getScrollOptions } from '../../common/utils/helpers';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -153,7 +154,7 @@ export class Detail extends React.Component {
   }
 
   scrollToOrderHistory() {
-    scroller.scrollTo('orderHistory', window.VetsGov.scroll);
+    scroller.scrollTo('orderHistory', getScrollOptions());
   }
 
   render() {

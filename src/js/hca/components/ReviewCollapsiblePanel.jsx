@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import { ensureFieldsInitialized, updateIncompleteStatus, updateVerifiedStatus, updateCompletedStatus } from '../actions';
 import * as validations from '../../common/utils/validations';
+import { getScrollOptions } from '../../common/utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -29,7 +30,7 @@ class ReviewCollapsiblePanel extends React.Component {
   }
 
   scrollToTop() {
-    const options = _.merge({}, window.VetsGov.scroll, { delay: 2 });
+    const options = getScrollOptions({ delay: 2 });
     scroller.scrollTo('topScrollReviewPanel', options);
   }
 

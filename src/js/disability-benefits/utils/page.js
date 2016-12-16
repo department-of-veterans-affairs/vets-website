@@ -3,9 +3,10 @@ import Scroll from 'react-scroll';
 const scroller = Scroll.animateScroll;
 
 export const basename = '/disability-benefits/track-claims';
+import { getScrollOptions } from '../../common/utils/helpers';
 
 export function scrollToTop() {
-  scroller.scrollToTop(window.VetsGov.scroll);
+  scroller.scrollToTop(getScrollOptions());
 }
 
 export function setFocus(selector) {

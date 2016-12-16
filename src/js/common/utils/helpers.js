@@ -74,3 +74,14 @@ export function focusElement(selectorOrElement) {
     el.focus();
   }
 }
+
+// Allows smooth scrolling to be overridden by our E2E tests
+export function getScrollOptions(additionalOptions) {
+  const globals = window.VetsGov || {};
+  const defaults = {
+    duration: 500,
+    delay: 0,
+    smooth: true
+  };
+  return _.merge({}, defaults, globals.scroll, additionalOptions);
+}

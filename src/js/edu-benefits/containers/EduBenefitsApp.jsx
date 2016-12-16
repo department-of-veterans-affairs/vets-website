@@ -18,11 +18,13 @@ import RoutesDropdown from '../components/debug/RoutesDropdown';
 import { isValidPage, isValidForm } from '../utils/validations';
 import { ensurePageInitialized, updateCompletedStatus, submitForm, veteranUpdateField, setAttemptedSubmit } from '../actions/index';
 
+import { getScrollOptions } from '../../common/utils/helpers';
+
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', window.VetsGov.scroll);
+  scroller.scrollTo('topScrollElement', getScrollOptions());
 };
 
 class EduBenefitsApp extends React.Component {

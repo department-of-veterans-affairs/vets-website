@@ -13,6 +13,7 @@ import GlossaryLink from '../components/GlossaryLink';
 import SortMenu from '../components/SortMenu';
 import { rxStatuses } from '../config';
 import { formatDate } from '../utils/helpers';
+import { getScrollOptions } from '../../common/utils/helpers';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -72,7 +73,7 @@ class History extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo('history', window.VetsGov.scroll);
+    scroller.scrollTo('history', getScrollOptions());
   }
 
   formattedSortParam(value, order) {
