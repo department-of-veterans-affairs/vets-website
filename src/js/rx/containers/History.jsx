@@ -107,7 +107,7 @@ class History extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <LoadingIndicator message="is loading your prescriptions..."/>;
+      content = <LoadingIndicator message="Loading your prescriptions..."/>;
     } else if (items) {
       const currentSort = this.props.sort;
 

@@ -68,7 +68,7 @@ class Active extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <LoadingIndicator message="is loading your prescriptions..."/>;
+      content = <LoadingIndicator message="Loading your prescriptions..."/>;
     } else if (this.props.prescriptions) {
       const sortValue = this.props.sort;
       const currentSort = this.props.sort;

@@ -30,8 +30,7 @@ class ConfirmRefillModal extends React.Component {
       if (this.props.isLoading) {
         innerElement = (
           <div className="rx-modal-refillinfo va-modal-body">
-            <LoadingIndicator
-                message="Submitting your refill request..."/>
+            <LoadingIndicator message="Submitting your refill request..."/>
           </div>
         );
       } else {
