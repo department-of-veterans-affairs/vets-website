@@ -47,63 +47,54 @@ export default function loading(state = initialState, action) {
     case CREATE_FOLDER_FAILURE:
     case CREATE_FOLDER_SUCCESS:
       return set('creatingFolder', false, state);
+    case CREATING_FOLDER:
+      return set('creatingFolder', true, state);
 
     case DELETE_FOLDER_FAILURE:
     case DELETE_FOLDER_SUCCESS:
       return set('deletingFolder', false, state);
-
-    case FETCH_FOLDER_FAILURE:
-    case FETCH_FOLDER_SUCCESS:
-      return set('folder', false, state);
-
-    case FETCH_RECIPIENTS_FAILURE:
-    case FETCH_RECIPIENTS_SUCCESS:
-      return set('recipients', false, state);
-
-    case FETCH_THREAD_FAILURE:
-    case FETCH_THREAD_SUCCESS:
-      return set('thread', false, state);
+    case DELETING_FOLDER:
+      return set('deletingFolder', true, state);
 
     case DELETE_MESSAGE_FAILURE:
     case DELETE_MESSAGE_SUCCESS:
       return set('deletingMessage', false, state);
+    case DELETING_MESSAGE:
+      return set('deletingMessage', true, state);
+
+    case FETCH_FOLDER_FAILURE:
+    case FETCH_FOLDER_SUCCESS:
+      return set('folder', false, state);
+    case LOADING_FOLDER:
+      return set('folder', true, state);
+
+    case FETCH_RECIPIENTS_FAILURE:
+    case FETCH_RECIPIENTS_SUCCESS:
+      return set('recipients', false, state);
+    case LOADING_RECIPIENTS:
+      return set('recipients', true, state);
+
+    case FETCH_THREAD_FAILURE:
+    case FETCH_THREAD_SUCCESS:
+      return set('thread', false, state);
+    case LOADING_THREAD:
+      return set('thread', true, state);
 
     case MOVE_MESSAGE_FAILURE:
     case MOVE_MESSAGE_SUCCESS:
       return set('movingMessage', false, state);
+    case MOVING_MESSAGE:
+      return set('movingMessage', true, state);
 
     case SAVE_DRAFT_FAILURE:
     case SAVE_DRAFT_SUCCESS:
       return set('savingDraft', false, state);
+    case SAVING_DRAFT:
+      return set('savingDraft', true, state);
 
     case SEND_MESSAGE_FAILURE:
     case SEND_MESSAGE_SUCCESS:
       return set('sendingMessage', false, state);
-
-    case CREATING_FOLDER:
-      return set('creatingFolder', true, state);
-
-    case DELETING_FOLDER:
-      return set('deletingFolder', true, state);
-
-    case DELETING_MESSAGE:
-      return set('deletingMessage', true, state);
-
-    case LOADING_FOLDER:
-      return set('folder', true, state);
-
-    case LOADING_RECIPIENTS:
-      return set('recipients', true, state);
-
-    case LOADING_THREAD:
-      return set('thread', true, state);
-
-    case MOVING_MESSAGE:
-      return set('movingMessage', true, state);
-
-    case SAVING_DRAFT:
-      return set('savingDraft', true, state);
-
     case SENDING_MESSAGE:
       return set('sendingMessage', true, state);
 
