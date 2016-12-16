@@ -1,0 +1,29 @@
+.rx-view-toggle {
+  font-weight: bold;
+  text-align: right;
+
+  ul, li {
+    display: inline-block;
+    list-style-type: none;
+  }
+
+  ul {
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  li {
+    border: solid thin $color-black;
+    padding: 0.25em 1em;
+    cursor: pointer;
+
+    &.active {
+      color: white;
+      background: $color-primary;
+    }
+  }
+
+  li + li {
+    border-left: none;
+  }
+}
