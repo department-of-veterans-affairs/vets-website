@@ -3,12 +3,10 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import * as validations from '../utils/validations';
-import { focusElement } from '../../common/utils/helpers';
+import { focusElement, getScrollOptions } from '../../common/utils/helpers';
 
-const globals = window.VetsGov || {};
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
-const scrollOptions = globals.scroll || { duration: 500, delay: 0, smooth: true };
 
 /**
  * A component for the review page to validate information is correct.
@@ -54,7 +52,7 @@ export default class ReviewCollapsiblePanel extends React.Component {
   }
 
   scrollToTop() {
-    const options = _.merge({}, scrollOptions, { delay: 2 });
+    const options = getScrollOptions({ delay: 2 });
     scroller.scrollTo(`chapter${this.props.chapter}ScrollElement`, options);
   }
 
@@ -63,14 +61,14 @@ export default class ReviewCollapsiblePanel extends React.Component {
       const errorEl = document.querySelector(`#${getPageId(path)} .usa-input-error, #${getPageId(path)} .input-error-date`);
       if (errorEl) {
         const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-        Scroll.animateScroll.scrollTo(position - 10, scrollOptions);
+        Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
         focusElement(errorEl);
       }
     }, 100);
   }
 
   scrollToPage(path) {
-    const options = _.merge({}, scrollOptions, { delay: 2 });
+    const options = getScrollOptions({ delay: 2 });
     scroller.scrollTo(`${path}ScrollElement`, options);
   }
 
