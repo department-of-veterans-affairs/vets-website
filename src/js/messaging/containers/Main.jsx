@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+
 import {
   closeAdvancedSearch,
   closeAttachmentsModal,
@@ -37,7 +39,6 @@ export class Main extends React.Component {
   handleFolderChange(domEvent) {
     const folderId = domEvent.target.dataset.folderid;
     this.props.setCurrentFolder(folderId);
-    this.props.toggleFolderNav();
 
     if (this.props.isVisibleAdvancedSearch) {
       this.props.closeAdvancedSearch();
@@ -56,11 +57,31 @@ export class Main extends React.Component {
     } else {
       this.props.createNewFolder(folderName);
     }
-
-    this.props.closeCreateFolderModal();
   }
 
   render() {
+    const loading = this.props.loading;
+
+    if (loading.deletingFolder) {
+      return <LoadingIndicator message="Deleting your folder..."/>;
+    }
+
+    if (loading.deletingMessage) {
+      return <LoadingIndicator message="Deleting message..."/>;
+    }
+
+    if (loading.movingMessage) {
+      return <LoadingIndicator message="Moving message..."/>;
+    }
+
+    if (loading.savingDraft) {
+      return <LoadingIndicator message="Saving your message..."/>;
+    }
+
+    if (loading.sendingMessage) {
+      return <LoadingIndicator message="Sending your message..."/>;
+    }
+
     const navClass = classNames({
       opened: this.props.nav.visible
     });
@@ -94,6 +115,7 @@ export class Main extends React.Component {
             cssClass="messaging-modal"
             folders={this.props.folders}
             id="messaging-create-folder"
+            loading={loading.creatingFolder}
             onClose={this.props.closeCreateFolderModal}
             onValueChange={this.handleFolderNameChange}
             onSubmit={this.handleSubmitCreateNewFolder}
@@ -117,6 +139,7 @@ const mapStateToProps = (state) => {
     createFolderModal: state.modals.createFolder,
     folders,
     isVisibleAdvancedSearch: state.search.advanced.visible,
+    loading: state.loading,
     nav: state.folders.ui.nav,
     persistFolder: state.folders.data.currentItem.persistFolder
   };
