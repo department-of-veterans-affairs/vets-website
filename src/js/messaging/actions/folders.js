@@ -16,7 +16,6 @@ import {
   FETCH_FOLDERS_SUCCESS,
   LOADING_FOLDER,
   LOADING_FOLDERS,
-  RESET_REDIRECT,
   SET_CURRENT_FOLDER,
   TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
@@ -93,6 +92,10 @@ export function createNewFolder(folderName) {
     body: JSON.stringify(folderData)
   };
 
+  window.dataLayer.push({
+    event: 'sm-create-folder',
+  });
+
   return dispatch => {
     dispatch({ type: CREATING_FOLDER });
 
@@ -135,8 +138,4 @@ export function toggleFolderMoveTo(id) {
     type: TOGGLE_FOLDER_MOVE_TO,
     messageId: id
   };
-}
-
-export function resetRedirect() {
-  return { type: RESET_REDIRECT };
 }

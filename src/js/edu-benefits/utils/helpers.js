@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import moment from 'moment';
 
+import { dateToMoment } from '../../common/utils/helpers';
+
 export const chapterNames = {
   veteranInformation: 'Veteran Information',
   benefitsEligibility: 'Benefits Eligibility',
@@ -25,21 +27,52 @@ export function showSchoolAddress(educationType) {
     || educationType === 'correspondence';
 }
 
-export function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value - 1,
-    day: dateField.day.value
-  });
+function formatDayMonth(val) {
+  if (!val || !val.length || !Number(val)) {
+    return 'XX';
+  } else if (val.length === 1) {
+    return `0${val}`;
+  }
+
+  return val.toString();
 }
 
-export function displayDateIfValid(dateObject) {
-  if (typeof dateObject === 'object') {
-    const momentDate = dateToMoment(dateObject);
-    if (momentDate.isValid()) {
-      return momentDate.format('M/D/YYYY');
-    }
+function formatYear(val) {
+  if (!val || !val.length) {
+    return 'XXXX';
   }
+
+  const yearDate = moment(val, 'YYYY');
+  if (!yearDate.isValid()) {
+    return 'XXXX';
+  }
+
+  return yearDate.format('YYYY');
+}
+
+export function formatPartialDate(field) {
+  if (!field || (!field.month.value && !field.year.value)) {
+    return undefined;
+  }
+
+  const day = field.day ? field.day.value : null;
+
+  return `${formatYear(field.year.value)}-${formatDayMonth(field.month.value)}-${formatDayMonth(day)}`;
+}
+
+export function displayDateIfValid(field) {
+  if (!field.day.value && !field.month.value && !field.year.value) {
+    return undefined;
+  }
+
+  return `${formatDayMonth(field.month.value)}/${formatDayMonth(field.day.value)}/${formatYear(field.year.value)}`;
+}
+
+export function displayMonthYearIfValid(dateObject) {
+  if (dateObject.year.value || dateObject.month.value) {
+    return `${dateObject.month.value || 'XX'}/${dateObject.year.value || 'XXXX'}`;
+  }
+
   return null;
 }
 
@@ -88,3 +121,4 @@ export function showYesNo(field) {
 
   return field.value === 'Y' ? 'Yes' : 'No';
 }
+

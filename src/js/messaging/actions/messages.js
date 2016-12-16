@@ -34,6 +34,9 @@ import {
 const baseUrl = '/messages';
 
 export function addDraftAttachments(files) {
+  window.dataLayer.push({
+    event: 'sm-add-attachment',
+  });
   return { type: ADD_DRAFT_ATTACHMENTS, files };
 }
 
@@ -45,8 +48,12 @@ export function deleteDraftAttachment(index) {
   return { type: DELETE_DRAFT_ATTACHMENT, index };
 }
 
-export function deleteMessage(id) {
-  const url = `${baseUrl}/${id}`;
+export function deleteMessage(messageId) {
+  const url = `${baseUrl}/${messageId}`;
+
+  window.dataLayer.push({
+    event: 'sm-delete-message',
+  });
 
   return dispatch => {
     dispatch({ type: DELETING_MESSAGE });
@@ -60,17 +67,14 @@ export function deleteMessage(id) {
   };
 }
 
-export function fetchThread(id) {
+export function fetchThread(messageId) {
   return dispatch => {
     const errorHandler =
       () => dispatch({ type: FETCH_THREAD_FAILURE });
 
-    dispatch({
-      type: LOADING_THREAD,
-      requestId: id
-    });
+    dispatch({ type: LOADING_THREAD, messageId });
 
-    const messageUrl = `${baseUrl}/${id}`;
+    const messageUrl = `${baseUrl}/${messageId}`;
     const threadUrl = `${messageUrl}/thread`;
 
     Promise.all([messageUrl, threadUrl].map(
@@ -85,9 +89,9 @@ export function fetchThread(id) {
   };
 }
 
-export function fetchThreadMessage(id) {
+export function fetchThreadMessage(messageId) {
   return dispatch => {
-    const messageUrl = `${baseUrl}/${id}`;
+    const messageUrl = `${baseUrl}/${messageId}`;
 
     apiRequest(
       messageUrl,
@@ -104,6 +108,10 @@ export function fetchThreadMessage(id) {
 export function moveMessageToFolder(messageId, folder) {
   const folderId = folder.folderId;
   const url = `${baseUrl}/${messageId}/move?folder_id=${folderId}`;
+
+  window.dataLayer.push({
+    event: 'sm-move-message',
+  });
 
   return dispatch => {
     dispatch({ type: MOVING_MESSAGE });
@@ -126,6 +134,10 @@ export function createFolderAndMoveMessage(folderName, messageId) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(folderData)
   };
+
+  window.dataLayer.push({
+    event: 'sm-move-message',
+  });
 
   return dispatch => {
     dispatch({ type: MOVING_MESSAGE });
@@ -169,6 +181,10 @@ export function saveDraft(message) {
     url = `${url}/${message.messageId}`;
     method = 'PUT';
   }
+
+  window.dataLayer.push({
+    event: 'sm-save-draft',
+  });
 
   const settings = {
     method,
@@ -221,6 +237,11 @@ export function sendMessage(message) {
   // Add each attachment as a separate item
   message.attachments.forEach((file) => {
     payload.append('uploads[]', file);
+  });
+
+  window.dataLayer.push({
+    event: 'sm-send-message',
+    hasAdditionalSubject: message.subject.length > 0,
   });
 
   const settings = {

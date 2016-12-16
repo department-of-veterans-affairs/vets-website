@@ -106,6 +106,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('button.edit-btn').to.be.visible;
 
     client.expect.element('.form-panel .usa-button-primary').text.to.equal('Submit Application');
+    client.click('[name=privacyAgreement]');
     client.click('.form-panel .usa-button-primary');
     client.expect.element('.form-panel .hca-button-green').text.to.equal('✓ Submitted');
 

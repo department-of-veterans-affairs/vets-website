@@ -9,7 +9,7 @@ class MessageCategory extends React.Component {
       <div className={this.props.cssClass}>
         <ErrorableSelect
             additionalClass={`${this.props.cssClass}-category`}
-            label="Category"
+            label="Subject line"
             name="messageCategory"
             onValueChange={this.props.onValueChange}
             options={categories}

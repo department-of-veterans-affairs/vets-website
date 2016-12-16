@@ -14,6 +14,9 @@ const props = {
     subject: makeField('')
   },
   recipients: [],
+  loading: {
+    recipients: false
+  },
   deleteConfirmModal: {
     visible: false
   },

@@ -16,7 +16,6 @@ import {
   moveMessageToFolder,
   openAttachmentsModal,
   openMoveToNewFolderModal,
-  resetRedirect,
   saveDraft,
   sendMessage,
   toggleConfirmDelete,
@@ -53,25 +52,21 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.loading.inProgress) {
+    if (this.props.redirect) {
+      this.context.router.replace(this.props.redirect);
+      return;
+    }
+
+    if (!this.props.loading.thread) {
       const id = +this.props.params.messageId;
       this.props.fetchThread(id);
     }
   }
 
   componentDidUpdate() {
-    if (this.props.redirect) {
-      this.context.router.replace(this.props.redirect);
-      return;
-    }
-
-    const loading = this.props.loading;
-
-    if (!loading.inProgress) {
-      const message = this.props.message;
-
+    if (!this.props.loading.thread) {
       const shouldFetchRecipients =
-        message &&
+        !this.props.loading.recipients &&
         this.props.isNewMessage &&
         !this.props.recipients;
 
@@ -80,17 +75,13 @@ export class Thread extends React.Component {
       }
 
       const requestedId = +this.props.params.messageId;
-      const lastRequestedId = loading.requestId;
+      const lastRequestedId = this.props.lastRequestedId;
       const shouldFetchMessage = requestedId !== lastRequestedId;
 
       if (shouldFetchMessage) {
         this.props.fetchThread(requestedId);
       }
     }
-  }
-
-  componentWillUnmount() {
-    this.props.resetRedirect();
   }
 
   getCurrentFolder() {
@@ -277,18 +268,18 @@ export class Thread extends React.Component {
   }
 
   render() {
-    if (this.props.isNewMessage && this.props.loadingRecipients) {
-      return <LoadingIndicator message="Loading the application..."/>;
-    }
-
     const loading = this.props.loading;
 
-    if (loading.inProgress) {
-      return <LoadingIndicator message="is loading the thread..."/>;
+    if (this.props.isNewMessage && loading.recipients) {
+      return <LoadingIndicator message="Loading your application..."/>;
+    }
+
+    if (loading.thread) {
+      return <LoadingIndicator message="Loading your message..."/>;
     }
 
     if (!this.props.message) {
-      const lastRequestedId = loading.requestId;
+      const lastRequestedId = this.props.lastRequestedId;
 
       if (lastRequestedId !== null) {
         const reloadMessage = () => {
@@ -389,8 +380,8 @@ const mapStateToProps = (state) => {
     isFormVisible: state.messages.ui.formVisible,
     isNewMessage,
     isSavedDraft,
-    loading: state.messages.ui.loading,
-    loadingRecipients: state.recipients.loading,
+    lastRequestedId: state.messages.ui.lastRequestedId,
+    loading: state.loading,
     message,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
@@ -414,7 +405,6 @@ const mapDispatchToProps = {
   moveMessageToFolder,
   openAttachmentsModal,
   openMoveToNewFolderModal,
-  resetRedirect,
   saveDraft,
   sendMessage,
   toggleConfirmDelete,
