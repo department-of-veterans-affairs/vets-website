@@ -5,7 +5,6 @@ export const alertStatus = {
   WARNING: 'warning'
 };
 
-export const RESET_REDIRECT = 'RESET_REDIRECT';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 
 // Loading action types
