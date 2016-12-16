@@ -16,7 +16,6 @@ import {
   FETCH_FOLDERS_SUCCESS,
   LOADING_FOLDER,
   LOADING_FOLDERS,
-  RESET_REDIRECT,
   SET_CURRENT_FOLDER,
   TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
@@ -139,8 +138,4 @@ export function toggleFolderMoveTo(id) {
     type: TOGGLE_FOLDER_MOVE_TO,
     messageId: id
   };
-}
-
-export function resetRedirect() {
-  return { type: RESET_REDIRECT };
 }

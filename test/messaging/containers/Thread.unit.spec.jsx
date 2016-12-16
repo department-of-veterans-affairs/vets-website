@@ -17,8 +17,8 @@ const props = {
   isNewMessage: false,
   isSavedDraft: false,
   loading: {
-    inProgress: false,
-    requestId: null
+    recipients: false,
+    thread: false
   },
   message: null,
   messagesCollapsed: new Set(),

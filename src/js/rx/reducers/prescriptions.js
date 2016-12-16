@@ -7,7 +7,10 @@ const initialState = {
   items: [],
   active: {
     loading: false,
-    sort: 'prescriptionName'
+    sort: {
+      value: 'prescriptionName',
+      order: 'ASC',
+    },
   },
   history: {
     loading: false,
@@ -91,7 +94,7 @@ export default function prescriptions(state = initialState, action) {
       if (action.active) {
         newState.active = {
           loading: false,
-          sort: sortValue
+          sort: { value: sortValue, order: sortOrder },
         };
       } else {
         newState.history = {
@@ -111,17 +114,24 @@ export default function prescriptions(state = initialState, action) {
     }
 
     case 'SORT_PRESCRIPTIONS': {
-      const newState = set('active.sort', action.sort, state);
+      const newState = set('active.sort', {
+        value: action.sort,
+        order: action.order,
+      }, state);
+      const order = action.order.toLowerCase();
 
       switch (action.sort) {
         case 'prescriptionName':
-          return set('items', _.sortBy(state.items, sortByName), newState);
+          return set('items', _.orderBy(state.items, sortByName, [order]), newState);
         case 'facilityName':
-          return set('items', _.sortBy(state.items, sortByFacilityName), newState);
+          return set('items', _.orderBy(state.items, sortByFacilityName, [order]), newState);
         case 'lastSubmitDate':
-          return set('items', _.sortBy(state.items, sortByLastSubmitDate), newState);
+          return set('items', _.orderBy(state.items, sortByLastSubmitDate, [order]), newState);
         default:
-          return set('active.sort', 'prescriptionName', state);
+          return set('active.sort', {
+            value: 'prescriptionName',
+            order: 'ASC',
+          }, state);
       }
     }
 
