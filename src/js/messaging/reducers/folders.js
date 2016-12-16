@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import merge from 'lodash/fp/merge';
 import set from 'lodash/fp/set';
 
 import { folderUrl } from '../utils/helpers';
@@ -9,18 +8,17 @@ import {
   DELETE_COMPOSE_MESSAGE,
   DELETE_FOLDER_SUCCESS,
   DELETE_MESSAGE_SUCCESS,
-  FETCH_FOLDER_FAILURE,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
   LOADING_FOLDER,
   MOVE_MESSAGE_SUCCESS,
-  RESET_REDIRECT,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
   SET_CURRENT_FOLDER,
   TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
-  TOGGLE_MANAGED_FOLDERS
+  TOGGLE_MANAGED_FOLDERS,
+  UPDATE_ROUTE
 } from '../utils/constants';
 
 const initialState = {
@@ -44,10 +42,7 @@ const initialState = {
     items: new Map()
   },
   ui: {
-    loading: {
-      inProgress: false,
-      request: null
-    },
+    lastRequestedFolder: null,
     moveToId: null,
     nav: {
       foldersExpanded: false,
@@ -76,9 +71,6 @@ export default function folders(state = initialState, action) {
       return set('data.items', newFolders, state);
     }
 
-    case FETCH_FOLDER_FAILURE:
-      return set('ui.loading.inProgress', false, state);
-
     case FETCH_FOLDER_SUCCESS: {
       const attributes = action.folder.data.attributes;
       const messages = action.messages.data.map(message => message.attributes);
@@ -91,7 +83,7 @@ export default function folders(state = initialState, action) {
       const sortValue = Object.keys(sort)[0];
       const sortOrder = sort[sortValue];
 
-      const newState = set('data.currentItem', {
+      return set('data.currentItem', {
         attributes,
         filter,
         messages,
@@ -102,15 +94,6 @@ export default function folders(state = initialState, action) {
           order: sortOrder
         },
       }, state);
-
-      return set('ui', merge(initialState.ui, {
-        loading: {
-          request: _.get(newState, 'ui.loading.request', null)
-        },
-        nav: {
-          foldersExpanded: _.get(newState, 'ui.nav.foldersExpanded', false)
-        }
-      }), newState);
     }
 
     case FETCH_FOLDERS_SUCCESS: {
@@ -124,17 +107,18 @@ export default function folders(state = initialState, action) {
     }
 
     case LOADING_FOLDER: {
-      const newState = set(
-        'data.currentItem',
-        merge(initialState.data.currentItem, {
-          persistFolder: action.request.id
-        }),
-        state
-      );
+      const newState = set('data.currentItem', {
+        ...initialState.data.currentItem,
+        persistFolder: action.request.id
+      }, state);
 
-      return set('ui.loading', {
-        inProgress: true,
-        request: action.request
+      return set('ui', {
+        ...initialState.ui,
+        nav: {
+          foldersExpanded: state.ui.nav.foldersExpanded,
+          visible: false
+        },
+        lastRequestedFolder: action.request
       }, newState);
     }
 
@@ -173,7 +157,7 @@ export default function folders(state = initialState, action) {
       return set('ui.redirect', url, state);
     }
 
-    case RESET_REDIRECT:
+    case UPDATE_ROUTE:
       return set('ui.redirect', null, state);
 
     default:
