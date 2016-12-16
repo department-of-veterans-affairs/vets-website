@@ -110,6 +110,6 @@ export function refillPrescription(prescription) {
   return dispatch => dispatch({ type: 'REFILL_FAILURE' });
 }
 
-export function sortPrescriptions(sort, order = 'DESC') {
+export function sortPrescriptions(sort, order = 'ASC') {
   return { type: 'SORT_PRESCRIPTIONS', sort, order };
 }

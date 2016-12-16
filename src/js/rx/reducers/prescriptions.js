@@ -94,7 +94,7 @@ export default function prescriptions(state = initialState, action) {
       if (action.active) {
         newState.active = {
           loading: false,
-          sort: { value: sortValue, order: 'DESC' },
+          sort: { value: sortValue, order: sortOrder },
         };
       } else {
         newState.history = {
@@ -130,7 +130,7 @@ export default function prescriptions(state = initialState, action) {
         default:
           return set('active.sort', {
             value: 'prescriptionName',
-            order: 'DESC',
+            order: 'ASC',
           }, state);
       }
     }
