@@ -12,18 +12,18 @@ describe('Estimator unit tests', () =>{
     context('default dropdown selections', () => {
 
       const estimator = new Estimator();
-      estimator.set_military_status = 'veteran';
-      estimator.set_spouse_active_duty = 'no';
-      estimator.set_gi_bill_chap = '33';
-      estimator.set_number_of_depend = '0';
-      estimator.set_post_911_elig = 'no';
-      estimator.set_cumulative_service = '1.0';
-      estimator.set_enlistment_service = '3';
-      estimator.set_consecutive_service = '0.8';
-      estimator.set_online = 'no';
-      estimator.set_institution_type = school.institution_type.name;
-      estimator.set_country = school.country;
-      estimator.set_bah = school.bah;
+      estimator.setMilitaryStatus = 'veteran';
+      estimator.setSpouseActiveDuty = 'no';
+      estimator.setGiBillChap = '33';
+      estimator.setNumberOfDepend = '0';
+      estimator.setPost911Elig = 'no';
+      estimator.setCumulativeService = '1.0';
+      estimator.setEnlistmentService = '3';
+      estimator.setConsecutiveService = '0.8';
+      estimator.setOnline = 'no';
+      estimator.setInstitutionType = school.institution_type.name;
+      estimator.setCountry = school.country;
+      estimator.setBah = school.bah;
 
       it('should return the correct tuition estimate', () => {
         estimator.renderTuitionFees();
@@ -56,18 +56,18 @@ describe('Estimator unit tests', () =>{
     context('default dropdown selections', () => {
 
       const estimator = new Estimator();
-      estimator.set_military_status = 'veteran';
-      estimator.set_spouse_active_duty = 'no';
-      estimator.set_gi_bill_chap = '33';
-      estimator.set_number_of_depend = '0';
-      estimator.set_post_911_elig = 'no';
-      estimator.set_cumulative_service = '1.0';
-      estimator.set_enlistment_service = '3';
-      estimator.set_consecutive_service = '0.8';
-      estimator.set_online = 'no';
-      estimator.set_institution_type = school.institution_type.name;
-      estimator.set_country = school.country;
-      estimator.set_bah = school.bah;
+      estimator.setMilitaryStatus = 'veteran';
+      estimator.setSpouseActiveDuty = 'no';
+      estimator.setGiBillChap = '33';
+      estimator.setNumberOfDepend = '0';
+      estimator.setPost911Elig = 'no';
+      estimator.setCumulativeService = '1.0';
+      estimator.setEnlistmentService = '3';
+      estimator.setConsecutiveService = '0.8';
+      estimator.setOnline = 'no';
+      estimator.setInstitutionType = school.institution_type.name;
+      estimator.setCountry = school.country;
+      estimator.setBah = school.bah;
 
       it('should return the correct tuition estimate', () => {
         estimator.renderTuitionFees();
@@ -100,18 +100,18 @@ describe('Estimator unit tests', () =>{
     context('default dropdown selections', () => {
 
       const estimator = new Estimator();
-      estimator.set_military_status = 'veteran';
-      estimator.set_spouse_active_duty = 'no';
-      estimator.set_gi_bill_chap = '33';
-      estimator.set_number_of_depend = '0';
-      estimator.set_post_911_elig = 'no';
-      estimator.set_cumulative_service = '1.0';
-      estimator.set_enlistment_service = '3';
-      estimator.set_consecutive_service = '0.8';
-      estimator.set_online = 'no';
-      estimator.set_institution_type = school.institution_type.name;
-      estimator.set_country = school.country;
-      estimator.set_bah = school.bah;
+      estimator.setMilitaryStatus = 'veteran';
+      estimator.setSpouseActiveDuty = 'no';
+      estimator.setGiBillChap = '33';
+      estimator.setNumberOfDepend = '0';
+      estimator.setPost911Elig = 'no';
+      estimator.setCumulativeService = '1.0';
+      estimator.setEnlistmentService = '3';
+      estimator.setConsecutiveService = '0.8';
+      estimator.setOnline = 'no';
+      estimator.setInstitutionType = school.institution_type.name;
+      estimator.setCountry = school.country;
+      estimator.setBah = school.bah;
 
       it('should return the correct tuition estimate', () => {
         estimator.renderTuitionFees();
@@ -136,18 +136,18 @@ describe('Estimator unit tests', () =>{
     context('vr&e plus post-911 eligible', () => {
 
       const estimator = new Estimator();
-      estimator.set_military_status = 'veteran';
-      estimator.set_spouse_active_duty = 'no';
-      estimator.set_gi_bill_chap = '31';
-      estimator.set_number_of_depend = '0';
-      estimator.set_post_911_elig = 'yes';
-      estimator.set_cumulative_service = '1.0';
-      estimator.set_enlistment_service = '3';
-      estimator.set_consecutive_service = '0.8';
-      estimator.set_online = 'no';
-      estimator.set_institution_type = school.institution_type.name;
-      estimator.set_country = school.country;
-      estimator.set_bah = school.bah;
+      estimator.setMilitaryStatus = 'veteran';
+      estimator.setSpouseActiveDuty = 'no';
+      estimator.setGiBillChap = '31';
+      estimator.setNumberOfDepend = '0';
+      estimator.setPost911Elig = 'yes';
+      estimator.setCumulativeService = '1.0';
+      estimator.setEnlistmentService = '3';
+      estimator.setConsecutiveService = '0.8';
+      estimator.setOnline = 'no';
+      estimator.setInstitutionType = school.institution_type.name;
+      estimator.setCountry = school.country;
+      estimator.setBah = school.bah;
 
       it('should return the correct tuition estimate', () => {
         estimator.renderTuitionFees();
@@ -172,18 +172,18 @@ describe('Estimator unit tests', () =>{
     context('vr&e plus post-911 eligible, all online classes', () => {
 
       const estimator = new Estimator();
-      estimator.set_military_status = 'veteran';
-      estimator.set_spouse_active_duty = 'no';
-      estimator.set_gi_bill_chap = '31';
-      estimator.set_number_of_depend = '0';
-      estimator.set_post_911_elig = 'yes';
-      estimator.set_cumulative_service = '1.0';
-      estimator.set_enlistment_service = '3';
-      estimator.set_consecutive_service = '0.8';
-      estimator.set_online = 'yes';
-      estimator.set_institution_type = school.institution_type.name;
-      estimator.set_country = school.country;
-      estimator.set_bah = school.bah;
+      estimator.setMilitaryStatus = 'veteran';
+      estimator.setSpouseActiveDuty = 'no';
+      estimator.setGiBillChap = '31';
+      estimator.setNumberOfDepend = '0';
+      estimator.setPost911Elig = 'yes';
+      estimator.setCumulativeService = '1.0';
+      estimator.setEnlistmentService = '3';
+      estimator.setConsecutiveService = '0.8';
+      estimator.setOnline = 'yes';
+      estimator.setInstitutionType = school.institution_type.name;
+      estimator.setCountry = school.country;
+      estimator.setBah = school.bah;
 
       it('should return the correct tuition estimate', () => {
         estimator.renderTuitionFees();

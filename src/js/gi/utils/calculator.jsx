@@ -1,5 +1,3 @@
-import React from 'react';
-
 class Calculator {
 
   constructor() {
@@ -983,9 +981,9 @@ Calculator.prototype.getDerivedValues = function getDerivedValues() {
 // /////////////////////////////////////////////////////////////////////////////
 Calculator.prototype.formatCurrency = function formatCurrency(num) {
   const str = Math.round(Number(num)).toString();
-  const regex = /\d(?=(\d{3})+$)/g;
   // match a digit if it's followed by 3 other digits, appending a comma to each match
-  return '$' + str.replace(regex, '$&,');
+  const regex = /\d(?=(\d{3})+$)/g;
+  return ['$', str.replace(regex, '$&,')].join();
 };
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -1076,7 +1074,6 @@ Calculator.prototype.getMonthlyRate = function getMonthlyRate() {
   } else if (this.gi_bill_chapter === 31 && this.number_of_depend > 2) {
     this.calc_monthlyrate = this.VRE2DEPRATE + ((this.number_of_depend - 2) * this.VREINCRATE);
   }
-
   return this;
 };
 
@@ -1149,7 +1146,6 @@ Calculator.prototype.getTuitionFeesCap = function getTuitionFeesCap() {
   } else if (this.institution_type === 'private' || this.institution_type === 'foreign') {
     this.calc_tuition_fees_cap = this.TFCAP;
   }
-
   return this;
 };
 
@@ -1177,7 +1173,6 @@ Calculator.prototype.getTermLength = function getTermLength() {
   } else if (this.institution_type === 'ojt') {
     this.calc_term_length = 6;
   }
-
   return this;
 };
 
@@ -1191,7 +1186,6 @@ Calculator.prototype.getAcadYearLength = function getAcadYearLength() {
   } else {
     this.calc_acad_year_length = 9;
   }
-
   return this;
 };
 
@@ -1213,7 +1207,6 @@ Calculator.prototype.getCalcRopOld = function getCalcRopOld() {
   } else if (this.rop_old === 'quarter') {
     this.calc_rop_old = 0.25;
   }
-
   return this;
 };
 
@@ -1231,7 +1224,6 @@ Calculator.prototype.getRopBook = function getRopBook() {
   } else if (this.rop === 0) {
     this.calc_rop_book = 0.25;
   }
-
   return this;
 };
 
@@ -1284,12 +1276,11 @@ Calculator.prototype.getKickerBenefit = function getKickerBenefit() {
 Calculator.prototype.getBuyUpRate = function getBuyUpRate() {
   if (!this.buy_up_elig) {
     this.calc_buy_up_rate = 0;
-  } else if (this.gi_bill_chapter != 30) {
+  } else if (this.gi_bill_chapter !== 30) {
     this.calc_buy_up_rate = 0;
   } else {
     this.calc_buy_up_rate = (this.buy_up / 4);
   }
-
   return this;
 };
 
@@ -1317,7 +1308,6 @@ Calculator.prototype.getTerm1 = function getTerm1() {
   } else if (this.calendar === 'nontraditional') {
     this.calc_term1 = 'Term 1';
   }
-
   return this;
 };
 
@@ -1335,7 +1325,6 @@ Calculator.prototype.getTerm2 = function getTerm2() {
   } else if (this.calendar === 'nontraditional') {
     this.calc_termterm2 = 'Term 2';
   }
-
   return this;
 };
 
@@ -1353,7 +1342,6 @@ Calculator.prototype.getTerm3 = function getTerm3() {
   } else if (this.calendar === 'nontraditional') {
     this.calc_term3 = 'Term 3';
   }
-
   return this;
 };
 
@@ -1367,7 +1355,6 @@ Calculator.prototype.getTerm4 = function getTerm4() {
   } else {
     this.calc_term4 = 'Total (/Yr)';
   }
-
   return this;
 };
 
@@ -1393,7 +1380,6 @@ Calculator.prototype.getTuitionFeesTerm1 = function getTuitionFeesTerm1() {
       this.calc_tier * this.calc_tuition_net_price
     ));
   }
-
   return this;
 };
 
@@ -1421,7 +1407,6 @@ Calculator.prototype.getTuitionFeesTerm2 = function getTuitionFeesTerm2() {
       this.calc_tier * this.calc_tuition_net_price - this.calc_tuition_fees_term_1
     ));
   }
-
   return this;
 };
 
@@ -1450,7 +1435,6 @@ Calculator.prototype.getTuitionFeesTerm3 = function getTuitionFeesTerm3() {
       this.calc_tier * this.calc_tuition_net_price - this.calc_tuition_fees_term_1 - this.calc_tuition_fees_term_2
     ));
   }
-
   return this;
 };
 
@@ -1483,7 +1467,6 @@ Calculator.prototype.getYrBenTerm1 = function getYrBenTerm1() {
       this.yellow_ben * 2
     ));
   }
-
   return this;
 };
 
@@ -1508,7 +1491,6 @@ Calculator.prototype.getYrBenTerm2 = function getYrBenTerm2() {
       this.yellow_ben * 2 - this.calc_yr_ben_term_1
     ));
   }
-
   return this;
 };
 
@@ -1535,7 +1517,6 @@ Calculator.prototype.getYrBenTerm3 = function getYrBenTerm3() {
       this.yellow_ben * 2 - this.calc_yr_ben_term_1 - this.calc_yr_ben_term_2
     ));
   }
-
   return this;
 };
 
@@ -1550,7 +1531,6 @@ Calculator.prototype.getYrBenTotal = function getYrBenTotal() {
     this.calc_yr_ben_total = this.calc_yr_ben_term_1 + this.calc_yr_ben_term_2 +
       this.calc_yr_ben_term_3;
   }
-
   return this;
 };
 
@@ -1622,22 +1602,22 @@ Calculator.prototype.getHousingAllowTerm1 = function getHousingAllowTerm1() {
   } else if (this.gi_bill_chapter === 1607 && this.institution_type === 'flight') {
     this.calc_housing_allow_term_1 = Math.max(0,
       Math.min(this.calc_monthly_rate_final * this.calc_term_length,
-        this.calc_tuition_fees_per_term * (this.consecutive_service * .55)
+        this.calc_tuition_fees_per_term * (this.consecutive_service * 0.55)
       ));
   } else if (this.gi_bill_chapter === 1606 && this.institution_type === 'flight') {
     this.calc_housing_allow_term_1 = Math.max(0,
       Math.min(this.calc_monthly_rate_final * this.calc_term_length,
-        this.calc_tuition_fees_per_term * .55
+        this.calc_tuition_fees_per_term * 0.55
       ));
   } else if (this.gi_bill_chapter === 1607 && this.institution_type === 'correspondence') {
     this.calc_housing_allow_term_1 = Math.max(0,
       Math.min(this.calc_monthly_rate_final * this.calc_term_length,
-        this.calc_tuition_fees_per_term * (this.consecutive_service * .6)
+        this.calc_tuition_fees_per_term * (this.consecutive_service * 0.6)
       ));
   } else if (this.gi_bill_chapter === 1606 && this.institution_type === 'correspondence') {
     this.calc_housing_allow_term_1 = Math.max(0,
       Math.min(this.calc_monthly_rate_final * this.calc_term_length,
-        this.calc_tuition_fees_per_term * (this.consecutive_service * .6)
+        this.calc_tuition_fees_per_term * (this.consecutive_service * 0.6)
       ));
   } else if (this.calc_only_tuition_fees) {
     this.calc_housing_allow_term_1 = Math.max(0,
@@ -1658,14 +1638,13 @@ Calculator.prototype.getHousingAllowTerm1 = function getHousingAllowTerm1() {
   } else if (this.online) {
     this.calc_housing_allow_term_1 = this.calc_term_length * this.rop *
       (this.calc_tier * this.AVGBAH / 2 + this.calc_kicker_benefit);
-  } else if (this.institution.country.toLowerCase() != 'usa') {
+  } else if (this.institution.country.toLowerCase() !== 'usa') {
     this.calc_housing_allow_term_1 = this.calc_term_length * this.rop *
       ((this.calc_tier * this.AVGBAH) + this.calc_kicker_benefit);
   } else {
     this.calc_housing_allow_term_1 = this.calc_term_length * this.rop *
       ((this.calc_tier * this.institution.bah) + this.calc_kicker_benefit);
   }
-
   return this;
 };
 
@@ -1697,22 +1676,22 @@ Calculator.prototype.getHousingAllowTerm2 = function getHousingAllowTerm2() {
   } else if (this.gi_bill_chapter === 1607 && this.institution_type === 'flight') {
     this.calc_housing_allow_term_2 = Math.max(0,
       Math.min(this.calc_monthly_rate_final * this.calc_term_length,
-        this.calc_tuition_fees_per_term * (this.consecutive_service * .55)
+        this.calc_tuition_fees_per_term * (this.consecutive_service * 0.55)
       ));
   } else if (this.gi_bill_chapter === 1606 && this.institution_type === 'flight') {
     this.calc_housing_allow_term_2 = Math.max(0,
       Math.min(this.calc_monthly_rate_final * this.calc_term_length,
-        this.calc_tuition_fees_per_term * .55
+        this.calc_tuition_fees_per_term * 0.55
       ));
   } else if (this.gi_bill_chapter === 1607 && this.institution_type === 'correspondence') {
     this.calc_housing_allow_term_2 = Math.max(0,
       Math.min(this.calc_monthly_rate_final * this.calc_term_length,
-        this.calc_tuition_fees_per_term * (this.consecutive_service * .6)
+        this.calc_tuition_fees_per_term * (this.consecutive_service * 0.6)
       ));
   } else if (this.gi_bill_chapter === 1606 && this.institution_type === 'correspondence') {
     this.calc_housing_allow_term_2 = Math.max(0,
       Math.min(this.calc_monthly_rate_final * this.calc_term_length,
-        this.calc_tuition_fees_per_term * (this.consecutive_service * .6)
+        this.calc_tuition_fees_per_term * (this.consecutive_service * 0.6)
       ));
   } else if (this.calc_only_tuition_fees) {
     this.calc_housing_allow_term_2 = Math.max(0,
@@ -1737,7 +1716,6 @@ Calculator.prototype.getHousingAllowTerm2 = function getHousingAllowTerm2() {
     this.calc_housing_allow_term_2 = this.calc_term_length * this.rop *
       (this.calc_tier * this.institution.bah + this.calc_kicker_benefit);
   }
-
   return this;
 };
 
@@ -1810,7 +1788,6 @@ Calculator.prototype.getHousingAllowTerm3 = function getHousingAllowTerm3() {
     this.calc_housing_allow_term_3 = this.calc_term_length * this.rop *
       (this.calc_tier * this.institution.bah + this.calc_kicker_benefit);
   }
-
   return this;
 };
 
@@ -1839,7 +1816,6 @@ Calculator.prototype.getHousingAllowTotal = function getHousingAllowTotal() {
     this.calc_housing_allow_total = this.calc_housing_allow_term_1 +
       this.calc_housing_allow_term_2 + this.calc_housing_allow_term_3;
   }
-
   return this;
 };
 
@@ -1860,7 +1836,6 @@ Calculator.prototype.getBookStipendTerm1 = function getBookStipendTerm1() {
     this.calc_book_stipend_term_1 = this.calc_rop_book *
       this.BSCAP / this.calc_number_of_terms * this.calc_tier;
   }
-
   return this;
 };
 
@@ -1883,7 +1858,6 @@ Calculator.prototype.getBookStipendTerm2 = function getBookStipendTerm2() {
     this.calc_book_stipend_term_2 = this.calc_rop_book *
       this.BSCAP / this.calc_number_of_terms * this.calc_tier;
   }
-
   return this;
 };
 
@@ -1908,7 +1882,6 @@ Calculator.prototype.getBookStipendTerm3 = function getBookStipendTerm3() {
     this.calc_book_stipend_term_3 = this.calc_rop_book *
       this.BSCAP / this.calc_number_of_terms * this.calc_tier;
   }
-
   return this;
 };
 
@@ -1923,7 +1896,6 @@ Calculator.prototype.getBookStipendYear = function getBookStipendYear() {
     this.calc_book_stipend_total = this.calc_book_stipend_term_1 +
       this.calc_book_stipend_term_2 + this.calc_book_stipend_term_3;
   }
-
   return this;
 };
 
@@ -1949,7 +1921,6 @@ Calculator.prototype.getTotalTerm1 = function getTotalTerm1() {
       this.calc_yr_ben_term_1 + this.calc_housing_allow_term_1 +
         this.calc_book_stipend_term_1;
   }
-
   return this;
 };
 
@@ -1967,7 +1938,6 @@ Calculator.prototype.getTotalTerm2 = function getTotalTerm2() {
       this.calc_yr_ben_term_2 + this.calc_housing_allow_term_2 +
         this.calc_book_stipend_term_2;
   }
-
   return this;
 };
 
@@ -1987,7 +1957,6 @@ Calculator.prototype.getTotalTerm3 = function getTotalTerm3() {
       this.calc_yr_ben_term_3 + this.calc_housing_allow_term_3 +
         this.calc_book_stipend_term_3;
   }
-
   return this;
 };
 
@@ -2008,7 +1977,6 @@ Calculator.prototype.getTotalText = function getTotalText() {
   } else if (this.gi_bill_chapter === 31) {
     this.calc_gi_bill_total_text = 'Total Voc Rehab Benefits';
   }
-
   return this;
 };
 
@@ -2024,7 +1992,6 @@ Calculator.prototype.getTotalYear = function getTotalYear() {
       this.calc_yr_ben_total + this.calc_housing_allow_total +
         this.calc_book_stipend_total;
   }
-
   return this;
 };
 
@@ -2039,7 +2006,6 @@ Calculator.prototype.getMonthlyRateDisplay = function getMonthlyRateDisplay() {
   } else {
     this.calc_monthly_rate_display = this.calc_housing_allow_term_1 / this.calc_term_length;
   }
-
   return this;
 };
 

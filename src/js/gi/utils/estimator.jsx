@@ -1,7 +1,8 @@
 import React from 'react';
 
-class Estimator {
-  constructor() {
+class Estimator extends React.Component {
+  constructor(props) {
+    super(props);
     // Values from forms
     this.military_status = null;
     this.spouse_active_duty = null;
@@ -100,8 +101,9 @@ class Estimator {
   set setInstitutionType(str) {
     this.institution_type = str.toLowerCase();
 
-    if (this.institution_type === 'for profit')
+    if (this.institution_type === 'for profit') {
       this.institution_type = 'private'; // hacky fix
+    }
   }
 
   set setCountry(str) {
@@ -110,13 +112,6 @@ class Estimator {
 
   set setBah(n) {
     this.bah = parseFloat(n);
-  }
-
-  updateDependentValues() {
-    this.setTier();
-    this.setVreOnly();
-    this.setOnlyTuitionFees();
-    this.setMonthlyRate();
   }
 
   // Determines benefits tier
@@ -153,44 +148,52 @@ class Estimator {
 
   // Calculates the monthly benefit rate for non-chapter 33 benefits
   setMonthlyRate() {
-    if (this.gi_bill_chap === 30 && this.enlistment_service === 3 && this.institution_type === 'ojt')
+    if (this.gi_bill_chap === 30 && this.enlistment_service === 3 && this.institution_type === 'ojt') {
       this.monthly_rate = this.MGIB3YRRATE * 0.75;
-    else if (this.gi_bill_chap === 30 && this.enlistment_service === 3)
+    } else if (this.gi_bill_chap === 30 && this.enlistment_service === 3) {
       this.monthly_rate = this.MGIB3YRRATE;
-    else if (this.gi_bill_chap === 30 && this.enlistment_service === 2 && this.institution_type === 'ojt')
+    } else if (this.gi_bill_chap === 30 && this.enlistment_service === 2 && this.institution_type === 'ojt') {
       this.monthly_rate = this.MGIB2YRRATE * 0.75;
-    else if (this.gi_bill_chap === 30 && this.enlistment_service === 2)
+    } else if (this.gi_bill_chap === 30 && this.enlistment_service === 2) {
       this.monthly_rate = this.MGIB2YRRATE;
-    else if (this.gi_bill_chap === 1607 && this.institution_type === 'ojt')
+    } else if (this.gi_bill_chap === 1607 && this.institution_type === 'ojt') {
       this.monthly_rate = this.MGIB3YRRATE * this.consecutive_service * 0.75;
-    else if (this.gi_bill_chap === 1607)
+    } else if (this.gi_bill_chap === 1607) {
       this.monthly_rate = this.MGIB3YRRATE * this.consecutive_service;
-    else if (this.gi_bill_chap === 1606 && this.institution_type === 'ojt')
+    } else if (this.gi_bill_chap === 1606 && this.institution_type === 'ojt') {
       this.monthly_rate = this.SRRATE * 0.75;
-    else if (this.gi_bill_chap === 1606)
+    } else if (this.gi_bill_chap === 1606) {
       this.monthly_rate = this.SRRATE;
-    else if (this.gi_bill_chap === 35 && this.institution_type === 'ojt')
+    } else if (this.gi_bill_chap === 35 && this.institution_type === 'ojt') {
       this.monthly_rate = this.DEARATEOJT;
-    else if (this.gi_bill_chap === 35 && this.institution_type === 'flight')
+    } else if (this.gi_bill_chap === 35 && this.institution_type === 'flight') {
       this.monthly_rate = 0;
-    else if (this.gi_bill_chap === 35)
+    } else if (this.gi_bill_chap === 35) {
       this.monthly_rate = this.DEARATE;
-    else if (this.gi_bill_chap === 31 && this.number_of_depend === 0 && this.institution_type === 'ojt')
+    } else if (this.gi_bill_chap === 31 && this.number_of_depend === 0 && this.institution_type === 'ojt') {
       this.monthly_rate = this.VRE0DEPRATEOJT;
-    else if (this.gi_bill_chap === 31 && this.number_of_depend === 0)
+    } else if (this.gi_bill_chap === 31 && this.number_of_depend === 0) {
       this.monthly_rate = this.VRE0DEPRATE;
-    else if (this.gi_bill_chap === 31 && this.number_of_depend === 1 && this.institution_type === 'ojt')
+    } else if (this.gi_bill_chap === 31 && this.number_of_depend === 1 && this.institution_type === 'ojt') {
       this.monthly_rate = this.VRE1DEPRATEOJT;
-    else if (this.gi_bill_chap === 31 && this.number_of_depend === 1)
+    } else if (this.gi_bill_chap === 31 && this.number_of_depend === 1) {
       this.monthly_rate = this.VRE1DEPRATE;
-    else if (this.gi_bill_chap === 31 && this.number_of_depend === 2 && this.institution_type === 'ojt')
+    } else if (this.gi_bill_chap === 31 && this.number_of_depend === 2 && this.institution_type === 'ojt') {
       this.monthly_rate = this.VRE2DEPRATEOJT;
-    else if (this.gi_bill_chap === 31 && this.number_of_depend === 2)
+    } else if (this.gi_bill_chap === 31 && this.number_of_depend === 2) {
       this.monthly_rate = this.VRE2DEPRATE;
-    else if (this.gi_bill_chap === 31 && this.number_of_depend > 2 && this.institution_type === 'ojt')
+    } else if (this.gi_bill_chap === 31 && this.number_of_depend > 2 && this.institution_type === 'ojt') {
       this.monthly_rate = this.VRE2DEPRATEOJT + ((this.number_of_depend - 2) * this.VREINCRATEOJT);
-    else if (this.gi_bill_chap === 31 && this.number_of_depend > 2)
+    } else if (this.gi_bill_chap === 31 && this.number_of_depend > 2) {
       this.monthly_rate = this.VRE2DEPRATE + ((this.number_of_depend - 2) * this.VREINCRATE);
+    }
+  }
+
+  updateDependentValues() {
+    this.setTier();
+    this.setVreOnly();
+    this.setOnlyTuitionFees();
+    this.setMonthlyRate();
   }
 
   // Returns true when school is a flight school
@@ -220,7 +223,7 @@ class Estimator {
   // Humanizes currency values by adding commas
   // and rounding to whole values
   formatCurrency(n) {
-    let str = Math.round(Number(n)).toString();
+    const str = Math.round(Number(n)).toString();
     return str.replace(/\d(?=(\d{3})+$)/g, '$&,');
   }
 
@@ -270,7 +273,7 @@ class Estimator {
     }
 
     if (this.isCorrespondence()) {
-      this.results.tuition.value = Math.round(CORRESPONDTFCAP * this.tier);
+      this.results.tuition.value = Math.round(this.CORRESPONDTFCAP * this.tier);
       this.results.tuition.qualifier = 'per year';
       return this.per_qualifier_html(this.results.value, this.results.qualifier);
     }
@@ -381,7 +384,7 @@ class Estimator {
 // Constants
 Estimator.prototype.TFCAP = 21970.46;
 Estimator.prototype.AVGBAH = 1611;
-Estimator.prototype.BSCAP = 1000,
+Estimator.prototype.BSCAP = 1000;
 Estimator.prototype.FLTTFCAP = 12554.54;
 Estimator.prototype.CORRESPONDTFCAP = 10671.35;
 
