@@ -34,25 +34,25 @@ class ProfileSummary extends React.Component {
             <If condition={!!school.accredited}>
               <tr>
                 <td>Type of Accreditation:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('typeAccredited');}} className="info-icons"><i id="type-of-accreditation-info" className="fa fa-info-circle info-icons"></i></a></td>
-                <td>{school.accreditation_type}</td>
+                <td>{school.accreditationType}</td>
                 <td></td>
               </tr>
             </If>
-            <If condition={!!school.vet_tuition_policy_url}>
+            <If condition={!!school.vetTuitionPolicyUrl}>
               <tr>
                 <td>Link to Veterans Tuition Policy:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('tuitionPolicy');}} className="info-icons"><i id="link-to-tuition-policy-info" className="fa fa-info-circle info-icons"></i></a></td>
-                <td><a target="_blank" href={`http://${school.vet_tuition_policy_url}`}>View Policy</a></td>
+                <td><a target="_blank" href={`http://${school.vetTuitionPolicyUrl}`}>View Policy</a></td>
                 <td></td>
               </tr>
             </If>
             <tr>
               <td>Single Point of Contact For Veterans:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('singleContact');}} className="info-icons"><i id="single-point-of-contact-info" className="fa fa-info-circle info-icons"></i></a></td>
-              <td>{yesNoOrNoData(!!school.vet_poc)}</td>
+              <td>{yesNoOrNoData(!!school.vetPoc)}</td>
               <td></td>
             </tr>
             <tr>
               <td>Credit for Military Training:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('creditTraining');}} className="info-icons"><i id="credit-for-military-training-info" className="fa fa-info-circle info-icons"></i></a></td>
-              <td>{yesNoOrNoData(!!school.credit_for_mil_training)}</td>
+              <td>{yesNoOrNoData(!!school.creditForMilTraining)}</td>
               <td></td>
             </tr>
           </tbody>

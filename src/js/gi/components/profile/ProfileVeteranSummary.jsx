@@ -9,9 +9,9 @@ class ProfileVeteranSummary extends React.Component {
 
   renderStudentVeteranGroup() {
     const school = this.props.institution;
-    const feature = school.student_veteran;
+    const feature = school.studentVeteran;
     const mark = feature ? <span className="programs-yes">✔</span> : <span className="programs-no">✖</span>;
-    const href = school.student_veteran_link;
+    const href = school.studentVeteranLink;
     const link = () => {
       if (!feature || !href) { return null; }
       return (
@@ -85,9 +85,9 @@ class ProfileVeteranSummary extends React.Component {
 
   renderVetSuccess() {
     const school = this.props.institution;
-    const feature = school.vetsuccess_name;
+    const feature = school.vetsuccessName;
     const mark = feature ? <span className="programs-yes">✔</span> : <span className="programs-no">✖</span>;
-    const email = school.vetsuccess_email;
+    const email = school.vetsuccessEmail;
     const link = () => {
       if (!feature || !email) { return null; }
       return (
@@ -107,7 +107,7 @@ class ProfileVeteranSummary extends React.Component {
 
   renderEightKeys() {
     const school = this.props.institution;
-    const feature = school.eight_keys;
+    const feature = school.eightKeys;
     const mark = feature ? <span className="programs-yes">✔</span> : <span className="programs-no">✖</span>;
     return (
       <li>

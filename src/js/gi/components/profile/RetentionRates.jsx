@@ -6,12 +6,12 @@ class RetentionRates extends React.Component {
     const school = this.props.institution;
     const heading = <h3>Retention Rate<a onClick={() => {this.props.toggleModalDisplay('retention');}} className="info-icons"><i className="fa fa-info-circle info-icons outcomes-learnmore"></i></a></h3>;
     const isNumeric = (n) => { return !Number.isNaN(parseFloat(n)); };
-    const isaV = isNumeric(school.get_veteran_retention_rate);
-    const isaC = isNumeric(school.get_all_student_retention_rate);
+    const isaV = isNumeric(school.getVeteranRetentionRate);
+    const isaC = isNumeric(school.getAllStudentRetentionRate);
 
     if (isaV || isaC) {
-      const vrate = isaV ? (parseFloat(school.get_veteran_retention_rate) * 100) : 'null';
-      const crate = isaC ? (parseFloat(school.get_all_student_retention_rate) * 100) : 'null';
+      const vrate = isaV ? (parseFloat(school.getVeteranRetentionRate) * 100) : 'null';
+      const crate = isaC ? (parseFloat(school.getAllStudentRetentionRate) * 100) : 'null';
       // const graph = () => {
       //   return new Graph({
       //     target: '#retention-rates',

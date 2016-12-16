@@ -10,13 +10,13 @@ class SalaryRates extends React.Component {
     //     target:  '#salary-rates',
     //     bars:    [
     //       { name : 'vet', value : <%= "null" %> },
-    //       { name : 'all', value : <%= @school.salary_all_students %> }
+    //       { name : 'all', value : <%= @school.salaryAllStudents %> }
     //     ],
     //     max: 100000,
     //     average: 33400
     //   });
     // }
-    if (school.salary_all_students) {
+    if (school.salaryAllStudents) {
       return (
         <div className="medium-6 columns">
           {heading}
@@ -24,7 +24,7 @@ class SalaryRates extends React.Component {
             <strong>Chart Goes Here</strong>
             <p>
               vet: null<br/>
-              all: {school.salary_all_students}<br/>
+              all: {school.salaryAllStudents}<br/>
               max: 100000<br/>
               average: 33400
             </p>

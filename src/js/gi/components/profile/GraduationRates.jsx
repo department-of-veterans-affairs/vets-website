@@ -5,13 +5,13 @@ class GraduationRates extends React.Component {
   render() {
     const school = this.props.institution;
     const isNumeric = (n) => { return !Number.isNaN(parseFloat(n)); };
-    const isaV = isNumeric(school.graduation_rate_veteran);
-    const isaC = isNumeric(school.graduation_rate_all_students);
+    const isaV = isNumeric(school.graduationRateVeteran);
+    const isaC = isNumeric(school.graduationRateAllStudents);
     const heading = <h3>Graduation Rate<a onClick={() => {this.props.toggleModalDisplay('gradrates');}} className="info-icons"><i className="fa fa-info-circle info-icons outcomes-learnmore"></i></a></h3>;
 
     if (isaV || isaC) {
-      const vrate = isaV ? (parseFloat(school.graduation_rate_veteran) * 100) : 'null';
-      const crate = isaC ? (parseFloat(school.graduation_rate_all_students) * 100) : 'null';
+      const vrate = isaV ? (parseFloat(school.graduationRateVeteran) * 100) : 'null';
+      const crate = isaC ? (parseFloat(school.graduationRateAllStudents) * 100) : 'null';
       // const graph = () => {
       //   return new Graph({
       //     target: '#grad-rates',

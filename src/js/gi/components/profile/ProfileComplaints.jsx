@@ -10,8 +10,8 @@ class ProfileComplaints extends React.Component {
 
   renderCautionProfileSummary() {
     const school = this.props.institution;
-    if (school.caution_flag) {
-      const reason = school.caution_flag_reason; // TODO: school.caution_flag_reason.try(:chomp, ',').try(:gsub, /,(?!\W)/, ", ")
+    if (school.cautionFlag) {
+      const reason = school..cautionFlagReason // TODO: school.cautionFlagReason.try(:chomp, ',').try(:gsub, /,(?!\W)/, ", ")
       return (
         <span>
           <a id="caution-jump-flag" name="caution_jump_flag"></a>
@@ -29,7 +29,7 @@ class ProfileComplaints extends React.Component {
 
   renderComplaintBreakdown() {
     const school = this.props.institution;
-    if (Number(school.complaints_main_campus_roll_up) === 0) { return null; }
+    if (Number(school.complaintsMainCampusRollUp) === 0) { return null; }
     return (
       <span>
         {/* TODO: replace multiple oldOnClick attributes */}
@@ -47,8 +47,8 @@ class ProfileComplaints extends React.Component {
             <tr className="complaints-student">
               <th><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank" alt="Click here for more information." title="The number of closed, Principles of Excellence-related, complaints submitted to VA through the GI Bill Feedback system.">Student Complaints</a></th>
               {/* oldOnClick="track('Tool Tips', 'Complaints / Breakdown');" */}
-              <td id="complaint-total-fc">{school.complaints_facility_code}</td>
-              <td id="complaint-total-all">{school.complaints_main_campus_roll_up}</td>
+              <td id="complaint-total-fc">{school.complaintsFacilityCode}</td>
+              <td id="complaint-total-all">{school.complaintsMainCampusRollUp}</td>
             </tr>
           </tbody>
         </table>
@@ -63,63 +63,63 @@ class ProfileComplaints extends React.Component {
           <tbody>
             <tr>
               <td>Financial Issues (e.g., Tuition/Fee charges)</td>
-              <td id="complaint-financial-fc">{school.complaints_financial_by_fac_code}</td>
-              <td id="complaint-financial-ope">{school.complaints_financial_by_ope_id_do_not_sum}</td>
+              <td id="complaint-financial-fc">{school.complaintsFinancialByFacCode}</td>
+              <td id="complaint-financial-ope">{school.complaintsFinancialByOpeIdDoNotSum}</td>
             </tr>
             <tr>
               <td>Quality of Education</td>
-              <td id="complaint-quality-fc">{school.complaints_quality_by_fac_code}</td>
-              <td id="complaint-quality-ope">{school.complaints_quality_by_ope_id_do_not_sum}</td>
+              <td id="complaint-quality-fc">{school.complaintsQualityByFacCode}</td>
+              <td id="complaint-quality-ope">{school.complaintsQualityByOpeIdDoNotSum}</td>
             </tr>
             <tr>
               <td>Refund Issues</td>
-              <td id="complaint-refund-fc">{school.complaints_refund_by_fac_code}</td>
-              <td id="complaint-refund-ope">{school.complaints_refund_by_ope_id_do_not_sum}</td>
+              <td id="complaint-refund-fc">{school.complaintsRefundByFacCode}</td>
+              <td id="complaint-refund-ope">{school.complaintsRefundByOpeIdDoNotSum}</td>
             </tr>
             <tr>
               <td>Recruiting/Marketing Practices</td>
-              <td id="complaint-recruiting-fc">{school.complaints_marketing_by_fac_code}</td>
-              <td id="complaint-recruiting-ope">{school.complaints_marketing_by_ope_id_do_not_sum}</td>
+              <td id="complaint-recruiting-fc">{school.complaintsMarketingByFacCode}</td>
+              <td id="complaint-recruiting-ope">{school.complaintsMarketingByOpeIdDoNotSum}</td>
             </tr>
             <tr>
               <td>Accreditation</td>
-              <td id="complaint-accreditation-fc">{school.complaints_accreditation_by_fac_code}</td>
-              <td id="complaint-accreditation-ope">{school.complaints_accreditation_by_ope_id_do_not_sum}</td>
+              <td id="complaint-accreditation-fc">{school.complaintsAccreditationByFacCode}</td>
+              <td id="complaint-accreditation-ope">{school.complaintsAccreditationByOpeIdDoNotSum}</td>
             </tr>
             <tr>
               <td>Change in degree plan/requirements</td>
-              <td id="complaint-degree-plan-fc">{school.complaints_degree_requirements_by_fac_code}</td>
-              <td id="complaint-degree-plan-ope">{school.complaints_degree_requirements_by_ope_id_do_not_sum}</td>
+              <td id="complaint-degree-plan-fc">{school.complaintsDegreeRequirementsByFacCode}</td>
+              <td id="complaint-degree-plan-ope">{school.complaintsDegreeRequirementsByOpeIdDoNotSum}</td>
             </tr>
             <tr>
               <td>Student Loans</td>
-              <td id="complaint-loans-fc">{school.complaints_student_loans_by_fac_code}</td>
-              <td id="complaint-loans-ope">{school.complaints_student_loans_by_ope_id_do_not_sum}</td>
+              <td id="complaint-loans-fc">{school.complaintsStudentLoansByFacCode}</td>
+              <td id="complaint-loans-ope">{school.complaintsStudentLoansByOpeIdDoNotSum}</td>
             </tr>
             <tr>
               <td>Grade Policy</td>
-              <td id="complaint-grade-policy-fc">{school.complaints_grades_by_fac_code}</td>
-              <td id="complaint-grade-policy-ope">{school.complaints_grades_by_ope_id_do_not_sum}</td>
+              <td id="complaint-grade-policy-fc">{school.complaintsGradesByFacCode}</td>
+              <td id="complaint-grade-policy-ope">{school.complaintsGradesByOpeIdDoNotSum}</td>
             </tr>
             <tr>
               <td>Transfer of Credits</td>
-              <td id="complaint-credit-transfer-fc">{school.complaints_credit_transfer_by_fac_code}</td>
-              <td id="complaint-credit-transfer-ope">{school.complaints_credit_transfer_by_ope_id_do_not_sum}</td>
+              <td id="complaint-credit-transfer-fc">{school.complaintsCreditTransferByFacCode}</td>
+              <td id="complaint-credit-transfer-ope">{school.complaintsCreditTransferByOpeIdDoNotSum}</td>
             </tr>
             <tr>
               <td>Post-Graduation Job Opportunities</td>
-              <td id="complaint-job-prep-fc">{school.complaints_job_by_fac_code}</td>
-              <td id="complaint-job-prep-ope">{school.complaints_jobs_by_ope_id_do_not_sum}</td>
+              <td id="complaint-job-prep-fc">{school.complaintsJobByFacCode}</td>
+              <td id="complaint-job-prep-ope">{school.complaintsJobsByOpeIdDoNotSum}</td>
             </tr>
             <tr>
               <td>Release of Transcripts</td>
-              <td id="complaint-transcripts-fc">{school.complaints_transcript_by_fac_code}</td>
-              <td id="complaint-transcripts-ope">{school.complaints_transcript_by_ope_id_do_not_sum}</td>
+              <td id="complaint-transcripts-fc">{school.complaintsTranscriptByFacCode}</td>
+              <td id="complaint-transcripts-ope">{school.complaintsTranscriptByOpeIdDoNotSum}</td>
             </tr>
             <tr>
               <td>Other</td>
-              <td id="complaint-other-fc">{school.complaints_other_by_fac_code}</td>
-              <td id="complaint-other-ope">{school.complaints_other_by_ope_id_do_not_sum}</td>
+              <td id="complaint-other-fc">{school.complaintsOtherByFacCode}</td>
+              <td id="complaint-other-ope">{school.complaintsOtherByOpeIdDoNotSum}</td>
             </tr>
           </tbody>
         </table>

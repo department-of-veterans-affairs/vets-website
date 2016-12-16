@@ -32,7 +32,7 @@ class ProfileSchoolHeader extends React.Component {
 
   render() {
     const school = this.props.institution;
-    const hdo = school.highest_degree;
+    const hdo = school.highestDegree;
     return (
       <span>
         <div className="small-12 columns">
@@ -40,7 +40,7 @@ class ProfileSchoolHeader extends React.Component {
         </div>
 
         <div className="medium-7 columns">
-          <div id={school.facility_code} className="profile_overview"
+          <div id={school.facilityCode} className="profile_overview"
               data-type={school.name}
               data-country={school.country}
               data-bah={school.bah || 0}>
@@ -62,7 +62,7 @@ class ProfileSchoolHeader extends React.Component {
           <table className="borderless">
             <tbody>
               <tr className="profile-institute-descriptors">
-                <If condition={school.institution_type.name !== 'ojt' && hdo}>
+                <If condition={school.institutionType.name !== 'ojt' && hdo}>
                   <td className="profile-institute-qualifier">
                     <i className="fa fa-calendar fa-profile-descriptors"></i>
                     &nbsp;Program:&nbsp;
@@ -81,7 +81,7 @@ class ProfileSchoolHeader extends React.Component {
                   &nbsp;Type:&nbsp;
                 </td>
                 <td className="profile-institute-value">
-                  {school.institution_type.display}
+                  {school.institutionType.display}
                 </td>
               </tr>
               <tr className="profile-institute-descriptors">
@@ -90,7 +90,7 @@ class ProfileSchoolHeader extends React.Component {
                   &nbsp;Locale:
                 </td>
                 <td className="profile-institute-value">
-                  {school.locale_name}
+                  {school.localeName}
                 </td>
               </tr>
               <tr className="profile-institute-descriptors">
@@ -99,7 +99,7 @@ class ProfileSchoolHeader extends React.Component {
                   &nbsp;Size:
                 </td>
                 <td className="profile-institute-value">
-                  {/* to_school_size(@school.undergrad_enrollment) */}
+                  {/* to_school_size(@school.undergradEnrollment) */}
                 </td>
               </tr>
             </tbody>

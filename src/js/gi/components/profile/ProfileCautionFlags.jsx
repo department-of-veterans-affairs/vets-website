@@ -3,7 +3,7 @@ import React from 'react';
 class ProfileCautionFlags extends React.Component {
 
   render() {
-    const flagged = this.props.institution.caution_flag;
+    const flagged = this.props.institution.cautionFlag;
     if (flagged) {
       return (
         <div className="caution-profile">

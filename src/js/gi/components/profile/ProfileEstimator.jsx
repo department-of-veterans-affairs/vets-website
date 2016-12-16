@@ -24,7 +24,7 @@ class ProfileEstimator extends React.Component {
     e.setConsecutiveService = params.consecutive_service;
     e.setOnline = params.online_classes;
     // set institution values
-    e.setInstitutionType = school.institution_type.name;
+    e.setInstitutionType = school.institutionType.name;
     e.setCountry = school.country;
     e.setBah = school.bah;
   }

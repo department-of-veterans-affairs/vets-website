@@ -10,12 +10,12 @@ class RepaymentRates extends React.Component {
     //     target:  '#repayment-rates',
     //     bars:    [
     //       { name : 'vet', value : null },
-    //       { name : 'all', value : (parseFloat(school.repayment_rate_all_students) * 100)
+    //       { name : 'all', value : (parseFloat(school.repaymentRateAllStudents) * 100)
     //     ],
     //     average: 67.9
     //   });
     // }
-    if (school.salary_all_students) {
+    if (school.salaryAllStudents) {
       return (
         <div className="medium-6 columns">
           {heading}
@@ -23,7 +23,7 @@ class RepaymentRates extends React.Component {
             <strong>Chart Goes Here</strong>
             <p>
               vet: null<br/>
-              all: {(parseFloat(school.repayment_rate_all_students) * 100)}<br/>
+              all: {(parseFloat(school.repaymentRateAllStudents) * 100)}<br/>
               average: 67.9
             </p>
           </div>
