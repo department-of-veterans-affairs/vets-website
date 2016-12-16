@@ -27,7 +27,8 @@ class PrescriptionTable extends React.Component {
 
     const fields = [
       { label: 'Prescription Name', value: 'prescriptionName' },
-      { label: 'Last Requested Date', value: 'lastSubmitDate' },
+      { label: 'Submit Date', value: 'lastSubmitDate' },
+      { label: 'Fill Date', value: 'refillDate' },
       { label: 'Facility Name', value: 'facilityName' },
       { label: 'Refills Left', value: 'refillsLeft', nonSortable: true },
       { label: 'Refill Status', value: 'refillStatus', nonSortable: true },
@@ -46,7 +47,8 @@ class PrescriptionTable extends React.Component {
             <span>Prescription #: {item.id}</span>
           </div>
         ),
-        lastSubmitDate: formatDate(attrs.refillSubmitDate),
+        lastSubmitDate: formatDate(attrs.lastSubmitDate),
+        refillDate: formatDate(attrs.refillDate),
         facilityName: attrs.facilityName,
         refillsLeft: attrs.refillRemaining,
         refillStatus: <RefillStatus {...item} glossaryModalHandler={this.props.glossaryModalHandler} refillModalHandler={this.props.refillModalHandler}/>,
