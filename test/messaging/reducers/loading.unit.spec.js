@@ -33,7 +33,7 @@ import {
 } from '../../../src/js/messaging/utils/constants';
 
 describe('loading reducer', () => {
-  it('should display a loader when creating a folder', () => {
+  it('should trigger a loader when creating a folder', () => {
     const state = loadingReducer(
       { creatingFolder: false },
       { type: CREATING_FOLDER }
@@ -41,7 +41,7 @@ describe('loading reducer', () => {
     expect(state.creatingFolder).to.be.true;
   });
 
-  it('should not display a loader after failing to create a folder', () => {
+  it('should not trigger a loader after failing to create a folder', () => {
     const state = loadingReducer(
       { creatingFolder: true },
       { type: CREATE_FOLDER_FAILURE }
@@ -49,7 +49,7 @@ describe('loading reducer', () => {
     expect(state.creatingFolder).to.be.false;
   });
 
-  it('should not display a loader after successfully creating a folder', () => {
+  it('should not trigger a loader after successfully creating a folder', () => {
     const state = loadingReducer(
       { creatingFolder: true },
       { type: CREATE_FOLDER_SUCCESS }
@@ -57,7 +57,7 @@ describe('loading reducer', () => {
     expect(state.creatingFolder).to.be.false;
   });
 
-  it('should display a loader when deleting a folder', () => {
+  it('should trigger a loader when deleting a folder', () => {
     const state = loadingReducer(
       { deletingFolder: false },
       { type: DELETING_FOLDER }
@@ -65,7 +65,7 @@ describe('loading reducer', () => {
     expect(state.deletingFolder).to.be.true;
   });
 
-  it('should not display a loader after failing to delete a folder', () => {
+  it('should not trigger a loader after failing to delete a folder', () => {
     const state = loadingReducer(
       { deletingFolder: true },
       { type: DELETE_FOLDER_FAILURE }
@@ -73,7 +73,7 @@ describe('loading reducer', () => {
     expect(state.deletingFolder).to.be.false;
   });
 
-  it('should not display a loader after successfully deleting a folder', () => {
+  it('should not trigger a loader after successfully deleting a folder', () => {
     const state = loadingReducer(
       { deletingFolder: true },
       { type: DELETE_FOLDER_SUCCESS }
@@ -81,7 +81,7 @@ describe('loading reducer', () => {
     expect(state.deletingFolder).to.be.false;
   });
 
-  it('should display a loader when deleting a message', () => {
+  it('should trigger a loader when deleting a message', () => {
     const state = loadingReducer(
       { deletingMessage: false },
       { type: DELETING_MESSAGE }
@@ -89,7 +89,7 @@ describe('loading reducer', () => {
     expect(state.deletingMessage).to.be.true;
   });
 
-  it('should not display a loader after failing to delete a message', () => {
+  it('should not trigger a loader after failing to delete a message', () => {
     const state = loadingReducer(
       { deletingMessage: true },
       { type: DELETE_MESSAGE_FAILURE }
@@ -97,7 +97,7 @@ describe('loading reducer', () => {
     expect(state.deletingMessage).to.be.false;
   });
 
-  it('should not display a loader after successfully deleting a message', () => {
+  it('should not trigger a loader after successfully deleting a message', () => {
     const state = loadingReducer(
       { deletingMessage: true },
       { type: DELETE_MESSAGE_SUCCESS }
@@ -105,7 +105,7 @@ describe('loading reducer', () => {
     expect(state.deletingMessage).to.be.false;
   });
 
-  it('should display a loader when fetching a folder', () => {
+  it('should trigger a loader when fetching a folder', () => {
     const state = loadingReducer(
       { folder: false },
       { type: LOADING_FOLDER }
@@ -113,7 +113,7 @@ describe('loading reducer', () => {
     expect(state.folder).to.be.true;
   });
 
-  it('should not display a loader after failing to fetch a folder', () => {
+  it('should not trigger a loader after failing to fetch a folder', () => {
     const state = loadingReducer(
       { folder: true },
       { type: FETCH_FOLDER_FAILURE }
@@ -121,7 +121,7 @@ describe('loading reducer', () => {
     expect(state.folder).to.be.false;
   });
 
-  it('should not display a loader after successfully fetching a folder', () => {
+  it('should not trigger a loader after successfully fetching a folder', () => {
     const state = loadingReducer(
       { folder: true },
       { type: FETCH_FOLDER_SUCCESS }
@@ -129,7 +129,7 @@ describe('loading reducer', () => {
     expect(state.folder).to.be.false;
   });
 
-  it('should display a loader when fetching recipients', () => {
+  it('should trigger a loader when fetching recipients', () => {
     const state = loadingReducer(
       { recipients: false },
       { type: LOADING_RECIPIENTS }
@@ -137,7 +137,7 @@ describe('loading reducer', () => {
     expect(state.recipients).to.be.true;
   });
 
-  it('should not display a loader after failing to fetch recipients', () => {
+  it('should not trigger a loader after failing to fetch recipients', () => {
     const state = loadingReducer(
       { recipients: true },
       { type: FETCH_RECIPIENTS_FAILURE }
@@ -145,7 +145,7 @@ describe('loading reducer', () => {
     expect(state.recipients).to.be.false;
   });
 
-  it('should not display a loader after successfully fetching recipients', () => {
+  it('should not trigger a loader after successfully fetching recipients', () => {
     const state = loadingReducer(
       { recipients: true },
       { type: FETCH_RECIPIENTS_SUCCESS }
@@ -153,7 +153,7 @@ describe('loading reducer', () => {
     expect(state.recipients).to.be.false;
   });
 
-  it('should display a loader when fetching a thread', () => {
+  it('should trigger a loader when fetching a thread', () => {
     const state = loadingReducer(
       { thread: false },
       { type: LOADING_THREAD }
@@ -161,7 +161,7 @@ describe('loading reducer', () => {
     expect(state.thread).to.be.true;
   });
 
-  it('should not display a loader after failing to fetch a thread', () => {
+  it('should not trigger a loader after failing to fetch a thread', () => {
     const state = loadingReducer(
       { thread: true },
       { type: FETCH_THREAD_FAILURE }
@@ -169,7 +169,7 @@ describe('loading reducer', () => {
     expect(state.thread).to.be.false;
   });
 
-  it('should not display a loader after successfully fetching a thread', () => {
+  it('should not trigger a loader after successfully fetching a thread', () => {
     const state = loadingReducer(
       { thread: true },
       { type: FETCH_THREAD_SUCCESS }
@@ -177,7 +177,7 @@ describe('loading reducer', () => {
     expect(state.thread).to.be.false;
   });
 
-  it('should display a loader when moving a message', () => {
+  it('should trigger a loader when moving a message', () => {
     const state = loadingReducer(
       { movingMessage: false },
       { type: MOVING_MESSAGE }
@@ -185,7 +185,7 @@ describe('loading reducer', () => {
     expect(state.movingMessage).to.be.true;
   });
 
-  it('should not display a loader after failing to move a message', () => {
+  it('should not trigger a loader after failing to move a message', () => {
     const state = loadingReducer(
       { movingMessage: true },
       { type: MOVE_MESSAGE_FAILURE }
@@ -193,7 +193,7 @@ describe('loading reducer', () => {
     expect(state.movingMessage).to.be.false;
   });
 
-  it('should not display a loader after successfully moving a message', () => {
+  it('should not trigger a loader after successfully moving a message', () => {
     const state = loadingReducer(
       { movingMessage: true },
       { type: MOVE_MESSAGE_SUCCESS }
@@ -201,7 +201,7 @@ describe('loading reducer', () => {
     expect(state.movingMessage).to.be.false;
   });
 
-  it('should display a loader when saving a draft', () => {
+  it('should trigger a loader when saving a draft', () => {
     const state = loadingReducer(
       { savingDraft: false },
       { type: SAVING_DRAFT }
@@ -209,7 +209,7 @@ describe('loading reducer', () => {
     expect(state.savingDraft).to.be.true;
   });
 
-  it('should not display a loader after failing to save a draft', () => {
+  it('should not trigger a loader after failing to save a draft', () => {
     const state = loadingReducer(
       { savingDraft: true },
       { type: SAVE_DRAFT_FAILURE }
@@ -217,7 +217,7 @@ describe('loading reducer', () => {
     expect(state.savingDraft).to.be.false;
   });
 
-  it('should not display a loader after successfully saving a draft', () => {
+  it('should not trigger a loader after successfully saving a draft', () => {
     const state = loadingReducer(
       { savingDraft: true },
       { type: SAVE_DRAFT_SUCCESS }
@@ -225,7 +225,7 @@ describe('loading reducer', () => {
     expect(state.savingDraft).to.be.false;
   });
 
-  it('should display a loader when sending a message', () => {
+  it('should trigger a loader when sending a message', () => {
     const state = loadingReducer(
       { sendingMessage: false },
       { type: SENDING_MESSAGE }
@@ -233,7 +233,7 @@ describe('loading reducer', () => {
     expect(state.sendingMessage).to.be.true;
   });
 
-  it('should not display a loader after failing to send a message', () => {
+  it('should not trigger a loader after failing to send a message', () => {
     const state = loadingReducer(
       { sendingMessage: true },
       { type: SEND_MESSAGE_FAILURE }
@@ -241,7 +241,7 @@ describe('loading reducer', () => {
     expect(state.sendingMessage).to.be.false;
   });
 
-  it('should not display a loader after successfully sending a message', () => {
+  it('should not trigger a loader after successfully sending a message', () => {
     const state = loadingReducer(
       { sendingMessage: true },
       { type: SEND_MESSAGE_SUCCESS }
