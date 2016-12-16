@@ -1,77 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router';
-import classnames from 'classnames';
 
+import SortableTable from '../../common/components/SortableTable';
 import { formatDate } from '../utils/helpers';
 import Prescription from './Prescription';
 
-class PrescriptionRow extends Prescription {
+class RefillStatus extends Prescription {
   render() {
-    const { id, attributes } = this.props;
+    const { id } = this.props;
 
     return (
-      <tr key={id}>
-        <td>
-          <Link to={`/${attributes.prescriptionId}`}>
-            {attributes.prescriptionName}
-          </Link><br/>
-          <span>Prescription #: {id}</span>
-        </td>
-        <td>{formatDate(attributes.refillSubmitDate)}</td>
-        <td>{attributes.facilityName}</td>
-        <td>{attributes.refillRemaining}</td>
-        <td>
-          {this.showTracking()}
-          {this.showRefillStatus()}
-          {this.showMessageProvider()}
-        </td>
-      </tr>
+      <div key={id}>
+        {this.showTracking()}
+        {this.showRefillStatus()}
+        {this.showMessageProvider()}
+      </div>
     );
   }
 }
 
 class PrescriptionTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSort = this.handleSort.bind(this);
-  }
-  handleSort(sortKey) {
-    this.props.handleSort(sortKey);
-  }
-
-  renderTableRow(item) {
-    const attrs = item.attributes;
-
-    return (
-      <tr key={item.id}>
-        <td>
-          <Link to={`/${attrs.prescriptionId}`}>
-            {attrs.prescriptionName}
-          </Link><br/>
-          <span>Prescription #: {item.id}</span>
-        </td>
-        <td>{formatDate(attrs.refillSubmitDate)}</td>
-        <td>{attrs.facilityName}</td>
-        <td>{attrs.refillRemaining}</td>
-        <td>links</td>
-      </tr>
-    );
-  }
-
-  renderSortableHeader(name, sortKey) {
-    const classes = classnames({
-      active: sortKey === this.props.sortValue,
-      sortable: true,
-    });
-
-    return (
-      <th className={classes} onClick={this.handleSort.bind(this, sortKey)}>
-        {name}
-        {sortKey === this.props.sortValue ? <span>&nbsp;<i className="fa fa-caret-down"></i></span> : null}
-      </th>
-    );
-  }
-
   render() {
     const { items } = this.props;
 
@@ -79,23 +27,41 @@ class PrescriptionTable extends React.Component {
       return null;
     }
 
+    const fields = [
+      { label: 'Prescription Name', value: 'prescriptionName' },
+      { label: 'Last Requested Date', value: 'lastSubmitDate' },
+      { label: 'Facility Name', value: 'facilityName' },
+      { label: 'Refills Left', value: 'refillsLeft', nonSortable: true },
+      { label: 'Refill Status', value: 'refillStatus', nonSortable: true },
+    ];
+
+    const data = items.map(item => {
+      const attrs = item.attributes;
+
+      return {
+        id: item.id,
+        prescriptionName: (
+          <div>
+            <Link to={`/${attrs.prescriptionId}`}>
+              {attrs.prescriptionName}
+            </Link><br/>
+            <span>Prescription #: {item.id}</span>
+          </div>
+        ),
+        lastSubmitDate: formatDate(attrs.refillSubmitDate),
+        facilityName: attrs.facilityName,
+        refillsLeft: attrs.refillRemaining,
+        refillStatus: <RefillStatus {...item} glossaryModalHandler={this.props.glossaryModalHandler} refillModalHandler={this.props.refillModalHandler}/>,
+      };
+    });
+
     return (
-      <div className="rx-prescription-table">
-        <table className="usa-table-borderless va-table-list rx-table rx-table-list">
-          <thead>
-            <tr>
-              {this.renderSortableHeader('Prescription Name', 'prescriptionName')}
-              {this.renderSortableHeader('Last Requested Date', 'lastSubmitDate')}
-              {this.renderSortableHeader('Facility Name', 'facilityName')}
-              <th>Refills Left</th>
-              <th>Refill Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((i) => <PrescriptionRow key={i.id} {...i} glossaryModalHandler={this.props.glossaryModalHandler} refillModalHandler={this.props.refillModalHandler}/>)}
-          </tbody>
-        </table>
-      </div>
+      <SortableTable
+          className="usa-table-borderless va-table-list rx-table rx-table-list"
+          currentSort={this.props.currentSort}
+          data={data}
+          fields={fields}
+          onSort={this.props.handleSort}/>
     );
   }
 }
@@ -105,7 +71,7 @@ PrescriptionTable.propTypes = {
   glossaryModalHandler: React.PropTypes.func.isRequired,
   refillModalHandler: React.PropTypes.func.isRequired,
   handleSort: React.PropTypes.func.isRequired,
-  sortValue: React.PropTypes.string.isRequired,
+  currentSort: React.PropTypes.object.isRequired,
 };
 
 export default PrescriptionTable;

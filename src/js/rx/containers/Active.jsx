@@ -33,20 +33,13 @@ class Active extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    const newSort = this.props.location.query.sort;
-    const oldSort = this.props.sort;
-
-    if (newSort !== oldSort) {
-      this.props.sortPrescriptions(newSort);
-    }
-  }
-
-  handleSort(sort) {
+  handleSort(sortKey, order) {
+    const sortParam = order === 'DESC' ? sortKey : `-${sortKey}`;
     this.context.router.push({
       ...this.props.location,
-      query: { sort }
+      query: { sort: sortParam }
     });
+    this.props.sortPrescriptions(sortKey, order);
   }
 
   renderViewSwitch() {
@@ -78,12 +71,14 @@ class Active extends React.Component {
       content = <LoadingIndicator message="is loading your prescriptions..."/>;
     } else if (this.props.prescriptions) {
       const sortValue = this.props.sort;
+      const currentSort = this.props.sort;
 
       if (this.state.view === 'list') {
         content = (
           <PrescriptionTable
               handleSort={this.handleSort}
-              sortValue={sortValue}
+              sortValue={sortValue.value}
+              currentSort={currentSort}
               items={this.props.prescriptions}
               refillModalHandler={this.props.openRefillModal}
               glossaryModalHandler={this.props.openGlossaryModal}/>
@@ -96,7 +91,7 @@ class Active extends React.Component {
                 onChange={this.handleSort}
                 onClick={this.handleSort}
                 options={sortOptions}
-                selected={sortValue}/>
+                selected={sortValue.value}/>
             <PrescriptionList
                 items={this.props.prescriptions}
                 // If we're sorting by facility, tell PrescriptionList to group 'em.
