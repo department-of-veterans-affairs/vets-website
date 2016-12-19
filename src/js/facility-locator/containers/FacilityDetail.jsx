@@ -36,13 +36,24 @@ class FacilityDetail extends Component {
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name } = facility.attributes;
+    const { name, facility_type: facilityType } = facility.attributes;
+
+    /* eslint-disable camelcase */
+    const facilityTypes = {
+      va_health_facility: 'Health',
+      va_cemetery: 'Cemetery',
+      va_benefits_facility: 'Benefits',
+    };
+    /* eslint-enable camelcase */
 
     return (
       <div>
         <h1>{name}</h1>
         <div className="p1">
           <FacilityAddress facility={facility}/>
+          <p>
+            <span><strong>Facility type:</strong> {facilityTypes[facilityType]}</span>
+          </p>
         </div>
         <div>
           <FacilityPhoneLink facility={facility}/>
