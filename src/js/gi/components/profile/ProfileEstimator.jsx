@@ -7,7 +7,7 @@ class ProfileEstimator extends React.Component {
     super(props);
     this.estimate = this.estimate.bind(this);
 
-    this.state = {estimator: new Estimator()};
+    this.state = { estimator: new Estimator() };
   }
 
   // WIP

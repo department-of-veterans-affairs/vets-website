@@ -14,7 +14,7 @@ class SearchResult extends React.Component {
     this.renderBooks = this.renderBooks.bind(this);
     this.estimate = this.estimate.bind(this);
 
-    this.state = {estimator: new Estimator()};
+    this.state = { estimator: new Estimator() };
   }
 
   // WIP
