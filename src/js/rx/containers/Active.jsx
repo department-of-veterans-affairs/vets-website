@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import isMobile from 'ismobilejs';
 
 import {
   loadPrescriptions,
@@ -114,7 +115,7 @@ class Active extends React.Component {
 
     return (
       <div id="rx-active" className="va-tab-content">
-        {this.renderViewSwitch()}
+        {isMobile.any ? null : this.renderViewSwitch()}
         {content}
       </div>
     );
