@@ -41,7 +41,7 @@ You can use the Fully Developed Claims (FDC) program to get a faster decision on
 
 We consider your disability benefits claim fully developed when:
 - You've sent us all evidence, **and**
-- We plan to get your federal records, if needed **and**
+- We plan to get your federal records, if needed, **and**
 - We plan to arrange for any added health exams or doctor's opinions that may be needed
 
 [File a claim now](/disability-benefits/apply-for-benefits/).
