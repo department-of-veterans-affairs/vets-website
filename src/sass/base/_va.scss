@@ -164,21 +164,6 @@ input:focus:-ms-input-placeholder {
   color: transparent;
 }
 
-.usa-button,
-.usa-button-primary,
-.usa-button:visited,
-.usa-button-primary:visited,
-button,
-[type='button'],
-[type='submit'],
-[type='reset'],
-[type='image'] {
-  // TODO(crew): Remove this at some point. Fix this by using JS for title casing or passing nav labels as an object.
-  &.text-capitalize {
-    text-transform: capitalize;
-  }
-}
-
 input.va-input-medium-large {
   max-width: 18rem;
 }
