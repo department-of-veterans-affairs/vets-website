@@ -39,32 +39,6 @@ button.short {
   padding: 1rem;
 }
 
-button.usa-button-outline {
-  box-shadow: $button-stroke $color-primary;
-
-  &:hover,
-  &.usa-button-hover {
-    box-shadow: $button-stroke $color-primary-darker;
-    color: $color-primary-darker;
-  }
-
-  &:active,
-  &.usa-button-active {
-    box-shadow: $button-stroke $color-primary-darkest;
-    color: $color-primary-darkest;
-  }
-
-  &:focus,
-  &.usa-button-focus {
-    box-shadow: $button-stroke $color-primary-darkest, $focus-shadow;
-  }
-
-  &.va-button-warn {
-    box-shadow: $button-stroke $color-secondary-darkest;
-    color: $color-secondary-darkest;
-  }
-}
-
 // For links and buttons that look like links and have an icon.
 .va-icon-link,
 .va-icon-link[type="button"] {
