@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import isMobile from 'ismobilejs';
+import _ from 'lodash';
 
 import {
   loadPrescriptions,
@@ -23,6 +24,15 @@ class Active extends React.Component {
   constructor(props) {
     super(props);
     this.handleSort = this.handleSort.bind(this);
+
+    this.checkWindowSize = _.debounce(() => {
+      if (document.documentElement.clientWidth < 600) {
+        this.setState({
+          view: 'card',
+        });
+      }
+    }, 200);
+
     this.state = {
       view: 'card',
     };
@@ -32,6 +42,11 @@ class Active extends React.Component {
     if (!this.props.loading) {
       this.props.loadPrescriptions({ active: true });
     }
+    window.addEventListener('resize', this.checkWindowSize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.checkWindowSize);
   }
 
   handleSort(sortKey, order) {
