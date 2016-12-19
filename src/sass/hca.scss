@@ -132,6 +132,10 @@ button.hca-button-disabled {
   }
 }
 
+.text-capitalize {
+  text-transform: capitalize;
+}
+
 .hca-tooltip {
   max-width: 46rem;
   width: 100%;
@@ -145,6 +149,3 @@ button.hca-button-disabled {
   }
 }
 
-.progress-box button.usa-button-outline {
-  font-weight: 500;
-}
