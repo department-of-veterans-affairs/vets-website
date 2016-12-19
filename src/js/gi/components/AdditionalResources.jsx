@@ -4,7 +4,7 @@ class AdditionalResources extends React.Component {
 
   render() {
     return (
-      <span>
+      <div>
         <div className="row">
           <div className="usa-card usa-card-fill add-resources small-12 columns">
             <div className="usa-card-header">
@@ -50,7 +50,7 @@ class AdditionalResources extends React.Component {
             </div>
           </div>
         </div>
-      </span>
+      </div>
     );
   }
 

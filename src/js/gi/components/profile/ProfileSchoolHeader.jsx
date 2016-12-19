@@ -34,7 +34,7 @@ class ProfileSchoolHeader extends React.Component {
     const school = this.props.institution;
     const hdo = school.highestDegree;
     return (
-      <span>
+      <div>
         <div className="small-12 columns">
           <h4 className="profile-head">{school.institution}</h4>
         </div>
@@ -105,7 +105,7 @@ class ProfileSchoolHeader extends React.Component {
             </tbody>
           </table>
         </div>
-      </span>
+      </div>
     );
   }
 

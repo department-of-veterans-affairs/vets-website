@@ -13,7 +13,7 @@ class ProfileComplaints extends React.Component {
     if (school.cautionFlag) {
       const reason = school.cautionFlagReason; // TODO: school.cautionFlagReason.try(:chomp, ',').try(:gsub, /,(?!\W)/, ", ")
       return (
-        <span>
+        <div>
           <a id="caution-jump-flag" name="caution_jump_flag"></a>
           <table className="usa-table-borderless caution-profile-summary">
             <tr>
@@ -21,7 +21,7 @@ class ProfileComplaints extends React.Component {
               <td>{reason}&nbsp;<a onClick={() => {this.props.toggleModalDisplay('cautionInfo');}} className="noback-icon"><i className="fa fa-info-circle fa-info-caution"></i></a></td>
             </tr>
           </table>
-        </span>
+        </div>
       );
     }
     return null;
@@ -31,7 +31,7 @@ class ProfileComplaints extends React.Component {
     const school = this.props.institution;
     if (Number(school.complaintsMainCampusRollUp) === 0) { return null; }
     return (
-      <span>
+      <div>
         {/* TODO: replace multiple oldOnClick attributes */}
 
         <h3>Complaint Breakdown <span className="caption"><a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank" alt="Click here for more information." title="Download data file used for the GI Bill Comparison Tool.">Source</a></span></h3>
@@ -123,16 +123,16 @@ class ProfileComplaints extends React.Component {
             </tr>
           </tbody>
         </table>
-      </span>
+      </div>
     );
   }
 
   render() {
     return (
-      <span>
+      <div>
         {this.renderCautionProfileSummary()}
         {this.renderComplaintBreakdown()}
-      </span>
+      </div>
     );
   }
 

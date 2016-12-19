@@ -6,7 +6,7 @@ class AboutYourSchoolFields extends React.Component {
 
   render() {
     return (
-      <span>
+      <div>
         <a name="about_your_school"></a>
         <div id="institution-search-form" className="form-group">
 
@@ -42,7 +42,7 @@ class AboutYourSchoolFields extends React.Component {
           </div>
 
         </div>
-      </span>
+      </div>
     );
   }
 

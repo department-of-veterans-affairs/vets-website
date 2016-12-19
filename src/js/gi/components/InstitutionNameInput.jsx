@@ -77,7 +77,7 @@ class InstitutionNameInput extends React.Component {
     };
 
     return (
-      <span>
+      <div>
         <If condition={this.props.showLabel}>
           <label
               className="institution-search-label"
@@ -98,7 +98,7 @@ class InstitutionNameInput extends React.Component {
                 inputProps={inputProps}/>
           </div>
         </div>
-      </span>
+      </div>
     );
   }
 }

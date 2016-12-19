@@ -247,7 +247,7 @@ class ProfileCalculator extends React.Component {
 
     // TODO: deal with antiquated oldOnClick attributes
     return (
-      <span>
+      <div>
         <div className="calc-outputs  large-5 large-offset-1 columns">
           {/*  Contains Calcualtor Outputs   */}
           <div id="calculated-benefits" className="align-center">
@@ -362,7 +362,7 @@ class ProfileCalculator extends React.Component {
             </tbody>
           </table>
         </div>
-      </span>
+      </div>
     );
   }
 
