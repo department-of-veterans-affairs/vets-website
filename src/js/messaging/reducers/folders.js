@@ -83,6 +83,11 @@ export default function folders(state = initialState, action) {
       const sortValue = Object.keys(sort)[0];
       const sortOrder = sort[sortValue];
 
+      // Update corresponding folder data in map.
+      const newItems = new Map(state.data.items);
+      newItems.set(folderKey(attributes.name), attributes);
+      const newState = set('data.items', newItems, state);
+
       return set('data.currentItem', {
         attributes,
         filter,
@@ -93,7 +98,7 @@ export default function folders(state = initialState, action) {
           value: sortValue,
           order: sortOrder
         },
-      }, state);
+      }, newState);
     }
 
     case FETCH_FOLDERS_SUCCESS: {
