@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import Estimator from '../../../src/js/gi/utils/Estimator.jsx';
+import Estimator from '../../../src/js/gi/utils/estimator.jsx';
 
 describe('Estimator unit tests', () => {
   describe('Minnesota Power Company', () => {

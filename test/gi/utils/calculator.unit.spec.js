@@ -1,5 +1,5 @@
 // import { expect } from 'chai';
-// import Calculator from '../../../src/js/gi/utils/Calculator.jsx';
+// import Calculator from '../../../src/js/gi/utils/calculator.jsx';
 
 describe('Calculator unit tests', () => {
   describe('Stanford University', () => {
