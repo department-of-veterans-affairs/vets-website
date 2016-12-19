@@ -32,7 +32,7 @@ class AboutYourselfFields extends React.Component {
     const field = event.target.name;
     const value = event.target.value;
 
-    if (field === 'militaryStatus') {
+    if (field === 'military_status') {
       setTimeout(() => {
         this.setState((state) => {
           const newState = state;
@@ -42,7 +42,7 @@ class AboutYourselfFields extends React.Component {
       }, delay);
     }
 
-    if (field === 'giBillChapter') {
+    if (field === 'gi_bill_chapter') {
       setTimeout(() => {
         this.setState((state) => {
           const newState = state;
