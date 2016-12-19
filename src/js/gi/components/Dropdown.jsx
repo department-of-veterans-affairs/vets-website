@@ -13,7 +13,7 @@ class Dropdown extends React.Component {
   // renders a list of options defined as an array
   // in the form of [value1, label1, value2, label2...]
   renderDropdownOptions(optionsArray) {
-    const options = Object.assign([], optionsArray);
+    const options = optionsArray.slice();
     const results = [];
     while (options.length > 1) {
       let key = options.shift();
