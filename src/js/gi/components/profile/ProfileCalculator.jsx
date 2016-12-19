@@ -1,5 +1,5 @@
 import React from 'react';
-import Calculator from '../../utils/Calculator';
+import Calculator from '../../utils/calculator';
 
 class ProfileCalculator extends React.Component {
 

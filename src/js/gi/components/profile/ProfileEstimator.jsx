@@ -1,5 +1,5 @@
 import React from 'react';
-import Estimator from '../../utils/Estimator';
+import Estimator from '../../utils/estimator';
 
 class ProfileEstimator extends React.Component {
 
