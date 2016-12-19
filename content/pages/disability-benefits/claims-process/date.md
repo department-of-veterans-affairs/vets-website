@@ -31,7 +31,7 @@ The effective date is the day you can start getting your disability benefits. Th
 
 ### How does VA decide effective dates?
 
-Here’s how we decide effective dates in different cases. It’s more than a little complicated. Hang in there.
+Learn how we decide effective dates in different cases. It’s complicated. Hang in there.
 
 </div>
 
@@ -83,7 +83,7 @@ If there’s a change in law or VA regulation that allows us to pay disability c
 -	If we review your claim—or you request a review—more than 1 year after the law or regulation changed, the effective date may be up to 1 year before the date we got your request or the date we decided to pay benefits on your claim.
 
 
-### Dependency and Indemnity Compensation
+### Dependency and Indemnity Compensation (DIC)
 
 For claims based on a Veteran’s death in service, the effective date is the first day of the month in which the Veteran died, or was presumed to have died. This is true only if we get the claim within 1 year of the date of the report of the Veteran’s actual or presumed death. Otherwise, the effective date is the date we get the claim.
 
