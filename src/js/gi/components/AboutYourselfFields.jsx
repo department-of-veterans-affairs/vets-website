@@ -99,7 +99,7 @@ class AboutYourselfFields extends React.Component {
             showLabel={this.props.labels}>
           <label htmlFor="military-status">
             Military Status:
-            <a onClick={() => {this.toggleModalDisplay('militaryStatus');}} className="info-icons">
+            <a onClick={this.toggleModalDisplay.bind(this, 'militaryStatus')} className="info-icons">
               <i className="fa fa-info-circle info-icons"></i>
             </a>
           </label>
@@ -138,7 +138,7 @@ class AboutYourselfFields extends React.Component {
             showLabel={this.props.labels}>
           <label htmlFor="gi-bill-chapter">
             Which GI Bill benefit are you thinking of using?
-            <a onClick={() => {this.toggleModalDisplay('giBillChapter');}} className="info-icons">
+            <a onClick={this.toggleModalDisplay.bind(this, 'giBillChapter')} className="info-icons">
               <i className="fa fa-info-circle info-icons"></i>
             </a>
           </label>
@@ -165,7 +165,7 @@ class AboutYourselfFields extends React.Component {
             showLabel={this.props.labels}>
           <label htmlFor="cumulative-service">
             Cumulative Post 9-11 Active Duty Service:
-            <a onClick={() => {this.toggleModalDisplay('cumulativeService');}} className="info-icons">
+            <a onClick={this.toggleModalDisplay.bind(this, 'cumulativeService')} className="info-icons">
               <i className="fa fa-info-circle info-icons"></i>
             </a>
           </label>
@@ -184,7 +184,7 @@ class AboutYourselfFields extends React.Component {
             showLabel={this.props.labels}>
           <label htmlFor="enlistment-service">
             Completed an enlistment of:
-            <a onClick={() => {this.toggleModalDisplay('enlistmentService');}} className="info-icons">
+            <a onClick={this.toggleModalDisplay.bind(this, 'enlistmentService')} className="info-icons">
               <i className="fa fa-info-circle info-icons"></i>
             </a>
           </label>
@@ -204,7 +204,7 @@ class AboutYourselfFields extends React.Component {
             showLabel={this.props.labels}>
           <label htmlFor="consecutive-service">
             Length of Longest Active Duty Tour:
-            <a onClick={() => {this.toggleModalDisplay('consecutiveService');}} className="info-icons">
+            <a onClick={this.toggleModalDisplay.bind(this, 'consecutiveService')} className="info-icons">
               <i className="fa fa-info-circle info-icons"></i>
             </a>
           </label>
@@ -260,7 +260,7 @@ class AboutYourselfFields extends React.Component {
             onChange={this.handleDropdownChange}
             showLabel={this.props.labels}/>
 
-        <Modal onClose={() => {this.toggleModalDisplay('militaryStatus');}} visible={!!this.state.modals.militaryStatus}>
+        <Modal onClose={this.toggleModalDisplay.bind(this, 'militaryStatus')} visible={!!this.state.modals.militaryStatus}>
           <h3>Military Status</h3>
           <p>
             <a title="Post 9/11 GI Bill"
@@ -272,7 +272,7 @@ class AboutYourselfFields extends React.Component {
           </p>
         </Modal>
 
-        <Modal onClose={() => {this.toggleModalDisplay('giBillChapter');}} visible={!!this.state.modals.giBillChapter}>
+        <Modal onClose={this.toggleModalDisplay.bind(this, 'giBillChapter')} visible={!!this.state.modals.giBillChapter}>
           <h3>Which GI Bill benefit are you thinking of using?</h3>
           <p>
             You may be eligible for several types of VA education and training
@@ -292,7 +292,7 @@ class AboutYourselfFields extends React.Component {
           </p>
         </Modal>
 
-        <Modal onClose={() => {this.toggleModalDisplay('cumulativeService');}} visible={!!this.state.modals.cumulativeService}>
+        <Modal onClose={this.toggleModalDisplay.bind(this, 'cumulativeService')} visible={!!this.state.modals.cumulativeService}>
           <h3>Cumulative Post-9/11 Service</h3>
           <p>
             The <a title="Post-9/11 GI Bill" href="../post911_gibill.asp" id="anch_375">
@@ -307,7 +307,7 @@ class AboutYourselfFields extends React.Component {
           </p>
         </Modal>
 
-        <Modal onClose={() => {this.toggleModalDisplay('enlistmentService');}} visible={!!this.state.modals.enlistmentService}>
+        <Modal onClose={this.toggleModalDisplay.bind(this, 'enlistmentService')} visible={!!this.state.modals.enlistmentService}>
           <h3>Completed an enlistment of (MGIB):</h3>
           <p>
             The Montgomery GI Bill – Active Duty provides education benefits
@@ -325,7 +325,7 @@ class AboutYourselfFields extends React.Component {
           </p>
         </Modal>
 
-        <Modal onClose={() => {this.toggleModalDisplay('consecutiveService');}} visible={!!this.state.modals.consecutiveService}>
+        <Modal onClose={this.toggleModalDisplay.bind(this, 'consecutiveService')} visible={!!this.state.modals.consecutiveService}>
           <h3>Length of Longest Active Duty Tour (REAP)</h3>
           <p>
             The REAP program pays benefits to eligible Reservists or Guard
