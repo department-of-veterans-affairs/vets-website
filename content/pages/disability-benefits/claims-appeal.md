@@ -17,7 +17,9 @@ You have the right to appeal any disability benefits decision. The VA appeals pr
 
 <div class="call-out" markdown="0">
 
-### If you disagree with all or part of a benefits decision made by the Veterans Benefits Administration (VBA), you can:
+### What if I don't agree with the VBA's benefits decision?  
+
+If you disagree with all or part of a benefits decision made by the Veterans Benefits Administration (VBA), you can:
 
 - File a new claim with your regional office along with any missing evidence (supporting documents like doctor's reports or medical test results), **or**
 - Start an appeal at your regional office by filing a Notice of Disagreement (NOD). If you need help figuring out the process, contact an accredited representative (a trained professional trusted to help with VA-related claims). [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
@@ -33,7 +35,7 @@ You'll need to file an NOD within 1 year from the date on the letter letting you
 
 #### What happens after I file my appeal?
 
-We'll send you a written explanation (known as a Statement of the Case, or SOC) letting you know why your claim was denied.
+VBA will send you a written explanation (known as a Statement of the Case, or SOC) letting you know why your claim was denied.
 
 ### What if I still don’t agree with the decision made on my claim(s) after VBA issues the SOC?
 
@@ -51,13 +53,13 @@ You'll need to file a Substantive Appeal within 60 days from the date on the let
 
 #### What's the status of my appeal?
 
-Check the status of your appeal by calling 800-827-1000 or going online to eBenefits. [Visit eBenefits](https://www.ebenefits.va.gov).
+Check the status of your appeal by calling <span class="tel">800-827-1000</span> or going online to eBenefits. [Visit eBenefits](https://www.ebenefits.va.gov).
 
 #### Can I send in more evidence (supporting documents) or make a new argument to support my appeal?  
 
-Yes. The VA appeals process follows what's known as a continuous open record process. This means you can send in new evidence and/or make new arguments at any point from the beginning to the end of the appeals process. We also follow what's known as a duty to assist policy. This means that we'll work to find more evidence on your behalf and look into any new arguments that may show that you should qualify for disability benefits. 
+Yes. The appeals process follows what's known as a continuous open record process. This means you can send in new evidence and/or make new arguments at any point from the beginning to the end of the appeals process. We also follow what's known as a duty to assist policy. This means that we'll work to find more evidence on your behalf and look into any new arguments that may show that you should qualify for disability benefits. 
 
-Each time you present new arguments and add or find new evidence, we're required to issue another decision considering that evidence. This adds time to the process, so it'll take longer to resolve your appeal.
+Each time you present new arguments and add or find new evidence, VBA is required to issue another decision considering that evidence. This adds time to the process, so it'll take longer to resolve your appeal.
 
 ### What if I decide I don't want to pursue my appeal anymore?
 
@@ -80,4 +82,4 @@ If you still disagree, you can:
 
 ### Get more information
 
-Want more details about the VA appeals process? [Download the "How Do I Appeal?" pamphlet](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf).
+Want more details about the appeals process? [Download the "How Do I Appeal?" pamphlet](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf).
