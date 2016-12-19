@@ -1,4 +1,5 @@
 import set from 'lodash/fp/set';
+import moment from 'moment';
 
 import { makeField } from '../../common/model/fields';
 
@@ -35,7 +36,7 @@ const initialState = {
 export default function modals(state = initialState, action) {
   switch (action.type) {
     case SET_ADVSEARCH_END_DATE:
-      return set('params.dateRange.end', action.date, state);
+      return set('params.dateRange.end', moment(action.date).endOf('day'), state);
     case SET_ADVSEARCH_START_DATE:
       return set('params.dateRange.start', action.date, state);
     case SET_SEARCH_PARAM:
