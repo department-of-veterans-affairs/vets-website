@@ -26,32 +26,32 @@ class ProfileSummary extends React.Component {
         <table className="profile-school-summary">
           <tbody>
             <tr>
-              <td>Accredited&nbsp;<a onClick={() => {this.props.toggleModalDisplay('accredited');}} className="info-icons"><i id="acreditied-info" className="fa fa-info-circle info-icons"></i></a></td>
+              <td>Accredited&nbsp;<a onClick={this.props.toggleModalDisplay.bind(this, 'accredited')} className="info-icons"><i id="acreditied-info" className="fa fa-info-circle info-icons"></i></a></td>
               <td>
                 <If condition={!!school.cross}>{this.renderAccredited()}</If>
               </td>
             </tr>
             <If condition={!!school.accredited}>
               <tr>
-                <td>Type of Accreditation:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('typeAccredited');}} className="info-icons"><i id="type-of-accreditation-info" className="fa fa-info-circle info-icons"></i></a></td>
+                <td>Type of Accreditation:&nbsp;<a onClick={this.props.toggleModalDisplay.bind(this, 'typeAccredited')} className="info-icons"><i id="type-of-accreditation-info" className="fa fa-info-circle info-icons"></i></a></td>
                 <td>{school.accreditationType}</td>
                 <td></td>
               </tr>
             </If>
             <If condition={!!school.vetTuitionPolicyUrl}>
               <tr>
-                <td>Link to Veterans Tuition Policy:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('tuitionPolicy');}} className="info-icons"><i id="link-to-tuition-policy-info" className="fa fa-info-circle info-icons"></i></a></td>
+                <td>Link to Veterans Tuition Policy:&nbsp;<a onClick={this.props.toggleModalDisplay.bind(this, 'tuitionPolicy')} className="info-icons"><i id="link-to-tuition-policy-info" className="fa fa-info-circle info-icons"></i></a></td>
                 <td><a target="_blank" href={`http://${school.vetTuitionPolicyUrl}`}>View Policy</a></td>
                 <td></td>
               </tr>
             </If>
             <tr>
-              <td>Single Point of Contact For Veterans:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('singleContact');}} className="info-icons"><i id="single-point-of-contact-info" className="fa fa-info-circle info-icons"></i></a></td>
+              <td>Single Point of Contact For Veterans:&nbsp;<a onClick={this.props.toggleModalDisplay.bind(this, 'singleContact')} className="info-icons"><i id="single-point-of-contact-info" className="fa fa-info-circle info-icons"></i></a></td>
               <td>{yesNoOrNoData(!!school.vetPoc)}</td>
               <td></td>
             </tr>
             <tr>
-              <td>Credit for Military Training:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('creditTraining');}} className="info-icons"><i id="credit-for-military-training-info" className="fa fa-info-circle info-icons"></i></a></td>
+              <td>Credit for Military Training:&nbsp;<a onClick={this.props.toggleModalDisplay.bind(this, 'creditTraining')} className="info-icons"><i id="credit-for-military-training-info" className="fa fa-info-circle info-icons"></i></a></td>
               <td>{yesNoOrNoData(!!school.creditForMilTraining)}</td>
               <td></td>
             </tr>

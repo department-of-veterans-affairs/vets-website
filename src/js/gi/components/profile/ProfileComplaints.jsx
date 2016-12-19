@@ -18,7 +18,7 @@ class ProfileComplaints extends React.Component {
           <table className="usa-table-borderless caution-profile-summary">
             <tr>
               <th><i id="caution-jump-flag-icon" className="fa fa-exclamation-triangle"></i>&nbsp;Caution&nbsp;Flag&nbsp;Reason:</th>
-              <td>{reason}&nbsp;<a onClick={() => {this.props.toggleModalDisplay('cautionInfo');}} className="noback-icon"><i className="fa fa-info-circle fa-info-caution"></i></a></td>
+              <td>{reason}&nbsp;<a onClick={this.props.toggleModalDisplay.bind(this, 'cautionInfo')} className="noback-icon"><i className="fa fa-info-circle fa-info-caution"></i></a></td>
             </tr>
           </table>
         </div>

@@ -51,7 +51,7 @@ class ProfileSchoolHeader extends React.Component {
 
         <p>
           <span className="gi-bill-student-count">{school.gibill}&nbsp;</span>
-          <a onClick={() => {this.props.toggleModalDisplay('gibillstudents');}}>
+          <a onClick={this.props.toggleModalDisplay.bind(this, 'gibillstudents')}>
             <span className="programs-text">GI Bill Students</span>
           </a>
         </p>

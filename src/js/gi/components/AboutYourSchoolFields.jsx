@@ -17,17 +17,17 @@ class AboutYourSchoolFields extends React.Component {
               <input type="radio" id="online-classes-all"
                   name="online_classes" value="yes"
                   defaultChecked={this.props.onlineClasses && this.props.onlineClasses === 'all'}/>
-              <label className="radio" htmlFor="online-classes-all" style={{ display: 'inline-block' }}>All</label>
+              <label className="radio" htmlFor="online-classes-all">All</label>
 
               <input type="radio" id="online-classes-no"
                   name="online_classes" value="no"
                   defaultChecked={!this.props.onlineClasses || this.props.onlineClasses === 'no'}/>
-              <label className="radio" htmlFor="online-classes-no" style={{ display: 'inline-block' }}>No</label>
+              <label className="radio" htmlFor="online-classes-no">No</label>
 
               <input type="radio" id="online-classes-both"
                   name="online_classes" value="both"
                   defaultChecked={this.props.onlineClasses && this.props.onlineClasses === 'both'}/>
-              <label className="radio" htmlFor="online-classes-both" style={{ display: 'inline-block' }}>Both</label>
+              <label className="radio" htmlFor="online-classes-both">Both</label>
             </div>
           </If>
 

@@ -4,7 +4,7 @@ class RetentionRates extends React.Component {
 
   render() {
     const school = this.props.institution;
-    const heading = <h3>Retention Rate<a onClick={() => {this.props.toggleModalDisplay('retention');}} className="info-icons"><i className="fa fa-info-circle info-icons outcomes-learnmore"></i></a></h3>;
+    const heading = <h3>Retention Rate<a onClick={this.props.toggleModalDisplay.bind(this, 'retention')} className="info-icons"><i className="fa fa-info-circle info-icons outcomes-learnmore"></i></a></h3>;
     const isNumeric = (n) => { return !Number.isNaN(parseFloat(n)); };
     const isaV = isNumeric(school.getVeteranRetentionRate);
     const isaC = isNumeric(school.getAllStudentRetentionRate);

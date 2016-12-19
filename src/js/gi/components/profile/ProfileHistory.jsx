@@ -60,17 +60,17 @@ class ProfileHistory extends React.Component {
           </thead>
           <tbody>
             <tr>
-              <td>VA Facility Code:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('facilityCode');}} className="info-icons"><i id="va-facility-code-info" className="fa fa-info-circle info-icons"></i></a></td>
+              <td>VA Facility Code:&nbsp;<a onClick={this.props.toggleModalDisplay.bind(this, 'facilityCode')} className="info-icons"><i id="va-facility-code-info" className="fa fa-info-circle info-icons"></i></a></td>
               <td>{school.facilityCode ? school.facilityCode : 'No Data'}</td>
               <td></td>
             </tr>
             <tr>
-              <td>ED IPEDS Code:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('ipedsCode');}} className="info-icons"><i id="ipeds-code-info" className="fa fa-info-circle info-icons"></i></a></td>
+              <td>ED IPEDS Code:&nbsp;<a onClick={this.props.toggleModalDisplay.bind(this, 'ipedsCode')} className="info-icons"><i id="ipeds-code-info" className="fa fa-info-circle info-icons"></i></a></td>
               <td>{school.cross ? school.cross : 'No Data'}</td>
               <td></td>
             </tr>
             <tr>
-              <td>ED OPE Code:&nbsp;<a onClick={() => {this.props.toggleModalDisplay('opeCode');}} className="info-icons"><i id="ed-ope-code-info" className="fa fa-info-circle info-icons"></i></a></td>
+              <td>ED OPE Code:&nbsp;<a onClick={this.props.toggleModalDisplay.bind(this, 'opeCode')} className="info-icons"><i id="ed-ope-code-info" className="fa fa-info-circle info-icons"></i></a></td>
               <td>{school.ope ? school.ope : 'No Data'}</td>
               <td></td>
             </tr>

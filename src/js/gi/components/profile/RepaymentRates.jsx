@@ -4,7 +4,7 @@ class RepaymentRates extends React.Component {
 
   render() {
     const school = this.props.institution;
-    const heading = <h3>Repayment Rate<a onClick={() => {this.props.toggleModalDisplay('repayment');}} className="info-icons"><i className="fa fa-info-circle info-icons outcomes-learnmore"></i></a></h3>;
+    const heading = <h3>Repayment Rate<a onClick={this.props.toggleModalDisplay.bind(this, 'repayment')} className="info-icons"><i className="fa fa-info-circle info-icons outcomes-learnmore"></i></a></h3>;
     // const graph = () => {
     //   return new Graph({
     //     target:  '#repayment-rates',

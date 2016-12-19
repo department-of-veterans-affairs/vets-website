@@ -23,7 +23,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a onClick={() => {this.props.toggleModalDisplay('vetgroups');}}>
+        <a onClick={this.props.toggleModalDisplay.bind(this, 'vetgroups')}>
           Student Veteran Group
         </a>
         {link()}
@@ -47,7 +47,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a onClick={() => {this.props.toggleModalDisplay('yribbon');}}>
+        <a onClick={this.props.toggleModalDisplay.bind(this, 'yribbon')}>
           Yellow Ribbon
         </a>
         {link()}
@@ -62,7 +62,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a onClick={() => {this.props.toggleModalDisplay('poe');}}>
+        <a onClick={this.props.toggleModalDisplay.bind(this, 'poe')}>
           <span className="programs-text">Principles of Excellence</span>
         </a>
       </li>
@@ -76,7 +76,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a id="military-tuition-assistance-info-link" onClick={() => {this.props.toggleModalDisplay('tool');}}>
+        <a id="military-tuition-assistance-info-link" onClick={this.props.toggleModalDisplay.bind(this, 'tool')}>
           <span className="programs-text">Military Tuition Assistance (TA)</span>
         </a>
       </li>
@@ -112,7 +112,7 @@ class ProfileVeteranSummary extends React.Component {
     return (
       <li>
         {mark}
-        <a id="8-keys-info-link" onClick={() => {this.props.toggleModalDisplay('eightKeys');}}>
+        <a id="8-keys-info-link" onClick={this.props.toggleModalDisplay.bind(this, 'eightKeys')}>
           <span className="programs-text">8 Keys to Veteran Success</span>
         </a>
       </li>

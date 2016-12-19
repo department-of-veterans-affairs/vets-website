@@ -15,6 +15,13 @@ $va-gibct-gray-lightest: #fafafa;
 $source-sans: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
 
 
+span.landing-page-component {
+  label[for^="online-classes"].radio {
+    display: inline-block;
+  }
+}
+
+
 //========================================================
 // These styles override USWDS styles for visual
 // compatibility with current vets.gov look

@@ -4,7 +4,7 @@ class SalaryRates extends React.Component {
 
   render() {
     const school = this.props.institution;
-    const heading = <h3>Average Salaries<a onClick={() => {this.props.toggleModalDisplay('salaries');}} className="info-icons"><i className="fa fa-info-circle info-icons outcomes-learnmore"></i></a></h3>;
+    const heading = <h3>Average Salaries<a onClick={this.props.toggleModalDisplay.bind(this, 'salaries')} className="info-icons"><i className="fa fa-info-circle info-icons outcomes-learnmore"></i></a></h3>;
     // const graph = () => {
     //   return new Graph({
     //     target:  '#salary-rates',
