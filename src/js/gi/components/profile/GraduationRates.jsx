@@ -7,7 +7,14 @@ class GraduationRates extends React.Component {
     const isNumeric = (n) => { return !Number.isNaN(parseFloat(n)); };
     const isaV = isNumeric(school.graduationRateVeteran);
     const isaC = isNumeric(school.graduationRateAllStudents);
-    const heading = <h3>Graduation Rate<a onClick={() => {this.props.toggleModalDisplay('gradrates');}} className="info-icons"><i className="fa fa-info-circle info-icons outcomes-learnmore"></i></a></h3>;
+    const heading = (
+      <h3>
+        Graduation Rate
+        <a onClick={this.props.toggleModalDisplay.bind(this, 'gradrates')} className="info-icons">
+          <i className="fa fa-info-circle info-icons outcomes-learnmore"></i>
+        </a>
+      </h3>
+    );
 
     if (isaV || isaC) {
       const vrate = isaV ? (parseFloat(school.graduationRateVeteran) * 100) : 'null';
