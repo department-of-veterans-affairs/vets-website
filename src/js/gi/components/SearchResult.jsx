@@ -13,12 +13,14 @@ class SearchResult extends React.Component {
     this.renderHousing = this.renderHousing.bind(this);
     this.renderBooks = this.renderBooks.bind(this);
     this.estimate = this.estimate.bind(this);
+
+    this.state = {estimator: new Estimator()};
   }
 
   // WIP
   estimate() {
     // get current values about the user
-    const e = this.props.estimator;
+    const e = this.state.estimator;
     e.setMilitaryStatus = 'active duty';
     e.setSpouseActiveDuty = 'yes';
     e.setGiBillChap = '31';
@@ -75,7 +77,7 @@ class SearchResult extends React.Component {
       <div className="search-value-each small-4 column">
         <div className="icon"><i className="fa fa-graduation-cap fa-search-result"></i></div>
         <div id={'$(this.props.facilityCode)-est-tuition-fees'}>
-          {this.props.estimator.renderTuitionFees()}
+          {this.state.estimator.renderTuitionFees()}
         </div>
       </div>
     );
@@ -86,7 +88,7 @@ class SearchResult extends React.Component {
       <div className="search-value-each small-4 column">
         <div className="icon"><i className="fa fa-home fa-search-result"></i></div>
         <div id={'$(this.props.facilityCode)-est-housing-allowance'}>
-          {this.props.estimator.renderHousingAllowance()}
+          {this.state.estimator.renderHousingAllowance()}
         </div>
       </div>
     );
@@ -97,7 +99,7 @@ class SearchResult extends React.Component {
       <div className="search-value-each small-4 column">
         <div className="icon"><i className="fa fa-book fa-search-result"></i></div>
         <div id={'$(this.props.facilityCode)-est-book-stipend'}>
-          {this.props.estimator.renderBookStipend()}
+          {this.state.estimator.renderBookStipend()}
         </div>
       </div>
     );
@@ -139,15 +141,13 @@ SearchResult.propTypes = {
   institution: React.PropTypes.string.isRequired,
   country: React.PropTypes.string.isRequired,
   city: React.PropTypes.string.isRequired,
-  state: React.PropTypes.string.isRequired,
-  estimator: React.PropTypes.object.isRequired
+  state: React.PropTypes.string.isRequired
 };
 
 SearchResult.defaultProps = {
   facilityCode: 'facility_code',
   institution: 'name goes here',
-  cautionFlag: true,
-  estimator: new Estimator()
+  cautionFlag: true
 };
 
 export default SearchResult;

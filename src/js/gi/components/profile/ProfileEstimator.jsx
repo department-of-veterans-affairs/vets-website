@@ -6,6 +6,8 @@ class ProfileEstimator extends React.Component {
   constructor(props) {
     super(props);
     this.estimate = this.estimate.bind(this);
+
+    this.state = {estimator: new Estimator()};
   }
 
   // WIP
@@ -13,7 +15,7 @@ class ProfileEstimator extends React.Component {
     const school = this.props.institution;
     const params = this.props.queryParams;
     // get current values about the user
-    const e = this.props.estimator;
+    const e = this.state.estimator;
     e.setMilitaryStatus = params.military_status;
     e.setSpouseActiveDuty = params.spouse_active_duty;
     e.setGiBillChap = params.gi_bill_chap;
@@ -45,7 +47,7 @@ class ProfileEstimator extends React.Component {
                   <i className="fa fa-graduation-cap fa-profile-benefits"></i>
                 </div>
                 <p id="est-tuition-fees" className="profile-benefits-values">
-                  {this.props.estimator.renderTuitionFees()}
+                  {this.state.estimator.renderTuitionFees()}
                 </p>
               </div>
             </div>
@@ -57,7 +59,7 @@ class ProfileEstimator extends React.Component {
                   <i className="fa fa-home fa-profile-benefits"></i>
                 </div>
                 <p id="est-housing-allowance" className="profile-benefits-values">
-                  {this.props.estimator.renderHousingAllowance()}
+                  {this.state.estimator.renderHousingAllowance()}
                 </p>
               </div>
             </div>
@@ -69,7 +71,7 @@ class ProfileEstimator extends React.Component {
                   <i className="fa fa-book fa-profile-benefits"></i>
                 </div>
                 <p id="est-book-stipend" className="profile-benefits-values">
-                  {this.props.estimator.renderBookStipend()}
+                  {this.state.estimator.renderBookStipend()}
                 </p>
               </div>
             </div>
@@ -86,8 +88,6 @@ ProfileEstimator.propTypes = {
   queryParams: React.PropTypes.object.isRequired
 };
 
-ProfileEstimator.defaultProps = {
-  estimator: new Estimator()
-};
+ProfileEstimator.defaultProps = {};
 
 export default ProfileEstimator;
