@@ -34,6 +34,7 @@ You may be able to get disability benefits if:
 ### How do I get these benefits?
 
 You'll need to apply for benefits. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+
 **Note:**
 - If you have an illness believed to be caused by Agent Orange, you won't need to show the problem started during—or got worse because of—your military service. [See the list of Agent Orange-related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 - If you have an illness that’s not on this list, but you believe it was caused by Agent Orange, you'll need to show the problem started during—or got worse because of—your military service.
