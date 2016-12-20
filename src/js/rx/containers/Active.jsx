@@ -26,12 +26,10 @@ class Active extends React.Component {
     this.handleSort = this.handleSort.bind(this);
 
     this.checkWindowSize = _.debounce(() => {
-      const viewToggleElement = this.refs.viewToggle;
-      const toggleDisplayStyle = window.getComputedStyle(viewToggleElement, null).getPropertyValue('display');
-
+      const toggleDisplayStyle = window.getComputedStyle(this.viewToggle, null).getPropertyValue('display');
       // the viewToggle element is hidden with CSS on the $small breakpoint
       // on small screens, the view toggle is hidden and list view disabled
-      if (viewToggleElement && (toggleDisplayStyle === 'none')) {
+      if (this.viewToggle && (toggleDisplayStyle === 'none')) {
         this.setState({
           view: 'card',
         });
@@ -77,7 +75,7 @@ class Active extends React.Component {
     ];
 
     return (
-      <div className="rx-view-toggle" ref="viewToggle">View:&nbsp;
+      <div className="rx-view-toggle" ref={(elem) => { this.viewToggle = elem; }}>View:&nbsp;
         <ul>
           {toggles.map(t => {
             const classes = classnames({
