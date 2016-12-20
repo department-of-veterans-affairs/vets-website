@@ -168,9 +168,22 @@ const testValues = {
 };
 
 function selectDropdown(client, field, value) {
-  client.click(`select[name='${field}']`)
-    .click(`select option[value='${value}']`)
-    .keys(['\uE006']);
+  const select = `select[name='${field}']`;
+  const option = `select[name='${field}'] option[value='${value}']`;
+  client.expect(option).to.be.present;
+
+  // Use arrow keys to select element.  This prevents silliness with off-screen clicking.
+  client.execute((selector) => {
+    return document.querySelector(selector).index;
+  },
+  [option],
+  (result) => {
+    const arr = Array.from({ length: result.value }, () => { return '\uE015'; });
+    client
+       .click(select)
+       .keys(arr)
+       .keys(['\uE006']);
+  });
 }
 
 function completePersonalInformation(client, data, onlyRequiredFields) {
