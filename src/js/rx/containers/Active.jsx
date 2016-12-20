@@ -26,7 +26,10 @@ class Active extends React.Component {
     this.handleSort = this.handleSort.bind(this);
 
     this.checkWindowSize = _.debounce(() => {
-      if (document.documentElement.clientWidth < 600) {
+      const viewToggleElement = this.refs.viewToggle;
+      const toggleDisplayStyle = window.getComputedStyle(viewToggleElement, null).getPropertyValue('display');
+
+      if (viewToggleElement && (toggleDisplayStyle === 'none')) {
         this.setState({
           view: 'card',
         });
@@ -65,7 +68,7 @@ class Active extends React.Component {
     ];
 
     return (
-      <div className="rx-view-toggle">View:&nbsp;
+      <div className="rx-view-toggle" ref="viewToggle">View:&nbsp;
         <ul>
           {toggles.map(t => {
             const classes = classnames({
