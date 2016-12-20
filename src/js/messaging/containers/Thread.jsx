@@ -149,17 +149,6 @@ export class Thread extends React.Component {
       return null;
     }
 
-    const currentFolder = this.getCurrentFolder();
-
-    // Exclude the current folder from the list of folders
-    // that are passed down to the MoveTo component.
-    const moveToFolders = [];
-    folders.forEach((folder) => {
-      if (folder.folderId !== currentFolder.folderId) {
-        moveToFolders.push(folder);
-      }
-    });
-
     // Find the current message's position
     // among the messages in the current folder.
     const currentIndex = folderMessages.findIndex((folderMessage) => {
@@ -181,10 +170,10 @@ export class Thread extends React.Component {
 
     return (
       <ThreadHeader
+          currentFolder={this.getCurrentFolder()}
           currentMessageNumber={currentIndex + 1}
-          moveToFolders={moveToFolders}
           folderMessageCount={folderMessages.length}
-          folderName={currentFolder.name}
+          folders={Array.from(folders.values())}
           message={message}
           onMessageSelect={handleMessageSelect}
           threadMessageCount={thread.length + 1}
