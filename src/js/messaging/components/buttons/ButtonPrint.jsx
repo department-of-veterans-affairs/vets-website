@@ -12,7 +12,7 @@ class ButtonPrint extends React.Component {
   render() {
     return (
       <button
-          className="messaging-btn-print"
+          className="msg-btn-print"
           type="button"
           onClick={this.handleClick}>
         <i className="fa fa-print"></i>

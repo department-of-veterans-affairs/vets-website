@@ -1,12 +1,13 @@
 import React from 'react';
 
-import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableMonthYear from '../../../common/components/form-elements/ErrorableMonthYear';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableNumberInput from '../../../common/components/form-elements/ErrorableNumberInput';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
-import { isValidDateRange, isValidDateField, validateIfDirtyDateObj } from '../../utils/validations';
+import { isValidPartialMonthYearRange } from '../../utils/validations';
+import { isValidPartialMonthYearInPast } from '../../../common/utils/validations';
 import { states, hoursTypes } from '../../utils/options-for-select';
 import EducationPeriodReview from './EducationPeriodReview';
 
@@ -33,23 +34,29 @@ export default class EducationPeriod extends React.Component {
             value={period.state}
             options={states.USA}
             onValueChange={(update) => {onValueChange('state', update);}}/>
-        <DateInput
-            errorMessage="Please provide a valid date in the past"
-            validation={validateIfDirtyDateObj(period.dateRange.from, isValidDateField)}
+        <ErrorableMonthYear
+            validation={{
+              valid: isValidPartialMonthYearInPast(period.dateRange.from.month.value, period.dateRange.from.year.value),
+              message: 'Please provide a valid date in the past'
+            }}
             label="From"
             name="fromDate"
-            day={period.dateRange.from.day}
-            month={period.dateRange.from.month}
-            year={period.dateRange.from.year}
+            date={period.dateRange.from}
             onValueChange={(update) => {onValueChange('dateRange.from', update);}}/>
-        <DateInput
-            errorMessage={isValidDateRange(period.dateRange.from, period.dateRange.to) ? 'Please provide a response' : 'Date separated must be after date entered'}
-            validation={validateIfDirtyDateObj(period.dateRange.to, date => isValidDateRange(period.dateRange.from, date))}
+        <ErrorableMonthYear
+            validation={[
+              {
+                valid: isValidPartialMonthYearInPast(period.dateRange.to.month.value, period.dateRange.to.year.value),
+                message: 'Please provide a valid date in the past'
+              },
+              {
+                valid: isValidPartialMonthYearRange(period.dateRange.from, period.dateRange.to),
+                message: 'To date must be after From date'
+              },
+            ]}
             label="To"
             name="toDate"
-            day={period.dateRange.to.day}
-            month={period.dateRange.to.month}
-            year={period.dateRange.to.year}
+            date={period.dateRange.to}
             onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
         <ErrorableNumberInput
             min={0}

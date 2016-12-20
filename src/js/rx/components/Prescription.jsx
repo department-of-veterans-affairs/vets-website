@@ -120,20 +120,20 @@ class Prescription extends React.Component {
               </Link>
             </h3>
             <div className="rx-prescription-number">
-              Prescription <abbr title="number">#</abbr>: {attrs.prescriptionNumber}
+              <strong>Prescription <abbr title="number">#</abbr>:</strong> {attrs.prescriptionNumber}
             </div>
             <div className="rx-prescription-facility">
-              Facility name: {attrs.facilityName}
+              <strong>Facility name:</strong> {attrs.facilityName}
             </div>
             <div className="rx-prescription-submitted">
-              Last submit date: {
+              <strong>Last submit date:</strong> {
                 formatDate(attrs.refillSubmitDate, {
                   format: 'L'
                 })
               }
             </div>
             <div className="rx-prescription-refilled">
-              Last fill date: {
+              <strong>Last fill date:</strong> {
                 formatDate(attrs.refillDate, {
                   format: 'L',
                   validateInPast: true
@@ -180,4 +180,3 @@ Prescription.propTypes = {
 };
 
 export default Prescription;
-

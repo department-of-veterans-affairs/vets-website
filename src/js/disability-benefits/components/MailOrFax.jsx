@@ -6,7 +6,7 @@ export default function MailOrFax({ onClose }) {
       <div className="claims-status-upload-header">Mail and Fax Instructions</div>
       <div className="claims-status-upload-inner">
         <p>
-          Please upload your documents online to help VA process your claim quickly.
+          Please upload your documents online here to help us process your claim quickly.
         </p>
         <p>
           If you can’t upload documents:
@@ -27,4 +27,3 @@ export default function MailOrFax({ onClose }) {
 MailOrFax.propTypes = {
   onClose: React.PropTypes.func.isRequired
 };
-

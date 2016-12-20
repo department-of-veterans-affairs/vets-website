@@ -8,6 +8,7 @@ import {
   DELETE_DRAFT_ATTACHMENT,
   DELETE_MESSAGE_FAILURE,
   DELETE_MESSAGE_SUCCESS,
+  DELETING_MESSAGE,
   FETCH_THREAD_FAILURE,
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_MESSAGE_FAILURE,
@@ -15,10 +16,13 @@ import {
   LOADING_THREAD,
   MOVE_MESSAGE_FAILURE,
   MOVE_MESSAGE_SUCCESS,
+  MOVING_MESSAGE,
   SAVE_DRAFT_FAILURE,
   SAVE_DRAFT_SUCCESS,
+  SAVING_DRAFT,
   SEND_MESSAGE_FAILURE,
   SEND_MESSAGE_SUCCESS,
+  SENDING_MESSAGE,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_THREAD_FORM,
@@ -30,6 +34,9 @@ import {
 const baseUrl = '/messages';
 
 export function addDraftAttachments(files) {
+  window.dataLayer.push({
+    event: 'sm-add-attachment',
+  });
   return { type: ADD_DRAFT_ATTACHMENTS, files };
 }
 
@@ -41,10 +48,16 @@ export function deleteDraftAttachment(index) {
   return { type: DELETE_DRAFT_ATTACHMENT, index };
 }
 
-export function deleteMessage(id) {
-  const url = `${baseUrl}/${id}`;
+export function deleteMessage(messageId) {
+  const url = `${baseUrl}/${messageId}`;
+
+  window.dataLayer.push({
+    event: 'sm-delete-message',
+  });
 
   return dispatch => {
+    dispatch({ type: DELETING_MESSAGE });
+
     apiRequest(
       url,
       { method: 'DELETE' },
@@ -54,17 +67,14 @@ export function deleteMessage(id) {
   };
 }
 
-export function fetchThread(id) {
+export function fetchThread(messageId) {
   return dispatch => {
     const errorHandler =
       () => dispatch({ type: FETCH_THREAD_FAILURE });
 
-    dispatch({
-      type: LOADING_THREAD,
-      requestId: id
-    });
+    dispatch({ type: LOADING_THREAD, messageId });
 
-    const messageUrl = `${baseUrl}/${id}`;
+    const messageUrl = `${baseUrl}/${messageId}`;
     const threadUrl = `${messageUrl}/thread`;
 
     Promise.all([messageUrl, threadUrl].map(
@@ -79,9 +89,9 @@ export function fetchThread(id) {
   };
 }
 
-export function fetchThreadMessage(id) {
+export function fetchThreadMessage(messageId) {
   return dispatch => {
-    const messageUrl = `${baseUrl}/${id}`;
+    const messageUrl = `${baseUrl}/${messageId}`;
 
     apiRequest(
       messageUrl,
@@ -99,7 +109,13 @@ export function moveMessageToFolder(messageId, folder) {
   const folderId = folder.folderId;
   const url = `${baseUrl}/${messageId}/move?folder_id=${folderId}`;
 
+  window.dataLayer.push({
+    event: 'sm-move-message',
+  });
+
   return dispatch => {
+    dispatch({ type: MOVING_MESSAGE });
+
     apiRequest(
       url,
       { method: 'PATCH' },
@@ -119,7 +135,13 @@ export function createFolderAndMoveMessage(folderName, messageId) {
     body: JSON.stringify(folderData)
   };
 
+  window.dataLayer.push({
+    event: 'sm-move-message',
+  });
+
   return dispatch => {
+    dispatch({ type: MOVING_MESSAGE });
+
     apiRequest(
       foldersUrl,
       settings,
@@ -160,6 +182,10 @@ export function saveDraft(message) {
     method = 'PUT';
   }
 
+  window.dataLayer.push({
+    event: 'sm-save-draft',
+  });
+
   const settings = {
     method,
     headers: { 'Content-Type': 'application/json' },
@@ -167,6 +193,8 @@ export function saveDraft(message) {
   };
 
   return dispatch => {
+    dispatch({ type: SAVING_DRAFT });
+
     apiRequest(
       url,
       settings,
@@ -211,12 +239,19 @@ export function sendMessage(message) {
     payload.append('uploads[]', file);
   });
 
+  window.dataLayer.push({
+    event: 'sm-send-message',
+    hasAdditionalSubject: message.subject.length > 0,
+  });
+
   const settings = {
     method: 'POST',
     body: payload
   };
 
   return dispatch => {
+    dispatch({ type: SENDING_MESSAGE });
+
     apiRequest(
       url,
       settings,
