@@ -41,7 +41,7 @@ export class Folder extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.loading.folder && this.props.folders.size) {
+    if (!this.props.loading.folder) {
       const id = this.getRequestedFolderId();
       const query = this.getQueryParams();
       this.props.fetchFolder(id, query);
@@ -59,7 +59,7 @@ export class Folder extends React.Component {
       return;
     }
 
-    if (!this.props.loading.folder && this.props.folders.size) {
+    if (!this.props.loading.folder) {
       const lastRequest = this.props.lastRequestedFolder;
       const requestedId = this.getRequestedFolderId();
       const query = this.getQueryParams();
