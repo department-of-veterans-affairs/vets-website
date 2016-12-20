@@ -50,4 +50,4 @@ We want to support your claim with evidence of:
 - An event, injury, or illness that happened while you were serving in the military to cause the disability
 
 **Note:**
-A standard claim usually takes longer to process than a fully developed claim (when you send in all supporting evidence along with your claim). [Learn more about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
+A standard claim usually takes longer to process than a fully developed claim (when you send in all supporting evidence along with your claim). [Get more information about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
