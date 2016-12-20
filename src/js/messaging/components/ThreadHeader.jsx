@@ -9,7 +9,8 @@ import { folderUrl } from '../utils/helpers';
 
 class ThreadHeader extends React.Component {
   render() {
-    const folderName = this.props.folderName;
+    const currentFolder = this.props.currentFolder;
+    const folderName = currentFolder.name;
     let toggleThread;
     let moveTo;
     let deleteButton;
@@ -33,7 +34,8 @@ class ThreadHeader extends React.Component {
       if (folderName !== 'Drafts') {
         moveTo = (
           <MoveTo
-              folders={this.props.moveToFolders}
+              currentFolder={currentFolder}
+              folders={this.props.folders}
               isOpen={this.props.moveToIsOpen}
               messageId={this.props.message.messageId}
               onChooseFolder={this.props.onChooseFolder}
@@ -71,8 +73,11 @@ class ThreadHeader extends React.Component {
 }
 
 ThreadHeader.propTypes = {
+  currentFolder: React.PropTypes.shape({
+    name: React.PropTypes.string.isRequired
+  }),
   currentMessageNumber: React.PropTypes.number.isRequired,
-  moveToFolders: React.PropTypes.arrayOf(
+  folders: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       folderId: React.PropTypes.number.isRequired,
       name: React.PropTypes.string.isRequired,
@@ -81,7 +86,6 @@ ThreadHeader.propTypes = {
     })
   ).isRequired,
   folderMessageCount: React.PropTypes.number.isRequired,
-  folderName: React.PropTypes.string.isRequired,
   message: React.PropTypes.shape({
     messageId: React.PropTypes.number,
     subject: React.PropTypes.string

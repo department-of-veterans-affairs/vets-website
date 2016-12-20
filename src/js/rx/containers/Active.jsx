@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import isMobile from 'ismobilejs';
+import _ from 'lodash';
 
 import {
   loadPrescriptions,
@@ -22,6 +24,19 @@ class Active extends React.Component {
   constructor(props) {
     super(props);
     this.handleSort = this.handleSort.bind(this);
+    this.pushAnalyticsEvent = this.pushAnalyticsEvent.bind(this);
+
+    this.checkWindowSize = _.debounce(() => {
+      const toggleDisplayStyle = window.getComputedStyle(this.viewToggle, null).getPropertyValue('display');
+      // the viewToggle element is hidden with CSS on the $small breakpoint
+      // on small screens, the view toggle is hidden and list view disabled
+      if (this.viewToggle && (toggleDisplayStyle === 'none')) {
+        this.setState({
+          view: 'card',
+        });
+      }
+    }, 200);
+
     this.state = {
       view: 'card',
     };
@@ -31,6 +46,18 @@ class Active extends React.Component {
     if (!this.props.loading) {
       this.props.loadPrescriptions({ active: true });
     }
+    window.addEventListener('resize', this.checkWindowSize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.checkWindowSize);
+  }
+
+  pushAnalyticsEvent() {
+    window.dataLayer.push({
+      event: 'rx-view-change',
+      viewType: this.state.view
+    });
   }
 
   handleSort(sortKey, order) {
@@ -49,14 +76,14 @@ class Active extends React.Component {
     ];
 
     return (
-      <div className="rx-view-toggle">View:&nbsp;
+      <div className="rx-view-toggle" ref={(elem) => { this.viewToggle = elem; }}>View:&nbsp;
         <ul>
           {toggles.map(t => {
             const classes = classnames({
               active: this.state.view === t.key,
             });
             return (
-              <li key={t.key} className={classes} onClick={() => this.setState({ view: t.key })}>{t.value}</li>
+              <li key={t.key} className={classes} onClick={() => this.setState({ view: t.key }, this.pushAnalyticsEvent)}>{t.value}</li>
             );
           })}
         </ul>
@@ -114,7 +141,7 @@ class Active extends React.Component {
 
     return (
       <div id="rx-active" className="va-tab-content">
-        {this.renderViewSwitch()}
+        {isMobile.any ? null : this.renderViewSwitch()}
         {content}
       </div>
     );
