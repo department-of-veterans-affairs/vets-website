@@ -7,11 +7,15 @@ import ExpandingGroup from '../../../common/components/form-elements/ExpandingGr
 import ErrorableDate from '../../../common/components/form-elements/ErrorableDate';
 import Address from '../Address';
 
-import { schoolTypes, yesNo } from '../../utils/options-for-select';
+import { schoolTypes, schoolTypesWithTuitionTopUp, yesNo } from '../../utils/options-for-select';
 import { showSchoolAddress } from '../../utils/helpers';
 
 export default class SchoolSelectionFields extends React.Component {
   render() {
+    const schoolTypesList = (this.props.data.chapter33 || this.props.data.chapter30)
+      ? schoolTypesWithTuitionTopUp
+      : schoolTypes;
+
     return (<fieldset>
       <legend className="hide-for-small-only">School selection</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
@@ -23,7 +27,7 @@ export default class SchoolSelectionFields extends React.Component {
           <ErrorableSelect
               label="Type of education or training:"
               name="educationType"
-              options={schoolTypes}
+              options={schoolTypesList}
               value={this.props.data.educationType}
               onValueChange={(update) => {this.props.onStateChange('educationType', update);}}/>
         </div>
