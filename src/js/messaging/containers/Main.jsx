@@ -66,6 +66,15 @@ export class Main extends React.Component {
       return <LoadingIndicator message="Loading your application..."/>;
     }
 
+    if (!this.props.folders || !this.props.folders.length) {
+      return (
+        <p>
+          The application failed to load.
+          Click <a onClick={this.props.fetchFolders}>here</a> to try again.
+        </p>
+      );
+    }
+
     if (loading.deletingFolder) {
       return <LoadingIndicator message="Deleting your folder..."/>;
     }
