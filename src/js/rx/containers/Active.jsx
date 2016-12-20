@@ -54,6 +54,13 @@ class Active extends React.Component {
     window.removeEventListener('resize', this.checkWindowSize);
   }
 
+  pushAnalyticsEvent() {
+    window.dataLayer.push({
+      event: 'rx-view-change',
+      viewType: this.state.view
+    });
+  }
+
   handleSort(sortKey, order) {
     const sortParam = order === 'DESC' ? `-${sortKey}` : sortKey;
     this.context.router.push({
@@ -77,7 +84,7 @@ class Active extends React.Component {
               active: this.state.view === t.key,
             });
             return (
-              <li key={t.key} className={classes} onClick={() => this.setState({ view: t.key })}>{t.value}</li>
+              <li key={t.key} className={classes} onClick={() => this.setState({ view: t.key }, this.pushAnalyticsEvent)}>{t.value}</li>
             );
           })}
         </ul>
