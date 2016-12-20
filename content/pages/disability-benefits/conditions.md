@@ -69,4 +69,4 @@ You may also be able to get benefits for:
 - Anxiety
 
 
-[Get a full list of health problems](http://www.benefits.va.gov/warms/bookc.asp).
+[Get more information about conditions that may be covered](http://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).
