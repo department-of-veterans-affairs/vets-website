@@ -122,7 +122,6 @@ describe('folders reducer', () => {
 
   it('should increment the count of Drafts after saving a new draft', () => {
     const newState = foldersReducer({
-      ...initialState,
       data: { items: new Map([['drafts', { count: 1 }]]) }
     }, {
       type: SAVE_DRAFT_SUCCESS,
@@ -134,7 +133,6 @@ describe('folders reducer', () => {
 
   it('should not increment the count of Drafts after re-saving a draft', () => {
     const newState = foldersReducer({
-      ...initialState,
       data: { items: new Map([['drafts', { count: 1 }]]) }
     }, {
       type: SAVE_DRAFT_SUCCESS,
@@ -146,7 +144,6 @@ describe('folders reducer', () => {
 
   it('should update folder counts after moving a message', () => {
     const newState = foldersReducer({
-      ...initialState,
       data: {
         items: new Map([
           ['folder-1', { count: 1 }],
