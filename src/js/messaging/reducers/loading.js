@@ -12,11 +12,14 @@ import {
   DELETING_MESSAGE,
   FETCH_FOLDER_FAILURE,
   FETCH_FOLDER_SUCCESS,
+  FETCH_FOLDERS_FAILURE,
+  FETCH_FOLDERS_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_THREAD_FAILURE,
   FETCH_THREAD_SUCCESS,
   LOADING_FOLDER,
+  LOADING_FOLDERS,
   LOADING_RECIPIENTS,
   LOADING_THREAD,
   MOVE_MESSAGE_FAILURE,
@@ -32,6 +35,7 @@ import {
 
 const initialState = {
   folder: false,
+  folders: false,
   recipients: false,
   thread: false,
   creatingFolder: false,
@@ -67,6 +71,12 @@ export default function loading(state = initialState, action) {
       return set('folder', false, state);
     case LOADING_FOLDER:
       return set('folder', true, state);
+
+    case FETCH_FOLDERS_FAILURE:
+    case FETCH_FOLDERS_SUCCESS:
+      return set('folders', false, state);
+    case LOADING_FOLDERS:
+      return set('folders', true, state);
 
     case FETCH_RECIPIENTS_FAILURE:
     case FETCH_RECIPIENTS_SUCCESS:
