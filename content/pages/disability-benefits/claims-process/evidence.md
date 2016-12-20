@@ -5,7 +5,7 @@ plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 ---
 
-When you file a claim for disability benefits, you'll need to gather all related evidence (supporting documents like a doctor's report or medical test results) so we can decide on your claim. You may have some of these documents—or be able to easily get them—but we'll need your permission to get others.
+When you file a claim for disability benefits, you'll need to gather all related evidence (supporting documents like a doctor's report or medical test results) so we can decide on your claim. You may have some of these documents—or be able to easily get them—but we'll need your permission to get others. [File a claim now](/disability-benefits/apply-for-benefits/).
 
 <div class="call-out" markdown="1">
 
@@ -36,7 +36,7 @@ The Veterans Claims Assistance Act (VCAA) passed by Congress in 2000 defines bot
   -	Private (non-VA) doctors and hospitals
   -	Current or former employers
 
-- Providing any information we may need to get other required records
+- Giving us any information we may need in order to get other records
 
 **Example**<br>
 A Veteran filed a disability claim that included prior treatment from a private doctor and a prior Social Security disability award. In this case, we were responsible for getting the Social Security records. We also helped to get the private doctor's records, but the Veteran was responsible for making sure we got those.
@@ -63,4 +63,4 @@ With standard claims, we take more responsibility for gathering related records 
 - Privately held evidence and information that you tell us about (such as records from a private doctor or hospital), and
 - Records from state or local governments or current or former employers
 
-VA will provide a medical exam for you, or will get a doctor's opinion, if it’s needed to make a claims decision.
+We'll provide a medical exam for you, or will get a doctor's opinion, if it’s needed to make a claims decision.
