@@ -7,6 +7,7 @@ import {
   DELETE_FOLDER_SUCCESS,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
+  SAVE_DRAFT_SUCCESS,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS
 } from '../../../src/js/messaging/utils/constants';
@@ -116,5 +117,29 @@ describe('folders reducer', () => {
     expect(newState.ui.nav.foldersExpanded).to.be.true;
     newState = foldersReducer(newState, { type: TOGGLE_MANAGED_FOLDERS });
     expect(newState.ui.nav.foldersExpanded).to.be.false;
+  });
+
+  it('should increment the count of Drafts after saving a new draft', () => {
+    const newState = foldersReducer({
+      ...initialState,
+      data: { items: new Map([['drafts', { count: 1 }]]) }
+    }, {
+      type: SAVE_DRAFT_SUCCESS,
+      message: { body: 'testing 123' },
+      isSavedDraft: false
+    });
+    expect(newState.data.items.get('drafts').count).to.equal(2);
+  });
+
+  it('should not increment the count of Drafts after re-saving a draft', () => {
+    const newState = foldersReducer({
+      ...initialState,
+      data: { items: new Map([['drafts', { count: 1 }]]) }
+    }, {
+      type: SAVE_DRAFT_SUCCESS,
+      message: { body: 'testing 123' },
+      isSavedDraft: true
+    });
+    expect(newState.data.items.get('drafts').count).to.equal(1);
   });
 });
