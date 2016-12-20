@@ -5,7 +5,7 @@ plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 ---
 
-We believe the following illnesses are likely caused by contact with Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War). If you had contact with Agent Orange while serving in the military—and now have 1 or more of these illnesses—find out if you can get disability compensation or benefits.
+We believe several illnesses are likely caused by contact with Agent Orange. Agent Orange is a toxic chemical used to clear trees and plants during the Vietnam War. If you had contact with Agent Orange while serving in the military—and now have 1 or more of the illnesses listed below—find out if you can get disability compensation or benefits.
 
 ### Cancers believed to be caused by contact with Agent Orange
 
