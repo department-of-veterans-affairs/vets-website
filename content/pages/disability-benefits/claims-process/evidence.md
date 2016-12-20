@@ -52,11 +52,11 @@ The Fully Developed Claims (FDC) program lets you resolve your claim faster. You
 -	All related service-treatment and personnel records
 -	Any related private medical records
 
-We consider disability claims to be fully developed when you have no more evidence to send and the only help you need from us is getting federal records and providing—or helping to provide—added medical exams or doctors' opinions. If we discover that there are other private records we need to decide your claim, we'll remove your claim from the FDC program and review it through the traditional claims process.
+We consider disability claims to be fully developed when you have no more evidence to send and the only help you need from us is getting federal records and providing—or helping to provide—added medical exams or doctors' opinions. If we discover that there are other private records we need to decide your claim, we'll remove your claim from the FDC program and review it through the traditional claims process. [Get more information about FDC's](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
 
 #### Standard Claims
 
-With standard claims, we take more responsibility for gathering related records from both federal and nonfederal sources that you identify and authorize.
+With standard claims, we take more responsibility for gathering related records from both federal and nonfederal sources that you identify and authorize. [Get more information about standard claims](/disability-benefits/claims-process/claim-types/standard-claim/).
 
 ###### These may include:
 
