@@ -2,13 +2,20 @@ import _ from 'lodash';
 import { states } from '../../common/utils/options-for-select';
 import {
   isBlank,
-  isNotBlank,
-  isValidField,
-  isValidRequiredField,
   isBlankDateField,
-  isValidDateField,
-  isValidUSZipCode,
+  isNotBlank,
   isValidCanPostalCode,
+  isValidDateField,
+  isValidDischargeDateField,
+  isValidEmail,
+  isValidEntryDateField,
+  isValidField,
+  isValidFullNameField,
+  isValidMonetaryValue,
+  isValidPhone,
+  isValidRequiredField,
+  isValidSSN,
+  isValidUSZipCode,
   validateIfDirty
 } from '../../common/utils/validations';
 
@@ -20,68 +27,8 @@ function validateIfDirtyProvider(field1, field2, validator) {
   return true;
 }
 
-// Conditions for valid SSN from the original 1010ez pdf form:
-// '123456789' is not a valid SSN
-// A value where the first 3 digits are 0 is not a valid SSN
-// A value where the 4th and 5th digits are 0 is not a valid SSN
-// A value where the last 4 digits are 0 is not a valid SSN
-// A value with 3 digits, an optional -, 2 digits, an optional -, and 4 digits is a valid SSN
-// 9 of the same digits (e.g., '111111111') is not a valid SSN
-function isValidSSN(value) {
-  if (value === '123456789' || value === '123-45-6789') {
-    return false;
-  } else if (/1{9}|2{9}|3{9}|4{9}|5{9}|6{9}|7{9}|8{9}|9{9}/.test(value)) {
-    return false;
-  } else if (/^0{3}-?\d{2}-?\d{4}$/.test(value)) {
-    return false;
-  } else if (/^\d{3}-?0{2}-?\d{4}$/.test(value)) {
-    return false;
-  } else if (/^\d{3}-?\d{2}-?0{4}$/.test(value)) {
-    return false;
-  }
-
-  for (let i = 1; i < 10; i++) {
-    const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
-    if (sameDigitRegex.test(value)) {
-      return false;
-    }
-  }
-
-  return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
-}
-
-function isValidName(value) {
-  return /^[a-zA-Z '\-]*$/.test(value);
-}
-
 function isValidLastName(value) {
   return /^[a-zA-Z '\-]{2,}$/.test(value);
-}
-
-function isValidMonetaryValue(value) {
-  if (value !== null) {
-    return /^\d+\.?\d*$/.test(value);
-  }
-  return true;
-}
-
-// TODO: look into validation libraries (npm "validator")
-function isValidPhone(value) {
-  // Strip spaces, dashes, and parens
-  const stripped = value.replace(/[^\d]/g, '');
-  // Count number of digits
-  return /^\d{10}$/.test(stripped);
-}
-
-function isValidEmail(value) {
-  // Comes from StackOverflow: http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
-  return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
-}
-
-function isValidFullNameField(field) {
-  return isValidName(field.first.value) &&
-    (isBlank(field.middle.value) || isValidName(field.middle.value)) &&
-    isValidLastName(field.last.value);
 }
 
 function isValidAddressField(field) {
@@ -115,42 +62,6 @@ function isValidInsurancePolicy(policyNumber, groupCode) {
   if (policyNumber !== null || groupCode !== null) {
     return isNotBlank(policyNumber) || isNotBlank(groupCode);
   }
-  return true;
-}
-
-function isValidEntryDateField(date, dateOfBirth) {
-  let adjustedDate;
-  let adjustedDateOfBirth;
-
-  if (!isBlankDateField(date) && !isBlankDateField(dateOfBirth)) {
-    const adjustedBirthYear = Number(dateOfBirth.year.value) + 15;
-    adjustedDate = new Date(`${date.month.value}/${date.day.value}/${date.year.value}`);
-    adjustedDateOfBirth = new Date(`${dateOfBirth.month.value}/${dateOfBirth.day.value}/${adjustedBirthYear}`);
-
-    if (adjustedDate < adjustedDateOfBirth) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function isValidDischargeDateField(date, entryDate) {
-  let adjustedDate;
-  let adjustedEntryDate;
-  const d = new Date();
-  const today = new Date(d.setHours(0, 0, 0, 0));
-
-  if (!isBlankDateField(date) && !isBlankDateField(entryDate)) {
-    adjustedDate = new Date(`${date.month.value}/${date.day.value}/${date.year.value}`);
-    adjustedEntryDate = new Date(`${entryDate.month.value}/${entryDate.day.value}/${entryDate.year.value}`);
-
-    // Validation Rule: Discharge date must be after entry date and before today
-    if (adjustedDate < adjustedEntryDate || adjustedDate >= today) {
-      return false;
-    }
-  }
-
   return true;
 }
 
@@ -427,15 +338,8 @@ function isValidSection(completePath, sectionData) {
 
 export {
   validateIfDirtyProvider,
-  isValidName,
   isValidLastName,
-  isValidSSN,
-  isValidMonetaryValue,
-  isValidPhone,
-  isValidEmail,
   isValidInsurancePolicy,
-  isValidEntryDateField,
-  isValidDischargeDateField,
   isValidDependentDateField,
   isValidMarriageDate,
   isValidFinancialDisclosure,

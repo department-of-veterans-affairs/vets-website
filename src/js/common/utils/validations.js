@@ -238,13 +238,6 @@ function isBlankAddress(address) {
     && isBlank(address.postalCode.value);
 }
 
-function isValidInsurancePolicy(policyNumber, groupCode) {
-  if (policyNumber !== null || groupCode !== null) {
-    return isNotBlank(policyNumber) || isNotBlank(groupCode);
-  }
-  return true;
-}
-
 function isValidEntryDateField(date, dateOfBirth) {
   let adjustedDate;
   let adjustedDateOfBirth;
@@ -281,276 +274,13 @@ function isValidDischargeDateField(date, entryDate) {
   return true;
 }
 
-function isValidDependentDateField(date, dateOfBirth) {
-  let adjustedDate;
-  let adjustedDateOfBirth;
-
-  if (!isBlankDateField(date) && !isBlankDateField(dateOfBirth)) {
-    adjustedDate = new Date(date.year.value, date.month.value, date.day.value);
-    adjustedDateOfBirth = new Date(dateOfBirth.year.value, dateOfBirth.month.value, dateOfBirth.day.value);
-
-    if (adjustedDate < adjustedDateOfBirth) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function isValidMarriageDate(date, dateOfBirth, spouseDateOfBirth) {
-  let adjustedDate;
-  let adjustedDateOfBirth;
-  let adjustedSpouseDateOfBirth;
-
-  if (!isBlankDateField(date) && !isBlankDateField(dateOfBirth) && !isBlankDateField(spouseDateOfBirth)) {
-    adjustedDate = new Date(date.year.value, date.month.value, date.day.value);
-    adjustedDateOfBirth = new Date(dateOfBirth.year.value, dateOfBirth.month.value, dateOfBirth.day.value);
-    adjustedSpouseDateOfBirth = new Date(spouseDateOfBirth.year.value, spouseDateOfBirth.month.value, spouseDateOfBirth.day.value);
-
-    if (adjustedDate < adjustedDateOfBirth) {
-      return false;
-    } else if (adjustedDate < adjustedSpouseDateOfBirth) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function isValidPersonalInfoSection(data) {
-  return isValidFullNameField(data.veteranFullName);
-}
-
-function isValidBirthInformationSection(data) {
-  return isValidRequiredField(isValidSSN, data.veteranSocialSecurityNumber) &&
-      isValidDateField(data.veteranDateOfBirth);
-}
-
-function isValidDemographicInformation(data) {
-  return isNotBlank(data.gender.value);
-}
-
-function isValidVaInformation(data) {
-  return validateIfDirty(data.isVaServiceConnected, isNotBlank) &&
-      validateIfDirty(data.compensableVaServiceConnected, isNotBlank) &&
-      validateIfDirty(data.receivesVaPension, isNotBlank);
-}
-
-function isValidVeteranAddress(data) {
-  return isValidAddressField(data.veteranAddress);
-}
-
-function isValidContactInformationSection(data) {
-  let emailConfirmationValid = true;
-
-  if (isNotBlank(data.email.value) && isBlank(data.emailConfirmation.value)) {
-    emailConfirmationValid = false;
-  }
-
-  if (data.email.value.toLowerCase() !== data.emailConfirmation.value.toLowerCase()) {
-    emailConfirmationValid = false;
-  }
-
-  return isValidField(isValidEmail, data.email) &&
-      isValidField(isValidEmail, data.emailConfirmation) &&
-      emailConfirmationValid &&
-      isValidField(isValidPhone, data.homePhone) &&
-      isValidField(isValidPhone, data.mobilePhone);
-}
-
-function isValidFinancialDisclosure(data) {
-  return validateIfDirty(data.discloseFinancialInformation, isNotBlank);
-}
-
-function isValidIncome(income) {
-  return isValidField(isValidMonetaryValue, income.grossIncome) &&
-      isValidField(isValidMonetaryValue, income.netIncome) &&
-      isValidField(isValidMonetaryValue, income.otherIncome);
-}
-
-function isValidSpouseInformation(data) {
-  let isValidSpouse = true;
-  let isValidSpouseAddress = true;
-
-  if (data.maritalStatus.value === 'Married' || data.maritalStatus.value === 'Separated') {
-    isValidSpouse = isValidFullNameField(data.spouseFullName) &&
-      isValidSSN(data.spouseSocialSecurityNumber.value) &&
-      isValidDateField(data.spouseDateOfBirth) &&
-      isValidDateField(data.dateOfMarriage) &&
-      isNotBlank(data.sameAddress.value);
-  }
-
-  if (data.sameAddress === 'N') {
-    isValidSpouseAddress = isValidAddressField(data.spouseAddress) &&
-        isValidField(isValidPhone, data.spousePhone);
-  }
-
-  return isNotBlank(data.maritalStatus.value) &&
-      isValidSpouse &&
-      isValidSpouseAddress;
-}
-
-function isValidChildInformationField(child) {
-  // TODO: add validation to check if DOB is before date of dependence
-  // TODO: should this check income? I don't think so because otherwise it blocks movement from the
-  // main ChildInformation component if there is a mistake from another component.
-  return isValidFullNameField(child.childFullName) &&
-    isNotBlank(child.childRelation.value) &&
-    isValidRequiredField(isValidSSN, child.childSocialSecurityNumber) &&
-    isValidDateField(child.childDateOfBirth) &&
-    isValidDateField(child.childBecameDependent) &&
-    isValidDependentDateField(child.childBecameDependent, child.childDateOfBirth) &&
-    isValidField(isValidMonetaryValue, child.childEducationExpenses);
-}
-
-function isValidChildren(data) {
-  let allChildrenValid = true;
-  const children = data.children;
-
-  for (let i = 0; i < children.length; i++) {
-    if (!isValidChildInformationField(children[i])) {
-      allChildrenValid = false;
-    }
-  }
-
-  return isNotBlank(data.hasChildrenToReport.value) &&
-      allChildrenValid;
-}
-
-function isValidChildrenIncome(children) {
-  for (let i = 0; i < children.length; i++) {
-    if (!isValidIncome(children[i])) {
-      return false;
-    }
-  }
-  return true;
-}
-
-function isValidAnnualIncome(data) {
-  let isValidSpouseIncomeFields = true;
-
-  if (data.spouseGrossIncome && data.spouseNetIncome && data.spouseOtherIncome) {
-    isValidSpouseIncomeFields =
-      isValidField(isValidMonetaryValue, data.spouseGrossIncome) &&
-      isValidField(isValidMonetaryValue, data.spouseNetIncome) &&
-      isValidField(isValidMonetaryValue, data.spouseOtherIncome);
-  }
-
-  return isValidField(isValidMonetaryValue, data.veteranGrossIncome) &&
-    isValidField(isValidMonetaryValue, data.veteranNetIncome) &&
-    isValidField(isValidMonetaryValue, data.veteranOtherIncome) &&
-    isValidSpouseIncomeFields &&
-    isValidChildrenIncome(data.children);
-}
-
-function isValidDeductibleExpenses(data) {
-  return isValidField(isValidMonetaryValue, data.deductibleMedicalExpenses) &&
-    isValidField(isValidMonetaryValue, data.deductibleFuneralExpenses) &&
-    isValidField(isValidMonetaryValue, data.deductibleEducationExpenses);
-}
-
-function isValidVAFacility(data) {
-  return validateIfDirty(data.facilityState, isNotBlank) &&
-    validateIfDirty(data.vaMedicalFacility, isNotBlank);
-}
-
-function isValidMedicareMedicaid(data) {
-  let isValidEffectiveDate = true;
-
-  if (data.isEnrolledMedicarePartA.value === 'Y') {
-    isValidEffectiveDate = isValidDateField(data.medicarePartAEffectiveDate);
-  }
-
-  return validateIfDirty(data.isMedicaidEligible, isNotBlank) &&
-    validateIfDirty(data.isEnrolledMedicarePartA, isNotBlank) &&
-    isValidEffectiveDate;
-}
-
-function isValidGeneralInsurance(data) {
-  let allProvidersValid = true;
-  const providers = data.providers;
-
-  for (let i = 0; i < providers.length; i++) {
-    if (!(isNotBlank(providers[i].insuranceName.value) &&
-        isNotBlank(providers[i].insurancePolicyHolderName.value) &&
-        isValidInsurancePolicy(providers[i].insurancePolicyNumber.value, providers[i].insuranceGroupCode.value))
-    ) {
-      allProvidersValid = false;
-    }
-  }
-
-  return isNotBlank(data.isCoveredByHealthInsurance.value) &&
-      allProvidersValid;
-}
-
-function isValidServiceInformation(data) {
-  return isNotBlank(data.lastServiceBranch.value) &&
-      (isValidDateField(data.lastEntryDate) && isValidEntryDateField(data.lastEntryDate, data.veteranDateOfBirth)) &&
-      (isValidDateField(data.lastDischargeDate) && isValidDischargeDateField(data.lastDischargeDate, data.lastEntryDate)) &&
-      isNotBlank(data.dischargeType.value);
-}
-
-function isValidForm(data) {
-  return isValidPersonalInfoSection(data) &&
-  isValidBirthInformationSection(data) &&
-  isValidDemographicInformation(data) &&
-  isValidVeteranAddress(data) &&
-  isValidContactInformationSection(data) &&
-  isValidServiceInformation(data) &&
-  isValidVaInformation(data) &&
-  isValidFinancialDisclosure(data) &&
-  isValidSpouseInformation(data) &&
-  isValidChildren(data) &&
-  isValidAnnualIncome(data) &&
-  isValidDeductibleExpenses(data) &&
-  isValidVAFacility(data) &&
-  isValidGeneralInsurance(data) &&
-  isValidMedicareMedicaid(data);
-}
-
-function isValidSection(completePath, sectionData) {
-  switch (completePath) {
-    case '/veteran-information/personal-information':
-      return isValidPersonalInfoSection(sectionData);
-    case '/veteran-information/birth-information':
-      return isValidBirthInformationSection(sectionData);
-    case '/veteran-information/demographic-information':
-      return isValidDemographicInformation(sectionData);
-    case '/veteran-information/veteran-address':
-      return isValidVeteranAddress(sectionData);
-    case '/veteran-information/contact-information':
-      return isValidContactInformationSection(sectionData);
-    case '/military-service/service-information':
-      return isValidServiceInformation(sectionData);
-    case '/va-benefits/basic-information':
-      return isValidVaInformation(sectionData);
-    case '/household-information/financial-disclosure':
-      return isValidFinancialDisclosure(sectionData);
-    case '/household-information/spouse-information':
-      return isValidSpouseInformation(sectionData);
-    case '/household-information/child-information':
-      return isValidChildren(sectionData);
-    case '/household-information/annual-income':
-      return isValidAnnualIncome(sectionData);
-    case '/household-information/deductible-expenses':
-      return isValidDeductibleExpenses(sectionData);
-    case '/insurance-information/va-facility':
-      return isValidVAFacility(sectionData);
-    case '/insurance-information/general':
-      return isValidGeneralInsurance(sectionData);
-    case '/insurance-information/medicare':
-      return isValidMedicareMedicaid(sectionData);
-    default:
-      return true;
-  }
-}
-
 export {
   validateIfDirty,
   validateIfDirtyDate,
   isBlank,
   isBlankDateField,
   isNotBlank,
+  isValidAddressField,
   isValidRequiredField,
   isValidDate,
   isValidDateField,
@@ -561,29 +291,11 @@ export {
   isValidCanPostalCode,
   isValidPhone,
   isValidEmail,
-  isValidInsurancePolicy,
   isValidEntryDateField,
   isValidDischargeDateField,
-  isValidDependentDateField,
-  isValidMarriageDate,
+  isValidFullNameField,
   isValidField,
-  isValidFinancialDisclosure,
-  isValidForm,
-  isValidPersonalInfoSection,
-  isValidBirthInformationSection,
-  isValidVaInformation,
-  isValidVAFacility,
-  isValidVeteranAddress,
   isBlankAddress,
-  isValidContactInformationSection,
-  isValidSpouseInformation,
-  isValidChildren,
-  isValidAnnualIncome,
-  isValidDeductibleExpenses,
-  isValidGeneralInsurance,
-  isValidMedicareMedicaid,
-  isValidServiceInformation,
-  isValidSection,
   isValidAnyDate,
   isValidDateOver17,
   isDirtyDate,
