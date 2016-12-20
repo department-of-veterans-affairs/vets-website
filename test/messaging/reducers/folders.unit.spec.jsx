@@ -7,6 +7,7 @@ import {
   DELETE_FOLDER_SUCCESS,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
+  MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_SUCCESS,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS
@@ -141,5 +142,24 @@ describe('folders reducer', () => {
       isSavedDraft: true
     });
     expect(newState.data.items.get('drafts').count).to.equal(1);
+  });
+
+  it('should update folder counts after moving a message', () => {
+    const newState = foldersReducer({
+      ...initialState,
+      data: {
+        items: new Map([
+          ['folder-1', { count: 1 }],
+          ['folder-2', { count: 2 }]
+        ])
+      }
+    }, {
+      type: MOVE_MESSAGE_SUCCESS,
+      message: { body: 'testing 123' },
+      fromFolder: { name: 'Folder1' },
+      toFolder: { name: 'Folder2' }
+    });
+    expect(newState.data.items.get('folder-1').count).to.equal(0);
+    expect(newState.data.items.get('folder-2').count).to.equal(3);
   });
 });
