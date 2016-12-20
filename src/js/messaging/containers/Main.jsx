@@ -62,6 +62,22 @@ export class Main extends React.Component {
   render() {
     const loading = this.props.loading;
 
+    if (loading.folders) {
+      return <LoadingIndicator message="Loading your application..."/>;
+    }
+
+    if (!this.props.folders || !this.props.folders.length) {
+      return (
+        <p>
+          The application failed to load.
+          Click <a href="/healthcare/messaging" onClick={(e) => {
+            e.preventDefault();
+            this.props.fetchFolders();
+          }}> here</a> to try again.
+        </p>
+      );
+    }
+
     if (loading.deletingFolder) {
       return <LoadingIndicator message="Deleting your folder..."/>;
     }
@@ -131,13 +147,10 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const folders = [];
-  state.folders.data.items.forEach(folder => folders.push(folder));
-
   return {
     attachmentsModal: state.modals.attachments,
     createFolderModal: state.modals.createFolder,
-    folders,
+    folders: Array.from(state.folders.data.items.values()),
     isVisibleAdvancedSearch: state.search.advanced.visible,
     loading: state.loading,
     nav: state.folders.ui.nav,

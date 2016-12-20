@@ -2,6 +2,10 @@
   font-weight: bold;
   text-align: right;
 
+  @media #{$small-only} {
+    display: none;
+  }
+
   ul, li {
     display: inline-block;
     list-style-type: none;
