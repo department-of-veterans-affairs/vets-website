@@ -7,28 +7,23 @@ import {
   isBlank,
   isBlankAddress,
   isNotBlank,
+  isNotBlankDateField,
+  isValidCurrentOrPastYear,
   isValidDateField,
   isValidDateOver17,
+  isValidDateRange,
   isValidEmail,
-  isValidName,
+  isValidField,
+  isValidFullNameField,
+  isValidMonths,
   isValidPartialDateField,
   isValidPartialMonthYearInPast,
+  isValidPartialMonthYearRange,
   isValidPhone,
+  isValidRequiredField,
   isValidSSN,
   isValidYear
 } from '../../common/utils/validations';
-
-function isValidYearOrBlank(value) {
-  return isValidYear(value) || value === '';
-}
-
-function isValidCurrentOrPastYear(value) {
-  return Number(value) >= 1900 && Number(value) < moment().year() + 1;
-}
-
-function isValidMonths(value) {
-  return Number(value) >= 0;
-}
 
 function isValidMonetaryValue(value) {
   if (value !== null) {
@@ -51,46 +46,8 @@ function isValidRoutingNumber(value) {
   return false;
 }
 
-function isValidValue(validator, value) {
-  return isBlank(value) || validator(value);
-}
-
-function isValidField(validator, field) {
-  return isValidValue(validator, field.value);
-}
-
-function isValidRequiredField(validator, field) {
-  return isNotBlank(field.value) && validator(field.value);
-}
-
-function isBlankDateField(field) {
-  return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
-}
-
 function isBlankMonthYear(field) {
   return isBlank(field.month.value) && isBlank(field.year.value);
-}
-
-function isNotBlankDateField(field) {
-  return isNotBlank(field.day.value) && isNotBlank(field.month.value) && isNotBlank(field.year.value);
-}
-
-function isValidFutureDate(day, month, year) {
-  if (!isValidYear(year)) {
-    return false;
-  }
-  const today = moment().startOf('day');
-  const date = moment({
-    day,
-    month: parseInt(month, 10) - 1,
-    year
-  });
-
-  return date.isValid() && date.isSameOrAfter(today);
-}
-
-function isValidFutureDateField(field) {
-  return isValidFutureDate(field.day.value, field.month.value, field.year.value);
 }
 
 function isValidFutureOrPastDateField(field) {
@@ -100,32 +57,6 @@ function isValidFutureOrPastDateField(field) {
   }
 
   return true;
-}
-
-function isValidDateRange(fromDate, toDate) {
-  if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
-    return true;
-  }
-  const momentStart = dateToMoment(fromDate);
-  const momentEnd = dateToMoment(toDate);
-
-  return momentStart.isBefore(momentEnd);
-}
-
-function isValidPartialMonthYearRange(fromDate, toDate) {
-  if (!fromDate.year.value || !toDate.year.value) {
-    return true;
-  }
-  const momentStart = dateToMoment(fromDate);
-  const momentEnd = dateToMoment(toDate);
-
-  return momentStart.isSameOrBefore(momentEnd);
-}
-
-function isValidFullNameField(field) {
-  return isValidName(field.first.value) &&
-    (isBlank(field.middle.value) || isValidName(field.middle.value)) &&
-    isValidName(field.last.value);
 }
 
 function isValidAddressField(field) {
@@ -175,6 +106,7 @@ function isValidBenefitsRelinquishmentPage(data) {
       (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
         isValidRelinquishedDate(data.benefitsRelinquishedDate)));
 }
+
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
     && isValidDateField(tour.dateRange.from)
@@ -315,15 +247,9 @@ function isValidPage(completePath, pageData) {
 }
 
 export {
-  isNotBlankDateField,
   isValidMonetaryValue,
-  isValidYearOrBlank,
-  isValidCurrentOrPastYear,
-  isValidMonths,
   isValidRoutingNumber,
-  isValidField,
   isValidFutureOrPastDateField,
-  isValidDateRange,
   isValidForm,
   isValidPersonalInfoPage,
   isValidAddressField,
@@ -332,12 +258,9 @@ export {
   isValidMilitaryServicePage,
   isValidServicePeriodsPage,
   isValidPage,
-  isValidValue,
-  isValidFutureDateField,
   isValidRelinquishedDate,
   isValidTourOfDuty,
   isValidEmploymentPeriod,
   isValidRotcScholarshipAmount,
-  isValidPartialMonthYearRange,
   isValidEducationPeriod
 };
