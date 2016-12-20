@@ -12,8 +12,9 @@ import { showSchoolAddress } from '../../utils/helpers';
 
 export default class SchoolSelectionFields extends React.Component {
   render() {
-    let schoolTypesList;
-    (this.props.data.chapter33 || this.props.data.chapter30) ? schoolTypesList = schoolTypesWithTuitionTopUp : schoolTypesList = schoolTypes;
+    const schoolTypesList = (this.props.data.chapter33 || this.props.data.chapter30)
+      ? schoolTypesWithTuitionTopUp 
+      : schoolTypes
 
     return (<fieldset>
       <legend className="hide-for-small-only">School selection</legend>
