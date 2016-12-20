@@ -62,6 +62,10 @@ export class Main extends React.Component {
   render() {
     const loading = this.props.loading;
 
+    if (loading.folders) {
+      return <LoadingIndicator message="Loading your application..."/>;
+    }
+
     if (loading.deletingFolder) {
       return <LoadingIndicator message="Deleting your folder..."/>;
     }
