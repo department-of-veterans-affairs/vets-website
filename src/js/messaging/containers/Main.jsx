@@ -71,9 +71,9 @@ export class Main extends React.Component {
         <p>
           The application failed to load.
           Click <a href="/healthcare/messaging" onClick={(e) => {
-              e.preventDefault();
-              this.props.fetchFolders(); }}>
-          here</a> to try again.
+            e.preventDefault();
+            this.props.fetchFolders();
+          }}> here</a> to try again.
         </p>
       );
     }
