@@ -161,18 +161,17 @@ export default function folders(state = initialState, action) {
 
     case MOVE_MESSAGE_SUCCESS: {
       // Update the counts on the affected folders after moving a message.
-      const items = state.data.items;
       const newItems = new Map(state.data.items);
 
       const fromFolderKey = folderKey(action.fromFolder.name);
-      const fromFolder = items.get(fromFolderKey);
+      const fromFolder = newItems.get(fromFolderKey);
       newItems.set(fromFolderKey, {
         ...fromFolder,
         count: fromFolder.count - 1
       });
 
       const toFolderKey = folderKey(action.toFolder.name);
-      const toFolder = items.get(toFolderKey);
+      const toFolder = newItems.get(toFolderKey);
       newItems.set(toFolderKey, {
         ...toFolder,
         count: toFolder.count + 1
@@ -184,9 +183,28 @@ export default function folders(state = initialState, action) {
       return setRedirect(newState);
     }
 
+    case SAVE_DRAFT_SUCCESS: {
+      let newState = state;
+
+      // After saving a new draft, increment the count on Drafts.
+      if (!action.isSavedDraft) {
+        const newItems = new Map(state.data.items);
+        const draftsKey = folderKey('Drafts');
+        const draftsFolder = newItems.get(draftsKey);
+
+        newItems.set(draftsKey, {
+          ...draftsFolder,
+          count: draftsFolder.count + 1
+        });
+
+        newState = set('data.items', newItems, newState);
+      }
+
+      return setRedirect(newState);
+    }
+
     case DELETE_COMPOSE_MESSAGE:
     case DELETE_MESSAGE_SUCCESS:
-    case SAVE_DRAFT_SUCCESS:
     case SEND_MESSAGE_SUCCESS: {
       return setRedirect(state);
     }

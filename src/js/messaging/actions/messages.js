@@ -203,12 +203,17 @@ export function saveDraft(message) {
       settings,
       (response) => {
         if (isSavedDraft) {
-          return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
+          return dispatch({
+            type: SAVE_DRAFT_SUCCESS,
+            message,
+            isSavedDraft
+          });
         }
 
         return dispatch({
           type: SAVE_DRAFT_SUCCESS,
-          message: response.data.attributes
+          message: response.data.attributes,
+          isSavedDraft
         });
       },
       () => dispatch({ type: SAVE_DRAFT_FAILURE })
