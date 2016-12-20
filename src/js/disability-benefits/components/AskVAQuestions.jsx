@@ -4,10 +4,13 @@ class AskVAQuestions extends React.Component {
   render() {
     return (
       <div className="ask-va-questions claims-sidebar-box">
-        <h4 className="claims-sidebar-header">Questions?</h4>
-        <p className="talk">Talk to a VA representative:</p>
-        <p className="phone-number"><a href="tel:+1-800-827-10009">1-800-827-1000</a></p>
-        <p><a href="https://iris.custhelp.com/">Submit a question to the VA</a></p>
+        <h2 className="hightlight claim-file-border claim-h2">Need Help?</h2>
+        <p className="talk">Ask the vets.gov Help Desk:</p>
+        <p className="phone-number">
+          <a href="tel:+1-855-574-7286">855-574-7286</a><br/>
+          Monday - Friday, 8:00 a.m. - 8:00 p.m. ET
+        </p>
+        <p><a href="https://iris.custhelp.com/">Submit a question to VA</a></p>
       </div>
     );
   }

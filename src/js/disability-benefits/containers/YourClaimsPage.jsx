@@ -1,5 +1,4 @@
 import React from 'react';
-import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
@@ -11,16 +10,7 @@ import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
-
-const scroller = Scroll.animateScroll;
-
-const scrollToTop = () => {
-  scroller.scrollToTop({
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
+import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 
 class YourClaimsPage extends React.Component {
   constructor(props) {
@@ -29,7 +19,17 @@ class YourClaimsPage extends React.Component {
   }
   componentDidMount() {
     this.props.getClaims();
-    document.title = 'Your Claims';
+    document.title = 'Track Claims: Vets.gov';
+    if (this.props.loading) {
+      scrollToTop();
+    } else {
+      setUpPage();
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.loading && prevProps.loading) {
+      setPageFocus();
+    }
   }
   changePage(page) {
     this.props.changePage(page);
@@ -41,7 +41,7 @@ class YourClaimsPage extends React.Component {
     let content;
 
     if (loading) {
-      content = <LoadingIndicator/>;
+      content = <LoadingIndicator message="Loading claims list" setFocus/>;
     } else if (claims.length > 0) {
       content = (<div className="claim-list">
         {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
@@ -59,10 +59,10 @@ class YourClaimsPage extends React.Component {
               <h1>Your Claims</h1>
             </div>
             <p>
-              <a href onClick={(evt) => {
+              <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
                 this.props.showConsolidatedMessage(true);
-              }}>Sometimes claims get combined. Find out why.</a>
+              }}>Find out why we sometimes combine claims.</a>
             </p>
             {content}
             <Modal

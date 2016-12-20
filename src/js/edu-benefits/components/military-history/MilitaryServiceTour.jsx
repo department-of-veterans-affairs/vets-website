@@ -3,11 +3,12 @@ import React from 'react';
 import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
+import ErrorableDate from '../../../common/components/form-elements/ErrorableDate';
+import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
-import DateInput from '../../../common/components/form-elements/DateInput';
 
-import { validateIfDirtyDateObj, validateIfDirty, isNotBlank, isValidDateField, isValidDateRange } from '../../utils/validations';
-import { displayDateIfValid } from '../../utils/helpers';
+import { validateIfDirty, isNotBlank, isValidDateRange } from '../../utils/validations';
+import ServicePeriodsReview from './ServicePeriodsReview';
 
 export default class MilitaryServiceTour extends React.Component {
   render() {
@@ -19,7 +20,7 @@ export default class MilitaryServiceTour extends React.Component {
           <div className="edu-benefits-first-label">
             <ErrorableTextInput required
                 errorMessage={validateIfDirty(tour.serviceBranch, isNotBlank) ? undefined : 'Please select a service branch'}
-                label="Branch of service"
+                label="Branch of service:"
                 name="serviceBranch"
                 field={tour.serviceBranch}
                 onValueChange={(update) => {onValueChange('serviceBranch', update);}}/>
@@ -29,23 +30,19 @@ export default class MilitaryServiceTour extends React.Component {
               name="serviceStatus"
               field={tour.serviceStatus}
               onValueChange={(update) => {onValueChange('serviceStatus', update);}}/>
-          <DateInput required
-              errorMessage="Please provide a valid date"
-              validation={validateIfDirtyDateObj(tour.dateRange.from, isValidDateField)}
-              label="Date entered"
+          <ErrorableCurrentOrPastDate required
+              label="Start of service period:"
               name="fromDate"
-              day={tour.dateRange.from.day}
-              month={tour.dateRange.from.month}
-              year={tour.dateRange.from.year}
+              date={tour.dateRange.from}
               onValueChange={(update) => {onValueChange('dateRange.from', update);}}/>
-          <DateInput required
-              errorMessage={isValidDateRange(tour.dateRange.from, tour.dateRange.to) ? 'Please provide a valid date' : 'Date separated must be after date entered'}
-              validation={validateIfDirtyDateObj(tour.dateRange.to, date => isValidDateRange(tour.dateRange.from, date))}
-              label="Date separated"
+          <ErrorableDate
+              validation={{
+                valid: isValidDateRange(tour.dateRange.from, tour.dateRange.to),
+                message: 'End of service must be after start of service'
+              }}
+              label="End of service period:"
               name="toDate"
-              day={tour.dateRange.to.day}
-              month={tour.dateRange.to.month}
-              year={tour.dateRange.to.year}
+              date={tour.dateRange.to}
               onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
         </div>
         <div className="input-section">
@@ -54,13 +51,13 @@ export default class MilitaryServiceTour extends React.Component {
               additionalClass="edu-benefits-apply-group">
             <ErrorableCheckbox
                 className="form-field-alert"
-                label="Apply this service period to the benefit I'm applying for."
+                label="Apply this service period to the benefit I’m applying for."
                 name="applyPeriodToSelected"
                 checked={tour.applyPeriodToSelected}
                 onValueChange={(update) => {onValueChange('applyPeriodToSelected', update);}}/>
             <div>
               <ErrorableTextarea
-                  label="Please tell us which benefit you’d like this service applied to."
+                  label="Please explain how you’d like this service period applied."
                   name="benefitsToApplyTo"
                   field={tour.benefitsToApplyTo}
                   onValueChange={(update) => {onValueChange('benefitsToApplyTo', update);}}/>
@@ -72,7 +69,9 @@ export default class MilitaryServiceTour extends React.Component {
       </div>
     );
 
-    return view === 'collapsed' ? (<div><strong>{tour.serviceBranch.value}</strong><br/>{displayDateIfValid(tour.dateRange.from)} &mdash; {displayDateIfValid(tour.dateRange.to)}</div>) : formFields;
+    return view === 'collapsed'
+      ? <ServicePeriodsReview tour={tour} onEdit={this.props.onEdit}/>
+      : formFields;
   }
 }
 

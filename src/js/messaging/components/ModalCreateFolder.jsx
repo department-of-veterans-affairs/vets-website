@@ -37,7 +37,7 @@ class ModalCreateFolder extends React.Component {
 
     const modalContents = (
       <form onSubmit={this.handleSubmit}>
-        <h3 className="messaging-modal-title">
+        <h3>
           Create new folder
         </h3>
         <ErrorableTextInput
@@ -50,7 +50,7 @@ class ModalCreateFolder extends React.Component {
 
         <div className="va-modal-button-group">
           <button
-              disabled={error.hasError}
+              disabled={error.hasError || !this.props.newFolderName.dirty}
               type="submit">Create</button>
           <button
               className="usa-button-outline"

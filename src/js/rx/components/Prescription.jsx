@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 
 import { rxStatuses } from '../config';
 import { formatDate } from '../utils/helpers';
+import GlossaryLink from '../components/GlossaryLink';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitRefill from './SubmitRefill';
@@ -18,7 +19,7 @@ class Prescription extends React.Component {
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
-    this.props.modalHandler(this.props.attributes);
+    this.props.refillModalHandler(this.props.attributes);
   }
 
   showTracking() {
@@ -47,10 +48,10 @@ class Prescription extends React.Component {
 
     if (remaining === 0) {
       msgProvider = (
-        <div className="rx-call-provider">
-          <Link
-              key={`rx-${id}-call`}
-              to="/messaging">Message Provider</Link>
+        <div
+            className="rx-call-provider"
+            key={`rx-${id}-call`}>
+          <a href="/healthcare/messaging/compose">Message Provider</a>
         </div>
       );
     }
@@ -74,14 +75,17 @@ class Prescription extends React.Component {
             text="Refill Prescription"/>
       );
     } else {
-      const displayStatus = (status === 'active') ? 'refillinprocess' : status;
+      const displayStatus = (status === 'active')
+                          ? rxStatuses.refillinprocess
+                          : rxStatuses[status];
 
       refillStatus = (
         <div
             key={`rx-${id}-status`}
             className="rx-prescription-status">
-            Refill status:
-          <span> {rxStatuses[displayStatus]}</span>
+          Refill status: <GlossaryLink
+              term={displayStatus}
+              onClick={this.props.glossaryModalHandler}/>
         </div>
       );
     }
@@ -108,31 +112,42 @@ class Prescription extends React.Component {
     return (
       <div className="rx-prescription">
         <div className="rx-prescription-inner cf">
-          <input type="hidden" name="refillId" value={id}/>
-          <h3 className="rx-prescription-title" title={name}>
-            <Link to={`/${id}`}>
-              {name}
-            </Link>
-          </h3>
-          <div className="rx-prescription-number">
-            Prescription <abbr title="number">#</abbr>: {attrs.prescriptionNumber}
-          </div>
-          <div className="rx-prescription-facility">
-            Facility name: {attrs.facilityName}
-          </div>
-          <div className="rx-prescription-refilled">
-            Last fill date: {
-              formatDate(attrs.refillDate, {
-                format: 'L',
-                validateInPast: true
-              })
-            }
+          <div className="rx-prescription-info">
+            <input type="hidden" name="refillId" value={id}/>
+            <h3 className="rx-prescription-title" title={name}>
+              <Link to={`/${id}`}>
+                {name}
+              </Link>
+            </h3>
+            <div className="rx-prescription-number">
+              <strong>Prescription <abbr title="number">#</abbr>:</strong> {attrs.prescriptionNumber}
+            </div>
+            <div className="rx-prescription-facility">
+              <strong>Facility name:</strong> {attrs.facilityName}
+            </div>
+            <div className="rx-prescription-submitted">
+              <strong>Last submit date:</strong> {
+                formatDate(attrs.refillSubmitDate, {
+                  format: 'L'
+                })
+              }
+            </div>
+            <div className="rx-prescription-refilled">
+              <strong>Last fill date:</strong> {
+                formatDate(attrs.refillDate, {
+                  format: 'L',
+                  validateInPast: true
+                })
+              }
+            </div>
           </div>
           <div className="rx-prescription-countaction">
-            <RefillsRemainingCounter
-                remaining={attrs.refillRemaining}/>
-            <div className="rx-prescription-action">
-              {action}
+            <div>
+              <RefillsRemainingCounter
+                  remaining={attrs.refillRemaining}/>
+              <div className="rx-prescription-action">
+                {action}
+              </div>
             </div>
           </div>
         </div>
@@ -143,7 +158,8 @@ class Prescription extends React.Component {
 
 Prescription.propTypes = {
   id: React.PropTypes.string.isRequired,
-  modalHandler: React.PropTypes.func.isRequired,
+  glossaryModalHandler: React.PropTypes.func.isRequired,
+  refillModalHandler: React.PropTypes.func.isRequired,
   type: React.PropTypes.string.isRequired,
   attributes: React.PropTypes.shape({
     prescriptionId: React.PropTypes.number.isRequired,
@@ -164,4 +180,3 @@ Prescription.propTypes = {
 };
 
 export default Prescription;
-

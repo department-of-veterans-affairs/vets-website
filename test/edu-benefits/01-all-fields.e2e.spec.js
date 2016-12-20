@@ -26,7 +26,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
 
       // Benefits eligibility
       client
-        .expect.element('input[name="chapter30"]').to.be.visible;
+        .expect.element('input[name="chapter30"]').to.be.present;
       EduHelpers.completeBenefitsSelection(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/benefits-eligibility/benefits-selection');
@@ -109,8 +109,8 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
       // Review and Submit Page.
-      client.expect.element('button.edit-btn').to.be.visible;
       client
+        .click('input[name="privacyAgreement"]')
         .click('.form-progress-buttons .usa-button-primary');
       client.expect.element('.js-test-location').attribute('data-location')
         .to.not.contain('/review-and-submit').before(Timeouts.submission);

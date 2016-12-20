@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import { makeField } from '../../common/model/fields';
-import { dateToMoment } from './helpers';
+import { isValidAddressField } from '../utils/validations';
+import { formatPartialDate } from './helpers';
 import moment from 'moment';
 
 export function makeAddressField() {
@@ -51,12 +52,10 @@ export function createEducationPeriod() {
     dateRange: {
       to: {
         month: makeField(''),
-        day: makeField(''),
         year: makeField(''),
       },
       from: {
         month: makeField(''),
-        day: makeField(''),
         year: makeField(''),
       }
     },
@@ -100,7 +99,6 @@ export function createVeteran() {
     faaFlightCertificatesInformation: makeField(''),
     highSchoolOrGedCompletionDate: {
       month: makeField(''),
-      day: makeField(''),
       year: makeField(''),
     },
     seniorRotcCommissioned: makeField(''),
@@ -179,7 +177,8 @@ export function createVeteran() {
       day: makeField(today.date().toString()),
       month: makeField((today.month() + 1).toString()),
       year: makeField(today.year().toString())
-    }
+    },
+    privacyAgreementAccepted: false
   };
 }
 
@@ -247,8 +246,9 @@ export function veteranToApplication(veteran) {
 
         return false;
 
+      case 'veteranAddress':
       case 'address':
-        if (value.city.value === '' && value.street.value === '') {
+        if (!isValidAddressField(value)) {
           return undefined;
         }
 
@@ -261,22 +261,31 @@ export function veteranToApplication(veteran) {
 
         return Number(value.value.replace('$', ''));
 
-      case 'dateRange':
-        if (value.from.month.value === '' && value.to.month.value === '') {
+      case 'activeDutyRepayingPeriod':
+      case 'dateRange': {
+        const from = formatPartialDate(value.from);
+        const to = formatPartialDate(value.to);
+
+        if (from === undefined && to === undefined) {
           return undefined;
         }
 
-        return value;
+        return {
+          from,
+          to
+        };
+      }
+
       default:
         // fall through.
     }
 
-    if (value.month !== undefined && value.year !== undefined && value.day !== undefined) {
-      if (value.month.value !== '' && value.day.value !== '' && value.year.value !== '') {
-        return dateToMoment(value).format('YYYY-MM-DD');
-      }
-
+    if (typeof value === 'undefined') {
       return undefined;
+    }
+
+    if (value.month !== undefined && value.year !== undefined) {
+      return formatPartialDate(value);
     }
 
     // Strips out suffix if the user does not enter it.

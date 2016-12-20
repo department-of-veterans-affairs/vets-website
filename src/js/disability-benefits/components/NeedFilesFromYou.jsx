@@ -3,21 +3,25 @@ import { Link } from 'react-router';
 
 class NeedFilesFromYou extends React.Component {
   render() {
-    const filesNeeded = this.props.events.filter(event => event.type === 'still_need_from_you_list').length;
+    const files = this.props.files;
     return (
-      <div className="usa-alert usa-alert-warning claims-alert claims-alert-status">
-        <div className="usa-alert-body">
-          <h4 className="usa-alert-heading">{filesNeeded} {filesNeeded === 1 ? 'item needs' : 'items need'} your attention</h4>
-          <Link to={`your-claims/${this.props.claimId}/files`} className="usa-button">View Details</Link>
-          <div className="clearfix"></div>
+      <div className="usa-alert usa-alert-warning claims-alert claims-alert-status need-files-alert">
+        <div className="usa-alert-body item-title-container">
+          <h4 className="usa-alert-heading">{files} {files === 1 ? 'item needs' : 'items need'} your attention</h4>
         </div>
+        <Link
+            aria-label="View details about items that need your attention"
+            title="View details about items that need your attention"
+            to={`your-claims/${this.props.claimId}/files`}
+            className="usa-button view-details-button">View Details</Link>
+        <div className="clearfix"></div>
       </div>
     );
   }
 }
 
 NeedFilesFromYou.propTypes = {
-  events: React.PropTypes.array.isRequired
+  files: React.PropTypes.number.isRequired
 };
 
 export default NeedFilesFromYou;

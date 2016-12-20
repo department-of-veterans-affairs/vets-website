@@ -8,13 +8,13 @@ import FullName from '../../../common/components/questions/FullName';
 import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
 
 import { childRelationships, yesNo } from '../../../common/utils/options-for-select.js';
-import { isNotBlank, isValidField, isValidMonetaryValue, validateIfDirty, isValidDependentDateField } from '../../../common/utils/validations';
+import { isNotBlank, validateIfDirty, isValidDependentDateField, isValidLastName } from '../../utils/validations';
+import { getMonetaryErrorMessage } from '../../utils/messages';
 
 // TODO: create unique nodes for each child in applicationData
 
 class Child extends React.Component {
   render() {
-    const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
     let content;
     let livedWithChildField;
 
@@ -44,6 +44,8 @@ class Child extends React.Component {
             <div className="small-12 columns">
               <FullName required
                   name={this.props.data.childFullName}
+                  customValidation={isValidLastName}
+                  customErrorMessage="Please enter a valid name. Must be at least 2 characters."
                   onUserInput={(update) => {this.props.onValueChange('childFullName', update);}}/>
             </div>
           </div>
@@ -119,8 +121,8 @@ class Child extends React.Component {
 
           <div className="row">
             <div className="small-12 columns">
-              <ErrorableTextInput
-                  errorMessage={isValidField(isValidMonetaryValue, this.props.data.childEducationExpenses) ? undefined : message}
+              <ErrorableTextInput required
+                  errorMessage={getMonetaryErrorMessage(this.props.data.childEducationExpenses)}
                   label="Expenses paid by your dependent child for college, vocational rehabilitation, or training (e.g., tuition, books, materials)?"
                   name="childEducationExpenses"
                   field={this.props.data.childEducationExpenses}

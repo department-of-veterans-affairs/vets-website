@@ -7,6 +7,8 @@ const seleniumServer = require('selenium-server');
 
 require('babel-core/register');
 
+const selenium_server_port = process.env.SELENIUM_PORT || 4444;
+
 module.exports = {
   src_folders: ['./test'],
   output_folder: './logs/nightwatch',
@@ -15,19 +17,12 @@ module.exports = {
   parallel_process_delay: 10,
   disable_colors: false,
   test_workers: false,
-  selenium: {
-    start_process: true,
-    server_path: seleniumServer.path,
-    log_path: './logs/selenium',
-    host: '127.0.0.1',
-    port: 4444
-  },
   test_settings: {
     'default': {
-      launch_url: 'localhost:3001',
+      launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
       filter: './test/**/*.e2e.spec.js',
       selenium_host: 'localhost',
-      selenium_port: 4444,
+      selenium_port: selenium_server_port,
       use_ssl: false,
       silent: true,
       output: true,
@@ -40,6 +35,7 @@ module.exports = {
         browserName: 'chrome',
         javascriptEnabled: true,
         acceptSslCerts: true,
+        webStorageEnabled: true,
         chromeOptions: {
           binary: electron
         }
@@ -47,7 +43,12 @@ module.exports = {
       selenium: {
         cli_args: {
           'webdriver.chrome.driver': chromedriver.path
-        }
+        },
+        start_process: true,
+        server_path: seleniumServer.path,
+        log_path: './logs/selenium',
+        host: '127.0.0.1',
+        port: selenium_server_port,
       }
     },
 
@@ -57,10 +58,18 @@ module.exports = {
         asyncHookTimeout: 20000,
       },
       desiredCapabilities: {
-        browserName: 'phantomjs',
+        browserName: 'chrome',
         javascriptEnabled: true,
         acceptSslCerts: true,
-        'phantomjs.binary.path': require('phantomjs-prebuilt').path
+        webStorageEnabled: true,
+        chromeOptions: {
+          binary: electron
+        }
+      },
+      selenium: {
+        cli_args: {
+          'webdriver.chrome.driver': chromedriver.path
+        }
       }
     }
   }

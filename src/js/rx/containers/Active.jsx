@@ -5,9 +5,13 @@ import {
   loadPrescriptions,
   sortPrescriptions
 } from '../actions/prescriptions';
-import { openRefillModal } from '../actions/modal';
 
+import {
+  openGlossaryModal,
+  openRefillModal
+} from '../actions/modals';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import PrescriptionList from '../components/PrescriptionList';
 import SortMenu from '../components/SortMenu';
 import { sortOptions } from '../config';
@@ -15,59 +19,68 @@ import { sortOptions } from '../config';
 class Active extends React.Component {
   constructor(props) {
     super(props);
-    this.handleSortOnChange = this.handleSortOnChange.bind(this);
-    this.handleSortOnClick = this.handleSortOnClick.bind(this);
+    this.handleSort = this.handleSort.bind(this);
   }
 
   componentDidMount() {
-    this.props.loadPrescriptions({ active: true });
-  }
-
-  handleSortOnChange(domEvent) {
-    if (domEvent.type === 'change') {
-      this.context.router.push({
-        pathname: '/',
-        query: { sort: domEvent.target.value }
-      });
+    if (!this.props.loading) {
+      this.props.loadPrescriptions({ active: true });
     }
-    this.props.sortPrescriptions(domEvent.target.value);
   }
 
-  handleSortOnClick(domEvent) {
-    const fullURL = domEvent.target.href;
+  componentDidUpdate() {
+    const newSort = this.props.location.query.sort;
+    const oldSort = this.props.sort;
 
-    // Find the sort parameter, split the query string on the = and retrieve value
-    const sortParam = fullURL.match(/sort=[-a-z]{1,}/i)[0].split('=')[1];
-    this.props.sortPrescriptions(sortParam);
+    if (newSort !== oldSort) {
+      this.props.sortPrescriptions(newSort);
+    }
+  }
+
+  handleSort(sort) {
+    this.context.router.push({
+      ...this.props.location,
+      query: { sort }
+    });
   }
 
   render() {
-    const items = this.props.prescriptions.items;
     let content;
 
-    const sortParam = this.props.location.query.sort;
-
-    if (items) {
-      const sortValue = sortParam || 'lastRequested';
+    if (this.props.loading) {
+      content = <LoadingIndicator message="is loading your prescriptions..."/>;
+    } else if (this.props.prescriptions) {
+      const sortValue = this.props.sort;
 
       content = (
         <div>
+          <p className="rx-tab-explainer">Your active VA prescriptions.</p>
           <SortMenu
-              changeHandler={this.handleSortOnChange}
-              clickHandler={this.handleSortOnClick}
+              onChange={this.handleSort}
+              onClick={this.handleSort}
               options={sortOptions}
               selected={sortValue}/>
           <PrescriptionList
-              items={this.props.prescriptions.items}
+              items={this.props.prescriptions}
               // If we're sorting by facility, tell PrescriptionList to group 'em.
               grouped={sortValue === 'facilityName'}
-              modalHandler={this.props.openRefillModal}/>
+              refillModalHandler={this.props.openRefillModal}
+              glossaryModalHandler={this.props.openGlossaryModal}/>
         </div>
+      );
+    } else {
+      content = (
+        <p className="rx-tab-explainer rx-loading-error">
+          We couldn't retrieve your prescriptions.
+          Please refresh this page or try again later.
+          If this problem persists, please call the Vets.gov Help Desk
+          at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
+        </p>
       );
     }
 
     return (
-      <div className="va-tab-content">
+      <div id="rx-active" className="va-tab-content">
         {content}
       </div>
     );
@@ -80,18 +93,16 @@ Active.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    alert: state.alert,
-    disclaimer: state.disclaimer,
-    modal: state.modal,
-    prescriptions: state.prescriptions
+    ...state.prescriptions.active,
+    prescriptions: state.prescriptions.items,
   };
 };
 
 const mapDispatchToProps = {
+  openGlossaryModal,
   openRefillModal,
   loadPrescriptions,
   sortPrescriptions
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Active);

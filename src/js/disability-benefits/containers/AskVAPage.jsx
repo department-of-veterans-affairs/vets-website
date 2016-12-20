@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
-import { submitRequest } from '../actions';
+import { submitRequest, getClaimDetail } from '../actions';
+import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
@@ -14,10 +15,12 @@ class AskVAPage extends React.Component {
     this.state = { submittedDocs: false };
   }
   componentDidMount() {
-    document.title = 'Ask VA for a Claim Decision';
+    document.title = 'Ask for your Claim Decision';
+    setUpPage();
   }
   componentWillReceiveProps(props) {
     if (props.decisionRequested) {
+      props.getClaimDetail(this.props.params.id);
       this.goToStatusPage();
     }
   }
@@ -40,24 +43,27 @@ class AskVAPage extends React.Component {
     return (
       <div>
         <div className="row">
-          <div className="medium-8 columns">
+          <div className="medium-12 columns">
             <nav className="va-nav-breadcrumbs">
               <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
                 <li><Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link></li>
-                <li className="active">Ask VA for a Claim Decision</li>
+                <li className="active">Ask for your Claim Decision</li>
               </ul>
             </nav>
+          </div>
+        </div>
+        <div className="row">
+          <div className="medium-8 columns">
             <div>
-              <h1>Ask VA for a Claim Decision</h1>
-              <p className="first-of-type">You should have received a letter in the mail requesting additional evidence VA needs to support your claim.</p>
-              <p>We will wait 30 days to receive your evidence but if you don't have anything more to submit, let us know and we will go ahead and prepare to make a decision on your claim.</p>
+              <h1>Ask for your Claim Decision</h1>
+              <p className="first-of-type">We sent you a letter in the mail asking for more evidence to support your claim. We’ll wait 30 days for your evidence. If you don’t have anything more you want to submit, let us know and we’ll go ahead and make a decision on your claim.</p>
               <p>Taking the full 30 days won’t affect:</p>
               <ul>
                 <li>Whether you get VA benefits</li>
                 <li>The payment amount</li>
-                <li>Whether you get help from VA to gather evidence to support your claim</li>
-                <li>The date benefits will begin if VA approves your claim</li>
+                <li>Whether you get our help to gather evidence to support your claim</li>
+                <li>The date benefits will begin if we approve your claim</li>
               </ul>
               <div className="usa-alert usa-alert-info claims-no-icon claims-alert">
                 <ErrorableCheckbox
@@ -74,11 +80,11 @@ class AskVAPage extends React.Component {
                 {buttonMsg}
               </button>
               {!loadingDecisionRequest
-                ? <a className="usa-button-outline request-decision-button" onClick={this.goToStatusPage}>Not yet, I still have more evidence to submit</a>
+                ? <a className="usa-button-outline request-decision-button" onClick={this.goToStatusPage}>Not yet–I still have more evidence to submit</a>
                 : null}
             </div>
           </div>
-          <div className="small-12 medium-8 columns">
+          <div className="small-12 medium-4 columns">
             <AskVAQuestions/>
           </div>
         </div>
@@ -97,7 +103,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  submitRequest
+  submitRequest,
+  getClaimDetail
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AskVAPage));

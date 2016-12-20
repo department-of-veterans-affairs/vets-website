@@ -73,7 +73,6 @@ const testValues = {
   },
   highSchoolOrGedCompletionDate: {
     month: 'May',
-    day: '2',
     year: '1996'
   },
   educationPeriods: [
@@ -83,12 +82,10 @@ const testValues = {
       state: 'NY',
       fromDate: {
         month: 'May',
-        day: '2',
         year: '1996'
       },
       toDate: {
         month: 'May',
-        day: '2',
         year: '1999'
       },
       hours: '9',
@@ -127,7 +124,8 @@ const testValues = {
     postalCode: '12345-1234'
   },
   accountNumber: '123323',
-  routingNumber: '114923756'
+  routingNumber: '114923756',
+  privacyAgreementAccepted: true
 };
 /* eslint-enable */
 
@@ -274,8 +272,6 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
     client
       .clearValue('select[name="highSchoolOrGedCompletionDateMonth"]')
       .setValue('select[name="highSchoolOrGedCompletionDateMonth"]', data.highSchoolOrGedCompletionDate.month)
-      .clearValue('select[name="highSchoolOrGedCompletionDateDay"]')
-      .setValue('select[name="highSchoolOrGedCompletionDateDay"]', data.highSchoolOrGedCompletionDate.day)
       .clearValue('input[name="highSchoolOrGedCompletionDateYear"]')
       .setValue('input[name="highSchoolOrGedCompletionDateYear"]', data.highSchoolOrGedCompletionDate.year)
       .clearValue('input[name="name"]')
@@ -286,14 +282,10 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
       .setValue('select[name="state"]', data.educationPeriods[0].state)
       .clearValue('select[name="fromDateMonth"]')
       .setValue('select[name="fromDateMonth"]', data.educationPeriods[0].fromDate.month)
-      .clearValue('select[name="fromDateDay"]')
-      .setValue('select[name="fromDateDay"]', data.educationPeriods[0].fromDate.day)
       .clearValue('input[name="fromDateYear"]')
       .setValue('input[name="fromDateYear"]', data.educationPeriods[0].fromDate.year)
       .clearValue('select[name="toDateMonth"]')
       .setValue('select[name="toDateMonth"]', data.educationPeriods[0].toDate.month)
-      .clearValue('select[name="toDateDay"]')
-      .setValue('select[name="toDateDay"]', data.educationPeriods[0].toDate.day)
       .clearValue('input[name="toDateYear"]')
       .setValue('input[name="toDateYear"]', data.educationPeriods[0].toDate.year)
       .clearValue('input[name="hours"]')

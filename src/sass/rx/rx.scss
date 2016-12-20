@@ -1,18 +1,19 @@
 @import "../style";
 @import "../modules/m-modal";
+@import "../modules/m-alert";
 @import "../modules/va-pagination";
 @import "../modules/va-tabs";
 
 // RX-specific partials
 @import "partials/rx-contact-card";
+@import "partials/rx-prescriptions";
 @import "partials/rx-detail";
-@import "partials/rx-disclaimer";
 @import "partials/rx-glossary";
 @import "partials/rx-history";
 @import "partials/rx-modal";
-@import "partials/rx-prescriptions";
 @import "partials/rx-sort-list";
 @import "partials/rx-table";
+@import "partials/rx-breadcrumbs";
 
 // TODO: Replace this with a clearfix mixin
 // from USWDS or something
@@ -35,10 +36,6 @@
   padding: 3rem 1.5rem;
   margin: auto;
   max-width: $site-max-width;
-
-  .va-alert {
-    margin-bottom: 2rem;
-  }
 }
 
 // Enhances a USWDS style that has higher specificity.
@@ -68,11 +65,6 @@ button.usa-button-outline {
   margin: 0 0 3rem;
 }
 
-.rx-refill-form {
-  display: inline-block;
-  padding: 0;
-}
-
 // Used to make functional buttons look like links.
 .rx-trigger {
   background: transparent;
@@ -90,5 +82,20 @@ button.usa-button-outline {
     background: rgba(0, 0, 0, 0.05);
     color: $color-link-default;
     text-decoration: inherit;
+  }
+}
+
+.rx-tab-explainer {
+  padding: 1rem 0;
+}
+
+.rx-loading-error {
+  font-weight: bold;
+  width: 66%;
+}
+
+#rx-active, #rx-history, #rx-detail {
+  .loading-indicator-container {
+    margin-top: 2rem;
   }
 }

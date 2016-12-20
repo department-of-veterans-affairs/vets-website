@@ -1,18 +1,25 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 
-import { getActivePages } from '../utils/helpers';
+import { getActivePages, focusElement, getScrollOptions } from '../utils/helpers';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
 const scroller = Scroll.scroller;
 
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
+  scroller.scrollTo('topScrollElement', getScrollOptions());
+};
+
+const scrollToFirstError = () => {
+  setTimeout(() => {
+    const errorEl = document.querySelector('.usa-input-error, .input-error-date');
+    if (errorEl) {
+      const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
+      Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
+      focusElement(errorEl);
+    }
+  }, 100);
 };
 
 export default class NavButtons extends React.Component {
@@ -28,11 +35,15 @@ export default class NavButtons extends React.Component {
     if (this.props.path === '/introduction' || this.props.isValid) {
       this.props.onNavigate(nextPath);
       this.props.onComplete(this.props.path);
+      scrollToTop();
     } else if (!this.props.isValid) {
       this.props.dirtyPage(this.props.path);
+      scrollToFirstError();
     }
   }
   handleSubmit() {
+    this.props.onAttemptedSubmit();
+
     if (this.props.canSubmit) {
       this.props.onSubmit();
     }
@@ -43,7 +54,6 @@ export default class NavButtons extends React.Component {
   }
   goForward() {
     this.handleContinue(this.findNeighbor(1));
-    scrollToTop();
   }
   findNeighbor(increment) {
     const { pages, path, data } = this.props;
@@ -79,7 +89,6 @@ export default class NavButtons extends React.Component {
       if (submission.status === false) {
         submitButton = (
           <ProgressButton
-              disabled={!this.props.canSubmit}
               onButtonClick={this.handleSubmit}
               buttonText="Submit Application"
               buttonClass="usa-button-primary"/>
@@ -187,5 +196,6 @@ NavButtons.propTypes = {
   onSubmit: React.PropTypes.func,
   onNavigate: React.PropTypes.func,
   onComplete: React.PropTypes.func,
-  dirtyPage: React.PropTypes.func
+  dirtyPage: React.PropTypes.func,
+  onAttemptedSubmit: React.PropTypes.func
 };

@@ -9,7 +9,6 @@ const commandLineArgs = require('command-line-args');
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
 const filenames = require('metalsmith-filenames');
-const ignore = require('metalsmith-ignore');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdownit');
@@ -46,6 +45,8 @@ const optionDefinitions = [
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
+  { name: 'entry', type: String, defaultValue: null },
+  { name: 'host', type: String, defaultValue: 'localhost' },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -106,23 +107,14 @@ smith.destination(`../build/${options.buildtype}`);
 //
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
-const ignoreList = ['memorial-benefits/*'];
 
-if (options.buildtype === 'production') {
-  ignoreList.push('disability-benefits/track-claims/*');
-  ignoreList.push('facilities/*');
-  ignoreList.push('healthcare/messaging/*');
-  ignoreList.push('healthcare/prescriptions/*');
-  ignoreList.push('profile/*');
-  ignoreList.push('auth/*');
-  ignoreList.push('education/apply-for-education-benefits-new');
-  ignoreList.push('education/index-new');
-} else if (options.buildtype === 'staging') {
-  ignoreList.push('facilities/*');
-  ignoreList.push('profile/*');
-}
-
-smith.use(ignore(ignoreList));
+// To use:
+// const ignore = require('metalsmith-ignore');
+// const ignoreList = [];
+// if (options.buildtype === 'production') {
+//   ignoreList.push('disability-benefits/track-claims/*');
+// }
+// smith.use(ignore(ignoreList));
 
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
 // during templating end up not showing which file they came from. Load it very early in in the
@@ -195,7 +187,10 @@ smith.use(layouts({
 }));
 
 // TODO(awong): This URL needs to change based on target environment.
-smith.use(sitemap('http://www.vets.gov'));
+smith.use(sitemap({
+  hostname: 'http://www.vets.gov',
+  omitIndex: true
+}));
 // TODO(awong): Does anything even use the results of this plugin?
 
 if (options.watch) {
@@ -227,6 +222,7 @@ if (options.watch) {
     hot: true,
     port: options.port,
     publicPath: '/generated/',
+    host: options.host,
     stats: {
       colors: true,
       assets: false,

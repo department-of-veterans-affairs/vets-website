@@ -3,12 +3,12 @@ import _ from 'lodash/fp';
 import {
   UPDATE_COMPLETED_STATUS,
   UPDATE_INCOMPLETE_STATUS,
-  UPDATE_REVIEW_STATUS,
-  UPDATE_VERIFIED_STATUS,
+  UPDATE_EDIT_STATUS,
   UPDATE_SUBMISSION_STATUS,
   UPDATE_SUBMISSION_ID,
   UPDATE_SUBMISSION_TIMESTAMP,
-  UPDATE_SUBMISSION_DETAILS
+  UPDATE_SUBMISSION_DETAILS,
+  SET_ATTEMPTED_SUBMIT
 } from '../../actions';
 
 const ui = {
@@ -17,87 +17,72 @@ const ui = {
     errorMessage: false,
     id: false,
     timestamp: false,
-    regionalAddress: null
+    regionalAddress: null,
+    hasAttemptedSubmit: false
   },
   pages: {
     '/introduction': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: []
     },
     '/benefits-eligibility/benefits-selection': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['chapter30', 'chapter32', 'chapter33', 'chapter1606', 'checkedBenefit']
     },
     '/benefits-eligibility/benefits-relinquishment': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['benefitsRelinquished', 'benefitsRelinquishedDate']
     },
     '/military-history/service-periods': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['toursOfDuty']
     },
     '/military-history/military-service': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty']
     },
     '/military-history/rotc-history': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['seniorRotc', 'seniorRotcScholarshipProgram', 'seniorRotcCommissioned']
     },
     '/military-history/contributions': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['civilianBenefitsAssistance', 'additionalContributions', 'activeDutyKicker', 'reserveKicker', 'activeDutyRepaying', 'activeDutyRepayingPeriod']
     },
     '/education-history/education-information': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['highSchoolOrGedCompletionDate', 'postHighSchoolTrainings']
     },
     '/employment-history/employment-information': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['hasNonMilitaryJobs', 'nonMilitaryJobs']
     },
     '/school-selection/school-information': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['educationType', 'school']
     },
     '/veteran-information': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['veteranFullName', 'veteranSocialSecurityNumber', 'veteranDateOfBirth', 'gender']
     },
     '/personal-information/contact-information': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['veteranAddress', 'email', 'emailConfirmation', 'homePhone', 'mobilePhone', 'preferredContactMethod']
     },
     '/personal-information/secondary-contact': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['secondaryContact']
     },
     '/personal-information/dependents': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['serviceBefore1977']
     },
     '/personal-information/direct-deposit': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: ['bankAccount']
     },
     '/review-and-submit': {
-      complete: false,
-      verified: false,
+      editOnReview: false,
       fields: []
     }
   }
@@ -111,11 +96,8 @@ function uiState(state = ui, action) {
     case UPDATE_INCOMPLETE_STATUS:
       return _.set(['pages', action.path, 'complete'], false, state);
 
-    case UPDATE_REVIEW_STATUS:
-      return _.set(['pages', action.path, 'complete'], action.value, state);
-
-    case UPDATE_VERIFIED_STATUS:
-      return _.set(['pages', action.path, 'verified'], action.value, state);
+    case UPDATE_EDIT_STATUS:
+      return _.set(['pages', action.path, 'editOnReview'], action.value, state);
 
     case UPDATE_SUBMISSION_STATUS:
       return _.set('submission.status', action.value, state);
@@ -136,6 +118,10 @@ function uiState(state = ui, action) {
 
       return _.set('submission', submission, state);
     }
+
+    case SET_ATTEMPTED_SUBMIT:
+      return _.set('submission.hasAttemptedSubmit', true, state);
+
     default:
       return state;
   }

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import Ajv from 'ajv';
-import schema from '../../../schema/dist/edu-benefits-schema.json';
+import { eduBenefits as schema } from 'vets-json-schema';
 import qc from 'quick_check';
 import _ from 'lodash';
 
@@ -169,7 +169,8 @@ function createTestVeteran() {
       routingNumber: makeField(qc.choose(...routingNumbers))
     }),
     applyingUsingOwnBenefits: makeField(qc.choose(...ownBenefitsOptions.map(x => x.value))),
-    benefitsRelinquishedDate: dateGen()
+    benefitsRelinquishedDate: dateGen(),
+    privacyAgreementAccepted: true
   };
 }
 

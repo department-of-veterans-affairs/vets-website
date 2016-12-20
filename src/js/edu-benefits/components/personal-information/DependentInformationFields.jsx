@@ -23,7 +23,7 @@ export default class DependentInformationFields extends React.Component {
             value={this.props.data.serviceBefore1977.haveDependents}
             onValueChange={(update) => {this.props.onStateChange('serviceBefore1977.haveDependents', update);}}/>
         <ErrorableRadioButtons
-            label="Do you have a parent who is dependent upon your financial support?"
+            label="Do you have a parent who is dependent on your financial support?"
             name="parentDependent"
             options={yesNo}
             value={this.props.data.serviceBefore1977.parentDependent}

@@ -10,7 +10,6 @@ import {
   UPDATE_FIELD,
   SHOW_MAIL_OR_FAX,
   CANCEL_UPLOAD,
-  CLEAR_UPLOADED_ITEM,
   SET_FIELDS_DIRTY
 } from '../actions';
 
@@ -46,28 +45,26 @@ export default function claimDetailReducer(state = initialState, action) {
       return _.set('files', state.files.filter((file, index) => index !== action.index), state);
     }
     case SET_UPLOADING: {
-      return _.merge(state, {
+      return _.assign(state, {
         uploading: action.uploading,
         uploadError: false,
         uploadComplete: false,
-        uploader: action.uploader,
-        uploadedItem: null
+        uploader: action.uploader
       });
     }
     case SET_PROGRESS: {
       return _.set('progress', action.progress, state);
     }
     case DONE_UPLOADING: {
-      return _.merge(state, {
+      return _.assign(state, {
         uploading: false,
         uploadComplete: true,
         uploader: null,
-        uploadedItem: action.itemName,
         files: []
       });
     }
     case SET_UPLOAD_ERROR: {
-      return _.merge(state, {
+      return _.assign(state, {
         uploading: false,
         uploadError: true,
         uploader: null
@@ -80,13 +77,10 @@ export default function claimDetailReducer(state = initialState, action) {
       return _.set('showMailOrFax', action.visible, state);
     }
     case CANCEL_UPLOAD: {
-      return _.merge(state, {
+      return _.assign(state, {
         uploading: false,
         uploader: null
       });
-    }
-    case CLEAR_UPLOADED_ITEM: {
-      return _.set('uploadedItem', null, state);
     }
     case SET_FIELDS_DIRTY: {
       return dirtyAllFields(state);

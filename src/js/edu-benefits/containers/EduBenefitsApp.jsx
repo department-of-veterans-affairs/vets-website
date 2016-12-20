@@ -16,17 +16,15 @@ import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
 
 import { isValidPage, isValidForm } from '../utils/validations';
-import { ensurePageInitialized, updateCompletedStatus, submitForm } from '../actions/index';
+import { ensurePageInitialized, updateCompletedStatus, submitForm, veteranUpdateField, setAttemptedSubmit } from '../actions/index';
+
+import { getScrollOptions } from '../../common/utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
+  scroller.scrollTo('topScrollElement', getScrollOptions());
 };
 
 class EduBenefitsApp extends React.Component {
@@ -39,7 +37,7 @@ class EduBenefitsApp extends React.Component {
     }
   }
   render() {
-    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm } = this.props;
+    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm, onStateChange, onAttemptedSubmit } = this.props;
     const navigateTo = path => router.push(path);
     const onSubmit = () => {
       submitBenefitsForm(this.props.data);
@@ -62,8 +60,8 @@ class EduBenefitsApp extends React.Component {
     return (
       <div className="row">
         {devPanel}
+        <Element name="topScrollElement"/>
         <div className="medium-4 columns show-for-medium-up">
-          <Element name="topScrollElement"/>
           <Nav
               data={data}
               pages={pageState}
@@ -84,7 +82,9 @@ class EduBenefitsApp extends React.Component {
                 dirtyPage={dirtyPage}
                 onNavigate={navigateTo}
                 onComplete={setComplete}
-                onSubmit={onSubmit}/>
+                onSubmit={onSubmit}
+                onStateChange={onStateChange}
+                onAttemptedSubmit={onAttemptedSubmit}/>
           </div>
         </div>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
@@ -114,7 +114,13 @@ function mapDispatchToProps(dispatch) {
     },
     submitBenefitsForm(...args) {
       dispatch(submitForm(...args));
-    }
+    },
+    onStateChange(...args) {
+      dispatch(veteranUpdateField(...args));
+    },
+    onAttemptedSubmit: (...args) => {
+      dispatch(setAttemptedSubmit(...args));
+    },
   };
 }
 

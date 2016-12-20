@@ -4,22 +4,14 @@ import environment from '../../common/helpers/environment';
 
 export const UPDATE_COMPLETED_STATUS = 'UPDATE_COMPLETED_STATUS';
 export const UPDATE_INCOMPLETE_STATUS = 'UPDATE_INCOMPLETE_STATUS';
-export const UPDATE_REVIEW_STATUS = 'UPDATE_REVIEW_STATUS';
-export const UPDATE_VERIFIED_STATUS = 'UPDATE_VERIFIED_STATUS';
+export const UPDATE_EDIT_STATUS = 'UPDATE_EDIT_STATUS';
 export const UPDATE_SUBMISSION_STATUS = 'UPDATE_SUBMISSION_STATUS';
 export const UPDATE_SUBMISSION_ID = 'UPDATE_SUBMISSION_ID';
 export const UPDATE_SUBMISSION_TIMESTAMP = 'UPDATE_SUBMISSION_TIMESTAMP';
 export const UPDATE_SUBMISSION_DETAILS = 'UPDATE_SUBMISSION_DETAILS';
 export const VETERAN_FIELD_UPDATE = 'VETERAN_FIELD_UPDATE';
 export const ENSURE_FIELDS_INITIALIZED = 'ENSURE_FIELDS_INITIALIZED';
-
-function getApiUrl() {
-  if (window.VetsGov.api.url) {
-    return window.VetsGov.api.url;
-  }
-
-  return environment.API_URL;
-}
+export const SET_ATTEMPTED_SUBMIT = 'SET_ATTEMPTED_SUBMIT';
 
 export function ensurePageInitialized(page) {
   return (dispatch, getState) => {
@@ -60,17 +52,9 @@ export function updateIncompleteStatus(path) {
   };
 }
 
-export function updateReviewStatus(path, value) {
+export function updateEditStatus(path, value) {
   return {
-    type: UPDATE_REVIEW_STATUS,
-    path,
-    value
-  };
-}
-
-export function updateVerifiedStatus(path, value) {
-  return {
-    type: UPDATE_VERIFIED_STATUS,
+    type: UPDATE_EDIT_STATUS,
     path,
     value
   };
@@ -104,12 +88,21 @@ export function updateSubmissionDetails(attributes) {
   };
 }
 
+export function setAttemptedSubmit() {
+  return {
+    type: SET_ATTEMPTED_SUBMIT
+  };
+}
+
 export function submitForm(data) {
   const application = veteranToApplication(data);
   return dispatch => {
     dispatch(updateCompletedStatus('/review-and-submit'));
     dispatch(updateSubmissionStatus('submitPending'));
-    fetch(`${getApiUrl()}/v0/education_benefits_claims`, {
+    window.dataLayer.push({
+      event: 'edu-submission',
+    });
+    fetch(`${environment.API_URL}/v0/education_benefits_claims`, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -124,9 +117,14 @@ export function submitForm(data) {
     })
     .then(res => {
       if (res.ok) {
+        window.dataLayer.push({
+          event: 'edu-submission-successful',
+        });
         return res.json();
       }
-
+      window.dataLayer.push({
+        event: 'edu-submission-failed',
+      });
       return Promise.reject(res.statusText);
     })
     .then(
