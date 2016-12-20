@@ -54,6 +54,20 @@ const initialState = {
 
 const folderKey = (folderName) => _.kebabCase(folderName);
 
+const setRedirect = (state) => {
+  // Set the redirect to the most recent folder.
+  // Default to 'Inbox' if no folder has been visited.
+
+  const folderName = _.get(
+    state,
+    'data.currentItem.attributes.name',
+    'Inbox'
+  );
+
+  const url = folderUrl(folderName);
+  return set('ui.redirect', url, state);
+};
+
 export default function folders(state = initialState, action) {
   switch (action.type) {
     // TODO: Handle the response in an appropriate way
@@ -83,6 +97,11 @@ export default function folders(state = initialState, action) {
       const sortValue = Object.keys(sort)[0];
       const sortOrder = sort[sortValue];
 
+      // Update corresponding folder data in map.
+      const newItems = new Map(state.data.items);
+      newItems.set(folderKey(attributes.name), attributes);
+      const newState = set('data.items', newItems, state);
+
       return set('data.currentItem', {
         attributes,
         filter,
@@ -93,7 +112,7 @@ export default function folders(state = initialState, action) {
           value: sortValue,
           order: sortOrder
         },
-      }, state);
+      }, newState);
     }
 
     case FETCH_FOLDERS_SUCCESS: {
@@ -140,21 +159,54 @@ export default function folders(state = initialState, action) {
       // The + forces +action.folderId to be a number
       return set('data.currentItem.persistFolder', +action.folderId, state);
 
+    case MOVE_MESSAGE_SUCCESS: {
+      // Update the counts on the affected folders after moving a message.
+      const newItems = new Map(state.data.items);
+
+      const fromFolderKey = folderKey(action.fromFolder.name);
+      const fromFolder = newItems.get(fromFolderKey);
+      newItems.set(fromFolderKey, {
+        ...fromFolder,
+        count: fromFolder.count - 1
+      });
+
+      const toFolderKey = folderKey(action.toFolder.name);
+      const toFolder = newItems.get(toFolderKey);
+      newItems.set(toFolderKey, {
+        ...toFolder,
+        count: toFolder.count + 1
+      });
+
+      const newState = set('data.items', newItems, state);
+
+      // Redirect after the move.
+      return setRedirect(newState);
+    }
+
+    case SAVE_DRAFT_SUCCESS: {
+      let newState = state;
+
+      // After saving a new draft, increment the count on Drafts.
+      if (!action.isSavedDraft) {
+        const newItems = new Map(state.data.items);
+        const draftsKey = folderKey('Drafts');
+        const draftsFolder = newItems.get(draftsKey);
+
+        newItems.set(draftsKey, {
+          ...draftsFolder,
+          count: draftsFolder.count + 1
+        });
+
+        newState = set('data.items', newItems, newState);
+      }
+
+      return setRedirect(newState);
+    }
+
     case DELETE_COMPOSE_MESSAGE:
     case DELETE_MESSAGE_SUCCESS:
-    case MOVE_MESSAGE_SUCCESS:
-    case SAVE_DRAFT_SUCCESS:
     case SEND_MESSAGE_SUCCESS: {
-      // Upon completing any of these actions, set the redirect to the most
-      // recent folder. Default to 'Inbox' if no folder has been visited.
-      const folderName = _.get(
-        state,
-        'data.currentItem.attributes.name',
-        'Inbox'
-      );
-
-      const url = folderUrl(folderName);
-      return set('ui.redirect', url, state);
+      return setRedirect(state);
     }
 
     case UPDATE_ROUTE:
