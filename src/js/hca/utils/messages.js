@@ -1,5 +1,4 @@
-import { isBlank } from '../../common/utils/validations';
-import { isValidMonetaryValue } from './validations';
+import { isBlank, isValidMonetaryValue } from '../../common/utils/validations';
 
 const getMonetaryErrorMessage = (field) => {
   let result;
