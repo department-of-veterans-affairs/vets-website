@@ -92,6 +92,8 @@ describe('folders reducer', () => {
       .to.eql(messages.data.map(message => message.attributes));
     expect(newState.data.currentItem.pagination)
       .to.eql(messages.meta.pagination);
+    expect(newState.data.items.get('test-folder-123'))
+      .to.eql(folder.data.attributes);
   });
 
   it('should set folders fetched from the server', () => {
