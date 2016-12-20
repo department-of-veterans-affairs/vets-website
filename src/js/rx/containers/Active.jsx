@@ -24,6 +24,7 @@ class Active extends React.Component {
   constructor(props) {
     super(props);
     this.handleSort = this.handleSort.bind(this);
+    this.pushAnalyticsEvent = this.pushAnalyticsEvent.bind(this);
 
     this.checkWindowSize = _.debounce(() => {
       const toggleDisplayStyle = window.getComputedStyle(this.viewToggle, null).getPropertyValue('display');
