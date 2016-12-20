@@ -2,9 +2,10 @@ import React from 'react';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import { validateIfDirty } from '../../../common/utils/validations';
 
 import EmploymentPeriodReview from './EmploymentPeriodReview';
-import { isValidMonths, validateIfDirty } from '../../utils/validations';
+import { isValidMonths } from '../../utils/validations';
 import { employmentPeriodTiming } from '../../utils/options-for-select';
 
 export default class EmploymentPeriod extends React.Component {

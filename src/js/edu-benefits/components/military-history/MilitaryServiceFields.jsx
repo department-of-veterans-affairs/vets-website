@@ -3,8 +3,9 @@ import React from 'react';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableNumberInput from '../../../common/components/form-elements/ErrorableNumberInput';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
+import { validateIfDirty } from '../../../common/utils/validations';
 
-import { validateIfDirty, isValidCurrentOrPastYear, isValidField } from '../../utils/validations';
+import { isValidCurrentOrPastYear, isValidField } from '../../utils/validations';
 import { yesNo } from '../../utils/options-for-select';
 
 export default class MilitaryServiceFields extends React.Component {
