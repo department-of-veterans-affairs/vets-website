@@ -234,9 +234,12 @@ export class Folder extends React.Component {
   }
 
   makeMessagesTable() {
-    const { attributes, messages } = this.props;
+    const { messages, filter, attributes } = this.props;
 
     if (!messages || messages.length === 0) {
+      if (filter) {
+        return <p className="msg-nomessages">No messages found for your search.</p>;
+      }
       return <p className="msg-nomessages">You have no messages in this folder.</p>;
     }
 
@@ -345,7 +348,7 @@ export class Folder extends React.Component {
       const folderMessages = this.makeMessagesTable();
 
       let messageSearch;
-      if (this.props.messages && this.props.messages.length) {
+      if (this.props.messages && this.props.messages.length || this.props.filter) {
         messageSearch = (<MessageSearch
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
