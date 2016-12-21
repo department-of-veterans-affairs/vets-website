@@ -50,27 +50,6 @@ button.short {
   padding: 1rem;
 }
 
-button.usa-button-outline {
-  box-shadow: $button-stroke $color-primary;
-
-  &:hover,
-  &.usa-button-hover {
-    box-shadow: $button-stroke $color-primary-darker;
-    color: $color-primary-darker;
-  }
-
-  &:active,
-  &.usa-button-active {
-    box-shadow: $button-stroke $color-primary-darkest;
-    color: $color-primary-darkest;
-  }
-
-  &:focus,
-  &.usa-button-focus {
-    box-shadow: $button-stroke $color-primary-darkest, $focus-shadow;
-  }
-}
-
 button.hca-button-green {
   background: $color-green;
 }
@@ -153,10 +132,6 @@ button.hca-button-disabled {
   }
 }
 
-.text-capitalize {
-  text-transform: capitalize;
-}
-
 .hca-tooltip {
   max-width: 46rem;
   width: 100%;
@@ -169,4 +144,3 @@ button.hca-button-disabled {
     text-align: left;
   }
 }
-
