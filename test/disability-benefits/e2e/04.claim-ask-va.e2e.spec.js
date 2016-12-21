@@ -30,13 +30,6 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .click('.ask-va-alert a')
         .waitForElementVisible('.request-decision-button', Timeouts.normal);
 
-      // click on disabled button
-      client
-        .click('.usa-button-primary');
-
-      // should not have changed pages
-      client.assert.urlContains('ask-va-to-decide');
-
       // click on checkbox, then submit, expect success message
       client
         .click('input[type=checkbox]')
