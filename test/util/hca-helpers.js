@@ -178,11 +178,11 @@ function selectDropdown(client, field, value) {
   },
   [option],
   (result) => {
-    const arr = Array.from({ length: result.value }, () => { return '\uE015'; });
+    const arr = Array.from({ length: result.value }, () => { return client.Keys.DOWN_ARROW; });
     client
        .click(select)
        .keys(arr)
-       .keys(['\uE006']);
+       .keys([client.Keys.ENTER]);
   });
 }
 
