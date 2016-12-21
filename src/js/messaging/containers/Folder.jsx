@@ -267,7 +267,10 @@ export class Folder extends React.Component {
       fields.push({ label: '', value: 'moveToButton' });
     }
 
-    const folders = Array.from(this.props.folders.values());
+    const folders = [];
+    this.props.folders.forEach(v => {
+      folders.push(v);
+    });
 
     const data = messages.map(message => {
       const id = message.messageId;
