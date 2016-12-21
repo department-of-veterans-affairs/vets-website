@@ -147,10 +147,15 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const folders = [];
+  state.folders.data.items.forEach(v => {
+    folders.push(v);
+  });
+
   return {
     attachmentsModal: state.modals.attachments,
     createFolderModal: state.modals.createFolder,
-    folders: Array.from(state.folders.data.items.values()),
+    folders,
     isVisibleAdvancedSearch: state.search.advanced.visible,
     loading: state.loading,
     nav: state.folders.ui.nav,
