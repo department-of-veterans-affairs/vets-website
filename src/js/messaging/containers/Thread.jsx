@@ -56,7 +56,16 @@ export class Thread extends React.Component {
 
     if (redirect) {
       this.context.router.replace(redirect);
-    } else if (!loading.thread) {
+      return;
+    }
+
+    const currentFolder = this.getCurrentFolder();
+
+    if (!loading.folder && !this.props.folder && currentFolder) {
+      this.props.fetchFolder(currentFolder.folderId)
+    }
+
+    if (!loading.thread) {
       this.props.fetchThread(+this.props.params.messageId);
     }
   }
@@ -82,6 +91,7 @@ export class Thread extends React.Component {
   }
 
   getCurrentFolder() {
+    // Get current folder based on the URL.
     const folderName = this.props.params.folderName;
     const folder = this.props.folders.get(folderName);
     return folder;
@@ -136,7 +146,7 @@ export class Thread extends React.Component {
 
   makeHeader() {
     const {
-      folderMessages,
+      folder,
       folders,
       isSavedDraft,
       message,
@@ -145,9 +155,11 @@ export class Thread extends React.Component {
       thread
     } = this.props;
 
-    if (!message) {
+    if (!folder || !message) {
       return null;
     }
+
+    const folderMessages = folder.messages;
 
     // Find the current message's position
     // among the messages in the current folder.
@@ -372,8 +384,8 @@ const mapStateToProps = (state) => {
 
   return {
     draft,
+    folder,
     folders: state.folders.data.items,
-    folderMessages: folder.messages,
     isFormVisible: state.messages.ui.formVisible,
     isNewMessage,
     isSavedDraft,

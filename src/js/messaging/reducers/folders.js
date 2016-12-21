@@ -23,22 +23,7 @@ import {
 
 const initialState = {
   data: {
-    currentItem: {
-      attributes: {},
-      filter: {},
-      messages: [],
-      pagination: {
-        currentPage: 0,
-        perPage: 0,
-        totalEntries: 0,
-        totalPages: 0
-      },
-      persistFolder: 0,
-      sort: {
-        value: 'sentDate',
-        order: 'DESC'
-      }
-    },
+    currentItem: null,
     items: new Map()
   },
   ui: {
@@ -56,8 +41,7 @@ const folderKey = (folderName) => _.kebabCase(folderName);
 
 const setRedirect = (state) => {
   // Set the redirect to the most recent folder.
-  // Default to 'Inbox' if no folder has been visited.
-
+  // If no recent folder can be determined, default to 'Inbox'.
   const folderName = _.get(
     state,
     'data.currentItem.attributes.name',

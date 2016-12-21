@@ -40,7 +40,7 @@ export default function alert(state = initialState, action) {
   switch (action.type) {
     case UPDATE_ROUTE:
     case CLOSE_ALERT:
-      return createAlert('', alertStatus.INFO, false);
+      return initialState;
 
     case OPEN_ALERT:
       return createAlert(action.content, action.status);
