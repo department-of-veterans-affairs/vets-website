@@ -175,6 +175,10 @@ function isValidPartialMonthYearInPast(month, year) {
   return !year || isValidPartialMonthYear(month, year) && momentDate.isValid() && momentDate.isSameOrBefore(moment().startOf('month'));
 }
 
+function isBlankMonthYear(field) {
+  return isBlank(field.month.value) && isBlank(field.year.value);
+}
+
 function isValidDateOver17(day, month, year) {
   if (!isValidYear(year)) {
     return false;
@@ -186,42 +190,6 @@ function isValidDateOver17(day, month, year) {
     year
   });
   return momentDate.isBefore(moment().endOf('day').subtract(17, 'years'));
-}
-
-function isValidEntryDateField(date, dateOfBirth) {
-  let adjustedDate;
-  let adjustedDateOfBirth;
-
-  if (!isBlankDateField(date) && !isBlankDateField(dateOfBirth)) {
-    const adjustedBirthYear = Number(dateOfBirth.year.value) + 15;
-    adjustedDate = new Date(`${date.month.value}/${date.day.value}/${date.year.value}`);
-    adjustedDateOfBirth = new Date(`${dateOfBirth.month.value}/${dateOfBirth.day.value}/${adjustedBirthYear}`);
-
-    if (adjustedDate < adjustedDateOfBirth) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function isValidDischargeDateField(date, entryDate) {
-  let adjustedDate;
-  let adjustedEntryDate;
-  const d = new Date();
-  const today = new Date(d.setHours(0, 0, 0, 0));
-
-  if (!isBlankDateField(date) && !isBlankDateField(entryDate)) {
-    adjustedDate = new Date(`${date.month.value}/${date.day.value}/${date.year.value}`);
-    adjustedEntryDate = new Date(`${entryDate.month.value}/${entryDate.day.value}/${entryDate.year.value}`);
-
-    // Validation Rule: Discharge date must be after entry date and before today
-    if (adjustedDate < adjustedEntryDate || adjustedDate >= today) {
-      return false;
-    }
-  }
-
-  return true;
 }
 
 /**
@@ -324,6 +292,7 @@ export {
   isBlank,
   isBlankDateField,
   isBlankAddress,
+  isBlankMonthYear,
   isDirtyDate,
   isNotBlank,
   isNotBlankDateField,
@@ -335,9 +304,7 @@ export {
   isValidDateField,
   isValidDateOver17,
   isValidDateRange,
-  isValidDischargeDateField,
   isValidEmail,
-  isValidEntryDateField,
   isValidFullNameField,
   isValidField,
   isValidMonths,

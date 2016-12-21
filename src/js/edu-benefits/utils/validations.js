@@ -6,6 +6,7 @@ import { dateToMoment } from '../../common/utils/helpers';
 import {
   isBlank,
   isBlankAddress,
+  isBlankMonthYear,
   isNotBlank,
   isNotBlankDateField,
   isValidCurrentOrPastYear,
@@ -44,10 +45,6 @@ function isValidRoutingNumber(value) {
     return (weighted % 10) === 0;
   }
   return false;
-}
-
-function isBlankMonthYear(field) {
-  return isBlank(field.month.value) && isBlank(field.year.value);
 }
 
 function isValidFutureOrPastDateField(field) {

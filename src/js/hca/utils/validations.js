@@ -6,9 +6,7 @@ import {
   isNotBlank,
   isValidCanPostalCode,
   isValidDateField,
-  isValidDischargeDateField,
   isValidEmail,
-  isValidEntryDateField,
   isValidField,
   isValidFullNameField,
   isValidMonetaryValue,
@@ -29,6 +27,42 @@ function validateIfDirtyProvider(field1, field2, validator) {
 
 function isValidLastName(value) {
   return /^[a-zA-Z '\-]{2,}$/.test(value);
+}
+
+function isValidEntryDateField(date, dateOfBirth) {
+  let adjustedDate;
+  let adjustedDateOfBirth;
+
+  if (!isBlankDateField(date) && !isBlankDateField(dateOfBirth)) {
+    const adjustedBirthYear = Number(dateOfBirth.year.value) + 15;
+    adjustedDate = new Date(`${date.month.value}/${date.day.value}/${date.year.value}`);
+    adjustedDateOfBirth = new Date(`${dateOfBirth.month.value}/${dateOfBirth.day.value}/${adjustedBirthYear}`);
+
+    if (adjustedDate < adjustedDateOfBirth) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function isValidDischargeDateField(date, entryDate) {
+  let adjustedDate;
+  let adjustedEntryDate;
+  const d = new Date();
+  const today = new Date(d.setHours(0, 0, 0, 0));
+
+  if (!isBlankDateField(date) && !isBlankDateField(entryDate)) {
+    adjustedDate = new Date(`${date.month.value}/${date.day.value}/${date.year.value}`);
+    adjustedEntryDate = new Date(`${entryDate.month.value}/${entryDate.day.value}/${entryDate.year.value}`);
+
+    // Validation Rule: Discharge date must be after entry date and before today
+    if (adjustedDate < adjustedEntryDate || adjustedDate >= today) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 function isValidAddressField(field) {
@@ -339,6 +373,8 @@ function isValidSection(completePath, sectionData) {
 export {
   validateIfDirtyProvider,
   isValidLastName,
+  isValidEntryDateField,
+  isValidDischargeDateField,
   isValidInsurancePolicy,
   isValidDependentDateField,
   isValidMarriageDate,
