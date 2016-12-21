@@ -16,7 +16,6 @@ import {
   fetchRecipients,
   openAttachmentsModal,
   resetMessage,
-  resetRedirect,
   saveDraft,
   sendMessage,
   setMessageField,
@@ -37,18 +36,13 @@ export class Compose extends React.Component {
   }
 
   componentDidMount() {
-    this.props.resetMessage();
-    this.props.fetchRecipients();
-  }
-
-  componentDidUpdate() {
     if (this.props.redirect) {
       this.context.router.replace(this.props.redirect);
+      return;
     }
-  }
 
-  componentWillUnmount() {
-    this.props.resetRedirect();
+    this.props.resetMessage();
+    this.props.fetchRecipients();
   }
 
   apiFormattedMessage() {
@@ -115,7 +109,7 @@ export class Compose extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
+    if (this.props.loading.recipients) {
       return <LoadingIndicator message="Loading your application..."/>;
     }
 
@@ -172,11 +166,11 @@ Compose.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    deleteConfirmModal: state.modals.deleteConfirm,
+    loading: state.loading,
     message: state.compose.message,
-    loading: state.recipients.loading,
     recipients: state.recipients.data,
     redirect: state.folders.ui.redirect,
-    deleteConfirmModal: state.modals.deleteConfirm,
     saveConfirmModal: state.modals.saveConfirm
   };
 };
@@ -188,7 +182,6 @@ const mapDispatchToProps = {
   fetchRecipients,
   openAttachmentsModal,
   resetMessage,
-  resetRedirect,
   saveDraft,
   sendMessage,
   setMessageField,

@@ -48,8 +48,8 @@ export function deleteDraftAttachment(index) {
   return { type: DELETE_DRAFT_ATTACHMENT, index };
 }
 
-export function deleteMessage(id) {
-  const url = `${baseUrl}/${id}`;
+export function deleteMessage(messageId) {
+  const url = `${baseUrl}/${messageId}`;
 
   window.dataLayer.push({
     event: 'sm-delete-message',
@@ -67,17 +67,14 @@ export function deleteMessage(id) {
   };
 }
 
-export function fetchThread(id) {
+export function fetchThread(messageId) {
   return dispatch => {
     const errorHandler =
       () => dispatch({ type: FETCH_THREAD_FAILURE });
 
-    dispatch({
-      type: LOADING_THREAD,
-      requestId: id
-    });
+    dispatch({ type: LOADING_THREAD, messageId });
 
-    const messageUrl = `${baseUrl}/${id}`;
+    const messageUrl = `${baseUrl}/${messageId}`;
     const threadUrl = `${messageUrl}/thread`;
 
     Promise.all([messageUrl, threadUrl].map(
@@ -92,9 +89,9 @@ export function fetchThread(id) {
   };
 }
 
-export function fetchThreadMessage(id) {
+export function fetchThreadMessage(messageId) {
   return dispatch => {
-    const messageUrl = `${baseUrl}/${id}`;
+    const messageUrl = `${baseUrl}/${messageId}`;
 
     apiRequest(
       messageUrl,
@@ -108,9 +105,8 @@ export function fetchThreadMessage(id) {
   };
 }
 
-export function moveMessageToFolder(messageId, folder) {
-  const folderId = folder.folderId;
-  const url = `${baseUrl}/${messageId}/move?folder_id=${folderId}`;
+export function moveMessageToFolder(messageId, toFolder, fromFolder) {
+  const url = `${baseUrl}/${messageId}/move?folder_id=${toFolder.folderId}`;
 
   window.dataLayer.push({
     event: 'sm-move-message',
@@ -122,13 +118,13 @@ export function moveMessageToFolder(messageId, folder) {
     apiRequest(
       url,
       { method: 'PATCH' },
-      () => dispatch({ type: MOVE_MESSAGE_SUCCESS, folder }),
+      () => dispatch({ type: MOVE_MESSAGE_SUCCESS, toFolder, fromFolder }),
       () => dispatch({ type: MOVE_MESSAGE_FAILURE })
     );
   };
 }
 
-export function createFolderAndMoveMessage(folderName, messageId) {
+export function createFolderAndMoveMessage(folderName, messageId, fromFolder) {
   const foldersUrl = '/folders';
   const folderData = { folder: { name: folderName } };
 
@@ -149,9 +145,13 @@ export function createFolderAndMoveMessage(folderName, messageId) {
       foldersUrl,
       settings,
       (data) => {
-        const folder = data.data.attributes;
-        dispatch({ type: CREATE_FOLDER_SUCCESS, folder, noAlert: true });
-        return dispatch(moveMessageToFolder(messageId, folder));
+        const toFolder = data.data.attributes;
+        dispatch({
+          type: CREATE_FOLDER_SUCCESS,
+          folder: toFolder,
+          noAlert: true
+        });
+        return dispatch(moveMessageToFolder(messageId, toFolder, fromFolder));
       },
       () => dispatch({ type: CREATE_FOLDER_FAILURE })
     );
@@ -203,12 +203,17 @@ export function saveDraft(message) {
       settings,
       (response) => {
         if (isSavedDraft) {
-          return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
+          return dispatch({
+            type: SAVE_DRAFT_SUCCESS,
+            message,
+            isSavedDraft
+          });
         }
 
         return dispatch({
           type: SAVE_DRAFT_SUCCESS,
-          message: response.data.attributes
+          message: response.data.attributes,
+          isSavedDraft
         });
       },
       () => dispatch({ type: SAVE_DRAFT_FAILURE })

@@ -58,9 +58,9 @@
   }
 }
 
+// Because USWDS has high specificity
 button.rx-prescription-button,
 [type=submit].rx-prescription-button {
-  background: transparent;
   display: inline-block;
   font-weight: bold;
   margin: 0;
