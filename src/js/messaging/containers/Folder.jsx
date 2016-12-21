@@ -41,7 +41,7 @@ export class Folder extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.loading.folder && this.props.folders.size) {
+    if (!this.props.loading.folder) {
       const id = this.getRequestedFolderId();
       const query = this.getQueryParams();
       this.props.fetchFolder(id, query);
@@ -59,7 +59,7 @@ export class Folder extends React.Component {
       return;
     }
 
-    if (!this.props.loading.folder && this.props.folders.size) {
+    if (!this.props.loading.folder) {
       const lastRequest = this.props.lastRequestedFolder;
       const requestedId = this.getRequestedFolderId();
       const query = this.getQueryParams();
@@ -234,8 +234,12 @@ export class Folder extends React.Component {
   }
 
   makeMessagesTable() {
-    const messages = this.props.messages;
+    const { messages, filter, attributes } = this.props;
+
     if (!messages || messages.length === 0) {
+      if (filter) {
+        return <p className="msg-nomessages">No messages found for your search.</p>;
+      }
       return <p className="msg-nomessages">You have no messages in this folder.</p>;
     }
 
@@ -249,11 +253,9 @@ export class Folder extends React.Component {
       { label: 'Date', value: 'sentDate' }
     ];
 
-    const folderId = this.props.attributes.folderId;
-    const folderName = this.props.attributes.name;
+    const { folderId, name: folderName } = attributes;
     const isDraftsFolder = folderName === 'Drafts';
     const isSentFolder = folderName === 'Sent';
-    const moveToFolders = [];
     const markUnread = folderId >= 0;
 
     if (isDraftsFolder || isSentFolder) {
@@ -266,17 +268,14 @@ export class Folder extends React.Component {
       }
     } else {
       fields.push({ label: '', value: 'moveToButton' });
-
-      // Exclude the current folder from the list of folders
-      // that are passed down to the MoveTo component.
-      this.props.folders.forEach((folder) => {
-        if (folderId !== folder.folderId) {
-          moveToFolders.push(folder);
-        }
-      });
     }
 
-    const data = this.props.messages.map(message => {
+    const folders = [];
+    this.props.folders.forEach(v => {
+      folders.push(v);
+    });
+
+    const data = messages.map(message => {
       const id = message.messageId;
       const rowClass = classNames({
         'messaging-message-row': true,
@@ -286,7 +285,8 @@ export class Folder extends React.Component {
 
       const moveToButton = (
         <MoveTo
-            folders={moveToFolders}
+            currentFolder={attributes}
+            folders={folders}
             isOpen={id === this.props.moveToId}
             messageId={id}
             onChooseFolder={this.props.moveMessageToFolder}
@@ -348,7 +348,7 @@ export class Folder extends React.Component {
       const folderMessages = this.makeMessagesTable();
 
       let messageSearch;
-      if (this.props.messages && this.props.messages.length) {
+      if (this.props.messages && this.props.messages.length || this.props.filter) {
         messageSearch = (<MessageSearch
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}

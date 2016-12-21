@@ -56,7 +56,7 @@ export default class AccessToCare extends Component {
 
     return (
       <div className="mb2">
-        <h4 className="highlight">Access to Care</h4>
+        <h4 className="highlight">Satisfaction Score</h4>
         <p>Current as of <strong>Feb 2016 - Jul 2016</strong></p>
         <div>
           <table className="usa-table-borderless" style={{ margin: '2em 0 0.5em' }}>

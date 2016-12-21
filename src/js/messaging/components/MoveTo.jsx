@@ -23,13 +23,23 @@ class MoveTo extends React.Component {
     const moveToFolder = this.props.folders.find((folder) => {
       return folder.folderId === folderId;
     });
-    this.props.onChooseFolder(this.props.messageId, moveToFolder);
+
+    this.props.onChooseFolder(
+      this.props.messageId,
+      moveToFolder,
+      this.props.currentFolder
+    );
   }
 
   render() {
-    // Return only Inbox, and veteran-defined folders
+    // Only list Inbox, and veteran-defined folders
+    // and exclude the current folder.
     const folders = this.props.folders.filter((folder) => {
-      return folder.folderId >= 0;
+      const folderId = folder.folderId;
+      const isEligibleFolder =
+        folderId >= 0 &&
+        folderId !== this.props.currentFolder.folderId;
+      return isEligibleFolder;
     });
 
     const folderOptions = folders.map((folder) => {
@@ -67,6 +77,12 @@ class MoveTo extends React.Component {
 }
 
 MoveTo.propTypes = {
+  currentFolder: React.PropTypes.shape({
+    folderId: React.PropTypes.number.isRequired,
+    name: React.PropTypes.string.isRequired,
+    count: React.PropTypes.number.isRequired,
+    unreadCount: React.PropTypes.number.isRequired
+  }),
   folders: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       folderId: React.PropTypes.number.isRequired,
