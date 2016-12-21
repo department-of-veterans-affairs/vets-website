@@ -36,7 +36,10 @@ const initialState = {
 export default function modals(state = initialState, action) {
   switch (action.type) {
     case SET_ADVSEARCH_END_DATE:
-      return set('params.dateRange.end', moment(action.date).endOf('day'), state);
+      if (action.date) {
+        return set('params.dateRange.end', moment(action.date).endOf('day'), state);
+      }
+      return set('params.dateRange.end', null, state);
     case SET_ADVSEARCH_START_DATE:
       return set('params.dateRange.start', action.date, state);
     case SET_SEARCH_PARAM:
