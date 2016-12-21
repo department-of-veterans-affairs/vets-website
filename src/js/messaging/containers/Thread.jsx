@@ -137,7 +137,6 @@ export class Thread extends React.Component {
   makeHeader() {
     const {
       folderMessages,
-      folders,
       isSavedDraft,
       message,
       messagesCollapsed,
@@ -168,12 +167,17 @@ export class Thread extends React.Component {
                                ? this.props.toggleConfirmDelete
                                : this.handleMessageDelete;
 
+    const folders = [];
+    this.props.folders.forEach(v => {
+      folders.push(v);
+    });
+
     return (
       <ThreadHeader
           currentFolder={this.getCurrentFolder()}
           currentMessageNumber={currentIndex + 1}
           folderMessageCount={folderMessages.length}
-          folders={Array.from(folders.values())}
+          folders={folders}
           message={message}
           onMessageSelect={handleMessageSelect}
           threadMessageCount={thread.length + 1}

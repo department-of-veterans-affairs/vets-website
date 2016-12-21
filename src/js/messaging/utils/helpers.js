@@ -29,21 +29,29 @@ export function createUrlWithQuery(url, query) {
   return fullUrl;
 }
 
+export function authFetch(url, optionalSettings) {
+  const defaultSettings = {
+    method: 'GET',
+    headers: {
+      Authorization: `Token token=${sessionStorage.userToken}`
+    }
+  };
+
+  return fetch(url, merge(defaultSettings, optionalSettings));
+}
+
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0/messaging/health`;
   const url = [baseUrl, resource].join('');
 
   const defaultSettings = {
     method: 'GET',
-    headers: {
-      Authorization: `Token token=${sessionStorage.userToken}`,
-      'X-Key-Inflection': 'camel'
-    }
+    headers: { 'X-Key-Inflection': 'camel' }
   };
 
   const settings = merge(defaultSettings, optionalSettings);
 
-  return fetch(url, settings)
+  return authFetch(url, settings)
     .then((response) => {
       if (!response.ok) {
         return Promise.reject(response);
