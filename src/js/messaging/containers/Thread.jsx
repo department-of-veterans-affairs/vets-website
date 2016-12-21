@@ -137,7 +137,6 @@ export class Thread extends React.Component {
   makeHeader() {
     const {
       folderMessages,
-      folders,
       isSavedDraft,
       message,
       messagesCollapsed,
@@ -148,17 +147,6 @@ export class Thread extends React.Component {
     if (!message) {
       return null;
     }
-
-    const currentFolder = this.getCurrentFolder();
-
-    // Exclude the current folder from the list of folders
-    // that are passed down to the MoveTo component.
-    const moveToFolders = [];
-    folders.forEach((folder) => {
-      if (folder.folderId !== currentFolder.folderId) {
-        moveToFolders.push(folder);
-      }
-    });
 
     // Find the current message's position
     // among the messages in the current folder.
@@ -179,12 +167,17 @@ export class Thread extends React.Component {
                                ? this.props.toggleConfirmDelete
                                : this.handleMessageDelete;
 
+    const folders = [];
+    this.props.folders.forEach(v => {
+      folders.push(v);
+    });
+
     return (
       <ThreadHeader
+          currentFolder={this.getCurrentFolder()}
           currentMessageNumber={currentIndex + 1}
-          moveToFolders={moveToFolders}
           folderMessageCount={folderMessages.length}
-          folderName={currentFolder.name}
+          folders={folders}
           message={message}
           onMessageSelect={handleMessageSelect}
           threadMessageCount={thread.length + 1}
