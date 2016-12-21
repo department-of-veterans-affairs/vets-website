@@ -11,6 +11,7 @@ module.exports = {
   src_folders: ['./test'],
   output_folder: './logs/nightwatch',
   custom_commands_path: './test/util/nightwatch-commands',
+  custom_assertions_path: './test/util/nightwatch-assertions',
   live_output: true,
   parallel_process_delay: 10,
   disable_colors: false,
@@ -52,6 +53,20 @@ module.exports = {
 
     accessibility: {
       filter: './test/accessibility/*.spec.js',
+      globals: {
+        asyncHookTimeout: 20000,
+      },
+      desiredCapabilities: {
+        browserName: 'phantomjs',
+        javascriptEnabled: true,
+        acceptSslCerts: true,
+        webStorageEnabled: true,
+        'phantomjs.binary.path': require('phantomjs-prebuilt').path
+      }
+    },
+
+    ui: {
+      filter: './test/ui/*.spec.js',
       globals: {
         asyncHookTimeout: 20000,
       },

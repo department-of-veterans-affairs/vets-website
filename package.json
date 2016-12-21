@@ -16,11 +16,13 @@
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
     "test:unit": "mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:coverage": "NODE_ENV=test nyc --all --reporter=text --reporter=html mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
+    "test:ui": "./script/run-nightwatch.sh --env ui",
     "test:unit:msg": "mocha --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
     "test:unit:rx": "mocha --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
     "test:unit:login": "mocha --recursive 'test/login/**/*.unit.spec.js?(x)' ",
     "test:watch": "mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
     "watch": "node script/build.js --watch",
+    "watch:visual": "npm run test:ui && npm run watch",
     "watch:static": "npm run watch -- --entry no-react"
   },
   "repository": {
@@ -144,6 +146,7 @@
     "redbox-react": "^1.2.10",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
+    "resemble": "^1.4.0",
     "resolve-url-loader": "^1.6.0",
     "sass-lint": "^1.8.2",
     "sass-loader": "^4.0.0",
