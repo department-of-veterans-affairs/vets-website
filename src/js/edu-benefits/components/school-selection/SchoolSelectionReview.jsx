@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getLabel, showSchoolAddress, showYesNo } from '../../utils/helpers';
-import { schoolTypes } from '../../utils/options-for-select';
+import { schoolTypesWithTuitionTopUp } from '../../utils/options-for-select';
 
 export default class SchoolSelectionReview extends React.Component {
   render() {
@@ -10,7 +10,7 @@ export default class SchoolSelectionReview extends React.Component {
         <tbody>
           <tr>
             <td>Type of education or training:</td>
-            <td>{getLabel(schoolTypes, this.props.data.educationType.value)}</td>
+            <td>{getLabel(schoolTypesWithTuitionTopUp, this.props.data.educationType.value)}</td>
           </tr>
           {showSchoolAddress(this.props.data.educationType.value)
             ? <tbody>
