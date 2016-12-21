@@ -3,9 +3,11 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 import ErrorableNumberInput from '../../../common/components/form-elements/ErrorableNumberInput';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
+import { validateIfDirty, isValidYearOrBlank } from '../../../common/utils/validations';
+
 import RotcScholarship from './RotcScholarship';
 import { createRotcScholarship } from '../../utils/veteran';
-import { isValidPage, validateIfDirty, isValidYearOrBlank, isValidRotcScholarshipAmount } from '../../utils/validations';
+import { isValidPage, isValidRotcScholarshipAmount } from '../../utils/validations';
 import { yesNo } from '../../utils/options-for-select';
 
 export default class RotcHistoryFields extends React.Component {
