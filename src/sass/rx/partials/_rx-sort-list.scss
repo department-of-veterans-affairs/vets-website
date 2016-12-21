@@ -10,7 +10,7 @@
   }
 
   li {
-    padding: 0 0.5em;
+    padding: 0.5em;
   }
 
   li + li {
@@ -40,6 +40,10 @@
 @media screen and (max-width: $medium-screen) {
   .rx-sort {
     width: 100%;
+
+    li {
+      margin-top: 0.5em;
+    }
   }
 }
 
