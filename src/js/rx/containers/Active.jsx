@@ -118,11 +118,11 @@ class Active extends React.Component {
                 onChange={this.handleSort}
                 onClick={this.handleSort}
                 options={sortOptions}
-                selected={sortValue.value}/>
+                selected={sortValue}/>
             <PrescriptionList
                 items={this.props.prescriptions}
                 // If we're sorting by facility, tell PrescriptionList to group 'em.
-                grouped={sortValue === 'facilityName'}
+                grouped={sortValue.value === 'facilityName'}
                 refillModalHandler={this.props.openRefillModal}
                 glossaryModalHandler={this.props.openGlossaryModal}/>
           </div>
