@@ -44,7 +44,7 @@ export default class ClaimDetailLayout extends React.Component {
                     : null}
                 </div>
                 <TabNav id={this.props.claim.id}/>
-                <div className="va-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
+                <div className="va-tab-content db-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
                   {isPopulatedClaim(claim) || !claim.attributes.open ? null : <AddingDetails/>}
                   {this.props.children}
                 </div>
