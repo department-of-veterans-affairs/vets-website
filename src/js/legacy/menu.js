@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* 
     overlay will be _either_    
-    - A .va-overlay parent of with a .va-overlay-close child
+    - A .va-overlay parent with a .va-overlay-close child
     - The value of element.getAttribute('href')
     - The value of element.dataset.show
     
