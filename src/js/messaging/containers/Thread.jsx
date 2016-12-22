@@ -64,7 +64,7 @@ export class Thread extends React.Component {
       !loading.folder && folder.attributes.id !== currentFolder.id;
 
     if (shouldFetchFolder) {
-      this.props.fetchFolder(currentFolder.folderId)
+      this.props.fetchFolder(currentFolder.folderId);
     }
 
     if (!loading.thread) {
