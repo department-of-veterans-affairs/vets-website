@@ -23,7 +23,17 @@ import {
 
 const initialState = {
   data: {
-    currentItem: null,
+    currentItem: {
+      attributes: {},
+      filter: {},
+      messages: [],
+      pagination: {},
+      persistFolder: 0,
+      sort: {
+        value: 'sentDate',
+        order: 'DESC'
+      },
+    },
     items: new Map()
   },
   ui: {

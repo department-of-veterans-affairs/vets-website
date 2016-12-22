@@ -52,7 +52,7 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
-    const { loading, redirect } = this.props;
+    const { folder, loading, redirect } = this.props;
 
     if (redirect) {
       this.context.router.replace(redirect);
@@ -60,8 +60,10 @@ export class Thread extends React.Component {
     }
 
     const currentFolder = this.getCurrentFolder();
+    const shouldFetchFolder =
+      !loading.folder && folder.attributes.id !== currentFolder.id;
 
-    if (!loading.folder && !this.props.folder && currentFolder) {
+    if (shouldFetchFolder) {
       this.props.fetchFolder(currentFolder.folderId)
     }
 

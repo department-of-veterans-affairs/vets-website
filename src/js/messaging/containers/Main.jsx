@@ -147,6 +147,8 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const folder = state.folders.data.currentItem;
+
   const folders = [];
   state.folders.data.items.forEach(v => {
     folders.push(v);
@@ -159,7 +161,7 @@ const mapStateToProps = (state) => {
     isVisibleAdvancedSearch: state.search.advanced.visible,
     loading: state.loading,
     nav: state.folders.ui.nav,
-    persistFolder: folder ? folder.persistFolder : 0
+    persistFolder: folder.persistFolder
   };
 };
 
