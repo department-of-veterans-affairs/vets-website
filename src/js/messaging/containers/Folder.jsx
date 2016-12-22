@@ -237,7 +237,7 @@ export class Folder extends React.Component {
   }
 
   makeMessagesTable() {
-    const { messages, filter, attributes } = this.props;
+    const { attributes, filter, messages } = this.props;
 
     if (!messages || messages.length === 0) {
       if (filter) {
@@ -246,9 +246,7 @@ export class Folder extends React.Component {
       return <p className="msg-nomessages">You have no messages in this folder.</p>;
     }
 
-    const makeMessageLink = (content, id) => {
-      return <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>;
-    };
+    // Create sortable table headers.
 
     const fields = [
       { label: 'From', value: 'senderName' },
@@ -273,10 +271,16 @@ export class Folder extends React.Component {
       fields.push({ label: '', value: 'moveToButton' });
     }
 
+    // Create sortable table rows.
+
     const folders = [];
     this.props.folders.forEach(v => {
       folders.push(v);
     });
+
+    const makeMessageLink = (content, id) => {
+      return <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>;
+    };
 
     const data = messages.map(message => {
       const id = message.messageId;
@@ -403,18 +407,19 @@ Folder.contextTypes = {
 const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
   const { attributes, filter, messages, pagination, sort } = folder;
+  const { lastRequestedFolder, moveToId, redirect } = state.folders.ui;
 
   return {
     attributes,
     filter,
     folders: state.folders.data.items,
-    lastRequestedFolder: state.folders.ui.lastRequestedFolder,
+    isAdvancedVisible: state.search.advanced.visible,
+    lastRequestedFolder,
     loading: state.loading,
     messages,
-    moveToId: state.folders.ui.moveToId,
+    moveToId,
     pagination,
-    redirect: state.folders.ui.redirect,
-    isAdvancedVisible: state.search.advanced.visible,
+    redirect,
     searchParams: state.search.params,
     sort
   };
