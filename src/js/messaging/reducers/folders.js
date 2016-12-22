@@ -57,7 +57,6 @@ const folderKey = (folderName) => _.kebabCase(folderName);
 const setRedirect = (state) => {
   // Set the redirect to the most recent folder.
   // Default to 'Inbox' if no folder has been visited.
-
   const folderName = _.get(
     state,
     'data.currentItem.attributes.name',
