@@ -9,7 +9,7 @@ const props = {
     folderId: 0,
     name: 'Inbox'
   },
-  currentRange: '1 - 5',
+  filter: {},
   folders: new Map([
     ['inbox', {}],
     ['drafts', {}],
@@ -17,7 +17,6 @@ const props = {
     ['deleted', {}],
     ['personal-folder', {}],
   ]),
-  filter: undefined,
   loading: {
     folder: false
   },
@@ -28,15 +27,20 @@ const props = {
     { body: 'test4' },
     { body: 'test5' }
   ],
-  messageCount: 5,
-  page: 1,
+  moveToId: null,
+  pagination: {
+    currentPage: 1,
+    perPage: 10,
+    totalEntries: 5,
+    totalPages: 1
+  },
   params: { folderName: 'inbox' },
-  recipients: [],
+  redirect: null,
+  searchParams: {},
   sort: {
     value: 'sentDate',
     order: 'DESC'
   },
-  totalPages: 1,
 
   // No-op function to override dispatch
   dispatch: () => {}
