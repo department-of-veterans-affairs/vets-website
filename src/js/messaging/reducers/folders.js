@@ -26,11 +26,16 @@ const initialState = {
       attributes: {},
       filter: {},
       messages: [],
-      pagination: {},
+      pagination: {
+        currentPage: 0,
+        perPage: 0,
+        totalEntries: 0,
+        totalPages: 0
+      },
       sort: {
         value: 'sentDate',
         order: 'DESC'
-      },
+      }
     },
     items: new Map()
   },
@@ -50,12 +55,7 @@ const folderKey = (folderName) => _.kebabCase(folderName);
 const setRedirect = (state, allowBack = false) => {
   // Set the redirect to the most recent folder.
   // If no recent folder can be determined, default to 'Inbox'.
-  const folderName = _.get(
-    state,
-    'data.currentItem.attributes.name',
-    'Inbox'
-  );
-
+  const folderName = _.get(state, 'data.currentItem.attributes.name', 'Inbox');
   const url = folderUrl(folderName);
   return set('ui.redirect', { url, allowBack }, state);
 };
