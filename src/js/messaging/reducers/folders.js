@@ -26,12 +26,7 @@ const initialState = {
       attributes: {},
       filter: {},
       messages: [],
-      pagination: {
-        currentPage: 0,
-        perPage: 0,
-        totalEntries: 0,
-        totalPages: 0
-      },
+      pagination: {},
       sort: {
         value: 'sentDate',
         order: 'DESC'

@@ -160,16 +160,19 @@ export class Folder extends React.Component {
   }
 
   makeMessageNav() {
-    const { currentRange, messageCount, currentPage, totalPages } = this.props;
+    const { pagination } = this.props;
+    const { currentPage, perPage, totalEntries, totalPages } = pagination;
 
-    if (messageCount === 0) {
-      return null;
-    }
+    if (_.isEmpty(pagination) || !totalEntries) return null;
+
+    const startCount = 1 + (currentPage - 1) * perPage;
+    const endCount = Math.min(totalEntries, currentPage * perPage);
+    const currentRange = `${startCount} - ${endCount}`;
 
     return (
       <MessageNav
           currentRange={currentRange}
-          messageCount={messageCount}
+          messageCount={totalEntries}
           onItemSelect={this.handlePageSelect}
           itemNumber={currentPage}
           totalItems={totalPages}/>
@@ -400,24 +403,17 @@ Folder.contextTypes = {
 const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
   const { attributes, filter, messages, pagination, sort } = folder;
-  const { currentPage, perPage, totalEntries, totalPages } = pagination;
-
-  const startCount = 1 + (currentPage - 1) * perPage;
-  const endCount = Math.min(totalEntries, currentPage * perPage);
 
   return {
     attributes,
-    currentRange: `${startCount} - ${endCount}`,
     filter,
     folders: state.folders.data.items,
     lastRequestedFolder: state.folders.ui.lastRequestedFolder,
     loading: state.loading,
-    messageCount: totalEntries,
     messages,
     moveToId: state.folders.ui.moveToId,
-    currentPage,
+    pagination,
     redirect: state.folders.ui.redirect,
-    totalPages,
     isAdvancedVisible: state.search.advanced.visible,
     searchParams: state.search.params,
     sort
