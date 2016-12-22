@@ -64,7 +64,11 @@ module.exports = {
         acceptSslCerts: true,
         webStorageEnabled: true,
         'phantomjs.binary.path': require('phantomjs-prebuilt').path
-      }
+      },
+      test_workers: {
+        enabled: true,
+        workers: 10,
+      },
     }
   }
 };
