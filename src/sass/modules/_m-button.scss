@@ -8,16 +8,45 @@ button,
 [type="reset"],
 [type="image"] {
   background-color: $color-primary;
+
+  &.usa-button-outline {
+    background: transparent;
+  }
 }
 
 .usa-button-primary {
   &:hover {
-    background-color: $color-primary-darker;
+    // background-color: $color-primary-darker;
+  } 
+  &[href^=http] {
+    background-image: none;
+    // TODO: clean up #content .main.interior a then remove !important
+    text-decoration: none !important;
+  }
+}
+
+.usa-button-outline-exit {
+  &::after {
+    background-image: url(/img/icons/exit-icon-primary.png);
+    background-size: 1em auto;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    // Content must have a decender in it
+    content: "leave vets.gov";
+    background-repeat: no-repeat;
+    background-position: top center;
+    margin-left: .3em;
+    text-indent: -9999em;
+    padding-right: 1.1em;
+  }
+  &:hover::after {
+    background-image: url(/img/icons/exit-icon-primary-darker.png);
   }
 }
 
 .usa-button-disabled {
-    background-color: $color-gray-lighter;
+  background-color: $color-gray-lighter;
 }
 
 .row.form-progress-buttons {
@@ -37,32 +66,6 @@ button i.fa {
 button.short {
   font-weight: 500;
   padding: 1rem;
-}
-
-button.usa-button-outline {
-  box-shadow: $button-stroke $color-primary;
-
-  &:hover,
-  &.usa-button-hover {
-    box-shadow: $button-stroke $color-primary-darker;
-    color: $color-primary-darker;
-  }
-
-  &:active,
-  &.usa-button-active {
-    box-shadow: $button-stroke $color-primary-darkest;
-    color: $color-primary-darkest;
-  }
-
-  &:focus,
-  &.usa-button-focus {
-    box-shadow: $button-stroke $color-primary-darkest, $focus-shadow;
-  }
-
-  &.va-button-warn {
-    box-shadow: $button-stroke $color-secondary-darkest;
-    color: $color-secondary-darkest;
-  }
 }
 
 // For links and buttons that look like links and have an icon.
