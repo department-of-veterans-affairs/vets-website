@@ -54,8 +54,11 @@ export class Folder extends React.Component {
     // In the typical case of redirects, we go to the most recent folder
     // and proceed with fetching its data. If that's not the case,
     // go ahead to the URL specified in the redirect.
-    if (redirect && redirect !== this.props.location.pathname) {
-      this.context.router.replace(redirect);
+    if (redirect && redirect.url !== this.props.location.pathname) {
+      this.context.router.push({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
       return;
     }
 
