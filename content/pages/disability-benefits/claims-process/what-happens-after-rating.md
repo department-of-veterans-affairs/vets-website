@@ -11,9 +11,9 @@ Disability compensation may include financial compensation (payments) as well as
 If you haven’t gotten your decision notice:
 
 - [Check your status](/disability-benefits/track-claims/), **or**
-
-- [Contact your local VA or eligibility office](/facility-locator/)
-
+- [Contact your local regional benefit office](http://www.benefits.va.gov/benefits/offices.asp), **or**
+- Call us at <span class="tel">800-827-1000</span>, **or**
+- [Contact us online](https://iris.custhelp.com/app/ask/session/L3RpbWUvMTQ4MTgwOTI0My9zaWQvbnNTbnViNm4%3D) 
 </div>
 
 
