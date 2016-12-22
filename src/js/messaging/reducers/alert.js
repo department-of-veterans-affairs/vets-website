@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import _ from 'lodash';
 
 import { folderUrl } from '../utils/helpers';
 
@@ -38,13 +39,12 @@ export default function alert(state = initialState, action) {
   }
 
   switch (action.type) {
-    // Route changes that occur after certain operations on messages
-    // are redirects and should be 'REPLACE' actions. Keep alerts up
-    // after that as they would otherwise be dismissed right away.
-    case UPDATE_ROUTE:
-      return (action.location.action !== 'REPLACE')
-        ? initialState
-        : state;
+    case UPDATE_ROUTE: {
+      // Certain route changes set a flag to preserve alerts
+      // that would otherwise have been immediately dismissed.
+      const preserveAlert = _.get(action, 'location.state.preserveAlert', false);
+      return preserveAlert ? state : initialState;
+    }
 
     case CLOSE_ALERT:
       return initialState;

@@ -36,8 +36,12 @@ export class Compose extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.redirect) {
-      this.context.router.replace(this.props.redirect);
+    const { redirect } = this.props;
+    if (redirect) {
+      this.context.router.replace({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
       return;
     }
 
@@ -46,9 +50,12 @@ export class Compose extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.redirect) {
-      this.context.router.replace(this.props.redirect);
-      return;
+    const { redirect } = this.props;
+    if (redirect) {
+      this.context.router.replace({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
     }
   }
 

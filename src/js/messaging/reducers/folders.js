@@ -47,7 +47,7 @@ const initialState = {
 
 const folderKey = (folderName) => _.kebabCase(folderName);
 
-const setRedirect = (state) => {
+const setRedirect = (state, allowBack = false) => {
   // Set the redirect to the most recent folder.
   // If no recent folder can be determined, default to 'Inbox'.
   const folderName = _.get(
@@ -57,7 +57,7 @@ const setRedirect = (state) => {
   );
 
   const url = folderUrl(folderName);
-  return set('ui.redirect', url, state);
+  return set('ui.redirect', { url, allowBack }, state);
 };
 
 export default function folders(state = initialState, action) {
@@ -172,9 +172,10 @@ export default function folders(state = initialState, action) {
 
     case SAVE_DRAFT_SUCCESS: {
       let newState = state;
+      const { isSavedDraft } = action;
 
       // After saving a new draft, increment the count on Drafts.
-      if (!action.isSavedDraft) {
+      if (!isSavedDraft) {
         const newItems = new Map(state.data.items);
         const draftsKey = folderKey('Drafts');
         const draftsFolder = newItems.get(draftsKey);
@@ -187,7 +188,7 @@ export default function folders(state = initialState, action) {
         newState = set('data.items', newItems, newState);
       }
 
-      return setRedirect(newState);
+      return setRedirect(newState, isSavedDraft);
     }
 
     case DELETE_COMPOSE_MESSAGE:

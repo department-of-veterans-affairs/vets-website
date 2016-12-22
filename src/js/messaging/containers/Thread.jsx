@@ -55,7 +55,17 @@ export class Thread extends React.Component {
     const { folder, loading, redirect } = this.props;
 
     if (redirect) {
-      this.context.router.replace(redirect);
+      const redirectOptions = {
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      };
+
+      if (redirect.allowBack) {
+        this.context.router.push(redirectOptions);
+      } else {
+        this.context.router.replace(redirectOptions);
+      }
+
       return;
     }
 
