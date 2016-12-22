@@ -6,7 +6,7 @@ template: 4-action-page
 concurrence: incomplete
 ---
 
-Were you part of testing or storing Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War)—on bases in the United States or elsewhere? Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
+Were you part of testing or storing Agent Orange on bases in the United States or elsewhere? Agent Orange is a toxic chemical used to clear trees and plants during the Vietnam War. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
 
 <div class="call-out" markdown="1">
 
