@@ -60,8 +60,8 @@ describe('Folder', () => {
       <Folder {...props } loading={{ folder: true }}/>
     );
     expect(tree.subTree('LoadingIndicator')).to.not.be.false;
-    expect(tree.subTree('MessageNav')).to.be.false;
     expect(tree.subTree('MessageSearch')).to.be.false;
+    expect(tree.subTree('MessageNav')).to.be.false;
     expect(tree.subTree('SortableTable')).to.be.false;
   });
 
@@ -71,8 +71,8 @@ describe('Folder', () => {
     );
     expect(tree.subTree('.msg-loading-error')).to.not.be.false;
     expect(tree.subTree('.msg-reload')).to.be.false;
-    expect(tree.subTree('MessageNav')).to.be.false;
     expect(tree.subTree('MessageSearch')).to.be.false;
+    expect(tree.subTree('MessageNav')).to.be.false;
     expect(tree.subTree('SortableTable')).to.be.false;
   });
 
@@ -85,8 +85,17 @@ describe('Folder', () => {
     );
     expect(tree.subTree('.msg-loading-error')).to.not.be.false;
     expect(tree.subTree('.msg-reload')).to.be.not.be.false;
-    expect(tree.subTree('MessageNav')).to.be.false;
     expect(tree.subTree('MessageSearch')).to.be.false;
+    expect(tree.subTree('MessageNav')).to.be.false;
     expect(tree.subTree('SortableTable')).to.be.false;
+  });
+
+  it('should display message controls', () => {
+    const tree = SkinDeep.shallowRender(
+      <Folder {...props }/>
+    );
+    expect(tree.subTree('ComposeButton')).to.not.be.false;
+    expect(tree.subTree('MessageSearch')).to.not.be.false;
+    expect(tree.subTree('MessageNav')).to.not.be.false;
   });
 });
