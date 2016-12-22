@@ -31,7 +31,7 @@ class SortMenu extends React.Component {
   renderSortLinks() {
     const { selected: { value, order } } = this.props;
 
-    const options = this.props.selected.value === 'lastSubmitDate' ? {
+    const options = value === 'lastSubmitDate' ? {
       'Newest to Oldest': 'ASC', 'Oldest to Newest': 'DESC'
     } : { 'A-Z': 'ASC', 'Z-A': 'DESC' };
 
