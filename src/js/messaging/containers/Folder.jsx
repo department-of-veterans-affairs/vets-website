@@ -399,7 +399,7 @@ Folder.contextTypes = {
 
 const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
-  const { attributes, messages, pagination, sort } = folder;
+  const { attributes, filter, messages, pagination, sort } = folder;
   const { currentPage, perPage, totalEntries, totalPages } = pagination;
 
   const startCount = 1 + (currentPage - 1) * perPage;
