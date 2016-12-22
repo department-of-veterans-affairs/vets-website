@@ -38,7 +38,14 @@ export default function alert(state = initialState, action) {
   }
 
   switch (action.type) {
+    // Route changes that occur after certain operations on messages
+    // are redirects and should be 'REPLACE' actions. Keep alerts up
+    // after that as they would otherwise be dismissed right away.
     case UPDATE_ROUTE:
+      return (action.location.action !== 'REPLACE')
+        ? initialState
+        : state;
+
     case CLOSE_ALERT:
       return initialState;
 
