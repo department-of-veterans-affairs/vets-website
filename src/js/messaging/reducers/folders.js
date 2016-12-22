@@ -157,21 +157,27 @@ export default function folders(state = initialState, action) {
       // Update the counts on the affected folders after moving a message.
       const newItems = new Map(state.data.items);
 
-      const fromFolderKey = folderKey(action.fromFolder.name);
-      const fromFolder = newItems.get(fromFolderKey);
+      const fromFolder = state.data.currentItem.attributes;
+      const fromFolderKey = folderKey(fromFolder.name);
       newItems.set(fromFolderKey, {
         ...fromFolder,
         count: fromFolder.count - 1
       });
 
-      const toFolderKey = folderKey(action.toFolder.name);
+      const toFolderKey = folderKey(action.folder.name);
       const toFolder = newItems.get(toFolderKey);
       newItems.set(toFolderKey, {
         ...toFolder,
         count: toFolder.count + 1
       });
 
-      const newState = set('data.items', newItems, state);
+      let newState = set('data.items', newItems, state);
+
+      newState = set(
+        'data.currentItem.attributes',
+        newItems.get(fromFolderKey),
+        newState
+      );
 
       // Redirect after the move.
       return setRedirect(newState);

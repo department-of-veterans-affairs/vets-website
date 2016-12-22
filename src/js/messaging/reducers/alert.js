@@ -91,7 +91,7 @@ export default function alert(state = initialState, action) {
       );
 
     case MOVE_MESSAGE_SUCCESS: {
-      const folderName = action.toFolder.name;
+      const folderName = action.folder.name;
       const link = <Link to={folderUrl(folderName)}>{folderName}</Link>;
       return createAlert(
         <b>Your message has been moved to {link}.</b>,
