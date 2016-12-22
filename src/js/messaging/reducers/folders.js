@@ -14,7 +14,6 @@ import {
   MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
-  SET_CURRENT_FOLDER,
   TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS,
@@ -33,7 +32,6 @@ const initialState = {
         totalEntries: 0,
         totalPages: 0
       },
-      persistFolder: 0,
       sort: {
         value: 'sentDate',
         order: 'DESC'
@@ -54,17 +52,12 @@ const initialState = {
 
 const folderKey = (folderName) => _.kebabCase(folderName);
 
-const setRedirect = (state) => {
+const setRedirect = (state, allowBack = false) => {
   // Set the redirect to the most recent folder.
-  // Default to 'Inbox' if no folder has been visited.
-  const folderName = _.get(
-    state,
-    'data.currentItem.attributes.name',
-    'Inbox'
-  );
-
+  // If no recent folder can be determined, default to 'Inbox'.
+  const folderName = _.get(state, 'data.currentItem.attributes.name', 'Inbox');
   const url = folderUrl(folderName);
-  return set('ui.redirect', url, state);
+  return set('ui.redirect', { url, allowBack }, state);
 };
 
 export default function folders(state = initialState, action) {
@@ -87,7 +80,6 @@ export default function folders(state = initialState, action) {
     case FETCH_FOLDER_SUCCESS: {
       const attributes = action.folder.data.attributes;
       const messages = action.messages.data.map(message => message.attributes);
-      const persistFolder = action.folder.data.attributes.folderId;
 
       const meta = action.messages.meta;
       const filter = meta.filter;
@@ -106,7 +98,6 @@ export default function folders(state = initialState, action) {
         filter,
         messages,
         pagination,
-        persistFolder,
         sort: {
           value: sortValue,
           order: sortOrder
@@ -125,11 +116,6 @@ export default function folders(state = initialState, action) {
     }
 
     case LOADING_FOLDER: {
-      const newState = set('data.currentItem', {
-        ...initialState.data.currentItem,
-        persistFolder: action.request.id
-      }, state);
-
       return set('ui', {
         ...initialState.ui,
         nav: {
@@ -137,7 +123,7 @@ export default function folders(state = initialState, action) {
           visible: false
         },
         lastRequestedFolder: action.request
-      }, newState);
+      }, state);
     }
 
     case TOGGLE_FOLDER_MOVE_TO: {
@@ -154,29 +140,31 @@ export default function folders(state = initialState, action) {
     case TOGGLE_MANAGED_FOLDERS:
       return set('ui.nav.foldersExpanded', !state.ui.nav.foldersExpanded, state);
 
-    case SET_CURRENT_FOLDER:
-      // The + forces +action.folderId to be a number
-      return set('data.currentItem.persistFolder', +action.folderId, state);
-
     case MOVE_MESSAGE_SUCCESS: {
       // Update the counts on the affected folders after moving a message.
       const newItems = new Map(state.data.items);
 
-      const fromFolderKey = folderKey(action.fromFolder.name);
-      const fromFolder = newItems.get(fromFolderKey);
+      const fromFolder = state.data.currentItem.attributes;
+      const fromFolderKey = folderKey(fromFolder.name);
       newItems.set(fromFolderKey, {
         ...fromFolder,
         count: fromFolder.count - 1
       });
 
-      const toFolderKey = folderKey(action.toFolder.name);
+      const toFolderKey = folderKey(action.folder.name);
       const toFolder = newItems.get(toFolderKey);
       newItems.set(toFolderKey, {
         ...toFolder,
         count: toFolder.count + 1
       });
 
-      const newState = set('data.items', newItems, state);
+      let newState = set('data.items', newItems, state);
+
+      newState = set(
+        'data.currentItem.attributes',
+        newItems.get(fromFolderKey),
+        newState
+      );
 
       // Redirect after the move.
       return setRedirect(newState);
@@ -184,9 +172,10 @@ export default function folders(state = initialState, action) {
 
     case SAVE_DRAFT_SUCCESS: {
       let newState = state;
+      const { isSavedDraft } = action;
 
       // After saving a new draft, increment the count on Drafts.
-      if (!action.isSavedDraft) {
+      if (!isSavedDraft) {
         const newItems = new Map(state.data.items);
         const draftsKey = folderKey('Drafts');
         const draftsFolder = newItems.get(draftsKey);
@@ -199,7 +188,7 @@ export default function folders(state = initialState, action) {
         newState = set('data.items', newItems, newState);
       }
 
-      return setRedirect(newState);
+      return setRedirect(newState, isSavedDraft);
     }
 
     case DELETE_COMPOSE_MESSAGE:
