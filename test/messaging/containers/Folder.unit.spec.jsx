@@ -17,6 +17,8 @@ const props = {
     ['deleted', {}],
     ['personal-folder', {}],
   ]),
+  isAdvancedVisible: false,
+  lastRequestedFolder: null,
   loading: {
     folder: false
   },
@@ -47,10 +49,19 @@ const props = {
 };
 
 describe('Folder', () => {
-  const tree = SkinDeep.shallowRender(<Folder {...props}/>);
-
   it('should render', () => {
+    const tree = SkinDeep.shallowRender(<Folder {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
+  });
+
+  it('should display a loading screen', () => {
+    const tree = SkinDeep.shallowRender(
+      <Folder {...props } loading={{ folder: true }}/>
+    );
+    expect(tree.dive(['LoadingIndicator'])).to.not.be.undefined;
+    expect(tree.subTree('MessageNav')).to.be.false;
+    expect(tree.subTree('MessageSearch')).to.be.false;
+    expect(tree.subTree('SortableTable')).to.be.false;
   });
 });
