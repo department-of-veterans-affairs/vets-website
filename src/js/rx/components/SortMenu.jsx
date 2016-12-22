@@ -21,35 +21,44 @@ class SortMenu extends React.Component {
     this.props.onChange(event.target.value);
   }
 
-  handleClick(sortValue) {
+  handleClick(sortValue, sortOrder) {
     return (event) => {
       event.preventDefault();
-      this.props.onClick(sortValue);
+      this.props.onClick(sortValue, sortOrder);
     };
+  }
+
+  renderSortLinks() {
+    const { selected: { value, order } } = this.props;
+
+    const options = ['refillSubmitDate',
+      'lastSubmitDate',
+      'refillDate',
+    ].includes(value) ? {
+      'Newest to Oldest': 'ASC', 'Oldest to Newest': 'DESC'
+    } : { 'A-Z': 'ASC', 'Z-A': 'DESC' };
+
+    const sortLinks = Object.keys(options).map((e, i) => {
+      const selectedClass = classNames({
+        'rx-sort-active': options[e] === order,
+      });
+
+      return (
+        <li key={i}>
+          <a
+              className={selectedClass}
+              onClick={this.handleClick(value, options[e])}>
+            {e}
+          </a>
+        </li>
+      );
+    });
+
+    return <ul>{sortLinks}</ul>;
   }
 
   render() {
     const sortBys = this.props.options;
-    const sortLinks = (options) => {
-      return options.map((o, ind) => {
-        // Sets an rx-sort-active class when the option value
-        // matches the selected / default value
-        const selectedClass = classNames({
-          'rx-sort-active': o.value === this.props.selected
-        });
-
-        return (
-          <li key={ind}>
-            <a
-                className={selectedClass}
-                onClick={this.handleClick(o.value)}>
-              {o.label}
-            </a>
-          </li>
-        );
-      });
-    };
-
     const sortOptionElements = (options) => {
       return options.map((o, ind) => {
         return (
@@ -62,21 +71,14 @@ class SortMenu extends React.Component {
 
     return (
       <form className="rx-sort va-dnp">
-        <div className="rx-sort-wide">
-          <span>Sort by</span>
-          <ul className="va-list-ib">
-            {sortLinks(sortBys)}
-          </ul>
-        </div>
-        <div className="rx-sort-narrow">
-          <label htmlFor={this.selectId}>Sort by</label>
-          <select
-              id={this.selectId}
-              value={this.props.selected}
-              onChange={this.handleChange}>
-            {sortOptionElements(this.props.options)}
-          </select>
-        </div>
+        <label htmlFor={this.selectId}>Sort by </label>
+        <select
+            id={this.selectId}
+            value={this.props.selected.value}
+            onChange={this.handleChange}>
+          {sortOptionElements(sortBys)}
+        </select>
+        {this.renderSortLinks()}
       </form>
     );
   }
@@ -89,7 +91,7 @@ SortMenu.propTypes = {
     value: React.PropTypes.string,
     label: React.PropTypes.string,
   })),
-  selected: React.PropTypes.string
+  selected: React.PropTypes.object
 };
 
 export default SortMenu;
