@@ -55,7 +55,7 @@ describe('Folder', () => {
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should display a loading screen', () => {
+  it('should show a loading screen', () => {
     const tree = SkinDeep.shallowRender(
       <Folder {...props } loading={{ folder: true }}/>
     );
@@ -65,7 +65,7 @@ describe('Folder', () => {
     expect(tree.subTree('SortableTable')).to.be.false;
   });
 
-  it('should display an error message without a reload', () => {
+  it('should show an error message without a reload', () => {
     const tree = SkinDeep.shallowRender(
       <Folder {...props } attributes={{}}/>
     );
@@ -76,7 +76,7 @@ describe('Folder', () => {
     expect(tree.subTree('SortableTable')).to.be.false;
   });
 
-  it('should display an error message with a reload', () => {
+  it('should show an error message with a reload', () => {
     const tree = SkinDeep.shallowRender(
       <Folder
           {...props }
@@ -90,7 +90,7 @@ describe('Folder', () => {
     expect(tree.subTree('SortableTable')).to.be.false;
   });
 
-  it('should display message controls', () => {
+  it('should show folder controls', () => {
     const tree = SkinDeep.shallowRender(
       <Folder {...props }/>
     );
