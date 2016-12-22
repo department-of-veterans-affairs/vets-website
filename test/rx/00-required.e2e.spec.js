@@ -6,7 +6,7 @@ const LoginHelpers = require('../util/login-helpers');
 if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
   module.exports = E2eHelpers.createE2eTest(
     (client) => {
-      const token = LoginHelpers.getUserToken()
+      const token = LoginHelpers.getUserToken();
 
       RxHelpers.initApplicationSubmitMock(token);
 

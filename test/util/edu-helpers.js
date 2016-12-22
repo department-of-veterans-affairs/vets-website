@@ -131,17 +131,17 @@ const testValues = {
 // Create API routes
 function initApplicationSubmitMock() {
   mock(null, {
-      path: '/v0/education_benefits_claims',
-      verb: 'post',
-      value: {
-        data: {
-          attributes: {
-            confirmationNumber: '123fake-submission-id-567',
-            submittedAt: '2016-05-16',
-            regionalOffice: 'Test'
-          }
+    path: '/v0/education_benefits_claims',
+    verb: 'post',
+    value: {
+      data: {
+        attributes: {
+          confirmationNumber: '123fake-submission-id-567',
+          submittedAt: '2016-05-16',
+          regionalOffice: 'Test'
         }
       }
+    }
   });
 }
 

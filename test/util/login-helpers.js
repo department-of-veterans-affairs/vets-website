@@ -1,12 +1,11 @@
-const request = require('request');
 const process = require('process');
 const E2eHelpers = require('./e2e-helpers');
 const Timeouts = require('./timeouts');
 const mock = require('./mock-helpers');
 
 function setUserToken(token, client) {
-  client.execute((token) => {
-    window.sessionStorage.userToken = token;
+  client.execute((inToken) => {
+    window.sessionStorage.userToken = inToken;
   },
   [token],
   (val) => {
@@ -49,14 +48,13 @@ function initUserMock(token, level) {
       }
     }
   });
-
 }
 /* eslint-enable camelcase */
 
-let tokenCounter = 0
+let tokenCounter = 0;
 
 function getUserToken() {
-  return `token-${process.pid}-${tokenCounter++}`
+  return `token-${process.pid}-${tokenCounter++}`;
 }
 
 function logIn(token, client, url, level) {

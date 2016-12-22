@@ -32,10 +32,10 @@ function makeMockApiRouter(opts) {
 
   const router = express.Router(); // eslint-disable-line new-cap
   router.post('/mock', (req, res) => {
-    const auth = req.body.auth || '_global'
+    const auth = req.body.auth || '_global';
     const verb = (req.body.verb || 'get').toLowerCase();
 
-    console.log(`mock: ${auth} ${verb} ${req.body.path}`)
+    opts.logger.info(`mock: ${auth} ${verb} ${req.body.path}`);
 
     mockResponses[auth] = mockResponses[auth] || {};
     mockResponses[auth][verb] = mockResponses[auth][verb] || {};
@@ -48,7 +48,7 @@ function makeMockApiRouter(opts) {
   router.options('*', cors());
 
   router.all('*', cors(), (req, res) => {
-    const auth = req.get('Authorization') || '_global'
+    const auth = req.get('Authorization') || '_global';
     const verb = req.method.toLowerCase();
     const verbResponses = (mockResponses[auth] || {})[verb];
     let result = null;

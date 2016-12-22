@@ -1,5 +1,3 @@
-const request = require('request');
-const E2eHelpers = require('./e2e-helpers');
 const mock = require('./mock-helpers');
 
 // const Timeouts = require('../util/timeouts.js');
