@@ -49,7 +49,7 @@ module.exports = {
       cli_args: { },
       test_workers: {
         enabled: true,
-        workers: 15,
+        workers: 10,
       },
     },
 
