@@ -7,15 +7,15 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
 
   module.exports = E2eHelpers.createE2eTest(
     (client) => {
-      DisabilityHelpers.initClaimsListMock();
+      const token = LoginHelpers.getUserToken();
 
-      LoginHelpers.logIn(client, '/disability-benefits/track-claims', 3);
+      DisabilityHelpers.initClaimsListMock(token);
 
-      DisabilityHelpers.initClaimDetailMocks(false, true, false, 6, moment().subtract(5, 'years').format('YYYY-MM-DD'));
+      DisabilityHelpers.initClaimDetailMocks(token, false, true, false, 6, moment().subtract(5, 'years').format('YYYY-MM-DD'));
 
-      client
-        .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
+      LoginHelpers.logIn(token, client, '/disability-benefits/track-claims', 3)
         .waitForElementVisible('a.claim-list-item', Timeouts.slow);
+
       client
         .click('a.claim-list-item:first-child')
         .waitForElementVisible('body', Timeouts.normal)

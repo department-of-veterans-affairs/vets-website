@@ -1,5 +1,4 @@
-const request = require('request');
-const E2eHelpers = require('./e2e-helpers');
+const mock = require('./mock-helpers');
 
 const prescriptions = {
   data: [
@@ -126,25 +125,17 @@ const trackings = {
 };
 
 // Create API routes
-function initApplicationSubmitMock() {
-  request({
-    uri: `${E2eHelpers.apiUrl}/mock`,
-    method: 'POST',
-    json: {
-      path: '/v0/prescriptions/active',
-      verb: 'get',
-      value: prescriptions
-    }
+function initApplicationSubmitMock(token) {
+  mock(token, {
+    path: '/v0/prescriptions/active',
+    verb: 'get',
+    value: prescriptions
   });
 
-  request({
-    uri: `${E2eHelpers.apiUrl}/mock`,
-    method: 'POST',
-    json: {
-      path: '/v0/prescriptions',
-      verb: 'get',
-      value: prescriptions
-    }
+  mock(token, {
+    path: '/v0/prescriptions',
+    verb: 'get',
+    value: prescriptions
   });
 }
 

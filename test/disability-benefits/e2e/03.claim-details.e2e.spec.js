@@ -6,14 +6,12 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
 
   module.exports = E2eHelpers.createE2eTest(
     (client) => {
-      DisabilityHelpers.initClaimsListMock();
+      const token = LoginHelpers.getUserToken();
 
-      LoginHelpers.logIn(client, '/disability-benefits/track-claims', 3);
+      DisabilityHelpers.initClaimsListMock(token);
+      DisabilityHelpers.initClaimDetailMocks(token, false, true, false, 8);
 
-      DisabilityHelpers.initClaimDetailMocks(false, true, false, 8);
-
-      client
-        .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
+      LoginHelpers.logIn(token, client, '/disability-benefits/track-claims', 3)
         .waitForElementVisible('a.claim-list-item', Timeouts.slow);
       client
         .click('a.claim-list-item:first-child')

@@ -1,6 +1,5 @@
-const request = require('request');
-const E2eHelpers = require('./e2e-helpers');
 const Timeouts = require('../util/timeouts.js');
+const mock = require('./mock-helpers');
 
 // Disable eslint for JSON
 /* eslint-disable */
@@ -131,10 +130,7 @@ const testValues = {
 
 // Create API routes
 function initApplicationSubmitMock() {
-  request({
-    uri: `${E2eHelpers.apiUrl}/mock`,
-    method: 'POST',
-    json: {
+  mock(null, {
       path: '/v0/education_benefits_claims',
       verb: 'post',
       value: {
@@ -146,7 +142,6 @@ function initApplicationSubmitMock() {
           }
         }
       }
-    }
   });
 }
 
