@@ -105,8 +105,8 @@ export function fetchThreadMessage(messageId) {
   };
 }
 
-export function moveMessageToFolder(messageId, toFolder, fromFolder) {
-  const url = `${baseUrl}/${messageId}/move?folder_id=${toFolder.folderId}`;
+export function moveMessageToFolder(messageId, folder) {
+  const url = `${baseUrl}/${messageId}/move?folder_id=${folder.folderId}`;
 
   window.dataLayer.push({
     event: 'sm-move-message',
@@ -118,13 +118,13 @@ export function moveMessageToFolder(messageId, toFolder, fromFolder) {
     apiRequest(
       url,
       { method: 'PATCH' },
-      () => dispatch({ type: MOVE_MESSAGE_SUCCESS, toFolder, fromFolder }),
+      () => dispatch({ type: MOVE_MESSAGE_SUCCESS, folder }),
       () => dispatch({ type: MOVE_MESSAGE_FAILURE })
     );
   };
 }
 
-export function createFolderAndMoveMessage(folderName, messageId, fromFolder) {
+export function createFolderAndMoveMessage(folderName, messageId) {
   const foldersUrl = '/folders';
   const folderData = { folder: { name: folderName } };
 
@@ -145,13 +145,9 @@ export function createFolderAndMoveMessage(folderName, messageId, fromFolder) {
       foldersUrl,
       settings,
       (data) => {
-        const toFolder = data.data.attributes;
-        dispatch({
-          type: CREATE_FOLDER_SUCCESS,
-          folder: toFolder,
-          noAlert: true
-        });
-        return dispatch(moveMessageToFolder(messageId, toFolder, fromFolder));
+        const folder = data.data.attributes;
+        dispatch({ type: CREATE_FOLDER_SUCCESS, folder, noAlert: true });
+        return dispatch(moveMessageToFolder(messageId, folder));
       },
       () => dispatch({ type: CREATE_FOLDER_FAILURE })
     );
