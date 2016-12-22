@@ -45,6 +45,13 @@ export class Compose extends React.Component {
     this.props.fetchRecipients();
   }
 
+  componentDidUpdate() {
+    if (this.props.redirect) {
+      this.context.router.replace(this.props.redirect);
+      return;
+    }
+  }
+
   apiFormattedMessage() {
     const message = this.props.message;
 
