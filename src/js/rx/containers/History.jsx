@@ -146,10 +146,13 @@ class History extends React.Component {
       content = (
         <div>
           <p className="rx-tab-explainer">Your VA prescription refill history.</p>
-          <SortMenu
-              onChange={this.handleSort}
-              options={fields}
-              selected={currentSort.value}/>
+          <div className="show-for-small-only">
+            <SortMenu
+                onClick={this.handleSort}
+                onChange={this.handleSort}
+                options={fields}
+                selected={currentSort}/>
+          </div>
           <SortableTable
               className="usa-table-borderless va-table-list rx-table rx-table-list"
               currentSort={currentSort}

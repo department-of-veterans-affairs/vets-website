@@ -97,14 +97,12 @@ class Active extends React.Component {
     if (this.props.loading) {
       content = <LoadingIndicator message="Loading your prescriptions..."/>;
     } else if (this.props.prescriptions) {
-      const sortValue = this.props.sort;
       const currentSort = this.props.sort;
 
       if (this.state.view === 'list') {
         content = (
           <PrescriptionTable
               handleSort={this.handleSort}
-              sortValue={sortValue.value}
               currentSort={currentSort}
               items={this.props.prescriptions}
               refillModalHandler={this.props.openRefillModal}
@@ -118,11 +116,11 @@ class Active extends React.Component {
                 onChange={this.handleSort}
                 onClick={this.handleSort}
                 options={sortOptions}
-                selected={sortValue.value}/>
+                selected={currentSort}/>
             <PrescriptionList
                 items={this.props.prescriptions}
                 // If we're sorting by facility, tell PrescriptionList to group 'em.
-                grouped={sortValue === 'facilityName'}
+                grouped={currentSort.value === 'facilityName'}
                 refillModalHandler={this.props.openRefillModal}
                 glossaryModalHandler={this.props.openGlossaryModal}/>
           </div>
