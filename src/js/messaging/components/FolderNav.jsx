@@ -27,18 +27,15 @@ class FolderNav extends React.Component {
       count = ` (${folder.count})`;
     }
 
-    // Using this to persist usa-current class when veteran
-    // enters a thread. Link does this automatically when the
-    // URL and href match.
-    const isPersistFolder = classNames({
+    const linkClass = classNames({
       'messaging-folder-nav-link': true,
-      'usa-current': this.props.persistFolder === folder.folderId
+      'usa-current': this.props.currentFolderId === folder.folderId
     });
 
     return (
       <Link
           activeClassName="usa-current"
-          className={isPersistFolder}
+          className={linkClass}
           data-folderid={folder.folderId}
           to={folderUrl(folder.name)}
           onClick={this.props.onFolderChange}>
@@ -49,16 +46,12 @@ class FolderNav extends React.Component {
   }
 
   makeMyFolders(folderList) {
-    // Determine if 'My folders' needs to be displayed as active based on
-    // whether it contains the currently viewed folder.
+    // All folders with ids greater than 0 should be under 'My folders',
+    // so set this section to active if the current folder matches.
     const myFolderLinks = folderList.map(this.makeFolderLink);
-    const isLinkActive = (link) => {
-      return this.context.router.isActive(link.props.to, true);
-    };
-    const myFoldersActive = myFolderLinks.find(isLinkActive);
     const myFoldersClass = classNames({
       'messaging-my-folders': true,
-      'usa-current': myFoldersActive
+      'usa-current': this.props.currentFolderId > 0
     });
 
     /* Render 'My folders' as expanded or collapsed. */
@@ -136,7 +129,7 @@ FolderNav.contextTypes = {
 };
 
 FolderNav.propTypes = {
-  persistFolder: React.PropTypes.number,
+  currentFolderId: React.PropTypes.number,
   folders: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       folderId: React.PropTypes.number.isRequired,
