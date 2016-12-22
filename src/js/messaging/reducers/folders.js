@@ -14,7 +14,6 @@ import {
   MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
-  SET_CURRENT_FOLDER,
   TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS,
@@ -28,7 +27,6 @@ const initialState = {
       filter: {},
       messages: [],
       pagination: {},
-      persistFolder: 0,
       sort: {
         value: 'sentDate',
         order: 'DESC'
@@ -82,7 +80,6 @@ export default function folders(state = initialState, action) {
     case FETCH_FOLDER_SUCCESS: {
       const attributes = action.folder.data.attributes;
       const messages = action.messages.data.map(message => message.attributes);
-      const persistFolder = action.folder.data.attributes.folderId;
 
       const meta = action.messages.meta;
       const filter = meta.filter;
@@ -101,7 +98,6 @@ export default function folders(state = initialState, action) {
         filter,
         messages,
         pagination,
-        persistFolder,
         sort: {
           value: sortValue,
           order: sortOrder
@@ -120,11 +116,6 @@ export default function folders(state = initialState, action) {
     }
 
     case LOADING_FOLDER: {
-      const newState = set('data.currentItem', {
-        ...initialState.data.currentItem,
-        persistFolder: action.request.id
-      }, state);
-
       return set('ui', {
         ...initialState.ui,
         nav: {
@@ -132,7 +123,7 @@ export default function folders(state = initialState, action) {
           visible: false
         },
         lastRequestedFolder: action.request
-      }, newState);
+      }, state);
     }
 
     case TOGGLE_FOLDER_MOVE_TO: {
@@ -148,10 +139,6 @@ export default function folders(state = initialState, action) {
 
     case TOGGLE_MANAGED_FOLDERS:
       return set('ui.nav.foldersExpanded', !state.ui.nav.foldersExpanded, state);
-
-    case SET_CURRENT_FOLDER:
-      // The + forces +action.folderId to be a number
-      return set('data.currentItem.persistFolder', +action.folderId, state);
 
     case MOVE_MESSAGE_SUCCESS: {
       // Update the counts on the affected folders after moving a message.
