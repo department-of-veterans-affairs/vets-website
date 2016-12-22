@@ -52,11 +52,36 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
-    const { loading, redirect } = this.props;
+    const { folder, loading, redirect } = this.props;
 
     if (redirect) {
-      this.context.router.replace(redirect);
-    } else if (!loading.thread) {
+      const redirectOptions = {
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      };
+
+      if (redirect.allowBack) {
+        this.context.router.push(redirectOptions);
+      } else {
+        this.context.router.replace(redirectOptions);
+      }
+
+      return;
+    }
+
+    const currentFolder = this.getCurrentFolder();
+    const shouldFetchFolder =
+      !loading.folder &&
+      folder.attributes.folderId !== currentFolder.folderId;
+
+    // If the folder hasn't been fetched yet, it should be fetched in order for
+    // (1) pagination to work properly and display the correct numbers and
+    // (2) redirects after certain operations to go to the proper folder.
+    if (shouldFetchFolder) {
+      this.props.fetchFolder(currentFolder.folderId);
+    }
+
+    if (!loading.thread) {
       this.props.fetchThread(+this.props.params.messageId);
     }
   }
@@ -82,6 +107,7 @@ export class Thread extends React.Component {
   }
 
   getCurrentFolder() {
+    // Get current folder based on the URL.
     const folderName = this.props.params.folderName;
     const folder = this.props.folders.get(folderName);
     return folder;
@@ -136,7 +162,7 @@ export class Thread extends React.Component {
 
   makeHeader() {
     const {
-      folderMessages,
+      folder,
       isSavedDraft,
       message,
       messagesCollapsed,
@@ -144,9 +170,11 @@ export class Thread extends React.Component {
       thread
     } = this.props;
 
-    if (!message) {
+    if (!folder || !message) {
       return null;
     }
+
+    const folderMessages = folder.messages;
 
     // Find the current message's position
     // among the messages in the current folder.
@@ -376,8 +404,8 @@ const mapStateToProps = (state) => {
 
   return {
     draft,
+    folder,
     folders: state.folders.data.items,
-    folderMessages: folder.messages,
     isFormVisible: state.messages.ui.formVisible,
     isNewMessage,
     isSavedDraft,

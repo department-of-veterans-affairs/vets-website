@@ -16,7 +16,6 @@ import {
   FETCH_FOLDERS_SUCCESS,
   LOADING_FOLDER,
   LOADING_FOLDERS,
-  SET_CURRENT_FOLDER,
   TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS
@@ -122,14 +121,6 @@ export function deleteFolder(folder) {
       () => dispatch({ type: DELETE_FOLDER_SUCCESS, folder }),
       () => dispatch({ type: DELETE_FOLDER_FAILURE })
     );
-  };
-}
-
-// Persists folder ID across threads
-export function setCurrentFolder(folderId) {
-  return {
-    type: SET_CURRENT_FOLDER,
-    folderId
   };
 }
 
