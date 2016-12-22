@@ -106,8 +106,7 @@ export function fetchThreadMessage(messageId) {
 }
 
 export function moveMessageToFolder(messageId, folder) {
-  const folderId = folder.folderId;
-  const url = `${baseUrl}/${messageId}/move?folder_id=${folderId}`;
+  const url = `${baseUrl}/${messageId}/move?folder_id=${folder.folderId}`;
 
   window.dataLayer.push({
     event: 'sm-move-message',
@@ -200,12 +199,17 @@ export function saveDraft(message) {
       settings,
       (response) => {
         if (isSavedDraft) {
-          return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
+          return dispatch({
+            type: SAVE_DRAFT_SUCCESS,
+            message,
+            isSavedDraft
+          });
         }
 
         return dispatch({
           type: SAVE_DRAFT_SUCCESS,
-          message: response.data.attributes
+          message: response.data.attributes,
+          isSavedDraft
         });
       },
       () => dispatch({ type: SAVE_DRAFT_FAILURE })

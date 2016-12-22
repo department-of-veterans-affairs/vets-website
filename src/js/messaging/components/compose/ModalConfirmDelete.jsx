@@ -3,15 +3,21 @@ import React from 'react';
 import Modal from '../../../common/components/Modal';
 
 class ModalConfirmDelete extends React.Component {
+
+  handleDelete = (e) => {
+    e.preventDefault();
+    this.props.onDelete();
+  }
+
   render() {
     const modalContents = (
-      <form onSubmit={this.props.onDelete}>
+      <form>
         <h3>
             Are you sure you want to delete this draft?
         </h3>
         <p>This draft will not be recoverable after deletion.</p>
         <div className="va-modal-button-group">
-          <button type="submit">Yes, delete forever</button>
+          <button type="submit" onClick={this.handleDelete}>Yes, delete forever</button>
           <button
               className="usa-button-outline"
               onClick={this.props.onClose}
