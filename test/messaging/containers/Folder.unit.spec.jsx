@@ -90,6 +90,44 @@ describe('Folder', () => {
     expect(tree.subTree('SortableTable')).to.be.false;
   });
 
+  it('should say that there are no messages in the folder', () => {
+    const tree = SkinDeep.shallowRender(
+      <Folder
+          {...props }
+          filter={undefined}
+          messages={[]}
+          pagination={{
+            currentPage: 1,
+            perPage: 10,
+            totalPages: 1,
+            totalEntries: 0
+          }}/>
+    );
+    expect(tree.subTree('.msg-nomessages')).to.not.be.false;
+    expect(tree.subTree('MessageSearch')).to.be.false;
+    expect(tree.subTree('MessageNav')).to.be.false;
+    expect(tree.subTree('SortableTable')).to.be.false;
+  });
+
+  it('should say that no messages were found through search', () => {
+    const tree = SkinDeep.shallowRender(
+      <Folder
+          {...props }
+          filter={{ subject: { match: 'no match' } }}
+          messages={[]}
+          pagination={{
+            currentPage: 1,
+            perPage: 10,
+            totalPages: 1,
+            totalEntries: 0
+          }}/>
+    );
+    expect(tree.subTree('.msg-nomessages')).to.not.be.false;
+    expect(tree.subTree('MessageSearch')).to.not.be.false;
+    expect(tree.subTree('MessageNav')).to.be.false;
+    expect(tree.subTree('SortableTable')).to.be.false;
+  });
+
   it('should show folder controls', () => {
     const tree = SkinDeep.shallowRender(
       <Folder {...props }/>
