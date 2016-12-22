@@ -5,9 +5,30 @@
     margin: 0 0 0 .5rem;
   }
 
+  ul, li {
+    display: inline-block;
+  }
+
+  li {
+    padding: 0.5em;
+  }
+
+  li + li {
+    &:before {
+      content: '|';
+      margin-right: 0.5em;
+      margin-left: -0.25em;
+    }
+  }
+
   label {
     display: inline-block;
     margin-top: 0;
+  }
+
+  select {
+    display: inline-block;
+    margin: 0 0.5em;
   }
 }
 
@@ -19,23 +40,10 @@
 @media screen and (max-width: $medium-screen) {
   .rx-sort {
     width: 100%;
-  }
 
-  .rx-sort-wide {
-    display: none;
-  }
-  .rx-sort-narrow {
-    display: inline-block;
-    width: inherit;
-  }
-}
-
-@media screen and (min-width: $medium-screen) {
-  .rx-sort-wide {
-    display: inline-block;
-  }
-  .rx-sort-narrow {
-    display: none;
+    li {
+      margin-top: 0.5em;
+    }
   }
 }
 
