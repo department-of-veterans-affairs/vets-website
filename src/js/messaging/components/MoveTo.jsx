@@ -24,11 +24,7 @@ class MoveTo extends React.Component {
       return folder.folderId === folderId;
     });
 
-    this.props.onChooseFolder(
-      this.props.messageId,
-      moveToFolder,
-      this.props.currentFolder
-    );
+    this.props.onChooseFolder(this.props.messageId, moveToFolder);
   }
 
   render() {
