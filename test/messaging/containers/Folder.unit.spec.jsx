@@ -59,7 +59,32 @@ describe('Folder', () => {
     const tree = SkinDeep.shallowRender(
       <Folder {...props } loading={{ folder: true }}/>
     );
-    expect(tree.dive(['LoadingIndicator'])).to.not.be.undefined;
+    expect(tree.subTree('LoadingIndicator')).to.not.be.false;
+    expect(tree.subTree('MessageNav')).to.be.false;
+    expect(tree.subTree('MessageSearch')).to.be.false;
+    expect(tree.subTree('SortableTable')).to.be.false;
+  });
+
+  it('should display an error message without a reload', () => {
+    const tree = SkinDeep.shallowRender(
+      <Folder {...props } attributes={{}}/>
+    );
+    expect(tree.subTree('.msg-loading-error')).to.not.be.false;
+    expect(tree.subTree('.msg-reload')).to.be.false;
+    expect(tree.subTree('MessageNav')).to.be.false;
+    expect(tree.subTree('MessageSearch')).to.be.false;
+    expect(tree.subTree('SortableTable')).to.be.false;
+  });
+
+  it('should display an error message with a reload', () => {
+    const tree = SkinDeep.shallowRender(
+      <Folder
+          {...props }
+          attributes={{}}
+          lastRequestedFolder={{ id: 0, query: {} }}/>
+    );
+    expect(tree.subTree('.msg-loading-error')).to.not.be.false;
+    expect(tree.subTree('.msg-reload')).to.be.not.be.false;
     expect(tree.subTree('MessageNav')).to.be.false;
     expect(tree.subTree('MessageSearch')).to.be.false;
     expect(tree.subTree('SortableTable')).to.be.false;

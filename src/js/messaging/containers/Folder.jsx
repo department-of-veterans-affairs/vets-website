@@ -343,14 +343,22 @@ export class Folder extends React.Component {
 
         componentContent = (
           <div className="columns">
-            <p>
+            <p className="msg-loading-error">
               Could not retrieve the folder.&nbsp;
-              <a onClick={reloadFolder}>Click here to try again.</a>
+              <a className="msg-reload" onClick={reloadFolder}>
+                Click here to try again.
+              </a>
             </p>
           </div>
         );
       } else {
-        componentContent = <div className="columns"><p>Sorry, this folder does not exist.</p></div>;
+        componentContent = (
+          <div className="columns">
+            <p className="msg-loading-error">
+              Sorry, this folder does not exist.
+            </p>
+          </div>
+        );
       }
     } else {
       const messageNav = this.makeMessageNav();
