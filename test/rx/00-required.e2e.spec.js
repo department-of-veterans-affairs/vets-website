@@ -25,14 +25,14 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       // ensure glossary modal can be dismissed
       client
         .click('.va-modal-button-group button')
-        .expect.element('.rx-modal-body').to.not.be.found;
+        .expect.element('.rx-modal-body').to.not.be.present;
 
       // ensure prescription detail page is accessible
       client
         .click('.rx-prescription-info .rx-prescription-title a')
         .waitForElementVisible('#rx-detail', Timeouts.slow)
         .waitForElementVisible('#rx-detail h2', Timeouts.slow)
-        .assert.containsText('#rx-detail h2', 'ACETAMINOPHEN 325MG TAB');
+        .expect.element('#rx-detail h2').text.to.equal('ACETAMINOPHEN 325MG TAB');
 
       // ensure history view is accessible
       client
