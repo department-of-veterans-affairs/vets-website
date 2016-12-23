@@ -14,10 +14,26 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .url(`${E2eHelpers.baseUrl}/healthcare/prescriptions`)
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Refill your prescriptions: Vets.gov')
+        .waitForElementVisible('#rx-active', Timeouts.slow);
+      // ensure that prescription card renders
+      client.expect.element('.rx-prescription').to.be.visible;
+
+      client
+        .click('.rx-prescription-info .rx-prescription-title a')
+        .waitForElementVisible('#rx-detail', Timeouts.slow)
+        .waitForElementVisible('#rx-detail h2', Timeouts.slow)
+        .assert.containsText('#rx-detail h2', 'ACETAMINOPHEN 325MG TAB');
+
+      client
+        .click('.rx-breadcrumbs a[href="/healthcare/prescriptions/"]')
         .waitForElementVisible('#rx-active', Timeouts.slow)
         .click('.va-tabs li:last-child a')
         .waitForElementVisible('#rx-history', Timeouts.normal)
         .waitForElementVisible('.rx-table', Timeouts.slow);
+      // ensure history tab renders
+      client.expect.element('.rx-tab-explainer').to.be.visible;
+
+      client.end();
     }
   );
 }

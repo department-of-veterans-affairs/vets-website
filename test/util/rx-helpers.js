@@ -146,6 +146,30 @@ function initApplicationSubmitMock() {
       value: prescriptions
     }
   });
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/prescriptions/746575',
+      verb: 'get',
+      value: {
+        data: {
+          ...prescriptions.data[0],
+        }
+      }
+    }
+  });
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/prescriptions/746575/trackings',
+      verb: 'get',
+      value: trackings
+    }
+  });
 }
 
 module.exports = {
