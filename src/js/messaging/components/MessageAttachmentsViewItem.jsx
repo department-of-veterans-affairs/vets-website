@@ -42,11 +42,16 @@ class MessageAttachmentsViewItem extends React.Component {
       'msg-attachment-icon': true
     });
 
+    let loadingMessage;
+    if (this.state.downloading) {
+      loadingMessage = <span className="usa-sr-only">Loading...</span>;
+    }
+
     return (
       <li>
         <a onClick={this.downloadAttachment} href={this.props.url} className="msg-attachment-item">
           <i className={iconClass}></i>
-          <span className="usa-sr-only">Loading...</span>
+          {loadingMessage}
           {this.props.name}
         </a>
       </li>

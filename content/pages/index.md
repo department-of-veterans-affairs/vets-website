@@ -37,7 +37,7 @@ majorlinks:
   <div class="medium-4 columns">
     <a href="/healthcare/apply/">
       <div class="outline-link-block">
-        Apply for Health Care
+        Apply for health care
       </div>
     </a>
   </div>

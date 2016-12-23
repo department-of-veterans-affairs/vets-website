@@ -160,7 +160,7 @@ export class Folder extends React.Component {
   }
 
   makeMessageNav() {
-    const { currentRange, messageCount, page, totalPages } = this.props;
+    const { currentRange, messageCount, currentPage, totalPages } = this.props;
 
     if (messageCount === 0) {
       return null;
@@ -171,7 +171,7 @@ export class Folder extends React.Component {
           currentRange={currentRange}
           messageCount={messageCount}
           onItemSelect={this.handlePageSelect}
-          itemNumber={page}
+          itemNumber={currentPage}
           totalItems={totalPages}/>
     );
   }
@@ -234,9 +234,12 @@ export class Folder extends React.Component {
   }
 
   makeMessagesTable() {
-    const { attributes, messages } = this.props;
+    const { messages, filter, attributes } = this.props;
 
     if (!messages || messages.length === 0) {
+      if (filter) {
+        return <p className="msg-nomessages">No messages found for your search.</p>;
+      }
       return <p className="msg-nomessages">You have no messages in this folder.</p>;
     }
 
@@ -267,7 +270,10 @@ export class Folder extends React.Component {
       fields.push({ label: '', value: 'moveToButton' });
     }
 
-    const folders = Array.from(this.props.folders.values());
+    const folders = [];
+    this.props.folders.forEach(v => {
+      folders.push(v);
+    });
 
     const data = messages.map(message => {
       const id = message.messageId;
@@ -342,7 +348,7 @@ export class Folder extends React.Component {
       const folderMessages = this.makeMessagesTable();
 
       let messageSearch;
-      if (this.props.messages && this.props.messages.length) {
+      if (this.props.messages && this.props.messages.length || this.props.filter) {
         messageSearch = (<MessageSearch
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
@@ -393,32 +399,28 @@ Folder.contextTypes = {
 
 const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
-  const { attributes, messages } = folder;
-  const pagination = folder.pagination;
-  const page = pagination.currentPage;
-  const perPage = pagination.perPage;
-  const totalPages = pagination.totalPages;
+  const { attributes, filter, messages, pagination, sort } = folder;
+  const { currentPage, perPage, totalEntries, totalPages } = pagination;
 
-  const totalCount = pagination.totalEntries;
-  const startCount = 1 + (page - 1) * perPage;
-  const endCount = Math.min(totalCount, page * perPage);
+  const startCount = 1 + (currentPage - 1) * perPage;
+  const endCount = Math.min(totalEntries, currentPage * perPage);
 
   return {
     attributes,
     currentRange: `${startCount} - ${endCount}`,
-    filter: folder.filter,
+    filter,
     folders: state.folders.data.items,
     lastRequestedFolder: state.folders.ui.lastRequestedFolder,
     loading: state.loading,
-    messageCount: totalCount,
+    messageCount: totalEntries,
     messages,
     moveToId: state.folders.ui.moveToId,
-    page,
+    currentPage,
     redirect: state.folders.ui.redirect,
     totalPages,
     isAdvancedVisible: state.search.advanced.visible,
     searchParams: state.search.params,
-    sort: folder.sort
+    sort
   };
 };
 
