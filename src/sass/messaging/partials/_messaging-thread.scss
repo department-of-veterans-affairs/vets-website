@@ -75,6 +75,7 @@
   position: relative;
 
   button {
+    vertical-align: middle;
     width: auto;
   }
 
@@ -95,6 +96,7 @@
   .msg-btn-delete,
   .msg-btn-print {
     display: none;
+    padding: 1rem;
   }
 
   @media (max-width: $medium-screen) {
