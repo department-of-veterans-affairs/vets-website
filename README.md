@@ -235,7 +235,7 @@ The automated accessibility tests are contained within the `test/accessibility`
 directory. All URLs from the generated sitemap are scanned with aXe
 rules for 508 compliance.
 
-Automated accessibility tests are run by Travis on PRs for the development build
+Automated accessibility tests are run by Travis on PRs for the production build
 type.
 
 ### Continuous Integration
@@ -252,9 +252,10 @@ Builds are triggered for PRs for all build types. The special branch name
 `content/wip/.*`, will fail by default and not run any builds. This is to allow
 rapid iteration on WIP content team work before builds are tested.
 
-Accessibility tests are run on PRs over the development build type. If features
-are available in production that are not available in development, then this
-optimization will need to be removed.
+Tests are run over the staging buildtype for all PRs. Features should not
+be toggled based on the build type. Instead, define a feature flag variable and
+test both the enabled and disabled states. See `SampleFeature` and the
+associated `__SAMPLE_FEATURE__` env variables for an example implementation.
 
 Please see the `/script/travis-build.sh` file for more documentation and an
 overview of the CI configuration.
@@ -265,11 +266,7 @@ with a remote s3 bucket.  Travis handles the synchronization by using the
 [s3-cli](https://www.npmjs.com/package/s3-cli) commandline tool.
 
 Commits to `master` pushes `buildtype=development` to `dev.vets.gov` and
-`buildtype=staging` to `staging.vets.gov`. When absolutely necessary, such as
-when testing features against external services before they make their way to
-production, the `staging` environment may differ slightly from the `production`
-environment. These variations are defined in the `script/webpack.config.js`
-file along with the warning statement.
+`buildtype=production` to `staging.vets.gov`.
 
 Commits to `production` pushes `buildtype=production` to `www.vets.gov`.
 
