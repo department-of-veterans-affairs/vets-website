@@ -6,7 +6,7 @@
 }
 
 .messaging-move {
-  background: inherit;
+  background: $color-white;
   border-radius: 0;
   border: 1px solid $color-black;
   color: $color-black;
@@ -16,7 +16,7 @@
 
   &:hover,
   &:active {
-    background: inherit;
+    background: $color-white;
     color: inherit;
     border-bottom: 1px solid $color-black;
   }
