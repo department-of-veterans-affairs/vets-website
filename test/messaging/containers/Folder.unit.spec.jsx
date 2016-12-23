@@ -23,11 +23,11 @@ const props = {
     folder: false
   },
   messages: [
-    { body: 'test1' },
-    { body: 'test2' },
-    { body: 'test3' },
-    { body: 'test4' },
-    { body: 'test5' }
+    { subject: 'foo', body: 'test1' },
+    { subject: 'bar', body: 'test2' },
+    { subject: 'baz', body: 'test3' },
+    { subject: 'quux', body: 'test4' },
+    { subject: 'untitled', body: 'test5' }
   ],
   moveToId: null,
   pagination: {
@@ -113,7 +113,7 @@ describe('Folder', () => {
     const tree = SkinDeep.shallowRender(
       <Folder
           {...props }
-          filter={{ subject: { match: 'no match' } }}
+          filter={{ subject: { match: 'error' } }}
           messages={[]}
           pagination={{
             currentPage: 1,
@@ -133,6 +133,24 @@ describe('Folder', () => {
       <Folder {...props }/>
     );
     expect(tree.subTree('ComposeButton')).to.not.be.false;
+    expect(tree.subTree('MessageSearch')).to.not.be.false;
+    expect(tree.subTree('MessageNav')).to.not.be.false;
+    expect(tree.subTree('SortableTable')).to.not.be.false;
+  });
+
+  it('should show messages found through search', () => {
+    const tree = SkinDeep.shallowRender(
+      <Folder
+          {...props }
+          filter={{ subject: { match: 'ba' } }}
+          messages={[props.messages[1], props.messages[2]]}
+          pagination={{
+            currentPage: 1,
+            perPage: 10,
+            totalPages: 1,
+            totalEntries: 2
+          }}/>
+    );
     expect(tree.subTree('MessageSearch')).to.not.be.false;
     expect(tree.subTree('MessageNav')).to.not.be.false;
     expect(tree.subTree('SortableTable')).to.not.be.false;
