@@ -2,8 +2,8 @@ import React from 'react';
 
 class SampleFeature extends React.Component {
   render() {
-    if(!this.props.isEnabled){
-      return null; 
+    if (!this.props.isEnabled) {
+      return null;
     }
 
     return <div></div>;
@@ -15,7 +15,7 @@ SampleFeature.propTypes = {
 };
 
 SampleFeature.defaultProps = {
-  isEnabled: __SAMPLE_ENABLED__,
+  isEnabled: __SAMPLE_ENABLED__, // eslint-disable-line no-undef
 };
 
 export default SampleFeature;

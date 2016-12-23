@@ -8,7 +8,7 @@ describe('<SampleFeature>', () => {
   it('should be empty when not enabled', () => {
     const tree = SkinDeep.shallowRender(
       <div>
-        <SampleFeature />
+        <SampleFeature/>
       </div>
     );
 
@@ -18,10 +18,10 @@ describe('<SampleFeature>', () => {
   it('should be a div when enabled', () => {
     const tree = SkinDeep.shallowRender(
       <div>
-        <SampleFeature isEnabled={true} />
+        <SampleFeature isEnabled/>
       </div>
     );
 
     expect(tree.toString()).to.equal('<div><div></div></div>');
   });
-})
+});
