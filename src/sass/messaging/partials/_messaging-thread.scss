@@ -36,11 +36,11 @@
   padding: 0 0 2.25rem 0;
 
   .messaging-toggle-thread,
+  .msg-btn-delete,
   .msg-btn-print {
     background: transparent;
     color: $color-black;
     float: none;
-    font-size: 1.5rem;
     font-weight: normal;
     margin: 0 1rem;
     padding: 0;
@@ -96,7 +96,6 @@
   .msg-btn-delete,
   .msg-btn-print {
     display: none;
-    padding: 1rem;
   }
 
   @media (max-width: $medium-screen) {
@@ -129,7 +128,7 @@
 
 .messaging-thread-controls {
   float: right;
-  margin: .25rem 1rem;
+  margin: 0 1rem;
 
   @media (max-width: $medium-screen) {
     .msg-btn-delete,
