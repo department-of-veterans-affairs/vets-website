@@ -34,6 +34,11 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .waitForElementVisible('#rx-detail h2', Timeouts.slow)
         .expect.element('#rx-detail h2').text.to.equal('ACETAMINOPHEN 325MG TAB');
 
+      // expect tracking information to be accurate
+      client.expect.element('#rx-order-history tr:nth-of-type(1) a.rx-track-package-link').text.to.equal('657068347564');
+      client.expect.element('#rx-order-history tr:nth-of-type(2) a.rx-track-package-link').text.to.equal('345787647659');
+      client.expect.element('#rx-order-history tr:nth-of-type(3) a.rx-track-package-link').text.to.equal('345787647654');
+
       // ensure history view is accessible
       client
         .click('.rx-breadcrumbs a[href="/healthcare/prescriptions/"]')
