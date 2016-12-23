@@ -116,8 +116,7 @@ export class Compose extends React.Component {
     }
   }
 
-  handleConfirmDelete(domEvent) {
-    domEvent.preventDefault();
+  handleConfirmDelete() {
     this.props.toggleConfirmDelete();
     this.props.deleteComposeMessage();
   }
