@@ -39,10 +39,6 @@ const initialState = {
   }
 };
 
-const resetDraft = (state) => {
-  return set('data.draft', initialState.data.draft, state);
-};
-
 export default function messages(state = initialState, action) {
   switch (action.type) {
     case ADD_DRAFT_ATTACHMENTS:
@@ -52,7 +48,10 @@ export default function messages(state = initialState, action) {
       ], state);
 
     case CLEAR_DRAFT:
-      return resetDraft(state);
+      return set('data.draft', {
+        ...state.data.draft,
+        body: makeField('')
+      }, state);
 
     case DELETE_DRAFT_ATTACHMENT:
       state.data.draft.attachments.splice(action.index, 1);
@@ -118,11 +117,13 @@ export default function messages(state = initialState, action) {
       return set('data.message', currentMessage, newState);
     }
 
-    case LOADING_THREAD:
+    case LOADING_THREAD: {
+      const newState = set('data', initialState.data, state);
       return set('ui', {
         ...initialState.ui,
         lastRequestedId: action.messageId
-      }, state);
+      }, newState);
+    }
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
