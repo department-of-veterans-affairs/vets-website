@@ -138,6 +138,7 @@ describe('Folder', () => {
     expect(tree.subTree('ComposeButton')).to.not.be.false;
     expect(tree.subTree('MessageSearch')).to.not.be.false;
     expect(tree.subTree('MessageNav')).to.not.be.false;
+    expect(tree.subTree('.msg-folder-sort-select')).to.not.be.false;
     expect(tree.subTree('SortableTable')).to.not.be.false;
   });
 
@@ -157,6 +158,7 @@ describe('Folder', () => {
     expect(tree.dive(['h2']).text()).to.equal('Inbox');
     expect(tree.subTree('MessageSearch')).to.not.be.false;
     expect(tree.subTree('MessageNav')).to.not.be.false;
+    expect(tree.subTree('.msg-folder-sort-select')).to.not.be.false;
     expect(tree.subTree('SortableTable')).to.not.be.false;
   });
 });
