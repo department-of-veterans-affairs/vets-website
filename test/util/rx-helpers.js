@@ -27,6 +27,31 @@ const prescriptions = {
         self: 'http://localhost:3000/rx/v1/prescriptions/746575',
         tracking: 'http://localhost:3000/rx/v1/prescriptions/746575/trackings'
       }
+    },
+    {
+      id: '746576',
+      type: 'va-rx-prescriptions',
+      attributes: {
+        prescriptionId: 746576,
+        prescriptionNumber: '2719083',
+        prescriptionName: 'DRUG 2',
+        refillStatus: 'active',
+        refillSubmitDate: null,
+        refillDate: '2014-01-24T05:00:00.000Z',
+        refillRemaining: 5,
+        facilityName: 'ABC123',
+        orderedDate: '2014-01-24T05:00:00.000Z',
+        quantity: 10,
+        expirationDate: '2015-01-25T05:00:00.000Z',
+        dispensedDate: null,
+        stationNumber: '12',
+        isRefillable: true,
+        isTrackable: false
+      },
+      links: {
+        self: 'http://localhost:3000/rx/v1/prescriptions/746576',
+        tracking: 'http://localhost:3000/rx/v1/prescriptions/746576/trackings'
+      }
     }
   ],
   meta: {
@@ -144,6 +169,44 @@ function initApplicationSubmitMock() {
       path: '/v0/prescriptions',
       verb: 'get',
       value: prescriptions
+    }
+  });
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/prescriptions/746575',
+      verb: 'get',
+      value: {
+        data: {
+          ...prescriptions.data[0],
+        }
+      }
+    }
+  });
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/prescriptions/746575/trackings',
+      verb: 'get',
+      value: trackings
+    }
+  });
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/prescriptions/746576/refill',
+      verb: 'patch',
+      value: {
+        data: {
+          ...prescriptions.data[1],
+        }
+      }
     }
   });
 }
