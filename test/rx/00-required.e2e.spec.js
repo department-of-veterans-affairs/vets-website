@@ -27,6 +27,17 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .click('.va-modal-button-group button')
         .expect.element('.rx-modal-body').to.not.be.present;
 
+      client
+        .click('button.rx-prescription-button')
+        .expect.element('#rx-confirm-refill').to.be.visible;
+
+      client
+        .click('.rx-modal-refillinfo button[type=submit]')
+        .expect.element('#rx-confirm-refill').to.not.be.present.after(Timeouts.normal);
+
+      // ensure refill request is submitted
+      client.expect.element('.rx-prescription:nth-of-type(2) button.rx-trigger').text.to.equal('Submitted');
+
       // ensure prescription detail page is accessible
       client
         .click('.rx-prescription-info .rx-prescription-title a')
