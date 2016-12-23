@@ -5,10 +5,6 @@
 
 .messaging-message-nav {
   float: right;
-
-  @media (max-width: $medium-screen) {
-    margin-bottom: 1em;
-  }
 }
 
 .messaging-message-nav button {
