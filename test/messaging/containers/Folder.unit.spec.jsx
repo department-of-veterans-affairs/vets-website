@@ -103,6 +103,7 @@ describe('Folder', () => {
             totalEntries: 0
           }}/>
     );
+    expect(tree.dive(['h2']).text()).to.equal('Inbox');
     expect(tree.subTree('.msg-nomessages')).to.not.be.false;
     expect(tree.subTree('MessageSearch')).to.be.false;
     expect(tree.subTree('MessageNav')).to.be.false;
@@ -122,6 +123,7 @@ describe('Folder', () => {
             totalEntries: 0
           }}/>
     );
+    expect(tree.dive(['h2']).text()).to.equal('Inbox');
     expect(tree.subTree('.msg-nomessages')).to.not.be.false;
     expect(tree.subTree('MessageSearch')).to.not.be.false;
     expect(tree.subTree('MessageNav')).to.be.false;
@@ -132,6 +134,7 @@ describe('Folder', () => {
     const tree = SkinDeep.shallowRender(
       <Folder {...props }/>
     );
+    expect(tree.dive(['h2']).text()).to.equal('Inbox');
     expect(tree.subTree('ComposeButton')).to.not.be.false;
     expect(tree.subTree('MessageSearch')).to.not.be.false;
     expect(tree.subTree('MessageNav')).to.not.be.false;
@@ -151,6 +154,7 @@ describe('Folder', () => {
             totalEntries: 2
           }}/>
     );
+    expect(tree.dive(['h2']).text()).to.equal('Inbox');
     expect(tree.subTree('MessageSearch')).to.not.be.false;
     expect(tree.subTree('MessageNav')).to.not.be.false;
     expect(tree.subTree('SortableTable')).to.not.be.false;
