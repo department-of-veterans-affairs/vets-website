@@ -54,8 +54,11 @@ export class Folder extends React.Component {
     // In the typical case of redirects, we go to the most recent folder
     // and proceed with fetching its data. If that's not the case,
     // go ahead to the URL specified in the redirect.
-    if (redirect && redirect !== this.props.location.pathname) {
-      this.context.router.replace(redirect);
+    if (redirect && redirect.url !== this.props.location.pathname) {
+      this.context.router.push({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
       return;
     }
 
@@ -160,16 +163,19 @@ export class Folder extends React.Component {
   }
 
   makeMessageNav() {
-    const { currentRange, messageCount, currentPage, totalPages } = this.props;
+    const { pagination } = this.props;
+    const { currentPage, perPage, totalEntries, totalPages } = pagination;
 
-    if (messageCount === 0) {
-      return null;
-    }
+    if (_.isEmpty(pagination) || !totalEntries) return null;
+
+    const startCount = 1 + (currentPage - 1) * perPage;
+    const endCount = Math.min(totalEntries, currentPage * perPage);
+    const currentRange = `${startCount} - ${endCount}`;
 
     return (
       <MessageNav
           currentRange={currentRange}
-          messageCount={messageCount}
+          messageCount={totalEntries}
           onItemSelect={this.handlePageSelect}
           itemNumber={currentPage}
           totalItems={totalPages}/>
@@ -234,7 +240,7 @@ export class Folder extends React.Component {
   }
 
   makeMessagesTable() {
-    const { messages, filter, attributes } = this.props;
+    const { attributes, filter, messages } = this.props;
 
     if (!messages || messages.length === 0) {
       if (filter) {
@@ -243,9 +249,7 @@ export class Folder extends React.Component {
       return <p className="msg-nomessages">You have no messages in this folder.</p>;
     }
 
-    const makeMessageLink = (content, id) => {
-      return <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>;
-    };
+    // Create sortable table headers.
 
     const fields = [
       { label: 'From', value: 'senderName' },
@@ -270,10 +274,16 @@ export class Folder extends React.Component {
       fields.push({ label: '', value: 'moveToButton' });
     }
 
+    // Create sortable table rows.
+
     const folders = [];
     this.props.folders.forEach(v => {
       folders.push(v);
     });
+
+    const makeMessageLink = (content, id) => {
+      return <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>;
+    };
 
     const data = messages.map(message => {
       const id = message.messageId;
@@ -333,14 +343,22 @@ export class Folder extends React.Component {
 
         componentContent = (
           <div className="columns">
-            <p>
+            <p className="msg-loading-error">
               Could not retrieve the folder.&nbsp;
-              <a onClick={reloadFolder}>Click here to try again.</a>
+              <a className="msg-reload" onClick={reloadFolder}>
+                Click here to try again.
+              </a>
             </p>
           </div>
         );
       } else {
-        componentContent = <div className="columns"><p>Sorry, this folder does not exist.</p></div>;
+        componentContent = (
+          <div className="columns">
+            <p className="msg-loading-error">
+              Sorry, this folder does not exist.
+            </p>
+          </div>
+        );
       }
     } else {
       const messageNav = this.makeMessageNav();
@@ -400,25 +418,19 @@ Folder.contextTypes = {
 const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
   const { attributes, filter, messages, pagination, sort } = folder;
-  const { currentPage, perPage, totalEntries, totalPages } = pagination;
-
-  const startCount = 1 + (currentPage - 1) * perPage;
-  const endCount = Math.min(totalEntries, currentPage * perPage);
+  const { lastRequestedFolder, moveToId, redirect } = state.folders.ui;
 
   return {
     attributes,
-    currentRange: `${startCount} - ${endCount}`,
     filter,
     folders: state.folders.data.items,
-    lastRequestedFolder: state.folders.ui.lastRequestedFolder,
-    loading: state.loading,
-    messageCount: totalEntries,
-    messages,
-    moveToId: state.folders.ui.moveToId,
-    currentPage,
-    redirect: state.folders.ui.redirect,
-    totalPages,
     isAdvancedVisible: state.search.advanced.visible,
+    lastRequestedFolder,
+    loading: state.loading,
+    messages,
+    moveToId,
+    pagination,
+    redirect,
     searchParams: state.search.params,
     sort
   };
