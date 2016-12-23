@@ -128,12 +128,13 @@ describe('Folder', () => {
     expect(tree.subTree('SortableTable')).to.be.false;
   });
 
-  it('should show folder controls', () => {
+  it('should show folder controls and messages', () => {
     const tree = SkinDeep.shallowRender(
       <Folder {...props }/>
     );
     expect(tree.subTree('ComposeButton')).to.not.be.false;
     expect(tree.subTree('MessageSearch')).to.not.be.false;
     expect(tree.subTree('MessageNav')).to.not.be.false;
+    expect(tree.subTree('SortableTable')).to.not.be.false;
   });
 });
