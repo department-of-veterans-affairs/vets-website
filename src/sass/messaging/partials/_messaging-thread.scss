@@ -79,18 +79,13 @@
     width: auto;
   }
 
-  a {
-    margin-right: 1rem;
-    max-width: 50%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: middle;
-    white-space: nowrap;
+  i {
+    font-size: inherit !important;
   }
 
-  i {
-    margin-left: .5rem;
-    font-size: inherit !important;
+  .msg-btn-back,
+  .msg-move-to {
+    margin-right: 1rem;
   }
 
   .msg-btn-delete,
@@ -109,9 +104,9 @@
       display: inline-block;
     }
 
-    a {
+    .msg-btn-back {
       float: left;
-      margin: .5rem 1rem;
+      margin: 0 1rem;
     }
 
     .messaging-message-nav {
