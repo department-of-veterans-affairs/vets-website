@@ -111,6 +111,9 @@ export default function folders(state = initialState, action) {
     }
 
     case LOADING_FOLDER: {
+      const newState =
+        set('data.currentItem', initialState.data.currentItem, state);
+
       return set('ui', {
         ...initialState.ui,
         nav: {
@@ -118,7 +121,7 @@ export default function folders(state = initialState, action) {
           visible: false
         },
         lastRequestedFolder: action.request
-      }, state);
+      }, newState);
     }
 
     case TOGGLE_FOLDER_MOVE_TO: {
