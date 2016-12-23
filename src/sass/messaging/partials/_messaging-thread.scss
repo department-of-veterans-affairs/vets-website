@@ -32,9 +32,6 @@
  *****************/
 
 .messaging-thread-header {
-  border-bottom: 2px solid $color-black;
-  padding: 0 0 2.25rem 0;
-
   button {
     vertical-align: middle;
     width: auto;
@@ -74,9 +71,14 @@
 
 .messaging-thread-nav {
   border-bottom: 1px solid $color-black;
-  margin-bottom: 2rem;
   padding-bottom: 2rem;
   position: relative;
+
+  &:after {
+    clear: both;
+    content: '';
+    display: 'block';
+  }
 
   .msg-btn-back,
   .msg-move-to {
@@ -108,6 +110,11 @@
       display: none;
     }
   }
+}
+
+.messaging-thread-title {
+  border-bottom: 2px solid $color-black;
+  padding: 2.25rem 0;
 }
 
 .messaging-thread-subject {

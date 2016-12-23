@@ -12,6 +12,7 @@ class ThreadHeader extends React.Component {
     const {
       currentFolder,
       folderMessageCount,
+      isNewMessage,
       message,
       threadMessageCount
     } = this.props;
@@ -43,29 +44,38 @@ class ThreadHeader extends React.Component {
       );
     }
 
-    // Hide the 'Delete' button for sent messages,
-    // since they can't be deleted.
-    if (folderName !== 'Sent') {
+    // Hide the 'Delete' button for drafts and sent messages,
+    // since drafts should only be deletable from the form,
+    // and sent messages can't be deleted.
+    // Also hide the 'Move' button for drafts and sent messages,
+    // since they can't be moved to other folders.
+    if (folderName !== 'Sent' && folderName !== 'Drafts') {
       deleteButton =
         <ButtonDelete onClickHandler={this.props.onDeleteMessage}/>;
 
-      // Hide the 'Move' button for drafts and sent messages,
-      // since they can't be moved to other folders.
-      if (folderName !== 'Drafts') {
-        const { folders, moveToIsOpen } = this.props;
+      const { folders, moveToIsOpen } = this.props;
 
-        moveTo = (
-          <MoveTo
-              currentFolder={currentFolder}
-              folders={folders}
-              isOpen={moveToIsOpen}
-              messageId={message.messageId}
-              onChooseFolder={this.props.onChooseFolder}
-              onCreateFolder={this.props.onCreateFolder}
-              onToggleMoveTo={this.props.onToggleMoveTo}/>
-        );
-      }
+      moveTo = (
+        <MoveTo
+            currentFolder={currentFolder}
+            folders={folders}
+            isOpen={moveToIsOpen}
+            messageId={message.messageId}
+            onChooseFolder={this.props.onChooseFolder}
+            onCreateFolder={this.props.onCreateFolder}
+            onToggleMoveTo={this.props.onToggleMoveTo}/>
+      );
     }
+
+    const titleSection = !isNewMessage && (
+      <div className="messaging-thread-title">
+        <div className="messaging-thread-controls">
+          {toggleThread}
+          {deleteButton}
+        </div>
+        <h2 className="messaging-thread-subject">{message.subject}</h2>
+      </div>
+    );
 
     return (
       <div className="messaging-thread-header">
@@ -75,13 +85,7 @@ class ThreadHeader extends React.Component {
           {moveTo}
           {deleteButton}
         </div>
-        <div className="messaging-thread-title">
-          <div className="messaging-thread-controls">
-            {toggleThread}
-            {deleteButton}
-          </div>
-          <h2 className="messaging-thread-subject">{message.subject}</h2>
-        </div>
+        {titleSection}
       </div>
     );
   }
@@ -92,6 +96,7 @@ ThreadHeader.propTypes = {
     name: React.PropTypes.string.isRequired
   }),
   currentMessageNumber: React.PropTypes.number.isRequired,
+  folderMessageCount: React.PropTypes.number.isRequired,
   folders: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       folderId: React.PropTypes.number.isRequired,
@@ -100,12 +105,11 @@ ThreadHeader.propTypes = {
       unreadCount: React.PropTypes.number.isRequired
     })
   ).isRequired,
-  folderMessageCount: React.PropTypes.number.isRequired,
+  isNewMessage: React.PropTypes.bool,
   message: React.PropTypes.shape({
     messageId: React.PropTypes.number,
     subject: React.PropTypes.string
   }).isRequired,
-  threadMessageCount: React.PropTypes.number.isRequired,
   messagesCollapsed: React.PropTypes.bool,
   moveToIsOpen: React.PropTypes.bool,
   onChooseFolder: React.PropTypes.func,
@@ -113,7 +117,8 @@ ThreadHeader.propTypes = {
   onDeleteMessage: React.PropTypes.func,
   onMessageSelect: React.PropTypes.func,
   onToggleThread: React.PropTypes.func,
-  onToggleMoveTo: React.PropTypes.func
+  onToggleMoveTo: React.PropTypes.func,
+  threadMessageCount: React.PropTypes.number
 };
 
 export default ThreadHeader;
