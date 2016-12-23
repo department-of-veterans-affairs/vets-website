@@ -67,8 +67,8 @@ describe('ThreadHeader', () => {
 
     tree = SkinDeep.shallowRender(
       <ThreadHeader
-        {...props }
-        currentFolder={{ name: 'Sent' }}/>
+          {...props }
+          currentFolder={{ name: 'Sent' }}/>
     );
 
     expect(tree.subTree('ButtonDelete')).to.be.false;
@@ -84,9 +84,8 @@ describe('ThreadHeader', () => {
     const tree = SkinDeep.shallowRender(
       <ThreadHeader
           {...props }
-          isNewMessage={true}/>
+          isNewMessage/>
     );
     expect(tree.subTree('.messaging-thread-title')).to.be.false;
   });
-
 });
