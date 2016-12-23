@@ -39,6 +39,9 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client.expect.element('#rx-order-history tr:nth-of-type(2) a.rx-track-package-link').text.to.equal('345787647659');
       client.expect.element('#rx-order-history tr:nth-of-type(3) a.rx-track-package-link').text.to.equal('345787647654');
 
+      // assert existence of correct message provider link
+      client.expect.element('a.rx-message-provider-link').to.have.attribute('href').which.contains('/healthcare/messaging/compose');
+
       // ensure history view is accessible
       client
         .click('.rx-breadcrumbs a[href="/healthcare/prescriptions/"]')
