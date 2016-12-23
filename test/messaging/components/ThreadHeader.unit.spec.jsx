@@ -7,7 +7,7 @@ import ThreadHeader from '../../../src/js/messaging/components/ThreadHeader';
 const props = {
   currentFolder: { name: 'Inbox' },
   currentMessageNumber: 1,
-  folderMessageCount: 2,
+  folderMessageCount: 1,
   folders: [{ folderId: 0, name: 'Inbox' }],
   isNewMessage: false,
   message: { messageId: 123, subject: 'Subject' },
@@ -28,6 +28,18 @@ describe('ThreadHeader', () => {
     expect(tree.subTree('MessageNav')).to.not.be.false;
   });
 
+  it('should hide message nav in case of folder message count errors', () => {
+    const tree = SkinDeep.shallowRender(
+      <ThreadHeader {...props } folderMessageCount={0}/>
+    );
+    expect(tree.subTree('MessageNav')).to.be.false;
+  });
+
+  it('should show a move button', () => {
+    const tree = SkinDeep.shallowRender(<ThreadHeader {...props }/>);
+    expect(tree.subTree('MoveTo')).to.not.be.false;
+  });
+
   it('should show a button to expand or collapse a thread with multiple messages', () => {
     const tree = SkinDeep.shallowRender(<ThreadHeader {...props }/>);
     expect(tree.subTree('ToggleThread')).to.not.be.false;
@@ -43,7 +55,7 @@ describe('ThreadHeader', () => {
     expect(tree.subTree('ButtonDelete')).to.not.be.false;
   });
 
-  it('should not show a delete button for drafts or sent messages', () => {
+  it('should not show delete or move buttons for drafts or sent messages', () => {
     let tree = SkinDeep.shallowRender(
       <ThreadHeader
           {...props }
@@ -51,6 +63,7 @@ describe('ThreadHeader', () => {
     );
 
     expect(tree.subTree('ButtonDelete')).to.be.false;
+    expect(tree.subTree('MoveTo')).to.be.false;
 
     tree = SkinDeep.shallowRender(
       <ThreadHeader
@@ -59,28 +72,21 @@ describe('ThreadHeader', () => {
     );
 
     expect(tree.subTree('ButtonDelete')).to.be.false;
+    expect(tree.subTree('MoveTo')).to.be.false;
   });
 
-  it('should show a move button', () => {
+  it('should show the subject line in the title', () => {
     const tree = SkinDeep.shallowRender(<ThreadHeader {...props }/>);
-    expect(tree.subTree('MoveTo')).to.not.be.false;
+    expect(tree.dive(['h2']).text()).to.equal('Subject');
   });
 
-  it('should not show a move button for drafts or sent messages', () => {
-    let tree = SkinDeep.shallowRender(
+  it('should not show the subject line for a draft of a new message', () => {
+    const tree = SkinDeep.shallowRender(
       <ThreadHeader
           {...props }
-          currentFolder={{ name: 'Drafts' }}/>
+          isNewMessage={true}/>
     );
-
-    expect(tree.subTree('MoveTo')).to.be.false;
-
-    tree = SkinDeep.shallowRender(
-      <ThreadHeader
-          {...props }
-          currentFolder={{ name: 'Sent' }}/>
-    );
-
-    expect(tree.subTree('MoveTo')).to.be.false;
+    expect(tree.subTree('.messaging-thread-title')).to.be.false;
   });
+
 });
