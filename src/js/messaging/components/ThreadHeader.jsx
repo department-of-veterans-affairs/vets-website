@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router';
 
+import ButtonBack from './buttons/ButtonBack';
 import ButtonDelete from './buttons/ButtonDelete';
 import MoveTo from './MoveTo';
 import MessageNav from './MessageNav';
@@ -67,12 +67,10 @@ class ThreadHeader extends React.Component {
       }
     }
 
-    const backUrl = folderUrl(folderName);
-
     return (
       <div className="messaging-thread-header">
         <div className="messaging-thread-nav">
-          <Link to={backUrl}>&lt; Back to {folderName}</Link>
+          <ButtonBack url={folderUrl(folderName)}/>
           {messageNav}
           {moveTo}
           {deleteButton}
