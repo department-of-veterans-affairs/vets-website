@@ -40,12 +40,17 @@
     width: auto;
   }
 
+  i {
+    font-size: inherit !important;
+  }
+
   .messaging-toggle-thread,
   .msg-btn-delete,
   .msg-btn-print {
     background: transparent;
     color: $color-black;
     float: none;
+    font-size: 1.6rem;
     font-weight: normal;
     margin: 0 1rem;
     padding: 0;
@@ -61,10 +66,6 @@
       outline: 0;
     }
 
-    i {
-      font-size: 1.8rem;
-    }
-
     span {
       padding-left: 0.5rem;
     }
@@ -76,10 +77,6 @@
   margin-bottom: 2rem;
   padding-bottom: 2rem;
   position: relative;
-
-  i {
-    font-size: inherit !important;
-  }
 
   .msg-btn-back,
   .msg-move-to {
