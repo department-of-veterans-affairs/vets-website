@@ -35,6 +35,11 @@
   border-bottom: 2px solid $color-black;
   padding: 0 0 2.25rem 0;
 
+  button {
+    vertical-align: middle;
+    width: auto;
+  }
+
   .messaging-toggle-thread,
   .msg-btn-delete,
   .msg-btn-print {
@@ -44,8 +49,6 @@
     font-weight: normal;
     margin: 0 1rem;
     padding: 0;
-    vertical-align: middle;
-    width: auto;
 
     &:hover,
     &:focus {
@@ -73,11 +76,6 @@
   margin-bottom: 2rem;
   padding-bottom: 2rem;
   position: relative;
-
-  button {
-    vertical-align: middle;
-    width: auto;
-  }
 
   i {
     font-size: inherit !important;
