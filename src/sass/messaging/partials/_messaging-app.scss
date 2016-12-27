@@ -185,6 +185,14 @@
   }
 }
 
+.msg-btn-back {
+  @extend %messaging-rectangular-button;
+
+  i {
+    margin-right: .5rem;
+  }
+}
+
 .messaging-modal {
   .va-modal-inner {
     @media(min-width: $medium-screen) {

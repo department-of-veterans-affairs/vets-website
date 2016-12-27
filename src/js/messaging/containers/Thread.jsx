@@ -163,6 +163,7 @@ export class Thread extends React.Component {
   makeHeader() {
     const {
       folder,
+      isNewMessage,
       isSavedDraft,
       message,
       messagesCollapsed,
@@ -206,16 +207,17 @@ export class Thread extends React.Component {
           currentMessageNumber={currentIndex + 1}
           folderMessageCount={folderMessages.length}
           folders={folders}
+          isNewMessage={isNewMessage}
           message={message}
-          onMessageSelect={handleMessageSelect}
-          threadMessageCount={thread.length + 1}
           messagesCollapsed={(messagesCollapsed.size > 0)}
           moveToIsOpen={moveToOpened}
           onChooseFolder={this.props.moveMessageToFolder}
           onCreateFolder={this.props.openMoveToNewFolderModal}
           onDeleteMessage={deleteMessageHandler}
+          onMessageSelect={handleMessageSelect}
           onToggleThread={this.props.toggleMessagesCollapsed}
-          onToggleMoveTo={this.props.toggleThreadMoveTo}/>
+          onToggleMoveTo={this.props.toggleThreadMoveTo}
+          threadMessageCount={thread.length + 1}/>
     );
   }
 
