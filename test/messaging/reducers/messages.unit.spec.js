@@ -19,6 +19,57 @@ import {
 } from '../../../src/js/messaging/utils/constants';
 
 describe('messages reducer', () => {
+  it('should reset thread while loading', () => {
+    const state = messagesReducer({
+      data: {
+        message: 'message4',
+        thread: ['message1', 'message2', 'message3'],
+        draft: {
+          attachments: ['file1', 'file2'],
+          body: makeField('Lorem ipsum dolor sit amet.'),
+          category: makeField('Medication'),
+          recipient: makeField('Clinician'),
+          subject: makeField('Prescription Request')
+        }
+      },
+      ui: {
+        formVisible: true,
+        lastRequestedId: 123,
+        messagesCollapsed: new Set([12, 34, 56]),
+        moveToOpened: true,
+        replyDetailsCollapsed: false
+      }
+    }, {
+      type: LOADING_THREAD,
+      messageId: 456
+    });
+
+    expect(state.data.message).to.be.null;
+    expect(state.data.thread).to.be.empty;
+
+    const { attachments, body, category, recipient, subject } = state.data.draft;
+
+    expect(attachments).to.be.empty;
+    expect(body.value).to.be.empty;
+    expect(category.value).to.be.empty;
+    expect(recipient.value).to.be.empty;
+    expect(subject.value).to.be.empty;
+
+    const {
+      formVisible,
+      lastRequestedId,
+      messagesCollapsed,
+      moveToOpened,
+      replyDetailsCollapsed
+    } = state.ui;
+
+    expect(formVisible).to.be.false;
+    expect(lastRequestedId).to.equal(456);
+    expect(messagesCollapsed.size).to.equal(0);
+    expect(moveToOpened).to.be.false;
+    expect(replyDetailsCollapsed).to.be.true;
+  });
+
   it('should add draft attachments', () => {
     let state = messagesReducer({
       data: { draft: { attachments: [] } }
