@@ -8,6 +8,12 @@ class GlossaryModal extends React.Component {
     this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.visible && this.props.visible) {
+      document.getElementById('rx-glossary-modal').focus();
+    }
+  }
+
   handleCloseModal(event) {
     event.preventDefault();
     this.props.onCloseModal();
