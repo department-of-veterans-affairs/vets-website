@@ -167,22 +167,23 @@ const testValues = {
   campLejeune: false
 };
 
+// Change select value and trigger change event programatically.
+// This is necessary because long select boxes tend to render offscreen,
+// causing Selenium to fail in unexpected ways.
 function selectDropdown(client, field, value) {
   const select = `select[name='${field}']`;
-  const option = `select[name='${field}'] option[value='${value}']`;
-  client.expect(option).to.be.present;
-
-  // Use arrow keys to select element.  This prevents silliness with off-screen clicking.
-  client.execute((selector) => {
-    return document.querySelector(selector).index;
+  client.execute((clientSelect, clientValue) => {
+    /* eslint-disable */
+    var element = document.querySelector(clientSelect);
+    var event = new Event('change', { bubbles: true });
+    element.value = clientValue;
+    element.dispatchEvent(event);
+    return element.value;
+    /* eslint-disable */
   },
-  [option],
+  [select, value],
   (result) => {
-    const arr = Array.from({ length: result.value }, () => { return client.Keys.DOWN_ARROW; });
-    client
-       .click(select)
-       .keys(arr)
-       .keys([client.Keys.ENTER]);
+    console.log(`Set ${field} to '${result}'`);
   });
 }
 
