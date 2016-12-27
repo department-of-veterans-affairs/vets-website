@@ -32,7 +32,6 @@ class AuthApp extends React.Component {
 
     // This will trigger a browser reload if the user is using IE or Edge.
     if (isIE || isEdge) {
-      // TODO(crew): Figure out the best alternative to postMessage because it is unreliable in IE.
       window.opener.location.reload();
     }
     window.close();
