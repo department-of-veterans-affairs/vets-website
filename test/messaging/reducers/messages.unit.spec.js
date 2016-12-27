@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { makeField } from '../../../src/js/common/model/fields';
 import messagesReducer from '../../../src/js/messaging/reducers/messages';
 
 import {
@@ -18,10 +19,6 @@ import {
 } from '../../../src/js/messaging/utils/constants';
 
 describe('messages reducer', () => {
-  it('', () => {
-    const state = messagesReducer({}, {});
-  });
-
   it('should add draft attachments', () => {
     let state = messagesReducer({
       data: { draft: { attachments: [] } }
@@ -40,6 +37,28 @@ describe('messages reducer', () => {
     expect(state.data.draft.attachments).to.contain('file1');
     expect(state.data.draft.attachments).to.contain('file2');
     expect(state.data.draft.attachments).to.contain('file3');
+  });
+
+  it('should clear the draft', () => {
+    const state = messagesReducer({
+      data: {
+        draft: {
+          attachments: ['file1'],
+          body: makeField('Lorem ipsum dolor sit amet.'),
+          category: makeField('Medication'),
+          recipient: makeField('Clinician'),
+          subject: makeField('Prescription Request')
+        }
+      }
+    }, {
+      type: CLEAR_DRAFT
+    });
+    const { attachments, body, category, recipient, subject } = state.data.draft;
+    expect(attachments).to.be.empty;
+    expect(body.value).to.be.empty;
+    expect(category.value).to.equal('Medication');
+    expect(recipient.value).to.equal('Clinician');
+    expect(subject.value).to.equal('Prescription Request');
   });
 
   it('should delete draft attachments', () => {
