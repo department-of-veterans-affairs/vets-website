@@ -26,12 +26,7 @@ const initialState = {
       attributes: {},
       filter: {},
       messages: [],
-      pagination: {
-        currentPage: 0,
-        perPage: 0,
-        totalEntries: 0,
-        totalPages: 0
-      },
+      pagination: {},
       sort: {
         value: 'sentDate',
         order: 'DESC'
@@ -116,6 +111,9 @@ export default function folders(state = initialState, action) {
     }
 
     case LOADING_FOLDER: {
+      const newState =
+        set('data.currentItem', initialState.data.currentItem, state);
+
       return set('ui', {
         ...initialState.ui,
         nav: {
@@ -123,7 +121,7 @@ export default function folders(state = initialState, action) {
           visible: false
         },
         lastRequestedFolder: action.request
-      }, state);
+      }, newState);
     }
 
     case TOGGLE_FOLDER_MOVE_TO: {

@@ -50,7 +50,7 @@
 
   a {
     text-decoration: none;
-    
+
     &:hover {
       background: transparent;
       border-bottom: 2px solid currentColor;
@@ -127,10 +127,14 @@ button.rx-prescription-button,
   text-align: right;
 }
 
+table .rx-prescription-status {
+  text-align: left;
+}
+
 .rx-prescription-refill-requested {
   margin-bottom: .75rem;
   text-align: right;
-} 
+}
 
 .rx-track-package-link {
   display: block;
