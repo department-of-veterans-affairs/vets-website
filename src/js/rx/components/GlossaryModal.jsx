@@ -17,7 +17,7 @@ class GlossaryModal extends React.Component {
     let element;
     if (this.props.isVisible) {
       element = (
-        <section className="va-modal rx-modal" id="rx-glossary-modal">
+        <section className="va-modal rx-modal" id="rx-glossary-modal" role="dialog" aria-labelledby="Glossary">
           <div className="va-modal-inner">
             <h3 className="va-modal-title">Glossary</h3>
             <div className="va-modal-body rx-modal-body">
