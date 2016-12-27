@@ -5,7 +5,6 @@ export const alertStatus = {
   WARNING: 'warning'
 };
 
-export const RESET_REDIRECT = 'RESET_REDIRECT';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 
 // Loading action types
@@ -45,7 +44,6 @@ export const FETCH_FOLDER_SUCCESS = 'FETCH_FOLDER_SUCCESS';
 export const TOGGLE_FOLDER_NAV = 'TOGGLE_FOLDER_NAV';
 export const TOGGLE_MANAGED_FOLDERS = 'TOGGLE_MANAGED_FOLDERS';
 export const TOGGLE_FOLDER_MOVE_TO = 'TOGGLE_FOLDER_MOVE_TO';
-export const SET_CURRENT_FOLDER = 'SET_CURRENT_FOLDER';
 
 // Messages action types
 export const ADD_DRAFT_ATTACHMENTS = 'ADD_DRAFT_ATTACHMENTS';

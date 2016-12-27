@@ -16,7 +16,6 @@ import {
   fetchRecipients,
   openAttachmentsModal,
   resetMessage,
-  resetRedirect,
   saveDraft,
   sendMessage,
   setMessageField,
@@ -37,18 +36,27 @@ export class Compose extends React.Component {
   }
 
   componentDidMount() {
+    const { redirect } = this.props;
+    if (redirect) {
+      this.context.router.replace({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
+      return;
+    }
+
     this.props.resetMessage();
     this.props.fetchRecipients();
   }
 
   componentDidUpdate() {
-    if (this.props.redirect) {
-      this.context.router.replace(this.props.redirect);
+    const { redirect } = this.props;
+    if (redirect) {
+      this.context.router.replace({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
     }
-  }
-
-  componentWillUnmount() {
-    this.props.resetRedirect();
   }
 
   apiFormattedMessage() {
@@ -108,14 +116,13 @@ export class Compose extends React.Component {
     }
   }
 
-  handleConfirmDelete(domEvent) {
-    domEvent.preventDefault();
+  handleConfirmDelete() {
     this.props.toggleConfirmDelete();
     this.props.deleteComposeMessage();
   }
 
   render() {
-    if (this.props.loading) {
+    if (this.props.loading.recipients) {
       return <LoadingIndicator message="Loading your application..."/>;
     }
 
@@ -172,11 +179,11 @@ Compose.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    deleteConfirmModal: state.modals.deleteConfirm,
+    loading: state.loading,
     message: state.compose.message,
-    loading: state.recipients.loading,
     recipients: state.recipients.data,
     redirect: state.folders.ui.redirect,
-    deleteConfirmModal: state.modals.deleteConfirm,
     saveConfirmModal: state.modals.saveConfirm
   };
 };
@@ -188,7 +195,6 @@ const mapDispatchToProps = {
   fetchRecipients,
   openAttachmentsModal,
   resetMessage,
-  resetRedirect,
   saveDraft,
   sendMessage,
   setMessageField,

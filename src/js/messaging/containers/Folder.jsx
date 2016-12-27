@@ -41,7 +41,7 @@ export class Folder extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.loading.inProgress && this.props.folders.size) {
+    if (!this.props.loading.folder) {
       const id = this.getRequestedFolderId();
       const query = this.getQueryParams();
       this.props.fetchFolder(id, query);
@@ -54,15 +54,16 @@ export class Folder extends React.Component {
     // In the typical case of redirects, we go to the most recent folder
     // and proceed with fetching its data. If that's not the case,
     // go ahead to the URL specified in the redirect.
-    if (redirect && redirect !== this.props.location.pathname) {
-      this.context.router.replace(redirect);
+    if (redirect && redirect.url !== this.props.location.pathname) {
+      this.context.router.push({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
       return;
     }
 
-    const loading = this.props.loading;
-
-    if (!loading.inProgress && this.props.folders.size) {
-      const lastRequest = loading.request;
+    if (!this.props.loading.folder) {
+      const lastRequest = this.props.lastRequestedFolder;
       const requestedId = this.getRequestedFolderId();
       const query = this.getQueryParams();
 
@@ -162,18 +163,21 @@ export class Folder extends React.Component {
   }
 
   makeMessageNav() {
-    const { currentRange, messageCount, page, totalPages } = this.props;
+    const { pagination } = this.props;
+    const { currentPage, perPage, totalEntries, totalPages } = pagination;
 
-    if (messageCount === 0) {
-      return null;
-    }
+    if (_.isEmpty(pagination) || !totalEntries) return null;
+
+    const startCount = 1 + (currentPage - 1) * perPage;
+    const endCount = Math.min(totalEntries, currentPage * perPage);
+    const currentRange = `${startCount} - ${endCount}`;
 
     return (
       <MessageNav
           currentRange={currentRange}
-          messageCount={messageCount}
+          messageCount={totalEntries}
           onItemSelect={this.handlePageSelect}
-          itemNumber={page}
+          itemNumber={currentPage}
           totalItems={totalPages}/>
     );
   }
@@ -236,14 +240,16 @@ export class Folder extends React.Component {
   }
 
   makeMessagesTable() {
-    const messages = this.props.messages;
+    const { attributes, filter, messages } = this.props;
+
     if (!messages || messages.length === 0) {
+      if (filter) {
+        return <p className="msg-nomessages">No messages found for your search.</p>;
+      }
       return <p className="msg-nomessages">You have no messages in this folder.</p>;
     }
 
-    const makeMessageLink = (content, id) => {
-      return <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>;
-    };
+    // Create sortable table headers.
 
     const fields = [
       { label: 'From', value: 'senderName' },
@@ -251,11 +257,9 @@ export class Folder extends React.Component {
       { label: 'Date', value: 'sentDate' }
     ];
 
-    const folderId = this.props.attributes.folderId;
-    const folderName = this.props.attributes.name;
+    const { folderId, name: folderName } = attributes;
     const isDraftsFolder = folderName === 'Drafts';
     const isSentFolder = folderName === 'Sent';
-    const moveToFolders = [];
     const markUnread = folderId >= 0;
 
     if (isDraftsFolder || isSentFolder) {
@@ -268,17 +272,20 @@ export class Folder extends React.Component {
       }
     } else {
       fields.push({ label: '', value: 'moveToButton' });
-
-      // Exclude the current folder from the list of folders
-      // that are passed down to the MoveTo component.
-      this.props.folders.forEach((folder) => {
-        if (folderId !== folder.folderId) {
-          moveToFolders.push(folder);
-        }
-      });
     }
 
-    const data = this.props.messages.map(message => {
+    // Create sortable table rows.
+
+    const folders = [];
+    this.props.folders.forEach(v => {
+      folders.push(v);
+    });
+
+    const makeMessageLink = (content, id) => {
+      return <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>;
+    };
+
+    const data = messages.map(message => {
       const id = message.messageId;
       const rowClass = classNames({
         'messaging-message-row': true,
@@ -288,7 +295,8 @@ export class Folder extends React.Component {
 
       const moveToButton = (
         <MoveTo
-            folders={moveToFolders}
+            currentFolder={attributes}
+            folders={folders}
             isOpen={id === this.props.moveToId}
             messageId={id}
             onChooseFolder={this.props.moveMessageToFolder}
@@ -318,17 +326,15 @@ export class Folder extends React.Component {
   }
 
   render() {
-    const loading = this.props.loading;
-
-    if (loading.inProgress) {
-      return <LoadingIndicator message="is loading the folder..."/>;
+    if (this.props.loading.folder) {
+      return <LoadingIndicator message="Loading the folder..."/>;
     }
 
     const folderId = _.get(this.props.attributes, 'folderId', null);
     let componentContent;
 
     if (folderId === null) {
-      const lastRequest = loading.request;
+      const lastRequest = this.props.lastRequestedFolder;
 
       if (lastRequest && lastRequest.id !== null) {
         const reloadFolder = () => {
@@ -337,14 +343,22 @@ export class Folder extends React.Component {
 
         componentContent = (
           <div className="columns">
-            <p>
+            <p className="msg-loading-error">
               Could not retrieve the folder.&nbsp;
-              <a onClick={reloadFolder}>Click here to try again.</a>
+              <a className="msg-reload" onClick={reloadFolder}>
+                Click here to try again.
+              </a>
             </p>
           </div>
         );
       } else {
-        componentContent = <div className="columns"><p>Sorry, this folder does not exist.</p></div>;
+        componentContent = (
+          <div className="columns">
+            <p className="msg-loading-error">
+              Sorry, this folder does not exist.
+            </p>
+          </div>
+        );
       }
     } else {
       const messageNav = this.makeMessageNav();
@@ -352,7 +366,7 @@ export class Folder extends React.Component {
       const folderMessages = this.makeMessagesTable();
 
       let messageSearch;
-      if (this.props.messages && this.props.messages.length) {
+      if (this.props.messages && this.props.messages.length || this.props.filter) {
         messageSearch = (<MessageSearch
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
@@ -403,31 +417,22 @@ Folder.contextTypes = {
 
 const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
-  const { attributes, messages } = folder;
-  const pagination = folder.pagination;
-  const page = pagination.currentPage;
-  const perPage = pagination.perPage;
-  const totalPages = pagination.totalPages;
-
-  const totalCount = pagination.totalEntries;
-  const startCount = 1 + (page - 1) * perPage;
-  const endCount = Math.min(totalCount, page * perPage);
+  const { attributes, filter, messages, pagination, sort } = folder;
+  const { lastRequestedFolder, moveToId, redirect } = state.folders.ui;
 
   return {
     attributes,
-    currentRange: `${startCount} - ${endCount}`,
-    filter: folder.filter,
+    filter,
     folders: state.folders.data.items,
-    loading: state.folders.ui.loading,
-    messageCount: totalCount,
-    messages,
-    moveToId: state.folders.ui.moveToId,
-    page,
-    redirect: state.folders.ui.redirect,
-    totalPages,
     isAdvancedVisible: state.search.advanced.visible,
+    lastRequestedFolder,
+    loading: state.loading,
+    messages,
+    moveToId,
+    pagination,
+    redirect,
     searchParams: state.search.params,
-    sort: folder.sort
+    sort
   };
 };
 

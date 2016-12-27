@@ -12,24 +12,22 @@ class ButtonDelete extends React.Component {
   }
 
   render() {
-    const isTextVisible = classNames({
-      'usa-sr-only': this.props.compact
-    });
+    const buttonClass = classNames(this.props.className, 'msg-btn-delete');
 
     return (
       <button
           onClick={this.handleClick}
-          className="messaging-btn-delete"
+          className={buttonClass}
           type="button">
         <i className="fa fa-trash"></i>
-        <span className={isTextVisible}>Delete</span>
+        <span>Delete</span>
       </button>
     );
   }
 }
 
 ButtonDelete.propTypes = {
-  compact: React.PropTypes.bool,
+  className: React.PropTypes.string,
   onClickHandler: React.PropTypes.func.isRequired
 };
 
