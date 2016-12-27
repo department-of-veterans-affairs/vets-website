@@ -19,13 +19,9 @@ const initialState = {
   data: {
     currentItem: {
       attributes: {},
+      filter: {},
       messages: [],
-      pagination: {
-        currentPage: 0,
-        perPage: 0,
-        totalEntries: 0,
-        totalPages: 0
-      },
+      pagination: {},
       persistFolder: 0,
       sort: {
         value: 'sentDate',
@@ -147,6 +143,9 @@ describe('folders reducer', () => {
   it('should update folder counts after moving a message', () => {
     const newState = foldersReducer({
       data: {
+        currentItem: {
+          attributes: { name: 'Folder1', count: 1 }
+        },
         items: new Map([
           ['folder-1', { count: 1 }],
           ['folder-2', { count: 2 }]
@@ -155,9 +154,9 @@ describe('folders reducer', () => {
     }, {
       type: MOVE_MESSAGE_SUCCESS,
       message: { body: 'testing 123' },
-      fromFolder: { name: 'Folder1' },
-      toFolder: { name: 'Folder2' }
+      folder: { name: 'Folder2' }
     });
+    expect(newState.data.currentItem.attributes.count).to.equal(0);
     expect(newState.data.items.get('folder-1').count).to.equal(0);
     expect(newState.data.items.get('folder-2').count).to.equal(3);
   });

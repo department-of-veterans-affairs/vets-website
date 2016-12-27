@@ -14,7 +14,7 @@ class Pagination extends React.Component {
     let nextPage;
     if (this.props.pages > this.props.page) {
       nextPage = (
-        <a onClick={() => {this.props.onPageSelect(this.props.page + 1);}}>
+        <a aria-label="Next page" onClick={() => {this.props.onPageSelect(this.props.page + 1);}}>
           Next
         </a>
       );
@@ -26,7 +26,7 @@ class Pagination extends React.Component {
     let prevPage;
     if (this.props.page > 1) {
       prevPage = (
-        <a onClick={() => {this.props.onPageSelect(this.props.page - 1);}}>
+        <a aria-label="Previous page" onClick={() => {this.props.onPageSelect(this.props.page - 1);}}>
           <abbr title="Previous">Prev</abbr>
         </a>
       );
@@ -66,6 +66,7 @@ class Pagination extends React.Component {
         <a
             key={pageNumber}
             className={pageClass}
+            aria-label={`Page ${pageNumber}`}
             onClick={() => this.props.onPageSelect(pageNumber)}>
           {pageNumber}
         </a>

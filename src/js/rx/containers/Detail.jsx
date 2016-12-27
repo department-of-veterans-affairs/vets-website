@@ -111,6 +111,7 @@ export class Detail extends React.Component {
     if (attrs.isRefillable) {
       refillButton = (
         <SubmitRefill
+            className="rx-prescription-button"
             onSubmit={(e) => {
               e.preventDefault();
               this.props.openRefillModal(attrs);

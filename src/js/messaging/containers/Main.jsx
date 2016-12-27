@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import classNames from 'classnames';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -12,7 +13,6 @@ import {
   createNewFolder,
   fetchFolders,
   openCreateFolderModal,
-  setCurrentFolder,
   setNewFolderName,
   toggleFolderNav,
   toggleManagedFolders
@@ -36,10 +36,7 @@ export class Main extends React.Component {
     this.props.fetchFolders();
   }
 
-  handleFolderChange(domEvent) {
-    const folderId = domEvent.target.dataset.folderid;
-    this.props.setCurrentFolder(folderId);
-
+  handleFolderChange() {
     if (this.props.isVisibleAdvancedSearch) {
       this.props.closeAdvancedSearch();
     }
@@ -110,7 +107,7 @@ export class Main extends React.Component {
               onClick={this.props.toggleFolderNav}/>
           <ComposeButton/>
           <FolderNav
-              persistFolder={this.props.persistFolder}
+              currentFolderId={this.props.currentFolderId}
               folders={this.props.folders}
               isExpanded={this.props.nav.foldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
@@ -147,14 +144,21 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const folders = [];
+  state.folders.data.items.forEach(v => {
+    folders.push(v);
+  });
+
+  const currentFolderId = _.get(state.folders.ui.lastRequestedFolder, 'id', 0);
+
   return {
     attachmentsModal: state.modals.attachments,
     createFolderModal: state.modals.createFolder,
-    folders: Array.from(state.folders.data.items.values()),
+    currentFolderId,
+    folders,
     isVisibleAdvancedSearch: state.search.advanced.visible,
     loading: state.loading,
-    nav: state.folders.ui.nav,
-    persistFolder: state.folders.data.currentItem.persistFolder
+    nav: state.folders.ui.nav
   };
 };
 
@@ -166,7 +170,6 @@ const mapDispatchToProps = {
   createNewFolder,
   fetchFolders,
   openCreateFolderModal,
-  setCurrentFolder,
   setNewFolderName,
   toggleFolderNav,
   toggleManagedFolders
