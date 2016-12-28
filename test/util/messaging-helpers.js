@@ -375,13 +375,13 @@ export const recipients = {
   },
   meta: {
     pagination: {
-        currentPage: 1,
-        perPage: 10,
-        totalEntries: 1,
-        totalPages: 1
+      currentPage: 1,
+      perPage: 10,
+      totalEntries: 1,
+      totalPages: 1
     },
     sort: {
-        name: 'ASC'
+      name: 'ASC'
     }
   }
-}
+};
