@@ -181,10 +181,7 @@ function selectDropdown(client, field, value) {
     return element.value;
     /* eslint-disable */
   },
-  [select, value],
-  (result) => {
-    console.log(`Set ${field} to '${result}'`);
-  });
+  [select, value]);
 }
 
 function completePersonalInformation(client, data, onlyRequiredFields) {

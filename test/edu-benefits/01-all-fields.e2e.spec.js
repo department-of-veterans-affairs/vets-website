@@ -15,8 +15,8 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
         .click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.overrideVetsGovApi(client);
+      E2eHelpers.overrideSmoothScrolling(client);
       E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
-
       // Veteran information page.
       client
         .expect.element('input[name="fname"]').to.be.visible;
@@ -33,7 +33,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
 
       // Benefits relinquishment
       client
-        .expect.element('input[name="benefitsRelinquished-1"]').to.be.visible;
+        .expect.element('input[name="benefitsRelinquished-1"]').to.be.present;
       EduHelpers.completeBenefitsRelinquishment(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/benefits-eligibility/benefits-relinquishment');
@@ -54,14 +54,14 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
 
       // ROTC History
       client
-        .expect.element('input[name="seniorRotcCommissioned-0"]').to.be.visible;
+        .expect.element('input[name="seniorRotcCommissioned-0"]').to.be.present;
       EduHelpers.completeRotcHistory(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/military-history/rotc-history');
 
       // Benefits history
       client
-        .expect.element('input[name="civilianBenefitsAssistance"]').to.be.visible;
+        .expect.element('input[name="civilianBenefitsAssistance"]').to.be.present;
       EduHelpers.completeContributions(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/military-history/contributions');
@@ -75,7 +75,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
 
       // Employment history
       client
-        .expect.element('input[name="hasNonMilitaryJobs-0"]').to.be.visible;
+        .expect.element('input[name="hasNonMilitaryJobs-0"]').to.be.present;
       EduHelpers.completeEmploymentHistory(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/employment-history/employment-information');
