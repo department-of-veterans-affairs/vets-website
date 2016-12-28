@@ -4,10 +4,45 @@
 const electron = require('electron-prebuilt');
 const chromedriver = require('chromedriver');
 const seleniumServer = require('selenium-server');
+const _ = require('lodash');
 
 require('babel-core/register');
 
 const selenium_server_port = process.env.SELENIUM_PORT || 4444;
+const defaults = {
+  launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
+  filter: './test/**/*.e2e.spec.js',
+  selenium_host: 'localhost',
+  selenium_port: selenium_server_port,
+  use_ssl: false,
+  silent: true,
+  output: true,
+  screenshots: {
+    enabled: true,
+    on_failure: true,
+    path: 'logs/screenshots'
+  },
+  desiredCapabilities: {
+    browserName: 'chrome',
+    javascriptEnabled: true,
+    acceptSslCerts: true,
+    webStorageEnabled: true,
+    chromeOptions: {
+      binary: electron
+    }
+  },
+  selenium: {
+    cli_args: {
+      'webdriver.chrome.driver': chromedriver.path,
+      'webdriver.gecko.driver': 'node_modules/geckodriver/geckodriver'
+    },
+    start_process: true,
+    server_path: seleniumServer.path,
+    log_path: './logs/selenium',
+    host: '127.0.0.1',
+    port: selenium_server_port,
+  }
+};
 
 module.exports = {
   src_folders: ['./test'],
@@ -18,59 +53,18 @@ module.exports = {
   disable_colors: false,
   test_workers: false,
   test_settings: {
-    'default': {
-      launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
-      filter: './test/**/*.e2e.spec.js',
-      selenium_host: 'localhost',
-      selenium_port: selenium_server_port,
-      use_ssl: false,
-      silent: true,
-      output: true,
-      screenshots: {
-        enabled: true,
-        on_failure: true,
-        path: 'logs/screenshots'
-      },
+    'default': defaults,
+    firefox: _.merge({}, defaults, {
       desiredCapabilities: {
-        browserName: 'chrome',
-        javascriptEnabled: true,
-        acceptSslCerts: true,
-        webStorageEnabled: true,
-        chromeOptions: {
-          binary: electron
-        }
-      },
-      selenium: {
-        cli_args: {
-          'webdriver.chrome.driver': chromedriver.path
-        },
-        start_process: true,
-        server_path: seleniumServer.path,
-        log_path: './logs/selenium',
-        host: '127.0.0.1',
-        port: selenium_server_port,
+        browserName: 'firefox',
+        marionette: true
       }
-    },
-
-    accessibility: {
+    }),
+    accessibility: _.merge({}, defaults, {
       filter: './test/accessibility/*.spec.js',
       globals: {
-        asyncHookTimeout: 20000,
-      },
-      desiredCapabilities: {
-        browserName: 'chrome',
-        javascriptEnabled: true,
-        acceptSslCerts: true,
-        webStorageEnabled: true,
-        chromeOptions: {
-          binary: electron
-        }
-      },
-      selenium: {
-        cli_args: {
-          'webdriver.chrome.driver': chromedriver.path
-        }
+        asyncHookTimeout: 20000
       }
-    }
+    })
   }
 };
