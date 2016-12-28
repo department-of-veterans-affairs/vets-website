@@ -18,7 +18,7 @@ import {
   UPDATE_DRAFT
 } from '../../../src/js/messaging/utils/constants';
 
-import { draft, message, thread } from "../../util/messaging-helpers";
+import { draft, message, thread } from '../../util/messaging-helpers';
 
 describe('messages reducer', () => {
   it('should reset thread while loading', () => {
@@ -156,7 +156,7 @@ describe('messages reducer', () => {
       }
     }, {
       type: FETCH_THREAD_SUCCESS,
-      message: message,
+      message,
       thread: thread.data
     });
 
@@ -226,6 +226,9 @@ describe('messages reducer', () => {
       replyMessageId: undefined
     });
 
+    expect(state.ui.messagesCollapsed.size).to.equal(0);
+  });
+
   it('should handle a successful fetch of a reply draft', () => {
     const state = messagesReducer({
       data: {
@@ -265,10 +268,8 @@ describe('messages reducer', () => {
       replyMessageId: +thread.data[0].attributes.messageId
     });
 
-    expect(state.ui.messagesCollapsed.size).to.equal(0);
-  });
-
-    expect(state.ui.messagesCollapsed.size).to.equal(0);
+    expect(state.ui.messagesCollapsed)
+      .to.eql(new Set(thread.data.map(msg => msg.messageId)));
   });
 
   it('should collapse and expand a message', () => {
