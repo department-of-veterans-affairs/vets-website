@@ -15,6 +15,9 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client
         .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
         .waitForElementVisible('a.claim-list-item', Timeouts.slow);
+
+      E2eHelpers.overrideSmoothScrolling(client);
+
       client
         .click('a.claim-list-item:first-child')
         .waitForElementVisible('body', Timeouts.normal)
