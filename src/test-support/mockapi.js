@@ -47,8 +47,7 @@ function makeMockApiRouter(opts) {
     const verbResponses = mockResponses[verb];
     let result = null;
     if (verbResponses) {
-      // result = verbResponses[req.path];
-      result = { result: req.body };
+      result = verbResponses[req.path];
     }
 
     if (!result) {
