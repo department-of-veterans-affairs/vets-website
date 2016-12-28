@@ -9,6 +9,13 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       MessagingHelpers.initApplicationSubmitMock();
       LoginHelpers.logIn(client, '/healthcare/messaging', 3);
 
+      // Ensure messaging home page renders
+      client
+        .url(`${E2eHelpers.baseUrl}/healthcare/messaging`)
+        .waitForElementVisible('body', Timeouts.normal)
+        .assert.title('Send a message to your provider: Vets.gov')
+        .waitForElementVisible('#messaging-app', Timeouts.slow);
+
       client.end();
     }
   );
