@@ -20,7 +20,6 @@ class ReviewPage extends React.Component {
 
     if (this.props.uiData.isApplicationSubmitted) {
       content = (
-        // TODO(crew): We need to figure out why the css isn’t working here.
         <div className="usa-alert usa-alert-success">
           <div className="usa-alert-body">
             <h3 className="usa-alert-heading">You have submitted your application for education benefits!</h3>

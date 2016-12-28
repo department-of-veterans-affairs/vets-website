@@ -5,20 +5,6 @@
   th.sortable {
     cursor: pointer;
   }
-
-  a {
-    color: $color-primary;
-
-  }
-
-  td {
-    &:nth-child(1) {
-      a {
-        text-decoration: none;
-        font-weight: bold;
-      }
-    }
-  }
 }
 
 .rx-table-list {
@@ -31,6 +17,34 @@
       &:before {
         font-weight: bold;
       }
+
+      &:nth-child(2) {
+        &:before{
+          content: 'Submit Date: ',
+        }
+      }
+      &:nth-child(3) {
+        &:before{
+          content: 'Fill Date: ',
+        }
+      }
+      &:nth-child(4) {
+        &:before{
+          content: 'Facility: ',
+        }
+      }
+      &:nth-child(5) {
+        &:before{
+          content: 'Refills Left: ',
+        }
+      }
     }
   }
+}
+
+.rx-prescription-name {
+  color: $color-primary;
+  display: block;
+  font-weight: bold;
+  text-decoration: none;
 }

@@ -7,6 +7,8 @@ import {
   DELETE_FOLDER_SUCCESS,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
+  MOVE_MESSAGE_SUCCESS,
+  SAVE_DRAFT_SUCCESS,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS
 } from '../../../src/js/messaging/utils/constants';
@@ -17,13 +19,9 @@ const initialState = {
   data: {
     currentItem: {
       attributes: {},
+      filter: {},
       messages: [],
-      pagination: {
-        currentPage: 0,
-        perPage: 0,
-        totalEntries: 0,
-        totalPages: 0
-      },
+      pagination: {},
       persistFolder: 0,
       sort: {
         value: 'sentDate',
@@ -90,6 +88,8 @@ describe('folders reducer', () => {
       .to.eql(messages.data.map(message => message.attributes));
     expect(newState.data.currentItem.pagination)
       .to.eql(messages.meta.pagination);
+    expect(newState.data.items.get('test-folder-123'))
+      .to.eql(folder.data.attributes);
   });
 
   it('should set folders fetched from the server', () => {
@@ -116,5 +116,48 @@ describe('folders reducer', () => {
     expect(newState.ui.nav.foldersExpanded).to.be.true;
     newState = foldersReducer(newState, { type: TOGGLE_MANAGED_FOLDERS });
     expect(newState.ui.nav.foldersExpanded).to.be.false;
+  });
+
+  it('should increment the count of Drafts after saving a new draft', () => {
+    const newState = foldersReducer({
+      data: { items: new Map([['drafts', { count: 1 }]]) }
+    }, {
+      type: SAVE_DRAFT_SUCCESS,
+      message: { body: 'testing 123' },
+      isSavedDraft: false
+    });
+    expect(newState.data.items.get('drafts').count).to.equal(2);
+  });
+
+  it('should not increment the count of Drafts after re-saving a draft', () => {
+    const newState = foldersReducer({
+      data: { items: new Map([['drafts', { count: 1 }]]) }
+    }, {
+      type: SAVE_DRAFT_SUCCESS,
+      message: { body: 'testing 123' },
+      isSavedDraft: true
+    });
+    expect(newState.data.items.get('drafts').count).to.equal(1);
+  });
+
+  it('should update folder counts after moving a message', () => {
+    const newState = foldersReducer({
+      data: {
+        currentItem: {
+          attributes: { name: 'Folder1', count: 1 }
+        },
+        items: new Map([
+          ['folder-1', { count: 1 }],
+          ['folder-2', { count: 2 }]
+        ])
+      }
+    }, {
+      type: MOVE_MESSAGE_SUCCESS,
+      message: { body: 'testing 123' },
+      folder: { name: 'Folder2' }
+    });
+    expect(newState.data.currentItem.attributes.count).to.equal(0);
+    expect(newState.data.items.get('folder-1').count).to.equal(0);
+    expect(newState.data.items.get('folder-2').count).to.equal(3);
   });
 });

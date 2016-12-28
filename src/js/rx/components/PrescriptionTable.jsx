@@ -41,9 +41,9 @@ class PrescriptionTable extends React.Component {
         id: item.id,
         prescriptionName: (
           <div>
-            <Link to={`/${attrs.prescriptionId}`}>
+            <Link to={`/${attrs.prescriptionId}`} className="rx-prescription-name">
               {attrs.prescriptionName}
-            </Link><br/>
+            </Link>
             <span>Prescription #: {item.id}</span>
           </div>
         ),

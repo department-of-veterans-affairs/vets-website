@@ -36,13 +36,27 @@ export class Compose extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.redirect) {
-      this.context.router.replace(this.props.redirect);
+    const { redirect } = this.props;
+    if (redirect) {
+      this.context.router.replace({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
       return;
     }
 
     this.props.resetMessage();
     this.props.fetchRecipients();
+  }
+
+  componentDidUpdate() {
+    const { redirect } = this.props;
+    if (redirect) {
+      this.context.router.replace({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
+    }
   }
 
   apiFormattedMessage() {
@@ -102,8 +116,7 @@ export class Compose extends React.Component {
     }
   }
 
-  handleConfirmDelete(domEvent) {
-    domEvent.preventDefault();
+  handleConfirmDelete() {
     this.props.toggleConfirmDelete();
     this.props.deleteComposeMessage();
   }
