@@ -18,6 +18,8 @@ import {
   UPDATE_DRAFT
 } from '../../../src/js/messaging/utils/constants';
 
+import { message, thread } from "../../util/messaging-helpers";
+
 describe('messages reducer', () => {
   it('should reset thread while loading', () => {
     const state = messagesReducer({
@@ -123,5 +125,44 @@ describe('messages reducer', () => {
     expect(state.data.draft.attachments).to.have.lengthOf(2);
     expect(state.data.draft.attachments).to.contain('file1');
     expect(state.data.draft.attachments).to.contain('file3');
+  });
+
+  it('should handle a successful fetch of a message and its thread', () => {
+    const state = messagesReducer({
+      data: {
+        message: null,
+        thread: [],
+        draft: {}
+      }
+    }, {
+      type: FETCH_THREAD_SUCCESS,
+      message: message,
+      thread: thread.data
+    });
+
+    expect(state.data.message).to.eql({
+      ...message.data.attributes,
+      attachments: message.included
+    });
+
+    expect(state.data.thread)
+      .to.eql(thread.data.map(msg => msg.attributes).reverse());
+
+    const {
+      body,
+      category,
+      messageId,
+      senderId,
+      subject
+    } = message.data.attributes;
+
+    expect(state.data.draft).to.eql({
+      attachments: [],
+      body: makeField(''),
+      category: makeField(category),
+      recipient: makeField(senderId.toString()),
+      subject: makeField(subject),
+      replyMessageId: messageId
+    });
   });
 });
