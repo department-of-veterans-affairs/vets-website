@@ -3,9 +3,13 @@ import React from 'react';
 import Modal from '../../../common/components/Modal';
 
 class ModalConfirmDelete extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
 
-  handleDelete = (e) => {
-    e.preventDefault();
+  handleDelete(event) {
+    event.preventDefault();
     this.props.onDelete();
   }
 
