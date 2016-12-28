@@ -2,15 +2,14 @@ import Timeouts from './timeouts';
 
 function overrideVetsGovApi(client) {
   client.execute((url) => {
-    /* eslint-disable */
     const current = window.VetsGov || {};
     window.VetsGov = Object.assign({}, current, {
       api: {
+        // eslint-disable-next-line object-shorthand
         url: url
       }
     });
     return window.VetsGov;
-    /* eslint-disable */
   },
   [`http://localhost:${process.env.API_PORT || 4000}`],
   (val) => {
@@ -34,6 +33,39 @@ function overrideSmoothScrolling(client) {
   (val) => {
     // eslint-disable-next-line no-console
     console.log(`Setting VetsGov.scroll = ${JSON.stringify(val)}`);
+  });
+}
+
+// via http://stackoverflow.com/questions/11131875
+function overrideAnimations(client) {
+  const styles = `* {
+     -o-transition-property: none !important;
+     -moz-transition-property: none !important;
+     -ms-transition-property: none !important;
+     -webkit-transition-property: none !important;
+      transition-property: none !important;
+     -o-transform: none !important;
+     -moz-transform: none !important;
+     -ms-transform: none !important;
+     -webkit-transform: none !important;
+     transform: none !important;
+     -webkit-animation: none !important;
+     -moz-animation: none !important;
+     -o-animation: none !important;
+     -ms-animation: none !important;
+     animation: none !important;
+  }`;
+
+  client.execute((str) => {
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = str;
+    document.getElementsByTagName('head')[0].appendChild(style);
+  },
+  [styles],
+  () => {
+    // eslint-disable-next-line no-console
+    console.log('Overriding animations...');
   });
 }
 
@@ -74,5 +106,6 @@ module.exports = {
   expectValueToBeBlank,
   expectInputToNotBeSelected,
   overrideVetsGovApi,
-  overrideSmoothScrolling
+  overrideSmoothScrolling,
+  overrideAnimations
 };

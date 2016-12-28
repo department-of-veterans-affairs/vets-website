@@ -16,6 +16,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.overrideVetsGovApi(client);
       E2eHelpers.overrideSmoothScrolling(client);
+      E2eHelpers.overrideAnimations(client);
       E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
       // Veteran information page.
       client
