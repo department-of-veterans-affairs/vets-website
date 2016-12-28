@@ -127,6 +127,26 @@ describe('messages reducer', () => {
     expect(state.data.draft.attachments).to.contain('file3');
   });
 
+  it('should handle a successful fetch of a thread message', () => {
+    const state = messagesReducer({
+      data: {
+        thread: [
+          { attachments: [], body: 'thread message 1', messageId: 99 },
+          { attachments: [], body: 'thread message 2', messageId: 123 },
+          { attachments: [], body: 'thread message 3', messageId: 128 }
+        ]
+      }
+    }, {
+      type: FETCH_THREAD_MESSAGE_SUCCESS,
+      message
+    });
+
+    expect(state.data.thread[1]).to.eql({
+      ...message.data.attributes,
+      attachments: message.included
+    });
+  });
+
   it('should handle a successful fetch of a message and its thread', () => {
     const state = messagesReducer({
       data: {
