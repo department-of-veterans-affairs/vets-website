@@ -18,7 +18,7 @@ import {
   UPDATE_DRAFT
 } from '../../../src/js/messaging/utils/constants';
 
-import { message, thread } from "../../util/messaging-helpers";
+import { draft, message, thread } from "../../util/messaging-helpers";
 
 describe('messages reducer', () => {
   it('should reset thread while loading', () => {
@@ -149,7 +149,6 @@ describe('messages reducer', () => {
       .to.eql(thread.data.map(msg => msg.attributes).reverse());
 
     const {
-      body,
       category,
       messageId,
       senderId,
@@ -167,6 +166,89 @@ describe('messages reducer', () => {
 
     expect(state.ui.messagesCollapsed)
       .to.eql(new Set(thread.data.map(msg => msg.messageId)));
+  });
+
+  it('should handle a successful fetch of a new message draft', () => {
+    const state = messagesReducer({
+      data: {
+        message: null,
+        thread: [],
+        draft: {}
+      }
+    }, {
+      type: FETCH_THREAD_SUCCESS,
+      message: draft,
+      thread: []
+    });
+
+    expect(state.data.message).to.eql({
+      ...draft.data.attributes,
+      attachments: draft.included
+    });
+
+    expect(state.data.thread).to.be.empty;
+
+    const {
+      body,
+      category,
+      messageId,
+      recipientId,
+      subject
+    } = draft.data.attributes;
+
+    expect(state.data.draft).to.eql({
+      attachments: [],
+      body: makeField(body),
+      category: makeField(category),
+      messageId,
+      recipient: makeField(recipientId.toString()),
+      subject: makeField(subject),
+      replyMessageId: undefined
+    });
+
+  it('should handle a successful fetch of a reply draft', () => {
+    const state = messagesReducer({
+      data: {
+        message: null,
+        thread: [],
+        draft: {}
+      }
+    }, {
+      type: FETCH_THREAD_SUCCESS,
+      message: draft,
+      thread: thread.data
+    });
+
+    expect(state.data.message).to.eql({
+      ...draft.data.attributes,
+      attachments: draft.included
+    });
+
+    expect(state.data.thread)
+      .to.eql(thread.data.map(msg => msg.attributes).reverse());
+
+    const {
+      body,
+      category,
+      messageId,
+      recipientId,
+      subject
+    } = draft.data.attributes;
+
+    expect(state.data.draft).to.eql({
+      attachments: [],
+      body: makeField(body),
+      category: makeField(category),
+      messageId,
+      recipient: makeField(recipientId.toString()),
+      subject: makeField(subject),
+      replyMessageId: +thread.data[0].attributes.messageId
+    });
+
+    expect(state.ui.messagesCollapsed.size).to.equal(0);
+  });
+
+    expect(state.ui.messagesCollapsed.size).to.equal(0);
   });
 
   it('should collapse and expand a message', () => {

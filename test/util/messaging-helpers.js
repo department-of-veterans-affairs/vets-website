@@ -244,6 +244,32 @@ export const message = {
   ]
 };
 
+// Draft
+export const draft = {
+  data: {
+    attributes: {
+      attachment: false,
+      body: 'Draft body.',
+      category: 'MEDICATIONS',
+      messageId: 1024,
+      readReceipt: null,
+      recipientId: 2,
+      recipientName: 'Clinician',
+      senderId: 1,
+      senderName: 'Veteran',
+      sentDate: null,
+      subject: 'Prescription Request'
+    },
+    id: '1024',
+    links: {
+      self: 'http://www.example.com/v0/messaging/health/messages/1024'
+    },
+    relationships: {},
+    type: 'messages'
+  },
+  included: []
+};
+
 // Thread of first message in Inbox
 export const thread = {
   data: [
