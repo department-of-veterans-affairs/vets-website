@@ -4,8 +4,11 @@ function overrideVetsGovApi(client) {
   client.execute((url) => {
     /* eslint-disable */
     const current = window.VetsGov || {};
-    const url = { api: { url: url }};
-    window.VetsGov = Object.assign({}, current, url);
+    window.VetsGov = Object.assign({}, current, {
+      api: {
+        url: url
+      }
+    });
     return window.VetsGov;
     /* eslint-disable */
   },
