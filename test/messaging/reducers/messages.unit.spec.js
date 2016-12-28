@@ -270,4 +270,36 @@ describe('messages reducer', () => {
     state = messagesReducer(state, { type: TOGGLE_THREAD_MOVE_TO });
     expect(state.ui.moveToOpened).to.be.true;
   });
+
+  it('should update the draft', () => {
+    let state = messagesReducer({
+      data: { draft: {} }
+    }, {
+      type: UPDATE_DRAFT,
+      key: 'body',
+      field: makeField('testing', true)
+    });
+    expect(state.data.draft.body).to.eql(makeField('testing', true));
+
+    state = messagesReducer(state, {
+      type: UPDATE_DRAFT,
+      key: 'category',
+      field: makeField('EDUCATION', true)
+    });
+    expect(state.data.draft.category).to.eql(makeField('EDUCATION', true));
+
+    state = messagesReducer(state, {
+      type: UPDATE_DRAFT,
+      key: 'recipient',
+      field: makeField('Clinician 1', true)
+    });
+    expect(state.data.draft.recipient).to.eql(makeField('Clinician 1', true));
+
+    state = messagesReducer(state, {
+      type: UPDATE_DRAFT,
+      key: 'subject',
+      field: makeField('subject', true)
+    });
+    expect(state.data.draft.subject).to.eql(makeField('subject', true));
+  });
 });
