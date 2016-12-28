@@ -62,7 +62,7 @@ export const folders = {
 
     {
       attributes: {
-        count: 0,
+        count: 1,
         folderId: 123,
         name: 'Test Folder 1',
         systemFolder: false,
@@ -77,7 +77,7 @@ export const folders = {
 
     {
       attributes: {
-        count: 0,
+        count: 2,
         folderId: 456,
         name: 'Test Folder 2',
         systemFolder: false,
@@ -336,84 +336,52 @@ export const thread = {
   ]
 };
 
-export const testData = {
-  folders: {
-    data: [
-      {
-        attributes: {
-          folderId: 123,
-          name: 'test folder 123'
-        }
+export const recipients = {
+  data: [
+    {
+      attributes: {
+        name: 'Triage Team 1',
+        relationType: 'PATIENT',
+        triageTeamId: 0
       },
-      {
-        attributes: {
-          folderId: 456,
-          name: 'test folder 456'
-        }
+      id: '0',
+      type: 'triage_teams'
+    },
+    {
+      attributes: {
+        name: 'Triage Team 2',
+        relationType: 'PATIENT',
+        triageTeamId: 1
       },
-      {
-        attributes: {
-          folderId: 789,
-          name: 'test folder 789'
-        }
-      }
-    ]
-  },
-
-  folderMessages: {
-    data: [
-      {
-        attributes: {
-          messageId: 123,
-          body: 'testing 123'
-        }
+      id: '1',
+      type: 'triage_teams'
+    },
+    {
+      attributes: {
+        name: 'Triage Team 1',
+        relationType: 'PATIENT',
+        triageTeamId: 2
       },
-      {
-        attributes: {
-          messageId: 456,
-          body: 'testing 456'
-        }
-      },
-      {
-        attributes: {
-          messageId: 789,
-          body: 'testing 789'
-        }
-      }
-    ],
-    meta: {
-      sort: {
-        sentDate: 'DESC'
-      },
-      pagination: {
-        currentPage: 1,
-        perPage: 25,
-        totalEntries: 3,
-        totalPages: 1
-      }
+      id: '2',
+      type: 'triage_teams'
     }
+  ],
+  links: {
+    first: 'https://dev-api.vets.gov/v0/messaging/health/recipients?page=1&per_page=10',
+    last: 'https://dev-api.vets.gov/v0/messaging/health/recipients?page=1&per_page=10',
+    next: null,
+    prev: null,
+    self: 'https://dev-api.vets.gov/v0/messaging/health/recipients?'
   },
-
-  recipients: {
-    data: [
-      {
-        attributes: {
-          name: 'Triage Team 1',
-          triageTeamId: '0'
-        }
-      },
-      {
-        attributes: {
-          name: 'Triage Team 2',
-          triageTeamId: '1'
-        }
-      },
-      {
-        attributes: {
-          name: 'Triage Team 3',
-          triageTeamId: '2'
-        }
-      }
-    ]
+  meta: {
+    pagination: {
+        currentPage: 1,
+        perPage: 10,
+        totalEntries: 1,
+        totalPages: 1
+    },
+    sort: {
+        name: 'ASC'
+    }
   }
-};
+}
