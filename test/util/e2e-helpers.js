@@ -2,8 +2,12 @@ import Timeouts from './timeouts';
 
 function overrideVetsGovApi(client) {
   client.execute((url) => {
-    window.VetsGov.api.url = url;
-    return window.VetsGov.api.url;
+    /* eslint-disable */
+    const current = window.VetsGov || {};
+    const url = { api: { url: url }};
+    window.VetsGov = Object.assign({}, current, url);
+    return window.VetsGov;
+    /* eslint-disable */
   },
   [`http://localhost:${process.env.API_PORT || 4000}`],
   (val) => {
@@ -14,14 +18,15 @@ function overrideVetsGovApi(client) {
 
 function overrideSmoothScrolling(client) {
   client.execute(() => {
-    window.VetsGov = {
+    const current = window.VetsGov || {};
+    window.VetsGov = Object.assign({}, current, {
       scroll: {
         duration: 0,
         delay: 0,
         smooth: false
       }
-    };
-    return window.VetsGov.scroll;
+    });
+    return window.VetsGov;
   },
   (val) => {
     // eslint-disable-next-line no-console
