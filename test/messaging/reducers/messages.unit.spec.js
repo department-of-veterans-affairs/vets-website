@@ -164,5 +164,71 @@ describe('messages reducer', () => {
       subject: makeField(subject),
       replyMessageId: messageId
     });
+
+    expect(state.ui.messagesCollapsed)
+      .to.eql(new Set(thread.data.map(msg => msg.messageId)));
+  });
+
+  it('should collapse and expand a message', () => {
+    let state = messagesReducer({
+      ui: { messagesCollapsed: new Set() }
+    }, {
+      type: TOGGLE_MESSAGE_COLLAPSED,
+      messageId: 1
+    });
+    expect(state.ui.messagesCollapsed.has(1)).to.be.true;
+
+    state = messagesReducer(state, {
+      type: TOGGLE_MESSAGE_COLLAPSED,
+      messageId: 2
+    });
+    expect(state.ui.messagesCollapsed.has(1)).to.be.true;
+    expect(state.ui.messagesCollapsed.has(2)).to.be.true;
+
+    state = messagesReducer(state, {
+      type: TOGGLE_MESSAGE_COLLAPSED,
+      messageId: 1
+    });
+    expect(state.ui.messagesCollapsed.has(1)).to.be.false;
+    expect(state.ui.messagesCollapsed.has(2)).to.be.true;
+  });
+
+  it('should collapse all messages in the thread', () => {
+    const state = messagesReducer({
+      data: { thread: thread.data.map(msg => msg.attributes).reverse() },
+      ui: { messagesCollapsed: new Set() }
+    }, {
+      type: TOGGLE_MESSAGES_COLLAPSED
+    });
+    const { messagesCollapsed } = state.ui;
+    expect(messagesCollapsed.size).to.equal(thread.data.length);
+    thread.data.forEach(msg => {
+      expect(messagesCollapsed.has(+msg.id)).to.be.true;
+    });
+  });
+
+  it('should expand all messages in the thread', () => {
+    const state = messagesReducer({
+      data: { thread: thread.data.map(msg => msg.attributes).reverse() },
+      ui: { messagesCollapsed: new Set(thread.data.map(msg => +msg.id)) }
+    }, {
+      type: TOGGLE_MESSAGES_COLLAPSED
+    });
+    expect(state.ui.messagesCollapsed.size).to.equal(0);
+  });
+
+  it('should expand all messages in the thread if any are collapsed', () => {
+    const state = messagesReducer({
+      data: { thread: thread.data.map(msg => msg.attributes).reverse() },
+      ui: {
+        messagesCollapsed: new Set([
+          +thread.data[0].id,
+          +thread.data[1].id
+        ])
+      }
+    }, {
+      type: TOGGLE_MESSAGES_COLLAPSED
+    });
+    expect(state.ui.messagesCollapsed.size).to.equal(0);
   });
 });
