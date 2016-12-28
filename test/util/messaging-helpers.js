@@ -1,4 +1,7 @@
-export const testData = {
+const request = require('request');
+const E2eHelpers = require('./e2e-helpers');
+
+const testData = {
   folders: {
     data: [
       {
@@ -27,18 +30,21 @@ export const testData = {
       {
         attributes: {
           messageId: 123,
+          subject: 'subject 123',
           body: 'testing 123'
         }
       },
       {
         attributes: {
           messageId: 456,
+          subject: 'subject 456',
           body: 'testing 456'
         }
       },
       {
         attributes: {
           messageId: 789,
+          subject: 'subject 789',
           body: 'testing 789'
         }
       }
@@ -78,4 +84,32 @@ export const testData = {
       }
     ]
   }
+};
+
+// Create API routes
+function initApplicationSubmitMock() {
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/messaging/health/folders?per_page=100',
+      verb: 'get',
+      value: testData.folders,
+    }
+  });
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/messaging/health/folders/0/messages',
+      verb: 'get',
+      value: testData.folderMessages,
+    }
+  });
+}
+
+module.exports = {
+  testData,
+  initApplicationSubmitMock
 };
