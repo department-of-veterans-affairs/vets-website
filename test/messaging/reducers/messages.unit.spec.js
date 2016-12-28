@@ -231,4 +231,43 @@ describe('messages reducer', () => {
     });
     expect(state.ui.messagesCollapsed.size).to.equal(0);
   });
+
+  it('should toggle the thread form', () => {
+    let state = messagesReducer({
+      ui: { formVisible: false }
+    }, {
+      type: TOGGLE_THREAD_FORM
+    });
+    expect(state.ui.formVisible).to.be.true;
+    state = messagesReducer(state, { type: TOGGLE_THREAD_FORM });
+    expect(state.ui.formVisible).to.be.false;
+    state = messagesReducer(state, { type: TOGGLE_THREAD_FORM });
+    expect(state.ui.formVisible).to.be.true;
+  });
+
+  it('should toggle the reply details', () => {
+    let state = messagesReducer({
+      ui: { replyDetailsCollapsed: false }
+    }, {
+      type: TOGGLE_REPLY_DETAILS
+    });
+    expect(state.ui.replyDetailsCollapsed).to.be.true;
+    state = messagesReducer(state, { type: TOGGLE_REPLY_DETAILS });
+    expect(state.ui.replyDetailsCollapsed).to.be.false;
+    state = messagesReducer(state, { type: TOGGLE_REPLY_DETAILS });
+    expect(state.ui.replyDetailsCollapsed).to.be.true;
+  });
+
+  it('should toggle the move button', () => {
+    let state = messagesReducer({
+      ui: { moveToOpened: false }
+    }, {
+      type: TOGGLE_THREAD_MOVE_TO
+    });
+    expect(state.ui.moveToOpened).to.be.true;
+    state = messagesReducer(state, { type: TOGGLE_THREAD_MOVE_TO });
+    expect(state.ui.moveToOpened).to.be.false;
+    state = messagesReducer(state, { type: TOGGLE_THREAD_MOVE_TO });
+    expect(state.ui.moveToOpened).to.be.true;
+  });
 });
