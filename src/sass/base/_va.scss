@@ -601,17 +601,6 @@ h6 {
 // Content Callouts
 
 #content .main .section.one {
-
-  ul.plain {
-    margin: .5em 0 1em 0;
-
-    li {
-      list-style: none;
-      padding: .35em 0;
-      display: block;
-    }
-  }
-
   ul[class*='block-grid-'] {
     display: block;
     padding: 0;
@@ -777,12 +766,6 @@ ul, ol {
       background: rgba(1,1,1,.1);
       border-bottom: 1px solid $secondary-color;
     }
-  }
-
-  ul.plain {
-    margin: 0;
-    padding: 0;
-    li {list-style: none; border-bottom: none;}
   }
 
   .section {
@@ -1517,36 +1500,11 @@ a.twitter {
   bottom: auto;
 }
 
-// Plain lists
-
-#content.interior .primary ul.plain {
-  margin: 0 0 1.5em 0;
-  padding: 0;
-  li {
-    list-style: none;
-    display: block;
-    .post-date {padding: 0; margin: 0; color: $secondary-color;}
-    padding: .5em 0;
-    border-bottom: 1px solid rgba(255,255,255,.2);
-    &:last-of-type {border-bottom: none;}
-  }
-  &.posts {
-    font-size: 1.65em;
-    a {
-      text-decoration: none;
-      background: none;
-      color: $color-white;
-      .post-date {font-size: .65em;}
-      &:hover {
-        background: rgba(255,255,255,.2);
-      }
-    }
-  }
-  p:nth-child(1) {font-size: inherit; color: inherit;}
-}
+//===================================
+// Blog-related CSS
+//===================================
 
 // byline
-
 p.byline {
   font-size: .8em;
   color: $color-white;
@@ -1555,7 +1513,7 @@ p.byline {
 
 // Info cards
 
-  .card {
+.card {
   position: relative;
   margin: 0 0 1.5em 0;
   padding: 1em;
@@ -1626,9 +1584,6 @@ p.byline {
       display: inline-block;
     }
   }
-
-
-
 }
 
 // Actions
@@ -1636,9 +1591,6 @@ p.byline {
 .actions {
   margin: 1em 0;
 }
-
-
-
 
 // Dividers
 
@@ -1813,8 +1765,6 @@ li.twenty:before {content: '20';}
 .icon-youtube4 {width: 2.5087890625em;}
 
 // Panel list
-// TODO: Refactor to panel-list and panel-list--plain
-// or similar
 .panel-list {
   background: rgba(0,0,0,.05);
   padding: 1em;
@@ -1836,17 +1786,6 @@ li.twenty:before {content: '20';}
   a {
     @extend .usa-button-primary;
     margin: .5em 0;
-  }
-
-  &.plain {
-    height: auto;
-
-    dt {
-      font-size: 1.45em;
-    }
-
-    margin: 0 0 1em 0;
-    min-height: 0;
   }
 }
 
@@ -2272,6 +2211,7 @@ New .plain rewrite
   padding-left: 0;
 }
 
+// Used for sidebar / aside style lists of links
 .va-rellinks {
   margin-top: 0;
   
