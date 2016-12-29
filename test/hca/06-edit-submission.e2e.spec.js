@@ -182,7 +182,7 @@ module.exports = E2eHelpers.createE2eTest(
       .to.not.contain('/review-and-submit').before(Timeouts.submission);
 
     // Submit message
-    client.expect.element('.success-alert-box').to.be.visible;
+    client.waitForElementVisible('.success-alert-box', Timeouts.normal);
 
 
     client.end();
