@@ -13,8 +13,10 @@ function nextSection(client) {
 }
 
 function verifyEdit(client, expectedValue) {
+  const selector = '.review tr:nth-child(1) td:nth-child(2)';
   client.click('.usa-button-outline');
-  client.expect.element('.review tr:nth-child(1) td:nth-child(2)').text.to.equal(expectedValue);
+  client.waitForVisible(selector);
+  client.expect.element(selector).text.to.equal(expectedValue);
   nextSection(client);
 }
 
