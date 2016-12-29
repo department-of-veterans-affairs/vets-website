@@ -41,8 +41,7 @@ const routes = [
       key="/introduction"
       path="/introduction"/>,
   <Route
-      component={FormPage}
-      fieldsComponent={VeteranInformationFields}
+      component={VeteranInformationFields}
       reviewComponent={VeteranInformationReview}
       key="/veteran-information"
       path="/veteran-information"

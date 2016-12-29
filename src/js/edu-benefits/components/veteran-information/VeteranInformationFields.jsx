@@ -7,10 +7,85 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 
 import { binaryGenders } from '../../utils/options-for-select';
 import { isValidDateOver17 } from '../../../common/utils/validations';
+import FormPage from '../../../common/forms/FormPage';
+
+const schema = {
+  type: 'object',
+  title: 'Personal information',
+  required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+  properties: {
+    veteranFullName: {
+      type: 'object',
+      title: '',
+      required: ['first', 'last'],
+      properties: {
+        first: {
+          type: 'string',
+          title: 'First name'
+        },
+        middle: {
+          type: 'string',
+          title: 'Middle name'
+        },
+        last: {
+          type: 'string',
+          title: 'Last name',
+          minLength: 1,
+          maxLength: 30
+        },
+        suffix: {
+          type: 'string',
+          title: 'Suffix',
+          'enum': [
+            '',
+            'Jr.',
+            'Sr.',
+            'II',
+            'III',
+            'IV'
+          ]
+        }
+      }
+    },
+    veteranSocialSecurityNumber: {
+      title: 'Social security number',
+      type: 'string',
+      pattern: '^([0-9]{3}-[0-9]{2}-[0-9]{4}|[0-9]{9})$'
+    },
+    gender: {
+      title: 'Gender',
+      type: 'string',
+      'enum': ['F', 'M'],
+      enumNames: ['Female', 'Male']
+    }
+  }
+};
+
+const errorMessages = {
+  veteranSocialSecurityNumber: {
+    pattern: 'Please enter a valid nine digit SSN (dashes allowed)'
+  }
+};
+const formData = {
+};
+const uiSchema = {
+  veteranSocialSecurityNumber: {
+    'ui:options': {
+      widgetClassNames: 'usa-input-medium'
+    }
+  },
+  gender: {
+    'ui:widget': 'radio'
+  }
+};
 
 export default class PersonalInformationFields extends React.Component {
   render() {
-    const { day, month, year } = this.props.data.veteranDateOfBirth;
+    return (
+      <FormPage uiSchema={uiSchema} schema={schema} formData={formData} errorMessages={errorMessages}/>
+    );
+  }
+  oldRender() {
     return (
       <fieldset>
         <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>
@@ -43,8 +118,3 @@ export default class PersonalInformationFields extends React.Component {
     );
   }
 }
-
-PersonalInformationFields.propTypes = {
-  onStateChange: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired
-};
