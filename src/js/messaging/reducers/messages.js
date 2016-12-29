@@ -49,6 +49,7 @@ export default function messages(state = initialState, action) {
     case CLEAR_DRAFT:
       return set('data.draft', {
         ...state.data.draft,
+        attachments: [],
         body: makeField('')
       }, state);
 

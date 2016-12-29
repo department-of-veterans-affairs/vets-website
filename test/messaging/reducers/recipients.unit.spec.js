@@ -7,7 +7,7 @@ import {
   FETCH_RECIPIENTS_SUCCESS
 } from '../../../src/js/messaging/utils/constants';
 
-import { testData } from '../../util/messaging-helpers';
+import { recipients } from '../../util/messaging-helpers';
 
 describe('recipients reducer', () => {
   it('should have no data when it fails to load recipients', () => {
@@ -19,7 +19,6 @@ describe('recipients reducer', () => {
   });
 
   it('should populate the list of possible recipients on success', () => {
-    const recipients = testData.recipients;
     const state = recipientsReducer(undefined, {
       type: FETCH_RECIPIENTS_SUCCESS,
       recipients
