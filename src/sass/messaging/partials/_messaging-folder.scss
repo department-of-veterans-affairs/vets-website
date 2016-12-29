@@ -113,6 +113,10 @@
         text-align: right;
         top: 0;
         width: 25%;
+
+        a {
+          padding: 2.25rem 2rem;
+        }
       }
 
       &:nth-child(n+4) {
