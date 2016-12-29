@@ -8,6 +8,12 @@ class GlossaryModal extends React.Component {
     this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.visible && this.props.visible) {
+      document.getElementById('rx-glossary-modal').focus();
+    }
+  }
+
   handleCloseModal(event) {
     event.preventDefault();
     this.props.onCloseModal();
@@ -17,7 +23,7 @@ class GlossaryModal extends React.Component {
     let element;
     if (this.props.isVisible) {
       element = (
-        <section className="va-modal rx-modal" id="rx-glossary-modal">
+        <section className="va-modal rx-modal" id="rx-glossary-modal" role="dialog" aria-labelledby="Glossary">
           <div className="va-modal-inner">
             <h3 className="va-modal-title">Glossary</h3>
             <div className="va-modal-body rx-modal-body">
