@@ -115,7 +115,7 @@ class History extends React.Component {
         { label: 'Last submit date', value: 'refillSubmitDate' },
         { label: 'Last fill date', value: 'refillDate' },
         { label: 'Prescription', value: 'prescriptionName' },
-        { label: 'Prescription status', value: 'refillStatus' }
+        { label: 'Prescription status', value: 'refillStatus', nonSortable: true },
       ];
 
       const data = items.map(item => {
