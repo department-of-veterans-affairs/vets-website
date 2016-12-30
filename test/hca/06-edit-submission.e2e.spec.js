@@ -33,6 +33,12 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.form-panel .usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.overrideSmoothScrolling(client);
+
+    client.getLog('browser', (result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+    });
+
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.
