@@ -16,6 +16,11 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .assert.title('Send a message to your provider: Vets.gov')
         .waitForElementVisible('#messaging-app', Timeouts.slow);
 
+      client
+        .waitForElementVisible('#messaging-nav', Timeouts.normal)
+        .click('button.messaging-compose-button')
+        .waitForElementVisible('#messaging-content-header', Timeouts.slow);
+
       client.end();
     }
   );

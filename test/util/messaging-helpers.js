@@ -395,7 +395,7 @@ export function initApplicationSubmitMock() {
     uri: `${E2eHelpers.apiUrl}/mock`,
     method: 'POST',
     json: {
-      path: '/v0/messaging/health/folders?per_page=100',
+      path: '/v0/messaging/health/folders',
       verb: 'get',
       value: folders,
     }
