@@ -5,7 +5,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
-import { isPopulatedClaim } from '../utils/helpers';
+import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
 const MAX_CONDITIONS = 3;
 
@@ -31,7 +31,7 @@ export default class ClaimDetailLayout extends React.Component {
             <div className="medium-8 columns">
               <div className="claim-container">
                 {message && <Notification title={message.title} body={message.body} type={message.type} onClose={clearNotification}/>}
-                <h1 className="claim-title">Your Disability Compensation Claim</h1>
+                <h1 className="claim-title">Your {getClaimType(claim)} Claim</h1>
                 <div className="claim-conditions">
                   <h6>Your Claimed Conditions:</h6>
                   <p className="list">
