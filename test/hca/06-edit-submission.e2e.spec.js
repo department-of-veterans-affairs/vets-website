@@ -34,11 +34,6 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.overrideSmoothScrolling(client);
 
-    client.getLog('browser', (result) => {
-      // eslint-disable-next-line no-console
-      console.log(result);
-    });
-
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.
@@ -184,6 +179,12 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.click('[name=privacyAgreement]');
     client.click('.form-panel .usa-button-primary');
+
+    client.getLog('browser', (result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+    });
+
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);
 
