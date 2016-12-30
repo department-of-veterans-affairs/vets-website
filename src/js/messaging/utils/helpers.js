@@ -29,29 +29,23 @@ export function createUrlWithQuery(url, query) {
   return fullUrl;
 }
 
-export function authFetch(url, optionalSettings) {
+export function apiRequest(resource, optionalSettings = {}, success, error) {
+  const baseUrl = `${environment.API_URL}/v0/messaging/health`;
+  const url = resource[0] === '/'
+            ? [baseUrl, resource].join('')
+            : resource;
+
   const defaultSettings = {
     method: 'GET',
     headers: {
-      Authorization: `Token token=${sessionStorage.userToken}`
+      Authorization: `Token token=${sessionStorage.userToken}`,
+      'X-Key-Inflection': 'camel'
     }
-  };
-
-  return fetch(url, merge(defaultSettings, optionalSettings));
-}
-
-export function apiRequest(resource, optionalSettings = {}, success, error) {
-  const baseUrl = `${environment.API_URL}/v0/messaging/health`;
-  const url = [baseUrl, resource].join('');
-
-  const defaultSettings = {
-    method: 'GET',
-    headers: { 'X-Key-Inflection': 'camel' }
   };
 
   const settings = merge(defaultSettings, optionalSettings);
 
-  return authFetch(url, settings)
+  return fetch(url, settings)
     .then((response) => {
       if (!response.ok) {
         return Promise.reject(response);
