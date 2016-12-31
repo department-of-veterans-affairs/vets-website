@@ -1,3 +1,6 @@
+// polyfilled elements, ie. Map, Set should theoretically
+// be included with babel-polyfill but only this import allowed
+// them to be recognized in phantomjs/e2e tests
 import 'core-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
