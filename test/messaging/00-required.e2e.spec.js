@@ -23,24 +23,23 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         // expect messages to show up
         .expect.element('.msg-table-list td:nth-of-type(1) a:nth-of-type(1)').text.to.equal('Clinician');
 
+      // Compose message view
       client
         .click('#messaging-folder-controls .messaging-compose-button')
         .waitForElementVisible('textarea[name="messageText"]', Timeouts.normal);
-
+      // select a recipient in the compose form
+      client.click('select[name=\'messageRecipient\']')
+        .click('select option[value=\'0\']')
+        .keys(['\uE006']);
+      // select category
+      client.click('select[name=\'messageCategory\']')
+        .click('select option[value=\'APPOINTMENTS\']')
+        .keys(['\uE006']);
+      // set message body
+      client.setValue('textarea[name="messageText"]', 'Test');
+      client.click('.msg-send-buttons button:nth-of-type(1)');
       // client.saveScreenshot(`./${new Date().toISOString()}.png`);
       //   .waitForElementVisible('textarea[name="messageText"]', Timeouts.slow);
-
-      // // select a recipient in the compose form
-      // client.click('select[name=\'messageRecipient\']')
-      //   .click('select option[value=\'0\']')
-      //   .keys(['\uE006']);
-      // // select category
-      // client.click('select[name=\'messageCategory\']')
-      //   .click('select option[value=\'APPOINTMENTS\']')
-      //   .keys(['\uE006']);
-      // // set message body
-      // client.setValue('textarea[name="messageText"]', 'Test message');
-      // client.click('.msg-send-buttons button');
 
       client.end();
     }
