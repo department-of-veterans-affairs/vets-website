@@ -430,7 +430,7 @@ export function initApplicationSubmitMock() {
     method: 'POST',
     json: {
       path: '/v0/messaging/health/messages',
-      verb: 'get',
+      verb: 'post',
       value: messages,
     }
   });
