@@ -228,3 +228,7 @@ export function getCompletedDate(claim) {
 
   return null;
 }
+
+export function getClaimType(claim) {
+  return claim.attributes.claimType || 'Disability Compensation';
+}
