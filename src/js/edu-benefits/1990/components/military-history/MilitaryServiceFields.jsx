@@ -3,7 +3,7 @@ import React from 'react';
 import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableNumberInput from '../../../../common/components/form-elements/ErrorableNumberInput';
 import ExpandingGroup from '../../../../common/components/form-elements/ExpandingGroup';
-import { validateIfDirty, isValidCurrentOrPastYear, isValidField } from '../../../common/utils/validations';
+import { validateIfDirty, isValidCurrentOrPastYear, isValidField } from '../../../../common/utils/validations';
 
 import { yesNo } from '../../utils/options-for-select';
 

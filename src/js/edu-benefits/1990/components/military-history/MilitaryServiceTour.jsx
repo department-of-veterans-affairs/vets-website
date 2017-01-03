@@ -6,7 +6,7 @@ import ErrorableTextarea from '../../../../common/components/form-elements/Error
 import ErrorableDate from '../../../../common/components/form-elements/ErrorableDate';
 import ErrorableCurrentOrPastDate from '../../../../common/components/form-elements/ErrorableCurrentOrPastDate';
 import ExpandingGroup from '../../../../common/components/form-elements/ExpandingGroup';
-import { validateIfDirty, isNotBlank, isValidDateRange } from '../../../common/utils/validations';
+import { validateIfDirty, isNotBlank, isValidDateRange } from '../../../../common/utils/validations';
 
 import ServicePeriodsReview from './ServicePeriodsReview';
 

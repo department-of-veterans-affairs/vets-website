@@ -2,7 +2,7 @@ import React from 'react';
 
 import ErrorableTextInput from '../../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableNumberInput from '../../../../common/components/form-elements/ErrorableNumberInput';
-import { validateIfDirty, isValidYear, isValidValue } from '../../../common/utils/validations';
+import { validateIfDirty, isValidYear, isValidValue } from '../../../../common/utils/validations';
 
 import { isValidMonetaryValue } from '../../utils/validations';
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import ErrorableTextInput from '../../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
-import { validateIfDirty, isBlank } from '../../../common/utils/validations';
+import { validateIfDirty, isBlank } from '../../../../common/utils/validations';
 
 import { accountTypes } from '../../utils/options-for-select';
 import { isValidRoutingNumber } from '../../utils/validations';

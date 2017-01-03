@@ -24,7 +24,7 @@ import {
   isValidRequiredField,
   isValidSSN,
   isValidYear
-} from '../../common/utils/validations';
+} from '../../../common/utils/validations';
 
 function isValidMonetaryValue(value) {
   if (value !== null) {
@@ -210,7 +210,8 @@ function isValidForm(data) {
     && data.privacyAgreementAccepted;
 }
 
-function isValidPage(completePath, pageData) {
+function isValidPage(path, pageData) {
+  const completePath = path.replace('/1990', '');
   switch (completePath) {
     case '/veteran-information':
       return isValidPersonalInfoPage(pageData);

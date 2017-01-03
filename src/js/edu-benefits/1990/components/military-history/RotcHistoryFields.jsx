@@ -3,7 +3,7 @@ import ErrorableRadioButtons from '../../../../common/components/form-elements/E
 import ErrorableNumberInput from '../../../../common/components/form-elements/ErrorableNumberInput';
 import ExpandingGroup from '../../../../common/components/form-elements/ExpandingGroup';
 import GrowableTable from '../../../../common/components/form-elements/GrowableTable';
-import { validateIfDirty, isValidYearOrBlank } from '../../../common/utils/validations';
+import { validateIfDirty, isValidYearOrBlank } from '../../../../common/utils/validations';
 
 import RotcScholarship from './RotcScholarship';
 import { createRotcScholarship } from '../../utils/veteran';

@@ -34,7 +34,7 @@ class ReviewPage extends React.Component {
           .map(route => route.props)
           .filter(route => {
             return route.chapter &&
-              route.path !== '/review-and-submit' &&
+              route.path !== 'review-and-submit' &&
               isActivePage(route, data);
           }),
         route => route.chapter
@@ -52,6 +52,7 @@ class ReviewPage extends React.Component {
                 onUpdateEditStatus={this.props.onUpdateEditStatus}
                 onFieldsInitialized={this.props.onFieldsInitialized}
                 onStateChange={this.props.onStateChange}
+                urlPrefix="/1990/"
                 pages={chapters[chapter]}/>
             );
           })}

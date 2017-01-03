@@ -17,10 +17,11 @@ const scroller = Scroll.scroller;
  * chapter - The chapter title for this panel
  * pages - The array of pages for this chapter. Each pages contains the name and components to render it
  * data - The current form data
- * uiState - The current ui state for each page (i.e. whether each chapter is collapsed or not)
+ * uiData - The current ui state for each page (i.e. whether each chapter is collapsed or not)
  * onStateChange - Called when form data is changed
  * onFieldsInitialized - Sets all fields to dirty when saving/continuing on page
  * onUpdateEditStatus - toggles editOnReview property that expands/collapses chapter panel
+ * urlPrefix - The url prefix for the form pages
  *
  * Page props:
  *
@@ -44,11 +45,49 @@ export default class ReviewCollapsiblePanel extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.toggleChapter = this.toggleChapter.bind(this);
+    this.getPage = this.getPage.bind(this);
+    this.getPagePath = this.getPagePath.bind(this);
     this.state = { open: false };
   }
 
   componentWillMount() {
     this.id = _.uniqueId();
+  }
+
+  getPagePath(path) {
+    return `${this.props.urlPrefix}${path}`;
+  }
+
+  getPage(path) {
+    return this.props.uiData.pages[this.getPagePath(path)];
+  }
+
+  focusOnPage(path) {
+    const pageDiv = document.querySelector(`#${getPageId(path)}`);
+    if (pageDiv) {
+      pageDiv.setAttribute('tabindex', '-1');
+      pageDiv.focus();
+    }
+  }
+
+  handleSave(path) {
+    const formData = this.props.data;
+    const pageFields = this.getPage(path).fields;
+
+    this.props.onFieldsInitialized(pageFields);
+    if (validations.isValidPage(this.getPagePath(path), formData)) {
+      this.props.onUpdateEditStatus(this.getPagePath(path), false);
+      this.scrollToPage(path);
+      this.focusOnPage(path);
+    } else {
+      this.scrollToFirstError(path);
+    }
+  }
+
+  handleEdit(path) {
+    this.props.onUpdateEditStatus(this.getPagePath(path), true);
+    this.scrollToPage(path);
+    this.focusOnPage(path);
   }
 
   scrollToTop() {
@@ -82,34 +121,6 @@ export default class ReviewCollapsiblePanel extends React.Component {
     });
   }
 
-  focusOnPage(path) {
-    const pageDiv = document.querySelector(`#${getPageId(path)}`);
-    if (pageDiv) {
-      pageDiv.setAttribute('tabindex', '-1');
-      pageDiv.focus();
-    }
-  }
-
-  handleSave(path) {
-    const formData = this.props.data;
-    const pageFields = this.props.uiData.pages[path].fields;
-
-    this.props.onFieldsInitialized(pageFields);
-    if (validations.isValidPage(path, formData)) {
-      this.props.onUpdateEditStatus(path, false);
-      this.scrollToPage(path);
-      this.focusOnPage(path);
-    } else {
-      this.scrollToFirstError(path);
-    }
-  }
-
-  handleEdit(path) {
-    this.props.onUpdateEditStatus(path, true);
-    this.scrollToPage(path);
-    this.focusOnPage(path);
-  }
-
   toggleChapter() {
     const isOpening = !this.state.open;
     this.setState({ open: !this.state.open });
@@ -126,7 +137,7 @@ export default class ReviewCollapsiblePanel extends React.Component {
           {this.props.pages.map(page => {
             const ReviewComponent = page.reviewComponent;
             const Component = page.fieldsComponent;
-            const editing = this.props.uiData.pages[page.path].editOnReview;
+            const editing = this.getPage(page.path).editOnReview;
 
             return (
               <div key={page.path} className="form-review-panel-page" id={getPageId(page.path)}>
@@ -184,5 +195,6 @@ ReviewCollapsiblePanel.propTypes = {
   uiData: React.PropTypes.object.isRequired,
   onFieldsInitialized: React.PropTypes.func.isRequired,
   onStateChange: React.PropTypes.func.isRequired,
-  onUpdateEditStatus: React.PropTypes.func.isRequired
+  onUpdateEditStatus: React.PropTypes.func.isRequired,
+  urlPrefix: React.PropTypes.string.isRequired
 };

@@ -2,7 +2,7 @@ import React from 'react';
 
 import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableDate from '../../../../common/components/form-elements/ErrorableDate';
-import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
+import { validateIfDirty, isNotBlank } from '../../../../common/utils/validations';
 import { isValidRelinquishedDate } from '../../utils/validations';
 import { relinquishableBenefits } from '../../utils/options-for-select';
 import { showRelinquishedEffectiveDate } from '../../../utils/helpers';

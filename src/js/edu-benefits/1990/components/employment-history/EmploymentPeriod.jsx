@@ -2,7 +2,7 @@ import React from 'react';
 
 import ErrorableTextInput from '../../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
-import { validateIfDirty, isValidMonths } from '../../../common/utils/validations';
+import { validateIfDirty, isValidMonths } from '../../../../common/utils/validations';
 
 import EmploymentPeriodReview from './EmploymentPeriodReview';
 import { employmentPeriodTiming } from '../../utils/options-for-select';
