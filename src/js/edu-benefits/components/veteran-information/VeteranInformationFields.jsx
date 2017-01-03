@@ -12,7 +12,7 @@ import FormPage from '../../../common/forms/FormPage';
 const schema = {
   type: 'object',
   title: 'Personal information',
-  required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+  required: ['veteranFullName', 'veteranSocialSecurityNumber', 'veteranDateOfBirth'],
   properties: {
     veteranFullName: {
       type: 'object',
@@ -52,6 +52,11 @@ const schema = {
       type: 'string',
       pattern: '^([0-9]{3}-[0-9]{2}-[0-9]{4}|[0-9]{9})$'
     },
+    veteranDateOfBirth: {
+      title: 'Date of birth',
+      type: 'string',
+      pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$'
+    },
     gender: {
       title: 'Gender',
       type: 'string',
@@ -73,6 +78,9 @@ const uiSchema = {
     'ui:options': {
       widgetClassNames: 'usa-input-medium'
     }
+  },
+  veteranDateOfBirth: {
+    'ui:field': 'mydate'
   },
   gender: {
     'ui:widget': 'radio'

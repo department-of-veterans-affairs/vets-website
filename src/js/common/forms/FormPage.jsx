@@ -5,8 +5,13 @@ import Form from 'react-jsonschema-form';
 import { uiSchemaValidate, transformErrors } from './validation';
 import FieldTemplate from './FieldTemplate';
 import * as widgets from './widgets';
+import DateField from './DateField';
 
 import { focusElement } from '../utils/helpers';
+
+const fields = {
+  mydate: DateField
+};
 
 const scrollToFirstError = () => {
   setTimeout(() => {
@@ -75,6 +80,7 @@ export default class FormPage extends React.Component {
           showErrorList={false}
           formData={this.state.formData}
           widgets={widgets}
+          fields={fields}
           transformErrors={(errors) => transformErrors(errors, this.props.errorMessages)}/>
     );
   }
