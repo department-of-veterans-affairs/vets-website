@@ -10,7 +10,6 @@ module.exports = E2eHelpers.createE2eTest(
     RxHelpers.initApplicationSubmitMock(token);
 
     // Ensure introduction page renders.
-    client
     LoginHelpers.logIn(token, client, '/healthcare/prescriptions', 3)
       .assert.title('Refill your prescriptions: Vets.gov')
       .waitForElementVisible('#rx-active', Timeouts.slow);
