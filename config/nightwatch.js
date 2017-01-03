@@ -36,8 +36,6 @@ module.exports = {
         webStorageEnabled: true,
         'phantomjs.binary.path': require('phantomjs-prebuilt').path,
       },
-      globals: {
-      },
       selenium: {
         start_process: true,
         server_path:
@@ -46,7 +44,6 @@ module.exports = {
         host: '127.0.0.1',
         port: selenium_server_port,
       },
-      cli_args: { },
       test_workers: {
         enabled: true,
         workers: 10,
