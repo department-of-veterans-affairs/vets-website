@@ -7,7 +7,7 @@ import ReviewCollapsiblePanel from '../../../../src/js/edu-benefits/1990/compone
 import { createVeteran } from '../../../../src/js/edu-benefits/1990/utils/veteran';
 
 describe('<ReviewCollapsiblePanel>', () => {
-  function renderCollapsiblePanel(uiData, path = '/personal-information/contact-information') {
+  function renderCollapsiblePanel(uiData, path = 'personal-information/contact-information') {
     function FakeFields() {}
     function FakeReview() {}
     let data = createVeteran();
@@ -20,6 +20,7 @@ describe('<ReviewCollapsiblePanel>', () => {
       <ReviewCollapsiblePanel
           data={data}
           uiData={uiData}
+          urlPrefix="/1990/"
           pages={
             [
               {
@@ -39,10 +40,10 @@ describe('<ReviewCollapsiblePanel>', () => {
   it('should render fields to update', () => {
     const uiData = {
       pages: {
-        '/school-selection/school-information': {
+        '/1990/school-selection/school-information': {
           editOnReview: false
         },
-        '/personal-information/contact-information': {
+        '/1990/personal-information/contact-information': {
           editOnReview: true
         }
       }
@@ -57,10 +58,10 @@ describe('<ReviewCollapsiblePanel>', () => {
   it('should render review fields', () => {
     const uiData = {
       pages: {
-        '/school-selection/school-information': {
+        '/1990/school-selection/school-information': {
           editOnReview: false
         },
-        '/personal-information/contact-information': {
+        '/1990/personal-information/contact-information': {
           editOnReview: false
         }
       }
@@ -75,19 +76,19 @@ describe('<ReviewCollapsiblePanel>', () => {
   it('should render nothing', () => {
     const uiData = {
       pages: {
-        '/school-selection/school-information': {
+        '/1990/school-selection/school-information': {
           editOnReview: false
         },
-        '/personal-information/contact-information': {
+        '/1990/personal-information/contact-information': {
           editOnReview: false
         },
-        '/personal-information/secondary-contact': {
+        '/1990/personal-information/secondary-contact': {
           editOnReview: false
         }
       }
     };
 
-    const tree = renderCollapsiblePanel(uiData, '/personal-information/secondary-contact');
+    const tree = renderCollapsiblePanel(uiData, 'personal-information/secondary-contact');
 
     expect(tree.everySubTree('FakeReview').length).to.equal(0);
     expect(tree.everySubTree('FakeFields').length).to.equal(0);
@@ -96,13 +97,13 @@ describe('<ReviewCollapsiblePanel>', () => {
   it('should expand when clicked', () => {
     const uiData = {
       pages: {
-        '/school-selection/school-information': {
+        '/1990/school-selection/school-information': {
           editOnReview: false
         },
-        '/personal-information/contact-information': {
+        '/1990/personal-information/contact-information': {
           editOnReview: false
         },
-        '/personal-information/secondary-contact': {
+        '/1990/personal-information/secondary-contact': {
           editOnReview: false
         }
       }
