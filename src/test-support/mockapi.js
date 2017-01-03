@@ -26,6 +26,10 @@ if (options.unexpected && options.unexpected.length !== 0) {
   throw new Error(`Unexpected arguments: '${options.unexpected}'`);
 }
 
+function stripTrailingSlash(path) {
+  return path.substr(-1) === '/' ? path.slice(0, -1) : path;
+}
+
 function makeMockApiRouter(opts) {
   // mockResponses[auth][verb][response]
   const mockResponses = {};
@@ -34,13 +38,14 @@ function makeMockApiRouter(opts) {
   router.post('/mock', (req, res) => {
     const auth = req.body.auth || '_global';
     const verb = (req.body.verb || 'get').toLowerCase();
+    const path = stripTrailingSlash(req.body.path);
 
-    opts.logger.info(`mock: ${auth} ${verb} ${req.body.path}`);
+    opts.logger.info(`mock: ${auth} ${verb} ${path}`);
 
     mockResponses[auth] = mockResponses[auth] || {};
     mockResponses[auth][verb] = mockResponses[auth][verb] || {};
-    mockResponses[auth][verb][req.body.path] = req.body.value;
-    const result = { result: `set auth:${auth} ${verb} ${req.body.path} to ${JSON.stringify(req.body.value)}` };
+    mockResponses[auth][verb][path] = req.body.value;
+    const result = { result: `set auth:${auth} ${verb} ${path} to ${JSON.stringify(req.body.value)}` };
     res.status(200).json(result);
   });
 
@@ -51,16 +56,18 @@ function makeMockApiRouter(opts) {
     const auth = req.get('Authorization') || '_global';
     const verb = req.method.toLowerCase();
     const verbResponses = (mockResponses[auth] || {})[verb];
+    const path = stripTrailingSlash(req.path);
+
     let result = null;
     if (verbResponses) {
-      result = verbResponses[req.path];
+      result = verbResponses[path];
     }
 
     if (!result) {
       res.status(500);
-      result = { error: `mock not initialized for auth: ${auth} ${verb} ${req.path}` };
+      result = { error: `mock not initialized for auth: ${auth} ${verb} ${path}` };
     }
-    opts.logger.info(auth, verb, req.path, result);
+    opts.logger.info(auth, verb, path, result);
     res.json(result);
   });
 
