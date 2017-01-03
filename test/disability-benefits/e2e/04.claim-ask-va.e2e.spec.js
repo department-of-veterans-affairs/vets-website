@@ -32,7 +32,8 @@ module.exports = E2eHelpers.createE2eTest(
 
     // click on disabled button
     client
-      .click('.usa-button-primary');
+      .click('.usa-button-primary')
+      .pause(500);
 
     // should not have changed pages
     client.assert.urlContains('ask-va-to-decide');
@@ -40,7 +41,8 @@ module.exports = E2eHelpers.createE2eTest(
     // click on checkbox, then submit, expect success message
     client
       .click('input[type=checkbox]')
-      .click('.usa-button-primary');
+      .click('.usa-button-primary')
+      .pause(500);
 
     // should have gone back to status page
     client.assert.urlContains('status');
