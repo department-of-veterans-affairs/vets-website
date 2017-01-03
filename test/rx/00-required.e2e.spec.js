@@ -21,11 +21,11 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       // ensure glossary modal triggers correctly
       client
         .click('button.rx-trigger')
-        .expect.element('.rx-modal-body').to.be.visible;
+        .expect.element('#rx-glossary-modal').to.be.visible;
       // ensure glossary modal can be dismissed
       client
         .click('.va-modal-button-group button')
-        .expect.element('.rx-modal-body').to.not.be.present;
+        .expect.element('#rx-glossary-modal').to.not.be.present;
 
       client
         .click('button.rx-prescription-button')
