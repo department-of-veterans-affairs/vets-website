@@ -97,7 +97,7 @@ export function setAttemptedSubmit() {
 export function submitForm(data) {
   const application = veteranToApplication(data);
   return dispatch => {
-    dispatch(updateCompletedStatus('/review-and-submit'));
+    dispatch(updateCompletedStatus('/1990/review-and-submit'));
     dispatch(updateSubmissionStatus('submitPending'));
     window.dataLayer.push({
       event: 'edu-submission',
