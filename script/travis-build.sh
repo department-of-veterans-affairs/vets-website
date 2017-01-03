@@ -77,7 +77,9 @@ time npm run selenium:bootstrap;
 # Run end to end tests
 time npm run test:e2e;
 
+set +e
 killall -9 phantomjs
+set -e
 
 # Run accessibility tests
 #
