@@ -104,8 +104,8 @@ class Main extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    login: state.login,
-    profile: state.profile
+    login: state.userLogin,
+    profile: state.userProfile
   };
 };
 
