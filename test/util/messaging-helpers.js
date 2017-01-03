@@ -1,3 +1,6 @@
+const request = require('request');
+const E2eHelpers = require('./e2e-helpers');
+
 export const folders = {
   data: [
     {
@@ -385,3 +388,60 @@ export const recipients = {
     }
   }
 };
+
+// Create API routes
+export function initApplicationSubmitMock() {
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/messaging/health/folders',
+      verb: 'get',
+      value: folders,
+    }
+  });
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/messaging/health/folders/0',
+      verb: 'get',
+      value: {
+        data: {
+          ...folders.data[0],
+        }
+      },
+    }
+  });
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/messaging/health/folders/0/messages',
+      verb: 'get',
+      value: messages,
+    }
+  });
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/messaging/health/messages',
+      verb: 'post',
+      value: message,
+    }
+  });
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/messaging/health/recipients',
+      verb: 'get',
+      value: recipients,
+    }
+  });
+}

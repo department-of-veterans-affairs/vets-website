@@ -4,9 +4,9 @@ import Address from '../Address';
 import Email from '../../../common/components/questions/Email';
 import Phone from '../../../common/components/questions/Phone';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
 
 import { contactOptions } from '../../utils/options-for-select';
-import { validateIfDirty, isNotBlank } from '../../utils/validations';
 
 export default class ContactInformationFields extends React.Component {
   constructor() {

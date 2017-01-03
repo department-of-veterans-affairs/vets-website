@@ -5,7 +5,7 @@ import ErrorableCheckbox from '../../../common/components/form-elements/Errorabl
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import Gender from '../../../common/components/questions/Gender';
 import { maritalStatuses } from '../../../common/utils/options-for-select.js';
-import { validateIfDirty, isNotBlank } from '../../utils/validations';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
 import { veteranUpdateField } from '../../actions';
 
 /**
