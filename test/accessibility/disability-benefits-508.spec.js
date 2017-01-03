@@ -12,16 +12,21 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Claim list page
     client
-      .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
+      .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`);
+
+    // Click consolidated claims button
+
+    client
       .waitForElementVisible('a.claim-list-item', Timeouts.slow)
       .axeCheck('.main');
 
     client
       .click('a.claims-combined')
-      .waitForElementVisible('.claims-status-upload-header', Timeouts.normal);
+      .waitForElementVisible('.claims-status-upload-header', Timeouts.normal)
+      .axeCheck('.main');
 
     client
-      .axeCheck('.main');
+      .click('.va-modal-inner button.usa-button');
 
     // Claim status tab
     client
@@ -32,7 +37,6 @@ module.exports = E2eHelpers.createE2eTest(
     // claim estimation page
     client
       // have to scroll to trigger all phases to show up
-      .resizeWindow(800, 1200)
       .execute('window.scrollTo(0,8000)')
       .pause(500)
       .waitForElementPresent('.claim-completion-estimation', Timeouts.normal)
