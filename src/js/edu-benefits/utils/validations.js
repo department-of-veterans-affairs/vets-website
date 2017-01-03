@@ -216,9 +216,9 @@ function isValidPage(completePath, pageData) {
       return isValidPersonalInfoPage(pageData);
     case '/personal-information/contact-information':
       return isValidContactInformationPage(pageData);
-    case '/benefits-eligibility/benefits-selection':
+    case '/benefits-eligibility/benefit-selection':
       return isValidBenefitsInformationPage(pageData);
-    case '/benefits-eligibility/benefits-relinquishment':
+    case '/benefits-eligibility/benefit-relinquishment':
       return isValidBenefitsRelinquishmentPage(pageData);
     case '/military-history/service-periods':
       return isValidServicePeriodsPage(pageData);

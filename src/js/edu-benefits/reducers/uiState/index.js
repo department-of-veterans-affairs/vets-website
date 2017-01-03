@@ -25,11 +25,11 @@ const ui = {
       editOnReview: false,
       fields: []
     },
-    '/benefits-eligibility/benefits-selection': {
+    '/benefits-eligibility/benefit-selection': {
       editOnReview: false,
       fields: ['chapter30', 'chapter32', 'chapter33', 'chapter1606', 'checkedBenefit']
     },
-    '/benefits-eligibility/benefits-relinquishment': {
+    '/benefits-eligibility/benefit-relinquishment': {
       editOnReview: false,
       fields: ['benefitsRelinquished', 'benefitsRelinquishedDate']
     },
