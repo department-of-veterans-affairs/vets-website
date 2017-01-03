@@ -3,8 +3,7 @@ import React from 'react';
 import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
-
-import { isValidDateRange } from '../../utils/validations';
+import { isValidDateRange } from '../../../common/utils/validations';
 
 export default class ContributionsFields extends React.Component {
   render() {

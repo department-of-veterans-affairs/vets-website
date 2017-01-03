@@ -1,8 +1,8 @@
-import { isBlank, isDirty, isValidMonetaryValue } from './validations';
+import { isBlank, isValidMonetaryValue } from '../../common/utils/validations';
 
 const getMonetaryErrorMessage = (field) => {
   let result;
-  if (isDirty(field)) {
+  if (field.dirty) {
     if (isBlank(field.value)) {
       result = 'Please enter a number.';
     } else if (!isValidMonetaryValue(field.value)) {

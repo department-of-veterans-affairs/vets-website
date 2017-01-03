@@ -3,7 +3,6 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 import { set } from 'lodash/fp';
 
-import { isValidSection } from '../../utils/validations';
 import { focusElement } from '../../utils/helpers';
 
 const Element = Scroll.Element;
@@ -163,7 +162,7 @@ class GrowableTable extends React.Component {
     if (rowIndex !== undefined && this.props.isValidRow && this.props.isValidRow(this.props.rows[rowIndex])) {
       this.setState({ [key]: 'complete' });
       this.scrollToTop();
-    } else if (this.props.isValidSection(this.props.path, this.props.data)) {
+    } else if (this.props.isValidSection && this.props.isValidSection(this.props.path, this.props.data)) {
       this.setState({ [key]: 'complete' });
       this.scrollToTop();
     } else {
@@ -295,7 +294,6 @@ GrowableTable.propTypes = {
 };
 
 GrowableTable.defaultProps = {
-  isValidSection,
   alwaysShowUpdateRemoveButtons: false,
   showEditButton: true,
   showSingleRowExpanded: true,
