@@ -77,6 +77,8 @@ time npm run selenium:bootstrap;
 # Run end to end tests
 time npm run test:e2e;
 
+killall -9 phantomjs
+
 # Run accessibility tests
 #
 # This is triggered for the development build type to ensure that all new
