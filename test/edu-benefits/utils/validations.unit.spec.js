@@ -9,7 +9,8 @@ import {
   isValidRoutingNumber,
   isValidRelinquishedDate,
   isValidEducationPeriod,
-  isValidEducationHistoryPage
+  isValidEducationHistoryPage,
+  isValidAddressField
 } from '../../../src/js/edu-benefits/utils/validations.js';
 
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran.js';
@@ -359,6 +360,50 @@ describe('Validation:', () => {
       };
 
       expect(isValidEducationHistoryPage(data)).to.be.false;
+    });
+  });
+  describe('isValidAddressField', () => {
+    it('should validate complete address', () => {
+      const data = {
+        country: {
+          value: 'USA'
+        },
+        street: {
+          value: 'Test'
+        },
+        city: {
+          value: 'Test'
+        },
+        postalCode: {
+          value: '12345'
+        },
+        state: {
+          value: 'NC'
+        }
+      };
+
+      expect(isValidAddressField(data)).to.be.true;
+    });
+    it('should not validate bad postal code', () => {
+      const data = {
+        country: {
+          value: 'USA'
+        },
+        street: {
+          value: 'Test'
+        },
+        city: {
+          value: 'Test'
+        },
+        postalCode: {
+          value: '123123123123123123'
+        },
+        state: {
+          value: 'NC'
+        }
+      };
+
+      expect(isValidAddressField(data)).to.be.false;
     });
   });
 });

@@ -23,7 +23,9 @@ import {
   isValidPhone,
   isValidRequiredField,
   isValidSSN,
-  isValidYear
+  isValidYear,
+  isValidCanPostalCode,
+  isValidUSZipCode
 } from '../../common/utils/validations';
 
 function isValidMonetaryValue(value) {
@@ -61,12 +63,22 @@ function isValidAddressField(field) {
     isNotBlank(field.city.value) &&
     isNotBlank(field.country.value);
 
+  let isValidPostalCode = true;
+
+  if (field.country.value === 'USA') {
+    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidUSZipCode, field.postalCode);
+  }
+
+  if (field.country.value === 'CAN') {
+    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidCanPostalCode, field.postalCode);
+  }
+
   // if we have a defined list of values, they will
   // be set as the state and zipcode keys
   if (_.hasIn(states, field.country.value)) {
     return initialOk &&
       isNotBlank(field.state.value) &&
-      isNotBlank(field.postalCode.value);
+      isValidPostalCode;
   }
   // if the entry was non-USA/CAN/MEX, only postal is
   // required, not provinceCode
@@ -259,5 +271,6 @@ export {
   isValidTourOfDuty,
   isValidEmploymentPeriod,
   isValidRotcScholarshipAmount,
-  isValidEducationPeriod
+  isValidEducationPeriod,
+  isValidAddressField
 };
