@@ -155,8 +155,8 @@ Active.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    ...state.prescriptions.active,
-    prescriptions: state.prescriptions.items,
+    ...state.rxPrescriptions.active,
+    prescriptions: state.rxPrescriptions.items,
   };
 };
 
