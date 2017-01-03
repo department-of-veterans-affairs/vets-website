@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
-import { isValidName, isBlank, isValidRequiredField } from '../../utils/validations';
+import { isBlank, isValidRequiredField, isValidName } from '../../../common/utils/validations';
 
 class MothersMaidenName extends React.Component {
   constructor() {

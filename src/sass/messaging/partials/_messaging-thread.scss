@@ -32,20 +32,25 @@
  *****************/
 
 .messaging-thread-header {
-  border-bottom: 2px solid $color-black;
-  padding: 0 0 2.25rem 0;
+  button {
+    vertical-align: middle;
+    width: auto;
+  }
+
+  i {
+    font-size: inherit !important;
+  }
 
   .messaging-toggle-thread,
+  .msg-btn-delete,
   .msg-btn-print {
     background: transparent;
     color: $color-black;
     float: none;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: normal;
     margin: 0 1rem;
     padding: 0;
-    vertical-align: middle;
-    width: auto;
 
     &:hover,
     &:focus {
@@ -58,10 +63,6 @@
       outline: 0;
     }
 
-    i {
-      font-size: 1.8rem;
-    }
-
     span {
       padding-left: 0.5rem;
     }
@@ -70,26 +71,18 @@
 
 .messaging-thread-nav {
   border-bottom: 1px solid $color-black;
-  margin-bottom: 2rem;
   padding-bottom: 2rem;
   position: relative;
 
-  button {
-    width: auto;
+  &:after {
+    clear: both;
+    content: '';
+    display: 'block';
   }
 
-  a {
+  .msg-btn-back,
+  .msg-move-to {
     margin-right: 1rem;
-    max-width: 50%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: middle;
-    white-space: nowrap;
-  }
-
-  i {
-    margin-left: .5rem;
-    font-size: inherit !important;
   }
 
   .msg-btn-delete,
@@ -108,11 +101,20 @@
       display: inline-block;
     }
 
-    a {
+    .msg-btn-back {
       float: left;
-      margin: .5rem 1rem;
+      margin: 0 1rem;
+    }
+
+    .messaging-message-nav {
+      display: none;
     }
   }
+}
+
+.messaging-thread-title {
+  border-bottom: 2px solid $color-black;
+  padding: 2.25rem 0;
 }
 
 .messaging-thread-subject {
@@ -123,7 +125,7 @@
 
 .messaging-thread-controls {
   float: right;
-  margin: .25rem 1rem;
+  margin: 0 1rem;
 
   @media (max-width: $medium-screen) {
     .msg-btn-delete,
