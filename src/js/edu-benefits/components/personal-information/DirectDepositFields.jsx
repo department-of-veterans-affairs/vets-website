@@ -2,9 +2,10 @@ import React from 'react';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import { validateIfDirty, isBlank } from '../../../common/utils/validations';
 
 import { accountTypes } from '../../utils/options-for-select';
-import { validateIfDirty, isValidRoutingNumber, isBlank } from '../../utils/validations';
+import { isValidRoutingNumber } from '../../utils/validations';
 
 export default class DirectDepositFields extends React.Component {
   render() {
