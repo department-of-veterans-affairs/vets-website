@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-export function getPageList(routes) {
+export function getPageList(routes, prefix = '') {
   return routes.map(route => {
     const obj = {
-      name: route.props.path,
+      name: `${prefix}${route.props.path}`,
       label: route.props.name
     };
     if (route.props.depends) {
@@ -14,14 +14,14 @@ export function getPageList(routes) {
   }).filter(page => page.name !== '/submit-message');
 }
 
-export function groupPagesIntoChapters(routes) {
+export function groupPagesIntoChapters(routes, prefix = '') {
   const pageList = routes
     .filter(route => route.props.chapter)
     .map(page => {
       const obj = {
         name: page.props.name,
         chapter: page.props.chapter,
-        path: page.props.path
+        path: `${prefix}${page.props.path}`,
       };
 
       if (page.props.depends) {

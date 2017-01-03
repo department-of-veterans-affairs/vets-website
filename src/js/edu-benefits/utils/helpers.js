@@ -121,4 +121,3 @@ export function showYesNo(field) {
 
   return field.value === 'Y' ? 'Yes' : 'No';
 }
-
