@@ -431,7 +431,7 @@ export function initApplicationSubmitMock() {
     json: {
       path: '/v0/messaging/health/messages',
       verb: 'post',
-      value: messages,
+      value: message,
     }
   });
 

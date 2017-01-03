@@ -37,9 +37,11 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .keys(['\uE006']);
       // set message body
       client.setValue('textarea[name="messageText"]', 'Test');
-      client.click('.msg-send-buttons button:nth-of-type(1)');
-      // client.saveScreenshot(`./${new Date().toISOString()}.png`);
-      //   .waitForElementVisible('textarea[name="messageText"]', Timeouts.slow);
+      // send message successfully
+      client.click('.msg-send-buttons button:nth-of-type(1)')
+        .waitForElementVisible('#messaging-folder-controls', Timeouts.normal)
+        // ensure success alert box is shown
+        .waitForElementVisible('.usa-alert-success', Timeouts.normal);
 
       client.end();
     }
