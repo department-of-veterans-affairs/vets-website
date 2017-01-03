@@ -37,7 +37,7 @@ export function command(context, config, _callback) {
     }
 
     if (!results) {
-      this.verify.fail("No scan results found");
+      this.verify.fail('No scan results found');
       return;
     }
 
