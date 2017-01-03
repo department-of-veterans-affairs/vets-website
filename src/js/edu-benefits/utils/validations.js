@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
-import { showRelinquishedEffectiveDate } from './helpers';
+import { showSchoolAddress, showRelinquishedEffectiveDate } from './helpers';
 import { dateToMoment } from '../../common/utils/helpers';
 import {
   isBlank,
@@ -133,7 +133,8 @@ function isValidServicePeriodsPage(data) {
 }
 
 function isValidSchoolSelectionPage(data) {
-  return isValidFutureOrPastDateField(data.educationStartDate);
+  return isValidFutureOrPastDateField(data.educationStartDate)
+    && (!showSchoolAddress(data.educationType.value) || isBlankAddress(data.school.address) || isValidAddressField(data.school.address));
 }
 
 function isValidEmploymentPeriod(data) {
