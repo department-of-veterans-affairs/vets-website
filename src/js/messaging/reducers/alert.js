@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import _ from 'lodash';
 
 import { folderUrl } from '../utils/helpers';
 
@@ -38,9 +39,15 @@ export default function alert(state = initialState, action) {
   }
 
   switch (action.type) {
-    case UPDATE_ROUTE:
+    case UPDATE_ROUTE: {
+      // Certain route changes set a flag to preserve alerts
+      // that would otherwise have been immediately dismissed.
+      const preserveAlert = _.get(action, 'location.state.preserveAlert', false);
+      return preserveAlert ? state : initialState;
+    }
+
     case CLOSE_ALERT:
-      return createAlert('', alertStatus.INFO, false);
+      return initialState;
 
     case OPEN_ALERT:
       return createAlert(action.content, action.status);
@@ -91,7 +98,7 @@ export default function alert(state = initialState, action) {
       );
 
     case MOVE_MESSAGE_SUCCESS: {
-      const folderName = action.toFolder.name;
+      const folderName = action.folder.name;
       const link = <Link to={folderUrl(folderName)}>{folderName}</Link>;
       return createAlert(
         <b>Your message has been moved to {link}.</b>,

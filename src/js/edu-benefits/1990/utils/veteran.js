@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import { makeField } from '../../../common/model/fields';
-import { isValidAddressField } from '../utils/validations';
+import { isValidAddressField } from './validations';
 import { formatPartialDate } from '../../utils/helpers';
 import moment from 'moment';
 

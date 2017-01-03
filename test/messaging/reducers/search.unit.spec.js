@@ -1,12 +1,15 @@
 import { expect } from 'chai';
 import moment from 'moment';
-import { makeField } from '../../../src/js/common/model/fields';
 
+import { makeField } from '../../../src/js/common/model/fields';
 import searchReducer from '../../../src/js/messaging/reducers/search';
 
 import {
+  CLOSE_ADVANCED_SEARCH,
+  OPEN_ADVANCED_SEARCH,
   SET_ADVSEARCH_END_DATE,
   SET_ADVSEARCH_START_DATE,
+  SET_SEARCH_PARAM,
   TOGGLE_ADVANCED_SEARCH
 } from '../../../src/js/messaging/utils/constants';
 
@@ -77,5 +80,57 @@ describe('search reducer', () => {
     expect(newState.advanced.visible).to.be.true;
     newState = searchReducer(newState, { type: TOGGLE_ADVANCED_SEARCH });
     expect(newState.advanced.visible).to.be.false;
+  });
+
+  it('should open advanced search', () => {
+    const newState = searchReducer({ advanced: { visible: false } }, { type: OPEN_ADVANCED_SEARCH });
+    expect(newState.advanced.visible).to.be.true;
+  });
+
+  it('should close advanced search', () => {
+    const newState = searchReducer({ advanced: { visible: true } }, { type: CLOSE_ADVANCED_SEARCH });
+    expect(newState.advanced.visible).to.be.false;
+  });
+
+  it('should set search params', () => {
+    const basicQuery = makeField('basic search', true);
+    let newState = searchReducer(initialState, {
+      type: SET_SEARCH_PARAM,
+      path: 'term',
+      field: basicQuery
+    });
+    expect(newState.params.term).to.eql(basicQuery);
+
+    const fromFieldQuery = makeField('Clinician 1', true);
+    newState = searchReducer(newState, {
+      type: SET_SEARCH_PARAM,
+      path: 'from.field',
+      field: fromFieldQuery
+    });
+    expect(newState.params.from.field).to.eql(fromFieldQuery);
+
+    const fromExactQuery = makeField(true, true);
+    newState = searchReducer(newState, {
+      type: SET_SEARCH_PARAM,
+      path: 'from.exact',
+      field: fromExactQuery
+    });
+    expect(newState.params.from.exact).to.eql(fromExactQuery);
+
+    const subjectFieldQuery = makeField('tests', true);
+    newState = searchReducer(newState, {
+      type: SET_SEARCH_PARAM,
+      path: 'subject.field',
+      field: subjectFieldQuery
+    });
+    expect(newState.params.subject.field).to.eql(subjectFieldQuery);
+
+    const subjectExactQuery = makeField(true, true);
+    newState = searchReducer(newState, {
+      type: SET_SEARCH_PARAM,
+      path: 'subject.exact',
+      field: subjectExactQuery
+    });
+    expect(newState.params.subject.exact).to.eql(subjectExactQuery);
   });
 });

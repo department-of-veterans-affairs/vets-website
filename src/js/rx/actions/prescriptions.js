@@ -1,43 +1,38 @@
 import { apiRequest } from '../utils/helpers';
 
 export function loadPrescription(id) {
-  if (id) {
+  return dispatch => {
     const urls = [`/${id}`, `/${id}/trackings`];
+    const errorHandler =
+      () => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE' });
+
+    dispatch({ type: 'LOADING_DETAIL' });
 
     // Fetch both the prescription and its tracking history and
     // wait for retrieval and read of both resources to resolve.
-    return dispatch => {
-      dispatch({ type: 'LOADING_DETAIL' });
-
-      Promise.all(urls.map(url => {
-        return apiRequest(url).then(response => {
-          return (response.ok) ? response.json() : Promise.reject();
-        });
-      })).then(
-        data => dispatch({
-          type: 'LOAD_PRESCRIPTION_SUCCESS',
-          data: {
-            rx: data[0].data,
-            trackings: data[1].data
-          }
-        }),
-        error => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE', error })
-      );
-    };
-  }
-
-  return dispatch => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE' });
+    Promise.all(urls.map(
+      url => apiRequest(url, null, response => response, errorHandler)
+    ))
+    .then(data => dispatch({
+      type: 'LOAD_PRESCRIPTION_SUCCESS',
+      data: {
+        rx: data[0].data,
+        trackings: data[1].data
+      }
+    }))
+    .catch(errorHandler);
+  };
 }
 
 export function loadPrescriptions(options) {
-  let url = '';
+  let url = '/';
   let defaultSort = '-refill_submit_date';
   const queries = [];
 
   // Construct segments of the final URL based on options passed in.
   if (options) {
     if (options.active) {
-      url = `${url}/active`;
+      url = '/active';
       defaultSort = 'prescription_name';
     }
 
@@ -59,21 +54,19 @@ export function loadPrescriptions(options) {
       type: options.active ? 'LOADING_ACTIVE' : 'LOADING_HISTORY'
     });
 
-    apiRequest(url)
-      .then(response => {
-        return (response.ok) ? response.json() : Promise.reject();
-      }).then(
-        data => dispatch({
-          type: 'LOAD_PRESCRIPTIONS_SUCCESS',
-          active: options.active,
-          data
-        }),
-        error => dispatch({
-          type: 'LOAD_PRESCRIPTIONS_FAILURE',
-          active: options.active,
-          error
-        })
-      );
+    apiRequest(
+      url,
+      null,
+      data => dispatch({
+        type: 'LOAD_PRESCRIPTIONS_SUCCESS',
+        active: options.active,
+        data
+      }),
+      () => dispatch({
+        type: 'LOAD_PRESCRIPTIONS_FAILURE',
+        active: options.active
+      })
+    );
   };
 }
 
@@ -88,12 +81,9 @@ export function refillPrescription(prescription) {
     return dispatch => {
       dispatch({ type: 'REFILL_SUBMITTED' });
 
-      apiRequest(url, { method: 'PATCH' })
-      .then(response => {
-        return (response.ok) ?
-          Promise.resolve() :
-          Promise.reject(response.json());
-      }).then(
+      apiRequest(
+        url,
+        { method: 'PATCH' },
         () => dispatch({
           type: 'REFILL_SUCCESS',
           prescription
@@ -107,7 +97,7 @@ export function refillPrescription(prescription) {
     };
   }
 
-  return dispatch => dispatch({ type: 'REFILL_FAILURE' });
+  return { type: 'REFILL_FAILURE' };
 }
 
 export function sortPrescriptions(sort, order = 'ASC') {
