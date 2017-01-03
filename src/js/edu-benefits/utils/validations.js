@@ -267,6 +267,7 @@ export {
   isValidEducationHistoryPage,
   isValidMilitaryServicePage,
   isValidServicePeriodsPage,
+  isValidSchoolSelectionPage,
   isValidPage,
   isValidRelinquishedDate,
   isValidTourOfDuty,
