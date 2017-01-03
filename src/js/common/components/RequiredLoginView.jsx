@@ -93,7 +93,6 @@ class RequiredLoginView extends React.Component {
   render() {
     let view;
 
-    // TODO(crew): replace FQA link.
     const loginComponent = (
       <div className="row primary">
         <div className="medium-12 small-12 columns">

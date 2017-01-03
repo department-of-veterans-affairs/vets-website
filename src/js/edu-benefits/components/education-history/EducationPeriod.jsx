@@ -5,9 +5,8 @@ import ErrorableTextInput from '../../../common/components/form-elements/Errorab
 import ErrorableNumberInput from '../../../common/components/form-elements/ErrorableNumberInput';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import { isValidPartialMonthYearInPast, isValidPartialMonthYearRange } from '../../../common/utils/validations';
 
-import { isValidPartialMonthYearRange } from '../../utils/validations';
-import { isValidPartialMonthYearInPast } from '../../../common/utils/validations';
 import { states, hoursTypes } from '../../utils/options-for-select';
 import EducationPeriodReview from './EducationPeriodReview';
 

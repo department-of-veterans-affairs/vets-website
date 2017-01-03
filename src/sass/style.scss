@@ -11,6 +11,18 @@
 @import "~foundation-sites/scss/foundation/components/visibility";
 @import "foundation-variables";
 
+// Font Awesome WOFF/WOFF2 fonts only
+@import "~font-awesome/scss/variables";
+@import "~font-awesome/scss/core";
+@import "~font-awesome/scss/icons";
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('~font-awesome/fonts/fontawesome-webfont.woff2?v=#{$fa-version}') format('woff2'),
+       url('~font-awesome/fonts/fontawesome-webfont.woff?v=#{$fa-version}') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 // ---- U.S. WEB DESIGN STANDARDS SETTINGS --- //
 
@@ -20,7 +32,6 @@
 @import "~uswds/src/stylesheets/core/variables";
 
 // ---- U.S. WEB DESIGN STANDARDS ELEMENTS/COMPONENTS --- //
-
 @import "~uswds/src/stylesheets/elements/buttons";
 @import "~uswds/src/stylesheets/elements/inputs";
 @import "~uswds/src/stylesheets/elements/labels";
@@ -62,9 +73,6 @@
 @import 'modules/m-loading-indicator';
 
 // ----- VA STATE (ACTIVE BUTTONS/ERROR INPUTS) ---- //
-
-// Font Awesome
-@import "~font-awesome/scss/font-awesome";
 
 // ----- VA SHAME ---- //
 
