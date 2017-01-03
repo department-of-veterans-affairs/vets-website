@@ -14,11 +14,14 @@ import {
   DELETING_MESSAGE,
   FETCH_FOLDER_FAILURE,
   FETCH_FOLDER_SUCCESS,
+  FETCH_FOLDERS_FAILURE,
+  FETCH_FOLDERS_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_THREAD_FAILURE,
   FETCH_THREAD_SUCCESS,
   LOADING_FOLDER,
+  LOADING_FOLDERS,
   LOADING_RECIPIENTS,
   LOADING_THREAD,
   MOVE_MESSAGE_FAILURE,
@@ -127,6 +130,30 @@ describe('loading reducer', () => {
       { type: FETCH_FOLDER_SUCCESS }
     );
     expect(state.folder).to.be.false;
+  });
+
+  it('should trigger a loader when fetching folders', () => {
+    const state = loadingReducer(
+      { folders: false },
+      { type: LOADING_FOLDERS }
+    );
+    expect(state.folders).to.be.true;
+  });
+
+  it('should not trigger a loader after failing to fetch a folder', () => {
+    const state = loadingReducer(
+      { folders: true },
+      { type: FETCH_FOLDERS_FAILURE }
+    );
+    expect(state.folders).to.be.false;
+  });
+
+  it('should not trigger a loader after successfully fetching a folder', () => {
+    const state = loadingReducer(
+      { folders: true },
+      { type: FETCH_FOLDERS_SUCCESS }
+    );
+    expect(state.folders).to.be.false;
   });
 
   it('should trigger a loader when fetching recipients', () => {
