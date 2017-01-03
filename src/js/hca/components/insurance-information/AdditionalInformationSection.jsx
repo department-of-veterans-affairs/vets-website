@@ -7,7 +7,7 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 import VaMedicalFacility from './VaMedicalFacility';
 import { veteranUpdateField } from '../../actions';
 import { states, vaMedicalFacilities, yesNo } from '../../../common/utils/options-for-select';
-import { validateIfDirty, isNotBlank } from '../../utils/validations';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
 import { displayLabel } from '../../store/calculated';
 
 /**

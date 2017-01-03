@@ -27,6 +27,7 @@ export class Settings extends React.Component {
           </td>
           <td>
             <ButtonDelete
+                className="va-icon-link"
                 onClickHandler={() => this.props.deleteFolder(folder)}/>
           </td>
         </tr>

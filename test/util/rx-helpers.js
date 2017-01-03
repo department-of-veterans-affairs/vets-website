@@ -166,7 +166,7 @@ function initApplicationSubmitMock() {
     uri: `${E2eHelpers.apiUrl}/mock`,
     method: 'POST',
     json: {
-      path: '/v0/prescriptions',
+      path: '/v0/prescriptions/',
       verb: 'get',
       value: prescriptions
     }

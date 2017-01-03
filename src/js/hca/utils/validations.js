@@ -1,22 +1,21 @@
 import _ from 'lodash';
 import { states } from '../../common/utils/options-for-select';
-import { isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/validations';
-
-function validateIfDirty(field, validator) {
-  if (field.dirty) {
-    return validator(field.value);
-  }
-
-  return true;
-}
-
-function validateIfDirtyDate(dayField, monthField, yearField, validator) {
-  if (dayField.dirty || monthField.dirty || yearField.dirty) {
-    return validator(dayField.value, monthField.value, yearField.value);
-  }
-
-  return true;
-}
+import {
+  isBlank,
+  isBlankDateField,
+  isNotBlank,
+  isValidCanPostalCode,
+  isValidDateField,
+  isValidEmail,
+  isValidField,
+  isValidFullNameField,
+  isValidMonetaryValue,
+  isValidPhone,
+  isValidRequiredField,
+  isValidSSN,
+  isValidUSZipCode,
+  validateIfDirty
+} from '../../common/utils/validations';
 
 function validateIfDirtyProvider(field1, field2, validator) {
   if (field1.dirty || field2.dirty) {
@@ -26,150 +25,8 @@ function validateIfDirtyProvider(field1, field2, validator) {
   return true;
 }
 
-function isBlank(value) {
-  return value === '';
-}
-
-function isDirty(field) {
-  return field.dirty;
-}
-
-function isNotBlank(value) {
-  return value !== '';
-}
-
-// Conditions for valid SSN from the original 1010ez pdf form:
-// '123456789' is not a valid SSN
-// A value where the first 3 digits are 0 is not a valid SSN
-// A value where the 4th and 5th digits are 0 is not a valid SSN
-// A value where the last 4 digits are 0 is not a valid SSN
-// A value with 3 digits, an optional -, 2 digits, an optional -, and 4 digits is a valid SSN
-// 9 of the same digits (e.g., '111111111') is not a valid SSN
-function isValidSSN(value) {
-  if (value === '123456789' || value === '123-45-6789') {
-    return false;
-  } else if (/1{9}|2{9}|3{9}|4{9}|5{9}|6{9}|7{9}|8{9}|9{9}/.test(value)) {
-    return false;
-  } else if (/^0{3}-?\d{2}-?\d{4}$/.test(value)) {
-    return false;
-  } else if (/^\d{3}-?0{2}-?\d{4}$/.test(value)) {
-    return false;
-  } else if (/^\d{3}-?\d{2}-?0{4}$/.test(value)) {
-    return false;
-  }
-
-  for (let i = 1; i < 10; i++) {
-    const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
-    if (sameDigitRegex.test(value)) {
-      return false;
-    }
-  }
-
-  return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
-}
-
-function isValidDate(day, month, year) {
-  // Use the date class to see if the date parses back sanely as a
-  // validation check. Not sure is a great idea...
-  const adjustedMonth = Number(month) - 1;  // JS Date object 0-indexes months. WTF.
-  const date = new Date(year, adjustedMonth, day);
-  const today = new Date();
-
-  if (today < date) {
-    return false;
-  }
-
-  if (Number(year) < 1900) {
-    return false;
-  }
-
-  return date.getDate() === Number(day) &&
-    date.getMonth() === adjustedMonth &&
-    date.getFullYear() === Number(year);
-}
-
-function isValidName(value) {
-  return /^[a-zA-Z '\-]*$/.test(value);
-}
-
 function isValidLastName(value) {
   return /^[a-zA-Z '\-]{2,}$/.test(value);
-}
-
-function isValidMonetaryValue(value) {
-  if (value !== null) {
-    return /^\d+\.?\d*$/.test(value);
-  }
-  return true;
-}
-
-// TODO: look into validation libraries (npm "validator")
-function isValidPhone(value) {
-  // Strip spaces, dashes, and parens
-  const stripped = value.replace(/[^\d]/g, '');
-  // Count number of digits
-  return /^\d{10}$/.test(stripped);
-}
-
-function isValidEmail(value) {
-  // Comes from StackOverflow: http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
-  return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
-}
-
-function isValidField(validator, field) {
-  return isBlank(field.value) || validator(field.value);
-}
-
-function isValidRequiredField(validator, field) {
-  return isNotBlank(field.value) && validator(field.value);
-}
-
-function isBlankDateField(field) {
-  return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
-}
-
-function isValidDateField(field) {
-  return isValidDate(field.day.value, field.month.value, field.year.value);
-}
-
-function isValidFullNameField(field) {
-  return isValidName(field.first.value) &&
-    (isBlank(field.middle.value) || isValidName(field.middle.value)) &&
-    isValidLastName(field.last.value);
-}
-
-function isValidAddressField(field) {
-  const initialOk = isNotBlank(field.street.value) &&
-    isNotBlank(field.city.value) &&
-    isNotBlank(field.country.value);
-
-  let isValidPostalCode = true;
-
-  if (field.country.value === 'USA') {
-    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidUSZipCode, field.zipcode);
-  }
-
-  if (field.country.value === 'CAN') {
-    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidCanPostalCode, field.zipcode);
-  }
-
-  // if we have a defined list of values, they will
-  // be set as the state and zipcode keys
-  if (_.hasIn(states, field.country.value)) {
-    return initialOk &&
-      isNotBlank(field.state.value) &&
-      isValidPostalCode;
-  }
-  // if the entry was non-USA/CAN/MEX, only postal is
-  // required, not provinceCode
-  return initialOk && isNotBlank(field.postalCode.value);
-}
-
-function isValidInsurancePolicy(policyNumber, groupCode) {
-  if (policyNumber !== null || groupCode !== null) {
-    return isNotBlank(policyNumber) || isNotBlank(groupCode);
-  }
-  return true;
 }
 
 function isValidEntryDateField(date, dateOfBirth) {
@@ -205,6 +62,40 @@ function isValidDischargeDateField(date, entryDate) {
     }
   }
 
+  return true;
+}
+
+function isValidAddressField(field) {
+  const initialOk = isNotBlank(field.street.value) &&
+    isNotBlank(field.city.value) &&
+    isNotBlank(field.country.value);
+
+  let isValidPostalCode = true;
+
+  if (field.country.value === 'USA') {
+    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidUSZipCode, field.zipcode);
+  }
+
+  if (field.country.value === 'CAN') {
+    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidCanPostalCode, field.zipcode);
+  }
+
+  // if we have a defined list of values, they will
+  // be set as the state and zipcode keys
+  if (_.hasIn(states, field.country.value)) {
+    return initialOk &&
+      isNotBlank(field.state.value) &&
+      isValidPostalCode;
+  }
+  // if the entry was non-USA/CAN/MEX, only postal is
+  // required, not provinceCode
+  return initialOk && isNotBlank(field.postalCode.value);
+}
+
+function isValidInsurancePolicy(policyNumber, groupCode) {
+  if (policyNumber !== null || groupCode !== null) {
+    return isNotBlank(policyNumber) || isNotBlank(groupCode);
+  }
   return true;
 }
 
@@ -479,40 +370,14 @@ function isValidSection(completePath, sectionData) {
   }
 }
 
-function initializeNullValues(value) {
-  if (value === null) {
-    return '';
-  } else if (_.isPlainObject(value)) {
-    return _.mapValues(value, (v, _k) => { return initializeNullValues(v); });
-  } else if (_.isArray(value)) {
-    return value.map(initializeNullValues);
-  }
-
-  return value;
-}
-
 export {
-  validateIfDirty,
-  validateIfDirtyDate,
   validateIfDirtyProvider,
-  initializeNullValues,
-  isDirty,
-  isBlank,
-  isNotBlank,
-  isValidRequiredField,
-  isValidDate,
-  isValidName,
   isValidLastName,
-  isValidSSN,
-  isValidMonetaryValue,
-  isValidPhone,
-  isValidEmail,
-  isValidInsurancePolicy,
   isValidEntryDateField,
   isValidDischargeDateField,
+  isValidInsurancePolicy,
   isValidDependentDateField,
   isValidMarriageDate,
-  isValidField,
   isValidFinancialDisclosure,
   isValidForm,
   isValidPersonalInfoSection,
