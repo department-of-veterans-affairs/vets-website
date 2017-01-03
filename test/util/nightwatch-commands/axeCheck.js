@@ -36,6 +36,11 @@ export function command(context, config, _callback) {
       return;
     }
 
+    if (!results) {
+      this.verify.fail("No scan results found");
+      return;
+    }
+
     const { violations, passes } = results;
 
     const scope = (config || {}).scope || '[n/a]';
