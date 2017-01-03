@@ -29,7 +29,7 @@ export function command(context, config, _callback) {
       done({ err, results });
     });
   }, [context], response => {
-    if (response.state != 'success') {
+    if (response.state !== 'success') {
       this.verify.fail(`${response.state}: ${JSON.stringify(response)}`);
       return;
     }

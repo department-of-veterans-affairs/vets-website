@@ -27,7 +27,7 @@ if (options.unexpected && options.unexpected.length !== 0) {
 const app = express();
 
 const root = path.resolve(__dirname, `../../build/${options.buildtype}`);
-app.use(morgan('combined', { skip: (req, res) => { return req.path.match(/(css|js|gif|jpg|png|svg)$/) } }));
+app.use(morgan('combined', { skip: (req, _res) => { return req.path.match(/(css|js|gif|jpg|png|svg)$/); } }));
 app.use(express.static(root));
 app.use('/healthcare/apply/application', fallback('index.html', { root }));
 app.use('/rx', fallback('index.html', { root }));
