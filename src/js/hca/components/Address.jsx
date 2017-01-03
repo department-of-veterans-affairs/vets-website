@@ -3,8 +3,7 @@ import _ from 'lodash';
 
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import { isBlank, isNotBlank, validateIfDirty } from '../utils/validations';
-import { isValidUSZipCode, isValidCanPostalCode, isBlankAddress } from '../../common/utils/validations';
+import { isBlank, isNotBlank, isValidUSZipCode, isValidCanPostalCode, isBlankAddress, validateIfDirty } from '../../common/utils/validations';
 import { countries, states } from '../../common/utils/options-for-select';
 
 /**
