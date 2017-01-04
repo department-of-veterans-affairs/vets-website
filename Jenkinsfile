@@ -176,5 +176,5 @@ node('vets-website-linting') {
     }
 
     parallel builds
-  } 
+  }
 }
