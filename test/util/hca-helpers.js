@@ -1,6 +1,5 @@
-const request = require('request');
+const mock = require('./mock-helpers');
 
-const E2eHelpers = require('./e2e-helpers');
 const Timeouts = require('./timeouts.js');
 
 const testValues = {
@@ -437,16 +436,12 @@ function completeVaInsuranceInformation(client, data, onlyRequiredFields) {
 }
 
 function initApplicationSubmitMock() {
-  request({
-    uri: `${E2eHelpers.apiUrl}/mock`,
-    method: 'POST',
-    json: {
-      path: '/api/hca/v1/application',
-      verb: 'post',
-      value: {
-        formSubmissionId: '123fake-submission-id-567',
-        timeStamp: '2016-05-16'
-      }
+  mock(null, {
+    path: '/api/hca/v1/application',
+    verb: 'post',
+    value: {
+      formSubmissionId: '123fake-submission-id-567',
+      timeStamp: '2016-05-16'
     }
   });
 }
