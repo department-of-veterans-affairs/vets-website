@@ -7,12 +7,14 @@ import FieldTemplate from './FieldTemplate';
 import * as widgets from './widgets';
 import DateField from './DateField';
 import ExpandableField from './ExpandableField';
+import ArrayField from './ArrayField';
 
 import { focusElement } from '../utils/helpers';
 
 const fields = {
   mydate: DateField,
-  expandableGroup: ExpandableField
+  expandableGroup: ExpandableField,
+  ArrayField
 };
 
 const scrollToFirstError = () => {

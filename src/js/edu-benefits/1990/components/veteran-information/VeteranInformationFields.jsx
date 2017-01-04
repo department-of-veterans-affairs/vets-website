@@ -67,6 +67,20 @@ const schema = {
           enumNames: ['Female', 'Male']
         }
       }
+    },
+    toursOfDuty: {
+      type: 'array',
+      title: 'Service periods',
+      items: {
+        type: 'object',
+        required: ['branch'],
+        properties: {
+          branch: {
+            type: 'string',
+            title: 'Branch of service'
+          }
+        }
+      }
     }
   }
 };
@@ -77,6 +91,7 @@ const errorMessages = {
   }
 };
 const formData = {
+  toursOfDuty: [{}]
 };
 const uiSchema = {
   veteranSocialSecurityNumber: {
@@ -99,6 +114,11 @@ const uiSchema = {
     },
     gender: {
       'ui:widget': 'radio'
+    }
+  },
+  toursOfDuty: {
+    'ui:options': {
+      viewField: (props) => <div>{props.formData.branch}<button onClick={props.onEdit}>Edit</button></div>,
     }
   }
 };

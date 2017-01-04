@@ -14,7 +14,7 @@ export default function FieldTemplate(props) {
     errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{rawErrors[0]}</span>;
   }
 
-  return schema.type === 'object'
+  return schema.type === 'object' || schema.type === 'array'
     ? children
     : (<div className={errorClass}>
       <label className={hasErrors ? 'usa-input-error-label' : null} htmlFor={id}>{label}{requiredSpan}</label>
