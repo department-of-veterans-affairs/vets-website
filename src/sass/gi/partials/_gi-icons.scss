@@ -1,0 +1,78 @@
+.icon {
+    margin: 0 0 1rem 0;
+    width: 100%;
+    text-align: center;
+    display: block;  
+}
+
+.info-icons{
+    margin-left: .25rem;
+    
+    &:link{
+        background: none;
+        text-decoration: none;
+    }
+}
+.fa-teaser{
+    font-size: 2.5rem;
+    color: $va-secondary-color;
+}
+.fa-additional-resources{
+    background-color: $color-primary;
+    color: #fff;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 1.6rem;
+    margin: .25rem;
+    margin-right: 1.6rem;
+    text-align: center;
+    font-family: $source-sans;
+    font-size: 2.5rem;
+    line-height: 3.2rem;
+    display: inline-block;
+
+    &:hover, :active {
+        background-color: $va-body-accent-color;
+      }
+
+}
+.fa-current-location{
+    background-color: $va-body-accent-color;
+}
+.fa-timeline{
+
+        font-size: 1rem;
+        background-color: $color-primary;
+        color: #fff;
+        width: 40px;
+        height: 40px;
+        border-radius: 25px;
+        line-height: 40px;
+        margin: 1rem;
+
+    
+    &:hover, :active {
+        background-color: $va-body-accent-color;
+      }
+
+}
+.fa-profile-descriptors{
+    font-size: .85rem;
+    color: $va-primary-color;
+
+}
+.fa-profile-benefits{
+    font-size: 4.8rem;
+    color: $va-primary-color;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.fa-info-caution{
+    color: #000;
+    padding-left: 1rem;
+}
+.fa-search-result{
+    color: $va-primary-color;
+    font-size: 3.2rem;
+    margin-bottom: .5rem;
+}

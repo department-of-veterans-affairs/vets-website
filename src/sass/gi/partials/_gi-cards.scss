@@ -1,0 +1,250 @@
+// cards ui element
+// This is made to be consistent with web design standards accordion
+// It's basically all the same everything, but without the interaction renamed as usa-card.
+// and all the hover / opening / closing states removed
+
+//    @media(max-width: $small-screen) {
+//        #non-mobile-filters{display:none;}
+//    }
+//    @media(max-width: $medium-screen) {
+//        #non-mobile-filters{display:none;}
+////        #mobile-filters{display:block;}
+//    }
+//
+//    @media(min-width: $large-screen){
+//        #mobile-filters{display:none;}
+//    }
+#non-mobile-filters{
+    @media(max-width: $medium-screen){
+        display:none;
+    }
+    }
+
+#mobile-filters{
+    padding: 1rem;
+    @media(min-width: $medium-screen){
+        display:none;
+    }
+    
+}
+.column + .column:last-child, .columns + .column:last-child, .column + .columns:last-child, .columns + .columns:last-child {
+    float: left;
+}
+.school_summary {
+  position: relative;
+  background-color: $color-gray-lightest;
+    border-style: solid;
+    border-width: .50rem;
+    border-color: white;
+    min-height: 29rem;
+    max-width: 350px;
+  float: left;
+
+  h4 {
+    margin-top: 0;
+  }
+
+  p, li, lh {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    font-size: 1.5rem;
+  }
+
+  ul {
+    list-style-type: none;
+    margin-top: 0;
+    margin-bottom: 0;
+
+    li { 
+      list-style-type: none;
+    }
+  }
+}
+.usa-card,
+.usa-card-bordered {
+
+  + .usa-card,
+  + .usa-card-bordered {
+    margin-top: 0;
+  }
+
+
+  > ul {
+    color: $color-base;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    > li {
+      background-color: $color-gray-lighter;
+      font-family: $font-sans;
+      list-style: none;
+      margin-bottom: 6px;
+      width: 100%;
+    }
+  }
+ 
+
+
+  .usa-card-header {
+    background-color: $color-gray-lighter;
+    background-repeat: no-repeat;
+    color: $color-base;
+    display: inline-block;
+    font-family: $font-sans;
+    margin: 0;
+    padding: {
+      bottom: 1rem;
+      left: 2rem;
+      right: 5.5rem;
+      top: 1rem;
+    }
+    width: 100%;
+    h1, h2, h3, h4, h5, h6 {
+      margin: 0;
+    }
+  }
+}
+
+.usa-card-fill {
+  .usa-card-header {
+    background-color: $color-gray-lighter;
+  }
+  .usa-card-content {
+    background-color: $polar;
+    margin-bottom: 1rem;
+  }
+}
+
+.usa-card-content ul {
+  padding: 1rem 0;
+}
+
+.usa-card-bordered {
+  .usa-card-content {
+    border: {
+      bottom: $accordion-border;
+      left: $accordion-border;
+      right: $accordion-border;
+    }
+  }
+}
+
+.usa-card-content {
+  display: block;
+  background-color: white;
+  overflow: auto;
+  padding: 1rem;
+
+  > *:first-child {
+    margin-top: 0;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+    @media(max-width: $small-screen) {
+        padding: 1rem 1rem;
+    }
+}
+
+.light-type{
+    color: $va-tertiary-color;
+}
+.caution{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: $va-body-accent-color;
+    height: 2rem;
+    width: 100%;
+    padding: 0 0 0 1rem;
+    
+    a{
+        color: #000;
+        font-family: $font-sans;
+        text-decoration: none;
+        line-height: 2rem;
+    }
+}
+    
+.search-count-headline{
+    margin-left: 1.5rem;
+    line-height: .8rem;
+}
+.search-content{
+    padding: .25rem;
+    font-family: $font-sans;
+
+}
+.search-insitution-name{
+  font-size: 1.6rem;
+  margin-top: 3.2rem;
+  min-height: 150px;
+  
+  a {
+    font-family: $source-sans;
+    color: $va-primary-color;
+    font-weight: 800;
+    line-height: 0;
+  }
+}
+.search-locality, .search-vet-count {
+    margin: 0;
+}
+
+.vet-count-value{
+    font-family: $source-sans;
+    font-size: 1.5em;
+    color: $va-secondary-color;
+}
+
+.search-selections-label{
+    font-size: .75em;
+    color: #aeb0b5;
+    margin-bottom: 1.7rem;
+}
+.search-value-each{
+    font-family: $source-sans;
+    font-size: 1.84rem;
+    color: $va-secondary-color;
+    line-height: 1;
+    text-align: center;
+    display: inline-block;
+    padding-left: 0;
+    padding-right: 0;
+    
+    .search-text-values{
+      font-size: .65rem;
+      line-height: .75rem;
+      text-align: left;
+    }    
+}
+.search-text-values{
+    font-size: 1.25rem;
+    line-height: 1.5;
+}
+
+.estimate-qualifier{
+    font-size: 1.04rem;
+    color: #444;
+    line-height: .65;
+}
+
+.estimator-dollar-sign{
+    font-size: 1.2rem;
+    color: #999;
+}
+
+a.va-search-learnmore {
+  width: 94%;
+  margin: 1rem auto;
+}
+
+.search-learnmore-div {
+  clear: both;
+  padding: 1rem .7rem .7rem;
+  text-align: center;
+}
+

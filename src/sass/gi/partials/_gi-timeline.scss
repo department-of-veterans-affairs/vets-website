@@ -1,0 +1,46 @@
+// This is the timeline styling. Some of this is simply pickup from the existing version.
+
+/* Timeline */
+
+.timeline{
+    position: relative;
+    .box {
+        p {
+            text-align: center;
+            font-size: .9rem;
+            margin-bottom: 0px;
+        }
+        margin-left: 1rem;
+        float: left;
+        display: inline-block;
+        height: 100px;
+        margin-bottom: 1rem;
+        width: 30%;
+        margin-bottom: 2rem;
+    }
+
+    @include media($medium-screen) {
+      padding: {
+        left: 0;
+        right: 0;
+      }
+    }
+}
+
+.horz-timeline-text{
+  font-size: 1.6rem;
+}
+
+.add-resources ul li{
+  list-style: none;
+}
+
+.box {
+    color: #222;
+    text-align: center;
+    font-size: .9rem;
+    margin-bottom: 0px;
+}
+.onpage{
+    background-color: $va-body-accent-color;
+}

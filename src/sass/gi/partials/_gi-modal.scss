@@ -1,0 +1,46 @@
+// Modal stuff, will need to be scaled with more than one modal!
+#lean_overlay {
+    position: fixed;
+    z-index:100;
+    top: 0px;
+    left: 0px;
+    height:100%;
+    width:100%;
+    background: #000;
+    display: none;
+}
+
+
+.modal_close { 
+  position: absolute; 
+  top: 12px; 
+  right: 12px; 
+  display: block; 
+  z-index: 2;
+    background: none;
+}
+
+.modal-style{
+  max-width: 800px;
+  width: 100%;
+  padding: 3rem;
+  display:none;
+  background: #fff;
+  overflow: auto;
+    @media(max-width: $small-screen) {
+        width: 90%;
+        padding: 1rem;
+        max-height: 400px;
+        h3, p{
+            font-size: 1rem;
+            padding: 0;
+            line-height: 1.5rem;
+        }
+    }
+  
+  a {
+    padding-right: 0;
+  }
+  
+}
+

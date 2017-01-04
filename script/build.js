@@ -115,6 +115,13 @@ smith.destination(`../build/${options.buildtype}`);
 // }
 // smith.use(ignore(ignoreList));
 
+const ignore = require('metalsmith-ignore');
+const ignoreList = [];
+if (options.buildtype === 'production') {
+  ignoreList.push('gi/*');
+}
+smith.use(ignore(ignoreList));
+
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
 // during templating end up not showing which file they came from. Load it very early in in the
 // plugin chain.
@@ -209,6 +216,7 @@ if (options.watch) {
     contentBase: `build/${options.buildtype}`,
     historyApiFallback: {
       rewrites: [
+        { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
         { from: '^/disability-benefits/track-claims(.*)', to: '/disability-benefits/track-claims/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
