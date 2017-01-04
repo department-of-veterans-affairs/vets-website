@@ -4,7 +4,7 @@
     {% if secondarylinks %}
     <div class="small-12 medium-6 columns">
       <h3 class="va-h-ruled">{{secondarylinkstitle}}</h3>
-      <ul class="plain">
+      <ul class="va-list--plain">
         {% for link in secondarylinks %}
         <li>
           <a href="{{link.url}}" class="external">{{link.title}}</a>
@@ -20,7 +20,7 @@
     {% if relatedlinks %}
     <div class="small-12 medium-6 columns">
       <h3 class="va-h-ruled">{{relatedlinkstitle}}</h3>
-      <ul class="plain">
+      <ul class="va-list--plain">
         {% for link in relatedlinks %}
         <li>
           <a href="{{link.url}}" class="external">{{link.title}}</a>

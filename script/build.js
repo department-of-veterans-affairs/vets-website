@@ -39,7 +39,6 @@ const sourceDir = '../content/pages';
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
-// TODO(crew): Change port back before merge to master.
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },

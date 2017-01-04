@@ -9,7 +9,6 @@ import { getUserData, addEvent } from '../../common/helpers/login-helpers';
 import { updateLoggedInStatus, updateLogInUrl, logOut } from '../../common/actions';
 import SignInProfileButton from '../components/SignInProfileButton';
 
-// TODO(crew): Redux-ify the state and how it is stored here.
 class Main extends React.Component {
   constructor(props) {
     super(props);

@@ -62,11 +62,10 @@ if [[ $TRAVIS_BRANCH == "master" &&
       $TRAVIS_PULL_REQUEST == "false" ]]
 then
   # We will deploy development build to development, and staging build
-  # to staging. Tests have already been run from source PR.
+  # to staging.
   build development &
   build staging &
   wait;
-  exit 0;
 fi
 
 # Run lint

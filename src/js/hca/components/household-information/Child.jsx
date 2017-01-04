@@ -8,7 +8,8 @@ import FullName from '../../../common/components/questions/FullName';
 import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
 
 import { childRelationships, yesNo } from '../../../common/utils/options-for-select.js';
-import { isNotBlank, validateIfDirty, isValidDependentDateField, isValidLastName } from '../../utils/validations';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
+import { isValidDependentDateField, isValidLastName } from '../../utils/validations';
 import { getMonetaryErrorMessage } from '../../utils/messages';
 
 // TODO: create unique nodes for each child in applicationData
