@@ -4,17 +4,15 @@ const LoginHelpers = require('../util/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    LoginHelpers.logIn(client, '/profile', 1);
+    let token = LoginHelpers.getUserToken();
 
-    client
-      .url(`${E2eHelpers.baseUrl}/profile`)
+    LoginHelpers.logIn(token, client, '/profile', 1)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('document');
 
-    LoginHelpers.logIn(client, '/profile', 3);
+    token = LoginHelpers.getUserToken();
 
-    client
-      .url(`${E2eHelpers.baseUrl}/profile`)
+    LoginHelpers.logIn(token, client, '/profile', 3)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('document');
 

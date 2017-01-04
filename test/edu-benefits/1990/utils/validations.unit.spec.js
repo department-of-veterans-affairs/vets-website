@@ -9,7 +9,9 @@ import {
   isValidRoutingNumber,
   isValidRelinquishedDate,
   isValidEducationPeriod,
-  isValidEducationHistoryPage
+  isValidEducationHistoryPage,
+  isValidAddressField,
+  isValidSchoolSelectionPage
 } from '../../../../src/js/edu-benefits/1990/utils/validations.js';
 
 import { createVeteran } from '../../../../src/js/edu-benefits/1990/utils/veteran.js';
@@ -359,6 +361,169 @@ describe('Validation:', () => {
       };
 
       expect(isValidEducationHistoryPage(data)).to.be.false;
+    });
+  });
+  describe('isValidAddressField', () => {
+    it('should validate complete address', () => {
+      const data = {
+        country: {
+          value: 'USA'
+        },
+        street: {
+          value: 'Test'
+        },
+        city: {
+          value: 'Test'
+        },
+        postalCode: {
+          value: '12345'
+        },
+        state: {
+          value: 'NC'
+        }
+      };
+
+      expect(isValidAddressField(data)).to.be.true;
+    });
+    it('should not validate bad postal code', () => {
+      const data = {
+        country: {
+          value: 'USA'
+        },
+        street: {
+          value: 'Test'
+        },
+        city: {
+          value: 'Test'
+        },
+        postalCode: {
+          value: '123123123123123123'
+        },
+        state: {
+          value: 'NC'
+        }
+      };
+
+      expect(isValidAddressField(data)).to.be.false;
+    });
+  });
+  describe('isValidSchoolSelectionPage', () => {
+    it('should not validate address when not shown', () => {
+      const data = {
+        educationType: {
+          value: ''
+        },
+        educationStartDate: {
+          month: {
+            value: '5'
+          },
+          year: {
+            value: '1997'
+          },
+          day: {
+            value: '3'
+          }
+        },
+        school: {
+          address: {
+            country: {
+              value: 'USA'
+            },
+            street: {
+              value: 'Test'
+            },
+            city: {
+              value: 'Test'
+            },
+            postalCode: {
+              value: '123123123123123123'
+            },
+            state: {
+              value: 'NC'
+            }
+          }
+        }
+      };
+
+      expect(isValidSchoolSelectionPage(data)).to.be.true;
+    });
+    it('should allow blank address', () => {
+      const data = {
+        educationType: {
+          value: 'college'
+        },
+        educationStartDate: {
+          month: {
+            value: '5'
+          },
+          year: {
+            value: '1997'
+          },
+          day: {
+            value: '3'
+          }
+        },
+        school: {
+          address: {
+            country: {
+              value: 'USA'
+            },
+            street: {
+              value: ''
+            },
+            city: {
+              value: ''
+            },
+            postalCode: {
+              value: ''
+            },
+            state: {
+              value: ''
+            }
+          }
+        }
+      };
+
+      expect(isValidSchoolSelectionPage(data)).to.be.true;
+    });
+    it('should not allow bad address', () => {
+      const data = {
+        educationType: {
+          value: 'college'
+        },
+        educationStartDate: {
+          month: {
+            value: '5'
+          },
+          year: {
+            value: '1997'
+          },
+          day: {
+            value: '3'
+          }
+        },
+        school: {
+          address: {
+            country: {
+              value: 'USA'
+            },
+            street: {
+              value: ''
+            },
+            city: {
+              value: ''
+            },
+            postalCode: {
+              value: '123232323'
+            },
+            state: {
+              value: ''
+            }
+          }
+        }
+      };
+
+      expect(isValidSchoolSelectionPage(data)).to.be.false;
     });
   });
 });
