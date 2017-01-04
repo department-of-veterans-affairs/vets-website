@@ -1964,17 +1964,6 @@ li.twenty:before {content: '20';}
     transform: rotateX(0deg);
   }
 
-  .va-overlay--closed form {
-    -webkit-transform: translateY(25%) rotateX(-35deg);
-    transform: translateY(25%) rotateX(-35deg);
-  }
-  .va-overlay--closed {
-    display: block;
-    border: none;
-    outline: none;
-    z-index: 100;
-  }
-
   .va-overlay-body {
     margin: 1rem auto;
   }
