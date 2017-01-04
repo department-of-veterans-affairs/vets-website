@@ -2,8 +2,6 @@ import React from 'react';
 import MessageSearchAdvanced from './MessageSearchAdvanced';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 
-import { isEmptySearch } from '../utils/validations';
-
 class MessageSearch extends React.Component {
   constructor(props) {
     super(props);

@@ -44,7 +44,7 @@ describe('MessageSearch', () => {
 
   it('should not show basic search when showing advanced search', () => {
     const tree = SkinDeep.shallowRender(
-      <MessageSearch {...props } isAdvancedVisible={true}/>
+      <MessageSearch {...props } isAdvancedVisible/>
     );
     expect(tree.subTree('.msg-search-simple-wrap')).to.be.false;
   });
@@ -101,7 +101,7 @@ describe('MessageSearch', () => {
     const messageSearch = ReactTestUtils.renderIntoDocument(
       <MessageSearch
           {...props }
-          isAdvancedVisible={true}
+          isAdvancedVisible
           params={params}
           onSubmit={onSubmit}/>
     );

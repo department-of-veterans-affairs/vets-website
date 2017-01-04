@@ -96,6 +96,5 @@ export function isEmptySearch(search) {
   return isEmptyStartDate &&
          isEmptyEndDate &&
          isEmptyFrom &&
-         isEmptySubject &&
-         isEmptyTerm;
+         isEmptySubject;
 }

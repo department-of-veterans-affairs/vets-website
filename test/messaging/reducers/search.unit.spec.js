@@ -93,7 +93,7 @@ describe('search reducer', () => {
 
   it('should set search params', () => {
     const fromFieldQuery = makeField('Clinician 1', true);
-    let newState = searchReducer(newState, {
+    let newState = searchReducer(initialState, {
       type: SET_SEARCH_PARAM,
       path: 'from.field',
       field: fromFieldQuery
