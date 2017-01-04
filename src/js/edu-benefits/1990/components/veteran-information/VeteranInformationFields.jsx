@@ -1,13 +1,6 @@
 import React from 'react';
 
-import ErrorableCurrentOrPastDate from '../../../../common/components/form-elements/ErrorableCurrentOrPastDate';
-import FullName from '../../../../common/components/questions/FullName';
-import SocialSecurityNumber from '../../../../common/components/questions/SocialSecurityNumber';
-import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
-
-import { binaryGenders } from '../../utils/options-for-select';
-import { isValidDateOver17 } from '../../../../common/utils/validations';
-import FormPage from '../../../common/forms/FormPage';
+import FormPage from '../../../../common/forms/FormPage';
 
 const schema = {
   type: 'object',
@@ -57,11 +50,23 @@ const schema = {
       type: 'string',
       pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$'
     },
-    gender: {
-      title: 'Gender',
-      type: 'string',
-      'enum': ['F', 'M'],
-      enumNames: ['Female', 'Male']
+    group: {
+      type: 'object',
+      required: ['hasGender'],
+      properties: {
+        hasGender: {
+          title: 'Do you feel comfortable providing your gender?',
+          type: 'string',
+          'enum': ['Y', 'N'],
+          enumNames: ['Yes', 'No']
+        },
+        gender: {
+          title: 'Gender',
+          type: 'string',
+          'enum': ['F', 'M'],
+          enumNames: ['Female', 'Male']
+        }
+      }
     }
   }
 };
@@ -82,47 +87,28 @@ const uiSchema = {
   veteranDateOfBirth: {
     'ui:field': 'mydate'
   },
-  gender: {
-    'ui:widget': 'radio'
+  group: {
+    'ui:field': 'expandableGroup',
+    'ui:options': {
+      questionField: 'hasGender',
+      expandingField: 'gender',
+      questionMatchValue: 'Y'
+    },
+    hasGender: {
+      'ui:widget': 'radio'
+    },
+    gender: {
+      'ui:widget': 'radio'
+    }
   }
 };
 
 export default class PersonalInformationFields extends React.Component {
   render() {
     return (
-      <FormPage uiSchema={uiSchema} schema={schema} formData={formData} errorMessages={errorMessages}/>
-    );
-  }
-  oldRender() {
-    return (
-      <fieldset>
-        <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>
-        <p><span className="form-required-span">*</span>Indicates a required field</p>
-        <legend className="hide-for-small-only">Veteran information</legend>
-        <div className="input-section">
-          <FullName required
-              name={this.props.data.veteranFullName}
-              onUserInput={(update) => {this.props.onStateChange('veteranFullName', update);}}/>
-          <SocialSecurityNumber required
-              ssn={this.props.data.veteranSocialSecurityNumber}
-              onValueChange={(update) => {this.props.onStateChange('veteranSocialSecurityNumber', update);}}/>
-          <ErrorableCurrentOrPastDate required
-              validation={{
-                valid: isValidDateOver17(day.value, month.value, year.value),
-                message: 'You must be at least 17 to apply'
-              }}
-              invalidMessage="Please provide a valid date of birth"
-              name="veteranBirth"
-              date={this.props.data.veteranDateOfBirth}
-              onValueChange={(update) => {this.props.onStateChange('veteranDateOfBirth', update);}}/>
-          <ErrorableRadioButtons
-              label="Gender"
-              name="gender"
-              options={binaryGenders}
-              value={this.props.data.gender}
-              onValueChange={(update) => {this.props.onStateChange('gender', update);}}/>
-        </div>
-      </fieldset>
+      <div className="input-section">
+        <FormPage uiSchema={uiSchema} schema={schema} formData={formData} errorMessages={errorMessages}/>
+      </div>
     );
   }
 }

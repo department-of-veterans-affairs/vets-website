@@ -6,11 +6,13 @@ import { uiSchemaValidate, transformErrors } from './validation';
 import FieldTemplate from './FieldTemplate';
 import * as widgets from './widgets';
 import DateField from './DateField';
+import ExpandableField from './ExpandableField';
 
 import { focusElement } from '../utils/helpers';
 
 const fields = {
-  mydate: DateField
+  mydate: DateField,
+  expandableGroup: ExpandableField
 };
 
 const scrollToFirstError = () => {
@@ -55,7 +57,7 @@ export default class FormPage extends React.Component {
     scrollToFirstError();
   }
   onSubmit() {
-    console.log('Hooray!');
+    // console.log('Hooray!');
   }
   validate(formData, errors) {
     if (this.props.uiSchema) {
