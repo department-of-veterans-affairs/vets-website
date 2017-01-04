@@ -77,7 +77,7 @@ time npm run test:unit;
 # Build and run tests against production
 build production;
 
-BUILDTYPE=production;
+export BUILDTYPE=production;
 
 # Bootstrap selenium for all nightwatch-based tests
 time npm run selenium:bootstrap;
