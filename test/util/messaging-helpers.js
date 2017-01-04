@@ -439,6 +439,41 @@ export function initApplicationSubmitMock() {
     uri: `${E2eHelpers.apiUrl}/mock`,
     method: 'POST',
     json: {
+      path: '/v0/messaging/health/messages/123',
+      verb: 'get',
+      value: message,
+    }
+  });
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/messaging/health/messages/1',
+      verb: 'get',
+      value: {
+        data: {
+          ...thread.data[2],
+        }
+      },
+    }
+  });
+
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/messaging/health/messages/123/thread',
+      verb: 'get',
+      value: thread,
+    }
+  });
+
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
       path: '/v0/messaging/health/recipients',
       verb: 'get',
       value: recipients,
