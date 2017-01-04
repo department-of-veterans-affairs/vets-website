@@ -34,7 +34,7 @@ class EduBenefitsApp extends React.Component {
     const a = nextProps.submission.status;
     const b = this.props.submission.status;
     if (a !== b && a === 'applicationSubmitted') {
-      this.props.router.push('/submit-message');
+      this.props.router.push('/1990/submit-message');
       scrollToTop();
     }
   }
