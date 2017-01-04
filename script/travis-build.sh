@@ -1,5 +1,8 @@
 #!/bin/bash
 
-echo "Hello world";
+if [ -f something.txt ]
+then
+  exit 1;
+fi
 
 exit 0;
