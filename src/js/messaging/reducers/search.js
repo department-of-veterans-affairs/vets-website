@@ -18,7 +18,6 @@ const initialState = {
       start: null,
       end: null
     },
-    term: makeField(''),
     from: {
       field: makeField(''),
       exact: false

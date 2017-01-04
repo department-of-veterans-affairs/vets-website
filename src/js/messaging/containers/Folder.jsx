@@ -113,10 +113,6 @@ export class Folder extends React.Component {
   buildSearchQuery(object) {
     const filters = {};
 
-    if (object.term.value) {
-      filters['filter[[subject][match]]'] = object.term.value;
-    }
-
     if (object.from.field.value) {
       const fromExact = object.from.exact ? 'eq' : 'match';
       filters[`filter[[sender_name][${fromExact}]]`] = object.from.field.value;

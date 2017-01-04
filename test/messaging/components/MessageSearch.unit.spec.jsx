@@ -1,6 +1,8 @@
 import React from 'react';
+import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { makeField } from '../../../src/js/common/model/fields';
 import MessageSearch from '../../../src/js/messaging/components/MessageSearch';
@@ -12,9 +14,14 @@ const props = {
       start: null,
       end: null
     },
-    term: makeField(''),
-    from: makeField(''),
-    subject: makeField('')
+    from: {
+      field: makeField(''),
+      exact: false
+    },
+    subject: {
+      field: makeField(''),
+      exact: false
+    }
   },
   onAdvancedSearch: () => {},
   onError: () => {},
@@ -40,6 +47,67 @@ describe('MessageSearch', () => {
       <MessageSearch {...props } isAdvancedVisible={true}/>
     );
     expect(tree.subTree('.msg-search-simple-wrap')).to.be.false;
+  });
+
+  it('should submit basic search when advanced is hidden', () => {
+    const params = {
+      dateRange: {
+        start: null,
+        end: null
+      },
+      from: {
+        field: makeField('test2', true),
+        exact: false
+      },
+      subject: {
+        field: makeField('test1', true),
+        exact: true
+      }
+    };
+
+    const onSubmit = sinon.spy();
+
+    const messageSearch = ReactTestUtils.renderIntoDocument(
+      <MessageSearch
+          {...props }
+          params={params}
+          onSubmit={onSubmit}/>
+    );
+
+    messageSearch.handleSubmit({ preventDefault: () => {} });
+    expect(onSubmit.calledWith({
+      subject: { field: makeField('test1', true), exact: false }
+    })).to.be.true;
+  });
+
+  it('should submit advanced search when advanced is visible', () => {
+    const params = {
+      dateRange: {
+        start: null,
+        end: null
+      },
+      from: {
+        field: makeField('test2', true),
+        exact: false
+      },
+      subject: {
+        field: makeField('test1', true),
+        exact: true
+      }
+    };
+
+    const onSubmit = sinon.spy();
+
+    const messageSearch = ReactTestUtils.renderIntoDocument(
+      <MessageSearch
+          {...props }
+          isAdvancedVisible={true}
+          params={params}
+          onSubmit={onSubmit}/>
+    );
+
+    messageSearch.handleSubmit({ preventDefault: () => {} });
+    expect(onSubmit.calledWith(params)).to.be.true;
   });
 });
 
