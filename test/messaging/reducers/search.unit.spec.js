@@ -19,7 +19,6 @@ const initialState = {
       start: null,
       end: null
     },
-    term: makeField(''),
     from: {
       field: makeField(''),
       exact: false
@@ -93,29 +92,20 @@ describe('search reducer', () => {
   });
 
   it('should set search params', () => {
-    const basicQuery = makeField('basic search', true);
-    let newState = searchReducer(initialState, {
-      type: SET_SEARCH_PARAM,
-      path: 'term',
-      field: basicQuery
-    });
-    expect(newState.params.term).to.eql(basicQuery);
-
     const fromFieldQuery = makeField('Clinician 1', true);
-    newState = searchReducer(newState, {
+    let newState = searchReducer(initialState, {
       type: SET_SEARCH_PARAM,
       path: 'from.field',
       field: fromFieldQuery
     });
     expect(newState.params.from.field).to.eql(fromFieldQuery);
 
-    const fromExactQuery = makeField(true, true);
     newState = searchReducer(newState, {
       type: SET_SEARCH_PARAM,
       path: 'from.exact',
-      field: fromExactQuery
+      field: true
     });
-    expect(newState.params.from.exact).to.eql(fromExactQuery);
+    expect(newState.params.from.exact).to.eql(true);
 
     const subjectFieldQuery = makeField('tests', true);
     newState = searchReducer(newState, {
@@ -125,12 +115,11 @@ describe('search reducer', () => {
     });
     expect(newState.params.subject.field).to.eql(subjectFieldQuery);
 
-    const subjectExactQuery = makeField(true, true);
     newState = searchReducer(newState, {
       type: SET_SEARCH_PARAM,
       path: 'subject.exact',
-      field: subjectExactQuery
+      field: true
     });
-    expect(newState.params.subject.exact).to.eql(subjectExactQuery);
+    expect(newState.params.subject.exact).to.eql(true);
   });
 });

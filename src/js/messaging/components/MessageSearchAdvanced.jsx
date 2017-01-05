@@ -135,17 +135,19 @@ MessageSearchAdvanced.propTypes = {
       start: React.PropTypes.object,
       end: React.PropTypes.object
     }),
-    term: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
-    }),
     from: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+      field: React.PropTypes.shape({
+        value: React.PropTypes.string,
+        dirty: React.PropTypes.bool
+      }),
+      exact: React.PropTypes.bool
     }),
     subject: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+      field: React.PropTypes.shape({
+        value: React.PropTypes.string,
+        dirty: React.PropTypes.bool
+      }),
+      exact: React.PropTypes.bool
     })
   }).isRequired
 };

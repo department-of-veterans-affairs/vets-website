@@ -5,16 +5,14 @@ table {
   @media #{$small-only} {
     font-size: .85em;
   }
+}
 
-  thead {
-    td {
-      background-color: $color-gray-lightest;
-    }
+thead {
+  td {
+    background-color: $color-gray-lightest;
   }
 }
 
-// No need to nest this since caption is only
-// ever used with tables.
 caption {
   text-align: left;
   padding: 0 0 .25em;
@@ -39,9 +37,14 @@ tr {
   background: $color-white !important;
 }
 
+// Use when a table needs to overflow a container horizontally
 .va-table-overflow {
   overflow: auto;
   width: 100%;
+
+  td {
+    vertical-align: top;
+  }
 }
 
 // Tables with rows that are sortable by the headers.
@@ -87,5 +90,16 @@ tr {
       display: table-row;
       border: none;
     }
+  }
+}
+
+// Use for tables that contain long blocks of text to explain things
+// ex: https://www.vets.gov/education/gi-bill/survivors-dependent-assistance/
+.va-table-explanatory {
+  td, th[scope=row] {
+    vertical-align: top;
+  }
+  ul, ol {
+    margin: 0;
   }
 }

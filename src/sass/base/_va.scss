@@ -1848,18 +1848,19 @@ li.twenty:before {content: '20';}
 // Disclaimer
 .disclaimer {
   padding: 1em 0;
+  background: $color-white;
   border-top: 1px solid #ddd;
   color: $color-va-gray-cool-dark;
-  background: $color-white;
-
-  &.minimal {
-    border-top: none;
-    padding: .25em 0;
-  }
-
   p {
     font-size: 0.8em;
   }
+}
+
+// Formerly .disclaimer.minimal
+.va-note {
+  color: $color-va-gray-cool-dark;
+  font-size: 1.28rem;
+  padding: .25em 0;
 }
 
 // Info block
