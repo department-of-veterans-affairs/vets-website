@@ -6,8 +6,9 @@ import ErrorableNumberInput from '../../../../common/components/form-elements/Er
 import ErrorableSelect from '../../../../common/components/form-elements/ErrorableSelect';
 import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
 import { isValidPartialMonthYearInPast, isValidPartialMonthYearRange } from '../../../../common/utils/validations';
+import { states } from '../../../../common/utils/options-for-select';
 
-import { states, hoursTypes } from '../../utils/options-for-select';
+import { hoursTypes } from '../../utils/options-for-select';
 import EducationPeriodReview from './EducationPeriodReview';
 
 export default class EducationPeriod extends React.Component {
