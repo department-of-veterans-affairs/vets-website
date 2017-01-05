@@ -3,7 +3,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import * as validations from '../utils/validations';
-import { focusElement, getScrollOptions } from '../../common/utils/helpers';
+import { focusElement, getScrollOptions } from '../../../common/utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

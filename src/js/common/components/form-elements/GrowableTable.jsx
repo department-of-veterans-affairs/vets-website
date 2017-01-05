@@ -3,7 +3,6 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 import { set } from 'lodash/fp';
 
-import { isValidSection } from '../../utils/validations';
 import { focusElement, getScrollOptions } from '../../utils/helpers';
 
 const Element = Scroll.Element;
