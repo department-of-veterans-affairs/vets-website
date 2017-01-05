@@ -3,7 +3,7 @@ title: Apply for Health Care
 entryname: hca
 layout: page-react.html
 body_class: page-healthcare
-in_maintenance: true
+in_maintenance: false
 maintenance_line1: Scheduled Maintenance
 maintenance_line2: Please try again after 12pm EST Saturday, January 7th.
 
