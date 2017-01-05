@@ -39,11 +39,6 @@ You may also get benefits for certain illnesses that were found more than 1 year
   - Tuberculosis
   - Visceral leishmaniasis
 
-##### If you served in the Southwest Asia theater of military operations:
-
-[Learn more about service in Southwest Asia](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp).
-
-
 <br>
 
 ### Who's covered?
@@ -61,7 +56,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. 
+You’ll need to apply for benefits. [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
 Many different conditions may be part of Gulf War Illness. Send in a claim if you have any of the following:
 -	Fibromyalgia 
@@ -72,4 +67,4 @@ Many different conditions may be part of Gulf War Illness. Send in a claim if yo
 -	Trouble sleeping
 -	Heart disease
 
-[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
+[Learn more about service in Southwest Asia](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp).
