@@ -221,17 +221,21 @@ hr {
       padding: 0 0.75em;
     }
   }
+}
 
-  .top-banner {
-    padding: 1em 0.75em 0;
+.va-header-logosearch {
+  padding: 1em 0.75em 0;
+
+  // Fixes overflow of content at < 320px viewports
+  @include media($xsmall-screen) {
     display: flex;
     align-items: center;
   }
+}
 
-  .flex-auto {
-    flex: 1 1 auto;
-    min-width: 0;
-    min-height: 0;
+.va-header-logo-wrapper {
+  @include media($xsmall-screen) {
+    flex: 1 1 60rem;
   }
 }
 
@@ -1465,18 +1469,12 @@ a.twitter {
 }
 
 .search-button {
-  margin: 0.1em .5em 0 0;
+  margin: 1em .5em 0 0;
   padding: 0;
-  float: right;
-  a {
-    line-height: 1em;
-    display: inline-block;
-    padding: .41em;
-    font-size: .85em;
-    border-radius: .2em;
-    text-decoration: none;
-    background: $color-primary;
-    color: $color-white;
+
+  @include media($xsmall-screen) {
+    float: right;
+    margin-top: 0.1em;
   }
 }
 
@@ -2192,9 +2190,9 @@ p.info-message {
 }
 
 
-/*==================
-New .plain rewrite
-===================*/
+//==================
+// New .plain rewrite
+//===================
 
 .va-list--plain {
   list-style: none;
