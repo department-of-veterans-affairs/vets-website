@@ -7,6 +7,8 @@ template: 4-action-page
 
 If you served at—or were assigned to—Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants (toxic chemicals) in the drinking water there. Scientists believe that contact with these contaminants during military service caused certain illnesses. This is known as a presumptive service connection. If you or a family member has an illness with a presumptive service connection, find out if you can get disability compensation or benefits.
 
+<div class="call-out" markdown="1">
+
 ### Can I get disability benefits from VA?
 
 You may be able to get disability benefits if you served under official orders or other official assignment at Camp Lejeune or MCAS New River for any period of time from August 1953 through December 1987 and:
@@ -29,6 +31,8 @@ You may be able to get disability benefits if you served under official orders o
 - Servicemembers
 - Reservists
 - Guardsmen
+
+</div>
 
 ### What kind of disability benefits can I get?
 
@@ -104,7 +108,7 @@ When you apply, please provide:
 
 ### What was in the drinking water?
 
-Two on-base water wells that were shut down in 1985 had the following chemicals:
+2 on-base water wells that were shut down in 1985 had the following chemicals:
 
 - Trichloroethylene (TCE)
 - Perchloroethylene (PCE)
