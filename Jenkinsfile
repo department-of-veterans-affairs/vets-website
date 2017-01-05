@@ -145,6 +145,8 @@ node('vets-website-linting') {
   }
 
   stage('Deploy') {
+    return // Remove when Travis is no longer performing the deployment
+
     if (!isDeployable()) {
       return
     } 
