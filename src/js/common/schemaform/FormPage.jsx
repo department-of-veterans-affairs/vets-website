@@ -7,16 +7,12 @@ import { uiSchemaValidate, transformErrors } from './validation';
 import FieldTemplate from './FieldTemplate';
 import * as widgets from './widgets';
 import DateField from './DateField';
-import ExpandableField from './ExpandableField';
-import ArrayField from './ArrayField';
 import ProgressButton from '../components/form-elements/ProgressButton';
 
 import { focusElement } from '../utils/helpers';
 
 const fields = {
-  mydate: DateField,
-  expandableGroup: ExpandableField,
-  ArrayField
+  mydate: DateField
 };
 
 const scrollToFirstError = () => {
