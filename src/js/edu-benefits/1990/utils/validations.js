@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
-import { showRelinquishedEffectiveDate } from '../../utils/helpers';
+import { showSchoolAddress, showRelinquishedEffectiveDate } from '../../utils/helpers';
 import { dateToMoment } from '../../../common/utils/helpers';
 import {
   isBlank,
@@ -23,7 +23,9 @@ import {
   isValidPhone,
   isValidRequiredField,
   isValidSSN,
-  isValidYear
+  isValidYear,
+  isValidCanPostalCode,
+  isValidUSZipCode
 } from '../../../common/utils/validations';
 
 function isValidMonetaryValue(value) {
@@ -61,12 +63,22 @@ function isValidAddressField(field) {
     isNotBlank(field.city.value) &&
     isNotBlank(field.country.value);
 
+  let isValidPostalCode = true;
+
+  if (field.country.value === 'USA') {
+    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidUSZipCode, field.postalCode);
+  }
+
+  if (field.country.value === 'CAN') {
+    isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidCanPostalCode, field.postalCode);
+  }
+
   // if we have a defined list of values, they will
   // be set as the state and zipcode keys
   if (_.hasIn(states, field.country.value)) {
     return initialOk &&
       isNotBlank(field.state.value) &&
-      isNotBlank(field.postalCode.value);
+      isValidPostalCode;
   }
   // if the entry was non-USA/CAN/MEX, only postal is
   // required, not provinceCode
@@ -121,7 +133,8 @@ function isValidServicePeriodsPage(data) {
 }
 
 function isValidSchoolSelectionPage(data) {
-  return isValidFutureOrPastDateField(data.educationStartDate);
+  return isValidFutureOrPastDateField(data.educationStartDate)
+    && (!showSchoolAddress(data.educationType.value) || isBlankAddress(data.school.address) || isValidAddressField(data.school.address));
 }
 
 function isValidEmploymentPeriod(data) {
@@ -255,10 +268,12 @@ export {
   isValidEducationHistoryPage,
   isValidMilitaryServicePage,
   isValidServicePeriodsPage,
+  isValidSchoolSelectionPage,
   isValidPage,
   isValidRelinquishedDate,
   isValidTourOfDuty,
   isValidEmploymentPeriod,
   isValidRotcScholarshipAmount,
-  isValidEducationPeriod
+  isValidEducationPeriod,
+  isValidAddressField
 };

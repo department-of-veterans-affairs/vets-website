@@ -30,15 +30,11 @@ module.exports = {
         path: 'logs/screenshots'
       },
       desiredCapabilities: {
-        // browserName: 'firefox',
         browserName: 'phantomjs',
         javascriptEnabled: true,
         acceptSslCerts: true,
         webStorageEnabled: true,
-        'phantomjs.binary.path': require('phantomjs-prebuilt').path
-        // 'phantomjs.cli.args' : ['--remote-debugger-port=9001', '--remote-debugger-autorun=yes']
-      },
-      globals: {
+        'phantomjs.binary.path': require('phantomjs-prebuilt').path,
       },
       selenium: {
         start_process: true,
@@ -47,7 +43,11 @@ module.exports = {
         log_path: './logs/selenium',
         host: '127.0.0.1',
         port: selenium_server_port,
-      }
+      },
+      test_workers: {
+        enabled: true,
+        workers: 10,
+      },
     },
 
     accessibility: {
@@ -61,7 +61,11 @@ module.exports = {
         acceptSslCerts: true,
         webStorageEnabled: true,
         'phantomjs.binary.path': require('phantomjs-prebuilt').path
-      }
+      },
+      test_workers: {
+        enabled: true,
+        workers: 1,
+      },
     }
   }
 };
