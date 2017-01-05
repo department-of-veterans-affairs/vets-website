@@ -8,6 +8,12 @@
 }
 
 .rx-table-list {
+  tr.no-refills {
+    td:nth-child(5) {
+      color: red;
+    }
+  }
+
   @media (max-width: $medium-screen) {
     tr {
       padding: 1.5rem 0;

@@ -2,10 +2,6 @@
 #
 # This script is triggered by `./travis.yml` for TravisCI builds. It executes the
 # proper test and build depending on the given $TRAVIS_BRANCH.
-#
-# Since there are minor differences between the production and development build
-# types, both types are built and tested with unit and e2e tests. The accessibility
-# test suite will run over PRs to the `production` branch.
 
 set -e
 
@@ -32,11 +28,7 @@ fi
 
 if [[ $TRAVIS_BRANCH =~ ^content/wip/.* ]]
 then
-  if [[ $BUILDTYPE == "development" ]]
-  then
-    time npm run build -- --buildtype development
-  fi
-
+  time npm run build -- --buildtype development;
   exit 1; # These builds always fail with Travis to prevent merges
 fi
 
@@ -44,30 +36,48 @@ fi
 time npm install -g nsp
 time nsp check
 
-# Run lint and perform a build
-time npm run lint;
-time npm run build -- --buildtype $BUILDTYPE;
+build() {
+  time npm run build -- --buildtype $1;
 
-# Add build details to BUILD.txt
-BUILD_DETAILS_FILE=build/$BUILDTYPE/BUILD.txt
-echo "BUILDTYPE=$BUILDTYPE" > $BUILD_DETAILS_FILE
-echo "NODE_ENV=$NODE_ENV" >> $BUILD_DETAILS_FILE
-echo "TRAVIS_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER" >> $BUILD_DETAILS_FILE
-echo "TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER" >> $BUILD_DETAILS_FILE
-echo "TRAVIS_COMMIT=$TRAVIS_COMMIT" >> $BUILD_DETAILS_FILE
-echo "TRAVIS_COMMIT_RANGE=$TRAVIS_COMMIT_RANGE" >> $BUILD_DETAILS_FILE
-echo "TRAVIS_BRANCH=$TRAVIS_BRANCH" >> $BUILD_DETAILS_FILE
+  # Add build details to BUILD.txt
+  BUILD_DETAILS_FILE=build/$1/BUILD.txt
+  echo "BUILDTYPE=$1" > $BUILD_DETAILS_FILE
+  echo "NODE_ENV=$NODE_ENV" >> $BUILD_DETAILS_FILE
+  echo "TRAVIS_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER" >> $BUILD_DETAILS_FILE
+  echo "TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER" >> $BUILD_DETAILS_FILE
+  echo "TRAVIS_COMMIT=$TRAVIS_COMMIT" >> $BUILD_DETAILS_FILE
+  echo "TRAVIS_COMMIT_RANGE=$TRAVIS_COMMIT_RANGE" >> $BUILD_DETAILS_FILE
+  echo "TRAVIS_BRANCH=$TRAVIS_BRANCH" >> $BUILD_DETAILS_FILE
+}
 
-# Don't run tests for pushes to production. Tests were already run with the
-# PR build that was merged and caused this to run.
-
-if [[ $TRAVIS_BRANCH == "production" ]]
+if [[ $TRAVIS_BRANCH == "production" &&
+      $TRAVIS_PULL_REQUEST == "false" ]]
 then
+  # Will deploy production, tests have already been run from source PR
+  build production;
   exit 0;
 fi
 
-# Run unit tests
+if [[ $TRAVIS_BRANCH == "master" &&
+      $TRAVIS_PULL_REQUEST == "false" ]]
+then
+  # We will deploy development build to development, and staging build
+  # to staging.
+  build development &
+  build staging &
+  wait;
+fi
+
+# Run lint
+time npm run lint;
+
+# Run the unit tests
 time npm run test:unit;
+
+# Build and run tests against production
+build production;
+
+export BUILDTYPE=production;
 
 # Bootstrap selenium for all nightwatch-based tests
 time npm run selenium:bootstrap;
@@ -76,14 +86,4 @@ time npm run selenium:bootstrap;
 time npm run test:e2e;
 
 # Run accessibility tests
-#
-# This is triggered for the development build type to ensure that all new
-# features are tested. If features are available in production that are not
-# available in development, then this will need to be evaluated.
-#
-# After we throw more power at these builds and don't have runtime issues, then
-# we should remove this condition and perform this across all build types.
-if [[ $BUILDTYPE == "development" ]]
-then
-  time npm run test:accessibility;
-fi
+time npm run test:accessibility;

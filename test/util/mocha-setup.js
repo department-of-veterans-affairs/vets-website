@@ -3,6 +3,7 @@ import chaiAsPromised from 'chai-as-promised';
 import jsdom from 'jsdom';
 
 global.__BUILDTYPE__ = process.env.BUILDTYPE || 'development';
+global.__SAMPLE_ENABLED__ = (process.env.SAMPLE_ENABLED === 'true');
 
 chai.use(chaiAsPromised);
 
