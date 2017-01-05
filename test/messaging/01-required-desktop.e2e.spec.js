@@ -7,7 +7,9 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
   module.exports = E2eHelpers.createE2eTest(
     (client) => {
       MessagingHelpers.initApplicationSubmitMock();
-      LoginHelpers.logIn(client, '/healthcare/messaging', 3);
+
+      const token = LoginHelpers.getUserToken();
+      LoginHelpers.logIn(token, client, '/healthcare/messaging', 3);
 
       // Desktop test
       client.resizeWindow(1000, 800);
