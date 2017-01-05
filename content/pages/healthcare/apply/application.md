@@ -5,7 +5,7 @@ layout: page-react.html
 body_class: page-healthcare
 in_maintenance: true
 maintenance_line1: Scheduled Maintenance
-maintenance_line2: Please try again after 12pm EST Saturday, January 7th.
+maintenance_line2: Please try again after 12pm EST Sunday, January 8th.
 
 ---
 <div id="main">
