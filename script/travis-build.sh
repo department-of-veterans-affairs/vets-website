@@ -58,12 +58,10 @@ echo "TRAVIS_COMMIT=$TRAVIS_COMMIT" >> $BUILD_DETAILS_FILE
 echo "TRAVIS_COMMIT_RANGE=$TRAVIS_COMMIT_RANGE" >> $BUILD_DETAILS_FILE
 echo "TRAVIS_BRANCH=$TRAVIS_BRANCH" >> $BUILD_DETAILS_FILE
 
-# Don't run tests for pushes to production or master. Tests were already run
-# with the PR build that was merged and caused this to run.
+# Don't run tests for pushes to production. Tests were already run with the
+# PR build that was merged and caused this to run.
 
-if [[ ( $TRAVIS_BRANCH == "production" ||
-        $TRAVIS_BRANCH == "master" ) &&
-      $TRAVIS_PULL_REQUEST == "false" ]]
+if [[ $TRAVIS_BRANCH == "production" ]]
 then
   exit 0;
 fi

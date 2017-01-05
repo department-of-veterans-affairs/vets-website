@@ -113,25 +113,21 @@ export class Folder extends React.Component {
   buildSearchQuery(object) {
     const filters = {};
 
-    if (object.term.value) {
-      filters['filter[[subject][match]]'] = object.term.value;
-    }
-
-    if (object.from.field.value) {
+    if (_.get(object, 'from.field.value')) {
       const fromExact = object.from.exact ? 'eq' : 'match';
       filters[`filter[[sender_name][${fromExact}]]`] = object.from.field.value;
     }
 
-    if (object.subject.field.value) {
+    if (_.get(object, 'subject.field.value')) {
       const subjectExact = object.subject.exact ? 'eq' : 'match';
       filters[`filter[[subject][${subjectExact}]]`] = object.subject.field.value;
     }
 
-    if (object.dateRange.start) {
+    if (_.get(object, 'dateRange.start')) {
       filters['filter[[sent_date][gteq]]'] = object.dateRange.start.format();
     }
 
-    if (object.dateRange.end) {
+    if (_.get(object, 'dateRange.end')) {
       filters['filter[[sent_date][lteq]]'] = object.dateRange.end.format();
     }
 

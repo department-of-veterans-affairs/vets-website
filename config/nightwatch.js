@@ -49,7 +49,11 @@ module.exports = {
         log_path: './logs/selenium',
         host: '127.0.0.1',
         port: selenium_server_port,
-      }
+      },
+      test_workers: {
+        enabled: true,
+        workers: 10,
+      },
     },
 
     accessibility: {
@@ -62,15 +66,12 @@ module.exports = {
         javascriptEnabled: true,
         acceptSslCerts: true,
         webStorageEnabled: true,
-        chromeOptions: {
-          binary: electron
-        }
+        'phantomjs.binary.path': require('phantomjs-prebuilt').path
       },
-      selenium: {
-        cli_args: {
-          'webdriver.chrome.driver': chromedriver.path
-        }
-      }
+      test_workers: {
+        enabled: true,
+        workers: 1,
+      },
     }
   }
 };

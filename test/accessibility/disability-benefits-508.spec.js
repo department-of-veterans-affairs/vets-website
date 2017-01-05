@@ -5,17 +5,18 @@ const LoginHelpers = require('../util/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    DisabilityHelpers.initClaimsListMock();
-    DisabilityHelpers.initClaimDetailMocks(false, false, false, 3);
+    const token = LoginHelpers.getUserToken();
 
-    LoginHelpers.logIn(client, '/disability-benefits/track-claims', 3);
+    DisabilityHelpers.initClaimsListMock(token);
+    DisabilityHelpers.initClaimDetailMocks(token, false, false, false, 3);
+
+    LoginHelpers.logIn(token, client, '/disability-benefits/track-claims', 3);
 
     // Claim list page
     client
       .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`);
 
     // Click consolidated claims button
-
     client
       .waitForElementVisible('a.claim-list-item', Timeouts.slow)
       .axeCheck('.main');

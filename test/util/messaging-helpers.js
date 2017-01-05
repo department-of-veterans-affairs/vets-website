@@ -1,3 +1,5 @@
+const mock = require('./mock-helpers');
+
 export const folders = {
   data: [
     {
@@ -385,3 +387,40 @@ export const recipients = {
     }
   }
 };
+
+// Create API routes
+export function initApplicationSubmitMock(token) {
+  mock(token, {
+    path: '/v0/messaging/health/folders',
+    verb: 'get',
+    value: folders,
+  });
+
+  mock(token, {
+    path: '/v0/messaging/health/folders/0',
+    verb: 'get',
+    value: {
+      data: {
+        ...folders.data[0],
+      }
+    }
+  });
+
+  mock(token, {
+    path: '/v0/messaging/health/folders/0/messages',
+    verb: 'get',
+    value: messages,
+  });
+
+  mock(token, {
+    path: '/v0/messaging/health/messages',
+    verb: 'post',
+    value: message,
+  });
+
+  mock(token, {
+    path: '/v0/messaging/health/recipients',
+    verb: 'get',
+    value: recipients,
+  });
+}
