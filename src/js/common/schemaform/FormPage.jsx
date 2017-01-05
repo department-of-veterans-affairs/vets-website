@@ -37,6 +37,10 @@ const scrollToTop = () => {
   });
 };
 
+/*
+ * Each page uses this component and passes in config. This is where most of the page level
+ * form logic should live.
+ */
 class FormPage extends React.Component {
   constructor(props) {
     super(props);
@@ -137,14 +141,18 @@ class FormPage extends React.Component {
   }
 }
 
-// FormPage.propTypes = {
-//   schema: React.PropTypes.object.isRequired,
-//   uiSchema: React.PropTypes.object.isRequired,
-//   formData: React.PropTypes.object.isRequired,
-//   errorMessages: React.PropTypes.object,
-//   validations: React.PropTypes.object,
-//   validate: React.PropTypes.func,
-//   onSubmit: React.PropTypes.func.isRequired
-// }
+FormPage.propTypes = {
+  route: React.PropTypes.shape({
+    pageConfig: React.PropTypes.shape({
+      schema: React.PropTypes.object.isRequired,
+      uiSchema: React.PropTypes.object.isRequired,
+      initialData: React.PropTypes.object.isRequired,
+      errorMessages: React.PropTypes.object
+    }),
+    pageList: React.PropTypes.arrayOf(React.PropTypes.shape({
+      path: React.PropTypes.string.isRequired
+    }))
+  })
+};
 
 export default withRouter(FormPage);

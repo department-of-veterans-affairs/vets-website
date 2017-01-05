@@ -1,5 +1,12 @@
 import _ from 'lodash/fp';
 
+/*
+ * This contains the code for supporting our own custom validations and messages
+ */
+
+/*
+ * Override the default messages for these json schema error types
+ */
 const defaultMessages = {
   required: 'Please provide a response',
   maxLength: (max) => `This field should be less than ${max} characters`,
@@ -18,6 +25,13 @@ function getMessage(path, name, messages, errorArgument) {
     : messages[name];
 }
 
+/*
+ * This takes the list of errors outputted by the json schema node library
+ * and moves the required errors to the missing field, rather than the containing
+ * object.
+ *
+ * It also replaces the error messages with any form specific messages.
+ */
 export function transformErrors(errors, messages) {
   const errorMessages = _.merge(defaultMessages, messages);
   const newErrors = errors.map(error => {
@@ -41,11 +55,14 @@ export function transformErrors(errors, messages) {
 }
 
 /**
+ * This pulls custom validations specified in the uiSchema and validates the formData
+ * against them.
+ *
  * Expects validations that look like:
  *
- * key: {
+ * someField: {
  *   "ui:validations": [
- *     someFunction,
+ *     someValidationFunction,
  *   ]
  * }
  *

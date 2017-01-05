@@ -3,6 +3,10 @@ import Scroll from 'react-scroll';
 
 const Element = Scroll.Element;
 
+/*
+ * Primary component for a schema generated form app. Will eventually
+ * have the Nav components
+ */
 export default class FormApp extends React.Component {
   render() {
     const { currentLocation } = this.props;

@@ -41,13 +41,23 @@ function createPageList(formConfig, formPages) {
     });
 }
 
+/*
+ * Create the routes based on a form config. This goes through each chapter in a form
+ * config, pulls out the config for each page, then generates a list of Route components with the
+ * config as props
+ */
 export function createRoutes(formConfig) {
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
   let routes = formPages
     .map(page => {
       return (
-        <Route key={page.path} path={page.path} component={FormPage} pageConfig={page} pageList={pageList}/>
+        <Route
+            key={page.path}
+            path={page.path}
+            component={FormPage}
+            pageConfig={page}
+            pageList={pageList}/>
       );
     });
 

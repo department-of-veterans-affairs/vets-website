@@ -1,3 +1,7 @@
+/*
+ * These are schema definitions for some common form fields
+ */
+
 export const fullName = {
   type: 'object',
   title: '',

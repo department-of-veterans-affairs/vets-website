@@ -1,5 +1,9 @@
 import React from 'react';
 
+/*
+ * This is the template for each field (which in the schema library means label + widget)
+ */
+
 export default function FieldTemplate(props) {
   const { id, schema, label, help, required, rawErrors, children, formContext, uiSchema } = props;
   const hasErrors = (formContext.submitted || formContext.touched[id]) && rawErrors && rawErrors.length;

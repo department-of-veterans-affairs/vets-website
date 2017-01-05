@@ -1,5 +1,9 @@
 import React from 'react';
 
+/*
+ * These are widgets that will override the default ones for reat-jsonschema-form
+ */
+
 export function TextWidget(props) {
   return (
     <input type={props.schema.type === 'number' ? 'number' : props.type}
