@@ -67,11 +67,7 @@ If you’ve already filed a claim, you can check your disability compensation cl
 
 </div>
 
-<div class="disclaimer minimal" markdown="1">
-
-(The time frame you see there may vary based on the complexity of your claim.)
-
-</div>
+<div class="va-note" markdown="1">(The time frame you see there may vary based on the complexity of your claim.)</div>
 
 </div>
 </div>
