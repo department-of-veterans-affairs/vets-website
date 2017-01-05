@@ -1,4 +1,4 @@
-import { fullName, ssn } from '../../../common/forms/definitions';
+import { fullName, ssn } from '../../../common/schemaform/definitions';
 import IntroductionPage from '../components/IntroductionPage';
 
 const formConfig = {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FormApp from '../../common/forms/FormApp';
+import FormApp from '../../common/schemaform/FormApp';
 import formConfig from './config/form';
 
 export default function Form1995Entry({ location, children }) {

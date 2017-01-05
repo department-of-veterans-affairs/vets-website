@@ -1,4 +1,4 @@
-import { createRoutes } from '../../common/forms/helpers';
+import { createRoutes } from '../../common/schemaform/helpers';
 import formConfig from './config/form';
 
 const routes = createRoutes(formConfig);
