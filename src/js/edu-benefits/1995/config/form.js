@@ -26,9 +26,6 @@ const formConfig = {
                 widgetClassNames: 'usa-input-medium'
               }
             },
-            veteranDateOfBirth: {
-              'ui:field': 'mydate'
-            },
             gender: {
               'ui:widget': 'radio'
             }

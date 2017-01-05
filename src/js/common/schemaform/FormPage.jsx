@@ -6,13 +6,11 @@ import Form from 'react-jsonschema-form';
 import { uiSchemaValidate, transformErrors } from './validation';
 import FieldTemplate from './FieldTemplate';
 import * as widgets from './widgets';
-import DateField from './DateField';
 import ProgressButton from '../components/form-elements/ProgressButton';
 
 import { focusElement } from '../utils/helpers';
 
 const fields = {
-  mydate: DateField
 };
 
 const scrollToFirstError = () => {
