@@ -218,3 +218,10 @@ table.review td {
     outline: none;
   }
 }
+
+.schemaform-buttons {
+  [type="submit"] {
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+  }
+}

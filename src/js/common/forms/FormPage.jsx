@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
 import Form from 'react-jsonschema-form';
@@ -8,6 +9,7 @@ import * as widgets from './widgets';
 import DateField from './DateField';
 import ExpandableField from './ExpandableField';
 import ArrayField from './ArrayField';
+import ProgressButton from '../components/form-elements/ProgressButton';
 
 import { focusElement } from '../utils/helpers';
 
@@ -31,20 +33,39 @@ const scrollToFirstError = () => {
     }
   }, 100);
 };
+const scroller = Scroll.scroller;
 
-export default class FormPage extends React.Component {
-  static getExternalData(state) {
-    return {
-      neededData: state.otherForm.someData
-    };
-  }
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
+
+class FormPage extends React.Component {
   constructor(props) {
     super(props);
     this.validate = this.validate.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onError = this.onError.bind(this);
-    this.state = { formData: props.formData, formContext: { touched: {}, submitted: false } };
+    this.goBack = this.goBack.bind(this);
+    this.transformErrors = this.transformErrors.bind(this);
+    this.state = this.getEmptyState(props.route.pageConfig);
+  }
+  componentDidMount() {
+    scrollToTop();
+  }
+  componentWillReceiveProps(newProps) {
+    if (newProps.route.pageConfig !== this.props.route.pageConfig) {
+      this.setState(this.getEmptyState(newProps.route.pageConfig));
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.route.pageConfig !== this.props.route.pageConfig) {
+      scrollToTop();
+    }
   }
   onBlur(id) {
     const formContext = _.set(['touched', id], true, this.state.formContext);
@@ -59,16 +80,30 @@ export default class FormPage extends React.Component {
     scrollToFirstError();
   }
   onSubmit() {
-    console.log('Hooray!');
+    const { pageList, pageConfig } = this.props.route;
+    const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, pageList);
+    this.props.router.push(pageList[pageIndex + 1].path);
+  }
+  getEmptyState(pageConfig) {
+    return { formData: pageConfig.initialData, formContext: { touched: {}, submitted: false } };
+  }
+  goBack() {
+    const { pageList, pageConfig } = this.props.route;
+    const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, pageList);
+    this.props.router.push(pageList[pageIndex - 1].path);
+  }
+  transformErrors(errors) {
+    return transformErrors(errors, this.props.route.pageConfig.errorMessages);
   }
   validate(formData, errors) {
-    if (this.props.uiSchema) {
-      uiSchemaValidate(errors, this.props.uiSchema, formData);
+    const { uiSchema } = this.props.route.pageConfig;
+    if (uiSchema) {
+      uiSchemaValidate(errors, uiSchema, formData);
     }
     return errors;
   }
   render() {
-    const { schema, uiSchema } = this.props;
+    const { schema, uiSchema } = this.props.route.pageConfig;
     return (
       <Form
           FieldTemplate={FieldTemplate}
@@ -86,17 +121,36 @@ export default class FormPage extends React.Component {
           formData={this.state.formData}
           widgets={widgets}
           fields={fields}
-          transformErrors={(errors) => transformErrors(errors, this.props.errorMessages)}/>
+          transformErrors={this.transformErrors}>
+        <div className="row form-progress-buttons schemaform-buttons">
+          <div className="small-6 medium-5 columns">
+            <ProgressButton
+                onButtonClick={this.goBack}
+                buttonText="Back"
+                buttonClass="usa-button-outline"
+                beforeText="«"/>
+          </div>
+          <div className="small-6 medium-5 end columns">
+            <ProgressButton
+                submitButton
+                buttonText="Continue"
+                buttonClass="usa-button-primary"
+                afterText="»"/>
+          </div>
+        </div>
+      </Form>
     );
   }
 }
 
-FormPage.propTypes = {
-  schema: React.PropTypes.object.isRequired,
-  uiSchema: React.PropTypes.object.isRequired,
-  formData: React.PropTypes.object.isRequired,
-  errorMessages: React.PropTypes.object,
-  validations: React.PropTypes.object,
-  validate: React.PropTypes.func,
-  onSubmit: React.PropTypes.func.isRequired
-};
+// FormPage.propTypes = {
+//   schema: React.PropTypes.object.isRequired,
+//   uiSchema: React.PropTypes.object.isRequired,
+//   formData: React.PropTypes.object.isRequired,
+//   errorMessages: React.PropTypes.object,
+//   validations: React.PropTypes.object,
+//   validate: React.PropTypes.func,
+//   onSubmit: React.PropTypes.func.isRequired
+// }
+
+export default withRouter(FormPage);

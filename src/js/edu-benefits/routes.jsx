@@ -1,7 +1,9 @@
 import React from 'react';
 import { Route, IndexRedirect } from 'react-router';
 import EduBenefitsApp from './1990/containers/EduBenefitsApp';
+import Form1995App from './1995/Form1995App';
 import routes1990 from './1990/routes';
+import routes1995 from './1995/routes';
 import form1990 from './1990/reducers';
 
 export default function createRoutes(store) {
@@ -18,6 +20,9 @@ export default function createRoutes(store) {
       <IndexRedirect to="1990"/>
       <Route path="1990" onEnter={onEnter(form1990)} component={EduBenefitsApp}>
         {routes1990}
+      </Route>
+      <Route path="1995" component={Form1995App}>
+        {routes1995}
       </Route>
     </Route>
   );
