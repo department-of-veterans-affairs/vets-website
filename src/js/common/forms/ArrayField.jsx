@@ -3,14 +3,16 @@ import _ from 'lodash/fp';
 
 import {
   retrieveSchema,
-  toIdSchema
+  toIdSchema,
+  getDefaultFormState
 } from 'react-jsonschema-form/lib/utils';
 
 export default class ArrayField extends React.Component {
   constructor(props) {
     super(props);
+    const formData = Array.isArray(props.formData) ? props.formData : null;
     this.state = {
-      items: this.props.formData || [],
+      items: getDefaultFormState(props.schema, formData, this.props.registry.definitions) || [],
       editing: (this.props.formData || []).map(() => false)
     };
     this.onItemChange = this.onItemChange.bind(this);

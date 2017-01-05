@@ -46,40 +46,51 @@ export function transformErrors(errors, messages) {
  * key: {
  *   "ui:validations": [
  *     someFunction,
- *     {
- *       validator: someFunction,
- *       options: {}
- *     }
  *   ]
  * }
+ *
+ * The function is passed errors, fieldData, formData, and otherData and
+ * should call addError to add the error.
  */
 
 export function uiSchemaValidate(errors, uiSchema, formData, otherData, path = '') {
   const currentData = _.get(path, formData);
   if (uiSchema.items) {
     currentData.forEach((item, index) => {
-      uiSchemaValidate(errors, uiSchema.items, formData, otherData, `${path}[${index}]`);
+      const newPath = `${path}[${index}]`;
+      if (!_.get(newPath, errors)) {
+        _.get(path, errors)[index] = {
+          __errors: [],
+          addError(error) {
+            this.__errors.push(error);
+          }
+        };
+      }
+      uiSchemaValidate(errors, uiSchema.items, formData, otherData, newPath);
     });
-  }
-  if (uiSchema.properties) {
-    Object.keys(uiSchema.properties).forEach((item) => {
-      const nextPath = path !== '' ? `${path}.${item}` : item;
-      uiSchemaValidate(errors, uiSchema.properties[item], formData, otherData, nextPath);
-    });
+  } else {
+    Object.keys(uiSchema)
+      .filter(prop => !prop.startsWith('ui:'))
+      .forEach((item) => {
+        const nextPath = path !== '' ? `${path}.${item}` : item;
+        if (!_.get(nextPath, errors)) {
+          _.get(path, errors)[item] = {
+            __errors: [],
+            addError(error) {
+              this.__errors.push(error);
+            }
+          };
+        }
+        uiSchemaValidate(errors, uiSchema[item], formData, otherData, nextPath);
+      });
   }
   const validations = uiSchema['ui:validations'];
-  if (validations) {
+  if (validations && currentData) {
     validations.forEach(validation => {
       if (typeof validation === 'function') {
-        const result = validation(currentData, formData, otherData);
-        if (result) {
-          _.get(path, errors).addError(result);
-        }
+        validation(_.get(path, errors), currentData, formData, otherData);
       } else {
-        const result = validation.validator(currentData, formData, otherData, validation.options);
-        if (result) {
-          _.get(path, errors).addError(result);
-        }
+        validation.validator(_.get(path, errors), currentData, formData, otherData, validation.options);
       }
     });
   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 import FormPage from '../../../../common/forms/FormPage';
 
@@ -78,6 +79,22 @@ const schema = {
           branch: {
             type: 'string',
             title: 'Branch of service'
+          },
+          dateRange: {
+            type: 'object',
+            required: ['from'],
+            properties: {
+              from: {
+                title: 'Start date',
+                type: 'string',
+                pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$'
+              },
+              to: {
+                title: 'End date',
+                type: 'string',
+                pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$'
+              },
+            }
           }
         }
       }
@@ -91,7 +108,9 @@ const errorMessages = {
   }
 };
 const formData = {
-  toursOfDuty: [{}]
+  toursOfDuty: [{
+    dateRange: {}
+  }]
 };
 const uiSchema = {
   veteranSocialSecurityNumber: {
@@ -119,6 +138,38 @@ const uiSchema = {
   toursOfDuty: {
     'ui:options': {
       viewField: (props) => <div>{props.formData.branch}<button onClick={props.onEdit}>Edit</button></div>,
+    },
+    items: {
+      dateRange: {
+        'ui:validations': [
+          (errors, { to, from }) => {
+            if (to && from) {
+              const toArray = to.split('-', 2);
+              const fromArray = from.split('-', 2);
+              const toDate = moment({
+                year: toArray[0] === 'XXXX' ? null : toArray[0],
+                month: toArray[1] === 'XX' ? null : parseInt(toArray[1], 10) - 1,
+                day: toArray[2] === 'XX' ? null : parseInt(toArray[2], 10)
+              });
+              const fromDate = moment({
+                year: fromArray[0] === 'XXXX' ? null : fromArray[0],
+                month: fromArray[1] === 'XX' ? null : parseInt(fromArray[1], 10) - 1,
+                day: fromArray[2] === 'XX' ? null : parseInt(fromArray[2], 10)
+              });
+
+              if (!fromDate.isBefore(toDate)) {
+                errors.to.addError('End date must be after start date');
+              }
+            }
+          }
+        ],
+        from: {
+          'ui:field': 'mydate'
+        },
+        to: {
+          'ui:field': 'mydate'
+        }
+      }
     }
   }
 };

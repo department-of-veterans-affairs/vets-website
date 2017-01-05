@@ -59,7 +59,7 @@ export default class FormPage extends React.Component {
     scrollToFirstError();
   }
   onSubmit() {
-    // console.log('Hooray!');
+    console.log('Hooray!');
   }
   validate(formData, errors) {
     if (this.props.uiSchema) {
@@ -81,6 +81,7 @@ export default class FormPage extends React.Component {
           onSubmit={this.onSubmit}
           schema={schema}
           uiSchema={uiSchema}
+          validate={this.validate}
           showErrorList={false}
           formData={this.state.formData}
           widgets={widgets}
