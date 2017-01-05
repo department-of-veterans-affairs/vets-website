@@ -5,15 +5,14 @@ source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_le
 template: 4-action-page
 ---
 
-If you served at—or were assigned to—Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants (toxic chemicals) in the drinking water there. Scientists believe that contact with these contaminants during military service caused certain illnesses. This is known as a presumptive service connection. If you or a family member has an illness with a presumptive service connection, find out if you can get disability compensation or benefits.
+If you served at—or were assigned to—Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants (toxic chemicals) in the drinking water there. Scientists believe that contact with these contaminants during military service caused certain illnesses. This is known as a **presumptive service connection.** If you or a family member has an illness with a presumptive service connection, find out if you can get disability compensation or benefits.
 
 <div class="call-out" markdown="1">
 
 ### Can I get disability benefits from VA?
 
 You may be able to get disability benefits if you served under official orders or other official assignment at Camp Lejeune or MCAS New River for any period of time from August 1953 through December 1987 and:
-
-- You were discharged from the military under conditions other than dishonorable, **and**<br /><br /> 
+- You were discharged from the military under conditions other than dishonorable, **and**
 - You have 1 or more presumptive conditions believed to be caused by contact with contaminants in the Camp Lejeune drinking water. These include:
 
   - Adult leukemia
