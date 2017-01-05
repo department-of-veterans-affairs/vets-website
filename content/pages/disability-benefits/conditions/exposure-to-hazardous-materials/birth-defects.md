@@ -7,7 +7,7 @@ plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
 template: 1-topic-landing
 ---
 
-Spina bifida is a birth defect of the spinal cord that happens when a baby is still in the womb. In some cases, it can be caused by a parent's past contact with certain chemicals (like Agent Orange). If you served in South Vietnam or the Republic of Korea—and your child has spina bifida or certain other birth defects—your child may be able to get disability compensation or benefits.
+Spina bifida is a spinal cord birth defect. A baby develops spina bifida when still in the womb. In some cases, it can be caused by a parent's past contact with certain chemicals. If you served in South Vietnam or the Republic of Korea—and your child has spina bifida or certain other birth defects—your child may be able to get disability compensation or benefits.
 
 <div class="call-out" markdown="1">
 
@@ -46,11 +46,9 @@ Your child may be able to get disability benefits if they have a covered birth d
 
 ### How do I get these benefits for my child?
 
-You'll need to apply for benefits for your child. When you apply, you’ll have to show that your contact with certain chemicals while serving in the military likely caused your child’s birth defect. 
+You'll need to apply for benefits for your child. When you apply, you’ll have to show that your contact with certain chemicals while serving in the military likely caused your child’s birth defect. [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
 We provide financial support at 1 of 3 disability levels. Your child's level will depend on how severe the disability is. 
-
-[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
 ### Get more information
 
