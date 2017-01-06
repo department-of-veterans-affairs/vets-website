@@ -424,30 +424,6 @@ export function initApplicationSubmitMock(token) {
     value: message,
   });
 
-  // request({
-  //   uri: `${E2eHelpers.apiUrl}/mock`,
-  //   method: 'POST',
-  //   json: {
-  //     path: '/v0/messaging/health/messages/123',
-  //     verb: 'get',
-  //     value: message,
-  //   }
-  // });
-
-  // request({
-  //   uri: `${E2eHelpers.apiUrl}/mock`,
-  //   method: 'POST',
-  //   json: {
-  //     path: '/v0/messaging/health/messages/1',
-  //     verb: 'get',
-  //     value: {
-  //       data: {
-  //         ...thread.data[2],
-  //       }
-  //     },
-  //   }
-  // });
-
   mock(token, {
     path: '/v0/messaging/health/messages/1',
     verb: 'get',
@@ -457,16 +433,6 @@ export function initApplicationSubmitMock(token) {
       }
     },
   });
-
-  // request({
-  //   uri: `${E2eHelpers.apiUrl}/mock`,
-  //   method: 'POST',
-  //   json: {
-  //     path: '/v0/messaging/health/messages/123/thread',
-  //     verb: 'get',
-  //     value: thread,
-  //   }
-  // });
 
   mock(token, {
     path: '/v0/messaging/health/messages/123/thread',
