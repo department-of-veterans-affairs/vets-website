@@ -24,6 +24,9 @@ const formConfig = {
             veteranSocialSecurityNumber: uiSSN,
             fileNumber: {
               'ui:title': 'File number'
+            },
+            someDate: {
+              'ui:widget': 'date'
             }
           },
           schema: {
@@ -43,6 +46,9 @@ const formConfig = {
               fileNumber: {
                 type: 'number',
                 minimum: 1
+              },
+              someDate: {
+                type: 'string'
               }
             }
           }

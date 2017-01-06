@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 import Form from 'react-jsonschema-form';
 import { uiSchemaValidate, transformErrors } from './validation';
 import FieldTemplate from './FieldTemplate';
-import * as widgets from './widgets';
+import widgets from './widgets/index';
 import ProgressButton from '../components/form-elements/ProgressButton';
 import ObjectField from './ObjectField';
 
