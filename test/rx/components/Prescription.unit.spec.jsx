@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import Prescription from '../../../src/js/rx/components/AlertBox.jsx';
+import Prescription from '../../../src/js/rx/components/Prescription.jsx';
 import { prescriptions } from '../../util/rx-helpers.js';
 
 const item = prescriptions.data[0];
@@ -31,11 +31,11 @@ describe('<Prescription>', () => {
     };
 
     const tree = SkinDeep.shallowRender(<Prescription {...newProps}/>);
-    expect(tree.dive(['.rx-track-package-link'])).to.not.be.undefined;
+    expect(tree.subTree('TrackPackageLink')).to.exist;
   });
 
   it('should not render tracking link if not applicable', () => {
     const tree = SkinDeep.shallowRender(<Prescription {...props}/>);
-    expect(tree.dive(['.rx-track-package-link'])).to.be.undefined;
+    expect(tree.subTree(['.rx-track-package-link'])).to.be.false;
   });
 });
