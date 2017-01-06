@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const vcls = document.querySelectorAll('.crisis-line-container--wide');
   const toggleVcl = (vcl) =>
     vcl.addEventListener('click', (domEvent) => {
-      domEvent.preventDefault();
       // Check that it was the va-crisis-line trigger element clicked
       if(domEvent.target.classList.contains('va-crisis-line')) {
+        domEvent.preventDefault();
         domEvent.currentTarget.classList.toggle('va-crisis-panel--open');
       }
     }); 
