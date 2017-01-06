@@ -26,16 +26,26 @@ if (options.unexpected && options.unexpected.length !== 0) {
   throw new Error(`Unexpected arguments: '${options.unexpected}'`);
 }
 
+function stripTrailingSlash(path) {
+  return path.substr(-1) === '/' ? path.slice(0, -1) : path;
+}
+
 function makeMockApiRouter(opts) {
+  // mockResponses[auth][verb][response]
   const mockResponses = {};
 
   const router = express.Router(); // eslint-disable-line new-cap
   router.post('/mock', (req, res) => {
+    const auth = req.body.auth || '_global';
     const verb = (req.body.verb || 'get').toLowerCase();
-    mockResponses[verb] = mockResponses[verb] || {};
-    mockResponses[verb][req.body.path] = req.body.value;
-    const result = { result: `set ${verb} ${req.body.path} to ${JSON.stringify(req.body.value)}` };
-    opts.logger.info(result);
+    const path = stripTrailingSlash(req.body.path);
+
+    opts.logger.info(`mock: ${auth} ${verb} ${path}`);
+
+    mockResponses[auth] = mockResponses[auth] || {};
+    mockResponses[auth][verb] = mockResponses[auth][verb] || {};
+    mockResponses[auth][verb][path] = req.body.value;
+    const result = { result: `set auth:${auth} ${verb} ${path} to ${JSON.stringify(req.body.value)}` };
     res.status(200).json(result);
   });
 
@@ -43,18 +53,21 @@ function makeMockApiRouter(opts) {
   router.options('*', cors());
 
   router.all('*', cors(), (req, res) => {
+    const auth = req.get('Authorization') || '_global';
     const verb = req.method.toLowerCase();
-    const verbResponses = mockResponses[verb];
+    const verbResponses = (mockResponses[auth] || {})[verb];
+    const path = stripTrailingSlash(req.path);
+
     let result = null;
     if (verbResponses) {
-      result = verbResponses[req.path];
+      result = verbResponses[path];
     }
 
     if (!result) {
       res.status(500);
-      result = { error: `mock not initialized for ${verb} ${req.path}` };
+      result = { error: `mock not initialized for auth: ${auth} ${verb} ${path}` };
     }
-    opts.logger.info(result);
+    opts.logger.info(auth, verb, path, result);
     res.json(result);
   });
 

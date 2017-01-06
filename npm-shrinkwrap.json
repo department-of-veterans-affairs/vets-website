@@ -284,9 +284,9 @@
       "resolved": "http://registry.npmjs.org/aws4/-/aws4-1.4.1.tgz"
     },
     "axe-core": {
-      "version": "2.0.5",
-      "from": "axe-core@>=2.0.5 <3.0.0",
-      "resolved": "https://registry.npmjs.org/axe-core/-/axe-core-2.0.5.tgz"
+      "version": "2.1.7",
+      "from": "axe-core@2.1.7",
+      "resolved": "https://registry.npmjs.org/axe-core/-/axe-core-2.1.7.tgz"
     },
     "babel": {
       "version": "6.5.2",
@@ -773,6 +773,11 @@
       "version": "1.1.2",
       "from": "base64-js@>=1.0.2 <2.0.0",
       "resolved": "http://registry.npmjs.org/base64-js/-/base64-js-1.1.2.tgz"
+    },
+    "basic-auth": {
+      "version": "1.0.4",
+      "from": "basic-auth@>=1.0.3 <1.1.0",
+      "resolved": "https://registry.npmjs.org/basic-auth/-/basic-auth-1.0.4.tgz"
     },
     "batch": {
       "version": "0.5.3",
@@ -5722,6 +5727,11 @@
       "version": "2.15.1",
       "from": "moment@>=2.10.3 <3.0.0",
       "resolved": "https://registry.npmjs.org/moment/-/moment-2.15.1.tgz"
+    },
+    "morgan": {
+      "version": "1.7.0",
+      "from": "morgan@latest",
+      "resolved": "https://registry.npmjs.org/morgan/-/morgan-1.7.0.tgz"
     },
     "ms": {
       "version": "0.7.1",

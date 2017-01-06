@@ -5,10 +5,6 @@ env:
     - CXX=g++-4.8
     - NODE_ENV=production
     - secure: "BQ0BNb3D2gI3hYHXgNIgDNBfZu/koPlZS1mjFqxYizQM+Msu+Zg/QDyeIXFpR7oMU9bmTCWpL2gBFYTOwHAqdP8uDQSz42jCRVGPOmWE9rDt6MDNkyG2M6afJ5FH+bvdcnfWT387iaGfc3jqVZHTVhvy2ay3DTCy8eoovJ7KOZIE+G9YtUxKzNjQHzJaCTloKrvJGIrbebONwJ54LD4GWw4jb7NuUONMpJPwC3ukF6t0gvT83aUf5anrhiu8ghNVYJSObeIXhyiIckley08naETfoK3B/POVf9ex/DbippFhyj64UweNLZ+KAVXUhPBI/CieOG9EdeZQXm7b53ZsdsmDsItXP+nE7+ihfWM4gmv3WJnbLTy12W1D2AF0uoMI5U/jcwRwfoHxVo6OpMbpF10fUVn/yDM/90rpiaB50ufZHtB5cMQfOFGr6/PCiZI/omAi3frUC4Zx6ZbiaG019JqmFHYmrkbTL6d1DTuXL3fawW71tR5a/o4GhOePlu/pXh7nQp4hiRZVo/ZtY6Sa5iuS5UaHmu4uzkXRMurNGrySmSyAFkVxIWG/nHQVTqU1ahgxyYrbtve/aUHZH/aUKr/719N+NW+0ttRMZWAaPnRmbDNdDgyoqcvCr1GKBlaIDWFOMWc+Nd5rhHxaGXr3gthlQdqa4obpk2xdOkBijMw="
-  matrix:
-    - BUILDTYPE=development
-    - BUILDTYPE=staging
-    - BUILDTYPE=production
 
 notifications:
   email: false
@@ -42,21 +38,18 @@ deploy:
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: master
-      condition: "$BUILDTYPE == development"
   - provider: script
     script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/staging s3://staging.vets.gov/
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: master
-      condition: "$BUILDTYPE == staging"
   - provider: script
     script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/production s3://www.vets.gov/
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: production
-      condition: "$BUILDTYPE == production"
   - provider: s3
     access_key_id: AKIAIEIFFI3LJZO44VTQ
     secret_access_key:
@@ -64,12 +57,11 @@ deploy:
     bucket: staging.vets.gov
     skip_cleanup: true
     region: us-east-1
-    local-dir: build/production
+    local-dir: build/staging
     acl: public_read
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: master
-      condition: "$BUILDTYPE == production"
   - provider: s3
     access_key_id: AKIAJPGY3X77ZMIBM4OA
     secret_access_key:
@@ -82,4 +74,3 @@ deploy:
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: production
-      condition: "$BUILDTYPE == production"
