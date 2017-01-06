@@ -1,6 +1,4 @@
 const mock = require('./mock-helpers');
-const request = require('request');
-const E2eHelpers = require('./e2e-helpers');
 
 export const folders = {
   data: [
@@ -420,48 +418,65 @@ export function initApplicationSubmitMock(token) {
     value: message,
   });
 
-  request({
-    uri: `${E2eHelpers.apiUrl}/mock`,
-    method: 'POST',
-    json: {
-      path: '/v0/messaging/health/messages/123',
-      verb: 'get',
-      value: message,
-    }
+  mock(token, {
+    path: '/v0/messaging/health/messages/123',
+    verb: 'get',
+    value: message,
   });
 
-  request({
-    uri: `${E2eHelpers.apiUrl}/mock`,
-    method: 'POST',
-    json: {
-      path: '/v0/messaging/health/messages/1',
-      verb: 'get',
-      value: {
-        data: {
-          ...thread.data[2],
-        }
-      },
-    }
+  // request({
+  //   uri: `${E2eHelpers.apiUrl}/mock`,
+  //   method: 'POST',
+  //   json: {
+  //     path: '/v0/messaging/health/messages/123',
+  //     verb: 'get',
+  //     value: message,
+  //   }
+  // });
+
+  // request({
+  //   uri: `${E2eHelpers.apiUrl}/mock`,
+  //   method: 'POST',
+  //   json: {
+  //     path: '/v0/messaging/health/messages/1',
+  //     verb: 'get',
+  //     value: {
+  //       data: {
+  //         ...thread.data[2],
+  //       }
+  //     },
+  //   }
+  // });
+
+  mock(token, {
+    path: '/v0/messaging/health/messages/1',
+    verb: 'get',
+    value: {
+      data: {
+        ...thread.data[2],
+      }
+    },
   });
 
+  // request({
+  //   uri: `${E2eHelpers.apiUrl}/mock`,
+  //   method: 'POST',
+  //   json: {
+  //     path: '/v0/messaging/health/messages/123/thread',
+  //     verb: 'get',
+  //     value: thread,
+  //   }
+  // });
 
-  request({
-    uri: `${E2eHelpers.apiUrl}/mock`,
-    method: 'POST',
-    json: {
-      path: '/v0/messaging/health/messages/123/thread',
-      verb: 'get',
-      value: thread,
-    }
+  mock(token, {
+    path: '/v0/messaging/health/messages/123/thread',
+    verb: 'get',
+    value: thread,
   });
 
-  request({
-    uri: `${E2eHelpers.apiUrl}/mock`,
-    method: 'POST',
-    json: {
-      path: '/v0/messaging/health/recipients',
-      verb: 'get',
-      value: recipients,
-    }
+  mock(token, {
+    path: '/v0/messaging/health/recipients',
+    verb: 'get',
+    value: recipients,
   });
 }

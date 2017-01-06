@@ -6,9 +6,9 @@ const LoginHelpers = require('../util/login-helpers');
 if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
   module.exports = E2eHelpers.createE2eTest(
     (client) => {
-      MessagingHelpers.initApplicationSubmitMock();
-
       const token = LoginHelpers.getUserToken();
+
+      MessagingHelpers.initApplicationSubmitMock(token);
       LoginHelpers.logIn(token, client, '/healthcare/messaging', 3);
 
       // Desktop test
