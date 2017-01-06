@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import { isValidSSN } from '../utils/validations';
 
 /*
  * This contains the code for supporting our own custom validations and messages
@@ -114,3 +115,10 @@ export function uiSchemaValidate(errors, uiSchema, formData, otherData, path = '
 
   return errors;
 }
+
+export function validateSSN(errors, ssn) {
+  if (!isValidSSN(ssn)) {
+    errors.addError('Please enter a valid nine digit SSN (dashes allowed)');
+  }
+}
+

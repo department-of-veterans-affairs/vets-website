@@ -1,4 +1,5 @@
 import { fullName, ssn } from '../../../common/schemaform/definitions';
+import { validateSSN } from '../../../common/schemaform/validation';
 import IntroductionPage from '../components/IntroductionPage';
 
 const formConfig = {
@@ -28,7 +29,10 @@ const formConfig = {
             veteranSocialSecurityNumber: {
               'ui:options': {
                 widgetClassNames: 'usa-input-medium'
-              }
+              },
+              'ui:validations': [
+                validateSSN
+              ]
             }
           },
           schema: {
@@ -48,7 +52,8 @@ const formConfig = {
               },
               fileNumber: {
                 title: 'File number',
-                type: 'number'
+                type: 'number',
+                minimum: 1
               }
             }
           }
