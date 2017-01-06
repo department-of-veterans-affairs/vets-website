@@ -26,8 +26,9 @@ class SignInProfileButton extends React.Component {
         </span>
       );
     } else {
-      content = (
-        <a href="#" onClick={this.props.onUserLogin}>Sign In<span className="signin-spacer">|</span>Register</a>
+      content = (<div>
+        <a href="#" onClick={this.props.onUserLogin}>Sign In</a><span className="signin-spacer">|</span><a href="#" onClick={this.props.onUserSignup}>Register</a>
+      </div>
       );
     }
     return (

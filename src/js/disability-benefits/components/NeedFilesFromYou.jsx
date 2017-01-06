@@ -9,7 +9,11 @@ class NeedFilesFromYou extends React.Component {
         <div className="usa-alert-body item-title-container">
           <h4 className="usa-alert-heading">{files} {files === 1 ? 'item needs' : 'items need'} your attention</h4>
         </div>
-        <Link to={`your-claims/${this.props.claimId}/files`} className="usa-button view-details-button">View Details</Link>
+        <Link
+            aria-label="View details about items that need your attention"
+            title="View details about items that need your attention"
+            to={`your-claims/${this.props.claimId}/files`}
+            className="usa-button view-details-button">View Details</Link>
         <div className="clearfix"></div>
       </div>
     );

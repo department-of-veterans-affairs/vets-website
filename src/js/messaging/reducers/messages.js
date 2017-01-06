@@ -7,13 +7,12 @@ import {
   ADD_DRAFT_ATTACHMENTS,
   CLEAR_DRAFT,
   DELETE_DRAFT_ATTACHMENT,
-  FETCH_THREAD_FAILURE,
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_MESSAGE_SUCCESS,
   LOADING_THREAD,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
-  TOGGLE_MOVE_TO,
+  TOGGLE_THREAD_MOVE_TO,
   TOGGLE_REPLY_DETAILS,
   TOGGLE_THREAD_FORM,
   UPDATE_DRAFT
@@ -33,10 +32,7 @@ const initialState = {
   },
   ui: {
     formVisible: false,
-    loading: {
-      inProgress: false,
-      requestId: null
-    },
+    lastRequestedId: null,
     messagesCollapsed: new Set(),
     moveToOpened: false,
     replyDetailsCollapsed: true
@@ -74,9 +70,6 @@ export default function messages(state = initialState, action) {
 
       return set(`data.thread[${messageIndex}]`, updatedMessage, state);
     }
-
-    case FETCH_THREAD_FAILURE:
-      return set('ui.loading.inProgress', false, state);
 
     case FETCH_THREAD_SUCCESS: {
       // Consolidate message attributes and attachments
@@ -116,12 +109,8 @@ export default function messages(state = initialState, action) {
       }
 
       let newState = set('ui', {
-        ...initialState.ui,
-        messagesCollapsed,
-        loading: {
-          inProgress: false,
-          requestId: state.ui.loading.requestId
-        }
+        ...state.ui,
+        messagesCollapsed
       }, state);
 
       newState = set('data.thread', thread, newState);
@@ -130,10 +119,10 @@ export default function messages(state = initialState, action) {
     }
 
     case LOADING_THREAD:
-      return set('ui.loading', {
-        inProgress: true,
-        requestId: action.requestId
-      }, initialState);
+      return set('ui', {
+        ...initialState.ui,
+        lastRequestedId: action.messageId
+      }, state);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
@@ -166,7 +155,7 @@ export default function messages(state = initialState, action) {
       return set('ui.messagesCollapsed', newMessagesCollapsed, state);
     }
 
-    case TOGGLE_MOVE_TO:
+    case TOGGLE_THREAD_MOVE_TO:
       return set('ui.moveToOpened', !state.ui.moveToOpened, state);
 
     case TOGGLE_REPLY_DETAILS:

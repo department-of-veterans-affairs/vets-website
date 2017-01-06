@@ -138,7 +138,7 @@ describe('alert reducer', () => {
     const folder = testData.folders.data[0].attributes;
     const newState = alertReducer(initialState, {
       type: MOVE_MESSAGE_SUCCESS,
-      folder
+      toFolder: folder
     });
     expect(newState.visible).to.be.true;
     expect(newState.status).to.eql('success');

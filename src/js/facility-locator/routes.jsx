@@ -1,4 +1,4 @@
-import { FacilityLocatorApp } from './containers/FacilityLocatorApp';
+import FacilityLocatorApp from './containers/FacilityLocatorApp';
 import FacilityDetail from './containers/FacilityDetail';
 import VAMap from './containers/VAMap';
 

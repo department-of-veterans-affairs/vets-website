@@ -19,6 +19,8 @@ import VAInformationSection from './va-benefits/VAInformationSection';
 import VeteranAddressSection from './veteran-information/VeteranAddressSection';
 
 import ReviewCollapsiblePanel from './ReviewCollapsiblePanel';
+import PrivacyAgreement from '../../common/components/questions/PrivacyAgreement';
+import { veteranUpdateField } from '../actions';
 
 /*
     TODO(crew): Get components from store and create array to check if ReviewCollapsiblePanel is
@@ -135,16 +137,26 @@ class ReviewAndSubmitSection extends React.Component {
           <p>I understand that pursuant to 38 U.S.C. Section 1729 and 42 U.S.C. 2651, the Department of Veterans Affairs (VA) is authorized to recover or collect from my health plan(HP) or any other legally responsible third party for the reasonable charges of nonservice-connected VA medical care or services furnished or provided to me. I hereby authorize payment directly to VA from any HP under which I am covered (including coverage provided under my spouse's HP) that is responsible for payment of the charges for my medical care, including benefits otherwise payable to me or my spouse. Furthermore, I hereby assign to the VA any claim I may have against any person or entity who is or may be legally responsible for the payment of the cost of medical services provided to me by the VA. I understand that this assignment shall not limit or prejudice my right to recover for my own benefit any amount in excess of the cost of medical services provided to me by the VA or any other amount to which I may be entitled. I hereby appoint the Attorney General of the United States and the Secretary of Veterans' Affairs and their designees as my Attorneys-in-fact to take all necessary and appropriate actions in order to recover and receive all or part of the amount herein assigned. I hereby authorize the VA to disclose, to my attorney and to any third party or administrative agency who may be responsible for payment of the cost of medical services provided to me, information from my medical records as necessary to verify my claim. Further, I hereby authorize any such third party or administrative agency to disclose to the VA any information regarding my claim.</p>
           <p>By submitting this application you are agreeing to pay the applicable VA copays for treatment or services of your NSC conditions as required by law. You also agree to receive communications from VA to your supplied email or mobile number.</p>
         </small>
+        <PrivacyAgreement required
+            showError={this.props.hasAttemptedSubmit}
+            onChange={(update) => this.props.onStateChange('privacyAgreementAccepted', update)}
+            checked={this.props.data.privacyAgreementAccepted}/>
       </div>
     );
   }
 }
 
+const mapDispatchToProps = {
+  onStateChange: veteranUpdateField
+};
+
 function mapStateToProps(state) {
   return {
     isApplicationSubmitted: state.uiState.applicationSubmitted,
+    data: state.veteran,
+    hasAttemptedSubmit: state.uiState.submission.hasAttemptedSubmit
   };
 }
 // TODO(awong): Remove the pure: false once we start using ImmutableJS.
-export default connect(mapStateToProps)(ReviewAndSubmitSection);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewAndSubmitSection);
 export { ReviewAndSubmitSection };

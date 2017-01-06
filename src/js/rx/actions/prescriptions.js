@@ -81,7 +81,13 @@ export function refillPrescription(prescription) {
   if (prescription.prescriptionId) {
     const url = `/${prescription.prescriptionId}/refill`;
 
+    window.dataLayer.push({
+      event: 'rx-confirm-refill',
+    });
+
     return dispatch => {
+      dispatch({ type: 'REFILL_SUBMITTED' });
+
       apiRequest(url, { method: 'PATCH' })
       .then(response => {
         return (response.ok) ?
@@ -104,6 +110,6 @@ export function refillPrescription(prescription) {
   return dispatch => dispatch({ type: 'REFILL_FAILURE' });
 }
 
-export function sortPrescriptions(sort) {
-  return { type: 'SORT_PRESCRIPTIONS', sort };
+export function sortPrescriptions(sort, order = 'ASC') {
+  return { type: 'SORT_PRESCRIPTIONS', sort, order };
 }

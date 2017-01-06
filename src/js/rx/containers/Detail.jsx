@@ -8,7 +8,6 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { closeAlert } from '../actions/alert.js';
 import { openGlossaryModal, openRefillModal } from '../actions/modals';
 import { loadPrescription } from '../actions/prescriptions';
-import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
 import GlossaryLink from '../components/GlossaryLink';
 import OrderHistory from '../components/OrderHistory';
@@ -170,7 +169,7 @@ export class Detail extends React.Component {
     // If the item in state doesn't reflect the item from the URL,
     // show the loader until the requested item finishes loading.
     if (this.props.loading || (this.props.prescription && !isSameRx)) {
-      content = <LoadingIndicator message="is loading your prescription..."/>;
+      content = <LoadingIndicator message="Loading your prescription..."/>;
     } else if (this.props.prescription) {
       const header = this.makeHeader();
       const rxInfo = this.makeInfo();
@@ -190,6 +189,8 @@ export class Detail extends React.Component {
         <p className="rx-tab-explainer rx-loading-error">
           We couldn't retrieve your prescription.
           Please refresh this page or try again later.
+          If this problem persists, please call the Vets.gov Help Desk
+          at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
         </p>
       );
     }
@@ -203,7 +204,6 @@ export class Detail extends React.Component {
             scrollOnShow
             status={this.props.alert.status}/>
         <h1>Prescription Refill</h1>
-        <BackLink text="Back to list"/>
         {content}
       </div>
     );

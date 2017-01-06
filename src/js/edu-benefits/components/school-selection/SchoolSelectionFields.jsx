@@ -4,15 +4,18 @@ import ErrorableTextInput from '../../../common/components/form-elements/Errorab
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
-import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableDate from '../../../common/components/form-elements/ErrorableDate';
 import Address from '../Address';
 
-import { validateIfDirtyDateObj, isValidFutureOrPastDateField } from '../../utils/validations';
-import { schoolTypes, yesNo } from '../../utils/options-for-select';
+import { schoolTypes, schoolTypesWithTuitionTopUp, yesNo } from '../../utils/options-for-select';
 import { showSchoolAddress } from '../../utils/helpers';
 
 export default class SchoolSelectionFields extends React.Component {
   render() {
+    const schoolTypesList = (this.props.data.chapter33 || this.props.data.chapter30)
+      ? schoolTypesWithTuitionTopUp
+      : schoolTypes;
+
     return (<fieldset>
       <legend className="hide-for-small-only">School selection</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
@@ -24,7 +27,7 @@ export default class SchoolSelectionFields extends React.Component {
           <ErrorableSelect
               label="Type of education or training:"
               name="educationType"
-              options={schoolTypes}
+              options={schoolTypesList}
               value={this.props.data.educationType}
               onValueChange={(update) => {this.props.onStateChange('educationType', update);}}/>
         </div>
@@ -51,15 +54,10 @@ export default class SchoolSelectionFields extends React.Component {
             name="educationObjective"
             field={this.props.data.educationObjective}
             onValueChange={(update) => {this.props.onStateChange('educationObjective', update);}}/>
-        <DateInput
-            errorMessage={isValidFutureOrPastDateField(this.props.data.educationStartDate) ? undefined : 'Please enter a valid date'}
-            validation={validateIfDirtyDateObj(this.props.data.educationStartDate, isValidFutureOrPastDateField)}
-            allowFutureDates
+        <ErrorableDate
             label="The date your training began or will begin:"
             name="educationStartDate"
-            day={this.props.data.educationStartDate.day}
-            month={this.props.data.educationStartDate.month}
-            year={this.props.data.educationStartDate.year}
+            date={this.props.data.educationStartDate}
             onValueChange={(update) => {this.props.onStateChange('educationStartDate', update);}}/>
         {this.props.data.currentlyActiveDuty.yes.value === 'Y'
           ? <ErrorableRadioButtons

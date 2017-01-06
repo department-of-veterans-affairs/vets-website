@@ -45,6 +45,8 @@ const optionDefinitions = [
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
+  { name: 'entry', type: String, defaultValue: null },
+  { name: 'host', type: String, defaultValue: 'localhost' },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -220,6 +222,7 @@ if (options.watch) {
     hot: true,
     port: options.port,
     publicPath: '/generated/',
+    host: options.host,
     stats: {
       colors: true,
       assets: false,

@@ -77,7 +77,7 @@ ul.claim-list{
 }
 
 .edu-benefits-pre {
-  white-space: pre;
+  white-space: pre-wrap;
 }
 .edu-benefits-list {
   margin-top: 0;
@@ -175,7 +175,46 @@ ul.claim-list{
 // Testing a slightly modified required asterisk
 .form-required-span {
   font-size: 1.7em;
-  line-height: 1;
+  line-height: 0;
   position: relative;
   top: 10px;
+}
+
+.edu-growable-expanded {
+  display: none;
+}
+
+.form-review-panel-page {
+  .edu-growable-expanded {
+    display: table-row-group;
+  }
+  .edu-growable-review-desc {
+    > tr > td {
+      border-bottom-style: solid;
+    }
+  }
+}
+.form-review-panel-page .va-growable-add-btn {
+  display: none;
+}
+
+.edu-growable-review-header {
+  margin-bottom: 1em;
+}
+
+table.review td {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.edu-growable-form {
+  table.review td {
+    padding: 0;
+  }
+}
+
+.va-nav-breadcrumbs-list, legend, .nav-header, .edu-page-title, .usa-input-error, .input-error-date {
+  &:focus {
+    outline: none;
+  }
 }

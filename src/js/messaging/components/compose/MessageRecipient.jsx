@@ -4,15 +4,6 @@ import classNames from 'classnames';
 
 class MessageRecipient extends React.Component {
   render() {
-    let error;
-
-    if (!!this.props.errorMessage) {
-      error = (
-        <p className="usa-input-error-message">
-          {this.props.errorMessage}
-        </p>);
-    }
-
     const fieldCss = classNames(
       this.props.cssClass,
       { 'usa-input-error': !!this.props.errorMessage },
@@ -21,9 +12,9 @@ class MessageRecipient extends React.Component {
 
     return (
       <div className={fieldCss}>
-        {error}
         <ErrorableSelect
-            label="To:"
+            errorMessage={this.props.errorMessage}
+            label="To"
             name="messageRecipient"
             onValueChange={this.props.onValueChange}
             options={this.props.options}

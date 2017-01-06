@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { dirtyAllFields } from '../../common/model/fields';
 import NoticeBox from '../components/NoticeBox';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
+import ModalConfirmSave from '../components/compose/ModalConfirmSave';
 import NewMessageForm from '../components/forms/NewMessageForm';
 import * as validations from '../utils/validations';
 
@@ -14,11 +16,11 @@ import {
   fetchRecipients,
   openAttachmentsModal,
   resetMessage,
-  resetRedirect,
   saveDraft,
   sendMessage,
   setMessageField,
   toggleConfirmDelete,
+  toggleConfirmSave,
   updateComposeCharacterCount
 } from '../actions';
 
@@ -30,21 +32,17 @@ export class Compose extends React.Component {
     this.isValidForm = this.isValidForm.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.saveDraft = this.saveDraft.bind(this);
+    this.saveDraftIfNoAttachments = this.saveDraftIfNoAttachments.bind(this);
   }
 
   componentDidMount() {
-    this.props.resetMessage();
-    this.props.fetchRecipients();
-  }
-
-  componentDidUpdate() {
     if (this.props.redirect) {
       this.context.router.replace(this.props.redirect);
+      return;
     }
-  }
 
-  componentWillUnmount() {
-    this.props.resetRedirect();
+    this.props.resetMessage();
+    this.props.fetchRecipients();
   }
 
   apiFormattedMessage() {
@@ -89,7 +87,19 @@ export class Compose extends React.Component {
   }
 
   saveDraft() {
+    if (this.props.saveConfirmModal.visible) {
+      this.props.toggleConfirmSave();
+    }
+
     this.props.saveDraft(this.apiFormattedMessage());
+  }
+
+  saveDraftIfNoAttachments() {
+    if (this.props.message.attachments.length) {
+      this.props.toggleConfirmSave();
+    } else {
+      this.saveDraft();
+    }
   }
 
   handleConfirmDelete(domEvent) {
@@ -99,6 +109,10 @@ export class Compose extends React.Component {
   }
 
   render() {
+    if (this.props.loading.recipients) {
+      return <LoadingIndicator message="Loading your application..."/>;
+    }
+
     return (
       <div>
         <div id="messaging-content-header">
@@ -110,7 +124,9 @@ export class Compose extends React.Component {
           <h2>New message</h2>
           <button
               className="messaging-send-button"
-              type="button">
+              type="button"
+              onClick={this.sendMessage}
+              disabled={!this.props.message.body.value.length}>
             Send
           </button>
         </div>
@@ -122,8 +138,9 @@ export class Compose extends React.Component {
             onAttachmentsError={this.props.openAttachmentsModal}
             onBodyChange={this.props.setMessageField.bind(null, 'message.body')}
             onCategoryChange={this.props.setMessageField.bind(null, 'message.category')}
+            onFetchRecipients={this.props.fetchRecipients}
             onRecipientChange={this.props.setMessageField.bind(null, 'message.recipient')}
-            onSaveMessage={this.saveDraft}
+            onSaveMessage={this.saveDraftIfNoAttachments}
             onSendMessage={this.sendMessage}
             onSubjectChange={this.props.setMessageField.bind(null, 'message.subject')}
             toggleConfirmDelete={this.props.toggleConfirmDelete}/>
@@ -133,6 +150,11 @@ export class Compose extends React.Component {
             onClose={this.props.toggleConfirmDelete}
             onDelete={this.handleConfirmDelete}
             visible={this.props.deleteConfirmModal.visible}/>
+        <ModalConfirmSave
+            cssClass="messaging-modal"
+            onClose={this.props.toggleConfirmSave}
+            onSave={this.saveDraft}
+            visible={this.props.saveConfirmModal.visible}/>
       </div>
     );
   }
@@ -144,10 +166,12 @@ Compose.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    deleteConfirmModal: state.modals.deleteConfirm,
+    loading: state.loading,
     message: state.compose.message,
-    recipients: state.compose.recipients,
+    recipients: state.recipients.data,
     redirect: state.folders.ui.redirect,
-    deleteConfirmModal: state.modals.deleteConfirm
+    saveConfirmModal: state.modals.saveConfirm
   };
 };
 
@@ -158,11 +182,11 @@ const mapDispatchToProps = {
   fetchRecipients,
   openAttachmentsModal,
   resetMessage,
-  resetRedirect,
   saveDraft,
   sendMessage,
   setMessageField,
   toggleConfirmDelete,
+  toggleConfirmSave,
   updateComposeCharacterCount
 };
 

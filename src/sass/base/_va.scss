@@ -164,24 +164,9 @@ input:focus:-ms-input-placeholder {
   color: transparent;
 }
 
-.usa-button,
-.usa-button-primary,
-.usa-button:visited,
-.usa-button-primary:visited,
-button,
-[type='button'],
-[type='submit'],
-[type='reset'],
-[type='image'] {
-  // TODO(crew): Remove this at some point. Fix this by using JS for title casing or passing nav labels as an object.
-  &.text-capitalize {
-    text-transform: capitalize;
-  }
-}
-
-.usa-button-outline.transparent,
-.usa-button-outline.transparent:hover {
-  background-color: rgba(0,0,0,0);
+// TODO(crew): Remove this at some point. Fix this by using JS for title casing or passing nav labels as an object.
+.text-capitalize {
+  text-transform: capitalize;
 }
 
 input.va-input-medium-large {
@@ -209,6 +194,9 @@ hr {
 
 // Adds external icon to all links that begin
 // with http (including https)
+// Using this selector makes it easier for the content team to write content
+// TODO: Refine this so that any links that do begin with https://vets.gov
+// or https://www.vets.gov are excluded.
 [href^=http] {
   // Using longhand properties instead of the shorthand to limit
   // risk and impact of side effects
@@ -219,30 +207,6 @@ hr {
   padding-right: 1.2em;
 }
 
-.usa-button-primary[href^=http] {
-  background-image: none;
-  // TODO: clean up #content .main.interior a then remove !important
-  text-decoration: none !important;
-}
-// Option for adding exit-icon to ghost buttons
-.usa-button-outline-exit.usa-button-primary[href^=http]::after {
-  background-image: url(/img/icons/exit-icon-primary.png);
-  background-size: 1em auto;
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  // Content must have a decender in it
-  content: "leave vets.gov"; 
-  background-repeat: no-repeat;
-  background-position: top center;
-  margin-left: .3em;
-  text-indent: -9999em;
-  padding-right: 1.1em;
-}
-.usa-button-outline-exit.usa-button-primary[href^=http]:hover::after {
-  background-image: url(/img/icons/exit-icon-primary-darker.png);
-}
-
 // Logo and Header
 .header {
   clear: both;
@@ -250,8 +214,8 @@ hr {
   margin: 0;
 
   .login-container {
-    background: $color-white;
-    padding: 0.5em 0;
+    background: $color-primary-darkest;
+    padding: 0.3em 0 1em;
 
     .row {
       padding: 0 0.75em;
@@ -259,7 +223,9 @@ hr {
   }
 
   .top-banner {
-    padding: 1em 0.75em;
+    padding: 1em 0.75em 0;
+    display: flex;
+    align-items: center;
   }
 
   .flex-auto {
@@ -273,10 +239,6 @@ hr {
   line-height: 1em;
   margin: 0;
 
-  @media #{$small} {
-    margin: .25em 0 0 0;
-  }
-
   a {
     color: white;
     text-indent: 180%;
@@ -284,19 +246,19 @@ hr {
     overflow: hidden;
     display: block;
     background: url(/img/design/logo/logo.png) top left no-repeat;
-    width: 180px;
-    height: 30px;
     background-size: contain;
     border-bottom: none;
     text-decoration: none;
+    height: 50px;
+    width: 205px;
 
     &:hover, &:active, &:focus {
       background-image: url(/img/design/logo/logo-hover.png);
     }
 
-    @media #{$small} {
-      width: 225px;
-      height: 50px;
+    @media #{$small-only} {
+      width: 164px;
+      height: 40px;
     }
   }
   // See va-playbook for styles
@@ -337,7 +299,6 @@ h6 {
   font-size: 0.9em;
   line-height: 1.5;
   font-weight: bold;
-  text-transform: uppercase;
 }
 
 // Banner
@@ -392,7 +353,7 @@ h6 {
   }
 
   .outline-link-block {
-    border: $color-gray-light solid 1px;
+    border: $color-gray-light solid 2px;
     margin: 0.5em 0;
     padding: 0.5em 1em;
     display: flex;
@@ -400,11 +361,15 @@ h6 {
     height: 100%;
     justify-content: center;
     font-size: 1.2em;
+
+    &:hover {
+      border: $color-primary-darker solid 2px;
+    }
   }
 
   .stars-tagline {
     &:before{
-      content: "";
+      content: '';
       background: url(/img/stars.png) no-repeat top center;
       background-size: 100%;
       display: inline-block;
@@ -946,7 +911,7 @@ ul, ol {
 // Breadcrumbs
 .va-nav-breadcrumbs {
   background: $color-white;
-  color: $color-primary;
+  color: $color-link-default;
   font-size: inherit;
   padding: 1em 0;
 
@@ -974,7 +939,7 @@ ul, ol {
     }
   }
   a {
-    color: $color-primary;
+    color: $color-link-default;
     display: inline-block;
     padding: 2px;
 
@@ -1365,20 +1330,20 @@ a.twitter {
 
 .header {
   .message {
-    padding-top: 0.5em 0.75em;
+    padding: 0.5em 0;
+    color: $color-white;
+    font-size: 0.8em;
+    font-weight: 400;
+    flex: 1;
   }
 
   .va-notice--banner {
-    background: $color-gray-lightest;
-    color: $color-base;
     margin: 0;
     padding: 0;
+    background: $color-primary-darker;
+    color: $color-white;
 
-    .header {
-      padding: 0.5em 0;
-    }
-
-    a {
+    a.va-crisis-line {
       color: $color-base;
     }
 
@@ -1386,8 +1351,25 @@ a.twitter {
       display: flex;
     }
 
+    .flex-lg {
+      @media #{$large-only} {
+        display: flex;
+      }
+    }
+
     .row {
       padding: 0 0.75em;
+    }
+
+    .crisis-row {
+      @media #{$medium-up} {
+        display: flex;
+        align-items: flex-start;
+      }
+
+      @media #{$medium-only} {
+        padding-right: 0em;
+      }
     }
   }
 }
@@ -1446,7 +1428,7 @@ a.twitter {
 
   // Works with <= IE8
   &:last-child {
-    opacity: .5;
+    opacity: 0.6;
     padding-left: 1em;
 
     &:hover {
@@ -1920,19 +1902,11 @@ li.twenty:before {content: '20';}
 .usa-accordion-content[aria-hidden=true] {
     display: none !important;
 }
-button[class*='usa-button-'] {
-  font-weight:500;
-  span {
-    font-weight:700
-  }
-}
 
 // Disclaimer
-
 .disclaimer {
   padding: 1em 0;
   border-top: 1px solid #ddd;
-  z-index:500;
   color: $color-va-gray-cool-dark;
   background: $color-white;
 
@@ -1983,6 +1957,21 @@ button[class*='usa-button-'] {
 }
 
 @media #{$small-only} {
+  .va-mobile-searchclose  {
+    border-radius: 0;
+    display: block !important;
+    width: 100% !important;
+    margin: 0;
+    width: auto;
+    background: $color-primary;
+  }
+
+  .va-mobile-searchtrigger {
+    padding: .5em;
+    margin-top: 0;
+    border-radius: .15em;
+  }
+
   .va-overlay {
     background: rgba($color-primary-darkest, .95);
     height: 100%;
@@ -2000,21 +1989,6 @@ button[class*='usa-button-'] {
       -webkit-appearance: none;
       border-radius: 3px 0 0 3px;
     }
-  }
-
-  .va-mobile-searchclose  {
-    border-radius: 0;
-    display: block !important;
-    width: 100% !important;
-    margin: 0;
-    width: auto;
-    background: $color-primary;
-  }
-
-  .va-mobile-searchtrigger {
-    padding: .5em;
-    margin-top: 0;
-    border-radius: .15em;
   }
 
   .va-overlay--open {
@@ -2262,7 +2236,8 @@ pre[class*='language-']  {
   }
 
   .hide-for-large-up & {
-    width: 35rem;
+    width: calc(100% + 0.9375rem + 0.9375rem);
+    margin-left: -0.9375rem;
   }
 
   #content & p,
@@ -2278,4 +2253,8 @@ pre[class*='language-']  {
 
 .react-conatiner {
   padding: 2em 0;
+}
+
+p.info-message {
+  font-size: 1.5em;
 }

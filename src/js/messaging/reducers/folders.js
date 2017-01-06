@@ -8,17 +8,17 @@ import {
   DELETE_COMPOSE_MESSAGE,
   DELETE_FOLDER_SUCCESS,
   DELETE_MESSAGE_SUCCESS,
-  FETCH_FOLDER_FAILURE,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
   LOADING_FOLDER,
   MOVE_MESSAGE_SUCCESS,
-  RESET_REDIRECT,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
   SET_CURRENT_FOLDER,
+  TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
-  TOGGLE_MANAGED_FOLDERS
+  TOGGLE_MANAGED_FOLDERS,
+  UPDATE_ROUTE
 } from '../utils/constants';
 
 const initialState = {
@@ -42,10 +42,8 @@ const initialState = {
     items: new Map()
   },
   ui: {
-    loading: {
-      inProgress: false,
-      request: null
-    },
+    lastRequestedFolder: null,
+    moveToId: null,
     nav: {
       foldersExpanded: false,
       visible: false
@@ -55,6 +53,20 @@ const initialState = {
 };
 
 const folderKey = (folderName) => _.kebabCase(folderName);
+
+const setRedirect = (state) => {
+  // Set the redirect to the most recent folder.
+  // Default to 'Inbox' if no folder has been visited.
+
+  const folderName = _.get(
+    state,
+    'data.currentItem.attributes.name',
+    'Inbox'
+  );
+
+  const url = folderUrl(folderName);
+  return set('ui.redirect', url, state);
+};
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
@@ -73,9 +85,6 @@ export default function folders(state = initialState, action) {
       return set('data.items', newFolders, state);
     }
 
-    case FETCH_FOLDER_FAILURE:
-      return set('ui.loading.inProgress', false, state);
-
     case FETCH_FOLDER_SUCCESS: {
       const attributes = action.folder.data.attributes;
       const messages = action.messages.data.map(message => message.attributes);
@@ -88,16 +97,22 @@ export default function folders(state = initialState, action) {
       const sortValue = Object.keys(sort)[0];
       const sortOrder = sort[sortValue];
 
-      const newState = set('data.currentItem', {
+      // Update corresponding folder data in map.
+      const newItems = new Map(state.data.items);
+      newItems.set(folderKey(attributes.name), attributes);
+      const newState = set('data.items', newItems, state);
+
+      return set('data.currentItem', {
         attributes,
         filter,
         messages,
         pagination,
         persistFolder,
-        sort: { value: sortValue, order: sortOrder },
-      }, state);
-
-      return set('ui.loading.inProgress', false, newState);
+        sort: {
+          value: sortValue,
+          order: sortOrder
+        },
+      }, newState);
     }
 
     case FETCH_FOLDERS_SUCCESS: {
@@ -111,22 +126,27 @@ export default function folders(state = initialState, action) {
     }
 
     case LOADING_FOLDER: {
-      let newState = set(
-        'data.currentItem',
-        initialState.data.currentItem,
-        state
-      );
+      const newState = set('data.currentItem', {
+        ...initialState.data.currentItem,
+        persistFolder: action.request.id
+      }, state);
 
-      newState = set(
-        'data.currentItem.persistFolder',
-        action.request.id,
-        newState
-      );
-
-      return set('ui.loading', {
-        inProgress: true,
-        request: action.request
+      return set('ui', {
+        ...initialState.ui,
+        nav: {
+          foldersExpanded: state.ui.nav.foldersExpanded,
+          visible: false
+        },
+        lastRequestedFolder: action.request
       }, newState);
+    }
+
+    case TOGGLE_FOLDER_MOVE_TO: {
+      const id = state.ui.moveToId === action.messageId
+               ? null
+               : action.messageId;
+
+      return set('ui.moveToId', id, state);
     }
 
     case TOGGLE_FOLDER_NAV:
@@ -139,24 +159,57 @@ export default function folders(state = initialState, action) {
       // The + forces +action.folderId to be a number
       return set('data.currentItem.persistFolder', +action.folderId, state);
 
-    case DELETE_COMPOSE_MESSAGE:
-    case DELETE_MESSAGE_SUCCESS:
-    case MOVE_MESSAGE_SUCCESS:
-    case SAVE_DRAFT_SUCCESS:
-    case SEND_MESSAGE_SUCCESS: {
-      // Upon completing any of these actions, set the redirect to the most
-      // recent folder. Default to 'Inbox' if no folder has been visited.
-      const folderName = _.get(
-        state,
-        'data.currentItem.attributes.name',
-        'Inbox'
-      );
+    case MOVE_MESSAGE_SUCCESS: {
+      // Update the counts on the affected folders after moving a message.
+      const newItems = new Map(state.data.items);
 
-      const url = folderUrl(folderName);
-      return set('ui.redirect', url, state);
+      const fromFolderKey = folderKey(action.fromFolder.name);
+      const fromFolder = newItems.get(fromFolderKey);
+      newItems.set(fromFolderKey, {
+        ...fromFolder,
+        count: fromFolder.count - 1
+      });
+
+      const toFolderKey = folderKey(action.toFolder.name);
+      const toFolder = newItems.get(toFolderKey);
+      newItems.set(toFolderKey, {
+        ...toFolder,
+        count: toFolder.count + 1
+      });
+
+      const newState = set('data.items', newItems, state);
+
+      // Redirect after the move.
+      return setRedirect(newState);
     }
 
-    case RESET_REDIRECT:
+    case SAVE_DRAFT_SUCCESS: {
+      let newState = state;
+
+      // After saving a new draft, increment the count on Drafts.
+      if (!action.isSavedDraft) {
+        const newItems = new Map(state.data.items);
+        const draftsKey = folderKey('Drafts');
+        const draftsFolder = newItems.get(draftsKey);
+
+        newItems.set(draftsKey, {
+          ...draftsFolder,
+          count: draftsFolder.count + 1
+        });
+
+        newState = set('data.items', newItems, newState);
+      }
+
+      return setRedirect(newState);
+    }
+
+    case DELETE_COMPOSE_MESSAGE:
+    case DELETE_MESSAGE_SUCCESS:
+    case SEND_MESSAGE_SUCCESS: {
+      return setRedirect(state);
+    }
+
+    case UPDATE_ROUTE:
       return set('ui.redirect', null, state);
 
     default:
