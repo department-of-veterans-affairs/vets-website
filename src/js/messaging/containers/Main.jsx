@@ -114,7 +114,7 @@ export class Main extends React.Component {
               onCreateNewFolder={this.props.openCreateFolderModal}
               onFolderChange={this.handleFolderChange}/>
         </div>
-        <div id="messaging-content">
+        <div id="messaging-content" aria-live="assertive">
           {this.props.children}
         </div>
         <ModalAttachments

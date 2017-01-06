@@ -16,12 +16,11 @@ If you haven’t gotten your decision notice:
 - [Contact us online](https://iris.custhelp.com/app/ask/session/L3RpbWUvMTQ4MTgwOTI0My9zaWQvbnNTbnViNm4%3D) 
 </div>
 
-
 #### Look for a payment within 15 days  
-If you’ve received a notice with at least a 10% disability rating, you will get either a direct-deposit payment or a check within 15 days of your decision notice. If you don’t get a payment, please call the Veterans Help Line at 800-827-1000.  
+If you’ve received a notice with at least a 10% disability rating, you will get either a direct-deposit payment or a check within 15 days of your decision notice. If you don’t get a payment, please call the Veterans Help Line at <span class="tel">800-827-1000</span>.
 
 #### If you disagree with your disability rating, you may appeal
-You may [file an appeal](/disability-benefits/claims-appeal/) within one year of receiving a decision notice.
+You may [file an appeal](/disability-benefits/claims-appeal/) within 1 year of receiving a decision notice.
 
 #### Apply for benefits
 

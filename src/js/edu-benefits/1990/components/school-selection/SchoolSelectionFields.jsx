@@ -1,11 +1,11 @@
 import React from 'react';
 
+import Address from '../../../../common/components/questions/Address';
 import ErrorableTextInput from '../../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableSelect from '../../../../common/components/form-elements/ErrorableSelect';
 import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
 import ExpandingGroup from '../../../../common/components/form-elements/ExpandingGroup';
 import ErrorableDate from '../../../../common/components/form-elements/ErrorableDate';
-import Address from '../Address';
 
 import { schoolTypes, schoolTypesWithTuitionTopUp, yesNo } from '../../utils/options-for-select';
 import { showSchoolAddress } from '../../../utils/helpers';
