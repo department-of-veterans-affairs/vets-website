@@ -7,10 +7,12 @@ import { uiSchemaValidate, transformErrors } from './validation';
 import FieldTemplate from './FieldTemplate';
 import * as widgets from './widgets';
 import ProgressButton from '../components/form-elements/ProgressButton';
+import ObjectField from './ObjectField';
 
 import { focusElement } from '../utils/helpers';
 
 const fields = {
+  ObjectField
 };
 
 const scrollToFirstError = () => {

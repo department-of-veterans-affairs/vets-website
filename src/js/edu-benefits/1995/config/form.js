@@ -1,5 +1,5 @@
 import { fullName, ssn } from '../../../common/schemaform/definitions';
-import { validateSSN } from '../../../common/schemaform/validation';
+import { uiFullName, uiSSN } from '../../../common/schemaform/uiDefinitions';
 import IntroductionPage from '../components/IntroductionPage';
 
 const formConfig = {
@@ -19,25 +19,15 @@ const formConfig = {
             }
           },
           uiSchema: {
-            veteranFullName: {
-              suffix: {
-                'ui:options': {
-                  widgetClassNames: 'form-select-medium'
-                }
-              }
-            },
-            veteranSocialSecurityNumber: {
-              'ui:options': {
-                widgetClassNames: 'usa-input-medium'
-              },
-              'ui:validations': [
-                validateSSN
-              ]
+            'ui:title': 'Veteran information',
+            veteranFullName: uiFullName,
+            veteranSocialSecurityNumber: uiSSN,
+            fileNumber: {
+              'ui:title': 'File number'
             }
           },
           schema: {
             type: 'object',
-            title: 'Veteran information',
             definitions: {
               fullName,
               ssn
@@ -51,7 +41,6 @@ const formConfig = {
                 $ref: '#/definitions/ssn'
               },
               fileNumber: {
-                title: 'File number',
                 type: 'number',
                 minimum: 1
               }
