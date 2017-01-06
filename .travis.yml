@@ -12,7 +12,7 @@ notifications:
 before_install:
   - npm install -g npm@3.8.9
   - npm --version
-  - "while sleep 30; do free -h; done &"
+  - "while sleep 30; do free -m; done &"
 
 cache:
   apt: true
