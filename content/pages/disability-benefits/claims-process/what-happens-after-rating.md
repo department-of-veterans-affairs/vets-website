@@ -10,16 +10,11 @@ Disability compensation may include financial compensation (payments) as well as
 
 If you haven’t gotten your decision notice:
 
-<<<<<<< HEAD
-If you haven’t received your decision notice, you can check your status. [Check your claim status](/disability-benefits/track-claims/).
-=======
 - [Check your status](/disability-benefits/track-claims/), **or**
 - [Contact your local regional benefit office](http://www.benefits.va.gov/benefits/offices.asp), **or**
 - Call us at <span class="tel">800-827-1000</span>, **or**
 - [Contact us online](https://iris.custhelp.com/app/ask/session/L3RpbWUvMTQ4MTgwOTI0My9zaWQvbnNTbnViNm4%3D) 
 </div>
->>>>>>> master
-
 
 #### Look for a payment within 15 days  
 If you’ve received a notice with at least a 10% disability rating, you will get either a direct-deposit payment or a check within 15 days of your decision notice. If you don’t get a payment, please call the Veterans Help Line at <span class="tel">800-827-1000</span>.
