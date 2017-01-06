@@ -62,8 +62,8 @@ export default function modals(state = initialState, action) {
 
       if (subject) {
         params.subject.field = !!subject.eq
-                          ? makeField(subject.eq, true)
-                          : makeField(subject.match, true);
+                             ? makeField(subject.eq, true)
+                             : makeField(subject.match, true);
         params.subject.exact = !!subject.eq;
       }
 
