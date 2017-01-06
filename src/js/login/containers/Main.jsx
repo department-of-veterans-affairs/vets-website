@@ -103,9 +103,10 @@ class Main extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const userState = state.user;
   return {
-    login: state.userLogin,
-    profile: state.userProfile
+    login: userState.login,
+    profile: userState.profile
   };
 };
 
