@@ -5,6 +5,10 @@ import qc from 'quick_check';
 import _ from 'lodash';
 
 import {
+  states
+} from '../../../../src/js/common/utils/options-for-select';
+
+import {
   createVeteran,
   veteranToApplication,
   createTour,
@@ -15,7 +19,7 @@ import {
 
 import {
   relinquishableBenefits,
-  states, contactOptions,
+  contactOptions,
   schoolTypes,
   accountTypes,
   suffixes,
