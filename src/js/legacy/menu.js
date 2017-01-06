@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
    
     if (overlayTarget.classList.contains('va-overlay') &&
         clickTarget.classList.contains('va-overlay-close')) {
-          domEvent.preventDefault();
           overlayTarget.classList.remove('va-overlay--open');
     } else if(overlayId) {
         document.querySelector(overlayId).classList.add('va-overlay--open');
