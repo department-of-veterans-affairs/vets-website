@@ -149,6 +149,8 @@ describe('search reducer', () => {
     expect(newState.params.dateRange.end).to.eql(moment(endDate));
     expect(newState.params.from.field).to.eql(makeField(senderName, true));
     expect(newState.params.from.exact).to.be.true;
+    expect(newState.params.to.field).to.eql(makeField(recipientName, true));
+    expect(newState.params.to.exact).to.be.true;
     expect(newState.params.subject.field).to.eql(makeField(subject, true));
     expect(newState.params.subject.exact).to.be.false;
   });
