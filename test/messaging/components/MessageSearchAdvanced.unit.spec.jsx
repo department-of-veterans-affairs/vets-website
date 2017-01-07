@@ -1,8 +1,6 @@
 import React from 'react';
-import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import { makeField } from '../../../src/js/common/model/fields';
 import MessageSearchAdvanced from '../../../src/js/messaging/components/MessageSearchAdvanced';
@@ -56,5 +54,3 @@ describe('MessageSearchAdvanced', () => {
     expect(fields[0].subTree('ErrorableTextInput').props.label).to.equal('To');
   });
 });
-
-
