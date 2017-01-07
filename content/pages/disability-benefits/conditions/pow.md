@@ -13,13 +13,13 @@ Are you a former POW now living with a disability? Find out if you can get disab
 
 ### Can I get disability benefits from VA?
 You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and:
--	Your condition is believed to be caused by time spent as a POW (called a presumptive disability), **and**
+-	Your condition is believed to be caused by time spent as a POW. We call this a presumptive disability, **and**
 -	At any time following active-duty service, your condition has become at least 10% disabling. Our disability rating system is used to measure the severity of your disability.
 
 
 ### What conditions are covered by these benefits?
 
-Conditions believed to be caused by time spent as a POW are covered by these benefits. Please see the list of covered conditions below. We've decided these conditions based on studies of the long-term effects of captivity, deprivation, trauma, and cold injury. 
+Conditions believed to be caused by time spent as a POW are covered by these benefits. Please see the list of covered conditions below. We've decided these conditions are covered because of studies that have been done on the long-term effects of captivity, deprivation, trauma, and cold injury. 
 
 **For former POWs held captive for any length of time:**
 
@@ -68,4 +68,8 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for these benefits. When you apply, please include any reports that confirm you spent time as a POW and a doctor has stated that you have 1 or more of the conditions listed here—and that the condition is at least 10% disabling. [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
+You’ll need to apply for these benefits. 
+
+When you apply, please include any reports that confirm you spent time as a POW and a doctor has stated that you have 1 or more of the conditions listed here—and that the condition is at least 10% disabling. 
+
+[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).

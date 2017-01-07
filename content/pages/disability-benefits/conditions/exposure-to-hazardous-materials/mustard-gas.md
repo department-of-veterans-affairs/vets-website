@@ -36,8 +36,8 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits.
+You’ll need to apply for benefits. 
 
-Contact with mustard gas or lewisite is not defined as a service condition (an illness or injury believed to be caused by service in the military). So you’ll need to apply based on the illnesses believed to be caused by your contact with 1 of these chemicals. When you send in your claim, be sure to share any military records that show you had contact with blistering agents.
+You have to claim an actual disease or disability. It's not enough to state that you were exposed to mustard gas or lewisite during service. This means you’ll need to apply based on the illnesses believed to be caused by your contact with 1 of these chemicals. When you send in your claim, be sure to share any military records that show you had contact with blistering agents.
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
