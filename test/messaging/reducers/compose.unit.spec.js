@@ -7,11 +7,8 @@ import {
   ADD_COMPOSE_ATTACHMENTS,
   DELETE_COMPOSE_ATTACHMENT,
   DELETE_COMPOSE_MESSAGE,
-  FETCH_RECIPIENTS_SUCCESS,
   SET_MESSAGE_FIELD,
 } from '../../../src/js/messaging/utils/constants';
-
-import { testData } from '../../util/messaging-helpers';
 
 const initialState = {
   message: {
@@ -20,8 +17,7 @@ const initialState = {
     category: makeField(''),
     recipient: makeField(''),
     subject: makeField('')
-  },
-  recipients: []
+  }
 };
 
 describe('compose reducer', () => {
@@ -84,21 +80,6 @@ describe('compose reducer', () => {
 
     expect(newState.message.attachments).to.have.lengthOf(1);
     expect(newState.message.attachments).to.contain('test1');
-  });
-
-  it('should populate the list of possible recipients', () => {
-    const recipients = testData.recipients;
-    const newState = composeReducer(initialState, {
-      type: FETCH_RECIPIENTS_SUCCESS,
-      recipients
-    });
-
-    recipients.data.forEach((recipient) => {
-      expect(newState.recipients).to.contain({
-        label: recipient.attributes.name,
-        value: recipient.attributes.triageTeamId
-      });
-    });
   });
 
   it('should set the recipient for a new message', () => {

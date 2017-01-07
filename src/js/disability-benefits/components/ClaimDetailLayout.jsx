@@ -40,11 +40,11 @@ export default class ClaimDetailLayout extends React.Component {
                       : 'Not available'}
                   </p>
                   {claim.attributes.contentionList && claim.attributes.contentionList.length > MAX_CONDITIONS
-                      ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all</Link></span>
+                      ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all your claimed conditions</Link>.</span>
                     : null}
                 </div>
                 <TabNav id={this.props.claim.id}/>
-                <div className="va-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
+                <div className="va-tab-content db-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
                   {isPopulatedClaim(claim) || !claim.attributes.open ? null : <AddingDetails/>}
                   {this.props.children}
                 </div>

@@ -6,7 +6,6 @@ import {
   ADD_COMPOSE_ATTACHMENTS,
   DELETE_COMPOSE_ATTACHMENT,
   DELETE_COMPOSE_MESSAGE,
-  FETCH_RECIPIENTS_SUCCESS,
   RESET_MESSAGE_OBJECT,
   SET_MESSAGE_FIELD,
 } from '../utils/constants';
@@ -18,33 +17,11 @@ const initialState = {
     category: makeField(''),
     recipient: makeField(''),
     subject: makeField('')
-  },
-  // List of potential recipients
-  recipients: []
+  }
 };
 
-/*
-* Take the recipients object returned during the fetch operation
-* and one return {label, value} object for each object in the
-* action.recipients.data array.
-* That's all we need.
-*/
-function getRecipients(recipients) {
-  return recipients.map((item) => {
-    return {
-      label: item.attributes.name,
-      value: item.attributes.triageTeamId
-    };
-  });
-}
-
 const resetMessage = (state) => {
-  let msg = set('message.category', initialState.message.category, state);
-  msg = set('message.recipient', initialState.message.recipient, msg);
-  msg = set('message.subject', initialState.message.subject, msg);
-  msg = set('message.attachments', initialState.message.attachments, msg);
-  msg = set('message.body', initialState.message.body, msg);
-  return msg;
+  return set('message', initialState.message, state);
 };
 
 export default function compose(state = initialState, action) {
@@ -60,8 +37,6 @@ export default function compose(state = initialState, action) {
       return set('message.attachments', state.message.attachments, state);
     case DELETE_COMPOSE_MESSAGE:
       return initialState;
-    case FETCH_RECIPIENTS_SUCCESS:
-      return set('recipients', getRecipients(action.recipients.data), state);
     case RESET_MESSAGE_OBJECT:
       return resetMessage(state);
     case SET_MESSAGE_FIELD:

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { dirtyAllFields } from '../../common/model/fields';
 import NoticeBox from '../components/NoticeBox';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
@@ -15,7 +16,6 @@ import {
   fetchRecipients,
   openAttachmentsModal,
   resetMessage,
-  resetRedirect,
   saveDraft,
   sendMessage,
   setMessageField,
@@ -36,18 +36,13 @@ export class Compose extends React.Component {
   }
 
   componentDidMount() {
-    this.props.resetMessage();
-    this.props.fetchRecipients();
-  }
-
-  componentDidUpdate() {
     if (this.props.redirect) {
       this.context.router.replace(this.props.redirect);
+      return;
     }
-  }
 
-  componentWillUnmount() {
-    this.props.resetRedirect();
+    this.props.resetMessage();
+    this.props.fetchRecipients();
   }
 
   apiFormattedMessage() {
@@ -114,6 +109,10 @@ export class Compose extends React.Component {
   }
 
   render() {
+    if (this.props.loading.recipients) {
+      return <LoadingIndicator message="Loading your application..."/>;
+    }
+
     return (
       <div>
         <div id="messaging-content-header">
@@ -139,6 +138,7 @@ export class Compose extends React.Component {
             onAttachmentsError={this.props.openAttachmentsModal}
             onBodyChange={this.props.setMessageField.bind(null, 'message.body')}
             onCategoryChange={this.props.setMessageField.bind(null, 'message.category')}
+            onFetchRecipients={this.props.fetchRecipients}
             onRecipientChange={this.props.setMessageField.bind(null, 'message.recipient')}
             onSaveMessage={this.saveDraftIfNoAttachments}
             onSendMessage={this.sendMessage}
@@ -166,10 +166,11 @@ Compose.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    message: state.compose.message,
-    recipients: state.compose.recipients,
-    redirect: state.folders.ui.redirect,
     deleteConfirmModal: state.modals.deleteConfirm,
+    loading: state.loading,
+    message: state.compose.message,
+    recipients: state.recipients.data,
+    redirect: state.folders.ui.redirect,
     saveConfirmModal: state.modals.saveConfirm
   };
 };
@@ -181,7 +182,6 @@ const mapDispatchToProps = {
   fetchRecipients,
   openAttachmentsModal,
   resetMessage,
-  resetRedirect,
   saveDraft,
   sendMessage,
   setMessageField,

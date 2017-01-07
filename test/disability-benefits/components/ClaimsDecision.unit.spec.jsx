@@ -12,7 +12,7 @@ describe('<ClaimsDecision>', () => {
           completedDate={date}/>
     );
 
-    expect(tree.text()).not.to.contain('Your claim was completed');
+    expect(tree.text()).not.to.contain('We finished reviewing your claim');
   });
   it('should render message with date sentence', () => {
     const date = '2010-03-01';
@@ -21,7 +21,7 @@ describe('<ClaimsDecision>', () => {
           completedDate={date}/>
     );
 
-    expect(tree.text()).to.contain('Your claim was completed');
+    expect(tree.text()).to.contain('We finished reviewing your claim');
     expect(tree.text()).to.contain('Mar 1, 2010');
   });
 });

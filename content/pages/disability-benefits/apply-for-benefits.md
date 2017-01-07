@@ -63,7 +63,6 @@ You can apply for benefits if:
 
 In November 2016, we took an average of about 115 days to process a disability claim. If your claim is complex, it may take us longer to review.
 
-
 </div>
 
 <div class="disclaimer minimal" markdown="1">
@@ -145,8 +144,8 @@ The amount of time it takes to review your claim depends on:
 - How many injuries or disabilities you claimed and how complex they are
 - How long it takes us to collect the evidence needed to decide your claim
 
-</div>
 
+</div>
 
 <div class="feature" markdown="1">
 
@@ -182,7 +181,6 @@ During this step, the VSR will do 3 things:
 
 If we need more evidence during the review, your claim may return to this step more than once. 
 
-
 </li>
 
 <li>
@@ -200,6 +198,26 @@ We'll get your entire claim decision packet ready to be mailed.
 
 We'll mail you a packet with a decision notice and award details. Please allow 7 to 10 business days for your packet to arrive before you contact a VA call center.
 
+</li>
+
+<li>
+
+**Preparation for Notification**
+
+We'll get your entire claim decision packet ready to be mailed.
+
+
+</li>
+
+<li>
+
+**Claim Complete**
+
+We'll send you a packet by U.S. mail that includes details of the decision on your claim. Please allow 7 to 10 business days for your packet to arrive before contacting a VA call center.
+
+
+</li>
+</ol>
 </div>
 
 <div class="actions">
@@ -235,3 +253,4 @@ If you disagree with our decision, you can appeal it. The decision notice will h
 </li>
 
 </ol>
+

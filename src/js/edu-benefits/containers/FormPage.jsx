@@ -3,8 +3,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { veteranUpdateField, ensureFieldsInitialized } from '../actions/index';
+import { focusElement } from '../../common/utils/helpers';
+
+function focusForm() {
+  const legend = document.querySelector('.form-panel legend');
+  if (legend && legend.getBoundingClientRect().height > 0) {
+    focusElement(legend);
+  } else {
+    focusElement('.nav-header');
+  }
+}
 
 class FormPage extends React.Component {
+  componentDidMount() {
+    focusForm();
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.Fields !== prevProps.Fields) {
+      focusForm();
+    }
+  }
   render() {
     const { data, onStateChange, dirtyFields, Fields } = this.props;
 

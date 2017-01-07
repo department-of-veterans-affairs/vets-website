@@ -22,7 +22,7 @@ majorlinks:
 relatedlinks:
   - url: /disability-benefits/claims-process/
     title: Claims process
-    description: Understand the process and prepare carefully before applying.     
+    description: Understand the process and prepare carefully before applying.
 ---
 
 If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. A disability can be a physical illness or injury (like cancer or damage to a knee) or a mental-health condition (like anxiety or PTSD). This includes conditions that don't appear until years after your service ends, but are still related to your time in the military.

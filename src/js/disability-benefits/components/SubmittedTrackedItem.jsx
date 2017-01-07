@@ -13,9 +13,8 @@ export default function SubmittedTrackedItem({ item }) {
       {item.documents
         ? item.documents.map((doc, index) => (
           <div key={index} className="submission-item">
-            {item.documents.length > 1 && <span><h6 className="claims-turnedin-file-header">File {index + 1}</h6><br/></span>}
-            File: {doc.filename}<br/>
-            Type: {doc.fileType}
+            <span className="claim-item-label">File:</span> {doc.filename}<br/>
+            <span className="claim-item-label">Type:</span> {doc.fileType}
           </div>)
         )
         : null}

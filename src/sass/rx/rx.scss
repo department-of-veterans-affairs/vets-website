@@ -13,6 +13,8 @@
 @import "partials/rx-modal";
 @import "partials/rx-sort-list";
 @import "partials/rx-table";
+@import "partials/rx-breadcrumbs";
+@import "partials/rx-view-toggle";
 
 // TODO: Replace this with a clearfix mixin
 // from USWDS or something
@@ -35,12 +37,6 @@
   padding: 3rem 1.5rem;
   margin: auto;
   max-width: $site-max-width;
-}
-
-// Enhances a USWDS style that has higher specificity.
-// Do not refactor.
-button.usa-button-outline {
-  font-weight: bold;
 }
 
 // Enhances a USWDS style that has higher specificity.

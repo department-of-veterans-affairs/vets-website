@@ -5,14 +5,18 @@ import _ from 'lodash';
 import routes from '../routes';
 
 import ReviewCollapsiblePanel from '../components/ReviewCollapsiblePanel';
+import PrivacyAgreement from '../../common/components/questions/PrivacyAgreement';
 
 import { ensureFieldsInitialized, updateEditStatus, veteranUpdateField } from '../actions';
-import { isActivePage } from '../../common/utils/helpers';
+import { isActivePage, focusElement } from '../../common/utils/helpers';
 
 class ReviewPage extends React.Component {
+  componentDidMount() {
+    focusElement('.edu-page-title');
+  }
   render() {
     let content;
-    const data = this.props.data;
+    const { data, onStateChange } = this.props;
 
     if (this.props.uiData.isApplicationSubmitted) {
       content = (
@@ -56,12 +60,15 @@ class ReviewPage extends React.Component {
     }
     return (
       <div>
-        <h4>Review application</h4>
+        <h4 className="edu-page-title">Review application</h4>
         <div className="input-section">
           {content}
         </div>
         <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
-
+        <PrivacyAgreement required
+            showError={this.props.hasAttemptedSubmit}
+            onChange={(update) => onStateChange('privacyAgreementAccepted', update)}
+            checked={this.props.data.privacyAgreementAccepted}/>
       </div>
     );
   }
@@ -70,7 +77,8 @@ class ReviewPage extends React.Component {
 function mapStateToProps(state) {
   return {
     data: state.veteran,
-    uiData: state.uiState
+    uiData: state.uiState,
+    hasAttemptedSubmit: state.uiState.submission.hasAttemptedSubmit
   };
 }
 

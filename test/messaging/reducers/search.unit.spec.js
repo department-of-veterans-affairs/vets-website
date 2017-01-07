@@ -40,7 +40,7 @@ describe('search reducer', () => {
     });
 
     expect(newState.params.dateRange.end.toString())
-      .to.eql(today.toString());
+      .to.eql(today.endOf('day').toString());
 
     const weekAgo = today.clone().subtract(1, 'weeks');
     newState = searchReducer(newState, {
@@ -49,7 +49,7 @@ describe('search reducer', () => {
     });
 
     expect(newState.params.dateRange.end.toString())
-      .to.eql(weekAgo.toString());
+      .to.eql(weekAgo.endOf('day').toString());
   });
 
   it('should set start date for advanced search', () => {

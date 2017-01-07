@@ -12,6 +12,7 @@ Did you get a decision notice from us that confirms your disability rating (the 
 Disability compensation may include financial compensation (payments) as well as other benefits—like health care or job training.
 
 If you haven’t gotten your decision notice:
+
 - [Check your status](/disability-benefits/track-claims/), **or**
 - [Contact your local regional benefit office](http://www.benefits.va.gov/benefits/offices.asp), **or**
 - Call us at <span class="tel">800-827-1000</span>, **or**

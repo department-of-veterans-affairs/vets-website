@@ -93,11 +93,11 @@ export default class EmploymentHistoryFields extends React.Component {
       </div>
       {this.props.data.hasNonMilitaryJobs.value === 'Y' &&
         <div className="form-review-panel-page">
-          <div className="form-review-panel-page-header-row edu-growable-review-header">
+          <div className="form-review-panel-page-header-row header-stacked-small edu-growable-review-header">
             <h5 className="form-review-panel-page-header">Employment</h5>
             <button
                 className="edit-btn primary-outline"
-                onClick={this.addAnotherPeriod}><i className="fa before-text fa-pencil"></i>Add Another</button>
+                onClick={this.addAnotherPeriod}>Add Another</button>
           </div>
           {periodsTable}
         </div>}

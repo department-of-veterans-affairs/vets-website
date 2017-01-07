@@ -15,7 +15,7 @@ majorlinks:
     description: Apply for help to build your career skills and find and keep a job.
   - url: /healthcare/apply/
     title: Health Care
-    description: Apply for health coverage for everything from doctor's visits to medical equipment to prescriptions.
+    description: Apply for VA health care for  doctor's visits, medical equipment, prescriptions, and more.
 
 ---
 <div class="splash">
@@ -50,9 +50,9 @@ majorlinks:
     </a>
   </div>
   <div class="medium-4 columns">
-    <a href="/gi-bill-comparison-tool/">
+    <a href="/education/apply-for-education-benefits/">
       <div class="outline-link-block">
-        View education benefits by school
+        Apply for education benefits
       </div>
     </a>
   </div>

@@ -4,11 +4,11 @@ class ButtonCreateFolder extends React.Component {
   render() {
     return (
       <button
-          className="msg-btn-newfolder"
+          className="va-icon-link msg-btn-newfolder"
           onClick={this.props.onClick}
           type="button">
         <i className="fa fa-plus"></i>
-        &nbsp;Create new folder
+        <span>Create new folder</span>
       </button>
     );
   }
