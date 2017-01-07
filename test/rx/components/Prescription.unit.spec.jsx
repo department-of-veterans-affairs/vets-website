@@ -38,4 +38,41 @@ describe('<Prescription>', () => {
     const tree = SkinDeep.shallowRender(<Prescription {...props}/>);
     expect(tree.subTree(['.rx-track-package-link'])).to.be.false;
   });
+
+  it('should show Message Provider link when no refills remaining', () => {
+    const newProps = {
+      ...props,
+      attributes: {
+        ...props.attributes,
+        refillRemaining: 0,
+      },
+    };
+
+    const tree = SkinDeep.shallowRender(<Prescription {...newProps}/>);
+    expect(tree.subTree('.rx-call-provider')).to.exist;
+  });
+
+  it('should not show Message Provider link if refills remaining', () => {
+    const tree = SkinDeep.shallowRender(<Prescription {...props}/>);
+    expect(tree.subTree(['.rx-call-provider'])).to.be.false;
+  });
+
+  it('should show SubmitRefill button if refillable', () => {
+    const newProps = {
+      ...props,
+      attributes: {
+        ...props.attributes,
+        isRefillable: true,
+      },
+    };
+
+    const tree = SkinDeep.shallowRender(<Prescription {...newProps}/>);
+    expect(tree.subTree('SubmitRefill')).to.exist;
+  });
+
+  it('should show refill status if not refillable', () => {
+    const tree = SkinDeep.shallowRender(<Prescription {...props}/>);
+    expect(tree.subTree(['.rx-prescription-status'])).to.exist;
+    expect(tree.subTree('GlossaryLink')).to.exist;
+  });
 });
