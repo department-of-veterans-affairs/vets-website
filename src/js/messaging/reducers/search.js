@@ -41,7 +41,7 @@ export default function modals(state = initialState, action) {
   switch (action.type) {
     case FETCH_FOLDER_SUCCESS: {
       const { filter } = action.messages.meta;
-      if (!filter) { return state; }
+      if (!filter) { return initialState; }
 
       const params = {
         dateRange: { ...initialState.params.dateRange },
