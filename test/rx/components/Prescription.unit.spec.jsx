@@ -75,4 +75,13 @@ describe('<Prescription>', () => {
     expect(tree.subTree(['.rx-prescription-status'])).to.exist;
     expect(tree.subTree('GlossaryLink')).to.exist;
   });
+
+  it('should show refillsRemainingCounter with correct props', () => {
+    const tree = SkinDeep.shallowRender(<Prescription {...props}/>);
+    const refillsRemainingCounter = tree.subTree('RefillsRemainingCounter');
+
+    expect(refillsRemainingCounter).to.not.be.false;
+    expect(refillsRemainingCounter.props.remaining)
+      .to.equal(props.attributes.refillRemaining);
+  });
 });
