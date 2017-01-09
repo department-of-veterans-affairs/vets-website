@@ -39,7 +39,7 @@ class EduBenefitsApp extends React.Component {
   componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload); // eslint-disable-line scanjs-rules/call_addEventListener
   }
-  
+
   componentWillReceiveProps(nextProps) {
     const a = nextProps.submission.status;
     const b = this.props.submission.status;
