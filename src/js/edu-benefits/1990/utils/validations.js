@@ -274,5 +274,6 @@ export {
   isValidTourOfDuty,
   isValidEmploymentPeriod,
   isValidRotcScholarshipAmount,
-  isValidEducationPeriod
+  isValidEducationPeriod,
+  isValidAddressField
 };
