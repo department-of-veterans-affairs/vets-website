@@ -70,6 +70,10 @@ class Active extends React.Component {
   }
 
   renderViewSwitch() {
+    if (!this.props.prescriptions || isMobile.any) {
+      return null;
+    }
+
     const toggles = [
       { key: 'card', value: 'Card' },
       { key: 'list', value: 'List' },
@@ -139,7 +143,7 @@ class Active extends React.Component {
 
     return (
       <div id="rx-active" className="va-tab-content">
-        {isMobile.any ? null : this.renderViewSwitch()}
+        {this.renderViewSwitch()}
         {content}
       </div>
     );
