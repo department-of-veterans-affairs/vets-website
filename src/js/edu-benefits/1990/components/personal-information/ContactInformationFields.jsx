@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Address from '../Address';
+import Address from '../../../../common/components/questions/Address';
 import Email from '../../../../common/components/questions/Email';
 import Phone from '../../../../common/components/questions/Phone';
 import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';

@@ -6,6 +6,7 @@ import searchReducer from '../../../src/js/messaging/reducers/search';
 
 import {
   CLOSE_ADVANCED_SEARCH,
+  FETCH_FOLDER_SUCCESS,
   OPEN_ADVANCED_SEARCH,
   SET_ADVSEARCH_END_DATE,
   SET_ADVSEARCH_START_DATE,
@@ -121,5 +122,34 @@ describe('search reducer', () => {
       field: true
     });
     expect(newState.params.subject.exact).to.eql(true);
+  });
+
+  it('should set search params when folder loads with filters', () => {
+    const senderName = 'Veteran';
+    const recipientName = 'Clinician';
+    const subject = 'Testing 123';
+    const startDate = '2017-01-01T00:00:00-05:00';
+    const endDate = '2017-01-14T23:59:59-05:00';
+
+    const newState = searchReducer(initialState, {
+      type: FETCH_FOLDER_SUCCESS,
+      messages: {
+        meta: {
+          filter: {
+            senderName: { eq: senderName },
+            recipientName: { eq: recipientName },
+            subject: { match: subject },
+            sentDate: { gteq: startDate, lteq: endDate }
+          }
+        }
+      }
+    });
+
+    expect(newState.params.dateRange.start).to.eql(moment(startDate));
+    expect(newState.params.dateRange.end).to.eql(moment(endDate));
+    expect(newState.params.from.field).to.eql(makeField(senderName, true));
+    expect(newState.params.from.exact).to.be.true;
+    expect(newState.params.subject.field).to.eql(makeField(subject, true));
+    expect(newState.params.subject.exact).to.be.false;
   });
 });
