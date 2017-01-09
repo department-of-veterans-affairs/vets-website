@@ -134,6 +134,7 @@
     "react-addons-test-utils": "^15.3.0",
     "react-datepicker": "^0.29.0",
     "react-dom": "^15.2.1",
+    "react-jsonschema-form": "https://github.com/department-of-veterans-affairs/react-jsonschema-form#372578ba4b3fa400d35a2fcb9a328b005cd39ea2",
     "react-leaflet": "^1.0.0-beta.3",
     "react-redux": "^4.4.5",
     "react-router": "^2.0.0",

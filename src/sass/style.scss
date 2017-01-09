@@ -5,11 +5,11 @@
 @import "bourbon";
 @import "neat";
 
-@import "~foundation-sites/scss/normalize.scss";
+@import "~uswds/src/stylesheets/lib/normalize";
+
 @import "~foundation-sites/scss/foundation/components/grid";
 @import "~foundation-sites/scss/foundation/components/block-grid";
 @import "~foundation-sites/scss/foundation/components/visibility";
-@import "foundation-variables";
 
 // Font Awesome WOFF/WOFF2 fonts only
 @import "~font-awesome/scss/variables";
@@ -52,14 +52,7 @@
 
 @import 'base/va';
 
-
-// ----- VA LAYOUTS (GRIDS/HEADER/FOOTER) ---- //
-
-@import 'layouts/l-playbook';
-
-
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
-
 @import 'modules/m-card';
 @import 'modules/m-alert';
 @import 'modules/m-checklist';
@@ -71,8 +64,6 @@
 @import 'modules/m-form-elements';
 @import 'modules/m-search';
 @import 'modules/m-loading-indicator';
-
-// ----- VA STATE (ACTIVE BUTTONS/ERROR INPUTS) ---- //
 
 // ----- VA SHAME ---- //
 
