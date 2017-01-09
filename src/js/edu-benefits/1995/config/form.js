@@ -36,7 +36,7 @@ const formConfig = {
               fullName,
               ssn
             },
-            required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+            required: ['veteranFullName', 'veteranSocialSecurityNumber', 'someDate'],
             properties: {
               veteranFullName: {
                 $ref: '#/definitions/fullName'

@@ -14,17 +14,17 @@ export default class DateWidget extends React.Component {
 
   handleBlur(field) {
     const newState = _.set(['touched', field], true, this.state);
-    this.setState(newState);
-    if (newState.touched.year && newState.touched.month && newState.touched.day) {
-      this.props.onBlur(this.props.id, formatISOPartialDate(newState.value));
-    }
+    this.setState(newState, () => {
+      if (newState.touched.year && newState.touched.month && newState.touched.day) {
+        this.props.onBlur(this.props.id, formatISOPartialDate(newState.value));
+      }
+    });
   }
 
   handleChange(field, value) {
     let newState = _.set(['value', field], value, this.state);
-    if (field !== 'year') {
-      newState = _.set(['touched', field], true, newState);
-    }
+    newState = _.set(['touched', field], true, newState);
+
     this.setState(newState, () => {
       if (!this.props.required || newState.value.month && newState.value.day && newState.value.year) {
         this.props.onChange(formatISOPartialDate(newState.value));
@@ -72,7 +72,7 @@ export default class DateWidget extends React.Component {
               autoComplete="false"
               name={`${id}Year`}
               id={`${id}Year`}
-              max={new Date().getFullYear()}
+              max="3000"
               min="1900"
               pattern="[0-9]{4}"
               value={year}
@@ -83,3 +83,10 @@ export default class DateWidget extends React.Component {
     );
   }
 }
+
+DateWidget.propTypes = {
+  id: React.PropTypes.string.isRequired,
+  onChange: React.PropTypes.func.isRequired,
+  onBlur: React.PropTypes.func.isRequired,
+  value: React.PropTypes.string
+};

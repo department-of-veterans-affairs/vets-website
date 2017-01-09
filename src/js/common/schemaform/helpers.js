@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import _ from 'lodash/fp';
 import { Route, IndexRedirect } from 'react-router';
 import FormPage from './FormPage';
@@ -90,25 +89,24 @@ function formatYear(val) {
     return 'XXXX';
   }
 
-  const yearDate = moment(val, 'YYYY');
-  if (!yearDate.isValid()) {
-    return 'XXXX';
-  }
-
-  return yearDate.format('YYYY');
+  return val;
 }
 
 export function formatISOPartialDate({ month, day, year }) {
-  return `${formatYear(year)}-${formatDayMonth(month)}-${formatDayMonth(day)}`;
+  if (month || day || year) {
+    return `${formatYear(year)}-${formatDayMonth(month)}-${formatDayMonth(day)}`;
+  }
+
+  return undefined;
 }
 
 export function parseISODate(dateString) {
   if (dateString) {
-    const [year, month, day] = dateString.split('-', 2);
+    const [year, month, day] = dateString.split('-', 3);
 
     return {
-      month: month === 'XX' ? '' : month,
-      day: day === 'XX' ? '' : day,
+      month: month === 'XX' ? '' : Number(month),
+      day: day === 'XX' ? '' : Number(day),
       year: year === 'XXXX' ? '' : year
     };
   }
