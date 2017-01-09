@@ -35,7 +35,7 @@ If you have symptoms of PTSD and suffered a serious injury or sexual violation, 
 You may be able to get disability benefits if you have symptoms related to a traumatic event (the “stressor”) or your experience with the stressor is related to the PTSD symptoms and:
 -	The stressor happened during your service, **and**
 -	You can’t function as well as you once could because of your symptoms, **and**
--	You have been diagnosed with PTSD
+-	You've been diagnosed with PTSD
 
 <br>
 
