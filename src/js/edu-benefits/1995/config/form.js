@@ -1,5 +1,6 @@
+import _ from 'lodash/fp';
 import { fullName, ssn } from '../../../common/schemaform/definitions';
-import { uiFullName, uiSSN } from '../../../common/schemaform/uiDefinitions';
+import { uiFullName, uiSSN, uiDate } from '../../../common/schemaform/uiDefinitions';
 import IntroductionPage from '../components/IntroductionPage';
 
 const formConfig = {
@@ -25,9 +26,9 @@ const formConfig = {
             fileNumber: {
               'ui:title': 'File number'
             },
-            someDate: {
-              'ui:widget': 'date'
-            }
+            someDate: _.merge(uiDate, {
+              'ui:title': 'Some date'
+            })
           },
           schema: {
             type: 'object',

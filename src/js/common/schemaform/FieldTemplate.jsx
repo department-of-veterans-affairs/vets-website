@@ -15,7 +15,7 @@ export default function FieldTemplate(props) {
   let errorSpan;
   let errorClass;
   if (hasErrors) {
-    errorClass = `usa-input-error${isDateField ? ' form-error-date' : ''}`;
+    errorClass = isDateField ? 'input-error-date' : 'usa-input-error';
     errorSpanId = `${id}-error-message`;
     errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{rawErrors[0]}</span>;
   }
@@ -23,9 +23,9 @@ export default function FieldTemplate(props) {
   return schema.type === 'object' || schema.type === 'array'
     ? children
     : (<div className={errorClass}>
-      <label className={hasErrors && isDateField ? 'usa-input-error-label' : null} htmlFor={id}>{label}{requiredSpan}</label>
+      <label className={hasErrors && !isDateField ? 'usa-input-error-label' : null} htmlFor={id}>{label}{requiredSpan}</label>
       {errorSpan}
-      {children}
+      {<div className={isDateField && hasErrors ? 'usa-input-error form-error-date' : null}>{children}</div>}
       {help}
     </div>
     );

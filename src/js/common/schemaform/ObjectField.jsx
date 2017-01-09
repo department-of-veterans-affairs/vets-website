@@ -100,10 +100,14 @@ class ObjectField extends React.Component {
     const { definitions, fields, formContext } = this.props.registry;
     const { SchemaField, TitleField } = fields;
     const schema = retrieveSchema(this.props.schema, definitions);
+
+    // description and title setup
     const title = uiSchema['ui:title'] || schema.title;
-    const DescriptionField = typeof uiSchema['ui:description'] === 'function'
+    const hasTextDescription = typeof uiSchema['ui:description'] === 'string';
+    const DescriptionField = !hasTextDescription && typeof uiSchema['ui:description'] === 'function'
       ? uiSchema['ui:description']
       : null;
+
     let orderedProperties;
     try {
       const properties = Object.keys(schema.properties);
@@ -128,7 +132,7 @@ class ObjectField extends React.Component {
                   title={title}
                   required={required}
                   formContext={formContext}/> : null}
-          {typeof uiSchema['ui:description'] === 'string' && <p>{uiSchema['ui:description']}</p>}
+          {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
           {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
           {
           orderedProperties.map((propName, index) => {

@@ -1,4 +1,4 @@
-import { validateSSN } from './validation';
+import { validateSSN, validateDate } from './validation';
 
 export const uiFullName = {
   first: {
@@ -25,5 +25,13 @@ export const uiSSN = {
   },
   'ui:validations': [
     validateSSN
+  ]
+};
+
+export const uiDate = {
+  'ui:title': 'Date',
+  'ui:widget': 'date',
+  'ui:validations': [
+    validateDate
   ]
 };

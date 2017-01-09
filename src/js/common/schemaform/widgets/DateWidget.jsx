@@ -1,67 +1,22 @@
 import React from 'react';
 import _ from 'lodash/fp';
-import moment from 'moment';
 
 import { months, days } from '../../utils/options-for-select.js';
-
-function formatDayMonth(val) {
-  if (!val || !val.length || !Number(val)) {
-    return 'XX';
-  } else if (val.length === 1) {
-    return `0${val}`;
-  }
-
-  return val.toString();
-}
-
-function formatYear(val) {
-  if (!val || !val.length) {
-    return 'XXXX';
-  }
-
-  const yearDate = moment(val, 'YYYY');
-  if (!yearDate.isValid()) {
-    return 'XXXX';
-  }
-
-  return yearDate.format('YYYY');
-}
-
-function formatPartialDate({ month, day, year }) {
-  return `${formatYear(year)}-${formatDayMonth(month)}-${formatDayMonth(day)}`;
-}
-
-function parseDate(dateString) {
-  if (dateString) {
-    const [year, month, day] = dateString.split('-', 2);
-
-    return {
-      month: month === 'XX' ? '' : month,
-      day: day === 'XX' ? '' : day,
-      year: year === 'XXXX' ? '' : year
-    };
-  }
-
-  return {
-    month: '',
-    day: '',
-    year: ''
-  };
-}
+import { formatISOPartialDate, parseISODate } from '../helpers';
 
 export default class DateWidget extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
-    this.state = { value: parseDate(this.props.value), touched: { month: false, day: false, year: false } };
+    this.state = { value: parseISODate(this.props.value), touched: { month: false, day: false, year: false } };
   }
 
   handleBlur(field) {
     const newState = _.set(['touched', field], true, this.state);
     this.setState(newState);
     if (newState.touched.year && newState.touched.month && newState.touched.day) {
-      this.props.onBlur(this.props.id, formatPartialDate(newState.value));
+      this.props.onBlur(this.props.id, formatISOPartialDate(newState.value));
     }
   }
 
@@ -71,8 +26,8 @@ export default class DateWidget extends React.Component {
       newState = _.set(['touched', field], true, newState);
     }
     this.setState(newState, () => {
-      if (!this.props.required || newState.month && newState.day && newState.year) {
-        this.props.onChange(formatPartialDate(newState.value));
+      if (!this.props.required || newState.value.month && newState.value.day && newState.value.year) {
+        this.props.onChange(formatISOPartialDate(newState.value));
       }
     });
   }
@@ -88,7 +43,7 @@ export default class DateWidget extends React.Component {
     return (
       <div className="usa-date-of-birth row">
         <div className="form-datefield-month">
-          <label htmlFor={`${id}Month`}>Month</label>
+          <label className="input-date-label" htmlFor={`${id}Month`}>Month</label>
           <select
               autoComplete="false"
               name={`${id}Month`}
@@ -100,7 +55,7 @@ export default class DateWidget extends React.Component {
           </select>
         </div>
         <div className="form-datefield-day">
-          <label htmlFor={`${id}Day`}>Day</label>
+          <label className="input-date-label" htmlFor={`${id}Day`}>Day</label>
           <select
               autoComplete="false"
               name={`${id}Day`}
@@ -112,7 +67,7 @@ export default class DateWidget extends React.Component {
           </select>
         </div>
         <div className="usa-datefield usa-form-group usa-form-group-year">
-          <label htmlFor={`${id}Year`}>Year</label>
+          <label className="input-date-label" htmlFor={`${id}Year`}>Year</label>
           <input type="number"
               autoComplete="false"
               name={`${id}Year`}

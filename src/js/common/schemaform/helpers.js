@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import _ from 'lodash/fp';
 import { Route, IndexRedirect } from 'react-router';
 import FormPage from './FormPage';
@@ -72,4 +73,49 @@ export function createRoutes(formConfig) {
     <Route path="review-and-submit" key="review-and-submit" formConfig={formConfig} component={null} pageList={pageList}/>,
     <Route path="submit-message" key="submit-message" component={formConfig.confirmation}/>,
   ]);
+}
+
+function formatDayMonth(val) {
+  if (!val || !val.length || !Number(val)) {
+    return 'XX';
+  } else if (val.length === 1) {
+    return `0${val}`;
+  }
+
+  return val.toString();
+}
+
+function formatYear(val) {
+  if (!val || !val.length) {
+    return 'XXXX';
+  }
+
+  const yearDate = moment(val, 'YYYY');
+  if (!yearDate.isValid()) {
+    return 'XXXX';
+  }
+
+  return yearDate.format('YYYY');
+}
+
+export function formatISOPartialDate({ month, day, year }) {
+  return `${formatYear(year)}-${formatDayMonth(month)}-${formatDayMonth(day)}`;
+}
+
+export function parseISODate(dateString) {
+  if (dateString) {
+    const [year, month, day] = dateString.split('-', 2);
+
+    return {
+      month: month === 'XX' ? '' : month,
+      day: day === 'XX' ? '' : day,
+      year: year === 'XXXX' ? '' : year
+    };
+  }
+
+  return {
+    month: '',
+    day: '',
+    year: ''
+  };
 }
