@@ -3,12 +3,35 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
 import Prescription from '../../../src/js/rx/components/Prescription.jsx';
-import { prescriptions } from '../../util/rx-helpers.js';
 
-const item = prescriptions.data[0];
+const samplePrescription = {
+  id: '746575',
+  type: 'va-rx-prescriptions',
+  attributes: {
+    prescriptionId: 746575,
+    prescriptionNumber: '2719083',
+    prescriptionName: 'ACETAMINOPHEN 325MG TAB',
+    refillStatus: 'active',
+    refillSubmitDate: null,
+    refillDate: '2014-01-24T05:00:00.000Z',
+    refillRemaining: 5,
+    facilityName: 'ABC123',
+    orderedDate: '2014-01-24T05:00:00.000Z',
+    quantity: 10,
+    expirationDate: '2015-01-25T05:00:00.000Z',
+    dispensedDate: null,
+    stationNumber: '12',
+    isRefillable: false,
+    isTrackable: false
+  },
+  links: {
+    self: 'http://localhost:3000/rx/v1/prescriptions/746575',
+    tracking: 'http://localhost:3000/rx/v1/prescriptions/746575/trackings'
+  }
+};
 
 const props = {
-  ...item,
+  ...samplePrescription,
   glossaryModalHandler: () => {},
   refillModalHandler: () => {},
   dispatch: () => {}
@@ -36,7 +59,7 @@ describe('<Prescription>', () => {
 
   it('should not render tracking link if not applicable', () => {
     const tree = SkinDeep.shallowRender(<Prescription {...props}/>);
-    expect(tree.subTree(['.rx-track-package-link'])).to.be.false;
+    expect(tree.subTree('TrackPackageLink')).to.be.false;
   });
 
   it('should show Message Provider link when no refills remaining', () => {
@@ -54,7 +77,7 @@ describe('<Prescription>', () => {
 
   it('should not show Message Provider link if refills remaining', () => {
     const tree = SkinDeep.shallowRender(<Prescription {...props}/>);
-    expect(tree.subTree(['.rx-call-provider'])).to.be.false;
+    expect(tree.subTree('.rx-call-provider')).to.be.false;
   });
 
   it('should show SubmitRefill button if refillable', () => {
@@ -72,7 +95,7 @@ describe('<Prescription>', () => {
 
   it('should show refill status if not refillable', () => {
     const tree = SkinDeep.shallowRender(<Prescription {...props}/>);
-    expect(tree.subTree(['.rx-prescription-status'])).to.exist;
+    expect(tree.subTree('.rx-prescription-status')).to.exist;
     expect(tree.subTree('GlossaryLink')).to.exist;
   });
 
