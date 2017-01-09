@@ -5,7 +5,7 @@ import FormPage from './FormPage';
 
 function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
-    .reduce((acc, chapter) => {
+    .reduce((pageList, chapter) => {
       const chapterTitle = formConfig.chapters[chapter].title;
       const pages = Object.keys(formConfig.chapters[chapter].pages)
         .map(page => {
@@ -14,7 +14,7 @@ function createFormPageList(formConfig) {
             pageKey: page
           });
         });
-      return acc.concat(pages);
+      return pageList.concat(pages);
     }, []);
 }
 

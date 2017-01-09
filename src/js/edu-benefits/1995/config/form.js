@@ -11,7 +11,7 @@ const formConfig = {
       title: 'Veteran Information',
       pages: {
         veteranInformation: {
-          path: 'applicant-information',
+          path: 'veteran-information',
           initialData: {},
           errorMessages: {
             veteranSocialSecurityNumber: {
@@ -37,7 +37,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            title: 'Applicant information',
+            title: 'Veteran information',
             definitions: {
               fullName,
               ssn
