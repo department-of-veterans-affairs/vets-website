@@ -222,17 +222,10 @@ hr {
     }
   }
 }
-<<<<<<< HEAD
 
 .va-header-logosearch {
   padding: 1em 0.75em 0;
 
-=======
-
-.va-header-logosearch {
-  padding: 1em 0.75em 0;
-
->>>>>>> 592c16b7ecb9826c15c9b4ec720450e0009d7f4b
   // Fixes overflow of content at < 320px viewports
   @include media($xsmall-screen) {
     display: flex;
