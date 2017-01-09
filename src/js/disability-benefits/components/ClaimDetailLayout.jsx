@@ -33,14 +33,14 @@ export default class ClaimDetailLayout extends React.Component {
                 {message && <Notification title={message.title} body={message.body} type={message.type} onClose={clearNotification}/>}
                 <h1 className="claim-title">Your {getClaimType(claim)} Claim</h1>
                 <div className="claim-conditions">
-                  <h6>Your Claimed Conditions:</h6>
+                  <h6>Your Claimed Contentions:</h6>
                   <p className="list">
                     {claim.attributes.contentionList && claim.attributes.contentionList.length
                         ? claim.attributes.contentionList.slice(0, MAX_CONDITIONS).map(cond => cond.trim()).join(', ')
                       : 'Not available'}
                   </p>
                   {claim.attributes.contentionList && claim.attributes.contentionList.length > MAX_CONDITIONS
-                      ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all your claimed conditions</Link>.</span>
+                      ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all your claimed contentions</Link>.</span>
                     : null}
                 </div>
                 <TabNav id={this.props.claim.id}/>
