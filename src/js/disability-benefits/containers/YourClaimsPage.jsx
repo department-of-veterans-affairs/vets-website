@@ -10,6 +10,7 @@ import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
+import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 
 class YourClaimsPage extends React.Component {
@@ -43,9 +44,12 @@ class YourClaimsPage extends React.Component {
     if (loading) {
       content = <LoadingIndicator message="Loading claims list" setFocus/>;
     } else if (claims.length > 0) {
-      content = (<div className="claim-list">
-        {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
-        <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
+      content = (<div>
+        <ClosedClaimMessage claims={claims}/>
+        <div className="claim-list">
+          {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
+          <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
+        </div>
       </div>);
     } else {
       content = <NoClaims/>;
