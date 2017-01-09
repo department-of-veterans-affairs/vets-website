@@ -37,22 +37,10 @@
   td:last-child {
     width: 99%;
   }
-
-  @media (min-width: $medium-screen) {
-    display: inline-block;
-    min-width: 45rem;
-    width: 45rem;
-  }
 }
 
 #rx-info {
   margin-bottom: 3.5rem;
-
-  @media (min-width: $medium-screen) {
-    display: inline-block;
-    margin-right: 3.5rem;
-    vertical-align: top;
-  }
 
   td {
     padding-right: 0;
@@ -100,7 +88,7 @@
       white-space: nowrap;
     }
   }
-  
+
   @media (max-width: $medium-screen) {
     td {
       &:nth-child(1):before { content: "Order status: "; }
