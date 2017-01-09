@@ -33,8 +33,8 @@ class DetailsPage extends React.Component {
             <h6>Claim Type</h6>
             <p>{claim.attributes.claimType || 'Not Available'}</p>
           </div>
-          <div className="claim-conditions-list">
-            <h6>Your Claimed Conditions</h6>
+          <div className="claim-contentions-list">
+            <h6>Your Claimed Contentions</h6>
             {claim.attributes.contentionList && claim.attributes.contentionList.length
             ? claim.attributes.contentionList.map((contention, index) =>
               <li key={index}>{contention}</li>
