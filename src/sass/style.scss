@@ -5,11 +5,11 @@
 @import "bourbon";
 @import "neat";
 
-@import "~foundation-sites/scss/normalize.scss";
+@import "~uswds/src/stylesheets/lib/normalize";
+
 @import "~foundation-sites/scss/foundation/components/grid";
 @import "~foundation-sites/scss/foundation/components/block-grid";
 @import "~foundation-sites/scss/foundation/components/visibility";
-@import "foundation-variables";
 
 // Font Awesome WOFF/WOFF2 fonts only
 @import "~font-awesome/scss/variables";
