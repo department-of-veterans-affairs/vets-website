@@ -36,6 +36,10 @@ class EduBenefitsApp extends React.Component {
     this.onbeforeunload = this.onbeforeunload.bind(this);
   }
 
+  componentWillMount() {
+    window.addEventListener('beforeunload', this.onbeforeunload); // eslint-disable-line scanjs-rules/call_addEventListener
+  }
+  
   componentWillReceiveProps(nextProps) {
     const a = nextProps.submission.status;
     const b = this.props.submission.status;
@@ -44,10 +48,6 @@ class EduBenefitsApp extends React.Component {
       this.removeOnbeforeunload();
       scrollToTop();
     }
-  }
-
-  componentWillMount() {
-    window.addEventListener('beforeunload', this.onbeforeunload); // eslint-disable-line scanjs-rules/call_addEventListener
   }
 
   componentWillUnmount() {
