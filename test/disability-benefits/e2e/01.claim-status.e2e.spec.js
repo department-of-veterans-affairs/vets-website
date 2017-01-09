@@ -27,7 +27,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // conditions list
     client
-      .expect.element('.claim-conditions .list').text.equals('Hearing Loss (New), skin condition (New), jungle rot (New)');
+      .expect.element('.claim-contentions .list').text.equals('Hearing Loss (New), skin condition (New), jungle rot (New)');
 
     // timeline
     client
