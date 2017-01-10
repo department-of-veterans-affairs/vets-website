@@ -58,6 +58,7 @@ class MessageSearch extends React.Component {
         {basicSearch}
         <MessageSearchAdvanced
             params={this.props.params}
+            hasRecipientField={this.props.hasRecipientField}
             isVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.onAdvancedSearch}
             onFieldChange={this.props.onFieldChange}
@@ -68,6 +69,7 @@ class MessageSearch extends React.Component {
 
 MessageSearch.propTypes = {
   cssClass: React.PropTypes.string,
+  hasRecipientField: React.PropTypes.bool,
   isAdvancedVisible: React.PropTypes.bool.isRequired,
   onAdvancedSearch: React.PropTypes.func.isRequired,
   onError: React.PropTypes.func.isRequired,
