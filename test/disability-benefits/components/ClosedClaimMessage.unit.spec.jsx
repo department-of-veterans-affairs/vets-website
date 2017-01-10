@@ -23,6 +23,23 @@ describe('<ClosedClaimMessage>', () => {
 
     expect(tree.everySubTree('.usa-alert')).not.to.be.empty;
   });
+  it('should not render closed claims at 30 days', () => {
+    const claims = [
+      {
+        id: 1,
+        attributes: {
+          open: false,
+          phaseChangeDate: moment().add(-30, 'days').format('YYYY-MM-DD')
+        }
+      }
+    ];
+    const tree = SkinDeep.shallowRender(
+      <ClosedClaimMessage
+          claims={claims}/>
+    );
+
+    expect(tree.everySubTree('.usa-alert')).to.be.empty;
+  });
   it('should render nothing when no closed claims', () => {
     const claims = [
       {

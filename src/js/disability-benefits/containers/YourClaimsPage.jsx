@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getClaims, changePage, showConsolidatedMessage } from '../actions';
+import { getClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsListItem from '../components/ClaimsListItem';
 import NoClaims from '../components/NoClaims';
@@ -37,7 +37,7 @@ class YourClaimsPage extends React.Component {
     scrollToTop();
   }
   render() {
-    const { claims, pages, page, loading } = this.props;
+    const { claims, pages, page, loading, show30DayNotice } = this.props;
 
     let content;
 
@@ -45,7 +45,7 @@ class YourClaimsPage extends React.Component {
       content = <LoadingIndicator message="Loading claims list" setFocus/>;
     } else if (claims.length > 0) {
       content = (<div>
-        <ClosedClaimMessage claims={claims}/>
+        {show30DayNotice && <ClosedClaimMessage claims={claims} onClose={this.props.hide30DayNotice}/>}
         <div className="claim-list">
           {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
           <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
@@ -92,14 +92,16 @@ function mapStateToProps(state) {
     claims: state.claims.visibleRows,
     pages: state.claims.pages,
     page: state.claims.page,
-    consolidatedModal: state.claims.consolidatedModal
+    consolidatedModal: state.claims.consolidatedModal,
+    show30DayNotice: state.claims.show30DayNotice
   };
 }
 
 const mapDispatchToProps = {
   getClaims,
   changePage,
-  showConsolidatedMessage
+  showConsolidatedMessage,
+  hide30DayNotice
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPage);
