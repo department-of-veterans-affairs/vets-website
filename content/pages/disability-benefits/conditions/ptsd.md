@@ -24,7 +24,7 @@ template: 1-topic-landing
 
 Post-traumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. If the reactions don’t go away over time or they disrupt your life, you may have PTSD. [Learn more about PTSD](http://www.ptsd.va.gov/public/index.asp).
 
-If you have symptoms of PTSD and suffered a serious injury or sexual violation, or were threatened with injury, sexual violation, or death while serving in the military, you may be able to get disability compensation or benefits.
+If you have symptoms of PTSD and suffered a serious injury, personal trauma or sexual trauma, or sexual violation, or were threatened with injury, sexual assault, or death while serving in the military, you may be able to get disability compensation or benefits.
 
 
 
