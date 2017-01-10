@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import isMobile from 'ismobilejs';
 import _ from 'lodash';
 
 import {
@@ -70,7 +69,7 @@ class Active extends React.Component {
   }
 
   renderViewSwitch() {
-    if (!this.props.prescriptions || isMobile.any) {
+    if (!this.props.prescriptions) {
       return null;
     }
 
@@ -80,7 +79,7 @@ class Active extends React.Component {
     ];
 
     return (
-      <div className="rx-view-toggle" ref={(elem) => { this.viewToggle = elem; }}>View:&nbsp;
+      <div className="rx-view-toggle show-for-small-only" ref={(elem) => { this.viewToggle = elem; }}>View:&nbsp;
         <ul>
           {toggles.map(t => {
             const classes = classnames({
