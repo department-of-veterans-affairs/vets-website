@@ -5,7 +5,8 @@ import { SET_DATA,
   SET_VALID,
   SET_EDIT_MODE,
   SET_PRIVACY_AGREEMENT,
-  SET_SUBMISSION
+  SET_SUBMISSION,
+  SET_SUBMITTED
 } from '../actions';
 
 export default function createSchemaFormReducer(formConfig) {
@@ -30,7 +31,8 @@ export default function createSchemaFormReducer(formConfig) {
   return (state = initialState, action) => {
     switch (action.type) {
       case SET_DATA: {
-        return _.set([action.page, 'data'], action.data, state);
+        const newState = _.set([action.page, 'data'], action.data, state);
+        return _.set([action.page, 'isValid'], false, newState);
       }
       case SET_VALID: {
         return _.set([action.page, 'isValid'], action.valid, state);
@@ -43,6 +45,12 @@ export default function createSchemaFormReducer(formConfig) {
       }
       case SET_SUBMISSION: {
         return _.set(['submission', action.field], action.value, state);
+      }
+      case SET_SUBMITTED: {
+        return _.assign(state, {
+          response: action.response,
+          status: 'applicationSubmitted'
+        });
       }
       default:
         return state;

@@ -60,7 +60,7 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
           {submitButton}
         </div>
         <div className="small-1 medium-1 end columns">
-          <div className={this.state ? 'spinner' : 'hidden'}>&nbsp;</div>
+          <div className="hidden">&nbsp;</div>
         </div>
       </div>
       <div className="row">

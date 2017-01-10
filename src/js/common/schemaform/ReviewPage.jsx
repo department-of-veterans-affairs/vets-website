@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './review/SubmitButtons';
 import PrivacyAgreement from '../components/questions/PrivacyAgreement';
-import { createPageListByChapter } from './helpers';
-import { setEditMode, setSubmission, submitForm } from './actions';
+import { createPageListByChapter, isValidForm } from './helpers';
+import { setPrivacyAgreement, setEditMode, setSubmission, submitForm } from './actions';
 
 export class ReviewPage extends React.Component {
   constructor(props) {
@@ -16,7 +16,7 @@ export class ReviewPage extends React.Component {
   }
 
   handleSubmit() {
-    if (this.props.form.privacyAgreementAccepted) {
+    if (this.props.form.privacyAgreementAccepted && isValidForm(this.props.form)) {
       this.props.submitForm(this.props.formConfig, this.props.form);
     } else {
       this.props.setSubmission('hasAttemptedSubmit', true);
@@ -43,6 +43,8 @@ export class ReviewPage extends React.Component {
         </div>
         <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
         <PrivacyAgreement required
+            onChange={this.props.setPrivacyAgreement}
+            checked={form.privacyAgreementAccepted}
             showError={form.submission.hasAttemptedSubmit}/>
         <SubmitButtons
             onSubmit={this.handleSubmit}
@@ -62,7 +64,8 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = {
   setEditMode,
   setSubmission,
-  submitForm
+  submitForm,
+  setPrivacyAgreement
 };
 
 ReviewPage.propTypes = {

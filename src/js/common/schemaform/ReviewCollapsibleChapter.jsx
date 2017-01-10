@@ -83,10 +83,11 @@ export default class ReviewCollapsiblePanel extends React.Component {
 
   toggleChapter() {
     const isOpening = !this.state.open;
-    this.setState({ open: !this.state.open });
-    if (isOpening) {
-      this.scrollToTop();
-    }
+    this.setState({ open: !this.state.open }, () => {
+      if (isOpening) {
+        this.scrollToTop();
+      }
+    });
   }
 
   render() {
@@ -102,6 +103,7 @@ export default class ReviewCollapsiblePanel extends React.Component {
                 <Element name={`${page.pageKey}ScrollElement`}/>
                 <FormPage
                     reviewPage
+                    hideTitle={this.props.pages.length === 1}
                     onEdit={() => this.handleEdit(page.pageKey, !editing)}
                     onSubmit={() => this.handleSave(page.pageKey)}
                     reviewMode={!editing}

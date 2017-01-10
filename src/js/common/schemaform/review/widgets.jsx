@@ -1,11 +1,12 @@
 import React from 'react';
+import { formatReviewDate } from '../helpers';
 
 export function TextWidget({ value }) {
   return <span>{value}</span>;
 }
 
 export function DateWidget({ value }) {
-  return <span>{value}</span>;
+  return <span>{formatReviewDate(value)}</span>;
 }
 
 export const EmailWidget = TextWidget;

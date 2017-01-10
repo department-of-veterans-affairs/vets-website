@@ -89,13 +89,16 @@ export function createRoutes(formConfig) {
 }
 
 function formatDayMonth(val) {
-  if (!val || !val.length || !Number(val)) {
-    return 'XX';
-  } else if (val.length === 1) {
-    return `0${val}`;
+  if (val) {
+    const dayOrMonth = val.toString();
+    if (Number(dayOrMonth) && dayOrMonth.length === 1) {
+      return `0${val}`;
+    } else if (Number(dayOrMonth)) {
+      return dayOrMonth;
+    }
   }
 
-  return val.toString();
+  return 'XX';
 }
 
 function formatYear(val) {
@@ -114,13 +117,21 @@ export function formatISOPartialDate({ month, day, year }) {
   return undefined;
 }
 
+export function formatReviewDate(dateString) {
+  if (dateString) {
+    const [year, month, day] = dateString.split('-', 3);
+    return `${formatDayMonth(month)}/${formatDayMonth(day)}/${formatYear(year)}`;
+  }
+
+  return undefined;
+}
 export function parseISODate(dateString) {
   if (dateString) {
     const [year, month, day] = dateString.split('-', 3);
 
     return {
       month: month === 'XX' ? '' : Number(month),
-      day: day === 'XX' ? '' : Number(day),
+      day: day === 'XX' ? '' : Number(day).toString(),
       year: year === 'XXXX' ? '' : year
     };
   }
@@ -130,4 +141,18 @@ export function parseISODate(dateString) {
     day: '',
     year: ''
   };
+}
+
+export function isValidForm(form) {
+  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
+  return Object.keys(pages).reduce((isValid, page) => {
+    return isValid && pages[page].isValid;
+  }, true);
+}
+
+export function flatternFormData(form) {
+  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
+  return _.values(pages).reduce((formPages, page) => {
+    return _.assign(formPages, page.data);
+  }, {});
 }

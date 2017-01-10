@@ -14,7 +14,7 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import ObjectField from './ObjectField';
 import ReviewObjectField from './review/ObjectField';
 import { focusElement } from '../utils/helpers';
-import { setData } from './actions';
+import { setValid, setData } from './actions';
 
 const fields = {
   ObjectField
@@ -91,6 +91,7 @@ class FormPage extends React.Component {
     scrollToFirstError();
   }
   onSubmit() {
+    this.props.setValid(this.props.route.pageConfig.pageKey, true);
     if (this.props.reviewPage) {
       this.props.onSubmit();
     } else {
@@ -103,7 +104,7 @@ class FormPage extends React.Component {
     const onEdit = () => {
       this.props.onEdit();
     };
-    return { formContext: { touched: {}, submitted: false, onEdit } };
+    return { formContext: { touched: {}, submitted: false, onEdit, hideTitle: this.props.hideTitle } };
   }
   goBack() {
     const { pageList, pageConfig } = this.props.route;
@@ -178,7 +179,8 @@ function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
-  setData
+  setData,
+  setValid
 };
 
 FormPage.propTypes = {
@@ -195,7 +197,8 @@ FormPage.propTypes = {
   }),
   reviewMode: React.PropTypes.bool,
   reviewPage: React.PropTypes.bool,
-  onSubmit: React.PropTypes.func
+  onSubmit: React.PropTypes.func,
+  hideTitle: React.PropTypes.bool
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormPage));

@@ -60,6 +60,7 @@ class ObjectField extends React.Component {
             errorSchema={errorSchema[propName]}
             idSchema={idSchema[propName]}
             onChange={f => f}
+            onBlur={f => f}
             formData={formData[propName]}
             registry={this.props.registry}/>
       );
@@ -69,7 +70,7 @@ class ObjectField extends React.Component {
       return (
         <div>
           <div className="form-review-panel-page-header-row">
-            <h5 className="form-review-panel-page-header">{title}</h5>
+            <h5 className="form-review-panel-page-header">{!formContext.hideTitle ? title : null}</h5>
             <button className="edit-btn primary-outline" onClick={() => formContext.onEdit()}>Edit</button>
           </div>
           <dl className="review usa-table-borderless">

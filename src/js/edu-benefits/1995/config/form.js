@@ -5,6 +5,7 @@ import IntroductionPage from '../components/IntroductionPage';
 
 const formConfig = {
   urlPrefix: '/1995/',
+  submitUrl: '/v0/education_benefits_claims',
   introduction: IntroductionPage,
   confirmation: null,
   chapters: {
