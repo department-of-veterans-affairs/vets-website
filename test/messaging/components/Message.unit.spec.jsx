@@ -30,17 +30,42 @@ describe('Message', () => {
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should show details and attachments when expanded', () => {
+  it('should show details when expanded', () => {
     const tree = SkinDeep.shallowRender(<Message {...props}/>);
     expect(tree.props.className).to.contain('messaging-thread-message--expanded');
-    expect(tree.subTree('MessageDetails')).to.exist;
-    expect(tree.subTree('MessageAttachmentsView')).to.exist;
+    expect(tree.subTree('MessageDetails')).to.be.ok;
   });
 
-  it('should hide details and attachments when collapsed', () => {
+  it('should show attachments when expanded', () => {
+    const tree = SkinDeep.shallowRender(
+      <Message {...props} attrs={{ ...props.attrs, attachment: true }}/>
+    );
+    expect(tree.props.className).to.contain('messaging-thread-message--expanded');
+    expect(tree.subTree('MessageAttachmentsView')).to.be.ok;
+  });
+
+  it('should hide details when collapsed', () => {
     const tree = SkinDeep.shallowRender(<Message {...props} isCollapsed/>);
     expect(tree.props.className).to.contain('messaging-thread-message--collapsed');
     expect(tree.subTree('MessageDetails')).to.be.false;
+  });
+
+  it('should hide attachments when collapsed', () => {
+    const tree = SkinDeep.shallowRender(
+      <Message
+          {...props}
+          attrs={{ ...props.attrs, attachment: true }}
+          isCollapsed/>
+    );
+    expect(tree.props.className).to.contain('messaging-thread-message--collapsed');
     expect(tree.subTree('MessageAttachmentsView')).to.be.false;
+  });
+
+  it('should display as a draft when there is no sent date', () => {
+    const tree = SkinDeep.shallowRender(
+      <Message {...props} attrs={{ ...props.attrs, sentDate: null }}/>
+    );
+    expect(tree.props.className).to.contain('messaging-thread-message--draft');
+    expect(tree.subTree('.messaging-message-sent-date').text()).to.be.empty;
   });
 });

@@ -25,6 +25,12 @@
       }
     }
   }
+
+  &--draft {
+    @media (min-width: $medium-screen) {
+      display: none;
+    }
+  }
 }
 
 .messaging-message-header {

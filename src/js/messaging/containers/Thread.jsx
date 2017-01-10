@@ -244,7 +244,7 @@ export class Thread extends React.Component {
     }
 
 
-    if (!isSavedDraft && message) {
+    if (message) {
       currentMessage = <Message attrs={message}/>;
     }
 
