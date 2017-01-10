@@ -7,7 +7,7 @@ import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
-const MAX_CONDITIONS = 3;
+const MAX_CONTENTIONS = 3;
 
 export default class ClaimDetailLayout extends React.Component {
   render() {
@@ -32,15 +32,15 @@ export default class ClaimDetailLayout extends React.Component {
               <div className="claim-container">
                 {message && <Notification title={message.title} body={message.body} type={message.type} onClose={clearNotification}/>}
                 <h1 className="claim-title">Your {getClaimType(claim)} Claim</h1>
-                <div className="claim-conditions">
-                  <h6>Your Claimed Conditions:</h6>
+                <div className="claim-contentions">
+                  <h6>Your Claimed Contentions:</h6>
                   <p className="list">
                     {claim.attributes.contentionList && claim.attributes.contentionList.length
-                        ? claim.attributes.contentionList.slice(0, MAX_CONDITIONS).map(cond => cond.trim()).join(', ')
+                        ? claim.attributes.contentionList.slice(0, MAX_CONTENTIONS).map(cond => cond.trim()).join(', ')
                       : 'Not available'}
                   </p>
-                  {claim.attributes.contentionList && claim.attributes.contentionList.length > MAX_CONDITIONS
-                      ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all your claimed conditions</Link>.</span>
+                  {claim.attributes.contentionList && claim.attributes.contentionList.length > MAX_CONTENTIONS
+                      ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all your claimed contentions</Link>.</span>
                     : null}
                 </div>
                 <TabNav id={this.props.claim.id}/>
