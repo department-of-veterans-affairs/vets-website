@@ -13,7 +13,7 @@ const props = {
     subject: 'Scheduling An Appointment',
     body: 'Testing 123.',
     attachment: false,
-    sentDate: "2016-12-21T05:54:26.000Z",
+    sentDate: '2016-12-21T05:54:26.000Z',
     senderId: 456,
     senderName: 'Clinician',
     recipientId: 789,
@@ -29,7 +29,7 @@ describe('Message', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<Message {...props}/>);
     const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
+    expect(vdom).to.exist;
   });
 
   it('should show details when expanded', () => {
