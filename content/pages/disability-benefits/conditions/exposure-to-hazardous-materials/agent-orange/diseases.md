@@ -33,5 +33,3 @@ We believe several illnesses are likely caused by contact with Agent Orange, a t
 If you have an illness you think is caused by contact with Agent Orange—and you don't see it listed here—you can still apply for benefits. You'll need to show that you have a disability and include doctor or hospital reports stating that your illness is believed to be caused by contact with Agent Orange.
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
-
-We believe some birth defects (like spina bifida) in the children of Vietnam Veterans are likely caused by the Veterans' contact with Agent Orange while serving in the military. [Learn more about birth defects and Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/birth-defects/index.asp).
