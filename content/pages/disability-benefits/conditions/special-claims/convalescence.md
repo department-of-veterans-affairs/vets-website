@@ -7,7 +7,7 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-Are you recovering from surgery or a disability related to your military service that's left you unable to move (called an immobilizing  disability)? You may be able to get a temporary 100% disability rating and disability compensation or benefits.
+Are you recovering from surgery or a disability related to your military service that's left you unable to move? This is called an immobilizing  disability. You may be able to get a temporary 100% disability rating and disability compensation or benefits. Find out if you can get this benefit. 
 
 <div class="call-out" markdown="1">
 
@@ -18,7 +18,7 @@ You may be able to get disability benefits if you've had a surgery or other trea
 **If you had surgery**, you may be able to get disability benefits if:
   -	The surgery required a recovery time of at least 1 month **or** reports show that the surgery or treatment was for a service-connected disability, **and**
   -	The surgery resulted in severe issues, such as:
-      - Surgical wounds that haven't healed all the way
+      - Surgical wounds that haven't totally healed
       - Stumps of recent amputations
       - Being unable to move due to being put in splints or casts to help with healing (known as therapeutic immobilizations)
       - Being unable to leave your house (known as house confinement)
