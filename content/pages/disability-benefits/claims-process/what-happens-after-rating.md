@@ -5,7 +5,7 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 ---
 
-Did you get a decision notice from us that confirms your disability rating (the rating that measures the severity of your disability)? If yes, you may be able to get disability compensation or benefits.
+If you got a decision notice from us that confirms your disability rating (the rating that measures the severity of your disability), you may be able to get disability compensation or benefits. Find out what benefits you can get. 
 
 <div class="call-out usa-content" markdown="1">
 
