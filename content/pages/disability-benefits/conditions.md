@@ -53,8 +53,8 @@ You’ll need to apply for benefits. When you apply, you‘ll have to show that 
 
 You may be able to get benefits for conditions such as:
 
-- Chronic (long-lasting) back pain
-- Breathing problems or lung disease
+- Chronic (long-lasting) back pain resulting in a current diagnosed back disability
+- Breathing problems resulting from a current lung condition or lung disease
 - Severe hearing loss
 - Scar tissue
 - Loss of range of motion (problems moving your body)
@@ -64,7 +64,7 @@ You may be able to get benefits for conditions such as:
 You may also be able to get benefits for:
 
 - Traumatic brain injury (TBI)
-- Post-traumatic stress (PTSD) 
+- Post-traumatic stress disorder (PTSD) 
 - Depression
 - Anxiety
 
