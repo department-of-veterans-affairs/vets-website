@@ -551,8 +551,7 @@ h6 {
   p {
     padding-top: 0;
     margin-top: 0;
-    padding-bottom: 1em; // TODO: Consider deleting.
-
+    
     &:nth-child(1),
     &:first-of-type {
       color: $color-primary-darker;
