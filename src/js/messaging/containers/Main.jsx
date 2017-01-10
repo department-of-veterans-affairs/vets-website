@@ -112,7 +112,8 @@ export class Main extends React.Component {
               isExpanded={this.props.nav.foldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
               onCreateNewFolder={this.props.openCreateFolderModal}
-              onFolderChange={this.handleFolderChange}/>
+              onFolderChange={this.handleFolderChange}
+              toggleFolderNav={this.props.toggleFolderNav}/>
         </div>
         <div id="messaging-content" aria-live="assertive">
           {this.props.children}
