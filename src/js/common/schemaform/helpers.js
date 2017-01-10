@@ -73,3 +73,47 @@ export function createRoutes(formConfig) {
     <Route path="submit-message" key="submit-message" component={formConfig.confirmation}/>,
   ]);
 }
+
+function formatDayMonth(val) {
+  if (!val || !val.length || !Number(val)) {
+    return 'XX';
+  } else if (val.length === 1) {
+    return `0${val}`;
+  }
+
+  return val.toString();
+}
+
+function formatYear(val) {
+  if (!val || !val.length) {
+    return 'XXXX';
+  }
+
+  return val;
+}
+
+export function formatISOPartialDate({ month, day, year }) {
+  if (month || day || year) {
+    return `${formatYear(year)}-${formatDayMonth(month)}-${formatDayMonth(day)}`;
+  }
+
+  return undefined;
+}
+
+export function parseISODate(dateString) {
+  if (dateString) {
+    const [year, month, day] = dateString.split('-', 3);
+
+    return {
+      month: month === 'XX' ? '' : Number(month),
+      day: day === 'XX' ? '' : Number(day),
+      year: year === 'XXXX' ? '' : year
+    };
+  }
+
+  return {
+    month: '',
+    day: '',
+    year: ''
+  };
+}
