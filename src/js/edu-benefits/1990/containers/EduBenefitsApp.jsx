@@ -30,14 +30,44 @@ const scrollToTop = () => {
 };
 
 class EduBenefitsApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.removeOnbeforeunload = this.removeOnbeforeunload.bind(this);
+    this.onbeforeunload = this.onbeforeunload.bind(this);
+  }
+
+  componentWillMount() {
+    window.addEventListener('beforeunload', this.onbeforeunload); // eslint-disable-line scanjs-rules/call_addEventListener
+  }
+
   componentWillReceiveProps(nextProps) {
     const a = nextProps.submission.status;
     const b = this.props.submission.status;
     if (a !== b && a === 'applicationSubmitted') {
       this.props.router.push('/1990/submit-message');
+      this.removeOnbeforeunload();
       scrollToTop();
     }
   }
+
+  componentWillUnmount() {
+    this.removeOnbeforeunload();
+  }
+
+  onbeforeunload(e) {
+    let message;
+    if (this.props.location.pathname !== '/1990/introduction') {
+      message = 'Are you sure you wish to leave this application? All progress will be lost.';
+      // Chrome requires this to be set
+      e.returnValue = message;     // eslint-disable-line no-param-reassign
+    }
+    return message;
+  }
+
+  removeOnbeforeunload() {
+    window.removeEventListener('beforeunload', this.onbeforeunload);
+  }
+
   render() {
     const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm, onStateChange, onAttemptedSubmit } = this.props;
     const navigateTo = path => router.push(path);

@@ -13,6 +13,8 @@ class MessageSearchAdvanced extends React.Component {
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
     this.handleFromChange = this.handleFromChange.bind(this);
     this.handleFromExactChange = this.handleFromExactChange.bind(this);
+    this.handleToChange = this.handleToChange.bind(this);
+    this.handleToExactChange = this.handleToExactChange.bind(this);
     this.handleSubjectChange = this.handleSubjectChange.bind(this);
     this.handleSubjectExactChange = this.handleSubjectExactChange.bind(this);
   }
@@ -27,6 +29,14 @@ class MessageSearchAdvanced extends React.Component {
 
   handleFromExactChange(field) {
     this.props.onFieldChange('from.exact', field);
+  }
+
+  handleToChange(field) {
+    this.props.onFieldChange('to.field', field);
+  }
+
+  handleToExactChange(field) {
+    this.props.onFieldChange('to.exact', field);
   }
 
   handleSubjectChange(field) {
@@ -55,21 +65,41 @@ class MessageSearchAdvanced extends React.Component {
       'fa-chevron-down': !this.props.isVisible
     });
 
+    let senderOrRecipientField;
+
+    if (this.props.hasRecipientField) {
+      senderOrRecipientField = (
+        <div className="msg-search-advanced-group">
+          <ErrorableTextInput
+              field={this.props.params.to.field}
+              label="To"
+              onValueChange={this.handleToChange}/>
+          <ErrorableCheckbox
+              checked={this.props.params.to.exact}
+              label="Exact match"
+              onValueChange={this.handleToExactChange}/>
+        </div>
+      );
+    } else {
+      senderOrRecipientField = (
+        <div className="msg-search-advanced-group">
+          <ErrorableTextInput
+              field={this.props.params.from.field}
+              label="From"
+              onValueChange={this.handleFromChange}/>
+          <ErrorableCheckbox
+              checked={this.props.params.from.exact}
+              label="Exact match"
+              onValueChange={this.handleFromExactChange}/>
+        </div>
+      );
+    }
+
     if (this.props.isVisible) {
       advancedSearchForm = (
         <fieldset className="msg-search-advanced-controls">
           <legend className="usa-sr-only">Search using additional criteria</legend>
-          <div className="msg-search-advanced-group">
-            <ErrorableTextInput
-                field={this.props.params.from.field}
-                label="From"
-                onValueChange={this.handleFromChange}/>
-
-            <ErrorableCheckbox
-                checked={this.props.params.from.exact}
-                label="Exact match"
-                onValueChange={this.handleFromExactChange}/>
-          </div>
+          {senderOrRecipientField}
 
           <div className="msg-search-advanced-group">
             <ErrorableTextInput
@@ -125,7 +155,7 @@ class MessageSearchAdvanced extends React.Component {
 }
 
 MessageSearchAdvanced.propTypes = {
-  endDateRange: React.PropTypes.object,
+  hasRecipientField: React.PropTypes.bool,
   isVisible: React.PropTypes.bool.isRequired,
   onAdvancedSearch: React.PropTypes.func.isRequired,
   onDateChange: React.PropTypes.func.isRequired,
@@ -136,6 +166,13 @@ MessageSearchAdvanced.propTypes = {
       end: React.PropTypes.object
     }),
     from: React.PropTypes.shape({
+      field: React.PropTypes.shape({
+        value: React.PropTypes.string,
+        dirty: React.PropTypes.bool
+      }),
+      exact: React.PropTypes.bool
+    }),
+    to: React.PropTypes.shape({
       field: React.PropTypes.shape({
         value: React.PropTypes.string,
         dirty: React.PropTypes.bool

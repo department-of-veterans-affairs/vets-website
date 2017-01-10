@@ -110,4 +110,3 @@ describe('MessageSearch', () => {
     expect(onSubmit.calledWith(params)).to.be.true;
   });
 });
-
