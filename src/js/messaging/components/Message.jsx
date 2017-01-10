@@ -9,6 +9,7 @@ class Message extends React.Component {
   constructor(props) {
     super(props);
     this.handleToggleCollapsed = this.handleToggleCollapsed.bind(this);
+    this.handleMessageOnKeyPress = this.handleMessageOnKeyPress.bind(this);
   }
 
   componentDidUpdate() {
@@ -25,6 +26,14 @@ class Message extends React.Component {
   handleToggleCollapsed() {
     if (this.props.onToggleCollapsed) {
       this.props.onToggleCollapsed(this.props.attrs.messageId);
+    }
+  }
+
+  handleMessageOnKeyPress(e) {
+    e.preventDefault();
+
+    if (e.which === 32 || e.which === 13) {
+      this.handleToggleCollapsed();
     }
   }
 
@@ -61,7 +70,7 @@ class Message extends React.Component {
     }
 
     return (
-      <div className={messageClass} onClick={messageOnClick}>
+      <div tabIndex="0" role="button" aria-expanded={!this.props.isCollapsed} onKeyPress={this.handleMessageOnKeyPress} className={messageClass} onClick={messageOnClick}>
         <div
             className="messaging-message-header"
             onClick={headerOnClick}>
