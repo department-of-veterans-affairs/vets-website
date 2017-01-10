@@ -1,5 +1,6 @@
+import _ from 'lodash/fp';
 import { fullName, ssn } from '../../../common/schemaform/definitions';
-import { validateSSN } from '../../../common/schemaform/validation';
+import { uiFullName, uiSSN, uiDate } from '../../../common/schemaform/uiDefinitions';
 import IntroductionPage from '../components/IntroductionPage';
 
 const formConfig = {
@@ -19,30 +20,23 @@ const formConfig = {
             }
           },
           uiSchema: {
-            veteranFullName: {
-              suffix: {
-                'ui:options': {
-                  widgetClassNames: 'form-select-medium'
-                }
-              }
+            'ui:title': 'Veteran information',
+            veteranFullName: uiFullName,
+            veteranSocialSecurityNumber: uiSSN,
+            fileNumber: {
+              'ui:title': 'File number'
             },
-            veteranSocialSecurityNumber: {
-              'ui:options': {
-                widgetClassNames: 'usa-input-medium'
-              },
-              'ui:validations': [
-                validateSSN
-              ]
-            }
+            someDate: _.merge(uiDate, {
+              'ui:title': 'Some date'
+            })
           },
           schema: {
             type: 'object',
-            title: 'Veteran information',
             definitions: {
               fullName,
               ssn
             },
-            required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+            required: ['veteranFullName', 'veteranSocialSecurityNumber', 'someDate'],
             properties: {
               veteranFullName: {
                 $ref: '#/definitions/fullName'
@@ -51,9 +45,11 @@ const formConfig = {
                 $ref: '#/definitions/ssn'
               },
               fileNumber: {
-                title: 'File number',
                 type: 'number',
                 minimum: 1
+              },
+              someDate: {
+                type: 'string'
               }
             }
           }
