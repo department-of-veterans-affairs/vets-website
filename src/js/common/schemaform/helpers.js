@@ -2,8 +2,9 @@ import React from 'react';
 import _ from 'lodash/fp';
 import { Route, IndexRedirect } from 'react-router';
 import FormPage from './FormPage';
+import ReviewPage from './ReviewPage';
 
-function createFormPageList(formConfig) {
+export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
     .reduce((pageList, chapter) => {
       const chapterTitle = formConfig.chapters[chapter].title;
@@ -16,6 +17,19 @@ function createFormPageList(formConfig) {
         });
       return pageList.concat(pages);
     }, []);
+}
+
+export function createPageListByChapter(formConfig) {
+  return Object.keys(formConfig.chapters)
+    .reduce((chapters, chapter) => {
+      const pages = Object.keys(formConfig.chapters[chapter].pages)
+        .map(page => {
+          return _.assign(formConfig.chapters[chapter].pages[page], {
+            pageKey: page
+          });
+        });
+      return _.set(chapter, pages, chapters);
+    }, {});
 }
 
 function createPageList(formConfig, formPages) {
@@ -69,7 +83,7 @@ export function createRoutes(formConfig) {
   }
 
   return routes.concat([
-    <Route path="review-and-submit" key="review-and-submit" formConfig={formConfig} component={null} pageList={pageList}/>,
+    <Route path="review-and-submit" key="review-and-submit" formConfig={formConfig} component={ReviewPage} pageList={pageList}/>,
     <Route path="submit-message" key="submit-message" component={formConfig.confirmation}/>,
   ]);
 }

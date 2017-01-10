@@ -6,6 +6,7 @@ import form1990 from './1990/reducers';
 
 import Form1995App from './1995/Form1995App';
 import routes1995 from './1995/routes';
+import form1995 from './1995/reducer';
 
 export default function createRoutes(store) {
   // It will be confusing to have multiple forms in one app living
@@ -15,7 +16,7 @@ export default function createRoutes(store) {
   };
 
   const routesFor1995 = __BUILDTYPE__ !== 'production' && __BUILDTYPE__ !== 'staging'
-    ? <Route path="1995" component={Form1995App}>
+    ? <Route path="1995" onEnter={onEnter(form1995)} component={Form1995App}>
       {routes1995}
     </Route>
     : null;
