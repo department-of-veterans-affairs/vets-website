@@ -1,6 +1,8 @@
 import React from 'react';
+import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import Message from '../../../src/js/messaging/components/Message';
 
@@ -67,5 +69,40 @@ describe('Message', () => {
     );
     expect(tree.props.className).to.contain('messaging-thread-message--draft');
     expect(tree.subTree('.messaging-message-sent-date').text()).to.be.empty;
+  });
+
+  it('should fetch attachments when they have not been loaded', () => {
+    const fetchMessage = sinon.spy();
+
+    const message = ReactTestUtils.renderIntoDocument(
+      <Message
+          {...props}
+          attrs={{ ...props.attrs, attachment: true }}
+          fetchMessage={fetchMessage}/>
+    );
+
+    message.componentDidUpdate();
+    expect(fetchMessage.calledWith(props.attrs.messageId)).to.be.true;
+  });
+
+  it('should not fetch attachments after they have already been loaded', () => {
+    const fetchMessage = sinon.spy();
+
+    const message = ReactTestUtils.renderIntoDocument(
+      <Message
+          {...props}
+          attrs={{
+            ...props.attrs,
+            attachment: true,
+            attachments: [{
+              attributes: { name: 'test_file.png' },
+              links: { download: 'http://example.com' }
+            }]
+          }}
+          fetchMessage={fetchMessage}/>
+    );
+
+    message.componentDidUpdate();
+    expect(fetchMessage.calledWith(props.attrs.messageId)).to.be.false;
   });
 });
