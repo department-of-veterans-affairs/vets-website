@@ -79,7 +79,7 @@ class Active extends React.Component {
     ];
 
     return (
-      <div className="rx-view-toggle show-for-small-only" ref={(elem) => { this.viewToggle = elem; }}>View:&nbsp;
+      <div className="rx-view-toggle show-for-medium-up" ref={(elem) => { this.viewToggle = elem; }}>View:&nbsp;
         <ul>
           {toggles.map(t => {
             const classes = classnames({
