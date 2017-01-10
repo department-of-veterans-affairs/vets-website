@@ -252,10 +252,19 @@ Builds are triggered for PRs for all build types. The special branch name
 `content/wip/.*`, will fail by default and not run any builds. This is to allow
 rapid iteration on WIP content team work before builds are tested.
 
-Tests are run over the staging buildtype for all PRs. Features should not
-be toggled based on the build type. Instead, define a feature flag variable and
-test both the enabled and disabled states. See `SampleFeature` and the
-associated `__SAMPLE_FEATURE__` env variables for an example implementation.
+Tests are run over the production buildtype for all PRs. Tests should not
+be tied to the build type. Instead, define a feature flag variable and
+test both the enabled and disabled states. While a build type will either enable
+or disable the feature in the UI, the tests will still run the feature's code
+path despite the environment. This ensures that your component will function in
+all builds regardless of the build type. The important distinction is that your
+feature is still active within the code base, but the UI is either enabled or
+disabled by the feature flag.
+
+To enable or disable the feature in a specific build type, toggle the feature
+in `test/util/mocha-setup.js` and `config/webpack.config.js`. See
+`SampleFeature` and the associated `__SAMPLE_FEATURE__` env variables for an
+example implementation.
 
 Please see the `/script/travis-build.sh` file for more documentation and an
 overview of the CI configuration.
@@ -266,7 +275,7 @@ with a remote s3 bucket.  Travis handles the synchronization by using the
 [s3-cli](https://www.npmjs.com/package/s3-cli) commandline tool.
 
 Commits to `master` pushes `buildtype=development` to `dev.vets.gov` and
-`buildtype=production` to `staging.vets.gov`.
+`buildtype=staging` to `staging.vets.gov`.
 
 Commits to `production` pushes `buildtype=production` to `www.vets.gov`.
 
