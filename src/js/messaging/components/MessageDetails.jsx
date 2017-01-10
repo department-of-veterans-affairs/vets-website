@@ -27,47 +27,61 @@ class MessageDetails extends React.Component {
   }
 
   render() {
+    const {
+      category,
+      messageId,
+      recipientName,
+      senderName,
+      sentDate,
+      subject
+    } = this.props.attrs;
+
+    const sentDateRow = sentDate && (
+      <tr>
+        <th>Date:</th>
+        <td>
+          {moment(sentDate).format('ddd, MMM D, YYYY [at] HH:mm')}&nbsp;
+          <abbr title="Eastern Standard Time">EST</abbr>
+        </td>
+      </tr>
+    );
+
     const messageDetails = (
       <div className="messaging-message-details">
         <table>
           <tbody>
             <tr>
               <th>From:</th>
-              <td>{this.props.attrs.senderName}</td>
+              <td>{senderName}</td>
             </tr>
             <tr>
               <th>To:</th>
-              <td>{this.props.attrs.recipientName}</td>
+              <td>{recipientName}</td>
             </tr>
-            <tr>
-              <th>Date:</th>
-              <td>
-                {
-                  moment(
-                    this.props.attrs.sentDate
-                  ).format('ddd, MMM D, YYYY [at] HH:mm')
-                } <abbr title="Eastern Standard Time">EST</abbr>
-              </td>
-            </tr>
+            {sentDateRow}
             <tr>
               <th>Message ID:</th>
-              <td>{this.props.attrs.messageId}</td>
+              <td>{messageId}</td>
             </tr>
             <tr>
               <th>Category:</th>
-              <td>{this.props.attrs.category}</td>
+              <td>{category}</td>
             </tr>
             <tr>
               <th>Subject Line:</th>
-              <td>{this.props.attrs.subject}</td>
+              <td>{subject}</td>
             </tr>
           </tbody>
         </table>
       </div>
     );
 
-    const inputId = `message-details-${this.props.attrs.messageId}`;
+    const inputId = `message-details-${messageId}`;
     const compactInputId = `compact-${inputId}`;
+
+    const compactSentDate = sentDate && (
+      <span>{formattedDate(sentDate, { fromNow: true })}</span>
+    );
 
     return (
       <div
@@ -89,9 +103,7 @@ class MessageDetails extends React.Component {
             id={compactInputId}
             className="messaging-compact-details-trigger"
             type="checkbox"/>
-        <span>
-          {formattedDate(this.props.attrs.sentDate, { fromNow: true })}
-        </span>
+        {compactSentDate}
         <label htmlFor={compactInputId}></label>
         {messageDetails}
       </div>
@@ -104,7 +116,7 @@ MessageDetails.propTypes = {
     messageId: React.PropTypes.number.isRequired,
     category: React.PropTypes.string.isRequired,
     subject: React.PropTypes.string.isRequired,
-    sentDate: React.PropTypes.string.isRequired,
+    sentDate: React.PropTypes.string,
     senderName: React.PropTypes.string.isRequired,
     recipientName: React.PropTypes.string.isRequired,
   }).isRequired,

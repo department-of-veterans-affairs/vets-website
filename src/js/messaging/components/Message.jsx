@@ -94,7 +94,7 @@ Message.propTypes = {
     subject: React.PropTypes.string.isRequired,
     body: React.PropTypes.string.isRequired,
     attachment: React.PropTypes.bool.isRequired,
-    sentDate: React.PropTypes.string.isRequired,
+    sentDate: React.PropTypes.string,
     senderId: React.PropTypes.number.isRequired,
     senderName: React.PropTypes.string.isRequired,
     recipientId: React.PropTypes.number.isRequired,

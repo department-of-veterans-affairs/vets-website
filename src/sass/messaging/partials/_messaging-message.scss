@@ -175,6 +175,11 @@
     display: none;
     text-decoration: underline;
 
+    // Overwrite USWDS checkbox.
+    &:before {
+      display: none !important;
+    }
+
     &:after {
       content: 'Details';
     }
@@ -186,7 +191,6 @@
 
   & ~ span {
     display: none;
-    margin-right: 0.5rem;
 
     @media (max-width: $medium-screen) {
       display: inline-block;
