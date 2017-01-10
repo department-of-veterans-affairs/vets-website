@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import moment from 'moment';
 
 import environment from '../../common/helpers/environment.js';

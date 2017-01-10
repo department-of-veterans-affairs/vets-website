@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 
 import environment from '../../common/helpers/environment.js';
 
@@ -53,8 +52,13 @@ class AuthApp extends React.Component {
           this.setMyToken(myToken);
         } else {
           sessionStorage.setItem('mfa_start', true);
-          this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
-            window.location.href = result.authenticate_via_get;
+
+          this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=3`, {
+            method: 'GET',
+          }).then(response => {
+            return response.json();
+          }).then(innerJson => {
+            window.location.href = innerJson.authenticate_via_get;
           });
         }
       } else {

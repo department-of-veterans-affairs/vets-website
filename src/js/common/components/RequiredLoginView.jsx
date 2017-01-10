@@ -1,5 +1,4 @@
 import React from 'react';
-import $ from 'jquery';
 
 import environment from '../helpers/environment.js';
 import { handleVerify, addEvent } from '../helpers/login-helpers.js';
@@ -31,8 +30,12 @@ class RequiredLoginView extends React.Component {
       this.handleLogout();
     }
 
-    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
-      this.setState({ loginUrl: result.authenticate_via_get });
+    this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
+      method: 'GET',
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      this.setState({ loginUrl: json.authenticate_via_get });
     });
 
     addEvent(window, 'message', (evt) => {
