@@ -25,6 +25,6 @@ relatedlinks:
     description: Understand the process and prepare carefully before applying.
 ---
 
-If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. A disability can be a physical illness or injury (like cancer or damage to a knee) or a mental-health condition (like anxiety or PTSD). This includes conditions that don't appear until years after your service ends, but are still related to your time in the military.
+If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. A disability can be a physical illness or injury (like cancer or damage to a knee) or a mental-health condition (like anxiety or PTSD). When a condition doesn’t appear until years after your service ends, and it was the result of an injury or illness that happened during active military service, you may qualify for disability compensation.
 
 Find out if you can get financial support and other benefits like health care.
