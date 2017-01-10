@@ -6,6 +6,7 @@ import Scroll from 'react-scroll';
 import Form from 'react-jsonschema-form';
 
 import { uiSchemaValidate, transformErrors } from './validation';
+import Address from './Address';
 import FieldTemplate from './FieldTemplate';
 import * as reviewWidgets from './review/widgets';
 import ReviewFieldTemplate from './review/ReviewFieldTemplate';
@@ -19,12 +20,14 @@ import { setData } from './actions';
 
 const fields = {
   ObjectField,
-  ArrayField
+  ArrayField,
+  address: Address
 };
 
 const reviewFields = {
   ObjectField: ReviewObjectField,
-  ArrayField
+  ArrayField,
+  address: Address
 };
 
 const scrollToFirstError = () => {

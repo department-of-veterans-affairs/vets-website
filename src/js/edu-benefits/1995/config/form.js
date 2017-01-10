@@ -3,8 +3,11 @@ import _ from 'lodash/fp';
 import { fullName, ssn, dateRange, date, address, phone } from '../../../common/schemaform/definitions';
 import { uiFullName, uiSSN, uiDateRange, uiDate, uiPhone } from '../../../common/schemaform/uiDefinitions';
 import { validateEmailsMatch } from '../../../common/schemaform/validation';
-
 import { benefitsLabels, transformForSubmit } from '../helpers';
+import { uiFullName, uiSSN, uiDate } from '../../../common/schemaform/uiDefinitions';
+import { fullName, ssn, address } from '../../../common/schemaform/definitions';
+import { validateSSN } from '../../../common/schemaform/validation';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -45,13 +48,17 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'noSSN'
               }
+            },
+            veteranAddress: {
+              'ui:field': 'address'
             }
           },
           schema: {
             type: 'object',
             definitions: {
               fullName,
-              ssn
+              ssn,
+              address
             },
             required: ['veteranFullName'],
             properties: {
@@ -446,6 +453,9 @@ const formConfig = {
               },
               routingNumber: {
                 type: 'string'
+              },
+              veteranAddress: {
+                $ref: '#/definitions/address'
               }
             }
           }
