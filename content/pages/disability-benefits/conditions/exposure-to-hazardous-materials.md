@@ -27,7 +27,7 @@ relatedlinks:
     description: If you served at the German bombing of Bari, Italy, in World War II or worked in certain other jobs, you may have had contact with mustard gas.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/
     title: Project 112/SHAD
-    description: If you were part of Project 112/SHAD from 1963 to 1974, you may be at risk of illnesses believed to be caused by chemical testing.
+    description: If you were part of Project 112/SHAD from 1962 to 1974, you may be at risk of illnesses believed to be caused by chemical testing.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/radiogenic-risk-activities/
     title: Radiogenic Risk Activities
     description: If you served during World War II, were imprisoned in Japan, worked with or near nuclear testing, or served at a gaseous diffusion plant or in certain other jobs, you may be at risk for illnesses believed to be caused by radiation.
