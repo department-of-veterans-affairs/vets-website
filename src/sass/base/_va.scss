@@ -2214,6 +2214,8 @@ New .plain rewrite
 
 .last-updated {
   margin-top: 1.5em;
-  border-top: 2px solid #ccc;
-  p {font-size: 1em !important;}
+
+  border-top: 2px solid #f1f1f1;
+  padding: 1em 0;
+  p {font-size: 1em !important; color: #323a45 !important;}
 }

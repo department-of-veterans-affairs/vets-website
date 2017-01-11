@@ -4,6 +4,12 @@
       <div class="small-12 columns">
         <h1>{{ title }}</h1>
         {{ contents }}
+
+        <!-- Last updated -->
+        {% if lastupdate %}
+          {% include "content/includes/last-update.html" %}
+        {% endif %} 
+
       </div>
     </div><!-- end row-->
   </div><!-- end primary-->
