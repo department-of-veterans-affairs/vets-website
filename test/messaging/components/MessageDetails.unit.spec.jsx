@@ -38,4 +38,20 @@ describe('MessageDetails', () => {
     expect(rows[4].dive(['td']).text()).to.equal(props.attrs.category);
     expect(rows[5].dive(['td']).text()).to.equal(props.attrs.subject);
   });
+
+  it('should not show anything with sent date when not available', () => {
+    const tree = SkinDeep.shallowRender(
+      <MessageDetails {...props} attrs={{ ...props.attrs, sentDate: null }}/>
+    );
+
+    const rows = tree.dive(['.messaging-message-details', 'table', 'tbody']).everySubTree('tr');
+
+    expect(rows).to.have.length(5);
+
+    expect(rows[0].dive(['th']).text()).to.equal('From:');
+    expect(rows[1].dive(['th']).text()).to.equal('To:');
+    expect(rows[2].dive(['th']).text()).to.equal('Message ID:');
+    expect(rows[3].dive(['th']).text()).to.equal('Category:');
+    expect(rows[4].dive(['th']).text()).to.equal('Subject Line:');
+  });
 });
