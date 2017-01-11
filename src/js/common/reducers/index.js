@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 
-import login from '../../common/reducers/login';
-import profile from '../../common/reducers/profile';
+import login from '../../login/reducers/login';
+import profile from '../../user-profile/reducers/profile';
 
 export default combineReducers({
-  login,
-  profile
+  user: combineReducers({
+    login,
+    profile
+  }),
 });
 

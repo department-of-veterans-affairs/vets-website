@@ -40,9 +40,10 @@ class SignInProfileButton extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const userState = state.user;
   return {
-    login: state.login,
-    profile: state.profile
+    login: userState.login,
+    profile: userState.profile
   };
 };
 
