@@ -6,14 +6,14 @@ plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
 template: 4-action-page-pending
 ---
 
-If you were part of chemical and biological warfare testing for Projects 112 or Shipboard Hazard and Defense (SHAD) from 1963 to 1974, you may be at risk for illnesses believed to be caused by the testing. Find out if you can get disability compensation or benefits.
+If you were part of chemical and biological warfare testing for Projects 112 or Shipboard Hazard and Defense (SHAD) from 1962 to 1974, you may be at risk for illnesses believed to be caused by the testing. Find out if you can get disability compensation or benefits.
 
 <div class="call-out" markdown="1">
 
 ### Can I get disability benefits from VA?
 
 You may be able to get disability benefits if:
-- You were part of Projects 112 or SHAD testing from 1963 to 1974, **and**
+- You were part of Projects 112 or SHAD testing from 1962 to 1974, **and**
 - You have an illness believed to be caused by the testing
 
 ### Who's covered?
@@ -35,7 +35,7 @@ You may be able to get disability benefits if:
 
 If you'd like to file a claim for benefits, call the VA Special Issues Helpline at <span class="tel">800-749-8387</span>.
 
-If you were part of Projects 112 or SHAD from 1963 to 1974 and want to know more about a certain test site, ship, or unit, see the declassified Department of Defense fact sheets. [Get declassified Department of Defense fact sheets]( http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Fact-Sheets).
+If you were part of Projects 112 or SHAD from 1962 to 1974 and want to know more about a certain test site, ship, or unit, see the declassified Department of Defense fact sheets. [Get declassified Department of Defense fact sheets]( http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Fact-Sheets).
 
 If you have a question about the tests, including whether you may have been part of them—or if you have any information that can help show you were part of them—contact the Department of Defense at <span class="tel">800-497-6261</span>.
 
