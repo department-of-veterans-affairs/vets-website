@@ -56,7 +56,6 @@ export function getFilteredClaims(open = true) {
           return claim.attributes.open === open;
         });
         dispatch({ type: SET_CLAIMS, claims: filteredClaims, meta: claims.meta });
-        dispatch({ type: CHANGE_CLAIMS_PAGE, page: 1 });
       },
       () => dispatch({ type: SET_UNAVAILABLE })
     );
