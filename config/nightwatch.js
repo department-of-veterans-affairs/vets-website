@@ -66,7 +66,9 @@ module.exports = {
         javascriptEnabled: true,
         acceptSslCerts: true,
         webStorageEnabled: true,
-        'phantomjs.binary.path': require('phantomjs-prebuilt').path
+        chromeOptions: {
+          binary: electron
+        }
       },
       test_workers: {
         enabled: true,
