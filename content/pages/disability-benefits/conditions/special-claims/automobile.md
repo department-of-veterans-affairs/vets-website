@@ -28,7 +28,7 @@ You may be able to get disability benefits if you have a disability that's relat
 
 ### What kind of disability benefits can I get?
 
-- A 1-time payment of $20,114.34 to help you buy a specially equipped vehicle
+- A 1-time payment of not more than $20,235.20 to help you buy a specially-equipped vehicle
 - Possibly 1 or more adaptive-equipment grants to change a vehicle with power steering, brakes, seats, windows, or lift equipment to help you with getting into and out of the vehicle
 
 -----
@@ -37,7 +37,7 @@ You may be able to get disability benefits if you have a disability that's relat
 
 You'll need to apply for benefits and get our approval **before** buying a vehicle or adaptive equipment. You can apply for—and use—either grant before or after military discharge. [Apply for benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
 
-For the 1-time payment to help you buy a specially equipped vehicle, we'll pay the vehicle's seller directly. For the adaptive-equipment grant, we may pay you or we may pay the seller of the equipment directly.  
+For the 1-time payment to help you buy a specially equipped vehicle, we'll pay the vehicle's seller directly. For the adaptive-equipment grant, we may pay you or we may pay the equipment seller directly.  
 
 When you apply, you'll need to show that your disability is service connected or is treated as if service connected under 38 U.S.C. 1151. [Learn more about 38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
 
