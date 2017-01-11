@@ -98,13 +98,15 @@ class MessageDetails extends React.Component {
             }
           }}
           onClick={(e) => e.stopPropagation()}>
-        <label onClick={this.toggleFullDetails}>
+        <button
+            className="usa-button-unstyled"
+            onClick={this.toggleFullDetails}>
           <i className="fa fa-caret-down"></i>
           <span className="usa-sr-only">
             {this.state.expanded.full ? 'Hide details' : 'Details'}
           </span>
-        </label>
-        <div className="messaging-compact-details-trigger">
+        </button>
+        <div className="messaging-compact-details-control">
           {compactSentDate}
           <a role="button" onClick={this.toggleCompactDetails}>
             {this.state.expanded.compact ? 'Hide details' : 'Details'}

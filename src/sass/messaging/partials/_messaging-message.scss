@@ -88,9 +88,10 @@
   outline: none;
   position: relative;
 
-  label {
-    cursor: pointer;
-    margin-top: 0;
+  button {
+    background: transparent;
+    color: $color-black;
+    margin: 0;
 
     &:active,
     &:focus,
@@ -99,7 +100,7 @@
     }
   }
 
-  i {
+  i.fa {
     font-size: 1.8rem;
   }
 
@@ -107,7 +108,7 @@
     display: block;
     margin: 0;
 
-    label {
+    button {
       display: none;
     }
   }
@@ -137,6 +138,10 @@
 
   table {
     margin: 0;
+
+    @media (max-width: $medium-screen) {
+      margin-top: 1rem;
+    }
   }
 
   td, th {
@@ -172,7 +177,7 @@
   }
 }
 
-.messaging-compact-details-trigger {
+.messaging-compact-details-control {
   display: none;
 
   span {
