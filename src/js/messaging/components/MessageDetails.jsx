@@ -9,25 +9,15 @@ class MessageDetails extends React.Component {
     super(props);
     this.toggleCompactDetails = this.toggleCompactDetails.bind(this);
     this.toggleFullDetails = this.toggleFullDetails.bind(this);
-    this.state = { expanded: { compact: false, full: false } };
+    this.state = { expandedCompact: false, expandedFull: false };
   }
 
   toggleCompactDetails() {
-    this.setState({
-      expanded: {
-        ...this.state.expanded,
-        compact: !this.state.expanded.compact
-      }
-    });
+    this.setState({ expandedCompact: !this.state.expandedCompact });
   }
 
   toggleFullDetails() {
-    this.setState({
-      expanded: {
-        ...this.state.expanded,
-        full: !this.state.expanded.full
-      }
-    });
+    this.setState({ expandedFull: !this.state.expandedFull });
   }
 
   render() {
@@ -42,8 +32,8 @@ class MessageDetails extends React.Component {
 
     const detailsClass = classNames({
       'messaging-message-details': true,
-      'messaging-message-details--compact': this.state.expanded.compact,
-      'messaging-message-details--full': this.state.expanded.full
+      'messaging-message-details--compact': this.state.expandedCompact,
+      'messaging-message-details--full': this.state.expandedFull
     });
 
     const sentDateRow = sentDate && (
@@ -95,7 +85,7 @@ class MessageDetails extends React.Component {
           className="messaging-message-details-control"
           tabIndex="-1"
           onBlur={() => {
-            if (this.state.expanded.full) {
+            if (this.state.expandedFull) {
               this.toggleFullDetails();
             }
           }}
@@ -105,13 +95,13 @@ class MessageDetails extends React.Component {
             onClick={this.toggleFullDetails}>
           <i className="fa fa-caret-down"></i>
           <span className="usa-sr-only">
-            {this.state.expanded.full ? 'Hide details' : 'Details'}
+            {this.state.expandedFull ? 'Hide details' : 'Details'}
           </span>
         </button>
         <div className="messaging-compact-details-control">
           {compactSentDate}
           <a role="button" onClick={this.toggleCompactDetails}>
-            {this.state.expanded.compact ? 'Hide details' : 'Details'}
+            {this.state.expandedCompact ? 'Hide details' : 'Details'}
           </a>
         </div>
         {messageDetails}
