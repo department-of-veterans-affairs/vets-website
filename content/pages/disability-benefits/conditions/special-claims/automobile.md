@@ -28,7 +28,7 @@ You may be able to get disability benefits if you have a disability that's relat
 
 ### What kind of disability benefits can I get?
 
-- A 1-time payment of not more than $20,235.20 to help you buy a specially-equipped vehicle
+- A 1-time payment of not more than $20,235.20 to help you buy a specially equipped vehicle
 - Possibly 1 or more adaptive-equipment grants to change a vehicle with power steering, brakes, seats, windows, or lift equipment to help you with getting into and out of the vehicle
 
 -----
