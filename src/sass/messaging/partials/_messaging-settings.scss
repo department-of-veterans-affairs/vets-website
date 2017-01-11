@@ -50,5 +50,10 @@
   .msg-btn-newfolder {
     margin: 1rem 0;
     width: auto;
+
+    @media (max-width: $medium-screen) {
+      margin: 1.5rem 0;
+      padding: 0;
+    }
   }
 }
