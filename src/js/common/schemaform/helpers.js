@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import { Route, IndexRedirect } from 'react-router';
 import FormPage from './FormPage';
-import ReviewPage from './ReviewPage';
+import ReviewPage from './review/ReviewPage';
 
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)

@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
-import SubmitButtons from './review/SubmitButtons';
-import PrivacyAgreement from '../components/questions/PrivacyAgreement';
-import { createPageListByChapter, isValidForm } from './helpers';
-import { setPrivacyAgreement, setEditMode, setSubmission, submitForm } from './actions';
+import SubmitButtons from './SubmitButtons';
+import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
+import { createPageListByChapter, isValidForm } from '../helpers';
+import { setPrivacyAgreement, setEditMode, setSubmission, submitForm } from '../actions';
 
 export class ReviewPage extends React.Component {
   constructor(props) {

@@ -2,8 +2,8 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
-import { focusElement } from '../utils/helpers';
-import FormPage from './FormPage';
+import { focusElement } from '../../utils/helpers';
+import FormPage from '../FormPage';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -34,7 +34,7 @@ const scroller = Scroll.scroller;
  * The fieldsComponent is passed some state props: inReview (always true here) and editing.
  */
 
-export default class ReviewCollapsiblePanel extends React.Component {
+export default class ReviewCollapsibleChapter extends React.Component {
   constructor() {
     super();
     this.handleSave = this.handleSave.bind(this);
@@ -137,7 +137,7 @@ export default class ReviewCollapsiblePanel extends React.Component {
   }
 }
 
-ReviewCollapsiblePanel.propTypes = {
+ReviewCollapsibleChapter.propTypes = {
   chapter: React.PropTypes.object.isRequired,
   pages: React.PropTypes.array.isRequired,
   data: React.PropTypes.object.isRequired,
