@@ -10,6 +10,7 @@ export default function FieldTemplate(props) {
   const requiredSpan = required ? <span className="form-required-span">*</span> : null;
   const label = uiSchema['ui:title'] || props.label;
   const isDateField = uiSchema['ui:widget'] === 'date';
+  const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
 
   let errorSpanId;
   let errorSpan;
@@ -20,7 +21,7 @@ export default function FieldTemplate(props) {
     errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{rawErrors[0]}</span>;
   }
 
-  return schema.type === 'object' || schema.type === 'array'
+  return (schema.type === 'object' || schema.type === 'array' || schema.type === 'boolean') && !showFieldLabel
     ? children
     : (<div className={errorClass}>
       <label className={hasErrors && !isDateField ? 'usa-input-error-label' : null} htmlFor={id}>{label}{requiredSpan}</label>

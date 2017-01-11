@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import {
   deepEquals,
@@ -102,11 +103,13 @@ class ObjectField extends React.Component {
     const schema = retrieveSchema(this.props.schema, definitions);
 
     // description and title setup
+    const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
     const title = uiSchema['ui:title'] || schema.title;
     const hasTextDescription = typeof uiSchema['ui:description'] === 'string';
     const DescriptionField = !hasTextDescription && typeof uiSchema['ui:description'] === 'function'
       ? uiSchema['ui:description']
       : null;
+    const isRoot = idSchema.$id === 'root';
 
     let orderedProperties;
     try {
@@ -123,10 +126,15 @@ class ObjectField extends React.Component {
         </div>
       );
     }
+
+    const containerClassNames = classNames({
+      'input-section': isRoot,
+      'schemaform-block': title && !isRoot
+    });
     return (
       <fieldset>
-        <div className={title ? 'input-section' : undefined}>
-          {title
+        <div className={containerClassNames}>
+          {title && !showFieldLabel
               ? <TitleField
                   id={`${idSchema.$id}__title`}
                   title={title}

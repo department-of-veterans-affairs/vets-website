@@ -129,3 +129,11 @@ export function validateDate(errors, dateString) {
     errors.addError('Please provide a valid date');
   }
 }
+
+export function validateGroup(message) {
+  return (errors, group) => {
+    if (!_.values(group).some(val => val === true)) {
+      errors.addError(message);
+    }
+  };
+}

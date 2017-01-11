@@ -3,13 +3,15 @@ import SelectWidget from './SelectWidget';
 import DateWidget from './DateWidget';
 import EmailWidget from './EmailWidget';
 import RadioWidget from './RadioWidget';
+import CheckboxWidget from './CheckboxWidget';
 
 const widgets = {
   TextWidget,
   SelectWidget,
   DateWidget,
   EmailWidget,
-  RadioWidget
+  RadioWidget,
+  CheckboxWidget
 };
 
 export default widgets;

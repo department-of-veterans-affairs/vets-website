@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 import { validateSSN, validateDate } from './validation';
 
 export const uiFullName = {
@@ -34,4 +36,23 @@ export const uiDate = {
   'ui:validations': [
     validateDate
   ]
+};
+
+export function uiDateRange(from, to) {
+  return {
+    from: _.merge(uiDate, {
+      'ui:title': from
+    }),
+    to: _.merge(uiDate, {
+      'ui:title': to
+    })
+  };
+}
+
+export const uiPhone = {
+  'ui:title': 'Phone',
+  'ui:options': {
+    widgetClassNames: 'home-phone va-input-medium-large',
+    inputType: 'tel'
+  }
 };
