@@ -13,18 +13,20 @@ class MessageDetails extends React.Component {
   }
 
   toggleCompactDetails() {
-    this.setState((prevState) => {
-      const newState = { expanded: { ...prevState.expanded } };
-      newState.expanded.compact = !prevState.expanded.compact;
-      return newState;
+    this.setState({
+      expanded: {
+        ...this.state.expanded,
+        compact: !this.state.expanded.compact
+      }
     });
   }
 
   toggleFullDetails() {
-    this.setState((prevState) => {
-      const newState = { expanded: { ...prevState.expanded } };
-      newState.expanded.full = !prevState.expanded.full;
-      return newState;
+    this.setState({
+      expanded: {
+        ...this.state.expanded,
+        full: !this.state.expanded.full
+      }
     });
   }
 
