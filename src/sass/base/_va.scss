@@ -1144,14 +1144,14 @@ li {
   position: relative;
   overflow: hidden;
 
-  @media screen and (min-width: $medium-screen) {
+  @media (min-width: $medium-screen) {
     flex-wrap: nowrap;
   }
 
   .va-flex {
     flex-wrap: wrap;
 
-    @media screen and (min-width: $medium-screen) {
+    @media (min-width: $medium-screen) {
       flex-wrap: nowrap;
     }
   }
@@ -1170,7 +1170,7 @@ li {
   overflow: hidden;
   margin-bottom: 3rem;
 
-  @media screen and (min-width: $medium-screen) {
+  @media (min-width: $medium-screen) {
     flex-wrap: nowrap;
     margin-bottom: 0;
   }
@@ -1195,7 +1195,7 @@ li {
   margin: 2em 0 0 0;
   flex: 0 1 100%;
 
-  @media screen and (min-width: $medium-screen) {
+  @media (min-width: $medium-screen) {
     flex: 0 1 25%;
     margin: 2em 0 1.5em 0;
   }
@@ -1210,11 +1210,11 @@ li {
 }
 
 [id=footer-contact] { 
-  @media screen and (max-width: $medium-screen) {
+  @media (max-width: $medium-screen) {
     order: -1;
   }
 
-  @media screen and (min-width: $medium-screen) {
+  @media (min-width: $medium-screen) {
     flex: 2 0 50%;
   }
 }
@@ -1255,13 +1255,13 @@ li {
   flex-wrap: wrap;
   margin-top: 10rem;
 
-  @media screen and (min-width: $medium-screen) {
+  @media (min-width: $medium-screen) {
     flex-wrap: nowrap;
   }
 
   > div {
       &:first-child {
-        @media screen and (min-width: $medium-screen) {
+        @media (min-width: $medium-screen) {
           flex: 0 1 60%;
         }
       }
@@ -1269,7 +1269,7 @@ li {
       &:last-child {
         order: -1;
 
-        @media screen and (min-width: $medium-screen) {
+        @media (min-width: $medium-screen) {
           order: 1;
           flex: 1 1 40%;
         }
@@ -1948,7 +1948,7 @@ li.twenty:before {content: '20';}
     margin: 1rem auto;
   }
 
-  @media screen and (max-height: 30.5em) {
+  @media (max-height: 30.5em) {
     .overlay form {
       height: 70%;
     }
