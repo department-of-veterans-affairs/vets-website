@@ -25,6 +25,12 @@
       }
     }
   }
+
+  &--draft {
+    @media (min-width: $medium-screen) {
+      display: none;
+    }
+  }
 }
 
 .messaging-message-header {
@@ -157,6 +163,7 @@
     }
 
     tr:first-child,
+    tr:nth-child(2),
     tr:last-child {
       display: none;
     }
@@ -169,6 +176,11 @@
     display: none;
     text-decoration: underline;
 
+    // Overwrite USWDS checkbox.
+    &:before {
+      display: none !important;
+    }
+
     &:after {
       content: 'Details';
     }
@@ -180,7 +192,7 @@
 
   & ~ span {
     display: none;
-    margin-right: 0.5rem;
+    margin-right: .5rem;
 
     @media (max-width: $medium-screen) {
       display: inline-block;
