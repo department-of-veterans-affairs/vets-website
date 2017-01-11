@@ -12,7 +12,7 @@ If you served at—or were assigned to—Marine Corps Base Camp Lejeune or Marin
 ### Can I get disability benefits from VA?
 
 
-You may be able to get disability benefits if you served under official orders or other official assignment at Camp Lejeune or MCAS New River for any period of time from August 1953 through December 1987 and:
+You may be able to get disability benefits if you served under official orders or other official assignment at Camp Lejeune or MCAS New River for at least 30 days, with or without a break in service, from August 1953 through December 1987 and:
 
 - You were discharged from the military under conditions other than dishonorable, **and**
 - You have 1 or more presumptive conditions believed to be caused by contact with contaminants in the Camp Lejeune drinking water. These include:
@@ -55,8 +55,6 @@ When you apply, you'll need to give us:
 - Your military records showing you served at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 while on active duty, or in the National Guard or Reserves,
 **and**
 - Evidence, like a doctor’s report or medical test results, stating that you have 1 or more of the 8 illnesses on the presumptive conditions list (see above)
-
-**Note:** We’ll begin reviewing claims filed for Camp Lejeune presumptive service connection in January 2017.
 
 
 ### Can family members of Veterans also get help from VA?
