@@ -46,7 +46,7 @@ export class Settings extends React.Component {
           <h2>Settings</h2>
         </div>
         <div id="messaging-settings">
-          <table className="usa-table-borderless">
+          <table className="usa-table-borderless va-table-list">
             <thead>
               <tr>
                 <th>Folder name</th>
