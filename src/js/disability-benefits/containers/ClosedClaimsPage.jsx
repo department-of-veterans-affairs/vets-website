@@ -14,7 +14,7 @@ class ClosedClaimsPage extends React.Component {
     this.changePage = this.changePage.bind(this);
   }
   componentDidMount() {
-    if(this.props.allClaims) {
+    if (this.props.allClaims) {
       this.props.getFilteredClaims(false);
     } else {
       this.props.getClaims();
@@ -49,7 +49,7 @@ class ClosedClaimsPage extends React.Component {
     } else {
       content = <NoClaims/>;
     }
-    if(this.props.allClaims) {
+    if (this.props.allClaims) {
       content = (
         <div className="va-tab-content db-tab-content" role="tabpanel" id="tabPanelOpenClaims" aria-labelledby="tabOpenClaims">
           {content}

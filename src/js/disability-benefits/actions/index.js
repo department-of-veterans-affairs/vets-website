@@ -52,7 +52,7 @@ export function getFilteredClaims(open = true) {
       null,
       dispatch,
       claims => {
-        const filteredClaims = claims.data.filter(function(claim) {
+        const filteredClaims = claims.data.filter((claim) => {
           return claim.attributes.open === open;
         });
         dispatch({ type: SET_CLAIMS, claims: filteredClaims, meta: claims.meta });
