@@ -163,6 +163,7 @@
     }
 
     tr:first-child,
+    tr:nth-child(2),
     tr:last-child {
       display: none;
     }
@@ -191,6 +192,7 @@
 
   & ~ span {
     display: none;
+    margin-right: .5rem;
 
     @media (max-width: $medium-screen) {
       display: inline-block;
