@@ -16,7 +16,6 @@ When you file a claim for disability benefits, you'll need to gather all related
 -	Medical evidence related to your illness or injury (supporting documents like a doctor's report or medical test results)
 </div>
 
-The Veterans Claims Assistance Act (VCAA) passed by Congress in 2000 defines both VA's and the Veteran's responsibilities:
 
 ### We're responsible for:
 
