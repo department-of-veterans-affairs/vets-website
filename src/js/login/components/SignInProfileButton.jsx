@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { updateLoggedInStatus } from '../../common/actions';
+import { updateLoggedInStatus } from '../actions';
 
 
 class SignInProfileButton extends React.Component {
