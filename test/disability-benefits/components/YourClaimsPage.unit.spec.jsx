@@ -7,7 +7,7 @@ import { YourClaimsPage } from '../../../src/js/disability-benefits/containers/Y
 describe('<YourClaimsPage>', () => {
   it('should render tabs', () => {
     const tree = SkinDeep.shallowRender(
-      <YourClaimsPage/>
+      <YourClaimsPage allClaims/>
     );
     expect(tree.everySubTree('MainTabNav').length).to.equal(1);
   });

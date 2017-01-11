@@ -3,9 +3,9 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { ClosedClaimsPage } from '../../../src/js/disability-benefits/containers/ClosedClaimsPage';
+import { ClaimsList } from '../../../src/js/disability-benefits/containers/ClaimsList';
 
-describe('<ClosedClaimsPage>', () => {
+describe('<ClaimsList>', () => {
   it('should render loading div', () => {
     const changePage = sinon.spy();
     const getClaims = sinon.spy();
@@ -14,7 +14,7 @@ describe('<ClosedClaimsPage>', () => {
     const claims = [];
 
     const tree = SkinDeep.shallowRender(
-      <ClosedClaimsPage
+      <ClaimsList
           loading
           claims={claims}
           page={page}
@@ -33,7 +33,7 @@ describe('<ClosedClaimsPage>', () => {
     const claims = [];
 
     const tree = SkinDeep.shallowRender(
-      <ClosedClaimsPage
+      <ClaimsList
           claims={claims}
           page={page}
           pages={pages}
@@ -51,7 +51,7 @@ describe('<ClosedClaimsPage>', () => {
     const claims = [{}, {}];
 
     const tree = SkinDeep.shallowRender(
-      <ClosedClaimsPage
+      <ClaimsList
           claims={claims}
           page={page}
           pages={pages}

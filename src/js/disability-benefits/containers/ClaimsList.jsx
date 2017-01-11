@@ -8,26 +8,35 @@ import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 
-class ClosedClaimsPage extends React.Component {
+class ClaimsList extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
   }
   componentDidMount() {
-    if (this.props.allClaims) {
-      this.props.getFilteredClaims(false);
-    } else {
-      this.props.getClaims();
-    }
+    this.loadClaims(this.props);
     if (this.props.loading) {
       scrollToTop();
     } else {
       setUpPage();
     }
   }
+  componentWillReceiveProps(newProps) {
+    if (this.props.allClaims && this.props.route.showClosedClaims !== newProps.route.showClosedClaims) {
+      this.loadClaims(newProps);
+      this.changePage(1);
+    }
+  }
   componentDidUpdate(prevProps) {
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
+    }
+  }
+  loadClaims(props) {
+    if (props.allClaims) {
+      props.getFilteredClaims(!props.route.showClosedClaims);
+    } else {
+      props.getClaims();
     }
   }
   changePage(page) {
@@ -49,6 +58,7 @@ class ClosedClaimsPage extends React.Component {
     } else {
       content = <NoClaims/>;
     }
+
     if (this.props.allClaims) {
       content = (
         <div className="va-tab-content db-tab-content" role="tabpanel" id="tabPanelOpenClaims" aria-labelledby="tabOpenClaims">
@@ -75,10 +85,10 @@ const mapDispatchToProps = {
   changePage
 };
 
-ClosedClaimsPage.defaultProps = {
+ClaimsList.defaultProps = {
   allClaims: __ALL_CLAIMS_ENABLED__ // eslint-disable-line no-undef
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClosedClaimsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ClaimsList);
 
-export { ClosedClaimsPage };
+export { ClaimsList };
