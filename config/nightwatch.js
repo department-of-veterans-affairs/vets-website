@@ -22,7 +22,7 @@ module.exports = {
       selenium_host: 'localhost',
       selenium_port: selenium_server_port,
       use_ssl: false,
-      silent: true,
+      //silent: true,
       output: true,
       screenshots: {
         enabled: true,
@@ -30,7 +30,7 @@ module.exports = {
         path: 'logs/screenshots'
       },
       desiredCapabilities: {
-        browserName: 'phantomjs',
+        browserName: 'firefox',
         javascriptEnabled: true,
         acceptSslCerts: true,
         webStorageEnabled: true,

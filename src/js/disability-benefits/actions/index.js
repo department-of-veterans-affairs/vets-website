@@ -46,6 +46,23 @@ export function getClaims() {
   };
 }
 
+export function getFilteredClaims(open = true) {
+  return (dispatch) => {
+    makeAuthRequest('/v0/disability_claims',
+      null,
+      dispatch,
+      claims => {
+        const filteredClaims = claims.data.filter(function(claim) {
+          return claim.attributes.open === open;
+        });
+        dispatch({ type: SET_CLAIMS, claims: filteredClaims, meta: claims.meta });
+        dispatch({ type: CHANGE_CLAIMS_PAGE, page: 1 });
+      },
+      () => dispatch({ type: SET_UNAVAILABLE })
+    );
+  };
+}
+
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,

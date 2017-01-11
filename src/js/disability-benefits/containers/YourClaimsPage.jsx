@@ -2,55 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getClaims, changePage, showConsolidatedMessage } from '../actions';
+import { showConsolidatedMessage } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
-import ClaimsListItem from '../components/ClaimsListItem';
-import NoClaims from '../components/NoClaims';
-import Pagination from '../../common/components/Pagination';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
-import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
+import MainTabNav from '../components/MainTabNav';
 
 class YourClaimsPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.changePage = this.changePage.bind(this);
-  }
   componentDidMount() {
-    this.props.getClaims();
     document.title = 'Track Claims: Vets.gov';
-    if (this.props.loading) {
-      scrollToTop();
-    } else {
-      setUpPage();
-    }
   }
-  componentDidUpdate(prevProps) {
-    if (!this.props.loading && prevProps.loading) {
-      setPageFocus();
-    }
-  }
-  changePage(page) {
-    this.props.changePage(page);
-    scrollToTop();
-  }
+
   render() {
-    const { claims, pages, page, loading } = this.props;
-
-    let content;
-
-    if (loading) {
-      content = <LoadingIndicator message="Loading claims list" setFocus/>;
-    } else if (claims.length > 0) {
-      content = (<div className="claim-list">
-        {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
-        <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
-      </div>);
-    } else {
-      content = <NoClaims/>;
-    }
-
     return (
       <div className="your-claims">
         <div className="row">
@@ -64,7 +27,8 @@ class YourClaimsPage extends React.Component {
                 this.props.showConsolidatedMessage(true);
               }}>Find out why we sometimes combine claims.</a>
             </p>
-            {content}
+            {this.props.allClaims ? <MainTabNav/> : null}
+            {this.props.children}
             <Modal
                 onClose={() => true}
                 visible={this.props.consolidatedModal}
@@ -84,18 +48,16 @@ class YourClaimsPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    loading: state.claims.list === null,
-    claims: state.claims.visibleRows,
-    pages: state.claims.pages,
-    page: state.claims.page,
     consolidatedModal: state.claims.consolidatedModal
   };
 }
 
 const mapDispatchToProps = {
-  getClaims,
-  changePage,
   showConsolidatedMessage
+};
+
+YourClaimsPage.defaultProps = {
+  allClaims: __ALL_CLAIMS_ENABLED__ // eslint-disable-line no-undef
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPage);
