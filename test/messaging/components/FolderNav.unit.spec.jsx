@@ -72,8 +72,8 @@ describe('<FolderNav>', () => {
     const tree = SkinDeep.shallowRender(
       <FolderNav {...props}/>
     );
-    expect(tree.subTree('ButtonManageFolders')).to.exist;
-    expect(tree.subTree('ButtonCreateFolder')).to.exist;
+    expect(tree.subTree('ButtonManageFolders')).to.be.ok;
+    expect(tree.subTree('ButtonCreateFolder')).to.be.ok;
   });
 
   it('should have the correct number of folders when collapsed', () => {

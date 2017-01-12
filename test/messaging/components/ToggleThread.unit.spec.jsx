@@ -6,38 +6,33 @@ import ToggleThread from '../../../src/js/messaging/components/ToggleThread.jsx'
 
 describe('<ToggleThread>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(
-      <ToggleThread/>
-    );
+    const tree = SkinDeep.shallowRender(<ToggleThread/>);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should have the expected classname', () => {
-    const tree = SkinDeep.shallowRender(
-      <ToggleThread/>
-    );
+    const tree = SkinDeep.shallowRender(<ToggleThread/>);
+
     expect(tree.props.className).to.equal('messaging-toggle-thread');
   });
 
   it('should have the expected icon classname when expanded', () => {
-    const tree = SkinDeep.shallowRender(
-      <ToggleThread/>
-    );
-    expect(tree.subTree('.fa-chevron-up')).to.exist;
+    const tree = SkinDeep.shallowRender(<ToggleThread/>);
+
+    expect(tree.subTree('.fa-chevron-up')).to.be.ok;
   });
 
   it('should have the expected icon classname when collapsed', () => {
     const tree = SkinDeep.shallowRender(
       <ToggleThread messagesCollapsed/>
     );
-    expect(tree.subTree('.fa-chevron-down')).to.exist;
+    expect(tree.subTree('.fa-chevron-down')).to.be.ok;
   });
 
   it('should have the expected action text when expanded', () => {
-    const tree = SkinDeep.shallowRender(
-      <ToggleThread/>
-    );
+    const tree = SkinDeep.shallowRender(<ToggleThread/>);
+
     expect(tree.subTree('span').text()).to.equal('Collapse all');
   });
 

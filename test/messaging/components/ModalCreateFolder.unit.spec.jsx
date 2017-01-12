@@ -31,15 +31,15 @@ describe('<ModalCreateFolder>', () => {
     const tree = SkinDeep.shallowRender(
       <ModalCreateFolder {...props}/>
     );
-    expect(tree.subTree('Modal')).to.exist;
-    expect(tree.subTree('form')).to.exist;
-    expect(tree.subTree('.va-modal-button-group')).to.exist;
+    expect(tree.subTree('Modal')).to.be.ok;
+    expect(tree.subTree('form')).to.be.ok;
+    expect(tree.subTree('.va-modal-button-group')).to.be.ok;
   });
 
   it('should show loading indicator when loading', () => {
     const tree = SkinDeep.shallowRender(
       <ModalCreateFolder {...props} loading/>
     );
-    expect(tree.subTree('LoadingIndicator')).to.exist;
+    expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
 });
