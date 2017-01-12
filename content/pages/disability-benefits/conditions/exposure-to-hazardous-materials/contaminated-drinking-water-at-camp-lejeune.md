@@ -56,9 +56,9 @@ When you apply, you'll need to give us:
 - Evidence stating that you have 1 or more of the 8 illnesses on the presumptive conditions list (see above)
 
 
-### Can family members of Veterans also get help from VA?
+### Are both Veterans and their family members covered for health care?
 
-Yes. Family members of Veterans who served at Camp Lejeune and MCAS New River can get benefits. We may pay you back for your out-of-pocket health care costs that were related to any of these 15 conditions:
+Yes. Veterans who served at Camp Lejeune or MCAS New River and their family members can get health care benefits. We may pay you back for your out-of-pocket health care costs that were related to any of these 15 conditions:
 
 - Bladder cancer
 - Breast cancer
@@ -100,7 +100,7 @@ When you apply, please provide:
 
 - Medical records that show you have 1 of the 15 conditions listed above, **and**
 
-- [The Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Your doctor needs to fill it out and sign it.  
+- [The Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Have your doctor fill out and sign this form before submitting.  
 
 <div class="call-out" markdown="1">
 
