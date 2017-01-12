@@ -40,6 +40,7 @@ describe('<YourClaimsPage>', () => {
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
           loading
+          allClaims={false}
           claims={claims}
           page={page}
           pages={pages}
@@ -58,6 +59,7 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
+          allClaims={false}
           claims={claims}
           page={page}
           pages={pages}
@@ -76,6 +78,7 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
+          allClaims={false}
           claims={claims}
           page={page}
           pages={pages}
