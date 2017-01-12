@@ -10,7 +10,7 @@ const props = {
   newFolderName: {
     value: '',
   },
-  id: 0,
+  id: '0',
   loading: false,
   onClose: () => {},
   onSubmit: () => {},
@@ -31,15 +31,17 @@ describe('<ModalCreateFolder>', () => {
     const tree = SkinDeep.shallowRender(
       <ModalCreateFolder {...props}/>
     );
+
     expect(tree.subTree('Modal')).to.be.ok;
-    expect(tree.subTree('form')).to.be.ok;
-    expect(tree.subTree('.va-modal-button-group')).to.be.ok;
+    expect(tree.dive(['Modal']).subTree('form')).to.be.ok;
+    expect(tree.dive(['Modal']).subTree('.va-modal-button-group')).to.be.ok;
   });
 
   it('should show loading indicator when loading', () => {
     const tree = SkinDeep.shallowRender(
       <ModalCreateFolder {...props} loading/>
     );
-    expect(tree.subTree('LoadingIndicator')).to.be.ok;
+
+    expect(tree.dive(['Modal']).subTree('LoadingIndicator')).to.be.ok;
   });
 });
