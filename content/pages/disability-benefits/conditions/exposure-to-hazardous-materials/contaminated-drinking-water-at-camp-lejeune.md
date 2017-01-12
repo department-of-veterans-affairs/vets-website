@@ -5,7 +5,7 @@ source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_le
 template: 4-action-page
 ---
 
-If you served at Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants in the drinking water there. Scientific and medical evidence has shown an association between exposure to these contaminants during military service and later development of certain diseases. If you have qualifying service at Camp Lejeune and a current diagnosis of one of the conditions listed below, you may be able to get disability compensation.
+If you served at Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants in the drinking water there. Scientific and medical evidence has shown an association between exposure to these contaminants during military service and development of certain diseases later on. If you have qualifying service at Camp Lejeune and a current diagnosis of 1 of the conditions listed below, you may be able to get disability benefits.
 
 <div class="call-out" markdown="1">
 
@@ -15,7 +15,7 @@ If you served at Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCA
 You may be able to get disability benefits if you served at Camp Lejeune or MCAS New River for at least 30 cumulative days from August 1953 through December 1987 and:
 
 - You were discharged from the military under conditions other than dishonorable, **and**
-- You have a diagnosis of 1 or more of these conditions:
+- You have a diagnosis of 1 or more of these presumptive conditions:
 
   - Adult leukemia
   - Aplastic anemia and other myelodysplastic syndromes
@@ -43,7 +43,7 @@ You may be able to get disability benefits if you served at Camp Lejeune or MCAS
 
 You’ll need to apply for benefits. You can do this in 1 of 3 ways:
 
-- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying for one or more of the presumed Camp Lejeune illnesses, and attach evidence,
+- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor's report or medical test results),
 **or**
 - [Get help from an accredited representative or VSO](http://www.va.gov/ogc/apps/accreditation/index.asp),
 **or**
@@ -53,7 +53,7 @@ When you apply, you'll need to give us:
 
 - Your military records showing you served at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 while on active duty, or in the National Guard or Reserves,
 **and**
-- Evidence, like a doctor’s report or medical test results, stating that you have 1 or more of the 8 illnesses on the presumptive conditions list (see above)
+- Evidence stating that you have 1 or more of the 8 illnesses on the presumptive conditions list (see above)
 
 
 ### Can family members of Veterans also get help from VA?
@@ -106,7 +106,7 @@ When you apply, please provide:
 
 ### What was in the drinking water?
 
-Two on-base water wells that were shut down in 1985 had the following chemicals:
+Two on-base water wells that were shut down in 1985 had these chemicals:
 
 - Trichloroethylene (TCE)
 - Perchloroethylene (PCE)
