@@ -56,9 +56,9 @@ When you apply, you'll need to give us:
 - Evidence stating that you have 1 or more of the 8 illnesses on the presumptive conditions list (see above)
 
 
-### Are both Veterans and their family members covered for health care?
+### Are Veterans and their family members covered for health care?
 
-Yes. Veterans who served at Camp Lejeune or MCAS New River and their family members can get health care benefits. We may pay you back for your out-of-pocket health care costs that were related to any of these 15 conditions:
+Yes. Veterans who served at Camp Lejeune or MCAS New River for at least 30 cumulative days from August 1953 through December 1987—and their family members—can get health care benefits. We may pay you back for your out-of-pocket health care costs that were related to any of these 15 conditions:
 
 - Bladder cancer
 - Breast cancer
