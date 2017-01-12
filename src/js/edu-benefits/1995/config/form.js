@@ -147,6 +147,19 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Service periods',
             toursOfDuty: {
+              'ui:options': {
+                viewField: ({ formData, onEdit }) => {
+                  return (
+                    <div>
+                      <div>
+                        <strong>{formData.serviceBranch}</strong><br/>
+                        {formData.dateRange.from} &mdash; {formData.dateRange.to}
+                      </div>
+                      <button className="usa-button-outline float-right" onClick={onEdit}>Edit</button>
+                    </div>
+                  );
+                }
+              },
               items: {
                 serviceBranch: {
                   'ui:title': 'Branch of service'

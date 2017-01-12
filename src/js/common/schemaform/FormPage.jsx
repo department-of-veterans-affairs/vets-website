@@ -12,16 +12,19 @@ import ReviewFieldTemplate from './review/ReviewFieldTemplate';
 import widgets from './widgets/index';
 import ProgressButton from '../components/form-elements/ProgressButton';
 import ObjectField from './ObjectField';
+import ArrayField from './ArrayField';
 import ReviewObjectField from './review/ObjectField';
 import { focusElement } from '../utils/helpers';
 import { setValid, setData } from './actions';
 
 const fields = {
-  ObjectField
+  ObjectField,
+  ArrayField
 };
 
 const reviewFields = {
-  ObjectField: ReviewObjectField
+  ObjectField: ReviewObjectField,
+  ArrayField
 };
 
 const scrollToFirstError = () => {
@@ -106,8 +109,11 @@ class FormPage extends React.Component {
     const onEdit = () => {
       this.props.onEdit();
     };
+    const setSubmitted = () => {
+      this.onError();
+    };
     const formData = this.props.form[this.props.route.pageConfig.pageKey].data;
-    return { formContext: { touched: {}, submitted: false, onEdit, hideTitle: this.props.hideTitle, formData } };
+    return { formContext: { touched: {}, submitted: false, onEdit, setSubmitted, hideTitle: this.props.hideTitle, formData } };
   }
   goBack() {
     const { pageList, pageConfig } = this.props.route;
