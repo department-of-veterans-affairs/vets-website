@@ -37,8 +37,10 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Compose message view
     client
-      .click('#messaging-folder-controls .messaging-compose-button')
-      .waitForElementVisible('textarea[name="messageText"]', Timeouts.normal);
+      .waitForElementVisible('.messaging-compose-button', Timeouts.slow)
+      .click('.messaging-compose-button')
+      .waitForElementVisible('textarea[name="messageText"]', Timeouts.slow);
+
     // select a recipient in the compose form
     client.click('select[name=\'messageRecipient\']')
       .click('select option[value=\'0\']')
