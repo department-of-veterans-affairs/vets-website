@@ -138,10 +138,12 @@ class ObjectField extends React.Component {
       );
     }
 
-    const containerClassNames = classNames({
+    let containerClassNames = classNames({
       'input-section': isRoot,
       'schemaform-block': title && !isRoot
     });
+
+
     return (
       <fieldset>
         <div className={containerClassNames}>

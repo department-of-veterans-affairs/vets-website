@@ -53,7 +53,8 @@ class ObjectField extends React.Component {
 
     const renderedProperties = orderedProperties
       .filter(propName => {
-        return !(uiSchema[propName]['ui:options'] && uiSchema[propName]['ui:options'].hideOnReviewIfFalse && !formData[propName]);
+        return !(uiSchema[propName] && uiSchema[propName]['ui:options'] && uiSchema[propName]['ui:options'].hideOnReviewIfFalse && !formData[propName])
+          && !(uiSchema[propName] && uiSchema[propName]['ui:options'] && uiSchema[propName]['ui:options'].hideOnReview);
       })
       .map((propName, index) => {
         return (

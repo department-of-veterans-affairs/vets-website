@@ -12,7 +12,14 @@ import { parseISODate } from './helpers';
 const defaultMessages = {
   required: 'Please provide a response',
   maxLength: (max) => `This field should be less than ${max} characters`,
-  minLength: (min) => `This field should be at least ${min} character(s)`
+  minLength: (min) => `This field should be at least ${min} character(s)`,
+  format: (type) => {
+    if (type === 'email') {
+      return 'Please enter a valid email address';
+    }
+
+    return 'Please enter a valid value';
+  }
 };
 
 function getMessage(path, name, uiSchema, errorArgument) {
@@ -142,4 +149,11 @@ export function validateGroup(message) {
       errors.addError(message);
     }
   };
+}
+
+export function validateEmailsMatch(errors, formData) {
+  const { email, confirmEmail } = formData;
+  if (email !== confirmEmail) {
+    errors.confirmEmail.addError('Please ensure your entries match');
+  }
 }

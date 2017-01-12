@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import { fullName, ssn, dateRange, date, address, phone } from '../../../common/schemaform/definitions';
 import { uiFullName, uiSSN, uiDateRange, uiDate, uiPhone } from '../../../common/schemaform/uiDefinitions';
-import { validateGroup } from '../../../common/schemaform/validation';
+import { validateGroup, validateEmailsMatch } from '../../../common/schemaform/validation';
 import IntroductionPage from '../components/IntroductionPage';
 
 const formConfig = {
@@ -75,7 +75,8 @@ const formConfig = {
             benefitsSelected: {
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
-                showFieldLabel: true
+                showFieldLabel: true,
+                classNames: 'form-errorable-group'
               },
               'ui:validations': [
                 validateGroup('Please select at least one benefit')
@@ -333,11 +334,17 @@ const formConfig = {
               'ui:title': 'Other contact information',
               'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
               email: {
+                'ui:validations': [
+                  validateEmailsMatch
+                ],
                 email: {
                   'ui:title': 'Email address'
                 },
                 confirmEmail: {
-                  'ui:title': 'Re-enter email address'
+                  'ui:title': 'Re-enter email address',
+                  'ui:options': {
+                    hideOnReview: true
+                  }
                 }
               },
               homePhone: _.assign(uiPhone, {

@@ -244,6 +244,10 @@ dl.review {
       padding-left: 5px;
       min-width: 100px;
     }
+    &> dt > p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
   border-bottom: 1px solid #5b616b;
 }

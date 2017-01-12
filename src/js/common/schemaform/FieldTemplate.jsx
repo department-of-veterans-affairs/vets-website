@@ -21,13 +21,20 @@ export default function FieldTemplate(props) {
     errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{rawErrors[0]}</span>;
   }
 
+  let containerClassNames;
+  if (uiSchema['ui:options'] && uiSchema['ui:options'].classNames) {
+    containerClassNames = `${containerClassNames} ${uiSchema['ui:options'].classNames}`;
+  }
+
   return (schema.type === 'object' || schema.type === 'array' || (schema.type === 'boolean' && !uiSchema['ui:widget'])) && !showFieldLabel
     ? children
-    : (<div className={errorClass}>
-      <label className={hasErrors && !isDateField ? 'usa-input-error-label' : null} htmlFor={id}>{label}{requiredSpan}</label>
-      {errorSpan}
-      {<div className={isDateField && hasErrors ? 'usa-input-error form-error-date' : null}>{children}</div>}
-      {help}
+    : (<div className={containerClassNames}>
+      <div className={errorClass}>
+        <label className={hasErrors && !isDateField ? 'usa-input-error-label' : null} htmlFor={id}>{label}{requiredSpan}</label>
+        {errorSpan}
+        {<div className={isDateField && hasErrors ? 'usa-input-error form-error-date' : null}>{children}</div>}
+        {help}
+      </div>
     </div>
     );
 }
