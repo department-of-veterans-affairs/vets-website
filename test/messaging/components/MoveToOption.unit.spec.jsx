@@ -19,7 +19,7 @@ describe('<MoveToOption>', () => {
   it('should render the expected input field', () => {
     const tree = SkinDeep.shallowRender(<MoveToOption {...props}/>);
 
-    expect(tree.subTree('input[name=messagingMoveToFolder]')).to.be.ok;
+    expect(tree.subTree('.msg-hidden-radio')).to.be.ok;
   });
 
   it('should render the expected label text', () => {

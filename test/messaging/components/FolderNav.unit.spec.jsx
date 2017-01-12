@@ -21,6 +21,30 @@ const props = {
       systemFolder: true,
       unreadCount: 3
     },
+    {
+      count: 3,
+      folderId: 1,
+      name: 'Folder 1',
+      unreadCount: 3
+    },
+    {
+      count: 3,
+      folderId: 2,
+      name: 'Folder 2',
+      unreadCount: 3
+    },
+    {
+      count: 3,
+      folderId: 3,
+      name: 'Folder 3',
+      unreadCount: 3
+    },
+    {
+      count: 3,
+      folderId: 4,
+      name: 'Folder 4',
+      unreadCount: 3
+    },
   ],
   isExpanded: false,
   onCreateNewFolder: () => {},
@@ -52,10 +76,32 @@ describe('<FolderNav>', () => {
     expect(tree.subTree('ButtonCreateFolder')).to.exist;
   });
 
-  it('should the correct number of folders', () => {
+  it('should have the correct number of folders when collapsed', () => {
     const tree = SkinDeep.shallowRender(
       <FolderNav {...props}/>
     );
-    expect(tree.everySubTree('.messaging-folder-nav-link').length).to.equal(2);
+    expect(tree.everySubTree('.messaging-folder-nav-link').length).to.equal(4);
+  });
+
+  it('should have the correct number of folders when expanded', () => {
+    const tree = SkinDeep.shallowRender(
+      <FolderNav {...props} isExpanded/>
+    );
+    expect(tree.everySubTree('.messaging-folder-nav-link').length).to.equal(6);
+  });
+
+  it('should render the custom folders section when expected', () => {
+    const tree = SkinDeep.shallowRender(
+      <FolderNav {...props}/>
+    );
+    expect(tree.subTree('.messaging-my-folders')).to.be.ok;
+    expect(tree.subTree('.messaging-folder-subnav')).to.be.false;
+  });
+
+  it('should render the list of custom folders when expanded', () => {
+    const tree = SkinDeep.shallowRender(
+      <FolderNav {...props} isExpanded/>
+    );
+    expect(tree.subTree('.messaging-folder-subnav')).to.be.ok;
   });
 });
