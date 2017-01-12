@@ -241,6 +241,8 @@ dl.review {
     padding-left: 0;
     &> dd {
       font-weight: bold;
+      padding-left: 5px;
+      min-width: 100px;
     }
   }
   border-bottom: 1px solid #5b616b;

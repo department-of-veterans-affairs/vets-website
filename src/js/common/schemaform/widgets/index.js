@@ -4,6 +4,7 @@ import DateWidget from './DateWidget';
 import EmailWidget from './EmailWidget';
 import RadioWidget from './RadioWidget';
 import CheckboxWidget from './CheckboxWidget';
+import YesNoWidget from './YesNoWidget';
 
 const widgets = {
   TextWidget,
@@ -11,7 +12,8 @@ const widgets = {
   DateWidget,
   EmailWidget,
   RadioWidget,
-  CheckboxWidget
+  CheckboxWidget,
+  yesNo: YesNoWidget
 };
 
 export default widgets;

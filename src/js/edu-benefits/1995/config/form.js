@@ -17,23 +17,24 @@ const formConfig = {
         veteranInformation: {
           path: 'veteran-information',
           initialData: {},
-          errorMessages: {
-            veteranSocialSecurityNumber: {
-              pattern: 'Please enter a valid nine digit SSN (dashes allowed)'
-            },
-            fileNumber: {
-              pattern: 'File number must be 8 digits and (optionall) start with C'
-            }
-          },
           uiSchema: {
             'ui:title': 'Veteran information',
             veteranFullName: uiFullName,
-            veteranSocialSecurityNumber: uiSSN,
+            veteranSocialSecurityNumber: _.assign(uiSSN, {
+              'ui:requiredIf': (form) => !form.noSSN
+            }),
             noSSN: {
-              'ui:title': 'I don\'t have a Social Security Number'
+              'ui:title': 'I don\'t have a Social Security Number',
+              'ui:options': {
+                hideOnReviewIfFalse: true
+              }
             },
             fileNumber: {
-              'ui:title': 'File number'
+              'ui:requiredIf': (form) => form.noSSN,
+              'ui:title': 'File number',
+              'ui:errorMessages': {
+                pattern: 'File number must be 8 digits and (optionally) start with C'
+              }
             }
           },
           schema: {
@@ -42,7 +43,7 @@ const formConfig = {
               fullName,
               ssn
             },
-            required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+            required: ['veteranFullName'],
             properties: {
               veteranFullName: {
                 $ref: '#/definitions/fullName'
@@ -185,16 +186,15 @@ const formConfig = {
             'ui:title': 'Military history',
             hasServiceBefore1978: {
               'ui:title': 'Do you have any periods of service that began before 1978?',
-              'ui:widget': 'radio'
+              'ui:widget': 'yesNo'
             }
           },
           schema: {
             type: 'object',
+            required: ['hasServiceBefore1978'],
             properties: {
               hasServiceBefore1978: {
-                type: 'string',
-                'enum': ['Y', 'N'],
-                enumNames: ['Yes', 'No']
+                type: 'boolean'
               }
             }
           }
@@ -246,7 +246,8 @@ const formConfig = {
               'ui:widget': 'textarea'
             },
             additionalContributions: {
-              'ui:title': 'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?'
+              'ui:title': 'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
+              'ui:widget': 'yesNo'
             }
           },
           schema: {
@@ -393,7 +394,7 @@ const formConfig = {
           initialData: {},
           depends: {
             militaryHistory: {
-              hasServiceBefore1978: 'Y'
+              hasServiceBefore1978: true
             }
           },
           uiSchema: {
@@ -401,15 +402,15 @@ const formConfig = {
             serviceBefore1977: {
               married: {
                 'ui:title': 'Are you currently married?',
-                'ui:widget': 'radio'
+                'ui:widget': 'yesNo'
               },
               haveDependents: {
                 'ui:title': 'Do you have any children who are under age 18? Or do you have any children who are over age 18 but under 23, not married, and attending school? Or do you have any children of any age who are permanently disabled for mental or physical reasons?',
-                'ui:widget': 'radio'
+                'ui:widget': 'yesNo'
               },
               parentDependent: {
                 'ui:title': 'Do you have a parent who is dependent on your financial support?',
-                'ui:widget': 'radio'
+                'ui:widget': 'yesNo'
               }
             }
           },
@@ -421,19 +422,13 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   married: {
-                    type: 'string',
-                    'enum': ['Y', 'N'],
-                    enumNames: ['Yes', 'No']
+                    type: 'boolean'
                   },
                   haveDependents: {
-                    type: 'string',
-                    'enum': ['Y', 'N'],
-                    enumNames: ['Yes', 'No']
+                    type: 'boolean'
                   },
                   parentDependent: {
-                    type: 'string',
-                    'enum': ['Y', 'N'],
-                    enumNames: ['Yes', 'No']
+                    type: 'boolean'
                   }
                 },
                 required: ['married', 'haveDependents', 'parentDependent']

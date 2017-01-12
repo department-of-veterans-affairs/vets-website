@@ -51,20 +51,24 @@ class ObjectField extends React.Component {
     const orderedProperties = orderProperties(properties, uiSchema['ui:order']);
     const isRoot = idSchema.$id === 'root';
 
-    const renderedProperties = orderedProperties.map((propName, index) => {
-      return (
-        <SchemaField key={index}
-            name={propName}
-            schema={schema.properties[propName]}
-            uiSchema={uiSchema[propName]}
-            errorSchema={errorSchema[propName]}
-            idSchema={idSchema[propName]}
-            onChange={f => f}
-            onBlur={f => f}
-            formData={formData[propName]}
-            registry={this.props.registry}/>
-      );
-    });
+    const renderedProperties = orderedProperties
+      .filter(propName => {
+        return !(uiSchema[propName]['ui:options'] && uiSchema[propName]['ui:options'].hideOnReviewIfFalse && !formData[propName]);
+      })
+      .map((propName, index) => {
+        return (
+          <SchemaField key={index}
+              name={propName}
+              schema={schema.properties[propName]}
+              uiSchema={uiSchema[propName]}
+              errorSchema={errorSchema[propName]}
+              idSchema={idSchema[propName]}
+              onChange={f => f}
+              onBlur={f => f}
+              formData={formData[propName]}
+              registry={this.props.registry}/>
+        );
+      });
 
     if (isRoot) {
       return (

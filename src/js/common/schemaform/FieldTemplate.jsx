@@ -21,7 +21,7 @@ export default function FieldTemplate(props) {
     errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{rawErrors[0]}</span>;
   }
 
-  return (schema.type === 'object' || schema.type === 'array' || schema.type === 'boolean') && !showFieldLabel
+  return (schema.type === 'object' || schema.type === 'array' || (schema.type === 'boolean' && !uiSchema['ui:widget'])) && !showFieldLabel
     ? children
     : (<div className={errorClass}>
       <label className={hasErrors && !isDateField ? 'usa-input-error-label' : null} htmlFor={id}>{label}{requiredSpan}</label>

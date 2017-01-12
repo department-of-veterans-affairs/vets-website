@@ -1,5 +1,4 @@
-import { countries, states } from '../utils/options-for-select';
-import _ from 'lodash';
+import { countries } from '../utils/options-for-select';
 /*
  * These are schema definitions for some common form fields
  */

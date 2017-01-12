@@ -84,6 +84,8 @@ class FormPage extends React.Component {
   }
   onChange({ formData }) {
     this.props.setData(this.props.route.pageConfig.pageKey, formData);
+    const formContext = _.set('formData', formData, this.state.formContext);
+    this.setState({ formContext });
   }
   onError() {
     const formContext = _.set('submitted', true, this.state.formContext);
@@ -104,7 +106,8 @@ class FormPage extends React.Component {
     const onEdit = () => {
       this.props.onEdit();
     };
-    return { formContext: { touched: {}, submitted: false, onEdit, hideTitle: this.props.hideTitle } };
+    const formData = this.props.form[this.props.route.pageConfig.pageKey].data;
+    return { formContext: { touched: {}, submitted: false, onEdit, hideTitle: this.props.hideTitle, formData } };
   }
   goBack() {
     const { pageList, pageConfig } = this.props.route;
@@ -112,7 +115,7 @@ class FormPage extends React.Component {
     this.props.router.push(pageList[pageIndex - 1].path);
   }
   transformErrors(errors) {
-    return transformErrors(errors, this.props.route.pageConfig.errorMessages);
+    return transformErrors(errors, this.props.route.pageConfig.uiSchema);
   }
   validate(formData, errors) {
     const { uiSchema } = this.props.route.pageConfig;

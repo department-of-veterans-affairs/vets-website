@@ -76,9 +76,20 @@ class ObjectField extends React.Component {
   }
 
   isRequired(name) {
-    const schema = this.props.schema;
-    return Array.isArray(schema.required) &&
+    const { schema, uiSchema, formContext } = this.props;
+    const schemaRequired = Array.isArray(schema.required) &&
       schema.required.indexOf(name) !== -1;
+
+    if (schemaRequired) {
+      return schemaRequired;
+    }
+
+    if (uiSchema[name] && uiSchema[name]['ui:requiredIf']) {
+      const requiredIf = uiSchema[name]['ui:requiredIf'];
+      return requiredIf(formContext.formData);
+    }
+
+    return false;
   }
 
   asyncSetState(state, options = { validate: false }) {
