@@ -35,8 +35,8 @@ class SortMenu extends React.Component {
       'lastSubmitDate',
       'refillDate',
     ].includes(value) ? {
-      'Newest to Oldest': 'ASC',
-      'Oldest to Newest': 'DESC'
+      'Newest to Oldest': 'DESC',
+      'Oldest to Newest': 'ASC'
     } : {
       'A-Z': 'ASC',
       'Z-A': 'DESC'
