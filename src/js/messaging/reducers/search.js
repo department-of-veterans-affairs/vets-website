@@ -23,6 +23,10 @@ const initialState = {
       field: makeField(''),
       exact: false
     },
+    to: {
+      field: makeField(''),
+      exact: false
+    },
     subject: {
       field: makeField(''),
       exact: false
@@ -37,15 +41,23 @@ export default function modals(state = initialState, action) {
   switch (action.type) {
     case FETCH_FOLDER_SUCCESS: {
       const { filter } = action.messages.meta;
-      if (!filter) { return state; }
+      if (!filter) { return initialState; }
 
       const params = {
         dateRange: { ...initialState.params.dateRange },
         from: { ...initialState.params.from },
+        to: { ...initialState.params.to },
         subject: { ...initialState.params.subject }
       };
 
-      const { senderName, sentDate, subject } = filter;
+      const { recipientName, senderName, sentDate, subject } = filter;
+
+      if (recipientName) {
+        params.to.field = !!recipientName.eq
+                          ? makeField(recipientName.eq, true)
+                          : makeField(recipientName.match, true);
+        params.to.exact = !!recipientName.eq;
+      }
 
       if (senderName) {
         params.from.field = !!senderName.eq

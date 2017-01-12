@@ -18,7 +18,7 @@ secondarylinks:
     title: Start or Grow Your Business
     description: ""
   - url: /employment/job-seekers/family-members
-    title: Explore Resources for Military Families or Spouses
+    title: Explore Resources for Military and Veteran Family Members
     description: ""
 relatedlinkstitle: "Learn new skills using online resources"
 relatedlinks:
