@@ -35,8 +35,12 @@ class SortMenu extends React.Component {
       'lastSubmitDate',
       'refillDate',
     ].includes(value) ? {
-      'Newest to Oldest': 'ASC', 'Oldest to Newest': 'DESC'
-    } : { 'A-Z': 'ASC', 'Z-A': 'DESC' };
+      'Newest to Oldest': 'ASC',
+      'Oldest to Newest': 'DESC'
+    } : {
+      'A-Z': 'ASC',
+      'Z-A': 'DESC'
+    };
 
     const sortLinks = Object.keys(options).map((e, i) => {
       const selectedClass = classNames({
@@ -58,25 +62,19 @@ class SortMenu extends React.Component {
   }
 
   render() {
-    const sortBys = this.props.options;
-    const sortOptionElements = (options) => {
-      return options.map((o, ind) => {
-        return (
-          <option
-              key={ind}
-              value={o.value}>{o.label}</option>
-        );
+    const sortOptions =
+      this.props.options.map((o, ind) => {
+        return <option key={ind} value={o.value}>{o.label}</option>;
       });
-    };
 
     return (
       <form className="rx-sort va-dnp">
-        <label htmlFor={this.selectId}>Sort by </label>
+        <label htmlFor={this.selectId}>Sort by</label>
         <select
             id={this.selectId}
             value={this.props.selected.value}
             onChange={this.handleChange}>
-          {sortOptionElements(sortBys)}
+          {sortOptions}
         </select>
         {this.renderSortLinks()}
       </form>
