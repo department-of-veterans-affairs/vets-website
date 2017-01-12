@@ -11,24 +11,20 @@ const props = {
 
 describe('<MoveToOption>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(
-      <MoveToOption {...props}/>
-    );
+    const tree = SkinDeep.shallowRender(<MoveToOption {...props}/>);
 
-    expect(tree.getRenderOutput()).to.exist;
+    expect(tree.getRenderOutput()).to.be.ok;
   });
 
   it('should render the expected input field', () => {
-    const tree = SkinDeep.shallowRender(
-      <MoveToOption {...props}/>
-    );
-    expect(tree.subTree('input[name=messagingMoveToFolder]')).to.exist;
+    const tree = SkinDeep.shallowRender(<MoveToOption {...props}/>);
+
+    expect(tree.subTree('input[name=messagingMoveToFolder]')).to.be.ok;
   });
 
   it('should render the expected label text', () => {
-    const tree = SkinDeep.shallowRender(
-      <MoveToOption {...props}/>
-    );
+    const tree = SkinDeep.shallowRender(<MoveToOption {...props}/>);
+
     expect(tree.subTree('.msg-move-to-label').text()).to.equal('Folder');
   });
 });

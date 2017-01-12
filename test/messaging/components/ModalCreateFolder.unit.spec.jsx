@@ -38,7 +38,7 @@ describe('<ModalCreateFolder>', () => {
 
   it('should show loading indicator when loading', () => {
     const tree = SkinDeep.shallowRender(
-      <ModalCreateFolder {...{ ...props, loading: true }}/>
+      <ModalCreateFolder {...props} loading/>
     );
     expect(tree.subTree('LoadingIndicator')).to.exist;
   });
