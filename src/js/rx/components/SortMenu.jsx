@@ -63,8 +63,8 @@ class SortMenu extends React.Component {
 
   render() {
     const sortOptions =
-      this.props.options.map((o, ind) => {
-        return <option key={ind} value={o.value}>{o.label}</option>;
+      this.props.options.map((o) => {
+        return <option key={o.value} value={o.value}>{o.label}</option>;
       });
 
     return (
