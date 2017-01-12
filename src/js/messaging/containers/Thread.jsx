@@ -222,7 +222,7 @@ export class Thread extends React.Component {
   }
 
   makeThread() {
-    const { isSavedDraft, message, messagesCollapsed, thread } = this.props;
+    const { message, messagesCollapsed, thread } = this.props;
 
     let threadMessages;
     let currentMessage;
@@ -244,7 +244,7 @@ export class Thread extends React.Component {
     }
 
 
-    if (!isSavedDraft && message) {
+    if (message) {
       currentMessage = <Message attrs={message}/>;
     }
 
