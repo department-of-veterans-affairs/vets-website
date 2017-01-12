@@ -15,13 +15,14 @@ export default class ClaimDetailLayout extends React.Component {
 
     let content;
     if (!loading) {
+      const claimsLink = `your-claims${claim.attributes.open ? '' : '/closed'}`;
       content = (
         <div>
           <div className="row">
             <div className="medium-12 columns">
               <nav className="va-nav-breadcrumbs">
                 <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-                  <li><Link to="your-claims">Your claims</Link></li>
+                  <li><Link to={claimsLink}>Your claims</Link></li>
                   <li className="active">Your Disability Compensation Claim</li>
                 </ul>
               </nav>

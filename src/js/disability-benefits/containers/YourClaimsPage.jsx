@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getClaims, getFilteredClaims, changePage, showConsolidatedMessage } from '../actions';
+import { getClaims, filterClaims, changePage, showConsolidatedMessage } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
@@ -20,7 +20,7 @@ class YourClaimsPage extends React.Component {
   }
   componentDidMount() {
     document.title = 'Track Claims: Vets.gov';
-    this.loadClaims(this.props);
+    this.props.getClaims(this.getFilter(this.props));
     if (this.props.loading) {
       scrollToTop();
     } else {
@@ -29,7 +29,7 @@ class YourClaimsPage extends React.Component {
   }
   componentWillReceiveProps(newProps) {
     if (this.props.allClaims && this.props.route.showClosedClaims !== newProps.route.showClosedClaims) {
-      this.loadClaims(newProps);
+      this.props.filterClaims(this.getFilter(newProps));
       this.changePage(1);
     }
   }
@@ -38,12 +38,11 @@ class YourClaimsPage extends React.Component {
       setPageFocus();
     }
   }
-  loadClaims(props) {
+  getFilter(props) {
     if (props.allClaims) {
-      props.getFilteredClaims(!props.route.showClosedClaims);
-    } else {
-      props.getClaims();
+      return props.route.showClosedClaims ? 'closed' : 'open';
     }
+    return undefined;
   }
   changePage(page) {
     this.props.changePage(page);
@@ -118,7 +117,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getClaims,
-  getFilteredClaims,
+  filterClaims,
   changePage,
   showConsolidatedMessage
 };
