@@ -26,7 +26,7 @@ class Main extends React.Component {
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
   return {
-    alert: rxState.alertRx
+    alert: rxState.alert
   };
 };
 
