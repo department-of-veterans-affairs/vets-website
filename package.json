@@ -169,5 +169,10 @@
     "node": "4.4.7",
     "npm": "3.8.9"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "node-sass": "^4.2.0",
+    "sass-loader": "^4.1.1",
+    "uswds": "^0.14.0"
+  }
 }
