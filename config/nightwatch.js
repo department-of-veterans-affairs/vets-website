@@ -51,7 +51,7 @@ module.exports = {
         port: selenium_server_port,
       },
       test_workers: {
-        enabled: true,
+        enabled: false,
         workers: 3
       },
     },
