@@ -84,11 +84,7 @@ class MessageDetails extends React.Component {
       <div
           className="messaging-message-details-control"
           tabIndex="-1"
-          onBlur={() => {
-            if (this.state.expandedFull) {
-              this.toggleFullDetails();
-            }
-          }}
+          onBlur={() => { this.setState({ expandedFull: false }); }}
           onClick={(e) => e.stopPropagation()}>
         <button
             className="usa-button-unstyled"
