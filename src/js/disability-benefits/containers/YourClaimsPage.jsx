@@ -50,7 +50,7 @@ class YourClaimsPage extends React.Component {
   }
 
   render() {
-    const { claims, pages, page, loading } = this.props;
+    const { claims, pages, page, loading, route } = this.props;
 
     let content;
 
@@ -66,8 +66,9 @@ class YourClaimsPage extends React.Component {
     }
 
     if (this.props.allClaims) {
+      const currentTab = `${route.showClosedClaims ? 'Closed' : 'Open'}Claims`;
       content = (
-        <div className="va-tab-content db-tab-content" role="tabpanel" id="tabPanelOpenClaims" aria-labelledby="tabOpenClaims">
+        <div className="va-tab-content db-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
           {content}
         </div>
       );
