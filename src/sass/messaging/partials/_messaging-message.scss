@@ -88,9 +88,10 @@
   outline: none;
   position: relative;
 
-  label {
-    cursor: pointer;
-    margin-top: 0;
+  button {
+    background: transparent;
+    color: $color-black;
+    margin: 0;
 
     &:active,
     &:focus,
@@ -99,25 +100,15 @@
     }
   }
 
-  i {
+  i.fa {
     font-size: 1.8rem;
-  }
-
-  input {
-    display: none;
-
-    &:checked {
-      & ~ .messaging-message-details {
-        display: block;
-      }
-    }
   }
 
   @media (max-width: $medium-screen) {
     display: block;
     margin: 0;
 
-    label {
+    button {
       display: none;
     }
   }
@@ -133,8 +124,24 @@
   position: absolute;
   z-index: 5;
 
+  &--compact {
+    @media (max-width: $medium-screen) {
+      display: block;
+    }
+  }
+
+  &--full {
+    @media (min-width: $medium-screen) {
+      display: block;
+    }
+  }
+
   table {
     margin: 0;
+
+    @media (max-width: $medium-screen) {
+      margin-top: 1rem;
+    }
   }
 
   td, th {
@@ -170,42 +177,14 @@
   }
 }
 
-.messaging-compact-details-trigger {
-  & ~ label {
-    color: $color-primary;
-    display: none;
-    text-decoration: underline;
+.messaging-compact-details-control {
+  display: none;
 
-    // Overwrite USWDS checkbox.
-    &:before {
-      display: none !important;
-    }
-
-    &:after {
-      content: 'Details';
-    }
-
-    @media (max-width: $medium-screen) {
-      display: inline-block;
-    }
-  }
-
-  & ~ span {
-    display: none;
+  span {
     margin-right: .5rem;
-
-    @media (max-width: $medium-screen) {
-      display: inline-block;
-    }
   }
 
-  &:checked {
-    & ~ label:after {
-      content: 'Hide details';
-    }
-
-    & ~ span {
-      display: none;
-    }
+  @media (max-width: $medium-screen) {
+    display: block;
   }
 }

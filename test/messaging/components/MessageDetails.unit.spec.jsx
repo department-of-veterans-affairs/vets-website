@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import moment from 'moment';
@@ -23,7 +24,7 @@ describe('MessageDetails', () => {
     expect(vdom).to.exist;
   });
 
-  it('should display the correct data', () => {
+  it('should show the correct data', () => {
     const tree = SkinDeep.shallowRender(<MessageDetails {...props}/>);
 
     const rows = tree.dive(['.messaging-message-details', 'table', 'tbody']).everySubTree('tr');
@@ -53,5 +54,30 @@ describe('MessageDetails', () => {
     expect(rows[2].dive(['th']).text()).to.equal('Message ID:');
     expect(rows[3].dive(['th']).text()).to.equal('Category:');
     expect(rows[4].dive(['th']).text()).to.equal('Subject Line:');
+  });
+
+  it('should show or hide details when toggled', () => {
+    const details = ReactTestUtils.renderIntoDocument(
+      <MessageDetails {...props}/>
+    );
+
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(details, 'messaging-message-details--compact')).to.be.empty;
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(details, 'messaging-message-details--full')).to.be.empty;
+
+    details.toggleCompactDetails();
+    expect(ReactTestUtils.findRenderedDOMComponentWithClass(details, 'messaging-message-details--compact')).to.exist;
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(details, 'messaging-message-details--full')).to.be.empty;
+
+    details.toggleFullDetails();
+    expect(ReactTestUtils.findRenderedDOMComponentWithClass(details, 'messaging-message-details--compact')).to.exist;
+    expect(ReactTestUtils.findRenderedDOMComponentWithClass(details, 'messaging-message-details--full')).to.exist;
+
+    details.toggleCompactDetails();
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(details, 'messaging-message-details--compact')).to.be.empty;
+    expect(ReactTestUtils.findRenderedDOMComponentWithClass(details, 'messaging-message-details--full')).to.exist;
+
+    details.toggleFullDetails();
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(details, 'messaging-message-details--compact')).to.be.empty;
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(details, 'messaging-message-details--full')).to.be.empty;
   });
 });
