@@ -359,6 +359,7 @@ const states = {
     { label: 'Ohio', value: 'OH' },
     { label: 'Oklahoma', value: 'OK' },
     { label: 'Oregon', value: 'OR' },
+    { label: 'Other', value: 'Other' },
     { label: 'Palau', value: 'PW' },
     { label: 'Pennsylvania', value: 'PA' },
     { label: 'Puerto Rico', value: 'PR' },
