@@ -5,17 +5,17 @@ source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_le
 template: 4-action-page
 ---
 
-If you served at—or were assigned to—Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants (toxic chemicals) in the drinking water there. Scientists believe that contact with these contaminants during military service caused certain illnesses. This is known as a **presumptive service connection.** If you or a family member has an illness with a presumptive service connection, find out if you can get disability compensation or benefits.
+If you served at Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants in the drinking water there. Scientific and medical evidence has shown an association between exposure to these contaminants during military service and later development of certain diseases. If you have qualifying service at Camp Lejeune and a current diagnosis of one of the conditions listed below, you may be able to get disability compensation.
 
 <div class="call-out" markdown="1">
 
 ### Can I get disability benefits from VA?
 
 
-You may be able to get disability benefits if you served under official orders or other official assignment at Camp Lejeune or MCAS New River for at least 30 days, with or without a break in service, from August 1953 through December 1987 and:
+You may be able to get disability benefits if you served at Camp Lejeune or MCAS New River for at least 30 cumulative days from August 1953 through December 1987 and:
 
 - You were discharged from the military under conditions other than dishonorable, **and**
-- You have 1 or more presumptive conditions believed to be caused by contact with contaminants in the Camp Lejeune drinking water. These include:
+- You have a diagnosis of 1 or more of these conditions:
 
   - Adult leukemia
   - Aplastic anemia and other myelodysplastic syndromes
@@ -29,13 +29,12 @@ You may be able to get disability benefits if you served under official orders o
 ### Who's covered?
 
 - Veterans
-- Servicemembers
 - Reservists
 - Guardsmen
 
 </div>
 
-### What kind of disability benefits can I get?
+### What kind of benefits can I get?
 
 - Health care
 - Compensation (payments)
@@ -44,7 +43,7 @@ You may be able to get disability benefits if you served under official orders o
 
 You’ll need to apply for benefits. You can do this in 1 of 3 ways:
 
-- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying because of illnesses linked to contaminants in the water supply at Camp Lejeune, and attach evidence,
+- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying for one or more of the presumed Camp Lejeune illnesses, and attach evidence,
 **or**
 - [Get help from an accredited representative or VSO](http://www.va.gov/ogc/apps/accreditation/index.asp),
 **or**
@@ -107,7 +106,7 @@ When you apply, please provide:
 
 ### What was in the drinking water?
 
-2 on-base water wells that were shut down in 1985 had the following chemicals:
+Two on-base water wells that were shut down in 1985 had the following chemicals:
 
 - Trichloroethylene (TCE)
 - Perchloroethylene (PCE)
