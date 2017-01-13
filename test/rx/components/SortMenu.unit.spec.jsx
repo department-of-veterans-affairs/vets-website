@@ -47,4 +47,27 @@ describe('<SortMenu>', () => {
       expect(option.props.value).to.equal(value);
     });
   });
+
+  it('should render the sort links for string-based sorts', () => {
+    const tree = SkinDeep.shallowRender(<SortMenu {...props}/>).dive(['ul']);
+    const links = tree.everySubTree('li');
+    expect(links).to.have.length(2);
+    expect(links[0].text()).to.equal('A-Z');
+    expect(links[1].text()).to.equal('Z-A');
+  });
+
+  it('should render the sort links for date-based sorts', () => {
+    const tree = SkinDeep.shallowRender(
+      <SortMenu
+          {...props}
+          selected={{
+            order: 'ASC',
+            value: 'refillDate'
+          }}/>
+    ).dive(['ul']);
+    const links = tree.everySubTree('li');
+    expect(links).to.have.length(2);
+    expect(links[0].text()).to.equal('Newest to Oldest');
+    expect(links[1].text()).to.equal('Oldest to Newest');
+  });
 });
