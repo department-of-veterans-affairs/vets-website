@@ -147,7 +147,6 @@ class FormPage extends React.Component {
             formContext={this.state.formContext}
             liveValidate
             noHtml5Validate
-            noValidate
             onError={this.onError}
             onBlur={this.onBlur}
             onChange={this.onChange}
