@@ -98,11 +98,13 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
+          allClaims
           claims={claims}
           page={page}
           pages={pages}
           show30DayNotice
           getClaims={getClaims}
+          route={{}}
           changePage={changePage}/>
     );
     expect(tree.everySubTree('ClosedClaimMessage')).not.to.be.empty;
@@ -116,10 +118,12 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
+          allClaims
           claims={claims}
           page={page}
           pages={pages}
           getClaims={getClaims}
+          route={{}}
           changePage={changePage}/>
     );
     expect(tree.everySubTree('ClosedClaimMessage')).to.be.empty;
