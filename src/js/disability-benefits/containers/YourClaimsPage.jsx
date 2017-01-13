@@ -2,14 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
+import { getClaims, filterClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
+import ConsolidatedClaims from '../components/ConsolidatedClaims';
+import FeaturesWarning from '../components/FeaturesWarning';
+import MainTabNav from '../components/MainTabNav';
 import ClaimsListItem from '../components/ClaimsListItem';
 import NoClaims from '../components/NoClaims';
 import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
-import ConsolidatedClaims from '../components/ConsolidatedClaims';
-import FeaturesWarning from '../components/FeaturesWarning';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 
@@ -19,12 +20,18 @@ class YourClaimsPage extends React.Component {
     this.changePage = this.changePage.bind(this);
   }
   componentDidMount() {
-    this.props.getClaims();
     document.title = 'Track Claims: Vets.gov';
+    this.props.getClaims(this.getFilter(this.props));
     if (this.props.loading) {
       scrollToTop();
     } else {
       setUpPage();
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    if (this.props.allClaims && this.props.route.showClosedClaims !== newProps.route.showClosedClaims) {
+      this.props.filterClaims(this.getFilter(newProps));
+      this.changePage(1);
     }
   }
   componentDidUpdate(prevProps) {
@@ -32,12 +39,19 @@ class YourClaimsPage extends React.Component {
       setPageFocus();
     }
   }
+  getFilter(props) {
+    if (props.allClaims) {
+      return props.route.showClosedClaims ? 'closed' : 'open';
+    }
+    return undefined;
+  }
   changePage(page) {
     this.props.changePage(page);
     scrollToTop();
   }
+
   render() {
-    const { claims, pages, page, loading, show30DayNotice } = this.props;
+    const { claims, pages, page, loading, show30DayNotice, route } = this.props;
 
     let content;
 
@@ -55,6 +69,15 @@ class YourClaimsPage extends React.Component {
       content = <NoClaims/>;
     }
 
+    if (this.props.allClaims) {
+      const currentTab = `${route.showClosedClaims ? 'Closed' : 'Open'}Claims`;
+      content = (
+        <div className="va-tab-content db-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
+          {content}
+        </div>
+      );
+    }
+
     return (
       <div className="your-claims">
         <div className="row">
@@ -68,6 +91,7 @@ class YourClaimsPage extends React.Component {
                 this.props.showConsolidatedMessage(true);
               }}>Find out why we sometimes combine claims.</a>
             </p>
+            {this.props.allClaims ? <MainTabNav/> : null}
             {content}
             <Modal
                 onClose={() => true}
@@ -99,9 +123,14 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getClaims,
+  filterClaims,
   changePage,
   showConsolidatedMessage,
   hide30DayNotice
+};
+
+YourClaimsPage.defaultProps = {
+  allClaims: __ALL_CLAIMS_ENABLED__ // eslint-disable-line no-undef
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPage);
