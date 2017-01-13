@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import claimsList from '../../../src/js/disability-benefits/reducers/claims-list';
-import { SET_CLAIMS, FILTER_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL } from '../../../src/js/disability-benefits/actions';
+import { SET_CLAIMS, FILTER_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE } from '../../../src/js/disability-benefits/actions';
 
 describe('Claims list reducer', () => {
   it('should populate the claims list', () => {
@@ -181,5 +181,14 @@ describe('Claims list reducer', () => {
     });
 
     expect(state.consolidatedModal).to.be.true;
+  });
+  it('should turn off 30 day notice flag', () => {
+    const state = claimsList({
+      show30DayNotice: true
+    }, {
+      type: HIDE_30_DAY_NOTICE
+    });
+
+    expect(state.show30DayNotice).to.be.false;
   });
 });
