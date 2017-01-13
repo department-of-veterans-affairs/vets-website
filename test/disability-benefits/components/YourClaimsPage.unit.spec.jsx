@@ -6,6 +6,30 @@ import sinon from 'sinon';
 import { YourClaimsPage } from '../../../src/js/disability-benefits/containers/YourClaimsPage';
 
 describe('<YourClaimsPage>', () => {
+  it('should render tabs', () => {
+    const claims = [];
+    const routeParams = {
+      showClosedClaims: true
+    };
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+          allClaims
+          route={routeParams}
+          claims={claims}/>
+    );
+    expect(tree.everySubTree('MainTabNav').length).to.equal(1);
+  });
+
+  it('should not render tabs', () => {
+    const claims = [];
+
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+          allClaims={false}
+          claims={claims}/>
+    );
+    expect(tree.everySubTree('MainTabNav').length).to.equal(0);
+  });
   it('should render loading div', () => {
     const changePage = sinon.spy();
     const getClaims = sinon.spy();
@@ -16,6 +40,7 @@ describe('<YourClaimsPage>', () => {
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
           loading
+          allClaims={false}
           claims={claims}
           page={page}
           pages={pages}
@@ -34,6 +59,7 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
+          allClaims={false}
           claims={claims}
           page={page}
           pages={pages}
@@ -52,6 +78,7 @@ describe('<YourClaimsPage>', () => {
 
     const tree = SkinDeep.shallowRender(
       <YourClaimsPage
+          allClaims={false}
           claims={claims}
           page={page}
           pages={pages}
