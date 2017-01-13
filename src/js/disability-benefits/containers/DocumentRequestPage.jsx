@@ -147,24 +147,25 @@ class DocumentRequestPage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
+  const claimsState = state.disability.status;
   let trackedItem = null;
-  if (state.claimDetail.detail) {
-    trackedItem = state.claimDetail.detail.attributes.eventsTimeline
+  if (claimsState.claimDetail.detail) {
+    trackedItem = claimsState.claimDetail.detail.attributes.eventsTimeline
       .filter(event => event.trackedItemId === parseInt(ownProps.params.trackedItemId, 10))[0];
   }
   return {
-    loading: state.claimDetail.loading,
-    claim: state.claimDetail.detail,
+    loading: claimsState.claimDetail.loading,
+    claim: claimsState.claimDetail.detail,
     trackedItem,
-    files: state.uploads.files,
-    uploading: state.uploads.uploading,
-    progress: state.uploads.progress,
-    uploadError: state.uploads.uploadError,
-    uploadComplete: state.uploads.uploadComplete,
-    uploadField: state.uploads.uploadField,
-    showMailOrFax: state.uploads.showMailOrFax,
-    lastPage: state.routing.lastPage,
-    message: state.notifications.message
+    files: claimsState.uploads.files,
+    uploading: claimsState.uploads.uploading,
+    progress: claimsState.uploads.progress,
+    uploadError: claimsState.uploads.uploadError,
+    uploadComplete: claimsState.uploads.uploadComplete,
+    uploadField: claimsState.uploads.uploadField,
+    showMailOrFax: claimsState.uploads.showMailOrFax,
+    lastPage: claimsState.routing.lastPage,
+    message: claimsState.notifications.message
   };
 }
 

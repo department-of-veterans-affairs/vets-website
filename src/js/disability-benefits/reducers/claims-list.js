@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import { SET_CLAIMS, FILTER_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL } from '../actions';
+import { SET_CLAIMS, FILTER_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE } from '../actions';
 
 const ROWS_PER_PAGE = 10;
 
@@ -9,7 +9,8 @@ const initialState = {
   visibleRows: [],
   page: 1,
   pages: 1,
-  consolidatedModal: false
+  consolidatedModal: false,
+  show30DayNotice: true
 };
 
 // We want to sort claims without dates below claims with dates
@@ -50,6 +51,9 @@ export default function claimsReducer(state = initialState, action) {
     }
     case SHOW_CONSOLIDATED_MODAL: {
       return _.set('consolidatedModal', action.visible, state);
+    }
+    case HIDE_30_DAY_NOTICE: {
+      return _.set('show30DayNotice', false, state);
     }
     default:
       return state;

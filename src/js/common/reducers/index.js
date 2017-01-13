@@ -6,6 +6,8 @@ import profile from '../../user-profile/reducers/profile';
 import rx from '../../rx/reducers';
 import msg from '../../messaging/reducers';
 
+import status from '../../disability-benefits/reducers';
+
 export default combineReducers({
   user: combineReducers({
     login,
@@ -14,5 +16,8 @@ export default combineReducers({
   health: combineReducers({
     rx,
     msg,
+  }),
+  disability: combineReducers({
+    status
   }),
 });
