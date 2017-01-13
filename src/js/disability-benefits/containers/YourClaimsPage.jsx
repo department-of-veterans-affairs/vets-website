@@ -117,8 +117,8 @@ function mapStateToProps(state) {
     claims: claimsState.claims.visibleRows,
     unfilteredClaims: claimsState.claims.list,
     page: claimsState.claims.page,
-    consolidatedModal: claimsState.claims.consolidatedModal
-    consolidatedModal: state.claims.consolidatedModal,
+    pages: claimsState.claims.pages,
+    consolidatedModal: claimsState.claims.consolidatedModal,
     show30DayNotice: claimsState.claims.show30DayNotice
   };
 }
