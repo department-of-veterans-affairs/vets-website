@@ -95,7 +95,7 @@ class AskVAPage extends React.Component {
 
 
 function mapStateToProps(state) {
-  const claimsState = state.disability.claims;
+  const claimsState = state.disability.status;
   return {
     loadingDecisionRequest: claimsState.claimAsk.loadingDecisionRequest,
     decisionRequested: claimsState.claimAsk.decisionRequested,

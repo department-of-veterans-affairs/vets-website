@@ -85,7 +85,7 @@ class StatusPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const claimsState = state.disability.claims;
+  const claimsState = state.disability.status;
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,

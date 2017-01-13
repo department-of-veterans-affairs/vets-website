@@ -147,7 +147,7 @@ class DocumentRequestPage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const claimsState = state.disability.claims;
+  const claimsState = state.disability.status;
   let trackedItem = null;
   if (claimsState.claimDetail.detail) {
     trackedItem = claimsState.claimDetail.detail.attributes.eventsTimeline

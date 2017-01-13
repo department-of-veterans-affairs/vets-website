@@ -58,7 +58,7 @@ class DisabilityBenefitsApp extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const claimsState = state.disability.claims;
+  const claimsState = state.disability.status;
   return {
     available: claimsState.claimSync.available,
     synced: claimsState.claimSync.synced,

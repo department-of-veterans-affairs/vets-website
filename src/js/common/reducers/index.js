@@ -5,7 +5,7 @@ import profile from '../../user-profile/reducers/profile';
 
 import rx from '../../rx/reducers';
 
-import claims from '../../disability-benefits/reducers';
+import status from '../../disability-benefits/reducers';
 
 export default combineReducers({
   user: combineReducers({
@@ -16,7 +16,7 @@ export default combineReducers({
     rx
   }),
   disability: combineReducers({
-    claims
+    status
   }),
 });
 
