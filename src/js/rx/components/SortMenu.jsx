@@ -6,12 +6,19 @@ import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+const isDateAttribute = (option) => {
+  return [
+    'refillSubmitDate',
+    'lastSubmitDate',
+    'refillDate'
+  ].includes(option);
+};
+
 class SortMenu extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.isDateAttribute = this.isDateAttribute.bind(this);
   }
 
   componentWillMount() {
@@ -21,7 +28,7 @@ class SortMenu extends React.Component {
   handleChange(event) {
     const { value } = event.target;
     // By default, sort dates by most recent.
-    const order = this.isDateAttribute(value) ? 'DESC' : 'ASC';
+    const order = isDateAttribute(value) ? 'DESC' : 'ASC';
     this.props.onChange(value, order);
   }
 
@@ -32,18 +39,10 @@ class SortMenu extends React.Component {
     };
   }
 
-  isDateAttribute(option) {
-    return [
-      'refillSubmitDate',
-      'lastSubmitDate',
-      'refillDate'
-    ].includes(option);
-  }
-
   renderSortLinks() {
     const { selected: { value, order } } = this.props;
 
-    const options = this.isDateAttribute(value) ? {
+    const options = isDateAttribute(value) ? {
       'Newest to Oldest': 'DESC',
       'Oldest to Newest': 'ASC'
     } : {
