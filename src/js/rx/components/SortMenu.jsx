@@ -7,11 +7,11 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 const isDateAttribute = (option) => {
-  return [
+  return _.includes([
     'refillSubmitDate',
     'lastSubmitDate',
     'refillDate'
-  ].includes(option);
+  ], option);
 };
 
 class SortMenu extends React.Component {
