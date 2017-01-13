@@ -66,13 +66,14 @@ RxRefillsApp.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const modals = state.modals;
+  const rxState = state.health.rx;
+  const modals = rxState.modals;
 
   return {
-    disclaimer: state.disclaimer,
+    disclaimer: rxState.disclaimer,
     glossaryModal: modals.glossary,
     refillModal: modals.refill,
-    prescription: state.prescriptions.currentItem,
+    prescription: rxState.prescriptions.currentItem,
   };
 };
 
