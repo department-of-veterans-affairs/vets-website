@@ -1,11 +1,5 @@
 def envNames = ['development', 'staging', 'production']
 
-env.NODE_ENV = 'production'
-
-def isPushNotificationOnFeature = {
-  !env.CHANGE_TARGET && !['master', 'production'].contains(env.BRANCH_NAME)
-}
-
 def isContentTeamUpdate = {
   env.BRANCH_NAME ==~ /^content\/wip\/.*/
 }
@@ -33,10 +27,6 @@ node('vets-website-linting') {
   // Checkout source, create output directories, build container
 
   stage('Setup') {
-    if (isPushNotificationOnFeature()) {
-      return
-    }
-
     checkout scm
 
     sh "mkdir -p build"
@@ -49,19 +39,19 @@ node('vets-website-linting') {
   // Check package.json for known vulnerabilities
 
   stage('Security') {
-    if (isContentTeamUpdate() || isPushNotificationOnFeature()) {
+    if (isContentTeamUpdate()) {
       return
     }
 
     dockerImage.inside(args) {
-      sh "cd /application && nsp check" 
+      sh "cd /application && nsp check"
     }
   }
 
   // Check source for syntax issues
 
   stage('Lint') {
-    if (isContentTeamUpdate() || isPushNotificationOnFeature()) {
+    if (isContentTeamUpdate()) {
       return
     }
 
@@ -71,7 +61,7 @@ node('vets-website-linting') {
   }
 
   stage('Unit') {
-    if (isContentTeamUpdate() || isPushNotificationOnFeature()) {
+    if (isContentTeamUpdate()) {
       return
     }
 
@@ -83,10 +73,6 @@ node('vets-website-linting') {
   // Perform a build for each required build type
 
   stage('Build') {
-    if (isPushNotificationOnFeature()) {
-      return
-    }
-
     def buildList = ['production']
 
     if (isContentTeamUpdate()) {
@@ -123,7 +109,7 @@ node('vets-website-linting') {
   // Run E2E and accessibility tests
 
   stage('Integration') {
-    if (isContentTeamUpdate() || isPushNotificationOnFeature()) {
+    if (isContentTeamUpdate()) {
       return
     }
 
@@ -149,7 +135,7 @@ node('vets-website-linting') {
 
     if (!isDeployable()) {
       return
-    } 
+    }
 
     def targets = [
       'master': [

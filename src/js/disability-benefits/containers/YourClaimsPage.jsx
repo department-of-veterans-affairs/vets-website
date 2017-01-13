@@ -107,12 +107,13 @@ class YourClaimsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const claimsState = state.disability.status;
   return {
-    loading: state.claims.list === null,
-    claims: state.claims.visibleRows,
-    pages: state.claims.pages,
-    page: state.claims.page,
-    consolidatedModal: state.claims.consolidatedModal
+    loading: claimsState.claims.list === null,
+    claims: claimsState.claims.visibleRows,
+    pages: claimsState.claims.pages,
+    page: claimsState.claims.page,
+    consolidatedModal: claimsState.claims.consolidatedModal
   };
 }
 
