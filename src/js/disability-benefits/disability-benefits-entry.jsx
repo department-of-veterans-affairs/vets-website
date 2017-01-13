@@ -8,7 +8,7 @@ import thunk from 'redux-thunk';
 
 import DisabilityBenefitsApp from './containers/DisabilityBenefitsApp.jsx';
 import initReact from '../common/init-react';
-import reducer from './reducers';
+import { commonReducer } from '../common/reducers';
 import routes from './routes.jsx';
 import { setLastPage } from './actions';
 import { basename } from './utils/page';
@@ -19,9 +19,9 @@ require('../login/login-entry.jsx');
 
 let store;
 if (__BUILDTYPE__ === 'development' && window.devToolsExtension) {
-  store = createStore(reducer, compose(applyMiddleware(thunk), window.devToolsExtension()));
+  store = createStore(commonReducer, compose(applyMiddleware(thunk), window.devToolsExtension()));
 } else {
-  store = createStore(reducer, compose(applyMiddleware(thunk)));
+  store = createStore(commonReducer, compose(applyMiddleware(thunk)));
 }
 
 const browserHistory = useRouterHistory(createHistory)({
