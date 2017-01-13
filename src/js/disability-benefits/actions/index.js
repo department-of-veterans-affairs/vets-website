@@ -3,6 +3,7 @@ import environment from '../../common/helpers/environment';
 import { makeAuthRequest } from '../utils/helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
+export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
 export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
 export const SET_CLAIM_DETAIL = 'SET_CLAIM_DETAIL';
@@ -35,14 +36,24 @@ export function setNotification(message) {
   };
 }
 
-export function getClaims() {
+export function getClaims(filter) {
   return (dispatch) => {
     makeAuthRequest('/v0/disability_claims',
       null,
       dispatch,
-      claims => dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta }),
+      claims => {
+        dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta });
+        dispatch({ type: FILTER_CLAIMS, filter });
+      },
       () => dispatch({ type: SET_UNAVAILABLE })
     );
+  };
+}
+
+export function filterClaims(filter) {
+  return {
+    type: FILTER_CLAIMS,
+    filter
   };
 }
 

@@ -77,6 +77,7 @@ class DocumentRequestPage extends React.Component {
     } else {
       const trackedItem = this.props.trackedItem;
       const filesPath = `your-claims/${this.props.claim.id}/files`;
+      const claimsPath = `your-claims${this.props.claim.attributes.open ? '' : '/closed'}`;
       const message = this.props.message;
 
       content = (
@@ -85,7 +86,7 @@ class DocumentRequestPage extends React.Component {
             <div className="medium-12 columns">
               <nav className="va-nav-breadcrumbs">
                 <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-                  <li><Link to="your-claims">Your claims</Link></li>
+                  <li><Link to={claimsPath}>Your claims</Link></li>
                   <li><Link to={filesPath}>Your Disability Compensation Claim</Link></li>
                   <li className="active">{trackedItem.displayName}</li>
                 </ul>
