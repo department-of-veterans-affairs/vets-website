@@ -70,4 +70,53 @@ describe('<SortMenu>', () => {
     expect(links[0].text()).to.equal('Newest to Oldest');
     expect(links[1].text()).to.equal('Oldest to Newest');
   });
+
+  it('should set the string-based ascending order link to active', () => {
+    const tree = SkinDeep.shallowRender(<SortMenu {...props}/>);
+    const activeLink = tree.subTree('.rx-sort-active');
+    expect(activeLink).to.be.ok;
+    expect(activeLink.text()).to.equal('A-Z');
+  });
+
+  it('should set the string-based descending order link to active', () => {
+    const tree = SkinDeep.shallowRender(
+      <SortMenu
+          {...props}
+          selected={{
+            order: 'DESC',
+            value: 'prescriptionName'
+          }}/>
+    );
+    const activeLink = tree.subTree('.rx-sort-active');
+    expect(activeLink).to.be.ok;
+    expect(activeLink.text()).to.equal('Z-A');
+  });
+
+  it('should set the date-based ascending order link to active', () => {
+    const tree = SkinDeep.shallowRender(
+      <SortMenu
+          {...props}
+          selected={{
+            order: 'ASC',
+            value: 'lastSubmitDate'
+          }}/>
+    );
+    const activeLink = tree.subTree('.rx-sort-active');
+    expect(activeLink).to.be.ok;
+    expect(activeLink.text()).to.equal('Oldest to Newest');
+  });
+
+  it('should set the date-based descending order link to active', () => {
+    const tree = SkinDeep.shallowRender(
+      <SortMenu
+          {...props}
+          selected={{
+            order: 'DESC',
+            value: 'lastSubmitDate'
+          }}/>
+    );
+    const activeLink = tree.subTree('.rx-sort-active');
+    expect(activeLink).to.be.ok;
+    expect(activeLink.text()).to.equal('Newest to Oldest');
+  });
 });
