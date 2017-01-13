@@ -1,7 +1,5 @@
 def envNames = ['development', 'staging', 'production']
 
-env.NODE_ENV = 'production'
-
 def isPushNotificationOnFeature = {
   !env.CHANGE_TARGET && !['master', 'production'].contains(env.BRANCH_NAME)
 }
@@ -54,7 +52,7 @@ node('vets-website-linting') {
     }
 
     dockerImage.inside(args) {
-      sh "cd /application && nsp check" 
+      sh "cd /application && nsp check"
     }
   }
 
