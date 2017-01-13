@@ -54,7 +54,7 @@
     "babel-preset-stage-2": "^6.13.0",
     "body-parser": "^1.15.2",
     "bourbon": "^4.2.7",
-    "bourbon-neat": "^1.7.4",
+    "bourbon-neat": "^1.8.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
     "classlist-polyfill": "^1.0.3",
@@ -122,7 +122,7 @@
     "morgan": "^1.7.0",
     "nightwatch": "^0.9.6",
     "node-fetch": "https://registry.npmjs.org/node-fetch/-/node-fetch-1.5.3.tgz",
-    "node-sass": "^3.10.1",
+    "node-sass": "^4.2.0",
     "null-loader": "^0.1.1",
     "nyc": "^8.3.2",
     "phantomjs-prebuilt": "^2.1.4",
@@ -148,7 +148,7 @@
     "redux-thunk": "^2.1.0",
     "resolve-url-loader": "^1.6.0",
     "sass-lint": "^1.8.2",
-    "sass-loader": "^4.0.0",
+    "sass-loader": "^4.1.1",
     "selenium-standalone": "^5.5.0",
     "sinon": "^1.17.5",
     "skin-deep": "^0.16.0",
@@ -156,7 +156,7 @@
     "svg-url-loader": "^1.1.0",
     "tinyliquid": "^0.2.33",
     "url-loader": "^0.5.7",
-    "uswds": "^0.10.0",
+    "uswds": "^0.14.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#ae08be8e67ac550f2fd400445f3c89c324fa9a79",
     "webpack": "^1.13.1",
     "whatwg-fetch": "http://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-1.0.0.tgz",
@@ -169,5 +169,10 @@
     "node": "4.4.7",
     "npm": "3.8.9"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "node-sass": "^4.2.0",
+    "sass-loader": "^4.1.1",
+    "uswds": "^0.14.0"
+  }
 }
