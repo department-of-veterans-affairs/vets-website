@@ -7,6 +7,8 @@ import {
   getDefaultFormState
 } from 'react-jsonschema-form/lib/utils';
 
+import { errorSchemaIsValid } from './helpers';
+
 export default class ArrayField extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,7 @@ export default class ArrayField extends React.Component {
       editing: (this.props.formData || []).map(() => false)
     };
     this.onItemChange = this.onItemChange.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
   }
 
   onItemChange(indexToChange, value) {
@@ -42,37 +45,27 @@ export default class ArrayField extends React.Component {
   }
 
   handleUpdate(index) {
-    if (!this.props.errorSchema || !this.props.errorSchema[index]) {
+    if (errorSchemaIsValid(this.props.errorSchema[index])) {
       this.setState(_.set(['editing', index], false, this.state));
     }
   }
 
-  isValid(errorSchema) {
-    if (errorSchema) {
-      return _.values(errorSchema).every(itemErrorSchema => {
-        return !itemErrorSchema.__errors || itemErrorSchema.__errors.length === 0;
-      });
-    }
-
-    return true;
-  }
-
   handleAdd() {
-    if (this.isValid(this.props.errorSchema)) {
+    if (errorSchemaIsValid(this.props.errorSchema[this.state.items.length - 1])) {
       const newEditing = this.state.editing.map((val, index) => {
         return (index + 1) === this.state.editing.length
           ? false
           : val;
       });
       const newState = _.assign(this.state, {
-        items: this.state.items.concat({}),
+        items: this.state.items.concat(getDefaultFormState(this.props.schema.items, undefined, this.props.registry.definitions) || {}),
         editing: newEditing.concat(false)
       });
       this.setState(newState, () => {
         this.props.onChange(newState.items);
       });
     } else {
-      this.props.formContext.setSubmitted();
+      this.props.formContext.touchFields(this.props.idSchema, this.props.idSchema.$id, this.state.items.length - 1);
     }
   }
 
@@ -95,49 +88,87 @@ export default class ArrayField extends React.Component {
       readonly,
       onBlur,
       registry,
+      formContext,
       schema
     } = this.props;
     const definitions = registry.definitions;
     const itemsSchema = retrieveSchema(schema.items, definitions);
-    const SchemaField = registry.fields.SchemaField;
+    const { TitleField, SchemaField } = registry.fields;
     const ViewField = uiSchema['ui:options'].viewField;
+
+    const title = uiSchema['ui:title'] || schema.title;
+    const hasTextDescription = typeof uiSchema['ui:description'] === 'string';
+    const DescriptionField = !hasTextDescription && typeof uiSchema['ui:description'] === 'function'
+      ? uiSchema['ui:description']
+      : null;
+
     return (
       <div>
-        {this.state.items.map((item, index) => {
-          const itemIdPrefix = `${idSchema.$id}_${index}`;
-          const itemIdSchema = toIdSchema(itemsSchema, itemIdPrefix, definitions);
-          const isLast = this.state.items.length === (index + 1);
-          const isEditing = this.state.editing[index];
-          if (isLast || isEditing) {
+        {title
+            ? <TitleField
+                id={`${idSchema.$id}__title`}
+                title={title}
+                formContext={formContext}/> : null}
+        {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
+        {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
+        <div className="va-growable">
+          {this.state.items.map((item, index) => {
+            const itemIdPrefix = `${idSchema.$id}_${index}`;
+            const itemIdSchema = toIdSchema(itemsSchema, itemIdPrefix, definitions);
+            const isLast = this.state.items.length === (index + 1);
+            const isEditing = this.state.editing[index];
+            const notLastOrMultipleRows = !isLast || this.state.items.length > 1;
+            if (isLast || isEditing) {
+              return (
+                <div key={index} className={notLastOrMultipleRows ? 'va-growable-background' : null}>
+                  <div className="row small-collapse">
+                    <div className="small-12 columns va-growable-expanded">
+                      {isLast && this.state.items.length > 1 && uiSchema['ui:options'].itemName
+                          ? <h5>New {uiSchema['ui:options'].itemName}</h5>
+                          : null}
+                      <div className="input-section">
+                        <SchemaField key={index}
+                            schema={itemsSchema}
+                            uiSchema={uiSchema.items}
+                            errorSchema={errorSchema ? errorSchema[index] : undefined}
+                            idSchema={itemIdSchema}
+                            formData={item}
+                            onChange={(value) => this.onItemChange(index, value)}
+                            onBlur={onBlur}
+                            registry={this.props.registry}
+                            disabled={disabled}
+                            readonly={readonly}/>
+                      </div>
+                      {notLastOrMultipleRows &&
+                        <div className="row small-collapse">
+                          <div className="small-6 left columns">
+                            {!isLast && <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>}
+                          </div>
+                          <div className="small-6 right columns">
+                            <button className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>
+                          </div>
+                        </div>}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
             return (
-              <div>
-                <SchemaField key={index}
-                    schema={itemsSchema}
-                    uiSchema={uiSchema.items}
-                    errorSchema={errorSchema ? errorSchema[index] : undefined}
-                    idSchema={itemIdSchema}
-                    formData={item}
-                    onChange={(value) => this.onItemChange(index, value)}
-                    onBlur={onBlur}
-                    registry={this.props.registry}
-                    disabled={disabled}
-                    readonly={readonly}/>
-                  {!isLast &&
-                    <div>
-                      <button type="button" onClick={() => this.handleUpdate(index)}>Update</button>
-                      <button type="button" onClick={() => this.handleRemove(index)}>Remove</button>
-                    </div>}
+              <div key={index} className="va-growable-background">
+                <div className="row small-collapse">
+                  <div className="small-9 columns">
+                    <ViewField
+                        formData={item}
+                        onEdit={() => this.handleEdit(index)}/>
+                  </div>
+                  <div className="small-3 columns">
+                    <button className="usa-button-outline float-right" onClick={() => this.handleEdit(index)}>Edit</button>
+                  </div>
+                </div>
               </div>
             );
-          }
-          return (
-            <ViewField key={index}
-                formData={item}
-                onEdit={() => this.handleEdit(index)}/>
-          );
-        })}
-        <div>
-          <button type="button" onClick={() => this.handleAdd()}>Add Another</button>
+          })}
+          <button type="button" className="usa-button-outline va-growable-add-btn" onClick={this.handleAdd}>Add Another</button>
         </div>
       </div>
     );

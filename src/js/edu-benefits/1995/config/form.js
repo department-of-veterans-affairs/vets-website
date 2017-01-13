@@ -147,15 +147,14 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Service periods',
             toursOfDuty: {
+              'ui:description': 'Please record all your periods of service',
               'ui:options': {
-                viewField: ({ formData, onEdit }) => {
+                itemName: 'Service Period',
+                viewField: ({ formData }) => {
                   return (
                     <div>
-                      <div>
-                        <strong>{formData.serviceBranch}</strong><br/>
-                        {formData.dateRange.from} &mdash; {formData.dateRange.to}
-                      </div>
-                      <button className="usa-button-outline float-right" onClick={onEdit}>Edit</button>
+                      <strong>{formData.serviceBranch}</strong><br/>
+                      {formData.dateRange.from} &mdash; {formData.dateRange.to}
                     </div>
                   );
                 }

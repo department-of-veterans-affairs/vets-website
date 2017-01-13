@@ -86,7 +86,7 @@ class ObjectField extends React.Component {
 
     if (uiSchema[name] && uiSchema[name]['ui:requiredIf']) {
       const requiredIf = uiSchema[name]['ui:requiredIf'];
-      return requiredIf(formContext.formData);
+      return requiredIf(formContext.getFormData());
     }
 
     return false;

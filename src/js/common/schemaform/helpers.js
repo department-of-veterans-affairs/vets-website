@@ -156,3 +156,26 @@ export function flatternFormData(form) {
     return _.assign(formPages, page.data);
   }, {});
 }
+
+export function errorSchemaIsValid(errorSchema) {
+  if (errorSchema && errorSchema.__errors && errorSchema.__errors.length) {
+    return false;
+  }
+
+  return _.values(_.omit('__errors', errorSchema)).every(errorSchemaIsValid);
+}
+
+export function touchFieldsInSchema(idSchema, arrayField, index, touched = {}) {
+  const schemaKeys = Object.keys(idSchema).filter(field => field !== '$id');
+  if (!schemaKeys.length) {
+    const id = idSchema.$id.replace(arrayField, `${arrayField}_${index}`);
+    const newTouched = {};
+    newTouched[id] = true;
+    return _.assign(touched, newTouched);
+  }
+
+  return schemaKeys.reduce((touchedFields, nextField) => {
+    const newTouched = touchFieldsInSchema(idSchema[nextField], arrayField, index, touchedFields);
+    return _.assign(touchedFields, newTouched);
+  }, touched);
+}

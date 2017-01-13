@@ -16,6 +16,7 @@ import ArrayField from './ArrayField';
 import ReviewObjectField from './review/ObjectField';
 import { focusElement } from '../utils/helpers';
 import { setValid, setData } from './actions';
+import { touchFieldsInSchema } from './helpers';
 
 const fields = {
   ObjectField,
@@ -87,8 +88,6 @@ class FormPage extends React.Component {
   }
   onChange({ formData }) {
     this.props.setData(this.props.route.pageConfig.pageKey, formData);
-    const formContext = _.set('formData', formData, this.state.formContext);
-    this.setState({ formContext });
   }
   onError() {
     const formContext = _.set('submitted', true, this.state.formContext);
@@ -109,11 +108,18 @@ class FormPage extends React.Component {
     const onEdit = () => {
       this.props.onEdit();
     };
-    const setSubmitted = () => {
-      this.onError();
+    const touchFields = (...args) => {
+      const touchedFields = touchFieldsInSchema(...args);
+      const mergedTouchedFields = _.assign(this.state.formContext.touched, touchedFields);
+      const newState = _.set('formContext.touched', mergedTouchedFields, this.state);
+      this.setState(newState, () => {
+        scrollToFirstError();
+      });
     };
-    const formData = this.props.form[this.props.route.pageConfig.pageKey].data;
-    return { formContext: { touched: {}, submitted: false, onEdit, setSubmitted, hideTitle: this.props.hideTitle, formData } };
+    const getFormData = () => {
+      return this.props.form[this.props.route.pageConfig.pageKey].data;
+    };
+    return { formContext: { touched: {}, submitted: false, onEdit, touchFields, hideTitle: this.props.hideTitle, getFormData } };
   }
   goBack() {
     const { pageList, pageConfig } = this.props.route;
@@ -135,46 +141,49 @@ class FormPage extends React.Component {
     const formData = this.props.form[this.props.route.pageConfig.pageKey].data;
     const { reviewPage, reviewMode } = this.props;
     return (
-      <Form
-          FieldTemplate={reviewMode ? ReviewFieldTemplate : FieldTemplate}
-          formContext={this.state.formContext}
-          liveValidate
-          noHtml5Validate
-          onError={this.onError}
-          onBlur={this.onBlur}
-          onChange={this.onChange}
-          onSubmit={this.onSubmit}
-          schema={schema}
-          uiSchema={uiSchema}
-          validate={this.validate}
-          showErrorList={false}
-          formData={formData}
-          widgets={reviewMode ? reviewWidgets : widgets}
-          fields={reviewMode ? reviewFields : fields}
-          transformErrors={this.transformErrors}>
-        {reviewPage && !reviewMode &&
-          <ProgressButton
-              submitButton
-              buttonText="Update page"
-              buttonClass="usa-button-primary"/>}
-        {!reviewPage &&
-          <div className="row form-progress-buttons schemaform-buttons">
-            <div className="small-6 medium-5 columns">
-              <ProgressButton
-                  onButtonClick={this.goBack}
-                  buttonText="Back"
-                  buttonClass="usa-button-outline"
-                  beforeText="«"/>
-            </div>
-            <div className="small-6 medium-5 end columns">
-              <ProgressButton
-                  submitButton
-                  buttonText="Continue"
-                  buttonClass="usa-button-primary"
-                  afterText="»"/>
-            </div>
-          </div>}
-      </Form>
+      <div className={reviewPage ? null : 'form-panel'}>
+        <Form
+            FieldTemplate={reviewMode ? ReviewFieldTemplate : FieldTemplate}
+            formContext={this.state.formContext}
+            liveValidate
+            noHtml5Validate
+            noValidate
+            onError={this.onError}
+            onBlur={this.onBlur}
+            onChange={this.onChange}
+            onSubmit={this.onSubmit}
+            schema={schema}
+            uiSchema={uiSchema}
+            validate={this.validate}
+            showErrorList={false}
+            formData={formData}
+            widgets={reviewMode ? reviewWidgets : widgets}
+            fields={reviewMode ? reviewFields : fields}
+            transformErrors={this.transformErrors}>
+          {reviewPage && !reviewMode &&
+            <ProgressButton
+                submitButton
+                buttonText="Update page"
+                buttonClass="usa-button-primary"/>}
+          {!reviewPage &&
+            <div className="row form-progress-buttons schemaform-buttons">
+              <div className="small-6 medium-5 columns">
+                <ProgressButton
+                    onButtonClick={this.goBack}
+                    buttonText="Back"
+                    buttonClass="usa-button-outline"
+                    beforeText="«"/>
+              </div>
+              <div className="small-6 medium-5 end columns">
+                <ProgressButton
+                    submitButton
+                    buttonText="Continue"
+                    buttonClass="usa-button-primary"
+                    afterText="»"/>
+              </div>
+            </div>}
+        </Form>
+      </div>
     );
   }
 }
