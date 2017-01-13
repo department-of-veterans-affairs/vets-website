@@ -9,9 +9,6 @@
 // These replace Foundation variables during our transition;
 // Do not use in projects.
 @import 'shame-variables';
-//@import "~foundation-sites/scss/foundation/components/grid";
-//@import "~foundation-sites/scss/foundation/components/block-grid";
-//@import "~foundation-sites/scss/foundation/components/visibility";
 
 // Font Awesome WOFF/WOFF2 fonts only
 @import "~font-awesome/scss/variables";
@@ -29,6 +26,8 @@
 @import "~uswds/src/stylesheets/core/variables";
 @import "~uswds/src/stylesheets/core/utilities";
 @import "~uswds/src/stylesheets/core/base";
+@import "~uswds/src/stylesheets/core/grid-settings";
+@import "~uswds/src/stylesheets/core/grid";
 
 // ---- U.S. WEB DESIGN STANDARDS ELEMENTS/COMPONENTS --- //
 @import "~uswds/src/stylesheets/elements/buttons";
