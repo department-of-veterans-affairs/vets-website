@@ -50,17 +50,17 @@ class SortMenu extends React.Component {
       'Z-A': 'DESC'
     };
 
-    const sortLinks = Object.keys(options).map((e, i) => {
+    const sortLinks = Object.keys(options).map((label) => {
       const selectedClass = classNames({
-        'rx-sort-active': options[e] === order,
+        'rx-sort-active': options[label] === order,
       });
 
       return (
-        <li key={i}>
+        <li key={label}>
           <a
               className={selectedClass}
-              onClick={this.handleClick(value, options[e])}>
-            {e}
+              onClick={this.handleClick(value, options[label])}>
+            {label}
           </a>
         </li>
       );
@@ -70,10 +70,15 @@ class SortMenu extends React.Component {
   }
 
   render() {
-    const sortOptions =
-      this.props.options.map((o) => {
-        return <option key={o.value} value={o.value}>{o.label}</option>;
-      });
+    const sortOptions = this.props.options.map((option) => {
+      return (
+        <option
+            key={option.value}
+            value={option.value}>
+          {option.label}
+        </option>
+      );
+    });
 
     return (
       <form className="rx-sort va-dnp">
