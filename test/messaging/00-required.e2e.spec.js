@@ -53,9 +53,9 @@ module.exports = E2eHelpers.createE2eTest(
     client.setValue('textarea[name="messageText"]', 'Test');
     // send message successfully
     client.click('.msg-send-buttons button:nth-of-type(1)')
-      .waitForElementPresent('#messaging-folder-controls', Timeouts.normal)
+      .waitForElementPresent('#messaging-folder-controls', Timeouts.slow)
       // ensure success alert box is shown
-      .waitForElementVisible('.usa-alert-success', Timeouts.normal);
+      .waitForElementVisible('.usa-alert-success', Timeouts.slow);
 
     client.end();
   }
