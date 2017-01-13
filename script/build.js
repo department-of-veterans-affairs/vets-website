@@ -6,6 +6,7 @@ const assets = require('metalsmith-assets');
 const blc = require('metalsmith-broken-link-checker');
 const collections = require('metalsmith-collections');
 const commandLineArgs = require('command-line-args');
+const dateFormatter = require('metalsmith-date-formatter');
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
 const filenames = require('metalsmith-filenames');
@@ -20,6 +21,7 @@ const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
+
 
 const fs = require('fs');
 
@@ -106,6 +108,7 @@ smith.destination(`../build/${options.buildtype}`);
 // during templating end up not showing which file they came from. Load it very early in in the
 // plugin chain.
 smith.use(filenames());
+smith.use(dateFormatter());
 
 smith.use(define({
   // Does anything even look at `site`?

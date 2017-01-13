@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Conditions
 source: https://eauth.va.gov/ebenefits/learn/compensation
 template: 1-topic-landing
-lastupdate: 2016-11-24
+modifiedDate: 2016-11-24
 relatedlinks:
   - url: /disability-benefits/conditions/ptsd/
     title: PTSD
