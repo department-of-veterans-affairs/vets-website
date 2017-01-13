@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash/fp';
 
 import {
   getDefaultFormState,
@@ -52,9 +53,12 @@ class ObjectField extends React.Component {
     const isRoot = idSchema.$id === 'root';
 
     const renderedProperties = orderedProperties
+      // you can exclude fields from showing up on the review page in the form config, so remove those
+      // before rendering the fields
       .filter(propName => {
-        return !(uiSchema[propName] && uiSchema[propName]['ui:options'] && uiSchema[propName]['ui:options'].hideOnReviewIfFalse && !formData[propName])
-          && !(uiSchema[propName] && uiSchema[propName]['ui:options'] && uiSchema[propName]['ui:options'].hideOnReview);
+        const hideOnReviewIfFalse = _.get([propName, 'ui:options', 'hideOnReviewIfFalse'], uiSchema) === true;
+        const hideOnReview = _.get([propName, 'ui:options', 'hideOnReview'], uiSchema) === true;
+        return (!hideOnReviewIfFalse || !!formData[propName]) && !hideOnReview;
       })
       .map((propName, index) => {
         return (
