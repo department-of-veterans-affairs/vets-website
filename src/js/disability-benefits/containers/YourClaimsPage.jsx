@@ -51,7 +51,7 @@ class YourClaimsPage extends React.Component {
   }
 
   render() {
-    const { claims, pages, page, loading, show30DayNotice, route } = this.props;
+    const { unfilteredClaims, claims, pages, page, loading, show30DayNotice, route, allClaims } = this.props;
 
     let content;
 
@@ -59,7 +59,7 @@ class YourClaimsPage extends React.Component {
       content = <LoadingIndicator message="Loading claims list" setFocus/>;
     } else if (claims.length > 0) {
       content = (<div>
-        {show30DayNotice && <ClosedClaimMessage claims={claims} onClose={this.props.hide30DayNotice}/>}
+        {allClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims} onClose={this.props.hide30DayNotice}/>}
         <div className="claim-list">
           {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
           <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
@@ -114,6 +114,7 @@ function mapStateToProps(state) {
   return {
     loading: state.claims.list === null,
     claims: state.claims.visibleRows,
+    unfilteredClaims: state.claims.list,
     pages: state.claims.pages,
     page: state.claims.page,
     consolidatedModal: state.claims.consolidatedModal,
