@@ -6,14 +6,12 @@
 @import "~uswds/src/stylesheets/lib/neat";
 @import "~uswds/src/stylesheets/lib/normalize";
 
+// These replace Foundation variables during our transition;
+// Do not use in projects.
+@import 'shame-variables';
 //@import "~foundation-sites/scss/foundation/components/grid";
 //@import "~foundation-sites/scss/foundation/components/block-grid";
 //@import "~foundation-sites/scss/foundation/components/visibility";
-
-// ----- VA BASE (VARIABLES/HELPERS) ---- //
-@import 'base/b-variables';
-// @import 'base/b-functions';
-@import 'shame-variables';
 
 // Font Awesome WOFF/WOFF2 fonts only
 @import "~font-awesome/scss/variables";
@@ -48,7 +46,6 @@
 @import 'base/b-variables';
 @import 'base/b-functions';
 
-
 // ----- VA GENERAL (MAIN FILE/OTHER) ---- //
 
 @import 'base/va';
@@ -67,5 +64,4 @@
 @import 'modules/m-loading-indicator';
 
 // ----- VA SHAME ---- //
-
 @import 'shame';
