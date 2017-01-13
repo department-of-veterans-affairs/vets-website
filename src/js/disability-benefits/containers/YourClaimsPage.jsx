@@ -111,14 +111,15 @@ class YourClaimsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const claimsState = state.disability.status;
   return {
-    loading: state.claims.list === null,
-    claims: state.claims.visibleRows,
-    unfilteredClaims: state.claims.list,
-    pages: state.claims.pages,
-    page: state.claims.page,
+    loading: claimsState.claims.list === null,
+    claims: claimsState.claims.visibleRows,
+    unfilteredClaims: claimsState.claims.list,
+    page: claimsState.claims.page,
+    consolidatedModal: claimsState.claims.consolidatedModal
     consolidatedModal: state.claims.consolidatedModal,
-    show30DayNotice: state.claims.show30DayNotice
+    show30DayNotice: claimsState.claims.show30DayNotice
   };
 }
 
