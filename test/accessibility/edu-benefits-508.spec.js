@@ -8,7 +8,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure introduction page renders.
     client
-      .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990/`)
+      .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/`)
       .waitForElementVisible('body', Timeouts.normal)
       .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)  // First render of React may be slow.
       .axeCheck('.main')
