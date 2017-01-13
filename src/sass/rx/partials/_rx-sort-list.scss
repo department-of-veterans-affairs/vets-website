@@ -1,10 +1,7 @@
 .rx-sort {
   display: block;
 
-  label,
-  select,
-  ul,
-  li {
+  label, select, ul, li {
     display: inline-block;
   }
 
@@ -30,8 +27,7 @@
   }
 
   @media (max-width: $medium-screen) {
-    label,
-    ul {
+    label, ul {
       display: block;
       margin: 0;
     }
