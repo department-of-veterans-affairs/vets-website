@@ -4,6 +4,7 @@ import login from '../../login/reducers/login';
 import profile from '../../user-profile/reducers/profile';
 
 import rx from '../../rx/reducers';
+import msg from '../../messaging/reducers';
 
 export default combineReducers({
   user: combineReducers({
@@ -11,7 +12,7 @@ export default combineReducers({
     profile
   }),
   health: combineReducers({
-    rx
+    rx,
+    msg,
   }),
 });
-
