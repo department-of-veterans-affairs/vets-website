@@ -149,12 +149,14 @@ module.exports = E2eHelpers.createE2eTest(
     // Edit demographic info
     vetInfoCopy.gender = 'F';
     editSection(client);
+    client.pause(1000);
     HcaHelpers.completeDemographicInformation(client, vetInfoCopy, true);
     verifyEdit(client, 'F');
 
     // Edit address
     vetInfoCopy.veteranAddress.street = '123 Foo St.';
     editSection(client);
+    client.pause(1000);
     client.clearValue('input[name="address"]');
     HcaHelpers.completeVeteranAddress(client, vetInfoCopy, true);
     verifyEdit(client, '123 Foo St.');
@@ -166,6 +168,7 @@ module.exports = E2eHelpers.createE2eTest(
     vetInfoCopy.lastDischargeDate.year = '';
     vetInfoCopy.lastEntryDate.year = '';
     editSection(client);
+    client.pause(1000);
     HcaHelpers.completeMilitaryService(client, vetInfoCopy, true);
     verifyEdit(client, 'Coast Guard');
 
@@ -181,11 +184,12 @@ module.exports = E2eHelpers.createE2eTest(
     // Edit spouse information
     vetInfoCopy.spouseFullName.first = 'Anne';
     editSection(client);
+    client.pause(1000);
     HcaHelpers.completeSpouseInformation(client, vetInfoCopy, true);
     verifyEdit(client, 'Anne Hathaway');
 
     client.pause(1000);
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="privacyAgreement-label"]']);
     client.pause(1000);

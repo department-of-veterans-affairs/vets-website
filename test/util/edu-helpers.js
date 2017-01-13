@@ -186,7 +186,7 @@ function completeBenefitsSelection(client, data, onlyRequiredFields) {
 
 function completeBenefitsRelinquishment(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="benefitsRelinquished-1-label"]']);
     client
@@ -237,7 +237,7 @@ function completeMilitaryService(client, data, onlyRequiredFields) {
 
 function completeRotcHistory(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="seniorRotcCommissioned-0-label"]']);
 
@@ -247,7 +247,7 @@ function completeRotcHistory(client, data, onlyRequiredFields) {
       .setValue('input[name="year"]', data.rotcScholarships[0].year)
       .setValue('input[name="amount"]', data.rotcScholarships[0].amount);
 
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="RotcTuition-0-label"]']);
   }
@@ -255,23 +255,23 @@ function completeRotcHistory(client, data, onlyRequiredFields) {
 
 function completeContributions(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="civilianBenefitsAssistance-label"]']);
 
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="additionalContributions-label"]']);
 
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="activeDutyKicker-label"]']);
 
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="reserveKicker-label"]']);
 
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="activeDutyRepaying-label"]']);
 
@@ -327,12 +327,11 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
 
 function completeEmploymentHistory(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
-
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['input[name="hasNonMilitaryJobs-0"]']);
 
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['input[name="postMilitaryJob-0"]']);
 

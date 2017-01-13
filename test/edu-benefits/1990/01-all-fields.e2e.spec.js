@@ -109,7 +109,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Review and Submit Page.
     client.pause(1000);
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="privacyAgreement-label"]']);
     client.pause(1000);

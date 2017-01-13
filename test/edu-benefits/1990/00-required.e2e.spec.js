@@ -25,7 +25,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Benefits eligibility
     client
-      .waitForElementVisible('label[name="chapter30-label"]', Timeouts.slow)
+      .waitForElementVisible('label[name="chapter30-label"]', Timeouts.slow);
     EduHelpers.completeBenefitsSelection(client, EduHelpers.testValues, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-selection');
@@ -98,7 +98,7 @@ module.exports = E2eHelpers.createE2eTest(
     // When you try to click on the label in the normal way, it'll instead click on the link
     // inside the label that shows the popup. So we have to do this disgusting hack.
     client.pause(1000);
-    client.execute(function(selector) {
+    client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="privacyAgreement-label"]']);
     client.pause(1000);
