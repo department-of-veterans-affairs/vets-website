@@ -20,7 +20,6 @@ $medium-only: "#{$screen} and (min-width:#{lower-bound($medium-range)}) and (max
 
 $large-only: "#{$screen} and (min-width:#{lower-bound($large-range)}) and (max-width:#{upper-bound($large-range)})";
 
-$primary-color: #008CBA !default; 
 $secondary-color: #e7e7e7 !default;
 
 // Placeholder class so that these @extend things no longer fail.
@@ -30,6 +29,7 @@ $secondary-color: #e7e7e7 !default;
 .small-12,
 .small-centered,
 .medium-offset-4,
-.large-offset-2 {
+.large-offset-2,
+.columns {
   outline: 1px solid transparent;
 }
