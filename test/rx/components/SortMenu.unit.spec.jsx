@@ -38,8 +38,9 @@ describe('<SortMenu>', () => {
   });
 
   it('should render the correct options', () => {
-    const tree = SkinDeep.shallowRender(<SortMenu {...props}/>);
+    const tree = SkinDeep.shallowRender(<SortMenu {...props}/>).dive(['select']);
     const options = tree.everySubTree('option');
+    expect(options).to.have.length(props.options.length);
     options.forEach((option, index) => {
       const { label, value } = props.options[index];
       expect(option.text()).to.equal(label);
