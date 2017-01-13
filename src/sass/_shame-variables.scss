@@ -15,8 +15,8 @@ $xlarge-range:  ($large-breakpoint  + em-calc(1), $xlarge-breakpoint);
 $xxlarge-range: ($xlarge-breakpoint + em-calc(1), em-calc(99999999));
 $screen: "only screen";
 
-$landscape: "#{$screen} and (orientation: landscape)";
-$portrait: "#{$screen} and (orientation: portrait)";
+// $landscape: "#{$screen} and (orientation: landscape)";
+// $portrait: "#{$screen} and (orientation: portrait)";
 
 $small-up: $screen;
 $small-only: "#{$screen} and (max-width: #{upper-bound($small-range)})";
