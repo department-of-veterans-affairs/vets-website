@@ -1,7 +1,7 @@
 // These are variables copied over from Foundation
 // They're here as a backstop to fix what breaks as 
 // we remove Foundation...
-// DO NOT USE THEM. THEY WILL BE REMOVED.
+// DO NOT USE THEM. THEY WILL BE REMOVED. ... EVENTUALLY
 $column-gutter: rem-calc(30);
 $small-breakpoint:  em-calc(640);
 $medium-breakpoint: em-calc(1024);
@@ -35,3 +35,14 @@ $xxlarge-only: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)}) and (m
 
 $primary-color: #008CBA !default; 
 $secondary-color: #e7e7e7 !default;
+
+// Placeholder class so that these @extend things no longer fail.
+// Shouldn't break anything visually, but lets us corral all of these
+// @extend things in one place.
+.medium-8,
+.small-12,
+.small-centered,
+.medium-offset-4,
+.large-offset-2 {
+  outline: 1px solid transparent;
+}
