@@ -14,7 +14,7 @@ function nextSection(client) {
 
 function verifyEdit(client, expectedValue) {
   const selector = '.review tr:nth-child(1) td:nth-child(2)';
-  client.click('.usa-button-outline');
+  client.click('.usa-button-outline').pause(1000);
   client.waitForElementVisible(selector, Timeouts.normal);
   client.expect.element(selector).text.to.equal(expectedValue);
   nextSection(client);
@@ -130,6 +130,7 @@ module.exports = E2eHelpers.createE2eTest(
       last: 'Doe'
     };
     editSection(client);
+    client.pause(1000);
     HcaHelpers.completePersonalInformation(client, vetInfoCopy, true);
     verifyEdit(client, 'John Doe');
 
@@ -168,8 +169,13 @@ module.exports = E2eHelpers.createE2eTest(
     HcaHelpers.completeMilitaryService(client, vetInfoCopy, true);
     verifyEdit(client, 'Coast Guard');
 
+    client.pause(500);
     nextSection(client);
+
+    client.pause(500);
     nextSection(client);
+
+    client.pause(500);
     nextSection(client);
 
     // Edit spouse information
