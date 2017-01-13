@@ -140,6 +140,7 @@ module.exports = E2eHelpers.createE2eTest(
       year: ''
     };
     editSection(client);
+    client.pause(1000);
     client.clearValue('input[name="veteranBirthYear"]');
     HcaHelpers.completeBirthInformation(client, vetInfoCopy, true);
     verifyEdit(client, '1/20/1980');
@@ -177,7 +178,12 @@ module.exports = E2eHelpers.createE2eTest(
     HcaHelpers.completeSpouseInformation(client, vetInfoCopy, true);
     verifyEdit(client, 'Anne Hathaway');
 
-    client.click('[name=privacyAgreement]');
+    client.pause(1000);
+    client.execute(function(selector) {
+      document.querySelector(selector).click();
+    }, ['label[name="privacyAgreement-label"]']);
+    client.pause(1000);
+
     client.click('.form-panel .usa-button-primary');
 
     client.getLog('browser', (result) => {

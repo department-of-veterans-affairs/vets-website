@@ -255,12 +255,27 @@ function completeRotcHistory(client, data, onlyRequiredFields) {
 
 function completeContributions(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
+    client.execute(function(selector) {
+      document.querySelector(selector).click();
+    }, ['label[name="civilianBenefitsAssistance-label"]']);
+
+    client.execute(function(selector) {
+      document.querySelector(selector).click();
+    }, ['label[name="additionalContributions-label"]']);
+
+    client.execute(function(selector) {
+      document.querySelector(selector).click();
+    }, ['label[name="activeDutyKicker-label"]']);
+
+    client.execute(function(selector) {
+      document.querySelector(selector).click();
+    }, ['label[name="reserveKicker-label"]']);
+
+    client.execute(function(selector) {
+      document.querySelector(selector).click();
+    }, ['label[name="activeDutyRepaying-label"]']);
+
     client
-      .click('input[name="civilianBenefitsAssistance"]')
-      .click('input[name="additionalContributions"]')
-      .click('input[name="activeDutyKicker"]')
-      .click('input[name="reserveKicker"]')
-      .click('input[name="activeDutyRepaying"]')
       .pause(1000)
       .clearValue('select[name="fromMonth"]')
       .setValue('select[name="fromMonth"]', data.activeDutyRange.from.month)
