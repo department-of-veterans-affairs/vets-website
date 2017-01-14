@@ -113,21 +113,23 @@ node('vets-website-linting') {
       return
     }
 
-    parallel (
-      e2e: {
-        dockerImage.inside(args + " -e BUILDTYPE=production") {
-          sh "cd /application && npm --no-color run test:e2e"
-        }
-      },
+    try {
+      parallel (
+        e2e: {
+          dockerImage.inside(args + " -e BUILDTYPE=production") {
+            sh "cd /application && npm --no-color run test:e2e"
+          }
+        },
 
-      accessibility: {
-        dockerImage.inside(args + " -e BUILDTYPE=production") {
-          sh "cd /application && npm --no-color run test:accessibility"
+        accessibility: {
+          dockerImage.inside(args + " -e BUILDTYPE=production") {
+            sh "cd /application && npm --no-color run test:accessibility"
+          }
         }
-      }
-    )
-
-    step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+      )
+    } finally {
+      step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+    }
   }
 
   stage('Deploy') {

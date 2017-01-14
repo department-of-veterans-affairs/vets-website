@@ -66,8 +66,9 @@ export class Settings extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const msgState = state.health.msg;
   const folders = [];
-  state.folders.data.items.forEach((folder) => {
+  msgState.folders.data.items.forEach((folder) => {
     if (folder.folderId > 0) {
       folders.push(folder);
     }
