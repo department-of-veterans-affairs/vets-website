@@ -105,9 +105,6 @@ class FormPage extends React.Component {
     }
   }
   getEmptyState() {
-    const onEdit = () => {
-      this.props.onEdit();
-    };
     const touchFields = (...args) => {
       const touchedFields = touchFieldsInSchema(...args);
       const mergedTouchedFields = _.assign(this.state.formContext.touched, touchedFields);
@@ -119,7 +116,7 @@ class FormPage extends React.Component {
     const getFormData = () => {
       return this.props.form[this.props.route.pageConfig.pageKey].data;
     };
-    return { formContext: { touched: {}, submitted: false, onEdit, touchFields, hideTitle: this.props.hideTitle, getFormData } };
+    return { formContext: { touched: {}, submitted: false, onEdit: this.props.onEdit, touchFields, hideTitle: this.props.hideTitle, getFormData } };
   }
   goBack() {
     const { pageList, pageConfig } = this.props.route;

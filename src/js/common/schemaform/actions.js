@@ -1,4 +1,4 @@
-import { flatternFormData } from './helpers';
+import { flattenFormData } from './helpers';
 import environment from '../helpers/environment.js';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
@@ -55,7 +55,7 @@ export function setSubmitted(response) {
 }
 
 export function submitForm(formConfig, form) {
-  const formData = flatternFormData(form);
+  const formData = flattenFormData(form);
   return dispatch => {
     // dispatch(updateCompletedStatus('/1990/review-and-submit'));
     dispatch(setSubmission('status', 'submitPending'));
