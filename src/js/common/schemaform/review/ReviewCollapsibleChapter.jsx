@@ -129,7 +129,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 {this.props.chapter.title}
               </button>
             </div>
-            {this.state.open && pageContent}
+            {pageContent}
           </li>
         </ul>
       </div>

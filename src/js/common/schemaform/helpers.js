@@ -150,7 +150,7 @@ export function isValidForm(form) {
   }, true);
 }
 
-export function flatternFormData(form) {
+export function flattenFormData(form) {
   const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
   return _.values(pages).reduce((formPages, page) => {
     return _.assign(formPages, page.data);

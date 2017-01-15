@@ -103,11 +103,8 @@ class FormPage extends React.Component {
     }
   }
   getEmptyState() {
-    const onEdit = () => {
-      this.props.onEdit();
-    };
     const formData = this.props.form[this.props.route.pageConfig.pageKey].data;
-    return { formContext: { touched: {}, submitted: false, onEdit, hideTitle: this.props.hideTitle, formData } };
+    return { formContext: { touched: {}, submitted: false, onEdit: this.props.onEdit, hideTitle: this.props.hideTitle, formData } };
   }
   goBack() {
     const { pageList, pageConfig } = this.props.route;
