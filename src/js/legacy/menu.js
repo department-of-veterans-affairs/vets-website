@@ -1,28 +1,29 @@
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', () => {
+  const overlays = document.querySelectorAll('.va-overlay-trigger, .va-overlay');
 
-	function toggleOverlay(event) {
-	  event.preventDefault();
-	  
-	  // Let overlay be _either_ the value of 
-	  // - href attribute
-	  // - data-show attribute
-	  // - The button's ancestor element, .va-overlay
-	  // Only one of these should ever be defined per button.
-	  
-	  var overlay = $(this).attr('href') || $(this).data('show') || $(this).parents('.va-overlay');
-	  
-	  if( $(overlay).hasClass('va-overlay--open')) {
-	  
-	    $(overlay).toggleClass('va-overlay--open', false);
-	    $(overlay).toggleClass('va-overlay--closed', true);
-		
-		} else {
-		
-		  $(overlay).toggleClass('va-overlay--closed', false);
-	    $(overlay).toggleClass('va-overlay--open', true);
-		
-		}
-	}
+  const toggleOverlay = (domEvent) => {
+    const overlayTarget = domEvent.currentTarget; // The overlay to open or close
+    const clickTarget = domEvent.target; // The element clicked
+    
+    /* 
+    overlayId will be _either_    
+    - The value of element.getAttribute('href')
+    - The value of element.dataset.show
+    
+    A .va-overlay-trigger element should have either a data-show attribute 
+    (preferred) or an href attribute.
+    */
+    const overlayId = overlayTarget.getAttribute('href') || overlayTarget.dataset.show;
+   
+    if (overlayTarget.classList.contains('va-overlay') &&
+        clickTarget.classList.contains('va-overlay-close')) {
+          overlayTarget.classList.remove('va-overlay--open');
+    } else if(overlayId) {
+        document.querySelector(overlayId).classList.add('va-overlay--open');
+    }
+  }   
 
-  $('.va-overlay-trigger, .va-overlay-close').on('click', toggleOverlay);
+  Array.from(overlays).map((ol) => {
+    ol.addEventListener('click', toggleOverlay);
+  });
 });

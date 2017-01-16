@@ -1,14 +1,16 @@
 const E2eHelpers = require('../util/e2e-helpers');
 const Timeouts = require('../util/timeouts.js');
 const RxHelpers = require('../util/rx-helpers');
+const LoginHelpers = require('../util/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    RxHelpers.initApplicationSubmitMock();
+    const token = LoginHelpers.getUserToken();
+
+    RxHelpers.initApplicationSubmitMock(token);
 
     // Ensure active page renders.
-    client
-      .url(`${E2eHelpers.baseUrl}/healthcare/prescriptions`)
+    LoginHelpers.logIn(token, client, '/healthcare/prescriptions', 3)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main');
 

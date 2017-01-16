@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import {
   isValidDate,
+  isValidDateRange,
   isValidSSN,
   isValidName,
   isNotBlank,
@@ -12,6 +13,7 @@ import {
   isValidPartialDate,
   validateCustomFormComponent,
   isValidPartialMonthYear,
+  isValidPartialMonthYearRange,
   isValidPartialMonthYearInPast
 } from '../../../src/js/common/utils/validations.js';
 
@@ -90,6 +92,189 @@ describe('Validations unit tests', () => {
     it('validate future dates', () => {
       // future dates are bad.
       expect(isValidDate(1, 1, 2050)).to.be.false;
+    });
+  });
+
+  describe('isValidDateRange', () => {
+    it('validates if to date is after from date', () => {
+      const fromDate = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: 2006,
+          dirty: true
+        }
+      };
+      const toDate = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 4,
+          dirty: true
+        },
+        year: {
+          value: 2006,
+          dirty: true
+        }
+      };
+      expect(isValidDateRange(fromDate, toDate)).to.be.true;
+    });
+    it('does not validate to date is before from date', () => {
+      const fromDate = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: 2006,
+          dirty: true
+        }
+      };
+      const toDate = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 4,
+          dirty: true
+        },
+        year: {
+          value: 2005,
+          dirty: true
+        }
+      };
+      expect(isValidDateRange(fromDate, toDate)).to.be.false;
+    });
+    it('does validate with partial dates', () => {
+      const fromDate = {
+        day: {
+          value: '3',
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: 2006,
+          dirty: true
+        }
+      };
+      const toDate = {
+        day: {
+          value: '',
+          dirty: true
+        },
+        month: {
+          value: '',
+          dirty: true
+        },
+        year: {
+          value: 2008,
+          dirty: true
+        }
+      };
+      expect(isValidDateRange(fromDate, toDate)).to.be.true;
+    });
+  });
+
+  describe('isValidPartialMonthYearRange', () => {
+    it('should validate partial range', () => {
+      const fromDate = {
+        month: {
+          value: '2'
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      const toDate = {
+        month: {
+          value: '3'
+        },
+        year: {
+          value: ''
+        }
+      };
+
+      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
+    });
+    it('should not validate invalid range', () => {
+      const fromDate = {
+        month: {
+          value: '2'
+        },
+        year: {
+          value: '2002'
+        }
+      };
+
+      const toDate = {
+        month: {
+          value: '3'
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.false;
+    });
+    it('should validate same date range', () => {
+      const fromDate = {
+        month: {
+          value: '2'
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      const toDate = {
+        month: {
+          value: '2'
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
+    });
+    it('should validate year only range', () => {
+      const fromDate = {
+        month: {
+          value: ''
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      const toDate = {
+        month: {
+          value: ''
+        },
+        year: {
+          value: '2002'
+        }
+      };
+
+      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
     });
   });
 

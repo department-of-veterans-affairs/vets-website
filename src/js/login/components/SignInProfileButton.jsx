@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { updateLoggedInStatus } from '../../common/actions';
+import { updateLoggedInStatus } from '../actions';
 
 
 class SignInProfileButton extends React.Component {
@@ -40,9 +40,10 @@ class SignInProfileButton extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const userState = state.user;
   return {
-    login: state.login,
-    profile: state.profile
+    login: userState.login,
+    profile: userState.profile
   };
 };
 

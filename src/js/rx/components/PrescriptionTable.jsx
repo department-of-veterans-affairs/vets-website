@@ -39,6 +39,7 @@ class PrescriptionTable extends React.Component {
 
       return {
         id: item.id,
+        rowClass: attrs.refillRemaining === 0 ? 'no-refills' : '',
         prescriptionName: (
           <div>
             <Link to={`/${attrs.prescriptionId}`} className="rx-prescription-name">

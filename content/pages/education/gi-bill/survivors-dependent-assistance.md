@@ -51,7 +51,7 @@ You may qualify for both of these programs, but you can use only 1 of them. Youâ
 **Exception:** As a beneficiary, you can't use the same qualifying event for more than 1 benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
 
 <div class="va-table-overflow">
-<table>
+<table class="va-table-explanatory">
 <caption>Compare DEA and Fry Scholarship Benefits</caption>
 <thead>
   <tr>

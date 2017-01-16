@@ -4,7 +4,8 @@ import $ from 'jquery';
 
 import environment from '../../common/helpers/environment.js';
 
-import { updateLoggedInStatus, updateProfileField } from '../../common/actions';
+import { updateLoggedInStatus } from '../../login/actions';
+import { updateProfileField } from '../../user-profile/actions';
 
 class AuthApp extends React.Component {
   constructor(props) {
@@ -32,7 +33,6 @@ class AuthApp extends React.Component {
 
     // This will trigger a browser reload if the user is using IE or Edge.
     if (isIE || isEdge) {
-      // TODO(crew): Figure out the best alternative to postMessage because it is unreliable in IE.
       window.opener.location.reload();
     }
     window.close();

@@ -8,6 +8,12 @@
 }
 
 .rx-table-list {
+  tr.no-refills {
+    td:nth-child(5) {
+      color: red;
+    }
+  }
+
   @media (max-width: $medium-screen) {
     tr {
       padding: 1.5rem 0;
@@ -16,27 +22,6 @@
     td {
       &:before {
         font-weight: bold;
-      }
-
-      &:nth-child(2) {
-        &:before{
-          content: 'Submit Date: ',
-        }
-      }
-      &:nth-child(3) {
-        &:before{
-          content: 'Fill Date: ',
-        }
-      }
-      &:nth-child(4) {
-        &:before{
-          content: 'Facility: ',
-        }
-      }
-      &:nth-child(5) {
-        &:before{
-          content: 'Refills Left: ',
-        }
       }
     }
   }

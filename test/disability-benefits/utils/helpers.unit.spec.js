@@ -14,7 +14,8 @@ import {
   getItemDate,
   isClaimComplete,
   itemsNeedingAttentionFromVet,
-  makeAuthRequest
+  makeAuthRequest,
+  getClaimType
 } from '../../../src/js/disability-benefits/utils/helpers';
 
 describe('Disability benefits helpers: ', () => {
@@ -369,6 +370,26 @@ describe('Disability benefits helpers: ', () => {
       expect(itemsNeeded).to.equal(1);
     });
   });
+
+  describe('getClaimType', () => {
+    it('should return the claim type', () => {
+      const claim = {
+        attributes: {
+          claimType: 'Awesome'
+        }
+      };
+      expect(getClaimType(claim)).to.equal('Awesome');
+    });
+    it('should return the default claim type', () => {
+      const claim = {
+        attributes: {
+          claimType: undefined
+        }
+      };
+      expect(getClaimType(claim)).to.equal('Disability Compensation');
+    });
+  });
+
   describe('makeAuthRequest', () => {
     let fetchMock = sinon.stub();
     let oldFetch = global.fetch;

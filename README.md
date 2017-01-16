@@ -1,4 +1,4 @@
-# vets.gov - beta [![Build Status](https://travis-ci.org/department-of-veterans-affairs/vets-website.svg?branch=master)](https://travis-ci.org/department-of-veterans-affairs/vets-website)
+# vets.gov - beta [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=department-of-veterans-affairs/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/)
 
 ## What is this?
 
@@ -235,7 +235,7 @@ The automated accessibility tests are contained within the `test/accessibility`
 directory. All URLs from the generated sitemap are scanned with aXe
 rules for 508 compliance.
 
-Automated accessibility tests are run by Travis on PRs for the development build
+Automated accessibility tests are run by Travis on PRs for the production build
 type.
 
 ### Continuous Integration
@@ -252,9 +252,19 @@ Builds are triggered for PRs for all build types. The special branch name
 `content/wip/.*`, will fail by default and not run any builds. This is to allow
 rapid iteration on WIP content team work before builds are tested.
 
-Accessibility tests are run on PRs over the development build type. If features
-are available in production that are not available in development, then this
-optimization will need to be removed.
+Tests are run over the production buildtype for all PRs. Tests should not
+be tied to the build type. Instead, define a feature flag variable and
+test both the enabled and disabled states. While a build type will either enable
+or disable the feature in the UI, the tests will still run the feature's code
+path despite the environment. This ensures that your component will function in
+all builds regardless of the build type. The important distinction is that your
+feature is still active within the code base, but the UI is either enabled or
+disabled by the feature flag.
+
+To enable or disable the feature in a specific build type, toggle the feature
+in `test/util/mocha-setup.js` and `config/webpack.config.js`. See
+`SampleFeature` and the associated `__SAMPLE_FEATURE__` env variables for an
+example implementation.
 
 Please see the `/script/travis-build.sh` file for more documentation and an
 overview of the CI configuration.
@@ -265,11 +275,7 @@ with a remote s3 bucket.  Travis handles the synchronization by using the
 [s3-cli](https://www.npmjs.com/package/s3-cli) commandline tool.
 
 Commits to `master` pushes `buildtype=development` to `dev.vets.gov` and
-`buildtype=staging` to `staging.vets.gov`. When absolutely necessary, such as
-when testing features against external services before they make their way to
-production, the `staging` environment may differ slightly from the `production`
-environment. These variations are defined in the `script/webpack.config.js`
-file along with the warning statement.
+`buildtype=staging` to `staging.vets.gov`.
 
 Commits to `production` pushes `buildtype=production` to `www.vets.gov`.
 

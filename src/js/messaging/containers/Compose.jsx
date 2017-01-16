@@ -36,13 +36,27 @@ export class Compose extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.redirect) {
-      this.context.router.replace(this.props.redirect);
+    const { redirect } = this.props;
+    if (redirect) {
+      this.context.router.replace({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
       return;
     }
 
     this.props.resetMessage();
     this.props.fetchRecipients();
+  }
+
+  componentDidUpdate() {
+    const { redirect } = this.props;
+    if (redirect) {
+      this.context.router.replace({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
+    }
   }
 
   apiFormattedMessage() {
@@ -102,8 +116,7 @@ export class Compose extends React.Component {
     }
   }
 
-  handleConfirmDelete(domEvent) {
-    domEvent.preventDefault();
+  handleConfirmDelete() {
     this.props.toggleConfirmDelete();
     this.props.deleteComposeMessage();
   }
@@ -165,13 +178,15 @@ Compose.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const msgState = state.health.msg;
+
   return {
-    deleteConfirmModal: state.modals.deleteConfirm,
-    loading: state.loading,
-    message: state.compose.message,
-    recipients: state.recipients.data,
-    redirect: state.folders.ui.redirect,
-    saveConfirmModal: state.modals.saveConfirm
+    deleteConfirmModal: msgState.modals.deleteConfirm,
+    loading: msgState.loading,
+    message: msgState.compose.message,
+    recipients: msgState.recipients.data,
+    redirect: msgState.folders.ui.redirect,
+    saveConfirmModal: msgState.modals.saveConfirm
   };
 };
 

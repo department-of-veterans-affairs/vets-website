@@ -1,7 +1,6 @@
 // Adds external icon to all links that begin
 // with http (including https)
 [href^=http] {
-
   // TODO: Make this selector less specific.
   #playbook .primary &,
   #playbook .coda & {
@@ -157,44 +156,52 @@
   border-top: 1px solid $color-gold;
   padding: 2em 0 1em 0;
   margin: 2em 0 0 0;
-  h6 {line-height: 1.2em; margin: 0; padding: 0; font-size: 1.15em;}
-  ul.plain.posts {
-    margin: 1em 0; padding: 0;
-    li {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      border-bottom: 1px solid rgba(0,0,0,.1);
+  
+  h6 {
+    border-left: 4px solid transparent;
+    line-height: 1.2em; 
+    margin: 0;
+    padding: 0 0 0 .2em;
+    font-size: 1.15em;
+  }
 
-      &:last-of-type{
-        border-bottom: none;
-      }
+  ul {
+    margin: 1em 0; 
+    padding: 0;
+  }
 
-      a {
-        padding: .5em .2em;
-        margin: 0;
-        text-decoration: none;
-        display: block;
+  li {
+    list-style-type: none;
+    margin: 0;
+    border-bottom: 1px solid rgba(0,0,0,.1);
 
-        &:hover {
-          background: rgba(0,0,0,.08);
-          border-left: 4px solid $color-primary;
-          padding-left: .5em;
-        }
-        .post-title {
-          color: $color-primary-darker;
-          font-size: 1em;
-          font-weight: bold;
-          margin: 0;
-          padding: 0;
-        }
-        .post-date {
-          color: $color-va-gray-cool-dark;
-          margin: 0;
-          padding: 0 0 1em 0;
-        }
-      }
+    &:last-of-type{
+      border-bottom: none;
     }
+  }
+  a {
+    border-left: 4px solid transparent;
+    padding: .5em .2em;
+    margin: 0;
+    text-decoration: none;
+    display: block;
+
+    &:hover {
+      background: rgba(0,0,0,.08);
+      border-left-color: $color-primary;
+    }
+  }
+  .post-title {
+    color: $color-primary-darker;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+  }
+  .post-date {
+    color: $color-va-gray-cool-dark;
+    margin: 0;
+    padding: 0 0 1em 0;
   }
 }
 

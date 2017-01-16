@@ -17,6 +17,11 @@ const routes = [
       key="/your-claims"
       path="/your-claims"/>,
   <Route
+      component={YourClaimsPage}
+      showClosedClaims
+      key="/your-claims/closed"
+      path="/your-claims/closed"/>,
+  <Route
       component={ClaimPage}
       key="/your-claims/:id"
       path="/your-claims/:id">
