@@ -5,8 +5,8 @@ import React from 'react';
  */
 
 export default function FieldTemplate(props) {
-  const { id, schema, help, required, rawErrors, children, formContext, uiSchema } = props;
-  const hasErrors = (formContext.submitted || formContext.touched[id]) && rawErrors && rawErrors.length;
+  const { id, schema, help, required, rawErrors, children, formContext, touchedSchema, uiSchema } = props;
+  const hasErrors = (formContext.submitted || touchedSchema) && rawErrors && rawErrors.length;
   const requiredSpan = required ? <span className="form-required-span">*</span> : null;
   const label = uiSchema['ui:title'] || props.label;
   const isDateField = uiSchema['ui:widget'] === 'date';

@@ -1,12 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
+import _ from 'lodash/fp';
 
 import {
   deepEquals,
   getDefaultFormState,
   orderProperties,
   retrieveSchema,
-  shouldRender,
   getDefaultRegistry,
   setState
 } from 'react-jsonschema-form/lib/utils';
@@ -36,7 +36,7 @@ class ObjectField extends React.Component {
     errorSchema: {},
     idSchema: {},
     registry: getDefaultRegistry(),
-    required: false,
+    requiredSchema: { $required: false },
     disabled: false,
     readonly: false,
   }
@@ -45,6 +45,7 @@ class ObjectField extends React.Component {
     super(props);
     this.state = this.getStateFromProps(props);
     this.onPropertyChange = this.onPropertyChange.bind(this);
+    this.onPropertyBlur = this.onPropertyBlur.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,7 +62,14 @@ class ObjectField extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return shouldRender(this, nextProps, nextState);
+    const propsWithoutDataUnchanged = deepEquals(_.omit('formData', this.props), _.omit('formData', nextProps));
+    const stateUnchanged = deepEquals(this.state, nextState);
+
+    if (propsWithoutDataUnchanged && stateUnchanged && deepEquals(nextProps.formData, nextState)) {
+      return false;
+    }
+
+    return true;
   }
 
   onPropertyChange(name) {
@@ -70,26 +78,15 @@ class ObjectField extends React.Component {
     };
   }
 
+  onPropertyBlur(name) {
+    return (path = []) => {
+      this.props.onBlur([name].concat(path));
+    };
+  }
+
   getStateFromProps(props) {
     const { schema, formData, registry } = props;
     return getDefaultFormState(schema, formData, registry.definitions) || {};
-  }
-
-  isRequired(name) {
-    const { schema, uiSchema, formContext } = this.props;
-    const schemaRequired = Array.isArray(schema.required) &&
-      schema.required.indexOf(name) !== -1;
-
-    if (schemaRequired) {
-      return schemaRequired;
-    }
-
-    if (uiSchema[name] && uiSchema[name]['ui:requiredIf']) {
-      const requiredIf = uiSchema[name]['ui:requiredIf'];
-      return requiredIf(formContext.getFormData());
-    }
-
-    return false;
   }
 
   asyncSetState(state, options = { validate: false }) {
@@ -104,10 +101,10 @@ class ObjectField extends React.Component {
       errorSchema,
       idSchema,
       name,
-      required,
+      requiredSchema,
       disabled,
       readonly,
-      onBlur
+      touchedSchema
     } = this.props;
     const { definitions, fields, formContext } = this.props.registry;
     const { SchemaField, TitleField } = fields;
@@ -151,7 +148,7 @@ class ObjectField extends React.Component {
               ? <TitleField
                   id={`${idSchema.$id}__title`}
                   title={title}
-                  required={required}
+                  required={requiredSchema.$required}
                   formContext={formContext}/> : null}
           {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
           {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
@@ -160,14 +157,15 @@ class ObjectField extends React.Component {
             return (
               <SchemaField key={index}
                   name={propName}
-                  required={this.isRequired(propName)}
+                  requiredSchema={requiredSchema[propName]}
                   schema={schema.properties[propName]}
                   uiSchema={uiSchema[propName]}
                   errorSchema={errorSchema[propName]}
                   idSchema={idSchema[propName]}
                   formData={this.state[propName]}
                   onChange={this.onPropertyChange(propName)}
-                  onBlur={onBlur}
+                  onBlur={this.onPropertyBlur(propName)}
+                  touchedSchema={typeof touchedSchema === 'object' ? touchedSchema[propName] : !!touchedSchema}
                   registry={this.props.registry}
                   disabled={disabled}
                   readonly={readonly}/>
@@ -187,7 +185,7 @@ ObjectField.propTypes = {
   idSchema: React.PropTypes.object,
   onChange: React.PropTypes.func.isRequired,
   formData: React.PropTypes.object,
-  required: React.PropTypes.bool,
+  requiredSchema: React.PropTypes.object.isRequired,
   disabled: React.PropTypes.bool,
   readonly: React.PropTypes.bool,
   registry: React.PropTypes.shape({

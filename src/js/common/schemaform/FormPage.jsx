@@ -16,7 +16,6 @@ import ArrayField from './ArrayField';
 import ReviewObjectField from './review/ObjectField';
 import { focusElement } from '../utils/helpers';
 import { setValid, setData } from './actions';
-import { touchFieldsInSchema } from './helpers';
 
 const fields = {
   ObjectField,
@@ -60,7 +59,6 @@ class FormPage extends React.Component {
   constructor(props) {
     super(props);
     this.validate = this.validate.bind(this);
-    this.onBlur = this.onBlur.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onError = this.onError.bind(this);
@@ -82,10 +80,6 @@ class FormPage extends React.Component {
       scrollToTop();
     }
   }
-  onBlur(id) {
-    const formContext = _.set(['touched', id], true, this.state.formContext);
-    this.setState({ formContext });
-  }
   onChange({ formData }) {
     this.props.setData(this.props.route.pageConfig.pageKey, formData);
   }
@@ -105,18 +99,10 @@ class FormPage extends React.Component {
     }
   }
   getEmptyState() {
-    const touchFields = (...args) => {
-      const touchedFields = touchFieldsInSchema(...args);
-      const mergedTouchedFields = _.assign(this.state.formContext.touched, touchedFields);
-      const newState = _.set('formContext.touched', mergedTouchedFields, this.state);
-      this.setState(newState, () => {
-        scrollToFirstError();
-      });
-    };
     const getFormData = () => {
       return this.props.form[this.props.route.pageConfig.pageKey].data;
     };
-    return { formContext: { touched: {}, submitted: false, onEdit: this.props.onEdit, touchFields, hideTitle: this.props.hideTitle, getFormData } };
+    return { formContext: { touched: {}, submitted: false, onEdit: this.props.onEdit, hideTitle: this.props.hideTitle, getFormData } };
   }
   goBack() {
     const { pageList, pageConfig } = this.props.route;
@@ -145,7 +131,6 @@ class FormPage extends React.Component {
             liveValidate
             noHtml5Validate
             onError={this.onError}
-            onBlur={this.onBlur}
             onChange={this.onChange}
             onSubmit={this.onSubmit}
             schema={schema}

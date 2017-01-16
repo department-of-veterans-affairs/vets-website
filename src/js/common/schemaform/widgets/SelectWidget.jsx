@@ -1,5 +1,6 @@
 import React from 'react';
 import { asNumber } from 'react-jsonschema-form/lib/utils';
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
 function processValue({ type, items }, value) {
   if (type === 'array' && items && ['number', 'integer'].includes(items.type)) {
@@ -24,7 +25,7 @@ function getValue(event, multiple) {
   return newValue;
 }
 
-export default function SelectWidget({
+function SelectWidget({
   schema,
   id,
   options,
@@ -47,7 +48,7 @@ export default function SelectWidget({
         required={required}
         disabled={disabled}
         readOnly={readonly}
-        autoFocus={autofocus}
+        autoFocus={autofocus || false}
         onBlur={(event) => {
           const newValue = getValue(event, multiple);
           onBlur(id, processValue(schema, newValue));
@@ -63,6 +64,9 @@ export default function SelectWidget({
   );
 }
 
-SelectWidget.defaultProps = {
-  autofocus: false,
-};
+export default onlyUpdateForKeys([
+  'id',
+  'value',
+  'schema',
+  'required'
+])(SelectWidget);

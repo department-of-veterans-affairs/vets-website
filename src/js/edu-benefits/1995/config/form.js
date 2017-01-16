@@ -21,7 +21,7 @@ const formConfig = {
             'ui:title': 'Veteran information',
             veteranFullName: uiFullName,
             veteranSocialSecurityNumber: _.assign(uiSSN, {
-              'ui:requiredIf': (form) => !form.noSSN
+              'ui:required': (form) => !form.noSSN
             }),
             noSSN: {
               'ui:title': 'I don\'t have a Social Security Number',
@@ -30,7 +30,7 @@ const formConfig = {
               }
             },
             fileNumber: {
-              'ui:requiredIf': (form) => form.noSSN,
+              'ui:required': (form) => !!form.noSSN,
               'ui:title': 'File number',
               'ui:errorMessages': {
                 pattern: 'File number must be 8 digits and (optionally) start with C'

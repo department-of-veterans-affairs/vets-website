@@ -1,13 +1,31 @@
 import React from 'react';
 import _ from 'lodash/fp';
+import Scroll from 'react-scroll';
+import { focusElement } from '../utils/helpers';
 
 import {
   retrieveSchema,
   toIdSchema,
-  getDefaultFormState
+  getDefaultFormState,
+  deepEquals
 } from 'react-jsonschema-form/lib/utils';
 
 import { errorSchemaIsValid } from './helpers';
+
+const scrollToFirstError = () => {
+  setTimeout(() => {
+    const errorEl = document.querySelector('.usa-input-error, .input-error-date');
+    if (errorEl) {
+      const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
+      Scroll.animateScroll.scrollTo(position - 10, {
+        duration: 500,
+        delay: 0,
+        smooth: true
+      });
+      focusElement(errorEl);
+    }
+  }, 100);
+};
 
 export default class ArrayField extends React.Component {
   constructor(props) {
@@ -19,6 +37,18 @@ export default class ArrayField extends React.Component {
     };
     this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.onItemBlur = this.onItemBlur.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const propsWithoutDataUnchanged = deepEquals(_.omit('formData', this.props), _.omit('formData', nextProps));
+    const stateUnchanged = deepEquals(this.state, nextState);
+
+    if (propsWithoutDataUnchanged && stateUnchanged && deepEquals(nextProps.formData, nextState.items)) {
+      return false;
+    }
+
+    return true;
   }
 
   onItemChange(indexToChange, value) {
@@ -34,10 +64,8 @@ export default class ArrayField extends React.Component {
     });
   }
 
-  isRequired(name) {
-    const schema = this.props.schema;
-    return Array.isArray(schema.required) &&
-      schema.required.indexOf(name) !== -1;
+  onItemBlur(index, path) {
+    this.props.onBlur([index].concat(path));
   }
 
   handleEdit(index, status = true) {
@@ -65,7 +93,9 @@ export default class ArrayField extends React.Component {
         this.props.onChange(newState.items);
       });
     } else {
-      this.props.formContext.touchFields(this.props.idSchema, this.props.idSchema.$id, this.state.items.length - 1);
+      this.setState({ touchedSchema: true }, () => {
+        scrollToFirstError();
+      });
     }
   }
 
@@ -86,9 +116,10 @@ export default class ArrayField extends React.Component {
       idSchema,
       disabled,
       readonly,
-      onBlur,
       registry,
       formContext,
+      touchedSchema,
+      requiredSchema,
       schema
     } = this.props;
     const definitions = registry.definitions;
@@ -118,6 +149,7 @@ export default class ArrayField extends React.Component {
             const isLast = this.state.items.length === (index + 1);
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || this.state.items.length > 1;
+            const itemTouched = this.state.touchedSchema || (touchedSchema ? touchedSchema[index] : !!touchedSchema);
             if (isLast || isEditing) {
               return (
                 <div key={index} className={notLastOrMultipleRows ? 'va-growable-background' : null}>
@@ -134,8 +166,10 @@ export default class ArrayField extends React.Component {
                             idSchema={itemIdSchema}
                             formData={item}
                             onChange={(value) => this.onItemChange(index, value)}
-                            onBlur={onBlur}
+                            onBlur={(path) => this.onItemBlur(index, path)}
+                            touchedSchema={itemTouched}
                             registry={this.props.registry}
+                            requiredSchema={requiredSchema}
                             disabled={disabled}
                             readonly={readonly}/>
                       </div>
