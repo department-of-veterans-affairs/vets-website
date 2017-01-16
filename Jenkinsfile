@@ -4,6 +4,8 @@ def isContentTeamUpdate = {
   env.BRANCH_NAME ==~ /^content\/wip\/.*/
 }
 
+env.CONCURRENCY = 10
+
 def isDeployable = {
   (env.BRANCH_NAME == 'master' ||
     env.BRANCH_NAME == 'production') &&
