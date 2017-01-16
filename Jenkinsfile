@@ -33,9 +33,10 @@ node('vets-website-linting') {
 
     sh "mkdir -p build"
     sh "mkdir -p logs/selenium"
+    sh "mkdir -p coverage"
 
     dockerImage = docker.build("vets-website:${env.BUILD_TAG}")
-    args = "-u root:root -v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs"
+    args = "-u root:root -v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
   }
 
   // Check package.json for known vulnerabilities
@@ -67,8 +68,19 @@ node('vets-website-linting') {
       return
     }
 
-    dockerImage.inside(args) {
-      sh "cd /application && npm --no-color run test:unit"
+    try {
+      dockerImage.inside(args) {
+        sh "cd /application && npm --no-color run test:coverage"
+      }
+    } finally {
+      publishHTML(target: [
+        reportName           : "Coverage Report",
+        reportDir            : 'coverage/',
+        reportFiles          : 'index.html',
+        keepAll              : true,
+        alwaysLinkToLastBuild: true,
+        allowMissing         : false
+      ])
     }
   }
 
