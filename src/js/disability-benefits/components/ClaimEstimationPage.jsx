@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import AskVAQuestions from './AskVAQuestions';
 import { setUpPage } from '../utils/page';
+import { getClaimType } from '../utils/helpers';
 
 export default class ClaimEstimationPage extends React.Component {
   componentDidMount() {
@@ -16,7 +17,7 @@ export default class ClaimEstimationPage extends React.Component {
             <nav className="va-nav-breadcrumbs">
               <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
-                <li><Link to={`your-claims/${this.props.params.id}/status`}>Your Disability Compensation Claim</Link></li>
+                <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {getClaimType(claim)} Claim</Link></li>
                 <li className="active">How We Come Up with Your Estimated Decision Date</li>
               </ul>
             </nav>
