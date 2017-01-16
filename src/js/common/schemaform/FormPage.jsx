@@ -51,6 +51,15 @@ const scrollToTop = () => {
   });
 };
 
+function focusForm() {
+  const legend = document.querySelector('.form-panel legend');
+  if (legend && legend.getBoundingClientRect().height > 0) {
+    focusElement(legend);
+  } else {
+    focusElement('.nav-header');
+  }
+}
+
 /*
  * Each page uses this component and passes in config. This is where most of the page level
  * form logic should live.
@@ -69,10 +78,13 @@ class FormPage extends React.Component {
   }
   componentDidMount() {
     scrollToTop();
+    focusForm();
   }
   componentWillReceiveProps(newProps) {
     if (newProps.route.pageConfig !== this.props.route.pageConfig) {
-      this.setState(this.getEmptyState(newProps.route.pageConfig));
+      this.setState(this.getEmptyState(newProps.route.pageConfig), () => {
+        focusForm();
+      });
     }
   }
   componentDidUpdate(prevProps) {

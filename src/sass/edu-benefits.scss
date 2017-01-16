@@ -259,3 +259,7 @@ form.rjsf {
 .schemaform-block {
   margin-top: 2em;
 }
+
+.va-growable-expanded > div > fieldset > div > .first-field label {
+  margin-top: 0;
+}

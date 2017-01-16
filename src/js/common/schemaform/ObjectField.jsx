@@ -155,20 +155,22 @@ class ObjectField extends React.Component {
           {
           orderedProperties.map((propName, index) => {
             return (
-              <SchemaField key={index}
-                  name={propName}
-                  requiredSchema={requiredSchema[propName]}
-                  schema={schema.properties[propName]}
-                  uiSchema={uiSchema[propName]}
-                  errorSchema={errorSchema[propName]}
-                  idSchema={idSchema[propName]}
-                  formData={this.state[propName]}
-                  onChange={this.onPropertyChange(propName)}
-                  onBlur={this.onPropertyBlur(propName)}
-                  touchedSchema={typeof touchedSchema === 'object' ? touchedSchema[propName] : !!touchedSchema}
-                  registry={this.props.registry}
-                  disabled={disabled}
-                  readonly={readonly}/>
+              <div key={index} className={index === 0 ? 'first-field' : null}>
+                <SchemaField
+                    name={propName}
+                    requiredSchema={requiredSchema[propName]}
+                    schema={schema.properties[propName]}
+                    uiSchema={uiSchema[propName]}
+                    errorSchema={errorSchema[propName]}
+                    idSchema={idSchema[propName]}
+                    formData={this.state[propName]}
+                    onChange={this.onPropertyChange(propName)}
+                    onBlur={this.onPropertyBlur(propName)}
+                    touchedSchema={typeof touchedSchema === 'object' ? touchedSchema[propName] : !!touchedSchema}
+                    registry={this.props.registry}
+                    disabled={disabled}
+                    readonly={readonly}/>
+              </div>
             );
           })
           }

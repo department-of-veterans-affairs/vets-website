@@ -12,6 +12,9 @@ import {
 
 import { errorSchemaIsValid } from './helpers';
 
+const Element = Scroll.Element;
+const scroller = Scroll.scroller;
+
 const scrollToFirstError = () => {
   setTimeout(() => {
     const errorEl = document.querySelector('.usa-input-error, .input-error-date');
@@ -38,6 +41,8 @@ export default class ArrayField extends React.Component {
     this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.onItemBlur = this.onItemBlur.bind(this);
+    this.scrollToTop = this.scrollToTop.bind(this);
+    this.scrollToRow = this.scrollToRow.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -68,18 +73,50 @@ export default class ArrayField extends React.Component {
     this.props.onBlur([index].concat(path));
   }
 
+  scrollToTop() {
+    setTimeout(() => {
+      scroller.scrollTo(`topOfTable_${this.props.idSchema.$id}`, {
+        duration: 500,
+        delay: 0,
+        smooth: true,
+        offset: -60
+      });
+    }, 100);
+  }
+
+  scrollToRow(id) {
+    setTimeout(() => {
+      scroller.scrollTo(`table_${id}`, {
+        duration: 500,
+        delay: 0,
+        smooth: true,
+        offset: 0
+      });
+    }, 100);
+  }
+
   handleEdit(index, status = true) {
-    this.setState(_.set(['editing', index], status, this.state));
+    this.setState(_.set(['editing', index], status, this.state), () => {
+      this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
+    });
   }
 
   handleUpdate(index) {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
-      this.setState(_.set(['editing', index], false, this.state));
+      this.setState(_.set(['editing', index], false, this.state), () => {
+        this.scrollToTop();
+      });
+    } else {
+      const touchedSchema = _.set(index, true, this.state.touchedSchema);
+      this.setState({ touchedSchema }, () => {
+        scrollToFirstError();
+      });
     }
   }
 
   handleAdd() {
-    if (errorSchemaIsValid(this.props.errorSchema[this.state.items.length - 1])) {
+    const lastIndex = this.state.items.length - 1;
+    if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       const newEditing = this.state.editing.map((val, index) => {
         return (index + 1) === this.state.editing.length
           ? false
@@ -90,10 +127,12 @@ export default class ArrayField extends React.Component {
         editing: newEditing.concat(false)
       });
       this.setState(newState, () => {
+        this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
         this.props.onChange(newState.items);
       });
     } else {
-      this.setState({ touchedSchema: true }, () => {
+      const touchedSchema = _.set(lastIndex, true, this.state.touchedSchema);
+      this.setState({ touchedSchema }, () => {
         scrollToFirstError();
       });
     }
@@ -106,6 +145,7 @@ export default class ArrayField extends React.Component {
     });
     this.setState(newState, () => {
       this.props.onChange(newState.items);
+      this.scrollToTop();
     });
   }
 
@@ -143,16 +183,21 @@ export default class ArrayField extends React.Component {
         {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
         {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
         <div className="va-growable">
+          <Element name={`topOfTable_${idSchema.$id}`}/>
           {this.state.items.map((item, index) => {
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemsSchema, itemIdPrefix, definitions);
             const isLast = this.state.items.length === (index + 1);
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || this.state.items.length > 1;
-            const itemTouched = this.state.touchedSchema || (touchedSchema ? touchedSchema[index] : !!touchedSchema);
+            let itemTouched = (touchedSchema ? touchedSchema[index] : false);
+            if (this.state.touchedSchema && typeof this.state.touchedSchema[index] !== 'undefined') {
+              itemTouched = this.state.touchedSchema[index];
+            }
             if (isLast || isEditing) {
               return (
                 <div key={index} className={notLastOrMultipleRows ? 'va-growable-background' : null}>
+                  <Element name={`table_${itemIdPrefix}`}/>
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && this.state.items.length > 1 && uiSchema['ui:options'].itemName
