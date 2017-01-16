@@ -17,7 +17,7 @@ export default class ClaimEstimationPage extends React.Component {
             <nav className="va-nav-breadcrumbs">
               <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
-                <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {getClaimType(claim)} Claim</Link></li>
+                <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {getClaimType(this.props)} Claim</Link></li>
                 <li className="active">How We Come Up with Your Estimated Decision Date</li>
               </ul>
             </nav>
