@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Post-Traumatic Stress (PTSD)
+title: Posttraumatic Stress Disorder (PTSD)
 concurrence: complete
 source: http://www.va.gov/opa/issues/ptsd.asp
 plainlanguage: 11-14-16 certified in compliance with the Plain Language Act
@@ -20,9 +20,9 @@ template: 1-topic-landing
 [Visit the Veterans Crisis Line website](https://www.veteranscrisisline.net/Default.aspx).
 
 
-#### Post-Traumatic Stress (PTSD) Basics
+#### Posttraumatic Stress Disorder (PTSD) Basics
 
-Post-traumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. If the reactions don’t go away over time or they disrupt your life, you may have PTSD. [Learn more about PTSD](http://www.ptsd.va.gov/public/index.asp).
+Posttraumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. If the reactions don’t go away over time or they disrupt your life, you may have PTSD. [Learn more about PTSD](http://www.ptsd.va.gov/public/index.asp).
 
 If you have symptoms of PTSD and suffered a serious injury, personal trauma or sexual trauma, or sexual violation, or were threatened with injury, sexual assault, or death while serving in the military, you may be able to get disability compensation or benefits.
 
