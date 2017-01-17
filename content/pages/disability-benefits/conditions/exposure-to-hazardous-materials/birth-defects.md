@@ -48,8 +48,6 @@ Your child may be able to get disability benefits if they have a covered birth d
 
 You'll need to apply for benefits for your child. When you apply, you’ll have to show that your contact with certain chemicals while serving in the military likely caused your child’s birth defect. [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
-We provide financial support at 1 of 3 disability levels. Your child's level will depend on how severe the disability is. 
-
 ### Get more information
 
 Does your child have spina bifida? [Learn more about spina bifida and Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/birth-defects/spina-bifida.asp).
