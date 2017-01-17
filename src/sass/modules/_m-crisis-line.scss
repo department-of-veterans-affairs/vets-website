@@ -3,6 +3,7 @@
 .crisis-line-container {
   position: relative;
   background: $color-gray-lightest;
+
   @media #{$medium-up} {
     width: 283px;
   }
@@ -99,7 +100,7 @@
   color: $color-base;
   margin: 0;
   text-align: left;
-  font-size: 1em;
+  font-size: 1.44rem;
   width: 100%;
   display: flex;
   align-items: center;
