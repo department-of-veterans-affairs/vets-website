@@ -77,6 +77,7 @@ class Message extends React.Component {
     return (
       <div tabIndex="0" role="button" aria-expanded={!this.props.isCollapsed} onKeyPress={this.handleMessageOnKeyPress} className={messageClass} onClick={messageOnClick}>
         <div
+            aria-live="assertive"
             className="messaging-message-header"
             onClick={headerOnClick}>
           <div className="messaging-message-sent-date">

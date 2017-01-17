@@ -1,6 +1,4 @@
-import React from 'react';
 import _ from 'lodash/fp';
-import { Route, IndexRedirect } from 'react-router';
 import FormPage from './FormPage';
 import ReviewPage from './review/ReviewPage';
 
@@ -65,26 +63,35 @@ export function createRoutes(formConfig) {
   const pageList = createPageList(formConfig, formPages);
   let routes = formPages
     .map(page => {
-      return (
-        <Route
-            key={page.path}
-            path={page.path}
-            component={FormPage}
-            pageConfig={page}
-            pageList={pageList}/>
-      );
+      return {
+        path: page.path,
+        component: FormPage,
+        pageConfig: page,
+        pageList
+      };
     });
 
   if (formConfig.introduction) {
     routes = [
-      <IndexRedirect to="introduction" key="introRedirect"/>,
-      <Route path="introduction" key="introduction" component={formConfig.introduction} pageList={pageList}/>
+      {
+        path: 'introduction',
+        component: formConfig.introduction,
+        pageList
+      }
     ].concat(routes);
   }
 
   return routes.concat([
-    <Route path="review-and-submit" key="review-and-submit" formConfig={formConfig} component={ReviewPage} pageList={pageList}/>,
-    <Route path="submit-message" key="submit-message" component={formConfig.confirmation}/>,
+    {
+      path: 'review-and-submit',
+      formConfig,
+      component: ReviewPage,
+      pageList
+    },
+    {
+      path: 'submit-message',
+      component: formConfig.confirmation
+    }
   ]);
 }
 

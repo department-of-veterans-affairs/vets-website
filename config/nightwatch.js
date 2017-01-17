@@ -46,7 +46,7 @@ module.exports = {
       },
       test_workers: {
         enabled: true,
-        workers: 1,
+        workers: parseInt(process.env.CONCURRENCY || 1, 10),
       },
     },
 
@@ -64,7 +64,7 @@ module.exports = {
       },
       test_workers: {
         enabled: true,
-        workers: 1,
+        workers: parseInt(process.env.CONCURRENCY || 1, 10),
       },
     }
   }
