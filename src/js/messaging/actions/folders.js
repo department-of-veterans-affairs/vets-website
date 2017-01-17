@@ -6,15 +6,17 @@ import {
 import {
   CREATE_FOLDER_FAILURE,
   CREATE_FOLDER_SUCCESS,
+  CREATING_FOLDER,
   DELETE_FOLDER_FAILURE,
   DELETE_FOLDER_SUCCESS,
+  DELETING_FOLDER,
   FETCH_FOLDER_FAILURE,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_FAILURE,
   FETCH_FOLDERS_SUCCESS,
   LOADING_FOLDER,
-  RESET_REDIRECT,
-  SET_CURRENT_FOLDER,
+  LOADING_FOLDERS,
+  TOGGLE_FOLDER_MOVE_TO,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS
 } from '../utils/constants';
@@ -29,6 +31,8 @@ export function fetchFolders() {
   const url = createUrlWithQuery(baseUrl, query);
 
   return dispatch => {
+    dispatch({ type: LOADING_FOLDERS });
+
     apiRequest(
       url,
       null,
@@ -87,7 +91,13 @@ export function createNewFolder(folderName) {
     body: JSON.stringify(folderData)
   };
 
+  window.dataLayer.push({
+    event: 'sm-create-folder',
+  });
+
   return dispatch => {
+    dispatch({ type: CREATING_FOLDER });
+
     apiRequest(
       baseUrl,
       settings,
@@ -103,6 +113,8 @@ export function createNewFolder(folderName) {
 export function deleteFolder(folder) {
   const url = `${baseUrl}/${folder.folderId}`;
   return dispatch => {
+    dispatch({ type: DELETING_FOLDER });
+
     apiRequest(
       url,
       { method: 'DELETE' },
@@ -112,14 +124,9 @@ export function deleteFolder(folder) {
   };
 }
 
-// Persists folder ID across threads
-export function setCurrentFolder(folderId) {
+export function toggleFolderMoveTo(id) {
   return {
-    type: SET_CURRENT_FOLDER,
-    folderId
+    type: TOGGLE_FOLDER_MOVE_TO,
+    messageId: id
   };
-}
-
-export function resetRedirect() {
-  return { type: RESET_REDIRECT };
 }

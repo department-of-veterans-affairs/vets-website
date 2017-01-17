@@ -31,7 +31,9 @@ export function createUrlWithQuery(url, query) {
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0/messaging/health`;
-  const url = [baseUrl, resource].join('');
+  const url = resource[0] === '/'
+            ? [baseUrl, resource].join('')
+            : resource;
 
   const defaultSettings = {
     method: 'GET',
@@ -46,6 +48,8 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
   return fetch(url, settings)
     .then((response) => {
       if (!response.ok) {
+        // Refresh to show login view when requests are unauthorized.
+        if (response.status === 401) { return window.location.reload(); }
         return Promise.reject(response);
       } else if (isJson(response)) {
         return response.json();

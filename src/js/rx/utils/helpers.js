@@ -25,9 +25,16 @@ export function getModalTerm(term) {
   return content;
 }
 
-export function apiRequest(resource, optionalSettings = {}) {
+function isJson(response) {
+  const contentType = response.headers.get('content-type');
+  return contentType && contentType.indexOf('application/json') !== -1;
+}
+
+export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}/v0/prescriptions`;
-  const url = [baseUrl, resource].join('');
+  const url = resource[0] === '/'
+            ? [baseUrl, resource].join('')
+            : resource;
 
   const defaultSettings = {
     method: 'GET',
@@ -39,5 +46,16 @@ export function apiRequest(resource, optionalSettings = {}) {
 
   const settings = merge(defaultSettings, optionalSettings);
 
-  return fetch(url, settings);
+  return fetch(url, settings)
+    .then((response) => {
+      if (!response.ok) {
+        // Refresh to show login view when requests are unauthorized.
+        if (response.status === 401) { return window.location.reload(); }
+        return Promise.reject(response);
+      } else if (isJson(response)) {
+        return response.json();
+      }
+      return Promise.resolve(response);
+    })
+    .then(success, error);
 }

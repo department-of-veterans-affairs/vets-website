@@ -55,7 +55,7 @@ class ErrorableCheckbox extends React.Component {
     // Calculate required.
     let requiredSpan = undefined;
     if (this.props.required) {
-      requiredSpan = <span className="hca-required-span">*</span>;
+      requiredSpan = <span className="form-required-span">*</span>;
     }
 
     let className = `form-checkbox${this.props.errorMessage ? ' usa-input-error' : ''}`;
@@ -66,6 +66,7 @@ class ErrorableCheckbox extends React.Component {
     return (
       <div className={className}>
         <input
+            autoComplete="false"
             aria-describedby={errorSpanId}
             checked={this.props.checked}
             id={this.inputId}

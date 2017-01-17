@@ -2,14 +2,14 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 
-import { getPhaseDescription, isClaimComplete } from '../utils/helpers';
+import { getPhaseDescription, isClaimComplete, getClaimType } from '../utils/helpers';
 
 export default function ClaimsListItem({ claim }) {
   const inProgress = !isClaimComplete(claim);
   return (
     <Link className="claim-list-item" to={`your-claims/${claim.id}/status`}>
-      <h4 className="claim-list-item-header">Disability Compensation Claim – Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}</h4>
-      <p className="status">Status: {getPhaseDescription(claim.attributes.phase)}</p>
+      <h4 className="claim-list-item-header">{getClaimType(claim)} Claim – Received {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}</h4>
+      <p className="status"><span className="claim-item-label">Status:</span> {getPhaseDescription(claim.attributes.phase)}</p>
       <div className="communications">
         {inProgress && claim.attributes.developmentLetterSent
           ? <p><i className="fa fa-envelope"></i>We sent you a development letter</p>
@@ -22,7 +22,7 @@ export default function ClaimsListItem({ claim }) {
           : null}
       </div>
       {claim.attributes.phaseChangeDate &&
-        <p>Last update: {moment(claim.attributes.phaseChangeDate).format('MMM D, YYYY')}</p>}
+        <p><span className="claim-item-label">Last update:</span> {moment(claim.attributes.phaseChangeDate).format('MMM D, YYYY')}</p>}
     </Link>
   );
 }

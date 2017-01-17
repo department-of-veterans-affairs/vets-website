@@ -1,13 +1,13 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchVAFacility } from '../actions';
-import { Link, browserHistory } from 'react-router';
 import AccessToCare from '../components/AccessToCare';
 import FacilityAddress from '../components/search-results/FacilityAddress';
 import FacilityDirectionsLink from '../components/search-results/FacilityDirectionsLink';
 import FacilityHours from '../components/FacilityHours';
 import FacilityMap from '../components/FacilityMap';
 import FacilityPhoneLink from '../components/search-results/FacilityPhoneLink';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import React, { Component } from 'react';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 
@@ -36,13 +36,24 @@ class FacilityDetail extends Component {
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name } = facility.attributes;
+    const { name, facility_type: facilityType } = facility.attributes;
+
+    /* eslint-disable camelcase */
+    const facilityTypes = {
+      va_health_facility: 'Health',
+      va_cemetery: 'Cemetery',
+      va_benefits_facility: 'Benefits',
+    };
+    /* eslint-enable camelcase */
 
     return (
       <div>
-        <h3>{name}</h3>
-        <div>
+        <h1>{name}</h1>
+        <div className="p1">
           <FacilityAddress facility={facility}/>
+          <p>
+            <span><strong>Facility type:</strong> {facilityTypes[facilityType]}</span>
+          </p>
         </div>
         <div>
           <FacilityPhoneLink facility={facility}/>
@@ -53,7 +64,7 @@ class FacilityDetail extends Component {
         <div>
           <FacilityDirectionsLink facility={facility}/>
         </div>
-        <p>Planning to visit? Please call first as information on this page may change.</p>
+        <p className="p1">Planning to visit? Please call first as information on this page may change.</p>
       </div>
     );
   }
@@ -71,18 +82,24 @@ class FacilityDetail extends Component {
   }
 
   render() {
-    const { facility } = this.props;
+    const { facility, currentQuery } = this.props;
 
     if (!facility) {
       return null;
     }
 
+
+    if (currentQuery.inProgress) {
+      return (
+        <div>
+          <LoadingIndicator message="Loading information..."/>
+        </div>
+      );
+    }
+
     return (
       <div className="row facility-detail">
         <div className="medium-8 columns">
-          <Link className="facility-back-link" onClick={browserHistory.goBack}>
-            <i className="fa fa-chevron-left" aria-hidden="true"></i>Back to list
-          </Link>
           <div>
             {this.renderFacilityInfo()}
             <ServicesAtFacility facility={facility}/>
@@ -107,7 +124,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { facility: state.facilities.selectedFacility };
+  return { facility: state.facilities.selectedFacility, currentQuery: state.searchQuery };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FacilityDetail);

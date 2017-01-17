@@ -1,5 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { truncate } from 'lodash';
 import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
 
@@ -10,9 +11,11 @@ class SearchControls extends Component {
 
     this.state = {
       facilityDropdownActive: false,
+      serviceDropdownActive: false,
     };
 
     this.toggleFacilityDropdown = this.toggleFacilityDropdown.bind(this);
+    this.toggleServiceDropdown = this.toggleServiceDropdown.bind(this);
   }
 
   // TODO (bshyong): generalize to be able to handle Select box changes
@@ -36,6 +39,20 @@ class SearchControls extends Component {
     }
   }
 
+  handleServiceFilterSelect(serviceType) {
+    const { facilityType } = this.props.currentQuery;
+
+    if (facilityType === 'benefits' && serviceType === 'All') {
+      this.props.updateSearchQuery({
+        serviceType: null,
+      });
+    } else {
+      this.props.updateSearchQuery({
+        serviceType,
+      });
+    }
+  }
+
   handleSearch = (e) => {
     const { onSearch } = this.props;
     e.preventDefault();
@@ -55,6 +72,15 @@ class SearchControls extends Component {
     });
   }
 
+  toggleServiceDropdown() {
+    const { currentQuery: { facilityType } } = this.props;
+    if (facilityType === 'benefits') {
+      this.setState({
+        serviceDropdownActive: !this.state.serviceDropdownActive,
+      });
+    }
+  }
+
   handleFacilityFilterSelect(facilityType) {
     if (facilityType === 'benefits') {
       this.props.updateSearchQuery({
@@ -72,33 +98,35 @@ class SearchControls extends Component {
     const { currentQuery: { facilityType } } = this.props;
 
     switch (facilityType) {
-      case 'health':
-        return [
-          <option key="primary_care" value="primary_care">Primary Care</option>,
-          <option key="mental_health" value="mental_health">Mental Health</option>,
-        ];
       case 'benefits':
-        return [
-          'ApplyingForBenefits',
-          'BurialClaimAssistance',
-          'DisabilityClaimAssistance',
-          'eBenefitsRegistrationAssistance',
-          'EducationAndCareerCounseling',
-          'EducationClaimAssistance',
-          'FamilyMemberClaimAssistance',
-          'HomelessAssistance',
-          'VAHomeLoanAssistance',
-          'InsuranceClaimAssistanceAndFinancialCounseling',
-          'IntegratedDisabilityEvaluationSystemAssistance',
-          'PreDischargeClaimAssistance',
-          'TransitionAssistance',
-          'UpdatingDirectDepositInformation',
-          'VocationalRehabilitationAndEmploymentAssistance',
-        ].map(e => {
-          return (<option key={e} value={e}>
-            {e.split(/(?=[A-Z])/).join(' ')}
-          </option>);
-        });
+        return (
+          <ul className="dropdown">
+            {
+              [
+                'All',
+                'ApplyingForBenefits',
+                'BurialClaimAssistance',
+                'DisabilityClaimAssistance',
+                'eBenefitsRegistrationAssistance',
+                'EducationAndCareerCounseling',
+                'EducationClaimAssistance',
+                'FamilyMemberClaimAssistance',
+                'HomelessAssistance',
+                'VAHomeLoanAssistance',
+                'InsuranceClaimAssistanceAndFinancialCounseling',
+                'IntegratedDisabilityEvaluationSystemAssistance',
+                'PreDischargeClaimAssistance',
+                'TransitionAssistance',
+                'UpdatingDirectDepositInformation',
+                'VocationalRehabilitationAndEmploymentAssistance',
+              ].map(e => {
+                return (<li key={e} value={e} onClick={this.handleServiceFilterSelect.bind(this, e)}>
+                  {e.split(/(?=[A-Z])/).join(' ')}
+                </li>);
+              })
+            }
+          </ul>
+        );
       default:
         return null;
     }
@@ -113,13 +141,21 @@ class SearchControls extends Component {
       case 'cemetery':
         return (<span className="flex-center"><span className="legend cemetery-icon"></span>Cemetery</span>);
       default:
-        return (<span className="flex-center"><span className="legend spacer"></span>All Facilities</span>);
+        return (<span className="flex-center all-facilities"><span className="legend spacer"></span>All Facilities</span>);
     }
+  }
+
+  renderServiceSelectOption(serviceType) {
+    const { isMobile } = this.props;
+
+    return (
+      <span className="flex-center">{truncate((serviceType || 'All').split(/(?=[A-Z])/).join(' '), { length: (isMobile ? 38 : 27) })}</span>
+    );
   }
 
   render() {
     const { currentQuery, isMobile } = this.props;
-    const { facilityDropdownActive } = this.state;
+    const { facilityDropdownActive, serviceDropdownActive } = this.state;
 
     if (currentQuery.active && isMobile) {
       return (
@@ -154,10 +190,12 @@ class SearchControls extends Component {
           </div>
           <div className="columns medium-3">
             <label htmlFor="serviceType">Select Service Type</label>
-            <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType || ''} disabled={currentQuery.facilityType !== 'benefits'} title="serviceType">
-              <option>All</option>
+            <div tabIndex="2" className={`facility-dropdown-wrapper ${serviceDropdownActive ? 'active' : ''} ${currentQuery.facilityType === 'benefits' ? '' : 'disabled'}`} onClick={this.toggleServiceDropdown}>
+              <div className="flex-center">
+                {this.renderServiceSelectOption(currentQuery.serviceType)}
+              </div>
               {this.renderServiceFilterOptions()}
-            </select>
+            </div>
           </div>
           <div className="columns medium-2">
             <input type="submit" value="Search" onClick={this.handleSearch}/>

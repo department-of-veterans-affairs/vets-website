@@ -1,7 +1,7 @@
 ---
 layout: home.html
 body_class: home
-title: Home
+title: Discover, apply for, track and manage your Veteran benefits with Vets.gov
 majorlinks:
   - url: /disability-benefits/
     title: Disability Benefits
@@ -12,9 +12,9 @@ majorlinks:
   - url: /employment/
     title: Careers and Employment
     description: Meaningful employment and career development for Veterans and their families.
-  - url: /healthcare/apply/
+  - url: /healthcare/
     title: Health Care
-    description: Apply for VA health care, including preventive care, primary care, and more.
+    description: Apply for and manage VA health care.
 
 ---
 <div class="splash">
@@ -37,7 +37,7 @@ majorlinks:
   <div class="medium-4 columns">
     <a href="/healthcare/apply/">
       <div class="outline-link-block">
-        Apply for Health Care
+        Apply for health care
       </div>
     </a>
   </div>
@@ -49,9 +49,9 @@ majorlinks:
     </a>
   </div>
   <div class="medium-4 columns">
-    <a href="/gi-bill-comparison-tool/">
+    <a href="/education/apply-for-education-benefits/">
       <div class="outline-link-block">
-        View education benefits by school
+        Apply for education benefits
       </div>
     </a>
   </div>

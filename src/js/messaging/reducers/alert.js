@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import _ from 'lodash';
 
 import { folderUrl } from '../utils/helpers';
 
@@ -18,7 +19,8 @@ import {
   SAVE_DRAFT_FAILURE,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_FAILURE,
-  SEND_MESSAGE_SUCCESS
+  SEND_MESSAGE_SUCCESS,
+  UPDATE_ROUTE
 } from '../utils/constants';
 
 const createAlert = (content, status, visible = true) => {
@@ -37,8 +39,15 @@ export default function alert(state = initialState, action) {
   }
 
   switch (action.type) {
+    case UPDATE_ROUTE: {
+      // Certain route changes set a flag to preserve alerts
+      // that would otherwise have been immediately dismissed.
+      const preserveAlert = _.get(action, 'location.state.preserveAlert', false);
+      return preserveAlert ? state : initialState;
+    }
+
     case CLOSE_ALERT:
-      return createAlert('', alertStatus.INFO, false);
+      return initialState;
 
     case OPEN_ALERT:
       return createAlert(action.content, action.status);

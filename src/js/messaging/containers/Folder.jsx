@@ -9,16 +9,20 @@ import SortableTable from '../../common/components/SortableTable';
 
 import {
   fetchFolder,
+  moveMessageToFolder,
   openAlert,
+  openMoveToNewFolderModal,
   setDateRange,
   setSearchParam,
   toggleAdvancedSearch,
+  toggleFolderMoveTo,
   toggleFolderNav
 } from '../actions';
 
 import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
 import MessageSearch from '../components/MessageSearch';
+import MoveTo from '../components/MoveTo';
 import { formattedDate } from '../utils/helpers';
 
 export class Folder extends React.Component {
@@ -37,7 +41,7 @@ export class Folder extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.loading.inProgress && this.props.folders.size) {
+    if (!this.props.loading.folder) {
       const id = this.getRequestedFolderId();
       const query = this.getQueryParams();
       this.props.fetchFolder(id, query);
@@ -45,16 +49,29 @@ export class Folder extends React.Component {
   }
 
   componentDidUpdate() {
-    const loading = this.props.loading;
+    const redirect = this.props.redirect;
 
-    if (!loading.inProgress && this.props.folders.size) {
-      const lastRequest = loading.request;
+    // In the typical case of redirects, we go to the most recent folder
+    // and proceed with fetching its data. If that's not the case,
+    // go ahead to the URL specified in the redirect.
+    if (redirect && redirect.url !== this.props.location.pathname) {
+      this.context.router.push({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
+      return;
+    }
+
+    if (!this.props.loading.folder) {
+      const lastRequest = this.props.lastRequestedFolder;
       const requestedId = this.getRequestedFolderId();
       const query = this.getQueryParams();
 
       // Only proceed with fetching the requested folder
-      // if it's not the same as the most recent request.
+      // if a redirect has been set (as after moving a message)
+      // or if it's not the same as the most recent request.
       const shouldFetchFolder =
+        redirect ||
         !lastRequest ||
         requestedId !== lastRequest.id ||
         !_.isEqual(query, lastRequest.query);
@@ -75,6 +92,8 @@ export class Folder extends React.Component {
     const queryParams = [
       'page',
       'sort',
+      'filter[[recipient_name][eq]]',
+      'filter[[recipient_name][match]]',
       'filter[[sent_date][gteq]]',
       'filter[[sent_date][lteq]]',
       'filter[[sender_name][eq]]',
@@ -95,27 +114,33 @@ export class Folder extends React.Component {
 
   buildSearchQuery(object) {
     const filters = {};
+    const fromValue = _.get(object, 'from.field.value');
+    const toValue = _.get(object, 'to.field.value');
+    const subjectValue = _.get(object, 'subject.field.value');
+    const startDate = _.get(object, 'dateRange.start');
+    const endDate = _.get(object, 'dateRange.end');
 
-    if (object.term.value) {
-      filters['filter[[subject][match]]'] = object.term.value;
-    }
-
-    if (object.from.field.value) {
+    if (fromValue) {
       const fromExact = object.from.exact ? 'eq' : 'match';
-      filters[`filter[[sender_name][${fromExact}]]`] = object.from.field.value;
+      filters[`filter[[sender_name][${fromExact}]]`] = fromValue;
     }
 
-    if (object.subject.field.value) {
+    if (toValue) {
+      const fromExact = object.from.exact ? 'eq' : 'match';
+      filters[`filter[[recipient_name][${fromExact}]]`] = toValue;
+    }
+
+    if (subjectValue) {
       const subjectExact = object.subject.exact ? 'eq' : 'match';
-      filters[`filter[[subject][${subjectExact}]]`] = object.subject.field.value;
+      filters[`filter[[subject][${subjectExact}]]`] = subjectValue;
     }
 
-    if (object.dateRange.start) {
-      filters['filter[[sent_date][gteq]]'] = object.dateRange.start.format();
+    if (startDate) {
+      filters['filter[[sent_date][gteq]]'] = startDate.format();
     }
 
-    if (object.dateRange.end) {
-      filters['filter[[sent_date][lteq]]'] = object.dateRange.end.format();
+    if (endDate) {
+      filters['filter[[sent_date][lteq]]'] = endDate.format();
     }
 
     return filters;
@@ -146,18 +171,21 @@ export class Folder extends React.Component {
   }
 
   makeMessageNav() {
-    const { currentRange, messageCount, page, totalPages } = this.props;
+    const { pagination } = this.props;
+    const { currentPage, perPage, totalEntries, totalPages } = pagination;
 
-    if (messageCount === 0) {
-      return null;
-    }
+    if (_.isEmpty(pagination) || !totalEntries) return null;
+
+    const startCount = 1 + (currentPage - 1) * perPage;
+    const endCount = Math.min(totalEntries, currentPage * perPage);
+    const currentRange = `${startCount} - ${endCount}`;
 
     return (
       <MessageNav
           currentRange={currentRange}
-          messageCount={messageCount}
+          messageCount={totalEntries}
           onItemSelect={this.handlePageSelect}
-          itemNumber={page}
+          itemNumber={currentPage}
           totalItems={totalPages}/>
     );
   }
@@ -172,6 +200,20 @@ export class Folder extends React.Component {
       { label: 'subject line', value: 'subject', order: 'ASC' },
       { label: 'sender', value: 'senderName', order: 'ASC' }
     ];
+
+    const folderName = this.props.attributes.name;
+    const isDraftsFolder = folderName === 'Drafts';
+    const isSentFolder = folderName === 'Sent';
+
+    if (isDraftsFolder || isSentFolder) {
+      fields[2] = { label: 'recipient', value: 'recipientName', order: 'ASC' };
+
+      // Disable sorting by 'Date' for Drafts. There is no
+      // save date available, and drafts don't have sent dates.
+      if (isDraftsFolder) {
+        fields.splice(0, 1);
+      }
+    }
 
     const sortOptions = fields.map(field => {
       return (
@@ -206,14 +248,16 @@ export class Folder extends React.Component {
   }
 
   makeMessagesTable() {
-    const messages = this.props.messages;
+    const { attributes, filter, messages } = this.props;
+
     if (!messages || messages.length === 0) {
+      if (filter) {
+        return <p className="msg-nomessages">No messages found for your search.</p>;
+      }
       return <p className="msg-nomessages">You have no messages in this folder.</p>;
     }
 
-    const makeMessageLink = (content, id) => {
-      return <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>;
-    };
+    // Create sortable table headers.
 
     const fields = [
       { label: 'From', value: 'senderName' },
@@ -221,10 +265,35 @@ export class Folder extends React.Component {
       { label: 'Date', value: 'sentDate' }
     ];
 
-    const folderId = this.props.attributes.folderId;
+    const { folderId, name: folderName } = attributes;
+    const isDraftsFolder = folderName === 'Drafts';
+    const isSentFolder = folderName === 'Sent';
     const markUnread = folderId >= 0;
 
-    const data = this.props.messages.map(message => {
+    if (isDraftsFolder || isSentFolder) {
+      fields[0] = { label: 'To', value: 'recipientName' };
+
+      // Hide 'Date' column for Drafts. There is no save date
+      // available, and drafts don't have sent dates.
+      if (isDraftsFolder) {
+        fields.pop();
+      }
+    } else {
+      fields.push({ label: '', value: 'moveToButton' });
+    }
+
+    // Create sortable table rows.
+
+    const folders = [];
+    this.props.folders.forEach(v => {
+      folders.push(v);
+    });
+
+    const makeMessageLink = (content, id) => {
+      return <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>;
+    };
+
+    const data = messages.map(message => {
       const id = message.messageId;
       const rowClass = classNames({
         'messaging-message-row': true,
@@ -232,12 +301,25 @@ export class Folder extends React.Component {
           markUnread && message.readReceipt !== 'READ'
       });
 
+      const moveToButton = (
+        <MoveTo
+            currentFolder={attributes}
+            folders={folders}
+            isOpen={id === this.props.moveToId}
+            messageId={id}
+            onChooseFolder={this.props.moveMessageToFolder}
+            onCreateFolder={this.props.openMoveToNewFolderModal}
+            onToggleMoveTo={() => this.props.toggleFolderMoveTo(id)}/>
+      );
+
       return {
         id,
         rowClass,
+        recipientName: makeMessageLink(message.recipientName, id),
         senderName: makeMessageLink(message.senderName, id),
         subject: makeMessageLink(message.subject, id),
-        sentDate: makeMessageLink(formattedDate(message.sentDate), id)
+        sentDate: makeMessageLink(formattedDate(message.sentDate), id),
+        moveToButton
       };
     });
 
@@ -252,48 +334,69 @@ export class Folder extends React.Component {
   }
 
   render() {
-    const loading = this.props.loading;
-
-    if (loading.inProgress) {
-      return <LoadingIndicator message="is loading the folder..."/>;
+    if (this.props.loading.folder) {
+      return <LoadingIndicator message="Loading the folder..."/>;
     }
 
-    const folderId = _.get(this.props.attributes, 'folderId', null);
+    const { folderId, name: folderName } = this.props.attributes;
+    let componentContent;
 
-    if (folderId === null) {
-      const lastRequest = loading.request;
+    if (folderId === undefined) {
+      const lastRequest = this.props.lastRequestedFolder;
 
       if (lastRequest && lastRequest.id !== null) {
         const reloadFolder = () => {
           this.props.fetchFolder(lastRequest.id, lastRequest.query);
         };
 
-        return (
-          <p>
-            Could not retrieve the folder.&nbsp;
-            <a onClick={reloadFolder}>Click here to try again.</a>
-          </p>
+        componentContent = (
+          <div className="columns">
+            <p className="msg-loading-error">
+              Could not retrieve the folder.&nbsp;
+              <a className="msg-reload" onClick={reloadFolder}>
+                Click here to try again.
+              </a>
+            </p>
+          </div>
+        );
+      } else {
+        componentContent = (
+          <div className="columns">
+            <p className="msg-loading-error">
+              Sorry, this folder does not exist.
+            </p>
+          </div>
         );
       }
+    } else {
+      const messageNav = this.makeMessageNav();
+      const sortMenu = this.makeSortMenu();
+      const folderMessages = this.makeMessagesTable();
 
-      return <p>Sorry, this folder does not exist.</p>;
-    }
+      let messageSearch;
+      if (this.props.messages && this.props.messages.length || this.props.filter) {
+        messageSearch = (<MessageSearch
+            hasRecipientField={folderName === 'Sent' || folderName === 'Drafts'}
+            isAdvancedVisible={this.props.isAdvancedVisible}
+            onAdvancedSearch={this.props.toggleAdvancedSearch}
+            onDateChange={this.props.setDateRange}
+            onError={this.props.openAlert}
+            onFieldChange={this.props.setSearchParam}
+            onSubmit={this.handleSearch}
+            params={this.props.searchParams}/>);
+      }
 
-    const folderName = _.get(this.props.attributes, 'name');
-    const messageNav = this.makeMessageNav();
-    const sortMenu = this.makeSortMenu();
-    const folderMessages = this.makeMessagesTable();
-
-    let messageSearch;
-    if (this.props.messages && this.props.messages.length) {
-      messageSearch = (<MessageSearch
-          isAdvancedVisible={this.props.isAdvancedVisible}
-          onAdvancedSearch={this.props.toggleAdvancedSearch}
-          onDateChange={this.props.setDateRange}
-          onError={this.props.openAlert}
-          onFieldChange={this.props.setSearchParam}
-          onSubmit={this.handleSearch}
-          params={this.props.searchParams}/>);
+      componentContent = (
+        <div>
+          <div id="messaging-folder-controls">
+            <ComposeButton/>
+            {messageSearch}
+            {messageNav}
+          </div>
+          {sortMenu}
+          {folderMessages}
+        </div>
+      );
     }
 
     return (
@@ -309,13 +412,7 @@ export class Folder extends React.Component {
           </button>
           <h2>{folderName}</h2>
         </div>
-        <div id="messaging-folder-controls">
-          <ComposeButton/>
-          {messageSearch}
-          {messageNav}
-        </div>
-        {sortMenu}
-        {folderMessages}
+        {componentContent}
       </div>
     );
   }
@@ -326,39 +423,36 @@ Folder.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const folder = state.folders.data.currentItem;
-  const { attributes, messages } = folder;
-  const pagination = folder.pagination;
-  const page = pagination.currentPage;
-  const perPage = pagination.perPage;
-  const totalPages = pagination.totalPages;
-
-  const totalCount = pagination.totalEntries;
-  const startCount = 1 + (page - 1) * perPage;
-  const endCount = Math.min(totalCount, page * perPage);
+  const msgState = state.health.msg;
+  const folder = msgState.folders.data.currentItem;
+  const { attributes, filter, messages, pagination, sort } = folder;
+  const { lastRequestedFolder, moveToId, redirect } = msgState.folders.ui;
 
   return {
     attributes,
-    currentRange: `${startCount} - ${endCount}`,
-    filter: folder.filter,
-    folders: state.folders.data.items,
-    loading: state.folders.ui.loading,
-    messageCount: totalCount,
+    filter,
+    folders: msgState.folders.data.items,
+    isAdvancedVisible: msgState.search.advanced.visible,
+    lastRequestedFolder,
+    loading: msgState.loading,
     messages,
-    page,
-    totalPages,
-    isAdvancedVisible: state.search.advanced.visible,
-    searchParams: state.search.params,
-    sort: folder.sort
+    moveToId,
+    pagination,
+    redirect,
+    searchParams: msgState.search.params,
+    sort
   };
 };
 
 const mapDispatchToProps = {
   fetchFolder,
+  moveMessageToFolder,
   openAlert,
+  openMoveToNewFolderModal,
   setDateRange,
   setSearchParam,
   toggleAdvancedSearch,
+  toggleFolderMoveTo,
   toggleFolderNav
 };
 

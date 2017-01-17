@@ -138,7 +138,8 @@ const blankVeteran = {
   vietnamService: false,
   exposedToRadiation: false,
   radiumTreatments: false,
-  campLejeune: false
+  campLejeune: false,
+  privacyAgreementAccepted: false
 };
 
 const completeVeteran = {
@@ -775,13 +776,18 @@ function veteranToApplication(veteran) {
       case 'cityOfBirth':
       case 'stateOfBirth':
       case 'email':
+        if (value.value === '') {
+          return undefined;
+        }
+        break;
+
       case 'homePhone':
       case 'mobilePhone':
       case 'spousePhone':
         if (value.value === '') {
           return undefined;
         }
-        break;
+        return value.value.replace(/[^\d]/g, '');
 
       default:
         // fall through.

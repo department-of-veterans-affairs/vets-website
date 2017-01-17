@@ -53,7 +53,7 @@ class FilesPage extends React.Component {
                 filesNeeded={filesNeeded}
                 optionalFiles={optionalFiles}/>}
           <div className="submitted-files-list">
-            <h4 className="hightlight claim-file-border">Documents filed</h4>
+            <h2 className="hightlight claim-file-border claim-h2">Documents filed</h2>
             {documentsTurnedIn.length === 0
               ? <div className="no-documents-turned-in"><p>You haven't turned in any documents to VA.</p></div>
               : null}
@@ -82,11 +82,12 @@ class FilesPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const claimsState = state.disability.status;
   return {
-    loading: state.claimDetail.loading,
-    claim: state.claimDetail.detail,
-    message: state.notifications.message,
-    lastPage: state.routing.lastPage
+    loading: claimsState.claimDetail.loading,
+    claim: claimsState.claimDetail.detail,
+    message: claimsState.notifications.message,
+    lastPage: claimsState.routing.lastPage
   };
 }
 

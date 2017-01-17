@@ -107,7 +107,7 @@ class History extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <LoadingIndicator message="is loading your prescriptions..."/>;
+      content = <LoadingIndicator message="Loading your prescriptions..."/>;
     } else if (items) {
       const currentSort = this.props.sort;
 
@@ -115,7 +115,7 @@ class History extends React.Component {
         { label: 'Last submit date', value: 'refillSubmitDate' },
         { label: 'Last fill date', value: 'refillDate' },
         { label: 'Prescription', value: 'prescriptionName' },
-        { label: 'Prescription status', value: 'refillStatus' }
+        { label: 'Prescription status', value: 'refillStatus', nonSortable: true },
       ];
 
       const data = items.map(item => {
@@ -146,10 +146,13 @@ class History extends React.Component {
       content = (
         <div>
           <p className="rx-tab-explainer">Your VA prescription refill history.</p>
-          <SortMenu
-              onChange={this.handleSort}
-              options={fields}
-              selected={currentSort.value}/>
+          <div className="show-for-small-only">
+            <SortMenu
+                onClick={this.handleSort}
+                onChange={this.handleSort}
+                options={fields}
+                selected={currentSort}/>
+          </div>
           <SortableTable
               className="usa-table-borderless va-table-list rx-table rx-table-list"
               currentSort={currentSort}
@@ -167,6 +170,8 @@ class History extends React.Component {
         <p className="rx-tab-explainer rx-loading-error">
           We couldn't retrieve your prescriptions.
           Please refresh this page or try again later.
+          If this problem persists, please call the Vets.gov Help Desk
+          at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
         </p>
       );
     }
@@ -187,9 +192,10 @@ History.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const rxState = state.health.rx;
   return {
-    ...state.prescriptions.history,
-    prescriptions: state.prescriptions.items
+    ...rxState.prescriptions.history,
+    prescriptions: rxState.prescriptions.items
   };
 };
 

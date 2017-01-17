@@ -1,9 +1,10 @@
 import _ from 'lodash';
+import moment from 'moment';
 
-export function getPageList(routes) {
+export function getPageList(routes, prefix = '') {
   return routes.map(route => {
     const obj = {
-      name: route.props.path,
+      name: `${prefix}${route.props.path}`,
       label: route.props.name
     };
     if (route.props.depends) {
@@ -13,14 +14,14 @@ export function getPageList(routes) {
   }).filter(page => page.name !== '/submit-message');
 }
 
-export function groupPagesIntoChapters(routes) {
+export function groupPagesIntoChapters(routes, prefix = '') {
   const pageList = routes
     .filter(route => route.props.chapter)
     .map(page => {
       const obj = {
         name: page.props.name,
         chapter: page.props.chapter,
-        path: page.props.path
+        path: `${prefix}${page.props.path}`,
       };
 
       if (page.props.depends) {
@@ -53,4 +54,23 @@ export function isActivePage(page, data) {
 
 export function getActivePages(pages, data) {
   return pages.filter(page => isActivePage(page, data));
+}
+
+export function dateToMoment(dateField) {
+  return moment({
+    year: dateField.year.value,
+    month: dateField.month.value ? parseInt(dateField.month.value, 10) - 1 : '',
+    day: dateField.day ? dateField.day.value : null
+  });
+}
+
+export function focusElement(selectorOrElement) {
+  const el = typeof selectorOrElement === 'string'
+    ? document.querySelector(selectorOrElement)
+    : selectorOrElement;
+
+  if (el) {
+    el.setAttribute('tabindex', '-1');
+    el.focus();
+  }
 }

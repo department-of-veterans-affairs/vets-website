@@ -4,18 +4,23 @@ title: What to expect after you get a disability rating
 template: 6-info-page
 ---
 
+<div class="call-out usa-content" markdown="1">
 
+Disability compensation may include financial compensation (payments) as well as other benefits—like health care or job training.
 
-If you've received a decision notice with your disability rating, you may be eligible for compensation, education, health care, housing, employment, and dependent benefits.  
+If you haven’t gotten your decision notice:
 
-If you haven’t received your decision notice, check your status on [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=va-letters) or contact your [regional VA office](/facilities/).
-
+- [Check your status](/disability-benefits/track-claims/), **or**
+- [Contact your local regional benefit office](http://www.benefits.va.gov/benefits/offices.asp), **or**
+- Call us at <span class="tel">800-827-1000</span>, **or**
+- [Contact us online](https://iris.custhelp.com/app/ask/session/L3RpbWUvMTQ4MTgwOTI0My9zaWQvbnNTbnViNm4%3D) 
+</div>
 
 #### Look for a payment within 15 days  
-If you’ve received a notice with at least a 10% disability rating, you will get either a direct-deposit payment or a check within 15 days of your decision notice. If you don’t get a payment, please call the Veterans Help Line at 800-827-1000.  
+If you’ve received a notice with at least a 10% disability rating, you will get either a direct-deposit payment or a check within 15 days of your decision notice. If you don’t get a payment, please call the Veterans Help Line at <span class="tel">800-827-1000</span>.
 
 #### If you disagree with your disability rating, you may appeal
-You may [file an appeal](/disability-benefits/claims-appeal/) within one year of receiving a decision notice.
+You may [file an appeal](/disability-benefits/claims-appeal/) within 1 year of receiving a decision notice.
 
 #### Apply for benefits
 

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import _ from 'lodash';
 
 import foldersReducer from '../../../src/js/messaging/reducers/folders';
 
@@ -7,23 +8,21 @@ import {
   DELETE_FOLDER_SUCCESS,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
+  MOVE_MESSAGE_SUCCESS,
+  SAVE_DRAFT_SUCCESS,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS
 } from '../../../src/js/messaging/utils/constants';
 
-import { testData } from '../../util/messaging-helpers';
+import { folders, messages } from '../../util/messaging-helpers';
 
 const initialState = {
   data: {
     currentItem: {
       attributes: {},
+      filter: {},
       messages: [],
-      pagination: {
-        currentPage: 0,
-        perPage: 0,
-        totalEntries: 0,
-        totalPages: 0
-      },
+      pagination: {},
       persistFolder: 0,
       sort: {
         value: 'sentDate',
@@ -40,9 +39,11 @@ const initialState = {
   }
 };
 
+const folderKey = (folderName) => _.kebabCase(folderName);
+
 describe('folders reducer', () => {
   it('should create a folder', () => {
-    const folder = testData.folders.data[0].attributes;
+    const folder = folders.data[4].attributes;
     const newState = foldersReducer(initialState, {
       type: CREATE_FOLDER_SUCCESS,
       folder
@@ -75,9 +76,7 @@ describe('folders reducer', () => {
   });
 
   it('should set a folder fetched from the server', () => {
-    const messages = testData.folderMessages;
-    const folder = { data: testData.folders.data[0] };
-
+    const folder = { data: folders.data[0] };
     const newState = foldersReducer(initialState, {
       type: FETCH_FOLDER_SUCCESS,
       folder,
@@ -90,18 +89,18 @@ describe('folders reducer', () => {
       .to.eql(messages.data.map(message => message.attributes));
     expect(newState.data.currentItem.pagination)
       .to.eql(messages.meta.pagination);
+    expect(newState.data.items.get('inbox'))
+      .to.eql(folder.data.attributes);
   });
 
   it('should set folders fetched from the server', () => {
-    const data = testData.folders;
-
     const newState = foldersReducer(initialState, {
       type: FETCH_FOLDERS_SUCCESS,
-      data
+      data: folders
     });
 
     expect(Array.from(newState.data.items.values()))
-      .to.eql(data.data.map(folder => folder.attributes));
+      .to.eql(folders.data.map(folder => folder.attributes));
   });
 
   it('should open and close the folder navigation', () => {
@@ -116,5 +115,52 @@ describe('folders reducer', () => {
     expect(newState.ui.nav.foldersExpanded).to.be.true;
     newState = foldersReducer(newState, { type: TOGGLE_MANAGED_FOLDERS });
     expect(newState.ui.nav.foldersExpanded).to.be.false;
+  });
+
+  it('should increment the count of Drafts after saving a new draft', () => {
+    const newState = foldersReducer({
+      data: { items: new Map([['drafts', { count: 1 }]]) }
+    }, {
+      type: SAVE_DRAFT_SUCCESS,
+      message: { body: 'testing 123' },
+      isSavedDraft: false
+    });
+    expect(newState.data.items.get('drafts').count).to.equal(2);
+  });
+
+  it('should not increment the count of Drafts after re-saving a draft', () => {
+    const newState = foldersReducer({
+      data: { items: new Map([['drafts', { count: 1 }]]) }
+    }, {
+      type: SAVE_DRAFT_SUCCESS,
+      message: { body: 'testing 123' },
+      isSavedDraft: true
+    });
+    expect(newState.data.items.get('drafts').count).to.equal(1);
+  });
+
+  it('should update folder counts after moving a message', () => {
+    const newState = foldersReducer({
+      data: {
+        currentItem: { attributes: folders.data[4].attributes },
+        items: new Map(folders.data.map(folder => {
+          return [folderKey(folder.attributes.name), folder.attributes];
+        }))
+      }
+    }, {
+      type: MOVE_MESSAGE_SUCCESS,
+      message: { body: 'testing 123' },
+      folder: folders.data[5].attributes
+    });
+
+    expect(newState.data.currentItem.attributes.count).to.equal(0);
+
+    expect(newState.data.items.get(
+      folderKey(folders.data[4].attributes.name)
+    ).count).to.equal(0);
+
+    expect(newState.data.items.get(
+      folderKey(folders.data[5].attributes.name)
+    ).count).to.equal(3);
   });
 });

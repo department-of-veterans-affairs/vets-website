@@ -1,3 +1,6 @@
+/**
+ * Please use one of the ErrorableDate components instead of this
+ */
 import React from 'react';
 import _ from 'lodash';
 
@@ -102,6 +105,7 @@ class DateInput extends React.Component {
       dayField = (
         <div className="form-datefield-day">
           <ErrorableSelect errorMessage={isValid ? undefined : ''}
+              autocomplete="false"
               label="Day"
               name={`${this.props.name}Day`}
               options={daysForSelectedMonth}
@@ -112,7 +116,7 @@ class DateInput extends React.Component {
     }
 
     return (
-      <div>
+      <div className={!isValid && 'input-error-date'}>
         <label>
           {this.props.label ? this.props.label : 'Date of birth'}
           {requiredSpan}
@@ -122,6 +126,7 @@ class DateInput extends React.Component {
           <div className="usa-date-of-birth row">
             <div className="form-datefield-month">
               <ErrorableSelect errorMessage={isValid ? undefined : ''}
+                  autocomplete="false"
                   label="Month"
                   name={`${this.props.name}Month`}
                   options={months}
@@ -131,6 +136,7 @@ class DateInput extends React.Component {
             {dayField}
             <div className="usa-datefield usa-form-group usa-form-group-year">
               <ErrorableNumberInput errorMessage={isValid ? undefined : ''}
+                  autocomplete="false"
                   label="Year"
                   name={`${this.props.name}Year`}
                   max={new Date().getFullYear()}

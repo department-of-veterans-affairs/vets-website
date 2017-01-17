@@ -2,6 +2,7 @@
 @import 'modules/va-pagination';
 @import 'modules/m-modal';
 @import 'modules/m-progress-bar';
+@import 'modules/va-tabs';
 
 .claim-alert-status {
   margin-top: 0;
@@ -39,7 +40,7 @@
   }
 
   > .past-due {
-    color: $color-secondary-dark;
+    color: $color-secondary-darkest;
     font-size: 0.9em;
   }
 
@@ -66,7 +67,7 @@
     h6 {
       display: inline-block;
       padding: 0;
-      text-transform: capitalize;
+      text-transform: none;
       i {
         margin-right: 6px;
       }
@@ -211,6 +212,10 @@
   }
 }
 
+.claim-item-label {
+  font-weight: bold;
+}
+
 .claim-list-item {
   background-color: $color-gray-lightest;
   padding: 1em;
@@ -220,9 +225,6 @@
   }
   p {
     margin: 0;
-  }
-  p.status {
-    font-weight: bold;
   }
   .communications, p.status {
     margin-bottom: 0.5em;
@@ -278,9 +280,6 @@ a.claim-list-item {
 
 .claims-sidebar-box {
   padding-top: 0.3em;
-  .claims-sidebar-header {
-    border-bottom: 2px solid $color-primary;
-  }
 }
 
 .claim-title {
@@ -288,7 +287,7 @@ a.claim-list-item {
   display: inline-block;
 }
 
-.claim-conditions {
+.claim-contentions {
   margin-top: 0.5em;
   margin-bottom: 2em;
   p {
@@ -304,7 +303,7 @@ a.claim-list-item {
 }
 
 .claim-details {
-  .claim-conditions-list,
+  .claim-contentions-list,
   .claim-date-recieved,
   .claim-va-representative {
     margin-top: 1.5em;
@@ -324,61 +323,6 @@ a.claim-list-item {
     padding: 0;
     display: block;
   }
-}
-
-// CSS for Tab-based navigation
-.va-tabs {
-  list-style: none;
-  // Prevents wrapping, forces horizontal scrolling
-  // at QVGA widths in portrait orientation.
-  margin-bottom: -1px;
-  min-width: 260px;
-  padding-left: 0;
-
-  > li {
-    background: $color-gray-lightest;
-    border-width: 1px 0px 0 1px;
-    &:last-child {
-      border-right-width: 1px;
-    }
-    border-color: $color-gray;
-    border-style: solid;
-    display: inline-block;
-  }
-}
-
-.va-tab-trigger {
-  border-width: 5px 1px 1px;
-  border-style: solid;
-  border-color: transparent;
-  border-bottom-color: $color-gray;
-  color: $color-gray;
-  display: inline-block;
-  padding: 1rem;
-  margin: 0px -1px;
-  text-decoration: none;
-
-  &:hover,
-  &:focus,
-  &--current {
-    background: $color-white;
-    border-color: $color-primary;
-    border-bottom-color: $color-white;
-  }
-
-  &:visited {
-    color: inherit;
-  }
-
-  @media (min-width: $small-screen) {
-    padding-left: 4rem;
-    padding-right: 4rem;
-  }
-}
-
-.va-tab-content {
-  padding-top: 2em;
-  border-top: 1px solid $color-gray;
 }
 
 .clearfix:after {
@@ -469,11 +413,8 @@ p.first-of-type {
   padding: 1em;
   margin-bottom: 1.5em;
   .document-title-text-container {
-    float: left;
+    padding-right: 1em;
     word-break: break-all;
-    .document-title-header {
-      width: 17.5em;
-    }
     .document-size-text {
       p {
         margin: 0;
@@ -481,14 +422,19 @@ p.first-of-type {
     }
   }
   .remove-document-button {
-    float: right;
     > button {
       margin: 0;
+      font-weight: bold;
     }
   }
   &:focus {
     outline: none;
   }
+}
+
+.document-title-row {
+  display: flex;
+  justify-content: space-between;
 }
 
 #content .section {
@@ -565,7 +511,7 @@ p.first-of-type {
   &:focus {
     outline: none;
   }
-} 
+}
 
 .claims-alert.phase-back-alert {
   margin-top: 0;
@@ -660,17 +606,48 @@ h1:focus {
   outline: none;
 }
 
+.claim-h2 {
+  font-size: 1.35em;
+  line-height: 1.5;
+  font-weight: bold;
+}
+
 .va-nav-breadcrumbs:focus {
   outline: none
 }
 
-h6.claims-turnedin-file-header {
-  padding: 0 !important;
-}
-
 .notification-close {
+  background-color: transparent;
   @media (max-width: $small-screen) {
     margin: -5px 5px 0 0;
     width: 0;
   }
+}
+
+.button-container.file-review {
+  display: flex;
+  align-items: center;
+}
+
+.db-tab-content {
+  padding-top: 2em;
+}
+
+.claims-list-alert {
+  margin-bottom: 1em;
+  margin-top: 0;
+  &.usa-alert {
+    background-size: 3.4rem;
+    background-position: 1rem 1.9rem;
+  }
+  > .usa-alert-body {
+    padding-left: 3.7rem;
+  }
+  .va-alert-close .fa {
+    font-size: 1.1em !important;
+  }
+}
+
+.claims-closed-text {
+  margin-top: 1em;
 }

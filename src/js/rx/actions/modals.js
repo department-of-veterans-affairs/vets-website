@@ -1,7 +1,9 @@
-export function closeRefillModal(rx) {
+export function closeRefillModal() {
+  window.dataLayer.push({
+    event: 'rx-cancel-refill',
+  });
   return {
-    type: 'CLOSE_REFILL_MODAL',
-    rx
+    type: 'CLOSE_REFILL_MODAL'
   };
 }
 

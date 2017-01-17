@@ -17,7 +17,10 @@ class MessageAddAttachment extends React.Component {
             name={this.props.name}
             onChange={this.props.onChange}
             type="file"/>
-        <label htmlFor={this.props.id}>
+        <label
+            tabIndex="-1"
+            className="va-icon-link"
+            htmlFor={this.props.id}>
           <i className="fa fa-paperclip"></i>
           <span>{this.props.label}</span>
         </label>

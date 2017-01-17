@@ -1,5 +1,6 @@
 @import "../style";
 @import "../modules/m-modal";
+@import "../modules/m-alert";
 @import "../modules/va-pagination";
 @import "../modules/va-tabs";
 
@@ -7,12 +8,13 @@
 @import "partials/rx-contact-card";
 @import "partials/rx-prescriptions";
 @import "partials/rx-detail";
-@import "partials/rx-disclaimer";
 @import "partials/rx-glossary";
 @import "partials/rx-history";
 @import "partials/rx-modal";
 @import "partials/rx-sort-list";
 @import "partials/rx-table";
+@import "partials/rx-breadcrumbs";
+@import "partials/rx-view-toggle";
 
 // TODO: Replace this with a clearfix mixin
 // from USWDS or something
@@ -35,16 +37,6 @@
   padding: 3rem 1.5rem;
   margin: auto;
   max-width: $site-max-width;
-
-  .va-alert {
-    margin-bottom: 2rem;
-  }
-}
-
-// Enhances a USWDS style that has higher specificity.
-// Do not refactor.
-button.usa-button-outline {
-  font-weight: bold;
 }
 
 // Enhances a USWDS style that has higher specificity.
@@ -94,6 +86,7 @@ button.usa-button-outline {
 
 .rx-loading-error {
   font-weight: bold;
+  width: 66%;
 }
 
 #rx-active, #rx-history, #rx-detail {

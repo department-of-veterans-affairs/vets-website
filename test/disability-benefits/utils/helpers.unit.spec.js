@@ -9,13 +9,13 @@ import {
   displayFileSize,
   getUserPhase,
   getUserPhaseDescription,
-  getHistoryPhaseDescription,
   getPhaseDescription,
   truncateDescription,
   getItemDate,
   isClaimComplete,
   itemsNeedingAttentionFromVet,
-  makeAuthRequest
+  makeAuthRequest,
+  getClaimType
 } from '../../../src/js/disability-benefits/utils/helpers';
 
 describe('Disability benefits helpers: ', () => {
@@ -178,8 +178,7 @@ describe('Disability benefits helpers: ', () => {
           contentionList: [
             'thing'
           ],
-          dateFiled: 'asdf',
-          vaRepresentative: null
+          dateFiled: '',
         }
       };
 
@@ -194,7 +193,7 @@ describe('Disability benefits helpers: ', () => {
             'thing'
           ],
           dateFiled: 'asdf',
-          vaRepresentative: 'asdf'
+          vaRepresentative: null
         }
       };
 
@@ -278,13 +277,6 @@ describe('Disability benefits helpers: ', () => {
       const desc = getUserPhaseDescription(3);
 
       expect(desc).to.equal('Evidence gathering, review, and decision');
-    });
-  });
-  describe('getHistoryPhaseDescription', () => {
-    it('should use micro phases for phase 3', () => {
-      const desc = getHistoryPhaseDescription(3);
-
-      expect(desc).to.equal('Gathering of evidence');
     });
   });
   describe('getPhaseDescription', () => {
@@ -378,6 +370,26 @@ describe('Disability benefits helpers: ', () => {
       expect(itemsNeeded).to.equal(1);
     });
   });
+
+  describe('getClaimType', () => {
+    it('should return the claim type', () => {
+      const claim = {
+        attributes: {
+          claimType: 'Awesome'
+        }
+      };
+      expect(getClaimType(claim)).to.equal('Awesome');
+    });
+    it('should return the default claim type', () => {
+      const claim = {
+        attributes: {
+          claimType: undefined
+        }
+      };
+      expect(getClaimType(claim)).to.equal('Disability Compensation');
+    });
+  });
+
   describe('makeAuthRequest', () => {
     let fetchMock = sinon.stub();
     let oldFetch = global.fetch;
