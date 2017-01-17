@@ -178,13 +178,15 @@ Compose.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const msgState = state.health.msg;
+
   return {
-    deleteConfirmModal: state.modals.deleteConfirm,
-    loading: state.loading,
-    message: state.compose.message,
-    recipients: state.recipients.data,
-    redirect: state.folders.ui.redirect,
-    saveConfirmModal: state.modals.saveConfirm
+    deleteConfirmModal: msgState.modals.deleteConfirm,
+    loading: msgState.loading,
+    message: msgState.compose.message,
+    recipients: msgState.recipients.data,
+    redirect: msgState.folders.ui.redirect,
+    saveConfirmModal: msgState.modals.saveConfirm
   };
 };
 

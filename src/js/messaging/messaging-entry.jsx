@@ -10,7 +10,7 @@ import { createHistory } from 'history';
 
 import initReact from '../common/init-react';
 import routes from './routes';
-import { store } from './store';
+import { commonStore } from '../common/store';
 import { updateRoute } from './actions';
 
 require('../../sass/messaging/messaging.scss');
@@ -23,10 +23,10 @@ const history = useRouterHistory(createHistory)({
 });
 
 function init() {
-  history.listen((location) => store.dispatch(updateRoute(location)));
+  history.listen((location) => commonStore.dispatch(updateRoute(location)));
 
   ReactDOM.render((
-    <Provider store={store}>
+    <Provider store={commonStore}>
       <Router history={history} routes={routes}/>
     </Provider>
     ), document.getElementById('react-root'));

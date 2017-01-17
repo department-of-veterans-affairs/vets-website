@@ -43,7 +43,7 @@ class SortableTable extends React.Component {
 
     return (
       <th key={field.value}>
-        <a href="#" role="button" onClick={this.handleSort(field.value, nextSortOrder)}>
+        <a role="button" tabIndex="0" onClick={this.handleSort(field.value, nextSortOrder)}>
           {field.label}
           {sortIcon}
         </a>
