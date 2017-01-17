@@ -1,7 +1,7 @@
 ---
 layout: home.html
 body_class: home
-title: Home
+title: Discover, apply for, track and manage your Veteran benefits with Vets.gov
 majorlinks:
   - url: /disability-benefits/
     title: Disability Benefits
