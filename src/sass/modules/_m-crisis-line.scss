@@ -19,6 +19,10 @@
     margin: 0 auto;
     padding: 0.4em 0 0.3em;
   }
+
+  &--wide {
+    display: none;
+  }
 }
 
 .va-crisis-panel {
@@ -168,5 +172,8 @@
 @include media ($medium-screen) {
   .va-crisis-line--narrow {
     display: none;
+  }
+  .crisis-line-container--wide {
+    display: block;
   }
 }
