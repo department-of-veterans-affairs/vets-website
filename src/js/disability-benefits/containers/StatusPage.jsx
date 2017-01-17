@@ -14,8 +14,13 @@ import { clearNotification } from '../actions';
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
 class StatusPage extends React.Component {
+  setTitle(){
+    document.title = this.props.loading ? 'Status - Your Claim' :
+      `Status - Your ${getClaimType(this.props.claim)} Claim`;
+  }
   componentDidMount() {
-    document.title = `Status - Your ${getClaimType(this.props.claim)} Claim`;
+    this.setTitle();
+
     if (!isTab(this.props.lastPage)) {
       if (!this.props.loading) {
         setUpPage();
@@ -29,6 +34,9 @@ class StatusPage extends React.Component {
   componentDidUpdate(prevProps) {
     if (!this.props.loading && prevProps.loading && !isTab(this.props.lastPage)) {
       setUpPage(false);
+    }
+    if (this.props.loading != prevProps.loading) {
+        this.setTitle();
     }
   }
   componentWillUnmount() {

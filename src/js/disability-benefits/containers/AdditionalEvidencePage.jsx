@@ -71,8 +71,9 @@ class AdditionalEvidencePage extends React.Component {
     if (this.props.loading) {
       content = <LoadingIndicator setFocus message="Loading claim information"/>;
     } else {
-      const filesPath = `your-claims/${this.props.claim.id}/files`;
-      const claimsPath = `your-claims${this.props.claim.attributes.open ? '' : '/closed'}`;
+      const claim = this.props.claim;
+      const filesPath = `your-claims/${claim.id}/files`;
+      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
       const message = this.props.message;
 
       content = (

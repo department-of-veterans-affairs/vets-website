@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import AskVAQuestions from './AskVAQuestions';
+import AskVAQuestions from '../components/AskVAQuestions';
 import { setUpPage } from '../utils/page';
 import { getClaimType } from '../utils/helpers';
 
-export default class ClaimEstimationPage extends React.Component {
+class ClaimEstimationPage extends React.Component {
   componentDidMount() {
     document.title = 'How We Come Up with Your Estimated Decision Date';
     setUpPage();
@@ -59,3 +60,11 @@ export default class ClaimEstimationPage extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    claim: state.disability.status.claimDetail.detail
+  };
+}
+
+export default connect(mapStateToProps)(ClaimEstimationPage);
