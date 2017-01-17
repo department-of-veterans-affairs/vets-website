@@ -89,4 +89,43 @@ describe('<YourClaimsPage>', () => {
     expect(tree.subTree('Pagination').props.page).to.equal(page);
     expect(tree.subTree('Pagination').props.pages).to.equal(pages);
   });
+  it('should render 30 day notice', () => {
+    const changePage = sinon.spy();
+    const getClaims = sinon.spy();
+    const page = 1;
+    const pages = 2;
+    const claims = [{}, {}];
+
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+          allClaims
+          claims={claims}
+          page={page}
+          pages={pages}
+          show30DayNotice
+          getClaims={getClaims}
+          route={{}}
+          changePage={changePage}/>
+    );
+    expect(tree.everySubTree('ClosedClaimMessage')).not.to.be.empty;
+  });
+  it('should not render 30 day notice', () => {
+    const changePage = sinon.spy();
+    const getClaims = sinon.spy();
+    const page = 1;
+    const pages = 2;
+    const claims = [{}, {}];
+
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+          allClaims
+          claims={claims}
+          page={page}
+          pages={pages}
+          getClaims={getClaims}
+          route={{}}
+          changePage={changePage}/>
+    );
+    expect(tree.everySubTree('ClosedClaimMessage')).to.be.empty;
+  });
 });

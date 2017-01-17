@@ -47,7 +47,7 @@ class MessageDetails extends React.Component {
     );
 
     const messageDetails = (
-      <div className={detailsClass}>
+      <div className={detailsClass} aria-expanded={this.state.expandedFull}>
         <table>
           <tbody>
             <tr>

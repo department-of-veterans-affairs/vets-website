@@ -161,5 +161,5 @@ const routes = [
 export default routes;
 
 // Chapters are groups of form pages that correspond to the steps in the navigation components
-export const chapters = groupPagesIntoChapters(routes);
-export const pages = getPageList(routes);
+export const chapters = groupPagesIntoChapters(routes.map(r => r.props));
+export const pages = getPageList(routes.map(r => r.props));

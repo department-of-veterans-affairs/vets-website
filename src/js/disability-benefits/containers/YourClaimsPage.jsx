@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getClaims, filterClaims, changePage, showConsolidatedMessage } from '../actions';
+import { getClaims, filterClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
@@ -11,6 +11,7 @@ import ClaimsListItem from '../components/ClaimsListItem';
 import NoClaims from '../components/NoClaims';
 import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
+import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 
 class YourClaimsPage extends React.Component {
@@ -50,16 +51,19 @@ class YourClaimsPage extends React.Component {
   }
 
   render() {
-    const { claims, pages, page, loading, route } = this.props;
+    const { unfilteredClaims, claims, pages, page, loading, show30DayNotice, route, allClaims } = this.props;
 
     let content;
 
     if (loading) {
       content = <LoadingIndicator message="Loading claims list" setFocus/>;
     } else if (claims.length > 0) {
-      content = (<div className="claim-list">
-        {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
-        <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
+      content = (<div>
+        {allClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims} onClose={this.props.hide30DayNotice}/>}
+        <div className="claim-list">
+          {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
+          <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
+        </div>
       </div>);
     } else {
       content = <NoClaims/>;
@@ -107,12 +111,15 @@ class YourClaimsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const claimsState = state.disability.status;
   return {
-    loading: state.claims.list === null,
-    claims: state.claims.visibleRows,
-    pages: state.claims.pages,
-    page: state.claims.page,
-    consolidatedModal: state.claims.consolidatedModal
+    loading: claimsState.claims.list === null,
+    claims: claimsState.claims.visibleRows,
+    unfilteredClaims: claimsState.claims.list,
+    page: claimsState.claims.page,
+    pages: claimsState.claims.pages,
+    consolidatedModal: claimsState.claims.consolidatedModal,
+    show30DayNotice: claimsState.claims.show30DayNotice
   };
 }
 
@@ -120,7 +127,8 @@ const mapDispatchToProps = {
   getClaims,
   filterClaims,
   changePage,
-  showConsolidatedMessage
+  showConsolidatedMessage,
+  hide30DayNotice
 };
 
 YourClaimsPage.defaultProps = {

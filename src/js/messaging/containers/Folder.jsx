@@ -423,22 +423,23 @@ Folder.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const folder = state.folders.data.currentItem;
+  const msgState = state.health.msg;
+  const folder = msgState.folders.data.currentItem;
   const { attributes, filter, messages, pagination, sort } = folder;
-  const { lastRequestedFolder, moveToId, redirect } = state.folders.ui;
+  const { lastRequestedFolder, moveToId, redirect } = msgState.folders.ui;
 
   return {
     attributes,
     filter,
-    folders: state.folders.data.items,
-    isAdvancedVisible: state.search.advanced.visible,
+    folders: msgState.folders.data.items,
+    isAdvancedVisible: msgState.search.advanced.visible,
     lastRequestedFolder,
-    loading: state.loading,
+    loading: msgState.loading,
     messages,
     moveToId,
     pagination,
     redirect,
-    searchParams: state.search.params,
+    searchParams: msgState.search.params,
     sort
   };
 };
