@@ -16,19 +16,6 @@ export function createFormPageList(formConfig) {
     }, []);
 }
 
-export function createPageListByChapter(formConfig) {
-  return Object.keys(formConfig.chapters)
-    .reduce((chapters, chapter) => {
-      const pages = Object.keys(formConfig.chapters[chapter].pages)
-        .map(page => {
-          return _.assign(formConfig.chapters[chapter].pages[page], {
-            pageKey: page
-          });
-        });
-      return _.set(chapter, pages, chapters);
-    }, {});
-}
-
 function createPageList(formConfig, formPages) {
   let pageList = formPages;
   if (formConfig.introduction) {
