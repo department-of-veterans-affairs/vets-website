@@ -15,7 +15,7 @@ You may have had contact with Agent Orange even if you did not serve in Vietnam 
 You may be able to get disability benefits if you have 1 or more illnesses believed to have been caused by Agent Orange and any 1 of these is true:
 
   - You had regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam Era, **or**
-  - You served near areas outside Vietnam where there was testing or storage of Agent Orange and other herbicides, **or**
+  - You served in Thailand or Korea where there was testing or storage of Agent Orange and other herbicides, **or**
   - You had regular and repeated contact with a C-123 aircraft that contained traces of Agent Orange, **or**
   - You took part in projects that tested, disposed of, or stored Agent Orange
   
@@ -38,11 +38,11 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. When you apply, you'll have to show that you had contact with Agent Orange while serving in the military.
+You'll need to apply for benefits. When you apply, you'll have to show that you had contact with Agent Orange while serving in the military. If you were exposed outside of the areas listed, please give your location and timeframe of service so VA can review your claim. [Apply for benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
 
 **Exception:**<br>
 If you’re a Blue Water Veteran with non-Hodgkin’s lymphoma, you don't need to show that you had contact with Agent Orange. We recognize non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era. [Learn more about non-Hodgkin’s lymphoma and Agent Orange]( https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
 
 ### Get more information
 
-Want to know more about benefits for Veterans with illnesses believed to be caused by contact with Agent Orange? [Learn more about Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
+Want to know more about benefits for Veterans with illnesses believed to be caused by contact with Agent Orange? [Learn more about Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp). 
