@@ -1,6 +1,3 @@
-import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
-
 import { chapterNames, hasServiceBefore1978 } from '../utils/helpers';
 import { groupPagesIntoChapters, getPageList } from '../../common/utils/helpers';
 
@@ -35,134 +32,130 @@ import FormPage from './containers/FormPage';
 import SubmitPage from './containers/SubmitPage';
 
 const routes = [
-  // Introduction route.
-  <IndexRedirect key="redirect" to="introduction"/>,
-  <Route
-      component={IntroductionPage}
-      key="introduction"
-      path="introduction"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={VeteranInformationFields}
-      reviewComponent={VeteranInformationReview}
-      key="veteran-information"
-      path="veteran-information"
-      chapter={chapterNames.veteranInformation}
-      name="Veteran information"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={BenefitsSelectionFields}
-      reviewComponent={BenefitsSelectionReview}
-      key="benefits-eligibility/benefits-selection"
-      path="benefits-eligibility/benefits-selection"
-      chapter={chapterNames.benefitsEligibility}
-      name="Benefits selection"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={BenefitsRelinquishmentFields}
-      reviewComponent={BenefitsRelinquishmentReview}
-      key="benefits-eligibility/benefits-relinquishment"
-      path="benefits-eligibility/benefits-relinquishment"
-      chapter={chapterNames.benefitsEligibility}
-      depends={{ chapter33: true }}
-      name="Benefits relinquishment"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={ServicePeriodsFields}
-      key="military-history/service-periods"
-      path="military-history/service-periods"
-      chapter={chapterNames.militaryHistory}
-      name="Service periods"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={MilitaryServiceFields}
-      reviewComponent={MilitaryServiceReview}
-      key="military-history/military-service"
-      path="military-history/military-service"
-      chapter={chapterNames.militaryHistory}
-      name="Military service"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={RotcHistoryFields}
-      reviewComponent={RotcHistoryReview}
-      key="military-history/rotc-history"
-      path="military-history/rotc-history"
-      chapter={chapterNames.militaryHistory}
-      name="ROTC history"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={ContributionsFields}
-      reviewComponent={ContributionsReview}
-      key="military-history/contributions"
-      path="military-history/contributions"
-      chapter={chapterNames.militaryHistory}
-      name="Contributions"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={EducationHistoryFields}
-      key="education-history/education-information"
-      path="education-history/education-information"
-      chapter={chapterNames.educationHistory}
-      name="Education history"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={EmploymentHistoryFields}
-      key="employment-history/employment-information"
-      path="employment-history/employment-information"
-      chapter={chapterNames.employmentHistory}
-      name="Employment history"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={SchoolSelectionFields}
-      reviewComponent={SchoolSelectionReview}
-      key="school-selection/school-information"
-      path="school-selection/school-information"
-      chapter={chapterNames.schoolSelection}
-      name="School selection"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={ContactInformationFields}
-      reviewComponent={ContactInformationReview}
-      key="personal-information/contact-information"
-      path="personal-information/contact-information"
-      chapter={chapterNames.personalInformation}
-      name="Contact information"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={SecondaryContactFields}
-      reviewComponent={SecondaryContactReview}
-      key="personal-information/secondary-contact"
-      path="personal-information/secondary-contact"
-      chapter={chapterNames.personalInformation}
-      name="Secondary contact"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={DependentInformationFields}
-      reviewComponent={DependentInformationReview}
-      key="personal-information/dependents"
-      path="personal-information/dependents"
-      chapter={chapterNames.personalInformation}
-      depends={hasServiceBefore1978}
-      name="Dependents"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={DirectDepositFields}
-      reviewComponent={DirectDepositReview}
-      key="personal-information/direct-deposit"
-      path="personal-information/direct-deposit"
-      chapter={chapterNames.personalInformation}
-      name="Direct deposit"/>,
-  // Review and Submit route.
-  <Route
-      component={ReviewPage}
-      key="review-and-submit"
-      path="review-and-submit"
-      chapter={chapterNames.review}/>,
-  // Submit Message route.
-  <Route
-      component={SubmitPage}
-      key="submit-message"
-      path="submit-message"/>
+  {
+    component: IntroductionPage,
+    path: 'introduction',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: VeteranInformationFields,
+    reviewComponent: VeteranInformationReview,
+    path: 'veteran-information',
+    chapter: chapterNames.veteranInformation,
+    name: 'Veteran information',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: BenefitsSelectionFields,
+    reviewComponent: BenefitsSelectionReview,
+    path: 'benefits-eligibility/benefits-selection',
+    chapter: chapterNames.benefitsEligibility,
+    name: 'Benefits selection',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: BenefitsRelinquishmentFields,
+    reviewComponent: BenefitsRelinquishmentReview,
+    path: 'benefits-eligibility/benefits-relinquishment',
+    chapter: chapterNames.benefitsEligibility,
+    depends: { chapter33: true },
+    name: 'Benefits relinquishment',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: ServicePeriodsFields,
+    path: 'military-history/service-periods',
+    chapter: chapterNames.militaryHistory,
+    name: 'Service periods',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: MilitaryServiceFields,
+    reviewComponent: MilitaryServiceReview,
+    path: 'military-history/military-service',
+    chapter: chapterNames.militaryHistory,
+    name: 'Military service',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: RotcHistoryFields,
+    reviewComponent: RotcHistoryReview,
+    path: 'military-history/rotc-history',
+    chapter: chapterNames.militaryHistory,
+    name: 'ROTC history',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: ContributionsFields,
+    reviewComponent: ContributionsReview,
+    path: 'military-history/contributions',
+    chapter: chapterNames.militaryHistory,
+    name: 'Contributions',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: EducationHistoryFields,
+    path: 'education-history/education-information',
+    chapter: chapterNames.educationHistory,
+    name: 'Education history',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: EmploymentHistoryFields,
+    path: 'employment-history/employment-information',
+    chapter: chapterNames.employmentHistory,
+    name: 'Employment history',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: SchoolSelectionFields,
+    reviewComponent: SchoolSelectionReview,
+    path: 'school-selection/school-information',
+    chapter: chapterNames.schoolSelection,
+    name: 'School selection',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: ContactInformationFields,
+    reviewComponent: ContactInformationReview,
+    path: 'personal-information/contact-information',
+    chapter: chapterNames.personalInformation,
+    name: 'Contact information',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: SecondaryContactFields,
+    reviewComponent: SecondaryContactReview,
+    path: 'personal-information/secondary-contact',
+    chapter: chapterNames.personalInformation,
+    name: 'Secondary contact',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: DependentInformationFields,
+    reviewComponent: DependentInformationReview,
+    path: 'personal-information/dependents',
+    chapter: chapterNames.personalInformation,
+    depends: hasServiceBefore1978,
+    name: 'Dependents',
+  },
+  {
+    component: FormPage,
+    fieldsComponent: DirectDepositFields,
+    reviewComponent: DirectDepositReview,
+    path: 'personal-information/direct-deposit',
+    chapter: chapterNames.personalInformation,
+    name: 'Direct deposit',
+  },
+  {
+    component: ReviewPage,
+    path: 'review-and-submit',
+    chapter: chapterNames.review,
+  },
+  {
+    component: SubmitPage,
+    path: 'submit-message',
+  }
 ];
 
 export default routes;

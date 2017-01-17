@@ -4,6 +4,8 @@ def isContentTeamUpdate = {
   env.BRANCH_NAME ==~ /^content\/wip\/.*/
 }
 
+env.CONCURRENCY = 10
+
 def isDeployable = {
   (env.BRANCH_NAME == 'master' ||
     env.BRANCH_NAME == 'production') &&
@@ -31,9 +33,12 @@ node('vets-website-linting') {
 
     sh "mkdir -p build"
     sh "mkdir -p logs/selenium"
+    sh "mkdir -p coverage"
 
-    dockerImage = docker.build("vets-website:${env.BUILD_TAG}")
-    args = "-u root:root -v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs"
+    def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+
+    dockerImage = docker.build("vets-website:${imageTag}")
+    args = "-u root:root -v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
   }
 
   // Check package.json for known vulnerabilities
@@ -65,8 +70,19 @@ node('vets-website-linting') {
       return
     }
 
-    dockerImage.inside(args) {
-      sh "cd /application && npm --no-color run test:unit"
+    try {
+      dockerImage.inside(args) {
+        sh "cd /application && npm --no-color run test:coverage"
+      }
+    } finally {
+      publishHTML(target: [
+        reportName           : "Coverage Report",
+        reportDir            : 'coverage/',
+        reportFiles          : 'index.html',
+        keepAll              : true,
+        alwaysLinkToLastBuild: true,
+        allowMissing         : false
+      ])
     }
   }
 

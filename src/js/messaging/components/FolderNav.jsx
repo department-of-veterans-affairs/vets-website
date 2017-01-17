@@ -85,7 +85,7 @@ class FolderNav extends React.Component {
 
     return (
       <li key="myFolders">
-        <a className={myFoldersClass} onClick={this.props.onToggleFolders}>
+        <a role="button" tabIndex="0" className={myFoldersClass} onClick={this.props.onToggleFolders}>
           <span>My folders</span>
           <i className={iconClass}></i>
         </a>
