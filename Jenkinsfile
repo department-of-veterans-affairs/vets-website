@@ -35,7 +35,7 @@ node('vets-website-linting') {
     sh "mkdir -p logs/selenium"
     sh "mkdir -p coverage"
 
-    dockerImage = docker.build("vets-website:${env.BUILD_TAG}")
+    dockerImage = docker.build("vets-website:${env.BUILD_NUMBER}")
     args = "-u root:root -v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
   }
 
