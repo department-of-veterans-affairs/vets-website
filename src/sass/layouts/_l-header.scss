@@ -1,0 +1,129 @@
+// Logo and Header
+.header {
+  clear: both;
+  padding: 0;
+  margin: 0;
+
+  .login-container {
+    background: $color-primary-darkest;
+    padding: 0.3em 0 1em;
+
+    .row {
+      padding: 0 0.75em;
+    }
+  }
+
+  .top-banner {
+    padding: 1em 0.75em 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .flex-auto {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .va-notice--banner {
+    margin: 0;
+    padding: 0;
+    background: $color-primary-darker;
+    color: $color-white;
+
+    a.va-crisis-line {
+      color: $color-base;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .flex-lg {
+      @media #{$large-only} {
+        display: flex;
+      }
+    }
+
+    .crisis-row {
+      @media #{$medium-up} {
+        display: flex;
+        align-items: flex-start;
+      }
+
+      @media #{$medium-only} {
+        padding-right: 0em;
+      }
+    }
+  }
+}
+
+.va-header-logo {
+  line-height: 1em;
+  margin: 0;
+
+  a {
+    color: white;
+    text-indent: 180%;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    background: url(/img/design/logo/logo.png) top left no-repeat;
+    background-size: contain;
+    border-bottom: none;
+    text-decoration: none;
+    height: 50px;
+    width: 205px;
+
+    &:hover, &:active, &:focus {
+      background-image: url(/img/design/logo/logo-hover.png);
+    }
+
+    @media #{$small-only} {
+      width: 164px;
+      height: 40px;
+    }
+  }
+  // See va-playbook for styles
+}
+
+.header-message {
+  padding: 0.5em 0;
+  color: $color-white;
+  font-size: 1.152rem;
+  font-weight: 400;
+  flex: 1;
+}
+
+// Notice / feedback banners
+.va-notice--banner {
+  background: $color-primary-darker;
+  margin: 0 0 .75em 0;
+  padding: 0;
+  font-size: .9em;
+  font-weight: 400;
+  color: $color-white;
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    background-image: none;
+    color: $color-white;
+    padding: 0;
+  }
+}
+
+.incompatible-browser-warning {
+  padding: 0.5em;
+  font-weight: bold;
+  background: $color-gold-lightest;
+  color: $color-black;
+  font-size: 1.44rem;
+  display: none;
+
+  &.visible {
+    display: block;
+  }
+}
