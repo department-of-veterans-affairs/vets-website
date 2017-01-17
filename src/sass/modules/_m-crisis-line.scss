@@ -21,7 +21,6 @@
   }
 }
 
-
 .va-crisis-panel {
   color: $color-primary-darkest;
   list-style: none;
@@ -89,11 +88,6 @@
 }
 
 //===== VA CRISIS LINE BUTTONS
-.va-crisis-line--touch {
-  border-radius: .2em;
-  margin: 2.5em 0;
-}
-
 .va-crisis-line {
   background: $color-gray-lightest url(/img/arrow-down.png) no-repeat calc(100% - 0.5em) center;
   background-size: .8em auto;
@@ -171,9 +165,8 @@
 }
 
 
-@media #{$medium} {
-  .va-crisis-panel--touch,
-  .va-crisis-line--touch {
+@include media ($medium-screen) {
+  .va-crisis-line--narrow {
     display: none;
   }
 }
