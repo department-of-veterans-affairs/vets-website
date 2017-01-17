@@ -179,3 +179,26 @@ export function touchFieldsInSchema(idSchema, arrayField, index, touched = {}) {
     return _.assign(touchedFields, newTouched);
   }, touched);
 }
+
+export function getArrayFields(pageConfig) {
+  const fields = [];
+  const findArrays = (obj, path = []) => {
+    if (obj.type === 'array') {
+      fields.push({
+        path,
+        schema: obj,
+        uiSchema: _.get(path, pageConfig.uiSchema)
+      });
+    }
+
+    if (obj.type === 'object') {
+      Object.keys(obj.properties).forEach(prop => {
+        findArrays(obj.properties[prop], path.concat(prop));
+      });
+    }
+  };
+
+  findArrays(pageConfig.schema);
+
+  return fields;
+}

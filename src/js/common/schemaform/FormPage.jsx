@@ -81,14 +81,14 @@ class FormPage extends React.Component {
     focusForm();
   }
   componentWillReceiveProps(newProps) {
-    if (newProps.route.pageConfig !== this.props.route.pageConfig) {
+    if (newProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey) {
       this.setState(this.getEmptyState(newProps.route.pageConfig), () => {
         focusForm();
       });
     }
   }
   componentDidUpdate(prevProps) {
-    if (prevProps.route.pageConfig !== this.props.route.pageConfig) {
+    if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey) {
       scrollToTop();
     }
   }
@@ -199,7 +199,6 @@ FormPage.propTypes = {
     pageConfig: React.PropTypes.shape({
       schema: React.PropTypes.object.isRequired,
       uiSchema: React.PropTypes.object.isRequired,
-      initialData: React.PropTypes.object.isRequired,
       errorMessages: React.PropTypes.object
     }),
     pageList: React.PropTypes.arrayOf(React.PropTypes.shape({
@@ -213,3 +212,5 @@ FormPage.propTypes = {
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormPage));
+
+export { FormPage };

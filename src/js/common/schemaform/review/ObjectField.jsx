@@ -40,6 +40,7 @@ class ObjectField extends React.Component {
       errorSchema,
       idSchema,
       formData,
+      requiredSchema,
       formContext
     } = this.props;
     const { definitions, fields } = this.props.registry;
@@ -58,7 +59,8 @@ class ObjectField extends React.Component {
       .filter(propName => {
         const hideOnReviewIfFalse = _.get([propName, 'ui:options', 'hideOnReviewIfFalse'], uiSchema) === true;
         const hideOnReview = _.get([propName, 'ui:options', 'hideOnReview'], uiSchema) === true;
-        return (!hideOnReviewIfFalse || !!formData[propName]) && !hideOnReview;
+        // skip arrays, we're going to handle those outside of the normal review page
+        return schema.properties[propName].type !== 'array' && (!hideOnReviewIfFalse || !!formData[propName]) && !hideOnReview;
       })
       .map((propName, index) => {
         return (
@@ -70,6 +72,7 @@ class ObjectField extends React.Component {
               idSchema={idSchema[propName]}
               onChange={f => f}
               onBlur={f => f}
+              requiredSchema={requiredSchema[propName]}
               formData={formData[propName]}
               registry={this.props.registry}/>
         );
@@ -80,7 +83,7 @@ class ObjectField extends React.Component {
         <div>
           <div className="form-review-panel-page-header-row">
             <h5 className="form-review-panel-page-header">{!formContext.hideTitle ? title : null}</h5>
-            <button className="edit-btn primary-outline" onClick={() => formContext.onEdit()}>Edit</button>
+            <button type="button" className="edit-btn primary-outline" onClick={() => formContext.onEdit()}>Edit</button>
           </div>
           <dl className="review usa-table-borderless">
             {renderedProperties}
