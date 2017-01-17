@@ -69,7 +69,7 @@ export default class ArrayField extends React.Component {
     });
   }
 
-  onItemBlur(index, path) {
+  onItemBlur(index, path = []) {
     this.props.onBlur([index].concat(path));
   }
 

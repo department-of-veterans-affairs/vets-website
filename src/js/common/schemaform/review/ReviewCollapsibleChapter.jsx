@@ -6,6 +6,7 @@ import { focusElement } from '../../utils/helpers';
 import FormPage from '../FormPage';
 import { getArrayFields } from '../helpers';
 import ReviewArrayField from './ReviewArrayField';
+import ProgressButton from '../../components/form-elements/ProgressButton';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -104,16 +105,23 @@ export default class ReviewCollapsibleChapter extends React.Component {
             return (
               <div key={page.pageKey} className="form-review-panel-page">
                 <Element name={`${page.pageKey}ScrollElement`}/>
-                {arrayFields.length < Object.keys(page.schema.properties).length && <FormPage
-                    reviewPage
-                    hideTitle={this.props.pages.length === 1}
-                    onEdit={() => this.handleEdit(page.pageKey, !editing)}
-                    onSubmit={() => this.handleSave(page.pageKey)}
-                    reviewMode={!editing}
-                    route={{ pageConfig: page }}/>}
+                {arrayFields.length < Object.keys(page.schema.properties).length &&
+                  <FormPage
+                      reviewPage
+                      hideTitle={this.props.pages.length === 1}
+                      onEdit={() => this.handleEdit(page.pageKey, !editing)}
+                      onSubmit={() => this.handleSave(page.pageKey)}
+                      reviewMode={!editing}
+                      route={{ pageConfig: page }}>
+                    {!editing ? <div/> : <ProgressButton
+                        submitButton
+                        buttonText="Update page"
+                        buttonClass="usa-button-primary"/>}
+                  </FormPage>}
                 {arrayFields.map(arrayField =>
                   <ReviewArrayField
                       pageKey={page.pageKey}
+                      pageTitle={page.title}
                       arrayData={_.get(this.props.data[page.pageKey].data, arrayField.path)}
                       formData={this.props.data[page.pageKey].data}
                       key={arrayField.path}

@@ -2,28 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
-import { focusElement } from '../../utils/helpers';
 
 import { FormPage } from '../FormPage';
 import { setData, setValid } from '../actions';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
-
-const scrollToFirstError = () => {
-  setTimeout(() => {
-    const errorEl = document.querySelector('.usa-input-error, .input-error-date');
-    if (errorEl) {
-      const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-      Scroll.animateScroll.scrollTo(position - 10, {
-        duration: 500,
-        delay: 0,
-        smooth: true
-      });
-      focusElement(errorEl);
-    }
-  }, 100);
-};
 
 class ReviewArrayField extends React.Component {
   constructor(props) {
@@ -33,9 +17,9 @@ class ReviewArrayField extends React.Component {
       items: arrayData || [],
       editing: (this.props.arrayData || []).map(() => false)
     };
-    this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
-    this.onItemBlur = this.onItemBlur.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleSetData = this.handleSetData.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
   }
@@ -50,23 +34,6 @@ class ReviewArrayField extends React.Component {
   //
   //   return true;
   // }
-
-  onItemChange(indexToChange, value) {
-    const newState = _.set('items', this.state.items.map(
-      (current, index) => {
-        return index === indexToChange
-          ? value
-          : current;
-      }
-    ), this.state);
-    this.setState(newState, () => {
-      this.props.onChange(newState.items);
-    });
-  }
-
-  onItemBlur(index, path) {
-    this.props.onBlur([index].concat(path));
-  }
 
   scrollToTop() {
     setTimeout(() => {
@@ -96,50 +63,24 @@ class ReviewArrayField extends React.Component {
     });
   }
 
-  handleUpdate(index) {
-    if (errorSchemaIsValid(this.props.errorSchema[index])) {
-      this.setState(_.set(['editing', index], false, this.state), () => {
-        this.scrollToTop();
-      });
-    } else {
-      const touchedSchema = _.set(index, true, this.state.touchedSchema);
-      this.setState({ touchedSchema }, () => {
-        scrollToFirstError();
-      });
-    }
-  }
-
   handleAdd() {
-    const lastIndex = this.state.items.length - 1;
-    if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
-      const newEditing = this.state.editing.map((val, index) => {
-        return (index + 1) === this.state.editing.length
-          ? false
-          : val;
-      });
-      const newState = _.assign(this.state, {
-        items: this.state.items.concat({}),
-        editing: newEditing.concat(false)
-      });
-      this.setState(newState, () => {
-        this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
-        this.props.onChange(newState.items);
-      });
-    } else {
-      const touchedSchema = _.set(lastIndex, true, this.state.touchedSchema);
-      this.setState({ touchedSchema }, () => {
-        scrollToFirstError();
-      });
-    }
+    const newState = {
+      items: this.state.items.concat({}),
+      editing: this.state.editing.concat(true)
+    };
+    this.setState(newState, () => {
+      this.scrollToRow(`${this.props.path[this.props.path.length - 1]}_${this.state.items.length - 1}`);
+    });
   }
 
   handleRemove(indexToRemove) {
+    const { pageKey, path, formData } = this.props;
     const newState = _.assign(this.state, {
       items: this.state.items.filter((val, index) => index !== indexToRemove),
       editing: this.state.editing.filter((val, index) => index !== indexToRemove),
     });
     this.setState(newState, () => {
-      this.props.onChange(newState.items);
+      this.props.setData(pageKey, _.set(path, this.state.items, formData));
       this.scrollToTop();
     });
   }
@@ -164,14 +105,10 @@ class ReviewArrayField extends React.Component {
       schema,
       uiSchema,
       path,
-      formData
+      pageTitle
     } = this.props;
     const fieldName = path[path.length - 1];
-    const title = uiSchema && uiSchema['ui:title'] ? uiSchema['ui:title'] : null;
-    const hasTextDescription = typeof uiSchema['ui:description'] === 'string';
-    const DescriptionField = !hasTextDescription && typeof uiSchema['ui:description'] === 'function'
-      ? uiSchema['ui:description']
-      : null;
+    const title = uiSchema && uiSchema['ui:title'] ? uiSchema['ui:title'] : pageTitle;
     const arrayPageConfig = {
       schema: schema.items,
       uiSchema: uiSchema.items,
@@ -181,44 +118,41 @@ class ReviewArrayField extends React.Component {
     return (
       <div>
         {title &&
-          <legend
-              id={`${fieldName}__title`}>
-            {uiSchema['ui:title']}
-          </legend>}
-        <div className="va-growable">
+          <div className="form-review-panel-page-header-row">
+            <h5 className="form-review-panel-page-header">{title}</h5>
+            <button type="button" className="edit-btn primary-outline" onClick={() => this.handleAdd()}>Add Another</button>
+          </div>}
+        <div className="va-growable va-growable-review">
           <Element name={`topOfTable_${fieldName}`}/>
           {this.state.items.map((item, index) => {
             const isLast = this.state.items.length === (index + 1);
             const isEditing = this.state.editing[index];
-            const notLastOrMultipleRows = !isLast || this.state.items.length > 1;
             if (isEditing) {
               return (
-                <div key={index} className={notLastOrMultipleRows ? 'va-growable-background' : null}>
+                <div key={index} className="va-growable-background">
                   <Element name={`table_${fieldName}_${index}`}/>
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && uiSchema['ui:options'].itemName && this.state.items.length > 1
                           ? <h5>New {uiSchema['ui:options'].itemName}</h5>
                           : null}
-                      <div className="input-section">
-                        <FormPage
-                            setData={(key, data) => this.handleSetData(index, data)}
-                            setValid={f => f}
-                            reviewPage
-                            onEdit={() => this.handleEdit(index, !isEditing)}
-                            onSubmit={() => this.handleSave(index)}
-                            form={{ [fieldName]: { data: item } }}
-                            route={{ pageConfig: arrayPageConfig }}/>
-                      </div>
-                      {notLastOrMultipleRows &&
+                      <FormPage
+                          setData={(key, data) => this.handleSetData(index, data)}
+                          setValid={f => f}
+                          reviewPage
+                          onEdit={() => this.handleEdit(index, !isEditing)}
+                          onSubmit={() => this.handleSave(index)}
+                          form={{ [fieldName]: { data: item } }}
+                          route={{ pageConfig: arrayPageConfig }}>
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
-                            {!isLast && <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>}
+                            <button className="float-left">Update</button>
                           </div>
                           <div className="small-6 right columns">
-                            <button className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>
+                            <button type="button" className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>
                           </div>
-                        </div>}
+                        </div>
+                      </FormPage>
                     </div>
                   </div>
                 </div>
@@ -235,12 +169,13 @@ class ReviewArrayField extends React.Component {
                       onEdit={() => this.handleEdit(index, !isEditing)}
                       onSubmit={() => this.handleSave(index)}
                       form={{ [fieldName]: { data: item } }}
-                      route={{ pageConfig: arrayPageConfig }}/>
+                      route={{ pageConfig: arrayPageConfig }}>
+                    <div/>
+                  </FormPage>
                 </div>
               </div>
             );
           })}
-          <button type="button" className="usa-button-outline va-growable-add-btn" onClick={this.handleAdd}>Add Another</button>
         </div>
       </div>
     );

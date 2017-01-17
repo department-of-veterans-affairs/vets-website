@@ -8969,9 +8969,9 @@
       "dev": true
     },
     "react-jsonschema-form": {
-      "version": "0.42.2",
-      "from": "git+https://github.com/department-of-veterans-affairs/react-jsonschema-form.git#59ed6aa856977c9f120c3f9ba79e66e918433ed0",
-      "resolved": "git+https://github.com/department-of-veterans-affairs/react-jsonschema-form.git#59ed6aa856977c9f120c3f9ba79e66e918433ed0",
+      "version": "0.42.3",
+      "from": "git+https://github.com/department-of-veterans-affairs/react-jsonschema-form.git#8b15ac59abe6aef29f7d21df7954c7907fadef42",
+      "resolved": "git+https://github.com/department-of-veterans-affairs/react-jsonschema-form.git#8b15ac59abe6aef29f7d21df7954c7907fadef42",
       "dev": true
     },
     "react-leaflet": {

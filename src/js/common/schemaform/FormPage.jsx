@@ -77,8 +77,12 @@ class FormPage extends React.Component {
     this.state = this.getEmptyState(props.route.pageConfig);
   }
   componentDidMount() {
-    scrollToTop();
-    focusForm();
+    if (!this.props.reviewPage) {
+      scrollToTop();
+      focusForm();
+    } else if (this.props.reviewPage && this.props.reviewMode) {
+      focusForm();
+    }
   }
   componentWillReceiveProps(newProps) {
     if (newProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey) {
@@ -134,7 +138,7 @@ class FormPage extends React.Component {
   render() {
     const { schema, uiSchema } = this.props.route.pageConfig;
     const formData = this.props.form[this.props.route.pageConfig.pageKey].data;
-    const { reviewPage, reviewMode } = this.props;
+    const { reviewPage, reviewMode, children } = this.props;
     return (
       <div className={reviewPage ? null : 'form-panel'}>
         <Form
@@ -153,12 +157,8 @@ class FormPage extends React.Component {
             widgets={reviewMode ? reviewWidgets : widgets}
             fields={reviewMode ? reviewFields : fields}
             transformErrors={this.transformErrors}>
-          {reviewPage && !reviewMode &&
-            <ProgressButton
-                submitButton
-                buttonText="Update page"
-                buttonClass="usa-button-primary"/>}
-          {!reviewPage &&
+          {children}
+          {!children &&
             <div className="row form-progress-buttons schemaform-buttons">
               <div className="small-6 medium-5 columns">
                 <ProgressButton
