@@ -30,6 +30,7 @@ class MessageNav extends React.Component {
         <button
             type="button"
             disabled={this.props.itemNumber <= 1}
+            aria-label="Previous"
             onClick={this.handleClickPrev}>
           <i className="fa fa-chevron-left"></i>
           <span>Previous</span>
@@ -37,6 +38,7 @@ class MessageNav extends React.Component {
         <button
             type="button"
             disabled={this.props.itemNumber >= this.props.totalItems}
+            aria-label="Next"
             onClick={this.handleClickNext}>
           <span>Next</span>
           <i className="fa fa-chevron-right"></i>

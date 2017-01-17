@@ -145,21 +145,23 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const msgState = state.health.msg;
+
   const folders = [];
-  state.folders.data.items.forEach(v => {
+  msgState.folders.data.items.forEach(v => {
     folders.push(v);
   });
 
-  const currentFolderId = _.get(state.folders.ui.lastRequestedFolder, 'id', 0);
+  const currentFolderId = _.get(msgState.folders.ui.lastRequestedFolder, 'id', 0);
 
   return {
-    attachmentsModal: state.modals.attachments,
-    createFolderModal: state.modals.createFolder,
+    attachmentsModal: msgState.modals.attachments,
+    createFolderModal: msgState.modals.createFolder,
     currentFolderId,
     folders,
-    isVisibleAdvancedSearch: state.search.advanced.visible,
-    loading: state.loading,
-    nav: state.folders.ui.nav
+    isVisibleAdvancedSearch: msgState.search.advanced.visible,
+    loading: msgState.loading,
+    nav: msgState.folders.ui.nav
   };
 };
 

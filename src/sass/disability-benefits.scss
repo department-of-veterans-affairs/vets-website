@@ -632,3 +632,22 @@ h1:focus {
 .db-tab-content {
   padding-top: 2em;
 }
+
+.claims-list-alert {
+  margin-bottom: 1em;
+  margin-top: 0;
+  &.usa-alert {
+    background-size: 3.4rem;
+    background-position: 1rem 1.9rem;
+  }
+  > .usa-alert-body {
+    padding-left: 3.7rem;
+  }
+  .va-alert-close .fa {
+    font-size: 1.1em !important;
+  }
+}
+
+.claims-closed-text {
+  margin-top: 1em;
+}

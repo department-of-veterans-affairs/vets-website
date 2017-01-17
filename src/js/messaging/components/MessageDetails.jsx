@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import moment from 'moment';
 
 import { formattedDate } from '../utils/helpers';
@@ -6,24 +7,17 @@ import { formattedDate } from '../utils/helpers';
 class MessageDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.focusDetails = this.focusDetails.bind(this);
-    this.hideDetails = this.hideDetails.bind(this);
+    this.toggleCompactDetails = this.toggleCompactDetails.bind(this);
+    this.toggleFullDetails = this.toggleFullDetails.bind(this);
+    this.state = { expandedCompact: false, expandedFull: false };
   }
 
-  focusDetails(domEvent) {
-    // This event only results from from the regular trigger.
-    // If it's being used, the compact trigger should not be
-    // visible, so it should be safe to turn it off.
-    this.refs.compactDetailsTrigger.checked = false;
-
-    if (domEvent.target.checked) {
-      // Focus the control so that it can hide the details on blur.
-      this.refs.detailsControl.focus();
-    }
+  toggleCompactDetails() {
+    this.setState({ expandedCompact: !this.state.expandedCompact });
   }
 
-  hideDetails() {
-    this.refs.detailsTrigger.checked = false;
+  toggleFullDetails() {
+    this.setState({ expandedFull: !this.state.expandedFull });
   }
 
   render() {
@@ -36,6 +30,12 @@ class MessageDetails extends React.Component {
       subject
     } = this.props.attrs;
 
+    const detailsClass = classNames({
+      'messaging-message-details': true,
+      'messaging-message-details--compact': this.state.expandedCompact,
+      'messaging-message-details--full': this.state.expandedFull
+    });
+
     const sentDateRow = sentDate && (
       <tr>
         <th>Date:</th>
@@ -47,7 +47,7 @@ class MessageDetails extends React.Component {
     );
 
     const messageDetails = (
-      <div className="messaging-message-details">
+      <div className={detailsClass} aria-expanded={this.state.expandedFull}>
         <table>
           <tbody>
             <tr>
@@ -76,35 +76,30 @@ class MessageDetails extends React.Component {
       </div>
     );
 
-    const inputId = `message-details-${messageId}`;
-    const compactInputId = `compact-${inputId}`;
-
     const compactSentDate = sentDate && (
       <span>{formattedDate(sentDate, { fromNow: true })}</span>
     );
 
     return (
       <div
-          ref="detailsControl"
           className="messaging-message-details-control"
           tabIndex="-1"
-          onBlur={this.hideDetails}
+          onBlur={() => { this.setState({ expandedFull: false }); }}
           onClick={(e) => e.stopPropagation()}>
-        <label htmlFor={inputId}>
+        <button
+            className="usa-button-unstyled"
+            onClick={this.toggleFullDetails}>
           <i className="fa fa-caret-down"></i>
-        </label>
-        <input
-            ref="detailsTrigger"
-            id={inputId}
-            type="checkbox"
-            onChange={this.focusDetails}/>
-        <input
-            ref="compactDetailsTrigger"
-            id={compactInputId}
-            className="messaging-compact-details-trigger"
-            type="checkbox"/>
-        {compactSentDate}
-        <label htmlFor={compactInputId}></label>
+          <span className="usa-sr-only">
+            {this.state.expandedFull ? 'Hide details' : 'Details'}
+          </span>
+        </button>
+        <div className="messaging-compact-details-control">
+          {compactSentDate}
+          <a role="button" onClick={this.toggleCompactDetails}>
+            {this.state.expandedCompact ? 'Hide details' : 'Details'}
+          </a>
+        </div>
         {messageDetails}
       </div>
     );

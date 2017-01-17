@@ -1,14 +1,10 @@
 def envNames = ['development', 'staging', 'production']
 
-env.NODE_ENV = 'production'
-
-def isPushNotificationOnFeature = {
-  !env.CHANGE_TARGET && !['master', 'production'].contains(env.BRANCH_NAME)
-}
-
 def isContentTeamUpdate = {
   env.BRANCH_NAME ==~ /^content\/wip\/.*/
 }
+
+env.CONCURRENCY = 10
 
 def isDeployable = {
   (env.BRANCH_NAME == 'master' ||
@@ -33,35 +29,32 @@ node('vets-website-linting') {
   // Checkout source, create output directories, build container
 
   stage('Setup') {
-    if (isPushNotificationOnFeature()) {
-      return
-    }
-
     checkout scm
 
     sh "mkdir -p build"
     sh "mkdir -p logs/selenium"
+    sh "mkdir -p coverage"
 
     dockerImage = docker.build("vets-website:${env.BUILD_TAG}")
-    args = "-u root:root -v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs"
+    args = "-u root:root -v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
   }
 
   // Check package.json for known vulnerabilities
 
   stage('Security') {
-    if (isContentTeamUpdate() || isPushNotificationOnFeature()) {
+    if (isContentTeamUpdate()) {
       return
     }
 
     dockerImage.inside(args) {
-      sh "cd /application && nsp check" 
+      sh "cd /application && nsp check"
     }
   }
 
   // Check source for syntax issues
 
   stage('Lint') {
-    if (isContentTeamUpdate() || isPushNotificationOnFeature()) {
+    if (isContentTeamUpdate()) {
       return
     }
 
@@ -71,22 +64,29 @@ node('vets-website-linting') {
   }
 
   stage('Unit') {
-    if (isContentTeamUpdate() || isPushNotificationOnFeature()) {
+    if (isContentTeamUpdate()) {
       return
     }
 
-    dockerImage.inside(args) {
-      sh "cd /application && npm --no-color run test:unit"
+    try {
+      dockerImage.inside(args) {
+        sh "cd /application && npm --no-color run test:coverage"
+      }
+    } finally {
+      publishHTML(target: [
+        reportName           : "Coverage Report",
+        reportDir            : 'coverage/',
+        reportFiles          : 'index.html',
+        keepAll              : true,
+        alwaysLinkToLastBuild: true,
+        allowMissing         : false
+      ])
     }
   }
 
   // Perform a build for each required build type
 
   stage('Build') {
-    if (isPushNotificationOnFeature()) {
-      return
-    }
-
     def buildList = ['production']
 
     if (isContentTeamUpdate()) {
@@ -123,25 +123,27 @@ node('vets-website-linting') {
   // Run E2E and accessibility tests
 
   stage('Integration') {
-    if (isContentTeamUpdate() || isPushNotificationOnFeature()) {
+    if (isContentTeamUpdate()) {
       return
     }
 
-    parallel (
-      e2e: {
-        dockerImage.inside(args + " -e BUILDTYPE=production") {
-          sh "cd /application && npm --no-color run test:e2e"
-        }
-      },
+    try {
+      parallel (
+        e2e: {
+          dockerImage.inside(args + " -e BUILDTYPE=production") {
+            sh "cd /application && npm --no-color run test:e2e"
+          }
+        },
 
-      accessibility: {
-        dockerImage.inside(args + " -e BUILDTYPE=production") {
-          sh "cd /application && npm --no-color run test:accessibility"
+        accessibility: {
+          dockerImage.inside(args + " -e BUILDTYPE=production") {
+            sh "cd /application && npm --no-color run test:accessibility"
+          }
         }
-      }
-    )
-
-    step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+      )
+    } finally {
+      step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+    }
   }
 
   stage('Deploy') {
@@ -149,7 +151,7 @@ node('vets-website-linting') {
 
     if (!isDeployable()) {
       return
-    } 
+    }
 
     def targets = [
       'master': [
