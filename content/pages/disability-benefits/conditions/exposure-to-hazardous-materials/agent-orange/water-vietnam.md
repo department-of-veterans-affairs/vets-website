@@ -6,7 +6,7 @@ plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
 template: 4-action-page
 ---
 
-If you served on a Blue Water Navy ship on the coastal or inland waterways of Vietnam between January 9, 1962, and May 7, 1975—or you ever came ashore in Vietnam—you likely had contact with Agent Orange (a toxic chemical used to clear trees and plants during the war). Find out if you can get disability compensation or benefits for illnesses believed to be caused by contact with Agent Orange.
+If you served on a Blue Water Navy ship on the inland waterways of Vietnam between January 9, 1962, and May 7, 1975—or you ever came ashore in Vietnam—you likely had contact with Agent Orange (a toxic chemical used to clear trees and plants during the war). Find out if you can get disability compensation or benefits for illnesses believed to be caused by contact with Agent Orange. If you served on the coastal waterways of Vietnam between January 9, 1962, and May 7, 1975—and you can prove you came ashore, you also likely had contact with Agent Orange, and you may be able to get disability. 
 
 <div class="call-out" markdown="1">
 
@@ -44,7 +44,7 @@ Check the list of U.S. Navy and Coast Guard ships linked to service in Vietnam t
 
 If you didn’t go ashore or serve aboard a ship that entered the inland waterways of Vietnam, you’ll have to show that you had contact with Agent Orange in another way while serving in the military. We decide these claims on a case-by-case basis.
 
-[Go to eBenefits to apply](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
+[Apply for benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
 
 
 ### Get more information
