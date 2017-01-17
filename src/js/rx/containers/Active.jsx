@@ -1,77 +1,188 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import classnames from 'classnames';
+import _ from 'lodash';
 
-import { loadPrescriptions } from '../actions/prescriptions';
+import {
+  loadPrescriptions,
+  sortPrescriptions
+} from '../actions/prescriptions';
+
+import {
+  openGlossaryModal,
+  openRefillModal
+} from '../actions/modals';
+
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import PrescriptionList from '../components/PrescriptionList';
+import PrescriptionTable from '../components/PrescriptionTable';
 import SortMenu from '../components/SortMenu';
-import { sortOptions } from '../config.js';
+import { sortOptions } from '../config';
 
 class Active extends React.Component {
-  componentWillMount() {
-    this.props.dispatch(loadPrescriptions({ active: true }));
-    this.handleSortOnChange = this.handleSortOnChange.bind(this);
-    this.handleSortOnClick = this.handleSortOnClick.bind(this);
-    this.dispatchSortAction = this.dispatchSortAction.bind(this);
+  constructor(props) {
+    super(props);
+    this.handleSort = this.handleSort.bind(this);
+    this.pushAnalyticsEvent = this.pushAnalyticsEvent.bind(this);
+
+    this.checkWindowSize = _.debounce(() => {
+      const toggleDisplayStyle = window.getComputedStyle(this.viewToggle, null).getPropertyValue('display');
+      // the viewToggle element is hidden with CSS on the $small breakpoint
+      // on small screens, the view toggle is hidden and list view disabled
+      if (this.viewToggle && (toggleDisplayStyle === 'none')) {
+        this.setState({
+          view: 'card',
+        });
+      }
+    }, 200);
+
+    this.state = {
+      view: 'card',
+    };
   }
 
-  dispatchSortAction(action) {
-    this.props.dispatch({ type: action });
-  }
-
-  handleSortOnChange(domEvent) {
-    if (domEvent.type === 'change') {
-      browserHistory.push({
-        pathname: '/rx',
-        query: {
-          sort: domEvent.target.value
-        }
-      });
+  componentDidMount() {
+    if (!this.props.loading) {
+      this.props.loadPrescriptions({ active: true });
     }
-    this.dispatchSortAction(domEvent.target.value);
+    window.addEventListener('resize', this.checkWindowSize);
   }
 
-  handleSortOnClick(domEvent) {
-    const fullURL = domEvent.target.href;
+  componentDidUpdate() {
+    const { prescriptions, sort: currentSort } = this.props;
+    const requestedSort = this.props.location.query.sort || 'prescriptionName';
+    const sortOrder = requestedSort[0] === '-' ? 'DESC' : 'ASC';
+    const sortValue = sortOrder === 'DESC'
+                    ? requestedSort.slice(1)
+                    : requestedSort;
 
-    // Find the sort parameter, split the query string on the = and retrieve value
-    const sortParam = fullURL.match(/sort=[-a-z]{1,}/i)[0].split('=')[1];
-    this.dispatchSortAction(sortParam);
+    const shouldSort =
+      !_.isEmpty(prescriptions) &&
+      (currentSort.value !== sortValue ||
+      currentSort.order !== sortOrder);
+
+    if (shouldSort) {
+      this.props.sortPrescriptions(sortValue, sortOrder);
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.checkWindowSize);
+  }
+
+  pushAnalyticsEvent() {
+    window.dataLayer.push({
+      event: 'rx-view-change',
+      viewType: this.state.view
+    });
+  }
+
+  handleSort(sortKey, sortOrder) {
+    const sort = sortOrder === 'DESC' ? `-${sortKey}` : sortKey;
+    this.context.router.push({
+      ...this.props.location,
+      query: { sort }
+    });
+  }
+
+  renderViewSwitch() {
+    if (!this.props.prescriptions) {
+      return null;
+    }
+
+    const toggles = [
+      { key: 'card', value: 'Card' },
+      { key: 'list', value: 'List' },
+    ];
+
+    return (
+      <div className="rx-view-toggle show-for-medium-up" ref={(elem) => { this.viewToggle = elem; }}>View:&nbsp;
+        <ul>
+          {toggles.map(t => {
+            const classes = classnames({
+              active: this.state.view === t.key,
+            });
+            return (
+              <li key={t.key} className={classes} onClick={() => this.setState({ view: t.key }, this.pushAnalyticsEvent)}>{t.value}</li>
+            );
+          })}
+        </ul>
+      </div>
+    );
   }
 
   render() {
-    const items = this.props.prescriptions.items;
     let content;
 
-    if (items) {
-      const sortValue = this.props.location.query.sort;
+    if (this.props.loading) {
+      content = <LoadingIndicator message="Loading your prescriptions..."/>;
+    } else if (this.props.prescriptions) {
+      const currentSort = this.props.sort;
 
+      if (this.state.view === 'list') {
+        content = (
+          <PrescriptionTable
+              handleSort={this.handleSort}
+              currentSort={currentSort}
+              items={this.props.prescriptions}
+              refillModalHandler={this.props.openRefillModal}
+              glossaryModalHandler={this.props.openGlossaryModal}/>
+        );
+      } else {
+        content = (
+          <div>
+            <p className="rx-tab-explainer">Your active VA prescriptions.</p>
+            <SortMenu
+                onChange={this.handleSort}
+                onClick={this.handleSort}
+                options={sortOptions}
+                selected={currentSort}/>
+            <PrescriptionList
+                items={this.props.prescriptions}
+                // If we're sorting by facility, tell PrescriptionList to group 'em.
+                grouped={currentSort.value === 'facilityName'}
+                refillModalHandler={this.props.openRefillModal}
+                glossaryModalHandler={this.props.openGlossaryModal}/>
+          </div>
+        );
+      }
+    } else {
       content = (
-        <div>
-          <SortMenu
-              changeHandler={this.handleSortOnChange}
-              clickHandler={this.handleSortOnClick}
-              options={sortOptions}
-              selected={sortValue}/>
-          <PrescriptionList
-              items={this.props.prescriptions.items}
-              // If we're sorting by facility, tell PrescriptionList to group 'em.
-              grouped={sortValue === 'facilityName'}/>
-        </div>
+        <p className="rx-tab-explainer rx-loading-error">
+          We couldn't retrieve your prescriptions.
+          Please refresh this page or try again later.
+          If this problem persists, please call the Vets.gov Help Desk
+          at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
+        </p>
       );
     }
 
     return (
-      <div className="va-tab-content">
+      <div id="rx-active" className="va-tab-content">
+        {this.renderViewSwitch()}
         {content}
       </div>
     );
   }
 }
 
-// TODO: fill this out
-const mapStateToProps = (state) => {
-  return state;
+Active.contextTypes = {
+  router: React.PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps)(Active);
+const mapStateToProps = (state) => {
+  const rxState = state.health.rx;
+  return {
+    ...rxState.prescriptions.active,
+    prescriptions: rxState.prescriptions.items,
+  };
+};
+
+const mapDispatchToProps = {
+  openGlossaryModal,
+  openRefillModal,
+  loadPrescriptions,
+  sortPrescriptions
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Active);

@@ -2,7 +2,7 @@
 
 {% unless page.template == 'alt-1-topic-landing' %}
 
-{% unless page.showactionbar == false %}
+{% unless showactionbar == false %}
 
   {% if path contains 'disability-benefits' %}
     {% include "content/includes/action-bar.html" action_text="Apply for Disability Benefits" action_url="/disability-benefits/apply-for-benefits/" action_class="va-action-bar--header" %}
@@ -17,7 +17,7 @@
     <div class="va-action-bar--header" style="background-color: #FAC922; text-align:center;">
       <div class="row">
         <div class="small-12 columns">
-          <h6 style="margin: 0;">Are you a caregiver or on active duty? This form’s not quite ready for you yet. <a href="#additional-forms"> Find the form you need.</a></h6>
+          <h6 style="margin: 0;">Are you a caregiver? This form’s not quite ready for you yet. <a href="#additional-forms"> Find the form you need.</a></h6>
         </div>
       </div>
     </div>
@@ -63,6 +63,8 @@
     {{ contents }} 
   {% endcase %}
   
-  {% include "content/includes/related-links.html" %}
+  {% if path != 'employment' %}
+  {% include "content/includes/general-related-links.html" %}
+  {% endif %}
 </div>
 {% include "content/includes/footer.html" %}

@@ -25,7 +25,6 @@ describe('<Phone>', () => {
     const errorableInputs = tree.everySubTree('ErrorableTextInput');
     expect(errorableInputs).to.have.lengthOf(1);
     expect(errorableInputs[0].props.label).to.equal('Phone');
-    expect(errorableInputs[0].props.placeholder).to.equal('xxxxxxxxxx');
     expect(errorableInputs[0].props.field).to.deep.equal(makeField('123-456-7890'));
   });
 });

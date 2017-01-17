@@ -1,92 +1,100 @@
 import React from 'react';
-import TabNav from '../components/TabNav';
-import AskVAQuestions from '../components/AskVAQuestions';
+import { connect } from 'react-redux';
 
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
+import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
+import RequestedFilesInfo from '../components/RequestedFilesInfo';
+
+import { clearNotification } from '../actions';
+import { scrollToTop, setUpPage, isTab, setFocus } from '../utils/page';
+
+const NEED_ITEMS_STATUS = 'NEEDED';
 
 class FilesPage extends React.Component {
+  componentDidMount() {
+    document.title = 'Files - Your Disability Compensation Claim';
+    if (!isTab(this.props.lastPage)) {
+      if (!this.props.loading) {
+        setUpPage();
+      } else {
+        scrollToTop();
+      }
+    } else {
+      setFocus('.va-tab-trigger--current');
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.loading && prevProps.loading && !isTab(this.props.lastPage)) {
+      setUpPage(false);
+    }
+  }
+  componentWillUnmount() {
+    this.props.clearNotification();
+  }
   render() {
-    return (
-      <div>
-        <div className="row">
-          <div className="medium-8 columns">
-            <div className="claim-conditions">
-              <h1>Your {"Compensation"} Claim</h1>
-              <h6>Your Claimed Conditions:</h6>
-              <p className="list">{"Tinnitus, Arthritis, PTSD"}</p>
-              <TabNav/>
-            </div>
-            <div className="file-request-list">
-              <h4 className="hightlight claim-file-border">File Requests</h4>
+    const { claim, loading, message } = this.props;
 
-              <div className="file-request-list-item">
-                <div className="item-container">
-                  <h5>DD214</h5>
-                  <h6 className="past-due"><i className="fa fa-exclamation-triangle"></i>Needed from you</h6>
-                  <p className="past-due"> - due 3 days ago</p>
-                </div>
-                <div className="button-container">
-                  <button className="usa-button-outline">View Details</button>
-                </div>
-                <div className="clearfix"></div>
-              </div>
+    let content = null;
+    if (!loading) {
+      const trackedItems = claim.attributes.eventsTimeline.filter(event => event.type.endsWith('_list'));
+      const filesNeeded = trackedItems
+        .filter(event => event.status === NEED_ITEMS_STATUS && event.type === 'still_need_from_you_list');
+      const optionalFiles = trackedItems
+        .filter(event => event.status === NEED_ITEMS_STATUS && event.type === 'still_need_from_others_list');
+      const documentsTurnedIn = trackedItems
+        .filter(event => event.status !== NEED_ITEMS_STATUS || !event.type.startsWith('still_need_from'));
 
-              <div className="file-request-list-item">
-                <div className="item-container">
-                  <h5>PTSD questionnaire</h5>
-                  <h6 className="due-file"><i className="fa fa-exclamation-triangle"></i>Needed from you</h6>
-                  <p className="due-file"> - due in 11 days</p>
-                </div>
-                <div className="button-container">
-                  <button className="usa-button-outline">View Details</button>
-                </div>
-                <div className="clearfix"></div>
-              </div>
+      content = (
+        <div>
+          {claim.attributes.open &&
+            <RequestedFilesInfo
+                id={claim.id}
+                filesNeeded={filesNeeded}
+                optionalFiles={optionalFiles}/>}
+          <div className="submitted-files-list">
+            <h2 className="hightlight claim-file-border claim-h2">Documents filed</h2>
+            {documentsTurnedIn.length === 0
+              ? <div className="no-documents-turned-in"><p>You haven't turned in any documents to VA.</p></div>
+              : null}
 
-              <div className="file-request-list-item">
-                <div className="item-container">
-                  <h5>Military personnel record</h5>
-                  <h6>Optional</h6>
-                  <p>- we requested this from others, but you may upload it if you have it.</p>
-                </div>
-                <div className="button-container">
-                  <button className="usa-button-outline">View Details</button>
-                </div>
-                <div className="clearfix"></div>
-              </div>
-            </div>
-
-            <div className="submit-file-container">
-              <div className="submit-additional-evidence">
-                <h4 className="hightlight claim-file-border">Submit Additional Evidence</h4>
-                <p>Do you have additional evidence to submit in order to support your claim? Upload it here now.</p>
-                <div className="button-container">
-                  <button className="usa-button-outline">View Details</button>
-                </div>
-                <div className="clearfix"></div>
-              </div>
-              <div className="submitted-files-list">
-                <h4 className="hightlight claim-file-border">Submitted Files</h4>
-                <div className="submitted-file-list-item">
-                  <p className="submission-file-type">DD214</p>
-                  <p>dd214-l-webber.pdf</p>
-                  <h6>Submitted</h6>
-                  <p className="submission-date">Jul 17, 2016 {' (pending)'}</p>
-                </div>
-                <div className="submitted-file-list-item">
-                  <p className="submission-file-type">Accrued wages from last employer</p>
-                  <p>{"wage-statement-2016.pdf"}</p>
-                  <h6 className="reviewed-file"><i className="fa fa-check-circle"></i>Reviewed by VA</h6>
-                  <p className="submission-date reviewed-file">Jul 17, 2016 {' (pending)'}</p>
-                </div>
-              </div>
-            </div>
+              {documentsTurnedIn
+                .map((item, itemIndex) => (
+                  item.trackedItemId
+                    ? <SubmittedTrackedItem item={item} key={itemIndex}/>
+                    : <AdditionalEvidenceItem item={item} key={itemIndex}/>))}
           </div>
-          <AskVAQuestions/>
-
         </div>
-      </div>
+      );
+    }
+
+    return (
+      <ClaimDetailLayout
+          claim={claim}
+          loading={loading}
+          clearNotification={this.props.clearNotification}
+          currentTab="Files"
+          message={message}>
+        {content}
+      </ClaimDetailLayout>
     );
   }
 }
 
-export default FilesPage;
+function mapStateToProps(state) {
+  const claimsState = state.disability.status;
+  return {
+    loading: claimsState.claimDetail.loading,
+    claim: claimsState.claimDetail.detail,
+    message: claimsState.notifications.message,
+    lastPage: claimsState.routing.lastPage
+  };
+}
+
+const mapDispatchToProps = {
+  clearNotification
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilesPage);
+
+export { FilesPage };

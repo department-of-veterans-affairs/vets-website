@@ -1,77 +1,85 @@
 import React from 'react';
-import moment from 'moment';
+import Modal from '../../common/components/Modal';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import { formatDate } from '../utils/helpers';
 
 class ConfirmRefillModal extends React.Component {
   constructor(props) {
     super(props);
-    this.handlerConfirmRefill = this.handlerConfirmRefill.bind(this);
-    this.handlerCloseModal = this.handlerCloseModal.bind(this);
+    this.handleConfirmRefill = this.handleConfirmRefill.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
-  handlerConfirmRefill(event) {
+  handleConfirmRefill(event) {
     event.preventDefault();
-
-    const rxId = this.props.prescriptionId;
-    const alertContent = (
-      <b>
-        Refill for <a href={`/rx/prescription/${rxId}`}>{this.props.prescriptionName}</a> has been requested.
-      </b>
-    );
-
-    this.props.refillPrescription(rxId);
-    this.props.openAlert('success', alertContent);
-    this.props.onCloseModal();
+    this.props.refillPrescription(this.props.prescription);
   }
 
-  handlerCloseModal(event) {
+  handleCloseModal(event) {
     event.preventDefault();
     this.props.onCloseModal();
   }
 
   render() {
-    let element;
-    if (this.props.isVisible) {
-      element = (
-        <section className="va-modal rx-modal" id="rx-confirm-refill">
-          <form className="va-modal-inner" onSubmit={this.handlerConfirmRefill}>
-            <div>
-              <h3 className="rx-modal-title">Confirm refill</h3>
-              <div className="rx-modal-refillinfo va-modal-body">
-                <div>
-                  <span className="rx-modal-drug">{this.props.prescriptionName}</span>
-                </div>
-                <div className="rx-modal-rxnumber">
-                  Prescription <abbr title="number">#</abbr>: {this.props.prescriptionNumber}
-                </div>
-                <div className="rx-modal-facility">
-                  Facility name: {this.props.facilityName}
-                </div>
-                <div className="rx-modal-lastrefilled">
-                  Last requested: {moment(this.props.refillDate).format('MMM D, YYYY')}
-                </div>
-                <div className="va-modal-button-group cf">
-                  <button type="submit" value={this.props.prescriptionId}>Order refill</button>
-                  <button type="button" className="usa-button-outline"
-                      onClick={this.handlerCloseModal}>Cancel</button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </section>
+    // Initialize to prevent console errors
+    let innerElement = '';
+
+    if (this.props.isLoading) {
+      innerElement = (
+        <LoadingIndicator
+            message="Submitting your refill request..."/>
       );
-    } else {
-      element = (<div/>);
+    } else if (this.props.prescription) {
+      const prescription = this.props.prescription;
+      innerElement = (
+        <form onSubmit={this.handleConfirmRefill}>
+          <div className="rx-modal-refillinfo">
+            <div>
+              <span className="rx-modal-drug">
+                {prescription.prescriptionName}
+              </span>
+            </div>
+            <div className="rx-modal-rxnumber">
+              <strong>Prescription <abbr title="number">#</abbr>:</strong> {prescription.prescriptionNumber}
+            </div>
+            <div className="rx-modal-facility">
+              <strong>Facility name:</strong> {prescription.facilityName}
+            </div>
+            <div className="rx-modal-lastrefilled">
+              <strong>Last submit date:</strong> {formatDate(prescription.refillSubmitDate)}
+            </div>
+            <div className="va-modal-button-group cf">
+              <button type="submit">Order refill</button>
+              <button type="button" className="usa-button-outline"
+                  onClick={this.handleCloseModal}>Cancel</button>
+            </div>
+          </div>
+        </form>
+        );
     }
 
-    return element;
+    return (
+      <Modal
+          cssClass="va-modal rx-modal"
+          contents={innerElement}
+          hideCloseButton
+          id="rx-confirm-refill"
+          onClose={this.props.onCloseModal}
+          title="Confirm refill"
+          visible={this.props.isVisible}/>
+      );
   }
 }
 
 ConfirmRefillModal.propTypes = {
-  drug: React.PropTypes.string,
-  dosage: React.PropTypes.string,
-  facilityName: React.PropTypes.string,
-  lastRefilled: React.PropTypes.string
+  prescription: React.PropTypes.shape({
+    prescriptionId: React.PropTypes.number.isRequired,
+    prescriptionName: React.PropTypes.string.isRequired
+  }),
+  isLoading: React.PropTypes.bool,
+  isVisible: React.PropTypes.bool,
+  refillPrescription: React.PropTypes.func,
+  onCloseModal: React.PropTypes.func
 };
 
 export default ConfirmRefillModal;

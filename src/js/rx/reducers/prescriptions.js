@@ -5,13 +5,24 @@ import _ from 'lodash';
 const initialState = {
   currentItem: null,
   items: [],
-  history: {
+  active: {
+    loading: false,
     sort: {
-      value: 'orderedDate',
+      value: 'prescriptionName',
+      order: 'ASC',
+    },
+  },
+  history: {
+    loading: false,
+    sort: {
+      value: 'refillSubmitDate',
       order: 'DESC',
     },
     page: 1,
     pages: 1
+  },
+  detail: {
+    loading: false
   }
 };
 
@@ -27,7 +38,11 @@ function sortByFacilityName(items) {
   return items.attributes.facilityName;
 }
 
-function sortByLastRequested(items) {
+function sortByLastSubmitDate(items) {
+  return new Date(items.attributes.refillSubmitDate).getTime();
+}
+
+function sortByRefillDate(items) {
   return new Date(items.attributes.refillDate).getTime();
 }
 
@@ -37,12 +52,9 @@ function updateRefillStatus(items, id) {
     return +item.id === id;
   });
 
-  // Calculate the new count, then update the items array.
-  const calculateCount = items[itemToUpdate].attributes.refillRemaining - 1;
-  const updateCount = set('attributes.refillRemaining', calculateCount, items[itemToUpdate]);
-
   // Update the refill status
-  const refillStatus = set('attributes.isRefillable', false, updateCount);
+  const isRefillable = set('attributes.isRefillable', false, items[itemToUpdate]);
+  const refillStatus = set('attributes.refillStatus', 'submitted', isRefillable);
 
   const updatedItems = set(itemToUpdate, refillStatus, items);
 
@@ -51,35 +63,84 @@ function updateRefillStatus(items, id) {
 
 export default function prescriptions(state = initialState, action) {
   switch (action.type) {
+    case 'LOADING_ACTIVE':
+      return set('active.loading', true, state);
+
+    case 'LOADING_HISTORY':
+      return set('history.loading', true, state);
+
+    case 'LOADING_DETAIL':
+      return set('detail.loading', true, state);
+
+    case 'LOAD_PRESCRIPTION_FAILURE': {
+      const loadingState = set('detail.loading', false, state);
+      return set('currentItem', null, loadingState);
+    }
+
+    case 'LOAD_PRESCRIPTIONS_FAILURE': {
+      const section = action.active ? 'active' : 'history';
+      const loadingState = set(`${section}.loading`, false, state);
+      return set('items', null, loadingState);
+    }
+
+    case 'LOAD_PRESCRIPTION_SUCCESS': {
+      const loadingState = set('detail.loading', false, state);
+      return set('currentItem', action.data, loadingState);
+    }
+
     case 'LOAD_PRESCRIPTIONS_SUCCESS': {
       const sort = action.data.meta.sort;
       const sortValue = Object.keys(sort)[0];
       const sortOrder = sort[sortValue];
-
       const pagination = action.data.meta.pagination;
+      const newState = { items: action.data.data };
 
-      return assign(state, {
-        items: action.data.data,
-        history: {
+      if (action.active) {
+        newState.active = {
+          loading: false,
+          sort: { value: sortValue, order: sortOrder },
+        };
+      } else {
+        newState.history = {
+          loading: false,
           sort: { value: sortValue, order: sortOrder },
           page: pagination.currentPage,
           pages: pagination.totalPages
-        }
-      });
+        };
+      }
+
+      return assign(state, newState);
     }
-    case 'LOAD_PRESCRIPTION_SUCCESS':
-      return set('currentItem', action.data, state);
-    // After the data is loaded, we can just use `state`.
-    // Also breaking convention and using lower case because the query parameters
-    // are lower case.
-    case 'prescriptionName':
-      return set('items', _.sortBy(state.items, sortByName), state);
-    case 'facilityName':
-      return set('items', _.sortBy(state.items, sortByFacilityName), state);
-    case 'lastRequested':
-      return set('items', _.sortBy(state.items, sortByLastRequested), state);
-    case 'REFILL_SUCCESS':
-      return set('items', updateRefillStatus(state.items, action.id), state);
+
+    case 'REFILL_SUCCESS': {
+      const newItems = updateRefillStatus(state.items, action.prescription.prescriptionId);
+      return set('items', newItems, state);
+    }
+
+    case 'SORT_PRESCRIPTIONS': {
+      const newState = set('active.sort', {
+        value: action.sort,
+        order: action.order,
+      }, state);
+      const order = action.order.toLowerCase();
+
+      switch (action.sort) {
+        case 'prescriptionName':
+          return set('items', _.orderBy(state.items, sortByName, [order]), newState);
+        case 'facilityName':
+          return set('items', _.orderBy(state.items, sortByFacilityName, [order]), newState);
+        case 'lastSubmitDate':
+          return set('items', _.orderBy(state.items, sortByLastSubmitDate, [order]), newState);
+        case 'refillDate':
+          return set('items', _.orderBy(state.items, sortByRefillDate, [order]), newState);
+        default:
+          return set('active.sort', {
+            value: 'prescriptionName',
+            order: 'ASC',
+          }, state);
+      }
+    }
+
     default:
       return state;
   }

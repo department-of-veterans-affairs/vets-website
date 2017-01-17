@@ -26,7 +26,6 @@ describe('<SocialSecurityNumber>', () => {
     expect(errorableInputs).to.have.lengthOf(1);
     expect(errorableInputs[0].props.label).to.equal('Social Security Number');
     expect(errorableInputs[0].props.required).to.be.true;
-    expect(errorableInputs[0].props.placeholder).to.equal('xxx-xx-xxxx');
     expect(errorableInputs[0].props.field).to.deep.equal(makeField('555-12-6789'));
   });
 });

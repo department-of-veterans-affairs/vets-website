@@ -1,48 +1,79 @@
 import React from 'react';
-import TabNav from '../components/TabNav';
-import AskVAQuestions from '../components/AskVAQuestions';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
 
 class DetailsPage extends React.Component {
+  componentDidMount() {
+    document.title = 'Details - Your Disability Compensation Claim';
+    if (!isTab(this.props.lastPage)) {
+      if (!this.props.loading) {
+        setUpPage();
+      } else {
+        scrollToTop();
+      }
+    } else {
+      setFocus('.va-tab-trigger--current');
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.loading && prevProps.loading && !isTab(this.props.lastPage)) {
+      setUpPage(false);
+    }
+  }
   render() {
-    return (
-      <div>
+    const { claim, loading } = this.props;
 
-        <div className="row">
-          <div className="medium-8 columns">
-            <div className="claim-conditions">
-              <h1>Your {"Compensation"} Claim</h1>
-              <h6>Your Claimed Conditions:</h6>
-              <p className="list">{"Tinnitus, Arthritis, PTSD"}</p>
-              <TabNav/>
-            </div>
-
-            <div className="claim-details">
-              <div className="claim-types">
-                <h6>Claim Type</h6>
-                <p>{"Disability Compensation"}</p>
-              </div>
-              <div className="claim-conditions-list">
-                <h6>Your Claimed Conditions</h6>
-                <li>{"Tinnitus"} {"(new)"}</li>
-                <li>{"PTSD"} {"(reopened)"}</li>
-                <li>{"Diabetes"} {"(increase)"}</li>
-              </div>
-              <div className="claim-date-recieved">
-                <h6>Date Recieved</h6>
-                <p>{"Jun 12, 2016"}</p>
-              </div>
-              <div className="claim-va-representative">
-                <h6>Your Representative for VA Claims</h6>
-                <p>{"Disabled American Veterans"}</p>
-              </div>
-            </div>
+    let content = null;
+    if (!loading) {
+      content = (
+        <div className="claim-details">
+          <div className="claim-types">
+            <h6>Claim Type</h6>
+            <p>{claim.attributes.claimType || 'Not Available'}</p>
           </div>
-
-          <AskVAQuestions/>
+          <div className="claim-contentions-list">
+            <h6>Your Claimed Contentions</h6>
+            {claim.attributes.contentionList && claim.attributes.contentionList.length
+            ? claim.attributes.contentionList.map((contention, index) =>
+              <li key={index}>{contention}</li>
+              )
+            : 'Not Available'
+            }
+          </div>
+          <div className="claim-date-recieved">
+            <h6>Date Received</h6>
+            <p>{moment(claim.attributes.dateFiled).format('MMM D, YYYY')}</p>
+          </div>
+          <div className="claim-va-representative">
+            <h6>Your Representative for VA Claims</h6>
+            <p>{claim.attributes.vaRepresentative || 'Not Available'}</p>
+          </div>
         </div>
-      </div>
+      );
+    }
+
+    return (
+      <ClaimDetailLayout
+          claim={claim}
+          currentTab="Details"
+          loading={loading}>
+        {content}
+      </ClaimDetailLayout>
     );
   }
 }
 
-export default DetailsPage;
+function mapStateToProps(state) {
+  const claimsState = state.disability.status;
+  return {
+    loading: claimsState.claimDetail.loading,
+    claim: claimsState.claimDetail.detail,
+    lastPage: claimsState.routing.lastPage
+  };
+}
+
+export default connect(mapStateToProps)(DetailsPage);
+
+export { DetailsPage };

@@ -16,7 +16,15 @@ export default class NavHeader extends React.Component {
       });
 
     return step
-      ? <h4 className={className}><span className="form-process-step current">{step}</span> of {total} {name}</h4>
+      ? <h4
+          role="progressbar"
+          aria-valuenow={step}
+          aria-valuemin="1"
+          aria-valuetext={`Step ${step} of ${total}: ${name}`}
+          aria-valuemax={total}
+          className={`nav-header ${className}`}>
+        <span className="form-process-step current">{step}</span> of {total} {name}
+      </h4>
       : null;
   }
 }

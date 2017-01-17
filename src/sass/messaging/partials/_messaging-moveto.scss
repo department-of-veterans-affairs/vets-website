@@ -1,25 +1,35 @@
 .msg-move-to {
   display: inline-block;
   position: relative;
+  vertical-align: middle;
+  z-index: 1;
+}
+
+.messaging-move {
+  @extend %messaging-rectangular-button;
+
+  > i {
+    margin-left: .5rem;
+  }
 }
 
 // Creates a radio input but with a hidden
 // control. Using high-specificity selector because
 // USWDS does.
 .msg-hidden-radio[type=radio] {
-  // Overrides some silly USWDS input stuff 
+  // Overrides some silly USWDS input stuff
   height: auto;
   width: auto;
-  
+
   & + label {
     &:hover {
       background: $color-gray-lightest;
     }
   }
-  
+
   &:checked + label,
   + label {
-
+    margin: 0;
     &::before {
       display: none;
       content: '';
@@ -34,12 +44,21 @@
   margin: -1px 0 0 0;
   padding-left: 0;
   position: absolute;
+  text-align: left;
   z-index: 3;
-  
+
+  @media (max-width: $medium-screen) {
+    width: 20rem;
+    right: 0;
+  }
+
+  @media (min-width: $medium-screen) {
+    width: 25rem;
+  }
+
   .msg-btn-newfolder[type="button"] {
     display: block;
     padding: .5rem;
-    white-space: nowrap;
     width: 100%;
   }
 }
@@ -50,6 +69,15 @@
   overflow: hidden;
   padding: 1rem;
   text-overflow: ellipsis;
-  width: 25rem;
   white-space: nowrap;
+}
+
+// Exception for button in message table. 
+.messaging-message-row {
+  .msg-move-to {
+    position: static;
+  }
+  .msg-move-to-options {
+    margin-left: -18.15rem;
+  }
 }

@@ -1,6 +1,5 @@
-const request = require('request');
+const mock = require('./mock-helpers');
 
-const E2eHelpers = require('./e2e-helpers');
 const Timeouts = require('./timeouts.js');
 
 const testValues = {
@@ -50,7 +49,7 @@ const testValues = {
   homePhone: '5551112323',
   mobilePhone: '5551114545',
 
-  understandsFinancialDisclosure: false,
+  discloseFinancialInformation: false,
 
   spouseFullName: {
     first: 'Anne',
@@ -207,7 +206,10 @@ function completeBirthInformation(client, data, onlyRequiredFields) {
 }
 
 function completeDemographicInformation(client, data, onlyRequiredFields) {
-  client.setValue('select[name="gender"]', data.gender);
+  client
+    .setValue('select[name="gender"]', data.gender)
+    .clearValue('select[name="maritalStatus"]')
+    .setValue('select[name="maritalStatus"]', data.maritalStatus);
 
   if (!onlyRequiredFields) {
     client
@@ -285,20 +287,14 @@ function completeVaBenefits(client, data, onlyRequiredFields) {
 }
 
 function completeFinancialDisclosure(client, data, onlyRequiredFields) {
-  client.click('input[name="understandsFinancialDisclosure"]');
+  client.click('input[name="discloseFinancialInformation-1"]');
 
   if (!onlyRequiredFields) {
-    onlyRequiredFields;
+    client.click('input[name="discloseFinancialInformation-0"]');
   }
 }
 
 function completeSpouseInformation(client, data, onlyRequiredFields) {
-  client
-    .clearValue('select[name="maritalStatus"]')
-    .setValue('select[name="maritalStatus"]', data.maritalStatus)
-    .click('.form-panel');
-  client.expect.element('input[name="fname"]').to.be.visible.before(Timeouts.normal);
-
   client
     .clearValue('input[name="fname"]')
     .setValue('input[name="fname"]', data.spouseFullName.first)
@@ -344,6 +340,24 @@ function completeSpouseInformation(client, data, onlyRequiredFields) {
   }
 }
 
+function completeAnnualIncomeInformation(client, data, onlyRequiredFields) {
+  client.expect.element('input[name="veteranGrossIncome"]').to.be.visible.before(Timeouts.normal);
+  client
+    .setValue('input[name="veteranGrossIncome"]', data.veteranGrossIncome)
+    .setValue('input[name="veteranNetIncome"]', data.veteranNetIncome)
+    .setValue('input[name="veteranOtherIncome"]', data.veteranOtherIncome);
+
+  if (!onlyRequiredFields) {
+    client
+      .setValue('input[name="spouseGrossIncome"]', data.spouseGrossIncome)
+      .setValue('input[name="spouseNetIncome"]', data.spouseNetIncome)
+      .setValue('input[name="spouseOtherIncome"]', data.spouseOtherIncome)
+      .setValue('input[name="childGrossIncome"]', data.children[0].grossIncome)
+      .setValue('input[name="childNetIncome"]', data.children[0].netIncome)
+      .setValue('input[name="childOtherIncome"]', data.children[0].otherIncome);
+  }
+}
+
 function completeChildInformation(client, data, onlyRequiredFields) {
   client.click('input[name="hasChildrenToReport-0"]');
   client.expect.element('input[name="fname"]').to.be.visible.before(Timeouts.normal);
@@ -357,7 +371,8 @@ function completeChildInformation(client, data, onlyRequiredFields) {
     .setValue('input[name="childBirthYear"]', data.children[0].childDateOfBirth.year)
     .setValue('select[name="childBecameDependentMonth"]', data.children[0].childBecameDependent.month)
     .setValue('select[name="childBecameDependentDay"]', data.children[0].childBecameDependent.day)
-    .setValue('input[name="childBecameDependentYear"]', data.children[0].childBecameDependent.year);
+    .setValue('input[name="childBecameDependentYear"]', data.children[0].childBecameDependent.year)
+    .setValue('input[name="childEducationExpenses"]', '6000');
 
   if (!onlyRequiredFields) {
     client
@@ -365,11 +380,19 @@ function completeChildInformation(client, data, onlyRequiredFields) {
       .setValue('select[name="suffix"]', 'Jr.')
       .click('input[name="childDisabledBefore18-0"]')
       .click('input[name="childAttendedSchoolLastYear-0"]')
-      .setValue('input[name="childEducationExpenses"]', '6000')
       .click('input[name="childCohabitedLastYear-1"]')
       .click('input[name="childReceivedSupportLastYear-0"]');
   }
 }
+
+function completeDeductibleExpenses(client, data) {
+  client.expect.element('input[name="deductibleMedicalExpenses"]').to.be.visible.before(Timeouts.normal);
+  client
+    .setValue('input[name="deductibleMedicalExpenses"]', data.deductibleMedicalExpenses)
+    .setValue('input[name="deductibleFuneralExpenses"]', data.deductibleFuneralExpenses)
+    .setValue('input[name="deductibleEducationExpenses"]', data.deductibleEducationExpenses);
+}
+
 
 function completeMedicareAndMedicaid(client, data, onlyRequiredFields) {
   client
@@ -377,6 +400,9 @@ function completeMedicareAndMedicaid(client, data, onlyRequiredFields) {
     .click('input[name="isEnrolledMedicarePartA-1"]');
 
   if (!onlyRequiredFields) {
+    client
+      .click('input[name="isEnrolledMedicarePartA-0"]');
+
     client
       .setValue('select[name="medicarePartAEffectiveMonth"]', data.medicarePartAEffectiveDate.month)
       .setValue('select[name="medicarePartAEffectiveDay"]', data.medicarePartAEffectiveDate.day)
@@ -410,16 +436,12 @@ function completeVaInsuranceInformation(client, data, onlyRequiredFields) {
 }
 
 function initApplicationSubmitMock() {
-  request({
-    uri: `${E2eHelpers.apiUrl}/mock`,
-    method: 'POST',
-    json: {
-      path: '/api/hca/v1/application',
-      verb: 'post',
-      value: {
-        formSubmissionId: '123fake-submission-id-567',
-        timeStamp: '2016-05-16'
-      }
+  mock(null, {
+    path: '/api/hca/v1/application',
+    verb: 'post',
+    value: {
+      formSubmissionId: '123fake-submission-id-567',
+      timeStamp: '2016-05-16'
     }
   });
 }
@@ -436,6 +458,8 @@ module.exports = {
   completeFinancialDisclosure,
   completeSpouseInformation,
   completeChildInformation,
+  completeAnnualIncomeInformation,
+  completeDeductibleExpenses,
   completeMedicareAndMedicaid,
   completeInsuranceInformation,
   completeVaInsuranceInformation,

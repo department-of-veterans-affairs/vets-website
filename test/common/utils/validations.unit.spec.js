@@ -1,6 +1,21 @@
 import { expect } from 'chai';
+import moment from 'moment';
 
-import { isValidDate, isValidSSN, isValidName, isNotBlank, isBlank, isValidMonetaryValue } from '../../../src/js/common/utils/validations.js';
+import {
+  isValidDate,
+  isValidDateRange,
+  isValidSSN,
+  isValidName,
+  isNotBlank,
+  isBlank,
+  isValidMonetaryValue,
+  isValidDateOver17,
+  isValidPartialDate,
+  validateCustomFormComponent,
+  isValidPartialMonthYear,
+  isValidPartialMonthYearRange,
+  isValidPartialMonthYearInPast
+} from '../../../src/js/common/utils/validations.js';
 
 describe('Validations unit tests', () => {
   describe('isValidSSN', () => {
@@ -16,6 +31,10 @@ describe('Validations unit tests', () => {
       expect(isValidSSN('900-22-1234')).to.be.true;
       expect(isValidSSN('111221234')).to.be.true;
       expect(isValidSSN('111111112')).to.be.true;
+
+      // Values with all the same digit are allowed in some cases
+      expect(isValidSSN('222222222')).to.be.true;
+      expect(isValidSSN('444-44-4444')).to.be.true;
     });
 
     it('rejects invalid ssn format', () => {
@@ -33,6 +52,7 @@ describe('Validations unit tests', () => {
       // No leading or trailing spaces.
       expect(isValidSSN('111-22-1A34 ')).to.be.false;
       expect(isValidSSN(' 111-22-1234')).to.be.false;
+      expect(isValidSSN('-11-11111111')).to.be.false;
 
       // Too few numbers is invalid.
       expect(isValidSSN('111-22-123')).to.be.false;
@@ -72,6 +92,189 @@ describe('Validations unit tests', () => {
     it('validate future dates', () => {
       // future dates are bad.
       expect(isValidDate(1, 1, 2050)).to.be.false;
+    });
+  });
+
+  describe('isValidDateRange', () => {
+    it('validates if to date is after from date', () => {
+      const fromDate = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: 2006,
+          dirty: true
+        }
+      };
+      const toDate = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 4,
+          dirty: true
+        },
+        year: {
+          value: 2006,
+          dirty: true
+        }
+      };
+      expect(isValidDateRange(fromDate, toDate)).to.be.true;
+    });
+    it('does not validate to date is before from date', () => {
+      const fromDate = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: 2006,
+          dirty: true
+        }
+      };
+      const toDate = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 4,
+          dirty: true
+        },
+        year: {
+          value: 2005,
+          dirty: true
+        }
+      };
+      expect(isValidDateRange(fromDate, toDate)).to.be.false;
+    });
+    it('does validate with partial dates', () => {
+      const fromDate = {
+        day: {
+          value: '3',
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: 2006,
+          dirty: true
+        }
+      };
+      const toDate = {
+        day: {
+          value: '',
+          dirty: true
+        },
+        month: {
+          value: '',
+          dirty: true
+        },
+        year: {
+          value: 2008,
+          dirty: true
+        }
+      };
+      expect(isValidDateRange(fromDate, toDate)).to.be.true;
+    });
+  });
+
+  describe('isValidPartialMonthYearRange', () => {
+    it('should validate partial range', () => {
+      const fromDate = {
+        month: {
+          value: '2'
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      const toDate = {
+        month: {
+          value: '3'
+        },
+        year: {
+          value: ''
+        }
+      };
+
+      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
+    });
+    it('should not validate invalid range', () => {
+      const fromDate = {
+        month: {
+          value: '2'
+        },
+        year: {
+          value: '2002'
+        }
+      };
+
+      const toDate = {
+        month: {
+          value: '3'
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.false;
+    });
+    it('should validate same date range', () => {
+      const fromDate = {
+        month: {
+          value: '2'
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      const toDate = {
+        month: {
+          value: '2'
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
+    });
+    it('should validate year only range', () => {
+      const fromDate = {
+        month: {
+          value: ''
+        },
+        year: {
+          value: '2001'
+        }
+      };
+
+      const toDate = {
+        month: {
+          value: ''
+        },
+        year: {
+          value: '2002'
+        }
+      };
+
+      expect(isValidPartialMonthYearRange(fromDate, toDate)).to.be.true;
     });
   });
 
@@ -120,6 +323,102 @@ describe('Validations unit tests', () => {
       expect(isValidMonetaryValue('1,000')).to.be.false;
       expect(isValidMonetaryValue('abc')).to.be.false;
       expect(isValidMonetaryValue('$100')).to.be.false;
+    });
+  });
+
+  describe('isValidDateOver17', () => {
+    it('validates turning 17 today', () => {
+      const date = moment().startOf('day').subtract(17, 'years');
+      expect(isValidDateOver17(date.date(), date.month() + 1, date.year())).to.be.true;
+    });
+
+    it('does not validate turning 17 tomorrow', () => {
+      const date = moment().startOf('day').subtract(17, 'years').add(1, 'days');
+      expect(isValidDateOver17(date.date(), date.month() + 1, date.year())).to.be.false;
+    });
+  });
+  describe('isValidPartialDate', () => {
+    it('should valid complete date', () => {
+      expect(isValidPartialDate(5, 10, 2010)).to.be.true;
+    });
+    it('should validate empty date', () => {
+      expect(isValidPartialDate('', '', '')).to.be.true;
+    });
+    it('should validate month year date', () => {
+      expect(isValidPartialDate('', '10', 2050)).to.be.true;
+    });
+    it('should validate month day date', () => {
+      expect(isValidPartialDate('10', '10', '')).to.be.true;
+    });
+    it('should validate day year date', () => {
+      expect(isValidPartialDate('20', '', '2010')).to.be.true;
+    });
+    it('should validate day date', () => {
+      expect(isValidPartialDate('20', '', '')).to.be.true;
+    });
+    it('should validate year date', () => {
+      expect(isValidPartialDate('', '', '2010')).to.be.true;
+    });
+    it('should not validate year before 1900', () => {
+      expect(isValidPartialDate('', '', '1899')).to.be.false;
+    });
+    it('should not validate year more than 100 years in future', () => {
+      expect(isValidPartialDate('', '', moment().add(101, 'year').year())).to.be.false;
+    });
+  });
+  describe('validateCustomFormComponent', () => {
+    it('should return object validation results', () => {
+      const validation = {
+        valid: false,
+        message: 'Test'
+      };
+
+      expect(validateCustomFormComponent(validation)).to.equal(validation);
+    });
+    it('should return passing object validation results', () => {
+      const validation = {
+        valid: true,
+        message: 'Test'
+      };
+
+      expect(validateCustomFormComponent(validation).valid).to.be.true;
+      expect(validateCustomFormComponent(validation).message).to.be.null;
+    });
+    it('should return array validation results', () => {
+      const validation = [
+        {
+          valid: true,
+          message: 'DoNotShow'
+        },
+        {
+          valid: false,
+          message: 'Test'
+        }
+      ];
+
+      expect(validateCustomFormComponent(validation)).to.equal(validation[1]);
+    });
+  });
+  describe('isValidPartialMonthYear', () => {
+    it('should validate month and year', () => {
+      expect(isValidPartialMonthYear('2', moment().add(5, 'year').year())).to.be.true;
+    });
+    it('should not validate bad year', () => {
+      expect(isValidPartialMonthYear('2', '2500')).to.be.false;
+    });
+    it('should not validate bad month', () => {
+      expect(isValidPartialMonthYear(20, 2001)).to.be.false;
+    });
+  });
+  describe('isValidPartialMonthYearInPast', () => {
+    it('should validate month and year in past', () => {
+      expect(isValidPartialMonthYearInPast('2', '2001')).to.be.true;
+    });
+    it('should validate month and year that is current', () => {
+      expect(isValidPartialMonthYearInPast(moment().month(), moment().year())).to.be.true;
+    });
+    it('should not validate month and year that is in the future', () => {
+      expect(isValidPartialMonthYearInPast('2', moment().add(2, 'year').year())).to.be.false;
     });
   });
 });

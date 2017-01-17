@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import ToolTip from './ToolTip';
+import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 
 import { makeField } from '../../model/fields.js';
 
@@ -72,22 +73,26 @@ class ErrorableRadioButtons extends React.Component {
 
     const options = _.isArray(this.props.options) ? this.props.options : [];
     const storedValue = this.props.value.value;
-    let reactKey = 0;
     const optionElements = options.map((obj, index) => {
       let optionLabel;
       let optionValue;
+      let optionAdditional;
       if (_.isString(obj)) {
         optionLabel = obj;
         optionValue = obj;
       } else {
         optionLabel = obj.label;
         optionValue = obj.value;
+        if (obj.additional) {
+          optionAdditional = (<div>{obj.additional}</div>);
+        }
       }
       const checked = optionValue === storedValue ? 'checked=true' : '';
       const matchingSubSection = this.getMatchingSubSection(optionValue === storedValue, optionValue);
-      return (
-        <div key={reactKey++} className="form-radio-buttons">
+      const radioButton = (
+        <div key={optionAdditional ? undefined : index} className="form-radio-buttons">
           <input
+              autoComplete="false"
               checked={checked}
               id={`${this.inputId}-${index}`}
               name={`${this.props.name}-${index}`}
@@ -100,6 +105,23 @@ class ErrorableRadioButtons extends React.Component {
           {matchingSubSection}
         </div>
       );
+
+      let output = radioButton;
+
+      // Return an expanding group for buttons with additional content
+      if (optionAdditional) {
+        output = (
+          <ExpandingGroup
+              additionalClass="form-expanding-group-active-radio"
+              open={checked}
+              key={index}>
+            {radioButton}
+            <div>{optionAdditional}</div>
+          </ExpandingGroup>
+        );
+      }
+
+      return output;
     });
 
     return (
@@ -130,6 +152,10 @@ ErrorableRadioButtons.propTypes = {
         value: React.PropTypes.oneOfType([
           React.PropTypes.string,
           React.PropTypes.bool
+        ]),
+        additional: React.PropTypes.oneOfType([
+          React.PropTypes.string,
+          React.PropTypes.element
         ])
       })
     ])).isRequired,

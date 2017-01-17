@@ -32,5 +32,5 @@ You
 
 When filing your claim, be sure to provide evidence or statements that your disability is preventing you from maintaining substantially gainful employment. Your work and education history will be reviewed.
 
-**Example**<br>
+**Example**
 A Veteran has a service-connected heart condition that has been evaluated as 60% disabling. She has been able to work without difficulty until last year, when she began to experience chest pain with any exertion. Her physician recommended that she retire as soon as possible. She filed a claim for increased disability compensation. Evidence regarding the Veteran’s work history and education were reviewed, and she was designated as individually unemployable due to her service-connected disability and entitled to compensation at the same rate as a 100% disabled Veteran.

@@ -13,6 +13,15 @@ class Row extends React.Component {
   }
 }
 
+function isValidPage(completePath) {
+  switch (completePath) {
+    case '':
+      return true;
+    default:
+      return true;
+  }
+}
+
 describe('<GrowableTable>', () => {
   describe('row management', () => {
     let growableTable;
@@ -38,7 +47,8 @@ describe('<GrowableTable>', () => {
             initializeCurrentElement={initializeCurrentElement}
             rows={rows}
             onRowsUpdate={onRowsUpdate}
-            path=""/>
+            path=""
+            isValidSection={isValidPage}/>
       );
     });
 
@@ -46,9 +56,9 @@ describe('<GrowableTable>', () => {
       onRowsUpdate.reset();
     });
 
-    it('Add Button adds new row w/o distubing existing entries', () => {
+    it('Add Button adds new row w/o disturbing existing entries', () => {
       const buttons = ReactTestUtils.scryRenderedDOMComponentsWithTag(growableTable, 'button');
-      const addButton = buttons.find((element) => { return element.textContent === 'Add'; });
+      const addButton = buttons.find((element) => { return element.textContent === 'Add Another'; });
       expect(addButton).to.not.be.undefined;
       ReactTestUtils.Simulate.click(addButton);
       sinon.assert.calledOnce(onRowsUpdate);

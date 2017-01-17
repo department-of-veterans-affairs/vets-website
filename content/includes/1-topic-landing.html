@@ -3,18 +3,17 @@
     <div class="primary">
       <div class="row">
         <div class="small-12 columns usa-content">
-       
 
         <h1>{{ title }}</h1>
         <!-- Page content begins -->
-  
-        {{ contents }} 
+
+        {{ contents }}
         <!-- Page content ends -->
         </div>
       </div>
     </div>
-    {% include "content/includes/main-navigation.html" %}
+    {% if relatedlinks %}
+      {% include "content/includes/main-navigation.html" %}
+    {% endif %}
   </div>
 </div>
-
-

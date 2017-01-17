@@ -1,76 +1,104 @@
 import React from 'react';
-import TabNav from '../components/TabNav';
-import AskVAQuestions from '../components/AskVAQuestions';
+import { connect } from 'react-redux';
+import NeedFilesFromYou from '../components/NeedFilesFromYou';
+import ClaimsDecision from '../components/ClaimsDecision';
+import ClaimComplete from '../components/ClaimComplete';
+import AskVAToDecide from '../components/AskVAToDecide';
+import ClaimsTimeline from '../components/ClaimsTimeline';
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
+import { itemsNeedingAttentionFromVet, getCompletedDate } from '../utils/helpers';
+
+import { clearNotification } from '../actions';
+
+const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
 class StatusPage extends React.Component {
+  componentDidMount() {
+    document.title = 'Status - Your Disability Compensation Claim';
+    if (!isTab(this.props.lastPage)) {
+      if (!this.props.loading) {
+        setUpPage();
+      } else {
+        scrollToTop();
+      }
+    } else {
+      setFocus('.va-tab-trigger--current');
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.loading && prevProps.loading && !isTab(this.props.lastPage)) {
+      setUpPage(false);
+    }
+  }
+  componentWillUnmount() {
+    this.props.clearNotification();
+  }
   render() {
-    return (
-      <div className="row">
-        <div className="medium-8 columns show-for-medium-up">
-          <div className="claim-conditions">
-            <h1>Your {"Compensation"} Claim</h1>
-            <h6>Your Claimed Conditions:</h6>
-            <p className="list">{"Tinnitus, Arthritis, PTSD"}</p>
-            <TabNav/>
-          </div>
-          <div className="claim-decision-is-ready">
-            <h4>Your claim decision is ready</h4>
-            <p>VA sent you a claim decision by U.S mail on {"Sep 12, 2016"}. Please allow up to 8 business days for it to arrive.</p>
-            <p>Do you disagree with your claim decision? <a href="/">File an appeal</a></p>
-            <p>If you have new evidence to support your claim and have no yet appealed, you can ask VA to <a href="/">Reopen your claim</a></p>
-          </div>
-          <div name="topScrollElement"></div>
-          <ol className="process form-process">
-            <li role="presentation" className="one  step one wow fadeIn animated section-complete" >
-              <div>
-                <h5>Claim Recieved</h5>
-              </div>
-            </li>
-            <li role="presentation" className="two  step one wow fadeIn animated section-complete" >
-              <div>
-                <h5>Initial Review</h5>
-              </div>
-            </li>
-            <li role="presentation" className="three  step one wow fadeIn animated section-current" >
-              <div>
-                <h5>Evidence Gathering and Review</h5>
-                <p>
-                  If VA needs more information, the Veterans Service Representative (VSR) will request it from you on your behalf. Once VA has all the information it needs, the VSR will confirm, issue by issue, that the claim is ready for a decision.
-                </p>
-                <div className="claims-evidence">
-                  <p className="claims-evidence-date">Jul 17, 2016</p>
-                  <p className="claims-evidence-item">We requested <a href="/">Copy of DD214</a> from you</p>
-                </div>
-                <div className="claims-evidence">
-                  <p className="claims-evidence-date">Jul 7, 2016</p>
-                  <p className="claims-evidence-item">We requested <a href="/">PTSD questionnaire</a> from you</p>
-                </div>
-                <div className="claims-evidence">
-                  <p className="claims-evidence-date">Jul 1, 2016</p>
-                  <p className="claims-evidence-item">Your claim moved to Evidence gathering for review</p>
-                </div>
-              </div>
-            </li>
-            <li role="presentation" className="four  step one wow fadeIn animated" >
-              <div>
-                <h5>Preparing for decision</h5>
-              </div>
-            </li>
-            <li role="presentation" className="five last step one wow fadeIn animated">
-              <div className="completion-container">
-                <h5>Complete</h5>
-                <div className="claim-completion-estimation">
-                  <p className="date-estimation">Estimated Mar 11, 2018</p>
-                  <p><a href="/">Learn about this estimation</a></p>
-                </div>
-              </div>
-            </li>
-          </ol>
+    const { claim, loading, message } = this.props;
+
+    let content = null;
+    if (!loading) {
+      const phase = claim.attributes.phase;
+      const showDecision = phase === FIRST_GATHERING_EVIDENCE_PHASE
+        && !claim.attributes.waiverSubmitted;
+      const filesNeeded = itemsNeedingAttentionFromVet(claim.attributes.eventsTimeline);
+      const showDocsNeeded = !claim.attributes.decisionLetterSent &&
+        claim.attributes.open &&
+        claim.attributes.documentsNeeded &&
+        filesNeeded > 0;
+
+      content = (
+        <div>
+          {showDocsNeeded
+            ? <NeedFilesFromYou claimId={claim.id} files={filesNeeded}/>
+            : null}
+          {showDecision
+            ? <AskVAToDecide id={this.props.params.id}/>
+            : null}
+          {claim.attributes.decisionLetterSent && !claim.attributes.open ? <ClaimsDecision completedDate={getCompletedDate(claim)}/> : null}
+          {!claim.attributes.decisionLetterSent && !claim.attributes.open ? <ClaimComplete completedDate={getCompletedDate(claim)}/> : null}
+          {phase !== null && claim.attributes.open
+            ? <ClaimsTimeline
+                id={claim.id}
+                estimatedDate={claim.attributes.maxEstDate}
+                phase={phase}
+                currentPhaseBack={claim.attributes.currentPhaseBack}
+                everPhaseBack={claim.attributes.everPhaseBack}
+                events={claim.attributes.eventsTimeline}/>
+            : null}
         </div>
-        <AskVAQuestions/>
-      </div>
+      );
+    }
+
+    return (
+      <ClaimDetailLayout
+          claim={claim}
+          loading={loading}
+          clearNotification={this.props.clearNotification}
+          currentTab="Status"
+          message={message}>
+        {content}
+      </ClaimDetailLayout>
     );
   }
 }
 
-export default StatusPage;
+function mapStateToProps(state) {
+  const claimsState = state.disability.status;
+  return {
+    loading: claimsState.claimDetail.loading,
+    claim: claimsState.claimDetail.detail,
+    message: claimsState.notifications.message,
+    lastPage: claimsState.routing.lastPage
+  };
+}
+
+const mapDispatchToProps = {
+  clearNotification
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
+
+export { StatusPage };
+

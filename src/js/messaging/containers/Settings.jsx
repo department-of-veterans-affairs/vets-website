@@ -4,23 +4,21 @@ import { Link } from 'react-router';
 
 import {
   deleteFolder,
+  openCreateFolderModal,
   toggleFolderNav
-} from '../actions/folders';
+} from '../actions';
 
-import { openCreateFolderModal } from '../actions/modals';
 import ButtonCreateFolder from '../components/buttons/ButtonCreateFolder';
 import ButtonDelete from '../components/buttons/ButtonDelete';
-import { paths } from '../config';
+import { folderUrl } from '../utils/helpers';
 
-class Settings extends React.Component {
+export class Settings extends React.Component {
   render() {
     const folderRows = this.props.folders.map(folder => {
-      const link = `${paths.FOLDERS_URL}/${folder.folderId}`;
-
       return (
         <tr key={folder.folderId}>
           <td>
-            <Link to={link}>
+            <Link to={folderUrl(folder.name)}>
               {folder.name}
             </Link>
           </td>
@@ -29,6 +27,7 @@ class Settings extends React.Component {
           </td>
           <td>
             <ButtonDelete
+                className="va-icon-link"
                 onClickHandler={() => this.props.deleteFolder(folder)}/>
           </td>
         </tr>
@@ -47,7 +46,7 @@ class Settings extends React.Component {
           <h2>Settings</h2>
         </div>
         <div id="messaging-settings">
-          <table className="usa-table-borderless">
+          <table className="usa-table-borderless va-table-list">
             <thead>
               <tr>
                 <th>Folder name</th>
@@ -67,8 +66,16 @@ class Settings extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const msgState = state.health.msg;
+  const folders = [];
+  msgState.folders.data.items.forEach((folder) => {
+    if (folder.folderId > 0) {
+      folders.push(folder);
+    }
+  });
+
   return {
-    folders: state.folders.data.items.slice(4)
+    folders
   };
 };
 
