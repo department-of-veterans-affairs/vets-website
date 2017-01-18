@@ -23,11 +23,12 @@
 }
 
 // ---- U.S. WEB DESIGN STANDARDS SETTINGS --- //
-@import "~uswds/src/stylesheets/core/variables";
-@import "~uswds/src/stylesheets/core/utilities";
-@import "~uswds/src/stylesheets/core/base";
-@import "~uswds/src/stylesheets/core/grid-settings";
-@import "~uswds/src/stylesheets/core/grid";
+@import '~uswds/src/stylesheets/core/variables';
+@import '~uswds/src/stylesheets/core/fonts';
+@import '~uswds/src/stylesheets/core/base';
+@import '~uswds/src/stylesheets/core/grid';
+@import '~uswds/src/stylesheets/core/utilities';
+
 
 // ---- U.S. WEB DESIGN STANDARDS ELEMENTS/COMPONENTS --- //
 @import "~uswds/src/stylesheets/elements/buttons";

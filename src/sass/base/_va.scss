@@ -264,9 +264,12 @@ h6 {
   color: $color-primary-darker;
   float: none;
   margin-left: auto;
-  margin-right: auto;
   padding-bottom: 0.5em;
   border-bottom: #988530 solid 2px;
+  // Added because this class is being used with .usa-width-five-twelfths
+  &:last-child {
+    margin-right: auto;
+  }
 }
 
 .stars-tagline {
