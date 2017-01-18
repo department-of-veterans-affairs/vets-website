@@ -13,13 +13,13 @@ Are you a former POW now living with a disability? Find out if you can get disab
 
 ### Can I get disability benefits from VA?
 You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and:
--	Your condition is believed to be caused by time spent as a POW. We call this a presumptive disability, **and**
+-	We believe your time spent as a POW caused your condition, **and**
 -	At any time following active-duty service, your condition has become at least 10% disabling. Our disability rating system is used to measure the severity of your disability.
 
 
-### What conditions are covered by these benefits?
+### What conditions do these benefits cover?
 
-Conditions believed to be caused by time spent as a POW are covered by these benefits. Please see the list of covered conditions below. We've decided these conditions are covered because of studies that have been done on the long-term effects of captivity, deprivation, trauma, and cold injury. 
+These benefits cover conditions that we believe were caused by time spent as a POW (called presumptive disabilities). Please see the list of covered conditions below. We've decided to cover these conditions because of studies that have been done on the long-term effects of captivity, deprivation, trauma, and cold injury. 
 
 **For former POWs held captive for any length of time:**
 
