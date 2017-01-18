@@ -30,7 +30,7 @@ describe('Schemaform: DateWidget', () => {
           onBlur={onBlur}/>
     );
 
-    expect(tree.everySubTree('select')[0].props.value).to.equal(1);
+    expect(tree.everySubTree('select')[0].props.value).to.equal('1');
     expect(tree.everySubTree('select')[1].props.value).to.equal('3');
     expect(tree.everySubTree('input')[0].props.value).to.equal('2010');
   });
@@ -45,7 +45,7 @@ describe('Schemaform: DateWidget', () => {
     );
 
     const instance = tree.getMountedInstance();
-    instance.handleChange('year', 2001);
+    instance.handleChange('year', '2001');
 
     expect(onChange.called).to.be.true;
   });
@@ -61,9 +61,9 @@ describe('Schemaform: DateWidget', () => {
     );
 
     const instance = tree.getMountedInstance();
-    instance.handleChange('year', 2001);
+    instance.handleChange('year', '2001');
     instance.handleChange('month', '1');
-    instance.handleChange('day', 2);
+    instance.handleChange('day', '2');
 
     expect(onChange.firstCall.args[0]).to.be.undefined;
     expect(onChange.secondCall.args[0]).to.be.undefined;
