@@ -13,12 +13,6 @@
     }
   }
 
-  .top-banner {
-    padding: 1em 0.75em 0;
-    display: flex;
-    align-items: center;
-  }
-
   .flex-auto {
     flex: 1 1 auto;
     min-width: 0;
@@ -26,36 +20,41 @@
   }
 
   .va-notice--banner {
-    margin: 0;
-    padding: 0;
     background: $color-primary-darker;
     color: $color-white;
+    font-size: .9em;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+  }
+  
+  a.va-crisis-line {
+    color: $color-base;
+  }
 
-    a.va-crisis-line {
-      color: $color-base;
-    }
+  .flex {
+    display: flex;
+  }
 
-    .flex {
+  .flex-lg {
+    @include media($large-screen) {
       display: flex;
     }
+  }
 
-    .flex-lg {
-      @media #{$large-only} {
-        display: flex;
-      }
-    }
-
-    .crisis-row {
-      @media #{$medium-up} {
-        display: flex;
-        align-items: flex-start;
-      }
-
-      @media #{$medium-only} {
-        padding-right: 0em;
-      }
+  .crisis-row {
+    @include media($medium-screen) {
+      align-items: flex-start;
+      display: flex;
+      padding-right: 0;
     }
   }
+}
+
+.top-banner {
+  padding: 1em 0.75em 0;
+  display: flex;
+  align-items: center;
 }
 
 .va-header-logo {
@@ -63,25 +62,25 @@
   margin: 0;
 
   a {
-    color: white;
-    text-indent: 180%;
-    white-space: nowrap;
-    overflow: hidden;
-    display: block;
     background: url(/img/design/logo/logo.png) top left no-repeat;
     background-size: contain;
     border-bottom: none;
+    color: white;
+    display: block;
+    height: 40px;
+    overflow: hidden;
     text-decoration: none;
-    height: 50px;
-    width: 205px;
+    text-indent: 180%;
+    white-space: nowrap;
+    width: 164px;
 
     &:hover, &:active, &:focus {
       background-image: url(/img/design/logo/logo-hover.png);
     }
 
-    @media #{$small-only} {
-      width: 164px;
-      height: 40px;
+    @include media($medium-screen) {
+      width: 205px;
+      height: 50px;
     }
   }
   // See va-playbook for styles
@@ -97,12 +96,7 @@
 
 // Notice / feedback banners
 .va-notice--banner {
-  background: $color-primary-darker;
-  margin: 0 0 .75em 0;
-  padding: 0;
-  font-size: .9em;
-  font-weight: 400;
-  color: $color-white;
+
 
   p {
     margin: 0;
@@ -126,4 +120,28 @@
   &.visible {
     display: block;
   }
+}
+
+.va-header-search--wide {
+  display: none;
+
+  @include media($medium-screen) {
+    display: block;
+  }
+}
+
+.search-button {
+  margin: 0.1em .5em 0 0;
+  padding: 0;
+  float: right;
+}
+
+
+//DELETE ME 
+.menu {
+  display: none;
+}
+
+#mobile-menu {
+  display: none;
 }
