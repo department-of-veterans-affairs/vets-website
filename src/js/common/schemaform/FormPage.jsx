@@ -167,11 +167,9 @@ class FormPage extends React.Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    form: state.form,
-    route: ownProps.route,
-    reviewMode: ownProps.reviewMode
+    form: state.form
   };
 }
 
