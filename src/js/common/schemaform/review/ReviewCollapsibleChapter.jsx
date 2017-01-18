@@ -120,7 +120,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
         <Element name={`chapter${this.props.chapterKey}ScrollElement`}/>
         <ul className="usa-unstyled-list">
           <li>
-            <div className="accordion-header clearfix" >
+            <div className="accordion-header clearfix">
               <button
                   className="usa-button-unstyled"
                   aria-expanded={this.state.open ? 'true' : 'false'}

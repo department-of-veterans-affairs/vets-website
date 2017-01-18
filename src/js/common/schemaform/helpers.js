@@ -137,7 +137,7 @@ export function parseISODate(dateString) {
     const [year, month, day] = dateString.split('-', 3);
 
     return {
-      month: month === 'XX' ? '' : Number(month),
+      month: month === 'XX' ? '' : Number(month).toString(),
       day: day === 'XX' ? '' : Number(day).toString(),
       year: year === 'XXXX' ? '' : year
     };
