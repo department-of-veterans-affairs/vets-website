@@ -407,21 +407,9 @@ h6 {
 
 }
 
+
 // TODO: Remove !important once #content ul.breadcrumbs li.active
 // is refactored.
-.splash--alternate {
-
-  li a {
-    color: $color-primary-darkest !important;
-    border-bottom: 2px solid $secondary-color !important;
-
-    &:hover {
-      border-bottom: 3px solid $color-gold !important;
-    }
-  }
-
-  li.parent:after {color: #ccc !important;}
-}
 
 .va-facloc-tagline {
   color: $color-white;

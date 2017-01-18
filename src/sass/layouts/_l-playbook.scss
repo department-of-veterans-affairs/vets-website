@@ -59,13 +59,28 @@
   }
 }
 
-#playbook .splash {
+.splash--alternate {
   margin: 0;
   background: $color-white url(/img/design/background/thread.png) center center no-repeat;
   background-size: cover;
   display: flex;
   align-items: center;
   min-height: 14em;
+
+  li {
+    a {
+      color: $color-primary-darkest !important;
+      border-bottom: 2px solid $secondary-color !important;
+
+      &:hover {
+        border-bottom: 3px solid $color-gold !important;
+      }
+    }
+
+    &.parent:after {
+      color: #ccc !important;
+    }
+  } 
 }
 
 .post-date,
