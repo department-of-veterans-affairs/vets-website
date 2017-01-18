@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import ButtonDelete from '../../../../src/js/messaging/components/buttons/ButtonDelete';
 
 const props = {
-  onClickHandler: () => {},
+  onClick: () => {},
 };
 
 describe('<ButtonDelete>', () => {
@@ -24,13 +24,13 @@ describe('<ButtonDelete>', () => {
   });
 
   it('should handle click action properly', () => {
-    const onClickHandler = sinon.spy();
+    const onClick = sinon.spy();
     const buttonDelete = ReactTestUtils.renderIntoDocument(
       <ButtonDelete
-          onClickHandler={onClickHandler}/>
+          onClick={onClick}/>
     );
 
     buttonDelete.handleClick();
-    expect(onClickHandler.called).to.be.true;
+    expect(onClick.called).to.be.true;
   });
 });
