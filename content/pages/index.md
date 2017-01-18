@@ -20,7 +20,7 @@ majorlinks:
 <div class="splash">
   <div class="usa-grid">
     <div class="pitch">
-      <h2 class="tagline"><span>Get the VA services that you’ve earned.</span></h2>
+      <h2 class="tagline"><span class="tagline-inner">Get the VA services that you’ve earned.</span></h2>
     </div>
   </div>
 </div>
