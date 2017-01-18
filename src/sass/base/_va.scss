@@ -334,36 +334,17 @@ h6 {
   min-height: 14em;
   padding: 1em 0;
 
-  h2.tagline {
-    outline: 3px dashed greenyellow;
+  .tagline {
+    color: $color-primary-darker;
+    display: inline-block;
     max-width: 11em;
     font-size: 2.5rem;
     font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
 
-    span {
-      background: orange;
-      clear: both;
-      padding: 0.5em 0.4em;
-      display: inline-block;
-      line-height: 30px;
-      background: $color-white;
-      font-weight: bold;
-      color: $color-primary-darker;
+    @include media($medium-screen) {
+      max-width: 15em;
     }
   }
-
-  /* span, h2 {
-    padding: 0;
-    display: inline;
-    line-height: 1em;
-    margin: 0;
-    white-space: pre-wrap;
-    color: $color-gray-dark;
-    a {
-      background: $color-white; 
-      color: $color-primary-darker;
-    }
-  } */
 
   @include media($medium-screen) {
     padding: 2em 0;
@@ -375,9 +356,6 @@ h6 {
       font-size: 3.5rem;
     }
 
-    h2.tagline {
-      max-width: 15em;
-    }
   }
 
   @include media($large-screen) {
@@ -390,52 +368,22 @@ h6 {
     }
   }
 
-  h2, h3, p {
-    margin: 0; 
-    display: inline-block; 
-    font-family: $font-serif;
-  }
-
-  h2 {
-    display: inline-block;
-    font-size: 2em;
-
-    @include media($medium-screen) {
-      font-size: 1em;
-    }
-  }
-
-  h3 {
-    font-weight: 500; 
-    font-size: 1.4em; 
-    color: $color-va-gray-cool-medium;
-  }
-
 }
 
+.tagline-inner {    
+  background: $color-white;
+  display: inline-block;
+  line-height: 3rem;
+  padding: 0.5em 0.4em;
 
-// TODO: Remove !important once #content ul.breadcrumbs li.active
-// is refactored.
-
-.va-facloc-tagline {
-  color: $color-white;
-  font-family: $font-sans;
-  margin: .5em 0 1em 0 !important;
+  @include media($medium-screen) {
+    line-height: 4.55rem;
+  }
 }
-
 
 .pitch {
   padding: .5em 0;
   text-align: center;
-
-  h2, h3 {
-    color: $color-primary-darkest;
-    font-weight: 400;
-    padding: .75em;
-    line-height: 1.3em;
-    display: inline-block;
-    margin: 0;
-  }
 }
 
 // TODO: Remove .feature-list ul once it's
@@ -652,12 +600,6 @@ ul, ol {
   background: rgba(255,255,255,.85);
 }
 
-#content .section.coda {
-  background: $color-primary-darker;
-  color: $color-white;
-  h2, h3, h4, h5, h6, a {color: $color-white;}
-  h4 {font-size: 1.5em;}
-}
 
 #content .section {
   h2, h3, h4, h5, h6 {margin: 0; padding: 0 0 .5em 0;}
@@ -1263,7 +1205,7 @@ p.byline {
     font-weight: 700;
     float: left;
     margin: 0;
-    color: #003E73;
+    color: $color-primary-darker;
     line-height: .65em;
     display: inline-block;
     padding: 0 .125em 0 0;
