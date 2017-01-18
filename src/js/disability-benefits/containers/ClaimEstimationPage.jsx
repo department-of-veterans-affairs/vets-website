@@ -11,6 +11,7 @@ class ClaimEstimationPage extends React.Component {
     setUpPage();
   }
   render() {
+    const claimType = !this.props.loading ? getClaimType(this.props.claim) : '';
     return (
       <div>
         <div className="row">
@@ -18,7 +19,7 @@ class ClaimEstimationPage extends React.Component {
             <nav className="va-nav-breadcrumbs">
               <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
-                <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {getClaimType(this.props.claim)} Claim</Link></li>
+                <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {claimType} Claim</Link></li>
                 <li className="active">How We Come Up with Your Estimated Decision Date</li>
               </ul>
             </nav>
@@ -62,8 +63,10 @@ class ClaimEstimationPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const claimsState = state.disability.status;
   return {
-    claim: state.disability.status.claimDetail.detail
+    loading: claimsState.claimDetail.loading,
+    claim: claimsState.claimDetail.detail
   };
 }
 
