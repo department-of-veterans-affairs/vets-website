@@ -9,6 +9,10 @@ const props = {
     body: {},
     attachments: [],
   },
+  recipient: '',
+  subject: '',
+  onSaveReply: () => {},
+  onSendReply: () => {},
 };
 
 describe('<ReplyForm>', () => {
