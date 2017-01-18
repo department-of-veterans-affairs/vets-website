@@ -7,13 +7,14 @@ import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 
 import { clearNotification } from '../actions';
+import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setUpPage, isTab, setFocus } from '../utils/page';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
 
 class FilesPage extends React.Component {
   componentDidMount() {
-    document.title = 'Files - Your Disability Compensation Claim';
+    document.title = `Files - Your ${getClaimType(this.props.claim)} Claim`;
     if (!isTab(this.props.lastPage)) {
       if (!this.props.loading) {
         setUpPage();
