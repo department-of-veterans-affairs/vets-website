@@ -25,14 +25,14 @@ Veterans
 Money to pay for a tutor
 
 **Note:** 
-We won't pay more than $100 per month for tutoring, and won't pay more than $1,200 total.
+We won't pay more than $100 per month for tutoring, and we won't pay more than $1,200 total.
 
 -----
 
 ### How do I get this benefit?
 
 - Your course instructor (or teacher) at your school must agree that you need a tutor and write a letter on your behalf. The instructor should send the letter to your school's certifying official and add a copy to your VA student file.
-- If the school approves your need for a tutor, the school will assign you a tutor and confirm the tutor’s hourly pay.
+- If your school approves your need for a tutor, it will assign you a tutor and confirm the tutor’s hourly pay.
 - After you get tutoring, you, your tutor, and your school’s certifying official must fill out and sign the Application for Individualized Tutorial Assistance (VA Form 22-1990t). If you're using the Post-9/11 GI Bill, your instructor must also sign section 18 of this form. [Download Form 22-1990t](http://www.vba.va.gov/pubs/forms/vba-22-1990t-are.pdf).
 - The form must be signed and dated on or after the date of the last certified tutoring session (item 12b on Form 22-1900t).
 
