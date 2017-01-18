@@ -253,38 +253,9 @@ h6 {
   overflow: hidden;
 }
 
-#content .popular-container {
+.popular-container {
   background: $color-white;
   text-align: center;
-
-  .column-padded {
-    padding-left: 1em;
-    padding-right: 1em;
-  }
-
-  .flex {
-    @media #{$small} {
-      display: block;
-    }
-    @media #{$medium} {
-      display: flex;
-    }
-
-    @media #{$large} {
-      display: flex;
-    }
-  }
-
-  .mx-auto {
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  h2.gold-ruled {
-    color: $color-primary-darker;
-    padding-bottom: 0.5em;
-    border-bottom: #988530 solid 2px;
-  }
 
   a {
     text-decoration: none;
@@ -309,20 +280,28 @@ h6 {
       border: $color-primary-darker solid 2px;
     }
   }
+}
 
-  .stars-tagline {
-    &:before{
-      content: '';
-      background: url(/img/stars.png) no-repeat top center;
-      background-size: 100%;
-      display: inline-block;
-      height: 2em;
-      width: 12em;
-      margin-top: 2em;
-    }
+.popular-title {
+  color: $color-primary-darker;
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 0.5em;
+  border-bottom: #988530 solid 2px;
+}
 
-    margin-top: 0em;
+.stars-tagline {
+  &:before{
+    content: '';
+    background: url(/img/stars.png) no-repeat top center;
+    background-size: 100%;
+    display: inline-block;
+    height: 2em;
+    width: 12em;
+    margin-top: 2em;
   }
+  margin-top: 0em;
 }
 
 .splash {
@@ -581,7 +560,7 @@ ul, ol {
 // Home page specific
 .home { 
   .main-menu {
-    padding: 0em .5em 4em .5em;
+    padding: 0 .5em 4em;
     overflow: hidden;
   }
 }
