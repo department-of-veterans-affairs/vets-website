@@ -1,7 +1,8 @@
 import { commonStore } from '../store';
 
 import environment from './environment.js';
-import { updateLoggedInStatus, updateProfileField } from '../actions';
+import { updateLoggedInStatus } from '../../login/actions';
+import { updateProfileField } from '../../user-profile/actions';
 
 export function handleLogin() {
   this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {

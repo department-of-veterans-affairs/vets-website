@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Apply for Education Benefits
 template: 6-info-page
-modal: true 
+modal: true
 concurrence: complete
 showactionbar: false
 stickyactionbox: true
@@ -92,7 +92,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 </div>
 
-<a href="/education/apply-for-education-benefits/application" class="usa-button-primary va-button-primary">Start Form 22-1990</a>
+<a href="/education/apply-for-education-benefits/application/1990" class="usa-button-primary va-button-primary">Start Form 22-1990</a>
 
 <div markdown="1">
 

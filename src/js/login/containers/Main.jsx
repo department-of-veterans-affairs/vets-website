@@ -5,7 +5,7 @@ import moment from 'moment';
 import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogInUrl, logOut } from '../../common/actions';
+import { updateLoggedInStatus, updateLogInUrl, logOut } from '../actions';
 import SignInProfileButton from '../components/SignInProfileButton';
 
 class Main extends React.Component {
@@ -106,9 +106,10 @@ class Main extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const userState = state.user;
   return {
-    login: state.login,
-    profile: state.profile
+    login: userState.login,
+    profile: userState.profile
   };
 };
 

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import environment from '../../common/helpers/environment.js';
 
-import { updateLoggedInStatus, updateProfileField } from '../../common/actions';
+import { updateLoggedInStatus } from '../../login/actions';
+import { updateProfileField } from '../../user-profile/actions';
 
 class AuthApp extends React.Component {
   constructor(props) {

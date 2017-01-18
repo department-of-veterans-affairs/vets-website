@@ -48,7 +48,8 @@ class AuthApplicationSection extends React.Component {
 
 // TODO: fill this out
 const mapStateToProps = (state) => {
-  return state;
+  const userState = state.user;
+  return userState;
 };
 
 // TODO(awong): Remove the pure: false once we start using ImmutableJS.
