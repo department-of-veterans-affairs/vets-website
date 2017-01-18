@@ -35,7 +35,9 @@ node('vets-website-linting') {
     sh "mkdir -p logs/selenium"
     sh "mkdir -p coverage"
 
-    dockerImage = docker.build("vets-website:${env.BUILD_TAG}")
+    def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
+
+    dockerImage = docker.build("vets-website:${imageTag}")
     args = "-u root:root -v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
   }
 
