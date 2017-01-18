@@ -1,19 +1,6 @@
-// TODO: Remove !important when .footer a selector gets simplified
-
 .crisis-line-container {
   position: relative;
   background: $color-gray-lightest;
-
-  @media #{$medium-up} {
-    width: 283px;
-  }
-
-  .crisis-line-body {
-    position: absolute;
-    right: 0;
-    background: $color-gray-lightest;
-    border-radius: 0 0 0.2em 0.2em;
-  }
 
   .stacked {
     margin: 0 auto;
@@ -23,6 +10,12 @@
   &--wide {
     display: none;
   }
+}
+.crisis-line-body {
+  position: absolute;
+  right: 0;
+  background: $color-gray-lightest;
+  border-radius: 0 0 0.2em 0.2em;
 }
 
 .va-crisis-panel {
@@ -175,5 +168,6 @@
   }
   .crisis-line-container--wide {
     display: block;
+    width: 283px;
   }
 }
