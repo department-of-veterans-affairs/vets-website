@@ -47,10 +47,12 @@ export default function createSchemaFormReducer(formConfig) {
         return _.set(['submission', action.field], action.value, state);
       }
       case SET_SUBMITTED: {
-        return _.assign(state, {
+        const submission = _.assign(state.submission, {
           response: action.response,
           status: 'applicationSubmitted'
         });
+
+        return _.set('submission', submission, state);
       }
       default:
         return state;

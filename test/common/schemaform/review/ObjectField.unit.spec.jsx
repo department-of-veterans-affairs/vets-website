@@ -21,6 +21,7 @@ describe('Schemaform review: ObjectField', () => {
           schema={schema}
           idSchema={{}}
           formData={{}}
+          requiredSchema={{}}
           onChange={onChange}
           onBlur={onBlur}/>
     );
@@ -45,6 +46,7 @@ describe('Schemaform review: ObjectField', () => {
           uiSchema={uiSchema}
           schema={schema}
           formContext={{}}
+          requiredSchema={{}}
           idSchema={{ $id: 'root' }}
           formData={{}}
           onChange={onChange}
@@ -71,6 +73,7 @@ describe('Schemaform review: ObjectField', () => {
       <ObjectField
           uiSchema={uiSchema}
           schema={schema}
+          requiredSchema={{}}
           formContext={{ hideTitle: true }}
           idSchema={{ $id: 'root' }}
           formData={{}}

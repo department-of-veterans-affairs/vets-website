@@ -54,10 +54,9 @@ export class ReviewPage extends React.Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    form: state.form,
-    formConfig: ownProps.route.formConfig
+    form: state.form
   };
 }
 
@@ -69,7 +68,10 @@ const mapDispatchToProps = {
 };
 
 ReviewPage.propTypes = {
+  form: React.PropTypes.object.isRequired,
   formConfig: React.PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReviewPage);
+
+export { ReviewPage };

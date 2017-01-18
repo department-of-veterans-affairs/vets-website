@@ -9,7 +9,10 @@ describe('<ReviewCollapsibleChapter>', () => {
   it('should handle toggling chapter', () => {
     const onEdit = sinon.spy();
     const pages = [{
-      pageKey: 'test'
+      pageKey: 'test',
+      schema: {
+        properties: {}
+      }
     }];
     const chapterKey = 'test';
     const chapter = {};
