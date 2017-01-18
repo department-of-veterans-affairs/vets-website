@@ -9,7 +9,7 @@
     margin: 0;
   }
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     margin-bottom: 3rem;
     margin-top: 1.5rem;
 
@@ -43,7 +43,7 @@
   margin-top: 0;
   padding: 1.5rem 0;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     display: inline-block;
     width: 100%;
   }
@@ -74,7 +74,7 @@
     margin-top: 2rem;
   }
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     -webkit-flex: 1 1 50%;
     flex: 1 1 50%;
     margin-left: 1rem;
@@ -82,7 +82,7 @@
 }
 
 .msg-subject-line {
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     display: -webkit-flex;
     display: flex;
   }
@@ -202,7 +202,7 @@ button.msg-btn-save {
       z-index: 1;
     }
 
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       border-color: $color-base;
       border-style: solid;
       border-width: 1px 1px 0 1px;
@@ -214,7 +214,7 @@ button.msg-btn-save {
 .msg-write {
   padding: 1.5rem 1.5rem 2rem;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     padding: 0;
   }
 }
@@ -222,7 +222,7 @@ button.msg-btn-save {
 .msg-attachments {
   margin: 0 1rem;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     border-width: 0 1px;
     border-style: solid;
     border-color: $color-base;
@@ -247,7 +247,7 @@ button.msg-btn-save {
     text-align: right;
   }
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     float: right;
     line-height: 3.5rem;
   }
@@ -359,7 +359,7 @@ button.msg-btn-save {
 
   .msg-write,
   .msg-send-group {
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       margin-left: 1.5rem;
     }
   }
@@ -387,7 +387,7 @@ button.msg-btn-save {
   input {
     width: 100%;
 
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       width: 100%;
     }
   }
@@ -418,7 +418,7 @@ button.msg-btn-save {
     margin: 0;
   }
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     margin: 3rem 2rem;
 
     .msg-reply-detail {

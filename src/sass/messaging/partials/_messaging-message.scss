@@ -27,7 +27,7 @@
   }
 
   &--draft {
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       display: none;
     }
   }
@@ -131,7 +131,7 @@
   }
 
   &--full {
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       display: block;
     }
   }

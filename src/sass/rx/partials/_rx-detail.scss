@@ -68,7 +68,7 @@
   margin-bottom: 3.5rem;
   width: 100%;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     display: inline-block;
     width: 30rem;
   };
@@ -83,7 +83,7 @@
 .rx-detail-history {
   margin: 0;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     td {
       white-space: nowrap;
     }
@@ -98,7 +98,7 @@
 }
 
 #rx-order-history {
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     p {
       margin-top: 0;
     }

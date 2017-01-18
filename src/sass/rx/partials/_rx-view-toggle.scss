@@ -1,9 +1,10 @@
 .rx-view-toggle {
   font-weight: bold;
+  display: none;
   text-align: right;
 
-  @media #{$small-only} {
-    display: none;
+  @include media($medium-screen) {
+    display: block;
   }
 
   ul, li {

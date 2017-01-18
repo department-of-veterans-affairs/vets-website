@@ -21,7 +21,7 @@
     }
 
     &:not(:empty) {
-      @media (min-width: $small-screen) {
+      @include media($small-screen) {
         &::before {
           content: '\2039\a0\a0';
         }
@@ -36,7 +36,7 @@
     }
 
     &:not(:empty) {
-      @media (min-width: $small-screen) {
+      @include media($small-screen) {
         &::after {
           content: '\a0\a0\203a';
         }
@@ -54,7 +54,7 @@
       text-decoration: underline;
     }
 
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       padding: 0 1rem;
     }
   }

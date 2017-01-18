@@ -36,26 +36,25 @@
 // posts
 // TODO: Remove !important when #content .splash is refactored
 .splash--blog {
-  margin: 0 !important;
-  padding: 0 !important;
-
-  @media #{$small} {
-    margin: .5em 0 0 0 !important;
-    padding: 1em 0 0 0 !important;
+  margin: .5em 0 0 0 !important;
+  padding: 1em 0 0 0 !important;
+  
+  @include media($medium-screen) {
+    margin: 0 !important;
+    padding: 0 !important;
   }
 }
 
 .splash--hasimg {
   // TODO: Remove !important when #content .splash is refactored
-  padding: 4em 0 !important;
+  padding: 6.1em 0 !important;
   background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
   margin-bottom: 1em;
 
-  @media #{$small} {
-    // TODO: Remove !important when #content .splash is refactored
-    padding: 6.1em 0 !important;
+  @include media($medium-screen) {
+    padding: 4em 0 !important;
   }
 }
 
@@ -98,66 +97,6 @@
 .next {
   float: right;
   display: inline-block;
-}
-
-// TODO: Remove !important from this block
-// Once the specificity of #content .splash h2 block/
-// gets reduced.
-.va-headingflag {
-  margin: .5em 0 !important;
-  padding: 0 !important;
-  margin: 0 0 2em 0 !important;
-  background: none !important;
-  color: $color-primary-darkest !important;
-
-  @media #{$medium} {
-    position: absolute !important;
-    margin: 1.35em 0 0 0 !important;
-    z-index: 100 !important;
-  }
-
-  a {
-    text-decoration: none;
-    margin: 0;
-    color: $color-primary-darkest;
-    background: $color-gold;
-    border-bottom: none;
-    padding: .5em .25em;
-    // Transition only these properties.
-    -webkit-transition-property: padding;
-    transition-property: padding;
-
-    &:hover {
-      padding: .5em .65em;
-    }
-  }
-
-  @media #{$medium} {
-    position: absolute;
-    margin: 1.35em 0 0 0;
-    z-index: 100;
-  }
-}
-
-.va-headingflag--tagline {
-  padding: 0;
-}
-
-// small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns
-#experience {
-  background: $color-white;
-
-  .main {
-    @extend .small-12;
-    @extend .small-centered;
-    @extend .medium-8;
-    @extend .medium-offset-4;
-    @extend .large-offset-2;
-    @extend .columns;
-  }
-  .post img {
-    width: 100%;
-  }
 }
 
 .post-preview {
@@ -252,8 +191,11 @@
     text-decoration: none;
     background: none;
     padding: 0;
-    font-size: 1.5em;
-    @media #{$small} {font-size: 2em;}
+    font-size: 2em;
+    
+    @include media($medium-screen) {
+      font-size: 1.5em;
+    }
     margin: 0;
     display: block;
     &.title {
@@ -280,7 +222,7 @@
   .medium-3 {
     padding-top: 1.5em;
 
-    @media #{$small-only} {
+    @media (max-width: $small-screen) {
       padding-left: 1.5em;
       h4 {
         font-size: 1.4em;
@@ -330,11 +272,8 @@
     font-size: .85em;
     vertical-align: 15%;
     letter-spacing: .05em;
+
     @media #{$small-only} {
-      margin-left: 0;
-      margin-bottom: 1em;
-    }
-    @media #{$medium-only} {
       margin-left: 0;
       margin-bottom: 1em;
     }

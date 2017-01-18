@@ -52,7 +52,7 @@
     right: 0;
   }
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     width: 25rem;
   }
 

@@ -2,7 +2,7 @@
   display: none;
 }
   
-@media (min-width: $medium-screen) {
+@include media($medium-screen) {
   .messaging-categories--lg {
     display: block;
   }

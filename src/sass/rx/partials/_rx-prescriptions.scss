@@ -14,7 +14,7 @@
   min-width: 25rem;
   position: relative;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     float: left;
     width: 50%;
 

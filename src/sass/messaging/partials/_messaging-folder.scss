@@ -15,7 +15,7 @@
     }
   }
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     &::after {
       content: '\A0';
       display: block;
@@ -38,7 +38,7 @@
 .msg-folder-sort-select {
   margin: 2rem;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     display: none;
   }
 }

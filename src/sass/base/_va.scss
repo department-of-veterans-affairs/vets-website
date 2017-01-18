@@ -117,28 +117,6 @@ dd + dt {
   margin-top: 1.5em;
 }
 
-
-// Figure / Caption
-figure {
-  font-size: .85em;
-  margin-left: inherit;
-  margin-right: inherit;
-
-  @include media($medium-screen) {
-    margin-left: -$column-gutter/2;
-    margin-right: -$column-gutter/2;
-  }
-
-  @include media($large-screen) {
-    margin-left: -16.66667%;
-    margin-right: -16.66667%;
-  }
-}
-
-figcaption {
-  color: $color-primary-darker;
-}
-
 // Change the placeholder color
 input::-webkit-input-placeholder{
   color: $color-gray;
@@ -431,8 +409,11 @@ h6 {
   ul[class*='block-grid-'] {
     display: block;
     padding: 0;
-    margin: 0;
-    @media #{$small} {margin: 0 -0.625rem;}
+    margin: 0 -0.625rem;
+    
+    @include media($medium-screen) {
+      margin: 0;
+    }
   }
 }
 
@@ -441,21 +422,23 @@ h6 {
   padding: 1em;
   clear: both;
   margin: 0 0 1.5em 0;
+
   p {
     margin-bottom: 0;
     padding-bottom: .5em
   }
+ 
   p:nth-child(1) {
     // TODO: refactor #content.interior .primary li p:first-of-type and remove !important
     font-size: 1.25em !important;
     color: $color-gray-dark;
     padding-bottom: inherit;
   }
+
   h3 {
-    @media #{$small} {
-      font-size: 1.65em;
-    }
+    font-size: 1.65em;
   }
+
   ul {
     margin: 0 0 .5em 1.5em;
     padding: 0;
@@ -502,11 +485,8 @@ ul, ol {
 // Home page, 404 page
 .navigation--major {
   .va-cards--2across {
-    @media #{$small} {
-      display:block;
-    }
 
-    @media #{$medium-only} {
+    @include media($medium-screen) {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -680,19 +660,6 @@ ul, ol {
 }
 
 
-//==== Facility Locator page only
-.va-nav-breadcrumbs--inline {
-  display: inline-block;
-
-  @media #{$small} {
-    margin-right: 1em !important;
-  }
-
-  li.active::before {
-    display: none;
-  }
-}
-
 //===== Playbook and Facility Locator
 .va-nav-breadcrumbs--playbook {
   background: none;
@@ -704,16 +671,13 @@ ul, ol {
   }
 
   li {
+    font-size: 1.35em;
     text-transform: none;
     margin: .25em 0;
     padding: .1em;
     display: inline-block;
     line-height: 1.15em;
     vertical-align: middle;
-
-    @media #{$small} {
-      font-size: 1.35em;
-    }
 
     &:hover  {
       border-bottom: none;
@@ -740,7 +704,7 @@ ul, ol {
     margin: .5em 0;
     padding: .2em;
 
-    @media #{$medium} {
+    @include media($medium-screen) {
       font-size: 1.8em;
     }
 
@@ -793,10 +757,10 @@ li {
 
 //===== Navigation
 .navigation {
- padding: 1em  0;
+ padding: 1em 0 3em 0;
 
-  @media #{$small} {
-    padding: 1em 0 3em 0;
+  @include media ($medium-screen) {
+    padding-bottom: 3em;
   }
 
   background: $color-gray-lightest;
@@ -826,9 +790,10 @@ li {
 // Cards
 
 [class*='block-grid-']>li {
-  padding: 0;
-  @media #{$small} {
-    padding: 0 0.625rem 1.25rem 0.625rem;
+  padding: 0 0.625rem 1.25rem 0.625rem;
+
+  @include media($medium-screen) {
+    padding: 0;
   }
 }
 
@@ -852,10 +817,7 @@ li {
   }
 
   div {
-    @media #{$small} {
-      min-height: 12em;
-    }
-
+    min-height: 12em;
     background: $color-gray-lightest;
     background: rgba(0,0,0,.05);
     margin: 0 0 .5em 0;
@@ -889,12 +851,6 @@ li {
   }
 }
 
-.footer-logo a {
-  display: none;
-  @media #{$medium} {padding: 0; display: block;}
-  @media #{$medium} {background:url(/img/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
-}
-
 .footer-seal {
   background:url(/img/design/sprites/sprite.png)  no-repeat 0 -23px;
   background-size: 215px 72px;
@@ -902,8 +858,7 @@ li {
   height: 49px;
   text-indent: -999em;
   overflow: hidden;
-  margin: 0 auto;
-  @media #{$small} {margin: 0;}
+  margin: 0;
 }
 
 .usa-social-links {
@@ -923,22 +878,9 @@ li {
   }
 }
 
-.usa-social-links,
-.va-list--linkgroup {
-  margin: 2em 0 0 0;
-
-  @media #{$medium} {
-    margin: 2em 0 1.5em 0;
-  }
-}
-
 // TODO: Move this to a list-specific partial
 .va-list--linkgroup {
-  margin: 2em 0 0 0;
-
-  @media #{$small} {
-    margin: 2em 0 1.5em 0;
-  }
+  margin: 2em 0 1.5em 0;
 
   a {
     background: none;
@@ -974,9 +916,11 @@ li {
     margin: 0 auto;
     padding: 1.5em 0 0 0;
     text-align: center;
-      @media #{$large} {
-        text-align: left;
-      }
+
+    @include media($large-screen) {
+      text-align: left;
+    }
+
     width: 100%;
 
     &:after {
@@ -1047,12 +991,6 @@ a.twitter {
   }
 }
 
-.footer .content {
-  @media #{$small} {padding: 2em 0 0 0;}
-  margin: 0;
-
-}
-
 // Only used in the footer
 .va-notice--banner--alt {
   padding: 1.25em 0;
@@ -1063,9 +1001,10 @@ a.twitter {
 
 .feedback-widget {
   overflow: hidden;
+  text-align: center;
 
-  @media #{$small-only} {
-    text-align: center;
+  @include media($medium-screen) {
+    text-align: left;
   }
 
   // Works with <= IE8

@@ -49,7 +49,7 @@
     margin: 0;
     text-transform: none;
     padding-right: 3px !important;
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       padding-right: 5px !important;
     }
   }
@@ -125,14 +125,14 @@
     display: inline-block;
     margin: 0;
   }
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     width: 66%;
   }
 }
 
 .past-due > i {
   margin-right: 3px;
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     margin-right: 6px;
   }
 }
@@ -534,7 +534,7 @@ p.first-of-type {
 
 .claims-files-cancel {
   margin-left: 0;
-  @media (min-width: $small-screen) {
+  @include media($small-screen) {
     margin-left: 32px;
   }
 }
@@ -559,14 +559,14 @@ p.first-of-type {
 .ask-va-alert, .file-request-list-item, .additional-evidence-alert, .need-files-alert {
   position: relative;
   padding-bottom: 3.5em;
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     padding-bottom: 1em;
   }
 }
 
 .need-files-alert {
   padding-bottom: 4em;
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     padding-bottom: 1em;
   }
 }
