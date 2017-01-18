@@ -5,7 +5,7 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page-pending
 ---
 
-If you had contact with certain environmental hazards while serving in Iraq, Afghanistan, and other areas, you may have illnesses or other conditions believed to be caused by these environmental hazards. Some of the toxic chemicals, such as those that get released from burn pits, were in the air, water, or soil. Find out if you can get disability compensation or benefits.
+If you had contact with certain environmental hazards (toxic chemicals in the air, water, or soil) while serving in Iraq, Afghanistan, and other areas, you may have illnesses or other conditions believed to be caused by these environmental hazards. Find out if you can get disability compensation or benefits.
 
 <div class="call-out" markdown="1">
 
