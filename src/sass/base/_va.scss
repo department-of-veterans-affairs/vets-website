@@ -326,11 +326,13 @@ h6 {
 }
 
 .splash {
-  margin: 0;
+  align-items: center;
   background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
   background-size: cover;
   display: flex;
-  align-items: center;
+  margin: 0;
+  min-height: 14em;
+  padding: 1em 0;
 
 
   p {
@@ -365,6 +367,9 @@ h6 {
   }
 
   @media #{$medium} {
+    padding: 2em 0;
+    min-height: 422px;
+
     h2 span {
       padding: 0.5em .75em;
       line-height: 1.3em;
@@ -377,6 +382,9 @@ h6 {
   }
 
   @media #{$large} {
+    padding: 2.5em 0;
+    min-height: 422px;
+
     h2 span {
       padding: 0.5em 0.4em;
       line-height: 1.3em;
@@ -396,25 +404,9 @@ h6 {
   }
 
   h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
+
 }
 
-.home {
-  .splash {
-    @media #{$small} {
-      padding: 1em 0;
-      min-height: 14em;
-    }
-    @media #{$medium} {
-      padding: 2em 0;
-      min-height: 422px;
-    }
-
-    @media #{$large} {
-      padding: 2.5em 0;
-      min-height: 422px;
-    }
-  }
-}
 
 .splash--app {
   padding: 0 !important;
@@ -426,6 +418,7 @@ h6 {
     display: inline-block !important;
   }
 }
+
 
 // TODO: Remove !important once #content ul.breadcrumbs li.active
 // is refactored.

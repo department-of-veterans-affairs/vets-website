@@ -134,12 +134,10 @@
   margin: 0.1em .5em 0 0;
   padding: 0;
   float: right;
-}
 
-
-//DELETE ME 
-.menu {
-  display: none;
+  @include media($medium-screen) {
+    display: none;
+  }
 }
 
 #mobile-menu {
