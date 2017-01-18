@@ -34,9 +34,15 @@ export default class ArrayField extends React.Component {
   constructor(props) {
     super(props);
     const formData = Array.isArray(props.formData) ? props.formData : null;
+    let items;
+    if (!formData || formData.length === 0) {
+      items = [getDefaultFormState(props.schema.items, null, props.registry.definitions) || {}];
+    } else {
+      items = getDefaultFormState(props.schema, formData, props.registry.definitions) || [];
+    }
     this.state = {
-      items: getDefaultFormState(props.schema, formData, this.props.registry.definitions) || [],
-      editing: (this.props.formData || []).map(() => false)
+      items,
+      editing: items.map(() => false)
     };
     this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
@@ -254,24 +260,26 @@ export default class ArrayField extends React.Component {
   }
 }
 
-// ArrayField.propTypes = {
-//   schema: React.PropTypes.object.isRequired,
-//   uiSchema: React.PropTypes.object,
-//   errorSchema: React.PropTypes.object,
-//   idSchema: React.PropTypes.object,
-//   onChange: React.PropTypes.func.isRequired,
-//   formData: React.PropTypes.object,
-//   required: React.PropTypes.bool,
-//   disabled: React.PropTypes.bool,
-//   readonly: React.PropTypes.bool,
-//   registry: React.PropTypes.shape({
-//     widgets: React.PropTypes.objectOf(React.PropTypes.oneOfType([
-//       React.PropTypes.func,
-//       React.PropTypes.object,
-//     ])).isRequired,
-//     fields: React.PropTypes.objectOf(React.PropTypes.func).isRequired,
-//     definitions: React.PropTypes.object.isRequired,
-//     formContext: React.PropTypes.object.isRequired,
-//   })
-// };
+ArrayField.propTypes = {
+  schema: React.PropTypes.object.isRequired,
+  uiSchema: React.PropTypes.object,
+  errorSchema: React.PropTypes.object,
+  touchedSchema: React.PropTypes.object,
+  requiredSchema: React.PropTypes.object,
+  idSchema: React.PropTypes.object,
+  onChange: React.PropTypes.func.isRequired,
+  formData: React.PropTypes.array,
+  required: React.PropTypes.bool,
+  disabled: React.PropTypes.bool,
+  readonly: React.PropTypes.bool,
+  registry: React.PropTypes.shape({
+    widgets: React.PropTypes.objectOf(React.PropTypes.oneOfType([
+      React.PropTypes.func,
+      React.PropTypes.object,
+    ])).isRequired,
+    fields: React.PropTypes.objectOf(React.PropTypes.func).isRequired,
+    definitions: React.PropTypes.object.isRequired,
+    formContext: React.PropTypes.object.isRequired,
+  })
+};
 

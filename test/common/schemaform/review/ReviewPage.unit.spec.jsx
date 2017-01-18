@@ -29,7 +29,7 @@ describe('Schemaform ReviewPage', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <ReviewPage form={form} formConfig={formConfig}/>
+      <ReviewPage form={form} route={{ formConfig }}/>
     );
 
     expect(tree.everySubTree('.edu-page-title')).not.to.be.empty;
@@ -67,7 +67,7 @@ describe('Schemaform ReviewPage', () => {
     const submitForm = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <ReviewPage submitForm={submitForm} form={form} formConfig={formConfig}/>
+      <ReviewPage submitForm={submitForm} form={form} route={{ formConfig }}/>
     );
 
     tree.getMountedInstance().handleSubmit();
@@ -111,7 +111,7 @@ describe('Schemaform ReviewPage', () => {
           setSubmission={setSubmission}
           submitForm={submitForm}
           form={form}
-          formConfig={formConfig}/>
+          route={{ formConfig }}/>
     );
 
     tree.getMountedInstance().handleSubmit();
@@ -156,7 +156,7 @@ describe('Schemaform ReviewPage', () => {
           setSubmission={setSubmission}
           submitForm={submitForm}
           form={form}
-          formConfig={formConfig}/>
+          route={{ formConfig }}/>
     );
 
     tree.getMountedInstance().handleSubmit();

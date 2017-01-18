@@ -128,6 +128,8 @@ export default class ReviewCollapsibleChapter extends React.Component {
                       pageConfig={page}
                       schema={arrayField.schema}
                       uiSchema={arrayField.uiSchema}
+                      setData={this.props.setData}
+                      setValid={this.props.setValid}
                       path={arrayField.path}/>
                 )}
               </div>

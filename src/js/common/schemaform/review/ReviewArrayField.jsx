@@ -1,10 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
 
 import { FormPage } from '../FormPage';
-import { setData, setValid } from '../actions';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -23,17 +21,6 @@ class ReviewArrayField extends React.Component {
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   const propsWithoutDataUnchanged = deepEquals(_.omit('formData', this.props), _.omit('formData', nextProps));
-  //   const stateUnchanged = deepEquals(this.state, nextState);
-  //
-  //   if (propsWithoutDataUnchanged && stateUnchanged && deepEquals(nextProps.formData, nextState.items)) {
-  //     return false;
-  //   }
-  //
-  //   return true;
-  // }
 
   scrollToTop() {
     setTimeout(() => {
@@ -182,12 +169,7 @@ class ReviewArrayField extends React.Component {
   }
 }
 
-const mapDispatchToProps = {
-  setData,
-  setValid
-};
-
-export default connect(null, mapDispatchToProps)(ReviewArrayField);
+export default ReviewArrayField;
 
 // ReviewArrayField.propTypes = {
 //   schema: React.PropTypes.object.isRequired,
