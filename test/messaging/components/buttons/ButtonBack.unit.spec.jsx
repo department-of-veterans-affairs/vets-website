@@ -1,0 +1,19 @@
+import React from 'react';
+import SkinDeep from 'skin-deep';
+import { expect } from 'chai';
+
+import ButtonBack from '../../../../src/js/messaging/components/buttons/ButtonBack';
+
+describe('<ButtonBack>', () => {
+  it('should render correctly', () => {
+    const tree = SkinDeep.shallowRender(<ButtonBack/>);
+
+    expect(tree.getRenderOutput()).to.exist;
+  });
+
+  it('should have the expected classname', () => {
+    const tree = SkinDeep.shallowRender(<ButtonBack/>);
+
+    expect(tree.props.className).to.equal('msg-btn-back');
+  });
+});
