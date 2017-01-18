@@ -21,8 +21,8 @@ class TabItem extends React.Component {
     return (
       <li className="tab-li" role="presentation">
         <IndexLink
-            id={`tab${this.props.title}`}
-            aria-controls={`tabPanel${this.props.title}`}
+            id={`tab${this.props.id || this.props.title}`}
+            aria-controls={`tabPanel${this.props.id || this.props.title}`}
             role="tab"
             className="va-tab-trigger"
             activeClassName="va-tab-trigger--current"

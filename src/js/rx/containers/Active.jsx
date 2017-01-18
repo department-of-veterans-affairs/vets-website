@@ -48,6 +48,24 @@ class Active extends React.Component {
     window.addEventListener('resize', this.checkWindowSize);
   }
 
+  componentDidUpdate() {
+    const { prescriptions, sort: currentSort } = this.props;
+    const requestedSort = this.props.location.query.sort || 'prescriptionName';
+    const sortOrder = requestedSort[0] === '-' ? 'DESC' : 'ASC';
+    const sortValue = sortOrder === 'DESC'
+                    ? requestedSort.slice(1)
+                    : requestedSort;
+
+    const shouldSort =
+      !_.isEmpty(prescriptions) &&
+      (currentSort.value !== sortValue ||
+      currentSort.order !== sortOrder);
+
+    if (shouldSort) {
+      this.props.sortPrescriptions(sortValue, sortOrder);
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.checkWindowSize);
   }
@@ -59,13 +77,12 @@ class Active extends React.Component {
     });
   }
 
-  handleSort(sortKey, order) {
-    const sortParam = order === 'DESC' ? `-${sortKey}` : sortKey;
+  handleSort(sortKey, sortOrder) {
+    const sort = sortOrder === 'DESC' ? `-${sortKey}` : sortKey;
     this.context.router.push({
       ...this.props.location,
-      query: { sort: sortParam }
+      query: { sort }
     });
-    this.props.sortPrescriptions(sortKey, order);
   }
 
   renderViewSwitch() {
@@ -154,9 +171,10 @@ Active.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const rxState = state.health.rx;
   return {
-    ...state.prescriptions.active,
-    prescriptions: state.prescriptions.items,
+    ...rxState.prescriptions.active,
+    prescriptions: rxState.prescriptions.items,
   };
 };
 
