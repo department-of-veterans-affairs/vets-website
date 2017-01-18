@@ -4,15 +4,19 @@ import { expect } from 'chai';
 
 import ButtonBack from '../../../../src/js/messaging/components/buttons/ButtonBack';
 
+const props = {
+  url: 'www.vets.gov',
+};
+
 describe('<ButtonBack>', () => {
   it('should render correctly', () => {
-    const tree = SkinDeep.shallowRender(<ButtonBack/>);
+    const tree = SkinDeep.shallowRender(<ButtonBack {...props}/>);
 
     expect(tree.getRenderOutput()).to.exist;
   });
 
   it('should have the expected classname', () => {
-    const tree = SkinDeep.shallowRender(<ButtonBack/>);
+    const tree = SkinDeep.shallowRender(<ButtonBack {...props}/>);
 
     expect(tree.props.className).to.equal('msg-btn-back');
   });
