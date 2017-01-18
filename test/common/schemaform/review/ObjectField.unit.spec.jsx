@@ -54,7 +54,7 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be.empty;
-    expect(tree.subTree('.form-review-panel-page-header').text()).to.be.equal('Blah');
+    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal('Blah');
   });
   it('should hide title', () => {
     const onChange = sinon.spy();
