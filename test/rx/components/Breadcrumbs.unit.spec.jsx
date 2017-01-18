@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import Breadcrumbs from '../../../src/js/rx/components/Breadcrumbs.jsx';
+import Breadcrumbs from '../../../src/js/rx/components/Breadcrumbs';
 
 const props = {
   location: {
