@@ -7,7 +7,7 @@ import AskVAToDecide from '../components/AskVAToDecide';
 import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
-import { itemsNeedingAttentionFromVet, getCompletedDate } from '../utils/helpers';
+import { itemsNeedingAttentionFromVet, getClaimType, getCompletedDate } from '../utils/helpers';
 
 import { clearNotification } from '../actions';
 
@@ -15,7 +15,8 @@ const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
 class StatusPage extends React.Component {
   componentDidMount() {
-    document.title = 'Status - Your Disability Compensation Claim';
+    this.setTitle();
+
     if (!isTab(this.props.lastPage)) {
       if (!this.props.loading) {
         setUpPage();
@@ -30,9 +31,16 @@ class StatusPage extends React.Component {
     if (!this.props.loading && prevProps.loading && !isTab(this.props.lastPage)) {
       setUpPage(false);
     }
+    if (this.props.loading !== prevProps.loading) {
+      this.setTitle();
+    }
   }
   componentWillUnmount() {
     this.props.clearNotification();
+  }
+  setTitle() {
+    document.title = this.props.loading ? 'Status - Your Claim' :
+      `Status - Your ${getClaimType(this.props.claim)} Claim`;
   }
   render() {
     const { claim, loading, message } = this.props;
