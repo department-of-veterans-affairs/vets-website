@@ -18,11 +18,9 @@ majorlinks:
 
 ---
 <div class="splash">
-  <div class="row">
-    <div class="small-12 columns">
-      <div class="pitch">
-        <h2 class="tagline"><span>Get the VA services that you’ve earned.</span></h2>
-      </div>
+  <div class="usa-grid">
+    <div class="pitch">
+      <h2 class="tagline"><span>Get the VA services that you’ve earned.</span></h2>
     </div>
   </div>
 </div>

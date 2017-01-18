@@ -335,11 +335,13 @@ h6 {
   padding: 1em 0;
 
   h2.tagline {
+    outline: 3px dashed greenyellow;
     max-width: 11em;
     font-size: 2.5rem;
     font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
 
     span {
+      background: orange;
       clear: both;
       padding: 0.5em 0.4em;
       display: inline-block;
@@ -350,7 +352,7 @@ h6 {
     }
   }
 
-  span, h2 {
+  /* span, h2 {
     padding: 0;
     display: inline;
     line-height: 1em;
@@ -361,7 +363,7 @@ h6 {
       background: $color-white; 
       color: $color-primary-darker;
     }
-  }
+  } */
 
   @include media($medium-screen) {
     padding: 2em 0;
@@ -383,24 +385,31 @@ h6 {
     min-height: 422px;
 
     h2 span {
-      padding: 0.5em 0.4em;
-      line-height: 1.3em;
-      font-size: 3.5rem;
-    }
-
-    h2.tagline {
-      max-width: 15em;
+      padding-left: 0.4em;
+      padding-right: 0.4em;
     }
   }
 
-  h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
+  h2, h3, p {
+    margin: 0; 
+    display: inline-block; 
+    font-family: $font-serif;
+  }
+
   h2 {
-    font-size: 1em;
     display: inline-block;
-    @media #{$small} {font-size: 2em;}
+    font-size: 2em;
+
+    @include media($medium-screen) {
+      font-size: 1em;
+    }
   }
 
-  h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
+  h3 {
+    font-weight: 500; 
+    font-size: 1.4em; 
+    color: $color-va-gray-cool-medium;
+  }
 
 }
 
@@ -622,76 +631,10 @@ ul, ol {
 }
 
 // Home page specific
-
-.home #content {
-  h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
-
-  .post-date {
-    font-size: .5em; color: $color-gold;
-  }
-
-  h3 {
-    line-height: 1.2em;
-    font-size: 1.65em;
-    color: $color-primary;
-    margin: 0 0 2.5em 0;
-    padding: 0 0 .2em 0;
-  }
-
-  h4 a {
-    text-decoration: none;
-    &:hover {
-      border-bottom: 1px solid $color-white;
-      color: $color-gold;
-    }
-  }
-
-  .read-more {
-    font-size: .5em;
-    display: inline-block;
-    border-bottom: 1px solid $secondary-color;
-    color: $secondary-color;
-    &:hover {
-      background: none;
-      color: $color-primary-darkest;
-      background: rgba(1,1,1,.1);
-      border-bottom: 1px solid $secondary-color;
-    }
-  }
-
-  .section {
-    padding: 4em 0 2em 0;
-    text-align: left;
-  }
-
-  .section.main-menu {
+.home { 
+  .main-menu {
     padding: 0em .5em 4em .5em;
     overflow: hidden;
-  }
-
-
-  .home #content .section h3.alternate {
-    margin: 0 0 2em 0 !important; padding: 0;
-  }
-
-  .section.one {
-    padding: 0 0 1.5em 0;
-      @media #{$small} {padding: 2em 0 4em 0;}
-  }
-
-  .section.two {
-    padding: 2em 0;
-    a, h3 {color: $color-white;}
-    h3 {border-bottom: none;}
-    background: rgba(0,0,0,.1);
-  }
-
-  .section.three {
-    background: $color-white;
-    padding: 5em 0;
-    h2, h3, h4, h5, h6, p, li {color: $color-va-gray-cool-dark;}
-    h4 {margin: 0; padding: 0;}
-    a {color: $color-primary-darkest;}
   }
 }
 
