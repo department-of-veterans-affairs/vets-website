@@ -9,21 +9,17 @@ export const fullName = {
   properties: {
     first: {
       type: 'string',
-      title: 'First name'
     },
     middle: {
       type: 'string',
-      title: 'Middle name'
     },
     last: {
       type: 'string',
-      title: 'Last name',
       minLength: 1,
       maxLength: 30
     },
     suffix: {
       type: 'string',
-      title: 'Suffix',
       'enum': [
         '',
         'Jr.',
@@ -37,7 +33,6 @@ export const fullName = {
 };
 
 export const ssn = {
-  title: 'Social security number',
   type: 'string',
   pattern: '^([0-9]{3}-[0-9]{2}-[0-9]{4}|[0-9]{9})$'
 };

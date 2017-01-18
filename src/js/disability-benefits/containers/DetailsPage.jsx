@@ -66,10 +66,11 @@ class DetailsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const claimsState = state.disability.status;
   return {
-    loading: state.claimDetail.loading,
-    claim: state.claimDetail.detail,
-    lastPage: state.routing.lastPage
+    loading: claimsState.claimDetail.loading,
+    claim: claimsState.claimDetail.detail,
+    lastPage: claimsState.routing.lastPage
   };
 }
 

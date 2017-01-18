@@ -49,7 +49,7 @@ You
 -	The evidence must show that the disease is at least 10% disabling. For example, you may be taking medication for hypertension.
 -	The evidence must show that the disease appeared within one year after separation from service.
 
-**Exception:**<br>
+**Exception:**
 The requirement that the disease must have appeared within one year after separation from service does not apply to the following:
 
 -	Hansen&#8217;s disease: within three years after separation

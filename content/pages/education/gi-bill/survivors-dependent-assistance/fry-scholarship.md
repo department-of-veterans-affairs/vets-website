@@ -28,7 +28,7 @@ If you are a dependent and your parent died in the line of duty before August 1,
 
 Surviving spouses are eligible to receive [Dependency and Indemnity Compensation](http://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp) (DIC) while using the Fry Scholarship. Children over 18 who receive DIC benefits will need to give up those payments when they start to use the Fry Scholarship.
 
-**Exception:**<br>
+**Exception:**
 Spouses who remarry will lose their eligibility for this benefit.
 
 ----

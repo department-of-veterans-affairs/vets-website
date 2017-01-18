@@ -1,5 +1,6 @@
 import _ from 'lodash/fp';
-import { isValidSSN } from '../utils/validations';
+import { isValidSSN, isValidPartialDate } from '../utils/validations';
+import { parseISODate } from './helpers';
 
 /*
  * This contains the code for supporting our own custom validations and messages
@@ -122,3 +123,9 @@ export function validateSSN(errors, ssn) {
   }
 }
 
+export function validateDate(errors, dateString) {
+  const { day, month, year } = parseISODate(dateString);
+  if (!isValidPartialDate(day, month, year)) {
+    errors.addError('Please provide a valid date');
+  }
+}
