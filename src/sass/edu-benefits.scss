@@ -231,3 +231,21 @@ table.review td {
   font-size: 1.7rem;
   font-weight: 700;
 }
+
+dl.review {
+  .review-row {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #5b616b;
+    padding: 1.5rem;
+    padding-left: 0;
+    &> dd {
+      font-weight: bold;
+    }
+  }
+  border-bottom: 1px solid #5b616b;
+}
+
+form.rjsf {
+  max-width: 100%;
+}
