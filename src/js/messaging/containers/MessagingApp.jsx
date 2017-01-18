@@ -53,7 +53,7 @@ MessagingApp.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    alert: state.alert
+    alert: state.health.msg.alert
   };
 };
 
