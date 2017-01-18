@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Apply for Education Benefits
 template: 6-info-page
-modal: true 
+modal: true
 concurrence: complete
 showactionbar: false
 stickyactionbox: true
@@ -92,7 +92,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 </div>
 
-<a href="/education/apply-for-education-benefits/application" class="usa-button-primary va-button-primary">Start Form 22-1990</a>
+<a href="/education/apply-for-education-benefits/application/1990" class="usa-button-primary va-button-primary">Start Form 22-1990</a>
 
 <div markdown="1">
 
@@ -100,7 +100,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 - Go to a [VA regional office](/facilities) and have a VA employee assist you.
 - Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
-- Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to have the application mailed to you. Fill it out and mail it to your [VA regional claims processing office](http://www.va.gov/directory/guide/division.asp?dnum=3).
+- Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to have the application mailed to you. Fill it out and mail it to your [VA regional claims processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
 </div>
 

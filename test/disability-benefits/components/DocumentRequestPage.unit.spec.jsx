@@ -20,7 +20,8 @@ describe('<DocumentRequestPage>', () => {
       type: 'still_need_from_you_list',
     };
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const message = {
       title: 'Test',
@@ -36,7 +37,8 @@ describe('<DocumentRequestPage>', () => {
   });
   it('should clear upload error when leaving', () => {
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const trackedItem = {
       type: 'still_need_from_you_list',
@@ -61,7 +63,8 @@ describe('<DocumentRequestPage>', () => {
   });
   it('should not clear notification after completed upload', () => {
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const trackedItem = {
       type: 'still_need_from_you_list',
@@ -91,7 +94,8 @@ describe('<DocumentRequestPage>', () => {
       suspenseDate: '2010-05-10'
     };
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
@@ -107,7 +111,8 @@ describe('<DocumentRequestPage>', () => {
       suspenseDate: '2010-05-10'
     };
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
@@ -122,7 +127,8 @@ describe('<DocumentRequestPage>', () => {
       suspenseDate: '2010-05-10'
     };
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
@@ -140,7 +146,8 @@ describe('<DocumentRequestPage>', () => {
       displayName: 'Testing'
     };
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const resetUploads = sinon.spy();
     const mainDiv = document.createElement('div');
@@ -164,7 +171,8 @@ describe('<DocumentRequestPage>', () => {
       displayName: 'Testing'
     };
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const router = {
       push: sinon.spy()

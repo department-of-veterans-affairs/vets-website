@@ -1,5 +1,3 @@
-import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
 import EduBenefitsApp from './1990/containers/EduBenefitsApp';
 import routes1990 from './1990/routes';
 import form1990 from './1990/reducers';
@@ -11,14 +9,38 @@ export default function createRoutes(store) {
     store.replaceReducer(reducer);
   };
 
-  // when we actually have more than one form, we should probably load them in
-  // separate bundles
-  return (
-    <Route path="/">
-      <IndexRedirect to="1990"/>
-      <Route path="1990" onEnter={onEnter(form1990)} component={EduBenefitsApp}>
-        {routes1990}
-      </Route>
-    </Route>
-  );
+  const childRoutes = [
+    {
+      path: '1990',
+      indexRoute: { onEnter: (nextState, replace) => replace('/1990/introduction') },
+      onEnter: onEnter(form1990),
+      component: EduBenefitsApp,
+      childRoutes: routes1990
+    }
+  ];
+
+  if (__BUILDTYPE__ === 'development') {
+    childRoutes.push(
+      {
+        path: '1995',
+        indexRoute: { onEnter: (nextState, replace) => replace('/1995/introduction') },
+        getComponent(nextState, callback) {
+          require.ensure([], (require) => {
+            callback(null, require('./1995/Form1995App').default);
+          }, 'edu-1995');
+        },
+        getChildRoutes(partialNextState, callback) {
+          require.ensure([], (require) => {
+            callback(null, require('./1995/routes').default);
+          }, 'edu-1995');
+        },
+      }
+    );
+  }
+
+  return {
+    path: '/',
+    indexRoute: { onEnter: (nextState, replace) => replace('/1990/introduction') },
+    childRoutes
+  };
 }

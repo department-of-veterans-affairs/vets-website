@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
-import { states } from './options-for-select';
 import { showSchoolAddress, showRelinquishedEffectiveDate } from '../../utils/helpers';
+import { states } from '../../../common/utils/options-for-select';
 import { dateToMoment } from '../../../common/utils/helpers';
 import {
   isBlank,
@@ -274,6 +274,5 @@ export {
   isValidTourOfDuty,
   isValidEmploymentPeriod,
   isValidRotcScholarshipAmount,
-  isValidEducationPeriod,
-  isValidAddressField
+  isValidEducationPeriod
 };

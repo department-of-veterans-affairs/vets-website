@@ -4,7 +4,7 @@ class AskVAQuestions extends React.Component {
   render() {
     return (
       <div className="ask-va-questions claims-sidebar-box">
-        <h2 className="hightlight claim-file-border claim-h2">Need Help?</h2>
+        <h2 className="claim-file-border claim-h2">Need Help?</h2>
         <p className="talk">Ask the vets.gov Help Desk:</p>
         <p className="phone-number">
           <a href="tel:+1-855-574-7286">855-574-7286</a><br/>

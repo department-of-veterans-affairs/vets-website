@@ -112,9 +112,10 @@ export class Main extends React.Component {
               isExpanded={this.props.nav.foldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
               onCreateNewFolder={this.props.openCreateFolderModal}
-              onFolderChange={this.handleFolderChange}/>
+              onFolderChange={this.handleFolderChange}
+              toggleFolderNav={this.props.toggleFolderNav}/>
         </div>
-        <div id="messaging-content">
+        <div id="messaging-content" aria-live="assertive">
           {this.props.children}
         </div>
         <ModalAttachments
@@ -144,21 +145,23 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const msgState = state.health.msg;
+
   const folders = [];
-  state.folders.data.items.forEach(v => {
+  msgState.folders.data.items.forEach(v => {
     folders.push(v);
   });
 
-  const currentFolderId = _.get(state.folders.ui.lastRequestedFolder, 'id', 0);
+  const currentFolderId = _.get(msgState.folders.ui.lastRequestedFolder, 'id', 0);
 
   return {
-    attachmentsModal: state.modals.attachments,
-    createFolderModal: state.modals.createFolder,
+    attachmentsModal: msgState.modals.attachments,
+    createFolderModal: msgState.modals.createFolder,
     currentFolderId,
     folders,
-    isVisibleAdvancedSearch: state.search.advanced.visible,
-    loading: state.loading,
-    nav: state.folders.ui.nav
+    isVisibleAdvancedSearch: msgState.search.advanced.visible,
+    loading: msgState.loading,
+    nav: msgState.folders.ui.nav
   };
 };
 

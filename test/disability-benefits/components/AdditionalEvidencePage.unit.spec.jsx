@@ -16,7 +16,8 @@ describe('<AdditionalEvidencePage>', () => {
   });
   it('should render upload error alert', () => {
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const message = {
       title: 'test',
@@ -33,7 +34,8 @@ describe('<AdditionalEvidencePage>', () => {
   });
   it('should clear upload error when leaving', () => {
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const message = {
       title: 'test',
@@ -54,7 +56,8 @@ describe('<AdditionalEvidencePage>', () => {
   });
   it('should not clear notification after completed upload', () => {
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const message = {
       title: 'test',
@@ -77,7 +80,8 @@ describe('<AdditionalEvidencePage>', () => {
   it('should handle submit files', () => {
     const files = [];
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
@@ -91,7 +95,8 @@ describe('<AdditionalEvidencePage>', () => {
   });
   it('should reset uploads and set title on mount', () => {
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const resetUploads = sinon.spy();
     const mainDiv = document.createElement('div');
@@ -110,7 +115,8 @@ describe('<AdditionalEvidencePage>', () => {
   });
   it('should set details and go to files page if complete', () => {
     const claim = {
-      id: 1
+      id: 1,
+      attributes: {}
     };
     const router = {
       push: sinon.spy()
@@ -134,4 +140,3 @@ describe('<AdditionalEvidencePage>', () => {
     expect(router.push.calledWith('your-claims/1/files')).to.be.true;
   });
 });
-
