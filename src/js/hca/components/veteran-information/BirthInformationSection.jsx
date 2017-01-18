@@ -59,7 +59,7 @@ class BirthInformationSection extends React.Component {
               onValueChange={(update) => {this.props.onStateChange('cityOfBirth', update);}}/>
           <ErrorableSelect label="State"
               name="stateOfBirth"
-              options={states.USA.concat([{label: 'Other', value: 'Other'}])}
+              options={states.USA.concat([{label: 'Other', value: 'Other'}]).sort((a, b) => a.label.localeCompare(b.label))}
               autocomplete="off"
               value={this.props.data.stateOfBirth}
               onValueChange={(update) => {this.props.onStateChange('stateOfBirth', update);}}/>
