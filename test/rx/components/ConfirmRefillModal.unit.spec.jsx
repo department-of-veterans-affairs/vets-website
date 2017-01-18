@@ -29,6 +29,12 @@ describe('<ConfirmRefillModal>', () => {
     expect(tree.props.id).to.equal('rx-confirm-refill');
   });
 
+  it('should render a Modal', () => {
+    const tree = SkinDeep.shallowRender(<ConfirmRefillModal {...props}/>);
+
+    expect(tree.subTree('Modal')).to.be.ok;
+  });
+
   it('should call refillPrescription correctly', () => {
     const refillPrescription = sinon.spy();
 
