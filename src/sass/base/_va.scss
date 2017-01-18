@@ -325,7 +325,7 @@ h6 {
   }
 }
 
-#content .splash {
+.splash {
   margin: 0;
   background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
   background-size: cover;
@@ -399,7 +399,7 @@ h6 {
 }
 
 .home {
-  #content .splash {
+  .splash {
     @media #{$small} {
       padding: 1em 0;
       min-height: 14em;
