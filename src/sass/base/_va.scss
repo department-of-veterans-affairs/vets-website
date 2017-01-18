@@ -121,15 +121,15 @@ dd + dt {
 // Figure / Caption
 figure {
   font-size: .85em;
-  margin-left: -$column-gutter/2;
-  margin-right: -$column-gutter/2;
+  margin-left: inherit;
+  margin-right: inherit;
 
-  @media #{$small} {
-    margin-left: inherit;
-    margin-right: inherit;
+  @include media($medium-screen) {
+    margin-left: -$column-gutter/2;
+    margin-right: -$column-gutter/2;
   }
 
-  @media #{$large} {
+  @include media($large-screen) {
     margin-left: -16.66667%;
     margin-right: -16.66667%;
   }
@@ -1323,22 +1323,6 @@ a.twitter {
   }
 }
 
-.search-button {
-  margin: 0.1em .5em 0 0;
-  padding: 0;
-  float: right;
-  a {
-    line-height: 1em;
-    display: inline-block;
-    padding: .41em;
-    font-size: .85em;
-    border-radius: .2em;
-    text-decoration: none;
-    background: $color-primary;
-    color: $color-white;
-  }
-}
-
 .reveal-modal #search_form {
   margin-bottom: 1em;
 }
@@ -1758,6 +1742,16 @@ li.twenty:before {content: '20';}
   }
 }
 
+.va-mobile-searchtrigger {
+  padding: .5em;
+  margin-top: 0;
+  border-radius: .15em;
+
+  @include media($medium) {
+    display: none;
+  }
+}
+
 @media #{$small-only} {
   .va-mobile-searchclose  {
     border-radius: 0;
@@ -1766,12 +1760,6 @@ li.twenty:before {content: '20';}
     margin: 0;
     width: auto;
     background: $color-primary;
-  }
-
-  .va-mobile-searchtrigger {
-    padding: .5em;
-    margin-top: 0;
-    border-radius: .15em;
   }
 
   .va-overlay {
@@ -1909,7 +1897,7 @@ ul li p {
   }
 }
 
-@media (max-width: 40.063em) {
+@include media($medium-screen) {
   .simpletooltip {
     top: 100%;
     left: 45%;
