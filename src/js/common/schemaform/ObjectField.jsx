@@ -46,6 +46,7 @@ class ObjectField extends React.Component {
     this.state = this.getStateFromProps(props);
     this.onPropertyChange = this.onPropertyChange.bind(this);
     this.onPropertyBlur = this.onPropertyBlur.bind(this);
+    this.isRequired = this.isRequired.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -89,6 +90,12 @@ class ObjectField extends React.Component {
     return getDefaultFormState(schema, formData, registry.definitions) || {};
   }
 
+  isRequired(name) {
+    const schema = this.props.schema;
+    return Array.isArray(schema.required) &&
+      schema.required.indexOf(name) !== -1;
+  }
+
   asyncSetState(state, options = { validate: false }) {
     setState(this, state, () => {
       this.props.onChange(this.state, options);
@@ -101,7 +108,7 @@ class ObjectField extends React.Component {
       errorSchema,
       idSchema,
       name,
-      requiredSchema,
+      required,
       disabled,
       readonly,
       touchedSchema
@@ -148,7 +155,7 @@ class ObjectField extends React.Component {
               ? <TitleField
                   id={`${idSchema.$id}__title`}
                   title={title}
-                  required={requiredSchema.$required}
+                  required={required}
                   formContext={formContext}/> : null}
           {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
           {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
@@ -158,7 +165,7 @@ class ObjectField extends React.Component {
               <div key={index} className={index === 0 ? 'first-field' : null}>
                 <SchemaField
                     name={propName}
-                    requiredSchema={requiredSchema[propName]}
+                    required={this.isRequired(propName)}
                     schema={schema.properties[propName]}
                     uiSchema={uiSchema[propName]}
                     errorSchema={errorSchema[propName]}
@@ -187,7 +194,7 @@ ObjectField.propTypes = {
   idSchema: React.PropTypes.object,
   onChange: React.PropTypes.func.isRequired,
   formData: React.PropTypes.object,
-  requiredSchema: React.PropTypes.object.isRequired,
+  required: React.PropTypes.bool,
   disabled: React.PropTypes.bool,
   readonly: React.PropTypes.bool,
   registry: React.PropTypes.shape({

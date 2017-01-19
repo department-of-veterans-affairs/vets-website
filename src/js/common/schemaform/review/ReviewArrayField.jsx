@@ -4,12 +4,25 @@ import Scroll from 'react-scroll';
 
 import { FormPage } from '../FormPage';
 
+import {
+  getDefaultFormState
+} from 'react-jsonschema-form/lib/utils';
+
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
+/* Growable table (Array) field on the Review page
+ *
+ * The idea here is that, because our pattern for growable tables on the review
+ * page is that each item can be in review or edit mode, we will treat each item
+ * as its own form page and this component will handle the edit/review states and
+ * make sure data is properly updated in the Redux store
+ */
 class ReviewArrayField extends React.Component {
   constructor(props) {
     super(props);
+    // In contrast to the normal array field, we don't want to add an empty item
+    // and always show at least one item on the review page
     const arrayData = Array.isArray(props.arrayData) ? props.arrayData : null;
     this.state = {
       items: arrayData || [],
@@ -44,15 +57,21 @@ class ReviewArrayField extends React.Component {
     }, 100);
   }
 
+  /*
+   * Clicking edit on the item in review mode
+   */
   handleEdit(index, status = true) {
     this.setState(_.set(['editing', index], status, this.state), () => {
       this.scrollToRow(`${this.props.path[this.props.path.length - 1]}_${index}`);
     });
   }
 
+  /*
+   * Clicking Add Another in the header of the array field section
+   */
   handleAdd() {
     const newState = {
-      items: this.state.items.concat({}),
+      items: this.state.items.concat(getDefaultFormState(this.props.schema.items, undefined, this.props.schema.definitions) || {}),
       editing: this.state.editing.concat(true)
     };
     this.setState(newState, () => {
@@ -60,6 +79,9 @@ class ReviewArrayField extends React.Component {
     });
   }
 
+  /*
+   * Clicking Remove when editing an item
+   */
   handleRemove(indexToRemove) {
     const { pageKey, path, formData } = this.props;
     const newState = _.assign(this.state, {
@@ -72,6 +94,12 @@ class ReviewArrayField extends React.Component {
     });
   }
 
+  /*
+   * Called on any form data change.
+   *
+   * When data is changed, since we're only editing one array item at a time,
+   * we need to update the full page's form data and call the Redux setData action
+   */
   handleSetData(index, data) {
     const { pageKey, path, formData } = this.props;
     const newArray = _.set(index, data, this.state.items);
@@ -80,6 +108,13 @@ class ReviewArrayField extends React.Component {
     });
   }
 
+  /*
+   * Clicking Update in edit mode.
+   *
+   * This is only called if the form is valid
+   * and data is already saved through handleSetData, so we just need to change
+   * the edting state
+   */
   handleSave(index) {
     const newEditingArray = _.set(index, false, this.state.editing);
     this.setState({ editing: newEditingArray }, () => {

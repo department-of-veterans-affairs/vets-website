@@ -30,9 +30,16 @@ const scrollToFirstError = () => {
   }, 100);
 };
 
+/* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
   constructor(props) {
     super(props);
+
+    /*
+     * We always want to show one empty item in the array, so add that if necessary
+     *
+     * It will not get saved unless a user changes data in it
+     */
     const formData = Array.isArray(props.formData) ? props.formData : null;
     let items;
     if (!formData || formData.length === 0) {
@@ -40,10 +47,16 @@ export default class ArrayField extends React.Component {
     } else {
       items = getDefaultFormState(props.schema, formData, props.registry.definitions) || [];
     }
+
+    /*
+     * We're keeping the editing state in local state because it's easier to manage and
+     * doesn't need to persist from page to page
+     */
     this.state = {
       items,
       editing: items.map(() => false)
     };
+
     this.onItemChange = this.onItemChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.onItemBlur = this.onItemBlur.bind(this);
@@ -51,10 +64,16 @@ export default class ArrayField extends React.Component {
     this.scrollToRow = this.scrollToRow.bind(this);
   }
 
+  /*
+   * Based on the default react-jsonschema-form optimizations, except it handles state/props syncing
+   * with formData
+   */
   shouldComponentUpdate(nextProps, nextState) {
     const propsWithoutDataUnchanged = deepEquals(_.omit('formData', this.props), _.omit('formData', nextProps));
     const stateUnchanged = deepEquals(this.state, nextState);
 
+    // Because there's local state for the form data, we sometimes see form data updated in props that is already
+    // in state and we don't need to update
     if (propsWithoutDataUnchanged && stateUnchanged && deepEquals(nextProps.formData, nextState.items)) {
       return false;
     }
@@ -63,6 +82,7 @@ export default class ArrayField extends React.Component {
   }
 
   onItemChange(indexToChange, value) {
+    // Replace the item in local state first
     const newState = _.set('items', this.state.items.map(
       (current, index) => {
         return index === indexToChange
@@ -70,6 +90,7 @@ export default class ArrayField extends React.Component {
           : current;
       }
     ), this.state);
+    // Then, update the actual form data
     this.setState(newState, () => {
       this.props.onChange(newState.items);
     });
@@ -101,18 +122,25 @@ export default class ArrayField extends React.Component {
     }, 100);
   }
 
+  /*
+   * Clicking edit on an item that's not last and so is in view mode
+   */
   handleEdit(index, status = true) {
     this.setState(_.set(['editing', index], status, this.state), () => {
       this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
     });
   }
 
+  /*
+   * Clicking Update on an item that's not last and is in edit mode
+   */
   handleUpdate(index) {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
       this.setState(_.set(['editing', index], false, this.state), () => {
         this.scrollToTop();
       });
     } else {
+      // Set all the fields for this item as touched, so we show errors
       const touchedSchema = _.set(index, true, this.state.touchedSchema);
       this.setState({ touchedSchema }, () => {
         scrollToFirstError();
@@ -120,9 +148,14 @@ export default class ArrayField extends React.Component {
     }
   }
 
+  /*
+   * Clicking Add Another
+   */
   handleAdd() {
     const lastIndex = this.state.items.length - 1;
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
+      // When we add another, we want to change the editing state of the currently
+      // last item, but not ones above it
       const newEditing = this.state.editing.map((val, index) => {
         return (index + 1) === this.state.editing.length
           ? false
@@ -144,6 +177,9 @@ export default class ArrayField extends React.Component {
     }
   }
 
+  /*
+   * Clicking Remove on an item in edit mode
+   */
   handleRemove(indexToRemove) {
     const newState = _.assign(this.state, {
       items: this.state.items.filter((val, index) => index !== indexToRemove),
@@ -165,7 +201,6 @@ export default class ArrayField extends React.Component {
       registry,
       formContext,
       touchedSchema,
-      requiredSchema,
       schema
     } = this.props;
     const definitions = registry.definitions;
@@ -191,15 +226,17 @@ export default class ArrayField extends React.Component {
         <div className="va-growable">
           <Element name={`topOfTable_${idSchema.$id}`}/>
           {this.state.items.map((item, index) => {
+            // This is largely copied from the default ArrayField
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemsSchema, itemIdPrefix, definitions);
-            const isLast = this.state.items.length === (index + 1);
-            const isEditing = this.state.editing[index];
-            const notLastOrMultipleRows = !isLast || this.state.items.length > 1;
             let itemTouched = (touchedSchema ? touchedSchema[index] : false);
             if (this.state.touchedSchema && typeof this.state.touchedSchema[index] !== 'undefined') {
               itemTouched = this.state.touchedSchema[index];
             }
+            const isLast = this.state.items.length === (index + 1);
+            const isEditing = this.state.editing[index];
+            const notLastOrMultipleRows = !isLast || this.state.items.length > 1;
+
             if (isLast || isEditing) {
               return (
                 <div key={index} className={notLastOrMultipleRows ? 'va-growable-background' : null}>
@@ -220,7 +257,7 @@ export default class ArrayField extends React.Component {
                             onBlur={(path) => this.onItemBlur(index, path)}
                             touchedSchema={itemTouched}
                             registry={this.props.registry}
-                            requiredSchema={requiredSchema}
+                            required={false}
                             disabled={disabled}
                             readonly={readonly}/>
                       </div>
@@ -269,7 +306,6 @@ ArrayField.propTypes = {
   idSchema: React.PropTypes.object,
   onChange: React.PropTypes.func.isRequired,
   formData: React.PropTypes.array,
-  required: React.PropTypes.bool,
   disabled: React.PropTypes.bool,
   readonly: React.PropTypes.bool,
   registry: React.PropTypes.shape({

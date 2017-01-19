@@ -25,6 +25,11 @@ class ObjectField extends React.Component {
     readonly: false,
   }
 
+  constructor() {
+    super();
+    this.isRequired = this.isRequired.bind(this);
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return shouldRender(this, nextProps, nextState);
   }
@@ -34,13 +39,18 @@ class ObjectField extends React.Component {
     return getDefaultFormState(schema, formData, registry.definitions) || {};
   }
 
+  isRequired(name) {
+    const schema = this.props.schema;
+    return Array.isArray(schema.required) &&
+      schema.required.indexOf(name) !== -1;
+  }
+
   render() {
     const {
       uiSchema,
       errorSchema,
       idSchema,
       formData,
-      requiredSchema,
       formContext
     } = this.props;
     const { definitions, fields } = this.props.registry;
@@ -72,7 +82,7 @@ class ObjectField extends React.Component {
               idSchema={idSchema[propName]}
               onChange={f => f}
               onBlur={f => f}
-              requiredSchema={requiredSchema[propName]}
+              required={this.isRequired(propName)}
               formData={formData[propName]}
               registry={this.props.registry}/>
         );
