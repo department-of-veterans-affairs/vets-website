@@ -15,7 +15,7 @@ If you can't work because of a disability related to your service in the militar
 
 You may be able to get disability benefits if:
 
-  - You have at least 1 service-connected disability rated at 60% or more disabling, or 2 or more service-connected disabilities—with at least 1 rated at 40% or more disabling and a combined rating of 70% or more, **and**
+  - You have at least 1 service-connected disability rated at 60% or more disabling, or 2 or more service-connected disabilities—with at least 1 rated at 40% or more disabling and a combined rating of 70% or more—**and**
   - You can't hold down a steady job that supports you financially (substantially gainful employment) because of your service-connected disability. Odd jobs (marginal employment), don't count.
 
 **Note:** In exceptional cases, like needing to be in the hospital often, you may be able to qualify at a lower disability rating.
