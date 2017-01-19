@@ -122,15 +122,15 @@ class FormPage extends React.Component {
           widgets={widgets}
           fields={fields}
           transformErrors={this.transformErrors}>
-        <div className="row form-progress-buttons schemaform-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="usa-grid form-progress-buttons schemaform-buttons">
+          <div className="usa-width-five-twelfths">
             <ProgressButton
                 onButtonClick={this.goBack}
                 buttonText="Back"
                 buttonClass="usa-button-outline"
                 beforeText="«"/>
           </div>
-          <div className="small-6 medium-5 end columns">
+          <div className="usa-width-five-twelfths">
             <ProgressButton
                 submitButton
                 buttonText="Continue"

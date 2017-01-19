@@ -18,18 +18,18 @@ export default class ClaimDetailLayout extends React.Component {
       const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
       content = (
         <div>
-          <div className="row">
-            <div className="medium-12 columns">
+          <div className="usa-grid">
+            <div className="usa-width-one-whole">
               <nav className="va-nav-breadcrumbs">
-                <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+                <ul className="usa-grid va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                   <li><Link to={claimsPath}>Your claims</Link></li>
                   <li className="active">Your Disability Compensation Claim</li>
                 </ul>
               </nav>
             </div>
           </div>
-          <div className="row">
-            <div className="medium-8 columns">
+          <div className="usa-grid">
+            <div className="usa-width-three-fourths">
               <div className="claim-container">
                 {message && <Notification title={message.title} body={message.body} type={message.type} onClose={clearNotification}/>}
                 <h1 className="claim-title">Your {getClaimType(claim)} Claim</h1>
@@ -51,7 +51,7 @@ export default class ClaimDetailLayout extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="small-12 medium-4 columns">
+            <div className="usa-width-one-fourth">
               <AskVAQuestions/>
             </div>
           </div>

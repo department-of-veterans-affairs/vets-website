@@ -17,14 +17,14 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div>
-        <div className="row">
-          <div className="small-12 columns">
+        <div className="usa-grid">
+          <div className="usa-width-one-whole">
             <h3>Update your education benefits (Form 22-1995)</h3>
           </div>
         </div>
 
-        <div className="row">
-          <div className="small-12 columns">
+        <div className="usa-grid">
+          <div className="usa-width-one-whole">
             <div className="input-section">
               <p>Fill out this application to <strong>apply for</strong> your official Certificate of Eligibility (COE) for the education benefit you want. Before you continue, please note that the presence of form fields indicates information is being collected.</p>
               <div className="usa-alert usa-alert-info">
@@ -36,8 +36,8 @@ class IntroductionPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="row form-progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="usa-grid form-progress-buttons">
+          <div className="usa-width-five-twelfths">
             <ProgressButton
                 onButtonClick={this.goForward}
                 buttonText="Get Started"

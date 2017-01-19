@@ -81,7 +81,7 @@ class EduBenefitsApp extends React.Component {
         window.location.search.substring(1).split('&').map((v) => { return v.split('='); }));
       if (queryParams.devPanel === '1') {
         devPanel = (
-          <div className="row">
+          <div className="usa-grid">
             <RoutesDropdown/>
             <PerfPanel/>
           </div>
@@ -90,17 +90,17 @@ class EduBenefitsApp extends React.Component {
     }
 
     return (
-      <div className="row">
+      <div className="usa-grid">
         {devPanel}
         <Element name="topScrollElement"/>
-        <div className="medium-4 columns show-for-medium-up">
+        <div className="usa-grid-one-third columns show-for-medium-up">
           <Nav
               data={data}
               pages={pageState}
               chapters={chapters}
               currentUrl={currentLocation.pathname}/>
         </div>
-        <div className="medium-8 columns">
+        <div className="usa-width-two-thirds">
           <div className="progress-box">
             <NavHeader path={currentLocation.pathname} chapters={chapters} className="show-for-small-only"/>
             {this.props.children}

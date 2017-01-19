@@ -9,16 +9,16 @@ import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 const unavailableView = (
-  <div className="row">
-    <div className="columns medium-8"><ClaimsUnavailable/></div>
-    <div className="columns medium-4"><AskVAQuestions/></div>
+  <div className="usa-grid">
+    <div className="usa-width-two-thirds"><ClaimsUnavailable/></div>
+    <div className="usa-width-one-third"><AskVAQuestions/></div>
   </div>
 );
 
 const unavailableMviRecords = (
-  <div className="row">
-    <div className="columns medium-8"><MviRecordsUnavailable/></div>
-    <div className="columns medium-4"><AskVAQuestions/></div>
+  <div className="usa-grid">
+    <div className="usa-width-two-thirds"><MviRecordsUnavailable/></div>
+    <div className="usa-width-one-third"><AskVAQuestions/></div>
   </div>
 );
 
@@ -29,7 +29,7 @@ function AppContent({ authorized, available, synced, children, isDataAvailable }
   return (
     <div className="disability-benefits-content">
       {available && authorized && canUseApp && !synced && <ClaimSyncWarning/>}
-      {!authorized && <div className="row"><div className="columns medium-8"><ClaimsUnauthorized/></div></div>}
+      {!authorized && <div className="usa-grid"><div className="usa-width-two-thirds"><ClaimsUnauthorized/></div></div>}
       {authorized && !available && unavailableView}
       {authorized && !canUseApp && available && unavailableMviRecords}
       {available && authorized && canUseApp &&

@@ -21,16 +21,16 @@ class PerfPanel extends React.Component {
 
   render() {
     return (
-      <div className="row panel">
-        <div className="small-4 columns">
+      <div className="usa-grid panel">
+        <div className="usa-grid-one-third">
           <h3>Perf Controls</h3>
         </div>
-        <div className="small-4 columns">
+        <div className="usa-grid-one-third">
           <button
               className="usa-button-primary"
               onClick={this.handleStart}>Start</button>
         </div>
-        <div className="small-4 columns">
+        <div className="usa-grid-one-third">
           <button
               className="usa-button-primary"
               onClick={this.handleStop}>Stop</button>

@@ -3,8 +3,8 @@ import React from 'react';
 class SystemDownView extends React.Component {
   render() {
     return (
-      <div className="row">
-        <div className="small-12 columns">
+      <div className="usa-grid">
+        <div className="usa-width-one-whole">
           <div className="react-conatiner">
             <h3>{this.props.messageLine1}</h3>
             <h4>{this.props.messageLine2}</h4>

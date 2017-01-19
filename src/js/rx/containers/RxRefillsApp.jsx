@@ -36,10 +36,10 @@ class RxRefillsApp extends React.Component {
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"rx"}>
         <AppContent>
-          <div className="row">
+          <div className="usa-grid">
             <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
           </div>
-          <div className="row">
+          <div className="usa-grid">
             <Disclaimer
                 isOpen={this.props.disclaimer.open}
                 handleClose={this.props.closeDisclaimer}/>

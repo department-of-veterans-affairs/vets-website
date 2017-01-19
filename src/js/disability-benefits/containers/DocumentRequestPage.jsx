@@ -82,10 +82,10 @@ class DocumentRequestPage extends React.Component {
 
       content = (
         <div>
-          <div className="row">
-            <div className="medium-12 columns">
+          <div className="usa-grid">
+            <div className="usa-width-one-whole">
               <nav className="va-nav-breadcrumbs">
-                <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+                <ul className="usa-grid va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                   <li><Link to={claimsPath}>Your claims</Link></li>
                   <li><Link to={filesPath}>Your Disability Compensation Claim</Link></li>
                   <li className="active">{trackedItem.displayName}</li>
@@ -93,8 +93,8 @@ class DocumentRequestPage extends React.Component {
               </nav>
             </div>
           </div>
-          <div className="row">
-            <div className="medium-8 columns">
+          <div className="usa-grid">
+            <div className="usa-width-three-fourths">
               <div className="claim-container">
                 {message &&
                   <div>
@@ -129,7 +129,7 @@ class DocumentRequestPage extends React.Component {
                     onDirtyFields={this.props.setFieldsDirty}/>
               </div>
             </div>
-            <div className="small-12 medium-4 columns">
+            <div className="usa-width-one-third">
               <AskVAQuestions/>
             </div>
           </div>
