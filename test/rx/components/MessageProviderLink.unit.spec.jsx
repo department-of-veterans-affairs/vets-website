@@ -3,7 +3,6 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
 import MessageProviderLink from '../../../src/js/rx/components/MessageProviderLink';
-// glossary terms are defined in the config file
 
 describe('<MessageProviderLink>', () => {
   it('should render', () => {
