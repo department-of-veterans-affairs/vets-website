@@ -26,8 +26,8 @@ Veterans
 
 ### What disability benefits can I get?
 
-- A 1-time payment
-- Yearly payment
+- A 1-time payment, **or**
+- A yearly payment
 
 ### How do I get these benefits?
 
