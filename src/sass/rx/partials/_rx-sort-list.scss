@@ -1,5 +1,5 @@
 .rx-sort {
-  display: block;
+  display: inline-block;
 
   label, select, ul, li {
     display: inline-block;
@@ -46,4 +46,8 @@
 .rx-sort-active {
   font-weight: bold;
   text-decoration: none;
+}
+
+#rx-active .rx-sort {
+  width: 75%;
 }

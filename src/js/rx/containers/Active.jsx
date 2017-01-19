@@ -96,7 +96,10 @@ class Active extends React.Component {
     ];
 
     return (
-      <div className="rx-view-toggle show-for-medium-up" ref={(elem) => { this.viewToggle = elem; }}>View:&nbsp;
+      <div
+          className="rx-view-toggle"
+          ref={(elem) => { this.viewToggle = elem; }}>
+        View:
         <ul>
           {toggles.map(t => {
             const classes = classnames({
@@ -137,6 +140,7 @@ class Active extends React.Component {
                 onClick={this.handleSort}
                 options={sortOptions}
                 selected={currentSort}/>
+            {this.renderViewSwitch()}
             <PrescriptionList
                 items={this.props.prescriptions}
                 // If we're sorting by facility, tell PrescriptionList to group 'em.
@@ -159,7 +163,6 @@ class Active extends React.Component {
 
     return (
       <div id="rx-active" className="va-tab-content">
-        {this.renderViewSwitch()}
         {content}
       </div>
     );
