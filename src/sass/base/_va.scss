@@ -40,9 +40,20 @@ body, .home {
 }
 
 // Augments the USWDS grid, which lacks this.
-.usa-grid, .usa-grid-full {
+.usa-grid,
+.usa-grid-full {
   @include clearfix;
 }
+
+// Fixes a bug in USWDS grid
+.usa-width-one-half {
+  width: 48%;
+
+  &:nth-child(even) {
+    margin-right: 0;
+  }
+}
+
 
 // row
 body .row.full {
@@ -1810,5 +1821,15 @@ New .plain rewrite
   
   li {
     padding: .8rem 0
+  }
+}
+
+.search404 {
+  [type="text"] {
+    flex: 1 0 46rem;
+  }
+  [type="submit"] {
+    flex: 0 1 16.2rem;
+    margin-left: 2rem;
   }
 }
