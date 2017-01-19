@@ -3,6 +3,12 @@
   padding: 0;
 }
 
+.rx-prescription-items {
+  @media (max-width: $medium-screen) {
+    padding-top: 3rem;
+  }
+}
+
 .rx-prescription {
   border-color: $color-white;
   border-style: solid;
