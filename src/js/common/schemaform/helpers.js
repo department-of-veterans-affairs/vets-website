@@ -150,13 +150,6 @@ export function parseISODate(dateString) {
   };
 }
 
-export function isValidForm(form) {
-  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
-  return Object.keys(pages).reduce((isValid, page) => {
-    return isValid && pages[page].isValid;
-  }, true);
-}
-
 export function flattenFormData(form) {
   const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
   return _.values(pages).reduce((formPages, page) => {
@@ -267,3 +260,22 @@ export function updateRequiredFields(schema, uiSchema, formData) {
 
   return schema;
 }
+
+export function isValidForm(form, pageListByChapters) {
+  const pageConfigs = _.flatten(_.values(pageListByChapters));
+  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
+
+  const Validator = require('jsonschema').Validator;
+  const v = new Validator();
+
+  return form.privacyAgreementAccepted && Object.keys(pages).every(page => {
+    const pageConfig = pageConfigs.filter(config => config.pageKey === page)[0];
+    const result = v.validate(
+      pages[page].data,
+      updateRequiredFields(pageConfig.schema, pageConfig.uiSchema, pages[page].data)
+    );
+
+    return result.valid;
+  });
+}
+

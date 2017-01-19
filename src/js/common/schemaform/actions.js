@@ -3,7 +3,6 @@ import environment from '../helpers/environment.js';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
-export const SET_VALID = 'SET_VALID';
 export const SET_PRIVACY_AGREEMENT = 'SET_PRIVACY_AGREEMENT';
 export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
@@ -13,14 +12,6 @@ export function setData(page, data) {
     type: SET_DATA,
     data,
     page
-  };
-}
-
-export function setValid(page, valid) {
-  return {
-    type: SET_VALID,
-    page,
-    valid
   };
 }
 

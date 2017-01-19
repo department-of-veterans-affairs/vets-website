@@ -5,7 +5,7 @@ import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { createPageListByChapter, isValidForm } from '../helpers';
-import { setData, setValid, setPrivacyAgreement, setEditMode, setSubmission, submitForm } from '../actions';
+import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm } from '../actions';
 
 export class ReviewPage extends React.Component {
   constructor(props) {
@@ -16,8 +16,8 @@ export class ReviewPage extends React.Component {
   }
 
   handleSubmit() {
-    if (this.props.form.privacyAgreementAccepted && isValidForm(this.props.form)) {
-      this.props.submitForm(this.props.formConfig, this.props.form);
+    if (isValidForm(this.props.form, this.pagesByChapter)) {
+      this.props.submitForm(this.props.route.formConfig, this.props.form);
     } else {
       this.props.setSubmission('hasAttemptedSubmit', true);
     }
@@ -38,7 +38,6 @@ export class ReviewPage extends React.Component {
                   pages={this.pagesByChapter[chapter]}
                   chapterKey={chapter}
                   setData={this.props.setData}
-                  setValid={this.props.setValid}
                   chapter={formConfig.chapters[chapter]}
                   data={form}/>
             ))}
@@ -68,8 +67,7 @@ const mapDispatchToProps = {
   setSubmission,
   submitForm,
   setPrivacyAgreement,
-  setData,
-  setValid
+  setData
 };
 
 ReviewPage.propTypes = {

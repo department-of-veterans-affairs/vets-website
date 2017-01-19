@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { isValidSSN, isValidPartialDate } from '../utils/validations';
+import { isValidSSN, isValidPartialDate, isValidDateRange } from '../utils/validations';
 import { parseISODate } from './helpers';
 
 /*
@@ -23,7 +23,7 @@ const defaultMessages = {
 };
 
 function getMessage(path, name, uiSchema, errorArgument) {
-  const cleanPath = path.replace('instance.', '');
+  const cleanPath = path.replace('instance.', '').replace(/\[\d+\]/g, '.items');
   const pathSpecificMessage = _.get(`${cleanPath}['ui:errorMessages'].${name}`, uiSchema);
   if (pathSpecificMessage) {
     return pathSpecificMessage;
@@ -155,5 +155,24 @@ export function validateEmailsMatch(errors, formData) {
   const { email, confirmEmail } = formData;
   if (email !== confirmEmail) {
     errors.confirmEmail.addError('Please ensure your entries match');
+  }
+}
+
+function convertToDateField(dateStr) {
+  const date = parseISODate(dateStr);
+  return Object.keys(date).reduce((dateField, part) => {
+    const datePart = {};
+    datePart[part] = {
+      value: date[part]
+    };
+    return _.assign(dateField, datePart);
+  }, date);
+}
+export function validateDateRange(errors, dateRange, formData, formContext, errorMessages) {
+  const fromDate = convertToDateField(dateRange.from);
+  const toDate = convertToDateField(dateRange.to);
+
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.to.addError(errorMessages.dateRange || 'To date must be before from date');
   }
 }
