@@ -80,7 +80,7 @@ export function transformErrors(errors, uiSchema) {
 
 export function uiSchemaValidate(errors, uiSchema, formData, formContext, path = '') {
   const currentData = _.get(path, formData);
-  if (uiSchema.items) {
+  if (uiSchema.items && currentData) {
     currentData.forEach((item, index) => {
       const newPath = `${path}[${index}]`;
       if (!_.get(newPath, errors)) {
