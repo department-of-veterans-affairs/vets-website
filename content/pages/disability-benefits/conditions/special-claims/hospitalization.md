@@ -6,7 +6,7 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-Did you spend time in a VA hospital or other VA-approved hospital for a disability related to your military service (called a service-connected disability)? If yes, you may be able to get added disability compensation or benefits with a temporary 100% disability rating during your hospital stay. Find out if you can get this benefit.
+Did you spend time in a VA hospital or other VA-approved hospital for a disability related to your military service (called a service-connected disability)? If you did, you may be able to get added disability compensation or benefits with a temporary 100% disability rating during your hospital stay. Find out if you can get this benefit.
 
 <div class="call-out" markdown="1">
 
