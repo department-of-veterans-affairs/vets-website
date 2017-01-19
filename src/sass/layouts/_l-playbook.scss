@@ -92,7 +92,7 @@
   background: none !important;
   color: $color-primary-darkest !important;
 
-  @media #{$medium} {
+  @include media($medium-screen) {
     position: absolute !important;
     margin: 1.35em 0 0 0 !important;
     z-index: 100 !important;
@@ -114,7 +114,7 @@
     }
   }
 
-  @media #{$medium} {
+  @include media($medium-screen) {
     position: absolute;
     margin: 1.35em 0 0 0;
     z-index: 100;
