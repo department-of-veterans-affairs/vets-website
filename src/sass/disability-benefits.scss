@@ -190,7 +190,7 @@
 .form-process li.section-complete:before {
   background: $color-green;
   content: "\2714\fe0e";
-  @media (max-width: $small-screen) {
+  @include media-maxwidth($small-screen) {
     content: "\2713\fe0e";
   }
 }
@@ -273,7 +273,7 @@ a.claim-list-item {
 
 .ask-va-questions.claims-sidebar-box {
   padding-top: 0.6em;
-  @media (max-width: $small-screen) {
+  @include media-maxwidth( $small-screen) {
     padding: 2em 0;
   }
 }
@@ -551,7 +551,7 @@ p.first-of-type {
 .item-title-container {
   float: left;
   width: 63%;
-  @media (max-width: $small-screen) {
+  @include media-maxwidth( $small-screen) {
     float: none;
     width: 100%;
   }
@@ -574,7 +574,7 @@ p.first-of-type {
 .view-details-button {
   float: right;
   margin: 0;
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     float: none;
     position: absolute;
     bottom: 1em;
@@ -584,12 +584,12 @@ p.first-of-type {
 }
 
 .tab-li {
-  @media (max-width: $small-screen) {
+  @include media-maxwidth( $small-screen) {
     width: 33.33%;
     text-align: center;
   }
   a {
-    @media (max-width: $small-screen) {
+    @include media-maxwidth( $small-screen) {
       display: inline-block;
       width: 100%;
     }
@@ -618,7 +618,7 @@ h1:focus {
 
 .notification-close {
   background-color: transparent;
-  @media (max-width: $small-screen) {
+  @include media-maxwidth( $small-screen) {
     margin: -5px 5px 0 0;
     width: 0;
   }

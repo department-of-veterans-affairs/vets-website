@@ -47,7 +47,7 @@
   text-align: left;
   z-index: 3;
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     width: 20rem;
     right: 0;
   }

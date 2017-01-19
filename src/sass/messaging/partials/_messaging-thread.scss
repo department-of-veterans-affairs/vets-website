@@ -3,7 +3,7 @@
  ********************/
 
 .messaging-thread-content {
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     display: none;
 
     &.opened {
@@ -20,7 +20,7 @@
     width: 100%;
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     background: $color-gray-lightest;
     display: block;
     padding: 1rem 2rem;
@@ -90,7 +90,7 @@
     display: none;
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     background: $color-gray-lightest;
     border: none;
     padding: 1rem;
@@ -127,7 +127,7 @@
   float: right;
   margin: 0 1rem;
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     .msg-btn-delete,
     .msg-btn-print {
       display: none;
@@ -146,7 +146,7 @@
     padding: 0;
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     display: none;
 
     &.opened {

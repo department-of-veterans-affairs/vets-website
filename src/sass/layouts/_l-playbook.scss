@@ -140,7 +140,7 @@
   .medium-3 {
     padding-top: 1.5em;
 
-    @media (max-width: $small-screen) {
+    @include media-maxwidth( $small-screen) {
       padding-left: 1.5em;
       h4 {
         font-size: 1.4em;

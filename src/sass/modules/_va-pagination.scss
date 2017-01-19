@@ -15,7 +15,7 @@
   }
 
   &-prev {
-    @media (max-width: $medium-screen) {
+    @include media-maxwidth($medium-screen) {
       margin-left: -3rem;
       padding: 0 1rem 0 0;
     }
@@ -30,7 +30,7 @@
   }
 
   &-next {
-    @media (max-width: $medium-screen) {
+    @include media-maxwidth($medium-screen) {
       margin-right: -3rem;
       padding: 0 0 0 1rem;
     }
@@ -63,7 +63,7 @@
     overflow: hidden;
     white-space: nowrap;
 
-    @media (max-width: $medium-screen) {
+    @include media-maxwidth($medium-screen) {
       width: 20rem;
     }
 

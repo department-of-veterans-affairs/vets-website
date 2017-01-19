@@ -7,7 +7,7 @@
     margin: 2rem 0;
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     padding: 0 2rem;
 
     .messaging-message-nav {
@@ -46,7 +46,7 @@
 .msg-table-list {
   margin-top: 0;
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     border-color: $color-gray-light;
     border-style: solid;
     border-width: 1px 0;
@@ -79,7 +79,7 @@
     padding: 0;
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     position: relative;
 
     a {

@@ -104,7 +104,7 @@ ul.claim-list{
   }
 }
 
-@media (max-width: 40.063em) {
+@include media-maxwidth( 40.063em) {
   .progress-box {
     border:none;
     padding-left: 2rem - .9375rem;

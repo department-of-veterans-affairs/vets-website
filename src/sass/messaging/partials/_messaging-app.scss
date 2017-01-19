@@ -9,7 +9,7 @@
 
 
 #messaging-app-header {
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     padding: 0 1.5rem;
   }
 }
@@ -42,7 +42,7 @@
     width: 100%;
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     -webkit-transform: translateX(-100%);
     -ms-transform: translateX(-100%);
     transform: translateX(-100%);
@@ -125,7 +125,7 @@
     padding: 0 !important;
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     align-items: center;
     background: $color-gray-lightest;
     display: flex;
@@ -161,7 +161,7 @@
   padding: 1.5rem 0;
   margin-left: 1.5rem;
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     display: block;
   }
 }
@@ -180,7 +180,7 @@
     background: $color-gray;
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     display: block;
   }
 }

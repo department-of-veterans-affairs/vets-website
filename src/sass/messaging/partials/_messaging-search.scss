@@ -14,7 +14,7 @@
     border-radius: 0 0.3rem 0.3rem 0;
     margin: 0;
 
-    @media (max-width: $medium-screen) {
+    @include media-maxwidth($medium-screen) {
       flex: 0 1 5rem;
     }
   }
@@ -124,7 +124,7 @@
     -webkit-flex: 0 1 25%;
     flex: 0 1 25%;
 
-    @media (max-width: $medium-screen) {
+    @include media-maxwidth($medium-screen) {
       margin-bottom: 1em;
     }
 
@@ -154,7 +154,7 @@
   align-items: center;
   display: flex;
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     > div {
       flex: 1 0 11rem;
       text-align: center;

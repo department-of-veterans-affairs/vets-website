@@ -68,7 +68,7 @@ tr {
   // Get font size to stay the same when table shrinks.
   font-size: 1.6rem;
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     thead {
       left: -9999rem;
       position: absolute;

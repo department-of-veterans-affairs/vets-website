@@ -69,7 +69,7 @@ button.rx-prescription-button,
   white-space: nowrap;
   width: 100%;
 
-  @media (max-width: $small-screen) {
+  @include media-maxwidth( $small-screen) {
     padding: 1rem;
   };
 }
