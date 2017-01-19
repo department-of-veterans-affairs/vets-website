@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import { Validator } from 'jsonschema';
 import FormPage from './FormPage';
 import ReviewPage from './review/ReviewPage';
 
@@ -265,7 +266,6 @@ export function isValidForm(form, pageListByChapters) {
   const pageConfigs = _.flatten(_.values(pageListByChapters));
   const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
 
-  const Validator = require('jsonschema').Validator;
   const v = new Validator();
 
   return form.privacyAgreementAccepted && Object.keys(pages).every(page => {
