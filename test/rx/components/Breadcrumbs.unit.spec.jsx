@@ -32,29 +32,25 @@ describe('<Breadcrumbs>', () => {
 
   it('should render the basecase correctly', () => {
     const tree = SkinDeep.shallowRender(<Breadcrumbs {...props}/>);
+    const lastSpan = tree.everySubTree('span').pop();
 
-    expect(tree.everySubTree('span').pop()).to.be.ok;
-    expect(tree.everySubTree('span').pop().text()).to.equal('Prescription Refills');
+    expect(lastSpan).to.be.ok;
+    expect(lastSpan.text()).to.equal('Prescription Refills');
   });
 
   it('should render on prescription detail pages correctly', () => {
     const tree = SkinDeep.shallowRender(<Breadcrumbs {...props} location={{ pathname: 'foo/123' }}/>);
+    const lastSpan = tree.everySubTree('span').pop();
 
-    expect(tree.everySubTree('span').pop()).to.be.ok;
-    expect(tree.everySubTree('span').pop().text()).to.equal('prescriptionName');
-  });
-
-  it('should render on prescription detail pages correctly', () => {
-    const tree = SkinDeep.shallowRender(<Breadcrumbs {...props} location={{ pathname: 'foo/123' }}/>);
-
-    expect(tree.everySubTree('span').pop()).to.be.ok;
-    expect(tree.everySubTree('span').pop().text()).to.equal('prescriptionName');
+    expect(lastSpan).to.be.ok;
+    expect(lastSpan.text()).to.equal('prescriptionName');
   });
 
   it('should render on glossary page correctly', () => {
     const tree = SkinDeep.shallowRender(<Breadcrumbs {...props} location={{ pathname: 'foo/glossary/' }}/>);
+    const lastSpan = tree.everySubTree('span').pop();
 
-    expect(tree.everySubTree('span').pop()).to.be.ok;
-    expect(tree.everySubTree('span').pop().text()).to.equal('Glossary');
+    expect(lastSpan).to.be.ok;
+    expect(lastSpan.text()).to.equal('Glossary');
   });
 });
