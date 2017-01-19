@@ -36,7 +36,7 @@ class ObjectField extends React.Component {
     errorSchema: {},
     idSchema: {},
     registry: getDefaultRegistry(),
-    requiredSchema: { $required: false },
+    required: false,
     disabled: false,
     readonly: false,
   }
