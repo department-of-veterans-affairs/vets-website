@@ -146,12 +146,12 @@ class Active extends React.Component {
       content = (
         <div>
           <p className="rx-tab-explainer">Your active VA prescriptions.</p>
+          {this.renderViewSwitch()}
           {this.state.view === 'list' || <SortMenu
               onChange={this.handleSort}
               onClick={this.handleSort}
               options={sortOptions}
               selected={currentSort}/>}
-          {this.renderViewSwitch()}
           {prescriptionsView}
         </div>
       );

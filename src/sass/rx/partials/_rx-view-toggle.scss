@@ -1,11 +1,10 @@
 .rx-view-toggle {
   display: none;
   float: right;
-  font-weight: bold;
-  margin: .75rem 0 3rem 0;
+  margin: 2.5rem 0;
 
   @media (min-width: $medium-screen) {
-    display: inline-block;
+    display: block;
   }
 
   ul, li {
@@ -21,6 +20,7 @@
   li {
     border: solid thin $color-black;
     cursor: pointer;
+    font-weight: bold;
     padding: 0.5rem 1rem;
     text-align: center;
     width: 8rem;
