@@ -94,8 +94,8 @@ class RequiredLoginView extends React.Component {
     let view;
 
     const loginComponent = (
-      <div className="row primary">
-        <div className="medium-12 small-12 columns">
+      <div className="usa-grid primary">
+        <div className="usa-width-one-whole">
           <div className="react-conatiner">
             <h1>Sign in to your Vets.gov Account</h1>
             <p>Vets.gov is a new website from the VA offering online services for Veterans.</p>
@@ -110,8 +110,8 @@ class RequiredLoginView extends React.Component {
     );
 
     const verifyComponent = (
-      <div className="row primary">
-        <div className="medium-12 small-12 columns">
+      <div className="usa-grid primary">
+        <div className="usa-width-one-whole">
           <div className="react-container">
             <h1>Verify your Identity with ID.me</h1>
             <p>You need to verify your identity to access this part of Vets.gov.</p>

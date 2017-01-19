@@ -5,7 +5,7 @@ layout: page-react.html
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
-    <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+    <ul class="usa-grid va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
       <li><a href="/">Home</a></li>
       <li><a href="/education/">Education</a></li>
       <li class="parent"><a href="/education/apply-for-education-benefits/">Apply for Education Benefits</a></li>
@@ -26,7 +26,7 @@ layout: page-react.html
 
   <!-- <div class="main home" role="main">
     <div class="section main-menu">
-      <div class="row">
+      <div class="usa-grid">
         <div class="small-12 columns">
           <div style="padding: 2em 0;">
           <h3>We're sorry. The education benefits application is currently down while we fix a few things. We will be back up as soon as we can.</h3>

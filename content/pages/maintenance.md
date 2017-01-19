@@ -8,7 +8,7 @@ permalink: false
 
 <div class="main home" role="main">
   <div class="section main-menu">
-    <div class="row">
+    <div class="usa-grid">
       <div class="small-12 columns">
         <div style="padding: 2em 0;">
         <h3>We're sorry. The page you are looking for is currently down while we fix a few things. We will be back up as soon as we can.</h3>

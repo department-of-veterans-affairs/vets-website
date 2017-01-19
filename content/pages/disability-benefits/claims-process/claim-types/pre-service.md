@@ -37,7 +37,7 @@ relatedlinks:
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
-<div class="row" markdown="0">
+<div class="usa-grid" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
 ### Claims Based on Preservice Disabilities
