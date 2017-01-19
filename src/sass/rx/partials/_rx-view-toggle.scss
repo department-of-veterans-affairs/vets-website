@@ -1,8 +1,8 @@
 .rx-view-toggle {
   display: none;
+  float: right;
   font-weight: bold;
-  text-align: right;
-  width: 25%;
+  margin: .75rem 0 3rem 0;
 
   @media (min-width: $medium-screen) {
     display: inline-block;

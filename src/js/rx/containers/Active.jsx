@@ -121,9 +121,10 @@ class Active extends React.Component {
       content = <LoadingIndicator message="Loading your prescriptions..."/>;
     } else if (this.props.prescriptions) {
       const currentSort = this.props.sort;
+      let prescriptionsView;
 
       if (this.state.view === 'list') {
-        content = (
+        prescriptionsView = (
           <PrescriptionTable
               handleSort={this.handleSort}
               currentSort={currentSort}
@@ -132,24 +133,28 @@ class Active extends React.Component {
               glossaryModalHandler={this.props.openGlossaryModal}/>
         );
       } else {
-        content = (
-          <div>
-            <p className="rx-tab-explainer">Your active VA prescriptions.</p>
-            <SortMenu
-                onChange={this.handleSort}
-                onClick={this.handleSort}
-                options={sortOptions}
-                selected={currentSort}/>
-            {this.renderViewSwitch()}
-            <PrescriptionList
-                items={this.props.prescriptions}
-                // If we're sorting by facility, tell PrescriptionList to group 'em.
-                grouped={currentSort.value === 'facilityName'}
-                refillModalHandler={this.props.openRefillModal}
-                glossaryModalHandler={this.props.openGlossaryModal}/>
-          </div>
+        prescriptionsView = (
+          <PrescriptionList
+              items={this.props.prescriptions}
+              // If we're sorting by facility, tell PrescriptionList to group 'em.
+              grouped={currentSort.value === 'facilityName'}
+              refillModalHandler={this.props.openRefillModal}
+              glossaryModalHandler={this.props.openGlossaryModal}/>
         );
       }
+
+      content = (
+        <div>
+          <p className="rx-tab-explainer">Your active VA prescriptions.</p>
+          {this.state.view === 'list' || <SortMenu
+              onChange={this.handleSort}
+              onClick={this.handleSort}
+              options={sortOptions}
+              selected={currentSort}/>}
+          {this.renderViewSwitch()}
+          {prescriptionsView}
+        </div>
+      );
     } else {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
