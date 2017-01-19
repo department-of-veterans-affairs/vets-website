@@ -35,7 +35,7 @@ You'll need to apply for benefits.
 
 To get your yearly payment, you'll need to qualify by August 1 of that year. You may be able to get more than 1 payment if: 
 - You have more than 1 prosthetic or orthopedic device, **or**
-- You have more than 1 skin medicine **and/or** 
+- You have more than 1 skin medicine, **and/or** 
 - Your device or skin medicine affects more than 1 type of clothing.
 
 [View the rate table](http://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2012.asp). 
