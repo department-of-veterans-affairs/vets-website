@@ -32,10 +32,15 @@ CheckboxWidget.defaultProps = {
 };
 
 CheckboxWidget.propTypes = {
-  schema: React.PropTypes.object.isRequired,
   id: React.PropTypes.string.isRequired,
   value: React.PropTypes.bool,
   required: React.PropTypes.bool,
   autofocus: React.PropTypes.bool,
   onChange: React.PropTypes.func,
+  disabled: React.PropTypes.bool,
+  options: React.PropTypes.object,
+  label: React.PropTypes.oneOf([
+    React.PropTypes.string,
+    React.PropTypes.object
+  ])
 };
