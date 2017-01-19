@@ -42,9 +42,7 @@ describe('<YourClaimsPage>', () => {
           claims={claims}/>
     );
     const sortDiv = tree.subTree('claims-list-sort');
-    debugger;
     expect(sortDiv).to.exist;
-    //expect(sortDiv.everySubTree('ErrorableSelect').length).to.equal(1);
   });
 
   it('should not render sort select', () => {
