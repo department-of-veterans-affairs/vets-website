@@ -145,7 +145,7 @@ class Active extends React.Component {
 
       content = (
         <div>
-          <p className="rx-tab-explainer">Your active VA prescriptions.</p>
+          <p className="rx-tab-explainer">Your active VA prescriptions</p>
           {this.renderViewSwitch()}
           {this.state.view === 'list' || <SortMenu
               onChange={this.handleSort}
