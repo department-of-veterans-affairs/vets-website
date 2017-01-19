@@ -39,7 +39,7 @@ The Veterans Claims Assistance Act (VCAA) passed by Congress in 2000 defines bot
 
 - Providing relevant information to VA so that records can be requested.
 
-**Example**<br>
+**Example**
 A Veteran filed a disability claim that included previous treatment from a private doctor and a previous Social Security disability award. In this case, VA is responsible for obtaining the Social Security records and can assist in obtaining the private physician records. However, ultimate responsibility for obtaining the private records lies with the Veteran.
 
 -----

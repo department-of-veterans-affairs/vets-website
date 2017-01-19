@@ -551,8 +551,7 @@ h6 {
   p {
     padding-top: 0;
     margin-top: 0;
-    padding-bottom: 1em; // TODO: Consider deleting.
-
+    
     &:nth-child(1),
     &:first-of-type {
       color: $color-primary-darker;
@@ -1338,7 +1337,7 @@ li {
   margin: 0 0 .75em 0;
   padding: 0;
   font-size: .9em;
-  font-weight: 300;
+  font-weight: 400;
   color: $color-white;
 
   p {
@@ -1475,13 +1474,6 @@ li {
 //===================================
 // Blog-related CSS
 //===================================
-
-// byline
-p.byline {
-  font-size: .8em;
-  color: $color-white;
-  color: rgba(255,255,255,.9);
-}
 
 // Info cards
 

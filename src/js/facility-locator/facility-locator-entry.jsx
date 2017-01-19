@@ -1,3 +1,4 @@
+import 'core-js';
 import { createHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory } from 'react-router';

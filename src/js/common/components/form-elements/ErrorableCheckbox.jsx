@@ -90,7 +90,10 @@ ErrorableCheckbox.propTypes = {
   checked: React.PropTypes.bool,
   errorMessage: React.PropTypes.string,
   name: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
+  label: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.object
+  ]).isRequired,
   onValueChange: React.PropTypes.func.isRequired,
   required: React.PropTypes.bool,
 };
