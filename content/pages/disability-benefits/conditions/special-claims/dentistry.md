@@ -9,7 +9,7 @@ template: 1-topic-landing
 
 If you're a Veteran, you may be able to get dental treatment from VA. 
 
-Dental benefits are not the same as other VA medical benefits.  We look at many factors to decide who qualifies for VA dental care—and which dental care benefits each Veteran may receive. Both the Veterans Benefits Administration (VBA) and the Veterans Health Administration (VHA) may make decisions about dental benefits and treatment. 
+Dental benefits are not the same as other VA medical benefits. We look at many factors to decide who qualifies for VA dental care—and which dental care benefits each Veteran may receive. Both the Veterans Benefits Administration (VBA) and the Veterans Health Administration (VHA) may make decisions about dental benefits and treatment. 
 
 Check our Dental Benefits for Veterans fact sheet to see if you may be able to get dental care from VA.
 
