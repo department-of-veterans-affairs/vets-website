@@ -4,6 +4,7 @@ import { makeAuthRequest } from '../utils/helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
+export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
 export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
 export const SET_CLAIM_DETAIL = 'SET_CLAIM_DETAIL';
@@ -45,6 +46,7 @@ export function getClaims(filter) {
       claims => {
         dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta });
         dispatch({ type: FILTER_CLAIMS, filter });
+        dispatch({ type: SORT_CLAIMS });
       },
       () => dispatch({ type: SET_UNAVAILABLE })
     );
@@ -58,6 +60,12 @@ export function filterClaims(filter) {
   };
 }
 
+export function sortClaims(sortProperty) {
+  return {
+    type: SORT_CLAIMS,
+    sortProperty
+  };
+}
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,

@@ -30,6 +30,33 @@ describe('<YourClaimsPage>', () => {
     );
     expect(tree.everySubTree('MainTabNav').length).to.equal(0);
   });
+  it('should render sort select', () => {
+    const claims = [];
+    const routeParams = {
+      showClosedClaims: true
+    };
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+          allClaims
+          route={routeParams}
+          claims={claims}/>
+    );
+    const sortDiv = tree.subTree('claims-list-sort');
+    debugger;
+    expect(sortDiv).to.exist;
+    //expect(sortDiv.everySubTree('ErrorableSelect').length).to.equal(1);
+  });
+
+  it('should not render sort select', () => {
+    const claims = [];
+
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+          allClaims={false}
+          claims={claims}/>
+    );
+    expect(tree.everySubTree('claims-list-sort').length).to.equal(0);
+  });
   it('should render loading div', () => {
     const changePage = sinon.spy();
     const getClaims = sinon.spy();

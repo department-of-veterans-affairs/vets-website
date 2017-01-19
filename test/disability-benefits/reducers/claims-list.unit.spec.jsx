@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import claimsList from '../../../src/js/disability-benefits/reducers/claims-list';
-import { SET_CLAIMS, FILTER_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE } from '../../../src/js/disability-benefits/actions';
+import { SET_CLAIMS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE } from '../../../src/js/disability-benefits/actions';
 
 describe('Claims list reducer', () => {
   it('should populate the claims list', () => {
@@ -25,35 +25,6 @@ describe('Claims list reducer', () => {
     });
     expect(state.list).to.deep.equal(claims);
   });
-  it('should sort and populate the visible claims list', () => {
-    const claims = Array(12).fill({
-      attributes: {
-        phaseChangeDate: '2010-01-01'
-      }
-    });
-    claims[11] = {
-      attributes: {
-        phaseChangeDate: '2011-01-05'
-      }
-    };
-    claims[10] = {
-      attributes: {
-      }
-    };
-    const previousState = {
-      list: claims,
-      page: 1
-    };
-    const state = claimsList(previousState, {
-      type: FILTER_CLAIMS,
-      filter: undefined
-    });
-
-    expect(state.visibleList.length).to.equal(12);
-    expect(state.visibleList[0].attributes.phaseChangeDate).to.equal('2011-01-05');
-    expect(state.visibleRows.length).to.equal(10);
-    expect(state.visibleRows[0].attributes.phaseChangeDate).to.equal('2011-01-05');
-  });
   it('should sort by id secondarily', () => {
     const claims = [
       {
@@ -70,11 +41,12 @@ describe('Claims list reducer', () => {
       }
     ];
     const previousState = {
-      list: claims,
-      page: 1
+      visibleList: claims,
+      page: 1,
+      sortProperty: 'phaseChangeDate'
     };
     const state = claimsList(previousState, {
-      type: FILTER_CLAIMS
+      type: SORT_CLAIMS
     });
 
     expect(state.visibleList[0].id).to.equal(1);
@@ -95,14 +67,79 @@ describe('Claims list reducer', () => {
       }
     ];
     const previousState = {
-      list: claims,
-      page: 1
+      visibleList: claims,
+      page: 1,
+      sortProperty: 'phaseChangeDate'
     };
     const state = claimsList(previousState, {
-      type: FILTER_CLAIMS
+      type: SORT_CLAIMS
     });
 
     expect(state.visibleList[0].id).to.equal(2);
+  });
+  it('should sort by date received with null dates after others', () => {
+    const claims = [
+      {
+        id: 1,
+        attributes: {
+          dateFiled: '2010-04-01'
+        }
+      },
+      {
+        id: 2,
+        attributes: {
+          dateFiled: null
+        }
+      },
+      {
+        id: 3,
+        attributes: {
+          dateFiled: '2010-05-01'
+        }
+      }
+    ];
+    const previousState = {
+      visibleList: claims,
+      page: 1
+    };
+    const state = claimsList(previousState, {
+      type: SORT_CLAIMS,
+      sortProperty: 'dateFiled'
+    });
+    const sortedClaims = [claims[2], claims[0], claims[1]];
+    expect(state.visibleList).to.deep.equal(sortedClaims);
+  });
+  it('should sort by claim type with null types after others', () => {
+    const claims = [
+      {
+        id: 1,
+        attributes: {
+          claimType: 'Pension'
+        }
+      },
+      {
+        id: 2,
+        attributes: {
+          claimType: null
+        }
+      },
+      {
+        id: 3,
+        attributes: {
+          claimType: 'Compensation'
+        }
+      }
+    ];
+    const previousState = {
+      visibleList: claims,
+      page: 1
+    };
+    const state = claimsList(previousState, {
+      type: SORT_CLAIMS,
+      sortProperty: 'claimType'
+    });
+    const sortedClaims = [claims[0], claims[2], claims[1]];
+    expect(state.visibleList).to.deep.equal(sortedClaims);
   });
   it('should filter out closed claims', () => {
     const claims = [
