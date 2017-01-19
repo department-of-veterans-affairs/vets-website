@@ -12,6 +12,9 @@ const props = {
     recipient: {},
     subject: {},
   },
+  onSaveMessage: () => {},
+  onSendMessage: () => {},
+  toggleConfirmDelete: () => {},
 };
 
 describe('<NewMessageForm>', () => {
