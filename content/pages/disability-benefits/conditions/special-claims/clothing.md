@@ -6,7 +6,7 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-Has your clothing been damaged by your prosthetic or orthopedic device (such as a wheelchair) or by the medicine you’re taking for a skin condition? If yes, you may be able to get money each year to help you buy new clothes. This is a disability compensation benefit known as an annual clothing allowance. Find out if you can get this benefit. 
+Has your clothing been damaged by your prosthetic or orthopedic device (such as a wheelchair) or by the medicine you’re taking for a skin condition? If it has, you may be able to get money each year to help you buy new clothes. This is a disability compensation benefit known as an annual clothing allowance. Find out if you can get this benefit. 
 
 <div class="call-out" markdown="1">
 
@@ -33,7 +33,10 @@ Veterans
 
 You'll need to apply for benefits.
 
-To get your yearly payment, you'll need to qualify by August 1 of that year. You may be able to get more than 1 payments if you have more than 1 prosthetic or orthopedic device, or skin medicine and/or it affects more than 1 type of clothing.
+To get your yearly payment, you'll need to qualify by August 1 of that year. You may be able to get more than 1 payment if: 
+- You have more than 1 prosthetic or orthopedic device, **or**
+- You have more than 1 skin medicine **and/or** 
+- Your device or skin medicine affects more than 1 type of clothing.
 
 [View the rate table](http://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2012.asp). 
 **Note:** The 2014 rate table is valid for 2016. 
