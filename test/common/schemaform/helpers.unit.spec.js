@@ -2,14 +2,14 @@ import { expect } from 'chai';
 
 import { parseISODate, formatISOPartialDate } from '../../../src/js/common/schemaform/helpers';
 
-describe('Schemaform: helpers', () => {
+describe('Schemaform helpers:', () => {
   describe('parseISODate', () => {
     it('should parse an ISO date', () => {
-      expect(parseISODate('2001-02-03')).to.eql({ month: 2, day: 3, year: '2001' });
+      expect(parseISODate('2001-02-03')).to.eql({ month: '2', day: '3', year: '2001' });
     });
     it('should parse a partial ISO date', () => {
-      expect(parseISODate('XXXX-02-03')).to.eql({ month: 2, day: 3, year: '' });
-      expect(parseISODate('2003-XX-03')).to.eql({ month: '', day: 3, year: '2003' });
+      expect(parseISODate('XXXX-02-03')).to.eql({ month: '2', day: '3', year: '' });
+      expect(parseISODate('2003-XX-03')).to.eql({ month: '', day: '3', year: '2003' });
     });
   });
   describe('formatISOPartialDate', () => {

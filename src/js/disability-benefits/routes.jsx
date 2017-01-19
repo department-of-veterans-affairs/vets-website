@@ -9,7 +9,7 @@ import DetailsPage from './containers/DetailsPage.jsx';
 import AskVAPage from './containers/AskVAPage.jsx';
 import DocumentRequestPage from './containers/DocumentRequestPage.jsx';
 import AdditionalEvidencePage from './containers/AdditionalEvidencePage.jsx';
-import ClaimEstimationPage from './components/ClaimEstimationPage.jsx';
+import ClaimEstimationPage from './containers/ClaimEstimationPage.jsx';
 
 const routes = [
   <Route

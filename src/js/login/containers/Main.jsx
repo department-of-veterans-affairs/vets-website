@@ -89,8 +89,9 @@ class Main extends React.Component {
           this.handleLogout();
         }
       } else {
-        this.props.onUpdateLoggedInStatus(true);
-        this.getUserData();
+        if (this.getUserData()) {
+          this.props.onUpdateLoggedInStatus(true);
+        }
       }
     } else {
       this.props.onUpdateLoggedInStatus(false);

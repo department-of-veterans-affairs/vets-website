@@ -26,6 +26,7 @@ export default function createRoutes(store) {
         indexRoute: { onEnter: (nextState, replace) => replace('/1995/introduction') },
         getComponent(nextState, callback) {
           require.ensure([], (require) => {
+            store.replaceReducer(require('./1995/reducer').default);
             callback(null, require('./1995/Form1995App').default);
           }, 'edu-1995');
         },
