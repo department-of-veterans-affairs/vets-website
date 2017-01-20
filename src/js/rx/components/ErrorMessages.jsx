@@ -2,7 +2,7 @@ import React from 'react';
 
 const ErrorMessages = ({ errors }) => {
   if (errors && errors.length > 0) {
-    return (<div>
+    return (<span>
       <br/>
       {
         errors.map(e => {
@@ -14,8 +14,7 @@ const ErrorMessages = ({ errors }) => {
           );
         })
       }
-      <br/>
-    </div>);
+    </span>);
   }
   return null;
 };
