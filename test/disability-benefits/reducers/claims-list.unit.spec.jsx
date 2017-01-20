@@ -116,7 +116,7 @@ describe('Claims list reducer', () => {
     const sortedClaims = [claims[2], claims[0], claims[1]];
     expect(state.visibleList).to.deep.equal(sortedClaims);
   });
-  it('should sort by claim type with null types after others', () => {
+  it('should sort by claim type with null types converted to disability claim', () => {
     const claims = [
       {
         id: 1,
@@ -144,7 +144,7 @@ describe('Claims list reducer', () => {
       type: SORT_CLAIMS,
       sortProperty: 'claimType'
     });
-    const sortedClaims = [claims[0], claims[2], claims[1]];
+    const sortedClaims = [claims[2], claims[1], claims[0]];
     expect(state.visibleList).to.deep.equal(sortedClaims);
   });
   it('should filter out closed claims', () => {
@@ -238,7 +238,7 @@ describe('Claims list reducer', () => {
       type: FILTER_CLAIMS,
       filter: 'open'
     });
-    const sortedClaims = [claims[0], claims[2], claims[1]];
+    const sortedClaims = [claims[2], claims[1], claims[0]];
     expect(state.visibleList).to.deep.equal(sortedClaims);
   });
 
