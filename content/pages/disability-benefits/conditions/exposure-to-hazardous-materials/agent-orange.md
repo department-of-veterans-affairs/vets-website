@@ -85,7 +85,7 @@ You may have had contact if you served in any of these ways:
   <li>
     <dl class="panel-list">
       <dt>In Testing and Storage Areas Outside of Vietnam</dt>
-      <dd>Between 1944 and 1970</dd>
+      <dd>Between 1944 and a yet to be determined date</dd>
       <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/">Learn more <span class="sr-only">about testing and storage areas outside of Vietnam and Agent Orange</span></a></dd>
     </dl>
   </li>
