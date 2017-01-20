@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import {
   deepEquals,
@@ -75,9 +76,20 @@ class ObjectField extends React.Component {
   }
 
   isRequired(name) {
-    const schema = this.props.schema;
-    return Array.isArray(schema.required) &&
+    const { schema, uiSchema, formContext } = this.props;
+    const schemaRequired = Array.isArray(schema.required) &&
       schema.required.indexOf(name) !== -1;
+
+    if (schemaRequired) {
+      return schemaRequired;
+    }
+
+    if (uiSchema[name] && uiSchema[name]['ui:requiredIf']) {
+      const requiredIf = uiSchema[name]['ui:requiredIf'];
+      return requiredIf(formContext.formData);
+    }
+
+    return false;
   }
 
   asyncSetState(state, options = { validate: false }) {
@@ -102,11 +114,13 @@ class ObjectField extends React.Component {
     const schema = retrieveSchema(this.props.schema, definitions);
 
     // description and title setup
+    const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
     const title = uiSchema['ui:title'] || schema.title;
     const hasTextDescription = typeof uiSchema['ui:description'] === 'string';
     const DescriptionField = !hasTextDescription && typeof uiSchema['ui:description'] === 'function'
       ? uiSchema['ui:description']
       : null;
+    const isRoot = idSchema.$id === 'root';
 
     let orderedProperties;
     try {
@@ -123,10 +137,17 @@ class ObjectField extends React.Component {
         </div>
       );
     }
+
+    let containerClassNames = classNames({
+      'input-section': isRoot,
+      'schemaform-block': title && !isRoot
+    });
+
+
     return (
       <fieldset>
-        <div className={title ? 'input-section' : undefined}>
-          {title
+        <div className={containerClassNames}>
+          {title && !showFieldLabel
               ? <TitleField
                   id={`${idSchema.$id}__title`}
                   title={title}

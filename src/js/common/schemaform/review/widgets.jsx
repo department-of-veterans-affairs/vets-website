@@ -10,6 +10,7 @@ export function DateWidget({ value }) {
 }
 
 export const EmailWidget = TextWidget;
+export const TextareaWidget = TextWidget;
 
 export function SelectWidget({ options, value }) {
   const option = options.enumOptions.filter(opt => opt.val === value);
@@ -21,3 +22,18 @@ export function SelectWidget({ options, value }) {
 }
 
 export const RadioWidget = SelectWidget;
+
+export const yesNo = ({ value }) => {
+  let displayValue;
+  if (value === true) {
+    displayValue = 'Yes';
+  } else if (value === false) {
+    displayValue = 'No';
+  }
+
+  return <span>{displayValue}</span>;
+};
+
+export const CheckboxWidget = ({ value }) => {
+  return <span>{value === true ? 'Yes' : 'No'}</span>;
+};

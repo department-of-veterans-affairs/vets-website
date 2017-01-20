@@ -14,7 +14,6 @@
   // Get font size to stay the same when table shrinks.
   display: block;
   font-size: 1.6rem;
-  margin: 0;
 
   tbody {
     &:first-child {
@@ -98,12 +97,6 @@
 }
 
 #rx-order-history {
-  @include media($medium-screen) {
-    p {
-      margin-top: 0;
-    }
-  }
-
   @include media-maxwidth($medium-screen) {
     p {
       margin-bottom: 0;
