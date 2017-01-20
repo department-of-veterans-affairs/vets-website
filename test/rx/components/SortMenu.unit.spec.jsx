@@ -1,6 +1,8 @@
 import React from 'react';
+import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import SortMenu from '../../../src/js/rx/components/SortMenu';
 
@@ -118,5 +120,39 @@ describe('<SortMenu>', () => {
     const activeLink = tree.subTree('.rx-sort-active');
     expect(activeLink).to.be.ok;
     expect(activeLink.text()).to.equal('Newest to Oldest');
+  });
+
+  it('should trigger handleChange correctly', () => {
+    const onChange = sinon.spy();
+
+    const sortMenu = ReactTestUtils.renderIntoDocument(
+      <SortMenu
+          {...props}
+          selected={{
+            order: 'DESC',
+            value: 'lastSubmitDate'
+          }}
+          onChange={onChange}/>
+    );
+
+    sortMenu.handleChange({ target: { value: 'refillSubmitDate' } });
+    expect(onChange.calledWith('refillSubmitDate', 'DESC')).to.be.true;
+  });
+
+  it('should trigger handleClick correctly', () => {
+    const onClick = sinon.spy();
+
+    const sortMenu = ReactTestUtils.renderIntoDocument(
+      <SortMenu
+          {...props}
+          selected={{
+            order: 'DESC',
+            value: 'lastSubmitDate'
+          }}
+          onClick={onClick}/>
+    );
+
+    sortMenu.handleClick('lastSubmitDate', 'DESC')({ preventDefault: () => {} });
+    expect(onClick.calledWith('lastSubmitDate', 'DESC')).to.be.true;
   });
 });
