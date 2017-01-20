@@ -195,7 +195,7 @@
 
 .messaging-modal {
   .va-modal-inner {
-    @media(min-width: $medium-screen) {
+    @include media($medium-screen) {
       max-width: 40rem;
     }
   }
