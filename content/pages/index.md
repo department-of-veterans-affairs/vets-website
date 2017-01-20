@@ -55,6 +55,13 @@ majorlinks:
       </div>
     </a>
   </div>
+  <div class="medium-4 columns">
+    <a href="/claim-status/">
+      <div class="outline-link-block">
+        Check claim status
+      </div>
+    </a>
+  </div>
 </div>
 
 <div class="row text-center">
