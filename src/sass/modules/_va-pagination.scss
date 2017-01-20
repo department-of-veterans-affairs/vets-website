@@ -67,7 +67,7 @@
       width: 20rem;
     }
 
-    @media (min-width: $large-screen) {
+    @include media($large-screen) {
       width: 40rem;
     }
   }

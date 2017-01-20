@@ -69,7 +69,7 @@ ol.checklist,
         color: $color-primary-darkest; 
         margin: .25em .25em 1em .25em; 
          
-        @media #{$small} {
+        @include media-maxwidth($small-screen) {
           padding: 2.5em 1em;
         }    
       }
@@ -100,7 +100,7 @@ ol.checklist,
         background: rgba($secondary-color, .15);
       }
         
-      @media #{$small} {padding: 2.5em 1em;}  
+      @include media-maxwidth($small-screen) {padding: 2.5em 1em;}  
     }
   }
 }

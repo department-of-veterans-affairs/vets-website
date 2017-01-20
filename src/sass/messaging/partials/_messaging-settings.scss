@@ -1,7 +1,7 @@
 #messaging-settings {
   padding: 2rem 0;
 
-  @media(max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     padding: 2rem;
   }
 
