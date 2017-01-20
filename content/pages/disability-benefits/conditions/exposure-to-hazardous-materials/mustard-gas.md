@@ -12,12 +12,34 @@ If you had contact with mustard gas (also known as sulfur mustard, yperite, or n
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have a disability believed to be caused by contact with mustard gas or lewisite and your military record shows you had contact with mustard gas or lewisite:
- - During field or chamber testing, **or**
- - During the German air raid on the harbor of Bari, Italy, in World War II, **or**
- - While disposing of or handling explosive ordinance (high-explosive devices and chemical and nuclear weapons) during Operation Iraqi Freedom, **or**
- - While making or handling vesicant (blistering) agents during military service
+You may be able to get disability benefits if you have a disability believed to be caused by contact with mustard gas or lewisite and your military record shows you had contact with mustard gas or lewisite.
 
+**If you were in the Army** and served in:
+- Bari, Italy
+- Bushnell, FL
+- Camp Lejeune, NC
+- Camp Sibert, AL
+- Dugway Proving Ground, UT
+- Edgewood Arsenal, MD
+- Naval Research Lab, Washington D.C.
+- Ondal, India
+- Rocking Mountain Arsenal, CO
+- San Jose Island, Panama Canal Zone
+
+**If you were in the Navy** and served in:
+- Bari, Italy
+- Camp Lejeune, NC
+- Charleston, SC
+- Great Lakes Naval Training Center, IL
+- Hart's Island, NY
+- Naval Training Center, Bainbridge, MD
+- Naval Research Laboratory, VA
+- Naval Research Lab, Washington D.C.
+- USS Eagle Boat No. 58
+
+**Some Service members** who took part in testing in:
+ - Finschhafen, New Guinea, and Porton Down, England
+ - Select merchant seaman were also exposed or killed at Bari, Italy
 
 <br>
 
