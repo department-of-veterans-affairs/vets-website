@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 
 import { SET_CLAIMS, FILTER_CLAIMS, SORT_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL, HIDE_30_DAY_NOTICE } from '../actions';
+import { getClaimType } from '../utils/helpers';
 
 const ROWS_PER_PAGE = 10;
 
@@ -29,8 +30,8 @@ function dateFiled(claim) {
 }
 
 function claimType(claim) {
-  return claim.attributes && claim.attributes.claimType
-    ? claim.attributes.claimType.toLowerCase()
+  return claim.attributes
+    ? getClaimType(claim).toLowerCase()
     : '';
 }
 
@@ -52,7 +53,8 @@ function filterList(list, filter) {
 }
 
 function sortList(list, sortProperty) {
-  return _.orderBy([sortPropertyFn[sortProperty], 'id'], 'desc', list);
+  const sortOrder = sortProperty === 'claimType' ? 'asc' : 'desc';
+  return _.orderBy([sortPropertyFn[sortProperty], 'id'], sortOrder, list);
 }
 
 function getVisibleRows(list, currentPage) {
@@ -95,10 +97,9 @@ export default function claimsReducer(state = initialState, action) {
       });
     }
     case CHANGE_CLAIMS_PAGE: {
-      const current = (action.page - 1) * ROWS_PER_PAGE;
       return _.assign(state, {
         page: action.page,
-        visibleRows: state.visibleList.slice(current, current + ROWS_PER_PAGE)
+        visibleRows: getVisibleRows(state.visibleList, action.page)
       });
     }
     case SHOW_CONSOLIDATED_MODAL: {
