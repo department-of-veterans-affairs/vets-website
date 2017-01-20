@@ -1,5 +1,4 @@
 import _ from 'lodash/fp';
-import { Validator } from 'jsonschema';
 import FormPage from './FormPage';
 import ReviewPage from './review/ReviewPage';
 
@@ -158,14 +157,6 @@ export function flattenFormData(form) {
   }, {});
 }
 
-export function errorSchemaIsValid(errorSchema) {
-  if (errorSchema && errorSchema.__errors && errorSchema.__errors.length) {
-    return false;
-  }
-
-  return _.values(_.omit('__errors', errorSchema)).every(errorSchemaIsValid);
-}
-
 export function getArrayFields(pageConfig) {
   const fields = [];
   const findArrays = (obj, path = []) => {
@@ -260,22 +251,5 @@ export function updateRequiredFields(schema, uiSchema, formData) {
   }
 
   return schema;
-}
-
-export function isValidForm(form, pageListByChapters) {
-  const pageConfigs = _.flatten(_.values(pageListByChapters));
-  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
-
-  const v = new Validator();
-
-  return form.privacyAgreementAccepted && Object.keys(pages).every(page => {
-    const pageConfig = pageConfigs.filter(config => config.pageKey === page)[0];
-    const result = v.validate(
-      pages[page].data,
-      updateRequiredFields(pageConfig.schema, pageConfig.uiSchema, pages[page].data)
-    );
-
-    return result.valid;
-  });
 }
 

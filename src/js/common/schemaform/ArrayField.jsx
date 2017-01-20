@@ -10,7 +10,7 @@ import {
   deepEquals
 } from 'react-jsonschema-form/lib/utils';
 
-import { errorSchemaIsValid } from './helpers';
+import { errorSchemaIsValid } from './validation';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

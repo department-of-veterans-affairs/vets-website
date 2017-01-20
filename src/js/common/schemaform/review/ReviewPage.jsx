@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
-import { createPageListByChapter, isValidForm } from '../helpers';
+import { isValidForm } from '../validation';
+import { createPageListByChapter } from '../helpers';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm } from '../actions';
 
 export class ReviewPage extends React.Component {

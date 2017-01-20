@@ -1,6 +1,8 @@
 import _ from 'lodash/fp';
+import { Validator } from 'jsonschema';
+
 import { isValidSSN, isValidPartialDate, isValidDateRange } from '../utils/validations';
-import { parseISODate } from './helpers';
+import { parseISODate, updateRequiredFields } from './helpers';
 
 /*
  * This contains the code for supporting our own custom validations and messages
@@ -79,52 +81,88 @@ export function transformErrors(errors, uiSchema) {
  */
 
 export function uiSchemaValidate(errors, uiSchema, formData, formContext, path = '') {
-  const currentData = path !== '' ? _.get(path, formData) : formData;
-  if (uiSchema.items && currentData) {
-    currentData.forEach((item, index) => {
-      const newPath = `${path}[${index}]`;
-      if (!_.get(newPath, errors)) {
-        const currentErrors = path ? _.get(path, errors) : errors;
-        currentErrors[index] = {
-          __errors: [],
-          addError(error) {
-            this.__errors.push(error);
-          }
-        };
-      }
-      uiSchemaValidate(errors, uiSchema.items, formData, formContext, newPath);
-    });
-  } else {
-    Object.keys(uiSchema)
-      .filter(prop => !prop.startsWith('ui:'))
-      .forEach((item) => {
-        const nextPath = path !== '' ? `${path}.${item}` : item;
-        if (!_.get(nextPath, errors)) {
-          _.get(path, errors)[item] = {
+  if (uiSchema) {
+    const currentData = path !== '' ? _.get(path, formData) : formData;
+    if (uiSchema.items && currentData) {
+      currentData.forEach((item, index) => {
+        const newPath = `${path}[${index}]`;
+        if (!_.get(newPath, errors)) {
+          const currentErrors = path ? _.get(path, errors) : errors;
+          currentErrors[index] = {
             __errors: [],
             addError(error) {
               this.__errors.push(error);
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema[item], formData, formContext, nextPath);
+        uiSchemaValidate(errors, uiSchema.items, formData, formContext, newPath);
       });
-  }
+    } else {
+      Object.keys(uiSchema)
+        .filter(prop => !prop.startsWith('ui:'))
+        .forEach((item) => {
+          const nextPath = path !== '' ? `${path}.${item}` : item;
+          if (!_.get(nextPath, errors)) {
+            _.get(path, errors)[item] = {
+              __errors: [],
+              addError(error) {
+                this.__errors.push(error);
+              }
+            };
+          }
+          uiSchemaValidate(errors, uiSchema[item], formData, formContext, nextPath);
+        });
+    }
 
-  const validations = uiSchema['ui:validations'];
-  if (validations) {
-    validations.forEach(validation => {
-      const pathErrors = path ? _.get(path, errors) : errors;
-      if (typeof validation === 'function') {
-        validation(pathErrors, currentData, formData, formContext, uiSchema['ui:errorMessages']);
-      } else {
-        validation.validator(pathErrors, currentData, formData, formContext, uiSchema['ui:errorMessages'], validation.options);
-      }
-    });
+    const validations = uiSchema['ui:validations'];
+    if (validations) {
+      validations.forEach(validation => {
+        const pathErrors = path ? _.get(path, errors) : errors;
+        if (typeof validation === 'function') {
+          validation(pathErrors, currentData, formData, formContext, uiSchema['ui:errorMessages']);
+        } else {
+          validation.validator(pathErrors, currentData, formData, formContext, uiSchema['ui:errorMessages'], validation.options);
+        }
+      });
+    }
   }
-
   return errors;
 }
+
+export function errorSchemaIsValid(errorSchema) {
+  if (errorSchema && errorSchema.__errors && errorSchema.__errors.length) {
+    return false;
+  }
+
+  return _.values(_.omit('__errors', errorSchema)).every(errorSchemaIsValid);
+}
+
+export function isValidForm(form, pageListByChapters) {
+  const pageConfigs = _.flatten(_.values(pageListByChapters));
+  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
+
+  const v = new Validator();
+
+  return form.privacyAgreementAccepted && Object.keys(pages).every(page => {
+    const pageConfig = pageConfigs.filter(config => config.pageKey === page)[0];
+    const currentSchema = updateRequiredFields(pageConfig.schema, pageConfig.uiSchema, pages[page].data);
+
+    const result = v.validate(
+      pages[page].data,
+      currentSchema
+    );
+
+    if (result.valid) {
+      const errors = {};
+      uiSchemaValidate(errors, pageConfig.uiSchema, pages[page].data, {});
+
+      return errorSchemaIsValid(errors);
+    }
+
+    return false;
+  });
+}
+
 
 export function validateSSN(errors, ssn) {
   if (!isValidSSN(ssn)) {
@@ -156,6 +194,7 @@ function convertToDateField(dateStr) {
     return _.assign(dateField, datePart);
   }, date);
 }
+
 export function validateDateRange(errors, dateRange, formData, formContext, errorMessages) {
   const fromDate = convertToDateField(dateRange.from);
   const toDate = convertToDateField(dateRange.to);
