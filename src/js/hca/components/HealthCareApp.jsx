@@ -260,14 +260,14 @@ class HealthCareApp extends React.Component {
 
     if (this.props.location.pathname === '/review-and-submit') {
       buttons = (<div>
-        <div className="usa-grid progress-buttons">
+        <div className="usa-grid-full progress-buttons">
           <div className="usa-width-five-twelfths">
             {backButton}
           </div>
           <div className="usa-width-five-twelfths">
             {submitButton}
           </div>
-          <div className="small-1 medium-1 end columns">
+          <div className="usa-width-one-twelfth end columns">
             <div className={this.state ? 'spinner' : 'hidden'}>&nbsp;</div>
           </div>
         </div>
@@ -279,7 +279,7 @@ class HealthCareApp extends React.Component {
       </div>);
     } else if (this.props.location.pathname === '/introduction') {
       buttons = (
-        <div className="usa-grid progress-buttons">
+        <div className="usa-grid-full progress-buttons">
           <div className="usa-width-five-twelfths">
             <ProgressButton
                 onButtonClick={this.handleContinue}
@@ -291,7 +291,7 @@ class HealthCareApp extends React.Component {
       );
     } else if (this.props.location.pathname === '/submit-message') {
       buttons = (
-        <div className="usa-grid progress-buttons">
+        <div className="usa-grid-full progress-buttons">
           <div className="usa-width-five-twelfths">
             {/* TODO: Figure out where this button should take the user. */}
             <a href="/">
@@ -302,7 +302,7 @@ class HealthCareApp extends React.Component {
       );
     } else {
       buttons = (
-        <div className="usa-grid progress-buttons">
+        <div className="usa-grid-full progress-buttons">
           <div className="usa-width-five-twelfths">
             {backButton}
           </div>
@@ -333,14 +333,14 @@ class HealthCareApp extends React.Component {
       <div>
         <div className="usa-grid">
           <Element name="topScrollElement"/>
-          <div className="usa-grid-one-third show-for-medium-up">
+          <div className="usa-width-one-third show-for-medium-up">
             <Nav
                 data={this.props.data}
                 pages={this.props.uiState.sections}
                 chapters={chapters}
                 currentUrl={this.props.location.pathname}/>
           </div>
-          <div className="usa-width-three-fourths">
+          <div className="usa-width-two-thirds">
             <div className="progress-box">
             {/* TODO: Figure out why <form> adds fields to url, and change action to reflect actual action for form submission. */}
               <div className="form-panel">

@@ -167,7 +167,7 @@ export default class NavButtons extends React.Component {
       );
     } else if (path.endsWith('introduction')) {
       buttons = (
-        <div className="usa-grid form-progress-buttons">
+        <div className="usa-grid-full form-progress-buttons">
           <div className="usa-width-five-twelfths">
             <ProgressButton
                 onButtonClick={this.goForward}
