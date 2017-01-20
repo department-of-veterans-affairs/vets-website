@@ -145,7 +145,7 @@ class History extends React.Component {
 
       content = (
         <div>
-          <p className="rx-tab-explainer">Your VA prescription refill history.</p>
+          <p className="rx-tab-explainer">Your VA prescription refill history</p>
           <div className="show-for-small-only">
             <SortMenu
                 onClick={this.handleSort}
