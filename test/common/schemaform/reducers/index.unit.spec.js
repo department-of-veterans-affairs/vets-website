@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import { SET_DATA,
-  SET_VALID,
   SET_EDIT_MODE,
   SET_PRIVACY_AGREEMENT,
   SET_SUBMISSION,
@@ -31,7 +30,7 @@ describe('schemaform createSchemaFormReducer', () => {
 
     expect(state.submission).to.be.defined;
     expect(state.privacyAgreementAccepted).to.be.false;
-    expect(state.page1).to.eql({ isValid: false, data: formConfig.chapters.test.pages.page1.initialData, editMode: false });
+    expect(state.page1).to.eql({ data: formConfig.chapters.test.pages.page1.initialData, editMode: false });
     expect(state.page2).to.be.defined;
   });
   describe('reducer', () => {
@@ -62,19 +61,6 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.page1.data.field).to.equal('test2');
       expect(state.page1.isValid).to.be.false;
-    });
-    it('should set valid state', () => {
-      const state = reducer({
-        page1: {
-          isValid: false,
-        }
-      }, {
-        type: SET_VALID,
-        page: 'page1',
-        valid: true
-      });
-
-      expect(state.page1.isValid).to.be.true;
     });
     it('should set edit mode', () => {
       const state = reducer({
