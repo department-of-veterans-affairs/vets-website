@@ -1756,6 +1756,21 @@ pre[class*='language-']  {
 
 .sticky-action-box--container {
   position: relative;
+
+  &-sm {
+    @include media($medium-screen) {
+      display: none;
+    }
+  }
+
+  &-lg {
+    display: none;
+
+    @include media($medium-screen) {
+      display: block;
+    }
+  }
+    
 }
 
 .sticky-action-box {
