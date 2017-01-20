@@ -126,15 +126,20 @@ class HealthCareApp extends React.Component {
     e.preventDefault();
     const veteran = this.props.data;
     const path = this.props.location.pathname;
+    let apiUrl = `${window.VetsGov.api.url}/api/hca/v1/application`;
 
     window.dataLayer.push({ event: 'submit-button-clicked' });
     const formIsValid = validations.isValidForm(veteran);
+
+    if (__BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging') {
+      apiUrl = `${window.VetsGov.api.url}/api/v0/health_care_applications`;
+    }
 
     if (formIsValid && veteran.privacyAgreementAccepted) {
       this.props.onUpdateSubmissionStatus('submitPending');
 
       // POST data to endpoint
-      fetch(`${window.VetsGov.api.url}/api/hca/v1/application`, {
+      fetch(apiUrl, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
