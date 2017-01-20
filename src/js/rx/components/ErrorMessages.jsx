@@ -2,18 +2,19 @@ import React from 'react';
 
 const ErrorMessages = ({ errors }) => {
   if (errors && errors.length > 0) {
-    return (<p>
+    return (<div className="rx-error-messages">
+      <ul>
       {
         errors.map(e => {
           return (
-            <span key={e.code}>
+            <li key={e.code}>
               Error {e.code}: {e.detail}
-              <br/>
-            </span>
+            </li>
           );
         })
       }
-    </p>);
+      </ul>
+    </div>);
   }
   return null;
 };
