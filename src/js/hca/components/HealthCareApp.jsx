@@ -127,27 +127,37 @@ class HealthCareApp extends React.Component {
     const veteran = this.props.data;
     const path = this.props.location.pathname;
     let apiUrl = `${window.VetsGov.api.url}/api/hca/v1/application`;
+    let submissionPost = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      timeout: 10000, // 10 seconds
+      body: veteranToApplication(veteran)
+    };
 
     window.dataLayer.push({ event: 'submit-button-clicked' });
     const formIsValid = validations.isValidForm(veteran);
 
     if (__BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging') {
       apiUrl = `${window.VetsGov.api.url}/v0/health_care_applications`;
-    }
-
-    if (formIsValid && veteran.privacyAgreementAccepted) {
-      this.props.onUpdateSubmissionStatus('submitPending');
-
-      // POST data to endpoint
-      fetch(apiUrl, {
+      submissionPost = {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
         timeout: 10000, // 10 seconds
-        body: veteranToApplication(veteran)
-      }).then(response => {
+        form: veteranToApplication(veteran)
+      };
+    }
+
+    if (formIsValid && veteran.privacyAgreementAccepted) {
+      this.props.onUpdateSubmissionStatus('submitPending');
+
+      // POST data to endpoint
+      fetch(apiUrl, submissionPost).then(response => {
         if (!response.ok) {
           throw new Error(response.statusText);
         }
