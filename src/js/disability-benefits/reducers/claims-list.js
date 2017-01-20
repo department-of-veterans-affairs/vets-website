@@ -6,6 +6,7 @@ const ROWS_PER_PAGE = 10;
 
 const initialState = {
   list: null,
+  visibleList: [],
   visibleRows: [],
   page: 1,
   pages: 1,
@@ -39,37 +40,58 @@ const sortPropertyFn = {
   claimType
 };
 
+function filterList(list, filter) {
+  let filteredList = list;
+  if (filter) {
+    const open = filter === 'open';
+    filteredList = filteredList.filter((claim) => {
+      return claim.attributes.open === open;
+    });
+  }
+  return filteredList;
+}
+
+function sortList(list, sortProperty) {
+  return _.orderBy([sortPropertyFn[sortProperty], 'id'], 'desc', list);
+}
+
+function getVisibleRows(list, currentPage) {
+  const currentIndex = (currentPage - 1) * ROWS_PER_PAGE;
+  return list.slice(currentIndex, currentIndex + ROWS_PER_PAGE);
+}
+
+function getTotalPages(list) {
+  return Math.ceil(list.length / ROWS_PER_PAGE);
+}
+
 export default function claimsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIMS: {
+      const visibleList = sortList(filterList(action.claims, action.filter), state.sortProperty);
       return _.assign(state, {
-        list: action.claims
+        list: action.claims,
+        visibleList,
+        visibleRows: getVisibleRows(visibleList, state.page),
+        pages: getTotalPages(visibleList)
       });
     }
     case FILTER_CLAIMS: {
-      let visibleList = state.list;
-      const current = (state.page - 1) * ROWS_PER_PAGE;
-      if (action.filter) {
-        const open = action.filter === 'open';
-        visibleList = visibleList.filter((claim) => {
-          return claim.attributes.open === open;
-        });
-      }
+      const visibleList = sortList(filterList(state.list, action.filter), state.sortProperty);
       return _.assign(state, {
         visibleList,
-        visibleRows: visibleList.slice(current, current + ROWS_PER_PAGE),
-        pages: Math.ceil(visibleList.length / ROWS_PER_PAGE)
+        visibleRows: getVisibleRows(visibleList, 1),
+        page: 1,
+        pages: getTotalPages(visibleList)
       });
     }
     case SORT_CLAIMS: {
-      const sortProperty = action.sortProperty || state.sortProperty;
-      const sortedList = _.orderBy([sortPropertyFn[sortProperty], 'id'], 'desc', state.visibleList);
-      const current = (state.page - 1) * ROWS_PER_PAGE;
+      const visibleList = sortList(state.visibleList, action.sortProperty);
       return _.assign(state, {
-        sortProperty,
-        visibleList: sortedList,
-        visibleRows: sortedList.slice(current, current + ROWS_PER_PAGE),
-        pages: Math.ceil(sortedList.length / ROWS_PER_PAGE)
+        sortProperty: action.sortProperty,
+        visibleList,
+        visibleRows: getVisibleRows(visibleList, 1),
+        page: 1,
+        pages: getTotalPages(visibleList)
       });
     }
     case CHANGE_CLAIMS_PAGE: {

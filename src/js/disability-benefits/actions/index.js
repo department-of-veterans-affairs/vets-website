@@ -44,9 +44,7 @@ export function getClaims(filter) {
       null,
       dispatch,
       claims => {
-        dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta });
-        dispatch({ type: FILTER_CLAIMS, filter });
-        dispatch({ type: SORT_CLAIMS });
+        dispatch({ type: SET_CLAIMS, filter, claims: claims.data, meta: claims.meta });
       },
       () => dispatch({ type: SET_UNAVAILABLE })
     );

@@ -48,8 +48,6 @@ class YourClaimsPage extends React.Component {
   componentWillReceiveProps(newProps) {
     if (this.props.allClaims && this.props.route.showClosedClaims !== newProps.route.showClosedClaims) {
       this.props.filterClaims(this.getFilter(newProps));
-      this.props.sortClaims();
-      this.changePage(1);
     }
   }
   componentDidUpdate(prevProps) {
@@ -65,7 +63,6 @@ class YourClaimsPage extends React.Component {
   }
   handleSort(sortObject) {
     this.props.sortClaims(sortObject.value);
-    this.changePage(1);
   }
   changePage(page) {
     this.props.changePage(page);

@@ -25,6 +25,16 @@ describe('Claims list reducer', () => {
     });
     expect(state.list).to.deep.equal(claims);
   });
+  it('should set the sort property', () => {
+    const previousState = {
+      sortProperty: 'dateFiled'
+    };
+    const state = claimsList(previousState, {
+      type: SORT_CLAIMS,
+      sortProperty: 'phaseChangeDate'
+    });
+    expect(state.sortProperty).to.equal('phaseChangeDate');
+  });
   it('should sort by id secondarily', () => {
     const claims = [
       {
@@ -41,12 +51,11 @@ describe('Claims list reducer', () => {
       }
     ];
     const previousState = {
-      visibleList: claims,
-      page: 1,
-      sortProperty: 'phaseChangeDate'
+      visibleList: claims
     };
     const state = claimsList(previousState, {
-      type: SORT_CLAIMS
+      type: SORT_CLAIMS,
+      sortProperty: 'phaseChangeDate'
     });
 
     expect(state.visibleList[0].id).to.equal(1);
@@ -67,12 +76,11 @@ describe('Claims list reducer', () => {
       }
     ];
     const previousState = {
-      visibleList: claims,
-      page: 1,
-      sortProperty: 'phaseChangeDate'
+      visibleList: claims
     };
     const state = claimsList(previousState, {
-      type: SORT_CLAIMS
+      type: SORT_CLAIMS,
+      sortProperty: 'phaseChangeDate'
     });
 
     expect(state.visibleList[0].id).to.equal(2);
@@ -99,8 +107,7 @@ describe('Claims list reducer', () => {
       }
     ];
     const previousState = {
-      visibleList: claims,
-      page: 1
+      visibleList: claims
     };
     const state = claimsList(previousState, {
       type: SORT_CLAIMS,
@@ -131,8 +138,7 @@ describe('Claims list reducer', () => {
       }
     ];
     const previousState = {
-      visibleList: claims,
-      page: 1
+      visibleList: claims
     };
     const state = claimsList(previousState, {
       type: SORT_CLAIMS,
@@ -157,8 +163,7 @@ describe('Claims list reducer', () => {
       }
     ];
     const previousState = {
-      list: claims,
-      page: 1
+      list: claims
     };
     const state = claimsList(previousState, {
       type: FILTER_CLAIMS,
@@ -192,6 +197,49 @@ describe('Claims list reducer', () => {
     });
     expect(state.visibleList.length).to.equal(1);
     expect(state.visibleList[0].id).to.equal(1);
+  });
+
+  it('should maintain the sort when filtering', () => {
+    const claims = [
+      {
+        id: 1,
+        attributes: {
+          claimType: 'Pension',
+          open: true
+        }
+      },
+      {
+        id: 2,
+        attributes: {
+          claimType: null,
+          open: true
+        }
+      },
+      {
+        id: 3,
+        attributes: {
+          claimType: 'Compensation',
+          open: true
+        }
+      },
+      {
+        id: 4,
+        attributes: {
+          claimType: null,
+          open: false
+        }
+      },
+    ];
+    const previousState = {
+      list: claims,
+      sortProperty: 'claimType'
+    };
+    const state = claimsList(previousState, {
+      type: FILTER_CLAIMS,
+      filter: 'open'
+    });
+    const sortedClaims = [claims[0], claims[2], claims[1]];
+    expect(state.visibleList).to.deep.equal(sortedClaims);
   });
 
   it('should change the claims list page', () => {
