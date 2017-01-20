@@ -79,12 +79,13 @@ export function transformErrors(errors, uiSchema) {
  */
 
 export function uiSchemaValidate(errors, uiSchema, formData, formContext, path = '') {
-  const currentData = _.get(path, formData);
+  const currentData = path !== '' ? _.get(path, formData) : formData;
   if (uiSchema.items && currentData) {
     currentData.forEach((item, index) => {
       const newPath = `${path}[${index}]`;
       if (!_.get(newPath, errors)) {
-        _.get(path, errors)[index] = {
+        const currentErrors = path ? _.get(path, errors) : errors;
+        currentErrors[index] = {
           __errors: [],
           addError(error) {
             this.__errors.push(error);
@@ -111,12 +112,13 @@ export function uiSchemaValidate(errors, uiSchema, formData, formContext, path =
   }
 
   const validations = uiSchema['ui:validations'];
-  if (validations && currentData) {
+  if (validations) {
     validations.forEach(validation => {
+      const pathErrors = path ? _.get(path, errors) : errors;
       if (typeof validation === 'function') {
-        validation(_.get(path, errors), currentData, formData, formContext, uiSchema['ui:errorMessages']);
+        validation(pathErrors, currentData, formData, formContext, uiSchema['ui:errorMessages']);
       } else {
-        validation.validator(_.get(path, errors), currentData, formData, formContext, uiSchema['ui:errorMessages'], validation.options);
+        validation.validator(pathErrors, currentData, formData, formContext, uiSchema['ui:errorMessages'], validation.options);
       }
     });
   }
@@ -135,14 +137,6 @@ export function validateDate(errors, dateString) {
   if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
   }
-}
-
-export function validateGroup(message) {
-  return (errors, group) => {
-    if (!_.values(group).some(val => val === true)) {
-      errors.addError(message);
-    }
-  };
 }
 
 export function validateEmailsMatch(errors, formData) {
