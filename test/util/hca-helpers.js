@@ -430,7 +430,7 @@ function completeVaInsuranceInformation(client, data, onlyRequiredFields) {
 
 function initApplicationSubmitMock() {
   mock(null, {
-    path: '/api/hca/v1/application',
+    path: '/v0/health_care_applications',
     verb: 'post',
     value: {
       formSubmissionId: '123fake-submission-id-567',

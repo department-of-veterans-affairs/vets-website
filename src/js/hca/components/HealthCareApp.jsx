@@ -132,7 +132,7 @@ class HealthCareApp extends React.Component {
     const formIsValid = validations.isValidForm(veteran);
 
     if (__BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging') {
-      apiUrl = `${window.VetsGov.api.url}/api/v0/health_care_applications`;
+      apiUrl = `${window.VetsGov.api.url}/v0/health_care_applications`;
     }
 
     if (formIsValid && veteran.privacyAgreementAccepted) {
