@@ -122,18 +122,16 @@ class FormPage extends React.Component {
     }
   }
   getEmptyState(pageConfig) {
-    const { schema, uiSchema } = pageConfig;
-    const getFormData = () => {
-      return this.props.form[pageConfig.pageKey].data;
-    };
+    const { form, onEdit, hideTitle } = this.props;
+    const { uiSchema, schema } = pageConfig;
+    const formData = form[pageConfig.pageKey].data;
     return {
-      schema: updateRequiredFields(schema, uiSchema, this.props.form[pageConfig.pageKey].data),
+      schema: updateRequiredFields(schema, uiSchema, formData),
       formContext: {
         touched: {},
         submitted: false,
-        onEdit: this.props.onEdit,
-        hideTitle: this.props.hideTitle,
-        getFormData
+        onEdit,
+        hideTitle
       }
     };
   }

@@ -1,3 +1,4 @@
+import React from 'react';
 import _ from 'lodash/fp';
 
 import { fullName, ssn, dateRange, date, address, phone } from '../../../common/schemaform/definitions';

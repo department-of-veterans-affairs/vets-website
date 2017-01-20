@@ -110,12 +110,6 @@ export function uiSchemaValidate(errors, uiSchema, formData, formContext, path =
       });
   }
 
-  if (typeof uiSchema['ui:required'] === 'function') {
-    if (uiSchema['ui:required'](formData) && !currentData) {
-      _.get(path, errors).addError(defaultMessages.required);
-    }
-  }
-
   const validations = uiSchema['ui:validations'];
   if (validations && currentData) {
     validations.forEach(validation => {
