@@ -41,12 +41,12 @@ relatedlinks:
 </div>
 
 <div class="usa-grid" markdown="0"><br>
-<div class="small-12 columns"  markdown="1">
+<div class="usa-grid-one-whole"  markdown="1">
 
 ### How long does a decision take?
 
 <div class="usa-grid" markdown="0"><br>
-<div class="small-12 medium-3 columns"  markdown="0">
+<div class="usa-width-one-fourth"  markdown="0">
 
 <div class="card information" markdown="0">
 <span class="number" markdown="0">122.9</span>
@@ -74,7 +74,7 @@ If you’ve already filed a claim, you can check your disability compensation cl
 </div>
 
 <div class="usa-grid" markdown="0">
-<div class="small-12 columns divider margin top usa-content"  markdown="1">
+<div class="usa-width-one-whole divider margin top usa-content"  markdown="1">
 
 ### What are the steps?
 

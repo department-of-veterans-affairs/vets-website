@@ -27,7 +27,7 @@ layout: page-react.html
   <!-- <div class="main home" role="main">
     <div class="section main-menu">
       <div class="usa-grid">
-        <div class="small-12 columns">
+        <div class="usa-width-one-whole">
           <div style="padding: 2em 0;">
           <h3>We're sorry. The education benefits application is currently down while we fix a few things. We will be back up as soon as we can.</h3>
           <h4>In the meantime, you can still call 1-877-222-VETS(8387) and press 2 to complete this application over the phone.</h4>

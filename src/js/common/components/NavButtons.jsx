@@ -138,7 +138,7 @@ export default class NavButtons extends React.Component {
       }
 
       buttons = (<div>
-        <div className="usa-grid form-progress-buttons">
+        <div className="usa-grid-full form-progress-buttons">
           <div className="usa-width-five-twelfths">
             {backButton}
           </div>
@@ -157,7 +157,7 @@ export default class NavButtons extends React.Component {
       </div>);
     } else if (path.endsWith('submit-message')) {
       buttons = (
-        <div className="usa-grid form-progress-buttons">
+        <div className="usa-grid-full form-progress-buttons">
           <div className="usa-width-five-twelfths">
             <a href="/">
               <button className="usa-button-primary">Back to Main Page</button>
@@ -179,7 +179,7 @@ export default class NavButtons extends React.Component {
       );
     } else {
       buttons = (
-        <div className="usa-grid form-progress-buttons">
+        <div className="usa-grid-full form-progress-buttons">
           <div className="usa-width-five-twelfths">
             {backButton}
           </div>

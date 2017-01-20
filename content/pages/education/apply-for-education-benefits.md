@@ -40,7 +40,7 @@ You must apply for education benefits using eBenefits.va.gov if you are:
 
 ### What are the steps to apply with Form 22-1990?
 
-<div class="small-12 columns" markdown="0">
+<div class="usa-width-one-whole" markdown="0">
 <ol class="process" markdown="0">
 <li class="step one" markdown="0">
 

@@ -36,7 +36,7 @@ class IntroductionPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="usa-grid form-progress-buttons">
+        <div className="usa-grid-full form-progress-buttons">
           <div className="usa-width-five-twelfths">
             <ProgressButton
                 onButtonClick={this.goForward}

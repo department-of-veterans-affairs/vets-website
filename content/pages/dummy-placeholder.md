@@ -12,7 +12,7 @@ permalink: false
 <div class="main home" role="main">
   <div class="splash">
     <div class="usa-grid">
-      <div class="small-12 columns">
+      <div class="usa-width-one-whole">
         <div class="pitch">
           <h2 class="tagline"><span>Dummy Page</span></h2>
         </div>
@@ -22,7 +22,7 @@ permalink: false
 
   <div class="section main-menu">
     <div class="usa-grid">
-      <div class="small-12 columns">
+      <div class="usa-width-one-whole">
         <h3>DUMMY PAGE</h3>
       </div>
     </div>
@@ -30,7 +30,7 @@ permalink: false
 
 <div class="section one">
   <div class="usa-grid">
-    <div class="small-12 columns">
+    <div class="usa-width-one-whole">
       <h3 class="alternate">Quick Links</h3>
     </div>
   </div>

@@ -36,7 +36,7 @@ template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="usa-grid" markdown="0">
-<div class="small-12 columns" markdown="1">    
+<div class="usa-width-one-whole" markdown="1">    
 
 You can file a reopened claim for a benefit that VA previously denied if a year has passed since your claim was denied and you did not appeal that decision. However, VA cannot reopen a claim without new and material evidence.
 
