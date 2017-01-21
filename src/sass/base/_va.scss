@@ -239,33 +239,43 @@ hr {
   }
 }
 
+// Also l-playbook for more styles
 .va-header-logo {
   line-height: 1em;
   margin: 0;
 
   a {
-    color: white;
-    text-indent: 180%;
-    white-space: nowrap;
-    overflow: hidden;
-    display: block;
-    background: url(/img/design/logo/logo.png) top left no-repeat;
-    background-size: contain;
+    background-color: transparent;
     border-bottom: none;
-    text-decoration: none;
-    height: 50px;
-    width: 205px;
+    display: block;
+    height: 40px;
+    overflow: hidden;
+    width: 164px;
 
-    &:hover, &:active, &:focus {
-      background-image: url(/img/design/logo/logo-hover.png);
-    }
-
-    @media #{$small-only} {
-      width: 164px;
-      height: 40px;
+    @include media($medium-screen) {
+      width: 205px;
+      height: 50px;
     }
   }
-  // See va-playbook for styles
+
+  &:hover {
+    .vets-logo-va path {
+      fill: $color-gold;
+    }
+  }
+}
+
+.vets-logo {
+  display: block;
+  height: auto;
+  width: 100%;
+
+  &-vetsdotgov,
+  &-va {
+    path, rect {
+      fill: $color-white;
+    }
+  }
 }
 
 // Headings
@@ -908,7 +918,6 @@ ul, ol {
   li {
     display: inline-block;
     margin: .25em 0;
-    //outline: 1px dashed #6c6;
     padding: .25em 0 .25em 0;
     vertical-align: middle;
 
