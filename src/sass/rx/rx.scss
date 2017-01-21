@@ -90,6 +90,12 @@ button.usa-button-outline {
   width: 66%;
 }
 
+.rx-error-messages {
+  ul, li {
+    list-style-type: none;
+  }
+}
+
 #rx-active, #rx-history, #rx-detail {
   .loading-indicator-container {
     margin-top: 2rem;
