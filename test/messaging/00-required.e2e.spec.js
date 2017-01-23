@@ -2,22 +2,7 @@ const E2eHelpers = require('../util/e2e-helpers');
 const Timeouts = require('../util/timeouts.js');
 const MessagingHelpers = require('../util/messaging-helpers');
 const LoginHelpers = require('../util/login-helpers');
-
-// TODO: move this to E2eHelpers
-function selectDropdown(client, field, value) {
-  const select = `select[name='${field}']`;
-  client.execute((clientSelect, clientValue) => {
-    /* eslint-disable */
-    var element = document.querySelector(clientSelect);
-    var event = new Event('change', { bubbles: true });
-    element.value = clientValue;
-    element.dispatchEvent(event);
-    return element.value;
-    /* eslint-disable */
-  },
-  [select, value]);
-}
-
+const selectDropdown = E2eHelpers.selectDropdown;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -58,10 +43,10 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('textarea[name="messageText"]', Timeouts.slow);
 
     // select a recipient in the compose form
-		selectDropdown(client, 'messageRecipient', '0');
-		selectDropdown(client, 'messageCategory', 'APPOINTMENTS');
-    
-		// set message body
+    selectDropdown(client, 'messageRecipient', '0');
+    selectDropdown(client, 'messageCategory', 'APPOINTMENTS');
+
+    // set message body
     client.setValue('textarea[name="messageText"]', 'Test');
     // send message successfully
     client.click('.msg-send-buttons button:nth-of-type(1)')

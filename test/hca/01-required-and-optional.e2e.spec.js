@@ -55,8 +55,8 @@ module.exports = E2eHelpers.createE2eTest(
       .setValue('input[name="address"]', '111 S Michigan Ave')
       .setValue('input[name="city"]', 'Chicago');
 
-    HcaHelpers.selectDropdown(client, 'country', 'USA');
-    HcaHelpers.selectDropdown(client, 'state', 'IL');
+    E2eHelpers.selectDropdown(client, 'country', 'USA');
+    E2eHelpers.selectDropdown(client, 'state', 'IL');
 
     client
       .setValue('input[name="zip"]', '60603')
@@ -140,8 +140,8 @@ module.exports = E2eHelpers.createE2eTest(
       .setValue('input[name="address"]', '115 S Michigan Ave')
       .setValue('input[name="city"]', 'Chicago');
 
-    HcaHelpers.selectDropdown(client, 'country', 'USA');
-    HcaHelpers.selectDropdown(client, 'state', 'IL');
+    E2eHelpers.selectDropdown(client, 'country', 'USA');
+    E2eHelpers.selectDropdown(client, 'state', 'IL');
 
     client
       .setValue('input[name="zip"]', '60603')

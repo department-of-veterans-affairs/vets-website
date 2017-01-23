@@ -1,5 +1,5 @@
 const mock = require('./mock-helpers');
-
+const selectDropdown = require('./e2e-helpers.js').selectDropdown;
 const Timeouts = require('./timeouts.js');
 
 const testValues = {
@@ -165,23 +165,6 @@ const testValues = {
   radiumTreatments: false,
   campLejeune: false
 };
-
-// Change select value and trigger change event programatically.
-// This is necessary because long select boxes tend to render offscreen,
-// causing Selenium to fail in unexpected ways.
-function selectDropdown(client, field, value) {
-  const select = `select[name='${field}']`;
-  client.execute((clientSelect, clientValue) => {
-    /* eslint-disable */
-    var element = document.querySelector(clientSelect);
-    var event = new Event('change', { bubbles: true });
-    element.value = clientValue;
-    element.dispatchEvent(event);
-    return element.value;
-    /* eslint-disable */
-  },
-  [select, value]);
-}
 
 function completePersonalInformation(client, data, onlyRequiredFields) {
   client
@@ -474,6 +457,5 @@ module.exports = {
   completeMedicareAndMedicaid,
   completeInsuranceInformation,
   completeVaInsuranceInformation,
-  initApplicationSubmitMock,
-  selectDropdown
+  initApplicationSubmitMock
 };
