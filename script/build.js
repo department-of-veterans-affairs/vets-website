@@ -197,16 +197,18 @@ if (options.watch) {
 
 smith.use(assets({ source: '../assets', destination: './' }));
 
-const destination = path.resolve(__dirname, `../build/${options.buildtype}`)
+const destination = path.resolve(__dirname, `../build/${options.buildtype}`);
 
 // Webpack paths are absolute, convert to relative
-smith.use(function (files, metalsmith, done) {
-  Object.keys(files).forEach(function(file) {
+smith.use((files, metalsmith, done) => {
+  Object.keys(files).forEach((file) => {
     if (file.indexOf(destination) === 0) {
+      /* eslint-disable no-param-reassign */
       files[file.substr(destination.length + 1)] = files[file];
       delete files[file];
+      /* esling-enable no-param-reassign */
     }
-  })
+  });
 
   done();
 });
