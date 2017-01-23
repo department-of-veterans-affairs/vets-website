@@ -169,12 +169,8 @@ function completeVeteranInformation(client, data, onlyRequiredFields) {
 }
 
 function completeBenefitsSelection(client, data, onlyRequiredFields) {
-  // I don't know why these pauses are necessary but they are. The click frequently
-  // doesn't work without them.
   client
-    .pause(1000)
-    .click('label[name="chapter30-label"]')
-    .pause(1000);
+    .click('label[name="chapter30-label"]');
 
   if (!onlyRequiredFields) {
     client
@@ -188,7 +184,7 @@ function completeBenefitsRelinquishment(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client.execute((selector) => {
       document.querySelector(selector).click();
-    }, ['label[name="benefitsRelinquished-1-label"]']);
+    }, ['input[name="benefitsRelinquished-1"]']);
     client
       .pause(1000)
       .waitForElementVisible('select[name="benefitsRelinquishedDateMonth"]', Timeouts.slow)
@@ -239,7 +235,7 @@ function completeRotcHistory(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client.execute((selector) => {
       document.querySelector(selector).click();
-    }, ['label[name="seniorRotcCommissioned-0-label"]']);
+    }, ['input[name="seniorRotcCommissioned-0"]']);
 
     client
       .pause(1000)

@@ -14,6 +14,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
       .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
+    E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Veteran information page.
@@ -53,7 +54,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // ROTC History
     client
-      .expect.element('label[name="seniorRotcCommissioned-0-label"]').to.be.visible;
+      .expect.element('input[name="seniorRotcCommissioned-0"]').to.be.present;
     EduHelpers.completeRotcHistory(client, EduHelpers.testValues, false);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-history/rotc-history');
