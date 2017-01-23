@@ -8,6 +8,7 @@ const props = {
   categories: ['category1'],
   category: {
     value: 'category1',
+    dirty: false,
   },
   cssClass: 'cssClass',
 };
