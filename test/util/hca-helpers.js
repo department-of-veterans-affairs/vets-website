@@ -326,7 +326,7 @@ function completeSpouseInformation(client, data, onlyRequiredFields) {
     .clearValue('input[name="marriageYear"]')
     .setValue('input[name="marriageYear"]', data.dateOfMarriage.year)
     .click('input[name="sameAddress-1"]');
-  client.expect.element('input[name="address"]').to.be.visible.before(Timeouts.normal);
+  client.expect.element('input[name="address"]').to.be.visible.before(Timeouts.slow);
 
   client
     .clearValue('input[name="address"]')

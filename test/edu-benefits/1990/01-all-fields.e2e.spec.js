@@ -25,14 +25,14 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Benefits eligibility
     client
-      .expect.element('input[name="chapter30"]').to.be.visible;
+      .expect.element('label[name="chapter30-label"]').to.be.visible;
     EduHelpers.completeBenefitsSelection(client, EduHelpers.testValues, false);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits-eligibility/benefits-selection');
 
     // Benefits relinquishment
     client
-      .expect.element('input[name="benefitsRelinquished-1"]').to.be.visible;
+      .expect.element('input[name="benefitsRelinquished-1"]').to.be.present;
     EduHelpers.completeBenefitsRelinquishment(client, EduHelpers.testValues, false);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits-eligibility/benefits-relinquishment');
@@ -53,14 +53,14 @@ module.exports = E2eHelpers.createE2eTest(
 
     // ROTC History
     client
-      .expect.element('input[name="seniorRotcCommissioned-0"]').to.be.visible;
+      .expect.element('label[name="seniorRotcCommissioned-0-label"]').to.be.visible;
     EduHelpers.completeRotcHistory(client, EduHelpers.testValues, false);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-history/rotc-history');
 
     // Benefits history
     client
-      .expect.element('input[name="civilianBenefitsAssistance"]').to.be.visible;
+      .expect.element('input[name="civilianBenefitsAssistance"]').to.be.present;
     EduHelpers.completeContributions(client, EduHelpers.testValues, false);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-history/contributions');
@@ -74,7 +74,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Employment history
     client
-      .expect.element('input[name="hasNonMilitaryJobs-0"]').to.be.visible;
+      .expect.element('input[name="hasNonMilitaryJobs-0"]').to.be.present;
     EduHelpers.completeEmploymentHistory(client, EduHelpers.testValues, false);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/employment-history/employment-information');
@@ -108,8 +108,12 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
     // Review and Submit Page.
+    client.pause(1000);
+    client.execute((selector) => {
+      document.querySelector(selector).click();
+    }, ['label[name="privacyAgreement-label"]']);
+    client.pause(1000);
     client
-      .click('input[name="privacyAgreement"]')
       .click('.form-progress-buttons .usa-button-primary');
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);

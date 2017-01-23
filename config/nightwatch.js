@@ -67,7 +67,8 @@ module.exports = {
         acceptSslCerts: true,
         webStorageEnabled: true,
         chromeOptions: {
-          binary: electron
+          binary: electron,
+          args: ['--window-size=1024,768']
         }
       },
       test_workers: {
