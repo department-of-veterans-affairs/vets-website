@@ -14,6 +14,8 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
 
+    E2eHelpers.overrideSmoothScrolling(client);
+
     // Veteran information page.
     EduHelpers.completeVeteranInformation(client, EduHelpers.testValues, true);
     client

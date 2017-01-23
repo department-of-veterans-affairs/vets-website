@@ -16,6 +16,8 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`);
 
+    E2eHelpers.overrideSmoothScrolling(client);
+
     // Click consolidated claims button
     client
       .waitForElementVisible('a.claim-list-item', Timeouts.slow)
