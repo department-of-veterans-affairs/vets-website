@@ -51,11 +51,10 @@ module.exports = {
         port: selenium_server_port,
       },
       test_workers: {
-        enabled: false,
-        workers: 3
+        enabled: true,
+        workers: parseInt(process.env.CONCURRENCY || 1, 10)
       },
     },
-
     accessibility: {
       filter: './test/accessibility/*.spec.js',
       globals: {
@@ -72,8 +71,8 @@ module.exports = {
       },
       test_workers: {
         enabled: true,
-        workers: 1,
-      },
+        workers: parseInt(process.env.CONCURRENCY || 1, 10)
+      }
     }
   }
 };

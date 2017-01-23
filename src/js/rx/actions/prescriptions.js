@@ -62,9 +62,10 @@ export function loadPrescriptions(options) {
         active: options.active,
         data
       }),
-      () => dispatch({
+      response => dispatch({
         type: 'LOAD_PRESCRIPTIONS_FAILURE',
-        active: options.active
+        active: options.active,
+        errors: response.errors,
       })
     );
   };

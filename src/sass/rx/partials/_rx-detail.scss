@@ -14,7 +14,6 @@
   // Get font size to stay the same when table shrinks.
   display: block;
   font-size: 1.6rem;
-  margin: 0;
 
   tbody {
     &:first-child {
@@ -101,12 +100,6 @@
   @media (min-width: $medium-screen) {
     p {
       margin-top: 0;
-    }
-  }
-
-  @media (max-width: $medium-screen) {
-    p {
-      margin-bottom: 0;
     }
   }
 }
