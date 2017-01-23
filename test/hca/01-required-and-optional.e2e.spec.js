@@ -227,7 +227,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .click('input[name="isEssentialAcaCoverage"]')
       .setValue('select[name="state"]', 'IL')
-      .setValue('select[name="vaMedicalFacility"]', 'EVANSTON CBOC')
+      .setValue('select[name="vaMedicalFacility"]', '556GA')
       .click('input[name="wantsInitialVaContact-0"]')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/va-facility');

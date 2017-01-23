@@ -135,7 +135,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Edit birth info
     vetInfoCopy.veteranDateOfBirth = {
-      month: 'Jan',
+      month: '1',
       day: '20',
       year: ''
     };
