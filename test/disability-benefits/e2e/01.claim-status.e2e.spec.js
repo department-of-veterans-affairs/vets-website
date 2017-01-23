@@ -13,6 +13,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     LoginHelpers.logIn(token, client, '/disability-benefits/track-claims', 3)
       .waitForElementVisible('a.claim-list-item', Timeouts.slow);
+
     client
       .click('a.claim-list-item:first-child')
       .waitForElementVisible('body', Timeouts.slow)
