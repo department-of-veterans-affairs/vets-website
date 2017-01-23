@@ -14,7 +14,7 @@ function nextSection(client) {
 
 function verifyEdit(client, expectedValue) {
   const selector = '.review tr:nth-child(1) td:nth-child(2)';
-  client.click('.usa-button-outline').pause(1000);
+  client.click('.usa-button-outline');
   client.waitForElementVisible(selector, Timeouts.normal);
   client.expect.element(selector).text.to.equal(expectedValue);
   nextSection(client);
@@ -130,7 +130,6 @@ module.exports = E2eHelpers.createE2eTest(
       last: 'Doe'
     };
     editSection(client);
-    client.pause(1000);
     HcaHelpers.completePersonalInformation(client, vetInfoCopy, true);
     verifyEdit(client, 'John Doe');
 
@@ -141,7 +140,6 @@ module.exports = E2eHelpers.createE2eTest(
       year: ''
     };
     editSection(client);
-    client.pause(1000);
     client.clearValue('input[name="veteranBirthYear"]');
     HcaHelpers.completeBirthInformation(client, vetInfoCopy, true);
     verifyEdit(client, '1/20/1980');
@@ -149,14 +147,12 @@ module.exports = E2eHelpers.createE2eTest(
     // Edit demographic info
     vetInfoCopy.gender = 'F';
     editSection(client);
-    client.pause(1000);
     HcaHelpers.completeDemographicInformation(client, vetInfoCopy, true);
     verifyEdit(client, 'F');
 
     // Edit address
     vetInfoCopy.veteranAddress.street = '123 Foo St.';
     editSection(client);
-    client.pause(1000);
     client.clearValue('input[name="address"]');
     HcaHelpers.completeVeteranAddress(client, vetInfoCopy, true);
     verifyEdit(client, '123 Foo St.');
@@ -168,31 +164,24 @@ module.exports = E2eHelpers.createE2eTest(
     vetInfoCopy.lastDischargeDate.year = '';
     vetInfoCopy.lastEntryDate.year = '';
     editSection(client);
-    client.pause(1000);
     HcaHelpers.completeMilitaryService(client, vetInfoCopy, true);
     verifyEdit(client, 'Coast Guard');
 
-    client.pause(500);
     nextSection(client);
 
-    client.pause(500);
     nextSection(client);
 
-    client.pause(500);
     nextSection(client);
 
     // Edit spouse information
     vetInfoCopy.spouseFullName.first = 'Anne';
     editSection(client);
-    client.pause(1000);
     HcaHelpers.completeSpouseInformation(client, vetInfoCopy, true);
     verifyEdit(client, 'Anne Hathaway');
 
-    client.pause(1000);
     client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="privacyAgreement-label"]']);
-    client.pause(1000);
 
     client.click('.form-panel .usa-button-primary');
 
