@@ -14,13 +14,6 @@
 
   {% if path contains 'healthcare' %}
     {% if showtempbar == true %}
-    <!-- <div class="va-action-bar--header" style="background-color: #FAC922; text-align:center;">
-      <div class="row">
-        <div class="small-12 columns">
-          <h6 style="margin: 0;">Are you a caregiver? This form’s not quite ready for you yet. <a href="#additional-forms"> Find the form you need.</a></h6>
-        </div>
-      </div>
-    </div> -->
     {% else %}
       {% include "content/includes/action-bar.html" action_text="Apply for VA Health Care" action_url="/healthcare/apply/application" action_class="va-action-bar--header" %}
     {% endif %}
