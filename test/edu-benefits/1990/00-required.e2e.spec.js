@@ -14,6 +14,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
       .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
+    E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Veteran information page.
