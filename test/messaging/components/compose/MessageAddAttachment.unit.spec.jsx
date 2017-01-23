@@ -6,7 +6,8 @@ import MessageAddAttachment from '../../../../src/js/messaging/components/compos
 
 const props = {
   cssClass: 'cssClass',
-  label: 'labelText'
+  label: 'labelText',
+  allowedMimeTypes: ['png', 'jpg'],
 };
 
 describe('<MessageAddAttachment>', () => {
@@ -26,5 +27,11 @@ describe('<MessageAddAttachment>', () => {
     const tree = SkinDeep.shallowRender(<MessageAddAttachment {...props}/>);
 
     expect(tree.subTree('span').text()).to.equal(props.label);
+  });
+
+  it('should have the expected mimeTypes', () => {
+    const tree = SkinDeep.shallowRender(<MessageAddAttachment {...props}/>);
+
+    expect(tree.subTree('input').props.accept).to.equal(props.allowedMimeTypes.join(','));
   });
 });
