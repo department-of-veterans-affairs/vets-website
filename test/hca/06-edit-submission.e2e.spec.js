@@ -179,10 +179,7 @@ module.exports = E2eHelpers.createE2eTest(
     HcaHelpers.completeSpouseInformation(client, vetInfoCopy, true);
     verifyEdit(client, 'Anne Hathaway');
 
-    client.execute((selector) => {
-      document.querySelector(selector).click();
-    }, ['label[name="privacyAgreement-label"]']);
-
+    client.click('[name=privacyAgreement]');
     client.click('.form-panel .usa-button-primary');
 
     client.getLog('browser', (result) => {
