@@ -222,7 +222,7 @@ export class Thread extends React.Component {
   }
 
   makeThread() {
-    const { isSavedDraft, message, messagesCollapsed, thread } = this.props;
+    const { message, messagesCollapsed, thread } = this.props;
 
     let threadMessages;
     let currentMessage;
@@ -244,7 +244,7 @@ export class Thread extends React.Component {
     }
 
 
-    if (!isSavedDraft && message) {
+    if (message) {
       currentMessage = <Message attrs={message}/>;
     }
 
@@ -397,9 +397,10 @@ Thread.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const folder = state.folders.data.currentItem;
-  const message = state.messages.data.message;
-  const draft = state.messages.data.draft;
+  const msgState = state.health.msg;
+  const folder = msgState.folders.data.currentItem;
+  const message = msgState.messages.data.message;
+  const draft = msgState.messages.data.draft;
 
   const isSavedDraft = message && !message.sentDate;
   const isNewMessage = draft.replyMessageId === undefined;
@@ -407,20 +408,20 @@ const mapStateToProps = (state) => {
   return {
     draft,
     folder,
-    folders: state.folders.data.items,
-    isFormVisible: state.messages.ui.formVisible,
+    folders: msgState.folders.data.items,
+    isFormVisible: msgState.messages.ui.formVisible,
     isNewMessage,
     isSavedDraft,
-    lastRequestedId: state.messages.ui.lastRequestedId,
-    loading: state.loading,
+    lastRequestedId: msgState.messages.ui.lastRequestedId,
+    loading: msgState.loading,
     message,
-    messagesCollapsed: state.messages.ui.messagesCollapsed,
-    modals: state.modals,
-    moveToOpened: state.messages.ui.moveToOpened,
-    recipients: state.recipients.data,
-    redirect: state.folders.ui.redirect,
-    replyDetailsCollapsed: state.messages.ui.replyDetailsCollapsed,
-    thread: state.messages.data.thread
+    messagesCollapsed: msgState.messages.ui.messagesCollapsed,
+    modals: msgState.modals,
+    moveToOpened: msgState.messages.ui.moveToOpened,
+    recipients: msgState.recipients.data,
+    redirect: msgState.folders.ui.redirect,
+    replyDetailsCollapsed: msgState.messages.ui.replyDetailsCollapsed,
+    thread: msgState.messages.data.thread
   };
 };
 

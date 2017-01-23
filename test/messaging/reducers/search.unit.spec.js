@@ -24,6 +24,10 @@ const initialState = {
       field: makeField(''),
       exact: false
     },
+    to: {
+      field: makeField(''),
+      exact: false
+    },
     subject: {
       field: makeField(''),
       exact: false
@@ -149,7 +153,36 @@ describe('search reducer', () => {
     expect(newState.params.dateRange.end).to.eql(moment(endDate));
     expect(newState.params.from.field).to.eql(makeField(senderName, true));
     expect(newState.params.from.exact).to.be.true;
+    expect(newState.params.to.field).to.eql(makeField(recipientName, true));
+    expect(newState.params.to.exact).to.be.true;
     expect(newState.params.subject.field).to.eql(makeField(subject, true));
     expect(newState.params.subject.exact).to.be.false;
+  });
+
+  it('should clear search params when folder loads without filters', () => {
+    const newState = searchReducer({
+      params: {
+        dateRange: {
+          start: '2017-01-01T00:00:00-05:00',
+          end: '2017-01-14T23:59:59-05:00'
+        },
+        from: {
+          field: makeField('Veteran', true),
+          exact: true
+        },
+        to: {
+          field: makeField('Clinician', true),
+          exact: false
+        },
+        subject: {
+          field: makeField('Testing 123', true),
+          exact: false
+        }
+      }
+    }, {
+      type: FETCH_FOLDER_SUCCESS,
+      messages: { meta: {} }
+    });
+    expect(newState.params).to.eql(initialState.params);
   });
 });

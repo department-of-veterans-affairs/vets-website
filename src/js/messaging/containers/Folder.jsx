@@ -92,6 +92,8 @@ export class Folder extends React.Component {
     const queryParams = [
       'page',
       'sort',
+      'filter[[recipient_name][eq]]',
+      'filter[[recipient_name][match]]',
       'filter[[sent_date][gteq]]',
       'filter[[sent_date][lteq]]',
       'filter[[sender_name][eq]]',
@@ -112,23 +114,33 @@ export class Folder extends React.Component {
 
   buildSearchQuery(object) {
     const filters = {};
+    const fromValue = _.get(object, 'from.field.value');
+    const toValue = _.get(object, 'to.field.value');
+    const subjectValue = _.get(object, 'subject.field.value');
+    const startDate = _.get(object, 'dateRange.start');
+    const endDate = _.get(object, 'dateRange.end');
 
-    if (_.get(object, 'from.field.value')) {
+    if (fromValue) {
       const fromExact = object.from.exact ? 'eq' : 'match';
-      filters[`filter[[sender_name][${fromExact}]]`] = object.from.field.value;
+      filters[`filter[[sender_name][${fromExact}]]`] = fromValue;
     }
 
-    if (_.get(object, 'subject.field.value')) {
+    if (toValue) {
+      const fromExact = object.from.exact ? 'eq' : 'match';
+      filters[`filter[[recipient_name][${fromExact}]]`] = toValue;
+    }
+
+    if (subjectValue) {
       const subjectExact = object.subject.exact ? 'eq' : 'match';
-      filters[`filter[[subject][${subjectExact}]]`] = object.subject.field.value;
+      filters[`filter[[subject][${subjectExact}]]`] = subjectValue;
     }
 
-    if (_.get(object, 'dateRange.start')) {
-      filters['filter[[sent_date][gteq]]'] = object.dateRange.start.format();
+    if (startDate) {
+      filters['filter[[sent_date][gteq]]'] = startDate.format();
     }
 
-    if (_.get(object, 'dateRange.end')) {
-      filters['filter[[sent_date][lteq]]'] = object.dateRange.end.format();
+    if (endDate) {
+      filters['filter[[sent_date][lteq]]'] = endDate.format();
     }
 
     return filters;
@@ -326,10 +338,10 @@ export class Folder extends React.Component {
       return <LoadingIndicator message="Loading the folder..."/>;
     }
 
-    const folderId = _.get(this.props.attributes, 'folderId', null);
+    const { folderId, name: folderName } = this.props.attributes;
     let componentContent;
 
-    if (folderId === null) {
+    if (folderId === undefined) {
       const lastRequest = this.props.lastRequestedFolder;
 
       if (lastRequest && lastRequest.id !== null) {
@@ -364,6 +376,7 @@ export class Folder extends React.Component {
       let messageSearch;
       if (this.props.messages && this.props.messages.length || this.props.filter) {
         messageSearch = (<MessageSearch
+            hasRecipientField={folderName === 'Sent' || folderName === 'Drafts'}
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}
@@ -385,8 +398,6 @@ export class Folder extends React.Component {
         </div>
       );
     }
-
-    const folderName = _.get(this.props.attributes, 'name');
 
     return (
       <div>
@@ -412,22 +423,23 @@ Folder.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const folder = state.folders.data.currentItem;
+  const msgState = state.health.msg;
+  const folder = msgState.folders.data.currentItem;
   const { attributes, filter, messages, pagination, sort } = folder;
-  const { lastRequestedFolder, moveToId, redirect } = state.folders.ui;
+  const { lastRequestedFolder, moveToId, redirect } = msgState.folders.ui;
 
   return {
     attributes,
     filter,
-    folders: state.folders.data.items,
-    isAdvancedVisible: state.search.advanced.visible,
+    folders: msgState.folders.data.items,
+    isAdvancedVisible: msgState.search.advanced.visible,
     lastRequestedFolder,
-    loading: state.loading,
+    loading: msgState.loading,
     messages,
     moveToId,
     pagination,
     redirect,
-    searchParams: state.search.params,
+    searchParams: msgState.search.params,
     sort
   };
 };

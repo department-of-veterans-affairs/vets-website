@@ -5,15 +5,17 @@ import React from 'react';
  */
 
 export default function FieldTemplate(props) {
-  const { id, schema, label, help, required, rawErrors, children, formContext, uiSchema } = props;
+  const { id, schema, help, required, rawErrors, children, formContext, uiSchema } = props;
   const hasErrors = (formContext.submitted || formContext.touched[id]) && rawErrors && rawErrors.length;
   const requiredSpan = required ? <span className="form-required-span">*</span> : null;
+  const label = uiSchema['ui:title'] || props.label;
+  const isDateField = uiSchema['ui:widget'] === 'date';
 
   let errorSpanId;
   let errorSpan;
   let errorClass;
   if (hasErrors) {
-    errorClass = `usa-input-error${uiSchema['ui:field'] === 'mydate' ? ' form-error-date' : ''}`;
+    errorClass = isDateField ? 'input-error-date' : 'usa-input-error';
     errorSpanId = `${id}-error-message`;
     errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{rawErrors[0]}</span>;
   }
@@ -21,9 +23,9 @@ export default function FieldTemplate(props) {
   return schema.type === 'object' || schema.type === 'array'
     ? children
     : (<div className={errorClass}>
-      <label className={hasErrors ? 'usa-input-error-label' : null} htmlFor={id}>{label}{requiredSpan}</label>
+      <label className={hasErrors && !isDateField ? 'usa-input-error-label' : null} htmlFor={id}>{label}{requiredSpan}</label>
       {errorSpan}
-      {children}
+      {<div className={isDateField && hasErrors ? 'usa-input-error form-error-date' : null}>{children}</div>}
       {help}
     </div>
     );

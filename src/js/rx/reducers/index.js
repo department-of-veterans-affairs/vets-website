@@ -11,4 +11,3 @@ export default combineReducers({
   modals,
   prescriptions
 });
-

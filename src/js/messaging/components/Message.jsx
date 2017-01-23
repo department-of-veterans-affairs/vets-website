@@ -9,16 +9,19 @@ class Message extends React.Component {
   constructor(props) {
     super(props);
     this.handleToggleCollapsed = this.handleToggleCollapsed.bind(this);
+    this.handleMessageOnKeyPress = this.handleMessageOnKeyPress.bind(this);
   }
 
   componentDidUpdate() {
+    const { attrs, isCollapsed } = this.props;
+
     const shouldFetchMessage =
-      !this.props.isCollapsed &&
-      this.props.attrs.attachment &&
-      !this.props.attrs.attachments;
+      !isCollapsed &&
+      attrs.attachment &&
+      !attrs.attachments;
 
     if (shouldFetchMessage) {
-      this.props.fetchMessage(this.props.attrs.messageId);
+      this.props.fetchMessage(attrs.messageId);
     }
   }
 
@@ -28,55 +31,67 @@ class Message extends React.Component {
     }
   }
 
+  handleMessageOnKeyPress(e) {
+    e.preventDefault();
+
+    if (e.which === 32 || e.which === 13) {
+      this.handleToggleCollapsed();
+    }
+  }
+
   render() {
+    const { attrs, isCollapsed } = this.props;
+    const { body, senderName, sentDate } = attrs;
+
     const messageClass = classNames({
       'messaging-thread-message': true,
-      'messaging-thread-message--collapsed': this.props.isCollapsed,
-      'messaging-thread-message--expanded': !this.props.isCollapsed
+      'messaging-thread-message--draft': !sentDate,
+      'messaging-thread-message--collapsed': isCollapsed,
+      'messaging-thread-message--expanded': !isCollapsed
     });
 
     let details;
     let headerOnClick;
     let messageOnClick;
-    let attachments;
+    let attachmentsView;
 
-    if (this.props.isCollapsed) {
+    if (isCollapsed) {
       messageOnClick = this.handleToggleCollapsed;
     } else {
+      const { attachment, attachments, recipientName } = attrs;
+
       details = (
         <div className="messaging-message-recipient">
-          to {this.props.attrs.recipientName}
-          <MessageDetails { ...this.props }/>
+          to {recipientName}
+          <MessageDetails attrs={attrs}/>
         </div>
       );
 
       headerOnClick = this.handleToggleCollapsed;
 
-      if (this.props.attrs.attachment) {
-        attachments = (
-          <MessageAttachmentsView
-              attachments={this.props.attrs.attachments}/>
-        );
-      }
+      attachmentsView = attachment && (
+        <MessageAttachmentsView attachments={attachments}/>
+      );
     }
 
     return (
-      <div className={messageClass} onClick={messageOnClick}>
+      <div tabIndex="0" role="button" aria-expanded={!this.props.isCollapsed} onKeyPress={this.handleMessageOnKeyPress} className={messageClass} onClick={messageOnClick}>
         <div
+            aria-live="assertive"
             className="messaging-message-header"
             onClick={headerOnClick}>
           <div className="messaging-message-sent-date">
-            {formattedDate(this.props.attrs.sentDate, { fromNow: true })}
+            {sentDate && formattedDate(sentDate, { fromNow: true })}
           </div>
           <div className="messaging-message-sender">
-            {this.props.attrs.senderName}
+            {senderName}
           </div>
           {details}
         </div>
         <div className="messaging-message-body">
-          {this.props.attrs.body}
+          {body}
         </div>
-        {attachments}
+        {attachmentsView}
       </div>
     );
   }
@@ -89,16 +104,16 @@ Message.propTypes = {
     subject: React.PropTypes.string.isRequired,
     body: React.PropTypes.string.isRequired,
     attachment: React.PropTypes.bool.isRequired,
-    sentDate: React.PropTypes.string.isRequired,
+    sentDate: React.PropTypes.string,
     senderId: React.PropTypes.number.isRequired,
     senderName: React.PropTypes.string.isRequired,
     recipientId: React.PropTypes.number.isRequired,
     recipientName: React.PropTypes.string.isRequired,
     readReceipt: React.PropTypes.oneOf(['READ', 'UNREAD'])
   }).isRequired,
+  fetchMessage: React.PropTypes.func,
   isCollapsed: React.PropTypes.bool,
-  onToggleCollapsed: React.PropTypes.func,
-  fetchMessage: React.PropTypes.func
+  onToggleCollapsed: React.PropTypes.func
 };
 
 export default Message;

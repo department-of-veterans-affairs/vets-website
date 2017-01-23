@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import isMobile from 'ismobilejs';
 import _ from 'lodash';
 
 import {
@@ -49,6 +48,24 @@ class Active extends React.Component {
     window.addEventListener('resize', this.checkWindowSize);
   }
 
+  componentDidUpdate() {
+    const { prescriptions, sort: currentSort } = this.props;
+    const requestedSort = this.props.location.query.sort || 'prescriptionName';
+    const sortOrder = requestedSort[0] === '-' ? 'DESC' : 'ASC';
+    const sortValue = sortOrder === 'DESC'
+                    ? requestedSort.slice(1)
+                    : requestedSort;
+
+    const shouldSort =
+      !_.isEmpty(prescriptions) &&
+      (currentSort.value !== sortValue ||
+      currentSort.order !== sortOrder);
+
+    if (shouldSort) {
+      this.props.sortPrescriptions(sortValue, sortOrder);
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.checkWindowSize);
   }
@@ -60,23 +77,26 @@ class Active extends React.Component {
     });
   }
 
-  handleSort(sortKey, order) {
-    const sortParam = order === 'DESC' ? `-${sortKey}` : sortKey;
+  handleSort(sortKey, sortOrder) {
+    const sort = sortOrder === 'DESC' ? `-${sortKey}` : sortKey;
     this.context.router.push({
       ...this.props.location,
-      query: { sort: sortParam }
+      query: { sort }
     });
-    this.props.sortPrescriptions(sortKey, order);
   }
 
   renderViewSwitch() {
+    if (!this.props.prescriptions) {
+      return null;
+    }
+
     const toggles = [
       { key: 'card', value: 'Card' },
       { key: 'list', value: 'List' },
     ];
 
     return (
-      <div className="rx-view-toggle" ref={(elem) => { this.viewToggle = elem; }}>View:&nbsp;
+      <div className="rx-view-toggle show-for-medium-up" ref={(elem) => { this.viewToggle = elem; }}>View:&nbsp;
         <ul>
           {toggles.map(t => {
             const classes = classnames({
@@ -139,7 +159,7 @@ class Active extends React.Component {
 
     return (
       <div id="rx-active" className="va-tab-content">
-        {isMobile.any ? null : this.renderViewSwitch()}
+        {this.renderViewSwitch()}
         {content}
       </div>
     );
@@ -151,9 +171,10 @@ Active.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const rxState = state.health.rx;
   return {
-    ...state.prescriptions.active,
-    prescriptions: state.prescriptions.items,
+    ...rxState.prescriptions.active,
+    prescriptions: rxState.prescriptions.items,
   };
 };
 
