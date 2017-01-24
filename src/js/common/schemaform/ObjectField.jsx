@@ -49,6 +49,9 @@ class ObjectField extends React.Component {
     this.onPropertyChange = this.onPropertyChange.bind(this);
     this.onPropertyBlur = this.onPropertyBlur.bind(this);
     this.isRequired = this.isRequired.bind(this);
+    // This runs a series of steps that order properties and then group them into
+    // expandable groups. If there are no expandable groups, then the end result of this
+    // will be an array of single item arrays
     this.orderAndFilterProperties = _.flow(
       properties => orderProperties(properties, _.get('ui:order', this.props.uiSchema)),
       _.groupBy((item) => {
