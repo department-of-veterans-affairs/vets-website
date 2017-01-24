@@ -1,6 +1,7 @@
 const E2eHelpers = require('../util/e2e-helpers');
 const Timeouts = require('../util/timeouts.js');
 const HcaHelpers = require('../util/hca-helpers.js');
+const selectDropdown = E2eHelpers.selectDropdown;
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -14,6 +15,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.form-panel', Timeouts.slow)  // First render of React may be slow.
       .click('.form-panel .usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
+    E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.
@@ -24,21 +26,21 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Birth information page.
     client.expect.element('select[name="veteranBirthMonth"]').to.be.visible;
+    selectDropdown(client, 'veteranBirthMonth', '4');
+    selectDropdown(client, 'veteranBirthDay', '23');
+    selectDropdown(client, 'stateOfBirth', 'OH');
     client
-      .setValue('select[name="veteranBirthMonth"]', 'Apr')
-      .setValue('select[name="veteranBirthDay"]', '23')
       .setValue('input[name="veteranBirthYear"]', '1980')
       .setValue('input[name="ssn"]', '111-22-3333')
       .setValue('input[name="cityOfBirth"]', 'Akron')
-      .setValue('select[name="stateOfBirth"]', 'OH')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/birth-information');
 
     // Demographic information page.
     client.expect.element('select[name="gender"]').to.be.visible;
+    selectDropdown(client, 'gender', 'M');
+    selectDropdown(client, 'maritalStatus', 'Married');
     client
-      .setValue('select[name="gender"]', 'M')
-      .setValue('select[name="maritalStatus"]', 'Married')
       .click('input[name="isAmericanIndianOrAlaskanNative"]')
       .click('input[name="isBlackOrAfricanAmerican"]')
       .click('input[name="isNativeHawaiianOrOtherPacificIslander"]')
@@ -54,8 +56,8 @@ module.exports = E2eHelpers.createE2eTest(
       .setValue('input[name="address"]', '111 S Michigan Ave')
       .setValue('input[name="city"]', 'Chicago');
 
-    HcaHelpers.selectDropdown(client, 'country', 'USA');
-    HcaHelpers.selectDropdown(client, 'country', 'IL');
+    selectDropdown(client, 'country', 'USA');
+    selectDropdown(client, 'state', 'IL');
 
     client
       .setValue('input[name="zip"]', '60603')
@@ -74,15 +76,16 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Military Service Information Page.
     client.expect.element('select[name="lastServiceBranch"]').to.be.visible;
+    selectDropdown(client, 'lastServiceBranch', 'army');
+    selectDropdown(client, 'lastEntryMonth', '10');
+    selectDropdown(client, 'lastEntryDay', '10');
+    selectDropdown(client, 'lastDischargeMonth', '11');
+    selectDropdown(client, 'lastDischargeDay', '11');
+    selectDropdown(client, 'dischargeType', 'honorable');
+
     client
-      .setValue('select[name="lastServiceBranch"]', 'army')
-      .setValue('select[name="lastEntryMonth"]', 'Oct')
-      .setValue('select[name="lastEntryDay"]', '10')
       .setValue('input[name="lastEntryYear"]', '2000')
-      .setValue('select[name="lastDischargeMonth"]', 'Nov')
-      .setValue('select[name="lastDischargeDay"]', '11')
       .setValue('input[name="lastDischargeYear"]', '2004')
-      .setValue('select[name="dischargeType"]', 'honorable')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-service/service-information');
 
@@ -120,17 +123,18 @@ module.exports = E2eHelpers.createE2eTest(
     // Spouse information Page.
     client.expect.element('input[name="fname"]').to.be.visible.before(Timeouts.normal);
 
+    selectDropdown(client, 'suffix', 'Sr.');
+    selectDropdown(client, 'spouseBirthMonth', '8');
+    selectDropdown(client, 'spouseBirthDay', '6');
+    selectDropdown(client, 'marriageMonth', '6');
+    selectDropdown(client, 'marriageDay', '1');
+
     client
       .setValue('input[name="fname"]', 'Anne')
       .setValue('input[name="mname"]', 'Jacqueline')
       .setValue('input[name="lname"]', 'Hathaway')
-      .setValue('select[name="suffix"]', 'Sr.')
       .setValue('input[name="ssn"]', '444-55-6666')
-      .setValue('select[name="spouseBirthMonth"]', 'Aug')
-      .setValue('select[name="spouseBirthDay"]', '6')
       .setValue('input[name="spouseBirthYear"]', '1980')
-      .setValue('select[name="marriageMonth"]', 'Jun')
-      .setValue('select[name="marriageDay"]', '1')
       .setValue('input[name="marriageYear"]', '2010')
       .click('input[name="sameAddress-1"]');
     client.expect.element('input[name="address"]').to.be.visible.before(Timeouts.normal);
@@ -139,8 +143,8 @@ module.exports = E2eHelpers.createE2eTest(
       .setValue('input[name="address"]', '115 S Michigan Ave')
       .setValue('input[name="city"]', 'Chicago');
 
-    HcaHelpers.selectDropdown(client, 'country', 'USA');
-    HcaHelpers.selectDropdown(client, 'country', 'IL');
+    E2eHelpers.selectDropdown(client, 'country', 'USA');
+    E2eHelpers.selectDropdown(client, 'state', 'IL');
 
     client
       .setValue('input[name="zip"]', '60603')
@@ -154,18 +158,19 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('input[name="hasChildrenToReport-0"] + label').to.be.visible;
     client.click('input[name="hasChildrenToReport-0"]');
     client.expect.element('input[name="fname"]').to.be.visible.before(Timeouts.normal);
+    selectDropdown(client, 'suffix', 'Jr.');
+    selectDropdown(client, 'childRelation', 'Son');
+    selectDropdown(client, 'childBirthMonth', '2');
+    selectDropdown(client, 'childBirthDay', '2');
+    selectDropdown(client, 'childBecameDependentMonth', '2');
+    selectDropdown(client, 'childBecameDependentDay', '2');
+
     client
       .setValue('input[name="fname"]', 'Hamnet')
       .setValue('input[name="mname"]', 'Dirtbike')
       .setValue('input[name="lname"]', 'Shakespeare')
-      .setValue('select[name="suffix"]', 'Jr.')
-      .setValue('select[name="childRelation"]', 'Son')
       .setValue('input[name="ssn"]', '777-88-9999')
-      .setValue('select[name="childBirthMonth"]', 'Feb')
-      .setValue('select[name="childBirthDay"]', '2')
       .setValue('input[name="childBirthYear"]', '2012')
-      .setValue('select[name="childBecameDependentMonth"]', 'Feb')
-      .setValue('select[name="childBecameDependentDay"]', '2')
       .setValue('input[name="childBecameDependentYear"]', '2012')
       .click('input[name="childDisabledBefore18-0"]')
       .click('input[name="childAttendedSchoolLastYear-0"]')
@@ -203,9 +208,12 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('input[name="isMedicaidEligible-0"] + label').to.be.visible;
     client
       .click('input[name="isMedicaidEligible-1"]')
-      .click('input[name="isEnrolledMedicarePartA-0"]')
-      .setValue('select[name="medicarePartAEffectiveMonth"]', 'Apr')
-      .setValue('select[name="medicarePartAEffectiveDay"]', '23')
+      .click('input[name="isEnrolledMedicarePartA-0"]');
+
+    selectDropdown(client, 'medicarePartAEffectiveMonth', '4');
+    selectDropdown(client, 'medicarePartAEffectiveDay', '23');
+
+    client
       .setValue('input[name="medicarePartAEffectiveYear"]', '1980')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/medicare');
@@ -223,10 +231,10 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Additional VA Insurance Information Page.
     client.expect.element('select[name="state"]').to.be.visible;
+    selectDropdown(client, 'state', 'IL');
+    selectDropdown(client, 'vaMedicalFacility', '556GA');
     client
       .click('input[name="isEssentialAcaCoverage"]')
-      .setValue('select[name="state"]', 'IL')
-      .setValue('select[name="vaMedicalFacility"]', 'EVANSTON CBOC')
       .click('input[name="wantsInitialVaContact-0"]')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/va-facility');

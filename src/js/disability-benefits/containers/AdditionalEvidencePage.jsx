@@ -9,6 +9,7 @@ import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
+import { getScrollOptions } from '../../common/utils/helpers';
 
 import {
   addFile,
@@ -24,12 +25,8 @@ import {
 } from '../actions';
 
 const scrollToError = () => {
-  Scroll.scroller.scrollTo('uploadError', {
-    duration: 500,
-    offset: -25,
-    delay: 0,
-    smooth: true
-  });
+  const options = getScrollOptions({ offset: -25 });
+  Scroll.scroller.scrollTo('uploadError', options);
 };
 const Element = Scroll.Element;
 

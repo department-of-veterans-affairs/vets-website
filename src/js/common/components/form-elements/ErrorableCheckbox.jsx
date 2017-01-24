@@ -75,6 +75,7 @@ class ErrorableCheckbox extends React.Component {
             onChange={this.handleChange}/>
         <label
             className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
+            name={`${this.props.name}-label`}
             htmlFor={this.inputId}>
               {this.props.label}
               {requiredSpan}

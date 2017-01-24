@@ -10,17 +10,26 @@ module.exports = E2eHelpers.createE2eTest(
     DisabilityHelpers.initClaimsListMock(token);
     DisabilityHelpers.initClaimDetailMocks(token, false, false, false, 3);
 
+    LoginHelpers.logIn(token, client, '/disability-benefits/track-claims', 3);
+
     // Claim list page
-    LoginHelpers.logIn(token, client, '/disability-benefits/track-claims', 3)
+    client
+      .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`);
+
+    E2eHelpers.overrideSmoothScrolling(client);
+
+    // Click consolidated claims button
+    client
       .waitForElementVisible('a.claim-list-item', Timeouts.slow)
       .axeCheck('.main');
 
     client
       .click('a.claims-combined')
-      .waitForElementVisible('.claims-status-upload-header', Timeouts.normal);
+      .waitForElementVisible('.claims-status-upload-header', Timeouts.normal)
+      .axeCheck('.main');
 
     client
-      .axeCheck('.main');
+      .click('.va-modal-inner button.usa-button');
 
     // Claim status tab
     client
@@ -31,7 +40,6 @@ module.exports = E2eHelpers.createE2eTest(
     // claim estimation page
     client
       // have to scroll to trigger all phases to show up
-      .resizeWindow(800, 1200)
       .execute('window.scrollTo(0,8000)')
       .pause(500)
       .waitForElementPresent('.claim-completion-estimation', Timeouts.normal)

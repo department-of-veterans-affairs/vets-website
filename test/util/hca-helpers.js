@@ -1,5 +1,5 @@
 const mock = require('./mock-helpers');
-
+const selectDropdown = require('./e2e-helpers.js').selectDropdown;
 const Timeouts = require('./timeouts.js');
 
 const testValues = {
@@ -15,7 +15,7 @@ const testValues = {
   cityOfBirth: 'Akron',
   stateOfBirth: 'OH',
   veteranDateOfBirth: {
-    month: 'Apr',
+    month: '4',
     day: '23',
     year: '1980'
   },
@@ -27,7 +27,7 @@ const testValues = {
 
   isEssentialAcaCoverage: false,
   facilityState: 'IL',
-  vaMedicalFacility: 'EVANSTON CBOC',
+  vaMedicalFacility: '556GA',
   wantsInitialVaContact: false,
 
   isSpanishHispanicLatino: false,
@@ -59,12 +59,12 @@ const testValues = {
   },
   spouseSocialSecurityNumber: '444-55-6666',
   spouseDateOfBirth: {
-    month: 'Aug',
+    month: '8',
     day: '6',
     year: '1980'
   },
   dateOfMarriage: {
-    month: 'Jun',
+    month: '6',
     day: '3',
     year: '2006'
   },
@@ -92,12 +92,12 @@ const testValues = {
       childRelation: 'Son',
       childSocialSecurityNumber: '777-88-9999',
       childBecameDependent: {
-        month: 'Feb',
+        month: '2',
         day: '2',
         year: '2012'
       },
       childDateOfBirth: {
-        month: 'Feb',
+        month: '2',
         day: '2',
         year: '2012'
       },
@@ -137,19 +137,19 @@ const testValues = {
   isMedicaidEligible: '',
   isEnrolledMedicarePartA: '',
   medicarePartAEffectiveDate: {
-    month: 'Apr',
+    month: '4',
     day: '23',
     year: '1980'
   },
 
   lastServiceBranch: 'army',
   lastEntryDate: {
-    month: 'Oct',
+    month: '10',
     day: '10',
     year: '2000'
   },
   lastDischargeDate: {
-    month: 'Nov',
+    month: '11',
     day: '11',
     year: '2004'
   },
@@ -166,12 +166,6 @@ const testValues = {
   campLejeune: false
 };
 
-function selectDropdown(client, field, value) {
-  client.click(`select[name='${field}']`)
-    .click(`select option[value='${value}']`)
-    .keys(['\uE006']);
-}
-
 function completePersonalInformation(client, data, onlyRequiredFields) {
   client
     .clearValue('input[name="fname"]')
@@ -180,19 +174,18 @@ function completePersonalInformation(client, data, onlyRequiredFields) {
     .setValue('input[name="lname"]', data.veteranFullName.last);
 
   if (!onlyRequiredFields) {
+    selectDropdown(client, 'suffix', data.veteranFullName.suffix);
     client
       .setValue('input[name="mname"]', data.veteranFullName.middle)
-      .setValue('select[name="suffix"]', data.veteranFullName.suffix)
       .setValue('input[name="mothersMaidenName"]', data.mothersMaidenName);
   }
 }
 
 function completeBirthInformation(client, data, onlyRequiredFields) {
+  client.pause(1000);
+  selectDropdown(client, 'veteranBirthMonth', data.veteranDateOfBirth.month);
+  selectDropdown(client, 'veteranBirthDay', data.veteranDateOfBirth.day);
   client
-    .clearValue('select[name="veteranBirthMonth"]')
-    .setValue('select[name="veteranBirthMonth"]', data.veteranDateOfBirth.month)
-    .clearValue('select[name="veteranBirthDay"]')
-    .setValue('select[name="veteranBirthDay"]', data.veteranDateOfBirth.day)
     .clearValue('input[name="veteranBirthYear"]')
     .setValue('input[name="veteranBirthYear"]', data.veteranDateOfBirth.year)
     .clearValue('input[name="ssn"]')
@@ -200,16 +193,15 @@ function completeBirthInformation(client, data, onlyRequiredFields) {
 
   if (!onlyRequiredFields) {
     client
-      .setValue('input[name="cityOfBirth"]', data.cityOfBirth)
-      .setValue('select[name="stateOfBirth"]', data.stateOfBirth);
+      .setValue('input[name="cityOfBirth"]', data.cityOfBirth);
+
+    selectDropdown(client, 'stateOfBirth', data.stateOfBirth);
   }
 }
 
 function completeDemographicInformation(client, data, onlyRequiredFields) {
-  client
-    .setValue('select[name="gender"]', data.gender)
-    .clearValue('select[name="maritalStatus"]')
-    .setValue('select[name="maritalStatus"]', data.maritalStatus);
+  selectDropdown(client, 'gender', data.gender);
+  selectDropdown(client, 'maritalStatus', data.maritalStatus);
 
   if (!onlyRequiredFields) {
     client
@@ -252,23 +244,17 @@ function completeVeteranContactInformation(client, data, onlyRequiredFields) {
 }
 
 function completeMilitaryService(client, data, onlyRequiredFields) {
+  selectDropdown(client, 'lastServiceBranch', data.lastServiceBranch);
+  selectDropdown(client, 'lastEntryMonth', data.lastEntryDate.month);
+  selectDropdown(client, 'lastEntryDay', data.lastEntryDate.day);
+  selectDropdown(client, 'lastDischargeMonth', data.lastDischargeDate.month);
+  selectDropdown(client, 'lastDischargeDay', data.lastDischargeDate.day);
+  selectDropdown(client, 'dischargeType', data.dischargeType);
   client
-    .clearValue('select[name="lastServiceBranch"]')
-    .setValue('select[name="lastServiceBranch"]', data.lastServiceBranch)
-    .clearValue('select[name="lastEntryMonth"]')
-    .setValue('select[name="lastEntryMonth"]', data.lastEntryDate.month)
-    .clearValue('select[name="lastEntryDay"]')
-    .setValue('select[name="lastEntryDay"]', data.lastEntryDate.day)
     .clearValue('input[name="lastEntryYear"]')
     .setValue('input[name="lastEntryYear"]', data.lastEntryDate.year)
-    .clearValue('select[name="lastDischargeMonth"]')
-    .setValue('select[name="lastDischargeMonth"]', data.lastDischargeDate.month)
-    .clearValue('select[name="lastDischargeDay"]')
-    .setValue('select[name="lastDischargeDay"]', data.lastDischargeDate.day)
     .clearValue('input[name="lastDischargeYear"]')
-    .setValue('input[name="lastDischargeYear"]', data.lastDischargeDate.year)
-    .clearValue('select[name="dischargeType"]')
-    .setValue('select[name="dischargeType"]', data.dischargeType);
+    .setValue('input[name="lastDischargeYear"]', data.lastDischargeDate.year);
 
   if (!onlyRequiredFields) {
     onlyRequiredFields;
@@ -295,6 +281,10 @@ function completeFinancialDisclosure(client, data, onlyRequiredFields) {
 }
 
 function completeSpouseInformation(client, data, onlyRequiredFields) {
+  selectDropdown(client, 'spouseBirthMonth', data.spouseDateOfBirth.month);
+  selectDropdown(client, 'spouseBirthDay', data.spouseDateOfBirth.day);
+  selectDropdown(client, 'marriageMonth', data.dateOfMarriage.month);
+  selectDropdown(client, 'marriageDay', data.dateOfMarriage.day);
   client
     .clearValue('input[name="fname"]')
     .setValue('input[name="fname"]', data.spouseFullName.first)
@@ -302,20 +292,12 @@ function completeSpouseInformation(client, data, onlyRequiredFields) {
     .setValue('input[name="lname"]', data.spouseFullName.last)
     .clearValue('input[name="ssn"]')
     .setValue('input[name="ssn"]', data.spouseSocialSecurityNumber)
-    .clearValue('select[name="spouseBirthMonth"]')
-    .setValue('select[name="spouseBirthMonth"]', data.spouseDateOfBirth.month)
-    .clearValue('select[name="spouseBirthDay"]')
-    .setValue('select[name="spouseBirthDay"]', data.spouseDateOfBirth.day)
     .clearValue('input[name="spouseBirthYear"]')
     .setValue('input[name="spouseBirthYear"]', data.spouseDateOfBirth.year)
-    .clearValue('select[name="marriageMonth"]')
-    .setValue('select[name="marriageMonth"]', data.dateOfMarriage.month)
-    .clearValue('select[name="marriageDay"]')
-    .setValue('select[name="marriageDay"]', data.dateOfMarriage.day)
     .clearValue('input[name="marriageYear"]')
     .setValue('input[name="marriageYear"]', data.dateOfMarriage.year)
     .click('input[name="sameAddress-1"]');
-  client.expect.element('input[name="address"]').to.be.visible.before(Timeouts.normal);
+  client.expect.element('input[name="address"]').to.be.visible.before(Timeouts.slow);
 
   client
     .clearValue('input[name="address"]')
@@ -331,9 +313,9 @@ function completeSpouseInformation(client, data, onlyRequiredFields) {
     .setValue('input[name="zip"]', data.spouseAddress.zipcode);
 
   if (!onlyRequiredFields) {
+    selectDropdown(client, 'suffix', 'Sr.');
     client
       .setValue('input[name="mname"]', 'Jacqueline')
-      .setValue('select[name="suffix"]', 'Sr.')
       .click('input[name="sameAddress-1"]')
       .click('input[name="cohabitedLastYear-0"]')
       .click('input[name="provideSupportLastYear-0"]');
@@ -361,23 +343,24 @@ function completeAnnualIncomeInformation(client, data, onlyRequiredFields) {
 function completeChildInformation(client, data, onlyRequiredFields) {
   client.click('input[name="hasChildrenToReport-0"]');
   client.expect.element('input[name="fname"]').to.be.visible.before(Timeouts.normal);
+  selectDropdown(client, 'childRelation', data.children[0].childRelation);
+  selectDropdown(client, 'childBirthMonth', data.children[0].childDateOfBirth.month);
+  selectDropdown(client, 'childBirthDay', data.children[0].childDateOfBirth.day);
+  selectDropdown(client, 'childBecameDependentMonth', data.children[0].childBecameDependent.month);
+  selectDropdown(client, 'childBecameDependentDay', data.children[0].childBecameDependent.day);
+
   client
     .setValue('input[name="fname"]', data.children[0].childFullName.first)
     .setValue('input[name="lname"]', data.children[0].childFullName.last)
-    .setValue('select[name="childRelation"]', data.children[0].childRelation)
     .setValue('input[name="ssn"]', data.children[0].childSocialSecurityNumber)
-    .setValue('select[name="childBirthMonth"]', data.children[0].childDateOfBirth.month)
-    .setValue('select[name="childBirthDay"]', data.children[0].childDateOfBirth.day)
     .setValue('input[name="childBirthYear"]', data.children[0].childDateOfBirth.year)
-    .setValue('select[name="childBecameDependentMonth"]', data.children[0].childBecameDependent.month)
-    .setValue('select[name="childBecameDependentDay"]', data.children[0].childBecameDependent.day)
     .setValue('input[name="childBecameDependentYear"]', data.children[0].childBecameDependent.year)
     .setValue('input[name="childEducationExpenses"]', '6000');
 
   if (!onlyRequiredFields) {
+    selectDropdown(client, 'suffix', 'Jr.');
     client
       .setValue('input[name="mname"]', 'Dirtbike')
-      .setValue('select[name="suffix"]', 'Jr.')
       .click('input[name="childDisabledBefore18-0"]')
       .click('input[name="childAttendedSchoolLastYear-0"]')
       .click('input[name="childCohabitedLastYear-1"]')
@@ -403,9 +386,9 @@ function completeMedicareAndMedicaid(client, data, onlyRequiredFields) {
     client
       .click('input[name="isEnrolledMedicarePartA-0"]');
 
+    selectDropdown(client, 'medicarePartAEffectiveMonth', data.medicarePartAEffectiveDate.month);
+    selectDropdown(client, 'medicarePartAEffectiveDay', data.medicarePartAEffectiveDate.day);
     client
-      .setValue('select[name="medicarePartAEffectiveMonth"]', data.medicarePartAEffectiveDate.month)
-      .setValue('select[name="medicarePartAEffectiveDay"]', data.medicarePartAEffectiveDate.day)
       .setValue('input[name="medicarePartAEffectiveYear"]', data.medicarePartAEffectiveDate.year);
   }
 }
@@ -424,9 +407,8 @@ function completeInsuranceInformation(client, data, onlyRequiredFields) {
 }
 
 function completeVaInsuranceInformation(client, data, onlyRequiredFields) {
-  client
-    .setValue('select[name="state"]', data.facilityState)
-    .setValue('select[name="vaMedicalFacility"]', data.vaMedicalFacility);
+  selectDropdown(client, 'state', data.facilityState);
+  selectDropdown(client, 'vaMedicalFacility', data.vaMedicalFacility);
 
   if (!onlyRequiredFields) {
     client
@@ -463,6 +445,5 @@ module.exports = {
   completeMedicareAndMedicaid,
   completeInsuranceInformation,
   completeVaInsuranceInformation,
-  initApplicationSubmitMock,
-  selectDropdown
+  initApplicationSubmitMock
 };

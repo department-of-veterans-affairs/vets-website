@@ -13,7 +13,9 @@ module.exports = E2eHelpers.createE2eTest(
       .assert.title('Apply for Health Care: Vets.gov')
       .waitForElementVisible('.form-panel', Timeouts.slow)  // First render of React may be slow.
       .click('.form-panel .usa-button-primary');
+
     E2eHelpers.overrideVetsGovApi(client);
+    E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.

@@ -13,8 +13,10 @@ function nextSection(client) {
 }
 
 function verifyEdit(client, expectedValue) {
+  const selector = '.review tr:nth-child(1) td:nth-child(2)';
   client.click('.usa-button-outline');
-  client.expect.element('.review tr:nth-child(1) td:nth-child(2)').text.to.equal(expectedValue);
+  client.waitForElementVisible(selector, Timeouts.normal);
+  client.expect.element(selector).text.to.equal(expectedValue);
   nextSection(client);
 }
 
@@ -30,6 +32,8 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.form-panel', Timeouts.slow)  // First render of React may be slow.
       .click('.form-panel .usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
+    E2eHelpers.overrideSmoothScrolling(client);
+
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.
@@ -131,7 +135,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Edit birth info
     vetInfoCopy.veteranDateOfBirth = {
-      month: 'Jan',
+      month: '1',
       day: '20',
       year: ''
     };
@@ -164,7 +168,9 @@ module.exports = E2eHelpers.createE2eTest(
     verifyEdit(client, 'Coast Guard');
 
     nextSection(client);
+
     nextSection(client);
+
     nextSection(client);
 
     // Edit spouse information
@@ -173,8 +179,19 @@ module.exports = E2eHelpers.createE2eTest(
     HcaHelpers.completeSpouseInformation(client, vetInfoCopy, true);
     verifyEdit(client, 'Anne Hathaway');
 
-    client.click('[name=privacyAgreement]');
-    client.click('.form-panel .usa-button-primary');
+    client
+      .pause(500)
+      .execute((selector) => {
+        document.querySelector(selector).scrollIntoView();
+      }, ['input[name="privacyAgreement"]'])
+      .click('input[name="privacyAgreement"]')
+      .click('.form-panel .usa-button-primary');
+
+    client.getLog('browser', (result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+    });
+
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);
 
