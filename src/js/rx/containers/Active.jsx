@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import _ from 'lodash';
 
+import ErrorMessages from '../components/ErrorMessages';
+
 import {
   loadPrescriptions,
   sortPrescriptions
@@ -96,7 +98,10 @@ class Active extends React.Component {
     ];
 
     return (
-      <div className="rx-view-toggle show-for-medium-up" ref={(elem) => { this.viewToggle = elem; }}>View:&nbsp;
+      <div
+          className="rx-view-toggle"
+          ref={(elem) => { this.viewToggle = elem; }}>
+        View:
         <ul>
           {toggles.map(t => {
             const classes = classnames({
@@ -118,9 +123,10 @@ class Active extends React.Component {
       content = <LoadingIndicator message="Loading your prescriptions..."/>;
     } else if (this.props.prescriptions) {
       const currentSort = this.props.sort;
+      let prescriptionsView;
 
       if (this.state.view === 'list') {
-        content = (
+        prescriptionsView = (
           <PrescriptionTable
               handleSort={this.handleSort}
               currentSort={currentSort}
@@ -129,29 +135,33 @@ class Active extends React.Component {
               glossaryModalHandler={this.props.openGlossaryModal}/>
         );
       } else {
-        content = (
-          <div>
-            <p className="rx-tab-explainer">Your active VA prescriptions.</p>
-            <SortMenu
-                onChange={this.handleSort}
-                onClick={this.handleSort}
-                options={sortOptions}
-                selected={currentSort}/>
-            <PrescriptionList
-                items={this.props.prescriptions}
-                // If we're sorting by facility, tell PrescriptionList to group 'em.
-                grouped={currentSort.value === 'facilityName'}
-                refillModalHandler={this.props.openRefillModal}
-                glossaryModalHandler={this.props.openGlossaryModal}/>
-          </div>
+        prescriptionsView = (
+          <PrescriptionList
+              items={this.props.prescriptions}
+              // If we're sorting by facility, tell PrescriptionList to group 'em.
+              grouped={currentSort.value === 'facilityName'}
+              refillModalHandler={this.props.openRefillModal}
+              glossaryModalHandler={this.props.openGlossaryModal}/>
         );
       }
+
+      content = (
+        <div>
+          <p className="rx-tab-explainer">Your active VA prescriptions</p>
+          {this.renderViewSwitch()}
+          {this.state.view === 'list' || <SortMenu
+              onChange={this.handleSort}
+              onClick={this.handleSort}
+              options={sortOptions}
+              selected={currentSort}/>}
+          {prescriptionsView}
+        </div>
+      );
     } else {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
           We couldn't retrieve your prescriptions.
-          Please refresh this page or try again later.
-          If this problem persists, please call the Vets.gov Help Desk
+          Please refresh this page or try again later. <ErrorMessages errors={this.props.errors}/> If this problem persists, please call the Vets.gov Help Desk
           at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
         </p>
       );
@@ -159,7 +169,6 @@ class Active extends React.Component {
 
     return (
       <div id="rx-active" className="va-tab-content">
-        {this.renderViewSwitch()}
         {content}
       </div>
     );

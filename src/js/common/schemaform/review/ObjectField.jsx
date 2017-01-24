@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash/fp';
 
 import {
   getDefaultFormState,
@@ -51,20 +52,28 @@ class ObjectField extends React.Component {
     const orderedProperties = orderProperties(properties, uiSchema['ui:order']);
     const isRoot = idSchema.$id === 'root';
 
-    const renderedProperties = orderedProperties.map((propName, index) => {
-      return (
-        <SchemaField key={index}
-            name={propName}
-            schema={schema.properties[propName]}
-            uiSchema={uiSchema[propName]}
-            errorSchema={errorSchema[propName]}
-            idSchema={idSchema[propName]}
-            onChange={f => f}
-            onBlur={f => f}
-            formData={formData[propName]}
-            registry={this.props.registry}/>
-      );
-    });
+    const renderedProperties = orderedProperties
+      // you can exclude fields from showing up on the review page in the form config, so remove those
+      // before rendering the fields
+      .filter(propName => {
+        const hideOnReviewIfFalse = _.get([propName, 'ui:options', 'hideOnReviewIfFalse'], uiSchema) === true;
+        const hideOnReview = _.get([propName, 'ui:options', 'hideOnReview'], uiSchema) === true;
+        return (!hideOnReviewIfFalse || !!formData[propName]) && !hideOnReview;
+      })
+      .map((propName, index) => {
+        return (
+          <SchemaField key={index}
+              name={propName}
+              schema={schema.properties[propName]}
+              uiSchema={uiSchema[propName]}
+              errorSchema={errorSchema[propName]}
+              idSchema={idSchema[propName]}
+              onChange={f => f}
+              onBlur={f => f}
+              formData={formData[propName]}
+              registry={this.props.registry}/>
+        );
+      });
 
     if (isRoot) {
       return (
