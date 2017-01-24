@@ -14,19 +14,19 @@ If you had contact with mustard gas (also known as sulfur mustard, yperite, or n
 
 You may be able to get disability benefits if you have a disability believed to be caused by contact with mustard gas or lewisite and your military record shows you had contact with mustard gas or lewisite.
 
-**If you were in the Army** and served in:
+**If you were in the Army** and served in these places:
 - Bari, Italy
 - Bushnell, FL
 - Camp Lejeune, NC
 - Camp Sibert, AL
 - Dugway Proving Ground, UT
 - Edgewood Arsenal, MD
-- Naval Research Lab, Washington D.C.
+- Naval Research Lab, Washington, DC
 - Ondal, India
-- Rocking Mountain Arsenal, CO
+- Rocky Mountain Arsenal, CO
 - San Jose Island, Panama Canal Zone
 
-**If you were in the Navy** and served in:
+**If you were in the Navy** and served in these places:
 - Bari, Italy
 - Camp Lejeune, NC
 - Charleston, SC
@@ -34,12 +34,14 @@ You may be able to get disability benefits if you have a disability believed to 
 - Hart's Island, NY
 - Naval Training Center, Bainbridge, MD
 - Naval Research Laboratory, VA
-- Naval Research Lab, Washington D.C.
-- USS Eagle Boat No. 58
+- Naval Research Laboratory, Washington, DC
+- USS Eagle Boat 58
 
-**Some Service members** who took part in testing in:
- - Finschhafen, New Guinea, and Porton Down, England
- - Select merchant seaman were also exposed or killed at Bari, Italy
+**Some Servicemembers** who took part in testing in these places:
+ - Finschhafen, New Guinea
+ - Porton Down, England
+ 
+**Select merchant seaman** were also exposed at Bari, Italy.
 
 <br>
 
