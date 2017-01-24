@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import ButtonBack from './buttons/ButtonBack';
 import ButtonDelete from './buttons/ButtonDelete';
@@ -51,7 +52,7 @@ class ThreadHeader extends React.Component {
     // since they can't be moved to other folders.
     if (folderName !== 'Sent' && folderName !== 'Drafts') {
       deleteButton =
-        <ButtonDelete onClickHandler={this.props.onDeleteMessage}/>;
+        <ButtonDelete onClick={this.props.onDeleteMessage}/>;
 
       const { folders, moveToIsOpen } = this.props;
 
@@ -67,8 +68,13 @@ class ThreadHeader extends React.Component {
       );
     }
 
-    const titleSection = !isNewMessage && (
-      <div className="messaging-thread-title">
+    const titleClass = classNames({
+      'messaging-thread-title': true,
+      'show-for-small-only': isNewMessage
+    });
+
+    const titleSection = (
+      <div className={titleClass}>
         <div className="messaging-thread-controls">
           {toggleThread}
           {deleteButton}

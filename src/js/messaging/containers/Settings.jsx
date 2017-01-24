@@ -28,7 +28,7 @@ export class Settings extends React.Component {
           <td>
             <ButtonDelete
                 className="va-icon-link"
-                onClickHandler={() => this.props.deleteFolder(folder)}/>
+                onClick={() => this.props.deleteFolder(folder)}/>
           </td>
         </tr>
       );
@@ -46,7 +46,7 @@ export class Settings extends React.Component {
           <h2>Settings</h2>
         </div>
         <div id="messaging-settings">
-          <table className="usa-table-borderless">
+          <table className="usa-table-borderless va-table-list">
             <thead>
               <tr>
                 <th>Folder name</th>
@@ -66,8 +66,9 @@ export class Settings extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const msgState = state.health.msg;
   const folders = [];
-  state.folders.data.items.forEach((folder) => {
+  msgState.folders.data.items.forEach((folder) => {
     if (folder.folderId > 0) {
       folders.push(folder);
     }

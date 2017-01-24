@@ -58,10 +58,11 @@ class DisabilityBenefitsApp extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const claimsState = state.disability.status;
   return {
-    available: state.claimSync.available,
-    synced: state.claimSync.synced,
-    authorized: state.claimSync.authorized
+    available: claimsState.claimSync.available,
+    synced: claimsState.claimSync.synced,
+    authorized: claimsState.claimSync.authorized
   };
 }
 

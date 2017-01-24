@@ -12,10 +12,17 @@ class FolderNav extends React.Component {
     this.goToFolderSettings = this.goToFolderSettings.bind(this);
     this.makeFolderLink = this.makeFolderLink.bind(this);
     this.makeMyFolders = this.makeMyFolders.bind(this);
+    this.handleCreateNewFolder = this.handleCreateNewFolder.bind(this);
   }
 
   goToFolderSettings() {
+    this.props.toggleFolderNav();
     this.context.router.push('/settings');
+  }
+
+  handleCreateNewFolder() {
+    this.props.toggleFolderNav();
+    this.props.onCreateNewFolder();
   }
 
   makeFolderLink(folder) {
@@ -78,7 +85,7 @@ class FolderNav extends React.Component {
 
     return (
       <li key="myFolders">
-        <a className={myFoldersClass} onClick={this.props.onToggleFolders}>
+        <a role="button" tabIndex="0" className={myFoldersClass} onClick={this.props.onToggleFolders}>
           <span>My folders</span>
           <i className={iconClass}></i>
         </a>
@@ -111,7 +118,7 @@ class FolderNav extends React.Component {
     const folderActions = (
       <li className="messaging-folder-nav-actions">
         <ButtonManageFolders onClick={this.goToFolderSettings}/>
-        <ButtonCreateFolder onClick={this.props.onCreateNewFolder}/>
+        <ButtonCreateFolder onClick={this.handleCreateNewFolder}/>
       </li>
     );
 
@@ -140,7 +147,8 @@ FolderNav.propTypes = {
   ).isRequired,
   isExpanded: React.PropTypes.bool,
   onCreateNewFolder: React.PropTypes.func,
-  onToggleFolders: React.PropTypes.func
+  onToggleFolders: React.PropTypes.func,
+  toggleFolderNav: React.PropTypes.func,
 };
 
 export default FolderNav;

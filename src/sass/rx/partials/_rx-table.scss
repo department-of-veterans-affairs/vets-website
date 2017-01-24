@@ -1,4 +1,6 @@
 .rx-table {
+  margin: 0;
+
   th, td {
     border-color: $color-gray-light;
   }
@@ -22,27 +24,6 @@
     td {
       &:before {
         font-weight: bold;
-      }
-
-      &:nth-child(2) {
-        &:before{
-          content: 'Submit Date: ',
-        }
-      }
-      &:nth-child(3) {
-        &:before{
-          content: 'Fill Date: ',
-        }
-      }
-      &:nth-child(4) {
-        &:before{
-          content: 'Facility: ',
-        }
-      }
-      &:nth-child(5) {
-        &:before{
-          content: 'Refills Left: ',
-        }
       }
     }
   }

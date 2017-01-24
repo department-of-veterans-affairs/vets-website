@@ -1,71 +1,49 @@
 .rx-sort {
   display: block;
 
-  * + ul {
-    margin: 0 0 0 .5rem;
-  }
-
-  ul, li {
+  label, select, ul, li {
     display: inline-block;
   }
 
-  li {
-    padding: 0.5em;
+  ul {
+    margin: 0 0 0 .75rem;;
+    padding: 0;
   }
 
-  li + li {
-    &:before {
-      content: '|';
-      margin-right: 0.5em;
-      margin-left: -0.25em;
+  li {
+    margin: 0 .75rem;
+
+    & + li {
+      &:before {
+        content: '|';
+        margin-right: .75rem;
+        margin-left: -.75rem;
+      }
     }
   }
 
   label {
-    display: inline-block;
-    margin-top: 0;
+    margin: 0 1.5rem 0 0;
   }
 
-  select {
-    display: inline-block;
-    margin: 0 0.5em;
+  @media (max-width: $medium-screen) {
+    label, ul {
+      display: block;
+      margin: 0;
+    }
+
+    li:first-child {
+      margin-left: 0;
+    }
+
+    select {
+      display: block;
+      margin: 1.4rem 0;
+    }
   }
 }
 
 .rx-sort-active {
   font-weight: bold;
   text-decoration: none;
-}
-
-@media screen and (max-width: $medium-screen) {
-  .rx-sort {
-    width: 100%;
-
-    li {
-      margin-top: 0.5em;
-    }
-  }
-}
-
-// TODO(crew) Commit to core
-.va-list-ib {
-  display: inline-block;
-  padding: 0;
-
-  li {
-    display: inherit;
-
-    &::before {
-      content: '';
-      display: none;
-    }
-
-    &:nth-child(even) {
-      &::before,
-      &::after {
-        content: '\a0\a0|\a0\a0';
-        display: inline-block;
-      }
-    }
-  }
 }
