@@ -151,18 +151,6 @@ class ObjectField extends React.Component {
     try {
       const properties = Object.keys(schema.properties);
       orderedProperties = this.orderAndFilterProperties(properties);
-      // orderedProperties = _.flow(
-      //   (props) => orderProperties(props, uiSchema['ui:order']),
-      //   _.groupBy((item) => {
-      //     const expandUnderField = _.get([item, 'ui:options', 'expandUnder'], uiSchema);
-      //     return expandUnderField || item;
-      //   }),
-      //   _.values
-      // )(properties);
-      // orderedProperties = _.values(_.groupBy((item) => {
-      //   const expandUnderField = _.get([item, 'ui:options', 'expandUnder'], uiSchema);
-      //   return expandUnderField || item;
-      // }, orderProperties(properties, uiSchema['ui:order'])));
     } catch (err) {
       return (
         <div>
