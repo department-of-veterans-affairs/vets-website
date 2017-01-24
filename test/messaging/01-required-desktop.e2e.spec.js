@@ -2,6 +2,7 @@ const E2eHelpers = require('../util/e2e-helpers');
 const Timeouts = require('../util/timeouts.js');
 const MessagingHelpers = require('../util/messaging-helpers');
 const LoginHelpers = require('../util/login-helpers');
+const selectDropdown = E2eHelpers.selectDropdown;
 
 if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
   module.exports = E2eHelpers.createE2eTest(
@@ -45,13 +46,9 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .click('#messaging-nav .messaging-compose-button')
         .waitForElementVisible('textarea[name="messageText"]', Timeouts.normal);
       // select a recipient in the compose form
-      client.click('select[name=\'messageRecipient\']')
-        .click('select option[value=\'0\']')
-        .keys(['\uE006']);
-      // select category
-      client.click('select[name=\'messageCategory\']')
-        .click('select option[value=\'APPOINTMENTS\']')
-        .keys(['\uE006']);
+      selectDropdown(client, 'messageRecipient', '0');
+      selectDropdown(client, 'messageCategory', 'APPOINTMENTS');
+
       // set message body
       client.setValue('textarea[name="messageText"]', 'Test');
       // send message successfully

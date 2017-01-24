@@ -10,6 +10,7 @@ import Nav from '../../common/components/Nav.jsx';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp, setAttemptedSubmit } from '../actions';
 import { veteranToApplication } from '../../common/model/veteran';
+import { getScrollOptions } from '../../common/utils/helpers';
 import * as validations from '../utils/validations';
 import { chapters } from '../routes';
 
@@ -100,11 +101,7 @@ class HealthCareApp extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo('topScrollElement', {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    });
+    scroller.scrollTo('topScrollElement', getScrollOptions());
   }
 
   handleContinue() {

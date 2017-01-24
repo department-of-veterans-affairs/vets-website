@@ -15,10 +15,15 @@ export default function initReact(onDOMContentLoaded) {
 
   // Create a Vets.gov global that all code can use. This is mostly useful for overrides for
   // think like api URL endpoints during testing.
-  window.VetsGov = {
+  window.VetsGov = window.VetsGov || {
     api: {
       url: '',  // API server. Evetually should be 'https://api.vets.gov' in production.
     },
+    scroll: { // Default scroll settings.  These are overridden by our E2E tests.
+      duration: 500,
+      delay: 0,
+      smooth: true
+    }
   };
 
   // eslint-disable-next-line scanjs-rules/call_addEventListener

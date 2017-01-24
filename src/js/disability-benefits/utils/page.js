@@ -3,13 +3,10 @@ import Scroll from 'react-scroll';
 const scroller = Scroll.animateScroll;
 
 export const basename = window.location.pathname.startsWith('/disability-benefits') ? '/disability-benefits/track-claims' : '/track-claims';
+import { getScrollOptions } from '../../common/utils/helpers';
 
 export function scrollToTop() {
-  scroller.scrollToTop({
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
+  scroller.scrollToTop(getScrollOptions());
 }
 
 export function setFocus(selector) {
