@@ -112,6 +112,7 @@
     "metalsmith-permalinks": "^0.5.0",
     "metalsmith-redirect": "^2.1.0",
     "metalsmith-sitemap": "^1.0.0",
+    "metalsmith-text-replace": "^1.0.1",
     "metalsmith-watch": "^1.0.3",
     "metalsmith-webpack": "^1.0.3",
     "metalsmith-webpack-dev-server": "^1.0.0",
@@ -160,6 +161,7 @@
     "uswds": "^0.10.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#ae08be8e67ac550f2fd400445f3c89c324fa9a79",
     "webpack": "^1.13.1",
+    "webpack-manifest-plugin": "^1.1.0",
     "whatwg-fetch": "http://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-1.0.0.tgz",
     "winston": "^2.2.0"
   },

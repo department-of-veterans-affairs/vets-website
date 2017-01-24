@@ -15,6 +15,7 @@ const markdown = require('metalsmith-markdownit');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
+const textReplace = require('metalsmith-text-replace');
 const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
@@ -267,6 +268,45 @@ if (options.watch) {
   }));
 
   smith.use(webpack(webpackConfig));
+}
+
+if (options.buildtype !== 'development') {
+  //
+  // In non-development modes, we add hashes to the names of asset files in order to support
+  // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
+  // files, so we have to replace the references to those files in HTML and CSS files after the
+  // rest of the build has completed. This is done by reading in a manifest file created by
+  // WebPack that maps the original file names to their hashed versions.
+  smith.use(function(files, metalsmith, done) {
+    var manifestKey = Object.keys(files).find(function(filename) {
+      return filename.match(/file-manifest.json$/) !== null;
+    });
+    var originalManifest = JSON.parse(files[manifestKey].contents.toString());
+
+    var manifest = {};
+    Object.keys(originalManifest).forEach(function(originalManifestKey) {
+      var matchData = originalManifestKey.match(/(.*)\.js$/);
+      if (matchData !== null) {
+        var newKey = `${matchData[1]}.entry.js`;
+        manifest[newKey] = originalManifest[originalManifestKey];
+      } else {
+        manifest[originalManifestKey] = originalManifest[originalManifestKey];
+      }
+    });
+
+    Object.keys(files).forEach(function(filename) {
+      if (filename.match(/\.(html|css)$/) !== null) {
+        Object.keys(manifest).forEach(function(originalAssetFilename) {
+          var newAssetFilename = manifest[originalAssetFilename];
+          var file = files[filename];
+          var contents = file.contents.toString();
+          var regex = new RegExp(originalAssetFilename, 'g');
+          file.contents = new Buffer(contents.replace(regex, newAssetFilename));
+        });
+      }
+    });
+    done();
+  });
 }
 
 smith.use(redirect({
