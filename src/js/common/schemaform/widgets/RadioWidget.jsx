@@ -11,7 +11,7 @@ export default function RadioWidget({
   const { enumOptions } = options;
   return (
     <div>{
-      enumOptions.filter(o => typeof o.value !== 'undefined').map((option, i) => {
+      enumOptions.map((option, i) => {
         const checked = option.value === value;
         return (
           <div className="form-radio-buttons" key={i}>

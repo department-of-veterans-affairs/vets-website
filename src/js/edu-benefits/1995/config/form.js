@@ -37,9 +37,6 @@ const formConfig = {
               'ui:title': 'File number',
               'ui:errorMessages': {
                 pattern: 'File number must be 8 digits and (optionally) start with C'
-              },
-              'ui:options': {
-                expandUnder: 'noSSN'
               }
             }
           },
@@ -89,8 +86,8 @@ const formConfig = {
             properties: {
               benefitsSelected: {
                 type: 'string',
-                'enum': [undefined, ...Object.keys(benefitsLabels)],
-                enumNames: [undefined, ..._.values(benefitsLabels)]
+                'enum': Object.keys(benefitsLabels),
+                enumNames: _.values(benefitsLabels)
               }
             }
           }
