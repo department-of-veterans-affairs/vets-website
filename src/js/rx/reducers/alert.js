@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import ErrorMessages from '../components/ErrorMessages';
 
 const initialState = {
   content: '',
@@ -24,10 +25,13 @@ export default function alert(state = initialState, action) {
 
       return {
         content: (
-          <b>
-            Could not request a refill for <Link to={`/${rx.prescriptionId}`}>
-            {rx.prescriptionName}</Link>.
-          </b>
+          <div>
+            <b>
+              Could not request a refill for <Link to={`/${rx.prescriptionId}`}>
+              {rx.prescriptionName}</Link>.
+            </b>
+            <ErrorMessages errors={action.errors}/>
+          </div>
         ),
         status: 'error',
         visible: true

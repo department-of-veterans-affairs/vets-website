@@ -1,31 +1,31 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-export function getPageList(routes) {
+export function getPageList(routes, prefix = '') {
   return routes.map(route => {
     const obj = {
-      name: route.props.path,
-      label: route.props.name
+      name: `${prefix}${route.path}`,
+      label: route.name
     };
-    if (route.props.depends) {
-      obj.depends = route.props.depends;
+    if (route.depends) {
+      obj.depends = route.depends;
     }
     return obj;
   }).filter(page => page.name !== '/submit-message');
 }
 
-export function groupPagesIntoChapters(routes) {
+export function groupPagesIntoChapters(routes, prefix = '') {
   const pageList = routes
-    .filter(route => route.props.chapter)
+    .filter(route => route.chapter)
     .map(page => {
       const obj = {
-        name: page.props.name,
-        chapter: page.props.chapter,
-        path: page.props.path
+        name: page.name,
+        chapter: page.chapter,
+        path: `${prefix}${page.path}`,
       };
 
-      if (page.props.depends) {
-        obj.depends = page.props.depends;
+      if (page.depends) {
+        obj.depends = page.depends;
       }
 
       return obj;

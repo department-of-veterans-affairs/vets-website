@@ -29,7 +29,7 @@ const countries = [
   { value: 'BWA', label: 'Botswana' },
   { value: 'BVT', label: 'Bouvet Island' },
   { value: 'BRA', label: 'Brazil' },
-  { value: 'IOT', label: 'British' },
+  { value: 'IOT', label: 'British Indian Ocean Territories' },
   { value: 'BRN', label: 'Brunei Darussalam' },
   { value: 'BGR', label: 'Bulgaria' },
   { value: 'BFA', label: 'Burkina Faso' },
@@ -318,6 +318,9 @@ const states = {
     { label: 'American Samoa', value: 'AS' },
     { label: 'Arizona', value: 'AZ' },
     { label: 'Arkansas', value: 'AR' },
+    { label: 'Armed Forces Americas (AA)', value: 'AA' },
+    { label: 'Armed Forces Europe (AE)', value: 'AE' },
+    { label: 'Armed Forces Pacific (AP)', value: 'AP' },
     { label: 'California', value: 'CA' },
     { label: 'Colorado', value: 'CO' },
     { label: 'Connecticut', value: 'CT' },
@@ -374,6 +377,10 @@ const states = {
     { label: 'Wyoming', value: 'WY' }
   ]
 };
+
+states.USA_OTHER = states.USA
+  .concat([{ label: 'Other', value: 'Other' }])
+  .sort((a, b) => a.label.localeCompare(b.label));
 
 const suffixes = [
   'Jr.',

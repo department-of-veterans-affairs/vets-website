@@ -93,9 +93,10 @@
   margin: 2.5em 0;
 }
 
-a.va-crisis-line {
+.va-crisis-line {
   background: $color-gray-lightest url(/img/arrow-down.png) no-repeat calc(100% - 0.5em) center;
   background-size: .8em auto;
+  color: $color-base;
   margin: 0;
   text-align: left;
   font-size: 1em;
@@ -104,10 +105,15 @@ a.va-crisis-line {
   align-items: center;
   text-decoration: none;
   font-weight: bold;
-  padding-right: 26px;
+  padding: 0 26px 0 0;
   border-radius: 0 0 0.2em 0.2em;
 
-  span.vcl {
+  &:hover {
+    color: $color-base;
+    background-color: inherit;
+  }
+
+  .vcl {
     content: "";
     background: url(/img/vcl-logo.png) no-repeat right 29%;
     background-size: 100%;

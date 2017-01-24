@@ -14,7 +14,6 @@
   // Get font size to stay the same when table shrinks.
   display: block;
   font-size: 1.6rem;
-  margin: 0;
 
   tbody {
     &:first-child {
@@ -37,22 +36,10 @@
   td:last-child {
     width: 99%;
   }
-
-  @media (min-width: $medium-screen) {
-    display: inline-block;
-    min-width: 45rem;
-    width: 45rem;
-  }
 }
 
 #rx-info {
   margin-bottom: 3.5rem;
-
-  @media (min-width: $medium-screen) {
-    display: inline-block;
-    margin-right: 3.5rem;
-    vertical-align: top;
-  }
 
   td {
     padding-right: 0;
@@ -70,9 +57,9 @@
     margin-top: .5rem;
   }
 
-  button {
-    margin: 0;
-    width: 100%;
+  .rx-prescription-button {
+    margin-left: 16.5rem;
+    width: auto;
   }
 }
 
@@ -100,7 +87,7 @@
       white-space: nowrap;
     }
   }
-  
+
   @media (max-width: $medium-screen) {
     td {
       &:nth-child(1):before { content: "Order status: "; }
@@ -113,12 +100,6 @@
   @media (min-width: $medium-screen) {
     p {
       margin-top: 0;
-    }
-  }
-
-  @media (max-width: $medium-screen) {
-    p {
-      margin-bottom: 0;
     }
   }
 }

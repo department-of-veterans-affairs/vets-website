@@ -52,11 +52,36 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
-    const { loading, redirect } = this.props;
+    const { folder, loading, redirect } = this.props;
 
     if (redirect) {
-      this.context.router.replace(redirect);
-    } else if (!loading.thread) {
+      const redirectOptions = {
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      };
+
+      if (redirect.allowBack) {
+        this.context.router.push(redirectOptions);
+      } else {
+        this.context.router.replace(redirectOptions);
+      }
+
+      return;
+    }
+
+    const currentFolder = this.getCurrentFolder();
+    const shouldFetchFolder =
+      !loading.folder &&
+      folder.attributes.folderId !== currentFolder.folderId;
+
+    // If the folder hasn't been fetched yet, it should be fetched in order for
+    // (1) pagination to work properly and display the correct numbers and
+    // (2) redirects after certain operations to go to the proper folder.
+    if (shouldFetchFolder) {
+      this.props.fetchFolder(currentFolder.folderId);
+    }
+
+    if (!loading.thread) {
       this.props.fetchThread(+this.props.params.messageId);
     }
   }
@@ -82,6 +107,7 @@ export class Thread extends React.Component {
   }
 
   getCurrentFolder() {
+    // Get current folder based on the URL.
     const folderName = this.props.params.folderName;
     const folder = this.props.folders.get(folderName);
     return folder;
@@ -136,7 +162,8 @@ export class Thread extends React.Component {
 
   makeHeader() {
     const {
-      folderMessages,
+      folder,
+      isNewMessage,
       isSavedDraft,
       message,
       messagesCollapsed,
@@ -144,9 +171,11 @@ export class Thread extends React.Component {
       thread
     } = this.props;
 
-    if (!message) {
+    if (!folder || !message) {
       return null;
     }
+
+    const folderMessages = folder.messages;
 
     // Find the current message's position
     // among the messages in the current folder.
@@ -178,21 +207,22 @@ export class Thread extends React.Component {
           currentMessageNumber={currentIndex + 1}
           folderMessageCount={folderMessages.length}
           folders={folders}
+          isNewMessage={isNewMessage}
           message={message}
-          onMessageSelect={handleMessageSelect}
-          threadMessageCount={thread.length + 1}
           messagesCollapsed={(messagesCollapsed.size > 0)}
           moveToIsOpen={moveToOpened}
           onChooseFolder={this.props.moveMessageToFolder}
           onCreateFolder={this.props.openMoveToNewFolderModal}
           onDeleteMessage={deleteMessageHandler}
+          onMessageSelect={handleMessageSelect}
           onToggleThread={this.props.toggleMessagesCollapsed}
-          onToggleMoveTo={this.props.toggleThreadMoveTo}/>
+          onToggleMoveTo={this.props.toggleThreadMoveTo}
+          threadMessageCount={thread.length + 1}/>
     );
   }
 
   makeThread() {
-    const { isSavedDraft, message, messagesCollapsed, thread } = this.props;
+    const { message, messagesCollapsed, thread } = this.props;
 
     let threadMessages;
     let currentMessage;
@@ -214,7 +244,7 @@ export class Thread extends React.Component {
     }
 
 
-    if (!isSavedDraft && message) {
+    if (message) {
       currentMessage = <Message attrs={message}/>;
     }
 
@@ -367,30 +397,31 @@ Thread.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const folder = state.folders.data.currentItem;
-  const message = state.messages.data.message;
-  const draft = state.messages.data.draft;
+  const msgState = state.health.msg;
+  const folder = msgState.folders.data.currentItem;
+  const message = msgState.messages.data.message;
+  const draft = msgState.messages.data.draft;
 
   const isSavedDraft = message && !message.sentDate;
   const isNewMessage = draft.replyMessageId === undefined;
 
   return {
     draft,
-    folders: state.folders.data.items,
-    folderMessages: folder.messages,
-    isFormVisible: state.messages.ui.formVisible,
+    folder,
+    folders: msgState.folders.data.items,
+    isFormVisible: msgState.messages.ui.formVisible,
     isNewMessage,
     isSavedDraft,
-    lastRequestedId: state.messages.ui.lastRequestedId,
-    loading: state.loading,
+    lastRequestedId: msgState.messages.ui.lastRequestedId,
+    loading: msgState.loading,
     message,
-    messagesCollapsed: state.messages.ui.messagesCollapsed,
-    modals: state.modals,
-    moveToOpened: state.messages.ui.moveToOpened,
-    recipients: state.recipients.data,
-    redirect: state.folders.ui.redirect,
-    replyDetailsCollapsed: state.messages.ui.replyDetailsCollapsed,
-    thread: state.messages.data.thread
+    messagesCollapsed: msgState.messages.ui.messagesCollapsed,
+    modals: msgState.modals,
+    moveToOpened: msgState.messages.ui.moveToOpened,
+    recipients: msgState.recipients.data,
+    redirect: msgState.folders.ui.redirect,
+    replyDetailsCollapsed: msgState.messages.ui.replyDetailsCollapsed,
+    thread: msgState.messages.data.thread
   };
 };
 

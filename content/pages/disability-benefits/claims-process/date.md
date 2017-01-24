@@ -55,6 +55,7 @@ Ric is a Veteran who ended his active service on September 30, 2013, with a hear
 
 We got Ric’s claim on July 5, 2014. Because we got it within 1 year of his separation from active service, we awarded Ric a 30% disability rating with an effective date of October 1, 2013—the day after Ric’s separation from the military.
 
+
 ### Presumptive Service Connection
 
 In most cases, if we believe your disability is related to your military service (known as a presumptive service connection)—and we get your claim within 1 year of your separation from active service—then the effective date is the date you first got your illness or injury.

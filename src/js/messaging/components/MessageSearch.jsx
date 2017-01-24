@@ -2,8 +2,6 @@ import React from 'react';
 import MessageSearchAdvanced from './MessageSearchAdvanced';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 
-import { isEmptySearch } from '../utils/validations';
-
 class MessageSearch extends React.Component {
   constructor(props) {
     super(props);
@@ -12,18 +10,23 @@ class MessageSearch extends React.Component {
   }
 
   handleSearchTermChange(field) {
-    this.props.onFieldChange('term', field);
+    this.props.onFieldChange('subject.field', field);
   }
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
-    const searchParams = this.props.params;
 
-    if (isEmptySearch(searchParams)) {
-      this.props.onError('error', 'Invalid search. Please try again.');
-    } else {
-      this.props.onSubmit(searchParams);
+    const { isAdvancedVisible, params } = this.props;
+    let searchParams = params;
+
+    // For basic search, only fuzzy search subject field.
+    if (!isAdvancedVisible) {
+      searchParams = {
+        subject: { ...params.subject, exact: false }
+      };
     }
+
+    this.props.onSubmit(searchParams);
   }
 
   render() {
@@ -33,7 +36,7 @@ class MessageSearch extends React.Component {
       basicSearch = (
         <div className="va-flex va-flex--stretch msg-search-simple-wrap">
           <ErrorableTextInput
-              field={this.props.params.term}
+              field={this.props.params.subject.field}
               name="msg-search-simple"
               label="Search messages"
               onValueChange={this.handleSearchTermChange}/>
@@ -55,6 +58,7 @@ class MessageSearch extends React.Component {
         {basicSearch}
         <MessageSearchAdvanced
             params={this.props.params}
+            hasRecipientField={this.props.hasRecipientField}
             isVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.onAdvancedSearch}
             onFieldChange={this.props.onFieldChange}
@@ -65,6 +69,7 @@ class MessageSearch extends React.Component {
 
 MessageSearch.propTypes = {
   cssClass: React.PropTypes.string,
+  hasRecipientField: React.PropTypes.bool,
   isAdvancedVisible: React.PropTypes.bool.isRequired,
   onAdvancedSearch: React.PropTypes.func.isRequired,
   onError: React.PropTypes.func.isRequired,
@@ -72,21 +77,11 @@ MessageSearch.propTypes = {
   onDateChange: React.PropTypes.func.isRequired,
   onSubmit: React.PropTypes.func,
   params: React.PropTypes.shape({
-    dateRange: React.PropTypes.shape({
-      start: React.PropTypes.object,
-      end: React.PropTypes.object
-    }),
-    term: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
-    }),
-    from: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
-    }),
     subject: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+      field: React.PropTypes.shape({
+        value: React.PropTypes.string,
+        dirty: React.PropTypes.bool
+      })
     })
   }).isRequired
 };

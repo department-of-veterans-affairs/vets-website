@@ -39,7 +39,6 @@ const sourceDir = '../content/pages';
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
-// TODO(crew): Change port back before merge to master.
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
@@ -92,19 +91,6 @@ const webpackConfig = webpackConfigGenerator(options);
 smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
 
-// Ignore files that aren't ready for production.
-//
-// Maintain as minimal a difference between the staging and production
-// environments as possible. The staging environment is simply the easiest
-// workaround to allow end to end testing of resources outside of our direct
-// control. This becomes an axis of divergence that may cause _major_ problems
-// with the production build that cannot be easily detected, so it should
-// be used sparingly.
-//
-// Ideally, as soon as a feature has been tested, it should be added to the
-// ignoreList again to maintain parity between the staging and production
-// environments.
-//
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
 
@@ -210,6 +196,7 @@ if (options.watch) {
     contentBase: `build/${options.buildtype}`,
     historyApiFallback: {
       rewrites: [
+        { from: '^/track-claims(.*)', to: '/track-claims/' },
         { from: '^/disability-benefits/track-claims(.*)', to: '/disability-benefits/track-claims/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },

@@ -18,4 +18,3 @@ ButtonManageFolders.propTypes = {
 };
 
 export default ButtonManageFolders;
-

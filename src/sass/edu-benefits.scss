@@ -218,3 +218,44 @@ table.review td {
     outline: none;
   }
 }
+
+.schemaform-buttons {
+  [type="submit"] {
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+  }
+}
+
+.form-error-date .input-date-label {
+  font-weight: bold;
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+dl.review {
+  .review-row {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #5b616b;
+    padding: 1.5rem;
+    padding-left: 0;
+    &> dd {
+      font-weight: bold;
+      padding-left: 5px;
+      min-width: 100px;
+    }
+    &> dt > p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+  border-bottom: 1px solid #5b616b;
+}
+
+form.rjsf {
+  max-width: 100%;
+}
+
+.schemaform-block {
+  margin-top: 2em;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { authFetch } from '../utils/helpers';
+import { apiRequest } from '../utils/helpers';
 
 class MessageAttachmentsViewItem extends React.Component {
   constructor(props) {
@@ -23,14 +23,19 @@ class MessageAttachmentsViewItem extends React.Component {
 
     this.setState({ downloading: true });
     const requestUrl = this.props.url;
-    authFetch(requestUrl)
-    .then(response => response.blob())
-    .then(blob => {
-      const downloadUrl = URL.createObjectURL(blob);
-      this.downloadUrl = downloadUrl;
-      this.setState({ downloading: false });
-      window.open(this.downloadUrl, '_blank');
-    });
+    apiRequest(
+      requestUrl,
+      null,
+      response => {
+        response.blob().then(blob => {
+          const downloadUrl = URL.createObjectURL(blob);
+          this.downloadUrl = downloadUrl;
+          this.setState({ downloading: false });
+          window.open(this.downloadUrl, '_blank');
+        });
+      },
+      () => { this.setState({ downloading: false }); }
+    );
   }
 
   render() {
@@ -42,11 +47,16 @@ class MessageAttachmentsViewItem extends React.Component {
       'msg-attachment-icon': true
     });
 
+    let loadingMessage;
+    if (this.state.downloading) {
+      loadingMessage = <span className="usa-sr-only">Loading...</span>;
+    }
+
     return (
       <li>
         <a onClick={this.downloadAttachment} href={this.props.url} className="msg-attachment-item">
           <i className={iconClass}></i>
-          <span className="usa-sr-only">Loading...</span>
+          {loadingMessage}
           {this.props.name}
         </a>
       </li>

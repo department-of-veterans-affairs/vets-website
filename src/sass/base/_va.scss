@@ -1,12 +1,12 @@
-html, body {
+html {
   font-size: $em-base;
   font-weight: 500;
-  padding: 0;
-  margin: 0;
+  overflow: -moz-scrollbars-vertical;
 }
 
-html {
-    overflow: -moz-scrollbars-vertical;
+html, body {
+  padding: 0;
+  margin: 0;
 }
 
 body {
@@ -551,8 +551,7 @@ h6 {
   p {
     padding-top: 0;
     margin-top: 0;
-    padding-bottom: 1em; // TODO: Consider deleting.
-
+    
     &:nth-child(1),
     &:first-of-type {
       color: $color-primary-darker;
@@ -601,17 +600,6 @@ h6 {
 // Content Callouts
 
 #content .main .section.one {
-
-  ul.plain {
-    margin: .5em 0 1em 0;
-
-    li {
-      list-style: none;
-      padding: .35em 0;
-      display: block;
-    }
-  }
-
   ul[class*='block-grid-'] {
     display: block;
     padding: 0;
@@ -706,7 +694,10 @@ ul, ol {
 // Quick Links
 .va-quicklinks {
   ul {
-    padding-left: 0;
+    margin-top: .8rem;
+  }
+  li {
+    padding: .56rem 0;
   }
   h3 {
     line-height: 1.2em;
@@ -774,12 +765,6 @@ ul, ol {
       background: rgba(1,1,1,.1);
       border-bottom: 1px solid $secondary-color;
     }
-  }
-
-  ul.plain {
-    margin: 0;
-    padding: 0;
-    li {list-style: none; border-bottom: none;}
   }
 
   .section {
@@ -1010,7 +995,7 @@ ul, ol {
 
   .active {
     background: $color-gold;
-    color: $color-va-black;
+    color: $color-black;
     font: 400 1.35em / 1.15em $font-serif;
     margin: .5em 0;
     padding: .2em;
@@ -1085,7 +1070,7 @@ li {
   top: -3.5em;
   right: -5em;
   z-index: 1000;
-  background: rgba($color-va-secondary-darkest, .9);
+  background: rgba($color-secondary-darkest, .9);
   color: $color-white;
   font-size: .85em;
   position: fixed;
@@ -1380,7 +1365,7 @@ a.twitter {
   margin: 0 0 .75em 0;
   padding: 0;
   font-size: .9em;
-  font-weight: 300;
+  font-weight: 400;
   color: $color-white;
 
   p {
@@ -1514,45 +1499,13 @@ a.twitter {
   bottom: auto;
 }
 
-// Plain lists
-
-#content.interior .primary ul.plain {
-  margin: 0 0 1.5em 0;
-  padding: 0;
-  li {
-    list-style: none;
-    display: block;
-    .post-date {padding: 0; margin: 0; color: $secondary-color;}
-    padding: .5em 0;
-    border-bottom: 1px solid rgba(255,255,255,.2);
-    &:last-of-type {border-bottom: none;}
-  }
-  &.posts {
-    font-size: 1.65em;
-    a {
-      text-decoration: none;
-      background: none;
-      color: $color-white;
-      .post-date {font-size: .65em;}
-      &:hover {
-        background: rgba(255,255,255,.2);
-      }
-    }
-  }
-  p:nth-child(1) {font-size: inherit; color: inherit;}
-}
-
-// byline
-
-p.byline {
-  font-size: .8em;
-  color: $color-white;
-  color: rgba(255,255,255,.9);
-}
+//===================================
+// Blog-related CSS
+//===================================
 
 // Info cards
 
-  .card {
+.card {
   position: relative;
   margin: 0 0 1.5em 0;
   padding: 1em;
@@ -1594,7 +1547,7 @@ p.byline {
   }
 
   .heading {
-    color: $color-va-primary-alt-darkest;
+    color: $color-primary-alt-darkest;
     font-size: .8em;
     padding: 0;
   }
@@ -1623,9 +1576,6 @@ p.byline {
       display: inline-block;
     }
   }
-
-
-
 }
 
 // Actions
@@ -1633,9 +1583,6 @@ p.byline {
 .actions {
   margin: 1em 0;
 }
-
-
-
 
 // Dividers
 
@@ -1810,8 +1757,6 @@ li.twenty:before {content: '20';}
 .icon-youtube4 {width: 2.5087890625em;}
 
 // Panel list
-// TODO: Refactor to panel-list and panel-list--plain
-// or similar
 .panel-list {
   background: rgba(0,0,0,.05);
   padding: 1em;
@@ -1833,17 +1778,6 @@ li.twenty:before {content: '20';}
   a {
     @extend .usa-button-primary;
     margin: .5em 0;
-  }
-
-  &.plain {
-    height: auto;
-
-    dt {
-      font-size: 1.45em;
-    }
-
-    margin: 0 0 1em 0;
-    min-height: 0;
   }
 }
 
@@ -1906,18 +1840,19 @@ li.twenty:before {content: '20';}
 // Disclaimer
 .disclaimer {
   padding: 1em 0;
+  background: $color-white;
   border-top: 1px solid #ddd;
   color: $color-va-gray-cool-dark;
-  background: $color-white;
-
-  &.minimal {
-    border-top: none;
-    padding: .25em 0;
-  }
-
   p {
     font-size: 0.8em;
   }
+}
+
+// Formerly .disclaimer.minimal
+.va-note {
+  color: $color-va-gray-cool-dark;
+  font-size: 1.28rem;
+  padding: .25em 0;
 }
 
 // Info block
@@ -2020,17 +1955,6 @@ li.twenty:before {content: '20';}
     opacity: 1;
     -webkit-transform: rotateX(0deg);
     transform: rotateX(0deg);
-  }
-
-  .va-overlay--closed form {
-    -webkit-transform: translateY(25%) rotateX(-35deg);
-    transform: translateY(25%) rotateX(-35deg);
-  }
-  .va-overlay--closed {
-    display: block;
-    border: none;
-    outline: none;
-    z-index: 100;
   }
 
   .va-overlay-body {
@@ -2257,4 +2181,23 @@ pre[class*='language-']  {
 
 p.info-message {
   font-size: 1.5em;
+}
+
+
+/*==================
+New .plain rewrite
+===================*/
+
+.va-list--plain {
+  list-style: none;
+  padding-left: 0;
+}
+
+// Used for sidebar / aside style lists of links
+.va-rellinks {
+  margin-top: 0;
+  
+  li {
+    padding: .8rem 0
+  }
 }

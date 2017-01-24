@@ -7,6 +7,7 @@ class ButtonPrint extends React.Component {
   }
 
   handleClick() {
+    this.props.onClick();
   }
 
   render() {
@@ -23,6 +24,7 @@ class ButtonPrint extends React.Component {
 }
 
 ButtonPrint.propTypes = {
+  onClick: React.PropTypes.func,
 };
 
 export default ButtonPrint;

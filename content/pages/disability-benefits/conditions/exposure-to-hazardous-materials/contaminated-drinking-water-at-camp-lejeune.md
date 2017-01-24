@@ -11,7 +11,6 @@ If you served at—or were assigned to—Marine Corps Base Camp Lejeune or Marin
 
 ### Can I get disability benefits from VA?
 
-
 You may be able to get disability benefits if you served under official orders or other official assignment at Camp Lejeune or MCAS New River for at least 30 days, with or without a break in service, from August 1953 through December 1987 and:
 
 - You were discharged from the military under conditions other than dishonorable, **and**
@@ -87,10 +86,11 @@ You’ll need to apply for benefits in 1 of 2 ways:
 
 <div class="panel">
 <dl>
-<dt><b>Department of Veterans Affairs</b><dt>
-<dd>Financial Services Center
+<dt><b>Department of Veterans Affairs</b></dt>
+<dd>Financial Services Center</dd>
 <dd>PO Box 149200</dd>
 <dd>Austin, TX 78714-9200</dd>
+</dl>
 </div>
 
 When you apply, please provide:

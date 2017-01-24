@@ -1,5 +1,6 @@
 .rx-glossary-section {
-  max-width: 46rem;
+  @extend .medium-8;
+  clear: both;
 }
 
 .rx-glossary {

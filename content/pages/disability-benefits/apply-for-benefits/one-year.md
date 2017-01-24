@@ -54,6 +54,7 @@ You'll need to apply for benefits. When you apply, you'll have to show that your
 **Exception:**<br>
 The following diseases are still covered, even if they appear more than 1 year after you separated: 
 
+
 -	Hansen&#8217;s disease (a long-lasting infection that affects your skin, nerves, and mucous membranes): can appear within 3 years after discharge
 -	Tuberculosis (an infection that attacks your lungs and sometimes other areas of your body): can appear within 3 years after discharge
 -	Multiple sclerosis (a long-lasting illness that can cause numbness, weakness, and many other symptoms): can appear within 7 years after discharge

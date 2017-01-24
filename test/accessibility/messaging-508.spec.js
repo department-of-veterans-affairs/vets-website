@@ -4,10 +4,10 @@ const LoginHelpers = require('../util/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    LoginHelpers.logIn(client, '/healthcare/messaging', 3);
+    const token = LoginHelpers.getUserToken();
 
     // Ensure active page renders.
-    client
+    LoginHelpers.logIn(token, client, '/healthcare/messaging', 3)
       .url(`${E2eHelpers.baseUrl}/healthcare/messaging`)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main');

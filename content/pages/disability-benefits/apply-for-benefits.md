@@ -49,7 +49,7 @@ You can apply for benefits if:
 <div class="small-12 medium-3 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="number" markdown="0">115.7</span>
+<span class="number" markdown="0">122.9</span>
 <span class="description" markdown="0">Days</span>
 <span class="heading" markdown="0">(Average time)</span>
 
@@ -61,15 +61,13 @@ You can apply for benefits if:
 
 <div class="info-block usa-content" markdown="1">
 
-In November 2016, we took an average of about 115 days to process a disability claim. If your claim is complex, it may take us longer to review.
-
-</div>
-
-<div class="disclaimer minimal" markdown="1">
-
+Average number of days to process disability-related claims during December 2016.
 
 If you’ve already filed a claim, you can check your disability compensation claim status. [Check your status](/disability-benefits/track-claims/).
+
 </div>
+
+<div class="va-note" markdown="1">(The time frame you see there may vary based on the complexity of your claim.)</div>
 
 </div>
 </div>
