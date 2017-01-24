@@ -378,6 +378,10 @@ const states = {
   ]
 };
 
+states.USA_OTHER = states.USA
+  .concat([{ label: 'Other', value: 'Other' }])
+  .sort((a, b) => a.label.localeCompare(b.label));
+
 const suffixes = [
   'Jr.',
   'Sr.',

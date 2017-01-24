@@ -52,7 +52,7 @@ class ThreadHeader extends React.Component {
     // since they can't be moved to other folders.
     if (folderName !== 'Sent' && folderName !== 'Drafts') {
       deleteButton =
-        <ButtonDelete onClickHandler={this.props.onDeleteMessage}/>;
+        <ButtonDelete onClick={this.props.onDeleteMessage}/>;
 
       const { folders, moveToIsOpen } = this.props;
 
