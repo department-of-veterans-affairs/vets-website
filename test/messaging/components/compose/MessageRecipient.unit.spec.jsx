@@ -40,8 +40,9 @@ describe('<MessageRecipient>', () => {
 
   it('should pass props to child select element', () => {
     const tree = SkinDeep.shallowRender(<MessageRecipient {...props}/>);
+    const selectElement = tree.subTree('ErrorableSelect');
 
-    expect(tree.subTree('ErrorableSelect').props.options).to.equal(props.options);
-    expect(tree.subTree('ErrorableSelect').props.value).to.equal(props.recipient);
+    expect(selectElement.props.options).to.equal(props.options);
+    expect(selectElement.props.value).to.equal(props.recipient);
   });
 });
