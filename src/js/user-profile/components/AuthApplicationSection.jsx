@@ -20,7 +20,7 @@ class AuthApplicationSection extends React.Component {
           <p><a href="/education/apply-for-education-benefits">Apply for Education Benefits</a></p>
           <p><a href="/healthcare/prescriptions">Refill your prescription</a></p>
           <p><a href="/healthcare/messaging">Message your health care team</a></p>
-          <p><a href="/disability-benefits/track-claims">Check your disability compensation claim status</a></p>
+          <p><a href="/disability-benefits/track-claims">Check your claim status</a></p>
         </div>
       );
     } else {
@@ -32,7 +32,7 @@ class AuthApplicationSection extends React.Component {
           <p><span className="label">You need to <a href="#" onClick={this.handleVerify}>verify your account</a> in order to:</span></p>
           <p>Refill your prescription</p>
           <p>Message your health care team</p>
-          <p>Check your disability compensation claim status</p>
+          <p>Check your claim status</p>
         </div>
       );
     }
@@ -48,7 +48,8 @@ class AuthApplicationSection extends React.Component {
 
 // TODO: fill this out
 const mapStateToProps = (state) => {
-  return state;
+  const userState = state.user;
+  return userState;
 };
 
 // TODO(awong): Remove the pure: false once we start using ImmutableJS.

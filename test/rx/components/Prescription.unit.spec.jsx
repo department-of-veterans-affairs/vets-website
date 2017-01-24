@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import Prescription from '../../../src/js/rx/components/Prescription.jsx';
+import Prescription from '../../../src/js/rx/components/Prescription';
 
 const samplePrescription = {
   id: '746575',
@@ -54,7 +54,7 @@ describe('<Prescription>', () => {
     };
 
     const tree = SkinDeep.shallowRender(<Prescription {...newProps}/>);
-    expect(tree.subTree('TrackPackageLink')).to.exist;
+    expect(tree.subTree('TrackPackageLink')).to.be.ok;
   });
 
   it('should not render tracking link if not applicable', () => {
@@ -72,7 +72,7 @@ describe('<Prescription>', () => {
     };
 
     const tree = SkinDeep.shallowRender(<Prescription {...newProps}/>);
-    expect(tree.subTree('.rx-call-provider')).to.exist;
+    expect(tree.subTree('.rx-call-provider')).to.be.ok;
   });
 
   it('should not show Message Provider link if refills remaining', () => {
@@ -90,13 +90,13 @@ describe('<Prescription>', () => {
     };
 
     const tree = SkinDeep.shallowRender(<Prescription {...newProps}/>);
-    expect(tree.subTree('SubmitRefill')).to.exist;
+    expect(tree.subTree('SubmitRefill')).to.be.ok;
   });
 
   it('should show refill status if not refillable', () => {
     const tree = SkinDeep.shallowRender(<Prescription {...props}/>);
-    expect(tree.subTree('.rx-prescription-status')).to.exist;
-    expect(tree.subTree('GlossaryLink')).to.exist;
+    expect(tree.subTree('.rx-prescription-status')).to.be.ok;
+    expect(tree.subTree('GlossaryLink')).to.be.ok;
   });
 
   it('should show refillsRemainingCounter with correct props', () => {

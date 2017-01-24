@@ -7,6 +7,7 @@ import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
+import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
 import {
@@ -70,7 +71,9 @@ class AdditionalEvidencePage extends React.Component {
     if (this.props.loading) {
       content = <LoadingIndicator setFocus message="Loading claim information"/>;
     } else {
-      const filesPath = `your-claims/${this.props.claim.id}/files`;
+      const claim = this.props.claim;
+      const filesPath = `your-claims/${claim.id}/files`;
+      const claimsPath = `your-claims${claim.attributes.open ? '' : '/closed'}`;
       const message = this.props.message;
 
       content = (
@@ -79,8 +82,8 @@ class AdditionalEvidencePage extends React.Component {
             <div className="medium-12 columns">
               <nav className="va-nav-breadcrumbs">
                 <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-                  <li><Link to="your-claims">Your claims</Link></li>
-                  <li><Link to={filesPath}>Your Disability Compensation Claim</Link></li>
+                  <li><Link to={claimsPath}>Your claims</Link></li>
+                  <li><Link to={filesPath}>Your {getClaimType(claim)} Claim</Link></li>
                   <li className="active">Additional evidence</li>
                 </ul>
               </nav>
@@ -134,18 +137,19 @@ class AdditionalEvidencePage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const claimsState = state.disability.status;
   return {
-    loading: state.claimDetail.loading,
-    claim: state.claimDetail.detail,
-    files: state.uploads.files,
-    uploading: state.uploads.uploading,
-    progress: state.uploads.progress,
-    uploadError: state.uploads.uploadError,
-    uploadComplete: state.uploads.uploadComplete,
-    uploadField: state.uploads.uploadField,
-    showMailOrFax: state.uploads.showMailOrFax,
-    lastPage: state.routing.lastPage,
-    message: state.notifications.message
+    loading: claimsState.claimDetail.loading,
+    claim: claimsState.claimDetail.detail,
+    files: claimsState.uploads.files,
+    uploading: claimsState.uploads.uploading,
+    progress: claimsState.uploads.progress,
+    uploadError: claimsState.uploads.uploadError,
+    uploadComplete: claimsState.uploads.uploadComplete,
+    uploadField: claimsState.uploads.uploadField,
+    showMailOrFax: claimsState.uploads.showMailOrFax,
+    lastPage: claimsState.routing.lastPage,
+    message: claimsState.notifications.message
   };
 }
 

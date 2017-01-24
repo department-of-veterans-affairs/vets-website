@@ -2,11 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import { getClaimType } from '../utils/helpers';
 import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
 
 class DetailsPage extends React.Component {
   componentDidMount() {
-    document.title = 'Details - Your Disability Compensation Claim';
+    document.title = `Details - Your ${getClaimType(this.props.claim)} Claim`;
     if (!isTab(this.props.lastPage)) {
       if (!this.props.loading) {
         setUpPage();
@@ -66,10 +67,11 @@ class DetailsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const claimsState = state.disability.status;
   return {
-    loading: state.claimDetail.loading,
-    claim: state.claimDetail.detail,
-    lastPage: state.routing.lastPage
+    loading: claimsState.claimDetail.loading,
+    claim: claimsState.claimDetail.detail,
+    lastPage: claimsState.routing.lastPage
   };
 }
 

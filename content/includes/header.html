@@ -20,11 +20,7 @@
 <meta content="https://www.vets.gov" property="og:title">
 {% endif %}
 
-{% if title %}
-<meta content="article" property="og:type">
-{% else %}
 <meta content="website" property="og:type">
-{% endif %}
 
 {% if path %}
 <meta content="https://www.vets.gov/{{ path }}" property="og:url">
@@ -145,7 +141,7 @@
             <div role="search">
               <label class="usa-sr-only" for="search-field-small">Search</label>
               <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_search" />
-              <input aria-label="search" autocomplete="off" type="search" name="query">
+              <input aria-label="search" autocomplete="off" type="search" name="query" id="search-field-small">
               <button type="submit">
                 <span class="usa-sr-only">Search</span>
               </button>

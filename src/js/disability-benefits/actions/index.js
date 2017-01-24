@@ -3,6 +3,8 @@ import environment from '../../common/helpers/environment';
 import { makeAuthRequest } from '../utils/helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
+export const FILTER_CLAIMS = 'FILTER_CLAIMS';
+export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
 export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
 export const SET_CLAIM_DETAIL = 'SET_CLAIM_DETAIL';
@@ -27,6 +29,7 @@ export const SHOW_CONSOLIDATED_MODAL = 'SHOW_CONSOLIDATED_MODAL';
 export const SET_LAST_PAGE = 'SET_LAST_PAGE';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
+export const HIDE_30_DAY_NOTICE = 'HIDE_30_DAY_NOTICE';
 
 export function setNotification(message) {
   return {
@@ -35,17 +38,32 @@ export function setNotification(message) {
   };
 }
 
-export function getClaims() {
+export function getClaims(filter) {
   return (dispatch) => {
     makeAuthRequest('/v0/disability_claims',
       null,
       dispatch,
-      claims => dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta }),
+      claims => {
+        dispatch({ type: SET_CLAIMS, filter, claims: claims.data, meta: claims.meta });
+      },
       () => dispatch({ type: SET_UNAVAILABLE })
     );
   };
 }
 
+export function filterClaims(filter) {
+  return {
+    type: FILTER_CLAIMS,
+    filter
+  };
+}
+
+export function sortClaims(sortProperty) {
+  return {
+    type: SORT_CLAIMS,
+    sortProperty
+  };
+}
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,
@@ -273,5 +291,11 @@ export function setLastPage(page) {
   return {
     type: SET_LAST_PAGE,
     page
+  };
+}
+
+export function hide30DayNotice() {
+  return {
+    type: HIDE_30_DAY_NOTICE
   };
 }
