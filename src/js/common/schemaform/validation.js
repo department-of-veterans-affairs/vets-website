@@ -12,19 +12,26 @@ import { parseISODate } from './helpers';
 const defaultMessages = {
   required: 'Please provide a response',
   maxLength: (max) => `This field should be less than ${max} characters`,
-  minLength: (min) => `This field should be at least ${min} character(s)`
+  minLength: (min) => `This field should be at least ${min} character(s)`,
+  format: (type) => {
+    if (type === 'email') {
+      return 'Please enter a valid email address';
+    }
+
+    return 'Please enter a valid value';
+  }
 };
 
-function getMessage(path, name, messages, errorArgument) {
+function getMessage(path, name, uiSchema, errorArgument) {
   const cleanPath = path.replace('instance.', '');
-  const pathSpecificMessage = _.get(`${cleanPath}.${name}`, messages);
+  const pathSpecificMessage = _.get(`${cleanPath}['ui:errorMessages'].${name}`, uiSchema);
   if (pathSpecificMessage) {
     return pathSpecificMessage;
   }
 
-  return typeof messages[name] === 'function'
-    ? messages[name](errorArgument)
-    : messages[name];
+  return typeof defaultMessages[name] === 'function'
+    ? defaultMessages[name](errorArgument)
+    : defaultMessages[name];
 }
 
 /*
@@ -34,18 +41,17 @@ function getMessage(path, name, messages, errorArgument) {
  *
  * It also replaces the error messages with any form specific messages.
  */
-export function transformErrors(errors, messages) {
-  const errorMessages = _.merge(defaultMessages, messages);
+export function transformErrors(errors, uiSchema) {
   const newErrors = errors.map(error => {
     if (error.name === 'required') {
       const path = `${error.property}.${error.argument}`;
       return _.assign(error, {
         property: path,
-        message: getMessage(path, error.name, errorMessages, error.argument)
+        message: getMessage(path, error.name, uiSchema, error.argument)
       });
     }
 
-    const newMessage = getMessage(error.property, error.name, errorMessages, error.argument);
+    const newMessage = getMessage(error.property, error.name, uiSchema, error.argument);
     if (newMessage) {
       return _.set('message', newMessage, error);
     }
@@ -103,6 +109,13 @@ export function uiSchemaValidate(errors, uiSchema, formData, otherData, path = '
         uiSchemaValidate(errors, uiSchema[item], formData, otherData, nextPath);
       });
   }
+
+  if (typeof uiSchema['ui:requiredIf'] === 'function') {
+    if (uiSchema['ui:requiredIf'](formData) && !currentData) {
+      _.get(path, errors).addError(defaultMessages.required);
+    }
+  }
+
   const validations = uiSchema['ui:validations'];
   if (validations && currentData) {
     validations.forEach(validation => {
@@ -127,5 +140,20 @@ export function validateDate(errors, dateString) {
   const { day, month, year } = parseISODate(dateString);
   if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
+  }
+}
+
+export function validateGroup(message) {
+  return (errors, group) => {
+    if (!_.values(group).some(val => val === true)) {
+      errors.addError(message);
+    }
+  };
+}
+
+export function validateEmailsMatch(errors, formData) {
+  const { email, confirmEmail } = formData;
+  if (email !== confirmEmail) {
+    errors.confirmEmail.addError('Please ensure your entries match');
   }
 }

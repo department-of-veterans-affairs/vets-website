@@ -2,7 +2,7 @@ import Scroll from 'react-scroll';
 
 const scroller = Scroll.animateScroll;
 
-export const basename = '/disability-benefits/track-claims';
+export const basename = window.location.pathname.startsWith('/disability-benefits') ? '/disability-benefits/track-claims' : '/track-claims';
 
 export function scrollToTop() {
   scroller.scrollToTop({

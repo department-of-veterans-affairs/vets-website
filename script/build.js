@@ -196,6 +196,7 @@ if (options.watch) {
     contentBase: `build/${options.buildtype}`,
     historyApiFallback: {
       rewrites: [
+        { from: '^/track-claims(.*)', to: '/track-claims/' },
         { from: '^/disability-benefits/track-claims(.*)', to: '/disability-benefits/track-claims/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },

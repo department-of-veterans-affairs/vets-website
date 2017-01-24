@@ -1,14 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import AskVAQuestions from './AskVAQuestions';
+import AskVAQuestions from '../components/AskVAQuestions';
 import { setUpPage } from '../utils/page';
+import { getClaimType } from '../utils/helpers';
 
-export default class ClaimEstimationPage extends React.Component {
+class ClaimEstimationPage extends React.Component {
   componentDidMount() {
     document.title = 'How We Come Up with Your Estimated Decision Date';
     setUpPage();
   }
   render() {
+    const claimType = !this.props.loading ? getClaimType(this.props.claim) : '';
     return (
       <div>
         <div className="row">
@@ -16,7 +19,7 @@ export default class ClaimEstimationPage extends React.Component {
             <nav className="va-nav-breadcrumbs">
               <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
-                <li><Link to={`your-claims/${this.props.params.id}/status`}>Your Disability Compensation Claim</Link></li>
+                <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {claimType} Claim</Link></li>
                 <li className="active">How We Come Up with Your Estimated Decision Date</li>
               </ul>
             </nav>
@@ -58,3 +61,13 @@ export default class ClaimEstimationPage extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  const claimsState = state.disability.status;
+  return {
+    loading: claimsState.claimDetail.loading,
+    claim: claimsState.claimDetail.detail
+  };
+}
+
+export default connect(mapStateToProps)(ClaimEstimationPage);
