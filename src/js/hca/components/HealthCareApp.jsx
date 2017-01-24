@@ -142,15 +142,7 @@ class HealthCareApp extends React.Component {
 
     if (__BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging') {
       apiUrl = `${window.VetsGov.api.url}/v0/health_care_applications`;
-      submissionPost = {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        timeout: 10000, // 10 seconds
-        form: veteranToApplication(veteran)
-      };
+      submissionPost.body = JSON.stringify({ form: submissionPost.body });
     }
 
     if (formIsValid && veteran.privacyAgreementAccepted) {
