@@ -1,56 +1,47 @@
-import _ from 'lodash';
-
-import { api } from '../config';
+import { apiRequest } from '../utils/helpers';
 
 export function loadPrescription(id) {
-  if (id) {
-    const rxUrl = `${api.url}/${id}`;
-    const rxUrls = [rxUrl, `${rxUrl}/trackings`];
+  return dispatch => {
+    const urls = [`/${id}`, `/${id}/trackings`];
+    const errorHandler =
+      () => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE' });
+
+    dispatch({ type: 'LOADING_DETAIL' });
 
     // Fetch both the prescription and its tracking history and
     // wait for retrieval and read of both resources to resolve.
-    return dispatch => {
-      Promise.all(rxUrls.map(url => {
-        return fetch(url, api.settings).then(res => res.json());
-      })).then(
-        data => dispatch({
-          type: 'LOAD_PRESCRIPTION_SUCCESS',
-          data: { rx: data[0].data, trackings: data[1].data }
-        }),
-        err => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE', err })
-      );
-    };
-  }
-
-  return dispatch => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE' });
+    Promise.all(urls.map(
+      url => apiRequest(url, null, response => response, errorHandler)
+    ))
+    .then(data => dispatch({
+      type: 'LOAD_PRESCRIPTION_SUCCESS',
+      data: {
+        rx: data[0].data,
+        trackings: data[1].data
+      }
+    }))
+    .catch(errorHandler);
+  };
 }
 
 export function loadPrescriptions(options) {
-  let url = api.url;
+  let url = '/';
+  let defaultSort = '-refill_submit_date';
   const queries = [];
 
   // Construct segments of the final URL based on options passed in.
   if (options) {
-    // Fetching active prescriptions only.
     if (options.active) {
-      url = `${url}/active`;
+      url = '/active';
+      defaultSort = 'prescription_name';
     }
 
-    // Set the sort param. Convert it into a format that the API accepts.
-    if (options.sort) {
-      const formattedValue = _.snakeCase(options.sort.value);
-      const sortParam = options.sort.order === 'DESC'
-                      ? `-${formattedValue}`
-                      : formattedValue;
-
-      queries.push(`sort=${sortParam}`);
-    }
-
-    // Set the current page.
     if (options.page) {
       queries.push(`page=${options.page}`);
     }
   }
+
+  queries.push(`sort=${options.sort || defaultSort}`);
 
   // Append query parameters.
   if (queries.length > 0) {
@@ -58,25 +49,58 @@ export function loadPrescriptions(options) {
     url = `${url}?${queryString}`;
   }
 
-  return dispatch => fetch(url, api.settings)
-    .then(res => res.json())
-    .then(
-      data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
-      err => dispatch({ type: 'LOAD_PRESCRIPTIONS_FAILURE', err })
+  return dispatch => {
+    dispatch({
+      type: options.active ? 'LOADING_ACTIVE' : 'LOADING_HISTORY'
+    });
+
+    apiRequest(
+      url,
+      null,
+      data => dispatch({
+        type: 'LOAD_PRESCRIPTIONS_SUCCESS',
+        active: options.active,
+        data
+      }),
+      response => dispatch({
+        type: 'LOAD_PRESCRIPTIONS_FAILURE',
+        active: options.active,
+        errors: response.errors,
+      })
     );
+  };
 }
 
-export function refillPrescription(id) {
-  if (id) {
-    const url = `${api.url}/${id}/refill`;
+export function refillPrescription(prescription) {
+  if (prescription.prescriptionId) {
+    const url = `/${prescription.prescriptionId}/refill`;
 
-    return dispatch => fetch(url, {
-      method: 'PATCH'
-    }).then(
-      data => dispatch({ type: 'REFILL_SUCCESS', id, data }),
-      err => dispatch({ type: 'REFILL_FAILURE', err })
-    );
+    window.dataLayer.push({
+      event: 'rx-confirm-refill',
+    });
+
+    return dispatch => {
+      dispatch({ type: 'REFILL_SUBMITTED' });
+
+      apiRequest(
+        url,
+        { method: 'PATCH' },
+        () => dispatch({
+          type: 'REFILL_SUCCESS',
+          prescription
+        }),
+        response => dispatch({
+          type: 'REFILL_FAILURE',
+          errors: response.errors,
+          prescription
+        })
+      );
+    };
   }
 
-  return dispatch => dispatch({ type: 'REFILL_FAILURE' });
+  return { type: 'REFILL_FAILURE' };
+}
+
+export function sortPrescriptions(sort, order = 'ASC') {
+  return { type: 'SORT_PRESCRIPTIONS', sort, order };
 }

@@ -1,9 +1,12 @@
-export const CLOSE_CREATE_FOLDER = 'CLOSE_CREATE_FOLDER';
-export const OPEN_CREATE_FOLDER = 'OPEN_CREATE_FOLDER';
-export const OPEN_ATTACHMENTS_MODAL = 'OPEN_ATTACHMENTS_MODAL';
-export const CLOSE_ATTACHMENTS_MODAL = 'CLOSE_ATTACHMENTS_MODAL';
-export const TOGGLE_CONFIRM_DELETE = 'TOGGLE_CONFIRM_DELETE';
-export const SET_NEW_FOLDER_NAME = 'SET_NEW_FOLDER_NAME';
+import {
+  CLOSE_CREATE_FOLDER,
+  OPEN_CREATE_FOLDER,
+  OPEN_ATTACHMENTS_MODAL,
+  CLOSE_ATTACHMENTS_MODAL,
+  TOGGLE_CONFIRM_DELETE,
+  SET_NEW_FOLDER_NAME,
+  TOGGLE_CONFIRM_SAVE
+} from '../utils/constants';
 
 export function closeCreateFolderModal() {
   return { type: CLOSE_CREATE_FOLDER };
@@ -40,4 +43,8 @@ export function setNewFolderName(folderName) {
     type: SET_NEW_FOLDER_NAME,
     folderName
   };
+}
+
+export function toggleConfirmSave() {
+  return { type: TOGGLE_CONFIRM_SAVE };
 }

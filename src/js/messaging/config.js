@@ -1,50 +1,4 @@
-const headers = {
-  'X-Key-Inflection': 'camel'
-};
-
 module.exports = {
-  // Basic config for making API requests.
-  api: {
-    url: '/api/v0/messaging/health',
-    settings: {
-      get: {
-        method: 'GET',
-        headers
-      },
-      post: {
-        method: 'POST',
-        headers: Object.assign({}, headers, {
-          'Content-Type': 'application/json'
-        })
-      },
-      put: {
-        method: 'PUT',
-        headers: Object.assign({}, headers, {
-          'Content-Type': 'application/json'
-        })
-      },
-      'delete': {
-        method: 'DELETE',
-        headers
-      },
-      patch: {
-        method: 'PATCH',
-        headers
-      }
-    }
-  },
-
-  paths: {
-    INBOX_URL: '/messaging',
-    COMPOSE_URL: '/messaging/compose',
-    FOLDERS_URL: '/messaging/folder'
-  },
-
-  // The indices of systemFolders are positive. The
-  // actual folder IDs are negative. Remember to invert
-  // when needed.
-  systemFolders: ['Inbox', 'Sent', 'Drafts', 'Deleted'],
-
   // An array of objects containing the category name (label) and a
   // value for use with select, radio button inputs.
   messageCategories: [
@@ -86,13 +40,14 @@ module.exports = {
           text: 'You may not attach more than four files.'
         }
       },
-      category: 'Please select a category.',
+      subjectLine: {
+        category: 'Please select a category.',
+        subject: 'Please add subject description.'
+      },
       message: 'Please enter your message.',
-      subject: 'Please add subject description.',
       recipient: 'Please select a recipient from your health care team.'
     },
     maxChars: {
-      message: 2000,
       subject: 512
     },
     // Using bytes

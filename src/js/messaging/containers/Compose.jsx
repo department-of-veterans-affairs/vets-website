@@ -1,206 +1,207 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
-import {
-  allowedMimeTypes,
-  composeMessage,
-  messageCategories,
-  paths
-} from '../config';
-
-import MessageCategory from '../components/compose/MessageCategory';
-import MessageFrom from '../components/compose/MessageFrom';
-import MessageAttachments from '../components/compose/MessageAttachments';
-import MessageSubject from '../components/compose/MessageSubject';
-import MessageRecipient from '../components/compose/MessageRecipient';
-import MessageSend from '../components/compose/MessageSend';
-import MessageWrite from '../components/compose/MessageWrite';
-import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
-import ModalAttachments from '../components/compose/ModalAttachments';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import { dirtyAllFields } from '../../common/model/fields';
 import NoticeBox from '../components/NoticeBox';
+import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
+import ModalConfirmSave from '../components/compose/ModalConfirmSave';
+import NewMessageForm from '../components/forms/NewMessageForm';
+import * as validations from '../utils/validations';
 
 import {
-  closeAttachmentsModal,
-  deleteAttachment,
+  addComposeAttachments,
+  deleteComposeAttachment,
   deleteComposeMessage,
   fetchRecipients,
-  fetchSenderName,
   openAttachmentsModal,
+  resetMessage,
   saveDraft,
   sendMessage,
-  setAttachments,
   setMessageField,
   toggleConfirmDelete,
+  toggleConfirmSave,
   updateComposeCharacterCount
 } from '../actions';
 
-class Compose extends React.Component {
+export class Compose extends React.Component {
   constructor() {
     super();
     this.apiFormattedMessage = this.apiFormattedMessage.bind(this);
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
+    this.isValidForm = this.isValidForm.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.saveDraft = this.saveDraft.bind(this);
+    this.saveDraftIfNoAttachments = this.saveDraftIfNoAttachments.bind(this);
   }
 
   componentDidMount() {
-    this.props.fetchSenderName();
+    const { redirect } = this.props;
+    if (redirect) {
+      this.context.router.replace({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
+      return;
+    }
+
+    this.props.resetMessage();
     this.props.fetchRecipients();
+  }
+
+  componentDidUpdate() {
+    const { redirect } = this.props;
+    if (redirect) {
+      this.context.router.replace({
+        pathname: redirect.url,
+        state: { preserveAlert: true }
+      });
+    }
   }
 
   apiFormattedMessage() {
     const message = this.props.message;
+
     return {
+      attachments: message.attachments,
       category: message.category.value,
       subject: message.subject.value,
-      body: message.text.value,
+      body: message.body.value,
       recipientId: +message.recipient.value
     };
   }
 
+  dirtyComposeForm() {
+    // Dirty all fields in the form object.
+    const message = dirtyAllFields(this.props.message);
+
+    // Resets the fields on submit to trigger error messages if applicable.
+    this.props.setMessageField('message.recipient', message.recipient);
+    this.props.setMessageField('message.category', message.category);
+    this.props.setMessageField('message.subject', message.subject);
+    this.props.setMessageField('message.body', message.body);
+
+    // return dirtied fields
+    return message;
+  }
+
+  isValidForm() {
+    const message = this.dirtyComposeForm();
+    const valid = validations.isValidRecipient(message.recipient) &&
+                  validations.isValidCategory(message.category) &&
+                  validations.isValidSubject(message.subject) &&
+                  validations.isValidMessageBody(message.body);
+    return valid;
+  }
+
   sendMessage() {
-    this.props.sendMessage(this.apiFormattedMessage());
+    if (this.isValidForm()) {
+      this.props.sendMessage(this.apiFormattedMessage());
+    }
   }
 
   saveDraft() {
+    if (this.props.saveConfirmModal.visible) {
+      this.props.toggleConfirmSave();
+    }
+
     this.props.saveDraft(this.apiFormattedMessage());
   }
 
-  handleConfirmDelete(domEvent) {
-    domEvent.preventDefault();
+  saveDraftIfNoAttachments() {
+    if (this.props.message.attachments.length) {
+      this.props.toggleConfirmSave();
+    } else {
+      this.saveDraft();
+    }
+  }
+
+  handleConfirmDelete() {
     this.props.toggleConfirmDelete();
     this.props.deleteComposeMessage();
   }
 
   render() {
-    const message = this.props.message;
-    const subjectRequired = message.category &&
-                            message.category.value === 'OTHER';
+    if (this.props.loading.recipients) {
+      return <LoadingIndicator message="Loading your application..."/>;
+    }
 
     return (
       <div>
         <div id="messaging-content-header">
-          <Link
+          <a
               className="messaging-cancel-link"
-              to={paths.DRAFTS_URL}>
+              onClick={this.props.toggleConfirmDelete}>
             Cancel
-          </Link>
+          </a>
           <h2>New message</h2>
           <button
               className="messaging-send-button"
-              type="button">
+              type="button"
+              onClick={this.sendMessage}
+              disabled={!this.props.message.body.value.length}>
             Send
           </button>
         </div>
-        <form
-            id="messaging-compose"
-            onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
-          <MessageFrom
-              cssClass="messaging-from"
-              lastName={message.sender.lastName}
-              firstName={message.sender.firstName}
-              middleName={message.sender.middleName}/>
-          <MessageRecipient
-              errorMessage={composeMessage.errors.recipient}
-              cssClass="messaging-recipient"
-              onValueChange={this.props.setMessageField}
-              options={this.props.recipients}
-              recipient={message.recipient}/>
-          <fieldset className="messaging-subject-field">
-            <legend>Subject line:</legend>
-            <div className="messaging-subject-group">
-              <div>
-                <MessageCategory
-                    categories={messageCategories}
-                    cssClass="messaging-category"
-                    errorMessage={composeMessage.errors.category}
-                    onValueChange={this.props.setMessageField}
-                    category={message.category}/>
-                <MessageSubject
-                    charMax={composeMessage.maxChars.subject}
-                    cssClass="messaging-subject"
-                    errorMessage={composeMessage.errors.subject}
-                    onValueChange={this.props.setMessageField}
-                    placeholder={composeMessage.placeholders.subject}
-                    required={subjectRequired}
-                    subject={message.subject}/>
-              </div>
-            </div>
-          </fieldset>
-          <div className="messaging-write-group">
-            <MessageWrite
-                cssClass="messaging-write"
-                maxChars={composeMessage.maxChars.message}
-                onValueChange={this.props.setMessageField}
-                onCharCountChange={this.props.updateComposeCharacterCount}
-                placeholder={composeMessage.placeholders.message}
-                text={message.text}/>
-            <MessageAttachments
-                hidden={!this.props.message.attachments.length}
-                files={this.props.message.attachments}
-                onClose={this.props.deleteAttachment}/>
-          </div>
-          <MessageSend
-              allowedMimeTypes={allowedMimeTypes}
-              attachedFiles={this.props.message.attachments}
-              charCount={message.charsRemaining}
-              cssClass="messaging-send-group"
-              maxFiles={composeMessage.attachments.maxNum}
-              maxFileSize={composeMessage.attachments.maxSingleFile}
-              maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
-              onAttachmentUpload={this.props.setAttachments}
-              onAttachmentsError={this.props.openAttachmentsModal}
-              onSave={this.saveDraft}
-              onSend={this.sendMessage}
-              onDelete={this.props.toggleConfirmDelete}/>
-        </form>
+        <NewMessageForm
+            message={this.props.message}
+            recipients={this.props.recipients}
+            onAttachmentsClose={this.props.deleteComposeAttachment}
+            onAttachmentUpload={this.props.addComposeAttachments}
+            onAttachmentsError={this.props.openAttachmentsModal}
+            onBodyChange={this.props.setMessageField.bind(null, 'message.body')}
+            onCategoryChange={this.props.setMessageField.bind(null, 'message.category')}
+            onFetchRecipients={this.props.fetchRecipients}
+            onRecipientChange={this.props.setMessageField.bind(null, 'message.recipient')}
+            onSaveMessage={this.saveDraftIfNoAttachments}
+            onSendMessage={this.sendMessage}
+            onSubjectChange={this.props.setMessageField.bind(null, 'message.subject')}
+            toggleConfirmDelete={this.props.toggleConfirmDelete}/>
         <NoticeBox/>
         <ModalConfirmDelete
             cssClass="messaging-modal"
             onClose={this.props.toggleConfirmDelete}
             onDelete={this.handleConfirmDelete}
-            visible={this.props.modals.deleteConfirm.visible}/>
-        <ModalAttachments
+            visible={this.props.deleteConfirmModal.visible}/>
+        <ModalConfirmSave
             cssClass="messaging-modal"
-            text={this.props.modals.attachments.message.text}
-            title={this.props.modals.attachments.message.title}
-            id="messaging-add-attachments"
-            onClose={this.props.closeAttachmentsModal}
-            visible={this.props.modals.attachments.visible}/>
+            onClose={this.props.toggleConfirmSave}
+            onSave={this.saveDraft}
+            visible={this.props.saveConfirmModal.visible}/>
       </div>
     );
   }
 }
 
+Compose.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
+
 const mapStateToProps = (state) => {
+  const msgState = state.health.msg;
+
   return {
-    message: state.compose.message,
-    recipients: state.compose.recipients,
-    modals: {
-      deleteConfirm: {
-        visible: state.modals.deleteConfirm.visible
-      },
-      attachments: {
-        visible: state.modals.attachments.visible,
-        message: state.modals.attachments.message
-      }
-    }
+    deleteConfirmModal: msgState.modals.deleteConfirm,
+    loading: msgState.loading,
+    message: msgState.compose.message,
+    recipients: msgState.recipients.data,
+    redirect: msgState.folders.ui.redirect,
+    saveConfirmModal: msgState.modals.saveConfirm
   };
 };
 
 const mapDispatchToProps = {
-  closeAttachmentsModal,
-  deleteAttachment,
+  addComposeAttachments,
+  deleteComposeAttachment,
   deleteComposeMessage,
   fetchRecipients,
-  fetchSenderName,
   openAttachmentsModal,
+  resetMessage,
   saveDraft,
   sendMessage,
-  setAttachments,
   setMessageField,
   toggleConfirmDelete,
+  toggleConfirmSave,
   updateComposeCharacterCount
 };
 

@@ -1,20 +1,43 @@
 import React from 'react';
-import { Link } from 'react-router';
+import classNames from 'classnames';
 
-import { paths, systemFolders } from '../config';
+import ButtonBack from './buttons/ButtonBack';
 import ButtonDelete from './buttons/ButtonDelete';
 import MoveTo from './MoveTo';
-import ButtonPrint from './buttons/ButtonPrint';
 import MessageNav from './MessageNav';
 import ToggleThread from './ToggleThread';
+import { folderUrl } from '../utils/helpers';
 
 class ThreadHeader extends React.Component {
   render() {
-    let toggleThread;
-    let returnUrlText;
-    let returnUrlPath;
+    const {
+      currentFolder,
+      folderMessageCount,
+      isNewMessage,
+      message,
+      threadMessageCount
+    } = this.props;
 
-    if (this.props.threadMessageCount > 1) {
+    const folderName = currentFolder.name;
+    let messageNav;
+    let moveTo;
+    let deleteButton;
+    let toggleThread;
+
+    if (folderMessageCount) {
+      const { currentMessageNumber } = this.props;
+
+      messageNav = (
+        <MessageNav
+            currentRange={currentMessageNumber}
+            messageCount={folderMessageCount}
+            onItemSelect={this.props.onMessageSelect}
+            itemNumber={currentMessageNumber}
+            totalItems={folderMessageCount}/>
+      );
+    }
+
+    if (threadMessageCount > 1) {
       toggleThread = (
         <ToggleThread
             messagesCollapsed={this.props.messagesCollapsed}
@@ -22,51 +45,65 @@ class ThreadHeader extends React.Component {
       );
     }
 
-    if (this.props.persistedFolder === undefined) {
-      returnUrlText = 'Inbox';
-      returnUrlPath = `${paths.FOLDERS_URL}/0`;
-    } else {
-      returnUrlText = systemFolders[Math.abs(this.props.persistedFolder)];
-      returnUrlPath = `${paths.FOLDERS_URL}/${this.props.persistedFolder}`;
+    // Hide the 'Delete' button for drafts and sent messages,
+    // since drafts should only be deletable from the form,
+    // and sent messages can't be deleted.
+    // Also hide the 'Move' button for drafts and sent messages,
+    // since they can't be moved to other folders.
+    if (folderName !== 'Sent' && folderName !== 'Drafts') {
+      deleteButton =
+        <ButtonDelete onClick={this.props.onDeleteMessage}/>;
+
+      const { folders, moveToIsOpen } = this.props;
+
+      moveTo = (
+        <MoveTo
+            currentFolder={currentFolder}
+            folders={folders}
+            isOpen={moveToIsOpen}
+            messageId={message.messageId}
+            onChooseFolder={this.props.onChooseFolder}
+            onCreateFolder={this.props.onCreateFolder}
+            onToggleMoveTo={this.props.onToggleMoveTo}/>
+      );
     }
+
+    const titleClass = classNames({
+      'messaging-thread-title': true,
+      'show-for-small-only': isNewMessage
+    });
+
+    const titleSection = (
+      <div className={titleClass}>
+        <div className="messaging-thread-controls">
+          {toggleThread}
+          {deleteButton}
+        </div>
+        <h2 className="messaging-thread-subject">{message.subject}</h2>
+      </div>
+    );
 
     return (
       <div className="messaging-thread-header">
         <div className="messaging-thread-nav">
-          <Link to={returnUrlPath}>&lt; Back to {returnUrlText}</Link>
-          <MoveTo
-              folders={this.props.moveToFolders}
-              isOpen={!this.props.moveToIsOpen}
-              messageId={this.props.message.messageId}
-              onChooseFolder={this.props.onChooseFolder}
-              onCreateFolder={this.props.onCreateFolder}
-              onToggleMoveTo={this.props.onToggleMoveTo}/>
-          <MessageNav
-              currentRange={this.props.currentMessageNumber}
-              messageCount={this.props.folderMessageCount}
-              onClickPrev={this.props.onClickPrev}
-              onClickNext={this.props.onClickNext}/>
-          <ButtonDelete
-              onClickHandler={this.props.onDeleteMessage}/>
-          <ButtonPrint/>
+          <ButtonBack url={folderUrl(folderName)}/>
+          {messageNav}
+          {moveTo}
+          {deleteButton}
         </div>
-        <div className="messaging-thread-title">
-          <h2 className="messaging-thread-subject">{this.props.message.subject}</h2>
-          <div className="messaging-thread-controls">
-            {toggleThread}
-            <ButtonDelete
-                onClickHandler={this.props.onDeleteMessage}/>
-            <ButtonPrint/>
-          </div>
-        </div>
+        {titleSection}
       </div>
     );
   }
 }
 
 ThreadHeader.propTypes = {
+  currentFolder: React.PropTypes.shape({
+    name: React.PropTypes.string.isRequired
+  }),
   currentMessageNumber: React.PropTypes.number.isRequired,
-  moveToFolders: React.PropTypes.arrayOf(
+  folderMessageCount: React.PropTypes.number.isRequired,
+  folders: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       folderId: React.PropTypes.number.isRequired,
       name: React.PropTypes.string.isRequired,
@@ -74,22 +111,20 @@ ThreadHeader.propTypes = {
       unreadCount: React.PropTypes.number.isRequired
     })
   ).isRequired,
-  folderMessageCount: React.PropTypes.number.isRequired,
-  onClickPrev: React.PropTypes.func,
-  onClickNext: React.PropTypes.func,
+  isNewMessage: React.PropTypes.bool,
   message: React.PropTypes.shape({
     messageId: React.PropTypes.number,
     subject: React.PropTypes.string
   }).isRequired,
-  threadMessageCount: React.PropTypes.number.isRequired,
   messagesCollapsed: React.PropTypes.bool,
   moveToIsOpen: React.PropTypes.bool,
   onChooseFolder: React.PropTypes.func,
   onCreateFolder: React.PropTypes.func,
   onDeleteMessage: React.PropTypes.func,
+  onMessageSelect: React.PropTypes.func,
   onToggleThread: React.PropTypes.func,
   onToggleMoveTo: React.PropTypes.func,
-  persistedFolder: React.PropTypes.number
+  threadMessageCount: React.PropTypes.number
 };
 
 export default ThreadHeader;

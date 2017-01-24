@@ -23,11 +23,22 @@ class MoveTo extends React.Component {
     const moveToFolder = this.props.folders.find((folder) => {
       return folder.folderId === folderId;
     });
+
     this.props.onChooseFolder(this.props.messageId, moveToFolder);
   }
 
   render() {
-    const folderOptions = this.props.folders.map((folder) => {
+    // Only list Inbox, and veteran-defined folders
+    // and exclude the current folder.
+    const folders = this.props.folders.filter((folder) => {
+      const folderId = folder.folderId;
+      const isEligibleFolder =
+        folderId >= 0 &&
+        folderId !== this.props.currentFolder.folderId;
+      return isEligibleFolder;
+    });
+
+    const folderOptions = folders.map((folder) => {
       return (
         <li key={folder.folderId}>
           <MoveToOption
@@ -41,7 +52,7 @@ class MoveTo extends React.Component {
       <div className="msg-move-to">
         <ButtonMove onClick={this.props.onToggleMoveTo}/>
         <form
-            hidden={this.props.isOpen}
+            hidden={!this.props.isOpen}
             onChange={this.handleChooseFolder}>
           <fieldset>
             <legend className="usa-sr-only">
@@ -62,6 +73,12 @@ class MoveTo extends React.Component {
 }
 
 MoveTo.propTypes = {
+  currentFolder: React.PropTypes.shape({
+    folderId: React.PropTypes.number.isRequired,
+    name: React.PropTypes.string.isRequired,
+    count: React.PropTypes.number.isRequired,
+    unreadCount: React.PropTypes.number.isRequired
+  }),
   folders: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       folderId: React.PropTypes.number.isRequired,

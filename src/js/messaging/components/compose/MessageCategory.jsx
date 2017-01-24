@@ -2,15 +2,6 @@ import React from 'react';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 
 class MessageCategory extends React.Component {
-  constructor() {
-    super();
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
-  }
-
-  handleCategoryChange(valueObj) {
-    this.props.onValueChange('message.category', valueObj);
-  }
-
   render() {
     const categories = this.props.categories;
 
@@ -18,9 +9,9 @@ class MessageCategory extends React.Component {
       <div className={this.props.cssClass}>
         <ErrorableSelect
             additionalClass={`${this.props.cssClass}-category`}
-            label="Category"
+            label="Subject line"
             name="messageCategory"
-            onValueChange={this.handleCategoryChange}
+            onValueChange={this.props.onValueChange}
             options={categories}
             value={this.props.category}/>
       </div>

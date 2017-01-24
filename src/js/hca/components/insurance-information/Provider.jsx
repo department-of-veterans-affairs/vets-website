@@ -1,7 +1,8 @@
 import React from 'react';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
-import { validateIfDirty, validateIfDirtyProvider, isNotBlank, isValidInsurancePolicy } from '../../../common/utils/validations';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
+import { validateIfDirtyProvider, isValidInsurancePolicy } from '../../utils/validations';
 
 class Provider extends React.Component {
   render() {
@@ -15,6 +16,7 @@ class Provider extends React.Component {
         <div className="input-section">
           <ErrorableTextInput required
               errorMessage={validateIfDirty(this.props.data.insuranceName, isNotBlank) ? undefined : 'Please enter the insurer’s name'}
+              charMax={100}
               label="Name of provider"
               name="insuranceName"
               field={this.props.data.insuranceName}
@@ -22,6 +24,7 @@ class Provider extends React.Component {
 
           <ErrorableTextInput required
               errorMessage={validateIfDirty(this.props.data.insurancePolicyHolderName, isNotBlank) ? undefined : 'Please enter the name of the policy holder'}
+              charMax={50}
               label="Name of policy holder"
               name="insurancePolicyHolderName"
               field={this.props.data.insurancePolicyHolderName}
@@ -29,6 +32,7 @@ class Provider extends React.Component {
 
           <ErrorableTextInput required
               errorMessage={validateIfDirtyProvider(this.props.data.insurancePolicyNumber, this.props.data.insuranceGroupCode, isValidInsurancePolicy) ? undefined : 'Please enter the policy number or group code'}
+              charMax={30}
               label="Policy number (either this or group code is required)"
               name="insurancePolicyNumber"
               field={this.props.data.insurancePolicyNumber}
@@ -36,6 +40,7 @@ class Provider extends React.Component {
 
           <ErrorableTextInput required
               errorMessage={validateIfDirtyProvider(this.props.data.insurancePolicyNumber, this.props.data.insuranceGroupCode, isValidInsurancePolicy) ? undefined : 'Please enter the policy number or group code'}
+              charMax={30}
               label="Group code (either this or policy number is required)"
               name="insuranceGroupCode"
               field={this.props.data.insuranceGroupCode}

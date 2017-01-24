@@ -45,7 +45,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/contact-information');
 
-    client.assert.cssClassPresent('.hca-process li.step:nth-child(1)', 'section-complete');
+    client.assert.cssClassPresent('.form-process li.step:nth-child(1)', 'section-complete');
 
     // Military Service Information Page.
     client.expect.element('select[name="lastServiceBranch"]').to.be.visible;
@@ -58,7 +58,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-service/additional-information');
 
-    client.assert.cssClassPresent('.hca-process li.step:nth-child(2)', 'section-complete');
+    client.assert.cssClassPresent('.form-process li.step:nth-child(2)', 'section-complete');
 
     // VA Benefits Basic Info page.
     client.expect.element('input[name="compensableVaServiceConnected-0"] + label').to.be.visible;
@@ -66,37 +66,21 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/va-benefits/basic-information');
 
-    client.assert.cssClassPresent('.hca-process li.step:nth-child(3)', 'section-complete');
+    client.assert.cssClassPresent('.form-process li.step:nth-child(3)', 'section-complete');
 
     // Financial disclosure page.
-    client.expect.element('input[name="understandsFinancialDisclosure"] + label').to.be.visible;
+    client.expect.element('input[name="discloseFinancialInformation-0"] + label').to.be.visible;
     HcaHelpers.completeFinancialDisclosure(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/financial-disclosure');
 
-    // Spouse information Page.
-    client.expect.element('select[name="maritalStatus"]').to.be.visible;
-    HcaHelpers.completeSpouseInformation(client, HcaHelpers.testValues, true);
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/spouse-information');
+    // Selecting "no" for financial disclosures here causes the application to skip the next several sections:
+    // Spouse information Page
+    // Child Information Page
+    // Annual Income Page
+    // Deductible Expenses Page
 
-    // Child Information Page.
-    client.expect.element('input[name="hasChildrenToReport-0"] + label').to.be.visible;
-    HcaHelpers.completeChildInformation(client, HcaHelpers.testValues, true);
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/child-information');
-
-    // Annual Income Page.
-    client.expect.element('input[name="veteranGrossIncome"]').to.be.visible;
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/annual-income');
-
-    // Deductible Expenses Page.
-    client.expect.element('input[name="deductibleMedicalExpenses"]').to.be.visible;
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/deductible-expenses');
-
-    client.assert.cssClassPresent('.hca-process li.step:nth-child(4)', 'section-complete');
+    client.assert.cssClassPresent('.form-process li.step:nth-child(4)', 'section-complete');
 
     // Medicare and Medicaid Page.
     client.expect.element('input[name="isMedicaidEligible-0"] + label').to.be.visible;
@@ -116,12 +100,13 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/va-facility');
 
-    client.assert.cssClassPresent('.hca-process li.step:nth-child(5)', 'section-complete');
+    client.assert.cssClassPresent('.form-process li.step:nth-child(5)', 'section-complete');
 
     // Review and Submit Page.
     client.expect.element('button.edit-btn').to.be.visible;
 
     client.expect.element('.form-panel .usa-button-primary').text.to.equal('Submit Application');
+    client.click('[name=privacyAgreement]');
     client.click('.form-panel .usa-button-primary');
     client.expect.element('.form-panel .hca-button-green').text.to.equal('✓ Submitted');
 

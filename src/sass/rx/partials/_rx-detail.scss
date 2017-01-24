@@ -10,21 +10,10 @@
   font-size: 2.5rem;
 }
 
-#rx-detail .rx-contact-card {
-  margin: 2rem 0;
-  width: 100%;
-
-  @media (min-width: $medium-screen) {
-    display: inline-block;
-    margin: 0;
-    width: 30rem;
-  };
-}
-
-#rx-detail .rx-table {
+#rx-detail table {
   // Get font size to stay the same when table shrinks.
+  display: block;
   font-size: 1.6rem;
-  margin: 0;
 
   tbody {
     &:first-child {
@@ -40,21 +29,17 @@
     }
   }
 
-  @media (min-width: $medium-screen) {
-    margin: 0 3rem 0 0;
-    min-width: 50rem;
+  th {
+    white-space: nowrap;
+  }
+
+  td:last-child {
+    width: 99%;
   }
 }
 
-.rx-info {
-  @media (min-width: $medium-screen) {
-    display: inline-block;
-    vertical-align: top;
-
-    td {
-      width: 35rem;
-    }
-  }
+#rx-info {
+  margin-bottom: 3.5rem;
 
   td {
     padding-right: 0;
@@ -64,38 +49,57 @@
   th {
     font-weight: bold;
     padding-left: 0;
-    padding-right: 0;
     vertical-align: top;
-    width: 10rem;
+  }
+
+  .rx-refill-form {
+    display: block;
+    margin-top: .5rem;
+  }
+
+  .rx-prescription-button {
+    margin-left: 16.5rem;
+    width: auto;
   }
 }
 
+#rx-detail .rx-contact-card {
+  margin-bottom: 3.5rem;
+  width: 100%;
 
-.rx-refill-form .rx-trigger {
-  margin: 0;
-  
   @media (min-width: $medium-screen) {
     display: inline-block;
-    margin-left: 2rem;
-  }
+    width: 30rem;
+  };
 }
 
-.rx-order-history {
-  margin-top: 3.5rem;
+.rx-history-tracking {
+  display: inline-block;
+  margin: 0;
+  padding-right: 2.2rem;
+}
+
+.rx-detail-history {
+  margin: 0;
 
   @media (min-width: $medium-screen) {
-    h3 {
-      border-bottom: none;
+    td {
+      white-space: nowrap;
     }
   }
 
   @media (max-width: $medium-screen) {
     td {
-      display: block;
-
       &:nth-child(1):before { content: "Order status: "; }
+      &:nth-child(2):before { content: "Tracking status: "; }
+    }
+  }
+}
 
-      &:nth-child(2):before {rcontent: "Tracking status: "; }
+#rx-order-history {
+  @media (min-width: $medium-screen) {
+    p {
+      margin-top: 0;
     }
   }
 }

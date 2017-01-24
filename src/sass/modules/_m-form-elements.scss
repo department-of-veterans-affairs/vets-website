@@ -99,6 +99,15 @@ button.form-button-disabled {
   }
 }
 
+.form-expanding-group-active-radio {
+  margin-left: 28px;
+}
+
+.form-expanding-group-active-radio.form-expanding-group-inner-enter,
+  .form-expanding-group-active-radio.form-expanding-group-inner-leave-active {
+	margin-top: -16px;
+}
+
 .form-expanding-group-inner-leave {
   max-height: 800px;
   opacity: 1;
@@ -140,4 +149,33 @@ button.form-button-disabled {
 .form-expanding-group-open { 
   padding-left: calc(2rem - 7px);
   border-left: 7px solid $color-primary-alt-light;
+}
+
+.form-expanding-group-plus {
+  position: relative;
+  &::after{
+    content: "+";
+    font-size: 20px;
+    position: absolute;
+    right: 0; 
+    top: 0;
+  }
+}
+
+.form-expanding-group-open.form-expanding-group-plus::after {
+    content: "-";
+}
+
+.form-errorable-group {
+  > .usa-input-error {
+    label {
+      margin-top: 3rem;
+    }
+    .usa-input-error-label {
+      margin-top: 0;
+    }
+    .usa-input-error-message {
+      margin-bottom: -2rem;
+    }
+  }
 }

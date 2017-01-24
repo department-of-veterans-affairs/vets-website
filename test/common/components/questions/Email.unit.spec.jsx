@@ -25,7 +25,6 @@ describe('<Email>', () => {
     const errorableInputs = tree.everySubTree('ErrorableTextInput');
     expect(errorableInputs).to.have.lengthOf(1);
     expect(errorableInputs[0].props.label).to.equal('Email');
-    expect(errorableInputs[0].props.placeholder).to.equal('x@x.xxx');
     expect(errorableInputs[0].props.field).to.deep.equal(makeField('test@test.com'));
   });
 });

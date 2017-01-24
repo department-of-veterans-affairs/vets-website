@@ -1,13 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import classNames from 'classnames';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+
 import {
+  closeAdvancedSearch,
+  closeAttachmentsModal,
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
+  fetchFolders,
   openCreateFolderModal,
-  setCurrentFolder,
   setNewFolderName,
   toggleFolderNav,
   toggleManagedFolders
@@ -16,9 +21,10 @@ import {
 import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
+import ModalAttachments from '../components/compose/ModalAttachments';
 import ModalCreateFolder from '../components/ModalCreateFolder';
 
-class Main extends React.Component {
+export class Main extends React.Component {
   constructor(props) {
     super(props);
     this.handleFolderChange = this.handleFolderChange.bind(this);
@@ -26,9 +32,14 @@ class Main extends React.Component {
     this.handleSubmitCreateNewFolder = this.handleSubmitCreateNewFolder.bind(this);
   }
 
-  handleFolderChange(domEvent) {
-    const folderId = domEvent.target.dataset.folderid;
-    this.props.setCurrentFolder(folderId);
+  componentDidMount() {
+    this.props.fetchFolders();
+  }
+
+  handleFolderChange() {
+    if (this.props.isVisibleAdvancedSearch) {
+      this.props.closeAdvancedSearch();
+    }
   }
 
   handleFolderNameChange(field) {
@@ -43,11 +54,47 @@ class Main extends React.Component {
     } else {
       this.props.createNewFolder(folderName);
     }
-
-    this.props.closeCreateFolderModal();
   }
 
   render() {
+    const loading = this.props.loading;
+
+    if (loading.folders) {
+      return <LoadingIndicator message="Loading your application..."/>;
+    }
+
+    if (!this.props.folders || !this.props.folders.length) {
+      return (
+        <p>
+          The application failed to load.
+          Click <a href="/healthcare/messaging" onClick={(e) => {
+            e.preventDefault();
+            this.props.fetchFolders();
+          }}> here</a> to try again.
+        </p>
+      );
+    }
+
+    if (loading.deletingFolder) {
+      return <LoadingIndicator message="Deleting your folder..."/>;
+    }
+
+    if (loading.deletingMessage) {
+      return <LoadingIndicator message="Deleting message..."/>;
+    }
+
+    if (loading.movingMessage) {
+      return <LoadingIndicator message="Moving message..."/>;
+    }
+
+    if (loading.savingDraft) {
+      return <LoadingIndicator message="Saving your message..."/>;
+    }
+
+    if (loading.sendingMessage) {
+      return <LoadingIndicator message="Sending your message..."/>;
+    }
+
     const navClass = classNames({
       opened: this.props.nav.visible
     });
@@ -60,20 +107,29 @@ class Main extends React.Component {
               onClick={this.props.toggleFolderNav}/>
           <ComposeButton/>
           <FolderNav
-              persistFolder={this.props.persistFolder}
+              currentFolderId={this.props.currentFolderId}
               folders={this.props.folders}
               isExpanded={this.props.nav.foldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
               onCreateNewFolder={this.props.openCreateFolderModal}
-              onFolderChange={this.handleOnFolderChange}/>
+              onFolderChange={this.handleFolderChange}
+              toggleFolderNav={this.props.toggleFolderNav}/>
         </div>
-        <div id="messaging-content">
+        <div id="messaging-content" aria-live="assertive">
           {this.props.children}
         </div>
+        <ModalAttachments
+            cssClass="messaging-modal"
+            text={this.props.attachmentsModal.message.text}
+            title={this.props.attachmentsModal.message.title}
+            id="messaging-add-attachments"
+            onClose={this.props.closeAttachmentsModal}
+            visible={this.props.attachmentsModal.visible}/>
         <ModalCreateFolder
             cssClass="messaging-modal"
             folders={this.props.folders}
             id="messaging-create-folder"
+            loading={loading.creatingFolder}
             onClose={this.props.closeCreateFolderModal}
             onValueChange={this.handleFolderNameChange}
             onSubmit={this.handleSubmitCreateNewFolder}
@@ -89,20 +145,34 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const msgState = state.health.msg;
+
+  const folders = [];
+  msgState.folders.data.items.forEach(v => {
+    folders.push(v);
+  });
+
+  const currentFolderId = _.get(msgState.folders.ui.lastRequestedFolder, 'id', 0);
+
   return {
-    createFolderModal: state.modals.createFolder,
-    folders: state.folders.data.items,
-    nav: state.folders.ui.nav,
-    persistFolder: state.folders.data.currentItem.persistFolder
+    attachmentsModal: msgState.modals.attachments,
+    createFolderModal: msgState.modals.createFolder,
+    currentFolderId,
+    folders,
+    isVisibleAdvancedSearch: msgState.search.advanced.visible,
+    loading: msgState.loading,
+    nav: msgState.folders.ui.nav
   };
 };
 
 const mapDispatchToProps = {
+  closeAdvancedSearch,
+  closeAttachmentsModal,
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
+  fetchFolders,
   openCreateFolderModal,
-  setCurrentFolder,
   setNewFolderName,
   toggleFolderNav,
   toggleManagedFolders

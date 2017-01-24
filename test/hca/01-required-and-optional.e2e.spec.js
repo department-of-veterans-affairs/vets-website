@@ -38,6 +38,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('select[name="gender"]').to.be.visible;
     client
       .setValue('select[name="gender"]', 'M')
+      .setValue('select[name="maritalStatus"]', 'Married')
       .click('input[name="isAmericanIndianOrAlaskanNative"]')
       .click('input[name="isBlackOrAfricanAmerican"]')
       .click('input[name="isNativeHawaiianOrOtherPacificIslander"]')
@@ -110,17 +111,13 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/va-benefits/basic-information');
 
     // Financial disclosure page.
-    client.expect.element('input[name="understandsFinancialDisclosure"] + label').to.be.visible;
+    client.expect.element('input[name="discloseFinancialInformation-0"] + label').to.be.visible;
     client
-      .click('input[name="understandsFinancialDisclosure"]')
+      .click('input[name="discloseFinancialInformation-0"]')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/financial-disclosure');
 
     // Spouse information Page.
-    client.expect.element('select[name="maritalStatus"]').to.be.visible;
-    client
-      .setValue('select[name="maritalStatus"]', 'Married')
-      .click('.form-panel');
     client.expect.element('input[name="fname"]').to.be.visible.before(Timeouts.normal);
 
     client
@@ -189,7 +186,7 @@ module.exports = E2eHelpers.createE2eTest(
       .setValue('input[name="spouseOtherIncome"]', '5000')
       .setValue('input[name="childGrossIncome"]', '4000')
       .setValue('input[name="childNetIncome"]', '3000')
-      .setValue('input[name="ChildOtherIncome"]', '2000')
+      .setValue('input[name="childOtherIncome"]', '2000')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/annual-income');
 
@@ -236,6 +233,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Review and Submit Page.
     client.expect.element('button.edit-btn').to.be.visible;
+    client.click('[name=privacyAgreement]');
     client.click('.form-panel .usa-button-primary');
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);

@@ -5,22 +5,29 @@ const bourbon = require('bourbon').includePaths;
 const neat = require('bourbon-neat').includePaths;
 const path = require('path');
 const webpack = require('webpack');
+const _ = require('lodash');
 
 require('babel-polyfill');
 
+const entryFiles = {
+  'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
+  'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
+  facilities: './src/js/facility-locator/facility-locator-entry.jsx',
+  hca: './src/js/hca/hca-entry.jsx',
+  messaging: './src/js/messaging/messaging-entry.jsx',
+  rx: './src/js/rx/rx-entry.jsx',
+  'no-react': './src/js/no-react-entry.js',
+  'user-profile': './src/js/user-profile/user-profile-entry.jsx',
+  auth: './src/js/auth/auth-entry.jsx'
+};
+
 const configGenerator = (options) => {
+  var filesToBuild = entryFiles; // eslint-disable-line no-var
+  if (options.entry) {
+    filesToBuild = _.pick(entryFiles, options.entry.split(',').map(x => x.trim()));
+  }
   const baseConfig = {
-    entry: {
-      'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
-      'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
-      facilities: './src/js/facility-locator/facility-locator-entry.jsx',
-      hca: './src/js/hca/hca-entry.jsx',
-      messaging: './src/js/messaging/messaging-entry.jsx',
-      rx: './src/js/rx/rx-entry.jsx',
-      'no-react': './src/js/no-react-entry.js',
-      'user-profile': './src/js/user-profile/user-profile-entry.jsx',
-      auth: './src/js/auth/auth-entry.jsx'
-    },
+    entry: filesToBuild,
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
@@ -65,10 +72,6 @@ const configGenerator = (options) => {
           loader: 'modernizr'
         },
         {
-          test: /wow\.js$/,
-          loaders: ['imports?this=>window', 'exports?this.WOW']
-        },
-        {
           test: /\.scss$/,
           loader: ExtractTextPlugin.extract('style-loader', `css!resolve-url!sass?includePaths[]=${bourbon}&includePaths[]=${neat}&includePaths[]=~/uswds/src/stylesheets&sourceMap`)
         },
@@ -84,7 +87,8 @@ const configGenerator = (options) => {
           test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'file-loader'
         }
-      ]
+      ],
+      noParse: [/mapbox\/vendor\/promise.js$/],
     },
     resolve: {
       alias: {
@@ -96,8 +100,12 @@ const configGenerator = (options) => {
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
+        __ALL_CLAIMS_ENABLED__: (options.buildtype === 'development' || process.env.ALL_CLAIMS_ENABLED === 'true'),
+        __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
         'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+          API_PORT: (process.env.API_PORT || 4000),
+          WEB_PORT: (process.env.WEB_PORT || 3333),
         }
       }),
 

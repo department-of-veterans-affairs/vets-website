@@ -1,28 +1,63 @@
 import React from 'react';
 import classNames from 'classnames';
+import range from 'lodash/fp/range';
 
 class Pagination extends React.Component {
   constructor(props) {
     super(props);
-    this.selectNext = this.selectNext.bind(this);
-    this.selectPrev = this.selectPrev.bind(this);
+    this.next = this.next.bind(this);
+    this.prev = this.prev.bind(this);
+    this.pageNumbers = this.pageNumbers.bind(this);
   }
 
-  selectNext() {
-    if (this.props.page < this.props.pages) {
-      this.props.onPageSelect(this.props.page + 1);
+  next() {
+    let nextPage;
+    if (this.props.pages > this.props.page) {
+      nextPage = (
+        <a aria-label="Next page" onClick={() => {this.props.onPageSelect(this.props.page + 1);}}>
+          Next
+        </a>
+      );
     }
+    return nextPage;
   }
 
-  selectPrev() {
+  prev() {
+    let prevPage;
     if (this.props.page > 1) {
-      this.props.onPageSelect(this.props.page - 1);
+      prevPage = (
+        <a aria-label="Previous page" onClick={() => {this.props.onPageSelect(this.props.page - 1);}}>
+          <abbr title="Previous">Prev</abbr>
+        </a>
+      );
     }
+    return prevPage;
+  }
+
+  pageNumbers(limit) {
+    const totalPages = this.props.pages;
+    let end;
+    let start;
+
+    if (totalPages > limit) {
+      // If there are more pages returned than the limit to show
+      // cap the upper range at limit + the page number.
+      start = this.props.page;
+      end = limit + this.props.page;
+    } else {
+      start = 1;
+      end = totalPages + 1;
+    }
+
+    return range(start, end);
   }
 
   render() {
-    const pageList = Array(this.props.pages).fill().map((e, i) => {
-      const pageNumber = i + 1;
+    if (this.props.pages === 1) {
+      return <div/>;
+    }
+
+    const pageList = this.pageNumbers(10).map((pageNumber) => {
       const pageClass = classNames({
         'va-pagination-active': this.props.page === pageNumber
       });
@@ -31,31 +66,20 @@ class Pagination extends React.Component {
         <a
             key={pageNumber}
             className={pageClass}
+            aria-label={`Page ${pageNumber}`}
             onClick={() => this.props.onPageSelect(pageNumber)}>
           {pageNumber}
         </a>
       );
     });
 
-    const prevPage = (
-      <a className="va-pagination-prev" onClick={this.selectPrev}>
-        <abbr title="Previous">Prev</abbr>
-      </a>
-    );
-
-    const nextPage = (
-      <a className="va-pagination-next" onClick={this.selectNext}>
-        Next
-      </a>
-    );
-
     return (
       <div className="va-pagination">
+        <span className="va-pagination-prev">{this.prev()}</span>
         <div className="va-pagination-inner">
-          {prevPage}
           {pageList}
-          {nextPage}
         </div>
+        <span className="va-pagination-next">{this.next()}</span>
       </div>
     );
   }
