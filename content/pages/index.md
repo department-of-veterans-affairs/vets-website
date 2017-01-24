@@ -49,13 +49,6 @@ majorlinks:
     </a>
   </div>
   <div class="medium-4 columns">
-    <a href="/education/apply-for-education-benefits/">
-      <div class="outline-link-block">
-        Apply for education benefits
-      </div>
-    </a>
-  </div>
-  <div class="medium-4 columns">
     <a href="/track-claims/">
       <div class="outline-link-block">
         Check your claim status
