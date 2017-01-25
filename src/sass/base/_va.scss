@@ -1348,18 +1348,9 @@ a.twitter {
     background: $color-primary-darker;
     color: $color-white;
 
-    a.va-crisis-line {
+    .va-crisis-line {
       color: $color-base;
-    }
-
-    .flex {
-      display: flex;
-    }
-
-    .flex-lg {
-      @media #{$large-only} {
-        display: flex;
-      }
+      // background: $color-gray-lightest !important;
     }
 
     .row {
