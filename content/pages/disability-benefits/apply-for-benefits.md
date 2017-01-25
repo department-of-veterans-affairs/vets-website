@@ -163,7 +163,7 @@ You'll see a notice from us in your claims list within about 1 hour if you appli
 
 **Initial Review**
 
-A Veterans Service Representative (VSR) will review your claim. It will move to step 3 if we don’t need any more evidence to support it.
+A Veterans Service Representative (VSR) will review your claim. It'll move to step 3 if we don’t need any more evidence to support it.
 
 
 </li>
