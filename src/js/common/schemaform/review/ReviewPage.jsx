@@ -7,7 +7,7 @@ import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { createPageListByChapter, isValidForm } from '../helpers';
 import { setData, setValid, setPrivacyAgreement, setEditMode, setSubmission, submitForm } from '../actions';
 
-export class ReviewPage extends React.Component {
+class ReviewPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
