@@ -243,21 +243,19 @@ hr {
 
 // Also see l-playbook for more styles
 .va-header-logo {
-  line-height: 1em;
-  margin: 0;
-
   background-color: transparent;
   border-bottom: none;
   display: block;
   height: 40px;
   overflow: hidden;
+  line-height: 1em;
+  margin: 0;
   width: 164px;
 
   @include media($medium-screen) {
     width: 205px;
     height: 50px;
   }
-
 
   &:hover {
     .vets-logo-va path {
