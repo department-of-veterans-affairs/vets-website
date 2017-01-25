@@ -130,7 +130,8 @@ class FormPage extends React.Component {
         touched: {},
         submitted: false,
         onEdit,
-        hideTitle
+        hideTitle,
+        pageTitle: pageConfig.title
       }
     };
   }

@@ -271,7 +271,7 @@ form.rjsf {
 }
 
 .nav-header-schemaform {
-  margin-top: 10px !important;
+  margin-top: 1em !important;
 }
 
 .progress-box-schemaform {
@@ -283,4 +283,27 @@ form.rjsf {
 .schemaform-chapter-progress {
   padding-left: 2rem;
   padding-right: 2rem;
+  @media (max-width: 40.063em) {
+    padding-left: 2rem - .9375rem;
+    padding-right: 2rem - .9375rem;
+  }
+}
+
+.schemaform-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  > h1 {
+    margin-bottom: 0;
+    padding-right: 10px;
+  }
+  > .schemaform-subtitle {
+    font-size: 2rem;
+  }
+  margin-bottom: 3rem;
+}
+
+.schemaform-required-span {
+  color: $color-secondary-dark;
+  margin: 0 0.35em;
 }

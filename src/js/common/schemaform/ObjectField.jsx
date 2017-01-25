@@ -168,7 +168,7 @@ class ObjectField extends React.Component {
     return (
       <fieldset>
         <div className={containerClassNames}>
-          {!isRoot && title && !showFieldLabel
+          {title && !showFieldLabel
               ? <TitleField
                   id={`${idSchema.$id}__title`}
                   title={title}

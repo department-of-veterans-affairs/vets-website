@@ -2,6 +2,7 @@ import React from 'react';
 import Scroll from 'react-scroll';
 
 import FormNav from './FormNav';
+import FormTitle from './FormTitle';
 
 const Element = Scroll.Element;
 
@@ -31,6 +32,7 @@ export default class FormApp extends React.Component {
       <div className="row">
         <Element name="topScrollElement"/>
         <div className="medium-8 columns">
+          {formConfig.title && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
           {content}
         </div>
         <div className="medium-4 columns show-for-medium-up">
