@@ -139,6 +139,8 @@ figcaption {
   color: $color-primary-darker;
 }
 
+// TODO: Evaluate whether we're using placeholders anywhere.
+// Might be able to remove that chunk
 // Change the placeholder color
 input::-webkit-input-placeholder{
   color: $color-gray;
@@ -180,12 +182,12 @@ hr {
 }
 
 // Utility classes
-// TODO: Move these into a partial once there are enough
+// TODO(css): Move these into a partial once there are enough
 .va-util-rel {
   position: relative
 }
 
-
+// TODO(css): Fix this. Should use a less specific, less broad selector
 // Interior rows
 #content.interior a[href^='http://'],
 #content.interior a[href^='https://'] {
@@ -334,6 +336,7 @@ h6 {
   overflow: hidden;
 }
 
+// TODO(css): Make these less specific. 
 #content .popular-container {
   background: $color-white;
   text-align: center;
@@ -508,7 +511,7 @@ h6 {
   }
 }
 
-// TODO: Remove !important once #content ul.breadcrumbs li.active
+// TODO(css): Remove !important once #content ul.breadcrumbs li.active
 // is refactored.
 .splash--alternate {
 
@@ -530,7 +533,6 @@ h6 {
   margin: .5em 0 1em 0 !important;
 }
 
-
 .pitch {
   text-align: center;
 
@@ -548,7 +550,7 @@ h6 {
   }
 }
 
-// TODO: Remove .feature-list ul once it's
+// TODO(css): Remove .feature-list ul once it's
 // refactored from the Markdown
 .feature-list ul,
 .va-list--feature {
@@ -602,11 +604,6 @@ h6 {
 // and eliminate this declaration
 .usa-content {
   max-width: $text-max-width;
-}
-
-// Use to add a horizontal rule under the heading
-.va-h-ruled {
-  border-bottom: 4px solid $color-primary-darkest;
 }
 
 // tagline
@@ -1798,8 +1795,11 @@ li.twenty:before {content: '20';}
   }
 }
 
+
 // Highlight headings
-.highlight {
+// TODO(css): Consolidate these rules, possibly into a new class name
+.highlight,
+.va-h-ruled {
   border-bottom: 3px solid $primary-color;
   padding-bottom: .25em;
   font-weight: 700;
