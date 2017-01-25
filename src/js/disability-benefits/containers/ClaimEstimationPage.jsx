@@ -32,8 +32,8 @@ class ClaimEstimationPage extends React.Component {
               <p className="first-of-type">We look at every claim carefully before making a decision. Sometimes we can decide quickly, but more complex claims take longer to review.</p>
               <h2 className="estimation-header">We base your estimated decision date on:</h2>
               <ul>
-                <li>The type of disability you claimed</li>
-                <li>How many disabilities you claimed</li>
+                <li>The type of claim you submitted</li>
+                <li>The number of claims you submitted</li>
                 <li>Whether there were any unusual circumstances</li>
                 <li>How long it took us to decide other claims like yours</li>
                 <li>How long it takes us to get supporting documents</li>
