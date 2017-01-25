@@ -62,6 +62,12 @@ class ObjectField extends React.Component {
     }
   }
 
+  /*
+   * This is a performance optimization to avoid extra renders. Because we mirror
+   * formData in local state, each form data change will trigger two renders: one when
+   * local state is updated and another when that change is reflected in formData. This check
+   * skips the second render if no other props or state has changed
+   */
   shouldComponentUpdate(nextProps, nextState) {
     const propsWithoutDataUnchanged = deepEquals(_.omit('formData', this.props), _.omit('formData', nextProps));
     const stateUnchanged = deepEquals(this.state, nextState);
