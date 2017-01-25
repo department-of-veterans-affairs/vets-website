@@ -131,13 +131,11 @@
   </div>
 
   <!-- /header alert box -->
-  <div class="row top-banner">
-    <div class="">
-      <div role="banner" class="va-header-logo">
-        <a href="/">
-          {% include "assets/img/svglogo.svg" %}
-        </a>
-      </div>
+  <div class="row va-header-logosearch">
+    <div role="banner" class="va-header-logo-wrapper">
+      <a href="/" class="va-header-logo">
+        {% include "assets/img/svglogo.svg" %}
+      </a>
     </div>
     
     {% if search != 'false' %}

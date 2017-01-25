@@ -239,29 +239,39 @@ hr {
   }
 }
 
-// Also l-playbook for more styles
+// Also see l-playbook for more styles
 .va-header-logo {
   line-height: 1em;
   margin: 0;
 
-  a {
-    background-color: transparent;
-    border-bottom: none;
-    display: block;
-    height: 40px;
-    overflow: hidden;
-    width: 164px;
+  background-color: transparent;
+  border-bottom: none;
+  display: block;
+  height: 40px;
+  overflow: hidden;
+  width: 164px;
 
-    @include media($medium-screen) {
-      width: 205px;
-      height: 50px;
-    }
+  @include media($medium-screen) {
+    width: 205px;
+    height: 50px;
   }
+
 
   &:hover {
     .vets-logo-va path {
       fill: $color-gold;
     }
+  }
+}
+
+.va-header-search-widescr {
+  display: none;
+  line-height: 1em;
+  margin: 0;
+  
+  @include media($medium-screen) {
+    display: inherit;
+    flex: 1 1 80%;
   }
 }
 
