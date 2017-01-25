@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import ReviewArrayField from '../../../../src/js/common/schemaform/review/ReviewArrayField';
+import ArrayField from '../../../../src/js/common/schemaform/review/ArrayField';
 
 const registry = {
   definitions: {},
@@ -16,7 +16,7 @@ const formContext = {};
 const touchedSchema = {};
 const requiredSchema = {};
 
-describe('Schemaform ReviewArrayField', () => {
+describe('Schemaform ArrayField', () => {
   it('should render', () => {
     const idSchema = {};
     const schema = {
@@ -38,7 +38,7 @@ describe('Schemaform ReviewArrayField', () => {
     };
     const arrayData = [];
     const tree = SkinDeep.shallowRender(
-      <ReviewArrayField
+      <ArrayField
           pageKey="page1"
           arrayData={arrayData}
           path={['thingList']}
@@ -75,7 +75,7 @@ describe('Schemaform ReviewArrayField', () => {
     };
     const arrayData = [{}, {}];
     const tree = SkinDeep.shallowRender(
-      <ReviewArrayField
+      <ArrayField
           pageKey="page1"
           arrayData={arrayData}
           path={['thingList']}
@@ -114,7 +114,7 @@ describe('Schemaform ReviewArrayField', () => {
       const arrayData = [{}];
       setData = sinon.spy();
       tree = SkinDeep.shallowRender(
-        <ReviewArrayField
+        <ArrayField
             pageKey="page1"
             setData={setData}
             arrayData={arrayData}

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { focusElement } from '../../utils/helpers';
 import FormPage from '../FormPage';
 import { getArrayFields, hasFieldsOtherThanArray } from '../helpers';
-import ReviewArrayField from './ReviewArrayField';
+import ArrayField from './ArrayField';
 import ProgressButton from '../../components/form-elements/ProgressButton';
 
 const Element = Scroll.Element;
@@ -95,7 +95,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                         buttonClass="usa-button-primary"/>}
                   </FormPage>}
                 {arrayFields.map(arrayField =>
-                  <ReviewArrayField
+                  <ArrayField
                       pageKey={page.pageKey}
                       pageTitle={page.title}
                       arrayData={_.get(this.props.data[page.pageKey].data, arrayField.path)}

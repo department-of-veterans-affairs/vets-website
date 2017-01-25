@@ -18,7 +18,7 @@ const scroller = Scroll.scroller;
  * as its own form page and this component will handle the edit/review states and
  * make sure data is properly updated in the Redux store
  */
-class ReviewArrayField extends React.Component {
+class ArrayField extends React.Component {
   constructor(props) {
     super(props);
     // In contrast to the normal array field, we don't want to add an empty item
@@ -130,7 +130,7 @@ class ReviewArrayField extends React.Component {
       pageTitle
     } = this.props;
     const fieldName = path[path.length - 1];
-    const title = uiSchema && uiSchema['ui:title'] ? uiSchema['ui:title'] : pageTitle;
+    const title = _.get('ui:title', uiSchema) || pageTitle;
     const arrayPageConfig = {
       schema: schema.items,
       uiSchema: uiSchema.items,
@@ -204,26 +204,15 @@ class ReviewArrayField extends React.Component {
   }
 }
 
-export default ReviewArrayField;
+export default ArrayField;
 
-// ReviewArrayField.propTypes = {
-//   schema: React.PropTypes.object.isRequired,
-//   uiSchema: React.PropTypes.object,
-//   errorSchema: React.PropTypes.object,
-//   idSchema: React.PropTypes.object,
-//   onChange: React.PropTypes.func.isRequired,
-//   formData: React.PropTypes.object,
-//   required: React.PropTypes.bool,
-//   disabled: React.PropTypes.bool,
-//   readonly: React.PropTypes.bool,
-//   registry: React.PropTypes.shape({
-//     widgets: React.PropTypes.objectOf(React.PropTypes.oneOfType([
-//       React.PropTypes.func,
-//       React.PropTypes.object,
-//     ])).isRequired,
-//     fields: React.PropTypes.objectOf(React.PropTypes.func).isRequired,
-//     definitions: React.PropTypes.object.isRequired,
-//     formContext: React.PropTypes.object.isRequired,
-//   })
-// };
+ArrayField.propTypes = {
+  schema: React.PropTypes.object.isRequired,
+  uiSchema: React.PropTypes.object,
+  pageKey: React.PropTypes.string.isRequired,
+  path: React.PropTypes.string.isRequired,
+  formData: React.PropTypes.object,
+  arrayData: React.PropTypes.array,
+  pageTitle: React.PropTypes.string
+};
 
