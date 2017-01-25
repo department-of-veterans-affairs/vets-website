@@ -1,9 +1,12 @@
-import React from 'react';
 import _ from 'lodash/fp';
+
 import { fullName, ssn, dateRange, date, address, phone } from '../../../common/schemaform/definitions';
 import { uiFullName, uiSSN, uiDateRange, uiDate, uiPhone } from '../../../common/schemaform/uiDefinitions';
-import { validateGroup, validateEmailsMatch } from '../../../common/schemaform/validation';
+import { validateEmailsMatch } from '../../../common/schemaform/validation';
+
+import { benefitsLabels } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
+import ServicePeriodView from '../components/ServicePeriodView';
 
 const formConfig = {
   urlPrefix: '/1995/',
@@ -21,7 +24,7 @@ const formConfig = {
             'ui:title': 'Veteran information',
             veteranFullName: uiFullName,
             veteranSocialSecurityNumber: _.assign(uiSSN, {
-              'ui:requiredIf': (form) => !form.noSSN
+              'ui:required': (form) => !form.noSSN
             }),
             noSSN: {
               'ui:title': 'I don\'t have a Social Security Number',
@@ -30,7 +33,7 @@ const formConfig = {
               }
             },
             fileNumber: {
-              'ui:requiredIf': (form) => form.noSSN,
+              'ui:required': (form) => !!form.noSSN,
               'ui:title': 'File number',
               'ui:errorMessages': {
                 pattern: 'File number must be 8 digits and (optionally) start with C'
@@ -73,32 +76,8 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Benefit selection',
             benefitsSelected: {
-              'ui:title': 'Select the benefit that is the best match for you:',
-              'ui:options': {
-                showFieldLabel: true,
-                classNames: 'form-errorable-group'
-              },
-              'ui:validations': [
-                validateGroup('Please select at least one benefit')
-              ],
-              chapter33: {
-                'ui:title': <p>Post-9/11 GI Bill (Chapter 33)<br/><a href="/education/gi-bill/post-9-11/" target="_blank">Learn more</a></p>,
-              },
-              chapter30: {
-                'ui:title': <p>Montgomery GI Bill (MGIB-AD, Chapter 30)<br/><a href="/education/gi-bill/montgomery-active-duty/" target="_blank">Learn more</a></p>
-              },
-              chapter1606: {
-                'ui:title': <p>Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)<br/><a href="/education/gi-bill/montgomery-selected-reserve/" target="_blank">Learn more</a></p>
-              },
-              chapter32: {
-                'ui:title': <p>Post-Vietnam Era Veterans' Educational Assistance Program<br/>(VEAP, Chapter 32)<br/><a href="/education/other-educational-assistance-programs/veap/" target="_blank">Learn more</a></p>
-              },
-              chapter1607: {
-                'ui:title': 'Reserve Educational Assistance Program (REAP, Chapter 1607)'
-              },
-              transferOfEntitlement: {
-                'ui:title': 'Transfer of Entitlement Program'
-              }
+              'ui:widget': 'radio',
+              'ui:title': 'Select the benefit that is the best match for you:'
             }
           },
           schema: {
@@ -106,27 +85,9 @@ const formConfig = {
             required: ['benefitsSelected'],
             properties: {
               benefitsSelected: {
-                type: 'object',
-                properties: {
-                  chapter33: {
-                    type: 'boolean'
-                  },
-                  chapter30: {
-                    type: 'boolean'
-                  },
-                  chapter1606: {
-                    type: 'boolean'
-                  },
-                  chapter32: {
-                    type: 'boolean'
-                  },
-                  chapter1607: {
-                    type: 'boolean'
-                  },
-                  transferOfEntitlement: {
-                    type: 'boolean'
-                  }
-                }
+                type: 'string',
+                'enum': Object.keys(benefitsLabels),
+                enumNames: _.values(benefitsLabels)
               }
             }
           }
@@ -147,6 +108,11 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Service periods',
             toursOfDuty: {
+              'ui:description': 'Please record all your periods of service',
+              'ui:options': {
+                itemName: 'Service Period',
+                viewField: ServicePeriodView
+              },
               items: {
                 serviceBranch: {
                   'ui:title': 'Branch of service'

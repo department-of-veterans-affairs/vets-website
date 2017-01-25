@@ -78,9 +78,9 @@ export function transformErrors(errors, uiSchema) {
  * should call addError to add the error.
  */
 
-export function uiSchemaValidate(errors, uiSchema, formData, otherData, path = '') {
+export function uiSchemaValidate(errors, uiSchema, formData, formContext, path = '') {
   const currentData = _.get(path, formData);
-  if (uiSchema.items) {
+  if (uiSchema.items && currentData) {
     currentData.forEach((item, index) => {
       const newPath = `${path}[${index}]`;
       if (!_.get(newPath, errors)) {
@@ -91,7 +91,7 @@ export function uiSchemaValidate(errors, uiSchema, formData, otherData, path = '
           }
         };
       }
-      uiSchemaValidate(errors, uiSchema.items, formData, otherData, newPath);
+      uiSchemaValidate(errors, uiSchema.items, formData, formContext, newPath);
     });
   } else {
     Object.keys(uiSchema)
@@ -106,23 +106,17 @@ export function uiSchemaValidate(errors, uiSchema, formData, otherData, path = '
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema[item], formData, otherData, nextPath);
+        uiSchemaValidate(errors, uiSchema[item], formData, formContext, nextPath);
       });
-  }
-
-  if (typeof uiSchema['ui:requiredIf'] === 'function') {
-    if (uiSchema['ui:requiredIf'](formData) && !currentData) {
-      _.get(path, errors).addError(defaultMessages.required);
-    }
   }
 
   const validations = uiSchema['ui:validations'];
   if (validations && currentData) {
     validations.forEach(validation => {
       if (typeof validation === 'function') {
-        validation(_.get(path, errors), currentData, formData, otherData);
+        validation(_.get(path, errors), currentData, formData, formContext, uiSchema['ui:errorMessages']);
       } else {
-        validation.validator(_.get(path, errors), currentData, formData, otherData, validation.options);
+        validation.validator(_.get(path, errors), currentData, formData, formContext, uiSchema['ui:errorMessages'], validation.options);
       }
     });
   }

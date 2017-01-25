@@ -5,14 +5,14 @@ import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { createPageListByChapter, isValidForm } from '../helpers';
-import { setPrivacyAgreement, setEditMode, setSubmission, submitForm } from '../actions';
+import { setData, setValid, setPrivacyAgreement, setEditMode, setSubmission, submitForm } from '../actions';
 
-export class ReviewPage extends React.Component {
+class ReviewPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     // this only needs to be run once
-    this.pagesByChapter = createPageListByChapter(this.props.formConfig);
+    this.pagesByChapter = createPageListByChapter(this.props.route.formConfig);
   }
 
   handleSubmit() {
@@ -24,7 +24,8 @@ export class ReviewPage extends React.Component {
   }
 
   render() {
-    const { form, formConfig } = this.props;
+    const { form } = this.props;
+    const formConfig = this.props.route.formConfig;
     return (
       <div>
         <h4 className="edu-page-title">Review application</h4>
@@ -36,6 +37,8 @@ export class ReviewPage extends React.Component {
                   onEdit={this.props.setEditMode}
                   pages={this.pagesByChapter[chapter]}
                   chapterKey={chapter}
+                  setData={this.props.setData}
+                  setValid={this.props.setValid}
                   chapter={formConfig.chapters[chapter]}
                   data={form}/>
             ))}
@@ -54,10 +57,9 @@ export class ReviewPage extends React.Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    form: state.form,
-    formConfig: ownProps.route.formConfig
+    form: state.form
   };
 }
 
@@ -65,11 +67,18 @@ const mapDispatchToProps = {
   setEditMode,
   setSubmission,
   submitForm,
-  setPrivacyAgreement
+  setPrivacyAgreement,
+  setData,
+  setValid
 };
 
 ReviewPage.propTypes = {
-  formConfig: React.PropTypes.object.isRequired
+  form: React.PropTypes.object.isRequired,
+  route: React.PropTypes.shape({
+    formConfig: React.PropTypes.object.isRequired
+  }).isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReviewPage);
+
+export { ReviewPage };

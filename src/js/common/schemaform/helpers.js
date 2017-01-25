@@ -163,3 +163,107 @@ export function flattenFormData(form) {
     return _.assign(formPages, page.data);
   }, {});
 }
+
+export function errorSchemaIsValid(errorSchema) {
+  if (errorSchema && errorSchema.__errors && errorSchema.__errors.length) {
+    return false;
+  }
+
+  return _.values(_.omit('__errors', errorSchema)).every(errorSchemaIsValid);
+}
+
+export function getArrayFields(pageConfig) {
+  const fields = [];
+  const findArrays = (obj, path = []) => {
+    if (obj.type === 'array') {
+      fields.push({
+        path,
+        schema: obj,
+        uiSchema: _.get(path, pageConfig.uiSchema)
+      });
+    }
+
+    if (obj.type === 'object') {
+      Object.keys(obj.properties).forEach(prop => {
+        findArrays(obj.properties[prop], path.concat(prop));
+      });
+    }
+  };
+
+  findArrays(pageConfig.schema);
+
+  return fields;
+}
+
+export function hasFieldsOtherThanArray(schema) {
+  if (schema.$ref || (schema.type !== 'object' && schema.type !== 'array')) {
+    return true;
+  }
+
+  if (schema.type === 'object') {
+    return Object.keys(schema.properties).some(nextProp => {
+      return hasFieldsOtherThanArray(schema.properties[nextProp]);
+    });
+  }
+
+  return false;
+}
+
+/*
+ * This function goes through a schema/uiSchema and updates the required array
+ * based on any ui:required field properties in the uiSchema.
+ *
+ * If no required fields are changing, it makes sure to not mutate the existing schema,
+ * so we can still take advantage of any shouldComponentUpdate optimizations
+ */
+export function updateRequiredFields(schema, uiSchema, formData) {
+  if (!uiSchema) {
+    return schema;
+  }
+
+  if (schema.type === 'object') {
+    const newRequired = Object.keys(schema.properties).reduce((requiredArray, nextProp) => {
+      const field = uiSchema[nextProp];
+      if (field && field['ui:required']) {
+        const isRequired = field['ui:required'](formData);
+        const arrayHasField = requiredArray.some(prop => prop === nextProp);
+
+        if (arrayHasField && !isRequired) {
+          return requiredArray.filter(prop => prop !== nextProp);
+        } else if (!arrayHasField && isRequired) {
+          return requiredArray.concat(nextProp);
+        }
+
+        return requiredArray;
+      }
+
+      return requiredArray;
+    }, schema.required || []);
+
+    const newSchema = Object.keys(schema.properties).reduce((currentSchema, nextProp) => {
+      if (uiSchema) {
+        const nextSchema = updateRequiredFields(currentSchema.properties[nextProp], uiSchema[nextProp], formData);
+        if (nextSchema !== currentSchema.properties[nextProp]) {
+          return _.set(['properties', nextProp], nextSchema, currentSchema);
+        }
+      }
+
+      return currentSchema;
+    }, schema);
+
+    if (newSchema.required !== newRequired && (newSchema.required || newRequired.length > 0)) {
+      return _.set('required', newRequired, newSchema);
+    }
+
+    return newSchema;
+  }
+
+  if (schema.type === 'array') {
+    const newItemSchema = updateRequiredFields(schema.items, uiSchema.items, formData);
+    if (newItemSchema !== schema.items) {
+      return _.set('items', newItemSchema, schema);
+    }
+  }
+
+  return schema;
+}
