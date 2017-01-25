@@ -7,7 +7,7 @@ import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
 
 class DetailsPage extends React.Component {
   componentDidMount() {
-    document.title = `Details - Your ${getClaimType(this.props.claim)} Claim`;
+    this.setTitle();
     if (!isTab(this.props.lastPage)) {
       if (!this.props.loading) {
         setUpPage();
@@ -22,6 +22,13 @@ class DetailsPage extends React.Component {
     if (!this.props.loading && prevProps.loading && !isTab(this.props.lastPage)) {
       setUpPage(false);
     }
+    if (this.props.loading !== prevProps.loading) {
+      this.setTitle();
+    }
+  }
+  setTitle() {
+    document.title = this.props.loading ? 'Details - Your Claim' :
+      `Details - Your ${getClaimType(this.props.claim)} Claim`;
   }
   render() {
     const { claim, loading } = this.props;
