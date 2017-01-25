@@ -48,6 +48,7 @@ class ReviewPage extends React.Component {
                   pages={this.pagesByChapter[chapter]}
                   chapterKey={chapter}
                   setData={this.props.setData}
+                  setValid={this.props.setValid}
                   chapter={formConfig.chapters[chapter]}
                   data={form}/>
             ))}
