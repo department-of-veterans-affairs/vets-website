@@ -34,7 +34,7 @@ export default class ClaimDetailLayout extends React.Component {
                 {message && <Notification title={message.title} body={message.body} type={message.type} onClose={clearNotification}/>}
                 <h1 className="claim-title">Your {getClaimType(claim)} Claim</h1>
                 <div className="claim-contentions">
-                  <h6>Your Claimed Contentions:</h6>
+                  <h6>What you've claimed:</h6>
                   <p className="list">
                     {claim.attributes.contentionList && claim.attributes.contentionList.length
                         ? claim.attributes.contentionList.slice(0, MAX_CONTENTIONS).map(cond => cond.trim()).join(', ')
