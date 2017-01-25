@@ -5,7 +5,7 @@
 
 $button-stroke: inset 0 0 0 1px;
 
-@media screen and (min-width: 600px) {
+@include media($medium-screen) {
   form {
     max-width: 32em;
   }
@@ -96,12 +96,12 @@ button.hca-button-disabled {
 .hca-review-panel {
   button {
     background-color: $color-primary;
-    color: $white;
+    color: $color-white;
     background-image: none;
     padding-right: 3rem;
     &:hover {
       background-color: $color-primary-darker;
-      color: $white;
+      color: $color-white;
     }
   }
   .edit-btn {

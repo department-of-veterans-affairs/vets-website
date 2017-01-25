@@ -18,37 +18,33 @@ majorlinks:
 
 ---
 <div class="splash">
-  <div class="row">
-    <div class="small-12 columns">
-      <div class="pitch">
-        <h2 class="tagline"><span>Get the VA services that you’ve earned.</span></h2>
-      </div>
+  <div class="usa-grid">
+    <div class="pitch">
+      <h2 class="tagline"><span class="tagline-inner">Get the VA services that you’ve earned.</span></h2>
     </div>
   </div>
 </div>
 
 <div class="popular-container">
-<div class="row">
-  <div class="small-12 medium-5 mx-auto text-center column-padded">
-  <h2 class="gold-ruled">Popular on Vets.gov</h2>
-  </div>
+<div class="usa-grid">
+  <h2 class="usa-width-five-twelfths popular-title">Popular on Vets.gov</h2>
 </div>
-<div class="row flex">
-  <div class="medium-4 columns">
+<div class="usa-grid">
+  <div class="usa-width-one-third">
     <a href="/healthcare/apply/">
       <div class="outline-link-block">
         Apply for health care
       </div>
     </a>
   </div>
-  <div class="medium-4 columns">
+  <div class="usa-width-one-third">
     <a href="/facilities/">
       <div class="outline-link-block">
         Find nearby VA locations
       </div>
     </a>
   </div>
-  <div class="medium-4 columns">
+  <div class="usa-width-one-third">
     <a href="/education/apply-for-education-benefits/">
       <div class="outline-link-block">
         Apply for education benefits
@@ -57,17 +53,14 @@ majorlinks:
   </div>
 </div>
 
-<div class="row text-center">
-<div class="column-padded text-center mx-auto medium-8 stars-tagline">
-  <h2>Explore Services and Benefits</h2>
-</div>
-</div>
-</div>
-
-
-
-<div class="main" role="main">
-  <div class="section main-menu">
-    {% include "content/includes/main-navigation.html" %}
+<div class="usa-grid text-center">
+  <div class="text-center stars-tagline">
+    <h2>Explore Services and Benefits</h2>
   </div>
 </div>
+</div>
+
+<div class="section main-menu">
+  {% include "content/includes/main-navigation.html" %}
+</div>
+

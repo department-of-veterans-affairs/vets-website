@@ -7,7 +7,7 @@
 .progress-box .va-growable button {
   width: auto;
   margin-right: 0;
-  @media screen and (max-width: 340px) {
+  @include media-maxwidth($small-screen) {
     padding-left: 10px;
     padding-right: 10px;
   }

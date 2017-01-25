@@ -66,8 +66,8 @@ class VAInformationSection extends React.Component {
     }
 
     return (
-      <div className="row">
-        <div className="small-12 columns">
+      <div className="usa-grid">
+        <div className="usa-width-one-whole">
           {content}
         </div>
       </div>

@@ -14,10 +14,10 @@ class ClaimEstimationPage extends React.Component {
     const claimType = !this.props.loading ? getClaimType(this.props.claim) : '';
     return (
       <div>
-        <div className="row">
-          <div className="medium-12 columns">
+        <div className="usa-grid">
+          <div className="usa-width-one-whole">
             <nav className="va-nav-breadcrumbs">
-              <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+              <ul className="usa-grid va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
                 <li><Link to={`your-claims/${this.props.params.id}/status`}>Your {claimType} Claim</Link></li>
                 <li className="active">How We Come Up with Your Estimated Decision Date</li>
@@ -25,8 +25,8 @@ class ClaimEstimationPage extends React.Component {
             </nav>
           </div>
         </div>
-        <div className="row">
-          <div className="medium-8 columns">
+        <div className="usa-grid">
+          <div className="usa-width-two-thirds">
             <div>
               <h1>How We Come Up with Your Estimated Decision Date</h1>
               <p className="first-of-type">We look at every claim carefully before making a decision. Sometimes we can decide quickly, but more complex claims take longer to review.</p>
@@ -53,7 +53,7 @@ class ClaimEstimationPage extends React.Component {
             <p>You can help speed up the process by promptly and electronically uploading the documents requested by VA.</p>
             <p>If you have questions, call VA at 855-574-7286, Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.</p>
           </div>
-          <div className="small-12 medium-4 columns">
+          <div className="usa-width-one-third">
             <AskVAQuestions/>
           </div>
         </div>

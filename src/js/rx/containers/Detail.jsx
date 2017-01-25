@@ -180,16 +180,16 @@ export class Detail extends React.Component {
       content = (
         <div>
           {header}
-          <div className="row">
-            <div className="columns medium-8">
+          <div className="usa-grid-full">
+            <div className="usa-width-two-thirds">
               {rxInfo}
             </div>
-            <div className="columns medium-4">
+            <div className="usa-width-one-third">
               {contactCard}
             </div>
           </div>
-          <div className="row">
-            <div className="columns medium-8">
+          <div className="usa-grid-full">
+            <div className="usa-width-three-fourths">
               {orderHistory}
             </div>
           </div>

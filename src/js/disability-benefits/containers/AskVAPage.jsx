@@ -42,10 +42,10 @@ class AskVAPage extends React.Component {
     }
     return (
       <div>
-        <div className="row">
-          <div className="medium-12 columns">
+        <div className="usa-grid">
+          <div className="usa-width-one-whole">
             <nav className="va-nav-breadcrumbs">
-              <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+              <ul className="usa-grid va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
                 <li><Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link></li>
                 <li className="active">Ask for your Claim Decision</li>
@@ -53,8 +53,8 @@ class AskVAPage extends React.Component {
             </nav>
           </div>
         </div>
-        <div className="row">
-          <div className="medium-8 columns">
+        <div className="usa-grid">
+          <div className="usa-width-three-fourths">
             <div>
               <h1>Ask for your Claim Decision</h1>
               <p className="first-of-type">We sent you a letter in the mail asking for more evidence to support your claim. We’ll wait 30 days for your evidence. If you don’t have anything more you want to submit, let us know and we’ll go ahead and make a decision on your claim.</p>
@@ -84,7 +84,7 @@ class AskVAPage extends React.Component {
                 : null}
             </div>
           </div>
-          <div className="small-12 medium-4 columns">
+          <div className="usa-width-one-third">
             <AskVAQuestions/>
           </div>
         </div>

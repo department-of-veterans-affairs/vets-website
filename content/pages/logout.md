@@ -5,8 +5,8 @@ title: Logout
 
 <div class="main home" role="main">
   <div class="section main-menu">
-    <div class="row">
-      <div class="small-12 columns">
+    <div class="usa-grid">
+      <div class="usa-width-one-whole">
         <div style="padding: 2em 0;">
         <h3>Signing out of Vets.gov...</h3>
         </div>

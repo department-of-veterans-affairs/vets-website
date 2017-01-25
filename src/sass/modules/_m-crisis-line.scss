@@ -1,25 +1,23 @@
-// TODO: Remove !important when .footer a selector gets simplified
-
 .crisis-line-container {
   position: relative;
   background: $color-gray-lightest;
-  @media #{$medium-up} {
-    width: 283px;
-  }
-
-  .crisis-line-body {
-    position: absolute;
-    right: 0;
-    background: $color-gray-lightest;
-    border-radius: 0 0 0.2em 0.2em;
-  }
 
   .stacked {
     margin: 0 auto;
     padding: 0.4em 0 0.3em;
   }
-}
 
+  &--wide {
+    display: none;
+  }
+}
+.crisis-line-body {
+  position: absolute;
+  right: 0;
+  background: $color-gray-lightest;
+  border-radius: 0 0 0.2em 0.2em;
+  width: 100%;
+}
 
 .va-crisis-panel {
   color: $color-primary-darkest;
@@ -75,7 +73,7 @@
     padding: 2.5rem 0 0;
   }
 
-  @media #{$small-only} {
+  @include media-maxwidth($small-screen) {
     display: none;
   }
 }
@@ -88,24 +86,24 @@
 }
 
 //===== VA CRISIS LINE BUTTONS
-.va-crisis-line--touch {
-  border-radius: .2em;
-  margin: 2.5em 0;
-}
-
 .va-crisis-line {
   background: $color-gray-lightest url(/img/arrow-down.png) no-repeat calc(100% - 0.5em) center;
   background-size: .8em auto;
   color: $color-base;
   margin: 0;
   text-align: left;
-  font-size: 1em;
+  font-size: 1.44rem;
   width: 100%;
   display: block;
   text-decoration: none;
   font-weight: bold;
   padding: 0 26px 0 0;
   border-radius: 0 0 0.2em 0.2em;
+
+  > .va-flex {
+    align-items: center;
+    pointer-events: none;
+  }
 
   &:hover {
     color: $color-base;
@@ -174,9 +172,12 @@
 }
 
 
-@media #{$medium} {
-  .va-crisis-panel--touch,
-  .va-crisis-line--touch {
+@include media ($medium-screen) {
+  .va-crisis-line--narrow {
     display: none;
+  }
+  .crisis-line-container--wide {
+    display: block;
+    width: 283px;
   }
 }

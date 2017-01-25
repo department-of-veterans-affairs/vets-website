@@ -36,38 +36,51 @@
 // posts
 // TODO: Remove !important when #content .splash is refactored
 .splash--blog {
-  margin: 0 !important;
-  padding: 0 !important;
-
-  @media #{$small} {
-    margin: .5em 0 0 0 !important;
-    padding: 1em 0 0 0 !important;
+  margin: .5em 0 0 0 !important;
+  padding: 1em 0 0 0 !important;
+  
+  @include media($medium-screen) {
+    margin: 0 !important;
+    padding: 0 !important;
   }
 }
 
 .splash--hasimg {
   // TODO: Remove !important when #content .splash is refactored
-  padding: 4em 0 !important;
+  padding: 6.1em 0 !important;
   background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
   margin-bottom: 1em;
 
-  @media #{$small} {
-    // TODO: Remove !important when #content .splash is refactored
-    padding: 6.1em 0 !important;
+  @include media($medium-screen) {
+    padding: 4em 0 !important;
   }
 }
 
-#playbook .splash {
+.splash--alternate {
   margin: 0;
   background: $color-white url(/img/design/background/thread.png) center center no-repeat;
   background-size: cover;
   display: flex;
   align-items: center;
   min-height: 14em;
-}
 
+  li {
+    a {
+      color: $color-primary-darkest !important;
+      border-bottom: 2px solid $secondary-color !important;
+
+      &:hover {
+        border-bottom: 3px solid $color-gold !important;
+      }
+    }
+
+    &.parent:after {
+      color: #ccc !important;
+    }
+  } 
+}
 
 // TODO: Remove !important from this block
 // Once the specificity of #content .splash h2 block/
@@ -79,7 +92,7 @@
   background: none !important;
   color: $color-primary-darkest !important;
 
-  @media #{$medium} {
+  @include media($medium-screen) {
     position: absolute !important;
     margin: 1.35em 0 0 0 !important;
     z-index: 100 !important;
@@ -101,7 +114,7 @@
     }
   }
 
-  @media #{$medium} {
+  @include media($medium-screen) {
     position: absolute;
     margin: 1.35em 0 0 0;
     z-index: 100;
@@ -127,7 +140,7 @@
   .medium-3 {
     padding-top: 1.5em;
 
-    @media #{$small-only} {
+    @include media-maxwidth( $small-screen) {
       padding-left: 1.5em;
       h4 {
         font-size: 1.4em;
@@ -177,11 +190,8 @@
     font-size: .85em;
     vertical-align: 15%;
     letter-spacing: .05em;
-    @media #{$small-only} {
-      margin-left: 0;
-      margin-bottom: 1em;
-    }
-    @media #{$medium-only} {
+
+    @include media-maxwidth($small-screen) {
       margin-left: 0;
       margin-bottom: 1em;
     }
@@ -243,7 +253,7 @@
   border-bottom:4px solid $color-white;
   div:nth-child(1) {
     border-right:8px solid $color-white;
-    @media #{$small-only} {
+    @include media-maxwidth($small-screen) {
       border-right: 0;
     }
   }
@@ -254,7 +264,7 @@
     background-size: 165px 165px;
     padding: 0;
     height: 209px;
-    @media #{$medium-only} {
+    @include media-maxwidth($medium-screen) {
       background-position: 0 center;
     }
   }
@@ -282,7 +292,7 @@
   background:$wild-sand;
   li {
     &.step.four {
-      @media #{$small-only} {
+      @include media-maxwidth($small-screen) {
         padding-top: 0;
         margin-top: 1em!important;
       }
@@ -297,7 +307,7 @@
   background:$green-white;
     li {
     &.step.six {
-      @media #{$small-only} {
+      @include media-maxwidth($small-screen) {
         padding-top: 0;
         margin-top: 1em!important;
       }
@@ -355,4 +365,28 @@ span.color-chip {
   &.color-gold {background: $color-gold;}
   &.color-green {background: $color-green;}
   &.color-green-lightest {background: $color-green-lightest;}
+}
+
+#content .section.coda {
+  background: $color-primary-darker;
+  color: $color-white;
+  h2, h3, h4, h5, h6, a {color: $color-white;}
+  h4 {font-size: 1.5em;}
+}
+
+
+#content .section.tertiary {
+  background: $polar;
+}
+
+#content .section.quaternary {
+  background: $color-gray-lighter;
+  h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
+  h4 {font-weight: 700;}
+  .cards {
+    a {
+      height:12em;
+    }
+  }
+  .feature {background: none;}
 }

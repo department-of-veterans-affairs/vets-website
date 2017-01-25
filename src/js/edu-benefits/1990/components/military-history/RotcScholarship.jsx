@@ -12,8 +12,8 @@ export default class RotcScholarship extends React.Component {
     const scholarship = this.props.data;
     const formFields = (
       <div className="input-section">
-        <div className="row">
-          <div className="columns small-4 no-pad-left">
+        <div className="usa-grid">
+          <div className="usa-width-one-third no-pad-left">
             <div className="edu-benefits-first-label">
               <ErrorableNumberInput
                   errorMessage={validateIfDirty(scholarship.year, (val) => isValidValue(isValidYear, val)) ? undefined : 'Please enter a valid year.'}
@@ -25,7 +25,7 @@ export default class RotcScholarship extends React.Component {
                   onValueChange={(update) => {onValueChange('year', update);}}/>
             </div>
           </div>
-          <div className="columns small-8 no-pad-right">
+          <div className="usa-width-three-fourths no-pad-right">
             <div className="edu-benefits-first-label">
               <ErrorableTextInput
                   errorMessage={validateIfDirty(scholarship.amount, (val) => isValidValue(isValidMonetaryValue, val)) ? undefined : 'Please enter the amount received.'}

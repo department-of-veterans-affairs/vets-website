@@ -14,7 +14,7 @@
   min-width: 25rem;
   position: relative;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     float: left;
     width: 50%;
 
@@ -69,7 +69,7 @@ button.rx-prescription-button,
   white-space: nowrap;
   width: 100%;
 
-  @media (max-width: $small-screen) {
+  @include media-maxwidth( $small-screen) {
     padding: 1rem;
   };
 }

@@ -22,7 +22,7 @@
     }
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     margin-top: 2rem;
 
     td {

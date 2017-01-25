@@ -1,0 +1,151 @@
+// Logo and Header
+.header {
+  clear: both;
+  padding: 0;
+  margin: 0;
+
+  .login-container {
+    background: $color-primary-darkest;
+    padding: 0.3em 0 1em;
+
+    .row {
+      padding: 0 0.75em;
+    }
+  }
+
+  .flex-auto {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+  }
+  
+  a.va-crisis-line {
+    color: $color-base;
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .flex-lg {
+    @include media($large-screen) {
+      display: flex;
+    }
+  }
+
+  .crisis-row {
+    &::after {
+      content: ' ';
+      display: block;
+    }
+
+    @include media($medium-screen) {
+      align-items: flex-start;
+      display: flex;
+      padding-right: 0;
+    }
+  }
+}
+
+.top-banner {
+  padding-top: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.va-header-logo {
+  line-height: 1em;
+  margin: 0;
+
+  a {
+    background: url(/img/design/logo/logo.png) top left no-repeat;
+    background-size: contain;
+    border-bottom: none;
+    color: white;
+    display: block;
+    height: 40px;
+    overflow: hidden;
+    text-decoration: none;
+    text-indent: 180%;
+    white-space: nowrap;
+    width: 164px;
+
+    &:hover, &:active, &:focus {
+      background-image: url(/img/design/logo/logo-hover.png);
+    }
+
+    @include media($medium-screen) {
+      width: 205px;
+      height: 50px;
+    }
+  }
+  // See va-playbook for styles
+}
+
+.header-message {
+  padding: 0.5em 0;
+  color: $color-white;
+  font-size: 1.152rem;
+  font-weight: 400;
+  flex: 1;
+}
+
+// Notice / feedback banners
+.va-notice--banner {
+  @include clearfix;
+  background: $color-primary-darker;
+  color: $color-white;
+  font-size: 1.44rem;
+  font-weight: 400;
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    background-image: none;
+    color: $color-white;
+    padding: 0;
+  }
+}
+
+// Only used in the footer
+.va-notice--banner--alt {
+  padding: 1.25em 0;
+  margin: 1.5em 0 0 0;
+}
+
+.incompatible-browser-warning {
+  padding: 0.5em;
+  font-weight: bold;
+  background: $color-gold-lightest;
+  color: $color-black;
+  font-size: 1.44rem;
+  display: none;
+
+  &.visible {
+    display: block;
+  }
+}
+
+.va-header-search--wide {
+  display: none;
+
+  @include media($medium-screen) {
+    display: block;
+  }
+}
+
+.search-button {
+  margin: 0.1em .5em 0 0;
+  padding: 0;
+  float: right;
+
+  @include media($medium-screen) {
+    display: none;
+  }
+}
+
+#mobile-menu {
+  display: none;
+}

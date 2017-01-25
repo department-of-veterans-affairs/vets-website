@@ -11,11 +11,11 @@ export default class FormApp extends React.Component {
   render() {
     const { currentLocation } = this.props;
     return (
-      <div className="row">
+      <div className="usa-grid">
         <Element name="topScrollElement"/>
-        <div className="medium-4 columns show-for-medium-up">
+        <div className="usa-grid-one-third columns show-for-medium-up">
         </div>
-        <div className="medium-8 columns">
+        <div className="usa-width-three-fourths">
           <div className="progress-box">
             {this.props.children}
           </div>

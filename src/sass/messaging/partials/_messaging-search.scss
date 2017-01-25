@@ -2,7 +2,7 @@
 [id=msg-search] {
   position: relative;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     margin-bottom: 2rem;
   }
 
@@ -14,7 +14,7 @@
     border-radius: 0 0.3rem 0.3rem 0;
     margin: 0;
 
-    @media (max-width: $medium-screen) {
+    @include media-maxwidth($medium-screen) {
       flex: 0 1 5rem;
     }
   }
@@ -26,7 +26,7 @@
   }
 
   button {
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       width: auto;
     }
   }
@@ -63,7 +63,7 @@
     font-size: 2rem;
   }
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     .fa.fa-search {
       display: none;
     }
@@ -73,7 +73,7 @@
     position: absolute;
     left: -9999rem;
 
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       position: static;
     }
   }
@@ -88,13 +88,13 @@
 }
 
 .msg-search-advanced-group {
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     align-items: center;
     display: flex;
   }
 
   label {
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       -webkit-flex: 1 0 10rem;
       flex:  1 0 10rem;
       width: auto;
@@ -102,7 +102,7 @@
   }
 
   legend {
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       -webkit-flex: 0 0 10rem;
       flex:  0 0 10rem;
     }
@@ -112,7 +112,7 @@
     align-items: center;
     margin-bottom: 1rem;
 
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       // Affects the element's  children
       display: flex;
       // Affects the element itself, since it's also a flex child
@@ -124,11 +124,11 @@
     -webkit-flex: 0 1 25%;
     flex: 0 1 25%;
 
-    @media (max-width: $medium-screen) {
+    @include media-maxwidth($medium-screen) {
       margin-bottom: 1em;
     }
 
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       padding-left: 1.5rem;
     }
 
@@ -143,7 +143,7 @@
   font: inherit;
   padding-top: 0rem;
   
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     > div {
       text-align: center;
     }
@@ -154,7 +154,7 @@
   align-items: center;
   display: flex;
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     > div {
       flex: 1 0 11rem;
       text-align: center;
@@ -191,7 +191,7 @@
 form .msg-search-advanced-submit[type="submit"] {
   margin: 2.5rem 0 0 0;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     margin-left: 10rem;
   }
 }

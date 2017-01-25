@@ -5,8 +5,8 @@ export default class FacilityHours extends Component {
   renderNotes(notes) {
     if (notes) {
       return (
-        <div className="row">
-          <div className="small-12 columns">
+        <div className="usa-grid">
+          <div className="usa-width-one-whole">
             <p>Notes: {notes}</p>
           </div>
         </div>
@@ -34,11 +34,11 @@ export default class FacilityHours extends Component {
     const hourRows = Object.keys(hours).map(h => {
       if (h !== 'notes' && hours[h] && hours[h] !== '') {
         return (
-          <div className="row" key={h}>
-            <div className="small-6 columns">
+          <div className="usa-grid" key={h}>
+            <div className="usa-width-one-half">
               {capitalize(h)}:
             </div>
-            <div className="small-6 columns">
+            <div className="usa-width-one-half">
               {capitalize(hours[h])}
             </div>
           </div>

@@ -82,29 +82,25 @@
 
 <div class="header">
   <div class="incompatible-browser-warning">
-    <div class="row full">
-      <div class="small-12">
-        Your browser is out of date. To use this website, please <a href="https://whatbrowser.org/">update your browser</a> or use a different device.
-      </div>
+    Your browser is out of date. To use this website, please <a href="https://whatbrowser.org/">update your browser</a> or use a different device.
+  </div>
+
+  <div class="crisis-line-container va-crisis-line--narrow va-flex">
+    <div class="stacked">
+      <a href="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
+        <span class="vcl"></span>
+        Get help from Veterans Crisis Line
+      </a>
     </div>
   </div>
+
   <div class="va-notice--banner">
-    <div class="row hide-for-medium-up crisis-line-container">
-      <div class="small-12 va-flex">
-        <div class="stacked">
-          <a href="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
-            <span class="vcl"></span>
-            Get help from Veterans Crisis Line
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="row crisis-row">
-      <div class="columns small-12 medium-7 message">
+    <div class="usa-grid crisis-row">
+      <div class="usa-width-one-half header-message">
         <p>This site is a <a target="_blank" href="https://www.vets.gov/playbook/design/">work in progress.</a> If you don&rsquo;t find what you need, visit <a target="_blank" href="http://www.va.gov">VA.gov</a>.</p>
       </div>
-      <div class="columns small-12 medium-5 crisis-line-container crisis-line-container--wide">
-        <div class="crisis-line-body show-for-medium-up">
+      <div class="usa-width-one-half crisis-line-container crisis-line-container--wide">
+        <div class="crisis-line-body">
           <button class="va-crisis-line">
             <span class="va-flex">
               <span class="vcl"></span>
@@ -131,16 +127,16 @@
   </div>
 
   <!-- /header alert box -->
-  <div class="row top-banner">
-    <div class="">
+  <div class="usa-grid top-banner">
+    <div>
       <h1 role="banner" class="va-header-logo"><a href="/">Vets.gov</a></h1>
     </div>
     <div class="flex-auto"></div>
     {% if search != 'false' %}
-      <div class="hide-for-small-only">
+      <div class="va-header-search--wide">
         <div class="menu">
           <form accept-charset="UTF-8" class="usa-search usa-search-small" action="https://search.vets.gov/search" method="get">
-            <div role="search">
+            <div role="search" class="va-flex">
               <label class="usa-sr-only" for="search-field-small">Search</label>
               <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_search" />
               <input aria-label="search" autocomplete="off" type="search" name="query" id="search-field-small">
@@ -152,7 +148,7 @@
         </div>
       </div>
 
-      <div class="hide-for-medium-up search-button">
+      <div class="search-button">
         <button data-show="#mobile-menu" class="va-overlay-trigger va-mobile-searchtrigger usa-button usa-button-outline-inverse" aria-controls="mobile-menu" aria-flowto="mobile-menu">Search</button>
       </div>
 
@@ -166,7 +162,7 @@
               </div>
               <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_search" />
               <label for="mobile-query">Search:</label>
-              <div class="row collapse">
+              <div class="usa-grid collapse">
                 <div class="small-9 columns">
                   <input autocomplete="off" class="usagov-search-autocomplete" id="mobile-query" name="query" type="text" />
                 </div>
@@ -181,7 +177,7 @@
     {% endif %}
   </div>
   <div class="login-container">
-    <div class="row">
+    <div class="usa-grid">
       <div class="text-right" id="login-root"></div>
     </div>
   </div>

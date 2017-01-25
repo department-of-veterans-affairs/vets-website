@@ -93,7 +93,7 @@ button.form-button-disabled {
   margin-top: 0;
 }
 
-@media #{$medium} {
+@include media($medium-screen) {
   .form-select-medium {
     max-width: 12rem;
   }

@@ -138,18 +138,18 @@ export default class NavButtons extends React.Component {
       }
 
       buttons = (<div>
-        <div className="row form-progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="usa-grid-full form-progress-buttons">
+          <div className="usa-width-five-twelfths">
             {backButton}
           </div>
-          <div className="small-6 medium-5 columns">
+          <div className="usa-width-five-twelfths">
             {submitButton}
           </div>
-          <div className="small-1 medium-1 end columns">
+          <div className="usa-width-one-twelfth">
             <div className={this.state ? 'spinner' : 'hidden'}>&nbsp;</div>
           </div>
         </div>
-        <div className="row">
+        <div className="usa-grid">
           <div className="columns">
           {submitMessage}
           </div>
@@ -157,8 +157,8 @@ export default class NavButtons extends React.Component {
       </div>);
     } else if (path.endsWith('submit-message')) {
       buttons = (
-        <div className="row form-progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="usa-grid-full form-progress-buttons">
+          <div className="usa-width-five-twelfths">
             <a href="/">
               <button className="usa-button-primary">Back to Main Page</button>
             </a>
@@ -167,8 +167,8 @@ export default class NavButtons extends React.Component {
       );
     } else if (path.endsWith('introduction')) {
       buttons = (
-        <div className="row form-progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="usa-grid-full form-progress-buttons">
+          <div className="usa-width-five-twelfths">
             <ProgressButton
                 onButtonClick={this.goForward}
                 buttonText="Get Started"
@@ -179,11 +179,11 @@ export default class NavButtons extends React.Component {
       );
     } else {
       buttons = (
-        <div className="row form-progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="usa-grid-full form-progress-buttons">
+          <div className="usa-width-five-twelfths">
             {backButton}
           </div>
-          <div className="small-6 medium-5 end columns">
+          <div className="usa-width-five-twelfths">
             {nextButton}
           </div>
         </div>

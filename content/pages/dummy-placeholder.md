@@ -11,8 +11,8 @@ permalink: false
 
 <div class="main home" role="main">
   <div class="splash">
-    <div class="row">
-      <div class="small-12 columns">
+    <div class="usa-grid">
+      <div class="usa-width-one-whole">
         <div class="pitch">
           <h2 class="tagline"><span>Dummy Page</span></h2>
         </div>
@@ -21,20 +21,20 @@ permalink: false
   </div>
 
   <div class="section main-menu">
-    <div class="row">
-      <div class="small-12 columns">
+    <div class="usa-grid">
+      <div class="usa-width-one-whole">
         <h3>DUMMY PAGE</h3>
       </div>
     </div>
   </div>
 
 <div class="section one">
-  <div class="row">
-    <div class="small-12 columns">
+  <div class="usa-grid">
+    <div class="usa-width-one-whole">
       <h3 class="alternate">Quick Links</h3>
     </div>
   </div>
-  <div class="row">
+  <div class="usa-grid">
     <div class="small-12 medium-6 columns">
       <ul class="plain">
         <li>

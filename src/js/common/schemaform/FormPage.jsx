@@ -150,8 +150,8 @@ class FormPage extends React.Component {
               buttonText="Update page"
               buttonClass="usa-button-primary"/>}
         {!reviewPage &&
-          <div className="row form-progress-buttons schemaform-buttons">
-            <div className="small-6 medium-5 columns">
+          <div className="usa-grid-full form-progress-buttons schemaform-buttons">
+            <div className="usa-width-five-twelfths columns">
               <ProgressButton
                   onButtonClick={this.goBack}
                   buttonText="Back"

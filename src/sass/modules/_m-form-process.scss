@@ -13,7 +13,7 @@
       &:before {
         background: $color-green;
         content: "\2714\fe0e";
-        @media (max-width: $small-screen) {
+        @include media-maxwidth( $small-screen) {
           content: "\2713\fe0e";
         }
       }
@@ -90,15 +90,15 @@
   }
   .edit-btn {
     background-color: $color-primary;
-    color: $white;
+    color: $color-white;
     &:hover {
       background-color: $color-primary-darker;
-      color: $white;
+      color: $color-white;
     }
   }
   .edit-btn {
     &.primary-outline {
-      background-color: white;
+      background-color: $color-white;
       border: 2px solid $color-primary;
       color: $color-primary;
       &:hover {
@@ -181,7 +181,7 @@
   align-items: center;
   flex-wrap: wrap;
   &.header-stacked-small {
-    @media #{$small-only} {
+    @include media-maxwidth($small-screen) {
       flex-direction: column;
       align-items: flex-start;
     }

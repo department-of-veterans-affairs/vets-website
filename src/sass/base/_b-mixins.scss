@@ -1,0 +1,15 @@
+// Use this to clear floats
+@mixin clearfix {
+  &:before, &:after { content: " "; display: table; }
+  &:after { clear: both; }
+}
+
+// max-width Media query. 
+// TODO(css): Rewrite to remove this once CSS within blocks 
+// that use this mixin have been purged.
+// See vets.gov-team/issues/818 for details. 
+@mixin media-maxwidth($bp) {
+  @media screen and (max-width: #{$bp}) {
+    @content;
+  }
+}

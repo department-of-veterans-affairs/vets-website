@@ -39,6 +39,22 @@ body, .home {
   }
 }
 
+// Augments the USWDS grid, which lacks this.
+.usa-grid,
+.usa-grid-full {
+  @include clearfix;
+}
+
+// Fixes a bug in USWDS grid
+.usa-width-one-half {
+  width: 48%;
+
+  &:nth-child(even) {
+    margin-right: 0;
+  }
+}
+
+
 // row
 body .row.full {
   width: 100%;
@@ -117,28 +133,6 @@ dd + dt {
   margin-top: 1.5em;
 }
 
-
-// Figure / Caption
-figure {
-  font-size: .85em;
-  margin-left: -$column-gutter/2;
-  margin-right: -$column-gutter/2;
-
-  @media #{$small} {
-    margin-left: inherit;
-    margin-right: inherit;
-  }
-
-  @media #{$large} {
-    margin-left: -16.66667%;
-    margin-right: -16.66667%;
-  }
-}
-
-figcaption {
-  color: $color-primary-darker;
-}
-
 // Change the placeholder color
 input::-webkit-input-placeholder{
   color: $color-gray;
@@ -207,63 +201,6 @@ hr {
   padding-right: 1.2em;
 }
 
-// Logo and Header
-.header {
-  clear: both;
-  padding: 0;
-  margin: 0;
-
-  .login-container {
-    background: $color-primary-darkest;
-    padding: 0.3em 0 1em;
-
-    .row {
-      padding: 0 0.75em;
-    }
-  }
-
-  .top-banner {
-    padding: 1em 0.75em 0;
-    display: flex;
-    align-items: center;
-  }
-
-  .flex-auto {
-    flex: 1 1 auto;
-    min-width: 0;
-    min-height: 0;
-  }
-}
-
-.va-header-logo {
-  line-height: 1em;
-  margin: 0;
-
-  a {
-    color: white;
-    text-indent: 180%;
-    white-space: nowrap;
-    overflow: hidden;
-    display: block;
-    background: url(/img/design/logo/logo.png) top left no-repeat;
-    background-size: contain;
-    border-bottom: none;
-    text-decoration: none;
-    height: 50px;
-    width: 205px;
-
-    &:hover, &:active, &:focus {
-      background-image: url(/img/design/logo/logo-hover.png);
-    }
-
-    @media #{$small-only} {
-      width: 164px;
-      height: 40px;
-    }
-  }
-  // See va-playbook for styles
-}
-
 // Headings
 h1, h2 {
   font-family: $font-sans;
@@ -275,30 +212,23 @@ h1:first-child {
 
 h3, h4, h5, h6 {
   color: $color-primary-darkest;
+  font-weight: bold;
 }
 
 h3 {
   font-size: 1.8em;
-  line-height: 1.5;
-  font-weight: bold;
 }
 
 h4 {
   font-size: 1.35em;
-  line-height: 1.5;
-  font-weight: bold;
 }
 
 h5 {
   font-size: 1.15em;
-  line-height: 1.5;
-  font-weight: bold;
 }
 
 h6 {
   font-size: 0.9em;
-  line-height: 1.5;
-  font-weight: bold;
 }
 
 // Banner
@@ -310,38 +240,9 @@ h6 {
   overflow: hidden;
 }
 
-#content .popular-container {
+.popular-container {
   background: $color-white;
   text-align: center;
-
-  .column-padded {
-    padding-left: 1em;
-    padding-right: 1em;
-  }
-
-  .flex {
-    @media #{$small} {
-      display: block;
-    }
-    @media #{$medium} {
-      display: flex;
-    }
-
-    @media #{$large} {
-      display: flex;
-    }
-  }
-
-  .mx-auto {
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  h2.gold-ruled {
-    color: $color-primary-darker;
-    padding-bottom: 0.5em;
-    border-bottom: #988530 solid 2px;
-  }
 
   a {
     text-decoration: none;
@@ -366,162 +267,92 @@ h6 {
       border: $color-primary-darker solid 2px;
     }
   }
+}
 
-  .stars-tagline {
-    &:before{
-      content: '';
-      background: url(/img/stars.png) no-repeat top center;
-      background-size: 100%;
-      display: inline-block;
-      height: 2em;
-      width: 12em;
-      margin-top: 2em;
-    }
-
-    margin-top: 0em;
+.popular-title {
+  color: $color-primary-darker;
+  float: none;
+  margin-left: auto;
+  padding-bottom: 0.5em;
+  border-bottom: #988530 solid 2px;
+  // Added because this class is being used with .usa-width-five-twelfths
+  &:last-child {
+    margin-right: auto;
   }
 }
 
-#content .splash {
-  margin: 0;
+.stars-tagline {
+  &:before{
+    content: '';
+    background: url(/img/stars.png) no-repeat top center;
+    background-size: 100%;
+    display: inline-block;
+    height: 2em;
+    width: 12em;
+    margin-top: 2em;
+  }
+  margin-top: 0em;
+}
+
+.splash {
+  align-items: center;
   background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
   background-size: cover;
   display: flex;
-  align-items: center;
+  margin: 0;
+  min-height: 14em;
+  padding: 1em 0;
 
-
-  p {
-    color: $color-white;
-    font-family: $font-sans;
-  }
-
-  h2.tagline {
+  .tagline {
+    color: $color-primary-darker;
+    display: inline-block;
     max-width: 11em;
     font-size: 2.5rem;
     font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
+
+    @include media($medium-screen) {
+      max-width: 15em;
+    }
   }
 
-  span, h2 {
-    padding: 0;
-    display: inline;
-    line-height: 1em;
-    margin: 0;
-    white-space: pre-wrap;
-    color: $color-gray-dark;
-    a {background: $color-white; color: $color-primary-darker;}
-  }
+  @include media($medium-screen) {
+    padding: 2em 0;
+    min-height: 422px;
 
-  h2 span {
-    clear: both;
-    padding: 0.5em 0.4em;
-    display: inline-block;
-    line-height: 30px;
-    background: $color-white;
-    font-weight: bold;
-    color: $color-primary-darker;
-  }
-
-  @media #{$medium} {
     h2 span {
       padding: 0.5em .75em;
       line-height: 1.3em;
       font-size: 3.5rem;
     }
 
-    h2.tagline {
-      max-width: 15em;
-    }
   }
 
-  @media #{$large} {
+  @include media($large-screen) {
+    padding: 2.5em 0;
+    min-height: 422px;
+
     h2 span {
-      padding: 0.5em 0.4em;
-      line-height: 1.3em;
-      font-size: 3.5rem;
-    }
-
-    h2.tagline {
-      max-width: 15em;
+      padding-left: 0.4em;
+      padding-right: 0.4em;
     }
   }
 
-  h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
-  h2 {
-    font-size: 1em;
-    display: inline-block;
-    @media #{$small} {font-size: 2em;}
-  }
-
-  h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
 }
 
-.home {
-  #content .splash {
-    @media #{$small} {
-      padding: 1em 0;
-      min-height: 14em;
-    }
-    @media #{$medium} {
-      padding: 2em 0;
-      min-height: 422px;
-    }
+.tagline-inner {    
+  background: $color-white;
+  display: inline-block;
+  line-height: 3rem;
+  padding: 0.5em 0.4em;
 
-    @media #{$large} {
-      padding: 2.5em 0;
-      min-height: 422px;
-    }
+  @include media($medium-screen) {
+    line-height: 4.55rem;
   }
 }
-
-.splash--app {
-  padding: 0 !important;
-
-  h2 {
-    margin: 0;
-    padding: .2em;
-    line-height: 1em;
-    display: inline-block !important;
-  }
-}
-
-// TODO: Remove !important once #content ul.breadcrumbs li.active
-// is refactored.
-.splash--alternate {
-
-  li a {
-    color: $color-primary-darkest !important;
-    border-bottom: 2px solid $secondary-color !important;
-
-    &:hover {
-      border-bottom: 3px solid $color-gold !important;
-    }
-  }
-
-  li.parent:after {color: #ccc !important;}
-}
-
-.va-facloc-tagline {
-  color: $color-white;
-  font-family: $font-sans;
-  margin: .5em 0 1em 0 !important;
-}
-
 
 .pitch {
+  padding: .5em 0;
   text-align: center;
-
-  @media #{$small} {
-    padding: .5em 0;
-  }
-
-  h2, h3 {
-    color: $color-primary-darkest;
-    font-weight: 400;
-    padding: .75em;
-    line-height: 1.3em;
-    display: inline-block;
-    margin: 0;
-  }
 }
 
 // TODO: Remove .feature-list ul once it's
@@ -585,26 +416,16 @@ h6 {
   border-bottom: 4px solid $color-primary-darkest;
 }
 
-// tagline
-#content .tagline-content {
-  p {
-    font-size: 2.15em;
-    border-bottom: 2px solid white;
-    padding: 0 0 1em 0;
-    margin: 0 0 2em 0;
-    color: rgba(255,255,255,.7);
-    line-height: 1.2em;
-  }
-}
-
 // Content Callouts
-
 #content .main .section.one {
   ul[class*='block-grid-'] {
     display: block;
     padding: 0;
-    margin: 0;
-    @media #{$small} {margin: 0 -0.625rem;}
+    margin: 0 -0.625rem;
+    
+    @include media($medium-screen) {
+      margin: 0;
+    }
   }
 }
 
@@ -613,21 +434,23 @@ h6 {
   padding: 1em;
   clear: both;
   margin: 0 0 1.5em 0;
+
   p {
     margin-bottom: 0;
     padding-bottom: .5em
   }
+ 
   p:nth-child(1) {
     // TODO: refactor #content.interior .primary li p:first-of-type and remove !important
     font-size: 1.25em !important;
     color: $color-gray-dark;
     padding-bottom: inherit;
   }
+
   h3 {
-    @media #{$small} {
-      font-size: 1.65em;
-    }
+    font-size: 1.65em;
   }
+
   ul {
     margin: 0 0 .5em 1.5em;
     padding: 0;
@@ -674,11 +497,8 @@ ul, ol {
 // Home page, 404 page
 .navigation--major {
   .va-cards--2across {
-    @media #{$small} {
-      display:block;
-    }
 
-    @media #{$medium-only} {
+    @include media($medium-screen) {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -730,76 +550,10 @@ ul, ol {
 }
 
 // Home page specific
-
-.home #content {
-  h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
-
-  .post-date {
-    font-size: .5em; color: $color-gold;
-  }
-
-  h3 {
-    line-height: 1.2em;
-    font-size: 1.65em;
-    color: $color-primary;
-    margin: 0 0 2.5em 0;
-    padding: 0 0 .2em 0;
-  }
-
-  h4 a {
-    text-decoration: none;
-    &:hover {
-      border-bottom: 1px solid $color-white;
-      color: $color-gold;
-    }
-  }
-
-  .read-more {
-    font-size: .5em;
-    display: inline-block;
-    border-bottom: 1px solid $secondary-color;
-    color: $secondary-color;
-    &:hover {
-      background: none;
-      color: $color-primary-darkest;
-      background: rgba(1,1,1,.1);
-      border-bottom: 1px solid $secondary-color;
-    }
-  }
-
-  .section {
-    padding: 4em 0 2em 0;
-    text-align: left;
-  }
-
-  .section.main-menu {
-    padding: 0em .5em 4em .5em;
+.home { 
+  .main-menu {
+    padding: 0 .5em 4em;
     overflow: hidden;
-  }
-
-
-  .home #content .section h3.alternate {
-    margin: 0 0 2em 0 !important; padding: 0;
-  }
-
-  .section.one {
-    padding: 0 0 1.5em 0;
-      @media #{$small} {padding: 2em 0 4em 0;}
-  }
-
-  .section.two {
-    padding: 2em 0;
-    a, h3 {color: $color-white;}
-    h3 {border-bottom: none;}
-    background: rgba(0,0,0,.1);
-  }
-
-  .section.three {
-    background: $color-white;
-    padding: 5em 0;
-    h2, h3, h4, h5, h6, p, li {color: $color-va-gray-cool-dark;}
-    h4 {margin: 0; padding: 0;}
-    a {color: $color-primary-darkest;}
   }
 }
 
@@ -817,28 +571,6 @@ ul, ol {
   background: rgba(255,255,255,.85);
 }
 
-#content .section.tertiary {
-  background: $polar;
-}
-
-#content .section.quaternary {
-  background: $color-gray-lighter;
-  h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
-  h4 {font-weight: 700;}
-  .cards {
-    a {
-      height:12em;
-    }
-  }
-  .feature {background: none;}
-}
-
-#content .section.coda {
-  background: $color-primary-darker;
-  color: $color-white;
-  h2, h3, h4, h5, h6, a {color: $color-white;}
-  h4 {font-size: 1.5em;}
-}
 
 #content .section {
   h2, h3, h4, h5, h6 {margin: 0; padding: 0 0 .5em 0;}
@@ -940,19 +672,6 @@ ul, ol {
 }
 
 
-//==== Facility Locator page only
-.va-nav-breadcrumbs--inline {
-  display: inline-block;
-
-  @media #{$small} {
-    margin-right: 1em !important;
-  }
-
-  li.active::before {
-    display: none;
-  }
-}
-
 //===== Playbook and Facility Locator
 .va-nav-breadcrumbs--playbook {
   background: none;
@@ -964,16 +683,13 @@ ul, ol {
   }
 
   li {
+    font-size: 1.35em;
     text-transform: none;
     margin: .25em 0;
     padding: .1em;
     display: inline-block;
     line-height: 1.15em;
     vertical-align: middle;
-
-    @media #{$small} {
-      font-size: 1.35em;
-    }
 
     &:hover  {
       border-bottom: none;
@@ -1000,7 +716,7 @@ ul, ol {
     margin: .5em 0;
     padding: .2em;
 
-    @media #{$medium} {
+    @include media($medium-screen) {
       font-size: 1.8em;
     }
 
@@ -1053,10 +769,10 @@ li {
 
 //===== Navigation
 .navigation {
- padding: 1em  0;
+ padding: 1em 0 3em 0;
 
-  @media #{$small} {
-    padding: 1em 0 3em 0;
+  @include media ($medium-screen) {
+    padding-bottom: 3em;
   }
 
   background: $color-gray-lightest;
@@ -1086,9 +802,10 @@ li {
 // Cards
 
 [class*='block-grid-']>li {
-  padding: 0;
-  @media #{$small} {
-    padding: 0 0.625rem 1.25rem 0.625rem;
+  padding: 0 0.625rem 1.25rem 0.625rem;
+
+  @include media($medium-screen) {
+    padding: 0;
   }
 }
 
@@ -1112,10 +829,7 @@ li {
   }
 
   div {
-    @media #{$small} {
-      min-height: 12em;
-    }
-
+    min-height: 12em;
     background: $color-gray-lightest;
     background: rgba(0,0,0,.05);
     margin: 0 0 .5em 0;
@@ -1149,12 +863,6 @@ li {
   }
 }
 
-.footer-logo a {
-  display: none;
-  @media #{$medium} {padding: 0; display: block;}
-  @media #{$medium} {background:url(/img/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
-}
-
 .footer-seal {
   background:url(/img/design/sprites/sprite.png)  no-repeat 0 -23px;
   background-size: 215px 72px;
@@ -1162,8 +870,7 @@ li {
   height: 49px;
   text-indent: -999em;
   overflow: hidden;
-  margin: 0 auto;
-  @media #{$small} {margin: 0;}
+  margin: 0;
 }
 
 .usa-social-links {
@@ -1183,22 +890,9 @@ li {
   }
 }
 
-.usa-social-links,
-.va-list--linkgroup {
-  margin: 2em 0 0 0;
-
-  @media #{$medium} {
-    margin: 2em 0 1.5em 0;
-  }
-}
-
 // TODO: Move this to a list-specific partial
 .va-list--linkgroup {
-  margin: 2em 0 0 0;
-
-  @media #{$small} {
-    margin: 2em 0 1.5em 0;
-  }
+  margin: 2em 0 1.5em 0;
 
   a {
     background: none;
@@ -1233,11 +927,11 @@ li {
     list-style: none;
     margin: 0 auto;
     padding: 1.5em 0 0 0;
-    text-align: center;
-      @media #{$large} {
-        text-align: left;
-      }
     width: 100%;
+
+    @include media($large-screen) {
+      text-align: left;
+    }
 
     &:after {
        visibility: hidden;
@@ -1307,108 +1001,14 @@ a.twitter {
   }
 }
 
-.footer .content {
-  @media #{$small} {padding: 2em 0 0 0;}
-  margin: 0;
-
-}
-
-.header {
-  .message {
-    padding: 0.5em 0;
-    color: $color-white;
-    font-size: 0.8em;
-    font-weight: 400;
-    flex: 1;
-  }
-
-  .va-notice--banner {
-    margin: 0;
-    padding: 0;
-    background: $color-primary-darker;
-    color: $color-white;
-
-    a.va-crisis-line {
-      color: $color-base;
-    }
-
-    .flex {
-      display: flex;
-    }
-
-    .flex-lg {
-      @media #{$large-only} {
-        display: flex;
-      }
-    }
-
-    .row {
-      padding: 0 0.75em;
-    }
-
-    .crisis-row {
-      @media #{$medium-up} {
-        display: flex;
-        align-items: flex-start;
-      }
-
-      @media #{$medium-only} {
-        padding-right: 0em;
-      }
-    }
-  }
-}
-
-// Notice / feedback banners
-.va-notice--banner {
-  background: $color-primary-darker;
-  margin: 0 0 .75em 0;
-  padding: 0;
-  font-size: .9em;
-  font-weight: 400;
-  color: $color-white;
-
-  p {
-    margin: 0;
-  }
-
-  a {
-    background-image: none;
-    color: $color-white;
-    padding: 0;
-  }
-
-  .row {
-    max-width: 69.4em;
-  }
-}
-
-.incompatible-browser-warning {
-  padding: 0.5em;
-  font-weight: bold;
-  background: $color-gold-lightest;
-  color: $color-black;
-  font-size: .9em;
-  display: none;
-
-  &.visible {
-    display: block;
-  }
-}
-
-// Only used in the footer
-.va-notice--banner--alt {
-  padding: 1.25em 0;
-  margin: 1.5em 0 0 0;
-}
-
  // Feedback widget
 
 .feedback-widget {
   overflow: hidden;
+  text-align: center;
 
-  @media #{$small-only} {
-    text-align: center;
+  @include media($medium-screen) {
+    text-align: left;
   }
 
   // Works with <= IE8
@@ -1460,22 +1060,6 @@ a.twitter {
     width: 100%;
     padding: 0;
     border-radius: 0px 3px 3px 0px;
-  }
-}
-
-.search-button {
-  margin: 0.1em .5em 0 0;
-  padding: 0;
-  float: right;
-  a {
-    line-height: 1em;
-    display: inline-block;
-    padding: .41em;
-    font-size: .85em;
-    border-radius: .2em;
-    text-decoration: none;
-    background: $color-primary;
-    color: $color-white;
   }
 }
 
@@ -1536,7 +1120,7 @@ a.twitter {
     font-weight: 700;
     float: left;
     margin: 0;
-    color: #003E73;
+    color: $color-primary-darker;
     line-height: .65em;
     display: inline-block;
     padding: 0 .125em 0 0;
@@ -1783,7 +1367,7 @@ li.twenty:before {content: '20';}
 
 // Highlight headings
 .highlight {
-  border-bottom: 3px solid $primary-color;
+  border-bottom: 3px solid $color-primary;
   padding-bottom: .25em;
   font-weight: 700;
 }
@@ -1800,6 +1384,15 @@ li.twenty:before {content: '20';}
 
 .va-action-bar--footer {
   padding: 1em 0;
+}
+
+.va-action-bar--alert {
+  background-color: #FAC922;
+  text-align:center;
+
+  * {
+    margin: 0;
+  }
 }
 
 .va-action-bar--start {
@@ -1869,7 +1462,7 @@ li.twenty:before {content: '20';}
 /* Overlay style */
 
 .va-overlay-close {
-  @media #{$medium} {
+  @include media($medium-screen) {
     display: none;
   }
   &--icon {
@@ -1885,86 +1478,108 @@ li.twenty:before {content: '20';}
 }
 
 
-@media #{$medium} {
-  .va-overlay-close {
+.va-mobile-searchtrigger {
+  padding: .5em;
+  margin-top: 0;
+  border-radius: .15em;
+
+  @include media($medium-screen) {
     display: none;
   }
 }
 
-@media #{$small-only} {
-  .va-mobile-searchclose  {
-    border-radius: 0;
-    display: block !important;
-    width: 100% !important;
-    margin: 0;
-    width: auto;
-    background: $color-primary;
+// Need to fix this on larger screens.
+@media screen and (max-height: 30.5em) {
+  .overlay form {
+    height: 70%;
+  }
+}
+
+// TODO(css) Refactor va-overlay
+.va-mobile-searchclose  {
+  border-radius: 0;
+  display: block !important;
+  width: 100% !important;
+  margin: 0;
+  width: auto;
+  background: $color-primary;
+
+  @include media($medium-screen) {
+    display: none;
+  }
+}
+
+.va-overlay {
+  background: rgba($color-primary-darkest, .95);
+  height: 100%;
+  left: 0;
+  -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  transition: opacity 0.5s, visibility 0s 0.5s;
+  visibility: hidden;
+  width: 100%;
+  z-index: 800;
+
+  input[type='text'] {
+    -webkit-appearance: none;
+    border-radius: 3px 0 0 3px;
   }
 
-  .va-mobile-searchtrigger {
-    padding: .5em;
-    margin-top: 0;
-    border-radius: .15em;
+  @include media($medium-screen) {
+    display: none;
   }
+}
 
-  .va-overlay {
-    background: rgba($color-primary-darkest, .95);
-    height: 100%;
-    left: 0;
-    -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    transition: opacity 0.5s, visibility 0s 0.5s;
-    visibility: hidden;
-    width: 100%;
-    z-index: 800;
+.va-overlay--open {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
 
-    input[type='text'] {
-      -webkit-appearance: none;
-      border-radius: 3px 0 0 3px;
-    }
+  @include media($medium-screen) {
+    display: none;
   }
+}
 
-  .va-overlay--open {
-    opacity: 1;
-    visibility: visible;
-    -webkit-transition: opacity 0.5s;
-    transition: opacity 0.5s;
+.va-overlay .menu {
+  -webkit-perspective: 1200px;
+  perspective: 1200px;
+  padding: 1em 1em;
 
-    .columns {
-      padding: 0;
-    }
+  @include media($medium-screen) {
+    display: none;
   }
+}
 
-  .va-overlay .menu {
-    -webkit-perspective: 1200px;
-    perspective: 1200px;
-    padding: 1em 1em;
+.va-overlay form {
+  opacity: 0.4;
+  -webkit-transform: translateY(-25%) rotateX(35deg);
+  transform: translateY(-25%) rotateX(35deg);
+  -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+  transition: transform 0.5s, opacity 0.5s;
+
+  @include media($medium-screen) {
+    display: none;
   }
+}
 
-  .va-overlay form {
-    opacity: 0.4;
-    -webkit-transform: translateY(-25%) rotateX(35deg);
-    transform: translateY(-25%) rotateX(35deg);
-    -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
-    transition: transform 0.5s, opacity 0.5s;
+.va-overlay--open form {
+  opacity: 1;
+  -webkit-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+
+  @include media($medium-screen) {
+    display: none;
   }
+}
 
-  .va-overlay--open form {
-    opacity: 1;
-    -webkit-transform: rotateX(0deg);
-    transform: rotateX(0deg);
-  }
+.va-overlay-body {
+  margin: 1rem auto;
 
-  .va-overlay-body {
-    margin: 1rem auto;
-  }
-
-  @media screen and (max-height: 30.5em) {
-    .overlay form {
-      height: 70%;
-    }
+  @include media($medium-screen) {
+    display: none;
   }
 }
 
@@ -2042,7 +1657,7 @@ ul li p {
   }
 }
 
-@media (max-width: 40.063em) {
+@include media($medium-screen) {
   .simpletooltip {
     top: 100%;
     left: 45%;
@@ -2141,6 +1756,21 @@ pre[class*='language-']  {
 
 .sticky-action-box--container {
   position: relative;
+
+  &-sm {
+    @include media($medium-screen) {
+      display: none;
+    }
+  }
+
+  &-lg {
+    display: none;
+
+    @include media($medium-screen) {
+      display: block;
+    }
+  }
+    
 }
 
 .sticky-action-box {
@@ -2199,5 +1829,15 @@ New .plain rewrite
   
   li {
     padding: .8rem 0
+  }
+}
+
+.search404 {
+  [type="text"] {
+    flex: 1 0 46rem;
+  }
+  [type="submit"] {
+    flex: 0 1 16.2rem;
+    margin-left: 2rem;
   }
 }

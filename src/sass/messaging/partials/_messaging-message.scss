@@ -19,7 +19,7 @@
   }
 
   &--expanded {
-    @media (max-width: $medium-screen) {
+    @include media-maxwidth($medium-screen) {
       .messaging-message-sent-date {
         display: none;
       }
@@ -27,7 +27,7 @@
   }
 
   &--draft {
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       display: none;
     }
   }
@@ -47,7 +47,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     margin: 0;
   }
 }
@@ -66,7 +66,7 @@
 }
 
 .messaging-thread-message:last-child {
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     border: none;
   }
 
@@ -104,7 +104,7 @@
     font-size: 1.8rem;
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     display: block;
     margin: 0;
 
@@ -125,13 +125,13 @@
   z-index: 5;
 
   &--compact {
-    @media (max-width: $medium-screen) {
+    @include media-maxwidth($medium-screen) {
       display: block;
     }
   }
 
   &--full {
-    @media (min-width: $medium-screen) {
+    @include media($medium-screen) {
       display: block;
     }
   }
@@ -139,7 +139,7 @@
   table {
     margin: 0;
 
-    @media (max-width: $medium-screen) {
+    @include media-maxwidth($medium-screen) {
       margin-top: 1rem;
     }
   }
@@ -155,7 +155,7 @@
     text-align: right;
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     background: transparent;
     border-width: 0;
     font-size: 1.8rem;
@@ -184,7 +184,7 @@
     margin-right: .5rem;
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     display: block;
   }
 }

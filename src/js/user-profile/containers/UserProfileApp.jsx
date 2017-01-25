@@ -12,8 +12,8 @@ class UserProfileApp extends React.Component {
     let view;
 
     view = (
-      <div className="row">
-        <div className="medium-8 small-12 columns">
+      <div className="usa-grid">
+        <div className="usa-width-two-thirds usa-width-one-whole">
           <h1>Your Vets.gov Account</h1>
           <div>
             <UserDataSection/>

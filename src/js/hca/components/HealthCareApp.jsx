@@ -260,27 +260,27 @@ class HealthCareApp extends React.Component {
 
     if (this.props.location.pathname === '/review-and-submit') {
       buttons = (<div>
-        <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="usa-grid-full progress-buttons">
+          <div className="usa-width-five-twelfths">
             {backButton}
           </div>
-          <div className="small-6 medium-5 columns">
+          <div className="usa-width-five-twelfths">
             {submitButton}
           </div>
-          <div className="small-1 medium-1 end columns">
+          <div className="usa-width-one-twelfth end columns">
             <div className={this.state ? 'spinner' : 'hidden'}>&nbsp;</div>
           </div>
         </div>
-        <div className="row">
-          <div className="medium-12 columns">
+        <div className="usa-grid">
+          <div className="usa-width-one-whole">
           {submitMessage}
           </div>
         </div>
       </div>);
     } else if (this.props.location.pathname === '/introduction') {
       buttons = (
-        <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="usa-grid-full progress-buttons">
+          <div className="usa-width-five-twelfths">
             <ProgressButton
                 onButtonClick={this.handleContinue}
                 buttonText="Get Started"
@@ -291,8 +291,8 @@ class HealthCareApp extends React.Component {
       );
     } else if (this.props.location.pathname === '/submit-message') {
       buttons = (
-        <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="usa-grid-full progress-buttons">
+          <div className="usa-width-five-twelfths">
             {/* TODO: Figure out where this button should take the user. */}
             <a href="/">
               <button className="usa-button-primary">Back to Main Page</button>
@@ -302,11 +302,11 @@ class HealthCareApp extends React.Component {
       );
     } else {
       buttons = (
-        <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+        <div className="usa-grid-full progress-buttons">
+          <div className="usa-width-five-twelfths">
             {backButton}
           </div>
-          <div className="small-6 medium-5 end columns">
+          <div className="usa-width-five-twelfths">
             {nextButton}
           </div>
         </div>
@@ -320,7 +320,7 @@ class HealthCareApp extends React.Component {
     //     window.location.search.substring(1).split('&').map((v) => { return v.split('='); }));
     //   if (queryParams.devPanel === '1') {
     //     devPanel = (
-    //       <div className="row">
+    //       <div className="usa-grid">
     //         <RoutesDropdown/>
     //         <PopulateVeteranButton/>
     //         <PerfPanel/>
@@ -331,16 +331,16 @@ class HealthCareApp extends React.Component {
 
     return (
       <div>
-        <div className="row">
+        <div className="usa-grid">
           <Element name="topScrollElement"/>
-          <div className="medium-4 columns show-for-medium-up">
+          <div className="usa-width-one-third show-for-medium-up">
             <Nav
                 data={this.props.data}
                 pages={this.props.uiState.sections}
                 chapters={chapters}
                 currentUrl={this.props.location.pathname}/>
           </div>
-          <div className="medium-8 columns">
+          <div className="usa-width-two-thirds">
             <div className="progress-box">
             {/* TODO: Figure out why <form> adds fields to url, and change action to reflect actual action for form submission. */}
               <div className="form-panel">

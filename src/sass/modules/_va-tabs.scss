@@ -43,7 +43,7 @@
     color: inherit;
   }
   
-  @media (min-width: $small-screen) {
+  @include media($small-screen) {
     padding-left: 2rem;
     padding-right: 2rem;
   } 

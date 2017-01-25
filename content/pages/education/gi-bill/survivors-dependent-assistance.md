@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Survivors' and Dependents' Assistance
 concurrence: incomplete
-template: 1-topic-landing
+template: 6-info-page
 ---
 
 If you are a dependent or survivor of a Veteran, you may be eligible for educational assistance through a GI Bill program.

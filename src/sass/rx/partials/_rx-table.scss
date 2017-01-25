@@ -16,7 +16,7 @@
     }
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     tr {
       padding: 1.5rem 0;
     }

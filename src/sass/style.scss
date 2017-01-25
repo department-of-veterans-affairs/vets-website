@@ -2,14 +2,13 @@
 
 // ----- VENDORS ---- //
 
-@import "bourbon";
-@import "neat";
-
+@import "~uswds/src/stylesheets/lib/bourbon";
+@import "~uswds/src/stylesheets/lib/neat";
 @import "~uswds/src/stylesheets/lib/normalize";
 
-@import "~foundation-sites/scss/foundation/components/grid";
-@import "~foundation-sites/scss/foundation/components/block-grid";
-@import "~foundation-sites/scss/foundation/components/visibility";
+// These replace Foundation variables during our transition;
+// Do not use in projects.
+@import 'shame-variables';
 
 // Font Awesome WOFF/WOFF2 fonts only
 @import "~font-awesome/scss/variables";
@@ -23,13 +22,13 @@
   font-style: normal;
 }
 
-
 // ---- U.S. WEB DESIGN STANDARDS SETTINGS --- //
+@import '~uswds/src/stylesheets/core/variables';
+@import '~uswds/src/stylesheets/core/fonts';
+@import '~uswds/src/stylesheets/core/base';
+@import '~uswds/src/stylesheets/core/grid';
+@import '~uswds/src/stylesheets/core/utilities';
 
-@import "~uswds/src/stylesheets/core/defaults";
-@import "~uswds/src/stylesheets/core/base";
-@import "~uswds/src/stylesheets/core/utilities";
-@import "~uswds/src/stylesheets/core/variables";
 
 // ---- U.S. WEB DESIGN STANDARDS ELEMENTS/COMPONENTS --- //
 @import "~uswds/src/stylesheets/elements/buttons";
@@ -46,16 +45,17 @@
 
 @import 'base/b-variables';
 @import 'base/b-functions';
-
+@import 'base/b-mixins';
 
 // ----- VA GENERAL (MAIN FILE/OTHER) ---- //
 
 @import 'base/va';
 
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
+@import 'layouts/l-header';
+
 @import 'modules/m-card';
 @import 'modules/m-alert';
-@import 'modules/m-checklist';
 @import 'modules/m-crisis-line';
 @import 'modules/m-growable';
 @import 'modules/m-piano-key';
@@ -66,5 +66,4 @@
 @import 'modules/m-loading-indicator';
 
 // ----- VA SHAME ---- //
-
 @import 'shame';

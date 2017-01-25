@@ -107,8 +107,8 @@ class YourClaimsPage extends React.Component {
 
     return (
       <div className="your-claims">
-        <div className="row">
-          <div className="small-12 medium-8 columns">
+        <div className="usa-grid">
+          <div className="usa-width-three-fourths">
             <div>
               <h1>Your Claims</h1>
             </div>
@@ -127,7 +127,7 @@ class YourClaimsPage extends React.Component {
                 cssClass="claims-upload-modal"
                 contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>
-          <div className="small-12 medium-4 columns">
+          <div className="usa-width-one-third">
             <FeaturesWarning/>
             <AskVAQuestions/>
           </div>

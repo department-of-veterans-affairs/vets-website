@@ -212,11 +212,11 @@ class GrowableTable extends React.Component {
           <div key={reactKey++} className="va-growable-background">
             <Element name={this.getRowId(obj.key)}/>
             {this.props.showEditButton
-              ? <div className="row small-collapse" key={obj.key}>
-                <div className="small-9 columns">
+              ? <div className="usa-grid small-collapse" key={obj.key}>
+                <div className="usa-width-two-thirds columns">
                   {collapsedComponent}
                 </div>
-                <div className="small-3 columns">
+                <div className="usa-width-one-third columns">
                   <button className="usa-button-outline float-right" onClick={() => this.handleEdit(obj.key)} data-key={obj.key}>Edit</button>
                 </div>
               </div>
@@ -227,13 +227,13 @@ class GrowableTable extends React.Component {
         let buttons;
         if (collapseRows) {
           buttons = (
-            <div className="row small-collapse">
+            <div className="usa-grid small-collapse">
               {stateKey !== 'incomplete' || this.props.alwaysShowUpdateRemoveButtons
-                ? <div className="small-6 left columns">
+                ? <div className="usa-width-one-half left columns">
                   <button className="float-left" onClick={(event) => this.handleSave(event, index)} data-key={obj.key}>Update</button>
                 </div>
                 : null}
-              <div className="small-6 right columns">
+              <div className="usa-width-one-half right columns">
                 <button className="usa-button-outline float-right" onClick={this.handleRemove} data-index={index}>Remove</button>
               </div>
             </div>
@@ -242,8 +242,8 @@ class GrowableTable extends React.Component {
         rowContent = (
           <div key={reactKey++} className={(stateKey === 'edit' || collapseRows) ? 'va-growable-background' : null} id={this.getRowId(obj.key)}>
             <Element name={`table${this.tableId}Row${obj.key}`}/>
-            <div className="row small-collapse" key={obj.key}>
-              <div className="small-12 columns va-growable-expanded">
+            <div className="usa-grid small-collapse" key={obj.key}>
+              <div className="usa-width-one-whole va-growable-expanded">
                 {(stateKey === 'incomplete' && this.props.rowTitle && this.props.rows.length > 1)
                     ? <h5>{this.props.rowTitle}</h5>
                     : null}

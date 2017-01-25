@@ -21,8 +21,8 @@ class Child extends React.Component {
 
     if (this.props.data.childCohabitedLastYear.value === 'N') {
       livedWithChildField = (
-        <div className="row">
-          <div className="small-12 columns">
+        <div className="usa-grid">
+          <div className="usa-width-one-whole">
             <ErrorableRadioButtons
                 label="If your dependent child did not live with you last year, did you provide support?"
                 name="childReceivedSupportLastYear"
@@ -41,8 +41,8 @@ class Child extends React.Component {
       content = (
         <fieldset>
           <legend>Child's Name</legend>
-          <div className="row">
-            <div className="small-12 columns">
+          <div className="usa-grid">
+            <div className="usa-width-one-whole">
               <FullName required
                   name={this.props.data.childFullName}
                   customValidation={isValidLastName}
@@ -51,8 +51,8 @@ class Child extends React.Component {
             </div>
           </div>
 
-          <div className="row">
-            <div className="small-12 columns">
+          <div className="usa-grid">
+            <div className="usa-width-one-whole">
               <ErrorableSelect required
                   errorMessage={validateIfDirty(this.props.data.childRelation, isNotBlank) ? undefined : 'Please select an option'}
                   label="Child’s relationship to you"
@@ -63,8 +63,8 @@ class Child extends React.Component {
             </div>
           </div>
 
-          <div className="row">
-            <div className="small-12 columns">
+          <div className="usa-grid">
+            <div className="usa-width-one-whole">
               <SocialSecurityNumber label="Child’s social security number"
                   required
                   ssn={this.props.data.childSocialSecurityNumber}
@@ -72,8 +72,8 @@ class Child extends React.Component {
             </div>
           </div>
 
-          <div className="row">
-            <div className="small-12 columns">
+          <div className="usa-grid">
+            <div className="usa-width-one-whole">
               <DateInput required
                   label="Child’s date of birth"
                   name="childBirth"
@@ -84,8 +84,8 @@ class Child extends React.Component {
             </div>
           </div>
 
-          <div className="row">
-            <div className="small-12 columns">
+          <div className="usa-grid">
+            <div className="usa-width-one-whole">
               <DateInput required
                   errorMessage="Child cannot be a dependent before child's date of birth"
                   validation={isValidDependentDateField(this.props.data.childBecameDependent, this.props.data.childDateOfBirth)}
@@ -98,8 +98,8 @@ class Child extends React.Component {
             </div>
           </div>
 
-          <div className="row">
-            <div className="small-12 columns">
+          <div className="usa-grid">
+            <div className="usa-width-one-whole">
               <ErrorableRadioButtons
                   label="Was child permanently and totally disabled before the age of 18?"
                   name="childDisabledBefore18"
@@ -109,8 +109,8 @@ class Child extends React.Component {
             </div>
           </div>
 
-          <div className="row">
-            <div className="small-12 columns">
+          <div className="usa-grid">
+            <div className="usa-width-one-whole">
               <ErrorableRadioButtons
                   label="If child is between 18 and 23 years of age, did child attend school during the last calendar year?"
                   name="childAttendedSchoolLastYear"
@@ -120,8 +120,8 @@ class Child extends React.Component {
             </div>
           </div>
 
-          <div className="row">
-            <div className="small-12 columns">
+          <div className="usa-grid">
+            <div className="usa-width-one-whole">
               <ErrorableTextInput required
                   errorMessage={getMonetaryErrorMessage(this.props.data.childEducationExpenses)}
                   label="Expenses paid by your dependent child for college, vocational rehabilitation, or training (e.g., tuition, books, materials)?"
@@ -131,8 +131,8 @@ class Child extends React.Component {
             </div>
           </div>
 
-          <div className="row">
-            <div className="small-12 columns">
+          <div className="usa-grid">
+            <div className="usa-width-one-whole">
               <ErrorableRadioButtons
                   label="Did your child live with you last year?"
                   name="childCohabitedLastYear"
@@ -142,8 +142,8 @@ class Child extends React.Component {
             </div>
           </div>
 
-          <div className="row">
-            <div className="small-12 columns">
+          <div className="usa-grid">
+            <div className="usa-width-one-whole">
               <p>Count child support contributions even if not paid in regular set amounts. Contributions
               can include tuition payments or payments of medical bills.</p>
             </div>

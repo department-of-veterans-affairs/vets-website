@@ -48,7 +48,7 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
   }
   return (
     <div>
-      <div className="row form-progress-buttons">
+      <div className="usa-grid-full form-progress-buttons">
         <div className="small-6 medium-5 columns">
           <ProgressButton
               onButtonClick={onBack}

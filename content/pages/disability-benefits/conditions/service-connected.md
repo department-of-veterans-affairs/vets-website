@@ -7,8 +7,8 @@ source: https://eauth.va.gov/ebenefits/learn/compensation
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
+<div class="usa-grid" markdown="0">
+<div class="usa-width-one-whole usa-content" markdown="1">
 
 Do you have disabilities that are the result of a disease or injury incurred or aggravated during active military service? If so, you may be eligible for monthly benefits no matter when or where you served. To receive compensation, you must meet the following criteria:
 
