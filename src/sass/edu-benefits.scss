@@ -2,6 +2,7 @@
 
 @import 'style';
 @import 'modules/m-form-process';
+@import 'modules/m-progress-bar';
 
 $button-stroke: inset 0 0 0 1px;
 
@@ -267,4 +268,19 @@ form.rjsf {
 
 .va-growable-review {
   margin-top: 16px;
+}
+
+.nav-header-schemaform {
+  margin-top: 10px !important;
+}
+
+.progress-box-schemaform {
+  margin-top: 0;
+  padding-top: 0;
+  border: none;
+}
+
+.schemaform-chapter-progress {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
