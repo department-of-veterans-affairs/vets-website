@@ -9,7 +9,7 @@ import { isValidForm } from '../validation';
 import { createPageListByChapter } from '../helpers';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm } from '../actions';
 
-export class ReviewPage extends React.Component {
+class ReviewPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
