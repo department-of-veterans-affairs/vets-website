@@ -11,15 +11,27 @@ const Element = Scroll.Element;
  */
 export default class FormApp extends React.Component {
   render() {
-    const { currentLocation, formConfig } = this.props;
+    const { currentLocation, formConfig, children } = this.props;
+
+    let content;
+    if (currentLocation.pathname.endsWith('introduction')) {
+      content = children;
+    } else {
+      content = (
+        <div>
+          <FormNav formConfig={formConfig} currentPath={currentLocation.pathname}/>
+          <div className="progress-box progress-box-schemaform">
+            {children}
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="row">
         <Element name="topScrollElement"/>
         <div className="medium-8 columns">
-          <FormNav formConfig={formConfig} currentPath={currentLocation.pathname}/>
-          <div className="progress-box progress-box-schemaform">
-            {this.props.children}
-          </div>
+          {content}
         </div>
         <div className="medium-4 columns show-for-medium-up">
         </div>
