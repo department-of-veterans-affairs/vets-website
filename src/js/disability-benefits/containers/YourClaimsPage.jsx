@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
-import { getClaims, filterClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
+import { getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
+import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
@@ -14,10 +15,26 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 
+const sortOptions = [
+  {
+    label: 'A-Z by claim type',
+    value: 'claimType'
+  },
+  {
+    label: 'Last updated',
+    value: 'phaseChangeDate'
+  },
+  {
+    label: 'Received date',
+    value: 'dateFiled'
+  }
+];
+
 class YourClaimsPage extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
+    this.handleSort = this.handleSort.bind(this);
   }
   componentDidMount() {
     document.title = 'Track Claims: Vets.gov';
@@ -31,7 +48,6 @@ class YourClaimsPage extends React.Component {
   componentWillReceiveProps(newProps) {
     if (this.props.allClaims && this.props.route.showClosedClaims !== newProps.route.showClosedClaims) {
       this.props.filterClaims(this.getFilter(newProps));
-      this.changePage(1);
     }
   }
   componentDidUpdate(prevProps) {
@@ -44,6 +60,9 @@ class YourClaimsPage extends React.Component {
       return props.route.showClosedClaims ? 'closed' : 'open';
     }
     return undefined;
+  }
+  handleSort(sortObject) {
+    this.props.sortClaims(sortObject.value);
   }
   changePage(page) {
     this.props.changePage(page);
@@ -72,7 +91,15 @@ class YourClaimsPage extends React.Component {
     if (this.props.allClaims) {
       const currentTab = `${route.showClosedClaims ? 'Closed' : 'Open'}Claims`;
       content = (
-        <div className="va-tab-content db-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
+        <div className="va-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
+          <div className="claims-list-sort">
+            <ErrorableSelect
+                label="Sort by"
+                includeBlankOption={false}
+                options={sortOptions}
+                value={{ value: this.props.sortProperty }}
+                onValueChange={this.handleSort}/>
+          </div>
           {content}
         </div>
       );
@@ -91,7 +118,7 @@ class YourClaimsPage extends React.Component {
                 this.props.showConsolidatedMessage(true);
               }}>Find out why we sometimes combine claims.</a>
             </p>
-            {this.props.allClaims ? <MainTabNav/> : null}
+            {this.props.allClaims && <MainTabNav/>}
             {content}
             <Modal
                 onClose={() => true}
@@ -118,6 +145,7 @@ function mapStateToProps(state) {
     unfilteredClaims: claimsState.claims.list,
     page: claimsState.claims.page,
     pages: claimsState.claims.pages,
+    sortProperty: claimsState.claims.sortProperty,
     consolidatedModal: claimsState.claims.consolidatedModal,
     show30DayNotice: claimsState.claims.show30DayNotice
   };
@@ -127,6 +155,7 @@ const mapDispatchToProps = {
   getClaims,
   filterClaims,
   changePage,
+  sortClaims,
   showConsolidatedMessage,
   hide30DayNotice
 };

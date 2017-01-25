@@ -12,15 +12,8 @@
     {% include "content/includes/action-bar.html" action_text="Apply for Education Benefits" action_url="/education/apply-for-education-benefits/" action_class="va-action-bar--header" %}
   {% endif %}
 
-  {% if path contains 'healthcare' %}    
+  {% if path contains 'healthcare' %}
     {% if showtempbar == true %}
-    <div class="va-action-bar--header" style="background-color: #FAC922; text-align:center;">
-      <div class="row">
-        <div class="small-12 columns">
-          <h6 style="margin: 0;">Are you a caregiver? This form’s not quite ready for you yet. <a href="#additional-forms"> Find the form you need.</a></h6>
-        </div>
-      </div>
-    </div>
     {% else %}
       {% include "content/includes/action-bar.html" action_text="Apply for VA Health Care" action_url="/healthcare/apply/application" action_class="va-action-bar--header" %}
     {% endif %}
@@ -33,11 +26,11 @@
 {% include "content/includes/breadcrumbs.html" %}
 
 <div id="content" class="interior {{ id }}">
-  
+
   {% case template %}
     {% when 'L2-section-landing' %}
       {% include "content/includes/L2-section-landing.html" %}
-  
+
     {% when '1-topic-landing' or 'alt-1-topic-landing' %}
       {% include "content/includes/1-topic-landing.html" %}
 
@@ -46,10 +39,10 @@
 
     {% when '3-panel-filters' %}
        {% include "content/includes/3-panel-filters.html" %}
-        
+
     {% when '4-action-page' %}
       {% include "content/includes/4-action-page.html" %}
-      
+
     {% when '4-action-page-pending' %}
       {% include "content/includes/4-action-page-pending.html" %}
 
@@ -60,9 +53,9 @@
       {% include "content/includes/7-get-page.html" %}
 
   {% else %}
-    {{ contents }} 
+    {{ contents }}
   {% endcase %}
-  
+
   {% if path != 'employment' %}
   {% include "content/includes/general-related-links.html" %}
   {% endif %}
