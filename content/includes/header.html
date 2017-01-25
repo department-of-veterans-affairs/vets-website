@@ -106,8 +106,10 @@
       <div class="columns small-12 medium-5 crisis-line-container crisis-line-container--wide">
         <div class="crisis-line-body show-for-medium-up">
           <button class="va-crisis-line">
-            <span class="vcl"></span>
-            Get help from Veterans Crisis Line
+            <span class="va-flex">
+              <span class="vcl"></span>
+              <b>Get help from Veterans Crisis Line</b>
+            </span>
           </button>
           <div class="va-util-rel"> <!-- VA Panel no touch screens -->
             <div class="va-crisis-panel va-crisis-panel--notouch">
@@ -129,11 +131,11 @@
   </div>
 
   <!-- /header alert box -->
-  <div class="row top-banner">
-    <div class="">
+  <div class="row va-header-logosearch">
+    <div class="va-header-logo-wrapper">
       <h1 role="banner" class="va-header-logo"><a href="/">Vets.gov</a></h1>
     </div>
-    <div class="flex-auto"></div>
+    
     {% if search != 'false' %}
       <div class="hide-for-small-only">
         <div class="menu">

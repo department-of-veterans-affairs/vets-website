@@ -101,8 +101,7 @@
   text-align: left;
   font-size: 1em;
   width: 100%;
-  display: flex;
-  align-items: center;
+  display: block;
   text-decoration: none;
   font-weight: bold;
   padding: 0 26px 0 0;
@@ -121,6 +120,11 @@
     width: 2em;
     height: 2em;
     margin: 0.3em 0.5em -0.3em 0.5em;
+  }
+
+  > .va-flex {
+    align-items: center;
+    pointer-events: none;
   }
 }
 

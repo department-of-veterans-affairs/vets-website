@@ -14,7 +14,7 @@ const NEED_ITEMS_STATUS = 'NEEDED';
 
 class FilesPage extends React.Component {
   componentDidMount() {
-    document.title = `Files - Your ${getClaimType(this.props.claim)} Claim`;
+    this.setTitle();
     if (!isTab(this.props.lastPage)) {
       if (!this.props.loading) {
         setUpPage();
@@ -29,9 +29,16 @@ class FilesPage extends React.Component {
     if (!this.props.loading && prevProps.loading && !isTab(this.props.lastPage)) {
       setUpPage(false);
     }
+    if (this.props.loading !== prevProps.loading) {
+      this.setTitle();
+    }
   }
   componentWillUnmount() {
     this.props.clearNotification();
+  }
+  setTitle() {
+    document.title = this.props.loading ? 'Files - Your Claim' :
+      `Files - Your ${getClaimType(this.props.claim)} Claim`;
   }
   render() {
     const { claim, loading, message } = this.props;
