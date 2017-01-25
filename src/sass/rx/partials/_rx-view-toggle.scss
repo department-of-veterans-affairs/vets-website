@@ -1,9 +1,10 @@
 .rx-view-toggle {
-  font-weight: bold;
-  text-align: right;
+  display: none;
+  float: right;
+  margin: 2.5rem 0;
 
-  @media #{$small-only} {
-    display: none;
+  @media (min-width: $medium-screen) {
+    display: block;
   }
 
   ul, li {
@@ -12,14 +13,17 @@
   }
 
   ul {
+    margin: 0 0 0 1rem;
     padding: 0;
-    margin-bottom: 0;
   }
 
   li {
     border: solid thin $color-black;
-    padding: 0.25em 1em;
     cursor: pointer;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    width: 8rem;
 
     &.active {
       color: white;

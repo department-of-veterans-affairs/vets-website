@@ -64,7 +64,7 @@ class MessageSend extends React.Component {
             onChange={this.handleAttachmentsChange}/>
         <ButtonDelete
             className="va-icon-link"
-            onClickHandler={this.props.onDelete}/>
+            onClick={this.props.onDelete}/>
       </div>
     );
   }
