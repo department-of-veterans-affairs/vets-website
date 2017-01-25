@@ -138,7 +138,11 @@ const configGenerator = (options) => {
 
     baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
-    baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
+    baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
+      beautify: false,
+      compress: { warnings: false },
+      comments: false
+    }));
   } else {
     baseConfig.devtool = '#eval-source-map';
   }
