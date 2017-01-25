@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
-import { focusElement } from '../utils/helpers';
+import { scrollToFirstError } from '../utils/helpers';
 
 import {
   retrieveSchema,
@@ -14,21 +14,6 @@ import { errorSchemaIsValid } from './helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
-
-const scrollToFirstError = () => {
-  setTimeout(() => {
-    const errorEl = document.querySelector('.usa-input-error, .input-error-date');
-    if (errorEl) {
-      const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-      Scroll.animateScroll.scrollTo(position - 10, {
-        duration: 500,
-        delay: 0,
-        smooth: true
-      });
-      focusElement(errorEl);
-    }
-  }, 100);
-};
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
@@ -68,15 +53,15 @@ export default class ArrayField extends React.Component {
   }
 
   /*
-   * Based on the default react-jsonschema-form optimizations, except it handles state/props syncing
-   * with formData
+   * This is a performance optimization to avoid extra renders. Because we mirror
+   * formData in local state, each form data change will trigger two renders: one when
+   * local state is updated and another when that change is reflected in formData. This check
+   * skips the second render if no other props or state has changed
    */
   shouldComponentUpdate(nextProps, nextState) {
     const propsWithoutDataUnchanged = deepEquals(_.omit('formData', this.props), _.omit('formData', nextProps));
     const stateUnchanged = deepEquals(this.state, nextState);
 
-    // Because there's local state for the form data, we sometimes see form data updated in props that is already
-    // in state and we don't need to update
     if (propsWithoutDataUnchanged && stateUnchanged && deepEquals(nextProps.formData, nextState.items)) {
       return false;
     }
