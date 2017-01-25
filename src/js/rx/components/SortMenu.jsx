@@ -81,7 +81,7 @@ class SortMenu extends React.Component {
     });
 
     return (
-      <div className="row">
+      <div>
         <form className="rx-sort va-dnp">
           <label htmlFor={this.selectId}>Sort by</label>
           <select
