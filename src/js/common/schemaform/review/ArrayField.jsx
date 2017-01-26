@@ -160,7 +160,6 @@ class ArrayField extends React.Component {
                           : null}
                       <FormPage
                           setData={(key, data) => this.handleSetData(index, data)}
-                          setValid={f => f}
                           reviewPage
                           onEdit={() => this.handleEdit(index, !isEditing)}
                           onSubmit={() => this.handleSave(index)}
@@ -185,7 +184,6 @@ class ArrayField extends React.Component {
                 <div className="row small-collapse">
                   <FormPage
                       setData={(key, data) => this.handleSetData(index, data)}
-                      setValid={f => f}
                       reviewPage
                       reviewMode
                       onEdit={() => this.handleEdit(index, !isEditing)}

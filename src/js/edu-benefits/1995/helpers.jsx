@@ -6,6 +6,6 @@ export const benefitsLabels = {
   chapter1606: <p>Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)<br/><a href="/education/gi-bill/montgomery-selected-reserve/" target="_blank">Learn more</a></p>,
   chapter32: <p>Post-Vietnam Era Veterans' Educational Assistance Program<br/>(VEAP, Chapter 32)<br/><a href="/education/other-educational-assistance-programs/veap/" target="_blank">Learn more</a></p>,
   chapter1607: 'Reserve Educational Assistance Program (REAP, Chapter 1607)',
-  transferOfEntitlement: 'Transfer of Entitlement Program'
+  transferOfEntitlement: 'Transfer of Entitlement Program (TOE)'
 };
 

@@ -40,12 +40,16 @@ describe('Schemaform ReviewPage', () => {
       chapters: {
         chapter1: {
           pages: {
-            page1: {}
+            page1: {
+              schema: {}
+            }
           }
         },
         chapter2: {
           pages: {
-            page2: {}
+            page2: {
+              schema: {}
+            }
           }
         }
       }
@@ -56,10 +60,12 @@ describe('Schemaform ReviewPage', () => {
         hasAttemptedSubmit: false
       },
       page1: {
-        isValid: true
+        data: {
+        }
       },
       page2: {
-        isValid: true
+        data: {
+        }
       },
       privacyAgreementAccepted: true
     };
@@ -79,12 +85,16 @@ describe('Schemaform ReviewPage', () => {
       chapters: {
         chapter1: {
           pages: {
-            page1: {}
+            page1: {
+              schema: {}
+            }
           }
         },
         chapter2: {
           pages: {
-            page2: {}
+            page2: {
+              schema: {}
+            }
           }
         }
       }
@@ -95,12 +105,12 @@ describe('Schemaform ReviewPage', () => {
         hasAttemptedSubmit: false
       },
       page1: {
-        isValid: false
+        data: {}
       },
       page2: {
-        isValid: true
+        data: {}
       },
-      privacyAgreementAccepted: true
+      privacyAgreementAccepted: false
     };
 
     const submitForm = sinon.spy();

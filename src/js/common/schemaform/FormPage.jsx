@@ -15,7 +15,7 @@ import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
 import ReviewObjectField from './review/ObjectField';
 import { focusElement } from '../utils/helpers';
-import { setValid, setData } from './actions';
+import { setData } from './actions';
 import { updateRequiredFields } from './helpers';
 
 const fields = {
@@ -112,7 +112,6 @@ class FormPage extends React.Component {
     scrollToFirstError();
   }
   onSubmit() {
-    this.props.setValid(this.props.route.pageConfig.pageKey, true);
     if (this.props.reviewPage) {
       this.props.onSubmit();
     } else {
@@ -203,8 +202,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  setData,
-  setValid
+  setData
 };
 
 FormPage.propTypes = {

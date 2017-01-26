@@ -150,26 +150,11 @@ export function parseISODate(dateString) {
   };
 }
 
-export function isValidForm(form) {
-  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
-  return Object.keys(pages).reduce((isValid, page) => {
-    return isValid && pages[page].isValid;
-  }, true);
-}
-
 export function flattenFormData(form) {
   const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
   return _.values(pages).reduce((formPages, page) => {
     return _.assign(formPages, page.data);
   }, {});
-}
-
-export function errorSchemaIsValid(errorSchema) {
-  if (errorSchema && errorSchema.__errors && errorSchema.__errors.length) {
-    return false;
-  }
-
-  return _.values(_.omit('__errors', errorSchema)).every(errorSchemaIsValid);
 }
 
 export function getArrayFields(pageConfig) {
@@ -267,3 +252,4 @@ export function updateRequiredFields(schema, uiSchema, formData) {
 
   return schema;
 }
+

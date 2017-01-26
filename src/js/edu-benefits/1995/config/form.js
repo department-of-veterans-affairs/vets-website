@@ -27,7 +27,7 @@ const formConfig = {
               'ui:required': (form) => !form.noSSN
             }),
             noSSN: {
-              'ui:title': 'I don\'t have a Social Security Number',
+              'ui:title': 'I don\'t have a Social Security number',
               'ui:options': {
                 hideOnReviewIfFalse: true
               }
@@ -158,7 +158,6 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['hasServiceBefore1978'],
             properties: {
               hasServiceBefore1978: {
                 type: 'boolean'
@@ -389,7 +388,6 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['serviceBefore1977'],
             properties: {
               serviceBefore1977: {
                 type: 'object',
