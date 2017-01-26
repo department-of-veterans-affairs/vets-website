@@ -1,9 +1,15 @@
 import React from 'react';
+import shallowEqual from 'recompose/shallowEqual';
+
 import SegmentedProgressBar from '../components/SegmentedProgressBar';
 
 import { createFormPageList, createPageList } from './helpers';
 
 export default class FormNav extends React.Component {
+  // The formConfig transforming is a little heavy, so skip it if we can
+  shouldComponentUpdate(newProps) {
+    return !shallowEqual(this.props, newProps);
+  }
   render() {
     const { formConfig, currentPath } = this.props;
 
