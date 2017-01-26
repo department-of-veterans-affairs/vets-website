@@ -1,15 +1,17 @@
 import React from 'react';
 import classNames from 'classnames';
+import _ from 'lodash/fp';
 
 import {
   deepEquals,
   getDefaultFormState,
   orderProperties,
   retrieveSchema,
-  shouldRender,
   getDefaultRegistry,
   setState
 } from 'react-jsonschema-form/lib/utils';
+
+import ExpandingGroup from '../components/form-elements/ExpandingGroup';
 
 /*
  * This is largely copied from the react-jsonschema-form library,
@@ -45,6 +47,19 @@ class ObjectField extends React.Component {
     super(props);
     this.state = this.getStateFromProps(props);
     this.onPropertyChange = this.onPropertyChange.bind(this);
+    this.onPropertyBlur = this.onPropertyBlur.bind(this);
+    this.isRequired = this.isRequired.bind(this);
+    // This runs a series of steps that order properties and then group them into
+    // expandable groups. If there are no expandable groups, then the end result of this
+    // will be an array of single item arrays
+    this.orderAndFilterProperties = _.flow(
+      properties => orderProperties(properties, _.get('ui:order', this.props.uiSchema)),
+      _.groupBy((item) => {
+        const expandUnderField = _.get([item, 'ui:options', 'expandUnder'], this.props.uiSchema);
+        return expandUnderField || item;
+      }),
+      _.values
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -60,13 +75,32 @@ class ObjectField extends React.Component {
     }
   }
 
+  /*
+   * This is a performance optimization to avoid extra renders. Because we mirror
+   * formData in local state, each form data change will trigger two renders: one when
+   * local state is updated and another when that change is reflected in formData. This check
+   * skips the second render if no other props or state has changed
+   */
   shouldComponentUpdate(nextProps, nextState) {
-    return shouldRender(this, nextProps, nextState);
+    const propsWithoutDataUnchanged = deepEquals(_.omit('formData', this.props), _.omit('formData', nextProps));
+    const stateUnchanged = deepEquals(this.state, nextState);
+
+    if (propsWithoutDataUnchanged && stateUnchanged && deepEquals(nextProps.formData, nextState)) {
+      return false;
+    }
+
+    return true;
   }
 
   onPropertyChange(name) {
     return (value, options) => {
       this.asyncSetState({ [name]: value }, options);
+    };
+  }
+
+  onPropertyBlur(name) {
+    return (path = []) => {
+      this.props.onBlur([name].concat(path));
     };
   }
 
@@ -107,7 +141,7 @@ class ObjectField extends React.Component {
       required,
       disabled,
       readonly,
-      onBlur
+      touchedSchema
     } = this.props;
     const { definitions, fields, formContext } = this.props.registry;
     const { SchemaField, TitleField } = fields;
@@ -125,7 +159,7 @@ class ObjectField extends React.Component {
     let orderedProperties;
     try {
       const properties = Object.keys(schema.properties);
-      orderedProperties = orderProperties(properties, uiSchema['ui:order']);
+      orderedProperties = this.orderAndFilterProperties(properties);
     } catch (err) {
       return (
         <div>
@@ -143,6 +177,24 @@ class ObjectField extends React.Component {
       'schemaform-block': title && !isRoot
     });
 
+    const renderProp = (propName, index) => (
+      <div key={index} className={index === 0 ? 'first-field' : null}>
+        <SchemaField
+            name={propName}
+            required={this.isRequired(propName)}
+            schema={schema.properties[propName]}
+            uiSchema={uiSchema[propName]}
+            errorSchema={errorSchema[propName]}
+            idSchema={idSchema[propName]}
+            formData={this.state[propName]}
+            onChange={this.onPropertyChange(propName)}
+            onBlur={this.onPropertyBlur(propName)}
+            touchedSchema={typeof touchedSchema === 'object' ? touchedSchema[propName] : !!touchedSchema}
+            registry={this.props.registry}
+            disabled={disabled}
+            readonly={readonly}/>
+      </div>
+    );
 
     return (
       <fieldset>
@@ -155,23 +207,16 @@ class ObjectField extends React.Component {
                   formContext={formContext}/> : null}
           {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
           {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
-          {
-          orderedProperties.map((propName, index) => {
-            return (
-              <SchemaField key={index}
-                  name={propName}
-                  required={this.isRequired(propName)}
-                  schema={schema.properties[propName]}
-                  uiSchema={uiSchema[propName]}
-                  errorSchema={errorSchema[propName]}
-                  idSchema={idSchema[propName]}
-                  formData={this.state[propName]}
-                  onChange={this.onPropertyChange(propName)}
-                  onBlur={onBlur}
-                  registry={this.props.registry}
-                  disabled={disabled}
-                  readonly={readonly}/>
-            );
+          {orderedProperties.map((objectFields, index) => {
+            if (objectFields.length > 1) {
+              return (
+                <ExpandingGroup open={!!this.state[objectFields[0]]} key={index}>
+                  {objectFields.map(renderProp)}
+                </ExpandingGroup>
+              );
+            }
+
+            return renderProp(objectFields[0], index);
           })
           }
         </div>
