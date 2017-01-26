@@ -109,10 +109,10 @@
       &:nth-child(3) {
         font-weight: normal;
         position: absolute;
-        right: 25%;
-        text-align: right;
+        right: 20%;
+        text-align: center;
         top: 0;
-        width: 25%;
+        width: 5%;
 
         i {
           padding: 2.7rem 0;
@@ -126,10 +126,10 @@
         right: 0;
         text-align: right;
         top: 0;
-        width: 25%;
+        width: 20%;
 
         a {
-          padding: 2.25rem 2rem;
+          padding: 2.25rem 2rem 2.25rem 0;
         }
       }
 
