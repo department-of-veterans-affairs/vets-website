@@ -12,7 +12,7 @@ import ServicePeriodView from '../components/ServicePeriodView';
 const formConfig = {
   urlPrefix: '/1995/',
   submitUrl: '/v0/education_benefits_claims/1995',
-  trackingPrefx: 'edu',
+  trackingPrefix: 'edu-1995-',
   transformForSubmit,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

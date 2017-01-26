@@ -72,7 +72,7 @@ export function submitForm(formConfig, form) {
         return res.json();
       }
       window.dataLayer.push({
-        event: `${formConfig.trackingPrefx}-submission-failed`,
+        event: `${formConfig.trackingPrefix}-submission-failed`,
       });
       return Promise.reject(res.statusText);
     })
