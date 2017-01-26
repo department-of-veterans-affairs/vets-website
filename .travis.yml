@@ -33,7 +33,7 @@ addons:
 
 after_script:
   - npm install -g codeclimate-test-reporter
-  - codeclimate-test-reporter < lcov.info
+  - codeclimate-test-reporter < coverage/lcov.info
 
 before_deploy:
   - npm install -g s3-cli
