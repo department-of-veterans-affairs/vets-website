@@ -15,7 +15,6 @@ const markdown = require('metalsmith-markdownit');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
-const textReplace = require('metalsmith-text-replace');
 const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');

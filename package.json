@@ -112,7 +112,6 @@
     "metalsmith-permalinks": "^0.5.0",
     "metalsmith-redirect": "^2.1.0",
     "metalsmith-sitemap": "^1.0.0",
-    "metalsmith-text-replace": "^1.0.1",
     "metalsmith-watch": "^1.0.3",
     "metalsmith-webpack": "^1.0.3",
     "metalsmith-webpack-dev-server": "^1.0.0",
