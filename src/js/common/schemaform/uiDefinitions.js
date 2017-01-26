@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import { validateSSN, validateDate } from './validation';
+import { validateSSN, validateDate, validateDateRange } from './validation';
 
 export const uiFullName = {
   first: {
@@ -46,6 +46,12 @@ export const uiDate = {
 
 export function uiDateRange(from, to) {
   return {
+    'ui:validations': [
+      validateDateRange
+    ],
+    'ui:errorMessages': {
+      dateRange: 'End of service must be after start of service'
+    },
     from: _.merge(uiDate, {
       'ui:title': from
     }),

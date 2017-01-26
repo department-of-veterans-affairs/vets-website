@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
+import Scroll from 'react-scroll';
 
 export function getPageList(routes, prefix = '') {
   return routes.map(route => {
@@ -72,5 +73,18 @@ export function focusElement(selectorOrElement) {
   if (el) {
     el.setAttribute('tabindex', '-1');
     el.focus();
+  }
+}
+
+export function scrollToFirstError() {
+  const errorEl = document.querySelector('.usa-input-error, .input-error-date');
+  if (errorEl) {
+    const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
+    Scroll.animateScroll.scrollTo(position - 10, {
+      duration: 500,
+      delay: 0,
+      smooth: true
+    });
+    focusElement(errorEl);
   }
 }
