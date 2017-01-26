@@ -92,7 +92,7 @@ export function createRoutes(formConfig) {
       pageList
     },
     {
-      path: 'submit-message',
+      path: 'confirmation',
       component: formConfig.confirmation
     }
   ]);

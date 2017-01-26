@@ -46,12 +46,14 @@ export function setSubmitted(response) {
 }
 
 export function submitForm(formConfig, form) {
-  const formData = flattenFormData(form);
+  const body = formConfig.transformForSubmit
+    ? formConfig.transformForSubmit(form)
+    : JSON.stringify(flattenFormData(form));
+
   return dispatch => {
-    // dispatch(updateCompletedStatus('/1990/review-and-submit'));
     dispatch(setSubmission('status', 'submitPending'));
     window.dataLayer.push({
-      event: 'edu-submission',
+      event: `${formConfig.trackingPrefix}-submission`,
     });
     fetch(`${environment.API_URL}${formConfig.submitUrl}`, {
       method: 'POST',
@@ -60,21 +62,17 @@ export function submitForm(formConfig, form) {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel'
       },
-      body: JSON.stringify({
-        educationBenefitsClaim: {
-          form: formData
-        }
-      })
+      body
     })
     .then(res => {
       if (res.ok) {
         window.dataLayer.push({
-          event: 'edu-submission-successful',
+          event: `${formConfig.trackingPrefix}-submission-successful`,
         });
         return res.json();
       }
       window.dataLayer.push({
-        event: 'edu-submission-failed',
+        event: `${formConfig.trackingPrefix}-submission-failed`,
       });
       return Promise.reject(res.statusText);
     })
