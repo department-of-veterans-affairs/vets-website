@@ -5,6 +5,8 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import fetch from 'isomorphic-fetch';
 
+import environment from '../../common/helpers/environment';
+
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from '../../common/components/Nav.jsx';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
@@ -141,7 +143,7 @@ class HealthCareApp extends React.Component {
     const formIsValid = validations.isValidForm(veteran);
 
     if (__BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging') {
-      apiUrl = `${window.VetsGov.api.url}/v0/health_care_applications`;
+      apiUrl = `${environment.API_URL}/v0/health_care_applications`;
       submissionPost.body = JSON.stringify({ form: submissionPost.body });
     }
 
