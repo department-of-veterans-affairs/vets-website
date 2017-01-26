@@ -13,11 +13,14 @@ export default class FormNav extends React.Component {
   render() {
     const { formConfig, currentPath } = this.props;
 
+    // This is converting the config into a list of pages with chapter keys,
+    // finding the current page, then getting the chapter name using the key
     const formPages = createFormPageList(formConfig);
     const pageList = createPageList(formConfig, formPages);
     const page = pageList.filter(p => p.path.endsWith(currentPath))[0];
     const chapters = Object.keys(formConfig.chapters).concat('review');
     const current = chapters.indexOf(page.chapterKey) + 1;
+    // The review page is always part of our forms, but isn't listed in chapter list
     const chapterName = page.chapterKey === 'review'
       ? 'Review Application'
       : formConfig.chapters[page.chapterKey].title;
