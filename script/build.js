@@ -276,13 +276,19 @@ if (options.buildtype !== 'development') {
   // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
   // files, so we have to replace the references to those files in HTML and CSS files after the
   // rest of the build has completed. This is done by reading in a manifest file created by
-  // WebPack that maps the original file names to their hashed versions.
+  // WebPack that maps the original file names to their hashed versions. Metalsmith actions
+  // are passed a list of files that are included in the build. Those files are not yet written
+  // to disk, but the contents are held in memory.
+  //
   smith.use(function(files, metalsmith, done) {
+    // Read in the data from the manifest file.
     var manifestKey = Object.keys(files).find(function(filename) {
       return filename.match(/file-manifest.json$/) !== null;
     });
     var originalManifest = JSON.parse(files[manifestKey].contents.toString());
 
+    // The manifest contains the original filenames without the addition of .entry
+    // on the JS files. This finds all of those and modifies them to add .entry.
     var manifest = {};
     Object.keys(originalManifest).forEach(function(originalManifestKey) {
       var matchData = originalManifestKey.match(/(.*)\.js$/);
@@ -294,6 +300,9 @@ if (options.buildtype !== 'development') {
       }
     });
 
+    // For each file in the build, if it is a HTML or CSS file, loop over all
+    // of the keys in the manifest object and do a search and replace for the
+    // key with the value.
     Object.keys(files).forEach(function(filename) {
       if (filename.match(/\.(html|css)$/) !== null) {
         Object.keys(manifest).forEach(function(originalAssetFilename) {
