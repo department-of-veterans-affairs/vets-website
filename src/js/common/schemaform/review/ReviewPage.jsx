@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './SubmitButtons';
@@ -14,6 +15,14 @@ class ReviewPage extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     // this only needs to be run once
     this.pagesByChapter = createPageListByChapter(this.props.route.formConfig);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const nextStatus = nextProps.form.submission.status;
+    const previousStatus = this.props.form.submission.status;
+    if (nextStatus !== previousStatus && nextStatus === 'applicationSubmitted') {
+      this.props.router.push(`${nextProps.route.formConfig.urlPrefix}confirmation`);
+    }
   }
 
   handleSubmit() {
@@ -79,6 +88,6 @@ ReviewPage.propTypes = {
   }).isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReviewPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReviewPage));
 
 export { ReviewPage };

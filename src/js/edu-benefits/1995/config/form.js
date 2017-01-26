@@ -4,15 +4,18 @@ import { fullName, ssn, dateRange, date, address, phone } from '../../../common/
 import { uiFullName, uiSSN, uiDateRange, uiDate, uiPhone } from '../../../common/schemaform/uiDefinitions';
 import { validateEmailsMatch } from '../../../common/schemaform/validation';
 
-import { benefitsLabels } from '../helpers';
+import { benefitsLabels, transformForSubmit } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../components/ServicePeriodView';
 
 const formConfig = {
   urlPrefix: '/1995/',
   submitUrl: '/v0/education_benefits_claims/1995',
+  trackingPrefix: 'edu-1995-',
+  transformForSubmit,
   introduction: IntroductionPage,
-  confirmation: null,
+  confirmation: ConfirmationPage,
   chapters: {
     veteranInformation: {
       title: 'Veteran Information',

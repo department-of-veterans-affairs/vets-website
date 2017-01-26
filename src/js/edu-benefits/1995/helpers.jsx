@@ -1,4 +1,5 @@
 import React from 'react';
+import { flattenFormData } from '../../common/schemaform/helpers';
 
 export const benefitsLabels = {
   chapter33: <p>Post-9/11 GI Bill (Chapter 33)<br/><a href="/education/gi-bill/post-9-11/" target="_blank">Learn more</a></p>,
@@ -9,3 +10,12 @@ export const benefitsLabels = {
   transferOfEntitlement: 'Transfer of Entitlement Program (TOE)'
 };
 
+export function transformForSubmit(form) {
+  const formData = flattenFormData(form);
+
+  return JSON.stringify({
+    educationBenefitsClaim: {
+      form: JSON.stringify(formData)
+    }
+  });
+}
