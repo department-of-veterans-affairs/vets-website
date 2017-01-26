@@ -313,7 +313,7 @@ export class Folder extends React.Component {
             onToggleMoveTo={() => this.props.toggleFolderMoveTo(id)}/>
       );
 
-      const attachmentIcon = message.attachment ? (<span className="fa fa-paperclip" aria-label="Message has an attachment"></span>) : null;
+      const attachmentIcon = message.attachment ? (<i className="fa fa-paperclip" aria-label="Message has an attachment"></i>) : null;
 
       return {
         id,

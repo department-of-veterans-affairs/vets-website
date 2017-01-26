@@ -105,8 +105,22 @@
         }
       }
 
-      // Date
+      // Attachment icon
       &:nth-child(3) {
+        font-weight: normal;
+        position: absolute;
+        right: 25%;
+        text-align: right;
+        top: 0;
+        width: 25%;
+
+        i {
+          padding: 2.7rem 0;
+        }
+      }
+
+      // Date
+      &:nth-child(4) {
         font-weight: normal;
         position: absolute;
         right: 0;
@@ -119,7 +133,7 @@
         }
       }
 
-      &:nth-child(n+4) {
+      &:nth-child(n+5) {
         display: none;
       }
     }
