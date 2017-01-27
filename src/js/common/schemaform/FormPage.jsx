@@ -14,7 +14,7 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
 import ReviewObjectField from './review/ObjectField';
-import { focusElement, isActivePage } from '../utils/helpers';
+import { focusElement, getActivePages } from '../utils/helpers';
 import { setData } from './actions';
 import { updateRequiredFields } from './helpers';
 
@@ -73,10 +73,12 @@ class FormPage extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onError = this.onError.bind(this);
     this.goBack = this.goBack.bind(this);
+    this.getEligiblePages = this.getEligiblePages.bind(this);
     this.getEmptyState = this.getEmptyState.bind(this);
     this.transformErrors = this.transformErrors.bind(this);
     this.state = this.getEmptyState(props.route.pageConfig);
   }
+
   componentDidMount() {
     if (!this.props.reviewPage) {
       scrollToTop();
@@ -85,6 +87,7 @@ class FormPage extends React.Component {
       focusForm();
     }
   }
+
   componentWillReceiveProps(newProps) {
     if (newProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey) {
       this.setState(this.getEmptyState(newProps.route.pageConfig), () => {
@@ -94,6 +97,7 @@ class FormPage extends React.Component {
       this.setState({ schema: newProps.schema });
     }
   }
+
   componentDidUpdate(prevProps) {
     if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey) {
       scrollToTop();
@@ -118,11 +122,16 @@ class FormPage extends React.Component {
     if (this.props.reviewPage) {
       this.props.onSubmit();
     } else {
-      const { form, route: { pageConfig, pageList } } = this.props;
-      const eligiblePageList = pageList.filter(page => isActivePage(page, form[page.pageKey]));
-      const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, eligiblePageList);
+      const { eligiblePageList, pageIndex } = this.getEligiblePages();
       this.props.router.push(eligiblePageList[pageIndex + 1].path);
     }
+  }
+
+  getEligiblePages() {
+    const { form, route: { pageConfig, pageList } } = this.props;
+    const eligiblePageList = getActivePages(pageList, form);
+    const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, eligiblePageList);
+    return { eligiblePageList, pageIndex };
   }
 
   getEmptyState(pageConfig) {
@@ -141,9 +150,8 @@ class FormPage extends React.Component {
   }
 
   goBack() {
-    const { pageList, pageConfig } = this.props.route;
-    const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, pageList);
-    this.props.router.push(pageList[pageIndex - 1].path);
+    const { eligiblePageList, pageIndex } = this.getEligiblePages();
+    this.props.router.push(eligiblePageList[pageIndex - 1].path);
   }
 
   transformErrors(errors) {
