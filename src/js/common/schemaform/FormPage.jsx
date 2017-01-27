@@ -14,7 +14,7 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
 import ReviewObjectField from './review/ObjectField';
-import { focusElement } from '../utils/helpers';
+import { focusElement, isActivePage } from '../utils/helpers';
 import { setData } from './actions';
 import { updateRequiredFields } from './helpers';
 
@@ -99,6 +99,7 @@ class FormPage extends React.Component {
       scrollToTop();
     }
   }
+
   onChange({ formData }) {
     this.props.setData(this.props.route.pageConfig.pageKey, formData);
     const newSchema = updateRequiredFields(this.state.schema, this.props.route.pageConfig.uiSchema, formData);
@@ -106,20 +107,24 @@ class FormPage extends React.Component {
       this.setState({ schema: newSchema });
     }
   }
+
   onError() {
     const formContext = _.set('submitted', true, this.state.formContext);
     this.setState({ formContext });
     scrollToFirstError();
   }
+
   onSubmit() {
     if (this.props.reviewPage) {
       this.props.onSubmit();
     } else {
-      const { pageList, pageConfig } = this.props.route;
-      const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, pageList);
-      this.props.router.push(pageList[pageIndex + 1].path);
+      const { form, route: { pageConfig, pageList } } = this.props;
+      const eligiblePageList = pageList.filter(page => isActivePage(page, form[page.pageKey]));
+      const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, eligiblePageList);
+      this.props.router.push(eligiblePageList[pageIndex + 1].path);
     }
   }
+
   getEmptyState(pageConfig) {
     const { form, onEdit, hideTitle } = this.props;
     const { uiSchema, schema } = pageConfig;
@@ -134,14 +139,17 @@ class FormPage extends React.Component {
       }
     };
   }
+
   goBack() {
     const { pageList, pageConfig } = this.props.route;
     const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, pageList);
     this.props.router.push(pageList[pageIndex - 1].path);
   }
+
   transformErrors(errors) {
     return transformErrors(errors, this.props.route.pageConfig.uiSchema);
   }
+
   validate(formData, errors) {
     const { uiSchema } = this.props.route.pageConfig;
     if (uiSchema) {
@@ -149,6 +157,7 @@ class FormPage extends React.Component {
     }
     return errors;
   }
+
   render() {
     const { uiSchema } = this.props.route.pageConfig;
     const formData = this.props.form[this.props.route.pageConfig.pageKey].data;
