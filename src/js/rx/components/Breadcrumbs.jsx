@@ -3,6 +3,20 @@ import { Link } from 'react-router';
 import React from 'react';
 
 class Breadcrumbs extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      prevPath: '',
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location !== this.props.location) {
+      this.setState({ prevPath: this.props.location.pathname });
+    }
+  }
+
   render() {
     const { location: { pathname }, prescription } = this.props;
 
@@ -13,6 +27,11 @@ class Breadcrumbs extends React.Component {
 
     if (pathname.match(/\/\d+$/)) {
       crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
+
+      if (this.state.prevPath.match(/\/history\/?$/)) {
+        crumbs.push(<Link to="/history" key="history">History</Link>);
+      }
+
       if (prescription) {
         const prescriptionName = _.get(prescription, [
           'rx',
@@ -22,7 +41,10 @@ class Breadcrumbs extends React.Component {
 
         crumbs.push(<span key="currentPrescription"><strong>{prescriptionName}</strong></span>);
       }
-    } else if (pathname.match(/\/glossary\/$/)) {
+    } else if (pathname.match(/\/history\/?$/)) {
+      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
+      crumbs.push(<span key="history"><strong>History</strong></span>);
+    } else if (pathname.match(/\/glossary\/?$/)) {
       crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
       crumbs.push(<span key="glossary"><strong>Glossary</strong></span>);
     } else {

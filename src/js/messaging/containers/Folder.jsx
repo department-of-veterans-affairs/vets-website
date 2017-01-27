@@ -262,6 +262,7 @@ export class Folder extends React.Component {
     const fields = [
       { label: 'From', value: 'senderName' },
       { label: 'Subject line', value: 'subject' },
+      { label: '', value: 'hasAttachment', nonSortable: true },
       { label: 'Date', value: 'sentDate' }
     ];
 
@@ -279,7 +280,7 @@ export class Folder extends React.Component {
         fields.pop();
       }
     } else {
-      fields.push({ label: '', value: 'moveToButton' });
+      fields.push({ label: '', value: 'moveToButton', nonSortable: true });
     }
 
     // Create sortable table rows.
@@ -312,9 +313,12 @@ export class Folder extends React.Component {
             onToggleMoveTo={() => this.props.toggleFolderMoveTo(id)}/>
       );
 
+      const attachmentIcon = message.attachment ? (<i className="fa fa-paperclip" aria-label="Message has an attachment"></i>) : null;
+
       return {
         id,
         rowClass,
+        hasAttachment: attachmentIcon,
         recipientName: makeMessageLink(message.recipientName, id),
         senderName: makeMessageLink(message.senderName, id),
         subject: makeMessageLink(message.subject, id),

@@ -10,25 +10,23 @@
   }
 }
 
-.va-header-logo {
-  .page-playbook & {
-    a {
-      background-color: inherit;
-      background-image: url(/img/design/logo/logo-alt.png);
-
-      &:hover, &:active, &:focus {
-        background-image: url(/img/design/logo/logo-alt-hover.png);
-      }
-    }
-  }
-}
-
 // Blog / Playbook
-
 .page-playbook {
   background-color: $color-white;
   .main {
     background: white;
+  }
+
+  .va-header-logo {
+    &:hover .vets-logo-va path {
+      fill: $color-primary;
+    }
+  }
+
+  .vets-logo {
+    path, rect {
+      fill: $color-primary-darker;
+    }
   }
 }
 
