@@ -1582,26 +1582,26 @@ a.twitter {
 // Dividers
 
 .divider {
-&.margin {
-  padding-top: 1em;
-  padding-bottom: 1em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-&.top {
-  border-top: 1px solid #f0f0f0;
-}
-&.bottom {
-  border-bottom: 1px solid #f0f0f0;
-}
+  &.margin {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  &.top {
+    border-top: 1px solid #f0f0f0;
+  }
+  &.bottom {
+    border-bottom: 1px solid #f0f0f0;
+  }
 }
 
 // Steps
 
 .feature {
-background: $polar;
-padding: 1em;
-margin: 0;
+  background: $polar;
+  padding: 1em;
+  margin: 0;
 }
 
 // Process line
@@ -1729,27 +1729,6 @@ li.eighteen:before {content: '18';}
 li.nineteen:before {content: '19';}
 li.twenty:before {content: '20';}
 }
-
-// Icons
-
-.icon-images {width: 1.125em;}
-.icon-connection {width: 1.25em;}
-.icon-books {width: 1.125em;}
-.icon-library {width: 1.0625em;}
-.icon-price-tags {width: 1.25em;}
-.icon-history {width: 1.0625em;}
-.icon-keyboard {width: 1.125em;}
-.icon-bubbles {width: 1.125em;}
-.icon-bubbles2 {width: 1.125em;}
-.icon-bubbles3 {width: 1.125em;}
-.icon-bubbles4 {width: 1.125em;}
-.icon-users {width: 1.125em;}
-.icon-menu2 {width: 1.375em;}
-.icon-menu3 {width: 1.375em;}
-.icon-menu4 {width: 1.375em;}
-.icon-volume-high {width: 1.0625em;}
-.icon-embed2 {width: 1.25em;}
-.icon-youtube4 {width: 2.5087890625em;}
 
 // Panel list
 .panel-list {
