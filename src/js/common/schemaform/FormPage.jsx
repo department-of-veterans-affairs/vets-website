@@ -127,6 +127,10 @@ class FormPage extends React.Component {
     }
   }
 
+  /*
+   * Returns the page list without conditional pages that have not satisfied
+   * their dependencies and therefore should be skipped.
+   */
   getEligiblePages() {
     const { form, route: { pageConfig, pageList } } = this.props;
     const eligiblePageList = getActivePages(pageList, form);
