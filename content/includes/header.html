@@ -92,10 +92,12 @@
     <div class="row hide-for-medium-up crisis-line-container">
       <div class="small-12 va-flex">
         <div class="stacked">
-          <a href="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
-            <span class="vcl"></span>
-            Get help from Veterans Crisis Line
-          </a>
+          <button data-show="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
+            <span class="va-flex">
+              <span class="vcl"></span>
+              Get help from Veterans Crisis Line
+            </span>
+          </button>
         </div>
       </div>
     </div>
@@ -132,8 +134,10 @@
 
   <!-- /header alert box -->
   <div class="row va-header-logosearch">
-    <div class="va-header-logo-wrapper">
-      <h1 role="banner" class="va-header-logo"><a href="/">Vets.gov</a></h1>
+    <div role="banner" class="va-header-logo-wrapper">
+      <a href="/" class="va-header-logo">
+        {% include "assets/img/svglogo.svg" %}
+      </a>
     </div>
     
     {% if search != 'false' %}
