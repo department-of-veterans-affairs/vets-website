@@ -27,23 +27,23 @@ If you disagree with all or part of a VBA benefits decision, you can:
 
 #### When do I file an NOD?
 
-You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim(s).
+You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim.
 
 #### How do I file an appeal?
 
-[Complete and turn in VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf).
+[Fill out and turn in VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf).
 
 #### What happens after I file my appeal?
 
-VBA will send you a written explanation (known as a Statement of the Case, or SOC) letting you know why your claim was denied.
+VBA will send you a written notice (known as a Statement of the Case, or SOC) letting you know why your claim was denied.
 
-### What if I still don’t agree with the decision made on my claim(s) after VBA issues the SOC?
+### What if I still don’t agree with the decision made on my claim after VBA issues the SOC?
 
-If you disagree with the VBA decision, you can take your appeal to the Board of Veterans' Appeals for another look (known as a de novo review or new look). To do this, file a Substantive Appeal (VA Form 9).
+If you disagree with VBA's decision, you can take your appeal to the Board of Veterans' Appeals for another look (known as a de novo review or new look). To do this, file a Substantive Appeal (VA Form 9).
 
 #### When do I file a Substantive Appeal?
 
-You'll need to file a Substantive Appeal within 60 days from the date on the letter that comes along with the SOC—or within the remainder of the 1-year period starting from the date on the letter letting you know of the original decision on your claim—whichever gives you more time.
+You'll need to file a Substantive Appeal within 60 days from the date on the letter that comes with the SOC—or within the remainder of the 1-year period starting from the date on your original decision notice—whichever gives you more time.
 
 #### How do I file a Substantive Appeal?
 
@@ -53,32 +53,34 @@ You'll need to file a Substantive Appeal within 60 days from the date on the let
 
 #### What's the status of my appeal?
 
-Check the status of your appeal by calling <span class="tel">800-827-1000</span> or going online to eBenefits. [Visit eBenefits](https://www.ebenefits.va.gov).
+Check the status of your appeal by calling <span class="tel">800-827-1000</span> or going online to eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov).
 
 #### Can I send in more evidence (supporting documents) or make a new argument to support my appeal?  
 
-Yes. The appeals process follows what's known as a continuous open record process. This means you can send in new evidence and/or make new arguments at any point from the beginning to the end of the appeals process. We also follow what's known as a duty to assist policy. This means that we'll work to find more evidence on your behalf and look into any new arguments that may show that you should qualify for disability benefits. 
+Yes. The appeals process follows what's known as a continuous open record process. This means you can send in new evidence and/or make new arguments at any point from the beginning to the end of the appeals process. We also follow what's known as a duty to assist policy. This means that we'll work to find more evidence on your behalf and look into any new arguments that may show you should qualify for disability benefits. 
 
-Each time you present new arguments and add or find new evidence, VBA is required to issue another decision considering that evidence. This adds time to the process, so it'll take longer to resolve your appeal.
+Each time you present new arguments and add or find new evidence, VBA must issue another decision considering that evidence. This adds time to the process, so it'll take longer to resolve your appeal.
 
 ### What if I decide I don't want to pursue my appeal anymore?
 
-If at any time you decide you don't want to appeal the claim anymore (for any or all of the issues involved in the appeal), you or your authorized representative can send in a written statement. The statement should include your name, the related Department of Veterans Affairs file number, and a statement that you're withdrawing the appeal.
+If at any time you decide you don't want to appeal the claim anymore (for any or all of the issues involved in the appeal), you or your authorized representative can send in a written statement. It should include your name, the related Department of Veterans Affairs file number, and a statement that you're withdrawing the appeal.
 
-If you request the withdrawal *before* you get notice that the appeal has been transferred to the Board, send this statement to VBA. After this, the statement should be sent directly to the Board.  
+If you request the withdrawal *before* you get notice that the appeal has been transferred to the Board, send your statement to VBA. After the appeal has been transferred, you should send it directly to the Board.  
 
 ### What happens if I still disagree with the Board's decision?
 
 If you still disagree, you can:
 
   - File a new claim with your regional office, **or**
-  - File a motion asking the Board to reconsider your appeal (there is no time limit to file this motion), **or**
-  - File a motion asking the Board to review your appeal again because there was clear and obvious error in its decision (there is no time limit to file this motion, but it can't be filed until after the Board decision becomes final), **or**
+  - File a motion asking the Board to reconsider your appeal (there's no time limit to file this motion), **or**
+  - File a motion asking the Board to review your appeal again because there was clear and obvious error in its decision (there's no time limit to file this motion, but it can't be filed until after the Board decision becomes final), **or**
   - File a Notice of Appeal with the Court of Appeals for Veterans Claims (CAVC) within 120 days from the date of the decision by the Board (stamped on the first page of the decision). [Learn more about CAVC](/disability-benefits/claims-appeal/court-appeals-veterans-claims/).
 
 ### How do I file a Notice of Appeal with the CAVC?
 
-[Fill out and file a Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). Send your Notice of Appeal to the clerk of CAVC. [Follow these detailed instructions](http://www.uscourts.cavc.gov/appeal.php).
+[Fill out and file a Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). 
+
+Send your Notice of Appeal to the clerk of CAVC. [Follow these detailed instructions](http://www.uscourts.cavc.gov/appeal.php).
 
 ### Get more information
 
