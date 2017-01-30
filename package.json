@@ -116,7 +116,7 @@
     "metalsmith-webpack": "^1.0.3",
     "metalsmith-webpack-dev-server": "^1.0.0",
     "mocha": "^3.0.0",
-    "modernizr": "^3.3.1",
+    "modernizr": "=3.3.1",
     "modernizr-loader": "0.0.5",
     "moment": "^2.15.1",
     "morgan": "^1.7.0",

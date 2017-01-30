@@ -22,6 +22,7 @@ const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
 
 const fs = require('fs');
+const path = require('path');
 
 const sourceDir = '../content/pages';
 
@@ -117,68 +118,6 @@ smith.use(collections());
 smith.use(dateInFilename(true));
 smith.use(archive());  // TODO(awong): Can this be removed?
 
-// Liquid substitution must occur before markdown is run otherwise markdown will escape the
-// bits of liquid commands (eg., quotes) and break things.
-//
-// Unfortunately this must come before permalinks and navgation because of limitation in both
-// modules regarding what files they understand. The consequence here is that liquid templates
-// *within* a single file do NOT have access to the final path that they will be rendered under
-// or any other metadata added by the permalinks() and navigation() filters.
-//
-// Thus far this has not been a problem because the only references to such paths are in the
-// includes which are handled by the layout module. The layout module, luckily, can be run
-// near the end of the filter chain and therefore has access to all the metadata.
-//
-// If this becomes a barrier in the future, permalinks should be patched to understand
-// translating .md files which would allow inPlace() and markdown() to be moved under the
-// permalinks() and navigation() filters making the variable stores uniform between inPlace()
-// and layout().
-smith.use(inPlace({ engine: 'liquid', pattern: '*.{md,html}' }));
-smith.use(markdown({
-  typographer: true,
-  html: true
-}));
-
-// Responsible for create permalink structure. Most commonly used change foo.md to foo/index.html.
-//
-// This must come before navigation module, otherwise breadcrunmbs will see the wrong URLs.
-//
-// It also must come AFTER the markdown() module because it only recognizes .html files. See
-// comment above the inPlace() module for explanation of effects on the metadata().
-smith.use(permalinks({
-  relative: false,
-  linksets: [{
-    match: { collection: 'posts' },
-    pattern: ':date/:slug'
-  }]
-}));
-
-smith.use(navigation({
-  navConfigs: {
-    sortByNameFirst: true,
-    breadcrumbProperty: 'breadcrumb_path',
-    pathProperty: 'nav_path',
-    includeDirs: true
-  }, navSettings: {} }));
-
-smith.use(assets({ source: '../assets', destination: './' }));
-
-// Note that there is no default layout specified.
-// All pages must explicitly declare a layout or else it will be rendered as raw html.
-smith.use(layouts({
-  engine: 'liquid',
-  directory: '../content/layouts/',
-  // Only apply layouts to markdown and html files.
-  pattern: '**/*.{md,html}'
-}));
-
-// TODO(awong): This URL needs to change based on target environment.
-smith.use(sitemap({
-  hostname: 'http://www.vets.gov',
-  omitIndex: true
-}));
-// TODO(awong): Does anything even use the results of this plugin?
-
 if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
   //   https://www.npmjs.com/package/metalsmith-watch
@@ -252,6 +191,91 @@ if (options.watch) {
 } else {
   // Broken link checking does not work well with watch. It continually shows broken links
   // for permalink processed files. Only run outside of watch mode.
+
+  smith.use(webpack(webpackConfig));
+}
+
+smith.use(assets({ source: '../assets', destination: './' }));
+
+const destination = path.resolve(__dirname, `../build/${options.buildtype}`);
+
+// Webpack paths are absolute, convert to relative
+smith.use((files, metalsmith, done) => {
+  Object.keys(files).forEach((file) => {
+    if (file.indexOf(destination) === 0) {
+      /* eslint-disable no-param-reassign */
+      files[file.substr(destination.length + 1)] = files[file];
+      delete files[file];
+      /* esling-enable no-param-reassign */
+    }
+  });
+
+  done();
+});
+
+// smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))
+
+// Liquid substitution must occur before markdown is run otherwise markdown will escape the
+// bits of liquid commands (eg., quotes) and break things.
+//
+// Unfortunately this must come before permalinks and navgation because of limitation in both
+// modules regarding what files they understand. The consequence here is that liquid templates
+// *within* a single file do NOT have access to the final path that they will be rendered under
+// or any other metadata added by the permalinks() and navigation() filters.
+//
+// Thus far this has not been a problem because the only references to such paths are in the
+// includes which are handled by the layout module. The layout module, luckily, can be run
+// near the end of the filter chain and therefore has access to all the metadata.
+//
+// If this becomes a barrier in the future, permalinks should be patched to understand
+// translating .md files which would allow inPlace() and markdown() to be moved under the
+// permalinks() and navigation() filters making the variable stores uniform between inPlace()
+// and layout().
+smith.use(inPlace({ engine: 'liquid', pattern: '*.{md,html}' }));
+smith.use(markdown({
+  typographer: true,
+  html: true
+}));
+
+// Responsible for create permalink structure. Most commonly used change foo.md to foo/index.html.
+//
+// This must come before navigation module, otherwise breadcrunmbs will see the wrong URLs.
+//
+// It also must come AFTER the markdown() module because it only recognizes .html files. See
+// comment above the inPlace() module for explanation of effects on the metadata().
+smith.use(permalinks({
+  relative: false,
+  linksets: [{
+    match: { collection: 'posts' },
+    pattern: ':date/:slug'
+  }]
+}));
+
+smith.use(navigation({
+  navConfigs: {
+    sortByNameFirst: true,
+    breadcrumbProperty: 'breadcrumb_path',
+    pathProperty: 'nav_path',
+    includeDirs: true
+  }, navSettings: {} }));
+
+// Note that there is no default layout specified.
+// All pages must explicitly declare a layout or else it will be rendered as raw html.
+smith.use(layouts({
+  engine: 'liquid',
+  directory: '../content/layouts/',
+  // Only apply layouts to markdown and html files.
+  pattern: '**/*.{md,html}'
+}));
+
+// TODO(awong): This URL needs to change based on target environment.
+smith.use(sitemap({
+  hostname: 'http://www.vets.gov',
+  omitIndex: true
+}));
+// TODO(awong): Does anything even use the results of this plugin?
+
+if (!options.watch) {
   smith.use(blc({
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
@@ -265,8 +289,6 @@ if (options.watch) {
           '/education/apply-for-education-benefits/application',
           '/healthcare/apply/application'].join('|'))
   }));
-
-  smith.use(webpack(webpackConfig));
 }
 
 smith.use(redirect({
