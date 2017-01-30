@@ -10,6 +10,7 @@ describe('Schemaform: ObjectField', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const schema = {
+      type: 'object',
       properties: {
         test: {
           type: 'string'
@@ -20,12 +21,11 @@ describe('Schemaform: ObjectField', () => {
       <ObjectField
           schema={schema}
           idSchema={{}}
-          formData={{}}
           onChange={onChange}
           onBlur={onBlur}/>
     );
 
-    expect(tree.everySubTree('SchemaField')).not.to.be.empty;
+    expect(tree.everySubTree('shouldUpdate(SchemaField)')).not.to.be.empty;
   });
   it('should render description', () => {
     const onChange = sinon.spy();

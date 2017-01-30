@@ -16,10 +16,17 @@ describe('schemaform createSchemaFormReducer', () => {
         test: {
           pages: {
             page1: {
-              initialData: { field: 'test' }
+              initialData: { field: 'test' },
+              schema: {
+                type: 'object',
+                properties: {
+                  field: {}
+                }
+              }
             },
             page2: {
-              initialData: {}
+              initialData: {},
+              schema: {}
             }
           }
         }
@@ -30,7 +37,7 @@ describe('schemaform createSchemaFormReducer', () => {
 
     expect(state.submission).to.be.defined;
     expect(state.privacyAgreementAccepted).to.be.false;
-    expect(state.page1).to.eql({ data: formConfig.chapters.test.pages.page1.initialData, editMode: false });
+    expect(state.page1.data.field).to.eql(formConfig.chapters.test.pages.page1.initialData.field);
     expect(state.page2).to.be.defined;
   });
   describe('reducer', () => {
@@ -39,7 +46,13 @@ describe('schemaform createSchemaFormReducer', () => {
         test: {
           pages: {
             page1: {
-              initialData: { field: 'test' }
+              initialData: { field: 'test' },
+              schema: {
+                type: 'object',
+                properties: {
+                  field: {}
+                }
+              }
             },
           }
         }
@@ -47,7 +60,7 @@ describe('schemaform createSchemaFormReducer', () => {
     };
     const reducer = createSchemaFormReducer(formConfig);
 
-    it('should set data and valid state', () => {
+    it('should set data state', () => {
       const state = reducer({
         page1: {
           isValid: true,
@@ -60,7 +73,6 @@ describe('schemaform createSchemaFormReducer', () => {
       });
 
       expect(state.page1.data.field).to.equal('test2');
-      expect(state.page1.isValid).to.be.false;
     });
     it('should set edit mode', () => {
       const state = reducer({
