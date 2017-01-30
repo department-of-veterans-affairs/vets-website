@@ -165,7 +165,7 @@
           <button type="button" class="va-mobile-searchclose va-overlay-close" aria-label="close search form - mobile only">Close</button>
           <div class="menu">
             <form accept-charset="UTF-8" action="https://search.vets.gov/search" id="search_form" method="get">
-              <div style="margin:0;padding:0;display:inline">
+              <div class="csp-inline-patch-header">
                 <input name="utf8" type="hidden" value="&#x2713;" />
               </div>
               <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_search" />
@@ -191,26 +191,4 @@
   </div>
 </div>
 
-<script>
-  var usasearch_config = { siteHandle:"vets.gov_search" };
-  var script = document.createElement("script");
-  script.src = "https://search.usa.gov/javascripts/remote.loader.js";
-  document.getElementsByTagName("head")[0].appendChild(script);
-
-  (function() {
-    var domReady = function(callback) {
-      document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
-    };
-
-    domReady(function() {
-      // check whether browser is IE10 and older
-      if (window.navigator.userAgent.indexOf('MSIE ') > 0) {
-        var browserWarning = document.getElementsByClassName("incompatible-browser-warning")[0];
-
-        if (browserWarning) {
-          browserWarning.classList.add("visible");
-        }
-      }
-    });
-  })();
-</script>
+<script src="/js/usa-search.js"></script>

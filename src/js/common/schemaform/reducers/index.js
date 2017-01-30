@@ -1,5 +1,7 @@
-import { createFormPageList } from '../helpers';
 import _ from 'lodash/fp';
+import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
+
+import { updateRequiredFields, createFormPageList } from '../helpers';
 
 import { SET_DATA,
   SET_EDIT_MODE,
@@ -12,7 +14,9 @@ export default function createSchemaFormReducer(formConfig) {
   const initialState = createFormPageList(formConfig)
     .reduce((state, page) => {
       return _.set(page.pageKey, {
-        data: page.initialData,
+        data: getDefaultFormState(page.schema, page.initialData, page.schema.definitions),
+        uiSchema: page.uiSchema,
+        schema: updateRequiredFields(page.schema, page.uiSchema, page.initialData),
         editMode: false
       }, state);
     }, {
@@ -29,8 +33,11 @@ export default function createSchemaFormReducer(formConfig) {
   return (state = initialState, action) => {
     switch (action.type) {
       case SET_DATA: {
-        const newState = _.set([action.page, 'data'], action.data, state);
-        return _.set([action.page, 'isValid'], false, newState);
+        const newPage = _.assign(state[action.page], {
+          data: action.data,
+          schema: updateRequiredFields(state[action.page].schema, state[action.page].uiSchema, action.data)
+        });
+        return _.set(action.page, newPage, state);
       }
       case SET_EDIT_MODE: {
         return _.set([action.page, 'editMode'], action.edit, state);
