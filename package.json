@@ -160,6 +160,7 @@
     "uswds": "^0.10.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#ae08be8e67ac550f2fd400445f3c89c324fa9a79",
     "webpack": "^1.13.1",
+    "webpack-manifest-plugin": "^1.1.0",
     "whatwg-fetch": "http://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-1.0.0.tgz",
     "winston": "^2.2.0"
   },

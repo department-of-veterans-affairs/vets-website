@@ -1,6 +1,7 @@
 // Staging config. Also the default config that prod and dev are based off of.
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const bourbon = require('bourbon').includePaths;
 const neat = require('bourbon-neat').includePaths;
 const path = require('path');
@@ -31,7 +32,7 @@ const configGenerator = (options) => {
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
-      filename: '[name].entry.js'
+      filename: (options.buildtype === 'development') ? '[name].entry.js' : '[name].entry.[chunkhash].js'
     },
     module: {
       loaders: [
@@ -75,10 +76,14 @@ const configGenerator = (options) => {
           test: /\.scss$/,
           loader: ExtractTextPlugin.extract('style-loader', `css!resolve-url!sass?includePaths[]=${bourbon}&includePaths[]=${neat}&includePaths[]=~/uswds/src/stylesheets&sourceMap`)
         },
-        { test: /\.(jpe?g|png|gif)$/i,
+        {
+          test: /\.(jpe?g|png|gif)$/i,
           loader: 'url?limit=10000!img?progressive=true&-minimize'
         },
-        { test: /\.svg/, loader: 'svg-url' },
+        {
+          test: /\.svg/,
+          loader: 'svg-url'
+        },
         {
           test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'url-loader?limit=10000&minetype=application/font-woff'
@@ -116,8 +121,11 @@ const configGenerator = (options) => {
         'window.jQuery': 'jquery'
       }),
 
-      new ExtractTextPlugin('[name].css'),
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+      new ExtractTextPlugin((options.buildtype === 'development') ? '[name].css' : '[name].[chunkhash].css'),
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new ManifestPlugin({
+        fileName: 'file-manifest.json'
+      })
     ],
   };
 
