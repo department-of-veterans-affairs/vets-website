@@ -26,7 +26,7 @@ export default class ArrayField extends React.Component {
      */
 
     this.state = {
-      editing: this.props.formData ? this.props.formData.map(() => false) : [true]
+      editing: props.formData ? props.formData.map(() => false) : [true]
     };
 
     this.onItemChange = this.onItemChange.bind(this);
