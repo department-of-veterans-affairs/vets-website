@@ -46,7 +46,7 @@ module.exports = E2eHelpers.createE2eTest(
       .click('li.step.one')
       .waitForElementVisible('li.step.one .claims-evidence', Timeouts.normal);
     client
-      .expect.element('.claims-evidence:nth-child(3) .claims-evidence-item').text.equals('Your claim is complete');
+      .expect.element('.claims-evidence:nth-child(3) .claims-evidence-item').text.equals('Your claim is closed');
     client
       .expect.element('button.older-updates').to.be.present;
     client
