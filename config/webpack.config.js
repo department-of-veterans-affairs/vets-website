@@ -121,7 +121,7 @@ const configGenerator = (options) => {
     ],
   };
 
-  if (options.buildtype === 'production') {
+  if (options.buildtype === 'production' || options.buildtype === 'staging') {
     baseConfig.devtool = '#source-map';
     baseConfig.module.loaders.push({
       test: /debug\/PopulateVeteranButton/,

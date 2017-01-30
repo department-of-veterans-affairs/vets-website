@@ -16,7 +16,6 @@ import ArrayField from './ArrayField';
 import ReviewObjectField from './review/ObjectField';
 import { focusElement } from '../utils/helpers';
 import { setData } from './actions';
-import { updateRequiredFields } from './helpers';
 
 const fields = {
   ObjectField,
@@ -90,8 +89,6 @@ class FormPage extends React.Component {
       this.setState(this.getEmptyState(newProps.route.pageConfig), () => {
         focusForm();
       });
-    } else if (newProps.schema !== this.props.schema) {
-      this.setState({ schema: newProps.schema });
     }
   }
   componentDidUpdate(prevProps) {
@@ -101,10 +98,6 @@ class FormPage extends React.Component {
   }
   onChange({ formData }) {
     this.props.setData(this.props.route.pageConfig.pageKey, formData);
-    const newSchema = updateRequiredFields(this.state.schema, this.props.route.pageConfig.uiSchema, formData);
-    if (newSchema !== this.state.schema) {
-      this.setState({ schema: newSchema });
-    }
   }
   onError() {
     const formContext = _.set('submitted', true, this.state.formContext);
@@ -120,12 +113,9 @@ class FormPage extends React.Component {
       this.props.router.push(pageList[pageIndex + 1].path);
     }
   }
-  getEmptyState(pageConfig) {
-    const { form, onEdit, hideTitle } = this.props;
-    const { uiSchema, schema } = pageConfig;
-    const formData = form[pageConfig.pageKey].data;
+  getEmptyState() {
+    const { onEdit, hideTitle } = this.props;
     return {
-      schema: updateRequiredFields(schema, uiSchema, formData),
       formContext: {
         touched: {},
         submitted: false,
@@ -151,7 +141,7 @@ class FormPage extends React.Component {
   }
   render() {
     const { uiSchema } = this.props.route.pageConfig;
-    const formData = this.props.form[this.props.route.pageConfig.pageKey].data;
+    const { data, schema } = this.props.form[this.props.route.pageConfig.pageKey];
     const { reviewPage, reviewMode, children } = this.props;
     return (
       <div className={reviewPage ? null : 'form-panel'}>
@@ -163,11 +153,11 @@ class FormPage extends React.Component {
             onError={this.onError}
             onChange={this.onChange}
             onSubmit={this.onSubmit}
-            schema={this.state.schema}
+            schema={schema}
             uiSchema={uiSchema}
             validate={this.validate}
             showErrorList={false}
-            formData={formData}
+            formData={data}
             widgets={reviewMode ? reviewWidgets : widgets}
             fields={reviewMode ? reviewFields : fields}
             transformErrors={this.transformErrors}>

@@ -78,7 +78,7 @@ class YourClaimsPage extends React.Component {
       content = <LoadingIndicator message="Loading claims list" setFocus/>;
     } else if (claims.length > 0) {
       content = (<div>
-        {allClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims} onClose={this.props.hide30DayNotice}/>}
+        {allClaims && !route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims} onClose={this.props.hide30DayNotice}/>}
         <div className="claim-list">
           {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
           <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>

@@ -82,3 +82,60 @@ body .row {
     font-size: 1.9rem;
   }
 }
+
+/* inline declarations moved here as a result of CSP rules */
+
+.csp-inline-patch-L2-section-landing {
+  margin-bottom: 1em;
+}
+
+.csp-inline-patch-L2-section-landing-1 {
+  display: inline-block;
+  margin-bottom: 0em;
+}
+
+.csp-inline-patch-L2-section-landing-2 {
+  display: inline-block;
+}
+
+.csp-inline-patch-footer {
+  display: none;
+  visibility: hidden;
+}
+
+.csp-inline-patch-header {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+.csp-inline-patch-modal {
+  display: none;
+}
+
+.csp-inline-patch-page-breadcrumbs {
+  background-color: #FAC922;
+  text-align: center;
+}
+
+.csp-inline-patch-page-breadcrumbs-2 {
+  margin: 0;
+}
+
+.csp-inline-patch-page-react {
+  padding: 2em 0;
+}
+
+.csp-inline-patch-404 {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+.csp-inline-patch-application {
+  padding: 2em 0;
+}
+
+.csp-inline-patch-logout {
+  padding: 2em 0;
+}

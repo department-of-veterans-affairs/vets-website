@@ -10,7 +10,7 @@ function processValue({ type, items }, value) {
   } else if (type === 'number') {
     return asNumber(value);
   }
-  return value;
+  return value === '' ? undefined : value;
 }
 
 function getValue(event, multiple) {
@@ -36,7 +36,8 @@ function SelectWidget({
   multiple,
   autofocus,
   onChange,
-  onBlur
+  onBlur,
+  placeholder
 }) {
   const { enumOptions } = options;
   return (
@@ -44,7 +45,7 @@ function SelectWidget({
         id={id}
         multiple={multiple}
         className={options.widgetClassNames}
-        value={value}
+        value={value || ''}
         required={required}
         disabled={disabled}
         readOnly={readonly}
@@ -57,8 +58,9 @@ function SelectWidget({
           const newValue = getValue(event, multiple);
           onChange(processValue(schema, newValue));
         }}>
-      {enumOptions.map(({ val, label }, i) => {
-        return <option key={i} value={val}>{label}</option>;
+      <option value="">{placeholder}</option>
+      {enumOptions.map((option, i) => {
+        return <option key={i} value={option.value}>{option.label}</option>;
       })
     }</select>
   );
@@ -68,5 +70,4 @@ export default onlyUpdateForKeys([
   'id',
   'value',
   'schema',
-  'required'
 ])(SelectWidget);
