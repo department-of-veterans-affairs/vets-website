@@ -300,7 +300,7 @@ if (options.buildtype !== 'development') {
     });
 
     // For each file in the build, if it is a HTML or CSS file, loop over all
-    // of the keys in the manifest object and do a search and replace for the
+    // the keys in the manifest object and do a search and replace for the
     // key with the value.
     Object.keys(files).forEach((filename) => {
       if (filename.match(/\.(html|css)$/) !== null) {
