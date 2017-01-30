@@ -40,4 +40,4 @@ Disability claims can be based on disabilities that:
 - Happened while you were serving in the military, **or**
 - Appeared after you ended your military service
 
-##### Learn more about the different types of disability claims:
+##### Below, learn more about the different types of disability claims:
