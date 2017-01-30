@@ -18,7 +18,7 @@ require('../../sass/blue-button/blue-button.scss');
 require('../login/login-entry.jsx');
 
 const history = useRouterHistory(createHistory)({
-  basename: '/healthcare/bluebutton'
+  basename: '/healthcare/blue-button'
 });
 
 function init() {
