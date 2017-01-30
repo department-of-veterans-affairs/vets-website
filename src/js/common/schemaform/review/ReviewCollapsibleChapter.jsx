@@ -68,10 +68,11 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
     if (this.state.open) {
       const { data, pages } = this.props;
+      const activePages = getActivePages(pages, data);
 
       pageContent = (
         <div id={`collapsible-${this.id}`} className="usa-accordion-content">
-          {getActivePages(pages, data).map(page => {
+          {activePages.map(page => {
             const editing = data[page.pageKey].editMode;
             // Our pattern is to separate out array fields (growable tables) from
             // the normal page and display them separately. The review version of
@@ -87,7 +88,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 {hasNonArrayFields &&
                   <FormPage
                       reviewPage
-                      hideTitle={pages.length === 1}
+                      hideTitle={activePages.length === 1}
                       onEdit={() => this.handleEdit(page.pageKey, !editing)}
                       onSubmit={() => this.handleEdit(page.pageKey, false)}
                       reviewMode={!editing}
