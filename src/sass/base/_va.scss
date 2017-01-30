@@ -1149,28 +1149,33 @@ li {
   }
 }
 
-// Footer
 .text-right {
   text-align: right;
 }
 
+// Footer
 .footer {
   color: $color-white;
-  padding: 0 !important;
-  margin: 0;
+  margin: 0 auto;
   background: $color-primary-darkest;
   position: relative;
   overflow: hidden;
 
-  .coda .row {
-    max-width: 70em;
+  @media (min-width: $medium-screen) {
+    flex-wrap: nowrap;
+  }
+
+  .va-flex {
+    flex-wrap: wrap;
+
+    @media (min-width: $medium-screen) {
+      flex-wrap: nowrap;
+    }
   }
 }
 
-.footer-logo a {
-  display: none;
-  @media #{$medium} {padding: 0; display: block;}
-  @media #{$medium} {background:url(/img/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
+.footer-inner {
+  padding: 2rem 1rem 0;
 }
 
 .footer-seal {
@@ -1180,48 +1185,18 @@ li {
   height: 49px;
   text-indent: -999em;
   overflow: hidden;
-  margin: 0 auto;
-  @media #{$small} {margin: 0;}
-}
+  margin-bottom: 3rem;
 
-.usa-social-links {
-  dd {
-    display: inline-block;
-    margin: 0 1em 0 0;
-  }
-  a {
-  border-bottom: none;
-  float: left;
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  &:hover {
-    border-bottom: none;
-    }
+  @media (min-width: $medium-screen) {
+    flex-wrap: nowrap;
+    margin-bottom: 0;
   }
 }
 
-.usa-social-links,
-.va-list--linkgroup {
-  margin: 2em 0 0 0;
-
-  @media #{$medium} {
-    margin: 2em 0 1.5em 0;
-  }
-}
-
-// TODO: Move this to a list-specific partial
-.va-list--linkgroup {
-  margin: 2em 0 0 0;
-
-  @media #{$small} {
-    margin: 2em 0 1.5em 0;
-  }
-
+[class^=va-footer-linkgroup] {
   a {
     background: none;
     color: #fff;
-    display: block;
     font-size: 1em;
     font-weight: 400;
     margin: .25em 0;
@@ -1231,104 +1206,101 @@ li {
       color: $color-gold;
     }
   }
+}
+
+.va-footer-linkgroup {
+  margin: 2em 0 0 0;
+  flex: 0 1 100%;
+
+  @media (min-width: $medium-screen) {
+    flex: 0 1 25%;
+    margin: 2em 0 1.5em 0;
+  }
 
   dd {
     padding: .25em 0;
   }
+  
+  a {
+    display: block;
+  }
 }
 
-.va-list--linkgroup-title {
+[id=footer-contact] { 
+  @media (max-width: $medium-screen) {
+    order: -1;
+  }
+
+  @media (min-width: $medium-screen) {
+    flex: 2 0 50%;
+  }
+}
+
+.va-footer-linkgroup-title {
   -webkit-font-smoothing: antialiased;
+  color: $color-white;
   font-weight: 700;
-  display: block;
-  font-size: .95em;
+  font-size: 1em;
+  margin: 0;
   padding: 0 0 1em 0;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 
-.va-list--linkgroup--inline {
-    list-style: none;
-    margin: 0 auto;
-    padding: 1.5em 0 0 0;
-    text-align: center;
-      @media #{$large} {
-        text-align: left;
-      }
-    width: 100%;
+.va-footer-linkgroup--inline {
+  list-style: none;
+  margin: 0 auto .5rem;
+  padding: 0;
 
-    &:after {
-       visibility: hidden;
-       display: block;
-       font-size: 0;
-       content: ' ';
-       clear: both;
-       height: 0;
-    }
+  li {
+    padding: 0;
+    display: inline-block;
 
-    li {
-      padding: 0;
-      display: inline-block;
-
-      &:after {
-        content:'|';
-        padding: 0 .15em;
-      }
-
-      &:last-child {
-        margin-right: 0;
-
-        &::after {
-          padding: 0;
-          content: '';
-        }
-      }
+    &:not(:last-child):after {
+      content:'|';
+      padding: 0 1rem;
     }
 
     a {
       background: none;
-      color: inherit;
-      font-weight: 400;
-      display: inline-block;
-      padding: .35em;
-      margin: .25em 0;
-      &:hover {color: $color-gold;}
+      padding: 0; 
     }
+  }
 }
 
-// Footer icon sprite
-a.facebook {
-  background: url('/img/design/sprites/sprite.png') no-repeat -22px 0;
-  background-size: 215px 72px;
-  width: 17px;
-  height: 17px;
-  text-indent: -999em;
-  overflow: hidden;
-}
+[id=va-footer-supplementallinks] {
+  align-items: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10rem;
 
-a.twitter {
-  background: url('/img/design/sprites/sprite.png') no-repeat 0 0;
-  background-size: 215px 72px;
-  width: 20px;
-  height: 16px;
-  text-indent: -999em;
-  overflow: hidden;
-}
+  @media (min-width: $medium-screen) {
+    flex-wrap: nowrap;
+  }
 
+  > div {
+      &:first-child {
+        @media (min-width: $medium-screen) {
+          flex: 0 1 60%;
+        }
+      }
+
+      &:last-child {
+        order: -1;
+
+        @media (min-width: $medium-screen) {
+          order: 1;
+          flex: 1 1 40%;
+        }
+      }
+  }
+}
 
 .primary blockquote {
   margin: 0 0 1em 0;
   padding: 0 0 0 1em;
   border-left: 2px solid $color-gray-lighter;
   p {
-  color: $color-primary-darker;
+    color: $color-primary-darker;
   }
-}
-
-.footer .content {
-  @media #{$small} {padding: 2em 0 0 0;}
-  margin: 0;
-
 }
 
 .header {
@@ -1825,11 +1797,19 @@ li.twenty:before {content: '20';}
 // Disclaimer
 .disclaimer {
   padding: 1em 0;
-  background: $color-white;
-  border-top: 1px solid #ddd;
-  color: $color-va-gray-cool-dark;
+
   p {
-    font-size: 0.8em;
+    font-size: 1.28rem;
+  }
+  
+  a {
+    background-image: none;
+    color: inherit;
+    padding: 0;
+
+    &:hover {
+      color: $color-gold;
+    }
   }
 }
 
@@ -1850,7 +1830,6 @@ li.twenty:before {content: '20';}
 }
 
 // Mobile menu
-
 /* Overlay style */
 
 .va-overlay-close {
@@ -1946,7 +1925,7 @@ li.twenty:before {content: '20';}
     margin: 1rem auto;
   }
 
-  @media screen and (max-height: 30.5em) {
+  @media (max-height: 30.5em) {
     .overlay form {
       height: 70%;
     }
