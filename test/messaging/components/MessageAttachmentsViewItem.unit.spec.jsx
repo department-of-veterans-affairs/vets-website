@@ -24,12 +24,6 @@ describe('<MessageAttachmentsViewItem>', () => {
     expect(tree.subTree('i').props.className).to.equal('fa fa-paperclip msg-attachment-icon');
   });
 
-  it('should render expected URL link to the attachment', () => {
-    const tree = SkinDeep.shallowRender(<MessageAttachmentsViewItem {...props}/>);
-
-    expect(tree.subTree('a').props.href).to.equal(props.url);
-  });
-
   it('should handle download correctly when URL is provided', () => {
     // mock out apiRequest function
     const windowOpen = sinon.spy();
