@@ -3,18 +3,26 @@ import { asNumber } from 'react-jsonschema-form/lib/utils';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
 function processValue({ type, items }, value) {
-  if (value === '') {
-    return undefined;
+  if (type === 'array' && items && ['number', 'integer'].includes(items.type)) {
+    return value.map(asNumber);
   } else if (type === 'boolean') {
     return value === 'true';
   } else if (type === 'number') {
     return asNumber(value);
   }
-  return value;
+  return value === '' ? undefined : value;
 }
 
-function getValue(event) {
-  return event.target.value;
+function getValue(event, multiple) {
+  let newValue;
+  if (multiple) {
+    newValue = [].filter.call(
+      event.target.options, o => o.selected).map(o => o.value);
+  } else {
+    newValue = event.target.value;
+  }
+
+  return newValue;
 }
 
 function SelectWidget({
@@ -22,6 +30,7 @@ function SelectWidget({
   id,
   options,
   value,
+  required,
   disabled,
   readonly,
   multiple,
@@ -36,7 +45,8 @@ function SelectWidget({
         id={id}
         multiple={multiple}
         className={options.widgetClassNames}
-        value={value}
+        value={value || ''}
+        required={required}
         disabled={disabled}
         readOnly={readonly}
         autoFocus={autofocus || false}
@@ -49,8 +59,8 @@ function SelectWidget({
           onChange(processValue(schema, newValue));
         }}>
       <option value="">{placeholder}</option>
-      {enumOptions.map(({ val, label }, i) => {
-        return <option key={i} value={val}>{label}</option>;
+      {enumOptions.map((option, i) => {
+        return <option key={i} value={option.value}>{option.label}</option>;
       })
     }</select>
   );
