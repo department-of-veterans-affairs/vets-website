@@ -11,9 +11,13 @@ function AppContent({ children, isDataAvailable }) {
 
   if (unregistered) {
     view = (
-      <h4>
-        Placeholder message when data is not available
-      </h4>
+      <div className="row">
+        <div className="columns">
+          <h4>
+            Placeholder message when data is not available
+          </h4>
+        </div>
+      </div>
     );
   } else {
     view = children;
