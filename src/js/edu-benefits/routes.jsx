@@ -1,3 +1,6 @@
+import React from 'react';
+import { Route } from 'react-router';
+
 import EduBenefitsApp from './1990/containers/EduBenefitsApp';
 import routes1990 from './1990/routes';
 import form1990 from './1990/reducers';

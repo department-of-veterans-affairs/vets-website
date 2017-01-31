@@ -61,6 +61,27 @@ export function uiDateRange(from, to) {
   };
 }
 
+export const uiAddress = {
+  country: {
+    'ui:title': 'Country'
+  },
+  street: {
+    'ui:title': 'Street'
+  },
+  street2: {
+    'ui:title': 'Line 2'
+  },
+  city: {
+    'ui:title': 'City'
+  },
+  state: {
+    'ui:title': 'State'
+  },
+  postalCode: {
+    'ui:title': 'Postal code'
+  }
+};
+
 export const uiPhone = {
   'ui:title': 'Phone',
   'ui:options': {

@@ -1,11 +1,9 @@
 import _ from 'lodash/fp';
 
 import { fullName, ssn, dateRange, date, address, phone } from '../../../common/schemaform/definitions';
-import { uiFullName, uiSSN, uiDateRange, uiDate, uiPhone } from '../../../common/schemaform/uiDefinitions';
+import { uiFullName, uiSSN, uiDateRange, uiDate, uiAddress, uiPhone } from '../../../common/schemaform/uiDefinitions';
 import { validateEmailsMatch } from '../../../common/schemaform/validation';
 import { benefitsLabels, transformForSubmit } from '../helpers';
-import { uiFullName, uiSSN, uiDate } from '../../../common/schemaform/uiDefinitions';
-import { fullName, ssn, address } from '../../../common/schemaform/definitions';
 import { validateSSN } from '../../../common/schemaform/validation';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -48,17 +46,13 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'noSSN'
               }
-            },
-            veteranAddress: {
-              'ui:field': 'address'
             }
           },
           schema: {
             type: 'object',
             definitions: {
               fullName,
-              ssn,
-              address
+              ssn
             },
             required: ['veteranFullName'],
             properties: {
@@ -302,6 +296,7 @@ const formConfig = {
               'ui:title': 'How would you like to be contacted if VA has questions about your application?',
               'ui:widget': 'radio'
             },
+            veteranAddress: uiAddress,
             otherContactInfo: {
               'ui:title': 'Other contact information',
               'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
@@ -330,7 +325,8 @@ const formConfig = {
           schema: {
             type: 'object',
             definitions: {
-              phone
+              phone,
+              address
             },
             properties: {
               preferredContactMethod: {
@@ -338,7 +334,9 @@ const formConfig = {
                 'enum': ['email', 'phone', 'mail'],
                 enumNames: ['Email', 'Phone', 'Mail']
               },
-              address,
+              veteranAddress: {
+                $ref: '#/definitions/address'
+              },
               otherContactInfo: {
                 type: 'object',
                 properties: {
@@ -453,9 +451,6 @@ const formConfig = {
               },
               routingNumber: {
                 type: 'string'
-              },
-              veteranAddress: {
-                $ref: '#/definitions/address'
               }
             }
           }
