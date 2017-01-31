@@ -10,6 +10,7 @@ describe('Schemaform: ObjectField', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
     const schema = {
+      type: 'object',
       properties: {
         test: {
           type: 'string'
@@ -20,12 +21,11 @@ describe('Schemaform: ObjectField', () => {
       <ObjectField
           schema={schema}
           idSchema={{}}
-          formData={{}}
           onChange={onChange}
           onBlur={onBlur}/>
     );
 
-    expect(tree.everySubTree('SchemaField')).not.to.be.empty;
+    expect(tree.everySubTree('shouldUpdate(SchemaField)')).not.to.be.empty;
   });
   it('should render description', () => {
     const onChange = sinon.spy();
@@ -76,5 +76,79 @@ describe('Schemaform: ObjectField', () => {
     );
 
     expect(tree.everySubTree('TitleField')).is.not.empty;
+  });
+  it('should hide expand under items when false', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'boolean'
+        },
+        test2: {
+          type: 'string'
+        }
+      }
+    };
+    const uiSchema = {
+      test2: {
+        'ui:options': {
+          expandUnder: 'test'
+        }
+      }
+    };
+    const formData = {
+      test: false
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={{}}
+          formData={formData}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('ExpandingGroup')).not.to.be.empty;
+    expect(tree.subTree('ExpandingGroup').props.open).to.be.false;
+  });
+  it('should not hide expand under items when true', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'boolean'
+        },
+        test2: {
+          type: 'string'
+        }
+      }
+    };
+    const uiSchema = {
+      test2: {
+        'ui:options': {
+          expandUnder: 'test'
+        }
+      }
+    };
+    const formData = {
+      test: true
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={{}}
+          formData={formData}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('ExpandingGroup')).not.to.be.empty;
+    expect(tree.subTree('ExpandingGroup').props.open).to.be.true;
   });
 });

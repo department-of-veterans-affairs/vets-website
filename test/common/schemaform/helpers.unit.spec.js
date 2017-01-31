@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { parseISODate, formatISOPartialDate } from '../../../src/js/common/schemaform/helpers';
+import { parseISODate, formatISOPartialDate, updateRequiredFields } from '../../../src/js/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
   describe('parseISODate', () => {
@@ -36,6 +36,79 @@ describe('Schemaform helpers:', () => {
         year: ''
       };
       expect(formatISOPartialDate(date)).to.be.undefined;
+    });
+  });
+  describe('updateRequiredFields', () => {
+    it('should add field to required array', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          test: {
+            type: 'string'
+          }
+        }
+      };
+      const uiSchema = {
+        test: {
+          'ui:required': () => true
+        }
+      };
+      expect(updateRequiredFields(schema, uiSchema).required[0]).to.equal('test');
+    });
+    it('should remove field from required array', () => {
+      const schema = {
+        type: 'object',
+        required: ['test'],
+        properties: {
+          test: {
+            type: 'string'
+          }
+        }
+      };
+      const uiSchema = {
+        test: {
+          'ui:required': () => false
+        }
+      };
+      expect(updateRequiredFields(schema, uiSchema).required).to.be.empty;
+    });
+    it('should not change schema if required does not change', () => {
+      const schema = {
+        type: 'object',
+        required: ['test'],
+        properties: {
+          test: {
+            type: 'string'
+          }
+        }
+      };
+      const uiSchema = {
+        test: {
+          'ui:required': () => true
+        }
+      };
+      expect(updateRequiredFields(schema, uiSchema)).to.equal(schema);
+    });
+    it('should set required in arrays', () => {
+      const schema = {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            test: {
+              type: 'string'
+            }
+          }
+        }
+      };
+      const uiSchema = {
+        items: {
+          test: {
+            'ui:required': () => true
+          }
+        }
+      };
+      expect(updateRequiredFields(schema, uiSchema).items.required[0]).to.equal('test');
     });
   });
 });

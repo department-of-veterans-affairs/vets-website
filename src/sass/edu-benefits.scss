@@ -259,3 +259,12 @@ form.rjsf {
 .schemaform-block {
   margin-top: 2em;
 }
+
+.va-growable-expanded > div > fieldset > div > .first-field label,
+.va-growable-expanded > div > fieldset > div > .first-field .usa-input-error {
+  margin-top: 0;
+}
+
+.va-growable-review {
+  margin-top: 16px;
+}

@@ -2,42 +2,21 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
-import { focusElement } from '../../utils/helpers';
+import { focusElement, getActivePages } from '../../utils/helpers';
 import FormPage from '../FormPage';
+import { getArrayFields, hasFieldsOtherThanArray } from '../helpers';
+import ArrayField from './ArrayField';
+import ProgressButton from '../../components/form-elements/ProgressButton';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
-/**
- * A component for the review page to validate information is correct.
- * The panel contains one chapter and a list of pages that can be viewed and edited
- * indepepndently.
- *
- * Required props
- * chapter - The chapter title for this panel
- * pages - The array of pages for this chapter. Each pages contains the name and components to render it
- * data - The current form data
- * uiData - The current ui state for each page (i.e. whether each chapter is collapsed or not)
- * onStateChange - Called when form data is changed
- * onFieldsInitialized - Sets all fields to dirty when saving/continuing on page
- * onUpdateEditStatus - toggles editOnReview property that expands/collapses chapter panel
- * urlPrefix - The url prefix for the form pages
- *
- * Page props:
- *
- * path - Url for the page, used to check editOnReview state
- * fieldsComponent - Component that renders editable view of page (or both edit and view states if
- *   no review component is passed)
- * reviewComponent - Component used to render read view of page. Optional if fieldsComponent can handle review state
- * name - Name of the page
- *
- * The fieldsComponent is passed some state props: inReview (always true here) and editing.
+/*
+ * Displays all the pages in a chapter on the review page
  */
-
 export default class ReviewCollapsibleChapter extends React.Component {
   constructor() {
     super();
-    this.handleSave = this.handleSave.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.toggleChapter = this.toggleChapter.bind(this);
@@ -55,12 +34,6 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
   handleEdit(key, editing) {
     this.props.onEdit(key, editing);
-    this.scrollToPage(key);
-    this.focusOnPage(key);
-  }
-
-  handleSave(key) {
-    this.props.onEdit(key, false);
     this.scrollToPage(key);
     this.focusOnPage(key);
   }
@@ -92,22 +65,52 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
   render() {
     let pageContent = null;
+
     if (this.state.open) {
+      const { data, pages } = this.props;
+      const activePages = getActivePages(pages, data);
+
       pageContent = (
         <div id={`collapsible-${this.id}`} className="usa-accordion-content">
-          {this.props.pages.map(page => {
-            const editing = this.props.data[page.pageKey].editMode;
+          {activePages.map(page => {
+            const editing = data[page.pageKey].editMode;
+            // Our pattern is to separate out array fields (growable tables) from
+            // the normal page and display them separately. The review version of
+            // ObjectField will hide them in the main section.
+            const arrayFields = getArrayFields(page);
+            // If a page is just an array, then we should skip rendering it, since
+            // we'll show the array separately
+            const hasNonArrayFields = hasFieldsOtherThanArray(page.schema);
 
             return (
               <div key={page.pageKey} className="form-review-panel-page">
                 <Element name={`${page.pageKey}ScrollElement`}/>
-                <FormPage
-                    reviewPage
-                    hideTitle={this.props.pages.length === 1}
-                    onEdit={() => this.handleEdit(page.pageKey, !editing)}
-                    onSubmit={() => this.handleSave(page.pageKey)}
-                    reviewMode={!editing}
-                    route={{ pageConfig: page }}/>
+                {hasNonArrayFields &&
+                  <FormPage
+                      reviewPage
+                      hideTitle={activePages.length === 1}
+                      onEdit={() => this.handleEdit(page.pageKey, !editing)}
+                      onSubmit={() => this.handleEdit(page.pageKey, false)}
+                      reviewMode={!editing}
+                      route={{ pageConfig: page }}>
+                    {!editing ? <div/> : <ProgressButton
+                        submitButton
+                        buttonText="Update page"
+                        buttonClass="usa-button-primary"/>}
+                  </FormPage>}
+                {arrayFields.map(arrayField =>
+                  <ArrayField
+                      pageKey={page.pageKey}
+                      pageTitle={page.title}
+                      arrayData={_.get(data[page.pageKey].data, arrayField.path)}
+                      formData={data[page.pageKey].data}
+                      key={arrayField.path}
+                      pageConfig={page}
+                      schema={arrayField.schema}
+                      uiSchema={arrayField.uiSchema}
+                      setData={this.props.setData}
+                      path={arrayField.path}/>
+                )}
               </div>
             );
           })}

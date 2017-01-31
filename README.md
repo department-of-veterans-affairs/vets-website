@@ -1,4 +1,4 @@
-# vets.gov - beta [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=department-of-veterans-affairs/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/)
+# vets.gov - beta [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=department-of-veterans-affairs/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/) [![Coverage Status](https://coveralls.io/repos/github/department-of-veterans-affairs/vets-website/badge.svg?branch=master)](https://coveralls.io/github/department-of-veterans-affairs/vets-website?branch=master)
 
 ## What is this?
 
