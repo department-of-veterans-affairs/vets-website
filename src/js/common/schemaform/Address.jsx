@@ -200,7 +200,6 @@ class Address extends React.Component {
       ]
     };
 
-    debugger;
     const selectedCountry = this.props.formData.country.value || this.props.formData.country;
     if (states[selectedCountry]) {
       stateList = states[selectedCountry];
