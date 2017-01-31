@@ -27,7 +27,7 @@ const configGenerator = (options) => {
   if (options.entry) {
     filesToBuild = _.pick(entryFiles, options.entry.split(',').map(x => x.trim()));
   }
-  filesToBuild['vendor'] = [
+  filesToBuild.vendor = [
     'core-js',
     'history',
     'lodash',
