@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 
-import { fullName, ssn, dateRange, date, address, phone } from '../../../common/schemaform/definitions';
+import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
+import { dateRange, date, address, phone } from '../../../common/schemaform/definitions';
 import { uiFullName, uiSSN, uiDateRange, uiDate, uiPhone } from '../../../common/schemaform/uiDefinitions';
 import { validateEmailsMatch } from '../../../common/schemaform/validation';
 
@@ -16,6 +17,7 @@ const formConfig = {
   transformForSubmit,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  defaultDefinitions: fullSchema1995.definitions,
   chapters: {
     veteranInformation: {
       title: 'Veteran Information',
@@ -35,7 +37,7 @@ const formConfig = {
                 hideOnReviewIfFalse: true
               }
             },
-            fileNumber: {
+            vaFileNumber: {
               'ui:required': (form) => !!form.noSSN,
               'ui:title': 'File number',
               'ui:errorMessages': {
@@ -45,25 +47,14 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            definitions: {
-              fullName,
-              ssn
-            },
             required: ['veteranFullName'],
             properties: {
-              veteranFullName: {
-                $ref: '#/definitions/fullName'
-              },
-              veteranSocialSecurityNumber: {
-                $ref: '#/definitions/ssn'
-              },
+              veteranFullName: fullSchema1995.properties.veteranFullName,
+              veteranSocialSecurityNumber: fullSchema1995.properties.veteranSocialSecurityNumber,
               noSSN: {
                 type: 'boolean'
               },
-              fileNumber: {
-                type: 'string',
-                pattern: '[cC]{0,1}\\d{8}'
-              }
+              vaFileNumber: fullSchema1995.properties.vaFileNumber
             }
           }
         },
