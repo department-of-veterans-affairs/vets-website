@@ -1,6 +1,9 @@
 import _ from 'lodash/fp';
 import FormPage from './FormPage';
 import ReviewPage from './review/ReviewPage';
+import shouldUpdate from 'recompose/shouldUpdate';
+
+import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
@@ -256,3 +259,6 @@ export function updateRequiredFields(schema, uiSchema, formData) {
   return schema;
 }
 
+export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
+  return !deepEquals(props, nextProps);
+});

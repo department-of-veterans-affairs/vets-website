@@ -37,6 +37,7 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     expect(tree.everySubTree('.form-review-panel-page')).not.to.be.empty;
   });
+
   it('should handle editing', () => {
     const onEdit = sinon.spy();
     const pages = [{
@@ -62,5 +63,105 @@ describe('<ReviewCollapsibleChapter>', () => {
     tree.getMountedInstance().handleEdit('test', true);
 
     expect(onEdit.calledWith('test', true)).to.be.true;
+  });
+
+  it('should not display conditional pages with unfulfilled conditions', () => {
+    const pages = [{
+      pageKey: 'test1',
+      schema: {
+        properties: {
+          condition1: 'boolean',
+          condition2: 'boolean'
+        }
+      }
+    }, {
+      pageKey: 'test2',
+      depends: {
+        test1: {
+          data: {
+            condition1: true,
+            condition2: true
+          }
+        }
+      },
+      schema: {}
+    }];
+    const chapterKey = 'test';
+    const chapter = {};
+    const data = {
+      test1: {
+        editMode: false,
+        data: {
+          condition1: true,
+          condition2: false
+        }
+      },
+      test2: {
+        editMode: false
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ReviewCollapsibleChapter
+          onEdit={() => {}}
+          pages={pages}
+          chapterKey={chapterKey}
+          chapter={chapter}
+          data={data}/>
+    );
+
+    tree.getMountedInstance().toggleChapter();
+
+    expect(tree.everySubTree('.form-review-panel-page')).to.have.length(1);
+  });
+
+  it('should display condition pages with fulfilled conditions', () => {
+    const pages = [{
+      pageKey: 'test1',
+      schema: {
+        properties: {
+          condition1: 'boolean',
+          condition2: 'boolean'
+        }
+      }
+    }, {
+      pageKey: 'test2',
+      depends: {
+        test1: {
+          data: {
+            condition1: true,
+            condition2: true
+          }
+        }
+      },
+      schema: {}
+    }];
+    const chapterKey = 'test';
+    const chapter = {};
+    const data = {
+      test1: {
+        editMode: false,
+        data: {
+          condition1: true,
+          condition2: true
+        }
+      },
+      test2: {
+        editMode: false
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ReviewCollapsibleChapter
+          onEdit={() => {}}
+          pages={pages}
+          chapterKey={chapterKey}
+          chapter={chapter}
+          data={data}/>
+    );
+
+    tree.getMountedInstance().toggleChapter();
+
+    expect(tree.everySubTree('.form-review-panel-page')).to.have.length(2);
   });
 });

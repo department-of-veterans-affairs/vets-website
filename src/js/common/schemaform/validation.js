@@ -64,7 +64,7 @@ export function transformErrors(errors, uiSchema) {
   return newErrors;
 }
 
-/**
+/*
  * This pulls custom validations specified in the uiSchema and validates the formData
  * against them.
  *
@@ -115,7 +115,7 @@ export function uiSchemaValidate(errors, uiSchema, formData, formContext, path =
     }
 
     const validations = uiSchema['ui:validations'];
-    if (validations) {
+    if (validations && currentData) {
       validations.forEach(validation => {
         const pathErrors = path ? _.get(path, errors) : errors;
         if (typeof validation === 'function') {

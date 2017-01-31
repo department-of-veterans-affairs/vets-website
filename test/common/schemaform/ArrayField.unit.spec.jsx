@@ -163,9 +163,8 @@ describe('Schemaform ArrayField', () => {
 
       tree.getMountedInstance().handleAdd();
 
-      expect(onChange.called).to.be.true;
-      expect(tree.everySubTree('SchemaField').length).to.equal(1);
-      expect(tree.everySubTree('.va-growable-background').length).to.equal(3);
+      expect(onChange.firstCall.args[0].length).to.equal(3);
+      expect(tree.getMountedInstance().state.editing[2]).to.be.false;
     });
   });
 });

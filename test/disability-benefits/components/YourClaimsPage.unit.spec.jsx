@@ -153,4 +153,23 @@ describe('<YourClaimsPage>', () => {
     );
     expect(tree.everySubTree('ClosedClaimMessage')).to.be.empty;
   });
+  it('should not render 30 day notice if on closed tab', () => {
+    const changePage = sinon.spy();
+    const getClaims = sinon.spy();
+    const page = 1;
+    const pages = 2;
+    const claims = [{}, {}];
+
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+          allClaims
+          claims={claims}
+          page={page}
+          pages={pages}
+          getClaims={getClaims}
+          route={{ showClosedClaims: true }}
+          changePage={changePage}/>
+    );
+    expect(tree.everySubTree('ClosedClaimMessage')).to.be.empty;
+  });
 });
