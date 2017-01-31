@@ -88,6 +88,7 @@ If you’ve already filed a claim, you can check your disability compensation cl
 - An [accredited representative](/disability-benefits/apply-for-benefits/help/index.html) can help you prepare and file your claim.
 - Speed up your processing time by filing a [fully developed claim](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
 - Learn more about [evidence requirements](/disability-benefits/claims-process/evidence/).
+- [Understand the claims process and prepare carefully before applying](/disability-benefits/claims-process/).
 
 </div>
 
