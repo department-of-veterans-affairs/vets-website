@@ -55,7 +55,7 @@ export function submitForm(formConfig, form) {
     window.dataLayer.push({
       event: `${formConfig.trackingPrefix}-submission`,
     });
-    fetch(`${environment.API_URL}${formConfig.submitUrl}`, {
+    return fetch(`${environment.API_URL}${formConfig.submitUrl}`, {
       method: 'POST',
       mode: 'cors',
       headers: {

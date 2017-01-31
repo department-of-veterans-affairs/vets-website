@@ -90,6 +90,45 @@ describe('Schemaform ArrayField', () => {
 
     expect(tree.everySubTree('FormPage').length).to.equal(2);
   });
+  it('should render item name', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:options': {
+        viewField: f => f,
+        itemName: 'Item name'
+      }
+    };
+    const arrayData = [{}, {}];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+          pageKey="page1"
+          arrayData={arrayData}
+          path={['thingList']}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          registry={registry}
+          formContext={formContext}
+          touchedSchema={touchedSchema}
+          requiredSchema={requiredSchema}/>
+    );
+
+    tree.getMountedInstance().handleAdd();
+
+    expect(tree.everySubTree('h5')[1].text()).to.equal('New Item name');
+  });
   describe('should handle', () => {
     let tree;
     let setData;
@@ -130,15 +169,15 @@ describe('Schemaform ArrayField', () => {
     it('edit', () => {
       expect(tree.subTree('FormPage').props.reviewMode).to.be.true;
 
-      tree.getMountedInstance().handleEdit(0, true);
+      tree.subTree('FormPage').props.onEdit();
 
       expect(tree.subTree('FormPage').props.reviewMode).to.be.undefined;
     });
     it('update', () => {
-      tree.getMountedInstance().handleEdit(0, true);
+      tree.subTree('FormPage').props.onEdit();
       expect(tree.subTree('FormPage').props.reviewMode).to.be.undefined;
 
-      tree.getMountedInstance().handleSave(0, true);
+      tree.subTree('FormPage').props.onSubmit();
 
       expect(tree.subTree('FormPage').props.reviewMode).to.be.true;
     });
@@ -149,8 +188,15 @@ describe('Schemaform ArrayField', () => {
 
       expect(tree.everySubTree('FormPage').length).to.equal(2);
     });
+    it('remove', () => {
+      expect(tree.everySubTree('FormPage').length).to.equal(1);
+
+      tree.getMountedInstance().handleRemove(0);
+
+      expect(tree.everySubTree('FormPage').length).to.equal(0);
+    });
     it('setData', () => {
-      tree.getMountedInstance().handleSetData(0, { test: 1 });
+      tree.subTree('FormPage').props.setData(null, { test: 1 });
       expect(setData.calledWith('page1', { thingList: [{ test: 1 }] })).to.be.true;
     });
   });

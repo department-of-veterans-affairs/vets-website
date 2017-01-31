@@ -14,7 +14,7 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
 import ReviewObjectField from './review/ObjectField';
-import { focusElement } from '../utils/helpers';
+import { focusElement, scrollToFirstError } from '../utils/helpers';
 import { setData } from './actions';
 
 const fields = {
@@ -27,20 +27,6 @@ const reviewFields = {
   ArrayField
 };
 
-const scrollToFirstError = () => {
-  setTimeout(() => {
-    const errorEl = document.querySelector('.usa-input-error, .input-error-date');
-    if (errorEl) {
-      const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-      Scroll.animateScroll.scrollTo(position - 10, {
-        duration: 500,
-        delay: 0,
-        smooth: true
-      });
-      focusElement(errorEl);
-    }
-  }, 100);
-};
 const scroller = Scroll.scroller;
 
 const scrollToTop = () => {
@@ -196,8 +182,10 @@ const mapDispatchToProps = {
 };
 
 FormPage.propTypes = {
+  form: React.PropTypes.object.isRequired,
   route: React.PropTypes.shape({
     pageConfig: React.PropTypes.shape({
+      pageKey: React.PropTypes.string.isRequired,
       schema: React.PropTypes.object.isRequired,
       uiSchema: React.PropTypes.object.isRequired,
       errorMessages: React.PropTypes.object
@@ -209,6 +197,7 @@ FormPage.propTypes = {
   reviewMode: React.PropTypes.bool,
   reviewPage: React.PropTypes.bool,
   onSubmit: React.PropTypes.func,
+  setData: React.PropTypes.func,
   hideTitle: React.PropTypes.bool
 };
 

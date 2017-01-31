@@ -174,4 +174,47 @@ describe('Schemaform ReviewPage', () => {
     expect(submitForm.called).to.be.false;
     expect(setSubmission.called).to.be.true;
   });
+  it('should route to confirmation page after submit', () => {
+    const formConfig = {
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: {}
+          }
+        },
+        chapter2: {
+          pages: {
+            page2: {}
+          }
+        }
+      }
+    };
+
+    const form = {
+      submission: {
+        hasAttemptedSubmit: false
+      }
+    };
+
+    const router = {
+      push: sinon.spy()
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ReviewPage router={router} form={form} route={{ formConfig }}/>
+    );
+
+    tree.getMountedInstance().componentWillReceiveProps({
+      route: {
+        formConfig: {}
+      },
+      form: {
+        submission: {
+          status: 'applicationSubmitted'
+        }
+      }
+    });
+
+    expect(router.push.calledWith('confirmation'));
+  });
 });
