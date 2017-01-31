@@ -27,6 +27,18 @@ const configGenerator = (options) => {
   if (options.entry) {
     filesToBuild = _.pick(entryFiles, options.entry.split(',').map(x => x.trim()));
   }
+  filesToBuild['vendor'] = [
+    'core-js',
+    'history',
+    'lodash',
+    'jquery',
+    'react',
+    'react-dom',
+    'react-redux',
+    'react-router',
+    'redux',
+    'redux-thunk'
+  ];
   const baseConfig = {
     entry: filesToBuild,
     output: {
@@ -125,7 +137,11 @@ const configGenerator = (options) => {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new ManifestPlugin({
         fileName: 'file-manifest.json'
-      })
+      }),
+      new webpack.optimize.CommonsChunkPlugin(
+        'vendor',
+        (options.buildtype === 'development') ? 'vendor.js' : 'vendor.[chunkhash].js'
+      )
     ],
   };
 

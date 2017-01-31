@@ -313,7 +313,7 @@ if (options.buildtype !== 'development') {
     const manifest = {};
     Object.keys(originalManifest).forEach((originalManifestKey) => {
       const matchData = originalManifestKey.match(/(.*)\.js$/);
-      if (matchData !== null) {
+      if (matchData !== null && matchData[1] !== 'vendor') {
         const newKey = `${matchData[1]}.entry.js`;
         manifest[newKey] = originalManifest[originalManifestKey];
       } else {
