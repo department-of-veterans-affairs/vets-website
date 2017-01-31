@@ -62,6 +62,8 @@ export function uiDateRange(from, to) {
 }
 
 export const uiAddress = {
+  'ui:title': 'Address',
+  'ui:field': 'address',
   country: {
     'ui:title': 'Country'
   },
