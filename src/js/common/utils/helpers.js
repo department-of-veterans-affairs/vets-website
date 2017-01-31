@@ -41,6 +41,7 @@ export function groupPagesIntoChapters(routes, prefix = '') {
     };
   });
 }
+
 export function isActivePage(page, data) {
   if (typeof page.depends === 'function') {
     return page.depends(data);

@@ -369,7 +369,9 @@ const formConfig = {
           initialData: {},
           depends: {
             militaryHistory: {
-              hasServiceBefore1978: true
+              data: {
+                hasServiceBefore1978: true
+              }
             }
           },
           uiSchema: {
