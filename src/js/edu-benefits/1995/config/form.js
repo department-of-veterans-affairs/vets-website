@@ -75,19 +75,19 @@ const formConfig = {
       pages: {
         benefitSelection: {
           title: 'Benefit selection',
-          path: 'benefits-eligibility/benefits-selection',
+          path: 'benefits-eligibility/benefit-selection',
           initialData: {},
           uiSchema: {
-            benefitsSelected: {
+            benefitSelected: {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:'
             }
           },
           schema: {
             type: 'object',
-            required: ['benefitsSelected'],
+            required: ['benefitSelected'],
             properties: {
-              benefitsSelected: {
+              benefitSelected: {
                 type: 'string',
                 'enum': Object.keys(benefitsLabels),
                 enumNames: _.values(benefitsLabels)
