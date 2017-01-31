@@ -2,7 +2,7 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
-import { focusElement } from '../../utils/helpers';
+import { focusElement, getActivePages } from '../../utils/helpers';
 import FormPage from '../FormPage';
 import { getArrayFields, hasFieldsOtherThanArray } from '../helpers';
 import ArrayField from './ArrayField';
@@ -65,11 +65,15 @@ export default class ReviewCollapsibleChapter extends React.Component {
 
   render() {
     let pageContent = null;
+
     if (this.state.open) {
+      const { data, pages } = this.props;
+      const activePages = getActivePages(pages, data);
+
       pageContent = (
         <div id={`collapsible-${this.id}`} className="usa-accordion-content">
-          {this.props.pages.map(page => {
-            const editing = this.props.data[page.pageKey].editMode;
+          {activePages.map(page => {
+            const editing = data[page.pageKey].editMode;
             // Our pattern is to separate out array fields (growable tables) from
             // the normal page and display them separately. The review version of
             // ObjectField will hide them in the main section.
@@ -84,7 +88,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                 {hasNonArrayFields &&
                   <FormPage
                       reviewPage
-                      hideTitle={this.props.pages.length === 1}
+                      hideTitle={activePages.length === 1}
                       onEdit={() => this.handleEdit(page.pageKey, !editing)}
                       onSubmit={() => this.handleEdit(page.pageKey, false)}
                       reviewMode={!editing}
@@ -98,8 +102,8 @@ export default class ReviewCollapsibleChapter extends React.Component {
                   <ArrayField
                       pageKey={page.pageKey}
                       pageTitle={page.title}
-                      arrayData={_.get(this.props.data[page.pageKey].data, arrayField.path)}
-                      formData={this.props.data[page.pageKey].data}
+                      arrayData={_.get(data[page.pageKey].data, arrayField.path)}
+                      formData={data[page.pageKey].data}
                       key={arrayField.path}
                       pageConfig={page}
                       schema={arrayField.schema}

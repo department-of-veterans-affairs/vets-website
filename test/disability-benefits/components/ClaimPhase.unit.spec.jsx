@@ -175,7 +175,7 @@ describe('<ClaimPhase>', () => {
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('Your claim is complete');
+      expect(descTree.text()).to.equal('Your claim is closed');
     });
     it('should show received from you reviewed description', () => {
       const output = instance.getEventDescription({
