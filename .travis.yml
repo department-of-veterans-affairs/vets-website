@@ -30,6 +30,8 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
+  code_climate:
+    repo_token: fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24
 
 before_deploy:
   - npm install -g s3-cli
@@ -53,3 +55,7 @@ deploy:
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: production
+
+after_success:
+  - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < ./coverage/lcov.info
