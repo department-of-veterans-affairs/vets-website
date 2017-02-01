@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
+import DatePicker from 'react-datepicker';
 import { reportTypes } from '../config';
 
 class Main extends React.Component {
@@ -47,7 +48,25 @@ class Main extends React.Component {
         { label: '3 months', value: '3mo' },
         { label: '6 months', value: '6mo' },
         { label: '1 year', value: '1yr' },
-        { label: 'Custom date range', value: 'custom' },
+        {
+          label: (
+            <div>
+              <span>Custom date range<br/></span>
+              <DatePicker
+                  id="custom-date-start"
+                  onChange={this.handleStartDateChange}
+                  placeholderText="MM/DD/YYYY"
+                  selected={null}/>
+              <span> to </span>
+              <DatePicker
+                  id="custom-date-end"
+                  onChange={this.handleEndDateChange}
+                  placeholderText="MM/DD/YYYY"
+                  selected={null}/>
+            </div>
+          ),
+          value: 'custom'
+        },
       ],
       onValueChange: () => {},
       value: {
