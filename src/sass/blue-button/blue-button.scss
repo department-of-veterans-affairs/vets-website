@@ -21,6 +21,17 @@
     padding-bottom: 0.25em !important;
     margin: 1em 0 !important;
   }
+
+  .form-actions {
+    margin: 1em 0;
+
+    button {
+      padding-left: 2.7em;
+      padding-right: 2.7em;
+      width: auto;
+      display: inline-block;
+    }
+  }
 }
 
 .bb-status-ready {

@@ -6,6 +6,18 @@ import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCh
 import { reportTypes } from '../config';
 
 class Main extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    this.context.router.push('/download');
+  }
+
   renderInformationTypes() {
     return Object.keys(reportTypes).map(k => {
       const rt = reportTypes[k];
@@ -47,19 +59,31 @@ class Main extends React.Component {
       <div>
         <Breadcrumbs location={this.props.location}/>
         <h1>Get Your VA Health Records</h1>
-        <div>
-          <h4 className="highlight">Select Date Range</h4>
-          <ErrorableRadioButtons
-              {...radioButtonProps}/>
-        </div>
-        <div>
-          <h4 className="highlight">Select Types of Information</h4>
-          {this.renderInformationTypes()}
-        </div>
+        <form>
+          <div>
+            <h4 className="highlight">Select Date Range</h4>
+            <ErrorableRadioButtons
+                {...radioButtonProps}/>
+          </div>
+          <div>
+            <h4 className="highlight">Select Types of Information</h4>
+            {this.renderInformationTypes()}
+          </div>
+          <div className="form-actions">
+            <button onClick={this.handleSubmit} type="submit">Submit</button>
+            <button className="usa-button-outline">
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     );
   }
 }
+
+Main.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
 
 const mapStateToProps = (state) => state;
 
