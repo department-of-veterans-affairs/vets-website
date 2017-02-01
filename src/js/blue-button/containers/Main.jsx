@@ -11,6 +11,16 @@ class Main extends React.Component {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleEndDateChange = this.handleEndDateChange.bind(this);
+  }
+
+  handleStartDateChange() {
+
+  }
+
+  handleEndDateChange() {
+
   }
 
   handleSubmit(e) {
