@@ -208,7 +208,7 @@ ArrayField.propTypes = {
   schema: React.PropTypes.object.isRequired,
   uiSchema: React.PropTypes.object,
   pageKey: React.PropTypes.string.isRequired,
-  path: React.PropTypes.string.isRequired,
+  path: React.PropTypes.array.isRequired,
   formData: React.PropTypes.object,
   arrayData: React.PropTypes.array,
   pageTitle: React.PropTypes.string

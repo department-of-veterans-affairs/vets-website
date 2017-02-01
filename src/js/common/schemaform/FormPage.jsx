@@ -132,13 +132,14 @@ class FormPage extends React.Component {
   }
 
   getEmptyState() {
-    const { onEdit, hideTitle } = this.props;
+    const { onEdit, hideTitle, route: { pageConfig } } = this.props;
     return {
       formContext: {
         touched: {},
         submitted: false,
         onEdit,
-        hideTitle
+        hideTitle,
+        pageTitle: pageConfig.title
       }
     };
   }

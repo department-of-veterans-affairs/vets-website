@@ -2,6 +2,7 @@
 
 @import 'style';
 @import 'modules/m-form-process';
+@import 'modules/m-progress-bar';
 
 $button-stroke: inset 0 0 0 1px;
 
@@ -267,4 +268,42 @@ form.rjsf {
 
 .va-growable-review {
   margin-top: 16px;
+}
+
+.nav-header-schemaform {
+  margin-top: 1em !important;
+}
+
+.progress-box-schemaform {
+  margin-top: 0;
+  padding-top: 0;
+  border: none;
+}
+
+.schemaform-chapter-progress {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  @media (max-width: 40.063em) {
+    padding-left: 2rem - .9375rem;
+    padding-right: 2rem - .9375rem;
+  }
+}
+
+.schemaform-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  > h1 {
+    margin-bottom: 0;
+    padding-right: 10px;
+  }
+  > .schemaform-subtitle {
+    font-size: 2rem;
+  }
+  margin-bottom: 3rem;
+}
+
+.schemaform-required-span {
+  color: $color-secondary-dark;
+  margin: 0 0.35em;
 }
