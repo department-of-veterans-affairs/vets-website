@@ -30,7 +30,6 @@ const configGenerator = (options) => {
   filesToBuild.vendor = [
     'core-js',
     'history',
-    'lodash',
     'jquery',
     'react',
     'react-dom',
