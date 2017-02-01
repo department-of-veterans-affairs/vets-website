@@ -103,7 +103,7 @@ class RequiredLoginView extends React.Component {
             <ul>
               <li>Refill a prescription.</li>
               <li>Send a secure message to your health care provider.</li>
-              <li>Check the status of a disability, pension, or VR&amp;E claim.</li>
+              <li>Check the status of a disability or pension claim.</li>
             </ul>
             <p>
               <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Sign In</strong></button>
