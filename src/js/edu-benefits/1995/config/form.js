@@ -18,6 +18,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: fullSchema1995.definitions,
+  title: 'Update your Education Benefits',
+  subTitle: 'Form 22-1995',
   chapters: {
     veteranInformation: {
       title: 'Veteran Information',
@@ -26,7 +28,6 @@ const formConfig = {
           path: 'veteran-information',
           initialData: {},
           uiSchema: {
-            'ui:title': 'Veteran information',
             veteranFullName: uiFullName,
             veteranSocialSecurityNumber: _.assign(uiSSN, {
               'ui:required': (form) => !form.noSSN
@@ -65,20 +66,19 @@ const formConfig = {
       pages: {
         benefitSelection: {
           title: 'Benefit selection',
-          path: 'benefits-eligibility/benefits-selection',
+          path: 'benefits-eligibility/benefit-selection',
           initialData: {},
           uiSchema: {
-            'ui:title': 'Benefit selection',
-            benefitsSelected: {
+            benefitSelected: {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:'
             }
           },
           schema: {
             type: 'object',
-            required: ['benefitsSelected'],
+            required: ['benefitSelected'],
             properties: {
-              benefitsSelected: {
+              benefitSelected: {
                 type: 'string',
                 'enum': Object.keys(benefitsLabels),
                 enumNames: _.values(benefitsLabels)
@@ -100,12 +100,13 @@ const formConfig = {
             }]
           },
           uiSchema: {
-            'ui:title': 'Service periods',
             toursOfDuty: {
+              'ui:title': 'Service periods',
               'ui:description': 'Please record all your periods of service',
               'ui:options': {
                 itemName: 'Service Period',
-                viewField: ServicePeriodView
+                viewField: ServicePeriodView,
+                hideTitle: true
               },
               items: {
                 serviceBranch: {
@@ -144,7 +145,6 @@ const formConfig = {
           path: 'military-history/military-service',
           initialData: {},
           uiSchema: {
-            'ui:title': 'Military history',
             hasServiceBefore1978: {
               'ui:title': 'Do you have any periods of service that began before 1978?',
               'ui:widget': 'yesNo'
@@ -160,11 +160,10 @@ const formConfig = {
           }
         },
         contributions: {
-          title: 'Military history',
+          title: 'Contributions',
           path: 'military-history/contributions',
           initialData: {},
           uiSchema: {
-            'ui:title': 'Contributions',
             civilianBenefitsAssistance: {
               'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA'
             }
@@ -284,7 +283,6 @@ const formConfig = {
           path: 'personal-information/contact-information',
           initialData: {},
           uiSchema: {
-            'ui:title': 'Contact information',
             preferredContactMethod: {
               'ui:title': 'How would you prefer to be contacted if VA has questions about your application?',
               'ui:widget': 'radio'
@@ -366,7 +364,6 @@ const formConfig = {
             }
           },
           uiSchema: {
-            'ui:title': 'Dependents',
             serviceBefore1977: {
               married: {
                 'ui:title': 'Are you currently married?',
@@ -408,7 +405,6 @@ const formConfig = {
           path: 'personal-information/direct-deposit',
           initialData: {},
           uiSchema: {
-            'ui:title': 'Direct deposit',
             changeDirectDeposit: {
               'ui:title': 'Do you want to start, stop or continue using direct deposit?',
               'ui:widget': 'radio'

@@ -38,7 +38,6 @@ class ReviewPage extends React.Component {
     const formConfig = this.props.route.formConfig;
     return (
       <div>
-        <h4 className="edu-page-title">Review application</h4>
         <div className="input-section">
           <div>
             {Object.keys(formConfig.chapters).map(chapter => (

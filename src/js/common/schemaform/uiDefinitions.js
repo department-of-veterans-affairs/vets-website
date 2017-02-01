@@ -21,7 +21,7 @@ export const uiFullName = {
 };
 
 export const uiSSN = {
-  'ui:title': 'Social security number',
+  'ui:title': 'Social Security number',
   'ui:options': {
     widgetClassNames: 'usa-input-medium'
   },
