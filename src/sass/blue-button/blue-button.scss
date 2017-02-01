@@ -32,6 +32,12 @@
       width: auto;
       display: inline-block;
     }
+
+    a {
+      &:hover {
+        background: none;
+      }
+    }
   }
 }
 

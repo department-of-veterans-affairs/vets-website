@@ -100,9 +100,11 @@ class Main extends React.Component {
           </div>
           <div className="form-actions">
             <button onClick={this.handleSubmit} type="submit">Submit</button>
-            <button className="usa-button-outline">
-              Cancel
-            </button>
+            <a href="/healthcare">
+              <button className="usa-button-outline">
+                  Cancel
+              </button>
+            </a>
           </div>
         </form>
       </div>
