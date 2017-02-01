@@ -70,7 +70,7 @@ describe('Schemaform <FieldTemplate>', () => {
       </FieldTemplate>
     );
 
-    expect(tree.everySubTree('.form-required-span')).not.to.be.empty;
+    expect(tree.everySubTree('.schemaform-required-span')).not.to.be.empty;
   });
   it('should render error when touched', () => {
     const schema = {

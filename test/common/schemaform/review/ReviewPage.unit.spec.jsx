@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { ReviewPage } from '../../../../src/js/common/schemaform/review/ReviewPage';
 
-describe('Schemaform ReviewPage', () => {
+describe('Schemaform review: ReviewPage', () => {
   it('should render chapters', () => {
     const formConfig = {
       chapters: {
@@ -32,7 +32,6 @@ describe('Schemaform ReviewPage', () => {
       <ReviewPage form={form} route={{ formConfig }}/>
     );
 
-    expect(tree.everySubTree('.edu-page-title')).not.to.be.empty;
     expect(tree.everySubTree('ReviewCollapsibleChapter').length).to.equal(2);
   });
   it('should submit when valid', () => {

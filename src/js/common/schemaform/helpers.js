@@ -13,6 +13,7 @@ export function createFormPageList(formConfig) {
         .map(page => {
           return _.assign(formConfig.chapters[chapter].pages[page], {
             chapterTitle,
+            chapterKey: chapter,
             pageKey: page
           });
         });
@@ -26,14 +27,15 @@ export function createPageListByChapter(formConfig) {
       const pages = Object.keys(formConfig.chapters[chapter].pages)
         .map(page => {
           return _.assign(formConfig.chapters[chapter].pages[page], {
-            pageKey: page
+            pageKey: page,
+            chapterKey: chapter
           });
         });
       return _.set(chapter, pages, chapters);
     }, {});
 }
 
-function createPageList(formConfig, formPages) {
+export function createPageList(formConfig, formPages) {
   let pageList = formPages;
   if (formConfig.introduction) {
     pageList = [
@@ -48,7 +50,8 @@ function createPageList(formConfig, formPages) {
     .concat([
       {
         pageKey: 'review-and-submit',
-        path: 'review-and-submit'
+        path: 'review-and-submit',
+        chapterKey: 'review'
       }
     ])
     .map(page => {
