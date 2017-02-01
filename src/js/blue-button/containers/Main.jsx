@@ -10,7 +10,7 @@ class Main extends React.Component {
     return Object.keys(reportTypes).map(k => {
       const rt = reportTypes[k];
       return (
-        <div key={k}>
+        <div key={k} className="info-type-section">
           <h5>{rt.title}</h5>
           {rt.children.map(c => {
             return (
@@ -46,6 +46,7 @@ class Main extends React.Component {
     return (
       <div>
         <Breadcrumbs location={this.props.location}/>
+        <h1>Get Your VA Health Records</h1>
         <div>
           <h4 className="highlight">Select Date Range</h4>
           <ErrorableRadioButtons

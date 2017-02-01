@@ -1,6 +1,7 @@
 // Styles for breadcrumbs
 .bb-breadcrumbs {
   color: $color-primary;
+  padding-top: 1em;
 
   a {
     &:hover, &:visited {

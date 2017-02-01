@@ -2,10 +2,19 @@
 @import "partials/bb-breadcrumbs";
 
 .bb-app {
-  padding: 3rem 1.5rem;
+  padding: 1.5rem;
+
+  label {
+    margin-top: 0;
+  }
+
+  .info-type-section {
+    margin-top: 1.5em;
+  }
 }
 
 // TODO(css): Fix when #content .section h* is fixed
 .highlight {
   padding-bottom: 0.25em !important;
+  margin: 1em 0 !important;
 }
