@@ -9,7 +9,7 @@ function AppContent({ children, isDataAvailable }) {
   const unregistered = isDataAvailable === false;
   let view;
 
-  if (unregistered) {
+  if (!unregistered) {
     view = (
       <div className="row">
         <div className="columns">
