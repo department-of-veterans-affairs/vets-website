@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-class DownloadPage extends React.Component {
+export class DownloadPage extends React.Component {
   render() {
     const data = {
       requestDate: 'Jan 20, 2017 14:09 EST',
