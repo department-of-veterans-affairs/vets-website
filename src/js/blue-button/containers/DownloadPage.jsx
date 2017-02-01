@@ -24,7 +24,7 @@ class DownloadPage extends React.Component {
           </button>
         </div>
       )
-    }
+    };
 
     return (
       <div className="row">
