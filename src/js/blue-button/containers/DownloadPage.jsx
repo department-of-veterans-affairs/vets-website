@@ -10,23 +10,27 @@ class DownloadPage extends React.Component {
       pdfActions: (
         <div>
           <button>Download PDF</button>
-          <button className="usa-button-outline">View/Print PDF</button>
+          <button className="usa-button-outline">
+            View/Print PDF
+          </button>
         </div>
       ),
       txtFileSize: '20 KB',
       txtActions: (
         <div>
           <button>Download Text</button>
-          <button className="usa-button-outline">View/Print Text</button>
+          <button className="usa-button-outline">
+            View/Print Text
+          </button>
         </div>
       )
     }
 
     return (
-      <div>
+      <div className="row">
         <h1>Download Your Health Records</h1>
         <p>Here are the health records in two file formats based on your request.</p>
-        <table className="usa-table-borderless">
+        <table className="bb-download-table usa-table-borderless">
           <thead>
             <tr>
               <th>Request Date</th>

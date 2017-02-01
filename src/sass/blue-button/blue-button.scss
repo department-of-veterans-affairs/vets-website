@@ -1,1 +1,36 @@
 @import "../style";
+
+.bb-app {
+  .row {
+    padding: 1.5rem;
+  }
+}
+
+.bb-download-table {
+  tbody {
+    tr {
+      &:first-child {
+        td {
+          border-bottom: 0;
+          padding-bottom: 0;
+        }
+      }
+
+      &:nth-child(2) {
+        td {
+          padding-top: 0;
+        }
+      }
+
+      td {
+        border-top: 0;
+        padding-bottom: .5rem;
+        padding-top: .5rem;
+      }
+    }
+  }
+
+  button {
+    width: 16rem;
+  }
+}
