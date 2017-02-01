@@ -4,11 +4,11 @@ module.exports = {
       title: 'Appointments',
       children: [
         {
-          value: 'futureappointment',
+          value: 'futureappointments',
           label: 'Future VA Appointments',
         },
         {
-          value: 'pastappointment',
+          value: 'pastappointments',
           label: 'Past VA Appointments (limited to past 2 years)',
         },
       ],
@@ -17,11 +17,11 @@ module.exports = {
       title: 'Medications (automatically includes Allergy information)',
       children: [
         {
-          value: 'prescription',
+          value: 'prescriptions',
           label: 'VA Medication History',
         },
         {
-          value: 'medication',
+          value: 'medications',
           label: 'Medications and Supplements, Self-Reported',
         },
       ],
@@ -30,22 +30,22 @@ module.exports = {
       title: 'Labs and Tests',
       children: [
         {
-          value: 'labsandtest',
+          value: 'labsandtests',
           label: 'VA Laboratory Results',
           hold: 3,
         },
         {
-          value: 'vapatholog',
+          value: 'vapathology',
           label: 'VA Pathology Reports',
           hold: 14,
         },
         {
-          value: 'varadiolog',
+          value: 'varadiology',
           label: 'VA Radiology Reports',
           hold: 3,
         },
         {
-          value: 'vaek',
+          value: 'vaekg',
           label: 'VA Electrocardiogram (EKG) History performed at VA Treating Facilities',
         },
         {
@@ -58,22 +58,22 @@ module.exports = {
       title: 'VA Electronic Health Record History and Wellness Reminders',
       children: [
         {
-          value: 'vaproblemlis',
+          value: 'vaproblemlist',
           label: 'VA Problem List',
           hold: 3,
         },
         {
-          value: 'vaadmissionsanddischarge',
+          value: 'vaadmissionsanddischarges',
           label: 'VA Admissions and Discharges',
           hold: 3,
         },
         {
-          value: 'vaprogressnote',
+          value: 'vaprogressnotes',
           label: 'VA Notes from Jan 01, 2013 forward',
           hold: 3,
         },
         {
-          value: 'wellnes',
+          value: 'wellness',
           label: 'VA Wellness Reminders',
         },
       ],
@@ -82,11 +82,11 @@ module.exports = {
       title: 'Allergies',
       children: [
         {
-          value: 'vaallergie',
+          value: 'vaallergies',
           label: 'VA Allergies',
         },
         {
-          value: 'seiallergie',
+          value: 'seiallergies',
           label: 'Allergies, Self-Reported',
         },
       ],
@@ -95,11 +95,11 @@ module.exports = {
       title: 'Immunizations',
       children: [
         {
-          value: 'vaimmunization',
+          value: 'vaimmunizations',
           label: 'VA Immunizations',
         },
         {
-          value: 'seiimmunization',
+          value: 'seiimmunizations',
           label: 'Immunizations, Self-Reported',
         },
       ],
@@ -108,7 +108,7 @@ module.exports = {
       title: 'Vitals and Readings',
       children: [
         {
-          value: 'vitalsandreading',
+          value: 'vitalsandreadings',
           label: 'VA Vitals and Readings',
         },
         {
@@ -121,23 +121,23 @@ module.exports = {
       title: 'Self-Reported Health History',
       children: [
         {
-          value: 'medicalevent',
+          value: 'medicalevents',
           label: 'Medical Events, Self-Reported',
         },
         {
-          value: 'familyhealthhistor',
+          value: 'familyhealthhistory',
           label: 'Family Health History, Self-Reported',
         },
         {
-          value: 'militaryhealthhistor',
+          value: 'militaryhealthhistory',
           label: 'Military Health History, Self-Reported',
         },
         {
-          value: 'treatmentfacilitie',
+          value: 'treatmentfacilities',
           label: 'Treatment Facilities, Self-Reported',
         },
         {
-          value: 'healthcareprovider',
+          value: 'healthcareproviders',
           label: 'Health Care Providers, Self-Reported',
         },
       ],
@@ -146,11 +146,11 @@ module.exports = {
       title: 'Food and Activity Journals',
       children: [
         {
-          value: 'seiactivityjourna',
+          value: 'seiactivityjournal',
           label: 'Activity Journal, Self-Reported',
         },
         {
-          value: 'seifoodjourna',
+          value: 'seifoodjournal',
           label: 'Food Journal, Self-Reported',
         },
       ],
@@ -159,11 +159,11 @@ module.exports = {
       title: 'Goals',
       children: [
         {
-          value: 'seimygoalscurren',
+          value: 'seimygoalscurrent',
           label: 'My Goals: Current Goals, Self-Reported',
         },
         {
-          value: 'seimygoalscomplete',
+          value: 'seimygoalscompleted',
           label: 'My Goals: Completed Goals, Self-Reported',
         },
       ],
@@ -172,15 +172,15 @@ module.exports = {
       title: 'Demographics and Health Insurance',
       children: [
         {
-          value: 'vademographic',
+          value: 'vademographics',
           label: 'VA Demographics from VA Treating Facilities in the last 3 years',
         },
         {
-          value: 'seidemographic',
+          value: 'seidemographics',
           label: 'Demographics, Self-Reported',
         },
         {
-          value: 'healthinsuranc',
+          value: 'healthinsurance',
           label: 'Health Insurance, Self-Reported',
         },
       ],
@@ -189,7 +189,7 @@ module.exports = {
       title: 'Department of Defense',
       children: [
         {
-          value: 'dodmilitaryservic',
+          value: 'dodmilitaryservice',
           label: 'Military Service Information',
         },
       ]
