@@ -72,8 +72,6 @@ class ObjectField extends React.Component {
     const { SchemaField } = fields;
     const schema = retrieveSchema(this.props.schema, definitions);
 
-    const title = uiSchema['ui:title'] || schema.title;
-
     const properties = Object.keys(schema.properties);
     const isRoot = idSchema.$id === 'root';
 
@@ -114,7 +112,7 @@ class ObjectField extends React.Component {
       return (
         <div>
           <div className="form-review-panel-page-header-row">
-            <h5 className="form-review-panel-page-header">{!formContext.hideTitle ? title : null}</h5>
+            <h5 className="form-review-panel-page-header">{!formContext.hideTitle ? formContext.pageTitle : null}</h5>
             <button type="button" className="edit-btn primary-outline" onClick={() => formContext.onEdit()}>Edit</button>
           </div>
           <dl className="review usa-table-borderless">

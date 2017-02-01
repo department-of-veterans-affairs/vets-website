@@ -38,14 +38,11 @@ describe('Schemaform review: ObjectField', () => {
         }
       }
     };
-    const uiSchema = {
-      'ui:title': 'Blah'
-    };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          uiSchema={uiSchema}
+          uiSchema={{}}
           schema={schema}
-          formContext={{}}
+          formContext={{ pageTitle: 'Blah' }}
           requiredSchema={{}}
           idSchema={{ $id: 'root' }}
           formData={{}}
@@ -66,15 +63,12 @@ describe('Schemaform review: ObjectField', () => {
         }
       }
     };
-    const uiSchema = {
-      'ui:title': 'Blah'
-    };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          uiSchema={uiSchema}
+          uiSchema={{}}
           schema={schema}
           requiredSchema={{}}
-          formContext={{ hideTitle: true }}
+          formContext={{ hideTitle: true, pageTitle: 'Blah' }}
           idSchema={{ $id: 'root' }}
           formData={{}}
           onChange={onChange}

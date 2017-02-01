@@ -39,7 +39,7 @@ CheckboxWidget.propTypes = {
   onChange: React.PropTypes.func,
   disabled: React.PropTypes.bool,
   options: React.PropTypes.object,
-  label: React.PropTypes.oneOf([
+  label: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.object
   ])
