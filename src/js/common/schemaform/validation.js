@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { Validator } from 'jsonschema';
 
-import { isValidSSN, isValidPartialDate, isValidDateRange } from '../utils/validations';
+import { isValidSSN, isValidPartialDate, isValidDateRange, isNotBlank, isValidAddressField } from '../utils/validations';
 import { parseISODate, updateRequiredFields } from './helpers';
 
 /*
@@ -175,6 +175,13 @@ export function validateDate(errors, dateString) {
   if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
   }
+}
+
+export function validateAddress(errors, address) {
+  console.log(address);
+  // if (!isValidAddressField(address)) {
+  //   errors.addError('Please provide a valid address');
+  // }
 }
 
 export function validateEmailsMatch(errors, formData) {

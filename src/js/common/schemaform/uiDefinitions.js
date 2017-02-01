@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import { validateSSN, validateDate, validateDateRange } from './validation';
+import { validateSSN, validateDate, validateDateRange, validateAddress } from './validation';
 
 export const uiFullName = {
   first: {
@@ -64,6 +64,9 @@ export function uiDateRange(from, to) {
 export const uiAddress = {
   'ui:title': 'Address',
   'ui:field': 'address',
+  'ui:validations': [
+    validateAddress
+  ], 
   country: {
     'ui:title': 'Country'
   },
