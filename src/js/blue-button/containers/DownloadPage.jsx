@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 export class DownloadPage extends React.Component {
   render() {
@@ -28,6 +29,7 @@ export class DownloadPage extends React.Component {
 
     return (
       <div className="row">
+        <Breadcrumbs location={this.props.location}/>
         <h1>Download Your Health Records</h1>
         <p>Here are the health records in two file formats based on your request.</p>
         <table className="bb-download-table usa-table-borderless">
