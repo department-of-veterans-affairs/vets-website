@@ -31,7 +31,13 @@ class BlueButtonApp extends React.Component {
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"bluebutton"}>
         <AppContent>
-          <h1>Blue Button App</h1>
+          <div className="bb-app">
+            <div className="row">
+              <div className="columns small-12">
+                {this.props.children}
+              </div>
+            </div>
+          </div>
         </AppContent>
       </RequiredLoginView>
     );
