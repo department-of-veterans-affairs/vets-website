@@ -23,7 +23,7 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return <div className="blue-button-app">{view}</div>;
+  return <div className="bb-app">{view}</div>;
 }
 
 class BlueButtonApp extends React.Component {
