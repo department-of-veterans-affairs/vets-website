@@ -6,7 +6,7 @@ import { Main } from '../../../src/js/blue-button/containers/Main';
 
 const props = {};
 
-describe('<DownloadPage>', () => {
+describe('<Main>', () => {
   const tree = SkinDeep.shallowRender(<Main {...props}/>);
 
   it('should render', () => {
