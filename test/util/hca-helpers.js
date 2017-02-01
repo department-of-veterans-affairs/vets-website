@@ -433,8 +433,10 @@ function initApplicationSubmitMock() {
     path: '/v0/health_care_applications',
     verb: 'post',
     value: {
-      formSubmissionId: '123fake-submission-id-567',
-      timeStamp: '2016-05-16'
+      data: {
+        formSubmissionId: '123fake-submission-id-567',
+        timeStamp: '2016-05-16'
+      }
     }
   });
 }
