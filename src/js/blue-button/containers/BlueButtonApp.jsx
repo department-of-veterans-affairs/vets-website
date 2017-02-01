@@ -23,7 +23,7 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return <div className="blue-button-app">{view}</div>;
+  return <div className="bb-app">{view}</div>;
 }
 
 class BlueButtonApp extends React.Component {
@@ -31,7 +31,7 @@ class BlueButtonApp extends React.Component {
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"bluebutton"}>
         <AppContent>
-          <h1>Blue Button App</h1>
+          {this.props.children}
         </AppContent>
       </RequiredLoginView>
     );

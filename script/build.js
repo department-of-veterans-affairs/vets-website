@@ -103,6 +103,13 @@ smith.destination(`../build/${options.buildtype}`);
 // }
 // smith.use(ignore(ignoreList));
 
+const ignore = require('metalsmith-ignore');
+const ignoreList = [];
+if (options.buildtype === 'production') {
+  ignoreList.push('healthcare/blue-button/*');
+}
+smith.use(ignore(ignoreList));
+
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
 // during templating end up not showing which file they came from. Load it very early in in the
 // plugin chain.
@@ -140,6 +147,7 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
+        { from: '^/healthcare/blue-button(.*)', to: '/healthcare/blue-button/' },
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
