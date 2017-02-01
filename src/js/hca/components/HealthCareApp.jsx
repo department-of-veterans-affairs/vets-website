@@ -129,6 +129,9 @@ class HealthCareApp extends React.Component {
     const veteran = this.props.data;
     const path = this.props.location.pathname;
     let apiUrl = `${window.VetsGov.api.url}/api/hca/v1/application`;
+    let formSubmissionId;
+    let timestamp;
+    const testBuild = __BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging';
     const submissionPost = {
       method: 'POST',
       headers: {
@@ -142,7 +145,7 @@ class HealthCareApp extends React.Component {
     window.dataLayer.push({ event: 'submit-button-clicked' });
     const formIsValid = validations.isValidForm(veteran);
 
-    if (__BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging') {
+    if (testBuild) {
       apiUrl = `${environment.API_URL}/v0/health_care_applications`;
       submissionPost.body = JSON.stringify({ form: submissionPost.body });
     }
@@ -160,14 +163,22 @@ class HealthCareApp extends React.Component {
         this.removeOnbeforeunload();
 
         response.json().then(data => {
+          if (testBuild) {
+            formSubmissionId = data.formSubmissionId;
+            timestamp = data.timestamp;
+          } else {
+            formSubmissionId = data.response.formSubmissionId;
+            timestamp = data.response.timeStamp;
+          }
+
           this.props.onUpdateSubmissionStatus('applicationSubmitted', data);
           this.props.onCompletedStatus(path);
-          this.props.onUpdateSubmissionId(data.response.formSubmissionId);
-          this.props.onUpdateSubmissionTimestamp(data.response.timeStamp);
+          this.props.onUpdateSubmissionId(formSubmissionId);
+          this.props.onUpdateSubmissionTimestamp(timestamp);
 
           window.dataLayer.push({
             event: 'submission-successful',
-            submissionID: data.response.formSubmissionId
+            submissionID: formSubmissionId
           });
         });
 
