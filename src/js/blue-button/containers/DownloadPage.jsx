@@ -5,7 +5,7 @@ class DownloadPage extends React.Component {
   render() {
     const data = {
       requestDate: 'Jan 20, 2017 14:09 EST',
-      status: 'Ready to download',
+      status: <span className="bb-status-ready">Ready to download</span>,
       pdfFileSize: '124 KB',
       pdfActions: (
         <div>
