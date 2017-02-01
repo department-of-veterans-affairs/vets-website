@@ -140,6 +140,7 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
+        { from: '^/healthcare/blue-button(.*)', to: '/healthcare/blue-button/' },
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
