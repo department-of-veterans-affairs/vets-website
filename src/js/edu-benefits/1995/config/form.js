@@ -1,14 +1,33 @@
 import _ from 'lodash/fp';
 
 import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
-import { dateRange, date, address, phone } from '../../../common/schemaform/definitions';
+import { address, phone } from '../../../common/schemaform/definitions';
 import { uiFullName, uiSSN, uiDateRange, uiDate, uiPhone } from '../../../common/schemaform/uiDefinitions';
 import { validateEmailsMatch } from '../../../common/schemaform/validation';
 
-import { benefitsLabels, transformForSubmit } from '../helpers';
+import { benefitsLabels, educationTypeLabels, transformForSubmit, enumToNames } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../components/ServicePeriodView';
+
+const {
+  veteranFullName,
+  veteranSocialSecurityNumber,
+  vaFileNumber,
+  benefit,
+  toursOfDuty,
+  civilianBenefitsAssistance,
+  newSchool,
+  educationObjective,
+  nonVaAssistance,
+  oldSchool,
+  trainingEndDate,
+  reasonForChange
+} = fullSchema1995.properties;
+
+const {
+  educationType
+} = fullSchema1995.definitions;
 
 const formConfig = {
   urlPrefix: '/1995/',
@@ -30,19 +49,22 @@ const formConfig = {
           uiSchema: {
             veteranFullName: uiFullName,
             veteranSocialSecurityNumber: _.assign(uiSSN, {
-              'ui:required': (form) => !form.noSSN
+              'ui:required': (form) => !form['view:noSSN']
             }),
-            noSSN: {
+            'view:noSSN': {
               'ui:title': 'I don\'t have a Social Security number',
               'ui:options': {
                 hideOnReviewIfFalse: true
               }
             },
             vaFileNumber: {
-              'ui:required': (form) => !!form.noSSN,
+              'ui:required': (form) => !!form['view:noSSN'],
               'ui:title': 'File number',
               'ui:errorMessages': {
                 pattern: 'File number must be 8 digits and (optionally) start with C'
+              },
+              'ui:options': {
+                expandUnder: 'view:noSSN'
               }
             }
           },
@@ -50,12 +72,12 @@ const formConfig = {
             type: 'object',
             required: ['veteranFullName'],
             properties: {
-              veteranFullName: fullSchema1995.properties.veteranFullName,
-              veteranSocialSecurityNumber: fullSchema1995.properties.veteranSocialSecurityNumber,
-              noSSN: {
+              veteranFullName,
+              veteranSocialSecurityNumber,
+              'view:noSSN': {
                 type: 'boolean'
               },
-              vaFileNumber: fullSchema1995.properties.vaFileNumber
+              vaFileNumber
             }
           }
         },
@@ -69,20 +91,18 @@ const formConfig = {
           path: 'benefits-eligibility/benefit-selection',
           initialData: {},
           uiSchema: {
-            benefitSelected: {
+            benefit: {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:'
             }
           },
           schema: {
             type: 'object',
-            required: ['benefitSelected'],
+            required: ['benefit'],
             properties: {
-              benefitSelected: {
-                type: 'string',
-                'enum': Object.keys(benefitsLabels),
-                enumNames: _.values(benefitsLabels)
-              }
+              benefit: _.assign(benefit, {
+                enumNames: enumToNames(benefit.enum, benefitsLabels)
+              })
             }
           }
         }
@@ -119,24 +139,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              toursOfDuty: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    serviceBranch: {
-                      type: 'string'
-                    },
-                    dateRange: _.merge(dateRange, {
-                      required: ['from']
-                    })
-                  },
-                  required: [
-                    'dateRange',
-                    'serviceBranch'
-                  ]
-                }
-              }
+              toursOfDuty
             }
           }
         },
@@ -171,9 +174,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              civilianBenefitsAssistance: {
-                type: 'boolean'
-              }
+              civilianBenefitsAssistance
             }
           }
         }
@@ -186,7 +187,7 @@ const formConfig = {
           path: 'school-selection/new-school',
           title: 'New school, university, or training facility',
           initialData: {
-            school: {
+            newSchool: {
               address: {}
             }
           },
@@ -195,16 +196,19 @@ const formConfig = {
             educationType: {
               'ui:title': 'Type of education or training'
             },
-            school: {
+            newSchool: {
               name: {
                 'ui:title': 'Name of school, university, or training facility'
+              },
+              address: {
+                'ui:title': 'Address'
               }
             },
             educationObjective: {
               'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
               'ui:widget': 'textarea'
             },
-            additionalContributions: {
+            nonVaAssistance: {
               'ui:title': 'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
               'ui:widget': 'yesNo'
             }
@@ -212,25 +216,12 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              educationType: {
-                type: 'string',
-                'enum': ['college', 'correspondence', 'apprenticeship', 'flightTraining', 'testReimbursement', 'licensingReimbursement', 'tuitionTopUp']
-              },
-              school: {
-                type: 'object',
-                properties: {
-                  name: {
-                    type: 'string'
-                  },
-                  address: _.omit('required', address)
-                }
-              },
-              educationObjective: {
-                type: 'string'
-              },
-              additionalContributions: {
-                type: 'boolean'
-              }
+              educationType: _.assign(educationType, {
+                enumNames: enumToNames(educationType.enum, educationTypeLabels)
+              }),
+              newSchool,
+              educationObjective,
+              nonVaAssistance
             }
           }
         },
@@ -238,38 +229,31 @@ const formConfig = {
           path: 'school-selection/old-school',
           title: 'Old school, university, or training facility',
           initialData: {
-            school: {
+            oldSchool: {
               address: {}
             }
           },
           uiSchema: {
             'ui:title': 'Old school, university, or training facility',
-            school: {
+            oldSchool: {
               name: {
                 'ui:title': 'Name of school, university, or training facility'
+              },
+              address: {
+                'ui:title': 'Address'
               }
             },
-            stopTrainingDate: _.merge(uiDate, { 'ui:title': 'When did you stop training?' }),
-            stopTrainingReason: {
+            trainingEndDate: _.merge(uiDate, { 'ui:title': 'When did you stop training?' }),
+            reasonForChange: {
               'ui:title': 'Why did you stop training?'
             }
           },
           schema: {
             type: 'object',
             properties: {
-              school: {
-                type: 'object',
-                properties: {
-                  name: {
-                    type: 'string'
-                  },
-                  address: _.omit('required', address)
-                }
-              },
-              stopTrainingDate: date,
-              stopTrainingReason: {
-                type: 'string'
-              }
+              oldSchool,
+              trainingEndDate,
+              reasonForChange
             }
           }
         }

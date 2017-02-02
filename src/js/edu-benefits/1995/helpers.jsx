@@ -10,6 +10,16 @@ export const benefitsLabels = {
   transferOfEntitlement: 'Transfer of Entitlement Program (TOE)'
 };
 
+export const educationTypeLabels = {
+  college: 'College',
+  correspondence: 'Correspondence',
+  apprenticeship: 'Apprenticeship',
+  flightTraining: 'Flight training',
+  testReimbursement: 'Test reimbursement',
+  licensingReimbursement: 'Licensing reimbursement',
+  tuitionTopUp: 'Tuition top up'
+};
+
 export function transformForSubmit(form) {
   const formData = flattenFormData(form);
 
@@ -18,4 +28,8 @@ export function transformForSubmit(form) {
       form: JSON.stringify(formData)
     }
   });
+}
+
+export function enumToNames(enumValues, names) {
+  return enumValues.map(item => names[item]);
 }

@@ -583,9 +583,12 @@ p.first-of-type {
   }
 }
 
+.va-tabs {
+  display: flex;
+}
 .tab-li {
   @media (max-width: $small-screen) {
-    width: 33.33%;
+    flex: 1 1 0;
     text-align: center;
   }
   a {
