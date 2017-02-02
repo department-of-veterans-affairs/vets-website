@@ -2,12 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import { closeDisclaimer } from '../actions/disclaimer';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
-import Disclaimer from '../components/Disclaimer';
 import GlossaryModal from '../components/GlossaryModal';
 
 // This needs to be a React component for RequiredLoginView to pass down
@@ -40,9 +38,6 @@ class RxRefillsApp extends React.Component {
             <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
           </div>
           <div className="row">
-            <Disclaimer
-                isOpen={this.props.disclaimer.open}
-                handleClose={this.props.closeDisclaimer}/>
             {this.props.children}
           </div>
           <ConfirmRefillModal
@@ -70,7 +65,6 @@ const mapStateToProps = (state) => {
   const modals = rxState.modals;
 
   return {
-    disclaimer: rxState.disclaimer,
     glossaryModal: modals.glossary,
     refillModal: modals.refill,
     prescription: rxState.prescriptions.currentItem,
@@ -78,7 +72,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  closeDisclaimer,
   closeGlossaryModal,
   closeRefillModal,
   refillPrescription
