@@ -1,0 +1,91 @@
+.va-vet-nav-trigger {
+  background: transparent;
+  margin: 0;
+  
+  &:hover,
+  &:focus {
+    background: transparent;
+  } 
+}
+
+@include media($medium-screen) {
+  [id=va-vet-nav] {
+    float: left;
+    position: relative;
+    width: 50%;
+    z-index: 2;
+
+    > ul {
+      display: flex;
+      padding-left: 0;
+      position: relative;
+    }
+
+    ul {
+      list-style: none;
+    }
+  }
+
+  .va-vet-nav-menu {
+    background: $color-white;
+    height: 25rem;
+    padding-left: 0;
+    position: absolute;
+    width: 52rem;
+    
+    > li {
+      @include clearfix;
+    }
+
+    a {
+      display: block;
+      text-decoration: none;
+      padding: 1rem .5rem;
+
+      &:hover {
+        background: $color-gray-lightest;
+      }
+    }
+  }
+
+  .va-vet-nav-submenu {
+    background: $color-gray-lightest;
+    display: none;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 55%;
+    z-index: 1;
+
+    ul { 
+      padding-left: 0;
+    }
+
+    a {
+      color: $color-base;
+      padding: 1rem 3rem;
+    }
+    
+    :hover > & {
+      display: block;
+    }
+  }
+
+  .va-vet-nav-trigger {
+    border-bottom: 4px solid transparent;
+    border-radius: 0; 
+    margin: 0;
+    padding-left: 0;
+
+    &:hover,
+    &:focus {
+      border-bottom: 4px solid $color-primary;
+    } 
+  }
+
+  .va-vet-nav-button {
+    display: inline-block;
+    margin: auto 3rem;
+  }
+}
