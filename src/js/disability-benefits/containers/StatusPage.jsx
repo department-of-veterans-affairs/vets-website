@@ -3,15 +3,12 @@ import { connect } from 'react-redux';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimComplete from '../components/ClaimComplete';
-import AskVAToDecide from '../components/AskVAToDecide';
 import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
 import { itemsNeedingAttentionFromVet, getClaimType, getCompletedDate } from '../utils/helpers';
 
 import { clearNotification } from '../actions';
-
-const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
 class StatusPage extends React.Component {
   componentDidMount() {
@@ -48,8 +45,6 @@ class StatusPage extends React.Component {
     let content = null;
     if (!loading) {
       const phase = claim.attributes.phase;
-      const showDecision = phase === FIRST_GATHERING_EVIDENCE_PHASE
-        && !claim.attributes.waiverSubmitted;
       const filesNeeded = itemsNeedingAttentionFromVet(claim.attributes.eventsTimeline);
       const showDocsNeeded = !claim.attributes.decisionLetterSent &&
         claim.attributes.open &&
@@ -60,9 +55,6 @@ class StatusPage extends React.Component {
         <div>
           {showDocsNeeded
             ? <NeedFilesFromYou claimId={claim.id} files={filesNeeded}/>
-            : null}
-          {showDecision
-            ? <AskVAToDecide id={this.props.params.id}/>
             : null}
           {claim.attributes.decisionLetterSent && !claim.attributes.open ? <ClaimsDecision completedDate={getCompletedDate(claim)}/> : null}
           {!claim.attributes.decisionLetterSent && !claim.attributes.open ? <ClaimComplete completedDate={getCompletedDate(claim)}/> : null}
@@ -109,4 +101,3 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
 
 export { StatusPage };
-
