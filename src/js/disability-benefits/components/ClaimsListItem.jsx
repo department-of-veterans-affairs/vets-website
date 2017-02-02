@@ -5,11 +5,7 @@ import moment from 'moment';
 import { getPhaseDescription, isClaimComplete, getClaimType } from '../utils/helpers';
 
 function listPhase(phase) {
-  if(phase === 8) {
-    return 'Closed';
-  } else {
-    return getPhaseDescription(phase);
-  }
+  return (phase === 8) ? 'Closed' : getPhaseDescription(phase);
 }
 
 export default function ClaimsListItem({ claim }) {
