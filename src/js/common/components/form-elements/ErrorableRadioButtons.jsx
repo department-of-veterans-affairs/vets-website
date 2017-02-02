@@ -148,7 +148,10 @@ ErrorableRadioButtons.propTypes = {
     React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.shape({
-        label: React.PropTypes.string,
+        label: React.PropTypes.oneOfType([
+          React.PropTypes.string,
+          React.PropTypes.element,
+        ]),
         value: React.PropTypes.oneOfType([
           React.PropTypes.string,
           React.PropTypes.bool
