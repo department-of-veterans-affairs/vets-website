@@ -45,7 +45,13 @@ const formConfig = {
   transformForSubmit,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  defaultDefinitions: fullSchema1995.definitions,
+  defaultDefinitions: {
+    educationType,
+    preferredContactMethod,
+    serviceBefore1977,
+    date: date.schema,
+    dateRange: dateRange.schema
+  },
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-1995',
   chapters: {
