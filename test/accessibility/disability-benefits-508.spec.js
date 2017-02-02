@@ -43,6 +43,12 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.va-nav-breadcrumbs-list li:nth-child(2) a')
       .waitForElementVisible('.claim-title', Timeouts.normal);
 
+    // files tab
+    client
+      .click('.va-tabs li:nth-child(2) > a')
+      .waitForElementVisible('.file-request-list-item', Timeouts.normal)
+      .axeCheck('.main');
+
     // Ask VA page
     client
       .click('.usa-alert-info a')
@@ -52,12 +58,6 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .click('.va-nav-breadcrumbs-list li:nth-child(2) a')
       .waitForElementVisible('.claim-title', Timeouts.normal);
-
-    // files tab
-    client
-      .click('.va-tabs li:nth-child(2) > a')
-      .waitForElementVisible('.file-request-list-item', Timeouts.normal)
-      .axeCheck('.main');
 
     // document request page
     client
