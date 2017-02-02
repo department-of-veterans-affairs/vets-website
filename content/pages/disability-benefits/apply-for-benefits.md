@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Apply for Benefits
+title: Apply for Disability Benefits
 template: 7-get-page-alt
 showactionbar: false
 relatedlinks:
