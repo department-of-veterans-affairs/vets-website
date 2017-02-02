@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Apply for VA Health Care
+title: Apply for VA Health Care Benefits
 template: 1-topic-landing
 plainlanguage: 12-08-16 certified in compliance with the Plain Writing Act
 showtempbar: true
