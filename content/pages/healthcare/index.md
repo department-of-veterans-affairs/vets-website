@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Health Care
+title: Health Care Benefits
 permalink: /healthcare/index.html
 template: L2-section-landing
 showactionbar: false
