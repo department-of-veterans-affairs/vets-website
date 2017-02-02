@@ -23,9 +23,9 @@ You may be able to get disability benefits if you have an illness that’s on th
 - Doing tasks like those of a Department of Energy (DOE) employee that make them a member of the Special Exposure Cohort (See 42 U.S.C. 7384L(14))
 
 You may also be able to get disability benefits if you were:
-- Part of underground nuclear weapons testing at Amchitka Island, Alaska, or
-- Assigned to a gaseous diffusion plant at Paducah, Kentucky, or
-- Assigned to a gaseous diffusion plant at Portsmouth, Ohio, or
+- Part of underground nuclear weapons testing at Amchitka Island, Alaska, **or**
+- Assigned to a gaseous diffusion plant at Paducah, Kentucky, **or**
+- Assigned to a gaseous diffusion plant at Portsmouth, Ohio, **or**
 - Assigned to a gaseous diffusion plant at Area K-25 at Oak Ridge, Tennessee
 
 To qualify for benefits, you must have been discharged under conditions other than dishonorable.
