@@ -1,32 +1,41 @@
 import _ from 'lodash/fp';
 
 import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
-import { address, phone } from '../../../common/schemaform/definitions';
-import { uiFullName, uiSSN, uiDateRange, uiDate, uiPhone } from '../../../common/schemaform/uiDefinitions';
-import { validateEmailsMatch } from '../../../common/schemaform/validation';
 
+import { validateMatch } from '../../../common/schemaform/validation';
 import { benefitsLabels, educationTypeLabels, transformForSubmit, enumToNames } from '../helpers';
+
+// This should be changed to use backend schema when possible
+import { address } from '../../../common/schemaform/definitions';
+
+import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
+import * as fullName from '../../../common/schemaform/definitions/fullName';
+import * as ssn from '../../../common/schemaform/definitions/ssn';
+import * as date from '../../../common/schemaform/definitions/date';
+import * as dateRange from '../../../common/schemaform/definitions/dateRange';
+import * as phone from '../../../common/schemaform/definitions/phone';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../components/ServicePeriodView';
 
 const {
-  veteranFullName,
-  veteranSocialSecurityNumber,
   vaFileNumber,
   benefit,
   toursOfDuty,
   civilianBenefitsAssistance,
-  newSchool,
   educationObjective,
   nonVaAssistance,
-  oldSchool,
-  trainingEndDate,
-  reasonForChange
+  reasonForChange,
+  email,
+  bankAccountChange
 } = fullSchema1995.properties;
 
 const {
-  educationType
+  educationType,
+  preferredContactMethod,
+  serviceBefore1977,
+  school
 } = fullSchema1995.definitions;
 
 const formConfig = {
@@ -47,8 +56,8 @@ const formConfig = {
           path: 'veteran-information',
           initialData: {},
           uiSchema: {
-            veteranFullName: uiFullName,
-            veteranSocialSecurityNumber: _.assign(uiSSN, {
+            veteranFullName: fullName.uiSchema,
+            veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
               'ui:required': (form) => !form['view:noSSN']
             }),
             'view:noSSN': {
@@ -72,8 +81,8 @@ const formConfig = {
             type: 'object',
             required: ['veteranFullName'],
             properties: {
-              veteranFullName,
-              veteranSocialSecurityNumber,
+              veteranFullName: fullName.schema,
+              veteranSocialSecurityNumber: ssn.schema,
               'view:noSSN': {
                 type: 'boolean'
               },
@@ -115,9 +124,6 @@ const formConfig = {
           path: 'military-history/service-periods',
           title: 'Service periods',
           initialData: {
-            toursOfDuty: [{
-              dateRange: {}
-            }]
           },
           uiSchema: {
             toursOfDuty: {
@@ -132,7 +138,11 @@ const formConfig = {
                 serviceBranch: {
                   'ui:title': 'Branch of service'
                 },
-                dateRange: uiDateRange('Start of service period', 'End of service period')
+                dateRange: dateRange.uiSchema(
+                  'Start of service period',
+                  'End of service period',
+                  'End of service must be after start of service'
+                )
               }
             }
           },
@@ -148,7 +158,7 @@ const formConfig = {
           path: 'military-history/military-service',
           initialData: {},
           uiSchema: {
-            hasServiceBefore1978: {
+            'view:hasServiceBefore1978': {
               'ui:title': 'Do you have any periods of service that began before 1978?',
               'ui:widget': 'yesNo'
             }
@@ -156,7 +166,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              hasServiceBefore1978: {
+              'view:hasServiceBefore1978': {
                 type: 'boolean'
               }
             }
@@ -219,7 +229,7 @@ const formConfig = {
               educationType: _.assign(educationType, {
                 enumNames: enumToNames(educationType.enum, educationTypeLabels)
               }),
-              newSchool,
+              newSchool: _.set('properties.address', address, school),
               educationObjective,
               nonVaAssistance
             }
@@ -243,7 +253,7 @@ const formConfig = {
                 'ui:title': 'Address'
               }
             },
-            trainingEndDate: _.merge(uiDate, { 'ui:title': 'When did you stop training?' }),
+            trainingEndDate: date.uiSchema('When did you stop training?'),
             reasonForChange: {
               'ui:title': 'Why did you stop training?'
             }
@@ -251,8 +261,8 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              oldSchool,
-              trainingEndDate,
+              oldSchool: _.set('properties.address', address, school),
+              trainingEndDate: date.schema,
               reasonForChange
             }
           }
@@ -271,66 +281,44 @@ const formConfig = {
               'ui:title': 'How would you prefer to be contacted if VA has questions about your application?',
               'ui:widget': 'radio'
             },
-            otherContactInfo: {
+            'view:otherContactInfo': {
               'ui:title': 'Other contact information',
               'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
+              'ui:validations': [
+                validateMatch('email', 'view:confirmEmail')
+              ],
               email: {
-                'ui:validations': [
-                  validateEmailsMatch
-                ],
-                email: {
-                  'ui:title': 'Email address'
-                },
-                confirmEmail: {
-                  'ui:title': 'Re-enter email address',
-                  'ui:options': {
-                    hideOnReview: true
-                  }
+                'ui:title': 'Email address'
+              },
+              'view:confirmEmail': {
+                'ui:title': 'Re-enter email address',
+                'ui:options': {
+                  hideOnReview: true
                 }
               },
-              homePhone: _.assign(uiPhone, {
-                'ui:title': 'Primary telephone number'
+              homePhone: _.assign(phone.uiSchema('Primary telephone number'), {
+                'ui:required': (form) => form.preferredContactMethod === 'phone'
               }),
-              mobilePhone: _.assign(uiPhone, {
-                'ui:title': 'Mobile telephone number'
-              })
+              mobilePhone: phone.uiSchema('Mobile telephone number')
             }
           },
           schema: {
             type: 'object',
-            definitions: {
-              phone
-            },
             properties: {
-              preferredContactMethod: {
-                type: 'string',
-                'enum': ['email', 'phone', 'mail'],
-                enumNames: ['Email', 'Phone', 'Mail']
-              },
-              address,
-              otherContactInfo: {
+              preferredContactMethod: _.assign(preferredContactMethod, {
+                enumNames: ['Mail', 'Email', 'Phone']
+              }),
+              veteranAddress: _.assign(address, {
+                required: ['street', 'city', 'country', 'state', 'postalCode'],
+              }),
+              'view:otherContactInfo': {
                 type: 'object',
+                required: ['email', 'view:confirmEmail'],
                 properties: {
-                  email: {
-                    type: 'object',
-                    required: ['email', 'confirmEmail'],
-                    properties: {
-                      email: {
-                        type: 'string',
-                        format: 'email'
-                      },
-                      confirmEmail: {
-                        type: 'string',
-                        format: 'email'
-                      }
-                    }
-                  },
-                  homePhone: {
-                    $ref: '#/definitions/phone'
-                  },
-                  mobilePhone: {
-                    $ref: '#/definitions/phone'
-                  }
+                  email,
+                  'view:confirmEmail': email,
+                  homePhone: phone.schema,
+                  mobilePhone: phone.schema
                 }
               }
             }
@@ -343,7 +331,7 @@ const formConfig = {
           depends: {
             militaryHistory: {
               data: {
-                hasServiceBefore1978: true
+                'view:hasServiceBefore1978': true
               }
             }
           },
@@ -366,21 +354,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              serviceBefore1977: {
-                type: 'object',
-                properties: {
-                  married: {
-                    type: 'boolean'
-                  },
-                  haveDependents: {
-                    type: 'boolean'
-                  },
-                  parentDependent: {
-                    type: 'boolean'
-                  }
-                },
-                required: ['married', 'haveDependents', 'parentDependent']
-              }
+              serviceBefore1977
             }
           }
         },
@@ -389,40 +363,19 @@ const formConfig = {
           path: 'personal-information/direct-deposit',
           initialData: {},
           uiSchema: {
-            changeDirectDeposit: {
+            bankAccountChange: {
               'ui:title': 'Do you want to start, stop or continue using direct deposit?',
               'ui:widget': 'radio'
             },
-            accountType: {
-              'ui:title': 'Account type',
-              'ui:widget': 'radio'
-            },
-            accountNumber: {
-              'ui:title': 'Account number'
-            },
-            routingNumber: {
-              'ui:title': 'Routing number'
-            }
+            bankAccount: bankAccount.uiSchema
           },
           schema: {
             type: 'object',
             properties: {
-              changeDirectDeposit: {
-                type: 'string',
-                'enum': ['start', 'stop', 'continue'],
+              bankAccountChange: _.assign(bankAccountChange, {
                 enumNames: ['Start', 'Stop', 'Continue']
-              },
-              accountType: {
-                type: 'string',
-                'enum': ['checking', 'savings'],
-                enumNames: ['Checking', 'Savings']
-              },
-              accountNumber: {
-                type: 'string'
-              },
-              routingNumber: {
-                type: 'string'
-              }
+              }),
+              bankAccount: bankAccount.schema
             }
           }
         }

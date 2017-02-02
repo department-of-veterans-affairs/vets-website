@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { Validator } from 'jsonschema';
 
-import { isValidSSN, isValidPartialDate, isValidDateRange } from '../utils/validations';
+import { isValidSSN, isValidPartialDate, isValidDateRange, isValidRoutingNumber } from '../utils/validations';
 import { parseISODate, updateRequiredFields } from './helpers';
 
 /*
@@ -177,10 +177,17 @@ export function validateDate(errors, dateString) {
   }
 }
 
-export function validateEmailsMatch(errors, formData) {
-  const { email, confirmEmail } = formData;
-  if (email !== confirmEmail) {
-    errors.confirmEmail.addError('Please ensure your entries match');
+export function validateMatch(field1, field2) {
+  return (errors, formData) => {
+    if (formData[field1] !== formData[field2]) {
+      errors[field2].addError('Please ensure your entries match');
+    }
+  };
+}
+
+export function validateRoutingNumber(errors, routingNumber, formData, formContext, errorMessages) {
+  if (!isValidRoutingNumber(routingNumber)) {
+    errors.addError(errorMessages.pattern);
   }
 }
 

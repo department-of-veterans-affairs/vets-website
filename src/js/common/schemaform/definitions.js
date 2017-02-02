@@ -57,7 +57,6 @@ const countryNames = countries.map(object => object.label);
 export const address = {
   type: 'object',
   title: 'Address',
-  required: ['street', 'city', 'country', 'state', 'postalCode'],
   properties: {
     country: {
       'default': 'USA',

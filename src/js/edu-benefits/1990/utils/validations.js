@@ -25,7 +25,8 @@ import {
   isValidSSN,
   isValidYear,
   isValidCanPostalCode,
-  isValidUSZipCode
+  isValidUSZipCode,
+  isValidRoutingNumber
 } from '../../../common/utils/validations';
 
 function isValidMonetaryValue(value) {
@@ -33,20 +34,6 @@ function isValidMonetaryValue(value) {
     return /^[$]{0,1}\d+\.?\d*$/.test(value);
   }
   return true;
-}
-
-// Pulled from https://en.wikipedia.org/wiki/Routing_transit_number#Check_digit
-function isValidRoutingNumber(value) {
-  if (/^\d{9}$/.test(value)) {
-    const digits = value.split('').map(val => parseInt(val, 10));
-    const weighted =
-      3 * (digits[0] + digits[3] + digits[6]) +
-      7 * (digits[1] + digits[4] + digits[7]) +
-      (digits[2] + digits[5] + digits[8]);
-
-    return (weighted % 10) === 0;
-  }
-  return false;
 }
 
 function isValidFutureOrPastDateField(field) {
