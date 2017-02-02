@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Breadcrumbs from '../components/Breadcrumbs';
+
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 import DatePicker from 'react-datepicker';
@@ -62,17 +62,19 @@ class Main extends React.Component {
           label: (
             <div>
               <span>Custom date range<br/></span>
-              <DatePicker
-                  id="custom-date-start"
-                  onChange={this.handleStartDateChange}
-                  placeholderText="MM/DD/YYYY"
-                  selected={null}/>
-              <span> to </span>
-              <DatePicker
-                  id="custom-date-end"
-                  onChange={this.handleEndDateChange}
-                  placeholderText="MM/DD/YYYY"
-                  selected={null}/>
+              <div className="date-range-fields">
+                <DatePicker
+                    id="custom-date-start"
+                    onChange={this.handleStartDateChange}
+                    placeholderText="MM/DD/YYYY"
+                    selected={null}/>
+                  <span>&nbsp;to&nbsp;</span>
+                <DatePicker
+                    id="custom-date-end"
+                    onChange={this.handleEndDateChange}
+                    placeholderText="MM/DD/YYYY"
+                    selected={null}/>
+              </div>
             </div>
           ),
           value: 'custom'
@@ -86,7 +88,6 @@ class Main extends React.Component {
 
     return (
       <div>
-        <Breadcrumbs location={this.props.location}/>
         <h1>Get Your VA Health Records</h1>
         <form>
           <div>
