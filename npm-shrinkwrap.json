@@ -1324,6 +1324,26 @@
         }
       }
     },
+    "chunk-manifest-webpack-plugin": {
+      "version": "0.0.1",
+      "from": "chunk-manifest-webpack-plugin@0.0.1",
+      "resolved": "https://registry.npmjs.org/chunk-manifest-webpack-plugin/-/chunk-manifest-webpack-plugin-0.0.1.tgz",
+      "dev": true,
+      "dependencies": {
+        "source-map": {
+          "version": "0.1.43",
+          "from": "source-map@>=0.1.38 <0.2.0",
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.1.43.tgz",
+          "dev": true
+        },
+        "webpack-core": {
+          "version": "0.4.8",
+          "from": "webpack-core@>=0.4.8 <0.5.0",
+          "resolved": "https://registry.npmjs.org/webpack-core/-/webpack-core-0.4.8.tgz",
+          "dev": true
+        }
+      }
+    },
     "circular-json": {
       "version": "0.3.1",
       "from": "circular-json@>=0.3.1 <0.4.0",
@@ -5809,7 +5829,7 @@
         "async": {
           "version": "0.9.2",
           "from": "async@>=0.9.0 <0.10.0",
-          "resolved": "http://registry.npmjs.org/async/-/async-0.9.2.tgz",
+          "resolved": "https://registry.npmjs.org/async/-/async-0.9.2.tgz",
           "dev": true
         },
         "chalk": {
@@ -6291,7 +6311,7 @@
             "async": {
               "version": "0.9.2",
               "from": "async@>=0.9.0 <0.10.0",
-              "resolved": "http://registry.npmjs.org/async/-/async-0.9.2.tgz",
+              "resolved": "https://registry.npmjs.org/async/-/async-0.9.2.tgz",
               "dev": true
             }
           }

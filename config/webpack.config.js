@@ -2,6 +2,7 @@
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const bourbon = require('bourbon').includePaths;
 const neat = require('bourbon-neat').includePaths;
 const path = require('path');
@@ -140,7 +141,11 @@ const configGenerator = (options) => {
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
         (options.buildtype === 'development') ? 'vendor.js' : 'vendor.[chunkhash].js'
-      )
+      ),
+      new ChunkManifestPlugin({
+        filename: 'chunk-manifest.json',
+        manifestVariable: 'webpackManifest'
+      })
     ],
   };
 
