@@ -27,7 +27,7 @@ export class DownloadPage extends React.Component {
     };
 
     return (
-      <div className="row">
+      <div>
         <h1>Download Your Health Records</h1>
         <p>Here are the health records in two file formats based on your request.</p>
         <table className="bb-download-table usa-table-borderless">
