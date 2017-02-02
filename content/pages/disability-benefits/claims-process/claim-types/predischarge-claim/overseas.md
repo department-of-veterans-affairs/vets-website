@@ -10,13 +10,13 @@ template: 1-topic-landing
 
 You can file a disability claim while you're stationed overseas. 
 
-### Stationed within the Kaiserslautern Military Community (KMC)
+### Within the Kaiserslautern Military Community (KMC)
 
-Visit the Landstuhl Benefits Delivery at Discharge (BDD) office, where you can start your disability claim while you're on active duty in predischarge status. Walk-in hours are Tuesday, Wednesday, and Thursday from 10:00 a.m. to 12:00 p.m., and from 1:00 p.m. to 3:00 p.m.
+If you are stationed within the KMC, visit the Landstuhl Benefits Delivery at Discharge (BDD) office, where you can start your disability claim while you're on active duty in predischarge status. Walk-in hours are Tuesday, Wednesday, and Thursday from 10:00 a.m. to 12:00 p.m., and from 1:00 p.m. to 3:00 p.m.
 
-### Stationed outside the KMC
+### Outside the KMC
 
-Use the BDD or Quick Start programs through the "Fly-in" claim process, which lets you apply by fax or email before your in-person appointment. Here’s what you need to do to use the Fly-in claim process:
+If you are stationed outside the KMC, use the BDD or Quick Start programs through the "Fly-in" claim process, which lets you apply by fax or email before your in-person appointment. Here’s what you need to do to use the Fly-in claim process:
 
 <div class="call-out" markdown="1">
 
