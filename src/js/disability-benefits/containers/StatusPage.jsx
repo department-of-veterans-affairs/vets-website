@@ -43,7 +43,7 @@ class StatusPage extends React.Component {
       `Status - Your ${getClaimType(this.props.claim)} Claim`;
   }
   render() {
-    const { claim, loading, message } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
     if (!loading) {
@@ -85,7 +85,8 @@ class StatusPage extends React.Component {
           loading={loading}
           clearNotification={this.props.clearNotification}
           currentTab="Status"
-          message={message}>
+          message={message}
+          synced={synced}>
         {content}
       </ClaimDetailLayout>
     );
@@ -98,7 +99,8 @@ function mapStateToProps(state) {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
-    lastPage: claimsState.routing.lastPage
+    lastPage: claimsState.routing.lastPage,
+    synced: claimsState.claimSync.synced
   };
 }
 
@@ -109,4 +111,3 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
 
 export { StatusPage };
-
