@@ -30,7 +30,7 @@ const mapStateToProps = (state) => {
   const rxState = state.health.rx;
   return {
     alert: rxState.alert,
-    errors: rxState.errors,
+    errors: rxState.errors.errors,
   };
 };
 
