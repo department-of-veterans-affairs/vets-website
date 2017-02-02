@@ -335,7 +335,6 @@ documentation around React is based on a Webpack toolchain.
 TODO: Verify if these are still relevant.
 
 - [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)
-- [How URLs are Created](docs/HowURLsAreCreated.md)
 - [How Search Works](docs/HowSearchWorks.md)
 
 
