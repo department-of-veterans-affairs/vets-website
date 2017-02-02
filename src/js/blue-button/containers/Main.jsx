@@ -53,6 +53,7 @@ class Main extends React.Component {
   render() {
     // TODO: clean this up and hook up to action/reducer
     const radioButtonProps = {
+      name: 'dateRange',
       label: '',
       options: [
         { label: '3 months', value: '3mo' },
@@ -82,7 +83,7 @@ class Main extends React.Component {
       ],
       onValueChange: () => {},
       value: {
-        value: 'dateRange',
+        value: 'UPDATEME',
       }
     };
 

@@ -10,7 +10,7 @@ function AppContent({ children, isDataAvailable }) {
   const unregistered = isDataAvailable === false;
   let view;
 
-  if (unregistered) {
+  if (!unregistered) {
     view = (
       <div className="row">
         <div className="columns">
@@ -32,7 +32,7 @@ class BlueButtonApp extends React.Component {
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"bluebutton"}>
         <AppContent>
-          <div className="bb-app">
+          <div>
             <div className="row">
               <div className="columns small-12">
                 <Breadcrumbs location={this.props.location}/>
