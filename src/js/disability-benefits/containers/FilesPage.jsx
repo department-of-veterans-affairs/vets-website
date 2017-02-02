@@ -43,7 +43,7 @@ class FilesPage extends React.Component {
       `Files - Your ${getClaimType(this.props.claim)} Claim`;
   }
   render() {
-    const { claim, loading, message } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
     if (!loading) {
@@ -87,7 +87,8 @@ class FilesPage extends React.Component {
           loading={loading}
           clearNotification={this.props.clearNotification}
           currentTab="Files"
-          message={message}>
+          message={message}
+          synced={synced}>
         {content}
       </ClaimDetailLayout>
     );
@@ -100,7 +101,8 @@ function mapStateToProps(state) {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
-    lastPage: claimsState.routing.lastPage
+    lastPage: claimsState.routing.lastPage,
+    synced: claimsState.claimSync.synced
   };
 }
 
