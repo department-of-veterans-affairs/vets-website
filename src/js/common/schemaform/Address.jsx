@@ -67,7 +67,7 @@ class Address extends React.Component {
           autocomplete="address-level1"
           options={stateList}
           value={{dirty: false, value: this.props.formData.state}}
-          required={this.props.required}
+          required={_.includes(this.props.schema.required, "state")}
           onValueChange={(update) => {this.handleChange('state', update);}}/>
       : <ErrorableTextInput label="State/province"
           name="province"
@@ -84,7 +84,7 @@ class Address extends React.Component {
             autocomplete="country"
             options={countries}
             value={{dirty: false, value: selectedCountry}}
-            required={this.props.required}
+            required={_.includes(this.props.schema.required, "country")}
             onValueChange={(update) => {this.handleChange('country', update);}}/>
         <ErrorableTextInput
             label="Street"
@@ -92,7 +92,7 @@ class Address extends React.Component {
             autocomplete="street-address"
             charMax={30}
             field={{dirty: false, value: this.props.formData.street}}
-            required={this.props.required}
+            required={_.includes(this.props.schema.required, "street")}
             onValueChange={(update) => {this.handleChange('street', update);}}/>
         <ErrorableTextInput
             label="Line 2"
@@ -100,7 +100,7 @@ class Address extends React.Component {
             autocomplete="street-address2"
             charMax={30}
             field={{dirty: false, value: this.props.formData.street2}}
-            required={this.props.required}
+            required={_.includes(this.props.schema.required, "street2")}
             onValueChange={(update) => {this.handleChange('street', update);}}/>
         <ErrorableTextInput
             label={<span>City <em>(or APO/FPO/DPO)</em></span>}
@@ -108,7 +108,7 @@ class Address extends React.Component {
             autocomplete="address-level2"
             charMax={30}
             field={{dirty: false, value: this.props.formData.city}}
-            required={this.props.required}
+            required={_.includes(this.props.schema.required, "city")}
             onValueChange={(update) => {this.handleChange('city', update);}}/>
         {stateProvince}
         <ErrorableTextInput
@@ -117,7 +117,7 @@ class Address extends React.Component {
             name="postalCode"
             autocomplete="postal-code"
             field={{dirty: false, value: this.props.formData.postalCode}}
-            required={this.props.required}
+            required={_.includes(this.props.schema.required, "postalCode")}
             onValueChange={(update) => {this.handleChange('postalCode', update);}}/>
       </div>
     );
