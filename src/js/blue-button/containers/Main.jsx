@@ -68,7 +68,7 @@ class Main extends React.Component {
                     onChange={this.handleStartDateChange}
                     placeholderText="MM/DD/YYYY"
                     selected={null}/>
-                  <span>&nbsp;to&nbsp;</span>
+                <span>&nbsp;to&nbsp;</span>
                 <DatePicker
                     id="custom-date-end"
                     onChange={this.handleEndDateChange}
