@@ -5,6 +5,12 @@
         <div class="small-12 columns{% unless page.template == '7-get-page-alt' %}  usa-content {% endunless %}">
            <h1>{{ title }}</h1>
            {{ contents }}
+
+           <!-- Last updated -->
+           {% if lastupdate %}
+             {% include "content/includes/last-update.html" %}
+           {% endif %}
+
         </div>
       </div>
     </div>

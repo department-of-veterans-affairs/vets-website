@@ -11,7 +11,9 @@ const define = require('metalsmith-define');
 const filenames = require('metalsmith-filenames');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
+const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
+const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
@@ -85,7 +87,10 @@ switch (options.buildtype) {
 
 const webpackConfig = webpackConfigGenerator(options);
 
-//
+// Custom liquid filter(s)
+liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
+
+
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
 //
