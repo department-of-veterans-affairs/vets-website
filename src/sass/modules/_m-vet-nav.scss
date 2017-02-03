@@ -1,3 +1,19 @@
+.va-btn-mob-vetnav-trigger {
+  svg {
+    display: inline-block;
+    fill: $color-white;
+    height: auto;
+    margin-right: 5px;
+    width: 12px;
+    vertical-align: 0px;
+  }
+
+  @include media($medium-screen) {
+    display: none;
+  }
+}
+
+/* 
 .va-vet-nav-trigger {
   background: transparent;
   margin: 0;
@@ -88,4 +104,4 @@
     display: inline-block;
     margin: auto 3rem;
   }
-}
+}*/
