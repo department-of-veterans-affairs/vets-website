@@ -101,11 +101,13 @@ class EduBenefitsApp extends React.Component {
       <div className="row">
         {devPanel}
         <Element name="topScrollElement"/>
-        {
-          // Only render SegmentedProgressBar if we have a current chapter
-          // Could move this into SegmentedProgressBar
-          currentIndex ? <SegmentedProgressBar total={chapters.length} current={currentIndex}/> : null
-        }
+        <div className="medium-8 columns">
+          {
+            // Only render SegmentedProgressBar if we have a current chapter
+            // Could move this into SegmentedProgressBar
+            currentIndex ? <SegmentedProgressBar total={chapters.length} current={currentIndex}/> : null
+          }
+        </div>
         <div className="medium-8 columns">
           <div className="progress-box">
             <NavHeader path={currentLocation.pathname} chapters={chapters}/>
