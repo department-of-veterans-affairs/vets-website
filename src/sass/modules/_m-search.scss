@@ -34,3 +34,33 @@ $usa-btn-big-width:     11.6rem;
     width: $usa-btn-small-width;
   }
 }
+
+
+//---- Mobile search
+.va-btn-mobsearchtrigger {
+  font-weight: normal;
+  padding: .5em;
+  margin-top: 0;
+  border-radius: .15em;
+  width: auto;
+  
+  svg {
+    display: inline-block;
+    height: 19px;
+    vertical-align: -3px;
+    width: auto;
+  }
+
+  &:hover {
+    background: transparent;
+    color: $color-gold;
+
+    path {
+      fill: $color-gold;
+    }
+  }
+
+  @include media($medium-screen) {
+    display: none;
+  }
+}
