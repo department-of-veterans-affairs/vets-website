@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import moment from 'moment';
 
 import environment from '../../common/helpers/environment.js';
@@ -26,8 +25,12 @@ class Main extends React.Component {
       this.getLogoutUrl();
     }
 
-    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
-      this.setState({ loginUrl: result.authenticate_via_get });
+    this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
+      method: 'GET',
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      this.setState({ loginUrl: json.authenticate_via_get });
     });
 
     addEvent(window, 'message', (evt) => {
@@ -49,15 +52,15 @@ class Main extends React.Component {
   }
 
   getLogoutUrl() {
-    $.ajax({
-      url: `${environment.API_URL}/v0/sessions`,
-      type: 'DELETE',
-      headers: {
+    fetch(`${environment.API_URL}/v0/sessions`, {
+      method: 'DELETE',
+      headers: new Headers({
         Authorization: `Token token=${sessionStorage.userToken}`
-      },
-      success: (result) => {
-        this.setState({ logoutUrl: result.logout_via_get });
-      }
+      })
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      this.setState({ logoutUrl: json.logout_via_get });
     });
   }
 

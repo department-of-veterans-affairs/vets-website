@@ -1222,7 +1222,7 @@ li {
   }
   
   a {
-    display: block;
+    display: inline-block;
   }
 }
 
@@ -2160,8 +2160,17 @@ p.info-message {
 // Used for sidebar / aside style lists of links
 .va-rellinks {
   margin-top: 0;
-  
+
   li {
     padding: .8rem 0
   }
+}
+
+// Last updated
+
+.last-updated {
+  margin-top: 1.5em;
+  border-top: 2px solid #f1f1f1;
+  padding: 1em 0;
+  p {font-size: 1em !important; color: #323a45 !important;}
 }

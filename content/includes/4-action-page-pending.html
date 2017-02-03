@@ -1,10 +1,16 @@
 <div class="main" role="main">
 <div class="section one">
   <div class="primary">
-    <div class="row">     
+    <div class="row">
        <div class="small-12 medium-8 columns">
-        <h1>{{ title }}</h1>    
-          {{ contents }} 
+        <h1>{{ title }}</h1>
+          {{ contents }}
+
+          <!-- Last updated -->
+          {% if lastupdate %}
+            {% include "content/includes/last-update.html" %}
+          {% endif %}
+
        </div>
     </div><!-- end row-->
   </div><!-- end primary-->
