@@ -1,9 +1,9 @@
 import { validateDateRange } from '../validation';
 import * as date from './date';
 
-import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-export const schema = fullSchema1995.definitions.dateRange;
+export const schema = commonDefinitions.dateRange;
 
 export function uiSchema(from, to, rangeError) {
   return {

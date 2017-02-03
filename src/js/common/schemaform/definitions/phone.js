@@ -1,6 +1,6 @@
-import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-export const schema = fullSchema1995.definitions.phone;
+export const schema = commonDefinitions.phone;
 
 export const uiSchema = (title = 'Phone') => {
   return {

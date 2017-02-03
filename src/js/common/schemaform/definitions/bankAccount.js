@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { validateRoutingNumber } from '../validation';
 
 export const schema = _.set(
@@ -8,7 +8,7 @@ export const schema = _.set(
     'Checking',
     'Savings'
   ],
-  fullSchema1995.definitions.bankAccount
+  commonDefinitions.bankAccount
 );
 
 export const uiSchema = {

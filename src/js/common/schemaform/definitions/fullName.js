@@ -1,6 +1,6 @@
-import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-export const schema = fullSchema1995.definitions.fullName;
+export const schema = commonDefinitions.fullName;
 
 export const uiSchema = {
   first: {

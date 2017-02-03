@@ -1,7 +1,7 @@
 import { validateDate } from '../validation';
-import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-export const schema = fullSchema1995.definitions.date;
+export const schema = commonDefinitions.date;
 
 export const uiSchema = (title = 'Date') => {
   return {
