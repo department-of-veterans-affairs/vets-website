@@ -50,9 +50,7 @@ content.
 (function($){
   // TODO: eliminate jQuery dependency
   var modal = $('#va-modal');
-  // Start hidden and only open if the hash is found
-  // Alternatively, use the css #va-modal { display: none }
-  // modal.hide();
+  // Note: Hidden by default by the css
   if (document.location.hash === '#modal'){
     open();
   }
