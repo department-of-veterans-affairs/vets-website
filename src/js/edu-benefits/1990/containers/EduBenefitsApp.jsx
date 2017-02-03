@@ -8,7 +8,7 @@ import { withRouter } from 'react-router';
 
 import { chapters, pages } from '../routes';
 
-import Nav from '../../../common/components/Nav';
+import SegmentedProgressBar from '../../../common/components/SegmentedProgressBar';
 import NavButtons from '../../../common/components/NavButtons';
 import NavHeader from '../../../common/components/NavHeader';
 
@@ -75,6 +75,14 @@ class EduBenefitsApp extends React.Component {
       submitBenefitsForm(this.props.data);
     };
 
+    // There's got to be a better way to do this using schemaform, but for now...
+    // Find the index of the chapter...
+    const currentIndex = _.findIndex(chapters, (chapter) => {
+      // Which has a page whose path matches currentLocation.pathname
+      return !_.isEmpty(_.filter(chapter.pages, (page) => page.path === currentLocation.pathname));
+    }) + 1;
+    // Note: If not found, the +1 will make currentIndex === 0 (thus falsey)
+
     let devPanel = undefined;
     if (__BUILDTYPE__ === 'development') {
       const queryParams = _.fromPairs(
@@ -93,16 +101,14 @@ class EduBenefitsApp extends React.Component {
       <div className="row">
         {devPanel}
         <Element name="topScrollElement"/>
-        <div className="medium-4 columns show-for-medium-up">
-          <Nav
-              data={data}
-              pages={pageState}
-              chapters={chapters}
-              currentUrl={currentLocation.pathname}/>
-        </div>
+        {
+          // Only render SegmentedProgressBar if we have a current chapter
+          // Could move this into SegmentedProgressBar
+          currentIndex ? <SegmentedProgressBar total={chapters.length} current={currentIndex}/> : null
+        }
         <div className="medium-8 columns">
           <div className="progress-box">
-            <NavHeader path={currentLocation.pathname} chapters={chapters} className="show-for-small-only"/>
+            <NavHeader path={currentLocation.pathname} chapters={chapters}/>
             {this.props.children}
             <NavButtons
                 data={data}
