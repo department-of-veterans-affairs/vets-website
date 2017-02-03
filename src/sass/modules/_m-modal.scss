@@ -1,6 +1,12 @@
 // Styles for application modals
 // Used in prescriptions, messaging.
 
+// Hide initially, to be shown if url contains #modal
+// Alternatively, modal.hide() in content/includes/modal.html
+#va-modal {
+  display: none;
+}
+
 .va-modal {
   background: rgba($color-primary-darkest, .8);
   content: ' ';
@@ -35,7 +41,7 @@
       padding: 0 20px;
       @media #{$small-only} {
         flex: none;
-        padding: 0; 
+        padding: 0;
       }
     }
     &-title { margin-top: 0; }
@@ -62,7 +68,7 @@
         }
       }
     }
-    
+
     @media #{$small-only} {
       &-container {
         flex-flow: column;
@@ -121,7 +127,7 @@
 
 .va-modal button {
   white-space: nowrap;
-} 
+}
 
 .va-modal-close {
   background-color: inherit;
@@ -133,10 +139,9 @@
   right: 0;
   top: 0;
   width: auto;
-  
+
   &:hover {
     background-color: inherit;
     color: $color-base;
   }
-} 
-
+}
