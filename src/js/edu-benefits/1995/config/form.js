@@ -222,7 +222,7 @@ const formConfig = {
               educationType: {
                 type: 'string',
                 'enum': ['college', 'correspondence', 'apprenticeship', 'flightTraining', 'testReimbursement', 'licensingReimbursement', 'tuitionTopUp'],
-                'enumNames': ['College, university, or other educational program, including online courses', 'Correspondence', 'Apprenticeship or on-the-job training', 'Vocational fight training', 'National test reimbursement (for example, SAT or CLEP)', 'Licensing or certification test reimbursement (for example, MCSE, CCNA, EMT, or NCLEX)', 'Tuition assistance top up (Post 9/11 GI Bill and MGIB-AD only)'],
+                enumNames: ['College, university, or other educational program, including online courses', 'Correspondence', 'Apprenticeship or on-the-job training', 'Vocational fight training', 'National test reimbursement (for example, SAT or CLEP)', 'Licensing or certification test reimbursement (for example, MCSE, CCNA, EMT, or NCLEX)', 'Tuition assistance top up (Post 9/11 GI Bill and MGIB-AD only)'],
               },
               school: {
                 type: 'object',
