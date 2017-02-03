@@ -321,7 +321,7 @@ if (options.buildtype !== 'development') {
     const manifest = {};
     Object.keys(originalManifest).forEach((originalManifestKey) => {
       const matchData = originalManifestKey.match(/(.*)\.js$/);
-      if (matchData !== null) {
+      if (matchData !== null && matchData[1] !== 'vendor') {
         const newKey = `${matchData[1]}.entry.js`;
         manifest[newKey] = originalManifest[originalManifestKey];
       } else {
@@ -341,6 +341,24 @@ if (options.buildtype !== 'development') {
           const regex = new RegExp(originalAssetFilename, 'g');
           file.contents = new Buffer(contents.replace(regex, newAssetFilename));
         });
+      }
+    });
+    done();
+  });
+
+  smith.use((files, metalsmith, done) => {
+    // Read in the data from the manifest file.
+    const chunkManifestKey = Object.keys(files).find((filename) => {
+      return filename.match(/chunk-manifest.json$/) !== null;
+    });
+    const chunkManifest = files[chunkManifestKey].contents.toString();
+
+    Object.keys(files).forEach((filename) => {
+      if (filename.match(/\.html$/) !== null) {
+        const file = files[filename];
+        const contents = file.contents.toString();
+        const regex = new RegExp("'CHUNK_MANIFEST_PLACEHOLDER'", 'g');
+        file.contents = new Buffer(contents.replace(regex, chunkManifest));
       }
     });
     done();
