@@ -146,7 +146,14 @@ class HealthCareApp extends React.Component {
     const formIsValid = validations.isValidForm(veteran);
 
     if (testBuild) {
-      apiUrl = `${environment.API_URL}/v0/health_care_applications`;
+      // Allow e2e tests to override API URL
+      // TODO: Remove the need for a separate code path here
+      //
+
+      apiUrl = window.VetsGov.api.url === ''
+        ? `${environment.API_URL}/v0/health_care_applications`
+        : `${window.VetsGov.api.url}/v0/health_care_applications`;
+
       submissionPost.body = JSON.stringify({ form: submissionPost.body });
     }
 
