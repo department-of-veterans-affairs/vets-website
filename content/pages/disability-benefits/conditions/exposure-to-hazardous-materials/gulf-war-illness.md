@@ -21,11 +21,13 @@ To get benefits, your chronic illness or other condition must have:
 -	Qualified you for a disability rating of 10% or more, **and**
 -	Not been caused by anything except your service in Southwest Asia theater of operations 
 
+**and** 
+
 To get benefits, you must have been discharged under conditions other than dishonorable and have a diagnosis of 1 or more of these conditions: 
 - Functional gastrointestinal disorders
 - Chronic Fatigue Syndrome
 - Fibromyalgia
-- Other undiagnosed illnesses, including but not limed to, cardiovascular disease, muscle and joint pain, and headaches
+- Other undiagnosed illnesses, including but not limited to, cardiovascular disease, muscle and joint pain, and headaches
 
 **Note:** You can also get benefits if you have certain presumptive conditions that appeared within 1 year of the date of your separation, and have qualified you for a disability rating of 10% or more.  These illnesses include: 
 - Burcellosis
