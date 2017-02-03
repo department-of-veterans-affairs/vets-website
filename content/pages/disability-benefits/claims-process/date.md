@@ -31,7 +31,7 @@ The effective date is the day you can start getting your disability benefits. Th
 
 ### How does VA decide effective dates?
 
-Learn how we decide effective dates in different cases. It’s complicated. Hang in there.
+Learn how we decide effective dates in different cases. It’s complex. Hang in there.
 
 </div>
 
@@ -92,9 +92,9 @@ If the Veteran’s death happened after service and we get the claim within 1 ye
 
 If the death happened after service and we get the claim more than 1 year after the Veteran’s death, the effective date is the date we get the claim.
 
-#### Error
+#### Error in a Previous Decision
 
-If we find a clear and unmistakable error in a previous decision, the effective date of the new decision will be the date from which benefits would've been paid if there hadn't been an error in the prior decision.
+If we find a clear and unmistakable error in a prior decision, the effective date of the new decision will be the date from which benefits would've been paid if there hadn't been an error in the prior decision.
 
 #### Difference of Opinion
 
@@ -102,7 +102,7 @@ A decision that's based on a difference of opinion will have an effective date o
 
 #### Increases in the Disability
 
-Increases in the disability rating are dated back to the earliest date when you can show there was an increase in disability. This is only if we get the new claim request within 1 year from that date. Otherwise, the effective date is the date we get the claim.
+We date back increases in the disability rating to the earliest date when you can show there was an increase in disability. This is only if we get the new claim request within 1 year from that date. Otherwise, the effective date is the date we get the claim.
 
 ### Disability or Death due to a Hospital Stay
 
