@@ -44,7 +44,7 @@ With a standard claim, we'll get your permission to gather any needed evidence f
 
 ### What evidence will VA look for to support my claim?
 
-We want to support your claim with evidence of:
+We'll look for evidence of:
 
 - A current physical or mental disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work)
 - An event, injury, or illness that happened while you were serving in the military to cause the disability
