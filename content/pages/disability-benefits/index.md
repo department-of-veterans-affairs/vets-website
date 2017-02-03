@@ -11,7 +11,7 @@ majorlinks:
     title: Apply
     description: Get started with a disability claim
   - url: /disability-benefits/track-claims/
-    title: Check Status
+    title: Check Claim Status
     description: Track the status of your disability claim
   - url: /disability-benefits/conditions/
     title: Conditions
