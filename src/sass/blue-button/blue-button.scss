@@ -1,1 +1,78 @@
 @import "../style";
+@import "partials/bb-breadcrumbs";
+@import "~react-datepicker/dist/react-datepicker.css";
+
+.bb-app {
+  padding: 1.5rem;
+
+  label {
+    margin-top: 0;
+  }
+
+  .info-type-section {
+    margin-top: 1.5em;
+  }
+
+  // TODO(css): Fix when #content .section h* is fixed
+  .highlight {
+    padding-bottom: 0.25em !important;
+    margin: 1em 0 !important;
+  }
+
+  .date-range-fields {
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    -webkit-align-items: flex-center;
+  }
+
+  .form-actions {
+    margin: 1em 0;
+
+    button {
+      padding-left: 2.7em;
+      padding-right: 2.7em;
+      width: auto;
+      display: inline-block;
+    }
+
+    a {
+      &:hover {
+        background: none;
+      }
+    }
+  }
+}
+
+.bb-status-ready {
+  color: $color-green;
+}
+
+.bb-download-table {
+  tbody {
+    tr {
+      &:first-child {
+        td {
+          border-bottom: 0;
+          padding-bottom: 0;
+        }
+      }
+
+      &:nth-child(2) {
+        td {
+          padding-top: 0;
+        }
+      }
+
+      td {
+        border-top: 0;
+        padding-bottom: .5rem;
+        padding-top: .5rem;
+      }
+    }
+  }
+
+  button {
+    width: 16rem;
+  }
+}

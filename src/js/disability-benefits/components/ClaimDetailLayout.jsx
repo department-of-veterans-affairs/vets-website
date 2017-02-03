@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import TabNav from '../components/TabNav';
+import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import AskVAQuestions from '../components/AskVAQuestions';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
@@ -11,7 +12,7 @@ const MAX_CONTENTIONS = 3;
 
 export default class ClaimDetailLayout extends React.Component {
   render() {
-    const { claim, loading, message, clearNotification, currentTab } = this.props;
+    const { claim, loading, message, clearNotification, currentTab, synced } = this.props;
 
     let content;
     if (!loading) {
@@ -29,10 +30,15 @@ export default class ClaimDetailLayout extends React.Component {
             </div>
           </div>
           <div className="row">
+            <div className="medium-12 columns">
+              {message && <Notification title={message.title} body={message.body} type={message.type} onClose={clearNotification}/>}
+              <h1 className="claim-title">Your {getClaimType(claim)} Claim</h1>
+              {!synced && <ClaimSyncWarning olderVersion={!synced}/>}
+            </div>
+          </div>
+          <div className="row">
             <div className="medium-8 columns">
               <div className="claim-container">
-                {message && <Notification title={message.title} body={message.body} type={message.type} onClose={clearNotification}/>}
-                <h1 className="claim-title">Your {getClaimType(claim)} Claim</h1>
                 <div className="claim-contentions">
                   <h6>What you've claimed:</h6>
                   <p className="list">
@@ -74,5 +80,6 @@ ClaimDetailLayout.propTypes = {
   claim: React.PropTypes.object,
   loading: React.PropTypes.bool,
   message: React.PropTypes.object,
-  clearNotification: React.PropTypes.func
+  clearNotification: React.PropTypes.func,
+  synced: React.PropTypes.bool
 };

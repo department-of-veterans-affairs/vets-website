@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import AskVAToDecide from '../components/AskVAToDecide';
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
@@ -11,6 +12,7 @@ import { getClaimType } from '../utils/helpers';
 import { scrollToTop, setUpPage, isTab, setFocus } from '../utils/page';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
+const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
 class FilesPage extends React.Component {
   componentDidMount() {
@@ -41,10 +43,12 @@ class FilesPage extends React.Component {
       `Files - Your ${getClaimType(this.props.claim)} Claim`;
   }
   render() {
-    const { claim, loading, message } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
     if (!loading) {
+      const showDecision = claim.attributes.phase === FIRST_GATHERING_EVIDENCE_PHASE
+        && !claim.attributes.waiverSubmitted;
       const trackedItems = claim.attributes.eventsTimeline.filter(event => event.type.endsWith('_list'));
       const filesNeeded = trackedItems
         .filter(event => event.status === NEED_ITEMS_STATUS && event.type === 'still_need_from_you_list');
@@ -60,6 +64,7 @@ class FilesPage extends React.Component {
                 id={claim.id}
                 filesNeeded={filesNeeded}
                 optionalFiles={optionalFiles}/>}
+          {showDecision && <AskVAToDecide id={this.props.params.id}/>}
           <div className="submitted-files-list">
             <h2 className="hightlight claim-file-border claim-h2">Documents filed</h2>
             {documentsTurnedIn.length === 0
@@ -82,7 +87,8 @@ class FilesPage extends React.Component {
           loading={loading}
           clearNotification={this.props.clearNotification}
           currentTab="Files"
-          message={message}>
+          message={message}
+          synced={synced}>
         {content}
       </ClaimDetailLayout>
     );
@@ -95,7 +101,8 @@ function mapStateToProps(state) {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
-    lastPage: claimsState.routing.lastPage
+    lastPage: claimsState.routing.lastPage,
+    synced: claimsState.claimSync.synced
   };
 }
 
