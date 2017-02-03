@@ -7,17 +7,6 @@
 $base-font-size:      rem(16px);
 $font-serif:          'Roboto Slab', serif;
 
-// Colors
-
-$color-primary-darker:       #003E73;
-$color-link-default:         #004795;
-
-$color-primary-alt-darkest:  #046b99;
-$color-secondary-darkest:    #981b1e;
-$color-black:                #000;
-$color-green-darker:         #195c27; // New DSVA variable name
-$color-focus:                #3e94cf;
-
 // Magic Numbers
 // Note: USWDS value is 53rem;
 $text-max-width:      70rem;
@@ -27,6 +16,21 @@ $xsmall-screen: 320px; // QVGA display
 
 // Other USWDS overrides
 $usa-form-width: 32em;
+
+// Colors
+$color-primary-darker:       #003E73;
+$color-link-default:         #004795;
+
+$color-primary-alt-darkest:  #046b99;
+$color-secondary-darkest:    #981b1e;
+$color-black:                #000;
+$color-green-darker:         #195c27; // New DSVA variable name
+$color-focus:                #3e94cf;
+
+$color-primary-darkest:      #112e51;
+$color-primary-alt-light:    #9bdaf1;
+$color-white: #fff;
+$color-gold: #fdb81e;
 
 // Other Colors; Deprecated. Please avoid using.
 $polar: #E8F5FA;

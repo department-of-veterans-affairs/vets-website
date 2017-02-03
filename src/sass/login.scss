@@ -1,25 +1,24 @@
-$color-primary-darkest:      #112e51;
-$color-primary-alt-light:    #9bdaf1;
+@import 'base/b-variables';
 
 .sign-in-link {
-  color: white;
+  color: $color-white;
 
   a {
-    color: $color-primary-alt-light;
+    color: inherit;
     text-decoration: none;
 
     &:visited {
-      color: $color-primary-alt-light;
+      color: inherit;
     }
 
     &:hover {
-      color: white;
+      color: $color-gold;
       text-decoration: underline;
     }
   }
 };
 
 .signin-spacer {
-  color: rgba(255, 255, 255, 0.5);
+  color: $color-white;
   margin: 0 0.6em;
 }
