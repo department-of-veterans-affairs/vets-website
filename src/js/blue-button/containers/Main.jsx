@@ -5,6 +5,12 @@ import ErrorableRadioButtons from '../../common/components/form-elements/Errorab
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 import DatePicker from 'react-datepicker';
 import { reportTypes } from '../config';
+import {
+  changeDateOption,
+  setDate,
+  toggleAllReports,
+  toggleReportType,
+} from '../actions/form';
 
 class Main extends React.Component {
   constructor(props) {
@@ -16,11 +22,15 @@ class Main extends React.Component {
   }
 
   handleStartDateChange() {
-
+    // use this.props.setDate(date, true) to change start date
   }
 
   handleEndDateChange() {
+    // use this.props.setDate(date, false) to change start date
+  }
 
+  handleToggleAll() {
+    // use this.props.toggleAllReports to toggle all options
   }
 
   handleSubmit(e) {
@@ -36,12 +46,15 @@ class Main extends React.Component {
         <div key={k} className="info-type-section">
           <h5>{rt.title}</h5>
           {rt.children.map(c => {
+            const reportTypeOnChange = (checked) => {
+              this.props.toggleReportType(c.value, checked);
+            };
             return (
               <div key={c.value}>
                 <ErrorableCheckbox
                     name={c.value}
                     label={c.label}
-                    onValueChange={() => {}}/>
+                    onValueChange={reportTypeOnChange}/>
               </div>
             );
           })}
@@ -81,9 +94,13 @@ class Main extends React.Component {
           value: 'custom'
         },
       ],
-      onValueChange: () => {},
+      onValueChange: (v) => {
+        if (v.dirty) {
+          this.props.changeDateOption(v.value);
+        }
+      },
       value: {
-        value: 'UPDATEME',
+        value: this.props.form.dateOption,
       }
     };
 
@@ -118,8 +135,19 @@ Main.contextTypes = {
   router: React.PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state) => {
+  const bbState = state.health.bb;
 
-const mapDispatchToProps = {};
+  return {
+    form: bbState.form,
+  };
+};
+
+const mapDispatchToProps = {
+  changeDateOption,
+  setDate,
+  toggleAllReports,
+  toggleReportType,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

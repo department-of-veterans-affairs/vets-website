@@ -27,7 +27,7 @@ export default function disclaimer(state = initialState, action) {
     case 'DATE_OPTION_CHANGED':
       return set('dateOption', action.dateOption, state);
     case 'REPORT_TYPE_TOGGLED':
-      return set(`reportTypes.${action.reportType}`, !state.reportTypes[action.reportType], state);
+      return set(`reportTypes.${action.reportType}`, action.checked, state);
     case 'ALL_REPORTS_TOGGLED':
       return set('reportTypes', mapValues(state.reportTypes, () => action.checked), state);
     default:
