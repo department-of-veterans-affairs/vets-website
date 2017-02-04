@@ -429,30 +429,27 @@ function completeVaInsuranceInformation(client, data, onlyRequiredFields) {
 }
 
 function initApplicationSubmitMock() {
-  // TODO: Remove the need for a separate code path here
-  if (__BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging') {
-    mock(null, {
-      path: '/v0/health_care_applications',
-      verb: 'post',
-      value: {
-        data: {
-          formSubmissionId: '123fake-submission-id-567',
-          timeStamp: '2016-05-16'
-        }
+  // TODO: Fully migrate to v1
+  mock(null, {
+    path: '/v0/health_care_applications',
+    verb: 'post',
+    value: {
+      data: {
+        formSubmissionId: '123fake-submission-id-567',
+        timeStamp: '2016-05-16'
       }
-    });
-  } else {
-    mock(null, {
-      path: '/api/hca/v1/application',
-      verb: 'post',
-      value: {
-        data: {
-          formSubmissionId: '123fake-submission-id-567',
-          timeStamp: '2016-05-16'
-        }
+    }
+  });
+  mock(null, {
+    path: '/api/hca/v1/application',
+    verb: 'post',
+    value: {
+      data: {
+        formSubmissionId: '123fake-submission-id-567',
+        timeStamp: '2016-05-16'
       }
-    });
-  }
+    }
+  });
 }
 
 module.exports = {
