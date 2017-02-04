@@ -1,0 +1,82 @@
+@import "../style";
+@import "../modules/m-modal";
+
+@import "partials/gi-breadcrumbs";
+@import "partials/gi-preview-banner";
+
+.gi-app {
+  .landing-page {
+
+    p.subheading {
+      color: $color-primary;
+      letter-spacing: normal;
+      font-size: 1.25em;
+    }
+
+    .video-sidebar h4 {
+      border-bottom: 3px solid $color-primary;
+    }
+
+  }
+
+  .search-page {
+
+  }
+
+  .profile-page {
+
+  }
+
+  .about-this-tool {
+    margin-top: 1em;
+
+    a {
+      // background-image: none;
+      text-align: center;
+      font-family: $font-sans;
+      font-size: 1.36rem;
+      line-height: 4rem;
+      margin-right: 2.5rem;
+      margin-bottom: 2rem;
+      @media(max-width: $small-screen) {
+        font-size: 1.2rem;
+        text-align: left;
+        margin: 0;
+        line-height: 1.2rem;
+      }
+      a.link{
+      @media(max-width: $small-screen) {
+        margin-left: 1rem;
+        padding: .5rem;
+      }
+      }
+    }
+  }
+
+  .disclaimer {
+    margin: 1em 0;
+    padding: 0;
+    border-top: 1px solid #ddd;
+    z-index: 500;
+    color: #444;
+    background: #fff;
+  }
+
+  .va-modal {
+    background-color: rgba($color-gray-dark, .8);
+    padding: 10px;
+
+    .va-modal-inner {
+      max-width: 600px;
+
+      .va-modal-close {
+        margin: 12.5px 12.5px 12.5px 0;
+      }
+
+      .va-modal-body {
+        padding: 1.5em;
+      }
+
+    }
+  }
+}

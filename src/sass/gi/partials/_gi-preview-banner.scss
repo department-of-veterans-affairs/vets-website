@@ -1,0 +1,28 @@
+.gi-preview-banner {
+  div.outer {
+    background: $color-gold;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4em;
+  }
+
+  div.inner {
+    position: fixed;
+    top: 0;
+    margin: 0;
+    padding: 0.8em 0;
+
+    h5 {
+      font-size: 0.8em;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    p {
+      font-size: 0.8em;
+      margin: 0;
+    }
+  }
+}
