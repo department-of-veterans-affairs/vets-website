@@ -7,7 +7,7 @@ template: 1-topic-landing
 relatedlinks:
   - url: /disability-benefits/conditions/ptsd/
     title: PTSD
-    description: Learn about the symptoms of post-traumatic stress—and how to get help.
+    description: Learn about the symptoms of posttraumatic stress disorder—and how to get help.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/
     title: Contact with Harmful Chemicals or Other Hazardous Materials
     description: Find out if you may have had contact with toxic chemicals or other dangers (like Agent Orange or radiation)—and what to do if you have. 
@@ -64,7 +64,7 @@ You may be able to get benefits for conditions such as:
 You may also be able to get benefits for:
 
 - Traumatic brain injury (TBI)
-- Post-traumatic stress disorder (PTSD) 
+- Posttraumatic stress disorder (PTSD) 
 - Depression
 - Anxiety
 
