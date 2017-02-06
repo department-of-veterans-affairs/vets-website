@@ -1,12 +1,6 @@
-import React from 'react';
-import { Route } from 'react-router';
-
 import EduBenefitsApp from './1990/containers/EduBenefitsApp';
 import routes1990 from './1990/routes';
 import form1990 from './1990/reducers';
-
-import Form1995App from './1995/Form1995App';
-import routes1995 from './1995/routes';
 
 export default function createRoutes(store) {
   // It will be confusing to have multiple forms in one app living
