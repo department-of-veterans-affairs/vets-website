@@ -3,6 +3,7 @@ import { Validator } from 'jsonschema';
 
 import { isValidSSN, isValidPartialDate, isValidDateRange, isValidRoutingNumber } from '../utils/validations';
 import { parseISODate, updateRequiredFields } from './helpers';
+import { isActivePage } from '../utils/helpers';
 
 /*
  * This contains the code for supporting our own custom validations and messages
@@ -103,7 +104,11 @@ export function uiSchemaValidate(errors, uiSchema, formData, formContext, path =
         .forEach((item) => {
           const nextPath = path !== '' ? `${path}.${item}` : item;
           if (!_.get(nextPath, errors)) {
-            _.get(path, errors)[item] = {
+            const currentErrors = path === ''
+              ? errors
+              : _.get(path, errors);
+
+            currentErrors[item] = {
               __errors: [],
               addError(error) {
                 this.__errors.push(error);
@@ -140,10 +145,12 @@ export function errorSchemaIsValid(errorSchema) {
 export function isValidForm(form, pageListByChapters) {
   const pageConfigs = _.flatten(_.values(pageListByChapters));
   const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
+  const validPages = Object.keys(pages)
+    .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form));
 
   const v = new Validator();
 
-  return form.privacyAgreementAccepted && Object.keys(pages).every(page => {
+  return form.privacyAgreementAccepted && validPages.every(page => {
     const pageConfig = pageConfigs.filter(config => config.pageKey === page)[0];
     const currentSchema = updateRequiredFields(pageConfig.schema, pageConfig.uiSchema, pages[page].data);
 

@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
 
 import { validateMatch } from '../../../common/schemaform/validation';
-import { benefitsLabels, educationTypeLabels, transformForSubmit, enumToNames } from '../helpers';
+import { benefitsLabels, educationTypeLabels, transform, enumToNames } from '../helpers';
 
 // This should be changed to use backend schema when possible
 import { address } from '../../../common/schemaform/definitions';
@@ -42,7 +42,7 @@ const formConfig = {
   urlPrefix: '/1995/',
   submitUrl: '/v0/education_benefits_claims/1995',
   trackingPrefix: 'edu-1995-',
-  transformForSubmit,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {

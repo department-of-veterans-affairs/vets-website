@@ -34,9 +34,9 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    const response = this.props.form.submission.response;
-    const name = form.veteranInformation.data.veteranFullName;
-    const benefit = form.benefitSelection.data.benefitsSelected;
+    const response = this.props.form.submission.response || {};
+    const name = form.veteranInformation.data.veteranFullName || {};
+    const benefit = form.benefitSelection.data.benefit;
 
     return (
       <div className="edu-benefits-submit-success">

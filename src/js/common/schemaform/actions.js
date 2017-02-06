@@ -47,7 +47,7 @@ export function setSubmitted(response) {
 
 export function submitForm(formConfig, form) {
   const body = formConfig.transformForSubmit
-    ? formConfig.transformForSubmit(form)
+    ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
 
   return dispatch => {

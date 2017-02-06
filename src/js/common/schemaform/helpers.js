@@ -163,7 +163,7 @@ export function parseISODate(dateString) {
  */
 export function flattenFormData(pages, form) {
   return pages.reduce((formPages, page) => {
-    const pageData = form[page.pageKey];
+    const pageData = form[page.pageKey].data;
     return _.assign(formPages, pageData);
   }, { privacyAgreementAccepted: form.privacyAgreementAccepted });
 }
@@ -204,7 +204,15 @@ export function transformForSubmit(formConfig, form) {
   const flattened = flattenFormData(activePages, form);
   const withoutViewFields = filterViewFields(flattened);
 
-  return JSON.stringify(withoutViewFields);
+  return JSON.stringify(withoutViewFields, (key, value) => {
+    // an object with country is an address
+    if (value && typeof value.country !== 'undefined' &&
+      (!value.street || !value.city || !value.postalCode)) {
+      return undefined;
+    }
+
+    return value;
+  });
 }
 
 export function getArrayFields(data, pageConfig) {
