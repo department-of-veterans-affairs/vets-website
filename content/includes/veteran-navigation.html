@@ -1,73 +1,118 @@
 <div class="login-container">
-  <div class="row">
+  <div class="row va-flex">
     <button data-show="#mobile-menu" class="va-overlay-trigger va-btn-mobsearchtrigger usa-button-unstyled" aria-controls="mobile-menu" aria-flowto="mobile-menu">
       {% include "assets/img/search.svg" %}
       Search
     </button>  
-    <nav id="va-vet-nav">
-      <ul>
+    <nav id="vetnav" hidden>
+      <ul id="vetnav-menu">
+        <li><a href="/" class="vetnav-level1">Home</a></li>
+
         <li>
-          <button class="va-vet-nav-trigger">Explore Benefits</button>
-          <ul class="va-vet-nav-menu">
-            <li>
-              <a href="/healthcare/">
-              Health Care
-              </a>
-              <div class="va-vet-nav-submenu">
-                <ul>
-                  <li><a href="/healthcare/apply/">Application Process</a></li>
-                  <li><a href="/healthcare/prescriptions/">Refill Prescriptions</a></li>
-                  <li><a href="/healthcare/messaging/">Message Your Health Care Team</a></li>
-                  <li><a href="/healthcare/apply/" class="usa-button-primary va-vet-nav-button">Apply Now</a></li>
-                </ul>
-              </div>
-             
+          <button 
+            aria-controls="vetnav-explore"
+            class="vetnav-level1 vetnav-trigger" 
+            aria-expanded="false">Explore benefits</button>
+          <div id="vetnav-explore" class="vetnav-panel" hidden>
+            <ul>
+              <li>
+              <button class="vetnav-level2 vetnav-trigger" aria-controls="vetnav-healthcare">Health care</button>
+              <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-healthcare" hidden>
+                <li>
+                  <button 
+                    class="vetnav-back"
+                    aria-controls="vetnav-healthcare"
+                    aria-expanded="true">Back to menu</button>
+                  <div class="vetnav-level2-heading">Health care</div>
+                </li>
+
+                <li><a href="/healthcare/">Health care benefits overview</a></li>
+                <li><a href="/healthcare/apply/">Application process</a></li>
+                <li><a href="/healthcare/prescriptions">Refill prescriptions</a></li>
+                <li><a href="/healthcare/messaging">Message your health care team</a></li>
+                <li> <a href="/healthcare/apply/application/introduction" class="usa-button va-button-primary">Apply now</a></li>
+              </ul>
             </li>
 
-            <li><a href="/disability-benefits/">Disability Benefits</a>
-              <div class="va-vet-nav-submenu">
-                <ul>
-                  <li><a href="/disability-benefits/apply-for-benefits/">Apply Now</a></li>
-                  <li>Claims Process</li>
-                  <li><a href="/disability-benefits/conditions/">Conditions</a></li>
-                  <li><a href="/disability-benefits/track-claims/your-claims">Check Claim Status</a></li>
-                  <li><a href="/disability-benefits/claims-appeal/">Appeals Process</a></li>
-                </ul>
-              </div>
+            <li>
+              <button class="vetnav-level2 vetnav-trigger"
+                aria-expanded="false"
+                aria-controls="vetnav-disability">Disability</button>
+              <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-disability" hidden>
+                <li>
+                  <button 
+                    class="vetnav-back vetnav-trigger" 
+                    aria-controls="vetnav-disability"
+                    aria-expanded="true">Back to menu</button>
+                  <div class="vetnav-level2-heading">Disability</div>
+                </li>
+                <li><a href="/disability-benefits/">Disability benefits overview</a></li>
+                <li><a href="/disability-benefits/apply-for-benefits/">Application process</a></li>
+                <li><a href="/disability-benefits/conditions/">Conditions</a></li>
+                <li><a href="/disability-benefits/track-claims">Check claim status</a></li>
+                <li><a href="/disability-benefits/claims-appeal/">Appeals process</a></li>
+                <li><a class="usa-button va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a></li>
+              </ul>
             </li>
-  
-            <li><a href="/education/">Education Benefits</a>
-              <div class="va-vet-nav-submenu">
-                <ul>
-                  <li><a href="/education/apply-for-education-benefits/">Apply Now</a></li>
-                  <li>Application Process</li>
-                  <li><a href="/education/gi-bill/">GI Bill Programs</a></li>
-                  <li><a href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a></li>
-                  <li><a href="/education/other-educational-assistance-programs/">Other Education &amp; Training Programs</a></li>
-                </ul>
-              </div>
+
+            <li>
+              <button 
+                class="vetnav-level2 vetnav-trigger" 
+                aria-controls="vetnav-edu"
+                aria-expanded="false">Education &amp; training</button>
+              <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-edu" hidden>
+                <li>
+                  <button 
+                    class="vetnav-back vetnav-trigger" 
+                    aria-controls="vetnav-edu"
+                    aria-expanded="true">Back to menu</button>
+                  <div class="vetnav-level2-heading">Education &amp; training</div>
+                </li>
+                <li><a href="/education/">Education benefits overview</a></li>
+                <li><a href="/education/apply-for-education-benefits/">Application process</a></li>
+                <li><a href="/education/gi-bill/">GI Bill programs</a></li>
+                <li><a href="/gi-bill-comparison-tool/">Compare GI Bill benefits</a></li>
+                <li><a href="/education/apply-for-education-benefits/application/1990/introduction" class="usa-button va-button-primary">Apply now</a></li>
+               </ul>
             </li>
-    
-            <li><a href="/employment/">Careers and Employment</a>
-              <div class="va-vet-nav-submenu">
-                <ul>
-                  <li>Find a Job or Hire a Veteran</li>
-                  <li><a href="/employment/job-seekers/start/">Start or Grow Your Business</a></li>
-                  <li><a href="/employment/job-seekers/family-members/">Resources for Military Families</a></li>
-                </ul>
-              </div>
+
+            <li>
+              <button 
+                  class="vetnav-level2 vetnav-trigger" 
+                  aria-controls="vetnav-careers"
+                  aria-expanded="false">Careers &amp; employment</button>
+              <ul class="vetnav-panel vetnav-panel--submenu" id="vetnav-careers" hidden>
+                <li>
+                  <button 
+                  class="vetnav-level2 vetnav-trigger vetnav-back" 
+                  aria-controls="vetnav-careers"
+                  aria-expanded="true">Back to menu</button>
+                  <div class="vetnav-level2-heading">Careers &amp; employment</div>
+                <li><a href="/employment/">Careers &amp; employment overview</a></li>
+                <li><a href="/employment/">Find a job / Hire a veteran</a></li>
+                <li><a href="/employment/job-seekers/start/">Start or grow your business</a></li>
+                <li><a href="/employment/job-seekers/family-members/">Resources for military &amp; veteran<br>family members</a></li>
+              </ul>
             </li>
           </ul>
+          </div>
         </li>
+
         <li>
-          <button class="va-vet-nav-trigger">Manage My Health &amp; Benefits</button>
-          <ul class="va-vet-nav-menu" style="display:none;">
-            <li><a href="/healthcare/prescriptions/">Refill Prescriptions</a></li>
-            <li><a href="/healthcare/messaging/">Message Your Health Care Team</a></li>
-            <li><a href="/disability-benefits/track-claims/your-claims">Check Claim Status</a></li>
-          </ul>
-      </li>
+          <button class="vetnav-level1 vetnav-trigger" aria-controls="vetnav-benefits" aria-expanded="false">Manage your health &amp; benefits</button>
+          <div class="vetnav-panel" id="vetnav-benefits" hidden>
+            <ul>
+              <li><a href="/healthcare/prescriptions">Refill prescriptions</a></li>
+              <li><a href="/healthcare/messaging">Message your health care team</a></li>
+              <li><a href="/disability-benefits/track-claims">Check claim status</a></li>
+            </ul>
+          </div>
+        </li>
+
+        <li><a href="/facilities" class="vetnav-level1">Find VA locations</a></li>
       </ul>
+
+      <div class="va-wip-message">This site is a <a target="_blank" href="https://www.vets.gov/playbook/design/">work in progress.</a> If you don’t find what you need, visit <a target="_blank" href="http://www.va.gov">VA.gov</a>.</div>
     </nav>
 
     <div class="text-right" id="login-root"></div>

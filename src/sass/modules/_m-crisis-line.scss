@@ -2,15 +2,16 @@
 
 .crisis-line-container {
   position: relative;
-  background: $color-gray-lightest;
-  @media #{$medium-up} {
+  background: $color-white;
+
+  @include media($medium-screen) {
     width: 283px;
   }
 
   .crisis-line-body {
     position: absolute;
     right: 0;
-    background: $color-gray-lightest;
+    background: $color-white;
     border-radius: 0 0 0.2em 0.2em;
   }
 
@@ -20,6 +21,11 @@
   }
 }
 
+.crisis-line-sm {
+  @include media($medium-screen) {
+    display: none;
+  }
+}
 
 .va-crisis-panel {
   color: $color-primary-darkest;
@@ -37,7 +43,7 @@
 }
 
 .va-crisis-panel-body {
-  background: $color-gray-lightest;
+  background: $color-white;
   list-style: inherit;
   margin: 0;
   padding: 0;
@@ -94,7 +100,7 @@
 }
 
 .va-crisis-line {
-  background: $color-gray-lightest no-repeat calc(100% - 0.5em) center;
+  background: $color-white url(/img/arrow-right.svg) calc(100% - 0.5em) center no-repeat;
   background-size: .8em auto;
   color: $color-base;
   margin: 0;
@@ -108,8 +114,8 @@
   border-radius: 0 0 0.2em 0.2em;
 
   &:hover {
+    background-color: $color-white;
     color: $color-base;
-    background-color: inherit;
   }
 
   .vcl {
