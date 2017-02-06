@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 
-import { parseISODate, formatISOPartialDate, updateRequiredFields } from '../../../src/js/common/schemaform/helpers';
+import {
+  parseISODate,
+  formatISOPartialDate,
+  updateRequiredFields,
+  transformForSubmit
+} from '../../../src/js/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
   describe('parseISODate', () => {
@@ -109,6 +114,189 @@ describe('Schemaform helpers:', () => {
         }
       };
       expect(updateRequiredFields(schema, uiSchema).items.required[0]).to.equal('test');
+    });
+  });
+  describe('transformForSubmit', () => {
+    it('should flatten page data within chapter', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {},
+              page2: {}
+            }
+          }
+        }
+      };
+      const formData = {
+        page1: {
+          data: {
+            otherField: 'testing2'
+          }
+        },
+        page2: {
+          data: {
+            field: 'testing'
+          }
+        }
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+
+      expect(output).to.eql({
+        otherField: 'testing2',
+        field: 'testing'
+      });
+    });
+    it('should flatten page data across chapters', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {},
+            }
+          },
+          chapter2: {
+            pages: {
+              page2: {}
+            }
+          }
+        }
+      };
+      const formData = {
+        page1: {
+          data: {
+            otherField: 'testing2'
+          }
+        },
+        page2: {
+          data: {
+            field: 'testing'
+          }
+        }
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+
+      expect(output).to.eql({
+        otherField: 'testing2',
+        field: 'testing'
+      });
+    });
+    it('should remove view fields', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {}
+            }
+          }
+        }
+      };
+      const formData = {
+        page1: {
+          data: {
+            'view:Test': 'thing'
+          }
+        }
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+
+      expect(output['view:Test']).to.be.undefined;
+    });
+    it('should flatten view objects', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {}
+            }
+          }
+        }
+      };
+      const formData = {
+        page1: {
+          data: {
+            'view:Test': {
+              field: 'testing'
+            }
+          }
+        }
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+
+      expect(output['view:Test']).to.be.undefined;
+      expect(output).to.eql({
+        field: 'testing'
+      });
+    });
+    it('should remove inactive pages', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {
+                depends: {
+                  page2: {
+                    data: {
+                      field: 'something'
+                    }
+                  }
+                }
+              },
+            }
+          },
+          chapter2: {
+            pages: {
+              page2: {}
+            }
+          }
+        }
+      };
+      const formData = {
+        page1: {
+          data: {
+            otherField: 'testing2'
+          }
+        },
+        page2: {
+          data: {
+            field: 'testing'
+          }
+        }
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+
+      expect(output).to.eql({
+        field: 'testing'
+      });
+    });
+    it('should remove empty addresses', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {}
+            }
+          }
+        }
+      };
+      const formData = {
+        page1: {
+          data: {
+            address: {
+              country: 'testing'
+            }
+          }
+        }
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+
+      expect(output.address).to.be.undefined;
     });
   });
 });
