@@ -12,6 +12,8 @@ import SegmentedProgressBar from '../../../common/components/SegmentedProgressBa
 import NavButtons from '../../../common/components/NavButtons';
 import NavHeader from '../../../common/components/NavHeader';
 
+import FormTitle from '../../../common/schemaform/FormTitle.jsx';
+
 import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
 
@@ -103,8 +105,7 @@ class EduBenefitsApp extends React.Component {
         {devPanel}
         <Element name="topScrollElement"/>
         <div className="medium-8 columns">
-        </div>
-        <div className="medium-8 columns">
+          <FormTitle title="Apply for education benefits" subTitle="Form 22-1990"/>
           <div>
             {
               // Only render SegmentedProgressBar if we have a current chapter
