@@ -2,9 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { set, assign } from 'lodash/fp';
 
-import ErrorableSelect from '../components/form-elements/ErrorableSelect';
-import ErrorableTextInput from '../components/form-elements/ErrorableTextInput';
-import { countries, states } from '../utils/options-for-select';
+import { states } from '../utils/options-for-select';
 
 /**
  * Input component for an address.
@@ -32,7 +30,7 @@ class Address extends React.Component {
 
   handleChange(path, update) {
     let newState = set(path, update, this.props.formData);
-    
+
     // if country is changing we should clear the state
     if (path === 'country') {
       newState = set('state', undefined, newState);
@@ -61,7 +59,7 @@ class Address extends React.Component {
 
   render() {
     let stateList = [];
-    const { rawErrors, errorSchema, formData, formContext, touchedSchema, schema, idSchema, uiSchema, registry } = this.props;
+    const { errorSchema, formData, formContext, touchedSchema, schema, idSchema, uiSchema, registry } = this.props;
     const SchemaField = registry.fields.SchemaField;
     const selectedCountry = formData.country.value || formData.country;
     let postalCodeUiSchema = uiSchema.postalCode;
@@ -71,10 +69,9 @@ class Address extends React.Component {
     if (formData.country === 'CAN') {
       stateUiSchema = set('ui:title', 'Province', stateUiSchema);
     }
-    
+
     if (formData.country === 'USA') {
       postalCodeUiSchema = set('ui:title', 'ZIP code', postalCodeUiSchema);
-
     }
 
     // const hasErrors = (formContext.submitted || touchedSchema) && rawErrors && rawErrors.length;
@@ -85,7 +82,7 @@ class Address extends React.Component {
       }
 
       stateSchema = assign(stateSchema, {
-        enum: stateList.map(state => state.value),
+        'enum': stateList.map(state => state.value),
         enumNames: stateList.map(state => state.label)
       });
     }
@@ -102,7 +99,7 @@ class Address extends React.Component {
             errorSchema={errorSchema.country}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema == undefined ? undefined : touchedSchema.country}
+            touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.country}
             onChange={(update) => {this.handleChange('country', update);}}
             onBlur={this.onPropertyBlur('country')}/>
         <SchemaField
@@ -115,12 +112,12 @@ class Address extends React.Component {
             errorSchema={errorSchema.street}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema == undefined ? undefined : touchedSchema.street}
+            touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.street}
             onChange={(update) => {this.handleChange('street', update);}}
             onBlur={this.onPropertyBlur('street')}/>
         <SchemaField
             name="street2"
-            required={this.isRequired('street2')}            
+            required={this.isRequired('street2')}
             schema={schema.properties.street2}
             uiSchema={uiSchema.street2}
             idSchema={idSchema.street2}
@@ -128,7 +125,7 @@ class Address extends React.Component {
             errorSchema={errorSchema.street2}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema == undefined ? undefined : touchedSchema.street2}
+            touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.street2}
             onChange={(update) => {this.handleChange('street2', update);}}
             onBlur={this.onPropertyBlur('street2')}/>
         <SchemaField
@@ -141,7 +138,7 @@ class Address extends React.Component {
             errorSchema={errorSchema.city}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema == undefined ? undefined : touchedSchema.city}
+            touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.city}
             onChange={(update) => {this.handleChange('city', update);}}
             onBlur={this.onPropertyBlur('city')}/>
         <SchemaField
@@ -154,7 +151,7 @@ class Address extends React.Component {
             errorSchema={errorSchema.state}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema == undefined ? undefined : touchedSchema.state}
+            touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.state}
             onChange={(update) => {this.handleChange('state', update);}}
             onBlur={this.onPropertyBlur('state')}/>
         <SchemaField
@@ -167,7 +164,7 @@ class Address extends React.Component {
             errorSchema={errorSchema.postalCode}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema == undefined ? undefined : touchedSchema.postalCode}
+            touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.postalCode}
             onChange={(update) => {this.handleChange('postalCode', update);}}
             onBlur={this.onPropertyBlur('postalCode')}/>
       </div>

@@ -66,7 +66,7 @@ export const uiAddress = {
   'ui:field': 'address',
   'ui:validations': [
     validateAddress
-  ], 
+  ],
   country: {
     'ui:title': 'Country'
   },
@@ -85,7 +85,7 @@ export const uiAddress = {
   postalCode: {
     'ui:title': 'Postal code',
     'ui:options': {
-      'widgetClassNames': 'usa-input-medium'
+      widgetClassNames: 'usa-input-medium'
     }
   }
 };

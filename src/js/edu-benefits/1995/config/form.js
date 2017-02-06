@@ -4,7 +4,6 @@ import { fullName, ssn, dateRange, date, address, phone } from '../../../common/
 import { uiFullName, uiSSN, uiDateRange, uiDate, uiAddress, uiPhone } from '../../../common/schemaform/uiDefinitions';
 import { validateEmailsMatch } from '../../../common/schemaform/validation';
 import { benefitsLabels, transformForSubmit } from '../helpers';
-import { validateSSN } from '../../../common/schemaform/validation';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';

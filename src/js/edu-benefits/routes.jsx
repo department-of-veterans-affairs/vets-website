@@ -45,12 +45,6 @@ export default function createRoutes(store) {
     );
   }
 
-  const routesFor1995 = __BUILDTYPE__ !== 'production' && __BUILDTYPE__ !== 'staging'
-    ? <Route path="1995" component={Form1995App}>
-      {routes1995}
-    </Route>
-    : null;
-
   childRoutes.push({
     path: '*',
     onEnter: (nextState, replace) => replace('/')
