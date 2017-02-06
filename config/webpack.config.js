@@ -146,15 +146,6 @@ const configGenerator = (options) => {
         'vendor',
         (options.buildtype === 'development') ? 'vendor.js' : 'vendor.[chunkhash].js'
       ),
-      new WebpackMd5Hash(),
-      new ManifestPlugin({
-        fileName: 'file-manifest.json'
-      }),
-      new ChunkManifestPlugin({
-        filename: 'chunk-manifest.json',
-        manifestVariable: 'webpackManifest'
-      }),
-      new webpack.optimize.OccurenceOrderPlugin()
     ],
   };
 
@@ -173,6 +164,14 @@ const configGenerator = (options) => {
       loader: 'null'
     });
 
+    baseConfig.plugins.push(new WebpackMd5Hash());
+    baseConfig.plugins.push(new ManifestPlugin({
+      fileName: 'file-manifest.json'
+    }));
+    baseConfig.plugins.push(new ChunkManifestPlugin({
+      filename: 'chunk-manifest.json',
+      manifestVariable: 'webpackManifest'
+    }));
     baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({

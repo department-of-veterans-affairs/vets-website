@@ -9,7 +9,7 @@
           </div>
         {% endif %}
 
-        <div class="small-12 columns usa-content">        
+        <div class="small-12 columns usa-content">
           <h1>{{ title }}</h1>
           <!-- Page content begins -->
           {% if stickyactionbox == true %}
@@ -18,13 +18,17 @@
             </div>
           {% endif %}
 
-          {{ contents }} 
+          {{ contents }}
           <!-- Page content ends -->
+
+          <!-- Last updated -->
+          {% if lastupdate %}
+            {% include "content/includes/last-update.html" %}
+          {% endif %}
+
         </div>
       </div>
     </div>
     {% include "content/includes/main-navigation.html" %}
   </div>
 </div>
-
-
