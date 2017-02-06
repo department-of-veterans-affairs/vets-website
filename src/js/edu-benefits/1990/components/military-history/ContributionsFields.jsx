@@ -9,7 +9,6 @@ export default class ContributionsFields extends React.Component {
   render() {
     const relinquished = this.props.data.benefitsRelinquished.value;
     return (<fieldset>
-      <legend>Contributions</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <p>Select all that apply:</p>

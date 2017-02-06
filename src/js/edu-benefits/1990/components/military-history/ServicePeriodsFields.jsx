@@ -48,7 +48,6 @@ export default class ServicePeriodsFields extends React.Component {
     );
 
     const editView = (<fieldset className={this.props.inReview ? 'edu-growable-review' : 'edu-growable-form'}>
-      <legend>Service periods</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <p>Please record all your periods of service.</p>

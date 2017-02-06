@@ -21,7 +21,6 @@ export default class MilitaryServiceFields extends React.Component {
     );
 
     return (<fieldset>
-      <legend>Military service</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <ErrorableNumberInput

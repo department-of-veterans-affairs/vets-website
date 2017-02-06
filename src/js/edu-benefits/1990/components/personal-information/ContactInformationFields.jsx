@@ -28,7 +28,6 @@ export default class ContactInformationFields extends React.Component {
     return (
       <fieldset>
         <p><span className="form-required-span">*</span>Indicates a required field</p>
-        <legend>Contact information</legend>
         <div className="input-section">
           <ErrorableRadioButtons
               label="How would you prefer to be contacted if VA has questions about your application?"

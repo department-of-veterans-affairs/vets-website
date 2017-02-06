@@ -18,7 +18,6 @@ export default class RotcHistoryFields extends React.Component {
     ];
     const propertyPath = 'seniorRotc.rotcScholarshipAmounts';
     return (<fieldset>
-      <legend>ROTC history</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <ErrorableRadioButtons
