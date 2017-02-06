@@ -67,7 +67,7 @@ const formConfig = {
               'ui:required': (form) => !form['view:noSSN']
             }),
             'view:noSSN': {
-              'ui:title': 'I don\'t have a Social Security number',
+              'ui:title': 'I don’t have a Social Security number',
               'ui:options': {
                 hideOnReviewIfFalse: true
               }
@@ -108,7 +108,7 @@ const formConfig = {
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Select the benefit that is the best match for you:'
+              'ui:title': 'Which benefit are you transfering to a new location?'
             }
           },
           schema: {
@@ -134,7 +134,7 @@ const formConfig = {
           uiSchema: {
             toursOfDuty: {
               'ui:title': 'Service periods',
-              'ui:description': 'Please record all your periods of service',
+              'ui:description': 'Please record any new periods of service since your last application.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
@@ -183,6 +183,7 @@ const formConfig = {
           path: 'military-history/contributions',
           initialData: {},
           uiSchema: {
+
             civilianBenefitsAssistance: {
               'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA'
             }
@@ -201,14 +202,14 @@ const formConfig = {
       pages: {
         newSchool: {
           path: 'school-selection/new-school',
-          title: 'New school, university, or training facility',
+          title: 'School, university, program, or training facility you want to attend',
           initialData: {
             newSchool: {
               address: {}
             }
           },
           uiSchema: {
-            'ui:title': 'New school, university, or training facility',
+            'ui:title': 'School, university, program, or training facility you want to attend',
             educationType: {
               'ui:title': 'Type of education or training'
             },
@@ -243,14 +244,14 @@ const formConfig = {
         },
         oldSchool: {
           path: 'school-selection/old-school',
-          title: 'Old school, university, or training facility',
+          title: 'School, university, program, or training facility you last attended',
           initialData: {
             oldSchool: {
               address: {}
             }
           },
           uiSchema: {
-            'ui:title': 'Old school, university, or training facility',
+            'ui:title': 'School, university, program, or training facility you last attended',
             oldSchool: {
               name: {
                 'ui:title': 'Name of school, university, or training facility'
@@ -259,9 +260,9 @@ const formConfig = {
                 'ui:title': 'Address'
               }
             },
-            trainingEndDate: date.uiSchema('When did you stop training?'),
+            trainingEndDate: _.merge(uiDate, { 'ui:title': 'When did you stop taking classes or participating in the training program?' }),
             reasonForChange: {
-              'ui:title': 'Why did you stop training?'
+              'ui:title': 'Why did you stop taking classes or participating in the training program?'
             }
           },
           schema: {
@@ -284,7 +285,7 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             preferredContactMethod: {
-              'ui:title': 'How would you prefer to be contacted if VA has questions about your application?',
+              'ui:title': 'How would you like to be contacted if VA has questions about your application?',
               'ui:widget': 'radio'
             },
             'view:otherContactInfo': {
