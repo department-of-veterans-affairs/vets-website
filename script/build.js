@@ -6,7 +6,6 @@ const assets = require('metalsmith-assets');
 const blc = require('metalsmith-broken-link-checker');
 const collections = require('metalsmith-collections');
 const commandLineArgs = require('command-line-args');
-const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
 const filenames = require('metalsmith-filenames');
 const inPlace = require('metalsmith-in-place');
@@ -16,7 +15,6 @@ const markdown = require('metalsmith-markdownit');
 const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
-const redirect = require('metalsmith-redirect');
 const sitemap = require('metalsmith-sitemap');
 const updated = require('metalsmith-updated');
 const watch = require('metalsmith-watch');
@@ -128,7 +126,6 @@ smith.use(define({
 }));
 
 smith.use(collections());
-// smith.use(dateInFilename(true));
 smith.use(archive());  // TODO(awong): Can this be removed?
 
 if (options.watch) {
@@ -372,10 +369,6 @@ if (options.buildtype !== 'development') {
     done();
   });
 }
-
-smith.use(redirect({
-  '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/'
-}));
 
 /* eslint-disable no-console */
 smith.build((err) => {
