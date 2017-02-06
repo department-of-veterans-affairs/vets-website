@@ -75,13 +75,14 @@ class EduBenefitsApp extends React.Component {
       submitBenefitsForm(this.props.data);
     };
 
-    // There's got to be a better way to do this using schemaform, but for now...
-    // Find the index of the chapter...
-    const currentIndex = _.findIndex(chapters, (chapter) => {
-      // Which has a page whose path matches currentLocation.pathname
-      return !_.isEmpty(_.filter(chapter.pages, (page) => page.path === currentLocation.pathname));
-    }) + 1;
-    // Note: If not found, the +1 will make currentIndex === 0 (thus falsey)
+    // Until we come up with a common code base between this and the schemaform
+    //  forms, the following is borrowed from NavHeader
+    let step;
+    chapters.forEach((chapter, index) => {
+      if (chapter.pages.some(page => page.path === currentLocation.pathname)) {
+        step = index + 1;
+      }
+    });
 
     let devPanel = undefined;
     if (__BUILDTYPE__ === 'development') {
@@ -108,7 +109,7 @@ class EduBenefitsApp extends React.Component {
             {
               // Only render SegmentedProgressBar if we have a current chapter
               // Could move this into SegmentedProgressBar
-              currentIndex ? <SegmentedProgressBar total={chapters.length} current={currentIndex}/> : null
+              step ? <SegmentedProgressBar total={chapters.length} current={step}/> : null
             }
             <div className="schemaform-chapter-progress">
               <NavHeader path={currentLocation.pathname} chapters={chapters} className="nav-header-schemaform"/>
