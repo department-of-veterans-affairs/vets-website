@@ -83,7 +83,10 @@ export const uiAddress = {
     'ui:title': 'State'
   },
   postalCode: {
-    'ui:title': 'Postal code'
+    'ui:title': 'Postal code',
+    'ui:options': {
+      'widgetClassNames': 'usa-input-medium'
+    }
   }
 };
 

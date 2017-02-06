@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { set } from 'lodash/fp';
+import { set, assign } from 'lodash/fp';
 
 import ErrorableSelect from '../components/form-elements/ErrorableSelect';
 import ErrorableTextInput from '../components/form-elements/ErrorableTextInput';
@@ -15,7 +15,8 @@ class Address extends React.Component {
   constructor(props) {
     super();
     this.handleChange = this.handleChange.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
+    this.onPropertyBlur = this.onPropertyBlur.bind(this);
+    this.isRequired = this.isRequired.bind(this);
     this.state = { value: props.formData, touched: { street: false, city: false, state: false, country: false, postalCode: false } };
   }
 
@@ -23,25 +24,42 @@ class Address extends React.Component {
     this.id = _.uniqueId('address-input-');
   }
 
-  handleBlur(field) {
-    const newState = _.set(['touched', field], true, this.state);
-    this.setState(newState, () => {
-      if (newState.touched.street && newState.touched.city && newState.touched.state && newState.touched.country && newState.touched.postalCode) {
-        this.props.onBlur(this.props.id, newState.value);
-      }
-    });
+  // handleBlur(field) {
+  //   const newState = _.set(['touched', field], true, this.state);
+  //   this.setState(newState, () => {
+  //     if (newState.touched.street && newState.touched.city && newState.touched.state && newState.touched.country && newState.touched.postalCode) {
+  //       this.props.onBlur(this.props.id, newState.value);
+  //     }
+  //   });
+  // }
+
+  onPropertyBlur(name) {
+    return (path = []) => {
+      this.props.onBlur([name].concat(path));
+    };
   }
 
   handleChange(path, update) {
-    let newState = _.set(this.state, ['value', path], update);
-    newState = _.set(newState, ['touched', path], true);
+    let newState = set(path, update, this.props.formData);
     
     // if country is changing we should clear the state
     if (path === 'country') {
-      newState = _.set(newState, ['value', 'state'], '');
+      newState = set('state', '', newState);
     }
 
-    this.props.onChange(newState.value);
+    this.props.onChange(newState);
+  }
+
+  isRequired(name) {
+    const { schema } = this.props;
+    const schemaRequired = Array.isArray(schema.required) &&
+      schema.required.indexOf(name) !== -1;
+
+    if (schemaRequired) {
+      return schemaRequired;
+    }
+
+    return false;
   }
 
   isMilitaryCity(city) {
@@ -52,75 +70,115 @@ class Address extends React.Component {
 
   render() {
     let stateList = [];
-    const { rawErrors, errorSchema, formData, formContext, touchedSchema, schema } = this.props;
+    const { rawErrors, errorSchema, formData, formContext, touchedSchema, schema, idSchema, uiSchema, registry } = this.props;
+    const SchemaField = registry.fields.SchemaField;
     const selectedCountry = formData.country.value || formData.country;
+    let postalCodeUiSchema = uiSchema.postalCode;
+    let stateUiSchema = uiSchema.state;
+    let stateSchema = schema.properties.state;
+
+    if (formData.country === 'CAN') {
+      stateUiSchema = set('ui:title', 'Province', stateUiSchema);
+    }
+    
+    if (formData.country === 'USA') {
+      postalCodeUiSchema = set('ui:title', 'ZIP code', postalCodeUiSchema);
+
+    }
+
     const hasErrors = (formContext.submitted || touchedSchema) && rawErrors && rawErrors.length;
     if (states[selectedCountry]) {
       stateList = states[selectedCountry];
       if (formData.city && this.isMilitaryCity(formData.city)) {
         stateList = stateList.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
       }
-    }
 
-    const stateProvince = _.hasIn(states, selectedCountry)
-      ? <ErrorableSelect errorMessage={hasErrors ? this.props.errorSchema.street['__errors'][0] : undefined}
-          label={selectedCountry === 'CAN' ? 'Province' : 'State'}
-          name="state"
-          autocomplete="address-level1"
-          options={stateList}
-          value={(formData.state == undefined || formData.state.value == undefined) ? {dirty: false, value: formData.state} : formData.state}
-          required={_.includes(this.props.schema.required, "state")}
-          onValueChange={(update) => {this.handleChange('state', update);}}/>
-      : <ErrorableTextInput label="State/province"
-          name="province"
-          autocomplete="address-level1"
-          field={(formData.state == undefined || formData.state.value == undefined) ? {value: formData.state, dirty: false} : formData.state}
-          required={false}
-          onValueChange={(update) => {this.handleChange('state', update);}}/>;
+      stateSchema = assign(stateSchema, {
+        enum: stateList.map(state => state.value),
+        enumNames: stateList.map(state => state.label)
+      });
+    }
 
     return (
       <div>
-        <ErrorableSelect
-            label="Country"
+        <SchemaField
             name="country"
-            autocomplete="country"
-            options={countries}
-            value={selectedCountry.value == undefined ? {dirty: false, value: selectedCountry} : selectedCountry}
-            required={_.includes(this.props.schema.required, "country")}
-            onValueChange={(update) => {this.handleChange('country', update);}}/>
-        <ErrorableTextInput
-            label="Street"
-            name="address"
-            autocomplete="street-address"
-            charMax={30}
-            field={(formData.street == undefined || formData.street.value == undefined) ? {dirty: false, value: formData.street} : formData.street}
-            required={_.includes(this.props.schema.required, "street")}
-            onValueChange={(update) => {this.handleChange('street', update);}}/>
-        <ErrorableTextInput
-            label="Line 2"
-            name="address2"
-            autocomplete="street-address2"
-            charMax={30}
-            field={(formData.street2 == undefined || formData.street2.value == undefined) ? {dirty: false, value: formData.street2} : formData.street2}
-            required={_.includes(this.props.schema.required, "street2")}
-            onValueChange={(update) => {this.handleChange('street', update);}}/>
-        <ErrorableTextInput
-            label={<span>City <em>(or APO/FPO/DPO)</em></span>}
+            required={this.isRequired('country')}
+            schema={schema.properties.country}
+            uiSchema={uiSchema.country}
+            idSchema={idSchema.country}
+            formData={formData.country}
+            errorSchema={errorSchema.country}
+            registry={registry}
+            formContext={formContext}
+            touchedSchema={touchedSchema == undefined ? undefined : touchedSchema.country}
+            onChange={(update) => {this.handleChange('country', update);}}
+            onBlur={this.onPropertyBlur('country')}/>
+        <SchemaField
+            name="street"
+            required={this.isRequired('street')}
+            schema={schema.properties.street}
+            uiSchema={uiSchema.street}
+            idSchema={idSchema.street}
+            formData={formData.street}
+            errorSchema={errorSchema.street}
+            registry={registry}
+            formContext={formContext}
+            touchedSchema={touchedSchema == undefined ? undefined : touchedSchema.street}
+            onChange={(update) => {this.handleChange('street', update);}}
+            onBlur={this.onPropertyBlur('street')}/>
+        <SchemaField
+            name="street2"
+            required={this.isRequired('street2')}            
+            schema={schema.properties.street2}
+            uiSchema={uiSchema.street2}
+            idSchema={idSchema.street2}
+            formData={formData.street2}
+            errorSchema={errorSchema.street2}
+            registry={registry}
+            formContext={formContext}
+            touchedSchema={touchedSchema == undefined ? undefined : touchedSchema.street2}
+            onChange={(update) => {this.handleChange('street2', update);}}
+            onBlur={this.onPropertyBlur('street2')}/>
+        <SchemaField
             name="city"
-            autocomplete="address-level2"
-            charMax={30}
-            field={(formData.city == undefined || formData.city.value == undefined) ? {dirty: false, value: formData.city} : formData.city}
-            required={_.includes(this.props.schema.required, "city")}
-            onValueChange={(update) => {this.handleChange('city', update);}}/>
-        {stateProvince}
-        <ErrorableTextInput
-            additionalClass="usa-input-medium"
-            label={this.props.formData.country === 'USA' ? 'Zip code' : 'Postal code'}
+            required={this.isRequired('city')}
+            schema={schema.properties.city}
+            uiSchema={uiSchema.city}
+            idSchema={idSchema.city}
+            formData={formData.city}
+            errorSchema={errorSchema.city}
+            registry={registry}
+            formContext={formContext}
+            touchedSchema={touchedSchema == undefined ? undefined : touchedSchema.city}
+            onChange={(update) => {this.handleChange('city', update);}}
+            onBlur={this.onPropertyBlur('city')}/>
+        <SchemaField
+            name="state"
+            required={_.includes(['USA', 'CAN', 'MEX'], formData.country) ? this.isRequired('state') : false}
+            schema={stateSchema}
+            uiSchema={stateUiSchema}
+            idSchema={idSchema.state}
+            formData={formData.state}
+            errorSchema={errorSchema.state}
+            registry={registry}
+            formContext={formContext}
+            touchedSchema={touchedSchema == undefined ? undefined : touchedSchema.state}
+            onChange={(update) => {this.handleChange('state', update);}}
+            onBlur={this.onPropertyBlur('state')}/>
+        <SchemaField
             name="postalCode"
-            autocomplete="postal-code"
-            field={(formData.postalCode == undefined || formData.postalCode.value == undefined) ? {dirty: false, value: formData.postalCode} : formData.postalCode}
-            required={_.includes(this.props.schema.required, "postalCode")}
-            onValueChange={(update) => {this.handleChange('postalCode', update);}}/>
+            required={this.isRequired('postalCode')}
+            schema={schema.properties.postalCode}
+            uiSchema={postalCodeUiSchema}
+            idSchema={idSchema.postalCode}
+            formData={formData.postalCode}
+            errorSchema={errorSchema.postalCode}
+            registry={registry}
+            formContext={formContext}
+            touchedSchema={touchedSchema == undefined ? undefined : touchedSchema.postalCode}
+            onChange={(update) => {this.handleChange('postalCode', update);}}
+            onBlur={this.onPropertyBlur('postalCode')}/>
       </div>
     );
   }
