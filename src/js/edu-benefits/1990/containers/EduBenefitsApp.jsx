@@ -77,6 +77,8 @@ class EduBenefitsApp extends React.Component {
       submitBenefitsForm(this.props.data);
     };
 
+    const endpoint = currentLocation.pathname.split('/').pop();
+
     // Until we come up with a common code base between this and the schemaform
     //  forms, the following is borrowed from NavHeader
     let step;
@@ -108,9 +110,9 @@ class EduBenefitsApp extends React.Component {
           <FormTitle title="Apply for education benefits" subTitle="Form 22-1990"/>
           <div>
             {
-              // Only render SegmentedProgressBar if we have a current chapter
-              // Could move this into SegmentedProgressBar
-              step ? <SegmentedProgressBar total={chapters.length} current={step}/> : null
+              // Only render SegmentedProgressBar if we're not in the intro or submit-message pages
+              // Could possibly move this into SegmentedProgressBar
+              !_.includes(['introduction', 'submit-message'], endpoint) ? <SegmentedProgressBar total={chapters.length} current={step}/> : null
             }
             <div className="schemaform-chapter-progress">
               <NavHeader path={currentLocation.pathname} chapters={chapters} className="nav-header-schemaform"/>
