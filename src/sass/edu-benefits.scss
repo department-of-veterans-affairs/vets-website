@@ -307,3 +307,9 @@ form.rjsf {
   color: $color-secondary-dark;
   margin: 0 0.35em;
 }
+
+// Align the intro content of the 22-1990 to match the title
+// Necessary because the 22-1990 doesn't use schemaform, so it's wonky
+.intro-content {
+  margin-left: -2rem;
+}
