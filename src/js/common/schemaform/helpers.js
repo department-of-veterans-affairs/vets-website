@@ -5,6 +5,8 @@ import shouldUpdate from 'recompose/shouldUpdate';
 
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
+import { getActivePages } from '../utils/helpers';
+
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
     .reduce((pageList, chapter) => {
@@ -156,11 +158,53 @@ export function parseISODate(dateString) {
   };
 }
 
-export function flattenFormData(form) {
-  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
-  return _.values(pages).reduce((formPages, page) => {
-    return _.assign(formPages, page.data);
+/*
+ * Merges data for pages in list into one object
+ */
+export function flattenFormData(pages, form) {
+  return pages.reduce((formPages, page) => {
+    const pageData = form[page.pageKey];
+    return _.assign(formPages, pageData);
+  }, { privacyAgreementAccepted: form.privacyAgreementAccepted });
+}
+
+/*
+ * Removes 'view:' fields from data object
+ */
+export function filterViewFields(data) {
+  return Object.keys(data).reduce((newData, nextProp) => {
+    const field = data[nextProp];
+
+    if (Array.isArray(field)) {
+      const newArray = field.map((item) => filterViewFields(item));
+
+      return _.set(nextProp, newArray, newData);
+    }
+
+    if (typeof field === 'object') {
+      if (nextProp.startsWith('view:')) {
+        return _.assign(newData, filterViewFields(field));
+      }
+      return _.set(nextProp, filterViewFields(field), newData);
+    }
+
+    if (!nextProp.startsWith('view:')) {
+      return _.set(nextProp, field, newData);
+    }
+
+    return newData;
   }, {});
+}
+
+/*
+ * Normal transform for schemaform data
+ */
+export function transformForSubmit(formConfig, form) {
+  const activePages = getActivePages(createFormPageList(formConfig), form);
+  const flattened = flattenFormData(activePages, form);
+  const withoutViewFields = filterViewFields(flattened);
+
+  return JSON.stringify(withoutViewFields);
 }
 
 export function getArrayFields(data, pageConfig) {
