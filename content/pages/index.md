@@ -3,6 +3,9 @@ layout: home.html
 body_class: home
 title: Discover, apply for, track and manage your Veteran benefits with Vets.gov
 majorlinks:
+  - url: /healthcare/
+    title: Health Care Benefits
+    description: Apply for and manage VA health care.
   - url: /disability-benefits/
     title: Disability Benefits
     description: Help with service-related medical conditions.
@@ -12,10 +15,6 @@ majorlinks:
   - url: /employment/
     title: Careers and Employment
     description: Meaningful employment and career development for Veterans and their families.
-  - url: /healthcare/
-    title: Health Care
-    description: Apply for and manage VA health care.
-
 ---
 <div class="splash">
   <div class="row">
