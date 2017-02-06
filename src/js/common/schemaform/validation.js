@@ -1,7 +1,8 @@
 import _ from 'lodash/fp';
+import { includes } from 'lodash';
 import { Validator } from 'jsonschema';
 
-import { isValidSSN, isValidPartialDate, isValidDateRange, isNotBlank } from '../utils/validations';
+import { isValidSSN, isValidPartialDate, isValidDateRange, isValidUSZipCode, isValidCanPostalCode } from '../utils/validations';
 import { parseISODate, updateRequiredFields } from './helpers';
 
 /*
@@ -178,43 +179,27 @@ export function validateDate(errors, dateString) {
 }
 
 export function validateAddress(errors, formData) {
-  // if (!isValidAddressField(address)) {
-  //   errors.addError('Please provide a valid address');
-  // }
-
   const address = formData;
-  console.log({'address': address});
-  console.log({'errors': errors});
-  // const country = address.country.value || address.country;
+  let isValidPostalCode = true;
 
-  // errors.addError('Please provide a valid address');
+  // Checks if postal code is valid
+  if (address.country === 'USA') {
+    isValidPostalCode = isValidPostalCode && isValidUSZipCode(address.postalCode);
+  }
+  if (address.country === 'CAN') {
+    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(address.postalCode);
+  }
 
-  // if () {
-  //   const initialOk = isNotBlank(address.street.value) &&
-  //     isNotBlank(address.city.value) &&
-  //     isNotBlank(country);
+  // Adds error message for state if it is blank and one of the following countries:
+  // USA, Canada, or Mexico
+  if (_.includes(['USA', 'CAN', 'MEX'], address.country) && address.state == undefined) {
+    errors.state.addError('Please select a state or province');
+  }
 
-  //   let isValidPostalCode = true;
-
-  //   if (country === 'USA') {
-  //     isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidUSZipCode, address.postalCode);
-  //   }
-
-  //   if (country === 'CAN') {
-  //     isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidCanPostalCode, address.postalCode);
-  //   }
-
-  //   // if we have a defined list of values, they will
-  //   // be set as the state and zipcode keys
-  //   if (_.hasIn(states, country)) {
-  //     return initialOk &&
-  //       isNotBlank(address.state.value) &&
-  //       isValidPostalCode;
-  //   }
-  //   // if the entry was non-USA/CAN/MEX, only postal is
-  //   // required, not provinceCode
-  //   return initialOk && isNotBlank(address.postalCode.value);
-  // }
+  // Add error message for postal code if it is invalid
+  if (!isValidPostalCode) {
+    errors.postalCode.addError('Please provide a valid postal code');
+  }
 }
 
 export function validateEmailsMatch(errors, formData) {

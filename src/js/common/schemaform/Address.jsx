@@ -24,15 +24,6 @@ class Address extends React.Component {
     this.id = _.uniqueId('address-input-');
   }
 
-  // handleBlur(field) {
-  //   const newState = _.set(['touched', field], true, this.state);
-  //   this.setState(newState, () => {
-  //     if (newState.touched.street && newState.touched.city && newState.touched.state && newState.touched.country && newState.touched.postalCode) {
-  //       this.props.onBlur(this.props.id, newState.value);
-  //     }
-  //   });
-  // }
-
   onPropertyBlur(name) {
     return (path = []) => {
       this.props.onBlur([name].concat(path));
@@ -44,7 +35,7 @@ class Address extends React.Component {
     
     // if country is changing we should clear the state
     if (path === 'country') {
-      newState = set('state', '', newState);
+      newState = set('state', undefined, newState);
     }
 
     this.props.onChange(newState);
@@ -86,7 +77,7 @@ class Address extends React.Component {
 
     }
 
-    const hasErrors = (formContext.submitted || touchedSchema) && rawErrors && rawErrors.length;
+    // const hasErrors = (formContext.submitted || touchedSchema) && rawErrors && rawErrors.length;
     if (states[selectedCountry]) {
       stateList = states[selectedCountry];
       if (formData.city && this.isMilitaryCity(formData.city)) {
@@ -155,7 +146,7 @@ class Address extends React.Component {
             onBlur={this.onPropertyBlur('city')}/>
         <SchemaField
             name="state"
-            required={_.includes(['USA', 'CAN', 'MEX'], formData.country) ? this.isRequired('state') : false}
+            required={_.includes(['USA', 'CAN', 'MEX'], formData.country) || this.isRequired('state')}
             schema={stateSchema}
             uiSchema={stateUiSchema}
             idSchema={idSchema.state}
