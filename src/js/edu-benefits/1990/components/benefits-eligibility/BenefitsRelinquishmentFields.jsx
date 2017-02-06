@@ -53,6 +53,7 @@ export default class BenefitsRelinquishmentFields extends React.Component {
     });
 
     return (<fieldset>
+      <legend>Benefits relinquishment</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <p>Because you chose to apply for your Post-9/11 benefit, you have to relinquish (give up) 1 other benefit you may be eligible for. <br/> <strong>Your decision is irrevocable</strong> (you can’t change your mind).</p>

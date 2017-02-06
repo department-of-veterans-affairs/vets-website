@@ -7,6 +7,7 @@ import { yesNo } from '../../utils/options-for-select';
 export default class DependentInformationFields extends React.Component {
   render() {
     return (<fieldset>
+      <legend>Dependents</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <ErrorableRadioButtons
