@@ -74,11 +74,6 @@ const configGenerator = (options) => {
           }
         },
         {
-          // components.js is effectively a hand-rolled bundle.js. Break it apart.
-          test: /components\.js$/,
-          loader: 'imports?this=>window'
-        },
-        {
           test: /foundation\.js$/,
           loader: 'imports?this=>window'
         },

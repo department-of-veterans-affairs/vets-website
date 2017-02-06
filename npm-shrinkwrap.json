@@ -1051,7 +1051,7 @@
         "qs": {
           "version": "6.2.0",
           "from": "qs@6.2.0",
-          "resolved": "https://registry.npmjs.org/qs/-/qs-6.2.0.tgz",
+          "resolved": "http://registry.npmjs.org/qs/-/qs-6.2.0.tgz",
           "dev": true
         }
       }
@@ -1319,7 +1319,7 @@
         "is-extglob": {
           "version": "1.0.0",
           "from": "is-extglob@>=1.0.0 <2.0.0",
-          "resolved": "http://registry.npmjs.org/is-extglob/-/is-extglob-1.0.0.tgz",
+          "resolved": "https://registry.npmjs.org/is-extglob/-/is-extglob-1.0.0.tgz",
           "dev": true
         },
         "is-glob": {
@@ -3859,7 +3859,7 @@
         "readable-stream": {
           "version": "1.1.14",
           "from": "readable-stream@>=1.1.0 <1.2.0",
-          "resolved": "http://registry.npmjs.org/readable-stream/-/readable-stream-1.1.14.tgz",
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.14.tgz",
           "dev": true
         },
         "xregexp": {
@@ -3985,7 +3985,7 @@
         "is-glob": {
           "version": "2.0.1",
           "from": "is-glob@^2.0.0",
-          "resolved": "https://registry.npmjs.org/is-glob/-/is-glob-2.0.1.tgz",
+          "resolved": "http://registry.npmjs.org/is-glob/-/is-glob-2.0.1.tgz",
           "dev": true
         }
       }
@@ -4399,7 +4399,7 @@
     "iconv-lite": {
       "version": "0.4.13",
       "from": "iconv-lite@0.4.13",
-      "resolved": "http://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.13.tgz",
+      "resolved": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.13.tgz",
       "dev": true
     },
     "icss-replace-symbols": {
@@ -5007,12 +5007,6 @@
       "version": "3.1.0",
       "from": "jquery@>=1.0.0",
       "resolved": "http://registry.npmjs.org/jquery/-/jquery-3.1.0.tgz",
-      "dev": true
-    },
-    "jquery-accessible-simple-tooltip-aria": {
-      "version": "2.0.0",
-      "from": "jquery-accessible-simple-tooltip-aria@latest",
-      "resolved": "https://registry.npmjs.org/jquery-accessible-simple-tooltip-aria/-/jquery-accessible-simple-tooltip-aria-2.0.0.tgz",
       "dev": true
     },
     "js-base64": {
@@ -6039,7 +6033,7 @@
             "domutils": {
               "version": "1.5.1",
               "from": "domutils@1.5",
-              "resolved": "https://registry.npmjs.org/domutils/-/domutils-1.5.1.tgz",
+              "resolved": "http://registry.npmjs.org/domutils/-/domutils-1.5.1.tgz",
               "dev": true
             }
           }
@@ -6059,7 +6053,7 @@
         "readable-stream": {
           "version": "1.1.14",
           "from": "readable-stream@>=1.1.0 <1.2.0",
-          "resolved": "http://registry.npmjs.org/readable-stream/-/readable-stream-1.1.14.tgz",
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.14.tgz",
           "dev": true
         }
       }
@@ -6611,7 +6605,7 @@
         "is-extglob": {
           "version": "1.0.0",
           "from": "is-extglob@>=1.0.0 <2.0.0",
-          "resolved": "http://registry.npmjs.org/is-extglob/-/is-extglob-1.0.0.tgz",
+          "resolved": "https://registry.npmjs.org/is-extglob/-/is-extglob-1.0.0.tgz",
           "dev": true
         },
         "is-glob": {
@@ -6895,7 +6889,7 @@
         "readable-stream": {
           "version": "1.1.14",
           "from": "readable-stream@>=1.1.9 <1.2.0",
-          "resolved": "http://registry.npmjs.org/readable-stream/-/readable-stream-1.1.14.tgz",
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.14.tgz",
           "dev": true
         }
       }
@@ -8387,7 +8381,7 @@
         "is-glob": {
           "version": "2.0.1",
           "from": "is-glob@^2.0.0",
-          "resolved": "https://registry.npmjs.org/is-glob/-/is-glob-2.0.1.tgz",
+          "resolved": "http://registry.npmjs.org/is-glob/-/is-glob-2.0.1.tgz",
           "dev": true
         }
       }
