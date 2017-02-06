@@ -53,107 +53,110 @@ export const dateRange = {
   }
 };
 
-// const countryValues = countries.map(object => object.value);
-// const countryNames = countries.map(object => object.label);
+const countryValues = countries.map(object => object.value);
+const countryNames = countries.map(object => object.label);
 
-// export const address = {
-//   type: 'object',
-//   title: 'Address',
-//   required: ['street', 'city', 'country', 'state', 'postalCode'],
-//   properties: {
-//     country: {
-//       'default': 'USA',
-//       type: 'string',
-//       'enum': countryValues,
-//       enumNames: countryNames
-//     },
-//     street: {
-//       type: 'string',
-//       minLength: 1,
-//       maxLength: 50
-//     },
-//     street2: {
-//       type: 'string',
-//       minLength: 1,
-//       maxLength: 50
-//     },
-//     city: {
-//       type: 'string',
-//       minLength: 1,
-//       maxLength: 51
-//     },
-//     state: {
-//       type: 'string'
-//     },
-//     postalCode: {
-//       type: 'string',
-//       maxLength: 10
-//     }
-//   }
-// };
-
-const address = (() => {
-  const countryValues = countries.map(object => object.value);
-  const countriesWithAnyState = Object.keys(states).filter(x => _.includes(countryValues, x));
-  const countryStateProperites = _.map(states, (value, key) => ({
-    properties: {
-      country: {
-        'enum': [key]
-      },
-      state: {
-        'enum': value.map(x => x.value)
-      },
-      postalCode: {
-        type: 'string',
-        maxLength: 10
-      }
+export const address = {
+  type: 'object',
+  title: 'Address',
+  required: ['street', 'city', 'country', 'state', 'postalCode'],
+  properties: {
+    country: {
+      'default': 'USA',
+      type: 'string',
+      'enum': countryValues,
+      enumNames: countryNames
+    },
+    street: {
+      type: 'string',
+      minLength: 1,
+      maxLength: 50
+    },
+    street2: {
+      type: 'string',
+      minLength: 1,
+      maxLength: 50
+    },
+    city: {
+      type: 'string',
+      minLength: 1,
+      maxLength: 51
+    },
+    state: {
+      type: 'string'
+    },
+    postalCode: {
+      type: 'string',
+      maxLength: 10
     }
-  }));
-  countryStateProperites.push({
-    properties: {
-      country: {
-        not: {
-          'enum': countriesWithAnyState
-        }
-      },
-      state: {
-        type: 'string',
-        maxLength: 51
-      },
-      postalCode: {
-        type: 'string',
-        maxLength: 51
-      },
-    },
-  });
+  }
+};
 
-  return {
-    type: 'object',
-    oneOf: countryStateProperites,
-    properties: {
-      street: {
-        type: 'string',
-        minLength: 1,
-        maxLength: 50
-      },
-      street2: {
-        type: 'string',
-        minLength: 1,
-        maxLength: 50
-      },
-      city: {
-        type: 'string',
-        minLength: 1,
-        maxLength: 51
-      }
-    },
-    required: [
-      'street',
-      'city',
-      'country'
-    ]
-  };
-})();
+// export const address = (() => {
+//   const countryValues = countries.map(object => object.value);
+//   const countriesWithAnyState = Object.keys(states).filter(x => _.includes(countryValues, x));
+//   const countryStateProperties = _.map(states, (value, key) => ({
+//     properties: {
+//       country: {
+//         'default': 'USA',
+//         type: 'string',
+//         'enum': [key],
+//         enumNames: [value]
+//       },
+//       state: {
+//         'enum': value.map(x => x.value)
+//       },
+//       postalCode: {
+//         type: 'string',
+//         maxLength: 10
+//       }
+//     }
+//   }));
+//   countryStateProperties.push({
+//     properties: {
+//       country: {
+//         not: {
+//           'enum': countriesWithAnyState
+//         }
+//       },
+//       state: {
+//         type: 'string',
+//         maxLength: 51
+//       },
+//       postalCode: {
+//         type: 'string',
+//         maxLength: 51
+//       },
+//     },
+//   });
+
+//   return {
+//     type: 'object',
+//     oneOf: countryStateProperties,
+//     properties: {
+//       street: {
+//         type: 'string',
+//         minLength: 1,
+//         maxLength: 50
+//       },
+//       street2: {
+//         type: 'string',
+//         minLength: 1,
+//         maxLength: 50
+//       },
+//       city: {
+//         type: 'string',
+//         minLength: 1,
+//         maxLength: 51
+//       }
+//     },
+//     required: [
+//       'street',
+//       'city',
+//       'country'
+//     ]
+//   };
+// })();
 
 export const phone = {
   type: 'string',

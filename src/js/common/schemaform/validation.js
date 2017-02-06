@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { Validator } from 'jsonschema';
 
-import { isValidSSN, isValidPartialDate, isValidDateRange, isNotBlank, isValidAddressField } from '../utils/validations';
+import { isValidSSN, isValidPartialDate, isValidDateRange, isNotBlank } from '../utils/validations';
 import { parseISODate, updateRequiredFields } from './helpers';
 
 /*
@@ -177,10 +177,43 @@ export function validateDate(errors, dateString) {
   }
 }
 
-export function validateAddress(errors, address) {
-  console.log(address);
+export function validateAddress(errors, formData) {
   // if (!isValidAddressField(address)) {
   //   errors.addError('Please provide a valid address');
+  // }
+
+  const address = formData;
+  console.log({'address': address});
+  console.log({'errors': errors});
+  // const country = address.country.value || address.country;
+
+  // errors.addError('Please provide a valid address');
+
+  // if () {
+  //   const initialOk = isNotBlank(address.street.value) &&
+  //     isNotBlank(address.city.value) &&
+  //     isNotBlank(country);
+
+  //   let isValidPostalCode = true;
+
+  //   if (country === 'USA') {
+  //     isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidUSZipCode, address.postalCode);
+  //   }
+
+  //   if (country === 'CAN') {
+  //     isValidPostalCode = isValidPostalCode && isValidRequiredField(isValidCanPostalCode, address.postalCode);
+  //   }
+
+  //   // if we have a defined list of values, they will
+  //   // be set as the state and zipcode keys
+  //   if (_.hasIn(states, country)) {
+  //     return initialOk &&
+  //       isNotBlank(address.state.value) &&
+  //       isValidPostalCode;
+  //   }
+  //   // if the entry was non-USA/CAN/MEX, only postal is
+  //   // required, not provinceCode
+  //   return initialOk && isNotBlank(address.postalCode.value);
   // }
 }
 
