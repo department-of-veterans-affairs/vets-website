@@ -102,6 +102,11 @@ class EduBenefitsApp extends React.Component {
       }
     }
 
+    let contentClass = 'progress-box progress-box-schemaform';
+    if (endpoint === 'introduction') {
+      contentClass += ' intro-content';
+    }
+
     return (
       <div className="row">
         {devPanel}
@@ -118,7 +123,7 @@ class EduBenefitsApp extends React.Component {
               <NavHeader path={currentLocation.pathname} chapters={chapters} className="nav-header-schemaform"/>
             </div>
           </div>
-          <div className={"progress-box progress-box-schemaform" + (endpoint === 'introduction' ? " intro-content" : "")}>
+          <div className={contentClass}>
             {this.props.children}
             <NavButtons
                 data={data}
