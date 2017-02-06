@@ -71,7 +71,7 @@ class EduBenefitsApp extends React.Component {
   }
 
   render() {
-    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm, onStateChange, onAttemptedSubmit } = this.props;
+    const { currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm, onStateChange, onAttemptedSubmit } = this.props;
     const navigateTo = path => router.push(path);
     const onSubmit = () => {
       submitBenefitsForm(this.props.data);
