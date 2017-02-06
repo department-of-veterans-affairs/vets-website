@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { YourClaimsPage } from '../../../src/js/disability-benefits/containers/YourClaimsPage';
 
 describe('<YourClaimsPage>', () => {
-  it('should render tabs', () => {
+  it('should render tabs if all claims', () => {
     const claims = [];
     const routeParams = {
       showClosedClaims: true
@@ -20,7 +20,7 @@ describe('<YourClaimsPage>', () => {
     expect(tree.everySubTree('MainTabNav').length).to.equal(1);
   });
 
-  it('should not render tabs', () => {
+  it('should not render tabs if not all claims', () => {
     const claims = [];
 
     const tree = SkinDeep.shallowRender(
@@ -30,7 +30,7 @@ describe('<YourClaimsPage>', () => {
     );
     expect(tree.everySubTree('MainTabNav').length).to.equal(0);
   });
-  it('should render sort select', () => {
+  it('should render sort select if all claims', () => {
     const claims = [];
     const routeParams = {
       showClosedClaims: true
@@ -45,7 +45,7 @@ describe('<YourClaimsPage>', () => {
     expect(sortDiv).to.exist;
   });
 
-  it('should not render sort select', () => {
+  it('should not render sort select if not all claims', () => {
     const claims = [];
 
     const tree = SkinDeep.shallowRender(
@@ -74,7 +74,25 @@ describe('<YourClaimsPage>', () => {
     );
     expect(tree.everySubTree('LoadingIndicator').length).to.equal(1);
   });
+  it('should render sync warning', () => {
+    const changePage = sinon.spy();
+    const getClaims = sinon.spy();
+    const page = 1;
+    const pages = 2;
+    const claims = [];
 
+    const tree = SkinDeep.shallowRender(
+      <YourClaimsPage
+          allClaims={false}
+          claims={claims}
+          page={page}
+          pages={pages}
+          getClaims={getClaims}
+          synced={false}
+          changePage={changePage}/>
+    );
+    expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
+  });
   it('should render no claims message', () => {
     const changePage = sinon.spy();
     const getClaims = sinon.spy();

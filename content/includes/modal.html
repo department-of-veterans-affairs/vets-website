@@ -25,7 +25,7 @@ content.
             <li>A candidate for <b>National Call to Service</b></li>
           </ul>
           <div class="show-for-small-only">
-            <a href="https://www.ebenefits.va.gov/ebenefits/vonapp" class="usa-button-primary usa-button-big usa-button-outline">Apply on eBenefits <span class="exit-icon">&nbsp;</span></a> 
+            <a href="https://www.ebenefits.va.gov/ebenefits/vonapp" class="usa-button-primary usa-button-big usa-button-outline">Apply on eBenefits <span class="exit-icon">&nbsp;</span></a>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@ content.
           </div>
           <div class="va-modal-split-divider"></div>
           <div class="va-modal-split-right">
-            <a href="https://www.ebenefits.va.gov/ebenefits/vonapp" class="usa-button-primary usa-button-big usa-button-outline">Apply on eBenefits <span class="exit-icon">&nbsp;</span></a> 
+            <a href="https://www.ebenefits.va.gov/ebenefits/vonapp" class="usa-button-primary usa-button-big usa-button-outline">Apply on eBenefits <span class="exit-icon">&nbsp;</span></a>
           </div>
         </div>
       </div>
@@ -49,23 +49,25 @@ content.
 <script>
 (function($){
   // TODO: eliminate jQuery dependency
-  var modal = $('#va-modal').focus();
+  var modal = $('#va-modal');
+  // Note: Hidden by default by the css
   if (document.location.hash === '#modal'){
-    open(); 
+    open();
   }
-  
+
   $('.va-modal-close-button').click(close);
 
-  function open(){ 
+  function open(){
     modal.show();
+    modal.focus();
   }
 
-  function close(){ 
+  function close(){
     if(window.history.pushState) {
       window.history.pushState('', '/', window.location.pathname)
     } else {
       window.location.hash = '';
-    } 
+    }
     modal.hide();
     $('#content').focus();
   }

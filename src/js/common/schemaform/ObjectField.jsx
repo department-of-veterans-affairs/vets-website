@@ -166,7 +166,7 @@ class ObjectField extends React.Component {
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
               return (
-                <ExpandingGroup open={!!this.state[objectFields[0]]} key={index}>
+                <ExpandingGroup open={!!formData[objectFields[0]]} key={index}>
                   {objectFields.map(renderProp)}
                 </ExpandingGroup>
               );
@@ -203,4 +203,3 @@ ObjectField.propTypes = {
 };
 
 export default ObjectField;
-

@@ -45,6 +45,30 @@ describe('<FilesPage>', () => {
 
     expect(tree.subTree('RequestedFilesInfo')).not.to.be.false;
   });
+  it('should render ask va to decide component', () => {
+    const claim = {
+      id: 1,
+      attributes: {
+        phase: 3,
+        documentsNeeded: false,
+        decisionLetterSent: false,
+        waiverSubmitted: false,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FilesPage
+          params={{ id: 2 }}
+          claim={claim}/>
+    );
+    expect(tree.everySubTree('AskVAToDecide')).not.to.be.empty;
+  });
   it('should display turned in docs', () => {
     const claim = {
       attributes: {

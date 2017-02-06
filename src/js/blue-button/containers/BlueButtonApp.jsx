@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Breadcrumbs from '../components/Breadcrumbs';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 // This needs to be a React component for RequiredLoginView to pass down
@@ -23,7 +24,7 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return <div className="blue-button-app">{view}</div>;
+  return <div className="bb-app">{view}</div>;
 }
 
 class BlueButtonApp extends React.Component {
@@ -31,7 +32,14 @@ class BlueButtonApp extends React.Component {
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"bluebutton"}>
         <AppContent>
-          <h1>Blue Button App</h1>
+          <div>
+            <div className="row">
+              <div className="columns small-12">
+                <Breadcrumbs location={this.props.location}/>
+                {this.props.children}
+              </div>
+            </div>
+          </div>
         </AppContent>
       </RequiredLoginView>
     );
