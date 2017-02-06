@@ -1,5 +1,4 @@
 import _ from 'lodash/fp';
-import { includes } from 'lodash';
 import { Validator } from 'jsonschema';
 
 import { isValidSSN, isValidPartialDate, isValidDateRange, isValidUSZipCode, isValidCanPostalCode } from '../utils/validations';
@@ -192,7 +191,7 @@ export function validateAddress(errors, formData) {
 
   // Adds error message for state if it is blank and one of the following countries:
   // USA, Canada, or Mexico
-  if (_.includes(['USA', 'CAN', 'MEX'], address.country) && address.state == undefined) {
+  if (_.includes(address.country)(['USA', 'CAN', 'MEX']) && address.state == undefined) {
     errors.state.addError('Please select a state or province');
   }
 
