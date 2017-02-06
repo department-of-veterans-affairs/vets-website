@@ -5,6 +5,7 @@ import ErrorableRadioButtons from '../../common/components/form-elements/Errorab
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 import DatePicker from 'react-datepicker';
 import { reportTypes } from '../config';
+import _ from 'lodash';
 import {
   changeDateOption,
   setDate,
@@ -29,10 +30,6 @@ class Main extends React.Component {
     // use this.props.setDate(date, false) to change start date
   }
 
-  handleToggleAll() {
-    // use this.props.toggleAllReports to toggle all options
-  }
-
   handleSubmit(e) {
     e.preventDefault();
 
@@ -54,6 +51,7 @@ class Main extends React.Component {
                 <ErrorableCheckbox
                     name={c.value}
                     label={c.label}
+                    checked={this.props.form.reportTypes[c.value]}
                     onValueChange={reportTypeOnChange}/>
               </div>
             );
@@ -103,6 +101,7 @@ class Main extends React.Component {
         value: this.props.form.dateOption,
       }
     };
+    const allValuesChecked = _.every(_.values(this.props.form.reportTypes), v => v);
 
     return (
       <div>
@@ -115,6 +114,13 @@ class Main extends React.Component {
           </div>
           <div>
             <h4 className="highlight">Select Types of Information</h4>
+            <ErrorableCheckbox
+                name="all"
+                label="Select all types of information"
+                checked={allValuesChecked}
+                onValueChange={(checked) => {
+                  this.props.toggleAllReports(checked);
+                }}/>
             {this.renderInformationTypes()}
           </div>
           <div className="form-actions">

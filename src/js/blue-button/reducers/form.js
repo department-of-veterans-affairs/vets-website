@@ -7,6 +7,7 @@ const reportTypeValues = reduce(reportTypes, (memo, v) => {
   forEach(v.children, c => {
     memo[c.value] = false; // eslint-disable-line no-param-reassign
   });
+  return memo;
 }, {});
 
 const initialState = {
