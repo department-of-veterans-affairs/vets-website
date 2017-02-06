@@ -92,8 +92,8 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
     </div>
   </div>
   <div class="va-notice--banner">
-    <div class="row hide-for-medium-up crisis-line-container">
-      <div class="small-12 va-flex">
+    <div class="row crisis-line-container crisis-line-sm">
+      <div class="va-flex">
         <div class="stacked">
           <button data-show="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
             <span class="va-flex">
@@ -105,7 +105,7 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
       </div>
     </div>
     <div class="row crisis-row">
-      <div class="columns small-12 medium-7 message">
+      <div class="columns small-12 medium-7 va-wip-message message">
         <p>This site is a <a target="_blank" href="https://www.vets.gov/playbook/design/">work in progress.</a> If you don&rsquo;t find what you need, visit <a target="_blank" href="http://www.va.gov">VA.gov</a>.</p>
       </div>
       <div class="columns small-12 medium-5 crisis-line-container crisis-line-container--wide">
@@ -144,8 +144,7 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
     </div>
 
     {% if search != 'false' %}
-      <div class="hide-for-small-only">
-        <div class="menu">
+      <div class="menu hide-for-small-only">
           <form accept-charset="UTF-8" class="usa-search usa-search-small" action="https://search.vets.gov/search" method="get">
             <div role="search">
               <label class="usa-sr-only" for="search-field-small">Search</label>
@@ -157,12 +156,17 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
             </div>
           </form>
         </div>
-      </div>
 
-      <button type="button" class="va-btn-mob-vetnav-trigger">
-        {% include "assets/img/arrow-down.svg" %}
-        Menu
-      </button>
+      <div id="vetnav-controls"> 
+        <button aria-controls="vetnav" aria-expanded="false" hidden type="button" class="vetnav-controller-close">
+          {% include "assets/img/icons/close.svg" %}
+          Close
+        </button>
+        <button aria-controls="vetnav" type="button" aria-expanded="false" class="vetnav-controller-open">
+          {% include "assets/img/arrow-down.svg" %}
+          Menu
+        </button>
+      </div>
 
       <div id="mobile-menu" class="va-overlay hide-for-medium-up" role="dialog">
         <div class="medium-5 medium-offset-3 text-right columns">

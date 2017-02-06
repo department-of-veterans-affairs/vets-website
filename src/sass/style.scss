@@ -42,6 +42,11 @@
 @import "~uswds/src/stylesheets/components/forms";
 @import "~uswds/src/stylesheets/components/sidenav";
 
+
+// ----- TEMPORARY OVERRIDES ---- //
+@import 'temporary/uswds-accordions'; // Added for getting top level nav in place
+
+
 // ----- VA BASE (VARIABLES/HELPERS) ---- //
 
 @import 'base/b-variables';

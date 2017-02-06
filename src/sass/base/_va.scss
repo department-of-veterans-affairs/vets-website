@@ -183,8 +183,13 @@ hr {
 
 // Utility classes
 // TODO(css): Move these into a partial once there are enough
-.va-util-rel {
-  position: relative
+.va-util-rel,
+.va-pos-rel {
+  position: relative;
+}
+
+.va-pos-fixed {
+  position: fixed;
 }
 
 // TODO(css): Fix this. Should use a less specific, less broad selector
@@ -217,7 +222,8 @@ hr {
 
   .login-container {
     background: $color-primary-darkest;
-    padding: 0.3em 0 1em;
+    padding: 0.3em 0 0;
+    white-space: nowrap;
 
     .row {
       padding: 0;
@@ -236,8 +242,10 @@ hr {
 }
 
 .va-header-logo-wrapper {
-  @include media($xsmall-screen) {
-    flex: 1 1 60rem;
+  flex: 1 1 10rem;
+
+  @include media($medium-screen) {
+    flex-basis: 60rem;
   }
 }
 
@@ -365,7 +373,7 @@ h6 {
   h2.gold-ruled {
     color: $color-primary-darker;
     padding-bottom: 0.5em;
-    border-bottom: #988530 solid 2px;
+    border-bottom: $color-va-accent solid 2px;
   }
 
   a {
@@ -1303,12 +1311,22 @@ li {
   }
 }
 
+.va-wip-message {
+  padding: 0.5em 0;
+  color: $color-white;
+  font-size: 0.8em;
+  font-weight: 400;
+
+  a {
+    color: inherit;
+    background-image: none;
+    padding: 0;
+  }
+}
+
+
 .header {
-  .message {
-    padding: 0.5em 0;
-    color: $color-white;
-    font-size: 0.8em;
-    font-weight: 400;
+  .va-wip-message {
     flex: 1;
   }
 
