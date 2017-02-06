@@ -18,6 +18,7 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
 const sitemap = require('metalsmith-sitemap');
+const updated = require('metalsmith-updated');
 const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
@@ -127,7 +128,7 @@ smith.use(define({
 }));
 
 smith.use(collections());
-smith.use(dateInFilename(true));
+// smith.use(dateInFilename(true));
 smith.use(archive());  // TODO(awong): Can this be removed?
 
 if (options.watch) {
@@ -249,6 +250,8 @@ smith.use(markdown({
   typographer: true,
   html: true
 }));
+
+smith.use(updated());
 
 // Responsible for create permalink structure. Most commonly used change foo.md to foo/index.html.
 //

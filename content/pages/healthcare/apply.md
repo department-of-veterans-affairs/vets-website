@@ -107,5 +107,3 @@ Double click on the downloaded file to open it.
 </dl>
 
 Double click on the downloaded file to open it.
-
-</div>
