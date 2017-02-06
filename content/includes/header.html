@@ -11,29 +11,25 @@
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 <meta content="Vets.gov" property="og:site_name">
-
+{% if lastupdate %}
+<meta name="DC.Date" content="{{lastupdate| date: '%Y-%m-%d'}}" property="http://purl.org/dc/terms/date">
+{% endif %}
 {% if title %}
 <meta content="{{ title }}" property="og:title">
 {% else %}
 <meta content="https://www.vets.gov" property="og:title">
 {% endif %}
-
 <meta content="website" property="og:type">
-
 {% if path %}
 <meta content="https://www.vets.gov/{{ path }}" property="og:url">
 {% endif %}
-
 <meta content="https://www.vets.gov/img/design/logo/og-image.jpg" property="og:image">
-
 {% if tags %}
 {% for tag in tags %}
 <meta content="{{ tag }}" property="article:tag">
 {% endfor %}
 {% endif %}
-
 {% if title === 'Home' %}
 <title>Vets.gov</title>
 {% else %}
