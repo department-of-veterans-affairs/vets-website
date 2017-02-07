@@ -5,7 +5,7 @@ plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 ---
 
-We believe several illnesses are likely caused by contact with Agent Orange, a toxic chemical used to clear trees and plants during the Vietnam War. Find out if you can get disability compensation or benefits if you had contact with Agent Orange while serving in the military and now have 1 or more of the illnesses listed below.
+We believe that contact with Agent Orange, a toxic chemical used to clear trees and plants during the Vietnam War, likely causes several illnesses. Find out if you can get disability compensation or benefits if you had contact with Agent Orange while serving in the military and now have 1 or more of the illnesses listed below.
 
 ### Cancers believed to be caused by contact with Agent Orange
 
@@ -27,9 +27,9 @@ We believe several illnesses are likely caused by contact with Agent Orange, a t
 - **[Ischemic Heart Disease](http://www.publichealth.va.gov/exposures/agentorange/conditions/ischemicheartdisease.asp):** A type of heart disease that happens when your heart doesn’t get enough blood (and the oxygen the blood carries). It often causes chest pain or discomfort.
 - **[Parkinson’s Disease](http://www.publichealth.va.gov/exposures/agentorange/conditions/parkinsonsdisease.asp):** An illness of the nervous system (the network of nerves and fibers that send messages between your brain and spinal cord and other areas of your body) that affects your muscles and movement—and gets worse over time
 - **[Peripheral Neuropathy, Early Onset](http://www.publichealth.va.gov/exposures/agentorange/conditions/peripheral_neuropathy.asp):** An illness of the nervous system that causes numbness, tingling, and weakness. Under our rating regulations, it must be at least 10% disabling within 1 year of contact with herbicides.
-- **[Porphyria Cutanea Tarda](http://www.publichealth.va.gov/exposures/agentorange/conditions/porphyria-cutanea-tarda.asp):** A rare illness that can make your liver stop working the way it should and can cause your skin to thin and blister when you are out in the sun. Under VA’s rating regulations, it must be at least 10% disabling within 1 year of contact with herbicides.
+- **[Porphyria Cutanea Tarda](http://www.publichealth.va.gov/exposures/agentorange/conditions/porphyria-cutanea-tarda.asp):** A rare illness that can make your liver stop working the way it should and can cause your skin to thin and blister when you're out in the sun. Under VA’s rating regulations, it must be at least 10% disabling within 1 year of contact with herbicides.
 
 
-If you have an illness you think is caused by contact with Agent Orange—and you don't see it listed here—you can still apply for benefits. You'll need to show that you have a disability and include doctor or hospital reports stating that your illness is believed to be caused by contact with Agent Orange.
+If you have an illness you think is caused by contact with Agent Orange—and you don't see it listed here—you can still apply for benefits. You'll need to show that you have a disability and include a doctor's report or a hospital report stating that your illness is believed to be caused by contact with Agent Orange.
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
