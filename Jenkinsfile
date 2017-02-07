@@ -97,7 +97,7 @@ node('vets-website-linting') {
     }
 
     build job: 'vets-review-instance-deploy', parameters: [
-      stringParam(name: 'devops_branch', value: 'master'),
+      stringParam(name: 'devops_branch', value: 'jk-review-app-jenkins-gh-deployment-a'),
       stringParam(name: 'api_branch', value: 'master'),
       stringParam(name: 'web_branch', value: env.BRANCH_NAME),
       stringParam(name: 'source_repo', value: 'vets-website'),
