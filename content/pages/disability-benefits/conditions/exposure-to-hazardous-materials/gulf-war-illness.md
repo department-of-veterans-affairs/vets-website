@@ -27,7 +27,8 @@ You must have been discharged under conditions other than dishonorable and have 
 - Fibromyalgia
 - Other undiagnosed illnesses, including but not limited to cardiovascular disease, muscle and joint pain, and headaches
 
-**Note:** You can also get benefits if: 
+##### Presumed disabilities
+You can also get benefits if: 
 - You have a presumed disability that appeared within 1 year of your date of separation, **and** 
 - This presumed disability qualifies you for a disability rating of 10% or more
 
@@ -40,6 +41,7 @@ We consider these illnesses to be presumed disabilities:
 - West Nile Virus
 
 [Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply-for-benefits/one-year/).
+
 [Learn more about presumed disabilities](/disability-benefits/claims-process/presumed-disability/).
 <br>
 
