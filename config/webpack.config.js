@@ -123,7 +123,6 @@ const configGenerator = (options) => {
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
-        __ALL_CLAIMS_ENABLED__: (options.buildtype === 'development' || process.env.ALL_CLAIMS_ENABLED === 'true'),
         __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
         'process.env': {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
