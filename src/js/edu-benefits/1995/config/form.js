@@ -31,7 +31,7 @@ const formConfig = {
               'ui:required': (form) => !form.noSSN
             }),
             noSSN: {
-              'ui:title': 'I don\'t have a Social Security number',
+              'ui:title': 'I don’t have a Social Security number',
               'ui:options': {
                 hideOnReviewIfFalse: true
               }
@@ -41,6 +41,9 @@ const formConfig = {
               'ui:title': 'File number',
               'ui:errorMessages': {
                 pattern: 'File number must be 8 digits and (optionally) start with C'
+              },
+              'ui:options': {
+                expandUnder: 'noSSN'
               }
             }
           },
@@ -80,7 +83,7 @@ const formConfig = {
           uiSchema: {
             benefitSelected: {
               'ui:widget': 'radio',
-              'ui:title': 'Select the benefit that is the best match for you:'
+              'ui:title': 'Which benefit are you transfering to a new location?'
             }
           },
           schema: {
@@ -111,7 +114,7 @@ const formConfig = {
           uiSchema: {
             toursOfDuty: {
               'ui:title': 'Service periods',
-              'ui:description': 'Please record all your periods of service',
+              'ui:description': 'Please record any new periods of service since your last application.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
@@ -136,14 +139,8 @@ const formConfig = {
                     serviceBranch: {
                       type: 'string'
                     },
-                    dateRange: _.merge(dateRange, {
-                      required: ['from']
-                    })
-                  },
-                  required: [
-                    'dateRange',
-                    'serviceBranch'
-                  ]
+                    dateRange,
+                  }
                 }
               }
             }
@@ -173,6 +170,7 @@ const formConfig = {
           path: 'military-history/contributions',
           initialData: {},
           uiSchema: {
+
             civilianBenefitsAssistance: {
               'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA'
             }
@@ -193,14 +191,14 @@ const formConfig = {
       pages: {
         newSchool: {
           path: 'school-selection/new-school',
-          title: 'New school, university, or training facility',
+          title: 'School, university, program, or training facility you want to attend',
           initialData: {
             school: {
               address: {}
             }
           },
           uiSchema: {
-            'ui:title': 'New school, university, or training facility',
+            'ui:title': 'School, university, program, or training facility you want to attend',
             educationType: {
               'ui:title': 'Type of education or training'
             },
@@ -223,7 +221,8 @@ const formConfig = {
             properties: {
               educationType: {
                 type: 'string',
-                'enum': ['college', 'correspondence', 'apprenticeship', 'flightTraining', 'testReimbursement', 'licensingReimbursement', 'tuitionTopUp']
+                'enum': ['college', 'correspondence', 'apprenticeship', 'flightTraining', 'testReimbursement', 'licensingReimbursement', 'tuitionTopUp'],
+                enumNames: ['College, university, or other educational program, including online courses', 'Correspondence', 'Apprenticeship or on-the-job training', 'Vocational fight training', 'National test reimbursement (for example, SAT or CLEP)', 'Licensing or certification test reimbursement (for example, MCSE, CCNA, EMT, or NCLEX)', 'Tuition assistance top up (Post 9/11 GI Bill and MGIB-AD only)'],
               },
               school: {
                 type: 'object',
@@ -245,22 +244,22 @@ const formConfig = {
         },
         oldSchool: {
           path: 'school-selection/old-school',
-          title: 'Old school, university, or training facility',
+          title: 'School, university, program, or training facility you last attended',
           initialData: {
             school: {
               address: {}
             }
           },
           uiSchema: {
-            'ui:title': 'Old school, university, or training facility',
+            'ui:title': 'School, university, program, or training facility you last attended',
             school: {
               name: {
                 'ui:title': 'Name of school, university, or training facility'
               }
             },
-            stopTrainingDate: _.merge(uiDate, { 'ui:title': 'When did you stop training?' }),
+            stopTrainingDate: _.merge(uiDate, { 'ui:title': 'When did you stop taking classes or participating in the training program?' }),
             stopTrainingReason: {
-              'ui:title': 'Why did you stop training?'
+              'ui:title': 'Why did you stop taking classes or participating in the training program?'
             }
           },
           schema: {
@@ -293,7 +292,7 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             preferredContactMethod: {
-              'ui:title': 'How would you prefer to be contacted if VA has questions about your application?',
+              'ui:title': 'How would you like to be contacted if VA has questions about your application?',
               'ui:widget': 'radio'
             },
             otherContactInfo: {
@@ -434,8 +433,8 @@ const formConfig = {
             properties: {
               changeDirectDeposit: {
                 type: 'string',
-                'enum': ['start', 'stop', 'continue'],
-                enumNames: ['Start', 'Stop', 'Continue']
+                'enum': ['continue', 'start', 'stop'],
+                enumNames: ['Continue', 'Start', 'Stop']
               },
               accountType: {
                 type: 'string',
