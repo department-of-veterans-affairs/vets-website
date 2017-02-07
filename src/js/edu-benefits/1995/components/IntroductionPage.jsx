@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
   }
   render() {
     return (
-      <div className="section">
+      <div className="section schemaform-intro">
         <div className="row">
           <div className="small-12 columns">
             <div className="input-section">
