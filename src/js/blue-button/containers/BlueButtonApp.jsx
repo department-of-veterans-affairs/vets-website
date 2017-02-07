@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
+import GlossaryModal from '../components/GlossaryModal';
+import { closeModal } from '../actions/modal';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
@@ -39,6 +41,11 @@ class BlueButtonApp extends React.Component {
                 {this.props.children}
               </div>
             </div>
+            <GlossaryModal
+                title={this.props.modal.title}
+                content={this.props.modal.content}
+                isVisible={this.props.modal.visible}
+                onCloseModal={this.props.closeModal}/>
           </div>
         </AppContent>
       </RequiredLoginView>
@@ -50,7 +57,15 @@ BlueButtonApp.propTypes = {
   children: React.PropTypes.element
 };
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = {};
+const mapStateToProps = (state) => {
+  const bbState = state.health.bb;
+
+  return {
+    modal: bbState.modal,
+  };
+};
+const mapDispatchToProps = {
+  closeModal,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlueButtonApp);

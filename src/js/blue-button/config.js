@@ -33,16 +33,19 @@ module.exports = {
           value: 'labsandtests',
           label: 'VA Laboratory Results',
           hold: 3,
+          holdExplanation: 'Explanation for hold',
         },
         {
           value: 'vapathology',
           label: 'VA Pathology Reports',
           hold: 14,
+          holdExplanation: 'Explanation for hold',
         },
         {
           value: 'varadiology',
           label: 'VA Radiology Reports',
           hold: 3,
+          holdExplanation: 'Explanation for hold',
         },
         {
           value: 'vaekg',
@@ -61,16 +64,19 @@ module.exports = {
           value: 'vaproblemlist',
           label: 'VA Problem List',
           hold: 3,
+          holdExplanation: 'Explanation for hold',
         },
         {
           value: 'vaadmissionsanddischarges',
           label: 'VA Admissions and Discharges',
           hold: 3,
+          holdExplanation: 'Explanation for hold',
         },
         {
           value: 'vaprogressnotes',
           label: 'VA Notes from Jan 01, 2013 forward',
           hold: 3,
+          holdExplanation: 'Explanation for hold',
         },
         {
           value: 'wellness',
