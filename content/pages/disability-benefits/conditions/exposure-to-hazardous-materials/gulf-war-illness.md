@@ -19,7 +19,7 @@ Your chronic illness or other condition must have:
 -	Started while you were on active duty or before December 31, 2016, **and**
 -	Caused you to be ill for at least 6 months, **and**
 -	Qualified you for a disability rating of 10% or more, **and**
--	Not been caused by anything except your service in Southwest Asia theater of operations, **and** 
+-	Not been caused by anything except your service in the Southwest Asia theater of operations, **and** 
 
 You must have been discharged under conditions other than dishonorable and have a diagnosis of 1 or more of these conditions: 
 - Functional gastrointestinal disorders
