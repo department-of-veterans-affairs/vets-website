@@ -15,19 +15,23 @@ If you served in the Southwest Asia theater of military operations, you may suff
 
 You may be able to get disability benefits if you served in the Southwest Asia theater of operations during the Gulf War period, and you have 1 or more illnesses or other conditions related to service in this region. To get benefits: 
 
-#### Your chronic illness or other condition must have:
+Your chronic illness or other condition must have:
 -	Started while you were on active duty or before December 31, 2016, **and**
 -	Caused you to be ill for at least 6 months, **and**
 -	Qualified you for a disability rating of 10% or more, **and**
--	Not been caused by anything except your service in Southwest Asia theater of operations **and** 
+-	Not been caused by anything except your service in Southwest Asia theater of operations, **and** 
 
-#### You must have been discharged under conditions other than dishonorable and have a diagnosis of 1 or more of these conditions: 
+You must have been discharged under conditions other than dishonorable and have a diagnosis of 1 or more of these conditions: 
 - Functional gastrointestinal disorders
 - Chronic Fatigue Syndrome
 - Fibromyalgia
 - Other undiagnosed illnesses, including but not limited to cardiovascular disease, muscle and joint pain, and headaches
 
-**Note:** You can also get benefits if you have certain presumptive conditions that appeared within 1 year of your date of separation, and these presumptive conditions qualify you for a disability rating of 10% or more. These illnesses include: 
+**Note:** You can also get benefits if: 
+- You have a presumed disability that appeared within 1 year of your date of separation, **and** 
+- This presumed disability qualifies you for a disability rating of 10% or more
+
+We consider these illnesses to be presumed disabilities: 
 - Burcellosis
 - Campylobacter jejuni
 - Coxiella burnetii (Q fever)
@@ -35,6 +39,8 @@ You may be able to get disability benefits if you served in the Southwest Asia t
 - Shigella
 - West Nile Virus
 
+[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply-for-benefits/one-year/).
+[Learn more about presumed disabilities](/disability-benefits/claims-process/presumed-disability/).
 <br>
 
 ### Who's covered?
