@@ -14,13 +14,7 @@ class RequiredLoginView extends React.Component {
     this.handleSignup = this.handleSignup.bind(this);
     this.setUserLevel = this.setUserLevel.bind(this);
     this.setInitialLevel = this.setInitialLevel.bind(this);
-
     this.handleVerify = handleVerify;
-    this.state = {
-      accountType: 0,
-      services: null,
-      loading: true
-    };
   }
 
   componentDidMount() {
@@ -38,19 +32,9 @@ class RequiredLoginView extends React.Component {
       this.setState({ loginUrl: json.authenticate_via_get });
     });
 
-    addEvent(window, 'message', (evt) => {
-      this.setInitialLevel(evt);
-    });
-
     setTimeout(() => {
       this.setState({ loading: false });
     }, 2000);
-  }
-
-  setInitialLevel(event) {
-    if (event.data === sessionStorage.userToken) {
-      this.setUserLevel();
-    }
   }
 
   setUserLevel() {
