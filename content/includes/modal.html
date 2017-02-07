@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function open() {
     modal.style.display = 'block';
-    window.location.hash = '#modal';
+    modal.focus();
   }
 
   const closeButtons = document.querySelectorAll('.va-modal-close-button');
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.hash = '';
     }
     modal.style.display = 'none';
-    $('#content').focus();
+    querySelector('#content').focus();
   }
 
   Array.from(closeButtons).map((cb) => {
