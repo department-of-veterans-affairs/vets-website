@@ -94,7 +94,9 @@
 }
 
 .va-crisis-line {
-  background: $color-gray-lightest no-repeat calc(100% - 0.5em) center;
+  background-color: $color-gray-lightest;
+  background-repeat: no-repeat;
+  background-position: calc(100% - 0.5em) center;
   background-size: .8em auto;
   color: $color-base;
   margin: 0;
