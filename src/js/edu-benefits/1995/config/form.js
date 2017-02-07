@@ -154,6 +154,10 @@ const formConfig = {
             hasServiceBefore1978: {
               'ui:title': 'Do you have any periods of service that began before 1978?',
               'ui:widget': 'yesNo'
+            },
+            civilianBenefitsAssistance: {
+              'ui:title': 'Are you getting benefits from the U.S. Government as a civilian employee during the same time as you\'re seeking benefits from VA?',
+              'ui:widget': 'yesNo'
             }
           },
           schema: {
@@ -161,23 +165,7 @@ const formConfig = {
             properties: {
               hasServiceBefore1978: {
                 type: 'boolean'
-              }
-            }
-          }
-        },
-        contributions: {
-          title: 'Contributions',
-          path: 'military-history/contributions',
-          initialData: {},
-          uiSchema: {
-
-            civilianBenefitsAssistance: {
-              'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA'
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
+              },
               civilianBenefitsAssistance: {
                 type: 'boolean'
               }
