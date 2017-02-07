@@ -40,7 +40,7 @@ const formConfig = {
               'ui:required': (form) => !!form.noSSN,
               'ui:title': 'File number',
               'ui:errorMessages': {
-                pattern: 'File number must be 8 digits and (optionally) start with C'
+                pattern: 'File number must be 8 digits'
               },
               'ui:options': {
                 expandUnder: 'noSSN'
