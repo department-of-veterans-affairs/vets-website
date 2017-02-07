@@ -54,27 +54,15 @@ class RequiredLoginView extends React.Component {
   }
 
   setUserLevel() {
-    fetch(`${environment.API_URL}/v0/user`, {
-      method: 'GET',
-      headers: new Headers({
-        Authorization: `Token token=${sessionStorage.userToken}`
-      })
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      const systemStatus = json.data.attributes.va_profile.status;
-      const requiredApp = this.props.serviceRequired;
-      const userAccounts = json.data.attributes.profile.loa;
-      const userServices = json.data.attributes.services;
+    const requiredApp = this.props.serviceRequired;
+    const userServices = this.props.userProfile.services;
+    if (userServices) {
       this.setState(
         {
-          accountType: userAccounts.current,
-          profileStatus: systemStatus,
-          services: userServices,
           isServiceAvailableForUse: userServices.includes(requiredApp),
         }
       );
-    });
+    }
   }
 
   handleLogin() {
@@ -141,17 +129,17 @@ class RequiredLoginView extends React.Component {
       view = <LoadingIndicator setFocus message="Loading your information"/>;
     } else {
       if (this.props.authRequired === 1) {
-        if (this.state.accountType >= 1) {
+        if (this.props.userProfile.accountType >= 1) {
           view = this.props.children;
         } else {
           view = loginComponent;
         }
       } else if (this.props.authRequired === 3) {
-        if (this.state.accountType === 3) {
-          if (this.state.profileStatus === 'SERVER_ERROR') {
+        if (this.props.userProfile.accountType === 3) {
+          if (this.props.userProfile.status === 'SERVER_ERROR') {
             // If va_profile is null, the system is down and we will show system down message.
             view = <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later."/>;
-          } else if (this.state.profileStatus === 'NOT_FOUND') {
+          } else if (this.props.userProfile.status === 'NOT_FOUND') {
             // If va_profile is "not found", we cannot find you in our system and we will show a, we can't find you message.
             view = <SystemDownView messageLine1="We couldn't find your records with that information." messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286. We're open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET)."/>;
           } else {
@@ -160,7 +148,7 @@ class RequiredLoginView extends React.Component {
               // If you have the required service show the application view.
               view = this.props.children;
             } else {
-              // If you do not have the required service in your `services` array then we will show the component but pass a prop to let them know that you don't have any data. Only passes prop on React components (functions) and not elements like divs so that React does not throw a warning
+              // If you do not have the required service in your `userServices` array then we will show the component but pass a prop to let them know that you don't have any data. Only passes prop on React components (functions) and not elements like divs so that React does not throw a warning
               view = React.Children.map(this.props.children,
                 (child) => {
                   let props = null;
@@ -175,7 +163,7 @@ class RequiredLoginView extends React.Component {
               );
             }
           }
-        } else if (this.state.accountType === 1) {
+        } else if (this.props.userProfile.accountType === 1) {
           view = verifyComponent;
         } else {
           view = loginComponent;

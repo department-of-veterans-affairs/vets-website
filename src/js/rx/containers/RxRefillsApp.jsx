@@ -32,7 +32,7 @@ function AppContent({ children, isDataAvailable }) {
 class RxRefillsApp extends React.Component {
   render() {
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"rx"}>
+      <RequiredLoginView authRequired={3} serviceRequired={"rx"} userProfile={this.props.profile}>
         <AppContent>
           <div className="row">
             <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
@@ -63,11 +63,13 @@ RxRefillsApp.propTypes = {
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
   const modals = rxState.modals;
+  const userState = state.user;
 
   return {
     glossaryModal: modals.glossary,
     refillModal: modals.refill,
     prescription: rxState.prescriptions.currentItem,
+    profile: userState.profile
   };
 };
 
