@@ -259,7 +259,7 @@ const formConfig = {
             },
             stopTrainingDate: _.merge(uiDate, { 'ui:title': 'When did you stop taking classes or participating in the training program?' }),
             stopTrainingReason: {
-              'ui:title': 'Why did you stop taking classes or participating in the training program?'
+              'ui:title': 'Why did you stop taking classes or participating in the training program? (For example, “I moved to a different area” or “The program wasn\'t right for me.”)'
             }
           },
           schema: {
