@@ -50,13 +50,13 @@ content.
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.querySelector('#va-modal');
 
-  if (document.location.hash === '#modal'){
-    open();
-  }
-
   function open() {
     modal.style.display = 'block';
     modal.focus();
+  }
+
+  if (document.location.hash === '#modal'){
+    open();
   }
 
   const closeButtons = document.querySelectorAll('.va-modal-close-button');
