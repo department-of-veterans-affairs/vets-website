@@ -106,7 +106,7 @@ class EduBenefitsApp extends React.Component {
     let contentClass = classNames(
       'progress-box',
       'progress-box-schemaform',
-      {'intro-content': endpoint === 'introduction'}
+      { 'intro-content': endpoint === 'introduction' }
     );
 
     return (
