@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
 import { connect } from 'react-redux';
@@ -102,10 +103,11 @@ class EduBenefitsApp extends React.Component {
       }
     }
 
-    let contentClass = 'progress-box progress-box-schemaform';
-    if (endpoint === 'introduction') {
-      contentClass += ' intro-content';
-    }
+    let contentClass = classNames(
+      'progress-box',
+      'progress-box-schemaform',
+      { 'intro-content': endpoint === 'introduction' }
+    );
 
     return (
       <div className="row">
@@ -114,11 +116,7 @@ class EduBenefitsApp extends React.Component {
         <div className="medium-8 columns">
           <FormTitle title="Apply for education benefits" subTitle="Form 22-1990"/>
           <div>
-            {
-              // Only render SegmentedProgressBar if we're not in the intro or submit-message pages
-              // Could possibly move this into SegmentedProgressBar
-              !_.includes(['introduction', 'submit-message'], endpoint) ? <SegmentedProgressBar total={chapters.length} current={step}/> : null
-            }
+            { !_.includes(['introduction', 'submit-message'], endpoint) && <SegmentedProgressBar total={chapters.length} current={step}/> }
             <div className="schemaform-chapter-progress">
               <NavHeader path={currentLocation.pathname} chapters={chapters} className="nav-header-schemaform"/>
             </div>
