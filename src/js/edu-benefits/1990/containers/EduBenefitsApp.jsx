@@ -106,7 +106,7 @@ class EduBenefitsApp extends React.Component {
     let contentClass = classNames(
       'progress-box',
       'progress-box-schemaform',
-      { 'intro-content': endpoint === 'introduction' }
+      {'intro-content': endpoint === 'introduction'}
     );
 
     return (
@@ -116,7 +116,7 @@ class EduBenefitsApp extends React.Component {
         <div className="medium-8 columns">
           <FormTitle title="Apply for education benefits" subTitle="Form 22-1990"/>
           <div>
-            { !_.includes(['introduction', 'submit-message'], endpoint) && <SegmentedProgressBar total={chapters.length} current={step}/> }
+            {!_.includes(['introduction', 'submit-message'], endpoint) && <SegmentedProgressBar total={chapters.length} current={step}/>}
             <div className="schemaform-chapter-progress">
               <NavHeader path={currentLocation.pathname} chapters={chapters} className="nav-header-schemaform"/>
             </div>
