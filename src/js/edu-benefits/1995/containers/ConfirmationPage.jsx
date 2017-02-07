@@ -6,6 +6,8 @@ import Scroll from 'react-scroll';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 import { focusElement } from '../../../common/utils/helpers';
 
+import { benefitsLabels } from '../helpers';
+
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -34,7 +36,7 @@ class ConfirmationPage extends React.Component {
 
   render() {
     const form = this.props.form;
-    const response = this.props.form.submission.response;
+    const response = this.props.form.submission.response.attributes;
     const name = form.veteranInformation.data.veteranFullName;
     const benefit = form.benefitSelection.data.benefit;
 
@@ -53,19 +55,19 @@ class ConfirmationPage extends React.Component {
           <ul className="claim-list">
             <li>
               <strong>Benefit claimed</strong><br/>
-              {benefit}
+              {benefitsLabels[benefit]}
             </li>
             <li>
               <strong>Confirmation number</strong><br/>
-              <span>{response.confirmation}</span>
+              <span>{response.confirmationNumber}</span>
             </li>
             <li>
               <strong>Date received</strong><br/>
-              <span>{moment(form.submission.date).format('MMM D, YYYY')}</span>
+              <span>{moment(form.submission.submittedAt).format('MMM D, YYYY')}</span>
             </li>
             <li>
               <strong>Your claim was sent to</strong><br/>
-              <address className="edu-benefits-pre">{response.address}</address>
+              <address className="edu-benefits-pre">{response.regionalOffice}</address>
             </li>
           </ul>
         </div>
@@ -85,6 +87,13 @@ class ConfirmationPage extends React.Component {
           </ExpandingGroup>
         </div>
         <p>Need help? If you have questions, call 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.</p>
+        <div className="row form-progress-buttons schemaform-back-buttons">
+          <div className="small-6 medium-6 columns">
+            <a href="/">
+              <button className="usa-button-primary">Back to Main Page</button>
+            </a>
+          </div>
+        </div>
       </div>
     );
   }
