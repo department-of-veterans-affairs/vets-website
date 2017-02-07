@@ -9,6 +9,12 @@
 
         {{ contents }}
         <!-- Page content ends -->
+
+        <!-- Last updated -->
+        {% if lastupdate %}
+          {% include "content/includes/last-update.html" %}
+        {% endif %}
+
         </div>
       </div>
     </div>

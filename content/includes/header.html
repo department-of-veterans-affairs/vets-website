@@ -11,29 +11,25 @@
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 <meta content="Vets.gov" property="og:site_name">
-
+{% if lastupdate %}
+<meta name="DC.Date" content="{{lastupdate| date: '%Y-%m-%d'}}" property="http://purl.org/dc/terms/date">
+{% endif %}
 {% if title %}
 <meta content="{{ title }}" property="og:title">
 {% else %}
 <meta content="https://www.vets.gov" property="og:title">
 {% endif %}
-
 <meta content="website" property="og:type">
-
 {% if path %}
 <meta content="https://www.vets.gov/{{ path }}" property="og:url">
 {% endif %}
-
 <meta content="https://www.vets.gov/img/design/logo/og-image.jpg" property="og:image">
-
 {% if tags %}
 {% for tag in tags %}
 <meta content="{{ tag }}" property="article:tag">
 {% endfor %}
 {% endif %}
-
 {% if title === 'Home' %}
 <title>Vets.gov</title>
 {% else %}
@@ -69,6 +65,13 @@
 <!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
 <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
 
+<script>
+//<![CDATA[
+window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
+//]]>
+</script>
+
+<script src="/generated/vendor.js"></script>
 {% if entryname %}
 <script src="/generated/{{ entryname }}.entry.js"></script>
 {% else %}
@@ -139,7 +142,7 @@
         {% include "assets/img/svglogo.svg" %}
       </a>
     </div>
-    
+
     {% if search != 'false' %}
       <div class="hide-for-small-only">
         <div class="menu">
