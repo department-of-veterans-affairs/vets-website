@@ -178,5 +178,33 @@ describe('Schemaform validations', () => {
 
       expect(validator.calledWith(errors[0].field, formData[0].field, formData, schema.items.properties.field, undefined)).to.be.true;
     });
+    it('should skip validation when array is undefined', () => {
+      const errors = {};
+      const validator = sinon.spy();
+      const schema = {
+        items: {
+          properties: {
+            field: {
+
+            }
+          }
+        }
+      };
+      const definitions = null;
+      const uiSchema = {
+        items: {
+          field: {
+            'ui:validations': [
+              validator
+            ]
+          }
+        }
+      };
+      const formContext = {};
+
+      uiSchemaValidate(errors, uiSchema, schema, definitions, undefined, formContext);
+
+      expect(validator.called).to.be.false;
+    });
   });
 });

@@ -231,12 +231,10 @@ function convertToDateField(dateStr) {
 }
 
 export function validateDateRange(errors, dateRange, formData, formContext, errorMessages) {
-  if (dateRange) {
-    const fromDate = convertToDateField(dateRange.from);
-    const toDate = convertToDateField(dateRange.to);
+  const fromDate = convertToDateField(dateRange.from);
+  const toDate = convertToDateField(dateRange.to);
 
-    if (!isValidDateRange(fromDate, toDate)) {
-      errors.to.addError(errorMessages.dateRange || 'To date must be before from date');
-    }
+  if (!isValidDateRange(fromDate, toDate)) {
+    errors.to.addError(errorMessages.dateRange || 'To date must be before from date');
   }
 }
