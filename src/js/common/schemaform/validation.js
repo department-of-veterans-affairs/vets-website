@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { Validator } from 'jsonschema';
 
-import { isValidSSN, isValidPartialDate, isValidDateRange, isValidRoutingNumber } from '../utils/validations';
+import { isValidSSN, isValidPartialDate, isValidDateRange, isValidRoutingNumber, isValidUSZipCode, isValidCanPostalCode } from '../utils/validations';
 import { parseISODate, updateRequiredFields } from './helpers';
 
 /*
@@ -174,6 +174,30 @@ export function validateDate(errors, dateString) {
   const { day, month, year } = parseISODate(dateString);
   if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
+  }
+}
+
+export function validateAddress(errors, formData) {
+  const address = formData;
+  let isValidPostalCode = true;
+
+  // Checks if postal code is valid
+  if (address.country === 'USA') {
+    isValidPostalCode = isValidPostalCode && isValidUSZipCode(address.postalCode);
+  }
+  if (address.country === 'CAN') {
+    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(address.postalCode);
+  }
+
+  // Adds error message for state if it is blank and one of the following countries:
+  // USA, Canada, or Mexico
+  if (_.includes(address.country)(['USA', 'CAN', 'MEX']) && address.state === undefined) {
+    errors.state.addError('Please select a state or province');
+  }
+
+  // Add error message for postal code if it is invalid
+  if (!isValidPostalCode) {
+    errors.postalCode.addError('Please provide a valid postal code');
   }
 }
 
