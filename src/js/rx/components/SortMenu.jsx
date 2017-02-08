@@ -81,16 +81,18 @@ class SortMenu extends React.Component {
     });
 
     return (
-      <form className="rx-sort va-dnp">
-        <label htmlFor={this.selectId}>Sort by</label>
-        <select
-            id={this.selectId}
-            value={this.props.selected.value}
-            onChange={this.handleChange}>
-          {sortOptions}
-        </select>
-        {this.renderSortLinks()}
-      </form>
+      <div>
+        <form className="rx-sort va-dnp">
+          <label htmlFor={this.selectId}>Sort by</label>
+          <select
+              id={this.selectId}
+              value={this.props.selected.value}
+              onChange={this.handleChange}>
+            {sortOptions}
+          </select>
+          {this.renderSortLinks()}
+        </form>
+      </div>
     );
   }
 }

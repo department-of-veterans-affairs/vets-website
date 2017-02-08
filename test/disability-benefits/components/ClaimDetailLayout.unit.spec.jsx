@@ -13,6 +13,23 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
   });
+  it('should render sync warning', () => {
+    const claim = {
+      attributes: {
+        contentionList: [
+          'Condition 1',
+          'Condition 2'
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ClaimDetailLayout
+          claim={claim}
+          synced={false}/>
+    );
+    expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
+  });
   it('should render contention list', () => {
     const claim = {
       attributes: {

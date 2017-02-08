@@ -52,7 +52,7 @@ export default class ClaimPhase extends React.Component {
         return <div className="claims-evidence-item columns medium-9">Thank you. VA received your claim</div>;
 
       case 'completed':
-        return <div className="claims-evidence-item columns medium-9">Your claim is complete</div>;
+        return <div className="claims-evidence-item columns medium-9">Your claim is closed</div>;
 
       case 'still_need_from_you_list':
       case 'still_need_from_others_list':

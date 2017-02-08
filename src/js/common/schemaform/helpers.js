@@ -1,6 +1,9 @@
 import _ from 'lodash/fp';
 import FormPage from './FormPage';
 import ReviewPage from './review/ReviewPage';
+import shouldUpdate from 'recompose/shouldUpdate';
+
+import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
@@ -10,6 +13,7 @@ export function createFormPageList(formConfig) {
         .map(page => {
           return _.assign(formConfig.chapters[chapter].pages[page], {
             chapterTitle,
+            chapterKey: chapter,
             pageKey: page
           });
         });
@@ -23,14 +27,15 @@ export function createPageListByChapter(formConfig) {
       const pages = Object.keys(formConfig.chapters[chapter].pages)
         .map(page => {
           return _.assign(formConfig.chapters[chapter].pages[page], {
-            pageKey: page
+            pageKey: page,
+            chapterKey: chapter
           });
         });
       return _.set(chapter, pages, chapters);
     }, {});
 }
 
-function createPageList(formConfig, formPages) {
+export function createPageList(formConfig, formPages) {
   let pageList = formPages;
   if (formConfig.introduction) {
     pageList = [
@@ -45,7 +50,8 @@ function createPageList(formConfig, formPages) {
     .concat([
       {
         pageKey: 'review-and-submit',
-        path: 'review-and-submit'
+        path: 'review-and-submit',
+        chapterKey: 'review'
       }
     ])
     .map(page => {
@@ -89,7 +95,7 @@ export function createRoutes(formConfig) {
       pageList
     },
     {
-      path: 'submit-message',
+      path: 'confirmation',
       component: formConfig.confirmation
     }
   ]);
@@ -150,16 +156,109 @@ export function parseISODate(dateString) {
   };
 }
 
-export function isValidForm(form) {
-  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
-  return Object.keys(pages).reduce((isValid, page) => {
-    return isValid && pages[page].isValid;
-  }, true);
-}
-
 export function flattenFormData(form) {
   const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
   return _.values(pages).reduce((formPages, page) => {
     return _.assign(formPages, page.data);
   }, {});
 }
+
+export function getArrayFields(pageConfig) {
+  const fields = [];
+  const findArrays = (obj, path = []) => {
+    if (obj.type === 'array') {
+      fields.push({
+        path,
+        schema: obj,
+        uiSchema: _.get(path, pageConfig.uiSchema)
+      });
+    }
+
+    if (obj.type === 'object') {
+      Object.keys(obj.properties).forEach(prop => {
+        findArrays(obj.properties[prop], path.concat(prop));
+      });
+    }
+  };
+
+  findArrays(pageConfig.schema);
+
+  return fields;
+}
+
+export function hasFieldsOtherThanArray(schema) {
+  if (schema.$ref || (schema.type !== 'object' && schema.type !== 'array')) {
+    return true;
+  }
+
+  if (schema.type === 'object') {
+    return Object.keys(schema.properties).some(nextProp => {
+      return hasFieldsOtherThanArray(schema.properties[nextProp]);
+    });
+  }
+
+  return false;
+}
+
+/*
+ * This function goes through a schema/uiSchema and updates the required array
+ * based on any ui:required field properties in the uiSchema.
+ *
+ * If no required fields are changing, it makes sure to not mutate the existing schema,
+ * so we can still take advantage of any shouldComponentUpdate optimizations
+ */
+export function updateRequiredFields(schema, uiSchema, formData) {
+  if (!uiSchema) {
+    return schema;
+  }
+
+  if (schema.type === 'object') {
+    const newRequired = Object.keys(schema.properties).reduce((requiredArray, nextProp) => {
+      const field = uiSchema[nextProp];
+      if (field && field['ui:required']) {
+        const isRequired = field['ui:required'](formData);
+        const arrayHasField = requiredArray.some(prop => prop === nextProp);
+
+        if (arrayHasField && !isRequired) {
+          return requiredArray.filter(prop => prop !== nextProp);
+        } else if (!arrayHasField && isRequired) {
+          return requiredArray.concat(nextProp);
+        }
+
+        return requiredArray;
+      }
+
+      return requiredArray;
+    }, schema.required || []);
+
+    const newSchema = Object.keys(schema.properties).reduce((currentSchema, nextProp) => {
+      if (uiSchema) {
+        const nextSchema = updateRequiredFields(currentSchema.properties[nextProp], uiSchema[nextProp], formData);
+        if (nextSchema !== currentSchema.properties[nextProp]) {
+          return _.set(['properties', nextProp], nextSchema, currentSchema);
+        }
+      }
+
+      return currentSchema;
+    }, schema);
+
+    if (newSchema.required !== newRequired && (newSchema.required || newRequired.length > 0)) {
+      return _.set('required', newRequired, newSchema);
+    }
+
+    return newSchema;
+  }
+
+  if (schema.type === 'array') {
+    const newItemSchema = updateRequiredFields(schema.items, uiSchema.items, formData);
+    if (newItemSchema !== schema.items) {
+      return _.set('items', newItemSchema, schema);
+    }
+  }
+
+  return schema;
+}
+
+export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
+  return !deepEquals(props, nextProps);
+});

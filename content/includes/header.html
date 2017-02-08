@@ -11,29 +11,25 @@
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 <meta content="Vets.gov" property="og:site_name">
-
+{% if lastupdate %}
+<meta name="DC.Date" content="{{lastupdate| date: '%Y-%m-%d'}}" property="http://purl.org/dc/terms/date">
+{% endif %}
 {% if title %}
 <meta content="{{ title }}" property="og:title">
 {% else %}
 <meta content="https://www.vets.gov" property="og:title">
 {% endif %}
-
 <meta content="website" property="og:type">
-
 {% if path %}
 <meta content="https://www.vets.gov/{{ path }}" property="og:url">
 {% endif %}
-
 <meta content="https://www.vets.gov/img/design/logo/og-image.jpg" property="og:image">
-
 {% if tags %}
 {% for tag in tags %}
 <meta content="{{ tag }}" property="article:tag">
 {% endfor %}
 {% endif %}
-
 {% if title === 'Home' %}
 <title>Vets.gov</title>
 {% else %}
@@ -69,6 +65,13 @@
 <!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
 <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
 
+<script>
+//<![CDATA[
+window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
+//]]>
+</script>
+
+<script src="/generated/vendor.js"></script>
 {% if entryname %}
 <script src="/generated/{{ entryname }}.entry.js"></script>
 {% else %}
@@ -92,10 +95,12 @@
     <div class="row hide-for-medium-up crisis-line-container">
       <div class="small-12 va-flex">
         <div class="stacked">
-          <a href="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
-            <span class="vcl"></span>
-            Get help from Veterans Crisis Line
-          </a>
+          <button data-show="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
+            <span class="va-flex">
+              <span class="vcl"></span>
+              Get help from Veterans Crisis Line
+            </span>
+          </button>
         </div>
       </div>
     </div>
@@ -106,8 +111,10 @@
       <div class="columns small-12 medium-5 crisis-line-container crisis-line-container--wide">
         <div class="crisis-line-body show-for-medium-up">
           <button class="va-crisis-line">
-            <span class="vcl"></span>
-            Get help from Veterans Crisis Line
+            <span class="va-flex">
+              <span class="vcl"></span>
+              <b>Get help from Veterans Crisis Line</b>
+            </span>
           </button>
           <div class="va-util-rel"> <!-- VA Panel no touch screens -->
             <div class="va-crisis-panel va-crisis-panel--notouch">
@@ -129,11 +136,13 @@
   </div>
 
   <!-- /header alert box -->
-  <div class="row top-banner">
-    <div class="">
-      <h1 role="banner" class="va-header-logo"><a href="/">Vets.gov</a></h1>
+  <div class="row va-header-logosearch">
+    <div role="banner" class="va-header-logo-wrapper">
+      <a href="/" class="va-header-logo">
+        {% include "assets/img/svglogo.svg" %}
+      </a>
     </div>
-    <div class="flex-auto"></div>
+
     {% if search != 'false' %}
       <div class="hide-for-small-only">
         <div class="menu">
@@ -159,7 +168,7 @@
           <button type="button" class="va-mobile-searchclose va-overlay-close" aria-label="close search form - mobile only">Close</button>
           <div class="menu">
             <form accept-charset="UTF-8" action="https://search.vets.gov/search" id="search_form" method="get">
-              <div style="margin:0;padding:0;display:inline">
+              <div class="csp-inline-patch-header">
                 <input name="utf8" type="hidden" value="&#x2713;" />
               </div>
               <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_search" />
@@ -185,26 +194,4 @@
   </div>
 </div>
 
-<script>
-  var usasearch_config = { siteHandle:"vets.gov_search" };
-  var script = document.createElement("script");
-  script.src = "https://search.usa.gov/javascripts/remote.loader.js";
-  document.getElementsByTagName("head")[0].appendChild(script);
-
-  (function() {
-    var domReady = function(callback) {
-      document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
-    };
-
-    domReady(function() {
-      // check whether browser is IE10 and older
-      if (window.navigator.userAgent.indexOf('MSIE ') > 0) {
-        var browserWarning = document.getElementsByClassName("incompatible-browser-warning")[0];
-
-        if (browserWarning) {
-          browserWarning.classList.add("visible");
-        }
-      }
-    });
-  })();
-</script>
+<script src="/js/usa-search.js"></script>

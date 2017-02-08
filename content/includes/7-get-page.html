@@ -5,6 +5,12 @@
         <div class="small-12 medium-8 columns{% unless page.template == '7-get-page-alt' %}  {% endunless %}">
            <h1>{{ title }}</h1>
            {{ contents }}
+
+           <!-- Last updated -->
+           {% if lastupdate %}
+             {% include "content/includes/last-update.html" %}
+           {% endif %}
+
         </div>
       </div>
         {% if path contains 'disability-benefits/apply-for-benefits' %}

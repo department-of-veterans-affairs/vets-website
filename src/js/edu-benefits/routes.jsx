@@ -39,6 +39,11 @@ export default function createRoutes(store) {
     );
   }
 
+  childRoutes.push({
+    path: '*',
+    onEnter: (nextState, replace) => replace('/')
+  });
+
   return {
     path: '/',
     indexRoute: { onEnter: (nextState, replace) => replace('/1990/introduction') },

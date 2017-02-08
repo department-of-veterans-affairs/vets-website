@@ -1,4 +1,4 @@
-# vets.gov - beta [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=department-of-veterans-affairs/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/)
+# vets.gov - beta [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=department-of-veterans-affairs/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/) [![Test Coverage](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/badges/coverage.svg)](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/coverage)
 
 ## What is this?
 
@@ -335,6 +335,6 @@ documentation around React is based on a Webpack toolchain.
 TODO: Verify if these are still relevant.
 
 - [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)
-- [How Breadcrumbs Work](docs/HowBreadCrumbsWork.md)
-- [How URLs are Created](docs/HowURLsAreCreated.md)
 - [How Search Works](docs/HowSearchWorks.md)
+
+

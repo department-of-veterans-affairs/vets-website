@@ -16,7 +16,7 @@ export default class DateWidget extends React.Component {
     const newState = _.set(['touched', field], true, this.state);
     this.setState(newState, () => {
       if (newState.touched.year && newState.touched.month && newState.touched.day) {
-        this.props.onBlur(this.props.id, formatISOPartialDate(newState.value));
+        this.props.onBlur();
       }
     });
   }

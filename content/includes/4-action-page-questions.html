@@ -5,22 +5,53 @@
     {% else %}
     <h4 class="highlight">Need help?</h4>
     {% endif %}
-    
+
       <ul class="va-list--plain va-rellinks">
       {% if path contains 'agent-orange/c-123' %}
         <li>Call the C-123 Hotline: <span class="tel">800-749-8387</span></li>
         <li><a href="mailto:VSCC123.VAVBASPL@va.gov">Email the St. Paul Regional Benefit Office</a>.</li>
       {% endif %}      
+    
+      {% if path contains 'agent-orange/thailand-military-bases' %}
+      <li><b>Need help determining exposure?</b> VA will help you determine potential exposure to Agent Orange after you file a claim for disability benefits.</li>
+      {% endif %}
+
+      {% if path contains 'agent-orange/water-vietnam' %}
+      <li>Learn more about <a href="http://www.publichealth.va.gov/exposures/agentorange/locations/blue-water-veterans.asp#sthash.Srfgf1kO.dpuf">Blue Water and Agent Orange exposure</a>.</li>
+      {% endif %}
 
       {% if path contains 'conditions/exposure-to-hazardous-materials/mustard-gas' %}
         <li>Have questions about benefits related to mustard gas exposure? <a href="mailto:mustardgas@vba.va.gov">Email us at mustardgas@vba.va.gov</a>.</li>
       {% endif %}
 
       {% if path contains 'agent-orange/navy-coast-guard' %}
-        <li>Call <span class="tel">800-827-1000</span> or <span class="tel">800-829-4833</span> (TDD for hearing impaired).</li>
-        <li><a href="http://www.va.gov/directory/guide/division.asp?dnum=3">Find a VA benefits office near you</a>.</li>
+      <li>
+      Need help determining whether you qualify for benefits?
+      VA will help determine qualifying service in Vietnam after you <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">file a claim for compensation benefits</a>.
+      </li>
+
+      <li>
+      To contact VA:
+
+      - Call 1-800-827-1000 or 1-800-829-4833 (TDD for hearing impaired).
+      - Go to your <a href="http://www.va.gov/directory/guide/division.asp?dnum=3">nearest VA benefits office</a>.
+      </li>
+
+      <li>
+      Get more information about <a href="http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf">ships that may have been exposed to Agent Orange</a>.
+      </li>
+        {% endif %}
+
+        {% if path contains 'agent-orange/test-storage' %}
+       <li>
+      See these comprehensive lists for dates and locations of herbicide tests and storage:
+
+        <p><a href="http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp">In the U.S.</a></p>
+
+        <p><a href="http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp">Outside the U.S.</a></p>
+      </li>
       {% endif %}
-        
+
       {% if path contains 'agent-orange/registry-health-exam' %}
         <li>Need to make an appointment for your Agent Orange Registry health exam? <a href="http://www.publichealth.va.gov/exposures/coordinators.asp">Contact your local VA Environmental Health Coordinator</a>.</li>
       {% endif %}

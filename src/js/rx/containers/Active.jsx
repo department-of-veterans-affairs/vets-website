@@ -24,6 +24,9 @@ import { sortOptions } from '../config';
 class Active extends React.Component {
   constructor(props) {
     super(props);
+
+    const viewPref = sessionStorage.getItem('rxView');
+
     this.handleSort = this.handleSort.bind(this);
     this.pushAnalyticsEvent = this.pushAnalyticsEvent.bind(this);
 
@@ -35,11 +38,15 @@ class Active extends React.Component {
         this.setState({
           view: 'card',
         });
+      } else if (viewPref) {
+        this.setState({
+          view: viewPref,
+        });
       }
     }, 200);
 
     this.state = {
-      view: 'card',
+      view: viewPref || 'card',
     };
   }
 
@@ -107,8 +114,19 @@ class Active extends React.Component {
             const classes = classnames({
               active: this.state.view === t.key,
             });
+
+            const onClick = () => {
+              this.setState(
+                { view: t.key },
+                () => {
+                  this.pushAnalyticsEvent();
+                  sessionStorage.setItem('rxView', t.key);
+                }
+              );
+            };
+
             return (
-              <li key={t.key} className={classes} onClick={() => this.setState({ view: t.key }, this.pushAnalyticsEvent)}>{t.value}</li>
+              <li key={t.key} className={classes} onClick={onClick}>{t.value}</li>
             );
           })}
         </ul>

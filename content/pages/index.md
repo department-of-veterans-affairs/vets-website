@@ -4,6 +4,9 @@ body_class: home
 title: Home
 plainlanguage: 11-1-16 Ready for Beth review
 majorlinks:
+  - url: /healthcare/
+    title: Health Care Benefits
+    description: Apply for and manage VA health care.
   - url: /disability-benefits/
     title: Disability Benefits
     description: Apply for disability compensation and other benefits for conditions related to your military service.
@@ -50,9 +53,9 @@ majorlinks:
     </a>
   </div>
   <div class="medium-4 columns">
-    <a href="/education/apply-for-education-benefits/">
+    <a href="/track-claims/">
       <div class="outline-link-block">
-        Apply for education benefits
+        Check your claim status
       </div>
     </a>
   </div>

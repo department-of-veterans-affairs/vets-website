@@ -51,7 +51,7 @@ MessageWriteGroup.propTypes = {
   messageText: React.PropTypes.shape({
     value: React.PropTypes.string,
     dirty: React.PropTypes.bool
-  }),
+  }).isRequired,
   onAttachmentsClose: React.PropTypes.func,
   onAttachmentUpload: React.PropTypes.func,
   onAttachmentsError: React.PropTypes.func,

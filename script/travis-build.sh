@@ -71,8 +71,8 @@ fi
 # Run lint
 time npm run lint;
 
-# Run the unit tests
-time npm run test:unit;
+# Run the unit tests and generate coverage report
+time npm run test:coverage;
 
 # Build and run tests against production
 build production;

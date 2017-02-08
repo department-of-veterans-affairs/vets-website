@@ -16,13 +16,7 @@ class IntroductionPage extends React.Component {
   }
   render() {
     return (
-      <div>
-        <div className="row">
-          <div className="small-12 columns">
-            <h3>Update your education benefits (Form 22-1995)</h3>
-          </div>
-        </div>
-
+      <div className="section schemaform-intro">
         <div className="row">
           <div className="small-12 columns">
             <div className="input-section">

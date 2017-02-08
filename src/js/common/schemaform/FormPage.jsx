@@ -6,22 +6,28 @@ import Scroll from 'react-scroll';
 import Form from 'react-jsonschema-form';
 
 import { uiSchemaValidate, transformErrors } from './validation';
+import Address from './Address';
 import FieldTemplate from './FieldTemplate';
 import * as reviewWidgets from './review/widgets';
 import ReviewFieldTemplate from './review/ReviewFieldTemplate';
 import widgets from './widgets/index';
 import ProgressButton from '../components/form-elements/ProgressButton';
 import ObjectField from './ObjectField';
+import ArrayField from './ArrayField';
 import ReviewObjectField from './review/ObjectField';
-import { focusElement } from '../utils/helpers';
-import { setValid, setData } from './actions';
+import { focusElement, getActivePages } from '../utils/helpers';
+import { setData } from './actions';
 
 const fields = {
-  ObjectField
+  ObjectField,
+  ArrayField,
+  address: Address
 };
 
 const reviewFields = {
-  ObjectField: ReviewObjectField
+  ObjectField: ReviewObjectField,
+  ArrayField,
+  address: ReviewObjectField
 };
 
 const scrollToFirstError = () => {
@@ -48,6 +54,15 @@ const scrollToTop = () => {
   });
 };
 
+function focusForm() {
+  const legend = document.querySelector('.form-panel legend');
+  if (legend && legend.getBoundingClientRect().height > 0) {
+    focusElement(legend);
+  } else {
+    focusElement('.nav-header');
+  }
+}
+
 /*
  * Each page uses this component and passes in config. This is where most of the page level
  * form logic should live.
@@ -56,65 +71,91 @@ class FormPage extends React.Component {
   constructor(props) {
     super(props);
     this.validate = this.validate.bind(this);
-    this.onBlur = this.onBlur.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onError = this.onError.bind(this);
     this.goBack = this.goBack.bind(this);
+    this.getEligiblePages = this.getEligiblePages.bind(this);
     this.getEmptyState = this.getEmptyState.bind(this);
     this.transformErrors = this.transformErrors.bind(this);
     this.state = this.getEmptyState(props.route.pageConfig);
   }
+
   componentDidMount() {
-    scrollToTop();
-  }
-  componentWillReceiveProps(newProps) {
-    if (newProps.route.pageConfig !== this.props.route.pageConfig) {
-      this.setState(this.getEmptyState(newProps.route.pageConfig));
+    if (!this.props.reviewPage) {
+      scrollToTop();
+      focusForm();
+    } else if (this.props.reviewPage && this.props.reviewMode) {
+      focusForm();
     }
   }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey) {
+      this.setState(this.getEmptyState(newProps.route.pageConfig), () => {
+        focusForm();
+      });
+    }
+  }
+
   componentDidUpdate(prevProps) {
-    if (prevProps.route.pageConfig !== this.props.route.pageConfig) {
+    if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey) {
       scrollToTop();
     }
   }
-  onBlur(id) {
-    const formContext = _.set(['touched', id], true, this.state.formContext);
-    this.setState({ formContext });
-  }
+
   onChange({ formData }) {
     this.props.setData(this.props.route.pageConfig.pageKey, formData);
-    const formContext = _.set('formData', formData, this.state.formContext);
-    this.setState({ formContext });
   }
+
   onError() {
     const formContext = _.set('submitted', true, this.state.formContext);
     this.setState({ formContext });
     scrollToFirstError();
   }
+
   onSubmit() {
-    this.props.setValid(this.props.route.pageConfig.pageKey, true);
     if (this.props.reviewPage) {
       this.props.onSubmit();
     } else {
-      const { pageList, pageConfig } = this.props.route;
-      const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, pageList);
-      this.props.router.push(pageList[pageIndex + 1].path);
+      const { eligiblePageList, pageIndex } = this.getEligiblePages();
+      this.props.router.push(eligiblePageList[pageIndex + 1].path);
     }
   }
-  getEmptyState(pageConfig) {
-    const { form, onEdit, hideTitle } = this.props;
-    const formData = form[pageConfig.pageKey].data;
-    return { formContext: { touched: {}, submitted: false, onEdit, hideTitle, formData } };
+
+  /*
+   * Returns the page list without conditional pages that have not satisfied
+   * their dependencies and therefore should be skipped.
+   */
+  getEligiblePages() {
+    const { form, route: { pageConfig, pageList } } = this.props;
+    const eligiblePageList = getActivePages(pageList, form);
+    const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, eligiblePageList);
+    return { eligiblePageList, pageIndex };
   }
+
+  getEmptyState() {
+    const { onEdit, hideTitle, route: { pageConfig } } = this.props;
+    return {
+      formContext: {
+        touched: {},
+        submitted: false,
+        onEdit,
+        hideTitle,
+        pageTitle: pageConfig.title
+      }
+    };
+  }
+
   goBack() {
-    const { pageList, pageConfig } = this.props.route;
-    const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, pageList);
-    this.props.router.push(pageList[pageIndex - 1].path);
+    const { eligiblePageList, pageIndex } = this.getEligiblePages();
+    this.props.router.push(eligiblePageList[pageIndex - 1].path);
   }
+
   transformErrors(errors) {
     return transformErrors(errors, this.props.route.pageConfig.uiSchema);
   }
+
   validate(formData, errors) {
     const { uiSchema } = this.props.route.pageConfig;
     if (uiSchema) {
@@ -122,51 +163,49 @@ class FormPage extends React.Component {
     }
     return errors;
   }
+
   render() {
-    const { schema, uiSchema } = this.props.route.pageConfig;
-    const formData = this.props.form[this.props.route.pageConfig.pageKey].data;
-    const { reviewPage, reviewMode } = this.props;
+    const { uiSchema } = this.props.route.pageConfig;
+    const { data, schema } = this.props.form[this.props.route.pageConfig.pageKey];
+    const { reviewPage, reviewMode, children } = this.props;
     return (
-      <Form
-          FieldTemplate={reviewMode ? ReviewFieldTemplate : FieldTemplate}
-          formContext={this.state.formContext}
-          liveValidate
-          noHtml5Validate
-          onError={this.onError}
-          onBlur={this.onBlur}
-          onChange={this.onChange}
-          onSubmit={this.onSubmit}
-          schema={schema}
-          uiSchema={uiSchema}
-          validate={this.validate}
-          showErrorList={false}
-          formData={formData}
-          widgets={reviewMode ? reviewWidgets : widgets}
-          fields={reviewMode ? reviewFields : fields}
-          transformErrors={this.transformErrors}>
-        {reviewPage && !reviewMode &&
-          <ProgressButton
-              submitButton
-              buttonText="Update page"
-              buttonClass="usa-button-primary"/>}
-        {!reviewPage &&
-          <div className="row form-progress-buttons schemaform-buttons">
-            <div className="small-6 medium-5 columns">
-              <ProgressButton
-                  onButtonClick={this.goBack}
-                  buttonText="Back"
-                  buttonClass="usa-button-outline"
-                  beforeText="«"/>
-            </div>
-            <div className="small-6 medium-5 end columns">
-              <ProgressButton
-                  submitButton
-                  buttonText="Continue"
-                  buttonClass="usa-button-primary"
-                  afterText="»"/>
-            </div>
-          </div>}
-      </Form>
+      <div className={reviewPage ? null : 'form-panel'}>
+        <Form
+            FieldTemplate={reviewMode ? ReviewFieldTemplate : FieldTemplate}
+            formContext={this.state.formContext}
+            liveValidate
+            noHtml5Validate
+            onError={this.onError}
+            onChange={this.onChange}
+            onSubmit={this.onSubmit}
+            schema={schema}
+            uiSchema={uiSchema}
+            validate={this.validate}
+            showErrorList={false}
+            formData={data}
+            widgets={reviewMode ? reviewWidgets : widgets}
+            fields={reviewMode ? reviewFields : fields}
+            transformErrors={this.transformErrors}>
+          {children}
+          {!children &&
+            <div className="row form-progress-buttons schemaform-buttons">
+              <div className="small-6 medium-5 columns">
+                <ProgressButton
+                    onButtonClick={this.goBack}
+                    buttonText="Back"
+                    buttonClass="usa-button-outline"
+                    beforeText="«"/>
+              </div>
+              <div className="small-6 medium-5 end columns">
+                <ProgressButton
+                    submitButton
+                    buttonText="Continue"
+                    buttonClass="usa-button-primary"
+                    afterText="»"/>
+              </div>
+            </div>}
+        </Form>
+      </div>
     );
   }
 }
@@ -178,8 +217,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  setData,
-  setValid
+  setData
 };
 
 FormPage.propTypes = {
@@ -187,7 +225,6 @@ FormPage.propTypes = {
     pageConfig: React.PropTypes.shape({
       schema: React.PropTypes.object.isRequired,
       uiSchema: React.PropTypes.object.isRequired,
-      initialData: React.PropTypes.object.isRequired,
       errorMessages: React.PropTypes.object
     }),
     pageList: React.PropTypes.arrayOf(React.PropTypes.shape({
@@ -201,3 +238,5 @@ FormPage.propTypes = {
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormPage));
+
+export { FormPage };

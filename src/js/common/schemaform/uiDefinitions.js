@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import { validateSSN, validateDate } from './validation';
+import { validateSSN, validateDate, validateDateRange, validateAddress } from './validation';
 
 export const uiFullName = {
   first: {
@@ -21,7 +21,7 @@ export const uiFullName = {
 };
 
 export const uiSSN = {
-  'ui:title': 'Social security number',
+  'ui:title': 'Social Security number',
   'ui:options': {
     widgetClassNames: 'usa-input-medium'
   },
@@ -46,6 +46,12 @@ export const uiDate = {
 
 export function uiDateRange(from, to) {
   return {
+    'ui:validations': [
+      validateDateRange
+    ],
+    'ui:errorMessages': {
+      dateRange: 'End of service must be after start of service'
+    },
     from: _.merge(uiDate, {
       'ui:title': from
     }),
@@ -54,6 +60,35 @@ export function uiDateRange(from, to) {
     })
   };
 }
+
+export const uiAddress = {
+  'ui:title': 'Address',
+  'ui:field': 'address',
+  'ui:validations': [
+    validateAddress
+  ],
+  country: {
+    'ui:title': 'Country'
+  },
+  street: {
+    'ui:title': 'Street'
+  },
+  street2: {
+    'ui:title': 'Line 2'
+  },
+  city: {
+    'ui:title': 'City'
+  },
+  state: {
+    'ui:title': 'State'
+  },
+  postalCode: {
+    'ui:title': 'Postal code',
+    'ui:options': {
+      widgetClassNames: 'usa-input-medium'
+    }
+  }
+};
 
 export const uiPhone = {
   'ui:title': 'Phone',

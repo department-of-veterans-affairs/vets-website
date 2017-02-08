@@ -90,7 +90,7 @@ export function searchWithAddress(query) {
     });
     // commas can be stripped from query if Mapbox is returning unexpected results
     mapboxClient.geocodeForward(query.searchString, {
-      country: 'us,vi,pr,ph,gu,as,mp',
+      country: 'us,pr,ph,gu,as,mp',
       types: 'place,address,region,postcode,locality',
     }, (err, res) => {
       const coordinates = res.features[0].center;

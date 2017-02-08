@@ -2,8 +2,9 @@
 @import 'modules/va-pagination';
 
 .facility-locator {
+  // TODO(css): Fix when #content .section h* is fixed
   .highlight {
-    margin-bottom: 0.5em !important;;
+    margin-bottom: 0.5em !important;
   }
 
   .title-section {
@@ -20,8 +21,7 @@
     width: 100%;
   }
 
-  .facility-phone-table
-  {
+  .facility-phone-table {
      border-collapse:collapse;
   }
 
@@ -340,6 +340,7 @@
     margin-bottom: 2rem;
   }
 
+  //TODO(css): Make this less specific
   #content .section h4 {
     padding: 0 0 .25em 0;
   }
