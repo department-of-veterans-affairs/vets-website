@@ -12,6 +12,7 @@ import {
   toggleAllReports,
   toggleReportType,
 } from '../actions/form';
+import { openModal } from '../actions/modal';
 
 class Main extends React.Component {
   constructor(props) {
@@ -36,6 +37,23 @@ class Main extends React.Component {
     this.context.router.push('/download');
   }
 
+  renderReportCheckBoxLabel(c) {
+    if (c.hold) {
+      const onClick = (e) => {
+        e.preventDefault();
+        this.props.openModal(c.hold, c.holdExplanation);
+      };
+      return (
+        <span>
+          {c.label} <a href="#" onClick={onClick}>
+            {`(${c.hold} day hold period applies)`}
+          </a>
+        </span>
+      );
+    }
+    return c.label;
+  }
+
   renderInformationTypes() {
     return Object.keys(reportTypes).map(k => {
       const rt = reportTypes[k];
@@ -50,7 +68,7 @@ class Main extends React.Component {
               <div key={c.value}>
                 <ErrorableCheckbox
                     name={c.value}
-                    label={c.label}
+                    label={this.renderReportCheckBoxLabel(c)}
                     checked={this.props.form.reportTypes[c.value]}
                     onValueChange={reportTypeOnChange}/>
               </div>
@@ -61,8 +79,7 @@ class Main extends React.Component {
     });
   }
 
-  render() {
-    // TODO: clean this up and hook up to action/reducer
+  renderDateOptions() {
     const radioButtonProps = {
       name: 'dateRange',
       label: '',
@@ -101,17 +118,24 @@ class Main extends React.Component {
         value: this.props.form.dateOption,
       }
     };
+
+    return (
+      <div>
+        <h4 className="highlight">Select Date Range</h4>
+        <ErrorableRadioButtons
+            {...radioButtonProps}/>
+      </div>
+    );
+  }
+
+  render() {
     const allValuesChecked = _.every(_.values(this.props.form.reportTypes), v => v);
 
     return (
       <div>
         <h1>Get Your VA Health Records</h1>
         <form>
-          <div>
-            <h4 className="highlight">Select Date Range</h4>
-            <ErrorableRadioButtons
-                {...radioButtonProps}/>
-          </div>
+          {this.renderDateOptions()}
           <div>
             <h4 className="highlight">Select Types of Information</h4>
             <ErrorableCheckbox
@@ -151,6 +175,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   changeDateOption,
+  openModal,
   setDate,
   toggleAllReports,
   toggleReportType,
