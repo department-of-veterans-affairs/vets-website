@@ -63,3 +63,12 @@ Veterans
 You’ll need to apply for benefits. [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
 [Learn more about service in Southwest Asia](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp).
+
+The Southwest theater of military operations includes: 
+- Iraq, Kuwait, Saudi Arabia
+- The neutral zone between Iraq and Saudi Arabia
+- Bahrain, Qatar, and The United Arab Emirates (U.A.E.)
+- Oman
+- Gulf of Aden and Gulf of Oman
+- Waters of the Persian Gulf, the Arabian Sea, and the Red Sea
+- The airspace above these locations
