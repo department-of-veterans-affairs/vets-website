@@ -67,6 +67,8 @@ describe('Schemaform validations', () => {
     it('should use custom validation with function validator', () => {
       const errors = {};
       const validator = sinon.spy();
+      const schema = {};
+      const definitions = null;
       const uiSchema = {
         'ui:validations': [
           validator
@@ -76,7 +78,7 @@ describe('Schemaform validations', () => {
       const formData = {};
       const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext);
 
       expect(errors.__errors).to.be.defined;
       expect(errors.addError).to.be.function;
@@ -85,6 +87,8 @@ describe('Schemaform validations', () => {
     it('should use custom validation with object validator', () => {
       const errors = {};
       const validator = sinon.spy();
+      const schema = {};
+      const definitions = null;
       const uiSchema = {
         'ui:validations': [
           {
@@ -97,7 +101,7 @@ describe('Schemaform validations', () => {
       const formData = {};
       const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext);
 
       expect(validator.calledWith(errors, formData, formData, formContext, uiSchema['ui:errorMessages'], uiSchema['ui:validations'][0].options)).to.be.true;
     });
@@ -118,6 +122,7 @@ describe('Schemaform validations', () => {
           }
         }
       };
+      const definitions = null;
       const uiSchema = {
         field1: {
           'ui:validations': [
@@ -136,7 +141,7 @@ describe('Schemaform validations', () => {
       };
       const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, schema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext);
 
       expect(validator1.calledWith(errors.field1, formData.field1, formData, schema.properties.field1, undefined)).to.be.true;
     });
@@ -152,6 +157,7 @@ describe('Schemaform validations', () => {
           }
         }
       };
+      const definitions = null;
       const uiSchema = {
         items: {
           field: {
@@ -168,7 +174,7 @@ describe('Schemaform validations', () => {
       ];
       const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, schema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext);
 
       expect(validator.calledWith(errors[0].field, formData[0].field, formData, schema.items.properties.field, undefined)).to.be.true;
     });
