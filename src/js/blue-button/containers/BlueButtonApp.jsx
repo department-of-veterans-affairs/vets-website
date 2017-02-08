@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import GlossaryModal from '../components/GlossaryModal';
+import Modal from '../../common/components/Modal';
 import { closeModal } from '../actions/modal';
 
 // This needs to be a React component for RequiredLoginView to pass down
@@ -41,11 +41,14 @@ class BlueButtonApp extends React.Component {
                 {this.props.children}
               </div>
             </div>
-            <GlossaryModal
+            <Modal
+                cssClass="bb-modal"
+                contents={this.props.modal.content}
+                id="bb-glossary-modal"
+                onClose={this.props.closeModal}
                 title={this.props.modal.title}
-                content={this.props.modal.content}
-                isVisible={this.props.modal.visible}
-                onCloseModal={this.props.closeModal}/>
+                visible={this.props.modal.visible}/>
+            )
           </div>
         </AppContent>
       </RequiredLoginView>
