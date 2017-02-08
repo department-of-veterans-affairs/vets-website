@@ -10,9 +10,6 @@ const props = {
   errors: [],
 };
 
-// mock out window location object
-global.window = { location: { reload: () => {} } };
-
 describe('<ErrorView>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<ErrorView {...props}/>);
@@ -21,6 +18,8 @@ describe('<ErrorView>', () => {
   });
 
   it('should render children when there are no errors', () => {
+    // mock out window location object
+    global.window = { location: { reload: () => {} } };
     const errorView = ReactTestUtils.renderIntoDocument(
       <ErrorView {...props}>
         <div id="children"/>
@@ -33,6 +32,8 @@ describe('<ErrorView>', () => {
   });
 
   it('should render children when errors are non-blocking', () => {
+    // mock out window location object
+    global.window = { location: { reload: () => {} } };
     const nonBlockingErrors = [{ code: 'RX000' }];
     const errorView = ReactTestUtils.renderIntoDocument(
       <ErrorView errors={nonBlockingErrors}>
