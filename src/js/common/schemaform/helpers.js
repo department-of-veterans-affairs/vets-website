@@ -163,13 +163,13 @@ export function flattenFormData(form) {
   }, {});
 }
 
-export function getArrayFields(pageConfig) {
+export function getArrayFields(data, pageConfig) {
   const fields = [];
   const findArrays = (obj, path = []) => {
     if (obj.type === 'array') {
       fields.push({
         path,
-        schema: obj,
+        schema: _.set('definitions', data.schema.definitions, obj),
         uiSchema: _.get(path, pageConfig.uiSchema)
       });
     }
@@ -181,7 +181,7 @@ export function getArrayFields(pageConfig) {
     }
   };
 
-  findArrays(pageConfig.schema);
+  findArrays(data.schema);
 
   return fields;
 }

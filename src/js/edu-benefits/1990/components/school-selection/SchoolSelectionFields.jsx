@@ -17,7 +17,6 @@ export default class SchoolSelectionFields extends React.Component {
       : schoolTypes;
 
     return (<fieldset>
-      <legend className="hide-for-small-only">School selection</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <p>In what type of education or training do you plan to enroll?</p>
       <ExpandingGroup

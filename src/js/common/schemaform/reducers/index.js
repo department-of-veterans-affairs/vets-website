@@ -21,12 +21,13 @@ export default function createSchemaFormReducer(formConfig) {
   // and schemas
   const firstPassInitialState = createFormPageList(formConfig)
     .reduce((state, page) => {
-      const data = getDefaultFormState(page.schema, page.initialData, page.schema.definitions);
+      const schema = _.assign({ definitions: formConfig.defaultDefinitions }, page.schema);
+      const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 
       return _.set(page.pageKey, {
         data,
         uiSchema: page.uiSchema,
-        schema: page.schema,
+        schema,
         editMode: false
       }, state);
     }, {

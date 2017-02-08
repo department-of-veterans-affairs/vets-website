@@ -1,4 +1,5 @@
 import React from 'react';
+import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
@@ -6,8 +7,19 @@ import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
 import { isValidForm } from '../validation';
+import { focusElement } from '../../utils/helpers';
 import { createPageListByChapter } from '../helpers';
 import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm } from '../actions';
+
+const scroller = Scroll.scroller;
+
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
 
 class ReviewPage extends React.Component {
   constructor(props) {
@@ -15,6 +27,11 @@ class ReviewPage extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     // this only needs to be run once
     this.pagesByChapter = createPageListByChapter(this.props.route.formConfig);
+  }
+
+  componentDidMount() {
+    scrollToTop();
+    focusElement('h4');
   }
 
   componentWillReceiveProps(nextProps) {
