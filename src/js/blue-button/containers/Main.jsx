@@ -5,6 +5,14 @@ import ErrorableRadioButtons from '../../common/components/form-elements/Errorab
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 import DatePicker from 'react-datepicker';
 import { reportTypes } from '../config';
+import _ from 'lodash';
+import {
+  changeDateOption,
+  setDate,
+  toggleAllReports,
+  toggleReportType,
+} from '../actions/form';
+import { openModal } from '../actions/modal';
 
 class Main extends React.Component {
   constructor(props) {
@@ -16,17 +24,34 @@ class Main extends React.Component {
   }
 
   handleStartDateChange() {
-
+    // use this.props.setDate(date, true) to change start date
   }
 
   handleEndDateChange() {
-
+    // use this.props.setDate(date, false) to change start date
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
     this.context.router.push('/download');
+  }
+
+  renderReportCheckBoxLabel(c) {
+    if (c.hold) {
+      const onClick = (e) => {
+        e.preventDefault();
+        this.props.openModal(c.hold, c.holdExplanation);
+      };
+      return (
+        <span>
+          {c.label} <a href="#" onClick={onClick}>
+            {`(${c.hold} day hold period applies)`}
+          </a>
+        </span>
+      );
+    }
+    return c.label;
   }
 
   renderInformationTypes() {
@@ -36,12 +61,16 @@ class Main extends React.Component {
         <div key={k} className="info-type-section">
           <h5>{rt.title}</h5>
           {rt.children.map(c => {
+            const reportTypeOnChange = (checked) => {
+              this.props.toggleReportType(c.value, checked);
+            };
             return (
               <div key={c.value}>
                 <ErrorableCheckbox
                     name={c.value}
-                    label={c.label}
-                    onValueChange={() => {}}/>
+                    label={this.renderReportCheckBoxLabel(c)}
+                    checked={this.props.form.reportTypes[c.value]}
+                    onValueChange={reportTypeOnChange}/>
               </div>
             );
           })}
@@ -50,8 +79,7 @@ class Main extends React.Component {
     });
   }
 
-  render() {
-    // TODO: clean this up and hook up to action/reducer
+  renderDateOptions() {
     const radioButtonProps = {
       name: 'dateRange',
       label: '',
@@ -81,23 +109,42 @@ class Main extends React.Component {
           value: 'custom'
         },
       ],
-      onValueChange: () => {},
+      onValueChange: (v) => {
+        if (v.dirty) {
+          this.props.changeDateOption(v.value);
+        }
+      },
       value: {
-        value: 'UPDATEME',
+        value: this.props.form.dateOption,
       }
     };
 
     return (
       <div>
+        <h4 className="highlight">Select Date Range</h4>
+        <ErrorableRadioButtons
+            {...radioButtonProps}/>
+      </div>
+    );
+  }
+
+  render() {
+    const allValuesChecked = _.every(_.values(this.props.form.reportTypes), v => v);
+
+    return (
+      <div>
         <h1>Get Your VA Health Records</h1>
         <form>
-          <div>
-            <h4 className="highlight">Select Date Range</h4>
-            <ErrorableRadioButtons
-                {...radioButtonProps}/>
-          </div>
+          {this.renderDateOptions()}
           <div>
             <h4 className="highlight">Select Types of Information</h4>
+            <ErrorableCheckbox
+                name="all"
+                label="Select all types of information"
+                checked={allValuesChecked}
+                onValueChange={(checked) => {
+                  this.props.toggleAllReports(checked);
+                }}/>
             {this.renderInformationTypes()}
           </div>
           <div className="form-actions">
@@ -118,8 +165,20 @@ Main.contextTypes = {
   router: React.PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state) => {
+  const bbState = state.health.bb;
 
-const mapDispatchToProps = {};
+  return {
+    form: bbState.form,
+  };
+};
+
+const mapDispatchToProps = {
+  changeDateOption,
+  openModal,
+  setDate,
+  toggleAllReports,
+  toggleReportType,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

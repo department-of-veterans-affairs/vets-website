@@ -6,6 +6,7 @@ import Scroll from 'react-scroll';
 import Form from 'react-jsonschema-form';
 
 import { uiSchemaValidate, transformErrors } from './validation';
+import Address from './Address';
 import FieldTemplate from './FieldTemplate';
 import * as reviewWidgets from './review/widgets';
 import ReviewFieldTemplate from './review/ReviewFieldTemplate';
@@ -19,12 +20,14 @@ import { setData } from './actions';
 
 const fields = {
   ObjectField,
-  ArrayField
+  ArrayField,
+  address: Address
 };
 
 const reviewFields = {
   ObjectField: ReviewObjectField,
-  ArrayField
+  ArrayField,
+  address: ReviewObjectField
 };
 
 const scroller = Scroll.scroller;
@@ -140,9 +143,9 @@ class FormPage extends React.Component {
   }
 
   validate(formData, errors) {
-    const { uiSchema } = this.props.route.pageConfig;
+    const { schema, uiSchema } = this.props.form[this.props.route.pageConfig.pageKey];
     if (uiSchema) {
-      uiSchemaValidate(errors, uiSchema, formData);
+      uiSchemaValidate(errors, uiSchema, schema, formData);
     }
     return errors;
   }
