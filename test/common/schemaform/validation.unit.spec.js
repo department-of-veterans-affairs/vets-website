@@ -145,6 +145,51 @@ describe('Schemaform validations', () => {
 
       expect(validator1.calledWith(errors.field1, formData.field1, formData, schema.properties.field1, undefined)).to.be.true;
     });
+    it('should use custom validation on fields in object with ref', () => {
+      const errors = {
+        field1: {},
+        field2: {}
+      };
+      const validator1 = sinon.spy();
+      const validator2 = sinon.spy();
+      const schema = {
+        $ref: '#/definitions/test'
+      };
+      const definitions = {
+        test: {
+          type: 'object',
+          properties: {
+            field1: {
+
+            },
+            field2: {
+
+            }
+          }
+        }
+      };
+      const uiSchema = {
+        field1: {
+          'ui:validations': [
+            validator1
+          ]
+        },
+        field2: {
+          'ui:validations': [
+            validator2
+          ]
+        }
+      };
+      const formData = {
+        field1: {},
+        field2: {}
+      };
+      const formContext = {};
+
+      uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext);
+
+      expect(validator1.calledWith(errors.field1, formData.field1, formData, definitions.test.properties.field1, undefined)).to.be.true;
+    });
     it('should use custom validation on fields in array', () => {
       const errors = {};
       const validator = sinon.spy();
