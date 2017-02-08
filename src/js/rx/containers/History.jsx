@@ -9,7 +9,7 @@ import Pagination from '../../common/components/Pagination';
 import SortableTable from '../../common/components/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modals';
-import ErrorMessages from '../components/ErrorMessages';
+
 import GlossaryLink from '../components/GlossaryLink';
 import SortMenu from '../components/SortMenu';
 import { rxStatuses } from '../config';
@@ -170,7 +170,7 @@ class History extends React.Component {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
           We couldn't retrieve your prescriptions.
-          Please refresh this page or try again later. <ErrorMessages errors={this.props.errors}/> If this problem persists, please call the Vets.gov Help Desk
+          Please refresh this page or try again later. If this problem persists, please call the Vets.gov Help Desk
           at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
         </p>
       );
