@@ -108,6 +108,16 @@ describe('Schemaform validations', () => {
       };
       const validator1 = sinon.spy();
       const validator2 = sinon.spy();
+      const schema = {
+        properties: {
+          field1: {
+
+          },
+          field2: {
+
+          }
+        }
+      };
       const uiSchema = {
         field1: {
           'ui:validations': [
@@ -126,13 +136,22 @@ describe('Schemaform validations', () => {
       };
       const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, formData, formContext);
 
-      expect(validator1.calledWith(errors.field1, formData.field1, formData, formContext)).to.be.true;
+      expect(validator1.calledWith(errors.field1, formData.field1, formData, schema.properties.field1, undefined)).to.be.true;
     });
     it('should use custom validation on fields in array', () => {
       const errors = {};
       const validator = sinon.spy();
+      const schema = {
+        items: {
+          properties: {
+            field: {
+
+            }
+          }
+        }
+      };
       const uiSchema = {
         items: {
           field: {
@@ -149,9 +168,9 @@ describe('Schemaform validations', () => {
       ];
       const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, formData, formContext);
 
-      expect(validator.calledWith(errors[0].field, formData[0].field, formData, formContext)).to.be.true;
+      expect(validator.calledWith(errors[0].field, formData[0].field, formData, schema.items.properties.field, undefined)).to.be.true;
     });
   });
 });

@@ -215,7 +215,7 @@ const formConfig = {
               name: {
                 'ui:title': 'Name of school, university, or training facility'
               },
-              address: address.uiSchema
+              address: address.uiSchema()
             },
             educationObjective: {
               'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
@@ -232,7 +232,7 @@ const formConfig = {
               educationType: _.assign(educationType, {
                 enumNames: enumToNames(educationType.enum, educationTypeLabels)
               }),
-              newSchool: _.set('properties.address', address.schema(false), school),
+              newSchool: _.set('properties.address', address.schema(), school),
               educationObjective,
               nonVaAssistance
             }
@@ -252,7 +252,7 @@ const formConfig = {
               name: {
                 'ui:title': 'Name of school, university, or training facility'
               },
-              address: address.uiSchema
+              address: address.uiSchema()
             },
             trainingEndDate: _.merge(date.uiSchema, { 'ui:title': 'When did you stop taking classes or participating in the training program?' }),
             reasonForChange: {
@@ -262,7 +262,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              oldSchool: _.set('properties.address', address.schema(false), school),
+              oldSchool: _.set('properties.address', address.schema(), school),
               trainingEndDate: date.schema,
               reasonForChange
             }
@@ -282,7 +282,7 @@ const formConfig = {
               'ui:title': 'How would you like to be contacted if VA has questions about your application?',
               'ui:widget': 'radio'
             },
-            veteranAddress: address.uiSchema,
+            veteranAddress: address.uiSchema(),
             'view:otherContactInfo': {
               'ui:title': 'Other contact information',
               'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',

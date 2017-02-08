@@ -1,4 +1,6 @@
-import { countries } from '../utils/options-for-select';
+import _ from 'lodash/fp';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { countries } from '../../utils/options-for-select';
 import { validateAddress } from '../validation';
 
 /*
@@ -7,67 +9,55 @@ import { validateAddress } from '../validation';
 const countryValues = countries.map(object => object.value);
 const countryNames = countries.map(object => object.label);
 
-export const schema = {
-  type: 'object',
-  title: 'Address',
-  required: ['street', 'city', 'country', 'postalCode'],
-  properties: {
+export function schema(isRequired = false) {
+  return {
+    type: 'object',
+    required: isRequired ? ['street', 'city', 'country', 'postalCode'] : undefined,
+    properties: _.assign(commonDefinitions.address.properties, {
+      country: {
+        'default': 'USA',
+        type: 'string',
+        'enum': countryValues,
+        enumNames: countryNames
+      },
+      state: {
+        type: 'string'
+      },
+      postalCode: {
+        type: 'string',
+        maxLength: 10
+      }
+    })
+  };
+}
+
+export function uiSchema(label = 'Address') {
+  return {
+    'ui:title': label,
+    'ui:field': 'address',
+    'ui:validations': [
+      validateAddress
+    ],
     country: {
-      'default': 'USA',
-      type: 'string',
-      'enum': countryValues,
-      enumNames: countryNames
+      'ui:title': 'Country'
     },
     street: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 50
+      'ui:title': 'Street'
     },
     street2: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 50
+      'ui:title': 'Line 2'
     },
     city: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 51
+      'ui:title': 'City'
     },
     state: {
-      type: 'string'
+      'ui:title': 'State'
     },
     postalCode: {
-      type: 'string',
-      maxLength: 10
+      'ui:title': 'Postal code',
+      'ui:options': {
+        widgetClassNames: 'usa-input-medium'
+      }
     }
-  }
-};
-
-export const uiSchema = {
-  'ui:title': 'Address',
-  'ui:field': 'address',
-  'ui:validations': [
-    validateAddress
-  ],
-  country: {
-    'ui:title': 'Country'
-  },
-  street: {
-    'ui:title': 'Street'
-  },
-  street2: {
-    'ui:title': 'Line 2'
-  },
-  city: {
-    'ui:title': 'City'
-  },
-  state: {
-    'ui:title': 'State'
-  },
-  postalCode: {
-    'ui:title': 'Postal code',
-    'ui:options': {
-      widgetClassNames: 'usa-input-medium'
-    }
-  }
-};
+  };
+}
