@@ -105,6 +105,10 @@ const configGenerator = (options) => {
         {
           test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'file-loader'
+        },
+        {
+          test: /\.json$/,
+          loader: 'json-loader'
         }
       ],
       noParse: [/mapbox\/vendor\/promise.js$/],
