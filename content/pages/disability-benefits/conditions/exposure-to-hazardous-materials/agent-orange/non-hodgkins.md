@@ -6,7 +6,7 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of your body’s immune system that helps to fight infection and illness. We believe that non-Hodgkin’s lymphoma can be caused by contact with Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War). If you had contact with Agent Orange while serving in the military—and now have non-Hodgkin’s lymphoma—you can get disability compensation or benefits.
+Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of your body’s immune system that helps to fight infection and illness. We believe that non-Hodgkin’s lymphoma can be caused by contact with Agent Orange, a toxic chemical used to clear trees and plants during the Vietnam War. If you had contact with Agent Orange while serving in the military—and now have non-Hodgkin’s lymphoma—you can get disability compensation or benefits.
 
 ##### Signs of non-Hodgkin’s lymphoma include:
 
@@ -47,13 +47,7 @@ You’ll need to apply for benefits. We consider non-Hodgkin’s lymphoma to be 
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
-#### Get more information
-
-Having trouble figuring out if you had contact with Agent Orange? We can help after you file a claim for disability benefits. 
-
-- [File a claim now](/disability-benefits/claims-process/).
-
-- [Get help from an accredited representative](/disability-benefits/apply-for-benefits/help/).
+### Get more information
 
 Want to figure out where you may have come into contact with Agent Orange? [See locations linked to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
 
