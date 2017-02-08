@@ -13,10 +13,11 @@ import { SET_DATA,
 export default function createSchemaFormReducer(formConfig) {
   const initialState = createFormPageList(formConfig)
     .reduce((state, page) => {
+      const schemaWithDefinitions = _.assign({ definitions: formConfig.defaultDefinitions }, page.schema);
       return _.set(page.pageKey, {
-        data: getDefaultFormState(page.schema, page.initialData, page.schema.definitions),
+        data: getDefaultFormState(schemaWithDefinitions, page.initialData, schemaWithDefinitions.definitions),
         uiSchema: page.uiSchema,
-        schema: updateRequiredFields(page.schema, page.uiSchema, page.initialData),
+        schema: updateRequiredFields(schemaWithDefinitions, page.uiSchema, page.initialData),
         editMode: false
       }, state);
     }, {

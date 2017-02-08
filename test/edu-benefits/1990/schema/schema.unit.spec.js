@@ -226,6 +226,7 @@ describe('Edu benefits json schema', () => {
     form.veteranAddress.state = 'VT';
     form.veteranAddress.city = 'Somewhere';
     form.veteranAddress.postalCode = '12345';
+    form.privacyAgreementAccepted = true;
 
     const application = JSON.parse(veteranToApplication(form));
     const result = validate(application);
