@@ -8,7 +8,6 @@ import {
   educationTypeLabels,
   bankAccountChangeLabels,
   preferredContactMethodLabels,
-  transformForSubmit,
   enumToNames,
   transform
 } from '../helpers';

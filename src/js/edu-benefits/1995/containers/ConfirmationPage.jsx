@@ -54,7 +54,7 @@ class ConfirmationPage extends React.Component {
 
           <ul className="claim-list">
             <li>
-              <strong>Benefit claimed</strong><br/>
+              <strong>Benefit to be transferred</strong><br/>
               {benefitsLabels[benefit]}
             </li>
             <li>
