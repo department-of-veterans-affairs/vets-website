@@ -5,6 +5,7 @@ import { uiFullName, uiSSN, uiDateRange, uiDate, uiPhone } from '../../../common
 import { validateEmailsMatch } from '../../../common/schemaform/validation';
 
 import { benefitsLabels, transformForSubmit } from '../helpers';
+import { showSchoolAddress } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -200,11 +201,31 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'School, university, program, or training facility you want to attend',
             educationType: {
-              'ui:title': 'Type of education or training'
+              'ui:title': 'Type of education or training',
+              'ui:options': {
+                updateSchema: (form, data) => {
+                  if (data.benefitSelection.data.benefit === 'chapter30') {
+                    return {
+                      'enum': ['testing'],
+                      enumNames: ['Testing']
+                    };
+                  }
+
+                  return {
+                    'enum': ['testing'],
+                    enumNames: ['Testing']
+                  };
+                }
+              }
             },
             school: {
               name: {
                 'ui:title': 'Name of school, university, or training facility'
+              },
+              address: {
+                'ui:options': {
+                  hideIf: (form) => !showSchoolAddress(form.educationType)
+                }
               }
             },
             educationObjective: {

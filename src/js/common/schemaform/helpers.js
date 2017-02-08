@@ -262,3 +262,114 @@ export function updateRequiredFields(schema, uiSchema, formData) {
 export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
   return !deepEquals(props, nextProps);
 });
+
+export function setHiddenFields(schema, uiSchema, data) {
+  if (!uiSchema) {
+    return schema;
+  }
+
+  const hideIf = _.get(['ui:options', 'hideIf'], uiSchema);
+
+  if (hideIf && hideIf(data) && !schema.hidden) {
+    return _.set('hidden', true, schema);
+  } else if (schema.hidden) {
+    return _.set('hidden', false, schema);
+  }
+
+  if (schema.type === 'object' || schema.type === 'array') {
+    const key = schema.type === 'object' ? 'properties' : 'items';
+    const newProperties = Object.keys(schema[key]).reduce((current, next) => {
+      const newSchema = setHiddenFields(schema[key][next], uiSchema[next], data);
+
+      if (newSchema !== schema[key][next]) {
+        return _.set(next, newSchema, current);
+      }
+
+      return current;
+    }, schema[key]);
+
+    if (newProperties !== schema[key]) {
+      return _.set(key, newProperties, schema);
+    }
+  }
+
+  return schema;
+}
+
+export function removeHiddenData(schema, data) {
+  if (schema.hidden || typeof data === 'undefined') {
+    return undefined;
+  }
+
+  if (schema.type === 'object') {
+    return Object.keys(data).reduce((current, next) => {
+      const nextData = removeHiddenData(schema.properties[next], data[next]);
+
+      if (nextData !== data[next]) {
+        return _.set(next, nextData, current);
+      }
+
+      return current;
+    }, data);
+  }
+
+  if (schema.type === 'array') {
+    return data.reduce((current, next, index) => {
+      const nextData = removeHiddenData(schema.items, next);
+
+      if (nextData !== next) {
+        return _.set(index, nextData, current);
+      }
+
+      return data;
+    }, data);
+  }
+
+  return data;
+}
+
+export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
+  if (!uiSchema) {
+    return schema;
+  }
+
+  let currentSchema = schema;
+
+  if (currentSchema.type === 'object' || currentSchema.type === 'array') {
+    const key = schema.type === 'object' ? 'properties' : 'items';
+    const newSchema = Object.keys(currentSchema[key]).reduce((current, next) => {
+      const nextData = data ? data[next] : undefined;
+      const nextProp = updateSchemaFromUiSchema(current[key][next], uiSchema[next], nextData, formData);
+
+      if (current[key][next] !== nextProp) {
+        return _.set([key, next], nextProp, current);
+      }
+
+      return current;
+    }, currentSchema);
+
+    if (newSchema !== schema) {
+      currentSchema = newSchema;
+    }
+  }
+
+  const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
+
+  if (updateSchema) {
+    const newSchemaProps = updateSchema(data, formData);
+
+    const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
+      if (newSchemaProps[next] !== schema[next]) {
+        return _.set(next, newSchemaProps[next], current);
+      }
+
+      return current;
+    }, currentSchema);
+
+    if (newSchema !== currentSchema) {
+      return newSchema;
+    }
+  }
+
+  return currentSchema;
+}

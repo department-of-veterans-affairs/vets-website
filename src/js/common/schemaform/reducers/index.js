@@ -1,7 +1,13 @@
 import _ from 'lodash/fp';
 import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
 
-import { updateRequiredFields, createFormPageList } from '../helpers';
+import {
+  setHiddenFields,
+  removeHiddenData,
+  updateRequiredFields,
+  createFormPageList,
+  updateSchemaFromUiSchema
+} from '../helpers';
 
 import { SET_DATA,
   SET_EDIT_MODE,
@@ -11,12 +17,16 @@ import { SET_DATA,
 } from '../actions';
 
 export default function createSchemaFormReducer(formConfig) {
-  const initialState = createFormPageList(formConfig)
+  // Create the basic form state, which has all the pages of the form and the default data
+  // and schemas
+  const firstPassInitialState = createFormPageList(formConfig)
     .reduce((state, page) => {
+      const data = getDefaultFormState(page.schema, page.initialData, page.schema.definitions);
+
       return _.set(page.pageKey, {
-        data: getDefaultFormState(page.schema, page.initialData, page.schema.definitions),
+        data,
         uiSchema: page.uiSchema,
-        schema: updateRequiredFields(page.schema, page.uiSchema, page.initialData),
+        schema: page.schema,
         editMode: false
       }, state);
     }, {
@@ -30,13 +40,35 @@ export default function createSchemaFormReducer(formConfig) {
       }
     });
 
+  // Take another pass and recalculate the schema and data based on the default data
+  // We do this to avoid passing undefined for the whole form state when the form first renders
+  const initialState = Object.keys(_.omit(['privacyAgreementAccepted', 'submission'], firstPassInitialState))
+    .reduce((state, pageKey) => {
+      const page = firstPassInitialState[pageKey];
+      let schema = updateRequiredFields(page.schema, page.uiSchema, page.data, state);
+      schema = setHiddenFields(schema, page.uiSchema, page.data, state);
+      schema = updateSchemaFromUiSchema(schema, page.uiSchema, page.data, state);
+
+      const data = removeHiddenData(schema, page.data);
+
+      return _.set(pageKey, {
+        data,
+        schema,
+      }, state);
+    }, firstPassInitialState);
+
   return (state = initialState, action) => {
     switch (action.type) {
       case SET_DATA: {
+        let schema = updateRequiredFields(state[action.page].schema, state[action.page].uiSchema, action.data, state);
+        schema = setHiddenFields(schema, state[action.page].uiSchema, action.data, state);
+        schema = updateSchemaFromUiSchema(schema, state[action.page].uiSchema, action.data, state);
+
         const newPage = _.assign(state[action.page], {
-          data: action.data,
-          schema: updateRequiredFields(state[action.page].schema, state[action.page].uiSchema, action.data)
+          data: removeHiddenData(schema, action.data),
+          schema
         });
+
         return _.set(action.page, newPage, state);
       }
       case SET_EDIT_MODE: {
