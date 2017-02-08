@@ -1,10 +1,10 @@
 import _ from 'lodash/fp';
 
 import { fullName, ssn, dateRange, date, address, phone } from '../../../common/schemaform/definitions';
-import { uiFullName, uiSSN, uiDateRange, uiDate, uiPhone } from '../../../common/schemaform/uiDefinitions';
+import { uiFullName, uiSSN, uiDateRange, uiDate, uiAddress, uiPhone } from '../../../common/schemaform/uiDefinitions';
 import { validateEmailsMatch } from '../../../common/schemaform/validation';
-
 import { benefitsLabels, transformForSubmit } from '../helpers';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -295,6 +295,7 @@ const formConfig = {
               'ui:title': 'How would you like to be contacted if VA has questions about your application?',
               'ui:widget': 'radio'
             },
+            veteranAddress: uiAddress,
             otherContactInfo: {
               'ui:title': 'Other contact information',
               'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
@@ -323,7 +324,8 @@ const formConfig = {
           schema: {
             type: 'object',
             definitions: {
-              phone
+              phone,
+              address
             },
             properties: {
               preferredContactMethod: {
@@ -331,7 +333,9 @@ const formConfig = {
                 'enum': ['email', 'phone', 'mail'],
                 enumNames: ['Email', 'Phone', 'Mail']
               },
-              address,
+              veteranAddress: {
+                $ref: '#/definitions/address'
+              },
               otherContactInfo: {
                 type: 'object',
                 properties: {

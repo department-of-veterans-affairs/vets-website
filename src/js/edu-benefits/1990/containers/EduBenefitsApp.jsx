@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
 import { connect } from 'react-redux';
@@ -8,9 +9,11 @@ import { withRouter } from 'react-router';
 
 import { chapters, pages } from '../routes';
 
-import Nav from '../../../common/components/Nav';
+import SegmentedProgressBar from '../../../common/components/SegmentedProgressBar';
 import NavButtons from '../../../common/components/NavButtons';
 import NavHeader from '../../../common/components/NavHeader';
+
+import FormTitle from '../../../common/schemaform/FormTitle.jsx';
 
 import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
@@ -69,11 +72,22 @@ class EduBenefitsApp extends React.Component {
   }
 
   render() {
-    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm, onStateChange, onAttemptedSubmit } = this.props;
+    const { currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm, onStateChange, onAttemptedSubmit } = this.props;
     const navigateTo = path => router.push(path);
     const onSubmit = () => {
       submitBenefitsForm(this.props.data);
     };
+
+    const endpoint = currentLocation.pathname.split('/').pop();
+
+    // Until we come up with a common code base between this and the schemaform
+    //  forms, the following is borrowed from NavHeader
+    let step;
+    chapters.forEach((chapter, index) => {
+      if (chapter.pages.some(page => page.path === currentLocation.pathname)) {
+        step = index + 1;
+      }
+    });
 
     let devPanel = undefined;
     if (__BUILDTYPE__ === 'development') {
@@ -89,20 +103,25 @@ class EduBenefitsApp extends React.Component {
       }
     }
 
+    let contentClass = classNames(
+      'progress-box',
+      'progress-box-schemaform',
+      { 'intro-content': endpoint === 'introduction' }
+    );
+
     return (
       <div className="row">
         {devPanel}
         <Element name="topScrollElement"/>
-        <div className="medium-4 columns show-for-medium-up">
-          <Nav
-              data={data}
-              pages={pageState}
-              chapters={chapters}
-              currentUrl={currentLocation.pathname}/>
-        </div>
         <div className="medium-8 columns">
-          <div className="progress-box">
-            <NavHeader path={currentLocation.pathname} chapters={chapters} className="show-for-small-only"/>
+          <FormTitle title="Apply for education benefits" subTitle="Form 22-1990"/>
+          <div>
+            {!_.includes(['introduction', 'submit-message'], endpoint) && <SegmentedProgressBar total={chapters.length} current={step}/>}
+            <div className="schemaform-chapter-progress">
+              <NavHeader path={currentLocation.pathname} chapters={chapters} className="nav-header-schemaform"/>
+            </div>
+          </div>
+          <div className={contentClass}>
             {this.props.children}
             <NavButtons
                 data={data}
