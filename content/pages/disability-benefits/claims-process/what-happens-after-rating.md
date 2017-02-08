@@ -34,7 +34,7 @@ If you disagree with your disability rating, you can file an appeal. You'll need
 - **For Education Benefits:** You can get VA support for college or job training under special programs. [Learn about education benefits](/education). Or, talk with a VA education counselor to find out what benefits you may be able to get.   
 - **For Dependent Benefits:** If you're 30% or more disabled due to a disability caused by service in the military, you can get more financial support and benefits for your qualified dependents. There are 2 ways to register:
   - [Register through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation), or
-  - [Register through your local VA office](/facility-locator/).
+  - [Register through your local VA office](/facilities/).
 - **For Other Benefits:** Check with your local or state VA offices for other benefits you may be able to get—like help with buying a home or making changes to your home to make it more accessible, or help with getting a job. [Find a VA office near you](http://www.va.gov/statedva.htm).  
 
 
