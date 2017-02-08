@@ -6,16 +6,13 @@ import { states } from '../utils/options-for-select';
 
 /**
  * Input component for an address.
- *
- * No validation is provided through a currently stubbed isAddressValid function.
  */
 class Address extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
     this.onPropertyBlur = this.onPropertyBlur.bind(this);
     this.isRequired = this.isRequired.bind(this);
-    this.state = { value: props.formData, touched: { street: false, city: false, state: false, country: false, postalCode: false } };
   }
 
   componentWillMount() {
@@ -44,11 +41,7 @@ class Address extends React.Component {
     const schemaRequired = Array.isArray(schema.required) &&
       schema.required.indexOf(name) !== -1;
 
-    if (schemaRequired) {
-      return schemaRequired;
-    }
-
-    return false;
+    return schemaRequired;
   }
 
   isMilitaryCity(city) {
@@ -61,16 +54,16 @@ class Address extends React.Component {
     let stateList = [];
     const { errorSchema, formData, formContext, touchedSchema, schema, idSchema, uiSchema, registry } = this.props;
     const SchemaField = registry.fields.SchemaField;
-    const selectedCountry = formData.country.value || formData.country;
+    const selectedCountry = formData.country;
     let postalCodeUiSchema = uiSchema.postalCode;
     let stateUiSchema = uiSchema.state;
     let stateSchema = schema.properties.state;
 
-    if (formData.country === 'CAN') {
+    if (selectedCountry === 'CAN') {
       stateUiSchema = set('ui:title', 'Province', stateUiSchema);
     }
 
-    if (formData.country === 'USA') {
+    if (selectedCountry === 'USA') {
       postalCodeUiSchema = set('ui:title', 'ZIP code', postalCodeUiSchema);
     }
 

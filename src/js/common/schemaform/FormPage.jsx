@@ -27,7 +27,7 @@ const fields = {
 const reviewFields = {
   ObjectField: ReviewObjectField,
   ArrayField,
-  address: Address
+  address: ReviewObjectField
 };
 
 const scrollToFirstError = () => {
