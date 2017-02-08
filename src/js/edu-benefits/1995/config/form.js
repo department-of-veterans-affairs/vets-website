@@ -3,7 +3,14 @@ import _ from 'lodash/fp';
 import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
 
 import { validateMatch } from '../../../common/schemaform/validation';
-import { benefitsLabels, educationTypeLabels, transformForSubmit, enumToNames } from '../helpers';
+import {
+  benefitsLabels,
+  educationTypeLabels,
+  bankAccountChangeLabels,
+  preferredContactMethodLabels,
+  transformForSubmit,
+  enumToNames
+} from '../helpers';
 
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
@@ -308,7 +315,7 @@ const formConfig = {
             type: 'object',
             properties: {
               preferredContactMethod: _.assign(preferredContactMethod, {
-                enumNames: ['Mail', 'Email', 'Phone']
+                enumNames: enumToNames(preferredContactMethod.enum, preferredContactMethodLabels)
               }),
               veteranAddress: address.schema(true),
               'view:otherContactInfo': {
@@ -364,7 +371,7 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             bankAccountChange: {
-              'ui:title': 'Do you want to start, stop or continue using direct deposit?',
+              'ui:title': 'Do you want to update, start, or stop using direct deposit?',
               'ui:widget': 'radio'
             },
             bankAccount: bankAccount.uiSchema
@@ -373,7 +380,7 @@ const formConfig = {
             type: 'object',
             properties: {
               bankAccountChange: _.assign(bankAccountChange, {
-                enumNames: ['Start', 'Stop', 'Continue']
+                enumNames: enumToNames(bankAccountChange.enum, bankAccountChangeLabels)
               }),
               bankAccount: bankAccount.schema
             }

@@ -38,6 +38,7 @@ export function uiSchema(label = 'Address') {
     'ui:validations': [
       validateAddress
     ],
+    'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
     country: {
       'ui:title': 'Country'
     },

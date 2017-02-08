@@ -20,6 +20,18 @@ export const educationTypeLabels = {
   tuitionTopUp: 'Tuition assistance top up (Post 9/11 GI Bill and MGIB-AD only)'
 };
 
+export const bankAccountChangeLabels = {
+  update: 'Update',
+  start: 'Start',
+  stop: 'Stop'
+};
+
+export const preferredContactMethodLabels = {
+  mail: 'Mail',
+  email: 'Email',
+  phone: 'Phone'
+};
+
 export function transformForSubmit(form) {
   const formData = flattenFormData(form);
 
