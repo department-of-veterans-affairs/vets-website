@@ -10,6 +10,9 @@ const props = {
   errors: [],
 };
 
+// mock out window location object
+global.window = { location: { reload: () => {} } };
+
 describe('<ErrorView>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<ErrorView {...props}/>);
