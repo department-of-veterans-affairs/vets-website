@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Non-Hodgkin’s Lymphoma and Agent Orange
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
-template: 4-action-page-pending
+template: 4-action-page
 concurrence: incomplete
 ---
 
