@@ -6,13 +6,15 @@ plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page
 ---
 
-If you served on a Navy or Coast Guard ship in or around Vietnam during the Vietnam War Era, you may have had contact with Agent Orange (a toxic chemical used to clear trees and plants during the war). Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange. 
+If you served on a Navy or Coast Guard ship in or around Vietnam during the Vietnam War Era, you may have had contact with Agent Orange, a toxic chemical used to clear trees and plants during the war. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange. 
 
 <div class="call-out" markdown="1">
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have 1 or more illnesses believed to be caused by Agent Orange and you served on ships or boats that were part of the Mobile Riverine Force or Inshore Fire Support Division 93, or had 1 of the following designations:
+You may be able to get disability benefits if you have 1 or more illnesses believed to be caused by Agent Orange and: 
+- You served on ships or boats that were part of the Mobile Riverine Force or Inshore Fire Support Division 93, or 
+- You had 1 of the following designations:
 
   - AGP (Assault Group Patrol/Patrol Craft Tender)
   - LCM (Landing Craft, Mechanized)
@@ -52,13 +54,12 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits.
+You'll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply-for-benefits/).
 
 If you served on 1 of the ships or boats listed above—and you have 1 or more illnesses believed to be caused by Agent Orange—we'll conclude that your illness is likely caused by contact with Agent Orange.
 
 If you don’t have an Agent Orange–related disability at this time, you and your family can still be part of the Agent Orange Health Registry.
 
-[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
 ### Get more information
 
