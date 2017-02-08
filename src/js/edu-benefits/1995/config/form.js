@@ -70,7 +70,7 @@ const formConfig = {
               }
             }
           }
-        },
+        }
       }
     },
     benefitSelection: {
@@ -161,8 +161,7 @@ const formConfig = {
             properties: {
               hasServiceBefore1978: {
                 type: 'boolean'
-              },
-
+              }
             }
           }
         }
