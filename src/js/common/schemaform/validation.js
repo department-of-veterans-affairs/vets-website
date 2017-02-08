@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { Validator } from 'jsonschema';
 
-import { isValidSSN, isValidPartialDate, isValidDateRange, isValidRoutingNumber } from '../utils/validations';
+import { isValidSSN, isValidPartialDate, isValidDateRange, isValidRoutingNumber, isValidUSZipCode, isValidCanPostalCode } from '../utils/validations';
 import { parseISODate, updateRequiredFields } from './helpers';
 import { isActivePage } from '../utils/helpers';
 
@@ -81,7 +81,7 @@ export function transformErrors(errors, uiSchema) {
  * should call addError to add the error.
  */
 
-export function uiSchemaValidate(errors, uiSchema, formData, formContext, path = '') {
+export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext, path = '') {
   if (uiSchema) {
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
@@ -96,7 +96,7 @@ export function uiSchemaValidate(errors, uiSchema, formData, formContext, path =
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, formData, formContext, newPath);
+        uiSchemaValidate(errors, uiSchema.items, schema.items, formData, formContext, newPath);
       });
     } else {
       Object.keys(uiSchema)
@@ -115,7 +115,7 @@ export function uiSchemaValidate(errors, uiSchema, formData, formContext, path =
               }
             };
           }
-          uiSchemaValidate(errors, uiSchema[item], formData, formContext, nextPath);
+          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, formContext, nextPath);
         });
     }
 
@@ -124,9 +124,9 @@ export function uiSchemaValidate(errors, uiSchema, formData, formContext, path =
       validations.forEach(validation => {
         const pathErrors = path ? _.get(path, errors) : errors;
         if (typeof validation === 'function') {
-          validation(pathErrors, currentData, formData, formContext, uiSchema['ui:errorMessages']);
+          validation(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages']);
         } else {
-          validation.validator(pathErrors, currentData, formData, formContext, uiSchema['ui:errorMessages'], validation.options);
+          validation.validator(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], validation.options);
         }
       });
     }
@@ -181,6 +181,31 @@ export function validateDate(errors, dateString) {
   const { day, month, year } = parseISODate(dateString);
   if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
+  }
+}
+
+export function validateAddress(errors, address, formData, schema) {
+  let isValidPostalCode = true;
+
+  // Checks if postal code is valid
+  if (address.country === 'USA') {
+    isValidPostalCode = isValidPostalCode && isValidUSZipCode(address.postalCode);
+  }
+  if (address.country === 'CAN') {
+    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(address.postalCode);
+  }
+
+  // Adds error message for state if it is blank and one of the following countries:
+  // USA, Canada, or Mexico
+  if (_.includes(address.country)(['USA', 'CAN', 'MEX'])
+    && address.state === undefined
+    && schema.required) {
+    errors.state.addError('Please select a state or province');
+  }
+
+  // Add error message for postal code if it is invalid
+  if (address.postalCode && !isValidPostalCode) {
+    errors.postalCode.addError('Please provide a valid postal code');
   }
 }
 

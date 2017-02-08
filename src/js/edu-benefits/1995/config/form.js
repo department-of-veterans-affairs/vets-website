@@ -3,10 +3,15 @@ import _ from 'lodash/fp';
 import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
 
 import { validateMatch } from '../../../common/schemaform/validation';
-import { benefitsLabels, educationTypeLabels, transform, enumToNames } from '../helpers';
-
-// This should be changed to use backend schema when possible
-import { address } from '../../../common/schemaform/definitions';
+import {
+  benefitsLabels,
+  educationTypeLabels,
+  bankAccountChangeLabels,
+  preferredContactMethodLabels,
+  transformForSubmit,
+  enumToNames,
+  transform
+} from '../helpers';
 
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
@@ -14,6 +19,7 @@ import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as dateRange from '../../../common/schemaform/definitions/dateRange';
 import * as phone from '../../../common/schemaform/definitions/phone';
+import * as address from '../../../common/schemaform/definitions/address';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -217,9 +223,7 @@ const formConfig = {
               name: {
                 'ui:title': 'Name of school, university, or training facility'
               },
-              address: {
-                'ui:title': 'Address'
-              }
+              address: address.uiSchema()
             },
             educationObjective: {
               'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
@@ -236,7 +240,7 @@ const formConfig = {
               educationType: _.assign(educationType, {
                 enumNames: enumToNames(educationType.enum, educationTypeLabels)
               }),
-              newSchool: _.set('properties.address', address, school),
+              newSchool: _.set('properties.address', address.schema(), school),
               educationObjective,
               nonVaAssistance
             }
@@ -256,9 +260,7 @@ const formConfig = {
               name: {
                 'ui:title': 'Name of school, university, or training facility'
               },
-              address: {
-                'ui:title': 'Address'
-              }
+              address: address.uiSchema()
             },
             trainingEndDate: _.merge(date.uiSchema, { 'ui:title': 'When did you stop taking classes or participating in the training program?' }),
             reasonForChange: {
@@ -268,7 +270,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              oldSchool: _.set('properties.address', address, school),
+              oldSchool: _.set('properties.address', address.schema(), school),
               trainingEndDate: date.schema,
               reasonForChange
             }
@@ -288,6 +290,7 @@ const formConfig = {
               'ui:title': 'How would you like to be contacted if VA has questions about your application?',
               'ui:widget': 'radio'
             },
+            veteranAddress: address.uiSchema(),
             'view:otherContactInfo': {
               'ui:title': 'Other contact information',
               'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
@@ -313,11 +316,9 @@ const formConfig = {
             type: 'object',
             properties: {
               preferredContactMethod: _.assign(preferredContactMethod, {
-                enumNames: ['Mail', 'Email', 'Phone']
+                enumNames: enumToNames(preferredContactMethod.enum, preferredContactMethodLabels)
               }),
-              veteranAddress: _.assign(address, {
-                required: ['street', 'city', 'country', 'state', 'postalCode'],
-              }),
+              veteranAddress: address.schema(true),
               'view:otherContactInfo': {
                 type: 'object',
                 required: ['email', 'view:confirmEmail'],
@@ -371,7 +372,7 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             bankAccountChange: {
-              'ui:title': 'Do you want to start, stop or continue using direct deposit?',
+              'ui:title': 'Do you want to update, start, or stop using direct deposit?',
               'ui:widget': 'radio'
             },
             bankAccount: bankAccount.uiSchema
@@ -380,7 +381,7 @@ const formConfig = {
             type: 'object',
             properties: {
               bankAccountChange: _.assign(bankAccountChange, {
-                enumNames: ['Start', 'Stop', 'Continue']
+                enumNames: enumToNames(bankAccountChange.enum, bankAccountChangeLabels)
               }),
               bankAccount: bankAccount.schema
             }
