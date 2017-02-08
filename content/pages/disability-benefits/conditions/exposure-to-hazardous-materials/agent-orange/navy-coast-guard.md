@@ -63,6 +63,4 @@ If you don’t have an Agent Orange–related disability at this time, you and y
 
 ### Get more information
 
-Having trouble figuring out if you can get benefits? We can help after you file a claim for disability benefits. [File a claim now]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
-
 Want to find out if the ship you were on had contact with Agent Orange? [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf). 
