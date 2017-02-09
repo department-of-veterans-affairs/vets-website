@@ -9,6 +9,8 @@ template: 4-action-page
 
 If you served in Afghanistan, you may suffer from illnesses or other conditions related to service in this region. Find out if you can get disability compensation or benefits.
 
+[Learn about service in the Southwest Asia theater of military operations and Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
+
 <div class="call-out" markdown="1">
 
 ### Can I get disability benefits from VA?
