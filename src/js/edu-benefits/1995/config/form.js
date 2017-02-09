@@ -100,7 +100,7 @@ const formConfig = {
               vaFileNumber
             }
           }
-        },
+        }
       }
     },
     benefitSelection: {
@@ -172,7 +172,7 @@ const formConfig = {
             'view:hasServiceBefore1978': {
               'ui:title': 'Do you have any periods of service that began before 1978?',
               'ui:widget': 'yesNo'
-            }
+            },
           },
           schema: {
             type: 'object',
@@ -180,23 +180,6 @@ const formConfig = {
               'view:hasServiceBefore1978': {
                 type: 'boolean'
               }
-            }
-          }
-        },
-        contributions: {
-          title: 'Contributions',
-          path: 'military-history/contributions',
-          initialData: {},
-          uiSchema: {
-
-            civilianBenefitsAssistance: {
-              'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA'
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              civilianBenefitsAssistance
             }
           }
         }
@@ -231,6 +214,10 @@ const formConfig = {
             nonVaAssistance: {
               'ui:title': 'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
               'ui:widget': 'yesNo'
+            },
+            civilianBenefitsAssistance: {
+              'ui:title': 'Are you getting benefits from the U.S. Government as a civilian employee during the same time as you’re seeking benefits from VA?',
+              'ui:widget': 'yesNo'
             }
           },
           schema: {
@@ -241,7 +228,8 @@ const formConfig = {
               }),
               newSchool: _.set('properties.address', address.schema(), school),
               educationObjective,
-              nonVaAssistance
+              nonVaAssistance,
+              civilianBenefitsAssistance
             }
           }
         },
@@ -390,5 +378,6 @@ const formConfig = {
     }
   }
 };
+
 
 export default formConfig;

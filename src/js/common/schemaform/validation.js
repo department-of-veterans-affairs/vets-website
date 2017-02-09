@@ -169,7 +169,7 @@ export function isValidForm(form, pageListByChapters) {
 
 export function validateSSN(errors, ssn) {
   if (ssn && !isValidSSN(ssn)) {
-    errors.addError('Please enter a valid nine digit SSN (dashes allowed)');
+    errors.addError('Please enter a valid 9 digit SSN (dashes allowed)');
   }
 }
 
