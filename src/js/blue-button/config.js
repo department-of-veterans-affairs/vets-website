@@ -33,16 +33,19 @@ module.exports = {
           value: 'labsandtests',
           label: 'VA Laboratory Results',
           hold: 3,
+          holdExplanation: 'VA Laboratory Results are available 3 calendar days after they have been verified. Depending on the type of tests, some of your laboratory results may not be available right away.',
         },
         {
           value: 'vapathology',
           label: 'VA Pathology Reports',
           hold: 14,
+          holdExplanation: 'VA Pathology Reports are available 14 calendar days after they have been completed. Some studies done at a non-VA facility may not be available or they may not necessarily include an interpretation.',
         },
         {
           value: 'varadiology',
           label: 'VA Radiology Reports',
           hold: 3,
+          holdExplanation: 'VA Radiology Reports are available 3 calendar days after they have been completed. Some studies done at a non-VA facility may not be available or they may not necessarily include an interpretation.',
         },
         {
           value: 'vaekg',
@@ -61,16 +64,19 @@ module.exports = {
           value: 'vaproblemlist',
           label: 'VA Problem List',
           hold: 3,
+          holdExplanation: 'Your VA Problem List contains active health problems your VA providers are helping you to manage. This information is available 3 calendar days after it has been entered. It may not contain active problems managed by non-VA health care providers.',
         },
         {
           value: 'vaadmissionsanddischarges',
           label: 'VA Admissions and Discharges',
           hold: 3,
+          holdExplanation: 'Discharge Summaries are available 3 calendar days after they are completed.',
         },
         {
           value: 'vaprogressnotes',
           label: 'VA Notes from Jan 01, 2013 forward',
           hold: 3,
+          holdExplanation: 'VA Notes written from January 1, 2013 forward are available 3 calendar days after they have been completed and signed by all required members of your VA health care team.',
         },
         {
           value: 'wellness',

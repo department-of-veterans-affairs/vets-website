@@ -18,7 +18,10 @@ describe('<ReviewCollapsibleChapter>', () => {
     const chapter = {};
     const data = {
       test: {
-        editMode: false
+        editMode: false,
+        schema: {
+          properties: {}
+        }
       }
     };
 
@@ -91,13 +94,20 @@ describe('<ReviewCollapsibleChapter>', () => {
     const data = {
       test1: {
         editMode: false,
+        schema: {
+          properties: {
+            condition1: 'boolean',
+            condition2: 'boolean'
+          }
+        },
         data: {
           condition1: true,
           condition2: false
         }
       },
       test2: {
-        editMode: false
+        editMode: false,
+        schema: {}
       }
     };
 
@@ -128,6 +138,12 @@ describe('<ReviewCollapsibleChapter>', () => {
       pageKey: 'test2',
       depends: {
         test1: {
+          schema: {
+            properties: {
+              condition1: 'boolean',
+              condition2: 'boolean'
+            }
+          },
           data: {
             condition1: true,
             condition2: true
@@ -141,13 +157,20 @@ describe('<ReviewCollapsibleChapter>', () => {
     const data = {
       test1: {
         editMode: false,
+        schema: {
+          properties: {
+            condition1: 'boolean',
+            condition2: 'boolean'
+          }
+        },
         data: {
           condition1: true,
           condition2: true
         }
       },
       test2: {
-        editMode: false
+        editMode: false,
+        schema: {}
       }
     };
 

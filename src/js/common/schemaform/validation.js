@@ -1,7 +1,9 @@
 import _ from 'lodash/fp';
 import { Validator } from 'jsonschema';
 
-import { isValidSSN, isValidPartialDate, isValidDateRange } from '../utils/validations';
+import { retrieveSchema } from 'react-jsonschema-form/lib/utils';
+
+import { isValidSSN, isValidPartialDate, isValidDateRange, isValidRoutingNumber, isValidUSZipCode, isValidCanPostalCode } from '../utils/validations';
 import { parseISODate, updateRequiredFields } from './helpers';
 
 /*
@@ -80,8 +82,9 @@ export function transformErrors(errors, uiSchema) {
  * should call addError to add the error.
  */
 
-export function uiSchemaValidate(errors, uiSchema, formData, formContext, path = '') {
+export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext, path = '') {
   if (uiSchema) {
+    const schemaWithDefinitions = retrieveSchema(schema, definitions);
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
       currentData.forEach((item, index) => {
@@ -95,9 +98,9 @@ export function uiSchemaValidate(errors, uiSchema, formData, formContext, path =
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, formData, formContext, newPath);
+        uiSchemaValidate(errors, uiSchema.items, schemaWithDefinitions.items, definitions, formData, formContext, newPath);
       });
-    } else {
+    } else if (!uiSchema.items) {
       Object.keys(uiSchema)
         .filter(prop => !prop.startsWith('ui:'))
         .forEach((item) => {
@@ -110,7 +113,7 @@ export function uiSchemaValidate(errors, uiSchema, formData, formContext, path =
               }
             };
           }
-          uiSchemaValidate(errors, uiSchema[item], formData, formContext, nextPath);
+          uiSchemaValidate(errors, uiSchema[item], schemaWithDefinitions.properties[item], definitions, formData, formContext, nextPath);
         });
     }
 
@@ -119,9 +122,9 @@ export function uiSchemaValidate(errors, uiSchema, formData, formContext, path =
       validations.forEach(validation => {
         const pathErrors = path ? _.get(path, errors) : errors;
         if (typeof validation === 'function') {
-          validation(pathErrors, currentData, formData, formContext, uiSchema['ui:errorMessages']);
+          validation(pathErrors, currentData, formData, schemaWithDefinitions, uiSchema['ui:errorMessages']);
         } else {
-          validation.validator(pathErrors, currentData, formData, formContext, uiSchema['ui:errorMessages'], validation.options);
+          validation.validator(pathErrors, currentData, formData, schemaWithDefinitions, uiSchema['ui:errorMessages'], validation.options);
         }
       });
     }
@@ -154,7 +157,7 @@ export function isValidForm(form, pageListByChapters) {
 
     if (result.valid) {
       const errors = {};
-      uiSchemaValidate(errors, pageConfig.uiSchema, pages[page].data, {});
+      uiSchemaValidate(errors, pageConfig.uiSchema, currentSchema, currentSchema.definitions, pages[page].data, {});
 
       return errorSchemaIsValid(errors);
     }
@@ -177,10 +180,42 @@ export function validateDate(errors, dateString) {
   }
 }
 
-export function validateEmailsMatch(errors, formData) {
-  const { email, confirmEmail } = formData;
-  if (email !== confirmEmail) {
-    errors.confirmEmail.addError('Please ensure your entries match');
+export function validateAddress(errors, address, formData, schema) {
+  let isValidPostalCode = true;
+
+  // Checks if postal code is valid
+  if (address.country === 'USA') {
+    isValidPostalCode = isValidPostalCode && isValidUSZipCode(address.postalCode);
+  }
+  if (address.country === 'CAN') {
+    isValidPostalCode = isValidPostalCode && isValidCanPostalCode(address.postalCode);
+  }
+
+  // Adds error message for state if it is blank and one of the following countries:
+  // USA, Canada, or Mexico
+  if (_.includes(address.country)(['USA', 'CAN', 'MEX'])
+    && address.state === undefined
+    && schema.required) {
+    errors.state.addError('Please select a state or province');
+  }
+
+  // Add error message for postal code if it is invalid
+  if (address.postalCode && !isValidPostalCode) {
+    errors.postalCode.addError('Please provide a valid postal code');
+  }
+}
+
+export function validateMatch(field1, field2) {
+  return (errors, formData) => {
+    if (formData[field1] !== formData[field2]) {
+      errors[field2].addError('Please ensure your entries match');
+    }
+  };
+}
+
+export function validateRoutingNumber(errors, routingNumber, formData, formContext, errorMessages) {
+  if (!isValidRoutingNumber(routingNumber)) {
+    errors.addError(errorMessages.pattern);
   }
 }
 

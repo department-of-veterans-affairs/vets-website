@@ -47,7 +47,6 @@ export default class EmploymentHistoryFields extends React.Component {
     );
 
     const formView = (<fieldset className="edu-growable-form">
-      <legend className="hide-for-small-only">Employment history</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <ExpandingGroup open={this.props.data.hasNonMilitaryJobs.value === 'Y'} additionalClass="edu-benefits-employ-group">
