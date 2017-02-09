@@ -19,7 +19,6 @@ import {
   toggleManagedFolders
 } from '../actions';
 
-import { isEmpty } from 'lodash';
 import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
@@ -108,7 +107,7 @@ export class Main extends React.Component {
           <ButtonClose
               className="messaging-folder-nav-close"
               onClick={this.props.toggleFolderNav}/>
-          <ComposeButton disabled={isEmpty(this.props.recipients)}/>
+          <ComposeButton disabled={_.isEmpty(this.props.recipients)}/>
           <FolderNav
               currentFolderId={this.props.currentFolderId}
               folders={this.props.folders}
