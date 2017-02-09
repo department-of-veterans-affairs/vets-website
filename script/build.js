@@ -22,12 +22,14 @@ const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
+const semver = require('semver');
 
 const fs = require('fs');
 const path = require('path');
 
 const sourceDir = '../content/pages';
-
+const minimumNpmVersion = '3.8.9';
+const minimumNodeVersion = '4.4.7';
 // Make sure git pre-commit hooks are installed
 ['pre-commit'].forEach(hook => {
   const src = `../hooks/${hook}`;
@@ -39,6 +41,18 @@ const sourceDir = '../content/pages';
     }
   }
 });
+
+if (semver.compare(process.env.npm_package_engines_npm, minimumNpmVersion) === -1) {
+  console.error(`NPM version (mininum): ${minimumNpmVersion}`);
+  console.error(`NPM version (installed): ${process.env.npm_package_engines_npm}`);
+  process.exit();
+}
+
+if (semver.compare(process.version, minimumNodeVersion) === -1) {
+  console.error(`Node.js version (mininum): v${minimumNodeVersion}`);
+  console.error(`Node.js version (installed): ${process.version}`);
+  process.exit();
+}
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
