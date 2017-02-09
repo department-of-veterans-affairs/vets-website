@@ -3,7 +3,11 @@ import sinon from 'sinon';
 
 import {
   transformErrors,
-  uiSchemaValidate
+  uiSchemaValidate,
+  validateSSN,
+  validateDate,
+  validateMatch,
+  validateDateRange
 } from '../../../src/js/common/schemaform/validation';
 
 describe('Schemaform validations', () => {
@@ -45,6 +49,22 @@ describe('Schemaform validations', () => {
 
       expect(newErrors[0].message).to.equal('This field should be less than 5 characters');
     });
+    it('should transform error message into email default', () => {
+      const errors = [
+        {
+          name: 'format',
+          property: 'instance.field',
+          argument: 'email',
+          message: 'Old message'
+        }
+      ];
+      const uiSchema = {
+      };
+
+      const newErrors = transformErrors(errors, uiSchema);
+
+      expect(newErrors[0].message).to.equal('Please enter a valid email address');
+    });
     it('should transform required message to field level', () => {
       const errors = [
         {
@@ -67,6 +87,8 @@ describe('Schemaform validations', () => {
     it('should use custom validation with function validator', () => {
       const errors = {};
       const validator = sinon.spy();
+      const schema = {};
+      const definitions = null;
       const uiSchema = {
         'ui:validations': [
           validator
@@ -76,7 +98,7 @@ describe('Schemaform validations', () => {
       const formData = {};
       const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext);
 
       expect(errors.__errors).to.be.defined;
       expect(errors.addError).to.be.function;
@@ -85,6 +107,8 @@ describe('Schemaform validations', () => {
     it('should use custom validation with object validator', () => {
       const errors = {};
       const validator = sinon.spy();
+      const schema = {};
+      const definitions = null;
       const uiSchema = {
         'ui:validations': [
           {
@@ -97,7 +121,7 @@ describe('Schemaform validations', () => {
       const formData = {};
       const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext);
 
       expect(validator.calledWith(errors, formData, formData, formContext, uiSchema['ui:errorMessages'], uiSchema['ui:validations'][0].options)).to.be.true;
     });
@@ -108,6 +132,17 @@ describe('Schemaform validations', () => {
       };
       const validator1 = sinon.spy();
       const validator2 = sinon.spy();
+      const schema = {
+        properties: {
+          field1: {
+
+          },
+          field2: {
+
+          }
+        }
+      };
+      const definitions = null;
       const uiSchema = {
         field1: {
           'ui:validations': [
@@ -126,13 +161,68 @@ describe('Schemaform validations', () => {
       };
       const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext);
 
-      expect(validator1.calledWith(errors.field1, formData.field1, formData, formContext)).to.be.true;
+      expect(validator1.calledWith(errors.field1, formData.field1, formData, schema.properties.field1, undefined)).to.be.true;
+    });
+    it('should use custom validation on fields in object with ref', () => {
+      const errors = {
+        field1: {},
+        field2: {}
+      };
+      const validator1 = sinon.spy();
+      const validator2 = sinon.spy();
+      const schema = {
+        $ref: '#/definitions/test'
+      };
+      const definitions = {
+        test: {
+          type: 'object',
+          properties: {
+            field1: {
+
+            },
+            field2: {
+
+            }
+          }
+        }
+      };
+      const uiSchema = {
+        field1: {
+          'ui:validations': [
+            validator1
+          ]
+        },
+        field2: {
+          'ui:validations': [
+            validator2
+          ]
+        }
+      };
+      const formData = {
+        field1: {},
+        field2: {}
+      };
+      const formContext = {};
+
+      uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext);
+
+      expect(validator1.calledWith(errors.field1, formData.field1, formData, definitions.test.properties.field1, undefined)).to.be.true;
     });
     it('should use custom validation on fields in array', () => {
       const errors = {};
       const validator = sinon.spy();
+      const schema = {
+        items: {
+          properties: {
+            field: {
+
+            }
+          }
+        }
+      };
+      const definitions = null;
       const uiSchema = {
         items: {
           field: {
@@ -149,9 +239,104 @@ describe('Schemaform validations', () => {
       ];
       const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext);
 
-      expect(validator.calledWith(errors[0].field, formData[0].field, formData, formContext)).to.be.true;
+      expect(validator.calledWith(errors[0].field, formData[0].field, formData, schema.items.properties.field, undefined)).to.be.true;
+    });
+    it('should skip validation when array is undefined', () => {
+      const errors = {};
+      const validator = sinon.spy();
+      const schema = {
+        items: {
+          properties: {
+            field: {
+
+            }
+          }
+        }
+      };
+      const definitions = null;
+      const uiSchema = {
+        items: {
+          field: {
+            'ui:validations': [
+              validator
+            ]
+          }
+        }
+      };
+      const formContext = {};
+
+      uiSchemaValidate(errors, uiSchema, schema, definitions, undefined, formContext);
+
+      expect(validator.called).to.be.false;
+    });
+  });
+  describe('validateSSN', () => {
+    it('should set message if invalid', () => {
+      const errors = { addError: sinon.spy() };
+      validateSSN(errors, 'asfd');
+      validateSSN(errors, '123334455');
+
+      expect(errors.addError.callCount).to.equal(1);
+    });
+  });
+  describe('validateDate', () => {
+    it('should set message if invalid', () => {
+      const errors = { addError: sinon.spy() };
+      validateDate(errors, '2010-01-03');
+      validateDate(errors, 'asdf-01-03');
+
+      expect(errors.addError.callCount).to.equal(1);
+    });
+  });
+  describe('validateMatch', () => {
+    it('should set message if emails do not match', () => {
+      const errors = { confirmEmail: { addError: sinon.spy() } };
+      validateMatch('email', 'confirmEmail')(errors, {
+        email: 'test@test.com',
+        confirmEmail: 'test3@test.com'
+      });
+
+      expect(errors.confirmEmail.addError.called).to.be.true;
+    });
+    it('should not set message if emails match', () => {
+      const errors = { confirmEmail: { addError: sinon.spy() } };
+      validateMatch('email', 'confirmEmail')(errors, {
+        email: 'test@test.com',
+        confirmEmail: 'test@test.com'
+      });
+
+      expect(errors.confirmEmail.addError.called).to.be.false;
+    });
+  });
+  describe('validateDateRange', () => {
+    it('should not set message if date range is valid', () => {
+      const errors = { to: { addError: sinon.spy() } };
+      validateDateRange(errors, {
+        from: '2014-01-04',
+        to: '2015-01-04'
+      });
+
+      expect(errors.to.addError.called).to.be.false;
+    });
+    it('should set message if date range is not valid', () => {
+      const errors = { to: { addError: sinon.spy() } };
+      validateDateRange(errors, {
+        from: '2014-01-04',
+        to: '2012-01-04'
+      }, null, null, {});
+
+      expect(errors.to.addError.called).to.be.true;
+    });
+    it('should set custom message from config if date range is not valid', () => {
+      const errors = { to: { addError: sinon.spy() } };
+      validateDateRange(errors, {
+        from: '2014-01-04',
+        to: '2012-01-04'
+      }, null, null, { dateRange: 'Test message' });
+
+      expect(errors.to.addError.calledWith('Test message')).to.be.true;
     });
   });
 });

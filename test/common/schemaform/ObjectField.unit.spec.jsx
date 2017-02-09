@@ -151,4 +151,52 @@ describe('Schemaform: ObjectField', () => {
     expect(tree.everySubTree('ExpandingGroup')).not.to.be.empty;
     expect(tree.subTree('ExpandingGroup').props.open).to.be.true;
   });
+  it('should handle change', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          idSchema={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    tree.getMountedInstance().onPropertyChange('test')('value');
+
+    expect(onChange.firstCall.args[0]).to.eql({
+      test: 'value'
+    });
+  });
+  it('should handle blur', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          idSchema={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    tree.getMountedInstance().onPropertyBlur('test')();
+
+    expect(onBlur.firstCall.args[0]).to.eql(['test']);
+  });
 });

@@ -1,6 +1,12 @@
 import { expect } from 'chai';
 
-import { parseISODate, formatISOPartialDate, updateRequiredFields } from '../../../src/js/common/schemaform/helpers';
+import {
+  parseISODate,
+  formatISOPartialDate,
+  updateRequiredFields,
+  createRoutes,
+  hasFieldsOtherThanArray
+} from '../../../src/js/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
   describe('parseISODate', () => {
@@ -109,6 +115,101 @@ describe('Schemaform helpers:', () => {
         }
       };
       expect(updateRequiredFields(schema, uiSchema).items.required[0]).to.equal('test');
+    });
+  });
+  describe('createRoutes', () => {
+    it('should create routes', () => {
+      const formConfig = {
+        chapters: {
+          firstChapter: {
+            pages: {
+              testPage: {
+                path: 'test-page'
+              }
+            }
+          }
+        }
+      };
+
+      const routes = createRoutes(formConfig);
+
+      expect(routes[0].path).to.equal('test-page');
+      expect(routes[1].path).to.equal('review-and-submit');
+    });
+    it('should create routes with intro', () => {
+      const formConfig = {
+        introduction: f => f,
+        chapters: {
+          firstChapter: {
+            pages: {
+              testPage: {
+                path: 'test-page'
+              }
+            }
+          }
+        }
+      };
+
+      const routes = createRoutes(formConfig);
+
+      expect(routes[0].path).to.equal('introduction');
+    });
+  });
+  describe('hasFieldsOtherThanArray', () => {
+    it('should return true if non-array fields', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          test: {
+            type: 'array'
+          },
+          test2: {
+            type: 'string'
+          }
+        }
+      };
+
+      expect(hasFieldsOtherThanArray(schema)).to.be.true;
+    });
+    it('should return true if nested non-array fields', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          test: {
+            type: 'array'
+          },
+          test2: {
+            type: 'object',
+            properties: {
+              test3: {
+                type: 'number'
+              }
+            }
+          }
+        }
+      };
+
+      expect(hasFieldsOtherThanArray(schema)).to.be.true;
+    });
+    it('should return false if only array fields', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          test: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                test: {
+                  type: 'string'
+                }
+              }
+            }
+          }
+        }
+      };
+
+      expect(hasFieldsOtherThanArray(schema)).to.be.false;
     });
   });
 });
