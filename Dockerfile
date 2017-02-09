@@ -41,7 +41,7 @@ RUN buildDeps='xz-utils' \
     && npm install -g nsp \
     && npm install -g s3-cli
 
-RUN apt-get update && apt-get install -y netcat default-jre --no-install-recommends
+RUN apt-get update && apt-get install -y netcat oracle-java8-set-default --no-install-recommends
 
 WORKDIR /application
 
