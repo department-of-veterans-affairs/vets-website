@@ -6,7 +6,7 @@ template: 4-action-page
 concurrence: incomplete
 ---
 
-Were you part of testing or storing Agent Orange on bases in the United States or elsewhere? Agent Orange is a toxic chemical used to clear trees and plants during the Vietnam War. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
+Were you part of testing or storing Agent Orange on bases in the United States or elsewhere? Agent Orange is a toxic chemical the U.S. military used to clear trees and plants during the Vietnam War. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
 
 <div class="call-out" markdown="1">
 
@@ -16,7 +16,7 @@ You may be able to get disability benefits if:
 - You have 1 or more illnesses believed to be caused by Agent Orange, **and**
 - You were part of testing or storing Agent Orange during your military service
 
-[See a list of Agent Orange‒related illnesses](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See a list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
 ### Who's covered?
 
@@ -37,10 +37,10 @@ You may be able to get disability benefits if:
 
 You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military and that you have an illness believed to be caused by Agent Orange.
 
-[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
+[Apply for benefits](/disability-benefits/apply-for-benefits/).
 
 ### Get more information
 
-Want to figure out where you may have come into contact with Agent Orange? See these lists for all dates and locations of herbicide tests and storage:
+Want to figure out where you may have come into contact with Agent Orange? See all the dates and locations of herbicide tests and storage:
 - [In the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp)
 - [Outside the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp) 
