@@ -63,7 +63,6 @@ export default function createSchemaFormReducer(formConfig) {
   return (state = initialState, action) => {
     switch (action.type) {
       case SET_DATA: {
-        debugger;
         let schema = updateRequiredFields(state[action.page].schema, state[action.page].uiSchema, action.data, state);
         schema = setHiddenFields(schema, state[action.page].uiSchema, action.data, state);
         schema = updateSchemaFromUiSchema(schema, state[action.page].uiSchema, action.data, state);
