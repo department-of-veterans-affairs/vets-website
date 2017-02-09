@@ -4,7 +4,7 @@ import { Validator } from 'jsonschema';
 import { retrieveSchema } from 'react-jsonschema-form/lib/utils';
 
 import { isValidSSN, isValidPartialDate, isValidDateRange, isValidRoutingNumber, isValidUSZipCode, isValidCanPostalCode } from '../utils/validations';
-import { parseISODate, updateRequiredFields } from './helpers';
+import { parseISODate } from './helpers';
 import { isActivePage } from '../utils/helpers';
 
 /*
@@ -154,17 +154,16 @@ export function isValidForm(form, pageListByChapters) {
   const v = new Validator();
 
   return form.privacyAgreementAccepted && validPages.every(page => {
-    const pageConfig = pageConfigs.filter(config => config.pageKey === page)[0];
-    const currentSchema = updateRequiredFields(pageConfig.schema, pageConfig.uiSchema, pages[page].data);
+    const { uiSchema, schema, data } = pages[page];
 
     const result = v.validate(
-      pages[page].data,
-      currentSchema
+      data,
+      schema
     );
 
     if (result.valid) {
       const errors = {};
-      uiSchemaValidate(errors, pageConfig.uiSchema, currentSchema, currentSchema.definitions, pages[page].data, {});
+      uiSchemaValidate(errors, uiSchema, schema, schema.definitions, data, {});
 
       return errorSchemaIsValid(errors);
     }
