@@ -14,7 +14,7 @@ very secret.
 
 | I want to... | Then you should... |
 | ------------ | ------------------ |
-| clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, `git submodule init; git submodule update`, `npm install`. Run `npm install` anytime `package.json` changes. | 
+| clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, `npm install`. Run `npm install` anytime `package.json` changes. |
 | deploy the site | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Travis will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
@@ -23,7 +23,7 @@ very secret.
 | build the site with optimizaitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,no-react`. Valid application names are in `config/webpack.config.js` |
-| run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` | 
+| run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` |
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0`. Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
@@ -80,7 +80,7 @@ You should use Node Version Manager (nvm) to manage the versions of node.js on y
 To install please visit: https://github.com/creationix/nvm
 _If you are on a mac and use [homebrew](http://brew.sh/), you can install nvm by typing: brew update && brew install nvm_
 
-Once you have nvm installed you should now install node.js version 4.4.7 by running: 
+Once you have nvm installed you should now install node.js version 4.4.7 by running:
 
 ```bash
 nvm install
@@ -336,5 +336,3 @@ TODO: Verify if these are still relevant.
 
 - [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)
 - [How Search Works](docs/HowSearchWorks.md)
-
-

@@ -15,7 +15,7 @@ import ProgressButton from '../components/form-elements/ProgressButton';
 import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
 import ReviewObjectField from './review/ObjectField';
-import { focusElement, getActivePages } from '../utils/helpers';
+import { focusElement, scrollToFirstError, getActivePages } from '../utils/helpers';
 import { setData } from './actions';
 
 const fields = {
@@ -30,20 +30,6 @@ const reviewFields = {
   address: ReviewObjectField
 };
 
-const scrollToFirstError = () => {
-  setTimeout(() => {
-    const errorEl = document.querySelector('.usa-input-error, .input-error-date');
-    if (errorEl) {
-      const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-      Scroll.animateScroll.scrollTo(position - 10, {
-        duration: 500,
-        delay: 0,
-        smooth: true
-      });
-      focusElement(errorEl);
-    }
-  }, 100);
-};
 const scroller = Scroll.scroller;
 
 const scrollToTop = () => {
@@ -159,7 +145,7 @@ class FormPage extends React.Component {
   validate(formData, errors) {
     const { schema, uiSchema } = this.props.form[this.props.route.pageConfig.pageKey];
     if (uiSchema) {
-      uiSchemaValidate(errors, uiSchema, schema, formData);
+      uiSchemaValidate(errors, uiSchema, schema, schema.definitions, formData);
     }
     return errors;
   }
@@ -221,8 +207,10 @@ const mapDispatchToProps = {
 };
 
 FormPage.propTypes = {
+  form: React.PropTypes.object.isRequired,
   route: React.PropTypes.shape({
     pageConfig: React.PropTypes.shape({
+      pageKey: React.PropTypes.string.isRequired,
       schema: React.PropTypes.object.isRequired,
       uiSchema: React.PropTypes.object.isRequired,
       errorMessages: React.PropTypes.object
@@ -234,6 +222,7 @@ FormPage.propTypes = {
   reviewMode: React.PropTypes.bool,
   reviewPage: React.PropTypes.bool,
   onSubmit: React.PropTypes.func,
+  setData: React.PropTypes.func,
   hideTitle: React.PropTypes.bool
 };
 

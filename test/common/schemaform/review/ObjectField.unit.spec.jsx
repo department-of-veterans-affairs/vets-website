@@ -180,4 +180,37 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.everySubTree('SchemaField')).to.be.empty;
   });
+  it('should show expandable fields', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      properties: {
+        test: {
+          type: 'string'
+        },
+        test2: {
+          type: 'string'
+        }
+      }
+    };
+    const uiSchema = {
+      test2: {
+        'ui:options': {
+          expandUnder: 'test'
+        }
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          idSchema={{}}
+          uiSchema={uiSchema}
+          formData={{ test: 'thing', test2: 'Stuff' }}
+          requiredSchema={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('SchemaField').length).to.equal(2);
+  });
 });
