@@ -101,7 +101,7 @@ node('vets-website-linting') {
       stringParam(name: 'api_branch', value: 'master'),
       stringParam(name: 'web_branch', value: env.BRANCH_NAME),
       stringParam(name: 'source_repo', value: 'vets-website'),
-    ]
+    ], wait: false
   }
 
   // Perform a build for each required build type
