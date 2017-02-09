@@ -26,7 +26,7 @@ class UserProfileApp extends React.Component {
 
     return (
       <div>
-        <RequiredLoginView authRequired={1} serviceRequired={"user-profile"}>
+        <RequiredLoginView authRequired={1} serviceRequired={"user-profile"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
           {view}
         </RequiredLoginView>
       </div>
@@ -37,7 +37,11 @@ class UserProfileApp extends React.Component {
 // TODO: fill this out
 const mapStateToProps = (state) => {
   const userState = state.user;
-  return userState;
+
+  return {
+    profile: userState.profile,
+    signInUrl: userState.login.loginUrl.first
+  };
 };
 
 // TODO(awong): Remove the pure: false once we start using ImmutableJS.

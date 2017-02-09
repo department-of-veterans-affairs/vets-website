@@ -1,7 +1,6 @@
 import React from 'react';
 
-import environment from '../helpers/environment.js';
-import { handleVerify, addEvent } from '../helpers/login-helpers.js';
+import { handleVerify } from '../helpers/login-helpers.js';
 
 import SystemDownView from './SystemDownView';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -10,27 +9,18 @@ class RequiredLoginView extends React.Component {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.setUserLevel = this.setUserLevel.bind(this);
-    this.setInitialLevel = this.setInitialLevel.bind(this);
     this.handleVerify = handleVerify;
+    this.state = {
+      loading: true
+    };
   }
 
   componentDidMount() {
     if (sessionStorage.userToken) {
       this.setUserLevel();
-    } else {
-      this.handleLogout();
     }
-
-    this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
-      method: 'GET',
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      this.setState({ loginUrl: json.authenticate_via_get });
-    });
 
     setTimeout(() => {
       this.setState({ loading: false });
@@ -50,19 +40,15 @@ class RequiredLoginView extends React.Component {
   }
 
   handleLogin() {
-    const myLoginUrl = this.state.loginUrl;
+    const myLoginUrl = this.props.loginUrl;
     const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 
   handleSignup() {
-    const myLoginUrl = this.state.loginUrl;
+    const myLoginUrl = this.props.loginUrl;
     const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
-  }
-
-  handleLogout() {
-    this.setState({ accountType: 0 });
   }
 
   render() {
@@ -164,5 +150,12 @@ class RequiredLoginView extends React.Component {
     );
   }
 }
+
+RequiredLoginView.propTypes = {
+  authRequired: React.PropTypes.number.isRequired,
+  serviceRequired: React.PropTypes.string.isRequired,
+  userProfile: React.PropTypes.object.isRequired,
+  loginUrl: React.PropTypes.string,
+};
 
 export default RequiredLoginView;
