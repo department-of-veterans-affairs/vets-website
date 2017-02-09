@@ -83,7 +83,7 @@ const formConfig = {
           uiSchema: {
             benefitSelected: {
               'ui:widget': 'radio',
-              'ui:title': 'Which benefit are you transfering to a new location?'
+              'ui:title': 'Which benefit do you want to transfer?'
             }
           },
           schema: {
