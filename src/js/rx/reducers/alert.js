@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import ErrorMessages from '../components/ErrorMessages';
 
 const initialState = {
   content: '',
@@ -21,16 +20,11 @@ export default function alert(state = initialState, action) {
       return initialState;
 
     case 'REFILL_FAILURE': {
-      const rx = action.prescription;
-
       return {
         content: (
           <div>
-            <b>
-              Could not request a refill for <Link to={`/${rx.prescriptionId}`}>
-              {rx.prescriptionName}</Link>.
-            </b>
-            <ErrorMessages errors={action.errors}/>
+            <h5 className="va-alert-title">Prescription refill unsuccessful</h5>
+            <p>We couldn't process this request. Please try again or <a href="/healthcare/messaging">message your provider</a>.</p>
           </div>
         ),
         status: 'error',
