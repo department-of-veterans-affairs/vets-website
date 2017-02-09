@@ -13,7 +13,7 @@ If you served in the Southwest Asia theater of military operations, you may suff
 
 ### Can I get disability benefits from VA?
 
-If you served in Afghanistan, you may also be able to get benefits if you suffer from some illnesses related to service in this region. [Learn about service in Afghanistan and Gulf War Illness](LINK). 
+If you served in Afghanistan, you may also be able to get benefits if you suffer from some illnesses related to service in this region. [Learn about service in Afghanistan and Gulf War Illness] (LINK). 
 
 You may be able to get disability benefits if you served in the Southwest Asia theater of operations during the Gulf War period, and you have 1 or more illnesses or other conditions related to service in this region. To get benefits: 
 
