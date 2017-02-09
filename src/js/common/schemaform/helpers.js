@@ -163,14 +163,14 @@ export function flattenFormData(form) {
   }, {});
 }
 
-export function getArrayFields(data, pageConfig) {
+export function getArrayFields(data) {
   const fields = [];
   const findArrays = (obj, path = []) => {
     if (obj.type === 'array') {
       fields.push({
         path,
         schema: _.set('definitions', data.schema.definitions, obj),
-        uiSchema: _.get(path, pageConfig.uiSchema)
+        uiSchema: data.uiSchema
       });
     }
 
@@ -270,26 +270,35 @@ export function setHiddenFields(schema, uiSchema, data) {
 
   const hideIf = _.get(['ui:options', 'hideIf'], uiSchema);
 
-  if (hideIf && hideIf(data) && !schema.hidden) {
-    return _.set('hidden', true, schema);
-  } else if (schema.hidden) {
-    return _.set('hidden', false, schema);
+  if (hideIf && hideIf(data)) {
+    if (!schema['ui:hidden']) {
+      return _.set('ui:hidden', true, schema);
+    }
+  } else if (schema['ui:hidden']) {
+    return _.unset('ui:hidden', schema);
   }
 
-  if (schema.type === 'object' || schema.type === 'array') {
-    const key = schema.type === 'object' ? 'properties' : 'items';
-    const newProperties = Object.keys(schema[key]).reduce((current, next) => {
-      const newSchema = setHiddenFields(schema[key][next], uiSchema[next], data);
+  if (schema.type === 'object') {
+    const newProperties = Object.keys(schema.properties).reduce((current, next) => {
+      const newSchema = setHiddenFields(schema.properties[next], uiSchema[next], data);
 
-      if (newSchema !== schema[key][next]) {
+      if (newSchema !== schema.properties[next]) {
         return _.set(next, newSchema, current);
       }
 
       return current;
-    }, schema[key]);
+    }, schema.properties);
 
-    if (newProperties !== schema[key]) {
-      return _.set(key, newProperties, schema);
+    if (newProperties !== schema.properties) {
+      return _.set('properties', newProperties, schema);
+    }
+  }
+
+  if (schema.type === 'array') {
+    const newSchema = setHiddenFields(schema.items, uiSchema.items, data);
+
+    if (newSchema !== schema.items) {
+      return _.set('items', newSchema, schema);
     }
   }
 
@@ -297,16 +306,18 @@ export function setHiddenFields(schema, uiSchema, data) {
 }
 
 export function removeHiddenData(schema, data) {
-  if (schema.hidden || typeof data === 'undefined') {
+  if (schema['ui:hidden'] || typeof data === 'undefined') {
     return undefined;
   }
 
   if (schema.type === 'object') {
     return Object.keys(data).reduce((current, next) => {
-      const nextData = removeHiddenData(schema.properties[next], data[next]);
+      if (typeof data[next] !== 'undefined') {
+        const nextData = removeHiddenData(schema.properties[next], data[next]);
 
-      if (nextData !== data[next]) {
-        return _.set(next, nextData, current);
+        if (typeof nextData === 'undefined') {
+          return _.unset(next, current);
+        }
       }
 
       return current;
@@ -335,14 +346,13 @@ export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
 
   let currentSchema = schema;
 
-  if (currentSchema.type === 'object' || currentSchema.type === 'array') {
-    const key = schema.type === 'object' ? 'properties' : 'items';
-    const newSchema = Object.keys(currentSchema[key]).reduce((current, next) => {
+  if (currentSchema.type === 'object') {
+    const newSchema = Object.keys(currentSchema.properties).reduce((current, next) => {
       const nextData = data ? data[next] : undefined;
-      const nextProp = updateSchemaFromUiSchema(current[key][next], uiSchema[next], nextData, formData);
+      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], nextData, formData);
 
-      if (current[key][next] !== nextProp) {
-        return _.set([key, next], nextProp, current);
+      if (current.properties[next] !== nextProp) {
+        return _.set(['properties', next], nextProp, current);
       }
 
       return current;
@@ -350,6 +360,14 @@ export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
 
     if (newSchema !== schema) {
       currentSchema = newSchema;
+    }
+  }
+
+  if (currentSchema.type === 'array') {
+    const newSchema = updateSchemaFromUiSchema(currentSchema.items, uiSchema.items, data, formData);
+
+    if (newSchema !== currentSchema.items) {
+      currentSchema = _.set('items', newSchema, currentSchema);
     }
   }
 
