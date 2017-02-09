@@ -28,6 +28,29 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.everySubTree('SchemaField')).not.to.be.empty;
   });
+  it('should not render hidden field', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      properties: {
+        test: {
+          'ui:hidden': true,
+          type: 'string'
+        }
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          idSchema={{}}
+          formData={{}}
+          requiredSchema={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('SchemaField')).to.be.empty;
+  });
   it('should render header', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
