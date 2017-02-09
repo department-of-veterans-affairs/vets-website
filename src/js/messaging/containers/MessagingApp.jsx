@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import AlertBox from '../../common/components/AlertBox';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { closeAlert } from '../actions';
+import { isEmpty } from 'lodash';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
@@ -27,6 +28,30 @@ function AppContent({ children, isDataAvailable }) {
 }
 
 class MessagingApp extends React.Component {
+  // this warning is rendered if the user has no triage teams
+  renderWarningBanner() {
+    if (isEmpty(this.props.recipients)) {
+      const alertContent = (
+        <div>
+          <h4>Currently not assigned to a health care team</h4>
+          <p>
+            You will not be able to create a new message or reply to any messages without being assigned to a health care team. Please contact the help desk at 1-855-574-7286.
+          </p>
+        </div>
+      );
+
+      return (
+        <div className="messaging-warning-banner">
+          <AlertBox
+              content={alertContent}
+              isVisible
+              status="warning"/>
+        </div>
+        );
+    }
+    return null;
+  }
+
   render() {
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"messaging"}>
@@ -39,6 +64,7 @@ class MessagingApp extends React.Component {
                 scrollOnShow
                 status={this.props.alert.status}/>
             <h1>Message your health care team</h1>
+            {this.renderWarningBanner()}
           </div>
           {this.props.children}
         </AppContent>
@@ -52,8 +78,11 @@ MessagingApp.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const msgState = state.health.msg;
+
   return {
-    alert: state.health.msg.alert
+    alert: msgState.alert,
+    recipients: msgState.recipients.data,
   };
 };
 
