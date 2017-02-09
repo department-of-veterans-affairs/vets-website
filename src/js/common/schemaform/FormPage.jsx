@@ -145,7 +145,7 @@ class FormPage extends React.Component {
   validate(formData, errors) {
     const { schema, uiSchema } = this.props.form[this.props.route.pageConfig.pageKey];
     if (uiSchema) {
-      uiSchemaValidate(errors, uiSchema, schema, formData);
+      uiSchemaValidate(errors, uiSchema, schema, schema.definitions, formData);
     }
     return errors;
   }
