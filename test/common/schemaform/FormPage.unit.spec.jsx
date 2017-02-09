@@ -11,12 +11,8 @@ describe('Schemaform <FormPage>', () => {
     const route = {
       pageConfig: {
         pageKey: 'testPage',
-        schema: {
-
-        },
-        uiSchema: {
-
-        },
+        schema: {},
+        uiSchema: {},
         errorMessages: {}
       },
       pageList: [
@@ -41,12 +37,8 @@ describe('Schemaform <FormPage>', () => {
     const route = {
       pageConfig: {
         pageKey: 'testPage',
-        schema: {
-
-        },
-        uiSchema: {
-
-        },
+        schema: {},
+        uiSchema: {},
         errorMessages: {}
       },
       pageList: [
@@ -79,14 +71,6 @@ describe('Schemaform <FormPage>', () => {
     const route = {
       pageConfig: {
         pageKey: 'testPage',
-        schema: {
-
-        },
-        uiSchema: {
-          'ui:validations': [
-            (errors) => errors.addError('test error')
-          ]
-        },
         errorMessages: {}
       },
       pageList: [
@@ -97,6 +81,12 @@ describe('Schemaform <FormPage>', () => {
     };
     const form = {
       testPage: {
+        schema: {},
+        uiSchema: {
+          'ui:validations': [
+            (errors) => errors.addError('test error')
+          ]
+        },
         data: {}
       }
     };
@@ -128,12 +118,8 @@ describe('Schemaform <FormPage>', () => {
       route = {
         pageConfig: {
           pageKey: 'testPage',
-          schema: {
-
-          },
-          uiSchema: {
-
-          },
+          schema: {},
+          uiSchema: {},
           errorMessages: {}
         },
         pageList: [
@@ -204,12 +190,8 @@ describe('Schemaform <FormPage>', () => {
     const route = {
       pageConfig: {
         pageKey: 'testPage',
-        schema: {
-
-        },
-        uiSchema: {
-
-        },
+        schema: {},
+        uiSchema: {},
         errorMessages: {}
       },
       pageList: [

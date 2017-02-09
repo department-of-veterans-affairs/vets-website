@@ -6,7 +6,7 @@ import {
   uiSchemaValidate,
   validateSSN,
   validateDate,
-  validateEmailsMatch,
+  validateMatch,
   validateDateRange
 } from '../../../src/js/common/schemaform/validation';
 
@@ -211,10 +211,10 @@ describe('Schemaform validations', () => {
       expect(errors.addError.callCount).to.equal(1);
     });
   });
-  describe('validateEmailsMatch', () => {
+  describe('validateMatch', () => {
     it('should set message if emails do not match', () => {
       const errors = { confirmEmail: { addError: sinon.spy() } };
-      validateEmailsMatch(errors, {
+      validateMatch('email', 'confirmEmail')(errors, {
         email: 'test@test.com',
         confirmEmail: 'test3@test.com'
       });
@@ -223,7 +223,7 @@ describe('Schemaform validations', () => {
     });
     it('should not set message if emails match', () => {
       const errors = { confirmEmail: { addError: sinon.spy() } };
-      validateEmailsMatch(errors, {
+      validateMatch('email', 'confirmEmail')(errors, {
         email: 'test@test.com',
         confirmEmail: 'test@test.com'
       });
