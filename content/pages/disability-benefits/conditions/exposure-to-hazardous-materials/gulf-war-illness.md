@@ -7,9 +7,11 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page
 ---
 
-If you served in the Southwest Asia theater of military operations, you may suffer from illnesses or other conditions related to service in this region. Find out if you can get disability compensation or benefits.
+If you served in the Southwest Asia theater of military operations or in Afghanistan, you may suffer from illnesses or other conditions related to service in these regions. Find out if you can get disability compensation or benefits.
 
-If you served in Afghanistan, you may be able to get benefits if you suffer from some illnesses related to service in this region. [Learn about service in Afghanistan and Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-afghanistan).  
+[Learn about service in Afghanistan and Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-afghanistan).  
+
+### Service in the Southwest Asia Theater of Military Operations
 
 <div class="call-out" markdown="1">
 
