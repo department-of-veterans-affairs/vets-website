@@ -46,6 +46,7 @@
   text-align: center;
   width: 2em;
   margin-left: -.2em;
+  margin-right: -.2em;
   top: -.2em;
   display: block;
   border: 4px solid $color-white;
@@ -55,6 +56,11 @@
   &.current {
     background: $color-primary;
   }
+}
+
+.form-process-total {
+  font-weight: normal;
+  padding-right: 4px;
 }
 
 // Overriding the accordion button styles that are too broad

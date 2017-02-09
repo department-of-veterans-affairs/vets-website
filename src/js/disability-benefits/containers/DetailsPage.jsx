@@ -31,7 +31,7 @@ class DetailsPage extends React.Component {
       `Details - Your ${getClaimType(this.props.claim)} Claim`;
   }
   render() {
-    const { claim, loading } = this.props;
+    const { claim, loading, synced } = this.props;
 
     let content = null;
     if (!loading) {
@@ -66,7 +66,8 @@ class DetailsPage extends React.Component {
       <ClaimDetailLayout
           claim={claim}
           currentTab="Details"
-          loading={loading}>
+          loading={loading}
+          synced={synced}>
         {content}
       </ClaimDetailLayout>
     );
@@ -78,7 +79,8 @@ function mapStateToProps(state) {
   return {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
-    lastPage: claimsState.routing.lastPage
+    lastPage: claimsState.routing.lastPage,
+    synced: claimsState.claimSync.synced
   };
 }
 

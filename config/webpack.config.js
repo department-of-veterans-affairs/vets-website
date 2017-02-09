@@ -2,6 +2,8 @@
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
 const bourbon = require('bourbon').includePaths;
 const neat = require('bourbon-neat').includePaths;
 const path = require('path');
@@ -15,6 +17,7 @@ const entryFiles = {
   'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',
   hca: './src/js/hca/hca-entry.jsx',
+  'blue-button': './src/js/blue-button/blue-button-entry.jsx',
   messaging: './src/js/messaging/messaging-entry.jsx',
   rx: './src/js/rx/rx-entry.jsx',
   'no-react': './src/js/no-react-entry.js',
@@ -27,6 +30,17 @@ const configGenerator = (options) => {
   if (options.entry) {
     filesToBuild = _.pick(entryFiles, options.entry.split(',').map(x => x.trim()));
   }
+  filesToBuild.vendor = [
+    'core-js',
+    'history',
+    'jquery',
+    'react',
+    'react-dom',
+    'react-redux',
+    'react-router',
+    'redux',
+    'redux-thunk'
+  ];
   const baseConfig = {
     entry: filesToBuild,
     output: {
@@ -91,6 +105,10 @@ const configGenerator = (options) => {
         {
           test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'file-loader'
+        },
+        {
+          test: /\.json$/,
+          loader: 'json-loader'
         }
       ],
       noParse: [/mapbox\/vendor\/promise.js$/],
@@ -105,7 +123,6 @@ const configGenerator = (options) => {
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
-        __ALL_CLAIMS_ENABLED__: (options.buildtype === 'development' || process.env.ALL_CLAIMS_ENABLED === 'true'),
         __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
         'process.env': {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
@@ -123,9 +140,11 @@ const configGenerator = (options) => {
 
       new ExtractTextPlugin((options.buildtype === 'development') ? '[name].css' : '[name].[chunkhash].css'),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      new ManifestPlugin({
-        fileName: 'file-manifest.json'
-      })
+
+      new webpack.optimize.CommonsChunkPlugin(
+        'vendor',
+        (options.buildtype === 'development') ? 'vendor.js' : 'vendor.[chunkhash].js'
+      ),
     ],
   };
 
@@ -144,6 +163,14 @@ const configGenerator = (options) => {
       loader: 'null'
     });
 
+    baseConfig.plugins.push(new WebpackMd5Hash());
+    baseConfig.plugins.push(new ManifestPlugin({
+      fileName: 'file-manifest.json'
+    }));
+    baseConfig.plugins.push(new ChunkManifestPlugin({
+      filename: 'chunk-manifest.json',
+      manifestVariable: 'webpackManifest'
+    }));
     baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({

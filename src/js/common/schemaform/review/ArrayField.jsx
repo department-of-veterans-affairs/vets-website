@@ -132,7 +132,7 @@ class ArrayField extends React.Component {
     const fieldName = path[path.length - 1];
     const title = _.get('ui:title', uiSchema) || pageTitle;
     const arrayPageConfig = {
-      schema: schema.items,
+      schema: _.assign(schema.items, { definitions: schema.definitions }),
       uiSchema: uiSchema.items,
       pageKey: fieldName
     };
@@ -163,7 +163,7 @@ class ArrayField extends React.Component {
                           reviewPage
                           onEdit={() => this.handleEdit(index, !isEditing)}
                           onSubmit={() => this.handleSave(index)}
-                          form={{ [fieldName]: { data: item } }}
+                          form={{ [fieldName]: { data: item, schema: arrayPageConfig.schema } }}
                           route={{ pageConfig: arrayPageConfig }}>
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
@@ -188,7 +188,7 @@ class ArrayField extends React.Component {
                       reviewMode
                       onEdit={() => this.handleEdit(index, !isEditing)}
                       onSubmit={() => this.handleSave(index)}
-                      form={{ [fieldName]: { data: item } }}
+                      form={{ [fieldName]: { data: item, schema: arrayPageConfig.schema } }}
                       route={{ pageConfig: arrayPageConfig }}>
                     <div/>
                   </FormPage>
@@ -208,7 +208,7 @@ ArrayField.propTypes = {
   schema: React.PropTypes.object.isRequired,
   uiSchema: React.PropTypes.object,
   pageKey: React.PropTypes.string.isRequired,
-  path: React.PropTypes.string.isRequired,
+  path: React.PropTypes.array.isRequired,
   formData: React.PropTypes.object,
   arrayData: React.PropTypes.array,
   pageTitle: React.PropTypes.string

@@ -13,6 +13,7 @@ export function createFormPageList(formConfig) {
         .map(page => {
           return _.assign(formConfig.chapters[chapter].pages[page], {
             chapterTitle,
+            chapterKey: chapter,
             pageKey: page
           });
         });
@@ -26,14 +27,15 @@ export function createPageListByChapter(formConfig) {
       const pages = Object.keys(formConfig.chapters[chapter].pages)
         .map(page => {
           return _.assign(formConfig.chapters[chapter].pages[page], {
-            pageKey: page
+            pageKey: page,
+            chapterKey: chapter
           });
         });
       return _.set(chapter, pages, chapters);
     }, {});
 }
 
-function createPageList(formConfig, formPages) {
+export function createPageList(formConfig, formPages) {
   let pageList = formPages;
   if (formConfig.introduction) {
     pageList = [
@@ -48,7 +50,8 @@ function createPageList(formConfig, formPages) {
     .concat([
       {
         pageKey: 'review-and-submit',
-        path: 'review-and-submit'
+        path: 'review-and-submit',
+        chapterKey: 'review'
       }
     ])
     .map(page => {
@@ -160,13 +163,13 @@ export function flattenFormData(form) {
   }, {});
 }
 
-export function getArrayFields(pageConfig) {
+export function getArrayFields(data, pageConfig) {
   const fields = [];
   const findArrays = (obj, path = []) => {
     if (obj.type === 'array') {
       fields.push({
         path,
-        schema: obj,
+        schema: _.set('definitions', data.schema.definitions, obj),
         uiSchema: _.get(path, pageConfig.uiSchema)
       });
     }
@@ -178,7 +181,7 @@ export function getArrayFields(pageConfig) {
     }
   };
 
-  findArrays(pageConfig.schema);
+  findArrays(data.schema);
 
   return fields;
 }
