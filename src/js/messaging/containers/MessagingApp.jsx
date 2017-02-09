@@ -35,7 +35,7 @@ class MessagingApp extends React.Component {
         <div>
           <h4>Currently not assigned to a health care team</h4>
           <p>
-            You will not be able to create a new message or reply to any messages without being assigned to a health care team. Please contact the help desk at 1-855-574-7286.
+            You can't send secure messages because you're not assigned to a VA health care team right now. Please call the Vets.gov Help Desk at 1-855-574-7286, Monday - Friday, 8:00 a.m. - 8:00 p.m. (ET).
           </p>
         </div>
       );
