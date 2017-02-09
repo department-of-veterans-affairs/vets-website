@@ -163,6 +163,10 @@ export function flattenFormData(form) {
   }, {});
 }
 
+/*
+ * Pull the array fields from a schema. Used to separate out array fields
+ * from the rest of page to be displayed on the review page
+ */
 export function getArrayFields(data) {
   const fields = [];
   const findArrays = (obj, path = []) => {
@@ -186,6 +190,11 @@ export function getArrayFields(data) {
   return fields;
 }
 
+/*
+ * Checks to see if there are non array fields in a page schema, so that
+ * we don't show a blank page header on the review page if a page is just
+ * a growable table
+ */
 export function hasFieldsOtherThanArray(schema) {
   if (schema.$ref || (schema.type !== 'object' && schema.type !== 'array')) {
     return true;
@@ -263,6 +272,11 @@ export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
   return !deepEquals(props, nextProps);
 });
 
+/*
+ * This steps through a schema and sets any fields to hidden, based on a
+ * hideIf function from uiSchema and the current page data. Sets 'ui:hidden'
+ * which is a non-standard JSON Schema property
+ */
 export function setHiddenFields(schema, uiSchema, data) {
   if (!uiSchema) {
     return schema;
@@ -305,6 +319,11 @@ export function setHiddenFields(schema, uiSchema, data) {
   return schema;
 }
 
+/*
+ * Steps through data and removes any fields that are marked as hidden
+ * This is done so that hidden fields don't cause validation errors that
+ * a user can't see.
+ */
 export function removeHiddenData(schema, data) {
   if (schema['ui:hidden'] || typeof data === 'undefined') {
     return undefined;
@@ -339,6 +358,12 @@ export function removeHiddenData(schema, data) {
   return data;
 }
 
+/*
+ * This is similar to the hidden fields schema function above, except more general.
+ * It will step through a schema and replace parts of it based on an updateSchema
+ * function in uiSchema. This means the schema can be re-calculated based on data
+ * a user has entered.
+ */
 export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
   if (!uiSchema) {
     return schema;

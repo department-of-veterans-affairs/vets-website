@@ -63,12 +63,18 @@ export default function createSchemaFormReducer(formConfig) {
   return (state = initialState, action) => {
     switch (action.type) {
       case SET_DATA: {
+        // on each data change, we need to do the following steps
+        // Recalculate any required fields, based on the new data
         let schema = updateRequiredFields(state[action.page].schema, state[action.page].uiSchema, action.data, state);
+        // Update the schema with any fields that are now hidden because of the data change
         schema = setHiddenFields(schema, state[action.page].uiSchema, action.data, state);
+        // Update the schema with any general updates based on the new data
         schema = updateSchemaFromUiSchema(schema, state[action.page].uiSchema, action.data, state);
+        // Remove any data that's how hidden in the schema
+        const data = removeHiddenData(schema, action.data);
 
         const newPage = _.assign(state[action.page], {
-          data: removeHiddenData(schema, action.data),
+          data,
           schema
         });
 
