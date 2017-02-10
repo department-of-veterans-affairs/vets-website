@@ -4,6 +4,11 @@ def isContentTeamUpdate = {
   env.BRANCH_NAME ==~ /^content\/wip\/.*/
 }
 
+def isReviewable = {
+  env.BRANCH_NAME != 'production' &&
+    env.BRANCH_NAME != 'master'
+}
+
 env.CONCURRENCY = 10
 
 def isDeployable = {
@@ -84,6 +89,19 @@ node('vets-website-linting') {
         allowMissing         : false
       ])
     }
+  }
+
+  stage('Review') {
+    if (!isReviewable()) {
+      return
+    }
+
+    build job: 'vets-review-instance-deploy', parameters: [
+      stringParam(name: 'devops_branch', value: 'master'),
+      stringParam(name: 'api_branch', value: 'master'),
+      stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+      stringParam(name: 'source_repo', value: 'vets-website'),
+    ], wait: false
   }
 
   // Perform a build for each required build type

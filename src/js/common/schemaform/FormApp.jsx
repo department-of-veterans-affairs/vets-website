@@ -15,7 +15,8 @@ export default class FormApp extends React.Component {
     const { currentLocation, formConfig, children } = this.props;
 
     let content;
-    if (currentLocation.pathname.endsWith('introduction')) {
+    if (currentLocation.pathname.endsWith('introduction') ||
+      currentLocation.pathname.endsWith('confirmation')) {
       content = children;
     } else {
       content = (
