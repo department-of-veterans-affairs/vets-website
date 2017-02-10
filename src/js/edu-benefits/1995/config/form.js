@@ -8,8 +8,8 @@ import {
   educationTypeLabels,
   bankAccountChangeLabels,
   preferredContactMethodLabels,
-  transformForSubmit,
-  enumToNames
+  enumToNames,
+  transform
 } from '../helpers';
 
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
@@ -47,7 +47,7 @@ const formConfig = {
   urlPrefix: '/1995/',
   submitUrl: '/v0/education_benefits_claims/1995',
   trackingPrefix: 'edu-1995-',
-  transformForSubmit,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
@@ -81,7 +81,7 @@ const formConfig = {
               'ui:required': (form) => !!form['view:noSSN'],
               'ui:title': 'File number',
               'ui:errorMessages': {
-                pattern: 'File number must be 8 digits and (optionally) start with C'
+                pattern: 'File number must be 8 digits'
               },
               'ui:options': {
                 expandUnder: 'view:noSSN'
@@ -100,7 +100,7 @@ const formConfig = {
               vaFileNumber
             }
           }
-        },
+        }
       }
     },
     benefitSelection: {
@@ -113,7 +113,7 @@ const formConfig = {
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Which benefit are you transfering to a new location?'
+              'ui:title': 'Which benefit do you want to transfer?'
             }
           },
           schema: {
@@ -172,7 +172,7 @@ const formConfig = {
             'view:hasServiceBefore1978': {
               'ui:title': 'Do you have any periods of service that began before 1978?',
               'ui:widget': 'yesNo'
-            }
+            },
           },
           schema: {
             type: 'object',
@@ -180,23 +180,6 @@ const formConfig = {
               'view:hasServiceBefore1978': {
                 type: 'boolean'
               }
-            }
-          }
-        },
-        contributions: {
-          title: 'Contributions',
-          path: 'military-history/contributions',
-          initialData: {},
-          uiSchema: {
-
-            civilianBenefitsAssistance: {
-              'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA'
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              civilianBenefitsAssistance
             }
           }
         }
@@ -231,6 +214,10 @@ const formConfig = {
             nonVaAssistance: {
               'ui:title': 'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
               'ui:widget': 'yesNo'
+            },
+            civilianBenefitsAssistance: {
+              'ui:title': 'Are you getting benefits from the U.S. Government as a civilian employee during the same time as you’re seeking benefits from VA?',
+              'ui:widget': 'yesNo'
             }
           },
           schema: {
@@ -241,7 +228,8 @@ const formConfig = {
               }),
               newSchool: _.set('properties.address', address.schema(), school),
               educationObjective,
-              nonVaAssistance
+              nonVaAssistance,
+              civilianBenefitsAssistance
             }
           }
         },
@@ -390,5 +378,6 @@ const formConfig = {
     }
   }
 };
+
 
 export default formConfig;
