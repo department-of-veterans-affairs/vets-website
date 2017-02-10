@@ -58,7 +58,7 @@ RUN \
 
 # start xvfb
 ENV DISPLAY :99.0
-RUN Xvfb :99 -ac -nolisten tcp
+RUN Xvfb :99 -ac -nolisten tcp &
 
 WORKDIR /application
 
