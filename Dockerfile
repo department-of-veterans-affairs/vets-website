@@ -56,7 +56,6 @@ COPY package.json .
 COPY npm-shrinkwrap.json .
 
 RUN npm install
-RUN npm run selenium:bootstrap
 
 # Copy application source to image
 

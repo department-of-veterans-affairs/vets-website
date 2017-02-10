@@ -56,9 +56,9 @@ class AlertBox extends React.Component {
           className={alertClass}
           ref={(ref) => { this._ref = ref; }}>
         <div className="va-alert-body usa-alert-body">
-          <p className="va-alert-text usa-alert-heading">
+          <div className="va-alert-text usa-alert-heading">
             {this.props.content}
-          </p>
+          </div>
         </div>
         {closeButton}
         <div className="cf"></div>

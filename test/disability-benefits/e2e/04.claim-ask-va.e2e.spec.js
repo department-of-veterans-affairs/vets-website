@@ -21,6 +21,11 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .waitForElementVisible('.claim-title', Timeouts.slow);
 
+    // go to files tab
+    client
+      .click('.va-tabs li:nth-child(2) > a')
+      .waitForElementVisible('.file-request-list-item', Timeouts.normal);
+
     // alert is visible
     client
       .expect.element('.ask-va-alert').to.be.visible;

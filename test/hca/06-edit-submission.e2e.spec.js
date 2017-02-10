@@ -6,10 +6,12 @@ const HcaHelpers = require('../util/hca-helpers.js');
 
 function editSection(client) {
   client.useXpath().click('(//button[text()="Edit"])[last()]').useCss();
+  client.waitForElementVisible('.usa-accordion-content', Timeouts.normal);
 }
 
 function nextSection(client) {
   client.useXpath().click('//button[text()="Next"]').useCss();
+  client.waitForElementVisible('.usa-accordion-content', Timeouts.normal);
 }
 
 function verifyEdit(client, expectedValue) {

@@ -168,6 +168,7 @@ export default class ArrayField extends React.Component {
     const ViewField = uiSchema['ui:options'].viewField;
 
     const title = uiSchema['ui:title'] || schema.title;
+    const hideTitle = !!_.get(['ui:options', 'hideTitle'], uiSchema);
     const hasTextDescription = typeof uiSchema['ui:description'] === 'string';
     const DescriptionField = !hasTextDescription && typeof uiSchema['ui:description'] === 'function'
       ? uiSchema['ui:description']
@@ -180,11 +181,11 @@ export default class ArrayField extends React.Component {
 
     return (
       <div>
-        {title
-            ? <TitleField
-                id={`${idSchema.$id}__title`}
-                title={title}
-                formContext={formContext}/> : null}
+        {title && !hideTitle &&
+          <TitleField
+              id={`${idSchema.$id}__title`}
+              title={title}
+              formContext={formContext}/>}
         {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
         {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
         <div className="va-growable">
