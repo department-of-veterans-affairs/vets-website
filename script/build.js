@@ -43,14 +43,15 @@ const minimumNodeVersion = '4.4.7';
 });
 
 if (semver.compare(process.env.npm_package_engines_npm, minimumNpmVersion) === -1) {
-  console.error(`NPM version (mininum): ${minimumNpmVersion}`);
-  console.error(`NPM version (installed): ${process.env.npm_package_engines_npm}`);
+  process.stdout.write(
+    `NPM version (mininum): ${minimumNpmVersion}\n`);
+  process.stdout.write(`NPM version (installed): ${process.env.npm_package_engines_npm}\n`);
   process.exit();
 }
 
 if (semver.compare(process.version, minimumNodeVersion) === -1) {
-  console.error(`Node.js version (mininum): v${minimumNodeVersion}`);
-  console.error(`Node.js version (installed): ${process.version}`);
+  process.stdout.write(`Node.js version (mininum): v${minimumNodeVersion}\n`);
+  process.stdout.write(`Node.js version (installed): ${process.version}\n`);
   process.exit();
 }
 
