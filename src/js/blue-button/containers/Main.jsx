@@ -14,21 +14,43 @@ import {
 } from '../actions/form';
 import { openModal } from '../actions/modal';
 
+function isValidDateRange(startDate, endDate) {
+  if (!startDate || !endDate) {
+    return true;
+  }
+  return startDate.isBefore(endDate);
+}
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      invalidStartDate: false,
+      invalidEndDate: false
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
   }
 
-  handleStartDateChange() {
-    // use this.props.setDate(date, true) to change start date
+  handleStartDateChange(startDate) {
+    let invalidDate = true;
+    if (isValidDateRange(startDate, this.props.form.dateRange.end)) {
+      this.props.setDate(startDate, true);
+      invalidDate = false;
+    }
+    this.setState({ invalidStartDate: invalidDate });
   }
 
-  handleEndDateChange() {
-    // use this.props.setDate(date, false) to change start date
+  handleEndDateChange(endDate) {
+    let invalidDate = true;
+    if (isValidDateRange(this.props.form.dateRange.start, endDate)) {
+      this.props.setDate(endDate, false);
+      invalidDate = false;
+    }
+    this.setState({ invalidEndDate: invalidDate });
   }
 
   handleSubmit(e) {
@@ -96,13 +118,15 @@ class Main extends React.Component {
                     id="custom-date-start"
                     onChange={this.handleStartDateChange}
                     placeholderText="MM/DD/YYYY"
-                    selected={null}/>
+                    selected={this.props.form.dateRange.start}
+                    className={this.state.invalidStartDate ? 'date-range-error' : ''}/>
                 <span>&nbsp;to&nbsp;</span>
                 <DatePicker
                     id="custom-date-end"
                     onChange={this.handleEndDateChange}
                     placeholderText="MM/DD/YYYY"
-                    selected={null}/>
+                    selected={this.props.form.dateRange.end}
+                    className={this.state.invalidEndDate ? 'date-range-error' : ''}/>
               </div>
             </div>
           ),

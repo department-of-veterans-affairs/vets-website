@@ -8,8 +8,7 @@ import {
   getDefaultFormState,
   orderProperties,
   retrieveSchema,
-  getDefaultRegistry,
-  setState
+  getDefaultRegistry
 } from 'react-jsonschema-form/lib/utils';
 
 import ExpandingGroup from '../components/form-elements/ExpandingGroup';
@@ -100,12 +99,6 @@ class ObjectField extends React.Component {
     }
 
     return false;
-  }
-
-  asyncSetState(state, options = { validate: false }) {
-    setState(this, state, () => {
-      this.props.onChange(this.state, options);
-    });
   }
 
   render() {

@@ -1,8 +1,11 @@
 import _ from 'lodash/fp';
 import { Validator } from 'jsonschema';
 
+import { retrieveSchema } from 'react-jsonschema-form/lib/utils';
+
 import { isValidSSN, isValidPartialDate, isValidDateRange, isValidRoutingNumber, isValidUSZipCode, isValidCanPostalCode } from '../utils/validations';
-import { parseISODate, updateRequiredFields } from './helpers';
+import { parseISODate } from './helpers';
+import { isActivePage } from '../utils/helpers';
 
 /*
  * This contains the code for supporting our own custom validations and messages
@@ -80,8 +83,9 @@ export function transformErrors(errors, uiSchema) {
  * should call addError to add the error.
  */
 
-export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext, path = '') {
+export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext, path = '') {
   if (uiSchema) {
+    const schemaWithDefinitions = retrieveSchema(schema, definitions);
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
       currentData.forEach((item, index) => {
@@ -95,22 +99,26 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, schema.items, formData, formContext, newPath);
+        uiSchemaValidate(errors, uiSchema.items, schemaWithDefinitions.items, definitions, formData, formContext, newPath);
       });
-    } else {
+    } else if (!uiSchema.items) {
       Object.keys(uiSchema)
         .filter(prop => !prop.startsWith('ui:'))
         .forEach((item) => {
           const nextPath = path !== '' ? `${path}.${item}` : item;
           if (!_.get(nextPath, errors)) {
-            _.get(path, errors)[item] = {
+            const currentErrors = path === ''
+              ? errors
+              : _.get(path, errors);
+
+            currentErrors[item] = {
               __errors: [],
               addError(error) {
                 this.__errors.push(error);
               }
             };
           }
-          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, formContext, nextPath);
+          uiSchemaValidate(errors, uiSchema[item], schemaWithDefinitions.properties[item], definitions, formData, formContext, nextPath);
         });
     }
 
@@ -119,9 +127,9 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext
       validations.forEach(validation => {
         const pathErrors = path ? _.get(path, errors) : errors;
         if (typeof validation === 'function') {
-          validation(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages']);
+          validation(pathErrors, currentData, formData, schemaWithDefinitions, uiSchema['ui:errorMessages']);
         } else {
-          validation.validator(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], validation.options);
+          validation.validator(pathErrors, currentData, formData, schemaWithDefinitions, uiSchema['ui:errorMessages'], validation.options);
         }
       });
     }
@@ -140,21 +148,22 @@ export function errorSchemaIsValid(errorSchema) {
 export function isValidForm(form, pageListByChapters) {
   const pageConfigs = _.flatten(_.values(pageListByChapters));
   const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
+  const validPages = Object.keys(pages)
+    .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form));
 
   const v = new Validator();
 
-  return form.privacyAgreementAccepted && Object.keys(pages).every(page => {
-    const pageConfig = pageConfigs.filter(config => config.pageKey === page)[0];
-    const currentSchema = updateRequiredFields(pageConfig.schema, pageConfig.uiSchema, pages[page].data);
+  return form.privacyAgreementAccepted && validPages.every(page => {
+    const { uiSchema, schema, data } = pages[page];
 
     const result = v.validate(
-      pages[page].data,
-      currentSchema
+      data,
+      schema
     );
 
     if (result.valid) {
       const errors = {};
-      uiSchemaValidate(errors, pageConfig.uiSchema, pages[page].data, {});
+      uiSchemaValidate(errors, uiSchema, schema, schema.definitions, data, {});
 
       return errorSchemaIsValid(errors);
     }
@@ -166,7 +175,7 @@ export function isValidForm(form, pageListByChapters) {
 
 export function validateSSN(errors, ssn) {
   if (ssn && !isValidSSN(ssn)) {
-    errors.addError('Please enter a valid nine digit SSN (dashes allowed)');
+    errors.addError('Please enter a valid 9 digit SSN (dashes allowed)');
   }
 }
 
