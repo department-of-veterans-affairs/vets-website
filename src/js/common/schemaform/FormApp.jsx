@@ -39,10 +39,11 @@ export default class FormApp extends React.Component {
 
   render() {
     const { currentLocation, formConfig, children } = this.props;
+    const isIntro = currentLocation.pathname.endsWith('introduction');
+    const isConfirmation = currentLocation.pathname.endsWith('confirmation');
 
     let content;
-    if (currentLocation.pathname.endsWith('introduction') ||
-      currentLocation.pathname.endsWith('confirmation')) {
+    if (isIntro || isConfirmation) {
       content = children;
     } else {
       content = (
@@ -55,11 +56,12 @@ export default class FormApp extends React.Component {
       );
     }
 
+
     return (
       <div className="row">
         <Element name="topScrollElement"/>
         <div className="medium-8 columns">
-          {formConfig.title && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
+          {formConfig.title  && !isIntro && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
           {content}
         </div>
         <div className="medium-4 columns show-for-medium-up">
