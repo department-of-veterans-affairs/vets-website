@@ -226,7 +226,7 @@ export function getArrayFields(data) {
       fields.push({
         path,
         schema: _.set('definitions', data.schema.definitions, obj),
-        uiSchema: data.uiSchema
+        uiSchema: _.get(path, data.uiSchema) || data.uiSchema
       });
     }
 
