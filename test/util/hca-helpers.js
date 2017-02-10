@@ -444,10 +444,8 @@ function initApplicationSubmitMock() {
     path: '/api/hca/v1/application',
     verb: 'post',
     value: {
-      data: {
-        formSubmissionId: '123fake-submission-id-567',
-        timeStamp: '2016-05-16'
-      }
+      formSubmissionId: '123fake-submission-id-567',
+      timeStamp: '2016-05-16'
     }
   });
 }
