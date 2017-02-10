@@ -42,7 +42,7 @@ RUN buildDeps='xz-utils' \
     && npm install -g s3-cli
 
 # Install java8 (via https://github.com/William-Yeh/docker-java8)
-# add webupd8 repository
+
 RUN \
     echo "===> add webupd8 repository..."  && \
     echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list  && \
