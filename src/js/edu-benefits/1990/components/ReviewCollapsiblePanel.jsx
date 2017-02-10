@@ -3,7 +3,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import * as validations from '../utils/validations';
-import { focusElement, getScrollOptions } from '../../../common/utils/helpers';
+import { getScrollOptions, scrollAndFocus } from '../../../common/utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -99,9 +99,7 @@ export default class ReviewCollapsiblePanel extends React.Component {
     setTimeout(() => {
       const errorEl = document.querySelector(`#${getPageId(path)} .usa-input-error, #${getPageId(path)} .input-error-date`);
       if (errorEl) {
-        const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-        Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
-        focusElement(errorEl);
+        scrollAndFocus(errorEl);
       }
     }, 100);
   }

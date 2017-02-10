@@ -100,3 +100,9 @@ export function scrollToFirstError() {
     focusElement(errorEl);
   }
 }
+
+export function scrollAndFocus(errorEl) {
+  const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
+  Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
+  focusElement(errorEl);
+}

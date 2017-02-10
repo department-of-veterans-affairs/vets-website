@@ -3,7 +3,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 import { set } from 'lodash/fp';
 
-import { focusElement, getScrollOptions } from '../../utils/helpers';
+import { getScrollOptions, scrollAndFocus } from '../../utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -90,9 +90,7 @@ class GrowableTable extends React.Component {
     setTimeout(() => {
       const errorEl = document.querySelector(`#${this.getRowId(key)} .usa-input-error, #${this.getRowId(key)} .input-error-date`);
       if (errorEl) {
-        const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-        Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
-        focusElement(errorEl);
+        scrollAndFocus(errorEl);
       }
     }, 100);
   }

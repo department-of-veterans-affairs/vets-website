@@ -1,7 +1,7 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 
-import { getActivePages, focusElement, getScrollOptions } from '../utils/helpers';
+import { getActivePages, getScrollOptions, scrollAndFocus } from '../utils/helpers';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
@@ -15,9 +15,7 @@ const scrollToFirstError = () => {
   setTimeout(() => {
     const errorEl = document.querySelector('.usa-input-error, .input-error-date');
     if (errorEl) {
-      const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-      Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
-      focusElement(errorEl);
+      scrollAndFocus(errorEl);
     }
   }, 100);
 };
