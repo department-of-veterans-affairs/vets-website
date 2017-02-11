@@ -63,15 +63,15 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
+You’ll need to apply for benefits. [Apply for benefits](/disability-benefits/apply-for-benefits/).
 
 [Learn more about service in Southwest Asia](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp).
 
 ### What's included in the Southwest Asia theater of military operations?
 - Iraq, Kuwait, Saudi Arabia
 - The neutral zone between Iraq and Saudi Arabia
-- Bahrain, Qatar, and The United Arab Emirates (U.A.E.)
+- Bahrain, Qatar, and the United Arab Emirates (U.A.E.)
 - Oman
-- Gulf of Aden and Gulf of Oman
-- Waters of the Persian Gulf, the Arabian Sea, and the Red Sea
+- The Gulf of Aden and the Gulf of Oman
+- The waters of the Persian Gulf, the Arabian Sea, and the Red Sea
 - The airspace above these locations
