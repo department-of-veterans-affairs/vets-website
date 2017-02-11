@@ -4,15 +4,18 @@ import { focusElement } from '../../../common/utils/helpers';
 import ProgressButton from '../../../common/components/form-elements/ProgressButton';
 
 class IntroductionPage extends React.Component {
-  constructor() {
-    super();
-    this.goForward = this.goForward.bind(this);
-  }
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
-  goForward() {
+  goForward = () => {
     this.props.router.push(this.props.route.pageList[1].path);
+  }
+  goBack = () => {
+    // Wasn't able to figure out how to get react-router to go to
+    //  /education/apply-for-education-benefits/ without having it prepend the
+    //  pathname with /education/apply-for-education-benefits/application/
+    // this.props.router.replace('/education/apply-for-education-benefits/');
+    window.location = "/education/apply-for-education-benefits/";
   }
   render() {
     return (
@@ -62,11 +65,18 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <div className="row form-progress-buttons">
+        <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
           <div className="small-6 medium-5 columns">
             <ProgressButton
+              onButtonClick={this.goBack}
+              buttonText="Back"
+              buttonClass="usa-button-outline"
+              beforeText="«"/>
+          </div>
+          <div className="small-6 medium-5 end columns">
+            <ProgressButton
                 onButtonClick={this.goForward}
-                buttonText="Get Started"
+                buttonText="Continue"
                 buttonClass="usa-button-primary"
                 afterText="»"/>
           </div>
