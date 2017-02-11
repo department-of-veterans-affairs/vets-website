@@ -346,7 +346,7 @@ export class Thread extends React.Component {
     }
 
     // check if any senderIds are valid recipients
-    const disabled = intersection(
+    const disabled = !loading.recipients && intersection(
       recipients.map(e => e.value),
       threadMessages.map(t => t.senderId).concat(
         [message.senderId, Number(draft.recipient.value)]
