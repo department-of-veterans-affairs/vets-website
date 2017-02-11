@@ -6,6 +6,7 @@ class MessageWrite extends React.Component {
     return (
       <div className={this.props.cssClass}>
         <ErrorableTextarea
+            disabled={this.props.disabled}
             errorMessage={this.props.errorMessage}
             label="Message"
             onValueChange={this.props.onValueChange}
@@ -18,6 +19,7 @@ class MessageWrite extends React.Component {
 }
 
 MessageWrite.propTypes = {
+  disabled: React.PropTypes.bool,
   cssClass: React.PropTypes.string,
   errorMessage: React.PropTypes.string,
   onValueChange: React.PropTypes.func.isRequired,
