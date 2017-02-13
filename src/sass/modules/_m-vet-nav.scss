@@ -277,7 +277,7 @@
   }
 
   @include media($medium-screen) {
-    box-shadow: 1px 3px 9px -3px $color-base;
+    box-shadow: 0 6px 10px -5px $color-base;
     background: $color-white;
     padding-bottom: 1.6rem;
     position: absolute;
