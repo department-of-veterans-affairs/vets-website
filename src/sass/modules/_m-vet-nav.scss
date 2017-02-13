@@ -297,6 +297,7 @@
     @include media($medium-screen) {
       border-left: 1px solid $color-gray-warm-light;
       background-color: $color-gray-lightest;
+      height: 100%;
       margin-left: 23rem;
       padding: .5rem 0 1.6rem;
       width: 31rem;
