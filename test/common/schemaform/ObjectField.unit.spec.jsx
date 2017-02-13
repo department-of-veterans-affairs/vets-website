@@ -52,6 +52,56 @@ describe('Schemaform: ObjectField', () => {
 
     expect(tree.text()).to.contain('Blah');
   });
+  it('should render jsx description', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:description': <div className="test-class"/>
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={{}}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('.test-class')).not.to.be.empty;
+  });
+  it('should render component description', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:description': () => <div className="test-class"/>
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={{}}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.text()).to.contain('uiDescription');
+  });
   it('should render title', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();

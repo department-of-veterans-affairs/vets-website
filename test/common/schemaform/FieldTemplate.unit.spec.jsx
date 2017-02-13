@@ -121,4 +121,73 @@ describe('Schemaform <FieldTemplate>', () => {
     expect(tree.subTree('.usa-input-error-message').text()).to.equal('Some error');
     expect(tree.everySubTree('.usa-input-error')).not.to.be.empty;
   });
+  it('should render description', () => {
+    const schema = {
+      type: 'string'
+    };
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:description': 'Blah'
+    };
+    const formContext = {};
+    const errors = ['Some error'];
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+          id="test"
+          schema={schema}
+          uiSchema={uiSchema}
+          rawErrors={errors}
+          formContext={formContext}>
+        <div className="field-child"/>
+      </FieldTemplate>
+    );
+
+    expect(tree.subTree('p').text()).to.equal('Blah');
+  });
+  it('should render element description', () => {
+    const schema = {
+      type: 'string'
+    };
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:description': <div>Blah</div>
+    };
+    const formContext = {};
+    const errors = ['Some error'];
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+          id="test"
+          schema={schema}
+          uiSchema={uiSchema}
+          rawErrors={errors}
+          formContext={formContext}>
+        <div className="field-child"/>
+      </FieldTemplate>
+    );
+
+    expect(tree.text()).to.contain('Blah');
+  });
+  it('should render description component', () => {
+    const schema = {
+      type: 'string'
+    };
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:description': () => <someTag>Blah</someTag>
+    };
+    const formContext = {};
+    const errors = ['Some error'];
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+          id="test"
+          schema={schema}
+          uiSchema={uiSchema}
+          rawErrors={errors}
+          formContext={formContext}>
+        <div className="field-child"/>
+      </FieldTemplate>
+    );
+
+    expect(tree.text()).to.contain('uiDescription');
+  });
 });
