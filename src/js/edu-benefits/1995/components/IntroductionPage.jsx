@@ -10,13 +10,6 @@ class IntroductionPage extends React.Component {
   goForward = () => {
     this.props.router.push(this.props.route.pageList[1].path);
   }
-  goBack = () => {
-    // Wasn't able to figure out how to get react-router to go to
-    //  /education/apply-for-education-benefits/ without having it prepend the
-    //  pathname with /education/apply-for-education-benefits/application/
-    // this.props.router.replace('/education/apply-for-education-benefits/');
-    window.location = "/education/apply-for-education-benefits/";
-  }
   render() {
     return (
       <div className="schemaform-intro">
@@ -67,11 +60,9 @@ class IntroductionPage extends React.Component {
         </div>
         <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
           <div className="small-6 medium-5 columns">
-            <ProgressButton
-              onButtonClick={this.goBack}
-              buttonText="Back"
-              buttonClass="usa-button-outline"
-              beforeText="«"/>
+            <a href="/education/apply-for-education-benefits/">
+              <button className="usa-button-outline">« Back</button>
+            </a>
           </div>
           <div className="small-6 medium-5 end columns">
             <ProgressButton
