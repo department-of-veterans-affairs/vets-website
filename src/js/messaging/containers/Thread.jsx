@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { intersection } from 'lodash';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
@@ -256,7 +257,7 @@ export class Thread extends React.Component {
     );
   }
 
-  makeForm() {
+  makeForm(disabled = false) {
     const { draft, isNewMessage, message, recipients } = this.props;
     let form;
 
@@ -280,6 +281,7 @@ export class Thread extends React.Component {
     } else if (message) {
       form = (
         <ReplyForm
+            disabled={disabled}
             detailsCollapsed={this.props.replyDetailsCollapsed}
             recipient={message.senderName}
             subject={message.subject}
@@ -298,8 +300,23 @@ export class Thread extends React.Component {
     return form;
   }
 
+  renderNotice(disabled = false) {
+    if (disabled) {
+      return (
+        <div>
+          <h4>Health care team has changed</h4>
+          <p>
+            You are no longer associated with this health care team and cannot reply to this message. Please contact the help desk at 1-855-574-7286 if you have any questions.
+          </p>
+        </div>
+      );
+    }
+
+    return <NoticeBox/>;
+  }
+
   render() {
-    const { isFormVisible, isNewMessage, isSavedDraft, loading } = this.props;
+    const { isFormVisible, isNewMessage, isSavedDraft, loading, recipients, thread: threadMessages, message, draft } = this.props;
 
     if (isNewMessage && loading.recipients) {
       return <LoadingIndicator message="Loading your application..."/>;
@@ -328,9 +345,17 @@ export class Thread extends React.Component {
       return <p>Sorry, this message does not exist.</p>;
     }
 
+    // check if any senderIds are valid recipients
+    const disabled = !loading.recipients && intersection(
+      recipients.map(e => e.value),
+      threadMessages.map(t => t.senderId).concat(
+        [message.senderId, Number(draft.recipient.value)]
+      )
+    ).length > 0;
+
     const header = this.makeHeader();
     const thread = this.makeThread();
-    const form = this.makeForm();
+    const form = this.makeForm(disabled);
 
     const threadClass = classNames({
       'messaging-thread-content': true,
@@ -376,7 +401,7 @@ export class Thread extends React.Component {
           </div>
           {form}
         </div>
-        <NoticeBox/>
+        {this.renderNotice(disabled)}
         <ModalConfirmDelete
             cssClass="messaging-modal"
             onClose={this.props.toggleConfirmDelete}

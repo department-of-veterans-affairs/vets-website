@@ -152,6 +152,7 @@
     "sass-lint": "^1.8.2",
     "sass-loader": "^4.0.0",
     "selenium-standalone": "^5.5.0",
+    "semver": "^5.3.0",
     "sinon": "^1.17.5",
     "skin-deep": "^0.16.0",
     "style-loader": "^0.13.1",

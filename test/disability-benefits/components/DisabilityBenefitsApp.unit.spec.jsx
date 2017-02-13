@@ -16,7 +16,7 @@ describe('<DisabilityBenefitsApp>', () => {
 
     expect(tree.everySubTree('.test-child')).not.to.be.empty;
     expect(tree.everySubTree('RequiredLoginView')).not.to.be.empty;
-    expect(tree.subTree('RequiredLoginView').props.serviceRequired).to.equal('disability-benefits');
+    expect(tree.subTree('RequiredLoginView').props.serviceRequired).to.equal('evss-claims');
     expect(tree.subTree('RequiredLoginView').props.authRequired).to.equal(3);
   });
   it('should render children', () => {

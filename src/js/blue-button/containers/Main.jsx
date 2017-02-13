@@ -102,6 +102,7 @@ class Main extends React.Component {
   }
 
   renderDateOptions() {
+    const datePickerDisabled = this.props.form.dateOption !== 'custom';
     const radioButtonProps = {
       name: 'dateRange',
       label: '',
@@ -119,6 +120,7 @@ class Main extends React.Component {
                     onChange={this.handleStartDateChange}
                     placeholderText="MM/DD/YYYY"
                     selected={this.props.form.dateRange.start}
+                    disabled={datePickerDisabled}
                     className={this.state.invalidStartDate ? 'date-range-error' : ''}/>
                 <span>&nbsp;to&nbsp;</span>
                 <DatePicker
@@ -126,6 +128,7 @@ class Main extends React.Component {
                     onChange={this.handleEndDateChange}
                     placeholderText="MM/DD/YYYY"
                     selected={this.props.form.dateRange.end}
+                    disabled={datePickerDisabled}
                     className={this.state.invalidEndDate ? 'date-range-error' : ''}/>
               </div>
             </div>

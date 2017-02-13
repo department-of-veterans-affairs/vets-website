@@ -123,10 +123,13 @@ class ObjectField extends React.Component {
     // description and title setup
     const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
     const title = uiSchema['ui:title'] || schema.title;
-    const hasTextDescription = typeof uiSchema['ui:description'] === 'string';
-    const DescriptionField = !hasTextDescription && typeof uiSchema['ui:description'] === 'function'
+
+    const description = uiSchema['ui:description'];
+    const textDescription = typeof description === 'string' ? description : null;
+    const DescriptionField = typeof description === 'function'
       ? uiSchema['ui:description']
       : null;
+
     const isRoot = idSchema.$id === 'root';
 
     let containerClassNames = classNames({
@@ -162,8 +165,9 @@ class ObjectField extends React.Component {
                   title={title}
                   required={required}
                   formContext={formContext}/> : null}
-          {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
+          {textDescription && <p>{textDescription}</p>}
           {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
+          {!textDescription && !DescriptionField && description}
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
               return (

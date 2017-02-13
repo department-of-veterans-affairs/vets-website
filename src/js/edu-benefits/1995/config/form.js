@@ -19,6 +19,7 @@ import * as phone from '../../../common/schemaform/definitions/phone';
 import * as address from '../../../common/schemaform/definitions/address';
 
 import * as educationType from '../../definitions/educationType';
+import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 
 import { enumToNames, showSchoolAddress } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -39,7 +40,6 @@ const {
 
 const {
   preferredContactMethod,
-  serviceBefore1977,
   school
 } = fullSchema1995.definitions;
 
@@ -334,25 +334,12 @@ const formConfig = {
             }
           },
           uiSchema: {
-            serviceBefore1977: {
-              married: {
-                'ui:title': 'Are you currently married?',
-                'ui:widget': 'yesNo'
-              },
-              haveDependents: {
-                'ui:title': 'Do you have any children who are under age 18? Or do you have any children who are over age 18 but under 23, not married, and attending school? Or do you have any children of any age who are permanently disabled for mental or physical reasons?',
-                'ui:widget': 'yesNo'
-              },
-              parentDependent: {
-                'ui:title': 'Do you have a parent who is dependent on your financial support?',
-                'ui:widget': 'yesNo'
-              }
-            }
+            serviceBefore1977: serviceBefore1977.uiSchema
           },
           schema: {
             type: 'object',
             properties: {
-              serviceBefore1977
+              serviceBefore1977: serviceBefore1977.schema
             }
           }
         },
