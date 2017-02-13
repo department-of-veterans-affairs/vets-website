@@ -27,7 +27,7 @@ function recalculateSchemaAndData(initialState) {
       schema = setHiddenFields(schema, page.uiSchema, page.data, state);
       // Update the schema with any general updates based on the new data
       schema = updateSchemaFromUiSchema(schema, page.uiSchema, page.data, state);
-      // Remove any data that's how hidden in the schema
+      // Remove any data that's now hidden in the schema
       const data = removeHiddenData(schema, page.data);
 
       if (page.data !== data || page.schema !== schema) {
