@@ -77,7 +77,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
             // Our pattern is to separate out array fields (growable tables) from
             // the normal page and display them separately. The review version of
             // ObjectField will hide them in the main section.
-            const arrayFields = getArrayFields(page);
+            const arrayFields = getArrayFields(data[page.pageKey], page);
             // If a page is just an array, then we should skip rendering it, since
             // we'll show the array separately
             const hasNonArrayFields = hasFieldsOtherThanArray(page.schema);

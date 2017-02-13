@@ -43,7 +43,7 @@ class DisabilityBenefitsApp extends React.Component {
     const { available, authorized } = this.props;
 
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"disability-benefits"}>
+      <RequiredLoginView authRequired={3} serviceRequired={"evss-claims"}>
         <AppContent
             authorized={authorized}
             available={available}>

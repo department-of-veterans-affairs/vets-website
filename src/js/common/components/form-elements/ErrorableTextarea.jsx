@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import ToolTip from './ToolTip';
 
@@ -82,6 +83,10 @@ class ErrorableTextarea extends React.Component {
       requiredSpan = <span className="hca-required-span">*</span>;
     }
 
+    const classes = classNames(this.props.additionalClass, {
+      'input-disabled': this.props.disabled,
+    });
+
     return (
       <div className={inputErrorClass}>
         <label
@@ -92,7 +97,8 @@ class ErrorableTextarea extends React.Component {
         </label>
         {errorSpan}
         <textarea
-            className={this.props.additionalClass}
+            disabled={this.props.disabled}
+            className={classes}
             aria-describedby={errorSpanId}
             id={this.inputId}
             placeholder={this.props.placeholder}
@@ -110,6 +116,7 @@ class ErrorableTextarea extends React.Component {
 }
 
 ErrorableTextarea.propTypes = {
+  disabled: React.PropTypes.bool,
   errorMessage: React.PropTypes.string,
   label: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,

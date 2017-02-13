@@ -47,7 +47,7 @@ class YourClaimsPage extends React.Component {
     }
   }
   componentWillReceiveProps(newProps) {
-    if (this.props.allClaims && this.props.route.showClosedClaims !== newProps.route.showClosedClaims) {
+    if (this.props.route.showClosedClaims !== newProps.route.showClosedClaims) {
       this.props.filterClaims(this.getFilter(newProps));
     }
   }
@@ -57,10 +57,7 @@ class YourClaimsPage extends React.Component {
     }
   }
   getFilter(props) {
-    if (props.allClaims) {
-      return props.route.showClosedClaims ? 'closed' : 'open';
-    }
-    return undefined;
+    return props.route.showClosedClaims ? 'closed' : 'open';
   }
   handleSort(sortObject) {
     this.props.sortClaims(sortObject.value);
@@ -71,7 +68,7 @@ class YourClaimsPage extends React.Component {
   }
 
   render() {
-    const { unfilteredClaims, claims, pages, page, loading, show30DayNotice, route, allClaims, synced } = this.props;
+    const { unfilteredClaims, claims, pages, page, loading, show30DayNotice, route, synced } = this.props;
 
     let content;
 
@@ -79,7 +76,7 @@ class YourClaimsPage extends React.Component {
       content = <LoadingIndicator message="Loading claims list" setFocus/>;
     } else if (claims.length > 0) {
       content = (<div>
-        {allClaims && !route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims} onClose={this.props.hide30DayNotice}/>}
+        {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims} onClose={this.props.hide30DayNotice}/>}
         <div className="claim-list">
           {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
           <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
@@ -89,7 +86,7 @@ class YourClaimsPage extends React.Component {
       content = <NoClaims/>;
     }
 
-    if (this.props.allClaims && !loading) {
+    if (!loading) {
       const currentTab = `${route.showClosedClaims ? 'Closed' : 'Open'}Claims`;
       content = (
         <div>
@@ -165,10 +162,6 @@ const mapDispatchToProps = {
   sortClaims,
   showConsolidatedMessage,
   hide30DayNotice
-};
-
-YourClaimsPage.defaultProps = {
-  allClaims: __ALL_CLAIMS_ENABLED__ // eslint-disable-line no-undef
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPage);

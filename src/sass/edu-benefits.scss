@@ -307,3 +307,21 @@ form.rjsf {
   color: $color-secondary-dark;
   margin: 0 0.35em;
 }
+
+.schemaform-back-buttons {
+  margin-bottom: 7rem !important;
+}
+.schemaform-intro {
+  padding-bottom: 1rem;
+  margin-bottom: 7rem;
+}
+
+// Align the intro content of the 22-1990 to match the title
+// Necessary because the 22-1990 doesn't use schemaform, so it's wonky
+.intro-content {
+  margin-left: -2rem;
+}
+
+.edu-benefits-dependents-desc {
+  margin-top: 5px;
+}
