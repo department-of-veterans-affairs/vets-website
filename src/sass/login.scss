@@ -26,7 +26,8 @@ $color-primary-alt-light:    #9bdaf1;
 
 .signin-greeting {
   display: none;
-  @include media($medium-screen) {
+
+  @media(min-width: 768px) {
     display: inline;
   }
 }
