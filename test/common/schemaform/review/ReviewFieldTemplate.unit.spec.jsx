@@ -30,6 +30,20 @@ describe('Schemaform ReviewFieldTemplate', () => {
     expect(tree.subTree('dt').text()).to.contain('Label');
     expect(tree.subTree('p').text()).to.equal('Blah');
   });
+  it('should render element description', () => {
+    const uiSchema = {
+      'ui:title': 'Label',
+      'ui:description': <div>Blah</div>
+    };
+    const tree = SkinDeep.shallowRender(
+      <ReviewFieldTemplate
+          schema={{ type: 'string' }}
+          uiSchema={uiSchema}/>
+    );
+
+    expect(tree.subTree('dt').text()).to.contain('Label');
+    expect(tree.text()).to.contain('Blah');
+  });
   it('should render description component', () => {
     const uiSchema = {
       'ui:title': 'Label',

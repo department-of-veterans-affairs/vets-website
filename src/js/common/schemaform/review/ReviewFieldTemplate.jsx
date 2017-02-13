@@ -7,8 +7,9 @@ import React from 'react';
 export default function ReviewFieldTemplate(props) {
   const { children, uiSchema, schema } = props;
   const label = uiSchema['ui:title'] || props.label;
-  const hasTextDescription = typeof uiSchema['ui:description'] === 'string';
-  const DescriptionField = !hasTextDescription && typeof uiSchema['ui:description'] === 'function'
+  const description = uiSchema['ui:description'];
+  const textDescription = typeof description === 'string' ? description : null;
+  const DescriptionField = typeof description === 'function'
     ? uiSchema['ui:description']
     : null;
 
@@ -17,8 +18,9 @@ export default function ReviewFieldTemplate(props) {
     : <div className="review-row">
       <dt>
         {label}
-        {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
+        {textDescription && <p>{textDescription}</p>}
         {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
+        {!textDescription && !DescriptionField && description}
       </dt>
       <dd>{children}</dd>
     </div>;
