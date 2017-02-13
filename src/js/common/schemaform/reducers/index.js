@@ -16,6 +16,33 @@ import { SET_DATA,
   SET_SUBMITTED
 } from '../actions';
 
+function recalculateSchemaAndData(initialState) {
+  return Object.keys(_.omit(['privacyAgreementAccepted', 'submission'], initialState))
+    .reduce((state, pageKey) => {
+      const page = state[pageKey];
+      // on each data change, we need to do the following steps
+      // Recalculate any required fields, based on the new data
+      let schema = updateRequiredFields(page.schema, page.uiSchema, page.data, state);
+      // Update the schema with any fields that are now hidden because of the data change
+      schema = setHiddenFields(schema, page.uiSchema, page.data, state);
+      // Update the schema with any general updates based on the new data
+      schema = updateSchemaFromUiSchema(schema, page.uiSchema, page.data, state);
+      // Remove any data that's how hidden in the schema
+      const data = removeHiddenData(schema, page.data);
+
+      if (page.data !== data || page.schema !== schema) {
+        const newPage = _.assign(page, {
+          data,
+          schema
+        });
+
+        return _.set(pageKey, newPage, state);
+      }
+
+      return state;
+    }, initialState);
+}
+
 export default function createSchemaFormReducer(formConfig) {
   // Create the basic form state, which has all the pages of the form and the default data
   // and schemas
@@ -43,42 +70,14 @@ export default function createSchemaFormReducer(formConfig) {
 
   // Take another pass and recalculate the schema and data based on the default data
   // We do this to avoid passing undefined for the whole form state when the form first renders
-  const initialState = Object.keys(_.omit(['privacyAgreementAccepted', 'submission'], firstPassInitialState))
-    .reduce((state, pageKey) => {
-      const page = firstPassInitialState[pageKey];
-      let schema = updateRequiredFields(page.schema, page.uiSchema, page.data, state);
-      schema = setHiddenFields(schema, page.uiSchema, page.data, state);
-      schema = updateSchemaFromUiSchema(schema, page.uiSchema, page.data, state);
-
-      const data = removeHiddenData(schema, page.data);
-
-      const newPage = _.assign(page, {
-        data,
-        schema,
-      });
-
-      return _.set(pageKey, newPage, state);
-    }, firstPassInitialState);
+  const initialState = recalculateSchemaAndData(firstPassInitialState);
 
   return (state = initialState, action) => {
     switch (action.type) {
       case SET_DATA: {
-        // on each data change, we need to do the following steps
-        // Recalculate any required fields, based on the new data
-        let schema = updateRequiredFields(state[action.page].schema, state[action.page].uiSchema, action.data, state);
-        // Update the schema with any fields that are now hidden because of the data change
-        schema = setHiddenFields(schema, state[action.page].uiSchema, action.data, state);
-        // Update the schema with any general updates based on the new data
-        schema = updateSchemaFromUiSchema(schema, state[action.page].uiSchema, action.data, state);
-        // Remove any data that's how hidden in the schema
-        const data = removeHiddenData(schema, action.data);
+        const newState = _.set([action.page, 'data'], action.data, state);
 
-        const newPage = _.assign(state[action.page], {
-          data,
-          schema
-        });
-
-        return _.set(action.page, newPage, state);
+        return recalculateSchemaAndData(newState);
       }
       case SET_EDIT_MODE: {
         return _.set([action.page, 'editMode'], action.edit, state);

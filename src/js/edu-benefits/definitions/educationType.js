@@ -31,7 +31,7 @@ export const uiSchema = {
   'ui:title': 'Type of education or training',
   'ui:options': {
     updateSchema: (field, form) => {
-      if (_.includes(['chapter30', 'chapter33'], form.benefitSelection.data.benefit) === true) {
+      if (_.includes(form.benefitSelection.data.benefit, ['chapter30', 'chapter33'])) {
         return schema;
       }
 
