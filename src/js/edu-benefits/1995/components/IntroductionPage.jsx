@@ -14,7 +14,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <h1>Manage Your Education Benefits</h1>
-        <p>This application is equivalent to Forms 22-1995 or 22-5495.</p>
+        <p>This application is equivalent to Form 22-1995 (Request for Change of Program or Place of Training) and Form 22-5495 (Dependents' Request for Change of Program or Place of Training).</p>
         <div className="process schemaform-process">
           <ol>
             <li className="step one">
@@ -35,11 +35,11 @@ class IntroductionPage extends React.Component {
               <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you pick the right program.</p>
               <h6>Learn about educational programs</h6>
               <ul>
-                <li>See estimated benefits at the school you want to attend using the <a href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>.</li>
+                <li>See what benefits you'll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
               </ul>
             </li>
             <li className="step two">
-              <div><h5>Apply to move your Benefit</h5></div>
+              <div><h5>Apply to manage your Benefit</h5></div>
               <p>Complete this form.</p>
             </li>
             <li className="step three">
