@@ -144,6 +144,29 @@ describe('Schemaform <FieldTemplate>', () => {
 
     expect(tree.subTree('p').text()).to.equal('Blah');
   });
+  it('should render element description', () => {
+    const schema = {
+      type: 'string'
+    };
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:description': <div>Blah</div>
+    };
+    const formContext = {};
+    const errors = ['Some error'];
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+          id="test"
+          schema={schema}
+          uiSchema={uiSchema}
+          rawErrors={errors}
+          formContext={formContext}>
+        <div className="field-child"/>
+      </FieldTemplate>
+    );
+
+    expect(tree.text()).to.contain('Blah');
+  });
   it('should render description component', () => {
     const schema = {
       type: 'string'

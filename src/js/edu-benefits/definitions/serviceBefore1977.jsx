@@ -10,7 +10,7 @@ export const uiSchema = {
   },
   haveDependents: {
     'ui:title': 'Do you have any children who fall into these categories?',
-    'ui:description': () => (
+    'ui:description': (
       <ul className="edu-benefits-dependents-desc">
         <li>Under age 18</li>
         <li>Between the ages of 18 and 22, not married, and attending school</li>

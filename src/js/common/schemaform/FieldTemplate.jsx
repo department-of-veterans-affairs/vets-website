@@ -12,8 +12,10 @@ export default function FieldTemplate(props) {
   const label = uiSchema['ui:title'] || props.label;
   const isDateField = uiSchema['ui:widget'] === 'date';
   const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
-  const hasTextDescription = typeof uiSchema['ui:description'] === 'string';
-  const DescriptionField = !hasTextDescription && typeof uiSchema['ui:description'] === 'function'
+
+  const description = uiSchema['ui:description'];
+  const textDescription = typeof description === 'string' ? description : null;
+  const DescriptionField = typeof description === 'function'
     ? uiSchema['ui:description']
     : null;
 
@@ -33,8 +35,9 @@ export default function FieldTemplate(props) {
     : (<div className={containerClassNames}>
       <div className={errorClass}>
         <label className={hasErrors && !isDateField ? 'usa-input-error-label' : null} htmlFor={id}>{label}{requiredSpan}</label>
-        {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
+        {textDescription && <p>{textDescription}</p>}
         {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
+        {!textDescription && !DescriptionField && description}
         {errorSpan}
         {<div className={isDateField && hasErrors ? 'usa-input-error form-error-date' : null}>{children}</div>}
         {help}
