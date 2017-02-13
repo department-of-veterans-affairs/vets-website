@@ -35,7 +35,7 @@ function initUserMock(token, level) {
             gender: 'F',
             birth_date: '1985-01-01'
           },
-          services: ['facilities', 'hca', 'edu-benefits', 'disability-benefits', 'user-profile', 'rx', 'messaging'],
+          services: ['facilities', 'hca', 'edu-benefits', 'evss-claims', 'user-profile', 'rx', 'messaging'],
           va_profile: {
             status: 'OK',
             birth_date: '19511118',

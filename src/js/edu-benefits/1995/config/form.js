@@ -8,8 +8,8 @@ import {
   educationTypeLabels,
   bankAccountChangeLabels,
   preferredContactMethodLabels,
-  transformForSubmit,
-  enumToNames
+  enumToNames,
+  transform
 } from '../helpers';
 
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
@@ -48,7 +48,7 @@ const formConfig = {
   urlPrefix: '/1995/',
   submitUrl: '/v0/education_benefits_claims/1995',
   trackingPrefix: 'edu-1995-',
-  transformForSubmit,
+  transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {

@@ -83,7 +83,9 @@ describe('Schemaform actions:', () => {
     });
 
     it('should set submitted', () => {
-      const formConfig = {};
+      const formConfig = {
+        chapters: {}
+      };
       const form = {
         testing: {
           data: {
@@ -117,7 +119,9 @@ describe('Schemaform actions:', () => {
       });
     });
     it('should set submission error', () => {
-      const formConfig = {};
+      const formConfig = {
+        chapters: {}
+      };
       const form = {
         testing: {
           data: {

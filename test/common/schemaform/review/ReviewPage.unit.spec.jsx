@@ -47,7 +47,6 @@ describe('Schemaform review: ReviewPage', () => {
         chapter2: {
           pages: {
             page2: {
-              schema: {}
             }
           }
         }
@@ -59,10 +58,12 @@ describe('Schemaform review: ReviewPage', () => {
         hasAttemptedSubmit: false
       },
       page1: {
+        schema: {},
         data: {
         }
       },
       page2: {
+        schema: {},
         data: {
         }
       },
