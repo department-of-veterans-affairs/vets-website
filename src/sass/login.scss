@@ -23,3 +23,10 @@ $color-primary-alt-light:    #9bdaf1;
   color: rgba(255, 255, 255, 0.5);
   margin: 0 0.6em;
 }
+
+.signin-greeting {
+  display: none;
+  @include media($medium-screen) {
+    display: inline;
+  }
+}
