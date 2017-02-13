@@ -168,6 +168,7 @@ const testValues = {
 
 function completePersonalInformation(client, data, onlyRequiredFields) {
   client
+    .waitForElementVisible('input[name="fname"]', Timeouts.normal)
     .clearValue('input[name="fname"]')
     .setValue('input[name="fname"]', data.veteranFullName.first)
     .clearValue('input[name="lname"]')
@@ -182,7 +183,6 @@ function completePersonalInformation(client, data, onlyRequiredFields) {
 }
 
 function completeBirthInformation(client, data, onlyRequiredFields) {
-  client.pause(1000);
   selectDropdown(client, 'veteranBirthMonth', data.veteranDateOfBirth.month);
   selectDropdown(client, 'veteranBirthDay', data.veteranDateOfBirth.day);
   client
@@ -215,6 +215,7 @@ function completeDemographicInformation(client, data, onlyRequiredFields) {
 }
 
 function completeVeteranAddress(client, data, onlyRequiredFields) {
+  client.waitForElementVisible('input[name="address"]', Timeouts.normal);
   client
     .clearValue('input[name="address"]')
     .setValue('input[name="address"]', data.veteranAddress.street)
@@ -236,6 +237,7 @@ function completeVeteranAddress(client, data, onlyRequiredFields) {
 function completeVeteranContactInformation(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
+      .waitForElementVisible('input.first-email', Timeouts.normal)
       .setValue('input.first-email', data.email)
       .setValue('input.second-email', data.emailConfirmation)
       .setValue('input.home-phone', data.homePhone)
@@ -263,6 +265,7 @@ function completeMilitaryService(client, data, onlyRequiredFields) {
 
 function completeVaBenefits(client, data, onlyRequiredFields) {
   client
+    .waitForElementVisible('input[name="compensableVaServiceConnected-0"] + label', Timeouts.normal)
     .click('input[name="compensableVaServiceConnected-0"]')
     .click('input[name="isVaServiceConnected-0"]')
     .click('input[name="receivesVaPension-0"]');
@@ -273,7 +276,9 @@ function completeVaBenefits(client, data, onlyRequiredFields) {
 }
 
 function completeFinancialDisclosure(client, data, onlyRequiredFields) {
-  client.click('input[name="discloseFinancialInformation-1"]');
+  client
+    .waitForElementVisible('input[name="discloseFinancialInformation-1"] + label', Timeouts.normal)
+    .click('input[name="discloseFinancialInformation-1"]');
 
   if (!onlyRequiredFields) {
     client.click('input[name="discloseFinancialInformation-0"]');
@@ -323,8 +328,8 @@ function completeSpouseInformation(client, data, onlyRequiredFields) {
 }
 
 function completeAnnualIncomeInformation(client, data, onlyRequiredFields) {
-  client.expect.element('input[name="veteranGrossIncome"]').to.be.visible.before(Timeouts.normal);
   client
+    .waitForElementVisible('input[name="veteranGrossIncome"]', Timeouts.normal)
     .setValue('input[name="veteranGrossIncome"]', data.veteranGrossIncome)
     .setValue('input[name="veteranNetIncome"]', data.veteranNetIncome)
     .setValue('input[name="veteranOtherIncome"]', data.veteranOtherIncome);
@@ -341,7 +346,10 @@ function completeAnnualIncomeInformation(client, data, onlyRequiredFields) {
 }
 
 function completeChildInformation(client, data, onlyRequiredFields) {
-  client.click('input[name="hasChildrenToReport-0"]');
+  client
+    .waitForElementVisible('input[name="hasChildrenToReport-0"] + label', Timeouts.normal)
+    .click('input[name="hasChildrenToReport-0"]');
+
   client.expect.element('input[name="fname"]').to.be.visible.before(Timeouts.normal);
   selectDropdown(client, 'childRelation', data.children[0].childRelation);
   selectDropdown(client, 'childBirthMonth', data.children[0].childDateOfBirth.month);
@@ -379,6 +387,7 @@ function completeDeductibleExpenses(client, data) {
 
 function completeMedicareAndMedicaid(client, data, onlyRequiredFields) {
   client
+    .waitForElementVisible('input[name="isMedicaidEligible-1"] + label', Timeouts.normal)
     .click('input[name="isMedicaidEligible-1"]')
     .click('input[name="isEnrolledMedicarePartA-1"]');
 
@@ -394,7 +403,9 @@ function completeMedicareAndMedicaid(client, data, onlyRequiredFields) {
 }
 
 function completeInsuranceInformation(client, data, onlyRequiredFields) {
-  client.click('input[name="isCoveredByHealthInsurance-0"]');
+  client
+    .waitForElementVisible('input[name="isCoveredByHealthInsurance-0"] + label', Timeouts.normal)
+    .click('input[name="isCoveredByHealthInsurance-0"]');
   client.expect.element('input[name="insuranceName"]').to.be.visible.before(Timeouts.normal);
   client
     .setValue('input[name="insuranceName"]', data.providers[0].insuranceName)
