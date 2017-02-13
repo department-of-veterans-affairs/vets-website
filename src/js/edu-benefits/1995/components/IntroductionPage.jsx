@@ -15,7 +15,7 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <h1>Manage Your Education Benefits</h1>
         <p>This application is equivalent to Forms 22-1995 or 22-5495.</p>
-        <div className="process">
+        <div className="process schemaform-process">
           <ol>
             <li className="step one">
               <div><h5>Prepare</h5></div>
