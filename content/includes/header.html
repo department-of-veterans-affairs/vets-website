@@ -159,12 +159,16 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
 
       <div id="vetnav-controls"> 
         <button aria-controls="vetnav" aria-expanded="false" hidden type="button" class="vetnav-controller-close">
-          {% include "assets/img/icons/close.svg" %}
-          Close
+          <span class="va-flex">
+            {% include "assets/img/icons/close.svg" %}
+            Close
+          </span>
         </button>
         <button aria-controls="vetnav" type="button" aria-expanded="false" class="vetnav-controller-open">
-          {% include "assets/img/arrow-down.svg" %}
-          Menu
+          <span class="va-flex">
+            {% include "assets/img/arrow-down.svg" %}
+            Menu
+          </span>
         </button>
       </div>
 
