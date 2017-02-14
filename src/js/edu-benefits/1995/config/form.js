@@ -108,7 +108,7 @@ const formConfig = {
       title: 'Benefit Selection',
       pages: {
         benefitSelection: {
-          title: 'Education Benefit',
+          title: 'Education benefit',
           path: 'benefits-eligibility/benefit-selection',
           initialData: {},
           uiSchema: {
