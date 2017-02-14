@@ -62,8 +62,6 @@ RUN mkdir -p logs/selenium
 
 # Set DISPLAY for xvfb
 
-ENV DISPLAY :99.0
-
 WORKDIR /application
 
 # Install required npm dependencies
