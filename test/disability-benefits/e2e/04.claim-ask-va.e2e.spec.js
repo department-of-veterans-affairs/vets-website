@@ -32,8 +32,11 @@ module.exports = E2eHelpers.createE2eTest(
 
     // click on link to page
     client
+      // I have no idea why this pause is required, but it sure is
+      .pause(2000)
       .click('.ask-va-alert a')
-      .waitForElementVisible('.request-decision-button', Timeouts.normal);
+      .waitForElementPresent('.request-decision-button', Timeouts.normal);
+
 
     // click on disabled button
     client
