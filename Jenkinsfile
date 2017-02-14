@@ -4,6 +4,11 @@ def isContentTeamUpdate = {
   env.BRANCH_NAME ==~ /^content\/wip\/.*/
 }
 
+def isReviewable = {
+  env.BRANCH_NAME != 'production' &&
+    env.BRANCH_NAME != 'master'
+}
+
 env.CONCURRENCY = 10
 
 def isDeployable = {
@@ -86,6 +91,19 @@ node('vets-website-linting') {
     }
   }
 
+  stage('Review') {
+    if (!isReviewable()) {
+      return
+    }
+
+    build job: 'vets-review-instance-deploy', parameters: [
+      stringParam(name: 'devops_branch', value: 'master'),
+      stringParam(name: 'api_branch', value: 'master'),
+      stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+      stringParam(name: 'source_repo', value: 'vets-website'),
+    ], wait: false
+  }
+
   // Perform a build for each required build type
 
   stage('Build') {
@@ -133,13 +151,13 @@ node('vets-website-linting') {
       parallel (
         e2e: {
           dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "cd /application && npm --no-color run test:e2e"
+            sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
           }
         },
 
         accessibility: {
           dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "cd /application && npm --no-color run test:accessibility"
+            sh "Xvfb :98 & cd /application && DISPLAY=:98 npm --no-color run test:accessibility"
           }
         }
       )

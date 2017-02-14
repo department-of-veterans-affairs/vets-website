@@ -1,5 +1,7 @@
 @import "../style";
+@import "../modules/m-modal";
 @import "partials/bb-breadcrumbs";
+@import "partials/bb-modal";
 @import "~react-datepicker/dist/react-datepicker.css";
 
 .bb-app {
@@ -74,5 +76,16 @@
 
   button {
     width: 16rem;
+  }
+}
+
+// match uswds input error
+input.date-range-error {
+  border: 3px solid #cd2026;
+}
+
+.date-range-fields {
+  [disabled] {
+    background-color: $color-gray-lightest;
   }
 }

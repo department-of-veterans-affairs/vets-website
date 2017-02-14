@@ -14,7 +14,7 @@ very secret.
 
 | I want to... | Then you should... |
 | ------------ | ------------------ |
-| clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, `git submodule init; git submodule update`, `npm install`. Run `npm install` anytime `package.json` changes. | 
+| clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, `npm install`. Run `npm install` anytime `package.json` changes. |
 | deploy the site | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Travis will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
@@ -23,11 +23,11 @@ very secret.
 | build the site with optimizaitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,no-react`. Valid application names are in `config/webpack.config.js` |
-| run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` | 
+| run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` |
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0`. Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
-| run only e2e tests | `npm run test:e2e`.  Note, on a fresh checkout, run `npm run selenium:bootstrap` to install the selenium server into `node_modules`. This only needs to be done once per install. |
+| run only e2e tests | `npm run test:e2e` | 
 | run all linters | `npm run lint` |
 | run only javascript linter | `npm run lint:js` |
 | run only sass linter | `npm run lint:sass` |
@@ -61,15 +61,6 @@ All third-party styles and javascript are handled via npm using package.json. Th
 strong versioning of third-party libraries and makes it impossible for developers to
 accidentally modify copies of upstream.
 
-## Toolchain
-The site is built using 2 tools: [Metalsmith](http://www.metalsmith.io/) and
-[Webpack](https://webpack.github.io/) and is fully node.js stack.
-
-Metalsmith is used as the top-level build coordinator -- it is effectively a generic
-"if file changes here, run this" system -- as well as the static content genertaor. When
-Metalsmith sees Javascript, it is delegated to Webpack.  Sass files are "require"ed inside
-the Javascript files for the site and processed by Webpack.
-
 ### Requirements
 
 The requirements for running this application are Node.js 4.4.7 and npm 3.8.9.
@@ -80,7 +71,7 @@ You should use Node Version Manager (nvm) to manage the versions of node.js on y
 To install please visit: https://github.com/creationix/nvm
 _If you are on a mac and use [homebrew](http://brew.sh/), you can install nvm by typing: brew update && brew install nvm_
 
-Once you have nvm installed you should now install node.js version 4.4.7 by running: 
+Once you have nvm installed you should now install node.js version 4.4.7 by running:
 
 ```bash
 nvm install
@@ -238,7 +229,7 @@ rules for 508 compliance.
 Automated accessibility tests are run by Travis on PRs for the production build
 type.
 
-### Continuous Integration
+### Continuous Integration (OUTDATED)
 Continuous integration and deployment is done via
 [Travis CI](travis-ci.org/department-of-veterans-affairs/vets-website). All of the configuration
 is stored in `.travis.yml`.
@@ -269,72 +260,12 @@ example implementation.
 Please see the `/script/travis-build.sh` file for more documentation and an
 overview of the CI configuration.
 
-### Deploy
-Because this is a static site, deployment is simply synchronizing the generated artifacts
-with a remote s3 bucket.  Travis handles the synchronization by using the
-[s3-cli](https://www.npmjs.com/package/s3-cli) commandline tool.
-
-Commits to `master` pushes `buildtype=development` to `dev.vets.gov` and
-`buildtype=staging` to `staging.vets.gov`.
-
-Commits to `production` pushes `buildtype=production` to `www.vets.gov`.
-
-AWS access is granted to travis via the encrypted envrionment variables
-`AWS_ACCESS_KEY` and `AWS_SECRET_KEY`. The same access key is reused for all pushed because
-there is no trust boundary between the different deploys in Travis CI and in the source
-repository.
-
-For exact details, look in the deployment stanza of `.travis.yml`.
-
-## Design Rationale and History.
-
-*tl;dr:* React apps became the primary development churn. Webpack is the most natural tool
-which forced Node.js into the system. The site was migrated to Metalsmith from Jekyll for
-static content creationg to allow keeping things in one langauge. A single repository was
-chosen to facilitate easier code sharing.
-
-The MVP of www.vets.gov was a 100% static content site built using Jekyll and deployed on to
-Github Pages. The historical repository layout was constrained by the needs of Github Pages
-which required all content to be at the root of the directory structure. Also, Jekyll implied
-a Ruby stack. At the time, it was assumed any rich behavior would be written with a standard
-monolithic Rails stack where render was handled server side.
-
-With the launch of the Healthcare App, the team pivoted to use React for client side tooling.
-Because of the Javascript heavy nature of this development, the Node.js ecosystem centered
-around Webpack as the compiler for Javascript became much more natural.
-
-Now we had two languages in the frontend with code separated into multiple repositories.
-This started to become a versioning headache. For example, sharing stylesheets between the sites
-meant having to package the Sass files twice, once in a Jekyll friendly manner and once in
-a Webpack friendly manner. Furthermore, multiple languages meant multiple builds and multiple
-pushes making it easy to desynchronize parts of the site.
-
-A decision was made around August 2016 to create a single frontend build for easier code sharing
-and more consistent deploys. Metalsmith was chosen as a replacement Jekyll because it was
-written in Node.js and seemed reasonably well supported.
-
-Initially the site used grunt as the task runner, but during the migration, it became clear
-that Metalsmith itself was enough of a dependency manager and task marshaller to not require
-grunt. In fact, grunt caused more problems with file watching.
-
-And thus we ended up with one repository for content and Javascript code where Metalsmith is
-the top-level task runner that builds all the static pages from `content/*` and delgates to
-Webpack for Javscript and Sass compilation.
-
-### Why Metalsmith?
-
-Metalsmith looked well supported and very flexible. There were no major technical drivers here.
-
-### Why Webpack?
-
-Webpack seems to have become the defacto build toolkit for Javascript and Sass. Most current
-documentation around React is based on a Webpack toolchain.
-
 ## More documentation
 
-TODO: Verify if these are still relevant.
-
-- [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)
-- [How Search Works](docs/HowSearchWorks.md)
-
+- [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)*
+- [How Search Works](docs/HowSearchWorks.md)*
+- [Design Rationale and History](docs/DesignRationaleAndHistory.md)
+- [Website Toolchain](docs/WebsiteToolchain.md)
+- [How to Deploy](docs/HowToDeploy.md)
+##### *Verify if these are still relevant.
 

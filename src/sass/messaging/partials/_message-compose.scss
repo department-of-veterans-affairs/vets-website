@@ -1,3 +1,7 @@
+.input-disabled {
+  background-color: $color-gray-lightest;
+}
+
 [id=msg-compose] {
   // Overrides USWDS positioning
   .usa-input-error {

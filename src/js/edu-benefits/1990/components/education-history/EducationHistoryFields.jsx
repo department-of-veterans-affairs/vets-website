@@ -53,7 +53,6 @@ export default class EducationHistoryFields extends React.Component {
     );
 
     const formView = (<fieldset className={this.props.inReview ? null : 'edu-growable-form'}>
-      <legend className="hide-for-small-only">Education history</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <ErrorableMonthYear

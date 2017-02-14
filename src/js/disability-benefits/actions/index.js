@@ -40,7 +40,7 @@ export function setNotification(message) {
 
 export function getClaims(filter) {
   return (dispatch) => {
-    makeAuthRequest('/v0/disability_claims',
+    makeAuthRequest('/v0/evss_claims',
       null,
       dispatch,
       claims => {
@@ -82,7 +82,7 @@ export function getClaimDetail(id, router) {
     dispatch({
       type: GET_CLAIM_DETAIL
     });
-    makeAuthRequest(`/v0/disability_claims/${id}`,
+    makeAuthRequest(`/v0/evss_claims/${id}`,
       null,
       dispatch,
       resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
@@ -102,7 +102,7 @@ export function submitRequest(id) {
     dispatch({
       type: SUBMIT_DECISION_REQUEST
     });
-    makeAuthRequest(`/v0/disability_claims/${id}/request_decision`,
+    makeAuthRequest(`/v0/evss_claims/${id}/request_decision`,
       { method: 'POST' },
       dispatch,
       () => {
@@ -162,7 +162,7 @@ export function submitFiles(claimId, trackedItem, files) {
   return (dispatch) => {
     const uploader = new FineUploaderBasic({
       request: {
-        endpoint: `${environment.API_URL}/v0/disability_claims/${claimId}/documents`,
+        endpoint: `${environment.API_URL}/v0/evss_claims/${claimId}/documents`,
         inputName: 'file',
         customHeaders: {
           'X-Key-Inflection': 'camel',

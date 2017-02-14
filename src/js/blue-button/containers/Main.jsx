@@ -12,28 +12,68 @@ import {
   toggleAllReports,
   toggleReportType,
 } from '../actions/form';
+import { openModal } from '../actions/modal';
+
+function isValidDateRange(startDate, endDate) {
+  if (!startDate || !endDate) {
+    return true;
+  }
+  return startDate.isBefore(endDate);
+}
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      invalidStartDate: false,
+      invalidEndDate: false
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
   }
 
-  handleStartDateChange() {
-    // use this.props.setDate(date, true) to change start date
+  handleStartDateChange(startDate) {
+    let invalidDate = true;
+    if (isValidDateRange(startDate, this.props.form.dateRange.end)) {
+      this.props.setDate(startDate, true);
+      invalidDate = false;
+    }
+    this.setState({ invalidStartDate: invalidDate });
   }
 
-  handleEndDateChange() {
-    // use this.props.setDate(date, false) to change start date
+  handleEndDateChange(endDate) {
+    let invalidDate = true;
+    if (isValidDateRange(this.props.form.dateRange.start, endDate)) {
+      this.props.setDate(endDate, false);
+      invalidDate = false;
+    }
+    this.setState({ invalidEndDate: invalidDate });
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
     this.context.router.push('/download');
+  }
+
+  renderReportCheckBoxLabel(c) {
+    if (c.hold) {
+      const onClick = (e) => {
+        e.preventDefault();
+        this.props.openModal(c.hold, c.holdExplanation);
+      };
+      return (
+        <span>
+          {c.label} <a href="#" onClick={onClick}>
+            {`(${c.hold} day hold period applies)`}
+          </a>
+        </span>
+      );
+    }
+    return c.label;
   }
 
   renderInformationTypes() {
@@ -50,7 +90,7 @@ class Main extends React.Component {
               <div key={c.value}>
                 <ErrorableCheckbox
                     name={c.value}
-                    label={c.label}
+                    label={this.renderReportCheckBoxLabel(c)}
                     checked={this.props.form.reportTypes[c.value]}
                     onValueChange={reportTypeOnChange}/>
               </div>
@@ -61,8 +101,8 @@ class Main extends React.Component {
     });
   }
 
-  render() {
-    // TODO: clean this up and hook up to action/reducer
+  renderDateOptions() {
+    const datePickerDisabled = this.props.form.dateOption !== 'custom';
     const radioButtonProps = {
       name: 'dateRange',
       label: '',
@@ -79,13 +119,17 @@ class Main extends React.Component {
                     id="custom-date-start"
                     onChange={this.handleStartDateChange}
                     placeholderText="MM/DD/YYYY"
-                    selected={null}/>
+                    selected={this.props.form.dateRange.start}
+                    disabled={datePickerDisabled}
+                    className={this.state.invalidStartDate ? 'date-range-error' : ''}/>
                 <span>&nbsp;to&nbsp;</span>
                 <DatePicker
                     id="custom-date-end"
                     onChange={this.handleEndDateChange}
                     placeholderText="MM/DD/YYYY"
-                    selected={null}/>
+                    selected={this.props.form.dateRange.end}
+                    disabled={datePickerDisabled}
+                    className={this.state.invalidEndDate ? 'date-range-error' : ''}/>
               </div>
             </div>
           ),
@@ -101,17 +145,24 @@ class Main extends React.Component {
         value: this.props.form.dateOption,
       }
     };
+
+    return (
+      <div>
+        <h4 className="highlight">Select Date Range</h4>
+        <ErrorableRadioButtons
+            {...radioButtonProps}/>
+      </div>
+    );
+  }
+
+  render() {
     const allValuesChecked = _.every(_.values(this.props.form.reportTypes), v => v);
 
     return (
       <div>
         <h1>Get Your VA Health Records</h1>
         <form>
-          <div>
-            <h4 className="highlight">Select Date Range</h4>
-            <ErrorableRadioButtons
-                {...radioButtonProps}/>
-          </div>
+          {this.renderDateOptions()}
           <div>
             <h4 className="highlight">Select Types of Information</h4>
             <ErrorableCheckbox
@@ -151,6 +202,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   changeDateOption,
+  openModal,
   setDate,
   toggleAllReports,
   toggleReportType,

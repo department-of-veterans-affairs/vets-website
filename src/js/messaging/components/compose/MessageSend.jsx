@@ -38,6 +38,27 @@ class MessageSend extends React.Component {
     }
   }
 
+  renderExtraActionButtons() {
+    if (this.props.disabled) {
+      return null;
+    }
+
+    return (
+      <span>
+        <MessageAddAttachment
+            cssClass="msg-attach"
+            allowedMimeTypes={this.props.allowedMimeTypes}
+            id="msg-attachments-input"
+            label="Attach a file"
+            name="messageAttachments"
+            onChange={this.handleAttachmentsChange}/>
+        <ButtonDelete
+            className="va-icon-link"
+            onClick={this.props.onDelete}/>
+      </span>
+    );
+  }
+
   render() {
     const isDisabled = this.props.disabled;
 
@@ -55,16 +76,7 @@ class MessageSend extends React.Component {
               value="save"
               onClick={this.props.onSave}>Save As Draft</button>
         </div>
-        <MessageAddAttachment
-            cssClass="msg-attach"
-            allowedMimeTypes={this.props.allowedMimeTypes}
-            id="msg-attachments-input"
-            label="Attach a file"
-            name="messageAttachments"
-            onChange={this.handleAttachmentsChange}/>
-        <ButtonDelete
-            className="va-icon-link"
-            onClick={this.props.onDelete}/>
+        {this.renderExtraActionButtons()}
       </div>
     );
   }

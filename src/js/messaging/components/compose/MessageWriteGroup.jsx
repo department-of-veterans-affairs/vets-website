@@ -16,6 +16,7 @@ class MessageWriteGroup extends React.Component {
     return (
       <div className={errItemClass}>
         <MessageWrite
+            disabled={this.props.disabled}
             cssClass="msg-write"
             errorMessage={this.props.errorMessage}
             onValueChange={this.props.onTextChange}
@@ -25,7 +26,7 @@ class MessageWriteGroup extends React.Component {
             files={this.props.files}
             onClose={this.props.onAttachmentsClose}/>
         <MessageSend
-            disabled={!this.props.messageText.value.length}
+            disabled={!this.props.messageText.value.length || this.props.disabled}
             allowedMimeTypes={this.props.allowedMimeTypes}
             attachedFiles={this.props.files}
             maxFiles={this.props.maxFiles}
@@ -42,6 +43,7 @@ class MessageWriteGroup extends React.Component {
 }
 
 MessageWriteGroup.propTypes = {
+  disabled: React.PropTypes.bool,
   allowedMimeTypes: React.PropTypes.array,
   errorMessage: React.PropTypes.string,
   files: React.PropTypes.array,
