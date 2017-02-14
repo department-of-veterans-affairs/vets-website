@@ -15,7 +15,7 @@ describe('<AlertBox>', () => {
           status={'info'}
           isVisible={false}/>
     );
-    expect(tree.toString()).to.equal('<div></div>');
+    expect(tree.toString()).to.equal('<div aria-live="assertive"></div>');
   });
 
   it('should have the expected classname', () => {
