@@ -35,7 +35,6 @@ class VAInformationSection extends React.Component {
         );
     } else {
       content = (<fieldset>
-        <legend>VA Benefits</legend>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <ErrorableRadioButtons required

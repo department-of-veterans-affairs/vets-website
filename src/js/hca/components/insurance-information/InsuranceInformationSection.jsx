@@ -96,7 +96,6 @@ class InsuranceInformationSection extends React.Component {
       </div>);
     } else {
       content = (<fieldset>
-        <legend>Coverage Information</legend>
         <ErrorableRadioButtons required
             errorMessage={validateIfDirty(this.props.data.isCoveredByHealthInsurance, isNotBlank) ? '' : 'Please select a response'}
             label="Are you covered by health insurance? (Including coverage through a spouse or another person)"
