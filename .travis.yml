@@ -20,11 +20,6 @@ before_install:
   - npm --version
   - sudo apt-get install oracle-java8-set-default 
 
-cache:
-  apt: true
-  directories:
-  - node_modules
-
 script:
   - ./script/travis-build.sh
 
