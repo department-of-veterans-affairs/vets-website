@@ -128,6 +128,18 @@
   }
 }
 
+@include media($medium-screen) {
+  a.vetnav-level1 {
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      background-color: $color-primary;
+      border-bottom-color: $color-primary;
+      transition: none;
+    }
+  }
+}
+
 .vetnav-level1 {
   -webkit-font-smoothing: antialiased;
   background-color: $color-primary-darker;
@@ -135,6 +147,7 @@
   background-repeat: no-repeat;
   background-size: 1.3rem auto;
   border-radius: 0;
+  border-top: 3px solid transparent;
   color: $color-white;
   cursor: pointer;
   display: block;
@@ -149,8 +162,7 @@
   &:not([href]) {
     background-image: url(/img/minus-white.svg);
     @include media($medium-screen) {
-      background-position: right 1.6rem center;
-      border-top: 3px solid transparent;
+      background-position: right 1.6rem center;      
       padding-right: 3.2rem;
     }
   }
