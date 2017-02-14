@@ -6,16 +6,16 @@ import Timeouts from './timeouts';
 function selectDropdown(client, field, value) {
   const select = `select[name='${field}']`;
   client
-		.execute((clientSelect, clientValue) => {
-			/* eslint-disable */
-			var element = document.querySelector(clientSelect);
-			var event = new Event('change', { bubbles: true });
-			element.value = clientValue;
-			element.dispatchEvent(event);
-			return element.value;
-			/* eslint-disable */
-		},
-		[select, value]);
+    .execute((clientSelect, clientValue) => {
+      /* eslint-disable */
+      var element = document.querySelector(clientSelect);
+      var event = new Event('change', { bubbles: true });
+      element.value = clientValue;
+      element.dispatchEvent(event);
+      return element.value;
+      /* eslint-disable */
+    },
+    [select, value]);
 }
 
 function overrideVetsGovApi(client) {
