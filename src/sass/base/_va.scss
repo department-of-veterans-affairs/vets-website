@@ -1794,6 +1794,14 @@ li.twenty:before {content: '20';}
   &:focus {
     background-color: $color-green-darker !important;
   }
+
+  svg {
+    display: inline-block;
+    height: 1.2rem;
+    margin-left: .5rem;
+    width: 1.2rem;
+    vertical-align: -2px;
+  }
 }
 
 .va-button-secondary {
