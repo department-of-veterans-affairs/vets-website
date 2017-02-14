@@ -48,7 +48,6 @@ class BlueButtonApp extends React.Component {
                 onClose={this.props.closeModal}
                 title={this.props.modal.title}
                 visible={this.props.modal.visible}/>
-            )
           </div>
         </AppContent>
       </RequiredLoginView>
