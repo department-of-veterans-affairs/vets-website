@@ -46,7 +46,7 @@ if (semver.compare(process.env.npm_package_engines_npm, minimumNpmVersion) === -
   process.stdout.write(
     `NPM version (mininum): ${minimumNpmVersion}\n`);
   process.stdout.write(`NPM version (installed): ${process.env.npm_package_engines_npm}\n`);
-  process.exit();
+  process.exit(1);
 }
 
 if (semver.compare(process.version, minimumNodeVersion) === -1) {
