@@ -7,6 +7,10 @@
   }
 }
 
+.schemaform-back-buttons {
+  margin-bottom: 7rem !important;
+}
+
 .schemaform-block {
   margin-top: 2em;
 }
@@ -58,4 +62,11 @@
 // Necessary for the 22-1990 and HCA since they don't use schemaform
 .intro-content {
   margin-left: -2rem;
+}
+
+// Align the process ol with the title
+.schemaform-process {
+  ol {
+    margin-left: -0.5em;
+  }
 }
