@@ -21,7 +21,7 @@ You may be able to get disability benefits if you have a current illness or inju
 
 These benefits cover conditions that we believe were caused by time spent as a POW (called presumptive disabilities). We've decided to cover these conditions because of studies that have been done on the long-term effects of captivity, deprivation, trauma, and cold injury.
 
-#### What's covered for former POWs held captive for any length of time?
+#### For former POWs held captive for any length of time
 
 **Conditions that affect your body, including:**
 -	Osteoporosis (for claims filed on or after October 10, 2008, and you have a diagnosis of posttraumatic stress disorder, or PTSD)
@@ -36,7 +36,7 @@ These benefits cover conditions that we believe were caused by time spent as a P
 -	Dysthymic disorder
 -	Any of the anxiety states (such as PTSD)
 
-#### What's covered for former POWs held captive for 30 days or more?**
+#### For former POWs held captive for 30 days or more
 
 **Conditions that affect your body, including:**
 -	Osteoporosis (for claims filed on or after September 28, 2009; no PTSD diagnosis required)
@@ -68,6 +68,4 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. 
-
-When you apply, please include any documents that confirm you spent time as a POW. You'll also need to include a doctor's report stating that you have 1 or more of the conditions listed here—and that the condition is at least 10% disabling. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You’ll need to apply for benefits. When you apply, please include any documents that confirm you spent time as a POW. You'll also need to include a doctor's report stating that you have 1 or more of the conditions listed here—and that the condition is at least 10% disabling. [Apply for benefits](/disability-benefits/apply-for-benefits/).
