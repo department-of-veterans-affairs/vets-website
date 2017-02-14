@@ -1,5 +1,3 @@
-// TODO: Remove !important when .footer a selector gets simplified
-
 .crisis-line-container {
   position: relative;
   background: $color-white;
@@ -7,21 +5,19 @@
   @include media($medium-screen) {
     width: 283px;
   }
+}
 
-  .crisis-line-body {
-    position: absolute;
-    right: 0;
-    background: $color-white;
-    border-radius: 0 0 0.2em 0.2em;
-  }
-
-  .stacked {
-    margin: 0 auto;
-    padding: 0.4em 0 0.3em;
-  }
+.crisis-line-body {
+  background: $color-white;
+  border-radius: 0 0 0.2em 0.2em;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .crisis-line-sm {
+  background: $color-white;
+  
   @include media($medium-screen) {
     display: none;
   }
@@ -110,8 +106,6 @@
   display: block;
   text-decoration: none;
   font-weight: bold;
-  padding: 0 26px 0 0;
-  border-radius: 0 0 0.2em 0.2em;
 
   &:hover {
     background-color: $color-white;
@@ -133,8 +127,33 @@
     pointer-events: none;
   }
 
+  .crisis-line-sm & {
+    border-radius: 0;
+    margin: auto;
+    padding: 0.4em 26px 0.3em 0;
+    width: auto;
+  }
+
   .crisis-line-container--wide & {
-    background-image: url(/img/arrow-down.png);
+    @include media($medium-screen) {
+      background-color: #fff;
+      background-image: url(/img/arrow-down.png);
+      border-radius: 0 0 0.2em 0.2em;
+      padding: 0;
+    }
+  }
+}
+
+.crisis-line-container--wide {
+  box-shadow: 0 2px 5px $color-base;
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 31.5rem;
+
+  @include media($medium-screen) {
+    display: block;
   }
 }
 

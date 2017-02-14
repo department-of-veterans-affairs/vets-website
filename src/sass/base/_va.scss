@@ -1311,9 +1311,8 @@ li {
   }
 }
 
-.va-wip-message {
-  padding: 0.5em 0;
-  color: $color-white;
+[class^=va-wip] {
+  padding: .576rem 1.08rem;
   font-size: 0.8em;
   font-weight: 400;
 
@@ -1324,48 +1323,38 @@ li {
   }
 }
 
+.va-wip--wide {
+  background: $color-gray-lightest;
+  color: $color-gray-dark;
+  display: none;
+  font-size: 1.152rem;
+  margin: auto;
 
-.header {
-  .va-wip-message {
-    flex: 1;
+  @include media($medium-screen) {
+    display: block;
   }
+}
 
-  .va-notice--banner {
-    margin: 0;
-    padding: 0;
-    background: $color-primary-darker;
-    color: $color-white;
+.va-wip--narrow {
+  color: $color-white;
 
-    .va-crisis-line {
-      color: $color-base;
-      // background: $color-gray-lightest !important;
-    }
-
-    .row {
-      padding: 0 0.75em;
-    }
-
-    .crisis-row {
-      @media #{$medium-up} {
-        display: flex;
-        align-items: flex-start;
-      }
-
-      @media #{$medium-only} {
-        padding-right: 0em;
-      }
-    }
+  @include media($medium-screen) {
+    display: none;
   }
 }
 
 // Notice / feedback banners
 .va-notice--banner {
-  background: $color-primary-darker;
+  background: $color-gray-lightest;
   margin: 0 0 .75em 0;
   padding: 0;
-  font-size: .9em;
   font-weight: 400;
-  color: $color-white;
+
+  &-inner {
+    margin: auto;
+    max-width: 97rem;
+    position: relative;
+  }
 
   p {
     margin: 0;
@@ -1373,13 +1362,10 @@ li {
 
   a {
     background-image: none;
-    color: $color-white;
+    color: inherit;
     padding: 0;
   }
 
-  .row {
-    max-width: 69.4em;
-  }
 }
 
 .incompatible-browser-warning {
@@ -1397,6 +1383,8 @@ li {
 
 // Only used in the footer
 .va-notice--banner--alt {
+  background: $color-primary-darker;
+  color: $color-white;
   padding: 1.25em 0;
   margin: 1.5em 0 0 0;
 }
@@ -1800,7 +1788,7 @@ li.twenty:before {content: '20';}
     height: 1.2rem;
     margin-left: .5rem;
     width: 1.2rem;
-    vertical-align: -2px;
+    vertical-align: -1px;
   }
 }
 
