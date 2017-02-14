@@ -52,6 +52,7 @@ button.form-button-disabled {
     margin-left: -1.7em;
     margin-top: 0.14em;
     margin-right: 0;
+    pointer-events: none;
   }
   > input[type="radio"] + label {
     margin-left: 1.7em;
@@ -79,6 +80,7 @@ button.form-button-disabled {
     margin-left: -1.7em;
     margin-top: 0.14em;
     margin-right: 0;
+    pointer-events: none;
   }
   > input[type="checkbox"] + label {
     margin-left: 1.7em;

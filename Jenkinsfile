@@ -151,13 +151,13 @@ node('vets-website-linting') {
       parallel (
         e2e: {
           dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "cd /application && npm --no-color run test:e2e"
+            sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
           }
         },
 
         accessibility: {
           dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "cd /application && npm --no-color run test:accessibility"
+            sh "Xvfb :98 & cd /application && DISPLAY=:98 npm --no-color run test:accessibility"
           }
         }
       )
