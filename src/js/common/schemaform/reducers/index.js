@@ -1,7 +1,13 @@
 import _ from 'lodash/fp';
 import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
 
-import { updateRequiredFields, createFormPageList } from '../helpers';
+import {
+  setHiddenFields,
+  removeHiddenData,
+  updateRequiredFields,
+  createFormPageList,
+  updateSchemaFromUiSchema
+} from '../helpers';
 
 import { SET_DATA,
   SET_EDIT_MODE,
@@ -10,14 +16,45 @@ import { SET_DATA,
   SET_SUBMITTED
 } from '../actions';
 
+function recalculateSchemaAndData(initialState) {
+  return Object.keys(_.omit(['privacyAgreementAccepted', 'submission'], initialState))
+    .reduce((state, pageKey) => {
+      const page = state[pageKey];
+      // on each data change, we need to do the following steps
+      // Recalculate any required fields, based on the new data
+      let schema = updateRequiredFields(page.schema, page.uiSchema, page.data, state);
+      // Update the schema with any fields that are now hidden because of the data change
+      schema = setHiddenFields(schema, page.uiSchema, page.data, state);
+      // Update the schema with any general updates based on the new data
+      schema = updateSchemaFromUiSchema(schema, page.uiSchema, page.data, state);
+      // Remove any data that's now hidden in the schema
+      const data = removeHiddenData(schema, page.data);
+
+      if (page.data !== data || page.schema !== schema) {
+        const newPage = _.assign(page, {
+          data,
+          schema
+        });
+
+        return _.set(pageKey, newPage, state);
+      }
+
+      return state;
+    }, initialState);
+}
+
 export default function createSchemaFormReducer(formConfig) {
-  const initialState = createFormPageList(formConfig)
+  // Create the basic form state, which has all the pages of the form and the default data
+  // and schemas
+  const firstPassInitialState = createFormPageList(formConfig)
     .reduce((state, page) => {
-      const schemaWithDefinitions = _.assign({ definitions: formConfig.defaultDefinitions }, page.schema);
+      const schema = _.assign({ definitions: formConfig.defaultDefinitions }, page.schema);
+      const data = getDefaultFormState(schema, page.initialData, schema.definitions);
+
       return _.set(page.pageKey, {
-        data: getDefaultFormState(schemaWithDefinitions, page.initialData, schemaWithDefinitions.definitions),
+        data,
         uiSchema: page.uiSchema,
-        schema: updateRequiredFields(schemaWithDefinitions, page.uiSchema, page.initialData),
+        schema,
         editMode: false
       }, state);
     }, {
@@ -31,14 +68,16 @@ export default function createSchemaFormReducer(formConfig) {
       }
     });
 
+  // Take another pass and recalculate the schema and data based on the default data
+  // We do this to avoid passing undefined for the whole form state when the form first renders
+  const initialState = recalculateSchemaAndData(firstPassInitialState);
+
   return (state = initialState, action) => {
     switch (action.type) {
       case SET_DATA: {
-        const newPage = _.assign(state[action.page], {
-          data: action.data,
-          schema: updateRequiredFields(state[action.page].schema, state[action.page].uiSchema, action.data)
-        });
-        return _.set(action.page, newPage, state);
+        const newState = _.set([action.page, 'data'], action.data, state);
+
+        return recalculateSchemaAndData(newState);
       }
       case SET_EDIT_MODE: {
         return _.set([action.page, 'editMode'], action.edit, state);

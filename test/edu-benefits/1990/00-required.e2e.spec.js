@@ -14,6 +14,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
       .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
+    E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Veteran information page.
@@ -25,7 +26,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Benefits eligibility
     client
-      .expect.element('input[name="chapter33"]').to.be.visible;
+      .waitForElementVisible('label[name="chapter30-label"]', Timeouts.slow);
     EduHelpers.completeBenefitsSelection(client, EduHelpers.testValues, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-selection');
@@ -40,6 +41,9 @@ module.exports = E2eHelpers.createE2eTest(
     // Military service page.
     client
       .expect.element('input[name="serviceAcademyGraduationYear"]').to.be.visible;
+    // Another mysteriously required pause. If we don't wait here, then the click below will
+    // do nothing sometimes.
+    client.pause(1000);
     EduHelpers.completeMilitaryService(client, EduHelpers.testValues, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-history/military-service');
@@ -49,6 +53,7 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/military-history/rotc-history');
 
     // Contributions
+    client.waitForElementVisible('label[name="civilianBenefitsAssistance-label"]', Timeouts.slow);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-history/contributions');
 
@@ -58,6 +63,10 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/education-history/education-information');
 
     // Employment history
+    client
+      .waitForElementPresent('input[name="hasNonMilitaryJobs-0"]', Timeouts.slow)
+      // And more hacky pauses... the button click will not work without this.
+      .pause(1000);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/employment-history/employment-information');
 
@@ -73,6 +82,10 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
     // Secondary contact page
+    client
+      .waitForElementPresent('input[name="secondaryContactName"]', Timeouts.slow)
+      // And more hacky pauses... the button click will not work without this.
+      .pause(1000);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/secondary-contact');
 
@@ -82,7 +95,15 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Review and Submit Page.
     client
-      .click('input[name="privacyAgreement"]')
+      .expect.element('label[name="privacyAgreement-label"]').to.be.visible;
+    // When you try to click on the label in the normal way, it'll instead click on the link
+    // inside the label that shows the popup. So we have to do this disgusting hack.
+    client.pause(1000);
+    client.execute((selector) => {
+      document.querySelector(selector).click();
+    }, ['label[name="privacyAgreement-label"]']);
+    client.pause(1000);
+    client
       .click('.form-progress-buttons .usa-button-primary');
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);

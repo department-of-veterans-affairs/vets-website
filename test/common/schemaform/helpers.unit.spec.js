@@ -5,8 +5,12 @@ import {
   formatISOPartialDate,
   updateRequiredFields,
   createRoutes,
+  hasFieldsOtherThanArray,
   transformForSubmit,
-  hasFieldsOtherThanArray
+  setHiddenFields,
+  removeHiddenData,
+  updateSchemaFromUiSchema,
+  getArrayFields
 } from '../../../src/js/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -211,6 +215,256 @@ describe('Schemaform helpers:', () => {
       };
 
       expect(hasFieldsOtherThanArray(schema)).to.be.false;
+    });
+  });
+  describe('setHiddenFields', () => {
+    it('should set field as hidden', () => {
+      const schema = {};
+      const uiSchema = {
+        'ui:options': {
+          hideIf: () => true
+        }
+      };
+      const data = {};
+
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+
+      expect(newSchema['ui:hidden']).to.be.true;
+      expect(newSchema).not.to.equal(schema);
+    });
+    it('should not touch non-hidden field without prop', () => {
+      const schema = {};
+      const uiSchema = {
+        'ui:options': {
+          hideIf: () => false
+        }
+      };
+      const data = {};
+
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+
+      expect(newSchema['ui:hidden']).to.be.undefined;
+      expect(newSchema).to.equal(schema);
+    });
+    it('should remove hidden prop from schema', () => {
+      const schema = {
+        'ui:hidden': true
+      };
+      const uiSchema = {
+        'ui:options': {
+          hideIf: () => false
+        }
+      };
+      const data = {};
+
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+
+      expect(newSchema['ui:hidden']).to.be.undefined;
+      expect(newSchema).not.to.equal(schema);
+    });
+    it('should set hidden on object field', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {}
+        }
+      };
+      const uiSchema = {
+        field: {
+          'ui:options': {
+            hideIf: () => true
+          }
+        }
+      };
+      const data = { field: '' };
+
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+
+      expect(newSchema.properties.field['ui:hidden']).to.be.true;
+      expect(newSchema).not.to.equal(schema);
+    });
+    it('should set hidden on array field', () => {
+      const schema = {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            field: {}
+          }
+        }
+      };
+      const uiSchema = {
+        items: {
+          field: {
+            'ui:options': {
+              hideIf: () => true
+            }
+          }
+        }
+      };
+      const data = [];
+
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+
+      expect(newSchema).not.to.equal(schema);
+      expect(newSchema.items.properties.field['ui:hidden']).to.be.true;
+    });
+  });
+  describe('removeHiddenData', () => {
+    it('should remove hidden field', () => {
+      const schema = {
+        'ui:hidden': true
+      };
+      const data = 'test';
+
+      const newData = removeHiddenData(schema, data);
+
+      expect(newData).to.be.undefined;
+    });
+    it('should remove hidden field in object', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {},
+          field2: {
+            'ui:hidden': true
+          }
+        }
+      };
+      const data = { field: 'test', field2: 'test2' };
+
+      const newData = removeHiddenData(schema, data);
+
+      expect(newData).to.eql({ field: 'test' });
+    });
+    it('should remove hidden field in array', () => {
+      const schema = {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            field: {},
+            field2: {
+              'ui:hidden': true
+            }
+          }
+        }
+      };
+      const data = [{ field: 'test', field2: 'test2' }];
+
+      const newData = removeHiddenData(schema, data);
+
+      expect(newData[0]).to.eql({ field: 'test' });
+    });
+  });
+  describe('updateSchemaFromUiSchema', () => {
+    it('should update schema', () => {
+      const schema = {
+        type: 'string'
+      };
+      const uiSchema = {
+        'ui:options': {
+          updateSchema: () => {
+            return { type: 'number' };
+          }
+        }
+      };
+      const data = 'test';
+      const formData = {};
+
+      const newSchema = updateSchemaFromUiSchema(schema, uiSchema, data, formData);
+
+      expect(newSchema).to.eql({ type: 'number' });
+      expect(newSchema).not.to.equal(schema);
+    });
+    it('should update schema in object', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      };
+      const uiSchema = {
+        field: {
+          'ui:options': {
+            updateSchema: () => {
+              return { type: 'number' };
+            }
+          }
+        }
+      };
+      const data = {};
+      const formData = {};
+
+      const newSchema = updateSchemaFromUiSchema(schema, uiSchema, data, formData);
+
+      expect(newSchema.properties.field).to.eql({ type: 'number' });
+      expect(newSchema).not.to.equal(schema);
+    });
+    it('should update schema in array', () => {
+      const schema = {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string'
+            }
+          }
+        }
+      };
+      const uiSchema = {
+        items: {
+          field: {
+            'ui:options': {
+              updateSchema: () => {
+                return { type: 'number' };
+              }
+            }
+          }
+        }
+      };
+      const data = [{}];
+      const formData = {};
+
+      const newSchema = updateSchemaFromUiSchema(schema, uiSchema, data, formData);
+
+      expect(newSchema.items.properties.field).to.eql({ type: 'number' });
+      expect(newSchema).not.to.equal(schema);
+    });
+  });
+  describe('getArrayFields', () => {
+    it('should get array', () => {
+      const data = {
+        schema: {
+          type: 'array'
+        },
+        uiSchema: {}
+      };
+
+      const fields = getArrayFields(data);
+
+      expect(fields).not.to.be.empty;
+    });
+    it('should get array in object', () => {
+      const data = {
+        schema: {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'array'
+            }
+          }
+        },
+        uiSchema: {}
+      };
+
+      const fields = getArrayFields(data);
+
+      expect(fields).not.to.be.empty;
+      expect(fields[0].path).to.eql(['field']);
     });
   });
   describe('transformForSubmit', () => {

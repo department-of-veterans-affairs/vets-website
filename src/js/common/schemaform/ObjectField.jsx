@@ -81,10 +81,11 @@ class ObjectField extends React.Component {
   orderAndFilterProperties(schema, uiSchema) {
     const properties = Object.keys(schema.properties);
     const orderedProperties = orderProperties(properties, _.get('ui:order', uiSchema));
+    const filteredProperties = orderedProperties.filter(prop => !schema.properties[prop]['ui:hidden']);
     const groupedProperties = _.groupBy((item) => {
       const expandUnderField = _.get([item, 'ui:options', 'expandUnder'], uiSchema);
       return expandUnderField || item;
-    }, orderedProperties);
+    }, filteredProperties);
 
     return _.values(groupedProperties);
   }
