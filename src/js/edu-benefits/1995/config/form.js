@@ -105,11 +105,11 @@ const formConfig = {
       }
     },
     benefitSelection: {
-      title: 'Benefit Selection',
+      title: 'Education Benefit',
       pages: {
         benefitSelection: {
           title: 'Education benefit',
-          path: 'benefits-eligibility/benefit-selection',
+          path: 'benefits-eligibility/education-benefit',
           initialData: {},
           uiSchema: {
             benefit: {
