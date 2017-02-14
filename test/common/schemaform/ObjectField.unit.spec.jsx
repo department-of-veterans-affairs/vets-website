@@ -27,6 +27,28 @@ describe('Schemaform: ObjectField', () => {
 
     expect(tree.everySubTree('shouldUpdate(SchemaField)')).not.to.be.empty;
   });
+  it('should not render hidden items', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          'ui:hidden': true,
+          type: 'string'
+        }
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          idSchema={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('shouldUpdate(SchemaField)')).to.be.empty;
+  });
   it('should render description', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();

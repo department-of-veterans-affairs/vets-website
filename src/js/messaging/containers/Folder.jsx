@@ -414,7 +414,7 @@ export class Folder extends React.Component {
               onClick={this.props.toggleFolderNav}>
             Menu
           </button>
-          <h2>{folderName}</h2>
+          <h3>{folderName}</h3>
         </div>
         {componentContent}
       </div>

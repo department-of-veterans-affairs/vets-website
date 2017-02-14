@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import { set, assign } from 'lodash/fp';
 
+import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
+
 import { states } from '../utils/options-for-select';
 
 /**
@@ -54,7 +56,6 @@ class Address extends React.Component {
     let stateList = [];
     const {
       errorSchema,
-      formData,
       formContext,
       touchedSchema,
       schema,
@@ -62,6 +63,9 @@ class Address extends React.Component {
       uiSchema,
       registry
     } = this.props;
+    const formData = this.props.formData
+      ? this.props.formData
+      : getDefaultFormState(schema, undefined, registry.definitions);
     const SchemaField = registry.fields.SchemaField;
     const TitleField = registry.fields.TitleField;
     const selectedCountry = formData.country;
