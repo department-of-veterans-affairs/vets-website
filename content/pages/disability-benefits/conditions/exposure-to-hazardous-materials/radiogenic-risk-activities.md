@@ -46,9 +46,9 @@ Veterans
 
 You’ll need to apply for benefits. [Apply for benefits](/disability-benefits/apply-for-benefits/).
 
-Your service records must show that you were part of 1 of the radiation risk activities described above and in 38 CFR 3.309(d)(3)(ii). You’ll also need to claim an illness or disability believed to be caused by contact with radiation. It’s not enough to state that you had contact with radiation during service.
+Your service records must show that you were part of 1 of the radiation risk activities described above. You’ll also need to claim an illness or disability believed to be caused by contact with radiation. It’s not enough to state that you had contact with radiation during service.
 
-When you apply, we’ll ask the military branch that you served with (or the Defense Threat Reduction Agency) to give us a range of how much radiation they think you may have come into contact with. We’ll use the highest level of the range they report to decide on your benefits. See 38 CFR 3.311(b)(5) for more information.
+When you apply, we’ll ask the military branch that you served with (or the Defense Threat Reduction Agency) to give us a range of how much radiation they think you may have come into contact with. We’ll use the highest level of the range they report to decide on your benefits.
 
 
 
