@@ -20,22 +20,6 @@ export const schema = _.assign(educationType, {
   enumNames: enumToNames(educationType.enum, educationTypeLabels)
 });
 
-const enumWithoutTopUp = schema.enum.filter(type => type !== 'tuitionTopUp');
-
-const schemaWithoutTopUp = _.assign(educationType, {
-  'enum': enumWithoutTopUp,
-  enumNames: enumToNames(enumWithoutTopUp, educationTypeLabels)
-});
-
 export const uiSchema = {
-  'ui:title': 'Type of education or training',
-  'ui:options': {
-    updateSchema: (field, form) => {
-      if (_.includes(form.benefitSelection.data.benefit, ['chapter30', 'chapter33'])) {
-        return schema;
-      }
-
-      return schemaWithoutTopUp;
-    }
-  }
+  'ui:title': 'Type of education or training'
 };
