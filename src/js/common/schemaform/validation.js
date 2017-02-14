@@ -16,6 +16,7 @@ import { isActivePage } from '../utils/helpers';
  */
 const defaultMessages = {
   required: 'Please provide a response',
+  'enum': 'Please select a valid option',
   maxLength: (max) => `This field should be less than ${max} characters`,
   minLength: (min) => `This field should be at least ${min} character(s)`,
   format: (type) => {

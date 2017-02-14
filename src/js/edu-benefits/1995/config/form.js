@@ -5,10 +5,8 @@ import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json'
 import { validateMatch } from '../../../common/schemaform/validation';
 import {
   benefitsLabels,
-  educationTypeLabels,
   bankAccountChangeLabels,
   preferredContactMethodLabels,
-  enumToNames,
   transform
 } from '../helpers';
 
@@ -20,8 +18,10 @@ import * as dateRange from '../../../common/schemaform/definitions/dateRange';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as address from '../../../common/schemaform/definitions/address';
 
+import * as educationType from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 
+import { enumToNames, showSchoolAddress } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -39,10 +39,11 @@ const {
 } = fullSchema1995.properties;
 
 const {
-  educationType,
   preferredContactMethod,
   school
 } = fullSchema1995.definitions;
+
+const newSchool = _.set('required', ['name'], school);
 
 const formConfig = {
   urlPrefix: '/1995/',
@@ -105,21 +106,20 @@ const formConfig = {
       }
     },
     benefitSelection: {
-      title: 'Benefit Selection',
+      title: 'Education Benefit',
       pages: {
         benefitSelection: {
-          title: 'Benefit selection',
-          path: 'benefits-eligibility/benefit-selection',
+          title: 'Education benefit',
+          path: 'benefits-eligibility/education-benefit',
           initialData: {},
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Which benefit do you want to transfer?'
+              'ui:title': 'Which benefit are you currently using?'
             }
           },
           schema: {
             type: 'object',
-            required: ['benefit'],
             properties: {
               benefit: _.assign(benefit, {
                 enumNames: enumToNames(benefit.enum, benefitsLabels)
@@ -210,14 +210,16 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': 'School, university, program, or training facility you want to attend',
-            educationType: {
-              'ui:title': 'Type of education or training'
-            },
+            educationType: educationType.uiSchema,
             newSchool: {
               name: {
                 'ui:title': 'Name of school, university, or training facility'
               },
-              address: address.uiSchema()
+              address: _.merge(address.uiSchema(), {
+                'ui:options': {
+                  hideIf: (form) => !showSchoolAddress(form.educationType)
+                }
+              })
             },
             educationObjective: {
               'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
@@ -234,11 +236,10 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['educationType'],
             properties: {
-              educationType: _.assign(educationType, {
-                enumNames: enumToNames(educationType.enum, educationTypeLabels)
-              }),
-              newSchool: _.set('properties.address', address.schema(), school),
+              educationType: educationType.schema,
+              newSchool: _.set('properties.address', address.schema(), newSchool),
               educationObjective,
               nonVaAssistance,
               civilianBenefitsAssistance
@@ -263,7 +264,7 @@ const formConfig = {
             },
             trainingEndDate: _.merge(date.uiSchema, { 'ui:title': 'When did you stop taking classes or participating in the training program?' }),
             reasonForChange: {
-              'ui:title': 'Why did you stop taking classes or participating in the training program?'
+              'ui:title': 'Why did you stop taking classes or participating in the training program? (for example, “I graduated” or “I moved” or “The program wasn’t right for me.”)'
             }
           },
           schema: {
@@ -286,7 +287,7 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             preferredContactMethod: {
-              'ui:title': 'How would you like to be contacted if VA has questions about your application?',
+              'ui:title': 'How would you like to be contacted if we have questions about your application?',
               'ui:widget': 'radio'
             },
             veteranAddress: address.uiSchema(),
