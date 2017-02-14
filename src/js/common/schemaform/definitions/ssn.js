@@ -1,11 +1,13 @@
 import { validateSSN } from '../validation';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import SSNWidget from '../widgets/SSNWidget';
+import TextWidget from '../widgets';
 
 export const schema = commonDefinitions.ssn;
 
 export const uiSchema = {
   'ui:widget': SSNWidget,
+  'ui:reviewWidget': TextWidget,
   'ui:title': 'Social Security number',
   'ui:options': {
     widgetClassNames: 'usa-input-medium'
