@@ -1,21 +1,27 @@
 class MegaMenu {
-  constructor(element) {
-    this.element = element;
+  constructor(menuElement, openMenuElement, closeMenuElement) {
+    this.menu = menuElement;
+    this.closeAll = this.closeAll.bind(this);
+    this.closeControl = closeMenuElement;
+    this.closeMenu = this.closeMenu.bind(this);
     this.addListeners = this.addListeners.bind(this);
+    this.getMenu = this.getMenu.bind(this);
+    this.hideMenu = this.hideMenu.bind(this);
+    this.isWideScreen = this.isWideScreen.bind(this);
+    this.openControl = openMenuElement;
+    this.openMenu = this.openMenu.bind(this);
+    this.resetMenu = this.resetMenu.bind(this);
+    this.showMenu = this.showMenu.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleSubMenu = this.toggleSubMenu.bind(this);
-    this.closeAll = this.closeAll.bind(this);
-    this.closeMenu = this.closeMenu.bind(this);
-    this.openMenu = this.openMenu.bind(this);
-    this.getMenu = this.getMenu.bind(this);
-    this.isWideScreen = this.isWideScreen.bind(this);
+
     this.addListeners();
   }
 
   addListeners() {
-    const menus = Array.from(this.element.querySelectorAll('.vetnav-level1'));
-    const submenus = Array.from(this.element.querySelectorAll('.vetnav-level2'));
-    const backs = Array.from(this.element.querySelectorAll('.vetnav-back'));
+    const menus = Array.from(this.menu.querySelectorAll('.vetnav-level1'));
+    const submenus = Array.from(this.menu.querySelectorAll('.vetnav-level2'));
+    const backs = Array.from(this.menu.querySelectorAll('.vetnav-back'));
    
     menus.forEach((menu) => {
       menu.addEventListener('click', this.toggleMenu);
@@ -28,10 +34,16 @@ class MegaMenu {
     backs.forEach((back) => {
       back.addEventListener('click', this.closeMenu);
     });
+
+    this.openControl.addEventListener('click', this.showMenu);
+    this.closeControl.addEventListener('click', this.hideMenu);
+  
+    window.addEventListener('resize', this.resetMenu);
+
   }
 
   closeAll() {
-    const menus = this.element.querySelectorAll('[aria-expanded=true]');
+    const menus = this.menu.querySelectorAll('[aria-expanded=true]');
     Array.from(menus).forEach((m) => {
       const whichMenu = this.getMenu(m.getAttribute('aria-controls'));
       whichMenu.setAttribute('hidden','hidden');
@@ -49,7 +61,7 @@ class MegaMenu {
 
   getMenu(idName) {
     const selector = `#${idName}`;
-    return this.element.querySelector(selector);
+    return this.menu.querySelector(selector);
   }
 
   isWideScreen() {
@@ -86,8 +98,8 @@ class MegaMenu {
   }
 
   toggleSubMenu(event) {
-    const submenus = Array.from(this.element.querySelectorAll('.vetnav-panel--submenu'));
-    const triggers = Array.from(this.element.querySelectorAll('.vetnav-level2'));
+    const submenus = Array.from(this.menu.querySelectorAll('.vetnav-panel--submenu'));
+    const triggers = Array.from(this.menu.querySelectorAll('.vetnav-level2'));
 
     submenus.forEach((sm) => {
       sm.setAttribute('hidden','hidden');
@@ -104,44 +116,38 @@ class MegaMenu {
     showCurrent.removeAttribute('hidden');
     event.target.setAttribute('aria-expanded', true);
   }
+  
+  resetMenu() {
+    if(this.isWideScreen()) {
+      this.closeAll();
+      this.showMenu();      
+    } else {
+      this.hideMenu();
+    }
+  }
+
+  showMenu() {
+    this.openControl.setAttribute('hidden','hidden');
+    this.menu.removeAttribute('hidden');
+    this.closeControl.removeAttribute('hidden');
+  }
+
+  hideMenu() {
+    this.closeControl.setAttribute('hidden','hidden');
+    this.menu.setAttribute('hidden','hidden');
+    this.openControl.removeAttribute('hidden');
+  }
 }
 
 export default MegaMenu;
 
-function toggleMobileMenu(event) {
-  const toggleNav = event.currentTarget.querySelectorAll('button');
-  const menu = document.querySelector('#vetnav');
-
-  Array.from(toggleNav).forEach((tn) => {
-    if( tn.hidden ) {
-      tn.removeAttribute('hidden');
-    } else {
-      tn.setAttribute('hidden','hidden');
-    }
-  });
-
-  if( menu.hidden ) {
-    menu.removeAttribute('hidden');
-  } else {
-    menu.setAttribute('hidden','hidden');
-  }
-
-  document.body.classList.toggle('vetnav-isopen');
-}
 function reInitMenu() {
-  const mm = new MegaMenu(document.querySelector('#vetnav-menu'));
-  const vetnav = document.querySelector('#vetnav');
+  const menuElement = document.querySelector('#vetnav');
+  const openMenuElement = document.querySelector('.vetnav-controller-open');
+  const closeMenuElement = document.querySelector('.vetnav-controller-close');
 
-  if(mm.isWideScreen()) {
-    vetnav.removeAttribute('hidden');
-    document.body.classList.remove('vetnav-isopen');
-  } else {
-    vetnav.setAttribute('hidden', 'hidden');
-    document.querySelector('#vetnav-controls').addEventListener('click', toggleMobileMenu);
-  }
+  const mm = new MegaMenu(menuElement, openMenuElement, closeMenuElement);
+  mm.resetMenu();
 }
 
-(function() {
-  document.addEventListener('DOMContentLoaded', reInitMenu);
-  window.addEventListener('resize', reInitMenu);
-}())
+document.addEventListener('DOMContentLoaded', reInitMenu);
