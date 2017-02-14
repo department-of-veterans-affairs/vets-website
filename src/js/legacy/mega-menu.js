@@ -68,7 +68,7 @@ class MegaMenu {
     const eTarget = event.target;
     const whichMenu = this.getMenu(eTarget.getAttribute('aria-controls'));
 
-    if(eTarget.getAttribute('aria-expanded') == 'true') {
+    if(eTarget.getAttribute('aria-expanded') === 'true') {
       this.closeMenu(event);
     } else {
       this.closeAll();
@@ -78,7 +78,7 @@ class MegaMenu {
       Open the first sub-menu and expand first trigger 
       when the breakpoint > 768
       */
-      if(matchMedia('(min-width: 768px)').matches && whichMenu.querySelector('.vetnav-panel--submenu')){
+      if(this.isWideScreen() && whichMenu.querySelector('.vetnav-panel--submenu')){
         whichMenu.querySelector('.vetnav-trigger').setAttribute('aria-expanded', true);
         whichMenu.querySelector('.vetnav-panel--submenu').removeAttribute('hidden');
       }
@@ -128,14 +128,20 @@ function toggleMobileMenu(event) {
 
   document.body.classList.toggle('vetnav-isopen');
 }
-
-document.addEventListener('DOMContentLoaded', () => {
+function reInitMenu() {
   const mm = new MegaMenu(document.querySelector('#vetnav-menu'));
-  
+  const vetnav = document.querySelector('#vetnav');
+
   if(mm.isWideScreen()) {
-    document.querySelector('#vetnav').removeAttribute('hidden');
+    vetnav.removeAttribute('hidden');
+    document.body.classList.remove('vetnav-isopen');
   } else {
+    vetnav.setAttribute('hidden', 'hidden');
     document.querySelector('#vetnav-controls').addEventListener('click', toggleMobileMenu);
   }
-});
+}
 
+(function() {
+  document.addEventListener('DOMContentLoaded', reInitMenu);
+  window.addEventListener('resize', reInitMenu);
+}())
