@@ -1,9 +1,11 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
-require('babel-core/register');
+const electron = require('electron-prebuilt');
+const chromedriver = require('chromedriver');
+const seleniumServer = require('selenium-server');
 
-const glob = require('glob');
+require('babel-core/register');
 
 const selenium_server_port = process.env.SELENIUM_PORT || 4444;
 
@@ -30,42 +32,49 @@ module.exports = {
         path: 'logs/screenshots'
       },
       desiredCapabilities: {
-        browserName: 'phantomjs',
+        browserName: 'chrome',
         javascriptEnabled: true,
         acceptSslCerts: true,
         webStorageEnabled: true,
-        'phantomjs.binary.path': require('phantomjs-prebuilt').path,
+        chromeOptions: {
+          binary: electron,
+          args: ['--window-size=1024,768']
+        }
       },
       selenium: {
+        cli_args: {
+          'webdriver.chrome.driver': chromedriver.path
+        },
         start_process: true,
-        server_path:
-            glob.sync('./node_modules/selenium-standalone/.selenium/selenium-server/*.jar')[0],
+        server_path: seleniumServer.path,
         log_path: './logs/selenium',
         host: '127.0.0.1',
         port: selenium_server_port,
       },
       test_workers: {
-        enabled: true,
-        workers: parseInt(process.env.CONCURRENCY || 1, 10),
+        enabled: false,
+        workers: parseInt(process.env.CONCURRENCY || 1, 10)
       },
     },
-
     accessibility: {
       filter: './test/accessibility/*.spec.js',
       globals: {
         asyncHookTimeout: 20000,
       },
       desiredCapabilities: {
-        browserName: 'phantomjs',
+        browserName: 'chrome',
         javascriptEnabled: true,
         acceptSslCerts: true,
         webStorageEnabled: true,
-        'phantomjs.binary.path': require('phantomjs-prebuilt').path
+        chromeOptions: {
+          binary: electron,
+          args: ['--window-size=1024,768']
+        }
       },
       test_workers: {
-        enabled: true,
-        workers: parseInt(process.env.CONCURRENCY || 1, 10),
-      },
+        enabled: false,
+        workers: parseInt(process.env.CONCURRENCY || 1, 10)
+      }
     }
   }
 };

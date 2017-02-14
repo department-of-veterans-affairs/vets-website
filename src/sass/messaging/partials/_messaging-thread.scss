@@ -159,6 +159,14 @@
   }
 }
 
+.messaging-notice-box-light {
+  padding: 0 1.25em;
+
+  p {
+    margin-top: 0;
+  }
+}
+
 .messaging-notice-box {
   background: $color-primary-alt-lightest;
   padding: 1.5rem;
