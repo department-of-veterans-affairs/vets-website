@@ -2,43 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import _ from 'lodash/fp';
-import Scroll from 'react-scroll';
-import Form from 'react-jsonschema-form';
 
-import { uiSchemaValidate, transformErrors } from './validation';
-import Address from './Address';
-import FieldTemplate from './FieldTemplate';
-import * as reviewWidgets from './review/widgets';
-import ReviewFieldTemplate from './review/ReviewFieldTemplate';
-import widgets from './widgets/index';
+import SchemaForm from './SchemaForm';
 import ProgressButton from '../components/form-elements/ProgressButton';
-import ObjectField from './ObjectField';
-import ArrayField from './ArrayField';
-import ReviewObjectField from './review/ObjectField';
-import { focusElement, scrollToFirstError, getActivePages } from '../utils/helpers';
+import { focusElement, getActivePages } from '../utils/helpers';
 import { setData } from './actions';
-
-const fields = {
-  ObjectField,
-  ArrayField,
-  address: Address
-};
-
-const reviewFields = {
-  ObjectField: ReviewObjectField,
-  ArrayField,
-  address: ReviewObjectField
-};
-
-const scroller = Scroll.scroller;
-
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
 
 function focusForm() {
   const legend = document.querySelector('.form-panel legend');
@@ -56,57 +24,29 @@ function focusForm() {
 class FormPage extends React.Component {
   constructor(props) {
     super(props);
-    this.validate = this.validate.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.onError = this.onError.bind(this);
     this.goBack = this.goBack.bind(this);
     this.getEligiblePages = this.getEligiblePages.bind(this);
-    this.getEmptyState = this.getEmptyState.bind(this);
-    this.transformErrors = this.transformErrors.bind(this);
-    this.state = this.getEmptyState(props.route.pageConfig);
   }
 
   componentDidMount() {
-    if (!this.props.reviewPage) {
-      scrollToTop();
-      focusForm();
-    } else if (this.props.reviewPage && this.props.reviewMode) {
-      focusForm();
-    }
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey) {
-      this.setState(this.getEmptyState(newProps.route.pageConfig), () => {
-        focusForm();
-      });
-    }
+    focusForm();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey) {
-      scrollToTop();
+      focusForm();
     }
   }
 
-  onChange({ formData }) {
+  onChange(formData) {
     this.props.setData(this.props.route.pageConfig.pageKey, formData);
   }
 
-  onError() {
-    const formContext = _.set('submitted', true, this.state.formContext);
-    this.setState({ formContext });
-    scrollToFirstError();
-  }
-
   onSubmit() {
-    if (this.props.reviewPage) {
-      this.props.onSubmit();
-    } else {
-      const { eligiblePageList, pageIndex } = this.getEligiblePages();
-      this.props.router.push(eligiblePageList[pageIndex + 1].path);
-    }
+    const { eligiblePageList, pageIndex } = this.getEligiblePages();
+    this.props.router.push(eligiblePageList[pageIndex + 1].path);
   }
 
   /*
@@ -120,77 +60,45 @@ class FormPage extends React.Component {
     return { eligiblePageList, pageIndex };
   }
 
-  getEmptyState() {
-    const { onEdit, hideTitle, route: { pageConfig } } = this.props;
-    return {
-      formContext: {
-        touched: {},
-        submitted: false,
-        onEdit,
-        hideTitle,
-        pageTitle: pageConfig.title
-      }
-    };
-  }
-
   goBack() {
     const { eligiblePageList, pageIndex } = this.getEligiblePages();
     this.props.router.push(eligiblePageList[pageIndex - 1].path);
   }
 
-  transformErrors(errors) {
-    return transformErrors(errors, this.props.route.pageConfig.uiSchema);
-  }
-
-  validate(formData, errors) {
-    const { schema, uiSchema } = this.props.form[this.props.route.pageConfig.pageKey];
-    if (uiSchema) {
-      uiSchemaValidate(errors, uiSchema, schema, schema.definitions, formData);
-    }
-    return errors;
-  }
-
   render() {
-    const { uiSchema } = this.props.route.pageConfig;
-    const { data, schema } = this.props.form[this.props.route.pageConfig.pageKey];
-    const { reviewPage, reviewMode, children } = this.props;
+    const { route } = this.props;
+    const {
+      data,
+      schema,
+      uiSchema
+    } = this.props.form[route.pageConfig.pageKey];
     return (
-      <div className={reviewPage ? null : 'form-panel'}>
-        <Form
-            FieldTemplate={reviewMode ? ReviewFieldTemplate : FieldTemplate}
-            formContext={this.state.formContext}
-            liveValidate
-            noHtml5Validate
-            onError={this.onError}
-            onChange={this.onChange}
-            onSubmit={this.onSubmit}
+      <div className="form-panel">
+        <SchemaForm
+            name={route.pageConfig.pageKey}
+            title={route.pageConfig.title}
+            data={data}
             schema={schema}
             uiSchema={uiSchema}
-            validate={this.validate}
-            showErrorList={false}
-            formData={data}
-            widgets={reviewMode ? reviewWidgets : widgets}
-            fields={reviewMode ? reviewFields : fields}
-            transformErrors={this.transformErrors}>
-          {children}
-          {!children &&
-            <div className="row form-progress-buttons schemaform-buttons">
-              <div className="small-6 medium-5 columns">
-                <ProgressButton
-                    onButtonClick={this.goBack}
-                    buttonText="Back"
-                    buttonClass="usa-button-outline"
-                    beforeText="«"/>
-              </div>
-              <div className="small-6 medium-5 end columns">
-                <ProgressButton
-                    submitButton
-                    buttonText="Continue"
-                    buttonClass="usa-button-primary"
-                    afterText="»"/>
-              </div>
-            </div>}
-        </Form>
+            onChange={this.onChange}
+            onSubmit={this.onSubmit}>
+          <div className="row form-progress-buttons schemaform-buttons">
+            <div className="small-6 medium-5 columns">
+              <ProgressButton
+                  onButtonClick={this.goBack}
+                  buttonText="Back"
+                  buttonClass="usa-button-outline"
+                  beforeText="«"/>
+            </div>
+            <div className="small-6 medium-5 end columns">
+              <ProgressButton
+                  submitButton
+                  buttonText="Continue"
+                  buttonClass="usa-button-primary"
+                  afterText="»"/>
+            </div>
+          </div>
+        </SchemaForm>
       </div>
     );
   }
@@ -219,11 +127,8 @@ FormPage.propTypes = {
       path: React.PropTypes.string.isRequired
     }))
   }),
-  reviewMode: React.PropTypes.bool,
-  reviewPage: React.PropTypes.bool,
   onSubmit: React.PropTypes.func,
-  setData: React.PropTypes.func,
-  hideTitle: React.PropTypes.bool
+  setData: React.PropTypes.func
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormPage));
