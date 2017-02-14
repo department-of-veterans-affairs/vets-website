@@ -108,18 +108,17 @@ const formConfig = {
       title: 'Benefit Selection',
       pages: {
         benefitSelection: {
-          title: 'Benefit selection',
+          title: 'Education Benefit',
           path: 'benefits-eligibility/benefit-selection',
           initialData: {},
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Which benefit do you want to transfer?'
+              'ui:title': 'Which benefit are you currently using?'
             }
           },
           schema: {
             type: 'object',
-            required: ['benefit'],
             properties: {
               benefit: _.assign(benefit, {
                 enumNames: enumToNames(benefit.enum, benefitsLabels)
