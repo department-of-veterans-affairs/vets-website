@@ -126,8 +126,7 @@ function toggleMobileMenu(event) {
     menu.setAttribute('hidden','hidden');
   }
 
-  // Make the document body unscrollable when menu is open
-  document.body.classList.toggle('va-pos-fixed');
+  document.body.classList.toggle('vetnav-isopen');
 }
 
 document.addEventListener('DOMContentLoaded', () => {

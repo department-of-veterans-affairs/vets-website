@@ -20,6 +20,13 @@
   }
 }
 
+.vetnav-isopen {
+  // Makes menu scrollable, without scrolling entire page.
+  #content, .footer {
+    position: fixed;
+  }
+}
+
 #vetnav-menu {
   list-style: none;
   margin: 0;
