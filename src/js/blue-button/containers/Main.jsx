@@ -9,6 +9,7 @@ import _ from 'lodash';
 import {
   changeDateOption,
   setDate,
+  submitForm,
   toggleAllReports,
   toggleReportType,
 } from '../actions/form';
@@ -35,6 +36,15 @@ class Main extends React.Component {
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const redirect = this.props.form.ui.redirect;
+    const nextRedirect = nextProps.form.ui.redirect;
+    if (redirect !== nextRedirect && nextRedirect) {
+      this.context.router.push('/download');
+    }
+  }
+
+
   handleStartDateChange(startDate) {
     let invalidDate = true;
     if (isValidDateRange(startDate, this.props.form.dateRange.end)) {
@@ -55,8 +65,7 @@ class Main extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
-    this.context.router.push('/download');
+    this.props.submitForm(this.props.form);
   }
 
   renderReportCheckBoxLabel(c) {
@@ -204,6 +213,7 @@ const mapDispatchToProps = {
   changeDateOption,
   openModal,
   setDate,
+  submitForm,
   toggleAllReports,
   toggleReportType,
 };
