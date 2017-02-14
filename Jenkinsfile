@@ -153,12 +153,6 @@ node('vets-website-linting') {
           dockerImage.inside(args + " -e BUILDTYPE=production") {
             sh "cd /application && xvfb-run npm --no-color run test:e2e"
           }
-        },
-
-        accessibility: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "cd /application && xvfb-run npm --no-color run test:accessibility"
-          }
         }
       )
     } finally {
