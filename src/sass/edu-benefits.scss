@@ -311,9 +311,17 @@ form.rjsf {
 .schemaform-back-buttons {
   margin-bottom: 7rem !important;
 }
+
 .schemaform-intro {
   padding-bottom: 1rem;
   margin-bottom: 7rem;
+}
+
+  // To be moved into modules/_m-schemaform.scss when it's merged
+.schemaform-process {
+  ol {
+    margin-left: -0.5em;
+  }
 }
 
 // Align the intro content of the 22-1990 to match the title
