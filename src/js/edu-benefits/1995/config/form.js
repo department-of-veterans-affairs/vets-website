@@ -274,7 +274,7 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             preferredContactMethod: {
-              'ui:title': 'How would you like to be contacted if VA has questions about your application?',
+              'ui:title': 'How would you like to be contacted if we have questions about your application?',
               'ui:widget': 'radio'
             },
             veteranAddress: address.uiSchema(),
