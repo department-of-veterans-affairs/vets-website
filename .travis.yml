@@ -10,14 +10,15 @@ env:
 notifications:
   email: false
 
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
 before_install:
   - npm install -g npm@3.8.9
   - npm --version
-
-cache:
-  apt: true
-  directories:
-  - node_modules
+  - sudo apt-get install oracle-java8-set-default 
 
 script:
   - ./script/travis-build.sh
