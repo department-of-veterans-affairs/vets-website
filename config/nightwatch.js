@@ -52,7 +52,7 @@ module.exports = {
         port: selenium_server_port,
       },
       test_workers: {
-        enabled: false,
+        enabled: true,
         workers: parseInt(process.env.CONCURRENCY || 1, 10)
       },
     },
@@ -72,7 +72,7 @@ module.exports = {
         }
       },
       test_workers: {
-        enabled: false,
+        enabled: true,
         workers: parseInt(process.env.CONCURRENCY || 1, 10)
       }
     }
