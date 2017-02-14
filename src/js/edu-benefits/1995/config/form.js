@@ -5,10 +5,8 @@ import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json'
 import { validateMatch } from '../../../common/schemaform/validation';
 import {
   benefitsLabels,
-  educationTypeLabels,
   bankAccountChangeLabels,
   preferredContactMethodLabels,
-  enumToNames,
   transform
 } from '../helpers';
 
@@ -20,8 +18,10 @@ import * as dateRange from '../../../common/schemaform/definitions/dateRange';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as address from '../../../common/schemaform/definitions/address';
 
+import * as educationType from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 
+import { enumToNames, showSchoolAddress } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -39,10 +39,11 @@ const {
 } = fullSchema1995.properties;
 
 const {
-  educationType,
   preferredContactMethod,
   school
 } = fullSchema1995.definitions;
+
+const newSchool = _.set('required', ['name'], school);
 
 const formConfig = {
   urlPrefix: '/1995/',
@@ -199,14 +200,16 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': 'School, university, program, or training facility you want to attend',
-            educationType: {
-              'ui:title': 'Type of education or training'
-            },
+            educationType: educationType.uiSchema,
             newSchool: {
               name: {
                 'ui:title': 'Name of school, university, or training facility'
               },
-              address: address.uiSchema()
+              address: _.merge(address.uiSchema(), {
+                'ui:options': {
+                  hideIf: (form) => !showSchoolAddress(form.educationType)
+                }
+              })
             },
             educationObjective: {
               'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
@@ -223,11 +226,10 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['educationType'],
             properties: {
-              educationType: _.assign(educationType, {
-                enumNames: enumToNames(educationType.enum, educationTypeLabels)
-              }),
-              newSchool: _.set('properties.address', address.schema(), school),
+              educationType: educationType.schema,
+              newSchool: _.set('properties.address', address.schema(), newSchool),
               educationObjective,
               nonVaAssistance,
               civilianBenefitsAssistance

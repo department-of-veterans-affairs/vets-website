@@ -63,7 +63,8 @@ describe('schemaform createSchemaFormReducer', () => {
     it('should set data state', () => {
       const state = reducer({
         page1: {
-          isValid: true,
+          schema: {},
+          uiSchema: {},
           data: null
         }
       }, {
