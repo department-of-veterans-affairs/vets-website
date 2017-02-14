@@ -1,7 +1,7 @@
 import { validateSSN } from '../validation';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import SSNWidget from '../widgets/SSNWidget';
-import TextWidget from '../widgets';
+import { TextWidget } from '../widgets';
 
 export const schema = commonDefinitions.ssn;
 
