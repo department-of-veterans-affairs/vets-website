@@ -14,21 +14,21 @@ Are you a former POW now living with a disability? Find out if you can get disab
 ### Can I get disability benefits from VA?
 You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and:
 -	We believe your time spent as a POW caused your condition, **and**
--	At any time following active-duty service, your condition has become at least 10% disabling. Our disability rating system is used to measure the severity of your disability.
+-	At any time following active-duty service, your condition became at least 10% disabling. We use a disability rating system to measure the severity of your disability.
 
 
 ### What conditions do these benefits cover?
 
-These benefits cover conditions that we believe were caused by time spent as a POW (called presumptive disabilities). Please see the list of covered conditions below. We've decided to cover these conditions because of studies that have been done on the long-term effects of captivity, deprivation, trauma, and cold injury. 
+These benefits cover conditions that we believe were caused by time spent as a POW (called presumptive disabilities). We've decided to cover these conditions because of studies that have been done on the long-term effects of captivity, deprivation, trauma, and cold injury.
 
-**For former POWs held captive for any length of time:**
+#### What's covered for former POWs held captive for any length of time?
 
 **Conditions that affect your body, including:**
--	Osteoporosis (for claims filed on or after October 10, 2008, and you have a diagnosis of post-traumatic stress (PTSD))
+-	Osteoporosis (for claims filed on or after October 10, 2008, and you have a diagnosis of posttraumatic stress disorder, or PTSD)
 -	Lasting damage from frostbite
--	Post-traumatic osteoarthritis (pain and swelling in your joints that happens when a past injury causes a joint—such as your knee or elbow—to wear out)
--	A stroke or problems (such as memory loss, loss of speech, or weakness in an arm or leg) caused by a stroke
--	Hypertensive vascular disease, including hypertensive heart disease, and related problems (such as stroke, blood clots, or other serious issues)
+-	Posttraumatic osteoarthritis (pain and swelling in your joints that happens when a past injury causes a joint—such as your knee or elbow—to wear out)
+-	A stroke or problems caused by a stroke (such as memory loss, loss of speech, or weakness in an arm or leg)
+-	Hypertensive vascular disease, including hypertensive heart disease, and related problems (such as a stroke, blood clots, or other serious issues)
 
 **Conditions that affect your mind, including:**
 -	A neuropsychiatric condition 
@@ -36,10 +36,10 @@ These benefits cover conditions that we believe were caused by time spent as a P
 -	Dysthymic disorder
 -	Any of the anxiety states (such as PTSD)
 
-**For former POWs held captive for 30 days or more:**
+#### What's covered for former POWs held captive for 30 days or more?**
 
-**Problems that affect your body, including:**
--	Osteoporosis (for claims filed on or after September 28, 2009; no PTSD diagnosis is required)
+**Conditions that affect your body, including:**
+-	Osteoporosis (for claims filed on or after September 28, 2009; no PTSD diagnosis required)
 -	Helminthiasis 
 -	Peripheral neuropathy, except where directly related to an illness caused by an infection
 -	Peptic ulcer disease 
@@ -68,8 +68,6 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for these benefits. 
+You’ll need to apply for benefits. 
 
-When you apply, please include any reports that confirm you spent time as a POW and a doctor has stated that you have 1 or more of the conditions listed here—and that the condition is at least 10% disabling. 
-
-[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
+When you apply, please include any documents that confirm you spent time as a POW. You'll also need to include a doctor's report stating that you have 1 or more of the conditions listed here—and that the condition is at least 10% disabling. [Apply for benefits](/disability-benefits/apply-for-benefits/).
