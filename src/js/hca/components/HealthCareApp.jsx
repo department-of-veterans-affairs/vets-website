@@ -145,6 +145,8 @@ class HealthCareApp extends React.Component {
     window.dataLayer.push({ event: 'submit-button-clicked' });
     const formIsValid = validations.isValidForm(veteran);
 
+    // In order to test the new Rails API in staging, we are temporarily changing the 
+    // endpoints to submit to the new API. Keeping the same endpoints for production.
     if (testBuild) {
       // Allow e2e tests to override API URL
       // TODO: Remove the need for a separate code path here
