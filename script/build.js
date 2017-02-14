@@ -52,7 +52,7 @@ if (semver.compare(process.env.npm_package_engines_npm, minimumNpmVersion) === -
 if (semver.compare(process.version, minimumNodeVersion) === -1) {
   process.stdout.write(`Node.js version (mininum): v${minimumNodeVersion}\n`);
   process.stdout.write(`Node.js version (installed): ${process.version}\n`);
-  process.exit();
+  process.exit(1);
 }
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
