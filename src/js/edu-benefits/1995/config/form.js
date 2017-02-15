@@ -140,9 +140,6 @@ const formConfig = {
           uiSchema: {
             'view:newService': {
               'ui:title': 'Do you have any new military service to record?',
-              'ui:options': {
-                hideOnReviewIfFalse: true,
-              },
               'ui:widget': 'yesNo'
             },
             toursOfDuty: {
