@@ -87,7 +87,7 @@ class Child extends React.Component {
               <ErrorableCurrentOrPastDate required
                   validation={{
                     valid: isValidDependentDateField(this.props.data.childBecameDependent, this.props.data.childDateOfBirth),
-                    message: 'Child cannot be a dependent before child\'s date of birth'
+                    message: 'This date must come after the child\'s birth date'
                   }}
                   label="Date child became dependent"
                   name="childBecameDependent"
