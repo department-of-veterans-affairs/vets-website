@@ -144,7 +144,6 @@ const formConfig = {
             },
             toursOfDuty: {
               'ui:title': 'Service periods',
-              'ui:description': 'Please record any new periods of service since your last application.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
