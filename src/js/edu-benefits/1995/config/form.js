@@ -251,7 +251,7 @@ const formConfig = {
               },
               address: address.uiSchema()
             },
-            trainingEndDate: _.merge(date.uiSchema, { 'ui:title': 'When did you stop taking classes or participating in the training program?' }),
+            trainingEndDate: date.uiSchema('When did you stop taking classes or participating in the training program?'),
             reasonForChange: {
               'ui:title': 'Why did you stop taking classes or participating in the training program? (for example, “I graduated” or “I moved” or “The program wasn’t right for me.”)'
             }
