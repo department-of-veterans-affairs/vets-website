@@ -56,6 +56,7 @@ class MedicareMedicaidSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
+        <h5>Medicaid or Medicare coverage</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <ErrorableRadioButtons required

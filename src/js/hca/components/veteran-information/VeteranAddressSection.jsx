@@ -48,6 +48,7 @@ class VeteranAddressSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
+        <h5>Permanent Address</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <Address required

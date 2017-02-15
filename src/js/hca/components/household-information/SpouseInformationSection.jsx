@@ -199,6 +199,7 @@ class SpouseInformationSection extends React.Component {
       </div>);
     } else {
       content = (<fieldset>
+        <h5>Spouse's Information</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <p>Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.</p>
         <div className="input-section">
