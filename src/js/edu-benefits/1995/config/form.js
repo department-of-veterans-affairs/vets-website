@@ -138,13 +138,17 @@ const formConfig = {
           initialData: {
           },
           uiSchema: {
+            'view:newService': {
+              'ui:title': 'Do you have any new periods of service to record since you last applied for education benefits?',
+              'ui:widget': 'yesNo'
+            },
             toursOfDuty: {
               'ui:title': 'Service periods',
-              'ui:description': 'Please record any new periods of service since your last application.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
-                hideTitle: true
+                hideTitle: true,
+                expandUnder: 'view:newService'
               },
               items: {
                 serviceBranch: {
@@ -161,6 +165,9 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              'view:newService': {
+                type: 'boolean'
+              },
               toursOfDuty
             }
           }
