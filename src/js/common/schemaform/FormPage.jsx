@@ -120,14 +120,12 @@ FormPage.propTypes = {
     pageConfig: React.PropTypes.shape({
       pageKey: React.PropTypes.string.isRequired,
       schema: React.PropTypes.object.isRequired,
-      uiSchema: React.PropTypes.object.isRequired,
-      errorMessages: React.PropTypes.object
+      uiSchema: React.PropTypes.object.isRequired
     }),
     pageList: React.PropTypes.arrayOf(React.PropTypes.shape({
       path: React.PropTypes.string.isRequired
     }))
   }),
-  onSubmit: React.PropTypes.func,
   setData: React.PropTypes.func
 };
 
