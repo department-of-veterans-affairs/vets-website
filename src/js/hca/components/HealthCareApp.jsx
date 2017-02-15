@@ -5,6 +5,8 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import fetch from 'isomorphic-fetch';
 
+import environment from '../../common/helpers/environment';
+
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from '../../common/components/Nav.jsx';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
@@ -126,23 +128,40 @@ class HealthCareApp extends React.Component {
     e.preventDefault();
     const veteran = this.props.data;
     const path = this.props.location.pathname;
+    let apiUrl = `${window.VetsGov.api.url}/api/hca/v1/application`;
+    let formSubmissionId;
+    let timestamp;
+    const testBuild = __BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging';
+    const submissionPost = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      timeout: 10000, // 10 seconds
+      body: veteranToApplication(veteran)
+    };
 
     window.dataLayer.push({ event: 'submit-button-clicked' });
     const formIsValid = validations.isValidForm(veteran);
+
+    // In order to test the new Rails API in staging, we are temporarily changing the
+    // endpoints to submit to the new API. Keeping the same endpoints for production.
+    if (testBuild) {
+      // Allow e2e tests to override API URL
+      // Remove the need for a separate code path here
+      apiUrl = window.VetsGov.api.url === ''
+        ? `${environment.API_URL}/v0/health_care_applications`
+        : `${window.VetsGov.api.url}/v0/health_care_applications`;
+
+      submissionPost.body = JSON.stringify({ form: submissionPost.body });
+    }
 
     if (formIsValid && veteran.privacyAgreementAccepted) {
       this.props.onUpdateSubmissionStatus('submitPending');
 
       // POST data to endpoint
-      fetch(`${window.VetsGov.api.url}/api/hca/v1/application`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        timeout: 10000, // 10 seconds
-        body: veteranToApplication(veteran)
-      }).then(response => {
+      fetch(apiUrl, submissionPost).then(response => {
         if (!response.ok) {
           throw new Error(response.statusText);
         }
@@ -151,14 +170,22 @@ class HealthCareApp extends React.Component {
         this.removeOnbeforeunload();
 
         response.json().then(data => {
+          if (testBuild) {
+            formSubmissionId = data.formSubmissionId;
+            timestamp = data.timestamp;
+          } else {
+            formSubmissionId = data.response.formSubmissionId;
+            timestamp = data.response.timeStamp;
+          }
+
           this.props.onUpdateSubmissionStatus('applicationSubmitted', data);
           this.props.onCompletedStatus(path);
-          this.props.onUpdateSubmissionId(data.response.formSubmissionId);
-          this.props.onUpdateSubmissionTimestamp(data.response.timeStamp);
+          this.props.onUpdateSubmissionId(formSubmissionId);
+          this.props.onUpdateSubmissionTimestamp(timestamp);
 
           window.dataLayer.push({
             event: 'submission-successful',
-            submissionID: data.response.formSubmissionId
+            submissionID: formSubmissionId
           });
         });
 

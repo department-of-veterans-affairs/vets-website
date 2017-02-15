@@ -107,21 +107,20 @@ const formConfig = {
       }
     },
     benefitSelection: {
-      title: 'Benefit Selection',
+      title: 'Education Benefit',
       pages: {
         benefitSelection: {
-          title: 'Benefit selection',
-          path: 'benefits-eligibility/benefit-selection',
+          title: 'Education benefit',
+          path: 'benefits-eligibility/education-benefit',
           initialData: {},
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Which benefit do you want to transfer?'
+              'ui:title': 'Which benefit are you currently using?'
             }
           },
           schema: {
             type: 'object',
-            required: ['benefit'],
             properties: {
               benefit: _.assign(benefit, {
                 enumNames: enumToNames(benefit.enum, benefitsLabels)
@@ -255,7 +254,7 @@ const formConfig = {
             },
             trainingEndDate: _.merge(date.uiSchema, { 'ui:title': 'When did you stop taking classes or participating in the training program?' }),
             reasonForChange: {
-              'ui:title': 'Why did you stop taking classes or participating in the training program?'
+              'ui:title': 'Why did you stop taking classes or participating in the training program? (for example, “I graduated” or “I moved” or “The program wasn’t right for me.”)'
             }
           },
           schema: {
@@ -278,7 +277,7 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             preferredContactMethod: {
-              'ui:title': 'How would you like to be contacted if VA has questions about your application?',
+              'ui:title': 'How would you like to be contacted if we have questions about your application?',
               'ui:widget': 'radio'
             },
             veteranAddress: address.uiSchema(),
