@@ -86,10 +86,10 @@ class Child extends React.Component {
           <div className="row">
             <div className="small-12 columns">
               <ErrorableDate required
-	          validation={{
-		    valid: isValidDependentDateField(this.props.data.childBecameDependent, this.props.data.childDateOfBirth),
-		    message: "Child cannot be a dependent before child's date of birth"
-		  }}
+                  validation={{
+                    valid: isValidDependentDateField(this.props.data.childBecameDependent, this.props.data.childDateOfBirth),
+                    message: 'Child cannot be a dependent before child\'s date of birth'
+                  }}
                   label="Date child became dependent"
                   name="childBecameDependent"
                   date={this.props.data.childBecameDependent}

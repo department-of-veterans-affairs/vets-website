@@ -103,7 +103,7 @@ class SpouseInformationSection extends React.Component {
               validation={{
                 valid: isValidMarriageDate(this.props.data.dateOfMarriage, this.props.data.veteranDateOfBirth, this.props.data.spouseDateOfBirth),
                 message: "Date of marriage cannot be before the Veteran's or the spouse's date of birth"
-              }}	      
+              }}
               label="Date of marriage"
               name="marriage"
               date={this.props.data.dateOfMarriage}
