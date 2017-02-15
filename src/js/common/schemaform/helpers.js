@@ -265,6 +265,11 @@ export function hasFieldsOtherThanArray(schema) {
   return false;
 }
 
+/*
+ * Return a schema without array fields. If the schema has only array fields,
+ * then return undefined (because there's no reason to use an object schema with
+ * no properties)
+ */
 export function getNonArraySchema(schema) {
   if (schema.type === 'array') {
     return undefined;
