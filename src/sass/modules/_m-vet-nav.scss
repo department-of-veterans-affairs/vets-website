@@ -12,7 +12,7 @@
     white-space: normal;
   }
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     position: static;
     width: auto;
 
@@ -37,12 +37,12 @@
   > li {
     margin-bottom: 6px;
 
-    @include media($medium-screen) {
+    @include media($medium-large-screen) {
       margin-bottom: 0;
     }
 
     &:first-of-type {
-      @include media($medium-screen) {
+      @include media($medium-large-screen) {
         display: none;
       }
     }
@@ -70,13 +70,13 @@
       color: $color-white;
     }
 
-    @include media($medium-screen) {
+    @include media($medium-large-screen) {
       border-color: transparent;
       display: inline-block;
     }
   }
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: flex;
     position: relative;
   }
@@ -99,7 +99,7 @@
     fill: $color-white;
   }
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: none;
   }
 }
@@ -123,12 +123,12 @@
     margin-right: 8px;
   }
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: none;
   }
 }
 
-@include media($medium-screen) {
+@include media($medium-large-screen) {
   a.vetnav-level1 {
     border-bottom: 1px solid transparent;
 
@@ -161,14 +161,14 @@
 
   &:not([href]) {
     background-image: url(/img/minus-white.svg);
-    @include media($medium-screen) {
+    @include media($medium-large-screen) {
       background-position: right 1.6rem center;      
       padding-right: 3.2rem;
     }
   }
 
   &[aria-expanded=true] {
-    @include media($medium-screen) {
+    @include media($medium-large-screen) {
       color: $color-base;
       background-color: $color-white;
       background-image: url(/img/arrow-up.svg);
@@ -183,12 +183,12 @@
       background-color: $color-primary;
     }
 
-    @include media($medium-screen) {
+    @include media($medium-large-screen) {
       background-image: url(/img/arrow-down-white.svg);
     }
   }
   
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
      background-color: transparent;
      background-size: 1rem auto;
   }    
@@ -217,7 +217,7 @@
   padding: 1.6rem;
   text-align: left;
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     background: transparent url(/img/arrow-right.svg) right 1rem center no-repeat;
     border-color: transparent;
     border-style: solid;
@@ -260,7 +260,7 @@
     font-weight: bold;
     padding: .8rem 1.6rem;
 
-    @include media($medium-screen) {
+    @include media($medium-large-screen) {
       display: none;
     }
   }
@@ -274,7 +274,7 @@
   padding: 1.6rem 1.6rem 1.6rem 3rem;
   text-align: left;
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: none;
   }
 }
@@ -288,7 +288,7 @@
     padding: .8rem 1.6rem;
     text-decoration: none;
 
-    @include media($medium-screen) {
+    @include media($medium-large-screen) {
       color: $color-primary;
 
       &:hover {
@@ -298,7 +298,7 @@
     }
   }
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     box-shadow: 0 5px 9px -5px $color-base;
     background: $color-white;
     padding-bottom: 1.6rem;
@@ -316,7 +316,7 @@
     left: 0;
     height: 407px;
 
-    @include media($medium-screen) {
+    @include media($medium-large-screen) {
       border-left: 1px solid $color-gray-warm-light;
       background-color: $color-gray-lightest;
       height: 100%;
@@ -333,7 +333,7 @@
   padding-top: .5rem;
   padding-right: 1.6rem;
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     align-self: flex-end;
     -webkit-flex: 1 1 30rem;
     flex: 1 1 30rem;
@@ -343,7 +343,7 @@
   }
 }
 
-@include media($medium-screen) {
+@include media($medium-large-screen) {
   #vetnav-explore {
     height: 275px;
     padding-top: .8rem;
