@@ -75,9 +75,9 @@ button.form-button-disabled {
   // See 18F/web-design-standards#1490
   // This fixes things in the meantime.
   [type="checkbox"] {
-    height: auto !important;
+    height: 1.8rem !important;
     margin: 0;
-    width: auto !important;
+    width: 1.8rem !important;
   }
   > input[type="checkbox"] + label::before {
     display: block;
