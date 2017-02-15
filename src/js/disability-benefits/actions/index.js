@@ -158,6 +158,9 @@ export function submitFiles(claimId, trackedItem, files) {
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
   const trackedItemId = trackedItem ? trackedItem.trackedItemId : null;
+  window.dataLayer.push({
+    event: 'claims-upload-start',
+  });
 
   return (dispatch) => {
     const uploader = new FineUploaderBasic({
@@ -177,6 +180,9 @@ export function submitFiles(claimId, trackedItem, files) {
       callbacks: {
         onAllComplete: () => {
           if (!hasError) {
+            window.dataLayer.push({
+              event: 'claims-upload-success',
+            });
             dispatch({
               type: DONE_UPLOADING,
             });
@@ -185,6 +191,9 @@ export function submitFiles(claimId, trackedItem, files) {
               body: `Thank you for filing ${trackedItem ? trackedItem.displayName : 'additional evidence'}. We'll let you know when we've reviewed it.`
             }));
           } else {
+            window.dataLayer.push({
+              event: 'claims-upload-failure',
+            });
             dispatch({
               type: SET_UPLOAD_ERROR
             });
@@ -263,6 +272,9 @@ export function showMailOrFaxModal(visible) {
 export function cancelUpload() {
   return (dispatch, getState) => {
     const uploader = getState().uploads.uploader;
+    window.dataLayer.push({
+      event: 'claims-upload-cancel',
+    });
 
     if (uploader) {
       uploader.cancelAll();

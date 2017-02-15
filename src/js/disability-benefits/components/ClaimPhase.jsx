@@ -139,6 +139,9 @@ export default class ClaimPhase extends React.Component {
     event.stopPropagation();
   }
   expandCollapse() {
+    window.dataLayer.push({
+      event: 'claims-expandcollapse',
+    });
     if (this.props.phase <= this.props.current) {
       this.setState({ open: !this.state.open });
     }
