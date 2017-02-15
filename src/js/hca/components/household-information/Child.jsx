@@ -1,6 +1,5 @@
 import React from 'react';
 
-import ErrorableDate from '../../../common/components/form-elements/ErrorableDate';
 import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
@@ -85,7 +84,7 @@ class Child extends React.Component {
 
           <div className="row">
             <div className="small-12 columns">
-              <ErrorableDate required
+              <ErrorableCurrentOrPastDate required
                   validation={{
                     valid: isValidDependentDateField(this.props.data.childBecameDependent, this.props.data.childDateOfBirth),
                     message: 'Child cannot be a dependent before child\'s date of birth'

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Address from '../Address';
-import ErrorableDate from '../../../common/components/form-elements/ErrorableDate';
 import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import FullName from '../../../common/components/questions/FullName';
@@ -99,7 +98,7 @@ class SpouseInformationSection extends React.Component {
               date={this.props.data.spouseDateOfBirth}
               onValueChange={(update) => {this.props.onStateChange('spouseDateOfBirth', update);}}/>
 
-          <ErrorableDate required
+          <ErrorableCurrentOrPastDate required
               validation={{
                 valid: isValidMarriageDate(this.props.data.dateOfMarriage, this.props.data.veteranDateOfBirth, this.props.data.spouseDateOfBirth),
                 message: "Date of marriage cannot be before the Veteran's or the spouse's date of birth"

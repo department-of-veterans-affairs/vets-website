@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ErrorableDate from '../../../common/components/form-elements/ErrorableDate';
+import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import { branchesServed, dischargeTypes } from '../../../common/utils/options-for-select.js';
 import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
@@ -58,7 +58,7 @@ class ServiceInformationSection extends React.Component {
               value={this.props.data.lastServiceBranch}
               onValueChange={(update) => {this.props.onStateChange('lastServiceBranch', update);}}/>
 
-          <ErrorableDate required
+          <ErrorableCurrentOrPastDate required
               validation={{
                 valid: isValidEntryDateField(this.props.data.lastEntryDate, this.props.data.veteranDateOfBirth),
                 message: 'You must have been at least 15 years old when you entered the service'
@@ -68,10 +68,10 @@ class ServiceInformationSection extends React.Component {
               date={this.props.data.lastEntryDate}
               onValueChange={(update) => {this.props.onStateChange('lastEntryDate', update);}}/>
 
-          <ErrorableDate required
+          <ErrorableCurrentOrPastDate required
               validation={{
                 valid: isValidDischargeDateField(this.props.data.lastDischargeDate, this.props.data.lastEntryDate),
-                message: 'Discharge date must be after entry date and before today'
+                message: 'Discharge date must be after start of service period date and before today'
               }}
               label="Date of discharge"
               name="lastDischarge"

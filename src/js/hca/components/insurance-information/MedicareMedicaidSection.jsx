@@ -17,7 +17,6 @@ class MedicareMedicaidSection extends React.Component {
     let content;
     let medicarePartADateInput;
     let medicarePartADateReview;
-    let dateRequired;
 
     if (this.props.data.isEnrolledMedicarePartA.value === 'Y') {
       medicarePartADateReview = (<tr>
@@ -27,10 +26,8 @@ class MedicareMedicaidSection extends React.Component {
         {this.props.data.medicarePartAEffectiveDate.year.value}</td>
       </tr>);
 
-      dateRequired = true;
-
       medicarePartADateInput = (
-        <ErrorableCurrentOrPastDate required={dateRequired}
+        <ErrorableCurrentOrPastDate required
             label="If so, what is your Medicare Part A effective date?"
             name="medicarePartAEffective"
             date={this.props.data.medicarePartAEffectiveDate}
