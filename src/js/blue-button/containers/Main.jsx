@@ -69,19 +69,48 @@ class Main extends React.Component {
   }
 
   renderReportCheckBoxLabel(c) {
-    if (c.hold) {
-      const onClick = (e) => {
+    let onClick;
+    let hasGlossaryLink = false;
+    let linkText;
+
+    if (c.value === 'dodmilitaryservice') {
+      hasGlossaryLink = true;
+      linkText = '(Learn more)';
+
+      onClick = (e) => {
         e.preventDefault();
-        this.props.openModal(c.hold, c.holdExplanation);
+        this.props.openModal('Military Service Information', (
+          <div>
+            You will have access to your:
+            <ul>
+              <li>Military Occupational Speciality (MOS) codes</li>
+              <li>Pay details</li>
+              <li>Service dates</li>
+              <li>Deployment periods</li>
+              <li>Retirement periods</li>
+            </ul>
+          </div>
+        ));
       };
+    } else if (c.hold) {
+      hasGlossaryLink = true;
+      linkText = `(${c.hold} day hold period applies)`;
+      onClick = (e) => {
+        e.preventDefault();
+        this.props.openModal(`${c.hold} Day Hold`, c.holdExplanation);
+      };
+    }
+
+    if (hasGlossaryLink) {
       return (
         <span>
           {c.label} <a href="#" onClick={onClick}>
-            {`(${c.hold} day hold period applies)`}
+            {linkText}
           </a>
         </span>
       );
     }
+
     return c.label;
   }
 
