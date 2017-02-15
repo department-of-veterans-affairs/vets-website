@@ -216,7 +216,7 @@ export function transformForSubmit(formConfig, form) {
 }
 
 function isHiddenField(schema) {
-  return !!schema['ui:unexpanded'] || !!schema['ui:hidden'];
+  return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
 }
 
 /*
@@ -350,11 +350,11 @@ export function setHiddenFields(schema, uiSchema, data) {
 
   const expandUnder = _.get(['ui:options', 'expandUnder'], uiSchema);
   if (expandUnder && !data[expandUnder]) {
-    if (!schema['ui:unexpanded']) {
-      return _.set('ui:unexpanded', true, schema);
+    if (!schema['ui:collapsed']) {
+      return _.set('ui:collapsed', true, schema);
     }
-  } else if (schema['ui:unexpanded']) {
-    return _.unset('ui:unexpanded', schema);
+  } else if (schema['ui:collapsed']) {
+    return _.unset('ui:collapsed', schema);
   }
 
   if (schema.type === 'object') {
