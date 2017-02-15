@@ -139,7 +139,7 @@ const formConfig = {
           },
           uiSchema: {
             'view:newService': {
-              'ui:title': 'Do you have any new military service to record?',
+              'ui:title': 'Do you have any new periods of service to record since you last applied for education benefits?',
               'ui:widget': 'yesNo'
             },
             toursOfDuty: {
