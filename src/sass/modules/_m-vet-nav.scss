@@ -232,6 +232,7 @@
     &:hover {
       background-color: transparent;
       border-bottom: 1px solid transparent;
+      border-left-color: $color-va-accent;
       color: $color-primary;
       text-decoration: underline;
     }
