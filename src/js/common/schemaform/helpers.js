@@ -265,6 +265,38 @@ export function hasFieldsOtherThanArray(schema) {
   return false;
 }
 
+export function getNonArraySchema(schema) {
+  if (schema.type === 'array') {
+    return undefined;
+  }
+
+  if (schema.type === 'object') {
+    const newProperties = Object.keys(schema.properties).reduce((current, next) => {
+      const newSchema = getNonArraySchema(schema.properties[next]);
+
+      if (typeof newSchema === 'undefined') {
+        return _.unset(next, current);
+      }
+
+      if (newSchema !== schema.properties[next]) {
+        return _.set(next, newSchema, current);
+      }
+
+      return current;
+    }, schema.properties);
+
+    if (Object.keys(newProperties).length === 0) {
+      return undefined;
+    }
+
+    if (newProperties !== schema.properties) {
+      return _.set('properties', newProperties, schema);
+    }
+  }
+
+  return schema;
+}
+
 /*
  * This function goes through a schema/uiSchema and updates the required array
  * based on any ui:required field properties in the uiSchema.
