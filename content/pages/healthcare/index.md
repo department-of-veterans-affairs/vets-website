@@ -1,13 +1,13 @@
 ---
 layout: page-breadcrumbs.html
-title: Health Care
+title: Health Care Benefits
 permalink: /healthcare/index.html
 template: L2-section-landing
 showactionbar: false
 majorlinks:
   - url: /healthcare/apply/
     title: Apply for Health Care Benefits
-    description: Apply online so you can start getting medical exams, flu shots, and preventive health care.
+    description: Apply online and get covered for medical exams, flu shots, and preventive health care. 
   - url: /healthcare/prescriptions/
     title: Refill Prescriptions
     description: Refill prescriptions online, and track the status of your refills.
