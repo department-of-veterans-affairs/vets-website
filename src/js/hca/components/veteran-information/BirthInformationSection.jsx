@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
@@ -39,11 +39,9 @@ class BirthInformationSection extends React.Component {
         <legend>Birth Information</legend>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
-          <DateInput required
+          <ErrorableCurrentOrPastDate required
               name="veteranBirth"
-              day={this.props.data.veteranDateOfBirth.day}
-              month={this.props.data.veteranDateOfBirth.month}
-              year={this.props.data.veteranDateOfBirth.year}
+              date={this.props.data.veteranDateOfBirth}
               onValueChange={(update) => {this.props.onStateChange('veteranDateOfBirth', update);}}/>
           <SocialSecurityNumber required
               ssn={this.props.data.veteranSocialSecurityNumber}

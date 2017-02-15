@@ -61,7 +61,7 @@ class ServiceInformationSection extends React.Component {
           <ErrorableDate required
               validation={{
                 valid: isValidEntryDateField(this.props.data.lastEntryDate, this.props.data.veteranDateOfBirth),
-                message: 'You must have been at least 15 years old when you entered the service'
+                message: "You must have been at least 15 years old when you entered the service"
               }}		     
               label="Start of service period"
               name="lastEntry"
@@ -71,7 +71,7 @@ class ServiceInformationSection extends React.Component {
           <ErrorableDate required
               validation={{
                 valid: isValidDischargeDateField(this.props.data.lastDischargeDate, this.props.data.lastEntryDate),
-                message: 'Discharge date must be after entry date and before today'
+                message: "Discharge date must be after entry date and before today"
 	      }}
               label="Date of discharge"
               name="lastDischarge"
