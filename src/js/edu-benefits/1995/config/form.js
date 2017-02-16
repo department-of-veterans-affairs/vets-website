@@ -138,13 +138,17 @@ const formConfig = {
           initialData: {
           },
           uiSchema: {
+            'view:newService': {
+              'ui:title': 'Do you have any new periods of service to record since you last applied for education benefits?',
+              'ui:widget': 'yesNo'
+            },
             toursOfDuty: {
               'ui:title': 'Service periods',
-              'ui:description': 'Please record any new periods of service since your last application.',
               'ui:options': {
                 itemName: 'Service Period',
                 viewField: ServicePeriodView,
-                hideTitle: true
+                hideTitle: true,
+                expandUnder: 'view:newService'
               },
               items: {
                 serviceBranch: {
@@ -161,6 +165,9 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
+              'view:newService': {
+                type: 'boolean'
+              },
               toursOfDuty
             }
           }
@@ -251,7 +258,7 @@ const formConfig = {
               },
               address: address.uiSchema()
             },
-            trainingEndDate: _.merge(date.uiSchema, { 'ui:title': 'When did you stop taking classes or participating in the training program?' }),
+            trainingEndDate: date.uiSchema('When did you stop taking classes or participating in the training program?'),
             reasonForChange: {
               'ui:title': 'Why did you stop taking classes or participating in the training program? (for example, “I graduated” or “I moved” or “The program wasn’t right for me.”)'
             }

@@ -119,6 +119,9 @@ class YourClaimsPage extends React.Component {
             <p>
               <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
+                window.dataLayer.push({
+                  event: 'claims-consolidated-modal',
+                });
                 this.props.showConsolidatedMessage(true);
               }}>Find out why we sometimes combine claims.</a>
             </p>

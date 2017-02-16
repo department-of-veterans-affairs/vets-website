@@ -47,7 +47,7 @@ class ServiceInformationSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
-        <legend>Service Information</legend>
+        <h5>Service Periods</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <ErrorableSelect required
