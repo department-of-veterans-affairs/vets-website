@@ -3,6 +3,7 @@
 @import 'style';
 @import 'modules/m-form-process';
 @import 'modules/m-progress-bar';
+@import 'modules/m-schemaform';
 
 $button-stroke: inset 0 0 0 1px;
 
@@ -220,13 +221,6 @@ table.review td {
   }
 }
 
-.schemaform-buttons {
-  [type="submit"] {
-    margin-top: 0.5em;
-    margin-right: 0.5em;
-  }
-}
-
 .form-error-date .input-date-label {
   font-weight: bold;
   font-size: 1.7rem;
@@ -257,10 +251,6 @@ form.rjsf {
   max-width: 100%;
 }
 
-.schemaform-block {
-  margin-top: 2em;
-}
-
 .va-growable-expanded > div > fieldset > div > .first-field label,
 .va-growable-expanded > div > fieldset > div > .first-field .usa-input-error {
   margin-top: 0;
@@ -268,66 +258,6 @@ form.rjsf {
 
 .va-growable-review {
   margin-top: 16px;
-}
-
-.nav-header-schemaform {
-  margin-top: 1em !important;
-}
-
-.progress-box-schemaform {
-  margin-top: 0;
-  padding-top: 0;
-  border: none;
-}
-
-.schemaform-chapter-progress {
-  padding-left: 2rem;
-  padding-right: 2rem;
-  @media (max-width: 40.063em) {
-    padding-left: 2rem - .9375rem;
-    padding-right: 2rem - .9375rem;
-  }
-}
-
-.schemaform-title {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  > h1 {
-    margin-bottom: 0;
-    padding-right: 10px;
-  }
-  > .schemaform-subtitle {
-    font-size: 2rem;
-  }
-  margin-bottom: 3rem;
-}
-
-.schemaform-required-span {
-  color: $color-secondary-dark;
-  margin: 0 0.35em;
-}
-
-.schemaform-back-buttons {
-  margin-bottom: 7rem !important;
-}
-
-.schemaform-intro {
-  padding-bottom: 1rem;
-  margin-bottom: 7rem;
-}
-
-  // To be moved into modules/_m-schemaform.scss when it's merged
-.schemaform-process {
-  ol {
-    margin-left: -0.5em;
-  }
-}
-
-// Align the intro content of the 22-1990 to match the title
-// Necessary because the 22-1990 doesn't use schemaform, so it's wonky
-.intro-content {
-  margin-left: -2rem;
 }
 
 .edu-benefits-dependents-desc {

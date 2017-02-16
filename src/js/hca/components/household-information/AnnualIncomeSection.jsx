@@ -170,8 +170,7 @@ class AnnualIncomeSection extends React.Component {
       );
     } else {
       content = (<fieldset>
-        <legend>Annual Income</legend>
-
+        <h5>Annual Income</h5>
         <div>
 
           <h5></h5>
