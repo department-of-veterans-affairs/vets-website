@@ -1741,6 +1741,7 @@ li.twenty:before {content: '20';}
   &:hover,
   &:focus {
     background-color: $color-green-darker !important;
+    text-decoration: none !important;
   }
 
   svg {
