@@ -9,8 +9,8 @@ export default function disclaimer(state = initialState, action) {
     case 'GLOSSARY_MODAL_OPENED':
       return {
         visible: true,
-        title: `${action.holdLength} Day Hold`,
-        content: action.holdExplanation,
+        title: action.title,
+        content: action.content,
       };
     case 'GLOSSARY_MODAL_CLOSED':
       return {
