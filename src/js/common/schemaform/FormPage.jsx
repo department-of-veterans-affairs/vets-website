@@ -14,6 +14,7 @@ import widgets from './widgets/index';
 import ProgressButton from '../components/form-elements/ProgressButton';
 import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
+import StringField from './review/StringField';
 import ReviewObjectField from './review/ObjectField';
 import { focusElement, scrollToFirstError, getActivePages } from '../utils/helpers';
 import { setData } from './actions';
@@ -27,6 +28,7 @@ const fields = {
 const reviewFields = {
   ObjectField: ReviewObjectField,
   ArrayField,
+  StringField,
   address: ReviewObjectField
 };
 
