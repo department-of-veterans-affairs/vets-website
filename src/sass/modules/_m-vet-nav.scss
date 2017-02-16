@@ -216,6 +216,7 @@
   margin: 0;
   padding: 1.6rem;
   text-align: left;
+  width: 100%;
 
   @include media($medium-large-screen) {
     background: transparent url(/img/arrow-right.svg) right 1rem center no-repeat;
@@ -273,6 +274,7 @@
   border-radius: 0;
   padding: 1.6rem 1.6rem 1.6rem 3rem;
   text-align: left;
+  width: 100%;
 
   @include media($medium-large-screen) {
     display: none;
