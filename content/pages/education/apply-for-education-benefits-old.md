@@ -1,17 +1,12 @@
 ---
-layout: page-breadcrumbs-new.html
+layout: page-breadcrumbs.html
 title: Apply for Education Benefits
 template: 6-info-page
 modal: true
 concurrence: complete
 showactionbar: false
 stickyactionbox: true
-actionboxButtons:
-  - url: /education/apply-for-education-benefits/application/1990
-    text: Begin Application
-    primary: true
-  - url: /education/apply-for-education-benefits/application/1995
-    text: Manage Benefit
+beginbuttontext: Start Form 22-1990
 relatedlinks:
   - url: /education/gi-bill/survivors-dependent-assistance/
     title: Apply for Dependents’ Educational Assistance (DEA) benefits
