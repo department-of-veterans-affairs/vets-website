@@ -40,7 +40,6 @@ class Child extends React.Component {
     } else {
       content = (
         <fieldset>
-          <legend>Child's Name</legend>
           <div className="row">
             <div className="small-12 columns">
               <FullName required
