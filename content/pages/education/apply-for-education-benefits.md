@@ -8,7 +8,7 @@ showactionbar: false
 stickyactionbox: true
 actionboxButtons:
   - url: /education/apply-for-education-benefits/application/1990
-    text: Begin Application
+    text: Apply for Benefits
     primary: true
   - url: /education/apply-for-education-benefits/application/1995
     text: Manage Benefit
@@ -21,10 +21,17 @@ relatedlinks:
     title: Learn about the National Call to Service program
 ---
 
-If you are a Servicemember, Veteran, or dependent interested in education and training opportunities, you can apply for your Certificate of Eligibility (COE) or manage an existing benefit.
+If you're a Servicemember, Veteran, or family member interested in education and training opportunities, you can apply for your Certificate of Eligibility (COE). You can also manage your current benefits.
 
-__Begin Application__ to fill out Forms 22-1990, 22-1990E, 22-1990N, or 22-5490.  
-__Manage Benefit__ to fill out Forms 22-1995, 22-5495.
+__Apply for benefits__ with:  
+- Form 22-1990 (Application for Education Benefits)  
+- Form 22-1990E (Application for a family member to use transferred benefits)  
+- Form 22-5490 (Dependents Application for Education Benefits)  
+- Form 22-1990N (Application for the National Call to Service program)
+
+__Manage benefits__ with:  
+- Form 22-1995 (Request For Change of Program or Place of Training)  
+- Form 22-5495 (Dependents' Request for Change of Program or Place of Training)
 
 <br>
 
