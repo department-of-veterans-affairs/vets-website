@@ -15,18 +15,16 @@ template: 1-topic-landing
 -	Call 911.
 -	Go to the nearest emergency room.
 
-##### Get more information and resources on the Veterans Crisis Line website.
-
-[Visit the Veterans Crisis Line website](https://www.veteranscrisisline.net/Default.aspx).
+Get more information and resources on the Veterans Crisis Line website. [Visit the Veterans Crisis Line website](https://www.veteranscrisisline.net/Default.aspx).
 
 
 #### Posttraumatic Stress Disorder (PTSD) Basics
 
-Posttraumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. If the reactions don’t go away over time or they disrupt your life, you may have PTSD. [Learn more about PTSD](http://www.ptsd.va.gov/public/index.asp).
+Posttraumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. But if the reactions don’t go away over time or they disrupt your life, you may have PTSD. [Learn more about PTSD](http://www.ptsd.va.gov/public/index.asp).
 
-You may be able to get disability compensation or benefits if you have symptoms of PTSD and, while serving in the military, you: 
+You may be able to get disability compensation or benefits if you have symptoms of PTSD and while serving in the military you: 
 - Suffered a serious injury, personal or sexual trauma, or sexual violation, **or** 
-- Were threatened with injury, sexual assault, or death.
+- Were threatened with injury, sexual assault, or death
 
 
 <div class="call-out" markdown="1">
@@ -55,10 +53,10 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. Please note that the screening process for disability benefits is geared toward getting a full understanding of your PTSD, not treating it.
+You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply-for-benefits/).
 
-To get help or treatment, contact your health care provider or any of the emergency contacts listed at the top of this page. 
+Please note that the screening process for disability benefits is geared toward getting a full understanding of your PTSD, not treating it. To get help or treatment, contact your health care provider or any of the emergency contacts listed at the top of this page. 
 
-At VA, we’ve made great progress in treating PTSD and have brought more mental health providers to VA medical centers to help provide the best care to Veterans with post-traumatic stress. [Learn more about our PTSD programs]( http://www.mentalhealth.va.gov/PTSD.asp).
+### Get more information 
+We’ve made great progress in treating PTSD and have brought more mental health providers to VA medical centers to help give the best care to Veterans with PTSD. [Learn about our PTSD programs](http://www.mentalhealth.va.gov/PTSD.asp).
 
-[Apply for benefits](/disability-benefits/apply-for-benefits/).
