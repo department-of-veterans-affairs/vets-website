@@ -38,14 +38,14 @@ Veterans
 
 -	Health care
 - Added compensation (payments) while you recover
--	A temporary 100% disability rating (a rating that measures how bad your disability is and helps us decide your level of benefits)
+-	A temporary 100% disability rating 
 
 -----
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. [Apply for benefits](https://www.ebenefits.va.gov/ebenefits/apply).
+You'll need to apply for benefits. [Apply for benefits](/disability-benefits/apply-for-benefits/).
 
-A temporary 100% disability rating is needed for recovery time from a surgery or immobilization of a joint by a cast without surgery for a service-connected disability. The temporary 100% rating may continue for 1 to 3 months—depending on your unique case. You may be able to get an extension for up to 3 more months if your case is severe.
+Recovery time from either a surgery or the immobilization of a joint by a cast without surgery requires a temporary 100% disability rating for a service-connected disability. The temporary 100% rating may continue for 1 to 3 months—depending on your unique case. You may be able to get an extension for up to 3 more months if your case is severe.
 
 **Example:** A Veteran had a left knee injury that resulted in a 30% disability rating. As the knee problem got worse, the Veteran's VA doctor recommended surgery to stop further damage. Since the success of the surgery wouldn't be known for 3 months after the Veteran's 1-week stay in the hospital, we granted the Veteran a temporary 100% disability rating for 3 months.
