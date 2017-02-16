@@ -62,6 +62,9 @@ export function submitForm(formData) {
   return (dispatch) => {
     apiRequest('/v0/health_records',
       {
+        headers: {
+          'Content-Type': 'application/json',
+        },
         method: 'POST',
         body: JSON.stringify({
           dataClasses: getDataClasses(formData),
