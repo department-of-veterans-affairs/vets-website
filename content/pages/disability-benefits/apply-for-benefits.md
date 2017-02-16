@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Apply for Benefits
+title: Apply for Disability Benefits
 template: 7-get-page-alt
 showactionbar: false
 relatedlinks:
@@ -87,7 +87,8 @@ If you’ve already filed a claim, you can check your disability compensation cl
 
 - An [accredited representative](/disability-benefits/apply-for-benefits/help/index.html) can help you prepare and file your claim.
 - Speed up your processing time by filing a [fully developed claim](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
-- Learn more about [evidence requirements](/disability-benefits/claims-process/evidence/).
+- Learn about [evidence requirements](/disability-benefits/claims-process/evidence/).
+- [Learn about the claims process and prepare carefully before applying](/disability-benefits/claims-process/).
 
 </div>
 

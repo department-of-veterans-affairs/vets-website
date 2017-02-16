@@ -17,6 +17,9 @@ const initialState = {
     end: null,
   },
   reportTypes: reportTypeValues,
+  ui: {
+    redirect: false
+  }
 };
 
 export default function disclaimer(state = initialState, action) {
@@ -31,6 +34,10 @@ export default function disclaimer(state = initialState, action) {
       return set(`reportTypes.${action.reportType}`, action.checked, state);
     case 'ALL_REPORTS_TOGGLED':
       return set('reportTypes', mapValues(state.reportTypes, () => action.checked), state);
+    case 'FORM_SUCCESS':
+      return set('ui.redirect', true, state);
+    case 'FORM_FAILURE':
+      return set('ui.redirect', false, state);
     default:
       return state;
   }
