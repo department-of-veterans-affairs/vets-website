@@ -1,6 +1,6 @@
 const initialState = {
   title: null,
-  content: null,
+  content: '',
   visible: false,
 };
 
