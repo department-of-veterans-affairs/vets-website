@@ -15,7 +15,7 @@ class ErrorView extends React.Component {
     let content;
     let alert;
 
-    if (some(errors, errorCodeIncludes(['RX135']))) {
+    if (some(errors, errorCodeIncludes(['RX135', 'VA900']))) {
       title = 'Accept terms and conditions';
       detail = (
         <p>
@@ -81,6 +81,7 @@ class ErrorView extends React.Component {
       'RX99',
       'RX503',
       'RX500',
+      'VA900',
     ];
 
     // don't block application if no errors, or errors not in the list above
