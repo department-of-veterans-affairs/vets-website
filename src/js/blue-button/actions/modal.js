@@ -4,10 +4,10 @@ export function closeModal() {
   };
 }
 
-export function openModal(holdLength, holdExplanation) {
+export function openModal(title, content) {
   return {
     type: 'GLOSSARY_MODAL_OPENED',
-    holdLength,
-    holdExplanation,
+    title,
+    content,
   };
 }
