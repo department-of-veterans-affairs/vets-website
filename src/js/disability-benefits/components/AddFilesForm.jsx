@@ -79,6 +79,9 @@ class AddFilesForm extends React.Component {
         <div className="mail-or-fax-files">
           <p><a href onClick={(evt) => {
             evt.preventDefault();
+            window.dataLayer.push({
+              event: 'claims-mailfax-modal',
+            });
             this.props.onShowMailOrFax(true);
           }}>Need to mail or fax your files</a>?</p>
         </div>
