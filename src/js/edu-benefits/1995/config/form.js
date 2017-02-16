@@ -7,7 +7,8 @@ import {
   benefitsLabels,
   bankAccountChangeLabels,
   preferredContactMethodLabels,
-  transform
+  transform,
+  directDepositWarning
 } from '../helpers';
 
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
@@ -355,10 +356,20 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             bankAccountChange: {
-              'ui:title': 'Do you want to update, start, or stop using direct deposit?',
+              'ui:title': 'Do you want to continue, start, or stop using direct deposit?',
               'ui:widget': 'radio'
             },
-            bankAccount: bankAccount.uiSchema
+            bankAccount: _.assign(bankAccount.uiSchema, {
+              'ui:options': {
+                hideIf: (form) => form.bankAccountChange === 'stop'
+              }
+            }),
+            'view:stopWarning': {
+              'ui:description': directDepositWarning,
+              'ui:options': {
+                hideIf: (form) => form.bankAccountChange !== 'stop'
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -366,7 +377,11 @@ const formConfig = {
               bankAccountChange: _.assign(bankAccountChange, {
                 enumNames: enumToNames(bankAccountChange.enum, bankAccountChangeLabels)
               }),
-              bankAccount: bankAccount.schema
+              bankAccount: bankAccount.schema,
+              'view:stopWarning': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
