@@ -15,7 +15,7 @@ very secret.
 | I want to... | Then you should... |
 | ------------ | ------------------ |
 | clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, `npm install`. Run `npm install` anytime `package.json` changes. |
-| deploy the site | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Travis will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
+| deploy the site | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Jenkins will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
 | build the site with dev features enabled. | `npm run build` |
@@ -218,7 +218,7 @@ the test requries features that jsdom does not provide, putting them into a
 
 TODO(awong): Figure out sauce labs integrations. Not all e2e tests should always be
 run on all browsers. That's wasteful. How do we determine what should be run on
-multiple browsers as opposed to on PhantomJS in Travis?
+multiple browsers as opposed to on PhantomJS in Jenkins?
 
 ### Automated Accessibility Testing -- aXe
 
@@ -226,18 +226,21 @@ The automated accessibility tests are contained within the `test/accessibility`
 directory. All URLs from the generated sitemap are scanned with aXe
 rules for 508 compliance.
 
-Automated accessibility tests are run by Travis on PRs for the production build
+Automated accessibility tests are run by Jenkins on PRs for the production build
 type.
 
-### Continuous Integration (OUTDATED)
+### Continuous Integration
 Continuous integration and deployment is done via
-[Travis CI](travis-ci.org/department-of-veterans-affairs/vets-website). All of the configuration
-is stored in `.travis.yml`.
+[Jenkins CI](http://jenkins.vetsgov-internal/). All of the configuration
+is stored in `Jenkinsfile`. The build runs within docker, which is configured
+with the `Dockerfile`. You can run this container locally to debug any failed
+builds:
 
-In the interest of preventing a backlog on Travis, some optimizations were
-chosen for the CI pipeline. These require utilizing the pull request workflow
-we've established, and not directly pushing to master or production outside of
-a pull request.
+```
+  docker build -t vets-website:local .
+  docker run -it --rm vets-website:local /bin/bash
+  cd /application && npm run build && npm run test
+```
 
 Builds are triggered for PRs for all build types. The special branch name
 `content/wip/.*`, will fail by default and not run any builds. This is to allow
@@ -256,9 +259,6 @@ To enable or disable the feature in a specific build type, toggle the feature
 in `test/util/mocha-setup.js` and `config/webpack.config.js`. See
 `SampleFeature` and the associated `__SAMPLE_FEATURE__` env variables for an
 example implementation.
-
-Please see the `/script/travis-build.sh` file for more documentation and an
-overview of the CI configuration.
 
 ## More documentation
 
