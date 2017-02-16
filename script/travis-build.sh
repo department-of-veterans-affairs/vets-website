@@ -79,9 +79,6 @@ build production;
 
 export BUILDTYPE=production;
 
-# Bootstrap selenium for all nightwatch-based tests
-time npm run selenium:bootstrap;
-
 # Run end to end tests
 time npm run test:e2e;
 

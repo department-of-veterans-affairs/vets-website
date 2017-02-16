@@ -46,7 +46,8 @@ const configGenerator = (options) => {
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
-      filename: (options.buildtype === 'development') ? '[name].entry.js' : '[name].entry.[chunkhash].js'
+      filename: (options.buildtype === 'development') ? '[name].entry.js' : '[name].entry.[chunkhash].js',
+      chunkFilename: (options.buildtype === 'development') ? '[name].entry.js' : '[name].entry.[chunkhash].js'
     },
     module: {
       loaders: [
@@ -105,6 +106,10 @@ const configGenerator = (options) => {
         {
           test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'file-loader'
+        },
+        {
+          test: /\.json$/,
+          loader: 'json-loader'
         }
       ],
       noParse: [/mapbox\/vendor\/promise.js$/],
@@ -124,6 +129,8 @@ const configGenerator = (options) => {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
           API_PORT: (process.env.API_PORT || 4000),
           WEB_PORT: (process.env.WEB_PORT || 3333),
+          API_URL: process.env.API_URL ? JSON.stringify(process.env.API_URL) : null,
+          BASE_URL: process.env.BASE_URL ? JSON.stringify(process.env.BASE_URL) : null,
         }
       }),
 

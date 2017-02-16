@@ -1,6 +1,11 @@
 .form-radio-buttons {
   label {
     margin-top: 1em;
+
+    // Make links in radio button labels clickable
+    a {
+      position: relative;
+    }
   }
 }
 
@@ -52,6 +57,7 @@ button.form-button-disabled {
     margin-left: -1.7em;
     margin-top: 0.14em;
     margin-right: 0;
+    pointer-events: none;
   }
   > input[type="radio"] + label {
     margin-left: 1.7em;
@@ -79,6 +85,7 @@ button.form-button-disabled {
     margin-left: -1.7em;
     margin-top: 0.14em;
     margin-right: 0;
+    pointer-events: none;
   }
   > input[type="checkbox"] + label {
     margin-left: 1.7em;
@@ -146,7 +153,7 @@ button.form-button-disabled {
   padding-left: 2rem;
 }
 
-.form-expanding-group-open { 
+.form-expanding-group-open {
   padding-left: calc(2rem - 7px);
   border-left: 7px solid $color-primary-alt-light;
 }
@@ -157,7 +164,7 @@ button.form-button-disabled {
     content: "+";
     font-size: 20px;
     position: absolute;
-    right: 0; 
+    right: 0;
     top: 0;
   }
 }

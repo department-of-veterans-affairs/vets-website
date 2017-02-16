@@ -4,7 +4,7 @@ import SkinDeep from 'skin-deep';
 
 import FormApp from '../../../src/js/common/schemaform/FormApp';
 
-describe('Schemaform FormApp', () => {
+describe('Schemaform <FormApp>', () => {
   it('should render children', () => {
     const formConfig = {};
     const currentLocation = {

@@ -77,6 +77,17 @@ export function focusElement(selectorOrElement) {
   }
 }
 
+// Allows smooth scrolling to be overridden by our E2E tests
+export function getScrollOptions(additionalOptions) {
+  const globals = window.VetsGov || {};
+  const defaults = {
+    duration: 500,
+    delay: 0,
+    smooth: true
+  };
+  return _.merge({}, defaults, globals.scroll, additionalOptions);
+}
+
 export function scrollToFirstError() {
   const errorEl = document.querySelector('.usa-input-error, .input-error-date');
   if (errorEl) {
@@ -88,4 +99,10 @@ export function scrollToFirstError() {
     });
     focusElement(errorEl);
   }
+}
+
+export function scrollAndFocus(errorEl) {
+  const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
+  Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
+  focusElement(errorEl);
 }

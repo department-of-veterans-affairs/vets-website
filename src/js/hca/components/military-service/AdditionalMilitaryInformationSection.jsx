@@ -56,7 +56,7 @@ class AdditionalMilitaryInformationSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
-        <legend>Service History</legend>
+        <h5>Service History</h5>
         <p>Check all that apply to you.</p>
         <div className="input-section">
           <ErrorableCheckbox

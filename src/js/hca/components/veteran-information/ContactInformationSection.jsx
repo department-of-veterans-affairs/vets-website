@@ -50,7 +50,7 @@ class ContactInformationSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
-        <legend>Contact Information</legend>
+        <h5>Contact Information</h5>
         <div className="input-section">
           <Email label="Email address"
               email={this.props.data.email}

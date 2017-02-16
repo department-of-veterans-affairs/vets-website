@@ -19,7 +19,7 @@ export default function createRoutes(store) {
     }
   ];
 
-  if (__BUILDTYPE__ === 'development') {
+  if (__BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging') {
     childRoutes.push(
       {
         path: '1995',

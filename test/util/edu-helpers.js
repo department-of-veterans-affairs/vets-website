@@ -31,7 +31,7 @@ const testValues = {
         day: '2',
         year: '1999'
       },
-      serviceStatus: 'Drilling',  
+      serviceStatus: 'Drilling',
       benefitsToApplyTo: 'Apply to whatever benefits make sense'
     }
   ],
@@ -170,20 +170,23 @@ function completeVeteranInformation(client, data, onlyRequiredFields) {
 
 function completeBenefitsSelection(client, data, onlyRequiredFields) {
   client
-    .click('input[name="chapter30"]');
+    .click('label[name="chapter30-label"]');
 
   if (!onlyRequiredFields) {
     client
-      .click('input[name="chapter33"]')
-      .click('input[name="chapter1606"]')
-      .click('input[name="chapter32"]');
+      .click('label[name="chapter33-label"]')
+      .click('label[name="chapter1606-label"]')
+      .click('label[name="chapter32-label"]');
   }
 }
 
 function completeBenefitsRelinquishment(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
+    client.execute((selector) => {
+      document.querySelector(selector).click();
+    }, ['input[name="benefitsRelinquished-1"]']);
     client
-      .click('input[name="benefitsRelinquished-1"]')
+      .pause(1000)
       .waitForElementVisible('select[name="benefitsRelinquishedDateMonth"]', Timeouts.slow)
       .clearValue('select[name="benefitsRelinquishedDateMonth"]')
       .setValue('select[name="benefitsRelinquishedDateMonth"]', data.benefitsRelinquishedDate.month)
@@ -230,23 +233,46 @@ function completeMilitaryService(client, data, onlyRequiredFields) {
 
 function completeRotcHistory(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
+    client.execute((selector) => {
+      document.querySelector(selector).click();
+    }, ['input[name="seniorRotcCommissioned-0"]']);
+
     client
-      .click('input[name="seniorRotcCommissioned-0"]')
+      .pause(1000)
       .setValue('input[name="commissionYear"]', data.commissionYear)
       .setValue('input[name="year"]', data.rotcScholarships[0].year)
-      .setValue('input[name="amount"]', data.rotcScholarships[0].amount)
-      .click('input[name="RotcTuition-0"]');
+      .setValue('input[name="amount"]', data.rotcScholarships[0].amount);
+
+    client.execute((selector) => {
+      document.querySelector(selector).click();
+    }, ['label[name="RotcTuition-0-label"]']);
   }
 }
 
 function completeContributions(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
+    client.execute((selector) => {
+      document.querySelector(selector).click();
+    }, ['label[name="civilianBenefitsAssistance-label"]']);
+
+    client.execute((selector) => {
+      document.querySelector(selector).click();
+    }, ['label[name="additionalContributions-label"]']);
+
+    client.execute((selector) => {
+      document.querySelector(selector).click();
+    }, ['label[name="activeDutyKicker-label"]']);
+
+    client.execute((selector) => {
+      document.querySelector(selector).click();
+    }, ['label[name="reserveKicker-label"]']);
+
+    client.execute((selector) => {
+      document.querySelector(selector).click();
+    }, ['label[name="activeDutyRepaying-label"]']);
+
     client
-      .click('input[name="civilianBenefitsAssistance"]')
-      .click('input[name="additionalContributions"]')
-      .click('input[name="activeDutyKicker"]')
-      .click('input[name="reserveKicker"]')
-      .click('input[name="activeDutyRepaying"]')
+      .pause(1000)
       .clearValue('select[name="fromMonth"]')
       .setValue('select[name="fromMonth"]', data.activeDutyRange.from.month)
       .clearValue('select[name="fromDay"]')
@@ -297,9 +323,16 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
 
 function completeEmploymentHistory(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
+    client.execute((selector) => {
+      document.querySelector(selector).click();
+    }, ['input[name="hasNonMilitaryJobs-0"]']);
+
+    client.execute((selector) => {
+      document.querySelector(selector).click();
+    }, ['input[name="postMilitaryJob-0"]']);
+
     client
-      .click('input[name="hasNonMilitaryJobs-0"]')
-      .click('input[name="postMilitaryJob-0"]')
+      .pause(1000)
       .setValue('input[name="name"]', data.employmentPeriods[0].job)
       .setValue('input[name="months"]', data.employmentPeriods[0].months)
       .setValue('input[name="licenseOrRating"]', data.employmentPeriods[0].licenseOrRating);
@@ -397,4 +430,3 @@ module.exports = {
   completeSecondaryContact,
   completeDirectDeposit
 };
-
