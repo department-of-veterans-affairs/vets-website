@@ -10,7 +10,7 @@ import {
 
 /*
  * This is a minimal string field implementation for the
- * review page, so we can define pass custom review widgets
+ * review page, so we can pass custom review widgets
  * in the config
  */
 export default function StringField(props) {

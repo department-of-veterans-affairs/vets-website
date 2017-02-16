@@ -17,6 +17,6 @@ export default class SSNWidget extends React.Component {
     });
   }
   render() {
-    return <TextWidget type="email" {...this.props} value={this.state.val} onChange={this.handleChange}/>;
+    return <TextWidget {...this.props} value={this.state.val} onChange={this.handleChange}/>;
   }
 }
