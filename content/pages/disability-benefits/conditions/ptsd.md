@@ -34,7 +34,7 @@ You may be able to get disability compensation or benefits if you have symptoms 
 You may be able to get disability benefits if you have symptoms related to a traumatic event (the “stressor”) or your experience with the stressor is related to the PTSD symptoms and:
 -	The stressor happened during your service, **and**
 -	You can’t function as well as you once could because of your symptoms, **and**
--	You've been diagnosed with PTSD
+-	A doctor has diagnosed you with PTSD
 
 <br>
 
