@@ -11,7 +11,9 @@ const define = require('metalsmith-define');
 const filenames = require('metalsmith-filenames');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
+const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
+const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
@@ -20,12 +22,14 @@ const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
+const semver = require('semver');
 
 const fs = require('fs');
 const path = require('path');
 
 const sourceDir = '../content/pages';
-
+const minimumNpmVersion = '3.8.9';
+const minimumNodeVersion = '4.4.7';
 // Make sure git pre-commit hooks are installed
 ['pre-commit'].forEach(hook => {
   const src = `../hooks/${hook}`;
@@ -37,6 +41,19 @@ const sourceDir = '../content/pages';
     }
   }
 });
+
+if (semver.compare(process.env.npm_package_engines_npm, minimumNpmVersion) === -1) {
+  process.stdout.write(
+    `NPM version (mininum): ${minimumNpmVersion}\n`);
+  process.stdout.write(`NPM version (installed): ${process.env.npm_package_engines_npm}\n`);
+  process.exit(1);
+}
+
+if (semver.compare(process.version, minimumNodeVersion) === -1) {
+  process.stdout.write(`Node.js version (mininum): v${minimumNodeVersion}\n`);
+  process.stdout.write(`Node.js version (installed): ${process.version}\n`);
+  process.exit(1);
+}
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
@@ -85,7 +102,10 @@ switch (options.buildtype) {
 
 const webpackConfig = webpackConfigGenerator(options);
 
-//
+// Custom liquid filter(s)
+liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
+
+
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
 //
@@ -102,6 +122,13 @@ smith.destination(`../build/${options.buildtype}`);
 //   ignoreList.push('disability-benefits/track-claims/*');
 // }
 // smith.use(ignore(ignoreList));
+
+const ignore = require('metalsmith-ignore');
+const ignoreList = [];
+if (options.buildtype === 'production') {
+  ignoreList.push('healthcare/blue-button/*');
+}
+smith.use(ignore(ignoreList));
 
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
 // during templating end up not showing which file they came from. Load it very early in in the
@@ -140,6 +167,7 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
+        { from: '^/healthcare/blue-button(.*)', to: '/healthcare/blue-button/' },
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
@@ -313,7 +341,7 @@ if (options.buildtype !== 'development') {
     const manifest = {};
     Object.keys(originalManifest).forEach((originalManifestKey) => {
       const matchData = originalManifestKey.match(/(.*)\.js$/);
-      if (matchData !== null) {
+      if (matchData !== null && matchData[1] !== 'vendor') {
         const newKey = `${matchData[1]}.entry.js`;
         manifest[newKey] = originalManifest[originalManifestKey];
       } else {
@@ -333,6 +361,24 @@ if (options.buildtype !== 'development') {
           const regex = new RegExp(originalAssetFilename, 'g');
           file.contents = new Buffer(contents.replace(regex, newAssetFilename));
         });
+      }
+    });
+    done();
+  });
+
+  smith.use((files, metalsmith, done) => {
+    // Read in the data from the manifest file.
+    const chunkManifestKey = Object.keys(files).find((filename) => {
+      return filename.match(/chunk-manifest.json$/) !== null;
+    });
+    const chunkManifest = files[chunkManifestKey].contents.toString();
+
+    Object.keys(files).forEach((filename) => {
+      if (filename.match(/\.html$/) !== null) {
+        const file = files[filename];
+        const contents = file.contents.toString();
+        const regex = new RegExp("'CHUNK_MANIFEST_PLACEHOLDER'", 'g');
+        file.contents = new Buffer(contents.replace(regex, chunkManifest));
       }
     });
     done();

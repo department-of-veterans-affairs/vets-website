@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Apply for Benefits
+title: Apply for Disability Benefits
 template: 7-get-page-alt
 showactionbar: false
 relatedlinks:
@@ -49,7 +49,7 @@ relatedlinks:
 <div class="small-12 medium-3 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="number" markdown="0">122.9</span>
+<span class="number" markdown="0">129.5</span>
 <span class="description" markdown="0">Days</span>
 <span class="heading" markdown="0">(Average time)</span>
 
@@ -61,7 +61,7 @@ relatedlinks:
 
 <div class="info-block usa-content" markdown="1">
 
-Average number of days to process disability-related claims during December 2016.
+Average number of days to process disability-related claims during January 2017.
 
 If you’ve already filed a claim, you can check your disability compensation claim status. [Check your status](/disability-benefits/track-claims/).
 
@@ -87,7 +87,8 @@ If you’ve already filed a claim, you can check your disability compensation cl
 
 - An [accredited representative](/disability-benefits/apply-for-benefits/help/index.html) can help you prepare and file your claim.
 - Speed up your processing time by filing a [fully developed claim](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
-- Learn more about [evidence requirements](/disability-benefits/claims-process/evidence/).
+- Learn about [evidence requirements](/disability-benefits/claims-process/evidence/).
+- [Learn about the claims process and prepare carefully before applying](/disability-benefits/claims-process/).
 
 </div>
 

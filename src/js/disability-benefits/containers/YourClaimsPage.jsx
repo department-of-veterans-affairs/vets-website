@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Modal from '../../common/components/Modal';
 import { getClaims, filterClaims, sortClaims, changePage, showConsolidatedMessage, hide30DayNotice } from '../actions';
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
+import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
@@ -46,7 +47,7 @@ class YourClaimsPage extends React.Component {
     }
   }
   componentWillReceiveProps(newProps) {
-    if (this.props.allClaims && this.props.route.showClosedClaims !== newProps.route.showClosedClaims) {
+    if (this.props.route.showClosedClaims !== newProps.route.showClosedClaims) {
       this.props.filterClaims(this.getFilter(newProps));
     }
   }
@@ -56,10 +57,7 @@ class YourClaimsPage extends React.Component {
     }
   }
   getFilter(props) {
-    if (props.allClaims) {
-      return props.route.showClosedClaims ? 'closed' : 'open';
-    }
-    return undefined;
+    return props.route.showClosedClaims ? 'closed' : 'open';
   }
   handleSort(sortObject) {
     this.props.sortClaims(sortObject.value);
@@ -70,7 +68,7 @@ class YourClaimsPage extends React.Component {
   }
 
   render() {
-    const { unfilteredClaims, claims, pages, page, loading, show30DayNotice, route, allClaims } = this.props;
+    const { unfilteredClaims, claims, pages, page, loading, show30DayNotice, route, synced } = this.props;
 
     let content;
 
@@ -78,7 +76,7 @@ class YourClaimsPage extends React.Component {
       content = <LoadingIndicator message="Loading claims list" setFocus/>;
     } else if (claims.length > 0) {
       content = (<div>
-        {allClaims && !route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims} onClose={this.props.hide30DayNotice}/>}
+        {!route.showClosedClaims && show30DayNotice && <ClosedClaimMessage claims={unfilteredClaims} onClose={this.props.hide30DayNotice}/>}
         <div className="claim-list">
           {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
           <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
@@ -88,19 +86,22 @@ class YourClaimsPage extends React.Component {
       content = <NoClaims/>;
     }
 
-    if (this.props.allClaims) {
+    if (!loading) {
       const currentTab = `${route.showClosedClaims ? 'Closed' : 'Open'}Claims`;
       content = (
-        <div className="va-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
-          <div className="claims-list-sort">
-            <ErrorableSelect
-                label="Sort by"
-                includeBlankOption={false}
-                options={sortOptions}
-                value={{ value: this.props.sortProperty }}
-                onValueChange={this.handleSort}/>
+        <div>
+          <MainTabNav/>
+          <div className="va-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
+            <div className="claims-list-sort">
+              <ErrorableSelect
+                  label="Sort by"
+                  includeBlankOption={false}
+                  options={sortOptions}
+                  value={{ value: this.props.sortProperty }}
+                  onValueChange={this.handleSort}/>
+            </div>
+            {content}
           </div>
-          {content}
         </div>
       );
     }
@@ -108,17 +109,22 @@ class YourClaimsPage extends React.Component {
     return (
       <div className="your-claims">
         <div className="row">
+          <div>
+            <h1>Your Claims</h1>
+          </div>
+          {!loading && !synced && <ClaimSyncWarning olderVersion={claims.length}/>}
+        </div>
+        <div className="row">
           <div className="small-12 medium-8 columns">
-            <div>
-              <h1>Your Claims</h1>
-            </div>
             <p>
               <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
+                window.dataLayer.push({
+                  event: 'claims-consolidated-modal',
+                });
                 this.props.showConsolidatedMessage(true);
               }}>Find out why we sometimes combine claims.</a>
             </p>
-            {this.props.allClaims && <MainTabNav/>}
             {content}
             <Modal
                 onClose={() => true}
@@ -147,7 +153,8 @@ function mapStateToProps(state) {
     pages: claimsState.claims.pages,
     sortProperty: claimsState.claims.sortProperty,
     consolidatedModal: claimsState.claims.consolidatedModal,
-    show30DayNotice: claimsState.claims.show30DayNotice
+    show30DayNotice: claimsState.claims.show30DayNotice,
+    synced: claimsState.claimSync.synced
   };
 }
 
@@ -158,10 +165,6 @@ const mapDispatchToProps = {
   sortClaims,
   showConsolidatedMessage,
   hide30DayNotice
-};
-
-YourClaimsPage.defaultProps = {
-  allClaims: __ALL_CLAIMS_ENABLED__ // eslint-disable-line no-undef
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPage);

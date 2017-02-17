@@ -12,7 +12,7 @@ const phaseMap = {
   5: evidenceGathering,
   6: evidenceGathering,
   7: 'Preparation for notification',
-  8: 'Closed'
+  8: 'Complete'
 };
 
 export function getPhaseDescription(phase) {

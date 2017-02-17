@@ -13,7 +13,6 @@ import {
   addComposeAttachments,
   deleteComposeAttachment,
   deleteComposeMessage,
-  fetchRecipients,
   openAttachmentsModal,
   resetMessage,
   saveDraft,
@@ -46,7 +45,6 @@ export class Compose extends React.Component {
     }
 
     this.props.resetMessage();
-    this.props.fetchRecipients();
   }
 
   componentDidUpdate() {
@@ -134,7 +132,7 @@ export class Compose extends React.Component {
               onClick={this.props.toggleConfirmDelete}>
             Cancel
           </a>
-          <h2>New message</h2>
+          <h3>New message</h3>
           <button
               className="messaging-send-button"
               type="button"
@@ -194,7 +192,6 @@ const mapDispatchToProps = {
   addComposeAttachments,
   deleteComposeAttachment,
   deleteComposeMessage,
-  fetchRecipients,
   openAttachmentsModal,
   resetMessage,
   saveDraft,

@@ -14,6 +14,8 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main');
 
+    E2eHelpers.overrideSmoothScrolling(client);
+
     // Ensure history page renders.
     client
       .url(`${E2eHelpers.baseUrl}/healthcare/prescriptions/history`)

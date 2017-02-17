@@ -27,6 +27,28 @@ describe('Schemaform: ObjectField', () => {
 
     expect(tree.everySubTree('shouldUpdate(SchemaField)')).not.to.be.empty;
   });
+  it('should not render hidden items', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          'ui:hidden': true,
+          type: 'string'
+        }
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          idSchema={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('shouldUpdate(SchemaField)')).to.be.empty;
+  });
   it('should render description', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
@@ -51,6 +73,56 @@ describe('Schemaform: ObjectField', () => {
     );
 
     expect(tree.text()).to.contain('Blah');
+  });
+  it('should render jsx description', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:description': <div className="test-class"/>
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={{}}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('.test-class')).not.to.be.empty;
+  });
+  it('should render component description', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:description': () => <div className="test-class"/>
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={{}}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.text()).to.contain('uiDescription');
   });
   it('should render title', () => {
     const onChange = sinon.spy();
@@ -150,5 +222,53 @@ describe('Schemaform: ObjectField', () => {
 
     expect(tree.everySubTree('ExpandingGroup')).not.to.be.empty;
     expect(tree.subTree('ExpandingGroup').props.open).to.be.true;
+  });
+  it('should handle change', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          idSchema={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    tree.getMountedInstance().onPropertyChange('test')('value');
+
+    expect(onChange.firstCall.args[0]).to.eql({
+      test: 'value'
+    });
+  });
+  it('should handle blur', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'string'
+        }
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          idSchema={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    tree.getMountedInstance().onPropertyBlur('test')();
+
+    expect(onBlur.firstCall.args[0]).to.eql(['test']);
   });
 });

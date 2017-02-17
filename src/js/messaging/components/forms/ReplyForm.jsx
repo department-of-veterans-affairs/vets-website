@@ -31,6 +31,7 @@ class ReplyForm extends React.Component {
       <form id="msg-reply">
         {replyDetails}
         <MessageWriteGroup
+            disabled={this.props.disabled}
             allowedMimeTypes={allowedMimeTypes}
             errorMessage={validations.isValidMessageBody(reply.body) ? undefined : composeMessage.errors.message}
             files={reply.attachments}
@@ -52,10 +53,10 @@ class ReplyForm extends React.Component {
 }
 
 ReplyForm.propTypes = {
+  disabled: React.PropTypes.bool,
   detailsCollapsed: React.PropTypes.bool,
   recipient: React.PropTypes.string.isRequired,
   subject: React.PropTypes.string.isRequired,
-
   reply: React.PropTypes.shape({
     body: React.PropTypes.shape({
       value: React.PropTypes.string,

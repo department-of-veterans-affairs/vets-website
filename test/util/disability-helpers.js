@@ -4,7 +4,7 @@ const mock = require('./mock-helpers');
 
 function initAskVAMock(token) {
   mock(token, {
-    path: '/v0/disability_claims/11/request_decision',
+    path: '/v0/evss_claims/11/request_decision',
     verb: 'post',
     value: {}
   });
@@ -12,13 +12,13 @@ function initAskVAMock(token) {
 
 function initClaimsListMock(token) {
   mock(token, {
-    path: '/v0/disability_claims',
+    path: '/v0/evss_claims',
     verb: 'get',
     value: {
       data: [
         {
           id: 11,
-          type: 'disability_claims',
+          type: 'evss_claims',
           attributes: {
             evssId: 189685,
             dateFiled: '2008-09-23',
@@ -36,7 +36,7 @@ function initClaimsListMock(token) {
         },
         {
           id: 12,
-          type: 'disability_claims',
+          type: 'evss_claims',
           attributes: {
             evssId: 189685,
             dateFiled: '2008-09-23',
@@ -62,12 +62,12 @@ function initClaimsListMock(token) {
 
 function initClaimDetailMocks(token, decisionLetterSent, documentsNeeded, waiverSubmitted, phase, estDate) {
   mock(token, {
-    path: '/v0/disability_claims/11',
+    path: '/v0/evss_claims/11',
     verb: 'get',
     value: {
       data: {
         id: '11',
-        type: 'disability_claims',
+        type: 'evss_claims',
         attributes: {
           evssId: 189685,
           dateFiled: '2008-09-23',

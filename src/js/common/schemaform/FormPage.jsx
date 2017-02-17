@@ -6,6 +6,7 @@ import Scroll from 'react-scroll';
 import Form from 'react-jsonschema-form';
 
 import { uiSchemaValidate, transformErrors } from './validation';
+import Address from './Address';
 import FieldTemplate from './FieldTemplate';
 import * as reviewWidgets from './review/widgets';
 import ReviewFieldTemplate from './review/ReviewFieldTemplate';
@@ -13,34 +14,24 @@ import widgets from './widgets/index';
 import ProgressButton from '../components/form-elements/ProgressButton';
 import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
+import StringField from './review/StringField';
 import ReviewObjectField from './review/ObjectField';
-import { focusElement, getActivePages } from '../utils/helpers';
+import { focusElement, scrollToFirstError, getActivePages } from '../utils/helpers';
 import { setData } from './actions';
 
 const fields = {
   ObjectField,
-  ArrayField
+  ArrayField,
+  address: Address
 };
 
 const reviewFields = {
   ObjectField: ReviewObjectField,
-  ArrayField
+  ArrayField,
+  StringField,
+  address: ReviewObjectField
 };
 
-const scrollToFirstError = () => {
-  setTimeout(() => {
-    const errorEl = document.querySelector('.usa-input-error, .input-error-date');
-    if (errorEl) {
-      const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-      Scroll.animateScroll.scrollTo(position - 10, {
-        duration: 500,
-        delay: 0,
-        smooth: true
-      });
-      focusElement(errorEl);
-    }
-  }, 100);
-};
 const scroller = Scroll.scroller;
 
 const scrollToTop = () => {
@@ -154,9 +145,9 @@ class FormPage extends React.Component {
   }
 
   validate(formData, errors) {
-    const { uiSchema } = this.props.route.pageConfig;
+    const { schema, uiSchema } = this.props.form[this.props.route.pageConfig.pageKey];
     if (uiSchema) {
-      uiSchemaValidate(errors, uiSchema, formData);
+      uiSchemaValidate(errors, uiSchema, schema, schema.definitions, formData);
     }
     return errors;
   }
@@ -218,8 +209,10 @@ const mapDispatchToProps = {
 };
 
 FormPage.propTypes = {
+  form: React.PropTypes.object.isRequired,
   route: React.PropTypes.shape({
     pageConfig: React.PropTypes.shape({
+      pageKey: React.PropTypes.string.isRequired,
       schema: React.PropTypes.object.isRequired,
       uiSchema: React.PropTypes.object.isRequired,
       errorMessages: React.PropTypes.object
@@ -231,6 +224,7 @@ FormPage.propTypes = {
   reviewMode: React.PropTypes.bool,
   reviewPage: React.PropTypes.bool,
   onSubmit: React.PropTypes.func,
+  setData: React.PropTypes.func,
   hideTitle: React.PropTypes.bool
 };
 

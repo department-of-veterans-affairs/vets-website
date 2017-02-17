@@ -40,7 +40,7 @@ export function setNotification(message) {
 
 export function getClaims(filter) {
   return (dispatch) => {
-    makeAuthRequest('/v0/disability_claims',
+    makeAuthRequest('/v0/evss_claims',
       null,
       dispatch,
       claims => {
@@ -82,7 +82,7 @@ export function getClaimDetail(id, router) {
     dispatch({
       type: GET_CLAIM_DETAIL
     });
-    makeAuthRequest(`/v0/disability_claims/${id}`,
+    makeAuthRequest(`/v0/evss_claims/${id}`,
       null,
       dispatch,
       resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
@@ -102,7 +102,7 @@ export function submitRequest(id) {
     dispatch({
       type: SUBMIT_DECISION_REQUEST
     });
-    makeAuthRequest(`/v0/disability_claims/${id}/request_decision`,
+    makeAuthRequest(`/v0/evss_claims/${id}/request_decision`,
       { method: 'POST' },
       dispatch,
       () => {
@@ -158,11 +158,14 @@ export function submitFiles(claimId, trackedItem, files) {
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
   const trackedItemId = trackedItem ? trackedItem.trackedItemId : null;
+  window.dataLayer.push({
+    event: 'claims-upload-start',
+  });
 
   return (dispatch) => {
     const uploader = new FineUploaderBasic({
       request: {
-        endpoint: `${environment.API_URL}/v0/disability_claims/${claimId}/documents`,
+        endpoint: `${environment.API_URL}/v0/evss_claims/${claimId}/documents`,
         inputName: 'file',
         customHeaders: {
           'X-Key-Inflection': 'camel',
@@ -177,6 +180,9 @@ export function submitFiles(claimId, trackedItem, files) {
       callbacks: {
         onAllComplete: () => {
           if (!hasError) {
+            window.dataLayer.push({
+              event: 'claims-upload-success',
+            });
             dispatch({
               type: DONE_UPLOADING,
             });
@@ -185,6 +191,9 @@ export function submitFiles(claimId, trackedItem, files) {
               body: `Thank you for filing ${trackedItem ? trackedItem.displayName : 'additional evidence'}. We'll let you know when we've reviewed it.`
             }));
           } else {
+            window.dataLayer.push({
+              event: 'claims-upload-failure',
+            });
             dispatch({
               type: SET_UPLOAD_ERROR
             });
@@ -263,6 +272,9 @@ export function showMailOrFaxModal(visible) {
 export function cancelUpload() {
   return (dispatch, getState) => {
     const uploader = getState().uploads.uploader;
+    window.dataLayer.push({
+      event: 'claims-upload-cancel',
+    });
 
     if (uploader) {
       uploader.cancelAll();

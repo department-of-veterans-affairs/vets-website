@@ -3,15 +3,12 @@ import { connect } from 'react-redux';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimComplete from '../components/ClaimComplete';
-import AskVAToDecide from '../components/AskVAToDecide';
 import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
 import { itemsNeedingAttentionFromVet, getClaimType, getCompletedDate } from '../utils/helpers';
 
 import { clearNotification } from '../actions';
-
-const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
 class StatusPage extends React.Component {
   componentDidMount() {
@@ -43,13 +40,11 @@ class StatusPage extends React.Component {
       `Status - Your ${getClaimType(this.props.claim)} Claim`;
   }
   render() {
-    const { claim, loading, message } = this.props;
+    const { claim, loading, message, synced } = this.props;
 
     let content = null;
     if (!loading) {
       const phase = claim.attributes.phase;
-      const showDecision = phase === FIRST_GATHERING_EVIDENCE_PHASE
-        && !claim.attributes.waiverSubmitted;
       const filesNeeded = itemsNeedingAttentionFromVet(claim.attributes.eventsTimeline);
       const showDocsNeeded = !claim.attributes.decisionLetterSent &&
         claim.attributes.open &&
@@ -60,9 +55,6 @@ class StatusPage extends React.Component {
         <div>
           {showDocsNeeded
             ? <NeedFilesFromYou claimId={claim.id} files={filesNeeded}/>
-            : null}
-          {showDecision
-            ? <AskVAToDecide id={this.props.params.id}/>
             : null}
           {claim.attributes.decisionLetterSent && !claim.attributes.open ? <ClaimsDecision completedDate={getCompletedDate(claim)}/> : null}
           {!claim.attributes.decisionLetterSent && !claim.attributes.open ? <ClaimComplete completedDate={getCompletedDate(claim)}/> : null}
@@ -85,7 +77,8 @@ class StatusPage extends React.Component {
           loading={loading}
           clearNotification={this.props.clearNotification}
           currentTab="Status"
-          message={message}>
+          message={message}
+          synced={synced}>
         {content}
       </ClaimDetailLayout>
     );
@@ -98,7 +91,8 @@ function mapStateToProps(state) {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
-    lastPage: claimsState.routing.lastPage
+    lastPage: claimsState.routing.lastPage,
+    synced: claimsState.claimSync.synced
   };
 }
 
@@ -109,4 +103,3 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
 
 export { StatusPage };
-

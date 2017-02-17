@@ -69,7 +69,7 @@ class Modal extends React.Component {
     }
 
     return (
-      <div className={modalCss} id={this.props.id} role="alertdialog" aria-labelledby={title}>
+      <div className={modalCss} id={this.props.id} role="alertdialog" aria-labelledby={this.props.title}>
         <div className="va-modal-inner">
           {title}
           {closeButton}

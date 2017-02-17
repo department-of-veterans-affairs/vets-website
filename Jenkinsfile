@@ -4,6 +4,11 @@ def isContentTeamUpdate = {
   env.BRANCH_NAME ==~ /^content\/wip\/.*/
 }
 
+def isReviewable = {
+  env.BRANCH_NAME != 'production' &&
+    env.BRANCH_NAME != 'master'
+}
+
 env.CONCURRENCY = 10
 
 def isDeployable = {
@@ -70,20 +75,24 @@ node('vets-website-linting') {
       return
     }
 
-    try {
-      dockerImage.inside(args) {
-        sh "cd /application && npm --no-color run test:coverage"
-      }
-    } finally {
-      publishHTML(target: [
-        reportName           : "Coverage Report",
-        reportDir            : 'coverage/',
-        reportFiles          : 'index.html',
-        keepAll              : true,
-        alwaysLinkToLastBuild: true,
-        allowMissing         : false
-      ])
+    dockerImage.inside(args) {
+      sh "cd /application && npm --no-color run test:coverage"
+      sh "cd /application && npm install -g codeclimate-test-reporter"
+      sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
     }
+  }
+
+  stage('Review') {
+    if (!isReviewable()) {
+      return
+    }
+
+    build job: 'vets-review-instance-deploy', parameters: [
+      stringParam(name: 'devops_branch', value: 'master'),
+      stringParam(name: 'api_branch', value: 'master'),
+      stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+      stringParam(name: 'source_repo', value: 'vets-website'),
+    ], wait: false
   }
 
   // Perform a build for each required build type
@@ -133,13 +142,13 @@ node('vets-website-linting') {
       parallel (
         e2e: {
           dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "cd /application && npm --no-color run test:e2e"
+            sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
           }
         },
 
         accessibility: {
           dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "cd /application && npm --no-color run test:accessibility"
+            sh "Xvfb :98 & cd /application && DISPLAY=:98 npm --no-color run test:accessibility"
           }
         }
       )
@@ -149,8 +158,6 @@ node('vets-website-linting') {
   }
 
   stage('Deploy') {
-    return // Remove when Travis is no longer performing the deployment
-
     if (!isDeployable()) {
       return
     }
