@@ -18,8 +18,8 @@ function focusForm() {
 }
 
 /*
- * Each page uses this component and passes in config. This is where most of the page level
- * form logic should live.
+ * Component for regular form pages (i.e. not on the review page). Handles moving back
+ * and forward through pages
  */
 class FormPage extends React.Component {
   constructor(props) {
