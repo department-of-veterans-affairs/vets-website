@@ -175,6 +175,11 @@ function isValidPartialMonthYearInPast(month, year) {
   return !year || isValidPartialMonthYear(month, year) && momentDate.isValid() && momentDate.isSameOrBefore(moment().startOf('month'));
 }
 
+function isValidCurrentOrPastDate(day, month, year) {
+  const momentDate = moment({ day: day, month: parseInt(month, 10) - 1, year: year });
+  return momentDate.isSameOrBefore(moment().endOf('day'), 'day');
+}
+
 function isBlankMonthYear(field) {
   return isBlank(field.month.value) && isBlank(field.year.value);
 }
@@ -324,6 +329,7 @@ export {
   isValidAnyDate,
   isValidCanPostalCode,
   isValidCurrentOrPastYear,
+  isValidCurrentOrPastDate,
   isValidDate,
   isValidDateField,
   isValidDateOver17,

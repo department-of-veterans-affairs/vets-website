@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 
 import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
 
+import { validateCurrentOrPastDate } from '../../../common/schemaform/validation';
 import { validateMatch } from '../../../common/schemaform/validation';
 import {
   benefitsLabels,
@@ -258,7 +259,9 @@ const formConfig = {
               },
               address: address.uiSchema()
             },
-            trainingEndDate: date.uiSchema('When did you stop taking classes or participating in the training program?'),
+            trainingEndDate: _.merge(date.uiSchema('When did you stop taking classes or participating in the training program?'), {
+              'ui:validations': [ validateCurrentOrPastDate ]
+            }),
             reasonForChange: {
               'ui:title': 'Why did you stop taking classes or participating in the training program? (for example, “I graduated” or “I moved” or “The program wasn’t right for me.”)'
             }
