@@ -16,7 +16,7 @@ const formContext = {};
 const touchedSchema = {};
 const requiredSchema = {};
 
-describe('Schemaform ArrayField', () => {
+describe('Schemaform <ArrayField>', () => {
   it('should render', () => {
     const idSchema = {};
     const schema = {
