@@ -14,6 +14,7 @@ import {
   toggleReportType,
 } from '../actions/form';
 import { openModal } from '../actions/modal';
+import { apiRequest } from '../utils/helpers';
 
 function isValidDateRange(startDate, endDate) {
   if (!startDate || !endDate) {
@@ -34,6 +35,11 @@ class Main extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
+  }
+
+  componentDidMount() {
+    // kick off PHR refresh process
+    apiRequest('/v0/health_records/refresh');
   }
 
   componentWillReceiveProps(nextProps) {

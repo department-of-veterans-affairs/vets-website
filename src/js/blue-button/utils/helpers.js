@@ -13,7 +13,7 @@ export function apiRequest(url, optionalSettings = {}, success, error) {
     method: 'GET',
     headers: {
       Authorization: `Token token=${sessionStorage.userToken}`,
-      'X-Key-Inflection': 'camel'
+      'X-Key-Inflection': 'camel',
     }
   };
 
