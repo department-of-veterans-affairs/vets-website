@@ -11,8 +11,9 @@ export const benefitsLabels = {
 };
 
 export const bankAccountChangeLabels = {
-  startChange: 'Start/change',
-  stop: 'Stop'
+  startUpdate: 'Start or update direct deposit',
+  stop: 'Stop direct deposit',
+  noChange: 'No change to payment method'
 };
 
 export const preferredContactMethodLabels = {

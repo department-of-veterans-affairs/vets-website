@@ -357,12 +357,12 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             bankAccountChange: {
-              'ui:title': 'Do you want to continue, start, or stop using direct deposit?',
+              'ui:title': 'Benefit payment method:',
               'ui:widget': 'radio'
             },
             bankAccount: _.assign(bankAccount.uiSchema, {
               'ui:options': {
-                hideIf: (form) => form.bankAccountChange === 'stop'
+                hideIf: (form) => form.bankAccountChange !== 'startUpdate'
               }
             }),
             'view:stopWarning': {
