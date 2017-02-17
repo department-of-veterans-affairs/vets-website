@@ -3,7 +3,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import { focusElement, getActivePages } from '../../utils/helpers';
-import FormPage from '../FormPage';
+import SchemaForm from '../SchemaForm';
 import { getArrayFields, hasFieldsOtherThanArray } from '../helpers';
 import ArrayField from './ArrayField';
 import ProgressButton from '../../components/form-elements/ProgressButton';
@@ -86,18 +86,22 @@ export default class ReviewCollapsibleChapter extends React.Component {
               <div key={page.pageKey} className="form-review-panel-page">
                 <Element name={`${page.pageKey}ScrollElement`}/>
                 {hasNonArrayFields &&
-                  <FormPage
-                      reviewPage
+                  <SchemaForm
+                      name={page.pageKey}
+                      title={page.title}
+                      data={data[page.pageKey].data}
+                      schema={data[page.pageKey].schema}
+                      uiSchema={data[page.pageKey].uiSchema}
                       hideTitle={activePages.length === 1}
                       onEdit={() => this.handleEdit(page.pageKey, !editing)}
                       onSubmit={() => this.handleEdit(page.pageKey, false)}
-                      reviewMode={!editing}
-                      route={{ pageConfig: page }}>
+                      onChange={(formData) => this.props.setData(page.pageKey, formData)}
+                      reviewMode={!editing}>
                     {!editing ? <div/> : <ProgressButton
                         submitButton
                         buttonText="Update page"
                         buttonClass="usa-button-primary"/>}
-                  </FormPage>}
+                  </SchemaForm>}
                 {arrayFields.map(arrayField =>
                   <ArrayField
                       pageKey={page.pageKey}

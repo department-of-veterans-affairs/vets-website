@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { focusElement } from '../../../common/utils/helpers';
 import ProgressButton from '../../../common/components/form-elements/ProgressButton';
+import FormTitle from '../../../common/schemaform/FormTitle';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -13,7 +14,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <h1>Manage Your Education Benefits</h1>
+        <FormTitle title="Manage Your Education Benefits" subTitle="OMB Control No. 2900-0074"/>
         <p>This application is equivalent to Form 22-1995 (Request for Change of Program or Place of Training) and Form 22-5495 (Dependents' Request for Change of Program or Place of Training).</p>
         <div className="process schemaform-process">
           <ol>
