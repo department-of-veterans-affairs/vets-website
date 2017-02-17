@@ -66,6 +66,10 @@ class SchemaForm extends React.Component {
     };
   }
 
+  /*
+   * This gets the list of JSON Schema errors whenever validation
+   * is run
+   */
   transformErrors(errors) {
     return transformErrors(errors, this.props.uiSchema);
   }
