@@ -197,7 +197,9 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
       </div>
     {% endif %}
   </div>
-  {% include "content/includes/veteran-navigation.html" %}
+  {% if body_class != 'page-playbook' %}
+    {% include "content/includes/veteran-navigation.html" %}
+  {% endif %}
   </div>
 </div>
 
