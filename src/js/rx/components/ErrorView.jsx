@@ -1,6 +1,7 @@
 import React from 'react';
-import { isEmpty, some, includes, intersection } from 'lodash';
+import { isEmpty, some, includes, intersection, concat } from 'lodash';
 import AlertBox from '../../common/components/AlertBox';
+import { errorCodes } from '../config';
 
 class ErrorView extends React.Component {
   renderErrorMessage() {
@@ -15,14 +16,14 @@ class ErrorView extends React.Component {
     let content;
     let alert;
 
-    if (some(errors, errorCodeIncludes(['RX135', 'VA900']))) {
+    if (some(errors, errorCodeIncludes(errorCodes.acceptTerms))) {
       title = 'Accept terms and conditions';
       detail = (
         <p>
           To refill prescriptions, you need to accept the MyHealtheVet terms and conditions first. If you want to use Secure Messaging, please accept the Secure Messaging terms and conditions too. <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">Review terms and conditions</a>
         </p>
       );
-    } else if (some(errors, errorCodeIncludes(['RX106', 'RX105', 'RX104', 'RX3']))) {
+    } else if (some(errors, errorCodeIncludes(errorCodes.registration))) {
       alert = true;
       title = "We're not able to locate your records";
       detail = (
@@ -30,7 +31,7 @@ class ErrorView extends React.Component {
           Please call support at 1-855-574-7286. We're open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET). To refill prescriptions, you need to be registered as a VA patient through MyHealtheVet. To register, <a href="https://www.myhealth.va.gov/web/myhealthevet/user-registration">visit MyHealtheVet</a>
         </p>
       );
-    } else if (some(errors, errorCodeIncludes(['RX101', 'RX102', 'RX901', 'RX500', 'RX503', 'RX117', 'RX99']))) {
+    } else if (some(errors, errorCodeIncludes(errorCodes.prescriptions))) {
       alert = true;
       title = "We couldn't retrieve your prescriptions";
       detail = (
@@ -68,21 +69,11 @@ class ErrorView extends React.Component {
 
   render() {
     const { errors } = this.props;
-    const blockingErrors = [
-      'RX101',
-      'RX102',
-      'RX104',
-      'RX105',
-      'RX106',
-      'RX117',
-      'RX135',
-      'RX3',
-      'RX901',
-      'RX99',
-      'RX503',
-      'RX500',
-      'VA900',
-    ];
+    const blockingErrors = concat(
+      errorCodes.acceptTerms,
+      errorCodes.registration,
+      errorCodes.prescription
+    );
 
     // don't block application if no errors, or errors not in the list above
     if (isEmpty(errors) || intersection(errors.map(e => e.code), blockingErrors).length === 0) {
