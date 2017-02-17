@@ -12,12 +12,12 @@ export class DefinitionTester extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      formData: props.formData,
+      data: props.data,
       schema: props.schema,
       uiSchema: props.uiSchema
     };
   }
-  handleChange(data) {
+  handleChange = (data) => {
     const state = this.props.state;
     const uiSchema = this.state.uiSchema;
     let schema = updateRequiredFields(this.state.schema, uiSchema, data, state);
@@ -35,14 +35,15 @@ export class DefinitionTester extends React.Component {
     });
   }
   render() {
-    const { schema, uiSchema, formData } = this.state;
+    const { schema, uiSchema, data } = this.state;
     return (
       <SchemaForm
+          reviewMode={this.props.reviewMode}
           name="test"
           title="test"
           schema={schema}
           uiSchema={uiSchema}
-          formData={formData}
+          data={data}
           onChange={this.handleChange}
           onSubmit={this.props.onSubmit}/>
     );

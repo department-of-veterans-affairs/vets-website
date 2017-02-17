@@ -40,6 +40,7 @@ class ErrorableDate extends React.Component {
       date = set('day.value', '', date);
     }
 
+    console.log(typeof update.value);
     this.props.onValueChange(date);
   }
 
