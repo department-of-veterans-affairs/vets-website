@@ -100,10 +100,10 @@ class Main extends React.Component {
       };
     } else if (c.hold) {
       hasGlossaryLink = true;
-      linkText = `(${c.hold} day hold period applies)`;
+      linkText = `(Available after ${c.hold} days)`;
       onClick = (e) => {
         e.preventDefault();
-        this.props.openModal(`${c.hold} Day Hold`, c.holdExplanation);
+        this.props.openModal(`Available after ${c.hold} days`, c.holdExplanation);
       };
     }
 
