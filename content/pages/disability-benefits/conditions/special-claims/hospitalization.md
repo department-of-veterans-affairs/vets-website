@@ -6,7 +6,7 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-Did you spend time in a VA hospital or other VA-approved hospital for a disability related to your military service (called a service-connected disability)? If you did, you may be able to get added disability compensation or benefits with a temporary 100% disability rating during your hospital stay. Find out if you can get this benefit.
+Did you spend time in a VA hospital or a VA-approved hospital for a disability related to your military service (called a service-connected disability)? If you did, you may be able to get added disability compensation or benefits with a temporary 100% disability rating for the time you spent in the hospital. Find out if you can get this benefit.
 
 <div class="call-out" markdown="1">
 
@@ -14,7 +14,7 @@ Did you spend time in a VA hospital or other VA-approved hospital for a disabili
 
 You may be able to get disability benefits if you:
   - Spent more than 21 days in a VA hospital or other approved hospital for a service-connected disability, **or**
-  - Were under hospital observation for more than 21 days at VA expense for a service-connected disability
+  - Were under hospital observation for more than 21 days at our expense for a service-connected disability
 
 ### Who's covered?
 Veterans
@@ -29,8 +29,8 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply-for-benefits/).
 
-**Note:** If you weren't in a VA hospital, you'll need to give us your hospital discharge summary showing the length and cause of your hospital stay when filing your claim. 
+**Note:** If you weren't in a VA hospital, when filing your claim you'll need to give us your hospital discharge summary showing the length and cause of your hospital stay. 
 
 **Example:** A Veteran with a 40% service-connected disability rating for diabetes had to stay in a VA hospital after going into a diabetic coma. He needed to stay in the hospital for 25 days due to the coma and related infections. We temporarily raised his rating to 100% during his hospital stay. After he got out of the hospital, his disability rating went back to 40%.
