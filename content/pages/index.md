@@ -16,10 +16,6 @@ majorlinks:
   - url: /employment/
     title: Careers and Employment
     description: Get help building your career skills and finding a job.
-  - url: /healthcare/apply/
-    title: Health Care
-    description: Apply for health coverage for doctor’s visits, medical equipment, prescriptions, and more.
-
 ---
 <div class="splash">
   <div class="row">
