@@ -72,7 +72,7 @@ class ErrorView extends React.Component {
     const blockingErrors = concat(
       errorCodes.acceptTerms,
       errorCodes.registration,
-      errorCodes.prescription
+      errorCodes.prescriptions,
     );
 
     // don't block application if no errors, or errors not in the list above
