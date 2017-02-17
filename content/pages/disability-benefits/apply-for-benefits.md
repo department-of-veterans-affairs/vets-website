@@ -87,8 +87,6 @@ If you’ve already filed a claim, you can check your disability compensation cl
 - Get help from an accredited representative if you need it. [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
 - Find out what kind of supporting documents (or evidence) you'll need to send in along with your claim. [See evidence requirements](/disability-benefits/claims-process/evidence/).
 - Be sure your claim is filled out completely and that you've included all supporting documents. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
-
-
 </div>
 
 <div class="feature" markdown="1">

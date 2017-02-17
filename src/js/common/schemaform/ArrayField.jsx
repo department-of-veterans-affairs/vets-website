@@ -44,13 +44,7 @@ export default class ArrayField extends React.Component {
   }
 
   onItemChange(indexToChange, value) {
-    const newItems = this.props.formData.map(
-      (current, index) => {
-        return index === indexToChange
-          ? value
-          : current;
-      }
-    );
+    const newItems = _.set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
   }
 

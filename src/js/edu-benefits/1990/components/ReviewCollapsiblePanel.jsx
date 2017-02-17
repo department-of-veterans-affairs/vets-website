@@ -3,7 +3,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import * as validations from '../utils/validations';
-import { focusElement } from '../../../common/utils/helpers';
+import { getScrollOptions, scrollAndFocus } from '../../../common/utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -91,34 +91,22 @@ export default class ReviewCollapsiblePanel extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo(`chapter${this.props.chapter}ScrollElement`, {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    });
+    const options = getScrollOptions({ delay: 2 });
+    scroller.scrollTo(`chapter${this.props.chapter}ScrollElement`, options);
   }
 
   scrollToFirstError(path) {
     setTimeout(() => {
       const errorEl = document.querySelector(`#${getPageId(path)} .usa-input-error, #${getPageId(path)} .input-error-date`);
       if (errorEl) {
-        const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
-        Scroll.animateScroll.scrollTo(position - 10, {
-          duration: 500,
-          delay: 0,
-          smooth: true
-        });
-        focusElement(errorEl);
+        scrollAndFocus(errorEl);
       }
     }, 100);
   }
 
   scrollToPage(path) {
-    scroller.scrollTo(`${path}ScrollElement`, {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    });
+    const options = getScrollOptions({ delay: 2 });
+    scroller.scrollTo(`${path}ScrollElement`, options);
   }
 
   toggleChapter() {

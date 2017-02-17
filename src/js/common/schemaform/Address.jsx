@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import { set, assign } from 'lodash/fp';
 
+import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
+
 import { states } from '../utils/options-for-select';
 
 /**
@@ -52,9 +54,22 @@ class Address extends React.Component {
 
   render() {
     let stateList = [];
-    const { errorSchema, formData, formContext, touchedSchema, schema, idSchema, uiSchema, registry } = this.props;
+    const {
+      errorSchema,
+      formContext,
+      touchedSchema,
+      schema,
+      idSchema,
+      uiSchema,
+      registry
+    } = this.props;
+    const formData = this.props.formData
+      ? this.props.formData
+      : getDefaultFormState(schema, undefined, registry.definitions);
     const SchemaField = registry.fields.SchemaField;
+    const TitleField = registry.fields.TitleField;
     const selectedCountry = formData.country;
+    const title = uiSchema['ui:title'];
     let postalCodeUiSchema = uiSchema.postalCode;
     let stateUiSchema = uiSchema.state;
     let stateSchema = schema.properties.state;
@@ -81,7 +96,12 @@ class Address extends React.Component {
     }
 
     return (
-      <div>
+      <div className={title ? 'schemaform-block' : undefined}>
+        {title
+            ? <TitleField
+                id={`${idSchema.$id}__title`}
+                title={title}
+                formContext={formContext}/> : null}
         <SchemaField
             name="country"
             required={this.isRequired('country')}
@@ -136,7 +156,7 @@ class Address extends React.Component {
             onBlur={this.onPropertyBlur('city')}/>
         <SchemaField
             name="state"
-            required={_.includes(['USA', 'CAN', 'MEX'], formData.country) || this.isRequired('state')}
+            required={_.includes(['USA', 'CAN', 'MEX'], formData.country) && schema.required}
             schema={stateSchema}
             uiSchema={stateUiSchema}
             idSchema={idSchema.state}
