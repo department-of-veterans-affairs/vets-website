@@ -23,15 +23,11 @@ relatedlinks:
 
 If you're a Servicemember, Veteran, or family member interested in education and training opportunities, you can apply for your Certificate of Eligibility (COE). You can also manage your current benefits.
 
-__Apply for benefits__ with:  
-- Form 22-1990 (Application for Education Benefits)  
-- Form 22-1990E (Application for a family member to use transferred benefits)  
-- Form 22-5490 (Dependents Application for Education Benefits)  
-- Form 22-1990N (Application for the National Call to Service program)
+Choose **Apply for Benefits** if you are a first time applicant.  
+Includes Forms 22-1990, 22-1990E, 22-5490, and 22-1990N
 
-__Manage benefits__ with:  
-- Form 22-1995 (Request For Change of Program or Place of Training)  
-- Form 22-5495 (Dependents' Request for Change of Program or Place of Training)
+Choose **Manage Benefits** if you need to make a change to your current education benefits (for example, you’re moving to a new school).  
+Includes Form 22-1995 and 22-5495
 
 <br>
 
