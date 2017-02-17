@@ -77,7 +77,7 @@ const formConfig = {
             'view:noSSN': {
               'ui:title': 'I don’t have a Social Security number',
               'ui:options': {
-                hideOnReviewIfFalse: true
+                hideOnReview: true
               }
             },
             vaFileNumber: {
