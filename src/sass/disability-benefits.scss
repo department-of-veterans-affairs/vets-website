@@ -640,8 +640,24 @@ h1:focus {
 .claims-list-sort {
   margin: 2em 0;
 
+  label, select {
+    display: inline-block;
+  }
+
   label {
-    margin-top: 0;
+    margin-right: 1.5rem;
+  }
+
+  @media (max-width: $medium-screen) {
+    label {
+      display: block;
+      margin: 0;
+    }
+
+    select {
+      display: block;
+      margin: 1.4rem 0;
+    }
   }
 }
 

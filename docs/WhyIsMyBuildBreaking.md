@@ -1,6 +1,6 @@
 # Why Is My Build Breaking?
 
-Breaking the Travis CI build is pretty easy to do and also pretty common. Never
+Breaking the Jenkins build is pretty easy to do and also pretty common. Never
 fear! It is also easy to fix.
 
 
@@ -10,9 +10,9 @@ Each pull request page indicates whether your commits have errors that break the
 
 ![What failing builds look like on GitHub](images/FailingBuild.png)
 
-Next to the failing build message is a _Details_ link. Click it to find out what's causing the failure. It will take you to a page at Travis-CI.org. Scroll down that page until you see a bunch of red text.
+Next to the failing build message is a _Details_ link. Click it to find out what's causing the failure. It will take you to a page at jenkins.vetsgov-internal. You will need to [configure the SOCKS proxy](https://github.com/department-of-veterans-affairs/devops/blob/master/docs/Internal%20Tools.md) to access this utility. Scroll down that page until you see a failure.
 
-![What a Travis CI error looks like](images/TravisFail.png)
+![What a Jenkins CI error looks like](images/JenkinsFail.png)
 
 This will indicate what error, what file, and what line is causing a problem. **Note:** _The exact error text will vary depending on which language you are using_. 
 
