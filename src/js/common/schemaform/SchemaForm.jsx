@@ -7,6 +7,7 @@ import Address from './Address';
 import FieldTemplate from './FieldTemplate';
 import * as reviewWidgets from './review/widgets';
 import ReviewFieldTemplate from './review/ReviewFieldTemplate';
+import StringField from './review/StringField';
 import widgets from './widgets/index';
 import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
@@ -22,7 +23,8 @@ const fields = {
 const reviewFields = {
   ObjectField: ReviewObjectField,
   ArrayField,
-  address: ReviewObjectField
+  address: ReviewObjectField,
+  StringField
 };
 
 /*
@@ -64,6 +66,10 @@ class SchemaForm extends React.Component {
     };
   }
 
+  /*
+   * This gets the list of JSON Schema errors whenever validation
+   * is run
+   */
   transformErrors(errors) {
     return transformErrors(errors, this.props.uiSchema);
   }

@@ -21,6 +21,10 @@
     margin: 1em 0 !important;
   }
 
+  a:visited {
+    color: $primary-color;
+  }
+
   .date-range-fields {
     display: flex;
     display: -webkit-flex;

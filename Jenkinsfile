@@ -75,19 +75,10 @@ node('vets-website-linting') {
       return
     }
 
-    try {
-      dockerImage.inside(args) {
-        sh "cd /application && npm --no-color run test:coverage"
-      }
-    } finally {
-      publishHTML(target: [
-        reportName           : "Coverage Report",
-        reportDir            : 'coverage/',
-        reportFiles          : 'index.html',
-        keepAll              : true,
-        alwaysLinkToLastBuild: true,
-        allowMissing         : false
-      ])
+    dockerImage.inside(args) {
+      sh "cd /application && npm --no-color run test:coverage"
+      sh "cd /application && npm install -g codeclimate-test-reporter"
+      sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
     }
   }
 
@@ -167,8 +158,6 @@ node('vets-website-linting') {
   }
 
   stage('Deploy') {
-    return // Remove when Travis is no longer performing the deployment
-
     if (!isDeployable()) {
       return
     }
