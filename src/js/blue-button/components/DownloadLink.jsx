@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import { apiRequest } from '../utils/helpers';
 
@@ -39,17 +38,11 @@ class DownloadLink extends React.Component {
   }
 
   render() {
-    const iconClass = classNames({
-      fa: true,
-      'fa-spinner': this.state.downloading,
-      'fa-pulse': this.state.downloading,
-    });
-
     const loadingMessage = <span>Loading...</span>;
 
     return (
-      <button onClick={this.downloadHealthRecord} href={this.props.url}>
-        <i className={iconClass}></i>
+      <button onClick={this.downloadHealthRecord}>
+        {this.state.downloading ? <i className="fa fa-spinner fa-pulse"></i> : null}
         {this.state.downloading ? loadingMessage : this.props.name}
       </button>
     );
