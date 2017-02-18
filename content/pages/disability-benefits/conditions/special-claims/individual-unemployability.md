@@ -18,7 +18,7 @@ You may be able to get disability benefits if:
   - You have at least 1 service-connected disability rated at 60% or more disabling, or 2 or more service-connected disabilities—with at least 1 rated at 40% or more disabling and a combined rating of 70% or more—**and**
   - You can't hold down a steady job that supports you financially (known as substantially gainful employment) because of your service-connected disability. Odd jobs (marginal employment), don't count.
 
-**Note:** In certain cases (for example, if you need to be in the hospital often), you may qualify at a lower disability rating.
+**Note:** In certain cases—for example, if you need to be in the hospital often—you may qualify at a lower disability rating.
 
 <br>
 
@@ -35,6 +35,6 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. When you apply, you'll have to provide evidence (supporting documents like a doctor's report or medical test results) showing that your disability is preventing you from holding down a steady job. We'll also review your work and education history. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits. When you apply, you'll have to provide evidence (supporting documents like a doctor's report or medical test results) showing that your disability prevents you from holding down a steady job. We'll also review your work and education history. [Apply for benefits](/disability-benefits/apply-for-benefits/).
 
 **Example:** A Veteran has a service-connected heart condition and a 60% disability rating. She was still able to work until last year when she began to get chest pain when doing anything physical, like walking or lifting boxes. Her doctor told her to retire as soon as possible. She filed a claim for more disability compensation. We reviewed her work and education history and agreed that she was individually unemployable due to her service-connected disability. So we increased her disability compensation to the same rate as a 100% disabled Veteran.
