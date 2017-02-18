@@ -6,7 +6,7 @@ plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-If you suffered an added disability while getting VA medical care or taking part in a VA program designed to help you find, get, or keep a job, you may be able to get compensation or benefits.
+If you suffered an added disability while getting VA medical care or taking part in a VA program designed to help you find, get, or keep a job, you may be able to get compensation.
 
 
 <div class="call-out" markdown="1">
@@ -33,9 +33,9 @@ Compensation
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. When you apply, you'll have to show that the added disability happened because of VA medical care or a VA program designed to help you find, get, or keep a job. [Apply now on eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage).
+You'll need to apply for benefits. When you apply, you'll have to show that the added disability happened because of VA medical care or a VA program designed to help you find, get, or keep a job. [Apply for benefits](/disability-benefits/apply-for-benefits/).
 
-We'll award any compensation payments in the same way we would if your disability was related to your military service (called a service-connected disability).
+We'll award any compensation payments in the same way we would if your disability was related to your military service (a service-connected disability).
 
 
 
