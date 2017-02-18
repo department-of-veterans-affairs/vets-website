@@ -30,6 +30,41 @@ describe('Form reducer', () => {
     expect(state.dateOption).to.equal('1yr');
   });
 
+  it('should toggle a report type', () => {
+    const state = formReducer({
+      reportTypes: {
+        test1: false,
+        test2: false,
+        test3: true
+      }
+    }, {
+      type: 'REPORT_TYPE_TOGGLED',
+      reportType: 'test1',
+      checked: true
+    });
+
+    expect(state.reportTypes.test1).to.be.true;
+    expect(state.reportTypes.test2).to.be.false;
+    expect(state.reportTypes.test3).to.be.true;
+  });
+
+  it('should toggle all report types', () => {
+    const state = formReducer({
+      reportTypes: {
+        test1: false,
+        test2: false,
+        test3: true
+      }
+    }, {
+      type: 'ALL_REPORTS_TOGGLED',
+      checked: true
+    });
+
+    expect(state.reportTypes.test1).to.be.true;
+    expect(state.reportTypes.test2).to.be.true;
+    expect(state.reportTypes.test3).to.be.true;
+  });
+
   it('should set redirect to true on form success', () => {
     const state = formReducer(undefined, {
       type: 'FORM_SUCCESS'
