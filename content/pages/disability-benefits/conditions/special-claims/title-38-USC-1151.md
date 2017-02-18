@@ -18,8 +18,9 @@ You can get compensation from VA if you have an added disability or an injury or
   - VA medical or surgical treatment, **or**
   - A VA health exam, **or**
   - A VA vocational rehabilitation course (under 38 U.S.C. Chapter 31), **or**
-  - VA compensated work therapy (CWT)(under 38 U.S.C. 1718) **and**
-  - The added disability wasn't a reasonably expected result or complication of treatment
+  - VA compensated work therapy (CWT)(under 38 U.S.C. 1718)
+ 
+And the added disability wasn't a reasonably expected result or complication of treatment.
   
 ### Who's covered?
 Veterans
