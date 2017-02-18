@@ -4,9 +4,9 @@ import moment from 'moment';
 import {
   isBlank,
   isNotBlank,
-  isValidCurrentOrPastDate,    
+  isValidCurrentOrPastDate,
   isValidDate,
-  isValidDateOver17,    
+  isValidDateOver17,
   isValidDateRange,
   isValidMonetaryValue,
   isValidName,
