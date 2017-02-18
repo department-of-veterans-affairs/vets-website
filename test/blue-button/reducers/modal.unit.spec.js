@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import modalReducer from '../../../src/js/blue-button/reducers/modal';
 
-describe('Modal reducer', () => {
+describe('modal reducer', () => {
   it('should close modal', () => {
     const state = modalReducer(undefined, {
       type: 'GLOSSARY_MODAL_CLOSED'

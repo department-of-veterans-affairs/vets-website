@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import formReducer from '../../../src/js/blue-button/reducers/form';
 
-describe('Form reducer', () => {
+describe('form reducer', () => {
   it('should set the start date', () => {
     const state = formReducer(undefined, {
       type: 'START_DATE_CHANGED',
