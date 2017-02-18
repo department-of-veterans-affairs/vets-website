@@ -171,12 +171,11 @@ function isValidPartialMonthYearInPast(month, year) {
     throw new Error('Pass a month and a year to function');
   }
   const momentDate = moment({ year, month: month ? parseInt(month, 10) - 1 : null });
-
   return !year || isValidPartialMonthYear(month, year) && momentDate.isValid() && momentDate.isSameOrBefore(moment().startOf('month'));
 }
 
 function isValidCurrentOrPastDate(day, month, year) {
-  const momentDate = moment({ day: day, month: parseInt(month, 10) - 1, year: year });
+  const momentDate = moment({ day, month: parseInt(month, 10) - 1, year });
   return momentDate.isSameOrBefore(moment().endOf('day'), 'day');
 }
 

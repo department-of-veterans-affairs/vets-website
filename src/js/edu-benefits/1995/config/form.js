@@ -16,6 +16,7 @@ import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as dateRange from '../../../common/schemaform/definitions/dateRange';
+import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as address from '../../../common/schemaform/definitions/address';
 
@@ -259,10 +260,8 @@ const formConfig = {
               },
               address: address.uiSchema()
             },
-            trainingEndDate: _.merge(date.uiSchema('When did you stop taking classes or participating in the training program?'), {
-              'ui:validations': [ validateCurrentOrPastDate ]
-            }),
-            reasonForChange: {
+            trainingEndDate: currentOrPastDate.uiSchema('When did you stop taking classes or participating in the training program?'),
+          reasonForChange: {
               'ui:title': 'Why did you stop taking classes or participating in the training program? (for example, “I graduated” or “I moved” or “The program wasn’t right for me.”)'
             }
           },

@@ -191,7 +191,7 @@ export function validateCurrentOrPastDate(errors, dateString) {
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
-    errors.addError('Please provide a valid date in the past');
+    errors.addError('Please provide a valid current or past date');
   }
 }
 
