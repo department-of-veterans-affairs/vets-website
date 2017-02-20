@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { focusElement, getActivePages } from '../../utils/helpers';
 import SchemaForm from '../SchemaForm';
-import { getArrayFields, hasFieldsOtherThanArray } from '../helpers';
+import { getArrayFields, getNonArraySchema } from '../helpers';
 import ArrayField from './ArrayField';
 import ProgressButton from '../../components/form-elements/ProgressButton';
 
@@ -78,19 +78,19 @@ export default class ReviewCollapsibleChapter extends React.Component {
             // the normal page and display them separately. The review version of
             // ObjectField will hide them in the main section.
             const arrayFields = getArrayFields(data[page.pageKey], page);
-            // If a page is just an array, then we should skip rendering it, since
-            // we'll show the array separately
-            const hasNonArrayFields = hasFieldsOtherThanArray(page.schema);
+            // This will be undefined if there are no fields other than an array
+            // in a page, in which case we won't render the form, just the array
+            const nonArraySchema = getNonArraySchema(data[page.pageKey].schema);
 
             return (
               <div key={page.pageKey} className="form-review-panel-page">
                 <Element name={`${page.pageKey}ScrollElement`}/>
-                {hasNonArrayFields &&
+                {nonArraySchema &&
                   <SchemaForm
                       name={page.pageKey}
                       title={page.title}
                       data={data[page.pageKey].data}
-                      schema={data[page.pageKey].schema}
+                      schema={nonArraySchema}
                       uiSchema={data[page.pageKey].uiSchema}
                       hideTitle={activePages.length === 1}
                       onEdit={() => this.handleEdit(page.pageKey, !editing)}
@@ -103,17 +103,18 @@ export default class ReviewCollapsibleChapter extends React.Component {
                         buttonClass="usa-button-primary"/>}
                   </SchemaForm>}
                 {arrayFields.map(arrayField =>
-                  <ArrayField
-                      pageKey={page.pageKey}
-                      pageTitle={page.title}
-                      arrayData={_.get(data[page.pageKey].data, arrayField.path)}
-                      formData={data[page.pageKey].data}
-                      key={arrayField.path}
-                      pageConfig={page}
-                      schema={arrayField.schema}
-                      uiSchema={arrayField.uiSchema}
-                      setData={this.props.setData}
-                      path={arrayField.path}/>
+                  <div key={arrayField.path} className="form-review-array">
+                    <ArrayField
+                        pageKey={page.pageKey}
+                        pageTitle={page.title}
+                        arrayData={_.get(data[page.pageKey].data, arrayField.path)}
+                        formData={data[page.pageKey].data}
+                        pageConfig={page}
+                        schema={arrayField.schema}
+                        uiSchema={arrayField.uiSchema}
+                        setData={this.props.setData}
+                        path={arrayField.path}/>
+                  </div>
                 )}
               </div>
             );
