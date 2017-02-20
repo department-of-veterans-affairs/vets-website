@@ -9,10 +9,12 @@ import _ from 'lodash';
 import {
   changeDateOption,
   setDate,
+  submitForm,
   toggleAllReports,
   toggleReportType,
 } from '../actions/form';
 import { openModal } from '../actions/modal';
+import { apiRequest } from '../utils/helpers';
 
 function isValidDateRange(startDate, endDate) {
   if (!startDate || !endDate) {
@@ -35,6 +37,20 @@ class Main extends React.Component {
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
   }
 
+  componentDidMount() {
+    // kick off PHR refresh process
+    apiRequest('/v0/health_records/refresh');
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const redirect = this.props.form.ui.redirect;
+    const nextRedirect = nextProps.form.ui.redirect;
+    if (redirect !== nextRedirect && nextRedirect) {
+      this.context.router.push('/download');
+    }
+  }
+
+
   handleStartDateChange(startDate) {
     let invalidDate = true;
     if (isValidDateRange(startDate, this.props.form.dateRange.end)) {
@@ -55,24 +71,52 @@ class Main extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
-    this.context.router.push('/download');
+    this.props.submitForm(this.props.form);
   }
 
   renderReportCheckBoxLabel(c) {
-    if (c.hold) {
-      const onClick = (e) => {
+    let onClick;
+    let hasGlossaryLink = false;
+    let linkText;
+
+    if (c.value === 'dodmilitaryservice') {
+      hasGlossaryLink = true;
+      linkText = '(Learn more)';
+
+      onClick = (e) => {
         e.preventDefault();
-        this.props.openModal(c.hold, c.holdExplanation);
+        this.props.openModal('Military Service Information', (
+          <div>
+            You will have access to your:
+            <ul>
+              <li>Military Occupational Speciality (MOS) codes</li>
+              <li>Pay details</li>
+              <li>Service dates</li>
+              <li>Deployment periods</li>
+              <li>Retirement periods</li>
+            </ul>
+          </div>
+        ));
       };
+    } else if (c.hold) {
+      hasGlossaryLink = true;
+      linkText = `(Available after ${c.hold} days)`;
+      onClick = (e) => {
+        e.preventDefault();
+        this.props.openModal(`Available after ${c.hold} days`, c.holdExplanation);
+      };
+    }
+
+    if (hasGlossaryLink) {
       return (
         <span>
           {c.label} <a href="#" onClick={onClick}>
-            {`(${c.hold} day hold period applies)`}
+            {linkText}
           </a>
         </span>
       );
     }
+
     return c.label;
   }
 
@@ -102,6 +146,7 @@ class Main extends React.Component {
   }
 
   renderDateOptions() {
+    const datePickerDisabled = this.props.form.dateOption !== 'custom';
     const radioButtonProps = {
       name: 'dateRange',
       label: '',
@@ -119,6 +164,7 @@ class Main extends React.Component {
                     onChange={this.handleStartDateChange}
                     placeholderText="MM/DD/YYYY"
                     selected={this.props.form.dateRange.start}
+                    disabled={datePickerDisabled}
                     className={this.state.invalidStartDate ? 'date-range-error' : ''}/>
                 <span>&nbsp;to&nbsp;</span>
                 <DatePicker
@@ -126,6 +172,7 @@ class Main extends React.Component {
                     onChange={this.handleEndDateChange}
                     placeholderText="MM/DD/YYYY"
                     selected={this.props.form.dateRange.end}
+                    disabled={datePickerDisabled}
                     className={this.state.invalidEndDate ? 'date-range-error' : ''}/>
               </div>
             </div>
@@ -201,6 +248,7 @@ const mapDispatchToProps = {
   changeDateOption,
   openModal,
   setDate,
+  submitForm,
   toggleAllReports,
   toggleReportType,
 };

@@ -63,7 +63,7 @@ class DeductibleExpensesSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
-        <legend>Previous Calendar Year’s Deductible Expenses</legend>
+        <h5>Previous Calendar Year’s Deductible Expenses</h5>
         <p>
           Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.
         </p>

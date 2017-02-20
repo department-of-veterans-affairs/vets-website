@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import DownloadLink from '../components/DownloadLink';
+
 export class DownloadPage extends React.Component {
   render() {
     const data = {
@@ -9,10 +11,7 @@ export class DownloadPage extends React.Component {
       pdfFileSize: '124 KB',
       pdfActions: (
         <div>
-          <button>Download PDF</button>
-          <button className="usa-button-outline">
-            View/Print PDF
-          </button>
+          <DownloadLink name="Download PDF"/>
         </div>
       ),
       txtFileSize: '20 KB',
@@ -45,12 +44,6 @@ export class DownloadPage extends React.Component {
               <td>{data.status}</td>
               <td>{data.pdfFileSize}</td>
               <td>{data.pdfActions}</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td>{data.txtFileSize}</td>
-              <td>{data.txtActions}</td>
             </tr>
           </tbody>
         </table>

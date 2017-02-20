@@ -4,7 +4,8 @@ import { Validator } from 'jsonschema';
 import { retrieveSchema } from 'react-jsonschema-form/lib/utils';
 
 import { isValidSSN, isValidPartialDate, isValidDateRange, isValidRoutingNumber, isValidUSZipCode, isValidCanPostalCode } from '../utils/validations';
-import { parseISODate, updateRequiredFields } from './helpers';
+import { parseISODate } from './helpers';
+import { isActivePage } from '../utils/helpers';
 
 /*
  * This contains the code for supporting our own custom validations and messages
@@ -15,6 +16,7 @@ import { parseISODate, updateRequiredFields } from './helpers';
  */
 const defaultMessages = {
   required: 'Please provide a response',
+  'enum': 'Please select a valid option',
   maxLength: (max) => `This field should be less than ${max} characters`,
   minLength: (min) => `This field should be at least ${min} character(s)`,
   format: (type) => {
@@ -83,7 +85,7 @@ export function transformErrors(errors, uiSchema) {
  */
 
 export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext, path = '') {
-  if (uiSchema) {
+  if (uiSchema && schema) {
     const schemaWithDefinitions = retrieveSchema(schema, definitions);
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
@@ -106,7 +108,11 @@ export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData
         .forEach((item) => {
           const nextPath = path !== '' ? `${path}.${item}` : item;
           if (!_.get(nextPath, errors)) {
-            _.get(path, errors)[item] = {
+            const currentErrors = path === ''
+              ? errors
+              : _.get(path, errors);
+
+            currentErrors[item] = {
               __errors: [],
               addError(error) {
                 this.__errors.push(error);
@@ -143,21 +149,22 @@ export function errorSchemaIsValid(errorSchema) {
 export function isValidForm(form, pageListByChapters) {
   const pageConfigs = _.flatten(_.values(pageListByChapters));
   const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
+  const validPages = Object.keys(pages)
+    .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form));
 
   const v = new Validator();
 
-  return form.privacyAgreementAccepted && Object.keys(pages).every(page => {
-    const pageConfig = pageConfigs.filter(config => config.pageKey === page)[0];
-    const currentSchema = updateRequiredFields(pageConfig.schema, pageConfig.uiSchema, pages[page].data);
+  return form.privacyAgreementAccepted && validPages.every(page => {
+    const { uiSchema, schema, data } = pages[page];
 
     const result = v.validate(
-      pages[page].data,
-      currentSchema
+      data,
+      schema
     );
 
     if (result.valid) {
       const errors = {};
-      uiSchemaValidate(errors, pageConfig.uiSchema, currentSchema, currentSchema.definitions, pages[page].data, {});
+      uiSchemaValidate(errors, uiSchema, schema, schema.definitions, data, {});
 
       return errorSchemaIsValid(errors);
     }

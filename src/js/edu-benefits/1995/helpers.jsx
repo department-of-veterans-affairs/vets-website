@@ -1,5 +1,5 @@
 import React from 'react';
-import { flattenFormData } from '../../common/schemaform/helpers';
+import { transformForSubmit } from '../../common/schemaform/helpers';
 
 export const benefitsLabels = {
   chapter33: <p>Post-9/11 GI Bill (Chapter 33)<br/><a href="/education/gi-bill/post-9-11/" target="_blank">Learn more</a></p>,
@@ -10,20 +10,10 @@ export const benefitsLabels = {
   transferOfEntitlement: <p>Transfer of Entitlement Program (TOE)<br/><a href="/education/gi-bill/transfer/" target="_blank">Learn more</a></p>
 };
 
-export const educationTypeLabels = {
-  college: 'College, university, or other educational program, including online courses',
-  correspondence: 'Correspondence',
-  apprenticeship: 'Apprenticeship or on-the-job training',
-  flightTraining: 'Vocational fight training',
-  testReimbursement: 'National test reimbursement (for example, SAT or CLEP)',
-  licensingReimbursement: 'Licensing or certification test reimbursement (for example, MCSE, CCNA, EMT, or NCLEX)',
-  tuitionTopUp: 'Tuition assistance top up (Post 9/11 GI Bill and MGIB-AD only)'
-};
-
 export const bankAccountChangeLabels = {
-  update: 'Update',
-  start: 'Start',
-  stop: 'Stop'
+  startUpdate: 'Start or update direct deposit',
+  stop: 'Stop direct deposit',
+  noChange: 'No change to payment method'
 };
 
 export const preferredContactMethodLabels = {
@@ -32,16 +22,17 @@ export const preferredContactMethodLabels = {
   phone: 'Phone'
 };
 
-export function transformForSubmit(form) {
-  const formData = flattenFormData(form);
-
+export function transform(formConfig, form) {
+  const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
     educationBenefitsClaim: {
-      form: JSON.stringify(formData)
+      form: formData
     }
   });
 }
 
-export function enumToNames(enumValues, names) {
-  return enumValues.map(item => names[item]);
-}
+export const directDepositWarning = (
+  <div className="edu-dd-warning">
+    The Department of Treasury requires all Federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit (direct deposit isn't an option for Chapter 32 (VEAP) recipients). If you don't have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank">www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
+  </div>
+);

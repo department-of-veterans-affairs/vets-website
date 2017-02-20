@@ -2,11 +2,13 @@ import React from 'react';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
 
-import { FormPage } from '../FormPage';
-
 import {
   getDefaultFormState
 } from 'react-jsonschema-form/lib/utils';
+
+import SchemaForm from '../SchemaForm';
+
+import { focusElement } from '../../utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -62,7 +64,9 @@ class ArrayField extends React.Component {
    */
   handleEdit(index, status = true) {
     this.setState(_.set(['editing', index], status, this.state), () => {
-      this.scrollToRow(`${this.props.path[this.props.path.length - 1]}_${index}`);
+      const id = `${this.props.path[this.props.path.length - 1]}_${index}`;
+      this.scrollToRow(id);
+      focusElement(`#table_${id}`);
     });
   }
 
@@ -153,18 +157,21 @@ class ArrayField extends React.Component {
               return (
                 <div key={index} className="va-growable-background">
                   <Element name={`table_${fieldName}_${index}`}/>
-                  <div className="row small-collapse">
+                  <div className="row small-collapse schemaform-array-row" id={`table_${fieldName}_${index}`}>
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && uiSchema['ui:options'].itemName && this.state.items.length > 1
                           ? <h5>New {uiSchema['ui:options'].itemName}</h5>
                           : null}
-                      <FormPage
-                          setData={(key, data) => this.handleSetData(index, data)}
-                          reviewPage
+                      <SchemaForm
+                          data={item}
+                          schema={arrayPageConfig.schema}
+                          uiSchema={arrayPageConfig.uiSchema}
+                          title={pageTitle}
+                          hideTitle
+                          name={fieldName}
+                          onChange={(data) => this.handleSetData(index, data)}
                           onEdit={() => this.handleEdit(index, !isEditing)}
-                          onSubmit={() => this.handleSave(index)}
-                          form={{ [fieldName]: { data: item, schema: arrayPageConfig.schema } }}
-                          route={{ pageConfig: arrayPageConfig }}>
+                          onSubmit={() => this.handleSave(index)}>
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             <button className="float-left">Update</button>
@@ -173,7 +180,7 @@ class ArrayField extends React.Component {
                             <button type="button" className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>
                           </div>
                         </div>
-                      </FormPage>
+                      </SchemaForm>
                     </div>
                   </div>
                 </div>
@@ -182,16 +189,19 @@ class ArrayField extends React.Component {
             return (
               <div key={index} className="va-growable-background">
                 <div className="row small-collapse">
-                  <FormPage
-                      setData={(key, data) => this.handleSetData(index, data)}
-                      reviewPage
+                  <SchemaForm
                       reviewMode
+                      data={item}
+                      schema={arrayPageConfig.schema}
+                      uiSchema={arrayPageConfig.uiSchema}
+                      title={pageTitle}
+                      hideTitle
+                      name={fieldName}
+                      onChange={(data) => this.handleSetData(index, data)}
                       onEdit={() => this.handleEdit(index, !isEditing)}
-                      onSubmit={() => this.handleSave(index)}
-                      form={{ [fieldName]: { data: item, schema: arrayPageConfig.schema } }}
-                      route={{ pageConfig: arrayPageConfig }}>
+                      onSubmit={() => this.handleSave(index)}>
                     <div/>
-                  </FormPage>
+                  </SchemaForm>
                 </div>
               </div>
             );

@@ -21,6 +21,10 @@
     margin: 1em 0 !important;
   }
 
+  a:visited {
+    color: $primary-color;
+  }
+
   .date-range-fields {
     display: flex;
     display: -webkit-flex;
@@ -82,4 +86,10 @@
 // match uswds input error
 input.date-range-error {
   border: 3px solid #cd2026;
+}
+
+.date-range-fields {
+  [disabled] {
+    background-color: $color-gray-lightest;
+  }
 }

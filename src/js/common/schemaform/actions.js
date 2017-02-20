@@ -1,4 +1,4 @@
-import { flattenFormData } from './helpers';
+import { transformForSubmit } from './helpers';
 import environment from '../helpers/environment.js';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
@@ -47,8 +47,8 @@ export function setSubmitted(response) {
 
 export function submitForm(formConfig, form) {
   const body = formConfig.transformForSubmit
-    ? formConfig.transformForSubmit(form)
-    : JSON.stringify(flattenFormData(form));
+    ? formConfig.transformForSubmit(formConfig, form)
+    : transformForSubmit(formConfig, form);
 
   return dispatch => {
     dispatch(setSubmission('status', 'submitPending'));
