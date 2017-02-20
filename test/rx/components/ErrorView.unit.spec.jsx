@@ -52,7 +52,7 @@ describe('<ErrorView>', () => {
     ];
     const errorView = SkinDeep.shallowRender(<ErrorView errors={alertErrors}/>);
 
-    expect(errorView.subTree('AlertBox')).to.ok;
+    expect(errorView.subTree('AlertBox')).to.be.ok;
   });
 
   it('should render non-alert errors correctly', () => {
