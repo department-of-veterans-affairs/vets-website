@@ -29,7 +29,7 @@ function AppContent({ children, isDataAvailable }) {
   return <div className="bb-app">{view}</div>;
 }
 
-class BlueButtonApp extends React.Component {
+export class BlueButtonApp extends React.Component {
   render() {
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"bluebutton"}>
