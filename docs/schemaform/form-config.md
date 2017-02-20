@@ -106,21 +106,22 @@ In addition to the uiSchema options listed in the library docs, we have some add
 
 ```js
 {
-  // This is an array of validation functions that can be used to add validation
-  // that is not possible through JSON Schema. See below for the properties passed
-  // to the validation functions and how to use them.
-  'ui:validations': [
-    function (errors, fieldData, pageData) {
-    }
-  ],
-  
   // We use this instead of the title property in the JSON Schema
   'ui:title': '', 
   
   // We use this instead of the description property in the JSON Schema. This can be
   // a string or a React component and would normally used on object fields in the
   // schema to provide description text or html before a block of fields
-  'ui:description': '',
+  'ui:description': '' || DescriptionComponent,
+  
+  // Customize the field or widget you're using
+  'ui:field': '' || FieldComponent,
+  'ui:widget: '' || WidgetComponent,
+  
+  // This widget will be shown on the review page. Should always be used if you specify
+  // a custom widget component, but can be used with regular widgets as well. Currently
+  // only implemented for string fields
+  'ui:reviewWidget: WidgetComponent,
 
   // Use this to provide a function to make a field conditionally required. First
   // argument is the current form data and the second is the formContext object,
@@ -129,6 +130,21 @@ In addition to the uiSchema options listed in the library docs, we have some add
   'ui:required': function (pageData) {
     return true || false;
   },
+  
+  // This is an array of validation functions or objects that can be used to add validation
+  // that is not possible through JSON Schema. See below for the properties passed
+  // to the validation functions and how to use them.
+  'ui:validations': [
+    function (errors, fieldData, pageData, fieldSchema, errorMessages) {
+      errors.addError('My error');
+    },
+    {
+      validator: (errors, fieldData, pageData, fieldSchema, errorMessages, options) => {
+        errors.addError('My other error');
+      },
+      options: {}
+    }
+  ],
   
   // An object with field specific error messages. Structured by error name (from JSON
   // Schema error types). This is passed to custom validations in `ui:validations` if
@@ -164,7 +180,6 @@ In addition to the uiSchema options listed in the library docs, we have some add
     }
 
     // Function that conditionally replaces the current field's schema
-
     updateSchema: function (fieldData, pageData) {
       return {};
     }
@@ -172,7 +187,11 @@ In addition to the uiSchema options listed in the library docs, we have some add
 }
 ```
 
-### Writing custom validations
+## Schemaform cookbook
+
+Here are some common situations you might run into when building a form and how to address them.
+
+### I need to write custom validation
 
 JSON Schema does not provide all the validation options we need in our forms, so we've created an additional way to add field validations, using `ui:validations` in the uiSchema object. `ui:validations` is an array and each item can be a function or an object. If you pass a function, it will be called with the following arguments:
 
@@ -196,6 +215,8 @@ Items in the `ui:validations` array can also be objects. Objects should have two
 
 - options: Object (or anything, really) that will be passed to your validation function. You can use this to allow your validation function to be configurable for different fields on the form.
 - validator: A function with the same signature as above, plus the options object.
+
+### I need to validate a field based on other fields in the same object
 
 You don't have to limit your use of `ui:validations` to non-object fields (i.e. the ones that become visible inputs on the form). You can also validate objects, which allows you to compare subfields. For example, given this schema:
 
@@ -224,3 +245,53 @@ export function validateEmailsMatch(errors, formData) {
 }
 ```
 
+### I want to change the options of a dropdown based on some other field data
+
+You can use the `updateSchema` option in uiSchema to change the list of enums:
+
+```js
+{
+  'ui:options: {
+    updateSchema: (fieldData, pageData) {
+      if (pageData.myField === 'otherOption') {
+        return {
+          enum: ['option1', 'option2'],
+          enumNames: ['Option 1', 'Option 2']
+        }
+      } else {
+        return {
+          enum: ['option1', 'option2'],
+          enumNames: ['Option 1', 'Option 2']
+        }
+      }
+    }
+  }
+}
+```
+
+The object returned is not used as an exact replacement for the schema. If there are other properties in the current schema, those won't be removed. Only the properties in the returned object will be changed in the current schema.
+
+Note that if you have a long list of options, you may want to create all the variations of the schema outside of the update function and use the update function to switch between them. This way you're not creating a new schema object each time data changes in the form and forcing your field to re-render.
+
+### I want to show a block of text without any fields.
+
+You can use 'ui:description' to show text or a custom component before the fields in a particular object in the schema. If you want to just have a block of text with no fields after it, you can create an empty view object:
+
+```js
+// schema
+{
+  type: 'object',
+  properties: {
+    'view:textObject': {
+      properties: {}
+    }
+  }
+}
+
+// uiSchema
+{
+  'view:textObject': {
+    'ui:description': 'My text'
+  }
+}
+```
