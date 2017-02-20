@@ -22,7 +22,8 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
   // The subtitle (e.g. form number) of the form. Displayed on all pages, if there's also a title
   subTitle: '',
 
-  // Schema definitions to include on all pages. Can be overriden using definitions object in page schema
+  // Schema definitions to include on all pages. Can be overriden using definitions object in
+  // page schema
   defaultDefinitions: {}, 
 
   // Object containing the configuration for each chapter. Each property is the key for a chapter
@@ -152,6 +153,7 @@ In addition to the uiSchema options listed in the library docs, we have some add
     }
   }
 }
+```
 
 ### Writing custom validations
 
