@@ -2,7 +2,7 @@
 
 Forms are created by creating a page that uses FormApp from the schemaform folder, a form config object, and routes generated from that config file. See `src/js/edu-benefits/1995` for an example.
 
-```
+```js
 {
   // Prefix string to add to the path for each page
   urlPrefix: '',
@@ -60,7 +60,7 @@ By convention, starting field names with `view:` will exclude them from the outp
 
 The `schema` and `uiSchema` objects should have similar structure. In other words, they should have the same fields organized the same way. The main difference between the structure of the two objects is that the uiSchema object does not have to contain all the fields that the schema object does and it does not need a `properties` object for sub-fields. So given this schema, for example:
 
-```
+```js
 {
   type: 'object',
   properties: {
@@ -73,7 +73,7 @@ The `schema` and `uiSchema` objects should have similar structure. In other word
 
 The matching uiSchema would be:
 
-```
+```js
 {
   'ui:title': 'My form',
   field1: {
@@ -87,7 +87,7 @@ This does not apply to array fields; for those, you still need to specify an `it
 ### uiSchema configuration
 In addition to the uiSchema options listed in the library docs, we have some additional options that are supported for all forms:
 
-```
+```js
 {
   // This is an array of validation functions that can be used to add validation
   // that is not possible through JSON Schema. See below for the properties passed
@@ -167,7 +167,7 @@ JSON Schema does not provide all the validation options we need in our forms, so
 
 Every validation function should update the errors object with any errors found. This is done by calling its `addErrors()` method. Here's an example:
 
-```
+```js
 function validateSSN(errors, ssn) {
   if (!isValidSSN(ssn)) {
     errors.addError('Please enter a valid nine digit SSN (dashes allowed)');
@@ -182,7 +182,7 @@ Items in the `ui:validations` array can also be objects. Objects should have two
 
 You don't have to limit your use of `ui:validations` to non-object fields (i.e. the ones that become visible inputs on the form). You can also validate objects, which allows you to compare subfields. For example, given this schema:
 
-```
+```js
 { 
   type: 'object',
   properties: {
@@ -198,7 +198,7 @@ You don't have to limit your use of `ui:validations` to non-object fields (i.e. 
 
 If you use `ui:validations` on this object field (instead of on the email or confirmEmail fields) you can compare the two fields:
 
-```
+```js
 export function validateEmailsMatch(errors, formData) {
   const { email, confirmEmail } = formData;
   if (email !== confirmEmail) {
