@@ -32,7 +32,7 @@ function AppContent({ children, isDataAvailable }) {
 export class BlueButtonApp extends React.Component {
   render() {
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"bluebutton"}>
+      <RequiredLoginView authRequired={3} serviceRequired={"health-records"}>
         <AppContent>
           <div>
             <div className="row">
