@@ -31,7 +31,8 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
     // The title of the chapter
     title: '', 
     
-    // Object containing the pages for each chapter. Each property is the key for a page and should be unique across chapters
+    // Object containing the pages for each chapter. Each property is the key for a
+    // page and should be unique across chapters
     pages: { 
       
       // The url for the page
@@ -43,7 +44,8 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
       // Any initial data that should be set for the form
       initialData: {}, 
       
-      // Object containing the uiSchema for the page. Follows the format in the react-jsonschema-form docs, which some vets.gov specific additions. See below.
+      // Object containing the uiSchema for the page. Follows the format in the react-jsonschema-form
+      // docs, which some vets.gov specific additions. See below.
       uiSchema: {}, 
       
       // JSON schema object for the page. Follows the standard JSON schema format
@@ -86,7 +88,9 @@ In addition to the uiSchema options listed in the library docs, we have some add
 
 ```
 {
-  // This is an array of validation functions that can be used to add validation that is not possible through JSON Schema. See below for the properties passed to the validation functions and how to use them.
+  // This is an array of validation functions that can be used to add validation
+  // that is not possible through JSON Schema. See below for the properties passed
+  // to the validation functions and how to use them.
   'ui:validations': [
     function (errors, fieldData, pageData) {
     }
@@ -95,27 +99,39 @@ In addition to the uiSchema options listed in the library docs, we have some add
   // We use this instead of the title property in the JSON Schema
   'ui:title': '', 
   
-  // We use this instead of the description property in the JSON Schema. This can be a string or a React component and would normally used on object fields in the schema to provide description text or html before a block of fields
+  // We use this instead of the description property in the JSON Schema. This can be
+  // a string or a React component and would normally used on object fields in the
+  // schema to provide description text or html before a block of fields
   'ui:description': '',
 
-  // Use this to provide a function to make a field conditionally required. First argument is the current form data and the second is the formContext object, which will contain the form data for other pages (tbd). You should avoid making a field required in the JSON schema and using `ui:required` on the same field.
+  // Use this to provide a function to make a field conditionally required. First
+  // argument is the current form data and the second is the formContext object,
+  // which will contain the form data for other pages (tbd). You should avoid making
+  // a field required in the JSON schema and using `ui:required` on the same field.
   'ui:required': function (pageData) {
     return true || false;
   },
   
-  // An object with field specific error messages. Structured by error name (from JSON schema error types). This is passed to custom validations in `ui:validations` if you want to allow configurable error messages in a validator.
+  // An object with field specific error messages. Structured by error name (from JSON
+  // Schema error types). This is passed to custom validations in `ui:validations` if
+  // you want to allow configurable error messages in a validator.
   'ui:errorMessages': {
     errorType: ''
   },
   'ui:options': {
     
-    // This is a string of class names that will be added to the widget for the current field. Similar to the default `classNames` property, but will put the class names on the input/select/etc element itself, rather than a surrounding `div`.
+    // This is a string of class names that will be added to the widget for the current
+    // field. Similar to the default `classNames` property, but will put the class names
+    // on the input/select/etc element itself, rather than a surrounding `div`.
     widgetClassNames: '', 
     
-    // For Array fields, this is a component that is shown when the item in the array is being shown read-only on a normal form page (i.e. not on the review page).
+    // For Array fields, this is a component that is shown when the item in the array is
+    // being shown read-only on a normal form page (i.e. not on the review page).
     viewField: RowViewComponent, 
     
-    // If you want a field to only be shown when another field is true, set this option to the property name. It will follow our ExpandingGroup pattern and expand underneath the field it is set to.
+    // If you want a field to only be shown when another field is true, set this option
+    // to the property name. It will follow our ExpandingGroup pattern and expand underneath
+    // the field it is set to.
     expandUnder: '', 
     
     // Set this if you want to hide this field on the review page.
