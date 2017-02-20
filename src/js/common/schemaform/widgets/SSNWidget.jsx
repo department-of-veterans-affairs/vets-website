@@ -11,7 +11,11 @@ export default class SSNWidget extends React.Component {
     this.state = { val: props.value };
   }
   handleChange = (val) => {
-    const strippedSSN = val.replace(/[\- ]/g, '');
+    let strippedSSN;
+    if (val) {
+      strippedSSN = val.replace(/[\- ]/g, '');
+    }
+
     this.setState({ val }, () => {
       this.props.onChange(strippedSSN);
     });
