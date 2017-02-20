@@ -19,17 +19,14 @@ relatedlinks:
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/
     title: Gulf War Illness
     description: If you served in the Southwest Asia theater of operations, you may be at risk of certain illnesses linked to that region.
-  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/ionizing-radiation/
-    title: Ionizing Radiation
-    description: If you were a POW in Japan, worked with or near nuclear testing, worked with X-rays or at a nuclear reactor, or worked in certain other jobs, you may have had contact with ionizing radiation.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/
     title: Contact with Mustard Gas or Lewisite
     description: If you served at the German bombing of Bari, Italy, in World War II or worked in certain other jobs, you may have had contact with mustard gas.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/
     title: Project 112/SHAD
     description: If you were part of Project 112/SHAD from 1962 to 1974, you may be at risk of illnesses believed to be caused by chemical testing.
-  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/radiogenic-risk-activities/
-    title: Radiogenic Risk Activities
+  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/
+    title: Radiation Exposure
     description: If you served during World War II, were imprisoned in Japan, worked with or near nuclear testing, or served at a gaseous diffusion plant or in certain other jobs, you may be at risk for illnesses believed to be caused by radiation.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/specific-environmental-hazards/
     title: Specific Environmental Hazards
