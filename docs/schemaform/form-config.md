@@ -56,7 +56,7 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
           // from data sent to server
           // Objects that start with view: will not be sent, but their children will be merged
           // into the parent object and will be sent
-          'view:field2: {
+          'view:field2': {
             type: 'string'
           }
         }
