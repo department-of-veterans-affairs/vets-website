@@ -17,7 +17,7 @@ describe('Schemaform definition ssn', () => {
     const formDOM = findDOMNode(form);
     const node = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')[0];
 
-    expect(formDOM.querySelectorAll('.usa-input-error-message')).to.be.empty;
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error-message'))).to.be.empty;
 
     ReactTestUtils.Simulate.change(node, {
       target: {

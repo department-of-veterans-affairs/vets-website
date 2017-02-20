@@ -13,7 +13,7 @@ export class DefinitionTester extends React.Component {
     super(props);
     const state = props.state;
     const uiSchema = props.uiSchema;
-    const data = props.data || {};
+    const data = props.data;
     let schema = updateRequiredFields(props.schema, uiSchema, data, state);
     // Update the schema with any fields that are now hidden because of the data change
     schema = setHiddenFields(schema, uiSchema, data, state);
@@ -29,7 +29,6 @@ export class DefinitionTester extends React.Component {
     };
   }
   handleChange = (data) => {
-    console.log(data);
     const state = this.props.state;
     const uiSchema = this.state.uiSchema;
     let schema = updateRequiredFields(this.state.schema, uiSchema, data, state);

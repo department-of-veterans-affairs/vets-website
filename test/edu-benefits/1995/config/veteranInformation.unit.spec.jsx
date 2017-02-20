@@ -8,25 +8,25 @@ import Form from 'react-jsonschema-form';
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1995/config/form';
 
-describe.only('Edu 1995 veteranInformation', () => {
+describe('Edu 1995 veteranInformation', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          data={{}}
           uiSchema={uiSchema}/>
     );
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input'))
       .to.not.be.empty;
   });
-  it.only('should conditionally require file number', () => {
-    const onSubmit = () => console.log('submitted!');
+  it('should conditionally require file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           formData={{}}
           schema={schema}
-          onSubmit={onSubmit}
+          data={{}}
           uiSchema={uiSchema}/>
     );
 
@@ -40,7 +40,7 @@ describe.only('Edu 1995 veteranInformation', () => {
     expect(formDOM.querySelector('#root_vaFileNumber')).to.be.null;
     expect(formDOM.querySelector('.usa-input-error #root_veteranSocialSecurityNumber')).not.to.be.null;
 
-    ReactTestUtils.Simulate.change(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')[3],
+    ReactTestUtils.Simulate.change(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')[4],
       {
         target: {
           checked: true
@@ -52,35 +52,42 @@ describe.only('Edu 1995 veteranInformation', () => {
     expect(formDOM.querySelector('#root_vaFileNumber')).not.to.be.null;
   });
   it('should have no errors with all info filled in', () => {
+    const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          onSubmit={onSubmit}
+          data={{}}
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
     ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
       preventDefault: f => f
     });
-    form.forceUpdate();
-    const f = formDOM.querySelector.bind(formDOM);
+    const find = formDOM.querySelector.bind(formDOM);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be.empty;
 
-    ReactTestUtils.Simulate.change(f('#root_veteranFullName_first'), {
+    ReactTestUtils.Simulate.change(find('#root_veteranFullName_first'), {
       target: {
         value: 'Test'
       }
     });
-    ReactTestUtils.Simulate.change(f('#root_veteranFullName_last'), {
+    ReactTestUtils.Simulate.change(find('#root_veteranFullName_last'), {
       target: {
         value: 'Test'
       }
     });
-    ReactTestUtils.Simulate.change(f('#root_veteranSocialSecurityNumber'), {
+    ReactTestUtils.Simulate.change(find('#root_veteranSocialSecurityNumber'), {
       target: {
-        value: '16789'
+        value: '123456788'
       }
     });
 
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
+    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
+      preventDefault: f => f
+    });
+
+    expect(onSubmit.called).to.be.true;
   });
 });
