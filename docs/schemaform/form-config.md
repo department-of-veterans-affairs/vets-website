@@ -121,7 +121,7 @@ In addition to the uiSchema options listed in the library docs, we have some add
   // This widget will be shown on the review page. Should always be used if you specify
   // a custom widget component, but can be used with regular widgets as well. Currently
   // only implemented for string fields
-  'ui:reviewWidget: WidgetComponent,
+  'ui:reviewWidget': WidgetComponent,
 
   // Use this to provide a function to make a field conditionally required. First
   // argument is the current form data and the second is the formContext object,
