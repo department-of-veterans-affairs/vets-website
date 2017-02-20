@@ -116,7 +116,7 @@ In addition to the uiSchema options listed in the library docs, we have some add
   
   // Customize the field or widget you're using
   'ui:field': '' || FieldComponent,
-  'ui:widget: '' || WidgetComponent,
+  'ui:widget': '' || WidgetComponent,
   
   // This widget will be shown on the review page. Should always be used if you specify
   // a custom widget component, but can be used with regular widgets as well. Currently
@@ -251,7 +251,7 @@ You can use the `updateSchema` option in uiSchema to change the list of enums:
 
 ```js
 {
-  'ui:options: {
+  'ui:options': {
     updateSchema: (fieldData, pageData) {
       if (pageData.myField === 'otherOption') {
         return {
