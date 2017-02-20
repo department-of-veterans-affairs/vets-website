@@ -45,18 +45,35 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
       // Any initial data that should be set for the form
       initialData: {}, 
       
-      // Object containing the uiSchema for the page. Follows the format in the react-jsonschema-form
-      // docs, which some vets.gov specific additions. See below.
-      uiSchema: {}, 
+      // JSON schema object for the page. Follows the JSON Schema format.
+      schema: {
+        type: 'object',
+        properties: {
+          field1: {
+            type: 'string'
+          },
+          // String/boolean/number/array fields that start with view: will be excluded 
+          // from data sent to server
+          // Objects that start with view: will not be sent, but their children will be merged
+          // into the parent object and will be sent
+          'view:field2: {
+            type: 'string'
+          }
+        }
+      },
       
-      // JSON schema object for the page. Follows the standard JSON schema format
-      schema: {}
+      // Object containing the uiSchema for the page. Follows the format in the react-jsonschema-form
+      // docs, with some vets.gov specific additions. See below.
+      uiSchema: {
+        'ui:title': 'My form',
+        field1: {
+          'ui:title': 'My field'
+        }
+      }
     }
   }
 }
 ```
-
-By convention, starting field names with `view:` will exclude them from the output sent to the backend. If the field is an object, its properties will be merged into the parent object of the `view:` field.
 
 The `schema` and `uiSchema` objects should have similar structure. In other words, they should have the same fields organized the same way. The main difference between the structure of the two objects is that the uiSchema object does not have to contain all the fields that the schema object does and it does not need a `properties` object for sub-fields. So given this schema, for example:
 
