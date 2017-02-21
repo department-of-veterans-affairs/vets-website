@@ -202,23 +202,19 @@ const formConfig = {
           path: 'school-selection/new-school',
           title: 'School, university, program, or training facility you want to attend',
           initialData: {
-            newSchool: {
-              address: {}
-            }
+            newSchoolAddress: {}
           },
           uiSchema: {
             'ui:title': 'School, university, program, or training facility you want to attend',
-            educationType: educationType.uiSchema,
-            newSchool: {
-              name: {
-                'ui:title': 'Name of school, university, or training facility'
-              },
-              address: _.merge(address.uiSchema(), {
-                'ui:options': {
-                  hideIf: (form) => !showSchoolAddress(form.educationType)
-                }
-              })
+            newSchoolName: {
+              'ui:title': 'Name of school, university, or training facility'
             },
+            educationType: educationType.uiSchema,
+            newSchoolAddress: _.merge(address.uiSchema(), {
+              'ui:options': {
+                hideIf: (form) => !showSchoolAddress(form.educationType)
+              }
+            }),
             educationObjective: {
               'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
               'ui:widget': 'textarea'
@@ -236,8 +232,10 @@ const formConfig = {
             type: 'object',
             required: ['educationType'],
             properties: {
+              // newSchool: _.set('properties.address', address.schema(), newSchool),
+              newSchoolName: { type: 'string', required: true },
               educationType: educationType.schema,
-              newSchool: _.set('properties.address', address.schema(), newSchool),
+              newSchoolAddress: address.schema(),
               educationObjective,
               nonVaAssistance,
               civilianBenefitsAssistance
