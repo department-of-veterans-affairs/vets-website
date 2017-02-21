@@ -42,7 +42,7 @@ If you disagree with your disability rating, you can file an appeal. You'll need
 
 - **If you have a 100% disability rating**, you may be able to get:
   - [Dental care](/disability-benefits/conditions/special-claims/dentistry/), **and**
-  - [Access to commissaries and exchanges](http://www.militaryonesource.mil/shopping?content_id=268500) (stores located on military bases that offer savings on groceries and other household items)
+  - [Access to commissaries and exchanges](http://www.militaryonesource.mil/on-and-off-base-living/commissaries-exchanges) 
 - **If you can’t work due to your disability caused by service in the military**—even without a 100% rating—you can apply for individual unemployability. [Learn about individual unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
 - **If you need special clothing because of your injuries**, you may be able to get money to buy new clothes. [Learn about the annual clothing allowance benefit](/disability-benefits/conditions/special-claims/clothing/).
 
