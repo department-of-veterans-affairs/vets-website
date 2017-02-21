@@ -23,4 +23,14 @@ describe('Schemaform <SSNWidget>', () => {
     tree.subTree('TextWidget').props.onChange('123-45-5677');
     expect(onChange.calledWith('123455677')).to.be.true;
   });
+  it('should call onChange with undefined if the value is blank', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <SSNWidget
+          value="123121234"
+          onChange={onChange}/>
+    );
+    tree.subTree('TextWidget').props.onChange('');
+    expect(onChange.calledWith(undefined)).to.be.true;
+  });
 });
