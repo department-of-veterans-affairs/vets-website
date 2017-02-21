@@ -44,8 +44,6 @@ const {
   school
 } = fullSchema1995.definitions;
 
-const newSchool = _.set('required', ['name'], school);
-
 const formConfig = {
   urlPrefix: '/1995/',
   submitUrl: '/v0/education_benefits_claims/1995',
