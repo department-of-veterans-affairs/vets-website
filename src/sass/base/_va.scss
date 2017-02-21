@@ -229,6 +229,14 @@ hr {
       padding: 0;
     }
   }
+  
+  .va-notice--banner {
+    display: none;
+
+    @include media($medium-screen) {
+      display: block;
+    }
+  }
 }
 
 .va-header-logosearch {
@@ -1272,7 +1280,7 @@ li {
 }
 
 [class^=va-wip] {
-  padding: .576rem 1.08rem;
+  padding: .576rem 1.08rem 1.6rem;
   font-size: 0.8em;
   font-weight: 400;
 
@@ -1296,7 +1304,9 @@ li {
 }
 
 .va-wip--narrow {
+  border-top: 1px solid $color-primary-darker;
   color: $color-white;
+  margin-top: 3.2rem;
 
   @include media($medium-large-screen) {
     display: none;
@@ -1325,7 +1335,7 @@ li {
     color: inherit;
     padding: 0;
   }
-
+  
 }
 
 .incompatible-browser-warning {

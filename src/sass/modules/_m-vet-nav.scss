@@ -2,23 +2,13 @@
   background-color: $color-primary-darkest;
   height: 100%;
   left: 0;
-  margin-top: .8rem;
   position: absolute;
   width: 100%;
   z-index: 6;
-  
-  .va-wip-message {
-    padding: 0 1.6rem;
-    white-space: normal;
-  }
 
   @include media($medium-large-screen) {
     position: static;
     width: auto;
-
-    .va-wip-message {
-      display: none;
-    }
   }
 }
 
@@ -90,9 +80,9 @@
 
   svg {
     display: inline-block;
-    height: 2rem;
+    height: 1.6rem;
     margin-right: .5rem;
-    width: 12px;
+    width: 1.6rem;
     vertical-align: 0;
   }
 
@@ -223,7 +213,7 @@
     background: transparent url(/img/arrow-right.svg) right 1rem center no-repeat;
     border-color: transparent;
     border-style: solid;
-    border-width: 1px 0 1px 3px;
+    border-width: 1px 0;
     color: $color-primary;
     background-size: 1rem auto;
     margin-left: .8rem;
@@ -234,7 +224,7 @@
     &:hover {
       background-color: transparent;
       border-bottom: 1px solid transparent;
-      border-left-color: $color-va-accent;
+      box-shadow: -3px 0 $color-va-accent;
       color: $color-primary;
       text-decoration: underline;
     }
@@ -242,8 +232,8 @@
     &[aria-expanded=true] {
       background-color: $color-gray-lightest;
       border-bottom-color: $color-gray-warm-light;
-      border-left-color: $color-va-accent;
       border-top-color: $color-gray-warm-light;
+      box-shadow: -3px 0 $color-va-accent;
       color: $color-gray-dark;
       font-weight: bold;
       text-decoration: inherit;
@@ -269,7 +259,7 @@
 }
 
 .vetnav-back {
-  background: $color-primary-darkest url(/img/arrow-left-white.svg) right 3rem center no-repeat;
+  background: $color-primary-darker url(/img/arrow-left-white.svg) right 3rem center no-repeat;
   background-position: left 1rem center;
   background-size: 1.4rem auto;
   border-radius: 0;
