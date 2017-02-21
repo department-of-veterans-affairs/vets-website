@@ -155,23 +155,7 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
               </button>
             </div>
           </form>
-        </div>
-
-      <div id="vetnav-controls"> 
-        <button aria-controls="vetnav" aria-expanded="false" hidden type="button" class="vetnav-controller-close">
-          <span class="va-flex">
-            {% include "assets/img/icons/close.svg" %}
-            Close
-          </span>
-        </button>
-        <button aria-controls="vetnav" type="button" aria-expanded="false" class="vetnav-controller-open">
-          <span class="va-flex">
-            {% include "assets/img/arrow-down.svg" %}
-            Menu
-          </span>
-        </button>
       </div>
-
       <div id="mobile-menu" class="va-overlay hide-for-medium-up" role="dialog">
         <div class="medium-5 medium-offset-3 text-right columns">
           <button type="button" class="va-mobile-searchclose va-overlay-close" aria-label="close search form - mobile only">Close</button>
@@ -195,8 +179,27 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
         </div>
       </div>
     {% endif %}
+
+    {% if body_class != 'page-playbook' %}
+      <div id="vetnav-controls"> 
+        <button aria-controls="vetnav" aria-expanded="false" hidden type="button" class="vetnav-controller-close">
+          <span class="va-flex">
+            {% include "assets/img/icons/close.svg" %}
+            Close
+          </span>
+        </button>
+        <button aria-controls="vetnav" type="button" aria-expanded="false" class="vetnav-controller-open">
+          <span class="va-flex">
+            {% include "assets/img/arrow-down.svg" %}
+            Menu
+          </span>
+        </button>
+      </div>
+    {% endif %}
   </div>
-  {% include "content/includes/veteran-navigation.html" %}
+  {% if body_class != 'page-playbook' %}
+    {% include "content/includes/veteran-navigation.html" %}
+  {% endif %}
   </div>
 </div>
 
