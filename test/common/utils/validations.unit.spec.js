@@ -71,28 +71,28 @@ describe('Validations unit tests', () => {
 
   describe('isValidDate', () => {
     it('validate february separately cause its a special snowflake', () => {
-      // 28 should work always.
-      expect(isValidDate(28, 2, 2015)).to.be.true;
+      // feb 28 should work always.
+      expect(isValidDate('28', '2', '2015')).to.be.true;
 
       // 2015 is not a leap year.
-      expect(isValidDate(29, 2, 2015)).to.be.false;
+      expect(isValidDate('29', '2', '2015')).to.be.false;
 
       // 2016 is a leap year.
-      expect(isValidDate(29, 2, 2016)).to.be.true;
+      expect(isValidDate('29', '2', '2016')).to.be.true;
 
-      // 30 is always bad.
-      expect(isValidDate(30, 2, 2016)).to.be.false;
+      // feb 30 is always bad.
+      expect(isValidDate('30', '2', '2016')).to.be.false;
 
-      // 1 is always fine.
-      expect(isValidDate(1, 2, 2016)).to.be.true;
+      // feb 1 is always fine.
+      expect(isValidDate('1', '2', '2016')).to.be.true;
 
-      // 0 is always bad.
-      expect(isValidDate(0, 2, 2016)).to.be.false;
+      // feb 0 is always bad.
+      expect(isValidDate('0', '2', '2016')).to.be.false;
     });
 
     it('validate future dates', () => {
       // future dates are bad.
-      expect(isValidDate(1, 1, 2050)).to.be.false;
+      expect(isValidDate('1', '1', '2050')).to.be.false;
     });
   });
 
@@ -100,29 +100,29 @@ describe('Validations unit tests', () => {
     it('validates if to date is after from date', () => {
       const fromDate = {
         day: {
-          value: 3,
+          value: '3',
           dirty: true
         },
         month: {
-          value: 3,
+          value: '3',
           dirty: true
         },
         year: {
-          value: 2006,
+          value: '2006',
           dirty: true
         }
       };
       const toDate = {
         day: {
-          value: 3,
+          value: '3',
           dirty: true
         },
         month: {
-          value: 4,
+          value: '4',
           dirty: true
         },
         year: {
-          value: 2006,
+          value: '2006',
           dirty: true
         }
       };
@@ -131,29 +131,29 @@ describe('Validations unit tests', () => {
     it('does not validate to date is before from date', () => {
       const fromDate = {
         day: {
-          value: 3,
+          value: '3',
           dirty: true
         },
         month: {
-          value: 3,
+          value: '3',
           dirty: true
         },
         year: {
-          value: 2006,
+          value: '2006',
           dirty: true
         }
       };
       const toDate = {
         day: {
-          value: 3,
+          value: '3',
           dirty: true
         },
         month: {
-          value: 4,
+          value: '4',
           dirty: true
         },
         year: {
-          value: 2005,
+          value: '2005',
           dirty: true
         }
       };
@@ -166,11 +166,11 @@ describe('Validations unit tests', () => {
           dirty: true
         },
         month: {
-          value: 3,
+          value: '3',
           dirty: true
         },
         year: {
-          value: 2006,
+          value: '2006',
           dirty: true
         }
       };
@@ -184,7 +184,7 @@ describe('Validations unit tests', () => {
           dirty: true
         },
         year: {
-          value: 2008,
+          value: '2008',
           dirty: true
         }
       };
@@ -196,16 +196,16 @@ describe('Validations unit tests', () => {
     it('should validate partial range', () => {
       const fromDate = {
         month: {
-          value: 2
+          value: '2'
         },
         year: {
-          value: 2001
+          value: '2001'
         }
       };
 
       const toDate = {
         month: {
-          value: 3
+          value: '3'
         },
         year: {
           value: ''
@@ -217,19 +217,19 @@ describe('Validations unit tests', () => {
     it('should not validate invalid range', () => {
       const fromDate = {
         month: {
-          value: 2
+          value: '2'
         },
         year: {
-          value: 2002
+          value: '2002'
         }
       };
 
       const toDate = {
         month: {
-          value: 3
+          value: '3'
         },
         year: {
-          value: 2001
+          value: '2001'
         }
       };
 
@@ -238,19 +238,19 @@ describe('Validations unit tests', () => {
     it('should validate same date range', () => {
       const fromDate = {
         month: {
-          value: 2
+          value: '2'
         },
         year: {
-          value: 2001
+          value: '2001'
         }
       };
 
       const toDate = {
         month: {
-          value: 2
+          value: '2'
         },
         year: {
-          value: 2001
+          value: '2001'
         }
       };
 
@@ -262,7 +262,7 @@ describe('Validations unit tests', () => {
           value: ''
         },
         year: {
-          value: 2001
+          value: '2001'
         }
       };
 
@@ -271,7 +271,7 @@ describe('Validations unit tests', () => {
           value: ''
         },
         year: {
-          value: 2002
+          value: '2002'
         }
       };
 
@@ -281,13 +281,17 @@ describe('Validations unit tests', () => {
 
   describe('isValidCurrentOrPastDate', () => {
     it('should validate past date', () => {
-      expect(isValidCurrentOrPastDate(2, 2, 2000)).to.be.true;
+      expect(isValidCurrentOrPastDate('2', '2', '2000')).to.be.true;
     });
     it('should validate current date', () => {
-      expect(isValidCurrentOrPastDate(moment().date(), moment().month() + 1, moment().year())).to.be.true;
+      expect(isValidCurrentOrPastDate(moment().date().toString(),
+                                      (moment().month() + 1).toString(),
+                                      moment().year().toString())).to.be.true;
     });
     it('should not validate date in future', () => {
-      expect(isValidCurrentOrPastDate(moment().date() + 1, moment().month() + 1, moment().year())).to.be.false;
+      expect(isValidCurrentOrPastDate((moment().date() + 1).toString(),
+                                      (moment().month() + 1).toString(),
+                                      moment().year().toString())).to.be.false;
     });
   });
 
@@ -342,38 +346,42 @@ describe('Validations unit tests', () => {
   describe('isValidDateOver17', () => {
     it('validates turning 17 today', () => {
       const date = moment().startOf('day').subtract(17, 'years');
-      expect(isValidDateOver17(date.date(), date.month() + 1, date.year())).to.be.true;
+      expect(isValidDateOver17(date.date().toString(),
+                               (date.month() + 1).toString(),
+                               date.year().toString())).to.be.true;
     });
 
     it('does not validate turning 17 tomorrow', () => {
       const date = moment().startOf('day').subtract(17, 'years').add(1, 'days');
-      expect(isValidDateOver17(date.date(), date.month() + 1, date.year())).to.be.false;
+      expect(isValidDateOver17(date.date().toString(),
+                               (date.month() + 1).toString(),
+                               date.year().toString())).to.be.false;
     });
   });
   describe('isValidPartialDate', () => {
     it('should validate complete date', () => {
-      expect(isValidPartialDate(5, 10, 2010)).to.be.true;
+      expect(isValidPartialDate('5', '10', '2010')).to.be.true;
     });
     it('should validate empty date', () => {
       expect(isValidPartialDate('', '', '')).to.be.true;
     });
     it('should validate month year date', () => {
-      expect(isValidPartialDate('', 10, 2050)).to.be.true;
+      expect(isValidPartialDate('', '10', '2050')).to.be.true;
     });
     it('should validate month day date', () => {
-      expect(isValidPartialDate(10, 10, '')).to.be.true;
+      expect(isValidPartialDate('10', '10', '')).to.be.true;
     });
     it('should validate day year date', () => {
-      expect(isValidPartialDate(20, '', 2010)).to.be.true;
+      expect(isValidPartialDate('20', '', '2010')).to.be.true;
     });
     it('should validate day date', () => {
-      expect(isValidPartialDate(20, '', '')).to.be.true;
+      expect(isValidPartialDate('20', '', '')).to.be.true;
     });
     it('should validate year date', () => {
-      expect(isValidPartialDate('', '', 2010)).to.be.true;
+      expect(isValidPartialDate('', '', '2010')).to.be.true;
     });
     it('should not validate year before 1900', () => {
-      expect(isValidPartialDate('', '', 1899)).to.be.false;
+      expect(isValidPartialDate('', '', '1899')).to.be.false;
     });
     it('should not validate year more than 100 years in future', () => {
       expect(isValidPartialDate('', '', moment().add(101, 'year').year())).to.be.false;
@@ -414,24 +422,27 @@ describe('Validations unit tests', () => {
   });
   describe('isValidPartialMonthYear', () => {
     it('should validate month and year', () => {
-      expect(isValidPartialMonthYear(2, moment().add(5, 'year').year())).to.be.true;
+      expect(isValidPartialMonthYear('2',
+                                     (moment().add(5, 'year').year()).toString())).to.be.true;
     });
     it('should not validate bad year', () => {
-      expect(isValidPartialMonthYear(2, 2500)).to.be.false;
+      expect(isValidPartialMonthYear('2', '2500')).to.be.false;
     });
     it('should not validate bad month', () => {
-      expect(isValidPartialMonthYear(20, 2001)).to.be.false;
+      expect(isValidPartialMonthYear('20', '2001')).to.be.false;
     });
   });
   describe('isValidPartialMonthYearInPast', () => {
     it('should validate month and year in past', () => {
-      expect(isValidPartialMonthYearInPast(2, 2001)).to.be.true;
+      expect(isValidPartialMonthYearInPast('2', '2001')).to.be.true;
     });
     it('should validate month and year that is current', () => {
-      expect(isValidPartialMonthYearInPast(moment().month(), moment().year())).to.be.true;
+      expect(isValidPartialMonthYearInPast(moment().month().toString(),
+                                           moment().year().toString())).to.be.true;
     });
     it('should not validate month and year that is in the future', () => {
-      expect(isValidPartialMonthYearInPast(2, moment().add(2, 'year').year())).to.be.false;
+      expect(isValidPartialMonthYearInPast('2',
+                                           (moment().add(2, 'year').year()).toString())).to.be.false;
     });
   });
 });
