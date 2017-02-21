@@ -85,7 +85,7 @@ export function transformErrors(errors, uiSchema) {
  */
 
 export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext, path = '') {
-  if (uiSchema) {
+  if (uiSchema && schema) {
     const schemaWithDefinitions = retrieveSchema(schema, definitions);
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {

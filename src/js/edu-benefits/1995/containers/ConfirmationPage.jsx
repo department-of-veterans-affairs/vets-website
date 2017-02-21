@@ -45,7 +45,7 @@ class ConfirmationPage extends React.Component {
         <h3 className="edu-page-title">Claim received</h3>
         <p>Normally processed within <strong>14 days</strong></p>
         <p>
-          VA may contact you for more information or documents.<br/>
+          We may contact you for more information or documents.<br/>
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">

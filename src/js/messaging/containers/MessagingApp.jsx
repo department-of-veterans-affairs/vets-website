@@ -30,7 +30,7 @@ function AppContent({ children, isDataAvailable }) {
 class MessagingApp extends React.Component {
   // this warning is rendered if the user has no triage teams
   renderWarningBanner() {
-    if (isEmpty(this.props.recipients) && !this.props.loading.recipients) {
+    if (this.props.folders && this.props.folders.length && isEmpty(this.props.recipients) && !this.props.loading.recipients) {
       const alertContent = (
         <div>
           <h4>Currently not assigned to a health care team</h4>
