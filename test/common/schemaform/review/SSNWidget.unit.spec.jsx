@@ -17,6 +17,7 @@ describe('Schemaform review <SSNWidget>', () => {
       <SSNWidget/>
     );
 
+    // The only time it will equal '' is when initializing it with value=''
     expect(tree.text()).to.equal('');
   });
 });
