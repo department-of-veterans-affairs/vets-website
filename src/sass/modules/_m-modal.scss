@@ -116,6 +116,18 @@
     }
   }
 
+  &-large {
+    .va-modal-inner {
+      max-width: 75rem;
+      width: 75vw;
+
+      .va-modal-body {
+        max-height: 95vh;
+        overflow-y: auto;
+      }
+    }
+  }
+
   span.exit-icon {
     background-image: url(/img/icons/exit-icon-primary.png);
     background-position: 100% 50%;
