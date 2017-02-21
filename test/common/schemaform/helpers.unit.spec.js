@@ -283,6 +283,28 @@ describe('Schemaform helpers:', () => {
       expect(newSchema.properties.field['ui:hidden']).to.be.true;
       expect(newSchema).not.to.equal(schema);
     });
+    it('should set collapsed on expandUnder field', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {},
+          field2: {}
+        }
+      };
+      const uiSchema = {
+        field: {
+          'ui:options': {
+            expandUnder: 'field2'
+          }
+        }
+      };
+      const data = { field: '', field2: false };
+
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+
+      expect(newSchema.properties.field['ui:collapsed']).to.be.true;
+      expect(newSchema).not.to.equal(schema);
+    });
     it('should set hidden on array field', () => {
       const schema = {
         type: 'array',
@@ -328,6 +350,22 @@ describe('Schemaform helpers:', () => {
           field: {},
           field2: {
             'ui:hidden': true
+          }
+        }
+      };
+      const data = { field: 'test', field2: 'test2' };
+
+      const newData = removeHiddenData(schema, data);
+
+      expect(newData).to.eql({ field: 'test' });
+    });
+    it('should remove collapsed field in object', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {},
+          field2: {
+            'ui:collapsed': true
           }
         }
       };
@@ -465,6 +503,37 @@ describe('Schemaform helpers:', () => {
 
       expect(fields).not.to.be.empty;
       expect(fields[0].path).to.eql(['field']);
+    });
+    it('should not get hidden array', () => {
+      const data = {
+        schema: {
+          type: 'array',
+          'ui:hidden': true
+        },
+        uiSchema: {}
+      };
+
+      const fields = getArrayFields(data);
+
+      expect(fields).to.be.empty;
+    });
+    it('should not get array in hidden object', () => {
+      const data = {
+        schema: {
+          type: 'object',
+          'ui:collapsed': true,
+          properties: {
+            field: {
+              type: 'array'
+            }
+          }
+        },
+        uiSchema: {}
+      };
+
+      const fields = getArrayFields(data);
+
+      expect(fields).to.be.empty;
     });
   });
   describe('transformForSubmit', () => {

@@ -215,6 +215,10 @@ export function transformForSubmit(formConfig, form) {
   });
 }
 
+function isHiddenField(schema) {
+  return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
+}
+
 /*
  * Pull the array fields from a schema. Used to separate out array fields
  * from the rest of page to be displayed on the review page
@@ -222,7 +226,7 @@ export function transformForSubmit(formConfig, form) {
 export function getArrayFields(data) {
   const fields = [];
   const findArrays = (obj, path = []) => {
-    if (obj.type === 'array') {
+    if (obj.type === 'array' && !isHiddenField(obj)) {
       fields.push({
         path,
         schema: _.set('definitions', data.schema.definitions, obj),
@@ -230,7 +234,7 @@ export function getArrayFields(data) {
       });
     }
 
-    if (obj.type === 'object') {
+    if (obj.type === 'object' && !isHiddenField(obj)) {
       Object.keys(obj.properties).forEach(prop => {
         findArrays(obj.properties[prop], path.concat(prop));
       });
@@ -259,6 +263,43 @@ export function hasFieldsOtherThanArray(schema) {
   }
 
   return false;
+}
+
+/*
+ * Return a schema without array fields. If the schema has only array fields,
+ * then return undefined (because there's no reason to use an object schema with
+ * no properties)
+ */
+export function getNonArraySchema(schema) {
+  if (schema.type === 'array') {
+    return undefined;
+  }
+
+  if (schema.type === 'object') {
+    const newProperties = Object.keys(schema.properties).reduce((current, next) => {
+      const newSchema = getNonArraySchema(schema.properties[next]);
+
+      if (typeof newSchema === 'undefined') {
+        return _.unset(next, current);
+      }
+
+      if (newSchema !== schema.properties[next]) {
+        return _.set(next, newSchema, current);
+      }
+
+      return current;
+    }, schema.properties);
+
+    if (Object.keys(newProperties).length === 0) {
+      return undefined;
+    }
+
+    if (newProperties !== schema.properties) {
+      return _.set('properties', newProperties, schema);
+    }
+  }
+
+  return schema;
 }
 
 /*
@@ -344,6 +385,15 @@ export function setHiddenFields(schema, uiSchema, data) {
     return _.unset('ui:hidden', schema);
   }
 
+  const expandUnder = _.get(['ui:options', 'expandUnder'], uiSchema);
+  if (expandUnder && !data[expandUnder]) {
+    if (!schema['ui:collapsed']) {
+      return _.set('ui:collapsed', true, schema);
+    }
+  } else if (schema['ui:collapsed']) {
+    return _.unset('ui:collapsed', schema);
+  }
+
   if (schema.type === 'object') {
     const newProperties = Object.keys(schema.properties).reduce((current, next) => {
       const newSchema = setHiddenFields(schema.properties[next], uiSchema[next], data);
@@ -377,7 +427,7 @@ export function setHiddenFields(schema, uiSchema, data) {
  * a user can't see.
  */
 export function removeHiddenData(schema, data) {
-  if (schema['ui:hidden'] || typeof data === 'undefined') {
+  if (isHiddenField(schema) || typeof data === 'undefined') {
     return undefined;
   }
 

@@ -7,7 +7,8 @@ import {
   benefitsLabels,
   bankAccountChangeLabels,
   preferredContactMethodLabels,
-  transform
+  transform,
+  directDepositWarning
 } from '../helpers';
 
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
@@ -67,6 +68,7 @@ const formConfig = {
       pages: {
         veteranInformation: {
           path: 'veteran-information',
+          title: 'Veteran information',
           initialData: {},
           uiSchema: {
             veteranFullName: fullName.uiSchema,
@@ -76,7 +78,7 @@ const formConfig = {
             'view:noSSN': {
               'ui:title': 'I don’t have a Social Security number',
               'ui:options': {
-                hideOnReviewIfFalse: true
+                hideOnReview: true
               }
             },
             vaFileNumber: {
@@ -355,10 +357,20 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             bankAccountChange: {
-              'ui:title': 'Do you want to update, start, or stop using direct deposit?',
+              'ui:title': 'Benefit payment method:',
               'ui:widget': 'radio'
             },
-            bankAccount: bankAccount.uiSchema
+            bankAccount: _.assign(bankAccount.uiSchema, {
+              'ui:options': {
+                hideIf: (form) => form.bankAccountChange !== 'startUpdate'
+              }
+            }),
+            'view:stopWarning': {
+              'ui:description': directDepositWarning,
+              'ui:options': {
+                hideIf: (form) => form.bankAccountChange !== 'stop'
+              }
+            }
           },
           schema: {
             type: 'object',
@@ -366,7 +378,11 @@ const formConfig = {
               bankAccountChange: _.assign(bankAccountChange, {
                 enumNames: enumToNames(bankAccountChange.enum, bankAccountChangeLabels)
               }),
-              bankAccount: bankAccount.schema
+              bankAccount: bankAccount.schema,
+              'view:stopWarning': {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
