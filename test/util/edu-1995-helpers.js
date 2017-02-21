@@ -1,6 +1,5 @@
-const Timeouts = require('../util/timeouts.js');
 const mock = require('./mock-helpers');
-const testData = requuire('../edu-benefits/1995/schema/maximal-test.json');
+const testData = require('../edu-benefits/1995/schema/maximal-test.json');
 
 // Create API routes
 function initApplicationSubmitMock() {
@@ -25,258 +24,167 @@ function completeVeteranInformation(client, data, onlyRequiredFields) {
     .setValue('input[name="root_veteranFullName_first"]', data.veteranFullName.first)
     .clearValue('input[name="root_veteranFullName_last"]')
     .setValue('input[name="root_veteranFullName_last"]', data.veteranFullName.last)
-    .clearValue('input[name="veteranSocialSecurityNumber"]')
-    .setValue('input[name="veteranSocialSecurityNumber"]', data.veteranSocialSecurityNumber);
+    .clearValue('input[name="root_veteranSocialSecurityNumber"]')
+    .setValue('input[name="root_veteranSocialSecurityNumber"]', data.veteranSocialSecurityNumber);
 
   if (!onlyRequiredFields) {
     client
       .setValue('input[name="root_veteranFullName_middle"]', data.veteranFullName.middle)
-      .setValue('select[name="root_veteranFullName_suffix"]', data.veteranFullName.suffix);
+      .setValue('select[name="root_veteranFullName_suffix"]', data.veteranFullName.suffix)
+      .click('input[name="root_view:noSSN"]')
+      .setValue('input[name="root_vaFileNumber"]', data.vaFileNumber);
   }
 }
 
 function completeBenefitsSelection(client, data, onlyRequiredFields) {
-  client
-    .click('label[name="chapter30-label"]');
-
   if (!onlyRequiredFields) {
     client
-      .click('label[name="chapter33-label"]')
-      .click('label[name="chapter1606-label"]')
-      .click('label[name="chapter32-label"]');
-  }
-}
-
-function completeBenefitsRelinquishment(client, data, onlyRequiredFields) {
-  if (!onlyRequiredFields) {
-    client.execute((selector) => {
-      document.querySelector(selector).click();
-    }, ['input[name="benefitsRelinquished-1"]']);
-    client
-      .pause(1000)
-      .waitForElementVisible('select[name="benefitsRelinquishedDateMonth"]', Timeouts.slow)
-      .clearValue('select[name="benefitsRelinquishedDateMonth"]')
-      .setValue('select[name="benefitsRelinquishedDateMonth"]', data.benefitsRelinquishedDate.month)
-      .clearValue('select[name="benefitsRelinquishedDateDay"]')
-      .setValue('select[name="benefitsRelinquishedDateDay"]', data.benefitsRelinquishedDate.day)
-      .clearValue('input[name="benefitsRelinquishedDateYear"]')
-      .setValue('input[name="benefitsRelinquishedDateYear"]', data.benefitsRelinquishedDate.year);
+      .click('.form-radio-buttons:first-child input');
   }
 }
 
 function completeServicePeriods(client, data, onlyRequiredFields) {
-  client
-    .clearValue('input[name="serviceBranch"]')
-    .setValue('input[name="serviceBranch"]', data.toursOfDuty[0].serviceBranch)
-    .clearValue('select[name="fromDateMonth"]')
-    .setValue('select[name="fromDateMonth"]', data.toursOfDuty[0].fromDate.month)
-    .clearValue('select[name="fromDateDay"]')
-    .setValue('select[name="fromDateDay"]', data.toursOfDuty[0].fromDate.day)
-    .clearValue('input[name="fromDateYear"]')
-    .setValue('input[name="fromDateYear"]', data.toursOfDuty[0].fromDate.year)
-    .clearValue('select[name="toDateMonth"]')
-    .setValue('select[name="toDateMonth"]', data.toursOfDuty[0].toDate.month)
-    .clearValue('select[name="toDateDay"]')
-    .setValue('select[name="toDateDay"]', data.toursOfDuty[0].toDate.day)
-    .clearValue('input[name="toDateYear"]')
-    .setValue('input[name="toDateYear"]', data.toursOfDuty[0].toDate.year);
-
   if (!onlyRequiredFields) {
+    const dateFields = data.toursOfDuty[0].dateRange.from.split('-');
+    const toDateFields = data.toursOfDuty[0].dateRange.to.split('-');
+    const dateFields1 = data.toursOfDuty[1].dateRange.from.split('-');
+    const toDateFields1 = data.toursOfDuty[1].dateRange.to.split('-');
     client
-      .setValue('input[name="serviceStatus"]', data.toursOfDuty[0].serviceStatus)
-      .click('input[name="applyPeriodToSelected"]')
-      .setValue('textarea[name="benefitsToApplyTo"]', data.toursOfDuty[0].benefitsToApplyTo);
+      .click('input[name="root_view:newServiceYes"]')
+      .clearValue('input[name="root_toursOfDuty_0_serviceBranch"]')
+      .setValue('input[name="root_toursOfDuty_0_serviceBranch"]', data.toursOfDuty[0].serviceBranch)
+      .clearValue('select[name="root_toursOfDuty_0_dateRange_fromMonth"]')
+      .setValue('select[name="root_toursOfDuty_0_dateRange_fromMonth"]', 'May')
+      .clearValue('select[name="root_toursOfDuty_0_dateRange_fromDay"]')
+      .setValue('select[name="root_toursOfDuty_0_dateRange_fromDay"]', parseInt(dateFields[2], 10).toString())
+      .clearValue('input[name="root_toursOfDuty_0_dateRange_fromYear"]')
+      .setValue('input[name="root_toursOfDuty_0_dateRange_fromYear"]', parseInt(dateFields[0], 10))
+      .clearValue('select[name="root_toursOfDuty_0_dateRange_toMonth"]')
+      .setValue('select[name="root_toursOfDuty_0_dateRange_toMonth"]', 'Jun')
+      .clearValue('select[name="root_toursOfDuty_0_dateRange_toDay"]')
+      .setValue('select[name="root_toursOfDuty_0_dateRange_toDay"]', parseInt(toDateFields[2], 10).toString())
+      .clearValue('input[name="root_toursOfDuty_0_dateRange_toYear"]')
+      .setValue('input[name="root_toursOfDuty_0_dateRange_toYear"]', parseInt(toDateFields[0], 10))
+      .click('button.va-growable-add-btn')
+      .clearValue('input[name="root_toursOfDuty_1_serviceBranch"]')
+      .setValue('input[name="root_toursOfDuty_1_serviceBranch"]', data.toursOfDuty[1].serviceBranch)
+      .clearValue('select[name="root_toursOfDuty_1_dateRange_fromMonth"]')
+      .setValue('select[name="root_toursOfDuty_1_dateRange_fromMonth"]', 'May')
+      .clearValue('select[name="root_toursOfDuty_1_dateRange_fromDay"]')
+      .setValue('select[name="root_toursOfDuty_1_dateRange_fromDay"]', parseInt(dateFields1[2], 10).toString())
+      .clearValue('input[name="root_toursOfDuty_1_dateRange_fromYear"]')
+      .setValue('input[name="root_toursOfDuty_1_dateRange_fromYear"]', parseInt(dateFields1[0], 10))
+      .clearValue('select[name="root_toursOfDuty_1_dateRange_toMonth"]')
+      .setValue('select[name="root_toursOfDuty_1_dateRange_toMonth"]', 'Jun')
+      .clearValue('select[name="root_toursOfDuty_1_dateRange_toDay"]')
+      .setValue('select[name="root_toursOfDuty_1_dateRange_toDay"]', parseInt(toDateFields1[2], 10).toString())
+      .clearValue('input[name="root_toursOfDuty_1_dateRange_toYear"]')
+      .setValue('input[name="root_toursOfDuty_1_dateRange_toYear"]', parseInt(toDateFields1[0], 10));
   }
 }
 
 function completeMilitaryService(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
-      .setValue('input[name="serviceAcademyGraduationYear"]', data.serviceAcademyGraduationYear)
-      .click('input[name="currentlyActiveDuty-0"]')
-      .click('input[name="onTerminalLeave-0"]');
+      .click('input[name="root_view:hasServiceBefore1978Yes"]');
   }
 }
 
-function completeRotcHistory(client, data, onlyRequiredFields) {
+function completeNewSchool(client, data, onlyRequiredFields) {
+  client
+    .clearValue('select[name="root_educationType"]')
+    .setValue('select[name="root_educationType"]', data.educationType)
+    .clearValue('input[name="root_newSchool_name"]')
+    .setValue('input[name="root_newSchool_name"]', data.newSchool.name);
+
   if (!onlyRequiredFields) {
-    client.execute((selector) => {
-      document.querySelector(selector).click();
-    }, ['input[name="seniorRotcCommissioned-0"]']);
-
     client
-      .pause(1000)
-      .setValue('input[name="commissionYear"]', data.commissionYear)
-      .setValue('input[name="year"]', data.rotcScholarships[0].year)
-      .setValue('input[name="amount"]', data.rotcScholarships[0].amount);
-
-    client.execute((selector) => {
-      document.querySelector(selector).click();
-    }, ['label[name="RotcTuition-0-label"]']);
+      .clearValue('input[name="root_newSchool_address_street"]')
+      .setValue('input[name="root_newSchool_address_street"]', data.newSchool.address.street)
+      .clearValue('input[name="root_newSchool_address_street2"]')
+      .setValue('input[name="root_newSchool_address_street2"]', data.newSchool.address.street2)
+      .clearValue('input[name="root_newSchool_address_city"]')
+      .setValue('input[name="root_newSchool_address_city"]', data.newSchool.address.city)
+      .clearValue('select[name="root_newSchool_address_state"]')
+      .setValue('select[name="root_newSchool_address_state"]', data.newSchool.address.state)
+      .clearValue('input[name="root_newSchool_address_postalCode"]')
+      .setValue('input[name="root_newSchool_address_postalCode"]', data.newSchool.address.postalCode)
+      .setValue('textarea[id="root_educationObjective"]', data.educationObjective)
+      .click('input[name=root_nonVaAssistanceYes]')
+      .click('input[name=root_civilianBenefitsAssistanceNo]');
   }
 }
 
-function completeContributions(client, data, onlyRequiredFields) {
+function completeOldSchool(client, data, onlyRequiredFields) {
+  client
+    .clearValue('input[name="root_oldSchool_name"]')
+    .setValue('input[name="root_oldSchool_name"]', data.oldSchool.name);
+
   if (!onlyRequiredFields) {
-    client.execute((selector) => {
-      document.querySelector(selector).click();
-    }, ['label[name="civilianBenefitsAssistance-label"]']);
-
-    client.execute((selector) => {
-      document.querySelector(selector).click();
-    }, ['label[name="additionalContributions-label"]']);
-
-    client.execute((selector) => {
-      document.querySelector(selector).click();
-    }, ['label[name="activeDutyKicker-label"]']);
-
-    client.execute((selector) => {
-      document.querySelector(selector).click();
-    }, ['label[name="reserveKicker-label"]']);
-
-    client.execute((selector) => {
-      document.querySelector(selector).click();
-    }, ['label[name="activeDutyRepaying-label"]']);
-
+    const dateFields = data.trainingEndDate.split('-');
     client
-      .pause(1000)
-      .clearValue('select[name="fromMonth"]')
-      .setValue('select[name="fromMonth"]', data.activeDutyRange.from.month)
-      .clearValue('select[name="fromDay"]')
-      .setValue('select[name="fromDay"]', data.activeDutyRange.from.day)
-      .clearValue('input[name="fromYear"]')
-      .setValue('input[name="fromYear"]', data.activeDutyRange.from.year)
-      .clearValue('select[name="toMonth"]')
-      .setValue('select[name="toMonth"]', data.activeDutyRange.to.month)
-      .clearValue('select[name="toDay"]')
-      .setValue('select[name="toDay"]', data.activeDutyRange.to.day)
-      .clearValue('input[name="toYear"]')
-      .setValue('input[name="toYear"]', data.activeDutyRange.to.year);
-  }
-}
-
-function completeEducationHistory(client, data, onlyRequiredFields) {
-  if (!onlyRequiredFields) {
-    client
-      .clearValue('select[name="highSchoolOrGedCompletionDateMonth"]')
-      .setValue('select[name="highSchoolOrGedCompletionDateMonth"]', data.highSchoolOrGedCompletionDate.month)
-      .clearValue('input[name="highSchoolOrGedCompletionDateYear"]')
-      .setValue('input[name="highSchoolOrGedCompletionDateYear"]', data.highSchoolOrGedCompletionDate.year)
-      .clearValue('input[name="name"]')
-      .setValue('input[name="name"]', data.educationPeriods[0].college)
-      .clearValue('input[name="city"]')
-      .setValue('input[name="city"]', data.educationPeriods[0].city)
-      .clearValue('select[name="state"]')
-      .setValue('select[name="state"]', data.educationPeriods[0].state)
-      .clearValue('select[name="fromDateMonth"]')
-      .setValue('select[name="fromDateMonth"]', data.educationPeriods[0].fromDate.month)
-      .clearValue('input[name="fromDateYear"]')
-      .setValue('input[name="fromDateYear"]', data.educationPeriods[0].fromDate.year)
-      .clearValue('select[name="toDateMonth"]')
-      .setValue('select[name="toDateMonth"]', data.educationPeriods[0].toDate.month)
-      .clearValue('input[name="toDateYear"]')
-      .setValue('input[name="toDateYear"]', data.educationPeriods[0].toDate.year)
-      .clearValue('input[name="hours"]')
-      .setValue('input[name="hours"]', data.educationPeriods[0].hours)
-      .click('input[name="hoursType-0"]')
-      .clearValue('input[name="degreeReceived"]')
-      .setValue('input[name="degreeReceived"]', data.educationPeriods[0].degreeReceived)
-      .clearValue('input[name="major"]')
-      .setValue('input[name="major"]', data.educationPeriods[0].major)
-      .clearValue('textarea[name="faaFlightCertificatesInformation"]')
-      .setValue('textarea[name="faaFlightCertificatesInformation"]', data.faaFlightCertificatesInformation);
-  }
-}
-
-function completeEmploymentHistory(client, data, onlyRequiredFields) {
-  if (!onlyRequiredFields) {
-    client.execute((selector) => {
-      document.querySelector(selector).click();
-    }, ['input[name="hasNonMilitaryJobs-0"]']);
-
-    client.execute((selector) => {
-      document.querySelector(selector).click();
-    }, ['input[name="postMilitaryJob-0"]']);
-
-    client
-      .pause(1000)
-      .setValue('input[name="name"]', data.employmentPeriods[0].job)
-      .setValue('input[name="months"]', data.employmentPeriods[0].months)
-      .setValue('input[name="licenseOrRating"]', data.employmentPeriods[0].licenseOrRating);
+      .clearValue('input[name="root_oldSchool_address_street"]')
+      .setValue('input[name="root_oldSchool_address_street"]', data.oldSchool.address.street)
+      .clearValue('input[name="root_oldSchool_address_street2"]')
+      .setValue('input[name="root_oldSchool_address_street2"]', data.oldSchool.address.street2)
+      .clearValue('input[name="root_oldSchool_address_city"]')
+      .setValue('input[name="root_oldSchool_address_city"]', data.oldSchool.address.city)
+      .clearValue('select[name="root_oldSchool_address_state"]')
+      .setValue('select[name="root_oldSchool_address_state"]', data.oldSchool.address.state)
+      .clearValue('input[name="root_oldSchool_address_postalCode"]')
+      .setValue('input[name="root_oldSchool_address_postalCode"]', data.oldSchool.address.postalCode)
+      .clearValue('select[name="root_trainingEndDateMonth"]')
+      .setValue('select[name="root_trainingEndDateMonth"]', 'Jun')
+      .clearValue('select[name="root_trainingEndDateDay"]')
+      .setValue('select[name="root_trainingEndDateDay"]', parseInt(dateFields[2], 10).toString())
+      .clearValue('input[name="root_trainingEndDateYear"]')
+      .setValue('input[name="root_trainingEndDateYear"]', dateFields[0])
+      .setValue('input[name="root_reasonForChange"]', data.reasonForChange);
   }
 }
 
 function completeContactInformation(client, data, onlyRequiredFields) {
   client
-    .clearValue('input[name="address"]')
-    .setValue('input[name="address"]', data.veteranAddress.street)
-    .clearValue('input[name="city"]')
-    .setValue('input[name="city"]', data.veteranAddress.city)
-    .clearValue('select[name="state"]')
-    .setValue('select[name="state"]', data.veteranAddress.state)
-    .clearValue('input[name="postalCode"]')
-    .setValue('input[name="postalCode"]', data.veteranAddress.postalCode)
-    .clearValue('input[name="email"]')
-    .setValue('input[name="email"]', data.email)
-    .clearValue('input[name="emailConfirmation"]')
-    .setValue('input[name="emailConfirmation"]', data.email);
+    .clearValue('input[name="root_veteranAddress_street"]')
+    .setValue('input[name="root_veteranAddress_street"]', data.veteranAddress.street)
+    .clearValue('input[name="root_veteranAddress_street2"]')
+    .setValue('input[name="root_veteranAddress_street2"]', data.veteranAddress.street2)
+    .clearValue('input[name="root_veteranAddress_city"]')
+    .setValue('input[name="root_veteranAddress_city"]', data.veteranAddress.city)
+    .clearValue('select[name="root_veteranAddress_state"]')
+    .setValue('select[name="root_veteranAddress_state"]', data.veteranAddress.state)
+    .clearValue('input[name="root_veteranAddress_postalCode"]')
+    .setValue('input[name="root_veteranAddress_postalCode"]', data.veteranAddress.postalCode)
+    .clearValue('input[name="root_view:otherContactInfo_email"]')
+    .setValue('input[name="root_view:otherContactInfo_email"]', data['view:otherContactInfo'].email)
+    .clearValue('input[name="root_view:otherContactInfo_view:confirmEmail"]')
+    .setValue('input[name="root_view:otherContactInfo_view:confirmEmail"]', data['view:otherContactInfo']['view:confirmEmail']);
 
   if (!onlyRequiredFields) {
     client
-      .setValue('input[name="phone"]', data.phone)
-      .setValue('input[name="mobilePhone"]', data.phone)
-      .click('input[name="preferredContactMethod-0"]');
+      .click('input[name="root_preferredContactMethod_2"]')
+      .clearValue('input[name="root_view:otherContactInfo_homePhone"]')
+      .setValue('input[name="root_view:otherContactInfo_homePhone"]', data['view:otherContactInfo'].homePhone)
+      .clearValue('input[name="root_view:otherContactInfo_mobilePhone"]')
+      .setValue('input[name="root_view:otherContactInfo_mobilePhone"]', data['view:otherContactInfo'].mobilePhone);
   }
 }
 
-function completeSchoolSelection(client, data, onlyRequiredFields) {
+function completeDependents(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
-      .clearValue('select[name="educationType"]')
-      .setValue('select[name="educationType"]', data.educationType)
-      .clearValue('input[name="schoolName"]')
-      .setValue('input[name="schoolName"]', data.schoolName)
-      .clearValue('input[name="address"]')
-      .setValue('input[name="address"]', data.schoolAddress.street)
-      .clearValue('input[name="city"]')
-      .setValue('input[name="city"]', data.schoolAddress.city)
-      .clearValue('select[name="state"]')
-      .setValue('select[name="state"]', data.schoolAddress.state)
-      .clearValue('input[name="postalCode"]')
-      .setValue('input[name="postalCode"]', data.schoolAddress.postalCode)
-      .setValue('input[name="educationObjective"]', data.educationObjective)
-      .clearValue('select[name="educationStartDateMonth"]')
-      .setValue('select[name="educationStartDateMonth"]', data.educationStartDate.month)
-      .clearValue('select[name="educationStartDateDay"]')
-      .setValue('select[name="educationStartDateDay"]', data.educationStartDate.day)
-      .clearValue('input[name="educationStartDateYear"]')
-      .setValue('input[name="educationStartDateYear"]', data.educationStartDate.year);
-  }
-}
-
-function completeSecondaryContact(client, data, onlyRequiredFields) {
-  if (!onlyRequiredFields) {
-    client
-      .setValue('input[name="secondaryContactName"]', data.secondaryContactName)
-      .clearValue('input[name="secondaryContactPhone"]')
-      .setValue('input[name="secondaryContactPhone"]', data.secondaryPhone)
-      .clearValue('input[name="address"]')
-      .setValue('input[name="address"]', data.secondaryAddress.street)
-      .clearValue('input[name="city"]')
-      .setValue('input[name="city"]', data.secondaryAddress.city)
-      .clearValue('select[name="state"]')
-      .setValue('select[name="state"]', data.secondaryAddress.state)
-      .clearValue('input[name="postalCode"]')
-      .setValue('input[name="postalCode"]', data.secondaryAddress.postalCode);
+      .click('input[name="root_serviceBefore1977_marriedYes"]')
+      .click('input[name="root_serviceBefore1977_haveDependentsYes"]')
+      .click('input[name="root_serviceBefore1977_parentDependentYes"]');
   }
 }
 
 function completeDirectDeposit(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
-      .click('input[name="accountType-0"]')
-      .setValue('input[name="accountNumber"]', data.accountNumber)
-      .setValue('input[name="routingNumber"]', data.routingNumber);
+      .click('input[name="root_bankAccountChange_0"]')
+      .setValue('input[name="root_bankAccount_accountNumber"]', data.bankAccount.accountNumber)
+      .setValue('input[name="root_bankAccount_routingNumber"]', data.bankAccount.routingNumber);
   }
 }
 
@@ -288,12 +196,8 @@ module.exports = {
   completeServicePeriods,
   completeContactInformation,
   completeBenefitsSelection,
-  completeBenefitsRelinquishment,
-  completeRotcHistory,
-  completeContributions,
-  completeEducationHistory,
-  completeEmploymentHistory,
-  completeSchoolSelection,
-  completeSecondaryContact,
+  completeNewSchool,
+  completeOldSchool,
+  completeDependents,
   completeDirectDeposit
 };
