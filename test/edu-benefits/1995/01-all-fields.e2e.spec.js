@@ -19,7 +19,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Veteran information page.
     client
-      .expect.element('input[name="root_veteranFullName_first"]').to.be.visible;
+      .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
     EduHelpers.completeVeteranInformation(client, EduHelpers.testData.veteranInformation.data, false);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information');
