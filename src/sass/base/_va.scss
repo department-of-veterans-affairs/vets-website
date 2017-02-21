@@ -229,10 +229,18 @@ hr {
       padding: 0;
     }
   }
+  
+  .va-notice--banner {
+    display: none;
+
+    @include media($medium-screen) {
+      display: block;
+    }
+  }
 }
 
 .va-header-logosearch {
-  padding: 1em 0.75em 0;
+  padding: 1.6rem;
 
   // Fixes overflow of content at < 320px viewports
   @include media($xsmall-screen) {
@@ -1312,7 +1320,7 @@ li {
 }
 
 [class^=va-wip] {
-  padding: .576rem 1.08rem;
+  padding: .576rem 1.08rem 1.6rem;
   font-size: 0.8em;
   font-weight: 400;
 
@@ -1336,7 +1344,9 @@ li {
 }
 
 .va-wip--narrow {
+  border-top: 1px solid $color-primary-darker;
   color: $color-white;
+  margin-top: 3.2rem;
 
   @include media($medium-screen) {
     display: none;
@@ -1365,7 +1375,7 @@ li {
     color: inherit;
     padding: 0;
   }
-
+  
 }
 
 .incompatible-browser-warning {
