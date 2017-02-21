@@ -206,6 +206,8 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': 'School, university, program, or training facility you want to attend',
+            // Broken up because we need to fit educationType between name and address
+            // Put back together again in transform()
             newSchoolName: {
               'ui:title': 'Name of school, university, or training facility'
             },
