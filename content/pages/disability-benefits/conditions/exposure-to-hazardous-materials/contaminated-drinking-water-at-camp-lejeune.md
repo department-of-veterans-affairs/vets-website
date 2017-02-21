@@ -5,16 +5,17 @@ source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_le
 template: 4-action-page
 ---
 
-If you served at—or were assigned to—Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants (toxic chemicals) in the drinking water there. Scientists believe that contact with these contaminants during military service caused certain illnesses. This is known as a **presumptive service connection.** If you or a family member has an illness with a presumptive service connection, find out if you can get disability compensation or benefits.
+If you served at Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants in the drinking water there. Scientific and medical evidence has shown an association between exposure to these contaminants during military service and development of certain diseases later on. If you have qualifying service at Camp Lejeune and a current diagnosis of 1 of the conditions listed below, you may be able to get disability benefits.
 
 <div class="call-out" markdown="1">
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you served under official orders or other official assignment at Camp Lejeune or MCAS New River for at least 30 days, with or without a break in service, from August 1953 through December 1987 and:
+
+You may be able to get disability benefits if you served at Camp Lejeune or MCAS New River for at least 30 cumulative days from August 1953 through December 1987 and:
 
 - You were discharged from the military under conditions other than dishonorable, **and**
-- You have 1 or more presumptive conditions believed to be caused by contact with contaminants in the Camp Lejeune drinking water. These include:
+- You have a diagnosis of 1 or more of these presumptive conditions:
 
   - Adult leukemia
   - Aplastic anemia and other myelodysplastic syndromes
@@ -28,13 +29,12 @@ You may be able to get disability benefits if you served under official orders o
 ### Who's covered?
 
 - Veterans
-- Servicemembers
 - Reservists
 - Guardsmen
 
 </div>
 
-### What kind of disability benefits can I get?
+### What kind of benefits can I get?
 
 - Health care
 - Compensation (payments)
@@ -43,7 +43,7 @@ You may be able to get disability benefits if you served under official orders o
 
 You’ll need to apply for benefits. You can do this in 1 of 3 ways:
 
-- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying because of illnesses linked to contaminants in the water supply at Camp Lejeune, and attach evidence,
+- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying for 1 or more of the presumed Camp Lejeune illnesses, and attach evidence (like a doctor's report or medical test results),
 **or**
 - [Get help from an accredited representative or VSO](http://www.va.gov/ogc/apps/accreditation/index.asp),
 **or**
@@ -53,12 +53,12 @@ When you apply, you'll need to give us:
 
 - Your military records showing you served at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 while on active duty, or in the National Guard or Reserves,
 **and**
-- Evidence, like a doctor’s report or medical test results, stating that you have 1 or more of the 8 illnesses on the presumptive conditions list (see above)
+- Evidence stating that you have 1 or more of the 8 illnesses on the presumptive conditions list (see above)
 
 
-### Can family members of Veterans also get help from VA?
+### Are Veterans and their family members covered for health care?
 
-Yes. Family members of Veterans who served at Camp Lejeune and MCAS New River can get benefits. We may pay you back for your out-of-pocket health care costs that were related to any of these 15 conditions:
+Yes. Veterans who served at Camp Lejeune or MCAS New River for at least 30 cumulative days from August 1953 through December 1987—and their family members—can get health care benefits. We may pay you back for your out-of-pocket health care costs that were related to any of these 15 conditions:
 
 - Bladder cancer
 - Breast cancer
@@ -86,11 +86,10 @@ You’ll need to apply for benefits in 1 of 2 ways:
 
 <div class="panel">
 <dl>
-<dt><b>Department of Veterans Affairs</b></dt>
-<dd>Financial Services Center</dd>
+<dt><b>Department of Veterans Affairs</b><dt>
+<dd>Financial Services Center
 <dd>PO Box 149200</dd>
 <dd>Austin, TX 78714-9200</dd>
-</dl>
 </div>
 
 When you apply, please provide:
@@ -101,13 +100,13 @@ When you apply, please provide:
 
 - Medical records that show you have 1 of the 15 conditions listed above, **and**
 
-- [The Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Your doctor needs to fill it out and sign it.  
+- [The Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Have your doctor fill out and sign this form before submitting.  
 
 <div class="call-out" markdown="1">
 
 ### What was in the drinking water?
 
-2 on-base water wells that were shut down in 1985 had the following chemicals:
+Two on-base water wells that were shut down in 1985 had these chemicals:
 
 - Trichloroethylene (TCE)
 - Perchloroethylene (PCE)
@@ -116,4 +115,3 @@ When you apply, please provide:
 - Other compounds
 
 </div>
-
