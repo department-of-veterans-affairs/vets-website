@@ -15,7 +15,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Manage Your Education Benefits" subTitle="OMB Control No. 2900-0074"/>
+        <FormTitle title="Manage Your Education Benefits"/>
         <p>This application is equivalent to Form 22-1995 (Request for Change of Program or Place of Training) and Form 22-5495 (Dependents' Request for Change of Program or Place of Training).</p>
         <div className="process schemaform-process">
           <ol>
