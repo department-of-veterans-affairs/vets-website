@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { focusElement } from '../../../common/utils/helpers';
 import ProgressButton from '../../../common/components/form-elements/ProgressButton';
+import OMBInfo from '../../../common/components/OMBInfo';
 import FormTitle from '../../../common/schemaform/FormTitle';
 
 class IntroductionPage extends React.Component {
@@ -72,6 +73,9 @@ class IntroductionPage extends React.Component {
                 buttonClass="usa-button-primary"
                 afterText="»"/>
           </div>
+        </div>
+        <div className="omb-info--container">
+          <OMBInfo resBurden={20} ombNumber="2900-0074" expDate="05-31-2018"/>
         </div>
       </div>
     );
