@@ -19,6 +19,7 @@ describe('Schemaform definition dateRange', () => {
 
     expect(formDOM.querySelectorAll('label').length).to.equal(8);
     expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelectorAll('select').length).to.equal(4);
   });
   it('should render invalid dateRange error', () => {
     const dateRangeUISchema = uiSchema();

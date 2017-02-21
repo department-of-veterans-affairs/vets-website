@@ -39,8 +39,10 @@ describe('Edu 1995 veteranInformation', () => {
     // show error for ssn, file number not visible
     expect(formDOM.querySelector('#root_vaFileNumber')).to.be.null;
     expect(formDOM.querySelector('.usa-input-error #root_veteranSocialSecurityNumber')).not.to.be.null;
+    const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
+      .find(input => input.getAttribute('name') === 'root_view:noSSN');
 
-    ReactTestUtils.Simulate.change(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')[4],
+    ReactTestUtils.Simulate.change(noSSNBox,
       {
         target: {
           checked: true
@@ -49,7 +51,7 @@ describe('Edu 1995 veteranInformation', () => {
 
     // no error for ssn, file number is visible with error
     expect(formDOM.querySelector('.usa-input-error #root_veteranSocialSecurityNumber')).to.be.null;
-    expect(formDOM.querySelector('#root_vaFileNumber')).not.to.be.null;
+    expect(formDOM.querySelector('.usa-input-error #root_vaFileNumber')).not.to.be.null;
   });
   it('should have no errors with all info filled in', () => {
     const onSubmit = sinon.spy();
