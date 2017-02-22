@@ -158,7 +158,7 @@ export class Main extends React.Component {
                     placeholderText="MM/DD/YYYY"
                     selected={this.props.form.dateRange.start}
                     disabled={datePickerDisabled}
-                    className={this.state.invalidStartDate ? 'date-range-error' : ''}/>
+                    className={!datePickerDisabled && this.state.invalidStartDate ? 'date-range-error' : ''}/>
                 <span>&nbsp;to&nbsp;</span>
                 <DatePicker
                     id="custom-date-end"
@@ -166,7 +166,7 @@ export class Main extends React.Component {
                     placeholderText="MM/DD/YYYY"
                     selected={this.props.form.dateRange.end}
                     disabled={datePickerDisabled}
-                    className={this.state.invalidEndDate ? 'date-range-error' : ''}/>
+                    className={!datePickerDisabled && this.state.invalidEndDate ? 'date-range-error' : ''}/>
               </div>
             </div>
           ),
