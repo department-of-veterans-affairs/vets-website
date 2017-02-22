@@ -15,17 +15,10 @@ import {
 } from '../actions/form';
 import { openModal } from '../actions/modal';
 import { apiRequest } from '../utils/helpers';
-import { isValidDateRange } from '../utils/validations';
 
 export class Main extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      invalidStartDate: false,
-      invalidEndDate: false
-    };
-
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
@@ -45,21 +38,11 @@ export class Main extends React.Component {
   }
 
   handleStartDateChange(startDate) {
-    let invalidDate = true;
-    if (isValidDateRange(startDate, this.props.form.dateRange.end)) {
-      this.props.setDate(startDate, true);
-      invalidDate = false;
-    }
-    this.setState({ invalidStartDate: invalidDate });
+    this.props.setDate(startDate, true);
   }
 
   handleEndDateChange(endDate) {
-    let invalidDate = true;
-    if (isValidDateRange(this.props.form.dateRange.start, endDate)) {
-      this.props.setDate(endDate, false);
-      invalidDate = false;
-    }
-    this.setState({ invalidEndDate: invalidDate });
+    this.props.setDate(endDate.endOf('day'), false);
   }
 
   handleSubmit(e) {
@@ -139,7 +122,16 @@ export class Main extends React.Component {
   }
 
   renderDateOptions() {
-    const datePickerDisabled = this.props.form.dateOption !== 'custom';
+    const {
+      dateOption,
+      dateRange: {
+        start: startDate,
+        end: endDate
+      }
+    } = this.props.form;
+
+    const datePickerDisabled = dateOption !== 'custom';
+
     const radioButtonProps = {
       name: 'dateRange',
       label: '',
@@ -156,17 +148,17 @@ export class Main extends React.Component {
                     id="custom-date-start"
                     onChange={this.handleStartDateChange}
                     placeholderText="MM/DD/YYYY"
-                    selected={this.props.form.dateRange.start}
+                    selected={startDate}
                     disabled={datePickerDisabled}
-                    className={!datePickerDisabled && this.state.invalidStartDate ? 'date-range-error' : ''}/>
+                    maxDate={endDate}/>
                 <span>&nbsp;to&nbsp;</span>
                 <DatePicker
                     id="custom-date-end"
                     onChange={this.handleEndDateChange}
                     placeholderText="MM/DD/YYYY"
-                    selected={this.props.form.dateRange.end}
+                    selected={endDate}
                     disabled={datePickerDisabled}
-                    className={!datePickerDisabled && this.state.invalidEndDate ? 'date-range-error' : ''}/>
+                    minDate={startDate}/>
               </div>
             </div>
           ),
@@ -179,7 +171,7 @@ export class Main extends React.Component {
         }
       },
       value: {
-        value: this.props.form.dateOption,
+        value: dateOption,
       }
     };
 
