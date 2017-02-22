@@ -38,7 +38,7 @@ export class Main extends React.Component {
   }
 
   handleStartDateChange(startDate) {
-    this.props.setDate(startDate, true);
+    this.props.setDate(startDate);
   }
 
   handleEndDateChange(endDate) {
