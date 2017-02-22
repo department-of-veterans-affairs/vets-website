@@ -42,7 +42,7 @@ export class Main extends React.Component {
   }
 
   handleEndDateChange(endDate) {
-    this.props.setDate(endDate.endOf('day'), false);
+    this.props.setDate(endDate ? endDate.endOf('day') : null, false);
   }
 
   handleSubmit(e) {
