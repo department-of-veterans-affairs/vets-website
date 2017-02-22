@@ -15,13 +15,7 @@ import {
 } from '../actions/form';
 import { openModal } from '../actions/modal';
 import { apiRequest } from '../utils/helpers';
-
-function isValidDateRange(startDate, endDate) {
-  if (!startDate || !endDate) {
-    return true;
-  }
-  return startDate.isBefore(endDate);
-}
+import { isValidDateRange } from '../utils/validations';
 
 export class Main extends React.Component {
   constructor(props) {
