@@ -142,7 +142,7 @@ export class Main extends React.Component {
         {
           label: (
             <div>
-              <span>Custom date range<br/></span>
+              <span>Custom date range</span>
               <div className="date-range-fields">
                 <DatePicker
                     id="custom-date-start"
