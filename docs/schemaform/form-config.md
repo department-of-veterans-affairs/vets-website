@@ -22,8 +22,9 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
   // The subtitle (e.g. form number) of the form. Displayed on all pages, if there's also a title
   subTitle: '',
 
-  // Schema definitions to include on all pages. Can be overriden using definitions object in
-  // page schema
+  // Schema definitions that can be referenced on any page. These are added to each page's schema
+  // in the reducer code, so that you don't have to put all of the common fields in the definitions
+  // property in each page schema.
   defaultDefinitions: {}, 
 
   // Object containing the configuration for each chapter. Each property is the key for a chapter
@@ -119,7 +120,7 @@ This does not apply to array fields; for those, you still need to specify an `it
 ```
 
 ### uiSchema configuration
-In addition to the uiSchema options listed in the library docs, we have some additional options that are supported for all forms:
+In addition to the uiSchema options listed in the library [https://github.com/mozilla-services/react-jsonschema-form#the-uischema-object](docs), we have some additional options that are supported for all forms:
 
 ```js
 {
@@ -140,9 +141,8 @@ In addition to the uiSchema options listed in the library docs, we have some add
   // only implemented for string fields
   'ui:reviewWidget': WidgetComponent,
 
-  // Use this to provide a function to make a field conditionally required. First
-  // argument is the current form data and the second is the formContext object,
-  // which will contain the form data for other pages (tbd). You should avoid making
+  // Use this to provide a function to make a field conditionally required.   
+  // The current page data is the only parameter. You should avoid having
   // a field required in the JSON schema and using `ui:required` on the same field.
   'ui:required': function (pageData) {
     return true || false;
@@ -181,8 +181,8 @@ In addition to the uiSchema options listed in the library docs, we have some add
     viewField: RowViewComponent, 
     
     // If you want a field to only be shown when another field is true, set this option
-    // to the property name. It will follow our ExpandingGroup pattern and expand underneath
-    // the field it is set to.
+    // to the property name. It will wrap the fields in an ExpandingGroup component with
+    // the expandUnder field as the first question.
     expandUnder: '', 
     
     // Set this if you want to hide this field on the review page.
@@ -223,7 +223,7 @@ Every validation function should update the errors object with any errors found.
 ```js
 function validateSSN(errors, ssn) {
   if (!isValidSSN(ssn)) {
-    errors.addError('Please enter a valid nine digit SSN (dashes allowed)');
+    errors.addError('Please enter a valid 0 digit SSN (dashes allowed)');
   }
 }
 ```
@@ -237,7 +237,7 @@ Items in the `ui:validations` array can also be objects. Objects should have two
 {
   validator: (errors, ssn, pageData, schema, errorMessages, options) => {
     if (!isValidWidget(ssn, options.someOption)) {
-      errors.addError('Please enter a valid nine digit SSN (dashes allowed)');
+      errors.addError('Please enter a valid 9 digit SSN (dashes allowed)');
     }
   },
   options: {

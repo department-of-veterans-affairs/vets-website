@@ -6,7 +6,7 @@ This walkthrough is going to detail how our form building code (called schemafor
 
 One pre-requisite for understanding how schemaform works is the JSON Schema standard. JSON Schema is a way of describing the allowed shape of JSON objects. There are some good examples to look through on the [JSON Schema site](http://json-schema.org/examples.html). Here are some basics:
 
-Schema's have a type, that tells you what kind of data is allowed:
+Schemas have a type, that tells you what kind of data is allowed:
 
 ```
 { 
@@ -227,7 +227,7 @@ This is important to understand; similar to how Redux works, all state is kept i
 
 ### UI schema
 
-Along with the regular JSON Schema, a ui schema is also optionally defined for each field. This schema is used for ui specific options that don't fit within the JSON Schema standard. The primary use for it that's built into the library is for specifying custom fields and widgets for specific fields in the schema (using `ui:field` and `ui:widget`). We've extended it so that we also use it for label names, custom validation, and conditional required fields.
+Along with the regular JSON Schema, a ui schema is also optionally defined for each field. This schema is used for ui specific options that don't fit within the JSON Schema standard. The primary use for it that's built into the library is for specifying custom fields and widgets for specific fields in the schema (using `ui:field` and `ui:widget`). We've extended it so that we also use it for label names, custom validation, and conditionally required fields.
 
 ## How schemaform uses rjsf
 
@@ -252,6 +252,8 @@ We've also written some custom fields and widgets:
 - `YesNoWidget`
 - `AddressField`
 - `DateWidget`
+- `SSNWidget`
+- `PhoneWidget`
 
 Writing custom widgets is similar to writing any other React component. There's a value passed in and an `onChange` hook is provided for changing data. Other props like the schemas and field id are also provided.
 
