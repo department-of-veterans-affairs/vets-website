@@ -60,10 +60,10 @@ HealthRecordsApp.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const bbState = state.health.bb;
+  const hrState = state.health.hr;
 
   return {
-    modal: bbState.modal,
+    modal: hrState.modal,
   };
 };
 const mapDispatchToProps = {
