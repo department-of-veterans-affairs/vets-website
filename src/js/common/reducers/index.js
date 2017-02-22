@@ -5,7 +5,7 @@ import profile from '../../user-profile/reducers/profile';
 
 import rx from '../../rx/reducers';
 import msg from '../../messaging/reducers';
-import bb from '../../blue-button/reducers';
+import bb from '../../health-records/reducers';
 
 import status from '../../disability-benefits/reducers';
 

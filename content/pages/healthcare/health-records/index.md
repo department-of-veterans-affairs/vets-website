@@ -1,7 +1,7 @@
 ---
 title: Get your VA health records
 layout: page-react.html
-entryname: blue-button
+entryname: health-records
 ---
 
 <div id="main">

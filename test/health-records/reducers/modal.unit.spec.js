@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import modalReducer from '../../../src/js/blue-button/reducers/modal';
+import modalReducer from '../../../src/js/health-records/reducers/modal';
 
 describe('modal reducer', () => {
   it('should close modal', () => {
@@ -23,4 +23,3 @@ describe('modal reducer', () => {
     expect(state.content).to.equal('Content');
   });
 });
-

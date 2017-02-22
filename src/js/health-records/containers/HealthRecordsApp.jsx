@@ -29,7 +29,7 @@ function AppContent({ children, isDataAvailable }) {
   return <div className="bb-app">{view}</div>;
 }
 
-export class BlueButtonApp extends React.Component {
+export class HealthRecordsApp extends React.Component {
   render() {
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"health-records"}>
@@ -55,7 +55,7 @@ export class BlueButtonApp extends React.Component {
   }
 }
 
-BlueButtonApp.propTypes = {
+HealthRecordsApp.propTypes = {
   children: React.PropTypes.element
 };
 
@@ -70,4 +70,4 @@ const mapDispatchToProps = {
   closeModal,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BlueButtonApp);
+export default connect(mapStateToProps, mapDispatchToProps)(HealthRecordsApp);
