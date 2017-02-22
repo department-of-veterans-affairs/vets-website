@@ -16,6 +16,7 @@ import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as dateRange from '../../../common/schemaform/definitions/dateRange';
+import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as address from '../../../common/schemaform/definitions/address';
 
@@ -43,8 +44,6 @@ const {
   preferredContactMethod,
   school
 } = fullSchema1995.definitions;
-
-const newSchool = _.set('required', ['name'], school);
 
 const formConfig = {
   urlPrefix: '/1995/',
@@ -202,23 +201,21 @@ const formConfig = {
           path: 'school-selection/new-school',
           title: 'School, university, program, or training facility you want to attend',
           initialData: {
-            newSchool: {
-              address: {}
-            }
+            newSchoolAddress: {}
           },
           uiSchema: {
             'ui:title': 'School, university, program, or training facility you want to attend',
-            educationType: educationType.uiSchema,
-            newSchool: {
-              name: {
-                'ui:title': 'Name of school, university, or training facility'
-              },
-              address: _.merge(address.uiSchema(), {
-                'ui:options': {
-                  hideIf: (form) => !showSchoolAddress(form.educationType)
-                }
-              })
+            // Broken up because we need to fit educationType between name and address
+            // Put back together again in transform()
+            newSchoolName: {
+              'ui:title': 'Name of school, university, or training facility'
             },
+            educationType: educationType.uiSchema,
+            newSchoolAddress: _.merge(address.uiSchema(), {
+              'ui:options': {
+                hideIf: (form) => !showSchoolAddress(form.educationType)
+              }
+            }),
             educationObjective: {
               'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
               'ui:widget': 'textarea'
@@ -236,8 +233,10 @@ const formConfig = {
             type: 'object',
             required: ['educationType'],
             properties: {
+              // newSchool: _.set('properties.address', address.schema(), newSchool),
+              newSchoolName: { type: 'string', required: true },
               educationType: educationType.schema,
-              newSchool: _.set('properties.address', address.schema(), newSchool),
+              newSchoolAddress: address.schema(),
               educationObjective,
               nonVaAssistance,
               civilianBenefitsAssistance
@@ -260,7 +259,7 @@ const formConfig = {
               },
               address: address.uiSchema()
             },
-            trainingEndDate: date.uiSchema('When did you stop taking classes or participating in the training program?'),
+            trainingEndDate: currentOrPastDate.uiSchema('When did you stop taking classes or participating in the training program?'),
             reasonForChange: {
               'ui:title': 'Why did you stop taking classes or participating in the training program? (for example, “I graduated” or “I moved” or “The program wasn’t right for me.”)'
             }
@@ -291,7 +290,7 @@ const formConfig = {
             veteranAddress: address.uiSchema(),
             'view:otherContactInfo': {
               'ui:title': 'Other contact information',
-              'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
+              'ui:description': 'Please enter as much contact information as possible so we can get in touch with you, if necessary.',
               'ui:validations': [
                 validateMatch('email', 'view:confirmEmail')
               ],

@@ -90,7 +90,7 @@ class ConfirmationPage extends React.Component {
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 medium-6 columns">
             <a href="/">
-              <button className="usa-button-primary">Back to Main Page</button>
+              <button className="usa-button-primary">Go back to Vets.gov</button>
             </a>
           </div>
         </div>
@@ -107,4 +107,3 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(ConfirmationPage);
 export { ConfirmationPage };
-
