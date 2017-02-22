@@ -11,7 +11,7 @@ const reportTypeValues = reduce(reportTypes, (memo, v) => {
 }, {});
 
 const initialState = {
-  dateOption: null,
+  dateOption: '3mo',
   dateRange: {
     start: null,
     end: null,
