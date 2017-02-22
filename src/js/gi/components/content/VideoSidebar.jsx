@@ -4,7 +4,7 @@ class VideoSidebar extends React.Component {
   render() {
     return (
       <div className="video-sidebar">
-        <h4>What's your plan?</h4>
+        <h4 className="highlight">What's your plan?</h4>
         <p>
           Transitioning to civilian life takes preparation, research, planning, and the right tools.
           We're here to help you make the right decisions on where to use your hard earned benefits!

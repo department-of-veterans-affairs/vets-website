@@ -2,45 +2,39 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
+import { calculatedBenefits } from '../selectors/calculator';
+
 export class ProfilePage extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.renderPageTitle = this.renderPageTitle.bind(this);
+  componentWillMount() {
+    this.props.fetch(this.props.params.facility_code);
   }
 
-  renderPageTitle() {
-    const schoolName = this.props.institution.name;
-    document.title = `${schoolName} - GI Bill Comparison Tool`;
-  }
-
-  renderOutcomeMeasuresLink() {
-    return (
-      <span>
-        <p>Access a comprehensive spreadsheet of <a id="veteran-outcome-spreadsheet-link-out" title="Veteran Outcome Measures" href="http://www.benefits.va.gov/gibill/docs/OutcomeMeasuresDashboard.xlsx" target="_blank">Veteran Outcome Measures</a> (<i className="fa fa-file-excel-o info-icons"></i> | 14.4 MB)</p>
-      </span>
-    );
+  setPageTitleOnce() {
+    const profileName = this.props.profile.attributes.name;
+    const title = `${profileName} - GI Bill Comparison Tool`;
+    if (profileName && window.document.title !== title) {
+      this.props.setPageTitle(title);
+    }
   }
 
   render() {
-    this.renderPageTitle();
+    // this.setPageTitleOnce();
     return (
       <div className="profile-page">
         <a onClick={() => this.props.showModal('cautionInfo')}>Caution Modal</a>
       </div>
     );
   }
+
 }
 
-ProfilePage.defaultProps = {
-  institution: { name: 'SOME SCHOOL NAME' },
+const mapStateToProps = (state, props) => {
+  return {
+    calc: null //calculatedBenefits(state, props)
+  };
 };
 
-ProfilePage.propTypes = {
-  institution: React.PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => state;
 const mapDispatchToProps = (dispatch) => {
   return {
     showModal: (name) => {
@@ -48,6 +42,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     hideModal: () => {
       dispatch(actions.displayModal(null));
+    },
+    setPageTitle: (title) => {
+      dispatch(actions.setPageTitle(title));
+    },
+    fetch: (facility_code) => {
+      dispatch(actions.fetchProfile(facility_code));
     }
   };
 };

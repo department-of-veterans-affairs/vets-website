@@ -1,30 +1,27 @@
 @import "../style";
 @import "../modules/m-modal";
+@import "../modules/va-pagination";
 
 @import "partials/gi-breadcrumbs";
 @import "partials/gi-preview-banner";
+@import "partials/gi-autocomplete";
+@import "partials/gi-modal";
+@import "partials/gi-landing-page";
+@import "partials/gi-search-page";
+@import "partials/gi-profile-page";
 
 .gi-app {
-  .landing-page {
 
-    p.subheading {
-      color: $color-primary;
-      letter-spacing: normal;
-      font-size: 1.25em;
+  div.militaryStatusInfo {
+    font-size: 0.9em;
+    background-color: #ffebcd;
+    padding: 1em;
+    margin-top: 1em;
+    max-width: 460px;
+
+    i.fa {
+      padding-right: 0.4em;
     }
-
-    .video-sidebar h4 {
-      border-bottom: 3px solid $color-primary;
-    }
-
-  }
-
-  .search-page {
-
-  }
-
-  .profile-page {
-
   }
 
   .about-this-tool {
@@ -62,21 +59,4 @@
     background: #fff;
   }
 
-  .va-modal {
-    background-color: rgba($color-gray-dark, .8);
-    padding: 10px;
-
-    .va-modal-inner {
-      max-width: 600px;
-
-      .va-modal-close {
-        margin: 12.5px 12.5px 12.5px 0;
-      }
-
-      .va-modal-body {
-        padding: 1.5em;
-      }
-
-    }
-  }
 }

@@ -1,32 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import * as actions from '../actions';
+
 import Modals from '../containers/Modals';
-import PreviewBanner from '../components/PreviewBanner';
-import Breadcrumbs from '../components/Breadcrumbs';
-import AboutThisTool from '../components/AboutThisTool';
+import PreviewBanner from '../components/heading/PreviewBanner';
+import Breadcrumbs from '../components/heading/Breadcrumbs';
+import AboutThisTool from '../components/content/AboutThisTool';
 
-function AppContent({ children, isDataAvailable }) {
-  const unregistered = isDataAvailable === false;
-  let view;
-
-  if (unregistered) {
-    view = (
-      <div className="row">
-        <div className="columns">
-          <h4>
-            Placeholder message when data is not available
-          </h4>
-        </div>
-      </div>
-    );
-  } else {
-    view = children;
-  }
-
-  return <div className="gi-app">{view}</div>;
-}
-
-// TODO: Why does this not appear as part of the footer include?
 const Disclaimer = () => {
   return (
     <div className="row disclaimer">
@@ -36,31 +16,47 @@ const Disclaimer = () => {
 };
 
 class GiBillApp extends React.Component {
+
+  componentWillMount() {
+    this.props.updateConstants();
+  }
+
   render() {
     return (
-      <AppContent>
-        <div>
-          <div className="row">
-            <div className="columns small-12">
-              <PreviewBanner show={!!this.props.location.query.preview}/>
-              <Breadcrumbs location={this.props.location}/>
-              {this.props.children}
-              <AboutThisTool/>
-              <Disclaimer/>
-              <Modals/>
-            </div>
+      <div className="gi-app">
+        <div className="row">
+          <div className="columns small-12">
+            <PreviewBanner show={this.props.preview.display} version={this.props.preview.version}/>
+            <Breadcrumbs location={this.props.location} profileName={this.props.profile.attributes.name}/>
+            {this.props.children}
+            <AboutThisTool/>
+            <Disclaimer/>
+            <Modals/>
           </div>
         </div>
-      </AppContent>
+      </div>
     );
   }
+
 }
 
 GiBillApp.propTypes = {
-  children: React.PropTypes.element
+  children: React.PropTypes.element.isRequired
 };
 
 const mapStateToProps = (state) => state;
-const mapDispatchToProps = {};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setPageTitle: (title) => {
+      dispatch(actions.setPageTitle(title));
+    },
+    enterPreviewMode: (version) => {
+      dispatch(actions.enterPreviewMode(version));
+    },
+    updateConstants: () => {
+      dispatch(actions.fetchConstants());
+    }
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(GiBillApp);
