@@ -50,8 +50,8 @@ class DownloadLink extends React.Component {
 }
 
 DownloadLink.propTypes = {
-  name: React.PropTypes.string,
-  docType: React.PropTypes.string,
+  name: React.PropTypes.string.isRequired,
+  docType: React.PropTypes.oneOf(['pdf', 'txt']),
 };
 
 export default DownloadLink;

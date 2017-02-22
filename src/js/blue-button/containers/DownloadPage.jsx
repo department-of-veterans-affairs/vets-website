@@ -23,7 +23,7 @@ export class DownloadPage extends React.Component {
           <DownloadLink name="Text File" docType="txt"/>
         </div>
         <p>
-          <Link to="/blue-button">Start a new request</Link>
+          <Link to="/">Start a new request</Link>
         </p>
       </div>
     );

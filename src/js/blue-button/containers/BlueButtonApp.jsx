@@ -32,23 +32,25 @@ function AppContent({ children, isDataAvailable }) {
 export class BlueButtonApp extends React.Component {
   render() {
     return (
-      <AppContent>
-        <div>
-          <div className="row">
-            <div className="columns small-12">
-              <Breadcrumbs location={this.props.location}/>
-              {this.props.children}
+      <RequiredLoginView authRequired={3} serviceRequired={"health-records"}>
+        <AppContent>
+          <div>
+            <div className="row">
+              <div className="columns small-12">
+                <Breadcrumbs location={this.props.location}/>
+                {this.props.children}
+              </div>
             </div>
+            <Modal
+                cssClass="bb-modal"
+                contents={this.props.modal.content}
+                id="bb-glossary-modal"
+                onClose={this.props.closeModal}
+                title={this.props.modal.title}
+                visible={this.props.modal.visible}/>
           </div>
-          <Modal
-              cssClass="bb-modal"
-              contents={this.props.modal.content}
-              id="bb-glossary-modal"
-              onClose={this.props.closeModal}
-              title={this.props.modal.title}
-              visible={this.props.modal.visible}/>
-        </div>
-      </AppContent>
+        </AppContent>
+      </RequiredLoginView>
     );
   }
 }
