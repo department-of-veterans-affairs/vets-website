@@ -478,12 +478,13 @@ h6 {
 }
 
 .home {
-  #content .splash {
+  .splash {
     padding: 1em 0;
     min-height: 14em;
 
     @include media($medium-large-screen) {
       padding: 2em 0;
+      min-height: 42.2rem;
     }
 
     @include media($large-screen) {
