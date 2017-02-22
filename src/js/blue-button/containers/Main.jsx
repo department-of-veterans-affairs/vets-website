@@ -193,7 +193,11 @@ export class Main extends React.Component {
   }
 
   render() {
-    const allValuesChecked = _.every(_.values(this.props.form.reportTypes), v => v);
+    const selections = this.props.form.reportTypes;
+    const types = Object.keys(selections);
+    const checkedCount = _.countBy(types, type => selections[type]).true;
+    const allValuesChecked = checkedCount === types.length;
+    const noValuesChecked = !checkedCount;
 
     return (
       <div>
@@ -212,7 +216,12 @@ export class Main extends React.Component {
             {this.renderInformationTypes()}
           </div>
           <div className="form-actions">
-            <button onClick={this.handleSubmit} type="submit">Submit</button>
+            <button
+                onClick={this.handleSubmit}
+                type="submit"
+                disabled={noValuesChecked}>
+              Submit
+            </button>
             <a className="usa-button usa-button-outline" href="/healthcare" role="button">Cancel</a>
           </div>
         </form>
