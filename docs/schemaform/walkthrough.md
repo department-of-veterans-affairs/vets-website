@@ -4,7 +4,7 @@ This walkthrough is going to detail how our form building code (called schemafor
 
 ## JSON Schema
 
-One pre-requisite for understanding how schemaform works is the JSON Schema standard. JSON Schema is a way of describing the allowed shape of JSON objects. There are some good examples to look through on the (JSON Schema site)[http://json-schema.org/examples.html]. Here are some basics:
+One pre-requisite for understanding how schemaform works is the JSON Schema standard. JSON Schema is a way of describing the allowed shape of JSON objects. There are some good examples to look through on the [JSON Schema site](http://json-schema.org/examples.html). Here are some basics:
 
 Schema's have a type, that tells you what kind of data is allowed:
 
@@ -70,11 +70,11 @@ Arrays work similarly to objects:
 
 This describes an array of boolean values: `[true, false, true]`. Items can be an object schema or any other type of schema as well.
 
-You can nest schemas as far down as you'd like. There are some other features, like metadata, sharing schema definitions between fields, and more complicated validation. But the above should get you most of the way there. There are many libraries that implement the JSON Schema spec and allow you to validate that an object matches a given schema. For reference, we use (ajv)[https://www.npmjs.com/package/ajv] and (jsonschema)[https://www.npmjs.com/package/jsonschema], the former in unit tests, and the latter in the schemaform code. ajv may go away eventually, since one of our dependencies is already using jsonschema.
+You can nest schemas as far down as you'd like. There are some other features, like metadata, sharing schema definitions between fields, and more complicated validation. But the above should get you most of the way there. There are many libraries that implement the JSON Schema spec and allow you to validate that an object matches a given schema. For reference, we use [ajv](https://www.npmjs.com/package/ajv) and [jsonschema](https://www.npmjs.com/package/jsonschema), the former in unit tests, and the latter in the schemaform code. ajv may go away eventually, since one of our dependencies is already using jsonschema.
 
 ## How react-jsonschema-form works
 
-(react-jsonschema-form)[https://github.com/mozilla-services/react-jsonschema-form] (rjsf) generates a form from a JSON Schema, plus some other UI information. It does this by stepping through the schema depth first and rendering different React components based on what type of data each property in the schema represents. You can try out the playground in the above link to get a feel for the resulting forms based on the schema inputs. We're going to look at how that library generates those forms in the rest of this section.
+[react-jsonschema-form](https://github.com/mozilla-services/react-jsonschema-form) (rjsf) generates a form from a JSON Schema, plus some other UI information. It does this by stepping through the schema depth first and rendering different React components based on what type of data each property in the schema represents. You can try out the playground in the above link to get a feel for the resulting forms based on the schema inputs. We're going to look at how that library generates those forms in the rest of this section.
 
 At the top level, rjsf has a `Form` component that takes the schema inputs and renders a hierarchy of components for each "field" you see on the form. For example, a schema like
 
