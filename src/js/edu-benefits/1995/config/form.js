@@ -231,10 +231,11 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['educationType'],
+            required: ['educationType', 'newSchoolName'],
             properties: {
-              // newSchool: _.set('properties.address', address.schema(), newSchool),
-              newSchoolName: { type: 'string', required: true },
+              newSchoolName: {
+                type: 'string'
+              },
               educationType: educationType.schema,
               newSchoolAddress: address.schema(),
               educationObjective,
