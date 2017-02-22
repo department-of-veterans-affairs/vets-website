@@ -291,7 +291,7 @@
     text-decoration: none;
 
     @include media($medium-large-screen) {
-      color: $color-primary;
+      color: $color-link-default;
 
       &:hover {
         background: transparent;
