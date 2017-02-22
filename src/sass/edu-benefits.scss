@@ -5,6 +5,7 @@
 @import 'modules/m-progress-bar';
 @import 'modules/m-schemaform';
 @import 'modules/m-modal';
+@import 'modules/m-omb-info';
 
 $button-stroke: inset 0 0 0 1px;
 
@@ -107,21 +108,11 @@ ul.claim-list{
   }
 }
 
-// Align with navigation buttons
-.omb-info--container {
-  padding-left: 2rem;
-}
-
 @media (max-width: 40.063em) {
   .progress-box {
     border:none;
     padding-left: 2rem - .9375rem;
     padding-right: 2rem - .9375rem;
-  }
-
-  // Match the OMB Info section padding
-  .omb-info--container {
-    padding-left: 2rem - .9375rem;
   }
 }
 
