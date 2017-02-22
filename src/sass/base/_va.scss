@@ -124,12 +124,7 @@ figure {
   margin-left: -$column-gutter/2;
   margin-right: -$column-gutter/2;
 
-  @media #{$small} {
-    margin-left: inherit;
-    margin-right: inherit;
-  }
-
-  @media #{$large} {
+  @include media($large-screen) {
     margin-left: -16.66667%;
     margin-right: -16.66667%;
   }
@@ -352,7 +347,7 @@ h6 {
   .flex {
     display: block;
 
-    @include media($medium) {
+    @include media($medium-large-screen) {
       display: flex;
     }
   }
@@ -362,7 +357,7 @@ h6 {
     margin-left: auto;
   }
 
-  h2.gold-ruled {
+  .gold-ruled {
     color: $color-primary-darker;
     padding-bottom: 0.5em;
     border-bottom: $color-va-accent solid 2px;
@@ -424,6 +419,10 @@ h6 {
     max-width: 11em;
     font-size: 2.5rem;
     font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
+
+    @include media($medium-large-screen) {
+      max-width: 15em;
+    }
   }
 
   span, h2 {
@@ -444,29 +443,15 @@ h6 {
     background: $color-white;
     font-weight: bold;
     color: $color-primary-darker;
-  }
 
-  @media #{$medium} {
-    h2 span {
+    @include media($medium-large-screen) {
       padding: 0.5em .75em;
       line-height: 1.3em;
       font-size: 3.5rem;
     }
 
-    h2.tagline {
-      max-width: 15em;
-    }
-  }
-
-  @media #{$large} {
-    h2 span {
+    @include media($large-screen) {
       padding: 0.5em 0.4em;
-      line-height: 1.3em;
-      font-size: 3.5rem;
-    }
-
-    h2.tagline {
-      max-width: 15em;
     }
   }
 
@@ -474,7 +459,10 @@ h6 {
   h2 {
     font-size: 2em;
     display: inline-block;
-    @media #{$small} {font-size: 2em;}
+
+    @include media($small-screen) {
+      font-size: 2em;
+    }
   }
 
   h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
@@ -994,7 +982,7 @@ ul, ol {
     margin: .5em 0;
     padding: .2em;
 
-    @media #{$medium} {
+    @include media($medium-large-screen) {
       font-size: 1.8em;
     }
 
@@ -1280,7 +1268,7 @@ li {
 }
 
 [class^=va-wip] {
-  padding: .576rem 1.08rem 1.6rem;
+  padding: .576rem 1.08rem;
   font-size: 0.8em;
   font-weight: 400;
 
