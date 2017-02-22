@@ -11,16 +11,13 @@ export class DownloadPage extends React.Component {
       pdfFileSize: '124 KB',
       pdfActions: (
         <div>
-          <DownloadLink name="Download PDF"/>
+          <DownloadLink name="PDF File" docType="pdf"/>
         </div>
       ),
       txtFileSize: '20 KB',
       txtActions: (
         <div>
-          <button>Download Text</button>
-          <button className="usa-button-outline">
-            View/Print Text
-          </button>
+          <DownloadLink name="Text File" docType="txt"/>
         </div>
       )
     };

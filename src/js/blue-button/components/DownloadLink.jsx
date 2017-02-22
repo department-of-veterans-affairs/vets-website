@@ -21,7 +21,7 @@ class DownloadLink extends React.Component {
     }
 
     this.setState({ downloading: true });
-    const requestUrl = '/v0/health_records';
+    const requestUrl = `/v0/health_records?doc_type=${this.props.docType}`;
     apiRequest(
       requestUrl,
       null,
@@ -51,7 +51,7 @@ class DownloadLink extends React.Component {
 
 DownloadLink.propTypes = {
   name: React.PropTypes.string,
-  contentType: React.PropTypes.string,
+  docType: React.PropTypes.string,
 };
 
 export default DownloadLink;
