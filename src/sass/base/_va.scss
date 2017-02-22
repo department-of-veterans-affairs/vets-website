@@ -233,18 +233,12 @@ hr {
 
 .va-header-logosearch {
   padding: 1em 0.75em 0;
-
-  // Fixes overflow of content at < 320px viewports
-  @include media($xsmall-screen) {
-    display: flex;
-    align-items: center;
-  }
 }
 
 .va-header-logo-wrapper {
   flex: 1 1 10rem;
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     flex-basis: 60rem;
   }
 }
@@ -260,11 +254,6 @@ hr {
   margin: 0;
   width: 164px;
 
-  @include media($medium-screen) {
-    width: 205px;
-    height: 50px;
-  }
-
   &:hover {
     .vets-logo-va path {
       fill: $color-gold;
@@ -277,7 +266,7 @@ hr {
   line-height: 1em;
   margin: 0;
   
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: inherit;
     flex: 1 1 80%;
   }
@@ -490,18 +479,16 @@ h6 {
 
 .home {
   #content .splash {
-    @media #{$small} {
-      padding: 1em 0;
-      min-height: 14em;
-    }
-    @media #{$medium} {
+    padding: 1em 0;
+    min-height: 14em;
+
+    @include media($medium-large-screen) {
       padding: 2em 0;
-      min-height: 422px;
     }
 
-    @media #{$large} {
-      padding: 2.5em 0;
-      min-height: 422px;
+    @include media($large-screen) {
+      padding-top: 2.5em;
+      padding-bottom: 2.5em;
     }
   }
 }
@@ -530,7 +517,9 @@ h6 {
     }
   }
 
-  li.parent:after {color: #ccc !important;}
+  li.parent:after {
+    color: #ccc !important;
+  }
 }
 
 .va-facloc-tagline {
@@ -540,11 +529,8 @@ h6 {
 }
 
 .pitch {
+  padding: .5em 0;
   text-align: center;
-
-  @media #{$small} {
-    padding: .5em 0;
-  }
 
   h2, h3 {
     color: $color-primary-darkest;
@@ -701,15 +687,7 @@ ul, ol {
 // Home page, 404 page
 .navigation--major {
   .va-cards--2across {
-    @media #{$small} {
-      display:block;
-    }
-
-    @media #{$medium-only} {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+    display:block;
   }
 
   .fourohfour &,
@@ -963,20 +941,6 @@ ul, ol {
 .va-nav-breadcrumbs-list {
   @extend .columns;
   float: none;
-}
-
-
-//==== Facility Locator page only
-.va-nav-breadcrumbs--inline {
-  display: inline-block;
-
-  @media #{$small} {
-    margin-right: 1em !important;
-  }
-
-  li.active::before {
-    display: none;
-  }
 }
 
 //===== Playbook and Facility Locator
@@ -1330,7 +1294,7 @@ li {
   font-size: 1.152rem;
   margin: auto;
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: block;
   }
 }
@@ -1338,7 +1302,7 @@ li {
 .va-wip--narrow {
   color: $color-white;
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: none;
   }
 }
@@ -1847,9 +1811,6 @@ li.twenty:before {content: '20';}
 /* Overlay style */
 
 .va-overlay-close {
-  @media #{$medium} {
-    display: none;
-  }
   &--icon {
     display: inline;
     margin: 0;
@@ -1862,84 +1823,81 @@ li.twenty:before {content: '20';}
   }
 }
 
+.va-overlay {
+  background: rgba($color-primary-darkest, .95);
+  height: 100%;
+  left: 0;
+  -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  transition: opacity 0.5s, visibility 0s 0.5s;
+  visibility: hidden;
+  width: 100%;
+  z-index: 800;
 
-@media #{$medium} {
-  .va-overlay-close {
+  input[type='text'] {
+    -webkit-appearance: none;
+    border-radius: 3px 0 0 3px;
+  }
+  @include media($medium-large-screen) {
     display: none;
   }
 }
 
-@media #{$small-only} {
-  .va-mobile-searchclose  {
-    border-radius: 0;
-    display: block !important;
-    width: 100% !important;
-    margin: 0;
-    width: auto;
-    background: $color-primary;
+.va-mobile-searchclose  {
+  border-radius: 0;
+  display: block !important;
+  width: 100% !important;
+  margin: 0;
+  width: auto;
+  background: $color-primary;
+}
+
+.va-overlay--open {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+
+  .columns {
+    padding: 0;
   }
+}
 
-  
+.va-overlay .menu {
+  -webkit-perspective: 1200px;
+  perspective: 1200px;
+  padding: 1em 1em;
+}
 
-  .va-overlay {
-    background: rgba($color-primary-darkest, .95);
-    height: 100%;
-    left: 0;
-    -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    transition: opacity 0.5s, visibility 0s 0.5s;
-    visibility: hidden;
-    width: 100%;
-    z-index: 800;
+.va-overlay form {
+  opacity: 0.4;
+  -webkit-transform: translateY(-25%) rotateX(35deg);
+  transform: translateY(-25%) rotateX(35deg);
+  -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+  transition: transform 0.5s, opacity 0.5s;
+}
 
-    input[type='text'] {
-      -webkit-appearance: none;
-      border-radius: 3px 0 0 3px;
-    }
+.va-overlay--open form {
+  opacity: 1;
+  -webkit-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+}
+
+.va-overlay-body {
+  margin: 1rem auto;
+}
+
+@media (max-height: 30.5em) {
+  .overlay form {
+    height: 70%;
   }
+}
 
-  .va-overlay--open {
-    opacity: 1;
-    visibility: visible;
-    -webkit-transition: opacity 0.5s;
-    transition: opacity 0.5s;
 
-    .columns {
-      padding: 0;
-    }
-  }
+@include media-maxwidth($medium-large-screen) {
 
-  .va-overlay .menu {
-    -webkit-perspective: 1200px;
-    perspective: 1200px;
-    padding: 1em 1em;
-  }
-
-  .va-overlay form {
-    opacity: 0.4;
-    -webkit-transform: translateY(-25%) rotateX(35deg);
-    transform: translateY(-25%) rotateX(35deg);
-    -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
-    transition: transform 0.5s, opacity 0.5s;
-  }
-
-  .va-overlay--open form {
-    opacity: 1;
-    -webkit-transform: rotateX(0deg);
-    transform: rotateX(0deg);
-  }
-
-  .va-overlay-body {
-    margin: 1rem auto;
-  }
-
-  @media (max-height: 30.5em) {
-    .overlay form {
-      height: 70%;
-    }
-  }
 }
 
 // List overrides
@@ -2016,7 +1974,7 @@ ul li p {
   }
 }
 
-@media (max-width: 40.063em) {
+@include media($medium-screen) {
   .simpletooltip {
     top: 100%;
     left: 45%;
@@ -2182,5 +2140,25 @@ p.info-message {
   margin-top: 1.5em;
   border-top: 2px solid #f1f1f1;
   padding: 1em 0;
-  p {font-size: 1em !important; color: #323a45 !important;}
+  p {
+    font-size: 1em !important;
+    color: #323a45 !important;
+  }
+}
+
+.va-search-form--narrowscr {
+  [type="text"] {
+    flex: 2 1 10rem;
+  }
+  [type="submit"] {
+    flex: 0 1 14rem;
+  }
+}
+
+.va-search-form--widescr {
+  display: none;
+
+  @include media($medium-large-screen) {
+    display: inline-block;
+  }
 }
