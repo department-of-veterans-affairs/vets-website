@@ -291,7 +291,7 @@ const formConfig = {
             veteranAddress: address.uiSchema(),
             'view:otherContactInfo': {
               'ui:title': 'Other contact information',
-              'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
+              'ui:description': 'Please enter as much contact information as possible so we can get in touch with you, if necessary.',
               'ui:validations': [
                 validateMatch('email', 'view:confirmEmail')
               ],

@@ -29,8 +29,14 @@ const defaultMessages = {
 };
 
 function getMessage(path, name, uiSchema, errorArgument) {
-  const cleanPath = path.replace('instance.', '').replace(/\[\d+\]/g, '.items');
-  const pathSpecificMessage = _.get(`${cleanPath}['ui:errorMessages'].${name}`, uiSchema);
+  let pathSpecificMessage;
+  if (path === 'instance') {
+    pathSpecificMessage = _.get(['ui:errorMessages', name], uiSchema);
+  } else {
+    const cleanPath = path.replace('instance.', '').replace(/\[\d+\]/g, '.items');
+    pathSpecificMessage = _.get(`${cleanPath}['ui:errorMessages'].${name}`, uiSchema);
+  }
+
   if (pathSpecificMessage) {
     return pathSpecificMessage;
   }

@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { wrapWithRouterContext } from '../../util/unit-helpers';
 
-import { Main } from '../../../src/js/blue-button/containers/Main';
+import { Main } from '../../../src/js/health-records/containers/Main';
 
 const props = {};
 

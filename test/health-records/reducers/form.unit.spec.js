@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import formReducer from '../../../src/js/blue-button/reducers/form';
+import formReducer from '../../../src/js/health-records/reducers/form';
 
 describe('form reducer', () => {
   it('should set the start date', () => {

@@ -15,6 +15,7 @@ export default function CheckboxWidget({
     <div className="form-checkbox">
       <input type="checkbox"
           id={id}
+          name={id}
           checked={typeof value === 'undefined' ? false : value}
           required={required}
           disabled={disabled}

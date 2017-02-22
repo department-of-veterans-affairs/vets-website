@@ -13,6 +13,7 @@ $text-max-width:      70rem;
 
 // Additional breakpoints 
 $xsmall-screen: 320px; // QVGA display
+$medium-large-screen: 768px; 
 
 // Other USWDS overrides
 $usa-form-width: 32em;
@@ -26,6 +27,10 @@ $color-secondary-darkest:    #981b1e;
 $color-black:                #000;
 $color-green-darker:         #195c27; // New DSVA variable name
 $color-focus:                #3e94cf;
+
+// New gold metal acccent
+$color-va-accent: #988530;
+
 
 $color-primary-darkest:      #112e51;
 $color-primary-alt-light:    #9bdaf1;
@@ -46,6 +51,3 @@ $color-warning-message: #FAC922;
 $color-va-gray-cool-dark: #444;
 $color-va-gray-cool-medium: #555;
 $color-va-gray-medium: #ccc;
-
-// New gold metal acccent
-$color-va-accent: #988530;

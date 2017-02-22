@@ -2,7 +2,7 @@
   position: relative;
   background: $color-white;
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     width: 283px;
   }
 }
@@ -18,7 +18,7 @@
 .crisis-line-sm {
   background: $color-white;
   
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: none;
   }
 }
@@ -65,20 +65,18 @@
 
 .va-crisis-panel--notouch {
   top: 0;
+  box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
+  display: none;
+  transition: transform 250ms;
   position: absolute;
   opacity: 0;
-  -webkit-transition: transform 250ms;
-          transition: transform 250ms;
-  -webkit-box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
-  -moz-box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
-  box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
 
   li {
     padding: 2.5rem 0 0;
   }
 
-  @media #{$small-only} {
-    display: none;
+  @include media($medium-large-screen) {
+    display: block;
   }
 }
 
@@ -135,7 +133,7 @@
   }
 
   .crisis-line-container--wide & {
-    @include media($medium-screen) {
+    @include media($medium-large-screen) {
       background-color: #fff;
       background-image: url(/img/arrow-down.png);
       border-radius: 0 0 0.2em 0.2em;
@@ -152,7 +150,7 @@
   top: 0;
   width: 31.5rem;
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: block;
   }
 }
@@ -203,7 +201,7 @@
 }
 
 
-@media #{$medium} {
+@include media($medium-large-screen) {
   .va-crisis-panel--touch,
   .va-crisis-line--touch {
     display: none;
