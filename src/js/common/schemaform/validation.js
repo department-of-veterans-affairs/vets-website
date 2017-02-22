@@ -3,7 +3,16 @@ import { Validator } from 'jsonschema';
 
 import { retrieveSchema } from 'react-jsonschema-form/lib/utils';
 
-import { isValidSSN, isValidPartialDate, isValidCurrentOrPastDate, isValidDateRange, isValidRoutingNumber, isValidUSZipCode, isValidCanPostalCode } from '../utils/validations';
+import {
+  isValidSSN,
+  isValidPartialDate,
+  isValidCurrentOrPastDate,
+  isValidDateRange,
+  isValidRoutingNumber,
+  isValidUSZipCode,
+  isValidCanPostalCode
+} from '../utils/validations';
+
 import { parseISODate } from './helpers';
 import { isActivePage } from '../utils/helpers';
 
