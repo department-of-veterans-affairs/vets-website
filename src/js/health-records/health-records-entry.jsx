@@ -13,12 +13,12 @@ import initReact from '../common/init-react';
 import routes from './routes';
 import { commonStore } from '../common/store';
 
-require('../../sass/blue-button/blue-button.scss');
+require('../../sass/health-records/health-records.scss');
 
 require('../login/login-entry.jsx');
 
 const history = useRouterHistory(createHistory)({
-  basename: '/healthcare/blue-button'
+  basename: '/healthcare/health-records'
 });
 
 function init() {

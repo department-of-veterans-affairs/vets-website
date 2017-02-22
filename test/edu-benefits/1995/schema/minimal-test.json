@@ -20,10 +20,8 @@
   },
   "newSchool": {
     "data": {
-      "newSchool": {
-        "address": {
-          "country": "USA"
-        }
+      "newSchoolAddress": {
+        "country": "USA"
       }
     }
   },

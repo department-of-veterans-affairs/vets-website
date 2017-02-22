@@ -29,10 +29,10 @@ function AppContent({ children, isDataAvailable }) {
   return <div className="bb-app">{view}</div>;
 }
 
-class BlueButtonApp extends React.Component {
+export class HealthRecordsApp extends React.Component {
   render() {
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"bluebutton"}>
+      <RequiredLoginView authRequired={3} serviceRequired={"health-records"}>
         <AppContent>
           <div>
             <div className="row">
@@ -55,19 +55,19 @@ class BlueButtonApp extends React.Component {
   }
 }
 
-BlueButtonApp.propTypes = {
+HealthRecordsApp.propTypes = {
   children: React.PropTypes.element
 };
 
 const mapStateToProps = (state) => {
-  const bbState = state.health.bb;
+  const hrState = state.health.hr;
 
   return {
-    modal: bbState.modal,
+    modal: hrState.modal,
   };
 };
 const mapDispatchToProps = {
   closeModal,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BlueButtonApp);
+export default connect(mapStateToProps, mapDispatchToProps)(HealthRecordsApp);

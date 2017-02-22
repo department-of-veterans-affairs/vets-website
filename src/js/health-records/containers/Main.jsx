@@ -23,7 +23,7 @@ function isValidDateRange(startDate, endDate) {
   return startDate.isBefore(endDate);
 }
 
-class Main extends React.Component {
+export class Main extends React.Component {
   constructor(props) {
     super(props);
 
@@ -49,7 +49,6 @@ class Main extends React.Component {
       this.context.router.push('/download');
     }
   }
-
 
   handleStartDateChange(startDate) {
     let invalidDate = true;
@@ -237,10 +236,10 @@ Main.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const bbState = state.health.bb;
+  const hrState = state.health.hr;
 
   return {
-    form: bbState.form,
+    form: hrState.form,
   };
 };
 

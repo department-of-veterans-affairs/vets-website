@@ -3,7 +3,16 @@ import { Validator } from 'jsonschema';
 
 import { retrieveSchema } from 'react-jsonschema-form/lib/utils';
 
-import { isValidSSN, isValidPartialDate, isValidDateRange, isValidRoutingNumber, isValidUSZipCode, isValidCanPostalCode } from '../utils/validations';
+import {
+  isValidSSN,
+  isValidPartialDate,
+  isValidCurrentOrPastDate,
+  isValidDateRange,
+  isValidRoutingNumber,
+  isValidUSZipCode,
+  isValidCanPostalCode
+} from '../utils/validations';
+
 import { parseISODate } from './helpers';
 import { isActivePage } from '../utils/helpers';
 
@@ -29,8 +38,14 @@ const defaultMessages = {
 };
 
 function getMessage(path, name, uiSchema, errorArgument) {
-  const cleanPath = path.replace('instance.', '').replace(/\[\d+\]/g, '.items');
-  const pathSpecificMessage = _.get(`${cleanPath}['ui:errorMessages'].${name}`, uiSchema);
+  let pathSpecificMessage;
+  if (path === 'instance') {
+    pathSpecificMessage = _.get(['ui:errorMessages', name], uiSchema);
+  } else {
+    const cleanPath = path.replace('instance.', '').replace(/\[\d+\]/g, '.items');
+    pathSpecificMessage = _.get(`${cleanPath}['ui:errorMessages'].${name}`, uiSchema);
+  }
+
   if (pathSpecificMessage) {
     return pathSpecificMessage;
   }
@@ -184,6 +199,14 @@ export function validateDate(errors, dateString) {
   const { day, month, year } = parseISODate(dateString);
   if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
+  }
+}
+
+export function validateCurrentOrPastDate(errors, dateString) {
+  validateDate(errors, dateString);
+  const { day, month, year } = parseISODate(dateString);
+  if (!isValidCurrentOrPastDate(day, month, year)) {
+    errors.addError('Please provide a valid current or past date');
   }
 }
 
