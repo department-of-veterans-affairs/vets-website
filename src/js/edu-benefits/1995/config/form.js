@@ -45,8 +45,6 @@ const {
   school
 } = fullSchema1995.definitions;
 
-const newSchool = _.set('required', ['name'], school);
-
 const formConfig = {
   urlPrefix: '/1995/',
   submitUrl: '/v0/education_benefits_claims/1995',
@@ -203,23 +201,21 @@ const formConfig = {
           path: 'school-selection/new-school',
           title: 'School, university, program, or training facility you want to attend',
           initialData: {
-            newSchool: {
-              address: {}
-            }
+            newSchoolAddress: {}
           },
           uiSchema: {
             'ui:title': 'School, university, program, or training facility you want to attend',
-            educationType: educationType.uiSchema,
-            newSchool: {
-              name: {
-                'ui:title': 'Name of school, university, or training facility'
-              },
-              address: _.merge(address.uiSchema(), {
-                'ui:options': {
-                  hideIf: (form) => !showSchoolAddress(form.educationType)
-                }
-              })
+            // Broken up because we need to fit educationType between name and address
+            // Put back together again in transform()
+            newSchoolName: {
+              'ui:title': 'Name of school, university, or training facility'
             },
+            educationType: educationType.uiSchema,
+            newSchoolAddress: _.merge(address.uiSchema(), {
+              'ui:options': {
+                hideIf: (form) => !showSchoolAddress(form.educationType)
+              }
+            }),
             educationObjective: {
               'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
               'ui:widget': 'textarea'
@@ -237,8 +233,10 @@ const formConfig = {
             type: 'object',
             required: ['educationType'],
             properties: {
+              // newSchool: _.set('properties.address', address.schema(), newSchool),
+              newSchoolName: { type: 'string', required: true },
               educationType: educationType.schema,
-              newSchool: _.set('properties.address', address.schema(), newSchool),
+              newSchoolAddress: address.schema(),
               educationObjective,
               nonVaAssistance,
               civilianBenefitsAssistance
