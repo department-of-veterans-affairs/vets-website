@@ -83,7 +83,7 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
 
 <a class="show-on-focus" href="#content">Skip to Content</a>
 
-<div class="header">
+<header class="header">
   <div class="incompatible-browser-warning">
     <div class="row full">
       <div class="small-12">
@@ -133,10 +133,8 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
     </div>
   </div>
 
-</div>
-
   <!-- /header alert box -->
-  <div class="row va-header-logosearch">
+  <div class="row va-flex va-header-logosearch">
     <div role="banner" class="va-header-logo-wrapper">
       <a href="/" class="va-header-logo">
         {% include "assets/img/svglogo.svg" %}
@@ -156,22 +154,7 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
             </div>
           </form>
       </div>
-
-      <div id="vetnav-controls"> 
-        <button aria-controls="vetnav" aria-expanded="false" hidden type="button" class="vetnav-controller-close">
-          <span class="va-flex">
-            {% include "assets/img/icons/close.svg" %}
-            Close
-          </span>
-        </button>
-        <button aria-controls="vetnav" type="button" aria-expanded="false" class="vetnav-controller-open">
-          <span class="va-flex">
-            {% include "assets/img/arrow-down.svg" %}
-            Menu
-          </span>
-        </button>
-      </div>
-
+    
       <div id="mobile-menu" class="va-overlay" role="dialog">
         <button type="button" class="va-mobile-searchclose va-overlay-close" aria-label="close search form - mobile only">Close</button>
         <div class="menu">
@@ -184,9 +167,10 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
               <div class="va-flex">
                <input autocomplete="off" class="usagov-search-autocomplete" id="mobile-query" name="query" type="text" />
                <input name="commit" type="submit" value="Search" />
-              < /div>
+              </div>
             </form>
           </div>
+        </div>
       </div>
     {% endif %}
 
@@ -205,12 +189,9 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
           </span>
         </button>
       </div>
+      {% include "content/includes/veteran-navigation.html" %}
     {% endif %}
-  </div>
-  {% if body_class != 'page-playbook' %}
-    {% include "content/includes/veteran-navigation.html" %}
-  {% endif %}
-  </div>
-</div>
+
+</header>
 
 <script src="/js/usa-search.js"></script>

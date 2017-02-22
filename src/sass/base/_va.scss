@@ -233,12 +233,6 @@ hr {
 
 .va-header-logosearch {
   padding: 1em 0.75em 0;
-
-  // Fixes overflow of content at < 320px viewports
-  @include media($xsmall-screen) {
-    display: flex;
-    align-items: center;
-  }
 }
 
 .va-header-logo-wrapper {
