@@ -17,6 +17,9 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
+    E2eHelpers.takeScreenshot(client);
+    E2eHelpers.getLog(client);
+
     // Veteran information page.
     client
       .expect.element('input[name="fname"]').to.be.visible;
