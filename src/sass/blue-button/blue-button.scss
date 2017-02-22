@@ -35,7 +35,7 @@
   .form-actions {
     margin: 1em 0;
 
-    button {
+    button, [role="button"] {
       padding-left: 2.7em;
       padding-right: 2.7em;
       width: auto;
@@ -78,7 +78,7 @@
     }
   }
 
-  button {
+  button, [role="button"] {
     width: 16rem;
   }
 }
