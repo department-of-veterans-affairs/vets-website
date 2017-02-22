@@ -1,0 +1,34 @@
+<div class="main" role="main">
+  <div class="section one">
+    <div class="primary">
+      <div class="row">
+
+        {% if stickyactionbox == true %}
+          <div class="show-for-large-up">
+            {% include "content/includes/sticky-action-box.html" %}
+          </div>
+        {% endif %}
+
+        <div class="small-12 columns usa-content">
+          <h1>{{ title }}</h1>
+          <!-- Page content begins -->
+          {% if stickyactionbox == true %}
+            <div class="hide-for-large-up">
+              {% include "content/includes/sticky-action-box.html" %}
+            </div>
+          {% endif %}
+
+          {{ contents }}
+          <!-- Page content ends -->
+
+          <!-- Last updated -->
+          {% if lastupdate %}
+            {% include "content/includes/last-update.html" %}
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+    {% include "content/includes/main-navigation.html" %}
+  </div>
+</div>

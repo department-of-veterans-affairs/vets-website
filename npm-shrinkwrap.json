@@ -4059,11 +4059,6 @@
       "from": "jquery@>=3.1.1 <4.0.0",
       "resolved": "https://registry.npmjs.org/jquery/-/jquery-3.1.1.tgz"
     },
-    "jquery-accessible-simple-tooltip-aria": {
-      "version": "2.0.1",
-      "from": "jquery-accessible-simple-tooltip-aria@>=2.0.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/jquery-accessible-simple-tooltip-aria/-/jquery-accessible-simple-tooltip-aria-2.0.1.tgz"
-    },
     "js-base64": {
       "version": "2.1.9",
       "from": "js-base64@>=2.1.9 <3.0.0",

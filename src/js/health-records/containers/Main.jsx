@@ -226,10 +226,10 @@ Main.contextTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const bbState = state.health.bb;
+  const hrState = state.health.hr;
 
   return {
-    form: bbState.form,
+    form: hrState.form,
   };
 };
 

@@ -47,29 +47,33 @@ content.
 </section>
 
 <script>
-(function($){
-  // TODO: eliminate jQuery dependency
-  var modal = $('#va-modal');
-  // Note: Hidden by default by the css
+document.addEventListener('DOMContentLoaded', () => {
+  // Handle modal closing and opening
+  const modal = document.querySelector('#va-modal');
+
+  function open() {
+    modal.style.display = 'block';
+    modal.focus();
+  }
+
   if (document.location.hash === '#modal'){
     open();
   }
 
-  $('.va-modal-close-button').click(close);
+  const closeButtons = document.querySelectorAll('.va-modal-close-button');
 
-  function open(){
-    modal.show();
-    modal.focus();
-  }
-
-  function close(){
+  function closeModal() {
     if(window.history.pushState) {
       window.history.pushState('', '/', window.location.pathname)
     } else {
       window.location.hash = '';
     }
-    modal.hide();
-    $('#content').focus();
+    modal.style.display = 'none';
+    querySelector('#content').focus();
   }
-})($);
+
+  Array.from(closeButtons).map((cb) => {
+    cb.addEventListener('click', closeModal);
+  });
+});
 </script>

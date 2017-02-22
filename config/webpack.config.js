@@ -17,7 +17,7 @@ const entryFiles = {
   'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',
   hca: './src/js/hca/hca-entry.jsx',
-  'blue-button': './src/js/blue-button/blue-button-entry.jsx',
+  'health-records': './src/js/health-records/health-records-entry.jsx',
   messaging: './src/js/messaging/messaging-entry.jsx',
   rx: './src/js/rx/rx-entry.jsx',
   'no-react': './src/js/no-react-entry.js',
@@ -73,11 +73,6 @@ const configGenerator = (options) => {
 
             // Also see .babelrc
           }
-        },
-        {
-          // components.js is effectively a hand-rolled bundle.js. Break it apart.
-          test: /components\.js$/,
-          loader: 'imports?this=>window'
         },
         {
           test: /foundation\.js$/,
