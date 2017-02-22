@@ -39,7 +39,7 @@ class FinancialDisclosureSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
-        <legend>Financial Disclosure</legend>
+        <h5>Financial Disclosure</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <p>Next, we'll ask you to provide your financial information from the most recent

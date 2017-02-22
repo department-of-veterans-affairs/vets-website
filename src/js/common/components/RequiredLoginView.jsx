@@ -100,12 +100,17 @@ class RequiredLoginView extends React.Component {
       <div className="row primary">
         <div className="medium-12 small-12 columns">
           <div className="react-conatiner">
-            <h1>Sign in to your Vets.gov Account</h1>
-            <p>Vets.gov is a new website from the VA offering online services for Veterans.</p>
-            <p>To refill a prescription, send a secure message to your healthcare provider, or check the status of a disability claim, sign in to Vets.gov.</p>
+            <h1>Sign In to Your Vets.gov Account</h1>
+            <p>Vets.gov is a new VA website offering online services for Veterans.</p>
+            <p>Sign in to:</p>
+            <ul>
+              <li>Refill a prescription.</li>
+              <li>Send a secure message to your health care provider.</li>
+              <li>Check the status of a disability or pension claim.</li>
+            </ul>
             <p>
               <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Sign In</strong></button>
-              <button className="va-button-secondary usa-button-big" onClick={this.handleSignup}><strong>Create an account</strong></button>
+              <button className="va-button-secondary usa-button-big" onClick={this.handleSignup}><strong>Create Account</strong></button>
             </p>
           </div>
         </div>

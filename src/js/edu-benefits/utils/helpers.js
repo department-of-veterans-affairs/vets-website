@@ -121,3 +121,7 @@ export function showYesNo(field) {
 
   return field.value === 'Y' ? 'Yes' : 'No';
 }
+
+export function enumToNames(enumValues, names) {
+  return enumValues.map(item => names[item]);
+}

@@ -8,8 +8,7 @@ import {
   getDefaultFormState,
   orderProperties,
   retrieveSchema,
-  getDefaultRegistry,
-  setState
+  getDefaultRegistry
 } from 'react-jsonschema-form/lib/utils';
 
 import ExpandingGroup from '../components/form-elements/ExpandingGroup';
@@ -82,10 +81,11 @@ class ObjectField extends React.Component {
   orderAndFilterProperties(schema, uiSchema) {
     const properties = Object.keys(schema.properties);
     const orderedProperties = orderProperties(properties, _.get('ui:order', uiSchema));
+    const filteredProperties = orderedProperties.filter(prop => !schema.properties[prop]['ui:hidden']);
     const groupedProperties = _.groupBy((item) => {
       const expandUnderField = _.get([item, 'ui:options', 'expandUnder'], uiSchema);
       return expandUnderField || item;
-    }, orderedProperties);
+    }, filteredProperties);
 
     return _.values(groupedProperties);
   }
@@ -100,12 +100,6 @@ class ObjectField extends React.Component {
     }
 
     return false;
-  }
-
-  asyncSetState(state, options = { validate: false }) {
-    setState(this, state, () => {
-      this.props.onChange(this.state, options);
-    });
   }
 
   render() {
@@ -129,10 +123,13 @@ class ObjectField extends React.Component {
     // description and title setup
     const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
     const title = uiSchema['ui:title'] || schema.title;
-    const hasTextDescription = typeof uiSchema['ui:description'] === 'string';
-    const DescriptionField = !hasTextDescription && typeof uiSchema['ui:description'] === 'function'
+
+    const description = uiSchema['ui:description'];
+    const textDescription = typeof description === 'string' ? description : null;
+    const DescriptionField = typeof description === 'function'
       ? uiSchema['ui:description']
       : null;
+
     const isRoot = idSchema.$id === 'root';
 
     let containerClassNames = classNames({
@@ -168,8 +165,9 @@ class ObjectField extends React.Component {
                   title={title}
                   required={required}
                   formContext={formContext}/> : null}
-          {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
+          {textDescription && <p>{textDescription}</p>}
           {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
+          {!textDescription && !DescriptionField && description}
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
               return (

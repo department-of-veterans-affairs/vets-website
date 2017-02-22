@@ -1,6 +1,8 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 
+import _ from 'lodash';
+
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 
@@ -11,11 +13,37 @@ const Element = Scroll.Element;
  * have the Nav components
  */
 export default class FormApp extends React.Component {
+  componentWillMount() {
+    window.addEventListener('beforeunload', this.onbeforeunload);
+  }
+
+  // I'm not convinced this is ever executed
+  componentWillUnmount() {
+    this.removeOnbeforeunload();
+  }
+
+  onbeforeunload = e => {
+    const endpoint = this.props.currentLocation.pathname.split('/').pop();
+    let message;
+    if (!_.includes(['introduction', 'confirmation'], endpoint)) {
+      message = 'Are you sure you wish to leave this application? All progress will be lost.';
+      // Chrome requires this to be set
+      e.returnValue = message;     // eslint-disable-line no-param-reassign
+    }
+    return message;
+  }
+
+  removeOnbeforeunload = () => {
+    window.removeEventListener('beforeunload', this.onbeforeunload);
+  }
+
   render() {
     const { currentLocation, formConfig, children } = this.props;
+    const isIntro = currentLocation.pathname.endsWith('introduction');
+    const isConfirmation = currentLocation.pathname.endsWith('confirmation');
 
     let content;
-    if (currentLocation.pathname.endsWith('introduction')) {
+    if (isIntro || isConfirmation) {
       content = children;
     } else {
       content = (
@@ -28,11 +56,12 @@ export default class FormApp extends React.Component {
       );
     }
 
+
     return (
       <div className="row">
         <Element name="topScrollElement"/>
         <div className="medium-8 columns">
-          {formConfig.title && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
+          {formConfig.title && !isIntro && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
           {content}
         </div>
         <div className="medium-4 columns show-for-medium-up">
@@ -42,4 +71,3 @@ export default class FormApp extends React.Component {
     );
   }
 }
-

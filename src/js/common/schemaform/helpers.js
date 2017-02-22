@@ -5,6 +5,8 @@ import shouldUpdate from 'recompose/shouldUpdate';
 
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
+import { getActivePages } from '../utils/helpers';
+
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
     .reduce((pageList, chapter) => {
@@ -156,36 +158,99 @@ export function parseISODate(dateString) {
   };
 }
 
-export function flattenFormData(form) {
-  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
-  return _.values(pages).reduce((formPages, page) => {
-    return _.assign(formPages, page.data);
+/*
+ * Merges data for pages in list into one object
+ */
+export function flattenFormData(pages, form) {
+  return pages.reduce((formPages, page) => {
+    const pageData = form[page.pageKey].data;
+    return _.assign(formPages, pageData);
+  }, { privacyAgreementAccepted: form.privacyAgreementAccepted });
+}
+
+/*
+ * Removes 'view:' fields from data object
+ */
+export function filterViewFields(data) {
+  return Object.keys(data).reduce((newData, nextProp) => {
+    const field = data[nextProp];
+
+    if (Array.isArray(field)) {
+      const newArray = field.map((item) => filterViewFields(item));
+
+      return _.set(nextProp, newArray, newData);
+    }
+
+    if (typeof field === 'object') {
+      if (nextProp.startsWith('view:')) {
+        return _.assign(newData, filterViewFields(field));
+      }
+      return _.set(nextProp, filterViewFields(field), newData);
+    }
+
+    if (!nextProp.startsWith('view:')) {
+      return _.set(nextProp, field, newData);
+    }
+
+    return newData;
   }, {});
 }
 
-export function getArrayFields(pageConfig) {
+/*
+ * Normal transform for schemaform data
+ */
+export function transformForSubmit(formConfig, form) {
+  const activePages = getActivePages(createFormPageList(formConfig), form);
+  const flattened = flattenFormData(activePages, form);
+  const withoutViewFields = filterViewFields(flattened);
+
+  return JSON.stringify(withoutViewFields, (key, value) => {
+    // an object with country is an address
+    if (value && typeof value.country !== 'undefined' &&
+      (!value.street || !value.city || !value.postalCode)) {
+      return undefined;
+    }
+
+    return value;
+  });
+}
+
+function isHiddenField(schema) {
+  return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
+}
+
+/*
+ * Pull the array fields from a schema. Used to separate out array fields
+ * from the rest of page to be displayed on the review page
+ */
+export function getArrayFields(data) {
   const fields = [];
   const findArrays = (obj, path = []) => {
-    if (obj.type === 'array') {
+    if (obj.type === 'array' && !isHiddenField(obj)) {
       fields.push({
         path,
-        schema: obj,
-        uiSchema: _.get(path, pageConfig.uiSchema)
+        schema: _.set('definitions', data.schema.definitions, obj),
+        uiSchema: _.get(path, data.uiSchema) || data.uiSchema
       });
     }
 
-    if (obj.type === 'object') {
+    if (obj.type === 'object' && !isHiddenField(obj)) {
       Object.keys(obj.properties).forEach(prop => {
         findArrays(obj.properties[prop], path.concat(prop));
       });
     }
   };
 
-  findArrays(pageConfig.schema);
+  findArrays(data.schema);
 
   return fields;
 }
 
+/*
+ * Checks to see if there are non array fields in a page schema, so that
+ * we don't show a blank page header on the review page if a page is just
+ * a growable table
+ */
 export function hasFieldsOtherThanArray(schema) {
   if (schema.$ref || (schema.type !== 'object' && schema.type !== 'array')) {
     return true;
@@ -198,6 +263,43 @@ export function hasFieldsOtherThanArray(schema) {
   }
 
   return false;
+}
+
+/*
+ * Return a schema without array fields. If the schema has only array fields,
+ * then return undefined (because there's no reason to use an object schema with
+ * no properties)
+ */
+export function getNonArraySchema(schema) {
+  if (schema.type === 'array') {
+    return undefined;
+  }
+
+  if (schema.type === 'object') {
+    const newProperties = Object.keys(schema.properties).reduce((current, next) => {
+      const newSchema = getNonArraySchema(schema.properties[next]);
+
+      if (typeof newSchema === 'undefined') {
+        return _.unset(next, current);
+      }
+
+      if (newSchema !== schema.properties[next]) {
+        return _.set(next, newSchema, current);
+      }
+
+      return current;
+    }, schema.properties);
+
+    if (Object.keys(newProperties).length === 0) {
+      return undefined;
+    }
+
+    if (newProperties !== schema.properties) {
+      return _.set('properties', newProperties, schema);
+    }
+  }
+
+  return schema;
 }
 
 /*
@@ -262,3 +364,157 @@ export function updateRequiredFields(schema, uiSchema, formData) {
 export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
   return !deepEquals(props, nextProps);
 });
+
+/*
+ * This steps through a schema and sets any fields to hidden, based on a
+ * hideIf function from uiSchema and the current page data. Sets 'ui:hidden'
+ * which is a non-standard JSON Schema property
+ */
+export function setHiddenFields(schema, uiSchema, data) {
+  if (!uiSchema) {
+    return schema;
+  }
+
+  const hideIf = _.get(['ui:options', 'hideIf'], uiSchema);
+
+  if (hideIf && hideIf(data)) {
+    if (!schema['ui:hidden']) {
+      return _.set('ui:hidden', true, schema);
+    }
+  } else if (schema['ui:hidden']) {
+    return _.unset('ui:hidden', schema);
+  }
+
+  const expandUnder = _.get(['ui:options', 'expandUnder'], uiSchema);
+  if (expandUnder && !data[expandUnder]) {
+    if (!schema['ui:collapsed']) {
+      return _.set('ui:collapsed', true, schema);
+    }
+  } else if (schema['ui:collapsed']) {
+    return _.unset('ui:collapsed', schema);
+  }
+
+  if (schema.type === 'object') {
+    const newProperties = Object.keys(schema.properties).reduce((current, next) => {
+      const newSchema = setHiddenFields(schema.properties[next], uiSchema[next], data);
+
+      if (newSchema !== schema.properties[next]) {
+        return _.set(next, newSchema, current);
+      }
+
+      return current;
+    }, schema.properties);
+
+    if (newProperties !== schema.properties) {
+      return _.set('properties', newProperties, schema);
+    }
+  }
+
+  if (schema.type === 'array') {
+    const newSchema = setHiddenFields(schema.items, uiSchema.items, data);
+
+    if (newSchema !== schema.items) {
+      return _.set('items', newSchema, schema);
+    }
+  }
+
+  return schema;
+}
+
+/*
+ * Steps through data and removes any fields that are marked as hidden
+ * This is done so that hidden fields don't cause validation errors that
+ * a user can't see.
+ */
+export function removeHiddenData(schema, data) {
+  if (isHiddenField(schema) || typeof data === 'undefined') {
+    return undefined;
+  }
+
+  if (schema.type === 'object') {
+    return Object.keys(data).reduce((current, next) => {
+      if (typeof data[next] !== 'undefined') {
+        const nextData = removeHiddenData(schema.properties[next], data[next]);
+
+        if (typeof nextData === 'undefined') {
+          return _.unset(next, current);
+        }
+      }
+
+      return current;
+    }, data);
+  }
+
+  if (schema.type === 'array') {
+    return data.reduce((current, next, index) => {
+      const nextData = removeHiddenData(schema.items, next);
+
+      if (nextData !== next) {
+        return _.set(index, nextData, current);
+      }
+
+      return data;
+    }, data);
+  }
+
+  return data;
+}
+
+/*
+ * This is similar to the hidden fields schema function above, except more general.
+ * It will step through a schema and replace parts of it based on an updateSchema
+ * function in uiSchema. This means the schema can be re-calculated based on data
+ * a user has entered.
+ */
+export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
+  if (!uiSchema) {
+    return schema;
+  }
+
+  let currentSchema = schema;
+
+  if (currentSchema.type === 'object') {
+    const newSchema = Object.keys(currentSchema.properties).reduce((current, next) => {
+      const nextData = data ? data[next] : undefined;
+      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], nextData, formData);
+
+      if (current.properties[next] !== nextProp) {
+        return _.set(['properties', next], nextProp, current);
+      }
+
+      return current;
+    }, currentSchema);
+
+    if (newSchema !== schema) {
+      currentSchema = newSchema;
+    }
+  }
+
+  if (currentSchema.type === 'array') {
+    const newSchema = updateSchemaFromUiSchema(currentSchema.items, uiSchema.items, data, formData);
+
+    if (newSchema !== currentSchema.items) {
+      currentSchema = _.set('items', newSchema, currentSchema);
+    }
+  }
+
+  const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
+
+  if (updateSchema) {
+    const newSchemaProps = updateSchema(data, formData);
+
+    const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
+      if (newSchemaProps[next] !== schema[next]) {
+        return _.set(next, newSchemaProps[next], current);
+      }
+
+      return current;
+    }, currentSchema);
+
+    if (newSchema !== currentSchema) {
+      return newSchema;
+    }
+  }
+
+  return currentSchema;
+}

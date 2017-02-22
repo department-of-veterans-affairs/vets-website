@@ -22,9 +22,6 @@ secondarylinks:
     description: ""
 relatedlinkstitle: "Learn new skills using online resources"
 relatedlinks:
-  - url: https://www.surveymonkey.com/r/QSGQRFN
-    title: Take a Free Online Class with Coursera
-    description: ""
   - url: https://veterans.linkedin.com/
     title: Get a Free 1-Year Subscription for Online Classes with Lynda from LinkedIn Premium
     description: ""

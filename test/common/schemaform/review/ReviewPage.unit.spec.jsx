@@ -34,6 +34,74 @@ describe('Schemaform review: ReviewPage', () => {
 
     expect(tree.everySubTree('ReviewCollapsibleChapter').length).to.equal(2);
   });
+  it('should go back', () => {
+    const setData = sinon.spy();
+    const onSubmit = sinon.spy();
+    const router = {
+      push: sinon.spy()
+    };
+    const route = {
+      path: 'testPage',
+      pageList: [
+        {
+          path: 'previous-page'
+        },
+        {
+          path: 'testing',
+          pageKey: 'testPage'
+        },
+        {
+          path: 'next-page'
+        }
+      ],
+      formConfig: {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {
+                schema: {}
+              }
+            }
+          },
+          chapter2: {
+            pages: {
+              page2: {
+              }
+            }
+          }
+        }
+      }
+    };
+    const form = {
+      submission: {
+        hasAttemptedSubmit: false
+      },
+      page1: {
+        schema: {},
+        data: {
+        }
+      },
+      page2: {
+        schema: {},
+        data: {
+        }
+      },
+      privacyAgreementAccepted: true
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ReviewPage
+          router={router}
+          setData={setData}
+          form={form}
+          onSubmit={onSubmit}
+          route={route}/>
+    );
+
+    tree.getMountedInstance().goBack();
+
+    expect(router.push.calledWith('previous-page'));
+  });
   it('should submit when valid', () => {
     const formConfig = {
       chapters: {
@@ -47,7 +115,6 @@ describe('Schemaform review: ReviewPage', () => {
         chapter2: {
           pages: {
             page2: {
-              schema: {}
             }
           }
         }
@@ -59,10 +126,12 @@ describe('Schemaform review: ReviewPage', () => {
         hasAttemptedSubmit: false
       },
       page1: {
+        schema: {},
         data: {
         }
       },
       page2: {
+        schema: {},
         data: {
         }
       },
@@ -172,5 +241,48 @@ describe('Schemaform review: ReviewPage', () => {
 
     expect(submitForm.called).to.be.false;
     expect(setSubmission.called).to.be.true;
+  });
+  it('should route to confirmation page after submit', () => {
+    const formConfig = {
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: {}
+          }
+        },
+        chapter2: {
+          pages: {
+            page2: {}
+          }
+        }
+      }
+    };
+
+    const form = {
+      submission: {
+        hasAttemptedSubmit: false
+      }
+    };
+
+    const router = {
+      push: sinon.spy()
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ReviewPage router={router} form={form} route={{ formConfig }}/>
+    );
+
+    tree.getMountedInstance().componentWillReceiveProps({
+      route: {
+        formConfig: {}
+      },
+      form: {
+        submission: {
+          status: 'applicationSubmitted'
+        }
+      }
+    });
+
+    expect(router.push.calledWith('confirmation'));
   });
 });
