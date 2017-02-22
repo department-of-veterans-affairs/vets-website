@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { DownloadPage } from '../../../src/js/blue-button/containers/DownloadPage';
+import { DownloadPage } from '../../../src/js/health-records/containers/DownloadPage';
 
 const props = {};
 
@@ -14,4 +14,3 @@ describe('<DownloadPage>', () => {
     expect(vdom).to.exist;
   });
 });
-
