@@ -1320,7 +1320,7 @@ li {
 }
 
 [class^=va-wip] {
-  padding: .576rem 1.08rem 1.6rem;
+  padding: .576rem 1.08rem;
   font-size: 0.8em;
   font-weight: 400;
 
@@ -1347,6 +1347,7 @@ li {
   border-top: 1px solid $color-primary-darker;
   color: $color-white;
   margin-top: 3.2rem;
+  padding-bottom: 1.6rem;
 
   @include media($medium-screen) {
     display: none;
