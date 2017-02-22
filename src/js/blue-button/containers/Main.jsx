@@ -186,8 +186,7 @@ export class Main extends React.Component {
     return (
       <div>
         <h4 className="highlight">Select Date Range</h4>
-        <ErrorableRadioButtons
-            {...radioButtonProps}/>
+        <ErrorableRadioButtons {...radioButtonProps}/>
       </div>
     );
   }
