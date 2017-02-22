@@ -43,7 +43,9 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
       title: '', 
       
       // Any initial data that should be set for the form
-      initialData: {}, 
+      initialData: {
+        field1: 'Default string'
+      }, 
       
       // JSON schema object for the page. Follows the JSON Schema format.
       schema: {
@@ -56,6 +58,8 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
           // from data sent to server
           // Objects that start with view: will not be sent, but their children will be merged
           // into the parent object and will be sent
+          // These can be used to remove fields from what is sent to the server, like if we have
+          // a question that is only used to reveal other questions
           'view:field2': {
             type: 'string'
           }
@@ -99,7 +103,20 @@ The matching uiSchema would be:
 }
 ```
 
-This does not apply to array fields; for those, you still need to specify an `items` object that contains the fields for each row in the array.
+This does not apply to array fields; for those, you still need to specify an `items` object that contains the fields for each row in the array in the uiSchema:
+
+```js
+{
+  'ui:title': 'My form',
+  toursOfDuty: {
+    items: {
+      branchName: {
+        'ui:title': 'Branch'
+      }
+    }
+  }
+}
+```
 
 ### uiSchema configuration
 In addition to the uiSchema options listed in the library docs, we have some additional options that are supported for all forms:
@@ -110,7 +127,7 @@ In addition to the uiSchema options listed in the library docs, we have some add
   'ui:title': '', 
   
   // We use this instead of the description property in the JSON Schema. This can be
-  // a string or a React component and would normally used on object fields in the
+  // a string or a React component and would normally be used on object fields in the
   // schema to provide description text or html before a block of fields
   'ui:description': '' || DescriptionComponent,
   
@@ -150,7 +167,7 @@ In addition to the uiSchema options listed in the library docs, we have some add
   // Schema error types). This is passed to custom validations in `ui:validations` if
   // you want to allow configurable error messages in a validator.
   'ui:errorMessages': {
-    errorType: ''
+    'pattern': 'Please provide a value in the right format'
   },
   'ui:options': {
     
@@ -199,7 +216,7 @@ JSON Schema does not provide all the validation options we need in our forms, so
 - fieldData: The data for the field.
 - pageData: The current form (page) data.
 - schema: The current JSON Schema for the field.
-- errorMessages: The error messsage object (if available) for thie field.
+- errorMessages: The error messsage object (if available) for the field.
 
 Every validation function should update the errors object with any errors found. This is done by calling its `addErrors()` method. Here's an example:
 
@@ -215,6 +232,19 @@ Items in the `ui:validations` array can also be objects. Objects should have two
 
 - options: Object (or anything, really) that will be passed to your validation function. You can use this to allow your validation function to be configurable for different fields on the form.
 - validator: A function with the same signature as above, plus the options object.
+
+```js
+{
+  validator: (errors, ssn, pageData, schema, errorMessages, options) => {
+    if (!isValidWidget(ssn, options.someOption)) {
+      errors.addError('Please enter a valid nine digit SSN (dashes allowed)');
+    }
+  },
+  options: {
+    someOption: true
+  }
+}
+```
 
 ### I need to validate a field based on other fields in the same object
 
@@ -241,6 +271,20 @@ export function validateEmailsMatch(errors, formData) {
   const { email, confirmEmail } = formData;
   if (email !== confirmEmail) {
     errors.confirmEmail.addError('Please ensure your entries match');
+  }
+}
+```
+
+This function then should be referenced in the uiSchema:
+
+```js
+{
+  'ui:validations': [ validateEmailsMatch ],
+  email: {
+    'ui:title': 'Email address'
+  },
+  confirmEmail: {
+    'ui:title': 'Re-enter email address'
   }
 }
 ```
