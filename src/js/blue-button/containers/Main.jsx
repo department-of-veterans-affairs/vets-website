@@ -213,11 +213,7 @@ export class Main extends React.Component {
           </div>
           <div className="form-actions">
             <button onClick={this.handleSubmit} type="submit">Submit</button>
-            <a href="/healthcare">
-              <button className="usa-button-outline">
-                  Cancel
-              </button>
-            </a>
+            <a className="usa-button usa-button-outline" href="/healthcare" role="button">Cancel</a>
           </div>
         </form>
       </div>
