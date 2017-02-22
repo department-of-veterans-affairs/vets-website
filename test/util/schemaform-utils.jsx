@@ -15,6 +15,9 @@ export class DefinitionTester extends React.Component {
     const uiSchema = props.uiSchema;
     const data = props.data;
     let schema = updateRequiredFields(props.schema, uiSchema, data, state);
+    if (props.definitions) {
+      schema.definitions = props.definitions;
+    }
     // Update the schema with any fields that are now hidden because of the data change
     schema = setHiddenFields(schema, uiSchema, data, state);
     // Update the schema with any general updates based on the new data
