@@ -342,14 +342,9 @@ h6 {
   }
 
   .flex {
-    @media #{$small} {
-      display: block;
-    }
-    @media #{$medium} {
-      display: flex;
-    }
+    display: block;
 
-    @media #{$large} {
+    @include media($medium) {
       display: flex;
     }
   }
@@ -469,7 +464,7 @@ h6 {
 
   h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
   h2 {
-    font-size: 1em;
+    font-size: 2em;
     display: inline-block;
     @media #{$small} {font-size: 2em;}
   }
