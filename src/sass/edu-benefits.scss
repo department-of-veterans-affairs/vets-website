@@ -4,6 +4,8 @@
 @import 'modules/m-form-process';
 @import 'modules/m-progress-bar';
 @import 'modules/m-schemaform';
+@import 'modules/m-modal';
+@import 'modules/m-omb-info';
 
 $button-stroke: inset 0 0 0 1px;
 
@@ -260,12 +262,6 @@ form.rjsf {
   margin-top: 16px;
 }
 
-.schemaform-array-row {
-  outline: none;
-}
-.schemaform-array-row {
-  outline: none;
-}
 .edu-benefits-dependents-desc {
   margin-top: 5px;
 }
