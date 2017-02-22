@@ -8,7 +8,6 @@ const modalContents = (
   </div>
 );
 
-// export default function OMBInfo({ resBurden, ombNumber, expDate }) {
 class OMBInfo extends React.Component {
   constructor(props) {
     super(props);
