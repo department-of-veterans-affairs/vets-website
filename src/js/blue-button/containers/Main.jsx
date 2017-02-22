@@ -64,7 +64,33 @@ export class Main extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.submitForm(this.props.form);
+    const {
+      dateOption,
+      reportTypes: types
+    } = this.props.form;
+
+    // Validate form before submission.
+    this.setState({
+      noDateOption: !dateOption,
+      noReportType: !Object.keys(types).some(k => types[k])
+    }, () => {
+      const {
+        invalidEndDate,
+        invalidStartDate,
+        noDateOption,
+        noReportType
+      } = this.state;
+
+      const shouldSubmit =
+        !noDateOption &&
+        (dateOption !== 'custom' ||
+        (!invalidEndDate && !invalidStartDate)) &&
+        !noReportType;
+
+      if (shouldSubmit) {
+        this.props.submitForm(this.props.form);
+      }
+    });
   }
 
   renderReportCheckBoxLabel(c) {
