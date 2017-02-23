@@ -54,7 +54,7 @@ class MegaMenu {
   closeMenu(event) {
     const target = event.target;
     const menu = target.getAttribute('aria-controls');
-    console.log(event.type);
+    console.log('closeMenu');
 
     target.setAttribute('aria-expanded', false);
     this.getMenu(target.getAttribute('aria-controls')).setAttribute('hidden','hidden');
@@ -73,7 +73,7 @@ class MegaMenu {
     const target = event.target;
     const menu = target.getAttribute('aria-controls');
   
-    console.log(event.type);
+    console.log('openMenu');
 
     target.setAttribute('aria-expanded', true);
     this.getMenu(menu).removeAttribute('hidden','hidden');
@@ -83,7 +83,7 @@ class MegaMenu {
     const eTarget = event.target;
     const whichMenu = this.getMenu(eTarget.getAttribute('aria-controls'));
 
-    console.log(event.type);
+    console.log('toggleMenu');
 
     if(eTarget.getAttribute('aria-expanded') === 'true') {
       this.closeMenu(event);
@@ -103,7 +103,7 @@ class MegaMenu {
   }
 
   toggleSubMenu(event) {
-    console.log(event.type);
+    console.log('toggleSubMenu');
 
     const submenus = Array.from(this.menu.querySelectorAll('.vetnav-panel--submenu'));
     const triggers = Array.from(this.menu.querySelectorAll('.vetnav-level2'));
