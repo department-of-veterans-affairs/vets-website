@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import classNames from 'classnames';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 
@@ -164,6 +165,15 @@ export class Main extends React.Component {
 
     const datePickerDisabled = dateOption !== 'custom';
 
+    const customDateRangeError =
+      this.state.invalidStartDateFormat ||
+      this.state.invalidEndDateFormat;
+
+    const customDateOptionClass = classNames({
+      'custom-date-option': true,
+      'date-range-error': customDateRangeError
+    });
+
     const radioButtonProps = {
       name: 'dateRange',
       label: '',
@@ -173,7 +183,11 @@ export class Main extends React.Component {
         { label: '1 year', value: '1yr' },
         {
           label: (
-            <div>
+            <div className={customDateOptionClass}>
+              {
+                customDateRangeError && <p className="date-range-error">
+                Enter dates in the MM/DD/YYYY date format</p>
+              }
               <span>Custom date range</span>
               <div className="date-range-fields">
                 <DatePicker
