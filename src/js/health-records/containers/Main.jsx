@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
 
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
-import DatePicker from 'react-datepicker';
 import { reportTypes } from '../config';
-import _ from 'lodash';
 import {
   changeDateOption,
   setDate,
@@ -19,9 +20,13 @@ import { apiRequest } from '../utils/helpers';
 export class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = { invalidDateFormat: false };
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderReportCheckBoxLabel = this.renderReportCheckBoxLabel.bind(this);
+    this.renderInformationTypes = this.renderInformationTypes.bind(this);
+    this.renderDateOptions = this.renderDateOptions.bind(this);
   }
 
   componentDidMount() {
@@ -130,6 +135,33 @@ export class Main extends React.Component {
       }
     } = this.props.form;
 
+    const handleFormattedDate = (start = true) => {
+      let handleDateChange;
+      let setInvalidDateState;
+
+      if (start) {
+        handleDateChange = this.handleStartDateChange;
+        setInvalidDateState = () => this.setState({ invalidStartDateFormat: true });
+      } else {
+        handleDateChange = this.handleEndDateChange;
+        setInvalidDateState = () => this.setState({ invalidEndDateFormat: true });
+      }
+
+      return (e) => {
+        const dateString = e.target.value;
+        const momentDate = moment(dateString);
+
+        if (momentDate.isValid()) {
+          handleDateChange(momentDate);
+        } else {
+          handleDateChange(null);
+          if (dateString) {
+            setInvalidDateState();
+          }
+        }
+      };
+    };
+
     const datePickerDisabled = dateOption !== 'custom';
 
     const radioButtonProps = {
@@ -146,19 +178,25 @@ export class Main extends React.Component {
               <div className="date-range-fields">
                 <DatePicker
                     id="custom-date-start"
+                    onBlur={handleFormattedDate()}
                     onChange={this.handleStartDateChange}
+                    onFocus={() => this.setState({ invalidStartDateFormat: false })}
                     placeholderText="MM/DD/YYYY"
                     selected={startDate}
                     disabled={datePickerDisabled}
-                    maxDate={endDate}/>
+                    maxDate={endDate}
+                    className={!datePickerDisabled && this.state.invalidStartDateFormat ? 'date-range-error' : ''}/>
                 <span>&nbsp;to&nbsp;</span>
                 <DatePicker
                     id="custom-date-end"
+                    onBlur={handleFormattedDate(false)}
                     onChange={this.handleEndDateChange}
+                    onFocus={() => this.setState({ invalidEndDateFormat: false })}
                     placeholderText="MM/DD/YYYY"
                     selected={endDate}
                     disabled={datePickerDisabled}
-                    minDate={startDate}/>
+                    minDate={startDate}
+                    className={!datePickerDisabled && this.state.invalidEndDateFormat ? 'date-range-error' : ''}/>
               </div>
             </div>
           ),
