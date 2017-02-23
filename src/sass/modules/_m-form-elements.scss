@@ -186,3 +186,12 @@ button.form-button-disabled {
     }
   }
 }
+
+// Even up the spacing between multi-line labels and their respective elements
+label {
+  + div {
+    input[type=text], input[type=email], input[type=number], input[type=tel], select, textarea {
+      margin-top: 0.5em;
+    }
+  }
+}
