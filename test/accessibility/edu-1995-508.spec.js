@@ -1,7 +1,7 @@
 if (process.env.BUILDTYPE !== 'production') {
-  const E2eHelpers = require('../../util/e2e-helpers');
-  const Timeouts = require('../../util/timeouts.js');
-  const EduHelpers = require('../../util/edu-1995-helpers');
+  const E2eHelpers = require('../util/e2e-helpers');
+  const Timeouts = require('../util/timeouts.js');
+  const EduHelpers = require('../util/edu-1995-helpers');
 
   module.exports = E2eHelpers.createE2eTest(
     (client) => {
@@ -100,10 +100,10 @@ if (process.env.BUILDTYPE !== 'production') {
       // client
       //   .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
       // EduHelpers.completeDirectDeposit(client, EduHelpers.testData.directDeposit.data, false);
-      // client
-      //   .axeCheck('.main')
-      //   .click('.form-progress-buttons .usa-button-primary');
-      // E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
+      client
+        .axeCheck('.main')
+        .click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
       // Review and Submit Page.
       client
