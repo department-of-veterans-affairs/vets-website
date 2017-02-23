@@ -21,13 +21,17 @@ import { apiRequest } from '../utils/helpers';
 export class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { invalidDateFormat: false };
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderReportCheckBoxLabel = this.renderReportCheckBoxLabel.bind(this);
     this.renderInformationTypes = this.renderInformationTypes.bind(this);
     this.renderDateOptions = this.renderDateOptions.bind(this);
+
+    this.state = {
+      invalidStartDateFormat: false,
+      invalidEndDateFormat: false
+    };
   }
 
   componentDidMount() {
