@@ -2,27 +2,28 @@
 layout: page-breadcrumbs.html
 title: Special Claims
 concurrence: complete
+plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 2-detailed-landing
 relatedlinks:
   - url: /disability-benefits/conditions/special-claims/automobile/
-    title: Automobile Use Claims
+    title: Disabilities That Prevent You from Driving
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/index.html
-    title: Birth Defects/Spina Bifida
+    title: Birth Defects (Like Spina Bifida)
   - url: /disability-benefits/conditions/special-claims/clothing/
-    title: Clothing Allowance
+    title: Replacing Damaged Clothing
   - url: /disability-benefits/conditions/special-claims/convalescence/
-    title: Convalescence
+    title: Recovery from Surgery or an Immobilizing Disability (Convalescence)
   - url: /disability-benefits/conditions/special-claims/dentistry/
-    title: Dentistry
+    title: Dental Care
   - url: /disability-benefits/conditions/special-claims/hospitalization/
-    title: Hospitalization
+    title: Time Spent in a Hospital
   - url: /disability-benefits/conditions/special-claims/individual-unemployability
-    title: Individual Unemployability
+    title: Being Unable to Work (Individual Unemployability)
   - url: /disability-benefits/conditions/special-claims/title-38-USC-1151/
-    title: Title 38 U.S.C. 1151
+    title: Title 38 U.S.C. 1151 Disabilities
   - url: /disability-benefits/conditions/special-claims/prestabilization/
-    title: Prestabilization Ratings
+    title: Immediate Help for Temporary Disability Needs (Prestabilization)
 ---
 
 
-Veterans may be eligible for other types of disability compensation once VA determines that a disability is service connected. Special VA disability compensation programs include individual unemployability, automobile allowance, clothing allowance, prestabilization, hospitalization, convalescence, dentistry, and birth defects. If you are a Veteran with a service-connected disability rating, you may be eligible for special compensation to help with the following:
+Do you have a disability that isn't listed on this site as being linked to military service? You may still be able to get disability compensation or benefits. If you're a Veteran with a disability believed to be caused by your service in the military, you may be able to get special compensation to help with disabilities like the ones listed below.

@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Appeals
 concurrence: complete
+plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 relatedlinks:
   - url: /disability-benefits/claims-appeal/veterans-appeals-board/
@@ -12,65 +13,75 @@ relatedlinks:
     description: ""
 ---
 
-
-All benefits decisions can be appealed. The VA appeals process is set in law and is different from other judicial appeals processes.  
+You have the right to appeal any disability benefits decision made by the Veterans Benefits Administration (VBA). The appeals process is set in law and is different from other judicial appeals processes. Keep reading below to find out how to file an appeal.  
 
 <div class="call-out" markdown="0">
 
-### If you disagree with all or part of a benefits decision made by the Veterans Benefits Administration (VBA), you may:
-  - File a new claim with your regional office along with any missing evidence.
-  - Initiate an appeal at your regional office by filing a Notice of Disagreement (NOD). [Accredited representatives](/disability-benefits/apply-for-benefits/help/index.html) can help you with this decision and the process.
+### What if I don't agree with my benefits decision?  
 
-### When do I file an NOD?
-An NOD must be filed within one year from the date on the letter notifying you of the decision on your claim(s).
+If you disagree with all or part of a VBA benefits decision, you can:
+
+- File a new claim with your regional office along with any missing evidence (supporting documents like doctor's reports or medical test results), **or**
+- Start an appeal at your regional office by filing a Notice of Disagreement (NOD). If you need help figuring out the process, contact an accredited representative (a trained professional trusted to help with VA-related claims). [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
 </div>
 
-### How do I file?
+#### When do I file an NOD?
 
-Complete and file [VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf).
+You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim.
 
-#### What’s next?
+#### How do I file an appeal?
 
-VBA will prepare and mail you a written explanation, known as a Statement of the Case (SOC), which explains why your claim was denied.
+[Fill out and turn in VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf).
 
-### What if I still don’t agree with the decision made on my claim(s) after VBA issues the SOC?
+#### What happens after I file my appeal?
 
-If an appeal is not resolved to your satisfaction at the VBA level, you may formally continue that appeal to the Board for a de novo (new look) review and Board decision by filing a Substantive Appeal (VA Form 9).
+VBA will send you a written notice (known as a Statement of the Case, or SOC) letting you know why your claim was denied.
 
-### When do I file a Substantive Appeal?
+### What if I still don’t agree with the decision made on my claim after VBA issues the SOC?
 
-A Substantive Appeal must be filed within 60 days from the date on the letter accompanying the SOC, or within the remainder of the one-year period starting from the date on the letter notifying you of the original decision on your claim, whichever gives you more time.
+If you disagree with VBA's decision, you can take your appeal to the Board of Veterans' Appeals for another look (known as a de novo review or new look). To do this, file a Substantive Appeal (VA Form 9).
 
-### How do I file a Substantive Appeal?
+#### When do I file a Substantive Appeal?
 
-Complete and file [VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf).
+You'll need to file a Substantive Appeal within 60 days from the date on the letter that comes with the SOC—or within the remainder of the 1-year period starting from the date on your original decision notice—whichever gives you more time.
 
-Find out what happens to [your appeal at the Board](/disability-benefits/claims-appeal/veterans-appeals-board/).
+#### How do I file a Substantive Appeal?
 
-#### What is the status of my appeal?
+[Fill out and file VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf).
 
-Check the status of your appeal by calling 1-800-827-1000 or going online to [eBenefits](https://www.ebenefits.va.gov).
+[Find out what happens to your appeal at the Board](/disability-benefits/claims-appeal/veterans-appeals-board/).
 
-#### What if I want to submit additional evidence or argument in support of my appeal?  
+#### What's the status of my appeal?
 
-The continuous open record of the current VA appeals process allows you to submit new evidence and/or make new arguments at any point from the beginning to the end of the appeals process. Additionally, the duty to assist throughout the appeals process requires VA to develop further evidence on the Veteran’s behalf and pursue new arguments and theories of entitlement. Each time the Veteran presents new arguments and adds or obtains evidence, VA generally must issue another decision considering that evidence, which prolongs the time it takes to resolve the appeal.
+Check the status of your appeal by calling <span class="tel">800-827-1000</span> or going online to eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov).
 
-### What if I decide that I no longer want to pursue my appeal?
-If at any time you decide that you no longer want to appeal the initial claim decision  (regarding any or all of the issues involved in the appeal), you or your authorized representative may submit a written statement including your name, the applicable Department of Veterans Affairs file number, and a statement that you are withdrawing the appeal.
-If you request the withdrawal *before* you receive notice that the appeal has been transferred to the Board, submit this statement to VBA. Thereafter, the statement should be submitted directly to the Board.  
+#### Can I send in more evidence (supporting documents) or make a new argument to support my appeal?  
 
-### What's Next
-If you are not satisfied with the Board’s decision, you can:
+Yes. The appeals process follows what's known as a continuous open record process. This means you can send in new evidence and/or make new arguments at any point from the beginning to the end of the appeals process. We also follow what's known as a duty to assist policy. This means that we'll work to find more evidence on your behalf and look into any new arguments that may show you should qualify for disability benefits. 
 
-  - File a new claim with your regional office.
-  - File a motion asking the Board to reconsider your appeal. (There is no time limit to file this motion.)
-  - File a motion asking the Board to review your appeal again because there was clear and obvious error in its decision. (There is no time limit to file this motion, but it cannot be filed until after the Board decision becomes final.)
-  - File a Notice of Appeal with the [Court of Appeals for Veterans Claims (CAVC)](/disability-benefits/claims-appeal/court-appeals-veterans-claims/) within 120 days from the date of the decision by the Board (stamped on the first page of the decision)
+Each time you present new arguments and add or find new evidence, VBA must issue another decision considering that evidence. This adds time to the process, so it'll take longer to resolve your appeal.
+
+### What if I decide I don't want to pursue my appeal anymore?
+
+If at any time you decide you don't want to appeal the claim anymore (for any or all of the issues involved in the appeal), you or your authorized representative can send in a written statement. It should include your name, the related Department of Veterans Affairs file number, and a statement that you're withdrawing the appeal.
+
+If you request the withdrawal *before* you get notice that the appeal has been transferred to the Board, send your statement to VBA. After the appeal has been transferred, you should send it directly to the Board.  
+
+### What happens if I still disagree with the Board's decision?
+
+If you still disagree, you can:
+
+  - File a new claim with your regional office, **or**
+  - File a motion asking the Board to reconsider your appeal (there's no time limit to file this motion), **or**
+  - File a motion asking the Board to review your appeal again because there was clear and obvious error in its decision (there's no time limit to file this motion, but it can't be filed until after the Board decision becomes final), **or**
+  - File a Notice of Appeal with the Court of Appeals for Veterans Claims (CAVC) within 120 days from the date of the decision by the Board (stamped on the first page of the decision). [Learn more about CAVC](/disability-benefits/claims-appeal/court-appeals-veterans-claims/).
 
 ### How do I file a Notice of Appeal with the CAVC?
 
-Complete and file a [Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). Send your Notice of Appeal to the clerk of CAVC. Follow these [detailed instructions](http://www.uscourts.cavc.gov/appeal.php).
+[Fill out and file a Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). 
 
-### Learn more
+Send your Notice of Appeal to the clerk of CAVC. [Follow these detailed instructions](http://www.uscourts.cavc.gov/appeal.php).
 
-The [How Do I Appeal?](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf) pamphlet provides additional details about the VA appeals process.
+### Get more information
+
+Want more details about the appeals process? [Download the "How Do I Appeal?" pamphlet](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf).

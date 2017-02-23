@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Postservice Claim
 concurrence: incomplete
+plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
@@ -33,11 +34,11 @@ relatedlinks:
     description: ""
 ---
 
-If you have a service-related disability that presents itself after you have separated, you may be eligible for disability compensation.
+If you have a disability that's related to your military service but didn't appear until after you ended your service, you can file a postservice claim for disability benefits. [File a claim now](/disability-benefits/apply-for-benefits/).
 
-### These sorts of disabilities include:
+### What kinds of postservice disabilities qualify you for benefits?
 
-- [Disabilities That Appear Within One Year After Discharge](/disability-benefits/apply-for-benefits/one-year/)
-- [Exposures to Hazardous Materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)
-- [Diseases Associated with Gulf War Service](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)
-- [Prisoners of War (POWs)](/disability-benefits/conditions/pow/)
+- [Disabilities that appear within 1 year after discharge](/disability-benefits/apply-for-benefits/one-year/)
+- [Disabilities believed to be caused by contact with hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)
+- [Disabilities related to service in Southwest Asia (Gulf War Service)](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)
+- [Disabilities related to time spent as a Prisoner of War (POW)](/disability-benefits/conditions/pow/)
