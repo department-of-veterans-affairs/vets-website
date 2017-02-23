@@ -203,7 +203,7 @@
     border-color: transparent;
     border-style: solid;
     border-width: 1px 0;
-    color: $color-primary;
+    color: $color-link-default;
     background-size: 1rem auto;
     margin-left: .8rem;
     padding: .8rem 0 .8rem 1.6rem;
@@ -228,10 +228,6 @@
       text-decoration: inherit;
       position: relative;
       z-index: 2;
-
-      &:focus {
-        box-shadow: none;
-      }
     }
   }
 
