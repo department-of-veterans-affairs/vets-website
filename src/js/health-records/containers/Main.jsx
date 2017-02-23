@@ -206,6 +206,10 @@ export class Main extends React.Component {
       onValueChange: (v) => {
         if (v.dirty) {
           this.props.changeDateOption(v.value);
+          this.setState({
+            invalidStartDateFormat: false,
+            invalidEndDateFormat: false
+          });
         }
       },
       value: {
