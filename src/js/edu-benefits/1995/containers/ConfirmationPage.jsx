@@ -43,7 +43,7 @@ class ConfirmationPage extends React.Component {
     return (
       <div className="edu-benefits-submit-success">
         <h3 className="edu-page-title">Claim received</h3>
-        <p>Normally processed within <strong>14 days</strong></p>
+        <p>Normally processed within <strong>30 days</strong></p>
         <p>
           We may contact you for more information or documents.<br/>
           <i>Please print this page for your records.</i>
