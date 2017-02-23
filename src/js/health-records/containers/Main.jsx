@@ -17,6 +17,7 @@ import {
 } from '../actions/form';
 import { openModal } from '../actions/modal';
 import { apiRequest } from '../utils/helpers';
+import { isValidDateRange } from '../utils/validations';
 
 export class Main extends React.Component {
   constructor(props) {
@@ -157,7 +158,12 @@ export class Main extends React.Component {
         const momentDate = moment(dateString);
 
         if (momentDate.isValid()) {
-          handleDateChange(momentDate);
+          const isValidRange = start
+                             ? isValidDateRange(momentDate, endDate)
+                             : isValidDateRange(startDate, momentDate);
+          if (isValidRange) {
+            handleDateChange(momentDate);
+          }
         } else {
           handleDateChange(null);
           if (dateString) {
