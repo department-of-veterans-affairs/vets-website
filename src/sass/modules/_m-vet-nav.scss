@@ -1,8 +1,14 @@
+body.va-pos-fixed {
+  width: 100%;  
+  height: 100%;
+}
+
 #vetnav {
   background-color: $color-primary-darkest;
   height: 100%;
   left: 0;
   margin-top: .8rem;
+  overflow-y: scroll;
   position: absolute;
   width: 100%;
   z-index: 6;
@@ -30,9 +36,18 @@
 }
 
 #vetnav-menu {
+  min-height: 600px;
   list-style: none;
   margin: 0;
+  overflow-y: scroll;
   padding-left: 0;
+
+  @include media($medium-large-screen) {
+    display: flex;
+    height: auto;
+    overflow-y: visible;
+    position: relative;
+  }
 
   > li {
     margin-bottom: 6px;
@@ -76,10 +91,7 @@
     }
   }
 
-  @include media($medium-large-screen) {
-    display: flex;
-    position: relative;
-  }
+  
 }
 
 #vetnav-controls {

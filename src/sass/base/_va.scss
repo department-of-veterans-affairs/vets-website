@@ -1302,6 +1302,7 @@ li {
 
 .va-wip--narrow {
   color: $color-white;
+  white-space: normal;
 
   @include media($medium-large-screen) {
     display: none;
