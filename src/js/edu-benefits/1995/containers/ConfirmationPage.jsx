@@ -3,7 +3,6 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
-import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 import { focusElement } from '../../../common/utils/helpers';
 
 import { benefitsLabels } from '../helpers';
