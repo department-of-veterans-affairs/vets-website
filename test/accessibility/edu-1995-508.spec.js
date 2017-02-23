@@ -13,6 +13,7 @@ if (process.env.BUILDTYPE !== 'production') {
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Apply for education benefits: Vets.gov')
         .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
+        .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.overrideVetsGovApi(client);
       E2eHelpers.overrideSmoothScrolling(client);
@@ -21,22 +22,28 @@ if (process.env.BUILDTYPE !== 'production') {
       // Veteran information page.
       client
         .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
-      EduHelpers.completeVeteranInformation(client, EduHelpers.testData.veteranInformation.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      EduHelpers.completeVeteranInformation(client, EduHelpers.testData.veteranInformation.data, false);
+      client
+        .axeCheck('.main')
+        .click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information');
 
       // Benefits eligibility
       client
         .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
       EduHelpers.completeBenefitsSelection(client, EduHelpers.testData.benefitSelection.data);
-      client.click('.form-progress-buttons .usa-button-primary');
+      client
+        .axeCheck('.main')
+        .click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-selection');
 
       // Service periods page.
       client
         .waitForElementVisible('label[for="root_view:newService"]', Timeouts.slow);
-      EduHelpers.completeServicePeriods(client, EduHelpers.testData.servicePeriods.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      EduHelpers.completeServicePeriods(client, EduHelpers.testData.servicePeriods.data, false);
+      client
+        .axeCheck('.main')
+        .click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/military-history/service-periods');
 
       // Military service page.
@@ -45,37 +52,58 @@ if (process.env.BUILDTYPE !== 'production') {
       // Another mysteriously required pause. If we don't wait here, then the click below will
       // do nothing sometimes.
       client.pause(1000);
-      EduHelpers.completeMilitaryService(client, EduHelpers.testData.militaryHistory.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      EduHelpers.completeMilitaryService(client, EduHelpers.testData.militaryHistory.data, false);
+      client
+        .axeCheck('.main')
+        .click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/military-history/military-service');
 
       // New school
       client
         .waitForElementVisible('label[for="root_educationType"]', Timeouts.slow);
-      EduHelpers.completeNewSchool(client, EduHelpers.testData.newSchool.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      EduHelpers.completeNewSchool(client, EduHelpers.testData.newSchool.data, false);
+      client
+        .axeCheck('.main')
+        .click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/school-selection/new-school');
 
       // Old school
       client
         .waitForElementVisible('label[for="root_oldSchool_name"]', Timeouts.slow);
-      EduHelpers.completeOldSchool(client, EduHelpers.testData.oldSchool.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      EduHelpers.completeOldSchool(client, EduHelpers.testData.oldSchool.data, false);
+      client
+        .axeCheck('.main')
+        .click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/school-selection/old-school');
 
       // Contact information page.
       client
         .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-      EduHelpers.completeContactInformation(client, EduHelpers.testData.contactInformation.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      EduHelpers.completeContactInformation(client, EduHelpers.testData.contactInformation.data, false);
+      client
+        .axeCheck('.main')
+        .click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
-      // Direct deposit page
+      // Dependents
       client
-        .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
-      EduHelpers.completeDirectDeposit(client, EduHelpers.testData.directDeposit.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
-      E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
+        .waitForElementVisible('label[for="root_serviceBefore1977_married"]', Timeouts.slow);
+      EduHelpers.completeDependents(client, EduHelpers.testData.dependents.data, false);
+      client
+        .axeCheck('.main')
+        .click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/dependents');
+
+      // Direct deposit page
+
+      // No longer works with the updated direct deposit page
+      // client
+      //   .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
+      // EduHelpers.completeDirectDeposit(client, EduHelpers.testData.directDeposit.data, false);
+      // client
+      //   .axeCheck('.main')
+      //   .click('.form-progress-buttons .usa-button-primary');
+      // E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
       // Review and Submit Page.
       client
@@ -88,6 +116,7 @@ if (process.env.BUILDTYPE !== 'production') {
       }, ['label[name="privacyAgreement-label"]']);
       client.pause(1000);
       client
+        .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');
       client.expect.element('.js-test-location').attribute('data-location')
         .to.not.contain('/review-and-submit').before(Timeouts.submission);
