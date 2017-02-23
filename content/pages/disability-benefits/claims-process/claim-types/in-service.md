@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
-title: In-Service claim
+title: In-Service Claim
+plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 concurrence: complete
 relatedlinks:
@@ -33,4 +34,4 @@ relatedlinks:
     description: ""
 ---
 
-If your disability resulted from an injury or disease acquired in the line of duty (and not because of willful misconduct or abuse of alcohol or drugs), then it is considered an in-service disability.
+You can file an in-service disability claim if your disability was caused by an illness or injury (also known as a condition) that you got in the line of duty and not because of willful misconduct or alcohol or drug abuse. [File a claim now](/disability-benefits/apply-for-benefits/).
