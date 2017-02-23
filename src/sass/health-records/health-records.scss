@@ -30,12 +30,16 @@
     display: -webkit-flex;
     align-items: center;
     -webkit-align-items: flex-center;
+
+    span {
+      margin: 0 1rem;
+    }
   }
 
   .form-actions {
     margin: 1em 0;
 
-    button {
+    button, [role="button"] {
       padding-left: 2.7em;
       padding-right: 2.7em;
       width: auto;
@@ -78,14 +82,27 @@
     }
   }
 
-  button {
+  button, [role="button"] {
     width: 16rem;
+  }
+}
+
+.custom-date-option {
+  &.date-range-error {
+    border-left: 3px solid $color-secondary-dark;
+    padding-left: 1rem;
   }
 }
 
 // match uswds input error
 input.date-range-error {
-  border: 3px solid #cd2026;
+  border: 3px solid $color-secondary-dark;
+}
+
+p.date-range-error {
+  color: $color-secondary-dark;
+  font-weight: bold;
+  margin: 0;
 }
 
 .date-range-fields {
