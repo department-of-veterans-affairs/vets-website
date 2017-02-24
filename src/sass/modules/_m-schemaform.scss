@@ -28,9 +28,13 @@
 .schemaform-chapter-progress {
   padding-left: 2rem;
   padding-right: 2rem;
+  margin-bottom: 1.5em;
   @media (max-width: 40.063em) {
     padding-left: 2rem - .9375rem;
     padding-right: 2rem - .9375rem;
+  }
+  > h4 {
+    padding-bottom: 0 !important;
   }
 }
 
@@ -76,4 +80,34 @@
 }
 .schemaform-array-row {
   outline: none;
+}
+
+.schemaform-block-header {
+  margin-bottom: 1.5em;
+  > legend, > h5, > p {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+// This is the worst
+.schemaform-first-field--titled {
+  > div > div > label,
+  > div > .usa-input-error {
+    margin-top: 0;
+  }
+}
+// Because uswds labels have top margin and we can arbitrarily nest
+// object fields in the form, we can't easily tell what the first
+// field in the form is in order to remove the top margin
+.schemaform-first-field--root {
+  > div > div > label,
+  > div > .usa-input-error {
+    margin-top: 0;
+  }
+  // This only works one level deep. We may have to add more
+  > fieldset > div > .schemaform-first-field > div > div > label,
+  > fieldset > div > .schemaform-first-field > div > .usa-input-error {
+    margin-top: 0;
+  }
 }

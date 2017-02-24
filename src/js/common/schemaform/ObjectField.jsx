@@ -130,6 +130,7 @@ class ObjectField extends React.Component {
       ? uiSchema['ui:description']
       : null;
 
+    const hasTitleOrDescription = !!title || !!description;
     const isRoot = idSchema.$id === 'root';
 
     let containerClassNames = classNames({
@@ -137,37 +138,47 @@ class ObjectField extends React.Component {
       'schemaform-block': title && !isRoot
     });
 
-    const renderProp = (propName, index) => (
-      <div key={index} className={index === 0 ? 'first-field' : null}>
-        <SchemaField
-            name={propName}
-            required={this.isRequired(propName)}
-            schema={schema.properties[propName]}
-            uiSchema={uiSchema[propName]}
-            errorSchema={errorSchema[propName]}
-            idSchema={idSchema[propName]}
-            formData={formData[propName]}
-            onChange={this.onPropertyChange(propName)}
-            onBlur={this.onPropertyBlur(propName)}
-            touchedSchema={typeof touchedSchema === 'object' ? touchedSchema[propName] : !!touchedSchema}
-            registry={this.props.registry}
-            disabled={disabled}
-            readonly={readonly}/>
-      </div>
-    );
+    const renderProp = (propName, index) => {
+      const classes = classNames({
+        'schemaform-first-field': index === 0,
+        'schemaform-first-field--titled': index === 0 && hasTitleOrDescription,
+        'schemaform-first-field--root': index === 0 && isRoot
+      });
+
+      return (
+        <div key={index} className={classes}>
+          <SchemaField
+              name={propName}
+              required={this.isRequired(propName)}
+              schema={schema.properties[propName]}
+              uiSchema={uiSchema[propName]}
+              errorSchema={errorSchema[propName]}
+              idSchema={idSchema[propName]}
+              formData={formData[propName]}
+              onChange={this.onPropertyChange(propName)}
+              onBlur={this.onPropertyBlur(propName)}
+              touchedSchema={typeof touchedSchema === 'object' ? touchedSchema[propName] : !!touchedSchema}
+              registry={this.props.registry}
+              disabled={disabled}
+              readonly={readonly}/>
+        </div>
+      );
+    };
 
     return (
       <fieldset>
         <div className={containerClassNames}>
-          {title && !showFieldLabel
-              ? <TitleField
-                  id={`${idSchema.$id}__title`}
-                  title={title}
-                  required={required}
-                  formContext={formContext}/> : null}
-          {textDescription && <p>{textDescription}</p>}
-          {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
-          {!textDescription && !DescriptionField && description}
+          {hasTitleOrDescription && <div className="schemaform-block-header">
+            {title && !showFieldLabel
+                ? <TitleField
+                    id={`${idSchema.$id}__title`}
+                    title={title}
+                    required={required}
+                    formContext={formContext}/> : null}
+            {textDescription && <p>{textDescription}</p>}
+            {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
+            {!textDescription && !DescriptionField && description}
+          </div>}
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
               return (
