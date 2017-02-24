@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 import React from 'react';
 import SchemaForm from '../../src/js/common/schemaform/SchemaForm';
 
@@ -16,7 +18,7 @@ export class DefinitionTester extends React.Component {
     const data = props.data;
     let schema = updateRequiredFields(props.schema, uiSchema, data, state);
     if (props.definitions) {
-      schema.definitions = props.definitions;
+      schema = _.assign({ definitions: props.definitions }, schema);
     }
     // Update the schema with any fields that are now hidden because of the data change
     schema = setHiddenFields(schema, uiSchema, data, state);
