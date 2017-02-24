@@ -83,7 +83,7 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-        <div id="collapsiblePanel" className="usa-accordion-bordered form-review-panel">
+        <div id="collapsiblePanel" className="usa-accordion-bordered">
           <ul className="usa-unstyled-list">
             <li>
               <div className="accordion-header clearfix">
