@@ -1,14 +1,16 @@
 ---
 layout: page-breadcrumbs.html
 title: Apply for Disability Benefits
+plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 7-get-page-alt
 showactionbar: false
+stickyactionbox: true
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
-    title: What is the fastest way to get a claim decision?
+    title: What's the fastest way to get a claim decision?
     description: ""
   - url: /disability-benefits/apply-for-benefits/ways/
-    title: What are the different ways I can file a claim?
+    title: How do I file a claim?
     description: ""
   - url: /disability-benefits/apply-for-benefits/help/
     title: How do I get help filing a claim?
@@ -17,27 +19,25 @@ relatedlinks:
     title: How do I file while on active duty?
     description: ""
   - url: /disability-benefits/apply-for-benefits/one-year/
-    title: How do I file for disabilities that appear within one year after discharge?
+    title: How do I file for disabilities that appear within 1 year after discharge?
     description: ""
   - url: /disability-benefits/claims-process/date/
-    title: Effective date of disability
+    title: How does VA decide when my disability compensation starts?
     description: ""
 ---
 
-### Who should read this?
+### Can I apply for disability benefits?
 
 <div class="row" markdown="0">
-<div class="small-12 medium-8 columns usa-content"  markdown="1">
+<div class="small-12 columns"  markdown="1">
 
-- Veterans who are filing claims for benefits.
-- Servicemembers who are getting ready to separate from the military.
-- Survivors of Veterans and Servicemembers who may be eligible for benefits.
+You can apply for benefits if:
+- You're a Veteran filing a claim for disability compensation or benefits
+- You're a Servicemember getting ready to end your active military service
+- You're a survivor of a Veteran or Servicemember who may qualify for these benefits
+
 </div>
 
-
-<div class="small-12 medium-4 columns actions">
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a>
-</div>
 </div>
 
 <div class="row" markdown="0"><br>
@@ -73,10 +73,9 @@ If you’ve already filed a claim, you can check your disability compensation cl
 </div>
 </div>
 
-<div class="row" markdown="0">
-<div class="small-12 columns divider margin top usa-content"  markdown="1">
 
-### What are the steps?
+
+### What are the steps to filing a disability claim?
 
 <ol class="process">
 <li class="step one">
@@ -85,28 +84,26 @@ If you’ve already filed a claim, you can check your disability compensation cl
 
 ##### Prepare
 
-- An [accredited representative](/disability-benefits/apply-for-benefits/help/index.html) can help you prepare and file your claim.
-- Speed up your processing time by filing a [fully developed claim](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
-- Learn about [evidence requirements](/disability-benefits/claims-process/evidence/).
-- [Learn about the claims process and prepare carefully before applying](/disability-benefits/claims-process/).
-
+- Get help from an accredited representative if you need it. [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
+- Find out what kind of supporting documents (or evidence) you'll need to send in along with your claim. [See evidence requirements](/disability-benefits/claims-process/evidence/).
+- Be sure your claim is filled out completely and that you've included all supporting documents. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
 </div>
 
 <div class="feature" markdown="1">
 
 ###### Documents you’ll need
 
-For the first compensation claim you send VA, please provide:
+For the first disability claim you send us, please provide:
 
-- Discharge papers (DD214 or equivalent)
+- Discharge papers (DD214 or other separation documents)
 - Service treatment records
 
-Both of these documents can be ordered through the [National Archives]( https://www.archives.gov/veterans/military-service-records/).
+[Order service records through the National Archives](https://www.archives.gov/veterans/military-service-records/).
 
-For all compensation claims, please provide:
+For all disability claims, please provide:
 
-- VA medical records and hospital reports that relate to your claimed conditions
-- Private medical records and hospital reports that relate to your claimed conditions
+- VA medical records and hospital reports that relate to your claimed illnesses or injuries (called conditions)
+- Private medical records and hospital reports that relate to your claimed illnesses or injuries
 
 </div>
 
@@ -118,13 +115,13 @@ For all compensation claims, please provide:
 
 ##### Apply
 
-Choose one of three ways:
+Choose 1 of 3 ways:
 
-- Apply online, using [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
-- Work with an [accredited representative](/disability-benefits/apply-for-benefits/help/index.html), or
-- Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
+- [Apply online at eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
+- [Work with an accredited representative](/disability-benefits/apply-for-benefits/help/index.html), or
+- [Get help at a VA regional office](http://www.benefits.va.gov/benefits/offices.asp)
 
-**Note:** Servicemembers should learn about [predischarge claims](/disability-benefits/claims-process/claim-types/predischarge-claim/).
+**Note:** If you're a Servicemember, find out how predischarge claims can speed up the claim decision process. [Learn about predischarge claims](/disability-benefits/claims-process/claim-types/predischarge-claim/).
 
 </div>
 
@@ -164,7 +161,7 @@ You'll see a notice from us in your claims list within about 1 hour if you appli
 
 **Initial Review**
 
-A Veterans Service Representative (VSR) will review your claim. It will move to step 3 if we don’t need any more evidence to support it.
+A Veterans Service Representative (VSR) will review your claim. It'll move to step 3 if we don’t need any more evidence to support it.
 
 
 </li>
@@ -179,7 +176,6 @@ During this step, the VSR will do 3 things:
 - Make a decision
 
 If we need more evidence during the review, your claim may return to this step more than once. 
-
 
 </li>
 

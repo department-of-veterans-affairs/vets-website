@@ -90,11 +90,13 @@ class SchemaForm extends React.Component {
       reviewMode,
       children,
       onSubmit,
-      onChange
+      onChange,
+      safeRenderCompletion
     } = this.props;
     return (
       <div>
         <Form
+            safeRenderCompletion={safeRenderCompletion}
             FieldTemplate={reviewMode ? ReviewFieldTemplate : FieldTemplate}
             formContext={this.state.formContext}
             liveValidate

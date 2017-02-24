@@ -3,17 +3,23 @@ import * as date from './date';
 
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-export const schema = commonDefinitions.dateRange;
+export const schema = {
+  type: 'object',
+  properties: {
+    from: commonDefinitions.date,
+    to: commonDefinitions.date
+  }
+};
 
-export function uiSchema(from, to, rangeError) {
+export function uiSchema(from = 'From', to = 'To', rangeError = 'To date must be after From date') {
   return {
     'ui:validations': [
       validateDateRange
     ],
     'ui:errorMessages': {
-      dateRange: rangeError || 'To date must be after From date'
+      dateRange: rangeError,
     },
-    from: date.uiSchema(from || 'From'),
-    to: date.uiSchema(to || 'To')
+    from: date.uiSchema(from),
+    to: date.uiSchema(to)
   };
 }

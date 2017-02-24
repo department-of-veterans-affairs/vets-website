@@ -46,16 +46,14 @@
   "newSchool": {
     "data": {
       "educationType": "college",
-      "newSchool": {
-        "name": "Testing",
-        "address": {
-          "country": "USA",
-          "street": "123 one st",
-          "street2": "Apt 3",
-          "city": "Big city",
-          "state": "MA",
-          "postalCode": "01010"
-        }
+      "newSchoolName": "Testing",
+      "newSchoolAddress": {
+        "country": "USA",
+        "street": "123 one st",
+        "street2": "Apt 3",
+        "city": "Big city",
+        "state": "MA",
+        "postalCode": "01010"
       },
       "educationObjective": "Get a degree",
       "nonVaAssistance": true,

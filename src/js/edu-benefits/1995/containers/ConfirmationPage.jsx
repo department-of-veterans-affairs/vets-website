@@ -43,7 +43,7 @@ class ConfirmationPage extends React.Component {
     return (
       <div className="edu-benefits-submit-success">
         <h3 className="edu-page-title">Claim received</h3>
-        <p>Normally processed within <strong>14 days</strong></p>
+        <p>Normally processed within <strong>30 days</strong></p>
         <p>
           We may contact you for more information or documents.<br/>
           <i>Please print this page for your records.</i>
@@ -90,7 +90,7 @@ class ConfirmationPage extends React.Component {
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 medium-6 columns">
             <a href="/">
-              <button className="usa-button-primary">Back to Main Page</button>
+              <button className="usa-button-primary">Go back to Vets.gov</button>
             </a>
           </div>
         </div>
@@ -107,4 +107,3 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(ConfirmationPage);
 export { ConfirmationPage };
-
