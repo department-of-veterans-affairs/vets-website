@@ -54,7 +54,6 @@ class MegaMenu {
   closeMenu(event) {
     const target = event.target;
     const menu = target.getAttribute('aria-controls');
-    console.log('closeMenu');
 
     target.setAttribute('aria-expanded', false);
     this.getMenu(target.getAttribute('aria-controls')).setAttribute('hidden','hidden');
@@ -72,8 +71,6 @@ class MegaMenu {
   openMenu(event) {
     const target = event.target;
     const menu = target.getAttribute('aria-controls');
-  
-    console.log('openMenu');
 
     target.setAttribute('aria-expanded', true);
     this.getMenu(menu).removeAttribute('hidden','hidden');
@@ -83,14 +80,13 @@ class MegaMenu {
     const eTarget = event.target;
     const whichMenu = this.getMenu(eTarget.getAttribute('aria-controls'));
 
-    console.log('toggleMenu');
-
     if(eTarget.getAttribute('aria-expanded') === 'true') {
       this.closeMenu(event);
+      
     } else {
       this.closeAll();
       this.openMenu(event);
-
+      
       /*
       Open the first sub-menu and expand first trigger 
       when the breakpoint > 768
@@ -103,7 +99,6 @@ class MegaMenu {
   }
 
   toggleSubMenu(event) {
-    console.log('toggleSubMenu');
 
     const submenus = Array.from(this.menu.querySelectorAll('.vetnav-panel--submenu'));
     const triggers = Array.from(this.menu.querySelectorAll('.vetnav-level2'));
@@ -134,12 +129,14 @@ class MegaMenu {
   }
 
   showMenu() {
+    document.body.classList.add('va-pos-fixed');
     this.openControl.setAttribute('hidden','hidden');
     this.menu.removeAttribute('hidden');
     this.closeControl.removeAttribute('hidden');
   }
 
   hideMenu() {
+    document.body.classList.remove('va-pos-fixed');
     this.closeControl.setAttribute('hidden','hidden');
     this.menu.setAttribute('hidden','hidden');
     this.openControl.removeAttribute('hidden');
