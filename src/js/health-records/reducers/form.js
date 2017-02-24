@@ -1,26 +1,26 @@
 import set from 'lodash/fp/set';
-import { mapValues, forEach, reduce } from 'lodash';
+import { mapValues } from 'lodash';
 import { reportTypes } from '../config';
 
-// map of all reportTypes in form { reportTypeValue: boolean }
-const reportTypeValues = reduce(reportTypes, (memo, v) => {
-  forEach(v.children, c => {
-    memo[c.value] = false; // eslint-disable-line no-param-reassign
-  });
-  return memo;
-}, {});
 
 const initialState = {
-  dateOption: null,
+  dateOption: '3mo',
   dateRange: {
     start: null,
     end: null,
   },
-  reportTypes: reportTypeValues,
+  reportTypes: {},
   ui: {
     redirect: false
   }
 };
+
+// map of all reportTypes in form { reportTypeValue: boolean }
+Object.keys(reportTypes).forEach(section => {
+  reportTypes[section].children.forEach(child => {
+    initialState.reportTypes[child.value] = false;
+  });
+});
 
 export default function disclaimer(state = initialState, action) {
   switch (action.type) {
