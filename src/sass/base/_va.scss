@@ -226,10 +226,10 @@ hr {
   }
   
   .va-notice--banner {
-    display: none;
+    display: none !important;
 
     @include media($medium-screen) {
-      display: block;
+      display: block !important;
     }
   }
 }
@@ -1324,7 +1324,6 @@ li {
     color: inherit;
     padding: 0;
   }
-  
 }
 
 .incompatible-browser-warning {
