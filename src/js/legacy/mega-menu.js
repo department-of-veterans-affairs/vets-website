@@ -27,6 +27,10 @@ class MegaMenu {
       menu.addEventListener('click', this.toggleMenu);
     });
 
+    menus.forEach((menu) => {
+      menu.addEventListener('touchend', this.toggleMenu);
+    });
+
     submenus.forEach((submenu) => {
       submenu.addEventListener('click', this.toggleSubMenu);
     });
@@ -54,7 +58,8 @@ class MegaMenu {
   closeMenu(event) {
     const target = event.target;
     const menu = target.getAttribute('aria-controls');
-    console.log('closeMenu');
+    
+    document.body.classList.remove('va-pos-fixed');
 
     target.setAttribute('aria-expanded', false);
     this.getMenu(target.getAttribute('aria-controls')).setAttribute('hidden','hidden');
@@ -72,8 +77,8 @@ class MegaMenu {
   openMenu(event) {
     const target = event.target;
     const menu = target.getAttribute('aria-controls');
-  
-    console.log('openMenu');
+
+    document.body.classList.add('va-pos-fixed');
 
     target.setAttribute('aria-expanded', true);
     this.getMenu(menu).removeAttribute('hidden','hidden');
@@ -83,7 +88,6 @@ class MegaMenu {
     const eTarget = event.target;
     const whichMenu = this.getMenu(eTarget.getAttribute('aria-controls'));
 
-    console.log('toggleMenu');
 
     if(eTarget.getAttribute('aria-expanded') === 'true') {
       this.closeMenu(event);
