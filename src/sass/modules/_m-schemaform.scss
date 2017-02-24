@@ -83,10 +83,13 @@
 }
 
 .schemaform-block-header {
-  margin-bottom: 1.5em;
+  margin-bottom: 0.5em;
   > legend, > h5, > p {
     padding-bottom: 0 !important;
     margin-bottom: 0 !important;
+  }
+  > p {
+    margin-top: 0.5em;
   }
 }
 
