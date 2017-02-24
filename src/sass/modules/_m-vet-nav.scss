@@ -6,6 +6,11 @@
   width: 100%;
   z-index: 6;
 
+  .va-wip-message {
+    padding: 0 1.6rem;
+    white-space: normal;
+  }
+
   @include media($medium-large-screen) {
     position: static;
     width: auto;
@@ -55,7 +60,7 @@
     padding: 1rem;
     margin: .8rem 1.6rem;
     width: auto;
-  
+
     &:visited {
       color: $color-white;
     }
@@ -86,7 +91,7 @@
     vertical-align: 0;
   }
 
-  path { 
+  path {
     fill: $color-white;
   }
 
@@ -142,7 +147,7 @@
   &:not([href]) {
     background-image: url(/img/minus-white.svg);
     @include media($medium-large-screen) {
-      background-position: right 1.6rem center;      
+      background-position: right 1.6rem center;
       padding-right: 3.2rem;
     }
   }
@@ -167,11 +172,11 @@
       background-image: url(/img/arrow-down-white.svg);
     }
   }
-  
+
   @include media($medium-large-screen) {
      background-color: transparent;
      background-size: 1rem auto;
-  }    
+  }
 
   &:active {
     color: inherit;
