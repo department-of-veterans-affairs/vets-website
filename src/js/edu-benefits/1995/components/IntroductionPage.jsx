@@ -47,7 +47,7 @@ class IntroductionPage extends React.Component {
             <li className="step three">
               <div><h5>VA Review</h5></div>
               <div><h6>How long does it take the VA to make a decision?</h6></div>
-              <ul><li>We usually process new claims within 14 days.</li></ul>
+              <ul><li>We usually process claims within 30 days.</li></ul>
               <div><h6>What should I do while I wait?</h6></div>
               <ul><li>The transition from military to civilian life can be challenging. VA offers <a href="/education/tools-programs/education-career-counseling/">tools and counseling programs</a> to help you make the most of your educational options.</li></ul>
               <div><h6>What if the VA needs more information?</h6></div>
@@ -55,7 +55,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="step four last">
               <div><h5>Decision</h5></div>
-              <ul><li>We usually process claims within 14 days.</li></ul>
+              <ul><li>We usually process claims within 30 days.</li></ul>
               <ul><li>You'll get a COE or Award Letter in the mail if your application was approved. Bring this to the VA certifying official at your school.</li></ul>
             </li>
           </ol>
