@@ -4,31 +4,29 @@ import SkinDeep from 'skin-deep';
 
 import { ConfirmationPage } from '../../../../src/js/edu-benefits/1995/containers/ConfirmationPage';
 
+const form = {
+  submission: {
+    response: {
+      attributes: {}
+    }
+  },
+  veteranInformation: {
+    data: {
+      veteranFullName: {
+        first: 'Jane',
+        last: 'Doe'
+      }
+    }
+  },
+  benefitSelection: {
+    data: {
+      benefit: 'chapter30'
+    }
+  }
+};
+
 describe('<ConfirmationPage>', () => {
   it('should render', () => {
-    const form = {
-      submission: {
-        response: {
-          attributes: {
-
-          }
-        }
-      },
-      veteranInformation: {
-        data: {
-          veteranFullName: {
-            first: 'Jane',
-            last: 'Doe'
-          }
-        }
-      },
-      benefitSelection: {
-        data: {
-          benefit: 'chapter30'
-        }
-      }
-    };
-
     const tree = SkinDeep.shallowRender(
       <ConfirmationPage form={form}/>
     );
@@ -36,38 +34,18 @@ describe('<ConfirmationPage>', () => {
     expect(tree.subTree('.edu-page-title').text()).to.equal('Claim received');
     expect(tree.everySubTree('span')[1].text().trim()).to.equal('for Jane Doe');
   });
+
   it('should expand documents', () => {
-    const form = {
-      submission: {
-        response: {
-          attributes: {
-
-          }
-        }
-      },
-      veteranInformation: {
-        data: {
-          veteranFullName: {
-            first: 'Jane',
-            last: 'Doe'
-          }
-        }
-      },
-      benefitSelection: {
-        data: {
-          benefit: 'chapter30'
-        }
-      }
-    };
-
     const tree = SkinDeep.shallowRender(
       <ConfirmationPage form={form}/>
     );
 
-    expect(tree.subTree('ExpandingGroup').props.open).to.be.false;
+    // Check to see that div.usa-accordion-content doesn't exist
+    expect(tree.subTree('.usa-accordion-content')).to.be.false;
 
     tree.getMountedInstance().handleClick({ preventDefault: f => f });
 
-    expect(tree.subTree('ExpandingGroup').props.open).to.be.true;
+    // Check to see that div.usa-accordion-content exists after expanding
+    expect(tree.subTree('.usa-accordion-content')).to.be.an('object');
   });
 });
