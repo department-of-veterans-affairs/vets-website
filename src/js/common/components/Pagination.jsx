@@ -36,15 +36,22 @@ class Pagination extends React.Component {
   }
 
   last() {
+    const {
+      maxPageListLength,
+      page: currentPage,
+      pages: totalPages,
+      showLastPage
+    } = this.props;
+
     let lastPage;
-    if (this.props.showLastPage && this.props.page < this.props.pages - this.props.maxPageListLength + 1) {
+    if (showLastPage && currentPage < totalPages - maxPageListLength + 1) {
       lastPage = (
         <span>
           <a aria-label="...">
             ...
           </a>
-          <a aria-label="Last page" onClick={() => {this.props.onPageSelect(this.props.pages);}}>
-            {this.props.pages}
+          <a aria-label="Last page" onClick={() => {this.props.onPageSelect(totalPages);}}>
+            {totalPages}
           </a>
         </span>
       );
@@ -53,15 +60,22 @@ class Pagination extends React.Component {
   }
 
   pageNumbers() {
-    let limit = this.props.maxPageListLength;
+    const {
+      maxPageListLength,
+      page: currentPage,
+      pages: totalPages,
+      showLastPage
+    } = this.props;
 
     // Make space for "... (last page number)" if not in range of the last page.
-    if (this.props.showLastPage && this.props.page < this.props.pages - limit + 1) {
-      limit -= 2;
-    }
+    const showEllipsisAndLastPage =
+      showLastPage &&
+      currentPage < totalPages - maxPageListLength + 1;
 
-    const totalPages = this.props.pages;
-    const currentPage = this.props.page;
+    const limit = showEllipsisAndLastPage
+                ? maxPageListLength - 2
+                : maxPageListLength;
+
     let end;
     let start;
 
