@@ -9,7 +9,7 @@ const props = {
 };
 
 describe('<Pagination>', () => {
-  it('show all pages if there are fewer pages than the max', () => {
+  it('should show all pages if there are fewer pages than the max', () => {
     const tree = SkinDeep.shallowRender(
       <Pagination
           {...props}
@@ -61,6 +61,8 @@ describe('<Pagination>', () => {
     links.forEach((link, index) => {
       if (index === 0) {
         expect(link.props.children.props.children).to.equal('Prev');
+      } else if (index === 6) {
+        expect(link.props.children).to.equal('Next');
       } else {
         const pageNumber = index;
         expect(link.props.children).to.equal(pageNumber);
@@ -68,7 +70,7 @@ describe('<Pagination>', () => {
     });
   });
 
-  it('show the correct range of pages if the max is exceeded', () => {
+  it('should show the correct range of pages if the max is exceeded', () => {
     const tree = SkinDeep.shallowRender(
       <Pagination
           {...props}
@@ -93,23 +95,52 @@ describe('<Pagination>', () => {
     const tree = SkinDeep.shallowRender(
       <Pagination
           {...props}
-          page={1}
+          page={3}
           pages={15}
           maxPageListLength={10}
           showLastPage/>
     );
     const links = tree.everySubTree('a');
-    expect(links).to.have.length(11);
+    expect(links).to.have.length(12);
     links.forEach((link, index) => {
-      if (index === 8) {
-        expect(link.props.children).to.equal('...');
+      if (index === 0) {
+        expect(link.props.children.props.children).to.equal('Prev');
       } else if (index === 9) {
+        expect(link.props.children).to.equal('...');
+      } else if (index === 10) {
         expect(link.props.children).to.equal(15);
 
-      } else if (index === 10) {
+      } else if (index === 11) {
         expect(link.props.children).to.equal('Next');
       } else {
-        expect(link.props.children).to.equal(index + 1);
+        const pageNumber = index + 2;
+        expect(link.props.children).to.equal(pageNumber);
+      }
+    });
+  });
+
+  it('should show a continuous range when within range of the last page', () => {
+    const tree = SkinDeep.shallowRender(
+      <Pagination
+          {...props}
+          page={6}
+          pages={15}
+          maxPageListLength={10}
+          showLastPage/>
+    );
+    const links = tree.everySubTree('a');
+    expect(links).to.have.length(12);
+    links.forEach((link, index) => {
+      if (index === 0) {
+        expect(link.props.children.props.children).to.equal('Prev');
+      } else if (index === 10) {
+        expect(link.props.children).to.equal(15);
+      } else if (index === 11) {
+        expect(link.props.children).to.equal('Next');
+
+      } else {
+        const pageNumber = index + 5;
+        expect(link.props.children).to.equal(pageNumber);
       }
     });
   });
