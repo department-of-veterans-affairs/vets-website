@@ -10,8 +10,8 @@ majorlinks:
    title: Apply for Education Benefits
    description: Veterans and Servicemembers can apply online for the GI Bill, the Montgomery GI Bill, and VEAP. Find out how to apply if you’re a spouse, survivor, or dependent.
  - url: /gi-bill-comparison-tool/
-   title: GI Bill Benefits Tool
-   description: See what benefits you'll get at the school you want to attend.
+   title: Compare GI Bill Benefits
+   description: Use the GI Bill Comparison tool to see what benefits you'll get at the school you want to attend.
 relatedlinks:
  - url: /education/gi-bill/
    title: GI Bill&reg;

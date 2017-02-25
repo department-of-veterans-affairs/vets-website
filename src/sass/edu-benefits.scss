@@ -269,3 +269,35 @@ form.rjsf {
 .edu-dd-warning {
   margin-top: 3rem;
 }
+
+
+// ---- Additional print rules ---- //
+
+@media print {
+  // The + for on the confirmation page
+  // Will have to change when #4953 gets merged
+  .form-expanding-group-plus::after {
+    display: none;
+  }
+  .form-expanding-group {
+    margin-left: 0px;
+  }
+
+  .form-progress-buttons {
+    display: none;
+  }
+
+  .schemaform-title {
+    margin-bottom: 1rem;
+    justify-content: center;
+  }
+
+  .edu-benefits-submit-success > h3 {
+    text-align: center;
+  }
+
+  .inset {
+    margin: 1rem 0rem;
+    padding: 0px;
+  }
+}
