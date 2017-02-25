@@ -37,7 +37,7 @@ class Pagination extends React.Component {
 
   last() {
     let lastPage;
-    if (this.props.showLastPage && this.props.page < this.props.pages - this.props.maxPageListLength + 2) {
+    if (this.props.showLastPage && this.props.page < this.props.pages - this.props.maxPageListLength + 1) {
       lastPage = (
         <span>
           <a aria-label="...">
@@ -52,7 +52,14 @@ class Pagination extends React.Component {
     return lastPage;
   }
 
-  pageNumbers(limit) {
+  pageNumbers() {
+    let limit = this.props.maxPageListLength;
+
+    // Make space for "... (last page number)" if not in range of the last page.
+    if (this.props.showLastPage && this.props.page < this.props.pages - limit + 1) {
+      limit -= 2;
+    }
+
     const totalPages = this.props.pages;
     const currentPage = this.props.page;
     let end;
@@ -64,8 +71,8 @@ class Pagination extends React.Component {
       start = currentPage;
       end = limit + currentPage;
       // treat the last pages specially
-      if (start >= totalPages - limit) {
-        start = totalPages - limit;
+      if (start >= totalPages - limit + 1) {
+        start = totalPages - limit + 1;
         end = totalPages + 1;
       }
     } else {
@@ -81,12 +88,7 @@ class Pagination extends React.Component {
       return <div/>;
     }
 
-    let pageListMax = this.props.maxPageListLength;
-    if (this.props.showLastPage) {
-      pageListMax -= 2;
-    }
-
-    const pageList = this.pageNumbers(pageListMax).map((pageNumber) => {
+    const pageList = this.pageNumbers().map((pageNumber) => {
       const pageClass = classNames({
         'va-pagination-active': this.props.page === pageNumber
       });

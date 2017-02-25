@@ -119,7 +119,7 @@ describe('<Pagination>', () => {
     });
   });
 
-  it('should show a continuous range when within range of the last page', () => {
+  it('should show a continuous list when within range of the last page', () => {
     const tree = SkinDeep.shallowRender(
       <Pagination
           {...props}
