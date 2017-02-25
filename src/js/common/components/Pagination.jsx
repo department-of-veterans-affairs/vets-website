@@ -124,6 +124,6 @@ Pagination.propTypes = {
 
 Pagination.defaultProps = {
   maxPageListLength: 10,
-}
+};
 
 export default Pagination;
