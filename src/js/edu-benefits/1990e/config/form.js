@@ -13,17 +13,22 @@ const formConfig = {
   title: 'Apply for transferred education benefits',
   subTitle: 'Form 22-1990e',
   chapters: {
-    dependentInformation: {
-      title: 'Dependent Information',
+    applicantInformation: {
+      title: 'Applicant Information',
       pages: {
-        dependentInformation: {
-          path: 'dependent-information',
-          title: 'Dependent information'
+        applicantInformation: {
+          path: 'applicant-information',
+          title: 'Applicant information'
         }
       }
     },
-    benefitSelection: {
-      title: 'Education Benefit',
+    benefitEligibility: {
+      title: 'Benefit Eligibility',
+      pages: {
+      }
+    },
+    sponsorVeteran: {
+      title: 'Sponsor Veteran',
       pages: {
       }
     },
