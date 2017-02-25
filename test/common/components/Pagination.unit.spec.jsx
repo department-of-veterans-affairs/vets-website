@@ -109,7 +109,6 @@ describe('<Pagination>', () => {
         expect(link.props.children).to.equal('...');
       } else if (index === 10) {
         expect(link.props.children).to.equal(15);
-
       } else if (index === 11) {
         expect(link.props.children).to.equal('Next');
       } else {
@@ -137,7 +136,6 @@ describe('<Pagination>', () => {
         expect(link.props.children).to.equal(15);
       } else if (index === 11) {
         expect(link.props.children).to.equal('Next');
-
       } else {
         const pageNumber = index + 5;
         expect(link.props.children).to.equal(pageNumber);
