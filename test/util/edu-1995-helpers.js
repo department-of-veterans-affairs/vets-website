@@ -182,7 +182,7 @@ function completeDependents(client, data, onlyRequiredFields) {
 function completeDirectDeposit(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
-      .click('input[name="root_bankAccountChange_0"]')
+      .click('input[name="root_bankAccountChange_1"]')
       .setValue('input[name="root_bankAccount_accountNumber"]', data.bankAccount.accountNumber)
       .setValue('input[name="root_bankAccount_routingNumber"]', data.bankAccount.routingNumber);
   }

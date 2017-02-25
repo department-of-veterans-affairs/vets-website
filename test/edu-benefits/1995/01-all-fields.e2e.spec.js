@@ -86,15 +86,10 @@ if (process.env.BUILDTYPE !== 'production') {
 
       // Review and Submit Page.
       client
-        .expect.element('label[name="privacyAgreement-label"]').to.be.visible;
-      // When you try to click on the label in the normal way, it'll instead click on the link
-      // inside the label that shows the popup. So we have to do this disgusting hack.
-      client.pause(1000);
-      client.execute((selector) => {
-        document.querySelector(selector).click();
-      }, ['label[name="privacyAgreement-label"]']);
-      client.pause(1000);
+        .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
       client
+        .pause(1000)
+        .click('input[type="checkbox"]')
         .click('.form-progress-buttons .usa-button-primary');
       client.expect.element('.js-test-location').attribute('data-location')
         .to.not.contain('/review-and-submit').before(Timeouts.submission);
