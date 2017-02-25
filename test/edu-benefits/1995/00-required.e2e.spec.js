@@ -42,9 +42,6 @@ if (process.env.BUILDTYPE !== 'production') {
       // Military service page.
       client
         .waitForElementVisible('label[for="root_view:hasServiceBefore1978"]', Timeouts.slow);
-      // Another mysteriously required pause. If we don't wait here, then the click below will
-      // do nothing sometimes.
-      client.pause(1000);
       EduHelpers.completeMilitaryService(client, EduHelpers.testData.militaryHistory.data, true);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/military-history/military-service');
