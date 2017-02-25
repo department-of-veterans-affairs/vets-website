@@ -22,21 +22,21 @@ if (process.env.BUILDTYPE !== 'production') {
       client
         .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
       EduHelpers.completeVeteranInformation(client, EduHelpers.testData.veteranInformation.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      client.click('.form-panel button[type=submit]');
       E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information');
 
       // Benefits eligibility
       client
         .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
       EduHelpers.completeBenefitsSelection(client, EduHelpers.testData.benefitSelection.data);
-      client.click('.form-progress-buttons .usa-button-primary');
+      client.click('.form-panel button[type=submit]');
       E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-selection');
 
       // Service periods page.
       client
         .waitForElementVisible('label[for="root_view:newService"]', Timeouts.slow);
       EduHelpers.completeServicePeriods(client, EduHelpers.testData.servicePeriods.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      client.click('.form-panel button[type=submit]');
       E2eHelpers.expectNavigateAwayFrom(client, '/military-history/service-periods');
 
       // Military service page.
@@ -46,43 +46,40 @@ if (process.env.BUILDTYPE !== 'production') {
       // do nothing sometimes.
       client.pause(1000);
       EduHelpers.completeMilitaryService(client, EduHelpers.testData.militaryHistory.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      client.click('.form-panel button[type=submit]');
       E2eHelpers.expectNavigateAwayFrom(client, '/military-history/military-service');
 
       // New school
       client
         .waitForElementVisible('label[for="root_educationType"]', Timeouts.slow);
       EduHelpers.completeNewSchool(client, EduHelpers.testData.newSchool.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      client.click('.form-panel button[type=submit]');
       E2eHelpers.expectNavigateAwayFrom(client, '/school-selection/new-school');
 
       // Old school
       client
         .waitForElementVisible('label[for="root_oldSchool_name"]', Timeouts.slow);
       EduHelpers.completeOldSchool(client, EduHelpers.testData.oldSchool.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      client.click('.form-panel button[type=submit]');
       E2eHelpers.expectNavigateAwayFrom(client, '/school-selection/old-school');
 
       // Contact information page.
       client
         .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
       EduHelpers.completeContactInformation(client, EduHelpers.testData.contactInformation.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      client.click('.form-panel button[type=submit]');
       E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
       // Direct deposit page
       client
         .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
       EduHelpers.completeDirectDeposit(client, EduHelpers.testData.directDeposit.data, true);
-      client.click('.form-progress-buttons .usa-button-primary');
+      client.click('.form-panel button[type=submit]');
       E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
       // Review and Submit Page.
       client
         .expect.element('label[name="privacyAgreement-label"]').to.be.visible;
-      // When you try to click on the label in the normal way, it'll instead click on the link
-      // inside the label that shows the popup. So we have to do this disgusting hack.
-      client.pause(1000);
       client.execute((selector) => {
         document.querySelector(selector).click();
       }, ['label[name="privacyAgreement-label"]']);

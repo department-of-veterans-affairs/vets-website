@@ -94,21 +94,21 @@ function completeNewSchool(client, data, onlyRequiredFields) {
   client
     .clearValue('select[name="root_educationType"]')
     .setValue('select[name="root_educationType"]', data.educationType)
-    .clearValue('input[name="root_newSchool_name"]')
-    .setValue('input[name="root_newSchool_name"]', data.newSchool.name);
+    .clearValue('input[name="root_newSchoolName"]')
+    .setValue('input[name="root_newSchoolName"]', data.newSchoolName);
 
   if (!onlyRequiredFields) {
     client
-      .clearValue('input[name="root_newSchool_address_street"]')
-      .setValue('input[name="root_newSchool_address_street"]', data.newSchool.address.street)
-      .clearValue('input[name="root_newSchool_address_street2"]')
-      .setValue('input[name="root_newSchool_address_street2"]', data.newSchool.address.street2)
-      .clearValue('input[name="root_newSchool_address_city"]')
-      .setValue('input[name="root_newSchool_address_city"]', data.newSchool.address.city)
-      .clearValue('select[name="root_newSchool_address_state"]')
-      .setValue('select[name="root_newSchool_address_state"]', data.newSchool.address.state)
-      .clearValue('input[name="root_newSchool_address_postalCode"]')
-      .setValue('input[name="root_newSchool_address_postalCode"]', data.newSchool.address.postalCode)
+      .clearValue('input[name="root_newSchoolAddress_street"]')
+      .setValue('input[name="root_newSchoolAddress_street"]', data.newSchoolAddress.street)
+      .clearValue('input[name="root_newSchoolAddress_street2"]')
+      .setValue('input[name="root_newSchoolAddress_street2"]', data.newSchoolAddress.street2)
+      .clearValue('input[name="root_newSchoolAddress_city"]')
+      .setValue('input[name="root_newSchoolAddress_city"]', data.newSchoolAddress.city)
+      .clearValue('select[name="root_newSchoolAddress_state"]')
+      .setValue('select[name="root_newSchoolAddress_state"]', data.newSchoolAddress.state)
+      .clearValue('input[name="root_newSchoolAddress_postalCode"]')
+      .setValue('input[name="root_newSchoolAddress_postalCode"]', data.newSchoolAddress.postalCode)
       .setValue('textarea[id="root_educationObjective"]', data.educationObjective)
       .click('input[name=root_nonVaAssistanceYes]')
       .click('input[name=root_civilianBenefitsAssistanceNo]');
