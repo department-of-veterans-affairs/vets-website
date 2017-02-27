@@ -14,14 +14,15 @@ body.va-pos-fixed {
   width: 100%;
   z-index: 6;
 
+  @include media($medium-large-screen) {
+    overflow-y: visible;
+    position: static;
+    width: auto;
+  }
+  
   .va-wip-message {
     padding: 0 1.6rem;
     white-space: normal;
-  }
-
-  @include media($medium-large-screen) {
-    position: static;
-    width: auto;
   }
 }
 
