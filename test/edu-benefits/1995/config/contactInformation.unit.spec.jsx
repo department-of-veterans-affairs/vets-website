@@ -28,7 +28,7 @@ describe('Edu 1995 contactInformation', () => {
     expect(inputs.filter(input => input.id.startsWith('root_view:otherContactInfo')).length)
       .to.equal(4);
   });
-  it('should render required fields', () => {
+  it('should render validation errors for required fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
@@ -42,21 +42,6 @@ describe('Edu 1995 contactInformation', () => {
     });
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
-  });
-  it('should not render confirm email on review page', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          data={{
-            'view:otherContactInfo': {
-              'view:confirmEmail': 'test@test.com'
-            }
-          }}
-          reviewMode
-          uiSchema={uiSchema}/>
-    );
-
-    expect(findDOMNode(form).textContent).not.to.contain('test@test.com');
   });
   it('should conditionally require phone number', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -101,8 +86,8 @@ describe('Edu 1995 contactInformation', () => {
 
     const formDOM = findDOMNode(form);
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
-    const emailInput = inputs.find(input => input.id.endsWith('email'));
-    const confirmEmailInput = inputs.find(input => input.id.endsWith('confirmEmail'));
+    const emailInput = inputs.find(input => input.id === 'root_view:otherContactInfo_email');
+    const confirmEmailInput = inputs.find(input => input.id === 'root_view:otherContactInfo_view:confirmEmail');
 
     ReactTestUtils.Simulate.change(emailInput, {
       target: {
@@ -126,5 +111,22 @@ describe('Edu 1995 contactInformation', () => {
     });
 
     expect(formDOM.querySelectorAll('.usa-input-error')).not.to.be.empty;
+  });
+  describe('review page', () => {
+    it('should not render confirm email', () => {
+      const form = ReactTestUtils.renderIntoDocument(
+        <DefinitionTester
+            schema={schema}
+            data={{
+              'view:otherContactInfo': {
+                'view:confirmEmail': 'test@test.com'
+              }
+            }}
+            reviewMode
+            uiSchema={uiSchema}/>
+      );
+
+      expect(findDOMNode(form).textContent).not.to.contain('test@test.com');
+    });
   });
 });
