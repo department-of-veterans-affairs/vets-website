@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+
 import ModalDisplayReducer from './modals';
 import PageTitleReducer from './title';
 import PreviewModeReducer from './preview';

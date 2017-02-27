@@ -1,11 +1,22 @@
 import { FETCH_PROFILE_STARTED, FETCH_PROFILE_FAILED, FETCH_PROFILE_SUCCEEDED } from '../actions';
-import { setPageTitle } from '../actions';
 
 const INITIAL_STATE = {
   attributes: {},
   version: {},
   inProgress: false,
 };
+
+function normalizedAttributes(attributes) {
+  const name = attributes.name ? attributes.name.toUpperCase() : attributes.name;
+  const city = attributes.city ? attributes.city.toUpperCase() : attributes.city;
+  const state = attributes.state ? attributes.state.toUpperCase() : attributes.state;
+  return {
+    ...attributes,
+    name,
+    city,
+    state,
+  };
+}
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -21,7 +32,11 @@ export default function (state = INITIAL_STATE, action) {
         inProgress: false
       };
     case FETCH_PROFILE_SUCCEEDED:
-      const attributes = action.payload.data.attributes;
+      const attributes = normalizedAttributes({
+        ...action.payload.data.attributes,
+        ...action.payload.data.links
+      });
+      // delete attributes.self;
       const version = action.payload.meta.version;
       return {
         ...state,

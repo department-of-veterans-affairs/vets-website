@@ -89,10 +89,9 @@ export class Modals extends React.Component {
           <h2>Student Veterans Group</h2>
           <p>Does this school have a student-led Veterans group on campus?</p>
           <p>
-            If a school has a student Veterans group that's not represented here, please email
-            <a title="224A.VBAVACO@va.gov" href="mailto: 224A.VBACO@va.gov?subject=Comparison Tool">
-              224A.VBAVACO@va.gov
-            </a>.
+            If a school has a student Veterans group that's not represented here,
+            please email <a title="224A.VBAVACO@va.gov"
+            href="mailto: 224A.VBACO@va.gov?subject=Comparison Tool">224A.VBAVACO@va.gov</a>.
             We make quarterly updates to this tool.
           </p>
           <p>
@@ -103,7 +102,7 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('yribbon')}>
-          <h2>Yellow Ribbon (See rates)</h2>
+          <h2>Yellow Ribbon</h2>
           <p>
             The <a title="Post-9/11 GI Bill"
             href="http://www.benefits.va.gov/gibill/post911_gibill.asp" target="_blank">

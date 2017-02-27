@@ -1,5 +1,7 @@
 @import "../style";
 @import "../modules/m-modal";
+@import "../modules/m-loading-indicator";
+
 @import "../modules/va-pagination";
 
 @import "partials/gi-breadcrumbs";
@@ -9,6 +11,7 @@
 @import "partials/gi-landing-page";
 @import "partials/gi-search-page";
 @import "partials/gi-profile-page";
+@import "partials/gi-graphs";
 
 .gi-app {
 

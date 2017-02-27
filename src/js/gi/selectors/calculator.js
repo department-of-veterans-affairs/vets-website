@@ -9,7 +9,7 @@ const getEligibilityDetails = (state) => {
 };
 
 const getRequiredAttributes = (_state, props) => {
-  const { type, bah } = props;
+  const { type, bah } = props.attributes;
   return { type, bah };
 };
 
