@@ -186,21 +186,3 @@ button.form-button-disabled {
     }
   }
 }
-
-// Even up the spacing between multi-line labels and their respective elements
-label {
-  + div {
-    // Space above the date fields too
-    .form-datefield-month, .form-datefield-day, .usa-form-group-year,
-    input,
-    input[type="text"], input[type="email"],
-    input[type="password"], input[type="url"],
-    input[type="tel"], input[type="number"],
-    input[type="search"], input[type="file"],
-    input[type="date"], input[type="datetime-local"],
-    input[type="month"], input[type="time"],
-    input[type="week"], textarea, select {
-      margin-top: 0.5em;
-    }
-  }
-}
