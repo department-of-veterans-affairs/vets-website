@@ -183,6 +183,7 @@
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
     "react-autosuggest": "^8.0.0",
-    "reselect": "^2.5.4"
+    "reselect": "^2.5.4",
+    "rasterizehtml": "^1.2.4"
   }
 }
