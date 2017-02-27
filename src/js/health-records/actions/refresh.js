@@ -1,4 +1,4 @@
-import { apiRequest } from '../utils';
+import { apiRequest } from '../utils/helpers';
 
 export function checkRefreshStatus() {
   return (dispatch) => {

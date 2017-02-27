@@ -2,8 +2,34 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { checkRefreshStatus } from '../actions/refresh';
+import { submitForm } from '../actions/form';
 
 export class UpdatePage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.pollRefresh = setInterval(() => {
+      props.checkRefreshStatus();
+    }, 10000);
+  }
+  componentDidMount() {
+    this.pollRefresh();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const erroredUpdates = nextProps.refresh.ERROR;
+    if (erroredUpdates.length === 0) {
+      this.props.submitForm(sessionStorage('hr-form'));
+    }
+    if (nextProps.form.ready) {
+      this.context.router.push('/download');
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.pollRefresh);
+  }
+
   render() {
     return (
       <div>
@@ -28,11 +54,13 @@ const mapStateToProps = (state) => {
 
   return {
     refresh: hrState.refresh,
+    form: hrState.form,
   };
 };
 
 const mapDispatchToProps = {
   checkRefreshStatus,
+  submitForm,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdatePage);
