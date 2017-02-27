@@ -129,6 +129,7 @@ class MegaMenu {
     } else {
       this.hideMenu();
     }
+    document.body.classList.remove('va-pos-fixed');
   }
 
   showMenu() {
