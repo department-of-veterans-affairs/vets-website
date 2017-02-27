@@ -28,6 +28,21 @@ describe('Edu 1995 contactInformation', () => {
     expect(inputs.filter(input => input.id.startsWith('root_view:otherContactInfo')).length)
       .to.equal(4);
   });
+  it('should render required fields', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+
+    const formDOM = findDOMNode(form);
+    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
+      preventDefault: f => f
+    });
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
+  });
   it('should not render confirm email on review page', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
