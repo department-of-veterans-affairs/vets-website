@@ -10,6 +10,7 @@ body.va-pos-fixed {
   margin-top: .8rem;
   overflow-y: scroll;
   position: absolute;
+  padding-top: .8rem;
   width: 100%;
   z-index: 6;
 
@@ -21,10 +22,6 @@ body.va-pos-fixed {
   @include media($medium-large-screen) {
     position: static;
     width: auto;
-
-    .va-wip-message {
-      display: none;
-    }
   }
 }
 
@@ -36,7 +33,7 @@ body.va-pos-fixed {
 }
 
 #vetnav-menu {
-  min-height: 600px;
+  height: 600px;
   list-style: none;
   margin: 0;
   overflow-y: scroll;
@@ -102,9 +99,9 @@ body.va-pos-fixed {
 
   svg {
     display: inline-block;
-    height: 2rem;
-    margin-right: .5rem;
-    width: 12px;
+    height: 1.6rem;
+    margin-right: .8rem;
+    width: 1rem;
     vertical-align: 0;
   }
 
@@ -115,6 +112,7 @@ body.va-pos-fixed {
   @include media($medium-large-screen) {
     display: none;
   }
+
 }
 
 [class^=vetnav-controller] {
@@ -122,21 +120,9 @@ body.va-pos-fixed {
   top: 0;
   left: 0;
   margin: 0;
-  // white-space: nowrap;
   min-width: 100px;
 
   &[hidden] {
-    display: none;
-  }
-}
-
-
-.vetnav-controller {
-  svg {
-    margin-right: 8px;
-  }
-
-  @include media($medium-large-screen) {
     display: none;
   }
 }
@@ -235,8 +221,8 @@ body.va-pos-fixed {
     background: transparent url(/img/arrow-right.svg) right 1rem center no-repeat;
     border-color: transparent;
     border-style: solid;
-    border-width: 1px 0 1px 3px;
-    color: $color-primary;
+    border-width: 1px 0;
+    color: $color-link-default;
     background-size: 1rem auto;
     margin-left: .8rem;
     padding: .8rem 0 .8rem 1.6rem;
@@ -246,7 +232,7 @@ body.va-pos-fixed {
     &:hover {
       background-color: transparent;
       border-bottom: 1px solid transparent;
-      border-left-color: $color-va-accent;
+      box-shadow: -3px 0 $color-va-accent;
       color: $color-primary;
       text-decoration: underline;
     }
@@ -254,17 +240,13 @@ body.va-pos-fixed {
     &[aria-expanded=true] {
       background-color: $color-gray-lightest;
       border-bottom-color: $color-gray-warm-light;
-      border-left-color: $color-va-accent;
       border-top-color: $color-gray-warm-light;
-      color: $color-gray;
+      box-shadow: -3px 0 $color-va-accent;
+      color: $color-gray-dark;
       font-weight: bold;
       text-decoration: inherit;
       position: relative;
       z-index: 2;
-
-      &:focus {
-        box-shadow: none;
-      }
     }
   }
 
@@ -281,7 +263,7 @@ body.va-pos-fixed {
 }
 
 .vetnav-back {
-  background: $color-primary-darkest url(/img/arrow-left-white.svg) right 3rem center no-repeat;
+  background: $color-primary-darker url(/img/arrow-left-white.svg) right 3rem center no-repeat;
   background-position: left 1rem center;
   background-size: 1.4rem auto;
   border-radius: 0;
@@ -304,7 +286,7 @@ body.va-pos-fixed {
     text-decoration: none;
 
     @include media($medium-large-screen) {
-      color: $color-primary;
+      color: $color-link-default;
 
       &:hover {
         background: transparent;
@@ -329,7 +311,7 @@ body.va-pos-fixed {
     width: 100%;
     top: 0;
     left: 0;
-    height: 407px;
+    height: 420px;
 
     @include media($medium-large-screen) {
       border-left: 1px solid $color-gray-warm-light;
