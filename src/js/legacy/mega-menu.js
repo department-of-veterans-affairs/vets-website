@@ -80,8 +80,6 @@ class MegaMenu {
     const eTarget = event.target;
     const whichMenu = this.getMenu(eTarget.getAttribute('aria-controls'));
 
-    console.log(eTarget.getAttribute('aria-controls'));
-
     if(eTarget.getAttribute('aria-expanded') === 'true') {
       this.closeMenu(event);
       
