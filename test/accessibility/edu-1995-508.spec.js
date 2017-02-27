@@ -97,9 +97,9 @@ if (process.env.BUILDTYPE !== 'production') {
       // Direct deposit page
 
       // No longer works with the updated direct deposit page
-      // client
-      //   .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
-      // EduHelpers.completeDirectDeposit(client, EduHelpers.testData.directDeposit.data, false);
+      client
+        .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
+      EduHelpers.completeDirectDeposit(client, EduHelpers.testData.directDeposit.data, false);
       client
         .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');
