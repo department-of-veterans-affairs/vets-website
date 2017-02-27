@@ -10,7 +10,7 @@ export class DownloadPage extends React.Component {
     const alertProps = {
       isVisible: true,
     };
-    if (this.props.refresh.statuses.ERROR.length > 0) {
+    if (this.props.refresh && this.props.refresh.statuses.ERROR.length > 0) {
       alertProps.content = (
         <div>
           <h4>Your health records are not up to date</h4>

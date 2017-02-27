@@ -65,19 +65,19 @@ describe('form reducer', () => {
     expect(state.reportTypes.test3).to.be.true;
   });
 
-  it('should set redirect to true on form success', () => {
+  it('should set ready state to true on form success', () => {
     const state = formReducer(undefined, {
       type: 'FORM_SUCCESS'
     });
 
-    expect(state.ui.redirect).to.be.true;
+    expect(state.ready).to.be.true;
   });
 
-  it('should set redirect to true on form success', () => {
+  it('should set ready state to false on form success', () => {
     const state = formReducer(undefined, {
       type: 'FORM_FAILURE'
     });
 
-    expect(state.ui.redirect).to.be.false;
+    expect(state.ready).to.be.false;
   });
 });
