@@ -1,7 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 import Form from 'react-jsonschema-form';
 
@@ -112,61 +111,5 @@ describe('Edu 1995 contactInformation', () => {
     });
 
     expect(formDOM.querySelectorAll('.usa-input-error')).not.to.be.empty;
-  });
-  it('should have no errors with all info filled in', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
-    );
-    const formDOM = findDOMNode(form);
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
-    });
-    const find = (id) => {
-      return Array.from(formDOM.querySelectorAll('input,select')).find(input => input.id === id);
-    };
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(6);
-
-    ReactTestUtils.Simulate.change(find('root_veteranAddress_street'), {
-      target: {
-        value: 'Test'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('root_veteranAddress_city'), {
-      target: {
-        value: 'Test'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('root_veteranAddress_state'), {
-      target: {
-        value: 'MT'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('root_veteranAddress_postalCode'), {
-      target: {
-        value: '01070'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('root_view:otherContactInfo_email'), {
-      target: {
-        value: 'test@test.com'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('root_view:otherContactInfo_view:confirmEmail'), {
-      target: {
-        value: 'test@test.com'
-      }
-    });
-
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
-    });
-
-    expect(onSubmit.called).to.be.true;
   });
 });
