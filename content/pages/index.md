@@ -1,20 +1,21 @@
 ---
 layout: home.html
 body_class: home
-title: Discover, apply for, track and manage your Veteran benefits with Vets.gov
+title: Home
+plainlanguage: 11-1-16 Ready for Beth review
 majorlinks:
   - url: /healthcare/
     title: Health Care Benefits
     description: Apply for and manage VA health care.
   - url: /disability-benefits/
     title: Disability Benefits
-    description: Help with service-related medical conditions.
+    description: Apply for disability compensation and other benefits for conditions related to your military service.
   - url: /education/
     title: Education Benefits
-    description: Tuition assistance, training programs, and more.
+    description: Apply for benefits to help you pay for college and training programs.
   - url: /employment/
     title: Careers and Employment
-    description: Meaningful employment and career development for Veterans and their families.
+    description: Get help building your career skills and finding a job.
 ---
 <div class="splash">
   <div class="row">

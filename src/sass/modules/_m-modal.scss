@@ -16,7 +16,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 3;
+  z-index: 6;
 
   // "Forked" modal styles
   &-split {
@@ -113,6 +113,18 @@
     button {
       margin: 0 1rem 0 0;
       width: auto;
+    }
+  }
+
+  &-large {
+    .va-modal-inner {
+      max-width: 75rem;
+      width: 75vw;
+
+      .va-modal-body {
+        max-height: 95vh;
+        overflow-y: auto;
+      }
     }
   }
 

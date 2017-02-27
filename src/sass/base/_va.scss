@@ -124,12 +124,7 @@ figure {
   margin-left: -$column-gutter/2;
   margin-right: -$column-gutter/2;
 
-  @media #{$small} {
-    margin-left: inherit;
-    margin-right: inherit;
-  }
-
-  @media #{$large} {
+  @include media($large-screen) {
     margin-left: -16.66667%;
     margin-right: -16.66667%;
   }
@@ -229,22 +224,24 @@ hr {
       padding: 0;
     }
   }
+  
+  .va-notice--banner {
+    display: none !important;
+
+    @include media($medium-screen) {
+      display: block !important;
+    }
+  }
 }
 
 .va-header-logosearch {
   padding: 1em 0.75em 0;
-
-  // Fixes overflow of content at < 320px viewports
-  @include media($xsmall-screen) {
-    display: flex;
-    align-items: center;
-  }
 }
 
 .va-header-logo-wrapper {
   flex: 1 1 10rem;
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     flex-basis: 60rem;
   }
 }
@@ -260,11 +257,6 @@ hr {
   margin: 0;
   width: 164px;
 
-  @include media($medium-screen) {
-    width: 205px;
-    height: 50px;
-  }
-
   &:hover {
     .vets-logo-va path {
       fill: $color-gold;
@@ -277,7 +269,7 @@ hr {
   line-height: 1em;
   margin: 0;
   
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: inherit;
     flex: 1 1 80%;
   }
@@ -285,8 +277,8 @@ hr {
 
 .vets-logo {
   display: block;
-  height: auto;
-  width: 100%;
+  height: inherit;
+  width: inherit;
 
   &-vetsdotgov,
   &-va {
@@ -353,14 +345,9 @@ h6 {
   }
 
   .flex {
-    @media #{$small} {
-      display: block;
-    }
-    @media #{$medium} {
-      display: flex;
-    }
+    display: block;
 
-    @media #{$large} {
+    @include media($medium-large-screen) {
       display: flex;
     }
   }
@@ -370,7 +357,7 @@ h6 {
     margin-left: auto;
   }
 
-  h2.gold-ruled {
+  .gold-ruled {
     color: $color-primary-darker;
     padding-bottom: 0.5em;
     border-bottom: $color-va-accent solid 2px;
@@ -432,6 +419,10 @@ h6 {
     max-width: 11em;
     font-size: 2.5rem;
     font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
+
+    @include media($medium-large-screen) {
+      max-width: 15em;
+    }
   }
 
   span, h2 {
@@ -452,56 +443,44 @@ h6 {
     background: $color-white;
     font-weight: bold;
     color: $color-primary-darker;
-  }
 
-  @media #{$medium} {
-    h2 span {
+    @include media($medium-large-screen) {
       padding: 0.5em .75em;
       line-height: 1.3em;
       font-size: 3.5rem;
     }
 
-    h2.tagline {
-      max-width: 15em;
-    }
-  }
-
-  @media #{$large} {
-    h2 span {
+    @include media($large-screen) {
       padding: 0.5em 0.4em;
-      line-height: 1.3em;
-      font-size: 3.5rem;
-    }
-
-    h2.tagline {
-      max-width: 15em;
     }
   }
 
   h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
   h2 {
-    font-size: 1em;
+    font-size: 2em;
     display: inline-block;
-    @media #{$small} {font-size: 2em;}
+
+    @include media($small-screen) {
+      font-size: 2em;
+    }
   }
 
   h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
 }
 
 .home {
-  #content .splash {
-    @media #{$small} {
-      padding: 1em 0;
-      min-height: 14em;
-    }
-    @media #{$medium} {
+  .splash {
+    padding: 1em 0;
+    min-height: 14em;
+
+    @include media($medium-large-screen) {
       padding: 2em 0;
-      min-height: 422px;
+      min-height: 42.2rem;
     }
 
-    @media #{$large} {
-      padding: 2.5em 0;
-      min-height: 422px;
+    @include media($large-screen) {
+      padding-top: 2.5em;
+      padding-bottom: 2.5em;
     }
   }
 }
@@ -530,7 +509,9 @@ h6 {
     }
   }
 
-  li.parent:after {color: #ccc !important;}
+  li.parent:after {
+    color: #ccc !important;
+  }
 }
 
 .va-facloc-tagline {
@@ -540,11 +521,8 @@ h6 {
 }
 
 .pitch {
+  padding: .5em 0;
   text-align: center;
-
-  @media #{$small} {
-    padding: .5em 0;
-  }
 
   h2, h3 {
     color: $color-primary-darkest;
@@ -701,15 +679,7 @@ ul, ol {
 // Home page, 404 page
 .navigation--major {
   .va-cards--2across {
-    @media #{$small} {
-      display:block;
-    }
-
-    @media #{$medium-only} {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+    display:block;
   }
 
   .fourohfour &,
@@ -965,20 +935,6 @@ ul, ol {
   float: none;
 }
 
-
-//==== Facility Locator page only
-.va-nav-breadcrumbs--inline {
-  display: inline-block;
-
-  @media #{$small} {
-    margin-right: 1em !important;
-  }
-
-  li.active::before {
-    display: none;
-  }
-}
-
 //===== Playbook and Facility Locator
 .va-nav-breadcrumbs--playbook {
   background: none;
@@ -1026,7 +982,7 @@ ul, ol {
     margin: .5em 0;
     padding: .2em;
 
-    @media #{$medium} {
+    @include media($medium-large-screen) {
       font-size: 1.8em;
     }
 
@@ -1330,15 +1286,18 @@ li {
   font-size: 1.152rem;
   margin: auto;
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: block;
   }
 }
 
 .va-wip--narrow {
+  border-top: 1px solid $color-primary-darker;
   color: $color-white;
+  margin-top: 3.2rem;
+  white-space: normal;
 
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: none;
   }
 }
@@ -1365,7 +1324,6 @@ li {
     color: inherit;
     padding: 0;
   }
-
 }
 
 .incompatible-browser-warning {
@@ -1781,6 +1739,7 @@ li.twenty:before {content: '20';}
   &:hover,
   &:focus {
     background-color: $color-green-darker !important;
+    text-decoration: none !important;
   }
 
   svg {
@@ -1847,9 +1806,6 @@ li.twenty:before {content: '20';}
 /* Overlay style */
 
 .va-overlay-close {
-  @media #{$medium} {
-    display: none;
-  }
   &--icon {
     display: inline;
     margin: 0;
@@ -1862,84 +1818,81 @@ li.twenty:before {content: '20';}
   }
 }
 
+.va-overlay {
+  background: rgba($color-primary-darkest, .95);
+  height: 100%;
+  left: 0;
+  -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  transition: opacity 0.5s, visibility 0s 0.5s;
+  visibility: hidden;
+  width: 100%;
+  z-index: 800;
 
-@media #{$medium} {
-  .va-overlay-close {
+  input[type='text'] {
+    -webkit-appearance: none;
+    border-radius: 3px 0 0 3px;
+  }
+  @include media($medium-large-screen) {
     display: none;
   }
 }
 
-@media #{$small-only} {
-  .va-mobile-searchclose  {
-    border-radius: 0;
-    display: block !important;
-    width: 100% !important;
-    margin: 0;
-    width: auto;
-    background: $color-primary;
+.va-mobile-searchclose  {
+  border-radius: 0;
+  display: block !important;
+  width: 100% !important;
+  margin: 0;
+  width: auto;
+  background: $color-primary;
+}
+
+.va-overlay--open {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+
+  .columns {
+    padding: 0;
   }
+}
 
-  
+.va-overlay .menu {
+  -webkit-perspective: 1200px;
+  perspective: 1200px;
+  padding: 1em 1em;
+}
 
-  .va-overlay {
-    background: rgba($color-primary-darkest, .95);
-    height: 100%;
-    left: 0;
-    -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    transition: opacity 0.5s, visibility 0s 0.5s;
-    visibility: hidden;
-    width: 100%;
-    z-index: 800;
+.va-overlay form {
+  opacity: 0.4;
+  -webkit-transform: translateY(-25%) rotateX(35deg);
+  transform: translateY(-25%) rotateX(35deg);
+  -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+  transition: transform 0.5s, opacity 0.5s;
+}
 
-    input[type='text'] {
-      -webkit-appearance: none;
-      border-radius: 3px 0 0 3px;
-    }
+.va-overlay--open form {
+  opacity: 1;
+  -webkit-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+}
+
+.va-overlay-body {
+  margin: 1rem auto;
+}
+
+@media (max-height: 30.5em) {
+  .overlay form {
+    height: 70%;
   }
+}
 
-  .va-overlay--open {
-    opacity: 1;
-    visibility: visible;
-    -webkit-transition: opacity 0.5s;
-    transition: opacity 0.5s;
 
-    .columns {
-      padding: 0;
-    }
-  }
+@include media-maxwidth($medium-large-screen) {
 
-  .va-overlay .menu {
-    -webkit-perspective: 1200px;
-    perspective: 1200px;
-    padding: 1em 1em;
-  }
-
-  .va-overlay form {
-    opacity: 0.4;
-    -webkit-transform: translateY(-25%) rotateX(35deg);
-    transform: translateY(-25%) rotateX(35deg);
-    -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
-    transition: transform 0.5s, opacity 0.5s;
-  }
-
-  .va-overlay--open form {
-    opacity: 1;
-    -webkit-transform: rotateX(0deg);
-    transform: rotateX(0deg);
-  }
-
-  .va-overlay-body {
-    margin: 1rem auto;
-  }
-
-  @media (max-height: 30.5em) {
-    .overlay form {
-      height: 70%;
-    }
-  }
 }
 
 // List overrides
@@ -2016,7 +1969,7 @@ ul li p {
   }
 }
 
-@media (max-width: 40.063em) {
+@include media($medium-screen) {
   .simpletooltip {
     top: 100%;
     left: 45%;
@@ -2182,5 +2135,25 @@ p.info-message {
   margin-top: 1.5em;
   border-top: 2px solid #f1f1f1;
   padding: 1em 0;
-  p {font-size: 1em !important; color: #323a45 !important;}
+  p {
+    font-size: 1em !important;
+    color: #323a45 !important;
+  }
+}
+
+.va-search-form--narrowscr {
+  [type="text"] {
+    flex: 2 1 10rem;
+  }
+  [type="submit"] {
+    flex: 0 1 14rem;
+  }
+}
+
+.va-search-form--widescr {
+  display: none;
+
+  @include media($medium-large-screen) {
+    display: inline-block;
+  }
 }

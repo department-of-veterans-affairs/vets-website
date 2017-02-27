@@ -3,8 +3,8 @@ import routes1990 from './1990/routes';
 import form1990 from './1990/reducers';
 
 export default function createRoutes(store) {
-  // It will be confusing to have multiple forms in one app living
-  // side by side in the Redux store, so just replace everything when you go into a form
+  // It will be confusing to have multiple forms in one app living side by side
+  // in the Redux store, so just replace everything when you go into a form
   const onEnter = (reducer) => () => {
     store.replaceReducer(reducer);
   };
@@ -19,7 +19,7 @@ export default function createRoutes(store) {
     }
   ];
 
-  if (__BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging') {
+  if (__BUILDTYPE__ !== 'production') {
     childRoutes.push(
       {
         path: '1995',
@@ -34,6 +34,21 @@ export default function createRoutes(store) {
           require.ensure([], (require) => {
             callback(null, require('./1995/routes').default);
           }, 'edu-1995');
+        },
+      },
+      {
+        path: '1990e',
+        indexRoute: { onEnter: (nextState, replace) => replace('/1990e/introduction') },
+        getComponent(nextState, callback) {
+          require.ensure([], (require) => {
+            store.replaceReducer(require('./1990e/reducer').default);
+            callback(null, require('./1990e/Form1990eApp').default);
+          }, 'edu-1990e');
+        },
+        getChildRoutes(partialNextState, callback) {
+          require.ensure([], (require) => {
+            callback(null, require('./1990e/routes').default);
+          }, 'edu-1990e');
         },
       }
     );
