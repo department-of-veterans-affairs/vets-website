@@ -177,5 +177,8 @@
     "node": "4.4.7",
     "npm": "3.8.9"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "rasterizehtml": "^1.2.4"
+  }
 }
