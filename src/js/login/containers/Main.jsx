@@ -30,7 +30,7 @@ class Main extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      this.setState({ loginUrl: json.authenticate_via_get });
+      this.props.onUpdateLoginUrl('first', json.authenticate_via_get);
     });
 
     addEvent(window, 'message', (evt) => {
@@ -65,13 +65,13 @@ class Main extends React.Component {
   }
 
   handleLogin() {
-    const myLoginUrl = this.state.loginUrl;
+    const myLoginUrl = this.props.login.loginUrl.first;
     const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 
   handleSignup() {
-    const myLoginUrl = this.state.loginUrl;
+    const myLoginUrl = this.props.login.loginUrl.first;
     const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }

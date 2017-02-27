@@ -51,6 +51,7 @@
 // ----- VA GENERAL (MAIN FILE/OTHER) ---- //
 
 @import 'base/va';
+@import 'normalize';
 
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
 @import 'modules/m-card';
@@ -65,6 +66,7 @@
 @import 'modules/m-search';
 @import 'modules/m-loading-indicator';
 @import 'modules/m-vet-nav';
+@import 'modules/m-print';
 
 // ----- VA SHAME ---- //
 

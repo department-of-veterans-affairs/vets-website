@@ -5,17 +5,37 @@ import { set, assign } from 'lodash/fp';
 
 import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
 
+import * as address from './definitions/address';
 import { states } from '../utils/options-for-select';
+import { pureWithDeepEquals } from './helpers';
+
+const defaultStateSchema = address.schema().properties.state;
+
+const militaryStates = states.USA.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
+const militaryStateSchema = assign(defaultStateSchema, {
+  'enum': militaryStates.map(state => state.value),
+  enumNames: militaryStates.map(state => state.label)
+});
+
+const stateSchemas = Object.keys(states).reduce((options, country) => {
+  return assign(options, {
+    [country]: assign(defaultStateSchema, {
+      'enum': states[country].map(state => state.value),
+      enumNames: states[country].map(state => state.label)
+    })
+  });
+}, {});
 
 /**
  * Input component for an address.
  */
 class Address extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleChange = this.handleChange.bind(this);
     this.onPropertyBlur = this.onPropertyBlur.bind(this);
     this.isRequired = this.isRequired.bind(this);
+    this.SchemaField = pureWithDeepEquals(props.registry.fields.SchemaField);
   }
 
   componentWillMount() {
@@ -54,7 +74,6 @@ class Address extends React.Component {
   }
 
   render() {
-    let stateList = [];
     const {
       errorSchema,
       formContext,
@@ -67,7 +86,7 @@ class Address extends React.Component {
     const formData = this.props.formData
       ? this.props.formData
       : getDefaultFormState(schema, undefined, registry.definitions);
-    const SchemaField = registry.fields.SchemaField;
+    const SchemaField = this.SchemaField;
     const TitleField = registry.fields.TitleField;
     const selectedCountry = formData.country;
     const title = uiSchema['ui:title'];
@@ -83,17 +102,10 @@ class Address extends React.Component {
       postalCodeUiSchema = set('ui:title', 'ZIP code', postalCodeUiSchema);
     }
 
-    // const hasErrors = (formContext.submitted || touchedSchema) && rawErrors && rawErrors.length;
-    if (states[selectedCountry]) {
-      stateList = states[selectedCountry];
-      if (formData.city && this.isMilitaryCity(formData.city)) {
-        stateList = stateList.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
-      }
-
-      stateSchema = assign(stateSchema, {
-        'enum': stateList.map(state => state.value),
-        enumNames: stateList.map(state => state.label)
-      });
+    if (selectedCountry === 'USA' && formData.city && this.isMilitaryCity(formData.city)) {
+      stateSchema = militaryStateSchema;
+    } else if (stateSchemas[selectedCountry]) {
+      stateSchema = stateSchemas[selectedCountry];
     }
     const countryClasses = classNames({
       'schemaform-first-field': true,
