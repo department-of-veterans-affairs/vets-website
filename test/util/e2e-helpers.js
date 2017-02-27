@@ -1,5 +1,5 @@
 import Timeouts from './timeouts';
-import { writeFile } from 'fs';
+import { takeScreenshot } from './screenshot';
 
 // Change select value and trigger change event programatically.
 // This is necessary because long select boxes tend to render offscreen,
@@ -108,80 +108,6 @@ function createE2eTest(beginApplication) {
       beginApplication(client);
     }
   };
-}
-
-// Electron screenshot helper
-// via https://github.com/JamesKyburz/electron-screenshot 
-function takeScreenshot(client) {
-  client
-    .timeoutsAsyncScript(5000)
-    .executeAsync((callback) => {
-      /* eslint-disable */
-      let screenConstraints = {
-        mandatory: {
-          chromeMediaSource: "screen",
-          maxHeight: 1080,
-          maxWidth: 1920,
-          minAspectRatio: 1.77
-        },
-        optional: []
-      };
-
-      let session = {
-        audio: false,
-        video: screenConstraints
-      };
-
-      let streaming = false;
-      let canvas = document.createElement("canvas");
-      let video = document.createElement("video");
-      document.body.appendChild(canvas);
-      document.body.appendChild(video);
-      let width = screen.width;
-      let height = 0;
-
-      video.addEventListener("canplay", function(){
-        if (!streaming) {
-          height = video.videoHeight / (video.videoWidth / width);
-
-          if (isNaN(height)) {
-              height = width / (4 / 3);
-          }
-
-          video.setAttribute("width", width.toString());
-          video.setAttribute("height", height.toString());
-          canvas.setAttribute("width", width.toString());
-          canvas.setAttribute("height", height.toString());
-          streaming = true;
-
-          let context = canvas.getContext("2d");
-          if (width && height) {
-            canvas.width = width;
-            canvas.height = height;
-            context.drawImage(video, 0, 0, width, height);
-            callback(canvas.toDataURL());
-          }
-        }
-      }, false);
-
-      navigator["webkitGetUserMedia"](session, function (stream) {
-        video.src = window["webkitURL"].createObjectURL(stream);
-        video.play();
-      }, function () {
-        console.error("Can't take a screenshot");
-      });     
-      /* eslint-disable */
-    },
-    [], 
-    function(base64){
-      // Strip metadata from string 
-      const data = base64.value.replace(/^data:image\/\w+;base64,/, '');
-
-      // Write screenshot to disk
-			writeFile('out.png', data, 'base64', function(err) {
-        console.log('Saved screenshot to out.png');
-			});
-    });
 }
 
 // Expects navigation lands at a path with the given `urlSubstring`.
