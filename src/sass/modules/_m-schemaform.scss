@@ -95,8 +95,8 @@
 
 // This is the worst
 .schemaform-first-field--titled {
-  > div > div > label,
-  > div > .usa-input-error {
+  > .schemaform-field-template > div > .schemaform-label,
+  > .schemaform-field-template > .usa-input-error {
     margin-top: 0;
   }
 }
@@ -104,13 +104,15 @@
 // object fields in the form, we can't easily tell what the first
 // field in the form is in order to remove the top margin
 .schemaform-first-field--root {
-  > div > div > label,
-  > div > .usa-input-error {
+  > .schemaform-field-template > div > .schemaform-label,
+  > .schemaform-field-template > .usa-input-error {
     margin-top: 0;
   }
   // This only works one level deep. We may have to add more
-  > fieldset > div > .schemaform-first-field > div > div > label,
-  > fieldset > div > .schemaform-first-field > div > .usa-input-error {
-    margin-top: 0;
+  > fieldset > .schemaform-field-container > .schemaform-first-field {
+    > .schemaform-field-template > div > .schemaform-label,
+    > .schemaform-field-template > .usa-input-error {
+      margin-top: 0;
+    }
   }
 }

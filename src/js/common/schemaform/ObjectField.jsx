@@ -135,6 +135,7 @@ class ObjectField extends React.Component {
 
     let containerClassNames = classNames({
       'input-section': isRoot,
+      'schemaform-field-container': true,
       'schemaform-block': title && !isRoot
     });
 
