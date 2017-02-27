@@ -27,10 +27,6 @@ class MegaMenu {
       menu.addEventListener('click', this.toggleMenu);
     });
 
-    menus.forEach((menu) => {
-      menu.addEventListener('touchend', this.toggleMenu);
-    });
-
     submenus.forEach((submenu) => {
       submenu.addEventListener('click', this.toggleSubMenu);
     });
@@ -83,6 +79,8 @@ class MegaMenu {
   toggleMenu(event) {
     const eTarget = event.target;
     const whichMenu = this.getMenu(eTarget.getAttribute('aria-controls'));
+
+    console.log(eTarget.getAttribute('aria-controls'));
 
     if(eTarget.getAttribute('aria-expanded') === 'true') {
       this.closeMenu(event);
