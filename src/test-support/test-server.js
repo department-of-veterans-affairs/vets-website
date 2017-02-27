@@ -31,6 +31,7 @@ app.use(morgan('combined', { skip: (req, _res) => { return req.path.match(/(css|
 app.use(express.static(root));
 app.use('/healthcare/apply/application', fallback('index.html', { root }));
 app.use('/rx', fallback('index.html', { root }));
+app.use('/education/apply-for-education-benefits/application/1995', fallback('/education/apply-for-education-benefits/application/index.html', { root }));
 
 app.listen(options.port, () => {
   // eslint-disable-next-line no-console

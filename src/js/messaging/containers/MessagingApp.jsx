@@ -54,7 +54,7 @@ class MessagingApp extends React.Component {
 
   render() {
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"messaging"}>
+      <RequiredLoginView authRequired={3} serviceRequired={"messaging"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
         <AppContent>
           <div id="messaging-app-header">
             <AlertBox
@@ -79,11 +79,14 @@ MessagingApp.propTypes = {
 
 const mapStateToProps = (state) => {
   const msgState = state.health.msg;
+  const userState = state.user;
 
   return {
     alert: msgState.alert,
     recipients: msgState.recipients.data,
     loading: msgState.loading,
+    profile: userState.profile,
+    signInUrl: userState.login.loginUrl.first
   };
 };
 
