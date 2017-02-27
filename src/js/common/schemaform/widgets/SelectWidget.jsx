@@ -33,6 +33,7 @@ function SelectWidget({
   return (
     <select
         id={id}
+        name={id}
         multiple={multiple}
         className={options.widgetClassNames}
         value={value || ''}
