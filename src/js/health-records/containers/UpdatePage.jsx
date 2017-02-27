@@ -4,13 +4,17 @@ import { Link } from 'react-router';
 import { checkRefreshStatus } from '../actions/refresh';
 import { submitForm } from '../actions/form';
 
+import ProgressBar from '../../common/components/ProgressBar';
+
 export class UpdatePage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.pollRefresh = setInterval(() => {
-      props.checkRefreshStatus();
-    }, 10000);
+    this.pollRefresh = () => {
+      setInterval(() => {
+        props.checkRefreshStatus();
+      }, 10000);
+    };
   }
   componentDidMount() {
     this.pollRefresh();
@@ -31,8 +35,11 @@ export class UpdatePage extends React.Component {
   }
 
   render() {
+    const statuses = this.props.refresh.statuses;
+
     return (
-      <div>
+      <div className="updatePage medium-6">
+        <ProgressBar percent={statuses.OK.length / statuses.ERROR.length}/>
         <h1>Updating your records</h1>
         <p>
           To get the most up-to-date information, please wait for your health records to finish updating. This may take a few minutes.
