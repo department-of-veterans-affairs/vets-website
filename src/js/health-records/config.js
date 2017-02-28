@@ -5,16 +5,16 @@ module.exports = {
       children: [
         {
           value: 'futureappointments',
-          label: 'Future VA Appointments',
+          label: 'Upcoming VA Appointments',
         },
         {
           value: 'pastappointments',
-          label: 'Past VA Appointments (limited to past 2 years)',
+          label: 'VA Appointment History from the last 2 years',
         },
       ],
     },
     medications: {
-      title: 'Medications (automatically includes Allergy information)',
+      title: 'Medications (includes allergy information)',
       children: [
         {
           value: 'prescriptions',
@@ -22,7 +22,7 @@ module.exports = {
         },
         {
           value: 'medications',
-          label: 'Medications and Supplements, Self-Reported',
+          label: 'Self-Reported Medications and Supplements',
         },
       ],
     },
@@ -49,11 +49,11 @@ module.exports = {
         },
         {
           value: 'vaekg',
-          label: 'VA Electrocardiogram (EKG) History performed at VA Treating Facilities',
+          label: 'History of Electrocardiograms (EKGs) performed at VA facilities',
         },
         {
           value: '',
-          label: 'Labs and Tests, Self-Reported',
+          label: 'Self-Reported Labs and Tests',
         },
       ],
     },
@@ -74,7 +74,7 @@ module.exports = {
         },
         {
           value: 'vaprogressnotes',
-          label: 'VA Notes from Jan 01, 2013 forward',
+          label: 'VA Notes starting from Jan 01, 2013',
           hold: 3,
           holdExplanation: 'Some information may need to be reviewed by a member of your VA health care team before it\'s added to your record. VA notes starting from Jan 1, 2013 will be available 3 days after they\'ve been completed and signed by all required members of your VA health care team.',
         },
@@ -93,7 +93,7 @@ module.exports = {
         },
         {
           value: 'seiallergies',
-          label: 'Allergies, Self-Reported',
+          label: 'Self-Reported Allergies',
         },
       ],
     },
@@ -106,7 +106,7 @@ module.exports = {
         },
         {
           value: 'seiimmunizations',
-          label: 'Immunizations, Self-Reported',
+          label: 'Self-Reported Immunizations',
         },
       ],
     },
@@ -119,7 +119,7 @@ module.exports = {
         },
         {
           value: '',
-          label: 'Vitals and Readings, Self-Reported',
+          label: 'Self-Reported Vitals and Readings',
         },
       ],
     },
@@ -128,23 +128,23 @@ module.exports = {
       children: [
         {
           value: 'medicalevents',
-          label: 'Medical Events, Self-Reported',
+          label: 'Medical Events',
         },
         {
           value: 'familyhealthhistory',
-          label: 'Family Health History, Self-Reported',
+          label: 'Family Health History',
         },
         {
           value: 'militaryhealthhistory',
-          label: 'Military Health History, Self-Reported',
+          label: 'Military Health History',
         },
         {
           value: 'treatmentfacilities',
-          label: 'Treatment Facilities, Self-Reported',
+          label: 'Treatment Facilities',
         },
         {
           value: 'healthcareproviders',
-          label: 'Health Care Providers, Self-Reported',
+          label: 'Health Care Providers',
         },
       ],
     },
@@ -153,11 +153,11 @@ module.exports = {
       children: [
         {
           value: 'seiactivityjournal',
-          label: 'Activity Journal, Self-Reported',
+          label: 'Self-Reported Activity Journal',
         },
         {
           value: 'seifoodjournal',
-          label: 'Food Journal, Self-Reported',
+          label: 'Self-Reported Food Journal',
         },
       ],
     },
@@ -166,11 +166,11 @@ module.exports = {
       children: [
         {
           value: 'seimygoalscurrent',
-          label: 'My Goals: Current Goals, Self-Reported',
+          label: 'Self-Reported Current Goals',
         },
         {
           value: 'seimygoalscompleted',
-          label: 'My Goals: Completed Goals, Self-Reported',
+          label: 'Self-Reported Completed Goals',
         },
       ],
     },
@@ -183,11 +183,11 @@ module.exports = {
         },
         {
           value: 'seidemographics',
-          label: 'Demographics, Self-Reported',
+          label: 'Self-Reported Demographics',
         },
         {
           value: 'healthinsurance',
-          label: 'Health Insurance, Self-Reported',
+          label: 'Self-Reported Health Insurance',
         },
       ],
     },
@@ -196,7 +196,7 @@ module.exports = {
       children: [
         {
           value: 'dodmilitaryservice',
-          label: 'Military Service Information',
+          label: 'Information from the Department of Defense,
         },
       ]
     },
