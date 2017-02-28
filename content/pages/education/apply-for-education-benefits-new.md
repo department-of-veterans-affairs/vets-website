@@ -49,7 +49,7 @@ You must apply for education benefits using eBenefits.va.gov if you are:
 ##### Other Ways to Apply
 
 - Go to a VA regional office and have a VA employee help you. [Find a regional office near you](/facilities).
-- Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the schoole.
+- Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 - Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
 <div class="feature usa-content" markdown="1">
