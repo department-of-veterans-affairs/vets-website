@@ -16,26 +16,26 @@ export default function createRoutes(store) {
       onEnter: onEnter(form1990),
       component: EduBenefitsApp,
       childRoutes: routes1990
+    },
+    {
+      path: '1995',
+      indexRoute: { onEnter: (nextState, replace) => replace('/1995/introduction') },
+      getComponent(nextState, callback) {
+        require.ensure([], (require) => {
+          store.replaceReducer(require('./1995/reducer').default);
+          callback(null, require('./1995/Form1995App').default);
+        }, 'edu-1995');
+      },
+      getChildRoutes(partialNextState, callback) {
+        require.ensure([], (require) => {
+          callback(null, require('./1995/routes').default);
+        }, 'edu-1995');
+      },
     }
   ];
 
   if (__BUILDTYPE__ !== 'production') {
     childRoutes.push(
-      {
-        path: '1995',
-        indexRoute: { onEnter: (nextState, replace) => replace('/1995/introduction') },
-        getComponent(nextState, callback) {
-          require.ensure([], (require) => {
-            store.replaceReducer(require('./1995/reducer').default);
-            callback(null, require('./1995/Form1995App').default);
-          }, 'edu-1995');
-        },
-        getChildRoutes(partialNextState, callback) {
-          require.ensure([], (require) => {
-            callback(null, require('./1995/routes').default);
-          }, 'edu-1995');
-        },
-      },
       {
         path: '1990e',
         indexRoute: { onEnter: (nextState, replace) => replace('/1990e/introduction') },
