@@ -93,22 +93,23 @@
   }
 }
 
-// This is the worst
+// This section of styles are pretty bad. They exist because
+// it is very difficult to write a selector that hits the first
+// field (depth first) in markup that is generated from an
+// object hierarchy
 .schemaform-first-field--titled {
   > .schemaform-field-template > div > .schemaform-label,
   > .schemaform-field-template > .usa-input-error {
     margin-top: 0;
   }
 }
-// Because uswds labels have top margin and we can arbitrarily nest
-// object fields in the form, we can't easily tell what the first
-// field in the form is in order to remove the top margin
 .schemaform-first-field--root {
   > .schemaform-field-template > div > .schemaform-label,
   > .schemaform-field-template > .usa-input-error {
     margin-top: 0;
   }
-  // This only works one level deep. We may have to add more
+  // This only works one level deep. We may have to add more if
+  // we write pages that have deeper nesting
   > fieldset > .schemaform-field-container > .schemaform-first-field {
     > .schemaform-field-template > div > .schemaform-label,
     > .schemaform-field-template > .usa-input-error {
