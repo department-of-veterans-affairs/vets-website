@@ -196,4 +196,42 @@ describe('Schemaform <ArrayField>', () => {
       expect(onBlur.calledWith([0, 'path'])).to.be.true;
     });
   });
+  it('should disable add when data has not been changed', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:options': {
+        viewField: f => f
+      }
+    };
+    const errorSchema = {};
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+          schema={schema}
+          errorSchema={errorSchema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          registry={registry}
+          onChange={onChange}
+          onBlur={onBlur}
+          formContext={formContext}
+          touchedSchema={touchedSchema}
+          requiredSchema={requiredSchema}/>
+    );
+
+    expect(tree.subTree('button').props.disabled).to.be.true;
+  });
 });

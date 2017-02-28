@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
+import classNames from 'classnames';
 import Scroll from 'react-scroll';
 import { scrollToFirstError } from '../utils/helpers';
 
@@ -249,7 +250,19 @@ export default class ArrayField extends React.Component {
               </div>
             );
           })}
-          <button type="button" className="usa-button-outline va-growable-add-btn" onClick={this.handleAdd}>Add Another</button>
+          <button
+              type="button"
+              className={classNames(
+                'usa-button-outline',
+                'va-growable-add-btn',
+                {
+                  'usa-button-disabled': !this.props.formData
+                }
+              )}
+              disabled={!this.props.formData}
+              onClick={this.handleAdd}>
+            Add Another
+          </button>
         </div>
       </div>
     );
