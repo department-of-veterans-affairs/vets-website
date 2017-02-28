@@ -56,6 +56,7 @@ describe('Schemaform definition address', () => {
     );
 
     const formDOM = findDOMNode(form);
+    const find = formDOM.querySelector.bind(formDOM);
 
     // By default, the Country is USA, so the postalCode label should be 'ZIP Code'
     //  and the State label should be 'State' and the field should be a dropdown
@@ -69,10 +70,7 @@ describe('Schemaform definition address', () => {
     expect(stateField.tagName === 'select');
 
     // Change the country
-    // To simulate a change on a component, it must be gotten with ReactTestUtils
-    // const countryField = formDOM.querySelectorAll('#root_country');
-    const countryField = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select')
-      .find(input => input.getAttribute('id') === 'root_country');
+    const countryField = find('#root_country');
 
     ReactTestUtils.Simulate.change(countryField, {
       target: {
