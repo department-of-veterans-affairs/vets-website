@@ -259,7 +259,7 @@ const formConfig = {
               },
               address: address.uiSchema()
             },
-            trainingEndDate: date.uiSchema('When did you stop taking classes or participating in the training program?'),
+            trainingEndDate: date.uiSchema('When did you stop taking classes or participating in the training program? (Future dates are ok)'),
             reasonForChange: {
               'ui:title': 'Why did you stop taking classes or participating in the training program? (for example, “I graduated” or “I moved” or “The program wasn’t right for me.”)'
             }
