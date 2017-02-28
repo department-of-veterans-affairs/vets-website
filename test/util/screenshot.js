@@ -19,11 +19,8 @@ const rasterizeHTML = readFileSync('./node_modules/rasterizehtml/dist/rasterizeH
 // Get current commit SHA
 let currentSHA = 'current';
 exec('git rev-parse HEAD', (err, stdout) => {
-<<<<<<< HEAD
   currentSHA = stdout.substr(0, 7);
-=======
   currentSHA = stdout.replace(/\r?\n|\r/, '');
->>>>>>> add file
 });
 
 // Inject rasterizeHTML
@@ -54,13 +51,9 @@ function checkDependencies(client) {
 }
 
 // Create directories if needed
-<<<<<<< HEAD
+
 function setupDirectories(module) {
   const arr = ['./logs', 'screenshots', currentSHA, module];
-=======
-function setupDirectories() {
-  const arr = ['./logs', 'screenshots', currentSHA];
->>>>>>> add file
   arr.forEach((d, i) => {
     const dir = arr.slice(0, i + 1).join('/');
     if (!existsSync(dir)) {
@@ -70,11 +63,8 @@ function setupDirectories() {
 }
 
 function takeScreenshot(client, url) {
-<<<<<<< HEAD
-  const filename = url.replace(/\//g, '_').substr(1);
-=======
   const filename = url.replace(/\//g, '_');
->>>>>>> add file
+  const filename = url.replace(/\//g, '_').substr(1);
   checkDependencies(client);
 
   client
@@ -110,7 +100,7 @@ function takeScreenshot(client, url) {
     function(base64){
       // Strip metadata from string 
       const data = base64.value.replace(/^data:image\/\w+;base64,/, '');
-<<<<<<< HEAD
+
       const module = client.currentTest.module.split('/').pop();
 
       // Write screenshot to disk
@@ -124,14 +114,19 @@ function takeScreenshot(client, url) {
         } else {
           console.log(`Saved screenshot to ${path}`);
         }
-=======
+      const module = client.currentTest.module.split('/').pop();
 
       // Write screenshot to disk
-      const path = `./logs/screenshots/${currentSHA}/${filename}.png`;
-      setupDirectories();
+      const path = `./logs/screenshots/${currentSHA}/${module}/${filename}.png`;
+  
+      setupDirectories(module);
+
       writeFile(path, data, 'base64', function(err) {
-        console.log(`Saved screenshot to ${path}`);
->>>>>>> add file
+        if (err){
+          console.error(`Could not save screenshot to ${path}`);
+        } else {
+          console.log(`Saved screenshot to ${path}`);
+        }
       });
     });
 }
