@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash/fp';
+import classNames from 'classnames';
 
 /*
  * This is the template for each field (which in the schema library means label + widget)
@@ -28,13 +29,20 @@ export default function FieldTemplate(props) {
     errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{rawErrors[0]}</span>;
   }
 
-  const containerClassNames = _.get(['ui:options', 'classNames'], uiSchema);
+  const containerClassNames = classNames(
+    'schemaform-field-template',
+    _.get(['ui:options', 'classNames'], uiSchema)
+  );
+  const labelClassNames = classNames({
+    'usa-input-error-label': hasErrors && !isDateField,
+    'schemaform-label': true
+  });
 
   return (schema.type === 'object' || schema.type === 'array' || (schema.type === 'boolean' && !uiSchema['ui:widget'])) && !showFieldLabel
     ? children
     : (<div className={containerClassNames}>
       <div className={errorClass}>
-        <label className={hasErrors && !isDateField ? 'usa-input-error-label' : null} htmlFor={id}>{label}{requiredSpan}</label>
+        <label className={labelClassNames} htmlFor={id}>{label}{requiredSpan}</label>
         {textDescription && <p>{textDescription}</p>}
         {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
         {!textDescription && !DescriptionField && description}
