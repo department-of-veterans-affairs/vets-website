@@ -37,7 +37,7 @@ export class SearchResult extends React.Component {
           Caution
         </div>
       );
-    }
+    };
 
     return (
       <div className="search-result">
