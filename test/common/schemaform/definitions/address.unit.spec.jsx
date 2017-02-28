@@ -63,11 +63,16 @@ describe('Schemaform definition address', () => {
     const labels = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'label');
     const postalCodeLabel = labels.find(label => label.htmlFor === 'root_postalCode');
     const stateLabel = labels.find(label => label.htmlFor === 'root_state');
-    const stateField = formDOM.querySelectorAll('#root_state');
+    const stateField = formDOM.querySelector('#root_state');
 
+    // Check the labels' text
     expect(postalCodeLabel.textContent === 'ZIP Code');
     expect(stateLabel.textContent === 'State');
+
+    // And state input type / options
     expect(stateField.tagName === 'select');
+    // jsdom doesn't support namedItem; use options instead
+    expect(Array.from(stateField.options).find(op => op.value === 'OR')).to.not.be.undefined;
 
     // Change the country
     const countryField = find('#root_country');
@@ -81,6 +86,15 @@ describe('Schemaform definition address', () => {
     // Check to see if the postal code and state updated
     expect(stateLabel.textContent === 'Provice');
     expect(postalCodeLabel.textContent === 'Postal code');
+    expect(Array.from(stateField.options).find(op => op.value === 'QC')).to.not.be.undefined;
+
+    // Check for Mexican states
+    ReactTestUtils.Simulate.change(countryField, {
+      target: {
+        value: 'MEX'
+      }
+    });
+    expect(Array.from(stateField.options).find(op => op.value === 'guerrero')).to.not.be.undefined;
 
     // Change to another country that doesn't have a select box for state
     ReactTestUtils.Simulate.change(countryField, {
