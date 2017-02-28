@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-
 import Checkbox from '../Checkbox';
 import RadioButtons from '../RadioButtons';
 import Dropdown from '../Dropdown';
@@ -172,7 +171,7 @@ const mapStateToProps = (state) => state;
 const mapDispatchToProps = (dispatch) => {
   return {
     showModal: (name) => {
-      dispatch(actions.displayModal(name));
+      dispatch(actions.showModal(name));
     },
     handleChange: (e) => {
       dispatch(actions.institutionFilterChange(e));

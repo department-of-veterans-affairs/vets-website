@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import { showModal, hideModal, eligibilityChange } from '../../actions';
 
 import Dropdown from '../Dropdown';
 import If from '../If';
@@ -22,7 +22,7 @@ export class EligibilityForm extends React.Component {
             { value: 'both', label: 'In person and online' }
             ]}
             value={this.props.eligibility.onlineClasses}
-            onChange={this.props.handleChange}/>
+            onChange={this.props.eligibilityChange}/>
 
         <Dropdown
             name="militaryStatus"
@@ -36,7 +36,7 @@ export class EligibilityForm extends React.Component {
             value={this.props.eligibility.militaryStatus}
             alt="What is your military status?"
             visible={this.props.eligibility.dropdowns.militaryStatus}
-            onChange={this.props.handleChange}>
+            onChange={this.props.eligibilityChange}>
           <label htmlFor="militaryStatus">
             What is your military status?
           </label>
@@ -51,7 +51,7 @@ export class EligibilityForm extends React.Component {
             value={this.props.eligibility.spouseActiveDuty}
             alt="Is your spouse on active duty?"
             visible={this.props.eligibility.dropdowns.spouseActiveDuty}
-            onChange={this.props.handleChange}>
+            onChange={this.props.eligibilityChange}>
           <label htmlFor="spouseActiveDuty">
             Is your spouse on active duty?
           </label>
@@ -70,7 +70,7 @@ export class EligibilityForm extends React.Component {
             value={this.props.eligibility.giBillChapter}
             alt="Which GI Bill benefit do you want to use?"
             visible={this.props.eligibility.dropdowns.giBillChapter}
-            onChange={this.props.handleChange}>
+            onChange={this.props.eligibilityChange}>
           <label htmlFor="giBillChapter">
             Which GI Bill benefit do you want to use?
             (<a onClick={() => this.props.showModal('giBillChapter')} className="info-icons">
@@ -110,7 +110,7 @@ export class EligibilityForm extends React.Component {
             value={this.props.eligibility.cumulativeService}
             alt="Cumulative Post-9/11 active duty service"
             visible={this.props.eligibility.dropdowns.cumulativeService}
-            onChange={this.props.handleChange}>
+            onChange={this.props.eligibilityChange}>
           <label htmlFor="cumulativeService">
             Cumulative Post-9/11 active duty service
             (<a onClick={() => this.props.showModal('cumulativeService')} className="info-icons">
@@ -128,7 +128,7 @@ export class EligibilityForm extends React.Component {
             value={this.props.eligibility.enlistmentService}
             alt="Completed an enlistment of:"
             visible={this.props.eligibility.dropdowns.enlistmentService}
-            onChange={this.props.handleChange}>
+            onChange={this.props.eligibilityChange}>
           <label htmlFor="enlistmentService">
             Completed an enlistment of:
             (<a onClick={() => this.props.showModal('enlistmentService')} className="info-icons">
@@ -147,7 +147,7 @@ export class EligibilityForm extends React.Component {
             value={this.props.eligibility.consecutiveService}
             alt="Length of longest active duty tour:"
             visible={this.props.eligibility.dropdowns.consecutiveService}
-            onChange={this.props.handleChange}>
+            onChange={this.props.eligibilityChange}>
           <label htmlFor="consecutiveService">
             Length of longest active duty tour:
             (<a onClick={() => this.props.showModal('consecutiveService')} className="info-icons">
@@ -165,7 +165,7 @@ export class EligibilityForm extends React.Component {
             value={this.props.eligibility.eligForPostGiBill}
             alt="Are you eligible for the Post-9/11 GI Bill?"
             visible={this.props.eligibility.dropdowns.eligForPostGIBill}
-            onChange={this.props.handleChange}>
+            onChange={this.props.eligibilityChange}>
           <label htmlFor="eligForPostGiBill">
             Are you eligible for the Post-9/11 GI Bill?
           </label>
@@ -184,7 +184,7 @@ export class EligibilityForm extends React.Component {
             value={this.props.eligibility.numberOfDependents}
             alt="How many dependents do you have?"
             visible={this.props.eligibility.dropdowns.numberOfDependents}
-            onChange={this.props.handleChange}
+            onChange={this.props.eligibilityChange}
             showLabel={this.props.labels}>
           <label htmlFor="numberOfDependents">
             How many dependents do you have?
@@ -197,18 +197,11 @@ export class EligibilityForm extends React.Component {
 }
 
 const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showModal: (name) => {
-      dispatch(actions.displayModal(name));
-    },
-    hideModal: () => {
-      dispatch(actions.displayModal(null));
-    },
-    handleChange: (e) => {
-      dispatch(actions.eligibilityChange(e));
-    },
-  };
+
+const mapDispatchToProps = {
+  showModal,
+  hideModal,
+  eligibilityChange,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EligibilityForm);

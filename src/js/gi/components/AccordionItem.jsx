@@ -4,6 +4,7 @@ class AccordionItem extends React.Component {
 
   constructor(props) {
     super(props);
+    this.toggle = this.toggle.bind(this);
     this.state = {
       expanded: props.expanded,
     };
@@ -17,7 +18,7 @@ class AccordionItem extends React.Component {
     const expanded = this.state.expanded;
     return (
       <li>
-        <button onClick={this.toggle.bind(this)} className="usa-accordion-button" aria-expanded={expanded} aria-controls="amendment-1">
+        <button onClick={this.toggle()} className="usa-accordion-button" aria-expanded={expanded} aria-controls="amendment-1">
           <h2>{this.props.button}</h2>
         </button>
         <div id="amendment-1" className="usa-accordion-content" aria-hidden={!expanded}>

@@ -56,7 +56,7 @@ const mapStateToProps = (state) => state;
 const mapDispatchToProps = (dispatch) => {
   return {
     showModal: (name) => {
-      dispatch(actions.displayModal(name));
+      dispatch(actions.showModal(name));
     },
     setPageTitle: (title) => {
       dispatch(actions.setPageTitle(title));

@@ -21,18 +21,15 @@ export const FETCH_PROFILE_FAILED = 'FETCH_PROFILE_FAILED';
 export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
 export const INSTITUTION_FILTER_CHANGED = 'INSTITUTION_FILTER_CHANGED';
 
-export function displayModal(modal) {
+export function showModal(modal) {
   return {
     type: DISPLAY_MODAL,
     modal
   };
 }
 
-export function closeModal() {
-  return {
-    type: DISPLAY_MODAL,
-    modal: null
-  };
+export function hideModal() {
+  return showModal(null);
 }
 
 export function setPageTitle(title) {

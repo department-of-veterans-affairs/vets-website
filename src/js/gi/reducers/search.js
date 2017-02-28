@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { SEARCH_STARTED, SEARCH_FAILED, SEARCH_SUCCEEDED } from '../actions';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
@@ -66,11 +67,6 @@ function derivePaging(links) {
 }
 
 export default function (state = INITIAL_STATE, action) {
-  const camelPayload = camelCaseKeysRecursive(action.payload);
-  const results = camelPayload.data.reduce((acc, result) => {
-    const attributes = normalizedAttributes(result.attributes);
-    return [...acc, attributes];
-  }, []);
   switch (action.type) {
     case SEARCH_STARTED:
       return {
@@ -84,6 +80,11 @@ export default function (state = INITIAL_STATE, action) {
         inProgress: false
       };
     case SEARCH_SUCCEEDED:
+      const camelPayload = camelCaseKeysRecursive(action.payload);
+      const results = camelPayload.data.reduce((acc, result) => {
+        const attributes = normalizedAttributes(result.attributes);
+        return [...acc, attributes];
+      }, []);
       return {
         ...state,
         results,

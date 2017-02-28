@@ -5,25 +5,12 @@ import { estimatedBenefits } from '../../selectors/estimator';
 
 export class SearchResult extends React.Component {
 
-  cautionFlag() {
-    if (!this.props.cautionFlag) {
-      return null;
-    }
-    return (
-      <div className="caution-flag">
-        <i className="fa fa-warning"></i>
-        Caution
-      </div>
-    );
+  constructor(props) {
+    super(props);
+    this.estimate = this.estimate.bind(this);
   }
 
-  place() {
-    const domestic = <span>{this.props.city}, {this.props.state}</span>;
-    const foreign = <span>{this.props.city}, {this.props.country}</span>;
-    return (this.props.country === 'usa' ? domestic : foreign);
-  }
-
-  renderEstimate({ qualifier, value }) {
+  estimate({ qualifier, value }) {
     const formatCurrency = (n) => {
       const str = Math.round(Number(n)).toString();
       return str.replace(/\d(?=(\d{3})+$)/g, '$&,');
@@ -32,29 +19,37 @@ export class SearchResult extends React.Component {
       return <span>{value}% in-state</span>;
     }
     if (qualifier === null) {
-      if (value === 'N/A') {
-        return 'N/A';
-      }
+      if (value === 'N/A') return 'N/A';
       return value;
     }
     return (<span>${formatCurrency(value)}</span>);
   }
 
   render() {
-    const tuition = this.renderEstimate(this.props.estimated.tuition);
-    const housing = this.renderEstimate(this.props.estimated.housing);
-    const books = this.renderEstimate(this.props.estimated.books);
+    const tuition = this.estimate(this.props.estimated.tuition);
+    const housing = this.estimate(this.props.estimated.housing);
+    const books = this.estimate(this.props.estimated.books);
+    const CautionFlag = () => {
+      if (!this.props.cautionFlag) return null;
+      return (
+        <div className="caution-flag">
+          <i className="fa fa-warning"></i>
+          Caution
+        </div>
+      );
+    }
 
     return (
       <div className="search-result">
         <div className="outer">
-          {this.cautionFlag.bind(this)()}
+          <CautionFlag/>
           <div className="inner row">
-
             <div className="small-12 medium-7 columns">
               <h2><Link to={`profile/${this.props.facilityCode}`}>{this.props.name}</Link></h2>
               <div style={{ position: 'relative', bottom: 0 }}>
-                <p className="locality">{this.place.bind(this)()}</p>
+                <p className="locality">
+                  {this.props.city}, {this.props.country === 'usa' ? this.props.state : this.props.country}
+                </p>
                 <p className="count">{this.props.studentCount.toLocaleString()} GI Bill Students</p>
               </div>
             </div>
@@ -102,8 +97,6 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = (_dispatch) => {
-  return {};
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResult);

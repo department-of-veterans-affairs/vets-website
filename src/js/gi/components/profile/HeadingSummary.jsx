@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import { showModal } from '../../actions';
 import AlertBox from '../../../common/components/AlertBox';
 import If from '../If';
 
@@ -65,12 +65,8 @@ export class AdditionalInformation extends React.Component {
 
 const mapStateToProps = (state) => state;
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showModal: (name) => {
-      dispatch(actions.displayModal(name));
-    },
-  };
+const mapDispatchToProps = {
+  showModal,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdditionalInformation);

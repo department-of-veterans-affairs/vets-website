@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import { showModal } from '../../actions';
 import { outcomeNumbers } from '../../selectors/outcomes';
 import Graph from './Graph';
 
@@ -56,12 +56,8 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showModal: (name) => {
-      dispatch(actions.displayModal(name));
-    },
-  };
+const mapDispatchToProps = {
+  showModal,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Outcomes);
