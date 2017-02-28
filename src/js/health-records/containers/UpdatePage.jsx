@@ -17,11 +17,12 @@ export class UpdatePage extends React.Component {
     };
   }
   componentDidMount() {
+    this.props.checkRefreshStatus();
     this.pollRefresh();
   }
 
   componentWillReceiveProps(nextProps) {
-    const erroredUpdates = nextProps.refresh.ERROR;
+    const erroredUpdates = nextProps.refresh.statuses.ERROR;
     if (erroredUpdates.length === 0) {
       this.props.submitForm(sessionStorage('hr-form'));
     }
@@ -36,10 +37,11 @@ export class UpdatePage extends React.Component {
 
   render() {
     const statuses = this.props.refresh.statuses;
+    const completionPercentage = statuses.OK.length / (statuses.ERROR.length + statuses.OK.length) * 100;
 
     return (
       <div className="updatePage medium-6">
-        <ProgressBar percent={statuses.OK.length / statuses.ERROR.length}/>
+        <ProgressBar percent={completionPercentage || 0}/>
         <h1>Updating your records</h1>
         <p>
           To get the most up-to-date information, please wait for your health records to finish updating. This may take a few minutes.
