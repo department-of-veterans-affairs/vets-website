@@ -196,7 +196,7 @@ module.exports = {
       children: [
         {
           value: 'dodmilitaryservice',
-          label: 'Information from the Department of Defense,
+          label: 'Information from the Department of Defense',
         },
       ]
     },
