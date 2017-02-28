@@ -1,7 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 import Form from 'react-jsonschema-form';
 
@@ -45,5 +44,33 @@ describe('Edu 1995 schoolSelection', () => {
 
     // There should only be the two errors
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
+  });
+
+  // Should also have a test that checks that the Address fields are shown when
+  //  you pick the right education type.
+  it('should show address conditionally', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          formData={{}}
+          schema={schema}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+
+    const formDOM = findDOMNode(form);
+    const find = formDOM.querySelector.bind(formDOM);
+
+    // Look for the address; shouldn't be there
+    expect(formDOM.querySelector('#root_newSchoolAddress_country')).to.be.null;
+
+    // Change the education type
+    ReactTestUtils.Simulate.change(find('#root_educationType'), {
+      target: {
+        value: 'college'
+      }
+    });
+
+    // Look for the address again; should be there
+    expect(formDOM.querySelector('#root_newSchoolAddress_country')).to.not.be.null;
   });
 });
