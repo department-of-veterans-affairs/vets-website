@@ -7,14 +7,14 @@ body.va-pos-fixed {
   background-color: $color-primary-darkest;
   height: 100%;
   left: 0;
-  margin-top: .8rem;
   overflow-y: scroll;
   position: absolute;
-  padding-top: .8rem;
+  margin-top: 1.2rem;
   width: 100%;
   z-index: 6;
 
   @include media($medium-large-screen) {
+    margin-top: 1rem;
     overflow-y: visible;
     position: static;
     width: auto;
@@ -23,13 +23,6 @@ body.va-pos-fixed {
   .va-wip-message {
     padding: 0 1.6rem;
     white-space: normal;
-  }
-}
-
-.vetnav-isopen {
-  // Makes menu scrollable, without scrolling entire page.
-  #content, .footer {
-    position: fixed;
   }
 }
 
@@ -93,9 +86,7 @@ body.va-pos-fixed {
 }
 
 #vetnav-controls {
-  margin-top: -4rem;
-  position: absolute;
-  right: 1.6rem;
+  position: relative;
   width: 100px;
 
   svg {
@@ -122,6 +113,7 @@ body.va-pos-fixed {
   left: 0;
   margin: 0;
   min-width: 100px;
+  width: auto;
 
   &[hidden] {
     display: none;
@@ -131,7 +123,7 @@ body.va-pos-fixed {
 @include media($medium-large-screen) {
   a.vetnav-level1 {
     border-bottom: 1px solid transparent;
-
+    
     &:hover {
       background-color: $color-primary;
       border-bottom-color: $color-primary;
@@ -325,22 +317,6 @@ body.va-pos-fixed {
   }
 }
 
-#login-root {
-  position: absolute;
-  right: 0;
-  padding-top: .5rem;
-  padding-right: 1.6rem;
-
-  @include media($medium-large-screen) {
-    align-self: flex-end;
-    -webkit-flex: 1 1 30rem;
-    flex: 1 1 30rem;
-    padding-bottom: 1.6rem;
-    padding-top: 0;
-    position: static;
-  }
-}
-
 @include media($medium-large-screen) {
   #vetnav-explore {
     height: 275px;
@@ -350,5 +326,48 @@ body.va-pos-fixed {
 
   #vetnav-benefits {
     width: 276.47px;
+  }
+}
+
+#vet-tools {
+  align-items: center;
+  flex: 1 1 100%;
+  margin-left: -1rem;
+  margin-right: -1rem;
+
+  @include media($medium-large-screen) {
+    flex: 0 1 35rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  [href^=tel] {
+    text-decoration: none;
+  }
+}
+
+[id=search] {
+  width: 30rem;
+
+  [type=text] {
+    margin: 0;
+    flex: 1 0 20rem;
+  }
+
+  [type=submit] {
+    border-radius: 0 .3rem .3rem 0;
+    display: flex;
+    flex: 1 0 3rem;
+    justify-content: center;
+    margin: 0;
+    padding: 1rem;
+  }
+
+  > .va-flex {
+    align-items: center;
   }
 }

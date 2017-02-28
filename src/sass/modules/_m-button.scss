@@ -106,3 +106,18 @@ button.short {
     text-decoration: underline;
   }
 }
+
+// Buttons that do not look like buttons, but have an icon.
+// Ex: top navigation search, help buttons
+.va-btn-withicon {
+  > span {
+    display: flex;
+    align-items: center;
+  }
+  svg {
+    height: 1.5rem;
+    margin-right: .25rem;
+    pointer-events: none;
+    width: 1.5rem;    
+  }
+}
