@@ -93,6 +93,7 @@
     "isomorphic-fetch": "http://registry.npmjs.org/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz",
     "jsdom": "^9.4.2",
     "json-loader": "^0.5.4",
+    "jsonschema": "^1.1.1",
     "leaflet": "^1.0.0-rc.3",
     "leaflet-control-geocoder": "^1.5.1",
     "libxmljs": "^0.18.0",
