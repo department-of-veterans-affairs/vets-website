@@ -18,6 +18,22 @@ import ExpandingGroup from '../components/form-elements/ExpandingGroup';
  * but with the way descriptions are used changed
  */
 
+/*
+ * Add a first field class to the first actual field on the page
+ * and on any "blocks", which are titled sections of the page
+ */
+function setFirstFields() {
+  const containers = [document].concat(
+    Array.from(document.querySelectorAll('.schemaform-block'))
+  );
+  containers.forEach(block => {
+    const fields = Array.from(block.querySelectorAll('.schemaform-field-template'));
+    if (fields.length) {
+      fields[0].classList.add('schemaform-first-field');
+    }
+  });
+}
+
 class ObjectField extends React.Component {
   static defaultProps = {
     uiSchema: {},
@@ -39,6 +55,10 @@ class ObjectField extends React.Component {
     this.orderedProperties = this.orderAndFilterProperties(props.schema, props.uiSchema);
   }
 
+  componentDidMount() {
+    setFirstFields();
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.schema !== nextProps.schema || this.props.uiSchema !== nextProps.uiSchema) {
       this.orderedProperties = this.orderAndFilterProperties(nextProps.schema, nextProps.uiSchema);
@@ -53,6 +73,10 @@ class ObjectField extends React.Component {
    */
   shouldComponentUpdate(nextProps) {
     return !deepEquals(this.props, nextProps);
+  }
+
+  componentDidUpdate() {
+    setFirstFields();
   }
 
   onPropertyChange(name) {
@@ -140,14 +164,8 @@ class ObjectField extends React.Component {
     });
 
     const renderProp = (propName, index) => {
-      const classes = classNames({
-        'schemaform-first-field': index === 0,
-        'schemaform-first-field--titled': index === 0 && hasTitleOrDescription,
-        'schemaform-first-field--root': index === 0 && isRoot
-      });
-
       return (
-        <div key={index} className={classes}>
+        <div key={index}>
           <SchemaField
               name={propName}
               required={this.isRequired(propName)}
