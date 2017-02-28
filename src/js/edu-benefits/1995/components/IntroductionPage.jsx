@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Manage Your Education Benefits"/>
-        <p>This application is equivalent to Form 22-1995 (Request for Change of Program or Place of Training) and Form 22-5495 (Dependents' Request for Change of Program or Place of Training).</p>
+        <p>This application is equivalent to Form 22-1995 (Request for Change of Program or Place of Training).</p>
         <div className="process schemaform-process">
           <ol>
             <li className="step one">

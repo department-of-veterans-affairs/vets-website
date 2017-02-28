@@ -24,18 +24,33 @@ relatedlinks:
 If you're a Servicemember, Veteran, or family member interested in education and training opportunities, you can apply for your Certificate of Eligibility (COE). You can also manage your current benefits.
 
 Choose **Apply for Benefits** if you are a first time applicant.  
-Includes Forms 22-1990, 22-1990E, 22-5490, and 22-1990N
+Includes Form 22-1990
 
 Choose **Manage Benefits** if you need to make a change to your current education benefits (for example, you’re moving to a new school).  
-Includes Form 22-1995 and 22-5495
+Includes Form 22-1995
 
+<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
+	<div class="usa-alert-body">
+
+##### For Forms 22-1990E, 22-1990N, 22-5490, and 22-5495
+
+You must apply for education benefits using eBenefits.va.gov if you are:
+- A spouse or dependent
+- A survivor of a Veteran
+- A candidate for the National Call to Service program
+
+<div markdown="0">
+	<a class="usa-button-primary usa-button-outline usa-button-outline-exit transparent" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
+</div>
+</div>
+</div>
 <br>
 
 ##### Other Ways to Apply
 
-- Go to a [VA regional office](/facilities) and have a VA employee assist you.
-- Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
-- Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to have the application mailed to you. Fill it out and mail it to your [VA regional claims processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
+- Go to a VA regional office and have a VA employee help you. [Find a regional office near you](/facilities).
+- Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school.
+- Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
 <div class="feature usa-content" markdown="1">
 

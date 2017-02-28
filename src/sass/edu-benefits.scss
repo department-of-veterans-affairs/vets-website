@@ -253,14 +253,6 @@ form.rjsf {
   max-width: 100%;
 }
 
-// If the ArrayField is the first element in the page, it'll be spaced down too
-//  far without this, which was the original reason behind this, so we need to
-//  figure out a way to accommodate that too, but for now...
-// .va-growable-expanded > div > fieldset > div > .first-field label,
-// .va-growable-expanded > div > fieldset > div > .first-field .usa-input-error {
-//   margin-top: 0;
-// }
-
 .va-growable-review {
   margin-top: 16px;
 }
