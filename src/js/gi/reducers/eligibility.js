@@ -11,15 +11,15 @@ const INITIAL_STATE = {
     eligForPostGIBill: false,
     numberOfDependents: false
   },
-  military_status: 'veteran',
-  gi_bill_chapter: '33',
-  cumulative_service: '1.0',
-  online_classes: 'no',
-  spouse_active_duty: 'no',
-  enlistment_service: '3',
-  consecutive_service: '0.8',
-  elig_for_post_gi_bill: 'no',
-  number_of_dependents: '0',
+  militaryStatus: 'veteran',
+  giBillChapter: '33',
+  cumulativeService: '1.0',
+  onlineClasses: 'no',
+  spouseActiveDuty: 'no',
+  enlistmentService: '3',
+  consecutiveService: '0.8',
+  eligForPostGiBill: 'no',
+  numberOfDependents: '0',
 };
 
 export default function (state = INITIAL_STATE, action) {
@@ -31,7 +31,7 @@ export default function (state = INITIAL_STATE, action) {
   // Sets the value of hidden dropdown fields to their defaults.
   switch (action.type) {
     case ELIGIBILITY_CHANGED:
-      if (field === 'military_status') {
+      if (field === 'militaryStatus') {
         return {
           ...state,
           [field]: value,
@@ -39,10 +39,10 @@ export default function (state = INITIAL_STATE, action) {
             ...state.dropdowns,
             spouseActiveDuty: value === 'spouse',
           },
-          spouse_active_duty: 'no',
+          spouseActiveDuty: 'no',
         };
       }
-      if (field === 'gi_bill_chapter') {
+      if (field === 'giBillChapter') {
         return {
           ...state,
           [field]: value,
@@ -54,11 +54,11 @@ export default function (state = INITIAL_STATE, action) {
             eligForPostGiBill: value === '31',
             numberOfDependents: value === '31',
           },
-          cumulative_service: '1.0',
-          enlistment_service: '3',
-          consecutive_service: '0.8',
-          elig_for_post_gi_bill: 'no',
-          number_of_dependents: '0',
+          cumulativeService: '1.0',
+          enlistmentService: '3',
+          consecutiveService: '0.8',
+          eligForPostGiBill: 'no',
+          numberOfDependents: '0',
         };
       }
       return {

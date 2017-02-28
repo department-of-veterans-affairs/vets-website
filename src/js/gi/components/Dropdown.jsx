@@ -2,10 +2,6 @@ import React from 'react';
 
 class Dropdown extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     if (!this.props.visible) {
       return null;

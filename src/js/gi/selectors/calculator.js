@@ -15,7 +15,7 @@ const getRequiredAttributes = (_state, props) => {
 
 export const calculatedBenefits = createSelector(
   [getConstants, getEligibilityDetails, getRequiredAttributes],
-  (constant, eligibility, attribute) => {
+  (_constant, _eligibility, _attribute) => {
     // const derived = getDerivedAttributes(constant, eligibility, attribute);
 
     return {};

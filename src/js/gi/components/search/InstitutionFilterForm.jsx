@@ -14,16 +14,16 @@ export class InstitutionFilterForm extends React.Component {
   }
 
   renderTypeFilter() {
-    const type_facets = {
+    const typeFacets = {
       all: Number(this.props.search.count),
       school: 0,
       employer: 0,
       ...this.props.search.facets.type
     };
     const options = [
-      { value: 'all', label: `All (${type_facets.all.toLocaleString()})` },
-      { value: 'school', label: `Schools only (${type_facets.school.toLocaleString()})` },
-      { value: 'employer', label: `Employers only (${type_facets.employer.toLocaleString()})` }
+      { value: 'all', label: `All (${typeFacets.all.toLocaleString()})` },
+      { value: 'school', label: `Schools only (${typeFacets.school.toLocaleString()})` },
+      { value: 'employer', label: `Employers only (${typeFacets.employer.toLocaleString()})` }
     ];
     return (
       <RadioButtons
@@ -36,14 +36,14 @@ export class InstitutionFilterForm extends React.Component {
   }
 
   renderCountryFilter() {
-    const country_facets = {
-      'ALL': this.props.search.count,
+    const countryFacets = {
+      ALL: this.props.search.count,
       ...this.props.search.facets.country
     };
-    const options = Object.keys(country_facets).reduce((options, country) => {
-      const total = Number(country_facets[country]);
+    const options = Object.keys(countryFacets).reduce((opts, country) => {
+      const total = Number(countryFacets[country]);
       const label = `${country} (${total.toLocaleString()})`;
-      return [...options, { value: country, label }];
+      return [...opts, { value: country, label }];
     }, []);
     return (
       <Dropdown
@@ -61,14 +61,14 @@ export class InstitutionFilterForm extends React.Component {
   }
 
   renderStateFilter() {
-    const state_facets = {
-      'ALL': this.props.search.count,
+    const stateFacets = {
+      ALL: this.props.search.count,
       ...this.props.search.facets.state
     };
-    const options = Object.keys(state_facets).reduce((options, state) => {
-      const total = Number(state_facets[state]);
+    const options = Object.keys(stateFacets).reduce((opts, state) => {
+      const total = Number(stateFacets[state]);
       const label = `${state} (${total.toLocaleString()})`;
-      return [...options, { value: state, label }];
+      return [...opts, { value: state, label }];
     }, []);
     return (
       <Dropdown
@@ -98,53 +98,53 @@ export class InstitutionFilterForm extends React.Component {
       <div>
         <p>Programs</p>
         <Checkbox
-            checked={filters.without_caution_flags}
-            name="without_caution_flags"
-            label={label('caution_flag', 'Without Caution Flags', false)}
+            checked={filters.withoutCautionFlags}
+            name="withoutCautionFlags"
+            label={label('cautionFlag', 'Without Caution Flags', false)}
             onChange={this.props.handleCheckboxChange}/>
         <Checkbox
-            checked={filters.student_vet_group}
-            name="student_vet_group"
-            label={label('student_vet_group', 'Student Vet Group')}
+            checked={filters.studentVetGroup}
+            name="studentVetGroup"
+            label={label('studentVetGroup', 'Student Vet Group')}
             onChange={this.props.handleCheckboxChange}/>
         <Checkbox
-            checked={filters.yellow_ribbon_scholarship}
-            name="yellow_ribbon_scholarship"
-            label={label('yellow_ribbon_scholarship', 'Yellow Ribbon')}
+            checked={filters.yellowRibbonScholarship}
+            name="yellowRibbonScholarship"
+            label={label('yellowRibbonScholarship', 'Yellow Ribbon')}
             onChange={this.props.handleCheckboxChange}/>
         <Checkbox
-            checked={filters.principles_of_excellence}
-            name="principles_of_excellence"
-            label={label('principles_of_excellence', 'Principles of Excellence')}
+            checked={filters.principlesOfExcellence}
+            name="principlesOfExcellence"
+            label={label('principlesOfExcellence', 'Principles of Excellence')}
             onChange={this.props.handleCheckboxChange}/>
         <Checkbox
-            checked={filters.eight_keys_to_veteran_success}
-            name="eight_keys_to_veteran_success"
-            label={label('eight_keys_to_veteran_success', '8 Keys to Vet Success')}
+            checked={filters.eightKeysToVeteranSuccess}
+            name="eightKeysToVeteranSuccess"
+            label={label('eightKeysToVeteranSuccess', '8 Keys to Vet Success')}
             onChange={this.props.handleCheckboxChange}/>
       </div>
     );
   }
 
   renderSchoolTypeFilter() {
-    const school_type_facets = {
-      'ALL': this.props.search.count,
-      ...this.props.search.facets.type_name
+    const schoolTypeFacets = {
+      ALL: this.props.search.count,
+      ...this.props.search.facets.typeName
     };
-    const options = Object.keys(school_type_facets).reduce((options, type_name) => {
-      const total = Number(school_type_facets[type_name]);
-      const label = `${type_name} (${total.toLocaleString()})`;
-      return [...options, { value: type_name, label }];
+    const options = Object.keys(schoolTypeFacets).reduce((opts, typeName) => {
+      const total = Number(schoolTypeFacets[typeName]);
+      const label = `${typeName} (${total.toLocaleString()})`;
+      return [...opts, { value: typeName, label }];
     }, []);
     return (
       <Dropdown
-          name="type_name"
+          name="typeName"
           options={options}
-          value={this.props.filters.type_name}
+          value={this.props.filters.typeName}
           alt="Filter results by institution type"
           visible
           onChange={this.props.handleChange}>
-        <label htmlFor="type_name">
+        <label htmlFor="typeName">
           Institution type
         </label>
       </Dropdown>
@@ -173,9 +173,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     showModal: (name) => {
       dispatch(actions.displayModal(name));
-    },
-    hideModal: () => {
-      dispatch(actions.displayModal(null));
     },
     handleChange: (e) => {
       dispatch(actions.institutionFilterChange(e));

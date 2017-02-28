@@ -11,40 +11,39 @@ class Graph extends React.Component {
     let val = d.value;
     if (val === null || val === undefined) {
       return 'No Data';
-    } else {
-      val = val.toFixed(this.props.decimals);
-      while (/(\d+)(\d{3})/.test(val.toString())) {
-        val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
-      }
-      val = typeof d.percent !== 'undefined' ? '$' + val.replace('.0','') : val + '%';
-      return val;
     }
+    val = val.toFixed(this.props.decimals);
+    while (/(\d+)(\d{3})/.test(val.toString())) {
+      val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+    }
+    val = typeof d.percent !== 'undefined' ? `$${val.replace('.0', '')}` : `${val}%`;
+    return val;
   }
 
   render() {
-    const { width, height, padding, split } = this.props;
+    const { width, height } = this.props;
     const viewBoxString = ['0', '0', width, height].join(' ');
     const BarLabel = (props) => (
       <text fontFamily="SourceSansPro-Regular, Source Sans Pro" fontSize="16" fill="#323A45" width="62">
         <tspan x={props.x} y={props.y}>{props.text}</tspan>
       </text>
     );
-    const HollowUnderbar = ({top}) => <path d={`M80.544 28.8h128.912V3.2H80.544v25.6zM78 ${top || '0'}h134v32H78V0z`} fill="#F1F1F1" fillRule="nonzero"/>;
-    const SolidUnderbar = ({top}) => <path fill="#F1F1F1" d={`M78 ${top || 0}h134v32H78z`}/>;
-    const Underbar = ({top, value, children}) => {
+    const HollowUnderbar = ({ top }) => <path d={`M80.544 28.8h128.912V3.2H80.544v25.6zM78 ${top || '0'}h134v32H78V0z`} fill="#F1F1F1" fillRule="nonzero"/>;
+    const SolidUnderbar = ({ top }) => <path fill="#F1F1F1" d={`M78 ${top || 0}h134v32H78z`}/>;
+    const Underbar = ({ top, value, children }) => {
       return !!value ? <g><SolidUnderbar top={top}/>{children}</g> : <HollowUnderbar top={top}/>;
     };
-    const ValueBar = ({top, color, percent}) => {
-      if (isNaN(percent)) { return null }
-      const width = 134 * (percent / this.props.max);
-      return <path fill={color} d={`M78 ${top}h${width}v32H78z`}/>;
+    const ValueBar = ({ top, color, percent }) => {
+      if (isNaN(percent)) { return null; }
+      const wide = 134 * (percent / this.props.max);
+      return <path fill={color} d={`M78 ${top}h${wide}v32H78z`}/>;
     };
-    const ValueLabel = ({y, text}) => (
+    const ValueLabel = ({ y, text }) => (
       <text fontFamily="SourceSansPro-Bold, Source Sans Pro" fontSize="16" fontWeight="bold" fill="#323A45">
         <tspan x="220" y={y}>{text}</tspan>
       </text>
     );
-    const AverageMark = ({percent, text}) => {
+    const AverageMark = ({ percent, text }) => {
       const position = 75 + (134 * (percent / 100));
       const x = position - 10;
       return (
@@ -57,22 +56,25 @@ class Graph extends React.Component {
       );
     };
 
-    let averagePercent, averageObject;
+    let averagePercent;
+    let averageObject;
     const bars = [
         { name: 'vet', value: this.props.veterans },
         { name: 'all', value: this.props.all }
     ];
     // handle non-percentage data
     if (this.props.max !== 100) {
-      for (var i in bars) {
-        bars[i].percent = (bars[i].value / this.props.max) * 100;
+      for (const i in bars) {
+        if (typeof (bars[i]) === 'object') {
+          bars[i].percent = (bars[i].value / this.props.max) * 100;
+        }
       }
       // handle non-percentage average line
       averagePercent = (this.props.average / this.props.max) * 100;
-      averageObject = {value: this.props.average, percent: true}
+      averageObject = { value: this.props.average, percent: true };
     } else {
       averagePercent = this.props.average;
-      averageObject = {value: this.props.average};
+      averageObject = { value: this.props.average };
     }
     const veterans = bars[0];
     const all = bars[1];

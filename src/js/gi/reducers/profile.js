@@ -1,4 +1,5 @@
 import { FETCH_PROFILE_STARTED, FETCH_PROFILE_FAILED, FETCH_PROFILE_SUCCEEDED } from '../actions';
+import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
   attributes: {},
@@ -19,6 +20,13 @@ function normalizedAttributes(attributes) {
 }
 
 export default function (state = INITIAL_STATE, action) {
+  const camelPayload = camelCaseKeysRecursive(action.payload);
+  const attributes = normalizedAttributes({
+    ...camelPayload.data.attributes,
+    ...camelPayload.data.links
+  });
+  // delete attributes.self;
+  const version = camelPayload.meta.version;
   switch (action.type) {
     case FETCH_PROFILE_STARTED:
       return {
@@ -32,12 +40,6 @@ export default function (state = INITIAL_STATE, action) {
         inProgress: false
       };
     case FETCH_PROFILE_SUCCEEDED:
-      const attributes = normalizedAttributes({
-        ...action.payload.data.attributes,
-        ...action.payload.data.links
-      });
-      // delete attributes.self;
-      const version = action.payload.meta.version;
       return {
         ...state,
         attributes,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import * as actions from '../actions';
 import AccordionItem from '../components/AccordionItem';
 import If from '../components/If';
@@ -14,7 +13,7 @@ import AdditionalInformation from '../components/profile/AdditionalInformation';
 export class ProfilePage extends React.Component {
 
   componentWillMount() {
-    this.props.fetch(this.props.params.facility_code);
+    this.props.fetch(this.props.params.facilityCode);
   }
 
   render() {
@@ -27,14 +26,14 @@ export class ProfilePage extends React.Component {
       <div className="profile-page">
         <HeadingSummary/>
         <ul className="usa-accordion">
-          <AccordionItem button="Estimate your benefits" expanded={true}>
+          <AccordionItem button="Estimate your benefits" expanded>
             <Calculator/>
           </AccordionItem>
           <AccordionItem button="Veteran programs">
             <Programs/>
           </AccordionItem>
           <AccordionItem button="Student outcomes">
-            <If condition={!!profile.attributes.facility_code && !!constants} comment="TODO">
+            <If condition={!!profile.attributes.facilityCode && !!constants} comment="TODO">
               <Outcomes/>
             </If>
           </AccordionItem>
@@ -52,7 +51,7 @@ export class ProfilePage extends React.Component {
 
 }
 
-const mapStateToProps = (state, props) => state;
+const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -62,8 +61,8 @@ const mapDispatchToProps = (dispatch) => {
     setPageTitle: (title) => {
       dispatch(actions.setPageTitle(title));
     },
-    fetch: (facility_code) => {
-      dispatch(actions.fetchProfile(facility_code));
+    fetch: (facilityCode) => {
+      dispatch(actions.fetchProfile(facilityCode));
     }
   };
 };

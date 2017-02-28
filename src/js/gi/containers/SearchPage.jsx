@@ -14,6 +14,13 @@ export class SearchPage extends React.Component {
     this.props.fetch();
   }
 
+  componentDidMount() {
+    let title = 'Search Results';
+    const searchTerm = this.props.autocomplete.term;
+    if (searchTerm) { title += ` - ${searchTerm}`; }
+    this.props.setPageTitle(title);
+  }
+
   handlePageSelect(page) {
     this.props.fetch(page);
   }
@@ -40,27 +47,27 @@ export class SearchPage extends React.Component {
 
           <div className="small-12 medium-9 columns">
             <div className="search-results">
-              {this.props.search.results.map(function (result) {
+              {this.props.search.results.map((result) => {
                 return (
                   <SearchResult
-                      key={result.facility_code}
+                      key={result.facilityCode}
                       name={result.name}
-                      facilityCode={result.facility_code}
+                      facilityCode={result.facilityCode}
                       type={result.type}
                       city={result.city}
                       state={result.state}
                       zip={result.zip}
                       country={result.country}
-                      cautionFlag={result.caution_flag}
-                      studentCount={result.student_count}
+                      cautionFlag={result.cautionFlag}
+                      studentCount={result.studentCount}
                       bah={result.bah}
-                      tuitionInState={result.tuition_in_state}
+                      tuitionInState={result.tuitionInState}
                       tuitionOutOfState={result.tuitionOutOfState}
                       books={result.books}
-                      studentVeteran={result.student_veteran}
+                      studentVeteran={result.studentVeteran}
                       yr={result.yr}
                       poe={result.poe}
-                      eightKeys={result.eight_keys}/>
+                      eightKeys={result.eightKeys}/>
                 );
               })}
             </div>
@@ -73,12 +80,6 @@ export class SearchPage extends React.Component {
     );
   }
 
-  componentDidMount() {
-    let title = 'Search Results';
-    const search_term = this.props.autocomplete.term;
-    if (search_term) { title += ` - ${search_term}`; }
-    this.props.setPageTitle(title);
-  }
 }
 
 SearchPage.defaultProps = {};

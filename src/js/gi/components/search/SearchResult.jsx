@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
-
 import { Link } from 'react-router';
 import { estimatedBenefits } from '../../selectors/estimator';
 
@@ -67,7 +65,7 @@ export class SearchResult extends React.Component {
                   <h4>
                     <i className="fa fa-graduation-cap fa-search-result"></i>
                     Tuition <span>(annually):</span>
-                  <div>{tuition}</div>
+                    <div>{tuition}</div>
                   </h4>
                 </div>
               </div>
@@ -76,7 +74,7 @@ export class SearchResult extends React.Component {
                   <h4>
                     <i className="fa fa-home fa-search-result"></i>
                     Housing <span>(monthly):</span>
-                  <div>{housing}</div>
+                    <div>{housing}</div>
                   </h4>
                 </div>
               </div>
@@ -85,7 +83,7 @@ export class SearchResult extends React.Component {
                   <h4>
                     <i className="fa fa-book fa-search-result"></i>
                     Books <span>(annually):</span>
-                  <div>{books}</div>
+                    <div>{books}</div>
                   </h4>
                 </div>
               </div>
@@ -104,7 +102,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (_dispatch) => {
   return {};
 };
 

@@ -17,7 +17,7 @@ const routes = {
   indexRoute: { component: LandingPage },
   childRoutes: [
     { path: 'search', component: SearchPage },
-    { path: 'profile/:facility_code', component: ProfilePage },
+    { path: 'profile/:facilityCode', component: ProfilePage },
     { ...legacyRoutes }
   ]
 };

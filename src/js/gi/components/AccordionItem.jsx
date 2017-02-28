@@ -6,11 +6,11 @@ class AccordionItem extends React.Component {
     super(props);
     this.state = {
       expanded: props.expanded,
-    }
+    };
   }
 
   toggle() {
-    this.setState({expanded: !this.state.expanded});
+    this.setState({ expanded: !this.state.expanded });
   }
 
   render() {

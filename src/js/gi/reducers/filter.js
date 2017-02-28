@@ -4,12 +4,12 @@ const INITIAL_STATE = {
   type: 'all',
   country: 'ALL',
   state: 'ALL',
-  without_caution_flags: false,
-  student_vet_group: false,
-  yellow_ribbon_scholarship: false,
-  principles_of_excellence: false,
-  eight_keys_to_veteran_success: false,
-  type_name: 'ALL',
+  withoutCautionFlags: false,
+  studentVetGroup: false,
+  yellowRibbonScholarship: false,
+  principlesOfExcellence: false,
+  eightKeysToVeteranSuccess: false,
+  typeName: 'ALL',
 };
 
 export default function (state = INITIAL_STATE, action) {

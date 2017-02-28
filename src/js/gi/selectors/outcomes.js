@@ -3,11 +3,11 @@ import { createSelector } from 'reselect';
 const getConstants = (state) => state.constants.constants;
 
 const getRequiredAttributes = (state) => {
-  const {graduation_rate_veteran, graduation_rate_all_students, salary_all_students} = state.profile.attributes;
+  const { graduationRateVeteran, graduationRateAllStudents, salaryAllStudents } = state.profile.attributes;
   return {
-    graduation_rate_veteran,
-    graduation_rate_all_students,
-    salary_all_students
+    graduationRateVeteran,
+    graduationRateAllStudents,
+    salaryAllStudents
   };
 };
 
@@ -20,17 +20,17 @@ export const outcomeNumbers = createSelector(
       average: constant.AVERETENTIONRATE,
     };
     const graduation = {
-      rate: Number(institution.graduation_rate_veteran * 100),
-      all: Number(institution.graduation_rate_all_students * 100),
+      rate: Number(institution.graduationRateVeteran * 100),
+      all: Number(institution.graduationRateAllStudents * 100),
       average: constant.AVEGRADRATE,
     };
     const salary = {
-      all: institution.salary_all_students,
+      all: institution.salaryAllStudents,
       average: constant.AVESALARY,
-    }
+    };
     const repayment = {
-      rate: Number(institution.graduation_rate_veteran * 100),
-      all: Number(institution.graduation_rate_all_students * 100),
+      rate: Number(institution.graduationRateVeteran * 100),
+      all: Number(institution.graduationRateAllStudents * 100),
       average: constant.AVEGRADRATE,
     };
     return {
@@ -41,9 +41,6 @@ export const outcomeNumbers = createSelector(
     };
   }
 );
-
-
-
 
 
 // const getVeteranRetentionRate = (it) => {

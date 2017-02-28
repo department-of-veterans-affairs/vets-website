@@ -10,10 +10,10 @@ export class KeywordSearch extends React.Component {
     return suggestion.label;
   }
 
-  shouldRenderSuggestions(search_term) {
-    const check_length = search_term.trim().length > 2;
+  shouldRenderSuggestions(searchTerm) {
+    const checkLength = searchTerm.trim().length > 2;
     const finished = true; //! this.props.autocomplete.inProgress;
-    return check_length && finished;
+    return checkLength && finished;
   }
 
   renderSuggestion(suggestion) {
@@ -36,7 +36,7 @@ export class KeywordSearch extends React.Component {
             renderSuggestion={this.renderSuggestion}
             shouldRenderSuggestions={this.shouldRenderSuggestions.bind(this)}
             inputProps={{
-              value: this.props.autocomplete.search_term,
+              value: this.props.autocomplete.searchTerm,
               onChange: this.props.handleChange
             }}/>
       </div>

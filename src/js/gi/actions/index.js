@@ -55,9 +55,20 @@ export function exitPreviewMode() {
   };
 }
 
+function withPreview(dispatch, action) {
+  const version = action.payload.meta.version;
+  if (version.preview) {
+    dispatch({
+      type: ENTER_PREVIEW_MODE,
+      version
+    });
+  }
+  dispatch(action);
+}
+
 export function fetchConstants() {
   const previewVersion = ''; // TODO
-  const url = `${api.url}/calculator/constants?preview=${previewVersion}`;
+  const url = `${api.url}/calculator_constants?preview=${previewVersion}`;
 
   return dispatch => {
     dispatch({ type: FETCH_CONSTANTS_STARTED });
@@ -71,15 +82,15 @@ export function fetchConstants() {
   };
 }
 
-export function updateAutocompleteSearchTerm(search_term) {
+export function updateAutocompleteSearchTerm(searchTerm) {
   return {
     type: AUTOCOMPLETE_TERM_CHANGED,
-    search_term,
+    searchTerm,
   };
 }
 
 export function fetchAutocompleteSuggestions(text) {
-  const previewVersion = ''; // TODO
+  const previewVersion = '1'; // TODO
   const url = [
     `${api.url}/institutions/autocomplete?preview=${previewVersion}`,
     `term=${text}`
@@ -131,21 +142,8 @@ export function institutionProgramFilterChange(e) {
   };
 }
 
-function withPreview(dispatch, action) {
-  const version = action.payload.meta.version;
-  if (version.preview) {
-    dispatch({
-      type: ENTER_PREVIEW_MODE,
-      version
-    });
-  }
-  dispatch(action);
-}
-
-export function fetchSearchResults(page = 1, previewVersionNumber = null) {
-  const url = `${api.url}/institutions?page=${page}&version=1`;
-  // TODO: pagination and other params
-  const preview = !!previewVersionNumber;
+export function fetchSearchResults(page = 1) {
+  const url = `${api.url}/institutions/search?page=${page}&version=1`;
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED });
@@ -159,9 +157,8 @@ export function fetchSearchResults(page = 1, previewVersionNumber = null) {
   };
 }
 
-export function fetchProfile(facility_code, previewVersionNumber = null) {
-  const url = `${api.url}/institutions/${facility_code}?version=1`;
-  const preview = !!previewVersionNumber;
+export function fetchProfile(facilityCode) {
+  const url = `${api.url}/institutions/${facilityCode}?version=1`;
 
   return dispatch => {
     dispatch({ type: FETCH_PROFILE_STARTED });

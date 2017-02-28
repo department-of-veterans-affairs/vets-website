@@ -4,7 +4,7 @@ import * as actions from '../../actions';
 
 export class Calculator extends React.Component {
   render() {
-    const it = this.props.profile.attributes;
+    // const it = this.props.profile.attributes;
     return (
       <div>
         Calculator
@@ -13,7 +13,7 @@ export class Calculator extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => state;
+const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => {
   return {

@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 
-import If from '../If';
-
 class PreviewBanner extends React.Component {
   render() {
     if (!this.props.show) {
@@ -16,7 +14,7 @@ class PreviewBanner extends React.Component {
       }
     `;
     const tz = { timeZone: 'America/New_York' };
-    const when = new Date(this.props.version.created_at).toLocaleString('us', tz);
+    const when = new Date(this.props.version.createdAt).toLocaleString('us', tz);
 
     return (
       <div className="gi-preview-banner">

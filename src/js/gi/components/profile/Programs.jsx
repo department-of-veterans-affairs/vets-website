@@ -15,11 +15,11 @@ export class Programs extends React.Component {
           text: 'See rates',
         }
       },
-      student_veteran: {
+      studentVeteran: {
         modal: 'vetgroups',
         text: 'Student Veteran Group',
         link: {
-          href: institution.student_veteran_link,
+          href: institution.studentVeteranLink,
           text: 'Site',
         }
       },
@@ -28,17 +28,17 @@ export class Programs extends React.Component {
         text: 'Principles of Excellence',
         link: false
       },
-      eight_keys: {
+      eightKeys: {
         modal: 'eightKeys',
         text: '8 Keys to Veteran Success',
         link: false
       },
-      vet_success_name: {
+      vetSuccessName: {
         modal: false,
         text: 'VetSuccess on Campus',
         link: {
-          href: institution.vet_success_email ? `mailto:${institution.vet_success_email}` : false,
-          text: `Email ${institution.vet_success_name}`,
+          href: institution.vetSuccessEmail ? `mailto:${institution.vetSuccessEmail}` : false,
+          text: `Email ${institution.vetSuccessName}`,
         }
       },
       dodmou: {
@@ -74,14 +74,14 @@ export class Programs extends React.Component {
         <If condition={available.length > 0}>
           <div className="medium-6 large-6 column">
             <h3>Veteran programs available at this campus</h3>
-            {available.map(( (program) => this.renderProgramLabel.bind(this, program, true)() ))}
+            {available.map((program) => this.renderProgramLabel.bind(this, program, true)())}
             <br/>
           </div>
         </If>
         <If condition={notAvailable.length > 0}>
           <div className="medium-6 large-6 column">
             <h3>Not available at this campus</h3>
-            {notAvailable.map(( (program) => this.renderProgramLabel.bind(this, program, false)() ))}
+            {notAvailable.map((program) => this.renderProgramLabel.bind(this, program, false)())}
           </div>
         </If>
       </div>
@@ -89,7 +89,7 @@ export class Programs extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => state;
+const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => {
   return {

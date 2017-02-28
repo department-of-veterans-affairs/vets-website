@@ -1,4 +1,5 @@
 import { FETCH_CONSTANTS_STARTED, FETCH_CONSTANTS_FAILED, FETCH_CONSTANTS_SUCCEEDED } from '../actions';
+import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
   inProgress: false,
@@ -6,6 +7,11 @@ const INITIAL_STATE = {
 };
 
 export default function (state = INITIAL_STATE, action) {
+  const camelPayload = camelCaseKeysRecursive(action.payload);
+  const constants = camelPayload.data.reduce((acc, c) => {
+    const { name, value } = c.attributes;
+    return { ...acc, [name]: value };
+  }, {});
   switch (action.type) {
     case FETCH_CONSTANTS_STARTED:
       return {
@@ -19,14 +25,10 @@ export default function (state = INITIAL_STATE, action) {
         inProgress: false
       };
     case FETCH_CONSTANTS_SUCCEEDED:
-      const constants = action.payload.data.reduce((constants, c) => {
-        const { name, value } = c.attributes;
-        return { ...constants, [name]: value };
-      }, {});
       return {
         ...state,
         constants,
-        version: action.payload.meta.version,
+        version: camelPayload.meta.version,
         inProgress: false,
       };
     default:

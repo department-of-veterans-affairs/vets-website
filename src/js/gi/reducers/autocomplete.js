@@ -1,20 +1,22 @@
 import { AUTOCOMPLETE_TERM_CHANGED, AUTOCOMPLETE_STARTED, AUTOCOMPLETE_FAILED, AUTOCOMPLETE_SUCCEEDED } from '../actions';
+import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
   inProgress: false,
   previewVersion: null,
-  search_term: '',
-  facility_code: null,
+  searchTerm: '',
+  facilityCode: null,
   suggestions: []
 };
 
 export default function (state = INITIAL_STATE, action) {
+  const camelPayload = camelCaseKeysRecursive(action.payload);
   switch (action.type) {
     case AUTOCOMPLETE_TERM_CHANGED:
       return {
         ...state,
-        search_term: action.search_term,
-        facility_code: null
+        searchTerm: action.searchTerm,
+        facilityCode: null
       };
     case AUTOCOMPLETE_STARTED:
       return {
@@ -25,14 +27,14 @@ export default function (state = INITIAL_STATE, action) {
       return {
         ...state,
         ...action.err,
-        search_term: action.value,
+        searchTerm: action.value,
         inProgress: false
       };
     case AUTOCOMPLETE_SUCCEEDED:
       return {
         ...state,
-        suggestions: action.payload.data,
-        previewVersion: action.payload.meta.version,
+        suggestions: camelPayload.data,
+        previewVersion: camelPayload.meta.version,
         inProgress: false
       };
     default:

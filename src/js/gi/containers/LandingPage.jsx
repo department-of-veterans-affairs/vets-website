@@ -14,6 +14,10 @@ export class LandingPage extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.props.setPageTitle('GI Bill Comparison Tool: Vets.gov');
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     this.props.router.push('/search');
@@ -44,10 +48,6 @@ export class LandingPage extends React.Component {
         </div>
       </span>
     );
-  }
-
-  componentDidMount() {
-    this.props.setPageTitle('GI Bill Comparison Tool: Vets.gov');
   }
 
 }

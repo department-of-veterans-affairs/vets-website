@@ -15,17 +15,17 @@ export class EligibilityForm extends React.Component {
 
         <RadioButtons
             label="How do you want to take classes?"
-            name="online_classes"
+            name="onlineClasses"
             options={[
             { value: 'yes', label: 'Online only' },
             { value: 'no', label: 'In person only' },
             { value: 'both', label: 'In person and online' }
             ]}
-            value={this.props.eligibility.online_classes}
+            value={this.props.eligibility.onlineClasses}
             onChange={this.props.handleChange}/>
 
         <Dropdown
-            name="military_status"
+            name="militaryStatus"
             options={[
               { value: 'veteran', label: 'Veteran' },
               { value: 'active duty', label: 'Active Duty' },
@@ -33,32 +33,32 @@ export class EligibilityForm extends React.Component {
               { value: 'spouse', label: 'Spouse' },
               { value: 'child', label: 'Child' }
             ]}
-            value={this.props.eligibility.military_status}
+            value={this.props.eligibility.militaryStatus}
             alt="What is your military status?"
             visible={this.props.eligibility.dropdowns.militaryStatus}
             onChange={this.props.handleChange}>
-          <label htmlFor="military_status">
+          <label htmlFor="militaryStatus">
             What is your military status?
           </label>
         </Dropdown>
 
         <Dropdown
-            name="spouse_active_duty"
+            name="spouseActiveDuty"
             options={[
               { value: 'yes', label: 'Yes' },
               { value: 'no', label: 'No' }
             ]}
-            value={this.props.eligibility.spouse_active_duty}
+            value={this.props.eligibility.spouseActiveDuty}
             alt="Is your spouse on active duty?"
             visible={this.props.eligibility.dropdowns.spouseActiveDuty}
             onChange={this.props.handleChange}>
-          <label htmlFor="spouse_active_duty">
+          <label htmlFor="spouseActiveDuty">
             Is your spouse on active duty?
           </label>
         </Dropdown>
 
         <Dropdown
-            name="gi_bill_chapter"
+            name="giBillChapter"
             options={[
               { value: '33', label: 'Post-9/11 GI Bill (Ch 33)' },
               { value: '30', label: 'Montgomery GI Bill (Ch 30)' },
@@ -67,11 +67,11 @@ export class EligibilityForm extends React.Component {
               { value: '31', label: 'Vocational Rehabilitation & Employment (VR & E)' },
               { value: '35', label: 'Dependents Educational Assistance (DEA)' },
             ]}
-            value={this.props.eligibility.gi_bill_chapter}
+            value={this.props.eligibility.giBillChapter}
             alt="Which GI Bill benefit do you want to use?"
             visible={this.props.eligibility.dropdowns.giBillChapter}
             onChange={this.props.handleChange}>
-          <label htmlFor="gi_bill_chapter">
+          <label htmlFor="giBillChapter">
             Which GI Bill benefit do you want to use?
             (<a onClick={() => this.props.showModal('giBillChapter')} className="info-icons">
               learn more
@@ -80,8 +80,8 @@ export class EligibilityForm extends React.Component {
         </Dropdown>
 
         <If condition={
-            this.props.eligibility.military_status === 'active duty' &&
-            this.props.eligibility.gi_bill_chapter === '33'}>
+            this.props.eligibility.militaryStatus === 'active duty' &&
+            this.props.eligibility.giBillChapter === '33'}>
           <div className="militaryStatusInfo form-group">
             <i className="fa fa-warning"></i>
             <a title="Post 9/11 GI Bill"
@@ -94,7 +94,7 @@ export class EligibilityForm extends React.Component {
         </If>
 
         <Dropdown
-            name="cumulative_service"
+            name="cumulativeService"
             options={[
               { value: '1.0', label: '36+ months: 100% (includes BASIC)' }, // notice not 1.00
               { value: '0.9', label: '30 months: 90% (includes BASIC)' },
@@ -107,11 +107,11 @@ export class EligibilityForm extends React.Component {
               { value: '1.00', label: 'GYSGT Fry Scholarship: 100%' },  // notice not 1.0
               { value: 'service discharge', label: 'Service-Connected Discharge: 100%' }
             ]}
-            value={this.props.eligibility.cumulative_service}
+            value={this.props.eligibility.cumulativeService}
             alt="Cumulative Post-9/11 active duty service"
             visible={this.props.eligibility.dropdowns.cumulativeService}
             onChange={this.props.handleChange}>
-          <label htmlFor="cumulative_service">
+          <label htmlFor="cumulativeService">
             Cumulative Post-9/11 active duty service
             (<a onClick={() => this.props.showModal('cumulativeService')} className="info-icons">
               learn more
@@ -120,16 +120,16 @@ export class EligibilityForm extends React.Component {
         </Dropdown>
 
         <Dropdown
-            name="enlistment_service"
+            name="enlistmentService"
             options={[
               { value: '3', label: '3 or more years' },
               { value: '2', label: '2 or more years' }
             ]}
-            value={this.props.eligibility.enlistment_service}
+            value={this.props.eligibility.enlistmentService}
             alt="Completed an enlistment of:"
             visible={this.props.eligibility.dropdowns.enlistmentService}
             onChange={this.props.handleChange}>
-          <label htmlFor="enlistment_service">
+          <label htmlFor="enlistmentService">
             Completed an enlistment of:
             (<a onClick={() => this.props.showModal('enlistmentService')} className="info-icons">
               learn more
@@ -138,17 +138,17 @@ export class EligibilityForm extends React.Component {
         </Dropdown>
 
         <Dropdown
-            name="consecutive_service"
+            name="consecutiveService"
             options={[
               { value: '0.8', label: '2+ years of consecutive service: 80%' },
               { value: '0.6', label: '1+ year of consecutive service: 60%' },
               { value: '0.4', label: '90+ days of consecutive service: 40%' }
             ]}
-            value={this.props.eligibility.consecutive_service}
+            value={this.props.eligibility.consecutiveService}
             alt="Length of longest active duty tour:"
             visible={this.props.eligibility.dropdowns.consecutiveService}
             onChange={this.props.handleChange}>
-          <label htmlFor="consecutive_service">
+          <label htmlFor="consecutiveService">
             Length of longest active duty tour:
             (<a onClick={() => this.props.showModal('consecutiveService')} className="info-icons">
               learn more
@@ -157,22 +157,22 @@ export class EligibilityForm extends React.Component {
         </Dropdown>
 
         <Dropdown
-            name="elig_for_post_gi_bill"
+            name="eligForPostGiBill"
             options={[
               { value: 'yes', label: 'Yes' },
               { value: 'no', label: 'No' }
             ]}
-            value={this.props.eligibility.elig_for_post_gi_bill}
+            value={this.props.eligibility.eligForPostGiBill}
             alt="Are you eligible for the Post-9/11 GI Bill?"
             visible={this.props.eligibility.dropdowns.eligForPostGIBill}
             onChange={this.props.handleChange}>
-          <label htmlFor="elig_for_post_gi_bill">
+          <label htmlFor="eligForPostGiBill">
             Are you eligible for the Post-9/11 GI Bill?
           </label>
         </Dropdown>
 
         <Dropdown
-            name="number_of_dependents"
+            name="numberOfDependents"
             options={[
               { value: '0', label: '0 Dependents' },
               { value: '1', label: '1 Dependent' },
@@ -181,12 +181,12 @@ export class EligibilityForm extends React.Component {
               { value: '4', label: '4 Dependents' },
               { value: '5', label: '5 Dependents' }
             ]}
-            value={this.props.eligibility.number_of_dependents}
+            value={this.props.eligibility.numberOfDependents}
             alt="How many dependents do you have?"
             visible={this.props.eligibility.dropdowns.numberOfDependents}
             onChange={this.props.handleChange}
             showLabel={this.props.labels}>
-          <label htmlFor="number_of_dependents">
+          <label htmlFor="numberOfDependents">
             How many dependents do you have?
           </label>
         </Dropdown>

@@ -12,16 +12,16 @@ export class AdditionalInformation extends React.Component {
       return (
         <p>
           <strong>Type of accreditation:&nbsp;</strong>
-          {it.accreditation_type.toUpperCase()}
+          {it.accreditationType.toUpperCase()}
         </p>
       );
     };
     const VetTuitionPolicy = () => {
-      if (!it.vet_tuition_policy_url) return null;
+      if (!it.vetTuitionPolicyUrl) return null;
       return (
         <p>
           <strong>Veterans tuition policy:&nbsp;</strong>
-          <a href={`http://${it.vet_tuition_policy_url}`} target="_blank">View policy</a>
+          <a href={`http://${it.vetTuitionPolicyUrl}`} target="_blank">View policy</a>
         </p>
       );
     };
@@ -59,11 +59,11 @@ export class AdditionalInformation extends React.Component {
             <VetTuitionPolicy/>
             <p>
               <strong>Single point of contact for veterans:&nbsp;</strong>
-              {!!it.vet_poc ? 'Yes' : 'No'}
+              {!!it.vetPoc ? 'Yes' : 'No'}
             </p>
             <p>
               <strong>Credit for military training:&nbsp;</strong>
-              {!!it.credit_for_mil_training ? 'Yes' : 'No'}
+              {!!it.creditForMilTraining ? 'Yes' : 'No'}
             </p>
           </div>
           <div className="historical-information list">
@@ -75,11 +75,11 @@ export class AdditionalInformation extends React.Component {
               </p>
               <p>
                 <strong>Recipients:&nbsp;</strong>
-                {formatNumber(it.p911_recipients)}
+                {formatNumber(it.p911Recipients)}
               </p>
               <p>
                 <strong>Total paid (2014):&nbsp;</strong>
-                {formatCurrency(it.p911_tuition_fees)}
+                {formatCurrency(it.p911TuitionFees)}
               </p>
             </div>
             <div>
@@ -89,11 +89,11 @@ export class AdditionalInformation extends React.Component {
               </p>
               <p>
                 <strong>Recipients:&nbsp;</strong>
-                {formatNumber(it.p911_yr_recipients)}
+                {formatNumber(it.p911YrRecipients)}
               </p>
               <p>
                 <strong>Total paid (2014):&nbsp;</strong>
-                {formatCurrency(it.p911_yellow_ribbon)}
+                {formatCurrency(it.p911YellowRibbon)}
               </p>
             </div>
           </div>
@@ -104,7 +104,7 @@ export class AdditionalInformation extends React.Component {
                 <a onClick={this.props.showModal.bind(this, 'facilityCode')}>VA facility code:</a>
                 &nbsp;
               </strong>
-              {+it.facility_code}
+              {+it.facilityCode}
             </p>
             <p>
               <strong>
@@ -136,13 +136,13 @@ export class AdditionalInformation extends React.Component {
               <tbody>
                 <tr>
                   <th>Post-9/11 GI Bill</th>
-                  <td>{formatNumber(it.p911_recipients)}</td>
-                  <td>{formatCurrency(it.p911_tuition_fees)}</td>
+                  <td>{formatNumber(it.p911Recipients)}</td>
+                  <td>{formatCurrency(it.p911TuitionFees)}</td>
                 </tr>
                 <tr>
                   <th>Yellow Ribbon</th>
-                  <td>{formatNumber(it.p911_yr_recipients)}</td>
-                  <td>{formatCurrency(it.p911_yellow_ribbon)}</td>
+                  <td>{formatNumber(it.p911YrRecipients)}</td>
+                  <td>{formatCurrency(it.p911YellowRibbon)}</td>
                 </tr>
               </tbody>
             </table>
@@ -153,7 +153,7 @@ export class AdditionalInformation extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => state;
+const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => {
   return {

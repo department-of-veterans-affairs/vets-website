@@ -1,6 +1,5 @@
 import React from 'react';
 
-// TODO: fix tracking onClicks?
 class AboutThisTool extends React.Component {
   render() {
     return (

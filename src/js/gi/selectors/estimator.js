@@ -16,30 +16,31 @@ const getRequiredAttributes = (_state, props) => {
 function getDerivedAttributes(constant, eligibility, institution) {
   const your = eligibility;
   const its = institution;
-  let serviceDischarge, vre911Eligible, tier, oldGiBill, onlyVRE, onlyTuitionFees, monthlyRate;
+  let onlyTuitionFees;
+  let monthlyRate;
 
-  serviceDischarge = (your.cumulative_service === 'service discharge');
+  const serviceDischarge = (your.cumulativeService === 'service discharge');
 
   // VRE and post-9/11 eligibility
-  vre911Eligible = (your.gi_bill_chapter === '31' && your.elig_for_post_gi_bill === 'yes');
+  const vre911Eligible = (your.giBillChapter === '31' && your.eligForPostGiBill === 'yes');
 
   // VRE-without-post-911 eligibility
-  onlyVRE = (your.gi_bill_chapter === '31' && your.elig_for_post_gi_bill === 'no');
+  const onlyVRE = (your.giBillChapter === '31' && your.eligForPostGiBill === 'no');
 
   // Determines benefits tier
-  tier = (vre911Eligible || serviceDischarge) ? 1 : Number(your.cumulative_service);
+  const tier = (vre911Eligible || serviceDischarge) ? 1 : Number(your.cumulativeService);
 
-  oldGiBill = (
-    your.gi_bill_chapter === '30'
-    || your.gi_bill_chapter === '1607'
-    || your.gi_bill_chapter === '1606'
-    || your.gi_bill_chapter === '35'
+  const oldGiBill = (
+    your.giBillChapter === '30'
+    || your.giBillChapter === '1607'
+    || your.giBillChapter === '1606'
+    || your.giBillChapter === '35'
   );
 
   // Determines whether monthly benefit can only be spent on tuition/fees
   const activeDutyThirtyOr1607 = (
-    your.military_status === 'active duty' &&
-    (your.gi_bill_chapter === '30' || your.gi_bill_chapter === '1607')
+    your.militaryStatus === 'active duty' &&
+    (your.giBillChapter === '30' || your.giBillChapter === '1607')
   );
   const correspondenceOrFlightUnderOldGiBill = (
     (its.type === 'correspondence' || its.type === 'flight') && oldGiBill === true
@@ -53,18 +54,18 @@ function getDerivedAttributes(constant, eligibility, institution) {
   // The monthly benefit rate for non-chapter 33 benefits
   const isOJT = its.type === 'ojt';
   const isFlight = its.type === 'flight';
-  const n = Number(your.number_of_dependents);
+  const n = Number(your.numberOfDependents);
   const OJT = isOJT ? 'OJT' : '';
-  switch (Number(your.gi_bill_chapter)) {
+  switch (Number(your.giBillChapter)) {
     case 30:
-      if (your.enlistment_service === '3') {
+      if (your.enlistmentService === '3') {
         monthlyRate = isOJT ? constant.MGIB3YRRATE * 0.75 : constant.MGIB3YRRATE;
-      } else if (your.enlistment_service === '2') {
+      } else if (your.enlistmentService === '2') {
         monthlyRate = isOJT ? constant.MGIB2YRRATE * 0.75 : constant.MGIB2YRRATE;
       }
       break;
     case 1607:
-      monthlyRate = constant.MGIB3YRRATE * Number(your.consecutive_service);
+      monthlyRate = constant.MGIB3YRRATE * Number(your.consecutiveService);
       if (isOJT) {
         monthlyRate = monthlyRate * 0.75;
       }
@@ -109,7 +110,7 @@ function getDerivedAttributes(constant, eligibility, institution) {
 function calculateTuition(constant, eligibility, institution, derived) {
   const your = eligibility;
   const its = institution;
-  const chapter = Number(your.gi_bill_chapter);
+  const chapter = Number(your.giBillChapter);
   const isFlightOrCorrespondence = () => its.type === 'flight' || its.type === 'correspondence';
 
   if (derived.oldGiBill) {
@@ -121,9 +122,8 @@ function calculateTuition(constant, eligibility, institution, derived) {
   if (chapter === 31) {
     if (isFlightOrCorrespondence()) {
       return { qualifier: 'per year', value: 0 };
-    } else {
-      return { qualifier: null, value: 'Full Cost' };
     }
+    return { qualifier: null, value: 'Full Cost' };
   }
   if (its.type === 'flight') {
     return { qualifier: 'per year', value: Math.round(constant.FLTTFCAP * derived.tier) };
@@ -142,7 +142,7 @@ function calculateHousing(constant, eligibility, institution, derived) {
   const its = institution;
   const isFlightOrCorrespondence = () => its.type === 'flight' || its.type === 'correspondence';
 
-  if (your.gi_bill_chapter === '31' && isFlightOrCorrespondence()) {
+  if (your.giBillChapter === '31' && isFlightOrCorrespondence()) {
     return { qualifier: 'per month', value: 0 };
   }
   if (derived.oldGiBill && derived.onlyTuitionFees) {
@@ -151,10 +151,10 @@ function calculateHousing(constant, eligibility, institution, derived) {
   if (derived.oldGiBill || derived.onlyVRE) {
     return { qualifier: 'per month', value: Math.round(derived.monthlyRate) };
   }
-  if (your.military_status === 'active duty') {
+  if (your.militaryStatus === 'active duty') {
     return { qualifier: 'per month', value: 0 };
   }
-  if (your.military_status === 'spouse' && your.spouse_active_duty === 'yes') {
+  if (your.militaryStatus === 'spouse' && your.spouseActiveDuty === 'yes') {
     return { qualifier: 'per month', value: 0 };
   }
   if (isFlightOrCorrespondence()) {
@@ -163,7 +163,7 @@ function calculateHousing(constant, eligibility, institution, derived) {
   if (its.type === 'ojt') {
     return { qualifier: 'per month', value: Math.round(derived.tier * its.bah) };
   }
-  if (your.online_classes === 'yes') {
+  if (your.onlineClasses === 'yes') {
     return { qualifier: 'per month', value: Math.round(derived.tier * constant.AVGBAH / 2) };
   }
   if (its.country !== 'usa') {
@@ -180,7 +180,7 @@ function calculateBooks(constant, eligibility, institution, derived) {
   if (derived.oldGiBill || isFlightOrCorrespondence()) {
     return { qualifier: 'per year', value: 0 };
   }
-  if (your.gi_bill_chapter === '31') {
+  if (your.giBillChapter === '31') {
     return { qualifier: null, value: 'Full Cost' };
   }
   return { qualifier: 'per year', value: derived.tier * constant.BSCAP };

@@ -1,16 +1,17 @@
 import { SEARCH_STARTED, SEARCH_FAILED, SEARCH_SUCCEEDED } from '../actions';
+import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
   facets: {
     type: {},
-    type_name: {},
+    typeName: {},
     state: {},
     country: {},
-    caution_flag: {},
-    student_vet_group: {},
-    yellow_ribbon_scholarship: {},
-    principles_of_excellence: {},
-    eight_keys_to_veteran_success: {},
+    cautionFlag: {},
+    studentVetGroup: {},
+    yellowRibbonScholarship: {},
+    principlesOfExcellence: {},
+    eightKeysToVeteranSuccess: {},
   },
   links: {},
   results: [],
@@ -47,12 +48,12 @@ function uppercaseKeys(obj) {
 function normalizedFacets(facets) {
   const state = uppercaseKeys(facets.state);
   const country = uppercaseKeys(facets.country);
-  const type_name = uppercaseKeys(facets.type_name);
+  const typeName = uppercaseKeys(facets.typeName);
   return {
     ...facets,
     state,
     country,
-    type_name
+    typeName
   };
 }
 
@@ -65,6 +66,11 @@ function derivePaging(links) {
 }
 
 export default function (state = INITIAL_STATE, action) {
+  const camelPayload = camelCaseKeysRecursive(action.payload);
+  const results = camelPayload.data.reduce((acc, result) => {
+    const attributes = normalizedAttributes(result.attributes);
+    return [...acc, attributes];
+  }, []);
   switch (action.type) {
     case SEARCH_STARTED:
       return {
@@ -78,17 +84,13 @@ export default function (state = INITIAL_STATE, action) {
         inProgress: false
       };
     case SEARCH_SUCCEEDED:
-      const results = action.payload.data.reduce((results, result) => {
-        const attributes = normalizedAttributes(result.attributes);
-        return [...results, attributes];
-      }, []);
       return {
         ...state,
         results,
-        pagination: derivePaging(action.payload.links),
-        facets: normalizedFacets(action.payload.meta.facets),
-        count: action.payload.meta.count,
-        version: action.payload.meta.version,
+        pagination: derivePaging(camelPayload.links),
+        facets: normalizedFacets(camelPayload.meta.facets),
+        count: camelPayload.meta.count,
+        version: camelPayload.meta.version,
         inProgress: false
       };
     default:

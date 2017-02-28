@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-
-import { Link } from 'react-router';
 import { outcomeNumbers } from '../../selectors/outcomes';
 import Graph from './Graph';
-import If from '../If';
 
 export class Outcomes extends React.Component {
 
@@ -44,7 +41,7 @@ export class Outcomes extends React.Component {
         <div className="medium-12 column">
           <p>
             Access a comprehensive spreadsheet of <a title="Veteran Outcome Measures"
-            href={download.link} target="_blank">Veteran Outcome Measures ({download.info})</a>
+                href={download.link} target="_blank">Veteran Outcome Measures ({download.info})</a>
           </p>
         </div>
       </div>
