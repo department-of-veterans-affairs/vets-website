@@ -11,13 +11,15 @@ import StringField from './review/StringField';
 import widgets from './widgets/index';
 import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
+import TitleField from './TitleField';
 import ReviewObjectField from './review/ObjectField';
 import { scrollToFirstError } from '../utils/helpers';
 
 const fields = {
   ObjectField,
   ArrayField,
-  address: Address
+  address: Address,
+  TitleField
 };
 
 const reviewFields = {
