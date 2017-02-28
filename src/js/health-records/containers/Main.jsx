@@ -50,7 +50,7 @@ export class Main extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     // save state in case user refreshes the page
-    sessionStorage.setItem('hr-form', this.props.form);
+    sessionStorage.setItem('hr-form', JSON.stringify(this.props.form));
     this.context.router.push('/loading');
   }
 

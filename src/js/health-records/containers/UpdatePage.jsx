@@ -15,7 +15,9 @@ export class UpdatePage extends React.Component {
         props.checkRefreshStatus();
       }, 10000);
     };
+    this.handleSkipToDownload = this.handleSkipToDownload.bind(this);
   }
+
   componentDidMount() {
     this.props.checkRefreshStatus();
     this.pollRefresh();
@@ -24,7 +26,7 @@ export class UpdatePage extends React.Component {
   componentWillReceiveProps(nextProps) {
     const erroredUpdates = nextProps.refresh.statuses.ERROR;
     if (erroredUpdates.length === 0) {
-      this.props.submitForm(sessionStorage('hr-form'));
+      this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
     }
     if (nextProps.form.ready) {
       this.context.router.push('/download');
@@ -33,6 +35,12 @@ export class UpdatePage extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.pollRefresh);
+  }
+
+  handleSkipToDownload(e) {
+    e.preventDefault();
+    this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
+    this.context.router.push('/download');
   }
 
   render() {
@@ -47,7 +55,7 @@ export class UpdatePage extends React.Component {
           To get the most up-to-date information, please wait for your health records to finish updating. This may take a few minutes.
         </p>
         <p>
-          <Link to="/download">Get an older version of your records ></Link>
+          <Link to="/download" onClick={this.handleSkipToDownload}>Get an older version of your records ></Link>
         </p>
       </div>
     );
