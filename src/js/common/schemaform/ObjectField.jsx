@@ -22,16 +22,18 @@ import ExpandingGroup from '../components/form-elements/ExpandingGroup';
  * Add a first field class to the first actual field on the page
  * and on any "blocks", which are titled sections of the page
  */
-function setFirstFields() {
-  const containers = [document].concat(
-    Array.from(document.querySelectorAll('.schemaform-block'))
-  );
-  containers.forEach(block => {
-    const fields = Array.from(block.querySelectorAll('.schemaform-field-template'));
-    if (fields.length) {
-      fields[0].classList.add('schemaform-first-field');
-    }
-  });
+function setFirstFields(id) {
+  if (id === 'root') {
+    const containers = [document].concat(
+      Array.from(document.querySelectorAll('.schemaform-block'))
+    );
+    containers.forEach(block => {
+      const fields = Array.from(block.querySelectorAll('.schemaform-field-template'));
+      if (fields.length) {
+        fields[0].classList.add('schemaform-first-field');
+      }
+    });
+  }
 }
 
 class ObjectField extends React.Component {
@@ -56,7 +58,7 @@ class ObjectField extends React.Component {
   }
 
   componentDidMount() {
-    setFirstFields();
+    setFirstFields(this.props.idSchema.$id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -76,7 +78,7 @@ class ObjectField extends React.Component {
   }
 
   componentDidUpdate() {
-    setFirstFields();
+    setFirstFields(this.props.idSchema.$id);
   }
 
   onPropertyChange(name) {
