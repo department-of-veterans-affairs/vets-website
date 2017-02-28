@@ -23,7 +23,7 @@ describe('Edu 1995 schoolSelection', () => {
       .to.not.be.empty;
   });
 
-  it('should require school name and education type', () => {
+  it('should require school only name and education type', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           formData={{}}
@@ -42,38 +42,8 @@ describe('Edu 1995 schoolSelection', () => {
     // Expect these fields to require validation
     expect(formDOM.querySelector('.usa-input-error #root_newSchoolName')).to.not.be.null;
     expect(formDOM.querySelector('.usa-input-error #root_educationType')).to.not.be.null;
-  });
 
-  it('should have no errors with only required info filled in', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
-    );
-    const formDOM = findDOMNode(form);
-    const find = formDOM.querySelector.bind(formDOM);
-
-    // Fill in the data
-    ReactTestUtils.Simulate.change(find('#root_newSchoolName'), {
-      target: {
-        value: 'Test School'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('#root_educationType'), {
-      target: {
-        value: 'college'
-      }
-    });
-
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
-    });
-
-    // onSubmit will only be called if there were no validation errors
-    expect(onSubmit.called).to.be.true;
+    // There should only be the two errors
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
   });
 });
