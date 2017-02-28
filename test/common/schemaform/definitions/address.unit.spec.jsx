@@ -74,6 +74,15 @@ describe('Schemaform definition address', () => {
     // jsdom doesn't support namedItem; use options instead
     expect(Array.from(stateField.options).find(op => op.value === 'OR')).to.not.be.undefined;
 
+    // Entering a military city should result in different "state" options
+    const cityField = formDOM.querySelector('#root_city');
+    ReactTestUtils.Simulate.change(cityField, {
+      target: {
+        value: 'apo'
+      }
+    });
+    expect(Array.from(stateField.options).find(op => op.value === 'AA')).to.not.be.undefined;
+
     // Change the country
     const countryField = find('#root_country');
 
