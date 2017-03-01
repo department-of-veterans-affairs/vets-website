@@ -112,7 +112,7 @@ class EduBenefitsApp extends React.Component {
         {devPanel}
         <Element name="topScrollElement"/>
         <div className="medium-8 columns">
-          <FormTitle title="Apply for education benefits" subTitle="Form 22-1990"/>
+          <FormTitle title="Apply for education benefits"/>
           <div>
             {!_.includes(['introduction', 'submit-message'], endpoint) && <SegmentedProgressBar total={chapters.length} current={step}/>}
             <div className="schemaform-chapter-progress">
