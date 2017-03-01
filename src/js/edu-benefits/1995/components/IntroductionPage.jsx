@@ -37,20 +37,20 @@ class IntroductionPage extends React.Component {
               <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you pick the right program.</p>
               <h6>Learn about educational programs</h6>
               <ul>
-                <li>See what benefits you'll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
+                <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
               </ul>
-            </li>
+            </li>g
             <li className="step two">
-              <div><h5>Apply to manage your Benefit</h5></div>
+              <div><h5>Apply to manage your benefits</h5></div>
               <p>Complete this form.</p>
             </li>
             <li className="step three">
               <div><h5>VA Review</h5></div>
-              <div><h6>How long does it take the VA to make a decision?</h6></div>
+              <div><h6>How long does it take VA to make a decision?</h6></div>
               <ul><li>We usually process claims within 30 days.</li></ul>
               <div><h6>What should I do while I wait?</h6></div>
               <ul><li>The transition from military to civilian life can be challenging. VA offers <a href="/education/tools-programs/education-career-counseling/">tools and counseling programs</a> to help you make the most of your educational options.</li></ul>
-              <div><h6>What if the VA needs more information?</h6></div>
+              <div><h6>What if VA needs more information?</h6></div>
               <ul><li>We will contact you if we need more information.</li></ul>
             </li>
             <li className="step four last">

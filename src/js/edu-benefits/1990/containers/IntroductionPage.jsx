@@ -41,11 +41,11 @@ class IntroductionPage extends React.Component {
                   </li>
                   <li className="step three">
                     <div><h5>VA Review</h5></div>
-                    <div><h6>How long does it take the VA to make a decision?</h6></div>
+                    <div><h6>How long does it take VA to make a decision?</h6></div>
                     <ul><li>We usually process claims within 30 days.</li></ul>
                     <div><h6>What should I do while I wait?</h6></div>
                     <ul><li>The transition from military to civilian life can be challenging. VA offers <a href="/education/tools-programs/education-career-counseling/">tools and counseling programs</a> to help you make the most of your educational options.</li></ul>
-                    <div><h6>What if the VA needs more information?</h6></div>
+                    <div><h6>What if VA needs more information?</h6></div>
                     <ul><li>We will contact you if we need more information.</li></ul>
                   </li>
                   <li className="step four last">
