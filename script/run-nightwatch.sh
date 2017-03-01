@@ -9,9 +9,18 @@ trap 'kill $(jobs -p)' EXIT
 
 BUILDTYPE=${BUILDTYPE:-development}
 
-# Run the api server and the webserver.
+# Run the api server
 node src/test-support/mockapi.js &
-node src/test-support/test-server.js --buildtype ${BUILDTYPE} &
+
+# Check to see if we already have a server running on port 3001 (as with 'npm run build')
+if [ `nc -z localhost 3001; echo $?` -ne 0 ]; then
+  echo "Starting test-server.js..."
+  node src/test-support/test-server.js --buildtype ${BUILDTYPE} &
+else
+  echo "Using webpack-dev-server as test server on port 3001"
+  export WEB_PORT=3001
+fi
+
 
 # Wait for api server and web server to begin accepting connections
 # via http://unix.stackexchange.com/questions/5277
