@@ -7,9 +7,12 @@ import { DownloadPage } from '../../../src/js/health-records/containers/Download
 const props = {
   refresh: {
     statuses: {
-      OK: [],
-      ERROR: [],
+      successful: [],
+      failed: [],
     }
+  },
+  form: {
+    requestDate: new Date().toISOString(),
   }
 };
 
@@ -29,7 +32,7 @@ describe('<DownloadPage>', () => {
 
   it('should render error state correctly', () => {
     const errorProps = Object.assign({}, props);
-    errorProps.refresh.statuses.ERROR.push({ id: 0 });
+    errorProps.refresh.statuses.failed.push({ id: 0 });
     const tree = SkinDeep.shallowRender(<DownloadPage {...errorProps}/>);
     const alertBox = tree.subTree('AlertBox');
     expect(alertBox).to.be.ok;
