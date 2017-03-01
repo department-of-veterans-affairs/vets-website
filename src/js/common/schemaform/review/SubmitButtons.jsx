@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import ProgressButton from '../../components/form-elements/ProgressButton';
 
 export default function SubmitButtons({ submission, onSubmit, onBack }) {
@@ -37,12 +38,19 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
         </div>
       </div>
     );
+    const text = `Send Failed${__BUILDTYPE__ === 'development' && ' (Try Again)'}`;
+    const classes = classNames({
+      'usa-button-secondary': true,
+      'form-button-disabled': __BUILDTYPE__ !== 'development'
+    });
+    const disabled = __BUILDTYPE__ !== 'development';
+
     submitButton = (
       <ProgressButton
           onButtonClick={onSubmit}
-          buttonText="Send Failed"
-          disabled
-          buttonClass="usa-button-secondary form-button-disabled"
+          buttonText={text}
+          buttonClass={classes}
+          disabled={disabled}
           beforeText="x"/>
     );
   }
