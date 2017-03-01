@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+
+import {
+  setPageTitle,
+  fetchSearchResults
+} from '../actions';
 
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
@@ -11,7 +15,7 @@ import Pagination from '../../common/components/Pagination';
 export class SearchPage extends React.Component {
 
   componentWillMount() {
-    this.props.fetch();
+    this.props.fetchSearchResults();
   }
 
   componentDidMount() {
@@ -22,7 +26,7 @@ export class SearchPage extends React.Component {
   }
 
   handlePageSelect(page) {
-    this.props.fetch(page);
+    this.props.fetchSearchResults(page);
   }
 
   render() {
@@ -84,22 +88,14 @@ export class SearchPage extends React.Component {
 
 SearchPage.defaultProps = {};
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showModal: (name) => {
-      dispatch(actions.showModal(name));
-    },
-    hideModal: () => {
-      dispatch(actions.showModal(null));
-    },
-    setPageTitle: (title) => {
-      dispatch(actions.setPageTitle(title));
-    },
-    fetch: (page) => {
-      dispatch(actions.fetchSearchResults(page));
-    }
-  };
+const mapStateToProps = (state) => {
+  const { autocomplete, search } = state;
+  return { autocomplete, search };
+};
+
+const mapDispatchToProps = {
+  setPageTitle,
+  fetchSearchResults
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
