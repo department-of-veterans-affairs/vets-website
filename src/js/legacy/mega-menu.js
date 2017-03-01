@@ -82,10 +82,11 @@ class MegaMenu {
 
     if(eTarget.getAttribute('aria-expanded') === 'true') {
       this.closeMenu(event);
+      
     } else {
       this.closeAll();
       this.openMenu(event);
-
+      
       /*
       Open the first sub-menu and expand first trigger 
       when the breakpoint > 768
@@ -124,15 +125,18 @@ class MegaMenu {
     } else {
       this.hideMenu();
     }
+    document.body.classList.remove('va-pos-fixed');
   }
 
   showMenu() {
+    document.body.classList.add('va-pos-fixed');
     this.openControl.setAttribute('hidden','hidden');
     this.menu.removeAttribute('hidden');
     this.closeControl.removeAttribute('hidden');
   }
 
   hideMenu() {
+    document.body.classList.remove('va-pos-fixed');
     this.closeControl.setAttribute('hidden','hidden');
     this.menu.setAttribute('hidden','hidden');
     this.openControl.removeAttribute('hidden');

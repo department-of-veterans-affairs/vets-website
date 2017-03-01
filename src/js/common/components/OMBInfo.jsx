@@ -29,7 +29,7 @@ class OMBInfo extends React.Component {
     return (
       <div className="omb-info">
         <div>Respondent burden: <strong>{resBurden} minutes</strong></div>
-        <div>OMB Control # <strong>{ombNumber}</strong></div>
+        <div>OMB Control #: <strong>{ombNumber}</strong></div>
         <div>Expiration date: <strong>{expDate}</strong></div>
         <div><a onClick={this.openModal}>Privacy Act Statement</a></div>
         <Modal

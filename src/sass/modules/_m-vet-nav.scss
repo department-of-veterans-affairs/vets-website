@@ -1,20 +1,28 @@
+body.va-pos-fixed {
+  width: 100%;  
+  height: 100%;
+}
+
 #vetnav {
   background-color: $color-primary-darkest;
   height: 100%;
   left: 0;
+  margin-top: .8rem;
+  overflow-y: scroll;
   position: absolute;
   padding-top: .8rem;
   width: 100%;
   z-index: 6;
 
+  @include media($medium-large-screen) {
+    overflow-y: visible;
+    position: static;
+    width: auto;
+  }
+  
   .va-wip-message {
     padding: 0 1.6rem;
     white-space: normal;
-  }
-
-  @include media($medium-large-screen) {
-    position: static;
-    width: auto;
   }
 }
 
@@ -26,9 +34,18 @@
 }
 
 #vetnav-menu {
+  height: 62rem;
   list-style: none;
   margin: 0;
+  overflow-y: scroll;
   padding-left: 0;
+
+  @include media($medium-large-screen) {
+    display: flex;
+    height: auto;
+    overflow-y: visible;
+    position: relative;
+  }
 
   > li {
     margin-bottom: 6px;
@@ -72,10 +89,25 @@
     }
   }
 
-  @include media($medium-large-screen) {
-    display: flex;
-    position: relative;
+  .usa-button-outline {
+    padding: calc(1rem + 2px);
+    margin: .8rem 1.6rem;
+    width: auto;
+    background-color: $color-gray-lightest;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    @include media($medium-large-screen) {
+      display: inline-block;
+      background-color: transparent;
+      &.vetnav-level2-button-second {
+        margin-left: 0;
+      }
+    }
   }
+  
 }
 
 #vetnav-controls {
@@ -338,3 +370,4 @@
     width: 276.47px;
   }
 }
+
