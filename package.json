@@ -132,6 +132,7 @@
     "nyc": "^8.3.2",
     "polyfill-function-prototype-bind": "0.0.1",
     "quick_check": "^0.7.0",
+    "rasterizehtml": "^1.2.4",
     "react": "^15.2.1",
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-perf": "^15.3.0",
@@ -178,8 +179,5 @@
     "node": "4.4.7",
     "npm": "3.8.9"
   },
-  "private": true,
-  "dependencies": {
-    "rasterizehtml": "^1.2.4"
-  }
+  "private": true
 }
