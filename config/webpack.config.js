@@ -123,7 +123,7 @@ const configGenerator = (options) => {
         __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
         'process.env': {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-          API_PORT: (process.env.API_PORT || 4000),
+          API_PORT: (process.env.API_PORT || 3000),
           WEB_PORT: (process.env.WEB_PORT || 3333),
           API_URL: process.env.API_URL ? JSON.stringify(process.env.API_URL) : null,
           BASE_URL: process.env.BASE_URL ? JSON.stringify(process.env.BASE_URL) : null,
