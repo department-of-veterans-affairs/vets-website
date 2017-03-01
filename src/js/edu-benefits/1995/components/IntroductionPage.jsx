@@ -15,7 +15,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Manage Your Education Benefits"/>
+        <FormTitle title="Manage your education benefits"/>
         <p>This application is equivalent to Form 22-1995 (Request for Change of Program or Place of Training).</p>
         <div className="process schemaform-process">
           <ol>
@@ -24,8 +24,8 @@ class IntroductionPage extends React.Component {
               <div><h6>What you need to fill out this application</h6></div>
               <ul>
                 <li>Social Security number (required)</li>
-                <li>Military history (required)</li>
                 <li>Basic information about the school or training facility where you want to attend (required)</li>
+                <li>Military history</li>
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
@@ -56,7 +56,7 @@ class IntroductionPage extends React.Component {
             <li className="step four last">
               <div><h5>Decision</h5></div>
               <ul><li>We usually process claims within 30 days.</li></ul>
-              <ul><li>You'll get a COE or Award Letter in the mail if your application was approved. Bring this to the VA certifying official at your school.</li></ul>
+              <ul><li>You’ll get a COE or Award Letter in the mail if your application was approved. Bring this to the VA certifying official at your school.</li></ul>
             </li>
           </ol>
         </div>
