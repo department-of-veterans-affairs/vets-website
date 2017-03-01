@@ -24,7 +24,7 @@ export class UpdatePage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const erroredUpdates = nextProps.refresh.statuses.ERROR;
+    const erroredUpdates = nextProps.refresh.statuses.failed;
     if (erroredUpdates.length === 0) {
       this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
     }
@@ -45,7 +45,7 @@ export class UpdatePage extends React.Component {
 
   render() {
     const statuses = this.props.refresh.statuses;
-    const completionPercentage = statuses.OK.length / (statuses.ERROR.length + statuses.OK.length) * 100;
+    const completionPercentage = statuses.succeeded.length / (statuses.succeeded.length + statuses.failed.length) * 100;
 
     return (
       <div className="updatePage medium-6">
