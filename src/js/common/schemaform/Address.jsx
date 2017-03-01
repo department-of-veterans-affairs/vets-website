@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 import { set, assign } from 'lodash/fp';
 
 import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
@@ -106,27 +107,35 @@ class Address extends React.Component {
     } else if (stateSchemas[selectedCountry]) {
       stateSchema = stateSchemas[selectedCountry];
     }
+    const countryClasses = classNames({
+      'schemaform-first-field': true,
+      'schemaform-first-field--titled': !!title
+    });
 
     return (
       <div className={title ? 'schemaform-block' : undefined}>
-        {title
-            ? <TitleField
+        {title &&
+          <div className="schemaform-block-header">
+            <TitleField
                 id={`${idSchema.$id}__title`}
                 title={title}
-                formContext={formContext}/> : null}
-        <SchemaField
-            name="country"
-            required={this.isRequired('country')}
-            schema={schema.properties.country}
-            uiSchema={uiSchema.country}
-            idSchema={idSchema.country}
-            formData={formData.country}
-            errorSchema={errorSchema.country}
-            registry={registry}
-            formContext={formContext}
-            touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.country}
-            onChange={(update) => {this.handleChange('country', update);}}
-            onBlur={this.onPropertyBlur('country')}/>
+                formContext={formContext}/>
+          </div>}
+        <div className={countryClasses}>
+          <SchemaField
+              name="country"
+              required={this.isRequired('country')}
+              schema={schema.properties.country}
+              uiSchema={uiSchema.country}
+              idSchema={idSchema.country}
+              formData={formData.country}
+              errorSchema={errorSchema.country}
+              registry={registry}
+              formContext={formContext}
+              touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.country}
+              onChange={(update) => {this.handleChange('country', update);}}
+              onBlur={this.onPropertyBlur('country')}/>
+        </div>
         <SchemaField
             name="street"
             required={this.isRequired('street')}
