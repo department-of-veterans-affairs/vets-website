@@ -38,7 +38,6 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
         </div>
       </div>
     );
-    const text = `Send Failed${__BUILDTYPE__ === 'development' && ' (Try Again)'}`;
     const classes = classNames({
       'usa-button-secondary': true,
       'form-button-disabled': __BUILDTYPE__ !== 'development'
@@ -48,7 +47,7 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
     submitButton = (
       <ProgressButton
           onButtonClick={onSubmit}
-          buttonText={text}
+          buttonText="Send Failed"
           buttonClass={classes}
           disabled={disabled}
           beforeText="x"/>
