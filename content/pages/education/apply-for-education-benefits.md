@@ -11,7 +11,7 @@ actionboxButtons:
     text: Apply for Benefits
     primary: true
   - url: /education/apply-for-education-benefits/application/1995
-    text: Manage Benefit
+    text: Manage Benefits
 relatedlinks:
   - url: /education/gi-bill/survivors-dependent-assistance/
     title: Apply for Dependents’ Educational Assistance (DEA) benefits
