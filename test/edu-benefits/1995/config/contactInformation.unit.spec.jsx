@@ -2,9 +2,8 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-addons-test-utils';
-import Form from 'react-jsonschema-form';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1995/config/form';
 
 describe('Edu 1995 contactInformation', () => {
@@ -37,9 +36,7 @@ describe('Edu 1995 contactInformation', () => {
     );
 
     const formDOM = findDOMNode(form);
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
-    });
+    submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
   });
@@ -54,9 +51,7 @@ describe('Edu 1995 contactInformation', () => {
 
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
-    });
+    submitForm(form);
 
     // jsdom has issues with colons in attributes
     let errors = Array.from(formDOM.querySelectorAll('.usa-input-error > label'));

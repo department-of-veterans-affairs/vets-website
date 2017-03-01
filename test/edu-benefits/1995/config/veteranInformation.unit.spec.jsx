@@ -3,9 +3,8 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
-import Form from 'react-jsonschema-form';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1995/config/form';
 
 describe('Edu 1995 veteranInformation', () => {
@@ -32,9 +31,7 @@ describe('Edu 1995 veteranInformation', () => {
 
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
-    });
+    submitForm(form);
 
     // show error for ssn, file number not visible
     expect(formDOM.querySelector('#root_vaFileNumber')).to.be.null;
@@ -63,9 +60,7 @@ describe('Edu 1995 veteranInformation', () => {
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
-    });
+    submitForm(form);
     const find = formDOM.querySelector.bind(formDOM);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be.empty;
 
@@ -86,9 +81,7 @@ describe('Edu 1995 veteranInformation', () => {
     });
 
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
-    });
+    submitForm(form);
 
     expect(onSubmit.called).to.be.true;
   });
