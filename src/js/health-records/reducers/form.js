@@ -10,9 +10,8 @@ const initialState = {
     end: null,
   },
   reportTypes: {},
-  ui: {
-    redirect: false
-  }
+  ready: false,
+  requestDate: null,
 };
 
 // map of all reportTypes in form { reportTypeValue: boolean }
@@ -35,9 +34,12 @@ export default function disclaimer(state = initialState, action) {
     case 'ALL_REPORTS_TOGGLED':
       return set('reportTypes', mapValues(state.reportTypes, () => action.checked), state);
     case 'FORM_SUCCESS':
-      return set('ui.redirect', true, state);
+      return set('ready', true, {
+        ...state,
+        requestDate: new Date().toISOString(),
+      });
     case 'FORM_FAILURE':
-      return set('ui.redirect', false, state);
+      return set('ready', false, state);
     default:
       return state;
   }

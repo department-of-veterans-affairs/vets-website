@@ -39,7 +39,7 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
               </ul>
-            </li>g
+            </li>
             <li className="step two">
               <div><h5>Apply to manage your benefits</h5></div>
               <p>Complete this form.</p>
