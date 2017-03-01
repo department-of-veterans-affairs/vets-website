@@ -112,7 +112,10 @@ function createE2eTest(beginApplication) {
 
 // Expects navigation lands at a path with the given `urlSubstring`.
 function expectNavigateAwayFrom(client, urlSubstring) {
-  takeScreenshot(client, urlSubstring);
+  if (process.env.SCREENSHOTS){
+    takeScreenshot(client, urlSubstring);
+  }
+
   client.expect.element('.js-test-location').attribute('data-location')
     .to.not.contain(urlSubstring).before(Timeouts.normal);
 }
