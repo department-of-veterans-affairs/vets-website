@@ -157,7 +157,7 @@ export default class NavButtons extends React.Component {
       );
     } else if (path.endsWith('introduction')) {
       buttons = (
-        <div className="row form-progress-buttons edu-intro-spacing">
+        <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
             <ProgressButton
                 onButtonClick={this.goForward}
