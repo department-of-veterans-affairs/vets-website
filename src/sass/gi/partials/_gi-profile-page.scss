@@ -1,0 +1,121 @@
+.gi-app .profile-page {
+
+  ul.usa-accordion {
+    margin: 0;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li button.usa-accordion-button {
+    text-align: left;
+
+    h2 {
+      font-size: 1em;
+    }
+  }
+
+  .programs.row {
+    h3 {
+      font-size: 1.35em;
+    }
+    .fa-check {
+      color: $color-green;
+    }
+    .fa-remove {
+      color: $color-gray-medium;
+    }
+  }
+
+  .usa-alert {
+    background-size: 3rem;
+  }
+
+  .outcomes.row {
+    h3 {
+      font-size: 1.35em;
+    }
+  }
+
+  .outcomes .lml {
+    display: block;
+    float: left;
+    margin-left: 0.5em;
+    margin-top: 0.2em;
+  }
+  .outcomes .column > h3 {
+    display: block;
+    float: left;
+  }
+  .outcomes .graph-component {
+    clear: both;
+  }
+
+  .cautionary-information {
+    .table > h3 {
+      padding-top: 1em !important;
+      float: left;
+    }
+
+    .table > p {
+      padding-top: 2.25em !important;
+      float: left;
+      margin-left: 0.5em;
+      margin-top: 0.2em;
+    }
+
+    .table .number {
+      text-align: left;
+    }
+
+    .list {
+      h4 {
+        padding: 0.5em 0 !important;
+      }
+      .number {
+        text-align: right;
+      }
+      margin-bottom: 1em;
+    }
+
+    @media screen and (min-width: 600px) {
+      .list {
+        display: none;
+        visibility: hidden;
+      }
+    }
+    @media screen and (max-width: 600px) {
+      .table {
+        display: none;
+        visibility: hidden;
+      }
+    }
+  }
+
+  .additional-information {
+    h3 {
+      font-size: 1.35em;
+      padding-top: 1.5em !important;
+    }
+
+    .historical-information.list {
+      div {
+        margin-bottom: 0.5em;
+      }
+    }
+
+    @media screen and (min-width: 600px) {
+      .historical-information.list {
+        display: none;
+        visibility: hidden;
+      }
+    }
+    @media screen and (max-width: 600px) {
+      .historical-information.table {
+        display: none;
+        visibility: hidden;
+      }
+    }
+  }
+
+
+}

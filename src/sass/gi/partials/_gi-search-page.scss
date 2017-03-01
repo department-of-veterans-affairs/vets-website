@@ -1,0 +1,85 @@
+.gi-app .search-page {
+
+  .filters-sidebar {
+    h2 {
+      font-size: 1.15em;
+    }
+    label {
+      margin-top: 1em;
+    }
+    a.info-icons {
+      white-space: nowrap;
+    }
+
+    .institution-filter-form, .eligibility-form {
+      margin-top: 1.5em;
+    }
+  }
+
+  .search-result {
+    background-color: $color-gray-lightest;
+    padding: 0;
+    margin: 0 0 1em 0;
+
+    .row.inner {
+      padding: 1em;
+    }
+
+    h2 {
+      font-size: 1.35em;
+      margin-bottom: 0.25em;
+
+      a {
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    }
+
+    p {
+      margin: auto;
+    }
+
+    p.locality {
+      font-weight: bold;
+      margin-top: 2.2em;
+    }
+
+    .estimated-benefits {
+      h3, h4 {
+        font-size: 1em;
+      }
+      h4 {
+        margin-bottom: 0 !important;
+      }
+      h4 > span {
+        font-weight: normal;
+      }
+      h4 > div {
+        float: right;
+        text-align: right;
+      }
+      i.fa {
+        margin-right: 0.5em;
+      }
+    }
+
+    .caution-flag {
+      color: $color-gray-dark;
+      background-color: $color-gold;
+      border-top: 1px solid rgba(107, 104, 91, 0.1);
+      border-radius: 0 0 3px 3px;
+      font-size: 0.9em;
+      font-weight: bold;
+      display: inline;
+      padding: 0.1em 0.5em;
+      margin: 0 0 0 1em;
+
+      i.fa {
+        margin-right: 0.4em;
+      }
+    }
+
+  }
+}
