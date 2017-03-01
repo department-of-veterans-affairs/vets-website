@@ -121,11 +121,14 @@
       "from": "anymatch@>=1.3.0 <2.0.0",
       "resolved": "http://registry.npmjs.org/anymatch/-/anymatch-1.3.0.tgz"
     },
+<<<<<<< HEAD
     "append-transform": {
       "version": "0.4.0",
       "from": "append-transform@>=0.4.0 <0.5.0",
       "resolved": "https://registry.npmjs.org/append-transform/-/append-transform-0.4.0.tgz"
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "aproba": {
       "version": "1.1.1",
       "from": "aproba@>=1.0.3 <2.0.0",
@@ -136,11 +139,14 @@
       "from": "archive-type@>=3.0.1 <4.0.0",
       "resolved": "http://registry.npmjs.org/archive-type/-/archive-type-3.2.0.tgz"
     },
+<<<<<<< HEAD
     "archy": {
       "version": "1.0.0",
       "from": "archy@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/archy/-/archy-1.0.0.tgz"
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "are-we-there-yet": {
       "version": "1.1.2",
       "from": "are-we-there-yet@>=1.1.2 <1.2.0",
@@ -305,6 +311,7 @@
       "version": "6.23.1",
       "from": "babel-core@>=6.11.4 <7.0.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "resolved": "http://registry.npmjs.org/babel-core/-/babel-core-6.22.1.tgz",
       "dependencies": {
         "babel-code-frame": {
@@ -356,6 +363,9 @@
 =======
       "resolved": "https://registry.npmjs.org/babel-core/-/babel-core-6.23.1.tgz"
 >>>>>>> update shrinkwrap
+=======
+      "resolved": "https://registry.npmjs.org/babel-core/-/babel-core-6.23.1.tgz"
+>>>>>>> actually add the shrinkwrap file
     },
     "babel-eslint": {
       "version": "6.1.2",
@@ -965,11 +975,14 @@
       "from": "bytes@2.4.0",
       "resolved": "http://registry.npmjs.org/bytes/-/bytes-2.4.0.tgz"
     },
+<<<<<<< HEAD
     "caching-transform": {
       "version": "1.0.1",
       "from": "caching-transform@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/caching-transform/-/caching-transform-1.0.1.tgz"
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "caller-path": {
       "version": "0.1.0",
       "from": "caller-path@>=0.1.0 <0.2.0",
@@ -1068,6 +1081,7 @@
       "resolved": "http://registry.npmjs.org/cheerio/-/cheerio-0.19.0.tgz",
       "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "htmlparser2": {
           "version": "3.8.3",
           "from": "htmlparser2@>=3.8.1 <3.9.0",
@@ -1087,6 +1101,8 @@
         },
 =======
 >>>>>>> update shrinkwrap
+=======
+>>>>>>> actually add the shrinkwrap file
         "lodash": {
           "version": "3.10.1",
           "from": "lodash@>=3.2.0 <4.0.0",
@@ -1139,6 +1155,14 @@
       "from": "cli-width@>=2.0.0 <3.0.0",
       "resolved": "http://registry.npmjs.org/cli-width/-/cli-width-2.1.0.tgz"
     },
+<<<<<<< HEAD
+=======
+    "clipboard": {
+      "version": "1.6.1",
+      "from": "clipboard@>=1.5.5 <2.0.0",
+      "resolved": "https://registry.npmjs.org/clipboard/-/clipboard-1.6.1.tgz"
+    },
+>>>>>>> actually add the shrinkwrap file
     "cliui": {
       "version": "3.2.0",
       "from": "cliui@>=3.2.0 <4.0.0",
@@ -1205,7 +1229,11 @@
     },
     "coding-inflector": {
       "version": "0.0.1",
+<<<<<<< HEAD
       "from": "https://registry.npmjs.org/coding-inflector/-/coding-inflector-0.0.1.tgz",
+=======
+      "from": "coding-inflector@0.0.1",
+>>>>>>> actually add the shrinkwrap file
       "resolved": "https://registry.npmjs.org/coding-inflector/-/coding-inflector-0.0.1.tgz"
     },
     "coffee-script": {
@@ -1737,11 +1765,14 @@
       "from": "deep-is@>=0.1.3 <0.2.0",
       "resolved": "http://registry.npmjs.org/deep-is/-/deep-is-0.1.3.tgz"
     },
+<<<<<<< HEAD
     "default-require-extensions": {
       "version": "1.0.0",
       "from": "default-require-extensions@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/default-require-extensions/-/default-require-extensions-1.0.0.tgz"
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "defined": {
       "version": "1.0.0",
       "from": "defined@>=1.0.0 <2.0.0",
@@ -1813,6 +1844,14 @@
       "from": "delayed-stream@>=1.0.0 <1.1.0",
       "resolved": "http://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz"
     },
+<<<<<<< HEAD
+=======
+    "delegate": {
+      "version": "3.1.2",
+      "from": "delegate@>=3.1.2 <4.0.0",
+      "resolved": "https://registry.npmjs.org/delegate/-/delegate-3.1.2.tgz"
+    },
+>>>>>>> actually add the shrinkwrap file
     "delegates": {
       "version": "1.0.0",
       "from": "delegates@>=1.0.0 <2.0.0",
@@ -1969,6 +2008,7 @@
       "resolved": "http://registry.npmjs.org/electron-download/-/electron-download-3.3.0.tgz",
       "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "fs-extra": {
           "version": "0.30.0",
           "from": "fs-extra@>=0.30.0 <0.31.0",
@@ -1976,6 +2016,8 @@
         },
 =======
 >>>>>>> update shrinkwrap
+=======
+>>>>>>> actually add the shrinkwrap file
         "minimist": {
           "version": "1.2.0",
           "from": "minimist@>=1.2.0 <2.0.0",
@@ -2655,6 +2697,7 @@
       "from": "for-own@>=0.1.4 <0.2.0",
       "resolved": "https://registry.npmjs.org/for-own/-/for-own-0.1.5.tgz"
     },
+<<<<<<< HEAD
     "foreground-child": {
       "version": "1.5.6",
       "from": "foreground-child@>=1.5.3 <2.0.0",
@@ -2667,6 +2710,8 @@
         }
       }
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "forever-agent": {
       "version": "0.6.1",
       "from": "forever-agent@>=0.6.1 <0.7.0",
@@ -3569,6 +3614,14 @@
         }
       }
     },
+<<<<<<< HEAD
+=======
+    "good-listener": {
+      "version": "1.2.2",
+      "from": "good-listener@>=1.2.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/good-listener/-/good-listener-1.2.2.tgz"
+    },
+>>>>>>> actually add the shrinkwrap file
     "got": {
       "version": "5.7.1",
       "from": "got@>=5.0.0 <6.0.0",
@@ -4251,16 +4304,20 @@
       "from": "istanbul-lib-coverage@>=1.0.0 <2.0.0",
       "resolved": "http://registry.npmjs.org/istanbul-lib-coverage/-/istanbul-lib-coverage-1.0.1.tgz"
     },
+<<<<<<< HEAD
     "istanbul-lib-hook": {
       "version": "1.0.0",
       "from": "istanbul-lib-hook@>=1.0.0-alpha.4 <2.0.0",
       "resolved": "https://registry.npmjs.org/istanbul-lib-hook/-/istanbul-lib-hook-1.0.0.tgz"
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "istanbul-lib-instrument": {
       "version": "1.4.2",
       "from": "istanbul-lib-instrument@>=1.1.4 <2.0.0",
       "resolved": "http://registry.npmjs.org/istanbul-lib-instrument/-/istanbul-lib-instrument-1.4.2.tgz"
     },
+<<<<<<< HEAD
     "istanbul-lib-report": {
       "version": "1.0.0-alpha.3",
       "from": "istanbul-lib-report@>=1.0.0-alpha.3 <2.0.0",
@@ -4283,6 +4340,8 @@
       "from": "istanbul-reports@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/istanbul-reports/-/istanbul-reports-1.0.1.tgz"
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "jade": {
       "version": "0.26.3",
       "from": "jade@0.26.3",
@@ -4310,6 +4369,14 @@
       "from": "jpegtran-bin@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/jpegtran-bin/-/jpegtran-bin-3.2.0.tgz"
     },
+<<<<<<< HEAD
+=======
+    "jquery": {
+      "version": "2.2.4",
+      "from": "jquery@>=2.2.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/jquery/-/jquery-2.2.4.tgz"
+    },
+>>>>>>> actually add the shrinkwrap file
     "js-base64": {
       "version": "2.1.9",
       "from": "js-base64@>=2.1.9 <3.0.0",
@@ -4707,11 +4774,14 @@
       "from": "lodash.create@3.1.1",
       "resolved": "https://registry.npmjs.org/lodash.create/-/lodash.create-3.1.1.tgz"
     },
+<<<<<<< HEAD
     "lodash.debounce": {
       "version": "4.0.8",
       "from": "lodash.debounce@>=4.0.7 <5.0.0",
       "resolved": "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "lodash.deburr": {
       "version": "3.2.0",
       "from": "lodash.deburr@>=3.0.0 <4.0.0",
@@ -4987,6 +5057,7 @@
       "from": "md5@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/md5/-/md5-2.2.1.tgz"
     },
+<<<<<<< HEAD
     "md5-hex": {
       "version": "1.3.0",
       "from": "md5-hex@>=1.2.0 <2.0.0",
@@ -4997,6 +5068,8 @@
       "from": "md5-o-matic@>=0.1.1 <0.2.0",
       "resolved": "https://registry.npmjs.org/md5-o-matic/-/md5-o-matic-0.1.1.tgz"
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "mdurl": {
       "version": "1.0.1",
       "from": "mdurl@>=1.0.1 <2.0.0",
@@ -5842,6 +5915,7 @@
           "from": "minimist@>=1.1.0 <2.0.0",
           "resolved": "http://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz"
 <<<<<<< HEAD
+<<<<<<< HEAD
         },
         "throttleit": {
           "version": "0.0.2",
@@ -5849,6 +5923,8 @@
           "resolved": "https://registry.npmjs.org/throttleit/-/throttleit-0.0.2.tgz"
 =======
 >>>>>>> update shrinkwrap
+=======
+>>>>>>> actually add the shrinkwrap file
         }
       }
     },
@@ -5878,7 +5954,10 @@
       "resolved": "http://registry.npmjs.org/nyc/-/nyc-8.4.0.tgz",
       "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> actually add the shrinkwrap file
         "align-text": {
           "version": "0.1.4",
           "from": "align-text@>=0.1.3 <0.2.0",
@@ -6590,14 +6669,20 @@
           "from": "require-main-filename@>=1.0.1 <2.0.0",
           "resolved": "https://registry.npmjs.org/require-main-filename/-/require-main-filename-1.0.1.tgz"
         },
+<<<<<<< HEAD
 >>>>>>> update shrinkwrap
+=======
+>>>>>>> actually add the shrinkwrap file
         "resolve-from": {
           "version": "2.0.0",
           "from": "resolve-from@>=2.0.0 <3.0.0",
           "resolved": "https://registry.npmjs.org/resolve-from/-/resolve-from-2.0.0.tgz"
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> actually add the shrinkwrap file
         "right-align": {
           "version": "0.1.3",
           "from": "right-align@>=0.1.1 <0.2.0",
@@ -6762,7 +6847,10 @@
           "from": "yallist@>=2.0.0 <3.0.0",
           "resolved": "https://registry.npmjs.org/yallist/-/yallist-2.0.0.tgz"
         },
+<<<<<<< HEAD
 >>>>>>> update shrinkwrap
+=======
+>>>>>>> actually add the shrinkwrap file
         "yargs": {
           "version": "6.3.0",
           "from": "yargs@>=6.0.0 <7.0.0",
@@ -6855,6 +6943,7 @@
       "resolved": "http://registry.npmjs.org/optimist/-/optimist-0.6.1.tgz",
       "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "minimist": {
           "version": "0.0.10",
           "from": "minimist@>=0.0.1 <0.1.0",
@@ -6862,6 +6951,8 @@
         },
 =======
 >>>>>>> update shrinkwrap
+=======
+>>>>>>> actually add the shrinkwrap file
         "wordwrap": {
           "version": "0.0.3",
           "from": "wordwrap@>=0.0.2 <0.1.0",
@@ -7008,11 +7099,14 @@
       "from": "path-key@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/path-key/-/path-key-2.0.1.tgz"
     },
+<<<<<<< HEAD
     "path-parse": {
       "version": "1.0.5",
       "from": "path-parse@>=1.0.5 <2.0.0",
       "resolved": "https://registry.npmjs.org/path-parse/-/path-parse-1.0.5.tgz"
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "path-to-regexp": {
       "version": "0.1.7",
       "from": "path-to-regexp@0.1.7",
@@ -7063,6 +7157,21 @@
       "from": "pngquant-bin@>=3.0.0 <4.0.0",
       "resolved": "http://registry.npmjs.org/pngquant-bin/-/pngquant-bin-3.1.1.tgz"
     },
+<<<<<<< HEAD
+=======
+    "politespace": {
+      "version": "0.1.20",
+      "from": "politespace@>=0.1.4 <0.2.0",
+      "resolved": "https://registry.npmjs.org/politespace/-/politespace-0.1.20.tgz",
+      "dependencies": {
+        "jquery": {
+          "version": "3.1.1",
+          "from": "jquery@>=3.0.0 <4.0.0",
+          "resolved": "https://registry.npmjs.org/jquery/-/jquery-3.1.1.tgz"
+        }
+      }
+    },
+>>>>>>> actually add the shrinkwrap file
     "polyfill-function-prototype-bind": {
       "version": "0.0.1",
       "from": "polyfill-function-prototype-bind@0.0.1",
@@ -7303,6 +7412,14 @@
       "from": "pretty-bytes@>=1.0.2 <2.0.0",
       "resolved": "https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-1.0.4.tgz"
     },
+<<<<<<< HEAD
+=======
+    "prismjs": {
+      "version": "1.6.0",
+      "from": "prismjs@>=1.5.1 <2.0.0",
+      "resolved": "http://registry.npmjs.org/prismjs/-/prismjs-1.6.0.tgz"
+    },
+>>>>>>> actually add the shrinkwrap file
     "private": {
       "version": "0.1.7",
       "from": "private@>=0.1.6 <0.2.0",
@@ -7520,9 +7637,15 @@
       }
     },
     "react-jsonschema-form": {
+<<<<<<< HEAD
       "version": "0.43.0",
       "from": "react-jsonschema-form@0.43.0",
       "resolved": "https://registry.npmjs.org/react-jsonschema-form/-/react-jsonschema-form-0.43.0.tgz"
+=======
+      "version": "0.42.3",
+      "from": "git+https://github.com/department-of-veterans-affairs/react-jsonschema-form.git#e4ed28c4045e4926c769d6c5afd87185b0c8bd00",
+      "resolved": "git+https://github.com/department-of-veterans-affairs/react-jsonschema-form.git#e4ed28c4045e4926c769d6c5afd87185b0c8bd00"
+>>>>>>> actually add the shrinkwrap file
     },
     "react-leaflet": {
       "version": "1.1.0",
@@ -7977,6 +8100,14 @@
         }
       }
     },
+<<<<<<< HEAD
+=======
+    "select": {
+      "version": "1.1.2",
+      "from": "select@>=1.1.2 <2.0.0",
+      "resolved": "http://registry.npmjs.org/select/-/select-1.1.2.tgz"
+    },
+>>>>>>> actually add the shrinkwrap file
     "selenium-server": {
       "version": "3.1.0",
       "from": "selenium-server@>=3.0.1 <4.0.0",
@@ -8123,11 +8254,14 @@
       "from": "slice-ansi@0.0.4",
       "resolved": "http://registry.npmjs.org/slice-ansi/-/slice-ansi-0.0.4.tgz"
     },
+<<<<<<< HEAD
     "slide": {
       "version": "1.1.6",
       "from": "slide@>=1.1.5 <2.0.0",
       "resolved": "https://registry.npmjs.org/slide/-/slide-1.1.6.tgz"
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "slug-component": {
       "version": "1.1.0",
       "from": "slug-component@>=1.1.0 <1.2.0",
@@ -8222,6 +8356,7 @@
       "from": "spawn-sync@>=1.0.15 <2.0.0",
       "resolved": "http://registry.npmjs.org/spawn-sync/-/spawn-sync-1.0.15.tgz"
     },
+<<<<<<< HEAD
     "spawn-wrap": {
       "version": "1.3.4",
       "from": "spawn-wrap@>=1.2.4 <2.0.0",
@@ -8234,6 +8369,8 @@
         }
       }
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "spdx-correct": {
       "version": "1.0.2",
       "from": "spdx-correct@>=1.0.0 <1.1.0",
@@ -8654,6 +8791,14 @@
       "from": "timers-browserify@>=2.0.2 <3.0.0",
       "resolved": "https://registry.npmjs.org/timers-browserify/-/timers-browserify-2.0.2.tgz"
     },
+<<<<<<< HEAD
+=======
+    "tiny-emitter": {
+      "version": "1.1.0",
+      "from": "tiny-emitter@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npmjs.org/tiny-emitter/-/tiny-emitter-1.1.0.tgz"
+    },
+>>>>>>> actually add the shrinkwrap file
     "tiny-lr": {
       "version": "0.1.7",
       "from": "tiny-lr@>=0.1.5 <0.2.0",
@@ -9014,6 +9159,7 @@
       "resolved": "http://registry.npmjs.org/user-home/-/user-home-2.0.0.tgz"
     },
     "uswds": {
+<<<<<<< HEAD
       "version": "1.0.0",
       "from": "uswds@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/uswds/-/uswds-1.0.0.tgz",
@@ -9023,6 +9169,12 @@
           "from": "https://github.com/thoughtbot/neat/archive/neat-1.8.0-node-sass.tar.gz",
           "resolved": "https://github.com/thoughtbot/neat/archive/neat-1.8.0-node-sass.tar.gz"
         },
+=======
+      "version": "0.10.0",
+      "from": "uswds@0.10.0",
+      "resolved": "https://registry.npmjs.org/uswds/-/uswds-0.10.0.tgz",
+      "dependencies": {
+>>>>>>> actually add the shrinkwrap file
         "cross-spawn": {
           "version": "2.2.3",
           "from": "cross-spawn@>=2.1.5 <3.0.0",
@@ -9083,9 +9235,15 @@
       "resolved": "http://registry.npmjs.org/verror/-/verror-1.3.6.tgz"
     },
     "vets-json-schema": {
+<<<<<<< HEAD
       "version": "1.6.1",
       "from": "git+https://github.com/department-of-veterans-affairs/vets-json-schema.git#6e23e1932d14a010faf4a89e3ce2c5a8e1b5679a",
       "resolved": "git+https://github.com/department-of-veterans-affairs/vets-json-schema.git#6e23e1932d14a010faf4a89e3ce2c5a8e1b5679a"
+=======
+      "version": "1.5.2",
+      "from": "git+https://github.com/department-of-veterans-affairs/vets-json-schema.git#a08950b8e8832917f72b2e0b7afd5a0d100d382b",
+      "resolved": "git+https://github.com/department-of-veterans-affairs/vets-json-schema.git#a08950b8e8832917f72b2e0b7afd5a0d100d382b"
+>>>>>>> actually add the shrinkwrap file
     },
     "vinyl": {
       "version": "1.2.0",
@@ -9405,6 +9563,7 @@
       "from": "write@>=0.2.1 <0.3.0",
       "resolved": "http://registry.npmjs.org/write/-/write-0.2.1.tgz"
     },
+<<<<<<< HEAD
     "write-file-atomic": {
       "version": "1.3.1",
       "from": "write-file-atomic@>=1.1.4 <2.0.0",
@@ -9417,6 +9576,8 @@
         }
       }
     },
+=======
+>>>>>>> actually add the shrinkwrap file
     "xml-escape": {
       "version": "1.0.0",
       "from": "xml-escape@>=1.0.0 <1.1.0",
