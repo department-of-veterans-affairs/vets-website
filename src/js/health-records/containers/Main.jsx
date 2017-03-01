@@ -11,7 +11,6 @@ import { reportTypes } from '../config';
 import {
   changeDateOption,
   setDate,
-  submitForm,
   toggleAllReports,
   toggleReportType,
 } from '../actions/form';
@@ -40,14 +39,6 @@ export class Main extends React.Component {
     apiRequest('/v0/health_records/refresh');
   }
 
-  componentWillReceiveProps(nextProps) {
-    const redirect = this.props.form.ui.redirect;
-    const nextRedirect = nextProps.form.ui.redirect;
-    if (redirect !== nextRedirect && nextRedirect) {
-      this.context.router.push('/download');
-    }
-  }
-
   handleStartDateChange(startDate) {
     this.props.setDate(startDate);
   }
@@ -58,7 +49,9 @@ export class Main extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.submitForm(this.props.form);
+    // save state in case user refreshes the page
+    sessionStorage.setItem('hr-form', JSON.stringify(this.props.form));
+    this.context.router.push('/loading');
   }
 
   renderReportCheckBoxLabel(c) {
@@ -303,7 +296,6 @@ const mapDispatchToProps = {
   changeDateOption,
   openModal,
   setDate,
-  submitForm,
   toggleAllReports,
   toggleReportType,
 };
