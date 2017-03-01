@@ -3,9 +3,8 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
-import Form from 'react-jsonschema-form';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1995/config/form';
 
 describe('Edu 1995 servicePeriods', () => {
@@ -33,7 +32,7 @@ describe('Edu 1995 servicePeriods', () => {
           definitions={definitions}/>
     );
     const formDOM = findDOMNode(form);
-    const newServiceInput = Array.from(formDOM.querySelectorAll('input[type=radio]'))[0];
+    const newServiceInput = formDOM.querySelector('input[type=radio]');
 
     // just yes/no
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').length).to.equal(2);
@@ -90,15 +89,9 @@ describe('Edu 1995 servicePeriods', () => {
           definitions={definitions}/>
     );
     const formDOM = findDOMNode(form);
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
-    });
+    submitForm(form);
+
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
-    });
-
     expect(onSubmit.called).to.be.true;
   });
 });

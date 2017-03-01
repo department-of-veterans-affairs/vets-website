@@ -277,6 +277,7 @@ ArrayField.propTypes = {
   requiredSchema: React.PropTypes.object,
   idSchema: React.PropTypes.object,
   onChange: React.PropTypes.func.isRequired,
+  onBlur: React.PropTypes.func,
   formData: React.PropTypes.array,
   disabled: React.PropTypes.bool,
   readonly: React.PropTypes.bool,

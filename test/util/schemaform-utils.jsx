@@ -1,4 +1,6 @@
 import _ from 'lodash/fp';
+import Form from 'react-jsonschema-form';
+import ReactTestUtils from 'react-addons-test-utils';
 
 import React from 'react';
 import SchemaForm from '../../src/js/common/schemaform/SchemaForm';
@@ -63,4 +65,10 @@ export class DefinitionTester extends React.Component {
           onSubmit={this.props.onSubmit}/>
     );
   }
+}
+
+export function submitForm(form) {
+  ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
+    preventDefault: f => f
+  });
 }
