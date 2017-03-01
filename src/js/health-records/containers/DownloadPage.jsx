@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import moment from 'moment';
+
 import AlertBox from '../../common/components/AlertBox';
 
 import DownloadLink from '../components/DownloadLink';
@@ -36,16 +38,12 @@ export class DownloadPage extends React.Component {
   }
 
   render() {
-    const data = {
-      requestDate: 'Jan 20, 2017 14:09 EST',
-    };
-
     return (
       <div>
         <h1>Download Your Health Records</h1>
         {this.renderMessageBanner()}
         <p>
-          <strong>Request Date:</strong> {data.requestDate}
+          <strong>Request Date:</strong> {moment(this.props.form.requestDate).format('MMMM Do YYYY')}
         </p>
         <div>
           <DownloadLink name="PDF File" docType="pdf"/>
@@ -63,6 +61,7 @@ const mapStateToProps = (state) => {
   const hrState = state.health.hr;
 
   return {
+    form: hrState.form,
     refresh: hrState.refresh,
   };
 };
