@@ -32,7 +32,7 @@ function AppContent({ children, isDataAvailable }) {
 export class HealthRecordsApp extends React.Component {
   render() {
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"health-records"}>
+      <RequiredLoginView authRequired={3} serviceRequired={"health-records"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
         <AppContent>
           <div>
             <div className="row">
@@ -61,9 +61,12 @@ HealthRecordsApp.propTypes = {
 
 const mapStateToProps = (state) => {
   const hrState = state.health.hr;
+  const userState = state.user;
 
   return {
     modal: hrState.modal,
+    profile: userState.profile,
+    signInUrl: userState.login.loginUrl.first
   };
 };
 const mapDispatchToProps = {
