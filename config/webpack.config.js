@@ -3,7 +3,9 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
+const hash = require('node-object-hash')().hash;
 const bourbon = require('bourbon').includePaths;
 const neat = require('bourbon-neat').includePaths;
 const path = require('path');
@@ -126,6 +128,18 @@ const configGenerator = (options) => {
       extensions: ['', '.js', '.jsx']
     },
     plugins: [
+      new HardSourceWebpackPlugin({
+        cacheDirectory: path.join(__dirname, '../cache/[confighash]'),
+        recordsPath: path.join(__dirname, '../cache/[confighash]/records.json'),
+        configHash: (webpackConfig) => {
+          return hash(webpackConfig);
+        },
+        environmentHash: {
+          root: process.cwd(),
+          directories: ['node_modules'],
+          files: ['package.json', 'npm-shrinkwrap.json'],
+        },
+      }),
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
         __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
