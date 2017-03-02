@@ -35,14 +35,14 @@ const {
   civilianBenefitsAssistance,
   educationObjective,
   nonVaAssistance,
-  reasonForChange,
+  // reasonForChange,
   email,
   bankAccountChange
 } = fullSchema5490.properties;
 
 const {
   preferredContactMethod,
-  school
+  // school
 } = fullSchema5490.definitions;
 
 const formConfig = {
@@ -62,6 +62,44 @@ const formConfig = {
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5490',
   chapters: {
+    applicantInformation: {
+      title: 'Applicant Information',
+      pages: {
+        applicantInformation: {
+          path: 'applicant-inforamtion',
+          title: 'Applicant Information',
+          initialData: {},
+          uiSchema: {
+            applicantFullName: fullName.uiSchema,
+            // dob: {},
+            // gender: {},
+            applicantSSN: ssn.uiSchema,
+            // Placeholder name
+            applicantFileNumber: {
+              'ui:title': 'File number',
+              'ui:errorMessages': {
+                pattern: 'File number must be 8 digits'
+              }
+            },
+            // relationshipToVeteran: {}
+          },
+          schema: {
+            type: 'object',
+            required: ['applicantFullName'],
+            properties: {
+              applicantFullName: fullName.schema,
+              // dob: {},
+              // gender: {},
+              applicantSSN: ssn.schema,
+              // placeholder name
+              applicantFileNumber: vaFileNumber
+              // applicantVaFileLocation: {}, // Needed??
+              // relationshipToVeteran: {}
+            }
+          }
+        }
+      }
+    },
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
@@ -100,7 +138,15 @@ const formConfig = {
               'view:noSSN': {
                 type: 'boolean'
               },
+              // Needed?
               vaFileNumber
+              // dob: {},
+              // miaPow: {},
+              // miaPowDate: {},
+              // deathDate: {},
+              // veteranVaFileLocation: {}, // Needed??
+              // criminalRecord: {}, // Better name / location?
+              // veteranActiveDuty: {}
             }
           }
         }
@@ -115,8 +161,9 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             benefit: {
+              // Change to checkbox?
               'ui:widget': 'radio',
-              'ui:title': 'Which benefit are you currently using?'
+              'ui:title': 'Which benefit(s) would you like to use?'
             }
           },
           schema: {
@@ -133,6 +180,9 @@ const formConfig = {
     militaryService: {
       title: 'Military History',
       pages: {
+        // This seems to be asking for military service of the applicant, not veteran
+        // If so, we'll probably need to add in the branch of service field to the
+        //  veteranInformation chapter above.
         servicePeriods: {
           path: 'military-history/service-periods',
           title: 'Service periods',
@@ -194,6 +244,17 @@ const formConfig = {
         }
       }
     },
+    educationHistory: {
+      title: 'Education History',
+      pages: {
+        educationHistory: {
+          path: 'education-history',
+          title: 'Education History',
+          uiSchema: {},
+          schema: {}
+        }
+      }
+    },
     schoolSelection: {
       title: 'School Selection',
       pages: {
@@ -241,36 +302,6 @@ const formConfig = {
               educationObjective,
               nonVaAssistance,
               civilianBenefitsAssistance
-            }
-          }
-        },
-        oldSchool: {
-          path: 'school-selection/old-school',
-          title: 'School, university, program, or training facility you last attended',
-          initialData: {
-            oldSchool: {
-              address: {}
-            }
-          },
-          uiSchema: {
-            'ui:title': 'School, university, program, or training facility you last attended',
-            oldSchool: {
-              name: {
-                'ui:title': 'Name of school, university, or training facility'
-              },
-              address: address.uiSchema()
-            },
-            trainingEndDate: date.uiSchema('When did you stop taking classes or participating in the training program? (Future dates are ok)'),
-            reasonForChange: {
-              'ui:title': 'Why did you stop taking classes or participating in the training program? (for example, “I graduated” or “I moved” or “The program wasn’t right for me.”)'
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              oldSchool: _.set('properties.address', address.schema(), school),
-              trainingEndDate: date.schema,
-              reasonForChange
             }
           }
         }
