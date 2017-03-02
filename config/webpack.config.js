@@ -16,6 +16,7 @@ const entryFiles = {
   'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
   'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',
+  gi: './src/js/gi/gi-entry.jsx',
   hca: './src/js/hca/hca-entry.jsx',
   'health-records': './src/js/health-records/health-records-entry.jsx',
   messaging: './src/js/messaging/messaging-entry.jsx',
@@ -105,6 +106,14 @@ const configGenerator = (options) => {
         {
           test: /\.json$/,
           loader: 'json-loader'
+        },
+        {
+          test: /react-jsonschema-form\/lib\/components\/(widgets|fields\/ObjectField|fields\/ArrayField)/,
+          exclude: [
+            /widgets\/index\.js/,
+            /widgets\/TextareaWidget/
+          ],
+          loader: 'null'
         }
       ],
       noParse: [/mapbox\/vendor\/promise.js$/],
@@ -179,7 +188,6 @@ const configGenerator = (options) => {
   } else {
     baseConfig.devtool = '#eval-source-map';
   }
-
 
   return baseConfig;
 };

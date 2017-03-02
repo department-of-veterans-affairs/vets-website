@@ -51,7 +51,21 @@ describe('Schemaform review: <SubmitButtons>', () => {
     );
 
     expect(tree.everySubTree('ProgressButton')[1].props.buttonText).to.equal('Send Failed');
-    expect(tree.everySubTree('ProgressButton')[1].props.disabled).to.be.true;
+    // In development, the button shouldn't be disabled
+    expect(tree.everySubTree('ProgressButton')[1].props.disabled).to.be.false;
     expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
+
+    // In production, the button should be disabled
+    const buildtype = __BUILDTYPE__;
+    __BUILDTYPE__ = 'production';
+
+    const prodTree = SkinDeep.shallowRender(
+      <SubmitButtons
+          submission={submission}/>
+    );
+    expect(prodTree.everySubTree('ProgressButton')[1].props.disabled).to.be.true;
+
+    // Reset buildtype
+    __BUILDTYPE__ = buildtype;
   });
 });

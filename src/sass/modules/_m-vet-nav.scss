@@ -81,6 +81,24 @@ body.va-pos-fixed {
     }
   }
 
+  .usa-button-outline {
+    padding: calc(1rem + 2px);
+    margin: .8rem 1.6rem;
+    width: auto;
+    background-color: $color-gray-lightest;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    @include media($medium-large-screen) {
+      display: inline-block;
+      background-color: transparent;
+      &.vetnav-level2-button-second {
+        margin-left: 0;
+      }
+    }
+  }
   
 }
 

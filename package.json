@@ -16,6 +16,7 @@
     "test:unit": "mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:unit:msg": "mocha --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
+    "test:unit:hr": "mocha --recursive 'test/health-records/**/*.unit.spec.js?(x)' ",
     "test:unit:rx": "mocha --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
     "test:unit:login": "mocha --recursive 'test/login/**/*.unit.spec.js?(x)' ",
     "test:watch": "mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
@@ -92,6 +93,7 @@
     "isomorphic-fetch": "http://registry.npmjs.org/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz",
     "jsdom": "^9.4.2",
     "json-loader": "^0.5.4",
+    "jsonschema": "^1.1.1",
     "leaflet": "^1.0.0-rc.3",
     "leaflet-control-geocoder": "^1.5.1",
     "libxmljs": "^0.18.0",
@@ -123,8 +125,8 @@
     "modernizr": "=3.3.1",
     "modernizr-loader": "0.0.5",
     "moment": "^2.15.1",
-    "nightwatch": "^0.9.11",
     "morgan": "^1.7.0",
+    "nightwatch": "^0.9.11",
     "node-fetch": "https://registry.npmjs.org/node-fetch/-/node-fetch-1.5.3.tgz",
     "node-sass": "^3.10.1",
     "null-loader": "^0.1.1",
@@ -162,7 +164,7 @@
     "svg-url-loader": "^1.1.0",
     "tinyliquid": "^0.2.33",
     "url-loader": "^0.5.7",
-    "uswds": "^0.10.0",
+    "uswds": "^1.0.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#a08950b8e8832917f72b2e0b7afd5a0d100d382b",
     "webpack": "^1.13.1",
     "webpack-manifest-plugin": "^1.1.0",
@@ -177,5 +179,10 @@
     "node": "4.4.7",
     "npm": "3.8.9"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "camelcase-keys-recursive": "^0.8.2",
+    "react-autosuggest": "^8.0.0",
+    "reselect": "^2.5.4"
+  }
 }

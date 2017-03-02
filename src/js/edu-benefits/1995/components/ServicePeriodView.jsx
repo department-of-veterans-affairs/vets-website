@@ -2,8 +2,13 @@ import React from 'react';
 import { formatReviewDate } from '../../../common/schemaform/helpers';
 
 export default function ServicePeriodView({ formData }) {
-  const from = formatReviewDate(formData.dateRange.from);
-  const to = formatReviewDate(formData.dateRange.to);
+  let from = '';
+  let to = '';
+  if (formData.dateRange) {
+    from = formatReviewDate(formData.dateRange.from);
+    to = formatReviewDate(formData.dateRange.to);
+  }
+
   return (
     <div>
       <strong>{formData.serviceBranch}</strong><br/>
