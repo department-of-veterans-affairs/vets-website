@@ -15,7 +15,7 @@ The next of kin or a close friend may be able to get a burial flag if the Vetera
 - Died on active duty after May 27, 1941
 - Served after January 31, 1955
 - Served in peacetime and left military service before June 27, 1950
-- Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call 800-827-1000.
+- Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call <span class="tel">800-827-1000</span>.
 
 ### How do I get a flag?
 
@@ -23,7 +23,7 @@ To get a burial flag, fill out the Application for United States Flag for Burial
 
 Bring the application form to: 
 •	A funeral director, **or**
-•	[A VA Regional Benefit Office]( http://www.benefits.va.gov/benefits/offices.asp), **or** 
+•	[A VA Regional Benefit Office](http://www.benefits.va.gov/benefits/offices.asp), **or** 
 •	A United States post office (call ahead to make sure your local post office has burial flags)
 
 ### How do I display and care for the flag?
@@ -34,8 +34,8 @@ The Veteran’s family can also donate the flag to national cemeteries that have
 
 We can’t replace flags that are lost, destroyed, or stolen, but some Veterans organizations may be able to help if something happens to the flag we gave you.
 
+<div class="call-out" markdown="0">
 
-BLUE BOX 
 ### Can I get a Presidential Memorial Certificate (PMC)?
 
 A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of an honorably discharged deceased Veteran. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran's death certificate and discharge papers (DD214 or other separation documents). [Download a PMC request form](http://www.va.gov/vaforms/va/pdf/VA40-0247.pdf).
@@ -48,5 +48,7 @@ Department of Veterans Affairs
 Quantico, VA 22134-3903
 
 You can also fax the form to <span class="tel">800--455-7143</span>. If you need help, call <span class="tel">800-697-6947</span>.
+
+</div>
 
 
