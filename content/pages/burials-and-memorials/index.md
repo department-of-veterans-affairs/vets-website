@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Burials
-permalink: /burials/index.html
+permalink:
 source: http://www.benefits.va.gov/compensation/
 plainlanguage:
 template: L2-section-landing
