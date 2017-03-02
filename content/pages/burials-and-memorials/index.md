@@ -14,7 +14,7 @@ majorlinks:
    description: Find out if you can be buried in a national VA cemetery.
  - url: /burials-and-memorials/find-a-cemetery
    title: Find a Cemetery or Gravesite 
-   description: Discover which illnesses or injuries qualify you for benefits.
+   description: Locate a cemetery or gravesite 
 relatedlinks:
  - url: /burials-and-memorials/military-funerals
    title: What to expect at a military funeral
