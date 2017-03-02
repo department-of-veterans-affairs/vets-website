@@ -112,12 +112,12 @@ class InstitutionFilterForm extends React.Component {
       <div>
         <p>Programs</p>
         <Checkbox
-            checked={filters.withoutCautionFlags}
+            checked={filters.caution}
             name="caution"
             label={label('cautionFlag', 'Without Caution Flags', false)}
             onChange={this.handleCheckboxChange}/>
         <Checkbox
-            checked={filters.studentVetGroup}
+            checked={filters.studentVeteranGroup}
             name="studentVeteranGroup"
             label={label('studentVetGroup', 'Student Vet Group')}
             onChange={this.handleCheckboxChange}/>
