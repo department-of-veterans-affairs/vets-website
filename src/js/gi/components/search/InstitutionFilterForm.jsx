@@ -103,7 +103,7 @@ class InstitutionFilterForm extends React.Component {
     const filters = this.props.filters;
     const facets = this.props.search.facets;
     const formattedCount = (key, bool) => {
-      return Number(facets[key][bool.toString()]).toLocaleString();
+      return Number(facets[key][bool.toString()] || 0).toLocaleString();
     };
     const label = (key, desc, bool = true) => {
       return `${desc} (${formattedCount(key, bool)})`;
