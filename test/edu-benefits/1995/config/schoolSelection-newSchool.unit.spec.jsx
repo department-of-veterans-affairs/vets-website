@@ -2,9 +2,8 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-addons-test-utils';
-import Form from 'react-jsonschema-form';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1995/config/form';
 
 describe('Edu 1995 schoolSelection', () => {
@@ -34,9 +33,7 @@ describe('Edu 1995 schoolSelection', () => {
     const formDOM = findDOMNode(form);
 
     // Submit the form with no information
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
-    });
+    submitForm(form);
 
     // Expect these fields to require validation
     expect(formDOM.querySelector('.usa-input-error #root_newSchoolName')).to.not.be.null;

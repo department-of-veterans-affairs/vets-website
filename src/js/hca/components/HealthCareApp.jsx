@@ -150,7 +150,7 @@ class HealthCareApp extends React.Component {
 
     const userToken = sessionStorage.userToken;
     if (userToken) {
-      submissionPost.Authorization = `Token token=${userToken}`;
+      submissionPost.headers.Authorization = `Token token=${userToken}`;
     }
 
     // In order to test the new Rails API in staging, we are temporarily changing the
