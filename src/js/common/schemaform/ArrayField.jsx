@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 import { scrollToFirstError } from '../utils/helpers';
+import { setItemTouched } from './helpers';
 
 import {
   retrieveSchema,
@@ -94,8 +95,8 @@ export default class ArrayField extends React.Component {
       });
     } else {
       // Set all the fields for this item as touched, so we show errors
-      const touchedSchema = _.set(index, true, this.state.touchedSchema);
-      this.setState({ touchedSchema }, () => {
+      const touched = setItemTouched(this.props.idSchema.$id, index, this.props.idSchema);
+      this.props.formContext.setTouched(touched, () => {
         scrollToFirstError();
       });
     }
@@ -123,8 +124,8 @@ export default class ArrayField extends React.Component {
         this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
       });
     } else {
-      const touchedSchema = _.set(lastIndex, true, this.state.touchedSchema);
-      this.setState({ touchedSchema }, () => {
+      const touched = setItemTouched(this.props.idSchema.$id, lastIndex, this.props.idSchema);
+      this.props.formContext.setTouched(touched, () => {
         scrollToFirstError();
       });
     }

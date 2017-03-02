@@ -152,7 +152,8 @@ const formConfig = {
               },
               items: {
                 serviceBranch: {
-                  'ui:title': 'Branch of service'
+                  'ui:title': 'Branch of service',
+                  'ui:required': () => true
                 },
                 dateRange: dateRange.uiSchema(
                   'Start of service period',

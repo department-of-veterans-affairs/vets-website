@@ -40,6 +40,8 @@ class SchemaForm extends React.Component {
     this.onError = this.onError.bind(this);
     this.getEmptyState = this.getEmptyState.bind(this);
     this.transformErrors = this.transformErrors.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.setTouched = this.setTouched.bind(this);
     this.state = this.getEmptyState(props);
   }
 
@@ -55,6 +57,13 @@ class SchemaForm extends React.Component {
     scrollToFirstError();
   }
 
+  onBlur(id) {
+    if (!this.state.formContext.touched[id]) {
+      const formContext = _.set(['touched', id], true, this.state.formContext);
+      this.setState({ formContext });
+    }
+  }
+
   getEmptyState() {
     const { onEdit, hideTitle, title } = this.props;
     return {
@@ -63,9 +72,16 @@ class SchemaForm extends React.Component {
         submitted: false,
         onEdit,
         hideTitle,
+        setTouched: this.setTouched,
         pageTitle: title
       }
     };
+  }
+
+  setTouched(touchedItem, setStateCallback) {
+    const touched = _.merge(this.state.formContext.touched, touchedItem);
+    const formContext = _.set('touched', touched, this.state.formContext);
+    this.setState({ formContext }, setStateCallback);
   }
 
   /*
@@ -104,6 +120,7 @@ class SchemaForm extends React.Component {
             liveValidate
             noHtml5Validate
             onError={this.onError}
+            onBlur={this.onBlur}
             onChange={({ formData }) => onChange(formData)}
             onSubmit={onSubmit}
             schema={schema}
