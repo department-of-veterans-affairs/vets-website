@@ -1,3 +1,5 @@
+import { snakeCase } from 'lodash';
+
 import { api } from '../config';
 
 export const DISPLAY_MODAL = 'DISPLAY_MODAL';
@@ -119,9 +121,7 @@ export function eligibilityChange(e) {
   };
 }
 
-export function institutionFilterChange(e) {
-  const field = e.target.name;
-  const value = e.target.value;
+export function institutionFilterChange(field, value) {
   return {
     type: INSTITUTION_FILTER_CHANGED,
     field,
@@ -129,18 +129,14 @@ export function institutionFilterChange(e) {
   };
 }
 
-export function institutionProgramFilterChange(e) {
-  const field = e.target.name;
-  const value = e.target.checked;
-  return {
-    type: INSTITUTION_FILTER_CHANGED,
-    field,
-    value
-  };
-}
+export function fetchSearchResults(query = {}) {
+  const fullQuery = { ...query, version: 1 };
+  const queryString = Object.keys(fullQuery).reduce((str, key) => {
+    const sep = str ? '&' : '';
+    return `${str}${sep}${snakeCase(key)}=${query[key]}`;
+  }, '');
 
-export function fetchSearchResults(page = 1) {
-  const url = `${api.url}/institutions/search?page=${page}&version=1`;
+  const url = `${api.url}/institutions/search?${queryString}`;
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED });

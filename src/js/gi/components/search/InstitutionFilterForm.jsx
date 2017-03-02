@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+
 import Checkbox from '../Checkbox';
 import RadioButtons from '../RadioButtons';
 import Dropdown from '../Dropdown';
@@ -9,7 +9,23 @@ export class InstitutionFilterForm extends React.Component {
 
   constructor(props) {
     super(props);
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.renderTypeFilter = this.renderTypeFilter.bind(this);
+    this.renderCountryFilter = this.renderCountryFilter.bind(this);
+    this.renderStateFilter = this.renderStateFilter.bind(this);
+    this.renderProgramFilters = this.renderProgramFilters.bind(this);
+    this.renderSchoolTypeFilter = this.renderSchoolTypeFilter.bind(this);
+  }
+
+  handleDropdownChange(e) {
+    const { name: field, value } = e.target;
+    this.props.onFilterChange(field, value);
+  }
+
+  handleCheckboxChange(e) {
+    const { name: field, checked: value } = e.target;
+    this.props.onFilterChange(field, value);
   }
 
   renderTypeFilter() {
@@ -30,7 +46,7 @@ export class InstitutionFilterForm extends React.Component {
           name="type"
           options={options}
           value={this.props.filters.type}
-          onChange={this.props.handleChange}/>
+          onChange={this.handleDropdownChange}/>
     );
   }
 
@@ -51,7 +67,7 @@ export class InstitutionFilterForm extends React.Component {
           value={this.props.filters.country}
           alt="Filter results by country"
           visible
-          onChange={this.props.handleChange}>
+          onChange={this.handleDropdownChange}>
         <label htmlFor="country">
           Country
         </label>
@@ -76,7 +92,7 @@ export class InstitutionFilterForm extends React.Component {
           value={this.props.filters.state}
           alt="Filter results by state"
           visible
-          onChange={this.props.handleChange}>
+          onChange={this.handleDropdownChange}>
         <label htmlFor="state">
           State
         </label>
@@ -100,27 +116,27 @@ export class InstitutionFilterForm extends React.Component {
             checked={filters.withoutCautionFlags}
             name="withoutCautionFlags"
             label={label('cautionFlag', 'Without Caution Flags', false)}
-            onChange={this.props.handleCheckboxChange}/>
+            onChange={this.handleCheckboxChange}/>
         <Checkbox
             checked={filters.studentVetGroup}
-            name="studentVetGroup"
+            name="studentVeteranGroup"
             label={label('studentVetGroup', 'Student Vet Group')}
-            onChange={this.props.handleCheckboxChange}/>
+            onChange={this.handleCheckboxChange}/>
         <Checkbox
             checked={filters.yellowRibbonScholarship}
             name="yellowRibbonScholarship"
             label={label('yellowRibbonScholarship', 'Yellow Ribbon')}
-            onChange={this.props.handleCheckboxChange}/>
+            onChange={this.handleCheckboxChange}/>
         <Checkbox
             checked={filters.principlesOfExcellence}
             name="principlesOfExcellence"
             label={label('principlesOfExcellence', 'Principles of Excellence')}
-            onChange={this.props.handleCheckboxChange}/>
+            onChange={this.handleCheckboxChange}/>
         <Checkbox
             checked={filters.eightKeysToVeteranSuccess}
             name="eightKeysToVeteranSuccess"
             label={label('eightKeysToVeteranSuccess', '8 Keys to Vet Success')}
-            onChange={this.props.handleCheckboxChange}/>
+            onChange={this.handleCheckboxChange}/>
       </div>
     );
   }
@@ -142,7 +158,7 @@ export class InstitutionFilterForm extends React.Component {
           value={this.props.filters.typeName}
           alt="Filter results by institution type"
           visible
-          onChange={this.props.handleChange}>
+          onChange={this.handleDropdownChange}>
         <label htmlFor="typeName">
           Institution type
         </label>
@@ -165,21 +181,12 @@ export class InstitutionFilterForm extends React.Component {
 
 }
 
+InstitutionFilterForm.propTypes = {
+  onFilterChange: React.PropTypes.func
+};
 InstitutionFilterForm.defaultProps = {};
 
 const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showModal: (name) => {
-      dispatch(actions.showModal(name));
-    },
-    handleChange: (e) => {
-      dispatch(actions.institutionFilterChange(e));
-    },
-    handleCheckboxChange: (e) => {
-      dispatch(actions.institutionProgramFilterChange(e));
-    }
-  };
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(InstitutionFilterForm);

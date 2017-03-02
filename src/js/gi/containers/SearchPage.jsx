@@ -1,9 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import _ from 'lodash';
 
 import {
   setPageTitle,
-  fetchSearchResults
+  fetchSearchResults,
+  institutionFilterChange
 } from '../actions';
 
 import KeywordSearch from '../components/search/KeywordSearch';
@@ -13,6 +16,12 @@ import SearchResult from '../components/search/SearchResult';
 import Pagination from '../../common/components/Pagination';
 
 export class SearchPage extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.handlePageSelect = this.handlePageSelect.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+  }
 
   componentWillMount() {
     this.props.fetchSearchResults();
@@ -25,8 +34,41 @@ export class SearchPage extends React.Component {
     this.props.setPageTitle(title);
   }
 
+  componentDidUpdate(prevProps) {
+    const currentLocation = this.props.location;
+
+    if (!_.isEqual(currentLocation, prevProps.location)) {
+      const query = _.pick(currentLocation.query, [
+        'page',
+        'name',
+        'type',
+        'country',
+        'state',
+        'caution',
+        'studentVeteranGroup',
+        'yellowRibbonScholarship',
+        'principlesOfExcellence',
+        'eightKeysToVeteranSuccess',
+        'typeName'
+      ]);
+
+      this.props.fetchSearchResults(query);
+    }
+  }
+
   handlePageSelect(page) {
-    this.props.fetchSearchResults(page);
+    this.props.router.push({
+      ...this.props.location,
+      query: { ...this.props.location.query, page }
+    });
+  }
+
+  handleFilterChange(field, value) {
+    this.props.institutionFilterChange(field, value);
+    this.props.router.push({
+      ...this.props.location,
+      query: { ...this.props.location.query, [field]: value }
+    });
   }
 
   render() {
@@ -45,7 +87,7 @@ export class SearchPage extends React.Component {
           <div className="filters-sidebar small-12 medium-3 columns">
             <h2>Keywords</h2>
             <KeywordSearch label="City, school, or employer"/>
-            <InstitutionFilterForm/>
+            <InstitutionFilterForm onFilterChange={this.handleFilterChange}/>
             <EligibilityForm/>
           </div>
 
@@ -89,13 +131,14 @@ export class SearchPage extends React.Component {
 SearchPage.defaultProps = {};
 
 const mapStateToProps = (state) => {
-  const { autocomplete, search } = state;
-  return { autocomplete, search };
+  const { autocomplete, filter, search } = state;
+  return { autocomplete, filter, search };
 };
 
 const mapDispatchToProps = {
   setPageTitle,
-  fetchSearchResults
+  fetchSearchResults,
+  institutionFilterChange
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPage));
