@@ -7,7 +7,7 @@ relatedlinks:
   - url: /burials-and-memorials/burial-planning/headstones-markers-medallions
     title: Headstones, markers, and medallions
     description: Learn about ways to memorialize the deceased
-  - url: /burials-and-memorials/burial-planning/
+  - url: /burials-and-memorials/burial-planning/flags-and-memorial-certificates
     title: Flags and Presidential Memorial Certificates
     description: Learn about burial flags and more
 ---
