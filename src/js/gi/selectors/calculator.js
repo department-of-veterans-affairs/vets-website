@@ -222,9 +222,129 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
   calcTerm4 = isOJT ? 'Months 19-24' : 'Total (/Yr)';
 
   // Calculate Tuition Fees for Term #1 - getTuitionFeesTerm1
-  // if (isOJT) {
-  //   tuitionFeesTerm1 = 0;
-  // } ...
+  if (isOJT || oldGiBill || (your.giBillChapter === 31 && isFlightOrCorrespondence)) {
+    tuitionFeesTerm1 = 0;
+  } else if (your.giBillChapter === 31) {
+    tuitionFeesTerm1 = tuitionFeesPerTerm;
+  } else {
+    tuitionFeesTerm1 = Math.max(0, Math.min(
+      tier * tuitionFeesPerTerm,
+      tier * tuitionFeesCap,
+      tier * tuitionNetPrice
+    ));
+  }
+
+  // getTuitionFeesTerm2
+  if (isOJT || oldGiBill || (your.giBillChapter === 31 && isFlightOrCorrespondence)) {
+    tuitionFeesTerm2 = 0;
+  } else if (inputs.calendar === 'nontraditional' && numberOfTerms === 1) {
+    tuitionFeesTerm2 = 0;
+  } else if (your.giBillChapter === 31) {
+    tuitionFeesTerm2 = tuitionFeesPerTerm;
+  } else {
+    tuitionFeesTerm2 = Math.max(0, Math.min(
+      tier * tuitionFeesPerTerm,
+      tier * tuitionFeesCap - tuitionFeesTerm1,
+      tier * tuitionNetPrice - tuitionFeesTerm1
+    ));
+  }
+
+  // getTuitionFeesTerm3
+  if (isOJT || oldGiBill || (your.giBillChapter === 31 && isFlightOrCorrespondence)) {
+    tuitionFeesTerm3 = 0;
+  } else if (inputs.calendar === 'semesters' || inputs.calendar === 'nontraditional' && numberOfTerms < 3) {
+    tuitionFeesTerm3 = 0;
+  } else if (your.giBillChapter === 31) {
+    tuitionFeesTerm3 = tuitionFeesPerTerm;
+  } else {
+    tuitionFeesTerm3 = Math.max(0, Math.min(
+      tier * tuitionFeesPerTerm,
+      tier * tuitionFeesCap - tuitionFeesTerm1 - tuitionFeesTerm2,
+      tier * tuitionNetPrice - tuitionFeesTerm1 - tuitionFeesTerm2
+    ));
+  }
+
+  // Calculate the name of Tuition Fees Total - getTuitionFeesTotal
+  tuitionFeesTotal = tuitionFeesTerm1 + tuitionFeesTerm2 + tuitionFeesTerm3;
+
+  // Calculate Yellow Ribbon for Term #1 - getYrBenTerm1
+  if (!yellowRibbonElig || inputs.yellowBen === 0 || oldGiBill || your.giBillChapter === 31) {
+    yrBenTerm1 = 0;
+  } else if (tuitionFeesPerTerm === tuitionFeesTerm1) {
+    yrBenTerm1 = 0;
+  } else {
+    yrBenTerm1 = Math.max(0, Math.min(
+      tuitionFeesPerTerm - tuitionFeesTerm1,
+      inputs.yellowBen * 2
+    ));
+  }
+
+  // getYrBenTerm2
+  if (!yellowRibbonElig || inputs.yellowBen === 0) {
+    yrBenTerm2 = 0;
+  } else if (inputs.calendar === 'nontraditional' && numberOfTerms === 1) {
+    yrBenTerm2 = 0;
+  } else if (oldGiBill || your.giBillChapter === 31) {
+    yrBenTerm2 = 0;
+  } else if (tuitionFeesPerTerm === tuitionFeesTerm2) {
+    yrBenTerm2 = 0;
+  } else {
+    yrBenTerm2 = Math.max(0, Math.min(
+      tuitionFeesPerTerm - tuitionFeesTerm2,
+      tuitionFeesPerTerm - tuitionFeesTerm1 - tuitionFeesTerm2 - yrBenTerm1,
+      inputs.yellowBen * 2 - yrBenTerm1
+    ));
+  }
+
+  // getYrBenTerm3
+  if (!yellowRibbonElig || inputs.yellowBen === 0) {
+    yrBenTerm3 = 0;
+  } else if (inputs.calendar === 'semesters' || (inputs.calendar === 'nontraditional' && numberOfTerms < 3)) {
+    yrBenTerm3 = 0;
+  } else if (oldGiBill || your.giBillChapter === 31) {
+    yrBenTerm3 = 0;
+  } else if (tuitionFeesPerTerm === tuitionFeesTerm3) {
+    yrBenTerm3 = 0;
+  } else {
+    yrBenTerm3 = Math.max(0, Math.min(
+      tuitionFeesPerTerm - tuitionFeesTerm3,
+      tuitionFeesPerTerm - tuitionFeesTerm1 - tuitionFeesTerm2 - tuitionFeesTerm3 - yrBenTerm1 - yrBenTerm1,
+      inputs.yellowBen * 2 - yrBenTerm1 - yrBenTerm1
+    ));
+  }
+
+  // Calculate Yellow Ribbon for the Year - getYrBenTotal
+  if (!yellowRibbonElig || inputs.yellowBen === 0) {
+    yrBenTotal = 0;
+  } else {
+    yrBenTotal = yrBenTerm1 + yrBenTerm2 + yrBenTerm3;
+  }
+
+  // Calculate Yellow Ribbon by school / VA contributions - getYrBreakdown
+  yrBenSchoolTerm1 = yrBenTerm1 / 2;
+  yrBenVaTerm1 = yrBenTerm1 / 2;
+  yrBenSchoolTerm2 = yrBenTerm2 / 2;
+  yrBenVaTerm2 = yrBenTerm2 / 2;
+  yrBenSchoolTerm3 = yrBenTerm3 / 2;
+  yrBenVaTerm3 = yrBenTerm3 / 2;
+  yrBenSchoolTotal = yrBenTotal / 2;
+  yrBenVaTotal = yrBenTotal / 2;
+
+  // Calculate Total Paid to School - getTotalPaidToSchool
+  totalToSchool = tuitionFeesTotal + yrBenTotal;
+
+  // Calculate Total Scholarships and Tuition Assistance - getTotalScholarships
+  totalScholarshipTa = inputs.scholar - inputs.tuitionAssist;
+
+  // Calculate Total Left to Pay - getTotalLeftToPay
+  totalLeftToPay = Math.max(
+    0,
+    inputs.tuitionFees - totalToSchool - inputs.scholar - inputs.tuitionAssist
+  );
+
+  // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1
+  // TODO: gouge my eyes out with a spoon
+
 
   return {
     serviceDischarge,
