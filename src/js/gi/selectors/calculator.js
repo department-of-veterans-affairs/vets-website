@@ -342,9 +342,222 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
     inputs.tuitionFees - totalToSchool - inputs.scholar - inputs.tuitionAssist
   );
 
+  const spouseActiveDuty = your.spouseActiveDuty === 'yes';
+
   // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1
   // TODO: gouge my eyes out with a spoon
+  if (your.militaryStatus === 'active duty' && isOJT) {
+    housingAllowTerm1 = 0;
+  } else if (your.giBillChapter === 33 & your.militaryStatus === 'spouse' &&
+      spouseActiveDuty && isOJT) {
+    housingAllowTerm1 = 0;
+  } else if (your.giBillChapter === 35 && isOJT) {
+    housingAllowTerm1 = monthlyRateFinal;
+  } else if (oldGiBill && isOJT) {
+    housingAllowTerm1 = monthlyRateFinal;
+  } else if (onlyVRE && isOJT) {
+    housingAllowTerm1 = monthlyRateFinal;
+  } else if (your.giBillChapter === 31 && (isFlight ||
+      isCorrespondence)) {
+    tuitionAllowTerm1 = 0;
+  } else if (your.giBillChapter === 1607 && isFlight) {
+    housingAllowTerm1 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm * (your.consecutiveService * 0.55)
+      ));
+  } else if (your.giBillChapter === 1606 && isFlight) {
+    housingAllowTerm1 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm * 0.55
+      ));
+  } else if (your.giBillChapter === 1607 && isCorrespondence) {
+    housingAllowTerm1 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm * (your.consecutiveService * 0.6)
+      ));
+  } else if (your.giBillChapter === 1606 && isCorrespondence) {
+    housingAllowTerm1 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm * (your.consecutiveService * 0.6)
+      ));
+  } else if (onlyTuitionFees) {
+    housingAllowTerm1 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm
+      ));
+  } else if (oldGiBill || onlyVRE) {
+    housingAllowTerm1 = monthlyRateFinal * termLength;
+  } else if (your.militaryStatus === 'active duty') {
+    housingAllowTerm1 = (0 + kickerBenefit) * termLength;
+  } else if (your.militaryStatus === 'spouse' && spouseActiveDuty) {
+    housingAllowTerm1 = (0 + kickerBenefit) * termLength;
+  } else if (isFlight || isCorrespondence) {
+    housingAllowTerm1 = 0;
+  } else if (isOJT) {
+    housingAllowTerm1 = ropOjt *
+      (tier * its.bah + kickerBenefit);
+  } else if (your.online === 'yes') {
+    housingAllowTerm1 = termLength * inputs.rop *
+      (tier * constant.AVGBAH / 2 + kickerBenefit);
+  } else if (its.country !== 'usa') {
+    housingAllowTerm1 = termLength * inputs.rop *
+      ((tier * constant.AVGBAH) + kickerBenefit);
+  } else {
+    housingAllowTerm1 = termLength * inputs.rop *
+      ((tier * its.bah) + kickerBenefit);
+  }
 
+  // getHousingAllowTerm2
+  if (your.militaryStatus === 'active duty' && isOJT) {
+    housingAllowTerm2 = 0;
+  } else if (your.giBillChapter === 33 &&
+      your.militaryStatus === 'spouse' && spouseActiveDuty &&
+      isOJT) {
+    housingAllowTerm2 = 0;
+  } else if (your.giBillChapter === 35 && isOJT) {
+    housingAllowTerm2 = 0.75 * monthlyRateFinal;
+  } else if (oldGiBill && isOJT) {
+    housingAllowTerm2 = (6.6 / 9) * monthlyRateFinal;
+  } else if (onlyVRE && isOJT) {
+    housingAllowTerm2 = monthlyRateFinal;
+  } else if (isOJT) {
+    housingAllowTerm2 = 0.8 * ropOjt *
+      (tier * its.bah + kickerBenefit);
+  } else if (inputs.calendar === 'nontraditional' && numberOfTerms === 1) {
+    housingAllowTerm2 = 0;
+  } else if (your.giBillChapter === 31 &&
+      (isFlight || isCorrespondence)) {
+    tuitionAllowTerm2 = 0;
+  } else if (your.giBillChapter === 1607 && isFlight) {
+    housingAllowTerm2 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm * (your.consecutiveService * 0.55)
+      ));
+  } else if (your.giBillChapter === 1606 && isFlight) {
+    housingAllowTerm2 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm * 0.55
+      ));
+  } else if (your.giBillChapter === 1607 && isCorrespondence) {
+    housingAllowTerm2 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm * (your.consecutiveService * 0.6)
+      ));
+  } else if (your.giBillChapter === 1606 && isCorrespondence) {
+    housingAllowTerm2 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm * (your.consecutiveService * 0.6)
+      ));
+  } else if (onlyTuitionFees) {
+    housingAllowTerm2 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm
+      ));
+  } else if (oldGiBill || onlyVRE) {
+    housingAllowTerm2 = monthlyRateFinal * termLength;
+  } else if (your.militaryStatus === 'active duty') {
+    housingAllowTerm2 = (0 + kickerBenefit) * termLength;
+  } else if (your.militaryStatus === 'spouse' && spouseActiveDuty) {
+    housingAllowTerm2 = (0 + kickerBenefit) * termLength;
+  } else if (isFlight || isCorrespondence) {
+    housingAllowTerm2 = 0;
+  } else if (your.online === 'yes') {
+    housingAllowTerm2 = termLength * inputs.rop *
+      (tier * constant.AVGBAH / 2 + kickerBenefit);
+  } else if (its.country !== 'usa') {
+    housingAllowTerm2 = termLength * inputs.rop *
+      (tier * constant.AVGBAH + kickerBenefit);
+  } else {
+    housingAllowTerm2 = termLength * inputs.rop *
+      (tier * its.bah + kickerBenefit);
+  }
+
+  // getHousingAllowTerm3
+  if (your.militaryStatus === 'active duty' && isOJT) {
+    housingAllowTerm3 = 0;
+  } else if (your.giBillChapter === 33 && your.militaryStatus === 'spouse' &&
+      spouseActiveDuty && isOJT) {
+    housingAllowTerm3 = 0;
+  } else if (your.giBillChapter === 35 && isOJT) {
+    housingAllowTerm3 = 0.494 * monthlyRateFinal;
+  } else if (oldGiBill && isOJT) {
+    housingAllowTerm3 = (7 / 15) * monthlyRateFinal;
+  } else if (onlyVRE && isOJT) {
+    housingAllowTerm3 = monthlyRateFinal;
+  } else if (isOJT) {
+    housingAllowTerm3 = 0.6 * ropOjt *
+      (tier * its.bah + kickerBenefit);
+  } else if (inputs.calendar === 'semesters') {
+    housingAllowTerm3 = 0;
+  } else if (inputs.calendar === 'nontraditional' && numberOfTerms < 3) {
+    housingAllowTerm3 = 0;
+  } else if (your.giBillChapter === 31 &&
+      (isFlight || isCorrespondence)) {
+    tuitionAllowTerm3 = 0;
+  } else if (your.giBillChapter === 1607 && isFlight) {
+    housingAllowTerm3 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm * (your.consecutiveService * 0.55)
+      ));
+  } else if (your.giBillChapter === 1606 && isFlight) {
+    housingAllowTerm3 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm * 0.55
+      ));
+  } else if (your.giBillChapter === 1607 && isCorrespondence) {
+    housingAllowTerm3 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm * (your.consecutiveService * 0.6)
+      ));
+  } else if (your.giBillChapter === 1607 && isCorrespondence) {
+    housingAllowTerm3 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm * (your.consecutiveService * 0.6)
+      ));
+  } else if (onlyTuitionFees) {
+    housingAllowTerm3 = Math.max(0,
+      Math.min(monthlyRateFinal * termLength,
+        tuitionFeesPerTerm
+      ));
+  } else if (oldGiBill || onlyVRE) {
+    housingAllowTerm3 = monthlyRateFinal * termLength;
+  } else if (your.militaryStatus === 'spouse' && spouseActiveDuty) {
+    housingAllowTerm3 = (0 + kickerBenefit) * termLength;
+  } else if (isFlight || isCorrespondence) {
+    housingAllowTerm3 = 0;
+  } else if (your.militaryStatus === 'active duty') {
+    housingAllowTerm3 = (0 + kickerBenefit) * termLength;
+  } else if (your.online === 'yes') {
+    housingAllowTerm3 = termLength * inputs.rop *
+      (tier * constant.AVGBAH / 2 + kickerBenefit);
+  } else if (its.country !== 'usa') {
+    housingAllowTerm3 = termLength * inputs.rop *
+      (tier * constant.AVGBAH + kickerBenefit);
+  } else {
+    housingAllowTerm3 = termLength * inputs.rop *
+      (tier * its.bah + kickerBenefit);
+  }
+
+  // Calculate Housing Allowance Total for year - getHousingAllowTotal
+  if (your.militaryStatus === 'active duty' && isOJT) {
+    housingAllowTerm3 = 0;
+  } else if (your.giBillChapter === 35 && isOJT) {
+    housingAllowTotal = 0.25 * monthlyRateFinal;
+  } else if (oldGiBill && isOJT) {
+    housingAllowTotal = (7 / 15) * monthlyRateFinal;
+  } else if (onlyVRE && isOJT) {
+    housingAllowTotal = monthlyRateFinal;
+  } else if (isOJT) {
+    housingAllowTotal = 0.4 * ropOjt *
+      (tier * its.bah + kickerBenefit);
+  } else if (onlyTuitionFees) {
+    housingAllowTotal = Math.max(0,
+        Math.min(monthlyRateFinal * acadYearLength, inputs.tuitionFees)
+      );
+  } else {
+    housingAllowTotal = housingAllowTerm1 +
+      housingAllowTerm2 + housingAllowTerm3;
+  }
 
   return {
     serviceDischarge,
