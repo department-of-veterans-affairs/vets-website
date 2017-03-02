@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Burials
-permalink:
+permalink: /burials-and-memorials/index.md
 source:
 plainlanguage:
 template: L2-section-landing
