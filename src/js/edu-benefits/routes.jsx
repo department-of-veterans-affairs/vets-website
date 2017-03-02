@@ -1,6 +1,7 @@
 import EduBenefitsApp from './1990/containers/EduBenefitsApp';
 import routes1990 from './1990/routes';
 import form1990 from './1990/reducers';
+import asyncLoader from './components/asyncLoader';
 
 export default function createRoutes(store) {
   // It will be confusing to have multiple forms in one app living side by side
@@ -20,12 +21,14 @@ export default function createRoutes(store) {
     {
       path: '1995',
       indexRoute: { onEnter: (nextState, replace) => replace('/1995/introduction') },
-      getComponent(nextState, callback) {
-        require.ensure([], (require) => {
-          store.replaceReducer(require('./1995/reducer').default);
-          callback(null, require('./1995/Form1995App').default);
-        }, 'edu-1995');
-      },
+      component: asyncLoader(() => {
+        return new Promise((resolve) => {
+          require.ensure([], (require) => {
+            store.replaceReducer(require('./1995/reducer').default);
+            resolve(require('./1995/Form1995App').default);
+          }, 'edu-1995');
+        });
+      }, 'Loading Form 22-1995'),
       getChildRoutes(partialNextState, callback) {
         require.ensure([], (require) => {
           callback(null, require('./1995/routes').default);
