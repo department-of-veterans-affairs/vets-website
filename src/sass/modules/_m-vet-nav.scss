@@ -9,7 +9,6 @@ body.va-pos-fixed {
   left: 0;
   overflow-y: scroll;
   position: absolute;
-  margin-top: 1.2rem;
   width: 100%;
   z-index: 6;
 
@@ -329,11 +328,16 @@ body.va-pos-fixed {
   }
 }
 
-#vet-tools {
+.vet-toolbar {
   align-items: center;
   flex: 1 1 100%;
-  margin-left: -1rem;
-  margin-right: -1rem;
+  margin-left: -2rem;
+
+  > [data-reactroot], 
+  > div {
+    align-items: center;
+    display: flex;
+  }
 
   @include media($medium-large-screen) {
     flex: 0 1 32.5rem;
@@ -355,12 +359,21 @@ body.va-pos-fixed {
     padding-left: 0;
   }
 
+  .va-dropdown, 
+  .sign-in-link {
+    margin-left: 1rem;
+  }
+
   .va-dropdown-trigger {
     font-weight: 600;
   }
 }
 
-[id=search] {
+.sign-in-link {
+  white-space: nowrap;
+}
+
+[id=searchmenu] {
   width: 30rem;
 
   [type=text] {
