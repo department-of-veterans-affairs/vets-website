@@ -13,7 +13,6 @@ const registry = {
   }
 };
 const formContext = {};
-const touchedSchema = {};
 const requiredSchema = {};
 
 describe('Schemaform review <ArrayField>', () => {
@@ -47,7 +46,6 @@ describe('Schemaform review <ArrayField>', () => {
           idSchema={idSchema}
           registry={registry}
           formContext={formContext}
-          touchedSchema={touchedSchema}
           requiredSchema={requiredSchema}/>
     );
 
@@ -84,7 +82,6 @@ describe('Schemaform review <ArrayField>', () => {
           idSchema={idSchema}
           registry={registry}
           formContext={formContext}
-          touchedSchema={touchedSchema}
           requiredSchema={requiredSchema}/>
     );
 
@@ -121,7 +118,6 @@ describe('Schemaform review <ArrayField>', () => {
           idSchema={idSchema}
           registry={registry}
           formContext={formContext}
-          touchedSchema={touchedSchema}
           requiredSchema={requiredSchema}/>
     );
 
@@ -162,7 +158,6 @@ describe('Schemaform review <ArrayField>', () => {
             uiSchema={uiSchema}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema}
             requiredSchema={requiredSchema}/>
       );
     });

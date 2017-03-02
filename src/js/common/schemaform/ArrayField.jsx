@@ -155,7 +155,6 @@ export default class ArrayField extends React.Component {
       readonly,
       registry,
       formContext,
-      touchedSchema,
       schema
     } = this.props;
     const definitions = registry.definitions;
@@ -190,10 +189,6 @@ export default class ArrayField extends React.Component {
             // This is largely copied from the default ArrayField
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemsSchema, itemIdPrefix, definitions);
-            let itemTouched = (touchedSchema ? touchedSchema[index] : false);
-            if (this.state.touchedSchema && typeof this.state.touchedSchema[index] !== 'undefined') {
-              itemTouched = this.state.touchedSchema[index];
-            }
             const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || items.length > 1;
@@ -216,7 +211,6 @@ export default class ArrayField extends React.Component {
                             formData={item}
                             onChange={(value) => this.onItemChange(index, value)}
                             onBlur={(path) => this.onItemBlur(index, path)}
-                            touchedSchema={itemTouched}
                             registry={this.props.registry}
                             required={false}
                             disabled={disabled}
@@ -274,7 +268,6 @@ ArrayField.propTypes = {
   schema: React.PropTypes.object.isRequired,
   uiSchema: React.PropTypes.object,
   errorSchema: React.PropTypes.object,
-  touchedSchema: React.PropTypes.object,
   requiredSchema: React.PropTypes.object,
   idSchema: React.PropTypes.object,
   onChange: React.PropTypes.func.isRequired,
