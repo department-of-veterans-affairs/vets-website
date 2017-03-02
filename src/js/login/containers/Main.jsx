@@ -65,25 +65,33 @@ class Main extends React.Component {
   }
 
   handleLogin() {
+    window.dataLayer.push({ event: 'login-link-clicked' });
     const myLoginUrl = this.props.login.loginUrl.first;
     if (myLoginUrl) {
+      window.dataLayer.push({ event: 'login-link-opened' });
       const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
       receiver.focus();
     }
   }
 
   handleSignup() {
+    window.dataLayer.push({ event: 'register-link-clicked' });
     const myLoginUrl = this.props.login.loginUrl.first;
     if (myLoginUrl) {
+      window.dataLayer.push({ event: 'register-link-opened' });
       const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
       receiver.focus();
     }
   }
 
   handleLogout() {
+    window.dataLayer.push({ event: 'logout-link-clicked' });
     const myLogoutUrl = this.state.logoutUrl;
-    const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
+    if (myLogoutUrl) {
+      window.dataLayer.push({ event: 'logout-link-opened' });
+      const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
   }
 
   checkTokenStatus() {
