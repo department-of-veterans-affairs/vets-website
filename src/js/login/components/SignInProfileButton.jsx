@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { updateLoggedInStatus } from '../actions';
+import DropDown from '../../common/components/DropDown';
+import IconUser from '../../common/components/svgicons/IconUser';
 
+import { updateLoggedInStatus } from '../actions';
 
 class SignInProfileButton extends React.Component {
   render() {
@@ -13,17 +15,27 @@ class SignInProfileButton extends React.Component {
     if (this.props.login.currentlyLoggedIn) {
       if (this.props.profile.userFullName.first) {
         const firstName = _.startCase(_.toLower(this.props.profile.userFullName.first));
-        greeting = `Hello, ${firstName}`;
+        greeting = firstName;
       } else {
         greeting = this.props.profile.email;
       }
 
+      const icon = <IconUser color="#fff"/>;
+
+      const dropDownContents = (
+        <ul>
+          <li><a href="/profile">Account</a></li>
+          <li><a href="#" onClick={this.props.onUserLogout}>Sign Out</a></li>
+        </ul>
+      );
+
       content = (
-        <span>
-          <span className="signin-greeting">{greeting}</span><span className="signin-spacer">|</span>
-          <a href="/profile">Account</a><span className="signin-spacer">|</span>
-          <a href="#" onClick={this.props.onUserLogout}>Sign Out</a>
-        </span>
+        <DropDown
+            buttonText={greeting}
+            contents={dropDownContents}
+            id="usermenu"
+            icon={icon}
+            isOpen={false}/>
       );
     } else {
       content = (<div>

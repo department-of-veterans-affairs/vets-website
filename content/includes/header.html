@@ -161,13 +161,13 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
         <!-- Search form -->
         <button class="va-dropdown-trigger va-btn-search va-btn-withicon"
           aria-controls="search"
-          aria-expanded="true">
+          aria-expanded="false">
           <span>
              {% include "assets/img/search.svg" %}
               Search
           </span>
         </button>      
-        <form class="va-dropdown-panel" accept-charset="UTF-8" action="https://search.vets.gov/search" id="search" method="get">
+        <form hidden class="va-dropdown-panel" accept-charset="UTF-8" action="https://search.vets.gov/search" id="search" method="get">
           <div class="csp-inline-patch-header">
             <input name="utf8" type="hidden" value="&#x2713;" />
           </div>

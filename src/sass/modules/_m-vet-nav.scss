@@ -336,7 +336,7 @@ body.va-pos-fixed {
   margin-right: -1rem;
 
   @include media($medium-large-screen) {
-    flex: 0 1 35rem;
+    flex: 0 1 32.5rem;
     margin-left: 0;
     margin-right: 0;
   }
@@ -347,6 +347,16 @@ body.va-pos-fixed {
 
   [href^=tel] {
     text-decoration: none;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+  }
+
+  .va-dropdown-trigger {
+    font-weight: 600;
   }
 }
 
