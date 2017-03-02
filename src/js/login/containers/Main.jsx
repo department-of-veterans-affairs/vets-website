@@ -66,14 +66,18 @@ class Main extends React.Component {
 
   handleLogin() {
     const myLoginUrl = this.props.login.loginUrl.first;
-    const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
+    if (myLoginUrl) {
+      const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
   }
 
   handleSignup() {
     const myLoginUrl = this.props.login.loginUrl.first;
-    const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
+    if (myLoginUrl) {
+      const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
   }
 
   handleLogout() {
