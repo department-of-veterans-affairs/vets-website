@@ -21,10 +21,7 @@ export class SearchPage extends React.Component {
     super(props);
     this.handlePageSelect = this.handlePageSelect.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
-  }
-
-  componentWillMount() {
-    this.props.fetchSearchResults();
+    this.updateSearchResults = this.updateSearchResults.bind(this);
   }
 
   componentDidMount() {
@@ -32,28 +29,31 @@ export class SearchPage extends React.Component {
     const searchTerm = this.props.autocomplete.term;
     if (searchTerm) { title += ` - ${searchTerm}`; }
     this.props.setPageTitle(title);
+    this.updateSearchResults();
   }
 
   componentDidUpdate(prevProps) {
-    const currentLocation = this.props.location;
-
-    if (!_.isEqual(currentLocation, prevProps.location)) {
-      const query = _.pick(currentLocation.query, [
-        'page',
-        'name',
-        'type',
-        'country',
-        'state',
-        'caution',
-        'studentVeteranGroup',
-        'yellowRibbonScholarship',
-        'principlesOfExcellence',
-        'eightKeysToVeteranSuccess',
-        'typeName'
-      ]);
-
-      this.props.fetchSearchResults(query);
+    if (!_.isEqual(this.props.location, prevProps.location)) {
+      this.updateSearchResults();
     }
+  }
+
+  updateSearchResults() {
+    const query = _.pick(this.props.location.query, [
+      'page',
+      'name',
+      'type',
+      'country',
+      'state',
+      'caution',
+      'studentVeteranGroup',
+      'yellowRibbonScholarship',
+      'principlesOfExcellence',
+      'eightKeysToVeteranSuccess',
+      'typeName'
+    ]);
+
+    this.props.fetchSearchResults(query);
   }
 
   handlePageSelect(page) {
