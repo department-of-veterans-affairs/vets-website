@@ -45,11 +45,7 @@ function getDerivedAttributes(constant, eligibility, institution) {
   const correspondenceOrFlightUnderOldGiBill = (
     (its.type === 'correspondence' || its.type === 'flight') && oldGiBill === true
   );
-  if (activeDutyThirtyOr1607 || correspondenceOrFlightUnderOldGiBill) {
-    onlyTuitionFees = true;
-  } else {
-    onlyTuitionFees = false;
-  }
+  onlyTuitionFees = activeDutyThirtyOr1607 || correspondenceOrFlightUnderOldGiBill;
 
   // The monthly benefit rate for non-chapter 33 benefits
   const isOJT = its.type === 'ojt';
