@@ -12,15 +12,56 @@ const getRequiredAttributes = (_state, props) => {
   return props.attributes;
 };
 
+const getInputs = (_state, _props) => {
+  return {};
+};
+
 function getDerivedAttributes(constant, eligibility, institution, inputs) {
   const your = eligibility;
   const its = institution;
-  let onlyTuitionFees;
   let monthlyRate;
   let numberOfTerms;
-  let tuitionNetPrice;
-  let ropBook;
   let ropOld;
+  let tuitionFeesCap;
+  let acadYearLength;
+  let termLength;
+  let ropOjt;
+  let kickerBenefit;
+  let rop;
+  let buyUpRate;
+  let tuitionFeesTerm1;
+  let tuitionFeesTerm2;
+  let tuitionFeesTerm3;
+  let yrBenTerm1;
+  let yrBenTerm2;
+  let yrBenTerm3;
+  let yrBenTotal;
+  let housingAllowTerm1;
+  let housingAllowTerm2;
+  let housingAllowTerm3;
+  let housingAllowTotal;
+  let housingStipdendTerm1;
+  let housingStipdendTerm2;
+  let housingStipdendTerm3;
+  let housingStipdendTotal;
+  let tuitionAllowTerm1;
+  let tuitionAllowTerm2;
+  let tuitionAllowTerm3;
+  let tuitionAllowTotal;
+  let giBillTotalText;
+  let totalTerm1;
+  let totalTerm2;
+  let totalTerm3;
+  let totalYear;
+  let monthlyRateDisplay;
+  let nameOfTerm1;
+  let nameOfTerm2;
+  let nameOfTerm3;
+  let bookStipendTerm1;
+  let bookStipendTerm2;
+  let bookStipendTerm3;
+  let bookStipendTotal;
+
 
   const serviceDischarge = (your.cumulativeService === 'service discharge');
 
@@ -51,12 +92,13 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
   const ropOldAndChapter = (
     ['less than half', 'quarter'].includes(inputs.ropOld) && [30, 35, 1607].includes(your.giBillChapter)
   );
-  onlyTuitionFees = activeDutyThirtyOr1607 || correspondenceOrFlightUnderOldGiBill || ropOldAndChapter;
+  const onlyTuitionFees = activeDutyThirtyOr1607 || correspondenceOrFlightUnderOldGiBill || ropOldAndChapter;
 
   // The monthly benefit rate for non-chapter 33 benefits
   const isOJT = its.type === 'ojt';
   const isFlight = its.type === 'flight';
   const isCorrespondence = its.type === 'correspondence';
+  const isFlightOrCorrespondence = isFlight || isCorrespondence;
   const isPublic = its.type === 'public';
   const isPrivate = its.type === 'private';
   const isForeign = its.type === 'foreign';
@@ -104,7 +146,7 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
 
   // Calculate the total number of academic terms - getNumberOfTerms
   if (isOJT || inputs.calendar === 'quarters') {
-    numberOfTerms = 3
+    numberOfTerms = 3;
   }
   if (inputs.calendar === 'semesters') {
     numberOfTerms = 2;
@@ -114,7 +156,7 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
   }
 
   // Set the net price (Payer of Last Resort) - getTuitionNetPrice
-  tuitionNetPrice = Math.max(0, Math.min(
+  const tuitionNetPrice = Math.max(0, Math.min(
     inputs.tuitionFees - inputs.scholar - inputs.tuitionAssist
   ));
 
@@ -123,7 +165,7 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
     tuitionFeesCap = constant.FLTTFCAP;
   } else if (isCorrespondence) {
     tuitionFeesCap = constant.CORRESPONDTFCAP;
-  } else if (isPublic && its.country == 'usa' && !inputs.inState) {
+  } else if (isPublic && its.country === 'usa' && !inputs.inState) {
     tuitionFeesCap = its.inStateTuitionFees; // or inputs.inStateTuitionFees?
   } else if (isPrivate || isForeign) {
     tuitionFeesCap = constant.TFCAP;
@@ -131,7 +173,7 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
 
   // Calculate the tuition/fees per term - getTuitionFeesPerTerm
   const getCurrency = (x) => x;
-  tuitionFeesPerTerm = getCurrency(inputs.tuitionFees) / numberOfTerms;
+  const tuitionFeesPerTerm = getCurrency(inputs.tuitionFees) / numberOfTerms;
 
   // Calculate the length of each term - getTermLength
   // and Calculate the length of the academic year - getAcadYearLength
@@ -147,34 +189,36 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
       termLength = inputs.lengthNontradTerms;
       acadYearLength = inputs.numberNontradTerms / inputs.lengthNontradTerms;
       break;
+    default:
+      // noop
   }
 
   // Calculate the rate of pursuit for Book Stipend - getRopBook
-  ropBook = ({ 1: 1, 0.8: 0.75, 0.6: 0.5, 0: 0.25 })[+inputs.rop];
+  const ropBook = ({ 1: 1, 0.8: 0.75, 0.6: 0.5, 0: 0.25 })[+inputs.rop];
 
   // Calculate the rate of pursuit for Old GI Bill - getCalcRopOld
   // and Calculate the rate of pursuit for OJT - getRopOjt
   if (isOJT) {
-    ropOjt = ropOld = inputs.ojtWorking / 30; // TODO: kill ropOjt
+    ropOjt = ropOld = inputs.ojtWorking / 30;
   } else {
     ropOld = ({
-      'full': 1,
+      full: 1,
       'three quarter': 0.75,
-      'half': 0.50,
+      half: 0.50,
       'less than half': 0.50,
-      'quarter': 0.25,
+      quarter: 0.25,
     })[+inputs.ropOld];
   }
 
   // Determine yellow ribbon eligibility - getYellowRibbonEligibility
-  yellowRibbonElig = (
+  const yellowRibbonElig = !(
     tier < 1
     || !its.yr
     || !eligibility.yellowRibbon
     || eligibility.militaryStatus === 'active duty'
     || isOJT
     || isFlightOrCorrespondence
-  ) ? false : true;
+  );
 
   // Determine kicker benefit level - getKickerBenefit
   if (!inputs.kickerElig) {
@@ -193,33 +237,35 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
   }
 
   // Calculate Housing Allowance Rate Final - getMonthlyRateFinal
-  monthlyRateFinal = ropOld * (monthlyRate + buyUpRate + kickerBenefit); // TODO: double check order of operations
+  const monthlyRateFinal = ropOld * (monthlyRate + buyUpRate + kickerBenefit); // TODO: double check order of operations
 
   // Calculate the names of Terms 1-4
   if (isOJT) {
-    calcTerm1 = 'Months 1-6';
-    calcTerm2 = 'Months 7-12';
-    calcTerm3 = 'Months 13-18';
+    nameOfTerm1 = 'Months 1-6';
+    nameOfTerm2 = 'Months 7-12';
+    nameOfTerm3 = 'Months 13-18';
   } else {
     switch (inputs.calendar) {
       case 'semesters':
-        calcTerm1 = 'Fall';
-        calcTerm2 = 'Spring';
-        calcTerm3 = '';
+        nameOfTerm1 = 'Fall';
+        nameOfTerm2 = 'Spring';
+        nameOfTerm3 = '';
         break;
       case 'quarters':
-        calcTerm1 = 'Fall';
-        calcTerm2 = 'Winter';
-        calcTerm3 = 'Spring';
+        nameOfTerm1 = 'Fall';
+        nameOfTerm2 = 'Winter';
+        nameOfTerm3 = 'Spring';
         break;
       case 'nontraditional':
-        calcTerm1 = 'Term 1';
-        calcTerm2 = 'Term 2';
-        calcTerm3 = 'Term 3';
+        nameOfTerm1 = 'Term 1';
+        nameOfTerm2 = 'Term 2';
+        nameOfTerm3 = 'Term 3';
         break;
+      default:
+        // noop
     }
   }
-  calcTerm4 = isOJT ? 'Months 19-24' : 'Total (/Yr)';
+  const nameOfTerm4 = isOJT ? 'Months 19-24' : 'Total (/Yr)';
 
   // Calculate Tuition Fees for Term #1 - getTuitionFeesTerm1
   if (isOJT || oldGiBill || (your.giBillChapter === 31 && isFlightOrCorrespondence)) {
@@ -265,7 +311,7 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
   }
 
   // Calculate the name of Tuition Fees Total - getTuitionFeesTotal
-  tuitionFeesTotal = tuitionFeesTerm1 + tuitionFeesTerm2 + tuitionFeesTerm3;
+  const tuitionFeesTotal = tuitionFeesTerm1 + tuitionFeesTerm2 + tuitionFeesTerm3;
 
   // Calculate Yellow Ribbon for Term #1 - getYrBenTerm1
   if (!yellowRibbonElig || inputs.yellowBen === 0 || oldGiBill || your.giBillChapter === 31) {
@@ -321,23 +367,23 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
   }
 
   // Calculate Yellow Ribbon by school / VA contributions - getYrBreakdown
-  yrBenSchoolTerm1 = yrBenTerm1 / 2;
-  yrBenVaTerm1 = yrBenTerm1 / 2;
-  yrBenSchoolTerm2 = yrBenTerm2 / 2;
-  yrBenVaTerm2 = yrBenTerm2 / 2;
-  yrBenSchoolTerm3 = yrBenTerm3 / 2;
-  yrBenVaTerm3 = yrBenTerm3 / 2;
-  yrBenSchoolTotal = yrBenTotal / 2;
-  yrBenVaTotal = yrBenTotal / 2;
+  const yrBenSchoolTerm1 = yrBenTerm1 / 2;
+  const yrBenVaTerm1 = yrBenTerm1 / 2;
+  const yrBenSchoolTerm2 = yrBenTerm2 / 2;
+  const yrBenVaTerm2 = yrBenTerm2 / 2;
+  const yrBenSchoolTerm3 = yrBenTerm3 / 2;
+  const yrBenVaTerm3 = yrBenTerm3 / 2;
+  const yrBenSchoolTotal = yrBenTotal / 2;
+  const yrBenVaTotal = yrBenTotal / 2;
 
   // Calculate Total Paid to School - getTotalPaidToSchool
-  totalToSchool = tuitionFeesTotal + yrBenTotal;
+  const totalToSchool = tuitionFeesTotal + yrBenTotal;
 
   // Calculate Total Scholarships and Tuition Assistance - getTotalScholarships
-  totalScholarshipTa = inputs.scholar - inputs.tuitionAssist;
+  const totalScholarshipTa = inputs.scholar - inputs.tuitionAssist;
 
   // Calculate Total Left to Pay - getTotalLeftToPay
-  totalLeftToPay = Math.max(
+  const totalLeftToPay = Math.max(
     0,
     inputs.tuitionFees - totalToSchool - inputs.scholar - inputs.tuitionAssist
   );
@@ -555,8 +601,123 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
         Math.min(monthlyRateFinal * acadYearLength, inputs.tuitionFees)
       );
   } else {
-    housingAllowTotal = housingAllowTerm1 +
-      housingAllowTerm2 + housingAllowTerm3;
+    housingAllowTotal = housingAllowTerm1 + housingAllowTerm2 + housingAllowTerm3;
+  }
+
+  // Calculate Book Stipend for Term #1 - getBookStipendTerm1
+  if (isFlight || isCorrespondence) {
+    bookStipendTerm1 = 0;
+  } else if (oldGiBill) {
+    bookStipendTerm1 = 0;
+  } else if (your.giBillChapter === 31) {
+    bookStipendTerm1 = inputs.books / numberOfTerms;
+  } else if (isOJT && your.giBillChapter === 33) {
+    bookStipendTerm1 = constant.BSOJTMONTH;
+  } else {
+    bookStipendTerm1 = ropBook * constant.BSCAP / numberOfTerms * tier;
+  }
+
+  // getBookStipendTerm2
+  if (isFlight || isCorrespondence) {
+    bookStipendTerm2 = 0;
+  } else if (isOJT && your.giBillChapter === 33) {
+    bookStipendTerm2 = constant.BSOJTMONTH;
+  } else if (inputs.calendar === 'nontraditional' && numberOfTerms === 1) {
+    bookStipendTerm2 = 0;
+  } else if (oldGiBill) {
+    bookStipendTerm2 = 0;
+  } else if (your.giBillChapter === 31) {
+    bookStipendTerm2 = inputs.books / numberOfTerms;
+  } else {
+    bookStipendTerm2 = ropBook * constant.BSCAP / numberOfTerms * tier;
+  }
+
+  // getBookStipendTerm3
+  if (isFlight || isCorrespondence) {
+    bookStipendTerm3 = 0;
+  } else if (isOJT && your.giBillChapter === 33) {
+    bookStipendTerm3 = constant.BSOJTMONTH;
+  } else if (inputs.calendar === 'semesters') {
+    bookStipendTerm3 = 0;
+  } else if (inputs.calendar === 'nontraditional' && numberOfTerms < 3) {
+    bookStipendTerm3 = 0;
+  } else if (oldGiBill) {
+    bookStipendTerm3 = 0;
+  } else if (your.giBillChapter === 31) {
+    bookStipendTerm3 = inputs.books / numberOfTerms;
+  } else {
+    bookStipendTerm3 = ropBook *
+      constant.BSCAP / numberOfTerms * tier;
+  }
+
+  // Calculate Book Stipend for Year - getBookStipendYear
+  if (isOJT && your.giBillChapter === 33) {
+    bookStipendTotal = constant.BSOJTMONTH;
+  } else {
+    bookStipendTotal = bookStipendTerm1 + bookStipendTerm2 + bookStipendTerm3;
+  }
+
+  // Calculate Total Payments to You - getTotalPaidToYou
+  const totalToYou = housingAllowTotal + bookStipendTotal;
+
+  // Calculate Total Benefits for Term 1 - getTotalTerm1
+  if (isOJT) {
+    totalTerm1 = 0;
+  } else {
+    totalTerm1 = tuitionFeesTerm1 + yrBenTerm1 + housingAllowTerm1 + bookStipendTerm1;
+  }
+
+  // getTotalTerm2
+  if (inputs.calendar === 'nontraditional' && numberOfTerms === 1) {
+    bookStipendTerm2 = 0;
+  } else if (isOJT) {
+    totalTerm2 = 0;
+  } else {
+    totalTerm2 = tuitionFeesTerm2 +
+      yrBenTerm2 + housingAllowTerm2 +
+      bookStipendTerm2;
+  }
+
+  // getTotalTerm3
+  if (inputs.calendar === 'semesters') {
+    totalTerm3 = 0;
+  } else if (inputs.calendar === 'nontraditional' && numberOfTerms < 3) {
+    totalTerm3 = 0;
+  } else if (isOJT) {
+    totalTerm3 = 0;
+  } else {
+    totalTerm3 = tuitionFeesTerm3 +
+      yrBenTerm3 + housingAllowTerm3 +
+      bookStipendTerm3;
+  }
+
+  // Calculate Text for Total Benefits Row - getTotalText
+  if (your.giBillChapter === 33) {
+    giBillTotalText = 'Total Post-9/11 GI Bill Benefits';
+  } else if (your.giBillChapter === 30) {
+    giBillTotalText = 'Total Montgomery GI Bill Benefits';
+  } else if (your.giBillChapter === 1606) {
+    giBillTotalText = 'Total Select Reserve GI Bill Benefits';
+  } else if (your.giBillChapter === 1607) {
+    giBillTotalText = 'Total REAP GI Bill Benefits';
+  } else if (your.giBillChapter === 35) {
+    giBillTotalText = 'Total DEA GI Bill Benefits';
+  } else if (your.giBillChapter === 31) {
+    giBillTotalText = 'Total Voc Rehab Benefits';
+  }
+
+  // Calculate Total Benefits for Year - getTotalYear
+  if (isOJT) {
+    totalYear = 0;
+  } else {
+    totalYear = tuitionFeesTotal + yrBenTotal + housingAllowTotal + bookStipendTotal;
+  }
+
+  // Calculate Monthly Rate for Display - getMonthlyRateDisplay
+  if (isOJT) {
+    monthlyRateDisplay = housingAllowTerm1;
+  } else {
+    monthlyRateDisplay = housingAllowTerm1 / termLength;
   }
 
   return {
@@ -568,15 +729,44 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
     onlyTuitionFees,
     monthlyRate,
     numberOfTerms,
-    tuitionNetPrice
+    tuitionNetPrice,
+    housingStipdendTerm1,
+    housingStipdendTerm2,
+    housingStipdendTerm3,
+    housingStipdendTotal,
+    tuitionAllowTerm1,
+    tuitionAllowTerm2,
+    tuitionAllowTerm3,
+    tuitionAllowTotal,
+    giBillTotalText,
+    totalTerm1,
+    totalTerm2,
+    totalTerm3,
+    totalYear,
+    monthlyRateDisplay,
+    nameOfTerm1,
+    nameOfTerm2,
+    nameOfTerm3,
+    nameOfTerm4,
+    yrBenSchoolTerm1,
+    yrBenSchoolTerm2,
+    yrBenSchoolTerm3,
+    yrBenSchoolTotal,
+    yrBenVaTerm1,
+    yrBenVaTerm2,
+    yrBenVaTerm3,
+    yrBenVaTotal,
+    totalScholarshipTa,
+    totalLeftToPay,
+    totalToYou
   };
 }
 
 export const calculatedBenefits = createSelector(
-  [getConstants, getEligibilityDetails, getRequiredAttributes],
-  (constant, eligibility, attribute) => {
-    // const derived = getDerivedAttributes(constant, eligibility, attribute);
+  [getConstants, getEligibilityDetails, getRequiredAttributes, getInputs],
+  (constant, eligibility, attribute, form) => {
+    const derived = getDerivedAttributes(constant, eligibility, attribute, form);
 
-    return {};
+    return { derived };
   }
 );
