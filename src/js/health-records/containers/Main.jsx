@@ -1,40 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
+import classNames from 'classnames';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
 
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
-import DatePicker from 'react-datepicker';
 import { reportTypes } from '../config';
-import _ from 'lodash';
 import {
   changeDateOption,
   setDate,
-  submitForm,
   toggleAllReports,
   toggleReportType,
 } from '../actions/form';
 import { openModal } from '../actions/modal';
 import { apiRequest } from '../utils/helpers';
-
-function isValidDateRange(startDate, endDate) {
-  if (!startDate || !endDate) {
-    return true;
-  }
-  return startDate.isBefore(endDate);
-}
+import { isValidDateRange } from '../utils/validations';
 
 export class Main extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      invalidStartDate: false,
-      invalidEndDate: false
-    };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderReportCheckBoxLabel = this.renderReportCheckBoxLabel.bind(this);
+    this.renderInformationTypes = this.renderInformationTypes.bind(this);
+    this.renderDateOptions = this.renderDateOptions.bind(this);
+
+    this.state = {
+      invalidStartDateFormat: false,
+      invalidEndDateFormat: false
+    };
   }
 
   componentDidMount() {
@@ -42,35 +39,19 @@ export class Main extends React.Component {
     apiRequest('/v0/health_records/refresh');
   }
 
-  componentWillReceiveProps(nextProps) {
-    const redirect = this.props.form.ui.redirect;
-    const nextRedirect = nextProps.form.ui.redirect;
-    if (redirect !== nextRedirect && nextRedirect) {
-      this.context.router.push('/download');
-    }
-  }
-
   handleStartDateChange(startDate) {
-    let invalidDate = true;
-    if (isValidDateRange(startDate, this.props.form.dateRange.end)) {
-      this.props.setDate(startDate, true);
-      invalidDate = false;
-    }
-    this.setState({ invalidStartDate: invalidDate });
+    this.props.setDate(startDate);
   }
 
   handleEndDateChange(endDate) {
-    let invalidDate = true;
-    if (isValidDateRange(this.props.form.dateRange.start, endDate)) {
-      this.props.setDate(endDate, false);
-      invalidDate = false;
-    }
-    this.setState({ invalidEndDate: invalidDate });
+    this.props.setDate(endDate ? endDate.endOf('day') : null, false);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.submitForm(this.props.form);
+    // save state in case user refreshes the page
+    sessionStorage.setItem('hr-form', JSON.stringify(this.props.form));
+    this.context.router.push('/loading');
   }
 
   renderReportCheckBoxLabel(c) {
@@ -145,7 +126,57 @@ export class Main extends React.Component {
   }
 
   renderDateOptions() {
-    const datePickerDisabled = this.props.form.dateOption !== 'custom';
+    const {
+      dateOption,
+      dateRange: {
+        start: startDate,
+        end: endDate
+      }
+    } = this.props.form;
+
+    const handleFormattedDate = (start = true) => {
+      let handleDateChange;
+      let setInvalidDateState;
+
+      if (start) {
+        handleDateChange = this.handleStartDateChange;
+        setInvalidDateState = () => this.setState({ invalidStartDateFormat: true });
+      } else {
+        handleDateChange = this.handleEndDateChange;
+        setInvalidDateState = () => this.setState({ invalidEndDateFormat: true });
+      }
+
+      return (e) => {
+        const dateString = e.target.value;
+        const momentDate = moment(dateString);
+
+        if (momentDate.isValid()) {
+          const isValidRange = start
+                             ? isValidDateRange(momentDate, endDate)
+                             : isValidDateRange(startDate, momentDate);
+          if (isValidRange) {
+            handleDateChange(momentDate);
+          }
+        } else {
+          handleDateChange(null);
+          if (dateString) {
+            setInvalidDateState();
+          }
+        }
+      };
+    };
+
+    const datePickerDisabled = dateOption !== 'custom';
+
+    const customDateRangeError =
+      this.state.invalidStartDateFormat ||
+      this.state.invalidEndDateFormat;
+
+    const customDateOptionClass = classNames({
+      'custom-date-option': true,
+      'date-range-error': customDateRangeError
+    });
+
     const radioButtonProps = {
       name: 'dateRange',
       label: '',
@@ -155,24 +186,34 @@ export class Main extends React.Component {
         { label: '1 year', value: '1yr' },
         {
           label: (
-            <div>
-              <span>Custom date range<br/></span>
+            <div className={customDateOptionClass}>
+              {
+                customDateRangeError && <p className="date-range-error">
+                Enter dates in the MM/DD/YYYY date format</p>
+              }
+              <span>Custom date range</span>
               <div className="date-range-fields">
                 <DatePicker
                     id="custom-date-start"
+                    onBlur={handleFormattedDate()}
                     onChange={this.handleStartDateChange}
+                    onFocus={() => this.setState({ invalidStartDateFormat: false })}
                     placeholderText="MM/DD/YYYY"
-                    selected={this.props.form.dateRange.start}
+                    selected={startDate}
                     disabled={datePickerDisabled}
-                    className={this.state.invalidStartDate ? 'date-range-error' : ''}/>
+                    maxDate={endDate}
+                    className={!datePickerDisabled && this.state.invalidStartDateFormat ? 'date-range-error' : ''}/>
                 <span>&nbsp;to&nbsp;</span>
                 <DatePicker
                     id="custom-date-end"
+                    onBlur={handleFormattedDate(false)}
                     onChange={this.handleEndDateChange}
+                    onFocus={() => this.setState({ invalidEndDateFormat: false })}
                     placeholderText="MM/DD/YYYY"
-                    selected={this.props.form.dateRange.end}
+                    selected={endDate}
                     disabled={datePickerDisabled}
-                    className={this.state.invalidEndDate ? 'date-range-error' : ''}/>
+                    minDate={startDate}
+                    className={!datePickerDisabled && this.state.invalidEndDateFormat ? 'date-range-error' : ''}/>
               </div>
             </div>
           ),
@@ -182,24 +223,31 @@ export class Main extends React.Component {
       onValueChange: (v) => {
         if (v.dirty) {
           this.props.changeDateOption(v.value);
+          this.setState({
+            invalidStartDateFormat: false,
+            invalidEndDateFormat: false
+          });
         }
       },
       value: {
-        value: this.props.form.dateOption,
+        value: dateOption,
       }
     };
 
     return (
       <div>
         <h4 className="highlight">Select Date Range</h4>
-        <ErrorableRadioButtons
-            {...radioButtonProps}/>
+        <ErrorableRadioButtons {...radioButtonProps}/>
       </div>
     );
   }
 
   render() {
-    const allValuesChecked = _.every(_.values(this.props.form.reportTypes), v => v);
+    const selections = this.props.form.reportTypes;
+    const types = Object.keys(selections);
+    const checkedCount = _.countBy(types, type => selections[type]).true;
+    const allValuesChecked = checkedCount === types.length;
+    const noValuesChecked = !checkedCount;
 
     return (
       <div>
@@ -218,12 +266,13 @@ export class Main extends React.Component {
             {this.renderInformationTypes()}
           </div>
           <div className="form-actions">
-            <button onClick={this.handleSubmit} type="submit">Submit</button>
-            <a href="/healthcare">
-              <button className="usa-button-outline">
-                  Cancel
-              </button>
-            </a>
+            <button
+                onClick={this.handleSubmit}
+                type="submit"
+                disabled={noValuesChecked}>
+              Submit
+            </button>
+            <a className="usa-button usa-button-outline" href="/healthcare" role="button">Cancel</a>
           </div>
         </form>
       </div>
@@ -247,7 +296,6 @@ const mapDispatchToProps = {
   changeDateOption,
   openModal,
   setDate,
-  submitForm,
   toggleAllReports,
   toggleReportType,
 };

@@ -12,6 +12,7 @@ import { chapters, pages } from '../routes';
 import SegmentedProgressBar from '../../../common/components/SegmentedProgressBar';
 import NavButtons from '../../../common/components/NavButtons';
 import NavHeader from '../../../common/components/NavHeader';
+import OMBInfo from '../../../common/components/OMBInfo';
 
 import FormTitle from '../../../common/schemaform/FormTitle.jsx';
 
@@ -107,12 +108,19 @@ class EduBenefitsApp extends React.Component {
       { 'intro-content': endpoint === 'introduction' }
     );
 
+    const ombInfo = endpoint === 'introduction' ?
+      // .row.edu-intro-spacing for the bottom spacing, columns for the padding
+      (<div className="row edu-intro-spacing columns">
+        <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="12/31/2019"/>
+      </div>)
+      : null;
+
     return (
       <div className="row">
         {devPanel}
         <Element name="topScrollElement"/>
         <div className="medium-8 columns">
-          <FormTitle title="Apply for education benefits" subTitle="Form 22-1990"/>
+          <FormTitle title="Apply for education benefits"/>
           <div>
             {!_.includes(['introduction', 'submit-message'], endpoint) && <SegmentedProgressBar total={chapters.length} current={step}/>}
             <div className="schemaform-chapter-progress">
@@ -134,6 +142,7 @@ class EduBenefitsApp extends React.Component {
                 onSubmit={onSubmit}
                 onStateChange={onStateChange}
                 onAttemptedSubmit={onAttemptedSubmit}/>
+            {ombInfo}
           </div>
         </div>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>

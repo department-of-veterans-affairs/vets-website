@@ -28,9 +28,13 @@
 .schemaform-chapter-progress {
   padding-left: 2rem;
   padding-right: 2rem;
+  margin-bottom: 1.5em;
   @media (max-width: 40.063em) {
     padding-left: 2rem - .9375rem;
     padding-right: 2rem - .9375rem;
+  }
+  > h4 {
+    padding-bottom: 0 !important;
   }
 }
 
@@ -76,4 +80,21 @@
 }
 .schemaform-array-row {
   outline: none;
+}
+
+.schemaform-block-header {
+  margin-bottom: 0.5em;
+  > legend, > h5, > p {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  > p {
+    margin-top: 0.5em;
+  }
+}
+
+.schemaform-first-field {
+  .schemaform-label, > .usa-input-error {
+    margin-top: 0;
+  }
 }

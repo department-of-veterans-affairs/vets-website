@@ -8,6 +8,7 @@ export default function TextWidget(props) {
   return (
     <input type={inputType}
         id={props.id}
+        name={props.id}
         disabled={props.disabled}
         maxLength={props.schema.maxLength}
         autoComplete={props.options.autocomplete || false}

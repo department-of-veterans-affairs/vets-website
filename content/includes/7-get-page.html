@@ -2,7 +2,7 @@
   <div class="section one">
     <div class="primary">
       <div class="row">
-        <div class="small-12 columns{% unless page.template == '7-get-page-alt' %}  usa-content {% endunless %}">
+        <div class="small-12 medium-8 columns{% unless page.template == '7-get-page-alt' %}  {% endunless %}">
            <h1>{{ title }}</h1>
            {{ contents }}
 
@@ -13,9 +13,24 @@
 
         </div>
       </div>
+        {% if path contains 'disability-benefits/apply-for-benefits' %}
+
+        <div class="show-for-large-up">
+          <div class="sticky-action-box--container">
+            <div class="sticky-action-box">
+              <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation" class="usa-button-primary va-button-primary">
+                  Go to eBenefits to apply
+              </a>
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+        {% endif %}
+
     </div>
   </div>
 </div>
-{% if path contains 'disability-benefits' %}
-  {% include "content/includes/action-bar.html" action_text="Go to eBenefits to apply" action_url="https://www.ebenefits.va.gov/ebenefits/homepage" action_class="va-action-bar--footer va-action-bar--start" %}
-{% endif %}

@@ -1,10 +1,11 @@
 ---
 layout: page-breadcrumbs.html
-title: Ways to File a Claim
+title: How to File a Disability Claim
+plainlanguage: 11-2-16 Ready for Beth review
 template: 1-topic-landing
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
-    title: What is the fastest way to file a claim?
+    title: What's the fastest way to file a claim?
     description: ""
   - url: /disability-benefits/apply-for-benefits/help/
     title: How do I get help filing a claim?
@@ -13,19 +14,21 @@ relatedlinks:
     title: How do I file while on active duty?
     description: ""
   - url: /disability-benefits/apply-for-benefits/one-year/
-    title: How do I file for disabilities that appear within one year after discharge?
+    title: How do I file for disabilities that appear within 1 year after discharge?
     description: ""
   - url: /disability-benefits/claims-process/date/
-    title: Effective date of disability
+    title: How does VA decide when my disability compensation starts?
     description: ""
 ---
 
-Choose one of three ways:
+Choose 1 of 3 ways to file your disability claim:
 
-1.	Apply online, using [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
+1.	[Apply online through eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), **or**
 
-2.	Get help from an [accredited representative](/disability-benefits/apply-for-benefits/help/index.html), or
+2.	[Get help from an accredited representative](/disability-benefits/apply-for-benefits/help/index.html) (a trained professional trusted to help with VA-related needs), **or**
 
-3.	Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
+3.	[Ask for help at a VA regional office](http://www.benefits.va.gov/benefits/offices.asp)
 
-**Note:** Active-duty Servicemembers should learn about [predischarge claims](/disability-benefits/claims-process/claim-types/predischarge-claim/index.html).
+**Note:**  If you’re a Servicemember, find out how predischarge claims can speed up the claim decision process. [Learn about predischarge claims](/disability-benefits/claims-process/claim-types/predischarge-claim/index.html).
+
+ 

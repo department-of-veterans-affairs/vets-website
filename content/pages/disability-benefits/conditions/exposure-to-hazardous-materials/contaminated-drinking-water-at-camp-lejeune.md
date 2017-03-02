@@ -115,4 +115,3 @@ Two on-base water wells that were shut down in 1985 had these chemicals:
 - Other compounds
 
 </div>
-

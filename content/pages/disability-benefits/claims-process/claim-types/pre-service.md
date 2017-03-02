@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Preservice Claim
 concurrence: complete
+plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: 2-detailed-landing
 source: http://www.benefits.va.gov/compensation/types-claims.asp
 relatedlinks:
@@ -40,9 +41,10 @@ relatedlinks:
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-### Claims Based on Preservice Disabilities
+If you already had a disability when you started serving in the military—and that disability got worse because of your service—you can file a preservice claim for disability benefits. [File a claim now](/disability-benefits/apply-for-benefits/).
 
-If you entered the military with a known disability that became worse or was aggravated due to your service, you may be eligible for benefits. In these cases, disability compensation is calculated based on the level of aggravation. For example, if you had a condition that was 10% disabling when you entered the military and it worsened due to service to 20% disabling, then the level of aggravation would be 10%.
+### How much compensation will I get for a preservice claim?
+If you get disability benefits for a preservice claim, the amount of compensation (monthly payments) you'll get will be based on the level of aggravation, or how much worse your service made your disability. For example, if you had an illness or injury (also known as a condition) that was 10% disabling when you entered the military, and it became 20% disabling due to service, then the level of aggravation would be 10%.
 
 </div>
 </div>

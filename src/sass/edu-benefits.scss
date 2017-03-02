@@ -253,11 +253,6 @@ form.rjsf {
   max-width: 100%;
 }
 
-.va-growable-expanded > div > fieldset > div > .first-field label,
-.va-growable-expanded > div > fieldset > div > .first-field .usa-input-error {
-  margin-top: 0;
-}
-
 .va-growable-review {
   margin-top: 16px;
 }
@@ -268,4 +263,59 @@ form.rjsf {
 
 .edu-dd-warning {
   margin-top: 3rem;
+}
+
+
+// ---- Additional print rules ---- //
+
+@media print {
+  // The + for on the confirmation page
+  // Will have to change when #4953 gets merged
+  .form-expanding-group-plus::after {
+    display: none;
+  }
+  .form-expanding-group {
+    margin-left: 0px;
+  }
+
+  .form-progress-buttons {
+    display: none;
+  }
+
+  .schemaform-title {
+    margin-bottom: 1rem;
+    justify-content: center;
+  }
+
+  .edu-benefits-submit-success > h3 {
+    text-align: center;
+  }
+
+  .inset {
+    margin: 1rem 0rem;
+    padding: 0px;
+  }
+}
+
+// Even up the spacing between multi-line labels and their respective elements
+label {
+  + div {
+    // Space above the date fields
+    .form-datefield-month, .form-datefield-day, .usa-form-group-year,
+    // And the inputs uswds sets a top margin for
+    input,
+    input[type="text"], input[type="email"],
+    input[type="password"], input[type="url"],
+    input[type="tel"], input[type="number"],
+    input[type="search"], input[type="file"],
+    input[type="date"], input[type="datetime-local"],
+    input[type="month"], input[type="time"],
+    input[type="week"], textarea, select {
+      margin-top: 0.5em;
+    }
+  }
+}
+
+.row .edu-intro-spacing {
+  margin-bottom: 7rem;
 }

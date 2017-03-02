@@ -1,3 +1,7 @@
+import _ from 'lodash/fp';
+import Form from 'react-jsonschema-form';
+import ReactTestUtils from 'react-addons-test-utils';
+
 import React from 'react';
 import SchemaForm from '../../src/js/common/schemaform/SchemaForm';
 
@@ -15,6 +19,7 @@ export class DefinitionTester extends React.Component {
     const uiSchema = props.uiSchema;
     const data = props.data;
     let schema = updateRequiredFields(props.schema, uiSchema, data, state);
+    schema = _.merge({ definitions: props.definitions }, schema);
     // Update the schema with any fields that are now hidden because of the data change
     schema = setHiddenFields(schema, uiSchema, data, state);
     // Update the schema with any general updates based on the new data
@@ -60,4 +65,10 @@ export class DefinitionTester extends React.Component {
           onSubmit={this.props.onSubmit}/>
     );
   }
+}
+
+export function submitForm(form) {
+  ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
+    preventDefault: f => f
+  });
 }

@@ -1,0 +1,23 @@
+.gi-app {
+
+  .react-autosuggest__container ul {
+    list-style: none;
+    padding: 0;
+    max-width: 46rem;
+
+    @media(max-width: $small-screen) {
+        font-size: 1.3rem;
+    }
+
+    li.react-autosuggest__suggestion {
+      margin-bottom: 0.2rem;
+      padding: 1rem;
+      border: 1px solid rgba($color-primary, 0.2);
+    }
+
+    li.react-autosuggest__suggestion--focused {
+      background-color: rgba($color-primary, 0.2);
+    }
+  }
+  
+}

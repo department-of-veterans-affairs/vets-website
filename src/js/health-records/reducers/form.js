@@ -1,26 +1,25 @@
 import set from 'lodash/fp/set';
-import { mapValues, forEach, reduce } from 'lodash';
+import { mapValues } from 'lodash';
 import { reportTypes } from '../config';
 
-// map of all reportTypes in form { reportTypeValue: boolean }
-const reportTypeValues = reduce(reportTypes, (memo, v) => {
-  forEach(v.children, c => {
-    memo[c.value] = false; // eslint-disable-line no-param-reassign
-  });
-  return memo;
-}, {});
 
 const initialState = {
-  dateOption: null,
+  dateOption: '3mo',
   dateRange: {
     start: null,
     end: null,
   },
-  reportTypes: reportTypeValues,
-  ui: {
-    redirect: false
-  }
+  reportTypes: {},
+  ready: false,
+  requestDate: null,
 };
+
+// map of all reportTypes in form { reportTypeValue: boolean }
+Object.keys(reportTypes).forEach(section => {
+  reportTypes[section].children.forEach(child => {
+    initialState.reportTypes[child.value] = false;
+  });
+});
 
 export default function disclaimer(state = initialState, action) {
   switch (action.type) {
@@ -35,9 +34,12 @@ export default function disclaimer(state = initialState, action) {
     case 'ALL_REPORTS_TOGGLED':
       return set('reportTypes', mapValues(state.reportTypes, () => action.checked), state);
     case 'FORM_SUCCESS':
-      return set('ui.redirect', true, state);
+      return set('ready', true, {
+        ...state,
+        requestDate: new Date().toISOString(),
+      });
     case 'FORM_FAILURE':
-      return set('ui.redirect', false, state);
+      return set('ready', false, state);
     default:
       return state;
   }
