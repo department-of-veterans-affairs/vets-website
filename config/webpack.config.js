@@ -109,6 +109,10 @@ const configGenerator = (options) => {
         },
         {
           test: /react-jsonschema-form\/lib\/components\/(widgets|fields\/ObjectField|fields\/ArrayField)/,
+          exclude: [
+            /widgets\/index\.js/,
+            /widgets\/TextareaWidget/
+          ],
           loader: 'null'
         }
       ],
