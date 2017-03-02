@@ -7,10 +7,10 @@ plainlanguage:
 template: L2-section-landing
 showactionbar: false
 majorlinks:
-  - url: burials-and-memorials/burial-planning
+  - url: /burials-and-memorials/burial-planning
     title: Burial Planning
     description: Plan a burial.
-  - url: burials-and-memorials/eligibility
+  - url: /burials-and-memorials/eligibility
     title: Check Your Eligibility
     description: Find out if you can be buried in a national VA cemetery
   - url: /burials-and-memorials/find-a-cemetery
