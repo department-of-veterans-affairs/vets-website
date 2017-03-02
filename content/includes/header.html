@@ -156,54 +156,9 @@ window.webpackManifest = 'CHUNK_MANIFEST_PLACEHOLDER';
         </button>
       </div>
     {% endif %}
-    <div id="vet-tools" class="va-toolbar va-flex">
-      <div class="va-dropdown">
-        <!-- Search form -->
-        <button class="va-dropdown-trigger va-btn-search va-btn-withicon"
-          aria-controls="search"
-          aria-expanded="false">
-          <span>
-             {% include "assets/img/search.svg" %}
-              Search
-          </span>
-        </button>      
-        <form hidden class="va-dropdown-panel" accept-charset="UTF-8" action="https://search.vets.gov/search" id="search" method="get">
-          <div class="csp-inline-patch-header">
-            <input name="utf8" type="hidden" value="&#x2713;" />
-          </div>
-          <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_search" />
-          <label for="query" class="usa-sr-only">Search:</label>
-          <div class="va-flex">
-            <input autocomplete="off" class="usagov-search-autocomplete" id="query" name="query" type="text" />
-            <!-- <input name="commit" type="submit" value="Search" /> -->
-            <button type="submit">
-              {% include "assets/img/search.svg" %}
-              <span class="usa-sr-only">Search</span>
-            </button>
-          </div>
-        </form>
-        <!-- /end search form -->
-      </div>
-
-      <div class="va-dropdown">
-        <button class="va-dropdown-trigger va-btn-help va-btn-withicon"
-          aria-controls="helpmenu"
-          aria-expanded="false">
-          <span>
-            {% include "assets/img/search.svg" %}
-            Help
-          </span>
-        </button>
-        <div id="helpmenu" class="va-dropdown-panel" hidden>
-          <p><b>Call the Vets.gov Help Desk</b></p>
-          <p><a href="tel:18555747286">1-855-574-7286</a></p>
-          <p>Monday &ndash; Friday</p> 
-          <p>8:00am &ndash; 8:00pm <abbr title="Eastern Time">ET</abbr></p>
-        </div>      
-      </div>
-
-      <div id="login-root"></div>
-    </div>
+  
+    <div id="login-root" class="vet-toolbar"></div>
+ 
 
     {% if body_class != 'page-playbook' %}
     {% include "content/includes/veteran-navigation.html" %}
