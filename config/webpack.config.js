@@ -106,6 +106,14 @@ const configGenerator = (options) => {
         {
           test: /\.json$/,
           loader: 'json-loader'
+        },
+        {
+          test: /react-jsonschema-form\/lib\/components\/(widgets|fields\/ObjectField|fields\/ArrayField)/,
+          exclude: [
+            /widgets\/index\.js/,
+            /widgets\/TextareaWidget/
+          ],
+          loader: 'null'
         }
       ],
       noParse: [/mapbox\/vendor\/promise.js$/],
@@ -180,7 +188,6 @@ const configGenerator = (options) => {
   } else {
     baseConfig.devtool = '#eval-source-map';
   }
-
 
   return baseConfig;
 };
