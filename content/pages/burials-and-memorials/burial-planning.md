@@ -41,9 +41,9 @@ You’ll get a letter from us that’ll tell you if you’re eligible for burial
 **If you don’t have a pre-need decision letter**, you have a couple steps to take before you can request a burial. Keep reading to find out what to do next.
 
 #### Prepare
-- Check to see if the deceased can be buried in a VA national cemetery. [Find out if the deceased is eligible](burials-eligibility).
+- Check to see if the deceased can be buried in a VA national cemetery. [Find out if the deceased is eligible](/burials-and-memorials/eligibility).
 - Once you’ve confirmed eligibility, gather these documents and this information before you apply:
-   - The deceased’s DD214 (or similar discharge papers). [Find out which discharge papers VA accepts along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp)
+   - The deceased’s DD214 (or similar discharge papers). [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp)
    - The deceased’s full name, gender, Social Security number or Veteran ID, date of death, and date of birth
    - Next-of-kin information (name, relationship, Social Security number, phone number, and address)
    - Marital status; surviving spouse’s status as Veteran or family member; and status and detailed information for any disabled children who may be buried in the future in a national cemetery
