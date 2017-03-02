@@ -1,7 +1,7 @@
 import EduBenefitsApp from './1990/containers/EduBenefitsApp';
 import routes1990 from './1990/routes';
 import form1990 from './1990/reducers';
-import asyncLoader from './components/asyncLoader';
+import asyncLoader from '../common/components/asyncLoader';
 
 export default function createRoutes(store) {
   // It will be confusing to have multiple forms in one app living side by side
