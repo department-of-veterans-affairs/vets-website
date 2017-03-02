@@ -35,7 +35,7 @@ class InstitutionFilterForm extends React.Component {
       ...this.props.search.facets.type
     };
     const options = [
-      { value: 'all', label: `All (${typeFacets.all.toLocaleString()})` },
+      { value: 'ALL', label: `All (${typeFacets.all.toLocaleString()})` },
       { value: 'school', label: `Schools only (${typeFacets.school.toLocaleString()})` },
       { value: 'employer', label: `Employers only (${typeFacets.employer.toLocaleString()})` }
     ];
@@ -113,7 +113,7 @@ class InstitutionFilterForm extends React.Component {
         <p>Programs</p>
         <Checkbox
             checked={filters.withoutCautionFlags}
-            name="withoutCautionFlags"
+            name="caution"
             label={label('cautionFlag', 'Without Caution Flags', false)}
             onChange={this.handleCheckboxChange}/>
         <Checkbox

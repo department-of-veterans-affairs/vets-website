@@ -1,10 +1,10 @@
 import { INSTITUTION_FILTER_CHANGED } from '../actions';
 
 const INITIAL_STATE = {
-  type: 'all',
+  type: 'ALL',
   country: 'ALL',
   state: 'ALL',
-  withoutCautionFlags: false,
+  caution: false,
   studentVetGroup: false,
   yellowRibbonScholarship: false,
   principlesOfExcellence: false,

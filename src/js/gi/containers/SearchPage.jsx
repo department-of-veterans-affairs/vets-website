@@ -65,16 +65,24 @@ export class SearchPage extends React.Component {
 
   handleFilterChange(field, value) {
     this.props.institutionFilterChange(field, value);
-    const query = { ...this.props.location.query, [field]: value };
+
+    const query = {
+      ...this.props.location.query,
+      [field === 'type' ? 'typeName' : field]: value
+    };
 
     const shouldRemoveFilter =
       !value ||
-      (field === 'type' && value === 'all') ||
       ((field === 'country' ||
         field === 'state' ||
         field === 'typeName') && value === 'ALL');
 
     if (shouldRemoveFilter) { delete query[field]; }
+    // The above condition removes unchecked options from filter,
+    // but a checked box for 'Without Caution Flags' should pass in
+    // `false` for the query, so flip it if it's still in the filter.
+    else if (field === 'caution') { query[field] = !value; }
+
     this.props.router.push({ ...this.props.location, query });
   }
 
