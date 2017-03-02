@@ -65,10 +65,17 @@ export class SearchPage extends React.Component {
 
   handleFilterChange(field, value) {
     this.props.institutionFilterChange(field, value);
-    this.props.router.push({
-      ...this.props.location,
-      query: { ...this.props.location.query, [field]: value }
-    });
+    const query = { ...this.props.location.query, [field]: value };
+
+    const shouldRemoveFilter =
+      !value ||
+      (field === 'type' && value === 'all') ||
+      ((field === 'country' ||
+        field === 'state' ||
+        field === 'typeName') && value === 'ALL');
+
+    if (shouldRemoveFilter) { delete query[field]; }
+    this.props.router.push({ ...this.props.location, query });
   }
 
   render() {
@@ -87,7 +94,10 @@ export class SearchPage extends React.Component {
           <div className="filters-sidebar small-12 medium-3 columns">
             <h2>Keywords</h2>
             <KeywordSearch label="City, school, or employer"/>
-            <InstitutionFilterForm onFilterChange={this.handleFilterChange}/>
+            <InstitutionFilterForm
+                search={this.props.search}
+                filters={this.props.filters}
+                onFilterChange={this.handleFilterChange}/>
             <EligibilityForm/>
           </div>
 
@@ -118,7 +128,10 @@ export class SearchPage extends React.Component {
               })}
             </div>
 
-            <Pagination onPageSelect={this.handlePageSelect.bind(this)} page={currentPage} pages={totalPages}/>
+            <Pagination
+                onPageSelect={this.handlePageSelect.bind(this)}
+                page={currentPage}
+                pages={totalPages}/>
           </div>
         </div>
 
@@ -131,8 +144,8 @@ export class SearchPage extends React.Component {
 SearchPage.defaultProps = {};
 
 const mapStateToProps = (state) => {
-  const { autocomplete, filter, search } = state;
-  return { autocomplete, filter, search };
+  const { autocomplete, filters, search } = state;
+  return { autocomplete, filters, search };
 };
 
 const mapDispatchToProps = {

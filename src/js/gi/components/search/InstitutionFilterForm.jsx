@@ -1,11 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import Checkbox from '../Checkbox';
 import RadioButtons from '../RadioButtons';
 import Dropdown from '../Dropdown';
 
-export class InstitutionFilterForm extends React.Component {
+class InstitutionFilterForm extends React.Component {
 
   constructor(props) {
     super(props);
@@ -182,11 +181,30 @@ export class InstitutionFilterForm extends React.Component {
 }
 
 InstitutionFilterForm.propTypes = {
-  onFilterChange: React.PropTypes.func
+  filters: React.PropTypes.shape({
+    type: React.PropTypes.string,
+    country: React.PropTypes.string,
+    state: React.PropTypes.string,
+    withoutCautionFlags: React.PropTypes.bool,
+    studentVetGroup: React.PropTypes.bool,
+    yellowRibbonScholarship: React.PropTypes.bool,
+    principlesOfExcellence: React.PropTypes.bool,
+    eightKeysToVeteranSuccess: React.PropTypes.bool,
+    typeName: React.PropTypes.string
+  }),
+  onFilterChange: React.PropTypes.func,
+  search: React.PropTypes.shape({
+    type: React.PropTypes.object,
+    typeName: React.PropTypes.object,
+    state: React.PropTypes.object,
+    country: React.PropTypes.object,
+    cautionFlag: React.PropTypes.object,
+    studentVetGroup: React.PropTypes.object,
+    yellowRibbonScholarship: React.PropTypes.object,
+    principlesOfExcellence: React.PropTypes.object,
+    eightKeysToVeteranSuccess: React.PropTypes.object
+  })
 };
 InstitutionFilterForm.defaultProps = {};
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(InstitutionFilterForm);
+export default InstitutionFilterForm;
