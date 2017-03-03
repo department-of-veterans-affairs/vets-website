@@ -165,7 +165,7 @@
     "tinyliquid": "^0.2.33",
     "url-loader": "^0.5.7",
     "uswds": "^1.0.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#a08950b8e8832917f72b2e0b7afd5a0d100d382b",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#f4ccfc5cfd199bcf7b62ba5670f693860f146091",
     "webpack": "^1.13.1",
     "webpack-manifest-plugin": "^1.1.0",
     "webpack-md5-hash": "0.0.5",
