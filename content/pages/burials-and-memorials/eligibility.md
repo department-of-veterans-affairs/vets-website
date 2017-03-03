@@ -18,7 +18,7 @@ You may be able to get burial and memorial benefits if you are:
 - The spouse or dependent child of a Veteran, even if the Veteran dies first, **or**
 - In some cases, adult dependent children (if they aren’t married)
 
-<br>
+</div>
 
 ### Can I plan ahead?
 
@@ -39,6 +39,7 @@ Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
 - Or fax it to <span class="tel">855-840-8299</span>
 
 You’ll get a letter from us that’ll tell you if you’re eligible for burial in a VA national cemetery. Keep this letter in a safe place.
+
 
 If you want to be buried at a state Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [See a list of national and state VA cemeteries](http://www.cem.va.gov/cem/cems/listcem.asp).
 
