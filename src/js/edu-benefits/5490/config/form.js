@@ -1,7 +1,17 @@
-import { transform } from '../helpers';
+import _ from 'lodash/fp';
+
+import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
+import { transform, benefitsLabels } from '../helpers';
+import { enumToNames } from '../../utils/helpers';
+
+import * as date from '../../../common/schemaform/definitions/date';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+
+const {
+  benefit
+} = fullSchema5490.properties;
 
 const formConfig = {
   urlPrefix: '/5490/',
@@ -17,13 +27,31 @@ const formConfig = {
       title: 'Applicant Information',
       pages: {}
     },
-    veteranInformation: {
-      title: 'Veteran Information',
-      pages: {}
-    },
     benefitSelection: {
       title: 'Education Benefit',
-      pages: {}
+      pages: {
+        benefitSelection: {
+          title: 'Education benefit',
+          path: 'benefits-eligibility/education-benefit',
+          initialData: {},
+          uiSchema: {
+            benefit: {
+              'ui:widget': 'radio',
+              'ui:title': 'Select the benefit that is the best match for you:'
+            },
+            benefitsRelinquishedDate: date.uiSchema('Effective date')
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              benefit: _.assign(benefit, {
+                enumNames: enumToNames(benefit.enum, benefitsLabels)
+              }),
+              benefitsRelinquishedDate: date.schema
+            }
+          }
+        }
+      }
     },
     militaryService: {
       title: 'Military History',

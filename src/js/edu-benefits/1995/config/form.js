@@ -28,7 +28,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../components/ServicePeriodView';
 
 const {
-  vaFileNumber,
   benefit,
   toursOfDuty,
   civilianBenefitsAssistance,
@@ -41,7 +40,8 @@ const {
 
 const {
   preferredContactMethod,
-  school
+  school,
+  vaFileNumber
 } = fullSchema1995.definitions;
 
 const formConfig = {
