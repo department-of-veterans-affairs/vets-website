@@ -42,12 +42,14 @@ A Veteran’s next of kin or family member can get a PMC, which is an engraved p
 
 Send the PMC request form and discharge papers to: 
 
-Memorial Programs Service (41B) 
-Department of Veterans Affairs
-5109 Russell Road
-Quantico, VA 22134-3903
+<dl class="va-address-block">
+    <dd>Memorial Programs Service (41B)</dd>
+    <dd>Department of Veterans Affairs</dd>
+    <dd>5109 Russell Road</dd>
+    <dd>Quantico, VA 22134-3903</dd>
+</dl>
 
-You can also fax the form to <span class="tel">800--455-7143</span>. If you need help, call <span class="tel">800-697-6947</span>.
+  - You can also fax the form to <span class="tel">800--455-7143</span>. If you need help, call <span class="tel">800-697-6947</span>.
 
 </div>
 
