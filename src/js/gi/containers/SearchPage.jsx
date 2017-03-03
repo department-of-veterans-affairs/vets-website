@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import {
@@ -10,11 +11,14 @@ import {
 } from '../actions';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Pagination from '../../common/components/Pagination';
+import { getScrollOptions } from '../../common/utils/helpers';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
 import InstitutionFilterForm from '../components/search/InstitutionFilterForm';
 import SearchResult from '../components/search/SearchResult';
-import Pagination from '../../common/components/Pagination';
+
+const { Element: ScrollElement, scroller } = Scroll;
 
 export class SearchPage extends React.Component {
 
@@ -34,8 +38,19 @@ export class SearchPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!_.isEqual(this.props.location, prevProps.location)) {
+    const shouldUpdateSearchResults =
+      !this.props.search.inProgress &&
+      !_.isEqual(this.props.location, prevProps.location)
+
+    if (shouldUpdateSearchResults) {
       this.updateSearchResults();
+    }
+
+    const shouldScrollToTop =
+      this.props.search.inProgress !== prevProps.search.inProgress;
+
+    if (shouldScrollToTop) {
+      scroller.scrollTo('searchPage', getScrollOptions());
     }
   }
 
@@ -105,14 +120,55 @@ export class SearchPage extends React.Component {
   }
 
   render() {
+    let searchResults;
+
     if (this.props.search.inProgress) {
-      return <LoadingIndicator message="Loading search results..."/>;
+      searchResults = (
+        <div className="small-12 medium-9 columns">
+          <LoadingIndicator message="Loading search results..."/>;
+        </div>
+      );
+    } else {
+      searchResults = (
+        <div className="small-12 medium-9 columns">
+          <div className="search-results">
+            {this.props.search.results.map((result) => {
+              return (
+                <SearchResult
+                    key={result.facilityCode}
+                    name={result.name}
+                    facilityCode={result.facilityCode}
+                    type={result.type}
+                    city={result.city}
+                    state={result.state}
+                    zip={result.zip}
+                    country={result.country}
+                    cautionFlag={result.cautionFlag}
+                    studentCount={result.studentCount}
+                    bah={result.bah}
+                    tuitionInState={result.tuitionInState}
+                    tuitionOutOfState={result.tuitionOutOfState}
+                    books={result.books}
+                    studentVeteran={result.studentVeteran}
+                    yr={result.yr}
+                    poe={result.poe}
+                    eightKeys={result.eightKeys}/>
+              );
+            })}
+          </div>
+
+          <Pagination
+              onPageSelect={this.handlePageSelect.bind(this)}
+              page={currentPage}
+              pages={totalPages}/>
+        </div>
+      );
     }
 
     const count = this.props.search.count;
     const { currentPage, totalPages } = this.props.search.pagination;
     return (
-      <div className="search-page">
+      <ScrollElement name="searchPage" className="search-page">
 
         <div className="row">
           <div className="column">
@@ -130,43 +186,10 @@ export class SearchPage extends React.Component {
                 onFilterChange={this.handleFilterChange}/>
             <EligibilityForm/>
           </div>
-
-          <div className="small-12 medium-9 columns">
-            <div className="search-results">
-              {this.props.search.results.map((result) => {
-                return (
-                  <SearchResult
-                      key={result.facilityCode}
-                      name={result.name}
-                      facilityCode={result.facilityCode}
-                      type={result.type}
-                      city={result.city}
-                      state={result.state}
-                      zip={result.zip}
-                      country={result.country}
-                      cautionFlag={result.cautionFlag}
-                      studentCount={result.studentCount}
-                      bah={result.bah}
-                      tuitionInState={result.tuitionInState}
-                      tuitionOutOfState={result.tuitionOutOfState}
-                      books={result.books}
-                      studentVeteran={result.studentVeteran}
-                      yr={result.yr}
-                      poe={result.poe}
-                      eightKeys={result.eightKeys}/>
-                );
-              })}
-            </div>
-
-            <Pagination
-                showLastPage
-                onPageSelect={this.handlePageSelect.bind(this)}
-                page={currentPage}
-                pages={totalPages}/>
-          </div>
+          {searchResults}
         </div>
 
-      </div>
+      </ScrollElement>
     );
   }
 
