@@ -131,10 +131,11 @@ export function institutionFilterChange(field, value) {
 
 export function fetchSearchResults(query = {}) {
   const fullQuery = { ...query, version: 1 };
-  const queryString = Object.keys(fullQuery).reduce((str, key) => {
-    const sep = str ? '&' : '';
-    return `${str}${sep}${snakeCase(key)}=${fullQuery[key]}`;
-  }, '');
+  const queryString =
+    Object.keys(fullQuery).reduce((str, key) => {
+      const sep = str ? '&' : '';
+      return `${str}${sep}${snakeCase(key)}=${fullQuery[key]}`;
+    }, '');
 
   const url = `${api.url}/institutions/search?${queryString}`;
 
