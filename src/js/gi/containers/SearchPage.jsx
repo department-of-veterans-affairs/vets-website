@@ -42,7 +42,7 @@ export class SearchPage extends React.Component {
 
     const shouldUpdateSearchResults =
       !currentlyInProgress &&
-      !_.isEqual(this.props.location, prevProps.location)
+      !_.isEqual(this.props.location, prevProps.location);
 
     if (shouldUpdateSearchResults) {
       this.updateSearchResults();
