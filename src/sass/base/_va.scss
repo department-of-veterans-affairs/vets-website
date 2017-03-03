@@ -1,25 +1,18 @@
-html {
-  font-size: $em-base;
-  font-weight: 500;
-  overflow: -moz-scrollbars-vertical;
-}
-
 html, body {
   padding: 0;
   margin: 0;
 }
 
+html {
+  font-size: $em-base;
+  font-weight: 500;
+}
+
 body {
+  background: $color-white;
   color: $color-gray-dark;
   font-family: $font-sans;
   font-size: $base-font-size;
-}
-
-// General
-body, .home {
-  background: $color-primary-darkest;
-  background-size: contain;
-  color: $color-white;
 }
 
 // Skip link
@@ -211,6 +204,8 @@ hr {
 
 // Logo and Header
 .header {
+  background: $color-primary-darkest;
+  color: $color-white;
   clear: both;
   padding: 0;
   margin: 0;
