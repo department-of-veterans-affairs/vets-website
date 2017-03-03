@@ -10,7 +10,8 @@ import {
   UPDATE_FIELD,
   SHOW_MAIL_OR_FAX,
   CANCEL_UPLOAD,
-  SET_FIELDS_DIRTY
+  SET_FIELDS_DIRTY,
+  SET_UPLOADER
 } from '../actions';
 
 import { makeField, dirtyAllFields } from '../../common/model/fields';
@@ -49,6 +50,11 @@ export default function claimDetailReducer(state = initialState, action) {
         uploading: action.uploading,
         uploadError: false,
         uploadComplete: false,
+        uploader: action.uploader
+      });
+    }
+    case SET_UPLOADER: {
+      return _.assign(state, {
         uploader: action.uploader
       });
     }
