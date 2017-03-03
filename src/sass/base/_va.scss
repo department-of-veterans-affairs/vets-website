@@ -485,35 +485,6 @@ h6 {
   }
 }
 
-.splash--app {
-  padding: 0 !important;
-
-  h2 {
-    margin: 0;
-    padding: .2em;
-    line-height: 1em;
-    display: inline-block !important;
-  }
-}
-
-// TODO(css): Remove !important once #content ul.breadcrumbs li.active
-// is refactored.
-.splash--alternate {
-
-  li a {
-    color: $color-primary-darkest !important;
-    border-bottom: 2px solid $secondary-color !important;
-
-    &:hover {
-      border-bottom: 3px solid $color-gold !important;
-    }
-  }
-
-  li.parent:after {
-    color: #ccc !important;
-  }
-}
-
 .va-facloc-tagline {
   color: $color-white;
   font-family: $font-sans;
@@ -751,19 +722,6 @@ ul, ol {
     }
   }
 
-  .read-more {
-    font-size: .5em;
-    display: inline-block;
-    border-bottom: 1px solid $secondary-color;
-    color: $secondary-color;
-    &:hover {
-      background: none;
-      color: $color-primary-darkest;
-      background: rgba(1,1,1,.1);
-      border-bottom: 1px solid $secondary-color;
-    }
-  }
-
   .section {
     padding: 4em 0 2em 0;
     text-align: left;
@@ -811,30 +769,10 @@ ul, ol {
 }
 
 #content .section.secondary {
-  background: rgba(255,255,255,.85);
-}
-
-#content .section.tertiary {
-  background: $polar;
-}
-
-#content .section.quaternary {
-  background: $color-gray-lighter;
-  h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
-  h4 {font-weight: 700;}
-  .cards {
-    a {
-      height:12em;
-    }
+  padding: 3em 0;
+  h3 {
+    font-size: 2.2em;
   }
-  .feature {background: none;}
-}
-
-#content .section.coda {
-  background: $color-primary-darker;
-  color: $color-white;
-  h2, h3, h4, h5, h6, a {color: $color-white;}
-  h4 {font-size: 1.5em;}
 }
 
 #content .section {
@@ -849,16 +787,6 @@ ul, ol {
   padding: 1em;
   margin-bottom: 1.5em;
   clear: both;
-}
-
-#content .section.secondary,
-#content .section.tertiary,
-#content .section.quaternary,
-#content .section.coda {
-  padding: 3em 0;
-  h3 {
-    font-size: 2.2em;
-  }
 }
 
 // Sections
@@ -1704,7 +1632,7 @@ li.twenty:before {content: '20';}
 // TODO(css): Consolidate these rules, possibly into a new class name
 .highlight,
 .va-h-ruled {
-  border-bottom: 3px solid $primary-color;
+  border-bottom: 3px solid $color-primary;
   padding-bottom: .25em;
   font-weight: 700;
 }
