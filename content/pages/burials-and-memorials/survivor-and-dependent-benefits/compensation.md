@@ -69,13 +69,13 @@ You may be able to get DIC as a surviving parent if:
 
 You’ll need to apply for DIC. You can apply for this benefit in 1 of 3 ways:
 
-- Fill out the Application for Dependency and Indemnity Compensation by Parent(s). [Download Form 21-535] (http://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
+- Fill out the Application for Dependency and Indemnity Compensation by Parent(s). [Download Form 21-535](http://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
 
 - Mail the form to the Pension Management Center for your state. [Find the Pension Management Center for your state](http://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
 
 - Work with an accredited representative. [Get help from an accredited representative](https://www.vets.gov/disability-benefits/apply-for-benefits/help/index.html), **or**
 
--Go to a VA Regional Office and have a VA employee help you. [Find a local VA office](/facilities/).
+- Go to a VA Regional Office and have a VA employee help you. [Find a local VA office](/facilities/).
 
 
 
