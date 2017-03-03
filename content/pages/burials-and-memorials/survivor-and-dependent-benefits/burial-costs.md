@@ -52,23 +52,30 @@ To get this benefit, the Veteran must not have been dishonorably discharged, and
 
 #### What are the burial allowance amounts for a service-connected death?
 
-- If the Veteran died on or after September 11, 2001, the maximum service-connected burial allowance is $2,000.
-- If the Veteran died before September 11, 2001, the maximum service-connected burial allowance is $1,500.
-- If the Veteran is buried in a VA national cemetery, we may pay you back for some or all of the costs of moving the Veteran’s remains.
+|                          | Maximum Burial Allowance |
+| ------------------------ | ------------------------ |
+| If the Veteran died on or after September 11, 2001 | $2,000 |
+| If the Veteran died before September 11, 2001 | $1,500 |
+| If the Veteran is buried in a VA national cemetery | We may pay you back for some or all of the costs of moving the Veteran’s remains |
 
 #### What are the burial allowance amounts for a non-service-connected death?
 
-- If the Veteran died on or after October 1, 2015, we’ll pay a $300 burial allowance and $747 for a plot.
-- If the Veteran died on or after October 1, 2014, but before October 1, 2015, we’ll pay a $300 burial allowance and $745 for a plot. 
-- If the Veteran died on or after October 1, 2013, but before October 1, 2014, we’ll pay a $300 burial allowance and $734 for a plot. 
+|                          | Maximum Burial Allowance |
+| ------------------------ | ------------------------ |
+| If the Veteran died on or after October 1, 2015 | We’ll pay a $300 burial allowance and $747 for a plot |
+| If the Veteran died on or after October 1, 2014, but before October 1, 2015 | We’ll pay a $300 burial allowance and $745 for a plot | 
+| If the Veteran died on or after October 1, 2013, but before October 1, 2014 | We’ll pay a $300 burial allowance and $734 for a plot |
 
 #### What are the burial allowance amounts if the Veteran was hospitalized by VA at the time of their death?
 
-- If the Veteran died on or after October 1, 2015, we’ll pay a $747 burial allowance and $747 for a plot.
-- If the Veteran died on or after October 1, 2014, but before October 1, 2015, we’ll pay a $745 burial allowance and $745 for a plot. 
-- If the Veteran died on or after October 1, 2013, but before October 1, 2014, we’ll pay a $734 burial allowance and $734 for a plot. 
+|                          | Maximum Burial Allowance |
+| ------------------------ | ------------------------ |
+| If the Veteran died on or after October 1, 2015 | We’ll pay a $747 burial allowance and $747 for a plot |
+| If the Veteran died on or after October 1, 2014, but before October 1, 2015 | We’ll pay a $745 burial allowance and $745 for a plot |
+| If the Veteran died on or after October 1, 2013, but before October 1, 2014 | We’ll pay a $734 burial allowance and $734 for a plot |
+
 - We may also pay you back for some or all of the costs of moving the Veteran’s remains if he or she was hospitalized or in a VA-contracted nursing home at the time of death.
-- We may pay you back for some or all of the costs of moving the Veteran’s remains if they died while traveling to VA-authorized care.
+- We may pay you back for some or all of the costs of moving the Veteran’s remains if they died while traveling to VA-authorized care
 
 **Note:** If a Veteran’s remains aren’t claimed, we’ll pay the person or organization responsible for the Veteran’s burial a $300 burial allowance. If the Veteran’s eligible, we may pay you back for the costs of moving the Veteran’s remains to a VA national cemetery. We may also pay you back for the cost of a plot. 
 
