@@ -327,6 +327,7 @@ You can use 'ui:description' to show text or a custom component before the field
   type: 'object',
   properties: {
     'view:textObject': {
+      type: 'object',
       properties: {}
     }
   }
