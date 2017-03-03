@@ -8,20 +8,20 @@ extraspace: true
 majorlinks:
  - url: /burials-and-memorials/burial-planning
    title: Burial Planning
-   description: Plan a burial.
+   description: Find out how to plan for the future or what to do if your family member has just died.
  - url: /burials-and-memorials/eligibility
    title: Check Your Eligibility
-   description: Find out if you can be buried in a national VA cemetery.
+   description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
  - url: /burials-and-memorials/find-a-cemetery
    title: Find a Cemetery or Gravesite 
-   description: Locate a cemetery or gravesite. 
+   description: Find where a Veteran or family member is buried in a national, state, military, or Department of the Interior cemetery.
 relatedlinks:
  - url: /burials-and-memorials/military-funerals
    title: What to expect at a military funeral
-   description: Find out what will happen on this day. 
+   description: Find out what will happen to help you prepare for this day.
  - url: /burials-and-memorials/survivor-and-dependent-benefits
    title: Survivor and dependent benefits
-   description: Find out what benefits you may get.    
+   description: Find out what benefits you—or a family member—may get after the loss of a Veteran.
 ---
 
 We can help Veterans and family members plan a military burial or memorial service. Find out how to get burial benefits. 
