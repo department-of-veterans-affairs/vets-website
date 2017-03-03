@@ -8,12 +8,16 @@ template: 6-info-page
 
 To honor the military service of a deceased Veteran, we may provide a headstone or marker to identify the burial place, or a medallion to attach to a headstone or marker. We provide these whether the Veteran is buried in a public or private cemetery. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, a national cemetery, or a cemetery at a military post or base. Find out how to arrange for one of these memorial items.
 
+<div class="call-out" markdown="0">
+
 ### Who can get a headstone, marker, or medallion?
 
 - Any Veteran who died on or after November 1, 1990
 - Any Veteran buried in an unmarked grave who served before September 7, 1980
 - Any Veteran buried in an unmarked grave who served for 24 months or longer, or who died while on active duty (including training) after September 7, 1980
 - An eligible spouse or other family member buried in a national cemetery, state/tribal Veterans cemetery, military post cemetery, or military base cemetery
+
+</div>
 
 ### Can I apply for a headstone, marker, or medallion?
 
