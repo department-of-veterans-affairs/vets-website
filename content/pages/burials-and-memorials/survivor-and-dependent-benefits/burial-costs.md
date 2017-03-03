@@ -52,7 +52,7 @@ To get this benefit, the Veteran must not have been dishonorably discharged, and
 
 #### What are the burial allowance amounts for a service-connected death?
 
-|                          | Maximum Burial Allowance |
+| Status                   | Maximum Burial Allowance |
 | ------------------------ | ------------------------ |
 | If the Veteran died on or after September 11, 2001 | $2,000 |
 | If the Veteran died before September 11, 2001 | $1,500 |
@@ -60,7 +60,7 @@ To get this benefit, the Veteran must not have been dishonorably discharged, and
 
 #### What are the burial allowance amounts for a non-service-connected death?
 
-|                          | Maximum Burial Allowance |
+| Status                   | Maximum Burial Allowance |
 | ------------------------ | ------------------------ |
 | If the Veteran died on or after October 1, 2015 | We’ll pay a $300 burial allowance and $747 for a plot |
 | If the Veteran died on or after October 1, 2014, but before October 1, 2015 | We’ll pay a $300 burial allowance and $745 for a plot | 
@@ -68,7 +68,7 @@ To get this benefit, the Veteran must not have been dishonorably discharged, and
 
 #### What are the burial allowance amounts if the Veteran was hospitalized by VA at the time of their death?
 
-|                          | Maximum Burial Allowance |
+| Status                   | Maximum Burial Allowance |
 | ------------------------ | ------------------------ |
 | If the Veteran died on or after October 1, 2015 | We’ll pay a $747 burial allowance and $747 for a plot |
 | If the Veteran died on or after October 1, 2014, but before October 1, 2015 | We’ll pay a $745 burial allowance and $745 for a plot |
