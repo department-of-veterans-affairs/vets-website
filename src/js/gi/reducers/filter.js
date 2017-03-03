@@ -16,8 +16,8 @@ export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case INSTITUTION_FILTER_CHANGED:
       return {
-        ...state,
-        [action.field]: action.value
+        ...INITIAL_STATE,
+        ...action.filter
       };
     default:
       return state;

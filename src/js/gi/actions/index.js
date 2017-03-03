@@ -121,12 +121,8 @@ export function eligibilityChange(e) {
   };
 }
 
-export function institutionFilterChange(field, value) {
-  return {
-    type: INSTITUTION_FILTER_CHANGED,
-    field,
-    value
-  };
+export function institutionFilterChange(filter) {
+  return { type: INSTITUTION_FILTER_CHANGED, filter };
 }
 
 export function fetchSearchResults(query = {}) {

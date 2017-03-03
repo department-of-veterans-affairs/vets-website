@@ -39,20 +39,43 @@ export class SearchPage extends React.Component {
   }
 
   updateSearchResults() {
-    const query = _.pick(this.props.location.query, [
-      'page',
-      'name',
-      'type',
-      'country',
-      'state',
+    const programFilters = [
       'caution',
       'studentVeteranGroup',
       'yellowRibbonScholarship',
       'principlesOfExcellence',
-      'eightKeysToVeteranSuccess',
-      'typeName'
+      'eightKeysToVeteranSuccess'
+    ];
+
+    const query = _.pick(this.props.location.query, [
+      'page',
+      'name',
+      'country',
+      'state',
+      'typeName',
+      ...programFilters
     ]);
 
+    // Update form selections based on query.
+    const institutionFilter = _.omit(query, ['page', 'name']);
+
+    // Convert string to bool for params associated with checkboxes.
+    programFilters.forEach(filterKey => {
+      const filterValue = institutionFilter[filterKey];
+      institutionFilter[filterKey] =
+        filterValue === 'true' ||
+        (filterKey === 'caution' && filterValue === 'false');
+    });
+
+    // Derive type selection from typeName in the query.
+    if (institutionFilter.typeName) {
+      const typeName = institutionFilter.typeName.toLowerCase();
+      if (typeName === 'school' || typeName === 'employer') {
+        institutionFilter.type = typeName;
+      }
+    }
+
+    this.props.institutionFilterChange(institutionFilter);
     this.props.fetchSearchResults(query);
   }
 
@@ -64,8 +87,6 @@ export class SearchPage extends React.Component {
   }
 
   handleFilterChange(field, value) {
-    this.props.institutionFilterChange(field, value);
-
     // Translate form selections to query params.
     const queryKey = field === 'type' ? 'typeName' : field;
     const queryValue = field === 'caution' ? !value : value;
