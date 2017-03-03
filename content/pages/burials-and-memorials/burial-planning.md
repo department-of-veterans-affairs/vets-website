@@ -53,8 +53,8 @@ You’ll get a letter from us that’ll tell you if you’re eligible for burial
 - Have this information ready before you apply:
  - Cemetery of choice
  - Contact information for the funeral home, including email address, phone number, and address
- - Type of gravesite memorial [See your options for a headstone, marker, or medallion](burials-and-memorials/burial-planning/headstones-markers-medallions).
- - Whether you want military honors, a burial flag, or a Presidential Memorial Certificate. [Learn about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services). [Learn about ways to memorialize the deceased](burials-and-memorials/burial-planning/flags-and-memorial-certificates).
+ - Type of gravesite memorial [See your options for a headstone, marker, or medallion](/burials-and-memorials/burial-planning/headstones-markers-medallions).
+ - Whether you want military honors, a burial flag, or a Presidential Memorial Certificate. [Learn about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services). [Learn about ways to memorialize the deceased](/burials-and-memorials/burial-planning/flags-and-memorial-certificates).
  - Type of burial: casket or cremation and size of the casket or urn (a container used to hold ashes)
 
 
