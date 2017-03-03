@@ -55,6 +55,6 @@ You must put a legal name, service branch, and birth and death year on a headsto
 
 We provide memorial headstones and markers for qualified Veterans when remains are unavailable, not identified, donated to science, buried at sea, or scattered. 
 
-For spouses who qualify for a headstone or marker, the first line on the headstone or marker must say, “In Memory of,” and it must be placed in a national cemetery, state Veteran's cemetery, or military base cemetery.
+For spouses who qualify for a headstone or marker, the first line on the headstone or marker must say, “In Memory of,” and it must be placed in a national cemetery, state Veteran's cemetery, or military base cemetery. 
 
 Get help applying for a headstone, marker, or medallion by calling <span class="tel">800-697-6947</span>
