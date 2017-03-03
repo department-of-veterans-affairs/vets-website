@@ -16,7 +16,7 @@ function nextSection(client) {
 
 function verifyEdit(client, expectedValue) {
   const selector = '.review tr:nth-child(1) td:nth-child(2)';
-  client.click('.form-panel .usa-button-outline');
+  client.click('.usa-button-outline');
   client.waitForElementVisible(selector, Timeouts.normal);
   client.expect.element(selector).text.to.equal(expectedValue);
   nextSection(client);
