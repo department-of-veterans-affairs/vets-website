@@ -73,10 +73,10 @@ export class SearchPage extends React.Component {
             </div>
 
             <Pagination
-              showLastPage={true}
-              onPageSelect={this.handlePageSelect.bind(this)}
-              page={currentPage}
-              pages={totalPages}/>
+                showLastPage
+                onPageSelect={this.handlePageSelect.bind(this)}
+                page={currentPage}
+                pages={totalPages}/>
           </div>
         </div>
 
