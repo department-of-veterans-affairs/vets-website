@@ -43,7 +43,7 @@ You’ll get a letter from us that’ll tell you if you’re eligible for burial
 
 **If you have a pre-need decision letter confirming eligibility**, you can call the National Cemetery Scheduling Office at <span class="tel">800-535-1117</span> to request a burial. You don’t need to do anything else.
 
-**If you don’t have a pre-need decision letter**, you have a couple steps to take before you can request a burial. Keep reading to find out what to do next.
+**If you don’t have a pre-need decision letter**, you have a few steps to take before you can request a burial. Keep reading to find out what to do next.
 
 #### Prepare
 - Check to see if the deceased can be buried in a VA national cemetery. [Find out if the deceased is eligible](/burials-and-memorials/eligibility).
