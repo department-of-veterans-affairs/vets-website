@@ -15,6 +15,10 @@ If you’re a surviving spouse, you can get DIC if you:
 - Were married to the Veteran for at least 1 year, **or**
 - Had a child with the Veteran, aren’t currently remarried, and either lived with the Veteran without a break until the Veteran's death or, if separated, weren’t at fault for the separation.
 
+</div>
+
+<div class="call-out" markdown="0">
+
 ### As a surviving child, can I get DIC from VA?
 
 If you’re a surviving child, you can get DIC if you aren’t married and aren’t included on the surviving spouse’s DIC, **and**
@@ -34,9 +38,13 @@ If you’re a surviving child, you can get DIC if you aren’t married and aren�
 
 **Note:** “Totally disabling” means the Veteran’s injuries make it impossible to work.
 
+<div class="call-out" markdown="0">
+
 ### What kind of benefits can I get?
 
 Tax-free monetary benefits
+
+</div>
 
 ### As a surviving spouse or child, how do I get DIC? 
 
@@ -48,7 +56,7 @@ You’ll need to apply for DIC. You can apply for this benefit in 1 of 3 ways:
 
 - Work with an accredited representative. [Get help from an accredited representative](https://www.vets.gov/disability-benefits/apply-for-benefits/help/index.html), **or**
 
--Go to a VA Regional Office and get help from a VA employee. [Find a local VA office](/facilities/).
+- Go to a VA Regional Office and get help from a VA employee. [Find a local VA office](/facilities/).
 
 
 ### As a surviving parent, can I get DIC?
