@@ -38,18 +38,17 @@ export class SearchPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    const currentlyInProgress = this.props.search.inProgress;
+
     const shouldUpdateSearchResults =
-      !this.props.search.inProgress &&
+      !currentlyInProgress &&
       !_.isEqual(this.props.location, prevProps.location)
 
     if (shouldUpdateSearchResults) {
       this.updateSearchResults();
     }
 
-    const shouldScrollToTop =
-      this.props.search.inProgress !== prevProps.search.inProgress;
-
-    if (shouldScrollToTop) {
+    if (currentlyInProgress !== prevProps.search.inProgress) {
       scroller.scrollTo('searchPage', getScrollOptions());
     }
   }
@@ -120,9 +119,11 @@ export class SearchPage extends React.Component {
   }
 
   render() {
+    const { search, filters } = this.props;
+    const { count, pagination: { currentPage, totalPages } } = search;
     let searchResults;
 
-    if (this.props.search.inProgress) {
+    if (search.inProgress) {
       searchResults = (
         <div className="small-12 medium-9 columns">
           <LoadingIndicator message="Loading search results..."/>;
@@ -132,7 +133,7 @@ export class SearchPage extends React.Component {
       searchResults = (
         <div className="small-12 medium-9 columns">
           <div className="search-results">
-            {this.props.search.results.map((result) => {
+            {search.results.map((result) => {
               return (
                 <SearchResult
                     key={result.facilityCode}
@@ -165,8 +166,6 @@ export class SearchPage extends React.Component {
       );
     }
 
-    const count = this.props.search.count;
-    const { currentPage, totalPages } = this.props.search.pagination;
     return (
       <ScrollElement name="searchPage" className="search-page">
 
@@ -181,8 +180,8 @@ export class SearchPage extends React.Component {
             <h2>Keywords</h2>
             <KeywordSearch label="City, school, or employer"/>
             <InstitutionFilterForm
-                search={this.props.search}
-                filters={this.props.filters}
+                search={search}
+                filters={filters}
                 onFilterChange={this.handleFilterChange}/>
             <EligibilityForm/>
           </div>
