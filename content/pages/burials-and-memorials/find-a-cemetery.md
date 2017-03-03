@@ -5,7 +5,7 @@ template: 6-info-page
 ---
 
 
-The Nationwide Gravesite Locator tool can help you find where Veterans and their family members who are buried in a national cemetery, state cemetery, and military or Department of the Interior cemetery. The tool can also find a private cemetery grave, but only if it has a government grave marker. 
+Our Nationwide Gravesite Locator tool can help you find where Veterans and their family members who are buried in a national, state, and military or Department of the Interior cemetery. The tool can also find a private cemetery grave, but only if it has a government grave marker. 
 
 [Use our Nationwide Gravesite Locator tool](http://gravelocator.cem.va.gov/)
 We update the Nationwide Gravesite Locator every day. 
