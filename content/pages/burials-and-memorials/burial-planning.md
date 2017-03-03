@@ -39,7 +39,7 @@ You’ll get a letter from us that’ll tell you if you’re eligible for burial
 
 </div>
 
-### How to plan a burial for a family member who has just died
+### How do I plan a burial for a family member who has just died?
 
 **If you have a pre-need decision letter confirming eligibility**, you can call the National Cemetery Scheduling Office at <span class="tel">800-535-1117</span> to request a burial. You don’t need to do anything else.
 
@@ -57,9 +57,9 @@ You’ll get a letter from us that’ll tell you if you’re eligible for burial
  - If the deceased is a spouse or a Veteran whose spouse has already died, the full name of the family member, cemetery section, and site number
 
 ##### Have this information ready before you apply:
- - Cemetery of choice
+ - Your cemetery of choice
  - Contact information for the funeral home, including email address, phone number, and address
- - Type of gravesite memorial [See your options for a headstone, marker, or medallion](/burials-and-memorials/burial-planning/headstones-markers-medallions).
+ - Type of gravesite memorial. [See your options for a headstone, marker, or medallion](/burials-and-memorials/burial-planning/headstones-markers-medallions).
  - Whether you want military honors, a burial flag, or a Presidential Memorial Certificate. 
  
  [Learn about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services). 
@@ -69,9 +69,9 @@ You’ll get a letter from us that’ll tell you if you’re eligible for burial
 
 
 #### Apply 
-For burial in a national cemetery, fax any discharge papers to the **National Cemetery Scheduling Office** at <span class="tel">866-900-6417</span>, or scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the name of the Veteran in the subject line. 
+For burial in a national cemetery, fax any discharge papers to the **National Cemetery Scheduling Office** at <span class="tel">866-900-6417</span>, or scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran's name in the subject line. 
 
-Then call <span class="tel">800-535-1117</span> to confirm the burial application. When you call, have all the information handy that’s listed above in the "Prepare" section. 
+Then call <span class="tel">800-535-1117</span> to confirm the burial application. When you call, be sure to have all the information handy that’s listed above in the "Prepare" section. 
 
 <div class="call-out" markdown="0">
 
