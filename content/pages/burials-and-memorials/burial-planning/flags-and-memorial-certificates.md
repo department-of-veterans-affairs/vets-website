@@ -22,9 +22,9 @@ The next of kin or a close friend may be able to get a burial flag if the Vetera
 To get a burial flag, fill out the Application for United States Flag for Burial Purposes (VA Form 27-2008). [Download VA Form 27-2008](http://www.vba.va.gov/pubs/forms/VBA-27-2008-ARE.pdf).
 
 Bring the application form to: 
-•	A funeral director, **or**
-•	[A VA Regional Benefit Office](http://www.benefits.va.gov/benefits/offices.asp), **or** 
-•	A United States post office (call ahead to make sure your local post office has burial flags)
+- A funeral director, **or**
+- [A VA Regional Benefit Office](http://www.benefits.va.gov/benefits/offices.asp), **or** 
+- A United States post office (call ahead to make sure your local post office has burial flags)
 
 ### How do I display and care for the flag?
 
