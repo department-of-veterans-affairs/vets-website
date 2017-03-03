@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import * as actions from '../actions';
+import { setPageTitle } from '../actions';
 
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
@@ -53,12 +53,8 @@ export class LandingPage extends React.Component {
 }
 
 const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setPageTitle: (title) => {
-      dispatch(actions.setPageTitle(title));
-    }
-  };
+const mapDispatchToProps = {
+  setPageTitle
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LandingPage));
