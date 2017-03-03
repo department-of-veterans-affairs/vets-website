@@ -7,6 +7,7 @@ template: 6-info-page
 
 You may be eligible for burial in a VA national cemetery and for other burial  honors, such as a headstone, marker, medallion, burial flag, and Presidential Memorial Certificate. Some family members may also qualify for money to pay for burial costs. Find out if you can get these benefits. 
 
+<div class="call-out" markdown="0">
 
 ### Can I get VA burial and memorial benefits? 
 
@@ -17,6 +18,7 @@ You may be able to get burial and memorial benefits if you are:
 - The spouse or dependent child of a Veteran, even if the Veteran dies first, **or**
 - In some cases, adult dependent children (if they aren’t married)
 
+<br>
 
 ### Can I plan ahead?
 
