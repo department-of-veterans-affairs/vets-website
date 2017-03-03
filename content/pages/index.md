@@ -67,7 +67,7 @@ majorlinks:
 
 
 <div class="main" role="main">
-  <div class="section main-menu">
+  <div class="section">
     {% include "content/includes/main-navigation.html" %}
   </div>
 </div>
