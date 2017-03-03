@@ -28,7 +28,7 @@ Bring the application form to:
 
 ### How do I display and care for the flag?
 
-To protect the flag from weather damage, don’t leave it outside for long periods of time. [Find out how to display and fold the flag]( https://www.legion.org/flag/questions-answers/91522/how-flag-be-displayed-fully-open-or-half-open-casket)
+To protect the flag from weather damage, don’t leave it outside for long periods of time. [Find out how to display and fold the flag]( https://www.legion.org/flag/questions-answers/91522/how-flag-be-displayed-fully-open-or-half-open-casket).
 
 The Veteran’s family can also donate the flag to national cemeteries that have an Avenue of Flags so that it can be flown on patriotic holidays.
 
