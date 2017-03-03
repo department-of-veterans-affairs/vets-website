@@ -13,7 +13,7 @@ majorlinks:
    title: Check Your Eligibility
    description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
  - url: /burials-and-memorials/survivor-and-dependent-benefits
-   title: Survivor and dependent benefits
+   title: Survivor and Dependent Benefits
    description: Find out what benefits you—or a family member—may get after the loss of a Veteran.
 relatedlinks:
  - url: /burials-and-memorials/military-funerals
