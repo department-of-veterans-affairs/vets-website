@@ -25,11 +25,12 @@ Fill out the Application for Pre-Need Determination of Eligibility for Burial in
 Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
 - Email it to eligibility.preneed@va.gov
 - Send it by U.S. mail to: 
-  National Cemetery Scheduling Office
-
-  P.O. Box 510543
-
-  St. Louis, MO 63151
+  
+<dl class="va-address-block">
+    <dd>National Cemetery Scheduling Office</dd>
+    <dd>P.O. Box 510543</dd>
+    <dd>St. Louis, MO 63151</dd>
+</dl>
 
   Or fax it to <span class="tel">855-840-8299</span>
 
