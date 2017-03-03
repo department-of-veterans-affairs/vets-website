@@ -47,7 +47,8 @@ You’ll get a letter from us that’ll tell you if you’re eligible for burial
 
 #### Prepare
 - Check to see if the deceased can be buried in a VA national cemetery. [Find out if the deceased is eligible](/burials-and-memorials/eligibility).
-- Once you’ve confirmed eligibility, gather these documents and this information before you apply:
+
+#### Once you’ve confirmed eligibility, gather these documents and this information before you apply:
  - The deceased’s DD214 (or similar discharge papers). [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp)
  - The deceased’s full name, gender, Social Security number or Veteran ID, date of death, and date of birth
  - Next-of-kin information (name, relationship, Social Security number, phone number, and address)
@@ -55,7 +56,7 @@ You’ll get a letter from us that’ll tell you if you’re eligible for burial
  - Veteran’s zip code and county at the time of death
  - If the deceased is a spouse or a Veteran whose spouse has already died, the full name of the family member, cemetery section, and site number
 
-- Have this information ready before you apply:
+#### Have this information ready before you apply:
  - Cemetery of choice
  - Contact information for the funeral home, including email address, phone number, and address
  - Type of gravesite memorial [See your options for a headstone, marker, or medallion](/burials-and-memorials/burial-planning/headstones-markers-medallions).
