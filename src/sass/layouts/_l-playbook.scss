@@ -321,7 +321,7 @@
 
 // Visual Guide
 
-span.color-chip {
+.color-chip {
   height: 3em;
   width: 3em;
   margin: .5em 1em .5em 0;
@@ -357,11 +357,11 @@ span.color-chip {
   }
 }
 
-#content .section.tertiary {
+.tertiary {
   background: $polar;
 }
 
-#content .section.quaternary {
+.quaternary {
   background: $color-gray-lighter;
   h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
   h4 {font-weight: 700;}
