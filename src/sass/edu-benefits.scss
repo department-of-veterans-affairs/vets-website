@@ -303,7 +303,7 @@ label {
     // Space above the date fields
     .form-datefield-month, .form-datefield-day, .usa-form-group-year,
     // And the inputs uswds sets a top margin for
-    input,
+    input:not([type="radio"]),
     input[type="text"], input[type="email"],
     input[type="password"], input[type="url"],
     input[type="tel"], input[type="number"],

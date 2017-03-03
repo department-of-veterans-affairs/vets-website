@@ -181,9 +181,9 @@ export class Main extends React.Component {
       name: 'dateRange',
       label: '',
       options: [
-        { label: '3 months', value: '3mo' },
-        { label: '6 months', value: '6mo' },
-        { label: '1 year', value: '1yr' },
+        { label: 'Last 3 months', value: '3mo' },
+        { label: 'Last 6 months', value: '6mo' },
+        { label: 'Last year', value: '1yr' },
         {
           label: (
             <div className={customDateOptionClass}>
@@ -258,7 +258,7 @@ export class Main extends React.Component {
             <h4 className="highlight">Select Types of Information</h4>
             <ErrorableCheckbox
                 name="all"
-                label="Select all types of information"
+                label="All available VA health records"
                 checked={allValuesChecked}
                 onValueChange={(checked) => {
                   this.props.toggleAllReports(checked);
