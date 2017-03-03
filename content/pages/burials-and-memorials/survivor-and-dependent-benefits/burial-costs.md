@@ -7,6 +7,8 @@ template: 6-info-page
 
 If you’re the spouse of record (the legally recognized spouse) or a designated (legally chosen) family member of a Veteran who died, we may pay you a set amount for burial and funeral costs. This is called an allowance. You may also qualify for plot or burial allowances to help pay for the area of land used for the burial and other costs related to the burial. We may help with transportation costs as well. Find out how to get allowances. 
 
+<div class="call-out" markdown="0">
+
 ### Can I get burial allowances?
 
 You may be able to get burial allowances if you’re:
@@ -15,6 +17,8 @@ You may be able to get burial allowances if you’re:
 - A surviving child of the Veteran, **or**
 - A parent of the Veteran, **or**
 - The executor or administrator (someone who officially represents the deceased) of the Veteran’s estate
+
+</div>
 
 To get this benefit, the Veteran must not have been dishonorably discharged, and must have:
 
@@ -25,13 +29,6 @@ To get this benefit, the Veteran must not have been dishonorably discharged, and
 - Died while traveling to approved VA care, **or**
 - Died with a reopened claim for VA compensation or a pension that would have qualified them to get benefits, **or**
 - Died on or after October 9, 1996, while a patient at a VA-approved state nursing home.
-
-### Who can get burial allowances?
-
-- The Veteran’s surviving spouse
-- The Veteran’s surviving child 
-- The Veteran’s parents
-- The executor or administrator of a Veteran’s estate
 
 ### What kind of benefits can I get?
 
