@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import { showModal, setPageTitle, fetchProfile } from '../actions';
 import AccordionItem from '../components/AccordionItem';
 import If from '../components/If';
 import HeadingSummary from '../components/profile/HeadingSummary';
@@ -13,7 +13,7 @@ import AdditionalInformation from '../components/profile/AdditionalInformation';
 export class ProfilePage extends React.Component {
 
   componentWillMount() {
-    this.props.fetch(this.props.params.facilityCode);
+    this.props.fetchProfile(this.props.params.facilityCode);
   }
 
   render() {
@@ -53,18 +53,10 @@ export class ProfilePage extends React.Component {
 
 const mapStateToProps = (state) => state;
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showModal: (name) => {
-      dispatch(actions.showModal(name));
-    },
-    setPageTitle: (title) => {
-      dispatch(actions.setPageTitle(title));
-    },
-    fetch: (facilityCode) => {
-      dispatch(actions.fetchProfile(facilityCode));
-    }
-  };
+const mapDispatchToProps = {
+  showModal,
+  setPageTitle,
+  fetchProfile
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

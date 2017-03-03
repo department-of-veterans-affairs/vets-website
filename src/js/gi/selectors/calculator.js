@@ -16,6 +16,19 @@ const getInputs = (_state, _props) => {
   return {};
 };
 
+/* inputs.
+tuitionFees
+yellowRibbonRecipient
+yellowRibbonAmount
+scholarships
+enrolled
+calendar
+numberNontradTerms
+lengthNontradTerms
+kickerEligible
+kicker
+*/
+
 function getDerivedAttributes(constant, eligibility, institution, inputs) {
   const your = eligibility;
   const its = institution;
@@ -214,14 +227,14 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
   const yellowRibbonElig = !(
     tier < 1
     || !its.yr
-    || !eligibility.yellowRibbon
+    || !inputs.yellowRibbonEligible
     || eligibility.militaryStatus === 'active duty'
     || isOJT
     || isFlightOrCorrespondence
   );
 
   // Determine kicker benefit level - getKickerBenefit
-  if (!inputs.kickerElig) {
+  if (!inputs.kickerEligible) {
     kickerBenefit = 0;
   } else if (isOJT) {
     kickerBenefit = inputs.kicker * ropOjt;
@@ -391,7 +404,6 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
   const spouseActiveDuty = your.spouseActiveDuty === 'yes';
 
   // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1
-  // TODO: gouge my eyes out with a spoon
   if (your.militaryStatus === 'active duty' && isOJT) {
     housingAllowTerm1 = 0;
   } else if (your.giBillChapter === 33 & your.militaryStatus === 'spouse' &&

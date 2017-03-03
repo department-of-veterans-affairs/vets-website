@@ -22,6 +22,7 @@ export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_FAILED = 'FETCH_PROFILE_FAILED';
 export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
 export const INSTITUTION_FILTER_CHANGED = 'INSTITUTION_FILTER_CHANGED';
+export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
 
 export function showModal(modal) {
   return {
@@ -159,5 +160,15 @@ export function fetchProfile(facilityCode) {
         payload => withPreview(dispatch, { type: FETCH_PROFILE_SUCCEEDED, payload }),
         err => dispatch({ type: FETCH_PROFILE_FAILED, err })
       );
+  };
+}
+
+export function calculatorInputChange(e) {
+  const field = e.target.name;
+  const value = e.target.value;
+  return {
+    type: CALCULATOR_INPUTS_CHANGED,
+    field,
+    value
   };
 }
