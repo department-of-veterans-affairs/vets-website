@@ -18,7 +18,7 @@ You may be able to get burial and memorial benefits if you are:
 - The spouse or dependent child of a Veteran, even if the Veteran dies first, **or**
 - In some cases, the adult dependent child of a Veteran (if you aren't married)
 
-[Learn about the application process](/burials-and-memorials/burial-planning/).
+[Learn about the burial planning process](/burials-and-memorials/burial-planning/).
 
 </div>
 
