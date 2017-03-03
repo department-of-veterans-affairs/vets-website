@@ -9,6 +9,7 @@ import {
   institutionFilterChange
 } from '../actions';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import KeywordSearch from '../components/search/KeywordSearch';
 import EligibilityForm from '../components/search/EligibilityForm';
 import InstitutionFilterForm from '../components/search/InstitutionFilterForm';
@@ -104,6 +105,10 @@ export class SearchPage extends React.Component {
   }
 
   render() {
+    if (this.props.search.inProgress) {
+      return <LoadingIndicator message="Loading search results..."/>;
+    }
+
     const count = this.props.search.count;
     const { currentPage, totalPages } = this.props.search.pagination;
     return (
