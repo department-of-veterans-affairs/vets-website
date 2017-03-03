@@ -6,7 +6,7 @@ template: 6-info-page
 ---
 
 
-To honor the military service of a deceased Veteran, we may provide a headstone or marker to identify the burial place, or a medallion to attach to a headstone or marker. We provide these whether the Veteran is buried in a public or private cemetery. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, a national cemetery, or a cemetery at a military post or base. Find out how to arrange for one of these memorial items.
+To honor the military service of a deceased Veteran, we may provide a headstone or marker to identify the burial place, or a medallion to attach to a headstone or marker. We provide these whether the Veteran is buried in a public or private cemetery. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, a national cemetery, or a cemetery at a military post or base. Find out how to arrange for 1 of these memorial items.
 
 <div class="call-out" markdown="0">
 
@@ -19,14 +19,14 @@ To honor the military service of a deceased Veteran, we may provide a headstone 
 
 </div>
 
-### Can I apply for a headstone, marker, or medallion?
+### Can I apply for a memorial item?
 
 You can apply for this benefit if you’re:
 - A family member of the deceased, **or**
 - A personal representative (someone who officially represents the deceased), **or**
 - A representative of an accredited Veterans Service Organization, **or**
 - An employee of a state or local government whose official responsibilities include serving Veterans, **or**
-- Any person who is legally responsible for making arrangements for unclaimed remains or for details having to do with the deceased’s interment or memorialization, **or**
+- Any person who is legally responsible for making arrangements for unclaimed remains or for details having to do with the deceased’s internment or memorialization, **or**
 - Any individual, if the Veteran’s service ended before April 6, 1917
 
 **Note:** For memorial headstones and markers that honor the memory of the deceased, the person who applies must be a member of the deceased’s family.
@@ -35,7 +35,7 @@ You can apply for this benefit if you’re:
 ### How do I get this benefit? 
 
 - For a headstone or marker, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). [Download VA Form 40-1330](http://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
-- For a medallion to be placed on a privately bought headstone or marker, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). [Download VA Form 40-1330M](http://www.va.gov/vaforms/va/pdf/VA40-1330M.pdf).
+- For a medallion to be placed on a headstone or marker you bought on your own, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). [Download VA Form 40-1330M](http://www.va.gov/vaforms/va/pdf/VA40-1330M.pdf).
 - Make a copy of the Veteran's discharge documents. Don’t send the originals, because we can’t return them.
 - Mail the discharge papers and the form to this address: 
 
@@ -47,7 +47,7 @@ You can apply for this benefit if you’re:
 </dl>
 
 
-Or, fax the documents to <span class="tel">800-455-7143</span>
+- Or, fax the documents to <span class="tel">800-455-7143</span>.
 
 
 <div class="call-out" markdown="0">
@@ -59,10 +59,10 @@ You must put a legal name, service branch, and birth and death year on a headsto
 
 </div>
 
-### Special Arrangements 
+### Special arrangements 
 
 We provide memorial headstones and markers for qualified Veterans when remains are unavailable, not identified, donated to science, buried at sea, or scattered. 
 
-For spouses who qualify for a headstone or marker, the first line on the headstone or marker must say, “In Memory of,” and it must be placed in a national cemetery, state Veteran's cemetery, or military base cemetery. 
+For spouses who qualify for a headstone or marker, the first line on the headstone or marker must say, “In Memory of,” and it must be placed in a national cemetery, state Veterans cemetery, or military base cemetery. 
 
-Get help applying for a headstone, marker, or medallion by calling <span class="tel">800-697-6947</span>
+Get help applying for a headstone, marker, or medallion by calling <span class="tel">800-697-6947</span>.
