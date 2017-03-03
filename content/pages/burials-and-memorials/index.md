@@ -14,14 +14,14 @@ majorlinks:
    description: Find out if you can be buried in a national VA cemetery.
  - url: /burials-and-memorials/find-a-cemetery
    title: Find a Cemetery or Gravesite 
-   description: Locate a cemetery or gravesite 
+   description: Locate a cemetery or gravesite. 
 relatedlinks:
  - url: /burials-and-memorials/military-funerals
    title: What to expect at a military funeral
-   description: Find out what will happen on this day 
+   description: Find out what will happen on this day. 
  - url: /burials-and-memorials/survivor-and-dependent-benefits
    title: Survivor and dependent benefits
-   description: Find out what benefits you may get    
+   description: Find out what benefits you may get.    
 ---
 
 We can help Veterans and family members plan a military burial or memorial service. Find out how to get burial benefits. 
