@@ -75,6 +75,8 @@ Then call <span class="tel">800-535-1117</span> to confirm the burial applicatio
 
 <div class="call-out" markdown="0">
 
+### Burial at Sea program
+
 If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <span class="tel">866-787-0081</span>. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
 
 </div>
