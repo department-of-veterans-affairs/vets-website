@@ -5,7 +5,7 @@ template: 6-info-page
 relatedlinks:
   - url: /burials-and-memorials/survivor-and-dependent-benefits/compensation
     title: Compensation for survivors and dependents 
-    description: Find out if you are eligible for tax-free monetary benefits
+    description: Find out if you're eligible for tax-free monetary benefits
   - url: /burials-and-memorials/survivor-and-dependent-benefits/burial-costs
     title: Handling Burial Costs
     description: We may pay you back for funeral and other burial costs
