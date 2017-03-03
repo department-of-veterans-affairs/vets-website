@@ -14,7 +14,7 @@ You may be eligible for burial in a VA national cemetery and for other burial  h
 You may be able to get burial and memorial benefits if you are:
 
 - A Veteran who wasn’t dishonorably discharged from the military, **or**
-- A Servicemember who died while on active duty, active duty for training, or inactive duty for training
+- A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**
 - The spouse or dependent child of a Veteran, even if the Veteran dies first, **or**
 - In some cases, adult dependent children (if they aren’t married)
 
