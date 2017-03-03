@@ -32,7 +32,7 @@ Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
     <dd>St. Louis, MO 63151</dd>
 </dl>
 
-  Or fax it to <span class="tel">855-840-8299</span>
+  - Or fax it to <span class="tel">855-840-8299</span>
 
 
 You’ll get a letter from us that’ll tell you if you’re eligible for burial in a VA national cemetery. Keep this letter in a safe place. 
@@ -64,12 +64,12 @@ You’ll get a letter from us that’ll tell you if you’re eligible for burial
 
 
 #### Apply 
-For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at 866-900-6417, or scan and email the papers to NCA.Scheduling@va.gov with the name of the Veteran in the subject line. 
+For burial in a national cemetery, fax any discharge papers to the **National Cemetery Scheduling Office** at <span class="tel">866-900-6417</span>, or scan and email the papers to NCA.Scheduling@va.gov with the name of the Veteran in the subject line. 
 
-Then call 800-535-1117 to confirm the burial application. When you call, have all the information handy that’s listed above in the "Prepare" section. 
+Then call <span class="tel">800-535-1117</span> to confirm the burial application. When you call, have all the information handy that’s listed above in the "Prepare" section. 
 
 <div class="call-out" markdown="0">
 
-If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at 866-787-0081. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
+If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <span class="tel">866-787-0081</span>. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
 
 </div>
