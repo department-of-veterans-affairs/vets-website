@@ -38,10 +38,14 @@ You can apply for this benefit if you’re:
 - For a medallion to be placed on a privately bought headstone or marker, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). [Download VA Form 40-1330M](http://www.va.gov/vaforms/va/pdf/VA40-1330M.pdf).
 - Make a copy of the Veteran's discharge documents. Don’t send the originals, because we can’t return them.
 - Mail the discharge papers and the form to this address: 
-Memorial Programs Service (41B)
-Department of Veterans Affairs
-5109 Russell Road
-Quantico, VA 22134-3903
+
+<dl class="va-address-block">
+    <dd>Memorial Programs Service (41B)</dd>
+    <dd>Department of Veteran Affairs</dd>
+    <dd>5109 Russell Road</dd>
+    <dd>Quantico, VA 22134-3903</dd>
+</dl>
+
 
 Or, fax the documents to <span class="tel">800-455-7143</span>
 
