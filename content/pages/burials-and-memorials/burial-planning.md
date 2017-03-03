@@ -23,7 +23,7 @@ You can plan ahead to make the process of applying for a burial in a VA national
 Fill out the Application for Pre-Need Determination of Eligibility for Burial in a VA National Cemetery (VA Form 40-10007). [Download VA Form 40-10007](https://www.va.gov/vaforms/va/pdf/VA40-10007.pdf).
 
 Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
-- Email it to [eligibility.preneed@va.gov](eligibility.preneed@va.gov)
+- Email it to [eligibility.preneed@va.gov](mailto:eligibility.preneed@va.gov)
 - Send it by U.S. mail to: 
   
 <dl class="va-address-block">
@@ -65,7 +65,7 @@ You’ll get a letter from us that’ll tell you if you’re eligible for burial
 
 
 #### Apply 
-For burial in a national cemetery, fax any discharge papers to the **National Cemetery Scheduling Office** at <span class="tel">866-900-6417</span>, or scan and email the papers to [NCA.Scheduling@va.gov](NCA.Scheduling@va.gov) with the name of the Veteran in the subject line. 
+For burial in a national cemetery, fax any discharge papers to the **National Cemetery Scheduling Office** at <span class="tel">866-900-6417</span>, or scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the name of the Veteran in the subject line. 
 
 Then call <span class="tel">800-535-1117</span> to confirm the burial application. When you call, have all the information handy that’s listed above in the "Prepare" section. 
 
