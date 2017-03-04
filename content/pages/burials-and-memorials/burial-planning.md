@@ -16,7 +16,7 @@ When a Veteran, spouse, or dependent child dies, the person who plans the burial
 
 <div class="call-out" markdown="0">
 
-### Can I plan ahead for a burial?
+### Can I plan ahead for my burial?
 
 You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members when you die. 
 
