@@ -127,9 +127,6 @@ figcaption {
   color: $color-primary-darker;
 }
 
-// TODO: Evaluate whether we're using placeholders anywhere.
-// Might be able to remove that chunk
-// Change the placeholder color
 input::-webkit-input-placeholder{
   color: $color-gray;
 }
@@ -491,16 +488,14 @@ h6 {
   }
 }
 
-// TODO(css): Remove !important once #content ul.breadcrumbs li.active
-// is refactored.
 .splash--alternate {
 
   li a {
-    color: $color-primary-darkest !important;
-    border-bottom: 2px solid $secondary-color !important;
+    color: $color-primary-darkest;
+    border-bottom: 2px solid $secondary-color;
 
     &:hover {
-      border-bottom: 3px solid $color-gold !important;
+      border-bottom: 3px solid $color-gold;
     }
   }
 
