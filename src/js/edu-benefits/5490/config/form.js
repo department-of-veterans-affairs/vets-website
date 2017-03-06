@@ -28,9 +28,6 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5490',
-  defaultDefinitions: {
-    date
-  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -84,6 +81,9 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            definitions: {
+              date // For spouseInfo
+            },
             properties: {
               relationship,
               spouseInfo,
