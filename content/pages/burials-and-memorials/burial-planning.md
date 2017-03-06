@@ -5,7 +5,7 @@ template: 7-get-page-alt
 showactionbar: false
 relatedlinks:
  - url: /burials-and-memorials/burial-planning/headstones-markers-medallions
-   title: Headstones, markers, and medallions
+   title: Headstones, Markers, and Medallions
    description: Learn about ways to memorialize the deceased.
  - url: /burials-and-memorials/burial-planning/flags-and-memorial-certificates
    title: Flags and Presidential Memorial Certificates
@@ -35,7 +35,7 @@ Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
   - Fax it to <span class="tel">855-840-8299</span>
 
 
-You’ll get a letter from us that’ll tell you if you’re eligible for burial in a VA national cemetery. Keep this letter in a safe place. 
+You’ll get a letter from us telling you if you’re eligible for burial in a VA national cemetery. Keep this letter in a safe place. 
 
 </div>
 
@@ -49,7 +49,7 @@ You’ll get a letter from us that’ll tell you if you’re eligible for burial
 
 **Check to see if the deceased can be buried in a VA national cemetery.** [Find out if the deceased is eligible](/burials-and-memorials/eligibility).
 
-**Once you’ve confirmed eligibility, gather the documents and other information you'll need** to confirm the deceased's identity when you apply:
+**Once you’ve confirmed eligibility, gather the documents and other information you'll need** to identify the deceased when you apply:
 
  - The deceased’s DD214 (or similar discharge papers). [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
  - The deceased’s full name, gender, Social Security number or Veteran ID, date of death, and date of birth
