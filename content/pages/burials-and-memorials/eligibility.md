@@ -5,18 +5,18 @@ template: 6-info-page
 ---
 
 
-You may be eligible for burial in a VA national cemetery and for other burial  honors, like a headstone, marker, medallion, burial flag, and Presidential Memorial Certificate. Some family members may also qualify for money to pay for burial costs. Find out if you can get these benefits. 
+Servicemembers, Veterans, and family members may be eligible for burial in a VA national cemetery and for other burial honors, like a headstone, marker, medallion, burial flag, and Presidential Memorial Certificate. Some family members may also qualify for money to pay for burial costs. Find out who can get these benefits. 
 
 <div class="call-out" markdown="0">
 
 ### Who can get VA burial and memorial benefits? 
 
-You may be able to get burial and memorial benefits if you're:
+Servicemembers, Veterans, and family members may be able to get burial and memorial benefits if they're:
 
 - A Veteran who wasn’t dishonorably discharged from the military, **or**
-- A Servicemember and you die while on active duty, active duty for training, or inactive duty for training, **or**
-- The spouse or dependent child of a Veteran, even if the Veteran dies first, **or**
-- In some cases, the adult dependent child of a Veteran (if you aren't married)
+- A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**
+- The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
+- In some cases, the adult dependent child of a Veteran (if they aren't married)
 
 [Learn about the burial planning process](/burials-and-memorials/burial-planning/).
 
@@ -38,7 +38,7 @@ Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
     <dd>St. Louis, MO 63151</dd>
 </dl>
 
-- Or fax it to <span class="tel">855-840-8299</span>
+- Fax it to <span class="tel">855-840-8299</span>
 
 You’ll get a letter from us telling you if you can be buried in a VA national cemetery. Keep this letter in a safe place.
 
