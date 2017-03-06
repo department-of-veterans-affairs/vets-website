@@ -5,6 +5,7 @@ import { transform, benefitsLabels } from '../helpers';
 import { enumToNames } from '../../utils/helpers';
 
 import * as date from '../../../common/schemaform/definitions/date';
+import * as fullName from '../../../common/schemaform/definitions/fullName';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -55,7 +56,37 @@ const formConfig = {
     },
     militaryService: {
       title: 'Military History',
-      pages: {}
+      pages: {
+        sponsorVeteran: {
+          title: 'Sponsor Veteran',
+          path: 'military-service/sponsor-veteran',
+          uiSchema: {
+            relativeFullName: _.assign(fullName.uiSchema, {
+              'ui:title': 'Name of Sponsor'
+            })
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              // I'd prefer to use relativeFullName from fullSchema5490.properties
+              //  but it's not working, so definitions it is...
+              relativeFullName: fullName.schema
+            }
+          }
+        },
+        sponsorService: {
+          title: 'Sponsor Service',
+          path: 'military-service/sponsor-service'
+        },
+        applicantService: {
+          title: 'Applicant Service',
+          path: 'military-service/applicant-service'
+        },
+        contributions: {
+          title: 'Contributions',
+          path: 'military-service/contributions'
+        }
+      }
     },
     educationHistory: {
       title: 'Education History',
