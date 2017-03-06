@@ -3,11 +3,11 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-addons-test-utils';
 
-import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/edu-benefits/1995/config/form';
+import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import formConfig from '../../../src/js/edu-benefits/definitions/contactInformation.js';
 
 describe('Edu 1995 contactInformation', () => {
-  const { schema, uiSchema } = formConfig.chapters.personalInformation.pages.contactInformation;
+  const { schema, uiSchema } = formConfig;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

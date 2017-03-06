@@ -9,10 +9,22 @@ import DownloadLink from '../components/DownloadLink';
 
 export class DownloadPage extends React.Component {
   renderMessageBanner() {
+    const { form, refresh } = this.props;
     const alertProps = {
       isVisible: true,
     };
-    if (this.props.refresh && this.props.refresh.statuses.failed.length > 0) {
+
+    if (!form.ready) {
+      alertProps.content = (
+        <div>
+          <h4>Couldn't generate your records</h4>
+          <p>
+            Unfortunately, we weren't able to generate your health records. Please try again later. You can also call the Vets.gov Help Desk at 1-855-574-7286, Monday - Friday, 8:00 a.m. - 8:00 p.m. (ET).
+          </p>
+        </div>
+      );
+      alertProps.status = 'warning';
+    } else if (refresh && refresh.statuses.failed.length > 0) {
       alertProps.content = (
         <div>
           <h4>Your health records are not up to date</h4>

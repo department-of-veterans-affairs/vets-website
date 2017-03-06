@@ -13,6 +13,7 @@ const props = {
   },
   form: {
     requestDate: new Date().toISOString(),
+    ready: true,
   }
 };
 
@@ -30,9 +31,18 @@ describe('<DownloadPage>', () => {
     expect(alertBox.props.status).to.equal('success');
   });
 
-  it('should render error state correctly', () => {
+  it('should render refresh error correctly', () => {
     const errorProps = Object.assign({}, props);
     errorProps.refresh.statuses.failed.push({ id: 0 });
+    const tree = SkinDeep.shallowRender(<DownloadPage {...errorProps}/>);
+    const alertBox = tree.subTree('AlertBox');
+    expect(alertBox).to.be.ok;
+    expect(alertBox.props.status).to.equal('warning');
+  });
+
+  it('should render report generation error correctly', () => {
+    const errorProps = Object.assign({}, props);
+    errorProps.form.ready = false;
     const tree = SkinDeep.shallowRender(<DownloadPage {...errorProps}/>);
     const alertBox = tree.subTree('AlertBox');
     expect(alertBox).to.be.ok;
