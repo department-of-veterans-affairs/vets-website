@@ -13,7 +13,7 @@ If you’re the survivor or parent of a Servicemember who died in the line of du
 If you’re a surviving spouse, you can get compensation if you:
 - Married the Veteran before January 1, 1957, or within 15 years of their leaving the military, **or**
 - Were married to the Veteran for at least 1 year, **or**
-- Had a child with the Veteran, aren’t currently remarried, and either lived with the Veteran without a break until the Veteran's death or, if separated, weren’t at fault for the separation.
+- Had a child with the Veteran, aren’t currently remarried, and either lived with the Veteran without a break until the Veteran's death or, if separated, weren’t at fault for the separation
 
 </div>
 
@@ -23,11 +23,11 @@ If you’re a surviving spouse, you can get compensation if you:
 
 If you’re a surviving child, you can get compensation if you aren’t married and aren’t included on the surviving spouse’s compensation, **and**
 - Are under the age of 18 (or under the age of 23 if attending school), **or**
-- Were adopted out of the Veteran’s family, but meet all other eligibility criteria.
+- Were adopted out of the Veteran’s family, but meet all other eligibility criteria
 
 </div>
 
-#### To get compensation, 1 of the following must be true:
+#### To get compensation, one of the following must be true:
 
 - The Servicemember died while on active duty, active duty for training, or inactive-duty training.
 - The Veteran died from a service-connected illness or injury.
@@ -48,15 +48,15 @@ Tax-free monetary benefits
 
 ### As a surviving spouse or child, how do I get compensation? 
 
-You’ll need to apply for compensation. You can apply for this benefit in 1 of 3 ways:
+You’ll need to apply for compensation. Fill out the Application for Dependency and Indemnity Compensation. [Download VA Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). 
 
-- Fill out the Application for Dependency and Indemnity Compensation. [Download VA Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). 
+You can apply for this benefit in 1 of 3 ways:
 
-- Mail the form to the Pension Management Center for your state. [Find the Pension Management Center for your state](http://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
+- Mail the form to the Pension Management Center for your state [(Find the Pension Management Center for your state)](http://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
 
-- Work with an accredited representative. [Get help from an accredited representative](https://www.vets.gov/disability-benefits/apply-for-benefits/help/index.html), **or**
+- Work with an accredited representative [(Get help from an accredited representative)](https://www.vets.gov/disability-benefits/apply-for-benefits/help/index.html), **or**
 
-- Go to a VA Regional Office and get help from a VA employee. [Find a local VA office](/facilities/).
+- Go to a VA Regional Office and get help from a VA employee [(Find a local VA office)](/facilities/).
 
 
 ### As a surviving parent, can I get compensation?
@@ -67,15 +67,15 @@ You may be able to get compensation as a surviving parent if:
 
 ### As a surviving parent, how do I get compensation? 
 
-You’ll need to apply for compensation. You can apply for this benefit in 1 of 3 ways:
+You’ll need to apply for compensation. Fill out the Application for Dependency and Indemnity Compensation by Parent(s). [Download Form 21-535](http://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
 
-- Fill out the Application for Dependency and Indemnity Compensation by Parent(s). [Download Form 21-535](http://www.vba.va.gov/pubs/forms/VBA-21-535-ARE.pdf).
+You can apply for this benefit in 1 of 3 ways:
 
-- Mail the form to the Pension Management Center for your state. [Find the Pension Management Center for your state](http://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
+- Mail the form to the Pension Management Center for your state [(Find the Pension Management Center for your state)](http://www.benefits.va.gov/PENSION/resources-contact.asp), **or**
 
-- Work with an accredited representative. [Get help from an accredited representative](https://www.vets.gov/disability-benefits/apply-for-benefits/help/index.html), **or**
+- Work with an accredited representative [(Get help from an accredited representative)](https://www.vets.gov/disability-benefits/apply-for-benefits/help/index.html), **or**
 
-- Go to a VA Regional Office and have a VA employee help you. [Find a local VA office](/facilities/).
+- Go to a VA Regional Office and have a VA employee help you [(Find a local VA office)](/facilities/).
 
 
 
