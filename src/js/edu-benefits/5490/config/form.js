@@ -11,8 +11,13 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
-  benefit
+  benefit,
+  spouseInfo
 } = fullSchema5490.properties;
+
+const {
+  relationship
+} = fullSchema5490.definitions;
 
 const formConfig = {
   urlPrefix: '/5490/',
@@ -23,6 +28,9 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5490',
+  defaultDefinitions: {
+    date
+  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -61,6 +69,15 @@ const formConfig = {
           title: 'Sponsor Veteran',
           path: 'military-service/sponsor-veteran',
           uiSchema: {
+            relationship: {
+              'ui:title': 'What is your relationship to the Servicemember whose benefit is being transferred to you?',
+              'ui:widget': 'radio'
+            },
+            spouseInfo: {
+              'ui:options': {
+                expandUnder: 'relationship'
+              }
+            },
             relativeFullName: _.assign(fullName.uiSchema, {
               'ui:title': 'Name of Sponsor'
             })
@@ -68,8 +85,8 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              // I'd prefer to use relativeFullName from fullSchema5490.properties
-              //  but it's not working, so definitions it is...
+              relationship,
+              spouseInfo,
               relativeFullName: fullName.schema
             }
           }
