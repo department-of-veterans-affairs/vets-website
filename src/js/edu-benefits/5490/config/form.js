@@ -11,6 +11,7 @@ import * as phone from '../../../common/schemaform/definitions/phone';
 import contactInformation from '../../definitions/contactInformation';
 
 import IntroductionPage from '../components/IntroductionPage';
+import EmploymentPeriodView from '../components/EmploymentPeriodView';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
@@ -18,7 +19,8 @@ const {
 } = fullSchema5490.properties;
 
 const {
-  secondaryContact
+  secondaryContact,
+  nonMilitaryJobs
 } = fullSchema5490.definitions;
 
 const formConfig = {
@@ -69,9 +71,40 @@ const formConfig = {
       title: 'Education History',
       pages: {}
     },
-    schoolSelection: {
-      title: 'School Selection',
-      pages: {}
+    employmentHistory: {
+      title: 'Employment History',
+      pages: {
+        employmentHistory: {
+          title: 'Employment history',
+          path: 'employment-history',
+          uiSchema: {
+            nonMilitaryJobs: {
+              items: {
+                name: {
+                  'ui:title': 'Main job'
+                },
+                months: {
+                  'ui:title': 'Number of months worked'
+                },
+                licenseOrRating: {
+                  'ui:title': 'Licenses or rating'
+                }
+              },
+              'ui:options': {
+                itemName: 'Employment Period',
+                viewField: EmploymentPeriodView,
+                hideTitle: true
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
+            }
+          }
+        }
+      }
     },
     personalInformation: {
       title: 'Personal Information',
