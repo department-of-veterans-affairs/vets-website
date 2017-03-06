@@ -133,7 +133,7 @@ describe('Schemaform <SelectWidget>', () => {
     const tree = SkinDeep.shallowRender(
       <SelectWidget
           schema={{
-            'default': 'Test'
+            'default': 'test'
           }}
           id="testing"
           onChange={onChange}
