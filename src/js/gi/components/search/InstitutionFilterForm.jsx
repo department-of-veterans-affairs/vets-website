@@ -1,15 +1,30 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import * as actions from '../../actions';
+
 import Checkbox from '../Checkbox';
 import RadioButtons from '../RadioButtons';
 import Dropdown from '../Dropdown';
 
-export class InstitutionFilterForm extends React.Component {
+class InstitutionFilterForm extends React.Component {
 
   constructor(props) {
     super(props);
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.renderTypeFilter = this.renderTypeFilter.bind(this);
+    this.renderCountryFilter = this.renderCountryFilter.bind(this);
+    this.renderStateFilter = this.renderStateFilter.bind(this);
+    this.renderProgramFilters = this.renderProgramFilters.bind(this);
+    this.renderSchoolTypeFilter = this.renderSchoolTypeFilter.bind(this);
+  }
+
+  handleDropdownChange(e) {
+    const { name: field, value } = e.target;
+    this.props.onFilterChange(field, value);
+  }
+
+  handleCheckboxChange(e) {
+    const { name: field, checked: value } = e.target;
+    this.props.onFilterChange(field, value);
   }
 
   renderTypeFilter() {
@@ -20,7 +35,7 @@ export class InstitutionFilterForm extends React.Component {
       ...this.props.search.facets.type
     };
     const options = [
-      { value: 'all', label: `All (${typeFacets.all.toLocaleString()})` },
+      { value: 'ALL', label: `All (${typeFacets.all.toLocaleString()})` },
       { value: 'school', label: `Schools only (${typeFacets.school.toLocaleString()})` },
       { value: 'employer', label: `Employers only (${typeFacets.employer.toLocaleString()})` }
     ];
@@ -30,7 +45,7 @@ export class InstitutionFilterForm extends React.Component {
           name="type"
           options={options}
           value={this.props.filters.type}
-          onChange={this.props.handleChange}/>
+          onChange={this.handleDropdownChange}/>
     );
   }
 
@@ -51,7 +66,7 @@ export class InstitutionFilterForm extends React.Component {
           value={this.props.filters.country}
           alt="Filter results by country"
           visible
-          onChange={this.props.handleChange}>
+          onChange={this.handleDropdownChange}>
         <label htmlFor="country">
           Country
         </label>
@@ -76,7 +91,7 @@ export class InstitutionFilterForm extends React.Component {
           value={this.props.filters.state}
           alt="Filter results by state"
           visible
-          onChange={this.props.handleChange}>
+          onChange={this.handleDropdownChange}>
         <label htmlFor="state">
           State
         </label>
@@ -88,7 +103,7 @@ export class InstitutionFilterForm extends React.Component {
     const filters = this.props.filters;
     const facets = this.props.search.facets;
     const formattedCount = (key, bool) => {
-      return Number(facets[key][bool.toString()]).toLocaleString();
+      return Number(facets[key][bool.toString()] || 0).toLocaleString();
     };
     const label = (key, desc, bool = true) => {
       return `${desc} (${formattedCount(key, bool)})`;
@@ -97,30 +112,30 @@ export class InstitutionFilterForm extends React.Component {
       <div>
         <p>Programs</p>
         <Checkbox
-            checked={filters.withoutCautionFlags}
-            name="withoutCautionFlags"
+            checked={filters.caution}
+            name="caution"
             label={label('cautionFlag', 'Without Caution Flags', false)}
-            onChange={this.props.handleCheckboxChange}/>
+            onChange={this.handleCheckboxChange}/>
         <Checkbox
-            checked={filters.studentVetGroup}
-            name="studentVetGroup"
+            checked={filters.studentVeteranGroup}
+            name="studentVeteranGroup"
             label={label('studentVetGroup', 'Student Vet Group')}
-            onChange={this.props.handleCheckboxChange}/>
+            onChange={this.handleCheckboxChange}/>
         <Checkbox
             checked={filters.yellowRibbonScholarship}
             name="yellowRibbonScholarship"
             label={label('yellowRibbonScholarship', 'Yellow Ribbon')}
-            onChange={this.props.handleCheckboxChange}/>
+            onChange={this.handleCheckboxChange}/>
         <Checkbox
             checked={filters.principlesOfExcellence}
             name="principlesOfExcellence"
             label={label('principlesOfExcellence', 'Principles of Excellence')}
-            onChange={this.props.handleCheckboxChange}/>
+            onChange={this.handleCheckboxChange}/>
         <Checkbox
             checked={filters.eightKeysToVeteranSuccess}
             name="eightKeysToVeteranSuccess"
             label={label('eightKeysToVeteranSuccess', '8 Keys to Vet Success')}
-            onChange={this.props.handleCheckboxChange}/>
+            onChange={this.handleCheckboxChange}/>
       </div>
     );
   }
@@ -142,7 +157,7 @@ export class InstitutionFilterForm extends React.Component {
           value={this.props.filters.typeName}
           alt="Filter results by institution type"
           visible
-          onChange={this.props.handleChange}>
+          onChange={this.handleDropdownChange}>
         <label htmlFor="typeName">
           Institution type
         </label>
@@ -165,21 +180,31 @@ export class InstitutionFilterForm extends React.Component {
 
 }
 
+InstitutionFilterForm.propTypes = {
+  filters: React.PropTypes.shape({
+    type: React.PropTypes.string,
+    country: React.PropTypes.string,
+    state: React.PropTypes.string,
+    withoutCautionFlags: React.PropTypes.bool,
+    studentVetGroup: React.PropTypes.bool,
+    yellowRibbonScholarship: React.PropTypes.bool,
+    principlesOfExcellence: React.PropTypes.bool,
+    eightKeysToVeteranSuccess: React.PropTypes.bool,
+    typeName: React.PropTypes.string
+  }),
+  onFilterChange: React.PropTypes.func,
+  search: React.PropTypes.shape({
+    type: React.PropTypes.object,
+    typeName: React.PropTypes.object,
+    state: React.PropTypes.object,
+    country: React.PropTypes.object,
+    cautionFlag: React.PropTypes.object,
+    studentVetGroup: React.PropTypes.object,
+    yellowRibbonScholarship: React.PropTypes.object,
+    principlesOfExcellence: React.PropTypes.object,
+    eightKeysToVeteranSuccess: React.PropTypes.object
+  })
+};
 InstitutionFilterForm.defaultProps = {};
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showModal: (name) => {
-      dispatch(actions.showModal(name));
-    },
-    handleChange: (e) => {
-      dispatch(actions.institutionFilterChange(e));
-    },
-    handleCheckboxChange: (e) => {
-      dispatch(actions.institutionProgramFilterChange(e));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(InstitutionFilterForm);
+export default InstitutionFilterForm;
