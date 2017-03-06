@@ -26,6 +26,10 @@ describe('Schemaform definition address', () => {
 
     // Postal code should be small
     expect(inputs[inputs.length - 1].classList.contains('usa-input-medium')).to.be.true;
+
+    // country is USA and there is no blank option
+    expect(selects[0].value).to.equal('USA');
+    expect(Array.from(selects[0].options).every(option => !!option.value)).to.be.true;
   });
 
   it('should have required inputs if required', () => {
@@ -113,5 +117,24 @@ describe('Schemaform definition address', () => {
     });
 
     expect(stateField.tagName === 'input');
+  });
+  it('should update address field', () => {
+    const s = schema(false);
+    const uis = uiSchema();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={s}
+          uiSchema={uis}/>
+    );
+
+    const formDOM = findDOMNode(form);
+
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_street'), {
+      target: {
+        value: '123 street'
+      }
+    });
+
+    expect(formDOM.querySelector('#root_street').value).to.equal('123 street');
   });
 });

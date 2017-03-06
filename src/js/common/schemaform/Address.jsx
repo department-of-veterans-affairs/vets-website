@@ -42,14 +42,24 @@ class Address extends React.Component {
   }
 
   handleChange(path, update) {
-    let newState = set(path, update, this.props.formData);
+    const formData = this.props.formData
+      ? this.props.formData
+      : getDefaultFormState(this.props.schema, undefined, this.props.registry.definitions);
+
+    let newState = set(path, update, formData);
 
     // if country is changing we should clear the state
     if (path === 'country') {
       newState = set('state', undefined, newState);
     }
 
-    this.props.onChange(newState);
+    const fields = Object.keys(newState);
+    if (fields.length === 0 || fields.every(field => field === 'country' || newState[field] === undefined)) {
+      // send undefined so that the object is removed
+      this.props.onChange();
+    } else {
+      this.props.onChange(newState);
+    }
   }
 
   isRequired(name) {
@@ -166,7 +176,7 @@ class Address extends React.Component {
             onBlur={onBlur}/>
         <SchemaField
             name="state"
-            required={_.includes(['USA', 'CAN', 'MEX'], formData.country) && schema.required}
+            required={_.includes(['USA', 'CAN', 'MEX'], formData.country) && !!schema.required}
             schema={stateSchema}
             uiSchema={stateUiSchema}
             idSchema={idSchema.state}
