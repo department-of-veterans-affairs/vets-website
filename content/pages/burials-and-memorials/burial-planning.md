@@ -47,22 +47,24 @@ You’ll get a letter from us that’ll tell you if you’re eligible for burial
 
 #### Prepare
 
-1. Check to see if the deceased can be buried in a VA national cemetery. [Find out if the deceased is eligible](/burials-and-memorials/eligibility).
+Check to see if the deceased can be buried in a VA national cemetery. [Find out if the deceased is eligible](/burials-and-memorials/eligibility).
 
-2. Once you’ve confirmed eligibility, gather the documents and other information you'll need to confirm the deceased's identity when you apply:
-  - The deceased’s DD214 (or similar discharge papers). [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
-  - The deceased’s full name, gender, Social Security number or Veteran ID, date of death, and date of birth
-  - Next-of-kin information (name, relationship, Social Security number, phone number, and address)
-  - Marital status; surviving spouse’s status as Veteran or family member; and status and detailed information for any disabled children who may be buried in the future in a national cemetery
-  - Veteran’s zip code and county at the time of death
-  - If the deceased is a spouse or a Veteran whose spouse has already died, the full name of the family member, cemetery section, and site number
+Once you’ve confirmed eligibility, gather the documents and other information you'll need to confirm the deceased's identity when you apply:
 
-3. Decide on the burial details and gather all related information, including:
-  - Your cemetery of choice
-  - Contact information for the funeral home, including email address, phone number, and address
-  - Type of gravesite memorial. [See your options for a headstone, marker, or medallion](/burials-and-memorials/burial-planning/headstones-markers-medallions).
-  - Type of burial: casket or cremation and size of the casket or urn (a container used to hold ashes)
-  - Whether you want military honors, a burial flag, or a Presidential Memorial Certificate
+ - The deceased’s DD214 (or similar discharge papers). [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
+ - The deceased’s full name, gender, Social Security number or Veteran ID, date of death, and date of birth
+ - Next-of-kin information (name, relationship, Social Security number, phone number, and address)
+ - Marital status; surviving spouse’s status as Veteran or family member; and status and detailed information for any disabled children who may be buried in the future in a national cemetery
+ - Veteran’s zip code and county at the time of death
+ - If the deceased is a spouse or a Veteran whose spouse has already died, the full name of the family member, cemetery section, and site number
+
+Decide on the burial details and gather all related information, including:
+
+ - Your cemetery of choice
+ - Contact information for the funeral home, including email address, phone number, and address
+ - Type of gravesite memorial. [See your options for a headstone, marker, or medallion](/burials-and-memorials/burial-planning/headstones-markers-medallions).
+ - Type of burial: casket or cremation and size of the casket or urn (a container used to hold ashes)
+ - Whether you want military honors, a burial flag, or a Presidential Memorial Certificate
  
  [Learn about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services).</br>
  [Learn about other ways to memorialize the deceased](/burials-and-memorials/burial-planning/flags-and-memorial-certificates).
@@ -75,7 +77,7 @@ Then call <span class="tel">800-535-1117</span> to confirm the burial applicatio
 
 <div class="call-out" markdown="0">
 
-### What's the Burial at Sea program?
+### Can I get information about the Burial at Sea program?
 
 If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <span class="tel">866-787-0081</span>. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
 
