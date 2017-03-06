@@ -682,9 +682,8 @@ ul, ol {
     display:block;
   }
 
-  .fourohfour &,
   .home & {
-    padding-top: 1.5em;
+    padding: 1.5em .5em 4em;
   }
 }
 
@@ -763,17 +762,6 @@ ul, ol {
       border-bottom: 1px solid $secondary-color;
     }
   }
-
-  .section {
-    padding: 4em 0 2em 0;
-    text-align: left;
-  }
-
-  .section.main-menu {
-    padding: 0em .5em 4em .5em;
-    overflow: hidden;
-  }
-
 
   .home #content .section h3.alternate {
     margin: 0 0 2em 0 !important; padding: 0;
