@@ -6,11 +6,11 @@ template: 6-info-page
 ---
 
 
-To honor the military service of a deceased Veteran, we may provide a headstone or marker to identify the burial place, or a medallion to attach to a headstone or marker. We provide these whether the Veteran is buried in a public or private cemetery. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, a national cemetery, or a cemetery at a military post or base. Find out how to arrange for 1 of these memorial items.
+To honor the military service of a deceased Veteran, we may provide a headstone or marker to identify the burial place, or a medallion to attach to a headstone or marker. We provide these for Veterans buried in both public and private cemeteries. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, a national cemetery, or a cemetery at a military post or base. Find out how to arrange for one of these memorial items.
 
 <div class="call-out" markdown="0">
 
-### Who can get a headstone, marker, or medallion?
+### Who can be honored with a headstone, marker, or medallion?
 
 - Any Veteran who died on or after November 1, 1990
 - Any Veteran buried in an unmarked grave who served before September 7, 1980
@@ -19,7 +19,7 @@ To honor the military service of a deceased Veteran, we may provide a headstone 
 
 </div>
 
-### Can I apply for a memorial item?
+### Can I apply for one of these memorial items?
 
 You can apply for this benefit if you’re:
 - A family member of the deceased, **or**
@@ -32,12 +32,15 @@ You can apply for this benefit if you’re:
 **Note:** For memorial headstones and markers that honor the memory of the deceased, the person who applies must be a member of the deceased’s family.
 
 
-### How do I get this benefit? 
+### How do I apply for a memorial item? 
 
-- For a headstone or marker, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). [Download VA Form 40-1330](http://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
-- For a medallion to be placed on a headstone or marker you bought on your own, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). [Download VA Form 40-1330M](http://www.va.gov/vaforms/va/pdf/VA40-1330M.pdf).
+**For a headstone or marker**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). [Download VA Form 40-1330](http://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
+
+**For a medallion** to be placed on a headstone or marker you bought on your own, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). [Download VA Form 40-1330M](http://www.va.gov/vaforms/va/pdf/VA40-1330M.pdf).
+
 - Make a copy of the Veteran's discharge documents. Don’t send the originals, because we can’t return them.
-- Mail the discharge papers and the form to this address: 
+
+- Fax the documents to <span class="tel">800-455-7143</span>. Or, mail the discharge papers and the form to this address: 
 
 <dl class="va-address-block">
     <dd>Memorial Programs Service (41B)</dd>
@@ -47,21 +50,18 @@ You can apply for this benefit if you’re:
 </dl>
 
 
-- Or, fax the documents to <span class="tel">800-455-7143</span>.
-
-
 <div class="call-out" markdown="0">
 
 ### What information goes on the headstone or marker?
 
-You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number. You can choose to inscribe the full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, Loving Father), or special unit identification.
+You must put a legal name, service branch, and birth and death year on a headstone or marker. State and national cemeteries also require the section and grave number. You can choose to inscribe the deceased's full birth and death dates, the highest rank attained, awards, war service, and an emblem of belief. We may approve other requests, such as nicknames, terms of endearment (for example, "Loving Father"), or special unit identification.
 
 
 </div>
 
 ### Special arrangements 
 
-We provide memorial headstones and markers for qualified Veterans when remains are unavailable, not identified, donated to science, buried at sea, or scattered. 
+We provide memorial headstones and markers for qualified Veterans when their remains are missing, not identified, donated to science, buried at sea, or scattered. 
 
 For spouses who qualify for a headstone or marker, the first line on the headstone or marker must say, “In Memory of,” and it must be placed in a national cemetery, state Veterans cemetery, or military base cemetery. 
 
