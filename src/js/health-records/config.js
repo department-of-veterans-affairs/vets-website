@@ -52,7 +52,7 @@ module.exports = {
           label: 'History of Electrocardiograms (EKGs) performed at VA facilities',
         },
         {
-          value: '',
+          value: 'vachemlabs',
           label: 'Self-Reported Labs and Tests',
         },
       ],
@@ -118,7 +118,7 @@ module.exports = {
           label: 'VA Vitals and Readings',
         },
         {
-          value: '',
+          value: 'vahth',
           label: 'Self-Reported Vitals and Readings',
         },
       ],

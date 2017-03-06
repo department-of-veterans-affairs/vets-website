@@ -5,6 +5,10 @@ import { transform, benefitsLabels } from '../helpers';
 import { enumToNames } from '../../utils/helpers';
 
 import * as date from '../../../common/schemaform/definitions/date';
+import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
+import * as address from '../../../common/schemaform/definitions/address';
+import * as phone from '../../../common/schemaform/definitions/phone';
+import contactInformation from '../../definitions/contactInformation';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -12,6 +16,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 const {
   benefit
 } = fullSchema5490.properties;
+
+const {
+  secondaryContact
+} = fullSchema5490.definitions;
 
 const formConfig = {
   urlPrefix: '/5490/',
@@ -67,10 +75,63 @@ const formConfig = {
     },
     personalInformation: {
       title: 'Personal Information',
-      pages: {}
+      pages: {
+        contactInformation,
+        secondaryContact: {
+          title: 'Secondary contact',
+          path: 'personal-information/secondary-contact',
+          initialData: {},
+          uiSchema: {
+            'ui:title': 'Secondary contact',
+            'ui:description': 'This person should know where you can be reached at all times.',
+            secondaryContact: {
+              fullName: {
+                'ui:title': 'Name'
+              },
+              phone: phone.uiSchema('Telephone number'),
+              sameAddress: {
+                'ui:title': 'Address for secondary contact is the same as mine'
+              },
+              address: _.merge(address.uiSchema(), {
+                'ui:options': {
+                  hideIf: (form) => _.get('secondaryContact.sameAddress', form) === true
+                }
+              })
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              secondaryContact: {
+                type: 'object',
+                properties: {
+                  fullName: secondaryContact.properties.fullName,
+                  phone: phone.schema,
+                  sameAddress: secondaryContact.properties.sameAddress,
+                  address: address.schema(),
+                }
+              }
+            }
+          }
+        },
+        directDeposit: {
+          title: 'Direct deposit',
+          path: 'personal-information/direct-deposit',
+          initialData: {},
+          uiSchema: {
+            'ui:title': 'Direct deposit',
+            bankAccount: bankAccount.uiSchema,
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              bankAccount: bankAccount.schema
+            }
+          }
+        }
+      }
     }
   }
 };
-
 
 export default formConfig;

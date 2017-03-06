@@ -44,13 +44,13 @@ describe('Schemaform definition phone', () => {
     );
 
     const formDOM = findDOMNode(form);
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f
-    });
     ReactTestUtils.Simulate.change(formDOM.querySelector('input'), {
       target: {
         value: 'asdf'
       }
+    });
+    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
+      preventDefault: f => f
     });
 
     expect(formDOM.querySelector('.usa-input-error-message')).to.not.be.null;

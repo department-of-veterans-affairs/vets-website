@@ -4,8 +4,7 @@ import _ from 'lodash/fp';
 import {
   getUiOptions,
   getWidget,
-  optionsList,
-  defaultFieldValue
+  optionsList
 } from 'react-jsonschema-form/lib/utils';
 
 /*
@@ -27,7 +26,7 @@ export default function StringField(props) {
   return (
     <Widget
         options={{ enumOptions }}
-        value={defaultFieldValue(formData, schema)}
+        value={formData}
         {...props}/>
   );
 }
