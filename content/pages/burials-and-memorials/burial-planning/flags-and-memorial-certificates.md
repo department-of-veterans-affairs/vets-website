@@ -6,13 +6,13 @@ template: 6-info-page
 ---
 
 
-To honor the military service of a deceased Veteran, we give the next of kin or a close friend a United States flag to drape on the casket (or coffin) or to place with the urn. We also provide a Presidential Memorial Certificate. Find out how to get 1 or both of these honors. 
+To honor the military service of a deceased Veteran, we give the next of kin or a close friend a United States flag to drape on the casket (or coffin) or to place with the urn. We also provide a Presidential Memorial Certificate (PMC). Find out how to get one or both of these honors. 
 
 ### Can I get a burial flag?
 
-The next of kin or a close friend may be able to get a burial flag if the Veteran: 
+You can get a burial flag if you are the deceased Veteran's next of kin or a close friend, and the Veteran: 
 - Served in wartime
-- Died on active duty after May 27, 1941
+- Died while on active duty after May 27, 1941
 - Served after January 31, 1955
 - Served in peacetime and left military service before June 27, 1950
 - Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call <span class="tel">800-827-1000</span>.
@@ -24,7 +24,7 @@ To get a burial flag, fill out the Application for United States Flag for Burial
 Bring the application form to: 
 - A funeral director, **or**
 - [A VA Regional Benefit Office](http://www.benefits.va.gov/benefits/offices.asp), **or** 
-- A United States post office (call ahead to make sure your local post office has burial flags)
+- A United States post office. Call ahead to make sure your local post office has burial flags.
 
 ### How do I display and care for the flag?
 
@@ -36,7 +36,7 @@ We can’t replace flags that are lost, destroyed, or stolen, but some Veterans 
 
 <div class="call-out" markdown="0">
 
-### Can I get a Presidential Memorial Certificate (PMC)?
+### Can I get a PMC?
 
 A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of an honorably discharged deceased Veteran. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran's death certificate and discharge papers (DD214 or other separation documents). [Download a PMC request form](http://www.va.gov/vaforms/va/pdf/VA40-0247.pdf).
 
