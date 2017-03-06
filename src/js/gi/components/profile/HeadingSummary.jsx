@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { showModal } from '../../actions';
 import AlertBox from '../../../common/components/AlertBox';
-import If from '../If';
 
 export class AdditionalInformation extends React.Component {
 
@@ -37,7 +36,7 @@ export class AdditionalInformation extends React.Component {
           <div className="small-12 medium-4 column">
             <p>
               <IconWithInfo icon="map-marker" present={it.city && it.country}>
-                {it.city}, { it.country === 'usa' ? it.state : it.country }
+                {it.city}, {it.country === 'usa' ? it.state : it.country}
               </IconWithInfo>
             </p>
             <p style={{ display: 'block' }}>
