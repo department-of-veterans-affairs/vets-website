@@ -4,7 +4,7 @@
     background: $color-white;
     border: 1px solid $color-gray;
     // Box shadow only sides and bottom of suggestion list.
-    box-shadow: 0px 3px 3px -3px #3e94cf,
+    box-shadow: 0px 3px 3px -3px $color-focus,
                 3px 0 3px -3px $color-focus,
                 -3px 0 3px -3px $color-focus,
                 0 7px 7px -7px $color-focus,
