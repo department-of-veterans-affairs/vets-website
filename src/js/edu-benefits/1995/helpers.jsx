@@ -8,12 +8,6 @@ export const bankAccountChangeLabels = {
   noChange: 'No change to payment method'
 };
 
-export const preferredContactMethodLabels = {
-  mail: 'Mail',
-  email: 'Email',
-  phone: 'Phone'
-};
-
 export function transform(formConfig, form) {
   // All the king's horses and all the king's men
   //  Put newSchool back together again.

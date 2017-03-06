@@ -12,13 +12,16 @@ const registry = {
     SchemaField: f => f
   }
 };
-const formContext = {};
-const touchedSchema = {};
+const formContext = {
+  setTouched: sinon.spy()
+};
 const requiredSchema = {};
 
 describe('Schemaform <ArrayField>', () => {
   it('should render', () => {
-    const idSchema = {};
+    const idSchema = {
+      $id: 'field'
+    };
     const schema = {
       type: 'array',
       items: {
@@ -43,7 +46,6 @@ describe('Schemaform <ArrayField>', () => {
           idSchema={idSchema}
           registry={registry}
           formContext={formContext}
-          touchedSchema={touchedSchema}
           requiredSchema={requiredSchema}/>
     );
 
@@ -51,7 +53,9 @@ describe('Schemaform <ArrayField>', () => {
     expect(tree.everySubTree('SchemaField')).not.to.be.empty;
   });
   it('should render items', () => {
-    const idSchema = {};
+    const idSchema = {
+      $id: 'field'
+    };
     const schema = {
       type: 'array',
       items: {
@@ -81,7 +85,6 @@ describe('Schemaform <ArrayField>', () => {
           registry={registry}
           formData={formData}
           formContext={formContext}
-          touchedSchema={touchedSchema}
           requiredSchema={requiredSchema}/>
     );
 
@@ -94,7 +97,9 @@ describe('Schemaform <ArrayField>', () => {
     let onChange;
     let onBlur;
     beforeEach(() => {
-      const idSchema = {};
+      const idSchema = {
+        $id: 'root_field'
+      };
       const schema = {
         type: 'array',
         items: {
@@ -130,7 +135,6 @@ describe('Schemaform <ArrayField>', () => {
             onChange={onChange}
             onBlur={onBlur}
             formContext={formContext}
-            touchedSchema={touchedSchema}
             requiredSchema={requiredSchema}/>
       );
     });
@@ -170,10 +174,11 @@ describe('Schemaform <ArrayField>', () => {
       expect(tree.getMountedInstance().state.editing[2]).to.be.false;
     });
     it('add when invalid', () => {
+      formContext.setTouched.reset();
       errorSchema[1] = { __errors: ['Test error'] };
       tree.getMountedInstance().handleAdd();
 
-      expect(tree.getMountedInstance().state.touchedSchema[1]).to.be.true;
+      expect(formContext.setTouched.called).to.be.true;
     });
     it('remove', () => {
       expect(tree.everySubTree('SchemaField').length).to.equal(1);
@@ -228,7 +233,6 @@ describe('Schemaform <ArrayField>', () => {
           onChange={onChange}
           onBlur={onBlur}
           formContext={formContext}
-          touchedSchema={touchedSchema}
           requiredSchema={requiredSchema}/>
     );
 
