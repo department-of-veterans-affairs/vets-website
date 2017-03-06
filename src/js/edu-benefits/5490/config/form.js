@@ -1,10 +1,11 @@
 import _ from 'lodash/fp';
 
 import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
-import { transform, benefitsLabels } from '../helpers';
+import { transform, benefitsLabels, hoursTypeLabels, highSchoolStatusLabels } from '../helpers';
 import { enumToNames } from '../../utils/helpers';
 
 import * as date from '../../../common/schemaform/definitions/date';
+import * as dateRange from '../../../common/schemaform/definitions/dateRange';
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as address from '../../../common/schemaform/definitions/address';
 import * as phone from '../../../common/schemaform/definitions/phone';
@@ -14,7 +15,8 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
-  benefit
+  benefit,
+  highSchool
 } = fullSchema5490.properties;
 
 const {
@@ -67,7 +69,90 @@ const formConfig = {
     },
     educationHistory: {
       title: 'Education History',
-      pages: {}
+      pages: {
+        educationHistory: {
+          title: 'Education history',
+          path: 'education-history',
+          initialData: {},
+          uiSchema: {
+            highSchool: {
+              status: {
+                'ui:title': 'What is your current high school status?'
+              },
+              highSchoolOrGedCompletionDate: _.assign(
+                date.uiSchema('When did you earn your high school diploma or equivalency certificate?'), {
+                  'ui:options': {
+                    hideIf: form => {
+                      const status = _.get('highSchool.status', form);
+                      return status !== 'graduated' && status !== 'ged';
+                    }
+                  }
+                }),
+              'view:hasHighSchool': {
+                'ui:options': {
+                  hideIf: form => {
+                    const status = _.get('highSchool.status', form);
+                    return status !== 'graduationExpected';
+                  }
+                },
+                name: {
+                  'ui:title': 'Name of high school'
+                },
+                city: {
+                  'ui:title': 'City'
+                },
+                state: {
+                  'ui:title': 'State'
+                },
+                dateRange: dateRange.uiSchema(),
+                hours: {
+                  'ui:title': 'Hours completed'
+                },
+                hoursType: {
+                  'ui:title': 'Type of hours'
+                },
+                degreeReceived: {
+                  'ui:title': 'Degree, diploma, or certificate received'
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              highSchool: {
+                type: 'object',
+                properties: {
+                  status: _.assign(highSchool.properties.status, {
+                    enumNames: enumToNames(
+                      highSchool.properties.status.enum,
+                      highSchoolStatusLabels
+                    )
+                  }),
+                  highSchoolOrGedCompletionDate: date.schema,
+                  'view:hasHighSchool': {
+                    type: 'object',
+                    properties: {
+                      name: highSchool.properties.name,
+                      city: highSchool.properties.city,
+                      state: highSchool.properties.state,
+                      dateRange: dateRange.schema,
+                      hours: highSchool.properties.hours,
+                      hoursType: _.assign(highSchool.properties.hoursType, {
+                        enumNames: enumToNames(
+                          highSchool.properties.hoursType.enum,
+                          hoursTypeLabels
+                        )
+                      }),
+                      degreeReceived: highSchool.properties.degreeReceived
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     schoolSelection: {
       title: 'School Selection',

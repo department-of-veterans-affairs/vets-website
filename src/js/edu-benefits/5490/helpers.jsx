@@ -13,3 +13,17 @@ export const benefitsLabels = {
   chapter35: 'DEA (Chapter 35)',
   chapter33: 'Fry scholarship (Chapter 33)'
 };
+
+export const highSchoolStatusLabels = {
+  graduated: 'Graduated from high school',
+  graduationExpected: 'Expect to graduate from high school',
+  neverAttended: 'Never attended high school',
+  discontinued: 'Discontinued high school',
+  ged: 'Awarded GED'
+};
+
+export const hoursTypeLabels = {
+  semester: 'Semester',
+  quarter: 'Quarter',
+  clock: 'Clock'
+};
