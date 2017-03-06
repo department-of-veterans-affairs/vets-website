@@ -1,6 +1,8 @@
 import _ from 'lodash/fp';
 
 import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
+// benefitsLabels should be imported from utils/helpers, but for now, they don't
+//  all have links, so for consistency, use the set in ../helpers
 import { transform, benefitsLabels } from '../helpers';
 import { enumToNames } from '../../utils/helpers';
 

@@ -4,7 +4,6 @@ import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json'
 
 import { validateMatch } from '../../../common/schemaform/validation';
 import {
-  benefitsLabels,
   bankAccountChangeLabels,
   preferredContactMethodLabels,
   transform,
@@ -22,7 +21,7 @@ import * as address from '../../../common/schemaform/definitions/address';
 import * as educationType from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 
-import { enumToNames, showSchoolAddress } from '../../utils/helpers';
+import { enumToNames, showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../components/ServicePeriodView';

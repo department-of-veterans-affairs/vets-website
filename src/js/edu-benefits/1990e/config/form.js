@@ -2,8 +2,7 @@ import _ from 'lodash/fp';
 
 import {
   transform,
-  eligibilityDescription,
-  benefitsLabels
+  eligibilityDescription
 } from '../helpers';
 
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
@@ -11,7 +10,7 @@ import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { enumToNames } from '../../utils/helpers';
+import { enumToNames, benefitsLabels } from '../../utils/helpers';
 
 const {
   benefit
