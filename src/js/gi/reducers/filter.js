@@ -1,11 +1,11 @@
 import { INSTITUTION_FILTER_CHANGED } from '../actions';
 
 const INITIAL_STATE = {
-  type: 'all',
+  type: 'ALL',
   country: 'ALL',
   state: 'ALL',
-  withoutCautionFlags: false,
-  studentVetGroup: false,
+  caution: false,
+  studentVeteranGroup: false,
   yellowRibbonScholarship: false,
   principlesOfExcellence: false,
   eightKeysToVeteranSuccess: false,
@@ -16,8 +16,8 @@ export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case INSTITUTION_FILTER_CHANGED:
       return {
-        ...state,
-        [action.field]: action.value
+        ...INITIAL_STATE,
+        ...action.filter
       };
     default:
       return state;

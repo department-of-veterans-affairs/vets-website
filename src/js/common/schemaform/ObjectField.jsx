@@ -136,7 +136,7 @@ class ObjectField extends React.Component {
       required,
       disabled,
       readonly,
-      touchedSchema
+      onBlur
     } = this.props;
     const { definitions, fields, formContext } = this.props.registry;
     const { TitleField } = fields;
@@ -177,8 +177,7 @@ class ObjectField extends React.Component {
               idSchema={idSchema[propName]}
               formData={formData[propName]}
               onChange={this.onPropertyChange(propName)}
-              onBlur={this.onPropertyBlur(propName)}
-              touchedSchema={typeof touchedSchema === 'object' ? touchedSchema[propName] : !!touchedSchema}
+              onBlur={onBlur}
               registry={this.props.registry}
               disabled={disabled}
               readonly={readonly}/>

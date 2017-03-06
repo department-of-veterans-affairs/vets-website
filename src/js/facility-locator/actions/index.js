@@ -89,9 +89,14 @@ export function searchWithAddress(query) {
       type: SEARCH_STARTED,
     });
     // commas can be stripped from query if Mapbox is returning unexpected results
+    let types = 'place,address,region,postcode,locality';
+    // check for postcode search
+    if (query.searchString.match(/^\s*\d{5}\s*$/)) {
+      types = 'postcode';
+    }
     mapboxClient.geocodeForward(query.searchString, {
       country: 'us,pr,ph,gu,as,mp',
-      types: 'place,address,region,postcode,locality',
+      types,
     }, (err, res) => {
       const coordinates = res.features[0].center;
       const zipCode = (find(res.features[0].context, (v) => {
