@@ -1,25 +1,18 @@
-html {
-  font-size: $em-base;
-  font-weight: 500;
-  overflow: -moz-scrollbars-vertical;
-}
-
 html, body {
   padding: 0;
   margin: 0;
 }
 
+html {
+  font-size: $em-base;
+  font-weight: 500;
+}
+
 body {
+  background: $color-white;
   color: $color-gray-dark;
   font-family: $font-sans;
   font-size: $base-font-size;
-}
-
-// General
-body, .home {
-  background: $color-primary-darkest;
-  background-size: contain;
-  color: $color-white;
 }
 
 // Skip link
@@ -134,9 +127,6 @@ figcaption {
   color: $color-primary-darker;
 }
 
-// TODO: Evaluate whether we're using placeholders anywhere.
-// Might be able to remove that chunk
-// Change the placeholder color
 input::-webkit-input-placeholder{
   color: $color-gray;
 }
@@ -211,6 +201,8 @@ hr {
 
 // Logo and Header
 .header {
+  background: $color-primary-darkest;
+  color: $color-white;
   clear: both;
   padding: 0;
   margin: 0;
@@ -653,9 +645,8 @@ ul, ol {
     display:block;
   }
 
-  .fourohfour &,
   .home & {
-    padding-top: 1.5em;
+    padding: 1.5em .5em 4em;
   }
 }
 
@@ -731,7 +722,6 @@ ul, ol {
     padding: 0em .5em 4em .5em;
     overflow: hidden;
   }
-
 
   .home #content .section h3.alternate {
     margin: 0 0 2em 0 !important; padding: 0;

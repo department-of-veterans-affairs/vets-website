@@ -125,3 +125,10 @@ export function showYesNo(field) {
 export function enumToNames(enumValues, names) {
   return enumValues.map(item => names[item]);
 }
+
+export const preferredContactMethodLabels = {
+  mail: 'Mail',
+  email: 'Email',
+  phone: 'Phone'
+};
+

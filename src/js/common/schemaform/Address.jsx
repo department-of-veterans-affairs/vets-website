@@ -33,19 +33,12 @@ class Address extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.onPropertyBlur = this.onPropertyBlur.bind(this);
     this.isRequired = this.isRequired.bind(this);
     this.SchemaField = pureWithDeepEquals(props.registry.fields.SchemaField);
   }
 
   componentWillMount() {
     this.id = _.uniqueId('address-input-');
-  }
-
-  onPropertyBlur(name) {
-    return (path = []) => {
-      this.props.onBlur([name].concat(path));
-    };
   }
 
   handleChange(path, update) {
@@ -77,11 +70,11 @@ class Address extends React.Component {
     const {
       errorSchema,
       formContext,
-      touchedSchema,
       schema,
       idSchema,
       uiSchema,
-      registry
+      registry,
+      onBlur
     } = this.props;
     const formData = this.props.formData
       ? this.props.formData
@@ -132,9 +125,8 @@ class Address extends React.Component {
               errorSchema={errorSchema.country}
               registry={registry}
               formContext={formContext}
-              touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.country}
               onChange={(update) => {this.handleChange('country', update);}}
-              onBlur={this.onPropertyBlur('country')}/>
+              onBlur={onBlur}/>
         </div>
         <SchemaField
             name="street"
@@ -146,9 +138,8 @@ class Address extends React.Component {
             errorSchema={errorSchema.street}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.street}
             onChange={(update) => {this.handleChange('street', update);}}
-            onBlur={this.onPropertyBlur('street')}/>
+            onBlur={onBlur}/>
         <SchemaField
             name="street2"
             required={this.isRequired('street2')}
@@ -159,9 +150,8 @@ class Address extends React.Component {
             errorSchema={errorSchema.street2}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.street2}
             onChange={(update) => {this.handleChange('street2', update);}}
-            onBlur={this.onPropertyBlur('street2')}/>
+            onBlur={onBlur}/>
         <SchemaField
             name="city"
             required={this.isRequired('city')}
@@ -172,9 +162,8 @@ class Address extends React.Component {
             errorSchema={errorSchema.city}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.city}
             onChange={(update) => {this.handleChange('city', update);}}
-            onBlur={this.onPropertyBlur('city')}/>
+            onBlur={onBlur}/>
         <SchemaField
             name="state"
             required={_.includes(['USA', 'CAN', 'MEX'], formData.country) && schema.required}
@@ -185,9 +174,8 @@ class Address extends React.Component {
             errorSchema={errorSchema.state}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.state}
             onChange={(update) => {this.handleChange('state', update);}}
-            onBlur={this.onPropertyBlur('state')}/>
+            onBlur={onBlur}/>
         <SchemaField
             name="postalCode"
             required={this.isRequired('postalCode')}
@@ -198,9 +186,8 @@ class Address extends React.Component {
             errorSchema={errorSchema.postalCode}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema === undefined ? undefined : touchedSchema.postalCode}
             onChange={(update) => {this.handleChange('postalCode', update);}}
-            onBlur={this.onPropertyBlur('postalCode')}/>
+            onBlur={onBlur}/>
       </div>
     );
   }

@@ -8,3 +8,8 @@ export function transform(formConfig, form) {
     }
   });
 }
+
+export const benefitsLabels = {
+  chapter35: 'DEA (Chapter 35)',
+  chapter33: 'Fry scholarship (Chapter 33)'
+};
