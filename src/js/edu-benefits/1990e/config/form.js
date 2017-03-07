@@ -18,8 +18,11 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { enumToNames, benefitsLabels, relationshipLabels } from '../../utils/helpers';
 
 const {
-  benefit,
   relationship
+} = fullSchema1990e.definitions;
+
+const {
+  benefit
 } = fullSchema1990e.properties;
 
 const formConfig = {
@@ -35,7 +38,7 @@ const formConfig = {
   title: 'Apply for transferred education benefits',
   subTitle: 'Form 22-1990e',
   chapters: {
-    personalInformation: {
+    applicantInformation: {
       title: 'Personal Information',
       pages: {
         applicantInformation: {
