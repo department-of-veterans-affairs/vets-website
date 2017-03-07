@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../common/utils/helpers';
 
-import { benefitsLabels } from '../helpers';
+import { benefitsLabels } from '../../utils/helpers';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
