@@ -40,7 +40,7 @@ const formConfig = {
   subTitle: 'Form 22-1990e',
   chapters: {
     applicantInformation: {
-      title: 'Personal Information',
+      title: 'Applicant Information',
       pages: {
         applicantInformation: {
           path: 'applicant-information',
