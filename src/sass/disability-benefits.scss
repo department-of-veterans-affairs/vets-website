@@ -49,7 +49,7 @@
     margin: 0;
     text-transform: none;
     padding-right: 3px !important;
-    @media (min-width: $medium-screen) {
+    @include media($medium-large-screen) {
       padding-right: 5px !important;
     }
   }
@@ -125,14 +125,14 @@
     display: inline-block;
     margin: 0;
   }
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     width: 66%;
   }
 }
 
 .past-due > i {
   margin-right: 3px;
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     margin-right: 6px;
   }
 }
@@ -189,9 +189,10 @@
 
 .form-process li.section-complete:before {
   background: $color-green;
-  content: "\2714\fe0e";
-  @media (max-width: $small-screen) {
-    content: "\2713\fe0e";
+  content: "\2713\fe0e";
+
+  @include media($medium-large-screen) {
+    content: "\2714\fe0e";
   }
 }
 
@@ -272,9 +273,9 @@ a.claim-list-item {
 }
 
 .ask-va-questions.claims-sidebar-box {
-  padding-top: 0.6em;
-  @media (max-width: $small-screen) {
-    padding: 2em 0;
+  padding: 2em 0;
+  @include media($medium-large-screen) {
+    padding-top: 0.6em;
   }
 }
 
@@ -549,24 +550,25 @@ p.first-of-type {
 }
 
 .item-title-container {
-  float: left;
-  width: 63%;
-  @media (max-width: $small-screen) {
-    float: none;
-    width: 100%;
+  float: none;
+  width: 100%;
+
+  @include media($medium-large-screen) {
+    float: left;
+    width: 63%;
   }
 }
 .ask-va-alert, .file-request-list-item, .additional-evidence-alert, .need-files-alert {
   position: relative;
   padding-bottom: 3.5em;
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     padding-bottom: 1em;
   }
 }
 
 .need-files-alert {
   padding-bottom: 4em;
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     padding-bottom: 1em;
   }
 }
