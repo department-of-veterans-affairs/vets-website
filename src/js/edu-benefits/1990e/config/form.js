@@ -7,7 +7,7 @@ import {
 
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
-import * as date from '../../../common/schemaform/definitions/date';
+import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as gender from '../../../common/schemaform/definitions/gender';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
@@ -42,7 +42,7 @@ const formConfig = {
           uiSchema: {
             applicantFullName: fullName.uiSchema,
             applicantSocialSecurityNumber: ssn.uiSchema,
-            applicantDateOfBirth: date.uiSchema('Applicant date of birth'),
+            applicantDateOfBirth: currentOrPastDate.uiSchema('Applicant date of birth'),
             applicantGender: gender.uiSchema('Applicant gender')
           },
           schema: {
@@ -51,7 +51,7 @@ const formConfig = {
             properties: {
               applicantFullName: fullName.schema,
               applicantSocialSecurityNumber: ssn.schema,
-              applicantDateOfBirth: date.schema,
+              applicantDateOfBirth: currentOrPastDate.schema,
               applicantGender: gender.schema
             }
           }
