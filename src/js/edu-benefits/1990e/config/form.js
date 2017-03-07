@@ -12,7 +12,6 @@ import * as gender from '../../../common/schemaform/definitions/gender';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 
-
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -70,27 +69,6 @@ const formConfig = {
             }
           }
         },
-        sponsorInformation: {
-          path: 'sponsor-information',
-          title: 'Sponsor Information',
-          initialData: {},
-          uiSchema: {
-            sponsorFullName: fullName.uiSchema,
-            sponsorSocialSecurityNumber: ssn.uiSchema
-            // branchofService
-            // address
-          },
-          schema: {
-            type: 'object',
-            required: ['sponsorFullName'],
-            properties: {
-              sponsorFullName: fullName.schema,
-              sponsorSocialSecurityNumber: ssn.schema
-              // branchOfService
-              // address
-            }
-          }
-        }
       }
     },
     benefitEligibility: {
