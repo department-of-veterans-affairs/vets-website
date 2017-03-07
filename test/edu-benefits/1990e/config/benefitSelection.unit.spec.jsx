@@ -18,7 +18,8 @@ describe('Edu 1990e benefitEligibility', () => {
     );
     const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
 
-    expect(fields.length).to.equal(2);
+    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input'))
+      .to.not.be.empty;
   });
 
   it('should have no required inputs', () => {
