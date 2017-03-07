@@ -7,6 +7,11 @@ import {
 
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
+import * as date from '../../../common/schemaform/definitions/date';
+import * as gender from '../../../common/schemaform/definitions/gender';
+import * as fullName from '../../../common/schemaform/definitions/fullName';
+import * as ssn from '../../../common/schemaform/definitions/ssn';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -31,7 +36,26 @@ const formConfig = {
       pages: {
         applicantInformation: {
           path: 'applicant-information',
-          title: 'Applicant information'
+          title: 'Applicant information',
+          initialData: {},
+          uiSchema: {
+            applicantFullName: fullName.uiSchema,
+            applicantSocialSecurityNumber: ssn.uiSchema,
+            applicantDateOfBirth: date.uiSchema('Applicant date of birth'),
+            applicantGender: gender.uiSchema('Applicant gender')
+          },
+          schema: {
+            type: 'object',
+            required: ['applicantFullName'],
+            properties: {
+              applicantFullName: fullName.schema,
+              applicantSocialSecurityNumber: ssn.schema,
+              applicantDateOfBirth: date.schema,
+              applicantGender: gender.schema
+            }
+          }
+        },
+        sponsorInformation: {
         }
       }
     },
