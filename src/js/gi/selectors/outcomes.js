@@ -29,7 +29,7 @@ const getRequiredAttributes = (state) => {
   };
 };
 
-const isNumeric = (n) => ( !Number.isNaN(parseFloat(n)) );
+const isNumeric = (n) => (!Number.isNaN(parseFloat(n)));
 
 const whenDataAvailable = (n1, n2, obj) => {
   if (isNumeric(n1) || isNumeric(n2)) return obj;
@@ -47,9 +47,8 @@ export const outcomeNumbers = createSelector(
       const upperClass = a || b;
       if (upperClass) {
         return institution.retentationRateVeteranBa || institution.retentionRateVeteranOtb;
-      } else {
-        return institution.retentationRateVeteranOtb || institution.retentionRateVeteranBa;
       }
+      return institution.retentationRateVeteranOtb || institution.retentionRateVeteranBa;
     };
     const getAllStudentRetentionRate = () => {
       const a = [3, 4].includes(institution.predDegreeAwarded);
@@ -57,9 +56,8 @@ export const outcomeNumbers = createSelector(
       const upperClass = a || b;
       if (upperClass) {
         return institution.retentionAllStudentsBa || institution.retentionAllStudentsOtb;
-      } else {
-        return institution.retentionAllStudentsOtb || institution.retentionAllStudentsBa;
       }
+      return institution.retentionAllStudentsOtb || institution.retentionAllStudentsBa;
     };
 
     const retention = whenDataAvailable(
