@@ -37,8 +37,6 @@ describe('Edu 5490 employmentHistory', () => {
 
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
 
-    submitForm(form);
-
     expect(onSubmit.called).to.be.true;
   });
 
