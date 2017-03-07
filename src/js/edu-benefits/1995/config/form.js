@@ -25,7 +25,7 @@ import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 import { enumToNames, showSchoolAddress } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import ServicePeriodView from '../components/ServicePeriodView';
+import ServicePeriodView from '../../components/ServicePeriodView';
 
 const {
   benefit,

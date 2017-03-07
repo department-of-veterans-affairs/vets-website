@@ -9,8 +9,11 @@ import {
 import { enumToNames } from '../../utils/helpers';
 
 import * as date from '../../../common/schemaform/definitions/date';
+import * as dateRange from '../../../common/schemaform/definitions/dateRange';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
+
+import * as toursOfDuty from '../../definitions/toursOfDuty';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -26,8 +29,10 @@ const {
 } = fullSchema5490.properties;
 
 const {
-  relationship
+  relationship,
 } = fullSchema5490.definitions;
+
+const toursOfDutyDefinition = fullSchema5490.definitions.toursOfDuty;
 
 const formConfig = {
   urlPrefix: '/5490/',
@@ -82,16 +87,12 @@ const formConfig = {
             },
             spouseInfo: {
               divorcePending: {
-                'ui:options': {
-                  'ui:title': 'Is there a divorce or annulment pending to the qualifying individual?',
-                  'ui:widget': 'yesNo'
-                }
+                'ui:title': 'Is there a divorce or annulment pending to the qualifying individual?',
+                'ui:widget': 'yesNo'
               },
               remarried: {
-                'ui:options': {
-                  'ui:title': 'If you are the surviving spouse, have you remarried?',
-                  'ui:widget': 'yesNo'
-                }
+                'ui:title': 'If you are the surviving spouse, have you remarried?',
+                'ui:widget': 'yesNo'
               },
               remarriageDate: _.assign(date.uiSchema('Remarriage Date'), {
                 'ui:options': {
@@ -157,7 +158,19 @@ const formConfig = {
         },
         applicantService: {
           title: 'Applicant Service',
-          path: 'military-service/applicant-service'
+          path: 'military-service/applicant-service',
+          uiSchema: {
+            toursOfDuty: toursOfDuty.uiSchema
+          },
+          schema: {
+            type: 'object',
+            definitions: {
+              dateRange: dateRange.schema
+            },
+            properties: {
+              toursOfDuty: toursOfDutyDefinition
+            }
+          }
         },
         contributions: {
           title: 'Contributions',
