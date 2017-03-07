@@ -15,10 +15,11 @@ import * as ssn from '../../../common/schemaform/definitions/ssn';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { enumToNames, benefitsLabels } from '../../utils/helpers';
+import { enumToNames, benefitsLabels, relationshipLabels } from '../../utils/helpers';
 
 const {
-  benefit
+  benefit,
+  relationship
 } = fullSchema1990e.properties;
 
 const formConfig = {
@@ -42,7 +43,11 @@ const formConfig = {
             applicantFullName: fullName.uiSchema,
             applicantSocialSecurityNumber: ssn.uiSchema,
             applicantDateOfBirth: currentOrPastDate.uiSchema('Applicant date of birth'),
-            applicantGender: gender.uiSchema('Applicant gender')
+            applicantGender: gender.uiSchema('Applicant gender'),
+            relationship: {
+              'ui:widget': 'radio',
+              'ui:title': 'What is your relationship to the service member whose benefit is being transferred to you?'
+            }
           },
           schema: {
             type: 'object',
@@ -51,7 +56,10 @@ const formConfig = {
               applicantFullName: fullName.schema,
               applicantSocialSecurityNumber: ssn.schema,
               applicantDateOfBirth: currentOrPastDate.schema,
-              applicantGender: gender.schema
+              applicantGender: gender.schema,
+              relationship: _.assign(relationship, {
+                enumNames: enumToNames(relationship.enum, relationshipLabels)
+              })
             }
           }
         },
