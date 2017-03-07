@@ -9,7 +9,6 @@ import {
 import { enumToNames } from '../../utils/helpers';
 
 import * as date from '../../../common/schemaform/definitions/date';
-import * as dateRange from '../../../common/schemaform/definitions/dateRange';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 
@@ -20,6 +19,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
   benefit,
+  civilianBenefitsAssistance,
+  civilianBenefitsSource,
   currentlyActiveDuty,
   outstandingFelony,
   serviceBranch,
@@ -31,8 +32,6 @@ const {
 const {
   relationship,
 } = fullSchema5490.definitions;
-
-const toursOfDutyDefinition = fullSchema5490.definitions.toursOfDuty;
 
 const formConfig = {
   urlPrefix: '/5490/',
@@ -96,9 +95,8 @@ const formConfig = {
               },
               remarriageDate: _.assign(date.uiSchema('Remarriage Date'), {
                 'ui:options': {
-                  // Because this is a hideIf inside a hideIf, it shows when
-                  //  spouseInfo is shown initially, but on re-render, it works
-                  hideIf: (fieldData) => !fieldData.spouseInfo.remarried
+                  // Needs the || because it's undefined on other pages
+                  hideIf: (fieldData) => !fieldData.spouseInfo || !fieldData.spouseInfo.remarried
                 }
               }),
               'ui:options': {
@@ -159,22 +157,56 @@ const formConfig = {
         applicantService: {
           title: 'Applicant Service',
           path: 'military-service/applicant-service',
+          initialData: {
+            // I'd like to default the checkbox to true...
+            // applyPeriodToSelected: true
+          },
           uiSchema: {
-            toursOfDuty: toursOfDuty.uiSchema
+            toursOfDuty: (() => {
+              // Set and show the title
+              const uiSchema = toursOfDuty.uiSchema;
+              uiSchema['ui:title'] = 'Applicant service periods';
+              uiSchema['ui:options'].hideTitle = false;
+
+              // Set other labels
+              uiSchema.items = _.assign(uiSchema.items, {
+                serviceStatus: {
+                  'ui:title': 'Service Status'
+                }
+              });
+              return uiSchema;
+            })()
           },
           schema: {
             type: 'object',
-            definitions: {
-              dateRange: dateRange.schema
-            },
             properties: {
-              toursOfDuty: toursOfDutyDefinition
+              // Perhaps we can take benefitsToApplyTo out of the schema? Don't
+              //  know that it's actually used.
+              toursOfDuty: toursOfDuty.schema(['serviceBranch', 'dateRange', 'applyPeriodToSelected'])
             }
           }
         },
         contributions: {
           title: 'Contributions',
-          path: 'military-service/contributions'
+          path: 'military-service/contributions',
+          uiSchema: {
+            civilianBenefitsAssistance: {
+              'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
+            },
+            civilianBenefitsSource: {
+              'ui:title': 'What is the source of these funds?',
+              'ui:options': {
+                expandUnder: 'civilianBenefitsAssistance'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              civilianBenefitsAssistance,
+              civilianBenefitsSource
+            }
+          }
         }
       }
     },
