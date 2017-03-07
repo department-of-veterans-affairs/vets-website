@@ -5,7 +5,7 @@
     padding: 0;
     max-width: 46rem;
 
-    @media(max-width: $small-screen) {
+    @include media-maxwidth($small-screen) {
         font-size: 1.3rem;
     }
 
