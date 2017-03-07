@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import ProgressButton from '../../components/form-elements/ProgressButton';
 
 export default function SubmitButtons({ submission, onSubmit, onBack }) {
@@ -33,24 +32,34 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
     submitMessage = (
       <div className="usa-alert usa-alert-error">
         <div className="usa-alert-body">
-          <p><strong>Due to a system error, we weren't able to process your application. Please try again later.</strong></p>
-          <p>We apologize for the inconvenience. If you'd like to complete this form by phone, please call 877-222-VETS (8387) and press 2, M-F 7:00 a.m.to 7:00 p.m. (CST), Sat 9:00 a.m. to 5:30 p.m. (CST).</p>
+          <p className="schemaform-warning-header"><strong>We're sorry, your application didn't go through.</strong></p>
+          <p>You'll have to start over. We suggest you wait 1 day while we fix a few things. <a href="/">Go back to vets.gov</a></p>
         </div>
       </div>
     );
-    const classes = classNames({
-      'usa-button-secondary': true,
-      'form-button-disabled': __BUILDTYPE__ !== 'development'
-    });
-    const disabled = __BUILDTYPE__ !== 'development';
 
-    submitButton = (
-      <ProgressButton
-          onButtonClick={onSubmit}
-          buttonText="Send Failed"
-          buttonClass={classes}
-          disabled={disabled}
-          beforeText="x"/>
+    if (__BUILDTYPE__ !== 'production') {
+      submitButton = (
+        <div className="row form-progress-buttons">
+          <div className="small-6 medium-6 columns">
+            <ProgressButton
+                onButtonClick={onSubmit}
+                buttonText="Submit Again (dev and staging only)"
+                buttonClass="usa-button-primary"/>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <div className="row">
+          <div className="small-12 medium-12 columns">
+            {submitMessage}
+          </div>
+        </div>
+        {submitButton}
+      </div>
     );
   }
   return (

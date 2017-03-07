@@ -41,7 +41,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
     expect(tree.everySubTree('ProgressButton')[1].props.buttonText).to.equal('Submitted');
     expect(tree.everySubTree('ProgressButton')[1].props.disabled).to.be.true;
   });
-  it('should render error', () => {
+  it('should render error in dev mode', () => {
     const submission = {
       status: 'error'
     };
@@ -50,20 +50,23 @@ describe('Schemaform review: <SubmitButtons>', () => {
           submission={submission}/>
     );
 
-    expect(tree.everySubTree('ProgressButton')[1].props.buttonText).to.equal('Send Failed');
-    // In development, the button shouldn't be disabled
-    expect(tree.everySubTree('ProgressButton')[1].props.disabled).to.be.false;
     expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
-
-    // In production, the button should be disabled
+    expect(tree.everySubTree('ProgressButton').length).to.equal(1);
+  });
+  it('should render error in prod mode', () => {
+    const submission = {
+      status: 'error'
+    };
     const buildtype = __BUILDTYPE__;
     __BUILDTYPE__ = 'production';
 
-    const prodTree = SkinDeep.shallowRender(
+    const tree = SkinDeep.shallowRender(
       <SubmitButtons
           submission={submission}/>
     );
-    expect(prodTree.everySubTree('ProgressButton')[1].props.disabled).to.be.true;
+
+    expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
+    expect(tree.everySubTree('ProgressButton')).to.be.empty;
 
     // Reset buildtype
     __BUILDTYPE__ = buildtype;
