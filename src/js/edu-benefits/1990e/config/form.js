@@ -30,11 +30,14 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  defaultDefinitions: {
+    relationship
+  },
   title: 'Apply for transferred education benefits',
   subTitle: 'Form 22-1990e',
   chapters: {
-    applicantInformation: {
-      title: 'Applicant Information',
+    personalInformation: {
+      title: 'Personal Information',
       pages: {
         applicantInformation: {
           path: 'applicant-information',
@@ -65,6 +68,25 @@ const formConfig = {
           }
         },
         sponsorInformation: {
+          path: 'sponsor-information',
+          title: 'Sponsor Information',
+          initialData: {},
+          uiSchema: {
+            sponsorFullName: fullName.uiSchema,
+            sponsorSocialSecurityNumber: ssn.uiSchema
+            // branchofService
+            // address
+          },
+          schema: {
+            type: 'object',
+            required: ['sponsorFullName'],
+            properties: {
+              sponsorFullName: fullName.schema,
+              sponsorSocialSecurityNumber: ssn.schema
+              // branchOfService
+              // address
+            }
+          }
         }
       }
     },
