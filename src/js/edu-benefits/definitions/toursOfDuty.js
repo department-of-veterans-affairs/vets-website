@@ -10,7 +10,6 @@ export const uiSchema = {
     itemName: 'Service Period',
     viewField: ServicePeriodView,
     hideTitle: true,
-    expandUnder: 'view:newService'
   },
   items: {
     serviceBranch: {
