@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Post-9/11 GI Bill
 template: 1-topic-landing
-plainlanguage: 12-01-16 certified in compliance with the Plain Writing Act
+plainlanguage: 12-01-16 certified in compliance with the Plain Writing Act now
 concurrence: complete
 ---
 
