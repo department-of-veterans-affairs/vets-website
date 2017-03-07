@@ -1,23 +1,32 @@
 .gi-app {
 
-  .react-autosuggest__container ul {
+  ul.react-autosuggest__suggestions-list {
+    background: $color-white;
+    border: 1px solid $color-gray;
+    // Box shadow only sides and bottom of suggestion list.
+    box-shadow: 0px 3px 3px -3px $color-focus,
+                3px 0 3px -3px $color-focus,
+                -3px 0 3px -3px $color-focus,
+                0 7px 7px -7px $color-focus,
+                7px 0 7px -7px $color-focus,
+                -7px 0 7px -7px $color-focus;
     list-style: none;
-    padding: 0;
+    margin-top: -.5rem;
     max-width: 46rem;
+    padding: 0;
+    position: relative;
 
     @media(max-width: $small-screen) {
-        font-size: 1.3rem;
-    }
-
-    li.react-autosuggest__suggestion {
-      margin-bottom: 0.2rem;
-      padding: 1rem;
-      border: 1px solid rgba($color-primary, 0.2);
-    }
-
-    li.react-autosuggest__suggestion--focused {
-      background-color: rgba($color-primary, 0.2);
+      font-size: 1.3rem;
     }
   }
-  
+
+  li.react-autosuggest__suggestion {
+    padding: .5rem 1rem;
+
+    &--focused {
+      background-color: $color-primary-alt-light;
+    }
+  }
+
 }

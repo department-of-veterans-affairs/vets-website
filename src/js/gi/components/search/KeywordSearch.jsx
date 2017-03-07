@@ -1,10 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
-
 import Autosuggest from 'react-autosuggest';
 
+import {
+  fetchAutocompleteSuggestions,
+  clearAutocompleteSuggestions,
+  updateAutocompleteSearchTerm
+} from '../../actions';
+
 export class KeywordSearch extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.clickedSuggestionValue = this.clickedSuggestionValue.bind(this);
+    this.renderSuggestion = this.renderSuggestion.bind(this);
+    this.shouldRenderSuggestions = this.shouldRenderSuggestions.bind(this);
+  }
 
   clickedSuggestionValue(suggestion) {
     return suggestion.label;
@@ -34,7 +45,7 @@ export class KeywordSearch extends React.Component {
             onSuggestionsClearRequested={this.props.onSuggestionsClearRequested}
             getSuggestionValue={this.clickedSuggestionValue}
             renderSuggestion={this.renderSuggestion}
-            shouldRenderSuggestions={this.shouldRenderSuggestions.bind(this)}
+            shouldRenderSuggestions={this.shouldRenderSuggestions}
             inputProps={{
               value: this.props.autocomplete.searchTerm,
               onChange: this.props.handleChange
@@ -53,13 +64,13 @@ const mapStateToProps = (state) => state;
 const mapDispatchToProps = (dispatch) => {
   return {
     onSuggestionsFetchRequested: ({ value }) => {
-      dispatch(actions.fetchAutocompleteSuggestions(value));
+      dispatch(fetchAutocompleteSuggestions(value));
     },
     onSuggestionsClearRequested: () => {
-      dispatch(actions.clearAutocompleteSuggestions());
+      dispatch(clearAutocompleteSuggestions());
     },
     handleChange: (event, { newValue }) => {
-      dispatch(actions.updateAutocompleteSearchTerm(newValue));
+      dispatch(updateAutocompleteSearchTerm(newValue));
     }
   };
 };
