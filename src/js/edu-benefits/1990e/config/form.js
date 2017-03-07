@@ -38,7 +38,7 @@ const formConfig = {
   title: 'Apply for transferred education benefits',
   subTitle: 'Form 22-1990e',
   chapters: {
-    personalInformation: {
+    applicantInformation: {
       title: 'Personal Information',
       pages: {
         applicantInformation: {
