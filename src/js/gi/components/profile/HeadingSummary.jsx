@@ -53,7 +53,7 @@ export class AdditionalInformation extends React.Component {
           <div className="small-12 medium-4 column">
             <p>
               <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
-                OJT
+                One-the-job training
               </IconWithInfo>
             </p>
             <p>

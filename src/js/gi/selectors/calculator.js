@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 
-const getConstants = (state) => state.constants.constants;
+const getConstants = (state) => {
+  return state.constants.constants;
+};
 
 const getEligibilityDetails = (state) => {
   const details = Object.assign({}, state.eligibility);
@@ -8,28 +10,17 @@ const getEligibilityDetails = (state) => {
   return details;
 };
 
-const getRequiredAttributes = (_state, props) => {
-  return props.attributes;
+const getRequiredAttributes = (state) => {
+  const { type, bah } = state.profile.attributes;
+  return { type, bah };
 };
 
-const getInputs = (_state, _props) => {
-  return {};
+const getInputs = (state) => {
+  return state.calculator;
 };
-
-/* inputs.
-tuitionFees
-yellowRibbonRecipient
-yellowRibbonAmount
-scholarships
-enrolled
-calendar
-numberNontradTerms
-lengthNontradTerms
-kickerEligible
-kicker
-*/
 
 function getDerivedAttributes(constant, eligibility, institution, inputs) {
+  if (constant == undefined) return {};
   const your = eligibility;
   const its = institution;
   let monthlyRate;
@@ -774,11 +765,160 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
   };
 }
 
+function getDisplayedInputs(eligibility, profile, derived, inputs) {
+  const its = profile.attributes;
+  const your = eligibility;
+  if ([its, your].includes(undefined)) return {its, your};
+  const defaultDisplayed = {
+    tuition: false,
+    books: false,
+    yellowRibbon: false,
+    scholarships: false,
+    enrolled: false,
+    calendar: false,
+    kicker: false,
+    working: false,
+    buyUp: false,
+    tuitionAssist: false,
+  };
+  let displayed = {};
+
+  // tuition, scholarship, enrolled, calendar, kicker
+
+  if (your.giBillChapter === 31 && !derived.onlyVRE) {
+    displayed = {
+      ...defaultDisplayed,
+      // $(this.ENROLLED_FORM_OLD_GI_BILL).hide();
+      tuition: true,
+      scholarship: true,
+      enrolled: true,
+      calendar: true,
+      kicker: true
+    }
+  }
+
+  if (its.type === 'ojt') {
+    displayed = {
+      ...defaultDisplayed,
+      tuition: false,
+      enrolled: false,
+      working: true,
+      calendar: false
+    }
+  }
+
+  if (your.giBillChapter === 35) {
+    displayed = {
+      ...defaultDisplayed,
+      kicker: false,
+      tuition: true,
+      scholarship: true,
+      enrolled: true,
+      calendar: true,
+    }
+  }
+
+  if (its.type === 'flight' || its.type === 'correspondence') {
+    displayed = {
+      ...defaultDisplayed,
+      tuition: true,
+      scholarship: true,
+      enrolled: false,
+      calendar: true,
+      kicker: false
+    }
+  }
+
+  if (its.type === 'public') {
+    // $(this.IN_STATE).show();
+    // if (!this.in_state) {
+    //   $(this.IN_STATE_TUITION_FEES_FORM).show();
+    // }
+    displayed = {
+      ...defaultDisplayed,
+      tuition: true,
+    }
+  }
+
+  if (its.yr && derived.tier === 1.0) {
+    displayed = {
+      ...defaultDisplayed,
+      tuition: true,
+      scholarship: true,
+      enrolled: true,
+      calendar: true,
+      kicker: true,
+      yellowRibbon: true
+    }
+  }
+
+  if (derived.oldGiBill || derived.onlyVRE) {
+    displayed = {
+      ...defaultDisplayed,
+      // $(this.ENROLLED_FORM_OLD_GI_BILL).show();
+      tuition: true,
+      scholarship: true,
+      enrolled: false,
+      calendar: true,
+      kicker: true
+    }
+  }
+
+  if (your.giBillChapter === 31) {
+    displayed = {
+      ...defaultDisplayed,
+      tuition: true,
+      scholarship: true,
+      enrolled: true,
+      calendar: true,
+      kicker: true
+    }
+  }
+
+  if (your.giBillChapter === 30) {
+    displayed = {
+      ...defaultDisplayed,
+      tuition: true,
+      scholarship: true,
+      enrolled: true,
+      calendar: true,
+      kicker: true
+    }
+  }
+
+  if (['active duty', 'national guard / reserves'].includes(your.militaryStatus) && your.giBillChapter === 33) {
+    displayed = {
+      ...defaultDisplayed,
+      tuition: true,
+      scholarship: true,
+      enrolled: true,
+      calendar: true,
+      kicker: true,
+      tuitionAssist: true
+    }
+  } else {
+    displayed = {
+      ...defaultDisplayed,
+      tuition: true,
+      scholarship: true,
+      enrolled: true,
+      calendar: true,
+      kicker: true
+    }
+  }
+
+  return displayed;
+}
+
 export const calculatedBenefits = createSelector(
   [getConstants, getEligibilityDetails, getRequiredAttributes, getInputs],
-  (constant, eligibility, attribute, form) => {
-    const derived = getDerivedAttributes(constant, eligibility, attribute, form);
+  (constant, eligibility, profile, form) => {
+    const derived = getDerivedAttributes(constant, eligibility, profile, form);
+    const displayed = getDisplayedInputs(eligibility, profile, derived, form);
+    console.log(displayed)
 
-    return { derived };
+    return {
+      displayed,
+    };
   }
 );

@@ -2,6 +2,7 @@ import { CALCULATOR_INPUTS_CHANGED } from '../actions';
 
 const INITIAL_STATE = {
   tuitionFees: '$0',
+  books: '$0',
   yellowRibbonRecipient: 'no',
   yellowRibbonAmount: '$0',
   scholarships: '$0',
@@ -11,6 +12,8 @@ const INITIAL_STATE = {
   lengthNontradTerms: '3',
   kickerEligible: 'no',
   kicker: '$200',
+  buyUp: 'no',
+  buyUpAmount: '$600',
 };
 
 export default function (state = INITIAL_STATE, action) {

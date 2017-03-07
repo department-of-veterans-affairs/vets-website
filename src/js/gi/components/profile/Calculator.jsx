@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { showModal } from '../../actions';
+import { calculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
 
@@ -82,7 +83,11 @@ export class Calculator extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state, props) => {
+  return {
+    calculated: calculatedBenefits(state, props)
+  };
+};
 
 const mapDispatchToProps = {
   showModal,
