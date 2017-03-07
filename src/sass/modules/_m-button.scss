@@ -114,10 +114,16 @@ button.short {
     display: flex;
     align-items: center;
   }
+
   svg {
-    height: 1.5rem;
-    margin-right: .25rem;
-    pointer-events: none;
-    width: 1.5rem;    
+    display: none;
+
+    @include media($medium-large-screen) {
+      display: block;
+      height: 1.5rem;
+      margin-right: .25rem;
+      pointer-events: none;
+      width: 1.5rem;
+    }    
   }
 }
