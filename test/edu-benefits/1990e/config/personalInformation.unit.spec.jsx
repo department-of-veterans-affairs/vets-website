@@ -6,7 +6,7 @@ import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990e/config/form';
 
 describe('Edu 1990e personalInformation', () => {
-  const { schema, uiSchema } = formConfig.chapters.benefitEligibility.pages.personalInformation;
+  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
   const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
