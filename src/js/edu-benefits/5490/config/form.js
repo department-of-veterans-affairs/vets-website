@@ -1,18 +1,25 @@
 import _ from 'lodash/fp';
 
 import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
-import { transform, benefitsLabels } from '../helpers';
+import {
+  benefitsLabels,
+  relationshipLabels,
+  transform
+} from '../helpers';
 import { enumToNames } from '../../utils/helpers';
 
 import * as date from '../../../common/schemaform/definitions/date';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
+import * as ssn from '../../../common/schemaform/definitions/ssn';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
   benefit,
-  spouseInfo
+  spouseInfo,
+  veteranDateOfBirth,
+  veteranDateOfDeath
 } = fullSchema5490.properties;
 
 const {
@@ -71,23 +78,51 @@ const formConfig = {
               'ui:widget': 'radio'
             },
             spouseInfo: {
+              divorcePending: {
+                'ui:options': {
+                  'ui:title': 'Is there a divorce or annulment pending to the qualifying individual?',
+                  'ui:widget': 'yesNo'
+                }
+              },
+              remarried: {
+                'ui:options': {
+                  'ui:title': 'If you are the surviving spouse, have you remarried?',
+                  'ui:widget': 'yesNo'
+                }
+              },
+              remarriageDate: _.assign(date.uiSchema('Remarriage Date'), {
+                'ui:options': {
+                  // Because this is a hideIf inside a hideIf, it shows when
+                  //  spouseInfo is shown initially, but on re-render, it works
+                  hideIf: (fieldData) => !fieldData.spouseInfo.remarried
+                }
+              }),
               'ui:options': {
-                expandUnder: 'relationship'
+                hideIf: (fieldData) => fieldData.relationship !== 'spouse'
               }
             },
             relativeFullName: _.assign(fullName.uiSchema, {
               'ui:title': 'Name of Sponsor'
-            })
+            }),
+            // This isn't running validation for some reason...
+            veteranSocialSecurityNumber: ssn.uiSchema,
+            veteranDateOfBirth: date.uiSchema('Date of Birth'),
+            veteranDateOfDeath: date.uiSchema('Date of Death (if applicable)'),
           },
           schema: {
             type: 'object',
             definitions: {
-              date // For spouseInfo
+              date: date.schema // For spouseInfo
             },
             properties: {
-              relationship,
+              relationship: _.assign(relationship, {
+                enumNames: enumToNames(relationship.enum, relationshipLabels)
+              }),
               spouseInfo,
-              relativeFullName: fullName.schema
+              relativeFullName: fullName.schema,
+              veteranSocialSecurityNumber: ssn.schema,
+              veteranDateOfBirth,
+              veteranDateOfDeath
             }
           }
         },
