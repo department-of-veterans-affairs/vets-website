@@ -3,7 +3,6 @@ import _ from 'lodash/fp';
 import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
 
 import {
-  benefitsLabels,
   bankAccountChangeLabels,
   transform,
   directDepositWarning
@@ -20,7 +19,7 @@ import * as educationType from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 import contactInformation from '../../definitions/contactInformation';
 
-import { enumToNames, showSchoolAddress } from '../../utils/helpers';
+import { enumToNames, showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ServicePeriodView from '../components/ServicePeriodView';
