@@ -17,6 +17,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
   benefit,
+  currentlyActiveDuty,
+  outstandingFelony,
+  serviceBranch,
   spouseInfo,
   veteranDateOfBirth,
   veteranDateOfDeath
@@ -112,6 +115,7 @@ const formConfig = {
           schema: {
             type: 'object',
             definitions: {
+              'ui:title': 'Sponsor Service',
               date: date.schema // For spouseInfo
             },
             properties: {
@@ -128,7 +132,28 @@ const formConfig = {
         },
         sponsorService: {
           title: 'Sponsor Service',
-          path: 'military-service/sponsor-service'
+          path: 'military-service/sponsor-service',
+          uiSchema: {
+            serviceBranch: {
+              'ui:title': 'Branch of service'
+            },
+            currentlyActiveDuty: {
+              'ui:title': 'Is the qualifying individual on active duty?',
+              'ui:widget': 'yesNo'
+            },
+            outstandingFelony: {
+              'ui:title': 'Do you or the qualifying individual on whose account you are claiming benefits have an outstanding felony and/or warrant?',
+              'ui:widget': 'yesNo'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              serviceBranch,
+              currentlyActiveDuty,
+              outstandingFelony
+            }
+          }
         },
         applicantService: {
           title: 'Applicant Service',
