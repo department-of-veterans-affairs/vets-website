@@ -110,7 +110,7 @@ const formConfig = {
             // This isn't running validation for some reason...
             veteranSocialSecurityNumber: ssn.uiSchema,
             veteranDateOfBirth: date.uiSchema('Date of Birth'),
-            veteranDateOfDeath: date.uiSchema('Date of Death (if applicable)'),
+            veteranDateOfDeath: date.uiSchema('Date listed as MIA, POW, or as deceased'),
           },
           schema: {
             type: 'object',
