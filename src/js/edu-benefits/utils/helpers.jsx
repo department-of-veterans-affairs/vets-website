@@ -142,3 +142,7 @@ export const preferredContactMethodLabels = {
   phone: 'Phone'
 };
 
+export const relationshipLabels = {
+  spouse: 'Spouse',
+  child: 'Child'
+};
