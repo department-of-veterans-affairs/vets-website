@@ -21,7 +21,7 @@ Object.keys(reportTypes).forEach(section => {
   });
 });
 
-export default function disclaimer(state = initialState, action) {
+export default function form(state = initialState, action) {
   switch (action.type) {
     case 'START_DATE_CHANGED':
       return set('dateRange.start', action.date, state);
@@ -40,6 +40,8 @@ export default function disclaimer(state = initialState, action) {
       });
     case 'FORM_FAILURE':
       return set('ready', false, state);
+    case 'FORM_RESET':
+      return initialState;
     default:
       return state;
   }
