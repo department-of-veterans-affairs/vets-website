@@ -83,7 +83,7 @@
         visibility: hidden;
       }
     }
-    @media screen and (max-width: 600px) {
+    @include media-maxwidth($medium-large-screen) {
       .table {
         display: none;
         visibility: hidden;
@@ -109,13 +109,12 @@
         visibility: hidden;
       }
     }
-    @media screen and (max-width: 600px) {
+
+    @include media-maxwidth($medium-large-screen) {
       .historical-information.table {
         display: none;
         visibility: hidden;
       }
     }
   }
-
-
 }
