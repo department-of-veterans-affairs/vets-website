@@ -68,7 +68,7 @@ Information about calling by phone
 
 #### By mail
 
-Information on how to [download the application](#) and mailing address:
+Information on how to [download the application]() and mailing address:
 
 <dl class="va-address-block">
     <dd>Address Line 1</dd>
@@ -95,6 +95,6 @@ Optional text about managing or tracking this benefit
 
 ### What happens after I apply?
 
-Call-to-action to the [after you apply](#) page
+Call-to-action to the [after you apply]() page
 
 <div markdown="0"><br></div>
