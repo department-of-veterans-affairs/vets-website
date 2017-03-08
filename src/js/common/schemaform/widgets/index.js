@@ -5,7 +5,6 @@ import EmailWidget from './EmailWidget';
 import RadioWidget from './RadioWidget';
 import CheckboxWidget from './CheckboxWidget';
 import YesNoWidget from './YesNoWidget';
-import GenderWidget from './GenderWidget';
 
 const widgets = {
   TextWidget,
