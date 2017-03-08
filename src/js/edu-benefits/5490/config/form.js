@@ -4,7 +4,6 @@ import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.jso
 // benefitsLabels should be imported from utils/helpers, but for now, they don't
 //  all have links, so for consistency, use the set in ../helpers
 import { transform, benefitsLabels } from '../helpers';
-import { enumToNames } from '../../utils/helpers';
 
 import * as date from '../../../common/schemaform/definitions/date';
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
@@ -49,16 +48,17 @@ const formConfig = {
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Select the benefit that is the best match for you:'
+              'ui:title': 'Select the benefit that is the best match for you:',
+              'ui:options': {
+                labels: benefitsLabels
+              }
             },
             benefitsRelinquishedDate: date.uiSchema('Effective date')
           },
           schema: {
             type: 'object',
             properties: {
-              benefit: _.assign(benefit, {
-                enumNames: enumToNames(benefit.enum, benefitsLabels)
-              }),
+              benefit,
               benefitsRelinquishedDate: date.schema
             }
           }

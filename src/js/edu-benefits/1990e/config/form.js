@@ -1,5 +1,3 @@
-import _ from 'lodash/fp';
-
 import {
   transform,
   eligibilityDescription
@@ -10,7 +8,7 @@ import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { enumToNames, benefitsLabels } from '../../utils/helpers';
+import { benefitsLabels } from '../../utils/helpers';
 
 const {
   benefit
@@ -47,7 +45,10 @@ const formConfig = {
             },
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Select the benefit that is the best match for you.'
+              'ui:title': 'Select the benefit that is the best match for you.',
+              'ui:options': {
+                labels: benefitsLabels
+              }
             }
           },
           schema: {
@@ -57,9 +58,7 @@ const formConfig = {
                 type: 'object',
                 properties: {}
               },
-              benefit: _.assign(benefit, {
-                enumNames: enumToNames(benefit.enum, benefitsLabels)
-              })
+              benefit
             }
           },
         }

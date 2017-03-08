@@ -1,6 +1,3 @@
-import _ from 'lodash/fp';
-import { enumToNames } from '../utils/helpers';
-
 import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
 
 const educationTypeLabels = {
@@ -14,12 +11,11 @@ const educationTypeLabels = {
   cooperativeTraining: 'Cooperative training'
 };
 
-const educationType = fullSchema1995.definitions.educationType;
-
-export const schema = _.assign(educationType, {
-  enumNames: enumToNames(educationType.enum, educationTypeLabels)
-});
+export const schema = fullSchema1995.definitions.educationType;
 
 export const uiSchema = {
-  'ui:title': 'Type of education or training'
+  'ui:title': 'Type of education or training',
+  'ui:options': {
+    labels: educationTypeLabels
+  }
 };

@@ -24,6 +24,27 @@ describe('Schemaform <SelectWidget>', () => {
 
     expect(tree.everySubTree('option').length).to.equal(2);
   });
+  it('should render label from options', () => {
+    const enumOptions = [
+      {
+        label: 'Testing',
+        value: 'test'
+      }
+    ];
+    const labels = {
+      test: 'Other'
+    };
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <SelectWidget
+          schema={{}}
+          id="testing"
+          onChange={onChange}
+          options={{ enumOptions, labels }}/>
+    );
+
+    expect(tree.everySubTree('option')[1].text()).to.equal(labels.test);
+  });
   it('should handle change', () => {
     const enumOptions = [
       {
