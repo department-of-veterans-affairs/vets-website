@@ -51,12 +51,12 @@ const formConfig = {
           title: 'Applicant information',
           initialData: {},
           uiSchema: {
-            applicantFullName: fullName.uiSchema,
-            applicantSocialSecurityNumber: ssn.uiSchema,
-            applicantDateOfBirth: currentOrPastDate.uiSchema('Applicant date of birth'),
-            applicantGender: {
+            relativeFullName: fullName.uiSchema,
+            relativeSocialSecurityNumber: ssn.uiSchema,
+            relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
+            gender: {
               'ui:widget': 'radio',
-              'ui:title': 'Applicant gender'
+              'ui:title': 'Gender'
             },
             relationship: {
               'ui:widget': 'radio',
@@ -67,10 +67,10 @@ const formConfig = {
             type: 'object',
             required: ['applicantFullName'],
             properties: {
-              applicantFullName: fullName.schema,
-              applicantSocialSecurityNumber: ssn.schema,
-              applicantDateOfBirth: currentOrPastDate.schema,
-              applicantGender: _.assign(gender, {
+              relativeFullName: fullName.schema,
+              relativeSocialSecurityNumber: ssn.schema,
+              relativeDateOfBirth: currentOrPastDate.schema,
+              gender: _.assign(gender, {
                 enumNames: enumToNames(gender.enum, genderLabels)
               }),
               relationship: _.assign(relationship, {
