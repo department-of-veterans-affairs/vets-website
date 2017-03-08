@@ -20,12 +20,8 @@ Optional text to introduce the after you apply page.
 
 <div class="call-out" markdown="0">
 
-<h3 style="padding:0">
-  30 days
-</h3>
-<p style="padding:0">
-  Average time to process disability-related claims in January 2017.
-</p>
+<h3 style="padding:0">30 days</h3>
+<p style="padding:0">Average time to process disability-related claims in January 2017.</p>
 
 </div>
 
@@ -38,12 +34,9 @@ Optional text to introduce the after you apply page.
 
 Text describing actions you can take, like checking claim status or gathering evidence
 
-<a class="usa-button-primary" href="http://www.google.com">
-  Track the status of your claim
-</a>
+<a class="usa-button-primary" href="http://www.google.com">Track the status of your claim</a>
 
 <div markdown="0"><br></div>
-
 
 ### What happens after I apply?
 

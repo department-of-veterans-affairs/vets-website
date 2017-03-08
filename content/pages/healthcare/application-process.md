@@ -34,16 +34,11 @@ Text informing how to prepare for this application
 
 </div>
 
-
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="0">
-	<div class="usa-alert-body">
-		<h4 style="padding:0">
-			Alert describing an important exception
-		</h4>
-		<p style="margin:0">
-			Text describing the exception and a <a href="http://www.google.com">link to do something</a>
-		</p>
-  </div>
+<div class="usa-alert-body">
+<h4 style="padding:0">Alert describing an important exception</h4>
+<p style="margin:0">Text describing the exception and a <a href="http://www.google.com">link to do something</a></p>
+</div>
 </div>
 
 <div markdown="0"><br></div>
@@ -52,9 +47,7 @@ Text informing how to prepare for this application
 
 Some optional text about the online application.
 
-<a class="usa-button-primary va-button-primary" href="http://www.google.com">
-	Apply online for this benefit
-</a>
+<a class="usa-button-primary va-button-primary" href="http://www.google.com">Apply online for this benefit</a>
 
 <div markdown="0"><br></div>
 
@@ -71,9 +64,9 @@ Information about calling by phone
 Information on how to [download the application](http://www.google.com) and mailing address:
 
 <dl class="va-address-block">
-    <dd>Address Line 1</dd>
-    <dd>Address Line 2</dd>
-    <dd>Address Line 3</dd>
+<dd>Address Line 1</dd>
+<dd>Address Line 2</dd>
+<dd>Address Line 3</dd>
 </dl>
 
 #### In person
@@ -87,9 +80,7 @@ Information about applying in person
 
 Optional text about managing or tracking this benefit
 
-<a class="usa-button-primary" href="http://www.google.com">
-	Track the status of your claim
-</a>
+<a class="usa-button-primary" href="http://www.google.com">Track the status of your claim</a>
 
 <div markdown="0"><br></div>
 
