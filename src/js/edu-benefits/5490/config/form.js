@@ -92,19 +92,19 @@ const formConfig = {
           path: 'military-service/sponsor-veteran',
           uiSchema: {
             relationship: {
-              'ui:title': 'What is your relationship to the Servicemember whose benefit is being transferred to you?',
+              'ui:title': 'What is your relationship to the Servicemember whose benefit we\'re transferring to you?',
               'ui:widget': 'radio'
             },
             spouseInfo: {
               divorcePending: {
-                'ui:title': 'Is there a divorce or annulment pending to the qualifying individual?',
+                'ui:title': 'Is there a divorce or annulment pending with the qualifying individual? (The qualifying individual is the person whose benefit you\'re claiming)',
                 'ui:widget': 'yesNo'
               },
               remarried: {
-                'ui:title': 'If you are the surviving spouse, have you remarried?',
+                'ui:title': 'If you\'re the surviving spouse, did you get remarried?',
                 'ui:widget': 'yesNo'
               },
-              remarriageDate: _.assign(date.uiSchema('Remarriage Date'), {
+              remarriageDate: _.assign(date.uiSchema('Date you got remarried'), {
                 'ui:options': {
                   // Needs the || because it's undefined on other pages
                   hideIf: (fieldData) => !_.get('spouseInfo.remarried', fieldData)
@@ -119,13 +119,14 @@ const formConfig = {
             }),
             veteranSocialSecurityNumber: ssn.uiSchema,
             veteranDateOfBirth: currentOrPastDate.uiSchema('Date of Birth'),
-            veteranDateOfDeath: currentOrPastDate.uiSchema('Date listed as MIA, POW, or as deceased'),
+            veteranDateOfDeath: currentOrPastDate.uiSchema('Date of death or date listed as MIA or POW'),
           },
           schema: {
             type: 'object',
             definitions: {
               date: date.schema // For spouseInfo
             },
+            required: ['veteranSocialSecurityNumber'],
             properties: {
               relationship: _.assign(relationship, {
                 enumNames: enumToNames(relationship.enum, relationshipLabels)
@@ -150,7 +151,7 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             outstandingFelony: {
-              'ui:title': 'Do you or the qualifying individual on whose account you are claiming benefits have an outstanding felony and/or warrant?',
+              'ui:title': 'Do you, or the qualifying individual on whose account you\'re claiming benefits, have an outstanding felony and/or warrant?',
               'ui:widget': 'yesNo'
             }
           },
@@ -204,7 +205,7 @@ const formConfig = {
           path: 'military-service/contributions',
           uiSchema: {
             civilianBenefitsAssistance: {
-              'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
+              'ui:title': 'I\'m getting benefits from the U.S. Government as a civilian employee during the same time as I\'m seeking benefits from VA.'
             },
             civilianBenefitsSource: {
               'ui:title': 'What is the source of these funds?',
