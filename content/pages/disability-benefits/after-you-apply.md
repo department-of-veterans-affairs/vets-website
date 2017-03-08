@@ -14,14 +14,13 @@ relatedlinks:
    description: ""
 ---
 
-Optional text to introduce the after you apply page.
 
 ### How long does it take VA to make a decision?
 
 <div class="call-out" markdown="0">
 
 <h3 style="padding:0">
-  30 days
+  121.8 days
 </h3>
 <p style="padding:0">
   Average time to process disability-related claims in January 2017.
@@ -31,15 +30,16 @@ Optional text to introduce the after you apply page.
 
 #### The amount of time it takes to review your claim depends on:
 
-- Reason
-- Reason
+- The type of claim you filed
+- How many injuries or disabilities you claimed and how complex they are
+- How long it takes us to collect the evidence needed to decide your claim
 
 ### What should I do while I wait?
 
-Text describing actions you can take, like checking claim status or gathering evidence
+You don't need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. 
 
-<a class="usa-button-primary" href="http://www.google.com">
-  Track the status of your claim
+
+<a class="usa-button-primary" href="/disability-benefits/track-claims/your-claims"  Track the status of your claim
 </a>
 
 <div markdown="0"><br></div>
@@ -47,26 +47,32 @@ Text describing actions you can take, like checking claim status or gathering ev
 
 ### What happens after I apply?
 
-#### Step one
+#### Claim Received
 
-- Process task
-- Process task
+You’ll see a notice from us in your claims list within about 1 hour if you applied online with VONAPP Direct Connect. If you applied through the U.S. mail, you’ll need to allow for mailing time plus 1 week before you get a note telling you we have your claim.
 
-#### Step two
+#### Initial Review
 
-- Process task
-- Process task
+A Veterans Service Representative (VSR) will review your claim. It’ll move to step 3 if we don’t need any more evidence to support it.
 
-#### Step three
+#### Evidence Gathering, Review, and Decision
 
-- Process task
-- Process task
+During this step, the VSR will do 3 things:
+	- Ask for evidence from you, health care providers, governmental agencies, or others
+	- Review the evidence
+	- Make a decision
+	- If we need more evidence during the review, your claim may return to this step more than once.
+ 
+#### Preparation for Notification
 
-### What happens after I receive a decision?
+We’ll get your entire claim decision packet ready to be mailed.
 
-Text describing actions you can take like appealing a decision, or services you can use on Vets.gov. 
+#### Claim Complete
 
-- Bullet
-- Bullet
+We’ll send you a packet by U.S. mail that includes details of the decision on your claim. Please allow 7 to 10 business days for your packet to arrive before contacting a VA call center.
+
+### What should I do if I disagree with your decision?
+
+If you disagree with our decision, you can appeal it. The decision notice will have instructions on how to file an appeal. [File an appeal now](/disability-benefits/claims-appeal/).
 
 <div markdown="0"><br></div>
