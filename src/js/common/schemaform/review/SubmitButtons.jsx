@@ -40,13 +40,8 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
 
     if (__BUILDTYPE__ !== 'production') {
       submitButton = (
-        <div className="row form-progress-buttons">
-          <div className="small-6 medium-6 columns">
-            <ProgressButton
-                onButtonClick={onSubmit}
-                buttonText="Submit Again (dev and staging only)"
-                buttonClass="usa-button-primary"/>
-          </div>
+        <div className="small-6 medium-6 columns">
+          <a onClick={onSubmit}>Submit again</a>
         </div>
       );
     }
@@ -64,8 +59,8 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
               <button className="usa-button-primary">Go Back to Vets.gov</button>
             </a>
           </div>
+          {submitButton}
         </div>
-        {submitButton}
       </div>
     );
   }
