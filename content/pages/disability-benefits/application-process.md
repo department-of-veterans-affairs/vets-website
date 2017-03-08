@@ -18,8 +18,7 @@ relatedlinks:
 ### Prepare
 
 - [Check your eligibility](/disability-benefits/eligibility).
-- Be sure your claim is filled out completely and that you’ve included all supporting documents. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/
-).
+- Be sure your claim is filled out completely and that you’ve included all supporting documents. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
 
 <div markdown="0"><br></div>
 
@@ -44,9 +43,7 @@ For all disability claims, please provide:
 
 ### Apply online
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">
-	Go to eBenefits to apply
-</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a>
 
 <div markdown="0"><br></div>
 
@@ -64,9 +61,7 @@ You can work with an accredited representative who can help you file a claim.  [
 
 Optional text about managing or tracking this benefit
 
-<a class="usa-button-primary" href="/disability-benefits/track-claims/your-claims">
-	Track the status of your claim
-</a>
+<a class="usa-button-primary" href="/disability-benefits/track-claims/your-claims">Track the status of your claim</a>
 
 <div markdown="0"><br></div>
 
