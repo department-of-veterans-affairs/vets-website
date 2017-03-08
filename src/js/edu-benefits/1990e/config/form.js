@@ -8,7 +8,6 @@ import {
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
-import * as gender from '../../../common/schemaform/definitions/gender';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 
@@ -18,6 +17,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { enumToNames, benefitsLabels, relationshipLabels } from '../../utils/helpers';
 
 const {
+  gender,
   relationship
 } = fullSchema1990e.definitions;
 
@@ -49,7 +49,10 @@ const formConfig = {
             applicantFullName: fullName.uiSchema,
             applicantSocialSecurityNumber: ssn.uiSchema,
             applicantDateOfBirth: currentOrPastDate.uiSchema('Applicant date of birth'),
-            applicantGender: gender.uiSchema('Applicant gender'),
+            applicantGender: {
+              'ui:widget': 'radio',
+              'ui:title': 'Applicant gender'
+            },
             relationship: {
               'ui:widget': 'radio',
               'ui:title': 'What is your relationship to the service member whose benefit is being transferred to you?'
