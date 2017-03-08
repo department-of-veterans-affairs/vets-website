@@ -10,8 +10,9 @@ import directDeposit from '../../pages/directDeposit';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
-import * as fullName from '../../../common/schemaform/definitions/fullName';
-import * as ssn from '../../../common/schemaform/definitions/ssn';
+import * as fullNameCommon from '../../../common/schemaform/definitions/fullName';
+import * as ssnCommon from '../../../common/schemaform/definitions/ssn';
+import * as address from '../../../common/schemaform/definitions/address';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -24,11 +25,15 @@ import {
 
 const {
   gender,
-  relationship
+  relationship,
+  fullName,
+  ssn
 } = fullSchema1990e.definitions;
 
 const {
   benefit,
+  serviceBranch,
+  civilianBenefitsAssistance
 } = fullSchema1990e.properties;
 
 const {
@@ -58,8 +63,8 @@ const formConfig = {
           title: 'Applicant information',
           initialData: {},
           uiSchema: {
-            relativeFullName: fullName.uiSchema,
-            relativeSocialSecurityNumber: ssn.uiSchema,
+            relativeFullName: fullNameCommon.uiSchema,
+            relativeSocialSecurityNumber: ssnCommon.uiSchema,
             relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
             gender: {
               'ui:widget': 'radio',
@@ -80,8 +85,8 @@ const formConfig = {
             type: 'object',
             required: ['relativeFullName'],
             properties: {
-              relativeFullName: fullName.schema,
-              relativeSocialSecurityNumber: ssn.schema,
+              relativeFullName: fullNameCommon.schema,
+              relativeSocialSecurityNumber: ssnCommon.schema,
               relativeDateOfBirth: currentOrPastDate.schema,
               gender,
               relationship
@@ -124,6 +129,38 @@ const formConfig = {
     sponsorVeteran: {
       title: 'Sponsor Veteran',
       pages: {
+        sponsorVeteran: {
+          title: 'Sponsor Veteran',
+          path: 'sponsor-veteran',
+          uiSchema: {
+            sponsorVeteran: {
+              veteranFullName: fullNameCommon.uiSchema,
+              veteranSocialSecurityNumber: ssnCommon.uiSchema,
+              veteranAddress: address.uiSchema(),
+              serviceBranch: {
+                'ui:title': 'Branch of Service'
+              },
+              civilianBenefitsAssistance: {
+                'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              sponsorVeteran: {
+                type: 'object',
+                properties: {
+                  veteranFullName: fullName,
+                  veteranSocialSecurityNumber: ssn,
+                  veteranAddress: address.schema(false),
+                  serviceBranch,
+                  civilianBenefitsAssistance
+                },
+              }
+            }
+          }
+        }
       }
     },
     educationHistory: {
