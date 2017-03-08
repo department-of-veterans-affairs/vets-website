@@ -35,6 +35,11 @@ export const relationshipLabels = {
   child: 'Child'
 };
 
+export const genderLabels = {
+  F: 'Female',
+  M: 'Male'
+};
+
 export function getLabel(options, value) {
   const matched = _.find(options, option => option.value === value);
 

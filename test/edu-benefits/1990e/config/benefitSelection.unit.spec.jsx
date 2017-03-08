@@ -16,8 +16,6 @@ describe('Edu 1990e benefitEligibility', () => {
           data={{}}
           uiSchema={uiSchema}/>
     );
-    const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
-
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input'))
       .to.not.be.empty;
   });
@@ -34,9 +32,7 @@ describe('Edu 1990e benefitEligibility', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-
     submitForm(form);
-
     expect(onSubmit.called).to.be.true;
   });
 });
