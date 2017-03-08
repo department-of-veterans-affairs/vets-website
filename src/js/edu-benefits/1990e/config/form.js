@@ -14,7 +14,12 @@ import * as ssn from '../../../common/schemaform/definitions/ssn';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { enumToNames, benefitsLabels, relationshipLabels } from '../../utils/helpers';
+import {
+  enumToNames,
+  benefitsLabels,
+  relationshipLabels,
+  genderLabels
+} from '../../utils/helpers';
 
 const {
   gender,
@@ -65,13 +70,15 @@ const formConfig = {
               applicantFullName: fullName.schema,
               applicantSocialSecurityNumber: ssn.schema,
               applicantDateOfBirth: currentOrPastDate.schema,
-              applicantGender: gender.schema,
+              applicantGender: _.assign(gender, {
+                enumNames: enumToNames(gender.enum, genderLabels)
+              }),
               relationship: _.assign(relationship, {
                 enumNames: enumToNames(relationship.enum, relationshipLabels)
               })
             }
           }
-        },
+        }
       }
     },
     benefitEligibility: {
