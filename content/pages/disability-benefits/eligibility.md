@@ -38,12 +38,9 @@ Who's covered?
 
 [Learn about the application process](/disability-benefits/application-process), or
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">
-	Go to eBenefits to apply
-</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a>
 
 <div markdown="0"><br></div>
-
 
 ### What conditions are covered by these benefits? 
 

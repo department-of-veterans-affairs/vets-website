@@ -14,17 +14,12 @@ relatedlinks:
    description: ""
 ---
 
-
 ### How long does it take VA to make a decision?
 
 <div class="call-out" markdown="0">
 
-<h3 style="padding:0">
-  121.8 days
-</h3>
-<p style="padding:0">
-  Average time to process disability-related claims in January 2017.
-</p>
+<h3 style="padding:0">121.8 days</h3>
+<p style="padding:0">Average time to process disability-related claims in January 2017.</p>
 
 </div>
 
@@ -38,12 +33,9 @@ relatedlinks:
 
 You don't need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. 
 
-
-<a class="usa-button-primary" href="/disability-benefits/track-claims/your-claims"  Track the status of your claim
-</a>
+<a class="usa-button-primary" href="/disability-benefits/track-claims/your-claims">Track the status of your claim</a>
 
 <div markdown="0"><br></div>
-
 
 ### What happens after I apply?
 
@@ -58,10 +50,10 @@ A Veterans Service Representative (VSR) will review your claim. It’ll move to 
 #### Evidence Gathering, Review, and Decision
 
 During this step, the VSR will do 3 things:
-	- Ask for evidence from you, health care providers, governmental agencies, or others
-	- Review the evidence
-	- Make a decision
-	- If we need more evidence during the review, your claim may return to this step more than once.
+- Ask for evidence from you, health care providers, governmental agencies, or others
+- Review the evidence
+- Make a decision
+- If we need more evidence during the review, your claim may return to this step more than once.
  
 #### Preparation for Notification
 

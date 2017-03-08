@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Disability Benefits: Application Process
+title: Disability Benefits Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 7-get-page-alt
 showactionbar: false
@@ -13,7 +13,6 @@ relatedlinks:
    title: Placeholder
    description: ""
 ---
-
 
 ### Prepare
 
