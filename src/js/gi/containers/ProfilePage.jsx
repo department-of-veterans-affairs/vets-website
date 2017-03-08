@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+
+import { fetchProfile, showModal } from '../actions';
 import AccordionItem from '../components/AccordionItem';
 import If from '../components/If';
 import HeadingSummary from '../components/profile/HeadingSummary';
@@ -9,16 +10,16 @@ import Outcomes from '../components/profile/Outcomes';
 import Calculator from '../components/profile/Calculator';
 import CautionaryInformation from '../components/profile/CautionaryInformation';
 import AdditionalInformation from '../components/profile/AdditionalInformation';
+import { outcomeNumbers } from '../selectors/outcomes';
 
 export class ProfilePage extends React.Component {
 
   componentDidMount() {
-    this.props.fetch(this.props.params.facilityCode);
+    this.props.fetchProfile(this.props.params.facilityCode);
   }
 
   render() {
-    const constants = this.props.constants.constants;
-    const profile = this.props.profile;
+    const { constants, outcomes, profile } = this.props;
     // TODO - set page title
     // const title = `${profile.attributes.name} - GI Bill Comparison Tool`;
     // this.props.setPageTitle(title);
@@ -34,7 +35,9 @@ export class ProfilePage extends React.Component {
           </AccordionItem>
           <AccordionItem button="Student outcomes">
             <If condition={!!profile.attributes.facilityCode && !!constants} comment="TODO">
-              <Outcomes/>
+              <Outcomes
+                  graphing={outcomes}
+                  showModal={this.props.showModal}/>
             </If>
           </AccordionItem>
           <a name="viewWarnings"></a>
@@ -51,20 +54,15 @@ export class ProfilePage extends React.Component {
 
 }
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state) => {
+  const { constants: { constants }, profile } = state;
+  const outcomes = constants ? outcomeNumbers(state) : null;
+  return { constants, outcomes, profile };
+};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showModal: (name) => {
-      dispatch(actions.showModal(name));
-    },
-    setPageTitle: (title) => {
-      dispatch(actions.setPageTitle(title));
-    },
-    fetch: (facilityCode) => {
-      dispatch(actions.fetchProfile(facilityCode));
-    }
-  };
+const mapDispatchToProps = {
+  fetchProfile,
+  showModal
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
