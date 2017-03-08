@@ -13,6 +13,7 @@ import {
   setDate,
   toggleAllReports,
   toggleReportType,
+  resetForm,
 } from '../actions/form';
 import { openModal } from '../actions/modal';
 import { apiRequest } from '../utils/helpers';
@@ -35,7 +36,8 @@ export class Main extends React.Component {
   }
 
   componentDidMount() {
-    // kick off PHR refresh process
+    this.props.resetForm();
+    // kick off initial PHR refresh process
     apiRequest('/v0/health_records/refresh');
   }
 
@@ -298,6 +300,7 @@ const mapDispatchToProps = {
   setDate,
   toggleAllReports,
   toggleReportType,
+  resetForm,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -65,7 +65,6 @@ class ObjectField extends React.Component {
       uiSchema,
       errorSchema,
       idSchema,
-      formData,
       formContext
     } = this.props;
     const { definitions, fields } = this.props.registry;
@@ -74,6 +73,7 @@ class ObjectField extends React.Component {
 
     const properties = Object.keys(schema.properties);
     const isRoot = idSchema.$id === 'root';
+    const formData = this.props.formData || {};
 
     const renderField = (propName, index) => {
       return (

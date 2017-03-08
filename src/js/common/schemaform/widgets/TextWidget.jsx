@@ -13,7 +13,7 @@ export default function TextWidget(props) {
         maxLength={props.schema.maxLength}
         autoComplete={props.options.autocomplete || false}
         className={props.options.widgetClassNames}
-        value={props.value}
+        value={props.value || ''}
         onBlur={() => props.onBlur(props.id)}
         onChange={(event) => props.onChange(event.target.value ? event.target.value : undefined)}/>
   );
