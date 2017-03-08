@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { enumToNames } from '../utils/helpers.js';
+import { enumToNames } from '../utils/helpers';
 
 import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
 

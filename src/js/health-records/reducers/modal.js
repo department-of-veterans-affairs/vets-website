@@ -4,7 +4,7 @@ const initialState = {
   visible: false,
 };
 
-export default function disclaimer(state = initialState, action) {
+export default function modal(state = initialState, action) {
   switch (action.type) {
     case 'GLOSSARY_MODAL_OPENED':
       return {
