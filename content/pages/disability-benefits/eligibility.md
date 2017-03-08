@@ -25,7 +25,7 @@ You may be eligible for these reasons:
 - Reason
 - Reason
 
-If none of the above apply to you, you may be able to get coverage by following [this link](#)
+If none of the above apply to you, you may be able to get coverage by following [this link]()
 
 #### Who is covered
 
