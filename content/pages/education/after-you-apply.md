@@ -6,12 +6,12 @@ template: 7-get-page-alt
 showactionbar: false
 stickyactionbox: false
 relatedlinks:
-  - url: #
-    title: Placeholder
-    description: ""
-  - url: #
-    title: Placeholder
-    description: ""
+ - url:
+   title: Placeholder
+   description: ""
+ - url:
+   title: Placeholder
+   description: ""
 ---
 
 Optional text to introduce the after you apply page.

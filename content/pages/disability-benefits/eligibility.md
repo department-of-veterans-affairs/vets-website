@@ -6,12 +6,12 @@ template: 7-get-page-alt
 showactionbar: false
 stickyactionbox: false
 relatedlinks:
-  - url: #
-    title: Placeholder
-    description: ""
-  - url: #
-    title: Placeholder
-    description: ""
+ - url: 
+   title: Placeholder
+   description: ""
+ - url: 
+   title: Placeholder
+   description: ""
 ---
 
 Optional text to introduce the eligibility page.
@@ -25,7 +25,7 @@ You may be eligible for these reasons:
 - Reason
 - Reason
 
-If none of the above apply to you, you may be able to get coverage by following [this link](#)
+If none of the above apply to you, you may be able to get coverage by following [this link]()
 
 #### Who is covered
 
