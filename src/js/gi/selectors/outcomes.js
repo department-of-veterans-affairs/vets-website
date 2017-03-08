@@ -7,8 +7,7 @@ const getRequiredAttributes = (state) => {
     graduationRateVeteran,
     graduationRateAllStudents,
     salaryAllStudents,
-    predDegreeAwarded,
-    vaHighestDegreeOffered,
+    highestDegree,
     retentionRateVeteranOtb,
     retentionRateVeteranBa,
     retentionAllStudentsBa,
@@ -19,8 +18,7 @@ const getRequiredAttributes = (state) => {
     graduationRateVeteran,
     graduationRateAllStudents,
     salaryAllStudents,
-    predDegreeAwarded,
-    vaHighestDegreeOffered,
+    highestDegree,
     retentionRateVeteranOtb,
     retentionRateVeteranBa,
     retentionAllStudentsBa,
@@ -41,35 +39,30 @@ const whenDataAvailable = (n1, n2, obj) => {
 export const outcomeNumbers = createSelector(
   [getConstants, getRequiredAttributes],
   (constant, institution) => {
-    const getVeteranRetentionRate = () => {
-      const a = [3, 4].includes(institution.predDegreeAwarded);
-      const b = String(institution.vaHighestDegreeOffered).toLowerCase() === '4-year';
-      const upperClass = a || b;
-      if (upperClass) {
+    const veteranRetentionRate = (() => {
+      if (institution.highestDegree === 4) {
         return institution.retentionRateVeteranBa || institution.retentionRateVeteranOtb;
       }
       return institution.retentionRateVeteranOtb || institution.retentionRateVeteranBa;
-    };
+    })();
 
-    const getAllStudentRetentionRate = () => {
-      const a = [3, 4].includes(institution.predDegreeAwarded);
-      const b = String(institution.vaHighestDegreeOffered).toLowerCase() === '4-year';
-      const upperClass = a || b;
-      if (upperClass) {
+    const allStudentRetentionRate = (() => {
+      if (institution.highestDegree === 4) {
         return institution.retentionAllStudentsBa || institution.retentionAllStudentsOtb;
       }
       return institution.retentionAllStudentsOtb || institution.retentionAllStudentsBa;
-    };
+    })();
 
     const retention = whenDataAvailable(
-      getVeteranRetentionRate(),
-      getAllStudentRetentionRate(),
+      veteranRetentionRate,
+      allStudentRetentionRate,
       {
-        rate: isNumeric(getVeteranRetentionRate()) ? Number(getVeteranRetentionRate() * 100) : null,
-        all: isNumeric(getAllStudentRetentionRate()) ? Number(getAllStudentRetentionRate() * 100) : null,
+        rate: isNumeric(veteranRetentionRate) ? Number(veteranRetentionRate * 100) : null,
+        all: isNumeric(allStudentRetentionRate) ? Number(allStudentRetentionRate * 100) : null,
         average: constant.AVERETENTIONRATE,
       }
     );
+
     const graduation = whenDataAvailable(
       institution.graduationRateVeteran,
       institution.graduationRateAllStudents,
@@ -79,6 +72,7 @@ export const outcomeNumbers = createSelector(
         average: constant.AVEGRADRATE,
       }
     );
+
     const salary = whenDataAvailable(
       null,
       institution.salaryAllStudents,
@@ -87,6 +81,7 @@ export const outcomeNumbers = createSelector(
         average: constant.AVESALARY,
       }
     );
+
     const repayment = whenDataAvailable(
       null,
       institution.repaymentRateAllStudents,
@@ -96,6 +91,7 @@ export const outcomeNumbers = createSelector(
         average: constant.AVEREPAYMENTRATE,
       }
     );
+
     return {
       retention,
       graduation,
