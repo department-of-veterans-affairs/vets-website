@@ -50,6 +50,7 @@ export const outcomeNumbers = createSelector(
       }
       return institution.retentionRateVeteranOtb || institution.retentionRateVeteranBa;
     };
+
     const getAllStudentRetentionRate = () => {
       const a = [3, 4].includes(institution.predDegreeAwarded);
       const b = String(institution.vaHighestDegreeOffered).toLowerCase() === '4-year';
@@ -64,8 +65,8 @@ export const outcomeNumbers = createSelector(
       getVeteranRetentionRate(),
       getAllStudentRetentionRate(),
       {
-        rate: isNumeric(getVeteranRetentionRate()) ? Number(getVeteranRetentionRate(institution) * 100) : null,
-        all: isNumeric(getAllStudentRetentionRate()) ? Number(getAllStudentRetentionRate(institution) * 100) : null,
+        rate: isNumeric(getVeteranRetentionRate()) ? Number(getVeteranRetentionRate() * 100) : null,
+        all: isNumeric(getAllStudentRetentionRate()) ? Number(getAllStudentRetentionRate() * 100) : null,
         average: constant.AVERETENTIONRATE,
       }
     );
