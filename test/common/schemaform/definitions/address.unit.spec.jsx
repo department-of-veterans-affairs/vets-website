@@ -137,4 +137,23 @@ describe('Schemaform definition address', () => {
 
     expect(formDOM.querySelector('#root_street').value).to.equal('123 street');
   });
+  it('should update country field in empty address', () => {
+    const s = schema(false);
+    const uis = uiSchema();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={s}
+          uiSchema={uis}/>
+    );
+
+    const formDOM = findDOMNode(form);
+
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_country'), {
+      target: {
+        value: 'CAN'
+      }
+    });
+
+    expect(formDOM.querySelector('#root_country').value).to.equal('CAN');
+  });
 });

@@ -54,8 +54,17 @@ class Address extends React.Component {
     }
 
     const fields = Object.keys(newState);
-    if (fields.length === 0 || fields.every(field => field === 'country' || newState[field] === undefined)) {
-      // send undefined so that the object is removed
+    const isDefaultAddress = fields.every(field => {
+      if (field === 'country' && this.props.schema.properties[field].default === newState[field]) {
+        return true;
+      } else if (newState[field] === undefined) {
+        return true;
+      }
+
+      return false;
+    });
+    if (fields.length === 0 || isDefaultAddress) {
+      // send undefined so that the object is removed from the form output
       this.props.onChange();
     } else {
       this.props.onChange(newState);
