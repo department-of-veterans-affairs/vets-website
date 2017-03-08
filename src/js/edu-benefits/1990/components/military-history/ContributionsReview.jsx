@@ -1,5 +1,5 @@
 import React from 'react';
-import { displayDateIfValid } from '../../../utils/helpers.js';
+import { displayDateIfValid } from '../../../utils/helpers';
 
 export default class ContributionsReview extends React.Component {
   render() {

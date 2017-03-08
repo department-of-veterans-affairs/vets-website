@@ -1,5 +1,5 @@
 import React from 'react';
-import { displayMonthYearIfValid } from '../../../utils/helpers.js';
+import { displayMonthYearIfValid } from '../../../utils/helpers';
 
 export default class EducationHistoryReview extends React.Component {
   render() {
