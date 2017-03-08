@@ -6,10 +6,10 @@ template: 7-get-page-alt
 showactionbar: false
 stickyactionbox: false
 relatedlinks:
- - url:
+ - url: http://www.google.com
    title: Placeholder
    description: ""
- - url:
+ - url: http://www.google.com
    title: Placeholder
    description: ""
 ---
@@ -38,7 +38,7 @@ Optional text to introduce the after you apply page.
 
 Text describing actions you can take, like checking claim status or gathering evidence
 
-<a class="usa-button-primary" href="#">
+<a class="usa-button-primary" href="http://www.google.com">
   Track the status of your claim
 </a>
 

@@ -6,10 +6,10 @@ template: 7-get-page-alt
 showactionbar: false
 stickyactionbox: false
 relatedlinks:
- - url: 
+ - url: http://www.google.com
    title: Placeholder
    description: ""
- - url: 
+ - url: http://www.google.com
    title: Placeholder
    description: ""
 ---

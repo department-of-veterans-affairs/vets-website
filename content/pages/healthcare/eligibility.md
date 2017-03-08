@@ -6,10 +6,10 @@ template: 7-get-page-alt
 showactionbar: false
 stickyactionbox: false
 relatedlinks:
- - url: 
+ - url: http://www.google.com
    title: Placeholder
    description: ""
- - url: 
+ - url: http://www.google.com
    title: Placeholder
    description: ""
 ---
@@ -25,7 +25,7 @@ You may be eligible for these reasons:
 - Reason
 - Reason
 
-If none of the above apply to you, you may be able to get coverage by following [this link](#)
+If none of the above apply to you, you may be able to get coverage by following [this link](http://www.google.com)
 
 #### Who is covered
 
@@ -40,7 +40,7 @@ You and your dependents
 			Alert describing an important exception
 		</h4>
 		<p style="margin:0">
-			Text describing the exception and a <a href="#">link to do something</a>
+			Text describing the exception and a <a href="http://www.google.com">link to do something</a>
 		</p>
   </div>
 </div>
@@ -52,7 +52,7 @@ You and your dependents
 
 Some optional text about the application process page
 
-<a class="usa-button-primary va-button-primary" href="#">
+<a class="usa-button-primary va-button-primary" href="http://www.google.com">
 	See the application process
 </a>
 

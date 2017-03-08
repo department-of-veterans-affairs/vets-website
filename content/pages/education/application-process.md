@@ -6,10 +6,10 @@ template: 7-get-page-alt
 showactionbar: false
 stickyactionbox: false
 relatedlinks:
- - url: 
+ - url: http://www.google.com
    title: Placeholder
    description: ""
- - url: 
+ - url: http://www.google.com
    title: Placeholder
    description: ""
 ---
@@ -41,7 +41,7 @@ Text informing how to prepare for this application
 			Alert describing an important exception
 		</h4>
 		<p style="margin:0">
-			Text describing the exception and a <a href="#">link to do something</a>
+			Text describing the exception and a <a href="http://www.google.com">link to do something</a>
 		</p>
   </div>
 </div>
@@ -52,7 +52,7 @@ Text informing how to prepare for this application
 
 Some optional text about the online application.
 
-<a class="usa-button-primary va-button-primary" href="#">
+<a class="usa-button-primary va-button-primary" href="http://www.google.com">
 	Apply online for this benefit
 </a>
 
@@ -68,7 +68,7 @@ Information about calling by phone
 
 #### By mail
 
-Information on how to [download the application]() and mailing address:
+Information on how to [download the application](http://www.google.com) and mailing address:
 
 <dl class="va-address-block">
     <dd>Address Line 1</dd>
@@ -87,7 +87,7 @@ Information about applying in person
 
 Optional text about managing or tracking this benefit
 
-<a class="usa-button-primary" href="#">
+<a class="usa-button-primary" href="http://www.google.com">
 	Track the status of your claim
 </a>
 
@@ -95,6 +95,6 @@ Optional text about managing or tracking this benefit
 
 ### What happens after I apply?
 
-Call-to-action to the [after you apply]() page
+Call-to-action to the [after you apply](http://www.google.com) page
 
 <div markdown="0"><br></div>
