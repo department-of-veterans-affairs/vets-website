@@ -1,30 +1,20 @@
 import { createSelector } from 'reselect';
+import { pick } from 'lodash';
 
 const getConstants = (state) => state.constants.constants;
 
 const getRequiredAttributes = (state) => {
-  const {
-    graduationRateVeteran,
-    graduationRateAllStudents,
-    salaryAllStudents,
-    highestDegree,
-    retentionRateVeteranOtb,
-    retentionRateVeteranBa,
-    retentionAllStudentsBa,
-    retentionAllStudentsOtb,
-    repaymentRateAllStudents,
-  } = state.profile.attributes;
-  return {
-    graduationRateVeteran,
-    graduationRateAllStudents,
-    salaryAllStudents,
-    highestDegree,
-    retentionRateVeteranOtb,
-    retentionRateVeteranBa,
-    retentionAllStudentsBa,
-    retentionAllStudentsOtb,
-    repaymentRateAllStudents,
-  };
+  return pick(state.profile.attributes, [
+    'graduationRateVeteran',
+    'graduationRateAllStudents',
+    'salaryAllStudents',
+    'highestDegree',
+    'retentionRateVeteranOtb',
+    'retentionRateVeteranBa',
+    'retentionAllStudentsBa',
+    'retentionAllStudentsOtb',
+    'repaymentRateAllStudents'
+  ]);
 };
 
 const isNumeric = (n) => (!Number.isNaN(parseFloat(n)));
@@ -39,19 +29,15 @@ const whenDataAvailable = (n1, n2, obj) => {
 export const outcomeNumbers = createSelector(
   [getConstants, getRequiredAttributes],
   (constant, institution) => {
-    const veteranRetentionRate = (() => {
-      if (institution.highestDegree === 4) {
-        return institution.retentionRateVeteranBa || institution.retentionRateVeteranOtb;
-      }
-      return institution.retentionRateVeteranOtb || institution.retentionRateVeteranBa;
-    })();
+    const veteranRetentionRate =
+      institution.highestDegree === 4 ?
+      institution.retentionRateVeteranBa || institution.retentionRateVeteranOtb :
+      institution.retentionRateVeteranOtb || institution.retentionRateVeteranBa;
 
-    const allStudentRetentionRate = (() => {
-      if (institution.highestDegree === 4) {
-        return institution.retentionAllStudentsBa || institution.retentionAllStudentsOtb;
-      }
-      return institution.retentionAllStudentsOtb || institution.retentionAllStudentsBa;
-    })();
+    const allStudentRetentionRate =
+      institution.highestDegree === 4 ?
+      institution.retentionAllStudentsBa || institution.retentionAllStudentsOtb :
+      institution.retentionAllStudentsOtb || institution.retentionAllStudentsBa;
 
     const retention = whenDataAvailable(
       veteranRetentionRate,
