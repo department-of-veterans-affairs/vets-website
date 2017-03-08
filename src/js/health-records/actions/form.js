@@ -58,6 +58,12 @@ export function toggleAllReports(checked = true) {
   };
 }
 
+export function resetForm() {
+  return {
+    type: 'FORM_RESET',
+  };
+}
+
 export function submitForm(formData) {
   return (dispatch) => {
     apiRequest('/v0/health_records',

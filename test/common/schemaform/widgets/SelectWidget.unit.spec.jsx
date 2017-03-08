@@ -122,4 +122,24 @@ describe('Schemaform <SelectWidget>', () => {
     });
     expect(onBlur.calledWith('testing', 'test')).to.be.true;
   });
+  it('should not render blank option when default exists', () => {
+    const enumOptions = [
+      {
+        label: 'Testing',
+        val: 'test'
+      }
+    ];
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <SelectWidget
+          schema={{
+            'default': 'test'
+          }}
+          id="testing"
+          onChange={onChange}
+          options={{ enumOptions }}/>
+    );
+
+    expect(tree.everySubTree('option').length).to.equal(1);
+  });
 });
