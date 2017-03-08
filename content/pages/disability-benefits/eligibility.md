@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Eligibility Template
+title: Disability Eligibility 
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 7-get-page-alt
 showactionbar: false
@@ -14,56 +14,55 @@ relatedlinks:
    description: ""
 ---
 
-Optional text to introduce the eligibility page.
+If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
 
 <div class="feature" markdown="1">
 
-### Callout title
+### Can I get disability benefits from VA?
 
-You may be eligible for these reasons:
+You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and:
 
-- Reason
-- Reason
+- You got sick or injured while serving in the military—and can link this condition to your illness or injury, **or**
+- You had an illness or injury before you joined the military—and serving made it worse
 
-If none of the above apply to you, you may be able to get coverage by following [this link]()
+Who's covered?
 
-#### Who is covered
-
-You and your dependents
+- Veterans 
+- Qualified dependents
 
 </div>
-
-
-<div class="usa-alert usa-alert-warning usa-content secondary" markdown="0">
-	<div class="usa-alert-body">
-		<h4 style="padding:0">
-			Alert describing an important exception
-		</h4>
-		<p style="margin:0">
-			Text describing the exception and a <a href="#">link to do something</a>
-		</p>
-  </div>
-</div>
-
 
 <div markdown="0"><br></div>
 
 ### Ready to apply?
 
-Some optional text about the application process page
+[Learn about the application process](/disability-benefits/application-process), or
 
 <a class="usa-button-primary va-button-primary" href="#">
-	See the application process
+	Go to eBenefits to apply
 </a>
 
 <div markdown="0"><br></div>
 
 
-### Other benefit coverage information
+### What conditions are covered by these benefits? 
 
-Information about additional or specific coverage attached to this benefit
+You may be able to get benefits for conditions such as: 
 
-- Bullet
-- Bullet
+- Chronic (long-lasting) back pain resulting in a current diagnosed back disability
+- Breathing problems resulting from a current lung condition or lung disease
+- Severe hearing loss
+- Scar tissue
+- Loss of range of motion (problems moving your body)
+- Ulcers
+- Cancers caused by contact with toxic chemicals or other dangers
+
+You may also be able to get benefits for:
+- Traumatic brain injury (TBI)
+- Posttraumatic stress disorder (PTSD)
+- Depression
+- Anxiety
+
+[Get more information about conditions that may be covered](http://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).
 
 <div markdown="0"><br></div>
