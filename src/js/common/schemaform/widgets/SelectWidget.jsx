@@ -49,7 +49,7 @@ function SelectWidget({
           const newValue = getValue(event, multiple);
           onChange(processValue(schema, newValue));
         }}>
-      <option value="">{placeholder}</option>
+      {!schema.default && <option value="">{placeholder}</option>}
       {enumOptions.map((option, i) => {
         return <option key={i} value={option.value}>{option.label}</option>;
       })
