@@ -2,9 +2,8 @@
 layout: page-breadcrumbs.html
 title: Application Process Template
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: 7-get-page-alt
+template: 1-topic-landing
 showactionbar: false
-stickyactionbox: false
 relatedlinks:
  - url: http://www.google.com
    title: Placeholder
