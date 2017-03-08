@@ -18,7 +18,30 @@ describe('Edu 5490 militaryService -> applicantService', () => {
     );
     const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
 
-    expect(fields.length).to.equal(8);
+    expect(fields.length).to.equal(2);
+  });
+
+  it('should expand', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+
+    const applicantServedYes = Array.from(formDOM.querySelectorAll('input'))
+      .find(input => input.id.startsWith('root_view:applicantServedYes'));
+
+    ReactTestUtils.Simulate.change(applicantServedYes, {
+      target: {
+        checked: true
+      }
+    });
+
+    const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
+
+    expect(fields.length).to.equal(10);
   });
 
   it('should have no required inputs', () => {
@@ -48,7 +71,17 @@ describe('Edu 5490 militaryService -> applicantService', () => {
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input'), {
+
+    const applicantServedYes = Array.from(formDOM.querySelectorAll('input'))
+      .find(input => input.id.startsWith('root_view:applicantServedYes'));
+
+    ReactTestUtils.Simulate.change(applicantServedYes, {
+      target: {
+        checked: true
+      }
+    });
+
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_toursOfDuty_0_serviceBranch'), {
       target: {
         value: 'Army'
       }

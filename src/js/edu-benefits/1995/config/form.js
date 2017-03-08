@@ -138,12 +138,9 @@ const formConfig = {
               'ui:title': 'Do you have any new periods of service to record since you last applied for education benefits?',
               'ui:widget': 'yesNo'
             },
-            toursOfDuty: (() => {
-              // Add expandUnder without completely overriding ui:options
-              const newOne = _.cloneDeep(toursOfDutyUI);
-              newOne['ui:options'].expandUnder = 'view:newService';
-              return newOne;
-            })()
+            toursOfDuty: _.merge(toursOfDutyUI, {
+              'ui:options': { expandUnder: 'view:newService' }
+            })
           },
           schema: {
             type: 'object',

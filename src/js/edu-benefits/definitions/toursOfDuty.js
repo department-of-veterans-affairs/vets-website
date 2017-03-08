@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 import * as dateRange from '../../common/schemaform/definitions/dateRange';
 import ServicePeriodView from '../components/ServicePeriodView';
 
@@ -9,14 +11,6 @@ import ServicePeriodView from '../components/ServicePeriodView';
  *  they will appear in the form.
  */
 export function schema(propNames = ['serviceBranch', 'dateRange']) {
-  const todSchema = {
-    type: 'array',
-    items: {
-      type: 'object',
-      properties: {}
-    }
-  };
-
   const possibleProperties = {
     serviceBranch: {
       type: 'string'
@@ -33,12 +27,13 @@ export function schema(propNames = ['serviceBranch', 'dateRange']) {
     }
   };
 
-  // For each propName, fill in additional properties if possible
-  propNames.forEach((propName) => {
-    todSchema.items.properties[propName] = possibleProperties[propName];
-  });
-
-  return todSchema;
+  return {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: _.pick(propNames, possibleProperties)
+    }
+  };
 }
 
 export const uiSchema = {

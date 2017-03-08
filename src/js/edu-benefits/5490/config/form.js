@@ -13,6 +13,7 @@ import { enumToNames } from '../../utils/helpers';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
+import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as phone from '../../../common/schemaform/definitions/phone';
@@ -106,7 +107,7 @@ const formConfig = {
               remarriageDate: _.assign(date.uiSchema('Remarriage Date'), {
                 'ui:options': {
                   // Needs the || because it's undefined on other pages
-                  hideIf: (fieldData) => !fieldData.spouseInfo || !fieldData.spouseInfo.remarried
+                  hideIf: (fieldData) => !_.get('spouseInfo.remarried', fieldData)
                 }
               }),
               'ui:options': {
@@ -116,15 +117,13 @@ const formConfig = {
             relativeFullName: _.assign(fullName.uiSchema, {
               'ui:title': 'Name of Sponsor'
             }),
-            // This isn't running validation for some reason...
             veteranSocialSecurityNumber: ssn.uiSchema,
-            veteranDateOfBirth: date.uiSchema('Date of Birth'),
-            veteranDateOfDeath: date.uiSchema('Date listed as MIA, POW, or as deceased'),
+            veteranDateOfBirth: currentOrPastDate.uiSchema('Date of Birth'),
+            veteranDateOfDeath: currentOrPastDate.uiSchema('Date listed as MIA, POW, or as deceased'),
           },
           schema: {
             type: 'object',
             definitions: {
-              'ui:title': 'Sponsor Service',
               date: date.schema // For spouseInfo
             },
             properties: {
@@ -172,27 +171,31 @@ const formConfig = {
             // applyPeriodToSelected: true
           },
           uiSchema: {
-            toursOfDuty: (() => {
-              // Set and show the title
-              const uiSchema = toursOfDuty.uiSchema;
-              uiSchema['ui:title'] = 'Applicant service periods';
-              uiSchema['ui:options'].hideTitle = false;
-
-              // Set other labels
-              uiSchema.items = _.assign(uiSchema.items, {
-                serviceStatus: {
-                  'ui:title': 'Service Status'
-                }
-              });
-              return uiSchema;
-            })()
+            'view:applicantServed': {
+              'ui:title': 'Have you ever served on active duty in the armed services?',
+              'ui:widget': 'yesNo'
+            },
+            toursOfDuty: _.merge(toursOfDuty.uiSchema, {
+              'ui:options': {
+                expandUnder: 'view:applicantServed'
+              },
+              items: {
+                serviceStatus: { 'ui:title': 'Type of separation or discharge' }
+              }
+            })
           },
           schema: {
             type: 'object',
             properties: {
-              // Perhaps we can take benefitsToApplyTo out of the schema? Don't
-              //  know that it's actually used.
-              toursOfDuty: toursOfDuty.schema(['serviceBranch', 'dateRange', 'applyPeriodToSelected'])
+              'view:applicantServed': {
+                type: 'boolean'
+              },
+              toursOfDuty: toursOfDuty.schema([
+                'serviceBranch',
+                'dateRange',
+                'serviceStatus',
+                // 'applyPeriodToSelected'
+              ])
             }
           }
         },
