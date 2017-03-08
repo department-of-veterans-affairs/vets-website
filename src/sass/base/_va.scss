@@ -1239,10 +1239,11 @@ li {
  // Feedback widget
 
 .feedback-widget {
+  text-align: center;
   overflow: hidden;
 
-  @include media #{$small-only} {
-    text-align: center;
+  @include media($medium-large-screen) {
+    text-align: left;
   }
 
   // Works with <= IE8
