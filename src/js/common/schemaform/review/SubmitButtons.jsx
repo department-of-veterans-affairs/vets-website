@@ -30,10 +30,10 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
     );
   } else {
     submitMessage = (
-      <div className="usa-alert usa-alert-error">
+      <div className="usa-alert usa-alert-error schemaform-failure-alert">
         <div className="usa-alert-body">
           <p className="schemaform-warning-header"><strong>We're sorry, your application didn't go through.</strong></p>
-          <p>You'll have to start over. We suggest you wait 1 day while we fix a few things. <a href="/">Go back to vets.gov</a></p>
+          <p>You'll have to start over. We suggest you wait 1 day while we fix a few things.</p>
         </div>
       </div>
     );
@@ -56,6 +56,13 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
         <div className="row">
           <div className="small-12 medium-12 columns">
             {submitMessage}
+          </div>
+        </div>
+        <div className="row form-progress-buttons schemaform-back-buttons">
+          <div className="small-6 medium-6 columns">
+            <a href="/">
+              <button className="usa-button-primary">Go Back to Vets.gov</button>
+            </a>
           </div>
         </div>
         {submitButton}
