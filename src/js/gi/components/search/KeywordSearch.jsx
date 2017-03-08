@@ -32,6 +32,16 @@ export class KeywordSearch extends React.Component {
   }
 
   render() {
+    const { suggestions, searchTerm } = this.props.autocomplete;
+    const suggestionsList = [
+      {
+        id: null,
+        value: searchTerm,
+        label: searchTerm
+      },
+      ...suggestions
+    ];
+
     return (
       <div className="keyword-search">
         <label
@@ -40,14 +50,14 @@ export class KeywordSearch extends React.Component {
           {this.props.label}
         </label>
         <Autosuggest
-            suggestions={this.props.autocomplete.suggestions}
+            suggestions={suggestionsList}
             onSuggestionsFetchRequested={this.props.onSuggestionsFetchRequested}
             onSuggestionsClearRequested={this.props.onSuggestionsClearRequested}
             getSuggestionValue={this.clickedSuggestionValue}
             renderSuggestion={this.renderSuggestion}
             shouldRenderSuggestions={this.shouldRenderSuggestions}
             inputProps={{
-              value: this.props.autocomplete.searchTerm,
+              value: searchTerm,
               onChange: this.props.handleChange
             }}/>
       </div>
