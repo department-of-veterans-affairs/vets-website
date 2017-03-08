@@ -12,7 +12,7 @@ import AdditionalInformation from '../components/profile/AdditionalInformation';
 
 export class ProfilePage extends React.Component {
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetch(this.props.params.facilityCode);
   }
 
