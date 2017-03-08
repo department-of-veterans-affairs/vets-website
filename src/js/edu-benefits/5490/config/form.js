@@ -1,6 +1,9 @@
 import _ from 'lodash/fp';
 
 import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
+
+// benefitsLabels should be imported from utils/helpers, but for now, they don't
+//  all have links, so for consistency, use the set in ../helpers
 import {
   benefitsLabels,
   relationshipLabels,
@@ -8,13 +11,18 @@ import {
 } from '../helpers';
 import { enumToNames } from '../../utils/helpers';
 
+import * as address from '../../../common/schemaform/definitions/address';
+import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
+import * as phone from '../../../common/schemaform/definitions/phone';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
-
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 
+import contactInformation from '../../definitions/contactInformation';
+
 import IntroductionPage from '../components/IntroductionPage';
+import EmploymentPeriodView from '../components/EmploymentPeriodView';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
@@ -30,7 +38,9 @@ const {
 } = fullSchema5490.properties;
 
 const {
+  nonMilitaryJobs,
   relationship,
+  secondaryContact
 } = fullSchema5490.definitions;
 
 const formConfig = {
@@ -214,16 +224,100 @@ const formConfig = {
       title: 'Education History',
       pages: {}
     },
-    schoolSelection: {
-      title: 'School Selection',
-      pages: {}
+    employmentHistory: {
+      title: 'Employment History',
+      pages: {
+        employmentHistory: {
+          title: 'Employment history',
+          path: 'employment-history',
+          uiSchema: {
+            nonMilitaryJobs: {
+              items: {
+                name: {
+                  'ui:title': 'Main job'
+                },
+                months: {
+                  'ui:title': 'Number of months worked'
+                },
+                licenseOrRating: {
+                  'ui:title': 'Licenses or rating'
+                }
+              },
+              'ui:options': {
+                itemName: 'Employment Period',
+                viewField: EmploymentPeriodView,
+                hideTitle: true
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
+            }
+          }
+        }
+      }
     },
     personalInformation: {
       title: 'Personal Information',
-      pages: {}
+      pages: {
+        contactInformation,
+        secondaryContact: {
+          title: 'Secondary contact',
+          path: 'personal-information/secondary-contact',
+          initialData: {},
+          uiSchema: {
+            'ui:title': 'Secondary contact',
+            'ui:description': 'This person should know where you can be reached at all times.',
+            secondaryContact: {
+              fullName: {
+                'ui:title': 'Name'
+              },
+              phone: phone.uiSchema('Telephone number'),
+              sameAddress: {
+                'ui:title': 'Address for secondary contact is the same as mine'
+              },
+              address: _.merge(address.uiSchema(), {
+                'ui:options': {
+                  hideIf: (form) => _.get('secondaryContact.sameAddress', form) === true
+                }
+              })
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              secondaryContact: {
+                type: 'object',
+                properties: {
+                  fullName: secondaryContact.properties.fullName,
+                  phone: phone.schema,
+                  sameAddress: secondaryContact.properties.sameAddress,
+                  address: address.schema(),
+                }
+              }
+            }
+          }
+        },
+        directDeposit: {
+          title: 'Direct deposit',
+          path: 'personal-information/direct-deposit',
+          initialData: {},
+          uiSchema: {
+            'ui:title': 'Direct deposit',
+            bankAccount: bankAccount.uiSchema,
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              bankAccount: bankAccount.schema
+            }
+          }
+        }
+      }
     }
   }
 };
-
 
 export default formConfig;

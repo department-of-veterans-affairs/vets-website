@@ -2,11 +2,8 @@ import _ from 'lodash/fp';
 
 import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
 
-import { validateMatch } from '../../../common/schemaform/validation';
 import {
-  benefitsLabels,
   bankAccountChangeLabels,
-  preferredContactMethodLabels,
   transform,
   directDepositWarning
 } from '../helpers';
@@ -16,14 +13,14 @@ import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as dateRange from '../../../common/schemaform/definitions/dateRange';
-import * as phone from '../../../common/schemaform/definitions/phone';
 import * as address from '../../../common/schemaform/definitions/address';
 
 import * as educationType from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
+import contactInformation from '../../definitions/contactInformation';
 
-import { enumToNames, showSchoolAddress } from '../../utils/helpers';
+import { enumToNames, showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -34,7 +31,6 @@ const {
   educationObjective,
   nonVaAssistance,
   reasonForChange,
-  email,
   bankAccountChange
 } = fullSchema1995.properties;
 
@@ -265,57 +261,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: {
-          title: 'Contact information',
-          path: 'personal-information/contact-information',
-          initialData: {},
-          uiSchema: {
-            preferredContactMethod: {
-              'ui:title': 'How would you like to be contacted if we have questions about your application?',
-              'ui:widget': 'radio'
-            },
-            veteranAddress: address.uiSchema(),
-            'view:otherContactInfo': {
-              'ui:title': 'Other contact information',
-              'ui:description': 'Please enter as much contact information as possible so we can get in touch with you, if necessary.',
-              'ui:validations': [
-                validateMatch('email', 'view:confirmEmail')
-              ],
-              email: {
-                'ui:title': 'Email address'
-              },
-              'view:confirmEmail': {
-                'ui:title': 'Re-enter email address',
-                'ui:options': {
-                  hideOnReview: true
-                }
-              },
-              homePhone: _.assign(phone.uiSchema('Primary telephone number'), {
-                'ui:required': (form) => form.preferredContactMethod === 'phone'
-              }),
-              mobilePhone: phone.uiSchema('Mobile telephone number')
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              preferredContactMethod: _.assign(preferredContactMethod, {
-                enumNames: enumToNames(preferredContactMethod.enum, preferredContactMethodLabels)
-              }),
-              veteranAddress: address.schema(true),
-              'view:otherContactInfo': {
-                type: 'object',
-                required: ['email', 'view:confirmEmail'],
-                properties: {
-                  email,
-                  'view:confirmEmail': email,
-                  homePhone: phone.schema,
-                  mobilePhone: phone.schema
-                }
-              }
-            }
-          }
-        },
+        contactInformation,
         dependents: {
           title: 'Dependents',
           path: 'personal-information/depedents',
