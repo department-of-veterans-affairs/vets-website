@@ -9,7 +9,7 @@ const getRequiredAttributes = (state) => {
     salaryAllStudents,
     predDegreeAwarded,
     vaHighestDegreeOffered,
-    retentationRateVeteranOtb,
+    retentionRateVeteranOtb,
     retentionRateVeteranBa,
     retentionAllStudentsBa,
     retentionAllStudentsOtb,
@@ -21,7 +21,7 @@ const getRequiredAttributes = (state) => {
     salaryAllStudents,
     predDegreeAwarded,
     vaHighestDegreeOffered,
-    retentationRateVeteranOtb,
+    retentionRateVeteranOtb,
     retentionRateVeteranBa,
     retentionAllStudentsBa,
     retentionAllStudentsOtb,
@@ -46,9 +46,9 @@ export const outcomeNumbers = createSelector(
       const b = String(institution.vaHighestDegreeOffered).toLowerCase() === '4-year';
       const upperClass = a || b;
       if (upperClass) {
-        return institution.retentationRateVeteranBa || institution.retentionRateVeteranOtb;
+        return institution.retentionRateVeteranBa || institution.retentionRateVeteranOtb;
       }
-      return institution.retentationRateVeteranOtb || institution.retentionRateVeteranBa;
+      return institution.retentionRateVeteranOtb || institution.retentionRateVeteranBa;
     };
     const getAllStudentRetentionRate = () => {
       const a = [3, 4].includes(institution.predDegreeAwarded);
