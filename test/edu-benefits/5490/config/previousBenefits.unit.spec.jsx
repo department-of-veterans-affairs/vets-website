@@ -19,7 +19,7 @@ describe('Edu 5490 benefitSelection -> previousBenefits', () => {
     );
     const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
 
-    expect(fields.length).to.equal(6);
+    expect(fields.length).to.equal(7);
   });
 
   it('should expand options conditionally', () => {
@@ -35,10 +35,10 @@ describe('Edu 5490 benefitSelection -> previousBenefits', () => {
     // Note: The following checks for specific fields. Alternatively, we could
     //  check for a certain number of fields instead.
 
-    // Check that ownServiceBenefits and one of the benefits under
-    //  claimedSponsorService are not present
+    // Check that ownServiceBenefits and one of the benefits other expanded
+    //  inputs aren't there
     expect(formDOM.querySelector('#root_previousBenefits_ownServiceBenefits')).to.be.null;
-    expect(formDOM.querySelector('#root_previousBenefits_claimedSponsorService_chapter35')).to.be.null;
+    expect(formDOM.querySelector('#root_previousBenefits_chapter35')).to.be.null;
 
     // Expand both of the expandables
     const inputs = Array.from(formDOM.querySelectorAll('input'));
@@ -55,6 +55,6 @@ describe('Edu 5490 benefitSelection -> previousBenefits', () => {
 
     // Check that their expandUnder fields are present
     expect(formDOM.querySelector('#root_previousBenefits_ownServiceBenefits')).to.not.be.null;
-    expect(formDOM.querySelector('#root_previousBenefits_claimedSponsorService_chapter35')).to.not.be.null;
+    expect(formDOM.querySelector('#root_previousBenefits_chapter35')).to.not.be.null;
   });
 });
