@@ -48,12 +48,12 @@ describe('Edu 1990e applicantInformation', () => {
 
     const formDOM = findDOMNode(form);
     const find = formDOM.querySelector.bind(formDOM);
-    ReactTestUtils.Simulate.change(find('#root_applicantFullName_first'), {
+    ReactTestUtils.Simulate.change(find('#root_relativeFullName_first'), {
       target: {
         value: 'Test'
       }
     });
-    ReactTestUtils.Simulate.change(find('#root_applicantFullName_last'), {
+    ReactTestUtils.Simulate.change(find('#root_relativeFullName_last'), {
       target: {
         value: 'Test'
       }

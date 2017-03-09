@@ -1,5 +1,3 @@
-import _ from 'lodash/fp';
-
 import {
   transform,
   eligibilityDescription
@@ -15,7 +13,6 @@ import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  enumToNames,
   benefitsLabels,
   relationshipLabels,
   genderLabels
@@ -37,9 +34,6 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  defaultDefinitions: {
-    relationship
-  },
   title: 'Apply for transferred education benefits',
   subTitle: 'Form 22-1990e',
   chapters: {
@@ -56,11 +50,17 @@ const formConfig = {
             relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
             gender: {
               'ui:widget': 'radio',
-              'ui:title': 'Gender'
+              'ui:title': 'Gender',
+              'ui:options': {
+                labels: genderLabels
+              }
             },
             relationship: {
               'ui:widget': 'radio',
-              'ui:title': 'What is your relationship to the service member whose benefit is being transferred to you?'
+              'ui:title': 'What is your relationship to the service member whose benefit is being transferred to you?',
+              'ui:options': {
+                labels: relationshipLabels
+              }
             }
           },
           schema: {
@@ -70,12 +70,8 @@ const formConfig = {
               relativeFullName: fullName.schema,
               relativeSocialSecurityNumber: ssn.schema,
               relativeDateOfBirth: currentOrPastDate.schema,
-              gender: _.assign(gender, {
-                enumNames: enumToNames(gender.enum, genderLabels)
-              }),
-              relationship: _.assign(relationship, {
-                enumNames: enumToNames(relationship.enum, relationshipLabels)
-              })
+              gender,
+              relationship
             }
           }
         }
