@@ -69,6 +69,6 @@ Outcomes.propTypes = {
     }),
   }),
   showModal: React.PropTypes.func,
-}
+};
 
 export default Outcomes;
