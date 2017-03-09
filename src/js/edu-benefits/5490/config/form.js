@@ -4,7 +4,7 @@ import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.jso
 // benefitsLabels should be imported from utils/helpers, but for now, they don't
 //  all have links, so for consistency, use the set in ../helpers
 import { transform, benefitsLabels } from '../helpers';
-import { enumToNames, showSchoolAddress } from '../../utils/helpers';
+import { enumToNames } from '../../utils/helpers';
 import { states } from '../../../common/utils/options-for-select';
 
 import * as date from '../../../common/schemaform/definitions/date';
@@ -12,6 +12,7 @@ import * as bankAccount from '../../../common/schemaform/definitions/bankAccount
 import * as address from '../../../common/schemaform/definitions/address';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as educationType from '../../definitions/educationType';
+import * as educationProgram from '../../definitions/educationProgram';
 import contactInformation from '../../definitions/contactInformation';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -20,7 +21,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
   benefit,
-  educationProgram,
   educationObjective,
   educationStartDate,
   restorativeTraining,
@@ -132,18 +132,7 @@ const formConfig = {
           title: 'School selection',
           path: 'school-selection',
           uiSchema: {
-            educationProgram: {
-              'ui:order': ['name', 'educationType', 'address'],
-              address: _.merge(address.uiSchema(), {
-                'ui:options': {
-                  hideIf: (form) => !showSchoolAddress(_.get('educationProgram.educationType', form))
-                }
-              }),
-              educationType: educationType.uiSchema,
-              name: {
-                'ui:title': 'Name of school, university, or training facility'
-              }
-            },
+            educationProgram: educationProgram.uiSchema,
             educationObjective: {
               'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
               'ui:widget': 'textarea'
@@ -168,7 +157,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              educationProgram: _.set('properties.address', address.schema(), educationProgram),
+              educationProgram: educationProgram.schema,
               educationObjective,
               educationStartDate,
               restorativeTraining,

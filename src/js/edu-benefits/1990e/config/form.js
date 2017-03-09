@@ -7,14 +7,25 @@ import {
 
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
+import * as educationProgram from '../../definitions/educationProgram';
+import { uiSchema as dateUISchema } from '../../../common/schemaform/definitions/date';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { enumToNames, benefitsLabels } from '../../utils/helpers';
 
 const {
-  benefit
+  benefit,
+  educationObjective,
+  educationStartDate,
+  nonVaAssistance
 } = fullSchema1990e.properties;
+
+const {
+  educationType,
+  date
+} = fullSchema1990e.definitions;
 
 const formConfig = {
   urlPrefix: '/1990e/',
@@ -25,6 +36,10 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Apply for transferred education benefits',
   subTitle: 'Form 22-1990e',
+  defaultDefinitions: {
+    educationType,
+    date
+  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -83,6 +98,31 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
+        schoolSelection: {
+          title: 'School selection',
+          path: 'school-selection',
+          uiSchema: {
+            educationProgram: educationProgram.uiSchema,
+            educationObjective: {
+              'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
+              'ui:widget': 'textarea'
+            },
+            educationStartDate: dateUISchema('The date your training began or will begin'),
+            nonVaAssistance: {
+              'ui:title': 'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
+              'ui:widget': 'yesNo'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              educationProgram: educationProgram.schema,
+              educationObjective,
+              educationStartDate,
+              nonVaAssistance
+            }
+          }
+        }
       }
     },
     personalInformation: {
