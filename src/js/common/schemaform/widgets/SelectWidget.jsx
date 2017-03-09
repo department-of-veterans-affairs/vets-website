@@ -29,7 +29,7 @@ function SelectWidget({
   onBlur,
   placeholder
 }) {
-  const { enumOptions } = options;
+  const { enumOptions, labels = {} } = options;
   return (
     <select
         id={id}
@@ -51,7 +51,7 @@ function SelectWidget({
         }}>
       {!schema.default && <option value="">{placeholder}</option>}
       {enumOptions.map((option, i) => {
-        return <option key={i} value={option.value}>{option.label}</option>;
+        return <option key={i} value={option.value}>{labels[option.value] || option.label}</option>;
       })
     }</select>
   );
