@@ -285,7 +285,7 @@ describe('Schemaform helpers:', () => {
       expect(newSchema.properties.field['ui:hidden']).to.be.true;
       expect(newSchema).not.to.equal(schema);
     });
-    it.only('should set hidden on nested hidden object field', () => {
+    it('should set hidden on nested hidden object field', () => {
       const schema = {
         type: 'object',
         properties: {
