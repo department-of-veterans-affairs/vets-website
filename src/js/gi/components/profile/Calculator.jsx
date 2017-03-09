@@ -5,6 +5,39 @@ import { calculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
 
+const EligibilityDetails = ({ expanded, toggle }) => (
+  <div className="eligibility-details">
+    <button onClick={toggle} className="usa-button-outline">
+      {expanded ? 'Hide' : 'Edit'} eligibility details
+    </button>
+    <div className="form-expanding-group-open">
+      {expanded ? <EligibilityForm/> : null}
+    </div>
+  </div>
+);
+
+const CalculatorInputs = ({ expanded, toggle }) => (
+  <div className="calculator-inputs">
+    <button onClick={toggle} className="usa-button-outline">
+      {expanded ? 'Hide' : 'Edit'} calculator fields
+    </button>
+    <div className="form-expanding-group-open">
+      {expanded ? <CalculatorForm/> : null}
+    </div>
+  </div>
+);
+
+const CalculatorResultRow = ({ label, value, labelClassName, valueClassName }) => (
+  <div className="row calculator-result">
+    <div className="small-8 columns">
+      <p className={labelClassName}>{label}:</p>
+    </div>
+    <div className="small-4 columns value">
+      <p className={valueClassName}>{value}</p>
+    </div>
+  </div>
+);
+
 export class Calculator extends React.Component {
 
   constructor(props) {
@@ -28,41 +61,15 @@ export class Calculator extends React.Component {
 
   render() {
     // const it = this.props.profile.attributes;
-    const EligibilityDetails = ({ expanded }) => (
-      <div className="eligibility-details">
-        <button onClick={this.toggleEligibilityDetails} className="usa-button-outline">
-          {expanded ? 'Hide' : 'Edit'} eligibility details
-        </button>
-        <div className="form-expanding-group-open">
-          {expanded ? <EligibilityForm/> : null}
-        </div>
-      </div>
-    );
-    const CalculatorInputs = ({ expanded }) => (
-      <div className="calculator-inputs">
-        <button onClick={this.toggleCalculatorForm} className="usa-button-outline">
-          {expanded ? 'Hide' : 'Edit'} calculator fields
-        </button>
-        <div className="form-expanding-group-open">
-          {expanded ? <CalculatorForm/> : null}
-        </div>
-      </div>
-    );
-    const CalculatorResultRow = ({ label, value, labelClassName, valueClassName }) => (
-      <div className="row calculator-result">
-        <div className="small-8 columns">
-          <p className={labelClassName}>{label}:</p>
-        </div>
-        <div className="small-4 columns value">
-          <p className={valueClassName}>{value}</p>
-        </div>
-      </div>
-    );
     return (
       <div className="row calculate-your-benefits">
         <div className="medium-5 columns">
-          <EligibilityDetails expanded={this.state.showEligibilityDetails}/>
-          <CalculatorInputs expanded={this.state.showCalculatorForm}/>
+          <EligibilityDetails
+              expanded={this.state.showEligibilityDetails}
+              toggle={this.toggleEligibilityDetails}/>
+          <CalculatorInputs
+              expanded={this.state.showCalculatorForm}
+              toggle={this.toggleCalculatorForm}/>
         </div>
         <div className="medium-1 columns">&nbsp;</div>
         <div className="medium-6 columns">
