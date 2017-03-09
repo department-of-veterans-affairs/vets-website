@@ -9,7 +9,7 @@ import {
   relationshipLabels,
   transform
 } from '../helpers';
-import { enumToNames, showSchoolAddress } from '../../utils/helpers';
+import { showSchoolAddress } from '../../utils/helpers';
 import { states } from '../../../common/utils/options-for-select';
 
 import * as address from '../../../common/schemaform/definitions/address';
@@ -85,16 +85,17 @@ const formConfig = {
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Select the benefit that is the best match for you:'
+              'ui:title': 'Select the benefit that is the best match for you:',
+              'ui:options': {
+                labels: benefitsLabels
+              }
             },
             benefitsRelinquishedDate: date.uiSchema('Effective date')
           },
           schema: {
             type: 'object',
             properties: {
-              benefit: _.assign(benefit, {
-                enumNames: enumToNames(benefit.enum, benefitsLabels)
-              }),
+              benefit,
               benefitsRelinquishedDate: date.schema
             }
           }
@@ -110,7 +111,8 @@ const formConfig = {
           uiSchema: {
             relationship: {
               'ui:title': 'What is your relationship to the Servicemember whose benefit we\'re transferring to you?',
-              'ui:widget': 'radio'
+              'ui:widget': 'radio',
+              'ui:options': { labels: relationshipLabels }
             },
             spouseInfo: {
               divorcePending: {
@@ -144,9 +146,7 @@ const formConfig = {
             },
             required: ['veteranSocialSecurityNumber'],
             properties: {
-              relationship: _.assign(relationship, {
-                enumNames: enumToNames(relationship.enum, relationshipLabels)
-              }),
+              relationship,
               spouseInfo,
               relativeFullName: fullName.schema,
               veteranSocialSecurityNumber: ssn.schema,
@@ -313,7 +313,10 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             trainingState: {
-              'ui:title': 'In what state do you plan on living while participating in this training?'
+              'ui:title': 'In what state do you plan on living while participating in this training?',
+              'ui:options': {
+                labels: stateLabels
+              }
             },
             educationalCounseling: {
               'ui:title': 'Would you like to receive vocational and educational counseling?',
@@ -329,8 +332,7 @@ const formConfig = {
               restorativeTraining,
               vocationalTraining,
               trainingState: _.merge(trainingState, {
-                type: 'string',
-                enumNames: enumToNames(trainingState.enum, stateLabels)
+                type: 'string'
               }),
               educationalCounseling
             }

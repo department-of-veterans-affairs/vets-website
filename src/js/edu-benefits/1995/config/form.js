@@ -20,7 +20,7 @@ import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
 import contactInformation from '../../definitions/contactInformation';
 
-import { enumToNames, showSchoolAddress, benefitsLabels } from '../../utils/helpers';
+import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -111,15 +111,16 @@ const formConfig = {
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Which benefit are you currently using?'
+              'ui:title': 'Which benefit are you currently using?',
+              'ui:options': {
+                labels: benefitsLabels
+              }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              benefit: _.assign(benefit, {
-                enumNames: enumToNames(benefit.enum, benefitsLabels)
-              })
+              benefit
             }
           }
         }
@@ -287,7 +288,10 @@ const formConfig = {
           uiSchema: {
             bankAccountChange: {
               'ui:title': 'Benefit payment method:',
-              'ui:widget': 'radio'
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: bankAccountChangeLabels
+              }
             },
             bankAccount: _.assign(bankAccount.uiSchema, {
               'ui:options': {
@@ -304,9 +308,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              bankAccountChange: _.assign(bankAccountChange, {
-                enumNames: enumToNames(bankAccountChange.enum, bankAccountChangeLabels)
-              }),
+              bankAccountChange,
               bankAccount: bankAccount.schema,
               'view:stopWarning': {
                 type: 'object',
