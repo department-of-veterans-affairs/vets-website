@@ -75,9 +75,9 @@ class ObjectField extends React.Component {
     const isRoot = idSchema.$id === 'root';
     const formData = this.props.formData || {};
 
-    const renderField = (propName, index) => {
+    const renderField = (propName) => {
       return (
-        <SchemaField key={index}
+        <SchemaField key={propName}
             name={propName}
             schema={schema.properties[propName]}
             uiSchema={uiSchema[propName]}
