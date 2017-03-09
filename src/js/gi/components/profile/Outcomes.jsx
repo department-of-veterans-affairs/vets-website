@@ -1,10 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { showModal } from '../../actions';
-import { outcomeNumbers } from '../../selectors/outcomes';
 import Graph from './Graph';
 
-export class Outcomes extends React.Component {
+class Outcomes extends React.Component {
 
   render() {
     const { retention, graduation, salary, repayment } = this.props.graphing;
@@ -48,16 +45,30 @@ export class Outcomes extends React.Component {
     );
   }
 }
-// const mapStateToProps = (state, props) => state;
 
-const mapStateToProps = (state, props) => {
-  return {
-    graphing: outcomeNumbers(state, props)
-  };
+Outcomes.propTypes = {
+  graphing: React.PropTypes.shape({
+    retention: React.PropTypes.shape({
+      rate: React.PropTypes.number,
+      all: React.PropTypes.number,
+      average: React.PropTypes.number
+    }),
+    graduation: React.PropTypes.shape({
+      rate: React.PropTypes.number,
+      all: React.PropTypes.number,
+      average: React.PropTypes.number
+    }),
+    salary: React.PropTypes.shape({
+      all: React.PropTypes.number,
+      average: React.PropTypes.number
+    }),
+    repayment: React.PropTypes.shape({
+      rate: React.PropTypes.number,
+      all: React.PropTypes.number,
+      average: React.PropTypes.number
+    }),
+  }),
+  showModal: React.PropTypes.func,
 };
 
-const mapDispatchToProps = {
-  showModal,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Outcomes);
+export default Outcomes;

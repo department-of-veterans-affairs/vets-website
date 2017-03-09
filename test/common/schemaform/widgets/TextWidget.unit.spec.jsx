@@ -21,6 +21,19 @@ describe('Schemaform <TextWidget>', () => {
     expect(tree.subTree('input').props.value).to.equal('testing');
     expect(tree.subTree('input').props.type).to.equal('text');
   });
+  it('should render empty string when undefined', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <TextWidget
+          id="1"
+          schema={{ type: 'string' }}
+          required
+          disabled={false}
+          onChange={onChange}
+          options={{}}/>
+    );
+    expect(tree.subTree('input').props.value).to.equal('');
+  });
   it('should render number', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(

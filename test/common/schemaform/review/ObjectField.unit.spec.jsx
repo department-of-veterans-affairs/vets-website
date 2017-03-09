@@ -20,7 +20,6 @@ describe('Schemaform review: ObjectField', () => {
       <ObjectField
           schema={schema}
           idSchema={{}}
-          formData={{}}
           requiredSchema={{}}
           onChange={onChange}
           onBlur={onBlur}/>

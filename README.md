@@ -262,10 +262,16 @@ example implementation.
 
 ## More documentation
 
-- [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)*
-- [How Search Works](docs/HowSearchWorks.md)*
-- [Design Rationale and History](docs/DesignRationaleAndHistory.md)
-- [Website Toolchain](docs/WebsiteToolchain.md)
-- [How to Deploy](docs/HowToDeploy.md)
+- Content
+  - [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)*
+  - [How Search Works](docs/HowSearchWorks.md)*
+  - [Design Rationale and History](docs/DesignRationaleAndHistory.md)
+  - [Website Toolchain](docs/WebsiteToolchain.md)
+  - [How to Deploy](docs/HowToDeploy.md)
+
+- React JSON Schemaform
+  - [Schemaform Walkthrough](docs/schemaform/walkthrough.md)
+  - [Form Config](docs/schemaform/form-config.md)
+
 ##### *Verify if these are still relevant.
 
