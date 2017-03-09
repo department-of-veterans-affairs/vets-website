@@ -117,7 +117,8 @@ const formConfig = {
                 'view:ownServiceBenefits',
                 'ownServiceBenefits',
                 'view:claimedSponsorService',
-                'claimedSponsorService'
+                'claimedSponsorService',
+                'other'
               ],
               disability: {
                 'ui:title': 'Disability Compensation or Pension'
@@ -151,15 +152,15 @@ const formConfig = {
                 transferOfEntitlement: {
                   'ui:title': 'Transferred Entitlement'
                 },
-                other: {
-                  'ui:title': 'Other benefit'
-                },
                 veteranFullName: _.merge(fullName.uiSchema, {
                   'ui:title': 'Sponsor Veteran’s name'
                 }),
                 veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
                   'ui:title': 'Sponsor SSN'
                 })
+              },
+              other: {
+                'ui:title': 'Other benefit'
               }
             }
           },
@@ -180,9 +181,8 @@ const formConfig = {
                         chapter35: previousBenefits.properties.chapter35,
                         chapter33: previousBenefits.properties.chapter33,
                         transferOfEntitlement: previousBenefits.properties.transferOfEntitlement,
-                        other: previousBenefits.properties.other,
                         veteranFullName: previousBenefits.properties.veteranFullName,
-                        veteranSocialSecurityNumber: previousBenefits.properties.veteranSocialSecurityNumber
+                        veteranSocialSecurityNumber: previousBenefits.properties.veteranSocialSecurityNumber,
                       },
                     }
                   }
@@ -191,7 +191,6 @@ const formConfig = {
                 delete newSchema.properties.chapter35;
                 delete newSchema.properties.chapter33;
                 delete newSchema.properties.transferOfEntitlement;
-                delete newSchema.properties.other;
                 delete newSchema.properties.veteranFullName;
                 delete newSchema.properties.veteranSocialSecurityNumber;
 

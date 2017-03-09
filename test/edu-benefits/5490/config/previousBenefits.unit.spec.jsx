@@ -19,7 +19,7 @@ describe('Edu 5490 benefitSelection -> previousBenefits', () => {
     );
     const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
 
-    expect(fields.length).to.equal(5);
+    expect(fields.length).to.equal(6);
   });
 
   it('should expand options conditionally', () => {
