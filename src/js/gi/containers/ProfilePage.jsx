@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
-import { fetchProfile, showModal } from '../actions';
+import { fetchProfile, setPageTitle, showModal } from '../actions';
 import AccordionItem from '../components/AccordionItem';
 import If from '../components/If';
 import HeadingSummary from '../components/profile/HeadingSummary';
@@ -18,11 +19,20 @@ export class ProfilePage extends React.Component {
     this.props.fetchProfile(this.props.params.facilityCode);
   }
 
+  componentDidUpdate(prevProps) {
+    const institutionName = _.get(this.props.profile, 'attributes.name');
+    const shouldUpdateTitle = !_.isEqual(
+      institutionName,
+      _.get(prevProps.profile, 'attributes.name'),
+    );
+
+    if (shouldUpdateTitle) {
+      this.props.setPageTitle(`${institutionName} - GI Bill Comparison Tool`);
+    }
+  }
+
   render() {
     const { constants, outcomes, profile } = this.props;
-    // TODO - set page title
-    // const title = `${profile.attributes.name} - GI Bill Comparison Tool`;
-    // this.props.setPageTitle(title);
     return (
       <div className="profile-page">
         <HeadingSummary/>
@@ -62,6 +72,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchProfile,
+  setPageTitle,
   showModal
 };
 
