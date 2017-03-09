@@ -65,7 +65,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['applicantFullName'],
+            required: ['relativeFullName'],
             properties: {
               relativeFullName: fullName.schema,
               relativeSocialSecurityNumber: ssn.schema,
