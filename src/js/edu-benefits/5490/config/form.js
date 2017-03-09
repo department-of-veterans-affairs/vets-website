@@ -106,7 +106,6 @@ const formConfig = {
               },
               remarriageDate: _.assign(date.uiSchema('Date you got remarried'), {
                 'ui:options': {
-                  // Needs the || because it's undefined on other pages
                   hideIf: (fieldData) => !_.get('spouseInfo.remarried', fieldData)
                 }
               }),
