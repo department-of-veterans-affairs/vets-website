@@ -118,7 +118,11 @@ const formConfig = {
                 'view:ownServiceBenefits',
                 'ownServiceBenefits',
                 'view:claimedSponsorService',
-                'claimedSponsorService',
+                'chapter35',
+                'chapter33',
+                'transferOfEntitlement',
+                'veteranFullName',
+                'veteranSocialSecurityNumber',
                 'other'
               ],
               'view:noPreviousBenefits': {
@@ -143,26 +147,36 @@ const formConfig = {
               'view:claimedSponsorService': {
                 'ui:title': 'Veterans education assistance based on someone else’s service.'
               },
-              // Would this be better as a 'view:someNameHere' field? Would it
-              //  get flattened properly when sending to the api if so?
-              claimedSponsorService: {
-                'ui:options': { expandUnder: 'view:claimedSponsorService' },
-                chapter35: {
-                  'ui:title': 'Chapter 35 - Survivors’ and Dependents’ Educational Assistance Program (DEA)'
-                },
-                chapter33: {
-                  'ui:title': 'Chapter 33 - Post-9/11 GI Bill Marine Gunnery Sergeant David Fry Scholarship'
-                },
-                transferOfEntitlement: {
-                  'ui:title': 'Transferred Entitlement'
-                },
-                veteranFullName: _.merge(fullName.uiSchema, {
-                  'ui:title': 'Sponsor Veteran’s name'
-                }),
-                veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
-                  'ui:title': 'Sponsor SSN'
-                })
+              chapter35: {
+                'ui:title': 'Chapter 35 - Survivors’ and Dependents’ Educational Assistance Program (DEA)',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
               },
+              chapter33: {
+                'ui:title': 'Chapter 33 - Post-9/11 GI Bill Marine Gunnery Sergeant David Fry Scholarship',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
+              },
+              transferOfEntitlement: {
+                'ui:title': 'Transferred Entitlement',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
+              },
+              veteranFullName: _.merge(fullName.uiSchema, {
+                'ui:title': 'Sponsor Veteran’s name',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
+              }),
+              veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
+                'ui:title': 'Sponsor SSN',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
+              }),
               other: {
                 'ui:title': 'Other benefit'
               }
@@ -171,36 +185,13 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              previousBenefits: (() => {
-                // Not sure how to do this all in one fell swoop
-                // Also not conviced this is the best way to do this either
-                const newSchema = _.merge(previousBenefits, {
-                  properties: {
-                    'view:noPreviousBenefits': { type: 'boolean' },
-                    'view:ownServiceBenefits': { type: 'boolean' },
-                    'view:claimedSponsorService': { type: 'boolean' },
-                    // Group these together to be expanded as needed
-                    claimedSponsorService: {
-                      type: 'object',
-                      properties: {
-                        chapter35: previousBenefits.properties.chapter35,
-                        chapter33: previousBenefits.properties.chapter33,
-                        transferOfEntitlement: previousBenefits.properties.transferOfEntitlement,
-                        veteranFullName: previousBenefits.properties.veteranFullName,
-                        veteranSocialSecurityNumber: previousBenefits.properties.veteranSocialSecurityNumber,
-                      },
-                    }
-                  }
-                });
-                // And remove them from the root object
-                delete newSchema.properties.chapter35;
-                delete newSchema.properties.chapter33;
-                delete newSchema.properties.transferOfEntitlement;
-                delete newSchema.properties.veteranFullName;
-                delete newSchema.properties.veteranSocialSecurityNumber;
-
-                return newSchema;
-              })()
+              previousBenefits: _.merge(previousBenefits, {
+                properties: {
+                  'view:noPreviousBenefits': { type: 'boolean' },
+                  'view:ownServiceBenefits': { type: 'boolean' },
+                  'view:claimedSponsorService': { type: 'boolean' }
+                }
+              })
             }
           }
         }
