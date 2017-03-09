@@ -6,9 +6,10 @@ import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.jso
 import { transform, benefitsLabels } from '../helpers';
 import { enumToNames } from '../../utils/helpers';
 
-import * as date from '../../../common/schemaform/definitions/date';
-import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as address from '../../../common/schemaform/definitions/address';
+import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
+import * as date from '../../../common/schemaform/definitions/date';
+import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import contactInformation from '../../definitions/contactInformation';
 
@@ -17,12 +18,14 @@ import EmploymentPeriodView from '../components/EmploymentPeriodView';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
-  benefit
+  benefit,
+  previousBenefits
 } = fullSchema5490.properties;
 
 const {
+  nonMilitaryJobs,
   secondaryContact,
-  nonMilitaryJobs
+  ssn
 } = fullSchema5490.definitions;
 
 const formConfig = {
@@ -34,6 +37,10 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5490',
+  defaultDefnitions: {
+    ssn,
+    fullName: fullName.schema
+  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -60,6 +67,55 @@ const formConfig = {
                 enumNames: enumToNames(benefit.enum, benefitsLabels)
               }),
               benefitsRelinquishedDate: date.schema
+            }
+          }
+        },
+        previousBenefits: {
+          title: 'Previous Benefits',
+          path: 'benefits-eligibility/previous-benefits',
+          initialData: {},
+          uiSchema: {
+            previousBenefits: {
+              disability: {
+                'ui:title': 'Disability Compensation or Pension'
+              },
+              dic: {
+                'ui:title': 'Dependents\' Indemnity Compensation (DIC)'
+              },
+              chapter31: {
+                'ui:title': 'Vocational Rehabilitation benefits (Chapter 31)'
+              },
+              // I think we'll need a view-only checkbox to reveal this one
+              //  'Veterans education assistance based on your own service'
+              ownServiceBenefits: {
+                'ui:title': 'Specify benefits'
+              },
+              // View-only checkbox to reveal these:
+              chapter35: {
+                'ui:title': ''
+              },
+              chapter33: {
+                'ui:title': ''
+              },
+              transferOfEntitlement: {
+                'ui:title': ''
+              },
+              other: {
+                'ui:title': ''
+              },
+              // And another to reveal these:
+              veteranFullName: {
+                'ui:title': ''
+              },
+              veteranSocialSecurityNumber: {
+                'ui:title': ''
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              previousBenefits
             }
           }
         }
