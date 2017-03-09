@@ -4,7 +4,7 @@ import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.jso
 // benefitsLabels should be imported from utils/helpers, but for now, they don't
 //  all have links, so for consistency, use the set in ../helpers
 import { transform, benefitsLabels } from '../helpers';
-import { enumToNames, showSchoolAddress } from '../../utils/helpers';
+import { showSchoolAddress } from '../../utils/helpers';
 import { states } from '../../../common/utils/options-for-select';
 
 import * as date from '../../../common/schemaform/definitions/date';
@@ -66,16 +66,17 @@ const formConfig = {
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Select the benefit that is the best match for you:'
+              'ui:title': 'Select the benefit that is the best match for you:',
+              'ui:options': {
+                labels: benefitsLabels
+              }
             },
             benefitsRelinquishedDate: date.uiSchema('Effective date')
           },
           schema: {
             type: 'object',
             properties: {
-              benefit: _.assign(benefit, {
-                enumNames: enumToNames(benefit.enum, benefitsLabels)
-              }),
+              benefit,
               benefitsRelinquishedDate: date.schema
             }
           }
@@ -158,7 +159,10 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             trainingState: {
-              'ui:title': 'In what state do you plan on living while participating in this training?'
+              'ui:title': 'In what state do you plan on living while participating in this training?',
+              'ui:options': {
+                labels: stateLabels
+              }
             },
             educationalCounseling: {
               'ui:title': 'Would you like to receive vocational and educational counseling?',
@@ -174,8 +178,7 @@ const formConfig = {
               restorativeTraining,
               vocationalTraining,
               trainingState: _.merge(trainingState, {
-                type: 'string',
-                enumNames: enumToNames(trainingState.enum, stateLabels)
+                type: 'string'
               }),
               educationalCounseling
             }
