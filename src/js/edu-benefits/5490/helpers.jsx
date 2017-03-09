@@ -22,3 +22,8 @@ export const benefitsLabels = {
   chapter35: 'DEA (Chapter 35)',
   chapter33: 'Fry scholarship (Chapter 33)'
 };
+
+export const relationshipLabels = {
+  child: 'Child, stepchild, adopted child',
+  spouse: 'Spouse or Surviving Spouse',
+};

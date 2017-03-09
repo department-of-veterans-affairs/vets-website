@@ -17,12 +17,12 @@ import * as address from '../../../common/schemaform/definitions/address';
 
 import * as educationType from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
+import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
 import contactInformation from '../../definitions/contactInformation';
 
 import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import ServicePeriodView from '../components/ServicePeriodView';
 
 const {
   benefit,
@@ -139,25 +139,9 @@ const formConfig = {
               'ui:title': 'Do you have any new periods of service to record since you last applied for education benefits?',
               'ui:widget': 'yesNo'
             },
-            toursOfDuty: {
-              'ui:title': 'Service periods',
-              'ui:options': {
-                itemName: 'Service Period',
-                viewField: ServicePeriodView,
-                hideTitle: true,
-                expandUnder: 'view:newService'
-              },
-              items: {
-                serviceBranch: {
-                  'ui:title': 'Branch of service'
-                },
-                dateRange: dateRange.uiSchema(
-                  'Start of service period',
-                  'End of service period',
-                  'End of service must be after start of service'
-                )
-              }
-            }
+            toursOfDuty: _.merge(toursOfDutyUI, {
+              'ui:options': { expandUnder: 'view:newService' }
+            })
           },
           schema: {
             type: 'object',

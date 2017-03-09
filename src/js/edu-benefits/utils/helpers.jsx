@@ -24,6 +24,22 @@ export const benefitsLabels = {
   transferOfEntitlement: <p>Transfer of Entitlement Program (TOE)<br/><a href="/education/gi-bill/transfer/" target="_blank">Learn more</a></p>
 };
 
+export const preferredContactMethodLabels = {
+  mail: 'Mail',
+  email: 'Email',
+  phone: 'Phone'
+};
+
+export const relationshipLabels = {
+  spouse: 'Spouse',
+  child: 'Child'
+};
+
+export const genderLabels = {
+  F: 'Female',
+  M: 'Male'
+};
+
 export function getLabel(options, value) {
   const matched = _.find(options, option => option.value === value);
 
@@ -135,10 +151,3 @@ export function showYesNo(field) {
 export function enumToNames(enumValues, names) {
   return enumValues.map(item => names[item]);
 }
-
-export const preferredContactMethodLabels = {
-  mail: 'Mail',
-  email: 'Email',
-  phone: 'Phone'
-};
-
