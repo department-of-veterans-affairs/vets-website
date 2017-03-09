@@ -47,13 +47,13 @@ For all disability claims, please provide:
 
 ### Other ways to apply
 
-#### Work with someone
+#### Work with a trained professional
 
 You can work with an accredited representative who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html)
 
 #### Apply in person
 
-[Find a Regional Benefits Office near you]http://www.benefits.va.gov/benefits/offices.asp) 
+Go to a Regional Benefits Office and work with a VA employee. [Find a Regional Benefits Office near you](http://www.benefits.va.gov/benefits/offices.asp) 
 
 ### Already applied?
 
