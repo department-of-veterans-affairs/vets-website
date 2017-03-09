@@ -17,25 +17,29 @@ You may be eligible for generous education benefits and opportunities, including
 
 <div class="feature" markdown="1">
 
-### 
+### Am I eligible for the Post 9/11 GI Bill?
 
-You may be eligible for these reasons:
+You may be eligible if:
 
-- Reason
-- Reason
+- You meet the basic requirements for any GI Bill program.
+- You've served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001.
+[Learn more about the GI Bill](/education/gi-bill/post-9-11/)
 
-If none of the above apply to you, you may be able to get coverage by following [this link](http://www.google.com)
+### As a dependent, am I eligible for the Post 9/11 GI Bill?
 
-#### Who's covered
+You may be eligible for up to 36 months of benefits if your sponsor hasn't used all of their Post 9/11 GI Bill benefits. Your sponsor can transfer the remaining months to you. If the Department of Defense (DOD) approves the transfer,you can apply for VA benefits. [Learn more about transfering benefits](/education/gi-bill/transfer/). 
 
-- Veterans
-- Quaified dependents
+### Am I eligible for the Montgomery GI Bill? 
+
+- If you served at least 2 years on active duty, you may be eligible for the MGIB-AD program, **and**
+- You were honorably discharged.
+- You have a high school diploma, GED, or 12 hours of college credit.
+- You meet other requirements. [Learn more about the Montgomery GI Bill](/education/gi-bill/montgomery-active-duty/).
+
 
 ### Ready to apply?
 
-Some optional text about the application process page
-
-<a class="usa-button-primary va-button-primary" href="http://www.google.com">See the application process</a>
+<a class="usa-button-primary va-button-primary" href="//education/apply-for-education-benefits/">Apply online</a>
 
 <div markdown="0"><br></div>
 
