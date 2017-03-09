@@ -17,12 +17,12 @@ import * as address from '../../../common/schemaform/definitions/address';
 
 import * as educationType from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
+import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
 import contactInformation from '../../definitions/contactInformation';
 
-import { enumToNames, showSchoolAddress, benefitsLabels } from '../../utils/helpers';
+import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import ServicePeriodView from '../components/ServicePeriodView';
 
 const {
   benefit,
@@ -111,15 +111,16 @@ const formConfig = {
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Which benefit are you currently using?'
+              'ui:title': 'Which benefit are you currently using?',
+              'ui:options': {
+                labels: benefitsLabels
+              }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              benefit: _.assign(benefit, {
-                enumNames: enumToNames(benefit.enum, benefitsLabels)
-              })
+              benefit
             }
           }
         }
@@ -138,25 +139,9 @@ const formConfig = {
               'ui:title': 'Do you have any new periods of service to record since you last applied for education benefits?',
               'ui:widget': 'yesNo'
             },
-            toursOfDuty: {
-              'ui:title': 'Service periods',
-              'ui:options': {
-                itemName: 'Service Period',
-                viewField: ServicePeriodView,
-                hideTitle: true,
-                expandUnder: 'view:newService'
-              },
-              items: {
-                serviceBranch: {
-                  'ui:title': 'Branch of service'
-                },
-                dateRange: dateRange.uiSchema(
-                  'Start of service period',
-                  'End of service period',
-                  'End of service must be after start of service'
-                )
-              }
-            }
+            toursOfDuty: _.merge(toursOfDutyUI, {
+              'ui:options': { expandUnder: 'view:newService' }
+            })
           },
           schema: {
             type: 'object',
@@ -303,7 +288,10 @@ const formConfig = {
           uiSchema: {
             bankAccountChange: {
               'ui:title': 'Benefit payment method:',
-              'ui:widget': 'radio'
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: bankAccountChangeLabels
+              }
             },
             bankAccount: _.assign(bankAccount.uiSchema, {
               'ui:options': {
@@ -320,9 +308,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              bankAccountChange: _.assign(bankAccountChange, {
-                enumNames: enumToNames(bankAccountChange.enum, bankAccountChangeLabels)
-              }),
+              bankAccountChange,
               bankAccount: bankAccount.schema,
               'view:stopWarning': {
                 type: 'object',

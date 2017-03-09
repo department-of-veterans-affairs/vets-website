@@ -5,7 +5,6 @@ import schemaDefinitions from 'vets-json-schema/dist/definitions.json';
 import { validateMatch } from '../../common/schemaform/validation';
 
 import {
-  enumToNames,
   preferredContactMethodLabels
 } from '../utils/helpers';
 
@@ -23,7 +22,10 @@ const contactInformation = {
   uiSchema: {
     preferredContactMethod: {
       'ui:title': 'How would you like to be contacted if we have questions about your application?',
-      'ui:widget': 'radio'
+      'ui:widget': 'radio',
+      'ui:options': {
+        labels: preferredContactMethodLabels
+      }
     },
     veteranAddress: address.uiSchema(),
     'view:otherContactInfo': {
@@ -50,9 +52,7 @@ const contactInformation = {
   schema: {
     type: 'object',
     properties: {
-      preferredContactMethod: _.assign(preferredContactMethod, {
-        enumNames: enumToNames(preferredContactMethod.enum, preferredContactMethodLabels)
-      }),
+      preferredContactMethod,
       veteranAddress: address.schema(true),
       'view:otherContactInfo': {
         type: 'object',
