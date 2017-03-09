@@ -40,19 +40,6 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 <div markdown="0"><br></div>
 
-
-<div class="usa-alert usa-alert-warning usa-content secondary" markdown="0">
-	<div class="usa-alert-body">
-		<h4 style="padding:0">
-			For Forms 22-1990E, 22-1990N, 22-5490, and 22-5495
-   You must apply for education benefits using eBenefits.va.gov if you are:
-
-		</h4>
-		<p style="margin:0">
-			A spouse or dependent
-   A survivor of a Veteran
-   A candidate for the National Call to Service program
-
 		</p>
  <div class="usa-alert usa-alert-warning usa-content secondary" markdown="0">
 <div class="usa-alert-body">
