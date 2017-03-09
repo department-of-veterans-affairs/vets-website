@@ -1,8 +1,6 @@
 import { createSelector } from 'reselect';
 
-const getConstants = (state) => {
-  return state.constants.constants;
-};
+const getConstants = (state) => state.constants.constants;
 
 const getEligibilityDetails = (state) => {
   const details = Object.assign({}, state.eligibility);
@@ -10,14 +8,9 @@ const getEligibilityDetails = (state) => {
   return details;
 };
 
-const getRequiredAttributes = (state) => {
-  const { type, bah } = state.profile.attributes;
-  return { type, bah };
-};
+const getRequiredAttributes = (state) => state.profile.attributes;
 
-const getInputs = (state) => {
-  return state.calculator;
-};
+const getInputs = (state) => state.calculator;
 
 function getDerivedAttributes(constant, eligibility, institution, inputs) {
   if (constant == undefined) return {};
@@ -65,7 +58,6 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
   let bookStipendTerm2;
   let bookStipendTerm3;
   let bookStipendTotal;
-
 
   const serviceDischarge = (your.cumulativeService === 'service discharge');
 
@@ -766,9 +758,9 @@ function getDerivedAttributes(constant, eligibility, institution, inputs) {
 }
 
 function getDisplayedInputs(eligibility, profile, derived, inputs) {
-  const its = profile.attributes;
   const your = eligibility;
-  if ([its, your].includes(undefined)) return {its, your};
+  const its = profile;
+
   const defaultDisplayed = {
     tuition: false,
     books: false,
@@ -781,7 +773,12 @@ function getDisplayedInputs(eligibility, profile, derived, inputs) {
     buyUp: false,
     tuitionAssist: false,
   };
-  let displayed = {};
+
+  let displayed = defaultDisplayed;
+
+  if ([your, its, derived, inputs].some(e => !e)) {
+    return defaultDisplayed;
+  }
 
   // tuition, scholarship, enrolled, calendar, kicker
 
@@ -915,7 +912,6 @@ export const calculatedBenefits = createSelector(
   (constant, eligibility, profile, form) => {
     const derived = getDerivedAttributes(constant, eligibility, profile, form);
     const displayed = getDisplayedInputs(eligibility, profile, derived, form);
-    console.log(displayed)
 
     return {
       displayed,

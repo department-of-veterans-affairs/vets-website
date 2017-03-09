@@ -30,10 +30,6 @@
     }
 
     @media screen and (min-width: $small-screen) {
-      .calculator-inputs button {
-        display: none;
-        visibility: hidden;
-      }
       .calculator-inputs .form-expanding-group-open {
         border-left: none;
       }

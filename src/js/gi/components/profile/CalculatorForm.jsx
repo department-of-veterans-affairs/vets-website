@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { showModal, calculatorInputChange } from '../../actions';
+import { calculatedBenefits } from '../../selectors/calculator';
 import Dropdown from '../Dropdown';
-import If from '../If';
 import RadioButtons from '../RadioButtons';
 
 export class CalculatorForm extends React.Component {
@@ -70,7 +70,7 @@ export class CalculatorForm extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <RadioButtons
-                label={new LearnMoreLabel({ text: 'Are you a current Yellow Ribbon recipient?', modal: 'calcYr' })}
+                label={this.renderLearnMoreLabel({ text: 'Are you a current Yellow Ribbon recipient?', modal: 'calcYr' })}
                 name="yellowRibbonRecipient"
                 options={[
                   { value: 'yes', label: 'Yes' },
@@ -114,7 +114,7 @@ export class CalculatorForm extends React.Component {
               visible
               value={this.props.calculator.enrolled}
               onChange={this.props.calculatorInputChange}>
-            <LearnMoreLabel text="Enrolled" modal="calcEnrolled"/>
+            {this.renderLearnMoreLabel({ text: 'Enrolled', modal: 'calcEnrolled' })}
           </Dropdown>
         </div>
       </div>
@@ -189,7 +189,7 @@ export class CalculatorForm extends React.Component {
                 visible
                 value={this.props.calculator.calendar}
                 onChange={this.props.calculatorInputChange}>
-              <LearnMoreLabel text="School Calendar" modal="calcSchoolCalendar"/>
+              {this.renderLearnMoreLabel({ text: 'School Calendar', modal: 'calcSchoolCalendar'})}
             </Dropdown>
           </div>
         </div>
@@ -320,7 +320,14 @@ export class CalculatorForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state) => {
+  const { calculator } = state;
+
+  return {
+    calculator,
+    calculated: calculatedBenefits(state)
+  };
+};
 
 const mapDispatchToProps = {
   showModal,
