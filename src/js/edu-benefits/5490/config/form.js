@@ -97,7 +97,7 @@ const formConfig = {
             },
             spouseInfo: {
               divorcePending: {
-                'ui:title': 'Is there a divorce or annulment pending with the qualifying individual? (The qualifying individual is the person whose benefit you\'re claiming)',
+                'ui:title': 'Is there a divorce or annulment pending with the person whose benefit you\'re claiming',
                 'ui:widget': 'yesNo'
               },
               remarried: {

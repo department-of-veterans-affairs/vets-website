@@ -15,6 +15,6 @@ export const benefitsLabels = {
 };
 
 export const relationshipLabels = {
-  child: 'Child/Stepchild/Adopted Child',
-  spouse: 'Spouse/Surviving Spouse',
+  child: 'Child, stepchild, adopted child',
+  spouse: 'Spouse or Surviving Spouse',
 };
