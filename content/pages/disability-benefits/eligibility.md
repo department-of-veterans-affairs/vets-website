@@ -35,9 +35,9 @@ Who's covered?
 
 ### Ready to apply?
 
-[Learn about the application process](/disability-benefits/application-process), or
-
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a>
+
+[Learn about the application process](/disability-benefits/application-process)
 
 <div markdown="0"><br></div>
 
@@ -55,7 +55,7 @@ You may be able to get benefits for conditions such as:
 
 You may also be able to get benefits for:
 - Traumatic brain injury (TBI)
-- Posttraumatic stress disorder (PTSD)
+- Post traumatic stress disorder (PTSD)
 - Depression
 - Anxiety
 
