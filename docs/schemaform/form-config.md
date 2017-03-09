@@ -170,6 +170,12 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
     'pattern': 'Please provide a value in the right format'
   },
   'ui:options': {
+
+    // This is an map of enum values to labels that will be shown by the select and radio
+    // widgets.
+    labels: {
+      chapter30: 'A readable description (Chapter 30)'
+    },
     
     // This is a string of class names that will be added to the widget for the current
     // field. Similar to the default `classNames` property, but will put the class names
