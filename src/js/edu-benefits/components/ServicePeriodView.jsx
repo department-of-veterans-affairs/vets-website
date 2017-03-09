@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatReviewDate } from '../../../common/schemaform/helpers';
+import { formatReviewDate } from '../../common/schemaform/helpers';
 
 export default function ServicePeriodView({ formData }) {
   let from = '';

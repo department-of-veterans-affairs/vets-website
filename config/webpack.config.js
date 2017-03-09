@@ -150,7 +150,8 @@ const configGenerator = (options) => {
 
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
-        (options.buildtype === 'development') ? 'vendor.js' : 'vendor.[chunkhash].js'
+        (options.buildtype === 'development') ? 'vendor.js' : 'vendor.[chunkhash].js',
+        Infinity
       ),
     ],
   };

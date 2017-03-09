@@ -7,7 +7,7 @@ export default function RadioWidget({
   onChange,
   id
 }) {
-  const { enumOptions } = options;
+  const { enumOptions, labels = {} } = options;
   return (
     <div>{
       enumOptions.map((option, i) => {
@@ -23,7 +23,7 @@ export default function RadioWidget({
                 disabled={disabled}
                 onChange={_ => onChange(option.value)}/>
             <label htmlFor={`${id}_${i}`}>
-              {option.label}
+              {labels[option.value] || option.label}
             </label>
           </div>
         );
