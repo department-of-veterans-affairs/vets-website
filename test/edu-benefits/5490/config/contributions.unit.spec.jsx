@@ -20,7 +20,7 @@ describe('Edu 5490 contributions', () => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(1);
+    expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
   it('should show fund source when checked', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -32,12 +32,12 @@ describe('Edu 5490 contributions', () => {
 
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_civilianBenefitsAssistance'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_civilianBenefitsAssistanceYes'), {
       target: {
         checked: true
       }
     });
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input').length).to.equal(3);
   });
 });
