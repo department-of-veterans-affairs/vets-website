@@ -40,14 +40,14 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 <div markdown="0"><br></div>
 
-		</p>
  <div class="usa-alert usa-alert-warning usa-content secondary" markdown="0">
 <div class="usa-alert-body">
 <h4 style="padding:0">For Forms 22-1990E, 22-1990N, 22-5490, and 22-5495</h4>
 <p style="margin:0">Apply on <a href="https://www.ebenefits.va.gov/ebenefits/apply#education"></a></p>
 </div>
 </div>
-</div>
+
+<div markdown="0"><br></div>
 
 ### Other ways to apply
 
