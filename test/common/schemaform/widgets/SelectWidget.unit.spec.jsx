@@ -43,7 +43,7 @@ describe('Schemaform <SelectWidget>', () => {
           options={{ enumOptions, labels }}/>
     );
 
-    expect(tree.everySubTree('option')[1].text()).to.equal(labels.test);
+    expect(tree.everySubTree('option')[1].text()).to.equal('Other');
   });
   it('should handle change', () => {
     const enumOptions = [
