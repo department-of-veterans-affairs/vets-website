@@ -32,7 +32,7 @@ relatedlinks:
 
 You don't need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. 
 
-<a class="usa-button-primary" href="/disability-benefits/track-claims/your-claims">Track the status of your claim</a>
+<a class="usa-button-primary" href="https://www.vets.gov/disability-benefits/track-claims/your-claims">Track the status of your claim</a>
 
 <div markdown="0"><br></div>
 
