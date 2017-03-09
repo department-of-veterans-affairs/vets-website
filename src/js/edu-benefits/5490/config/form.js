@@ -221,7 +221,8 @@ const formConfig = {
           path: 'military-service/contributions',
           uiSchema: {
             civilianBenefitsAssistance: {
-              'ui:title': 'I\'m getting benefits from the U.S. Government as a civilian employee during the same time as I\'m seeking benefits from VA.'
+              'ui:title': 'Are you getting benefits from the U.S. Government as a civilian employee during the same time as you are seeking benefits from VA?',
+              'ui:widget': 'yesNo'
             },
             civilianBenefitsSource: {
               'ui:title': 'What is the source of these funds?',
