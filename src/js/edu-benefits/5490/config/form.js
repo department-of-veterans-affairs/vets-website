@@ -114,7 +114,7 @@ const formConfig = {
             },
             spouseInfo: {
               divorcePending: {
-                'ui:title': 'Is there a divorce or annulment pending with the person whose benefit you\'re claiming',
+                'ui:title': 'Is there a divorce or annulment pending with your sponsor?',
                 'ui:widget': 'yesNo'
               },
               remarried: {
