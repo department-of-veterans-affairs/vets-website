@@ -59,7 +59,7 @@ You can work with an accredited representative who can help you file a claim.  [
 
 Optional text about managing or tracking this benefit
 
-<a class="usa-button-primary" href="/disability-benefits/track-claims/your-claims">Track the status of your claim</a>
+<a class="usa-button-primary" href="/disability-benefits/track-claims">Track the status of your claim</a>
 
 <div markdown="0"><br></div>
 
