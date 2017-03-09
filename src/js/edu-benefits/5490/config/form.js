@@ -111,6 +111,7 @@ const formConfig = {
             previousBenefits: {
               // Add the view-only fields in the proper order
               'ui:order': [
+                'view:noPreviousBenefits',
                 'disability',
                 'dic',
                 'chapter31',
@@ -120,6 +121,9 @@ const formConfig = {
                 'claimedSponsorService',
                 'other'
               ],
+              'view:noPreviousBenefits': {
+                'ui:title': 'None'
+              },
               disability: {
                 'ui:title': 'Disability Compensation or Pension'
               },
@@ -172,6 +176,7 @@ const formConfig = {
                 // Also not conviced this is the best way to do this either
                 const newSchema = _.merge(previousBenefits, {
                   properties: {
+                    'view:noPreviousBenefits': { type: 'boolean' },
                     'view:ownServiceBenefits': { type: 'boolean' },
                     'view:claimedSponsorService': { type: 'boolean' },
                     // Group these together to be expanded as needed
