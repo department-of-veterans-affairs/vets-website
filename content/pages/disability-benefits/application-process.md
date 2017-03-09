@@ -63,6 +63,6 @@ You can work with an accredited representative who can help you file a claim.  [
 
 ### What happens after I apply?
 
-You don't need to do anything while you're waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.  [Learn what happens after you apply](/disability-benefits/What-happens-after). 
+You don't need to do anything while you're waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.  [Learn what happens after you apply](/disability-benefits/after-you-apply). 
 
 <div markdown="0"><br></div>
