@@ -294,7 +294,7 @@ describe('Schemaform helpers:', () => {
         }
       };
       const uiSchema = {
-        'ui:options': { hideIf: (fieldData) => !fieldData.unhide },
+        'ui:options': { hideIf: () => false },
         nestedObject: {
           'ui:options': { hideIf: () => true }
         }
@@ -303,12 +303,7 @@ describe('Schemaform helpers:', () => {
 
       const newSchema = setHiddenFields(schema, uiSchema, data);
 
-      expect(newSchema['ui:hidden']).to.be.true;
-
-      // Unhide the parent object
-      const unhiddenSchema = setHiddenFields(schema, uiSchema, { unhide: true });
-
-      expect(unhiddenSchema.properties.nestedObject['ui:hidden']).to.be.true;
+      expect(newSchema.properties.nestedObject['ui:hidden']).to.be.true;
       expect(newSchema).not.to.equal(schema);
     });
     it('should set collapsed on expandUnder field', () => {
