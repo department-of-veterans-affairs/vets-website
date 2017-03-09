@@ -1,5 +1,3 @@
-import _ from 'lodash/fp';
-
 import {
   transform,
   eligibilityDescription
@@ -7,10 +5,23 @@ import {
 
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
+import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
+import * as fullName from '../../../common/schemaform/definitions/fullName';
+import * as ssn from '../../../common/schemaform/definitions/ssn';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { enumToNames, benefitsLabels } from '../../utils/helpers';
+import {
+  benefitsLabels,
+  relationshipLabels,
+  genderLabels
+} from '../../utils/helpers';
+
+const {
+  gender,
+  relationship
+} = fullSchema1990e.definitions;
 
 const {
   benefit
@@ -31,7 +42,38 @@ const formConfig = {
       pages: {
         applicantInformation: {
           path: 'applicant-information',
-          title: 'Applicant information'
+          title: 'Applicant information',
+          initialData: {},
+          uiSchema: {
+            relativeFullName: fullName.uiSchema,
+            relativeSocialSecurityNumber: ssn.uiSchema,
+            relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
+            gender: {
+              'ui:widget': 'radio',
+              'ui:title': 'Gender',
+              'ui:options': {
+                labels: genderLabels
+              }
+            },
+            relationship: {
+              'ui:widget': 'radio',
+              'ui:title': 'What is your relationship to the service member whose benefit is being transferred to you?',
+              'ui:options': {
+                labels: relationshipLabels
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['relativeFullName'],
+            properties: {
+              relativeFullName: fullName.schema,
+              relativeSocialSecurityNumber: ssn.schema,
+              relativeDateOfBirth: currentOrPastDate.schema,
+              gender,
+              relationship
+            }
+          }
         }
       }
     },
@@ -47,7 +89,10 @@ const formConfig = {
             },
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Select the benefit that is the best match for you.'
+              'ui:title': 'Select the benefit that is the best match for you.',
+              'ui:options': {
+                labels: benefitsLabels
+              }
             }
           },
           schema: {
@@ -57,9 +102,7 @@ const formConfig = {
                 type: 'object',
                 properties: {}
               },
-              benefit: _.assign(benefit, {
-                enumNames: enumToNames(benefit.enum, benefitsLabels)
-              })
+              benefit
             }
           },
         }

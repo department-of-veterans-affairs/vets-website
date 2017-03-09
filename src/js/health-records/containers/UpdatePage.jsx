@@ -13,7 +13,7 @@ export class UpdatePage extends React.Component {
     this.pollRefresh = () => {
       setInterval(() => {
         props.checkRefreshStatus();
-      }, 10000);
+      }, 30000);
     };
     this.handleSkipToDownload = this.handleSkipToDownload.bind(this);
   }

@@ -4,12 +4,14 @@ import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.jso
 // benefitsLabels should be imported from utils/helpers, but for now, they don't
 //  all have links, so for consistency, use the set in ../helpers
 import { transform, benefitsLabels } from '../helpers';
-import { enumToNames } from '../../utils/helpers';
+import { showSchoolAddress } from '../../utils/helpers';
+import { states } from '../../../common/utils/options-for-select';
 
 import * as date from '../../../common/schemaform/definitions/date';
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as address from '../../../common/schemaform/definitions/address';
 import * as phone from '../../../common/schemaform/definitions/phone';
+import * as educationType from '../../definitions/educationType';
 import contactInformation from '../../definitions/contactInformation';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -17,13 +19,24 @@ import EmploymentPeriodView from '../components/EmploymentPeriodView';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
-  benefit
+  benefit,
+  educationProgram,
+  educationObjective,
+  educationStartDate,
+  restorativeTraining,
+  vocationalTraining,
+  trainingState,
+  educationalCounseling
 } = fullSchema5490.properties;
 
 const {
   secondaryContact,
   nonMilitaryJobs
 } = fullSchema5490.definitions;
+
+const stateLabels = states.USA.reduce((current, { label, value }) => {
+  return _.merge(current, { [value]: label });
+}, {});
 
 const formConfig = {
   urlPrefix: '/5490/',
@@ -34,6 +47,10 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5490',
+  defaultDefinitions: {
+    educationType: educationType.schema,
+    date: date.schema
+  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -49,16 +66,17 @@ const formConfig = {
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Select the benefit that is the best match for you:'
+              'ui:title': 'Select the benefit that is the best match for you:',
+              'ui:options': {
+                labels: benefitsLabels
+              }
             },
             benefitsRelinquishedDate: date.uiSchema('Effective date')
           },
           schema: {
             type: 'object',
             properties: {
-              benefit: _.assign(benefit, {
-                enumNames: enumToNames(benefit.enum, benefitsLabels)
-              }),
+              benefit,
               benefitsRelinquishedDate: date.schema
             }
           }
@@ -103,6 +121,66 @@ const formConfig = {
             type: 'object',
             properties: {
               nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
+            }
+          }
+        }
+      }
+    },
+    schoolSelection: {
+      title: 'School Selection',
+      pages: {
+        schoolSelection: {
+          title: 'School selection',
+          path: 'school-selection',
+          uiSchema: {
+            educationProgram: {
+              'ui:order': ['name', 'educationType', 'address'],
+              address: _.merge(address.uiSchema(), {
+                'ui:options': {
+                  hideIf: (form) => !showSchoolAddress(_.get('educationProgram.educationType', form))
+                }
+              }),
+              educationType: educationType.uiSchema,
+              name: {
+                'ui:title': 'Name of school, university, or training facility'
+              }
+            },
+            educationObjective: {
+              'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
+              'ui:widget': 'textarea'
+            },
+            educationStartDate: date.uiSchema('The date your training began or will begin'),
+            restorativeTraining: {
+              'ui:title': 'Are you seeking special restorative training?',
+              'ui:widget': 'yesNo'
+            },
+            vocationalTraining: {
+              'ui:title': 'Are you seeking special vocational training?',
+              'ui:widget': 'yesNo'
+            },
+            trainingState: {
+              'ui:title': 'In what state do you plan on living while participating in this training?',
+              'ui:options': {
+                labels: stateLabels
+              }
+            },
+            educationalCounseling: {
+              'ui:title': 'Would you like to receive vocational and educational counseling?',
+              'ui:widget': 'yesNo'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              educationProgram: _.set('properties.address', address.schema(), educationProgram),
+              educationObjective,
+              educationStartDate,
+              restorativeTraining,
+              vocationalTraining,
+              trainingState: _.merge(trainingState, {
+                type: 'string'
+              }),
+              educationalCounseling
             }
           }
         }
