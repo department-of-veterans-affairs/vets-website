@@ -3,11 +3,11 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-addons-test-utils';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
+import { DefinitionTester } from '../../util/schemaform-utils.jsx';
+import formConfig from '../../../src/js/edu-benefits/pages/directDeposit.js';
 
-describe('Edu 5490 directDeposit', () => {
-  const { schema, uiSchema } = formConfig.chapters.personalInformation.pages.directDeposit;
+describe('Edu page directDeposit', () => {
+  const { schema, uiSchema } = formConfig;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

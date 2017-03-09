@@ -17,7 +17,8 @@ import * as address from '../../../common/schemaform/definitions/address';
 
 import * as educationType from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
-import contactInformation from '../../definitions/contactInformation';
+
+import contactInformation from '../../pages/contactInformation';
 
 import { enumToNames, showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';

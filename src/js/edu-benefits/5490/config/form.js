@@ -8,11 +8,12 @@ import { enumToNames, showSchoolAddress } from '../../utils/helpers';
 import { states } from '../../../common/utils/options-for-select';
 
 import * as date from '../../../common/schemaform/definitions/date';
-import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as address from '../../../common/schemaform/definitions/address';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as educationType from '../../definitions/educationType';
-import contactInformation from '../../definitions/contactInformation';
+
+import contactInformation from '../../pages/contactInformation';
+import directDeposit from '../../pages/directDeposit';
 
 import IntroductionPage from '../components/IntroductionPage';
 import EmploymentPeriodView from '../components/EmploymentPeriodView';
@@ -224,21 +225,7 @@ const formConfig = {
             }
           }
         },
-        directDeposit: {
-          title: 'Direct deposit',
-          path: 'personal-information/direct-deposit',
-          initialData: {},
-          uiSchema: {
-            'ui:title': 'Direct deposit',
-            bankAccount: bankAccount.uiSchema,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              bankAccount: bankAccount.schema
-            }
-          }
-        }
+        directDeposit
       }
     }
   }
