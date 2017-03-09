@@ -30,7 +30,7 @@ For the first disability claim you file, please provide:
 - Service treatment records
 
 [Order service records through the National Archives](https://www.archives.gov/veterans/military-service-records).
-
+<div markdown="0"><br></div>
 For all disability claims, please provide:
 
 - VA medical records and hospital records that relate to your claimed illnesses or injuries
@@ -53,11 +53,9 @@ You can work with an accredited representative who can help you file a claim.  [
 
 #### Apply in person
 
-[Go to a Regional Benefits Office]http://www.benefits.va.gov/benefits/offices.asp
+[Find a Regional Benefits Office near you]http://www.benefits.va.gov/benefits/offices.asp) 
 
 ### Already applied?
-
-Optional text about managing or tracking this benefit
 
 <a class="usa-button-primary" href="/disability-benefits/track-claims">Track the status of your claim</a>
 
@@ -65,6 +63,6 @@ Optional text about managing or tracking this benefit
 
 ### What happens after I apply?
 
-You don't need to do anything while you're waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.  [Learn what happens after you apply].
+You don't need to do anything while you're waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.  [Learn what happens after you apply](/disability-benefits/What-happens-after). 
 
 <div markdown="0"><br></div>
