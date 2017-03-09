@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Application Process Template
+title: Education Benefits Application Process 
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
@@ -54,24 +54,27 @@ If you’re a Servicemember, Veteran, or family member interested in education a
    A candidate for the National Call to Service program
 
 		</p>
-  </div>
+ <div class="usa-alert usa-alert-warning usa-content secondary" markdown="0">
+<div class="usa-alert-body">
+<h4 style="padding:0">For Forms 22-1990E, 22-1990N, 22-5490, and 22-5495</h4>
+<p style="margin:0">Apply on <a href="https://www.ebenefits.va.gov/ebenefits/apply#education"></a></p>
+</div>
+</div>
 </div>
 
 ### Other ways to apply
 
 #### In person
-- Go to a VA regional office and have a VA employee help you. Find a regional office near you.
+- Go to a VA regional office and have a VA employee help you. [Find a regional office near you](/facilities).
 - Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
 #### By mail
-- Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. See a list of regional claims processing offices.
+- Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
 ### Already applied?
 
 - You can't make changes to your application
-- For questions about Education Benefits please call 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
-- If we've asked for documents, please upload them through the GI Bill site.
-
-<a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">GI Bill site</a>
+- For questions about Education Benefits please call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
+- If we've asked for documents, please upload them through the GI Bill site. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill site</a>
 
 <div markdown="0"><br></div>
