@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Eligibility Template
+title: Education Benefits Eligibility 
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
@@ -13,11 +13,11 @@ relatedlinks:
    description: ""
 ---
 
-Optional text to introduce the eligibility page.
+You may be eligible for generous education benefits and opportunities, including help paying tuition, picking out a school, career counseling, and more.
 
 <div class="feature" markdown="1">
 
-### Callout title
+### 
 
 You may be eligible for these reasons:
 
@@ -26,20 +26,10 @@ You may be eligible for these reasons:
 
 If none of the above apply to you, you may be able to get coverage by following [this link](http://www.google.com)
 
-#### Who is covered
+#### Who's covered
 
-You and your dependents
-
-</div>
-
-<div class="usa-alert usa-alert-warning usa-content secondary" markdown="0">
-<div class="usa-alert-body">
-<h4 style="padding:0">Alert describing an important exception</h4>
-<p style="margin:0">Text describing the exception and a <a href="http://www.google.com">link to do something</a></p>
-</div>	
-</div>
-
-<div markdown="0"><br></div>
+- Veterans
+- Quaified dependents
 
 ### Ready to apply?
 
