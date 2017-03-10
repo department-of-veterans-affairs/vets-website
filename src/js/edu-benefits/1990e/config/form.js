@@ -7,6 +7,9 @@ import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json
 
 import * as educationProgram from '../../definitions/educationProgram';
 
+import contactInformation from '../../pages/contactInformation';
+import directDeposit from '../../pages/directDeposit';
+
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
@@ -167,6 +170,8 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
+        contactInformation,
+        directDeposit
       }
     }
   }

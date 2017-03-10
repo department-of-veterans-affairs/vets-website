@@ -12,7 +12,6 @@ import {
 import { states } from '../../../common/utils/options-for-select';
 
 import * as address from '../../../common/schemaform/definitions/address';
-import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
@@ -21,7 +20,8 @@ import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import * as educationProgram from '../../definitions/educationProgram';
 
-import contactInformation from '../../definitions/contactInformation';
+import contactInformation from '../../pages/contactInformation';
+import directDeposit from '../../pages/directDeposit';
 
 import IntroductionPage from '../components/IntroductionPage';
 import EmploymentPeriodView from '../components/EmploymentPeriodView';
@@ -369,21 +369,7 @@ const formConfig = {
             }
           }
         },
-        directDeposit: {
-          title: 'Direct deposit',
-          path: 'personal-information/direct-deposit',
-          initialData: {},
-          uiSchema: {
-            'ui:title': 'Direct deposit',
-            bankAccount: bankAccount.uiSchema,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              bankAccount: bankAccount.schema
-            }
-          }
-        }
+        directDeposit
       }
     }
   }

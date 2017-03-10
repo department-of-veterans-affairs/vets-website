@@ -12,15 +12,10 @@
 // Blog / Playbook
 .page-playbook {
   background-color: $color-white;
-  .main {
-    background: white;
-  }
 
-  .va-header-logo {
-    &:hover .vets-logo-va path {
-      fill: $color-primary;
-    }
-  }
+  .header {
+    background-color: inherit;
+  }  
 
   .vets-logo {
     path, rect {
