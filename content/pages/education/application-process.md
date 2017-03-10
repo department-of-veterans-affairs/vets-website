@@ -17,9 +17,9 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 ### Prepare
 
-- Check your eligibility.
-- Compare estimated benefits by school using the GI Bill Comparison Tool. [Go to the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
-- Get help from an accredited representative with a Veterans Service Organization (VSO) who can help you pick the right program. [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
+- [Check your eligibility](/education/eligibility/).
+- See what benefits you'll get at the school you want to attend. [Go to the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
+- Get help from an trained profession with a Veterans Service Organization (VSO) who can help you pick the right program. [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
 
 <div markdown="0"><br></div>
 
@@ -34,11 +34,9 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 </div>
 
-### Apply online
-
 <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply online</a>
 
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1995/introduction">Manage Benefits</a>
+<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline" target="_blank">Manage Benefits</a>
 
 <div markdown="0"><br></div>
 
