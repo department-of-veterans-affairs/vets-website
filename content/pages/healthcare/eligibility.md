@@ -50,7 +50,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 ### How can I find out if I can get dental or vision care through VA?
 
-In certain cases, you may receive dental or vision care as part of your VA health benefits. 
+In certain cases, you may get dental or vision care as part of your VA health benefits. 
 
 [Find out if you can get dental care through VA](/healthcare)
 
