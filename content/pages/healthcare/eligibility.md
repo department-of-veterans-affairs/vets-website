@@ -5,7 +5,7 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: /disability/eligibility
+ - url: /disability-benefits/eligibility
    title: Apply for disability
    description: "Find out if you're eligible because of an illness or injury that started—or got worse—while you were serving in the military"
  - url: /disability-benefits/track-claims/your-claims
