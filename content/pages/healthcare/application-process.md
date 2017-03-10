@@ -13,23 +13,19 @@ relatedlinks:
    description: ""
 ---
 
-Optional text to introduce the application process page.
+Once you’ve figured out if you qualify, applying for VA health care is easy. Find out how to apply.
 
 ### Prepare
 
-Text informing how to prepare for this application
+What do I need to complete the 10-10EZ?
 
-- Prepare step
-- Prepare step
+- Your most recent tax return
+- Social Security numbers for yourself and your qualified dependents
+- Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer)
 
 <div markdown="0"><br></div>
 
 <div class="call-out" markdown="1">
-
-#### What you need to fill out this application
-
-- Checklist item
-- Checklist item
 
 </div>
 
@@ -46,38 +42,39 @@ Text informing how to prepare for this application
 
 Some optional text about the online application.
 
-<a class="usa-button-primary va-button-primary" href="http://www.google.com">Apply online for this benefit</a>
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction).">Apply online</a>
 
 <div markdown="0"><br></div>
 
 ### Other ways to apply
 
-Some text about applying by alternate methods
+
 
 #### By phone
 
-Information about calling by phone
+Call the Vets.gov Help Desk at 855-574-7286, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
 #### By mail
 
-Information on how to [download the application](http://www.google.com) and mailing address:
+[Download VA form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf). Print the form, fill it out, and send it to this address:
 
 <dl class="va-address-block">
-<dd>Address Line 1</dd>
-<dd>Address Line 2</dd>
-<dd>Address Line 3</dd>
+<dd>Health Eligibility Center</dd>
+<dd>2957 Clairmont Rd., Suite 200</dd>
+<dd>Atlanta, GA 30329</dd>
 </dl>
 
 #### In person
 
-Information about applying in person
+Go to your nearest VA medical center or clinic. Bring the 10-10EZ form with you.
+[Find a VA medical center or clinic near you](https://www.vets.gov/facilities).
+[Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
-- Bullet
-- Bullet
 
-### Already applied?
+### How do I apply as a caregiver?
 
-Optional text about managing or tracking this benefit
+Fill out VA form 10-10CG.
+[Download form 10-10CG](https://www.vets.gov/healthcare/forms/vha-10-10CG.pdf). 
 
 <a class="usa-button-primary" href="http://www.google.com">Track the status of your claim</a>
 
@@ -85,6 +82,8 @@ Optional text about managing or tracking this benefit
 
 ### What happens after I apply?
 
-Call-to-action to the [after you apply](http://www.google.com) page
+Find out what to expect after you send in your application [after you apply](http://www.google.com) page
+
+Already signed up? You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim.[Manage your VA health care](/healthcare/). 
 
 <div markdown="0"><br></div>
