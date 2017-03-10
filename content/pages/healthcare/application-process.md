@@ -42,7 +42,7 @@ What do I need to complete the 10-10EZ?
 
 Some optional text about the online application.
 
-<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction).">Apply online</a>
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction)">Apply online</a>
 
 <div markdown="0"><br></div>
 
