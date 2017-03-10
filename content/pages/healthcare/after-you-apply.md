@@ -20,7 +20,7 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 <div class="call-out" markdown="0">
 
 <h3 style="padding:0">Less than 1 week</h3>
-<p style="padding:0">Average time to process claims. If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call 855-574-7286.</p>
+<p style="padding:0">Average time to process claims. If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18555747286">855-574-7286</a>.</p>
 
 </div>
 
