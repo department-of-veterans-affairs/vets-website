@@ -12,15 +12,10 @@
 // Blog / Playbook
 .page-playbook {
   background-color: $color-white;
-  .main {
-    background: white;
-  }
 
-  .va-header-logo {
-    &:hover .vets-logo-va path {
-      fill: $color-primary;
-    }
-  }
+  .header {
+    background-color: inherit;
+  }  
 
   .vets-logo {
     path, rect {
@@ -40,11 +35,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   margin-bottom: 1em;
-
-  @media #{$small} {
-    // TODO: Remove !important when #content .splash is refactored
-    padding: 6.1em 0 !important;
-  }
+  padding: 6.1em 0 !important;
 }
 
 #playbook .splash {
