@@ -11,8 +11,6 @@ import {
   highSchoolStatusLabels,
   transform
 } from '../helpers';
-import { showSchoolAddress } from '../../utils/helpers';
-import { states } from '../../../common/utils/options-for-select';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
@@ -22,10 +20,10 @@ import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
-import * as educationType from '../../definitions/educationType';
 
 import contactInformation from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
+import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import IntroductionPage from '../components/IntroductionPage';
 import EmploymentPeriodView from '../components/EmploymentPeriodView';
@@ -38,18 +36,11 @@ const {
   civilianBenefitsAssistance,
   civilianBenefitsSource,
   currentlyActiveDuty,
-  educationObjective,
-  educationProgram,
-  educationStartDate,
-  educationalCounseling,
   outstandingFelony,
-  restorativeTraining,
   serviceBranch,
   spouseInfo,
-  trainingState,
   veteranDateOfBirth,
   veteranDateOfDeath,
-  vocationalTraining,
 } = fullSchema5490.properties;
 
 const {
@@ -57,12 +48,9 @@ const {
   relationship,
   secondaryContact,
   dateRange,
+  educationType,
   postHighSchoolTrainings
 } = fullSchema5490.definitions;
-
-const stateLabels = states.USA.reduce((current, { label, value }) => {
-  return _.merge(current, { [value]: label });
-}, {});
 
 const formConfig = {
   urlPrefix: '/5490/',
@@ -74,7 +62,7 @@ const formConfig = {
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5490',
   defaultDefinitions: {
-    educationType: educationType.schema,
+    educationType,
     date: date.schema,
     dateRange
   },
@@ -412,61 +400,15 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: {
-          title: 'School selection',
-          path: 'school-selection',
-          uiSchema: {
-            educationProgram: {
-              'ui:order': ['name', 'educationType', 'address'],
-              address: _.merge(address.uiSchema(), {
-                'ui:options': {
-                  hideIf: (form) => !showSchoolAddress(_.get('educationProgram.educationType', form))
-                }
-              }),
-              educationType: educationType.uiSchema,
-              name: {
-                'ui:title': 'Name of school, university, or training facility'
-              }
-            },
-            educationObjective: {
-              'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
-              'ui:widget': 'textarea'
-            },
-            educationStartDate: date.uiSchema('The date your training began or will begin'),
-            restorativeTraining: {
-              'ui:title': 'Are you seeking special restorative training?',
-              'ui:widget': 'yesNo'
-            },
-            vocationalTraining: {
-              'ui:title': 'Are you seeking special vocational training?',
-              'ui:widget': 'yesNo'
-            },
-            trainingState: {
-              'ui:title': 'In what state do you plan on living while participating in this training?',
-              'ui:options': {
-                labels: stateLabels
-              }
-            },
-            educationalCounseling: {
-              'ui:title': 'Would you like to receive vocational and educational counseling?',
-              'ui:widget': 'yesNo'
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              educationProgram: _.set('properties.address', address.schema(), educationProgram),
-              educationObjective,
-              educationStartDate,
-              restorativeTraining,
-              vocationalTraining,
-              trainingState: _.merge(trainingState, {
-                type: 'string'
-              }),
-              educationalCounseling
-            }
-          }
-        }
+        schoolSelection: createSchoolSelectionPage(fullSchema5490, [
+          'educationProgram',
+          'educationObjective',
+          'educationStartDate',
+          'restorativeTraining',
+          'vocationalTraining',
+          'trainingState',
+          'educationalCounseling'
+        ])
       }
     },
     personalInformation: {
