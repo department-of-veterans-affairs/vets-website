@@ -5,12 +5,12 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
+ - url: /education/gi-bill/
+   title: GI Bill
+   description: "Since 1944, millions of Veterans have used the GI Bill to pay for college"
+ - url: /education/advanced-training-and-certifications/
+   title: Advanced Training and Certifications
+   description: "Use the GI Bill to pay for more than just academic programs"
 ---
 
 If you’re a Servicemember, Veteran, or family member interested in education and training opportunities, you can apply for your Certificate of Eligibility (COE). You can also manage your current benefits.
@@ -37,6 +37,8 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 ### Apply online
 
 <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply online</a>
+
+<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1995/introduction">Manage Benefits</a>
 
 <div markdown="0"><br></div>
 
