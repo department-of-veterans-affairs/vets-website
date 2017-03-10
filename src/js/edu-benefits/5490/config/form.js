@@ -29,6 +29,7 @@ import directDeposit from '../../pages/directDeposit';
 
 import IntroductionPage from '../components/IntroductionPage';
 import EmploymentPeriodView from '../components/EmploymentPeriodView';
+import EducationView from '../../components/EducationView';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
@@ -48,14 +49,15 @@ const {
   trainingState,
   veteranDateOfBirth,
   veteranDateOfDeath,
-  vocationalTraining
+  vocationalTraining,
 } = fullSchema5490.properties;
 
 const {
   nonMilitaryJobs,
   relationship,
   secondaryContact,
-  dateRange
+  dateRange,
+  postHighSchoolTrainings
 } = fullSchema5490.definitions;
 
 const stateLabels = states.USA.reduce((current, { label, value }) => {
@@ -301,6 +303,47 @@ const formConfig = {
                   'ui:title': 'Degree, diploma, or certificate received'
                 }
               }
+            },
+            postHighSchoolTrainings: {
+              'ui:title': 'Education after high school',
+              'ui:options': {
+                itemName: 'Training',
+                viewField: EducationView,
+                hideIf: form => {
+                  const status = _.get('highSchool.status', form);
+                  return status !== 'graduated' && status !== 'ged';
+                }
+              },
+              items: {
+                name: {
+                  'ui:title': 'Name of college, university or other training provider'
+                },
+                city: {
+                  'ui:title': 'City'
+                },
+                state: {
+                  'ui:title': 'State'
+                },
+                dateRange: uiSchemaDateRange(
+                  'From',
+                  'To'
+                ),
+                hours: {
+                  'ui:title': 'Hours completed'
+                },
+                hoursType: {
+                  'ui:title': 'Type of hours',
+                  'ui:options': {
+                    labels: hoursTypeLabels
+                  }
+                },
+                degreeReceived: {
+                  'ui:title': 'Degree, diploma or certificate received'
+                },
+                major: {
+                  'ui:title': 'Major or course of study (NOT for high school)'
+                }
+              }
             }
           },
           schema: {
@@ -324,7 +367,8 @@ const formConfig = {
                     }
                   }
                 }
-              }
+              },
+              postHighSchoolTrainings
             }
           }
         }
