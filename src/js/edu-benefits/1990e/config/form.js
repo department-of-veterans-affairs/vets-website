@@ -168,6 +168,7 @@ const formConfig = {
             properties: {
               sponsorVeteran: {
                 type: 'object',
+                required: ['veteranFullName', 'veteranSocialSecurityNumber'],
                 properties: {
                   veteranFullName: fullName,
                   veteranSocialSecurityNumber: ssn,

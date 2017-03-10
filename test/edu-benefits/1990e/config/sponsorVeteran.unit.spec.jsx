@@ -62,6 +62,12 @@ describe('Edu 1990e sponsorVeteran', () => {
       }
     });
 
+    ReactTestUtils.Simulate.change(find('#root_sponsorVeteran_veteranSocialSecurityNumber'), {
+      target: {
+        value: '111-22-3333'
+      }
+    });
+
     submitForm(form);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
     expect(onSubmit.called).to.be.true;
