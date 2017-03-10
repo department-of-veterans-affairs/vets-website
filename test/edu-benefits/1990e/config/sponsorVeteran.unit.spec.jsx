@@ -19,8 +19,11 @@ describe('Edu 1990e sponsorVeteran', () => {
           definitions={definitions}/>
     );
 
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input'))
-      .to.not.be.empty;
+    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
+    const selects = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select');
+
+    expect(inputs.length).to.equal(10);
+    expect(selects.length).to.equal(3);
   });
   it('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
