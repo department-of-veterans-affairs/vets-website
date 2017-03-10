@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Application Process Template
+title: Health Care Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
@@ -49,7 +49,6 @@ Some optional text about the online application.
 ### Other ways to apply
 
 
-
 #### By phone
 
 Call the Vets.gov Help Desk at 855-574-7286, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
@@ -67,14 +66,14 @@ Call the Vets.gov Help Desk at 855-574-7286, Monday through Friday, 8:00 a.m. to
 #### In person
 
 Go to your nearest VA medical center or clinic. Bring the 10-10EZ form with you.
-[Find a VA medical center or clinic near you](https://www.vets.gov/facilities).
+[Find a VA medical center or clinic near you](/facilities).
 [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 
 ### How do I apply as a caregiver?
 
 Fill out VA form 10-10CG.
-[Download form 10-10CG](https://www.vets.gov/healthcare/forms/vha-10-10CG.pdf). 
+[Download form 10-10CG](/healthcare/forms/vha-10-10CG.pdf). 
 
 <a class="usa-button-primary" href="http://www.google.com">Track the status of your claim</a>
 
@@ -82,8 +81,8 @@ Fill out VA form 10-10CG.
 
 ### What happens after I apply?
 
-Find out what to expect after you send in your application [after you apply](http://www.google.com) page
+[Find out what to expect after you send in your application](/healthcare/after-you-apply).
 
-Already signed up? You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim.[Manage your VA health care](/healthcare/). 
+Already signed up? You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. [Manage your VA health care](/healthcare/). 
 
 <div markdown="0"><br></div>
