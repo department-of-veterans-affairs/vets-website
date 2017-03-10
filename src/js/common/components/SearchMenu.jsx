@@ -8,9 +8,6 @@ class SearchMenu extends React.Component {
     super(props);
     this.makeForm = this.makeForm.bind(this);
     this.toggleSearchForm = this.toggleSearchForm.bind(this);
-    this.state = {
-      isOpen: false
-    };
   }
 
   componentDidUpdate() {
@@ -18,7 +15,7 @@ class SearchMenu extends React.Component {
   }
 
   toggleSearchForm() {
-    this.setState({ isOpen: !this.state.isOpen });
+    this.props.clickHandler();
   }
 
   makeForm() {
@@ -27,7 +24,7 @@ class SearchMenu extends React.Component {
           acceptCharset="UTF-8"
           action="https://search.vets.gov/search"
           className="va-dropdown-panel"
-          hidden={!this.state.isOpen}
+          hidden={!this.props.isOpen}
           id="search"
           method="get">
         <div className="csp-inline-patch-header">
@@ -57,8 +54,8 @@ class SearchMenu extends React.Component {
       <div className="va-dropdown">
         <button className={buttonClasses}
             aria-controls="search"
-            aria-expanded={this.state.isOpen}
-            onClick={this.toggleSearchForm}
+            aria-expanded={this.props.isOpen}
+            onClick={this.props.clickHandler}
             ref="clickTrigger">
           <span>
             <IconSearch color="#fff"/>
@@ -73,7 +70,9 @@ class SearchMenu extends React.Component {
 }
 
 SearchMenu.propTypes = {
-  cssClass: React.PropTypes.string
+  cssClass: React.PropTypes.string,
+  isOpen: React.PropTypes.bool.isRequired,
+  clickHandler: React.PropTypes.func
 };
 
 export default SearchMenu;

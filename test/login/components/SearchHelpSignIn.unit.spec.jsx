@@ -1,8 +1,8 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-
-import { SignInProfileButton } from '../../../src/js/login/components/SignInProfileButton.jsx';
+ 
+import { SearchHelpSignIn } from '../../../src/js/login/components/SearchHelpSignIn.jsx';
 
 describe('<SignInProfileButton>', () => {
   const loginData = {
@@ -10,7 +10,7 @@ describe('<SignInProfileButton>', () => {
     loginUrl: ''
   };
 
-  let tree = SkinDeep.shallowRender(<SignInProfileButton login={loginData}/>);
+  let tree = SkinDeep.shallowRender(<SearchHelpSignIn login={loginData}/>);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

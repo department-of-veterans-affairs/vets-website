@@ -6,10 +6,7 @@ import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateLogInUrl, logOut } from '../actions';
-import SignInProfileButton from '../components/SignInProfileButton';
-import SearchMenu from '../../common/components/SearchMenu';
-import HelpMenu from '../../common/components/HelpMenu';
-
+import SearchHelpSignIn from '../components/SearchHelpSignIn';
 
 class Main extends React.Component {
   constructor(props) {
@@ -136,11 +133,7 @@ class Main extends React.Component {
 
   render() {
     return (
-      <div>
-        <SearchMenu/>
-        <HelpMenu/>
-        <SignInProfileButton onUserLogin={this.handleLogin} onUserSignup={this.handleSignup} onUserLogout={this.handleLogout}/>
-      </div>
+      <SearchHelpSignIn onUserLogin={this.handleLogin} onUserSignup={this.handleSignup} onUserLogout={this.handleLogout}/>
     );
   }
 }

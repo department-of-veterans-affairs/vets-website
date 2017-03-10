@@ -17,18 +17,21 @@ class HelpMenu extends React.Component {
 
     return (
       <DropDown
-          cssClass={this.props.cssClass}
           buttonText="Help"
+          clickHandler={this.props.clickHandler}
+          cssClass={this.props.cssClass}
           contents={dropDownContents}
           id="helpmenu"
           icon={icon}
-          isOpen={false}/>
+          isOpen={this.props.isOpen}/>
     );
   }
 }
 
 HelpMenu.propTypes = {
-  cssClass: React.PropTypes.string
+  cssClass: React.PropTypes.string,
+  clickHandler: React.PropTypes.func.isRequired,
+  isOpen: React.PropTypes.bool.isRequired
 };
 
 export default HelpMenu;
