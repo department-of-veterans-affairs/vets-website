@@ -28,7 +28,7 @@ function setFirstFields(id) {
       Array.from(document.querySelectorAll('.schemaform-block'))
     );
     containers.forEach(block => {
-      const fields = Array.from(block.querySelectorAll('.schemaform-field-template'));
+      const fields = Array.from(block.querySelectorAll('.form-checkbox,.schemaform-field-template'));
       if (fields.length) {
         fields[0].classList.add('schemaform-first-field');
       }
