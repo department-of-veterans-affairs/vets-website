@@ -44,15 +44,15 @@ You may be eligible if:
 
 ### Ready to apply?
 
-<a class="usa-button-primary va-button-primary" href="//education/apply-for-education-benefits/">Apply online</a>
-<div markdown="0"><br></div>
-[Learn about the application process](/education/application-process/)
+</div>
+Choose **Apply online** if you are a first time applicant.
+Includes Form 22-1990
 
-You can also manage education benefits you're already using
-<div markdown="0"><br></div>
+Choose **Manage Benefits** if you need to make a change to your current education benefits (for example, you’re moving to a new school).
+Includes Form 22-1995
+
+<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply online</a>
 <a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline" target="_blank">Manage Benefits</a>
-
-<div markdown="0"><br></div>
 
 ### Advanced training and certifications
 
