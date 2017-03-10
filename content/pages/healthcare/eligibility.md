@@ -8,7 +8,7 @@ relatedlinks:
  - url: /disability-benefits/eligibility
    title: Apply for disability
    description: "Find out if you're eligible because of an illness or injury that started—or got worse—while you were serving in the military"
- - url: /disability-benefits/track-claims/your-claims
+ - url: /disability-benefits/track-claims
    title: Check claim status
    description: "Track the status of a disability claim"
 ---
