@@ -54,6 +54,10 @@ const {
   fullName
 } = fullSchema5490.definitions;
 
+const dateSchema = fullSchema5490.definitions.date;
+const educationTypeSchema = fullSchema5490.definitions.educationType;
+const ssnSchema = fullSchema5490.definitions.ssn;
+
 const nonRequiredFullName = _.assign(fullName, {
   required: []
 });
@@ -72,10 +76,10 @@ const formConfig = {
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5490',
   defaultDefinitions: {
-    date: date.schema,
-    educationType: educationType.schema,
+    date: dateSchema,
+    educationType: educationTypeSchema,
     fullName,
-    ssn: ssn.schema
+    ssn: ssnSchema
   },
   chapters: {
     applicantInformation: {
@@ -103,7 +107,7 @@ const formConfig = {
             type: 'object',
             properties: {
               benefit,
-              benefitsRelinquishedDate: date.schema
+              benefitsRelinquishedDate: dateSchema
             }
           }
         },
@@ -252,15 +256,12 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            definitions: {
-              date: date.schema // For spouseInfo
-            },
             required: ['veteranSocialSecurityNumber'],
             properties: {
               relationship,
               spouseInfo,
               relativeFullName: fullName,
-              veteranSocialSecurityNumber: ssn.schema,
+              veteranSocialSecurityNumber: ssnSchema,
               veteranDateOfBirth,
               veteranDateOfDeath
             }
