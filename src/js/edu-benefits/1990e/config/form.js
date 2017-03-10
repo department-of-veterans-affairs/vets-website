@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import {
   transform,
   eligibilityDescription
@@ -134,9 +136,25 @@ const formConfig = {
           path: 'sponsor-veteran',
           uiSchema: {
             sponsorVeteran: {
-              veteranFullName: fullNameCommon.uiSchema,
-              veteranSocialSecurityNumber: ssnCommon.uiSchema,
-              veteranAddress: address.uiSchema(),
+              veteranFullName: {
+                first: {
+                  'ui:title': 'Veteran first name'
+                },
+                last: {
+                  'ui:title': 'Veteran last name'
+                },
+                middle: {
+                  'ui:title': 'Veteran middle name'
+                },
+                suffix: {
+                  'ui:title': 'Veteran suffix',
+                  'ui:options': {
+                    widgetClassNames: 'form-select-medium'
+                  }
+                }
+              },
+              veteranSocialSecurityNumber: _.set(ssnCommon.uiSchema, ['ui:title'], 'Veteran Social Security number'),
+              veteranAddress: address.uiSchema('Veteran Address'),
               serviceBranch: {
                 'ui:title': 'Branch of Service'
               },
@@ -153,7 +171,7 @@ const formConfig = {
                 properties: {
                   veteranFullName: fullName,
                   veteranSocialSecurityNumber: ssn,
-                  veteranAddress: address.schema(false),
+                  veteranAddress: address.schema(),
                   serviceBranch,
                   civilianBenefitsAssistance
                 },
