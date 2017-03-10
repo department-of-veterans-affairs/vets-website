@@ -28,7 +28,7 @@ function setFirstFields(id) {
       Array.from(document.querySelectorAll('.schemaform-block'))
     );
     containers.forEach(block => {
-      const fields = Array.from(block.querySelectorAll('.schemaform-field-template'));
+      const fields = Array.from(block.querySelectorAll('.form-checkbox,.schemaform-field-template'));
       if (fields.length) {
         fields[0].classList.add('schemaform-first-field');
       }
@@ -201,9 +201,13 @@ class ObjectField extends React.Component {
           </div>}
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
+              const [first, ...rest] = objectFields;
               return (
                 <ExpandingGroup open={!!formData[objectFields[0]]} key={index}>
-                  {objectFields.map(renderProp)}
+                  {renderProp(first)}
+                  <div>
+                    {rest.map(renderProp)}
+                  </div>
                 </ExpandingGroup>
               );
             }
