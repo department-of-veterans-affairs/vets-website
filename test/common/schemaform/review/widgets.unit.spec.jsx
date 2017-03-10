@@ -69,6 +69,25 @@ describe('Schemaform review widgets', () => {
 
       expect(tree.text()).to.be.empty;
     });
+    it('should render label from options', () => {
+      const enumOptions = [
+        {
+          value: 'Test',
+          label: 'Label'
+        }
+      ];
+
+      const labels = {
+        Test: 'Other'
+      };
+      const tree = SkinDeep.shallowRender(
+        <SelectWidget
+            options={{ enumOptions, labels }}
+            value="Test"/>
+      );
+
+      expect(tree.text()).to.equal('Other');
+    });
   });
   describe('<yesNo>', () => {
     it('should render true', () => {

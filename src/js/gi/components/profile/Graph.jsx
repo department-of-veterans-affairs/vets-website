@@ -21,6 +21,13 @@ class Graph extends React.Component {
   }
 
   render() {
+    if (!!this.props.error) {
+      return (
+        <div className="graph-component">
+          <p>{this.props.error}</p>
+        </div>
+      );
+    }
     const { width, height } = this.props;
     const viewBoxString = ['0', '0', width, height].join(' ');
     const BarLabel = (props) => (
@@ -35,7 +42,7 @@ class Graph extends React.Component {
     };
     const ValueBar = ({ top, color, percent }) => {
       if (isNaN(percent)) { return null; }
-      const wide = 134 * (percent / this.props.max);
+      const wide = Math.floor(134 * (percent / this.props.max));
       return <path fill={color} d={`M78 ${top}h${wide}v32H78z`}/>;
     };
     const ValueLabel = ({ y, text }) => (
@@ -83,17 +90,17 @@ class Graph extends React.Component {
       <div className="graph-component">
         <svg viewBox={viewBoxString} className="graph" width="100%" height="100%">
           <g fill="none" fillRule="evenodd">
-            <BarLabel text="Veterans" x="12" y="22"/>
-            <Underbar top="0" value={this.format(veterans) !== 'No Data'}>
-              <ValueBar top="0" color="#02BFE7" percent={veterans.value ? veterans.value : 1}/>
-            </Underbar>
-            <ValueLabel y="22" text={this.format(veterans)}/>
-
             <BarLabel text="All" x="53" y="62"/>
             <Underbar top="40" value={this.format(all) !== 'No Data'}>
               <ValueBar top="40" color="#757575" percent={all.value}/>
             </Underbar>
             <ValueLabel y="62" text={this.format(all)}/>
+
+            <BarLabel text="Veterans" x="12" y="22"/>
+            <Underbar top="0" value={this.format(veterans) !== 'No Data'}>
+              <ValueBar top="0" color="#02BFE7" percent={veterans.value ? veterans.value : 1}/>
+            </Underbar>
+            <ValueLabel y="22" text={this.format(veterans)}/>
 
             <AverageMark percent={averagePercent} text={this.format(averageObject)}/>
           </g>

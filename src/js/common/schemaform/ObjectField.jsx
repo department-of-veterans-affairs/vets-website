@@ -165,9 +165,9 @@ class ObjectField extends React.Component {
       'schemaform-block': title && !isRoot
     });
 
-    const renderProp = (propName, index) => {
+    const renderProp = (propName) => {
       return (
-        <div key={index}>
+        <div key={propName}>
           <SchemaField
               name={propName}
               required={this.isRequired(propName)}
