@@ -18,7 +18,8 @@ import * as address from '../../../common/schemaform/definitions/address';
 import * as educationType from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
-import contactInformation from '../../definitions/contactInformation';
+
+import contactInformation from '../../pages/contactInformation';
 
 import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
