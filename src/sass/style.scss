@@ -46,16 +46,16 @@
 
 @import 'base/b-variables';
 @import 'base/b-functions';
-
+@import 'base/b-utils';
 
 // ----- VA GENERAL (MAIN FILE/OTHER) ---- //
 
 @import 'base/va';
+@import 'normalize';
 
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
 @import 'modules/m-card';
 @import 'modules/m-alert';
-@import 'modules/m-checklist';
 @import 'modules/m-crisis-line';
 @import 'modules/m-growable';
 @import 'modules/m-piano-key';
@@ -65,6 +65,7 @@
 @import 'modules/m-search';
 @import 'modules/m-loading-indicator';
 @import 'modules/m-vet-nav';
+@import 'modules/m-print';
 
 // ----- VA SHAME ---- //
 

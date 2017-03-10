@@ -17,7 +17,7 @@ class SystemDownView extends React.Component {
 }
 
 SystemDownView.propTypes = {
-  messageLine1: React.PropTypes.string,
+  messageLine1: React.PropTypes.string.isRequired,
   messageLine2: React.PropTypes.string,
 };
 

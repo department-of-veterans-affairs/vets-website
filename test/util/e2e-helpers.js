@@ -29,7 +29,7 @@ function overrideVetsGovApi(client) {
     });
     return window.VetsGov;
   },
-  [`http://localhost:${process.env.API_PORT || 4000}`],
+  [`http://localhost:${process.env.API_PORT || 3000}`],
   (val) => {
     // eslint-disable-next-line no-console
     console.log(`Result of overriding VetsGov.api.url${JSON.stringify(val)}`);
@@ -118,7 +118,7 @@ function expectInputToNotBeSelected(client, field) {
 
 module.exports = {
   baseUrl: `http://localhost:${process.env.WEB_PORT || 3333}`,
-  apiUrl: `http://localhost:${process.env.API_PORT || 4000}`,
+  apiUrl: `http://localhost:${process.env.API_PORT || 3000}`,
   createE2eTest,
   expectNavigateAwayFrom,
   expectValueToBeBlank,

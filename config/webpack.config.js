@@ -16,8 +16,9 @@ const entryFiles = {
   'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
   'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',
+  gi: './src/js/gi/gi-entry.jsx',
   hca: './src/js/hca/hca-entry.jsx',
-  'blue-button': './src/js/blue-button/blue-button-entry.jsx',
+  'health-records': './src/js/health-records/health-records-entry.jsx',
   messaging: './src/js/messaging/messaging-entry.jsx',
   rx: './src/js/rx/rx-entry.jsx',
   'no-react': './src/js/no-react-entry.js',
@@ -75,11 +76,6 @@ const configGenerator = (options) => {
           }
         },
         {
-          // components.js is effectively a hand-rolled bundle.js. Break it apart.
-          test: /components\.js$/,
-          loader: 'imports?this=>window'
-        },
-        {
           test: /foundation\.js$/,
           loader: 'imports?this=>window'
         },
@@ -110,6 +106,14 @@ const configGenerator = (options) => {
         {
           test: /\.json$/,
           loader: 'json-loader'
+        },
+        {
+          test: /react-jsonschema-form\/lib\/components\/(widgets|fields\/ObjectField|fields\/ArrayField)/,
+          exclude: [
+            /widgets\/index\.js/,
+            /widgets\/TextareaWidget/
+          ],
+          loader: 'null'
         }
       ],
       noParse: [/mapbox\/vendor\/promise.js$/],
@@ -127,7 +131,7 @@ const configGenerator = (options) => {
         __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
         'process.env': {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-          API_PORT: (process.env.API_PORT || 4000),
+          API_PORT: (process.env.API_PORT || 3000),
           WEB_PORT: (process.env.WEB_PORT || 3333),
           API_URL: process.env.API_URL ? JSON.stringify(process.env.API_URL) : null,
           BASE_URL: process.env.BASE_URL ? JSON.stringify(process.env.BASE_URL) : null,
@@ -146,7 +150,8 @@ const configGenerator = (options) => {
 
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
-        (options.buildtype === 'development') ? 'vendor.js' : 'vendor.[chunkhash].js'
+        (options.buildtype === 'development') ? 'vendor.js' : 'vendor.[chunkhash].js',
+        Infinity
       ),
     ],
   };
@@ -184,7 +189,6 @@ const configGenerator = (options) => {
   } else {
     baseConfig.devtool = '#eval-source-map';
   }
-
 
   return baseConfig;
 };

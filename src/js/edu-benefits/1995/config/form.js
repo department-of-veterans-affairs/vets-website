@@ -2,11 +2,8 @@ import _ from 'lodash/fp';
 
 import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
 
-import { validateMatch } from '../../../common/schemaform/validation';
 import {
-  benefitsLabels,
   bankAccountChangeLabels,
-  preferredContactMethodLabels,
   transform,
   directDepositWarning
 } from '../helpers';
@@ -16,35 +13,34 @@ import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as dateRange from '../../../common/schemaform/definitions/dateRange';
-import * as phone from '../../../common/schemaform/definitions/phone';
 import * as address from '../../../common/schemaform/definitions/address';
 
-import * as educationType from '../../definitions/educationType';
+import educationTypeUISchema from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
+import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
 
-import { enumToNames, showSchoolAddress } from '../../utils/helpers';
+import contactInformation from '../../pages/contactInformation';
+
+import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import ServicePeriodView from '../components/ServicePeriodView';
 
 const {
-  vaFileNumber,
   benefit,
   toursOfDuty,
   civilianBenefitsAssistance,
   educationObjective,
   nonVaAssistance,
   reasonForChange,
-  email,
   bankAccountChange
 } = fullSchema1995.properties;
 
 const {
   preferredContactMethod,
-  school
+  school,
+  vaFileNumber,
+  educationType
 } = fullSchema1995.definitions;
-
-const newSchool = _.set('required', ['name'], school);
 
 const formConfig = {
   urlPrefix: '/1995/',
@@ -54,7 +50,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
-    educationType,
     preferredContactMethod,
     serviceBefore1977,
     date: date.schema,
@@ -117,15 +112,16 @@ const formConfig = {
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Which benefit are you currently using?'
+              'ui:title': 'Which benefit are you currently using?',
+              'ui:options': {
+                labels: benefitsLabels
+              }
             }
           },
           schema: {
             type: 'object',
             properties: {
-              benefit: _.assign(benefit, {
-                enumNames: enumToNames(benefit.enum, benefitsLabels)
-              })
+              benefit
             }
           }
         }
@@ -144,25 +140,9 @@ const formConfig = {
               'ui:title': 'Do you have any new periods of service to record since you last applied for education benefits?',
               'ui:widget': 'yesNo'
             },
-            toursOfDuty: {
-              'ui:title': 'Service periods',
-              'ui:options': {
-                itemName: 'Service Period',
-                viewField: ServicePeriodView,
-                hideTitle: true,
-                expandUnder: 'view:newService'
-              },
-              items: {
-                serviceBranch: {
-                  'ui:title': 'Branch of service'
-                },
-                dateRange: dateRange.uiSchema(
-                  'Start of service period',
-                  'End of service period',
-                  'End of service must be after start of service'
-                )
-              }
-            }
+            toursOfDuty: _.merge(toursOfDutyUI, {
+              'ui:options': { expandUnder: 'view:newService' }
+            })
           },
           schema: {
             type: 'object',
@@ -202,23 +182,21 @@ const formConfig = {
           path: 'school-selection/new-school',
           title: 'School, university, program, or training facility you want to attend',
           initialData: {
-            newSchool: {
-              address: {}
-            }
+            newSchoolAddress: {}
           },
           uiSchema: {
             'ui:title': 'School, university, program, or training facility you want to attend',
-            educationType: educationType.uiSchema,
-            newSchool: {
-              name: {
-                'ui:title': 'Name of school, university, or training facility'
-              },
-              address: _.merge(address.uiSchema(), {
-                'ui:options': {
-                  hideIf: (form) => !showSchoolAddress(form.educationType)
-                }
-              })
+            // Broken up because we need to fit educationType between name and address
+            // Put back together again in transform()
+            newSchoolName: {
+              'ui:title': 'Name of school, university, or training facility'
             },
+            educationType: educationTypeUISchema,
+            newSchoolAddress: _.merge(address.uiSchema(), {
+              'ui:options': {
+                hideIf: (form) => !showSchoolAddress(form.educationType)
+              }
+            }),
             educationObjective: {
               'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
               'ui:widget': 'textarea'
@@ -234,10 +212,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['educationType'],
+            required: ['educationType', 'newSchoolName'],
             properties: {
-              educationType: educationType.schema,
-              newSchool: _.set('properties.address', address.schema(), newSchool),
+              newSchoolName: {
+                type: 'string'
+              },
+              educationType,
+              newSchoolAddress: address.schema(),
               educationObjective,
               nonVaAssistance,
               civilianBenefitsAssistance
@@ -260,7 +241,7 @@ const formConfig = {
               },
               address: address.uiSchema()
             },
-            trainingEndDate: date.uiSchema('When did you stop taking classes or participating in the training program?'),
+            trainingEndDate: date.uiSchema('When did you stop taking classes or participating in the training program? (Future dates are ok)'),
             reasonForChange: {
               'ui:title': 'Why did you stop taking classes or participating in the training program? (for example, “I graduated” or “I moved” or “The program wasn’t right for me.”)'
             }
@@ -279,57 +260,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: {
-          title: 'Contact information',
-          path: 'personal-information/contact-information',
-          initialData: {},
-          uiSchema: {
-            preferredContactMethod: {
-              'ui:title': 'How would you like to be contacted if we have questions about your application?',
-              'ui:widget': 'radio'
-            },
-            veteranAddress: address.uiSchema(),
-            'view:otherContactInfo': {
-              'ui:title': 'Other contact information',
-              'ui:description': 'Please enter as much contact information as possible so VA can get in touch with you, if necessary.',
-              'ui:validations': [
-                validateMatch('email', 'view:confirmEmail')
-              ],
-              email: {
-                'ui:title': 'Email address'
-              },
-              'view:confirmEmail': {
-                'ui:title': 'Re-enter email address',
-                'ui:options': {
-                  hideOnReview: true
-                }
-              },
-              homePhone: _.assign(phone.uiSchema('Primary telephone number'), {
-                'ui:required': (form) => form.preferredContactMethod === 'phone'
-              }),
-              mobilePhone: phone.uiSchema('Mobile telephone number')
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              preferredContactMethod: _.assign(preferredContactMethod, {
-                enumNames: enumToNames(preferredContactMethod.enum, preferredContactMethodLabels)
-              }),
-              veteranAddress: address.schema(true),
-              'view:otherContactInfo': {
-                type: 'object',
-                required: ['email', 'view:confirmEmail'],
-                properties: {
-                  email,
-                  'view:confirmEmail': email,
-                  homePhone: phone.schema,
-                  mobilePhone: phone.schema
-                }
-              }
-            }
-          }
-        },
+        contactInformation,
         dependents: {
           title: 'Dependents',
           path: 'personal-information/depedents',
@@ -358,7 +289,10 @@ const formConfig = {
           uiSchema: {
             bankAccountChange: {
               'ui:title': 'Benefit payment method:',
-              'ui:widget': 'radio'
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: bankAccountChangeLabels
+              }
             },
             bankAccount: _.assign(bankAccount.uiSchema, {
               'ui:options': {
@@ -375,9 +309,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              bankAccountChange: _.assign(bankAccountChange, {
-                enumNames: enumToNames(bankAccountChange.enum, bankAccountChangeLabels)
-              }),
+              bankAccountChange,
               bankAccount: bankAccount.schema,
               'view:stopWarning': {
                 type: 'object',

@@ -22,7 +22,7 @@ a Webpack friendly manner. Furthermore, multiple languages meant multiple builds
 pushes making it easy to desynchronize parts of the site.
 
 A decision was made around August 2016 to create a single frontend build for easier code sharing
-and more consistent deploys. Metalsmith was chosen as a replacement Jekyll because it was
+and more consistent deploys. Metalsmith was chosen as a replacement for Jekyll because it was
 written in Node.js and seemed reasonably well supported.
 
 Initially the site used grunt as the task runner, but during the migration, it became clear

@@ -46,6 +46,8 @@ export function getUserData() {
       commonStore.dispatch(updateProfileField('userFullName.last', userData.last_name));
       commonStore.dispatch(updateProfileField('gender', userData.gender));
       commonStore.dispatch(updateProfileField('dob', userData.birth_date));
+      commonStore.dispatch(updateProfileField('status', json.data.attributes.va_profile.status));
+      commonStore.dispatch(updateProfileField('services', json.data.attributes.services));
       commonStore.dispatch(updateLoggedInStatus(true));
     }
   });

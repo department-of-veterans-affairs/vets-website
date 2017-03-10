@@ -2,41 +2,47 @@
 layout: page-breadcrumbs.html
 title: Service Outside of Vietnam or Korea
 concurrence: incomplete
+plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page
 ---
 
-If you were exposed to Agent Orange during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam or in the Korean Demilitarized Zone.
+You may have had contact with Agent Orange even if you did not serve in Vietnam or in the Korean Demilitarized Zone. Agent Orange is a toxic chemical used to clear trees and plants during the Vietnam War. Find out if you can get disability compensation or benefits for illnesses believed to be caused by contact with Agent Orange.
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for compensation?
-Yes, if:
+### Can I get disability benefits from VA?
 
-  - You are ill with one or more of these [diseases related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
-  - Your service involved regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam Era, or
-  - You served in close proximity to areas where [herbicides were tested or stored outside of Vietnam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/), or
-  - You had regular and repeated contact with a contaminated [C-123 aircraft](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/c-123/), or
-  - You were associated during your service with projects to test, dispose of, or store Agent Orange.
+You may be able to get disability benefits if you have 1 or more illnesses believed to have been caused by Agent Orange and any 1 of these is true:
 
-### Who is covered
-You and your survivors
+  - You had regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam Era, **or**
+  - You served in Thailand or Korea where there was testing or storage of Agent Orange and other herbicides, **or**
+  - You had regular and repeated contact with a C-123 aircraft that had traces of Agent Orange, **or**
+  - You took part in projects that tested, disposed of, or stored Agent Orange
+  
+[See a list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+
+
+### Who's covered?
+
+- Veterans
+- Qualified survivors
 </div>
 
-### Available benefits
+### What kind of disability benefits can I get?
 
-- Compensation
 - Health care
-- An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
+- Compensation (payments)
+- [An Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 -----
 
-### How it works
+### How do I get these benefits?
 
-You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for diseases that VA presumes are related to Agent Orange exposure.
+You'll need to apply for benefits. When you apply, you'll have to show that you had contact with Agent Orange while serving in the military. If you were exposed outside of the areas listed, please give your location and timeframe of service so we can review your claim. [Apply for benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
 
-**Exception:**
-If you’re a Blue Water Veteran with [non-Hodgkin’s lymphoma](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/), you do not need to prove where you were exposed. VA recognizes non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
+**Exception:**<br>
+If you’re a Blue Water Veteran with non-Hodgkin’s lymphoma, you don't need to show that you had contact with Agent Orange. We recognize non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era. [Learn more about non-Hodgkin’s lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
 
-### Learn more
+### Get more information
 
-[Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
+Want to know more about benefits for Veterans with illnesses believed to be caused by contact with Agent Orange? [Learn more about Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp). 

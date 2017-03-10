@@ -1,9 +1,8 @@
 // Adds external icon to all links that begin
 // with http (including https)
 [href^=http] {
-  // TODO: Make this selector less specific.
   #playbook .primary &,
-  #playbook .coda & {
+  .coda & {
     background-image: url(/img/icons/exit-icon-white.png);
     margin-right: .1em;
     padding-right: 1.5em;
@@ -13,15 +12,10 @@
 // Blog / Playbook
 .page-playbook {
   background-color: $color-white;
-  .main {
-    background: white;
-  }
 
-  .va-header-logo {
-    &:hover .vets-logo-va path {
-      fill: $color-primary;
-    }
-  }
+  .header {
+    background-color: inherit;
+  }  
 
   .vets-logo {
     path, rect {
@@ -34,19 +28,6 @@
   }
 }
 
-
-// posts
-// TODO: Remove !important when #content .splash is refactored
-.splash--blog {
-  margin: 0 !important;
-  padding: 0 !important;
-
-  @media #{$small} {
-    margin: .5em 0 0 0 !important;
-    padding: 1em 0 0 0 !important;
-  }
-}
-
 .splash--hasimg {
   // TODO: Remove !important when #content .splash is refactored
   padding: 4em 0 !important;
@@ -54,11 +35,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   margin-bottom: 1em;
-
-  @media #{$small} {
-    // TODO: Remove !important when #content .splash is refactored
-    padding: 6.1em 0 !important;
-  }
+  padding: 6.1em 0 !important;
 }
 
 #playbook .splash {
@@ -118,7 +95,7 @@
   h2 {background: none; font-size: 2.5em;}
 
   .card a {
-    border-bottom: 2px solid $secondary-color;
+    border-bottom: 2px solid $color-gray-lighter;
     display: inline-block;
     background: rgba(0,0,0,.03);
     &:hover {background: rgba(0,0,0,.1);}
@@ -142,12 +119,6 @@
       li {
         margin: 0;
         padding: 0;
-      }
-    }
-
-    &.hcd {
-      h4 {
-        color: $secondary-color;
       }
     }
   }
@@ -341,7 +312,7 @@
 
 // Visual Guide
 
-span.color-chip {
+.color-chip {
   height: 3em;
   width: 3em;
   margin: .5em 1em .5em 0;
@@ -357,4 +328,62 @@ span.color-chip {
   &.color-gold {background: $color-gold;}
   &.color-green {background: $color-green;}
   &.color-green-lightest {background: $color-green-lightest;}
+}
+
+// TODO(css): Remove !important once #content ul.breadcrumbs li.active
+// is refactored.
+.splash--alternate {
+
+  li a {
+    color: $color-primary-darkest !important;
+    border-bottom: 2px solid $color-gray-lighter !important;
+
+    &:hover {
+      border-bottom: 3px solid $color-gold !important;
+    }
+  }
+
+  li.parent:after {
+    color: #ccc !important;
+  }
+}
+
+.tertiary {
+  background: $polar;
+}
+
+.quaternary {
+  background: $color-gray-lighter;
+  h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
+  h4 {font-weight: 700;}
+  .cards {
+    a {
+      height:12em;
+    }
+  }
+  .feature {background: none;}
+}
+
+.tertiary,
+.quaternary,
+.coda {
+  padding: 3em 0;
+
+  h3 {
+    font-size: 2.2em;
+  }
+}
+
+.coda {
+  background: $color-primary-darker;
+  color: $color-white;
+
+  a {
+    color: inherit;
+  }
+
+  h4 {
+    color: inherit;
+    font-size: 1.5em;
+  }
 }

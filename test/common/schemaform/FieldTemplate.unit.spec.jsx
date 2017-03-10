@@ -12,7 +12,9 @@ describe('Schemaform <FieldTemplate>', () => {
     const uiSchema = {
       'ui:title': 'Title'
     };
-    const formContext = {};
+    const formContext = {
+      touched: {}
+    };
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
@@ -36,7 +38,9 @@ describe('Schemaform <FieldTemplate>', () => {
     const uiSchema = {
       'ui:title': 'Title'
     };
-    const formContext = {};
+    const formContext = {
+      touched: {}
+    };
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
@@ -58,7 +62,9 @@ describe('Schemaform <FieldTemplate>', () => {
     const uiSchema = {
       'ui:title': 'Title'
     };
-    const formContext = {};
+    const formContext = {
+      touched: {}
+    };
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
           id="test"
@@ -79,7 +85,9 @@ describe('Schemaform <FieldTemplate>', () => {
     const uiSchema = {
       'ui:title': 'Title'
     };
-    const formContext = {};
+    const formContext = {
+      touched: { test: true }
+    };
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
@@ -87,7 +95,6 @@ describe('Schemaform <FieldTemplate>', () => {
           schema={schema}
           uiSchema={uiSchema}
           rawErrors={errors}
-          touchedSchema
           formContext={formContext}>
         <div className="field-child"/>
       </FieldTemplate>
@@ -104,7 +111,8 @@ describe('Schemaform <FieldTemplate>', () => {
       'ui:title': 'Title'
     };
     const formContext = {
-      submitted: true
+      submitted: true,
+      touched: {}
     };
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
@@ -129,7 +137,9 @@ describe('Schemaform <FieldTemplate>', () => {
       'ui:title': 'Title',
       'ui:description': 'Blah'
     };
-    const formContext = {};
+    const formContext = {
+      touched: {}
+    };
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
@@ -152,7 +162,9 @@ describe('Schemaform <FieldTemplate>', () => {
       'ui:title': 'Title',
       'ui:description': <div>Blah</div>
     };
-    const formContext = {};
+    const formContext = {
+      touched: {}
+    };
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate
@@ -175,7 +187,9 @@ describe('Schemaform <FieldTemplate>', () => {
       'ui:title': 'Title',
       'ui:description': () => <someTag>Blah</someTag>
     };
-    const formContext = {};
+    const formContext = {
+      touched: {}
+    };
     const errors = ['Some error'];
     const tree = SkinDeep.shallowRender(
       <FieldTemplate

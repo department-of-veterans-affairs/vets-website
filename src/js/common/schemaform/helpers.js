@@ -375,50 +375,51 @@ export function setHiddenFields(schema, uiSchema, data) {
     return schema;
   }
 
+  let updatedSchema = schema;
   const hideIf = _.get(['ui:options', 'hideIf'], uiSchema);
 
   if (hideIf && hideIf(data)) {
-    if (!schema['ui:hidden']) {
-      return _.set('ui:hidden', true, schema);
+    if (!updatedSchema['ui:hidden']) {
+      updatedSchema = _.set('ui:hidden', true, updatedSchema);
     }
-  } else if (schema['ui:hidden']) {
-    return _.unset('ui:hidden', schema);
+  } else if (updatedSchema['ui:hidden']) {
+    updatedSchema = _.unset('ui:hidden', updatedSchema);
   }
 
   const expandUnder = _.get(['ui:options', 'expandUnder'], uiSchema);
   if (expandUnder && !data[expandUnder]) {
-    if (!schema['ui:collapsed']) {
-      return _.set('ui:collapsed', true, schema);
+    if (!updatedSchema['ui:collapsed']) {
+      updatedSchema = _.set('ui:collapsed', true, updatedSchema);
     }
-  } else if (schema['ui:collapsed']) {
-    return _.unset('ui:collapsed', schema);
+  } else if (updatedSchema['ui:collapsed']) {
+    updatedSchema = _.unset('ui:collapsed', updatedSchema);
   }
 
-  if (schema.type === 'object') {
-    const newProperties = Object.keys(schema.properties).reduce((current, next) => {
-      const newSchema = setHiddenFields(schema.properties[next], uiSchema[next], data);
+  if (updatedSchema.type === 'object') {
+    const newProperties = Object.keys(updatedSchema.properties).reduce((current, next) => {
+      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], data);
 
-      if (newSchema !== schema.properties[next]) {
+      if (newSchema !== updatedSchema.properties[next]) {
         return _.set(next, newSchema, current);
       }
 
       return current;
-    }, schema.properties);
+    }, updatedSchema.properties);
 
-    if (newProperties !== schema.properties) {
-      return _.set('properties', newProperties, schema);
+    if (newProperties !== updatedSchema.properties) {
+      return _.set('properties', newProperties, updatedSchema);
     }
   }
 
-  if (schema.type === 'array') {
-    const newSchema = setHiddenFields(schema.items, uiSchema.items, data);
+  if (updatedSchema.type === 'array') {
+    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, data);
 
-    if (newSchema !== schema.items) {
-      return _.set('items', newSchema, schema);
+    if (newSchema !== updatedSchema.items) {
+      return _.set('items', newSchema, updatedSchema);
     }
   }
 
-  return schema;
+  return updatedSchema;
 }
 
 /*
@@ -501,7 +502,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
   const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
 
   if (updateSchema) {
-    const newSchemaProps = updateSchema(data, formData);
+    const newSchemaProps = updateSchema(data, formData, currentSchema);
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
       if (newSchemaProps[next] !== schema[next]) {
@@ -517,4 +518,16 @@ export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
   }
 
   return currentSchema;
+}
+
+export function setItemTouched(prefix, index, idSchema) {
+  const fields = Object.keys(idSchema).filter(field => field !== '$id');
+  if (!fields.length) {
+    const id = idSchema.$id.replace(prefix, `${prefix}_${index}`);
+    return { [id]: true };
+  }
+
+  return fields.reduce((idObj, field) => {
+    return _.merge(idObj, setItemTouched(prefix, index, idSchema[field]));
+  }, {});
 }

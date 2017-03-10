@@ -5,12 +5,8 @@
 .va-nav-category {
   color: $color-gray-dark;
   list-style: none;
-  margin: 0 !important;
   padding: 0;
-  
-  @media #{$small} {
-    margin: 0 -0.625rem !important;
-  }
+  margin: 0 -0.625rem !important;
   
   &::before, &::after {
     clear: both;

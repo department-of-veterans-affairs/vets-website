@@ -10,7 +10,9 @@ import {
   setHiddenFields,
   removeHiddenData,
   updateSchemaFromUiSchema,
-  getArrayFields
+  getArrayFields,
+  setItemTouched,
+  getNonArraySchema
 } from '../../../src/js/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -281,6 +283,27 @@ describe('Schemaform helpers:', () => {
       const newSchema = setHiddenFields(schema, uiSchema, data);
 
       expect(newSchema.properties.field['ui:hidden']).to.be.true;
+      expect(newSchema).not.to.equal(schema);
+    });
+    it('should set hidden on nested hidden object field', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          unhide: { type: 'boolean' },
+          nestedObject: {}
+        }
+      };
+      const uiSchema = {
+        'ui:options': { hideIf: () => false },
+        nestedObject: {
+          'ui:options': { hideIf: () => true }
+        }
+      };
+      const data = { unhide: false };
+
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+
+      expect(newSchema.properties.nestedObject['ui:hidden']).to.be.true;
       expect(newSchema).not.to.equal(schema);
     });
     it('should set collapsed on expandUnder field', () => {
@@ -717,6 +740,72 @@ describe('Schemaform helpers:', () => {
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
       expect(output.address).to.be.undefined;
+    });
+  });
+  describe('setItemTouched', () => {
+    /* eslint-disable camelcase */
+    it('should set field as touched', () => {
+      const touched = setItemTouched('root', 0, {
+        $id: 'root_field'
+      });
+
+      expect(touched).to.eql({
+        root_0_field: true
+      });
+    });
+    it('should set nested field as touched', () => {
+      const touched = setItemTouched('root', 0, {
+        $id: 'root',
+        field: {
+          $id: 'root_field'
+        }
+      });
+
+      expect(touched).to.eql({
+        root_0_field: true
+      });
+    });
+    /* eslint-enable camelcase */
+  });
+  describe('getNonArraySchema', () => {
+    it('should return undefined if array', () => {
+      const result = getNonArraySchema({ type: 'array' });
+
+      expect(result).to.be.undefined;
+    });
+    it('should return undefined if nested array', () => {
+      const result = getNonArraySchema({
+        type: 'object',
+        properties: {
+          field: {
+            type: 'array'
+          }
+        }
+      });
+
+      expect(result).to.be.undefined;
+    });
+    it('should return fields without array', () => {
+      const result = getNonArraySchema({
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          },
+          field2: {
+            type: 'array'
+          }
+        }
+      });
+
+      expect(result).to.eql({
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      });
     });
   });
 });

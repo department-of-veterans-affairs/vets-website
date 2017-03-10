@@ -148,6 +148,11 @@ class HealthCareApp extends React.Component {
     window.dataLayer.push({ event: 'submit-button-clicked' });
     const formIsValid = validations.isValidForm(veteran);
 
+    const userToken = sessionStorage.userToken;
+    if (userToken) {
+      submissionPost.headers.Authorization = `Token token=${userToken}`;
+    }
+
     // In order to test the new Rails API in staging, we are temporarily changing the
     // endpoints to submit to the new API. Keeping the same endpoints for production.
     if (testBuild) {
