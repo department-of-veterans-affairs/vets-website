@@ -147,6 +147,28 @@
     color: $color-link-default;
   }
 
+  .fl-stats-bar {
+    display: block;
+    width: 230px;
+    height: 39px;
+    margin: 1em 0;
+    background: url('/img/icons/fa-male-lt-grey.svg') repeat-x left center;
+  }
+
+  .fl-stats-bar-inner {
+    display: block;
+    content: '&nbsp;';
+    height: 100%;
+  }
+
+  .fl-stats-bar-inner.grey {
+    background: url('/img/icons/fa-male-dk-grey.svg') repeat-x left center;
+  }
+
+  .fl-stats-bar-inner.blue {
+    background: url('/img/icons/fa-male-blue.svg') repeat-x left center;
+  }
+
   .mobile-search-result {
     padding: 1em 0;
     border-top: none;
