@@ -16,7 +16,10 @@ const defaultProps = [
   'relationship'
 ];
 
-export default function applicantInformation(propNames = defaultProps) {
+export default function applicantInformation(
+  shema,
+  fields = defaultProps,
+  required = ['relativeFullName']) {
   const possibleProperties = {
     relativeFullName: fullName.schema,
     relativeSocialSecurityNumber: ssn.schema,
@@ -30,6 +33,7 @@ export default function applicantInformation(propNames = defaultProps) {
     title: 'Applicant information',
     initialData: {},
     uiSchema: {
+      'ui:order': fields,
       relativeFullName: fullName.uiSchema,
       relativeSocialSecurityNumber: ssn.uiSchema,
       relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
@@ -50,8 +54,8 @@ export default function applicantInformation(propNames = defaultProps) {
     },
     schema: {
       type: 'object',
-      required: ['relativeFullName'],
-      properties: _.pick(propNames, possibleProperties)
+      required,
+      properties: _.pick(fields, possibleProperties)
     }
   };
 }

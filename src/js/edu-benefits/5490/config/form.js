@@ -63,7 +63,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformation([
+        applicantInformation: applicantInformation(fullSchema5490, [
           'relativeFullName',
           'relativeSocialSecurityNumber',
           'relativeDateOfBirth',
