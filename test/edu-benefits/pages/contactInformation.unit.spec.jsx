@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-addons-test-utils';
 
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
-import formConfig from '../../../src/js/edu-benefits/definitions/contactInformation.js';
+import formConfig from '../../../src/js/edu-benefits/pages/contactInformation.js';
 
-describe('Edu 1995 contactInformation', () => {
+describe('Edu pages contactInformation', () => {
   const { schema, uiSchema } = formConfig;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
