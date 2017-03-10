@@ -8,6 +8,7 @@ import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json
 
 import contactInformation from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
+import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -17,8 +18,13 @@ import applicantInformation from '../../pages/applicantInformation';
 import { benefitsLabels } from '../../utils/helpers';
 
 const {
-  benefit
+  benefit,
 } = fullSchema1990e.properties;
+
+const {
+  educationType,
+  date
+} = fullSchema1990e.definitions;
 
 const formConfig = {
   urlPrefix: '/1990e/',
@@ -29,6 +35,10 @@ const formConfig = {
   confirmation: ConfirmationPage,
   title: 'Apply for transferred education benefits',
   subTitle: 'Form 22-1990e',
+  defaultDefinitions: {
+    educationType,
+    date
+  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -85,6 +95,11 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
+        schoolSelection: createSchoolSelectionPage(fullSchema1990e, [
+          'educationProgram',
+          'educationObjective',
+          'nonVaAssistance'
+        ])
       }
     },
     personalInformation: {
@@ -96,6 +111,5 @@ const formConfig = {
     }
   }
 };
-
 
 export default formConfig;
