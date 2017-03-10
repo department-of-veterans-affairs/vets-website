@@ -24,6 +24,8 @@ import * as educationType from '../../definitions/educationType';
 
 import contactInformation from '../../definitions/contactInformation';
 
+import applicantInformation from '../../pages/applicantInformation';
+
 import IntroductionPage from '../components/IntroductionPage';
 import EmploymentPeriodView from '../components/EmploymentPeriodView';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -73,7 +75,9 @@ const formConfig = {
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
-      pages: {}
+      pages: {
+        applicantInformation
+      }
     },
     benefitSelection: {
       title: 'Education Benefit',
