@@ -502,7 +502,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
   const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
 
   if (updateSchema) {
-    const newSchemaProps = updateSchema(data, formData);
+    const newSchemaProps = updateSchema(data, formData, currentSchema);
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
       if (newSchemaProps[next] !== schema[next]) {
