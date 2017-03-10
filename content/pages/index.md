@@ -12,6 +12,9 @@ majorlinks:
   - url: /education/
     title: Education Benefits
     description: Tuition assistance, training programs, and more.
+  - url: /burials-and-memorials/
+    title: Burials and Memorials
+    description: Get help planning a burial or memorial service, and find out how to get survivor and dependent benefits.
   - url: /employment/
     title: Careers and Employment
     description: Meaningful employment and career development for Veterans and their families.
