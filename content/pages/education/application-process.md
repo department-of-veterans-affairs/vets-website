@@ -41,7 +41,7 @@ Choose **Manage Benefits** if you need to make a change to your current educatio
 Includes Form 22-1995
 
 <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply online</a>
-<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline" target="_blank">Manage Benefits</a>
+<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage Benefits</a>
 
 <div markdown="0"><br></div>
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
