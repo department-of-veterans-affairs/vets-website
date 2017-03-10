@@ -35,7 +35,7 @@ Who's covered?
 
 ### Ready to apply?
 
-[Learn about the application process](/disability-benefits/application-process), or
+[Learn about the application process](/disability-benefits/apply), or
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a>
 
