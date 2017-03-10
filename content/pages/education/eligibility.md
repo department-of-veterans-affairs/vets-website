@@ -47,6 +47,9 @@ You may be eligible if:
 <a class="usa-button-primary va-button-primary" href="//education/apply-for-education-benefits/">Apply online</a>
 [Learn about the application process](/education/application-process/)
 
+You can also manage education benefits you are already using
+<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline" target="_blank">Manage Benefits</a>
+
 <div markdown="0"><br></div>
 
 ### Advanced training and certifications
