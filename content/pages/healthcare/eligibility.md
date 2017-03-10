@@ -5,12 +5,12 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
+ - url: /disability/eligibility
+   title: Apply for disability
+   description: "Find out if you're eligible because of an illness or injury that started—or got worse—while you were serving in the military"
+ - url: /disability-benefits/track-claims/your-claims
+   title: Check claim status
+   description: "Track the status of a disability claim"
 ---
 
 If you served on active duty and separated under conditions other than dishonorable, you may qualify for VA health care benefits. Find out if you get VA health care. 
@@ -48,7 +48,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 [Learn about the application process](/healthcare/application-process/)
 <div markdown="0"><br></div>
 
-### I need dental or vision (eye) care. How can I find out if I can get it through VA?
+### How can I find out if I can get dental or vision care through VA?
 
 In certain cases, you may receive dental or vision care as part of your VA health benefits. 
 
