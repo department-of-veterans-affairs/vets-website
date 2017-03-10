@@ -18,6 +18,7 @@ import * as address from '../../../common/schemaform/definitions/address';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+// import EmploymentPeriodView from '../../5490/components/EmploymentPeriodView';
 
 import {
   benefitsLabels,
@@ -29,13 +30,15 @@ const {
   gender,
   relationship,
   fullName,
-  ssn
+  ssn,
+  nonMilitaryJobs
 } = fullSchema1990e.definitions;
 
 const {
   benefit,
   serviceBranch,
-  civilianBenefitsAssistance
+  civilianBenefitsAssistance,
+  licenseOrRating
 } = fullSchema1990e.properties;
 
 const {
@@ -190,6 +193,51 @@ const formConfig = {
     employmentHistory: {
       title: 'Employment History',
       pages: {
+        employmentHistory: {
+          title: 'Employment History',
+          path: 'employment-history',
+          uiSchema: {
+            employmentHistory: {
+              licenseOrRating: {
+                'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?'
+              },
+              nonMilitaryJobs: {
+                items: {
+                  name: {
+                    'ui:title': 'Main job'
+                  },
+                  months: {
+                    'ui:title': 'Number of months worked'
+                  },
+                  licenseOrRating: {
+                    'ui:title': 'Licenses or rating'
+                  }
+                },
+                'ui:options': {
+                  itemName: 'Employment Period',
+                  // viewField: EmploymentPeriodView,
+                  hideTitle: true,
+                  expandUnder: 'view:licenseOrRating'
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              employmentHistory: {
+                type: 'object',
+                properties: {
+                  'view:licenseOrRating': {
+                    type: 'boolean'
+                  },
+                  nonMilitaryJobs
+                  // nonMilitaryJobs: _.unset(nonMilitaryJobs, 'items.properties.postMilitaryJob')
+                }
+              }
+            }
+          }
+        }
       }
     },
     schoolSelection: {
