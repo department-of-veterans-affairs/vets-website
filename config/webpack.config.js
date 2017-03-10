@@ -1,25 +1,54 @@
 // Staging config. Also the default config that prod and dev are based off of.
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
 const bourbon = require('bourbon').includePaths;
 const neat = require('bourbon-neat').includePaths;
 const path = require('path');
 const webpack = require('webpack');
+const _ = require('lodash');
 
 require('babel-polyfill');
 
+const entryFiles = {
+  'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
+  'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
+  facilities: './src/js/facility-locator/facility-locator-entry.jsx',
+  gi: './src/js/gi/gi-entry.jsx',
+  hca: './src/js/hca/hca-entry.jsx',
+  'health-records': './src/js/health-records/health-records-entry.jsx',
+  messaging: './src/js/messaging/messaging-entry.jsx',
+  rx: './src/js/rx/rx-entry.jsx',
+  'no-react': './src/js/no-react-entry.js',
+  'user-profile': './src/js/user-profile/user-profile-entry.jsx',
+  auth: './src/js/auth/auth-entry.jsx'
+};
+
 const configGenerator = (options) => {
+  var filesToBuild = entryFiles; // eslint-disable-line no-var
+  if (options.entry) {
+    filesToBuild = _.pick(entryFiles, options.entry.split(',').map(x => x.trim()));
+  }
+  filesToBuild.vendor = [
+    'core-js',
+    'history',
+    'jquery',
+    'react',
+    'react-dom',
+    'react-redux',
+    'react-router',
+    'redux',
+    'redux-thunk'
+  ];
   const baseConfig = {
-    entry: {
-      hca: './src/js/hca/hca-entry.jsx',
-      'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
-      'no-react': './src/js/no-react-entry.js',
-      rx: './src/js/rx/rx-entry.jsx',
-    },
+    entry: filesToBuild,
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
-      filename: '[name].entry.js'
+      filename: (options.buildtype === 'development') ? '[name].entry.js' : '[name].entry.[chunkhash].js',
+      chunkFilename: (options.buildtype === 'development') ? '[name].entry.js' : '[name].entry.[chunkhash].js'
     },
     module: {
       loaders: [
@@ -29,7 +58,7 @@ const configGenerator = (options) => {
           loader: 'babel',
           query: {
             // Speed up compilation.
-            cacheDirectory: true
+            cacheDirectory: '.babelcache'
 
             // Also see .babelrc
           }
@@ -41,15 +70,10 @@ const configGenerator = (options) => {
           query: {
             presets: ['react'],
             // Speed up compilation.
-            cacheDirectory: true
+            cacheDirectory: '.babelcache'
 
             // Also see .babelrc
           }
-        },
-        {
-          // components.js is effectively a hand-rolled bundle.js. Break it apart.
-          test: /components\.js$/,
-          loader: 'imports?this=>window'
         },
         {
           test: /foundation\.js$/,
@@ -60,25 +84,39 @@ const configGenerator = (options) => {
           loader: 'modernizr'
         },
         {
-          test: /wow\.js$/,
-          loaders: ['imports?this=>window', 'exports?this.WOW']
-        },
-        {
           test: /\.scss$/,
           loader: ExtractTextPlugin.extract('style-loader', `css!resolve-url!sass?includePaths[]=${bourbon}&includePaths[]=${neat}&includePaths[]=~/uswds/src/stylesheets&sourceMap`)
         },
-        { test: /\.(jpe?g|png|gif|svg)$/i,
+        {
+          test: /\.(jpe?g|png|gif)$/i,
           loader: 'url?limit=10000!img?progressive=true&-minimize'
+        },
+        {
+          test: /\.svg/,
+          loader: 'svg-url'
         },
         {
           test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'url-loader?limit=10000&minetype=application/font-woff'
         },
         {
-          test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'file-loader'
+        },
+        {
+          test: /\.json$/,
+          loader: 'json-loader'
+        },
+        {
+          test: /react-jsonschema-form\/lib\/components\/(widgets|fields\/ObjectField|fields\/ArrayField)/,
+          exclude: [
+            /widgets\/index\.js/,
+            /widgets\/TextareaWidget/
+          ],
+          loader: 'null'
         }
-      ]
+      ],
+      noParse: [/mapbox\/vendor\/promise.js$/],
     },
     resolve: {
       alias: {
@@ -90,8 +128,13 @@ const configGenerator = (options) => {
     plugins: [
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
+        __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
         'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+          API_PORT: (process.env.API_PORT || 3000),
+          WEB_PORT: (process.env.WEB_PORT || 3333),
+          API_URL: process.env.API_URL ? JSON.stringify(process.env.API_URL) : null,
+          BASE_URL: process.env.BASE_URL ? JSON.stringify(process.env.BASE_URL) : null,
         }
       }),
 
@@ -102,12 +145,18 @@ const configGenerator = (options) => {
         'window.jQuery': 'jquery'
       }),
 
-      new ExtractTextPlugin('[name].css'),
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+      new ExtractTextPlugin((options.buildtype === 'development') ? '[name].css' : '[name].[chunkhash].css'),
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+      new webpack.optimize.CommonsChunkPlugin(
+        'vendor',
+        (options.buildtype === 'development') ? 'vendor.js' : 'vendor.[chunkhash].js',
+        Infinity
+      ),
     ],
   };
 
-  if (process.env.NODE_ENV === 'production') {
+  if (options.buildtype === 'production' || options.buildtype === 'staging') {
     baseConfig.devtool = '#source-map';
     baseConfig.module.loaders.push({
       test: /debug\/PopulateVeteranButton/,
@@ -121,13 +170,25 @@ const configGenerator = (options) => {
       test: /debug\/RoutesDropdown/,
       loader: 'null'
     });
+
+    baseConfig.plugins.push(new WebpackMd5Hash());
+    baseConfig.plugins.push(new ManifestPlugin({
+      fileName: 'file-manifest.json'
+    }));
+    baseConfig.plugins.push(new ChunkManifestPlugin({
+      filename: 'chunk-manifest.json',
+      manifestVariable: 'webpackManifest'
+    }));
     baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
-    baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
+    baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
+      beautify: false,
+      compress: { warnings: false },
+      comments: false
+    }));
   } else {
-    baseConfig.devtool = '#cheap-module-eval-source-map';
+    baseConfig.devtool = '#eval-source-map';
   }
-
 
   return baseConfig;
 };

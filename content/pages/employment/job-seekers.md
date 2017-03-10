@@ -31,29 +31,29 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 ### If you are ready to begin, take these steps:
 
 <ol class="process" markdown="0">
-<li class="step one wow fadeIn animated" markdown="1">
+<li class="step one" markdown="1">
 
 ##### Discover your skills and interests.<br>
 
 Identify the type of work you enjoy with the [Interest Profiler](/employment/job-seekers/interest-profiler), then explore related [career paths](https://www.mynextmove.org/).
 </li>
 
-<li class="step two wow fadeIn animated" markdown="1">
+<li class="step two" markdown="1">
 
 ##### Learn about job titles and qualifications<br>
 
 Browse careers by industry and learn about jobs that are similar to your MOS using the [Military Skills Translator](/employment/job-seekers/skills-translator).
 </li>
 
-<li class="step three wow fadeIn animated" markdown="1">
+<li class="step three" markdown="1">
 
 ##### Build a résumé<br>
 
 - Build your [résumé](/employment/job-seekers/create-resume).
-- Get a free [LinkedIn&#153; Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
+- Get a free [LinkedIn&trade; Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
 </li>
 
-<li class="step four wow fadeIn animated animated" markdown="1">
+<li class="step four" markdown="1">
 
 ##### Research employers in your area and network
 
@@ -63,15 +63,15 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 - Contact people you have worked with previously, family, and friends to let them know you are looking for a job. They might know of specific openings or might be able to introduce you to people at companies you've targeted.
 </li>
 
-<li class="step five wow fadeIn animated animated" markdown="1">
+<li class="step five" markdown="1">
 
 ##### Search online job banks
 
 - Search the [Veterans Employment Center](/employment/job-seekers/search-jobs) for job openings.
-- Search for connections and job listings on [LinkedIn&#153;](https://veterans.linkedin.com/) as well as other online job boards.
+- Search for connections and job listings on [LinkedIn&trade;](https://veterans.linkedin.com/) as well as other online job boards.
 </li>
 
-<li class="step six wow last fadeIn animated animated" markdown="1">
+<li class="step six last" markdown="1">
 
 ##### Go to a career fair
 
@@ -85,7 +85,7 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 - The [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
 - Fill in any gaps in your education or skill set by taking classes and getting [advanced training and certifications](/education/advanced-training-and-certifications/).
 - Consider military [tuition assistance](http://myarmybenefits.us.army.mil/Home/Benefit_Library/Federal_Benefits_Page/Tuition_Assistance_(TA).html?serv=149) (for active duty).
-- Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with [LinkedIn&#153;'s Lynda](https://veterans.linkedin.com).
+- Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with [LinkedIn&trade;'s Lynda](https://veterans.linkedin.com).
 - Earn a free [Coursera Course Certificate](https://www.surveymonkey.com/r/QSGQRFN).
 
 <br>

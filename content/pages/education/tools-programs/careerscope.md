@@ -5,8 +5,8 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-In addition to career counseling, VA provides the interest and aptitude assessment tool, CareerScope, to all eligible benefit recipients. CareerScope has been used frequently by Veterans to determine the best career path when transitioning to civilian life.
+Besides getting career counseling, you can use CareerScope, a tool that measures your interests and skill levels. Use CareerScope to help you figure out the best career path when you move into civilian life. [Get started with CareerScope](https://va.careerscope.net/gibill).
 
-CareerScope uses the results from your assessment to give you recommendations that help identify which career fields you may enjoy and in which careers you might excel. CareerScope also recommends courses or training programs that can help you pursue those careers.
+CareerScope recommends careers you may enjoy and jobs in which you're likely to do well. The tool also recommends courses or training programs that can help you go after those careers.
 
-Use this [Report Interpretation guide](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf) to help you understand your CareerScope results.
+The Report Interpretation guide helps you understand your CareerScope results. [Use the guide](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf). 

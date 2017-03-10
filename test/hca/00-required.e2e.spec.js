@@ -13,7 +13,9 @@ module.exports = E2eHelpers.createE2eTest(
       .assert.title('Apply for Health Care: Vets.gov')
       .waitForElementVisible('.form-panel', Timeouts.slow)  // First render of React may be slow.
       .click('.form-panel .usa-button-primary');
+
     E2eHelpers.overrideVetsGovApi(client);
+    E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.
@@ -45,6 +47,8 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/contact-information');
 
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(1)', 'progress-segment-complete');
+
     // Military Service Information Page.
     client.expect.element('select[name="lastServiceBranch"]').to.be.visible;
     HcaHelpers.completeMilitaryService(client, HcaHelpers.testValues, true);
@@ -56,39 +60,29 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-service/additional-information');
 
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(2)', 'progress-segment-complete');
+
     // VA Benefits Basic Info page.
     client.expect.element('input[name="compensableVaServiceConnected-0"] + label').to.be.visible;
     HcaHelpers.completeVaBenefits(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/va-benefits/basic-information');
 
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(3)', 'progress-segment-complete');
+
     // Financial disclosure page.
-    client.expect.element('input[name="understandsFinancialDisclosure"] + label').to.be.visible;
+    client.expect.element('input[name="discloseFinancialInformation-0"] + label').to.be.visible;
     HcaHelpers.completeFinancialDisclosure(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/financial-disclosure');
 
-    // Spouse information Page.
-    client.expect.element('select[name="maritalStatus"]').to.be.visible;
-    HcaHelpers.completeSpouseInformation(client, HcaHelpers.testValues, true);
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/spouse-information');
+    // Selecting "no" for financial disclosures here causes the application to skip the next several sections:
+    // Spouse information Page
+    // Child Information Page
+    // Annual Income Page
+    // Deductible Expenses Page
 
-    // Child Information Page.
-    client.expect.element('input[name="hasChildrenToReport-0"] + label').to.be.visible;
-    HcaHelpers.completeChildInformation(client, HcaHelpers.testValues, true);
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/child-information');
-
-    // Annual Income Page.
-    client.expect.element('input[name="veteranGrossIncome"]').to.be.visible;
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/annual-income');
-
-    // Deductible Expenses Page.
-    client.expect.element('input[name="deductibleMedicalExpenses"]').to.be.visible;
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/deductible-expenses');
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(4)', 'progress-segment-complete');
 
     // Medicare and Medicaid Page.
     client.expect.element('input[name="isMedicaidEligible-0"] + label').to.be.visible;
@@ -108,8 +102,11 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/va-facility');
 
+    client.assert.cssClassPresent('.progress-bar-segmented div.progress-segment:nth-child(5)', 'progress-segment-complete');
+
     // Review and Submit Page.
     client.expect.element('button.edit-btn').to.be.visible;
+    client.click('[name=privacyAgreement]');
     client.click('.form-panel .usa-button-primary');
     // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
     client.expect.element('.js-test-location').attribute('data-location')
@@ -117,6 +114,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Submit message
     client.expect.element('.success-alert-box').to.be.visible;
+
 
     client.end();
   });

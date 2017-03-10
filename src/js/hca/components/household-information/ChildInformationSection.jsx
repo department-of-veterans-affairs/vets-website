@@ -5,8 +5,9 @@ import Child from './Child';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import GrowableTable from '../../../common/components/form-elements/GrowableTable.jsx';
 import { yesNo } from '../../../common/utils/options-for-select.js';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
 import { createBlankChild } from '../../../common/model/child';
-import { isNotBlank, validateIfDirty } from '../../../common/utils/validations';
+import { isValidSection } from '../../utils/validations';
 import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
 
 /**
@@ -110,7 +111,8 @@ class ChildInformationSection extends React.Component {
               initializeCurrentElement={() => {this.props.initializeFields(fields);}}
               onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
               path="/household-information/child-information"
-              rows={this.props.data.children}/>
+              rows={this.props.data.children}
+              isValidSection={isValidSection}/>
         </div>
       );
     } else {
@@ -131,7 +133,7 @@ class ChildInformationSection extends React.Component {
       </div>);
     } else {
       content = (<fieldset>
-        <legend>Your Children’s Information</legend>
+        <h5>Your Children’s Information</h5>
         <div>
           <p>Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.</p>
           <div className="input-section">

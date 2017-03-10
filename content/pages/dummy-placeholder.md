@@ -51,7 +51,7 @@ permalink: false
 
     <div class="small-12 medium-6 columns">
         <ul class="plain">
-          <li><a href="/facility-locator/">How can I find VA locations?</a></li>
+          <li><a href="/facilities/">How can I find VA locations?</a></li>
           <li><a target="_blank" href="https://www.veteranscrisisline.net/" class="external">How do I contact the Veterans Crisis Line?</a></li>
         </ul>
     </div>

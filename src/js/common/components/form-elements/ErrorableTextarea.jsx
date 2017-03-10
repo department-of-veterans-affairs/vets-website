@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import ToolTip from './ToolTip';
 
@@ -26,6 +27,7 @@ class ErrorableTextarea extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   componentWillMount() {
@@ -36,8 +38,12 @@ class ErrorableTextarea extends React.Component {
     const val = domEvent.target.value;
     // IE9 doesn't support max length on textareas
     if (!this.props.charMax || val.length <= this.props.charMax) {
-      this.props.onValueChange(makeField(val, true));
+      this.props.onValueChange(makeField(val, this.props.field.dirty));
     }
+  }
+
+  handleBlur() {
+    this.props.onValueChange(makeField(this.props.field.value, true));
   }
 
   render() {
@@ -77,6 +83,10 @@ class ErrorableTextarea extends React.Component {
       requiredSpan = <span className="hca-required-span">*</span>;
     }
 
+    const classes = classNames(this.props.additionalClass, {
+      'input-disabled': this.props.disabled,
+    });
+
     return (
       <div className={inputErrorClass}>
         <label
@@ -87,7 +97,8 @@ class ErrorableTextarea extends React.Component {
         </label>
         {errorSpan}
         <textarea
-            className={this.props.additionalClass}
+            disabled={this.props.disabled}
+            className={classes}
             aria-describedby={errorSpanId}
             id={this.inputId}
             placeholder={this.props.placeholder}
@@ -95,7 +106,8 @@ class ErrorableTextarea extends React.Component {
             tabIndex={this.props.tabIndex}
             maxLength={this.props.charMax}
             value={this.props.field.value}
-            onChange={this.handleChange}/>
+            onChange={this.handleChange}
+            onBlur={this.handleBlur}/>
             {maxCharacters}
             {toolTip}
       </div>
@@ -104,6 +116,7 @@ class ErrorableTextarea extends React.Component {
 }
 
 ErrorableTextarea.propTypes = {
+  disabled: React.PropTypes.bool,
   errorMessage: React.PropTypes.string,
   label: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,

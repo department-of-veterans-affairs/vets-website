@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import FullName from '../../../common/components/questions/FullName';
 import MothersMaidenName from './MothersMaidenName';
 import { veteranUpdateField } from '../../actions';
+import { isValidLastName } from '../../utils/validations.js';
 
 /**
  * Props:
@@ -29,13 +30,15 @@ class PersonalInfoSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
-        <legend>Personal Information</legend>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <FullName required
               name={this.props.data.veteranFullName}
+              customValidation={isValidLastName}
+              customErrorMessage="Please enter a valid name. Must be at least 2 characters."
               onUserInput={(update) => {this.props.onStateChange('veteranFullName', update);}}/>
-          <MothersMaidenName value={this.props.data.mothersMaidenName}
+          <MothersMaidenName
+              value={this.props.data.mothersMaidenName}
               onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);}}/>
         </div>
       </fieldset>);

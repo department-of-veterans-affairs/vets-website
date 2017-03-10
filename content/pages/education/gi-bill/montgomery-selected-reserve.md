@@ -42,8 +42,8 @@ You can use up to $368 per month in financial assistance for the following types
 Complete an application using [VA Form 22-1990](http://www.vba.va.gov/pubs/forms/VBA-22-1990-ARE.pdf), Application for VA Education Benefits.  You can fill out the application online through [eBenefits](http://www.ebenefits.va.gov/ebenefits/vonapp).
 
 ### Learn more
--	Visit the [GI Bill customer service page](http://gibill.custhelp.com/) to search Frequently Asked Questions or to ask a question online.
--	Call 1-888-GIBILL-1 (1-888-442-4551).
--	For TDD/TYY, use 1-800-829-4833.
+- Visit the [GI Bill customer service page](http://gibill.custhelp.com/) to search Frequently Asked Questions or to ask a question online.
+- Call 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
+- For TDD/TYY, use 1-800-829-4833.
 
 GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol&reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our Terms of Use.

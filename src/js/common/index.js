@@ -5,9 +5,6 @@
 // other such libraries in here. Most of the site does not use these legacy
 // frameworks and it belongs in a lower-level module.
 
-// Global site style.
-require('../../sass/style.scss');
-
 // TODO(awong): This shouldn't be required with the correct babel transform, yet IE9 broke
 // without it. Test.
 require('babel-polyfill');
@@ -30,11 +27,10 @@ if (!Modernizr.fetch) {
 // This polyfill has its own test logic so no need to conditionally require.
 require('polyfill-function-prototype-bind');
 
-// Used by various bits of the global style so it needs to be in common.
-require('wowjs');
-/* global WOW */
-new WOW().init();
-
 // Used in the footer.
 require('../legacy/menu.js');
 require('../legacy/toggle-veterans-crisis-line.js');
+require('./utils/sticky-action-box.js');
+
+// New navigation menu
+require('../legacy/mega-menu.js');

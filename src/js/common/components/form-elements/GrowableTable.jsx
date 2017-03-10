@@ -1,11 +1,46 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
+import { set } from 'lodash/fp';
 
-import * as validations from '../../utils/validations';
+import { getScrollOptions, scrollAndFocus } from '../../utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
+
+/*
+ * Each row can be three states: edit, complete, incomplete.
+ *
+ * The Add Another button is always displayed at the bottom, no matter the state of the rest of the rows.
+ *
+ * If there's only one row, the form will always show expanded (i.e. fields are visible) with no grey box.
+ *
+ * With more than one row:
+ *
+ * edit: Form is expanded inside grey box with Update/Remove buttons
+ * complete: Form is collapsed inside grey box with Edit button
+ * incomplete: Form is expanded inside grey box with Remove button
+ *
+ * The edit state is set when you click the Edit button. Complete is set for the current row when you add
+ * another or update an existing one. Incomplete is set for the new row added after clicking Add Another.
+ *
+ * All rows are set to complete when the component is mounted (i.e. you're coming back to the page after adding a row previously).
+ * component - The component to render for each item in the table
+ * createRow - Function called to create a new row
+ * data - Form data
+ * initializeCurrentElement - Function called to set all fields in element to dirty
+ * onRowsUpdate - Function called to update form data with row changes
+ * path - Path for current page of form
+ * rows - Array of data for this component
+ * isValidSection - Function to check if the current page is valid
+ * addNewMessage - Message displayed at the top of new rows in editing mode
+ * rowTitle - Title used for Update button text
+ * alwaysShowUpdateRemoveButtons (default: false) - Always show the Update/Remove buttons, instead of hiding them on first row
+ * showSingleRowExpanded (default: true) - Show table in editing mode if only one row
+ * showEditButton (default: true) - Show edit button in collapsed view
+ * showAddAnotherButton (default: true) - Show the add another button at the bottom of the table
+ * createRowIfEmpty (default: true) - If rows prop is empty, create an empty row as a placeholder
+*/
 
 class GrowableTable extends React.Component {
   constructor(props) {
@@ -15,10 +50,15 @@ class GrowableTable extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.scrollToTop = this.scrollToTop.bind(this);
+    this.scrollToRow = this.scrollToRow.bind(this);
+    this.scrollToFirstError = this.scrollToFirstError.bind(this);
+    this.getRowId = this.getRowId.bind(this);
     this.state = {};
   }
 
   componentWillMount() {
+    this.tableId = _.uniqueId('growable-table');
     if (this.props.rows.length > 0) {
       this.props.rows.map((obj) => {
         this.setState({ [obj.key]: 'complete' });
@@ -26,21 +66,47 @@ class GrowableTable extends React.Component {
       });
     }
   }
-
   componentDidMount() {
-    if (this.props.rows.length === 0) {
+    if (this.props.createRowIfEmpty && this.props.rows.length === 0) {
       this.createNewElement();
     }
   }
-
-  scrollToTop() {
-    scroller.scrollTo('topOfTable', {
-      duration: 500,
-      delay: 0,
-      smooth: true,
+  componentWillReceiveProps(newProps) {
+    // We might have a new row added externally, so make sure it gets into local state
+    newProps.rows.forEach(row => {
+      if (!row.key) {
+        row.key = _.uniqueId('key-'); // eslint-disable-line no-param-reassign
+        this.setState({ [row.key]: 'incomplete' });
+        this.scrollToRow(row.key);
+      }
     });
   }
 
+  getRowId(key) {
+    return `table${this.tableId}Row${key}`;
+  }
+
+  scrollToFirstError(key) {
+    setTimeout(() => {
+      const errorEl = document.querySelector(`#${this.getRowId(key)} .usa-input-error, #${this.getRowId(key)} .input-error-date`);
+      if (errorEl) {
+        scrollAndFocus(errorEl);
+      }
+    }, 100);
+  }
+
+  scrollToTop() {
+    const options = getScrollOptions({ offset: -60 });
+    setTimeout(() => {
+      scroller.scrollTo(`topOfTable${this.tableId}`, options);
+    }, 100);
+  }
+
+  scrollToRow(key) {
+    setTimeout(() => {
+      scroller.scrollTo(this.getRowId(key), getScrollOptions());
+    }, 100);
+  }
   createNewElement() {
     const blankRowData = this.props.createRow();
     blankRowData.key = _.uniqueId('key-');
@@ -49,26 +115,49 @@ class GrowableTable extends React.Component {
     this.props.onRowsUpdate(rows);
 
     this.setState({ [blankRowData.key]: 'incomplete' });
+
+    return blankRowData.key;
+  }
+
+  findIncomplete() {
+    return _.findKey(this.state, v => v === 'incomplete');
   }
 
   handleAdd() {
-    if (validations.isValidSection(this.props.path, this.props.data)) {
-      this.createNewElement();
+    // Save existing
+    const success = this.handleSave();
+
+    if (success) {
+      const key = this.createNewElement();
+      this.scrollToRow(key);
     }
   }
 
-  handleEdit(event) {
-    this.setState({ [event.target.dataset.key]: 'incomplete' });
+  handleEdit(key) {
+    this.setState({ [key]: 'edit' });
+    this.scrollToRow(key);
   }
 
-  handleSave(event) {
-    this.props.initializeCurrentElement();
+  handleSave(event, index) {
+    const key = event ? event.target.dataset.key : this.findIncomplete();
+    const rowIndex = index !== undefined ? index : (this.props.rows.length - 1);
 
-    if (validations.isValidSection(this.props.path, this.props.data)) {
-      this.setState({ [event.target.dataset.key]: 'complete' });
+    let success = true;
+
+    if (rowIndex !== undefined && this.props.isValidRow && this.props.isValidRow(this.props.rows[rowIndex])) {
+      this.setState({ [key]: 'complete' });
+      this.scrollToTop();
+    } else if (this.props.isValidSection && this.props.isValidSection(this.props.path, this.props.data)) {
+      this.setState({ [key]: 'complete' });
+      this.scrollToTop();
+    } else {
+      this.props.initializeCurrentElement();
+      success = false;
+      this.scrollToFirstError(key);
     }
 
-    this.scrollToTop();
+
+    return success;
   }
 
   handleRemove(event) {
@@ -81,6 +170,7 @@ class GrowableTable extends React.Component {
       return true;
     });
     this.props.onRowsUpdate(rows);
+    this.scrollToTop();
   }
 
   // TODO: change this to not use reaactKey, and instead perhaps add
@@ -89,63 +179,70 @@ class GrowableTable extends React.Component {
     let reactKey = 0;
     let rowContent;
     const state = this.state;
+    const collapseRows = !this.props.showSingleRowExpanded || this.props.rows.length > 1;
+
     const rowElements = this.props.rows.map((obj, index) => {
-      if (state[obj.key] && state[obj.key] === 'complete') {
+      const stateKey = state[obj.key];
+      if (stateKey && stateKey === 'complete' && collapseRows) {
+        const collapsedComponent = React.createElement(this.props.component,
+          { data: obj,
+            view: 'collapsed',
+            onEdit: () => this.handleEdit(obj.key),
+            onValueChange: (subfield, update) => {
+              const newRows = set(`[${index}].${subfield}`, update, this.props.rows);
+              this.props.onRowsUpdate(newRows);
+            }
+          });
         rowContent = (
-          <div key={reactKey++}>
-            <div className="row" key={obj.key}>
-              <div className="small-6 columns">
-                {React.createElement(this.props.component,
-                  { data: obj,
-                    view: 'collapsed',
-                    onValueChange: (subfield, update) => {
-                      const rows = this.props.rows.slice();
-                      const newRow = Object.assign({}, rows[index]);
-                      newRow[subfield] = update;
-                      rows[index] = newRow;
-                      this.props.onRowsUpdate(rows);
-                    }
-                  })}
+          <div key={reactKey++} className="va-growable-background">
+            <Element name={this.getRowId(obj.key)}/>
+            {this.props.showEditButton
+              ? <div className="row small-collapse" key={obj.key}>
+                <div className="small-9 columns">
+                  {collapsedComponent}
+                </div>
+                <div className="small-3 columns">
+                  <button className="usa-button-outline float-right" onClick={() => this.handleEdit(obj.key)} data-key={obj.key}>Edit</button>
+                </div>
               </div>
-              <div className="small-3 columns">
-                <button className="usa-button-outline short" onClick={(event) => this.handleEdit(event)} data-key={obj.key}><i className="fa before-text fa-pencil"></i>Edit</button>
-              </div>
-              <div className="small-3 columns">
-                <button className="usa-button-outline short" onClick={this.handleRemove} data-index={index}><i className="fa before-text fa-trash-o"></i>Remove</button>
-              </div>
-            </div>
-            <hr/>
+              : collapsedComponent}
           </div>
         );
       } else {
-        rowContent = (
-          <div key={reactKey++}>
-            <div className="row">
-              <div className="small-3 right columns">
-                <button className="usa-button-outline short" onClick={this.handleRemove} data-index={index}><i className="fa before-text fa-trash-o"></i>Remove</button>
+        let buttons;
+        if (collapseRows) {
+          buttons = (
+            <div className="row small-collapse">
+              {stateKey !== 'incomplete' || this.props.alwaysShowUpdateRemoveButtons
+                ? <div className="small-6 left columns">
+                  <button className="float-left" onClick={(event) => this.handleSave(event, index)} data-key={obj.key}>Update</button>
+                </div>
+                : null}
+              <div className="small-6 right columns">
+                <button className="usa-button-outline float-right" onClick={this.handleRemove} data-index={index}>Remove</button>
               </div>
             </div>
-            <div className="row" key={obj.key}>
-              <div className="small-12 columns">
+          );
+        }
+        rowContent = (
+          <div key={reactKey++} className={(stateKey === 'edit' || collapseRows) ? 'va-growable-background' : null} id={this.getRowId(obj.key)}>
+            <Element name={`table${this.tableId}Row${obj.key}`}/>
+            <div className="row small-collapse" key={obj.key}>
+              <div className="small-12 columns va-growable-expanded">
+                {(stateKey === 'incomplete' && this.props.rowTitle && this.props.rows.length > 1)
+                    ? <h5>{this.props.rowTitle}</h5>
+                    : null}
                 {React.createElement(this.props.component,
                   { data: obj,
                     view: 'expanded',
                     onValueChange: (subfield, update) => {
-                      const rows = this.props.rows.slice();
-                      const newRow = Object.assign({}, rows[index]);
-                      newRow[subfield] = update;
-                      rows[index] = newRow;
-                      this.props.onRowsUpdate(rows);
+                      const newRows = set(`[${index}].${subfield}`, update, this.props.rows);
+                      this.props.onRowsUpdate(newRows);
                     }
                   })}
               </div>
             </div>
-            <div className="row">
-              <div className="small-3 right columns">
-                <button className="short" onClick={(event) => this.handleSave(event)} data-key={obj.key}><i className="fa before-text fa-check"></i>Save</button>
-              </div>
-            </div>
-            <hr/>
+            {buttons}
           </div>
         );
       }
@@ -154,14 +251,10 @@ class GrowableTable extends React.Component {
     });
 
     return (
-      <div>
-        <Element name="topOfTable"/>
+      <div className="va-growable">
+        <Element name={`topOfTable${this.tableId}`}/>
         {rowElements}
-        <div className="row">
-          <div className="small-3 small-centered columns">
-            <button className="usa-button-outline short" onClick={this.handleAdd}><i className="fa before-text fa-plus"></i>Add</button>
-          </div>
-        </div>
+        {this.props.showAddAnotherButton && <button className="usa-button-outline va-growable-add-btn" onClick={this.handleAdd}>{this.props.addNewMessage || 'Add Another'}</button>}
       </div>
     );
   }
@@ -174,7 +267,23 @@ GrowableTable.propTypes = {
   initializeCurrentElement: React.PropTypes.func.isRequired,
   onRowsUpdate: React.PropTypes.func.isRequired,
   path: React.PropTypes.string.isRequired,
-  rows: React.PropTypes.array.isRequired
+  rows: React.PropTypes.array.isRequired,
+  isValidSection: React.PropTypes.func.isRequired,
+  addNewMessage: React.PropTypes.string,
+  rowTitle: React.PropTypes.string,
+  alwaysShowUpdateRemoveButtons: React.PropTypes.bool,
+  showSingleRowExpanded: React.PropTypes.bool,
+  showEditButton: React.PropTypes.bool,
+  showAddAnotherButton: React.PropTypes.bool,
+  createRowIfEmpty: React.PropTypes.bool
+};
+
+GrowableTable.defaultProps = {
+  alwaysShowUpdateRemoveButtons: false,
+  showEditButton: true,
+  showSingleRowExpanded: true,
+  showAddAnotherButton: true,
+  createRowIfEmpty: true
 };
 
 export default GrowableTable;

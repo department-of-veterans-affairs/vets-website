@@ -1,13 +1,13 @@
 import set from 'lodash/fp/set';
 
 const initialState = {
-  visible: true
+  open: true
 };
 
 export default function disclaimer(state = initialState, action) {
   switch (action.type) {
     case 'CLOSE_DISCLAIMER':
-      return set('visible', false, state);
+      return set('open', !state.open, state);
     default:
       return state;
   }

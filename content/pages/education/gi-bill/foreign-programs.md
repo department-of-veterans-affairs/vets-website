@@ -49,7 +49,7 @@ You can also check your approval status or send us questions by email 24 hours a
 
 
 <ol class="process">
-<li class="step one wow fadeIn animated" markdown="1">
+<li class="step one" markdown="1">
 
 Contact the school or [Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) to learn if VA approves your program for benefits. Provide the name of the foreign school, the complete address, and the name of the program you intend to pursue. VA will let you know whether your program has already been approved. Allow for extra time if you are applying to a program that VA has not yet approved.
 
@@ -59,25 +59,25 @@ Contact the school or [Submit a Question](http://www.benefits.va.gov/gibill/ext_
 
 </li>
 
-<li class="step two wow fadeIn animated" markdown="0">
+<li class="step two" markdown="0">
 
 Make arrangements with the school for acceptance, enrollment, payment of tuition and fees, and living accommodations.
 
 </li>
 
-<li class="step three wow fadeIn animated" markdown="0">
+<li class="step three" markdown="0">
 
 Make arrangements for travel, including your passport, visa, and vaccinations, as required. You should also check with your school to learn about the health insurance requirements for the host country or school.
 
 </li>
 
-<li class="step four wow fadeIn animated" markdown="0">
+<li class="step four" markdown="0">
 
 Be sure you have enough money to care for all of your needs until VA payments begin.
 
 </li>
 
-<li class="step five last wow fadeIn animated" markdown="0">
+<li class="step five last" markdown="0">
 
 You must provide written permission for school officials to release information as necessary to VA. Failure to do so may affect receipt of VA benefits. Some countries have their own version of the Privacy Act, which is the preferred format.
 
@@ -89,7 +89,7 @@ You must provide written permission for school officials to release information 
 
 <ol class="process">
 
-<li class="step one wow fadeIn animated" markdown="1">
+<li class="step one" markdown="1">
 
 Submit your application to VA at least 90 days before your departure. Make sure you send your application to the appropriate regional office for the fastest service. Your benefit will be processed depending on your school’s location:
 
@@ -99,25 +99,25 @@ Submit your application to VA at least 90 days before your departure. Make sure 
 
 </li>
 
-<li class="step two wow fadeIn animated" markdown="0">
+<li class="step two" markdown="0">
 
 Submit your Certificate of Eligibility to the school’s certifying official as verification that you are eligible to receive VA benefits.
 
 </li>
 
-<li class="step three wow fadeIn animated" markdown="0">
+<li class="step three" markdown="0">
 
 Your school’s certifying official will submit your enrollment information on VA Form 22-1999. Please note that you will not receive payments until your enrollment information has been received and processed by VA.
 
 </li>
 
-<li class="step four wow fadeIn animated" markdown="0">
+<li class="step four" markdown="0">
 
 Normally, foreign schools certify their students for one academic year. If you intend to continue your education at the foreign school for longer than one academic year, you may have to reapply. Within 120 days of your reenrollment, you should notify the school of your intention to reenroll and have the appropriate certifying official submit an enrollment certification for your reenrollment. If your school does not have a supply of the enrollment certifications, it should request them from the Buffalo Regional Office, and they will be mailed directly to the school.
 
 </li>
 
-<li class="step five last wow fadeIn animated" markdown="0">
+<li class="step five last" markdown="0">
 
 You should keep the school advised of your plans for continuing enrollment in order to avoid any delay in receiving your benefits.
 

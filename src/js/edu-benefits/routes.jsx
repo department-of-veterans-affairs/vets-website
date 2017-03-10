@@ -1,109 +1,89 @@
-import React from 'react';
-import { Route } from 'react-router';
+import EduBenefitsApp from './1990/containers/EduBenefitsApp';
+import routes1990 from './1990/routes';
+import form1990 from './1990/reducers';
+import asyncLoader from '../common/components/asyncLoader';
 
-import { chapterNames, groupPagesIntoChapters, getPageList } from './utils/helpers';
+export default function createRoutes(store) {
+  // It will be confusing to have multiple forms in one app living side by side
+  // in the Redux store, so just replace everything when you go into a form
+  const onEnter = (reducer) => () => {
+    store.replaceReducer(reducer);
+  };
 
-import IntroductionSection from './containers/IntroductionSection.jsx';
-import BenefitsSelection from './containers/BenefitsSelection';
-import PersonalInformationPage from './containers/veteran-information/PersonalInformationPage';
-import PlaceholderSection from './containers/PlaceholderSection';
+  const childRoutes = [
+    {
+      path: '1990',
+      indexRoute: { onEnter: (nextState, replace) => replace('/1990/introduction') },
+      onEnter: onEnter(form1990),
+      component: EduBenefitsApp,
+      childRoutes: routes1990
+    },
+    {
+      path: '1995',
+      indexRoute: { onEnter: (nextState, replace) => replace('/1995/introduction') },
+      component: asyncLoader(() => {
+        return new Promise((resolve) => {
+          require.ensure([], (require) => {
+            store.replaceReducer(require('./1995/reducer').default);
+            resolve(require('./1995/Form1995App').default);
+          }, 'edu-1995');
+        });
+      }, 'Loading Form 22-1995'),
+      getChildRoutes(partialNextState, callback) {
+        require.ensure([], (require) => {
+          callback(null, require('./1995/routes').default);
+        }, 'edu-1995');
+      },
+    }
+  ];
 
-const routes = [
-  // Introduction route.
-  <Route
-      component={IntroductionSection}
-      key="/introduction"
-      path="/introduction"/>,
-  <Route
-      component={PersonalInformationPage}
-      key="/veteran-information/personal-information"
-      path="/veteran-information/personal-information"
-      chapter={chapterNames.veteranInformation}
-      name="Personal Information"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/veteran-information/address"
-      path="/veteran-information/address"
-      chapter={chapterNames.veteranInformation}
-      name="Address"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/veteran-information/contact-information"
-      path="/veteran-information/contact-information"
-      chapter={chapterNames.veteranInformation}
-      name="Contact Information"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/veteran-information/secondary-contact"
-      path="/veteran-information/secondary-contact"
-      chapter={chapterNames.veteranInformation}
-      name="Secondary Contact"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/veteran-information/direct-deposit"
-      path="/veteran-information/direct-deposit"
-      chapter={chapterNames.veteranInformation}
-      name="Direct Deposit"/>,
-  <Route
-      component={BenefitsSelection}
-      key="/benefits-eligibility/benefits-selection"
-      path="/benefits-eligibility/benefits-selection"
-      chapter={chapterNames.benefitsEligibility}/>,
-  <Route
-      component={PlaceholderSection}
-      key="/military-history/military-service"
-      path="/military-history/military-service"
-      chapter={chapterNames.militaryHistory}
-      name="Military Service"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/military-history/rotc-history"
-      path="/military-history/rotc-history"
-      chapter={chapterNames.militaryHistory}
-      name="ROTC History"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/military-history/benefits-history"
-      path="/military-history/benefits-history"
-      chapter={chapterNames.militaryHistory}
-      name="Benefits History"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/military-history/dependents"
-      path="/military-history/dependents"
-      chapter={chapterNames.militaryHistory}
-      name="Dependents"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/education-history/education-information"
-      path="/education-history/education-information"
-      chapter={chapterNames.educationHistory}/>,
-  <Route
-      component={PlaceholderSection}
-      key="/employment-history/employment-information"
-      path="/employment-history/employment-information"
-      chapter={chapterNames.employmentHistory}/>,
-  <Route
-      component={PlaceholderSection}
-      key="/school-selection/school-information"
-      path="/school-selection/school-information"
-      chapter={chapterNames.schoolSelection}/>,
-  // Review and Submit route.
-  <Route
-      component={PlaceholderSection}
-      key="/review-and-submit"
-      path="/review-and-submit"
-      chapter={chapterNames.review}/>,
+  if (__BUILDTYPE__ !== 'production') {
+    childRoutes.push(
+      {
+        path: '1990e',
+        indexRoute: { onEnter: (nextState, replace) => replace('/1990e/introduction') },
+        component: asyncLoader(() => {
+          return new Promise((resolve) => {
+            require.ensure([], (require) => {
+              store.replaceReducer(require('./1990e/reducer').default);
+              resolve(require('./1990e/Form1990eApp').default);
+            }, 'edu-1990e');
+          });
+        }, 'Loading Form 22-1990E'),
+        getChildRoutes(partialNextState, callback) {
+          require.ensure([], (require) => {
+            callback(null, require('./1990e/routes').default);
+          }, 'edu-1990e');
+        },
+      },
+      {
+        path: '5490',
+        indexRoute: { onEnter: (nextState, replace) => replace('/5490/introduction') },
+        component: asyncLoader(() => {
+          return new Promise((resolve) => {
+            require.ensure([], (require) => {
+              store.replaceReducer(require('./5490/reducer').default);
+              resolve(require('./5490/Form5490App').default);
+            }, 'edu-5490');
+          });
+        }, 'Loading Form 22-5490'),
+        getChildRoutes(partialNextState, callback) {
+          require.ensure([], (require) => {
+            callback(null, require('./5490/routes').default);
+          }, 'edu-5490');
+        },
+      }
+    );
+  }
 
-  // Submit Message route.
-  <Route
-      component={PlaceholderSection}
-      key="/submit-message"
-      path="/submit-message"/>
-];
+  childRoutes.push({
+    path: '*',
+    onEnter: (nextState, replace) => replace('/')
+  });
 
-export default routes;
-
-// Chapters are groups of form pages that correspond to the steps in the navigation components
-export const chapters = groupPagesIntoChapters(routes);
-export const pages = getPageList(routes);
+  return {
+    path: '/',
+    indexRoute: { onEnter: (nextState, replace) => replace('/1990/introduction') },
+    childRoutes
+  };
+}

@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
-import { isValidFinancialDisclosure } from '../../../common/utils/validations';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import { isValidFinancialDisclosure } from '../../utils/validations';
 import { veteranUpdateField } from '../../actions';
+
+import { yesNo } from '../../../common/utils/options-for-select.js';
 
 /**
  * Props:
@@ -13,6 +15,17 @@ import { veteranUpdateField } from '../../actions';
 class FinancialDisclosureSection extends React.Component {
   render() {
     let content;
+    let message;
+
+    if (this.props.data.discloseFinancialInformation.value === 'N') {
+      message = (
+        <div className="usa-alert usa-alert-info">
+          <div className="usa-alert-body">
+            <span>If you don't provide your financial information and you don't have another qualifying eligibility factor, VA can't enroll you.</span>
+          </div>
+        </div>
+      );
+    }
 
     if (this.props.isSectionComplete && this.props.reviewSection) {
       content = (<table className="review usa-table-borderless">
@@ -20,63 +33,61 @@ class FinancialDisclosureSection extends React.Component {
           <tr>
             <td>I understand VA is not currently enrolling new applicants who decline to
             provide their financial information unless they have other qualifying eligibility factors: </td>
-            <td>{`${this.props.data.understandsFinancialDisclosure.value ? 'Yes' : 'No'}`}</td>
+            <td>{`${this.props.data.discloseFinancialInformation.value ? 'Yes' : 'No'}`}</td>
           </tr>
         </tbody>
       </table>);
     } else {
       content = (<fieldset>
-        <legend>Financial Disclosure</legend>
+        <h5>Financial Disclosure</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
-          <p>You will now be asked to provide your financial information from the
-          most recent tax year. We ask for this information for three reasons:</p>
+          <p>Next, we'll ask you to provide your financial information from the most recent
+          tax year, which we will verify with the IRS. We use this information to figure out if you:</p>
 
           <ol>
-            <li>To determine your eligibility for health care if you do not have a
-            qualifying eligibility factor</li>
-            <li>To determine your eligibility for additional benefits, like travel
-            assistance, cost-free medications, and/or waiver of travel deductible</li>
-            <li>To determine whether you should be charged for copays and medication</li>
+            <li>Are eligible for health care even if you don't have one of the qualifying factors</li>
+            <li>Are eligible for added benefits, like reimbusement for travel costs or cost-free medications</li>
+            <li>Should be charged for copays or medication</li>
           </ol>
 
           <div className="usa-alert usa-alert-info">
-            <div className="hca-alert-body">
-              <p>
-                You are not required to provide your financial information. However,
-                <strong> if you do not have a qualifying eligibility factor, providing
-                your financial information is the only way to determine your eligibility.</strong>
-              </p>
+            <div className="usa-alert-body">
+              <span>
+                Note: You don't have to provide your financial information. But if you don't have a qualifying
+                eligibility factor, this information is the only other way for us to see if you can get VA
+                health care benefits-- including added benefits like waived copays.
+              </span>
             </div>
           </div>
 
-          {/* Move this list to a tooltip in reference above, create new tooltip component */}
-          <ul>Qualifying eligibility factors:
-            <li>Former prisoners of war</li>
-            <li>Purple Heart recipients</li>
-            <li>Recently discharged combat Veterans</li>
-            <li>Veterans discharged for a disability incurred or aggravated in the line of duty</li>
-            <li>Those receiving VA service-connected disability compensation</li>
-            <li>Veterans receiving a VA pension</li>
-            <li>Medicaid recipients</li>
-            <li>Veterans who served in Vietnam between January 9, 1962, and May 7, 1975</li>
-            <li>Veterans who served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998</li>
-            <li>Veterans who served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987.</li>
+          <ul>Qualifying factors:
+            <li>Former prisoner of war</li>
+            <li>Received a Purple Heart</li>
+            <li>Recently discharged combat Veteran</li>
+            <li>Discharged for a disability that resulted from your service or got worse in the line of duty</li>
+            <li>Getting VA service-connected disability compensation</li>
+            <li>Getting a VA pension</li>
+            <li>Receiving Medicaid benefits</li>
+            <li>Served in Vietnam between January 9, 1962, and May 7, 1975</li>
+            <li>Served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998</li>
+            <li>Served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987</li>
           </ul>
 
           <div className="input-section">
-            <a target="_blank" href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp">Learn more</a> about the income thresholds and copayments.
+            <a target="_blank" href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp">Learn more</a> about our income thresholds (also called income limits) and copayments.
           </div>
 
           <div className="input-section">
-            <ErrorableCheckbox required
-                errorMessage={isValidFinancialDisclosure(this.props.data) ? '' : 'Please acknowledge this requirement'}
-                label="I understand VA is not currently enrolling new applicants who decline to provide their financial information unless they have other qualifying eligibility factors."
-                name="understandsFinancialDisclosure"
-                checked={this.props.data.understandsFinancialDisclosure.value}
-                onValueChange={(update) => {this.props.onStateChange('understandsFinancialDisclosure', { value: update, dirty: false });}}/>
+            <ErrorableRadioButtons required
+                errorMessage={isValidFinancialDisclosure(this.props.data) ? '' : 'Please select either "Yes" or "No"'}
+                label="Do you want to provide your financial information?"
+                name="discloseFinancialInformation"
+                options={yesNo}
+                value={this.props.data.discloseFinancialInformation}
+                onValueChange={(update) => {this.props.onStateChange('discloseFinancialInformation', update);}}/>
           </div>
-
+          {message}
         </div>
       </fieldset>);
     }

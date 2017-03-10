@@ -23,8 +23,9 @@ class ProgressButton extends React.Component {
 
     return (
       <button
+          type={this.props.submitButton ? 'submit' : 'button'}
           disabled={this.props.disabled}
-          className={`text-capitalize ${this.props.buttonClass}`}
+          className={`text-capitalize ${this.props.buttonClass} ${this.props.disabled ? 'usa-button-disabled' : null}`}
           id={`${this.id}-continueButton`}
           onClick={this.props.onButtonClick}>{beforeText}{this.props.buttonText}{afterText}</button>
     );
@@ -32,12 +33,13 @@ class ProgressButton extends React.Component {
 }
 
 ProgressButton.propTypes = {
-  onButtonClick: React.PropTypes.func.isRequired,
+  onButtonClick: React.PropTypes.func,
   buttonText: React.PropTypes.string.isRequired,
   buttonClass: React.PropTypes.string.isRequired,
   beforeText: React.PropTypes.string,
   afterText: React.PropTypes.string,
-  disabled: React.PropTypes.bool
+  disabled: React.PropTypes.bool,
+  submitButton: React.PropTypes.bool
 };
 
 export default ProgressButton;

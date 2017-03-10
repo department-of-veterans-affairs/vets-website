@@ -55,7 +55,7 @@ If you are still in the service and want to reallocate transferred benefits, you
 
 While you are still serving, use the [Transfer of Education Benefits (TEB) website](https://www.dmdc.osd.mil/milconnect/faces/faqs?_adf.ctrl-state=c4t1chkk8_4) to request, modify, and revoke a Transfer of Entitlement (TOE). You cannot apply for a transfer of benefits through VA. (**Note:** From the milConnect home page, select Education then Transfer of Education Benefits [TEB] from the menu bar.)
 
-Upon approval, family members may [apply online](http://vabenefits.vba.va.gov/vonapp/main.asp) to use transferred benefits or may  print, complete, and mail [VA Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf) to the nearest [VA regional office](/facility-locator/).
+Upon approval, family members may [apply online](http://vabenefits.vba.va.gov/vonapp/main.asp) to use transferred benefits or may  print, complete, and mail [VA Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf) to the nearest [VA regional office](/facilities/).
 
 Once you leave military service, you can still provide a future effective date for use of TOE, modify the number of months transferred, or revoke the transfer of entitlement by submitting a written request to VA through the TEB website.
 

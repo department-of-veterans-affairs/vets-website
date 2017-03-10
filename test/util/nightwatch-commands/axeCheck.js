@@ -20,14 +20,34 @@ export function command(context, config, _callback) {
 
   // Run axe checks and report
   this.executeAsync((innerContext, done) => {
-    axe.a11yCheck(document.querySelector(innerContext), { // eslint-disable-line no-undef
+    axe.run(document.querySelector(innerContext) || document, { // eslint-disable-line no-undef
       runOnly: {
         type: 'tag',
         values: ['section508']
       }
-    }, done);
-  }, [context], results => {
-    const { violations, passes } = results.value;
+    }, (err, results) => {
+      done({ err, results });
+    });
+  }, [context], response => {
+    if (response.state !== 'success') {
+      this.verify.fail(`${response.state}: ${JSON.stringify(response)}`);
+      return;
+    }
+
+    const { err, results } = response.value;
+
+    if (err) {
+      this.verify.fail(err);
+      return;
+    }
+
+    if (!results) {
+      this.verify.fail('No scan results found');
+      return;
+    }
+
+    const { violations, passes } = results;
+
     const scope = (config || {}).scope || '[n/a]';
 
     passes.forEach(pass => {

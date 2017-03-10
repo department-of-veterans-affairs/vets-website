@@ -1,0 +1,108 @@
+// Style for schemaform
+
+.schemaform-buttons {
+  [type="submit"] {
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+  }
+}
+
+.schemaform-back-buttons {
+  margin-bottom: 7rem !important;
+}
+
+.schemaform-block {
+  margin-top: 2em;
+}
+
+.nav-header-schemaform {
+  margin-top: 1em !important;
+}
+
+.progress-box-schemaform {
+  margin-top: 0;
+  padding-top: 0;
+  border: none;
+}
+
+.schemaform-chapter-progress {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin-bottom: 1.5em;
+  @media (max-width: 40.063em) {
+    padding-left: 2rem - .9375rem;
+    padding-right: 2rem - .9375rem;
+  }
+  > h4 {
+    padding-bottom: 0 !important;
+  }
+}
+
+.schemaform-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  > h1 {
+    margin-bottom: 0;
+    padding-right: 10px;
+  }
+  > .schemaform-subtitle {
+    font-size: 2rem;
+  }
+  margin-bottom: 3rem;
+}
+
+.schemaform-required-span {
+  color: $color-secondary-dark;
+  margin: 0 0.35em;
+}
+
+.schemaform-intro {
+  padding-bottom: 1rem;
+  margin-bottom: 7rem;
+}
+
+// Align the intro content of the 22-1990 to match the title
+// Necessary for the 22-1990 and HCA since they don't use schemaform
+.intro-content {
+  margin-left: -2rem;
+}
+
+// Align the process ol with the title
+.schemaform-process {
+  ol {
+    margin-left: -0.5em;
+  }
+}
+
+.schemaform-array-row {
+  outline: none;
+}
+.schemaform-array-row {
+  outline: none;
+}
+
+.schemaform-block-header {
+  margin-bottom: 0.5em;
+  > legend, > h5, > p {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  > p {
+    margin-top: 0.5em;
+  }
+}
+
+.schemaform-first-field {
+  .schemaform-label, > .usa-input-error {
+    margin-top: 0;
+  }
+}
+
+.schemaform-warning-header {
+  margin-top: 9px;
+}
+
+.schemaform-failure-alert {
+  margin-bottom: 1.5em;
+}

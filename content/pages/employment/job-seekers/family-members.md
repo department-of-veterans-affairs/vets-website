@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Support for Military and Veteran Spouses
+title: Resources for Military and Veteran Family Members
 concurrence: complete
 template: 1-topic-landing
 relatedlinks:
@@ -20,7 +20,7 @@ relatedlinks:
     title: Unemployment Support
 ---
 
-The Veterans Employment Center can help spouses and family members access valuable career resources.
+The Veterans Employment Center can help spouses and other family members access valuable career resources.
 
 Through the Department of Defense’s [Spouse Education Career Opportunities](https://myseco.militaryonesource.mil/Portal/) (SECO) program, spouses can use government-sponsored career and education resources, take advantage of networking opportunities, and work with employment counselors. SECO also partners with the [Military Spouse Employment Partnership](https://msepjobs.militaryonesource.mil/msep/) (MSEP) and [My Career Advancement Account](https://myseco.militaryonesource.mil/Portal/Media/Default/Collaterals_Catalog/Program_Overview/MyCAA-Helping-Spouses-Reach-Career-Goals.pdf) (MyCAA) scholarship program. These organizations and others (such as [Blue Star Families](https://www.bluestarfam.org/)) offer assistance for spouses interested in the following:
 

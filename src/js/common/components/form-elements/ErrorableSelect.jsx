@@ -18,7 +18,9 @@ import { makeField } from '../../model/fields.js';
  * `autocomplete` - String for the select autocomplete attribute.
  * `options` - Array of options to populate select.
  * `required` - boolean. Render marker indicating field is required.
- * `value` - string. Value of the select field.
+ * `value` - object containing:
+ *   - `value`: Value of the select field.
+ *   - `dirty`: boolean. Whether a field has been touched by the user.
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class ErrorableSelect extends React.Component {
@@ -43,7 +45,7 @@ class ErrorableSelect extends React.Component {
     let errorSpanId = undefined;
     if (this.props.errorMessage) {
       errorSpanId = `${this.selectId}-error-message`;
-      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
+      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`} role="alert">{this.props.errorMessage}</span>;
     }
 
   // Addes ToolTip if text is provided.
@@ -59,13 +61,12 @@ class ErrorableSelect extends React.Component {
     // Calculate required.
     let requiredSpan = undefined;
     if (this.props.required) {
-      requiredSpan = <span className="hca-required-span">*</span>;
+      requiredSpan = <span className="form-required-span">*</span>;
     }
 
     // Calculate options for select
     let reactKey = 0;
     // TODO(awong): Remove this hack to handle options prop and use invariants instead.
-    // TODO(crew): Build options with empty option first here instead of in the return jsx block.
     const options = _.isArray(this.props.options) ? this.props.options : [];
     const optionElements = options.map((obj) => {
       let label;
@@ -90,13 +91,14 @@ class ErrorableSelect extends React.Component {
         </label>
         {errorSpan}
         <select
+            className={this.props.additionalClass}
             aria-describedby={errorSpanId}
             id={this.selectId}
             name={this.props.name}
             autoComplete={this.props.autocomplete}
             value={selectedValue}
             onChange={this.handleChange}>
-          <option value=""></option>
+          {this.props.includeBlankOption && <option value="">{this.props.emptyDescription}</option>}
           {optionElements}
         </select>
         {toolTip}
@@ -121,11 +123,18 @@ ErrorableSelect.propTypes = {
         value: React.PropTypes.string }),
     ])).isRequired,
   required: React.PropTypes.bool,
+  includeBlankOption: React.PropTypes.bool,
   value: React.PropTypes.shape({
     value: React.PropTypes.string,
     dirty: React.PropTypes.bool
   }).isRequired,
   onValueChange: React.PropTypes.func.isRequired,
+  additionalClass: React.PropTypes.string,
+  emptyDescription: React.PropTypes.string
+};
+
+ErrorableSelect.defaultProps = {
+  includeBlankOption: true
 };
 
 export default ErrorableSelect;

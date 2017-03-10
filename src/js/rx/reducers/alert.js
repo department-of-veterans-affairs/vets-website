@@ -1,7 +1,8 @@
-import set from 'lodash/fp/set';
+import React from 'react';
+import { Link } from 'react-router';
 
 const initialState = {
-  content: null,
+  content: '',
   status: 'info',
   visible: false
 };
@@ -9,13 +10,43 @@ const initialState = {
 export default function alert(state = initialState, action) {
   switch (action.type) {
     case 'OPEN_ALERT':
-      return Object.assign({}, state, {
+      return {
         content: action.content,
         status: action.status,
         visible: true
-      });
+      };
+
     case 'CLOSE_ALERT':
-      return set('visible', false, state);
+      return initialState;
+
+    case 'REFILL_FAILURE': {
+      return {
+        content: (
+          <div>
+            <h5 className="va-alert-title">Prescription refill unsuccessful</h5>
+            <p>We couldn't process this request. Please try again or <a href="/healthcare/messaging">message your provider</a>.</p>
+          </div>
+        ),
+        status: 'error',
+        visible: true
+      };
+    }
+
+    case 'REFILL_SUCCESS': {
+      const rx = action.prescription;
+
+      return {
+        content: (
+          <b>
+            Refill for <Link to={`/${rx.prescriptionId}`}>
+            {rx.prescriptionName}</Link> has been requested.
+          </b>
+        ),
+        status: 'success',
+        visible: true
+      };
+    }
+
     default:
       return state;
   }

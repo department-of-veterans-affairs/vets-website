@@ -1,17 +1,21 @@
+import 'core-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createHistory } from 'history';
-import { IndexRedirect, Route, Router, useRouterHistory } from 'react-router';
+import { Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
-import EduBenefitsApp from './containers/EduBenefitsApp.jsx';
 import initReact from '../common/init-react';
-import reducer from './reducers';
-import routes from './routes.jsx';
+import createRoutes from './routes';
 
 require('../../sass/edu-benefits.scss');
+
+require('../login/login-entry.jsx');
+
+const emptyState = {};
+const reducer = () => emptyState;
 
 let store;
 if (__BUILDTYPE__ === 'development' && window.devToolsExtension) {
@@ -28,10 +32,7 @@ function init() {
   ReactDOM.render((
     <Provider store={store}>
       <Router history={browserHistory}>
-        <Route path="/" component={EduBenefitsApp}>
-          <IndexRedirect to="/introduction"/>
-          {routes}
-        </Route>
+        {createRoutes(store)}
       </Router>
     </Provider>
     ), document.getElementById('react-root'));

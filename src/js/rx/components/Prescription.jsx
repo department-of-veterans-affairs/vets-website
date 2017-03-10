@@ -1,81 +1,154 @@
 import React from 'react';
-import moment from 'moment';
-
 import { Link } from 'react-router';
 
-import { rxStatuses } from '../config.js';
+import { rxStatuses } from '../config';
+import { formatDate } from '../utils/helpers';
+import GlossaryLink from '../components/GlossaryLink';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
-import SubmitButton from './SubmitButton';
+import SubmitRefill from './SubmitRefill';
 
 class Prescription extends React.Component {
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.showTracking = this.showTracking.bind(this);
+    this.showMessageProvider = this.showMessageProvider.bind(this);
+    this.showRefillStatus = this.showRefillStatus.bind(this);
+  }
+
+  handleSubmit(domEvent) {
+    domEvent.preventDefault();
+    this.props.refillModalHandler(this.props.attributes);
+  }
+
+  showTracking() {
+    let trackMessage;
+
+    const trackable = this.props.attributes.isTrackable;
+    const id = this.props.id;
+
+    if (trackable) {
+      trackMessage = (
+        <TrackPackageLink
+            key={`rx-${id}-track`}
+            className="usa-button"
+            text="Track package"
+            url={`/${id}#rx-order-history`}/>
+      );
+    }
+
+    return trackMessage;
+  }
+
+  showMessageProvider() {
+    let msgProvider;
+    const id = this.props.id;
+    const remaining = this.props.attributes.refillRemaining;
+
+    if (remaining === 0) {
+      msgProvider = (
+        <div
+            className="rx-call-provider"
+            key={`rx-${id}-call`}>
+          <a href="/healthcare/messaging/compose">Message Provider</a>
+        </div>
+      );
+    }
+    return msgProvider;
+  }
+
+  showRefillStatus() {
+    const refillable = this.props.attributes.isRefillable;
+    const id = this.props.id;
+    const status = this.props.attributes.refillStatus;
+
+    let refillStatus;
+
+    if (refillable === true) {
+      refillStatus = (
+        <SubmitRefill
+            key={`rx-${id}-refill`}
+            cssClass="rx-prescription-button"
+            onSubmit={this.handleSubmit}
+            refillId={id}
+            text="Refill Prescription"/>
+      );
+    } else {
+      const displayStatus = (status === 'active')
+                          ? rxStatuses.refillinprocess
+                          : rxStatuses[status];
+
+      refillStatus = (
+        <div
+            key={`rx-${id}-status`}
+            className="rx-prescription-status">
+          Refill status: <GlossaryLink
+              term={displayStatus}
+              onClick={this.props.glossaryModalHandler}/>
+        </div>
+      );
+    }
+
+    return refillStatus;
+  }
+
   render() {
     const attrs = this.props.attributes;
     const id = this.props.id;
-    const name = attrs['prescription-name'];
-    const remaining = attrs['refill-remaining'];
+    const name = attrs.prescriptionName;
 
     let action = [];
 
-    if (attrs['is-refillable'] === true) {
-      action.push(<SubmitButton
-          cssClass="usa-button-outline rx-prescription-button"
-          text="Refill Prescription"/>);
-    } else {
-      const callProvider = <div>Call Provider</div>;
+    // Show tracking if applicable
+    action.push(this.showTracking());
 
-      if (attrs['refill-status'] !== 'active') {
-        action.push(<div className="rx-prescription-status">{rxStatuses[attrs['refill-status']]}</div>);
+    // Show Refill prescription button or refill status
+    action.push(this.showRefillStatus());
 
-        if (attrs['refill-status'] !== 'submitted') {
-          action.push(callProvider);
-        }
-      } else {
-        if (attrs['is-trackable'] === true) {
-          action.push(<TrackPackageLink
-              className="usa-button"
-              text="Track package"/>);
-        } else {
-          action.push(<div
-              className="rx-prescription-refill-requested">Refill
-          requested</div>);
-        }
-
-        if (remaining === 0) {
-          action.push(callProvider);
-        }
-      }
-    }
-
-    const actionableContent = (
-      <div className="rx-prescription-action">
-        {action}
-      </div>
-    );
+    // Show 'Message Provider' link when refillsRemaining === 0
+    action.push(this.showMessageProvider());
 
     return (
-      <div className="rx-prescription"
-          key={id}
-          id={`rx-${id}`}>
+      <div className="rx-prescription">
         <div className="rx-prescription-inner cf">
-          <h3 className="rx-prescription-title" title={name}>
-            <Link to={`/rx/prescription/${id}`}>
-              {name}
-            </Link>
-          </h3>
-          <div className="rx-prescription-number">
-            Prescription <abbr title="number">#</abbr>: {attrs['prescription-id']}
-          </div>
-          <div className="rx-prescription-facility">
-            Facility name: {attrs['facility-name']}
-          </div>
-          <div className="rx-prescription-refilled">
-            Last filled date: {moment(attrs['refill-date']).format('ll')}
+          <div className="rx-prescription-info">
+            <input type="hidden" name="refillId" value={id}/>
+            <h3 className="rx-prescription-title" title={name}>
+              <Link to={`/${id}`}>
+                {name}
+              </Link>
+            </h3>
+            <div className="rx-prescription-number">
+              <strong>Prescription <abbr title="number">#</abbr>:</strong> {attrs.prescriptionNumber}
+            </div>
+            <div className="rx-prescription-facility">
+              <strong>Facility name:</strong> {attrs.facilityName}
+            </div>
+            <div className="rx-prescription-submitted">
+              <strong>Last submit date:</strong> {
+                formatDate(attrs.refillSubmitDate, {
+                  format: 'L'
+                })
+              }
+            </div>
+            <div className="rx-prescription-refilled">
+              <strong>Last fill date:</strong> {
+                formatDate(attrs.refillDate, {
+                  format: 'L',
+                  validateInPast: true
+                })
+              }
+            </div>
           </div>
           <div className="rx-prescription-countaction">
-            <RefillsRemainingCounter
-                remaining={attrs['refill-remaining']}/>
-            {actionableContent}
+            <div>
+              <RefillsRemainingCounter
+                  remaining={attrs.refillRemaining}/>
+              <div className="rx-prescription-action">
+                {action}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -85,24 +158,25 @@ class Prescription extends React.Component {
 
 Prescription.propTypes = {
   id: React.PropTypes.string.isRequired,
+  glossaryModalHandler: React.PropTypes.func.isRequired,
+  refillModalHandler: React.PropTypes.func.isRequired,
   type: React.PropTypes.string.isRequired,
   attributes: React.PropTypes.shape({
-    'prescription-id': React.PropTypes.number.isRequired,
-    'prescription-number': React.PropTypes.string.isRequired,
-    'prescription-name': React.PropTypes.string.isRequired,
-    'refill-submit-date': React.PropTypes.string,
-    'refill-date': React.PropTypes.string.isRequired,
-    'refill-remaining': React.PropTypes.number.isRequired,
-    'facility-name': React.PropTypes.string.isRequired,
-    'ordered-date': React.PropTypes.string.isRequired,
+    prescriptionId: React.PropTypes.number.isRequired,
+    prescriptionNumber: React.PropTypes.string.isRequired,
+    prescriptionName: React.PropTypes.string.isRequired,
+    refillSubmitDate: React.PropTypes.string,
+    refillDate: React.PropTypes.string.isRequired,
+    refillRemaining: React.PropTypes.number.isRequired,
+    facilityName: React.PropTypes.string.isRequired,
+    orderedDate: React.PropTypes.string.isRequired,
     quantity: React.PropTypes.number.isRequired,
-    'expiration-date': React.PropTypes.string.isRequired,
-    'dispensed-date': React.PropTypes.string,
-    'station-number': React.PropTypes.string,
-    'is-refillable': React.PropTypes.bool.isRequired,
-    'is-trackable': React.PropTypes.bool.isRequired,
-  }).isRequired,
-  onRefill: React.PropTypes.func
+    expirationDate: React.PropTypes.string.isRequired,
+    dispensedDate: React.PropTypes.string,
+    stationNumber: React.PropTypes.string,
+    isRefillable: React.PropTypes.bool.isRequired,
+    isTrackable: React.PropTypes.bool.isRequired,
+  }).isRequired
 };
 
 export default Prescription;

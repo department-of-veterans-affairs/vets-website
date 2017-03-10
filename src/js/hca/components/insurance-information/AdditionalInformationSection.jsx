@@ -41,8 +41,7 @@ class AdditionalInformationSection extends React.Component {
       </table>);
     } else {
       content = (<fieldset>
-        {/* TODO: Change the headings to something related to the questions. */}
-        <legend>Additional Information</legend>
+        <h5>VA Facility</h5>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <ErrorableCheckbox
@@ -65,7 +64,7 @@ class AdditionalInformationSection extends React.Component {
               value={this.props.data.vaMedicalFacility}
               facilityState={this.props.data.facilityState}
               onValueChange={(update) => {this.props.onStateChange('vaMedicalFacility', update);}}/>
-          OR <a target="_blank" href="/facility-locator">Find locations with the VA Facility Locator</a>
+          OR <a target="_blank" href="/facilities">Find locations with the VA Facility Locator</a>
         </div>
 
         <div className="input-section">

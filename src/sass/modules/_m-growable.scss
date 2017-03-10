@@ -1,0 +1,23 @@
+.va-growable-background {
+  padding: 1em;
+  margin-bottom: 1em;
+  background-color: $color-gray-lightest;
+}
+
+.progress-box .va-growable button {
+  width: auto;
+  margin-right: 0;
+  @media screen and (max-width: 340px) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}
+

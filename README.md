@@ -1,4 +1,4 @@
-# vets.gov - beta [![Build Status](https://travis-ci.org/department-of-veterans-affairs/vets-website.svg?branch=master)](https://travis-ci.org/department-of-veterans-affairs/vets-website)
+# vets.gov - beta [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=department-of-veterans-affairs/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/) [![Test Coverage](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/badges/coverage.svg)](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/coverage)
 
 ## What is this?
 
@@ -14,22 +14,27 @@ very secret.
 
 | I want to... | Then you should... |
 | ------------ | ------------------ |
-| clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website` and `npm install`. Run `npm install` anytime `package.json` changes. | 
-| deploy the site | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Travis will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
+| clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, `npm install`. Run `npm install` anytime `package.json` changes. |
+| deploy the site | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Jenkins will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
 | build the site with dev features enabled. | `npm run build` |
 | build the production site (dev features disabled). | `npm run build -- --buildtype production` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
-| build the site with optimizations (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
-| run the site for local development with hot reloading of javascript, and sass | `npm run watch` then visit `http://localhost:3000/webpack-dev-server/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
+| build the site with optimizaitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
+| run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
+| run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,no-react`. Valid application names are in `config/webpack.config.js` |
+| run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` |
+| run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0`. Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
-| run only e2e tests | `npm run test:e2e`.  Note, on a fresh checkout, run `npm run selenium:bootstrap` to install the selenium server into `node_modules`. This only needs to be done once per install. |
+| run only e2e tests | `npm run test:e2e` | 
 | run all linters | `npm run lint` |
 | run only javascript linter | `npm run lint:js` |
 | run only sass linter | `npm run lint:sass` |
+| run automated accessibility tests | `npm run build && npm run test:accessibility` |
 | test for broken links | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
 | add new npm modules | `npm install -D my-module` followed by `npm shrinkwrap --dev`. There are no non-dev modules here. |
+| get the latest json schema | Update vets-json-schema in package.json with the latest commit hash, then run `npm update vets-json-schema && npm shrinkwrap --dev` |
 
 ## Directory structure
 
@@ -56,15 +61,6 @@ All third-party styles and javascript are handled via npm using package.json. Th
 strong versioning of third-party libraries and makes it impossible for developers to
 accidentally modify copies of upstream.
 
-## Toolchain
-The site is built using 2 tools: [Metalsmith](http://www.metalsmith.io/) and
-[Webpack](https://webpack.github.io/) and is fully node.js stack.o
-
-Metalsmith is used as the top-level build coordinator -- it is effectively a generic
-"if file changes here, run this" system -- as well as the static content genertaor. When
-Metalsmith sees Javascript, it is delegated to Webpack.  Sass files are "require"ed inside
-the Javascript files for the site and processed by Webpack.
-
 ### Requirements
 
 The requirements for running this application are Node.js 4.4.7 and npm 3.8.9.
@@ -75,7 +71,7 @@ You should use Node Version Manager (nvm) to manage the versions of node.js on y
 To install please visit: https://github.com/creationix/nvm
 _If you are on a mac and use [homebrew](http://brew.sh/), you can install nvm by typing: brew update && brew install nvm_
 
-Once you have nvm installed you should now install node.js version 4.4.7 by running: 
+Once you have nvm installed you should now install node.js version 4.4.7 by running:
 
 ```bash
 nvm install
@@ -168,7 +164,7 @@ Similarly, everything in `src/\*` is dependent on the webpack configuration.
 Quirks:
   * metalsmith-watch cannot do broken link detection during incrementals.
   * Webpack Dev Server uses an in-memory filesystem so nothing shows up in `build/${}/generated`
-  * Visit `http://localhost:3000/webpack-dev-server` (no trailing slash!) to see the contents of generated files.
+  * Visit `http://localhost:3001/webpack-dev-server` (no trailing slash!) to see the contents of generated files.
 
 Overall, this runs pretty well.
 
@@ -199,7 +195,7 @@ the unittests. This is why babel configuration is kept in `.babelrc`, so it can
 be shared between build and test.
 
 ### End-to-end Test -- nightwatch
-TODO(awong): This isn't working yet. Update docs here when it is working.
+
 All end-to-end tests are under `test/\*` and are named with the suffix `.e2e.spec.js`.
 
 Nightwatch is being used for browser-based testing. On the default configuration,
@@ -213,8 +209,6 @@ To run a nightwatch test, 3 things need to execute:
   2. The selenium server (which will spawn browsers like PhanomJS)
   3. The nightwatch client that talks to the Selenium server
 
-These three steps have been abstracted into a script TODO(awong): actually do this.
-
 End-to-end tests do not need to be restricted exclusively to selenium style tests
 (eg, navigate to this url, click this button, etc). At its core, it just a system
 for starting up and controlling web browser.  For mocha tests that we want to
@@ -223,9 +217,8 @@ the test requries features that jsdom does not provide, putting them into a
 `e2e.spec.js` file is completely valid and good.
 
 TODO(awong): Figure out sauce labs integrations. Not all e2e tests should always be
-run on all browsers. That's wasteful. How do we determine what should be run on
+run on all browsers. That's wasteful. How do we determine what should be run on 
 multiple browsers as opposed to on PhantomJS in Travis? 
-
 
 ### Continuous Integration
 Continuous integration and deployment is done via
@@ -238,76 +231,63 @@ Ensures that all PRs always work on both build configurations.
 Travis also always builds in optimized mode with `NODE_ENV=production`. See build section for
 distinction between BUILDTYPE and NODE_ENV.
 
-
 ### Deploy
 Because this is a static site, deployment is simply synchronizing the generated artifacts
 with a remote s3 bucket.  Travis handles the synchronization by using the
 [s3-cli](https://www.npmjs.com/package/s3-cli) commandline tool.
 
-Commits to `master` pushes `buildtype=development` to `dev.vets.gov` and
-`buildtype=production` to `staging.vets.gov`.  This means `dev.vets.gov` shows all
-in development features where `staging.vets.gov` mirror real production. Staging's
-build is intentionally conflated with production so that it does not become another
-axis of divergence.
+### Automated Accessibility Testing -- aXe
 
-Commits to `production` pushes `buildtype=production` to `www.vets.gov`.
+The automated accessibility tests are contained within the `test/accessibility`
+directory. All URLs from the generated sitemap are scanned with aXe
+rules for 508 compliance.
 
-AWS access is granted to travis via the encrypted envrionment variables
-`AWS_ACCESS_KEY` and `AWS_SECRET_KEY`. The same access key is reused for all pushed because
-there is no trust boundary between the different deploys in Travis CI and in the source
-repository.
+Automated accessibility tests are run by Jenkins on PRs for the production build
+type.
 
-For exact details, look in the deployment stanza of `.travis.yml`.
+### Continuous Integration
+Continuous integration and deployment is done via
+[Jenkins CI](http://jenkins.vetsgov-internal/). All of the configuration
+is stored in `Jenkinsfile`. The build runs within docker, which is configured
+with the `Dockerfile`. You can run this container locally to debug any failed
+builds:
 
-## Design Rationale and History.
+```
+  docker build -t vets-website:local .
+  docker run -it --rm vets-website:local /bin/bash
+  cd /application && npm run build && npm run test
+```
 
-*tl;dr:* React apps became the primary development churn. Webpack is the most natural tool
-which forced Node.js into the system. The site was migrated to Metalsmith from Jekyll for
-static content creationg to allow keeping things in one langauge. A single repository was
-chosen to facilitate easier code sharing.
+Builds are triggered for PRs for all build types. The special branch name
+`content/wip/.*`, will fail by default and not run any builds. This is to allow
+rapid iteration on WIP content team work before builds are tested.
 
-The MVP of www.vets.gov was a 100% static content site built using Jekyll and deployed on to
-Github Pages. The historical repository layout was constrained by the needs of Github Pages
-which required all content to be at the root of the directory structure. Also, Jekyll implied
-a Ruby stack. At the time, it was assumed any rich behavior would be written with a standard
-monolithic Rails stack where render was handled server side.
+Tests are run over the production buildtype for all PRs. Tests should not
+be tied to the build type. Instead, define a feature flag variable and
+test both the enabled and disabled states. While a build type will either enable
+or disable the feature in the UI, the tests will still run the feature's code
+path despite the environment. This ensures that your component will function in
+all builds regardless of the build type. The important distinction is that your
+feature is still active within the code base, but the UI is either enabled or
+disabled by the feature flag.
 
-With the launch of the Healthcare App, the team pivoted to use React for client side tooling.
-Because of the Javascript heavy nature of this development, the Node.js ecosystem centered
-around Webpack as the compiler for Javascript became much more natural.
-
-Now we had two languages in the frontend with code separated into multiple repositories.
-This started to become a versioning headache. For example, sharing stylesheets between the sites
-meant having to package the Sass files twice, once in a Jekyll friendly manner and once in
-a Webpack friendly manner. Furthermore, multiple languages meant multiple builds and multiple
-pushes making it easy to desynchronize parts of the site.
-
-A decision was made around August 2016 to create a single frontend build for easier code sharing
-and more consistent deploys. Metalsmith was chosen as a replacement Jekyll because it was
-written in Node.js and seemed reasonably well supported.
-
-Initially the site used grunt as the task runner, but during the migration, it became clear
-that Metalsmith itself was enough of a dependency manager and task marshaller to not require
-grunt. In fact, grunt caused more problems with file watching.
-
-And thus we ended up with one repository for content and Javascript code where Metalsmith is
-the top-level task runner that builds all the static pages from `content/*` and delgates to
-Webpack for Javscript and Sass compilation.
-
-### Why Metalsmith?
-
-Metalsmith looked well supported and very flexible. There were no major technical drivers here.
-
-### Why Webpack?
-
-Webpack seems to have become the defacto build toolkit for Javascript and Sass. Most current
-documentation around React is based on a Webpack toolchain.
+To enable or disable the feature in a specific build type, toggle the feature
+in `test/util/mocha-setup.js` and `config/webpack.config.js`. See
+`SampleFeature` and the associated `__SAMPLE_FEATURE__` env variables for an
+example implementation.
 
 ## More documentation
 
-TODO: Verify if these are still relevant.
+- Content
+  - [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)*
+  - [How Search Works](docs/HowSearchWorks.md)*
+  - [Design Rationale and History](docs/DesignRationaleAndHistory.md)
+  - [Website Toolchain](docs/WebsiteToolchain.md)
+  - [How to Deploy](docs/HowToDeploy.md)
 
-- [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)
-- [How Breadcrumbs Work](docs/HowBreadCrumbsWork.md)
-- [How URLs are Created](docs/HowURLsAreCreated.md)
-- [How Search Works](docs/HowSearchWorks.md)
+- React JSON Schemaform
+  - [Schemaform Walkthrough](docs/schemaform/walkthrough.md)
+  - [Form Config](docs/schemaform/form-config.md)
+
+##### *Verify if these are still relevant.
+

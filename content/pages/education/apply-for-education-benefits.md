@@ -2,99 +2,65 @@
 layout: page-breadcrumbs.html
 title: Apply for Education Benefits
 template: 6-info-page
+modal: true
 concurrence: complete
+showactionbar: false
+stickyactionbox: true
+actionboxButtons:
+  - url: /education/apply-for-education-benefits/application/1990
+    text: Apply for Benefits
+    primary: true
+  - url: /education/apply-for-education-benefits/application/1995
+    text: Manage Benefits
+relatedlinks:
+  - url: /education/gi-bill/survivors-dependent-assistance/
+    title: Apply for Dependents’ Educational Assistance (DEA) benefits
+  - url: /education/gi-bill/transfer/
+    title: Apply for Transfer of Entitlement
+  - url: /education/other-educational-assistance-programs/call-to-service/
+    title: Learn about the National Call to Service program
 ---
 
-<div class="call-out" markdown="1">
+If you're a Servicemember, Veteran, or family member interested in education and training opportunities, you can apply for your Certificate of Eligibility (COE). You can also manage your current benefits.
 
-### Who Should Read This
+Choose **Apply for Benefits** if you are a first time applicant.  
+Includes Form 22-1990
 
-Servicemembers and Veterans seeking education and training opportunities
+Choose **Manage Benefits** if you need to make a change to your current education benefits (for example, you’re moving to a new school).  
+Includes Form 22-1995
+
+<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
+	<div class="usa-alert-body">
+
+##### For Forms 22-1990E, 22-1990N, 22-5490, and 22-5495
+
+You must apply for education benefits using eBenefits.va.gov if you are:
+- A spouse or dependent
+- A survivor of a Veteran
+- A candidate for the National Call to Service program
+
+<div markdown="0">
+	<a class="usa-button-primary usa-button-outline usa-button-outline-exit transparent" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
 </div>
-
-<div class="call-out" usa-content markdown="1">
-
-### How long does a decision take?
-
-The time it takes to process your claim depends on your regional office. There are four regional claims processing centers, and it varies region by region. You can use [VA’s interactive map](http://www.vba.va.gov/reports/aspiremap.asp) to find out how quickly your regional office processes claims.
 </div>
-
-
-### What are the steps?
-
-
-<div class="small-12 columns" markdown="0">
-<ol class="process" markdown="0">
-<li class="step one wow fadeIn animated" markdown="0">
-
-<div markdown="1">
-
-##### Research
-
 </div>
+<br>
 
+##### Other Ways to Apply
+
+- Go to a VA regional office and have a VA employee help you. [Find a regional office near you](/facilities).
+- Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school.
+- Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
 <div class="feature usa-content" markdown="1">
 
-- Learn about schools offering VA-approved programs by using the [GI Bill Comparison Tool](/gi-bill-comparison-tool/).
--	Decide [which school](http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
--	You may apply for the school or schools you choose before you apply for benefits.
+##### Checking in on the status of your application?
+
+- We usually process claims within 30 days.
+- If we’ve asked for documents, please upload them through the [GI Bill site](https://gibill.custhelp.com/app/home).
+- You can’t make changes to your application.
+- For questions about Education Benefits please call 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
 
 </div>
 
-</li>
-
-<li class="step two wow fadeIn animated" markdown="0">
-
-<div markdown="1">
-
-##### Gather Your Documents
-
-The following documents will help VA process your claim:
-
-</div>
-
-<div class="feature usa-content" markdown="1">
-
--	DD214 (Member 4), discharge or separation papers, for all periods of active-duty service, excluding active duty for training
--	DD2384, Notice of Basic Eligibility (NOBE), which you can get through your Reserve unit
--	Orders, if activated from the Guard or the Reserves
-
-</div>
-
-</li>
-
-<li class="step three wow fadeIn animated" markdown="0">
-
-<div markdown="1">
-
-##### Apply
-
-You have four options for filing your claim:
-
-</div>
-
-<div class="feature usa-content" markdown="1">
-
--	Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/vonapp).
--	Go to a [VA regional office](/education/apply-for-education-benefits/regional-office/) and have a VA employee assist you.
--	Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
--	Call 888-GI Bill (888-442-4551) to have the application mailed to you. After you complete it, mail it to your [VA regional claims processing office](/education/apply-for-education-benefits/regional-office/).
-
-</div>
-
-</li>
-
-<li class="step four last wow fadeIn animated" markdown="0">
-
-<div markdown="1">
-
-##### VA Review
-
-You can track the status of your application on [eBenefits](https://www.ebenefits.va.gov/ebenefits/manage/status).
-
-</div>
-
-</li>
-
-</ol>
+<br/>

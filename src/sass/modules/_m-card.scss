@@ -2,47 +2,44 @@
 
 .va-cards {
   display: block;
-  // TODO: Remove !important when 
+  // TODO: Remove !important when
   // #content .main .section.one ul is cleared up
   margin: 0 !important;
   min-width: 300px;
   padding: 0;
 }
 
-// Foundation break point
-@media #{$medium} {
+@include media($medium-screen) {
   .va-cards--3across,
   .va-cards--2across {
     @include clearfix;
   }
-  
+
   .va-cards--3across {
     > .va-card {
-      width: 32%;
-    } 
+      width: 33%;
+    }
   }
-  
+
   .va-cards--2across {
     > .va-card {
-      width: 48.7%
-    } 
+      width: 50%
+    }
   }
 }
 
-.va-card { 
+.va-card {
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0 0.625rem 1.25rem 0.67rem;
   list-style: none !important;
   position: relative;
   padding: 0;
-  
-  @media #{$medium} {
+
+  @include media($medium-screen) {
     float: left;
-    margin: 0 0.625rem 1.25rem 0.67rem;
   }
 
-  @media #{$small} {
-    margin: 0 0.625rem 1.25rem 0.67rem;
-  }
-  
   a {
     color: inherit;
   }
@@ -53,11 +50,13 @@
 .va-card-body, .va-card a {
   @include transition(all, 0.3s, ease-in-out);
   background: $color-primary-darker;
-  border-bottom: 2px solid rgba(255,255,255,0.3);
+  border-radius: .2em;
   color: #fff !important;
   display: block;
   font-weight: normal;
+  height: 11em;
   padding: .45em .75em;
+  text-align: left;
   text-decoration: none;
 
   &:active, &:hover, &:focus {
@@ -72,19 +71,9 @@
   + ol {
     margin: 1em 1.2em 0 2em !important;
   }
-   
-  // Using $medium instead of $medium-screen
-  // because this grid uses Foundation, not USWDS
-  // Roughly a 640px breakpoint.
-  @media #{$small} {
-    height: 10em;
-    border-bottom: none;
-    text-align: left;
-    border-radius: .2em;
-  }
-  
-  @media #{$medium} {
-    padding: 1.2em 1.5em;
+
+  @include media($medium-screen) {
+    padding: 1.25em;
   }
 }
 
@@ -93,10 +82,9 @@
   font: 600 1.35em / 1.3em $font-sans !important;
   margin: 0 !important;
   padding: 0 0 .25em 0 !important;
-  
+
   a {
     text-decoration: none;
     background-color: transparent;
   }
 }
-

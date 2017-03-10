@@ -1,53 +1,48 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import AlertBox from '../../common/components/AlertBox';
+import { closeDisclaimer } from '../actions/disclaimer';
 import { closeAlert } from '../actions/alert.js';
-import { closeDisclaimer } from '../actions/disclaimer.js';
-import { loadData } from '../actions/prescriptions.js';
-
-import AlertBox from '../components/AlertBox';
-import TabNav from '../components/TabNav';
 import Disclaimer from '../components/Disclaimer';
+import ErrorView from '../components/ErrorView';
+import TabNav from '../components/TabNav';
 
 class Main extends React.Component {
-  componentWillMount() {
-    this.props.loadData();
-  }
   render() {
-    let alertBox;
-
-    if (this.props.alert.visible) {
-      alertBox = (
-        <AlertBox
-            content={this.props.alert.content}
-            isVisible={this.props.alert.visible}
-            onCloseAlert={this.props.closeAlert}
-            status={this.props.alert.status}/>
-      );
-    }
-
     return (
-      <div>
-        <Disclaimer
-            isVisible={this.props.disclaimer.visible}
-            handleClose={this.props.closeDisclaimer}/>
-        <div className="rx-app row">
-          {alertBox}
-          <h1>Mail Order Prescriptions</h1>
+      <ErrorView errors={this.props.errors}>
+        <div>
+          <AlertBox
+              content={this.props.alert.content}
+              isVisible={this.props.alert.visible}
+              onCloseAlert={this.props.closeAlert}
+              scrollOnShow
+              status={this.props.alert.status}/>
+          <Disclaimer
+              isOpen={this.props.disclaimer.open}
+              handleClose={this.props.closeDisclaimer}/>
+          <h1>Prescription Refill</h1>
           <TabNav/>
           {this.props.children}
         </div>
-      </div>
+      </ErrorView>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return state;
+  const rxState = state.health.rx;
+  return {
+    alert: rxState.alert,
+    disclaimer: rxState.disclaimer,
+    errors: rxState.errors.errors,
+  };
 };
 
-export default connect(mapStateToProps, {
+const mapDispatchToProps = {
   closeAlert,
   closeDisclaimer,
-  loadData
-})(Main);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

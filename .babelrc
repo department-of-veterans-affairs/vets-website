@@ -2,13 +2,17 @@
   // Javascript settings.
   "presets": [
     "es2015",
-    "react"
+    "react",
+    "stage-2",
   ],
   "plugins": [
     "lodash"
   ],
   // Share polyfills between files.
   "env": {
+    "test": {
+      "plugins": [ "istanbul" ]
+    },
     "hot": {
       "plugins": [
         [

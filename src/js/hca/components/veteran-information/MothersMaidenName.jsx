@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
-import { isValidName, isBlank } from '../../../common/utils/validations';
+import { isBlank, isValidRequiredField, isValidName } from '../../../common/utils/validations';
 
 class MothersMaidenName extends React.Component {
   constructor() {
@@ -20,7 +20,7 @@ class MothersMaidenName extends React.Component {
 
   validateRequiredFields(field, isRequired) {
     if (isRequired) {
-      return !field.dirty || isValidName(field.value);
+      return !field.dirty || isValidRequiredField(isValidName, field);
     }
     return isBlank(field.value) || isValidName(field.value);
   }
@@ -28,9 +28,9 @@ class MothersMaidenName extends React.Component {
   render() {
     return (
       <div>
-        <ErrorableTextInput
+        <ErrorableTextInput required={this.props.required}
             errorMessage={this.validateRequiredFields(this.props.value, this.props.required) ? undefined : 'Please enter a valid name'}
-            label="Mother’s maiden mame"
+            label="Mother’s maiden name"
             name="mothersMaidenName"
             field={this.props.value}
             onValueChange={(update) => {this.handleChange(update);}}/>

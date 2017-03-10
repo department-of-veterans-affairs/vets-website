@@ -1,40 +1,49 @@
 import React from 'react';
+import { Link } from 'react-router';
+import Modal from '../../common/components/Modal';
 import GlossaryList from './GlossaryList';
 
 class GlossaryModal extends React.Component {
   constructor(props) {
     super(props);
-    this.handlerCloseModal = this.handlerCloseModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
-  handlerCloseModal(event) {
+  handleCloseModal(event) {
     event.preventDefault();
     this.props.onCloseModal();
   }
 
   render() {
     let element;
-
     if (this.props.isVisible) {
       element = (
-        <section className="rx-modal" id="rx-glossary-modal">
-          <div className="rx-modal-inner">
-            <h3 className="rx-modal-title">Glossary</h3>
-            <div className="rx-modal-body">
-              <GlossaryList terms={this.props.content}/>
-              <div className="rx-button-group cf">
-                <button type="button" onClick={this.handlerCloseModal}>Close</button>
-                <a href="/rx/glossary/">See all status definitions</a>
-              </div>
-            </div>
+        <div>
+          <GlossaryList terms={this.props.content}/>
+          <div className="va-modal-button-group cf">
+            <button type="button" onClick={this.handleCloseModal}>Close</button>
+            <Link
+                to="/glossary"
+                onClick={this.props.onCloseModal}>
+              See all status definitions
+            </Link>
           </div>
-        </section>
+        </div>
       );
     } else {
       element = (<div/>);
     }
 
-    return element;
+    return (
+      <Modal
+          cssClass="va-modal rx-modal"
+          contents={element}
+          hideCloseButton
+          id="rx-glossary-modal"
+          onClose={this.handleCloseModal}
+          title="Glossary"
+          visible={this.props.isVisible}/>
+      );
   }
 }
 

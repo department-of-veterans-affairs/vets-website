@@ -1,13 +1,19 @@
 import _ from 'lodash';
+import lodashDeep from 'lodash-deep';
 
-import { UPDATE_COMPLETED_STATUS, UPDATE_INCOMPLETE_STATUS, UPDATE_REVIEW_STATUS, UPDATE_VERIFIED_STATUS, UPDATE_SUBMISSION_STATUS, UPDATE_SUBMISSION_ID, UPDATE_SUBMISSION_TIMESTAMP } from '../../actions';
+import { UPDATE_COMPLETED_STATUS, UPDATE_INCOMPLETE_STATUS, UPDATE_REVIEW_STATUS, UPDATE_VERIFIED_STATUS, UPDATE_SUBMISSION_STATUS, UPDATE_SUBMISSION_ID, UPDATE_SUBMISSION_TIMESTAMP, SET_ATTEMPTED_SUBMIT } from '../../actions';
+
+// Add deep object manipulation routines to lodash.
+_.mixin(lodashDeep);
+
 
 const ui = {
   submission: {
     status: false,
     errorMessage: false,
     id: false,
-    timestamp: false
+    timestamp: false,
+    hasAttemptedSubmit: false
   },
   sections: {
     '/introduction': {
@@ -28,7 +34,7 @@ const ui = {
     '/veteran-information/demographic-information': {
       complete: false,
       verified: false,
-      fields: ['gender', 'isSpanishHispanicLatino', 'isAmericanIndianOrAlaskanNative', 'isBlackOrAfricanAmerican', 'isNativeHawaiianOrOtherPacificIslander', 'isAsian', 'isWhite']
+      fields: ['gender', 'maritalStatus', 'isSpanishHispanicLatino', 'isAmericanIndianOrAlaskanNative', 'isBlackOrAfricanAmerican', 'isNativeHawaiianOrOtherPacificIslander', 'isAsian', 'isWhite']
     },
     '/veteran-information/veteran-address': {
       complete: false,
@@ -58,12 +64,12 @@ const ui = {
     '/household-information/financial-disclosure': {
       complete: false,
       verified: false,
-      fields: ['understandsFinancialDisclosure']
+      fields: ['discloseFinancialInformation']
     },
     '/household-information/spouse-information': {
       complete: false,
       verified: false,
-      fields: ['maritalStatus', 'spouseFullName', 'spouseSocialSecurityNumber', 'spouseDateOfBirth', 'dateOfMarriage', 'sameAddress', 'cohabitedLastYear', 'provideSupportLastYear', 'spouseAddress', 'spousePhone']
+      fields: ['spouseFullName', 'spouseSocialSecurityNumber', 'spouseDateOfBirth', 'dateOfMarriage', 'sameAddress', 'cohabitedLastYear', 'provideSupportLastYear', 'spouseAddress', 'spousePhone']
     },
     '/household-information/child-information': {
       complete: false,
@@ -139,6 +145,11 @@ function uiState(state = ui, action) {
     case UPDATE_SUBMISSION_TIMESTAMP:
       newState = Object.assign({}, state);
       _.set(newState.submission, 'timestamp', action.value);
+      return newState;
+
+    case SET_ATTEMPTED_SUBMIT:
+      newState = Object.assign({}, state);
+      _.set(newState.submission, 'hasAttemptedSubmit', true);
       return newState;
 
     default:

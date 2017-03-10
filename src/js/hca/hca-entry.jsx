@@ -1,3 +1,4 @@
+import 'core-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createHistory } from 'history';
@@ -12,6 +13,8 @@ import routes from './routes.jsx';
 
 require('../common');  // Bring in the common javascript.
 require('../../sass/hca.scss');
+
+require('../login/login-entry.jsx');
 
 const store = createStore(reducer);
 

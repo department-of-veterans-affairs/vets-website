@@ -1,0 +1,32 @@
+@import 'base/b-variables';
+
+.sign-in-link {
+  color: $color-white;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:visited {
+      color: inherit;
+    }
+
+    &:hover {
+      color: $color-gold;
+      text-decoration: underline;
+    }
+  }
+};
+
+.signin-spacer {
+  color: $color-white;
+  margin: 0 0.6em;
+}
+
+.signin-greeting {
+  display: none;
+
+  @media(min-width: 768px) {
+    display: inline;
+  }
+}

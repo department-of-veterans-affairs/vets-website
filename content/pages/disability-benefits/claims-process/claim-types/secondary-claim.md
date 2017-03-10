@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Secondary Claim
+plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
@@ -37,15 +38,15 @@ relatedlinks:
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-It is possible for your service-connected disability to cause, or to worsen, another disability.
+Sometimes, a disability related to your military service (called service connected) can cause another disability—or make worse a disability that you already have. Even if this other disability isn't service connected, you can file a secondary claim for added disability benefits. [File a claim now](/disability-benefits/apply-for-benefits/).
 
-If this is the case, you can file a secondary disability claim to seek additional benefits. This second disability may not otherwise be considered service connected.
+### What are some examples of secondary claims?
 
 **Example 1**<br>
-A Veteran has a service-connected knee injury that causes him to walk with a limp. He subsequently develops arthritis in his hip. The arthritic condition did not start during service, nor was it aggravated by service, but service connection may still be established if the arthritis is a result of his previously established service-connected knee condition.
+A Veteran has a service-connected knee injury that makes him walk with a limp. Because of the limp, he gets arthritis (joint pain) in his hip. The arthritis didn't start while he was serving in the military or become worse because of his service, but we may still consider it service connected if he can show it was caused by his service-connected knee injury.
 
 **Example 2**<br>
-A Veteran was in the Army for twenty years. During her military service, she was diagnosed with hypertension. After her discharge, service connection was established for hypertension. She was subsequently diagnosed with a coronary artery disease that resulted from her hypertension. She may file a secondary claim to establish service connection for her coronary artery disease.
+A Veteran served in the Army for 20 years. While serving, she was diagnosed with hypertension (high blood pressure). After ending her service, she got disability benefits for her high blood pressure, which proved to be connected to her service. She was later diagnosed with coronary artery disease (the most common type of heart disease) caused by her high blood pressure. She can now file a secondary claim to show that her heart disease is also connected to her service.
 
 
 </div>

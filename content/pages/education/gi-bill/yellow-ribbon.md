@@ -28,7 +28,7 @@ Additional tuition
 ### How it works
 
 <ol class="process">
-<li class="step one wow fadeIn animated">
+<li class="step one">
 <div markdown="1">
 
 ##### Submit application
@@ -36,7 +36,7 @@ After you submit your application for Post-9/11 GI Bill benefits and VA finds yo
 </div>
 </li>
 
-<li class="step two wow fadeIn animated">
+<li class="step two">
 <div markdown="1">
 
 ##### Bring certificate
@@ -44,7 +44,7 @@ Bring this certificate to your participating institution’s financial aid, mili
 </div>
 </li>
 
-<li class="step three wow fadeIn animated">
+<li class="step three">
 <div markdown="1">
 
 ##### Receive determination
@@ -56,7 +56,7 @@ Bring this certificate to your participating institution’s financial aid, mili
 </div>
 </li>
 
-<li class="step four wow fadeIn animated">
+<li class="step four">
 <div markdown="1">
 
 ##### Receive notice
@@ -64,7 +64,7 @@ You will receive notice from your school about whether you have been accepted to
 </div>
 </li>
 
-<li class="step last five wow fadeIn animated">
+<li class="step last five">
 <div markdown="1">
 
 ##### Confirm and coordinate

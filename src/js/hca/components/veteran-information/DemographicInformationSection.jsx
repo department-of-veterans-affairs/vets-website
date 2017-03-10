@@ -2,7 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import Gender from '../../../common/components/questions/Gender';
+import { maritalStatuses } from '../../../common/utils/options-for-select.js';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
 import { veteranUpdateField } from '../../actions';
 
 /**
@@ -21,6 +24,10 @@ class DemographicInformationSection extends React.Component {
             <tr>
               <td>Gender:</td>
               <td>{this.props.data.gender.value}</td>
+            </tr>
+            <tr>
+              <td>Martial Status:</td>
+              <td>{this.props.data.maritalStatus.value}</td>
             </tr>
           </tbody>
         </table>
@@ -56,12 +63,19 @@ class DemographicInformationSection extends React.Component {
       </div>);
     } else {
       content = (<fieldset>
-        <legend>Demographic Information</legend>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <Gender required
               value={this.props.data.gender}
               onUserInput={(update) => {this.props.onStateChange('gender', update);}}/>
+
+          <ErrorableSelect required
+              errorMessage={validateIfDirty(this.props.data.maritalStatus, isNotBlank) ? undefined : 'Please select a marital status'}
+              label="Current marital status"
+              name="maritalStatus"
+              options={maritalStatuses}
+              value={this.props.data.maritalStatus}
+              onValueChange={(update) => {this.props.onStateChange('maritalStatus', update);}}/>
         </div>
 
         <div className="input-section">

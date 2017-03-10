@@ -5,9 +5,9 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 import GrowableTable from '../../../common/components/form-elements/GrowableTable.jsx';
 import Provider from './Provider.jsx';
 import { yesNo } from '../../../common/utils/options-for-select.js';
-import { isNotBlank, validateIfDirty } from '../../../common/utils/validations';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
 import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
-
+import { isValidSection } from '../../utils/validations';
 import { makeField } from '../../../common/model/fields';
 
 /**
@@ -41,7 +41,8 @@ class InsuranceInformationSection extends React.Component {
             initializeCurrentElement={() => {this.props.initializeFields(fields);}}
             onRowsUpdate={(update) => {this.props.onStateChange('providers', update);}}
             path="/insurance-information/general"
-            rows={this.props.data.providers}/>
+            rows={this.props.data.providers}
+            isValidSection={isValidSection}/>
       );
     } else {
       this.props.data.providers.length = 0;
@@ -95,7 +96,7 @@ class InsuranceInformationSection extends React.Component {
       </div>);
     } else {
       content = (<fieldset>
-        <legend>Coverage Information</legend>
+        <legend>Other Coverage</legend>
         <ErrorableRadioButtons required
             errorMessage={validateIfDirty(this.props.data.isCoveredByHealthInsurance, isNotBlank) ? '' : 'Please select a response'}
             label="Are you covered by health insurance? (Including coverage through a spouse or another person)"

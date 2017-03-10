@@ -1,22 +1,28 @@
 import React from 'react';
-import moment from 'moment';
 
+import { formatDate } from '../utils/helpers';
 import TrackPackageLink from './TrackPackageLink';
 
 class OrderHistory extends React.Component {
-  makeRow(item, index) {
+  constructor(props) {
+    super(props);
+    this.makeRow = this.makeRow.bind(this);
+  }
+
+  makeRow(item) {
     const attrs = item.attributes;
     return (
-      <tr key={index}>
+      <tr key={item.id}>
         <td>
-          Shipped on {moment(
-            attrs['shipped-date']
-          ).format('MMM D, YYYY')}
+          Shipped on {formatDate(attrs.shippedDate)}
         </td>
         <td>
           <TrackPackageLink
-              text={attrs['tracking-number']}/>
-          &nbsp;({attrs['delivery-service']})
+              className="rx-history-tracking"
+              external
+              text={attrs.trackingNumber}
+              url={item.links.trackingUrl}/>
+          &nbsp;({attrs.deliveryService.toUpperCase()})
         </td>
       </tr>
     );

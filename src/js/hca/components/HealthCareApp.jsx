@@ -1,20 +1,29 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { connect } from 'react-redux';
 import fetch from 'isomorphic-fetch';
 
-import IntroductionSection from './IntroductionSection.jsx';
-import Nav from './Nav.jsx';
-import ProgressButton from '../../common/components/form-elements/ProgressButton';
-import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp } from '../actions';
-import { veteranToApplication } from '../../common/model/veteran';
-import * as validations from '../../common/utils/validations';
+import environment from '../../common/helpers/environment';
 
-import PopulateVeteranButton from './debug/PopulateVeteranButton';
-import PerfPanel from './debug/PerfPanel';
-import RoutesDropdown from './debug/RoutesDropdown';
+import IntroductionSection from './IntroductionSection.jsx';
+import SegmentedProgressBar from '../../common/components/SegmentedProgressBar';
+import NavHeader from '../../common/components/NavHeader';
+import FormTitle from '../../common/schemaform/FormTitle.jsx';
+import ProgressButton from '../../common/components/form-elements/ProgressButton';
+import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp, setAttemptedSubmit } from '../actions';
+import { veteranToApplication } from '../../common/model/veteran';
+import { getScrollOptions } from '../../common/utils/helpers';
+import * as validations from '../utils/validations';
+import { chapters } from '../routes';
+
+// TODO(awong): Find some way to remove code when in production. It might require System.import()
+// and a promise.
+// import PopulateVeteranButton from './debug/PopulateVeteranButton';
+// import PerfPanel from './debug/PerfPanel';
+// import RoutesDropdown from './debug/RoutesDropdown';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -25,9 +34,11 @@ class HealthCareApp extends React.Component {
     this.handleBack = this.handleBack.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.checkDependencies = this.checkDependencies.bind(this);
     this.getUrl = this.getUrl.bind(this);
     this.removeOnbeforeunload = this.removeOnbeforeunload.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
+    this.state = { hasAttemptedSubmit: false };
   }
 
   componentWillMount() {
@@ -48,31 +59,46 @@ class HealthCareApp extends React.Component {
     return message;
   }
 
-  getUrl(direction) {
+  getUrl(direction, markAsComplete) {
     const routes = this.props.route.childRoutes;
-    const panels = [];
-    let currentPath = this.props.location.pathname;
-    let nextPath = '';
+    const paths = routes.map((d) => { return d.path; });
+    const data = this.props.data;
 
-    // TODO(awong): remove the '/' alias for '/introduction' using history.replaceState()
+    let currentPath = this.props.location.pathname;
     if (currentPath === '/') {
       currentPath = '/introduction';
     }
+    const currentIndex = paths.indexOf(currentPath);
+    const increment = direction === 'back' ? -1 : 1;
 
-    panels.push.apply(panels, routes.map((obj) => { return obj.path; }));
-
-    for (let i = 0; i < panels.length; i++) {
-      if (currentPath === panels[i]) {
-        if (direction === 'back') {
-          nextPath = panels[i - 1];
+    let nextPath = '';
+    for (let i = currentIndex; i >= 0 && i <= routes.length; i += increment) {
+      const route = routes[i + increment];
+      if (route) {
+        // Check to see if we should skip the next route
+        if (route.depends !== undefined && !this.checkDependencies(route.depends, data)) {
+          if (markAsComplete) {
+            this.props.onCompletedStatus(route.path);
+          }
+          continue;
         } else {
-          nextPath = panels[i + 1];
+          nextPath = route.path;
+          break;
         }
-        break;
       }
     }
 
     return nextPath;
+  }
+
+  checkDependencies(depends, data) {
+    const arr = _.isArray(depends) ? depends : [depends];
+    for (let i = 0; i < arr.length; i++) {
+      if (_.matches(arr[i])(data)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   removeOnbeforeunload() {
@@ -80,11 +106,7 @@ class HealthCareApp extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo('topScrollElement', {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    });
+    scroller.scrollTo('topScrollElement', getScrollOptions());
   }
 
   handleContinue() {
@@ -94,7 +116,7 @@ class HealthCareApp extends React.Component {
 
     this.props.onFieldsInitialized(sectionFields);
     if (validations.isValidSection(path, formData)) {
-      this.context.router.push(this.getUrl('next'));
+      this.context.router.push(this.getUrl('next', true));
       this.props.onCompletedStatus(path);
     }
     this.scrollToTop();
@@ -109,22 +131,45 @@ class HealthCareApp extends React.Component {
     e.preventDefault();
     const veteran = this.props.data;
     const path = this.props.location.pathname;
+    let apiUrl = `${window.VetsGov.api.url}/api/hca/v1/application`;
+    let formSubmissionId;
+    let timestamp;
+    const testBuild = __BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging';
+    const submissionPost = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      timeout: 10000, // 10 seconds
+      body: veteranToApplication(veteran)
+    };
 
     window.dataLayer.push({ event: 'submit-button-clicked' });
+    const formIsValid = validations.isValidForm(veteran);
 
-    if (validations.isValidForm(veteran)) {
+    const userToken = sessionStorage.userToken;
+    if (userToken) {
+      submissionPost.headers.Authorization = `Token token=${userToken}`;
+    }
+
+    // In order to test the new Rails API in staging, we are temporarily changing the
+    // endpoints to submit to the new API. Keeping the same endpoints for production.
+    if (testBuild) {
+      // Allow e2e tests to override API URL
+      // Remove the need for a separate code path here
+      apiUrl = window.VetsGov.api.url === ''
+        ? `${environment.API_URL}/v0/health_care_applications`
+        : `${window.VetsGov.api.url}/v0/health_care_applications`;
+
+      submissionPost.body = JSON.stringify({ form: submissionPost.body });
+    }
+
+    if (formIsValid && veteran.privacyAgreementAccepted) {
       this.props.onUpdateSubmissionStatus('submitPending');
 
       // POST data to endpoint
-      fetch(`${window.VetsGov.api.url}/api/hca/v1/application`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        timeout: 10000, // 10 seconds
-        body: veteranToApplication(veteran)
-      }).then(response => {
+      fetch(apiUrl, submissionPost).then(response => {
         if (!response.ok) {
           throw new Error(response.statusText);
         }
@@ -133,14 +178,22 @@ class HealthCareApp extends React.Component {
         this.removeOnbeforeunload();
 
         response.json().then(data => {
+          if (testBuild) {
+            formSubmissionId = data.formSubmissionId;
+            timestamp = data.timestamp;
+          } else {
+            formSubmissionId = data.response.formSubmissionId;
+            timestamp = data.response.timeStamp;
+          }
+
           this.props.onUpdateSubmissionStatus('applicationSubmitted', data);
           this.props.onCompletedStatus(path);
-          this.props.onUpdateSubmissionId(data.response.formSubmissionId);
-          this.props.onUpdateSubmissionTimestamp(data.response.timeStamp);
+          this.props.onUpdateSubmissionId(formSubmissionId);
+          this.props.onUpdateSubmissionTimestamp(timestamp);
 
           window.dataLayer.push({
             event: 'submission-successful',
-            submissionID: data.response.formSubmissionId
+            submissionID: formSubmissionId
           });
         });
 
@@ -160,8 +213,13 @@ class HealthCareApp extends React.Component {
         });
       });
     } else {
-      this.scrollToTop();
-      // TODO(crew): Decide on/add validation error message.
+      // don't scroll if the form is valid but privacy box isn't checked
+      if (!formIsValid) {
+        this.scrollToTop();
+        // TODO(crew): Decide on/add validation error message.
+      } else {
+        this.props.setAttemptedSubmit();
+      }
     }
   }
 
@@ -218,8 +276,10 @@ class HealthCareApp extends React.Component {
       );
     } else {
       submitMessage = (<div className="usa-alert usa-alert-error">
-        <p><strong>Due to a system error, we weren't able to process your application. Please try again later.</strong></p>
-        <p>We apologize for the inconvenience. If you'd like to complete this form by phone, please call 877-222-VETS (8387) and press 2, M-F 7:00 a.m.to 7:00 p.m. (CST), Sat 9:00 a.m. to 5:30 p.m. (CST).</p>
+        <div className="usa-alert-body">
+          <span><strong>Due to a system error, we weren't able to process your application. Please try again later.</strong></span>
+          <span>We apologize for the inconvenience. If you'd like to complete this form by phone, please call 877-222-VETS (8387) and press 2, M-F 7:00 a.m.to 7:00 p.m. (CST), Sat 9:00 a.m. to 5:30 p.m. (CST).</span>
+        </div>
       </div>);
       submitButton = (
         <ProgressButton
@@ -232,7 +292,7 @@ class HealthCareApp extends React.Component {
 
     if (this.props.location.pathname === '/review-and-submit') {
       buttons = (<div>
-        <div className="row form-progress-buttons">
+        <div className="row progress-buttons">
           <div className="small-6 medium-5 columns">
             {backButton}
           </div>
@@ -251,7 +311,7 @@ class HealthCareApp extends React.Component {
       </div>);
     } else if (this.props.location.pathname === '/introduction') {
       buttons = (
-        <div className="row form-progress-buttons">
+        <div className="row progress-buttons">
           <div className="small-6 medium-5 columns">
             <ProgressButton
                 onButtonClick={this.handleContinue}
@@ -263,7 +323,7 @@ class HealthCareApp extends React.Component {
       );
     } else if (this.props.location.pathname === '/submit-message') {
       buttons = (
-        <div className="row form-progress-buttons">
+        <div className="row progress-buttons">
           <div className="small-6 medium-5 columns">
             {/* TODO: Figure out where this button should take the user. */}
             <a href="/">
@@ -274,7 +334,7 @@ class HealthCareApp extends React.Component {
       );
     } else {
       buttons = (
-        <div className="row form-progress-buttons">
+        <div className="row progress-buttons">
           <div className="small-6 medium-5 columns">
             {backButton}
           </div>
@@ -284,31 +344,61 @@ class HealthCareApp extends React.Component {
         </div>
       );
     }
-    let devPanel = undefined;
-    if (__BUILDTYPE__ === 'development') {
-      const queryParams = _.fromPairs(
-        window.location.search.substring(1).split('&').map((v) => { return v.split('='); }));
-      if (queryParams.devPanel === '1') {
-        devPanel = (
-          <div className="row">
-            <RoutesDropdown/>
-            <PopulateVeteranButton/>
-            <PerfPanel/>
-          </div>
-        );
+
+    // This no longer works
+    // let devPanel = undefined;
+    // if (__DEV__) {
+    //   const queryParams = _.fromPairs(
+    //     window.location.search.substring(1).split('&').map((v) => { return v.split('='); }));
+    //   if (queryParams.devPanel === '1') {
+    //     devPanel = (
+    //       <div className="row">
+    //         <RoutesDropdown/>
+    //         <PopulateVeteranButton/>
+    //         <PerfPanel/>
+    //       </div>
+    //     );
+    //   }
+    // }
+
+    // Until we come up with a common code base between this and the schemaform
+    //  forms, the following is borrowed from NavHeader
+    let step;
+    chapters.forEach((chapter, index) => {
+      if (chapter.pages.some(page => page.path === this.props.location.pathname)) {
+        step = index + 1;
       }
-    }
+    });
+
+    let contentClass = classNames(
+      'progress-box',
+      'progress-box-schemaform',
+      // Align the intro and confirmation content with the title
+      { 'intro-content': _.includes(['/introduction', '/submit-message'], this.props.location.pathname) }
+    );
 
     return (
       <div>
-        {devPanel}
         <div className="row">
           <Element name="topScrollElement"/>
+          {/*
           <div className="medium-4 columns show-for-medium-up">
-            <Nav currentUrl={this.props.location.pathname}/>
+            <Nav
+                data={this.props.data}
+                pages={this.props.uiState.sections}
+                chapters={chapters}
+                currentUrl={this.props.location.pathname}/>
           </div>
+          */}
           <div className="medium-8 columns">
-            <div className="progress-box">
+            <FormTitle title="Apply online for health care with the 10-10ez" subTitle="OMB No. 2900-0091"/>
+            <div>
+              {!_.includes(['/introduction', '/submit-message'], this.props.location.pathname) && <SegmentedProgressBar total={chapters.length} current={step}/>}
+              <div className="schemaform-chapter-progress">
+                <NavHeader path={this.props.location.pathname} chapters={chapters} className="nav-header-schemaform"/>
+              </div>
+            </div>
+            <div className={contentClass}>
             {/* TODO: Figure out why <form> adds fields to url, and change action to reflect actual action for form submission. */}
               <div className="form-panel">
                 {children}
@@ -329,8 +419,8 @@ HealthCareApp.contextTypes = {
 
 function mapStateToProps(state) {
   return {
-    data: state.veteran,
     uiState: state.uiState,
+    data: state.veteran,
   };
 }
 
@@ -351,6 +441,9 @@ function mapDispatchToProps(dispatch) {
     onCompletedStatus: (route) => {
       dispatch(updateCompletedStatus(route));
     },
+    setAttemptedSubmit: (...args) => {
+      dispatch(setAttemptedSubmit(...args));
+    }
   };
 }
 

@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { ensureFieldsInitialized, updateIncompleteStatus, updateVerifiedStatus, updateCompletedStatus } from '../actions';
-import * as validations from '../../common/utils/validations';
+import { isValidSection } from '../utils/validations';
+import { getScrollOptions } from '../../common/utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -29,11 +30,8 @@ class ReviewCollapsiblePanel extends React.Component {
   }
 
   scrollToTop() {
-    scroller.scrollTo('topScrollReviewPanel', {
-      duration: 500,
-      delay: 2,
-      smooth: true,
-    });
+    const options = getScrollOptions({ delay: 2 });
+    scroller.scrollTo('topScrollReviewPanel', options);
   }
 
   handleSave() {
@@ -42,7 +40,7 @@ class ReviewCollapsiblePanel extends React.Component {
     const sectionFields = this.props.uiData.sections[currentPath].fields;
 
     this.props.onFieldsInitialized(sectionFields);
-    if (validations.isValidSection(currentPath, formData)) {
+    if (isValidSection(currentPath, formData)) {
       this.props.onUpdateSaveStatus(currentPath);
     }
     this.scrollToTop();
