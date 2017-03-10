@@ -45,6 +45,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply now</a>
 
+[Learn about the application process](/healthcare/application-process/)
 <div markdown="0"><br></div>
 
 ### I need dental or vision (eye) care. How can I find out if I can get it through VA?
