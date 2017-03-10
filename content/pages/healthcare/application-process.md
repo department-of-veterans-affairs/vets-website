@@ -83,6 +83,6 @@ Fill out VA form 10-10CG.
 
 [Find out what to expect after you send in your application](/healthcare/after-you-apply).
 
-Already signed up? You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. [Manage your VA health care](/healthcare/). 
+Already signed up? You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. [Manage your VA health care](/healthcare). 
 
 <div markdown="0"><br></div>
