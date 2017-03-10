@@ -20,7 +20,10 @@ const rasterizeHTML = readFileSync('./node_modules/rasterizehtml/dist/rasterizeH
 let currentSHA = 'current';
 exec('git rev-parse HEAD', (err, stdout) => {
   currentSHA = stdout.substr(0, 7);
+<<<<<<< HEAD
   currentSHA = stdout.replace(/\r?\n|\r/, '');
+=======
+>>>>>>> 9becdc61d4a2b1d83f217cdd18976069ef884d84
 });
 
 // Inject rasterizeHTML
@@ -51,7 +54,10 @@ function checkDependencies(client) {
 }
 
 // Create directories if needed
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9becdc61d4a2b1d83f217cdd18976069ef884d84
 function setupDirectories(module) {
   const arr = ['./logs', 'screenshots', currentSHA, module];
   arr.forEach((d, i) => {
@@ -63,7 +69,10 @@ function setupDirectories(module) {
 }
 
 function takeScreenshot(client, url) {
+<<<<<<< HEAD
   const filename = url.replace(/\//g, '_');
+=======
+>>>>>>> 9becdc61d4a2b1d83f217cdd18976069ef884d84
   const filename = url.replace(/\//g, '_').substr(1);
   checkDependencies(client);
 
@@ -100,6 +109,7 @@ function takeScreenshot(client, url) {
     function(base64){
       // Strip metadata from string 
       const data = base64.value.replace(/^data:image\/\w+;base64,/, '');
+<<<<<<< HEAD
 
       const module = client.currentTest.module.split('/').pop();
 
@@ -114,6 +124,8 @@ function takeScreenshot(client, url) {
         } else {
           console.log(`Saved screenshot to ${path}`);
         }
+=======
+>>>>>>> 9becdc61d4a2b1d83f217cdd18976069ef884d84
       const module = client.currentTest.module.split('/').pop();
 
       // Write screenshot to disk
