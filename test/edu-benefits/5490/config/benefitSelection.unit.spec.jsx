@@ -36,9 +36,6 @@ describe('Edu 5490 benefitSelection', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-
-    submitForm(form);
-
     expect(onSubmit.called).to.be.true;
   });
 });

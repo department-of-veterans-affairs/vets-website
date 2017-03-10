@@ -28,6 +28,30 @@ describe('Schemaform <RadioWidget>', () => {
     expect(tree.everySubTree('label')[0].text()).to.equal('Testing');
     expect(tree.everySubTree('label')[1].text()).to.equal('Testing2');
   });
+  it('should render label from options', () => {
+    const onChange = sinon.spy();
+    const enumOptions = [
+      {
+        label: 'Testing',
+        value: '1'
+      },
+      {
+        label: 'Testing2',
+        value: '2'
+      }
+    ];
+    const labels = {
+      1: 'Other'
+    };
+    const tree = SkinDeep.shallowRender(
+      <RadioWidget
+          value
+          onChange={onChange}
+          options={{ enumOptions, labels }}/>
+    );
+    expect(tree.everySubTree('label')[0].text()).to.equal('Other');
+    expect(tree.everySubTree('label')[1].text()).to.equal('Testing2');
+  });
   it('should handle change', () => {
     const onChange = sinon.spy();
     const enumOptions = [

@@ -1,7 +1,34 @@
-import transform from '../helpers';
+import {
+  transform,
+  eligibilityDescription
+} from '../helpers';
+
+import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
+
+import contactInformation from '../../pages/contactInformation';
+import directDeposit from '../../pages/directDeposit';
+
+import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
+import * as fullName from '../../../common/schemaform/definitions/fullName';
+import * as ssn from '../../../common/schemaform/definitions/ssn';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+
+import {
+  benefitsLabels,
+  relationshipLabels,
+  genderLabels
+} from '../../utils/helpers';
+
+const {
+  gender,
+  relationship
+} = fullSchema1990e.definitions;
+
+const {
+  benefit
+} = fullSchema1990e.properties;
 
 const formConfig = {
   urlPrefix: '/1990e/',
@@ -18,13 +45,70 @@ const formConfig = {
       pages: {
         applicantInformation: {
           path: 'applicant-information',
-          title: 'Applicant information'
+          title: 'Applicant information',
+          initialData: {},
+          uiSchema: {
+            relativeFullName: fullName.uiSchema,
+            relativeSocialSecurityNumber: ssn.uiSchema,
+            relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
+            gender: {
+              'ui:widget': 'radio',
+              'ui:title': 'Gender',
+              'ui:options': {
+                labels: genderLabels
+              }
+            },
+            relationship: {
+              'ui:widget': 'radio',
+              'ui:title': 'What is your relationship to the service member whose benefit is being transferred to you?',
+              'ui:options': {
+                labels: relationshipLabels
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['relativeFullName'],
+            properties: {
+              relativeFullName: fullName.schema,
+              relativeSocialSecurityNumber: ssn.schema,
+              relativeDateOfBirth: currentOrPastDate.schema,
+              gender,
+              relationship
+            }
+          }
         }
       }
     },
     benefitEligibility: {
       title: 'Benefit Eligibility',
       pages: {
+        benefitEligibility: {
+          path: 'benefit-eligibility',
+          title: 'Benefit Eligibility',
+          uiSchema: {
+            'view:benefitDescription': {
+              'ui:description': eligibilityDescription
+            },
+            benefit: {
+              'ui:widget': 'radio',
+              'ui:title': 'Select the benefit that is the best match for you.',
+              'ui:options': {
+                labels: benefitsLabels
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:benefitDescription': {
+                type: 'object',
+                properties: {}
+              },
+              benefit
+            }
+          },
+        }
       }
     },
     sponsorVeteran: {
@@ -50,6 +134,8 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
+        contactInformation,
+        directDeposit
       }
     }
   }
