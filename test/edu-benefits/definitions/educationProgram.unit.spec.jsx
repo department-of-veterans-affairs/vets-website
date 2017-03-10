@@ -5,7 +5,15 @@ import ReactTestUtils from 'react-addons-test-utils';
 
 import { DefinitionTester } from '../../util/schemaform-utils.jsx';
 import * as formConfig from '../../../src/js/edu-benefits/definitions/educationProgram';
-import { educationType } from 'vets-json-schema/dist/definitions.json';
+import { educationProgram, educationType, date } from 'vets-json-schema/dist/definitions.json';
+
+const schemaWithEdu = {
+  definitions: {
+    educationProgram,
+    educationType,
+    date
+  }
+};
 
 describe('Edu educationProgram', () => {
   const { schema, uiSchema } = formConfig;
@@ -13,7 +21,7 @@ describe('Edu educationProgram', () => {
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          schema={schema()}
+          schema={schema(schemaWithEdu)}
           data={{}}
           definitions={{ educationType }}
           uiSchema={uiSchema}/>
@@ -30,7 +38,7 @@ describe('Edu educationProgram', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           formData={{}}
-          schema={schema()}
+          schema={schema(schemaWithEdu)}
           data={{}}
           definitions={{ educationType }}
           uiSchema={uiSchema}/>

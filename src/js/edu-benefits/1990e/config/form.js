@@ -5,10 +5,9 @@ import {
 
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
-import * as educationProgram from '../../definitions/educationProgram';
-
 import contactInformation from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
+import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
@@ -30,8 +29,6 @@ const {
 
 const {
   benefit,
-  educationObjective,
-  nonVaAssistance
 } = fullSchema1990e.properties;
 
 const {
@@ -142,29 +139,11 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: {
-          title: 'School selection',
-          path: 'school-selection',
-          uiSchema: {
-            educationProgram: educationProgram.uiSchema,
-            educationObjective: {
-              'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
-              'ui:widget': 'textarea'
-            },
-            nonVaAssistance: {
-              'ui:title': 'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
-              'ui:widget': 'yesNo'
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              educationProgram: educationProgram.schema(),
-              educationObjective,
-              nonVaAssistance
-            }
-          }
-        }
+        schoolSelection: createSchoolSelectionPage(fullSchema1990e, [
+          'educationProgram',
+          'educationObjective',
+          'nonVaAssistance'
+        ])
       }
     },
     personalInformation: {
@@ -176,6 +155,5 @@ const formConfig = {
     }
   }
 };
-
 
 export default formConfig;
