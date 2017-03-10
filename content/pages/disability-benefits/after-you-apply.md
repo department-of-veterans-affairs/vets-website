@@ -38,29 +38,53 @@ You don't need to do anything unless we send you a letter asking for more inform
 
 ### What happens after I apply?
 
+<ol class="process">
+<li class="step one">
+
 #### Claim Received
 
 You’ll see a notice from us in your claims list within about 1 hour if you applied online with VONAPP Direct Connect. If you applied through the U.S. mail, you’ll need to allow for mailing time plus 1 week before you get a note telling you we have your claim.
+
+</li>
+
+<li class="step two">
 
 #### Initial Review
 
 A Veterans Service Representative (VSR) will review your claim. It’ll move to step 3 if we don’t need any more evidence to support it.
 
+</li>
+
+<li class="step three">
+
 #### Evidence Gathering, Review, and Decision
 
 During this step, the VSR will do 3 things:
+
 - Ask for evidence from you, health care providers, governmental agencies, or others
 - Review the evidence
 - Make a decision
-- If we need more evidence during the review, your claim may return to this step more than once.
+
+If we need more evidence during the review, your claim may return to this step more than once.
+
+</li>
+
+<li class="step four">
  
 #### Preparation for Notification
 
 We’ll get your entire claim decision packet ready to be mailed.
 
+</li>
+
+<li class="step last five">
+
 #### Claim Complete
 
 We’ll send you a packet by U.S. mail that includes details of the decision on your claim. Please allow 7 to 10 business days for your packet to arrive before contacting a VA call center.
+
+</li>
+</ol>
 
 ### What should I do if I disagree with your decision?
 
