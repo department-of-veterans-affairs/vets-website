@@ -30,7 +30,7 @@ export default function applicantInformation(
 
   return {
     path: 'applicant-information',
-    title: 'Applicant information',
+    title: 'Applicant Information',
     initialData: {},
     uiSchema: {
       'ui:order': fields,
