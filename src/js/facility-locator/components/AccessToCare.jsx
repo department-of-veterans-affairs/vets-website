@@ -49,8 +49,10 @@ export default class AccessToCare extends Component {
       return null;
     }
 
-    // hide entire section of all values are null
-    if (every(values(facility.attributes.feedback.health), e => !e)) {
+    const notVHAFacility = facility.attributes.facility_type !== 'va_health_facility';
+    const allValuesNull = every(values(facility.attributes.feedback.health), e => !e);
+
+    if (notVHAFacility || allValuesNull) {
       return null;
     }
 
