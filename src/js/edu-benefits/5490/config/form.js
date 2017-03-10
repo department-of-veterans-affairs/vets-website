@@ -13,7 +13,6 @@ import { showSchoolAddress } from '../../utils/helpers';
 import { states } from '../../../common/utils/options-for-select';
 
 import * as address from '../../../common/schemaform/definitions/address';
-import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
