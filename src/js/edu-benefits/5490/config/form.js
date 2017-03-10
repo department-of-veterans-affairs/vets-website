@@ -16,7 +16,7 @@ import * as address from '../../../common/schemaform/definitions/address';
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
-import * as fullName from '../../../common/schemaform/definitions/fullName';
+import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
 import * as educationType from '../../definitions/educationType';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
@@ -44,14 +44,19 @@ const {
   trainingState,
   veteranDateOfBirth,
   veteranDateOfDeath,
-  vocationalTraining
+  vocationalTraining,
 } = fullSchema5490.properties;
 
 const {
   nonMilitaryJobs,
   relationship,
-  secondaryContact
+  secondaryContact,
+  fullName
 } = fullSchema5490.definitions;
+
+const nonRequiredFullName = _.assign(fullName, {
+  required: []
+});
 
 const stateLabels = states.USA.reduce((current, { label, value }) => {
   return _.merge(current, { [value]: label });
@@ -69,7 +74,7 @@ const formConfig = {
   defaultDefinitions: {
     date: date.schema,
     educationType: educationType.schema,
-    fullName: fullName.schema,
+    fullName,
     ssn: ssn.schema
   },
   chapters: {
@@ -165,10 +170,17 @@ const formConfig = {
                   expandUnder: 'view:claimedSponsorService'
                 }
               },
-              veteranFullName: _.merge(fullName.uiSchema, {
+              veteranFullName: _.merge(fullNameUISchema, {
                 'ui:title': 'Sponsor Veteran’s name',
                 'ui:options': {
-                  expandUnder: 'view:claimedSponsorService'
+                  expandUnder: 'view:claimedSponsorService',
+                  updateSchema: (data, form) => {
+                    if (_.get(['previousBenefits', 'data', 'previousBenefits', 'view:claimedSponsorService'], form)) {
+                      return fullName;
+                    }
+
+                    return nonRequiredFullName;
+                  }
                 }
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
@@ -185,13 +197,17 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              previousBenefits: _.merge(previousBenefits, {
-                properties: {
-                  'view:noPreviousBenefits': { type: 'boolean' },
-                  'view:ownServiceBenefits': { type: 'boolean' },
-                  'view:claimedSponsorService': { type: 'boolean' }
+              previousBenefits: _.merge(
+                _.unset('properties.veteranFullName', previousBenefits),
+                {
+                  properties: {
+                    'view:noPreviousBenefits': { type: 'boolean' },
+                    'view:ownServiceBenefits': { type: 'boolean' },
+                    'view:claimedSponsorService': { type: 'boolean' },
+                    veteranFullName: fullName
+                  }
                 }
-              })
+              )
             }
           }
         }
@@ -227,7 +243,7 @@ const formConfig = {
                 hideIf: (fieldData) => fieldData.relationship !== 'spouse'
               }
             },
-            relativeFullName: _.assign(fullName.uiSchema, {
+            relativeFullName: _.assign(fullNameUISchema, {
               'ui:title': 'Name of Sponsor'
             }),
             veteranSocialSecurityNumber: ssn.uiSchema,
@@ -243,7 +259,7 @@ const formConfig = {
             properties: {
               relationship,
               spouseInfo,
-              relativeFullName: fullName.schema,
+              relativeFullName: fullName,
               veteranSocialSecurityNumber: ssn.schema,
               veteranDateOfBirth,
               veteranDateOfDeath
