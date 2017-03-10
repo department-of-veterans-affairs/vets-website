@@ -1,64 +1,31 @@
 ---
 layout: page-breadcrumbs.html
-title: After You Apply Template
+title: After You Apply for Education Benefits
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
+ - url: /education/tools-programs/education-career-counseling/
+   title: Education and career counseling
+   description: "Help choosing civilian careers"
 ---
 
-Optional text to introduce the after you apply page.
 
 ### How long does it take VA to make a decision?
 
 <div class="call-out" markdown="0">
 
 <h3 style="padding:0">30 days</h3>
-<p style="padding:0">Average time to process disability-related claims in January 2017.</p>
+<p style="padding:0">Average time to process education claims.</p>
 
 </div>
 
-#### The amount of time it takes to review your claim depends on:
-
-- Reason
-- Reason
-
 ### What should I do while I wait?
 
-Text describing actions you can take, like checking claim status or gathering evidence
-
-<a class="usa-button-primary" href="http://www.google.com">Track the status of your claim</a>
-
-<div markdown="0"><br></div>
+The transition from military to civilian life can be challenging. We offer tools and counseling programs to help you make the most of your educational options. [Learn about education and career couseling](/education/tools-programs/education-career-counseling/).
 
 ### What happens after I apply?
 
-#### Step one
-
-- Process task
-- Process task
-
-#### Step two
-
-- Process task
-- Process task
-
-#### Step three
-
-- Process task
-- Process task
-
-### What happens after I receive a decision?
-
-Text describing actions you can take like appealing a decision, or services you can use on Vets.gov. 
-
-- Bullet
-- Bullet
+You’ll get a Certificate of Eligibility (COE) or Award Letter in the mail if your application was approved. Bring this to the VA certifying official at your school.
 
 <div markdown="0"><br></div>
