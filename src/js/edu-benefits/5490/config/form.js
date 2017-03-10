@@ -13,6 +13,7 @@ import { showSchoolAddress } from '../../utils/helpers';
 import { states } from '../../../common/utils/options-for-select';
 
 import * as address from '../../../common/schemaform/definitions/address';
+import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
@@ -22,7 +23,6 @@ import * as toursOfDuty from '../../definitions/toursOfDuty';
 import * as educationType from '../../definitions/educationType';
 
 import contactInformation from '../../pages/contactInformation';
-import directDeposit from '../../pages/directDeposit';
 
 import applicantInformation from '../../pages/applicantInformation';
 
@@ -76,7 +76,12 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation
+        applicantInformation: applicantInformation([
+          'relativeFullName',
+          'relativeSocialSecurityNumber',
+          'relativeDateOfBirth',
+          'gender'
+        ])
       }
     },
     benefitSelection: {
@@ -385,7 +390,21 @@ const formConfig = {
             }
           }
         },
-        directDeposit
+        directDeposit: {
+          title: 'Direct deposit',
+          path: 'personal-information/direct-deposit',
+          initialData: {},
+          uiSchema: {
+            'ui:title': 'Direct deposit',
+            bankAccount: bankAccount.uiSchema,
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              bankAccount: bankAccount.schema
+            }
+          }
+        }
       }
     }
   }

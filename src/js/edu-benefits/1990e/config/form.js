@@ -33,7 +33,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation
+        applicantInformation: applicantInformation()
       }
     },
     benefitEligibility: {
