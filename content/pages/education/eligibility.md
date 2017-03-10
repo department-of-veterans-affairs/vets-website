@@ -45,16 +45,18 @@ You may be eligible if:
 ### Ready to apply?
 
 <a class="usa-button-primary va-button-primary" href="//education/apply-for-education-benefits/">Apply online</a>
+<div markdown="0"><br></div>
 [Learn about the application process](/education/application-process/)
 
-You can also manage education benefits you are already using
+You can also manage education benefits you're already using
+<div markdown="0"><br></div>
 <a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline" target="_blank">Manage Benefits</a>
 
 <div markdown="0"><br></div>
 
 ### Advanced training and certifications
 
-You can use GI BIll to help pay for licensing and certifications. You can become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional. [Learn about this benefit that will help you pay the fees for advanced training and certifications](/education/advanced-training-and-certifications/).
+You can use GI BIll to help pay for licensing and certifications so you can become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional. [Learn about this benefit](/education/advanced-training-and-certifications/).
 
 
 <div markdown="0"><br></div>
