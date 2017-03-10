@@ -32,10 +32,13 @@ You may be eligible for up to 36 months of benefits if your sponsor hasn't used 
 ### Am I eligible for the Montgomery GI Bill? 
 
 - If you served at least 2 years on active duty, you may be eligible for the MGIB-AD program, **and**
-- You were honorably discharged.
-- You have a high school diploma, GED, or 12 hours of college credit.
+- You were honorably discharged, **and**
+- You have a high school diploma, GED, or 12 hours of college credit, **and** 
 - You meet other requirements. [Learn more about the Montgomery GI Bill](/education/gi-bill/montgomery-active-duty/).
 
+</div>
+
+<div markdown="0"><br></div>
 
 ### Ready to apply?
 
@@ -43,11 +46,11 @@ You may be eligible for up to 36 months of benefits if your sponsor hasn't used 
 
 <div markdown="0"><br></div>
 
-### Other benefit coverage information
+### Advanced training and certifications
 
-Information about additional or specific coverage attached to this benefit
+Learn about how to use the GI BIll to help pay for licensing and certifications. You can become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional.
 
-- Bullet
+(/education/advanced-training-and-certifications/)
 - Bullet
 
 <div markdown="0"><br></div>
