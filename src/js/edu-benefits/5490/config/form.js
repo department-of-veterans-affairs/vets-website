@@ -45,6 +45,7 @@ const {
   veteranDateOfBirth,
   veteranDateOfDeath,
   vocationalTraining,
+  relativeFullName
 } = fullSchema5490.properties;
 
 const {
