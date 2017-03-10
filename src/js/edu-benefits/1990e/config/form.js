@@ -5,6 +5,10 @@ import {
 
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
+
+import contactInformation from '../../pages/contactInformation';
+import directDeposit from '../../pages/directDeposit';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -86,6 +90,8 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
+        contactInformation,
+        directDeposit
       }
     }
   }
