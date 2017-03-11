@@ -1,16 +1,16 @@
 ---
 layout: page-breadcrumbs.html
-title: Disability Eligibility 
+title: Disability Benefits Eligibility 
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
+ - url: /disability-benefits/apply/
+   title: Disability Benefits Application Process
+   description: "Learn about how to apply for disability"
+ - url: /disability-benefits/after-you-apply/
+   title: What happens after you apply
+   description: Learn what happens after you apply for disability""
 ---
 
 If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
@@ -35,7 +35,6 @@ Who's covered?
 
 ### Ready to apply?
 
-[Learn about the application process](/disability-benefits/apply), or
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a>
 
 [Learn about the application process](/disability-benefits/apply)
