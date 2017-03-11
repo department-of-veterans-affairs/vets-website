@@ -5,12 +5,12 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
+ - url: /disability-benefits/claims-process/date/
+   title: How does VA decide when my disability compensation starts?
+   description: "Learn about when you can start getting your disability benefits"
+ - url: /disability-benefits/claims-process/what-happens-after-rating/
+   title: What to Expect after You Get a Disability Rating
+   description: "Find out what benefits you can get"
 ---
 
 ### How long does it take VA to make a decision?
@@ -18,7 +18,7 @@ relatedlinks:
 <div class="call-out" markdown="0">
 
 <h3 style="padding:0">121.8 days</h3>
-<p style="padding:0">Average time to process disability-related claims in January 2017.</p>
+<p style="padding:0">This was the average time it took us to process disability-related claims in January 2017.</p>
 
 </div>
 
