@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { showModal, calculatorInputChange } from '../../actions';
-import { calculatedBenefits } from '../../selectors/calculator';
+import { getDisplayedInputs } from '../../selectors/calculator';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 
@@ -29,7 +29,7 @@ export class CalculatorForm extends React.Component {
   }
 
   renderTuition() {
-    if (!this.props.calculated.displayed.tuition) return null;
+    if (!this.props.displayed.tuition) return null;
     return (
       <div className="row">
         <div className="small-12 columns">
@@ -41,7 +41,7 @@ export class CalculatorForm extends React.Component {
   }
 
   renderBooks() {
-    if (!this.props.calculated.displayed.books) return null;
+    if (!this.props.displayed.books) return null;
     return (
       <div className="row">
         <div className="small-12 columns">
@@ -53,7 +53,7 @@ export class CalculatorForm extends React.Component {
   }
 
   renderYellowRibbon() {
-    if (!this.props.calculated.displayed.yellowRibbon) return null;
+    if (!this.props.displayed.yellowRibbon) return null;
     const Amount = ({ condition }) => {
       if (!condition) return null;
       return (
@@ -86,7 +86,7 @@ export class CalculatorForm extends React.Component {
   }
 
   renderScholarships() {
-    if (!this.props.calculated.displayed.scholarships) return null;
+    if (!this.props.displayed.scholarships) return null;
     return (
       <div className="row">
         <div className="small-12 columns">
@@ -98,7 +98,7 @@ export class CalculatorForm extends React.Component {
   }
 
   renderEnrolled() {
-    if (!this.props.calculated.displayed.enrolled) return null;
+    if (!this.props.displayed.enrolled) return null;
     return (
       <div className="row">
         <div className="small-12 columns">
@@ -122,7 +122,7 @@ export class CalculatorForm extends React.Component {
   }
 
   renderCalendar() {
-    if (!this.props.calculated.displayed.calendar) return null;
+    if (!this.props.displayed.calendar) return null;
     const dependentDropdowns = (
       <div>
         <div className="row">
@@ -199,7 +199,7 @@ export class CalculatorForm extends React.Component {
   }
 
   renderKicker() {
-    if (!this.props.calculated.displayed.kicker) return null;
+    if (!this.props.displayed.kicker) return null;
     const KickerAmount = ({ condition }) => {
       if (!condition) return null;
       return (
@@ -232,7 +232,7 @@ export class CalculatorForm extends React.Component {
   }
 
   renderBuyUp() {
-    if (!this.props.calculated.displayed.buyUp) return null;
+    if (!this.props.displayed.buyUp) return null;
     const BuyUpAmount = ({ condition }) => {
       if (!condition) return null;
       return (
@@ -265,7 +265,7 @@ export class CalculatorForm extends React.Component {
   }
 
   renderWorking() {
-    if (!this.props.calculated.displayed.working) return null;
+    if (!this.props.displayed.working) return null;
     return (
       <div className="row">
         <div className="small-12 columns">
@@ -303,7 +303,7 @@ export class CalculatorForm extends React.Component {
   }
 
   render() {
-    if (!this.props.calculated) return null;
+    if (!this.props.displayed) return null;
     return (
       <div className="calculator-form">
         { this.renderTuition() }
@@ -325,7 +325,7 @@ const mapStateToProps = (state) => {
 
   return {
     calculator,
-    calculated: calculatedBenefits(state)
+    displayed: getDisplayedInputs(state)
   };
 };
 
