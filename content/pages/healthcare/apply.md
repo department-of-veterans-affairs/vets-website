@@ -33,7 +33,7 @@ Once you’ve figured out if you qualify, applying for VA health care is easy. F
 
 <div markdown="0"><br></div>
 
-### Apply online
+### Ready to apply?
 
 <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply online</a>
 
@@ -65,8 +65,30 @@ Go to your nearest VA medical center or clinic. Bring the 10-10EZ form with you.
 
 ### How do I apply as a caregiver?
 
-Fill out VA form 10-10CG.
+Fill out VA form 10-10CG. To get this form, you have to follow special download directions.  They are listed below. 
 [Download form 10-10CG](/healthcare/forms/vha-10-10CG.pdf). 
+
+**How to download the form**
+Internet Explorer:
+1. Right click on the link to the form (above).
+2. Choose Save Target As...
+3. Choose where you want to save the file on your hard drive.
+4. Click Save.
+Double click on the downloaded file to open it.
+
+Firefox or Chrome:
+1. Right click on the link to the form (above).
+2. Choose Save Link As...
+3. Choose where you want to save the file on your hard drive.
+4. Click Save.
+Double click on the downloaded file to open it.
+
+Safari:
+1. Right click on the link to the form (above).
+2. Choose Download Linked File As...
+3. Choose where you want to save the file on your hard drive.
+4. Click Save.
+Double click on the downloaded file to open it.
 
 <div markdown="0"><br></div>
 
@@ -74,7 +96,7 @@ Fill out VA form 10-10CG.
 
 [Find out what happens after you send in your application](/healthcare/after-you-apply).
 
-Already signed up? You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. 
+Already signed up? You can manage your VA health care online. You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. 
 
 <a class="usa-button-primary" href="/healthcare">Manage your VA health care</a>
 
