@@ -5,12 +5,9 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
+ - url: /healthcare/prescriptions
+   title: Manage your VA health care
+   description: "Refill a prescription, send a secure message to your health care provider, and more."
 ---
 
 After you’ve applied for VA health care, we’ll send you a letter in the mail to let you know if your application’s been approved. Find out what happens next.
