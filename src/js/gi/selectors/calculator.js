@@ -767,8 +767,7 @@ export const getDisplayedInputs = createSelector(
   getEligibilityDetails,
   getInstitution,
   getDerivedValues,
-  getFormInputs,
-  (eligibility, institution, derived, form) => {
+  (eligibility, institution, derived) => {
     let displayed = {
       tuition: true,
       books: false,
@@ -779,13 +778,11 @@ export const getDisplayedInputs = createSelector(
       enrolledOld: false,
       calendar: true,
       working: false,
-      termsNumber: false,
-      termsLength: false,
       kicker: true,
       buyUp: false,
     };
 
-    if ([eligibility, institution, derived, form].some(e => !e)) {
+    if ([eligibility, institution, derived].some(e => !e)) {
       return displayed;
     }
 
@@ -852,14 +849,6 @@ export const getDisplayedInputs = createSelector(
       displayed = {
         ...displayed,
         yellowRibbon: true
-      };
-    }
-
-    if (institution.type !== 'ojt' && form.calendar === 'nontraditional') {
-      displayed = {
-        ...displayed,
-        termsNumber: true,
-        termsLength: true
       };
     }
 
