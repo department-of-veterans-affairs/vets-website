@@ -75,14 +75,14 @@ Internet Explorer:
 3. Choose where you want to save the file on your hard drive.
 4. Click Save.
 Double click on the downloaded file to open it.
-<br>
+
 Firefox or Chrome:
 1. Right click on the link to the form (above).
 2. Choose Save Link As...
 3. Choose where you want to save the file on your hard drive.
 4. Click Save.
 Double click on the downloaded file to open it.
-<br>
+
 Safari:
 1. Right click on the link to the form (above).
 2. Choose Download Linked File As...
