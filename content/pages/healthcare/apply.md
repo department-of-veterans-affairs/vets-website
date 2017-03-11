@@ -5,12 +5,12 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
+ - url: /healthcare/eligibility/
+   title: Eligibility
+   description: "Find out if you can get VA healthcare"
+ - url: /healthcare/after-you-apply/
+   title: What happens after you apply
+   description: "Learn what to do to get the most out of your VA health care"
 ---
 
 Once you’ve figured out if you qualify, applying for VA health care is easy. Find out how to apply.
@@ -23,7 +23,7 @@ Once you’ve figured out if you qualify, applying for VA health care is easy. F
 
 <div class="call-out" markdown="1">
 
-What do I need to complete the 10-10EZ?
+### What do I need to complete the 10-10EZ?
 
 - Your most recent tax return
 - Social Security numbers for yourself and your qualified dependents
@@ -61,20 +61,21 @@ Go to your nearest VA medical center or clinic. Bring the 10-10EZ form with you.
 [Find a VA medical center or clinic near you](/facilities).
 [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
+<a class="usa-button-primary" href="http://www.google.com">Track the status of your claim</a>
 
 ### How do I apply as a caregiver?
 
 Fill out VA form 10-10CG.
 [Download form 10-10CG](/healthcare/forms/vha-10-10CG.pdf). 
 
-<a class="usa-button-primary" href="http://www.google.com">Track the status of your claim</a>
-
 <div markdown="0"><br></div>
 
 ### What happens after I apply?
 
-[Find out what to expect after you send in your application](/healthcare/after-you-apply).
+[Find out what happens after you send in your application](/healthcare/after-you-apply).
 
-Already signed up? You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. [Manage your VA health care](/healthcare). 
+Already signed up? You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. 
+
+<a class="usa-button-primary" href="/healthcare">Manage your VA health care</a>
 
 <div markdown="0"><br></div>
