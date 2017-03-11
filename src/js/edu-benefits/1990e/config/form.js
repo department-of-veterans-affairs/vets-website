@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash/fp';
 
 import {
   transform,
@@ -12,7 +12,7 @@ import directDeposit from '../../pages/directDeposit';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
-import * as fullNameCommon from '../../../common/schemaform/definitions/fullName';
+import { uiSchema as fullNameUiSchema } from '../../../common/schemaform/definitions/fullName';
 import * as ssnCommon from '../../../common/schemaform/definitions/ssn';
 import * as address from '../../../common/schemaform/definitions/address';
 
@@ -65,7 +65,7 @@ const formConfig = {
           title: 'Applicant information',
           initialData: {},
           uiSchema: {
-            relativeFullName: fullNameCommon.uiSchema,
+            relativeFullName: fullNameUiSchema,
             relativeSocialSecurityNumber: ssnCommon.uiSchema,
             relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
             gender: {
@@ -87,7 +87,7 @@ const formConfig = {
             type: 'object',
             required: ['relativeFullName'],
             properties: {
-              relativeFullName: fullNameCommon.schema,
+              relativeFullName: fullName,
               relativeSocialSecurityNumber: ssnCommon.schema,
               relativeDateOfBirth: currentOrPastDate.schema,
               gender,
@@ -153,7 +153,7 @@ const formConfig = {
                   }
                 }
               },
-              veteranSocialSecurityNumber: _.set(ssnCommon.uiSchema, ['ui:title'], 'Veteran Social Security number'),
+              veteranSocialSecurityNumber: _.set(['ui:title'], 'Veteran Social Security number', ssnCommon.uiSchema),
               veteranAddress: address.uiSchema('Veteran Address'),
               serviceBranch: {
                 'ui:title': 'Branch of Service'
