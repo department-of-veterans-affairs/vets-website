@@ -37,10 +37,15 @@ describe('Schemaform <StringField>', () => {
     };
     const schema = {
       type: 'string',
-      'enum': ['test'],
-      enumNames: ['Name']
+      'enum': ['test']
     };
-    const uiSchema = {};
+    const uiSchema = {
+      'ui:options': {
+        labels: {
+          test: 'Name'
+        }
+      }
+    };
     const formData = 'test';
 
     const tree = SkinDeep.shallowRender(
