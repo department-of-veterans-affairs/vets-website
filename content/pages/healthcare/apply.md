@@ -16,6 +16,12 @@ relatedlinks:
 Once you’ve figured out if you qualify, applying for VA health care is easy. Find out how to apply.
 
 ### Prepare
+- Check your eligibility
+- Gather documents that you'll need to apply
+
+<div markdown="0"><br></div>
+
+<div class="call-out" markdown="1">
 
 What do I need to complete the 10-10EZ?
 
@@ -23,31 +29,17 @@ What do I need to complete the 10-10EZ?
 - Social Security numbers for yourself and your qualified dependents
 - Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer)
 
-<div markdown="0"><br></div>
-
-<div class="call-out" markdown="1">
-
-</div>
-
-<div class="usa-alert usa-alert-warning usa-content secondary" markdown="0">
-<div class="usa-alert-body">
-<h4 style="padding:0">Alert describing an important exception</h4>
-<p style="margin:0">Text describing the exception and a <a href="http://www.google.com">link to do something</a></p>
-</div>
 </div>
 
 <div markdown="0"><br></div>
 
 ### Apply online
 
-Some optional text about the online application.
-
-<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction)">Apply online</a>
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply online</a>
 
 <div markdown="0"><br></div>
 
 ### Other ways to apply
-
 
 #### By phone
 
