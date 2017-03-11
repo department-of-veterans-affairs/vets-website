@@ -17,7 +17,7 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 <div class="call-out" markdown="0">
 
 <h3 style="padding:0">Less than 1 week</h3>
-<p style="padding:0">Average time to process claims. If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call 855-574-7286.</p>
+<p style="padding:0">If more than 1 week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call 855-574-7286.</p>
 
 </div>
 
@@ -68,19 +68,17 @@ You may have requested a doctor’s appointment when you applied (either in pers
 
 #### What if I need to see a doctor before my scheduled appointment?
 
-If you need to see a doctor before your scheduled appointment, contact your local VA medical center or clinic and ask for:
+If you need to see a doctor before your scheduled appointment, contact your local VA medical center or clinic. [Find VA location near you](/facilities). When you call, ask for:
 - The enrollment coordinator, or
 - The urgent care clinic, or
 - The emergency room
-
-[Find VA location near you](/facilities)
 
 </li>
 </ol>
 
 ### What should I do if my application isn’t approved and I disagree with the decision? 
 
-If your application isn’t approved and you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason we’re not approving your application. This letter will also include instructions on how to appeal the decision if you don’t agree with it. [Download our “How Do I Appeal?” booklet](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf) 
+If your application isn’t approved and you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason why we didn't approve your application. This letter will also include directions on how to appeal the decision if you don’t agree with it. [Download our “How Do I Appeal?” booklet](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf) 
 
 
 <div markdown="0"><br></div>
