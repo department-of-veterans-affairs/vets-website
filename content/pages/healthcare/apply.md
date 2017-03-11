@@ -65,7 +65,7 @@ Go to your nearest VA medical center or clinic. Bring the 10-10EZ form with you.
 
 ### How do I apply as a caregiver?
 
-Fill out VA form 10-10CG. To get this form, you have to follow special download directions.  They are listed below. 
+To apply for health care as a caregiver, you have to fill out **VA form 10-10CG**. To get this form, you have to follow special download directions.  They are listed below. 
 [Download form 10-10CG](/healthcare/forms/vha-10-10CG.pdf). 
 
 **How to download the form**
@@ -75,14 +75,14 @@ Internet Explorer:
 3. Choose where you want to save the file on your hard drive.
 4. Click Save.
 Double click on the downloaded file to open it.
-
+<br>
 Firefox or Chrome:
 1. Right click on the link to the form (above).
 2. Choose Save Link As...
 3. Choose where you want to save the file on your hard drive.
 4. Click Save.
 Double click on the downloaded file to open it.
-
+<br>
 Safari:
 1. Right click on the link to the form (above).
 2. Choose Download Linked File As...
@@ -98,6 +98,6 @@ Double click on the downloaded file to open it.
 
 Already signed up? You can manage your VA health care online. You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. 
 
-<a class="usa-button-primary" href="/healthcare">Manage your VA health care</a>
+<a class="usa-button-primary" href="/healthcare/prescriptions/">Manage your VA health care</a>
 
 <div markdown="0"><br></div>
