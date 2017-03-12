@@ -41,6 +41,11 @@ You may be eligible if:
 - You have a high school diploma, GED, or 12 hours of college credit, **and** 
 - You meet other requirements. [Learn more about the Montgomery GI Bill](/education/gi-bill/montgomery-active-duty/).
 
+### Other programs 
+
+- There are many ways we can help you pay for school, like Survivors and Dependents' Assistance. [Learn about other programs](/education/gi-bill/). 
+- [Learn about the education benefits application process](/education/apply). 
+
 </div>
 
 <div markdown="0"><br></div>
