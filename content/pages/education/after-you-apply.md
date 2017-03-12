@@ -10,6 +10,7 @@ relatedlinks:
    description: "Help choosing civilian careers"
 ---
 
+Getting your degree, specialization certificate, or other professional license is a way to get a leg up on a sucessful transition from the military into civilian life. Find out what happens after you apply for education benefits. 
 
 ### How long does it take us to make a decision?
 
