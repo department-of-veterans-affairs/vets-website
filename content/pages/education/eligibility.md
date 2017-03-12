@@ -23,7 +23,7 @@ You may be eligible if:
 
 - You meet the basic requirements for any GI Bill program.
 - You've served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001.
-[Learn more about the GI Bill](/education/gi-bill/post-9-11/)
+[Learn more about the GI Bill](/education/gi-bill/post-9-11/).
 
 ### As a dependent, am I eligible for the Post 9/11 GI Bill?
 
@@ -44,7 +44,6 @@ You may be eligible if:
 
 ### Ready to apply?
 
-</div>
 Choose **Apply online** if you are a first time applicant.
 Includes Form 22-1990
 
