@@ -5,12 +5,12 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
+ - url: /disability-benefits/claims-process/evidence/
+   title: How do I gather supporting documents for a disability claim? 
+   description: "Learn what you need to turn in so we can decide your claim"
+ - url: /disability-benefits/claims-process/claim-types/
+   title: What are the different claim types and what do they mean? 
+   description: "Learn what you need for each claim types"
 ---
 
 ### Prepare
@@ -57,14 +57,12 @@ You can work with an accredited representative who can help you file a claim.  [
 
 ### Already applied?
 
-Optional text about managing or tracking this benefit
-
 <a class="usa-button-primary" href="/disability-benefits/track-claims">Track the status of your claim</a>
 
 <div markdown="0"><br></div>
 
 ### What happens after I apply?
 
-You don't need to do anything while you're waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.  [Learn what happens after you apply].
+You don't need to do anything while you're waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.  [Learn what happens after you apply](/disability-benefits/after-you-apply).
 
 <div markdown="0"><br></div>
