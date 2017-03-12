@@ -13,6 +13,8 @@ relatedlinks:
    description: "Find out what benefits you can get"
 ---
 
+Once you apply for disability, the claim gets reviewed by our team. Learn about what you can do in the meantime. 
+
 ### How long does it take VA to make a decision?
 
 <div class="call-out" markdown="0">
