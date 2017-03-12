@@ -43,7 +43,7 @@ You may be eligible if:
 
 ### Other programs 
 
-- There are many ways we can help you pay for school, like Survivors and Dependents' Assistance. [Learn about other programs](/education/gi-bill/). 
+- There are many ways we can help you pay for licensing classes, testing fees, and school, like Survivors and Dependents' Assistance. [Learn about other programs](/education/gi-bill/). 
 - [Learn about the education benefits application process](/education/apply). 
 
 </div>
