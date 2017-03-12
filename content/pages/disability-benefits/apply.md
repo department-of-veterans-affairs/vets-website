@@ -11,6 +11,12 @@ relatedlinks:
  - url: /disability-benefits/claims-process/claim-types/
    title: What are the different claim types and what do they mean? 
    description: "Learn what you need for each claim types"
+ - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
+   title: How do I file while on active duty?
+   description: "Filing your claim as you get ready to leave the military may speed up the claim decision process"
+ - url: /disability-benefits/apply-for-benefits/help/
+   title: How do I get help filing a claim?
+   description: "Work with a trained professional"
 ---
 
 ### Prepare
@@ -53,7 +59,7 @@ You can work with a trained professional who can help you file a claim.  [Find a
 
 #### Apply in person
 
-[Go to a Regional Benefits Office]http://www.benefits.va.gov/benefits/offices.asp)
+[Go to a Regional Benefits Office](http://www.benefits.va.gov/benefits/offices.asp)
 
 ### Already applied?
 
