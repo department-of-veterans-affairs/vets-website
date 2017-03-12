@@ -21,7 +21,7 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 
 </div>
 
-### If my application is approved, what do I do next??
+### If my application is approved, what do I do next?
 
 <ol class="process">
 <li class="step one">
