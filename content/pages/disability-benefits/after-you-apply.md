@@ -30,7 +30,7 @@ relatedlinks:
 
 ### What should I do while I wait?
 
-You don't need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. 
+You don't need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. You can check your the status of your claim online. The time frame you see there may vary based on the complexity of your claim.
 
 <a class="usa-button-primary" href="/disability-benefits/track-claims">Track the status of your claim</a>
 
