@@ -49,11 +49,11 @@ For all disability claims, please provide:
 
 #### Work with someone
 
-You can work with an accredited representative who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html)
+You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html)
 
 #### Apply in person
 
-[Go to a Regional Benefits Office]http://www.benefits.va.gov/benefits/offices.asp
+[Go to a Regional Benefits Office]http://www.benefits.va.gov/benefits/offices.asp)
 
 ### Already applied?
 
