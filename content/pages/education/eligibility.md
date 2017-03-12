@@ -9,8 +9,11 @@ relatedlinks:
    title: Other Educational Assistance Programs
    description: "REAP, VEAP, and Call to Service"
  - url: /education/gi-bill/post-9-11/
-   title: Post 9/11 Gi Bill
+   title: Post 9/11 GI Bill
    description: "Education and training for Servicemembers and Veterans"
+ - url: /education/tools-programs/
+   title: Career Counseling
+   description: "We can help you chart your course"
 ---
 
 You may be eligible for generous education benefits and opportunities, including help paying tuition, picking out a school, career counseling, and more.
@@ -55,7 +58,7 @@ Includes Form 22-1995
 
 ### Advanced training and certifications
 
-You can use GI BIll to help pay for licensing and certifications so you can become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional. [Learn about this benefit](/education/advanced-training-and-certifications/).
+You can also use the GI BIll to help pay for licensing and certifications so you can become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional. [Learn about this benefit](/education/advanced-training-and-certifications/).
 
 
 <div markdown="0"><br></div>
