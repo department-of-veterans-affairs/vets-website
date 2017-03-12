@@ -5,12 +5,12 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: /disability-benefits/apply/
-   title: Disability Benefits Application Process
-   description: "Learn about how to apply for disability"
- - url: /disability-benefits/after-you-apply/
-   title: What happens after you apply
-   description: Learn what happens after you apply for disability""
+ - url: /disability-benefits/claims-process/ratings/
+   title: How does VA assign disability ratings?
+   description: "Learn about severity ratings"
+ - url: /disability-benefits/claims-process/presumed-disability/
+   title: What's a presumed disability?
+   description: "Learn why some chronic conditions may make you eligible for benefits" 
 ---
 
 If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
