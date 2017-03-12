@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: What happens after you apply for disability
+title: After You Apply for Disability Benefits
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
