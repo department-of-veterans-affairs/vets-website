@@ -173,7 +173,7 @@ const formConfig = {
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
                   updateSchema: (data, form) => {
-                    if (_.get(['previousBenefits', 'data', 'previousBenefits', 'view:claimedSponsorService'], form)) {
+                    if (_.get('previousBenefits.data.previousBenefits.view:claimedSponsorService', form)) {
                       return fullName;
                     }
 
@@ -184,7 +184,22 @@ const formConfig = {
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
                 'ui:title': 'Sponsor SSN',
                 'ui:options': {
-                  expandUnder: 'view:claimedSponsorService'
+                  expandUnder: 'view:claimedSponsorService',
+                  // Only updates ssn's schema, not its parent's required fields
+                  //  to include veteranSocialSecurityNumber.
+                  // updateSchema: (data, form) => {
+                  //   // Required
+                  //   if (_.get('previousBenefits.data.previousBenefits.view:claimedSponsorService', form)) {
+                  //     const foo = _.assign(ssnSchema, {
+                  //       required: ['veteranSocialSecurityNumber']
+                  //     });
+                  //     console.log('foo:', foo);
+                  //     return foo;
+                  //   }
+                  //
+                  //   // Not required
+                  //   return ssnSchema;
+                  // }
                 }
               }),
               other: {
@@ -198,6 +213,9 @@ const formConfig = {
               previousBenefits: _.merge(
                 _.unset('properties.veteranFullName', previousBenefits),
                 {
+                  // Doesn't let us pass even if view:claimedSponsorService is false
+                  //  (which makes the ssn box is hidden)
+                  // required: ['veteranSocialSecurityNumber'],
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },
                     'view:ownServiceBenefits': { type: 'boolean' },
