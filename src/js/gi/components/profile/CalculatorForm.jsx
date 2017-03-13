@@ -14,6 +14,7 @@ export class CalculatorForm extends React.Component {
     this.renderBooks = this.renderBooks.bind(this);
     this.renderYellowRibbon = this.renderYellowRibbon.bind(this);
     this.renderScholarships = this.renderScholarships.bind(this);
+    this.renderTuitionAssist = this.renderTuitionAssist.bind(this);
     this.renderEnrolled = this.renderEnrolled.bind(this);
     this.renderEnrolledOld = this.renderEnrolledOld.bind(this);
     this.renderCalendar = this.renderCalendar.bind(this);
@@ -94,6 +95,15 @@ export class CalculatorForm extends React.Component {
           <label htmlFor="scholarships">Scholarships (excluding Pell) (<a onClick={this.props.showModal.bind(this, 'calcScholarships')}>Learn more</a>)</label>
           <input type="text" name="scholarships" value={this.props.calculator.scholarships} onChange={this.props.calculatorInputChange}/>
         </div>
+      </div>
+    );
+  }
+
+  renderAssist() {
+    if (!this.props.displayed.tuitionAssist) return null;
+    render (
+      <div className="row">
+        <h1>Tuition Assist</h1>
       </div>
     );
   }
@@ -231,18 +241,21 @@ export class CalculatorForm extends React.Component {
   }
 
   renderKicker() {
-    if (!this.props.displayed.kicker) return null;
-    const KickerAmount = ({ condition }) => {
-      if (!condition) return null;
-      return (
+    if (!this.props.displayed.kickerAmount) return null;
+
+    let kickerAmountInput;
+
+    if (this.props.calculator.kickerEligible === 'yes') {
+      kickerAmount = (
         <div className="row">
           <div className="small-12 columns">
-            <label htmlFor="kicker">How much is your kicker?</label>
-            <input type="text" name="kicker" value={this.props.calculator.kicker} onChange={this.props.calculatorInputChange}/>
+            <label htmlFor="kickerAmount">How much is your kicker?</label>
+            <input type="text" name="kickerAmount" value={this.props.calculator.kickerAmount} onChange={this.props.calculatorInputChange}/>
           </div>
         </div>
       );
-    };
+    }
+
     return (
       <div>
         <div className="row">
@@ -258,7 +271,7 @@ export class CalculatorForm extends React.Component {
                 onChange={this.props.calculatorInputChange}/>
           </div>
         </div>
-        <KickerAmount condition={this.props.calculator.kickerEligible === 'yes'}/>
+        {kickerAmountInput}
       </div>
     );
   }
@@ -342,6 +355,7 @@ export class CalculatorForm extends React.Component {
         { this.renderBooks() }
         { this.renderYellowRibbon() }
         { this.renderScholarships() }
+        { this.renderTuitionAssist() }
         { this.renderEnrolled() }
         { this.renderEnrolledOld() }
         { this.renderCalendar() }
