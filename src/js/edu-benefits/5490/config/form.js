@@ -98,6 +98,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: ['benefit', 'benefitsRelinquishedDate'],
             properties: {
               benefit,
               benefitsRelinquishedDate: dateSchema
