@@ -15,6 +15,7 @@ export class CalculatorForm extends React.Component {
     this.renderYellowRibbon = this.renderYellowRibbon.bind(this);
     this.renderScholarships = this.renderScholarships.bind(this);
     this.renderEnrolled = this.renderEnrolled.bind(this);
+    this.renderEnrolledOld = this.renderEnrolledOld.bind(this);
     this.renderCalendar = this.renderCalendar.bind(this);
     this.renderKicker = this.renderKicker.bind(this);
     this.renderWorking = this.renderWorking.bind(this);
@@ -121,59 +122,90 @@ export class CalculatorForm extends React.Component {
     );
   }
 
-  renderCalendar() {
-    if (!this.props.displayed.calendar) return null;
-    const dependentDropdowns = (
-      <div>
-        <div className="row">
-          <div className="small-12 columns">
-            <Dropdown
-                name="numberNontradTerms"
-                alt="How many terms per year?"
-                options={[
-                  { value: '3', label: 'Three' },
-                  { value: '2', label: 'Two' },
-                  { value: '1', label: 'One' }
-                ]}
-                visible
-                value={this.props.calculator.numberNontradTerms}
-                onChange={this.props.calculatorInputChange}>
-              <label htmlFor="numberNontradTerms">
-                How many terms per year?
-              </label>
-            </Dropdown>
-          </div>
-        </div>
-        <div className="row">
-          <div className="small-12 columns">
-            <Dropdown
-                name="lengthNontradTerms"
-                alt="How long is each term?"
-                options={[
-                  { value: '1', label: '1 month' },
-                  { value: '2', label: '2 months' },
-                  { value: '3', label: '3 months' },
-                  { value: '4', label: '4 months' },
-                  { value: '5', label: '5 months' },
-                  { value: '6', label: '6 months' },
-                  { value: '7', label: '7 months' },
-                  { value: '8', label: '8 months' },
-                  { value: '9', label: '9 months' },
-                  { value: '10', label: '10 months' },
-                  { value: '11', label: '11 months' },
-                  { value: '12', label: '12 months' }
-                ]}
-                visible
-                value={this.props.calculator.lengthNontradTerms}
-                onChange={this.props.calculatorInputChange}>
-              <label htmlFor="lengthNontradTerms">
-                How long is each term?
-              </label>
-            </Dropdown>
-          </div>
+  renderEnrolledOld() {
+    if (!this.props.displayed.enrolledOld) return null;
+    return (
+      <div className="row">
+        <div className="small-12 columns">
+          <Dropdown
+              name="enrolled"
+              alt="Enrolled"
+              options={[
+                { value: 'full', label: 'Full Time' },
+                { value: 'three quarters', label: '¾ Time' },
+                { value: 'half', label: '½ Time' },
+                { value: 'less than half', label: 'Less than ½ time more than ¼ time' },
+                { value: 'quarter', label: '½ Time or less' },
+              ]}
+              visible
+              value={this.props.calculator.enrolled}
+              onChange={this.props.calculatorInputChange}>
+            {this.renderLearnMoreLabel({ text: 'Enrolled', modal: 'calcEnrolled' })}
+          </Dropdown>
         </div>
       </div>
     );
+  }
+
+  renderCalendar() {
+    if (!this.props.displayed.calendar) return null;
+
+    let dependentDropdowns;
+
+    if (this.props.calculator.calendar === 'nontraditional') {
+      dependentDropdowns = (
+        <div>
+          <div className="row">
+            <div className="small-12 columns">
+              <Dropdown
+                  name="numberNontradTerms"
+                  alt="How many terms per year?"
+                  options={[
+                    { value: '3', label: 'Three' },
+                    { value: '2', label: 'Two' },
+                    { value: '1', label: 'One' }
+                  ]}
+                  visible
+                  value={this.props.calculator.numberNontradTerms}
+                  onChange={this.props.calculatorInputChange}>
+                <label htmlFor="numberNontradTerms">
+                  How many terms per year?
+                </label>
+              </Dropdown>
+            </div>
+          </div>
+          <div className="row">
+            <div className="small-12 columns">
+              <Dropdown
+                  name="lengthNontradTerms"
+                  alt="How long is each term?"
+                  options={[
+                    { value: '1', label: '1 month' },
+                    { value: '2', label: '2 months' },
+                    { value: '3', label: '3 months' },
+                    { value: '4', label: '4 months' },
+                    { value: '5', label: '5 months' },
+                    { value: '6', label: '6 months' },
+                    { value: '7', label: '7 months' },
+                    { value: '8', label: '8 months' },
+                    { value: '9', label: '9 months' },
+                    { value: '10', label: '10 months' },
+                    { value: '11', label: '11 months' },
+                    { value: '12', label: '12 months' }
+                  ]}
+                  visible
+                  value={this.props.calculator.lengthNontradTerms}
+                  onChange={this.props.calculatorInputChange}>
+                <label htmlFor="lengthNontradTerms">
+                  How long is each term?
+                </label>
+              </Dropdown>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div>
         <div className="row">
@@ -193,7 +225,7 @@ export class CalculatorForm extends React.Component {
             </Dropdown>
           </div>
         </div>
-        { this.props.calculator.calendar === 'nontraditional' ? dependentDropdowns : null }
+        {dependentDropdowns}
       </div>
     );
   }
@@ -311,6 +343,7 @@ export class CalculatorForm extends React.Component {
         { this.renderYellowRibbon() }
         { this.renderScholarships() }
         { this.renderEnrolled() }
+        { this.renderEnrolledOld() }
         { this.renderCalendar() }
         { this.renderKicker() }
         { this.renderBuyUp() }
