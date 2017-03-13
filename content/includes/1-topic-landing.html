@@ -6,12 +6,11 @@
 
         <h1>{{ title }}</h1>
         <!-- Page content begins -->
-
         {{ contents }}
         <!-- Page content ends -->
 
         <!-- Last updated -->
-        {% if lastupdate %}
+        {% if updated %}
           {% include "content/includes/last-update.html" %}
         {% endif %}
 

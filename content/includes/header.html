@@ -12,8 +12,8 @@
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta content="Vets.gov" property="og:site_name">
-{% if lastupdate %}
-<meta name="DC.Date" content="{{lastupdate| date: '%Y-%m-%d'}}" property="http://purl.org/dc/terms/date">
+{% if updated %}
+<meta name="DC.Date" content="{{updated| date: '%Y-%m-%d'}}" property="http://purl.org/dc/terms/date">
 {% endif %}
 {% if title %}
 <meta content="{{ title }}" property="og:title">
