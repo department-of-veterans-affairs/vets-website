@@ -241,7 +241,7 @@ export class CalculatorForm extends React.Component {
   }
 
   renderKicker() {
-    if (!this.props.displayed.kickerAmount) return null;
+    if (!this.props.displayed.kicker) return null;
 
     let kickerAmountInput;
 
