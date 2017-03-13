@@ -366,3 +366,61 @@ You can use 'ui:description' to show text or a custom component before the field
   }
 }
 ```
+### I want to conditionally hide a group of fields
+
+We may have some fields that are siblings to others, but need to be hidden conditionally. Take the following schema snippet (from the education benefits form 22-5490):
+
+```json
+"previousBenefits": {
+  "type": "object",
+  "properties": {
+    "disability": { "type": "boolean" },
+    "dic": { "type": "boolean" },
+    "chapter31": { "type": "boolean" },
+    "ownServiceBenefits": { "type": "string" },
+    "chapter35": { "type": "boolean" },
+    "chapter33": { "type": "boolean" },
+    "transferOfEntitlement": { "type": "boolean" },
+    "other": { "type": "string" },
+    "veteranFullName": { "$ref": "#/definitions/fullName" },
+    "veteranSocialSecurityNumber": { "$ref": "#/definitions/ssn" }
+  }
+}
+```
+
+Only `chapter35`, `chapter33`, `transferOfEntitlement`, `veteranFullName`, and `veteranSocialSecurityNumber` need to be hidden conditionally, so we can make the `schema` and `uiSchema` like so:
+
+```js
+// schema
+{
+  disability: { ... },
+  dic: { ... },
+  chapter31: { ... },
+  ownServiceBenefits: { ... },
+  'view:sponsorServiceOptions': {
+    chapter35: { ... },
+    chapter33: { ... },
+    transferOfEntitlement: { ... },
+    veteranFullName: { ... },
+    veteranSocialSecurityNumber: { ... }
+  },
+  other: { ... }
+}
+
+// uiSchema
+{
+  disability: { ... },
+  dic: { ... },
+  chapter31: { ... },
+  ownServiceBenefits: { ... },
+  'view:sponsorServiceOptions': {
+    hideIf: () => /* Some condition here */,
+    chapter35: { ... },
+    chapter33: { ... },
+    transferOfEntitlement: { ... },
+    veteranFullName: { ... },
+    veteranSocialSecurityNumber: { ... }
+  },
+  other: { ... }
+}
+```
