@@ -18,7 +18,8 @@ Servicemembers, Veterans, and family members may be able to get burial and memor
 - The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
 - In some cases, the adult dependent child of a Veteran (if they aren't married)
 
-[Learn about the burial planning process](/burials-and-memorials/burial-planning/).
+[Learn about the burial planning process](/burials-and-memorials/burial-planning/). 
+[Learn about survivor and dependent benefits](/burials-and-memorials/survivor-and-dependent-benefits/).
 
 </div>
 
@@ -43,5 +44,5 @@ Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
 You’ll get a letter from us telling you if you can be buried in a VA national cemetery. Keep this letter in a safe place.
 
 
-If you want to be buried at a state Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [See a list of national and state VA cemeteries](http://www.cem.va.gov/cem/cems/listcem.asp).
+If you want to be buried at a state or tribal Veterans cemetery, check the site you want ahead of time, since some state Veterans cemeteries require that you live in that state or have other rules around eligibility. [See a list of national and state VA cemeteries](http://www.cem.va.gov/cem/cems/listcem.asp).
 
