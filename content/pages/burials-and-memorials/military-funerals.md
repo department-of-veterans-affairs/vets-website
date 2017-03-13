@@ -1,10 +1,10 @@
 ---
 layout: page-breadcrumbs.html
-title: What to Expect at a Military Funeral
+title: What to Expect at a Funeral
 template: 6-info-page
 ---
 
-We carry out military burial and memorial services at national cemeteries with dignity and respect. Find out what happens at a military burial or memorial service. 
+We carry out burial and memorial services at national cemeteries with dignity and respect. Find out what happens at a burial or memorial service. 
 
 ### What happens during the ceremony?
 
