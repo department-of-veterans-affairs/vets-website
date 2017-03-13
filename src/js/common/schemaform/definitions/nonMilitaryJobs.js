@@ -19,7 +19,6 @@ export const uiSchema = {
   'ui:options': {
     itemName: 'Employment Period',
     viewField: EmploymentPeriodView,
-    hideTitle: true,
-    expandUnder: 'view:hasNonMilitaryJobs'
+    hideTitle: true
   }
 };

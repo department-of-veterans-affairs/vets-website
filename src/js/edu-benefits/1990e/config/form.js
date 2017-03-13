@@ -200,7 +200,7 @@ const formConfig = {
               'view:hasNonMilitaryJobs': {
                 'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?'
               },
-              nonMilitaryJobs: nonMilitaryJobsUiSchema
+              nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUiSchema)
             }
           },
           schema: {
