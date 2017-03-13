@@ -21,7 +21,7 @@ export default function CheckboxWidget({
           disabled={disabled}
           autoFocus={autofocus}
           onChange={(event) => onChange(event.target.checked)}/>
-      <label htmlFor={id}>
+      <label className="schemaform-label" htmlFor={id}>
         {options.title || label}{requiredSpan}
       </label>
     </div>

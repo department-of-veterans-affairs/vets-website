@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 import {
   transform,
   eligibilityDescription
@@ -10,8 +12,9 @@ import directDeposit from '../../pages/directDeposit';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
-import * as fullName from '../../../common/schemaform/definitions/fullName';
-import * as ssn from '../../../common/schemaform/definitions/ssn';
+import { uiSchema as fullNameUiSchema } from '../../../common/schemaform/definitions/fullName';
+import * as ssnCommon from '../../../common/schemaform/definitions/ssn';
+import * as address from '../../../common/schemaform/definitions/address';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -24,11 +27,15 @@ import {
 
 const {
   gender,
-  relationship
+  relationship,
+  fullName,
+  ssn
 } = fullSchema1990e.definitions;
 
 const {
   benefit,
+  serviceBranch,
+  civilianBenefitsAssistance
 } = fullSchema1990e.properties;
 
 const {
@@ -58,8 +65,8 @@ const formConfig = {
           title: 'Applicant information',
           initialData: {},
           uiSchema: {
-            relativeFullName: fullName.uiSchema,
-            relativeSocialSecurityNumber: ssn.uiSchema,
+            relativeFullName: fullNameUiSchema,
+            relativeSocialSecurityNumber: ssnCommon.uiSchema,
             relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
             gender: {
               'ui:widget': 'radio',
@@ -80,8 +87,8 @@ const formConfig = {
             type: 'object',
             required: ['relativeFullName'],
             properties: {
-              relativeFullName: fullName.schema,
-              relativeSocialSecurityNumber: ssn.schema,
+              relativeFullName: fullName,
+              relativeSocialSecurityNumber: ssnCommon.schema,
               relativeDateOfBirth: currentOrPastDate.schema,
               gender,
               relationship
@@ -124,6 +131,55 @@ const formConfig = {
     sponsorVeteran: {
       title: 'Sponsor Veteran',
       pages: {
+        sponsorVeteran: {
+          title: 'Sponsor Veteran',
+          path: 'sponsor-veteran',
+          uiSchema: {
+            sponsorVeteran: {
+              veteranFullName: {
+                first: {
+                  'ui:title': 'Veteran first name'
+                },
+                last: {
+                  'ui:title': 'Veteran last name'
+                },
+                middle: {
+                  'ui:title': 'Veteran middle name'
+                },
+                suffix: {
+                  'ui:title': 'Veteran suffix',
+                  'ui:options': {
+                    widgetClassNames: 'form-select-medium'
+                  }
+                }
+              },
+              veteranSocialSecurityNumber: _.set(['ui:title'], 'Veteran Social Security number', ssnCommon.uiSchema),
+              veteranAddress: address.uiSchema('Veteran Address'),
+              serviceBranch: {
+                'ui:title': 'Branch of Service'
+              },
+              civilianBenefitsAssistance: {
+                'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              sponsorVeteran: {
+                type: 'object',
+                required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+                properties: {
+                  veteranFullName: fullName,
+                  veteranSocialSecurityNumber: ssn,
+                  veteranAddress: address.schema(),
+                  serviceBranch,
+                  civilianBenefitsAssistance
+                },
+              }
+            }
+          }
+        }
       }
     },
     educationHistory: {
