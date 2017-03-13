@@ -15,11 +15,11 @@ import * as date from '../../../common/schemaform/definitions/date';
 import * as dateRange from '../../../common/schemaform/definitions/dateRange';
 import * as address from '../../../common/schemaform/definitions/address';
 
-import * as educationType from '../../definitions/educationType';
+import educationTypeUISchema from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
 
-import contactInformation from '../../pages/contactInformation';
+import createContactInformationPage from '../../pages/contactInformation';
 
 import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -38,7 +38,8 @@ const {
 const {
   preferredContactMethod,
   school,
-  vaFileNumber
+  vaFileNumber,
+  educationType
 } = fullSchema1995.definitions;
 
 const formConfig = {
@@ -49,7 +50,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
-    educationType,
     preferredContactMethod,
     serviceBefore1977,
     date: date.schema,
@@ -191,7 +191,7 @@ const formConfig = {
             newSchoolName: {
               'ui:title': 'Name of school, university, or training facility'
             },
-            educationType: educationType.uiSchema,
+            educationType: educationTypeUISchema,
             newSchoolAddress: _.merge(address.uiSchema(), {
               'ui:options': {
                 hideIf: (form) => !showSchoolAddress(form.educationType)
@@ -217,7 +217,7 @@ const formConfig = {
               newSchoolName: {
                 type: 'string'
               },
-              educationType: educationType.schema,
+              educationType,
               newSchoolAddress: address.schema(),
               educationObjective,
               nonVaAssistance,
@@ -260,7 +260,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation,
+        contactInformation: createContactInformationPage(),
         dependents: {
           title: 'Dependents',
           path: 'personal-information/depedents',

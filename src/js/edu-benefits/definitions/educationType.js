@@ -1,5 +1,3 @@
-import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
-
 const educationTypeLabels = {
   college: 'College, university, or other educational program, including online courses',
   correspondence: 'Correspondence',
@@ -11,11 +9,11 @@ const educationTypeLabels = {
   cooperativeTraining: 'Cooperative training'
 };
 
-export const schema = fullSchema1995.definitions.educationType;
-
-export const uiSchema = {
+const uiSchema = {
   'ui:title': 'Type of education or training',
   'ui:options': {
     labels: educationTypeLabels
   }
 };
+
+export default uiSchema;

@@ -14,6 +14,7 @@ describe('Edu 5490 sponsorVeteran', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={formConfig.defaultDefinitions}
           data={{}}
           uiSchema={uiSchema}/>
     );
@@ -26,6 +27,7 @@ describe('Edu 5490 sponsorVeteran', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={formConfig.defaultDefinitions}
           data={{}}
           uiSchema={uiSchema}/>
     );
