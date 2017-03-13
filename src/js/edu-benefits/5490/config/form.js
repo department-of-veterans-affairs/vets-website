@@ -263,7 +263,12 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['veteranSocialSecurityNumber'],
+            // TODO: Conditionally require divorcePending and remarried if
+            //  spouseInfo is unhidden
+            required: [
+              'veteranSocialSecurityNumber',
+              'veteranDateOfBirth'
+            ],
             properties: {
               spouseInfo,
               relativeFullName: fullName,
@@ -321,6 +326,9 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            // If answered 'Yes' without entering information, it's the same as
+            //  answering 'No' as far as the back end is concerned.
+            required: ['view:applicantServed'],
             properties: {
               'view:applicantServed': {
                 type: 'boolean'
@@ -351,6 +359,8 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            // TODO: Conditionally require civilianBenefitsSource if
+            //  civilianBenefitsAssistance is true.
             properties: {
               civilianBenefitsAssistance,
               civilianBenefitsSource
