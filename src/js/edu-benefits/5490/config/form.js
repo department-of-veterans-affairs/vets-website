@@ -21,13 +21,13 @@ import * as phone from '../../../common/schemaform/definitions/phone';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import uiSchemaPostHighSchoolTrainings from '../../definitions/postHighSchoolTrainings';
 
 import contactInformation from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import IntroductionPage from '../components/IntroductionPage';
-import EducationView from '../../components/EducationView';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
@@ -405,47 +405,14 @@ const formConfig = {
                 }
               }
             },
-            postHighSchoolTrainings: {
-              'ui:title': 'Education after high school',
+            postHighSchoolTrainings: _.merge(uiSchemaPostHighSchoolTrainings, {
               'ui:options': {
-                itemName: 'Training',
-                viewField: EducationView,
                 hideIf: form => {
                   const status = _.get('highSchool.status', form);
                   return status !== 'graduated' && status !== 'ged';
                 }
-              },
-              items: {
-                name: {
-                  'ui:title': 'Name of college, university or other training provider'
-                },
-                city: {
-                  'ui:title': 'City'
-                },
-                state: {
-                  'ui:title': 'State'
-                },
-                dateRange: uiSchemaDateRange(
-                  'From',
-                  'To'
-                ),
-                hours: {
-                  'ui:title': 'Hours completed'
-                },
-                hoursType: {
-                  'ui:title': 'Type of hours',
-                  'ui:options': {
-                    labels: hoursTypeLabels
-                  }
-                },
-                degreeReceived: {
-                  'ui:title': 'Degree, diploma or certificate received'
-                },
-                major: {
-                  'ui:title': 'Major or course of study (NOT for high school)'
-                }
               }
-            }
+            })
           },
           schema: {
             type: 'object',

@@ -27,8 +27,3 @@ export const highSchoolStatusLabels = {
   ged: 'Awarded GED'
 };
 
-export const hoursTypeLabels = {
-  semester: 'Semester',
-  quarter: 'Quarter',
-  clock: 'Clock'
-};
