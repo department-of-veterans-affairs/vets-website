@@ -1,7 +1,5 @@
 import React from 'react';
-// import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-// import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
