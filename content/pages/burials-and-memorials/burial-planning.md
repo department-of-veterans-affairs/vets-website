@@ -51,7 +51,7 @@ You’ll get a letter from us telling you if you’re eligible for burial in a V
 
 **Once you’ve confirmed eligibility, gather the documents and other information you'll need** to identify the deceased when you apply:
 
- - The deceased’s DD214 (or similar discharge papers). [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp).
+ - The deceased’s DD214 (or similar discharge papers). [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). If you can't find the discharge papers, we can look at our records to see if the Veteran is eligible. 
  - The deceased’s full name, gender, Social Security number or Veteran ID, date of death, and date of birth
  - Next-of-kin information (name, relationship, Social Security number, phone number, and address)
  - Marital status; surviving spouse’s status as Veteran or family member; and status and detailed information for any disabled children who may be buried in the future in a national cemetery
