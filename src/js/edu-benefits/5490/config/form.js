@@ -7,15 +7,12 @@ import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.jso
 import {
   benefitsLabels,
   relationshipLabels,
-  hoursTypeLabels,
-  highSchoolStatusLabels,
   transform
 } from '../helpers';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
-import { uiSchema as uiSchemaDateRange } from '../../../common/schemaform/definitions/dateRange';
 import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
@@ -24,16 +21,13 @@ import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/
 
 import createContactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
-import applicantInformation from '../../pages/applicantInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import IntroductionPage from '../components/IntroductionPage';
-import EducationView from '../../components/EducationView';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
   benefit,
-  highSchool,
   civilianBenefitsAssistance,
   civilianBenefitsSource,
   currentlyActiveDuty,
@@ -49,10 +43,8 @@ const {
   nonMilitaryJobs,
   relationship,
   secondaryContact,
-  dateRange,
   educationType,
-  fullName,
-  postHighSchoolTrainings
+  fullName
 } = fullSchema5490.definitions;
 
 const dateSchema = fullSchema5490.definitions.date;
@@ -75,21 +67,13 @@ const formConfig = {
   defaultDefinitions: {
     date: dateSchema,
     educationType,
-    dateRange,
     fullName,
     ssn: ssnSchema
   },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
-      pages: {
-        applicantInformation: applicantInformation(fullSchema5490, [
-          'relativeFullName',
-          'relativeSocialSecurityNumber',
-          'relativeDateOfBirth',
-          'gender'
-        ])
-      }
+      pages: {}
     },
     benefitSelection: {
       title: 'Education Benefit',
@@ -360,128 +344,7 @@ const formConfig = {
     },
     educationHistory: {
       title: 'Education History',
-      pages: {
-        educationHistory: {
-          title: 'Education history',
-          path: 'education-history',
-          initialData: {},
-          uiSchema: {
-            highSchool: {
-              status: {
-                'ui:title': 'What is your current high school status?',
-                'ui:options': {
-                  labels: highSchoolStatusLabels
-                }
-              },
-              highSchoolOrGedCompletionDate: _.assign(
-                date.uiSchema('When did you earn your high school diploma or equivalency certificate?'), {
-                  'ui:options': {
-                    hideIf: form => {
-                      const status = _.get('highSchool.status', form);
-                      return status !== 'graduated' && status !== 'ged';
-                    }
-                  }
-                }),
-              'view:hasHighSchool': {
-                'ui:options': {
-                  hideIf: form => {
-                    const status = _.get('highSchool.status', form);
-                    return status !== 'graduationExpected';
-                  }
-                },
-                name: {
-                  'ui:title': 'Name of high school'
-                },
-                city: {
-                  'ui:title': 'City'
-                },
-                state: {
-                  'ui:title': 'State'
-                },
-                dateRange: uiSchemaDateRange(),
-                hours: {
-                  'ui:title': 'Hours completed'
-                },
-                hoursType: {
-                  'ui:title': 'Type of hours',
-                  'ui:options': {
-                    labels: hoursTypeLabels
-                  }
-                },
-                degreeReceived: {
-                  'ui:title': 'Degree, diploma, or certificate received'
-                }
-              }
-            },
-            postHighSchoolTrainings: {
-              'ui:title': 'Education after high school',
-              'ui:options': {
-                itemName: 'Training',
-                viewField: EducationView,
-                hideIf: form => {
-                  const status = _.get('highSchool.status', form);
-                  return status !== 'graduated' && status !== 'ged';
-                }
-              },
-              items: {
-                name: {
-                  'ui:title': 'Name of college, university or other training provider'
-                },
-                city: {
-                  'ui:title': 'City'
-                },
-                state: {
-                  'ui:title': 'State'
-                },
-                dateRange: uiSchemaDateRange(
-                  'From',
-                  'To'
-                ),
-                hours: {
-                  'ui:title': 'Hours completed'
-                },
-                hoursType: {
-                  'ui:title': 'Type of hours',
-                  'ui:options': {
-                    labels: hoursTypeLabels
-                  }
-                },
-                degreeReceived: {
-                  'ui:title': 'Degree, diploma or certificate received'
-                },
-                major: {
-                  'ui:title': 'Major or course of study (NOT for high school)'
-                }
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              highSchool: {
-                type: 'object',
-                properties: {
-                  status: highSchool.properties.status,
-                  highSchoolOrGedCompletionDate: date.schema,
-                  'view:hasHighSchool': {
-                    type: 'object',
-                    properties: {
-                      name: highSchool.properties.name,
-                      city: highSchool.properties.city,
-                      state: highSchool.properties.state,
-                      dateRange: highSchool.properties.dateRange,
-                      hours: highSchool.properties.hours,
-                      hoursType: highSchool.properties.hoursType,
-                      degreeReceived: highSchool.properties.degreeReceived
-                    }
-                  }
-                }
-              },
-              postHighSchoolTrainings
-            }
-          }
-        }
-      }
+      pages: {}
     },
     employmentHistory: {
       title: 'Employment History',
