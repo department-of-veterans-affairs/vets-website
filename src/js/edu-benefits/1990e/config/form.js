@@ -8,12 +8,13 @@ import {
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
 
-import contactInformation from '../../pages/contactInformation';
+import createContactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import * as ssnCommon from '../../../common/schemaform/definitions/ssn';
 import * as address from '../../../common/schemaform/definitions/address';
+import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -24,7 +25,8 @@ import { benefitsLabels } from '../../utils/helpers';
 
 const {
   fullName,
-  ssn
+  ssn,
+  nonMilitaryJobs
 } = fullSchema1990e.definitions;
 
 const {
@@ -151,6 +153,32 @@ const formConfig = {
     employmentHistory: {
       title: 'Employment History',
       pages: {
+        employmentHistory: {
+          title: 'Employment History',
+          path: 'employment-history',
+          uiSchema: {
+            employmentHistory: {
+              'view:hasNonMilitaryJobs': {
+                'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?'
+              },
+              nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUiSchema)
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              employmentHistory: {
+                type: 'object',
+                properties: {
+                  'view:hasNonMilitaryJobs': {
+                    type: 'boolean'
+                  },
+                  nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
+                }
+              }
+            }
+          }
+        }
       }
     },
     schoolSelection: {
@@ -166,7 +194,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation,
+        contactInformation: createContactInformationPage('relativeAddress'),
         directDeposit
       }
     }

@@ -17,14 +17,14 @@ import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definit
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
+import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 
-import contactInformation from '../../pages/contactInformation';
+import createContactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
 import applicantInformation from '../../pages/applicantInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import IntroductionPage from '../components/IntroductionPage';
-import EmploymentPeriodView from '../components/EmploymentPeriodView';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
@@ -361,24 +361,7 @@ const formConfig = {
           title: 'Employment history',
           path: 'employment-history',
           uiSchema: {
-            nonMilitaryJobs: {
-              items: {
-                name: {
-                  'ui:title': 'Main job'
-                },
-                months: {
-                  'ui:title': 'Number of months worked'
-                },
-                licenseOrRating: {
-                  'ui:title': 'Licenses or rating'
-                }
-              },
-              'ui:options': {
-                itemName: 'Employment Period',
-                viewField: EmploymentPeriodView,
-                hideTitle: true
-              }
-            }
+            nonMilitaryJobs: nonMilitaryJobsUiSchema
           },
           schema: {
             type: 'object',
@@ -406,7 +389,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation,
+        contactInformation: createContactInformationPage('relativeAddress'),
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
