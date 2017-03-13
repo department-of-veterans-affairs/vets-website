@@ -42,7 +42,6 @@ const {
 
 const {
   nonMilitaryJobs,
-  relationship,
   secondaryContact,
   educationType,
   fullName
@@ -79,8 +78,9 @@ const formConfig = {
           'relativeFullName',
           'relativeSocialSecurityNumber',
           'relativeDateOfBirth',
-          'gender'
-        ])
+          'gender',
+          'relationship'
+        ], { relationship: relationshipLabels })
       }
     },
     benefitSelection: {
@@ -221,11 +221,6 @@ const formConfig = {
           title: 'Sponsor Veteran',
           path: 'military-service/sponsor-veteran',
           uiSchema: {
-            relationship: {
-              'ui:title': 'What is your relationship to the Servicemember whose benefit we\'re transferring to you?',
-              'ui:widget': 'radio',
-              'ui:options': { labels: relationshipLabels }
-            },
             spouseInfo: {
               divorcePending: {
                 'ui:title': 'Is there a divorce or annulment pending with your sponsor?',
@@ -241,7 +236,7 @@ const formConfig = {
                 }
               }),
               'ui:options': {
-                hideIf: (fieldData) => fieldData.relationship !== 'spouse'
+                hideIf: (pageData, allData) => _.get('applicantInformation.relationship', allData) !== 'spouse'
               }
             },
             relativeFullName: _.assign(fullNameUISchema, {
@@ -255,7 +250,6 @@ const formConfig = {
             type: 'object',
             required: ['veteranSocialSecurityNumber'],
             properties: {
-              relationship,
               spouseInfo,
               relativeFullName: fullName,
               veteranSocialSecurityNumber: ssnSchema,

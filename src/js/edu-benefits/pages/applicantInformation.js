@@ -17,7 +17,8 @@ const defaultProps = [
 export default function applicantInformation(
   schema,
   fields = defaultProps,
-  required = ['relativeFullName']) {
+  labels = {},
+  required = ['relativeFullName', 'relativeSocialSecurityNumber']) {
   const possibleProperties = {
     relativeFullName: schema.definitions.fullName,
     relativeSocialSecurityNumber: schema.definitions.ssn,
@@ -39,14 +40,14 @@ export default function applicantInformation(
         'ui:widget': 'radio',
         'ui:title': 'Gender',
         'ui:options': {
-          labels: genderLabels
+          labels: labels.gender || genderLabels
         }
       },
       relationship: {
         'ui:widget': 'radio',
         'ui:title': 'What is your relationship to the service member whose benefit is being transferred to you?',
         'ui:options': {
-          labels: relationshipLabels
+          labels: labels.relationship || relationshipLabels
         }
       }
     },

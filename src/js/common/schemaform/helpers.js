@@ -370,7 +370,7 @@ export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
  * hideIf function from uiSchema and the current page data. Sets 'ui:hidden'
  * which is a non-standard JSON Schema property
  */
-export function setHiddenFields(schema, uiSchema, data) {
+export function setHiddenFields(schema, uiSchema, data, allData) {
   if (!uiSchema) {
     return schema;
   }
@@ -378,7 +378,7 @@ export function setHiddenFields(schema, uiSchema, data) {
   let updatedSchema = schema;
   const hideIf = _.get(['ui:options', 'hideIf'], uiSchema);
 
-  if (hideIf && hideIf(data)) {
+  if (hideIf && hideIf(data, allData)) {
     if (!updatedSchema['ui:hidden']) {
       updatedSchema = _.set('ui:hidden', true, updatedSchema);
     }
@@ -397,7 +397,7 @@ export function setHiddenFields(schema, uiSchema, data) {
 
   if (updatedSchema.type === 'object') {
     const newProperties = Object.keys(updatedSchema.properties).reduce((current, next) => {
-      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], data);
+      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], data, allData);
 
       if (newSchema !== updatedSchema.properties[next]) {
         return _.set(next, newSchema, current);
@@ -412,7 +412,7 @@ export function setHiddenFields(schema, uiSchema, data) {
   }
 
   if (updatedSchema.type === 'array') {
-    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, data);
+    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, data, allData);
 
     if (newSchema !== updatedSchema.items) {
       return _.set('items', newSchema, updatedSchema);

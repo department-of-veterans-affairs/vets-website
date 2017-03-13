@@ -23,10 +23,15 @@ function recalculateSchemaAndData(initialState) {
       // on each data change, we need to do the following steps
       // Recalculate any required fields, based on the new data
       let schema = updateRequiredFields(page.schema, page.uiSchema, page.data, state);
+
+      // Pass only the page data, not schema & uiSchema
+      const pageData = _.mapValues('data', state);
       // Update the schema with any fields that are now hidden because of the data change
-      schema = setHiddenFields(schema, page.uiSchema, page.data, state);
+      schema = setHiddenFields(schema, page.uiSchema, page.data, pageData);
+
       // Update the schema with any general updates based on the new data
       schema = updateSchemaFromUiSchema(schema, page.uiSchema, page.data, state);
+
       // Remove any data that's now hidden in the schema
       const data = removeHiddenData(schema, page.data);
 
