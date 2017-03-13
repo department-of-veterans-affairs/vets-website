@@ -9,11 +9,11 @@ relatedlinks:
    title: How does VA decide when my disability compensation starts?
    description: "Learn about when you can start getting your disability benefits"
  - url: /disability-benefits/claims-process/what-happens-after-rating/
-   title: What to Expect after You Get a Disability Rating
+   title: What can I Expect after Getting a Disability Rating?
    description: "Find out what benefits you can get"
 ---
 
-Once you apply for disability, the claim gets reviewed by our team. Learn about what you can do in the meantime. 
+Once you apply for disability benefits, the claim gets reviewed by our team. Learn about what you can do in the meantime. 
 
 ### How long does it take VA to make a decision?
 
