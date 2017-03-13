@@ -8,11 +8,10 @@ import {
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
 
-import contactInformation from '../../pages/contactInformation';
+import createContactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
-import { uiSchema as fullNameUiSchema } from '../../../common/schemaform/definitions/fullName';
 import * as ssnCommon from '../../../common/schemaform/definitions/ssn';
 import * as address from '../../../common/schemaform/definitions/address';
 import IntroductionPage from '../components/IntroductionPage';
@@ -31,7 +30,6 @@ const {
 const {
   educationType,
   date,
-  relationship,
   fullName,
   ssn
 } = fullSchema1990e.definitions;
@@ -164,7 +162,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation,
+        contactInformation: createContactInformationPage('relativeAddress'),
         directDeposit
       }
     }
