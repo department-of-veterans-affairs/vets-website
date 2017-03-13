@@ -31,7 +31,7 @@ You may be eligible if:
 ### As a dependent, am I eligible for the Post 9/11 GI Bill?
 
 - You may be eligible for up to 36 months of benefits if your sponsor hasn't used all of their Post 9/11 GI Bill benefits. 
-- Your sponsor can transfer the remaining months to you. If the Department of Defense (DOD) approves the transfer,you can apply for VA benefits. 
+- Your sponsor can transfer the remaining months to you. If the Department of Defense (DOD) approves the transfer, you can apply for VA benefits. 
 - [Learn more about transfering benefits](/education/gi-bill/transfer/). 
 
 ### Am I eligible for the Montgomery GI Bill? 
