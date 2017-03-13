@@ -19,9 +19,9 @@ export default function applicantInformation(
   fields = defaultProps,
   required = ['relativeFullName']) {
   const possibleProperties = {
-    relativeFullName: fullName.schema,
-    relativeSocialSecurityNumber: ssn.schema,
-    relativeDateOfBirth: currentOrPastDate.schema,
+    relativeFullName: schema.definitions.fullName,
+    relativeSocialSecurityNumber: schema.definitions.ssn,
+    relativeDateOfBirth: schema.definitions.date,
     gender: schema.definitions.gender,
     relationship: schema.definitions.relationship
   };
