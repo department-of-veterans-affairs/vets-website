@@ -1,16 +1,13 @@
 ---
 layout: page-breadcrumbs.html
-title: After You Apply Template
+title: After You Apply for Health Care Benefits
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
+ - url: /healthcare/prescriptions
+   title: Manage your VA health care
+   description: "Refill a prescription, send a secure message to your health care provider, and more."
 ---
 
 After you’ve applied for VA health care, we’ll send you a letter in the mail to let you know if your application’s been approved. Find out what happens next.
@@ -20,11 +17,11 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 <div class="call-out" markdown="0">
 
 <h3 style="padding:0">Less than 1 week</h3>
-<p style="padding:0">Average time to process claims. If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18555747286">855-574-7286</a>.</p>
+<p style="padding:0">If more than 1 week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call 855-574-7286.</p>
 
 </div>
 
-### If my application is approved, what do I do next??
+### If my application is approved, what do I do next?
 
 <ol class="process">
 <li class="step one">
@@ -71,19 +68,17 @@ You may have requested a doctor’s appointment when you applied (either in pers
 
 #### What if I need to see a doctor before my scheduled appointment?
 
-If you need to see a doctor before your scheduled appointment, contact your local VA medical center or clinic and ask for:
+If you need to see a doctor before your scheduled appointment, contact your local VA medical center or clinic. [Find VA location near you](/facilities). When you call, ask for:
 - The enrollment coordinator, or
 - The urgent care clinic, or
 - The emergency room
-
-[Find VA location near you](/facilities)
 
 </li>
 </ol>
 
 ### What should I do if my application isn’t approved and I disagree with the decision? 
 
-If your application isn’t approved and you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason we’re not approving your application. This letter will also include instructions on how to appeal the decision if you don’t agree with it. [Download our “How Do I Appeal?” booklet](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf) 
+If your application isn’t approved and you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason why we didn't approve your application. This letter will also include directions on how to appeal the decision if you don’t agree with it. [Download our “How Do I Appeal?” booklet](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf) 
 
 
 <div markdown="0"><br></div>

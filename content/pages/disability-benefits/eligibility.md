@@ -1,16 +1,16 @@
 ---
 layout: page-breadcrumbs.html
-title: Disability Eligibility 
+title: Disability Benefits Eligibility 
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
+ - url: /disability-benefits/claims-process/ratings/
+   title: How does VA assign disability ratings?
+   description: "Learn about severity ratings"
+ - url: /disability-benefits/claims-process/presumed-disability/
+   title: What's a presumed disability?
+   description: "Learn why some chronic conditions may make you eligible for benefits" 
 ---
 
 If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
@@ -24,7 +24,7 @@ You may be able to get disability benefits if you have a current illness or inju
 - You got sick or injured while serving in the military—and can link this condition to your illness or injury, **or**
 - You had an illness or injury before you joined the military—and serving made it worse
 
-Who's covered?
+### Who's covered?
 
 - Veterans 
 - Qualified dependents
@@ -36,7 +36,6 @@ Who's covered?
 ### Ready to apply?
 
 [Learn about the application process](/disability-benefits/apply), or
-
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a>
 
 <div markdown="0"><br></div>

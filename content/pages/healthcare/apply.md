@@ -5,49 +5,41 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
+ - url: /healthcare/eligibility/
+   title: Eligibility
+   description: "Find out if you can get VA healthcare"
+ - url: /healthcare/after-you-apply/
+   title: What happens after you apply
+   description: "Learn what to do to get the most out of your VA health care"
 ---
 
 Once you’ve figured out if you qualify, applying for VA health care is easy. Find out how to apply.
 
 ### Prepare
-
-What do I need to complete the 10-10EZ?
-
-- Your most recent tax return
-- Social Security numbers for yourself and your qualified dependents
-- Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer)
+- [Check your eligibility](/healthcare/eligibility/)
+- Gather documents that you'll need to fill out the 10-10EZ, the application for VA health care
 
 <div markdown="0"><br></div>
 
 <div class="call-out" markdown="1">
 
-</div>
+### What do I need to complete the 10-10EZ?
 
-<div class="usa-alert usa-alert-warning usa-content secondary" markdown="0">
-<div class="usa-alert-body">
-<h4 style="padding:0">Alert describing an important exception</h4>
-<p style="margin:0">Text describing the exception and a <a href="http://www.google.com">link to do something</a></p>
-</div>
+- Your most recent tax return
+- Social Security numbers for yourself and your qualified dependents
+- Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer)
+
 </div>
 
 <div markdown="0"><br></div>
 
-### Apply online
+### Ready to apply?
 
-Some optional text about the online application.
-
-<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction)">Apply online</a>
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply online</a>
 
 <div markdown="0"><br></div>
 
 ### Other ways to apply
-
 
 #### By phone
 
@@ -69,20 +61,43 @@ Go to your nearest VA medical center or clinic. Bring the 10-10EZ form with you.
 [Find a VA medical center or clinic near you](/facilities).
 [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
+<a class="usa-button-primary" href="http://www.google.com">Track the status of your claim</a>
 
 ### How do I apply as a caregiver?
 
-Fill out VA form 10-10CG.
+To apply for health care as a caregiver, you have to fill out **VA form 10-10CG**. To get this form, you have to follow special download directions.  They are listed below. 
 [Download form 10-10CG](/healthcare/forms/vha-10-10CG.pdf). 
 
-<a class="usa-button-primary" href="http://www.google.com">Track the status of your claim</a>
+**How to download the form**
+Internet Explorer:
+1. Right click on the link to the form (above).
+2. Choose Save Target As...
+3. Choose where you want to save the file on your hard drive.
+4. Click Save.
+Double click on the downloaded file to open it.
+
+Firefox or Chrome:
+1. Right click on the link to the form (above).
+2. Choose Save Link As...
+3. Choose where you want to save the file on your hard drive.
+4. Click Save.
+Double click on the downloaded file to open it.
+
+Safari:
+1. Right click on the link to the form (above).
+2. Choose Download Linked File As...
+3. Choose where you want to save the file on your hard drive.
+4. Click Save.
+Double click on the downloaded file to open it.
 
 <div markdown="0"><br></div>
 
 ### What happens after I apply?
 
-[Find out what to expect after you send in your application](/healthcare/after-you-apply).
+[Find out what happens after you send in your application](/healthcare/after-you-apply).
 
-Already signed up? You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. [Manage your VA health care](/healthcare). 
+Already signed up? You can manage your VA health care online. You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. 
+
+<a class="usa-button-primary" href="/healthcare/prescriptions/">Manage your VA health care</a>
 
 <div markdown="0"><br></div>

@@ -9,11 +9,14 @@ relatedlinks:
    title: Other Educational Assistance Programs
    description: "REAP, VEAP, and Call to Service"
  - url: /education/gi-bill/post-9-11/
-   title: Post 9/11 Gi Bill
+   title: Post 9/11 GI Bill
    description: "Education and training for Servicemembers and Veterans"
+ - url: /education/tools-programs/
+   title: Career Counseling
+   description: "We can help you chart your course"
 ---
 
-You may be eligible for generous education benefits and opportunities, including help paying tuition, picking out a school, career counseling, and more.
+You may be eligible for generous education benefits and opportunities, including help paying tuition, picking out a school, career counseling, and more. Find out if you're eligible.
 
 <div class="feature" markdown="1">
 
@@ -23,7 +26,7 @@ You may be eligible if:
 
 - You meet the basic requirements for any GI Bill program.
 - You've served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001.
-[Learn more about the GI Bill](/education/gi-bill/post-9-11/)
+[Learn more about the GI Bill](/education/gi-bill/post-9-11/).
 
 ### As a dependent, am I eligible for the Post 9/11 GI Bill?
 
@@ -38,13 +41,17 @@ You may be eligible if:
 - You have a high school diploma, GED, or 12 hours of college credit, **and** 
 - You meet other requirements. [Learn more about the Montgomery GI Bill](/education/gi-bill/montgomery-active-duty/).
 
+### Other programs 
+
+- There are many ways we can help you pay for licensing classes, testing fees, and school, like Survivors and Dependents' Assistance. [Learn about other programs](/education/gi-bill/). 
+- [Learn about the education benefits application process](/education/apply). 
+
 </div>
 
 <div markdown="0"><br></div>
 
 ### Ready to apply?
 
-</div>
 Choose **Apply online** if you are a first time applicant.
 Includes Form 22-1990
 
@@ -56,7 +63,7 @@ Includes Form 22-1995
 
 ### Advanced training and certifications
 
-You can use GI BIll to help pay for licensing and certifications so you can become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional. [Learn about this benefit](/education/advanced-training-and-certifications/).
+You can also use the GI BIll to help pay for licensing and certifications so you can become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional. [Learn about this benefit](/education/advanced-training-and-certifications/).
 
 
 <div markdown="0"><br></div>
