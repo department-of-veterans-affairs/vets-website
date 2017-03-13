@@ -14,11 +14,9 @@ Getting your degree, specialization certificate, or other professional license i
 
 ### How long does it take us to make a decision?
 
-<div class="call-out" markdown="0">
-
-<h3 style="padding:0">30 days</h3>
-<p style="padding:0">This is the average time it takes to process education claims.</p>
-
+<div class="card information" markdown="0">
+<span class="number">30 days</span>
+<span class="description">Average time to process education claims.</span>
 </div>
 
 ### What should I do while I wait?

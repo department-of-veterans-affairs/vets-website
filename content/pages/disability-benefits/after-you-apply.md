@@ -17,11 +17,9 @@ Once you apply for disability benefits, the claim gets reviewed by our team. Lea
 
 ### How long does it take VA to make a decision?
 
-<div class="call-out" markdown="0">
-
-<h3 style="padding:0">121.8 days</h3>
-<p style="padding:0">This was the average time it took us to process disability-related claims in January 2017.</p>
-
+<div class="card information" markdown="0">
+<span class="number">121.8 days</span>
+<span class="description">Average time to process disability-related claims in January 2017.</span>
 </div>
 
 #### The amount of time it takes to review your claim depends on:
