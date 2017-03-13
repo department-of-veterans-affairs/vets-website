@@ -19,7 +19,7 @@ import educationTypeUISchema from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
 
-import contactInformation from '../../pages/contactInformation';
+import createContactInformationPage from '../../pages/contactInformation';
 
 import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -260,7 +260,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation,
+        contactInformation: createContactInformationPage(),
         dependents: {
           title: 'Dependents',
           path: 'personal-information/depedents',
