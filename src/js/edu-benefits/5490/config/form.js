@@ -19,7 +19,7 @@ import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 
-import contactInformation from '../../pages/contactInformation';
+import createContactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
@@ -381,7 +381,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation,
+        contactInformation: createContactInformationPage('relativeAddress'),
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
