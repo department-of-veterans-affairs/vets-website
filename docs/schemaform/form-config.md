@@ -66,9 +66,23 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
           // Objects that start with view: will not be sent, but their children will be merged
           // into the parent object and will be sent
           // These can be used to remove fields from what is sent to the server, like if we have
-          // a question that is only used to reveal other questions
+          // a question that is only used to reveal other questions or group related questions
+          // together to be conditionally revealed that aren't in an object in the schema
           'view:field2': {
             type: 'string'
+          },
+          'view:artificialGroup'{
+            type: 'object',
+            properties: {
+              // view:artificialGroup will be flattened; subField1 and subField2 will be
+              // siblings of field1 when sent to the api
+              subField1: {
+                type: 'string'
+              },
+              subField2: {
+                type: 'boolean'
+              }
+            }
           }
         }
       },
