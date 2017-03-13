@@ -38,12 +38,12 @@ We can’t replace flags that are lost, destroyed, or stolen, but some Veterans 
 
 ### Can I get a Presidential Memorial Certificate?
 
-A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of an honorably discharged deceased Veteran. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran's death certificate and discharge papers (DD214 or other separation documents). [Download a PMC request form](http://www.va.gov/vaforms/va/pdf/VA40-0247.pdf).
+A Veteran’s next of kin or family member can get a PMC, which is an engraved paper certificate signed by the current president. We give the PMC in memory of a deceased Veteran who's eligible for burial in a national cemetery. You can apply for it in person at any VA regional office. Or, you can fill out and mail a PMC request form, along with a copy of the Veteran's death certificate and discharge papers (DD214 or other separation documents). [Download a PMC request form](http://www.va.gov/vaforms/va/pdf/VA40-0247.pdf).
 
 Send the PMC request form and discharge papers to: 
 
 <dl class="va-address-block">
-    <dd>Memorial Programs Service (41B)</dd>
+    <dd>Memorial Products Service (41B)</dd>
     <dd>Department of Veterans Affairs</dd>
     <dd>5109 Russell Road</dd>
     <dd>Quantico, VA 22134-3903</dd>
