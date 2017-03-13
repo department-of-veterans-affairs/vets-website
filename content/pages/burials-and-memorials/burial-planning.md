@@ -12,7 +12,7 @@ relatedlinks:
    description: Learn about burial flags and more.
 ---
 
-When a Veteran, spouse, or dependent child dies, the person who plans the burial or memorial service has to take certain steps. You can also plan ahead for a burial in 1 of the 134 national cemeteries. Find out how to plan ahead or what to do if your family member has just died. 
+When a Veteran, spouse, or dependent child dies, the person who plans the burial or memorial service has to take certain steps. You can also plan ahead for a burial in 1 of the 135 national cemeteries. Find out how to plan ahead or what to do if your family member has just died. 
 
 <div class="call-out" markdown="0">
 
