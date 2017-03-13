@@ -24,6 +24,6 @@ relatedlinks:
    description: Find where a Veteran or family member is buried in a national, state, military, or Department of the Interior cemetery.
 ---
 
-We can help Veterans and family members plan a military burial or memorial service. Find out how to get burial benefits. 
+We can help Veterans and family members plan a burial or memorial service. Find out how to get burial benefits. 
 
 
