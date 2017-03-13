@@ -15,10 +15,10 @@ import * as currentOrPastDate from '../../../common/schemaform/definitions/curre
 import { uiSchema as fullNameUiSchema } from '../../../common/schemaform/definitions/fullName';
 import * as ssnCommon from '../../../common/schemaform/definitions/ssn';
 import * as address from '../../../common/schemaform/definitions/address';
+import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-// import EmploymentPeriodView from '../../5490/components/EmploymentPeriodView';
 
 import {
   benefitsLabels,
@@ -37,8 +37,7 @@ const {
 const {
   benefit,
   serviceBranch,
-  civilianBenefitsAssistance,
-  licenseOrRating
+  civilianBenefitsAssistance
 } = fullSchema1990e.properties;
 
 const {
@@ -198,28 +197,10 @@ const formConfig = {
           path: 'employment-history',
           uiSchema: {
             employmentHistory: {
-              licenseOrRating: {
+              'view:hasNonMilitaryJobs': {
                 'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?'
               },
-              nonMilitaryJobs: {
-                items: {
-                  name: {
-                    'ui:title': 'Main job'
-                  },
-                  months: {
-                    'ui:title': 'Number of months worked'
-                  },
-                  licenseOrRating: {
-                    'ui:title': 'Licenses or rating'
-                  }
-                },
-                'ui:options': {
-                  itemName: 'Employment Period',
-                  // viewField: EmploymentPeriodView,
-                  hideTitle: true,
-                  expandUnder: 'view:licenseOrRating'
-                }
-              }
+              nonMilitaryJobs: nonMilitaryJobsUiSchema
             }
           },
           schema: {
@@ -228,11 +209,10 @@ const formConfig = {
               employmentHistory: {
                 type: 'object',
                 properties: {
-                  'view:licenseOrRating': {
+                  'view:hasNonMilitaryJobs': {
                     type: 'boolean'
                   },
-                  nonMilitaryJobs
-                  // nonMilitaryJobs: _.unset(nonMilitaryJobs, 'items.properties.postMilitaryJob')
+                  nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
                 }
               }
             }
