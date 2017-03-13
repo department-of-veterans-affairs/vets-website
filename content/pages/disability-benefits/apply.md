@@ -34,10 +34,9 @@ For the first disability claim you file, please provide:
 
 - Discharge papers (DD214 or other separation documents) 
 - Service treatment records
+  - [Order service records through the National Archives](https://www.archives.gov/veterans/military-service-records).
 
-[Order service records through the National Archives](https://www.archives.gov/veterans/military-service-records).
-
-For all disability claims, please provide:
+**For all disability claims, please provide:**
 
 - VA medical records and hospital records that relate to your claimed illnesses or injuries
 - Private medical records and hospital reports that relate to your claimed illnesses or injuries

@@ -43,7 +43,7 @@ Once you’ve figured out if you qualify, applying for VA health care is easy. F
 
 #### By phone
 
-Call the Vets.gov Help Desk at 855-574-7286, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
+Call the Vets.gov Help Desk at <a href="tel:+18555747286">855-574-7286</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
 #### By mail
 

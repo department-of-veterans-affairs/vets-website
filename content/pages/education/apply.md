@@ -34,16 +34,20 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 </div>
 
-Choose **Apply online** if you are a first time applicant.
-Includes Form 22-1990
+### Apply
 
-Choose **Manage Benefits** if you need to make a change to your current education benefits (for example, you’re moving to a new school).
-Includes Form 22-1995
+#### For first-time applicants
 
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply online</a>
-<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage Benefits</a>
+Apply online with Form 22-1990
 
-<div markdown="0"><br></div>
+<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply for benefits</a>
+
+#### To make a change to your current education benefits
+
+If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1195
+
+<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage benefits</a>
+
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
 	<div class="usa-alert-body">
 
@@ -70,12 +74,12 @@ You must apply for education benefits using eBenefits.va.gov if you're:
 - Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 
 #### By mail
-- Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
+- Call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
 ### Already applied?
 
 - You can't make changes to your application
-- For questions about Education Benefits please call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
+- For questions about Education Benefits please call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
 - If we've asked for documents, please upload them through the GI Bill site. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill site</a>
 
 <div markdown="0"><br></div>
