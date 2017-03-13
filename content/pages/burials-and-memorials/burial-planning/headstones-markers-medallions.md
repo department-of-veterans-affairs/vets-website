@@ -6,7 +6,7 @@ template: 6-info-page
 ---
 
 
-To honor the military service of a deceased Veteran, we may provide a headstone or marker to identify the burial place, or a medallion to attach to a headstone or marker. We provide these for Veterans buried in both public and private cemeteries. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, a national cemetery, or a cemetery at a military post or base. Find out how to arrange for one of these memorial items.
+To honor the military service of a deceased Veteran, we may provide a headstone or marker to identify the burial place, or a medallion to attach to a privately purchased headstone or marker. We provide these for Veterans buried in both public and private cemeteries. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, a national cemetery, or a cemetery at a military post or base. Find out how to arrange for one of these memorial items.
 
 <div class="call-out" markdown="0">
 
