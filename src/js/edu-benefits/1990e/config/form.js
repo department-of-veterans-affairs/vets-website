@@ -7,12 +7,11 @@ import {
 
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
+
 import createContactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
-import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
-import { uiSchema as fullNameUiSchema } from '../../../common/schemaform/definitions/fullName';
 import * as ssnCommon from '../../../common/schemaform/definitions/ssn';
 import * as address from '../../../common/schemaform/definitions/address';
 import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
@@ -20,15 +19,11 @@ import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import {
-  benefitsLabels,
-  relationshipLabels,
-  genderLabels
-} from '../../utils/helpers';
+import applicantInformation from '../../pages/applicantInformation';
+
+import { benefitsLabels } from '../../utils/helpers';
 
 const {
-  gender,
-  relationship,
   fullName,
   ssn,
   nonMilitaryJobs
@@ -62,41 +57,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant information',
-          initialData: {},
-          uiSchema: {
-            relativeFullName: fullNameUiSchema,
-            relativeSocialSecurityNumber: ssnCommon.uiSchema,
-            relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
-            gender: {
-              'ui:widget': 'radio',
-              'ui:title': 'Gender',
-              'ui:options': {
-                labels: genderLabels
-              }
-            },
-            relationship: {
-              'ui:widget': 'radio',
-              'ui:title': 'What is your relationship to the service member whose benefit is being transferred to you?',
-              'ui:options': {
-                labels: relationshipLabels
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            required: ['relativeFullName'],
-            properties: {
-              relativeFullName: fullName,
-              relativeSocialSecurityNumber: ssnCommon.schema,
-              relativeDateOfBirth: currentOrPastDate.schema,
-              gender,
-              relationship
-            }
-          }
-        }
+        applicantInformation: applicantInformation(fullSchema1990e)
       }
     },
     benefitEligibility: {
