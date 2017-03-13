@@ -100,4 +100,11 @@ Already signed up? You can manage your VA health care online. You can refill a p
 
 <a class="usa-button-primary" href="/healthcare/prescriptions/">Manage your VA health care</a>
 
+#### How long does it take VA to make a decision?
+
+<div class="card information" markdown="0">
+<span class="number">Less than 1 week</span>
+<span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18555747286">855-574-7286</a>.</span>
+</div>
+
 <div markdown="0"><br></div>

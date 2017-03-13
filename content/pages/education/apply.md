@@ -82,4 +82,11 @@ You must apply for education benefits using eBenefits.va.gov if you're:
 - For questions about Education Benefits please call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
 - If we've asked for documents, please upload them through the GI Bill site. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill site</a>
 
+#### How long does it take us to make a decision?
+
+<div class="card information" markdown="0">
+<span class="number">30 days</span>
+<span class="description">Average time to process education claims.</span>
+</div>
+
 <div markdown="0"><br></div>

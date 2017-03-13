@@ -72,4 +72,11 @@ You don't need to do anything while you're waiting unless we send you a letter a
 
 [Learn what happens after you apply](/disability-benefits/after-you-apply).
 
+#### How long does it take VA to make a decision?
+
+<div class="card information" markdown="0">
+<span class="number">121.8 days</span>
+<span class="description">Average time to process disability-related claims in January 2017.</span>
+</div>
+
 <div markdown="0"><br></div>
