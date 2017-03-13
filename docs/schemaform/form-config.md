@@ -25,6 +25,7 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
   // Schema definitions that can be referenced on any page. These are added to each page's schema
   // in the reducer code, so that you don't have to put all of the common fields in the definitions
   // property in each page schema.
+  // For more information on definitions, see schema.definitions below.
   defaultDefinitions: {}, 
 
   // Object containing the configuration for each chapter. Each property is the key for a chapter
@@ -51,6 +52,11 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
       // JSON schema object for the page. Follows the JSON Schema format.
       schema: {
         type: 'object',
+        // In a schema's properties, there are references to definitions. For example:
+        //   "homePhone": { "$ref": "#/definitions/phone" }
+        // In the config file, the definition for phone would then need to be added into definitions
+        // for it to be parsed correctly and added to homePhone.
+        definitions: {},
         properties: {
           field1: {
             type: 'string'

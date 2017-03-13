@@ -285,6 +285,27 @@ describe('Schemaform helpers:', () => {
       expect(newSchema.properties.field['ui:hidden']).to.be.true;
       expect(newSchema).not.to.equal(schema);
     });
+    it('should set hidden on nested hidden object field', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          unhide: { type: 'boolean' },
+          nestedObject: {}
+        }
+      };
+      const uiSchema = {
+        'ui:options': { hideIf: () => false },
+        nestedObject: {
+          'ui:options': { hideIf: () => true }
+        }
+      };
+      const data = { unhide: false };
+
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+
+      expect(newSchema.properties.nestedObject['ui:hidden']).to.be.true;
+      expect(newSchema).not.to.equal(schema);
+    });
     it('should set collapsed on expandUnder field', () => {
       const schema = {
         type: 'object',
