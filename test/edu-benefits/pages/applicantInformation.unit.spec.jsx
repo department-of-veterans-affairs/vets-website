@@ -4,19 +4,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 
-import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/edu-benefits/1990e/config/form';
+import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import formConfig from '../../../src/js/edu-benefits/pages/applicantInformation.js';
 
 describe('Edu 1990e applicantInformation', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
-  const definitions = formConfig.defaultDefinitions;
+  const { schema, uiSchema } = formConfig();
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
           data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+          uiSchema={uiSchema}/>
     );
 
     expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input'))
@@ -64,4 +62,3 @@ describe('Edu 1990e applicantInformation', () => {
     expect(onSubmit.called).to.be.true;
   });
 });
-

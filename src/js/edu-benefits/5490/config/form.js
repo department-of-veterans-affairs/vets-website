@@ -23,6 +23,7 @@ import * as toursOfDuty from '../../definitions/toursOfDuty';
 
 import contactInformation from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
+import applicantInformation from '../../pages/applicantInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -81,7 +82,14 @@ const formConfig = {
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
-      pages: {}
+      pages: {
+        applicantInformation: applicantInformation(fullSchema5490, [
+          'relativeFullName',
+          'relativeSocialSecurityNumber',
+          'relativeDateOfBirth',
+          'gender'
+        ])
+      }
     },
     benefitSelection: {
       title: 'Education Benefit',
