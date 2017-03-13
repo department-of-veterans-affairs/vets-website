@@ -56,17 +56,20 @@ export class CalculatorForm extends React.Component {
 
   renderYellowRibbon() {
     if (!this.props.displayed.yellowRibbon) return null;
-    const Amount = ({ condition }) => {
-      if (!condition) return null;
-      return (
+
+    let amountInput;
+
+    if (this.props.calculator.yellowRibbonRecipient === 'yes') {
+      amountInput = (
         <div className="row">
           <div className="small-12 columns">
             <label htmlFor="yellowRibbonAmount">Yellow Ribbon Amount From School per year</label>
             <input type="text" name="yellowRibbonAmount" value={this.props.calculator.yellowRibbonAmount} onChange={this.props.calculatorInputChange}/>
           </div>
         </div>
-      )
-    };
+      );
+    }
+
     return (
       <div>
         <div className="row">
@@ -82,7 +85,7 @@ export class CalculatorForm extends React.Component {
                 onChange={this.props.calculatorInputChange}/>
           </div>
         </div>
-        <Amount condition={this.props.calculator.yellowRibbonRecipient === 'yes'}/>
+        {amountInput}
       </div>
     );
   }
@@ -101,7 +104,7 @@ export class CalculatorForm extends React.Component {
 
   renderAssist() {
     if (!this.props.displayed.tuitionAssist) return null;
-    render (
+    return (
       <div className="row">
         <h1>Tuition Assist</h1>
       </div>
@@ -231,7 +234,7 @@ export class CalculatorForm extends React.Component {
                 visible
                 value={this.props.calculator.calendar}
                 onChange={this.props.calculatorInputChange}>
-              {this.renderLearnMoreLabel({ text: 'School Calendar', modal: 'calcSchoolCalendar'})}
+              {this.renderLearnMoreLabel({ text: 'School Calendar', modal: 'calcSchoolCalendar' })}
             </Dropdown>
           </div>
         </div>
@@ -243,10 +246,10 @@ export class CalculatorForm extends React.Component {
   renderKicker() {
     if (!this.props.displayed.kicker) return null;
 
-    let kickerAmountInput;
+    let amountInput;
 
     if (this.props.calculator.kickerEligible === 'yes') {
-      kickerAmount = (
+      amountInput = (
         <div className="row">
           <div className="small-12 columns">
             <label htmlFor="kickerAmount">How much is your kicker?</label>
@@ -271,16 +274,18 @@ export class CalculatorForm extends React.Component {
                 onChange={this.props.calculatorInputChange}/>
           </div>
         </div>
-        {kickerAmountInput}
+        {amountInput}
       </div>
     );
   }
 
   renderBuyUp() {
     if (!this.props.displayed.buyUp) return null;
-    const BuyUpAmount = ({ condition }) => {
-      if (!condition) return null;
-      return (
+
+    let amountInput;
+
+    if (this.props.calculator.buyUp === 'yes') {
+      amountInput = (
         <div className="row">
           <div className="small-12 columns">
             <label htmlFor="buyUpAmount">How much did you pay toward buy-up?</label>
@@ -288,7 +293,8 @@ export class CalculatorForm extends React.Component {
           </div>
         </div>
       );
-    };
+    }
+
     return (
       <div>
         <div className="row">
@@ -304,7 +310,7 @@ export class CalculatorForm extends React.Component {
                 onChange={this.props.calculatorInputChange}/>
           </div>
         </div>
-        <KickerAmount condition={this.props.calculator.buyUp === 'yes'}/>
+        {amountInput}
       </div>
     );
   }
@@ -351,17 +357,17 @@ export class CalculatorForm extends React.Component {
     if (!this.props.displayed) return null;
     return (
       <div className="calculator-form">
-        { this.renderTuition() }
-        { this.renderBooks() }
-        { this.renderYellowRibbon() }
-        { this.renderScholarships() }
-        { this.renderTuitionAssist() }
-        { this.renderEnrolled() }
-        { this.renderEnrolledOld() }
-        { this.renderCalendar() }
-        { this.renderKicker() }
-        { this.renderBuyUp() }
-        { this.renderWorking() }
+        {this.renderTuition()}
+        {this.renderBooks()}
+        {this.renderYellowRibbon()}
+        {this.renderScholarships()}
+        {this.renderTuitionAssist()}
+        {this.renderEnrolled()}
+        {this.renderEnrolledOld()}
+        {this.renderCalendar()}
+        {this.renderKicker()}
+        {this.renderBuyUp()}
+        {this.renderWorking()}
       </div>
     );
   }
