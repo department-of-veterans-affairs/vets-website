@@ -8,8 +8,7 @@ import {
   getDefaultFormState,
   orderProperties,
   retrieveSchema,
-  getDefaultRegistry,
-  setState
+  getDefaultRegistry
 } from 'react-jsonschema-form/lib/utils';
 
 import ExpandingGroup from '../components/form-elements/ExpandingGroup';
@@ -18,6 +17,24 @@ import ExpandingGroup from '../components/form-elements/ExpandingGroup';
  * This is largely copied from the react-jsonschema-form library,
  * but with the way descriptions are used changed
  */
+
+/*
+ * Add a first field class to the first actual field on the page
+ * and on any "blocks", which are titled sections of the page
+ */
+function setFirstFields(id) {
+  if (id === 'root') {
+    const containers = [document].concat(
+      Array.from(document.querySelectorAll('.schemaform-block'))
+    );
+    containers.forEach(block => {
+      const fields = Array.from(block.querySelectorAll('.form-checkbox,.schemaform-field-template'));
+      if (fields.length) {
+        fields[0].classList.add('schemaform-first-field');
+      }
+    });
+  }
+}
 
 class ObjectField extends React.Component {
   static defaultProps = {
@@ -40,6 +57,10 @@ class ObjectField extends React.Component {
     this.orderedProperties = this.orderAndFilterProperties(props.schema, props.uiSchema);
   }
 
+  componentDidMount() {
+    setFirstFields(this.props.idSchema.$id);
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.schema !== nextProps.schema || this.props.uiSchema !== nextProps.uiSchema) {
       this.orderedProperties = this.orderAndFilterProperties(nextProps.schema, nextProps.uiSchema);
@@ -54,6 +75,10 @@ class ObjectField extends React.Component {
    */
   shouldComponentUpdate(nextProps) {
     return !deepEquals(this.props, nextProps);
+  }
+
+  componentDidUpdate() {
+    setFirstFields(this.props.idSchema.$id);
   }
 
   onPropertyChange(name) {
@@ -82,10 +107,11 @@ class ObjectField extends React.Component {
   orderAndFilterProperties(schema, uiSchema) {
     const properties = Object.keys(schema.properties);
     const orderedProperties = orderProperties(properties, _.get('ui:order', uiSchema));
+    const filteredProperties = orderedProperties.filter(prop => !schema.properties[prop]['ui:hidden']);
     const groupedProperties = _.groupBy((item) => {
       const expandUnderField = _.get([item, 'ui:options', 'expandUnder'], uiSchema);
       return expandUnderField || item;
-    }, orderedProperties);
+    }, filteredProperties);
 
     return _.values(groupedProperties);
   }
@@ -102,12 +128,6 @@ class ObjectField extends React.Component {
     return false;
   }
 
-  asyncSetState(state, options = { validate: false }) {
-    setState(this, state, () => {
-      this.props.onChange(this.state, options);
-    });
-  }
-
   render() {
     const {
       uiSchema,
@@ -116,7 +136,7 @@ class ObjectField extends React.Component {
       required,
       disabled,
       readonly,
-      touchedSchema
+      onBlur
     } = this.props;
     const { definitions, fields, formContext } = this.props.registry;
     const { TitleField } = fields;
@@ -129,52 +149,65 @@ class ObjectField extends React.Component {
     // description and title setup
     const showFieldLabel = uiSchema['ui:options'] && uiSchema['ui:options'].showFieldLabel;
     const title = uiSchema['ui:title'] || schema.title;
-    const hasTextDescription = typeof uiSchema['ui:description'] === 'string';
-    const DescriptionField = !hasTextDescription && typeof uiSchema['ui:description'] === 'function'
+
+    const description = uiSchema['ui:description'];
+    const textDescription = typeof description === 'string' ? description : null;
+    const DescriptionField = typeof description === 'function'
       ? uiSchema['ui:description']
       : null;
+
+    const hasTitleOrDescription = !!title || !!description;
     const isRoot = idSchema.$id === 'root';
 
     let containerClassNames = classNames({
       'input-section': isRoot,
+      'schemaform-field-container': true,
       'schemaform-block': title && !isRoot
     });
 
-    const renderProp = (propName, index) => (
-      <div key={index} className={index === 0 ? 'first-field' : null}>
-        <SchemaField
-            name={propName}
-            required={this.isRequired(propName)}
-            schema={schema.properties[propName]}
-            uiSchema={uiSchema[propName]}
-            errorSchema={errorSchema[propName]}
-            idSchema={idSchema[propName]}
-            formData={formData[propName]}
-            onChange={this.onPropertyChange(propName)}
-            onBlur={this.onPropertyBlur(propName)}
-            touchedSchema={typeof touchedSchema === 'object' ? touchedSchema[propName] : !!touchedSchema}
-            registry={this.props.registry}
-            disabled={disabled}
-            readonly={readonly}/>
-      </div>
-    );
+    const renderProp = (propName) => {
+      return (
+        <div key={propName}>
+          <SchemaField
+              name={propName}
+              required={this.isRequired(propName)}
+              schema={schema.properties[propName]}
+              uiSchema={uiSchema[propName]}
+              errorSchema={errorSchema[propName]}
+              idSchema={idSchema[propName]}
+              formData={formData[propName]}
+              onChange={this.onPropertyChange(propName)}
+              onBlur={onBlur}
+              registry={this.props.registry}
+              disabled={disabled}
+              readonly={readonly}/>
+        </div>
+      );
+    };
 
     return (
       <fieldset>
         <div className={containerClassNames}>
-          {title && !showFieldLabel
-              ? <TitleField
-                  id={`${idSchema.$id}__title`}
-                  title={title}
-                  required={required}
-                  formContext={formContext}/> : null}
-          {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
-          {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
+          {hasTitleOrDescription && <div className="schemaform-block-header">
+            {title && !showFieldLabel
+                ? <TitleField
+                    id={`${idSchema.$id}__title`}
+                    title={title}
+                    required={required}
+                    formContext={formContext}/> : null}
+            {textDescription && <p>{textDescription}</p>}
+            {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
+            {!textDescription && !DescriptionField && description}
+          </div>}
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
+              const [first, ...rest] = objectFields;
               return (
                 <ExpandingGroup open={!!formData[objectFields[0]]} key={index}>
-                  {objectFields.map(renderProp)}
+                  {renderProp(first)}
+                  <div>
+                    {rest.map(renderProp)}
+                  </div>
                 </ExpandingGroup>
               );
             }

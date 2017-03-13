@@ -9,14 +9,21 @@ export default class DateWidget extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
-    this.state = { value: parseISODate(this.props.value), touched: { month: false, day: false, year: false } };
+    this.state = {
+      value: parseISODate(this.props.value),
+      touched: {
+        month: false,
+        day: false,
+        year: false
+      }
+    };
   }
 
   handleBlur(field) {
     const newState = _.set(['touched', field], true, this.state);
     this.setState(newState, () => {
       if (newState.touched.year && newState.touched.month && newState.touched.day) {
-        this.props.onBlur();
+        this.props.onBlur(this.props.id);
       }
     });
   }

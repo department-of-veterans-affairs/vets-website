@@ -21,12 +21,14 @@ const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
+const semver = require('semver');
 
 const fs = require('fs');
 const path = require('path');
 
 const sourceDir = '../content/pages';
-
+const minimumNpmVersion = '3.8.9';
+const minimumNodeVersion = '4.4.7';
 // Make sure git pre-commit hooks are installed
 ['pre-commit'].forEach(hook => {
   const src = `../hooks/${hook}`;
@@ -38,6 +40,19 @@ const sourceDir = '../content/pages';
     }
   }
 });
+
+if (semver.compare(process.env.npm_package_engines_npm, minimumNpmVersion) === -1) {
+  process.stdout.write(
+    `NPM version (mininum): ${minimumNpmVersion}\n`);
+  process.stdout.write(`NPM version (installed): ${process.env.npm_package_engines_npm}\n`);
+  process.exit(1);
+}
+
+if (semver.compare(process.version, minimumNodeVersion) === -1) {
+  process.stdout.write(`Node.js version (mininum): v${minimumNodeVersion}\n`);
+  process.stdout.write(`Node.js version (installed): ${process.version}\n`);
+  process.exit(1);
+}
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
@@ -110,7 +125,8 @@ smith.destination(`../build/${options.buildtype}`);
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('healthcare/blue-button/*');
+  ignoreList.push('healthcare/health-records/*');
+  ignoreList.push('gi-bill-comparison-tool/*');
 }
 smith.use(ignore(ignoreList));
 
@@ -149,8 +165,9 @@ if (options.watch) {
         { from: '^/disability-benefits/track-claims(.*)', to: '/disability-benefits/track-claims/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
+        { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
-        { from: '^/healthcare/blue-button(.*)', to: '/healthcare/blue-button/' },
+        { from: '^/healthcare/health-records(.*)', to: '/healthcare/health-records/' },
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }

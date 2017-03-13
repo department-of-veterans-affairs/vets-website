@@ -3,6 +3,9 @@
 @import 'style';
 @import 'modules/m-form-process';
 @import 'modules/m-progress-bar';
+@import 'modules/m-schemaform';
+@import 'modules/m-modal';
+@import 'modules/m-omb-info';
 
 $button-stroke: inset 0 0 0 1px;
 
@@ -220,13 +223,6 @@ table.review td {
   }
 }
 
-.schemaform-buttons {
-  [type="submit"] {
-    margin-top: 0.5em;
-    margin-right: 0.5em;
-  }
-}
-
 .form-error-date .input-date-label {
   font-weight: bold;
   font-size: 1.7rem;
@@ -257,58 +253,73 @@ form.rjsf {
   max-width: 100%;
 }
 
-.schemaform-block {
-  margin-top: 2em;
-}
-
-.va-growable-expanded > div > fieldset > div > .first-field label,
-.va-growable-expanded > div > fieldset > div > .first-field .usa-input-error {
-  margin-top: 0;
-}
-
 .va-growable-review {
   margin-top: 16px;
 }
 
-.nav-header-schemaform {
-  margin-top: 1em !important;
+.edu-benefits-dependents-desc {
+  margin-top: 5px;
 }
 
-.progress-box-schemaform {
-  margin-top: 0;
-  padding-top: 0;
-  border: none;
+.edu-dd-warning {
+  margin-top: 3rem;
 }
 
-.schemaform-chapter-progress {
-  padding-left: 2rem;
-  padding-right: 2rem;
-  @media (max-width: 40.063em) {
-    padding-left: 2rem - .9375rem;
-    padding-right: 2rem - .9375rem;
+
+// ---- Additional print rules ---- //
+
+@media print {
+  // The + for on the confirmation page
+  // Will have to change when #4953 gets merged
+  .form-expanding-group-plus::after {
+    display: none;
+  }
+  .form-expanding-group {
+    margin-left: 0px;
+  }
+
+  .form-progress-buttons {
+    display: none;
+  }
+
+  .schemaform-title {
+    margin-bottom: 1rem;
+    justify-content: center;
+  }
+
+  .edu-benefits-submit-success > h3 {
+    text-align: center;
+  }
+
+  .inset {
+    margin: 1rem 0rem;
+    padding: 0px;
   }
 }
 
-.schemaform-title {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  > h1 {
-    margin-bottom: 0;
-    padding-right: 10px;
+// Even up the spacing between multi-line labels and their respective elements
+label {
+  + div {
+    // Space above the date fields
+    .form-datefield-month, .form-datefield-day, .usa-form-group-year,
+    // And the inputs uswds sets a top margin for
+    input:not([type="radio"]),
+    input[type="text"], input[type="email"],
+    input[type="password"], input[type="url"],
+    input[type="tel"], input[type="number"],
+    input[type="search"], input[type="file"],
+    input[type="date"], input[type="datetime-local"],
+    input[type="month"], input[type="time"],
+    input[type="week"], textarea, select {
+      margin-top: 0.5em;
+    }
   }
-  > .schemaform-subtitle {
-    font-size: 2rem;
-  }
-  margin-bottom: 3rem;
 }
 
-.schemaform-required-span {
-  color: $color-secondary-dark;
-  margin: 0 0.35em;
-}
-
-.schemaform-intro {
-  padding-bottom: 1rem;
+.row .edu-intro-spacing {
   margin-bottom: 7rem;
+}
+
+.usa-alert ul:first-child {
+  margin-top: 0;
 }

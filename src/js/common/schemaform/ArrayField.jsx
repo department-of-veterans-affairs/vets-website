@@ -1,7 +1,9 @@
 import React from 'react';
 import _ from 'lodash/fp';
+import classNames from 'classnames';
 import Scroll from 'react-scroll';
 import { scrollToFirstError } from '../utils/helpers';
+import { setItemTouched } from './helpers';
 
 import {
   retrieveSchema,
@@ -44,13 +46,7 @@ export default class ArrayField extends React.Component {
   }
 
   onItemChange(indexToChange, value) {
-    const newItems = this.props.formData.map(
-      (current, index) => {
-        return index === indexToChange
-          ? value
-          : current;
-      }
-    );
+    const newItems = _.set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
   }
 
@@ -99,8 +95,8 @@ export default class ArrayField extends React.Component {
       });
     } else {
       // Set all the fields for this item as touched, so we show errors
-      const touchedSchema = _.set(index, true, this.state.touchedSchema);
-      this.setState({ touchedSchema }, () => {
+      const touched = setItemTouched(this.props.idSchema.$id, index, this.props.idSchema);
+      this.props.formContext.setTouched(touched, () => {
         scrollToFirstError();
       });
     }
@@ -128,8 +124,8 @@ export default class ArrayField extends React.Component {
         this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
       });
     } else {
-      const touchedSchema = _.set(lastIndex, true, this.state.touchedSchema);
-      this.setState({ touchedSchema }, () => {
+      const touched = setItemTouched(this.props.idSchema.$id, lastIndex, this.props.idSchema);
+      this.props.formContext.setTouched(touched, () => {
         scrollToFirstError();
       });
     }
@@ -159,7 +155,6 @@ export default class ArrayField extends React.Component {
       readonly,
       registry,
       formContext,
-      touchedSchema,
       schema
     } = this.props;
     const definitions = registry.definitions;
@@ -194,10 +189,6 @@ export default class ArrayField extends React.Component {
             // This is largely copied from the default ArrayField
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemsSchema, itemIdPrefix, definitions);
-            let itemTouched = (touchedSchema ? touchedSchema[index] : false);
-            if (this.state.touchedSchema && typeof this.state.touchedSchema[index] !== 'undefined') {
-              itemTouched = this.state.touchedSchema[index];
-            }
             const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || items.length > 1;
@@ -220,7 +211,6 @@ export default class ArrayField extends React.Component {
                             formData={item}
                             onChange={(value) => this.onItemChange(index, value)}
                             onBlur={(path) => this.onItemBlur(index, path)}
-                            touchedSchema={itemTouched}
                             registry={this.props.registry}
                             required={false}
                             disabled={disabled}
@@ -232,7 +222,7 @@ export default class ArrayField extends React.Component {
                             {!isLast && <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>}
                           </div>
                           <div className="small-6 right columns">
-                            <button className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>
+                            <button className="usa-button-outline float-right" type="button" onClick={() => this.handleRemove(index)}>Remove</button>
                           </div>
                         </div>}
                     </div>
@@ -255,7 +245,19 @@ export default class ArrayField extends React.Component {
               </div>
             );
           })}
-          <button type="button" className="usa-button-outline va-growable-add-btn" onClick={this.handleAdd}>Add Another</button>
+          <button
+              type="button"
+              className={classNames(
+                'usa-button-outline',
+                'va-growable-add-btn',
+                {
+                  'usa-button-disabled': !this.props.formData
+                }
+              )}
+              disabled={!this.props.formData}
+              onClick={this.handleAdd}>
+            Add Another
+          </button>
         </div>
       </div>
     );
@@ -266,10 +268,10 @@ ArrayField.propTypes = {
   schema: React.PropTypes.object.isRequired,
   uiSchema: React.PropTypes.object,
   errorSchema: React.PropTypes.object,
-  touchedSchema: React.PropTypes.object,
   requiredSchema: React.PropTypes.object,
   idSchema: React.PropTypes.object,
   onChange: React.PropTypes.func.isRequired,
+  onBlur: React.PropTypes.func,
   formData: React.PropTypes.array,
   disabled: React.PropTypes.bool,
   readonly: React.PropTypes.bool,
@@ -283,4 +285,3 @@ ArrayField.propTypes = {
     formContext: React.PropTypes.object.isRequired,
   })
 };
-

@@ -1,25 +1,18 @@
-html {
-  font-size: $em-base;
-  font-weight: 500;
-  overflow: -moz-scrollbars-vertical;
-}
-
 html, body {
   padding: 0;
   margin: 0;
 }
 
+html {
+  font-size: $em-base;
+  font-weight: 500;
+}
+
 body {
+  background: $color-white;
   color: $color-gray-dark;
   font-family: $font-sans;
   font-size: $base-font-size;
-}
-
-// General
-body, .home {
-  background: $color-primary-darkest;
-  background-size: contain;
-  color: $color-white;
 }
 
 // Skip link
@@ -124,12 +117,7 @@ figure {
   margin-left: -$column-gutter/2;
   margin-right: -$column-gutter/2;
 
-  @media #{$small} {
-    margin-left: inherit;
-    margin-right: inherit;
-  }
-
-  @media #{$large} {
+  @include media($large-screen) {
     margin-left: -16.66667%;
     margin-right: -16.66667%;
   }
@@ -139,9 +127,6 @@ figcaption {
   color: $color-primary-darker;
 }
 
-// TODO: Evaluate whether we're using placeholders anywhere.
-// Might be able to remove that chunk
-// Change the placeholder color
 input::-webkit-input-placeholder{
   color: $color-gray;
 }
@@ -183,8 +168,13 @@ hr {
 
 // Utility classes
 // TODO(css): Move these into a partial once there are enough
-.va-util-rel {
-  position: relative
+.va-util-rel,
+.va-pos-rel {
+  position: relative;
+}
+
+.va-pos-fixed {
+  position: fixed;
 }
 
 // TODO(css): Fix this. Should use a less specific, less broad selector
@@ -211,33 +201,40 @@ hr {
 
 // Logo and Header
 .header {
+  background: $color-primary-darkest;
+  color: $color-white;
   clear: both;
   padding: 0;
   margin: 0;
 
   .login-container {
     background: $color-primary-darkest;
-    padding: 0.3em 0 1em;
+    padding: 0.3em 0 0;
+    white-space: nowrap;
 
     .row {
-      padding: 0 0.75em;
+      padding: 0;
+    }
+  }
+  
+  .va-notice--banner {
+    display: none !important;
+
+    @include media($medium-screen) {
+      display: block !important;
     }
   }
 }
 
 .va-header-logosearch {
   padding: 1em 0.75em 0;
-
-  // Fixes overflow of content at < 320px viewports
-  @include media($xsmall-screen) {
-    display: flex;
-    align-items: center;
-  }
 }
 
 .va-header-logo-wrapper {
-  @include media($xsmall-screen) {
-    flex: 1 1 60rem;
+  flex: 1 1 10rem;
+
+  @include media($medium-large-screen) {
+    flex-basis: 60rem;
   }
 }
 
@@ -252,11 +249,6 @@ hr {
   margin: 0;
   width: 164px;
 
-  @include media($medium-screen) {
-    width: 205px;
-    height: 50px;
-  }
-
   &:hover {
     .vets-logo-va path {
       fill: $color-gold;
@@ -269,7 +261,7 @@ hr {
   line-height: 1em;
   margin: 0;
   
-  @include media($medium-screen) {
+  @include media($medium-large-screen) {
     display: inherit;
     flex: 1 1 80%;
   }
@@ -277,8 +269,8 @@ hr {
 
 .vets-logo {
   display: block;
-  height: auto;
-  width: 100%;
+  height: inherit;
+  width: inherit;
 
   &-vetsdotgov,
   &-va {
@@ -345,14 +337,9 @@ h6 {
   }
 
   .flex {
-    @media #{$small} {
-      display: block;
-    }
-    @media #{$medium} {
-      display: flex;
-    }
+    display: block;
 
-    @media #{$large} {
+    @include media($medium-large-screen) {
       display: flex;
     }
   }
@@ -362,10 +349,10 @@ h6 {
     margin-left: auto;
   }
 
-  h2.gold-ruled {
+  .gold-ruled {
     color: $color-primary-darker;
     padding-bottom: 0.5em;
-    border-bottom: #988530 solid 2px;
+    border-bottom: $color-va-accent solid 2px;
   }
 
   a {
@@ -424,6 +411,10 @@ h6 {
     max-width: 11em;
     font-size: 2.5rem;
     font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
+
+    @include media($medium-large-screen) {
+      max-width: 15em;
+    }
   }
 
   span, h2 {
@@ -444,85 +435,46 @@ h6 {
     background: $color-white;
     font-weight: bold;
     color: $color-primary-darker;
-  }
 
-  @media #{$medium} {
-    h2 span {
+    @include media($medium-large-screen) {
       padding: 0.5em .75em;
       line-height: 1.3em;
       font-size: 3.5rem;
     }
 
-    h2.tagline {
-      max-width: 15em;
-    }
-  }
-
-  @media #{$large} {
-    h2 span {
+    @include media($large-screen) {
       padding: 0.5em 0.4em;
-      line-height: 1.3em;
-      font-size: 3.5rem;
-    }
-
-    h2.tagline {
-      max-width: 15em;
     }
   }
 
   h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
   h2 {
-    font-size: 1em;
+    font-size: 2em;
     display: inline-block;
-    @media #{$small} {font-size: 2em;}
+
+    @include media($small-screen) {
+      font-size: 2em;
+    }
   }
 
   h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
 }
 
 .home {
-  #content .splash {
-    @media #{$small} {
-      padding: 1em 0;
-      min-height: 14em;
-    }
-    @media #{$medium} {
+  .splash {
+    padding: 1em 0;
+    min-height: 14em;
+
+    @include media($medium-large-screen) {
       padding: 2em 0;
-      min-height: 422px;
+      min-height: 42.2rem;
     }
 
-    @media #{$large} {
-      padding: 2.5em 0;
-      min-height: 422px;
+    @include media($large-screen) {
+      padding-top: 2.5em;
+      padding-bottom: 2.5em;
     }
   }
-}
-
-.splash--app {
-  padding: 0 !important;
-
-  h2 {
-    margin: 0;
-    padding: .2em;
-    line-height: 1em;
-    display: inline-block !important;
-  }
-}
-
-// TODO(css): Remove !important once #content ul.breadcrumbs li.active
-// is refactored.
-.splash--alternate {
-
-  li a {
-    color: $color-primary-darkest !important;
-    border-bottom: 2px solid $secondary-color !important;
-
-    &:hover {
-      border-bottom: 3px solid $color-gold !important;
-    }
-  }
-
-  li.parent:after {color: #ccc !important;}
 }
 
 .va-facloc-tagline {
@@ -532,11 +484,8 @@ h6 {
 }
 
 .pitch {
+  padding: .5em 0;
   text-align: center;
-
-  @media #{$small} {
-    padding: .5em 0;
-  }
 
   h2, h3 {
     color: $color-primary-darkest;
@@ -622,8 +571,7 @@ h6 {
   ul[class*='block-grid-'] {
     display: block;
     padding: 0;
-    margin: 0;
-    @media #{$small} {margin: 0 -0.625rem;}
+    margin: 0 -0.625rem;
   }
 }
 
@@ -693,20 +641,11 @@ ul, ol {
 // Home page, 404 page
 .navigation--major {
   .va-cards--2across {
-    @media #{$small} {
-      display:block;
-    }
-
-    @media #{$medium-only} {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+    display:block;
   }
 
-  .fourohfour &,
   .home & {
-    padding-top: 1.5em;
+    padding: 1.5em .5em 4em;
   }
 }
 
@@ -773,19 +712,6 @@ ul, ol {
     }
   }
 
-  .read-more {
-    font-size: .5em;
-    display: inline-block;
-    border-bottom: 1px solid $secondary-color;
-    color: $secondary-color;
-    &:hover {
-      background: none;
-      color: $color-primary-darkest;
-      background: rgba(1,1,1,.1);
-      border-bottom: 1px solid $secondary-color;
-    }
-  }
-
   .section {
     padding: 4em 0 2em 0;
     text-align: left;
@@ -795,7 +721,6 @@ ul, ol {
     padding: 0em .5em 4em .5em;
     overflow: hidden;
   }
-
 
   .home #content .section h3.alternate {
     margin: 0 0 2em 0 !important; padding: 0;
@@ -833,30 +758,10 @@ ul, ol {
 }
 
 #content .section.secondary {
-  background: rgba(255,255,255,.85);
-}
-
-#content .section.tertiary {
-  background: $polar;
-}
-
-#content .section.quaternary {
-  background: $color-gray-lighter;
-  h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
-  h4 {font-weight: 700;}
-  .cards {
-    a {
-      height:12em;
-    }
+  padding: 3em 0;
+  h3 {
+    font-size: 2.2em;
   }
-  .feature {background: none;}
-}
-
-#content .section.coda {
-  background: $color-primary-darker;
-  color: $color-white;
-  h2, h3, h4, h5, h6, a {color: $color-white;}
-  h4 {font-size: 1.5em;}
 }
 
 #content .section {
@@ -871,16 +776,6 @@ ul, ol {
   padding: 1em;
   margin-bottom: 1.5em;
   clear: both;
-}
-
-#content .section.secondary,
-#content .section.tertiary,
-#content .section.quaternary,
-#content .section.coda {
-  padding: 3em 0;
-  h3 {
-    font-size: 2.2em;
-  }
 }
 
 // Sections
@@ -957,20 +852,6 @@ ul, ol {
   float: none;
 }
 
-
-//==== Facility Locator page only
-.va-nav-breadcrumbs--inline {
-  display: inline-block;
-
-  @media #{$small} {
-    margin-right: 1em !important;
-  }
-
-  li.active::before {
-    display: none;
-  }
-}
-
 //===== Playbook and Facility Locator
 .va-nav-breadcrumbs--playbook {
   background: none;
@@ -1018,7 +899,7 @@ ul, ol {
     margin: .5em 0;
     padding: .2em;
 
-    @media #{$medium} {
+    @include media($medium-large-screen) {
       font-size: 1.8em;
     }
 
@@ -1303,51 +1184,53 @@ li {
   }
 }
 
-.header {
-  .message {
-    padding: 0.5em 0;
-    color: $color-white;
-    font-size: 0.8em;
-    font-weight: 400;
-    flex: 1;
-  }
+[class^=va-wip] {
+  padding: .576rem 1.08rem;
+  font-size: 0.8em;
+  font-weight: 400;
 
-  .va-notice--banner {
-    margin: 0;
+  a {
+    color: inherit;
+    background-image: none;
     padding: 0;
-    background: $color-primary-darker;
-    color: $color-white;
+  }
+}
 
-    .va-crisis-line {
-      color: $color-base;
-      // background: $color-gray-lightest !important;
-    }
+.va-wip--wide {
+  background: $color-gray-lightest;
+  color: $color-gray-dark;
+  display: none;
+  font-size: 1.152rem;
+  margin: auto;
 
-    .row {
-      padding: 0 0.75em;
-    }
+  @include media($medium-large-screen) {
+    display: block;
+  }
+}
 
-    .crisis-row {
-      @media #{$medium-up} {
-        display: flex;
-        align-items: flex-start;
-      }
+.va-wip--narrow {
+  border-top: 1px solid $color-primary-darker;
+  color: $color-white;
+  margin-top: 3.2rem;
+  white-space: normal;
 
-      @media #{$medium-only} {
-        padding-right: 0em;
-      }
-    }
+  @include media($medium-large-screen) {
+    display: none;
   }
 }
 
 // Notice / feedback banners
 .va-notice--banner {
-  background: $color-primary-darker;
+  background: $color-gray-lightest;
   margin: 0 0 .75em 0;
   padding: 0;
-  font-size: .9em;
   font-weight: 400;
-  color: $color-white;
+
+  &-inner {
+    margin: auto;
+    max-width: 97rem;
+    position: relative;
+  }
 
   p {
     margin: 0;
@@ -1355,12 +1238,8 @@ li {
 
   a {
     background-image: none;
-    color: $color-white;
+    color: inherit;
     padding: 0;
-  }
-
-  .row {
-    max-width: 69.4em;
   }
 }
 
@@ -1379,6 +1258,8 @@ li {
 
 // Only used in the footer
 .va-notice--banner--alt {
+  background: $color-primary-darker;
+  color: $color-white;
   padding: 1.25em 0;
   margin: 1.5em 0 0 0;
 }
@@ -1740,7 +1621,7 @@ li.twenty:before {content: '20';}
 // TODO(css): Consolidate these rules, possibly into a new class name
 .highlight,
 .va-h-ruled {
-  border-bottom: 3px solid $primary-color;
+  border-bottom: 3px solid $color-primary;
   padding-bottom: .25em;
   font-weight: 700;
 }
@@ -1775,6 +1656,15 @@ li.twenty:before {content: '20';}
   &:hover,
   &:focus {
     background-color: $color-green-darker !important;
+    text-decoration: none !important;
+  }
+
+  svg {
+    display: inline-block;
+    height: 1.2rem;
+    margin-left: .5rem;
+    width: 1.2rem;
+    vertical-align: -1px;
   }
 }
 
@@ -1833,9 +1723,6 @@ li.twenty:before {content: '20';}
 /* Overlay style */
 
 .va-overlay-close {
-  @media #{$medium} {
-    display: none;
-  }
   &--icon {
     display: inline;
     margin: 0;
@@ -1848,88 +1735,81 @@ li.twenty:before {content: '20';}
   }
 }
 
+.va-overlay {
+  background: rgba($color-primary-darkest, .95);
+  height: 100%;
+  left: 0;
+  -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  transition: opacity 0.5s, visibility 0s 0.5s;
+  visibility: hidden;
+  width: 100%;
+  z-index: 800;
 
-@media #{$medium} {
-  .va-overlay-close {
+  input[type='text'] {
+    -webkit-appearance: none;
+    border-radius: 3px 0 0 3px;
+  }
+  @include media($medium-large-screen) {
     display: none;
   }
 }
 
-@media #{$small-only} {
-  .va-mobile-searchclose  {
-    border-radius: 0;
-    display: block !important;
-    width: 100% !important;
-    margin: 0;
-    width: auto;
-    background: $color-primary;
+.va-mobile-searchclose  {
+  border-radius: 0;
+  display: block !important;
+  width: 100% !important;
+  margin: 0;
+  width: auto;
+  background: $color-primary;
+}
+
+.va-overlay--open {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+
+  .columns {
+    padding: 0;
   }
+}
 
-  .va-mobile-searchtrigger {
-    padding: .5em;
-    margin-top: 0;
-    border-radius: .15em;
+.va-overlay .menu {
+  -webkit-perspective: 1200px;
+  perspective: 1200px;
+  padding: 1em 1em;
+}
+
+.va-overlay form {
+  opacity: 0.4;
+  -webkit-transform: translateY(-25%) rotateX(35deg);
+  transform: translateY(-25%) rotateX(35deg);
+  -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.va-overlay--open form {
+  opacity: 1;
+  -webkit-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+}
+
+.va-overlay-body {
+  margin: 1rem auto;
+}
+
+@media (max-height: 30.5em) {
+  .overlay form {
+    height: 70%;
   }
+}
 
-  .va-overlay {
-    background: rgba($color-primary-darkest, .95);
-    height: 100%;
-    left: 0;
-    -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    transition: opacity 0.5s, visibility 0s 0.5s;
-    visibility: hidden;
-    width: 100%;
-    z-index: 800;
 
-    input[type='text'] {
-      -webkit-appearance: none;
-      border-radius: 3px 0 0 3px;
-    }
-  }
+@include media-maxwidth($medium-large-screen) {
 
-  .va-overlay--open {
-    opacity: 1;
-    visibility: visible;
-    -webkit-transition: opacity 0.5s;
-    transition: opacity 0.5s;
-
-    .columns {
-      padding: 0;
-    }
-  }
-
-  .va-overlay .menu {
-    -webkit-perspective: 1200px;
-    perspective: 1200px;
-    padding: 1em 1em;
-  }
-
-  .va-overlay form {
-    opacity: 0.4;
-    -webkit-transform: translateY(-25%) rotateX(35deg);
-    transform: translateY(-25%) rotateX(35deg);
-    -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
-    transition: transform 0.5s, opacity 0.5s;
-  }
-
-  .va-overlay--open form {
-    opacity: 1;
-    -webkit-transform: rotateX(0deg);
-    transform: rotateX(0deg);
-  }
-
-  .va-overlay-body {
-    margin: 1rem auto;
-  }
-
-  @media (max-height: 30.5em) {
-    .overlay form {
-      height: 70%;
-    }
-  }
 }
 
 // List overrides
@@ -2006,7 +1886,7 @@ ul li p {
   }
 }
 
-@media (max-width: 40.063em) {
+@include media($medium-screen) {
   .simpletooltip {
     top: 100%;
     left: 45%;
@@ -2172,5 +2052,25 @@ p.info-message {
   margin-top: 1.5em;
   border-top: 2px solid #f1f1f1;
   padding: 1em 0;
-  p {font-size: 1em !important; color: #323a45 !important;}
+  p {
+    font-size: 1em !important;
+    color: #323a45 !important;
+  }
+}
+
+.va-search-form--narrowscr {
+  [type="text"] {
+    flex: 2 1 10rem;
+  }
+  [type="submit"] {
+    flex: 0 1 14rem;
+  }
+}
+
+.va-search-form--widescr {
+  display: none;
+
+  @include media($medium-large-screen) {
+    display: inline-block;
+  }
 }

@@ -65,7 +65,6 @@ class ObjectField extends React.Component {
       uiSchema,
       errorSchema,
       idSchema,
-      formData,
       formContext
     } = this.props;
     const { definitions, fields } = this.props.registry;
@@ -74,10 +73,11 @@ class ObjectField extends React.Component {
 
     const properties = Object.keys(schema.properties);
     const isRoot = idSchema.$id === 'root';
+    const formData = this.props.formData || {};
 
-    const renderField = (propName, index) => {
+    const renderField = (propName) => {
       return (
-        <SchemaField key={index}
+        <SchemaField key={propName}
             name={propName}
             schema={schema.properties[propName]}
             uiSchema={uiSchema[propName]}
@@ -92,9 +92,10 @@ class ObjectField extends React.Component {
     };
 
     const showField = (propName) => {
+      const hiddenOnSchema = schema.properties[propName]['ui:hidden'];
       const hideOnReviewIfFalse = _.get([propName, 'ui:options', 'hideOnReviewIfFalse'], uiSchema) === true;
       const hideOnReview = _.get([propName, 'ui:options', 'hideOnReview'], uiSchema) === true;
-      return (!hideOnReviewIfFalse || !!formData[propName]) && !hideOnReview;
+      return (!hideOnReviewIfFalse || !!formData[propName]) && !hideOnReview && !hiddenOnSchema;
     };
 
     const renderedProperties = this.orderAndFilterProperties(properties)

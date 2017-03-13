@@ -4,11 +4,10 @@ export default function RadioWidget({
   options,
   value,
   disabled,
-  onChange
+  onChange,
+  id
 }) {
-  // Generating a unique field name to identify this set of radio buttons
-  const name = Math.random().toString();
-  const { enumOptions } = options;
+  const { enumOptions, labels = {} } = options;
   return (
     <div>{
       enumOptions.map((option, i) => {
@@ -18,13 +17,13 @@ export default function RadioWidget({
             <input type="radio"
                 autoComplete="false"
                 checked={checked}
-                id={name}
-                name={name}
+                id={`${id}_${i}`}
+                name={`${id}_${i}`}
                 value={option.value}
                 disabled={disabled}
                 onChange={_ => onChange(option.value)}/>
-            <label htmlFor={`${name}-${i}`}>
-              {option.label}
+            <label htmlFor={`${id}_${i}`}>
+              {labels[option.value] || option.label}
             </label>
           </div>
         );

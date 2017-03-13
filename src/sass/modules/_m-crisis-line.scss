@@ -1,25 +1,27 @@
-// TODO: Remove !important when .footer a selector gets simplified
-
 .crisis-line-container {
   position: relative;
-  background: $color-gray-lightest;
-  @media #{$medium-up} {
+  background: $color-white;
+
+  @include media($medium-large-screen) {
     width: 283px;
-  }
-
-  .crisis-line-body {
-    position: absolute;
-    right: 0;
-    background: $color-gray-lightest;
-    border-radius: 0 0 0.2em 0.2em;
-  }
-
-  .stacked {
-    margin: 0 auto;
-    padding: 0.4em 0 0.3em;
   }
 }
 
+.crisis-line-body {
+  background: $color-white;
+  border-radius: 0 0 0.2em 0.2em;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.crisis-line-sm {
+  background: $color-white;
+  
+  @include media($medium-large-screen) {
+    display: none;
+  }
+}
 
 .va-crisis-panel {
   color: $color-primary-darkest;
@@ -37,7 +39,7 @@
 }
 
 .va-crisis-panel-body {
-  background: $color-gray-lightest;
+  background: $color-white;
   list-style: inherit;
   margin: 0;
   padding: 0;
@@ -63,20 +65,18 @@
 
 .va-crisis-panel--notouch {
   top: 0;
+  box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
+  display: none;
+  transition: transform 250ms;
   position: absolute;
   opacity: 0;
-  -webkit-transition: transform 250ms;
-          transition: transform 250ms;
-  -webkit-box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
-  -moz-box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
-  box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
 
   li {
     padding: 2.5rem 0 0;
   }
 
-  @media #{$small-only} {
-    display: none;
+  @include media($medium-large-screen) {
+    display: block;
   }
 }
 
@@ -94,7 +94,7 @@
 }
 
 .va-crisis-line {
-  background: $color-gray-lightest no-repeat calc(100% - 0.5em) center;
+  background: $color-white url(/img/arrow-right.svg) calc(100% - 0.5em) center no-repeat;
   background-size: .8em auto;
   color: $color-base;
   margin: 0;
@@ -104,12 +104,10 @@
   display: block;
   text-decoration: none;
   font-weight: bold;
-  padding: 0 26px 0 0;
-  border-radius: 0 0 0.2em 0.2em;
 
   &:hover {
+    background-color: $color-white;
     color: $color-base;
-    background-color: inherit;
   }
 
   .vcl {
@@ -127,8 +125,33 @@
     pointer-events: none;
   }
 
+  .crisis-line-sm & {
+    border-radius: 0;
+    margin: auto;
+    padding: 0.4em 26px 0.3em 0;
+    width: auto;
+  }
+
   .crisis-line-container--wide & {
-    background-image: url(/img/arrow-down.png);
+    @include media($medium-large-screen) {
+      background-color: #fff;
+      background-image: url(/img/arrow-down.png);
+      border-radius: 0 0 0.2em 0.2em;
+      padding: 0;
+    }
+  }
+}
+
+.crisis-line-container--wide {
+  box-shadow: 0 2px 5px $color-base;
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 31.5rem;
+
+  @include media($medium-large-screen) {
+    display: block;
   }
 }
 
@@ -178,7 +201,7 @@
 }
 
 
-@media #{$medium} {
+@include media($medium-large-screen) {
   .va-crisis-panel--touch,
   .va-crisis-line--touch {
     display: none;

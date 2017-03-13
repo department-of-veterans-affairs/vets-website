@@ -63,7 +63,6 @@ class DemographicInformationSection extends React.Component {
       </div>);
     } else {
       content = (<fieldset>
-        <legend>Demographic Information</legend>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <Gender required

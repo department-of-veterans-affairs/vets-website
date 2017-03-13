@@ -1,12 +1,12 @@
 ---
 layout: page-breadcrumbs.html
-title: Apply for VA Health Care
+title: Apply for VA Health Care Benefits
 template: 1-topic-landing
 plainlanguage: 12-08-16 certified in compliance with the Plain Writing Act
 showtempbar: true
 ---
 
-With VA health care, you’re covered for regular checkups with your primary care doctor and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and elder care, plus medical equipment, prosthetics, and prescriptions.
+If you’re interested in VA health care, you can apply online.  Once you turn in your application, we’ll send you a letter about your enrollment.
 
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
 	<div class="usa-alert-body">

@@ -2,36 +2,41 @@
 layout: page-breadcrumbs.html
 title: Benefits Delivery at Discharge (BDD)
 concurrence: incomplete
+plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
-If you are a Servicemember with a disability, you may begin your claim for compensation 60 to 180 days before separation, retirement, or release from active duty or demobilization. BDD helps you receive your VA disability benefits sooner.
+If you're a Servicemember with a disability, the Benefits Delivery at Discharge (BDD) program can help you get your VA benefits sooner. Through this program, you can start your claim for disability benefits 60 to 180 days before:
+- Separation 
+- Retirement
+- Release from active duty
+- Demobilization
+
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for this program?
+### Can I use the BDD program to get my disability benefits sooner?
 
-Yes, if:
+You can use the BDD program if:
 
--	You have a known separation date.
--	You have a separation date 60-180 days from now.
+-	You're a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard), **and**
+- You have a known separation date, **and**
+-	Your separation date is within the next 60 to 180 days
 
-### Who is covered
-You
 </div>
 
-### Available benefits
+### What kinds of disability benefits can I get?
 
-Disability compensation
+Compensation (monthly payments)
 
 -----
 
-### How it works
-You must give your service treatment records to VA when you apply, and you must complete all phases of VA/DOD medical separation examination processes at point of separation, before your release from the military.
+### How do I get these disability benefits? 
 
-BDD is available nationwide and open to all Servicemembers on full-time active duty, including members of the National Guard and Reserve. Members of the Coast Guard may also participate.
+You'll need to apply for benefits. When you apply, you'll have to turn in your service treatment records. You'll also need to finish all phases of the VA/DOD medical separation examination processes before your release from the military. [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
-**Exception:** If you are less than 60 days from separation, you can submit a [Quick Start claim](/disability-benefits/claims-process/claim-types/predischarge-claim/quick-start/index.html).
+**Exception:** If you're less than 60 days from separation, you can file a different kind of claim called a Quick Start claim. [Learn more about Quick Start claims](/disability-benefits/claims-process/claim-types/predischarge-claim/quick-start/index.html).
 
-### Learn more
-If you are on a military installation, contact your local Transition Assistance Office or ACAP Center (Army only) to schedule an appointment to attend a VA benefits briefing and learn how to initiate your claim. You can also call VA toll free at 1-800-827-1000.
+### Get more information
+If you're on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you'll learn how to start your claim. You can also call us toll free at 
+<span class="tel">800-827-1000</span>.

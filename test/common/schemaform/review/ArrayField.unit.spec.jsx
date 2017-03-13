@@ -13,10 +13,9 @@ const registry = {
   }
 };
 const formContext = {};
-const touchedSchema = {};
 const requiredSchema = {};
 
-describe('Schemaform ArrayField', () => {
+describe('Schemaform review <ArrayField>', () => {
   it('should render', () => {
     const idSchema = {};
     const schema = {
@@ -47,12 +46,11 @@ describe('Schemaform ArrayField', () => {
           idSchema={idSchema}
           registry={registry}
           formContext={formContext}
-          touchedSchema={touchedSchema}
           requiredSchema={requiredSchema}/>
     );
 
     expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(uiSchema['ui:title']);
-    expect(tree.everySubTree('FormPage')).to.be.empty;
+    expect(tree.everySubTree('SchemaForm')).to.be.empty;
   });
   it('should render items', () => {
     const idSchema = {};
@@ -84,11 +82,48 @@ describe('Schemaform ArrayField', () => {
           idSchema={idSchema}
           registry={registry}
           formContext={formContext}
-          touchedSchema={touchedSchema}
           requiredSchema={requiredSchema}/>
     );
 
-    expect(tree.everySubTree('FormPage').length).to.equal(2);
+    expect(tree.everySubTree('SchemaForm').length).to.equal(2);
+  });
+  it('should render item name', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:options': {
+        viewField: f => f,
+        itemName: 'Item name'
+      }
+    };
+    const arrayData = [{}, {}];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+          pageKey="page1"
+          arrayData={arrayData}
+          path={['thingList']}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          registry={registry}
+          formContext={formContext}
+          requiredSchema={requiredSchema}/>
+    );
+
+    tree.getMountedInstance().handleAdd();
+
+    expect(tree.everySubTree('h5')[1].text()).to.equal('New Item name');
   });
   describe('should handle', () => {
     let tree;
@@ -123,34 +158,40 @@ describe('Schemaform ArrayField', () => {
             uiSchema={uiSchema}
             registry={registry}
             formContext={formContext}
-            touchedSchema={touchedSchema}
             requiredSchema={requiredSchema}/>
       );
     });
     it('edit', () => {
-      expect(tree.subTree('FormPage').props.reviewMode).to.be.true;
+      expect(tree.subTree('SchemaForm').props.reviewMode).to.be.true;
 
-      tree.getMountedInstance().handleEdit(0, true);
+      tree.subTree('SchemaForm').props.onEdit();
 
-      expect(tree.subTree('FormPage').props.reviewMode).to.be.undefined;
+      expect(tree.subTree('SchemaForm').props.reviewMode).to.be.undefined;
     });
     it('update', () => {
-      tree.getMountedInstance().handleEdit(0, true);
-      expect(tree.subTree('FormPage').props.reviewMode).to.be.undefined;
+      tree.subTree('SchemaForm').props.onEdit();
+      expect(tree.subTree('SchemaForm').props.reviewMode).to.be.undefined;
 
-      tree.getMountedInstance().handleSave(0, true);
+      tree.subTree('SchemaForm').props.onSubmit();
 
-      expect(tree.subTree('FormPage').props.reviewMode).to.be.true;
+      expect(tree.subTree('SchemaForm').props.reviewMode).to.be.true;
     });
     it('add', () => {
-      expect(tree.everySubTree('FormPage').length).to.equal(1);
+      expect(tree.everySubTree('SchemaForm').length).to.equal(1);
 
       tree.getMountedInstance().handleAdd();
 
-      expect(tree.everySubTree('FormPage').length).to.equal(2);
+      expect(tree.everySubTree('SchemaForm').length).to.equal(2);
+    });
+    it('remove', () => {
+      expect(tree.everySubTree('SchemaForm').length).to.equal(1);
+
+      tree.getMountedInstance().handleRemove(0);
+
+      expect(tree.everySubTree('SchemaForm').length).to.equal(0);
     });
     it('setData', () => {
-      tree.getMountedInstance().handleSetData(0, { test: 1 });
+      tree.subTree('SchemaForm').props.onChange({ test: 1 });
       expect(setData.calledWith('page1', { thingList: [{ test: 1 }] })).to.be.true;
     });
   });

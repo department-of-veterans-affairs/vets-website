@@ -77,10 +77,23 @@ export function focusElement(selectorOrElement) {
   }
 }
 
+// Allows smooth scrolling to be overridden by our E2E tests
+export function getScrollOptions(additionalOptions) {
+  const globals = window.VetsGov || {};
+  const defaults = {
+    duration: 500,
+    delay: 0,
+    smooth: true
+  };
+  return _.merge({}, defaults, globals.scroll, additionalOptions);
+}
+
 export function scrollToFirstError() {
   const errorEl = document.querySelector('.usa-input-error, .input-error-date');
   if (errorEl) {
-    const position = errorEl.getBoundingClientRect().top + document.body.scrollTop;
+    // document.body.scrollTop doesn't work with all browsers, so we'll cover them all like so:
+    const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const position = errorEl.getBoundingClientRect().top + currentPosition;
     Scroll.animateScroll.scrollTo(position - 10, {
       duration: 500,
       delay: 0,
@@ -88,4 +101,11 @@ export function scrollToFirstError() {
     });
     focusElement(errorEl);
   }
+}
+
+export function scrollAndFocus(errorEl) {
+  const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  const position = errorEl.getBoundingClientRect().top + currentPosition;
+  Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
+  focusElement(errorEl);
 }

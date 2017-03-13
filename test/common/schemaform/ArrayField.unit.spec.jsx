@@ -12,13 +12,16 @@ const registry = {
     SchemaField: f => f
   }
 };
-const formContext = {};
-const touchedSchema = {};
+const formContext = {
+  setTouched: sinon.spy()
+};
 const requiredSchema = {};
 
-describe('Schemaform ArrayField', () => {
+describe('Schemaform <ArrayField>', () => {
   it('should render', () => {
-    const idSchema = {};
+    const idSchema = {
+      $id: 'field'
+    };
     const schema = {
       type: 'array',
       items: {
@@ -43,7 +46,6 @@ describe('Schemaform ArrayField', () => {
           idSchema={idSchema}
           registry={registry}
           formContext={formContext}
-          touchedSchema={touchedSchema}
           requiredSchema={requiredSchema}/>
     );
 
@@ -51,7 +53,9 @@ describe('Schemaform ArrayField', () => {
     expect(tree.everySubTree('SchemaField')).not.to.be.empty;
   });
   it('should render items', () => {
-    const idSchema = {};
+    const idSchema = {
+      $id: 'field'
+    };
     const schema = {
       type: 'array',
       items: {
@@ -81,7 +85,6 @@ describe('Schemaform ArrayField', () => {
           registry={registry}
           formData={formData}
           formContext={formContext}
-          touchedSchema={touchedSchema}
           requiredSchema={requiredSchema}/>
     );
 
@@ -92,8 +95,11 @@ describe('Schemaform ArrayField', () => {
     let tree;
     let errorSchema;
     let onChange;
+    let onBlur;
     beforeEach(() => {
-      const idSchema = {};
+      const idSchema = {
+        $id: 'root_field'
+      };
       const schema = {
         type: 'array',
         items: {
@@ -117,6 +123,7 @@ describe('Schemaform ArrayField', () => {
       ];
       errorSchema = {};
       onChange = sinon.spy();
+      onBlur = sinon.spy();
       tree = SkinDeep.shallowRender(
         <ArrayField
             schema={schema}
@@ -126,8 +133,8 @@ describe('Schemaform ArrayField', () => {
             registry={registry}
             formData={formData}
             onChange={onChange}
+            onBlur={onBlur}
             formContext={formContext}
-            touchedSchema={touchedSchema}
             requiredSchema={requiredSchema}/>
       );
     });
@@ -166,5 +173,69 @@ describe('Schemaform ArrayField', () => {
       expect(onChange.firstCall.args[0].length).to.equal(3);
       expect(tree.getMountedInstance().state.editing[2]).to.be.false;
     });
+    it('add when invalid', () => {
+      formContext.setTouched.reset();
+      errorSchema[1] = { __errors: ['Test error'] };
+      tree.getMountedInstance().handleAdd();
+
+      expect(formContext.setTouched.called).to.be.true;
+    });
+    it('remove', () => {
+      expect(tree.everySubTree('SchemaField').length).to.equal(1);
+      const instance = tree.getMountedInstance();
+
+      instance.handleRemove(0);
+
+      expect(onChange.firstCall.args[0].length).to.equal(1);
+      expect(instance.state.editing.length).to.equal(1);
+    });
+    it('item change', () => {
+      const newItem = {};
+      tree.getMountedInstance().onItemChange(0, newItem);
+
+      expect(onChange.called).to.be.true;
+    });
+    it('item blur', () => {
+      tree.getMountedInstance().onItemBlur(0, ['path']);
+
+      expect(onBlur.calledWith([0, 'path'])).to.be.true;
+    });
+  });
+  it('should disable add when data has not been changed', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:options': {
+        viewField: f => f
+      }
+    };
+    const errorSchema = {};
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+          schema={schema}
+          errorSchema={errorSchema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          registry={registry}
+          onChange={onChange}
+          onBlur={onBlur}
+          formContext={formContext}
+          requiredSchema={requiredSchema}/>
+    );
+
+    expect(tree.subTree('button').props.disabled).to.be.true;
   });
 });

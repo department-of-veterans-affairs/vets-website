@@ -43,7 +43,7 @@ class DisabilityBenefitsApp extends React.Component {
     const { available, authorized } = this.props;
 
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"disability-benefits"}>
+      <RequiredLoginView authRequired={3} serviceRequired={"evss-claims"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
         <AppContent
             authorized={authorized}
             available={available}>
@@ -56,9 +56,12 @@ class DisabilityBenefitsApp extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+  const userState = state.user;
   return {
     available: claimsState.claimSync.available,
-    authorized: claimsState.claimSync.authorized
+    authorized: claimsState.claimSync.authorized,
+    profile: userState.profile,
+    signInUrl: userState.login.loginUrl.first
   };
 }
 
