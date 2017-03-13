@@ -16,7 +16,7 @@ relatedlinks:
    description: "We can help you chart your course"
 ---
 
-You may be eligible for generous education benefits and opportunities, including help paying tuition, picking out a school, career counseling, and more.
+You may be eligible for generous education benefits and opportunities, including help paying tuition, picking out a school, career counseling, and more. Find out if you're eligible.
 
 <div class="feature" markdown="1">
 
