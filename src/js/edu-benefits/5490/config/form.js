@@ -13,7 +13,7 @@ import {
 import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
-import * as fullName from '../../../common/schemaform/definitions/fullName';
+import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
@@ -33,6 +33,7 @@ const {
   civilianBenefitsSource,
   currentlyActiveDuty,
   outstandingFelony,
+  previousBenefits,
   serviceBranch,
   spouseInfo,
   veteranDateOfBirth,
@@ -43,8 +44,17 @@ const {
   nonMilitaryJobs,
   relationship,
   secondaryContact,
-  educationType
+  educationType,
+  fullName
 } = fullSchema5490.definitions;
+
+const dateSchema = fullSchema5490.definitions.date;
+const ssnSchema = fullSchema5490.definitions.ssn;
+
+const nonRequiredFullName = _.assign(fullName, {
+  required: []
+});
+
 
 const formConfig = {
   urlPrefix: '/5490/',
@@ -56,8 +66,10 @@ const formConfig = {
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5490',
   defaultDefinitions: {
+    date: dateSchema,
     educationType,
-    date: date.schema
+    fullName,
+    ssn: ssnSchema
   },
   chapters: {
     applicantInformation: {
@@ -92,7 +104,111 @@ const formConfig = {
             type: 'object',
             properties: {
               benefit,
-              benefitsRelinquishedDate: date.schema
+              benefitsRelinquishedDate: dateSchema
+            }
+          }
+        },
+        previousBenefits: {
+          title: 'Previous Benefits',
+          path: 'benefits-eligibility/previous-benefits',
+          initialData: {},
+          uiSchema: {
+            'ui:description': 'Prior to this application, have you ever applied for or received any of the following VA benefits?',
+            previousBenefits: {
+              // Add the view-only fields in the proper order
+              'ui:order': [
+                'view:noPreviousBenefits',
+                'disability',
+                'dic',
+                'chapter31',
+                'view:ownServiceBenefits',
+                'ownServiceBenefits',
+                'view:claimedSponsorService',
+                'chapter35',
+                'chapter33',
+                'transferOfEntitlement',
+                'veteranFullName',
+                'veteranSocialSecurityNumber',
+                'other'
+              ],
+              'view:noPreviousBenefits': {
+                'ui:title': 'None'
+              },
+              disability: {
+                'ui:title': 'Disability Compensation or Pension'
+              },
+              dic: {
+                'ui:title': 'Dependents\' Indemnity Compensation (DIC)'
+              },
+              chapter31: {
+                'ui:title': 'Vocational Rehabilitation benefits (Chapter 31)'
+              },
+              'view:ownServiceBenefits': {
+                'ui:title': 'Veterans education assistance based on your own service'
+              },
+              ownServiceBenefits: {
+                'ui:title': 'Specify benefits',
+                'ui:options': { expandUnder: 'view:ownServiceBenefits' }
+              },
+              'view:claimedSponsorService': {
+                'ui:title': 'Veterans education assistance based on someone else’s service.'
+              },
+              chapter35: {
+                'ui:title': 'Chapter 35 - Survivors’ and Dependents’ Educational Assistance Program (DEA)',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
+              },
+              chapter33: {
+                'ui:title': 'Chapter 33 - Post-9/11 GI Bill Marine Gunnery Sergeant David Fry Scholarship',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
+              },
+              transferOfEntitlement: {
+                'ui:title': 'Transferred Entitlement',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
+              },
+              veteranFullName: _.merge(fullNameUISchema, {
+                'ui:title': 'Sponsor Veteran’s name',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService',
+                  updateSchema: (data, form) => {
+                    if (_.get(['previousBenefits', 'data', 'previousBenefits', 'view:claimedSponsorService'], form)) {
+                      return fullName;
+                    }
+
+                    return nonRequiredFullName;
+                  }
+                }
+              }),
+              veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
+                'ui:title': 'Sponsor SSN',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
+              }),
+              other: {
+                'ui:title': 'Other benefit'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              previousBenefits: _.merge(
+                _.unset('properties.veteranFullName', previousBenefits),
+                {
+                  properties: {
+                    'view:noPreviousBenefits': { type: 'boolean' },
+                    'view:ownServiceBenefits': { type: 'boolean' },
+                    'view:claimedSponsorService': { type: 'boolean' },
+                    veteranFullName: fullName
+                  }
+                }
+              )
             }
           }
         }
@@ -128,7 +244,7 @@ const formConfig = {
                 hideIf: (fieldData) => fieldData.relationship !== 'spouse'
               }
             },
-            relativeFullName: _.assign(fullName.uiSchema, {
+            relativeFullName: _.assign(fullNameUISchema, {
               'ui:title': 'Name of Sponsor'
             }),
             veteranSocialSecurityNumber: ssn.uiSchema,
@@ -137,15 +253,12 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            definitions: {
-              date: date.schema // For spouseInfo
-            },
             required: ['veteranSocialSecurityNumber'],
             properties: {
               relationship,
               spouseInfo,
-              relativeFullName: fullName.schema,
-              veteranSocialSecurityNumber: ssn.schema,
+              relativeFullName: fullName,
+              veteranSocialSecurityNumber: ssnSchema,
               veteranDateOfBirth,
               veteranDateOfDeath
             }

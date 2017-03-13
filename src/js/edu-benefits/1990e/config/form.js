@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 import {
   transform,
   eligibilityDescription
@@ -10,6 +12,9 @@ import contactInformation from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
+import * as ssnCommon from '../../../common/schemaform/definitions/ssn';
+import * as address from '../../../common/schemaform/definitions/address';
+
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -18,7 +23,14 @@ import applicantInformation from '../../pages/applicantInformation';
 import { benefitsLabels } from '../../utils/helpers';
 
 const {
+  fullName,
+  ssn
+} = fullSchema1990e.definitions;
+
+const {
   benefit,
+  serviceBranch,
+  civilianBenefitsAssistance
 } = fullSchema1990e.properties;
 
 const {
@@ -80,6 +92,55 @@ const formConfig = {
     sponsorVeteran: {
       title: 'Sponsor Veteran',
       pages: {
+        sponsorVeteran: {
+          title: 'Sponsor Veteran',
+          path: 'sponsor-veteran',
+          uiSchema: {
+            sponsorVeteran: {
+              veteranFullName: {
+                first: {
+                  'ui:title': 'Veteran first name'
+                },
+                last: {
+                  'ui:title': 'Veteran last name'
+                },
+                middle: {
+                  'ui:title': 'Veteran middle name'
+                },
+                suffix: {
+                  'ui:title': 'Veteran suffix',
+                  'ui:options': {
+                    widgetClassNames: 'form-select-medium'
+                  }
+                }
+              },
+              veteranSocialSecurityNumber: _.set(['ui:title'], 'Veteran Social Security number', ssnCommon.uiSchema),
+              veteranAddress: address.uiSchema('Veteran Address'),
+              serviceBranch: {
+                'ui:title': 'Branch of Service'
+              },
+              civilianBenefitsAssistance: {
+                'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              sponsorVeteran: {
+                type: 'object',
+                required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+                properties: {
+                  veteranFullName: fullName,
+                  veteranSocialSecurityNumber: ssn,
+                  veteranAddress: address.schema(),
+                  serviceBranch,
+                  civilianBenefitsAssistance
+                },
+              }
+            }
+          }
+        }
       }
     },
     educationHistory: {
