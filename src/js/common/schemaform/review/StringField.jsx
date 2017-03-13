@@ -16,8 +16,7 @@ export default function StringField(props) {
   const { registry, schema, uiSchema, formData } = props;
   const uiOptions = getUiOptions(uiSchema);
   const labels = uiOptions.labels || {};
-  const enumOptions = Array.isArray(schema.enum) && optionsList(
-    _.assign(schema, { enumNames: schema.enum.map(item => labels[item]) }));
+  const enumOptions = Array.isArray(schema.enum) && optionsList(schema);
 
   let Widget = _.get('ui:reviewWidget', uiSchema);
   if (!Widget) {
@@ -27,7 +26,7 @@ export default function StringField(props) {
 
   return (
     <Widget
-        options={{ enumOptions }}
+        options={{ enumOptions, labels }}
         value={formData}
         {...props}/>
   );

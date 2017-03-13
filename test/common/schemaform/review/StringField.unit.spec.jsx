@@ -56,12 +56,8 @@ describe('Schemaform <StringField>', () => {
           formData={formData}/>
     );
 
-    expect(tree.props.options.enumOptions).to.eql([
-      {
-        value: 'test',
-        label: 'Name'
-      }
-    ]);
+    expect(tree.props.options.enumOptions).to.have.deep.property('[0].value', 'test');
+    expect(tree.props.options.labels).to.have.property('test', 'Name');
   });
   it('should render review widget', () => {
     const registry = {
