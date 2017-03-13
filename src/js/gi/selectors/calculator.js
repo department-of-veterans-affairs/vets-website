@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import { getCurrency } from '../utils/helpers';
+
 const getConstants = (state) => state.constants.constants;
 
 const getEligibilityDetails = (state) => {
@@ -18,7 +20,7 @@ const getDerivedValues = createSelector(
   getInstitution,
   getFormInputs,
   (constant, eligibility, institution, inputs) => {
-    if (constant == undefined) return {};
+    if (constant === undefined) return {};
     let monthlyRate;
     let numberOfTerms;
     let ropOld;
@@ -27,7 +29,6 @@ const getDerivedValues = createSelector(
     let termLength;
     let ropOjt;
     let kickerBenefit;
-    let rop;
     let buyUpRate;
     let tuitionFeesTerm1;
     let tuitionFeesTerm2;
@@ -140,11 +141,14 @@ const getDerivedValues = createSelector(
         }
         break;
       case 31:
-        const OJT = isOJT ? 'OJT' : '';
         if (numberOfDependents <= 2) {
-          monthlyRate = constant[`VRE${numberOfDependents}DEPRATE${OJT}`];
+          monthlyRate =
+            constant[`VRE${numberOfDependents}DEPRATE${isOJT ? 'OJT' : ''}`];
         } else {
-          monthlyRate = constant[`VRE2DEPRATE${OJT}`] + ((numberOfDependents - 2) * constant[`VREINCRATE${OJT}`]);
+          monthlyRate =
+            constant[`VRE2DEPRATE${isOJT ? 'OJT' : ''}`] +
+            ((numberOfDependents - 2) *
+            constant[`VREINCRATE${isOJT ? 'OJT' : ''}`]);
         }
         break;
       default:
@@ -162,9 +166,9 @@ const getDerivedValues = createSelector(
 
     // Set the net price (Payer of Last Resort) - getTuitionNetPrice
     const tuitionNetPrice = Math.max(0, Math.min(
-      +inputs.tuitionFees.subString(1)) -
-      +inputs.scholarships.subString(1)) -
-      +inputs.tuitionAssist.subString(1))
+      +inputs.tuitionFees.subString(1) -
+      +inputs.scholarships.subString(1) -
+      +inputs.tuitionAssist.subString(1)
     ));
 
     // Set the proper tuition/fees cap - getTuitionFeesCap
@@ -806,8 +810,8 @@ export const getDisplayedInputs = createSelector(
 
     if (giBillChapter === 31 && !derived.onlyVRE) {
       // displayed.enrolled = true;
-      display = {
-        ...display,
+      displayed = {
+        ...displayed,
         enrolled: true,
         enrolledOld: false,
         yellowRibbon: false,
