@@ -43,7 +43,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformation()
+        applicantInformation: applicantInformation(fullSchema1990e)
       }
     },
     benefitEligibility: {

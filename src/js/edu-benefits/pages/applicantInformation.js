@@ -4,8 +4,6 @@ import * as currentOrPastDate from '../../common/schemaform/definitions/currentO
 import * as fullName from '../../common/schemaform/definitions/fullName';
 import * as ssn from '../../common/schemaform/definitions/ssn';
 
-import definitions from 'vets-json-schema/dist/definitions.json';
-
 import { relationshipLabels, genderLabels } from '../utils/helpers';
 
 const defaultProps = [
@@ -17,15 +15,15 @@ const defaultProps = [
 ];
 
 export default function applicantInformation(
-  shema,
+  schema,
   fields = defaultProps,
   required = ['relativeFullName']) {
   const possibleProperties = {
     relativeFullName: fullName.schema,
     relativeSocialSecurityNumber: ssn.schema,
     relativeDateOfBirth: currentOrPastDate.schema,
-    gender: definitions.gender,
-    relationship: definitions.relationship
+    gender: schema.definitions.gender,
+    relationship: schema.definitions.relationship
   };
 
   return {
