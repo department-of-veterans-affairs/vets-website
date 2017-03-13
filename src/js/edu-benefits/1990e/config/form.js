@@ -14,10 +14,8 @@ const {
   dateRange,
   educationType,
   fullName,
-  gender,
-  nonMilitaryJobs
+  nonMilitaryJobs,
   postHighSchoolTrainings,
-  relationship,
   ssn
 } = fullSchema1990e.definitions;
 
@@ -27,10 +25,8 @@ import createSchoolSelectionPage from '../../pages/schoolSelection';
 import directDeposit from '../../pages/directDeposit';
 
 import * as address from '../../../common/schemaform/definitions/address';
-import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import { uiSchema as dateUiSchema } from '../../../common/schemaform/definitions/date';
 import { uiSchema as dateRangeUiSchema } from '../../../common/schemaform/definitions/dateRange';
-import { uiSchema as fullNameUiSchema } from '../../../common/schemaform/definitions/fullName';
 import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import { uiSchema as ssnUiSchema } from '../../../common/schemaform/definitions/ssn';
 
@@ -45,9 +41,7 @@ import {
 
 import {
   benefitsLabels,
-  genderLabels,
-  hoursTypeLabels,
-  relationshipLabels
+  hoursTypeLabels
 } from '../../utils/helpers';
 
 const formConfig = {
