@@ -94,6 +94,7 @@ class FacilityDetail extends Component {
           </div>
           <div>
             <AppointmentInfo facility={facility}/>
+            <AccessToCare facility={facility}/>
           </div>
         </div>
         <div className="medium-4 columns">
@@ -102,7 +103,6 @@ class FacilityDetail extends Component {
             <div className="mb2">
               <FacilityHours facility={facility}/>
             </div>
-            <AccessToCare facility={facility}/>
           </div>
         </div>
       </div>

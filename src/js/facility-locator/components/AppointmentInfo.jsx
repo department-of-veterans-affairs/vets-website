@@ -3,7 +3,7 @@ import pluralize from 'pluralize';
 
 import StatsBar from './StatsBar';
 
-export default class AccessToCare extends Component {
+export default class AppointmentInfo extends Component {
   render() {
     const { facility } = this.props;
 
@@ -36,7 +36,6 @@ export default class AccessToCare extends Component {
           </p>
           <StatsBar percent={healthAccessAttrs.urgent_consult_percentage * 100} label="At this location"/>
           <StatsBar percent={70} label="National VA average" color="grey"/>
-          <StatsBar percent={50} label="Private facilities near this location that see VA patients"/>
         </div>
       </div>
     );

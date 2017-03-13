@@ -1,47 +1,8 @@
 import React, { Component } from 'react';
-import { reduce, capitalize, values, every } from 'lodash';
+
+import StatsBar from './StatsBar';
 
 export default class AccessToCare extends Component {
-  renderDataRows() {
-    const {
-      attributes: { feedback }
-    } = this.props.facility;
-
-    // transform response from API
-    const dataObject = reduce(feedback.health, (r, v, k) => {
-      const returnObject = r;
-      const lastKey = k.split('_').pop();
-      const serviceName = k.split('_').slice(0, -1).join('_');
-
-      if (!r[serviceName]) {
-        returnObject[serviceName] = {};
-      }
-
-      returnObject[serviceName][lastKey] = v;
-
-      return returnObject;
-    }, {});
-
-    return Object.keys(dataObject).map(k => {
-      const name = k.split('_').reduce((s, e) => {
-        return `${s} ${capitalize(e)}`;
-      }, '');
-
-      if (dataObject[k].urgent && dataObject[k].routine) {
-        return (
-          <tr key={k}>
-            <th scope="row">{name}</th>
-            <td>{Math.round(dataObject[k].urgent * 100)}%</td>
-            <td>{Math.round(dataObject[k].routine * 100)}%</td>
-          </tr>
-        );
-      }
-
-      return null;
-    });
-  }
-
-
   render() {
     const { facility } = this.props;
 
@@ -49,37 +10,46 @@ export default class AccessToCare extends Component {
       return null;
     }
 
-    const notVHAFacility = facility.attributes.facility_type !== 'va_health_facility';
-    const allValuesNull = every(values(facility.attributes.feedback.health), e => !e);
-
-    if (notVHAFacility || allValuesNull) {
+    if (facility.attributes.facility_type !== 'va_health_facility') {
       return null;
     }
 
-    const {
-      health: {
-        effective_date_range: effectiveDateRange
-      }
-    } = facility.attributes.feedback;
+    const healthFeedbackAttrs = facility.attributes.feedback.health;
 
     return (
       <div className="mb2">
-        <h4 className="highlight">Satisfaction Score</h4>
-        {effectiveDateRange ? (<p>Current as of <strong>{effectiveDateRange}</strong></p>) : null}
-        <div>
-          <table className="usa-table-borderless" style={{ margin: '2em 0 0.5em' }}>
-            <thead>
-              <tr>
-                <th scope="col">Appointment Type</th>
-                <th scope="col">Urgent</th>
-                <th scope="col">Routine</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.renderDataRows()}
-            </tbody>
-          </table>
-          <span>Note: % of Veterans who reported that they were "Always" or "Usually" able to get an appointment</span>
+        <h4 className="highlight">Veteran-reported Satisfaction Scores</h4>
+        <div className="mb2">
+          <p>Current as of <strong>{healthFeedbackAttrs.effective_date_range}</strong></p>
+          <h4>Urgent care appointments</h4>
+          <p>% of Veterans who say they usually or always get an appointment when they need care right away</p>
+          <div className="mb2">
+            <p><strong>Primary care at this location</strong></p>
+            <StatsBar percent={healthFeedbackAttrs.primary_care_urgent * 100}/>
+            <p><strong>National VA primary care average</strong></p>
+            <StatsBar percent={70} color="grey"/>
+          </div>
+          <div className="mb2">
+            <p><strong>Specialty care at this location</strong></p>
+            <StatsBar percent={healthFeedbackAttrs.specialty_care_urgent * 100}/>
+            <p><strong>National VA specialty care average</strong></p>
+            <StatsBar percent={70} color="grey"/>
+          </div>
+
+          <h4>Routine care appointments</h4>
+          <p>% of Veterans who say they usually or always get an appointment when they need it</p>
+          <div className="mb2">
+            <p><strong>Primary care at this location</strong></p>
+            <StatsBar percent={healthFeedbackAttrs.primary_care_routine * 100}/>
+            <p><strong>National VA primary care average</strong></p>
+            <StatsBar percent={70} color="grey"/>
+          </div>
+          <div className="mb2">
+            <p><strong>Specialty care at this location</strong></p>
+            <StatsBar percent={healthFeedbackAttrs.specialty_care_routine * 100}/>
+            <p><strong>National VA specialty care average</strong></p>
+            <StatsBar percent={70} color="grey"/>
+          </div>
         </div>
       </div>
     );
