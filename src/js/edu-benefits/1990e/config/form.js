@@ -2,23 +2,6 @@ import _ from 'lodash/fp';
 
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
-const {
-  benefit,
-  civilianBenefitsAssistance,
-  faaFlightCertificatesInformation,
-  serviceBranch
-} = fullSchema1990e.properties;
-
-const {
-  date,
-  dateRange,
-  educationType,
-  fullName,
-  nonMilitaryJobs,
-  postHighSchoolTrainings,
-  ssn
-} = fullSchema1990e.definitions;
-
 import applicantInformation from '../../pages/applicantInformation';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
@@ -43,6 +26,23 @@ import {
   benefitsLabels,
   hoursTypeLabels
 } from '../../utils/helpers';
+
+const {
+  benefit,
+  civilianBenefitsAssistance,
+  faaFlightCertificatesInformation,
+  serviceBranch
+} = fullSchema1990e.properties;
+
+const {
+  date,
+  dateRange,
+  educationType,
+  fullName,
+  nonMilitaryJobs,
+  postHighSchoolTrainings,
+  ssn
+} = fullSchema1990e.definitions;
 
 const formConfig = {
   urlPrefix: '/1990e/',
