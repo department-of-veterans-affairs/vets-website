@@ -1,17 +1,19 @@
 ---
 layout: page-breadcrumbs.html
-title: What happens after you apply for disability
+title: After You Apply for Disability Benefits
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
- - url: http://www.google.com
-   title: Placeholder
-   description: ""
+ - url: /disability-benefits/claims-process/date/
+   title: How does VA decide when my disability compensation starts?
+   description: "Learn about when you can start getting your disability benefits"
+ - url: /disability-benefits/claims-process/what-happens-after-rating/
+   title: What to Expect after You Get a Disability Rating
+   description: "Find out what benefits you can get"
 ---
+
+Once you apply for disability, the claim gets reviewed by our team. Learn about what you can do in the meantime. 
 
 ### How long does it take VA to make a decision?
 
@@ -28,7 +30,7 @@ relatedlinks:
 
 ### What should I do while I wait?
 
-You don't need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. 
+You don't need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. You can check your the status of your claim online. The time frame you see there may vary based on the complexity of your claim.
 
 <a class="usa-button-primary" href="/disability-benefits/track-claims">Track the status of your claim</a>
 

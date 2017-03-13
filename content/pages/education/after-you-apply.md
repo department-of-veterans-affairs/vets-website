@@ -10,8 +10,9 @@ relatedlinks:
    description: "Help choosing civilian careers"
 ---
 
+Getting your degree, specialization certificate, or other professional license is a way to get a leg up on a sucessful transition from the military into civilian life. Find out what happens after you apply for education benefits. 
 
-### How long does it take VA to make a decision?
+### How long does it take us to make a decision?
 
 <div class="card information" markdown="0">
 <span class="number">30 days</span>
@@ -25,5 +26,7 @@ The transition from military to civilian life can be challenging. We offer tools
 ### What happens after I apply?
 
 You’ll get a Certificate of Eligibility (COE) or Award Letter in the mail if your application was approved. Bring this to the VA certifying official at your school.
+
+You can also start looking at future careers and job opportunities. [Learn about career-development resources](/employment/).
 
 <div markdown="0"><br></div>
