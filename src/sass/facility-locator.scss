@@ -164,12 +164,6 @@
       background: url('/img/icons/fa-male-lt-grey.svg') repeat-x left center;
     }
 
-    .fl-stats-label {
-      word-wrap: normal;
-      width: 12em;
-      margin-right: 0.5em;
-    }
-
     .fl-stats-bar-inner {
       display: block;
       content: '&nbsp;';
@@ -376,7 +370,7 @@
   }
 
   .mb2 {
-    margin-bottom: 2rem;
+    margin-bottom: 2em;
   }
 
   //TODO(css): Make this less specific
@@ -402,10 +396,6 @@
 
   input.full-width {
     width: 100%;
-  }
-
-  .mb2 {
-    margin-bottom: 2rem;
   }
 
   ul {
