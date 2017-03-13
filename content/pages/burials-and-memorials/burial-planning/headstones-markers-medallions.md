@@ -6,16 +6,22 @@ template: 6-info-page
 ---
 
 
-To honor the military service of a deceased Veteran, we may provide a headstone or marker to identify the burial place, or a medallion to attach to a privately purchased headstone or marker. We provide these for Veterans buried in both public and private cemeteries. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, a national cemetery, or a cemetery at a military post or base. Find out how to arrange for one of these memorial items.
+To honor the military service of a deceased Veteran, we may provide a headstone, marker or niche cover to identify the burial place in a  federal, DoD, or state veterans cemetery. We may also provide a headstone, marker, or a medallion to attach to a privately purchased headstone or marker, for Veterans who are buried in private or pubcli cemeteries.  Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, a national cemetery, or a cemetery at a military post or base. Find out how to arrange for one of these memorial items.
 
 <div class="call-out" markdown="0">
 
-### Who can be honored with a headstone, marker, or medallion?
+### Who can be honored with a headstone or marker?
 
 - Any Veteran who died on or after November 1, 1990
 - Any Veteran buried in an unmarked grave who served before September 7, 1980
 - Any Veteran buried in an unmarked grave who served for 24 months or longer, or who died while on active duty (including training) after September 7, 1980
 - An eligible spouse or other family member buried in a national cemetery, state/tribal Veterans cemetery, military post cemetery, or military base cemetery
+
+### Who can be honored with a medallion?
+
+- Any Veteran who died before November 1, 1990, **and*
+- Served on or after April 6, 1917, **and**
+- Whose grave is privately marked 
 
 </div>
 
@@ -43,7 +49,7 @@ You can apply for this benefit if you’re:
 - Fax the documents to <span class="tel">800-455-7143</span>. Or, mail the discharge papers and the form to this address: 
 
 <dl class="va-address-block">
-    <dd>Memorial Programs Service (41B)</dd>
+    <dd>Memorial Products Service (41B)</dd>
     <dd>Department of Veteran Affairs</dd>
     <dd>5109 Russell Road</dd>
     <dd>Quantico, VA 22134-3903</dd>
