@@ -222,7 +222,7 @@ export default class ArrayField extends React.Component {
                             {!isLast && <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>}
                           </div>
                           <div className="small-6 right columns">
-                            <button className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>
+                            <button className="usa-button-outline float-right" type="button" onClick={() => this.handleRemove(index)}>Remove</button>
                           </div>
                         </div>}
                     </div>
@@ -285,4 +285,3 @@ ArrayField.propTypes = {
     formContext: React.PropTypes.object.isRequired,
   })
 };
-
