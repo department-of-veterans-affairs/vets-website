@@ -19,9 +19,9 @@ To honor the military service of a deceased Veteran, we may provide a headstone,
 
 ### Who can be honored with a medallion?
 
-- Any Veteran who died before November 1, 1990, **and*
-- Served on or after April 6, 1917, **and**
-- Whose grave is privately marked 
+- Any Veteran who died before November 1, 1990
+- Any Veteran who served on or after April 6, 1917
+- Any Veteran whose grave is privately marked 
 
 </div>
 
