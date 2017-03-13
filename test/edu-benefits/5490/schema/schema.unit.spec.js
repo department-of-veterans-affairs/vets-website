@@ -7,7 +7,7 @@ import { transform } from '../../../../src/js/edu-benefits/5490/helpers';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
 import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
 
-describe.only('5490 schema tests', () => {
+describe('5490 schema tests', () => {
   const v = new Validator();
   const files = fs.readdirSync(__dirname);
   files

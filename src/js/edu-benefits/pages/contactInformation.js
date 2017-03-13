@@ -54,7 +54,7 @@ export default function createContactInformationPage(addressField = 'veteranAddr
       type: 'object',
       properties: {
         preferredContactMethod,
-        veteranAddress: address.schema(true),
+        [addressField]: address.schema(true),
         'view:otherContactInfo': {
           type: 'object',
           required: ['email', 'view:confirmEmail'],
