@@ -18,7 +18,6 @@ describe('Edu 1990e sponsorVeteran', () => {
           uiSchema={uiSchema}
           definitions={definitions}/>
     );
-
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
     const selects = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select');
 
