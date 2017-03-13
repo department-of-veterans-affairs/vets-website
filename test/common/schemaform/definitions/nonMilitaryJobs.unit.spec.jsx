@@ -22,13 +22,12 @@ describe('Schemaform definition nonMilitaryJobs', () => {
     expect(inputs.length).to.equal(4);
   });
 
-  xit('should add another', () => {
+  it('should add another', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
           onSubmit={onSubmit}
-          data={{}}
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
