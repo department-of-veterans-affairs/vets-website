@@ -102,7 +102,7 @@ export class CalculatorForm extends React.Component {
     );
   }
 
-  renderAssist() {
+  renderTuitionAssist() {
     if (!this.props.displayed.tuitionAssist) return null;
     return (
       <div className="row">

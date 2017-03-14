@@ -166,9 +166,9 @@ const getDerivedValues = createSelector(
 
     // Set the net price (Payer of Last Resort) - getTuitionNetPrice
     const tuitionNetPrice = Math.max(0, Math.min(
-      +inputs.tuitionFees.subString(1) -
-      +inputs.scholarships.subString(1) -
-      +inputs.tuitionAssist.subString(1)
+      +inputs.tuitionFees.substring(1) -
+      +inputs.scholarships.substring(1) -
+      +inputs.tuitionAssist.substring(1)
     ));
 
     // Set the proper tuition/fees cap - getTuitionFeesCap
