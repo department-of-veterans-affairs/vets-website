@@ -15,15 +15,13 @@
   },
   "sponsorVeteran": {
     "data": {
-      "sponsorVeteran": {
-        "veteranFullName": {
-          "first": "Vcxz",
-          "last": "Nmjkl"
-        },
-        "veteranSocialSecurityNumber": "443445555",
-        "veteranAddress": {
-          "country": "USA"
-        }
+      "veteranFullName": {
+        "first": "Vcxz",
+        "last": "Nmjkl"
+      },
+      "veteranSocialSecurityNumber": "443445555",
+      "veteranAddress": {
+        "country": "USA"
       }
     }
   },
@@ -31,9 +29,7 @@
     "data": {}
    },
   "employmentHistory": {
-    "data": {
-      "employmentHistory": {}
-    }
+    "data": {}
   },
   "schoolSelection": {
     "data": {
@@ -57,6 +53,11 @@
         "email": "a@b.com",
         "view:confirmEmail": "a@b.com"
       }
+    }
+  },
+  "directDeposit": {
+    "data": {
+      "bankAccount": {}
     }
   }
 }

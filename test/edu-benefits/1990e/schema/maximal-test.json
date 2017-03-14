@@ -22,24 +22,22 @@
   },
   "sponsorVeteran": {
     "data": {
-      "sponsorVeteran": {
-        "veteranFullName": {
-          "first": "Mnbv",
-          "middle": "Zxcv",
-          "last": "Lkjh",
-          "suffix": "Jr."
-        },
-        "veteranSocialSecurityNumber": "556789999",
-        "veteranAddress": {
-          "street": "1 Main St",
-          "city": "Central City",
-          "country": "USA",
-          "state": "CA",
-          "postalCode": "98777"
-        },
-        "serviceBranch": "Marines",
-        "civilianBenefitsAssistance": true
-      }
+      "veteranFullName": {
+        "first": "Mnbv",
+        "middle": "Zxcv",
+        "last": "Lkjh",
+        "suffix": "Jr."
+      },
+      "veteranSocialSecurityNumber": "556789999",
+      "veteranAddress": {
+        "street": "1 Main St",
+        "city": "Central City",
+        "country": "USA",
+        "state": "CA",
+        "postalCode": "98777"
+      },
+      "serviceBranch": "Marines",
+      "civilianBenefitsAssistance": true
     }
   },
   "educationHistory": {
@@ -64,18 +62,14 @@
     }
   },
   "employmentHistory": {
-    "data": {
-      "employmentHistory": {
-        "view:hasNonMilitaryJobs": true,
-        "nonMilitaryJobs": [
-          {
-            "name": "Plumber",
-            "months": 1,
-            "licenseOrRating": "Master"
-          }
-        ]
+    "view:hasNonMilitaryJobs": true,
+    "nonMilitaryJobs": [
+      {
+        "name": "Plumber",
+        "months": 1,
+        "licenseOrRating": "Master"
       }
-    }
+    ]
   },
   "schoolSelection": {
     "data": {
@@ -110,15 +104,15 @@
         "homePhone": "4435553322",
         "mobilePhone": "5545554433"
       }
-    },
-    "directDeposit": {
-      "data": {
-        "bankAccount": {
-          "accountType": "checking",
-          "routingNumber": "121000358",
-          "accountNumber": "223445667"
-        }
+    }
+  },
+  "directDeposit": {
+    "data": {
+      "bankAccount": {
+        "accountType": "checking",
+        "routingNumber": "121000358",
+        "accountNumber": "223445667"
       }
-    }                  
-  }
+    }
+  }                  
 }
