@@ -14,9 +14,11 @@ const stateLabels = states.USA.reduce((current, { label, value }) => {
 
 const uiSchema = {
   'ui:title': 'Education after high school',
+  'ui:description': 'Please list any post-high school trainings you have completed.',
   'ui:options': {
     itemName: 'Training',
-    viewField: EducationView
+    viewField: EducationView,
+    hideTitle: true
   },
   items: {
     name: {
