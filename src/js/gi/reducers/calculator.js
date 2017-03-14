@@ -1,3 +1,4 @@
+import { isFinite } from 'lodash';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import {
@@ -43,8 +44,9 @@ export default function (state = INITIAL_STATE, action) {
         'buyUpAmount'
       ].includes(field);
 
-      if (isDollarAmount && value[0] === '$') {
-        convertedValue = +value.substring(1);
+      if (isDollarAmount && !isFinite(value)) {
+        const dollarAmount = value[0] === '$' ? +value.substring(1) : +value;
+        convertedValue = isFinite(dollarAmount) ?  dollarAmount : '';
       }
 
       const newState = {
