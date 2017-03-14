@@ -8,10 +8,22 @@ const stateLabels = states.USA.reduce((current, { label, value }) => {
   return _.merge(current, { [value]: label });
 }, {});
 
-export default function createSchoolSelectionPage(
-  schema,
-  fields = ['educationProgram', 'educationObjective', 'nonVaAssistance'],
-  programRequired = false) {
+const defaults = {
+  fields: [
+    'educationProgram',
+    'educationObjective',
+    'nonVaAssistance'
+  ],
+  required: [
+    // 'educationType',
+    // 'name'
+  ]
+};
+
+export default function createSchoolSelectionPage(schema, options) {
+  const mergedOptions = _.merge(defaults, options);
+  const { fields, required } = mergedOptions;
+
   const possibleUISchemaFields = {
     educationProgram: educationProgram.uiSchema,
     educationObjective: {
@@ -49,7 +61,7 @@ export default function createSchoolSelectionPage(
     schemaProperties.educationProgram =
       educationProgram.schema(
         schema,
-        programRequired ? ['educationType', 'name'] : []
+        required
       );
   }
 

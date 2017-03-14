@@ -394,15 +394,18 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: createSchoolSelectionPage(fullSchema5490, [
-          'educationProgram',
-          'educationObjective',
-          'educationStartDate',
-          'restorativeTraining',
-          'vocationalTraining',
-          'trainingState',
-          'educationalCounseling'
-        ])
+        schoolSelection: createSchoolSelectionPage(fullSchema5490, {
+          fields: [
+            'educationProgram',
+            'educationObjective',
+            'educationStartDate',
+            'restorativeTraining',
+            'vocationalTraining',
+            'trainingState',
+            'educationalCounseling'
+          ],
+          required: ['educationType']
+        })
       }
     },
     personalInformation: {

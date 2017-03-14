@@ -249,11 +249,13 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: createSchoolSelectionPage(fullSchema1990e, [
-          'educationProgram',
-          'educationObjective',
-          'nonVaAssistance'
-        ])
+        schoolSelection: createSchoolSelectionPage(fullSchema1990e, {
+          fields: [
+            'educationProgram',
+            'educationObjective',
+            'nonVaAssistance'
+          ]
+        })
       }
     },
     personalInformation: {
