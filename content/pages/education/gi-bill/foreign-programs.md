@@ -41,7 +41,8 @@ Yes. The application process is different. First, contact the school or submit a
 - For private schools overseas, the degree must be of equal value to those granted by public colleges and universities in the same country, and the school must have the same entrance requirements. 
 - Independent study courses must be accredited by a nationally recognized accrediting association.
 
-Use the GI Bill Comparison Tool to see what benefits you can get at the school you want to attend. [Compare GI Bill Benefits](/gi-bill-comparison-tool/)
+Use the GI Bill Comparison Tool to see what benefits you can get at the school you want to attend. 
+class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
 
 **Exception:** Programs at schools located in the United States that offer courses in a foreign country under contract with the Department of Defense don't qualify as foreign training. Likewise, year abroad and similar programs offered by schools in the United States don't qualify as foreign training.
 
@@ -56,7 +57,7 @@ After we approve the school, you'll need to apply. [Apply for benefits](/educati
 
 Turn in your application to us at least 90 days before you leave for your new school. We'll decide what benefits you get based on your school’s location. 
 
-If you get approved for benefits, turn in your Certificate of Eligibility (COE) to the school’s certifying official to show that you qualify for VA benefits. Your school’s certifying official will submit your enrollment information with VA Form 22-1999. Please note that you won't get payments until we have received and processed your enrollment information.
+If you get approved for benefits, turn in your Certificate of Eligibility (COE) to the school’s certifying official to show that you qualify for VA benefits. Your school’s certifying official will submit your enrollment information with VA Form 22-1999. Please note that you won't get payments until we've received and processed your enrollment information.
 
 
 </li>
@@ -86,4 +87,4 @@ Get more information or help with your application from:
 - Foreign service posts
 - Canadian Department of Veterans Affairs (Canadian schools only)
 
-You can also check your approval status or send us questions by email 24 hours a day, 7 days a week, by using the Submit a Question section of our website. [Go to Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/).
+You can also check your approval status or send us questions by email 24 hours a day, 7 days a week, by using the Submit a Question section of our website. [Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/).
