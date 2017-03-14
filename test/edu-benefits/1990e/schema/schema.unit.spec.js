@@ -5,7 +5,7 @@ import { Validator } from 'jsonschema';
 
 import { transform } from '../../../../src/js/edu-benefits/1990e/helpers';
 import formConfig from '../../../../src/js/edu-benefits/1990e/config/form';
-import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json";
+import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
 describe('1990e schema tests', () => {
   const v = new Validator();

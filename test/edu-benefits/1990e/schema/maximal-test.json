@@ -1,5 +1,124 @@
 {
   "privacyAgreementAccepted": true,
   "applicantInformation": {
+    "data": {
+      "relativeFullName": {
+        "first": "Qwerty",
+        "middle": "Uiop",
+        "last": "Asdf",
+        "suffix": "IV"
+      },
+      "relativeSocialSecurityNumber": "443443333",
+      "relativeDateOfBirth": "1990-01-01",
+      "gender": "F",
+      "relationship": "child"
+    }
+  },
+  "benefitEligibility": {
+    "data": {
+      "view:benefitDescription": {},
+      "benefit": "chapter33"
+    }
+  },
+  "sponsorVeteran": {
+    "data": {
+      "sponsorVeteran": {
+        "veteranFullName": {
+          "first": "Mnbv",
+          "middle": "Zxcv",
+          "last": "Lkjh",
+          "suffix": "Jr."
+        },
+        "veteranSocialSecurityNumber": "556789999",
+        "veteranAddress": {
+          "street": "1 Main St",
+          "city": "Central City",
+          "country": "USA",
+          "state": "CA",
+          "postalCode": "98777"
+        },
+        "serviceBranch": "Marines",
+        "civilianBenefitsAssistance": true
+      }
+    }
+  },
+  "educationHistory": {
+    "data": {
+      "highSchoolOrGedCompletionDate": "2007-06-10",
+      "postHighSchoolTrainings": [
+        {
+          "name": "Central College",
+          "city": "Central City",
+          "state": "CA",
+          "dateRange": {
+            "from": "2007-06-11",
+            "to": "2007-12-10"
+          },
+          "hours": 2,
+          "hoursType": "semester",
+          "degreeReceived": "None",
+          "major": "math"
+        }
+      ],
+      "faaFlightCertificatesInformation": "FAA #343434"
+    }
+  },
+  "employmentHistory": {
+    "data": {
+      "employmentHistory": {
+        "view:hasNonMilitaryJobs": true,
+        "nonMilitaryJobs": [
+          {
+            "name": "Plumber",
+            "months": 1,
+            "licenseOrRating": "Master"
+          }
+        ]
+      }
+    }
+  },
+  "schoolSelection": {
+    "data": {
+      "educationProgram": {
+        "name": "Central Flight School",
+        "address": {
+          "street": "2 Main Str",
+          "city": "Central City",
+          "country": "USA",
+          "state": "CA",
+          "postalCode": "55443"
+        },
+        "educationType": "flightTraining"
+      },
+      "educationObjective": "Pilot",
+      "nonVaAssistance": true
+    }
+  },
+  "contactInformation": {
+    "data": {
+      "preferredContactMethod": "mail",
+      "relativeAddress": {
+        "street": "3 Main St",
+        "city": "Central City",
+        "country": "USA",
+        "state": "CA",
+        "postalCode": "98789"
+      },
+      "view:otherContactInfo": {
+        "email": "a@b.com",
+        "view:confirmEmail": "a@b.com",
+        "homePhone": "4435553322",
+        "mobilePhone": "5545554433"
+      }
+    },
+    "directDeposit": {
+      "data": {
+        "bankAccount": {
+          "accountType": "checking",
+          "routingNumber": "121000358",
+          "accountNumber": "223445667"
+        }
+      }
+    }                  
   }
 }

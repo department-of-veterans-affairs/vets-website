@@ -1,5 +1,63 @@
 {
   "privacyAgreementAccepted": true,
   "applicantInformation": {
+    "data": {
+      "relativeFullName": {
+        "first": "Abcde",
+        "last": "Feghi"
+      }
+    }
+  },
+  "benefitEligibility": {
+    "data": {
+      "view:benefitDescription": {}
+    }
+  },
+  "sponsorVeteran": {
+    "data": {
+      "sponsorVeteran": {
+        "veteranFullName": {
+          "first": "Vcxz",
+          "last": "Nmjkl"
+        },
+        "veteranSocialSecurityNumber": "443445555",
+        "veteranAddress": {
+          "country": "USA"
+        }
+      }
+    }
+  },
+  "educationHistory": {
+    "data": {}
+   },
+  "employmentHistory": {
+    "data": {
+      "employmentHistory": {}
+    }
+  },
+  "schoolSelection": {
+    "data": {
+      "educationProgram": {
+        "address": {
+          "country": "USA"
+        }
+      }
+    }
+  },
+  "contactInformation": {
+    "data": {
+      "relativeAddress": {
+        "street": "1 Main St",
+        "city": "Central City",
+        "country": "USA",
+        "state": "CA",
+        "postalCode": "94949"
+      },
+      "view:otherContactInfo": {
+        "email": "a@b.com",
+        "view:confirmEmail": "a@b.com"
+      }
+    }
   }
 }
+
