@@ -10,6 +10,7 @@ export class CalculatorForm extends React.Component {
   constructor(props) {
     super(props);
     this.renderLearnMoreLabel = this.renderLearnMoreLabel.bind(this);
+    this.renderInState = this.renderInState.bind(this);
     this.renderTuition = this.renderTuition.bind(this);
     this.renderBooks = this.renderBooks.bind(this);
     this.renderYellowRibbon = this.renderYellowRibbon.bind(this);
@@ -27,6 +28,27 @@ export class CalculatorForm extends React.Component {
       <span>
         {text} (<a onClick={this.props.showModal.bind(this, modal)}>Learn more</a>)
       </span>
+    );
+  }
+
+  renderInState() {
+    if (!this.props.displayed.inState) return null;
+    return (
+      <div>
+        <div className="row">
+          <div className="small-12 columns">
+            <RadioButtons
+                label="Are you an in-state student?"
+                name="inState"
+                options={[
+                  { value: 'yes', label: 'Yes' },
+                  { value: 'no', label: 'No' }
+                ]}
+                value={this.props.calculator.inState}
+                onChange={this.props.calculatorInputChange}/>
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -391,6 +413,7 @@ export class CalculatorForm extends React.Component {
     if (!this.props.displayed) return null;
     return (
       <div className="calculator-form">
+        {this.renderInState()}
         {this.renderTuition()}
         {this.renderBooks()}
         {this.renderYellowRibbon()}

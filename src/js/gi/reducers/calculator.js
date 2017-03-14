@@ -7,6 +7,8 @@ import {
 
 const INITIAL_STATE = {
   inState: 'yes',
+  tuitionInState: 0,
+  tuitionOutOfState: 0,
   tuitionFees: 0,
   books: 0,
   yellowRibbonRecipient: 'no',
@@ -45,9 +47,20 @@ export default function (state = INITIAL_STATE, action) {
         convertedValue = +value.substring(1);
       }
 
+      const newState = {
+        [field]: convertedValue,
+      };
+
+      if (field === 'inState') {
+        newState.tuitionFees =
+          value === 'yes' ?
+          state.tuitionInState :
+          state.tuitionOutOfState;
+      }
+
       return {
         ...state,
-        [field]: convertedValue,
+        ...newState
       };
     }
 
@@ -55,14 +68,17 @@ export default function (state = INITIAL_STATE, action) {
       const camelPayload = camelCaseKeysRecursive(action.payload);
 
       const {
-        tuitionInState: tuitionFees,
+        tuitionInState,
+        tuitionOutOfState,
         books,
         calendar
       } = camelPayload.data.attributes;
 
       return {
         ...INITIAL_STATE,
-        tuitionFees,
+        tuitionInState,
+        tuitionOutOfState,
+        tuitionFees: tuitionInState,
         books,
         calendar
       };

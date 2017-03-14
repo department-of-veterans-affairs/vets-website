@@ -785,6 +785,7 @@ export const getDisplayedInputs = createSelector(
   getDerivedValues,
   (eligibility, institution, derived) => {
     let displayed = {
+      inState: false,
       tuition: true,
       books: false,
       yellowRibbon: false,
@@ -805,11 +806,7 @@ export const getDisplayedInputs = createSelector(
     const { militaryStatus } = eligibility;
     const giBillChapter = +eligibility.giBillChapter;
 
-
-    // tuition, scholarship, enrolled, calendar, kicker
-
     if (giBillChapter === 31 && !derived.onlyVRE) {
-      // displayed.enrolled = true;
       displayed = {
         ...displayed,
         enrolled: true,
@@ -822,12 +819,6 @@ export const getDisplayedInputs = createSelector(
     }
 
     if (institution.type === 'ojt') {
-      /*
-      displayed.tuition = false;
-      displayed.scholarships = false;
-      displayed.enrolled = false;
-      displayed.working = true;
-      */
       displayed = {
         ...displayed,
         tuition: false,
@@ -844,7 +835,6 @@ export const getDisplayedInputs = createSelector(
     }
 
     if (giBillChapter === 35) {
-      // displayed.kicker = false;
       displayed = {
         ...displayed,
         kicker: false,
@@ -852,13 +842,19 @@ export const getDisplayedInputs = createSelector(
     }
 
     if (institution.type === 'flight' || institution.type === 'correspondence') {
-      // displayed.kicker = false;
       displayed = {
         ...displayed,
         enrolled: false,
         enrolledOld: false,
         kicker: false,
         buyUp: false
+      };
+    }
+
+    if (institution.type === 'public') {
+      displayed = {
+        ...displayed,
+        inState: true
       };
     }
 
