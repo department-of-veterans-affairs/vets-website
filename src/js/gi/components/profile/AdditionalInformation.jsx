@@ -104,21 +104,21 @@ export class AdditionalInformation extends React.Component {
                 <a onClick={this.props.showModal.bind(this, 'facilityCode')}>VA facility code:</a>
                 &nbsp;
               </strong>
-              {+it.facilityCode}
+              {+it.facilityCode === 0 ? 'N/A' : +it.facilityCode}
             </p>
             <p>
               <strong>
                 <a onClick={this.props.showModal.bind(this, 'ipedsCode')}>ED IPEDS code:</a>
                 &nbsp;
               </strong>
-              {+it.cross}
+              {+it.cross === 0 ? 'N/A' : +it.cross}
             </p>
             <p>
               <strong>
                 <a onClick={this.props.showModal.bind(this, 'opeCode')}>ED OPE code:</a>
                 &nbsp;
               </strong>
-              {+it.ope6}
+              {+it.ope6 === 0 ? 'N/A' : +it.ope6}
             </p>
           </div>
         </div>
