@@ -41,7 +41,7 @@ Yes. The application process is different. First, contact the school or submit a
 - For private schools overseas, the degree must be of equal value to those granted by public colleges and universities in the same country, and the school must have the same entrance requirements. 
 - Independent study courses must be accredited by a nationally recognized accrediting association.
 
-Use the **GI Bill Comparison Tool** to see what benefits you can get at the school you want to attend. 
+Use the GI Bill Comparison Tool to see what benefits you can get at the school you want to attend. 
 <br>
 <a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
 
