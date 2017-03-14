@@ -4,10 +4,15 @@ import { expect } from 'chai';
  
 import { SearchHelpSignIn } from '../../../src/js/login/components/SearchHelpSignIn.jsx';
 
-describe('<SignInProfileButton>', () => {
+describe('<SearchHelpSignIn>', () => {
   const loginData = {
     currentlyLoggedIn: false,
-    loginUrl: ''
+    loginUrl: '',
+    utilitiesMenuIsOpen: {
+      account: false,
+      help: false,
+      search: false
+    }
   };
 
   let tree = SkinDeep.shallowRender(<SearchHelpSignIn login={loginData}/>);
@@ -23,9 +28,17 @@ describe('<SignInProfileButton>', () => {
   });
 
   it('should present profile and sign out buttons when currentlyLoggedIn is true', () => {
-    const signedInData = { currentlyLoggedIn: true, loginUrl: '' };
+    const signedInData = { 
+      currentlyLoggedIn: true,
+      loginUrl: '', 
+      utilitiesMenuIsOpen: {
+        account: false,
+        help: false,
+        search: false
+      }
+    };
     const profileData = { email: 'fake@aol.com', userFullName: { first: 'Sharon' } };
-    tree = SkinDeep.shallowRender(<SignInProfileButton login={signedInData} profile={profileData}/>);
+    tree = SkinDeep.shallowRender(<SearchHelpSignIn login={signedInData} profile={profileData}/>);
     const link = tree.everySubTree('a');
     expect(link).to.have.lengthOf(2);
   });
