@@ -42,7 +42,7 @@ Yes. The application process is different. First, contact the school or submit a
 - Independent study courses must be accredited by a nationally recognized accrediting association.
 
 Use the GI Bill Comparison Tool to see what benefits you can get at the school you want to attend. 
-class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
+<a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
 
 **Exception:** Programs at schools located in the United States that offer courses in a foreign country under contract with the Department of Defense don't qualify as foreign training. Likewise, year abroad and similar programs offered by schools in the United States don't qualify as foreign training.
 
