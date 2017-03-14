@@ -51,4 +51,4 @@ The GI Bill Comparison Tool and Veterans Services Organizations can help you exp
 [Get help from a Veterans Service Organization](http://www.va.gov/vso/).
 
 
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a> <a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
+<a class="usa-button-primary va-button-primary" href="/education/apply/">Apply for Education Benefits</a> <a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
