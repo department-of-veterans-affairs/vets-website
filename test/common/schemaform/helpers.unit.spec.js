@@ -741,6 +741,33 @@ describe('Schemaform helpers:', () => {
 
       expect(output.address).to.be.undefined;
     });
+    it('should remove empty objects', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {}
+            }
+          }
+        }
+      };
+      const formData = {
+        page1: {
+          data: {
+            someField: {
+            },
+            someField2: {
+              someData: undefined
+            }
+          }
+        }
+      };
+
+      const output = JSON.parse(transformForSubmit(formConfig, formData));
+
+      expect(output.someField).to.be.undefined;
+      expect(output.someField2).to.be.undefined;
+    });
   });
   describe('setItemTouched', () => {
     /* eslint-disable camelcase */
