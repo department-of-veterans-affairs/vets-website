@@ -84,7 +84,7 @@ You must apply for education benefits using eBenefits.va.gov if you're:
 
 ### What happens after I apply? 
 
-- The transition from military to civilian life can be challenging. We offer tools and counseling programs to help you make the most of your educational options. [Learn about career counseling options](/education/tools-programs/education-career-counseling/).
+- The transition from military to civilian life can be challenging. We offer tools and counseling programs to help you make the most of your educational options. [Learn about career counseling benefits](/education/tools-programs/education-career-counseling/).
 - You’ll get a COE in the mail if your application was approved. Bring this to the VA certifying official at your school. 
 
 #### How long does it take us to make a decision?
