@@ -101,48 +101,41 @@ const formConfig = {
           title: 'Sponsor Veteran',
           path: 'sponsor-veteran',
           uiSchema: {
-            sponsorVeteran: {
-              veteranFullName: {
-                first: {
-                  'ui:title': 'Veteran first name'
-                },
-                last: {
-                  'ui:title': 'Veteran last name'
-                },
-                middle: {
-                  'ui:title': 'Veteran middle name'
-                },
-                suffix: {
-                  'ui:title': 'Veteran suffix',
-                  'ui:options': {
-                    widgetClassNames: 'form-select-medium'
-                  }
+            veteranFullName: {
+              first: {
+                'ui:title': 'Veteran first name'
+              },
+              last: {
+                'ui:title': 'Veteran last name'
+              },
+              middle: {
+                'ui:title': 'Veteran middle name'
+              },
+              suffix: {
+                'ui:title': 'Veteran suffix',
+                'ui:options': {
+                  widgetClassNames: 'form-select-medium'
                 }
-              },
-              veteranSocialSecurityNumber: _.set(['ui:title'], 'Veteran Social Security number', ssnUiSchema),
-              veteranAddress: address.uiSchema('Veteran Address'),
-              serviceBranch: {
-                'ui:title': 'Branch of Service'
-              },
-              civilianBenefitsAssistance: {
-                'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
               }
+            },
+            veteranSocialSecurityNumber: _.set(['ui:title'], 'Veteran Social Security number', ssnUiSchema),
+            veteranAddress: address.uiSchema('Veteran Address'),
+            serviceBranch: {
+              'ui:title': 'Branch of Service'
+            },
+            civilianBenefitsAssistance: {
+              'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
             }
           },
           schema: {
             type: 'object',
+            required: ['veteranFullName', 'veteranSocialSecurityNumber'],
             properties: {
-              sponsorVeteran: {
-                type: 'object',
-                required: ['veteranFullName', 'veteranSocialSecurityNumber'],
-                properties: {
-                  veteranFullName: fullName,
-                  veteranSocialSecurityNumber: ssn,
-                  veteranAddress: address.schema(),
-                  serviceBranch,
-                  civilianBenefitsAssistance
-                },
-              }
+              veteranFullName: fullName,
+              veteranSocialSecurityNumber: ssn,
+              veteranAddress: address.schema(),
+              serviceBranch,
+              civilianBenefitsAssistance
             }
           }
         }
