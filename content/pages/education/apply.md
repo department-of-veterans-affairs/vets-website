@@ -25,7 +25,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 <div class="call-out" markdown="1">
 
-#### What you need to fill out this application
+#### What do I need to fill out this application?
 
 - Social Security number
 - Bank account direct deposit information
@@ -76,7 +76,7 @@ You must apply for education benefits using eBenefits.va.gov if you're:
 #### By mail
 - Call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
-### Already applied?
+### What happens after I apply?
 
 - [Find out what happens after you apply](education/after-you-apply).
 - You can't make changes to your application but if you have questions about education benefits please call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
