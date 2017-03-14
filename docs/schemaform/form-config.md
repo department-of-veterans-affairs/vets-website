@@ -424,3 +424,5 @@ Only `chapter35`, `chapter33`, `transferOfEntitlement`, `veteranFullName`, and `
   other: { ... }
 }
 ```
+
+When this form is sent to the backend, the fields in the `view:sponsorServiceOptions` object will be moved up one level and sent alongside `dic` and `chapter31`. The back end will never see objects with names that start with `view:`, but it will get all the fields inside of them.
