@@ -1,12 +1,5 @@
 {
   "privacyAgreementAccepted": true,
-  "submission": {
-    "status": false,
-    "errorMessage": false,
-    "id": false,
-    "timestamp": false,
-    "hasAttemptedSubmit": false
-  },
   "applicantInformation": {
     "data": {
       "relativeFullName": {
