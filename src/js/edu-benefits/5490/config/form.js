@@ -7,10 +7,14 @@ import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.jso
 import {
   benefitsLabels,
   relationshipLabels,
-  hoursTypeLabels,
   highSchoolStatusLabels,
   transform
 } from '../helpers';
+
+import {
+  hoursTypeLabels,
+  stateLabels
+} from '../../utils/helpers';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
@@ -396,7 +400,10 @@ const formConfig = {
                   'ui:title': 'City'
                 },
                 state: {
-                  'ui:title': 'State'
+                  'ui:title': 'State',
+                  'ui:options': {
+                    labels: stateLabels
+                  }
                 },
                 dateRange: uiSchemaDateRange(),
                 hours: {

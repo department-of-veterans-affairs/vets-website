@@ -1,16 +1,10 @@
-import _ from 'lodash/fp';
-
 import EducationView from '../components/EducationView';
 import { uiSchema as uiSchemaDateRange } from '../../common/schemaform/definitions/dateRange';
-import { states } from '../../common/utils/options-for-select';
 
 import {
   hoursTypeLabels,
+  stateLabels
 } from '../utils/helpers';
-
-const stateLabels = states.USA.reduce((current, { label, value }) => {
-  return _.merge(current, { [value]: label });
-}, {});
 
 const uiSchema = {
   'ui:title': 'Education after high school',
