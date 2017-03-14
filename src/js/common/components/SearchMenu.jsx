@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import IconSearch from './svgicons/IconSearch';
+import DropDown from './DropDown';
 
 class SearchMenu extends React.Component {
   constructor(props) {
@@ -23,8 +24,6 @@ class SearchMenu extends React.Component {
       <form
           acceptCharset="UTF-8"
           action="https://search.vets.gov/search"
-          className="va-dropdown-panel"
-          hidden={!this.props.isOpen}
           id="search"
           method="get">
         <div className="csp-inline-patch-header">
@@ -50,21 +49,17 @@ class SearchMenu extends React.Component {
       'va-dropdown-trigger'
     );
 
-    return (
-      <div className="va-dropdown">
-        <button className={buttonClasses}
-            aria-controls="search"
-            aria-expanded={this.props.isOpen}
-            onClick={this.props.clickHandler}
-            ref="clickTrigger">
-          <span>
-            <IconSearch color="#fff"/>
-            Search
-          </span>
-        </button>
-        {this.makeForm()}
-      </div>
+    const icon = <IconSearch color="#fff"/>;
 
+    return (
+      <DropDown
+          buttonText="Search"
+          clickHandler={this.props.clickHandler}
+          cssClass={buttonClasses}
+          contents={this.makeForm()}
+          id="searchmenu"
+          icon={icon}
+          isOpen={this.props.isOpen}/>
     );
   }
 }

@@ -27,7 +27,7 @@ describe('<SearchHelpSignIn>', () => {
     expect(link).to.have.lengthOf(2);
   });
 
-  it('should present profile and sign out buttons when currentlyLoggedIn is true', () => {
+  it('should render <SignInProfileMenu/> when currentlyLoggedIn is true', () => {
     const signedInData = { 
       currentlyLoggedIn: true,
       loginUrl: '', 
@@ -39,7 +39,7 @@ describe('<SearchHelpSignIn>', () => {
     };
     const profileData = { email: 'fake@aol.com', userFullName: { first: 'Sharon' } };
     tree = SkinDeep.shallowRender(<SearchHelpSignIn login={signedInData} profile={profileData}/>);
-    const link = tree.everySubTree('a');
-    expect(link).to.have.lengthOf(2);
+    const profileMenu = tree.everySubTree('SignInProfileMenu');
+    expect(profileMenu).to.have.lengthOf(1);
   });
 });
