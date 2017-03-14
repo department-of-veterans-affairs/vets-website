@@ -40,6 +40,12 @@ export const genderLabels = {
   M: 'Male'
 };
 
+export const hoursTypeLabels = {
+  semester: 'Semester',
+  quarter: 'Quarter',
+  clock: 'Clock'
+};
+
 export function getLabel(options, value) {
   const matched = _.find(options, option => option.value === value);
 
