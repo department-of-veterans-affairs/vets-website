@@ -240,6 +240,10 @@ dl.review {
       font-weight: bold;
       padding-left: 5px;
       min-width: 100px;
+      text-align: left;
+    }
+    &> dt {
+      max-width: 60%;
     }
     &> dt > p {
       margin-top: 0;
