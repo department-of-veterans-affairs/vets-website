@@ -1,48 +1,47 @@
 import _ from 'lodash/fp';
 
+import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
+
+import applicantInformation from '../../pages/applicantInformation';
+import createContactInformationPage from '../../pages/contactInformation';
+import createSchoolSelectionPage from '../../pages/schoolSelection';
+import directDeposit from '../../pages/directDeposit';
+
+import * as address from '../../../common/schemaform/definitions/address';
+import { uiSchema as dateUiSchema } from '../../../common/schemaform/definitions/date';
+import { uiSchema as dateRangeUiSchema } from '../../../common/schemaform/definitions/dateRange';
+import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import { uiSchema as ssnUiSchema } from '../../../common/schemaform/definitions/ssn';
+
+import IntroductionPage from '../components/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import EducationView from '../../components/EducationView';
+
 import {
   transform,
   eligibilityDescription
 } from '../helpers';
 
-import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
-
-import contactInformation from '../../pages/contactInformation';
-import directDeposit from '../../pages/directDeposit';
-import createSchoolSelectionPage from '../../pages/schoolSelection';
-
-import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
-import { uiSchema as fullNameUiSchema } from '../../../common/schemaform/definitions/fullName';
-import * as ssnCommon from '../../../common/schemaform/definitions/ssn';
-import * as address from '../../../common/schemaform/definitions/address';
-import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
-
-import IntroductionPage from '../components/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-
 import {
   benefitsLabels,
-  relationshipLabels,
-  genderLabels
+  hoursTypeLabels
 } from '../../utils/helpers';
 
 const {
-  gender,
-  relationship,
-  fullName,
-  ssn,
-  nonMilitaryJobs
-} = fullSchema1990e.definitions;
-
-const {
   benefit,
-  serviceBranch,
-  civilianBenefitsAssistance
+  civilianBenefitsAssistance,
+  faaFlightCertificatesInformation,
+  serviceBranch
 } = fullSchema1990e.properties;
 
 const {
+  date,
+  dateRange,
   educationType,
-  date
+  fullName,
+  nonMilitaryJobs,
+  postHighSchoolTrainings,
+  ssn
 } = fullSchema1990e.definitions;
 
 const formConfig = {
@@ -52,51 +51,18 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  defaultDefinitions: {
+    date,
+    dateRange,
+    educationType
+  },
   title: 'Apply for transferred education benefits',
   subTitle: 'Form 22-1990e',
-  defaultDefinitions: {
-    educationType,
-    date
-  },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant information',
-          initialData: {},
-          uiSchema: {
-            relativeFullName: fullNameUiSchema,
-            relativeSocialSecurityNumber: ssnCommon.uiSchema,
-            relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
-            gender: {
-              'ui:widget': 'radio',
-              'ui:title': 'Gender',
-              'ui:options': {
-                labels: genderLabels
-              }
-            },
-            relationship: {
-              'ui:widget': 'radio',
-              'ui:title': 'What is your relationship to the service member whose benefit is being transferred to you?',
-              'ui:options': {
-                labels: relationshipLabels
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            required: ['relativeFullName'],
-            properties: {
-              relativeFullName: fullName,
-              relativeSocialSecurityNumber: ssnCommon.schema,
-              relativeDateOfBirth: currentOrPastDate.schema,
-              gender,
-              relationship
-            }
-          }
-        }
+        applicantInformation: applicantInformation(fullSchema1990e)
       }
     },
     benefitEligibility: {
@@ -155,7 +121,7 @@ const formConfig = {
                   }
                 }
               },
-              veteranSocialSecurityNumber: _.set(['ui:title'], 'Veteran Social Security number', ssnCommon.uiSchema),
+              veteranSocialSecurityNumber: _.set(['ui:title'], 'Veteran Social Security number', ssnUiSchema),
               veteranAddress: address.uiSchema('Veteran Address'),
               serviceBranch: {
                 'ui:title': 'Branch of Service'
@@ -187,6 +153,66 @@ const formConfig = {
     educationHistory: {
       title: 'Education History',
       pages: {
+        educationHistory: {
+          path: 'education-history',
+          title: 'Education History',
+          initialData: {
+          },
+          uiSchema: {
+            highSchoolOrGedCompletionDate: dateUiSchema('When did you earn your high school diploma or equivalency certificate?'),
+            postHighSchoolTrainings: {
+              'ui:title': 'Please list any post-high school trainings you have completed.',
+              'ui:description': 'Please list any post-high school trainings you have completed.',
+              'ui:options': {
+                itemName: 'Training',
+                viewField: EducationView,
+                hideTitle: true
+              },
+              items: {
+                name: {
+                  'ui:title': 'Name of college, university or other training provider'
+                },
+                city: {
+                  'ui:title': 'City'
+                },
+                state: {
+                  'ui:title': 'State'
+                },
+                dateRange: dateRangeUiSchema(
+                  'From',
+                  'To'
+                ),
+                hours: {
+                  'ui:title': 'Hours completed'
+                },
+                hoursType: {
+                  'ui:title': 'Type of hours',
+                  'ui:options': {
+                    labels: hoursTypeLabels
+                  }
+                },
+                degreeReceived: {
+                  'ui:title': 'Degree, diploma or certificate received'
+                },
+                major: {
+                  'ui:title': 'Major or course of study (NOT for high school)'
+                }
+              }
+            },
+            faaFlightCertificatesInformation: {
+              'ui:title': 'If you have any FAA flight certificates, please list them here.',
+              'ui:widget': 'textarea'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              highSchoolOrGedCompletionDate: date,
+              postHighSchoolTrainings,
+              faaFlightCertificatesInformation
+            }
+          }
+        }
       }
     },
     employmentHistory: {
@@ -233,7 +259,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation,
+        contactInformation: createContactInformationPage('relativeAddress'),
         directDeposit
       }
     }

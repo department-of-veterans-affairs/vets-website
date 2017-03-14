@@ -96,7 +96,7 @@ The build is abstracted by the command `npm run build` which really just exectue
 `scripts/build.js` --  a simple Javscript program that configures Metalscript and Webpack
 based on things in `config/`, commandline flags, and the `NODE_ENV` environment variable.
 
-*WARNING: `--buildtype` and `NODE_ENV` are unlrelated!*
+*WARNING: `--buildtype` and `NODE_ENV` are unrelated!*
 
 `--buildtype` changes what constants are defined which enables/disables features from the code.
 
@@ -106,7 +106,7 @@ enabling minification + javascript chunking.
 (Note: The `NODE_ENV` env variable dependency is a questionable design choice. It should
 
 #### Metalsmith -- Static content builds and top-level file watching.
-The `build.js` script relies on [Metalsmith's Javscript
+The `build.js` script relies on [Metalsmith's Javascript
 API](https://github.com/metalsmith/metalsmith#api) as the main build script. Metalscript,
 at the core, is just a file watcher that runs a set of files through chain of plugins.
 Using the Javascript API for Metalscript allows removal of tools like Grunt while also
@@ -212,7 +212,7 @@ To run a nightwatch test, 3 things need to execute:
 End-to-end tests do not need to be restricted exclusively to selenium style tests
 (eg, navigate to this url, click this button, etc). At its core, it just a system
 for starting up and controlling web browser.  For mocha tests that we want to
-run on real browser, either because the tests is excercising browser quriks or because
+run on real browser, either because the tests is exercising browser quirks or because
 the test requries features that jsdom does not provide, putting them into a
 `e2e.spec.js` file is completely valid and good.
 

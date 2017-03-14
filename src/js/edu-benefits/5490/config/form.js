@@ -23,8 +23,9 @@ import * as toursOfDuty from '../../definitions/toursOfDuty';
 import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import uiSchemaPostHighSchoolTrainings from '../../definitions/postHighSchoolTrainings';
 
-import contactInformation from '../../pages/contactInformation';
+import createContactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
+import applicantInformation from '../../pages/applicantInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -81,7 +82,14 @@ const formConfig = {
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
-      pages: {}
+      pages: {
+        applicantInformation: applicantInformation(fullSchema5490, [
+          'relativeFullName',
+          'relativeSocialSecurityNumber',
+          'relativeDateOfBirth',
+          'gender'
+        ])
+      }
     },
     benefitSelection: {
       title: 'Education Benefit',
@@ -477,7 +485,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation,
+        contactInformation: createContactInformationPage('relativeAddress'),
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
