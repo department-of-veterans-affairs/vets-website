@@ -112,7 +112,6 @@ const formConfig = {
           uiSchema: {
             'ui:description': 'Prior to this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
-              // Add the view-only fields in the proper order
               'ui:order': [
                 'view:noPreviousBenefits',
                 'disability',
@@ -183,23 +182,9 @@ const formConfig = {
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
                 'ui:title': 'Sponsor SSN',
+                'ui:required': (form) => _.get('previousBenefits.view:claimedSponsorService', form),
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
-                  // Only updates ssn's schema, not its parent's required fields
-                  //  to include veteranSocialSecurityNumber.
-                  // updateSchema: (data, form) => {
-                  //   // Required
-                  //   if (_.get('previousBenefits.data.previousBenefits.view:claimedSponsorService', form)) {
-                  //     const foo = _.assign(ssnSchema, {
-                  //       required: ['veteranSocialSecurityNumber']
-                  //     });
-                  //     console.log('foo:', foo);
-                  //     return foo;
-                  //   }
-                  //
-                  //   // Not required
-                  //   return ssnSchema;
-                  // }
                 }
               }),
               other: {
