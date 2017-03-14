@@ -10,9 +10,9 @@ const form = {
       attributes: {}
     }
   },
-  veteranInformation: {
+  applicantInformation: {
     data: {
-      veteranFullName: {
+      relativeFullName: {
         first: 'Jane',
         last: 'Doe'
       }
@@ -20,12 +20,12 @@ const form = {
   },
   benefitSelection: {
     data: {
-      benefit: 'chapter30'
+      benefit: 'chapter35'
     }
   }
 };
 
-describe('<ConfirmationPage>', () => {
+describe('Edu 5490 <ConfirmationPage>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
       <ConfirmationPage form={form}/>
