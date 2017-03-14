@@ -45,11 +45,9 @@ Use the **GI Bill Comparison Tool** to see what benefits you can get at the scho
 <br>
 <a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
 
-<br>
 **Exception:** Programs at schools located in the United States that offer courses in a foreign country under contract with the Department of Defense don't qualify as foreign training. Likewise, year abroad and similar programs offered by schools in the United States don't qualify as foreign training.
 
 
-<br>
 ### How do I get these benefits? 
 
 
