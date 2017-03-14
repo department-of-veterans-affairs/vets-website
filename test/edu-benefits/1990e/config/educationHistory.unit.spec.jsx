@@ -36,26 +36,4 @@ describe('Edu 1990e educationHistory', () => {
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
     expect(onSubmit.called).to.be.true;
   });
-  it('should add another training', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
-    );
-    const formDOM = findDOMNode(form);
-    const find = formDOM.querySelector.bind(formDOM);
-    ReactTestUtils.Simulate.change(find('#root_postHighSchoolTrainings_0_name'), {
-      target: {
-        value: 'College name'
-      }
-    });
-    ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
-    const firstTraining = Array.from(formDOM.querySelectorAll('.va-growable-background'))[0];
-    expect(firstTraining.textContent).to.contain('College name');
-    expect(firstTraining.querySelector('button').textContent).to.equal('Edit');
-  });
 });

@@ -9,13 +9,12 @@ import directDeposit from '../../pages/directDeposit';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import { uiSchema as dateUiSchema } from '../../../common/schemaform/definitions/date';
-import { uiSchema as dateRangeUiSchema } from '../../../common/schemaform/definitions/dateRange';
 import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import { uiSchema as ssnUiSchema } from '../../../common/schemaform/definitions/ssn';
+import uiSchemaPostHighSchoolTrainings from '../../definitions/postHighSchoolTrainings';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import EducationView from '../../components/EducationView';
 
 import {
   transform,
@@ -23,8 +22,7 @@ import {
 } from '../helpers';
 
 import {
-  benefitsLabels,
-  hoursTypeLabels
+  benefitsLabels
 } from '../../utils/helpers';
 
 const {
@@ -160,45 +158,7 @@ const formConfig = {
           },
           uiSchema: {
             highSchoolOrGedCompletionDate: dateUiSchema('When did you earn your high school diploma or equivalency certificate?'),
-            postHighSchoolTrainings: {
-              'ui:title': 'Please list any post-high school trainings you have completed.',
-              'ui:description': 'Please list any post-high school trainings you have completed.',
-              'ui:options': {
-                itemName: 'Training',
-                viewField: EducationView,
-                hideTitle: true
-              },
-              items: {
-                name: {
-                  'ui:title': 'Name of college, university or other training provider'
-                },
-                city: {
-                  'ui:title': 'City'
-                },
-                state: {
-                  'ui:title': 'State'
-                },
-                dateRange: dateRangeUiSchema(
-                  'From',
-                  'To'
-                ),
-                hours: {
-                  'ui:title': 'Hours completed'
-                },
-                hoursType: {
-                  'ui:title': 'Type of hours',
-                  'ui:options': {
-                    labels: hoursTypeLabels
-                  }
-                },
-                degreeReceived: {
-                  'ui:title': 'Degree, diploma or certificate received'
-                },
-                major: {
-                  'ui:title': 'Major or course of study (NOT for high school)'
-                }
-              }
-            },
+            postHighSchoolTrainings: uiSchemaPostHighSchoolTrainings,
             faaFlightCertificatesInformation: {
               'ui:title': 'If you have any FAA flight certificates, please list them here.',
               'ui:widget': 'textarea'
