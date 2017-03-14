@@ -112,6 +112,9 @@ liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
 smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
 
+// This lets us access the {{buildtype}} variable within liquid templates.
+smith.metadata({ buildtype: options.buildtype });
+
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
 

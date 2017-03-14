@@ -14,18 +14,19 @@ import {
  */
 export default function StringField(props) {
   const { registry, schema, uiSchema, formData } = props;
+  const uiOptions = getUiOptions(uiSchema);
+  const labels = uiOptions.labels || {};
   const enumOptions = Array.isArray(schema.enum) && optionsList(schema);
 
   let Widget = _.get('ui:reviewWidget', uiSchema);
   if (!Widget) {
     const defaultWidget = schema.format || (enumOptions ? 'select' : 'text');
-    const options = getUiOptions(uiSchema);
-    Widget = getWidget(schema, options.widget || defaultWidget, registry.widgets);
+    Widget = getWidget(schema, uiOptions.widget || defaultWidget, registry.widgets);
   }
 
   return (
     <Widget
-        options={{ enumOptions }}
+        options={{ enumOptions, labels }}
         value={formData}
         {...props}/>
   );

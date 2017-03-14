@@ -18,7 +18,6 @@ describe('Edu 1990e sponsorVeteran', () => {
           uiSchema={uiSchema}
           definitions={definitions}/>
     );
-
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
     const selects = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select');
 
@@ -51,18 +50,18 @@ describe('Edu 1990e sponsorVeteran', () => {
 
     const formDOM = findDOMNode(form);
     const find = formDOM.querySelector.bind(formDOM);
-    ReactTestUtils.Simulate.change(find('#root_sponsorVeteran_veteranFullName_first'), {
+    ReactTestUtils.Simulate.change(find('#root_veteranFullName_first'), {
       target: {
         value: 'Veteran'
       }
     });
-    ReactTestUtils.Simulate.change(find('#root_sponsorVeteran_veteranFullName_last'), {
+    ReactTestUtils.Simulate.change(find('#root_veteranFullName_last'), {
       target: {
         value: 'Veteran'
       }
     });
 
-    ReactTestUtils.Simulate.change(find('#root_sponsorVeteran_veteranSocialSecurityNumber'), {
+    ReactTestUtils.Simulate.change(find('#root_veteranSocialSecurityNumber'), {
       target: {
         value: '111-22-3333'
       }
