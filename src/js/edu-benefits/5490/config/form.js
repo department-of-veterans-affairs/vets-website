@@ -224,7 +224,10 @@ const formConfig = {
             spouseInfo: {
               divorcePending: {
                 'ui:title': 'Is there a divorce or annulment pending with your sponsor?',
-                'ui:widget': 'yesNo'
+                'ui:widget': 'yesNo',
+                'ui:required': (pageData, formData) => {
+                  return _.get('applicantInformation.relationship', formData) === 'spouse';
+                }
               },
               remarried: {
                 'ui:title': 'If you\'re the surviving spouse, did you get remarried?',
@@ -337,6 +340,9 @@ const formConfig = {
             },
             civilianBenefitsSource: {
               'ui:title': 'What is the source of these funds?',
+              // Conditionally require civilianBenefitsSource if
+              //  civilianBenefitsAssistance is true.
+              'ui:required': (pageData) => pageData.civilianBenefitsAssistance,
               'ui:options': {
                 expandUnder: 'civilianBenefitsAssistance'
               }
@@ -344,8 +350,6 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            // TODO: Conditionally require civilianBenefitsSource if
-            //  civilianBenefitsAssistance is true.
             properties: {
               civilianBenefitsAssistance,
               civilianBenefitsSource

@@ -309,7 +309,7 @@ export function getNonArraySchema(schema) {
  * If no required fields are changing, it makes sure to not mutate the existing schema,
  * so we can still take advantage of any shouldComponentUpdate optimizations
  */
-export function updateRequiredFields(schema, uiSchema, formData) {
+export function updateRequiredFields(schema, uiSchema, pageData, formData) {
   if (!uiSchema) {
     return schema;
   }
@@ -318,7 +318,7 @@ export function updateRequiredFields(schema, uiSchema, formData) {
     const newRequired = Object.keys(schema.properties).reduce((requiredArray, nextProp) => {
       const field = uiSchema[nextProp];
       if (field && field['ui:required']) {
-        const isRequired = field['ui:required'](formData);
+        const isRequired = field['ui:required'](pageData, formData);
         const arrayHasField = requiredArray.some(prop => prop === nextProp);
 
         if (arrayHasField && !isRequired) {
@@ -335,7 +335,7 @@ export function updateRequiredFields(schema, uiSchema, formData) {
 
     const newSchema = Object.keys(schema.properties).reduce((currentSchema, nextProp) => {
       if (uiSchema) {
-        const nextSchema = updateRequiredFields(currentSchema.properties[nextProp], uiSchema[nextProp], formData);
+        const nextSchema = updateRequiredFields(currentSchema.properties[nextProp], uiSchema[nextProp], pageData, formData);
         if (nextSchema !== currentSchema.properties[nextProp]) {
           return _.set(['properties', nextProp], nextSchema, currentSchema);
         }
@@ -352,7 +352,7 @@ export function updateRequiredFields(schema, uiSchema, formData) {
   }
 
   if (schema.type === 'array') {
-    const newItemSchema = updateRequiredFields(schema.items, uiSchema.items, formData);
+    const newItemSchema = updateRequiredFields(schema.items, uiSchema.items, pageData, formData);
     if (newItemSchema !== schema.items) {
       return _.set('items', newItemSchema, schema);
     }

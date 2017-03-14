@@ -21,13 +21,15 @@ function recalculateSchemaAndData(initialState) {
     .reduce((state, pageKey) => {
       const page = state[pageKey];
       // on each data change, we need to do the following steps
-      // Recalculate any required fields, based on the new data
-      let schema = updateRequiredFields(page.schema, page.uiSchema, page.data, state);
 
-      // Pass only the page data, not schema & uiSchema
-      const pageData = _.mapValues('data', state);
+      // Flatten the data from all the pages
+      const formData = _.mapValues('data', state);
+
+      // Recalculate any required fields, based on the new data
+      let schema = updateRequiredFields(page.schema, page.uiSchema, page.data, formData);
+
       // Update the schema with any fields that are now hidden because of the data change
-      schema = setHiddenFields(schema, page.uiSchema, page.data, pageData);
+      schema = setHiddenFields(schema, page.uiSchema, page.data, formData);
 
       // Update the schema with any general updates based on the new data
       schema = updateSchemaFromUiSchema(schema, page.uiSchema, page.data, state);
