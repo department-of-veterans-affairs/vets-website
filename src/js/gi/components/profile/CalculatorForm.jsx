@@ -154,7 +154,18 @@ export class CalculatorForm extends React.Component {
     if (!this.props.displayed.tuitionAssist) return null;
     return (
       <div className="row">
-        <h1>Tuition Assist</h1>
+        <div className="small-12 columns">
+          <label htmlFor="tuitionAssist">
+            How much are you receiving in military tuition assistance (
+            <a onClick={this.props.showModal.bind(this, 'calcTuitionAssist')}>
+            Learn more</a>)
+          </label>
+          <input
+              type="text"
+              name="tuitionAssist"
+              value={`$${this.props.calculator.tuitionAssist}`}
+              onChange={this.props.calculatorInputChange}/>
+        </div>
       </div>
     );
   }
