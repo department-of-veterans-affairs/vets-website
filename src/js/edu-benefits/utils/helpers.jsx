@@ -3,6 +3,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import { dateToMoment } from '../../common/utils/helpers';
+import { states } from '../../common/utils/options-for-select';
 
 export const chapterNames = {
   veteranInformation: 'Veteran Information',
@@ -157,3 +158,8 @@ export function showYesNo(field) {
 export function enumToNames(enumValues, names) {
   return enumValues.map(item => names[item]);
 }
+
+export const stateLabels = states.USA.reduce((current, { label, value }) => {
+  return _.merge(current, { [value]: label });
+}, {});
+
