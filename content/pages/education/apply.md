@@ -44,7 +44,7 @@ Apply online with Form 22-1990
 
 #### To make a change to your current education benefits
 
-If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1195
+If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995
 
 <a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage benefits</a>
 
@@ -81,6 +81,11 @@ You must apply for education benefits using eBenefits.va.gov if you're:
 - You can't make changes to your application
 - For questions about Education Benefits please call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
 - If we've asked for documents, please upload them through the GI Bill site. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill site</a>
+
+### What happens after I apply? 
+
+- The transition from military to civilian life can be challenging. We offer tools and counseling programs to help you make the most of your educational options. [Learn about career counseling options](/education/tools-programs/education-career-counseling/).
+- You’ll get a COE in the mail if your application was approved. Bring this to the VA certifying official at your school. 
 
 #### How long does it take us to make a decision?
 
