@@ -12,7 +12,7 @@ If you plan to study at a foreign school, find out how you can use VA benefits t
 
 ### Can I get VA education benefits to study at a foreign school?
 You can get education benefits if you qualify for—or already get—VA educational assistance and:
-  - We have approved your program, **and**
+  - We've approved your program, **and**
   - Your program is at an institution of higher learning where you'll earn a standard college degree or something of equal value at that foreign school
 
 ### Who's covered?
@@ -31,13 +31,17 @@ You can get education benefits if you qualify for—or already get—VA educatio
 -----
 ### Is the application process different for foreign schools? 
 
-Yes. The application process is different. First, contact the school or [submit a question to us](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) to find out if we have approved your program so you can get benefits. Give us the name of the foreign school, the complete address, and the name of the program you want to enroll in. We'll let you know if your program has already been approved. 
+Yes. The application process is different. First, contact the school or submit a question to us using the GI Bill site to find out if we have approved your program so you can get benefits. [Go to the GI Bill site](https://gibill.custhelp.com/app/ask/). Give us the name of the foreign school, the complete address, and the name of the program you want to enroll in. We'll let you know if your program has already been approved. 
 
 - If you or your qualified dependent wants to enroll in a program that we haven't approved, you'll need to ask the school to request approval. We can't take any action until an official from your school (not you) requests approval. If we don't approve your program, you'll have to pay all costs at the school, including tuition and fees.
 
 ### Can I attend any foreign school? 
 
-We'll accept degrees from schools in foreign countries that are similar to degrees granted by U.S. colleges and universities that are accredited (meaning approved and recognized according to certain standards). For private schools overseas, the degree must be of equal value to those granted by public colleges and universities in the same country, and the school must have the same entrance requirements. Independent study (distance learning) courses must be accredited by a nationally recognized accrediting association.
+- We'll accept degrees from schools in foreign countries that are similar to degrees granted by U.S. colleges and universities that are accredited (meaning approved and recognized according to certain standards). 
+- For private schools overseas, the degree must be of equal value to those granted by public colleges and universities in the same country, and the school must have the same entrance requirements. 
+- Independent study courses must be accredited by a nationally recognized accrediting association.
+
+Use the GI Bill Comparison Tool to see what benefits you can get at the school you want to attend. [Compare GI Bill Benefits](/gi-bill-comparison-tool/)
 
 **Exception:** Programs at schools located in the United States that offer courses in a foreign country under contract with the Department of Defense don't qualify as foreign training. Likewise, year abroad and similar programs offered by schools in the United States don't qualify as foreign training.
 
@@ -76,7 +80,8 @@ Normally, foreign schools certify their students for 1 academic year. Within 120
 ### Need help?
 
 Get more information or help with your application from:
-- Any [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) (from outside the United States, call <span class="tel">001-918-781-5678</span> during business hours, 7:00 a.m. to 6:00 p.m. (CST), Monday through Friday)
+- If you're in the United States, go to a VA Regional Benefit Office near you. [Find a Regional Benefit Office](/facilities).
+- If you're outside the United States, call <span class="tel">001-918-781-5678</span> during business hours, 7:00 a.m. to 6:00 p.m. (CST), Monday through Friday)
 - Local representatives of Veterans organizations and the American Red Cross
 - Foreign service posts
 - Canadian Department of Veterans Affairs (Canadian schools only)
