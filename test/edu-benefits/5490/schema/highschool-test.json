@@ -101,7 +101,7 @@
   "educationHistory": {
     "data": {
       "highSchool": {
-        "status": "graduated",
+        "status": "graduationExpected",
         "highSchoolOrGedCompletionDate": "2001-01-01",
         "view:hasHighSchool": {
           "dateRange": {
