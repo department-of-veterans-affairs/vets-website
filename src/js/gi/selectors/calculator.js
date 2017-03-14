@@ -119,19 +119,22 @@ const getDerivedValues = createSelector(
 
     // The monthly benefit rate for non-chapter 33 benefits
     switch (giBillChapter) {
-      case 30:
+      case 30: {
         if (enlistmentService === '3' || enlistmentService === '2') {
           monthlyRate = isOJT ? constant.MGIB3YRRATE * 0.75 : constant.MGIB3YRRATE;
         }
         break;
-      case 1607:
+      }
+      case 1607: {
         monthlyRate = constant.MGIB3YRRATE * consecutiveService;
         monthlyRate = isOJT ? monthlyRate * 0.75 : monthlyRate;
         break;
-      case 1606:
+      }
+      case 1606: {
         monthlyRate = isOJT ? constant.SRRATE * 0.75 : constant.SRRATE;
         break;
-      case 35:
+      }
+      case 35: {
         if (isOJT) {
           monthlyRate = constant.DEARATEOJT;
         } else if (isFlight) {
@@ -140,17 +143,20 @@ const getDerivedValues = createSelector(
           monthlyRate = constant.DEARATE;
         }
         break;
-      case 31:
+      }
+      case 31: {
+        const OJT = isOJT ? 'OJT' : '';
         if (numberOfDependents <= 2) {
           monthlyRate =
-            constant[`VRE${numberOfDependents}DEPRATE${isOJT ? 'OJT' : ''}`];
+            constant[`VRE${numberOfDependents}DEPRATE${OJT}`];
         } else {
           monthlyRate =
-            constant[`VRE2DEPRATE${isOJT ? 'OJT' : ''}`] +
+            constant[`VRE2DEPRATE${OJT}`] +
             ((numberOfDependents - 2) *
-            constant[`VREINCRATE${isOJT ? 'OJT' : ''}`]);
+            constant[`VREINCRATE${OJT}`]);
         }
         break;
+      }
       default:
         monthlyRate = 0;
     }
