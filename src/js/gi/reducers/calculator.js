@@ -46,7 +46,7 @@ export default function (state = INITIAL_STATE, action) {
 
       if (isDollarAmount && !isFinite(value)) {
         const dollarAmount = value[0] === '$' ? +value.substring(1) : +value;
-        convertedValue = isFinite(dollarAmount) ?  dollarAmount : '';
+        convertedValue = isFinite(dollarAmount) ? dollarAmount : '';
       }
 
       const newState = {
