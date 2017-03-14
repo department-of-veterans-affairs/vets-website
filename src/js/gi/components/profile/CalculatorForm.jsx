@@ -35,8 +35,16 @@ export class CalculatorForm extends React.Component {
     return (
       <div className="row">
         <div className="small-12 columns">
-          <label htmlFor="tuitionFees">Tuition and fees per year (<a onClick={this.props.showModal.bind(this, 'calcTuition')}>Learn more</a>)</label>
-          <input type="text" name="tuitionFees" value={this.props.calculator.tuitionFees} onChange={this.props.calculatorInputChange}/>
+          <label htmlFor="tuitionFees">
+            Tuition and fees per year (
+            <a onClick={this.props.showModal.bind(this, 'calcTuition')}>
+            Learn more</a>)
+          </label>
+          <input
+              type="text"
+              name="tuitionFees"
+              value={`$${this.props.calculator.tuitionFees}`}
+              onChange={this.props.calculatorInputChange}/>
         </div>
       </div>
     );
@@ -48,7 +56,11 @@ export class CalculatorForm extends React.Component {
       <div className="row">
         <div className="small-12 columns">
           <label htmlFor="books">Books and supplies per year</label>
-          <input type="text" name="books" value={this.props.calculator.books} onChange={this.props.calculatorInputChange}/>
+          <input
+              type="text"
+              name="books"
+              value={`$${this.props.calculator.books}`}
+              onChange={this.props.calculatorInputChange}/>
         </div>
       </div>
     );
@@ -63,8 +75,14 @@ export class CalculatorForm extends React.Component {
       amountInput = (
         <div className="row">
           <div className="small-12 columns">
-            <label htmlFor="yellowRibbonAmount">Yellow Ribbon Amount From School per year</label>
-            <input type="text" name="yellowRibbonAmount" value={this.props.calculator.yellowRibbonAmount} onChange={this.props.calculatorInputChange}/>
+            <label htmlFor="yellowRibbonAmount">
+              Yellow Ribbon Amount From School per year
+            </label>
+            <input
+                type="text"
+                name="yellowRibbonAmount"
+                value={`$${this.props.calculator.yellowRibbonAmount}`}
+                onChange={this.props.calculatorInputChange}/>
           </div>
         </div>
       );
@@ -95,8 +113,16 @@ export class CalculatorForm extends React.Component {
     return (
       <div className="row">
         <div className="small-12 columns">
-          <label htmlFor="scholarships">Scholarships (excluding Pell) (<a onClick={this.props.showModal.bind(this, 'calcScholarships')}>Learn more</a>)</label>
-          <input type="text" name="scholarships" value={this.props.calculator.scholarships} onChange={this.props.calculatorInputChange}/>
+          <label htmlFor="scholarships">
+            Scholarships (excluding Pell) (
+            <a onClick={this.props.showModal.bind(this, 'calcScholarships')}>
+            Learn more</a>)
+          </label>
+          <input
+              type="text"
+              name="scholarships"
+              value={`$${this.props.calculator.scholarships}`}
+              onChange={this.props.calculatorInputChange}/>
         </div>
       </div>
     );
@@ -253,7 +279,11 @@ export class CalculatorForm extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <label htmlFor="kickerAmount">How much is your kicker?</label>
-            <input type="text" name="kickerAmount" value={this.props.calculator.kickerAmount} onChange={this.props.calculatorInputChange}/>
+            <input
+                type="text"
+                name="kickerAmount"
+                value={`$${this.props.calculator.kickerAmount}`}
+                onChange={this.props.calculatorInputChange}/>
           </div>
         </div>
       );
@@ -289,7 +319,11 @@ export class CalculatorForm extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <label htmlFor="buyUpAmount">How much did you pay toward buy-up?</label>
-            <input type="text" name="buyUpAmount" value={this.props.calculator.buyUpAmount} onChange={this.props.calculatorInputChange}/>
+            <input
+                type="text"
+                name="buyUpAmount"
+                value={`$${this.props.calculator.buyUpAmount}`}
+                onChange={this.props.calculatorInputChange}/>
           </div>
         </div>
       );
