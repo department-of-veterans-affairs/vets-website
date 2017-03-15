@@ -19,6 +19,8 @@ relatedlinks:
    description: "Work with a trained professional called an accredited representative."
 ---
 
+If you got sick or hurt during your time in the military, you may be able to get compensation. You may also get this benefit even if an injury or disease didn't appear until long after you separated or retired from the military. Find out how to apply for this benefit. 
+
 ### Prepare
 
 - [Check your eligibility](/disability-benefits/eligibility).
