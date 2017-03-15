@@ -9,9 +9,7 @@
     }
   },
   "benefitEligibility": {
-    "data": {
-      "view:benefitDescription": {}
-    }
+    "data": {}
   },
   "sponsorVeteran": {
     "data": {
