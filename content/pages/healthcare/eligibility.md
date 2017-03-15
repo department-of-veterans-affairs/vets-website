@@ -19,8 +19,7 @@ If you're a U.S. Veteran, you may qualify for VA health care benefits. Find out 
 
 ### Can I get VA health care coverage? 
 
-You may be able to get VA health care if you served on active duty and separated under conditions other than dishonorable.
-If you separated under a dishonorable discharge, visit healthcare.gov to find out if you qualify for health insurance. [Go to healthcare.gov](https://www.healthcare.gov/). 
+You may be able to get VA health care if you served on active duty and separated under conditions other than dishonorable. 
 
 You probably qualify for VA health care if at least 1 of these applies to you:
 - You receive financial compensation (payments) from VA for a service-connected disability
@@ -36,6 +35,8 @@ You probably qualify for VA health care if at least 1 of these applies to you:
 - You served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
 
 If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](http://nationalincomelimits.vaftl.us/). 
+
+If you separated under a dishonorable discharge, visit healthcare.gov to find out if you qualify for health insurance. [Go to healthcare.gov](https://www.healthcare.gov/).
 
 </div>
 
