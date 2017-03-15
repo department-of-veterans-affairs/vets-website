@@ -96,7 +96,7 @@ Double click on the downloaded file to open it.
 
 [Find out what happens after you send in your application](/healthcare/after-you-apply).
 
-Already signed up? You can manage your VA health care online. You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. 
+You can manage your VA health care online. You can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. 
 
 <a class="usa-button-primary" href="/healthcare/prescriptions/">Manage your VA health care</a>
 
