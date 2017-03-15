@@ -9,13 +9,13 @@ showactionbar: false
 majorlinks:
   - url: /disability-benefits/eligibility/
     title: Eligibility
-    description: Description
+    description: Find out if you can get disability benefits (like financial support and health care) from VA.
   - url: /disability-benefits/apply/
     title: Application Process
-    description: Description
+    description: Apply online now, or find out how to apply in person or by phone or mail.
   - url: /disability-benefits/track-claims/
     title: Check Claim Status
-    description: Track the status of your disability claim
+    description: Track the status of your disability claim.
   - url: /disability-benefits/conditions/
     title: Conditions
     description: Discover which illnesses or injuries qualify you for benefits.
