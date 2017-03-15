@@ -8,10 +8,10 @@ extraspace: true
 majorlinks:
  - url: /education/eligibility/
    title: Eligibility
-   description: Description
+   description: Find out if you can get education benefits (like help paying your tuition, picking a school, and exploring career options) from VA.
  - url: /education/apply/
    title: Application Process
-   description: Description
+   description: Apply online now, or find out how to apply in person or by mail.
  - url: /gi-bill-comparison-tool/
    title: Compare GI Bill Benefits
    description: Use the GI Bill Comparison tool to see what benefits you'll get at the school you want to attend.
