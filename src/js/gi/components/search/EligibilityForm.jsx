@@ -164,7 +164,7 @@ export class EligibilityForm extends React.Component {
             ]}
             value={this.props.eligibility.eligForPostGiBill}
             alt="Are you eligible for the Post-9/11 GI Bill?"
-            visible={this.props.eligibility.dropdowns.eligForPostGIBill}
+            visible={this.props.eligibility.dropdowns.eligForPostGiBill}
             onChange={this.props.eligibilityChange}>
           <label htmlFor="eligForPostGiBill">
             Are you eligible for the Post-9/11 GI Bill?
