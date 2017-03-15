@@ -61,7 +61,6 @@ Go to your nearest VA medical center or clinic. Bring Form 10-10EZ with you. </b
 [Find a VA medical center or clinic near you](/facilities).</br>
 [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
-<a class="usa-button-primary" href="http://www.google.com">Track the status of your claim</a>
 
 ### How do I apply as a caregiver?
 
