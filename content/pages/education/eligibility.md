@@ -9,7 +9,7 @@ relatedlinks:
    title: Other Educational Assistance Programs
    description: "Learn about REAP, VEAP, and Call to Service."
  - url: /education/gi-bill/post-9-11/
-   title: Post 9/11 GI Bill
+   title: Post-9/11 GI Bill
    description: "Get education and training if you're a Servicemember or Veteran."
  - url: /education/tools-programs/
    title: Career Counseling
