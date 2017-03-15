@@ -7,10 +7,10 @@ showactionbar: false
 relatedlinks:
  - url: /disability-benefits/claims-process/date/
    title: How does VA decide when my disability compensation starts?
-   description: "Learn about when you can start getting your disability benefits"
+   description: "Learn about when you'll start getting your disability benefits."
  - url: /disability-benefits/claims-process/what-happens-after-rating/
-   title: What can I Expect after Getting a Disability Rating?
-   description: "Find out what benefits you can get"
+   title: What can I expect after getting a disability rating?
+   description: "Find out what benefits you can get."
 ---
 
 Once you apply for disability benefits, the claim gets reviewed by our team. Learn about what you can do in the meantime. 
@@ -19,7 +19,7 @@ Once you apply for disability benefits, the claim gets reviewed by our team. Lea
 
 <div class="card information" markdown="0">
 <span class="number">121.8 days</span>
-<span class="description">Average time to process disability-related claims in January 2017.</span>
+<span class="description">Average time to process disability-related claims in February 2017</span>
 </div>
 
 #### The amount of time it takes to review your claim depends on:
@@ -32,7 +32,7 @@ Once you apply for disability benefits, the claim gets reviewed by our team. Lea
 
 You don't need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. You can check your the status of your claim online. The time frame you see there may vary based on the complexity of your claim.
 
-<a class="usa-button-primary" href="/disability-benefits/track-claims">Track the status of your claim</a>
+<a class="usa-button-primary" href="/disability-benefits/track-claims">Track the Status of Your Claim</a>
 
 <div markdown="0"><br></div>
 
