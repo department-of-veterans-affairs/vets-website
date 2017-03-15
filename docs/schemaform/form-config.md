@@ -432,9 +432,9 @@ Only `chapter35`, `chapter33`, `transferOfEntitlement`, `veteranFullName`, and `
 
 When this form is sent to the backend, the fields in the `view:sponsorServiceOptions` object will be moved up one level and sent alongside `dic` and `chapter31`. The back end will never see objects with names that start with `view:`, but it will get all the fields inside of them.
 
-## I want to indent all the fields that are using expandUnder
+## I want to indent or style the fields that are using expandUnder
 
-If you need to indent all the fields that are being expanded/collapsed with the expandUnder option, you can set a class on the controlling field.
+If you need to indent all the fields that are being expanded/collapsed with the expandUnder option, or do some other styling, you can set a class on the controlling field.
 
 ```js
 // uiSchema
@@ -442,7 +442,7 @@ If you need to indent all the fields that are being expanded/collapsed with the 
   field1: {
     'ui:title': 'This field expands/collapses other items',
     'ui:options': {
-      expandUnderClassNames: 'my-class-name'
+      expandUnderClassNames: 'schemaform-expandUnder-indent'
     }
   },
   field2: {
@@ -460,4 +460,4 @@ If you need to indent all the fields that are being expanded/collapsed with the 
 }
 ```
 
-Now, `my-class-name` will be applied to the div that surrounds `field2` and `field3`. You can add a margin to that class to do the indentation.
+Now, `schemaform-expandUnder-indent` will be applied to the div that surrounds `field2` and `field3`. This class currently indents the fields, so if that's what you need, you're all set. If you need to do other styling, you can create a new class to use here and add your own styles. 

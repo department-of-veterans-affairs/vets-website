@@ -158,7 +158,7 @@ const formConfig = {
               'view:ownServiceBenefits': {
                 'ui:title': 'Veterans education assistance based on your own service',
                 'ui:options': {
-                  expandUnderClassNames: 'edu-expandUnder-indent'
+                  expandUnderClassNames: 'schemaform-expandUnder-indent'
                 }
               },
               ownServiceBenefits: {
@@ -168,7 +168,7 @@ const formConfig = {
               'view:claimedSponsorService': {
                 'ui:title': 'Veterans education assistance based on someone else’s service.',
                 'ui:options': {
-                  expandUnderClassNames: 'edu-expandUnder-indent'
+                  expandUnderClassNames: 'schemaform-expandUnder-indent'
                 }
               },
               chapter35: {
