@@ -1,7 +1,5 @@
 import { createSelector } from 'reselect';
 
-import { getCurrency } from '../utils/helpers';
-
 const getConstants = (state) => state.constants.constants;
 
 const getEligibilityDetails = (state) => {
@@ -41,10 +39,6 @@ const getDerivedValues = createSelector(
     let housingAllowTerm2;
     let housingAllowTerm3;
     let housingAllowTotal;
-    let housingStipdendTerm1;
-    let housingStipdendTerm2;
-    let housingStipdendTerm3;
-    let housingStipdendTotal;
     let tuitionAllowTerm1;
     let tuitionAllowTerm2;
     let tuitionAllowTerm3;
@@ -731,10 +725,6 @@ const getDerivedValues = createSelector(
       monthlyRate,
       numberOfTerms,
       tuitionNetPrice,
-      housingStipdendTerm1,
-      housingStipdendTerm2,
-      housingStipdendTerm3,
-      housingStipdendTotal,
       tuitionAllowTerm1,
       tuitionAllowTerm2,
       tuitionAllowTerm3,
@@ -758,54 +748,74 @@ const getDerivedValues = createSelector(
       yrBenVaTerm3,
       yrBenVaTotal,
       totalScholarshipTa,
+      totalToSchool,
       totalLeftToPay,
+      housingAllowTerm1,
+      housingAllowTerm2,
+      housingAllowTerm3,
+      housingAllowanceMonthly: monthlyRateDisplay,
+      housingAllowTotal,
+      bookStipendTerm1,
+      bookStipendTerm2,
+      bookStipendTerm3,
+      bookStipendTotal,
       totalToYou
     };
   }
 );
 
-export const getDisplayedInputs = createSelector(
+export const getCalculatedBenefits = createSelector(
   getEligibilityDetails,
   getInstitution,
+  getFormInputs,
   getDerivedValues,
-  (eligibility, institution, derived) => {
-    let displayed = {
-      inState: false,
-      tuition: true,
-      books: false,
-      yellowRibbon: false,
-      scholarships: true,
-      tuitionAssist: false,
-      enrolled: true,
-      enrolledOld: false,
-      calendar: true,
-      working: false,
-      kicker: true,
-      buyUp: false,
+  (eligibility, institution, form, derived) => {
+    const calculatedBenefits = {
+      inputs: {
+        inState: false,
+        tuition: true,
+        books: false,
+        yellowRibbon: false,
+        scholarships: true,
+        tuitionAssist: false,
+        enrolled: true,
+        enrolledOld: false,
+        calendar: true,
+        working: false,
+        kicker: true,
+        buyUp: false,
+      },
+      outputs: {
+        tuitionAndFeesCharged: { display: true, value: form.tuitionFees },
+        giBillPaysToSchool: { display: true, value: derived.totalToSchool },
+        outOfPocketTuition: { display: true, value: derived.totalLeftToPay },
+        housingAllowance: { display: true, value: derived.housingAllowanceMonthly },
+        bookStipend: { display: true, value: derived.bookStipendTotal },
+        totalPaidToYou: { display: true, value: derived.totalToYou },
+      }
     };
 
     if ([eligibility, institution, derived].some(e => !e)) {
-      return displayed;
+      return calculatedBenefits;
     }
 
     const { militaryStatus } = eligibility;
     const giBillChapter = +eligibility.giBillChapter;
 
     if (giBillChapter === 31 && !derived.onlyVRE) {
-      displayed = {
-        ...displayed,
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
         enrolled: true,
         enrolledOld: false,
         yellowRibbon: false,
         scholarships: false,
         tuitionAssist: false,
-        // hide estimator yellowRibbon row
       };
     }
 
     if (institution.type === 'ojt') {
-      displayed = {
-        ...displayed,
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
         tuition: false,
         books: false,
         yellowRibbon: false,
@@ -815,20 +825,24 @@ export const getDisplayedInputs = createSelector(
         enrolledOld: false,
         working: true,
         calendar: false,
-        /* hide bunch of esimator rows */
       };
+
+      calculatedBenefits.outputs.tuitionAndFeesCharged.display = false;
+      calculatedBenefits.outputs.giBillPaysToSchool.display = false;
+      calculatedBenefits.outputs.outOfPocketTuition.display = false;
+      calculatedBenefits.outputs.totalPaidToYou.display = false;
     }
 
     if (giBillChapter === 35) {
-      displayed = {
-        ...displayed,
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
         kicker: false,
       };
     }
 
     if (institution.type === 'flight' || institution.type === 'correspondence') {
-      displayed = {
-        ...displayed,
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
         enrolled: false,
         enrolledOld: false,
         kicker: false,
@@ -837,22 +851,22 @@ export const getDisplayedInputs = createSelector(
     }
 
     if (institution.type === 'public') {
-      displayed = {
-        ...displayed,
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
         inState: true
       };
     }
 
     if (institution.yr && derived.tier === 1.0) {
-      displayed = {
-        ...displayed,
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
         yellowRibbon: true
       };
     }
 
     if (derived.oldGiBill || derived.onlyVRE) {
-      displayed = {
-        ...displayed,
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
         yellowRibbon: false,
         enrolled: false,
         enrolledOld: true
@@ -860,31 +874,31 @@ export const getDisplayedInputs = createSelector(
     }
 
     if (giBillChapter === 31) {
-      displayed = {
-        ...displayed,
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
         books: true
       };
     }
 
     if (giBillChapter === 30) {
-      displayed = {
-        ...displayed,
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
         buyUp: true
       };
     }
 
     if (['active duty', 'national guard / reserves'].includes(militaryStatus) && giBillChapter === 33) {
-      displayed = {
-        ...displayed,
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
         tuitionAssist: true
       };
     }
 
-    return displayed;
+    return calculatedBenefits;
   }
 );
 
 export const calculatedBenefits = createSelector(
-  getDisplayedInputs,
-  inputs => inputs
+  getCalculatedBenefits,
+  calc => calc
 );

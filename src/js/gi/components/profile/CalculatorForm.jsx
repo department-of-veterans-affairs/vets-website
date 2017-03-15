@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { showModal, calculatorInputChange } from '../../actions';
-import { getDisplayedInputs } from '../../selectors/calculator';
+import { getCalculatedBenefits } from '../../selectors/calculator';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 
@@ -446,7 +446,7 @@ const mapStateToProps = (state) => {
 
   return {
     calculator,
-    displayed: getDisplayedInputs(state)
+    displayed: getCalculatedBenefits(state).inputs
   };
 };
 
