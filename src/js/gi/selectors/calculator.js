@@ -58,6 +58,7 @@ const getDerivedValues = createSelector(
     let nameOfTerm1;
     let nameOfTerm2;
     let nameOfTerm3;
+    let nameOfTerm4;
     let bookStipendTerm1;
     let bookStipendTerm2;
     let bookStipendTerm3;
@@ -397,7 +398,7 @@ const getDerivedValues = createSelector(
       inputs.calendar === 'nontraditional' && numberOfTerms < 3 ||
       tuitionFeesPerTerm === tuitionFeesTerm3;
 
-    if (shouldHaveNoTuitionFeesTerm3) {
+    if (shouldHaveNoYrBenTerm3) {
       yrBenTerm3 = 0;
     } else {
       yrBenTerm3 = Math.max(0, Math.min(
