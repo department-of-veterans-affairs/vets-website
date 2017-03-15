@@ -12,7 +12,7 @@ majorlinks:
     description: Find out if you can get disability benefits (like financial support and health care) from VA.
   - url: /disability-benefits/apply/
     title: Application Process
-    description: Apply online now, or find out how to apply in person or by phone or mail.
+    description: Apply online now, or find out how to apply in person or get help from a trained professional.
   - url: /disability-benefits/track-claims/
     title: Check Claim Status
     description: Track the status of your disability claim.
