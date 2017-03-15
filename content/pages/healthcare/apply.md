@@ -33,7 +33,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 <div markdown="0"><br></div>
 
-### Apply for benefits
+### Ready to apply?
 
 <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
 
@@ -66,7 +66,7 @@ Go to your nearest VA medical center or clinic. Bring Form 10-10EZ with you. </b
 
 To apply for health care as a caregiver, you'll have to fill out VA Form 10-10CG. To download this form, you must follow these steps. 
 
-**How to download the form** </br>
+#### How to download the form </br>
 
 Internet Explorer:
 1. Right click on the link to the form (below).
@@ -88,6 +88,7 @@ Safari:
 3. Choose where you want to save the file on your hard drive.
 4. Click **Save**.
 Double click on the downloaded file to open it.
+
 
 [Download Form 10-10CG](/healthcare/forms/vha-10-10CG.pdf). 
 
