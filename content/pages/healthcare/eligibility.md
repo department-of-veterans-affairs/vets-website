@@ -6,7 +6,7 @@ template: 1-topic-landing
 showactionbar: false
 relatedlinks:
  - url: /disability-benefits/eligibility
-   title: Apply for Disability Benefits
+   title: Disability Benefits Eligibility
    description: "Find out if you're eligible for disability benefits because of an illness or injury that started—or got worse—while you were serving in the military."
  - url: /disability-benefits/track-claims
    title: Check Claim Status
@@ -45,7 +45,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
 
-[Learn about the application process](/healthcare/apply/)
+[Learn about the application process](/healthcare/apply/).
 
 
 ### How can I find out if I qualify for dental or vision care through VA?
