@@ -52,18 +52,18 @@ You may be eligible if:
 
 ### Ready to apply?
 
-Choose **Apply online** if you are a first time applicant.
+Choose **Apply for benefits** if you are a first time applicant.
 Includes Form 22-1990
 
-Choose **Manage Benefits** if you need to make a change to your current education benefits (for example, you’re moving to a new school).
+Choose **Manage benefits** if you need to make a change to your current education benefits (for example, you’re moving to a new school).
 Includes Form 22-1995
 
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply online</a>
-<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline" target="_blank">Manage Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply for benefits</a>
+<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline" target="_blank">Manage benefits</a>
 
 ### Advanced training and certifications
 
-You can also use the GI BIll to help pay for licensing and certifications so you can become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional. [Learn about this benefit](/education/advanced-training-and-certifications/).
+You can also use the GI BIll to help pay for licensing and certifications so you can become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional. [Find out about this benefit](/education/advanced-training-and-certifications/).
 
 
 <div markdown="0"><br></div>
