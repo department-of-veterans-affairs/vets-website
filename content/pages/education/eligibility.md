@@ -42,7 +42,7 @@ You may be able to get VA education benefits through the Montgomery GI Bill Sele
 - Have either a 6-year service obligation (you agreed to serve 6 years) in the Selected Service, **or**
 - Are an officer in the Selected Reserve who agreed to serve 6 years in addition to your initial service obligation, **and**
 - Meet other requirements
-[Learn more about the MGIB-SR](/education/gi-bill-montgomery-selected-reserve/).
+[Learn more about the MGIB-SR](/education/gi-bill/montgomery-selected-reserve/).
 
 ### Can I get VA education benefits through other programs?
 
