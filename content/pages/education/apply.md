@@ -41,13 +41,13 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 Apply online with Form 22-1990
 
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply for benefits</a>
 
 #### Make a change to your current education benefits
 
 If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995.
 
-<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage Benefits</a>
+<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage benefits</a>
 
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
 	<div class="usa-alert-body">
