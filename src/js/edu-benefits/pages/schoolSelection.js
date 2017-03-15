@@ -2,11 +2,6 @@ import _ from 'lodash/fp';
 
 import * as educationProgram from '../definitions/educationProgram';
 import { uiSchema as uiSchemaDate } from '../../common/schemaform/definitions/date';
-import { states } from '../../common/utils/options-for-select';
-
-const stateLabels = states.USA.reduce((current, { label, value }) => {
-  return _.merge(current, { [value]: label });
-}, {});
 
 export default function createSchoolSelectionPage(
   schema,
@@ -32,10 +27,7 @@ export default function createSchoolSelectionPage(
       'ui:widget': 'yesNo'
     },
     trainingState: {
-      'ui:title': 'In what state do you plan on living while participating in this training?',
-      'ui:options': {
-        labels: stateLabels
-      }
+      'ui:title': 'In what state do you plan on living while participating in this training?'
     },
     educationalCounseling: {
       'ui:title': 'Would you like to receive vocational and educational counseling?',
