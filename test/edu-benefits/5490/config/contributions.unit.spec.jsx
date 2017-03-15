@@ -1,3 +1,5 @@
+// Could be renamed to militaryServiceContributions, but for consistency...
+
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
@@ -6,8 +8,8 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
 
-describe('Edu 5490 directDeposit', () => {
-  const { schema, uiSchema } = formConfig.chapters.personalInformation.pages.directDeposit;
+describe('Edu 5490 contributions', () => {
+  const { schema, uiSchema } = formConfig.chapters.militaryService.pages.contributions;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -18,9 +20,9 @@ describe('Edu 5490 directDeposit', () => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(4);
+    expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
-  it('should show error on bad routing number', () => {
+  it('should show fund source when checked', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
@@ -29,17 +31,13 @@ describe('Edu 5490 directDeposit', () => {
     );
 
     const formDOM = findDOMNode(form);
-    const routingNumber = formDOM.querySelector('#root_bankAccount_routingNumber');
-    ReactTestUtils.Simulate.blur(routingNumber);
 
-    expect(formDOM.querySelector('.usa-input-error #root_bankAccount_routingNumber')).to.be.null;
-
-    ReactTestUtils.Simulate.change(routingNumber, {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_civilianBenefitsAssistanceYes'), {
       target: {
-        value: '01234567'
+        checked: true
       }
     });
 
-    expect(formDOM.querySelector('.usa-input-error #root_bankAccount_routingNumber')).not.to.be.null;
+    expect(formDOM.querySelectorAll('input').length).to.equal(3);
   });
 });

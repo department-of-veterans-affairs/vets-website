@@ -13,9 +13,10 @@ export const EmailWidget = TextWidget;
 export const TextareaWidget = TextWidget;
 
 export function SelectWidget({ options, value }) {
-  const selected = options.enumOptions.filter(opt => opt.value === value);
-  if (selected.length) {
-    return <span>{selected[0].label}</span>;
+  const { enumOptions, labels = {} } = options;
+  const selected = enumOptions.find(opt => opt.value === value);
+  if (selected) {
+    return <span>{labels[value] || selected.label}</span>;
   }
 
   return null;

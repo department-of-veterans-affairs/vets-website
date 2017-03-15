@@ -3,6 +3,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import { dateToMoment } from '../../common/utils/helpers';
+import { states } from '../../common/utils/options-for-select';
 
 export const chapterNames = {
   veteranInformation: 'Veteran Information',
@@ -22,6 +23,28 @@ export const benefitsLabels = {
   chapter32: <p>Post-Vietnam Era Veterans' Educational Assistance Program<br/>(VEAP, Chapter 32)<br/><a href="/education/other-educational-assistance-programs/veap/" target="_blank">Learn more</a></p>,
   chapter1607: <p>Reserve Educational Assistance Program (REAP, Chapter 1607)<br/><a href="/education/other-educational-assistance-programs/reap/" target="_blank">Learn more</a></p>,
   transferOfEntitlement: <p>Transfer of Entitlement Program (TOE)<br/><a href="/education/gi-bill/transfer/" target="_blank">Learn more</a></p>
+};
+
+export const preferredContactMethodLabels = {
+  mail: 'Mail',
+  email: 'Email',
+  phone: 'Phone'
+};
+
+export const relationshipLabels = {
+  spouse: 'Spouse',
+  child: 'Child'
+};
+
+export const genderLabels = {
+  F: 'Female',
+  M: 'Male'
+};
+
+export const hoursTypeLabels = {
+  semester: 'Semester',
+  quarter: 'Quarter',
+  clock: 'Clock'
 };
 
 export function getLabel(options, value) {
@@ -136,9 +159,7 @@ export function enumToNames(enumValues, names) {
   return enumValues.map(item => names[item]);
 }
 
-export const preferredContactMethodLabels = {
-  mail: 'Mail',
-  email: 'Email',
-  phone: 'Phone'
-};
+export const stateLabels = states.USA.reduce((current, { label, value }) => {
+  return _.merge(current, { [value]: label });
+}, {});
 

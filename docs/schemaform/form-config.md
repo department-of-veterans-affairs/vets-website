@@ -25,6 +25,7 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
   // Schema definitions that can be referenced on any page. These are added to each page's schema
   // in the reducer code, so that you don't have to put all of the common fields in the definitions
   // property in each page schema.
+  // For more information on definitions, see schema.definitions below.
   defaultDefinitions: {}, 
 
   // Object containing the configuration for each chapter. Each property is the key for a chapter
@@ -51,6 +52,11 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
       // JSON schema object for the page. Follows the JSON Schema format.
       schema: {
         type: 'object',
+        // In a schema's properties, there are references to definitions. For example:
+        //   "homePhone": { "$ref": "#/definitions/phone" }
+        // In the config file, the definition for phone would then need to be added into definitions
+        // for it to be parsed correctly and added to homePhone.
+        definitions: {},
         properties: {
           field1: {
             type: 'string'
@@ -60,9 +66,23 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
           // Objects that start with view: will not be sent, but their children will be merged
           // into the parent object and will be sent
           // These can be used to remove fields from what is sent to the server, like if we have
-          // a question that is only used to reveal other questions
+          // a question that is only used to reveal other questions or group related questions
+          // together to be conditionally revealed that aren't in an object in the schema
           'view:field2': {
             type: 'string'
+          },
+          'view:artificialGroup'{
+            type: 'object',
+            properties: {
+              // view:artificialGroup will be flattened; subField1 and subField2 will be
+              // siblings of field1 when sent to the api
+              subField1: {
+                type: 'string'
+              },
+              subField2: {
+                type: 'boolean'
+              }
+            }
           }
         }
       },
@@ -170,6 +190,12 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
     'pattern': 'Please provide a value in the right format'
   },
   'ui:options': {
+
+    // This is an map of enum values to labels that will be shown by the select and radio
+    // widgets.
+    labels: {
+      chapter30: 'A readable description (Chapter 30)'
+    },
     
     // This is a string of class names that will be added to the widget for the current
     // field. Similar to the default `classNames` property, but will put the class names
@@ -340,3 +366,63 @@ You can use 'ui:description' to show text or a custom component before the field
   }
 }
 ```
+### I want to conditionally hide a group of fields
+
+We may have some fields that are siblings to others, but need to be hidden conditionally. Take the following schema snippet (from the education benefits form 22-5490):
+
+```json
+"previousBenefits": {
+  "type": "object",
+  "properties": {
+    "disability": { "type": "boolean" },
+    "dic": { "type": "boolean" },
+    "chapter31": { "type": "boolean" },
+    "ownServiceBenefits": { "type": "string" },
+    "chapter35": { "type": "boolean" },
+    "chapter33": { "type": "boolean" },
+    "transferOfEntitlement": { "type": "boolean" },
+    "other": { "type": "string" },
+    "veteranFullName": { "$ref": "#/definitions/fullName" },
+    "veteranSocialSecurityNumber": { "$ref": "#/definitions/ssn" }
+  }
+}
+```
+
+Only `chapter35`, `chapter33`, `transferOfEntitlement`, `veteranFullName`, and `veteranSocialSecurityNumber` need to be hidden conditionally, so we can make the `schema` and `uiSchema` like so:
+
+```js
+// schema
+{
+  disability: { ... },
+  dic: { ... },
+  chapter31: { ... },
+  ownServiceBenefits: { ... },
+  'view:sponsorServiceOptions': {
+    chapter35: { ... },
+    chapter33: { ... },
+    transferOfEntitlement: { ... },
+    veteranFullName: { ... },
+    veteranSocialSecurityNumber: { ... }
+  },
+  other: { ... }
+}
+
+// uiSchema
+{
+  disability: { ... },
+  dic: { ... },
+  chapter31: { ... },
+  ownServiceBenefits: { ... },
+  'view:sponsorServiceOptions': {
+    hideIf: () => /* Some condition here */,
+    chapter35: { ... },
+    chapter33: { ... },
+    transferOfEntitlement: { ... },
+    veteranFullName: { ... },
+    veteranSocialSecurityNumber: { ... }
+  },
+  other: { ... }
+}
+```
+
+When this form is sent to the backend, the fields in the `view:sponsorServiceOptions` object will be moved up one level and sent alongside `dic` and `chapter31`. The back end will never see objects with names that start with `view:`, but it will get all the fields inside of them.

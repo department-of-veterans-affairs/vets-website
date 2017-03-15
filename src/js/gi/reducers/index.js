@@ -9,6 +9,7 @@ import AutocompleteReducer from './autocomplete';
 import SearchReducer from './search';
 import InstitutionDetailsFilterReducer from './filter';
 import ProfileReducer from './profile';
+import CalculatorReducer from './calculator';
 
 const rootReducer = combineReducers({
   modals: ModalDisplayReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   search: SearchReducer,
   filters: InstitutionDetailsFilterReducer,
   profile: ProfileReducer,
+  calculator: CalculatorReducer,
 });
 
 export default rootReducer;
