@@ -7,17 +7,17 @@ showactionbar: false
 relatedlinks:
  - url: /healthcare/eligibility/
    title: Eligibility
-   description: "Find out if you can get VA healthcare"
+   description: "Find out if you can get VA health care."
  - url: /healthcare/after-you-apply/
-   title: What happens after you apply
-   description: "Learn what to do to get the most out of your VA health care"
+   title: What Happens After You Apply
+   description: "Find out how to get the most out of your VA health care benefits."
 ---
 
-Once you’ve figured out if you qualify, applying for VA health care is easy. Find out how to apply.
+Once you’ve figured out if you qualify, applying for VA health care benefits is easy. Find out how to apply.
 
 ### Prepare
-- [Check your eligibility](/healthcare/eligibility/).
-- Gather the documents listed below that you'll need to fill out the application for VA health care (Form 10-10EZ). 
+- Find out if you qualify (if you haven't done that already). [Check your eligibility](/healthcare/eligibility/).
+- Gather the documents listed below that you'll need to fill out the application for VA health care benefits (Form 10-10EZ). 
 
 <div markdown="0"><br></div>
 
@@ -33,7 +33,7 @@ Once you’ve figured out if you qualify, applying for VA health care is easy. F
 
 <div markdown="0"><br></div>
 
-### Apply for Benefits
+### Apply for benefits
 
 <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for benefits</a>
 
