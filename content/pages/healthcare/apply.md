@@ -35,7 +35,7 @@ Once you’ve figured out if you qualify, applying for VA health care is easy. F
 
 ### Apply for Benefits
 
-<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for benefits</a>
 
 <div markdown="0"><br></div>
 
@@ -99,7 +99,7 @@ Double click on the downloaded file to open it.
 
 You can manage your VA health care online. This means you can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. 
 
-<a class="usa-button-primary" href="/healthcare/prescriptions/">Manage your VA health care</a>
+<a class="usa-button-primary" href="/healthcare/prescriptions/">Manage your health and benefits</a>
 
 #### How long does it take us to make a decision?
 
