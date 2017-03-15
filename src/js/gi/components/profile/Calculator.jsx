@@ -61,6 +61,7 @@ export class Calculator extends React.Component {
 
   render() {
     // const it = this.props.profile.attributes;
+    const { outputs } = this.props.calculated;
     return (
       <div className="row calculate-your-benefits">
         <div className="medium-5 columns">
@@ -74,16 +75,27 @@ export class Calculator extends React.Component {
         <div className="medium-1 columns">&nbsp;</div>
         <div className="medium-6 columns">
           <h3>Your estimated benefits</h3>
-          <CalculatorResultRow label="Tuition and fees charged" value={'$38,205'}/>
-          <CalculatorResultRow label="GI Bill pays to school" value={'$21,970'}/>
-          <CalculatorResultRow label="Tuition and fees charged" value={'$38,205'} valueClassName="bold" labelClassName="bold"/>
+          <CalculatorResultRow label="Tuition and fees charged" value={outputs.tuitionAndFeesCharged.value}/>
+          <CalculatorResultRow label="GI Bill pays to school" value={outputs.giBillPaysToSchool.value}/>
+          <CalculatorResultRow label="Out of pocket tuition" value={outputs.outOfPocketTuition.value} valueClassName="bold" labelClassName="bold"/>
           <br/>
-          <CalculatorResultRow label="Housing allowance" value={'$2,271/mo'}/>
-          <CalculatorResultRow label="Book stipend" value={'$1,000'}/>
-          <CalculatorResultRow label="Total paid to you" value={'$21,439'} valueClassName="bold" labelClassName="bold"/>
+          <CalculatorResultRow label="Housing allowance" value={`${outputs.housingAllowance.value}/mo`}/>
+          <CalculatorResultRow label="Book stipend" value={outputs.bookStipend.value}/>
+          <CalculatorResultRow label="Total paid to you" value={outputs.totalPaidToYou.value} valueClassName="bold" labelClassName="bold"/>
           <hr/>
           <h3>Estimated benefits per term</h3>
-          <p>...</p>
+          <h4>Tuition and fees</h4>
+          <CalculatorResultRow label="Fall" value={'$38,205'}/>
+          <CalculatorResultRow label="Spring" value={'$21,970'}/>
+          <CalculatorResultRow label="Total per year" value={'$21,970'}/>
+          <h4>Housing allowance</h4>
+          <CalculatorResultRow label="Fall" value={'$38,205'}/>
+          <CalculatorResultRow label="Spring" value={'$21,970'}/>
+          <CalculatorResultRow label="Total per year" value={'$21,970'}/>
+          <h4>Book stipend</h4>
+          <CalculatorResultRow label="Fall" value={'$38,205'}/>
+          <CalculatorResultRow label="Spring" value={'$21,970'}/>
+          <CalculatorResultRow label="Total per year" value={'$21,970'}/>
         </div>
       </div>
     );
