@@ -904,5 +904,14 @@ describe('Schemaform helpers:', () => {
       expect(newSchema.items.properties.field).to.eql({ type: 'string' });
       expect(newSchema).not.to.equal(schema);
     });
+    it('should throw error on missing schema', () => {
+      const schema = {
+        $ref: '#/definitions/common2'
+      };
+
+      const replaceCall = () => replaceRefSchemas(schema, definitions);
+
+      expect(replaceCall).to.throw(Error, /Missing definition for #\/definitions\/common2/);
+    });
   });
 });
