@@ -6,7 +6,6 @@ import { scrollToFirstError } from '../utils/helpers';
 import { setItemTouched } from './helpers';
 
 import {
-  retrieveSchema,
   toIdSchema,
   getDefaultFormState,
   deepEquals
@@ -158,7 +157,6 @@ export default class ArrayField extends React.Component {
       schema
     } = this.props;
     const definitions = registry.definitions;
-    const itemsSchema = retrieveSchema(schema.items, definitions);
     const { TitleField, SchemaField } = registry.fields;
     const ViewField = uiSchema['ui:options'].viewField;
 
@@ -198,7 +196,7 @@ export default class ArrayField extends React.Component {
           {items.map((item, index) => {
             // This is largely copied from the default ArrayField
             const itemIdPrefix = `${idSchema.$id}_${index}`;
-            const itemIdSchema = toIdSchema(itemsSchema, itemIdPrefix, definitions);
+            const itemIdSchema = toIdSchema(schema.items, itemIdPrefix, definitions);
             const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || items.length > 1;
@@ -214,7 +212,7 @@ export default class ArrayField extends React.Component {
                           : null}
                       <div className="input-section">
                         <SchemaField key={index}
-                            schema={itemsSchema}
+                            schema={schema.items}
                             uiSchema={uiSchema.items}
                             errorSchema={errorSchema ? errorSchema[index] : undefined}
                             idSchema={itemIdSchema}

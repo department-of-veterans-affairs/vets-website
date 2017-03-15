@@ -9,7 +9,8 @@ import {
   setHiddenFields,
   removeHiddenData,
   updateRequiredFields,
-  updateSchemaFromUiSchema
+  updateSchemaFromUiSchema,
+  replaceRefSchemas
 } from '../../src/js/common/schemaform/helpers';
 
 export class DefinitionTester extends React.Component {
@@ -18,8 +19,9 @@ export class DefinitionTester extends React.Component {
     const state = props.state;
     const uiSchema = props.uiSchema;
     const data = props.data;
-    let schema = updateRequiredFields(props.schema, uiSchema, data, state);
-    schema = _.merge({ definitions: props.definitions }, schema);
+    const definitions = _.merge(props.definitions || {}, props.schema.definitions);
+    let schema = replaceRefSchemas(props.schema, definitions);
+    schema = updateRequiredFields(schema, uiSchema, data, state);
     // Update the schema with any fields that are now hidden because of the data change
     schema = setHiddenFields(schema, uiSchema, data, state);
     // Update the schema with any general updates based on the new data

@@ -6,7 +6,8 @@ import {
   removeHiddenData,
   updateRequiredFields,
   createFormPageList,
-  updateSchemaFromUiSchema
+  updateSchemaFromUiSchema,
+  replaceRefSchemas
 } from '../helpers';
 
 import { SET_DATA,
@@ -48,7 +49,8 @@ export default function createSchemaFormReducer(formConfig) {
   // and schemas
   const firstPassInitialState = createFormPageList(formConfig)
     .reduce((state, page) => {
-      const schema = _.assign({ definitions: formConfig.defaultDefinitions }, page.schema);
+      const definitions = _.assign(formConfig.defaultDefinitions || {}, page.schema.definitions);
+      const schema = replaceRefSchemas(page.schema, definitions, page.pageKey);
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 
       return _.set(page.pageKey, {

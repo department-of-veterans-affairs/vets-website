@@ -12,7 +12,8 @@ import {
   updateSchemaFromUiSchema,
   getArrayFields,
   setItemTouched,
-  getNonArraySchema
+  getNonArraySchema,
+  replaceRefSchemas
 } from '../../../src/js/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -833,6 +834,75 @@ describe('Schemaform helpers:', () => {
           }
         }
       });
+    });
+  });
+  describe('replaceRefSchemas', () => {
+    const definitions = {
+      common: {
+        type: 'string'
+      }
+    };
+    it('should replace ref', () => {
+      const schema = {
+        $ref: '#/definitions/common'
+      };
+
+      const newSchema = replaceRefSchemas(schema, definitions);
+
+      expect(newSchema).to.eql({ type: 'string' });
+      expect(newSchema).not.to.equal(schema);
+    });
+
+    it('should replace nested $ref', () => {
+      const schema = {
+        $ref: '#/definitions/common'
+      };
+      const nestedDefinitions = {
+        common: {
+          $ref: '#/definitions/nested'
+        },
+        nested: {
+          type: 'number'
+        }
+      };
+
+      const newSchema = replaceRefSchemas(schema, nestedDefinitions);
+
+      expect(newSchema).to.eql({ type: 'number' });
+      expect(newSchema).not.to.equal(schema);
+    });
+    it('should replace ref in object', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {
+            $ref: '#/definitions/common'
+          }
+        }
+      };
+
+      const newSchema = replaceRefSchemas(schema, definitions);
+
+      expect(newSchema.properties.field).to.eql({ type: 'string' });
+      expect(newSchema).not.to.equal(schema);
+    });
+    it('should update schema in array', () => {
+      const schema = {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            field: {
+              $ref: '#/definitions/common'
+            }
+          }
+        }
+      };
+
+      const newSchema = replaceRefSchemas(schema, definitions);
+
+      expect(newSchema.items.properties.field).to.eql({ type: 'string' });
+      expect(newSchema).not.to.equal(schema);
     });
   });
 });
