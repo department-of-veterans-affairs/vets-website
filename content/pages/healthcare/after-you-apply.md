@@ -6,7 +6,7 @@ template: 1-topic-landing
 showactionbar: false
 relatedlinks:
  - url: /healthcare/prescriptions
-   title: Manage your VA health care
+   title: Manage your health and benefits
    description: "Refill a prescription, send a secure message to your health care provider, and more."
 ---
 
