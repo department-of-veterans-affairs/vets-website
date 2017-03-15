@@ -32,7 +32,7 @@ You may be able to get benefits through the Post 9/11 GI Bill if you:
 
 ### Can I get VA education benefits through the Montgomery GI Bill? 
 
-You may be able to get benefits through 1 of our 2 Montgomery GI Bill programs: the Montgomery GI Bill Active Duty (MGIB-AD) and the Montgomery GI Bill Selected Reserve (MGIB-SR).
+You may be able to get benefits through 1 of our 2 Montgomery GI Bill programs: the Montgomery GI Bill Active Duty (MGIB-AD) or the Montgomery GI Bill Selected Reserve (MGIB-SR).
 
 You may be able to get benefits through the MGIB-AD if you served at least 2 years on active duty, and you:
 - Were honorably discharged, **and**
@@ -60,9 +60,9 @@ You may be able to get help paying for school tuition, testing fees, and advance
 
 ### Can my spouse or dependent children get VA education benefits?
 
-In some cases, dependent or surviving spouses and children of a Veteran can get educational assistance through a GI Bill program. [Learn more about Survivors' and Dependents' Assistance](/education/gi-bill/survivors-dependent-assistance/).
+In some cases, the dependent or surviving spouse and children of a Veteran can get educational assistance through a GI Bill program. [Learn more about Survivors' and Dependents' Assistance](/education/gi-bill/survivors-dependent-assistance/).
 
-Also, if you haven't used all of your Post 9/11 GI Bill Benefits, you may be able to transfer up to 36 months of benefits to your spouse or dependent children. [Learn more about transferring benefits](/education/gi-bill/transfer/). 
+Also, if you haven't used all of your Post 9/11 GI Bill benefits, you may be able to transfer up to 36 months of benefits to your spouse or a dependent child. [Learn more about transferring benefits](/education/gi-bill/transfer/). 
 
 </div>
 
