@@ -35,24 +35,24 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 </div>
 
-### Apply for Benefits
+### Ready to apply?
 
 #### First-time applicants
 
-Apply online with Form 22-1990
+Apply online with Form 22-1990:
 
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply for benefits</a>
+<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply for Benefits</a>
 
 #### Make a change to your current education benefits
 
 If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995.
 
-<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage benefits</a>
+<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage Benefits</a>
 
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
 	<div class="usa-alert-body">
 
-##### For Forms 22-1990E, 22-1990N, 22-5490, and 22-5495
+##### Forms 22-1990E, 22-1990N, 22-5490, and 22-5495
 
 You must apply for education benefits using eBenefits.va.gov if you're:
 - A spouse or dependent
@@ -81,13 +81,13 @@ You must apply for education benefits using eBenefits.va.gov if you're:
 
 - [Find out what happens after you apply](/education/after-you-apply).
 - You can't make changes to your application, but if you have questions about education benefits, please call <a href="tel:+18884424551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET), Monday through Friday.
-- If we've asked for documents, please upload them through the GI Bill website. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill website</a>
+- If we've asked you for documents, please upload them through the GI Bill website. <a class="usa-button-primary" href="https://gibill.custhelp.com/app/home">Go to the GI Bill Website</a>
 
 #### How long does it take us to make a decision?
 
 <div class="card information" markdown="0">
 <span class="number">30 days</span>
-<span class="description">Average time to process education claims.</span>
+<span class="description">Average time to process education claims</span>
 </div>
 
 <div markdown="0"><br></div>
