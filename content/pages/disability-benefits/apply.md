@@ -62,23 +62,19 @@ You can work with a trained professional who can help you file a claim.  [Find a
 
 [Go to a Regional Benefits Office](http://www.benefits.va.gov/benefits/offices.asp).
 
-### Already applied?
-
-<a class="usa-button-primary" href="/disability-benefits/track-claims">Track the status of your claim</a>
-
-<div markdown="0"><br></div>
-
 ### What happens after I apply?
 
 [Find out what happens after you apply](/disability-benefits/after-you-apply).
 
 You don't need to do anything while you're waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
 
+<a class="usa-button-primary" href="/disability-benefits/track-claims">Track the Status of Your Claim</a>
+
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
 <span class="number">121.8 days</span>
-<span class="description">Average time to process disability-related claims in January 2017</span>
+<span class="description">Average time to process disability-related claims in February 2017</span>
 </div>
 
 <div markdown="0"><br></div>
