@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
 const getConstants = (state) => state.constants.constants;
@@ -786,16 +787,16 @@ export const getCalculatedBenefits = createSelector(
         buyUp: false,
       },
       outputs: {
-        tuitionAndFeesCharged: { display: true, value: form.tuitionFees },
-        giBillPaysToSchool: { display: true, value: derived.totalToSchool },
-        outOfPocketTuition: { display: true, value: derived.totalLeftToPay },
-        housingAllowance: { display: true, value: derived.housingAllowanceMonthly },
-        bookStipend: { display: true, value: derived.bookStipendTotal },
-        totalPaidToYou: { display: true, value: derived.totalToYou },
+        tuitionAndFeesCharged: { visible: true, value: form.tuitionFees || 0 },
+        giBillPaysToSchool: { visible: true, value: derived.totalToSchool || 0 },
+        outOfPocketTuition: { visible: true, value: derived.totalLeftToPay || 0 },
+        housingAllowance: { visible: true, value: derived.housingAllowanceMonthly || 0 },
+        bookStipend: { visible: true, value: derived.bookStipendTotal || 0 },
+        totalPaidToYou: { visible: true, value: derived.totalToYou || 0 },
       }
     };
 
-    if ([eligibility, institution, derived].some(e => !e)) {
+    if ([eligibility, institution, derived].some(e => !e || isEmpty(e))) {
       return calculatedBenefits;
     }
 
@@ -827,10 +828,10 @@ export const getCalculatedBenefits = createSelector(
         calendar: false,
       };
 
-      calculatedBenefits.outputs.tuitionAndFeesCharged.display = false;
-      calculatedBenefits.outputs.giBillPaysToSchool.display = false;
-      calculatedBenefits.outputs.outOfPocketTuition.display = false;
-      calculatedBenefits.outputs.totalPaidToYou.display = false;
+      calculatedBenefits.outputs.tuitionAndFeesCharged.visible = false;
+      calculatedBenefits.outputs.giBillPaysToSchool.visible = false;
+      calculatedBenefits.outputs.outOfPocketTuition.visible = false;
+      calculatedBenefits.outputs.totalPaidToYou.visible = false;
     }
 
     if (giBillChapter === 35) {

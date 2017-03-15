@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { showModal } from '../../actions';
 import { calculatedBenefits } from '../../selectors/calculator';
+import { formatCurrency } from '../../utils/helpers';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
 
@@ -27,7 +28,7 @@ const CalculatorInputs = ({ expanded, toggle }) => (
   </div>
 );
 
-const CalculatorResultRow = ({ label, value, labelClassName, valueClassName }) => (
+const CalculatorResultRow = ({ label, value, labelClassName, valueClassName, visible }) => (visible ? (
   <div className="row calculator-result">
     <div className="small-8 columns">
       <p className={labelClassName}>{label}:</p>
@@ -36,7 +37,7 @@ const CalculatorResultRow = ({ label, value, labelClassName, valueClassName }) =
       <p className={valueClassName}>{value}</p>
     </div>
   </div>
-);
+) : null);
 
 export class Calculator extends React.Component {
 
@@ -75,13 +76,36 @@ export class Calculator extends React.Component {
         <div className="medium-1 columns">&nbsp;</div>
         <div className="medium-6 columns">
           <h3>Your estimated benefits</h3>
-          <CalculatorResultRow label="Tuition and fees charged" value={outputs.tuitionAndFeesCharged.value}/>
-          <CalculatorResultRow label="GI Bill pays to school" value={outputs.giBillPaysToSchool.value}/>
-          <CalculatorResultRow label="Out of pocket tuition" value={outputs.outOfPocketTuition.value} valueClassName="bold" labelClassName="bold"/>
+          <CalculatorResultRow
+              label="Tuition and fees charged"
+              value={formatCurrency(outputs.tuitionAndFeesCharged.value)}
+              visible={outputs.tuitionAndFeesCharged.visible}/>
+          <CalculatorResultRow
+              label="GI Bill pays to school"
+              value={formatCurrency(outputs.giBillPaysToSchool.value)}
+              visible={outputs.giBillPaysToSchool.visible}/>
+          <CalculatorResultRow
+              label="Out of pocket tuition"
+              value={formatCurrency(outputs.outOfPocketTuition.value)}
+              valueClassName="bold"
+              labelClassName="bold"
+              visible={outputs.outOfPocketTuition.visible}/>
           <br/>
-          <CalculatorResultRow label="Housing allowance" value={`${outputs.housingAllowance.value}/mo`}/>
-          <CalculatorResultRow label="Book stipend" value={outputs.bookStipend.value}/>
-          <CalculatorResultRow label="Total paid to you" value={outputs.totalPaidToYou.value} valueClassName="bold" labelClassName="bold"/>
+          <CalculatorResultRow
+              label="Housing allowance"
+              value={`${formatCurrency(outputs.housingAllowance.value)}/mo`}
+              visible={outputs.housingAllowance.visible}/>
+          <br/>
+          <CalculatorResultRow
+              label="Book stipend"
+              value={formatCurrency(outputs.bookStipend.value)}
+              visible={outputs.bookStipend.visible}/>
+          <CalculatorResultRow
+              label="Total paid to you"
+              value={formatCurrency(outputs.totalPaidToYou.value)}
+              valueClassName="bold"
+              labelClassName="bold"
+              visible={outputs.totalPaidToYou.visible}/>
           <hr/>
           <h3>Estimated benefits per term</h3>
           <h4>Tuition and fees</h4>
