@@ -37,6 +37,7 @@ You may be able to get disability benefits if you have a current illness or inju
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a>
 <br>
+<br>
 [Learn about the application process](/disability-benefits/apply)
 
 <div markdown="0"><br></div>
