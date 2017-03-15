@@ -16,7 +16,7 @@
       <dd><a href="https://www.vets.gov/disability-benefits/track-claims/your-claims/">Check disability claim status</a></dd>
       <dd><a href="https://www.vets.gov/gi-bill-comparison-tool/">Education benefits by school</a></dd>
       <dd><a href="https://www.vets.gov/healthcare/prescriptions/">Refill prescriptions</a></dd>
-    </dl>   
+    </dl>
     <ul class="va-footer-linkgroup va-list--plain" id="footer-contact">
       <li><h4 class="va-footer-linkgroup-title">Contact</h4></li>
       <li><a href="/facilities/">Find nearby VA locations</a></dt>
@@ -96,11 +96,22 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 <script src="/js/user-voice.js"></script>
 
 <!-- htmllint attr-bans="[]" -->
-<!-- Google Tag Manager -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
-height="0" width="0" class="csp-inline-patch-footer"></iframe></noscript>
-<script src="/js/google-analytics.js"></script>
-<!-- End Google Tag Manager -->
+{% if buildtype === 'development' %}
+  <script>
+    window.dataLayer = [];
+  </script>
+{% else %}
+  <!-- Google Tag Manager -->
+  <script>
+    dataLayer = [{
+      'environment': '{{ buildtype }}'
+    }];
+  </script>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
+  height="0" width="0" class="csp-inline-patch-footer"></iframe></noscript>
+  <script src="/js/google-analytics.js"></script>
+  <!-- End Google Tag Manager -->
+{% endif %}
 <!-- htmllint attr-bans="$previous" -->
 
 <!--

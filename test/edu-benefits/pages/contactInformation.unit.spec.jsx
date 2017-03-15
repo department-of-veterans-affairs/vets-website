@@ -4,10 +4,10 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-addons-test-utils';
 
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
-import formConfig from '../../../src/js/edu-benefits/pages/contactInformation.js';
+import createContactInformationPage from '../../../src/js/edu-benefits/pages/contactInformation.js';
 
 describe('Edu pages contactInformation', () => {
-  const { schema, uiSchema } = formConfig;
+  const { schema, uiSchema } = createContactInformationPage();
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -26,6 +26,21 @@ describe('Edu pages contactInformation', () => {
       .to.equal(6);
     expect(inputs.filter(input => input.id.startsWith('root_view:otherContactInfo')).length)
       .to.equal(4);
+  });
+  it('should render address field from parameter', () => {
+    const page = createContactInformationPage('relativeAddress');
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={page.schema}
+          data={{}}
+          uiSchema={page.uiSchema}/>
+    );
+    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(
+      ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select')
+    );
+
+    expect(inputs.filter(input => input.id.startsWith('root_relativeAddress')).length)
+      .to.equal(6);
   });
   it('should render validation errors for required fields', () => {
     const form = ReactTestUtils.renderIntoDocument(

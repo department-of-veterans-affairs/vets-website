@@ -211,8 +211,16 @@ export function transformForSubmit(formConfig, form) {
       return undefined;
     }
 
+    // clean up empty objects, which we have no reason to send
+    if (typeof value === 'object') {
+      const fields = Object.keys(value);
+      if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
+        return undefined;
+      }
+    }
+
     return value;
-  });
+  }) || '{}';
 }
 
 function isHiddenField(schema) {
@@ -502,7 +510,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
   const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
 
   if (updateSchema) {
-    const newSchemaProps = updateSchema(data, formData);
+    const newSchemaProps = updateSchema(data, formData, currentSchema);
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
       if (newSchemaProps[next] !== schema[next]) {

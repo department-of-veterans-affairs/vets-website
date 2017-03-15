@@ -7,8 +7,8 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1990e/config/form';
 
-describe('Edu 1990e applicantInformation', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
+describe('Edu 1990e sponsorVeteran', () => {
+  const { schema, uiSchema } = formConfig.chapters.sponsorVeteran.pages.sponsorVeteran;
   const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -18,9 +18,11 @@ describe('Edu 1990e applicantInformation', () => {
           uiSchema={uiSchema}
           definitions={definitions}/>
     );
+    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
+    const selects = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select');
 
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input'))
-      .to.not.be.empty;
+    expect(inputs.length).to.equal(10);
+    expect(selects.length).to.equal(3);
   });
   it('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
@@ -48,14 +50,20 @@ describe('Edu 1990e applicantInformation', () => {
 
     const formDOM = findDOMNode(form);
     const find = formDOM.querySelector.bind(formDOM);
-    ReactTestUtils.Simulate.change(find('#root_relativeFullName_first'), {
+    ReactTestUtils.Simulate.change(find('#root_veteranFullName_first'), {
       target: {
-        value: 'Test'
+        value: 'Veteran'
       }
     });
-    ReactTestUtils.Simulate.change(find('#root_relativeFullName_last'), {
+    ReactTestUtils.Simulate.change(find('#root_veteranFullName_last'), {
       target: {
-        value: 'Test'
+        value: 'Veteran'
+      }
+    });
+
+    ReactTestUtils.Simulate.change(find('#root_veteranSocialSecurityNumber'), {
+      target: {
+        value: '111-22-3333'
       }
     });
 
@@ -64,4 +72,3 @@ describe('Edu 1990e applicantInformation', () => {
     expect(onSubmit.called).to.be.true;
   });
 });
-

@@ -579,8 +579,7 @@ h6 {
   ul[class*='block-grid-'] {
     display: block;
     padding: 0;
-    margin: 0;
-    @media #{$small} {margin: 0 -0.625rem;}
+    margin: 0 -0.625rem;
   }
 }
 
@@ -600,9 +599,7 @@ h6 {
     padding-bottom: inherit;
   }
   h3 {
-    @media #{$small} {
-      font-size: 1.65em;
-    }
+    font-size: 1.65em;
   }
   ul {
     margin: 0 0 .5em 1.5em;
@@ -729,15 +726,6 @@ ul, ol {
   .section.main-menu {
     padding: 0em .5em 4em .5em;
     overflow: hidden;
-  }
-
-  .home #content .section h3.alternate {
-    margin: 0 0 2em 0 !important; padding: 0;
-  }
-
-  .section.one {
-    padding: 0 0 1.5em 0;
-      @media #{$small} {padding: 2em 0 4em 0;}
   }
 
   .section.two {
@@ -878,10 +866,7 @@ ul, ol {
     display: inline-block;
     line-height: 1.15em;
     vertical-align: middle;
-
-    @media #{$small} {
-      font-size: 1.35em;
-    }
+    font-size: 1.35em;
 
     &:hover  {
       border-bottom: none;
@@ -961,12 +946,7 @@ li {
 
 //===== Navigation
 .navigation {
- padding: 1em  0;
-
-  @media #{$small} {
-    padding: 1em 0 3em 0;
-  }
-
+  padding: 1em 0 3em 0;
   background: $color-gray-lightest;
   color: $color-primary-darkest;
   border-bottom: 2px solid $color-white;
@@ -993,11 +973,8 @@ li {
 
 // Cards
 
-[class*='block-grid-']>li {
-  padding: 0;
-  @media #{$small} {
-    padding: 0 0.625rem 1.25rem 0.625rem;
-  }
+[class*='block-grid-'] > li {
+  padding: 0 0.625rem 1.25rem 0.625rem;
 }
 
 // Telephone numbers
@@ -1020,10 +997,6 @@ li {
   }
 
   div {
-    @media #{$small} {
-      min-height: 12em;
-    }
-
     background: $color-gray-lightest;
     background: rgba(0,0,0,.05);
     margin: 0 0 .5em 0;
@@ -1051,14 +1024,14 @@ li {
   position: relative;
   overflow: hidden;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     flex-wrap: nowrap;
   }
 
   .va-flex {
     flex-wrap: wrap;
 
-    @media (min-width: $medium-screen) {
+    @include media($medium-large-screen) {
       flex-wrap: nowrap;
     }
   }
@@ -1077,7 +1050,7 @@ li {
   overflow: hidden;
   margin-bottom: 3rem;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     flex-wrap: nowrap;
     margin-bottom: 0;
   }
@@ -1102,7 +1075,7 @@ li {
   margin: 2em 0 0 0;
   flex: 0 1 100%;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     flex: 0 1 25%;
     margin: 2em 0 1.5em 0;
   }
@@ -1117,11 +1090,9 @@ li {
 }
 
 [id=footer-contact] { 
-  @media (max-width: $medium-screen) {
-    order: -1;
-  }
+  order: -1;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     flex: 2 0 50%;
   }
 }
@@ -1162,13 +1133,13 @@ li {
   flex-wrap: wrap;
   margin-top: 10rem;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     flex-wrap: nowrap;
   }
 
   > div {
       &:first-child {
-        @media (min-width: $medium-screen) {
+        @include media($medium-large-screen) {
           flex: 0 1 60%;
         }
       }
@@ -1176,7 +1147,7 @@ li {
       &:last-child {
         order: -1;
 
-        @media (min-width: $medium-screen) {
+        @include media($medium-large-screen) {
           order: 1;
           flex: 1 1 40%;
         }
@@ -1766,11 +1737,6 @@ li.twenty:before {content: '20';}
   .overlay form {
     height: 70%;
   }
-}
-
-
-@include media-maxwidth($medium-large-screen) {
-
 }
 
 // List overrides

@@ -8938,9 +8938,9 @@
       "resolved": "http://registry.npmjs.org/verror/-/verror-1.3.6.tgz"
     },
     "vets-json-schema": {
-      "version": "1.6.1",
-      "from": "git+https://github.com/department-of-veterans-affairs/vets-json-schema.git#6e23e1932d14a010faf4a89e3ce2c5a8e1b5679a",
-      "resolved": "git+https://github.com/department-of-veterans-affairs/vets-json-schema.git#6e23e1932d14a010faf4a89e3ce2c5a8e1b5679a"
+      "version": "1.7.4",
+      "from": "git+https://github.com/department-of-veterans-affairs/vets-json-schema.git#6db23a65889409016a3bf8b05436e83bed7e0d69",
+      "resolved": "git+https://github.com/department-of-veterans-affairs/vets-json-schema.git#6db23a65889409016a3bf8b05436e83bed7e0d69"
     },
     "vinyl": {
       "version": "1.2.0",
