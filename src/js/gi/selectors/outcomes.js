@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { pick } from 'lodash';
+import { isFinite, pick } from 'lodash';
 
 const getConstants = (state) => state.constants.constants;
 
@@ -17,10 +17,8 @@ const getRequiredAttributes = (state) => {
   ]);
 };
 
-const isNumeric = (n) => (!Number.isNaN(parseFloat(n)));
-
 const whenDataAvailable = (n1, n2, obj) => {
-  if (isNumeric(n1) || isNumeric(n2)) return obj;
+  if (isFinite(n1) || isFinite(n2)) return obj;
   return {
     error: 'Data Not Available'
   };
@@ -43,8 +41,8 @@ export const outcomeNumbers = createSelector(
       veteranRetentionRate,
       allStudentRetentionRate,
       {
-        rate: isNumeric(veteranRetentionRate) ? Number(veteranRetentionRate * 100) : null,
-        all: isNumeric(allStudentRetentionRate) ? Number(allStudentRetentionRate * 100) : null,
+        rate: isFinite(veteranRetentionRate) ? Number(veteranRetentionRate * 100) : null,
+        all: isFinite(allStudentRetentionRate) ? Number(allStudentRetentionRate * 100) : null,
         average: constant.AVERETENTIONRATE,
       }
     );
