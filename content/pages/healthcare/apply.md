@@ -67,28 +67,29 @@ Go to your nearest VA medical center or clinic. Bring Form 10-10EZ with you. </b
 To apply for health care as a caregiver, you'll have to fill out VA Form 10-10CG. To download this form, you must follow these steps. 
 
 **How to download the form** </br>
+
 Internet Explorer:
-1. Right click on the link to the form.
+1. Right click on the link to the form (below).
 2. Choose **Save Target As...**
 3. Choose where you want to save the file on your hard drive.
 4. Click **Save**.
 Double click on the downloaded file to open it.
 
 Firefox or Chrome:
-1. Right click on the link to the form.
+1. Right click on the link to the form (below).
 2. Choose **Save Link As...**
 3. Choose where you want to save the file on your hard drive.
 4. Click **Save**.
 Double click on the downloaded file to open it.
 
 Safari:
-1. Right click on the link to the form.
+1. Right click on the link to the form (below).
 2. Choose **Download Linked File As...**
 3. Choose where you want to save the file on your hard drive.
 4. Click **Save**.
 Double click on the downloaded file to open it.
 
-[Download form 10-10CG](/healthcare/forms/vha-10-10CG.pdf). 
+[Download Form 10-10CG](/healthcare/forms/vha-10-10CG.pdf). 
 
 <div markdown="0"><br></div>
 
@@ -98,9 +99,9 @@ Double click on the downloaded file to open it.
 
 You can manage your VA health care online. This means you can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. 
 
-<a class="usa-button-primary" href="/healthcare/prescriptions/">Manage your health and benefits</a>
+<a class="usa-button-primary" href="/healthcare/prescriptions/">Manage Your Health and Benefits</a>
 
-#### How long does it take us to make a decision?
+#### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
 <span class="number">Less than 1 week</span>
