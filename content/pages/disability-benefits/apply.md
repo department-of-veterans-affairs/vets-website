@@ -7,36 +7,36 @@ showactionbar: false
 relatedlinks:
  - url: /disability-benefits/claims-process/evidence/
    title: How do I gather supporting documents for a disability claim? 
-   description: "Learn what you need to turn in so we can decide your claim"
+   description: "Find out what you need to turn in so we can decide your claim."
  - url: /disability-benefits/claims-process/claim-types/
    title: What are the different claim types and what do they mean? 
-   description: "Learn what you need for each claim types"
+   description: "Learn about standard claims, reopened claims, secondary claims, and more."
  - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
    title: How do I file while on active duty?
-   description: "Filing your claim as you get ready to leave the military may speed up the claim decision process"
+   description: "File your claim as you get ready to leave the military to speed up the claim decision process."
  - url: /disability-benefits/apply-for-benefits/help/
    title: How do I get help filing a claim?
-   description: "Work with a trained professional"
+   description: "Work with a trained professional called an accredited representative."
 ---
 
 ### Prepare
 
 - [Check your eligibility](/disability-benefits/eligibility).
-- Be sure your claim is filled out completely and that you’ve included all supporting documents. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
+- Gather the documents listed below that you'll need to file a disability claim.
+- Be sure your claim is filled out completely and you’ve included all supporting documents. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
 
 <div markdown="0"><br></div>
 
 <div class="call-out" markdown="1">
 
-#### Documents you'll need
+#### What documents do I need to apply?
 
 For the first disability claim you file, please provide:
 
 - Discharge papers (DD214 or other separation documents) 
-- Service treatment records
-  - [Order service records through the National Archives](https://www.archives.gov/veterans/military-service-records).
+- Service treatment records [(Order service records through the National Archives)](https://www.archives.gov/veterans/military-service-records).
 
-**For all disability claims, please provide:**
+For all disability claims, please provide:
 
 - VA medical records and hospital records that relate to your claimed illnesses or injuries
 - Private medical records and hospital reports that relate to your claimed illnesses or injuries
@@ -44,21 +44,21 @@ For the first disability claim you file, please provide:
 </div>
 
 
-### Apply online
+### Apply for Benefits
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
 
 <div markdown="0"><br></div>
 
 ### Other ways to apply
 
-#### Work with someone
+#### Work with a trained professional
 
 You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html)
 
 #### Apply in person
 
-[Go to a Regional Benefits Office](http://www.benefits.va.gov/benefits/offices.asp)
+[Go to a Regional Benefits Office](http://www.benefits.va.gov/benefits/offices.asp).
 
 ### Already applied?
 
@@ -68,15 +68,15 @@ You can work with a trained professional who can help you file a claim.  [Find a
 
 ### What happens after I apply?
 
-You don't need to do anything while you're waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
+[Find out what happens after you apply](/disability-benefits/after-you-apply).
 
-[Learn what happens after you apply](/disability-benefits/after-you-apply).
+You don't need to do anything while you're waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
 
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
 <span class="number">121.8 days</span>
-<span class="description">Average time to process disability-related claims in January 2017.</span>
+<span class="description">Average time to process disability-related claims in January 2017</span>
 </div>
 
 <div markdown="0"><br></div>
