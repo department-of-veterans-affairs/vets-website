@@ -36,7 +36,7 @@ You can apply for disability benefits online. We've listed all the steps below s
 For the first disability claim you file, please provide:
 
 - Discharge papers (DD214 or other separation documents) 
-- Service treatment records [(Order service records through the National Archives)](https://www.archives.gov/veterans/military-service-records).
+- Service treatment records [(Order service records through the National Archives)](https://www.archives.gov/veterans/military-service-records)
 
 For all disability claims, please provide:
 
@@ -46,7 +46,7 @@ For all disability claims, please provide:
 </div>
 
 
-### Apply for Benefits
+### Ready to apply?
 
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
 
