@@ -898,8 +898,3 @@ export const getCalculatedBenefits = createSelector(
     return calculatedBenefits;
   }
 );
-
-export const calculatedBenefits = createSelector(
-  getCalculatedBenefits,
-  calc => calc
-);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { showModal } from '../../actions';
-import { calculatedBenefits } from '../../selectors/calculator';
+import { calculatorInputChange, showModal } from '../../actions';
+import { getCalculatedBenefits } from '../../selectors/calculator';
 import { formatCurrency } from '../../utils/helpers';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
@@ -17,13 +17,17 @@ const EligibilityDetails = ({ expanded, toggle }) => (
   </div>
 );
 
-const CalculatorInputs = ({ expanded, toggle }) => (
+const CalculatorInputs = ({ expanded, toggle, inputs, displayedInputs, onInputChange, onShowModal }) => (
   <div className="calculator-inputs">
     <button onClick={toggle} className="usa-button-outline">
       {expanded ? 'Hide' : 'Edit'} calculator fields
     </button>
     <div className="form-expanding-group-open">
-      {expanded ? <CalculatorForm/> : null}
+      {expanded ? <CalculatorForm
+        inputs={inputs}
+        displayedInputs={displayedInputs}
+        onShowModal={onShowModal}
+        onInputChange={onInputChange}/> : null}
     </div>
   </div>
 );
@@ -70,6 +74,10 @@ export class Calculator extends React.Component {
               expanded={this.state.showEligibilityDetails}
               toggle={this.toggleEligibilityDetails}/>
           <CalculatorInputs
+              inputs={this.props.calculator}
+              displayedInputs={this.props.calculated.inputs}
+              onInputChange={this.props.calculatorInputChange}
+              onShowModal={this.props.showModal}
               expanded={this.state.showCalculatorForm}
               toggle={this.toggleCalculatorForm}/>
         </div>
@@ -128,11 +136,13 @@ export class Calculator extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    calculated: calculatedBenefits(state, props)
+    calculator: state.calculator,
+    calculated: getCalculatedBenefits(state, props)
   };
 };
 
 const mapDispatchToProps = {
+  calculatorInputChange,
   showModal,
 };
 

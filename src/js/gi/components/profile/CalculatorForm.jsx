@@ -1,11 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { showModal, calculatorInputChange } from '../../actions';
-import { getCalculatedBenefits } from '../../selectors/calculator';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 
-export class CalculatorForm extends React.Component {
+class CalculatorForm extends React.Component {
 
   constructor(props) {
     super(props);
@@ -26,13 +23,13 @@ export class CalculatorForm extends React.Component {
   renderLearnMoreLabel({ text, modal }) {
     return (
       <span>
-        {text} (<a onClick={this.props.showModal.bind(this, modal)}>Learn more</a>)
+        {text} (<a onClick={this.props.onShowModal.bind(this, modal)}>Learn more</a>)
       </span>
     );
   }
 
   renderInState() {
-    if (!this.props.displayed.inState) return null;
+    if (!this.props.displayedInputs.inState) return null;
     return (
       <div>
         <div className="row">
@@ -44,8 +41,8 @@ export class CalculatorForm extends React.Component {
                   { value: 'yes', label: 'Yes' },
                   { value: 'no', label: 'No' }
                 ]}
-                value={this.props.calculator.inState}
-                onChange={this.props.calculatorInputChange}/>
+                value={this.props.inputs.inState}
+                onChange={this.props.onInputChange}/>
           </div>
         </div>
       </div>
@@ -53,27 +50,27 @@ export class CalculatorForm extends React.Component {
   }
 
   renderTuition() {
-    if (!this.props.displayed.tuition) return null;
+    if (!this.props.displayedInputs.tuition) return null;
     return (
       <div className="row">
         <div className="small-12 columns">
           <label htmlFor="tuitionFees">
             Tuition and fees per year (
-            <a onClick={this.props.showModal.bind(this, 'calcTuition')}>
+            <a onClick={this.props.onShowModal.bind(this, 'calcTuition')}>
             Learn more</a>)
           </label>
           <input
               type="text"
               name="tuitionFees"
-              value={`$${this.props.calculator.tuitionFees}`}
-              onChange={this.props.calculatorInputChange}/>
+              value={`$${this.props.inputs.tuitionFees}`}
+              onChange={this.props.onInputChange}/>
         </div>
       </div>
     );
   }
 
   renderBooks() {
-    if (!this.props.displayed.books) return null;
+    if (!this.props.displayedInputs.books) return null;
     return (
       <div className="row">
         <div className="small-12 columns">
@@ -81,19 +78,19 @@ export class CalculatorForm extends React.Component {
           <input
               type="text"
               name="books"
-              value={`$${this.props.calculator.books}`}
-              onChange={this.props.calculatorInputChange}/>
+              value={`$${this.props.inputs.books}`}
+              onChange={this.props.onInputChange}/>
         </div>
       </div>
     );
   }
 
   renderYellowRibbon() {
-    if (!this.props.displayed.yellowRibbon) return null;
+    if (!this.props.displayedInputs.yellowRibbon) return null;
 
     let amountInput;
 
-    if (this.props.calculator.yellowRibbonRecipient === 'yes') {
+    if (this.props.inputs.yellowRibbonRecipient === 'yes') {
       amountInput = (
         <div className="row">
           <div className="small-12 columns">
@@ -103,8 +100,8 @@ export class CalculatorForm extends React.Component {
             <input
                 type="text"
                 name="yellowRibbonAmount"
-                value={`$${this.props.calculator.yellowRibbonAmount}`}
-                onChange={this.props.calculatorInputChange}/>
+                value={`$${this.props.inputs.yellowRibbonAmount}`}
+                onChange={this.props.onInputChange}/>
           </div>
         </div>
       );
@@ -121,8 +118,8 @@ export class CalculatorForm extends React.Component {
                   { value: 'yes', label: 'Yes' },
                   { value: 'no', label: 'No' }
                 ]}
-                value={this.props.calculator.yellowRibbonRecipient}
-                onChange={this.props.calculatorInputChange}/>
+                value={this.props.inputs.yellowRibbonRecipient}
+                onChange={this.props.onInputChange}/>
           </div>
         </div>
         {amountInput}
@@ -131,47 +128,47 @@ export class CalculatorForm extends React.Component {
   }
 
   renderScholarships() {
-    if (!this.props.displayed.scholarships) return null;
+    if (!this.props.displayedInputs.scholarships) return null;
     return (
       <div className="row">
         <div className="small-12 columns">
           <label htmlFor="scholarships">
             Scholarships (excluding Pell) (
-            <a onClick={this.props.showModal.bind(this, 'calcScholarships')}>
+            <a onClick={this.props.onShowModal.bind(this, 'calcScholarships')}>
             Learn more</a>)
           </label>
           <input
               type="text"
               name="scholarships"
-              value={`$${this.props.calculator.scholarships}`}
-              onChange={this.props.calculatorInputChange}/>
+              value={`$${this.props.inputs.scholarships}`}
+              onChange={this.props.onInputChange}/>
         </div>
       </div>
     );
   }
 
   renderTuitionAssist() {
-    if (!this.props.displayed.tuitionAssist) return null;
+    if (!this.props.displayedInputs.tuitionAssist) return null;
     return (
       <div className="row">
         <div className="small-12 columns">
           <label htmlFor="tuitionAssist">
             How much are you receiving in military tuition assistance (
-            <a onClick={this.props.showModal.bind(this, 'calcTuitionAssist')}>
+            <a onClick={this.props.onShowModal.bind(this, 'calcTuitionAssist')}>
             Learn more</a>)
           </label>
           <input
               type="text"
               name="tuitionAssist"
-              value={`$${this.props.calculator.tuitionAssist}`}
-              onChange={this.props.calculatorInputChange}/>
+              value={`$${this.props.inputs.tuitionAssist}`}
+              onChange={this.props.onInputChange}/>
         </div>
       </div>
     );
   }
 
   renderEnrolled() {
-    if (!this.props.displayed.enrolled) return null;
+    if (!this.props.displayedInputs.enrolled) return null;
     return (
       <div className="row">
         <div className="small-12 columns">
@@ -185,8 +182,8 @@ export class CalculatorForm extends React.Component {
                 { value: '0', label: '½ Time or less' },
               ]}
               visible
-              value={this.props.calculator.enrolled}
-              onChange={this.props.calculatorInputChange}>
+              value={this.props.inputs.enrolled}
+              onChange={this.props.onInputChange}>
             {this.renderLearnMoreLabel({ text: 'Enrolled', modal: 'calcEnrolled' })}
           </Dropdown>
         </div>
@@ -195,7 +192,7 @@ export class CalculatorForm extends React.Component {
   }
 
   renderEnrolledOld() {
-    if (!this.props.displayed.enrolledOld) return null;
+    if (!this.props.displayedInputs.enrolledOld) return null;
     return (
       <div className="row">
         <div className="small-12 columns">
@@ -210,8 +207,8 @@ export class CalculatorForm extends React.Component {
                 { value: 'quarter', label: '½ Time or less' },
               ]}
               visible
-              value={this.props.calculator.enrolled}
-              onChange={this.props.calculatorInputChange}>
+              value={this.props.inputs.enrolled}
+              onChange={this.props.onInputChange}>
             {this.renderLearnMoreLabel({ text: 'Enrolled', modal: 'calcEnrolled' })}
           </Dropdown>
         </div>
@@ -220,11 +217,11 @@ export class CalculatorForm extends React.Component {
   }
 
   renderCalendar() {
-    if (!this.props.displayed.calendar) return null;
+    if (!this.props.displayedInputs.calendar) return null;
 
     let dependentDropdowns;
 
-    if (this.props.calculator.calendar === 'nontraditional') {
+    if (this.props.inputs.calendar === 'nontraditional') {
       dependentDropdowns = (
         <div>
           <div className="row">
@@ -238,8 +235,8 @@ export class CalculatorForm extends React.Component {
                     { value: '1', label: 'One' }
                   ]}
                   visible
-                  value={this.props.calculator.numberNontradTerms}
-                  onChange={this.props.calculatorInputChange}>
+                  value={this.props.inputs.numberNontradTerms}
+                  onChange={this.props.onInputChange}>
                 <label htmlFor="numberNontradTerms">
                   How many terms per year?
                 </label>
@@ -266,8 +263,8 @@ export class CalculatorForm extends React.Component {
                     { value: '12', label: '12 months' }
                   ]}
                   visible
-                  value={this.props.calculator.lengthNontradTerms}
-                  onChange={this.props.calculatorInputChange}>
+                  value={this.props.inputs.lengthNontradTerms}
+                  onChange={this.props.onInputChange}>
                 <label htmlFor="lengthNontradTerms">
                   How long is each term?
                 </label>
@@ -291,8 +288,8 @@ export class CalculatorForm extends React.Component {
                   { value: 'nontraditional', label: 'Non-Traditional' }
                 ]}
                 visible
-                value={this.props.calculator.calendar}
-                onChange={this.props.calculatorInputChange}>
+                value={this.props.inputs.calendar}
+                onChange={this.props.onInputChange}>
               {this.renderLearnMoreLabel({ text: 'School Calendar', modal: 'calcSchoolCalendar' })}
             </Dropdown>
           </div>
@@ -303,11 +300,11 @@ export class CalculatorForm extends React.Component {
   }
 
   renderKicker() {
-    if (!this.props.displayed.kicker) return null;
+    if (!this.props.displayedInputs.kicker) return null;
 
     let amountInput;
 
-    if (this.props.calculator.kickerEligible === 'yes') {
+    if (this.props.inputs.kickerEligible === 'yes') {
       amountInput = (
         <div className="row">
           <div className="small-12 columns">
@@ -315,8 +312,8 @@ export class CalculatorForm extends React.Component {
             <input
                 type="text"
                 name="kickerAmount"
-                value={`$${this.props.calculator.kickerAmount}`}
-                onChange={this.props.calculatorInputChange}/>
+                value={`$${this.props.inputs.kickerAmount}`}
+                onChange={this.props.onInputChange}/>
           </div>
         </div>
       );
@@ -333,8 +330,8 @@ export class CalculatorForm extends React.Component {
                   { value: 'yes', label: 'Yes' },
                   { value: 'no', label: 'No' }
                 ]}
-                value={this.props.calculator.kickerEligible}
-                onChange={this.props.calculatorInputChange}/>
+                value={this.props.inputs.kickerEligible}
+                onChange={this.props.onInputChange}/>
           </div>
         </div>
         {amountInput}
@@ -343,11 +340,11 @@ export class CalculatorForm extends React.Component {
   }
 
   renderBuyUp() {
-    if (!this.props.displayed.buyUp) return null;
+    if (!this.props.displayedInputs.buyUp) return null;
 
     let amountInput;
 
-    if (this.props.calculator.buyUp === 'yes') {
+    if (this.props.inputs.buyUp === 'yes') {
       amountInput = (
         <div className="row">
           <div className="small-12 columns">
@@ -355,8 +352,8 @@ export class CalculatorForm extends React.Component {
             <input
                 type="text"
                 name="buyUpAmount"
-                value={`$${this.props.calculator.buyUpAmount}`}
-                onChange={this.props.calculatorInputChange}/>
+                value={`$${this.props.inputs.buyUpAmount}`}
+                onChange={this.props.onInputChange}/>
           </div>
         </div>
       );
@@ -373,8 +370,8 @@ export class CalculatorForm extends React.Component {
                   { value: 'yes', label: 'Yes' },
                   { value: 'no', label: 'No' }
                 ]}
-                value={this.props.calculator.buyUp}
-                onChange={this.props.calculatorInputChange}/>
+                value={this.props.inputs.buyUp}
+                onChange={this.props.onInputChange}/>
           </div>
         </div>
         {amountInput}
@@ -383,7 +380,7 @@ export class CalculatorForm extends React.Component {
   }
 
   renderWorking() {
-    if (!this.props.displayed.working) return null;
+    if (!this.props.displayedInputs.working) return null;
     return (
       <div className="row">
         <div className="small-12 columns">
@@ -408,8 +405,8 @@ export class CalculatorForm extends React.Component {
                 { value: '2', label: '2 hrs / week' }
               ]}
               visible
-              value={this.props.calculator.working}
-              onChange={this.props.calculatorInputChange}>
+              value={this.props.inputs.working}
+              onChange={this.props.onInputChange}>
             <label htmlFor="working">
               {/* TODO: identify correct modal <LearnMoreLabel text="Will be working" modal="calcSchoolCalendar"/> */}
               Will be working
@@ -421,7 +418,7 @@ export class CalculatorForm extends React.Component {
   }
 
   render() {
-    if (!this.props.displayed) return null;
+    if (!this.props.displayedInputs) return null;
     return (
       <div className="calculator-form">
         {this.renderInState()}
@@ -441,18 +438,11 @@ export class CalculatorForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const { calculator } = state;
-
-  return {
-    calculator,
-    displayed: getCalculatedBenefits(state).inputs
-  };
+CalculatorForm.propTypes = {
+  inputs: React.PropTypes.object,
+  displayedInputs: React.PropTypes.object,
+  onShowModal: React.PropTypes.func,
+  onInputChange: React.PropTypes.func
 };
 
-const mapDispatchToProps = {
-  showModal,
-  calculatorInputChange,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CalculatorForm);
+export default CalculatorForm;
