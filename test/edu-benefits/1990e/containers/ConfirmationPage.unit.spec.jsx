@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import { ConfirmationPage } from '../../../../src/js/edu-benefits/5490/containers/ConfirmationPage';
+import { ConfirmationPage } from '../../../../src/js/edu-benefits/1990e/containers/ConfirmationPage';
 
 const form = {
   submission: {
@@ -10,22 +10,22 @@ const form = {
       attributes: {}
     }
   },
-  veteranInformation: {
+  applicantInformation: {
     data: {
-      veteranFullName: {
+      relativeFullName: {
         first: 'Jane',
         last: 'Doe'
       }
     }
   },
-  benefitSelection: {
+  benefitEligibility: {
     data: {
-      benefit: 'chapter30'
+      benefit: 'chapter35'
     }
   }
 };
 
-describe('<ConfirmationPage>', () => {
+describe('Edu 1990e <ConfirmationPage>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
       <ConfirmationPage form={form}/>

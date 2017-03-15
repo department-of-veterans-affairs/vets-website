@@ -127,7 +127,10 @@ class RadioButtons extends React.Component {
 
 RadioButtons.propTypes = {
   errorMessage: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
+  label: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.element
+  ]).isRequired,
   name: React.PropTypes.string.isRequired,
   options: React.PropTypes.arrayOf(
     React.PropTypes.oneOfType([
