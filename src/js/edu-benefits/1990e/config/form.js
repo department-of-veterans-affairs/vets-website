@@ -177,7 +177,8 @@ const formConfig = {
           uiSchema: {
             employmentHistory: {
               'view:hasNonMilitaryJobs': {
-                'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?'
+                'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?',
+                'ui:widget': 'yesNo'
               },
               nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUiSchema)
             }
