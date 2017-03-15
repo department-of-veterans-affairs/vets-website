@@ -7,10 +7,10 @@ showactionbar: false
 majorlinks:
   - url: /healthcare/eligibility/
     title: Eligibility
-    description: Description
+    description: Find out if you can get VA health care benefits.
   - url: /healthcare/apply/
     title: Application Process
-    description: Description
+    description: Apply online now, or find out how to apply in person or by phone or mail.
   - url: /healthcare/prescriptions/
     title: Refill Prescriptions
     description: Refill prescriptions online, and track the status of your refills.
