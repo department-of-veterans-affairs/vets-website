@@ -29,6 +29,9 @@ You may be able to get benefits through the Post-9/11 GI Bill if you:
 
 [Learn more about the Post-9/11 GI Bill](/education/gi-bill/post-9-11/).
 
+</div><div markdown="0"><br></div>
+
+<div class="feature" markdown="1">
 
 ### Can I get VA education benefits through the Montgomery GI Bill? 
 
@@ -48,6 +51,9 @@ You can get benefits through MGIB-SR if you're a member of the Army, Navy, Air F
 
 [Learn more about MGIB-SR](/education/gi-bill/montgomery-selected-reserve/).
 
+</div><div markdown="0"><br></div>
+
+<div class="feature" markdown="1">
 
 ### Can I get VA education benefits through other programs?
 
@@ -57,6 +63,9 @@ You may be able to get help paying for school tuition, testing fees, and advance
 
 [Learn about other educational assistance programs](/education/other-educational-assistance-programs/).
 
+</div><div markdown="0"><br></div>
+
+<div class="feature" markdown="1">
 
 ### Can my spouse or dependent children get VA education benefits?
 
