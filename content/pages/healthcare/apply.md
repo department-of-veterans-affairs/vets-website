@@ -35,7 +35,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 ### Apply for benefits
 
-<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for benefits</a>
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
 
 <div markdown="0"><br></div>
 
