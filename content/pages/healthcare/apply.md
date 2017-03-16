@@ -75,27 +75,16 @@ To apply for health care as a caregiver, you'll have to fill out VA Form 10-10CG
 
 #### How to download the form </br>
 
-Internet Explorer:
 1. Right click on the link to the form (below).
-2. Choose **Save Target As...**
+2. Choose your browser's download option:
+   - On **Internet Explorer**: Choose **Save Target As...**
+   - On **Firefox or Chrome**: Choose **Save Link As...**
+   - On **Safari**: Choose **Download Linked File As...**
 3. Choose where you want to save the file on your hard drive.
 4. Click **Save**.
 Double click on the downloaded file to open it.
 
-Firefox or Chrome:
-1. Right click on the link to the form (below).
-2. Choose **Save Link As...**
-3. Choose where you want to save the file on your hard drive.
-4. Click **Save**.
-Double click on the downloaded file to open it.
-
-Safari:
-1. Right click on the link to the form (below).
-2. Choose **Download Linked File As...**
-3. Choose where you want to save the file on your hard drive.
-4. Click **Save**.
-Double click on the downloaded file to open it.
-
+<div markdown="0"><br></div>
 
 [Download Form 10-10CG](/healthcare/forms/vha-10-10CG.pdf). 
 
