@@ -198,9 +198,6 @@ const formConfig = {
               previousBenefits: _.merge(
                 _.unset('properties.veteranFullName', previousBenefits),
                 {
-                  // Doesn't let us pass even if view:claimedSponsorService is false
-                  //  (which makes the ssn box is hidden)
-                  // required: ['veteranSocialSecurityNumber'],
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },
                     'view:ownServiceBenefits': { type: 'boolean' },
