@@ -225,9 +225,7 @@ const formConfig = {
               divorcePending: {
                 'ui:title': 'Is there a divorce or annulment pending with your sponsor?',
                 'ui:widget': 'yesNo',
-                'ui:required': (formData) => {
-                  return _.get('applicantInformation.relationship', formData) === 'spouse';
-                }
+                'ui:required': (formData) => _.get('relationship', formData) === 'spouse'
               },
               remarried: {
                 'ui:title': 'If you\'re the surviving spouse, did you get remarried?',
@@ -239,7 +237,7 @@ const formConfig = {
                 }
               }),
               'ui:options': {
-                hideIf: (formData) => _.get('applicantInformation.relationship', formData) !== 'spouse'
+                hideIf: (formData) => _.get('relationship', formData) !== 'spouse'
               }
             },
             relativeFullName: _.assign(fullNameUISchema, {
