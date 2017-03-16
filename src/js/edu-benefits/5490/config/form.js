@@ -184,7 +184,7 @@ const formConfig = {
                 'ui:title': 'Sponsor SSN',
                 'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
                 'ui:options': {
-                  expandUnder: 'view:claimedSponsorService',
+                  expandUnder: 'view:claimedSponsorService'
                 }
               }),
               other: {
