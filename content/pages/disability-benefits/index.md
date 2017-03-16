@@ -9,7 +9,7 @@ showactionbar: false
 majorlinks:
   - url: /disability-benefits/eligibility/
     title: Eligibility
-    description: Find out if you can get disability benefits (like financial support and health care) from VA.
+    description: Find out if you can get disability benefits, like financial support and health care, from VA.
   - url: /disability-benefits/apply/
     title: Application Process
     description: Apply online now, or find out how to apply in person or get help from a trained professional.
@@ -30,4 +30,4 @@ relatedlinks:
 
 If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. A disability can be a physical illness or injury (like cancer or damage to a knee) or a mental-health condition (like anxiety or PTSD). Even when a condition doesn’t appear until years after your service ends, if it was the result of an injury or illness that happened during active military service, you may qualify for disability compensation. Find out if you can get financial support and other benefits like health care.
 
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to Apply</a>
