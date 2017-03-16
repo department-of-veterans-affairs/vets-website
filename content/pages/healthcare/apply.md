@@ -68,6 +68,12 @@ Go to your nearest VA medical center or clinic. Bring Form 10-10EZ with you. </b
 [Find a VA medical center or clinic near you](/facilities).</br>
 [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
+### How do I update my information if I’m already signed up?
+
+To update your personal, insurance, or financial information from an earlier application, fill out a 10-10EZR.
+
+[Download the 10-10EZR](https://www.vets.gov/healthcare/forms/vha-10-10ezr-fill.pdf).
+
 <span id="additional-forms"></span>
 ### How do I apply as a caregiver?
 
