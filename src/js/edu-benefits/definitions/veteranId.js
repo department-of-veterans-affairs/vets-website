@@ -11,7 +11,7 @@ const {
 
 export const uiSchema = {
   veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
-    'ui:required': (form) => !form['veteranId']['view:noSSN']
+    'ui:required': (form) => !form.veteranId['view:noSSN']
   }),
   'view:noSSN': {
     'ui:title': 'I don’t have a Social Security number',
@@ -20,7 +20,7 @@ export const uiSchema = {
     }
   },
   vaFileNumber: {
-    'ui:required': (form) => !!form['veteranId']['view:noSSN'],
+    'ui:required': (form) => !!form.veteranId['view:noSSN'],
     'ui:title': 'File number',
     'ui:errorMessages': {
       pattern: 'File number must be 8 digits'

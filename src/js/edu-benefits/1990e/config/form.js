@@ -37,8 +37,7 @@ const {
   educationType,
   fullName,
   nonMilitaryJobs,
-  postHighSchoolTrainings,
-  ssn
+  postHighSchoolTrainings
 } = fullSchema1990e.definitions;
 
 const formConfig = {
