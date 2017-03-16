@@ -5,7 +5,9 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../common/utils/helpers';
 
-import { benefitsLabels } from '../../utils/helpers';
+import {
+  benefitsLabels,
+} from '../helpers';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -38,7 +40,7 @@ class ConfirmationPage extends React.Component {
     const response = this.props.form.submission.response
       ? this.props.form.submission.response.attributes
       : {};
-    const name = form.veteranInformation.data.veteranFullName;
+    const name = form.applicantInformation.data.relativeFullName;
     const benefit = form.benefitSelection.data.benefit;
 
     const docExplanation = this.state.isExpanded
@@ -66,7 +68,7 @@ class ConfirmationPage extends React.Component {
 
           <ul className="claim-list">
             <li>
-              <strong>Benefit to be transferred</strong><br/>
+              <strong>Selected benefit</strong><br/>
               {benefitsLabels[benefit]}
             </li>
             <li>

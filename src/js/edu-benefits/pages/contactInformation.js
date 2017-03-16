@@ -47,7 +47,7 @@ export default function createContactInformationPage(addressField = 'veteranAddr
         homePhone: _.assign(phone.uiSchema('Primary telephone number'), {
           'ui:required': (form) => form.preferredContactMethod === 'phone'
         }),
-        mobilePhone: phone.uiSchema('Mobile telephone number')
+        mobilePhone: phone.uiSchema('Secondary telephone number')
       }
     },
     schema: {
