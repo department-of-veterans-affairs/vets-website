@@ -162,14 +162,20 @@ const formConfig = {
                 'ui:title': 'Vocational Rehabilitation benefits (Chapter 31)'
               },
               'view:ownServiceBenefits': {
-                'ui:title': 'Veterans education assistance based on your own service'
+                'ui:title': 'Veterans education assistance based on your own service',
+                'ui:options': {
+                  expandUnderClassNames: 'schemaform-expandUnder-indent'
+                }
               },
               ownServiceBenefits: {
                 'ui:title': 'Specify benefits',
                 'ui:options': { expandUnder: 'view:ownServiceBenefits' }
               },
               'view:claimedSponsorService': {
-                'ui:title': 'Veterans education assistance based on someone else’s service.'
+                'ui:title': 'Veterans education assistance based on someone else’s service.',
+                'ui:options': {
+                  expandUnderClassNames: 'schemaform-expandUnder-indent'
+                }
               },
               chapter35: {
                 'ui:title': 'Chapter 35 - Survivors’ and Dependents’ Educational Assistance Program (DEA)',
