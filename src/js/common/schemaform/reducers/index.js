@@ -17,7 +17,7 @@ import { SET_DATA,
 } from '../actions';
 
 function recalculateSchemaAndData(initialState) {
-  const retVal = Object.keys(_.omit(['privacyAgreementAccepted', 'submission'], initialState))
+  return Object.keys(_.omit(['privacyAgreementAccepted', 'submission'], initialState))
     .reduce((state, pageKey) => {
       const page = state[pageKey];
       // on each data change, we need to do the following steps
@@ -55,7 +55,6 @@ function recalculateSchemaAndData(initialState) {
 
       return state;
     }, initialState);
-  return retVal;
 }
 
 export default function createSchemaFormReducer(formConfig) {
