@@ -36,7 +36,7 @@ describe('Edu 1990e schoolSelection', () => {
     expect(inputs.length).to.equal(7);
   });
 
-  it('should have no required inputs', () => {
+  it('should have no required inputs by default', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -45,6 +45,54 @@ describe('Edu 1990e schoolSelection', () => {
           data={{}}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+    submitForm(form);
+
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
+    expect(onSubmit.called).to.be.true;
+  });
+
+  it('should require educationType if specified', () => {
+    const { schemaIfEducationType, uiSchemaIfEducationType } = formConfig(fullSchema1990e, [
+      'educationProgram',
+      'educationObjective',
+      'nonVaAssistance',
+      'civilianBenefitsAssistance'
+    ], false, true);
+
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schemaIfEducationType}
+          onSubmit={onSubmit}
+          data={{}}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchemaIfEducationType}/>
+    );
+    const formDOM = findDOMNode(form);
+    submitForm(form);
+
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
+    expect(onSubmit.called).to.be.true;
+  });
+
+  it('should require program if specified', () => {
+    const { schemaIfProgramType, uiSchemaIfProgramType } = formConfig(fullSchema1990e, [
+      'educationProgram',
+      'educationObjective',
+      'nonVaAssistance',
+      'civilianBenefitsAssistance'
+    ], true, true);
+
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schemaIfProgramType}
+          onSubmit={onSubmit}
+          data={{}}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchemaIfProgramType}/>
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
