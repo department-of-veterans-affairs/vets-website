@@ -7,13 +7,13 @@ showactionbar: false
 relatedlinks:
  - url: /disability-benefits/claims-process/date/
    title: How does VA decide when my disability compensation starts?
-   description: "Learn about when you'll start getting your disability benefits."
+   description: "Find out when you'll start getting your disability benefits (your effective date of disability)."
  - url: /disability-benefits/claims-process/what-happens-after-rating/
    title: What can I expect after getting a disability rating?
-   description: "Find out what benefits you can get."
+   description: "Find out what happens after you get your decision notice with your rating."
 ---
 
-Once you apply for disability benefits, the claim gets reviewed by our team. Learn about what you can do in the meantime. 
+Find out what happens to your claim after you apply for disability benefits. 
 
 ### How long does it take VA to make a decision?
 
@@ -30,7 +30,7 @@ Once you apply for disability benefits, the claim gets reviewed by our team. Lea
 
 ### What should I do while I wait?
 
-You don't need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. You can check your the status of your claim online. The time frame you see there may vary based on the complexity of your claim.
+You don't need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. You can check the status of your claim online. The time frame you see there may vary based on how complex your claim is.
 
 <a class="usa-button-primary" href="/disability-benefits/track-claims">Track the Status of Your Claim</a>
 
@@ -86,7 +86,7 @@ We’ll send you a packet by U.S. mail that includes details of the decision on 
 </li>
 </ol>
 
-### What should I do if I disagree with your decision?
+### What should I do if I disagree with your decision on my claim?
 
 If you disagree with our decision, you can appeal it. The decision notice will have instructions on how to file an appeal. [File an appeal now](/disability-benefits/claims-appeal/).
 
