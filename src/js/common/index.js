@@ -1,3 +1,9 @@
+const Raven = require('raven-js');
+
+Raven
+  .config('http://819d68d2515b490181de53d07d61e599@sentry.vetsgov-internal/8')
+  .install();
+
 // Common Javascript environment setup to be used by all entrypoints.
 //
 // Keep this short. It should mostly be polyfills, global site style, and any
