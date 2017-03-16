@@ -37,10 +37,15 @@ describe('Schemaform <StringField>', () => {
     };
     const schema = {
       type: 'string',
-      'enum': ['test'],
-      enumNames: ['Name']
+      'enum': ['test']
     };
-    const uiSchema = {};
+    const uiSchema = {
+      'ui:options': {
+        labels: {
+          test: 'Name'
+        }
+      }
+    };
     const formData = 'test';
 
     const tree = SkinDeep.shallowRender(
@@ -51,12 +56,8 @@ describe('Schemaform <StringField>', () => {
           formData={formData}/>
     );
 
-    expect(tree.props.options.enumOptions).to.eql([
-      {
-        value: 'test',
-        label: 'Name'
-      }
-    ]);
+    expect(tree.props.options.enumOptions).to.have.deep.property('[0].value', 'test');
+    expect(tree.props.options.labels).to.have.property('test', 'Name');
   });
   it('should render review widget', () => {
     const registry = {

@@ -5,27 +5,22 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 
 import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
+import formConfig from '../../../../src/js/edu-benefits/1990e/config/form';
 
-describe('Edu 5490 schoolSelection', () => {
-  const { schema, uiSchema } = formConfig.chapters.schoolSelection.pages.schoolSelection;
-
+describe('Edu 1990e educationHistory', () => {
+  const { schema, uiSchema } = formConfig.chapters.educationHistory.pages.educationHistory;
+  const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
           data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+          uiSchema={uiSchema}
+          definitions={definitions}/>
     );
-
-    const formDOM = findDOMNode(form);
-
-    const inputs = Array.from(formDOM.querySelectorAll('input, select, textarea'));
-
-    expect(inputs.length).to.equal(13);
+    const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
+    expect(fields.length).to.equal(8);
   });
-
   it('should have no required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
@@ -33,12 +28,11 @@ describe('Edu 5490 schoolSelection', () => {
           schema={schema}
           onSubmit={onSubmit}
           data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}/>
+          uiSchema={uiSchema}
+          definitions={definitions}/>
     );
     const formDOM = findDOMNode(form);
     submitForm(form);
-
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
     expect(onSubmit.called).to.be.true;
   });

@@ -211,8 +211,16 @@ export function transformForSubmit(formConfig, form) {
       return undefined;
     }
 
+    // clean up empty objects, which we have no reason to send
+    if (typeof value === 'object') {
+      const fields = Object.keys(value);
+      if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
+        return undefined;
+      }
+    }
+
     return value;
-  });
+  }) || '{}';
 }
 
 function isHiddenField(schema) {
