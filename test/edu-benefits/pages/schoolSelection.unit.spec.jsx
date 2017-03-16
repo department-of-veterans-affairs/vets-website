@@ -11,12 +11,14 @@ import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json
 import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
 
 describe('Edu 1990e schoolSelection', () => {
-  const { schema, uiSchema } = formConfig(fullSchema1990e, [
-    'educationProgram',
-    'educationObjective',
-    'nonVaAssistance',
-    'civilianBenefitsAssistance'
-  ]);
+  const { schema, uiSchema } = formConfig(fullSchema1990e, {
+    fields: [
+      'educationProgram',
+      'educationObjective',
+      'nonVaAssistance',
+      'civilianBenefitsAssistance'
+    ]
+  });
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -53,15 +55,17 @@ describe('Edu 1990e schoolSelection', () => {
 });
 
 describe('Edu 5490 schoolSelection', () => {
-  const { schema, uiSchema } = formConfig(fullSchema5490, [
-    'educationProgram',
-    'educationObjective',
-    'educationStartDate',
-    'restorativeTraining',
-    'vocationalTraining',
-    'trainingState',
-    'educationalCounseling'
-  ]);
+  const { schema, uiSchema } = formConfig(fullSchema5490, {
+    fields: [
+      'educationProgram',
+      'educationObjective',
+      'educationStartDate',
+      'restorativeTraining',
+      'vocationalTraining',
+      'trainingState',
+      'educationalCounseling'
+    ]
+  });
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
