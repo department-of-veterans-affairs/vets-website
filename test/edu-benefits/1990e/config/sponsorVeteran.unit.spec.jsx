@@ -21,7 +21,7 @@ describe('Edu 1990e sponsorVeteran', () => {
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
     const selects = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select');
 
-    expect(inputs.length).to.equal(10);
+    expect(inputs.length).to.equal(9);
     expect(selects.length).to.equal(3);
   });
   it('should show errors when required fields are empty', () => {
