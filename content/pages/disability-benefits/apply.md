@@ -24,8 +24,8 @@ You can apply for disability benefits online. We've listed all the steps below s
 ### Prepare
 
 - [Check your eligibility](/disability-benefits/eligibility).
-- Gather the documents listed below that you'll need to file a disability claim.
-- Be sure your claim is filled out completely and you’ve included all supporting documents. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
+- Gather the supporting documents listed below that you'll need to file a disability claim.
+- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
 
 <div markdown="0"><br></div>
 
