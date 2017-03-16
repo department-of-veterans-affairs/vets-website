@@ -8,7 +8,7 @@ extraspace: true
 majorlinks:
  - url: /education/eligibility/
    title: Eligibility
-   description: Find out if you can get education benefits (like help paying your tuition, picking a school, and exploring career options) from VA.
+   description: Find out if you can get VA education benefits, like help paying your tuition, picking a school, and exploring career options.
  - url: /education/apply/
    title: Application Process
    description: Apply online now, or find out how to apply in person or by mail.
@@ -30,9 +30,9 @@ relatedlinks:
    description: Explore on-the-job training, online and correspondence study, and other programs.
  - url: /education/other-educational-assistance-programs/
    title: Other Educational Assistance Programs
-   description: REAP, VEAP, and Call to Service.
+   description: Learn about REAP, VEAP, and Call to Service.
 ---
 
 VA gives Veterans, Servicemembers, and their families generous education benefits and opportunities, including help paying tuition, picking out a school, career counseling, and more.
 
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply for education benefits</a> <a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage benefits</a>
+<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply for Education Benefits</a> <a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage Benefits</a>
