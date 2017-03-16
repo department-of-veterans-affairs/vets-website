@@ -182,7 +182,7 @@ const formConfig = {
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
                 'ui:title': 'Sponsor SSN',
-                'ui:required': (form) => _.get('previousBenefits.view:claimedSponsorService', form),
+                'ui:required': (pageData) => _.get('previousBenefits.view:claimedSponsorService', pageData),
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
                 }
@@ -235,7 +235,7 @@ const formConfig = {
               },
               remarriageDate: _.assign(date.uiSchema('Date you got remarried'), {
                 'ui:options': {
-                  hideIf: (fieldData) => !_.get('spouseInfo.remarried', fieldData)
+                  hideIf: (pageData) => !_.get('spouseInfo.remarried', pageData)
                 }
               }),
               'ui:options': {
@@ -418,7 +418,7 @@ const formConfig = {
               },
               address: _.merge(address.uiSchema(), {
                 'ui:options': {
-                  hideIf: (form) => _.get('secondaryContact.sameAddress', form) === true
+                  hideIf: (pageData) => _.get('secondaryContact.sameAddress', pageData) === true
                 }
               })
             }
