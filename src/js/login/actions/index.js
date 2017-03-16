@@ -29,5 +29,5 @@ export function toggleSearchHelpUserMenu(menu, isOpen) {
     type: UPDATE_SEARCH_HELP_USER_MENU,
     menu,
     isOpen
-  }
+  };
 }

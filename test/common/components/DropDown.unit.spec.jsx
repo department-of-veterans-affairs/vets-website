@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
- 
+
 import DropDown from '../../../src/js/common/components/DropDown.jsx';
 
 describe('<DropDown>', () => {
@@ -15,7 +15,7 @@ describe('<DropDown>', () => {
     id: 'testId'
   };
 
-  let tree = SkinDeep.shallowRender(<DropDown {...props}/>);
+  const tree = SkinDeep.shallowRender(<DropDown {...props}/>);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

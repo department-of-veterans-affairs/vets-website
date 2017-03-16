@@ -19,9 +19,11 @@ function closeAllMenus(menuState) {
   const menus = menuState.utilitiesMenuIsOpen;
   let menu;
 
-  for(menu in menus) {
-    menus[menu] = false;
-  } 
+  for (menu in menus) {
+    if (menus.hasOwnProperty(menu)) {
+      menus[menu] = false;
+    }
+  }
 }
 
 function loginStuff(state = initialState, action) {

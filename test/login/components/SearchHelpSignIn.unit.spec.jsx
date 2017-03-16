@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
- 
+
 import { SearchHelpSignIn } from '../../../src/js/login/components/SearchHelpSignIn.jsx';
 
 describe('<SearchHelpSignIn>', () => {
@@ -28,9 +28,9 @@ describe('<SearchHelpSignIn>', () => {
   });
 
   it('should render <SignInProfileMenu/> when currentlyLoggedIn is true', () => {
-    const signedInData = { 
+    const signedInData = {
       currentlyLoggedIn: true,
-      loginUrl: '', 
+      loginUrl: '',
       utilitiesMenuIsOpen: {
         account: false,
         help: false,
