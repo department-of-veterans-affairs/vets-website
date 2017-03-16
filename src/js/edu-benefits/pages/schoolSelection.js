@@ -32,6 +32,10 @@ export default function createSchoolSelectionPage(
     educationalCounseling: {
       'ui:title': 'Would you like to receive vocational and educational counseling?',
       'ui:widget': 'yesNo'
+    },
+    // May want to turn this into a yes/no
+    civilianBenefitsAssistance: {
+      'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
     }
   };
   const pickFields = _.pick(fields);
@@ -55,7 +59,8 @@ export default function createSchoolSelectionPage(
     schema: {
       definitions: {
         date: schema.definitions.date,
-        educationType: schema.definitions.educationType
+        educationType: schema.definitions.educationType,
+        civilianBenefitsAssistance: schema.properties.civilianBenefitsAssistance
       },
       type: 'object',
       properties: schemaProperties

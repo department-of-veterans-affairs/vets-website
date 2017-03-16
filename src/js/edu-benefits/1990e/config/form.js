@@ -27,7 +27,6 @@ import {
 
 const {
   benefit,
-  civilianBenefitsAssistance,
   faaFlightCertificatesInformation,
   serviceBranch
 } = fullSchema1990e.properties;
@@ -122,9 +121,6 @@ const formConfig = {
             veteranAddress: address.uiSchema('Veteran Address'),
             serviceBranch: {
               'ui:title': 'Branch of Service'
-            },
-            civilianBenefitsAssistance: {
-              'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
             }
           },
           schema: {
@@ -134,8 +130,7 @@ const formConfig = {
               veteranFullName: fullName,
               veteranSocialSecurityNumber: ssn,
               veteranAddress: address.schema(),
-              serviceBranch,
-              civilianBenefitsAssistance
+              serviceBranch
             }
           }
         }
@@ -206,7 +201,8 @@ const formConfig = {
         schoolSelection: createSchoolSelectionPage(fullSchema1990e, [
           'educationProgram',
           'educationObjective',
-          'nonVaAssistance'
+          'nonVaAssistance',
+          'civilianBenefitsAssistance'
         ])
       }
     },
