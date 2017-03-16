@@ -54,7 +54,7 @@ If you need to make a change (for example, you’re moving to a new school), man
 
 ##### Forms 22-1990E, 22-1990N, 22-5490, and 22-5495
 
-You must apply for education benefits using eBenefits.va.gov if you're:
+You must apply for education benefits using eBenefits if you're:
 - A spouse or dependent
 - A survivor of a Veteran
 - A candidate for the National Call to Service program
