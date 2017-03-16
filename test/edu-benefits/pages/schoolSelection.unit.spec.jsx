@@ -64,7 +64,8 @@ describe('Edu 5490 schoolSelection', () => {
       'vocationalTraining',
       'trainingState',
       'educationalCounseling'
-    ]
+    ],
+    required: ['educationType']
   });
 
   it('should render', () => {
@@ -83,7 +84,7 @@ describe('Edu 5490 schoolSelection', () => {
     expect(inputs.length).to.equal(13);
   });
 
-  it('should have no required inputs', () => {
+  it('should have required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -96,7 +97,7 @@ describe('Edu 5490 schoolSelection', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-    expect(onSubmit.called).to.be.true;
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.not.be.empty;
+    expect(onSubmit.called).to.not.be.true;
   });
 });
