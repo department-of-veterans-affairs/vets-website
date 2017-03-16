@@ -10,8 +10,8 @@ import directDeposit from '../../pages/directDeposit';
 import * as address from '../../../common/schemaform/definitions/address';
 import { uiSchema as dateUiSchema } from '../../../common/schemaform/definitions/date';
 import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
-import { uiSchema as ssnUiSchema } from '../../../common/schemaform/definitions/ssn';
 import uiSchemaPostHighSchoolTrainings from '../../definitions/postHighSchoolTrainings';
+import * as veteranId from '../../definitions/veteranId';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -117,7 +117,8 @@ const formConfig = {
                 }
               }
             },
-            veteranSocialSecurityNumber: _.set(['ui:title'], 'Veteran Social Security number', ssnUiSchema),
+            veteranId: _.set(['vaFileNumber', 'ui:title'], 'Veteran File number',
+                             _.set(['veteranSocialSecurityNumber', 'ui:title'], 'Veteran Social Security number', veteranId.uiSchema)),
             veteranAddress: address.uiSchema('Veteran Address'),
             serviceBranch: {
               'ui:title': 'Branch of Service'
@@ -125,10 +126,10 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+            required: ['veteranFullName'],
             properties: {
               veteranFullName: fullName,
-              veteranSocialSecurityNumber: ssn,
+              veteranId: veteranId.schema,
               veteranAddress: address.schema(),
               serviceBranch
             }
