@@ -309,7 +309,7 @@ export function getNonArraySchema(schema) {
  * If no required fields are changing, it makes sure to not mutate the existing schema,
  * so we can still take advantage of any shouldComponentUpdate optimizations
  */
-export function updateRequiredFields(schema, uiSchema, pageData, formData) {
+export function updateRequiredFields(schema, uiSchema, formData) {
   if (!uiSchema) {
     return schema;
   }
@@ -318,7 +318,7 @@ export function updateRequiredFields(schema, uiSchema, pageData, formData) {
     const newRequired = Object.keys(schema.properties).reduce((requiredArray, nextProp) => {
       const field = uiSchema[nextProp];
       if (field && field['ui:required']) {
-        const isRequired = field['ui:required'](pageData, formData);
+        const isRequired = field['ui:required'](formData);
         const arrayHasField = requiredArray.some(prop => prop === nextProp);
 
         if (arrayHasField && !isRequired) {
@@ -335,7 +335,7 @@ export function updateRequiredFields(schema, uiSchema, pageData, formData) {
 
     const newSchema = Object.keys(schema.properties).reduce((currentSchema, nextProp) => {
       if (uiSchema) {
-        const nextSchema = updateRequiredFields(currentSchema.properties[nextProp], uiSchema[nextProp], pageData, formData);
+        const nextSchema = updateRequiredFields(currentSchema.properties[nextProp], uiSchema[nextProp], formData);
         if (nextSchema !== currentSchema.properties[nextProp]) {
           return _.set(['properties', nextProp], nextSchema, currentSchema);
         }
@@ -352,7 +352,7 @@ export function updateRequiredFields(schema, uiSchema, pageData, formData) {
   }
 
   if (schema.type === 'array') {
-    const newItemSchema = updateRequiredFields(schema.items, uiSchema.items, pageData, formData);
+    const newItemSchema = updateRequiredFields(schema.items, uiSchema.items, formData);
     if (newItemSchema !== schema.items) {
       return _.set('items', newItemSchema, schema);
     }
@@ -370,7 +370,7 @@ export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
  * hideIf function from uiSchema and the current page data. Sets 'ui:hidden'
  * which is a non-standard JSON Schema property
  */
-export function setHiddenFields(schema, uiSchema, pageData, formData) {
+export function setHiddenFields(schema, uiSchema, formData) {
   if (!uiSchema) {
     return schema;
   }
@@ -378,7 +378,7 @@ export function setHiddenFields(schema, uiSchema, pageData, formData) {
   let updatedSchema = schema;
   const hideIf = _.get(['ui:options', 'hideIf'], uiSchema);
 
-  if (hideIf && hideIf(pageData, formData)) {
+  if (hideIf && hideIf(formData)) {
     if (!updatedSchema['ui:hidden']) {
       updatedSchema = _.set('ui:hidden', true, updatedSchema);
     }
@@ -387,7 +387,7 @@ export function setHiddenFields(schema, uiSchema, pageData, formData) {
   }
 
   const expandUnder = _.get(['ui:options', 'expandUnder'], uiSchema);
-  if (expandUnder && !pageData[expandUnder]) {
+  if (expandUnder && !formData[expandUnder]) {
     if (!updatedSchema['ui:collapsed']) {
       updatedSchema = _.set('ui:collapsed', true, updatedSchema);
     }
@@ -397,7 +397,7 @@ export function setHiddenFields(schema, uiSchema, pageData, formData) {
 
   if (updatedSchema.type === 'object') {
     const newProperties = Object.keys(updatedSchema.properties).reduce((current, next) => {
-      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], pageData, formData);
+      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], formData);
 
       if (newSchema !== updatedSchema.properties[next]) {
         return _.set(next, newSchema, current);
@@ -412,7 +412,7 @@ export function setHiddenFields(schema, uiSchema, pageData, formData) {
   }
 
   if (updatedSchema.type === 'array') {
-    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, pageData, formData);
+    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, formData);
 
     if (newSchema !== updatedSchema.items) {
       return _.set('items', newSchema, updatedSchema);

@@ -26,10 +26,10 @@ function recalculateSchemaAndData(initialState) {
       const formData = _.mapValues('data', state);
 
       // Recalculate any required fields, based on the new data
-      let schema = updateRequiredFields(page.schema, page.uiSchema, page.data, formData);
+      let schema = updateRequiredFields(page.schema, page.uiSchema, formData);
 
       // Update the schema with any fields that are now hidden because of the data change
-      schema = setHiddenFields(schema, page.uiSchema, page.data, formData);
+      schema = setHiddenFields(schema, page.uiSchema, formData);
 
       // Update the schema with any general updates based on the new data
       schema = updateSchemaFromUiSchema(schema, page.uiSchema, page.data, state);

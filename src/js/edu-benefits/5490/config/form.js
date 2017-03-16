@@ -182,7 +182,7 @@ const formConfig = {
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
                 'ui:title': 'Sponsor SSN',
-                'ui:required': (pageData) => _.get('previousBenefits.view:claimedSponsorService', pageData),
+                'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
                 }
@@ -225,7 +225,7 @@ const formConfig = {
               divorcePending: {
                 'ui:title': 'Is there a divorce or annulment pending with your sponsor?',
                 'ui:widget': 'yesNo',
-                'ui:required': (pageData, formData) => {
+                'ui:required': (formData) => {
                   return _.get('applicantInformation.relationship', formData) === 'spouse';
                 }
               },
@@ -235,11 +235,11 @@ const formConfig = {
               },
               remarriageDate: _.assign(date.uiSchema('Date you got remarried'), {
                 'ui:options': {
-                  hideIf: (pageData) => !_.get('spouseInfo.remarried', pageData)
+                  hideIf: (formData) => !_.get('spouseInfo.remarried', formData)
                 }
               }),
               'ui:options': {
-                hideIf: (pageData, allData) => _.get('applicantInformation.relationship', allData) !== 'spouse'
+                hideIf: (formData) => _.get('applicantInformation.relationship', formData) !== 'spouse'
               }
             },
             relativeFullName: _.assign(fullNameUISchema, {
@@ -342,7 +342,7 @@ const formConfig = {
               'ui:title': 'What is the source of these funds?',
               // Conditionally require civilianBenefitsSource if
               //  civilianBenefitsAssistance is true.
-              'ui:required': (pageData) => pageData.civilianBenefitsAssistance,
+              'ui:required': (formData) => formData.civilianBenefitsAssistance,
               'ui:options': {
                 expandUnder: 'civilianBenefitsAssistance'
               }
@@ -418,7 +418,7 @@ const formConfig = {
               },
               address: _.merge(address.uiSchema(), {
                 'ui:options': {
-                  hideIf: (pageData) => _.get('secondaryContact.sameAddress', pageData) === true
+                  hideIf: (formData) => _.get('secondaryContact.sameAddress', formData) === true
                 }
               })
             }
