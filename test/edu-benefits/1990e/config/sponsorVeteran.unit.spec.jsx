@@ -21,7 +21,7 @@ describe('Edu 1990e sponsorVeteran', () => {
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
     const selects = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select');
 
-    expect(inputs.length).to.equal(10);
+    expect(inputs.length).to.equal(9);
     expect(selects.length).to.equal(3);
   });
   it('should show errors when required fields are empty', () => {
@@ -50,18 +50,18 @@ describe('Edu 1990e sponsorVeteran', () => {
 
     const formDOM = findDOMNode(form);
     const find = formDOM.querySelector.bind(formDOM);
-    ReactTestUtils.Simulate.change(find('#root_sponsorVeteran_veteranFullName_first'), {
+    ReactTestUtils.Simulate.change(find('#root_veteranFullName_first'), {
       target: {
         value: 'Veteran'
       }
     });
-    ReactTestUtils.Simulate.change(find('#root_sponsorVeteran_veteranFullName_last'), {
+    ReactTestUtils.Simulate.change(find('#root_veteranFullName_last'), {
       target: {
         value: 'Veteran'
       }
     });
 
-    ReactTestUtils.Simulate.change(find('#root_sponsorVeteran_veteranSocialSecurityNumber'), {
+    ReactTestUtils.Simulate.change(find('#root_veteranSocialSecurityNumber'), {
       target: {
         value: '111-22-3333'
       }

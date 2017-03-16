@@ -30,7 +30,7 @@ describe('Schemaform definition address', () => {
     // country is USA and there is no blank option
     expect(selects[0].value).to.equal('USA');
     expect(Array.from(selects[0].options).every(option => !!option.value)).to.be.true;
-  });
+  }).timeout(4000);
 
   it('should have required inputs if required', () => {
     const s = schema(true);
@@ -48,7 +48,7 @@ describe('Schemaform definition address', () => {
     // const requiredInputs = formDOM.querySelectorAll('input[required=true]');
     const requiredInputs = formDOM.querySelectorAll('label span.schemaform-required-span');
     expect(requiredInputs.length).to.not.equal(0);
-  });
+  }).timeout(4000);
 
   it('should update labels and state selection conditionally', () => {
     const s = schema(false);
@@ -117,7 +117,8 @@ describe('Schemaform definition address', () => {
     });
 
     expect(stateField.tagName === 'input');
-  });
+  }).timeout(4000);
+
   it('should update address field', () => {
     const s = schema(false);
     const uis = uiSchema();
@@ -136,7 +137,8 @@ describe('Schemaform definition address', () => {
     });
 
     expect(formDOM.querySelector('#root_street').value).to.equal('123 street');
-  });
+  }).timeout(4000);
+
   it('should update country field in empty address', () => {
     const s = schema(false);
     const uis = uiSchema();
@@ -155,5 +157,5 @@ describe('Schemaform definition address', () => {
     });
 
     expect(formDOM.querySelector('#root_country').value).to.equal('CAN');
-  });
+  }).timeout(4000);
 });

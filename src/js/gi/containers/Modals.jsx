@@ -309,6 +309,16 @@ export class Modals extends React.Component {
           </p>
         </Modal>
 
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcTuitionAssist')}>
+          <h2>Military Tuition Assistance (TA)</h2>
+          <p>
+            Are you receiving any military tuition assistance this year? If so, how much?
+          </p>
+          <p>
+            The Post-9/11 GI Bill pays the net-cost of your education after scholarships or financial aid amounts are applied. This includes amounts already paid by military tuition assistance.
+          </p>
+        </Modal>
+
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcEnrolled')}>
           <h2>Enrollment status</h2>
           <p>
