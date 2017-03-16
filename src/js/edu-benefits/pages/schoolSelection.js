@@ -2,11 +2,6 @@ import _ from 'lodash/fp';
 
 import * as educationProgram from '../definitions/educationProgram';
 import { uiSchema as uiSchemaDate } from '../../common/schemaform/definitions/date';
-import { states } from '../../common/utils/options-for-select';
-
-const stateLabels = states.USA.reduce((current, { label, value }) => {
-  return _.merge(current, { [value]: label });
-}, {});
 
 export default function createSchoolSelectionPage(
   schema,
@@ -32,14 +27,15 @@ export default function createSchoolSelectionPage(
       'ui:widget': 'yesNo'
     },
     trainingState: {
-      'ui:title': 'In what state do you plan on living while participating in this training?',
-      'ui:options': {
-        labels: stateLabels
-      }
+      'ui:title': 'In what state do you plan on living while participating in this training?'
     },
     educationalCounseling: {
       'ui:title': 'Would you like to receive vocational and educational counseling?',
       'ui:widget': 'yesNo'
+    },
+    // May want to turn this into a yes/no
+    civilianBenefitsAssistance: {
+      'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
     }
   };
   const pickFields = _.pick(fields);
@@ -63,7 +59,8 @@ export default function createSchoolSelectionPage(
     schema: {
       definitions: {
         date: schema.definitions.date,
-        educationType: schema.definitions.educationType
+        educationType: schema.definitions.educationType,
+        civilianBenefitsAssistance: schema.properties.civilianBenefitsAssistance
       },
       type: 'object',
       properties: schemaProperties

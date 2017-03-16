@@ -195,11 +195,6 @@ describe('Schemaform <ArrayField>', () => {
 
       expect(onChange.called).to.be.true;
     });
-    it('item blur', () => {
-      tree.getMountedInstance().onItemBlur(0, ['path']);
-
-      expect(onBlur.calledWith([0, 'path'])).to.be.true;
-    });
   });
   it('should disable add when data has not been changed', () => {
     const idSchema = {};
