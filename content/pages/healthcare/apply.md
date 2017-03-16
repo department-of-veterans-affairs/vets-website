@@ -39,8 +39,8 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
 <div class="usa-alert-body">
-<h4 style="padding:0">Are you a caregiver?</h4>
-<p style="margin:0">This form's not quite ready for you yet. <a href="#additional-forms">Find the form you need</a>.</p>
+<h4 style="padding:0;">Are you a caregiver?</h4>
+<p style="margin:0;">This form's not quite ready for you yet. <a href="#additional-forms">Find the form you need</a>.</p>
 </div>
 </div>
 
