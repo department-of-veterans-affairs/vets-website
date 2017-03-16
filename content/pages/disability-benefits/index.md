@@ -21,7 +21,7 @@ majorlinks:
     description: Discover which illnesses or injuries qualify you for benefits.
 relatedlinks:
   - url: /disability-benefits/claims-process/
-    title: Claims process
+    title: Claims Process
     description: Understand the process and prepare carefully before applying.
   - url: /disability-benefits/claims-appeal/
     title: Appeals
