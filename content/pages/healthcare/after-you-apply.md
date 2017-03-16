@@ -10,7 +10,7 @@ relatedlinks:
    description: "Refill a prescription, send a secure message to your health care provider, and more."
 ---
 
-After you apply for VA health care, we’ll send you a letter in the mail to let you know if your application’s been approved. Find out what happens next.
+After you apply for VA health care, we’ll send you a letter in the mail to let you know if your application’s been approved. 
 
 ### How long does it take VA to make a decision?
 
