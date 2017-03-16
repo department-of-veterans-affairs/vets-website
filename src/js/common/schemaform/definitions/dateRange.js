@@ -17,7 +17,7 @@ export function uiSchema(from = 'From', to = 'To', rangeError = 'To date must be
       validateDateRange
     ],
     'ui:errorMessages': {
-      dateRange: rangeError,
+      pattern: rangeError,
     },
     from: date.uiSchema(from),
     to: date.uiSchema(to)
