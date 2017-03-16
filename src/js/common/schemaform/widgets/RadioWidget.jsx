@@ -1,5 +1,7 @@
 import React from 'react';
 
+import ExpandingGroup from '../../components/form-elements/ExpandingGroup';
+
 export default function RadioWidget({
   options,
   value,
@@ -15,12 +17,13 @@ export default function RadioWidget({
     const NestedContent = content;
     content = <NestedContent/>;
   }
+
   return (
     <div>{
       enumOptions.map((option, i) => {
         const checked = option.value === value;
-        return (
-          <div className="form-radio-buttons" key={i}>
+        const radioButton = (
+          <div className="form-radio-buttons" key={option.value}>
             <input type="radio"
                 autoComplete="false"
                 checked={checked}
@@ -32,9 +35,21 @@ export default function RadioWidget({
             <label htmlFor={`${id}_${i}`}>
               {labels[option.value] || option.label}
             </label>
-            {checked && <div className="schemaform-radio-indent">{content}</div>}
           </div>
         );
+
+        if (!!nestedContent[option.value]) {
+          return (
+            <ExpandingGroup open={checked} key={option.value}>
+              {radioButton}
+              <div className="schemaform-radio-indent">
+                {content}
+              </div>
+            </ExpandingGroup>
+          );
+        }
+
+        return radioButton;
       })
     }</div>
   );

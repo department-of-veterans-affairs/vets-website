@@ -35,7 +35,7 @@ describe('Edu 5490 benefitSelection', () => {
 
     // check that an alert box is shown below the chapter35 option
     expect(formDOM
-      .querySelector('label[for="root_benefit_0"] + .schemaform-radio-indent > .usa-alert')
+      .querySelector('.form-radio-buttons + span .usa-alert')
     ).not.to.be.null;
   });
 
