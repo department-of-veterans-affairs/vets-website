@@ -10,44 +10,47 @@ $font-serif:          'Roboto Slab', serif;
 // Magic Numbers
 // Note: USWDS value is 53rem;
 $text-max-width:      70rem;
+$usa-form-width:      32em;
 
 // Additional breakpoints 
-$xsmall-screen: 320px; // QVGA display
+$xsmall-screen:       320px; // QVGA display
 $medium-large-screen: 768px; 
 
-// Other USWDS overrides
-$usa-form-width: 32em;
+//===================================
+// USWDS variables
+// Colors that override (or restate) USWDS values
+// Also see: https://standards.usa.gov/components/colors/
+//===================================
 
-// Colors
 $color-primary-darker:       #003E73;
-$color-link-default:         #004795;
-
-$color-primary-alt-darkest:  #046b99;
-$color-secondary-darkest:    #981b1e;
-$color-black:                #000;
-$color-green-darker:         #195c27; // New DSVA variable name
-$color-focus:                #3e94cf;
-
-// New gold metal acccent
-$color-va-accent: #988530;
-
-
 $color-primary-darkest:      #112e51;
+$color-secondary-darkest:    #981b1e;
+$color-focus:                #3e94cf;
+$color-gray-light:           #aeb0b5;
 $color-primary-alt-light:    #9bdaf1;
-$color-white: #fff;
-$color-gold: #fdb81e;
+$color-white:                #fff;
 
-// Other Colors; Deprecated. Please avoid using.
+//===================================
+// DSVA colors
+// Places where DSVA is going rogue!
+//===================================
+
+$color-black:                #000;
+$color-link-default:         #004795;
+$color-primary-alt-darkest:  #046b99;
+$color-green-darker:         #195c27;
+$color-va-accent:            #988530; // New gold "metal" acccent
+$color-gold:                 #fdb81e;
+$color-warning-message:      #FAC922; // Used for Disability benefits
+
+//===================================
+// Deprecated Colors; 
+// Please avoid using.
+//===================================
+
 $polar: #E8F5FA;
 $wild-sand: #f6f6f6;
 $green-white: #eff0e6;
 $olso-gray: #849097;
 
-// Used for Disability benefits
-$color-warning-message: #FAC922;
 
-// TODO: These colors is close enough to $color-gray-warm-dark and
-// to each other that we should replace / consolidate them.
-$color-va-gray-cool-dark: #444;
-$color-va-gray-cool-medium: #555;
-$color-va-gray-medium: #ccc;

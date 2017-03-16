@@ -457,7 +457,7 @@ h6 {
     }
   }
 
-  h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
+  h3 {font-weight: 500; font-size: 1.4em; color: $color-gray-light;}
 }
 
 .home {
@@ -730,7 +730,7 @@ ul, ol {
   .section.three {
     background: $color-white;
     padding: 5em 0;
-    h2, h3, h4, h5, h6, p, li {color: $color-va-gray-cool-dark;}
+    h2, h3, h4, h5, h6, p, li {color: $color-gray-light;}
     h4 {margin: 0; padding: 0;}
     a {color: $color-primary-darkest;}
   }
@@ -1678,7 +1678,7 @@ li.twenty:before {content: '20';}
 
 // Formerly .disclaimer.minimal
 .va-note {
-  color: $color-va-gray-cool-dark;
+  color: $color-gray-light;
   font-size: 1.28rem;
   padding: .25em 0;
 }
