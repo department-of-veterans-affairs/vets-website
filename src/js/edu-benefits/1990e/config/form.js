@@ -54,7 +54,7 @@ const formConfig = {
     dateRange,
     educationType
   },
-  title: 'Apply for transferred education benefits',
+  title: 'Apply to use transferred education benefits',
   subTitle: 'Form 22-1990e',
   chapters: {
     applicantInformation: {
@@ -76,7 +76,7 @@ const formConfig = {
             },
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Select the benefit that is the best match for you.',
+              'ui:title': 'Select the benefit that has been transferred to you.',
               'ui:options': {
                 labels: benefitsLabels
               }
@@ -209,7 +209,7 @@ const formConfig = {
             'educationProgram',
             'educationObjective'
           ]
-        })
+        });
       }
     },
     personalInformation: {
