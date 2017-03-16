@@ -7,7 +7,14 @@ export default function RadioWidget({
   onChange,
   id
 }) {
-  const { enumOptions, labels = {} } = options;
+  const { enumOptions, labels = {}, nestedContent = {} } = options;
+
+  // nested content could be a component or just jsx/text
+  let content = nestedContent[value];
+  if (typeof content === 'function') {
+    const NestedContent = content;
+    content = <NestedContent/>;
+  }
   return (
     <div>{
       enumOptions.map((option, i) => {
@@ -25,6 +32,7 @@ export default function RadioWidget({
             <label htmlFor={`${id}_${i}`}>
               {labels[option.value] || option.label}
             </label>
+            {checked && <div className="schemaform-radio-indent">{content}</div>}
           </div>
         );
       })
