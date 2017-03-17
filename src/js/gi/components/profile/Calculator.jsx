@@ -1,5 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { isEmpty } from 'lodash';
+
+import LoadingIndicator from '../../../common/components/LoadingIndicator';
 import { calculatorInputChange, showModal } from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { formatCurrency } from '../../utils/helpers';
@@ -65,6 +68,10 @@ export class Calculator extends React.Component {
   }
 
   render() {
+    if (isEmpty(this.props.calculated)) {
+      return <LoadingIndicator message="Loading your estimated benefits..."/>;
+    }
+
     // const it = this.props.profile.attributes;
     const { outputs } = this.props.calculated;
     return (

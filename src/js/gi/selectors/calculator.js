@@ -179,11 +179,13 @@ const getDerivedValues = createSelector(
     } else if (isCorrespondence) {
       tuitionFeesCap = constant.CORRESPONDTFCAP;
     } else if (isPublic && institution.country === 'usa') {
-      tuitionFeesCap = inputs.inState
+      tuitionFeesCap = inputs.inState === 'yes'
                      ? institution.tuitionInState
                      : institution.tuitionOutOfState;
     } else if (isPrivate || isForeign) {
       tuitionFeesCap = constant.TFCAP;
+    } else {
+      // TODO: What should default cap be?
     }
 
     // Calculate the tuition/fees per term - getTuitionFeesPerTerm
@@ -287,7 +289,7 @@ const getDerivedValues = createSelector(
           // noop
       }
 
-      nameOfTerm4 = 'Total (/Yr)';
+      nameOfTerm4 = 'Total per year';
     }
 
     // Calculate Tuition Fees for Term #1 - getTuitionFeesTerm1
@@ -717,25 +719,19 @@ const getDerivedValues = createSelector(
     }
 
     return {
-      serviceDischarge,
-      vre911Eligible,
       tier,
       onlyVRE,
       oldGiBill,
-      onlyTuitionFees,
-      monthlyRate,
       numberOfTerms,
-      tuitionNetPrice,
-      tuitionAllowTerm1,
-      tuitionAllowTerm2,
-      tuitionAllowTerm3,
-      tuitionAllowTotal,
+      tuitionFeesTerm1,
+      tuitionFeesTerm2,
+      tuitionFeesTerm3,
+      tuitionFeesTotal,
       giBillTotalText,
       totalTerm1,
       totalTerm2,
       totalTerm3,
       totalYear,
-      monthlyRateDisplay,
       nameOfTerm1,
       nameOfTerm2,
       nameOfTerm3,
@@ -771,33 +767,75 @@ export const getCalculatedBenefits = createSelector(
   getFormInputs,
   getDerivedValues,
   (eligibility, institution, form, derived) => {
-    const calculatedBenefits = {
-      inputs: {
-        inState: false,
-        tuition: true,
-        books: false,
-        yellowRibbon: false,
-        scholarships: true,
-        tuitionAssist: false,
-        enrolled: true,
-        enrolledOld: false,
-        calendar: true,
-        working: false,
-        kicker: true,
-        buyUp: false,
-      },
-      outputs: {
-        tuitionAndFeesCharged: { visible: true, value: form.tuitionFees || 0 },
-        giBillPaysToSchool: { visible: true, value: derived.totalToSchool || 0 },
-        outOfPocketTuition: { visible: true, value: derived.totalLeftToPay || 0 },
-        housingAllowance: { visible: true, value: derived.housingAllowanceMonthly || 0 },
-        bookStipend: { visible: true, value: derived.bookStipendTotal || 0 },
-        totalPaidToYou: { visible: true, value: derived.totalToYou || 0 },
-      }
-    };
+    const calculatedBenefits = {};
 
     if ([eligibility, institution, derived].some(e => !e || isEmpty(e))) {
       return calculatedBenefits;
+    }
+
+    calculatedBenefits.inputs = {
+      inState: false,
+      tuition: true,
+      books: false,
+      yellowRibbon: false,
+      scholarships: true,
+      tuitionAssist: false,
+      enrolled: true,
+      enrolledOld: false,
+      calendar: true,
+      working: false,
+      kicker: true,
+      buyUp: false,
+    };
+
+    calculatedBenefits.outputs = {
+      tuitionAndFeesCharged: { visible: true, value: form.tuitionFees },
+      giBillPaysToSchool: { visible: true, value: derived.totalToSchool },
+      yourScholarships: { visible: true, value: derived.totalScholarshipTa },
+      housingAllowanceMonthly: { visible: true, value: derived.housingAllowanceMonthly },
+      bookStipendTotal: { visible: true, value: derived.bookStipendTotal },
+      outOfPocketTuition: { visible: true, value: derived.totalLeftToPay },
+      perTerm: {
+        tuitionAndFees: {
+          visible: false,
+          terms: [
+            { label: derived.nameOfTerm1, value: derived.tuitionFeesTerm1, visible: true },
+            { label: derived.nameOfTerm2, value: derived.tuitionFeesTerm2, visible: true },
+            { label: derived.nameOfTerm3, value: derived.tuitionFeesTerm3, visible: true },
+            { label: "Total per year", value: derived.tuitionFeesTotal, visible: true },
+          ],
+        },
+        housingAllowance: {
+          visible: false,
+          terms: [
+            { label: derived.nameOfTerm1, value: derived.housingAllowTerm1, visible: true },
+            { label: derived.nameOfTerm2, value: derived.housingAllowTerm2, visible: true },
+            { label: derived.nameOfTerm3, value: derived.housingAllowTerm3, visible: true },
+            { label: derived.nameOfTerm4, value: derived.housingAllowTotal, visible: true }, // Total if not OJT
+          ],
+        },
+        bookStipend: {
+          visible: false,
+          terms: [
+            { label: derived.nameOfTerm1, value: derived.bookStipendTerm1, visible: true },
+            { label: derived.nameOfTerm2, value: derived.bookStipendTerm2, visible: true },
+            { label: derived.nameOfTerm3, value: derived.bookStipendTerm3, visible: true },
+            { label: derived.nameOfTerm4, value: derived.bookStipendTotal, visible: true }, // Total if not OJT
+          ],
+        },
+        yellowRibbon: {
+          visible: false,
+          terms: [
+            { label: `${derived.nameOfTerm1} (paid by school)`, value: derived.yrBenSchoolTerm1, visible: true },
+            { label: `${derived.nameOfTerm1} (paid by VA)`, value: derived.yrBenVaTerm1, visible: true },
+            { label: `${derived.nameOfTerm2} (paid by school)`, value: derived.yrBenSchoolTerm2, visible: true },
+            { label: `${derived.nameOfTerm2} (paid by VA)`, value: derived.yrBenVaTerm2, visible: true },
+            { label: `${derived.nameOfTerm3} (paid by school)`, value: derived.yrBenSchoolTerm3, visible: true },
+            { label: `${derived.nameOfTerm3} (paid by VA)`, value: derived.yrBenVaTerm3, visible: true },
+            { label: "Total per year", value: derived.yrBenSchoolTotal + derived.yrBenVaTotal, visible: true },
+          ]
+        }
+      }
     }
 
     const { militaryStatus } = eligibility;
@@ -830,8 +868,10 @@ export const getCalculatedBenefits = createSelector(
 
       calculatedBenefits.outputs.tuitionAndFeesCharged.visible = false;
       calculatedBenefits.outputs.giBillPaysToSchool.visible = false;
+      calculatedBenefits.outputs.yourScholarships.visible = false;
       calculatedBenefits.outputs.outOfPocketTuition.visible = false;
       calculatedBenefits.outputs.totalPaidToYou.visible = false;
+      calculatedBenefits.outputs.perTerm.yellowRibbon.visible = false;
     }
 
     if (giBillChapter === 35) {
@@ -893,6 +933,34 @@ export const getCalculatedBenefits = createSelector(
         ...calculatedBenefits.inputs,
         tuitionAssist: true
       };
+    }
+
+    if (form.yellowRibbonRecipient === 'no') {
+      calculatedBenefits.outputs.perTerm.yellowRibbon.visible = false;
+    }
+
+    if (derived.totalScholarshipTa === 0) {
+      calculatedBenefits.outputs.yourScholarships.visible = false;
+    }
+
+    if (derived.numberOfTerms === 1) {
+      // Hide all term 2 and 3 calculations.
+      calculatedBenefits.outputs.perTerm.tuitionAndFees.terms[1].visible = false;
+      calculatedBenefits.outputs.perTerm.tuitionAndFees.terms[2].visible = false;
+      calculatedBenefits.outputs.perTerm.housingAllowance.terms[1].visible = false;
+      calculatedBenefits.outputs.perTerm.housingAllowance.terms[2].visible = false;
+      calculatedBenefits.outputs.perTerm.bookStipend.terms[1].visible = false;
+      calculatedBenefits.outputs.perTerm.bookStipend.terms[2].visible = false;
+      calculatedBenefits.outputs.perTerm.yellowRibbon.terms[1].visible = false;
+      calculatedBenefits.outputs.perTerm.yellowRibbon.terms[2].visible = false;
+    }
+
+    if (derived.numberOfTerms < 3 && institution.type !== 'ojt') {
+      // Hide all term 3 calculations.
+      calculatedBenefits.outputs.perTerm.tuitionAndFees.terms[2].visible = false;
+      calculatedBenefits.outputs.perTerm.housingAllowance.terms[2].visible = false;
+      calculatedBenefits.outputs.perTerm.bookStipend.terms[2].visible = false;
+      calculatedBenefits.outputs.perTerm.yellowRibbon.terms[2].visible = false;
     }
 
     return calculatedBenefits;
