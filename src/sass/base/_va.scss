@@ -325,6 +325,10 @@ h6 {
   font-weight: bold;
 }
 
+.text-center {
+  text-align: center;
+}
+
 // Banner
 
 #content {
@@ -334,72 +338,62 @@ h6 {
   overflow: hidden;
 }
 
-// TODO(css): Make these less specific.
-#content .popular-container {
+// TODO(css): Make these less specific. 
+.popular-container {
   background: $color-white;
   text-align: center;
 
-  .column-padded {
-    padding-left: 1em;
-    padding-right: 1em;
-  }
-
-  .flex {
-    display: block;
+  .va-flex {
+    justify-content: center;
+    margin-left: .5rem;
+    margin-right: .5rem;
 
     @include media($medium-large-screen) {
-      display: flex;
+      margin: auto;
     }
+    
+    @include media-maxwidth($small-screen) {
+      display: block;
+    }    
   }
 
-  .mx-auto {
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .gold-ruled {
-    color: $color-primary-darker;
-    margin: 1em 0;
-    padding-bottom: 0.5em;
-    border-bottom: $color-va-accent solid 2px;
-  }
-
-  a {
-    text-decoration: none;
-    color: $color-base;
-
-    &:hover {
-      background: $color-white;
+  .va-h-ruled--a {
+    margin-left: 1.6rem;
+    margin-right: 1.6rem;
+    
+    @include media($medium-large-screen) {
+      max-width: 41%;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 
   .outline-link-block {
-    border: $color-gray-light solid 2px;
-    margin: 0.5em 0;
-    padding: 0.5em 1em;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    justify-content: center;
-    font-size: 1.2em;
-
-    &:hover {
-      border: $color-primary-darker solid 2px;
+    @include media($medium-large-screen) {
+      flex: 0 1 33%;
     }
   }
+}
 
-  .stars-tagline {
-    &:before{
-      content: '';
-      background: url(/img/stars.png) no-repeat top center;
-      background-size: 100%;
-      display: inline-block;
-      height: 2em;
-      width: 12em;
-      margin-top: 2em;
-    }
+.outline-link-block {
+  border: $color-gray-light solid 2px;
+  color: $color-base;
+  display: block;
+  font-size: 1.2em;
+  text-decoration: none;
+  margin: .8rem;
+  padding: 2rem;
+  
+  &:hover {
+    background: transparent;
+    border: $color-primary-darker solid 2px;
+    text-decoration: inherit;
+  }
 
-    margin-top: 0em;
+  @include media($medium-large-screen) {
+    align-items: center;
+    display: flex;
+    justify-content: center;
   }
 }
 
@@ -1498,6 +1492,21 @@ li.twenty:before {content: '20';}
   border-bottom: 3px solid $color-primary;
   padding-bottom: .25em;
   font-weight: 700;
+}
+
+// Ruled headings with VA Accent color. (Currently gold metal)
+.va-h-ruled--a {
+  color: $color-primary-darker;
+  padding-bottom: 0.5em;
+  border-bottom: $color-va-accent solid 2px;
+}
+
+.va-h-ruled--stars {
+  background: url(/img/stars.png) no-repeat top center;
+  background-size: 20rem auto;
+  margin: 2.4rem auto auto;
+  padding: 4.8rem 1.6rem 0;
+  text-align: center;
 }
 
 // Action bars
