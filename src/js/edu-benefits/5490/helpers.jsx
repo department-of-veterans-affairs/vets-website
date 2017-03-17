@@ -23,6 +23,6 @@ export const highSchoolStatusLabels = {
   graduated: 'Graduated from high school',
   graduationExpected: 'Expect to graduate from high school',
   neverAttended: 'Never attended high school',
-  discontinued: 'Discontinued high school',
+  discontinued: 'Discontinued or stopped high school',
   ged: 'Awarded GED'
 };

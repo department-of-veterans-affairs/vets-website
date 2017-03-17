@@ -259,7 +259,7 @@ const formConfig = {
               'ui:title': 'Name of Sponsor'
             }),
             veteranSocialSecurityNumber: ssn.uiSchema,
-            veteranDateOfBirth: currentOrPastDate.uiSchema('Date of Birth'),
+            veteranDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
             veteranDateOfDeath: currentOrPastDate.uiSchema('Date of death or date listed as MIA or POW'),
           },
           schema: {
@@ -291,7 +291,7 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             outstandingFelony: {
-              'ui:title': 'Do you, or the qualifying individual on whose account you\'re claiming benefits, have an outstanding felony and/or warrant?',
+              'ui:title': 'Do you or your sponsor have an outstanding felony and/or warrant?',
               'ui:widget': 'yesNo'
             }
           },
@@ -352,7 +352,7 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             civilianBenefitsSource: {
-              'ui:title': 'What is the source of these funds?',
+              'ui:title': 'What\'s the source of these funds?',
               // Conditionally require civilianBenefitsSource if
               //  civilianBenefitsAssistance is true.
               'ui:required': (formData) => formData.civilianBenefitsAssistance,
@@ -381,13 +381,13 @@ const formConfig = {
           uiSchema: {
             highSchool: {
               status: {
-                'ui:title': 'What is your current high school status?',
+                'ui:title': 'What\'s your current high school status?',
                 'ui:options': {
                   labels: highSchoolStatusLabels
                 }
               },
               highSchoolOrGedCompletionDate: _.assign(
-                date.uiSchema('When did you earn your high school diploma or equivalency certificate?'), {
+                date.uiSchema('When did you earn your high school diploma?'), {
                   'ui:options': {
                     hideIf: form => {
                       const status = _.get('highSchool.status', form);
