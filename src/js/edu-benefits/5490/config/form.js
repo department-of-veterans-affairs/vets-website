@@ -275,8 +275,8 @@ const formConfig = {
             veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
               'ui:title': 'Veteran Social Security number'
             }),
-            veteranDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
-            veteranDateOfDeath: currentOrPastDate.uiSchema('Date of death or date listed as MIA or POW'),
+            veteranDateOfBirth: currentOrPastDate.uiSchema('Veteran date of birth'),
+            veteranDateOfDeath: currentOrPastDate.uiSchema('Veteran date of death or date listed as MIA or POW'),
           },
           schema: {
             type: 'object',
