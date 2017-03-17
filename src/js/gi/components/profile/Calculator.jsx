@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
+import classNames from 'classnames';
 
 import LoadingIndicator from '../../../common/components/LoadingIndicator';
 import { calculatorInputChange, showModal } from '../../actions';
@@ -34,13 +35,13 @@ const CalculatorInputs = ({ expanded, toggle, inputs, displayedInputs, onInputCh
   </div>
 );
 
-const CalculatorResultRow = ({ label, value, labelClassName, valueClassName, visible }) => (visible ? (
-  <div className="row calculator-result">
+const CalculatorResultRow = ({ label, value, bold, visible }) => (visible ? (
+  <div className={classNames('row', 'calculator-result', { bold })}>
     <div className="small-8 columns">
-      <p className={labelClassName}>{label}:</p>
+      <p>{label}:</p>
     </div>
     <div className="small-4 columns value">
-      <p className={valueClassName}>{value}</p>
+      <p>{value}</p>
     </div>
   </div>
 ) : null);
@@ -75,15 +76,14 @@ export class Calculator extends React.Component {
       if (!visible) return null;
 
       return (
-        <div key={section}>
-          <h4>{title}</h4>
+        <div key={section} className="per-term-section">
+          <h5>{title}</h5>
           {terms.map(term =>
             <CalculatorResultRow
                 key={`${section}${term.label}`}
                 label={term.label}
                 value={term.value}
-                labelClassName={term.label === 'Total per year' ? 'bold' : ''}
-                valueClassName={term.label === 'Total per year' ? 'bold' : ''}
+                bold={term.label === 'Total per year'}
                 visible={term.visible}/>)}
         </div>
       );
@@ -119,41 +119,42 @@ export class Calculator extends React.Component {
               toggle={this.toggleCalculatorForm}/>
         </div>
         <div className="medium-1 columns">&nbsp;</div>
-        <div className="medium-6 columns">
+        <div className="medium-6 columns your-estimated-benefits">
           <h3>Your estimated benefits</h3>
-          <CalculatorResultRow
-              label="Tuition and fees charged"
-              value={outputs.tuitionAndFeesCharged.value}
-              visible={outputs.tuitionAndFeesCharged.visible}/>
-          <CalculatorResultRow
-              label="GI Bill pays to school"
-              value={outputs.giBillPaysToSchool.value}
-              visible={outputs.giBillPaysToSchool.visible}/>
-          <CalculatorResultRow
-              label="Your scholarships"
-              value={outputs.yourScholarships.value}
-              visible={outputs.yourScholarships.visible}/>
-          <CalculatorResultRow
-              label="Out of pocket tuition"
-              value={outputs.outOfPocketTuition.value}
-              valueClassName="bold"
-              labelClassName="bold"
-              visible={outputs.outOfPocketTuition.visible}/>
-          <br/>
-          <CalculatorResultRow
-              label="Housing allowance"
-              value={outputs.housingAllowance.value}
-              visible={outputs.housingAllowance.visible}/>
-          <CalculatorResultRow
-              label="Book stipend"
-              value={outputs.bookStipend.value}
-              visible={outputs.bookStipend.visible}/>
-          <CalculatorResultRow
-              label="Total paid to you"
-              value={outputs.totalPaidToYou.value}
-              valueClassName="bold"
-              labelClassName="bold"
-              visible={outputs.totalPaidToYou.visible}/>
+          <div className="out-of-pocket-tuition">
+            <CalculatorResultRow
+                label="Tuition and fees charged"
+                value={outputs.tuitionAndFeesCharged.value}
+                visible={outputs.tuitionAndFeesCharged.visible}/>
+            <CalculatorResultRow
+                label="GI Bill pays to school"
+                value={outputs.giBillPaysToSchool.value}
+                visible={outputs.giBillPaysToSchool.visible}/>
+            <CalculatorResultRow
+                label="Your scholarships"
+                value={outputs.yourScholarships.value}
+                visible={outputs.yourScholarships.visible}/>
+            <CalculatorResultRow
+                label="Out of pocket tuition"
+                value={outputs.outOfPocketTuition.value}
+                bold
+                visible={outputs.outOfPocketTuition.visible}/>
+          </div>
+          <div className="total-paid-to-you">
+            <CalculatorResultRow
+                label="Housing allowance"
+                value={outputs.housingAllowance.value}
+                visible={outputs.housingAllowance.visible}/>
+            <CalculatorResultRow
+                label="Book stipend"
+                value={outputs.bookStipend.value}
+                visible={outputs.bookStipend.visible}/>
+            <CalculatorResultRow
+                label="Total paid to you"
+                value={outputs.totalPaidToYou.value}
+                bold
+                visible={outputs.totalPaidToYou.visible}/>
+          </div>
           <hr/>
           {this.renderPerTermSections()}
         </div>
