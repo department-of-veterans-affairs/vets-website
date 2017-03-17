@@ -16,7 +16,7 @@ export const benefitsLabels = {
 
 export const relationshipLabels = {
   child: 'Child, stepchild, adopted child',
-  spouse: 'Spouse or Surviving Spouse',
+  spouse: 'Spouse or surviving spouse',
 };
 
 export const highSchoolStatusLabels = {
@@ -26,4 +26,3 @@ export const highSchoolStatusLabels = {
   discontinued: 'Discontinued high school',
   ged: 'Awarded GED'
 };
-
