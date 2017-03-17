@@ -40,10 +40,6 @@ const getDerivedValues = createSelector(
     let housingAllowTerm2;
     let housingAllowTerm3;
     let housingAllowTotal;
-    let tuitionAllowTerm1;
-    let tuitionAllowTerm2;
-    let tuitionAllowTerm3;
-    let tuitionAllowTotal;
     let giBillTotalText;
     let totalTerm1;
     let totalTerm2;
@@ -802,7 +798,7 @@ export const getCalculatedBenefits = createSelector(
             { label: derived.nameOfTerm1, value: derived.tuitionFeesTerm1, visible: true },
             { label: derived.nameOfTerm2, value: derived.tuitionFeesTerm2, visible: true },
             { label: derived.nameOfTerm3, value: derived.tuitionFeesTerm3, visible: true },
-            { label: "Total per year", value: derived.tuitionFeesTotal, visible: true },
+            { label: 'Total per year', value: derived.tuitionFeesTotal, visible: true },
           ],
         },
         housingAllowance: {
@@ -832,11 +828,11 @@ export const getCalculatedBenefits = createSelector(
             { label: `${derived.nameOfTerm2} (paid by VA)`, value: derived.yrBenVaTerm2, visible: true },
             { label: `${derived.nameOfTerm3} (paid by school)`, value: derived.yrBenSchoolTerm3, visible: true },
             { label: `${derived.nameOfTerm3} (paid by VA)`, value: derived.yrBenVaTerm3, visible: true },
-            { label: "Total per year", value: derived.yrBenSchoolTotal + derived.yrBenVaTotal, visible: true },
+            { label: 'Total per year', value: derived.yrBenSchoolTotal + derived.yrBenVaTotal, visible: true },
           ]
         }
       }
-    }
+    };
 
     const { militaryStatus } = eligibility;
     const giBillChapter = +eligibility.giBillChapter;

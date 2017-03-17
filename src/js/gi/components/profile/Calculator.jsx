@@ -27,10 +27,10 @@ const CalculatorInputs = ({ expanded, toggle, inputs, displayedInputs, onInputCh
     </button>
     <div className="form-expanding-group-open">
       {expanded ? <CalculatorForm
-        inputs={inputs}
-        displayedInputs={displayedInputs}
-        onShowModal={onShowModal}
-        onInputChange={onInputChange}/> : null}
+          inputs={inputs}
+          displayedInputs={displayedInputs}
+          onShowModal={onShowModal}
+          onInputChange={onInputChange}/> : null}
     </div>
   </div>
 );
