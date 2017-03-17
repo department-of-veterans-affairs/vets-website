@@ -15,17 +15,18 @@ import {
 export class DefinitionTester extends React.Component {
   constructor(props) {
     super(props);
-    const state = props.state;
-    const uiSchema = props.uiSchema;
-    const data = props.data;
-    let schema = updateRequiredFields(props.schema, uiSchema, data, state);
+    const { state, uiSchema } = props;
+    const pageData = props.data;
+    const formData = _.merge(props.formData, pageData);
+
+    let schema = updateRequiredFields(props.schema, uiSchema, formData);
     schema = _.merge({ definitions: props.definitions }, schema);
     // Update the schema with any fields that are now hidden because of the data change
-    schema = setHiddenFields(schema, uiSchema, data, state);
+    schema = setHiddenFields(schema, uiSchema, formData);
     // Update the schema with any general updates based on the new data
-    schema = updateSchemaFromUiSchema(schema, uiSchema, data, state);
+    schema = updateSchemaFromUiSchema(schema, uiSchema, pageData, state);
     // Remove any data that's now hidden in the schema
-    const newData = removeHiddenData(schema, data);
+    const newData = removeHiddenData(schema, pageData);
 
     this.state = {
       data: newData,
@@ -36,9 +37,10 @@ export class DefinitionTester extends React.Component {
   handleChange = (data) => {
     const state = this.props.state;
     const uiSchema = this.state.uiSchema;
-    let schema = updateRequiredFields(this.state.schema, uiSchema, data, state);
+    const formData = _.merge(this.props.formData, data);
+    let schema = updateRequiredFields(this.state.schema, uiSchema, formData);
     // Update the schema with any fields that are now hidden because of the data change
-    schema = setHiddenFields(schema, uiSchema, data, state);
+    schema = setHiddenFields(schema, uiSchema, formData);
     // Update the schema with any general updates based on the new data
     schema = updateSchemaFromUiSchema(schema, uiSchema, data, state);
     // Remove any data that's now hidden in the schema
