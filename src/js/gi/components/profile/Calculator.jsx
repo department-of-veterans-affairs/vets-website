@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { isEmpty } from 'lodash';
+import { isEmpty, startCase } from 'lodash';
 
 import LoadingIndicator from '../../../common/components/LoadingIndicator';
 import { calculatorInputChange, showModal } from '../../actions';
@@ -52,6 +52,7 @@ export class Calculator extends React.Component {
     super(props);
     this.toggleEligibilityDetails = this.toggleEligibilityDetails.bind(this);
     this.toggleCalculatorForm = this.toggleCalculatorForm.bind(this);
+    this.renderPerTermSections = this.renderPerTermSections.bind(this);
 
     this.state = {
       showEligibilityDetails: false,
@@ -65,6 +66,36 @@ export class Calculator extends React.Component {
 
   toggleCalculatorForm() {
     this.setState({ showCalculatorForm: !this.state.showCalculatorForm });
+  }
+
+  renderPerTermSections() {
+    const { perTerm } = this.props.calculated.outputs;
+
+    const sections = Object.keys(perTerm).map(section => {
+      const { visible, terms } = this.props.calculated.outputs.perTerm[section];
+      if (!visible) return null;
+
+      return (
+        <div key={section}>
+          <h4>{startCase(section)}</h4>
+          {terms.map(term =>
+            <CalculatorResultRow
+                key={`${section}${term.label}`}
+                label={term.label}
+                value={term.value}
+                labelClassName={term.label === 'Total per year' ? 'bold' : ''}
+                valueClassName={term.label === 'Total per year' ? 'bold' : ''}
+                visible={term.visible}/>)}
+        </div>
+      );
+    });
+
+    return (
+      <div>
+        <h3>Estimated benefits per term</h3>
+        {sections}
+      </div>
+    );
   }
 
   render() {
@@ -100,6 +131,10 @@ export class Calculator extends React.Component {
               value={formatCurrency(outputs.giBillPaysToSchool.value)}
               visible={outputs.giBillPaysToSchool.visible}/>
           <CalculatorResultRow
+              label="Your scholarships"
+              value={formatCurrency(outputs.yourScholarships.value)}
+              visible={outputs.yourScholarships.visible}/>
+          <CalculatorResultRow
               label="Out of pocket tuition"
               value={formatCurrency(outputs.outOfPocketTuition.value)}
               valueClassName="bold"
@@ -110,7 +145,6 @@ export class Calculator extends React.Component {
               label="Housing allowance"
               value={`${formatCurrency(outputs.housingAllowance.value)}/mo`}
               visible={outputs.housingAllowance.visible}/>
-          <br/>
           <CalculatorResultRow
               label="Book stipend"
               value={formatCurrency(outputs.bookStipend.value)}
@@ -122,19 +156,7 @@ export class Calculator extends React.Component {
               labelClassName="bold"
               visible={outputs.totalPaidToYou.visible}/>
           <hr/>
-          <h3>Estimated benefits per term</h3>
-          <h4>Tuition and fees</h4>
-          <CalculatorResultRow label="Fall" value={'$38,205'}/>
-          <CalculatorResultRow label="Spring" value={'$21,970'}/>
-          <CalculatorResultRow label="Total per year" value={'$21,970'}/>
-          <h4>Housing allowance</h4>
-          <CalculatorResultRow label="Fall" value={'$38,205'}/>
-          <CalculatorResultRow label="Spring" value={'$21,970'}/>
-          <CalculatorResultRow label="Total per year" value={'$21,970'}/>
-          <h4>Book stipend</h4>
-          <CalculatorResultRow label="Fall" value={'$38,205'}/>
-          <CalculatorResultRow label="Spring" value={'$21,970'}/>
-          <CalculatorResultRow label="Total per year" value={'$21,970'}/>
+          {this.renderPerTermSections()}
         </div>
       </div>
     );

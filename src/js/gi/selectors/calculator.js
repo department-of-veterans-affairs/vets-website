@@ -182,6 +182,7 @@ const getDerivedValues = createSelector(
       tuitionFeesCap = constant.TFCAP;
     } else {
       // TODO: What should default cap be?
+      tuitionFeesCap = constant.TFCAP;
     }
 
     // Calculate the tuition/fees per term - getTuitionFeesPerTerm
@@ -788,12 +789,13 @@ export const getCalculatedBenefits = createSelector(
       tuitionAndFeesCharged: { visible: true, value: form.tuitionFees },
       giBillPaysToSchool: { visible: true, value: derived.totalToSchool },
       yourScholarships: { visible: true, value: derived.totalScholarshipTa },
-      housingAllowanceMonthly: { visible: true, value: derived.housingAllowanceMonthly },
-      bookStipendTotal: { visible: true, value: derived.bookStipendTotal },
+      housingAllowance: { visible: true, value: derived.housingAllowanceMonthly },
+      bookStipend: { visible: true, value: derived.bookStipendTotal },
       outOfPocketTuition: { visible: true, value: derived.totalLeftToPay },
+      totalPaidToYou: { visible: true, value: derived.totalToYou },
       perTerm: {
         tuitionAndFees: {
-          visible: false,
+          visible: true,
           terms: [
             { label: derived.nameOfTerm1, value: derived.tuitionFeesTerm1, visible: true },
             { label: derived.nameOfTerm2, value: derived.tuitionFeesTerm2, visible: true },
@@ -802,7 +804,7 @@ export const getCalculatedBenefits = createSelector(
           ],
         },
         housingAllowance: {
-          visible: false,
+          visible: true,
           terms: [
             { label: derived.nameOfTerm1, value: derived.housingAllowTerm1, visible: true },
             { label: derived.nameOfTerm2, value: derived.housingAllowTerm2, visible: true },
@@ -811,7 +813,7 @@ export const getCalculatedBenefits = createSelector(
           ],
         },
         bookStipend: {
-          visible: false,
+          visible: true,
           terms: [
             { label: derived.nameOfTerm1, value: derived.bookStipendTerm1, visible: true },
             { label: derived.nameOfTerm2, value: derived.bookStipendTerm2, visible: true },
@@ -820,7 +822,7 @@ export const getCalculatedBenefits = createSelector(
           ],
         },
         yellowRibbon: {
-          visible: false,
+          visible: true,
           terms: [
             { label: `${derived.nameOfTerm1} (paid by school)`, value: derived.yrBenSchoolTerm1, visible: true },
             { label: `${derived.nameOfTerm1} (paid by VA)`, value: derived.yrBenVaTerm1, visible: true },
