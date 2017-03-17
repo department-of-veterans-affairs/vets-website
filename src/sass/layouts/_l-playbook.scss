@@ -9,6 +9,17 @@
   }
 }
 
+.tagline-content {
+  p {
+    font-size: 2.15em;
+    border-bottom: 2px solid white;
+    padding: 0 0 1em 0;
+    margin: 0 0 2em 0;
+    color: rgba(255,255,255,.7);
+    line-height: 1.2em;
+  }
+}
+
 // Blog / Playbook
 .page-playbook {
   background-color: $color-white;
