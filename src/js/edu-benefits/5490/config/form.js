@@ -122,7 +122,7 @@ const formConfig = {
           path: 'benefits-eligibility/previous-benefits',
           initialData: {},
           uiSchema: {
-            'ui:description': 'Prior to this application, have you ever applied for or received any of the following VA benefits?',
+            'ui:description': ' Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [
                 'view:noPreviousBenefits',
@@ -158,23 +158,23 @@ const formConfig = {
                 }
               },
               ownServiceBenefits: {
-                'ui:title': 'Specify benefits',
+                'ui:title': 'Describe the benefits you used',
                 'ui:options': { expandUnder: 'view:ownServiceBenefits' }
               },
               'view:claimedSponsorService': {
-                'ui:title': 'Veterans education assistance based on someone else’s service.',
+                'ui:title': 'Veterans education assistance based on someone else’s service',
                 'ui:options': {
                   expandUnderClassNames: 'schemaform-expandUnder-indent'
                 }
               },
               chapter35: {
-                'ui:title': 'Chapter 35 - Survivors’ and Dependents’ Educational Assistance Program (DEA)',
+                'ui:title': 'Survivors’ and Dependents’ Educational Assistance Program (DEA, Chapter 35)',
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
                 }
               },
               chapter33: {
-                'ui:title': 'Chapter 33 - Post-9/11 GI Bill Marine Gunnery Sergeant David Fry Scholarship',
+                'ui:title': 'Post-9/11 GI Bill Marine Gunnery Sergeant David Fry Scholarship (Chapter 33)',
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
                 }
@@ -199,7 +199,7 @@ const formConfig = {
                 }
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
-                'ui:title': 'Sponsor SSN',
+                'ui:title': 'Sponsor\'s Social Security number',
                 'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
