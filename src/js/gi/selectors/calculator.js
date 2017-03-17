@@ -802,7 +802,7 @@ export const getCalculatedBenefits = createSelector(
       },
       housingAllowance: {
         visible: true,
-        value: formatCurrency(derived.housingAllowanceMonthly)
+        value: `${formatCurrency(derived.housingAllowanceMonthly)}/mo`
       },
       bookStipend: {
         visible: true,
