@@ -40,6 +40,15 @@ export default class ArrayField extends React.Component {
     this.scrollToRow = this.scrollToRow.bind(this);
   }
 
+  componentDidMount() {
+    const { schema, formData = [], registry } = this.props;
+    if (schema.minItems > 0 && formData.length === 0) {
+      this.props.onChange([
+        getDefaultFormState(schema.items, undefined, registry.definitions)
+      ]);
+    }
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return !deepEquals(this.props, nextProps) || nextState !== this.state;
   }

@@ -69,6 +69,21 @@ describe('Edu 5490 applicantService', () => {
         value: 'Army'
       }
     });
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_toursOfDuty_0_dateRange_fromMonth'), {
+      target: {
+        value: '1'
+      }
+    });
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_toursOfDuty_0_dateRange_fromDay'), {
+      target: {
+        value: '1'
+      }
+    });
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_toursOfDuty_0_dateRange_fromYear'), {
+      target: {
+        value: '2000'
+      }
+    });
     ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
 
     expect(formDOM.querySelector('.va-growable-background').textContent)

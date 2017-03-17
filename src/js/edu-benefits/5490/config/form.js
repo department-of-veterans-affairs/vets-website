@@ -13,7 +13,8 @@ import {
 
 import {
   hoursTypeLabels,
-  stateLabels
+  stateLabels,
+  civilianBenefitsLabel
 } from '../../utils/helpers';
 
 import * as address from '../../../common/schemaform/definitions/address';
@@ -248,18 +249,33 @@ const formConfig = {
               },
               remarriageDate: _.assign(date.uiSchema('Date you got remarried'), {
                 'ui:options': {
-                  hideIf: (formData) => !_.get('spouseInfo.remarried', formData)
-                }
+                  expandUnder: 'remarried',
+                },
+                'ui:required': (formData) => _.get('spouseInfo.remarried', formData)
               }),
               'ui:options': {
                 hideIf: (formData) => _.get('relationship', formData) !== 'spouse'
               }
             },
-            relativeFullName: _.assign(fullNameUISchema, {
-              'ui:title': 'Name of Sponsor'
+            veteranFullName: _.merge(fullNameUISchema, {
+              'ui:title': 'Name of Sponsor',
+              first: {
+                'ui:title': 'Veteran first name'
+              },
+              middle: {
+                'ui:title': 'Veteran middle name'
+              },
+              last: {
+                'ui:title': 'Veteran last name'
+              },
+              suffix: {
+                'ui:title': 'Veteran suffix'
+              }
             }),
-            veteranSocialSecurityNumber: ssn.uiSchema,
-            veteranDateOfBirth: currentOrPastDate.uiSchema('Date of Birth'),
+            veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
+              'ui:title': 'Veteran Social Security number'
+            }),
+            veteranDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
             veteranDateOfDeath: currentOrPastDate.uiSchema('Date of death or date listed as MIA or POW'),
           },
           schema: {
@@ -272,7 +288,7 @@ const formConfig = {
             ],
             properties: {
               spouseInfo,
-              relativeFullName: fullName,
+              veteranFullName: fullName,
               veteranSocialSecurityNumber: ssnSchema,
               veteranDateOfBirth,
               veteranDateOfDeath
@@ -320,6 +336,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:applicantServed'
               },
+              'ui:required': _.get('view:applicantServed'),
               items: {
                 serviceStatus: { 'ui:title': 'Type of separation or discharge' }
               }
@@ -334,12 +351,14 @@ const formConfig = {
               'view:applicantServed': {
                 type: 'boolean'
               },
-              toursOfDuty: toursOfDuty.schema([
-                'serviceBranch',
-                'dateRange',
-                'serviceStatus',
-                // 'applyPeriodToSelected'
-              ])
+              toursOfDuty: toursOfDuty.schema({
+                fields: [
+                  'serviceBranch',
+                  'dateRange',
+                  'serviceStatus'
+                ],
+                required: ['serviceBranch', 'dateRange.from']
+              })
             }
           }
         },
@@ -348,7 +367,7 @@ const formConfig = {
           path: 'military-service/contributions',
           uiSchema: {
             civilianBenefitsAssistance: {
-              'ui:title': 'Are you getting benefits from the U.S. Government as a civilian employee during the same time as you are seeking benefits from VA?',
+              'ui:title': civilianBenefitsLabel,
               'ui:widget': 'yesNo'
             },
             civilianBenefitsSource: {
