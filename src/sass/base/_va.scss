@@ -189,7 +189,7 @@ hr {
 // Using this selector makes it easier for the content team to write content
 // TODO: Refine this so that any links that do begin with https://vets.gov
 // or https://www.vets.gov are excluded.
-[href^=http] {
+a[href^=http] {
   // Using longhand properties instead of the shorthand to limit
   // risk and impact of side effects
   background-image: url(/img/icons/exit-icon.png);
@@ -216,7 +216,7 @@ hr {
       padding: 0;
     }
   }
-  
+
   .va-notice--banner {
     display: none !important;
 
@@ -260,7 +260,7 @@ hr {
   display: none;
   line-height: 1em;
   margin: 0;
-  
+
   @include media($medium-large-screen) {
     display: inherit;
     flex: 1 1 80%;
@@ -334,7 +334,7 @@ h6 {
   overflow: hidden;
 }
 
-// TODO(css): Make these less specific. 
+// TODO(css): Make these less specific.
 #content .popular-container {
   background: $color-white;
   text-align: center;
@@ -484,7 +484,7 @@ h6 {
   p {
     padding-top: 0;
     margin-top: 0;
-    
+
     &:nth-child(1),
     &:first-of-type {
       color: $color-primary-darker;
@@ -976,13 +976,13 @@ li {
   dd {
     padding: .25em 0;
   }
-  
+
   a {
     display: inline-block;
   }
 }
 
-[id=footer-contact] { 
+[id=footer-contact] {
   order: -1;
 
   @include media($medium-large-screen) {
@@ -1015,7 +1015,7 @@ li {
 
     a {
       background: none;
-      padding: 0; 
+      padding: 0;
     }
   }
 }
@@ -1565,7 +1565,7 @@ li.twenty:before {content: '20';}
   p {
     font-size: 1.28rem;
   }
-  
+
   a {
     background-image: none;
     color: inherit;
