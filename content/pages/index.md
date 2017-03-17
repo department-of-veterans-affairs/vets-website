@@ -21,22 +21,6 @@ majorlinks:
   <h2 class="home-tagline">Get the VA services that you’ve earned.</h2>
 </div>
 
-<<<<<<< HEAD
-<div class="popular-container row">
-  <h2 class="va-h-ruled--a">Popular on Vets.gov</h2>
-  <div class="row va-flex">   
-  <a href="/healthcare/apply/" class="outline-link-block">
-    Apply for health care
-  </a>
-
-  <a href="/facilities/" class="outline-link-block">
-    Find nearby VA locations
-  </a>
-
-  <a href="/track-claims/" class="outline-link-block">
-    Check your claim status
-  </a>
-=======
 <div class="popular-container">
   <div class="row">
   <div class="small-12 medium-5 mx-auto text-center column-padded">
@@ -65,7 +49,6 @@ majorlinks:
         </div>
       </a>
     </div>
->>>>>>> master
   </div>
 
 
