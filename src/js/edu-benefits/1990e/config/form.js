@@ -116,6 +116,7 @@ const formConfig = {
                 }
               }
             },
+            // There must be a more succinct way for lodash to set 2 properties
             veteranId: _.set(['vaFileNumber', 'ui:title'], 'Veteran File number',
                              _.set(['veteranSocialSecurityNumber', 'ui:title'], 'Veteran Social Security number', veteranId.uiSchema)),
             veteranAddress: address.uiSchema('Veteran Address'),
