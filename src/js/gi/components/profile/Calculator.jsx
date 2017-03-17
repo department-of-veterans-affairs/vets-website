@@ -5,7 +5,6 @@ import { isEmpty } from 'lodash';
 import LoadingIndicator from '../../../common/components/LoadingIndicator';
 import { calculatorInputChange, showModal } from '../../actions';
 import { getCalculatedBenefits } from '../../selectors/calculator';
-import { formatCurrency } from '../../utils/helpers';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
 
@@ -124,34 +123,34 @@ export class Calculator extends React.Component {
           <h3>Your estimated benefits</h3>
           <CalculatorResultRow
               label="Tuition and fees charged"
-              value={formatCurrency(outputs.tuitionAndFeesCharged.value)}
+              value={outputs.tuitionAndFeesCharged.value}
               visible={outputs.tuitionAndFeesCharged.visible}/>
           <CalculatorResultRow
               label="GI Bill pays to school"
-              value={formatCurrency(outputs.giBillPaysToSchool.value)}
+              value={outputs.giBillPaysToSchool.value}
               visible={outputs.giBillPaysToSchool.visible}/>
           <CalculatorResultRow
               label="Your scholarships"
-              value={formatCurrency(outputs.yourScholarships.value)}
+              value={outputs.yourScholarships.value}
               visible={outputs.yourScholarships.visible}/>
           <CalculatorResultRow
               label="Out of pocket tuition"
-              value={formatCurrency(outputs.outOfPocketTuition.value)}
+              value={outputs.outOfPocketTuition.value}
               valueClassName="bold"
               labelClassName="bold"
               visible={outputs.outOfPocketTuition.visible}/>
           <br/>
           <CalculatorResultRow
               label="Housing allowance"
-              value={`${formatCurrency(outputs.housingAllowance.value)}/mo`}
+              value={outputs.housingAllowance.value}
               visible={outputs.housingAllowance.visible}/>
           <CalculatorResultRow
               label="Book stipend"
-              value={formatCurrency(outputs.bookStipend.value)}
+              value={outputs.bookStipend.value}
               visible={outputs.bookStipend.visible}/>
           <CalculatorResultRow
               label="Total paid to you"
-              value={formatCurrency(outputs.totalPaidToYou.value)}
+              value={outputs.totalPaidToYou.value}
               valueClassName="bold"
               labelClassName="bold"
               visible={outputs.totalPaidToYou.visible}/>

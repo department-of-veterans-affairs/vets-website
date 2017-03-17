@@ -1,6 +1,8 @@
 import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 
+import { formatCurrency } from '../utils/helpers';
+
 const getConstants = (state) => state.constants.constants;
 
 const getEligibilityDetails = (state) => {
@@ -786,55 +788,152 @@ export const getCalculatedBenefits = createSelector(
     };
 
     calculatedBenefits.outputs = {
-      tuitionAndFeesCharged: { visible: true, value: form.tuitionFees },
-      giBillPaysToSchool: { visible: true, value: derived.totalToSchool },
-      yourScholarships: { visible: true, value: derived.totalScholarshipTa },
-      housingAllowance: { visible: true, value: derived.housingAllowanceMonthly },
-      bookStipend: { visible: true, value: derived.bookStipendTotal },
-      outOfPocketTuition: { visible: true, value: derived.totalLeftToPay },
-      totalPaidToYou: { visible: true, value: derived.totalToYou },
+      tuitionAndFeesCharged: {
+        visible: true,
+        value: formatCurrency(form.tuitionFees)
+      },
+      giBillPaysToSchool: {
+        visible: true,
+        value: formatCurrency(derived.totalToSchool)
+      },
+      yourScholarships: {
+        visible: true,
+        value: formatCurrency(derived.totalScholarshipTa)
+      },
+      housingAllowance: {
+        visible: true,
+        value: formatCurrency(derived.housingAllowanceMonthly)
+      },
+      bookStipend: {
+        visible: true,
+        value: formatCurrency(derived.bookStipendTotal)
+      },
+      outOfPocketTuition: {
+        visible: true,
+        value: formatCurrency(derived.totalLeftToPay)
+      },
+      totalPaidToYou: {
+        visible: true,
+        value: formatCurrency(derived.totalToYou)
+      },
       perTerm: {
         tuitionAndFees: {
           visible: true,
           title: 'Tuition and fees',
           terms: [
-            { label: derived.nameOfTerm1, value: derived.tuitionFeesTerm1, visible: true },
-            { label: derived.nameOfTerm2, value: derived.tuitionFeesTerm2, visible: true },
-            { label: derived.nameOfTerm3, value: derived.tuitionFeesTerm3, visible: true },
-            { label: 'Total per year', value: derived.tuitionFeesTotal, visible: true },
+            {
+              label: derived.nameOfTerm1,
+              value: formatCurrency(derived.tuitionFeesTerm1),
+              visible: true
+            },
+            {
+              label: derived.nameOfTerm2,
+              value: formatCurrency(derived.tuitionFeesTerm2),
+              visible: true
+            },
+            {
+              label: derived.nameOfTerm3,
+              value: formatCurrency(derived.tuitionFeesTerm3),
+              visible: true
+            },
+            {
+              label: 'Total per year',
+              value: formatCurrency(derived.tuitionFeesTotal),
+              visible: true
+            },
           ],
         },
         housingAllowance: {
           visible: true,
           title: 'Housing allowance',
           terms: [
-            { label: derived.nameOfTerm1, value: derived.housingAllowTerm1, visible: true },
-            { label: derived.nameOfTerm2, value: derived.housingAllowTerm2, visible: true },
-            { label: derived.nameOfTerm3, value: derived.housingAllowTerm3, visible: true },
-            { label: derived.nameOfTerm4, value: derived.housingAllowTotal, visible: true }, // Total if not OJT
+            {
+              label: derived.nameOfTerm1,
+              value: formatCurrency(derived.housingAllowTerm1),
+              visible: true
+            },
+            {
+              label: derived.nameOfTerm2,
+              value: formatCurrency(derived.housingAllowTerm2),
+              visible: true
+            },
+            {
+              label: derived.nameOfTerm3,
+              value: formatCurrency(derived.housingAllowTerm3),
+              visible: true
+            },
+            {
+              label: derived.nameOfTerm4,
+              value: formatCurrency(derived.housingAllowTotal), // Total if not OJT
+              visible: true
+            },
           ],
         },
         bookStipend: {
           visible: true,
           title: 'Book stipend',
           terms: [
-            { label: derived.nameOfTerm1, value: derived.bookStipendTerm1, visible: true },
-            { label: derived.nameOfTerm2, value: derived.bookStipendTerm2, visible: true },
-            { label: derived.nameOfTerm3, value: derived.bookStipendTerm3, visible: true },
-            { label: derived.nameOfTerm4, value: derived.bookStipendTotal, visible: true }, // Total if not OJT
+            {
+              label: derived.nameOfTerm1,
+              value: formatCurrency(derived.bookStipendTerm1),
+              visible: true
+            },
+            {
+              label: derived.nameOfTerm2,
+              value: formatCurrency(derived.bookStipendTerm2),
+              visible: true
+            },
+            {
+              label: derived.nameOfTerm3,
+              value: formatCurrency(derived.bookStipendTerm3),
+              visible: true
+            },
+            {
+              label: derived.nameOfTerm4,
+              value: formatCurrency(derived.bookStipendTotal), // Total if not OJT
+              visible: true
+            },
           ],
         },
         yellowRibbon: {
           visible: true,
           title: 'Yellow Ribbon',
           terms: [
-            { label: `${derived.nameOfTerm1} (paid by school)`, value: derived.yrBenSchoolTerm1, visible: true },
-            { label: `${derived.nameOfTerm1} (paid by VA)`, value: derived.yrBenVaTerm1, visible: true },
-            { label: `${derived.nameOfTerm2} (paid by school)`, value: derived.yrBenSchoolTerm2, visible: true },
-            { label: `${derived.nameOfTerm2} (paid by VA)`, value: derived.yrBenVaTerm2, visible: true },
-            { label: `${derived.nameOfTerm3} (paid by school)`, value: derived.yrBenSchoolTerm3, visible: true },
-            { label: `${derived.nameOfTerm3} (paid by VA)`, value: derived.yrBenVaTerm3, visible: true },
-            { label: 'Total per year', value: derived.yrBenSchoolTotal + derived.yrBenVaTotal, visible: true },
+            {
+              label: `${derived.nameOfTerm1} (paid by school)`,
+              value: formatCurrency(derived.yrBenSchoolTerm1),
+              visible: true
+            },
+            {
+              label: `${derived.nameOfTerm1} (paid by VA)`,
+              value: formatCurrency(derived.yrBenVaTerm1),
+              visible: true
+            },
+            {
+              label: `${derived.nameOfTerm2} (paid by school)`,
+              value: formatCurrency(derived.yrBenSchoolTerm2),
+              visible: true
+            },
+            {
+              label: `${derived.nameOfTerm2} (paid by VA)`,
+              value: formatCurrency(derived.yrBenVaTerm2),
+              visible: true
+            },
+            {
+              label: `${derived.nameOfTerm3} (paid by school)`,
+              value: formatCurrency(derived.yrBenSchoolTerm3),
+              visible: true
+            },
+            {
+              label: `${derived.nameOfTerm3} (paid by VA)`,
+              value: formatCurrency(derived.yrBenVaTerm3),
+              visible: true
+            },
+            {
+              label: 'Total per year',
+              value: formatCurrency(derived.yrBenSchoolTotal + derived.yrBenVaTotal),
+              visible: true
+            },
           ]
         }
       }
