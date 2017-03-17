@@ -284,6 +284,14 @@ hr {
 h1, h2 {
   font-family: $font-sans;
 }
+h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0 0 .5em 0;
+}
+
+h2 {
+  line-height: 1.2em;
+}
 
 h1:first-child {
   margin-top: 0;
@@ -351,6 +359,7 @@ h6 {
 
   .gold-ruled {
     color: $color-primary-darker;
+    margin: 1em 0;
     padding-bottom: 0.5em;
     border-bottom: $color-va-accent solid 2px;
   }
@@ -394,86 +403,50 @@ h6 {
   }
 }
 
-#content .splash {
-  margin: 0;
+.splash--home {
+  align-items: center;
   background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
   background-size: cover;
   display: flex;
-  align-items: center;
+  margin: 0;
+  min-height: 14em;
+  padding: 1em 0;
+  text-align: center;
 
-
-  p {
-    color: $color-white;
-    font-family: $font-sans;
+  @include media($medium-large-screen) {
+    padding: 2em 0;
+    min-height: 42.2rem;
   }
 
-  h2.tagline {
-    max-width: 11em;
-    font-size: 2.5rem;
-    font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
-
-    @include media($medium-large-screen) {
-      max-width: 15em;
-    }
+  @include media($large-screen) {
+    padding-top: 2.5em;
+    padding-bottom: 2.5em;
   }
 
-  span, h2 {
-    padding: 0;
-    display: inline;
-    line-height: 1em;
-    margin: 0;
-    white-space: pre-wrap;
-    color: $color-gray-dark;
-    a {background: $color-white; color: $color-primary-darker;}
+  .pitch {
+    flex: 1 1 100%;
+    text-align: center;
   }
-
-  h2 span {
-    clear: both;
-    padding: 0.5em 0.4em;
-    display: inline-block;
-    line-height: 30px;
-    background: $color-white;
-    font-weight: bold;
-    color: $color-primary-darker;
-
-    @include media($medium-large-screen) {
-      padding: 0.5em .75em;
-      line-height: 1.3em;
-      font-size: 3.5rem;
-    }
-
-    @include media($large-screen) {
-      padding: 0.5em 0.4em;
-    }
-  }
-
-  h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
-  h2 {
-    font-size: 2em;
-    display: inline-block;
-
-    @include media($small-screen) {
-      font-size: 2em;
-    }
-  }
-
-  h3 {font-weight: 500; font-size: 1.4em; color: $color-gray-light;}
 }
 
-.home {
-  .splash {
-    padding: 1em 0;
-    min-height: 14em;
+.home-tagline {
+  background: $color-white;
+  color: $color-primary-darker;
+  display: inline-block;
+  font-size: 2.5rem;
+  line-height: 1.3;
+  margin: 0 auto;
+  max-width: 11em;
+  padding: 0.5em 0.4em;
+  white-space: pre-wrap;
 
-    @include media($medium-large-screen) {
-      padding: 2em 0;
-      min-height: 42.2rem;
-    }
+  @include media($medium-large-screen) {
+    font-size: 3.5rem;
+    padding: 0.5em .75em;
+  }
 
-    @include media($large-screen) {
-      padding-top: 2.5em;
-      padding-bottom: 2.5em;
-    }
+  @include media($large-screen) {
+    padding: 0.5em 0.4em;
   }
 }
 
@@ -483,19 +456,6 @@ h6 {
   margin: .5em 0 1em 0 !important;
 }
 
-.pitch {
-  padding: .5em 0;
-  text-align: center;
-
-  h2, h3 {
-    color: $color-primary-darkest;
-    font-weight: 400;
-    padding: .75em;
-    line-height: 1.3em;
-    display: inline-block;
-    margin: 0;
-  }
-}
 
 // TODO(css): Remove .feature-list ul once it's
 // refactored from the Markdown
@@ -685,57 +645,6 @@ ul, ol {
   a {text-decoration: underline;}
 }
 
-// Home page specific
-
-.home #content {
-  h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
-
-  .post-date {
-    font-size: .5em; color: $color-gold;
-  }
-
-  h3 {
-    line-height: 1.2em;
-    font-size: 1.65em;
-    color: $color-primary;
-    margin: 0 0 2.5em 0;
-    padding: 0 0 .2em 0;
-  }
-
-  h4 a {
-    text-decoration: none;
-    &:hover {
-      border-bottom: 1px solid $color-white;
-      color: $color-gold;
-    }
-  }
-
-  .section {
-    padding: 4em 0 2em 0;
-    text-align: left;
-  }
-
-  .section.main-menu {
-    padding: 0em .5em 4em .5em;
-    overflow: hidden;
-  }
-
-  .section.two {
-    padding: 2em 0;
-    a, h3 {color: $color-white;}
-    h3 {border-bottom: none;}
-    background: rgba(0,0,0,.1);
-  }
-
-  .section.three {
-    background: $color-white;
-    padding: 5em 0;
-    h2, h3, h4, h5, h6, p, li {color: $color-gray-light;}
-    h4 {margin: 0; padding: 0;}
-    a {color: $color-primary-darkest;}
-  }
-}
-
 #content .section.primary {
   background: none;
   padding: 2em 0;
@@ -751,11 +660,6 @@ ul, ol {
   h3 {
     font-size: 2.2em;
   }
-}
-
-#content .section {
-  h2, h3, h4, h5, h6 {margin: 0; padding: 0 0 .5em 0;}
-  h2 {line-height: 1.2em;}
 }
 
 #content .section .feature {min-height: 11em;}
@@ -907,9 +811,6 @@ ul, ol {
     }
   }
 }
-
-
-
 
 .va-breadcrumbs-heading {
   font-size: 1em !important;
@@ -1365,7 +1266,7 @@ li {
     font-weight: 700;
     float: left;
     margin: 0;
-    color: #003E73;
+    color: color-primary-darker;
     line-height: 1em;
     padding: 0 0 .5em;
     border-bottom: 1px solid $color-gray-light;
