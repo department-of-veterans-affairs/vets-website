@@ -41,7 +41,7 @@ export function schema(userOptions) {
 
   return {
     type: 'array',
-    minItems: 1,
+    minItems: options.required.length > 0 ? 1 : 0,
     items: {
       type: 'object',
       required: requiredFields,
