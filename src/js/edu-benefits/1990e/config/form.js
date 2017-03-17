@@ -10,6 +10,7 @@ import directDeposit from '../../pages/directDeposit';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import { uiSchema as dateUiSchema } from '../../../common/schemaform/definitions/date';
+import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
 import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import { uiSchema as ssnUiSchema } from '../../../common/schemaform/definitions/ssn';
 import uiSchemaPostHighSchoolTrainings from '../../definitions/postHighSchoolTrainings';
@@ -102,7 +103,7 @@ const formConfig = {
           title: 'Sponsor Information',
           path: 'sponsor-veteran',
           uiSchema: {
-            veteranFullName: {
+            veteranFullName: _.merge(fullNameUISchema, {
               first: {
                 'ui:title': 'Sponsor first name'
               },
@@ -114,11 +115,8 @@ const formConfig = {
               },
               suffix: {
                 'ui:title': 'Sponsor suffix',
-                'ui:options': {
-                  widgetClassNames: 'form-select-medium'
-                }
               }
-            },
+            }),
             veteranSocialSecurityNumber: _.set(['ui:title'], 'Sponsor Social Security number', ssnUiSchema),
             veteranAddress: address.uiSchema('Sponsor Address'),
             serviceBranch: {
