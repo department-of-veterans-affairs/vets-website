@@ -41,6 +41,5 @@ majorlinks:
 <div class="main" role="main">
   <h2 class="va-h-ruled--stars">Explore Services and Benefits</h2>
 
-
   {% include "content/includes/main-navigation.html" %}
 </div>
