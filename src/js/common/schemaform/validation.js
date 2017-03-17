@@ -262,6 +262,6 @@ export function validateDateRange(errors, dateRange, formData, formContext, erro
   const toDate = convertToDateField(dateRange.to);
 
   if (!isValidDateRange(fromDate, toDate)) {
-    errors.to.addError(errorMessages.dateRange || 'To date must be before from date');
+    errors.to.addError(errorMessages.pattern || 'To date must be after from date');
   }
 }

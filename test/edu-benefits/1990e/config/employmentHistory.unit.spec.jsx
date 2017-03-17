@@ -19,6 +19,6 @@ describe('Edu 1990e employmentHistory', () => {
 
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
 
-    expect(inputs.length).to.equal(1);
+    expect(inputs.length).to.equal(2);
   });
 });

@@ -22,12 +22,26 @@ function recalculateSchemaAndData(initialState) {
     .reduce((state, pageKey) => {
       const page = state[pageKey];
       // on each data change, we need to do the following steps
+
+      // Flatten the data from all the pages
+      const formData = Object.keys(state).reduce((carry, pageName) => {
+        if (state[pageName].data) {
+          Object.keys(state[pageName].data).forEach((fieldKey) => {
+            carry[fieldKey] = state[pageName].data[fieldKey]; // eslint-disable-line
+          });
+        }
+        return carry;
+      }, {});
+
       // Recalculate any required fields, based on the new data
-      let schema = updateRequiredFields(page.schema, page.uiSchema, page.data, state);
+      let schema = updateRequiredFields(page.schema, page.uiSchema, formData);
+
       // Update the schema with any fields that are now hidden because of the data change
-      schema = setHiddenFields(schema, page.uiSchema, page.data, state);
+      schema = setHiddenFields(schema, page.uiSchema, formData);
+
       // Update the schema with any general updates based on the new data
       schema = updateSchemaFromUiSchema(schema, page.uiSchema, page.data, state);
+
       // Remove any data that's now hidden in the schema
       const data = removeHiddenData(schema, page.data);
 

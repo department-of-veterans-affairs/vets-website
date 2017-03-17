@@ -7,6 +7,24 @@ import Form from 'react-jsonschema-form';
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import { schema, uiSchema } from '../../../../src/js/common/schemaform/definitions/dateRange';
 
+function fillDate(find, toFrom, day, month, year) {
+  ReactTestUtils.Simulate.change(find(`#root_${toFrom}Day`), {
+    target: {
+      value: day
+    }
+  });
+  ReactTestUtils.Simulate.change(find(`#root_${toFrom}Month`), {
+    target: {
+      value: month
+    }
+  });
+  ReactTestUtils.Simulate.change(find(`#root_${toFrom}Year`), {
+    target: {
+      value: year
+    }
+  });
+}
+
 describe('Schemaform definition dateRange', () => {
   it('should render dateRange', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -31,41 +49,14 @@ describe('Schemaform definition dateRange', () => {
 
     const formDOM = findDOMNode(form);
     const find = formDOM.querySelector.bind(formDOM);
-    ReactTestUtils.Simulate.change(find('#root_fromDay'), {
-      target: {
-        value: '4'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('#root_fromMonth'), {
-      target: {
-        value: '4'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('#root_fromYear'), {
-      target: {
-        value: '2001'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('#root_toDay'), {
-      target: {
-        value: '4'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('#root_toMonth'), {
-      target: {
-        value: '4'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('#root_toYear'), {
-      target: {
-        value: '2000'
-      }
-    });
+    fillDate(find, 'from', 4, 4, 2000);
+    fillDate(find, 'to', 4, 4, 2001);
+
     ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
       preventDefault: f => f
     });
 
-    expect(find('.usa-input-error-message').textContent).to.equal(dateRangeUISchema['ui:errorMessages'].dateRange);
+    expect(find('.usa-input-error-message').textContent).to.equal(dateRangeUISchema['ui:errorMessages'].pattern);
   });
   it('should render dateRange title and messages', () => {
     const form = ReactTestUtils.renderIntoDocument(

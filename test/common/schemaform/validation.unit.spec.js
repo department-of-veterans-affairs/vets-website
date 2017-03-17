@@ -284,7 +284,7 @@ describe('Schemaform validations', () => {
       validateDateRange(errors, {
         from: '2014-01-04',
         to: '2012-01-04'
-      }, null, null, { dateRange: 'Test message' });
+      }, null, null, { pattern: 'Test message' });
 
       expect(errors.to.addError.calledWith('Test message')).to.be.true;
     });

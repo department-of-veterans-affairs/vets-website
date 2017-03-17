@@ -35,7 +35,6 @@ export default class ArrayField extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.onItemBlur = this.onItemBlur.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
   }
@@ -47,10 +46,6 @@ export default class ArrayField extends React.Component {
   onItemChange(indexToChange, value) {
     const newItems = _.set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
-  }
-
-  onItemBlur(index, path = []) {
-    this.props.onBlur([index].concat(path));
   }
 
   scrollToTop() {
@@ -154,6 +149,7 @@ export default class ArrayField extends React.Component {
       readonly,
       registry,
       formContext,
+      onBlur,
       schema
     } = this.props;
     const definitions = registry.definitions;
@@ -218,7 +214,7 @@ export default class ArrayField extends React.Component {
                             idSchema={itemIdSchema}
                             formData={item}
                             onChange={(value) => this.onItemChange(index, value)}
-                            onBlur={(path) => this.onItemBlur(index, path)}
+                            onBlur={onBlur}
                             registry={this.props.registry}
                             required={false}
                             disabled={disabled}
