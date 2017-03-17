@@ -22,7 +22,7 @@ relatedlinks:
 
 The Veterans Employment Center can help spouses and other family members access valuable career resources.
 
-Through the Department of Defense’s [Spouse Education Career Opportunities](https://myseco.militaryonesource.mil/Portal/) (SECO) program, spouses can use government-sponsored career and education resources, take advantage of networking opportunities, and work with employment counselors. SECO also partners with the [Military Spouse Employment Partnership](https://msepjobs.militaryonesource.mil/msep/) (MSEP) and [My Career Advancement Account](https://myseco.militaryonesource.mil/Portal/Media/Default/Collaterals_Catalog/Program_Overview/MyCAA-Helping-Spouses-Reach-Career-Goals.pdf) (MyCAA) scholarship program. These organizations and others (such as [Blue Star Families](https://www.bluestarfam.org/)) offer assistance for spouses interested in the following:
+Through the Department of Defense’s [Spouse Education Career Opportunities](http://www.militaryonesource.mil/seco) (SECO) program, spouses can use government-sponsored career and education resources, take advantage of networking opportunities, and work with employment counselors. SECO also partners with the [Military Spouse Employment Partnership](https://msepjobs.militaryonesource.mil/msep/) (MSEP) and [My Career Advancement Account](http://download.militaryonesource.mil/12038/MOS/Factsheets/SECO/MyCAA-Factsheet-Overview.pdf) (MyCAA) scholarship program. These organizations and others (such as [Blue Star Families](https://www.bluestarfam.org/)) offer assistance for spouses interested in the following:
 
 - Connecting with employers committed to hiring military spouses.
 - Pursuing additional education and/or training.  
@@ -44,7 +44,7 @@ Yes, if:
 - Spouses can attend Department of Labor Employment Workshops (DOLEW) online through the Transition Assistance Program (TAP) Virtual Curriculum on [Joint Knowledge Online](https://jkodirect.jten.mil), on the [Department of Labor website](https://www.dol.gov/vets/), or in person at some military installations. These workshops focus on building résumés and cover letters as well as developing networking and interviewing skills.
 
 #### Start your own business
-If entrepreneurship interests you, learn about everything from start-up costs to business, accounting, and financial assistance with three programs: [SCORE](https://www.score.org/topics/veteran_guards_reservists ), the [Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned)(SBA), and [Entrepreneurship Boot Camp](https://myseco.militaryonesource.mil/Portal/Content/View/2622).
+If entrepreneurship interests you, learn about everything from start-up costs to business, accounting, and financial assistance with three programs: [SCORE](https://www.score.org/), the [Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned)(SBA), and [Entrepreneurship Boot Camp](http://ebv.vets.syr.edu/).
 
 -----
 
