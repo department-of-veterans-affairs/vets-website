@@ -10,6 +10,44 @@ import formConfig from '../../../src/js/edu-benefits/pages/applicantInformation.
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
 
+function fillInformation(find) {
+  ReactTestUtils.Simulate.change(find('#root_relativeFullName_first'), {
+    target: {
+      value: 'Test'
+    }
+  });
+  ReactTestUtils.Simulate.change(find('#root_relativeFullName_last'), {
+    target: {
+      value: 'Test'
+    }
+  });
+  ReactTestUtils.Simulate.change(find('#root_relativeSocialSecurityNumber'), {
+    target: {
+      value: '987654321'
+    }
+  });
+  ReactTestUtils.Simulate.change(find('#root_relativeDateOfBirthMonth'), {
+    target: {
+      value: '1'
+    }
+  });
+  ReactTestUtils.Simulate.change(find('#root_relativeDateOfBirthDay'), {
+    target: {
+      value: '1'
+    }
+  });
+  ReactTestUtils.Simulate.change(find('#root_relativeDateOfBirthYear'), {
+    target: {
+      value: '1980'
+    }
+  });
+  ReactTestUtils.Simulate.change(find('#root_relationship_0'), {
+    target: {
+      checked: true
+    }
+  });
+}
+
 describe('Edu 1990e applicantInformation', () => {
   const { schema, uiSchema } = formConfig(fullSchema1990e);
   it('should render', () => {
@@ -49,16 +87,8 @@ describe('Edu 1990e applicantInformation', () => {
 
     const formDOM = findDOMNode(form);
     const find = formDOM.querySelector.bind(formDOM);
-    ReactTestUtils.Simulate.change(find('#root_relativeFullName_first'), {
-      target: {
-        value: 'Test'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('#root_relativeFullName_last'), {
-      target: {
-        value: 'Test'
-      }
-    });
+
+    fillInformation(find);
 
     submitForm(form);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
@@ -83,7 +113,7 @@ describe('Edu 5490 applicantInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(10);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(12);
   });
   it('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
@@ -111,16 +141,8 @@ describe('Edu 5490 applicantInformation', () => {
 
     const formDOM = findDOMNode(form);
     const find = formDOM.querySelector.bind(formDOM);
-    ReactTestUtils.Simulate.change(find('#root_relativeFullName_first'), {
-      target: {
-        value: 'Test'
-      }
-    });
-    ReactTestUtils.Simulate.change(find('#root_relativeFullName_last'), {
-      target: {
-        value: 'Test'
-      }
-    });
+
+    fillInformation(find);
 
     submitForm(form);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;

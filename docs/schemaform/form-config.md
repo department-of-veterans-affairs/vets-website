@@ -162,9 +162,10 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
   'ui:reviewWidget': WidgetComponent,
 
   // Use this to provide a function to make a field conditionally required.   
-  // The current page data is the only parameter. You should avoid having
-  // a field required in the JSON schema and using `ui:required` on the same field.
-  'ui:required': function (pageData) {
+  // The data in the whole form (with no page breaks) is the only parameter.
+  // You should avoid having a field required in the JSON schema and using `ui:required`
+  // on the same field.
+  'ui:required': function (formData) {
     return true || false;
   },
   
@@ -210,6 +211,11 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
     // to the property name. It will wrap the fields in an ExpandingGroup component with
     // the expandUnder field as the first question.
     expandUnder: '', 
+
+    // If you're using the expandUnder option, you can set this option on the field specified
+    // by expandUnder and it will add classes to the div that wraps all of the fields when
+    // they are expanded. See cookbook for an example use case.
+    expandUnderClassNames: '',
     
     // Set this if you want to hide this field on the review page.
     hideOnReview: true || false,
@@ -218,7 +224,7 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
     hideOnReviewIfFalse: true || false 
 
     // Function that conditionally hides fields in the form
-    hideIf: function (fieldData) {
+    hideIf: function (formData) {
       return true || false;
     }
 
@@ -414,7 +420,7 @@ Only `chapter35`, `chapter33`, `transferOfEntitlement`, `veteranFullName`, and `
   chapter31: { ... },
   ownServiceBenefits: { ... },
   'view:sponsorServiceOptions': {
-    hideIf: () => /* Some condition here */,
+    hideIf: (formData) => /* Some condition here */,
     chapter35: { ... },
     chapter33: { ... },
     transferOfEntitlement: { ... },
@@ -426,3 +432,33 @@ Only `chapter35`, `chapter33`, `transferOfEntitlement`, `veteranFullName`, and `
 ```
 
 When this form is sent to the backend, the fields in the `view:sponsorServiceOptions` object will be moved up one level and sent alongside `dic` and `chapter31`. The back end will never see objects with names that start with `view:`, but it will get all the fields inside of them.
+
+## I want to indent or style the fields that are using expandUnder
+
+If you need to indent all the fields that are being expanded/collapsed with the expandUnder option, or do some other styling, you can set a class on the controlling field.
+
+```js
+// uiSchema
+{
+  field1: {
+    'ui:title': 'This field expands/collapses other items',
+    'ui:options': {
+      expandUnderClassNames: 'schemaform-expandUnder-indent'
+    }
+  },
+  field2: {
+    'ui:title': 'This field is controlled by field1'
+    'ui:options': {
+      expandUnder: 'field1'
+    }
+  },
+  field3: {
+    'ui:title': 'This field is controlled by field1'
+    'ui:options': {
+      expandUnder: 'field1'
+    }
+  }
+}
+```
+
+Now, `schemaform-expandUnder-indent` will be applied to the div that surrounds `field2` and `field3`. This class currently indents the fields, so if that's what you need, you're all set. If you need to do other styling, you can create a new class to use here and add your own styles. 

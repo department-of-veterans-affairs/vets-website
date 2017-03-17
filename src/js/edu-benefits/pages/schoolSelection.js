@@ -3,10 +3,22 @@ import _ from 'lodash/fp';
 import * as educationProgram from '../definitions/educationProgram';
 import { uiSchema as uiSchemaDate } from '../../common/schemaform/definitions/date';
 
-export default function createSchoolSelectionPage(
-  schema,
-  fields = ['educationProgram', 'educationObjective', 'nonVaAssistance'],
-  programRequired = false) {
+const defaults = {
+  fields: [
+    'educationProgram',
+    'educationObjective',
+    'nonVaAssistance'
+  ],
+  required: [
+    // 'educationType',
+    // 'name'
+  ]
+};
+
+export default function createSchoolSelectionPage(schema, options) {
+  const mergedOptions = _.merge(defaults, options);
+  const { fields, required } = mergedOptions;
+
   const possibleUISchemaFields = {
     educationProgram: educationProgram.uiSchema,
     educationObjective: {
@@ -45,7 +57,7 @@ export default function createSchoolSelectionPage(
     schemaProperties.educationProgram =
       educationProgram.schema(
         schema,
-        programRequired ? ['educationType', 'name'] : []
+        required
       );
   }
 
