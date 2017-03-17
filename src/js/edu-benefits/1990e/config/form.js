@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
+import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from '../../pages/applicantInformation';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
@@ -59,7 +60,8 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformation(fullSchema1990e)
+        applicantInformation: applicantInformation(fullSchema1990e),
+        additionalBenefits: additionalBenefits(fullSchema1990e)
       }
     },
     benefitEligibility: {
@@ -201,9 +203,7 @@ const formConfig = {
         schoolSelection: createSchoolSelectionPage(fullSchema1990e, {
           fields: [
             'educationProgram',
-            'educationObjective',
-            'nonVaAssistance',
-            'civilianBenefitsAssistance'
+            'educationObjective'
           ]
         })
       }
