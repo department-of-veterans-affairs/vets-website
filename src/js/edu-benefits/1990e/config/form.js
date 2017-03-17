@@ -212,7 +212,7 @@ const formConfig = {
             'civilianBenefitsAssistance'
           ],
           required: ['educationType']
-        });
+        })
       }
     },
     personalInformation: {

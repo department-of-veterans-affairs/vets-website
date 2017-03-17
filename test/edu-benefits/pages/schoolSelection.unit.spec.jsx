@@ -54,7 +54,7 @@ describe('Edu 1990e schoolSelection', () => {
   });
 
   it('should require educationType if specified', () => {
-    const { schema: schemaIfEducationType, uiSchema: uiSchemaIfEducationType } = formConfig(fullSchema1990e, { 
+    const { schema: schemaIfEducationType, uiSchema: uiSchemaIfEducationType } = formConfig(fullSchema1990e, {
       fields: [
         'educationProgram',
         'educationObjective',
