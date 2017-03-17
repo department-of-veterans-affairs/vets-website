@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { isEmpty, startCase } from 'lodash';
+import { isEmpty } from 'lodash';
 
 import LoadingIndicator from '../../../common/components/LoadingIndicator';
 import { calculatorInputChange, showModal } from '../../actions';
@@ -72,12 +72,12 @@ export class Calculator extends React.Component {
     const { perTerm } = this.props.calculated.outputs;
 
     const sections = Object.keys(perTerm).map(section => {
-      const { visible, terms } = this.props.calculated.outputs.perTerm[section];
+      const { visible, title, terms } = this.props.calculated.outputs.perTerm[section];
       if (!visible) return null;
 
       return (
         <div key={section}>
-          <h4>{startCase(section)}</h4>
+          <h4>{title}</h4>
           {terms.map(term =>
             <CalculatorResultRow
                 key={`${section}${term.label}`}

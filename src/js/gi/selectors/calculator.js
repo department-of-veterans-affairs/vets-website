@@ -796,6 +796,7 @@ export const getCalculatedBenefits = createSelector(
       perTerm: {
         tuitionAndFees: {
           visible: true,
+          title: 'Tuition and fees',
           terms: [
             { label: derived.nameOfTerm1, value: derived.tuitionFeesTerm1, visible: true },
             { label: derived.nameOfTerm2, value: derived.tuitionFeesTerm2, visible: true },
@@ -805,6 +806,7 @@ export const getCalculatedBenefits = createSelector(
         },
         housingAllowance: {
           visible: true,
+          title: 'Housing allowance',
           terms: [
             { label: derived.nameOfTerm1, value: derived.housingAllowTerm1, visible: true },
             { label: derived.nameOfTerm2, value: derived.housingAllowTerm2, visible: true },
@@ -814,6 +816,7 @@ export const getCalculatedBenefits = createSelector(
         },
         bookStipend: {
           visible: true,
+          title: 'Book stipend',
           terms: [
             { label: derived.nameOfTerm1, value: derived.bookStipendTerm1, visible: true },
             { label: derived.nameOfTerm2, value: derived.bookStipendTerm2, visible: true },
@@ -823,6 +826,7 @@ export const getCalculatedBenefits = createSelector(
         },
         yellowRibbon: {
           visible: true,
+          title: 'Yellow Ribbon',
           terms: [
             { label: `${derived.nameOfTerm1} (paid by school)`, value: derived.yrBenSchoolTerm1, visible: true },
             { label: `${derived.nameOfTerm1} (paid by VA)`, value: derived.yrBenVaTerm1, visible: true },
@@ -949,8 +953,10 @@ export const getCalculatedBenefits = createSelector(
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.bookStipend.terms[1].visible = false;
       calculatedBenefits.outputs.perTerm.bookStipend.terms[2].visible = false;
-      calculatedBenefits.outputs.perTerm.yellowRibbon.terms[1].visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.terms[2].visible = false;
+      calculatedBenefits.outputs.perTerm.yellowRibbon.terms[3].visible = false;
+      calculatedBenefits.outputs.perTerm.yellowRibbon.terms[4].visible = false;
+      calculatedBenefits.outputs.perTerm.yellowRibbon.terms[5].visible = false;
     }
 
     if (derived.numberOfTerms < 3 && institution.type !== 'ojt') {
@@ -958,7 +964,8 @@ export const getCalculatedBenefits = createSelector(
       calculatedBenefits.outputs.perTerm.tuitionAndFees.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.bookStipend.terms[2].visible = false;
-      calculatedBenefits.outputs.perTerm.yellowRibbon.terms[2].visible = false;
+      calculatedBenefits.outputs.perTerm.yellowRibbon.terms[4].visible = false;
+      calculatedBenefits.outputs.perTerm.yellowRibbon.terms[5].visible = false;
     }
 
     return calculatedBenefits;
