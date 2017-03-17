@@ -96,33 +96,33 @@ const formConfig = {
       }
     },
     sponsorVeteran: {
-      title: 'Sponsor Veteran',
+      title: 'Sponsor Information',
       pages: {
         sponsorVeteran: {
-          title: 'Sponsor Veteran',
+          title: 'Sponsor Information',
           path: 'sponsor-veteran',
           uiSchema: {
             veteranFullName: {
               first: {
-                'ui:title': 'Veteran first name'
+                'ui:title': 'Sponsor first name'
               },
               last: {
-                'ui:title': 'Veteran last name'
+                'ui:title': 'Sponsor last name'
               },
               middle: {
-                'ui:title': 'Veteran middle name'
+                'ui:title': 'Sponsor middle name'
               },
               suffix: {
-                'ui:title': 'Veteran suffix',
+                'ui:title': 'Sponsor suffix',
                 'ui:options': {
                   widgetClassNames: 'form-select-medium'
                 }
               }
             },
-            veteranSocialSecurityNumber: _.set(['ui:title'], 'Veteran Social Security number', ssnUiSchema),
-            veteranAddress: address.uiSchema('Veteran Address'),
+            veteranSocialSecurityNumber: _.set(['ui:title'], 'Sponsor Social Security number', ssnUiSchema),
+            veteranAddress: address.uiSchema('Sponsor Address'),
             serviceBranch: {
-              'ui:title': 'Branch of Service'
+              'ui:title': 'Sponsor Branch of Service'
             }
           },
           schema: {
