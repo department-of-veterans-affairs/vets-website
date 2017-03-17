@@ -56,7 +56,7 @@ class IntroductionPage extends React.Component {
             <li className="step four last">
               <div><h5>Decision</h5></div>
               <ul><li>We usually process claims within 30 days.</li></ul>
-              <ul><li>You’ll get a COE or Award Letter in the mail if your application was approved. Bring this to the VA certifying official at your school.</li></ul>
+              <ul><li>You’ll get a Certificate of Eligibility (COE) or Award Letter in the mail if your application was approved. Bring this to the VA certifying official at your school.</li></ul>
             </li>
           </ol>
         </div>
