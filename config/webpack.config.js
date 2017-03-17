@@ -12,6 +12,8 @@ const _ = require('lodash');
 
 require('babel-polyfill');
 
+const timestamp = new Date().getTime();
+
 const entryFiles = {
   'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
   'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
@@ -47,8 +49,8 @@ const configGenerator = (options) => {
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
-      filename: (options.buildtype === 'development') ? '[name].entry.js' : '[name].entry.[chunkhash].js',
-      chunkFilename: (options.buildtype === 'development') ? '[name].entry.js' : '[name].entry.[chunkhash].js'
+      filename: (options.buildtype === 'development') ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`,
+      chunkFilename: (options.buildtype === 'development') ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
     },
     module: {
       loaders: [
@@ -145,12 +147,12 @@ const configGenerator = (options) => {
         'window.jQuery': 'jquery'
       }),
 
-      new ExtractTextPlugin((options.buildtype === 'development') ? '[name].css' : '[name].[chunkhash].css'),
+      new ExtractTextPlugin((options.buildtype === 'development') ? '[name].css' : `[name].[chunkhash]-${timestamp}.css`),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
       new webpack.optimize.CommonsChunkPlugin(
         'vendor',
-        (options.buildtype === 'development') ? 'vendor.js' : 'vendor.[chunkhash].js',
+        (options.buildtype === 'development') ? 'vendor.js' : `vendor.[chunkhash]-${timestamp}.js`,
         Infinity
       ),
     ],
