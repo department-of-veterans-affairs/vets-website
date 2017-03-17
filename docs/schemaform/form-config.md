@@ -162,9 +162,10 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
   'ui:reviewWidget': WidgetComponent,
 
   // Use this to provide a function to make a field conditionally required.   
-  // The current page data is the only parameter. You should avoid having
-  // a field required in the JSON schema and using `ui:required` on the same field.
-  'ui:required': function (pageData) {
+  // The data in the whole form (with no page breaks) is the only parameter.
+  // You should avoid having a field required in the JSON schema and using `ui:required`
+  // on the same field.
+  'ui:required': function (formData) {
     return true || false;
   },
   
@@ -230,7 +231,7 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
     hideOnReviewIfFalse: true || false 
 
     // Function that conditionally hides fields in the form
-    hideIf: function (fieldData) {
+    hideIf: function (formData) {
       return true || false;
     }
 
@@ -426,7 +427,7 @@ Only `chapter35`, `chapter33`, `transferOfEntitlement`, `veteranFullName`, and `
   chapter31: { ... },
   ownServiceBenefits: { ... },
   'view:sponsorServiceOptions': {
-    hideIf: () => /* Some condition here */,
+    hideIf: (formData) => /* Some condition here */,
     chapter35: { ... },
     chapter33: { ... },
     transferOfEntitlement: { ... },

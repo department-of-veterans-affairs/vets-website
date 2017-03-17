@@ -68,7 +68,7 @@ const formConfig = {
           uiSchema: {
             veteranFullName: fullName.uiSchema,
             veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
-              'ui:required': (form) => !form['view:noSSN']
+              'ui:required': (formData) => !formData['view:noSSN']
             }),
             'view:noSSN': {
               'ui:title': 'I don’t have a Social Security number',
@@ -77,7 +77,7 @@ const formConfig = {
               }
             },
             vaFileNumber: {
-              'ui:required': (form) => !!form['view:noSSN'],
+              'ui:required': (formData) => !!formData['view:noSSN'],
               'ui:title': 'File number',
               'ui:errorMessages': {
                 pattern: 'File number must be 8 digits'
@@ -194,7 +194,7 @@ const formConfig = {
             educationType: educationTypeUISchema,
             newSchoolAddress: _.merge(address.uiSchema(), {
               'ui:options': {
-                hideIf: (form) => !showSchoolAddress(form.educationType)
+                hideIf: (formData) => !showSchoolAddress(formData.educationType)
               }
             }),
             educationObjective: {
@@ -296,13 +296,13 @@ const formConfig = {
             },
             bankAccount: _.assign(bankAccount.uiSchema, {
               'ui:options': {
-                hideIf: (form) => form.bankAccountChange !== 'startUpdate'
+                hideIf: (formData) => formData.bankAccountChange !== 'startUpdate'
               }
             }),
             'view:stopWarning': {
               'ui:description': directDepositWarning,
               'ui:options': {
-                hideIf: (form) => form.bankAccountChange !== 'stop'
+                hideIf: (formData) => formData.bankAccountChange !== 'stop'
               }
             }
           },
