@@ -51,7 +51,11 @@ export default function applicantInformation(schema, options) {
       'ui:order': fields,
       relativeFullName: fullName.uiSchema,
       relativeSocialSecurityNumber: ssn.uiSchema,
-      relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
+      relativeDateOfBirth: _.set(
+        'ui:errorMessages.futureDate',
+        'Please provide a valid date',
+        currentOrPastDate.uiSchema('Date of birth')
+      ),
       gender: {
         'ui:widget': 'radio',
         'ui:title': 'Gender',
