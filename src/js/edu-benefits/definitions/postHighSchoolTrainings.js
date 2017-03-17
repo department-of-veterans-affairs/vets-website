@@ -44,7 +44,7 @@ const uiSchema = {
       'ui:title': 'Degree, diploma or certificate received'
     },
     major: {
-      'ui:title': 'Major or course of study (NOT for high school)'
+      'ui:title': 'Major or course of study'
     }
   }
 };
