@@ -473,7 +473,9 @@ const formConfig = {
           title: 'Employment history',
           path: 'employment-history',
           uiSchema: {
-            nonMilitaryJobs: nonMilitaryJobsUiSchema
+            nonMilitaryJobs: _.merge(nonMilitaryJobsUiSchema, {
+              'ui:description': 'Please list any jobs you\'ve held'
+            })
           },
           schema: {
             type: 'object',
@@ -487,7 +489,7 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: createSchoolSelectionPage(fullSchema5490, {
+        schoolSelection: _.merge(createSchoolSelectionPage(fullSchema5490, {
           fields: [
             'educationProgram',
             'educationObjective',
@@ -498,6 +500,15 @@ const formConfig = {
             'educationalCounseling'
           ],
           required: ['educationType']
+        }), {
+          // Rephrase the question for facility name in educationProgram
+          uiSchema: {
+            educationProgram: {
+              name: {
+                'ui:title': 'Name of school, university, or training facility you want to attend'
+              }
+            }
+          }
         })
       }
     },

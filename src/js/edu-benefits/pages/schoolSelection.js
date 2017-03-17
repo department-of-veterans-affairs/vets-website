@@ -31,18 +31,18 @@ export default function createSchoolSelectionPage(schema, options) {
     },
     educationStartDate: uiSchemaDate('The date your training began or will begin'),
     restorativeTraining: {
-      'ui:title': 'Are you seeking special restorative training?',
+      'ui:title': 'Do you want special restorative training? (for example, you need speech therapy or your disability means you need help in your courses)',
       'ui:widget': 'yesNo'
     },
     vocationalTraining: {
-      'ui:title': 'Are you seeking special vocational training?',
+      'ui:title': 'Do you want special vocational training?',
       'ui:widget': 'yesNo'
     },
     trainingState: {
-      'ui:title': 'In what state do you plan on living while participating in this training?'
+      'ui:title': 'In what state do you plan on living while taking courses or training?'
     },
     educationalCounseling: {
-      'ui:title': 'Would you like to receive vocational and educational counseling?',
+      'ui:title': 'Would you like to get vocational and educational counseling?',
       'ui:widget': 'yesNo'
     },
     // May want to turn this into a yes/no
