@@ -207,8 +207,11 @@ const formConfig = {
         schoolSelection: createSchoolSelectionPage(fullSchema1990e, {
           fields: [
             'educationProgram',
-            'educationObjective'
-          ]
+            'educationObjective',
+            'nonVaAssistance',
+            'civilianBenefitsAssistance'
+          ],
+          required: ['educationType']
         });
       }
     },

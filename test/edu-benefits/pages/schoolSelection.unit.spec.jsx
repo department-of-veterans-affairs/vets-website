@@ -54,12 +54,15 @@ describe('Edu 1990e schoolSelection', () => {
   });
 
   it('should require educationType if specified', () => {
-    const { schema: schemaIfEducationType, uiSchema: uiSchemaIfEducationType } = formConfig(fullSchema1990e, [
-      'educationProgram',
-      'educationObjective',
-      'nonVaAssistance',
-      'civilianBenefitsAssistance'
-    ], false, true);
+    const { schema: schemaIfEducationType, uiSchema: uiSchemaIfEducationType } = formConfig(fullSchema1990e, { 
+      fields: [
+        'educationProgram',
+        'educationObjective',
+        'nonVaAssistance',
+        'civilianBenefitsAssistance'
+      ],
+      required: ['educationType']
+    });
 
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
@@ -80,43 +83,6 @@ describe('Edu 1990e schoolSelection', () => {
     });
 
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-    expect(onSubmit.called).to.be.true;
-  });
-
-  xit('should require program if specified', () => {
-    const { schema: schemaIfProgramType, uiSchema: uiSchemaIfProgramType } = formConfig(fullSchema1990e, [
-      'educationProgram',
-      'educationObjective',
-      'nonVaAssistance',
-      'civilianBenefitsAssistance'
-    ], true, false);
-
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schemaIfProgramType}
-          onSubmit={onSubmit}
-          data={{}}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchemaIfProgramType}/>
-    );
-    const formDOM = findDOMNode(form);
-    const find = formDOM.querySelector.bind(formDOM);
-
-    ReactTestUtils.Simulate.change(find('#root_educationProgram_name'), {
-      target: {
-        value: 'school'
-      }
-    });
-
-    submitForm(form);
-
-    // console.log(formDOM.querySelectorAll('.usa-input-error')[0]);
-    // console.log(form.props);
-    console.log(formConfig);
-    console.log(formConfig.defaultDefinitions);
-    console.log(schemaIfProgramType.definitions);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
     expect(onSubmit.called).to.be.true;
   });
