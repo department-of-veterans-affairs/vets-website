@@ -21,28 +21,21 @@ describe('Edu 5490 sponsorVeteran', () => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(13);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(11);
   });
+
   it('should conditionally show spouseInfo options', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           data={{}}
+          formData={{ relationship: 'spouse' }}
           uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
-
-    // Shouldn't show this at first
-    expect(formDOM.querySelector('label[for=root_spouseInfo_divorcePending]')).to.be.null;
-
-    // Select spouse
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_relationship_0'), {
-      target: {
-        checked: true
-      }
-    });
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(15);
 
     // The divorce input should be there now
     expect(formDOM.querySelector('label[for=root_spouseInfo_divorcePending]')).to.not.be.null;

@@ -11,12 +11,14 @@ import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json
 import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
 
 describe('Edu 1990e schoolSelection', () => {
-  const { schema, uiSchema } = formConfig(fullSchema1990e, [
-    'educationProgram',
-    'educationObjective',
-    'nonVaAssistance',
-    'civilianBenefitsAssistance'
-  ]);
+  const { schema, uiSchema } = formConfig(fullSchema1990e, {
+    fields: [
+      'educationProgram',
+      'educationObjective',
+      'nonVaAssistance',
+      'civilianBenefitsAssistance'
+    ]
+  });
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -53,15 +55,18 @@ describe('Edu 1990e schoolSelection', () => {
 });
 
 describe('Edu 5490 schoolSelection', () => {
-  const { schema, uiSchema } = formConfig(fullSchema5490, [
-    'educationProgram',
-    'educationObjective',
-    'educationStartDate',
-    'restorativeTraining',
-    'vocationalTraining',
-    'trainingState',
-    'educationalCounseling'
-  ]);
+  const { schema, uiSchema } = formConfig(fullSchema5490, {
+    fields: [
+      'educationProgram',
+      'educationObjective',
+      'educationStartDate',
+      'restorativeTraining',
+      'vocationalTraining',
+      'trainingState',
+      'educationalCounseling'
+    ],
+    required: ['educationType']
+  });
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -79,7 +84,7 @@ describe('Edu 5490 schoolSelection', () => {
     expect(inputs.length).to.equal(13);
   });
 
-  it('should have no required inputs', () => {
+  it('should have required inputs', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -92,7 +97,7 @@ describe('Edu 5490 schoolSelection', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-    expect(onSubmit.called).to.be.true;
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.not.be.empty;
+    expect(onSubmit.called).to.not.be.true;
   });
 });
