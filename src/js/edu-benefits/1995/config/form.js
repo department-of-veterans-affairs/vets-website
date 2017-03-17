@@ -66,14 +66,14 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             veteranFullName: fullName.uiSchema,
-            veteranId: veteranId.uiSchema
+            'view:veteranId': veteranId.uiSchema
           },
           schema: {
             type: 'object',
             required: ['veteranFullName'],
             properties: {
               veteranFullName: fullName.schema,
-              veteranId: veteranId.schema
+              'view:veteranId': veteranId.schema
             }
           }
         }

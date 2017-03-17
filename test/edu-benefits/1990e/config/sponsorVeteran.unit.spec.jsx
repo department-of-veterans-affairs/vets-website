@@ -21,7 +21,7 @@ describe('Edu 1990e sponsorVeteran', () => {
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
     const selects = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select');
 
-    expect(inputs.length).to.equal(9);
+    expect(inputs.length).to.equal(10);
     expect(selects.length).to.equal(3);
   });
   it('should show errors when required fields are empty', () => {
@@ -60,8 +60,7 @@ describe('Edu 1990e sponsorVeteran', () => {
         value: 'Veteran'
       }
     });
-
-    ReactTestUtils.Simulate.change(find('#root_veteranSocialSecurityNumber'), {
+    ReactTestUtils.Simulate.change(find('#root_view:veteranId_veteranSocialSecurityNumber'), {
       target: {
         value: '111-22-3333'
       }

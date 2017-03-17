@@ -7,6 +7,8 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/1995/config/form';
 
+const definitions = formConfig.defaultDefinitions;
+
 describe('Edu 1995 veteranInformation', () => {
   const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
   it('should render', () => {
@@ -14,6 +16,7 @@ describe('Edu 1995 veteranInformation', () => {
       <DefinitionTester
           schema={schema}
           data={{}}
+          definitions={definitions}
           uiSchema={uiSchema}/>
     );
 
@@ -34,10 +37,10 @@ describe('Edu 1995 veteranInformation', () => {
     submitForm(form);
 
     // show error for ssn, file number not visible
-    expect(formDOM.querySelector('#root_vaFileNumber')).to.be.null;
-    expect(formDOM.querySelector('.usa-input-error #root_veteranSocialSecurityNumber')).not.to.be.null;
+    expect(formDOM.querySelector('#root_view:veteranId_vaFileNumber')).to.be.null;
+    expect(formDOM.querySelector('.usa-input-error #root_view:veteranId_veteranSocialSecurityNumber')).not.to.be.null;
     const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
-      .find(input => input.getAttribute('name') === 'root_view:noSSN');
+      .find(input => input.getAttribute('name') === 'root_view:veteranId_view:noSSN');
 
     ReactTestUtils.Simulate.change(noSSNBox,
       {
@@ -47,8 +50,8 @@ describe('Edu 1995 veteranInformation', () => {
       });
 
     // no error for ssn, file number is visible with error
-    expect(formDOM.querySelector('.usa-input-error #root_veteranSocialSecurityNumber')).to.be.null;
-    expect(formDOM.querySelector('.usa-input-error #root_vaFileNumber')).not.to.be.null;
+    expect(formDOM.querySelector('.usa-input-error #root_view:veteranId_veteranSocialSecurityNumber')).to.be.null;
+    expect(formDOM.querySelector('.usa-input-error #root_view:veteranId_vaFileNumber')).not.to.be.null;
   });
   it('should have no errors with all info filled in', () => {
     const onSubmit = sinon.spy();
@@ -74,7 +77,7 @@ describe('Edu 1995 veteranInformation', () => {
         value: 'Test'
       }
     });
-    ReactTestUtils.Simulate.change(find('#root_veteranSocialSecurityNumber'), {
+    ReactTestUtils.Simulate.change(find('#root_view:veteranId_veteranSocialSecurityNumber'), {
       target: {
         value: '123456788'
       }

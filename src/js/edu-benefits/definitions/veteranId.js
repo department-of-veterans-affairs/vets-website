@@ -8,30 +8,6 @@ const {
   vaFileNumber
 } = fullSchema1995.definitions;
 
-
-export const uiSchema = {
-  veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
-    'ui:required': (form) => !form.veteranId['view:noSSN']
-  }),
-  'view:noSSN': {
-    'ui:title': 'I don’t have a Social Security number',
-    'ui:options': {
-      hideOnReview: true
-    }
-  },
-  vaFileNumber: {
-    'ui:required': (form) => !!form.veteranId['view:noSSN'],
-    'ui:title': 'File number',
-    'ui:errorMessages': {
-      pattern: 'File number must be 8 digits'
-    },
-    'ui:options': {
-      expandUnder: 'view:noSSN'
-    }
-  }
-};
-
-// Placeholder in case we need to pass in customizations for various edu forms
 export const schema = {
   type: 'object',
   properties: {
@@ -40,5 +16,27 @@ export const schema = {
       type: 'boolean'
     },
     vaFileNumber
+  }
+};
+
+export const uiSchema = {
+  veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
+    'ui:required': (formData) => !_.get('view:veteranId.view:noSSN', formData)
+  }),
+  'view:noSSN': {
+    'ui:title': 'I don’t have a Social Security number',
+    'ui:options': {
+      hideOnReview: true
+    }
+  },
+  vaFileNumber: {
+    'ui:required': (formData) => !!_.get('view:veteranId.view:noSSN', formData),
+    'ui:title': 'File number',
+    'ui:errorMessages': {
+      pattern: 'File number must be 8 digits'
+    },
+    'ui:options': {
+      expandUnder: 'view:noSSN'
+    }
   }
 };

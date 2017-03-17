@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
@@ -14,7 +15,7 @@ describe('Edu veteranId', () => {
       <DefinitionTester
           schema={schema}
           data={{}}
-          definitions={definitions}
+          definitions={_.merge(definitions, formConfig.defaultDefinitions)}
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
@@ -48,7 +49,7 @@ describe('Edu veteranId', () => {
         }
       });
 
-    // no error shown for empty ssn input; empty file number input is visible with error
+    // no error shown for empty ssn input; error shown for empty VA file number input
     expect(formDOM.querySelector('.usa-input-error #root_veteranSocialSecurityNumber')).to.be.null;
     expect(formDOM.querySelector('.usa-input-error #root_vaFileNumber')).not.to.be.null;
   });
