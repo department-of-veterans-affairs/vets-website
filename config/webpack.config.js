@@ -12,7 +12,7 @@ const _ = require('lodash');
 
 require('babel-polyfill');
 
-timestamp = new Date().getTime();
+const timestamp = new Date().getTime();
 
 const entryFiles = {
   'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
