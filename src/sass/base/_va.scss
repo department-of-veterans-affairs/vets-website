@@ -363,8 +363,7 @@ h6 {
     
     @include media($medium-large-screen) {
       max-width: 41%;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 2.4rem auto;
     }
   }
 
