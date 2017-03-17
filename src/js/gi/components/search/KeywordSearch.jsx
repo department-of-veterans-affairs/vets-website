@@ -12,25 +12,25 @@ export class KeywordSearch extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.clickedSuggestionValue = this.clickedSuggestionValue.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
+    this.handleSuggestionSelected = this.handleSuggestionSelected.bind(this);
     this.renderSuggestion = this.renderSuggestion.bind(this);
     this.shouldRenderSuggestions = this.shouldRenderSuggestions.bind(this);
-    this.shouldRenderSuggestions = this.shouldRenderSuggestions.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.handleSuggestionSelected = this.handleSuggestionSelected.bind(this);
   }
 
   componentDidMount() {
     const searchQuery = this.props.location && this.props.location.query;
-    if (searchQuery) {
+    if (searchQuery && searchQuery.name) {
       this.handleChange(null, { newValue: searchQuery.name, method: 'enter' });
     }
   }
 
-  onKeyUp(e) {
+  handleKeyUp(e) {
     const { onFilterChange, autocomplete } = this.props;
-    if ((e.which || e.keyCode || 0) === 13) {
+    if ((e.which || e.keyCode) === 13) {
       e.target.blur();
       onFilterChange('name', autocomplete.searchTerm);
     }
@@ -88,7 +88,7 @@ export class KeywordSearch extends React.Component {
             inputProps={{
               value: searchTerm,
               onChange: this.handleChange,
-              onKeyUp: this.onKeyUp,
+              onKeyUp: this.handleKeyUp,
             }}/>
       </div>
     );
@@ -98,6 +98,7 @@ export class KeywordSearch extends React.Component {
 
 KeywordSearch.defaultProps = {
   label: 'Enter a city, school or employer name',
+  onFilterChange: () => {},
 };
 
 KeywordSearch.propTypes = {
