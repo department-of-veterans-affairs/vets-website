@@ -205,7 +205,7 @@ class ObjectField extends React.Component {
               return (
                 <ExpandingGroup open={!!formData[objectFields[0]]} key={index}>
                   {renderProp(first)}
-                  <div>
+                  <div className={_.get([first, 'ui:options', 'expandUnderClassNames'], uiSchema)}>
                     {rest.map(renderProp)}
                   </div>
                 </ExpandingGroup>

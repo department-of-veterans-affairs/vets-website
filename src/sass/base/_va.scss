@@ -662,7 +662,6 @@ ul, ol {
   }
 }
 
-
 #content .section .feature {min-height: 11em;}
 
 #content .panel {
@@ -812,9 +811,6 @@ ul, ol {
     }
   }
 }
-
-
-
 
 .va-breadcrumbs-heading {
   font-size: 1em !important;
@@ -1266,14 +1262,14 @@ li {
   }
 
   .number {
-    font-size: 3.25em;
+    font-size: 2em;
     font-weight: 700;
     float: left;
     margin: 0;
-    color: $color-primary-darker;
-    line-height: .65em;
-    display: inline-block;
-    padding: 0 .125em 0 0;
+    color: color-primary-darker;
+    line-height: 1em;
+    padding: 0 0 .5em;
+    border-bottom: 1px solid $color-gray-light;
   }
 
   .heading, .description {
@@ -1287,17 +1283,17 @@ li {
   }
 
   .description {
-    font-size: 1.25em;
+    font-size: 1em;
     font-weight: 400;
-    padding: .2em 0;
+    padding: .3em 0 0;
     text-align: left;
-    display: inline-block;
     width: 100%;
-    text-transform:uppercase;
+    float: left;
   }
 
   &.information {
     background: rgba(0,0,0,.05);
+    padding: 1em;
   }
 
   &.info-graphic {
@@ -1583,7 +1579,7 @@ li.twenty:before {content: '20';}
 
 // Formerly .disclaimer.minimal
 .va-note {
-  color: $color-va-gray-cool-dark;
+  color: $color-gray-light;
   font-size: 1.28rem;
   padding: .25em 0;
 }
