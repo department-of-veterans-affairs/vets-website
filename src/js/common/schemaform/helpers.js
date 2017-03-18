@@ -539,3 +539,41 @@ export function setItemTouched(prefix, index, idSchema) {
     return _.merge(idObj, setItemTouched(prefix, index, idSchema[field]));
   }, {});
 }
+
+export function replaceRefSchemas(schema, definitions, path = '') {
+  if (schema.$ref) {
+    // There's a whole spec for JSON pointers, but we don't use anything more complicated
+    // than this so far
+    const refPath = schema.$ref.replace('#/definitions/', '').split('/');
+    const definition = _.get(refPath, definitions);
+    if (!definition) {
+      throw new Error(`Missing definition for ${schema.$ref} at ${path}. You probably need to add it to defaultDefinitions`);
+    }
+
+    return replaceRefSchemas(definition, definitions, path);
+  }
+
+  if (schema.type === 'object') {
+    const newSchema = Object.keys(schema.properties).reduce((current, next) => {
+      const nextProp = replaceRefSchemas(schema.properties[next], definitions, `${path}.${next}`);
+
+      if (current.properties[next] !== nextProp) {
+        return _.set(['properties', next], nextProp, current);
+      }
+
+      return current;
+    }, schema);
+
+    return newSchema;
+  }
+
+  if (schema.type === 'array') {
+    const newItems = replaceRefSchemas(schema.items, definitions, `${path}.items`);
+
+    if (newItems !== schema.items) {
+      return _.set('items', newItems, schema);
+    }
+  }
+
+  return schema;
+}
