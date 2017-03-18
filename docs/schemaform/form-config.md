@@ -197,6 +197,13 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
     labels: {
       chapter30: 'A readable description (Chapter 30)'
     },
+
+    // This is a map of values to a component, some text, or some jsx. If your field
+    // is a radio widget, the content here will be shown underneath the radio button
+    // for that value when it is selected.
+    nestedContent: {
+      'value': <p>Some text</p>
+    },
     
     // This is a string of class names that will be added to the widget for the current
     // field. Similar to the default `classNames` property, but will put the class names

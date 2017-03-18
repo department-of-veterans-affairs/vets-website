@@ -35,6 +35,8 @@ import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import Chapter33Warning from '../components/Chapter33Warning';
+import Chapter35Warning from '../components/Chapter35Warning';
 
 const {
   benefit,
@@ -104,7 +106,11 @@ const formConfig = {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
-                labels: benefitsLabels
+                labels: benefitsLabels,
+                nestedContent: {
+                  chapter33: Chapter33Warning,
+                  chapter35: Chapter35Warning
+                }
               }
             },
             benefitsRelinquishedDate: date.uiSchema('Effective date')
@@ -448,12 +454,13 @@ const formConfig = {
                 }
               }
             },
+            'view:hasTrainings': {
+              'ui:title': 'Do you have any training after high school?',
+              'ui:widget': 'yesNo'
+            },
             postHighSchoolTrainings: _.merge(uiSchemaPostHighSchoolTrainings, {
               'ui:options': {
-                hideIf: form => {
-                  const status = _.get('highSchool.status', form);
-                  return status !== 'graduated' && status !== 'ged';
-                }
+                expandUnder: 'view:hasTrainings'
               }
             })
           },
@@ -478,6 +485,9 @@ const formConfig = {
                     }
                   }
                 }
+              },
+              'view:hasTrainings': {
+                type: 'boolean'
               },
               postHighSchoolTrainings
             }

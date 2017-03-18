@@ -189,7 +189,7 @@ hr {
 // Using this selector makes it easier for the content team to write content
 // TODO: Refine this so that any links that do begin with https://vets.gov
 // or https://www.vets.gov are excluded.
-[href^=http] {
+a[href^=http] {
   // Using longhand properties instead of the shorthand to limit
   // risk and impact of side effects
   background-image: url(/img/icons/exit-icon.png);
@@ -216,7 +216,7 @@ hr {
       padding: 0;
     }
   }
-  
+
   .va-notice--banner {
     display: none !important;
 
@@ -260,7 +260,7 @@ hr {
   display: none;
   line-height: 1em;
   margin: 0;
-  
+
   @include media($medium-large-screen) {
     display: inherit;
     flex: 1 1 80%;
@@ -325,6 +325,10 @@ h6 {
   font-weight: bold;
 }
 
+.text-center {
+  text-align: center;
+}
+
 // Banner
 
 #content {
@@ -335,71 +339,60 @@ h6 {
 }
 
 // TODO(css): Make these less specific. 
-#content .popular-container {
+.popular-container {
   background: $color-white;
   text-align: center;
 
-  .column-padded {
-    padding-left: 1em;
-    padding-right: 1em;
-  }
-
-  .flex {
-    display: block;
+  .va-flex {
+    justify-content: center;
+    margin-left: .5rem;
+    margin-right: .5rem;
 
     @include media($medium-large-screen) {
-      display: flex;
+      margin: auto;
     }
+    
+    @include media-maxwidth($small-screen) {
+      display: block;
+    }    
   }
 
-  .mx-auto {
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .gold-ruled {
-    color: $color-primary-darker;
-    margin: 1em 0;
-    padding-bottom: 0.5em;
-    border-bottom: $color-va-accent solid 2px;
-  }
-
-  a {
-    text-decoration: none;
-    color: $color-base;
-
-    &:hover {
-      background: $color-white;
+  .va-h-ruled--a {
+    margin-left: 1.6rem;
+    margin-right: 1.6rem;
+    
+    @include media($medium-large-screen) {
+      max-width: 41%;
+      margin: 2.4rem auto;
     }
   }
 
   .outline-link-block {
-    border: $color-gray-light solid 2px;
-    margin: 0.5em 0;
-    padding: 0.5em 1em;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    justify-content: center;
-    font-size: 1.2em;
-
-    &:hover {
-      border: $color-primary-darker solid 2px;
+    @include media($medium-large-screen) {
+      flex: 0 1 33%;
     }
   }
+}
 
-  .stars-tagline {
-    &:before{
-      content: '';
-      background: url(/img/stars.png) no-repeat top center;
-      background-size: 100%;
-      display: inline-block;
-      height: 2em;
-      width: 12em;
-      margin-top: 2em;
-    }
+.outline-link-block {
+  border: $color-gray-light solid 2px;
+  color: $color-base;
+  display: block;
+  font-size: 1.2em;
+  text-decoration: none;
+  margin: .8rem;
+  padding: 2rem;
+  
+  &:hover {
+    background: transparent;
+    border: $color-primary-darker solid 2px;
+    text-decoration: inherit;
+  }
 
-    margin-top: 0em;
+  @include media($medium-large-screen) {
+    align-items: center;
+    display: flex;
+    justify-content: center;
   }
 }
 
@@ -484,7 +477,7 @@ h6 {
   p {
     padding-top: 0;
     margin-top: 0;
-    
+
     &:nth-child(1),
     &:first-of-type {
       color: $color-primary-darker;
@@ -976,13 +969,13 @@ li {
   dd {
     padding: .25em 0;
   }
-  
+
   a {
     display: inline-block;
   }
 }
 
-[id=footer-contact] { 
+[id=footer-contact] {
   order: -1;
 
   @include media($medium-large-screen) {
@@ -1015,7 +1008,7 @@ li {
 
     a {
       background: none;
-      padding: 0; 
+      padding: 0;
     }
   }
 }
@@ -1500,6 +1493,21 @@ li.twenty:before {content: '20';}
   font-weight: 700;
 }
 
+// Ruled headings with VA Accent color. (Currently gold metal)
+.va-h-ruled--a {
+  color: $color-primary-darker;
+  padding-bottom: 0.5em;
+  border-bottom: $color-va-accent solid 2px;
+}
+
+.va-h-ruled--stars {
+  background: url(/img/stars.png) no-repeat top center;
+  background-size: 20rem auto;
+  margin: 2.4rem auto auto;
+  padding: 4.8rem 1.6rem 0;
+  text-align: center;
+}
+
 // Action bars
 [class^='va-action-bar'] {
   background: $color-gray-lightest;
@@ -1565,7 +1573,7 @@ li.twenty:before {content: '20';}
   p {
     font-size: 1.28rem;
   }
-  
+
   a {
     background-image: none;
     color: inherit;

@@ -24,6 +24,21 @@ describe('Edu 5490 benefitSelection', () => {
       .to.equal(5);
   });
 
+  it('should show inline message', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{ benefit: 'chapter35' }}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+
+    // check that an alert box is shown below the chapter35 option
+    expect(formDOM
+      .querySelector('.form-radio-buttons + span .usa-alert')
+    ).not.to.be.null;
+  });
+
   it('should show errors when required fields are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
