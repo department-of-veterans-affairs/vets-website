@@ -34,6 +34,8 @@ import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import Chapter33Warning from '../components/Chapter33Warning';
+import Chapter35Warning from '../components/Chapter35Warning';
 
 const {
   benefit,
@@ -103,7 +105,11 @@ const formConfig = {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
-                labels: benefitsLabels
+                labels: benefitsLabels,
+                nestedContent: {
+                  chapter33: Chapter33Warning,
+                  chapter35: Chapter35Warning
+                }
               }
             },
             benefitsRelinquishedDate: date.uiSchema('Effective date')
