@@ -34,6 +34,8 @@ import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import Chapter33Warning from '../components/Chapter33Warning';
+import Chapter35Warning from '../components/Chapter35Warning';
 
 const {
   benefit,
@@ -51,7 +53,6 @@ const {
 
 const {
   nonMilitaryJobs,
-  relationship,
   secondaryContact,
   dateRange,
   educationType,
@@ -87,12 +88,9 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformation(fullSchema5490, [
-          'relativeFullName',
-          'relativeSocialSecurityNumber',
-          'relativeDateOfBirth',
-          'gender'
-        ])
+        applicantInformation: applicantInformation(fullSchema5490, {
+          labels: { relationship: relationshipLabels }
+        })
       }
     },
     benefitSelection: {
@@ -107,13 +105,18 @@ const formConfig = {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
-                labels: benefitsLabels
+                labels: benefitsLabels,
+                nestedContent: {
+                  chapter33: Chapter33Warning,
+                  chapter35: Chapter35Warning
+                }
               }
             },
             benefitsRelinquishedDate: date.uiSchema('Effective date')
           },
           schema: {
             type: 'object',
+            required: ['benefit', 'benefitsRelinquishedDate'],
             properties: {
               benefit,
               benefitsRelinquishedDate: dateSchema
@@ -127,7 +130,6 @@ const formConfig = {
           uiSchema: {
             'ui:description': 'Prior to this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
-              // Add the view-only fields in the proper order
               'ui:order': [
                 'view:noPreviousBenefits',
                 'disability',
@@ -194,7 +196,7 @@ const formConfig = {
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
                   updateSchema: (data, form) => {
-                    if (_.get(['previousBenefits', 'data', 'previousBenefits', 'view:claimedSponsorService'], form)) {
+                    if (_.get('previousBenefits.data.previousBenefits.view:claimedSponsorService', form)) {
                       return fullName;
                     }
 
@@ -204,6 +206,7 @@ const formConfig = {
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
                 'ui:title': 'Sponsor SSN',
+                'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
                 }
@@ -239,15 +242,11 @@ const formConfig = {
           title: 'Sponsor Veteran',
           path: 'military-service/sponsor-veteran',
           uiSchema: {
-            relationship: {
-              'ui:title': 'What is your relationship to the Servicemember whose benefit we\'re transferring to you?',
-              'ui:widget': 'radio',
-              'ui:options': { labels: relationshipLabels }
-            },
             spouseInfo: {
               divorcePending: {
                 'ui:title': 'Is there a divorce or annulment pending with your sponsor?',
-                'ui:widget': 'yesNo'
+                'ui:widget': 'yesNo',
+                'ui:required': (formData) => _.get('relationship', formData) === 'spouse'
               },
               remarried: {
                 'ui:title': 'If you\'re the surviving spouse, did you get remarried?',
@@ -255,11 +254,11 @@ const formConfig = {
               },
               remarriageDate: _.assign(date.uiSchema('Date you got remarried'), {
                 'ui:options': {
-                  hideIf: (fieldData) => !_.get('spouseInfo.remarried', fieldData)
+                  hideIf: (formData) => !_.get('spouseInfo.remarried', formData)
                 }
               }),
               'ui:options': {
-                hideIf: (fieldData) => fieldData.relationship !== 'spouse'
+                hideIf: (formData) => _.get('relationship', formData) !== 'spouse'
               }
             },
             relativeFullName: _.assign(fullNameUISchema, {
@@ -271,9 +270,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['veteranSocialSecurityNumber'],
+            // TODO: Conditionally require divorcePending and remarried if
+            //  spouseInfo is unhidden
+            required: [
+              'veteranSocialSecurityNumber',
+              'veteranDateOfBirth'
+            ],
             properties: {
-              relationship,
               spouseInfo,
               relativeFullName: fullName,
               veteranSocialSecurityNumber: ssnSchema,
@@ -330,6 +333,9 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            // If answered 'Yes' without entering information, it's the same as
+            //  answering 'No' as far as the back end is concerned.
+            required: ['view:applicantServed'],
             properties: {
               'view:applicantServed': {
                 type: 'boolean'
@@ -353,6 +359,9 @@ const formConfig = {
             },
             civilianBenefitsSource: {
               'ui:title': 'What is the source of these funds?',
+              // Conditionally require civilianBenefitsSource if
+              //  civilianBenefitsAssistance is true.
+              'ui:required': (formData) => formData.civilianBenefitsAssistance,
               'ui:options': {
                 expandUnder: 'civilianBenefitsAssistance'
               }
@@ -426,12 +435,13 @@ const formConfig = {
                 }
               }
             },
+            'view:hasTrainings': {
+              'ui:title': 'Do you have any training after high school?',
+              'ui:widget': 'yesNo'
+            },
             postHighSchoolTrainings: _.merge(uiSchemaPostHighSchoolTrainings, {
               'ui:options': {
-                hideIf: form => {
-                  const status = _.get('highSchool.status', form);
-                  return status !== 'graduated' && status !== 'ged';
-                }
+                expandUnder: 'view:hasTrainings'
               }
             })
           },
@@ -456,6 +466,9 @@ const formConfig = {
                     }
                   }
                 }
+              },
+              'view:hasTrainings': {
+                type: 'boolean'
               },
               postHighSchoolTrainings
             }
@@ -484,15 +497,18 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: createSchoolSelectionPage(fullSchema5490, [
-          'educationProgram',
-          'educationObjective',
-          'educationStartDate',
-          'restorativeTraining',
-          'vocationalTraining',
-          'trainingState',
-          'educationalCounseling'
-        ])
+        schoolSelection: createSchoolSelectionPage(fullSchema5490, {
+          fields: [
+            'educationProgram',
+            'educationObjective',
+            'educationStartDate',
+            'restorativeTraining',
+            'vocationalTraining',
+            'trainingState',
+            'educationalCounseling'
+          ],
+          required: ['educationType']
+        })
       }
     },
     personalInformation: {
@@ -516,7 +532,7 @@ const formConfig = {
               },
               address: _.merge(address.uiSchema(), {
                 'ui:options': {
-                  hideIf: (form) => _.get('secondaryContact.sameAddress', form) === true
+                  hideIf: (formData) => _.get('secondaryContact.sameAddress', formData) === true
                 }
               })
             }

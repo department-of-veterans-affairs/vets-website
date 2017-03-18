@@ -4,10 +4,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 
-import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
+import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
 
-describe('Edu 5490 militaryService -> applicantService', () => {
+describe('Edu 5490 applicantService', () => {
   const { schema, uiSchema } = formConfig.chapters.militaryService.pages.applicantService;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -42,23 +42,6 @@ describe('Edu 5490 militaryService -> applicantService', () => {
     const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
 
     expect(fields.length).to.equal(10);
-  });
-
-  it('should have no required inputs', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
-    );
-    const formDOM = findDOMNode(form);
-    submitForm(form);
-
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-
-    expect(onSubmit.called).to.be.true;
   });
 
   it('should add another', () => {

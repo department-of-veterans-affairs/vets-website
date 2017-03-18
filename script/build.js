@@ -30,17 +30,20 @@ const path = require('path');
 const sourceDir = '../content/pages';
 const minimumNpmVersion = '3.8.9';
 const minimumNodeVersion = '4.4.7';
-// Make sure git pre-commit hooks are installed
-['pre-commit'].forEach(hook => {
-  const src = path.join(__dirname, `../hooks/${hook}`);
-  const dest = path.join(__dirname, `../.git/hooks/${hook}`);
-  if (fs.existsSync(src)) {
-    if (!fs.existsSync(dest)) {
-      // Install hooks
-      fs.linkSync(src, dest);
+
+if (!(process.env.INSTALL_HOOKS === 'no')) {
+  // Make sure git pre-commit hooks are installed
+  ['pre-commit'].forEach(hook => {
+    const src = path.join(__dirname, `../hooks/${hook}`);
+    const dest = path.join(__dirname, `../.git/hooks/${hook}`);
+    if (fs.existsSync(src)) {
+      if (!fs.existsSync(dest)) {
+        // Install hooks
+        fs.linkSync(src, dest);
+      }
     }
-  }
-});
+  });
+}
 
 if (semver.compare(process.env.npm_package_engines_npm, minimumNpmVersion) === -1) {
   process.stdout.write(

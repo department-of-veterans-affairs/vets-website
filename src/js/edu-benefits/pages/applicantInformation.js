@@ -6,18 +6,35 @@ import * as ssn from '../../common/schemaform/definitions/ssn';
 
 import { relationshipLabels, genderLabels } from '../utils/helpers';
 
-const defaultProps = [
-  'relativeFullName',
-  'relativeSocialSecurityNumber',
-  'relativeDateOfBirth',
-  'gender',
-  'relationship'
-];
+const defaults = {
+  fields: [
+    'relativeFullName',
+    'relativeSocialSecurityNumber',
+    'relativeDateOfBirth',
+    'gender',
+    'relationship'
+  ],
+  required: [
+    'relativeFullName',
+    'relativeSocialSecurityNumber',
+    'relativeDateOfBirth',
+    'relationship'
+  ],
+  labels: {}
+};
 
-export default function applicantInformation(
-  schema,
-  fields = defaultProps,
-  required = ['relativeFullName']) {
+
+/**
+ * Returns an applicantInformation page based on the options passed.
+ *
+ * @param {Object} schema   The full schema for the form
+ * @param {Object} options  Options to override the defaults above
+ */
+export default function applicantInformation(schema, options) {
+  // Use the defaults as necessary, but override with the options given
+  const mergedOptions = _.merge(defaults, options);
+  const { fields, required, labels } = mergedOptions;
+
   const possibleProperties = {
     relativeFullName: schema.definitions.fullName,
     relativeSocialSecurityNumber: schema.definitions.ssn,
@@ -39,14 +56,14 @@ export default function applicantInformation(
         'ui:widget': 'radio',
         'ui:title': 'Gender',
         'ui:options': {
-          labels: genderLabels
+          labels: labels.gender || genderLabels
         }
       },
       relationship: {
         'ui:widget': 'radio',
         'ui:title': 'What is your relationship to the service member whose benefit is being transferred to you?',
         'ui:options': {
-          labels: relationshipLabels
+          labels: labels.relationship || relationshipLabels
         }
       }
     },
