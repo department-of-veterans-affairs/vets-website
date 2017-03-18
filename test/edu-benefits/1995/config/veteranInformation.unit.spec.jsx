@@ -20,10 +20,10 @@ describe('Edu 1995 veteranInformation', () => {
           uiSchema={uiSchema}/>
     );
 
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input'))
-      .to.not.be.empty;
+    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
+    expect(inputs.length).to.equal(5);
   });
-  it('should conditionally require file number', () => {
+  it('should conditionally require SSN or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           formData={{}}
@@ -31,17 +31,22 @@ describe('Edu 1995 veteranInformation', () => {
           data={{}}
           uiSchema={uiSchema}/>
     );
-
-    const formDOM = findDOMNode(form);
-
     submitForm(form);
 
-    // show error for ssn, file number not visible
-    expect(formDOM.querySelector('#root_view:veteranId_vaFileNumber')).to.be.null;
-    expect(formDOM.querySelector('.usa-input-error #root_view:veteranId_veteranSocialSecurityNumber')).not.to.be.null;
-    const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
-      .find(input => input.getAttribute('name') === 'root_view:veteranId_view:noSSN');
+    // Use Array find() for nodes with 'view:' in the id, and check for ok (truthiness) instead of null since
+    // not found nodes will return undefined instead of null
 
+    // VA file number input is not visible; error is shown for empty SSN input
+    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
+    expect(inputs.find(input => input.id === 'root_view:veteranId_veteranSocialSecurityNumber')).to.be.ok;
+    expect(inputs.find(input => input.id === 'root_view:veteranId_vaFileNumber')).not.to.be.ok;
+
+    const errors = ReactTestUtils.scryRenderedDOMComponentsWithClass(form, 'usa-input-error-message');
+    expect(errors.find(input => input.id.includes('root_view:veteranId_veteranSocialSecurityNumber'))).to.be.ok;
+
+    // Check no-SSN box
+    const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
+                                   .find(input => input.id === 'root_view:veteranId_view:noSSN');
     ReactTestUtils.Simulate.change(noSSNBox,
       {
         target: {
@@ -49,11 +54,12 @@ describe('Edu 1995 veteranInformation', () => {
         }
       });
 
-    // no error for ssn, file number is visible with error
-    expect(formDOM.querySelector('.usa-input-error #root_view:veteranId_veteranSocialSecurityNumber')).to.be.null;
-    expect(formDOM.querySelector('.usa-input-error #root_view:veteranId_vaFileNumber')).not.to.be.null;
+    // No error is shown for empty SSN input; error is shown for empty file number input
+    const newErrors = ReactTestUtils.scryRenderedDOMComponentsWithClass(form, 'usa-input-error-message');
+    expect(newErrors.find(input => input.id.includes('root_view:veteranId_veteranSocialSecurityNumber'))).not.to.be.ok;
+    expect(newErrors.find(input => input.id.includes('root_view:veteranId_vaFileNumber'))).to.be.ok;
   });
-  it('should have no errors with all info filled in', () => {
+  it('should submit with no errors with all required fields filled in', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -77,7 +83,9 @@ describe('Edu 1995 veteranInformation', () => {
         value: 'Test'
       }
     });
-    ReactTestUtils.Simulate.change(find('#root_view:veteranId_veteranSocialSecurityNumber'), {
+    const ssn = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')
+                              .find(input => input.id === 'root_view:veteranId_veteranSocialSecurityNumber');
+    ReactTestUtils.Simulate.change(ssn, {
       target: {
         value: '123456788'
       }
@@ -85,7 +93,6 @@ describe('Edu 1995 veteranInformation', () => {
 
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
     submitForm(form);
-
     expect(onSubmit.called).to.be.true;
   });
 });
