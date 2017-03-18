@@ -47,9 +47,9 @@ export default class ArrayField extends React.Component {
   componentDidMount() {
     const { schema, formData = [], registry } = this.props;
     if (schema.minItems > 0 && formData.length === 0) {
-      this.props.onChange([
+      this.props.onChange(Array(schema.minItems).fill(
         getDefaultFormState(schema.items, undefined, registry.definitions)
-      ]);
+      ));
     }
   }
 

@@ -266,28 +266,26 @@ const formConfig = {
             veteranFullName: _.merge(fullNameUISchema, {
               'ui:title': 'Name of Sponsor',
               first: {
-                'ui:title': 'Veteran first name'
+                'ui:title': 'Sponsor first name'
               },
               middle: {
-                'ui:title': 'Veteran middle name'
+                'ui:title': 'Sponsor middle name'
               },
               last: {
-                'ui:title': 'Veteran last name'
+                'ui:title': 'Sponsor last name'
               },
               suffix: {
-                'ui:title': 'Veteran suffix'
+                'ui:title': 'Sponsor suffix'
               }
             }),
             veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
-              'ui:title': 'Veteran Social Security number'
+              'ui:title': 'Sponsor Social Security number'
             }),
-            veteranDateOfBirth: currentOrPastDate.uiSchema('Veteran date of birth'),
-            veteranDateOfDeath: currentOrPastDate.uiSchema('Veteran date of death or date listed as MIA or POW'),
+            veteranDateOfBirth: currentOrPastDate.uiSchema('Sponsor date of birth'),
+            veteranDateOfDeath: currentOrPastDate.uiSchema('Sponsor date of death or date listed as MIA or POW'),
           },
           schema: {
             type: 'object',
-            // TODO: Conditionally require divorcePending and remarried if
-            //  spouseInfo is unhidden
             required: [
               'veteranSocialSecurityNumber',
               'veteranDateOfBirth'
@@ -342,7 +340,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:applicantServed'
               },
-              'ui:required': _.get('view:applicantServed'),
+              'ui:required': form => _.get('view:applicantServed', form),
               items: {
                 serviceStatus: { 'ui:title': 'Type of separation or discharge' }
               }
