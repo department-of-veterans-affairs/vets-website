@@ -1,12 +1,9 @@
 import _ from 'lodash/fp';
 
 import * as ssn from '../../common/schemaform/definitions/ssn';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-// TODO: move vaFileNumber out of 1995 and into a shared backend definition
-import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
-const {
-  vaFileNumber
-} = fullSchema1995.definitions;
+export const vaFileNumber = commonDefinitions.vaFileNumber;
 
 export const schema = {
   type: 'object',
