@@ -435,12 +435,13 @@ const formConfig = {
                 }
               }
             },
+            'view:hasTrainings': {
+              'ui:title': 'Do you have any training after high school?',
+              'ui:widget': 'yesNo'
+            },
             postHighSchoolTrainings: _.merge(uiSchemaPostHighSchoolTrainings, {
               'ui:options': {
-                hideIf: form => {
-                  const status = _.get('highSchool.status', form);
-                  return status !== 'graduated' && status !== 'ged';
-                }
+                expandUnder: 'view:hasTrainings'
               }
             })
           },
@@ -465,6 +466,9 @@ const formConfig = {
                     }
                   }
                 }
+              },
+              'view:hasTrainings': {
+                type: 'boolean'
               },
               postHighSchoolTrainings
             }
