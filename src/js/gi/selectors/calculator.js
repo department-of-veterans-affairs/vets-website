@@ -76,8 +76,6 @@ const getDerivedValues = createSelector(
     const isCorrespondence = institution.type === 'correspondence';
     const isFlightOrCorrespondence = isFlight || isCorrespondence;
     const isPublic = institution.type === 'public';
-    const isPrivate = institution.type === 'private';
-    const isForeign = institution.type === 'foreign';
 
     // VRE and post-9/11 eligibility
     const vre911Eligible = (giBillChapter === 31 && eligForPostGiBill === 'yes');
@@ -180,10 +178,8 @@ const getDerivedValues = createSelector(
       tuitionFeesCap = inputs.inState === 'yes'
                      ? institution.tuitionInState
                      : institution.tuitionOutOfState;
-    } else if (isPrivate || isForeign) {
-      tuitionFeesCap = constant.TFCAP;
     } else {
-      // TODO: What should default cap be?
+      // Default cap for private, foreign, and for-profit institutions.
       tuitionFeesCap = constant.TFCAP;
     }
 

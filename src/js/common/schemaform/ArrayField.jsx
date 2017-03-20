@@ -6,7 +6,6 @@ import { scrollToFirstError } from '../utils/helpers';
 import { setItemTouched } from './helpers';
 
 import {
-  retrieveSchema,
   toIdSchema,
   getDefaultFormState,
   deepEquals
@@ -38,6 +37,19 @@ export default class ArrayField extends React.Component {
     this.handleRemove = this.handleRemove.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
+  }
+
+  // This fills in an empty item in the array if it has minItems set
+  // so that schema validation runs against the fields in the first item
+  // in the array. This shouldn't be necessary, but there's a fix in rjsf
+  // that has not been released yet
+  componentDidMount() {
+    const { schema, formData = [], registry } = this.props;
+    if (schema.minItems > 0 && formData.length === 0) {
+      this.props.onChange(Array(schema.minItems).fill(
+        getDefaultFormState(schema.items, undefined, registry.definitions)
+      ));
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -154,7 +166,6 @@ export default class ArrayField extends React.Component {
       schema
     } = this.props;
     const definitions = registry.definitions;
-    const itemsSchema = retrieveSchema(schema.items, definitions);
     const { TitleField, SchemaField } = registry.fields;
     const ViewField = uiSchema['ui:options'].viewField;
 
@@ -194,7 +205,7 @@ export default class ArrayField extends React.Component {
           {items.map((item, index) => {
             // This is largely copied from the default ArrayField
             const itemIdPrefix = `${idSchema.$id}_${index}`;
-            const itemIdSchema = toIdSchema(itemsSchema, itemIdPrefix, definitions);
+            const itemIdSchema = toIdSchema(schema.items, itemIdPrefix, definitions);
             const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || items.length > 1;
@@ -210,7 +221,7 @@ export default class ArrayField extends React.Component {
                           : null}
                       <div className="input-section">
                         <SchemaField key={index}
-                            schema={itemsSchema}
+                            schema={schema.items}
                             uiSchema={uiSchema.items}
                             errorSchema={errorSchema ? errorSchema[index] : undefined}
                             idSchema={itemIdSchema}

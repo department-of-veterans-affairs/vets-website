@@ -184,6 +184,8 @@ function calculateBooks(constant, eligibility, institution, derived) {
 export const estimatedBenefits = createSelector(
   [getConstants, getEligibilityDetails, getRequiredAttributes],
   (constant, eligibility, attribute) => {
+    if (constant === undefined) return {};
+
     const derived = getDerivedAttributes(constant, eligibility, attribute);
     const tuition = calculateTuition(constant, eligibility, attribute, derived);
     const housing = calculateHousing(constant, eligibility, attribute, derived);
