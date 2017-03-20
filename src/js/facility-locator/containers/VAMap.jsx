@@ -347,7 +347,7 @@ class VAMap extends Component {
     const position = [coords.latitude, coords.longitude];
 
     return (
-      <div>
+      <div className="desktop-container">
         <div>
           <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch}/>
         </div>
