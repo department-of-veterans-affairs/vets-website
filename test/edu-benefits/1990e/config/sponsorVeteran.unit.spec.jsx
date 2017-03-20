@@ -9,14 +9,12 @@ import formConfig from '../../../../src/js/edu-benefits/1990e/config/form';
 
 describe('Edu 1990e sponsorVeteran', () => {
   const { schema, uiSchema } = formConfig.chapters.sponsorVeteran.pages.sponsorVeteran;
-  const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
           data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+          uiSchema={uiSchema}/>
     );
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input');
     const selects = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select');
@@ -29,8 +27,7 @@ describe('Edu 1990e sponsorVeteran', () => {
       <DefinitionTester
           schema={schema}
           data={{}}
-          uiSchema={uiSchema}
-          definitions={definitions}/>
+          uiSchema={uiSchema}/>
     );
     submitForm(form);
 

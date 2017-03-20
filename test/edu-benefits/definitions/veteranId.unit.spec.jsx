@@ -1,4 +1,3 @@
-import _ from 'lodash/fp';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
@@ -7,7 +6,6 @@ import ReactTestUtils from 'react-addons-test-utils';
 
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
 import * as formConfig from '../../../src/js/edu-benefits/definitions/veteranId';
-import definitions from 'vets-json-schema/dist/definitions.json';
 
 describe('Edu veteranId', () => {
   const { schema, uiSchema } = formConfig;
@@ -16,7 +14,6 @@ describe('Edu veteranId', () => {
       <DefinitionTester
           schema={schema}
           data={{}}
-          definitions={_.merge(definitions, formConfig.defaultDefinitions)}
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);

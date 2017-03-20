@@ -50,8 +50,7 @@ const formConfig = {
   defaultDefinitions: {
     date,
     dateRange,
-    educationType,
-    veteranId
+    educationType
   },
   title: 'Apply for transferred education benefits',
   subTitle: 'Form 22-1990e',
