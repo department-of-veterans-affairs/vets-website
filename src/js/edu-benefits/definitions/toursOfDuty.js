@@ -10,12 +10,24 @@ import ServicePeriodView from '../components/ServicePeriodView';
  * Note: The order in which the names are in the array will affect the order
  *  they will appear in the form.
  */
-export function schema(propNames = ['serviceBranch', 'dateRange']) {
+export function schema(userOptions) {
+  const options = _.assign({
+    fields: ['serviceBranch', 'dateRange'],
+    required: []
+  }, userOptions);
+
+  const requiredFields = options.required.filter(field => field.indexOf('.') < 0);
+  const dateRangeRequiredFields = options.required
+    .filter(field => field.startsWith('dateRange.'))
+    .map(field => field.replace('dateRange.', ''));
+
   const possibleProperties = {
     serviceBranch: {
       type: 'string'
     },
-    dateRange: dateRange.schema,
+    dateRange: _.assign(dateRange.schema, {
+      required: dateRangeRequiredFields
+    }),
     serviceStatus: {
       type: 'string'
     },
@@ -29,9 +41,11 @@ export function schema(propNames = ['serviceBranch', 'dateRange']) {
 
   return {
     type: 'array',
+    minItems: options.required.length > 0 ? 1 : 0,
     items: {
       type: 'object',
-      properties: _.pick(propNames, possibleProperties)
+      required: requiredFields,
+      properties: _.pick(options.fields, possibleProperties)
     }
   };
 }

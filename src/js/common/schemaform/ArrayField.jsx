@@ -39,6 +39,19 @@ export default class ArrayField extends React.Component {
     this.scrollToRow = this.scrollToRow.bind(this);
   }
 
+  // This fills in an empty item in the array if it has minItems set
+  // so that schema validation runs against the fields in the first item
+  // in the array. This shouldn't be necessary, but there's a fix in rjsf
+  // that has not been released yet
+  componentDidMount() {
+    const { schema, formData = [], registry } = this.props;
+    if (schema.minItems > 0 && formData.length === 0) {
+      this.props.onChange(Array(schema.minItems).fill(
+        getDefaultFormState(schema.items, undefined, registry.definitions)
+      ));
+    }
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return !deepEquals(this.props, nextProps) || nextState !== this.state;
   }
