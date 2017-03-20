@@ -69,7 +69,7 @@ const formConfig = {
       title: 'Benefits Eligibility',
       pages: {
         benefitEligibility: {
-          path: 'benefit/eligibility',
+          path: 'benefits/eligibility',
           title: 'Benefits eligibility',
           uiSchema: {
             'view:benefitDescription': {
