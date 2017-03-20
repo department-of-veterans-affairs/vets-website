@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { showModal } from '../../actions';
-import { calculatedBenefits } from '../../selectors/calculator';
+import { isEmpty } from 'lodash';
+import classNames from 'classnames';
+
+import LoadingIndicator from '../../../common/components/LoadingIndicator';
+import { calculatorInputChange, showModal } from '../../actions';
+import { getCalculatedBenefits } from '../../selectors/calculator';
 import EligibilityForm from '../search/EligibilityForm';
 import CalculatorForm from '../profile/CalculatorForm';
 
@@ -16,27 +20,31 @@ const EligibilityDetails = ({ expanded, toggle }) => (
   </div>
 );
 
-const CalculatorInputs = ({ expanded, toggle }) => (
+const CalculatorInputs = ({ expanded, toggle, inputs, displayedInputs, onInputChange, onShowModal }) => (
   <div className="calculator-inputs">
     <button onClick={toggle} className="usa-button-outline">
       {expanded ? 'Hide' : 'Edit'} calculator fields
     </button>
     <div className="form-expanding-group-open">
-      {expanded ? <CalculatorForm/> : null}
+      {expanded ? <CalculatorForm
+          inputs={inputs}
+          displayedInputs={displayedInputs}
+          onShowModal={onShowModal}
+          onInputChange={onInputChange}/> : null}
     </div>
   </div>
 );
 
-const CalculatorResultRow = ({ label, value, labelClassName, valueClassName }) => (
-  <div className="row calculator-result">
+const CalculatorResultRow = ({ label, value, bold, visible }) => (visible ? (
+  <div className={classNames('row', 'calculator-result', { bold })}>
     <div className="small-8 columns">
-      <p className={labelClassName}>{label}:</p>
+      <p>{label}:</p>
     </div>
     <div className="small-4 columns value">
-      <p className={valueClassName}>{value}</p>
+      <p>{value}</p>
     </div>
   </div>
-);
+) : null);
 
 export class Calculator extends React.Component {
 
@@ -44,6 +52,7 @@ export class Calculator extends React.Component {
     super(props);
     this.toggleEligibilityDetails = this.toggleEligibilityDetails.bind(this);
     this.toggleCalculatorForm = this.toggleCalculatorForm.bind(this);
+    this.renderPerTermSections = this.renderPerTermSections.bind(this);
 
     this.state = {
       showEligibilityDetails: false,
@@ -59,8 +68,42 @@ export class Calculator extends React.Component {
     this.setState({ showCalculatorForm: !this.state.showCalculatorForm });
   }
 
+  renderPerTermSections() {
+    const { perTerm } = this.props.calculated.outputs;
+
+    const sections = Object.keys(perTerm).map(section => {
+      const { visible, title, terms } = this.props.calculated.outputs.perTerm[section];
+      if (!visible) return null;
+
+      return (
+        <div key={section} className="per-term-section">
+          <h5>{title}</h5>
+          {terms.map(term =>
+            <CalculatorResultRow
+                key={`${section}${term.label}`}
+                label={term.label}
+                value={term.value}
+                bold={term.label === 'Total per year'}
+                visible={term.visible}/>)}
+        </div>
+      );
+    });
+
+    return (
+      <div>
+        <h3>Estimated benefits per term</h3>
+        {sections}
+      </div>
+    );
+  }
+
   render() {
+    if (isEmpty(this.props.calculated)) {
+      return <LoadingIndicator message="Loading your estimated benefits..."/>;
+    }
+
     // const it = this.props.profile.attributes;
+    const { outputs } = this.props.calculated;
     return (
       <div className="row calculate-your-benefits">
         <div className="medium-5 columns">
@@ -68,22 +111,52 @@ export class Calculator extends React.Component {
               expanded={this.state.showEligibilityDetails}
               toggle={this.toggleEligibilityDetails}/>
           <CalculatorInputs
+              inputs={this.props.calculator}
+              displayedInputs={this.props.calculated.inputs}
+              onInputChange={this.props.calculatorInputChange}
+              onShowModal={this.props.showModal}
               expanded={this.state.showCalculatorForm}
               toggle={this.toggleCalculatorForm}/>
         </div>
         <div className="medium-1 columns">&nbsp;</div>
-        <div className="medium-6 columns">
+        <div className="medium-6 columns your-estimated-benefits">
           <h3>Your estimated benefits</h3>
-          <CalculatorResultRow label="Tuition and fees charged" value={'$38,205'}/>
-          <CalculatorResultRow label="GI Bill pays to school" value={'$21,970'}/>
-          <CalculatorResultRow label="Tuition and fees charged" value={'$38,205'} valueClassName="bold" labelClassName="bold"/>
-          <br/>
-          <CalculatorResultRow label="Housing allowance" value={'$2,271/mo'}/>
-          <CalculatorResultRow label="Book stipend" value={'$1,000'}/>
-          <CalculatorResultRow label="Total paid to you" value={'$21,439'} valueClassName="bold" labelClassName="bold"/>
+          <div className="out-of-pocket-tuition">
+            <CalculatorResultRow
+                label="Tuition and fees charged"
+                value={outputs.tuitionAndFeesCharged.value}
+                visible={outputs.tuitionAndFeesCharged.visible}/>
+            <CalculatorResultRow
+                label="GI Bill pays to school"
+                value={outputs.giBillPaysToSchool.value}
+                visible={outputs.giBillPaysToSchool.visible}/>
+            <CalculatorResultRow
+                label="Your scholarships"
+                value={outputs.yourScholarships.value}
+                visible={outputs.yourScholarships.visible}/>
+            <CalculatorResultRow
+                label="Out of pocket tuition"
+                value={outputs.outOfPocketTuition.value}
+                bold
+                visible={outputs.outOfPocketTuition.visible}/>
+          </div>
+          <div className="total-paid-to-you">
+            <CalculatorResultRow
+                label="Housing allowance"
+                value={outputs.housingAllowance.value}
+                visible={outputs.housingAllowance.visible}/>
+            <CalculatorResultRow
+                label="Book stipend"
+                value={outputs.bookStipend.value}
+                visible={outputs.bookStipend.visible}/>
+            <CalculatorResultRow
+                label="Total paid to you"
+                value={outputs.totalPaidToYou.value}
+                bold
+                visible={outputs.totalPaidToYou.visible}/>
+          </div>
           <hr/>
-          <h3>Estimated benefits per term</h3>
-          <p>...</p>
+          {this.renderPerTermSections()}
         </div>
       </div>
     );
@@ -92,11 +165,13 @@ export class Calculator extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    calculated: calculatedBenefits(state, props)
+    calculator: state.calculator,
+    calculated: getCalculatedBenefits(state, props)
   };
 };
 
 const mapDispatchToProps = {
+  calculatorInputChange,
   showModal,
 };
 
