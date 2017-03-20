@@ -37,8 +37,13 @@ describe('Edu 5490 previousBenefits', () => {
     expect(Array.from(formDOM.querySelectorAll('input,select')).length)
       .to.equal(7);
 
-    // Expand both of the expandables
     const inputs = Array.from(formDOM.querySelectorAll('input'));
+    const claimed = inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService');
+
+    // claimedSponsorService starts as unchecked
+    expect(claimed.checked).to.be.false;
+
+    // Expand both of the expandables
     ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:ownServiceBenefits'), {
       target: {
         checked: true
@@ -54,7 +59,6 @@ describe('Edu 5490 previousBenefits', () => {
     expect(Array.from(formDOM.querySelectorAll('input,select')).length)
       .to.equal(16);
 
-    const claimed = inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService');
     expect(claimed.checked).to.be.true;
 
     // Collapse the fields
@@ -72,8 +76,9 @@ describe('Edu 5490 previousBenefits', () => {
     expect(claimed.checked).to.be.false;
 
     // Should collapse back to 7
-    // expect(Array.from(formDOM.querySelectorAll('input,select')).length)
-    //   .to.equal(7);
+    //  ...but it doesn't...
+    expect(Array.from(formDOM.querySelectorAll('input,select')).length)
+      .to.equal(7);
   });
 
   // This test fails to produce an error message as expected
