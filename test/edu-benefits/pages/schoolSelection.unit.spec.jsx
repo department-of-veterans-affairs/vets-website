@@ -53,7 +53,7 @@ describe('Edu 1990e schoolSelection', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should require educationType if specified', () => {
+  it.only('should require educationType if specified', () => {
     const { schema: schemaIfEducationType, uiSchema: uiSchemaIfEducationType } = formConfig(fullSchema1990e, {
       fields: [
         'educationProgram',
@@ -75,6 +75,10 @@ describe('Edu 1990e schoolSelection', () => {
     );
     const formDOM = findDOMNode(form);
     const find = formDOM.querySelector.bind(formDOM);
+
+    submitForm(form);
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.have.lengthOf(1);
+    expect(onSubmit.called).to.be.false;
 
     ReactTestUtils.Simulate.change(find('#root_educationProgram_educationType'), {
       target: {
