@@ -33,7 +33,7 @@ describe('Edu 1990e schoolSelection', () => {
 
     const inputs = Array.from(formDOM.querySelectorAll('input, select, textarea'));
 
-    expect(inputs.length).to.equal(6);
+    expect(inputs.length).to.equal(7);
   });
 
   it('should have no required inputs', () => {

@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 
 import * as educationProgram from '../definitions/educationProgram';
 import { uiSchema as uiSchemaDate } from '../../common/schemaform/definitions/date';
+import { civilianBenefitsLabel } from '../utils/helpers';
 
 const defaults = {
   fields: [
@@ -45,9 +46,9 @@ export default function createSchoolSelectionPage(schema, options) {
       'ui:title': 'Would you like to receive vocational and educational counseling?',
       'ui:widget': 'yesNo'
     },
-    // May want to turn this into a yes/no
     civilianBenefitsAssistance: {
-      'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
+      'ui:title': civilianBenefitsLabel,
+      'ui:widget': 'yesNo'
     }
   };
   const pickFields = _.pick(fields);

@@ -13,7 +13,8 @@ import {
 
 import {
   hoursTypeLabels,
-  stateLabels
+  stateLabels,
+  civilianBenefitsLabel
 } from '../../utils/helpers';
 
 import * as address from '../../../common/schemaform/definitions/address';
@@ -34,6 +35,8 @@ import createSchoolSelectionPage from '../../pages/schoolSelection';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import Chapter33Warning from '../components/Chapter33Warning';
+import Chapter35Warning from '../components/Chapter35Warning';
 
 const {
   benefit,
@@ -103,7 +106,11 @@ const formConfig = {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
-                labels: benefitsLabels
+                labels: benefitsLabels,
+                nestedContent: {
+                  chapter33: Chapter33Warning,
+                  chapter35: Chapter35Warning
+                }
               }
             },
             benefitsRelinquishedDate: date.uiSchema('Effective date')
@@ -248,31 +255,44 @@ const formConfig = {
               },
               remarriageDate: _.assign(date.uiSchema('Date you got remarried'), {
                 'ui:options': {
-                  hideIf: (formData) => !_.get('spouseInfo.remarried', formData)
-                }
+                  expandUnder: 'remarried',
+                },
+                'ui:required': (formData) => _.get('spouseInfo.remarried', formData)
               }),
               'ui:options': {
                 hideIf: (formData) => _.get('relationship', formData) !== 'spouse'
               }
             },
-            relativeFullName: _.assign(fullNameUISchema, {
-              'ui:title': 'Name of Sponsor'
+            veteranFullName: _.merge(fullNameUISchema, {
+              'ui:title': 'Name of Sponsor',
+              first: {
+                'ui:title': 'Sponsor first name'
+              },
+              middle: {
+                'ui:title': 'Sponsor middle name'
+              },
+              last: {
+                'ui:title': 'Sponsor last name'
+              },
+              suffix: {
+                'ui:title': 'Sponsor suffix'
+              }
             }),
-            veteranSocialSecurityNumber: ssn.uiSchema,
-            veteranDateOfBirth: currentOrPastDate.uiSchema('Date of Birth'),
-            veteranDateOfDeath: currentOrPastDate.uiSchema('Date of death or date listed as MIA or POW'),
+            veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
+              'ui:title': 'Sponsor Social Security number'
+            }),
+            veteranDateOfBirth: currentOrPastDate.uiSchema('Sponsor date of birth'),
+            veteranDateOfDeath: currentOrPastDate.uiSchema('Sponsor date of death or date listed as MIA or POW'),
           },
           schema: {
             type: 'object',
-            // TODO: Conditionally require divorcePending and remarried if
-            //  spouseInfo is unhidden
             required: [
               'veteranSocialSecurityNumber',
               'veteranDateOfBirth'
             ],
             properties: {
               spouseInfo,
-              relativeFullName: fullName,
+              veteranFullName: fullName,
               veteranSocialSecurityNumber: ssnSchema,
               veteranDateOfBirth,
               veteranDateOfDeath
@@ -320,6 +340,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:applicantServed'
               },
+              'ui:required': form => _.get('view:applicantServed', form),
               items: {
                 serviceStatus: { 'ui:title': 'Type of separation or discharge' }
               }
@@ -334,12 +355,14 @@ const formConfig = {
               'view:applicantServed': {
                 type: 'boolean'
               },
-              toursOfDuty: toursOfDuty.schema([
-                'serviceBranch',
-                'dateRange',
-                'serviceStatus',
-                // 'applyPeriodToSelected'
-              ])
+              toursOfDuty: toursOfDuty.schema({
+                fields: [
+                  'serviceBranch',
+                  'dateRange',
+                  'serviceStatus'
+                ],
+                required: ['serviceBranch', 'dateRange.from']
+              })
             }
           }
         },
@@ -348,7 +371,7 @@ const formConfig = {
           path: 'military-service/contributions',
           uiSchema: {
             civilianBenefitsAssistance: {
-              'ui:title': 'Are you getting benefits from the U.S. Government as a civilian employee during the same time as you are seeking benefits from VA?',
+              'ui:title': civilianBenefitsLabel,
               'ui:widget': 'yesNo'
             },
             civilianBenefitsSource: {
@@ -429,12 +452,13 @@ const formConfig = {
                 }
               }
             },
+            'view:hasTrainings': {
+              'ui:title': 'Do you have any training after high school?',
+              'ui:widget': 'yesNo'
+            },
             postHighSchoolTrainings: _.merge(uiSchemaPostHighSchoolTrainings, {
               'ui:options': {
-                hideIf: form => {
-                  const status = _.get('highSchool.status', form);
-                  return status !== 'graduated' && status !== 'ged';
-                }
+                expandUnder: 'view:hasTrainings'
               }
             })
           },
@@ -459,6 +483,9 @@ const formConfig = {
                     }
                   }
                 }
+              },
+              'view:hasTrainings': {
+                type: 'boolean'
               },
               postHighSchoolTrainings
             }

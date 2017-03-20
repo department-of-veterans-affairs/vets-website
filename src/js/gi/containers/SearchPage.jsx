@@ -178,7 +178,10 @@ export class SearchPage extends React.Component {
         <div className="row">
           <div className="filters-sidebar small-12 medium-3 columns">
             <h2>Keywords</h2>
-            <KeywordSearch label="City, school, or employer"/>
+            <KeywordSearch
+                location={this.props.location}
+                label="City, school, or employer"
+                onFilterChange={this.handleFilterChange}/>
             <InstitutionFilterForm
                 search={search}
                 filters={filters}
