@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+
 import { estimatedBenefits } from '../../selectors/estimator';
+import { formatCurrency } from '../../utils/helpers';
 
 export class SearchResult extends React.Component {
 
@@ -11,10 +13,6 @@ export class SearchResult extends React.Component {
   }
 
   estimate({ qualifier, value }) {
-    const formatCurrency = (n) => {
-      const str = Math.round(Number(n)).toString();
-      return str.replace(/\d(?=(\d{3})+$)/g, '$&,');
-    };
     if (qualifier === '% of instate tuition') {
       return <span>{value}% in-state</span>;
     }
@@ -22,7 +20,7 @@ export class SearchResult extends React.Component {
       if (value === 'N/A') return 'N/A';
       return value;
     }
-    return (<span>${formatCurrency(value)}</span>);
+    return (<span>{formatCurrency(value)}</span>);
   }
 
   render() {

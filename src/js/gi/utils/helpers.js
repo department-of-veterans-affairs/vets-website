@@ -9,5 +9,6 @@ export function getCurrency(value) {
 }
 
 export function formatCurrency(value) {
-  return `$${Math.round(value)}`;
+  const str = Math.round(+value).toString();
+  return `$${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
 }
