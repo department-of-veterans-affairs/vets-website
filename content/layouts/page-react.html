@@ -2,8 +2,7 @@
 <div id="content">
 <div class="main" role="main">
   {% if in_maintenance == true %}
-    <div class="section main-menu">
-      <div class="row">
+    <div class="row">
         <div class="small-12 columns">
           <div class="csp-inline-patch-page-react">
           <h3>{{ maintenance_line1 }}</h3>
@@ -12,12 +11,11 @@
           </div>
         </div>
       </div>
+  {% else %}
+    <div class="section">
+      {{ contents }}
     </div>
-    {% else %}
-      <div class="section">
-        {{ contents }}
-      </div>
-      {% endif %}
+  {% endif %}
 </div>
 </div>
 {% include "content/includes/footer.html" %}

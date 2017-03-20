@@ -24,15 +24,15 @@ function completeVeteranInformation(client, data, onlyRequiredFields) {
     .setValue('input[name="root_veteranFullName_first"]', data.veteranFullName.first)
     .clearValue('input[name="root_veteranFullName_last"]')
     .setValue('input[name="root_veteranFullName_last"]', data.veteranFullName.last)
-    .clearValue('input[name="root_veteranSocialSecurityNumber"]')
-    .setValue('input[name="root_veteranSocialSecurityNumber"]', data.veteranSocialSecurityNumber);
+    .clearValue('input[name="root_view:veteranId_veteranSocialSecurityNumber"]')
+    .setValue('input[name="root_view:veteranId_veteranSocialSecurityNumber"]', data.veteranSocialSecurityNumber);
 
   if (!onlyRequiredFields) {
     client
       .setValue('input[name="root_veteranFullName_middle"]', data.veteranFullName.middle)
       .setValue('select[name="root_veteranFullName_suffix"]', data.veteranFullName.suffix)
-      .click('input[name="root_view:noSSN"]')
-      .setValue('input[name="root_vaFileNumber"]', data.vaFileNumber);
+      .click('input[name="root_view:veteranId_view:noSSN"]')
+      .setValue('input[name="root_view:veteranId_vaFileNumber"]', data.vaFileNumber);
   }
 }
 

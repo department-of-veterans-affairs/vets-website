@@ -50,6 +50,11 @@
     color: $color-link-default;
   }
 
+  .desktop-container {
+    margin-bottom: 3em;
+    border-bottom: solid thin $color-gray-lightest;
+  }
+
   .facility-result {
     padding: 1em;
     border-bottom: none;

@@ -9,11 +9,11 @@ import createSchoolSelectionPage from '../../pages/schoolSelection';
 import directDeposit from '../../pages/directDeposit';
 
 import * as address from '../../../common/schemaform/definitions/address';
-import { uiSchema as dateUiSchema } from '../../../common/schemaform/definitions/date';
 import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
-import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
-import { uiSchema as ssnUiSchema } from '../../../common/schemaform/definitions/ssn';
-import uiSchemaPostHighSchoolTrainings from '../../definitions/postHighSchoolTrainings';
+import { uiSchema as dateUi } from '../../../common/schemaform/definitions/date';
+import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
+import * as veteranId from '../../definitions/veteranId';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -39,8 +39,7 @@ const {
   educationType,
   fullName,
   nonMilitaryJobs,
-  postHighSchoolTrainings,
-  ssn
+  postHighSchoolTrainings
 } = fullSchema1990e.definitions;
 
 const formConfig = {
@@ -117,18 +116,25 @@ const formConfig = {
                 'ui:title': 'Sponsor suffix',
               }
             }),
-            veteranSocialSecurityNumber: _.set(['ui:title'], 'Sponsor Social Security number', ssnUiSchema),
-            veteranAddress: address.uiSchema('Sponsor Address'),
+            'view:veteranId': _.merge(veteranId.uiSchema, {
+              vaFileNumber: {
+                'ui:title': 'Veteran file number',
+              },
+              veteranSocialSecurityNumber: {
+                'ui:title': 'Veteran Social Security number'
+              }
+            }),
+            veteranAddress: address.uiSchema('Veteran Address'),
             serviceBranch: {
               'ui:title': 'Sponsor Branch of Service'
             }
           },
           schema: {
             type: 'object',
-            required: ['veteranFullName', 'veteranSocialSecurityNumber'],
+            required: ['veteranFullName'],
             properties: {
               veteranFullName: fullName,
-              veteranSocialSecurityNumber: ssn,
+              'view:veteranId': veteranId.schema,
               veteranAddress: address.schema(),
               serviceBranch
             }
@@ -145,8 +151,8 @@ const formConfig = {
           initialData: {
           },
           uiSchema: {
-            highSchoolOrGedCompletionDate: dateUiSchema('When did you earn your high school diploma or equivalency certificate?'),
-            postHighSchoolTrainings: uiSchemaPostHighSchoolTrainings,
+            highSchoolOrGedCompletionDate: dateUi('When did you earn your high school diploma or equivalency certificate?'),
+            postHighSchoolTrainings: postHighSchoolTrainingsUi,
             faaFlightCertificatesInformation: {
               'ui:title': 'If you have any FAA flight certificates, please list them here.',
               'ui:widget': 'textarea'
@@ -175,7 +181,7 @@ const formConfig = {
                 'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?',
                 'ui:widget': 'yesNo'
               },
-              nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUiSchema)
+              nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUi)
             }
           },
           schema: {
