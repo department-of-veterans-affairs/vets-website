@@ -33,6 +33,9 @@ describe('Edu 5490 previousBenefits', () => {
     const formDOM = findDOMNode(form);
 
     // Starts with 7 inputs (tested above)
+    // Re-tested here for posterity; can be removed before merging
+    expect(Array.from(formDOM.querySelectorAll('input,select')).length)
+      .to.equal(7);
 
     // Expand both of the expandables
     const inputs = Array.from(formDOM.querySelectorAll('input'));
@@ -51,22 +54,24 @@ describe('Edu 5490 previousBenefits', () => {
     expect(Array.from(formDOM.querySelectorAll('input,select')).length)
       .to.equal(16);
 
-    // const claimed = inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService');
-    // console.log('claimedSponsorService.checked:', claimed);
+    const claimed = inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService');
+    expect(claimed.checked).to.be.true;
 
     // Collapse the fields
-    // ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:ownServiceBenefits'), {
-    //   target: {
-    //     checked: false
-    //   }
-    // });
-    // ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService'), {
-    //   target: {
-    //     checked: false
-    //   }
-    // });
-    //
-    // // Should collapse back to 7
+    ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:ownServiceBenefits'), {
+      target: {
+        checked: false
+      }
+    });
+    ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService'), {
+      target: {
+        checked: false
+      }
+    });
+
+    expect(claimed.checked).to.be.false;
+
+    // Should collapse back to 7
     // expect(Array.from(formDOM.querySelectorAll('input,select')).length)
     //   .to.equal(7);
   });
