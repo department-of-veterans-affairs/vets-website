@@ -20,7 +20,7 @@ describe('Edu 5490 educationHistory', () => {
     const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
 
     expect(fields.length)
-      .to.equal(1);
+      .to.equal(3);
   });
 
   it('should render diploma date', () => {
@@ -39,7 +39,7 @@ describe('Edu 5490 educationHistory', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(17);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(6);
 
     ReactTestUtils.Simulate.change(formDOM.querySelector('select'), {
       target: {
@@ -47,7 +47,7 @@ describe('Edu 5490 educationHistory', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(17);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(6);
   });
 
   it('should render high school questions', () => {
@@ -66,7 +66,7 @@ describe('Edu 5490 educationHistory', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(13);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(15);
   });
 
   it('should have no required inputs', () => {
@@ -85,5 +85,24 @@ describe('Edu 5490 educationHistory', () => {
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
 
     expect(onSubmit.called).to.be.true;
+  });
+
+  it('should render post high school trainings', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+
+    ReactTestUtils.Simulate.change(formDOM.querySelector('input'), {
+      target: {
+        value: 'Y'
+      }
+    });
+
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(16);
   });
 });

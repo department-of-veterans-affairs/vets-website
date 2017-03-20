@@ -10,7 +10,6 @@ import {
 
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
-import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as dateRange from '../../../common/schemaform/definitions/dateRange';
 import * as address from '../../../common/schemaform/definitions/address';
@@ -18,6 +17,7 @@ import * as address from '../../../common/schemaform/definitions/address';
 import educationTypeUISchema from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
+import * as veteranId from '../../definitions/veteranId';
 
 import createContactInformationPage from '../../pages/contactInformation';
 
@@ -38,7 +38,6 @@ const {
 const {
   preferredContactMethod,
   school,
-  vaFileNumber,
   educationType
 } = fullSchema1995.definitions;
 
@@ -67,36 +66,14 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             veteranFullName: fullName.uiSchema,
-            veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
-              'ui:required': (formData) => !formData['view:noSSN']
-            }),
-            'view:noSSN': {
-              'ui:title': 'I don’t have a Social Security number',
-              'ui:options': {
-                hideOnReview: true
-              }
-            },
-            vaFileNumber: {
-              'ui:required': (formData) => !!formData['view:noSSN'],
-              'ui:title': 'File number',
-              'ui:errorMessages': {
-                pattern: 'File number must be 8 digits'
-              },
-              'ui:options': {
-                expandUnder: 'view:noSSN'
-              }
-            }
+            'view:veteranId': veteranId.uiSchema
           },
           schema: {
             type: 'object',
             required: ['veteranFullName'],
             properties: {
               veteranFullName: fullName.schema,
-              veteranSocialSecurityNumber: ssn.schema,
-              'view:noSSN': {
-                type: 'boolean'
-              },
-              vaFileNumber
+              'view:veteranId': veteranId.schema
             }
           }
         }

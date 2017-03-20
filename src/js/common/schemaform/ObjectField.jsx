@@ -7,7 +7,6 @@ import {
   deepEquals,
   getDefaultFormState,
   orderProperties,
-  retrieveSchema,
   getDefaultRegistry
 } from 'react-jsonschema-form/lib/utils';
 
@@ -133,6 +132,7 @@ class ObjectField extends React.Component {
       uiSchema,
       errorSchema,
       idSchema,
+      schema,
       required,
       disabled,
       readonly,
@@ -141,7 +141,6 @@ class ObjectField extends React.Component {
     const { definitions, fields, formContext } = this.props.registry;
     const { TitleField } = fields;
     const SchemaField = this.SchemaField;
-    const schema = retrieveSchema(this.props.schema, definitions);
     const formData = Object.keys(this.props.formData || {}).length
       ? this.props.formData
       : getDefaultFormState(schema, {}, definitions);

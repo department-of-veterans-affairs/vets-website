@@ -7,3 +7,7 @@ export function getCurrency(value) {
 
   return isNumeric(amount) ? +amount : 0;
 }
+
+export function formatCurrency(value) {
+  return `$${Math.round(value)}`;
+}

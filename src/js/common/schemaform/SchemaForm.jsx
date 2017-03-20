@@ -95,7 +95,7 @@ class SchemaForm extends React.Component {
   validate(formData, errors) {
     const { schema, uiSchema } = this.props;
     if (uiSchema) {
-      uiSchemaValidate(errors, uiSchema, schema, schema.definitions, formData);
+      uiSchemaValidate(errors, uiSchema, schema, formData);
     }
     return errors;
   }

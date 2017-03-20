@@ -20,7 +20,8 @@ module.exports = {
   test_settings: {
     'default': {
       launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
-      filter: './test/**/*.e2e.spec.js',
+      // filter: './test/**/*.e2e.spec.js',
+      filter: './test/edu-benefits/**/*.e2e.spec.js',
       selenium_host: 'localhost',
       selenium_port: selenium_server_port,
       use_ssl: false,
