@@ -440,14 +440,14 @@ function initApplicationSubmitMock() {
       }
     }
   });
-  mock(null, {
-    path: '/api/hca/v1/application',
-    verb: 'post',
-    value: {
-      formSubmissionId: '123fake-submission-id-567',
-      timeStamp: '2016-05-16'
-    }
-  });
+  // mock(null, {
+  //   path: '/api/hca/v1/application',
+  //   verb: 'post',
+  //   value: {
+  //     formSubmissionId: '123fake-submission-id-567',
+  //     timeStamp: '2016-05-16'
+  //   }
+  // });
 }
 
 module.exports = {
