@@ -22,7 +22,7 @@ describe('Edu 5490 previousBenefits', () => {
       .to.equal(7);
   });
 
-  it('should expand options conditionally', () => {
+  it('should expand options conditionally', (done) => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
@@ -77,8 +77,13 @@ describe('Edu 5490 previousBenefits', () => {
 
     // Should collapse back to 7
     //  ...but it doesn't...
-    expect(Array.from(formDOM.querySelectorAll('input,select')).length)
-      .to.equal(7);
+    setTimeout(() => {
+      console.log('expect()ing after waiting'); // eslint-disable-line
+      expect(Array.from(formDOM.querySelectorAll('input,select')).length)
+        .to.equal(7);
+
+      done();
+    }, 1000);
   });
 
   // This test fails to produce an error message as expected
