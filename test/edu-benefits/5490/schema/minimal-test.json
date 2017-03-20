@@ -11,16 +11,16 @@
   "benefitSelection": {
     "data": {}
   },
-  "previousBenefits": {
+  "benefitHistory": {
     "data": {
       "previousBenefits": {
         "veteranFullName": {}
       }
     }
   },
-  "sponsorVeteran": {
+  "sponsorInformation": {
     "data": {
-      "relativeFullName": {
+      "veteranFullName": {
         "first": "Jim",
         "last": "Doe"
       },
@@ -33,7 +33,7 @@
   "applicantService": {
     "data": {}
   },
-  "contributions": {
+  "additionalBenefits": {
     "data": {}
   },
   "educationHistory": {

@@ -13,8 +13,7 @@ import {
 
 import {
   hoursTypeLabels,
-  stateLabels,
-  civilianBenefitsLabel
+  stateLabels
 } from '../../utils/helpers';
 
 import * as address from '../../../common/schemaform/definitions/address';
@@ -32,6 +31,7 @@ import createContactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
 import applicantInformation from '../../pages/applicantInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
+import additionalBenefits from '../../pages/additionalBenefits';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -41,8 +41,6 @@ import Chapter35Warning from '../components/Chapter35Warning';
 const {
   benefit,
   highSchool,
-  civilianBenefitsAssistance,
-  civilianBenefitsSource,
   currentlyActiveDuty,
   outstandingFelony,
   previousBenefits,
@@ -91,15 +89,58 @@ const formConfig = {
       pages: {
         applicantInformation: applicantInformation(fullSchema5490, {
           labels: { relationship: relationshipLabels }
-        })
+        }),
+        additionalBenefits: additionalBenefits(fullSchema5490, {
+          fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource']
+        }),
+        applicantService: {
+          title: 'Applicant service',
+          path: 'applicant/service',
+          initialData: {
+          },
+          uiSchema: {
+            'view:applicantServed': {
+              'ui:title': 'Have you ever served on active duty in the armed services?',
+              'ui:widget': 'yesNo'
+            },
+            toursOfDuty: _.merge(toursOfDuty.uiSchema, {
+              'ui:options': {
+                expandUnder: 'view:applicantServed'
+              },
+              'ui:required': form => _.get('view:applicantServed', form),
+              items: {
+                serviceStatus: { 'ui:title': 'Type of separation or discharge' }
+              }
+            })
+          },
+          schema: {
+            type: 'object',
+            // If answered 'Yes' without entering information, it's the same as
+            //  answering 'No' as far as the back end is concerned.
+            required: ['view:applicantServed'],
+            properties: {
+              'view:applicantServed': {
+                type: 'boolean'
+              },
+              toursOfDuty: toursOfDuty.schema({
+                fields: [
+                  'serviceBranch',
+                  'dateRange',
+                  'serviceStatus'
+                ],
+                required: ['serviceBranch', 'dateRange.from']
+              })
+            }
+          }
+        },
       }
     },
     benefitSelection: {
-      title: 'Education Benefit',
+      title: 'Benefits Eligibility',
       pages: {
         benefitSelection: {
-          title: 'Education benefit',
-          path: 'benefits-eligibility/education-benefit',
+          title: 'Benefits eligibility',
+          path: 'benefits/eligibility',
           initialData: {},
           uiSchema: {
             benefit: {
@@ -124,9 +165,9 @@ const formConfig = {
             }
           }
         },
-        previousBenefits: {
-          title: 'Previous Benefits',
-          path: 'benefits-eligibility/previous-benefits',
+        benefitHistory: {
+          title: 'Benefit history',
+          path: 'benefits/history',
           initialData: {},
           uiSchema: {
             'ui:description': 'Prior to this application, have you ever applied for or received any of the following VA benefits?',
@@ -197,7 +238,7 @@ const formConfig = {
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
                   updateSchema: (data, form) => {
-                    if (_.get('previousBenefits.data.previousBenefits.view:claimedSponsorService', form)) {
+                    if (_.get('benefitHistory.data.previousBenefits.view:claimedSponsorService', form)) {
                       return fullName;
                     }
 
@@ -236,12 +277,12 @@ const formConfig = {
         }
       }
     },
-    militaryService: {
-      title: 'Military History',
+    sponsorInformation: {
+      title: 'Sponsor Information',
       pages: {
-        sponsorVeteran: {
-          title: 'Sponsor Veteran',
-          path: 'military-service/sponsor-veteran',
+        sponsorInformation: {
+          title: 'Sponsor information',
+          path: 'sponsor/information',
           uiSchema: {
             spouseInfo: {
               divorcePending: {
@@ -300,8 +341,8 @@ const formConfig = {
           }
         },
         sponsorService: {
-          title: 'Sponsor Service',
-          path: 'military-service/sponsor-service',
+          title: 'Sponsor service',
+          path: 'sponsor/service',
           uiSchema: {
             serviceBranch: {
               'ui:title': 'Branch of service'
@@ -323,74 +364,6 @@ const formConfig = {
               outstandingFelony
             }
           }
-        },
-        applicantService: {
-          title: 'Applicant Service',
-          path: 'military-service/applicant-service',
-          initialData: {
-            // I'd like to default the checkbox to true...
-            // applyPeriodToSelected: true
-          },
-          uiSchema: {
-            'view:applicantServed': {
-              'ui:title': 'Have you ever served on active duty in the armed services?',
-              'ui:widget': 'yesNo'
-            },
-            toursOfDuty: _.merge(toursOfDuty.uiSchema, {
-              'ui:options': {
-                expandUnder: 'view:applicantServed'
-              },
-              'ui:required': form => _.get('view:applicantServed', form),
-              items: {
-                serviceStatus: { 'ui:title': 'Type of separation or discharge' }
-              }
-            })
-          },
-          schema: {
-            type: 'object',
-            // If answered 'Yes' without entering information, it's the same as
-            //  answering 'No' as far as the back end is concerned.
-            required: ['view:applicantServed'],
-            properties: {
-              'view:applicantServed': {
-                type: 'boolean'
-              },
-              toursOfDuty: toursOfDuty.schema({
-                fields: [
-                  'serviceBranch',
-                  'dateRange',
-                  'serviceStatus'
-                ],
-                required: ['serviceBranch', 'dateRange.from']
-              })
-            }
-          }
-        },
-        contributions: {
-          title: 'Contributions',
-          path: 'military-service/contributions',
-          uiSchema: {
-            civilianBenefitsAssistance: {
-              'ui:title': civilianBenefitsLabel,
-              'ui:widget': 'yesNo'
-            },
-            civilianBenefitsSource: {
-              'ui:title': 'What is the source of these funds?',
-              // Conditionally require civilianBenefitsSource if
-              //  civilianBenefitsAssistance is true.
-              'ui:required': (formData) => formData.civilianBenefitsAssistance,
-              'ui:options': {
-                expandUnder: 'civilianBenefitsAssistance'
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              civilianBenefitsAssistance,
-              civilianBenefitsSource
-            }
-          }
         }
       }
     },
@@ -399,7 +372,7 @@ const formConfig = {
       pages: {
         educationHistory: {
           title: 'Education history',
-          path: 'education-history',
+          path: 'education/history',
           initialData: {},
           uiSchema: {
             highSchool: {
@@ -498,13 +471,20 @@ const formConfig = {
       pages: {
         employmentHistory: {
           title: 'Employment history',
-          path: 'employment-history',
+          path: 'employment/history',
           uiSchema: {
-            nonMilitaryJobs: nonMilitaryJobsUiSchema
+            'view:hasNonMilitaryJobs': {
+              'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?',
+              'ui:widget': 'yesNo'
+            },
+            nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUiSchema)
           },
           schema: {
             type: 'object',
             properties: {
+              'view:hasNonMilitaryJobs': {
+                type: 'boolean'
+              },
               nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
             }
           }

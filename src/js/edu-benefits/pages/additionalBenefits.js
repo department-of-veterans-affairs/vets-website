@@ -1,5 +1,7 @@
 import _ from 'lodash/fp';
 
+import { civilianBenefitsLabel } from '../utils/helpers';
+
 const defaults = {
   fields: [
     'nonVaAssistance',
@@ -22,11 +24,12 @@ export default function additionalBenefits(schema, options) {
 
   const possibleProperties = {
     nonVaAssistance: schema.properties.nonVaAssistance,
-    civilianBenefitsAssistance: schema.properties.civilianBenefitsAssistance
+    civilianBenefitsAssistance: schema.properties.civilianBenefitsAssistance,
+    civilianBenefitsSource: schema.properties.civilianBenefitsSource
   };
 
   return {
-    path: 'additional-benefits',
+    path: 'applicant/additional-benefits',
     title: 'Additional Benefits',
     initialData: {},
     uiSchema: {
@@ -36,7 +39,15 @@ export default function additionalBenefits(schema, options) {
         'ui:widget': 'yesNo'
       },
       civilianBenefitsAssistance: {
-        'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
+        'ui:title': civilianBenefitsLabel,
+        'ui:widget': 'yesNo'
+      },
+      civilianBenefitsSource: {
+        'ui:title': 'What is the source of these funds?',
+        'ui:required': (formData) => formData.civilianBenefitsAssistance,
+        'ui:options': {
+          expandUnder: 'civilianBenefitsAssistance'
+        }
       }
     },
     schema: {

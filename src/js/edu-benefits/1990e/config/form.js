@@ -66,11 +66,11 @@ const formConfig = {
       }
     },
     benefitEligibility: {
-      title: 'Benefit Eligibility',
+      title: 'Benefits Eligibility',
       pages: {
         benefitEligibility: {
-          path: 'benefit-eligibility',
-          title: 'Benefit Eligibility',
+          path: 'benefit/eligibility',
+          title: 'Benefits eligibility',
           uiSchema: {
             'view:benefitDescription': {
               'ui:description': eligibilityDescription
@@ -100,8 +100,8 @@ const formConfig = {
       title: 'Sponsor Information',
       pages: {
         sponsorVeteran: {
-          title: 'Sponsor Information',
-          path: 'sponsor-veteran',
+          title: 'Sponsor information',
+          path: 'sponsor/information',
           uiSchema: {
             veteranFullName: _.merge(fullNameUISchema, {
               first: {
@@ -140,8 +140,8 @@ const formConfig = {
       title: 'Education History',
       pages: {
         educationHistory: {
-          path: 'education-history',
-          title: 'Education History',
+          path: 'education/history',
+          title: 'Education history',
           initialData: {
           },
           uiSchema: {
@@ -167,8 +167,8 @@ const formConfig = {
       title: 'Employment History',
       pages: {
         employmentHistory: {
-          title: 'Employment History',
-          path: 'employment-history',
+          title: 'Employment history',
+          path: 'employment/history',
           uiSchema: {
             employmentHistory: {
               'view:hasNonMilitaryJobs': {
