@@ -132,9 +132,6 @@ class HealthCareApp extends React.Component {
     const veteran = this.props.data;
     const path = this.props.location.pathname;
     const apiUrl = `${environment.API_URL}/v0/health_care_applications`;
-    // let formSubmissionId;
-    // let timestamp;
-    // const testBuild = __BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging';
     const submissionPost = {
       method: 'POST',
       headers: {
@@ -155,18 +152,6 @@ class HealthCareApp extends React.Component {
       submissionPost.headers.Authorization = `Token token=${userToken}`;
     }
 
-    // In order to test the new Rails API in staging, we are temporarily changing the
-    // endpoints to submit to the new API. Keeping the same endpoints for production.
-    // if (testBuild) {
-    //   // Allow e2e tests to override API URL
-    //   // Remove the need for a separate code path here
-    //   apiUrl = window.VetsGov.api.url === ''
-    //     ? `${environment.API_URL}/v0/health_care_applications`
-    //     : `${window.VetsGov.api.url}/v0/health_care_applications`;
-
-    //   submissionPost.body = JSON.stringify({ form: submissionPost.body });
-    // }
-
     if (formIsValid && veteran.privacyAgreementAccepted) {
       this.props.onUpdateSubmissionStatus('submitPending');
 
@@ -180,14 +165,6 @@ class HealthCareApp extends React.Component {
         this.removeOnbeforeunload();
 
         response.json().then(data => {
-          // if (testBuild) {
-          //   formSubmissionId = data.formSubmissionId;
-          //   timestamp = data.timestamp;
-          // } else {
-          //   formSubmissionId = data.response.formSubmissionId;
-          //   timestamp = data.response.timeStamp;
-          // }
-
           this.props.onUpdateSubmissionStatus('applicationSubmitted', data);
           this.props.onCompletedStatus(path);
           this.props.onUpdateSubmissionId(data.formSubmissionId);
