@@ -17,7 +17,7 @@ const defaults = {
 };
 
 export default function createSchoolSelectionPage(schema, options) {
-  const mergedOptions = _.merge(defaults, options);
+  const mergedOptions = _.assign(defaults, options);
   const { fields, required } = mergedOptions;
 
   const possibleUISchemaFields = {

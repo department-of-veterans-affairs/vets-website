@@ -2,12 +2,14 @@ import _ from 'lodash/fp';
 
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
+import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from '../../pages/applicantInformation';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 import directDeposit from '../../pages/directDeposit';
 
 import * as address from '../../../common/schemaform/definitions/address';
+import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
 import { uiSchema as dateUi } from '../../../common/schemaform/definitions/date';
 import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
@@ -58,7 +60,8 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformation(fullSchema1990e)
+        applicantInformation: applicantInformation(fullSchema1990e),
+        additionalBenefits: additionalBenefits(fullSchema1990e)
       }
     },
     benefitEligibility: {
@@ -93,29 +96,26 @@ const formConfig = {
       }
     },
     sponsorVeteran: {
-      title: 'Sponsor Veteran',
+      title: 'Sponsor Information',
       pages: {
         sponsorVeteran: {
-          title: 'Sponsor Veteran',
+          title: 'Sponsor Information',
           path: 'sponsor-veteran',
           uiSchema: {
-            veteranFullName: {
+            veteranFullName: _.merge(fullNameUISchema, {
               first: {
-                'ui:title': 'Veteran first name'
+                'ui:title': 'Sponsor first name'
               },
               last: {
-                'ui:title': 'Veteran last name'
+                'ui:title': 'Sponsor last name'
               },
               middle: {
-                'ui:title': 'Veteran middle name'
+                'ui:title': 'Sponsor middle name'
               },
               suffix: {
-                'ui:title': 'Veteran suffix',
-                'ui:options': {
-                  widgetClassNames: 'form-select-medium'
-                }
+                'ui:title': 'Sponsor suffix',
               }
-            },
+            }),
             'view:veteranId': _.merge(veteranId.uiSchema, {
               vaFileNumber: {
                 'ui:title': 'Veteran file number',
@@ -126,7 +126,7 @@ const formConfig = {
             }),
             veteranAddress: address.uiSchema('Veteran Address'),
             serviceBranch: {
-              'ui:title': 'Branch of Service'
+              'ui:title': 'Sponsor Branch of Service'
             }
           },
           schema: {
@@ -207,9 +207,7 @@ const formConfig = {
         schoolSelection: createSchoolSelectionPage(fullSchema1990e, {
           fields: [
             'educationProgram',
-            'educationObjective',
-            'nonVaAssistance',
-            'civilianBenefitsAssistance'
+            'educationObjective'
           ]
         })
       }
