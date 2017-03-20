@@ -131,7 +131,9 @@ class HealthCareApp extends React.Component {
     e.preventDefault();
     const veteran = this.props.data;
     const path = this.props.location.pathname;
-    const apiUrl = `${environment.API_URL}/v0/health_care_applications`;
+    const apiUrl = window.VetsGov.api.url === ''
+        ? `${environment.API_URL}/v0/health_care_applications`
+        : `${window.VetsGov.api.url}/v0/health_care_applications`;
     const submissionPost = {
       method: 'POST',
       headers: {
