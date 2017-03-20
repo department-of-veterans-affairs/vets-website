@@ -13,6 +13,7 @@ class IntroductionPage extends React.Component {
     this.props.router.push(this.props.route.pageList[1].path);
   }
   render() {
+    throw new Error('asdfasdfasdf');
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for Education Benefits"/>

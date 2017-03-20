@@ -6,7 +6,6 @@ class IntroductionPage extends React.Component {
     focusElement('.va-nav-breadcrumbs-list');
   }
   render() {
-    throw new Error('test error');
     return (
       <div>
         <div className="row">
