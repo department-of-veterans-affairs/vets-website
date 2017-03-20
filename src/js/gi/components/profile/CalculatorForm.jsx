@@ -1,6 +1,8 @@
 import React from 'react';
+
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
+import { formatCurrency } from '../../utils/helpers';
 
 class CalculatorForm extends React.Component {
 
@@ -62,7 +64,7 @@ class CalculatorForm extends React.Component {
           <input
               type="text"
               name="tuitionFees"
-              value={`$${this.props.inputs.tuitionFees}`}
+              value={formatCurrency(this.props.inputs.tuitionFees)}
               onChange={this.props.onInputChange}/>
         </div>
       </div>
@@ -78,7 +80,7 @@ class CalculatorForm extends React.Component {
           <input
               type="text"
               name="books"
-              value={`$${this.props.inputs.books}`}
+              value={formatCurrency(this.props.inputs.books)}
               onChange={this.props.onInputChange}/>
         </div>
       </div>
@@ -100,7 +102,7 @@ class CalculatorForm extends React.Component {
             <input
                 type="text"
                 name="yellowRibbonAmount"
-                value={`$${this.props.inputs.yellowRibbonAmount}`}
+                value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
                 onChange={this.props.onInputChange}/>
           </div>
         </div>
@@ -140,7 +142,7 @@ class CalculatorForm extends React.Component {
           <input
               type="text"
               name="scholarships"
-              value={`$${this.props.inputs.scholarships}`}
+              value={formatCurrency(this.props.inputs.scholarships)}
               onChange={this.props.onInputChange}/>
         </div>
       </div>
@@ -160,7 +162,7 @@ class CalculatorForm extends React.Component {
           <input
               type="text"
               name="tuitionAssist"
-              value={`$${this.props.inputs.tuitionAssist}`}
+              value={formatCurrency(this.props.inputs.tuitionAssist)}
               onChange={this.props.onInputChange}/>
         </div>
       </div>
@@ -312,7 +314,7 @@ class CalculatorForm extends React.Component {
             <input
                 type="text"
                 name="kickerAmount"
-                value={`$${this.props.inputs.kickerAmount}`}
+                value={formatCurrency(this.props.inputs.kickerAmount)}
                 onChange={this.props.onInputChange}/>
           </div>
         </div>
@@ -352,7 +354,7 @@ class CalculatorForm extends React.Component {
             <input
                 type="text"
                 name="buyUpAmount"
-                value={`$${this.props.inputs.buyUpAmount}`}
+                value={formatCurrency(this.props.inputs.buyUpAmount)}
                 onChange={this.props.onInputChange}/>
           </div>
         </div>
