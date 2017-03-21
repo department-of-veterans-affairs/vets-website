@@ -1,10 +1,12 @@
 const E2eHelpers = require('../util/e2e-helpers');
 const Timeouts = require('../util/timeouts.js');
-const EduHelpers = require('../util/edu-1995-helpers');
+const EduHelpers = require('../util/edu-helpers');
+const Edu1995Helpers = require('../util/edu-1995-helpers');
+const testData = require('../edu-benefits/1995/schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    EduHelpers.initApplicationSubmitMock();
+    Edu1995Helpers.initApplicationSubmitMock();
 
     // Ensure introduction page renders.
     client
@@ -21,7 +23,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Veteran information page.
     client
       .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
-    EduHelpers.completeVeteranInformation(client, EduHelpers.testData.veteranInformation.data, false);
+    EduHelpers.completeVeteranInformation(client, testData.veteranInformation.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -30,7 +32,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefits eligibility
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, EduHelpers.testData.benefitSelection.data);
+    EduHelpers.completeBenefitsSelection(client, testData.benefitSelection.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -39,7 +41,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Service periods page.
     client
       .waitForElementVisible('label[for="root_view:newService"]', Timeouts.slow);
-    EduHelpers.completeServicePeriods(client, EduHelpers.testData.servicePeriods.data, false);
+    EduHelpers.completeServicePeriods(client, testData.servicePeriods.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -51,7 +53,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Another mysteriously required pause. If we don't wait here, then the click below will
     // do nothing sometimes.
     client.pause(1000);
-    EduHelpers.completeMilitaryService(client, EduHelpers.testData.militaryHistory.data, false);
+    Edu1995Helpers.completeMilitaryService(client, testData.militaryHistory.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -60,7 +62,7 @@ module.exports = E2eHelpers.createE2eTest(
     // New school
     client
       .waitForElementVisible('label[for="root_educationType"]', Timeouts.slow);
-    EduHelpers.completeNewSchool(client, EduHelpers.testData.newSchool.data, false);
+    Edu1995Helpers.completeNewSchool(client, testData.newSchool.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -69,7 +71,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Old school
     client
       .waitForElementVisible('label[for="root_oldSchool_name"]', Timeouts.slow);
-    EduHelpers.completeOldSchool(client, EduHelpers.testData.oldSchool.data, false);
+    Edu1995Helpers.completeOldSchool(client, testData.oldSchool.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -78,7 +80,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Contact information page.
     client
       .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-    EduHelpers.completeContactInformation(client, EduHelpers.testData.contactInformation.data, false);
+    EduHelpers.completeContactInformation(client, testData.contactInformation.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -87,7 +89,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Dependents
     client
       .waitForElementVisible('label[for="root_serviceBefore1977_married"]', Timeouts.slow);
-    EduHelpers.completeDependents(client, EduHelpers.testData.dependents.data, false);
+    Edu1995Helpers.completeDependents(client, testData.dependents.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -98,7 +100,7 @@ module.exports = E2eHelpers.createE2eTest(
     // No longer works with the updated direct deposit page
     client
       .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
-    EduHelpers.completeDirectDeposit(client, EduHelpers.testData.directDeposit.data, false);
+    EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
