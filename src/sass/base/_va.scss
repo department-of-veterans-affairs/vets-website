@@ -477,18 +477,24 @@ h6 {
   p {
     padding-top: 0;
     margin-top: 0;
-
-    &:nth-child(1),
-    &:first-of-type {
-      color: $color-primary-darker;
-      letter-spacing: normal;
-      font-size: 1.25em;
-    }
   }
 
-  h3 {
-    padding: 0 0 .5em 0;
+  li p:first-of-type,
+  ul+p
+   {
+    font-weight: normal !important;
+    color: $color-gray-dark;
+    font-size: 1em;
+    padding-bottom: 0;
   }
+}
+
+.primary p:nth-child(1),
+.primary p:first-of-type,
+.va-introtext {
+  color: $color-primary-darker;
+  letter-spacing: normal;
+  font-size: 1.25em;
 }
 
 .secondary {
@@ -509,22 +515,26 @@ h6 {
 //====================
 // Content callout boxes
 // ===================
-
+.feature,
 .call-out {
   background: $color-primary-alt-lightest;
   padding: 1em;
   clear: both;
   margin: 0 0 1.5em 0;
+ 
   p {
+    color: inherit !important;
+    font: inherit !important;
     margin-bottom: 0;
-    padding-bottom: .5em
+    padding-bottom: .5em;
+
+    &:nth-child(1) {
+      font-size: 1.25em !important;
+      color: $color-gray-dark !important;
+      padding-bottom: inherit;
+    }
   }
-  p:nth-child(1) {
-    // TODO: refactor #content.interior .primary li p:first-of-type and remove !important
-    font-size: 1.25em !important;
-    color: $color-gray-dark;
-    padding-bottom: inherit;
-  }
+
   h3 {
     font-size: 1.65em;
   }
@@ -616,16 +626,9 @@ ul, ol {
 
 // Content lead paragraphs
 
-#content.interior .primary {
-  li p:first-of-type,
-  ul+p
-   {
-    font-weight: normal !important;
-    color: $color-gray-dark;
-    font-size: 1em;
-    padding-bottom: 0;
-  }
-}
+/* #content.interior .primary {
+  
+} */
 
 #content .section.primary {
   background: none;
