@@ -99,6 +99,7 @@ const formConfig = {
           initialData: {
           },
           uiSchema: {
+            'ui:title': 'Applicant service',
             'view:applicantServed': {
               'ui:title': 'Have you ever served on active duty in the armed services?',
               'ui:widget': 'yesNo'
@@ -170,6 +171,7 @@ const formConfig = {
           path: 'benefits/history',
           initialData: {},
           uiSchema: {
+            'ui:title': 'Benefit history',
             'ui:description': 'Prior to this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [
@@ -344,6 +346,7 @@ const formConfig = {
           title: 'Sponsor service',
           path: 'sponsor/service',
           uiSchema: {
+            'ui:title': 'Sponsor service',
             serviceBranch: {
               'ui:title': 'Branch of service'
             },

@@ -33,6 +33,7 @@ export default function additionalBenefits(schema, options) {
     title: 'Additional Benefits',
     initialData: {},
     uiSchema: {
+      'ui:title': 'Additional benefits',
       'ui:order': fields,
       nonVaAssistance: {
         'ui:title': 'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
