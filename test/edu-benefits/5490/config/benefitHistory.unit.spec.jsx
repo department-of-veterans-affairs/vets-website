@@ -33,9 +33,17 @@ describe('Edu 5490 benefitHistory', () => {
     const formDOM = findDOMNode(form);
 
     // Starts with 7 inputs (tested above)
+    // Re-tested here for posterity; can be removed before merging
+    expect(Array.from(formDOM.querySelectorAll('input,select')).length)
+      .to.equal(7);
+
+    const inputs = Array.from(formDOM.querySelectorAll('input'));
+    const claimed = inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService');
+
+    // claimedSponsorService starts as unchecked
+    expect(claimed.checked).to.be.false;
 
     // Expand both of the expandables
-    const inputs = Array.from(formDOM.querySelectorAll('input'));
     ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:ownServiceBenefits'), {
       target: {
         checked: true
@@ -50,14 +58,43 @@ describe('Edu 5490 benefitHistory', () => {
     // Should expand to 16
     expect(Array.from(formDOM.querySelectorAll('input,select')).length)
       .to.equal(16);
+
+    expect(claimed.checked).to.be.true;
+
+    // Collapse the fields
+    ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:ownServiceBenefits'), {
+      target: {
+        checked: false
+      }
+    });
+    ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService'), {
+      target: {
+        checked: false
+      }
+    });
+
+    // We have indeed unchecked the box
+    expect(claimed.checked).to.be.false;
+
+    // Un-expanding fields takes time, so we won't test that for now.
+
+    // console.log('number of inputs (& selects) before waiting:', Array.from(formDOM.querySelectorAll('input,select')).length); // eslint-disable-line
+    // // Should collapse back to 7
+    // //  ...but it only works after waiting for a second (maybe less, but yuck)
+    // setTimeout(() => {
+    //   console.log('number of inputs (& selects) after waiting:', Array.from(formDOM.querySelectorAll('input,select')).length); // eslint-disable-line
+    //   expect(Array.from(formDOM.querySelectorAll('input,select')).length)
+    //     .to.equal(7);
+    //
+    //   done();
+    // }, 610); // On my machine, this varies between 610 and 620
   });
 
-  // This test fails to produce an error message as expected
-  // I've tried submitting the form unmodified first then expanding the fields
-  //  and checking for the error message, but that doesn't work either.
-  // Also, I've tried passing data to the DefinitionTester to bypass modifying
-  //  the DOM before submitting, but that failed to render outright.
-  it.skip('should only have require fields conditionally', () => {
+  // The trouble with this test is it requires the expanded fields to be hidden
+  //  after expanding, which currently takes some time (see the end of the test
+  //  above). To get around that, we're checking for a successful submission and
+  //  then a failed submission instead of failing before suceeding.
+  it('should only have require fields conditionally', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -69,6 +106,12 @@ describe('Edu 5490 benefitHistory', () => {
     );
     const formDOM = findDOMNode(form);
 
+    // Submit form without entering any data first -- should succeed
+    submitForm(form);
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
+
+    expect(onSubmit.called).to.be.true;
+
     // Check the someone else's service box
     const inputs = Array.from(formDOM.querySelectorAll('input'));
     ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService'), {
@@ -76,25 +119,12 @@ describe('Edu 5490 benefitHistory', () => {
         checked: true
       }
     });
-    // expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').length)
-    //   .to.equal(7);
+
     // Submit form -- should fail
     submitForm(form);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.not.be.empty;
 
-
-    // Uncheck the box
-    ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService'), {
-      target: {
-        checked: false
-      }
-    });
-    // expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').length)
-    //   .to.equal(7);
-    // Submit form -- should succeed
-    submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-
-    expect(onSubmit.called).to.be.true;
+    // Should only have been called the first time
+    expect(onSubmit.calledOnce).to.be.true;
   });
 });
