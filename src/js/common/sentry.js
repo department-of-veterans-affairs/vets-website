@@ -2,7 +2,11 @@ import Raven from 'raven-js';
 
 import environment from './helpers/environment';
 
-if (environment.TRACK_ERRORS) {
+// url check is necessary for e2e tests
+const trackErrors = (__BUILDTYPE__ === 'production' || __BUILDTYPE__ === 'staging')
+  && environment.BASE_URL.indexOf('localhost') < 0;
+
+if (trackErrors) {
   const url = `${environment.BASE_URL}/js-report/0`.replace('//', '//faker@');
   Raven
     .config(url)
