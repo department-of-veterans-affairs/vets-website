@@ -61,7 +61,7 @@ const formConfig = {
       title: 'Veteran Information',
       pages: {
         veteranInformation: {
-          path: 'veteran-information',
+          path: 'veteran/information',
           title: 'Veteran information',
           initialData: {},
           uiSchema: {
@@ -84,7 +84,7 @@ const formConfig = {
       pages: {
         benefitSelection: {
           title: 'Education benefit',
-          path: 'benefits-eligibility/education-benefit',
+          path: 'benefits/eligibility',
           initialData: {},
           uiSchema: {
             benefit: {
@@ -108,7 +108,7 @@ const formConfig = {
       title: 'Military History',
       pages: {
         servicePeriods: {
-          path: 'military-history/service-periods',
+          path: 'military/service',
           title: 'Service periods',
           initialData: {
           },
@@ -133,7 +133,7 @@ const formConfig = {
         },
         militaryHistory: {
           title: 'Military history',
-          path: 'military-history/military-service',
+          path: 'military/history',
           initialData: {},
           uiSchema: {
             'view:hasServiceBefore1978': {
@@ -240,7 +240,7 @@ const formConfig = {
         contactInformation: createContactInformationPage(),
         dependents: {
           title: 'Dependents',
-          path: 'personal-information/depedents',
+          path: 'personal-information/dependents',
           initialData: {},
           depends: {
             militaryHistory: {

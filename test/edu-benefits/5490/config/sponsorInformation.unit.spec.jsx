@@ -8,8 +8,8 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
 
-describe('Edu 5490 sponsorVeteran', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryService.pages.sponsorVeteran;
+describe('Edu 5490 sponsorInformation', () => {
+  const { schema, uiSchema } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

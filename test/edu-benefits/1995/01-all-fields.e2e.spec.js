@@ -22,28 +22,28 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
     EduHelpers.completeVeteranInformation(client, EduHelpers.testData.veteranInformation.data, false);
     client.click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/veteran/information');
 
     // Benefits eligibility
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
     EduHelpers.completeBenefitsSelection(client, EduHelpers.testData.benefitSelection.data);
     client.click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-selection');
+    E2eHelpers.expectNavigateAwayFrom(client, '/benefits/elibility');
 
     // Service periods page.
     client
       .waitForElementVisible('label[for="root_view:newService"]', Timeouts.slow);
     EduHelpers.completeServicePeriods(client, EduHelpers.testData.servicePeriods.data, false);
     client.click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/military-history/service-periods');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military/service');
 
     // Military service page.
     client
       .waitForElementVisible('label[for="root_view:hasServiceBefore1978"]', Timeouts.slow);
     EduHelpers.completeMilitaryService(client, EduHelpers.testData.militaryHistory.data, false);
     client.click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/military-history/military-service');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military/service');
 
     // New school
     client

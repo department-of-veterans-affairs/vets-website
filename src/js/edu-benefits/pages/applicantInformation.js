@@ -44,8 +44,8 @@ export default function applicantInformation(schema, options) {
   };
 
   return {
-    path: 'applicant-information',
-    title: 'Applicant Information',
+    path: 'applicant/information',
+    title: 'Applicant information',
     initialData: {},
     uiSchema: {
       'ui:order': fields,

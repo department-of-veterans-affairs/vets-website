@@ -65,11 +65,11 @@ const formConfig = {
       }
     },
     benefitEligibility: {
-      title: 'Benefit Eligibility',
+      title: 'Benefits Eligibility',
       pages: {
         benefitEligibility: {
-          path: 'benefit-eligibility',
-          title: 'Benefit Eligibility',
+          path: 'benefits/eligibility',
+          title: 'Benefits eligibility',
           uiSchema: {
             'view:benefitDescription': {
               'ui:description': eligibilityDescription
@@ -99,8 +99,8 @@ const formConfig = {
       title: 'Sponsor Information',
       pages: {
         sponsorVeteran: {
-          title: 'Sponsor Information',
-          path: 'sponsor-veteran',
+          title: 'Sponsor information',
+          path: 'sponsor/information',
           uiSchema: {
             veteranFullName: _.merge(fullNameUISchema, {
               first: {
@@ -118,13 +118,13 @@ const formConfig = {
             }),
             'view:veteranId': _.merge(veteranId.uiSchema, {
               vaFileNumber: {
-                'ui:title': 'Veteran file number',
+                'ui:title': 'Sponsor file number',
               },
               veteranSocialSecurityNumber: {
-                'ui:title': 'Veteran Social Security number'
+                'ui:title': 'Sponsor Social Security number'
               }
             }),
-            veteranAddress: address.uiSchema('Veteran Address'),
+            veteranAddress: address.uiSchema('Sponsor address'),
             serviceBranch: {
               'ui:title': 'Sponsor Branch of Service'
             }
@@ -146,8 +146,8 @@ const formConfig = {
       title: 'Education History',
       pages: {
         educationHistory: {
-          path: 'education-history',
-          title: 'Education History',
+          path: 'education/history',
+          title: 'Education history',
           initialData: {
           },
           uiSchema: {
@@ -173,8 +173,8 @@ const formConfig = {
       title: 'Employment History',
       pages: {
         employmentHistory: {
-          title: 'Employment History',
-          path: 'employment-history',
+          title: 'Employment history',
+          path: 'employment/history',
           uiSchema: {
             employmentHistory: {
               'view:hasNonMilitaryJobs': {
