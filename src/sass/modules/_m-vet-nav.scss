@@ -35,6 +35,7 @@ body.va-pos-fixed {
   @include media($medium-large-screen) {
     display: flex;
     height: auto;
+    margin-bottom: 0;
     overflow-y: visible;
     position: relative;
   }
