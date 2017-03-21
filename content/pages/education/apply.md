@@ -49,7 +49,7 @@ If you need to make a change (for example, you’re moving to a new school), man
 
 <a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage Benefits</a>
 
-<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
+<div class="usa-alert usa-alert-warning usa-content va-alert" markdown="1">
 	<div class="usa-alert-body">
 
 ##### Forms 22-1990E, 22-1990N, 22-5490, and 22-5495
