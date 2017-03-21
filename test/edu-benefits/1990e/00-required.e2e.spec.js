@@ -2,7 +2,7 @@ const E2eHelpers = require('../../util/e2e-helpers');
 const Timeouts = require('../../util/timeouts.js');
 const EduHelpers = require('../../util/edu-helpers');
 const Edu1990eHelpers = require('../../util/edu-1990e-helpers');
-const testData = require('../edu-benefits/1995/schema/maximal-test.json');
+const testData = require('./schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -22,14 +22,14 @@ module.exports = E2eHelpers.createE2eTest(
     // Applicant information page.
     client
       .waitForElementVisible('input[name="root_relativeFullName_first"]', Timeouts.slow);
-    Edu1990eHelpers.completeRelativeInformation(client, testData.relativeInformation.data, true);
+    Edu1990eHelpers.completeRelativeInformation(client, testData.applicantInformation.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant-information');
 
     // Benefits eligibility
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, testData.benefitSelection.data);
+    EduHelpers.completeBenefitsSelection(client, testData.benefitEligibility.data);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-selection');
   }
