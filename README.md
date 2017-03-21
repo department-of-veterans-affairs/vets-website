@@ -28,7 +28,7 @@ very secret.
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
 | run only e2e tests | `npm run test:e2e` | 
-| run only tests for specific apps | `npm run test:e2e -- test/edu-benefits/` |
+| run only e2e tests for specific apps | `npm run test:e2e -- test/edu-benefits/` |
 | run all linters | `npm run lint` |
 | run only javascript linter | `npm run lint:js` |
 | run only sass linter | `npm run lint:sass` |
