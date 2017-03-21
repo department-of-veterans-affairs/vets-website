@@ -19,7 +19,7 @@ function initApplicationSubmitMock() {
 
 function completeRelativeInformation(client, data, onlyRequiredFields) {
   client
-    .clearValue('input[name="root_relativeFullName_firstt"]')
+    .clearValue('input[name="root_relativeFullName_first"]')
     .setValue('input[name="root_relativeFullName_first"]', data.relativeFullName.first)
     .clearValue('input[name="root_relativeFullName_last"]')
     .setValue('input[name="root_relativeFullName_last"]', data.relativeFullName.last)

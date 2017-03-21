@@ -12,8 +12,8 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990e`)
       .waitForElementVisible('body', Timeouts.normal)
-      .assert.title('Apply for education benefits: Vets.gov')
       .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
+      .assert.title('Apply for education benefits: Vets.gov')
       .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.overrideSmoothScrolling(client);
