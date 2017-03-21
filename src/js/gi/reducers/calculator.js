@@ -45,8 +45,8 @@ export default function (state = INITIAL_STATE, action) {
       ].includes(field);
 
       if (isDollarAmount && !isFinite(value)) {
-        const dollarAmount = value[0] === '$' ? +value.substring(1) : +value;
-        convertedValue = isFinite(dollarAmount) ? dollarAmount : '';
+        // Strip all non-numeric characters.
+        convertedValue = +value.replace(/[^0-9\.]+/g, '');
       }
 
       const newState = {

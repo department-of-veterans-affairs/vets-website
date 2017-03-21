@@ -32,7 +32,7 @@ const defaults = {
  */
 export default function applicantInformation(schema, options) {
   // Use the defaults as necessary, but override with the options given
-  const mergedOptions = _.merge(defaults, options);
+  const mergedOptions = _.assign(defaults, options);
   const { fields, required, labels } = mergedOptions;
 
   const possibleProperties = {
@@ -44,8 +44,8 @@ export default function applicantInformation(schema, options) {
   };
 
   return {
-    path: 'applicant-information',
-    title: 'Applicant Information',
+    path: 'applicant/information',
+    title: 'Applicant information',
     initialData: {},
     uiSchema: {
       'ui:order': fields,

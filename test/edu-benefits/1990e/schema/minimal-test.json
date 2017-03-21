@@ -8,6 +8,9 @@
       }
     }
   },
+  "additionalBenefits": {
+    "data": {}
+  },
   "benefitEligibility": {
     "data": {}
   },
@@ -59,4 +62,3 @@
     }
   }
 }
-

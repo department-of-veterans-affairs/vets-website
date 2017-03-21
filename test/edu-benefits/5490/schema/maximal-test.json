@@ -19,7 +19,7 @@
       "benefitsRelinquishedDate": "2006-01-01"
     }
   },
-  "previousBenefits": {
+  "benefitHistory": {
     "data": {
       "previousBenefits": {
         "disability": true,
@@ -43,7 +43,7 @@
       }
     }
   },
-  "sponsorVeteran": {
+  "sponsorInformation": {
     "data": {
       "relationship": "spouse",
       "spouseInfo": {
@@ -92,7 +92,7 @@
       ]
     }
   },
-  "contributions": {
+  "additionalBenefits": {
     "data": {
       "civilianBenefitsAssistance": true,
       "civilianBenefitsSource": "The govt?"
