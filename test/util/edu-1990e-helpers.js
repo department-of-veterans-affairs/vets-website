@@ -17,7 +17,20 @@ function initApplicationSubmitMock() {
   });
 }
 
-function completeRelativeInformation() {
+function completeRelativeInformation(client, data, onlyRequiredFields) {
+  client
+    .clearValue('input[name="root_relativeFullName_firstt"]')
+    .setValue('input[name="root_relativeFullName_first"]', data.relativeFullName.first)
+    .clearValue('input[name="root_relativeFullName_last"]')
+    .setValue('input[name="root_relativeFullName_last"]', data.relativeFullName.last)
+    .clearValue('input[name="root_relativeSocialSecurityNumber"]')
+    .setValue('input[name="root_relativeSocialSecurityNumber"]', data.relativeSocialSecurityNumber);
+
+  if (!onlyRequiredFields) {
+    client
+      .setValue('input[name="root_relativeFullName_middle"]', data.relativeFullName.middle)
+      .setValue('select[name="root_relativeFullName_suffix"]', data.relativeFullName.suffix);
+  }
 }
 
 module.exports = {
