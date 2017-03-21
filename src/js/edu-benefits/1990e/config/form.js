@@ -207,9 +207,7 @@ const formConfig = {
         schoolSelection: createSchoolSelectionPage(fullSchema1990e, {
           fields: [
             'educationProgram',
-            'educationObjective',
-            'nonVaAssistance',
-            'civilianBenefitsAssistance'
+            'educationObjective'
           ],
           required: ['educationType']
         })
