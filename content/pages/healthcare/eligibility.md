@@ -7,10 +7,10 @@ showactionbar: false
 relatedlinks:
  - url: /disability-benefits/eligibility
    title: Disability Benefits Eligibility
-   description: "Find out if you're eligible for disability benefits because of an illness or injury that started—or got worse—while you were serving in the military."
+   description: "Find out if you can get disability benefits for an illness or injury that started—or got worse—while you were serving in the military."
  - url: /disability-benefits/track-claims
    title: Check Claim Status
-   description: "Track the status of a disability claim."
+   description: "Track the status of your disability claim."
 ---
 
 If you're a U.S. Veteran, you may qualify for VA health care benefits. Find out if you can get VA health care benefits. 
