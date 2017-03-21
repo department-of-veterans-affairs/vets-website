@@ -73,10 +73,11 @@ describe('Edu 5490 previousBenefits', () => {
       }
     });
 
+    // We have indeed unchecked the box
     expect(claimed.checked).to.be.false;
 
     // Should collapse back to 7
-    //  ...but it doesn't...
+    //  ...but it only works after waiting for a second (maybe less, but yuck)
     setTimeout(() => {
       console.log('expect()ing after waiting'); // eslint-disable-line
       expect(Array.from(formDOM.querySelectorAll('input,select')).length)
