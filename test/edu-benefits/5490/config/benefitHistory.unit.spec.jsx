@@ -50,25 +50,6 @@ describe('Edu 5490 benefitHistory', () => {
     // Should expand to 16
     expect(Array.from(formDOM.querySelectorAll('input,select')).length)
       .to.equal(16);
-
-    // const claimed = inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService');
-    // console.log('claimedSponsorService.checked:', claimed);
-
-    // Collapse the fields
-    // ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:ownServiceBenefits'), {
-    //   target: {
-    //     checked: false
-    //   }
-    // });
-    // ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService'), {
-    //   target: {
-    //     checked: false
-    //   }
-    // });
-    //
-    // // Should collapse back to 7
-    // expect(Array.from(formDOM.querySelectorAll('input,select')).length)
-    //   .to.equal(7);
   });
 
   // This test fails to produce an error message as expected
@@ -96,7 +77,7 @@ describe('Edu 5490 benefitHistory', () => {
       }
     });
     // expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').length)
-    //   .to.equal(14);
+    //   .to.equal(7);
     // Submit form -- should fail
     submitForm(form);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.not.be.empty;
