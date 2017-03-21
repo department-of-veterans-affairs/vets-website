@@ -177,19 +177,14 @@ hr {
   position: fixed;
 }
 
-// TODO(css): Fix this. Should use a less specific, less broad selector
-// Interior rows
-#content.interior a[href^='http://'],
-#content.interior a[href^='https://'] {
-  position: relative;
-}
 
 // Adds external icon to all links that begin
 // with http (including https)
 // Using this selector makes it easier for the content team to write content
 // TODO: Refine this so that any links that do begin with https://vets.gov
 // or https://www.vets.gov are excluded.
-a[href^=http] {
+[href^=http],
+[rel=external] {
   // Using longhand properties instead of the shorthand to limit
   // risk and impact of side effects
   background-image: url(/img/icons/exit-icon.png);
@@ -197,6 +192,7 @@ a[href^=http] {
   background-repeat: no-repeat;
   background-size: 1em auto;
   padding-right: 1.2em;
+  position: relative;
 }
 
 // Logo and Header
