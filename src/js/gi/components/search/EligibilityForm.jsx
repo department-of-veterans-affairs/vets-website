@@ -13,17 +13,6 @@ export class EligibilityForm extends React.Component {
       <div className="eligibility-form">
         <h2>Your eligibility</h2>
 
-        <RadioButtons
-            label="How do you want to take classes?"
-            name="onlineClasses"
-            options={[
-            { value: 'yes', label: 'Online only' },
-            { value: 'no', label: 'In person only' },
-            { value: 'both', label: 'In person and online' }
-            ]}
-            value={this.props.eligibility.onlineClasses}
-            onChange={this.props.eligibilityChange}/>
-
         <Dropdown
             name="militaryStatus"
             options={[
@@ -190,6 +179,17 @@ export class EligibilityForm extends React.Component {
             How many dependents do you have?
           </label>
         </Dropdown>
+
+        <RadioButtons
+            label="How do you want to take classes?"
+            name="onlineClasses"
+            options={[
+            { value: 'yes', label: 'Online only' },
+            { value: 'no', label: 'In person only' },
+            { value: 'both', label: 'In person and online' }
+            ]}
+            value={this.props.eligibility.onlineClasses}
+            onChange={this.props.eligibilityChange}/>
 
       </div>
     );
