@@ -27,7 +27,7 @@ export default function createSchoolSelectionPage(schema, options) {
       'ui:widget': 'textarea'
     },
     nonVaAssistance: {
-      'ui:title': 'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
+      'ui:title': 'If you are on Active Duty only: are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
       'ui:widget': 'yesNo'
     },
     educationStartDate: uiSchemaDate('The date your training began or will begin'),
@@ -54,6 +54,7 @@ export default function createSchoolSelectionPage(schema, options) {
   const pickFields = _.pick(fields);
 
   const schemaProperties = pickFields(schema.properties);
+
   if (schemaProperties.educationProgram) {
     schemaProperties.educationProgram =
       educationProgram.schema(
