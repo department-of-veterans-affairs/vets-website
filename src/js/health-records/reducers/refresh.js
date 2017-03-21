@@ -15,7 +15,7 @@ export default function refresh(state = initialState, action) {
       const statuses = _.groupBy(action.data, (e) => {
         const isCurrentDay = moment().isSame(e.attributes.last_updated, 'day');
         const isStatusOK = e.attributes.status === 'OK';
-        if (!isCurrentDay && isStatusOK) {
+        if (!isCurrentDay) {
           return 'incomplete';
         } else if (isCurrentDay && isStatusOK) {
           return 'succeeded';
