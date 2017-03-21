@@ -3,8 +3,9 @@ import moment from 'moment';
 
 const initialState = {
   statuses: {
-    succeeded: [],
     failed: [],
+    incomplete: [],
+    succeeded: [],
   },
 };
 

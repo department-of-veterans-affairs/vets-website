@@ -24,7 +24,7 @@ export class DownloadPage extends React.Component {
         </div>
       );
       alertProps.status = 'error';
-    } else if (refresh && refresh.statuses.incomplete.length > 0) {
+    } else if (refresh && refresh.statuses.incomplete && refresh.statuses.incomplete.length > 0) {
       alertProps.content = (
         <div>
           <h4>Your health records are not up to date</h4>
@@ -34,7 +34,7 @@ export class DownloadPage extends React.Component {
         </div>
       );
       alertProps.status = 'warning';
-    } else if (refresh && refresh.statuses.failed.length > 0) {
+    } else if (refresh && refresh.statuses.failed && refresh.statuses.failed.length > 0) {
       alertProps.content = (
         <div>
           <h4>Couldn't update your records</h4>
