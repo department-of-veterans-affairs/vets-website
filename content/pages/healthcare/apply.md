@@ -7,7 +7,7 @@ showactionbar: false
 relatedlinks:
  - url: /healthcare/eligibility/
    title: Health Care Benefits Eligibility
-   description: "Not sure if you qualify? Find out if you can get VA health care."
+   description: "Not sure if you qualify? Find out if you can get VA health care benefits."
  - url: /healthcare/after-you-apply/
    title: After You Apply for Health Care Benefits
    description: "Find out when to expect a decision and what to do if you don’t hear back or don’t get approved."
