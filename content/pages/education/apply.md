@@ -45,7 +45,7 @@ Apply online with Form 22-1990:
 
 #### Make a change to your current education benefits
 
-If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995.
+If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995:
 
 <a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage Benefits</a>
 
