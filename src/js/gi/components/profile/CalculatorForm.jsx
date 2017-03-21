@@ -188,7 +188,7 @@ class CalculatorForm extends React.Component {
       { value: 'three quarters', label: '¾ Time' },
       { value: 'half', label: '½ Time' },
       { value: 'less than half', label: 'Less than ½ time more than ¼ time' },
-      { value: 'quarter or less', label: '¼ Time or less' },
+      { value: 'quarter', label: '¼ Time or less' },
     ];
 
     const {
