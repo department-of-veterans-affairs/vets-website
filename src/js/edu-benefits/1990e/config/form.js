@@ -121,7 +121,7 @@ const formConfig = {
                 'ui:title': 'Sponsor Social Security number'
               },
               'view:noSSN': {
-                'ui:title': 'Sponsor doesn\'t have a Social Security number',
+                'ui:title': 'I don\'t know my sponsor’s Social Security number',
               },
               vaFileNumber: {
                 'ui:title': 'Sponsor file number',
