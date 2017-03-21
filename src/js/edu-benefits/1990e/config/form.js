@@ -117,11 +117,14 @@ const formConfig = {
               }
             }),
             'view:veteranId': _.merge(veteranId.uiSchema, {
-              vaFileNumber: {
-                'ui:title': 'Sponsor file number',
-              },
               veteranSocialSecurityNumber: {
                 'ui:title': 'Sponsor Social Security number'
+              },
+              'view:noSSN': {
+                'ui:title': 'Sponsor doesn\'t have a Social Security number',
+              },
+              vaFileNumber: {
+                'ui:title': 'Sponsor file number',
               }
             }),
             veteranAddress: address.uiSchema('Sponsor address'),

@@ -21,7 +21,7 @@ describe('Edu 5490 sponsorInformation', () => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(11);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(12);
   });
 
   it('should conditionally show spouseInfo options', () => {
@@ -35,7 +35,7 @@ describe('Edu 5490 sponsorInformation', () => {
     );
 
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(15);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(16);
 
     // The divorce input should be there now
     expect(formDOM.querySelector('label[for=root_spouseInfo_divorcePending]')).to.not.be.null;

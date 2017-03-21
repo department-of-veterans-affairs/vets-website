@@ -10,13 +10,13 @@ const defaults = {
   fields: [
     'relativeFullName',
     'relativeSocialSecurityNumber',
+    'view:noSSN',
     'relativeDateOfBirth',
     'gender',
     'relationship'
   ],
   required: [
     'relativeFullName',
-    'relativeSocialSecurityNumber',
     'relativeDateOfBirth',
     'relationship'
   ],
@@ -38,6 +38,9 @@ export default function applicantInformation(schema, options) {
   const possibleProperties = {
     relativeFullName: schema.definitions.fullName,
     relativeSocialSecurityNumber: schema.definitions.ssn,
+    'view:noSSN': {
+      type: 'boolean'
+    },
     relativeDateOfBirth: schema.definitions.date,
     gender: schema.definitions.gender,
     relationship: schema.definitions.relationship
@@ -50,7 +53,12 @@ export default function applicantInformation(schema, options) {
     uiSchema: {
       'ui:order': fields,
       relativeFullName: fullName.uiSchema,
-      relativeSocialSecurityNumber: ssn.uiSchema,
+      relativeSocialSecurityNumber: _.assign(ssn.uiSchema, {
+        'ui:required': (formData) => !_.get('view:noSSN', formData)
+      }),
+      'view:noSSN': {
+        'ui:title': 'I don’t have a Social Security number',
+      },
       relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
       gender: {
         'ui:widget': 'radio',
