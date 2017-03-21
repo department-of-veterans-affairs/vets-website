@@ -101,7 +101,7 @@ const getDerivedValues = createSelector(
     const correspondenceOrFlightUnderOldGiBill =
       isFlightOrCorrespondence && oldGiBill;
     const ropOldAndChapter = (
-      ['less than half', 'quarter or less'].includes(inputs.enrolled) &&
+      ['less than half', 'quarter or less'].includes(inputs.enrolledOld) &&
       [30, 35, 1607].includes(giBillChapter)
     );
     const onlyTuitionFees =
