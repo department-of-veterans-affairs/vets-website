@@ -23,8 +23,8 @@ export class DownloadPage extends React.Component {
           </p>
         </div>
       );
-      alertProps.status = 'warning';
-    } else if (refresh && refresh.statuses.failed.length > 0) {
+      alertProps.status = 'error';
+    } else if (refresh && refresh.statuses.incomplete.length > 0) {
       alertProps.content = (
         <div>
           <h4>Your health records are not up to date</h4>
@@ -34,6 +34,16 @@ export class DownloadPage extends React.Component {
         </div>
       );
       alertProps.status = 'warning';
+    } else if (refresh && refresh.statuses.failed.length > 0) {
+      alertProps.content = (
+        <div>
+          <h4>Couldn't update your records</h4>
+          <p>
+            Unfortunately, we weren't able to generate your health records. Please try again later or download an older version of your records below. You can also call the Vets.gov Help Desk at 1-855-574-7286, Monday - Friday, 8:00 a.m. - 8:00 p.m. (ET).
+          </p>
+        </div>
+      );
+      alertProps.status = 'error';
     } else {
       alertProps.content = (
         <div>
