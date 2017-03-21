@@ -26,6 +26,7 @@ import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import uiSchemaPostHighSchoolTrainings from '../../definitions/postHighSchoolTrainings';
+import * as veteranId from '../../definitions/veteranId';
 
 import createContactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
@@ -321,8 +322,16 @@ const formConfig = {
                 'ui:title': 'Sponsor suffix'
               }
             }),
-            veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
-              'ui:title': 'Sponsor Social Security number'
+            'view:veteranId': _.merge(veteranId.uiSchema, {
+              veteranSocialSecurityNumber: {
+                'ui:title': 'Sponsor Social Security number'
+              },
+              'view:noSSN': {
+                'ui:title': 'I don\'t know my sponsor’s Social Security number',
+              },
+              vaFileNumber: {
+                'ui:title': 'Sponsor file number',
+              }
             }),
             veteranDateOfBirth: currentOrPastDate.uiSchema('Sponsor date of birth'),
             veteranDateOfDeath: currentOrPastDate.uiSchema('Sponsor date of death or date listed as MIA or POW'),
@@ -330,13 +339,12 @@ const formConfig = {
           schema: {
             type: 'object',
             required: [
-              'veteranSocialSecurityNumber',
               'veteranDateOfBirth'
             ],
             properties: {
               spouseInfo,
               veteranFullName: fullName,
-              veteranSocialSecurityNumber: ssnSchema,
+              'view:veteranId': veteranId.schema,
               veteranDateOfBirth,
               veteranDateOfDeath
             }
