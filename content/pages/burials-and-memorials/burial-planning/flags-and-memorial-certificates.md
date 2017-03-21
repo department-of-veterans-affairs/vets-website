@@ -6,7 +6,7 @@ template: 6-info-page
 ---
 
 
-To honor the military service of a deceased Veteran, we give the next of kin or a close friend a United States flag to drape on the casket (or coffin) or to place with the urn. We also provide a Presidential Memorial Certificate (PMC). Find out how to get one or both of these honors. 
+To honor the military service of a deceased Veteran, we provide the next of kin or a close friend a United States flag to drape on the casket (or coffin) or to place with the urn. We also provide a Presidential Memorial Certificate (PMC). Find out how to get one or both of these honors. 
 
 ### Can I get a burial flag?
 
