@@ -17,6 +17,7 @@ const INITIAL_STATE = {
   scholarships: 0,
   tuitionAssist: 0,
   enrolled: 'full',
+  enrolledOld: 'full',
   calendar: 'semesters',
   working: '30',
   numberNontradTerms: '2',

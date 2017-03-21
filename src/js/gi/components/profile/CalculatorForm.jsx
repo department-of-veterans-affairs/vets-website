@@ -191,15 +191,23 @@ class CalculatorForm extends React.Component {
       { value: 'quarter or less', label: '¼ Time or less' },
     ];
 
+    const {
+      enrolled: enrolledValue,
+      enrolledOld: enrolledOldValue
+    } = this.props.inputs;
+
+    const name = shouldRenderEnrolled ? 'enrolled' : 'enrolledOld';
+    const value = shouldRenderEnrolled ? enrolledValue : enrolledOldValue;
+
     return (
       <div className="row">
         <div className="small-12 columns">
           <Dropdown
-              name="enrolled"
+              name={name}
               alt="Enrolled"
               options={options}
               visible
-              value={this.props.inputs.enrolled}
+              value={value}
               onChange={this.props.onInputChange}>
             {this.renderLearnMoreLabel({ text: 'Enrolled', modal: 'calcEnrolled' })}
           </Dropdown>

@@ -236,7 +236,7 @@ const getDerivedValues = createSelector(
         half: 0.5,
         'less than half': 0.5,
         'quarter or less': 0.25,
-      })[inputs.enrolled];
+      })[inputs.enrolledOld];
     }
 
     // Determine yellow ribbon eligibility - getYellowRibbonEligibility
