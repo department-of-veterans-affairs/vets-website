@@ -10,13 +10,13 @@ const defaults = {
   fields: [
     'relativeFullName',
     'relativeSocialSecurityNumber',
+    'view:noSSN',
     'relativeDateOfBirth',
     'gender',
     'relationship'
   ],
   required: [
     'relativeFullName',
-    'relativeSocialSecurityNumber',
     'relativeDateOfBirth',
     'relationship'
   ],
@@ -32,25 +32,33 @@ const defaults = {
  */
 export default function applicantInformation(schema, options) {
   // Use the defaults as necessary, but override with the options given
-  const mergedOptions = _.merge(defaults, options);
+  const mergedOptions = _.assign(defaults, options);
   const { fields, required, labels } = mergedOptions;
 
   const possibleProperties = {
     relativeFullName: schema.definitions.fullName,
     relativeSocialSecurityNumber: schema.definitions.ssn,
+    'view:noSSN': {
+      type: 'boolean'
+    },
     relativeDateOfBirth: schema.definitions.date,
     gender: schema.definitions.gender,
     relationship: schema.definitions.relationship
   };
 
   return {
-    path: 'applicant-information',
-    title: 'Applicant Information',
+    path: 'applicant/information',
+    title: 'Applicant information',
     initialData: {},
     uiSchema: {
       'ui:order': fields,
       relativeFullName: fullName.uiSchema,
-      relativeSocialSecurityNumber: ssn.uiSchema,
+      relativeSocialSecurityNumber: _.assign(ssn.uiSchema, {
+        'ui:required': (formData) => !_.get('view:noSSN', formData)
+      }),
+      'view:noSSN': {
+        'ui:title': 'I don’t have a Social Security number',
+      },
       relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
       gender: {
         'ui:widget': 'radio',

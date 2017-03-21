@@ -2,12 +2,14 @@ import _ from 'lodash/fp';
 
 import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
 
+import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from '../../pages/applicantInformation';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 import directDeposit from '../../pages/directDeposit';
 
 import * as address from '../../../common/schemaform/definitions/address';
+import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
 import { uiSchema as dateUi } from '../../../common/schemaform/definitions/date';
 import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
@@ -52,28 +54,29 @@ const formConfig = {
     dateRange,
     educationType
   },
-  title: 'Apply for transferred education benefits',
+  title: 'Apply to use transferred education benefits',
   subTitle: 'Form 22-1990e',
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformation(fullSchema1990e)
+        applicantInformation: applicantInformation(fullSchema1990e),
+        additionalBenefits: additionalBenefits(fullSchema1990e)
       }
     },
     benefitEligibility: {
-      title: 'Benefit Eligibility',
+      title: 'Benefits Eligibility',
       pages: {
         benefitEligibility: {
-          path: 'benefit-eligibility',
-          title: 'Benefit Eligibility',
+          path: 'benefits/eligibility',
+          title: 'Benefits eligibility',
           uiSchema: {
             'view:benefitDescription': {
               'ui:description': eligibilityDescription
             },
             benefit: {
               'ui:widget': 'radio',
-              'ui:title': 'Select the benefit that is the best match for you.',
+              'ui:title': 'Select the benefit that has been transferred to you.',
               'ui:options': {
                 labels: benefitsLabels
               }
@@ -93,40 +96,40 @@ const formConfig = {
       }
     },
     sponsorVeteran: {
-      title: 'Sponsor Veteran',
+      title: 'Sponsor Information',
       pages: {
         sponsorVeteran: {
-          title: 'Sponsor Veteran',
-          path: 'sponsor-veteran',
+          title: 'Sponsor information',
+          path: 'sponsor/information',
           uiSchema: {
-            veteranFullName: {
+            veteranFullName: _.merge(fullNameUISchema, {
               first: {
-                'ui:title': 'Veteran first name'
+                'ui:title': 'Sponsor first name'
               },
               last: {
-                'ui:title': 'Veteran last name'
+                'ui:title': 'Sponsor last name'
               },
               middle: {
-                'ui:title': 'Veteran middle name'
+                'ui:title': 'Sponsor middle name'
               },
               suffix: {
-                'ui:title': 'Veteran suffix',
-                'ui:options': {
-                  widgetClassNames: 'form-select-medium'
-                }
-              }
-            },
-            'view:veteranId': _.merge(veteranId.uiSchema, {
-              vaFileNumber: {
-                'ui:title': 'Veteran file number',
-              },
-              veteranSocialSecurityNumber: {
-                'ui:title': 'Veteran Social Security number'
+                'ui:title': 'Sponsor suffix',
               }
             }),
-            veteranAddress: address.uiSchema('Veteran Address'),
+            'view:veteranId': _.merge(veteranId.uiSchema, {
+              veteranSocialSecurityNumber: {
+                'ui:title': 'Sponsor Social Security number'
+              },
+              'view:noSSN': {
+                'ui:title': 'I don\'t know my sponsor’s Social Security number',
+              },
+              vaFileNumber: {
+                'ui:title': 'Sponsor file number',
+              }
+            }),
+            veteranAddress: address.uiSchema('Sponsor address'),
             serviceBranch: {
-              'ui:title': 'Branch of Service'
+              'ui:title': 'Sponsor Branch of Service'
             }
           },
           schema: {
@@ -146,8 +149,8 @@ const formConfig = {
       title: 'Education History',
       pages: {
         educationHistory: {
-          path: 'education-history',
-          title: 'Education History',
+          path: 'education/history',
+          title: 'Education history',
           initialData: {
           },
           uiSchema: {
@@ -173,8 +176,8 @@ const formConfig = {
       title: 'Employment History',
       pages: {
         employmentHistory: {
-          title: 'Employment History',
-          path: 'employment-history',
+          title: 'Employment history',
+          path: 'employment/history',
           uiSchema: {
             employmentHistory: {
               'view:hasNonMilitaryJobs': {
@@ -207,10 +210,9 @@ const formConfig = {
         schoolSelection: createSchoolSelectionPage(fullSchema1990e, {
           fields: [
             'educationProgram',
-            'educationObjective',
-            'nonVaAssistance',
-            'civilianBenefitsAssistance'
-          ]
+            'educationObjective'
+          ],
+          required: ['educationType']
         })
       }
     },

@@ -506,27 +506,9 @@ h6 {
   max-width: $text-max-width;
 }
 
-// tagline
-#content .tagline-content {
-  p {
-    font-size: 2.15em;
-    border-bottom: 2px solid white;
-    padding: 0 0 1em 0;
-    margin: 0 0 2em 0;
-    color: rgba(255,255,255,.7);
-    line-height: 1.2em;
-  }
-}
-
-// Content Callouts
-
-#content .main .section.one {
-  ul[class*='block-grid-'] {
-    display: block;
-    padding: 0;
-    margin: 0 -0.625rem;
-  }
-}
+//====================
+// Content callout boxes
+// ===================
 
 .call-out {
   background: $color-primary-alt-lightest;
@@ -589,7 +571,10 @@ ul, ol {
   }
 }
 
-// Home page, 404 page
+//====================
+// Home, 404 page, maintenance page
+// ===================
+
 .navigation--major {
   .va-cards--2across {
     display:block;
@@ -612,12 +597,21 @@ ul, ol {
     line-height: 1.2em;
     // TODO: Drop the !important when .home #content h3 and
     // body.fourohfour #content h3 are straightened out.
-    font-size: 1.65em !important;
-    color: $color-primary-darkest !important;
-    margin: 0 0 2.5em 0;
+    font-size: 1.65em;
+    color: $color-primary-darkest;
+    margin: 0 0 1rem 0;
     padding: 0 0 .2em 0;
   }
+
+  &--commpop {
+    padding-bottom: 6.4rem;
+  }
 }
+
+.maintenance-page {
+  padding-top: 3.2rem;
+}
+
 
 
 // Content lead paragraphs
@@ -631,11 +625,6 @@ ul, ol {
     font-size: 1em;
     padding-bottom: 0;
   }
-}
-
-#content .main.interior {
-  background: $color-white;
-  a {text-decoration: underline;}
 }
 
 #content .section.primary {
@@ -664,22 +653,7 @@ ul, ol {
   clear: both;
 }
 
-// Sections
 
-.section {
-  background: $color-white;
-
-  &.one {
-    padding: 0;
-  }
-
-  &.two {
-    padding: 0 0 4em 0;
-    h3 {color: darken($color-green, 10);}
-    clear: both;
-  }
-  &.three {clear: both; padding: 2em 0;}
-}
 
 
 // Action
