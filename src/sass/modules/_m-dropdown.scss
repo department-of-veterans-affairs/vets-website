@@ -18,7 +18,7 @@
     &[aria-expanded=true] {
       border-top-color: $color-va-accent;
       background-color: $color-white;
-      background-image: url(/img/arrow-up.svg);
+      background-image: url(/img/arrow-up.svg) !important;
       color: $color-base;
 
       path {
