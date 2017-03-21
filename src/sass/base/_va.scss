@@ -597,9 +597,9 @@ ul, ol {
     line-height: 1.2em;
     // TODO: Drop the !important when .home #content h3 and
     // body.fourohfour #content h3 are straightened out.
-    font-size: 1.65em !important;
-    color: $color-primary-darkest !important;
-    margin: 0 0 2.5em 0;
+    font-size: 1.65em;
+    color: $color-primary-darkest;
+    margin: 0 0 1rem 0;
     padding: 0 0 .2em 0;
   }
 
@@ -625,11 +625,6 @@ ul, ol {
     font-size: 1em;
     padding-bottom: 0;
   }
-}
-
-#content .main.interior {
-  background: $color-white;
-  a {text-decoration: underline;}
 }
 
 #content .section.primary {

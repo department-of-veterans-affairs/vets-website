@@ -1,6 +1,7 @@
 const E2eHelpers = require('../util/e2e-helpers');
 const Timeouts = require('../util/timeouts.js');
-const EduHelpers = require('../util/e2e-1990-helpers');
+// TODO: Use shared helpers in ../util/edu-helpers.js once 1990 is using react-json-schema-form
+const EduHelpers = require('../util/edu-1990-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {

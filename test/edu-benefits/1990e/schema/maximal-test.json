@@ -14,6 +14,12 @@
       "relationship": "child"
     }
   },
+  "additionalBenefits": {
+    "data": {
+      "nonVaAssistance": true,
+      "civilianBenefitsAssistance": true
+    }
+  },
   "benefitEligibility": {
     "data": {
       "view:benefitDescription": {},
@@ -36,8 +42,7 @@
         "state": "CA",
         "postalCode": "98777"
       },
-      "serviceBranch": "Marines",
-      "civilianBenefitsAssistance": true
+      "serviceBranch": "Marines"
     }
   },
   "educationHistory": {
@@ -84,8 +89,7 @@
         },
         "educationType": "flightTraining"
       },
-      "educationObjective": "Pilot",
-      "nonVaAssistance": true
+      "educationObjective": "Pilot"
     }
   },
   "contactInformation": {
@@ -114,5 +118,5 @@
         "accountNumber": "223445667"
       }
     }
-  }                  
+  }
 }

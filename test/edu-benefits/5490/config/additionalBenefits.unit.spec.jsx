@@ -1,4 +1,4 @@
-// Could be renamed to militaryServiceContributions, but for consistency...
+// Could be renamed to militaryServiceadditionalBenefits, but for consistency...
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
@@ -8,8 +8,8 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
 
-describe('Edu 5490 contributions', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryService.pages.contributions;
+describe('Edu 5490 additionalBenefits', () => {
+  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.additionalBenefits;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
