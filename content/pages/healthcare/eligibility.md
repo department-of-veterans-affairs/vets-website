@@ -7,7 +7,7 @@ showactionbar: false
 relatedlinks:
  - url: /disability-benefits/eligibility
    title: Disability Benefits Eligibility
-   description: "Find out if you can get disability benefits for an illness or injury that started—or got worse—while you were serving in the military."
+   description: "Have an illness or injury that was caused by—or got worse because of—your active military service? Find out if you can get disability compensation (monthly payments) from VA."
  - url: /disability-benefits/track-claims
    title: Check Claim Status
    description: "Track the status of your disability claim."
