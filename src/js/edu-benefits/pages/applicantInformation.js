@@ -59,7 +59,14 @@ export default function applicantInformation(schema, options) {
       'view:noSSN': {
         'ui:title': 'I don’t have a Social Security number',
       },
-      relativeDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
+      relativeDateOfBirth: _.assign(currentOrPastDate.uiSchema('Date of birth'),
+        {
+          'ui:errorMessages': {
+            pattern: 'Please provide a valid date',
+            futureDate: 'Please provide a valid date'
+          }
+        }
+      ),
       gender: {
         'ui:widget': 'radio',
         'ui:title': 'Gender',
@@ -69,7 +76,7 @@ export default function applicantInformation(schema, options) {
       },
       relationship: {
         'ui:widget': 'radio',
-        'ui:title': 'What is your relationship to the service member whose benefit is being transferred to you?',
+        'ui:title': 'What\'s your relationship to the Servicemember whose benefit is being transferred to you?',
         'ui:options': {
           labels: labels.relationship || relationshipLabels
         }

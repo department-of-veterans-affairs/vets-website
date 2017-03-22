@@ -25,7 +25,7 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>Your Social Security number (required)</li>
                 <li>Your sponsor's Social Security number (required)</li>
-                <li>Basic information about the school or training facility where you want to attend (required)</li>
+                <li>Basic information about the school or training facility where you want to attend</li>
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
@@ -34,7 +34,7 @@ class IntroductionPage extends React.Component {
                   <span>You won’t be able to save your work or come back to finish. So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
                 </div>
               </div>
-              <p>We strongly encourage you to work with a trained professional who can help you pick the right program. <a href="/disability-benefits/apply-for-benefits/help/index.html">Find an accredited representative.</a></p>
+              <p>We encourage you to work with a trained professional who can help you pick the right program. Call <a href="tel:888-442-4551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) to talk with an education specialist</p>
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
@@ -56,7 +56,7 @@ class IntroductionPage extends React.Component {
             <li className="step four last">
               <div><h5>Decision</h5></div>
               <ul><li>We usually process claims within 30 days.</li></ul>
-              <ul><li>You’ll get a Certificate of Eligibility (COE) or Award Letter in the mail if your application was approved. Bring this to the VA certifying official at your school.</li></ul>
+              <ul><li>You’ll get a Certificate of Eligibility (COE) or Award Letter in the mail if your application was approved.</li></ul>
             </li>
           </ol>
         </div>

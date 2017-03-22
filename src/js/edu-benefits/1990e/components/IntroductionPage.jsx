@@ -26,7 +26,7 @@ class IntroductionPage extends React.Component {
                 <li>Your Social Security number (required)</li>
                 <li>Your sponsor's Social Security number (required)</li>
                 <li>Education history</li>
-                <li>Basic information about the school or training facility where you want to attend (required)</li>
+                <li>Basic information about the school or training facility where you want to attend</li>
                 <li>Bank account direct deposit information</li>
               </ul>
               <div className="usa-alert usa-alert-info">

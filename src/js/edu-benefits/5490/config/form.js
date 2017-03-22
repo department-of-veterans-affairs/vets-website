@@ -173,7 +173,7 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             'ui:title': 'Benefit history',
-            'ui:description': 'Prior to this application, have you ever applied for or received any of the following VA benefits?',
+            'ui:description': 'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [
                 'view:noPreviousBenefits',
@@ -209,23 +209,23 @@ const formConfig = {
                 }
               },
               ownServiceBenefits: {
-                'ui:title': 'Specify benefits',
+                'ui:title': 'Describe the benefits you used',
                 'ui:options': { expandUnder: 'view:ownServiceBenefits' }
               },
               'view:claimedSponsorService': {
-                'ui:title': 'Veterans education assistance based on someone else’s service.',
+                'ui:title': 'Veterans education assistance based on someone else’s service',
                 'ui:options': {
                   expandUnderClassNames: 'schemaform-expandUnder-indent'
                 }
               },
               chapter35: {
-                'ui:title': 'Chapter 35 - Survivors’ and Dependents’ Educational Assistance Program (DEA)',
+                'ui:title': 'Survivors’ and Dependents’ Educational Assistance Program (DEA, Chapter 35)',
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
                 }
               },
               chapter33: {
-                'ui:title': 'Chapter 33 - Post-9/11 GI Bill Marine Gunnery Sergeant David Fry Scholarship',
+                'ui:title': 'Post-9/11 GI Bill Marine Gunnery Sergeant David Fry Scholarship (Chapter 33)',
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
                 }
@@ -250,7 +250,7 @@ const formConfig = {
                 }
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
-                'ui:title': 'Sponsor SSN',
+                'ui:title': 'Sponsor\'s Social Security number',
                 'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
@@ -363,7 +363,7 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             outstandingFelony: {
-              'ui:title': 'Do you, or the qualifying individual on whose account you\'re claiming benefits, have an outstanding felony and/or warrant?',
+              'ui:title': 'Do you or your sponsor have an outstanding felony and/or warrant?',
               'ui:widget': 'yesNo'
             }
           },
@@ -388,13 +388,13 @@ const formConfig = {
           uiSchema: {
             highSchool: {
               status: {
-                'ui:title': 'What is your current high school status?',
+                'ui:title': 'What\'s your current high school status?',
                 'ui:options': {
                   labels: highSchoolStatusLabels
                 }
               },
               highSchoolOrGedCompletionDate: _.assign(
-                date.uiSchema('When did you earn your high school diploma or equivalency certificate?'), {
+                date.uiSchema('When did you earn your high school diploma?'), {
                   'ui:options': {
                     hideIf: form => {
                       const status = _.get('highSchool.status', form);
@@ -505,7 +505,7 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: createSchoolSelectionPage(fullSchema5490, {
+        schoolSelection: _.merge(createSchoolSelectionPage(fullSchema5490, {
           fields: [
             'educationProgram',
             'educationObjective',
@@ -516,6 +516,15 @@ const formConfig = {
             'educationalCounseling'
           ],
           required: ['educationType']
+        }), {
+          // Rephrase the question for facility name in educationProgram
+          uiSchema: {
+            educationProgram: {
+              name: {
+                'ui:title': 'Name of school, university, or training facility you want to attend'
+              }
+            }
+          }
         })
       }
     },
