@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import { showSchoolAddress } from '../utils/helpers';
 import * as address from '../../common/schemaform/definitions/address';
-import educationTypeUISchema from '../definitions/educationType';
+import educationTypeUISchema from './educationType';
 
 export const uiSchema = {
   'ui:order': ['name', 'educationType', 'address'],
