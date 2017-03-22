@@ -21,7 +21,10 @@ const getDerivedValues = createSelector(
   getInstitution,
   getFormInputs,
   (constant, eligibility, institution, inputs) => {
-    if (constant === undefined) return {};
+    if ([constant, eligibility, institution, inputs].some(e => !e || isEmpty(e))) {
+      return {};
+    }
+
     let monthlyRate;
     let numberOfTerms;
     let ropOld;
@@ -71,7 +74,7 @@ const getDerivedValues = createSelector(
     const spouseActiveDuty = eligibility.spouseActiveDuty === 'yes';
     const serviceDischarge = cumulativeService === 'service discharge';
 
-    const isOJT = institution.type === 'ojt';
+    const isOJT = institution.type.toLowerCase() === 'ojt';
     const isFlight = institution.type === 'flight';
     const isCorrespondence = institution.type === 'correspondence';
     const isFlightOrCorrespondence = isFlight || isCorrespondence;
@@ -163,11 +166,11 @@ const getDerivedValues = createSelector(
     }
 
     // Set the net price (Payer of Last Resort) - getTuitionNetPrice
-    const tuitionNetPrice = Math.max(0, Math.min(
+    const tuitionNetPrice = Math.max(0,
       inputs.tuitionFees -
       inputs.scholarships -
       inputs.tuitionAssist
-    ));
+    );
 
     // Set the proper tuition/fees cap - getTuitionFeesCap
     if (isFlight) {
@@ -777,7 +780,7 @@ export const getCalculatedBenefits = createSelector(
   (eligibility, institution, form, derived) => {
     const calculatedBenefits = {};
 
-    if ([eligibility, institution, derived].some(e => !e || isEmpty(e))) {
+    if ([eligibility, institution, form, derived].some(e => !e || isEmpty(e))) {
       return calculatedBenefits;
     }
 
@@ -962,7 +965,7 @@ export const getCalculatedBenefits = createSelector(
       };
     }
 
-    if (institution.type === 'ojt') {
+    if (institution.type.toLowerCase() === 'ojt') {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
         tuition: false,
