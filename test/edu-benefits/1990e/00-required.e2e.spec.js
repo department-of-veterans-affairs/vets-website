@@ -30,5 +30,11 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('label[for="root_civilianBenefitsAssistance"]', Timeouts.slow);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/additional-benefits');
+
+    // Benefits eligibility (no required fields)
+    client
+      .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
+    client.click('.form-progress-buttons .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
   }
 );

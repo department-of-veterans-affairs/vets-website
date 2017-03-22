@@ -28,7 +28,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Additional benefits
     client
       .waitForElementVisible('label[for="root_nonVaAssistance"]', Timeouts.slow);
-    EduHelpers.completeAdditionalBenefits(client, testData);
+    EduHelpers.completeAdditionalBenefits(client, testData.benefitEligibility.data);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/additional-benefits');
   }

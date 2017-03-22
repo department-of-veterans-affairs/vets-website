@@ -47,6 +47,13 @@ function completeAdditionalBenefits(client, data) {
     .click(data.civilianBenefitsAssistance ? 'input[name="root_civilianBenefitsAssistanceNo"]' : 'input[name="root_civilianBenefitsAssistanceNo"]');
 }
 
+function completeBenefitsSelection(client, data, onlyRequiredFields) {
+  if (!onlyRequiredFields) {
+    client
+      .click('.form-radio-buttons:first-child input');
+  }
+}
+
 function completeServicePeriods(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     const dateFields = data.toursOfDuty[0].dateRange.from.split('-');
@@ -127,6 +134,7 @@ module.exports = {
   completeVeteranInformation,
   completeRelativeInformation,
   completeAdditionalBenefits,
+  completeBenefitsSelection,
   completeServicePeriods,
   completeContactInformation,
   completeDirectDeposit
