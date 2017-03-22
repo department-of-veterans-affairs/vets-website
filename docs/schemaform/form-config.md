@@ -236,7 +236,11 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
     }
 
     // Function that conditionally replaces the current field's schema
-    updateSchema: function (pageData, formData, pageSchema) {
+    updateSchema: function (pageData, form, pageSchema) {
+      // form is organized like: form.pageName.data.fieldName
+      // This means it's not like formData, where all the data for all the forms is mashed
+      // together into one object. It's a bit of a pain, but this means updateSchema can also
+      // update the schema / uiSchema of other pages (but do so sparingly!).
       return {};
     }
   }
@@ -335,7 +339,7 @@ You can use the `updateSchema` option in uiSchema to change the list of enums:
 ```js
 {
   'ui:options': {
-    updateSchema: (pageData, formData, pageSchema) {
+    updateSchema: (pageData, form, pageSchema) {
       if (pageData.myField === 'otherOption') {
         return {
           enum: ['option1', 'option2'],
