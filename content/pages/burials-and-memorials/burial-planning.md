@@ -45,7 +45,7 @@ You may want to choose a funeral director to help you plan the burial.
 
 **If you have a pre-need decision letter confirming eligibility**, either you or the funeral director you've chosen can call the National Cemetery Scheduling Office at <span class="tel">800-535-1117</span> to request a burial. You don’t need to do anything else.
 
-**If you don’t have a pre-need decision letter**, either you or the funeral director you've chosen have a few steps to take before requesting a burial. Keep reading to find out what to do next. 
+**If you don’t have a pre-need decision letter confirming eligibility**, either you or the funeral director you've chosen have a few steps to take before requesting a burial. Keep reading to find out what to do next. 
 
 #### Prepare
 
@@ -75,9 +75,9 @@ You may want to choose a funeral director to help you plan the burial.
 
 The funeral director you've chosen can help you with these steps too:
 
-For burial in a national cemetery fax any discharge papers to the **National Cemetery Scheduling Office** at <span class="tel">866-900-6417</span>. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran's name in the subject line. 
+- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at <span class="tel">866-900-6417</span>. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran's name in the subject line. 
 
-Then call <span class="tel">800-535-1117</span> to confirm the burial application. Be sure to have all the information handy that’s listed above in the "Prepare" section. 
+- Then call <span class="tel">800-535-1117</span> to confirm the burial application. Be sure to have all the information handy that’s listed above in the "Prepare" section. 
 
 <div class="call-out" markdown="0">
 
