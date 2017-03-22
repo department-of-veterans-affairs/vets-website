@@ -4,6 +4,9 @@ title: Burial Planning
 template: 7-get-page-alt
 showactionbar: false
 relatedlinks:
+ - url: /burials-and-memorials/eligibility
+   title: Memorial Benefits Eligibility
+   description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
  - url: /burials-and-memorials/burial-planning/headstones-markers-medallions
    title: Headstones, Markers, and Medallions
    description: Learn about ways to memorialize the deceased.
@@ -49,9 +52,7 @@ You may want to choose a funeral director to help you plan the burial.
 
 #### Prepare
 
-**Check to see if the deceased can be buried in a VA national cemetery.** [Find out if the deceased is eligible](/burials-and-memorials/eligibility).
-
-**Once you’ve confirmed eligibility, gather the documents and other information you'll need** to identify the deceased when you apply:
+**Gather the documents and other information** you'll need to identify the deceased:
 
  - The deceased’s DD214, or similar discharge papers. If you can't find the discharge papers, please ask for our help to get these records. [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
  - The deceased’s full name, gender, Social Security number or Veteran ID, date of death, and date of birth
