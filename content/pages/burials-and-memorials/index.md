@@ -17,7 +17,7 @@ majorlinks:
    description: Find out what benefits you—or a family member—may get after the loss of a Veteran.
 relatedlinks:
  - url: /burials-and-memorials/military-funerals
-   title: What to Expect at a Military Funeral
+   title: What to Expect at a Funeral
    description: Find out what will happen to help you prepare for this day.
  - url: /burials-and-memorials/find-a-cemetery
    title: Find a Cemetery or Gravesite 
