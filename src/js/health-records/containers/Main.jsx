@@ -232,6 +232,7 @@ export class Main extends React.Component {
                     selected={endDate}
                     disabled={datePickerDisabled}
                     minDate={startDate}
+                    maxDate={moment()}
                     className={!datePickerDisabled && (this.state.invalidEndDateFormat || this.state.missingEndDate) ? 'date-range-error' : ''}/>
               </div>
             </div>
