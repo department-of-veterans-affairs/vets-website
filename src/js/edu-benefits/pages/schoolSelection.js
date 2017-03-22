@@ -55,6 +55,7 @@ export default function createSchoolSelectionPage(schema, options) {
 
   const schemaProperties = pickFields(schema.properties);
 
+  // educationProgram is a function, so pull out the schema
   if (schemaProperties.educationProgram) {
     schemaProperties.educationProgram =
       educationProgram.schema(

@@ -6,27 +6,14 @@ import educationTypeUISchema from '../definitions/educationType';
 
 export const uiSchema = {
   'ui:order': ['name', 'educationType', 'address'],
-  address: address.uiSchema(),
+  address: _.merge(address.uiSchema(), {
+    'ui:options': {
+      hideIf: (formData) => !showSchoolAddress(_.get('educationProgram.educationType', formData))
+    }
+  }),
   educationType: educationTypeUISchema,
   name: {
     'ui:title': 'Name of school, university, or training facility'
-  },
-  'ui:options': {
-    updateSchema: (program, form, programSchema) => {
-      const showAddress = showSchoolAddress(_.get('educationType', program));
-
-      if (!showAddress && !programSchema.properties.address['ui:hidden']) {
-        return {
-          properties: _.set(['address', 'ui:hidden'], true, programSchema.properties)
-        };
-      } else if (showAddress && !!programSchema.properties.address['ui:hidden']) {
-        return {
-          properties: _.unset(['address', 'ui:hidden'], programSchema.properties)
-        };
-      }
-
-      return {};
-    }
   }
 };
 
