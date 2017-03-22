@@ -189,7 +189,7 @@ export class Main extends React.Component {
 
     const validationErrorMessages = {
       rangeError: 'Enter dates in the MM/DD/YYYY date format',
-      missingDateError: 'Start and end dates are both required',
+      missingDateError: 'Enter a date range',
     };
 
     const radioButtonProps = {
@@ -267,6 +267,7 @@ export class Main extends React.Component {
     const checkedCount = _.countBy(types, type => selections[type]).true;
     const allValuesChecked = checkedCount === types.length;
     const noValuesChecked = !checkedCount;
+    const hasDateRangeErrors = this.state.missingEndDate || this.state.missingStartDate || this.state.invalidStartDateFormat || this.state.invalidEndDateFormat;
 
     return (
       <div>
@@ -288,7 +289,7 @@ export class Main extends React.Component {
             <button
                 onClick={this.handleSubmit}
                 type="submit"
-                disabled={noValuesChecked}>
+                disabled={noValuesChecked || hasDateRangeErrors}>
               Submit
             </button>
             <a className="usa-button usa-button-outline" href="/healthcare" role="button">Cancel</a>
