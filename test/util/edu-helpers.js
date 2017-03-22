@@ -1,3 +1,5 @@
+const selectDropdown = require('./e2e-helpers.js').selectDropdown;
+
 function completeVeteranInformation(client, data, onlyRequiredFields) {
   client
     .clearValue('input[name="root_veteranFullName_first"]')
@@ -16,11 +18,42 @@ function completeVeteranInformation(client, data, onlyRequiredFields) {
   }
 }
 
-function completeBenefitsSelection(client, data, onlyRequiredFields) {
+function completeRelativeInformation(client, data, onlyRequiredFields) {
+  const dobFields = data.relativeDateOfBirth.split('-');
+  client
+    .clearValue('input[name="root_relativeFullName_first"]')
+    .setValue('input[name="root_relativeFullName_first"]', data.relativeFullName.first)
+    .clearValue('input[name="root_relativeFullName_last"]')
+    .setValue('input[name="root_relativeFullName_last"]', data.relativeFullName.last)
+    .clearValue('input[name="root_relativeSocialSecurityNumber"]')
+    .setValue('input[name="root_relativeSocialSecurityNumber"]', data.relativeSocialSecurityNumber)
+    //.clearValue('select[name="root_relativeDateOfBirthMonth"]')
+    //.setValue('select[name="root_relativeDateOfBirthMonth"]', 'Jan')
+    //.clearValue('select[name="root_relativeDateOfBirthDay"]')
+    //.setValue('select[name="root_relativeDateOfBirthDay"]', parseInt(dobFields[2], 10).toString())
+    .clearValue('input[name="root_relativeDateOfBirthYear"]')
+    .setValue('input[name="root_relativeDateOfBirthYear"]', parseInt(dobFields[0], 10).toString())
+    .click('input[name="root_relationship_1"]');
+  selectDropdown(client, 'root_relativeDateOfBirthMonth', 'Jan');
+  selectDropdown(client, 'root_relativeDateOfBirthDay', parseInt(dobFields[2], 10).toString());
+
   if (!onlyRequiredFields) {
     client
-      .click('.form-radio-buttons:first-child input');
+      .setValue('input[name="root_relativeFullName_middle"]', data.relativeFullName.middle)
+      .setValue('select[name="root_relativeFullName_suffix"]', data.relativeFullName.suffix)
+      .click('input[name=root_gender_0');
   }
+}
+
+function completeAdditionalBenefits(client) {
+  client
+    .click('input[name="root_nonVaAssistanceYes"]')
+    .click('input[name="root_civilianBenefitsAssistanceNo"]');
+}
+
+function completeBenefitsSelection(client) {
+  client
+    .click('input[name="root_benefit_0"]');
 }
 
 function completeServicePeriods(client, data, onlyRequiredFields) {
@@ -101,6 +134,8 @@ function completeDirectDeposit(client, data, onlyRequiredFields) {
 
 module.exports = {
   completeVeteranInformation,
+  completeRelativeInformation,
+  completeAdditionalBenefits,
   completeBenefitsSelection,
   completeServicePeriods,
   completeContactInformation,
