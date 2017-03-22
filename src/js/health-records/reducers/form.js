@@ -1,13 +1,13 @@
 import set from 'lodash/fp/set';
 import { mapValues } from 'lodash';
 import { reportTypes } from '../config';
-
+import moment from 'moment';
 
 const initialState = {
   dateOption: '3mo',
   dateRange: {
     start: null,
-    end: null,
+    end: moment(),
   },
   reportTypes: {},
   ready: false,
