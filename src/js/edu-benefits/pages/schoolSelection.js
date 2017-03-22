@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 
 import * as educationProgram from '../definitions/educationProgram';
 import { uiSchema as uiSchemaDate } from '../../common/schemaform/definitions/date';
+import { civilianBenefitsLabel } from '../utils/helpers';
 
 const defaults = {
   fields: [
@@ -16,7 +17,7 @@ const defaults = {
 };
 
 export default function createSchoolSelectionPage(schema, options) {
-  const mergedOptions = _.merge(defaults, options);
+  const mergedOptions = _.assign(defaults, options);
   const { fields, required } = mergedOptions;
 
   const possibleUISchemaFields = {
@@ -26,7 +27,7 @@ export default function createSchoolSelectionPage(schema, options) {
       'ui:widget': 'textarea'
     },
     nonVaAssistance: {
-      'ui:title': 'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
+      'ui:title': 'If you are on Active Duty only: are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
       'ui:widget': 'yesNo'
     },
     educationStartDate: uiSchemaDate('The date your training began or will begin'),
@@ -45,14 +46,15 @@ export default function createSchoolSelectionPage(schema, options) {
       'ui:title': 'Would you like to get vocational and educational counseling?',
       'ui:widget': 'yesNo'
     },
-    // May want to turn this into a yes/no
     civilianBenefitsAssistance: {
-      'ui:title': 'I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA.'
+      'ui:title': civilianBenefitsLabel,
+      'ui:widget': 'yesNo'
     }
   };
   const pickFields = _.pick(fields);
 
   const schemaProperties = pickFields(schema.properties);
+
   if (schemaProperties.educationProgram) {
     schemaProperties.educationProgram =
       educationProgram.schema(

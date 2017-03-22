@@ -35,14 +35,14 @@
       }
     }
 
-    .calculator-result.row {
+    .calculator-result {
       .value {
         text-align: right;
       }
-    }
 
-    .bold {
-      font-weight: bold;
+      &.bold {
+        font-weight: bold;
+      }
     }
   }
 
@@ -55,6 +55,25 @@
     }
     .fa-remove {
       color: $color-gray-medium;
+    }
+  }
+
+  .your-estimated-benefits {
+    background: $color-gray-lightest;
+    padding: 1.5rem;
+
+    hr {
+      border: 1px solid $color-primary-darkest;
+    }
+  }
+
+  .out-of-pocket-tuition {
+    margin-bottom: 1rem;
+  }
+
+  .per-term-section {
+    & + .per-term-section {
+      margin-top: 1.5rem;
     }
   }
 

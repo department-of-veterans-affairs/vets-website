@@ -33,10 +33,10 @@ describe('Edu 1990e schoolSelection', () => {
 
     const inputs = Array.from(formDOM.querySelectorAll('input, select, textarea'));
 
-    expect(inputs.length).to.equal(6);
+    expect(inputs.length).to.equal(7);
   });
 
-  it('should have no required inputs', () => {
+  it('should have no required inputs by default', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -49,6 +49,44 @@ describe('Edu 1990e schoolSelection', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
+    expect(onSubmit.called).to.be.true;
+  });
+
+  it('should require educationType if specified', () => {
+    const { schema: schemaIfEducationType, uiSchema: uiSchemaIfEducationType } = formConfig(fullSchema1990e, {
+      fields: [
+        'educationProgram',
+        'educationObjective',
+        'nonVaAssistance',
+        'civilianBenefitsAssistance'
+      ],
+      required: ['educationType']
+    });
+
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schemaIfEducationType}
+          onSubmit={onSubmit}
+          data={{}}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchemaIfEducationType}/>
+    );
+    const formDOM = findDOMNode(form);
+    const find = formDOM.querySelector.bind(formDOM);
+
+    submitForm(form);
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.have.lengthOf(1);
+    expect(onSubmit.called).to.be.false;
+
+    ReactTestUtils.Simulate.change(find('#root_educationProgram_educationType'), {
+      target: {
+        value: 'college'
+      }
+    });
+
+    submitForm(form);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
     expect(onSubmit.called).to.be.true;
   });

@@ -163,3 +163,8 @@ export const stateLabels = states.USA.reduce((current, { label, value }) => {
   return _.merge(current, { [value]: label });
 }, {});
 
+export const civilianBenefitsLabel = (
+  <span>
+    Are you getting benefits from the U.S. Government as a <strong>civilian employee</strong> during the same time as you are seeking benefits from VA?
+  </span>
+);

@@ -19,8 +19,30 @@ describe('Edu 5490 employmentHistory', () => {
     const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
 
     expect(fields.length)
-      .to.equal(3);
-    expect(fields[1].getAttribute('type')).to.equal('number');
+      .to.equal(2);
+  });
+
+  it('should render expanded', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+    const hasEmploymentYes = Array.from(formDOM.querySelectorAll('input'))
+      .find(input => input.id.startsWith('root_view:hasNonMilitaryJobs'));
+
+    ReactTestUtils.Simulate.change(hasEmploymentYes, {
+      target: {
+        checked: true
+      }
+    });
+
+    const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
+
+    expect(fields.length).to.equal(5);
+    expect(fields[3].getAttribute('type')).to.equal('number');
   });
 
   it('should have no required inputs', () => {
@@ -50,11 +72,21 @@ describe('Edu 5490 employmentHistory', () => {
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
-    ReactTestUtils.Simulate.change(formDOM.querySelector('input'), {
+    const hasEmploymentYes = Array.from(formDOM.querySelectorAll('input'))
+      .find(input => input.id.startsWith('root_view:hasNonMilitaryJobs'));
+
+    ReactTestUtils.Simulate.change(hasEmploymentYes, {
+      target: {
+        checked: true
+      }
+    });
+
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_nonMilitaryJobs_0_name'), {
       target: {
         value: 'A job title'
       }
     });
+
     ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
 
     expect(formDOM.querySelector('.va-growable-background').textContent)
