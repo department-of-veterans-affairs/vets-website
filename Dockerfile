@@ -2,8 +2,8 @@
 
 FROM buildpack-deps:jessie
 
-RUN groupadd --gid 1000 node \
-  && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
+RUN groupadd --gid 504 jenkins \
+  && useradd --uid 504 --gid jenkins --shell /bin/bash --create-home jenkins
 
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
@@ -42,7 +42,8 @@ RUN buildDeps='xz-utils' \
     && ln -s /usr/local/bin/node /usr/local/bin/nodejs \
     && npm install -g npm@$NPM_VERSION \
     && npm install -g nsp \
-    && npm install -g s3-cli
+    && npm install -g s3-cli \
+    && npm install -g codeclimate-test-reporter
 
 # Install java8 (via https://github.com/William-Yeh/docker-java8)
 
@@ -59,21 +60,22 @@ RUN \
     echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections  && \
     DEBIAN_FRONTEND=noninteractive  apt-get install -y --force-yes libnss3 libgconf-2-4 libxss1 libxtst6 libgtk2.0-0 libasound2 xvfb netcat oracle-java8-installer oracle-java8-set-default
 
+RUN mkdir -p /application
+
+WORKDIR /application
+
 # Create empty directory for selenium logs
 
 RUN mkdir -p logs/selenium
-
-# Set DISPLAY for xvfb
-
-WORKDIR /application
 
 # Install required npm dependencies
 
 COPY package.json .
 COPY npm-shrinkwrap.json .
-
 RUN npm install
 
 # Copy application source to image
 
 COPY . .
+RUN chown -R jenkins:jenkins /application
+USER jenkins
