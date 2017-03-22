@@ -30,26 +30,21 @@ function completeRelativeInformation(client, data, onlyRequiredFields) {
     .clearValue('input[name="root_relativeDateOfBirthYear"]')
     .setValue('input[name="root_relativeDateOfBirthYear"]', parseInt(dobFields[0], 10).toString())
     .click('input[name="root_relationship_1"]');
-  selectDropdown(client, 'root_relativeDateOfBirthMonth', 'Jan');
+  selectDropdown(client, 'root_relativeDateOfBirthMonth', parseInt(dobFields[1], 10).toString());
   selectDropdown(client, 'root_relativeDateOfBirthDay', parseInt(dobFields[2], 10).toString());
 
   if (!onlyRequiredFields) {
     client
       .setValue('input[name="root_relativeFullName_middle"]', data.relativeFullName.middle)
-      .setValue('select[name="root_relativeFullName_suffix"]', data.relativeFullName.suffix)
-      .click('input[name=root_gender_0');
+      .click(data.gender === 'M' ? 'input[name=root_gender_0' : 'input[name=root_gender_1');
+    selectDropdown(client, 'root_relativeFullName_suffix', data.relativeFullName.suffix);
   }
 }
 
-function completeAdditionalBenefits(client) {
+function completeAdditionalBenefits(client, data) {
   client
-    .click('input[name="root_nonVaAssistanceYes"]')
-    .click('input[name="root_civilianBenefitsAssistanceNo"]');
-}
-
-function completeBenefitsSelection(client) {
-  client
-    .click('input[name="root_benefit_0"]');
+    .click(data.nonVaAssistance ? 'input[name="root_nonVaAssistanceYes"]' : 'input[name="root_nonVaAssistanceNo"]')
+    .click(data.civilianBenefitsAssistance ? 'input[name="root_civilianBenefitsAssistanceNo"]' : 'input[name="root_civilianBenefitsAssistanceNo"]');
 }
 
 function completeServicePeriods(client, data, onlyRequiredFields) {
@@ -132,7 +127,6 @@ module.exports = {
   completeVeteranInformation,
   completeRelativeInformation,
   completeAdditionalBenefits,
-  completeBenefitsSelection,
   completeServicePeriods,
   completeContactInformation,
   completeDirectDeposit

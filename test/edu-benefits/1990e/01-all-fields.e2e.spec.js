@@ -18,7 +18,7 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
-    // Applicant information page.
+    // Applicant information page
     client
       .waitForElementVisible('input[name="root_relativeFullName_first"]', Timeouts.slow);
     EduHelpers.completeRelativeInformation(client, testData.applicantInformation.data, false);
@@ -28,15 +28,8 @@ module.exports = E2eHelpers.createE2eTest(
     // Additional benefits
     client
       .waitForElementVisible('label[for="root_nonVaAssistance"]', Timeouts.slow);
-    EduHelpers.completeAdditionalBenefits(client);
+    EduHelpers.completeAdditionalBenefits(client, testData);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/additional-benefits');
-
-    // Benefits eligibility
-    client
-      .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client);
-    client.click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
   }
 );
