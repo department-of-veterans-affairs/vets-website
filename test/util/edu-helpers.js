@@ -27,10 +27,6 @@ function completeRelativeInformation(client, data, onlyRequiredFields) {
     .setValue('input[name="root_relativeFullName_last"]', data.relativeFullName.last)
     .clearValue('input[name="root_relativeSocialSecurityNumber"]')
     .setValue('input[name="root_relativeSocialSecurityNumber"]', data.relativeSocialSecurityNumber)
-    //.clearValue('select[name="root_relativeDateOfBirthMonth"]')
-    //.setValue('select[name="root_relativeDateOfBirthMonth"]', 'Jan')
-    //.clearValue('select[name="root_relativeDateOfBirthDay"]')
-    //.setValue('select[name="root_relativeDateOfBirthDay"]', parseInt(dobFields[2], 10).toString())
     .clearValue('input[name="root_relativeDateOfBirthYear"]')
     .setValue('input[name="root_relativeDateOfBirthYear"]', parseInt(dobFields[0], 10).toString())
     .click('input[name="root_relationship_1"]');
