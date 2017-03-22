@@ -41,29 +41,29 @@ You’ll get a letter from us telling you if you’re eligible for burial in a V
 
 ### How do I plan a burial for a family member who has just died?
 
-**If you have a pre-need decision letter confirming eligibility**, you, or the funeral director at your funeral home of choice, can call the National Cemetery Scheduling Office at <span class="tel">800-535-1117</span> to request a burial. You don’t need to do anything else.
+You may want to choose a funeral director to help you plan the burial.
 
-**If you don’t have a pre-need decision letter**, you have a few steps to take before you can request a burial. Keep reading to find out what to do next. You can also have the funeral director at your funeral home of choice, help with these steps. 
+**If you have a pre-need decision letter confirming eligibility**, either you or the funeral director you've chosen can call the National Cemetery Scheduling Office at <span class="tel">800-535-1117</span> to request a burial. You don’t need to do anything else.
+
+**If you don’t have a pre-need decision letter**, either you or the funeral director you've chosen have a few steps to take before requesting a burial. Keep reading to find out what to do next. 
+
+#### Prepare
 
 **Check to see if the deceased can be buried in a VA national cemetery.** [Find out if the deceased is eligible](/burials-and-memorials/eligibility).
 
 **Once you’ve confirmed eligibility, gather the documents and other information you'll need** to identify the deceased when you apply:
 
-#### Prepare
-
-Gather the following documents and other information:
-
- - The deceased’s DD214 (or similar discharge papers). [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). If you can't find the discharge papers, we can look at our records to see if the Veteran is eligible. 
+ - The deceased’s DD214, or similar discharge papers. If you can't find the discharge papers, please ask for our help to get these records. [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
  - The deceased’s full name, gender, Social Security number or Veteran ID, date of death, and date of birth
  - Next-of-kin information (name, relationship, Social Security number, phone number, and address)
  - Marital status; surviving spouse’s status as Veteran or family member; and status and detailed information for any disabled children who may be buried in the future in a national cemetery
  - Veteran’s zip code and county at the time of death
  - If the deceased is a spouse or a Veteran whose spouse has already died, the full name of the family member, cemetery section, and site number
- - Your cemetery of choice
 
 **Decide on the burial details and gather all related information**, including:
 
- - Type of gravesite memorial. [See your options for a headstone, marker, or medallion](/burials-and-memorials/burial-planning/headstones-markers-medallions).
+  - Your cemetery of choice
+  - Type of gravesite memorial. [See your options for a headstone, marker, or niche cover](/burials-and-memorials/burial-planning/headstones-markers-medallions).
  - Type of burial: casket or cremation and size of the casket or urn (a container used to hold ashes)
  - Whether you want military honors, a burial flag, or a Presidential Memorial Certificate
  
@@ -71,11 +71,13 @@ Gather the following documents and other information:
  [Learn about other ways to memorialize the deceased](/burials-and-memorials/burial-planning/flags-and-memorial-certificates).
  
 
-#### Contact
+#### Contact the National Cemetery Scheduling Office
 
-For burial in a national cemetery, you or the funeral director at your local funeral home, need to fax any discharge papers to the **National Cemetery Scheduling Office** at <span class="tel">866-900-6417</span>. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran's name in the subject line. 
+The funeral director you've chosen can help you with these steps too:
 
-Then call <span class="tel">800-535-1117</span> to confirm the burial application. When you, or the funeral director calls, be sure to have all the information handy that’s listed above in the "Prepare" section. 
+For burial in a national cemetery fax any discharge papers to the **National Cemetery Scheduling Office** at <span class="tel">866-900-6417</span>. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran's name in the subject line. 
+
+Then call <span class="tel">800-535-1117</span> to confirm the burial application. Be sure to have all the information handy that’s listed above in the "Prepare" section. 
 
 <div class="call-out" markdown="0">
 
