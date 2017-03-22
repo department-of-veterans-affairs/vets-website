@@ -52,7 +52,7 @@ You may want to choose a funeral director to help you plan the burial.
 
 #### Prepare
 
-**Gather the documents and other information** you'll need to identify the deceased:
+**Gather the documents and other information you'll need to identify the deceased:**
 
  - The deceased’s DD214, or similar discharge papers. If you can't find the discharge papers, please ask for our help to get these records. [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
  - The deceased’s full name, gender, Social Security number or Veteran ID, date of death, and date of birth
@@ -61,7 +61,7 @@ You may want to choose a funeral director to help you plan the burial.
  - Veteran’s zip code and county at the time of death
  - If the deceased is a spouse or a Veteran whose spouse has already died, the full name of the family member, cemetery section, and site number
 
-**Decide on the burial details and gather all related information**, including:
+**Decide on the burial details and gather all related information, including:**
 
   - Your cemetery of choice
   - Type of gravesite memorial. [See your options for a headstone, marker, or niche cover](/burials-and-memorials/burial-planning/headstones-markers-medallions).
