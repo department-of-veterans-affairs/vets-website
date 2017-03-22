@@ -16,7 +16,6 @@ class CalculatorForm extends React.Component {
     this.renderScholarships = this.renderScholarships.bind(this);
     this.renderTuitionAssist = this.renderTuitionAssist.bind(this);
     this.renderEnrolled = this.renderEnrolled.bind(this);
-    this.renderEnrolledOld = this.renderEnrolledOld.bind(this);
     this.renderCalendar = this.renderCalendar.bind(this);
     this.renderKicker = this.renderKicker.bind(this);
     this.renderWorking = this.renderWorking.bind(this);
@@ -170,46 +169,45 @@ class CalculatorForm extends React.Component {
   }
 
   renderEnrolled() {
-    if (!this.props.displayedInputs.enrolled) return null;
-    return (
-      <div className="row">
-        <div className="small-12 columns">
-          <Dropdown
-              name="enrolled"
-              alt="Enrolled"
-              options={[
-                { value: '1.0', label: 'Full Time' },
-                { value: '0.8', label: '¾ Time' },
-                { value: '0.6', label: 'More than ½ time' },
-                { value: '0', label: '½ Time or less' },
-              ]}
-              visible
-              value={this.props.inputs.enrolled}
-              onChange={this.props.onInputChange}>
-            {this.renderLearnMoreLabel({ text: 'Enrolled', modal: 'calcEnrolled' })}
-          </Dropdown>
-        </div>
-      </div>
-    );
-  }
+    const {
+      enrolled: shouldRenderEnrolled,
+      enrolledOld: shouldRenderEnrolledOld
+    } = this.props.displayedInputs;
 
-  renderEnrolledOld() {
-    if (!this.props.displayedInputs.enrolledOld) return null;
+    if (!shouldRenderEnrolled && !shouldRenderEnrolledOld) {
+      return null;
+    }
+
+    const options = shouldRenderEnrolled ? [
+      { value: 'full', label: 'Full Time' },
+      { value: 'three quarters', label: '¾ Time' },
+      { value: 'more than half', label: 'More than ½ time' },
+      { value: 'half or less', label: '½ Time or less' },
+    ] : [
+      { value: 'full', label: 'Full Time' },
+      { value: 'three quarters', label: '¾ Time' },
+      { value: 'half', label: '½ Time' },
+      { value: 'less than half', label: 'Less than ½ time more than ¼ time' },
+      { value: 'quarter', label: '¼ Time or less' },
+    ];
+
+    const {
+      enrolled: enrolledValue,
+      enrolledOld: enrolledOldValue
+    } = this.props.inputs;
+
+    const name = shouldRenderEnrolled ? 'enrolled' : 'enrolledOld';
+    const value = shouldRenderEnrolled ? enrolledValue : enrolledOldValue;
+
     return (
       <div className="row">
         <div className="small-12 columns">
           <Dropdown
-              name="enrolled"
+              name={name}
               alt="Enrolled"
-              options={[
-                { value: 'full', label: 'Full Time' },
-                { value: 'three quarters', label: '¾ Time' },
-                { value: 'half', label: '½ Time' },
-                { value: 'less than half', label: 'Less than ½ time more than ¼ time' },
-                { value: 'quarter', label: '½ Time or less' },
-              ]}
+              options={options}
               visible
-              value={this.props.inputs.enrolled}
+              value={value}
               onChange={this.props.onInputChange}>
             {this.renderLearnMoreLabel({ text: 'Enrolled', modal: 'calcEnrolled' })}
           </Dropdown>
@@ -430,7 +428,6 @@ class CalculatorForm extends React.Component {
         {this.renderScholarships()}
         {this.renderTuitionAssist()}
         {this.renderEnrolled()}
-        {this.renderEnrolledOld()}
         {this.renderCalendar()}
         {this.renderKicker()}
         {this.renderBuyUp()}

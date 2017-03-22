@@ -16,7 +16,7 @@ const INITIAL_STATE = {
   yellowRibbonAmount: 0,
   scholarships: 0,
   tuitionAssist: 0,
-  enrolled: '1.0',
+  enrolled: 'full',
   enrolledOld: 'full',
   calendar: 'semesters',
   working: '30',

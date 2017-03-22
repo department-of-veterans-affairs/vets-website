@@ -209,8 +209,21 @@ const getDerivedValues = createSelector(
       }
     }
 
+    // Calculate the rate of pursuit - getRop
+    const rop = ({
+      full: 1,
+      'three quarters': 0.8,
+      'more than half': 0.6,
+      'half or less': 0,
+    })[inputs.enrolled];
+
     // Calculate the rate of pursuit for Book Stipend - getRopBook
-    const ropBook = ({ 1: 1, 0.8: 0.75, 0.6: 0.5, 0: 0.25 })[+inputs.enrolled];
+    const ropBook = ({
+      full: 1,
+      'three quarters': 0.75,
+      'more than half': 0.5,
+      'half or less': 0.25
+    })[inputs.enrolled];
 
     // Calculate the rate of pursuit for Old GI Bill - getCalcRopOld
     // and Calculate the rate of pursuit for OJT - getRopOjt
@@ -219,11 +232,11 @@ const getDerivedValues = createSelector(
     } else {
       ropOld = ({
         full: 1,
-        'three quarter': 0.75,
-        half: 0.50,
-        'less than half': 0.50,
+        'three quarters': 0.75,
+        half: 0.5,
+        'less than half': 0.5,
         quarter: 0.25,
-      })[+inputs.enrolledOld];
+      })[inputs.enrolledOld];
     }
 
     // Determine yellow ribbon eligibility - getYellowRibbonEligibility
@@ -244,7 +257,7 @@ const getDerivedValues = createSelector(
     } else if (oldGiBill || onlyVRE) {
       kickerBenefit = +inputs.kickerAmount * ropOld;
     } else {
-      kickerBenefit = +inputs.kickerAmount * (+inputs.enrolled);
+      kickerBenefit = +inputs.kickerAmount * rop;
     }
 
     // Determine buy up rates - getBuyUpRate
@@ -459,17 +472,17 @@ const getDerivedValues = createSelector(
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm1 = 0;
     } else if (isOJT) {
-      housingAllowTerm1 = ropOjt *
-        (tier * institution.bah + kickerBenefit);
+      housingAllowTerm1 =
+        ropOjt * (tier * institution.bah + kickerBenefit);
     } else if (onlineClasses === 'yes') {
-      housingAllowTerm1 = termLength * +inputs.enrolled *
-        (tier * constant.AVGBAH / 2 + kickerBenefit);
+      housingAllowTerm1 =
+        termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
     } else if (institution.country !== 'usa') {
-      housingAllowTerm1 = termLength * +inputs.enrolled *
-        ((tier * constant.AVGBAH) + kickerBenefit);
+      housingAllowTerm1 =
+        termLength * rop * ((tier * constant.AVGBAH) + kickerBenefit);
     } else {
-      housingAllowTerm1 = termLength * +inputs.enrolled *
-        ((tier * institution.bah) + kickerBenefit);
+      housingAllowTerm1 =
+        termLength * rop * ((tier * institution.bah) + kickerBenefit);
     }
 
     // getHousingAllowTerm2
@@ -511,14 +524,14 @@ const getDerivedValues = createSelector(
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm2 = 0;
     } else if (onlineClasses === 'yes') {
-      housingAllowTerm2 = termLength * +inputs.enrolled *
-        (tier * constant.AVGBAH / 2 + kickerBenefit);
+      housingAllowTerm2 =
+        termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
     } else if (institution.country !== 'usa') {
-      housingAllowTerm2 = termLength * +inputs.enrolled *
-        (tier * constant.AVGBAH + kickerBenefit);
+      housingAllowTerm2 =
+        termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
-      housingAllowTerm2 = termLength * +inputs.enrolled *
-        (tier * institution.bah + kickerBenefit);
+      housingAllowTerm2 =
+        termLength * rop * (tier * institution.bah + kickerBenefit);
     }
 
     // getHousingAllowTerm3
@@ -562,14 +575,14 @@ const getDerivedValues = createSelector(
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm3 = 0;
     } else if (onlineClasses === 'yes') {
-      housingAllowTerm3 = termLength * +inputs.enrolled *
-        (tier * constant.AVGBAH / 2 + kickerBenefit);
+      housingAllowTerm3 =
+        termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
     } else if (institution.country !== 'usa') {
-      housingAllowTerm3 = termLength * +inputs.enrolled *
-        (tier * constant.AVGBAH + kickerBenefit);
+      housingAllowTerm3 =
+        termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
-      housingAllowTerm3 = termLength * +inputs.enrolled *
-        (tier * institution.bah + kickerBenefit);
+      housingAllowTerm3 =
+        termLength * rop * (tier * institution.bah + kickerBenefit);
     }
 
     // Calculate Housing Allowance Total for year - getHousingAllowTotal
