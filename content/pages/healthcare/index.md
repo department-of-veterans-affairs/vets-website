@@ -19,6 +19,10 @@ majorlinks:
     description: Send a secure, private note to your doctor or other members of your VA health care team.
 ---
 
+<div class="va-introtext">
+
 With VA health care, you're covered for regular checkups with your primary care doctor and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and elder care, plus medical equipment, prosthetics, and prescriptions.
+
+</div>
 
 <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for VA Health Care</a>
