@@ -1072,6 +1072,11 @@
       "from": "cli-width@>=2.0.0 <3.0.0",
       "resolved": "http://registry.npmjs.org/cli-width/-/cli-width-2.1.0.tgz"
     },
+    "clipboard": {
+      "version": "1.6.1",
+      "from": "clipboard@>=1.5.5 <2.0.0",
+      "resolved": "https://registry.npmjs.org/clipboard/-/clipboard-1.6.1.tgz"
+    },
     "cliui": {
       "version": "3.2.0",
       "from": "cliui@>=3.2.0 <4.0.0",
@@ -1770,6 +1775,11 @@
       "version": "1.0.0",
       "from": "delayed-stream@>=1.0.0 <1.1.0",
       "resolved": "http://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz"
+    },
+    "delegate": {
+      "version": "3.1.2",
+      "from": "delegate@>=3.1.2 <4.0.0",
+      "resolved": "https://registry.npmjs.org/delegate/-/delegate-3.1.2.tgz"
     },
     "delegates": {
       "version": "1.0.0",
@@ -3414,6 +3424,11 @@
         }
       }
     },
+    "good-listener": {
+      "version": "1.2.2",
+      "from": "good-listener@>=1.2.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/good-listener/-/good-listener-1.2.2.tgz"
+    },
     "got": {
       "version": "5.7.1",
       "from": "got@>=5.0.0 <6.0.0",
@@ -4133,6 +4148,11 @@
       "from": "jpegtran-bin@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/jpegtran-bin/-/jpegtran-bin-3.2.0.tgz"
     },
+    "jquery": {
+      "version": "3.2.1",
+      "from": "jquery@latest",
+      "resolved": "https://registry.npmjs.org/jquery/-/jquery-3.2.1.tgz"
+    },
     "js-base64": {
       "version": "2.1.9",
       "from": "js-base64@>=2.1.9 <3.0.0",
@@ -4516,11 +4536,6 @@
       "version": "3.1.1",
       "from": "lodash.create@3.1.1",
       "resolved": "https://registry.npmjs.org/lodash.create/-/lodash.create-3.1.1.tgz"
-    },
-    "lodash.debounce": {
-      "version": "4.0.8",
-      "from": "lodash.debounce@>=4.0.7 <5.0.0",
-      "resolved": "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
     },
     "lodash.deburr": {
       "version": "3.2.0",
@@ -6837,6 +6852,11 @@
       "from": "pngquant-bin@>=3.0.0 <4.0.0",
       "resolved": "http://registry.npmjs.org/pngquant-bin/-/pngquant-bin-3.1.1.tgz"
     },
+    "politespace": {
+      "version": "0.1.20",
+      "from": "politespace@>=0.1.4 <0.2.0",
+      "resolved": "https://registry.npmjs.org/politespace/-/politespace-0.1.20.tgz"
+    },
     "polyfill-function-prototype-bind": {
       "version": "0.0.1",
       "from": "polyfill-function-prototype-bind@0.0.1",
@@ -7076,6 +7096,11 @@
       "version": "1.0.4",
       "from": "pretty-bytes@>=1.0.2 <2.0.0",
       "resolved": "https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-1.0.4.tgz"
+    },
+    "prismjs": {
+      "version": "1.6.0",
+      "from": "prismjs@>=1.5.1 <2.0.0",
+      "resolved": "http://registry.npmjs.org/prismjs/-/prismjs-1.6.0.tgz"
     },
     "private": {
       "version": "0.1.7",
@@ -7762,6 +7787,11 @@
       "from": "seek-bzip@>=1.0.3 <2.0.0",
       "resolved": "http://registry.npmjs.org/seek-bzip/-/seek-bzip-1.0.5.tgz"
     },
+    "select": {
+      "version": "1.1.2",
+      "from": "select@>=1.1.2 <2.0.0",
+      "resolved": "https://registry.npmjs.org/select/-/select-1.1.2.tgz"
+    },
     "selenium-server": {
       "version": "3.3.1",
       "from": "selenium-server@>=3.0.1 <4.0.0",
@@ -8412,6 +8442,11 @@
       "from": "timers-browserify@>=2.0.2 <3.0.0",
       "resolved": "https://registry.npmjs.org/timers-browserify/-/timers-browserify-2.0.2.tgz"
     },
+    "tiny-emitter": {
+      "version": "1.1.0",
+      "from": "tiny-emitter@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npmjs.org/tiny-emitter/-/tiny-emitter-1.1.0.tgz"
+    },
     "tiny-lr": {
       "version": "0.1.7",
       "from": "tiny-lr@>=0.1.5 <0.2.0",
@@ -8772,19 +8807,19 @@
       "resolved": "http://registry.npmjs.org/user-home/-/user-home-2.0.0.tgz"
     },
     "uswds": {
-      "version": "1.0.0",
-      "from": "uswds@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/uswds/-/uswds-1.0.0.tgz",
+      "version": "0.10.0",
+      "from": "uswds@>=0.10.0 <0.11.0",
+      "resolved": "https://registry.npmjs.org/uswds/-/uswds-0.10.0.tgz",
       "dependencies": {
-        "bourbon-neat": {
-          "version": "1.8.0",
-          "from": "https://github.com/thoughtbot/neat/archive/neat-1.8.0-node-sass.tar.gz",
-          "resolved": "https://github.com/thoughtbot/neat/archive/neat-1.8.0-node-sass.tar.gz"
-        },
         "cross-spawn": {
           "version": "2.2.3",
           "from": "cross-spawn@>=2.1.5 <3.0.0",
           "resolved": "http://registry.npmjs.org/cross-spawn/-/cross-spawn-2.2.3.tgz"
+        },
+        "jquery": {
+          "version": "2.2.4",
+          "from": "jquery@>=2.2.0 <3.0.0",
+          "resolved": "https://registry.npmjs.org/jquery/-/jquery-2.2.4.tgz"
         }
       }
     },
