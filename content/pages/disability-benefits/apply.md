@@ -7,7 +7,7 @@ showactionbar: false
 relatedlinks:
  - url: /disability-benefits/claims-process/evidence/
    title: Evidence (Supporting Documents)
-   description: "Find out what supporting documents you’ll need to give us so we can decide your claim."
+   description: "Find out which supporting documents you’ll need to give us so we can decide your claim."
  - url: /disability-benefits/claims-process/claim-types/
    title: Types of Disability Claims 
    description: "Learn about standard claims, reopened claims, secondary claims, and more."
