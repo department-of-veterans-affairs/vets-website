@@ -62,11 +62,11 @@ describe('Edu 5490 educationHistory', () => {
 
     ReactTestUtils.Simulate.change(formDOM.querySelector('select'), {
       target: {
-        value: 'graduationExpected'
+        value: 'discontinued'
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(15);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(6);
   });
 
   it('should have no required inputs', () => {
