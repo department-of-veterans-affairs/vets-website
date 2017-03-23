@@ -50,15 +50,14 @@ class InstitutionFilterForm extends React.Component {
   }
 
   renderCountryFilter() {
-    const countryFacets = {
-      ALL: this.props.search.count,
-      ...this.props.search.facets.country
-    };
-    const options = Object.keys(countryFacets).reduce((opts, country) => {
-      const total = Number(countryFacets[country]);
-      const label = `${country} (${total.toLocaleString()})`;
-      return [...opts, { value: country, label }];
-    }, []);
+    const options = [
+      { value: 'ALL', label: `ALL (${this.props.search.count})` },
+      ...this.props.search.facets.country.map(country => ({
+        value: country.name,
+        label: `${country.name} (${country.count.toLocaleString()})`
+      }))
+    ];
+
     return (
       <Dropdown
           name="country"
