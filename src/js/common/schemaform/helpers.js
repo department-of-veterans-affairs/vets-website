@@ -211,8 +211,16 @@ export function transformForSubmit(formConfig, form) {
       return undefined;
     }
 
+    // clean up empty objects, which we have no reason to send
+    if (typeof value === 'object') {
+      const fields = Object.keys(value);
+      if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
+        return undefined;
+      }
+    }
+
     return value;
-  });
+  }) || '{}';
 }
 
 function isHiddenField(schema) {
@@ -370,7 +378,7 @@ export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
  * hideIf function from uiSchema and the current page data. Sets 'ui:hidden'
  * which is a non-standard JSON Schema property
  */
-export function setHiddenFields(schema, uiSchema, data) {
+export function setHiddenFields(schema, uiSchema, formData) {
   if (!uiSchema) {
     return schema;
   }
@@ -378,7 +386,7 @@ export function setHiddenFields(schema, uiSchema, data) {
   let updatedSchema = schema;
   const hideIf = _.get(['ui:options', 'hideIf'], uiSchema);
 
-  if (hideIf && hideIf(data)) {
+  if (hideIf && hideIf(formData)) {
     if (!updatedSchema['ui:hidden']) {
       updatedSchema = _.set('ui:hidden', true, updatedSchema);
     }
@@ -387,7 +395,7 @@ export function setHiddenFields(schema, uiSchema, data) {
   }
 
   const expandUnder = _.get(['ui:options', 'expandUnder'], uiSchema);
-  if (expandUnder && !data[expandUnder]) {
+  if (expandUnder && !formData[expandUnder]) {
     if (!updatedSchema['ui:collapsed']) {
       updatedSchema = _.set('ui:collapsed', true, updatedSchema);
     }
@@ -397,7 +405,7 @@ export function setHiddenFields(schema, uiSchema, data) {
 
   if (updatedSchema.type === 'object') {
     const newProperties = Object.keys(updatedSchema.properties).reduce((current, next) => {
-      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], data);
+      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], formData);
 
       if (newSchema !== updatedSchema.properties[next]) {
         return _.set(next, newSchema, current);
@@ -412,7 +420,7 @@ export function setHiddenFields(schema, uiSchema, data) {
   }
 
   if (updatedSchema.type === 'array') {
-    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, data);
+    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, formData);
 
     if (newSchema !== updatedSchema.items) {
       return _.set('items', newSchema, updatedSchema);
@@ -502,7 +510,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
   const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
 
   if (updateSchema) {
-    const newSchemaProps = updateSchema(data, formData);
+    const newSchemaProps = updateSchema(data, formData, currentSchema);
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
       if (newSchemaProps[next] !== schema[next]) {
@@ -530,4 +538,42 @@ export function setItemTouched(prefix, index, idSchema) {
   return fields.reduce((idObj, field) => {
     return _.merge(idObj, setItemTouched(prefix, index, idSchema[field]));
   }, {});
+}
+
+export function replaceRefSchemas(schema, definitions, path = '') {
+  if (schema.$ref) {
+    // There's a whole spec for JSON pointers, but we don't use anything more complicated
+    // than this so far
+    const refPath = schema.$ref.replace('#/definitions/', '').split('/');
+    const definition = _.get(refPath, definitions);
+    if (!definition) {
+      throw new Error(`Missing definition for ${schema.$ref} at ${path}. You probably need to add it to defaultDefinitions`);
+    }
+
+    return replaceRefSchemas(definition, definitions, path);
+  }
+
+  if (schema.type === 'object') {
+    const newSchema = Object.keys(schema.properties).reduce((current, next) => {
+      const nextProp = replaceRefSchemas(schema.properties[next], definitions, `${path}.${next}`);
+
+      if (current.properties[next] !== nextProp) {
+        return _.set(['properties', next], nextProp, current);
+      }
+
+      return current;
+    }, schema);
+
+    return newSchema;
+  }
+
+  if (schema.type === 'array') {
+    const newItems = replaceRefSchemas(schema.items, definitions, `${path}.items`);
+
+    if (newItems !== schema.items) {
+      return _.set('items', newItems, schema);
+    }
+  }
+
+  return schema;
 }

@@ -3,8 +3,9 @@ import moment from 'moment';
 
 const initialState = {
   statuses: {
-    succeeded: [],
     failed: [],
+    incomplete: [],
+    succeeded: [],
   },
 };
 
@@ -15,7 +16,12 @@ export default function refresh(state = initialState, action) {
       const statuses = _.groupBy(action.data, (e) => {
         const isCurrentDay = moment().isSame(e.attributes.last_updated, 'day');
         const isStatusOK = e.attributes.status === 'OK';
-        return (isCurrentDay && isStatusOK) ? 'succeeded' : 'failed';
+        if (!isCurrentDay) {
+          return 'incomplete';
+        } else if (isCurrentDay && isStatusOK) {
+          return 'succeeded';
+        }
+        return 'failed';
       });
       return {
         statuses

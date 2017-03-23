@@ -7,55 +7,66 @@ import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.jso
 import {
   benefitsLabels,
   relationshipLabels,
+  highSchoolStatusLabels,
   transform
 } from '../helpers';
-import { showSchoolAddress } from '../../utils/helpers';
-import { states } from '../../../common/utils/options-for-select';
+
+import {
+  hoursTypeLabels,
+  stateLabels
+} from '../../utils/helpers';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
-import * as fullName from '../../../common/schemaform/definitions/fullName';
+import { uiSchema as uiSchemaDateRange } from '../../../common/schemaform/definitions/dateRange';
+import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
-import * as educationType from '../../definitions/educationType';
+import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import uiSchemaPostHighSchoolTrainings from '../../definitions/postHighSchoolTrainings';
+import * as veteranId from '../../definitions/veteranId';
 
-import contactInformation from '../../pages/contactInformation';
+import createContactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
+import applicantInformation from '../../pages/applicantInformation';
+import createSchoolSelectionPage from '../../pages/schoolSelection';
+import additionalBenefits from '../../pages/additionalBenefits';
 
 import IntroductionPage from '../components/IntroductionPage';
-import EmploymentPeriodView from '../components/EmploymentPeriodView';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import Chapter33Warning from '../components/Chapter33Warning';
+import Chapter35Warning from '../components/Chapter35Warning';
 
 const {
   benefit,
-  civilianBenefitsAssistance,
-  civilianBenefitsSource,
+  highSchool,
   currentlyActiveDuty,
-  educationObjective,
-  educationProgram,
-  educationStartDate,
-  educationalCounseling,
   outstandingFelony,
-  restorativeTraining,
+  previousBenefits,
   serviceBranch,
   spouseInfo,
-  trainingState,
   veteranDateOfBirth,
   veteranDateOfDeath,
-  vocationalTraining
 } = fullSchema5490.properties;
 
 const {
   nonMilitaryJobs,
-  relationship,
-  secondaryContact
+  secondaryContact,
+  dateRange,
+  educationType,
+  fullName,
+  postHighSchoolTrainings
 } = fullSchema5490.definitions;
 
-const stateLabels = states.USA.reduce((current, { label, value }) => {
-  return _.merge(current, { [value]: label });
-}, {});
+const dateSchema = fullSchema5490.definitions.date;
+const ssnSchema = fullSchema5490.definitions.ssn;
+
+const nonRequiredFullName = _.assign(fullName, {
+  required: []
+});
+
 
 const formConfig = {
   urlPrefix: '/5490/',
@@ -67,57 +78,220 @@ const formConfig = {
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5490',
   defaultDefinitions: {
-    educationType: educationType.schema,
-    date: date.schema
+    date: dateSchema,
+    educationType,
+    dateRange,
+    fullName,
+    ssn: ssnSchema
   },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
-      pages: {}
+      pages: {
+        applicantInformation: applicantInformation(fullSchema5490, {
+          labels: { relationship: relationshipLabels }
+        }),
+        additionalBenefits: additionalBenefits(fullSchema5490, {
+          fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource']
+        }),
+        applicantService: {
+          title: 'Applicant service',
+          path: 'applicant/service',
+          initialData: {
+          },
+          uiSchema: {
+            'ui:title': 'Applicant service',
+            'view:applicantServed': {
+              'ui:title': 'Have you ever served on active duty in the armed services?',
+              'ui:widget': 'yesNo'
+            },
+            toursOfDuty: _.merge(toursOfDuty.uiSchema, {
+              'ui:options': {
+                expandUnder: 'view:applicantServed'
+              },
+              'ui:required': form => _.get('view:applicantServed', form),
+              items: {
+                serviceStatus: { 'ui:title': 'Type of separation or discharge' }
+              }
+            })
+          },
+          schema: {
+            type: 'object',
+            // If answered 'Yes' without entering information, it's the same as
+            //  answering 'No' as far as the back end is concerned.
+            required: ['view:applicantServed'],
+            properties: {
+              'view:applicantServed': {
+                type: 'boolean'
+              },
+              toursOfDuty: toursOfDuty.schema({
+                fields: [
+                  'serviceBranch',
+                  'dateRange',
+                  'serviceStatus'
+                ],
+                required: ['serviceBranch', 'dateRange.from']
+              })
+            }
+          }
+        },
+      }
     },
     benefitSelection: {
-      title: 'Education Benefit',
+      title: 'Benefits Eligibility',
       pages: {
         benefitSelection: {
-          title: 'Education benefit',
-          path: 'benefits-eligibility/education-benefit',
+          title: 'Benefits eligibility',
+          path: 'benefits/eligibility',
           initialData: {},
           uiSchema: {
             benefit: {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
-                labels: benefitsLabels
+                labels: benefitsLabels,
+                nestedContent: {
+                  chapter33: Chapter33Warning,
+                  chapter35: Chapter35Warning
+                }
               }
             },
             benefitsRelinquishedDate: date.uiSchema('Effective date')
           },
           schema: {
             type: 'object',
+            required: ['benefit', 'benefitsRelinquishedDate'],
             properties: {
               benefit,
-              benefitsRelinquishedDate: date.schema
+              benefitsRelinquishedDate: dateSchema
+            }
+          }
+        },
+        benefitHistory: {
+          title: 'Benefit history',
+          path: 'benefits/history',
+          initialData: {},
+          uiSchema: {
+            'ui:title': 'Benefit history',
+            'ui:description': 'Before this application, have you ever applied for or received any of the following VA benefits?',
+            previousBenefits: {
+              'ui:order': [
+                'view:noPreviousBenefits',
+                'disability',
+                'dic',
+                'chapter31',
+                'view:ownServiceBenefits',
+                'ownServiceBenefits',
+                'view:claimedSponsorService',
+                'chapter35',
+                'chapter33',
+                'transferOfEntitlement',
+                'veteranFullName',
+                'veteranSocialSecurityNumber',
+                'other'
+              ],
+              'view:noPreviousBenefits': {
+                'ui:title': 'None'
+              },
+              disability: {
+                'ui:title': 'Disability Compensation or Pension'
+              },
+              dic: {
+                'ui:title': 'Dependents\' Indemnity Compensation (DIC)'
+              },
+              chapter31: {
+                'ui:title': 'Vocational Rehabilitation benefits (Chapter 31)'
+              },
+              'view:ownServiceBenefits': {
+                'ui:title': 'Veterans education assistance based on your own service',
+                'ui:options': {
+                  expandUnderClassNames: 'schemaform-expandUnder-indent'
+                }
+              },
+              ownServiceBenefits: {
+                'ui:title': 'Describe the benefits you used',
+                'ui:options': { expandUnder: 'view:ownServiceBenefits' }
+              },
+              'view:claimedSponsorService': {
+                'ui:title': 'Veterans education assistance based on someone else’s service',
+                'ui:options': {
+                  expandUnderClassNames: 'schemaform-expandUnder-indent'
+                }
+              },
+              chapter35: {
+                'ui:title': 'Survivors’ and Dependents’ Educational Assistance Program (DEA, Chapter 35)',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
+              },
+              chapter33: {
+                'ui:title': 'Post-9/11 GI Bill Marine Gunnery Sergeant David Fry Scholarship (Chapter 33)',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
+              },
+              transferOfEntitlement: {
+                'ui:title': 'Transferred Entitlement',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
+              },
+              veteranFullName: _.merge(fullNameUISchema, {
+                'ui:title': 'Sponsor Veteran’s name',
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService',
+                  updateSchema: (data, form) => {
+                    if (_.get('benefitHistory.data.previousBenefits.view:claimedSponsorService', form)) {
+                      return fullName;
+                    }
+
+                    return nonRequiredFullName;
+                  }
+                }
+              }),
+              veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
+                'ui:title': 'Sponsor\'s Social Security number',
+                'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
+                'ui:options': {
+                  expandUnder: 'view:claimedSponsorService'
+                }
+              }),
+              other: {
+                'ui:title': 'Other benefit'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              previousBenefits: _.merge(
+                _.unset('properties.veteranFullName', previousBenefits),
+                {
+                  properties: {
+                    'view:noPreviousBenefits': { type: 'boolean' },
+                    'view:ownServiceBenefits': { type: 'boolean' },
+                    'view:claimedSponsorService': { type: 'boolean' },
+                    veteranFullName: fullName
+                  }
+                }
+              )
             }
           }
         }
       }
     },
-    militaryService: {
-      title: 'Military History',
+    sponsorInformation: {
+      title: 'Sponsor Information',
       pages: {
-        sponsorVeteran: {
-          title: 'Sponsor Veteran',
-          path: 'military-service/sponsor-veteran',
+        sponsorInformation: {
+          title: 'Sponsor information',
+          path: 'sponsor/information',
           uiSchema: {
-            relationship: {
-              'ui:title': 'What is your relationship to the Servicemember whose benefit we\'re transferring to you?',
-              'ui:widget': 'radio',
-              'ui:options': { labels: relationshipLabels }
-            },
             spouseInfo: {
               divorcePending: {
                 'ui:title': 'Is there a divorce or annulment pending with your sponsor?',
-                'ui:widget': 'yesNo'
+                'ui:widget': 'yesNo',
+                'ui:required': (formData) => _.get('relationship', formData) === 'spouse'
               },
               remarried: {
                 'ui:title': 'If you\'re the surviving spouse, did you get remarried?',
@@ -125,40 +299,62 @@ const formConfig = {
               },
               remarriageDate: _.assign(date.uiSchema('Date you got remarried'), {
                 'ui:options': {
-                  hideIf: (fieldData) => !_.get('spouseInfo.remarried', fieldData)
-                }
+                  expandUnder: 'remarried',
+                },
+                'ui:required': (formData) => _.get('spouseInfo.remarried', formData)
               }),
               'ui:options': {
-                hideIf: (fieldData) => fieldData.relationship !== 'spouse'
+                hideIf: (formData) => _.get('relationship', formData) !== 'spouse'
               }
             },
-            relativeFullName: _.assign(fullName.uiSchema, {
-              'ui:title': 'Name of Sponsor'
+            veteranFullName: _.merge(fullNameUISchema, {
+              'ui:title': 'Name of Sponsor',
+              first: {
+                'ui:title': 'Sponsor first name'
+              },
+              middle: {
+                'ui:title': 'Sponsor middle name'
+              },
+              last: {
+                'ui:title': 'Sponsor last name'
+              },
+              suffix: {
+                'ui:title': 'Sponsor suffix'
+              }
             }),
-            veteranSocialSecurityNumber: ssn.uiSchema,
-            veteranDateOfBirth: currentOrPastDate.uiSchema('Date of Birth'),
-            veteranDateOfDeath: currentOrPastDate.uiSchema('Date of death or date listed as MIA or POW'),
+            'view:veteranId': _.merge(veteranId.uiSchema, {
+              veteranSocialSecurityNumber: {
+                'ui:title': 'Sponsor Social Security number'
+              },
+              'view:noSSN': {
+                'ui:title': 'I don\'t know my sponsor’s Social Security number',
+              },
+              vaFileNumber: {
+                'ui:title': 'Sponsor file number',
+              }
+            }),
+            veteranDateOfBirth: currentOrPastDate.uiSchema('Sponsor date of birth'),
+            veteranDateOfDeath: currentOrPastDate.uiSchema('Sponsor date of death or date listed as MIA or POW'),
           },
           schema: {
             type: 'object',
-            definitions: {
-              date: date.schema // For spouseInfo
-            },
-            required: ['veteranSocialSecurityNumber'],
+            required: [
+              'veteranDateOfBirth'
+            ],
             properties: {
-              relationship,
               spouseInfo,
-              relativeFullName: fullName.schema,
-              veteranSocialSecurityNumber: ssn.schema,
+              veteranFullName: fullName,
+              'view:veteranId': veteranId.schema,
               veteranDateOfBirth,
               veteranDateOfDeath
             }
           }
         },
         sponsorService: {
-          title: 'Sponsor Service',
-          path: 'military-service/sponsor-service',
+          title: 'Sponsor service',
+          path: 'sponsor/service',
           uiSchema: {
+            'ui:title': 'Sponsor service',
             serviceBranch: {
               'ui:title': 'Branch of service'
             },
@@ -167,7 +363,7 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             outstandingFelony: {
-              'ui:title': 'Do you, or the qualifying individual on whose account you\'re claiming benefits, have an outstanding felony and/or warrant?',
+              'ui:title': 'Do you or your sponsor have an outstanding felony and/or warrant?',
               'ui:widget': 'yesNo'
             }
           },
@@ -179,101 +375,127 @@ const formConfig = {
               outstandingFelony
             }
           }
-        },
-        applicantService: {
-          title: 'Applicant Service',
-          path: 'military-service/applicant-service',
-          initialData: {
-            // I'd like to default the checkbox to true...
-            // applyPeriodToSelected: true
-          },
+        }
+      }
+    },
+    educationHistory: {
+      title: 'Education History',
+      pages: {
+        educationHistory: {
+          title: 'Education history',
+          path: 'education/history',
+          initialData: {},
           uiSchema: {
-            'view:applicantServed': {
-              'ui:title': 'Have you ever served on active duty in the armed services?',
+            highSchool: {
+              status: {
+                'ui:title': 'What\'s your current high school status?',
+                'ui:options': {
+                  labels: highSchoolStatusLabels
+                }
+              },
+              highSchoolOrGedCompletionDate: _.assign(
+                date.uiSchema('When did you earn your high school diploma?'), {
+                  'ui:options': {
+                    hideIf: form => {
+                      const status = _.get('highSchool.status', form);
+                      return status !== 'graduated' && status !== 'ged';
+                    }
+                  }
+                }),
+              'view:hasHighSchool': {
+                'ui:options': {
+                  hideIf: form => {
+                    const status = _.get('highSchool.status', form);
+                    return status !== 'graduationExpected';
+                  }
+                },
+                name: {
+                  'ui:title': 'Name of high school'
+                },
+                city: {
+                  'ui:title': 'City'
+                },
+                state: {
+                  'ui:title': 'State',
+                  'ui:options': {
+                    labels: stateLabels
+                  }
+                },
+                dateRange: uiSchemaDateRange(),
+                hours: {
+                  'ui:title': 'Hours completed'
+                },
+                hoursType: {
+                  'ui:title': 'Type of hours',
+                  'ui:options': {
+                    labels: hoursTypeLabels
+                  }
+                },
+                degreeReceived: {
+                  'ui:title': 'Degree, diploma, or certificate received'
+                }
+              }
+            },
+            'view:hasTrainings': {
+              'ui:title': 'Do you have any training after high school?',
               'ui:widget': 'yesNo'
             },
-            toursOfDuty: _.merge(toursOfDuty.uiSchema, {
+            postHighSchoolTrainings: _.merge(uiSchemaPostHighSchoolTrainings, {
               'ui:options': {
-                expandUnder: 'view:applicantServed'
-              },
-              items: {
-                serviceStatus: { 'ui:title': 'Type of separation or discharge' }
+                expandUnder: 'view:hasTrainings'
               }
             })
           },
           schema: {
             type: 'object',
             properties: {
-              'view:applicantServed': {
+              highSchool: {
+                type: 'object',
+                properties: {
+                  status: highSchool.properties.status,
+                  highSchoolOrGedCompletionDate: date.schema,
+                  'view:hasHighSchool': {
+                    type: 'object',
+                    properties: {
+                      name: highSchool.properties.name,
+                      city: highSchool.properties.city,
+                      state: highSchool.properties.state,
+                      dateRange: highSchool.properties.dateRange,
+                      hours: highSchool.properties.hours,
+                      hoursType: highSchool.properties.hoursType,
+                      degreeReceived: highSchool.properties.degreeReceived
+                    }
+                  }
+                }
+              },
+              'view:hasTrainings': {
                 type: 'boolean'
               },
-              toursOfDuty: toursOfDuty.schema([
-                'serviceBranch',
-                'dateRange',
-                'serviceStatus',
-                // 'applyPeriodToSelected'
-              ])
-            }
-          }
-        },
-        contributions: {
-          title: 'Contributions',
-          path: 'military-service/contributions',
-          uiSchema: {
-            civilianBenefitsAssistance: {
-              'ui:title': 'Are you getting benefits from the U.S. Government as a civilian employee during the same time as you are seeking benefits from VA?',
-              'ui:widget': 'yesNo'
-            },
-            civilianBenefitsSource: {
-              'ui:title': 'What is the source of these funds?',
-              'ui:options': {
-                expandUnder: 'civilianBenefitsAssistance'
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              civilianBenefitsAssistance,
-              civilianBenefitsSource
+              postHighSchoolTrainings
             }
           }
         }
       }
-    },
-    educationHistory: {
-      title: 'Education History',
-      pages: {}
     },
     employmentHistory: {
       title: 'Employment History',
       pages: {
         employmentHistory: {
           title: 'Employment history',
-          path: 'employment-history',
+          path: 'employment/history',
           uiSchema: {
-            nonMilitaryJobs: {
-              items: {
-                name: {
-                  'ui:title': 'Main job'
-                },
-                months: {
-                  'ui:title': 'Number of months worked'
-                },
-                licenseOrRating: {
-                  'ui:title': 'Licenses or rating'
-                }
-              },
-              'ui:options': {
-                itemName: 'Employment Period',
-                viewField: EmploymentPeriodView,
-                hideTitle: true
-              }
-            }
+            'view:hasNonMilitaryJobs': {
+              'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?',
+              'ui:widget': 'yesNo'
+            },
+            nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUiSchema)
           },
           schema: {
             type: 'object',
             properties: {
+              'view:hasNonMilitaryJobs': {
+                type: 'boolean'
+              },
               nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
             }
           }
@@ -283,67 +505,33 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: {
-          title: 'School selection',
-          path: 'school-selection',
+        schoolSelection: _.merge(createSchoolSelectionPage(fullSchema5490, {
+          fields: [
+            'educationProgram',
+            'educationObjective',
+            'educationStartDate',
+            'restorativeTraining',
+            'vocationalTraining',
+            'trainingState',
+            'educationalCounseling'
+          ],
+          required: ['educationType']
+        }), {
+          // Rephrase the question for facility name in educationProgram
           uiSchema: {
             educationProgram: {
-              'ui:order': ['name', 'educationType', 'address'],
-              address: _.merge(address.uiSchema(), {
-                'ui:options': {
-                  hideIf: (form) => !showSchoolAddress(_.get('educationProgram.educationType', form))
-                }
-              }),
-              educationType: educationType.uiSchema,
               name: {
-                'ui:title': 'Name of school, university, or training facility'
+                'ui:title': 'Name of school, university, or training facility you want to attend'
               }
-            },
-            educationObjective: {
-              'ui:title': 'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
-              'ui:widget': 'textarea'
-            },
-            educationStartDate: date.uiSchema('The date your training began or will begin'),
-            restorativeTraining: {
-              'ui:title': 'Are you seeking special restorative training?',
-              'ui:widget': 'yesNo'
-            },
-            vocationalTraining: {
-              'ui:title': 'Are you seeking special vocational training?',
-              'ui:widget': 'yesNo'
-            },
-            trainingState: {
-              'ui:title': 'In what state do you plan on living while participating in this training?',
-              'ui:options': {
-                labels: stateLabels
-              }
-            },
-            educationalCounseling: {
-              'ui:title': 'Would you like to receive vocational and educational counseling?',
-              'ui:widget': 'yesNo'
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              educationProgram: _.set('properties.address', address.schema(), educationProgram),
-              educationObjective,
-              educationStartDate,
-              restorativeTraining,
-              vocationalTraining,
-              trainingState: _.merge(trainingState, {
-                type: 'string'
-              }),
-              educationalCounseling
             }
           }
-        }
+        })
       }
     },
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation,
+        contactInformation: createContactInformationPage('relativeAddress'),
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
@@ -361,7 +549,7 @@ const formConfig = {
               },
               address: _.merge(address.uiSchema(), {
                 'ui:options': {
-                  hideIf: (form) => _.get('secondaryContact.sameAddress', form) === true
+                  hideIf: (formData) => _.get('secondaryContact.sameAddress', formData) === true
                 }
               })
             }

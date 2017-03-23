@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import { ConfirmationPage } from '../../../../src/js/edu-benefits/5490/containers/ConfirmationPage';
+import { ConfirmationPage } from '../../../../src/js/edu-benefits/1990e/containers/ConfirmationPage';
 
 const form = {
   submission: {
@@ -10,22 +10,22 @@ const form = {
       attributes: {}
     }
   },
-  veteranInformation: {
+  applicantInformation: {
     data: {
-      veteranFullName: {
+      relativeFullName: {
         first: 'Jane',
         last: 'Doe'
       }
     }
   },
-  benefitSelection: {
+  benefitEligibility: {
     data: {
-      benefit: 'chapter30'
+      benefit: 'chapter35'
     }
   }
 };
 
-describe('<ConfirmationPage>', () => {
+describe('Edu 1990e <ConfirmationPage>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(
       <ConfirmationPage form={form}/>
@@ -33,19 +33,5 @@ describe('<ConfirmationPage>', () => {
 
     expect(tree.subTree('.edu-page-title').text()).to.equal('Claim received');
     expect(tree.everySubTree('span')[1].text().trim()).to.equal('for Jane Doe');
-  });
-
-  it('should expand documents', () => {
-    const tree = SkinDeep.shallowRender(
-      <ConfirmationPage form={form}/>
-    );
-
-    // Check to see that div.usa-accordion-content doesn't exist
-    expect(tree.subTree('.usa-accordion-content')).to.be.false;
-
-    tree.getMountedInstance().handleClick({ preventDefault: f => f });
-
-    // Check to see that div.usa-accordion-content exists after expanding
-    expect(tree.subTree('.usa-accordion-content')).to.be.an('object');
   });
 });

@@ -7,7 +7,6 @@ import {
   deepEquals,
   getDefaultFormState,
   orderProperties,
-  retrieveSchema,
   getDefaultRegistry
 } from 'react-jsonschema-form/lib/utils';
 
@@ -28,7 +27,7 @@ function setFirstFields(id) {
       Array.from(document.querySelectorAll('.schemaform-block'))
     );
     containers.forEach(block => {
-      const fields = Array.from(block.querySelectorAll('.schemaform-field-template'));
+      const fields = Array.from(block.querySelectorAll('.form-checkbox,.schemaform-field-template'));
       if (fields.length) {
         fields[0].classList.add('schemaform-first-field');
       }
@@ -133,6 +132,7 @@ class ObjectField extends React.Component {
       uiSchema,
       errorSchema,
       idSchema,
+      schema,
       required,
       disabled,
       readonly,
@@ -141,7 +141,6 @@ class ObjectField extends React.Component {
     const { definitions, fields, formContext } = this.props.registry;
     const { TitleField } = fields;
     const SchemaField = this.SchemaField;
-    const schema = retrieveSchema(this.props.schema, definitions);
     const formData = Object.keys(this.props.formData || {}).length
       ? this.props.formData
       : getDefaultFormState(schema, {}, definitions);
@@ -201,9 +200,13 @@ class ObjectField extends React.Component {
           </div>}
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
+              const [first, ...rest] = objectFields;
               return (
                 <ExpandingGroup open={!!formData[objectFields[0]]} key={index}>
-                  {objectFields.map(renderProp)}
+                  {renderProp(first)}
+                  <div className={_.get([first, 'ui:options', 'expandUnderClassNames'], uiSchema)}>
+                    {rest.map(renderProp)}
+                  </div>
                 </ExpandingGroup>
               );
             }

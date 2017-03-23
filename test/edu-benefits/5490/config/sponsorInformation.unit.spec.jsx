@@ -8,39 +8,34 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
 
-describe('Edu 5490 sponsorVeteran', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryService.pages.sponsorVeteran;
+describe('Edu 5490 sponsorInformation', () => {
+  const { schema, uiSchema } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={formConfig.defaultDefinitions}
           data={{}}
           uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(13);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(12);
   });
+
   it('should conditionally show spouseInfo options', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={formConfig.defaultDefinitions}
           data={{}}
+          formData={{ relationship: 'spouse' }}
           uiSchema={uiSchema}/>
     );
 
     const formDOM = findDOMNode(form);
-
-    // Shouldn't show this at first
-    expect(formDOM.querySelector('label[for=root_spouseInfo_divorcePending]')).to.be.null;
-
-    // Select spouse
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_relationship_0'), {
-      target: {
-        checked: true
-      }
-    });
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(16);
 
     // The divorce input should be there now
     expect(formDOM.querySelector('label[for=root_spouseInfo_divorcePending]')).to.not.be.null;

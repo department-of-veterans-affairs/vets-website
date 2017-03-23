@@ -1,111 +1,114 @@
 ---
 layout: page-breadcrumbs.html
-title: Apply for VA Health Care Benefits
+title: Health Care Application Process
+plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
-plainlanguage: 12-08-16 certified in compliance with the Plain Writing Act
-showtempbar: true
+showactionbar: false
+relatedlinks:
+ - url: /healthcare/eligibility/
+   title: Eligibility
+   description: "Find out if you can get VA health care."
+ - url: /healthcare/after-you-apply/
+   title: What Happens After You Apply
+   description: "Find out how to get the most out of your VA health care benefits."
 ---
 
-If you’re interested in VA health care, you can apply online.  Once you turn in your application, we’ll send you a letter about your enrollment.
+Once you’ve figured out if you qualify, applying for VA health care benefits is easy. Find out how to apply.
 
-<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
-	<div class="usa-alert-body">
-<h6 style="margin-top: 1em;">Are you a caregiver? This form’s not quite ready for you yet. <a href="#additional-forms"> Find the form you need.</a></h6>
-  </div>
-</div>
-<br>
+### Prepare
+- Find out if you qualify. [Check your eligibility](/healthcare/eligibility/).
+- Gather the documents listed below that you'll need to fill out the application for VA health care benefits (Form 10-10EZ). 
 
-<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply online for VA health care</a>
-
-### Other ways to apply
-
-- Call the vets.gov Help Desk at <span class="tel">855-574-7286</span>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
-
-- Mail in your application. [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf). Print the form, fill it out, and send it to this address:
-
-<dl class="va-address-block">
-    <dd>Health Eligibility Center</dd>
-    <dd>2957 Clairmont Rd., Suite 200</dd>
-    <dd>Atlanta, GA 30329</dd>
-</dl>
-
-- Apply in person at your nearest VA medical center or clinic. Bring the 10-10EZ form with you.<br /> [Find a VA medical center or clinic near you](/facilities).<br /> [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+<div markdown="0"><br></div>
 
 <div class="call-out" markdown="1">
 
-### What do I need to complete the 10-10EZ?
+### What documents and information do I need to apply?
 
 - Your most recent tax return
 - Social Security numbers for yourself and your qualified dependents
-- Account numbers for any current insurance programs in which you're already enrolled
+- Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer)
 
 </div>
 
-### When will I hear back about my application?
+<div markdown="0"><br></div>
 
-In less than 1 week. If more than a week has passed since you gave us your application and you haven't heard back, please don’t apply again. Call <span class="tel">855-574-7286</span>.
+### Ready to apply?
 
-### Can I get VA health care?
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
 
-You may be able to get VA health care if you served on active duty and separated under conditions other than dishonorable.
+<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
+<div class="usa-alert-body">
+<h4 style="padding:0;">Are you a caregiver?</h4>
+<p style="margin:0;">This form's not quite ready for you yet. <a href="#additional-forms">Find the form you need</a>.</p>
+</div>
+</div>
 
-If you separated under a dishonorable discharge, visit healthcare.gov to find out if you qualify for health insurance. [Go to healthcare.gov](https://www.healthcare.gov/).
+<div markdown="0"><br></div>
 
-#### You probably qualify for VA health care if at least 1 of these applies to you:
+### Other ways to apply
 
-- You receive financial compensation (payments) from VA for a service-connected disability
-- You were discharged for a disability resulting from something that happened to you in the line of duty
-- You were discharged for a disability that got worse in the line of duty
-- You're a recently discharged Combat Veteran
-- You get a VA pension
-- You're a former Prisoner of War (POW)
-- You've received a Purple Heart
-- You get (or qualify for) Medicaid benefits
-- You served in Vietnam between January 9, 1962, and May 7, 1975
-- You served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998
-- You served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
+#### By phone
 
-If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](http://nationalincomelimits.vaftl.us/).
+Call the vets.gov Help Desk at <a href="tel:+18555747286">855-574-7286</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
-### Already enrolled?
+#### By mail
 
-To update your personal, insurance, or financial information from a prior application, fill out a 10-10EZR. [Download the 10-10EZR](/healthcare/forms/vha-10-10ezr-fill.pdf).
+[Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf). Print the form, fill it out, and send it to this address:
+
+<dl class="va-address-block">
+<dd>Health Eligibility Center</dd>
+<dd>2957 Clairmont Rd., Suite 200</dd>
+<dd>Atlanta, GA 30329</dd>
+</dl>
+
+#### In person
+
+Go to your nearest VA medical center or clinic. Bring Form 10-10EZ with you. </br>
+[Find a VA medical center or clinic near you](/facilities).</br>
+[Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+
+### How do I update my information if I’m already signed up?
+
+To update your personal, insurance, or financial information from an earlier application, fill out a 10-10EZR.
+
+[Download the 10-10EZR](https://www.vets.gov/healthcare/forms/vha-10-10ezr-fill.pdf).
 
 <span id="additional-forms"></span>
-### Form for caregivers
+### How do I apply as a caregiver?
 
-[Apply as a caregiver (10-10CG)](/healthcare/forms/vha-10-10CG.pdf).
+To apply for health care as a caregiver, you'll have to fill out VA Form 10-10CG. To download this form, you must follow these steps. 
 
-#### How to download the form
+#### How to download the form </br>
 
-<dl>
-    <dd><strong>Internet Explorer:</strong></dd>
-    <dd>1. Right click on the link to the form (above).</dd>
-    <dd>2. Choose <b>Save Target As...</b></dd>
-    <dd>3. Choose where you want to save the file on your hard drive.</dd>
-    <dd>4. Click <b>Save</b>.</dd>
-</dl>
-
+1. Right click on the link to the form (below).
+2. Choose your browser's download option:
+   - On **Internet Explorer**: Choose **Save Target As...**
+   - On **Firefox or Chrome**: Choose **Save Link As...**
+   - On **Safari**: Choose **Download Linked File As...**
+3. Choose where you want to save the file on your hard drive.
+4. Click **Save**.
 Double click on the downloaded file to open it.
 
-<dl>
-    <dd><strong>Firefox or Chrome:</strong></dd>
-    <dd>1. Right click on the link to the form (above).</dd>
-    <dd>2. Choose <b>Save Link As...</b></dd>
-    <dd>3. Choose where you want to save the file on your hard drive.</dd>
-    <dd>4. Click <b>Save</b>.</dd>
-</dl>
+<div markdown="0"><br></div>
 
-Double click on the downloaded file to open it.
+[Download Form 10-10CG](/healthcare/forms/vha-10-10CG.pdf). 
 
-<dl>
-    <dd><strong>Safari:</strong></dd>
-    <dd>1. Right click on the link to the form (above).</dd>
-    <dd>2. Choose <b>Download Linked File As...</b> </dd>
-    <dd>3. Choose where you want to save the file on your hard drive.</dd>
-    <dd>4. Click <b>Save</b>.</dd>
-</dl>
+<div markdown="0"><br></div>
 
-Double click on the downloaded file to open it.
+### What happens after I apply?
 
+[Find out what happens after you apply](/healthcare/after-you-apply).
+
+You can manage your VA health care online. This means you can refill a prescription, send a secure message to your health care provider, or check the status of a disability or pension claim. 
+
+<a class="usa-button-primary" href="/healthcare/prescriptions/">Manage Your Health and Benefits</a>
+
+#### How long does it take VA to make a decision?
+
+<div class="card information" markdown="0">
+<span class="number">Less than 1 week</span>
+<span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18555747286">855-574-7286</a>.</span>
 </div>
+
+<div markdown="0"><br></div>

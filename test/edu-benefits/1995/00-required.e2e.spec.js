@@ -1,10 +1,12 @@
 const E2eHelpers = require('../../util/e2e-helpers');
 const Timeouts = require('../../util/timeouts.js');
-const EduHelpers = require('../../util/edu-1995-helpers');
+const EduHelpers = require('../../util/edu-helpers');
+const Edu1995Helpers = require('../../util/edu-1995-helpers');
+const testData = require('./schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    EduHelpers.initApplicationSubmitMock();
+    Edu1995Helpers.initApplicationSubmitMock();
 
     // Ensure introduction page renders.
     client
@@ -20,56 +22,56 @@ module.exports = E2eHelpers.createE2eTest(
     // Veteran information page.
     client
       .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
-    EduHelpers.completeVeteranInformation(client, EduHelpers.testData.veteranInformation.data, true);
+    EduHelpers.completeVeteranInformation(client, testData.veteranInformation.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/veteran/information');
 
     // Benefits eligibility
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, EduHelpers.testData.benefitSelection.data);
+    EduHelpers.completeBenefitsSelection(client, testData.benefitSelection.data);
     client.click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-selection');
+    E2eHelpers.expectNavigateAwayFrom(client, '/benefits/elibility');
 
     // Service periods page.
     client
       .waitForElementVisible('label[for="root_view:newService"]', Timeouts.slow);
-    EduHelpers.completeServicePeriods(client, EduHelpers.testData.servicePeriods.data, true);
+    EduHelpers.completeServicePeriods(client, testData.servicePeriods.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/military-history/service-periods');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military/service');
 
     // Military service page.
     client
       .waitForElementVisible('label[for="root_view:hasServiceBefore1978"]', Timeouts.slow);
-    EduHelpers.completeMilitaryService(client, EduHelpers.testData.militaryHistory.data, true);
+    Edu1995Helpers.completeMilitaryService(client, testData.militaryHistory.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/military-history/military-service');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military/history');
 
     // New school
     client
       .waitForElementVisible('label[for="root_educationType"]', Timeouts.slow);
-    EduHelpers.completeNewSchool(client, EduHelpers.testData.newSchool.data, true);
+    Edu1995Helpers.completeNewSchool(client, testData.newSchool.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/school-selection/new-school');
 
     // Old school
     client
       .waitForElementVisible('label[for="root_oldSchool_name"]', Timeouts.slow);
-    EduHelpers.completeOldSchool(client, EduHelpers.testData.oldSchool.data, true);
+    Edu1995Helpers.completeOldSchool(client, testData.oldSchool.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/school-selection/old-school');
 
     // Contact information page.
     client
       .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-    EduHelpers.completeContactInformation(client, EduHelpers.testData.contactInformation.data, true);
+    EduHelpers.completeContactInformation(client, testData.contactInformation.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
     // Direct deposit page
     client
       .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
-    EduHelpers.completeDirectDeposit(client, EduHelpers.testData.directDeposit.data, true);
+    EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 

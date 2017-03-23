@@ -12,9 +12,36 @@ export class KeywordSearch extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.clickedSuggestionValue = this.clickedSuggestionValue.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
+    this.handleSuggestionSelected = this.handleSuggestionSelected.bind(this);
     this.renderSuggestion = this.renderSuggestion.bind(this);
     this.shouldRenderSuggestions = this.shouldRenderSuggestions.bind(this);
+  }
+
+  componentDidMount() {
+    const searchQuery = this.props.location && this.props.location.query;
+    if (searchQuery && searchQuery.name) {
+      this.handleChange(null, { newValue: searchQuery.name, method: 'enter' });
+    }
+  }
+
+  handleKeyUp(e) {
+    const { onFilterChange, autocomplete } = this.props;
+    if ((e.which || e.keyCode) === 13) {
+      e.target.blur();
+      onFilterChange('name', autocomplete.searchTerm);
+    }
+  }
+
+  handleChange(event, data) {
+    this.props.updateAutocompleteSearchTerm(data.newValue);
+  }
+
+  handleSuggestionSelected(event, data) {
+    this.props.onFilterChange('name', data.suggestionValue);
   }
 
   clickedSuggestionValue(suggestion) {
@@ -32,6 +59,8 @@ export class KeywordSearch extends React.Component {
   }
 
   render() {
+    const { suggestions, searchTerm } = this.props.autocomplete;
+
     return (
       <div className="keyword-search">
         <label
@@ -40,15 +69,18 @@ export class KeywordSearch extends React.Component {
           {this.props.label}
         </label>
         <Autosuggest
-            suggestions={this.props.autocomplete.suggestions}
-            onSuggestionsFetchRequested={this.props.onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={this.props.onSuggestionsClearRequested}
             getSuggestionValue={this.clickedSuggestionValue}
+            highlightFirstSuggestion
+            onSuggestionsClearRequested={this.props.onSuggestionsClearRequested}
+            onSuggestionSelected={this.handleSuggestionSelected}
+            onSuggestionsFetchRequested={this.props.onSuggestionsFetchRequested}
             renderSuggestion={this.renderSuggestion}
             shouldRenderSuggestions={this.shouldRenderSuggestions}
+            suggestions={suggestions}
             inputProps={{
-              value: this.props.autocomplete.searchTerm,
-              onChange: this.props.handleChange
+              value: searchTerm,
+              onChange: this.handleChange,
+              onKeyUp: this.handleKeyUp,
             }}/>
       </div>
     );
@@ -58,9 +90,17 @@ export class KeywordSearch extends React.Component {
 
 KeywordSearch.defaultProps = {
   label: 'Enter a city, school or employer name',
+  onFilterChange: () => {},
 };
 
-const mapStateToProps = (state) => state;
+KeywordSearch.propTypes = {
+  onFilterChange: React.PropTypes.func,
+};
+
+const mapStateToProps = (state) => {
+  const { autocomplete } = state;
+  return { autocomplete };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     onSuggestionsFetchRequested: ({ value }) => {
@@ -69,9 +109,9 @@ const mapDispatchToProps = (dispatch) => {
     onSuggestionsClearRequested: () => {
       dispatch(clearAutocompleteSuggestions());
     },
-    handleChange: (event, { newValue }) => {
+    updateAutocompleteSearchTerm: (newValue) => {
       dispatch(updateAutocompleteSearchTerm(newValue));
-    }
+    },
   };
 };
 

@@ -10,16 +10,16 @@ import {
 
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
-import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as dateRange from '../../../common/schemaform/definitions/dateRange';
 import * as address from '../../../common/schemaform/definitions/address';
 
-import * as educationType from '../../definitions/educationType';
+import educationTypeUISchema from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
+import * as veteranId from '../../definitions/veteranId';
 
-import contactInformation from '../../pages/contactInformation';
+import createContactInformationPage from '../../pages/contactInformation';
 
 import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -38,7 +38,7 @@ const {
 const {
   preferredContactMethod,
   school,
-  vaFileNumber
+  educationType
 } = fullSchema1995.definitions;
 
 const formConfig = {
@@ -49,7 +49,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
-    educationType,
     preferredContactMethod,
     serviceBefore1977,
     date: date.schema,
@@ -62,41 +61,19 @@ const formConfig = {
       title: 'Veteran Information',
       pages: {
         veteranInformation: {
-          path: 'veteran-information',
+          path: 'veteran/information',
           title: 'Veteran information',
           initialData: {},
           uiSchema: {
             veteranFullName: fullName.uiSchema,
-            veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
-              'ui:required': (form) => !form['view:noSSN']
-            }),
-            'view:noSSN': {
-              'ui:title': 'I don’t have a Social Security number',
-              'ui:options': {
-                hideOnReview: true
-              }
-            },
-            vaFileNumber: {
-              'ui:required': (form) => !!form['view:noSSN'],
-              'ui:title': 'File number',
-              'ui:errorMessages': {
-                pattern: 'File number must be 8 digits'
-              },
-              'ui:options': {
-                expandUnder: 'view:noSSN'
-              }
-            }
+            'view:veteranId': veteranId.uiSchema
           },
           schema: {
             type: 'object',
             required: ['veteranFullName'],
             properties: {
               veteranFullName: fullName.schema,
-              veteranSocialSecurityNumber: ssn.schema,
-              'view:noSSN': {
-                type: 'boolean'
-              },
-              vaFileNumber
+              'view:veteranId': veteranId.schema
             }
           }
         }
@@ -107,7 +84,7 @@ const formConfig = {
       pages: {
         benefitSelection: {
           title: 'Education benefit',
-          path: 'benefits-eligibility/education-benefit',
+          path: 'benefits/eligibility',
           initialData: {},
           uiSchema: {
             benefit: {
@@ -131,7 +108,7 @@ const formConfig = {
       title: 'Military History',
       pages: {
         servicePeriods: {
-          path: 'military-history/service-periods',
+          path: 'military/service',
           title: 'Service periods',
           initialData: {
           },
@@ -156,7 +133,7 @@ const formConfig = {
         },
         militaryHistory: {
           title: 'Military history',
-          path: 'military-history/military-service',
+          path: 'military/history',
           initialData: {},
           uiSchema: {
             'view:hasServiceBefore1978': {
@@ -191,10 +168,10 @@ const formConfig = {
             newSchoolName: {
               'ui:title': 'Name of school, university, or training facility'
             },
-            educationType: educationType.uiSchema,
+            educationType: educationTypeUISchema,
             newSchoolAddress: _.merge(address.uiSchema(), {
               'ui:options': {
-                hideIf: (form) => !showSchoolAddress(form.educationType)
+                hideIf: (formData) => !showSchoolAddress(formData.educationType)
               }
             }),
             educationObjective: {
@@ -217,7 +194,7 @@ const formConfig = {
               newSchoolName: {
                 type: 'string'
               },
-              educationType: educationType.schema,
+              educationType,
               newSchoolAddress: address.schema(),
               educationObjective,
               nonVaAssistance,
@@ -260,10 +237,10 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation,
+        contactInformation: createContactInformationPage(),
         dependents: {
           title: 'Dependents',
-          path: 'personal-information/depedents',
+          path: 'personal-information/dependents',
           initialData: {},
           depends: {
             militaryHistory: {
@@ -296,13 +273,13 @@ const formConfig = {
             },
             bankAccount: _.assign(bankAccount.uiSchema, {
               'ui:options': {
-                hideIf: (form) => form.bankAccountChange !== 'startUpdate'
+                hideIf: (formData) => formData.bankAccountChange !== 'startUpdate'
               }
             }),
             'view:stopWarning': {
               'ui:description': directDepositWarning,
               'ui:options': {
-                hideIf: (form) => form.bankAccountChange !== 'stop'
+                hideIf: (formData) => formData.bankAccountChange !== 'stop'
               }
             }
           },

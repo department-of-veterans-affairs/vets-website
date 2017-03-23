@@ -189,7 +189,7 @@ hr {
 // Using this selector makes it easier for the content team to write content
 // TODO: Refine this so that any links that do begin with https://vets.gov
 // or https://www.vets.gov are excluded.
-[href^=http] {
+a[href^=http] {
   // Using longhand properties instead of the shorthand to limit
   // risk and impact of side effects
   background-image: url(/img/icons/exit-icon.png);
@@ -216,7 +216,7 @@ hr {
       padding: 0;
     }
   }
-  
+
   .va-notice--banner {
     display: none !important;
 
@@ -260,7 +260,7 @@ hr {
   display: none;
   line-height: 1em;
   margin: 0;
-  
+
   @include media($medium-large-screen) {
     display: inherit;
     flex: 1 1 80%;
@@ -283,6 +283,14 @@ hr {
 // Headings
 h1, h2 {
   font-family: $font-sans;
+}
+h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0 0 .5em 0;
+}
+
+h2 {
+  line-height: 1.2em;
 }
 
 h1:first-child {
@@ -317,6 +325,10 @@ h6 {
   font-weight: bold;
 }
 
+.text-center {
+  text-align: center;
+}
+
 // Banner
 
 #content {
@@ -327,153 +339,107 @@ h6 {
 }
 
 // TODO(css): Make these less specific. 
-#content .popular-container {
+.popular-container {
   background: $color-white;
   text-align: center;
 
-  .column-padded {
-    padding-left: 1em;
-    padding-right: 1em;
-  }
-
-  .flex {
-    display: block;
+  .va-flex {
+    justify-content: center;
+    margin-left: .5rem;
+    margin-right: .5rem;
 
     @include media($medium-large-screen) {
-      display: flex;
+      margin: auto;
     }
+    
+    @include media-maxwidth($small-screen) {
+      display: block;
+    }    
   }
 
-  .mx-auto {
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .gold-ruled {
-    color: $color-primary-darker;
-    padding-bottom: 0.5em;
-    border-bottom: $color-va-accent solid 2px;
-  }
-
-  a {
-    text-decoration: none;
-    color: $color-base;
-
-    &:hover {
-      background: $color-white;
+  .va-h-ruled--a {
+    margin-left: 1.6rem;
+    margin-right: 1.6rem;
+    
+    @include media($medium-large-screen) {
+      max-width: 41%;
+      margin: 2.4rem auto;
     }
   }
 
   .outline-link-block {
-    border: $color-gray-light solid 2px;
-    margin: 0.5em 0;
-    padding: 0.5em 1em;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    justify-content: center;
-    font-size: 1.2em;
-
-    &:hover {
-      border: $color-primary-darker solid 2px;
+    @include media($medium-large-screen) {
+      flex: 0 1 33%;
     }
-  }
-
-  .stars-tagline {
-    &:before{
-      content: '';
-      background: url(/img/stars.png) no-repeat top center;
-      background-size: 100%;
-      display: inline-block;
-      height: 2em;
-      width: 12em;
-      margin-top: 2em;
-    }
-
-    margin-top: 0em;
   }
 }
 
-#content .splash {
-  margin: 0;
+.outline-link-block {
+  border: $color-gray-light solid 2px;
+  color: $color-base;
+  display: block;
+  font-size: 1.2em;
+  text-decoration: none;
+  margin: .8rem;
+  padding: 2rem;
+  
+  &:hover {
+    background: transparent;
+    border: $color-primary-darker solid 2px;
+    text-decoration: inherit;
+  }
+
+  @include media($medium-large-screen) {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.splash--home {
+  align-items: center;
   background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
   background-size: cover;
   display: flex;
-  align-items: center;
+  margin: 0;
+  min-height: 14em;
+  padding: 1em 0;
+  text-align: center;
 
-
-  p {
-    color: $color-white;
-    font-family: $font-sans;
+  @include media($medium-large-screen) {
+    padding: 2em 0;
+    min-height: 42.2rem;
   }
 
-  h2.tagline {
-    max-width: 11em;
-    font-size: 2.5rem;
-    font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
-
-    @include media($medium-large-screen) {
-      max-width: 15em;
-    }
+  @include media($large-screen) {
+    padding-top: 2.5em;
+    padding-bottom: 2.5em;
   }
 
-  span, h2 {
-    padding: 0;
-    display: inline;
-    line-height: 1em;
-    margin: 0;
-    white-space: pre-wrap;
-    color: $color-gray-dark;
-    a {background: $color-white; color: $color-primary-darker;}
+  .pitch {
+    flex: 1 1 100%;
+    text-align: center;
   }
-
-  h2 span {
-    clear: both;
-    padding: 0.5em 0.4em;
-    display: inline-block;
-    line-height: 30px;
-    background: $color-white;
-    font-weight: bold;
-    color: $color-primary-darker;
-
-    @include media($medium-large-screen) {
-      padding: 0.5em .75em;
-      line-height: 1.3em;
-      font-size: 3.5rem;
-    }
-
-    @include media($large-screen) {
-      padding: 0.5em 0.4em;
-    }
-  }
-
-  h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
-  h2 {
-    font-size: 2em;
-    display: inline-block;
-
-    @include media($small-screen) {
-      font-size: 2em;
-    }
-  }
-
-  h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
 }
 
-.home {
-  .splash {
-    padding: 1em 0;
-    min-height: 14em;
+.home-tagline {
+  background: $color-white;
+  color: $color-primary-darker;
+  display: inline-block;
+  font-size: 2.5rem;
+  line-height: 1.3;
+  margin: 0 auto;
+  max-width: 11em;
+  padding: 0.5em 0.4em;
+  white-space: pre-wrap;
 
-    @include media($medium-large-screen) {
-      padding: 2em 0;
-      min-height: 42.2rem;
-    }
+  @include media($medium-large-screen) {
+    font-size: 3.5rem;
+    padding: 0.5em .75em;
+  }
 
-    @include media($large-screen) {
-      padding-top: 2.5em;
-      padding-bottom: 2.5em;
-    }
+  @include media($large-screen) {
+    padding: 0.5em 0.4em;
   }
 }
 
@@ -483,19 +449,6 @@ h6 {
   margin: .5em 0 1em 0 !important;
 }
 
-.pitch {
-  padding: .5em 0;
-  text-align: center;
-
-  h2, h3 {
-    color: $color-primary-darkest;
-    font-weight: 400;
-    padding: .75em;
-    line-height: 1.3em;
-    display: inline-block;
-    margin: 0;
-  }
-}
 
 // TODO(css): Remove .feature-list ul once it's
 // refactored from the Markdown
@@ -524,7 +477,7 @@ h6 {
   p {
     padding-top: 0;
     margin-top: 0;
-    
+
     &:nth-child(1),
     &:first-of-type {
       color: $color-primary-darker;
@@ -553,28 +506,9 @@ h6 {
   max-width: $text-max-width;
 }
 
-// tagline
-#content .tagline-content {
-  p {
-    font-size: 2.15em;
-    border-bottom: 2px solid white;
-    padding: 0 0 1em 0;
-    margin: 0 0 2em 0;
-    color: rgba(255,255,255,.7);
-    line-height: 1.2em;
-  }
-}
-
-// Content Callouts
-
-#content .main .section.one {
-  ul[class*='block-grid-'] {
-    display: block;
-    padding: 0;
-    margin: 0;
-    @media #{$small} {margin: 0 -0.625rem;}
-  }
-}
+//====================
+// Content callout boxes
+// ===================
 
 .call-out {
   background: $color-primary-alt-lightest;
@@ -592,9 +526,7 @@ h6 {
     padding-bottom: inherit;
   }
   h3 {
-    @media #{$small} {
-      font-size: 1.65em;
-    }
+    font-size: 1.65em;
   }
   ul {
     margin: 0 0 .5em 1.5em;
@@ -639,7 +571,10 @@ ul, ol {
   }
 }
 
-// Home page, 404 page
+//====================
+// Home, 404 page, maintenance page
+// ===================
+
 .navigation--major {
   .va-cards--2across {
     display:block;
@@ -662,12 +597,21 @@ ul, ol {
     line-height: 1.2em;
     // TODO: Drop the !important when .home #content h3 and
     // body.fourohfour #content h3 are straightened out.
-    font-size: 1.65em !important;
-    color: $color-primary-darkest !important;
-    margin: 0 0 2.5em 0;
+    font-size: 1.65em;
+    color: $color-primary-darkest;
+    margin: 0 0 1rem 0;
     padding: 0 0 .2em 0;
   }
+
+  &--commpop {
+    padding-bottom: 6.4rem;
+  }
 }
+
+.maintenance-page {
+  padding-top: 3.2rem;
+}
+
 
 
 // Content lead paragraphs
@@ -680,71 +624,6 @@ ul, ol {
     color: $color-gray-dark;
     font-size: 1em;
     padding-bottom: 0;
-  }
-}
-
-#content .main.interior {
-  background: $color-white;
-  a {text-decoration: underline;}
-}
-
-// Home page specific
-
-.home #content {
-  h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
-
-  .post-date {
-    font-size: .5em; color: $color-gold;
-  }
-
-  h3 {
-    line-height: 1.2em;
-    font-size: 1.65em;
-    color: $color-primary;
-    margin: 0 0 2.5em 0;
-    padding: 0 0 .2em 0;
-  }
-
-  h4 a {
-    text-decoration: none;
-    &:hover {
-      border-bottom: 1px solid $color-white;
-      color: $color-gold;
-    }
-  }
-
-  .section {
-    padding: 4em 0 2em 0;
-    text-align: left;
-  }
-
-  .section.main-menu {
-    padding: 0em .5em 4em .5em;
-    overflow: hidden;
-  }
-
-  .home #content .section h3.alternate {
-    margin: 0 0 2em 0 !important; padding: 0;
-  }
-
-  .section.one {
-    padding: 0 0 1.5em 0;
-      @media #{$small} {padding: 2em 0 4em 0;}
-  }
-
-  .section.two {
-    padding: 2em 0;
-    a, h3 {color: $color-white;}
-    h3 {border-bottom: none;}
-    background: rgba(0,0,0,.1);
-  }
-
-  .section.three {
-    background: $color-white;
-    padding: 5em 0;
-    h2, h3, h4, h5, h6, p, li {color: $color-va-gray-cool-dark;}
-    h4 {margin: 0; padding: 0;}
-    a {color: $color-primary-darkest;}
   }
 }
 
@@ -765,11 +644,6 @@ ul, ol {
   }
 }
 
-#content .section {
-  h2, h3, h4, h5, h6 {margin: 0; padding: 0 0 .5em 0;}
-  h2 {line-height: 1.2em;}
-}
-
 #content .section .feature {min-height: 11em;}
 
 #content .panel {
@@ -779,22 +653,7 @@ ul, ol {
   clear: both;
 }
 
-// Sections
 
-.section {
-  background: $color-white;
-
-  &.one {
-    padding: 0;
-  }
-
-  &.two {
-    padding: 0 0 4em 0;
-    h3 {color: darken($color-green, 10);}
-    clear: both;
-  }
-  &.three {clear: both; padding: 2em 0;}
-}
 
 
 // Action
@@ -870,10 +729,7 @@ ul, ol {
     display: inline-block;
     line-height: 1.15em;
     vertical-align: middle;
-
-    @media #{$small} {
-      font-size: 1.35em;
-    }
+    font-size: 1.35em;
 
     &:hover  {
       border-bottom: none;
@@ -923,9 +779,6 @@ ul, ol {
   }
 }
 
-
-
-
 .va-breadcrumbs-heading {
   font-size: 1em !important;
 }
@@ -953,12 +806,7 @@ li {
 
 //===== Navigation
 .navigation {
- padding: 1em  0;
-
-  @media #{$small} {
-    padding: 1em 0 3em 0;
-  }
-
+  padding: 1em 0 3em 0;
   background: $color-gray-lightest;
   color: $color-primary-darkest;
   border-bottom: 2px solid $color-white;
@@ -985,11 +833,8 @@ li {
 
 // Cards
 
-[class*='block-grid-']>li {
-  padding: 0;
-  @media #{$small} {
-    padding: 0 0.625rem 1.25rem 0.625rem;
-  }
+[class*='block-grid-'] > li {
+  padding: 0 0.625rem 1.25rem 0.625rem;
 }
 
 // Telephone numbers
@@ -1012,10 +857,6 @@ li {
   }
 
   div {
-    @media #{$small} {
-      min-height: 12em;
-    }
-
     background: $color-gray-lightest;
     background: rgba(0,0,0,.05);
     margin: 0 0 .5em 0;
@@ -1043,14 +884,14 @@ li {
   position: relative;
   overflow: hidden;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     flex-wrap: nowrap;
   }
 
   .va-flex {
     flex-wrap: wrap;
 
-    @media (min-width: $medium-screen) {
+    @include media($medium-large-screen) {
       flex-wrap: nowrap;
     }
   }
@@ -1069,7 +910,7 @@ li {
   overflow: hidden;
   margin-bottom: 3rem;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     flex-wrap: nowrap;
     margin-bottom: 0;
   }
@@ -1094,7 +935,7 @@ li {
   margin: 2em 0 0 0;
   flex: 0 1 100%;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     flex: 0 1 25%;
     margin: 2em 0 1.5em 0;
   }
@@ -1102,18 +943,16 @@ li {
   dd {
     padding: .25em 0;
   }
-  
+
   a {
     display: inline-block;
   }
 }
 
-[id=footer-contact] { 
-  @media (max-width: $medium-screen) {
-    order: -1;
-  }
+[id=footer-contact] {
+  order: -1;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     flex: 2 0 50%;
   }
 }
@@ -1143,7 +982,7 @@ li {
 
     a {
       background: none;
-      padding: 0; 
+      padding: 0;
     }
   }
 }
@@ -1154,13 +993,13 @@ li {
   flex-wrap: wrap;
   margin-top: 10rem;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-large-screen) {
     flex-wrap: nowrap;
   }
 
   > div {
       &:first-child {
-        @media (min-width: $medium-screen) {
+        @include media($medium-large-screen) {
           flex: 0 1 60%;
         }
       }
@@ -1168,7 +1007,7 @@ li {
       &:last-child {
         order: -1;
 
-        @media (min-width: $medium-screen) {
+        @include media($medium-large-screen) {
           order: 1;
           flex: 1 1 40%;
         }
@@ -1268,10 +1107,11 @@ li {
  // Feedback widget
 
 .feedback-widget {
+  text-align: center;
   overflow: hidden;
 
-  @media #{$small-only} {
-    text-align: center;
+  @include media($medium-large-screen) {
+    text-align: left;
   }
 
   // Works with <= IE8
@@ -1389,14 +1229,14 @@ li {
   }
 
   .number {
-    font-size: 3.25em;
+    font-size: 2em;
     font-weight: 700;
     float: left;
     margin: 0;
-    color: #003E73;
-    line-height: .65em;
-    display: inline-block;
-    padding: 0 .125em 0 0;
+    color: color-primary-darker;
+    line-height: 1em;
+    padding: 0 0 .5em;
+    border-bottom: 1px solid $color-gray-light;
   }
 
   .heading, .description {
@@ -1410,17 +1250,17 @@ li {
   }
 
   .description {
-    font-size: 1.25em;
+    font-size: 1em;
     font-weight: 400;
-    padding: .2em 0;
+    padding: .3em 0 0;
     text-align: left;
-    display: inline-block;
     width: 100%;
-    text-transform:uppercase;
+    float: left;
   }
 
   &.information {
     background: rgba(0,0,0,.05);
+    padding: 1em;
   }
 
   &.info-graphic {
@@ -1627,6 +1467,21 @@ li.twenty:before {content: '20';}
   font-weight: 700;
 }
 
+// Ruled headings with VA Accent color. (Currently gold metal)
+.va-h-ruled--a {
+  color: $color-primary-darker;
+  padding-bottom: 0.5em;
+  border-bottom: $color-va-accent solid 2px;
+}
+
+.va-h-ruled--stars {
+  background: url(/img/stars.png) no-repeat top center;
+  background-size: 20rem auto;
+  margin: 2.4rem auto auto;
+  padding: 4.8rem 1.6rem 0;
+  text-align: center;
+}
+
 // Action bars
 [class^='va-action-bar'] {
   background: $color-gray-lightest;
@@ -1692,7 +1547,7 @@ li.twenty:before {content: '20';}
   p {
     font-size: 1.28rem;
   }
-  
+
   a {
     background-image: none;
     color: inherit;
@@ -1706,7 +1561,7 @@ li.twenty:before {content: '20';}
 
 // Formerly .disclaimer.minimal
 .va-note {
-  color: $color-va-gray-cool-dark;
+  color: $color-gray-light;
   font-size: 1.28rem;
   padding: .25em 0;
 }
@@ -1806,11 +1661,6 @@ li.twenty:before {content: '20';}
   .overlay form {
     height: 70%;
   }
-}
-
-
-@include media-maxwidth($medium-large-screen) {
-
 }
 
 // List overrides

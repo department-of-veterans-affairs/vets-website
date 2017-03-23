@@ -9,6 +9,17 @@
   }
 }
 
+.tagline-content {
+  p {
+    font-size: 2.15em;
+    border-bottom: 2px solid white;
+    padding: 0 0 1em 0;
+    margin: 0 0 2em 0;
+    color: rgba(255,255,255,.7);
+    line-height: 1.2em;
+  }
+}
+
 // Blog / Playbook
 .page-playbook {
   background-color: $color-white;
@@ -35,11 +46,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   margin-bottom: 1em;
-
-  @media #{$small} {
-    // TODO: Remove !important when #content .splash is refactored
-    padding: 6.1em 0 !important;
-  }
+  padding: 6.1em 0 !important;
 }
 
 #playbook .splash {
@@ -62,7 +69,7 @@
   background: none !important;
   color: $color-primary-darkest !important;
 
-  @media #{$medium} {
+  @include media($medium-large-screen) {
     position: absolute !important;
     margin: 1.35em 0 0 0 !important;
     z-index: 100 !important;
@@ -84,7 +91,7 @@
     }
   }
 
-  @media #{$medium} {
+  @include media($medium-large-screen) {
     position: absolute;
     margin: 1.35em 0 0 0;
     z-index: 100;
@@ -110,7 +117,7 @@
   .medium-3 {
     padding-top: 1.5em;
 
-    @media #{$small-only} {
+    @include media-maxwidth($small-screen) {
       padding-left: 1.5em;
       h4 {
         font-size: 1.4em;
@@ -149,17 +156,17 @@
     background: rgba(0,0,0,0.05);
     padding: .2em .6em;
     border-radius: 3px;
-    margin-left: 1.25em;
+    margin-left: 0;
     text-transform: uppercase;
     font-size: .85em;
     vertical-align: 15%;
     letter-spacing: .05em;
-    @media #{$small-only} {
-      margin-left: 0;
-      margin-bottom: 1em;
+
+    @include media($medium-large-screen) {
+      margin-left: 1.25em;
     }
-    @media #{$medium-only} {
-      margin-left: 0;
+
+    @include media-maxwidth($medium-large-screen) {
       margin-bottom: 1em;
     }
   }
@@ -220,7 +227,8 @@
   border-bottom:4px solid $color-white;
   div:nth-child(1) {
     border-right:8px solid $color-white;
-    @media #{$small-only} {
+
+    @include media-maxwidth($small-screen) {
       border-right: 0;
     }
   }
@@ -231,7 +239,7 @@
     background-size: 165px 165px;
     padding: 0;
     height: 209px;
-    @media #{$medium-only} {
+    @include media-maxwidth($medium-large-screen) {
       background-position: 0 center;
     }
   }
@@ -259,7 +267,7 @@
   background:$wild-sand;
   li {
     &.step.four {
-      @media #{$small-only} {
+      @include media-maxwidth($small-screen) {
         padding-top: 0;
         margin-top: 1em!important;
       }
@@ -274,7 +282,7 @@
   background:$green-white;
     li {
     &.step.six {
-      @media #{$small-only} {
+      @include media-maxwidth($small-screen) {
         padding-top: 0;
         margin-top: 1em!important;
       }

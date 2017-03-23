@@ -1,8 +1,6 @@
 import _ from 'lodash/fp';
 import { Validator } from 'jsonschema';
 
-import { retrieveSchema } from 'react-jsonschema-form/lib/utils';
-
 import {
   isValidSSN,
   isValidPartialDate,
@@ -99,9 +97,8 @@ export function transformErrors(errors, uiSchema) {
  * should call addError to add the error.
  */
 
-export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData, formContext, path = '') {
+export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext, path = '') {
   if (uiSchema && schema) {
-    const schemaWithDefinitions = retrieveSchema(schema, definitions);
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
       currentData.forEach((item, index) => {
@@ -115,7 +112,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, schemaWithDefinitions.items, definitions, formData, formContext, newPath);
+        uiSchemaValidate(errors, uiSchema.items, schema.items, formData, formContext, newPath);
       });
     } else if (!uiSchema.items) {
       Object.keys(uiSchema)
@@ -134,7 +131,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData
               }
             };
           }
-          uiSchemaValidate(errors, uiSchema[item], schemaWithDefinitions.properties[item], definitions, formData, formContext, nextPath);
+          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, formContext, nextPath);
         });
     }
 
@@ -143,9 +140,9 @@ export function uiSchemaValidate(errors, uiSchema, schema, definitions, formData
       validations.forEach(validation => {
         const pathErrors = path ? _.get(path, errors) : errors;
         if (typeof validation === 'function') {
-          validation(pathErrors, currentData, formData, schemaWithDefinitions, uiSchema['ui:errorMessages']);
+          validation(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages']);
         } else {
-          validation.validator(pathErrors, currentData, formData, schemaWithDefinitions, uiSchema['ui:errorMessages'], validation.options);
+          validation.validator(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], validation.options);
         }
       });
     }
@@ -179,7 +176,7 @@ export function isValidForm(form, pageListByChapters) {
 
     if (result.valid) {
       const errors = {};
-      uiSchemaValidate(errors, uiSchema, schema, schema.definitions, data, {});
+      uiSchemaValidate(errors, uiSchema, schema, data, {});
 
       return errorSchemaIsValid(errors);
     }
@@ -202,11 +199,16 @@ export function validateDate(errors, dateString) {
   }
 }
 
-export function validateCurrentOrPastDate(errors, dateString) {
+/**
+ * Adds an error message to errors if a date is an invalid date or in the future.
+ *
+ * The message it adds can be customized in uiSchema.errorMessages.futureDate
+ */
+export function validateCurrentOrPastDate(errors, dateString, formData, formContext, errorMessages) {
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
-    errors.addError('Please provide a valid current or past date');
+    errors.addError(errorMessages.futureDate || 'Please provide a valid current or past date');
   }
 }
 
@@ -265,6 +267,6 @@ export function validateDateRange(errors, dateRange, formData, formContext, erro
   const toDate = convertToDateField(dateRange.to);
 
   if (!isValidDateRange(fromDate, toDate)) {
-    errors.to.addError(errorMessages.dateRange || 'To date must be before from date');
+    errors.to.addError(errorMessages.pattern || 'To date must be after from date');
   }
 }

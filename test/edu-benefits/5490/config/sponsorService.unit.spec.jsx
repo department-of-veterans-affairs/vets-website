@@ -10,7 +10,7 @@ import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
 
 describe('Edu 5490 sponsorService', () => {
-  const { schema, uiSchema } = formConfig.chapters.militaryService.pages.sponsorService;
+  const { schema, uiSchema } = formConfig.chapters.sponsorInformation.pages.sponsorService;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

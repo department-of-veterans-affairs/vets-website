@@ -8,13 +8,14 @@ template: 4-action-page-pending
 
 Thank you for your interest in hiring Veterans, transitioning Servicemembers, and their families through the Veterans Employment Center (VEC). Maximize your exposure by posting jobs directly from your website to the Veterans Job Bank through the [National Labor Exchange (NLX)](https://us.jobs/postajobpartner.asp?partner=ebenefits).
 
-Who can post a job?
-: Anyone
+<dl markdown="1" class="va-callout">
+<dt>Who can post a job?</dt>
+<dd><p>Anyone</p></dd>
 
-Who is eligible
-: All employers
-: **A note about registration:** You do not have to be registered with the NLX to post a job in the VEC, but it may streamline the process.
-{:.va-callout}
+<dt>Who is eligible</dt>
+<dd><p>All employers</p></dd>
+<dd><p><b>A note about registration:</b> You do not have to be registered with the NLX to post a job in the VEC, but it may streamline the process.</p></dd>
+</dl>
 
 ### How it works
 
@@ -113,4 +114,4 @@ This example contains two job listings. The first uses a smaller set of schema.o
     "datePosted": "1/2/15",
     "url": "www.abccompanyinc.com/jobs?listing=23456"
     }]
-{:.language-json}
+

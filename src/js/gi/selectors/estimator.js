@@ -16,7 +16,6 @@ const getRequiredAttributes = (_state, props) => {
 function getDerivedAttributes(constant, eligibility, institution) {
   const your = eligibility;
   const its = institution;
-  let onlyTuitionFees;
   let monthlyRate;
 
   const serviceDischarge = (your.cumulativeService === 'service discharge');
@@ -45,11 +44,7 @@ function getDerivedAttributes(constant, eligibility, institution) {
   const correspondenceOrFlightUnderOldGiBill = (
     (its.type === 'correspondence' || its.type === 'flight') && oldGiBill === true
   );
-  if (activeDutyThirtyOr1607 || correspondenceOrFlightUnderOldGiBill) {
-    onlyTuitionFees = true;
-  } else {
-    onlyTuitionFees = false;
-  }
+  const onlyTuitionFees = activeDutyThirtyOr1607 || correspondenceOrFlightUnderOldGiBill;
 
   // The monthly benefit rate for non-chapter 33 benefits
   const isOJT = its.type === 'ojt';
@@ -189,6 +184,8 @@ function calculateBooks(constant, eligibility, institution, derived) {
 export const estimatedBenefits = createSelector(
   [getConstants, getEligibilityDetails, getRequiredAttributes],
   (constant, eligibility, attribute) => {
+    if (constant === undefined) return {};
+
     const derived = getDerivedAttributes(constant, eligibility, attribute);
     const tuition = calculateTuition(constant, eligibility, attribute, derived);
     const housing = calculateHousing(constant, eligibility, attribute, derived);

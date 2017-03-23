@@ -30,17 +30,20 @@ const path = require('path');
 const sourceDir = '../content/pages';
 const minimumNpmVersion = '3.8.9';
 const minimumNodeVersion = '4.4.7';
-// Make sure git pre-commit hooks are installed
-['pre-commit'].forEach(hook => {
-  const src = `../hooks/${hook}`;
-  const dest = `../.git/hooks/${hook}`;
-  if (fs.existsSync(src)) {
-    if (!fs.existsSync(dest)) {
-      // Install hooks
-      fs.linkSync(src, dest);
+
+if (!(process.env.INSTALL_HOOKS === 'no')) {
+  // Make sure git pre-commit hooks are installed
+  ['pre-commit'].forEach(hook => {
+    const src = path.join(__dirname, `../hooks/${hook}`);
+    const dest = path.join(__dirname, `../.git/hooks/${hook}`);
+    if (fs.existsSync(src)) {
+      if (!fs.existsSync(dest)) {
+        // Install hooks
+        fs.linkSync(src, dest);
+      }
     }
-  }
-});
+  });
+}
 
 if (semver.compare(process.env.npm_package_engines_npm, minimumNpmVersion) === -1) {
   process.stdout.write(
@@ -111,6 +114,9 @@ liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
 //
 smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
+
+// This lets us access the {{buildtype}} variable within liquid templates.
+smith.metadata({ buildtype: options.buildtype });
 
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
@@ -388,7 +394,9 @@ if (options.buildtype !== 'development') {
 }
 
 smith.use(redirect({
-  '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/'
+  '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/',
+  '/disability-benefits/apply-for-benefits/': '/disability-benefits/apply/',
+  '/education/apply-for-education-benefits/': '/education/apply/'
 }));
 
 /* eslint-disable no-console */

@@ -6,7 +6,6 @@ import { scrollToFirstError } from '../utils/helpers';
 import { setItemTouched } from './helpers';
 
 import {
-  retrieveSchema,
   toIdSchema,
   getDefaultFormState,
   deepEquals
@@ -36,9 +35,21 @@ export default class ArrayField extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.onItemBlur = this.onItemBlur.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
+  }
+
+  // This fills in an empty item in the array if it has minItems set
+  // so that schema validation runs against the fields in the first item
+  // in the array. This shouldn't be necessary, but there's a fix in rjsf
+  // that has not been released yet
+  componentDidMount() {
+    const { schema, formData = [], registry } = this.props;
+    if (schema.minItems > 0 && formData.length === 0) {
+      this.props.onChange(Array(schema.minItems).fill(
+        getDefaultFormState(schema.items, undefined, registry.definitions)
+      ));
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -48,10 +59,6 @@ export default class ArrayField extends React.Component {
   onItemChange(indexToChange, value) {
     const newItems = _.set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
-  }
-
-  onItemBlur(index, path = []) {
-    this.props.onBlur([index].concat(path));
   }
 
   scrollToTop() {
@@ -155,40 +162,50 @@ export default class ArrayField extends React.Component {
       readonly,
       registry,
       formContext,
+      onBlur,
       schema
     } = this.props;
     const definitions = registry.definitions;
-    const itemsSchema = retrieveSchema(schema.items, definitions);
     const { TitleField, SchemaField } = registry.fields;
     const ViewField = uiSchema['ui:options'].viewField;
 
     const title = uiSchema['ui:title'] || schema.title;
     const hideTitle = !!_.get(['ui:options', 'hideTitle'], uiSchema);
-    const hasTextDescription = typeof uiSchema['ui:description'] === 'string';
-    const DescriptionField = !hasTextDescription && typeof uiSchema['ui:description'] === 'function'
+    const description = uiSchema['ui:description'];
+    const textDescription = typeof description === 'string' ? description : null;
+    const DescriptionField = typeof description === 'function'
       ? uiSchema['ui:description']
       : null;
+    const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 
     // if we have form data, use that, otherwise use an array with a single default object
     const items = (formData && formData.length)
       ? formData
       : [getDefaultFormState(schema, undefined, registry.definitions)];
 
+    let containerClassNames = classNames({
+      'schemaform-field-container': true,
+      'schemaform-block': hasTitleOrDescription
+    });
+
     return (
-      <div>
-        {title && !hideTitle &&
-          <TitleField
-              id={`${idSchema.$id}__title`}
-              title={title}
-              formContext={formContext}/>}
-        {hasTextDescription && <p>{uiSchema['ui:description']}</p>}
-        {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
+      <div className={containerClassNames}>
+        {hasTitleOrDescription && <div className="schemaform-block-header">
+          {title && !hideTitle
+              ? <TitleField
+                  id={`${idSchema.$id}__title`}
+                  title={title}
+                  formContext={formContext}/> : null}
+          {textDescription && <p>{textDescription}</p>}
+          {DescriptionField && <DescriptionField options={uiSchema['ui:options']}/>}
+          {!textDescription && !DescriptionField && description}
+        </div>}
         <div className="va-growable">
           <Element name={`topOfTable_${idSchema.$id}`}/>
           {items.map((item, index) => {
             // This is largely copied from the default ArrayField
             const itemIdPrefix = `${idSchema.$id}_${index}`;
-            const itemIdSchema = toIdSchema(itemsSchema, itemIdPrefix, definitions);
+            const itemIdSchema = toIdSchema(schema.items, itemIdPrefix, definitions);
             const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || items.length > 1;
@@ -204,13 +221,13 @@ export default class ArrayField extends React.Component {
                           : null}
                       <div className="input-section">
                         <SchemaField key={index}
-                            schema={itemsSchema}
+                            schema={schema.items}
                             uiSchema={uiSchema.items}
                             errorSchema={errorSchema ? errorSchema[index] : undefined}
                             idSchema={itemIdSchema}
                             formData={item}
                             onChange={(value) => this.onItemChange(index, value)}
-                            onBlur={(path) => this.onItemBlur(index, path)}
+                            onBlur={onBlur}
                             registry={this.props.registry}
                             required={false}
                             disabled={disabled}
@@ -222,7 +239,7 @@ export default class ArrayField extends React.Component {
                             {!isLast && <button className="float-left" onClick={() => this.handleUpdate(index)}>Update</button>}
                           </div>
                           <div className="small-6 right columns">
-                            <button className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>
+                            <button className="usa-button-outline float-right" type="button" onClick={() => this.handleRemove(index)}>Remove</button>
                           </div>
                         </div>}
                     </div>
@@ -285,4 +302,3 @@ ArrayField.propTypes = {
     formContext: React.PropTypes.object.isRequired,
   })
 };
-

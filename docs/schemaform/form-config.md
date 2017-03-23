@@ -66,9 +66,23 @@ Forms are created by creating a page that uses FormApp from the schemaform folde
           // Objects that start with view: will not be sent, but their children will be merged
           // into the parent object and will be sent
           // These can be used to remove fields from what is sent to the server, like if we have
-          // a question that is only used to reveal other questions
+          // a question that is only used to reveal other questions or group related questions
+          // together to be conditionally revealed that aren't in an object in the schema
           'view:field2': {
             type: 'string'
+          },
+          'view:artificialGroup'{
+            type: 'object',
+            properties: {
+              // view:artificialGroup will be flattened; subField1 and subField2 will be
+              // siblings of field1 when sent to the api
+              subField1: {
+                type: 'string'
+              },
+              subField2: {
+                type: 'boolean'
+              }
+            }
           }
         }
       },
@@ -148,9 +162,10 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
   'ui:reviewWidget': WidgetComponent,
 
   // Use this to provide a function to make a field conditionally required.   
-  // The current page data is the only parameter. You should avoid having
-  // a field required in the JSON schema and using `ui:required` on the same field.
-  'ui:required': function (pageData) {
+  // The data in the whole form (with no page breaks) is the only parameter.
+  // You should avoid having a field required in the JSON schema and using `ui:required`
+  // on the same field.
+  'ui:required': function (formData) {
     return true || false;
   },
   
@@ -182,6 +197,13 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
     labels: {
       chapter30: 'A readable description (Chapter 30)'
     },
+
+    // This is a map of values to a component, some text, or some jsx. If your field
+    // is a radio widget, the content here will be shown underneath the radio button
+    // for that value when it is selected.
+    nestedContent: {
+      'value': <p>Some text</p>
+    },
     
     // This is a string of class names that will be added to the widget for the current
     // field. Similar to the default `classNames` property, but will put the class names
@@ -196,6 +218,11 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
     // to the property name. It will wrap the fields in an ExpandingGroup component with
     // the expandUnder field as the first question.
     expandUnder: '', 
+
+    // If you're using the expandUnder option, you can set this option on the field specified
+    // by expandUnder and it will add classes to the div that wraps all of the fields when
+    // they are expanded. See cookbook for an example use case.
+    expandUnderClassNames: '',
     
     // Set this if you want to hide this field on the review page.
     hideOnReview: true || false,
@@ -204,7 +231,7 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
     hideOnReviewIfFalse: true || false 
 
     // Function that conditionally hides fields in the form
-    hideIf: function (fieldData) {
+    hideIf: function (formData) {
       return true || false;
     }
 
@@ -352,3 +379,93 @@ You can use 'ui:description' to show text or a custom component before the field
   }
 }
 ```
+### I want to conditionally hide a group of fields
+
+We may have some fields that are siblings to others, but need to be hidden conditionally. Take the following schema snippet (from the education benefits form 22-5490):
+
+```json
+"previousBenefits": {
+  "type": "object",
+  "properties": {
+    "disability": { "type": "boolean" },
+    "dic": { "type": "boolean" },
+    "chapter31": { "type": "boolean" },
+    "ownServiceBenefits": { "type": "string" },
+    "chapter35": { "type": "boolean" },
+    "chapter33": { "type": "boolean" },
+    "transferOfEntitlement": { "type": "boolean" },
+    "other": { "type": "string" },
+    "veteranFullName": { "$ref": "#/definitions/fullName" },
+    "veteranSocialSecurityNumber": { "$ref": "#/definitions/ssn" }
+  }
+}
+```
+
+Only `chapter35`, `chapter33`, `transferOfEntitlement`, `veteranFullName`, and `veteranSocialSecurityNumber` need to be hidden conditionally, so we can make the `schema` and `uiSchema` like so:
+
+```js
+// schema
+{
+  disability: { ... },
+  dic: { ... },
+  chapter31: { ... },
+  ownServiceBenefits: { ... },
+  'view:sponsorServiceOptions': {
+    chapter35: { ... },
+    chapter33: { ... },
+    transferOfEntitlement: { ... },
+    veteranFullName: { ... },
+    veteranSocialSecurityNumber: { ... }
+  },
+  other: { ... }
+}
+
+// uiSchema
+{
+  disability: { ... },
+  dic: { ... },
+  chapter31: { ... },
+  ownServiceBenefits: { ... },
+  'view:sponsorServiceOptions': {
+    hideIf: (formData) => /* Some condition here */,
+    chapter35: { ... },
+    chapter33: { ... },
+    transferOfEntitlement: { ... },
+    veteranFullName: { ... },
+    veteranSocialSecurityNumber: { ... }
+  },
+  other: { ... }
+}
+```
+
+When this form is sent to the backend, the fields in the `view:sponsorServiceOptions` object will be moved up one level and sent alongside `dic` and `chapter31`. The back end will never see objects with names that start with `view:`, but it will get all the fields inside of them.
+
+## I want to indent or style the fields that are using expandUnder
+
+If you need to indent all the fields that are being expanded/collapsed with the expandUnder option, or do some other styling, you can set a class on the controlling field.
+
+```js
+// uiSchema
+{
+  field1: {
+    'ui:title': 'This field expands/collapses other items',
+    'ui:options': {
+      expandUnderClassNames: 'schemaform-expandUnder-indent'
+    }
+  },
+  field2: {
+    'ui:title': 'This field is controlled by field1'
+    'ui:options': {
+      expandUnder: 'field1'
+    }
+  },
+  field3: {
+    'ui:title': 'This field is controlled by field1'
+    'ui:options': {
+      expandUnder: 'field1'
+    }
+  }
+}
+```
+
+Now, `schemaform-expandUnder-indent` will be applied to the div that surrounds `field2` and `field3`. This class currently indents the fields, so if that's what you need, you're all set. If you need to do other styling, you can create a new class to use here and add your own styles. 

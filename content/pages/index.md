@@ -17,57 +17,29 @@ majorlinks:
     title: Careers and Employment
     description: Get help building your career skills and finding a job.
 ---
-<div class="splash">
-  <div class="row">
-    <div class="small-12 columns">
-      <div class="pitch">
-        <h2 class="tagline"><span>Get the VA services that you’ve earned.</span></h2>
-      </div>
-    </div>
-  </div>
+<div class="splash--home"> 
+  <h2 class="home-tagline">Get the VA services that you’ve earned.</h2>
 </div>
 
-<div class="popular-container">
-<div class="row">
-  <div class="small-12 medium-5 mx-auto text-center column-padded">
-  <h2 class="gold-ruled">Popular on Vets.gov</h2>
-  </div>
-</div>
-<div class="row flex">
-  <div class="medium-4 columns">
-    <a href="/healthcare/apply/">
-      <div class="outline-link-block">
-        Apply for health care
-      </div>
-    </a>
-  </div>
-  <div class="medium-4 columns">
-    <a href="/facilities/">
-      <div class="outline-link-block">
-        Find nearby VA locations
-      </div>
-    </a>
-  </div>
-  <div class="medium-4 columns">
-    <a href="/track-claims/">
-      <div class="outline-link-block">
-        Check your claim status
-      </div>
-    </a>
-  </div>
-</div>
+<div class="popular-container row">
+  <h2 class="va-h-ruled--a">Popular on Vets.gov</h2>
+  <div class="row va-flex">   
+  <a href="/healthcare/apply/" class="outline-link-block">
+    Apply for health care
+  </a>
 
-<div class="row text-center">
-<div class="column-padded text-center mx-auto medium-8 stars-tagline">
-  <h2>Explore Services and Benefits</h2>
-</div>
-</div>
-</div>
+  <a href="/facilities/" class="outline-link-block">
+    Find nearby VA locations
+  </a>
 
+  <a href="/track-claims/" class="outline-link-block">
+    Check your claim status
+  </a>
+</div>
 
 
 <div class="main" role="main">
-  <div class="section">
-    {% include "content/includes/main-navigation.html" %}
-  </div>
+  <h2 class="va-h-ruled--stars">Explore Services and Benefits</h2>
+
+  {% include "content/includes/main-navigation.html" %}
 </div>

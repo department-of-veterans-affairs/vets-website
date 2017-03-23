@@ -1,5 +1,3 @@
-import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
-
 const educationTypeLabels = {
   college: 'College, university, or other educational program, including online courses',
   correspondence: 'Correspondence',
@@ -8,14 +6,15 @@ const educationTypeLabels = {
   testReimbursement: 'National test reimbursement (for example, SAT or CLEP)',
   licensingReimbursement: 'Licensing or certification test reimbursement (for example, MCSE, CCNA, EMT, or NCLEX)',
   tuitionTopUp: 'Tuition assistance top up (Post 9/11 GI Bill and MGIB-AD only)',
-  cooperativeTraining: 'Cooperative training'
+  cooperativeTraining: 'Cooperative training',
+  farmCoop: 'Farm cooperative'
 };
 
-export const schema = fullSchema1995.definitions.educationType;
-
-export const uiSchema = {
+const uiSchema = {
   'ui:title': 'Type of education or training',
   'ui:options': {
     labels: educationTypeLabels
   }
 };
+
+export default uiSchema;

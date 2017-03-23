@@ -3,6 +3,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import { dateToMoment } from '../../common/utils/helpers';
+import { states } from '../../common/utils/options-for-select';
 
 export const chapterNames = {
   veteranInformation: 'Veteran Information',
@@ -38,6 +39,12 @@ export const relationshipLabels = {
 export const genderLabels = {
   F: 'Female',
   M: 'Male'
+};
+
+export const hoursTypeLabels = {
+  semester: 'Semester',
+  quarter: 'Quarter',
+  clock: 'Clock'
 };
 
 export function getLabel(options, value) {
@@ -151,3 +158,13 @@ export function showYesNo(field) {
 export function enumToNames(enumValues, names) {
   return enumValues.map(item => names[item]);
 }
+
+export const stateLabels = states.USA.reduce((current, { label, value }) => {
+  return _.merge(current, { [value]: label });
+}, {});
+
+export const civilianBenefitsLabel = (
+  <span>
+    Are you getting benefits from the U.S. Government as a <strong>civilian employee</strong> during the same time as you are seeking benefits from VA?
+  </span>
+);

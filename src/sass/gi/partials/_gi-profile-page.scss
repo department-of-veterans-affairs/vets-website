@@ -14,6 +14,38 @@
     }
   }
 
+  .calculate-your-benefits.row {
+    h3 {
+      font-size: 1.35em;
+    }
+
+    div.eligibility-details h2 {
+      display: none;
+      visibility: hidden;
+    }
+
+    button {
+      color: $color-primary;
+      margin: 0.5em;
+    }
+
+    @media screen and (min-width: $small-screen) {
+      .calculator-inputs .form-expanding-group-open {
+        border-left: none;
+      }
+    }
+
+    .calculator-result {
+      .value {
+        text-align: right;
+      }
+
+      &.bold {
+        font-weight: bold;
+      }
+    }
+  }
+
   .programs.row {
     h3 {
       font-size: 1.35em;
@@ -23,6 +55,25 @@
     }
     .fa-remove {
       color: $color-gray-medium;
+    }
+  }
+
+  .your-estimated-benefits {
+    background: $color-gray-lightest;
+    padding: 1.5rem;
+
+    hr {
+      border: 1px solid $color-primary-darkest;
+    }
+  }
+
+  .out-of-pocket-tuition {
+    margin-bottom: 1rem;
+  }
+
+  .per-term-section {
+    & + .per-term-section {
+      margin-top: 1.5rem;
     }
   }
 
@@ -77,12 +128,13 @@
       margin-bottom: 1em;
     }
 
-    @media screen and (min-width: 600px) {
+    @media screen and (min-width: $small-screen) {
       .list {
         display: none;
         visibility: hidden;
       }
     }
+
     @include media-maxwidth($medium-large-screen) {
       .table {
         display: none;
@@ -103,7 +155,7 @@
       }
     }
 
-    @media screen and (min-width: 600px) {
+    @media screen and (min-width: $small-screen) {
       .historical-information.list {
         display: none;
         visibility: hidden;
