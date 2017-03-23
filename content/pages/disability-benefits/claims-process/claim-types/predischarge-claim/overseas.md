@@ -7,8 +7,11 @@ plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
 
 You can file a disability claim while you're stationed overseas. 
+
+</div>
 
 ### Within the Kaiserslautern Military Community (KMC)
 

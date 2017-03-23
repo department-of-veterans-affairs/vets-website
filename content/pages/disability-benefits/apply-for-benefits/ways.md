@@ -21,7 +21,11 @@ relatedlinks:
     description: ""
 ---
 
+<div class="va-introtext">
+
 Choose 1 of 3 ways to file your disability claim:
+
+</div>
 
 1.	[Apply online through eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), **or**
 

@@ -6,7 +6,11 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page
 ---
 
+<div class="va-introtext">
+
 If you had contact with mustard gas (also known as sulfur mustard, yperite, or nitrogen mustard) or lewisite, a natural compound that contains the poison arsenic, you may have certain related long-term illnesses. Find out if you can get disability compensation or benefits.
+
+</div>
 
 <div class="call-out" markdown="1">
 

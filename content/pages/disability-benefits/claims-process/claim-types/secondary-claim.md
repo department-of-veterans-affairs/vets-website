@@ -33,12 +33,11 @@ relatedlinks:
     description: ""
 ---
 
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
+<div class="va-introtext">
 
 Sometimes, a disability related to your military service (called service connected) can cause another disability—or make worse a disability that you already have. Even if this other disability isn't service connected, you can file a secondary claim for added disability benefits. [File a claim now](/disability-benefits/apply-for-benefits/).
+
+</div>
 
 ### What are some examples of secondary claims?
 
@@ -47,9 +46,3 @@ A Veteran has a service-connected knee injury that makes him walk with a limp. B
 
 **Example 2**<br>
 A Veteran served in the Army for 20 years. While serving, she was diagnosed with hypertension (high blood pressure). After ending her service, she got disability benefits for her high blood pressure, which proved to be connected to her service. She was later diagnosed with coronary artery disease (the most common type of heart disease) caused by her high blood pressure. She can now file a secondary claim to show that her heart disease is also connected to her service.
-
-
-</div>
-</div>
-</div>
-</div>

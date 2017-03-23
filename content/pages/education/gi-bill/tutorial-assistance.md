@@ -5,7 +5,11 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you are using VA educational assistance, and you’re struggling with the course work, you may be eligible for a financial supplement to pay for a tutor.
+
+</div>
 
 <div class="call-out" markdown="1">
 

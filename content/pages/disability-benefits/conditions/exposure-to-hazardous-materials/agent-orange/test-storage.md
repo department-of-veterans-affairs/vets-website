@@ -6,7 +6,11 @@ template: 4-action-page
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 Were you part of testing or storing Agent Orange on bases in the United States or elsewhere? Agent Orange is a toxic chemical the U.S. military used to clear trees and plants during the Vietnam War. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
+
+</div>
 
 <div class="call-out" markdown="1">
 

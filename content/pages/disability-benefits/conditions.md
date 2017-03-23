@@ -19,8 +19,11 @@ relatedlinks:
     description: Get help with needs such as special equipment, hospital or rehab care, dental care, being unable to work, and more.
 ---
 
+<div class="va-introtext">
 
 Do you have illnesses or injuries that started—or got worse—while you were serving in the military?  Find out if you can  get disability compensation or benefits.
+
+<div>
 
 <div class="call-out" markdown="0">
 

@@ -5,7 +5,11 @@ plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 If you're in predischarge status, Quick Start can help you get your VA benefits sooner. Through Quick Start, you can start your claim for disability benefits 1 to 59 days before:
+
+</div>
 
 - Separation (ending your military service)
 - Retirement

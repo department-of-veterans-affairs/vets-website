@@ -7,7 +7,11 @@ plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 If you can't work because of a disability related to your service in the military (a service-connected disability), you may qualify for what's called individual unemployability. This means you may be able to get disability compensation or benefits at the same level as a Veteran who has a 100% disability rating.
+
+</div>
 
 <div class="call-out" markdown="1">
 

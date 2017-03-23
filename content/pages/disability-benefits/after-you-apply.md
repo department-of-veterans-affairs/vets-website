@@ -13,7 +13,11 @@ relatedlinks:
    description: "Find out what happens after you get your decision notice with your rating."
 ---
 
+<div class="va-introtext">
+
 Find out what happens to your claim after you apply for disability benefits. 
+
+</div>
 
 ### How long does it take VA to make a decision?
 

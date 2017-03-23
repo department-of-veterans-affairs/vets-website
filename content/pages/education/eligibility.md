@@ -16,7 +16,11 @@ relatedlinks:
    description: "Get help making the most of your options as you transition from military to civilian life."
 ---
 
+<div class="va-introtext">
+
 If you're an active duty Servicemember or Veteran, a member of the National Guard or Reserves, or a qualified survivor or dependent, you may be able to get help from VA to pay your tuition, pick out a school, choose a career, and more. Find out if you qualify for VA education benefits through the GI Bill program and other educational assistance programs.
+
+</div>
 
 <div class="feature" markdown="1">
 

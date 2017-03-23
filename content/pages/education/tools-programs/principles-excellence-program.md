@@ -5,7 +5,11 @@ template: 1-topic-landing
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 The Principles of Excellence program requires participating educational institutions to:
+
+</div>
 
 - Provide a personalized form to help you understand the total cost of your educational program, including:
   - Costs covered by your benefits.
