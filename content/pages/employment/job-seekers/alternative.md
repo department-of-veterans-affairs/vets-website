@@ -18,7 +18,11 @@ relatedlinks:
     description: ""
 ---
 
+<div class="va-introtext">
+
 There are many ways for you to launch your civilian career and continue your education at the same time, and many options other than traditional education programs.
+
+</div>
 
 [**Work Study**](/education/work-learn/workstudy/)
 : This program allows you to use your GI Bill for higher education while working for VA.

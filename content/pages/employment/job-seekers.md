@@ -4,7 +4,11 @@ title: Job Seekers
 template: 4-action-page
 ---
 
+<div class="va-introtext">
+
 Wherever you are in the transition process, the Veterans Employment Center provides career advice, résumé-building assistance, and access to employers who are committed to hiring Veterans and military spouses.
+
+</div>
 
 <div class="call-out" markdown="1">
 

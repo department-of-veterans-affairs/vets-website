@@ -18,7 +18,11 @@ relatedlinks:
    title: Military Transcripts
 ---
 
+<div class="va-introtext">
+
 One-on-one assistance can help you transition by providing current perspectives on workplaces, targeted job-search techniques, coaching, and résumé building.
+
+</div>
 
 <div class="call-out" markdown="1">
 
