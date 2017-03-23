@@ -19,13 +19,17 @@ const props = {
   router: { push: sinon.spy() },
 };
 
-global.sessionStorage = {
-  getItem: () => {
-    return null;
-  },
+const mockSessionStorage = () => {
+  global.sessionStorage = {
+    getItem: () => {
+      return null;
+    },
+  };
 };
 
 describe('<UpdatePage>', () => {
+  beforeEach(mockSessionStorage);
+
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<UpdatePage {...props}/>);
     const vdom = tree.getRenderOutput();
