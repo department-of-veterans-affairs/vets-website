@@ -7,9 +7,13 @@ plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
+
 If you recently ended your active military service and you have a disability related to your service (called a service-connected disability), you may be able to get temporary disability compensation or benefits right away.
 
 If you qualify for these benefits, you'll get what's called a prestabilization rating. This rating may be 50% or 100%, depending on the severity of your disability. Your prestabilization rating will continue for 1 year after your discharge from active service.
+
+</div>
 
 <div class="call-out" markdown="1">
 

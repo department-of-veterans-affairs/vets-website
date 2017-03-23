@@ -6,8 +6,11 @@ plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 If you suffered an added disability while getting VA medical care or taking part in a VA program designed to help you find, get, or keep a job, you may be able to get compensation.
 
+</div>
 
 <div class="call-out" markdown="1">
 

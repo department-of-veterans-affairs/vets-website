@@ -19,7 +19,11 @@ relatedlinks:
    description: "Find out how to work with a trained professional called an accredited representative."
 ---
 
+<div class="va-introtext">
+
 You can apply for disability benefits online. We've listed all the steps below so when you're ready, you can apply for this tax-free monetary benefit. Find out how to apply. 
+
+</div>
 
 ### Prepare
 

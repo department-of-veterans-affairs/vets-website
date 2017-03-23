@@ -22,10 +22,13 @@ relatedlinks:
     description: ""
 ---
 
+<div class="va-introtext">
+
 When we decide we’ll pay a disability benefit based on a claim, we assign an effective date to that claim.
 
 The effective date is the day you can start getting your disability benefits. This varies with the type of benefit you’re applying for and the nature of your claim.
 
+</div>
 
 <div class="call-out usa-content" markdown="1">
 

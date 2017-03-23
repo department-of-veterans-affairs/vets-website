@@ -7,10 +7,13 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page
 ---
 
+<div class="va-introtext">
+
 If you served in the Southwest Asia theater of military operations, you may suffer from illnesses or other conditions related to service in this region. Find out if you can get disability compensation or benefits.
 
 [Learn about service in Afghanistan and Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-afghanistan).  
 
+</div>
 
 <div class="call-out" markdown="1">
 

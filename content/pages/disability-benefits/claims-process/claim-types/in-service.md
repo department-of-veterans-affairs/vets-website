@@ -34,4 +34,8 @@ relatedlinks:
     description: ""
 ---
 
+<div class="va-introtext">
+
 You can file an in-service disability claim if your disability was caused by an illness or injury (also known as a condition) that you got in the line of duty and not because of willful misconduct or alcohol or drug abuse. [File a claim now](/disability-benefits/apply-for-benefits/).
+
+</div>

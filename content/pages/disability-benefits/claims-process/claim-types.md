@@ -34,7 +34,11 @@ relatedlinks:
 template: 6-info-page
 ---
 
+<div class="va-introtext">
+
 Disability claims can be based on disabilities that:
+
+</div>
 
 - Were there before you started serving in the military but got worse because of your service, **or**
 - Happened while you were serving in the military, **or**

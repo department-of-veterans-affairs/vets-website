@@ -7,7 +7,11 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
+
 Are you a former POW now living with a disability? Find out if you can get disability compensation or benefits.
+
+</div>
 
 <div class="call-out" markdown="1">
 
