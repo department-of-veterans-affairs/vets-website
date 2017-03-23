@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     type: {},
     typeName: {},
     state: {},
-    country: {},
+    country: [],
     cautionFlag: {},
     studentVetGroup: {},
     yellowRibbonScholarship: {},
@@ -48,12 +48,10 @@ function uppercaseKeys(obj) {
 
 function normalizedFacets(facets) {
   const state = uppercaseKeys(facets.state);
-  const country = uppercaseKeys(facets.country);
   const typeName = uppercaseKeys(facets.typeName);
   return {
     ...facets,
     state,
-    country,
     typeName
   };
 }
