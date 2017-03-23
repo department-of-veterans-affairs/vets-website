@@ -48,7 +48,7 @@ You’ll get a letter from us telling you if you can be buried in a VA national 
 
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <span class="tel">800-535-1117</span> to request a burial.
 
-You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a military funeral](/burials-and-memorials/military-funerals/). 
+You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a funeral](/burials-and-memorials/military-funerals/). 
 
 #### I don't have a pre-need decision letter
 
