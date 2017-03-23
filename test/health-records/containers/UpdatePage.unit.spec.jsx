@@ -16,6 +16,13 @@ const props = {
     ready: false,
   },
   submitForm: sinon.spy(),
+  router: { push: sinon.spy() },
+};
+
+global.sessionStorage = {
+  getItem: () => {
+    return null;
+  },
 };
 
 describe('<UpdatePage>', () => {
@@ -26,13 +33,15 @@ describe('<UpdatePage>', () => {
   });
 
   it('should correctly redirect when update is complete', () => {
-    global.sessionStorage = {
-      getItem: () => {
-        return null;
-      },
-    };
     const tree = SkinDeep.shallowRender(<UpdatePage {...props}/>);
     tree.getMountedInstance().componentWillReceiveProps(props);
     expect(props.submitForm.called).to.be.true;
+  });
+
+  it('should correctly redirect when skip update is clicked', () => {
+    const tree = SkinDeep.shallowRender(<UpdatePage {...props}/>);
+    tree.subTree('Link').props.onClick({ preventDefault: () => {} });
+    expect(props.submitForm.called).to.be.true;
+    expect(props.router.push.calledWith('/download')).to.be.true;
   });
 });
