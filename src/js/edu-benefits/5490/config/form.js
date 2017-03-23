@@ -541,38 +541,26 @@ const formConfig = {
               educationType: {
                 'ui:options': {
                   updateSchema: (pageData, form, schema) => {
-                    // updateSchema mutates the schema, so after an option is
-                    //  removed from the enum, either I can add it back in manually
-                    //  or take the base as the educationType definition in
-                    //  vets-json-schema instead of the schema passed in.
+                    // TODO: Reorder fields...unless it's a universal change...
+                    // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/1794
+
                     const newSchema = _.cloneDeep(schema);
-                    // const benefitData = _.get('benefitSelection.data.benefit', form);
-                    // const relationshipData = _.get('applicantInformation.data.relationship', form);
-
-                    // console.log('-------------');
-                    // console.log(`relationship: ${relationshipData}, benefit: ${benefitData}`);
-
-                    // When these option are removed, they're removed permanently
+                    const benefitData = _.get('benefitSelection.data.benefit', form);
+                    const relationshipData = _.get('applicantInformation.data.relationship', form);
 
                     // Remove tuition top-up
                     const filterOut = ['tuitionTopUp'];
                     // Correspondence not available to chapter35 children
-                    // if (benefitData === 'chapter35' && relationshipData === 'child') {
-                    //   filterOut.push('correspondence');
-                    // }
+                    if (benefitData === 'chapter35' && relationshipData === 'child') {
+                      filterOut.push('correspondence');
+                    }
                     // Flight training available to fry scholarships only
-                    // if (benefitData !== 'chapter33') {
-                    //   filterOut.push('flightTraining');
-                    // }
+                    if (benefitData !== 'chapter33') {
+                      filterOut.push('flightTraining');
+                    }
 
-                    // console.log('removing:', filterOut);
-                    // console.log('original options (schema):', schema.enum);
-                    // console.log('original options (newSchema):', newSchema.enum);
                     newSchema.enum = _.without(filterOut)(newSchema.enum);
-                    // console.log('modified options (schema):', schema.enum);
-                    // console.log('modified options (newSchema):', newSchema.enum);
 
-                    // console.log('newSchema:', newSchema);
                     return newSchema;
                   }
                 }
