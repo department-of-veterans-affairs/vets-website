@@ -1,16 +1,16 @@
 ---
 layout: page-breadcrumbs.html
-title: Headstones, Markers, and Medallions
+title: Headstones, Markers, Niche Covers, and Medallions
 concurrence: incomplete
 template: 6-info-page
 ---
 
 
-To honor the military service of a deceased Veteran, we may provide a headstone, marker or niche cover to identify the burial place in a  federal, DoD, or state veterans cemetery. We may also provide a headstone, marker, or a medallion to attach to a privately purchased headstone or marker, for Veterans who are buried in private or pubcli cemeteries.  Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, a national cemetery, or a cemetery at a military post or base. Find out how to arrange for one of these memorial items.
+To honor the military service of a deceased Veteran, we may provide a headstone, marker, or niche cover to identify the burial place in a federal, Department of Defense, or state Veterans cemetery. We may also provide a headstone, marker, or medallion (to attach to a privately purchased headstone or marker) for Veterans buried in private or public cemeteries. Family members may also qualify for a marker if they’re buried in a state Veterans cemetery, national cemetery, or cemetery at a military post or base. Find out how to arrange for one of these memorial items.
 
 <div class="call-out" markdown="0">
 
-### Who can be honored with a headstone or marker?
+### Who can be honored with a headstone, marker, or niche cover?
 
 - Any Veteran who died on or after November 1, 1990
 - Any Veteran buried in an unmarked grave who served before September 7, 1980
