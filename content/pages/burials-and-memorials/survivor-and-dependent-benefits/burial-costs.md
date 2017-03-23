@@ -13,7 +13,7 @@ If you’re the spouse of record (the legally recognized spouse) or a designated
 
 You may be able to get burial allowances if you’re:
 
-- The Veteran’s surviving spouse (**Note:** we recognize all same-sex marriages), **or**
+- The Veteran’s surviving spouse (**Note:** we recognize same-sex marriages), **or**
 - A surviving child of the Veteran, **or**
 - A parent of the Veteran, **or**
 - The executor or administrator (someone who officially represents the deceased) of the Veteran’s estate
