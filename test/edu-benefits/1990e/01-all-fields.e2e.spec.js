@@ -31,5 +31,14 @@ module.exports = E2eHelpers.createE2eTest(
     EduHelpers.completeAdditionalBenefits(client, testData.benefitEligibility.data);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/additional-benefits');
+
+    // Benefits eligibility
+    client
+      .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
+    EduHelpers.completeBenefitsSelection(client);
+    client.click('.form-progress-buttons .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
+
+    client.end();
   }
 );

@@ -29,9 +29,9 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefits eligibility
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, testData.benefitSelection.data);
+    EduHelpers.completeBenefitsSelection(client);
     client.click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/benefits/elibility');
+    E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
     // Service periods page.
     client

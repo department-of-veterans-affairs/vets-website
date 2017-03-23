@@ -36,5 +36,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
+
+    client.end();
   }
 );

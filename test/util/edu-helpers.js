@@ -42,16 +42,19 @@ function completeRelativeInformation(client, data, onlyRequiredFields) {
 }
 
 function completeAdditionalBenefits(client, data) {
-  client
-    .click(data.nonVaAssistance ? 'input[name="root_nonVaAssistanceYes"]' : 'input[name="root_nonVaAssistanceNo"]')
-    .click(data.civilianBenefitsAssistance ? 'input[name="root_civilianBenefitsAssistanceNo"]' : 'input[name="root_civilianBenefitsAssistanceNo"]');
+  if (typeof data.nonVaAssistance !== 'undefined') {
+    client.click(data.nonVaAssistance ? 'input[name="root_nonVaAssistanceYes"]' : 'input[name="root_nonVaAssistanceNo"]');
+  }
+  if (typeof data.civilianBenefitsAssistance !== 'undefined') {
+    client.click(data.civilianBenefitsAssistance ? 'input[name="root_civilianBenefitsAssistanceNo"]' : 'input[name="root_civilianBenefitsAssistanceNo"]');
+  }
+  // TODO for 5490: set value for data.civilianBenefitsSource
 }
 
-function completeBenefitsSelection(client, data, onlyRequiredFields) {
-  if (!onlyRequiredFields) {
-    client
-      .click('.form-radio-buttons:first-child input');
-  }
+function completeBenefitsSelection(client) {
+  // Some but not all edu forms require a benefit to be selected, so always select one
+  client
+    .click('.form-radio-buttons:first-child input');
 }
 
 function completeServicePeriods(client, data, onlyRequiredFields) {
