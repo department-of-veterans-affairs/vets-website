@@ -8,7 +8,7 @@ relatedlinks:
    title: Memorial Benefits Eligibility
    description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
  - url: /burials-and-memorials/burial-planning/headstones-markers-medallions
-   title: Headstones, Markers, and Medallions
+   title: Headstones, Markers, Niche Covers, and Medallions
    description: Learn about ways to memorialize the deceased.
  - url: /burials-and-memorials/burial-planning/flags-and-memorial-certificates
    title: Flags and Presidential Memorial Certificates
