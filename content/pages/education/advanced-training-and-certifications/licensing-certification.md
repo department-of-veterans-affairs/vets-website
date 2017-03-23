@@ -5,7 +5,12 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you are a Veteran looking for employment in a field that requires a license or certification, you may be eligible for GI Bill reimbursement for licensing or certification exams.
+
+</div>
+
 <div class="call-out" markdown="1">
 
 ### Are you eligible for compensation?

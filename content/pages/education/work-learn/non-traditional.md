@@ -15,4 +15,8 @@ relatedlinks:
     description: ""
 ---
 
+<div class="va-introtext">
+
 You may find that mainstream college programs aren't a good fit for you. If you qualify for the GI Bill, you can use your benefit in a variety of non-traditional ways.
+
+</div>

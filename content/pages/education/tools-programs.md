@@ -19,4 +19,8 @@ relatedlinks:
 
 ---
 
+<div class="va-introtext">
+
 Navigating your transition from military to civilian life can be challenging. VA offers tools and counseling programs to help you make the most of your options.
+
+</div>

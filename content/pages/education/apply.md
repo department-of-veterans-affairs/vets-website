@@ -13,7 +13,11 @@ relatedlinks:
    description: "The GI Bill can pay for more than just academic programs. Use it to help cover the costs of becoming a licensed or certified professional (like a mechanic or medical technician) or a business owner."
 ---
 
+<div class="va-introtext">
+
 If you’re a Servicemember, Veteran, or family member interested in education and training opportunities, you can apply for your Certificate of Eligibility (COE). You can also manage your current benefits.
+
+</div>
 
 ### Prepare
 
