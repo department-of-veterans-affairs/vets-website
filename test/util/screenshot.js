@@ -62,7 +62,6 @@ function setupDirectories(module) {
 }
 
 function takeScreenshot(client, url) {
-
   const filename = url.replace(/\//g, '_').substr(1);
   checkDependencies(client);
 
