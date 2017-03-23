@@ -473,7 +473,6 @@ h6 {
 }
 
 .primary {
-
   p {
     padding-top: 0;
     margin-top: 0;
@@ -489,8 +488,6 @@ h6 {
   }
 }
 
-.primary p:nth-child(1),
-.primary p:first-of-type,
 .va-introtext {
   color: $color-primary-darker;
   letter-spacing: normal;
@@ -622,14 +619,6 @@ ul, ol {
   padding-top: 3.2rem;
 }
 
-
-
-// Content lead paragraphs
-
-/* #content.interior .primary {
-  
-} */
-
 #content .section.primary {
   background: none;
   padding: 2em 0;
@@ -655,8 +644,6 @@ ul, ol {
   margin-bottom: 1.5em;
   clear: both;
 }
-
-
 
 
 // Action
