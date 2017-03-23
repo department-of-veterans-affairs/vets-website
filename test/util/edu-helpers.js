@@ -1,4 +1,22 @@
+const mock = require('./mock-helpers');
 const selectDropdown = require('./e2e-helpers.js').selectDropdown;
+
+// Create API routes
+function initApplicationSubmitMock(form) {
+  mock(null, {
+    path: `/v0/education_benefits_claims/${form}`,
+    verb: 'post',
+    value: {
+      data: {
+        attributes: {
+          confirmationNumber: '123fake-submission-id-567',
+          submittedAt: '2016-05-16',
+          regionalOffice: 'Test'
+        }
+      }
+    }
+  });
+}
 
 function completeVeteranInformation(client, data, onlyRequiredFields) {
   client
@@ -134,6 +152,7 @@ function completeDirectDeposit(client, data, onlyRequiredFields) {
 }
 
 module.exports = {
+  initApplicationSubmitMock,
   completeVeteranInformation,
   completeRelativeInformation,
   completeAdditionalBenefits,

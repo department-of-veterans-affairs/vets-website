@@ -1,12 +1,11 @@
 const E2eHelpers = require('../../util/e2e-helpers');
 const Timeouts = require('../../util/timeouts.js');
 const EduHelpers = require('../../util/edu-helpers');
-const Edu1990eHelpers = require('../../util/edu-1990e-helpers');
 const testData = require('./schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    Edu1990eHelpers.initApplicationSubmitMock();
+    EduHelpers.initApplicationSubmitMock('1990e');
     // Ensure introduction page renders.
     client
       .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990e`)

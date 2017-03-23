@@ -6,7 +6,7 @@ const testData = require('./schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    Edu1995Helpers.initApplicationSubmitMock();
+    EduHelpers.initApplicationSubmitMock('1995');
 
     // Ensure introduction page renders.
     client
