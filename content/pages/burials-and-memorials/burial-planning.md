@@ -42,42 +42,40 @@ You’ll get a letter from us telling you if you can be buried in a VA national 
 
 </div>
 
-### How do I plan a burial for a deceased family member if I have a pre-need decision letter confirming they can be buried in a VA national cemetery?
+### How do I plan a burial for a deceased family member?
 
-First you may want to choose a funeral director to help you plan the burial. Then either you or your funeral director can call the National Cemetery Scheduling Office at <span class="tel">800-535-1117</span> to request a burial.
+#### I have a pre-need decision letter confirming they can be buried in a VA national cemetery
+
+To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <span class="tel">800-535-1117</span> to request a burial.
 
 You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a military funeral](/burials-and-memorials/military-funerals/). 
 
-### How do I plan a burial for a deceased family member if I don't have a pre-need decision letter?
+#### I don't have a pre-need decision letter
 
-First you may want to choose a funeral director to help you plan the burial. Then either you or your funeral director will need to take these 2 steps to apply for a burial.
+To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director will need to take these 2 steps to apply for a burial.
 
 <ol class="process">
 <li class="step one">
 
 <div markdown="1">
 
-#### Prepare
+##### Prepare
 
-**Gather the documents and other information you'll need to identify the deceased**
-
-You'll need the deceased's:
+**Gather these documents and other information you'll need to identify the deceased:**
 
  - DD214, or similar discharge papers. If you can't find the discharge papers, please ask for our help to get these records. [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
  - Full name, gender, Social Security number or Veteran ID, date of death, and date of birth
  - Next-of-kin information (name, relationship, Social Security number, phone number, and address)
  - Marital status
  
-You'll also need:
+You may also need:
 
  - If the deceased was married, the surviving spouse’s status as Veteran or family member
  - The status and detailed information for any disabled children who may be buried in the future in a national cemetery
  - The Veteran’s zip code and county at the time of death
  - If the deceased is a spouse or a Veteran whose spouse has already died, the full name of the family member, cemetery section, and site number
 
-**Decide on the burial details and gather all related information**
-
-This includes:
+**Decide on the burial details and gather all related information, including:**
 
   - Your cemetery of choice
   - Type of gravesite memorial. [See your options for a headstone, marker, or niche cover](/burials-and-memorials/burial-planning/headstones-markers-medallions).
@@ -94,7 +92,7 @@ This includes:
 
 <div markdown="1">
 
-#### Contact the National Cemetery Scheduling Office
+##### Contact the National Cemetery Scheduling Office
 
 The funeral director you've chosen can help you with these steps too:
 
