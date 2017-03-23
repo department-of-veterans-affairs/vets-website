@@ -81,6 +81,8 @@ const getDerivedValues = createSelector(
     const isFlightOrCorrespondence = isFlight || isCorrespondence;
     const isPublic = institutionType === 'public';
 
+    const institutionCountry = institution.country.toLowerCase();
+
     // VRE and post-9/11 eligibility
     const vre911Eligible = (giBillChapter === 31 && eligForPostGiBill === 'yes');
 
@@ -178,7 +180,7 @@ const getDerivedValues = createSelector(
       tuitionFeesCap = constant.FLTTFCAP;
     } else if (isCorrespondence) {
       tuitionFeesCap = constant.CORRESPONDTFCAP;
-    } else if (isPublic && institution.country === 'usa') {
+    } else if (isPublic && institutionCountry === 'usa') {
       tuitionFeesCap = inputs.inState === 'yes'
                      ? institution.tuitionInState
                      : institution.tuitionOutOfState;
@@ -481,7 +483,7 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
         termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
-    } else if (institution.country !== 'usa') {
+    } else if (institutionCountry !== 'usa') {
       housingAllowTerm1 =
         termLength * rop * ((tier * constant.AVGBAH) + kickerBenefit);
     } else {
@@ -530,7 +532,7 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
         termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
-    } else if (institution.country !== 'usa') {
+    } else if (institutionCountry !== 'usa') {
       housingAllowTerm2 =
         termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
@@ -581,7 +583,7 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =
         termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
-    } else if (institution.country !== 'usa') {
+    } else if (institutionCountry !== 'usa') {
       housingAllowTerm3 =
         termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
