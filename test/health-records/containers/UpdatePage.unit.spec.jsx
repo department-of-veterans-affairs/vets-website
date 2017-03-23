@@ -1,6 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { UpdatePage } from '../../../src/js/health-records/containers/UpdatePage';
 
@@ -11,13 +12,27 @@ const props = {
       failed: [],
     }
   },
+  form: {
+    ready: false,
+  },
+  submitForm: sinon.spy(),
 };
 
 describe('<UpdatePage>', () => {
-  const tree = SkinDeep.shallowRender(<UpdatePage {...props}/>);
-
   it('should render', () => {
+    const tree = SkinDeep.shallowRender(<UpdatePage {...props}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
+  });
+
+  it('should correctly redirect when update is complete', () => {
+    global.sessionStorage = {
+      getItem: () => {
+        return null;
+      },
+    };
+    const tree = SkinDeep.shallowRender(<UpdatePage {...props}/>);
+    tree.getMountedInstance().componentWillReceiveProps(props);
+    expect(props.submitForm.called).to.be.true;
   });
 });
