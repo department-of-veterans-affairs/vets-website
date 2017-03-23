@@ -2,6 +2,7 @@
 
 FROM buildpack-deps:jessie
 
+# Match the jenkins uid/gid on the host (504)
 RUN groupadd --gid 504 jenkins \
   && useradd --uid 504 --gid jenkins --shell /bin/bash --create-home jenkins
 
