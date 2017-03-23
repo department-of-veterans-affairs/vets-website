@@ -541,7 +541,7 @@ const formConfig = {
               educationType: {
                 'ui:options': {
                   updateSchema: (pageData, form, schema) => {
-                    // TODO: Reorder fields...unless it's a universal change...
+                    // TODO: Reorder fields (maybe)...unless it's a universal change...
                     // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/1794
 
                     const newSchema = _.cloneDeep(schema);
