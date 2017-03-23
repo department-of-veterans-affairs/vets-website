@@ -10,7 +10,7 @@ majorlinks:
    title: Burial Planning
    description: Find out how to plan for the future or what to do if your family member has just died.
  - url: /burials-and-memorials/eligibility
-   title: Check Eligibility
+   title: Burial and Memorial Benefits Eligibility
    description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
  - url: /burials-and-memorials/survivor-and-dependent-benefits
    title: Survivor and Dependent Benefits
