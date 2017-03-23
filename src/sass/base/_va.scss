@@ -172,12 +172,9 @@ hr {
   position: fixed;
 }
 
-
 // Adds external icon to all links that begin
 // with http (including https)
 // Using this selector makes it easier for the content team to write content
-// TODO: Refine this so that any links that do begin with https://vets.gov
-// or https://www.vets.gov are excluded.
 [href^=http],
 [rel=external] {
   // Using longhand properties instead of the shorthand to limit
