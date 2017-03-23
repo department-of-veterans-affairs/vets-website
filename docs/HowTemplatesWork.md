@@ -13,10 +13,14 @@ There are three "wrapper" templates currently in use. They're all in `content/la
 
 `page-breadcrumbs` is a container template that loads layouts for the content between the header and the footer. Those are in `content/layouts/includes/`. 
 
-Templates are loaded based on the value of the `template` property in the YAML/front-page data of each content file -- the text between the `---`. Content files can be found in `content/pages/`.
+Templates are loaded based on the value of the `template` property in the [YAML](http://yaml.org/)/front-page data of each content file -- the text between the `---`. Content files can be found in `content/pages/`.
 
 ## Adding a new template
 
 - Add a new HTML + Liquid template file to `content/includes`
 - Update `page-breadcrumbs` with a new case for the new layout.
-- Update the `template` property for whichever pages should load the new template.
+- Update the `template` YAML property for whichever pages should load the new template.
+
+## Content meta data
+
+To date, we've used [YAML](http://yaml.org/) syntax in Markdown files as a way to structure data such as related links (majorlinks) and navigation cards. 
