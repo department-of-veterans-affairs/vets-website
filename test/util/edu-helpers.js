@@ -64,7 +64,7 @@ function completeAdditionalBenefits(client, data) {
     client.click(data.nonVaAssistance ? 'input[name="root_nonVaAssistanceYes"]' : 'input[name="root_nonVaAssistanceNo"]');
   }
   if (typeof data.civilianBenefitsAssistance !== 'undefined') {
-    client.click(data.civilianBenefitsAssistance ? 'input[name="root_civilianBenefitsAssistanceNo"]' : 'input[name="root_civilianBenefitsAssistanceNo"]');
+    client.click(data.civilianBenefitsAssistance ? 'input[name="root_civilianBenefitsAssistanceYes"]' : 'input[name="root_civilianBenefitsAssistanceNo"]');
   }
   // TODO for 5490: set value for data.civilianBenefitsSource
 }
