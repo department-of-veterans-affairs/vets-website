@@ -5,15 +5,15 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: /education/other-educational-assistance-programs/
-   title: Other Educational Assistance Programs
-   description: "Learn about REAP, VEAP, and Call to Service."
  - url: /education/gi-bill/post-9-11/
    title: Post-9/11 GI Bill
-   description: "Get education and training if you're a Servicemember or Veteran."
+   description: "If you’ve served on active duty after September 10, 2011, get help paying for school or training."
+ - url: /education/other-educational-assistance-programs/
+   title: Other Educational Assistance Programs
+   description: "If you don’t qualify for the Post-9/11 GI Bill, learn about other ways to get help paying for school (REAP, VEAP, and Call to Service)."
  - url: /education/tools-programs/
    title: Career Counseling
-   description: "Get help charting your course."
+   description: "Get help making the most of your options as you transition from military to civilian life."
 ---
 
 If you're an active duty Servicemember or Veteran, a member of the National Guard or Reserves, or a qualified survivor or dependent, you may be able to get help from VA to pay your tuition, pick out a school, choose a career, and more. Find out if you qualify for VA education benefits through the GI Bill program and other educational assistance programs.

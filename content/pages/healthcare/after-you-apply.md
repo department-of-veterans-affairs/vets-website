@@ -5,9 +5,12 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: /healthcare/prescriptions
-   title: Manage Your Health and Benefits
-   description: "Refill a prescription, send a secure message to your health care provider, and more."
+ - url: /disability-benefits/
+   title: Disability Benefits
+   description: "Have an illness or injury that was caused by—or got worse because of—your active military service? Find out if you can get disability compensation (monthly payments) from VA."
+ - url: /education/
+   title: Education Benefits
+   description: "Need help paying for college or professional training, picking a school, or exploring career options? Find out if you can get financial support and counseling from VA."
 ---
 
 After you apply for VA health care, we’ll send you a letter in the mail to let you know if your application’s been approved. 
