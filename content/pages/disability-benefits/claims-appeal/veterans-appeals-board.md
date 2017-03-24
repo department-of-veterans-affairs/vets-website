@@ -12,7 +12,7 @@ If you don't agree with the Statement of the Case, you can file	a	Substantive Ap
 [Find your regional office](http://www.benefits.va.gov/benefits/offices.asp).
 
 
-<div class="call-out" markdown="0">
+<div class="feature" markdown="0">
 
 ##### The Board of Veterans’ Appeals (also known as BVA or the "Board") will review your appeal and send you a letter with their decision. The Board is made up of lawyers who are experts in:
   - Veterans law

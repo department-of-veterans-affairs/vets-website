@@ -9,7 +9,7 @@ If you would like to earn an undergraduate or graduate degree at an institution 
 
 The number of classes you attend and the accompanying hours spent in those classes determine your payments.
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### For example, for most undergraduate degrees, a college considers:
   -	12 or more hours full time

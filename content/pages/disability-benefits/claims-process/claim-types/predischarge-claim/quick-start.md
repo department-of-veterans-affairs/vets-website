@@ -12,7 +12,7 @@ If you're in predischarge status, Quick Start can help you get your VA benefits 
 - Release from active duty
 - Demobilization (a stand down from combat-ready status)
 
-<div class="call-out" markdown="0">
+<div class="feature" markdown="0">
 
 ### Can I file a Quick Start claim?
 You can file a Quick Start claim if you're a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard) and both of these are true:

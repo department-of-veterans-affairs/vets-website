@@ -8,7 +8,7 @@ template: 4-action-page
 
 If you think you had contact with Agent Orange, a toxic chemical used to clear trees and plants during the Vietnam War, or other herbicides while serving in the military, you can request a VA Agent Orange Registry health exam. Even if you don’t have a known illness, the exam could alert you to illnesses that may be related to contact with herbicides. By being part of this registry, you're also helping your fellow Veterans by giving us information so we can better understand and serve those affected by Agent Orange–related illnesses.
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get an Agent Orange Registry health exam?
 

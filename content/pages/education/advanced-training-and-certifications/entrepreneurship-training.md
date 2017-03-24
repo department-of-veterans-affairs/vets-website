@@ -8,7 +8,7 @@ If you qualify for any of the GI Bill or educational assistance programs, and yo
 
 You do not have to use GI Bill funding to participate in this program.
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Are you eligible for this training?
 

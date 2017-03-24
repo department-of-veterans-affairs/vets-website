@@ -7,7 +7,7 @@ template: 4-action-page-pending
 
 If you had contact with certain environmental hazards while serving in Iraq, Afghanistan, and other areas, you may have illnesses or other conditions believed to be caused by these toxic chemicals in the air, water, or soil. Find out if you can get disability compensation or benefits.
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

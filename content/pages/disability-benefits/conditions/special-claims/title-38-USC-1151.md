@@ -9,7 +9,7 @@ template: 4-action-page-pending
 If you suffered an added disability while getting VA medical care or taking part in a VA program designed to help you find, get, or keep a job, you may be able to get compensation.
 
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get compensation from VA?
 

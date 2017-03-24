@@ -9,7 +9,7 @@ template: 1-topic-landing
 
 Spina bifida is a spinal cord birth defect. A baby develops spina bifida while still in the womb. In some cases, a parent's past contact with specific chemicals causes this birth defect. If you served in South Vietnam or the Republic of Korea—and your child has spina bifida or certain other birth defects—your child may be able to get disability benefits. Find out if your child qualifies for benefits.
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can my child get disability benefits from VA?
 

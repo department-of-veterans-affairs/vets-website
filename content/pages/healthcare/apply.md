@@ -21,7 +21,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 <div markdown="0"><br></div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### What documents and information do I need to apply?
 

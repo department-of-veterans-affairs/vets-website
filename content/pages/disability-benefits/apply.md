@@ -29,7 +29,7 @@ You can apply for disability benefits online. We've listed all the steps below s
 
 <div markdown="0"><br></div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 #### What documents do I need to apply?
 

@@ -8,7 +8,7 @@ template: 4-action-page-pending
 
 Has your clothing been damaged by your prosthetic or orthopedic device (such as a wheelchair) or by the medicine you’re taking for a skin condition? If it has, you may be able to get money each year to help you buy new clothes. This is a disability compensation benefit known as an annual clothing allowance. Find out if you can get this benefit. 
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

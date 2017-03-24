@@ -518,11 +518,13 @@ h6 {
 // Content callout boxes
 // ===================
 
-.call-out {
+.feature {
   background: $color-primary-alt-lightest;
   padding: 1em;
   clear: both;
   margin: 0 0 1.5em 0;
+  min-height: 11em;
+
   p {
     margin-bottom: 0;
     padding-bottom: .5em
@@ -652,7 +654,7 @@ ul, ol {
   }
 }
 
-#content .section .feature {min-height: 11em;}
+
 
 #content .panel {
   background: $color-gray-lightest;
@@ -1255,14 +1257,6 @@ li {
   &.bottom {
     border-bottom: 1px solid #f0f0f0;
   }
-}
-
-// Steps
-
-.feature {
-  background: $polar;
-  padding: 1em;
-  margin: 0;
 }
 
 // Process line

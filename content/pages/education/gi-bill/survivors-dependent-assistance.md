@@ -6,7 +6,7 @@ template: 1-topic-landing
 ---
 
 If you are a dependent or survivor of a Veteran, you may be eligible for educational assistance through a GI Bill program.
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Are you eligible for benefits?
 Yes, if you are the child or spouse of a Servicemember:

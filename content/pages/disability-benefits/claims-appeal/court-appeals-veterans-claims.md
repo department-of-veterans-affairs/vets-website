@@ -11,7 +11,7 @@ If the Board of Veterans’ Appeals (BVA or the "Board") has sent you a final di
 
 If you aren't sure about your claim status, call the BVA status line at <span class="tel">800-923-8387</span>.
 
-<div class="call-out" markdown="0">
+<div class="feature" markdown="0">
 
 ### The Court is made up of:
   - 7 permanent (long-term), active judges, **and**

@@ -21,7 +21,7 @@ If you need help filing a disability claim, you may want to work with an accredi
 
 Most accredited representatives work for Veterans Service Organizations (VSOs). These private nonprofit groups advocate on behalf of Veterans and Servicemembers as well as their dependents and survivors. 
 
-<div class="call-out" markdown="0">
+<div class="feature" markdown="0">
 
 ### What does it take to be an accredited representative?
 Accredited representatives need to:
