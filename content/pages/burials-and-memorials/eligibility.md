@@ -2,6 +2,19 @@
 layout: page-breadcrumbs.html
 title: Burial and Memorial Benefits Eligibility
 template: 6-info-page
+relatedlinks:
+  - url: /burials-and-memorials/burial-planning/
+    title: Burial Planning
+    description: Find out how to plan ahead or what to do if your family member has just died.
+  - url: /burials-and-memorials/find-a-cemetery/
+    title: Find a Cemetery or Gravesite
+    description: Find out if you can get paid back for funeral and other burial costs.
+  - url: /burials-and-memorials/survivor-and-dependent-benefits/
+    title: Survivor and Dependent Benefits
+    description: Find out what benefits you—or a family member—may get after the loss of a Veteran.
+  - url: /burials-and-memorials/military-funerals/
+    title: What to Expect at a Funeral
+    description: Find out what will happen to help you prepare for this day.
 ---
 
 
