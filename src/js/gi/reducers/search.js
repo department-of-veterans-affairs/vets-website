@@ -4,8 +4,8 @@ import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
   facets: {
+    category: {},
     type: {},
-    typeName: {},
     state: {},
     country: [],
     cautionFlag: {},
@@ -48,12 +48,8 @@ function uppercaseKeys(obj) {
 
 function normalizedFacets(facets) {
   const state = uppercaseKeys(facets.state);
-  const typeName = uppercaseKeys(facets.typeName);
-  return {
-    ...facets,
-    state,
-    typeName
-  };
+  const type = uppercaseKeys(facets.type);
+  return { ...facets, state, type };
 }
 
 function derivePaging(links) {
