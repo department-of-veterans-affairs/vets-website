@@ -11,6 +11,7 @@ If you served at least two years on active duty, you may be eligible for the MGI
 
 </div>
 
+
 <div class="feature" markdown="1">
 
 ### Are you eligible for education benefits?

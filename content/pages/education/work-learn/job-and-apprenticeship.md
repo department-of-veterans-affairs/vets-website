@@ -9,10 +9,10 @@ template: 4-action-page-pending
 
 If you want to learn a trade or skill through on-the-job training or apprenticeships, there are VA benefits that can help.
 
+<<<<<<< HEAD
 </div>
 
 <div class="feature" markdown="1">
-
 
 ### Are you eligible for benefits?
 Yes, if:

@@ -14,7 +14,6 @@ If you think you had contact with Agent Orange, a toxic chemical used to clear t
 
 <div class="feature" markdown="1">
 
-
 ### Can I get an Agent Orange Registry health exam?
 
 You can get an Agent Orange Registry health exam if you served in Vietnam between 1962 and 1975 for any length of time, or if you served in any of these ways:

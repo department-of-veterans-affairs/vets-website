@@ -9,10 +9,10 @@ template: 1-topic-landing
 
 If you are a Veteran, Servicemember, or eligible dependent interested in non-college degree programs (such as EMT, HVAC repair, truck driving, and more), the GI Bill may pay all or a portion of your tuition.
 
+<<<<<<< HEAD
 </div>
 
 <div class="feature" markdown="1">
-
 
 ### Are you eligible for benefits?
 Yes, if:

@@ -33,7 +33,6 @@ If your symptoms appear within 1 year after discharge—even if they weren't the
 
 <div class="feature" markdown="1">
 
-
 ### Can I get disability benefits from VA?
 
 You may be able to get benefits if you have an illness that's at least 10% disabling (a rating that measures how severe your disability is) that appears within 1 year after discharge and:

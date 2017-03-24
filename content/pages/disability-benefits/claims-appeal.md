@@ -19,6 +19,7 @@ You have the right to appeal any disability benefits decision made by the Vetera
 
 </div>
 
+
 <div class="feature" markdown="0">
 
 ### What if I don't agree with my benefits decision?  

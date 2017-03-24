@@ -12,6 +12,7 @@ If you have not used all of your Post-9/11 GI Bill benefits, you may be eligible
 **Note:** The Department of Defense (DOD) determines whether or not you can transfer benefits to your family.
 </div>
 
+
 <div class="feature" markdown="1">
 
 ### Are you eligible to transfer benefits?

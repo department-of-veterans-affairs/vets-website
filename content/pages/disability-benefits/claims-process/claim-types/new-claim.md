@@ -43,7 +43,6 @@ If you're already getting disability benefits but think you may qualify for more
 
 <div class="feature" markdown="1">
 
-
 When you file a new claim, you may get:
 - More financial support 
 - Special monthly payments

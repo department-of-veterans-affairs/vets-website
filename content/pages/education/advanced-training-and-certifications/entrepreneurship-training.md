@@ -12,6 +12,7 @@ You do not have to use GI Bill funding to participate in this program.
 
 </div>
 
+
 <div class="feature" markdown="1">
 
 ### Are you eligible for this training?

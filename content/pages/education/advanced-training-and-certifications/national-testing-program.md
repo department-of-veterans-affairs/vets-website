@@ -10,6 +10,7 @@ concurrence: complete
 If you are pursuing higher education that requires testing as part of the application process, you may be eligible for reimbursement from VA.
 </div>
 
+
 <div class="feature" markdown="1">
 
 ### Are you eligible for compensation?
