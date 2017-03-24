@@ -28,7 +28,7 @@ very secret.
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
 | run only e2e tests | `npm run test:e2e` | 
-| run only e2e tests for specific apps | `npm run test:e2e -- test/edu-benefits/` |
+| run only e2e tests for specific apps | `npm run test:e2e -- test/edu-benefits/1995/*` (provide a path to the `*.e2e.spec.js` files) |
 | run all linters | `npm run lint` |
 | run only javascript linter | `npm run lint:js` |
 | run only sass linter | `npm run lint:sass` |
@@ -36,6 +36,7 @@ very secret.
 | test for broken links | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
 | add new npm modules | `npm install -D my-module` followed by `npm shrinkwrap --dev`. There are no non-dev modules here. |
 | get the latest json schema | Update vets-json-schema in package.json with the latest commit hash, then run `npm update vets-json-schema && npm shrinkwrap --dev` |
+| check test coverage | `npm run test:coverage` |
 
 ## Directory structure
 
