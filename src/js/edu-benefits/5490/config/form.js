@@ -7,6 +7,8 @@ import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.jso
 import {
   benefitsLabels,
   benefitsRelinquishedWarning,
+  benefitsDisclaimerChild,
+  benefitsDisclaimerSpouse,
   relationshipLabels,
   highSchoolStatusLabels,
   transform
@@ -146,6 +148,24 @@ const formConfig = {
           path: 'benefits/eligibility',
           initialData: {},
           uiSchema: {
+            'view:benefitsDisclaimerChild': {
+              'ui:description': benefitsDisclaimerChild,
+              'ui:options': {
+                hideIf: form => {
+                  const relationship = _.get('relationship', form);
+                  return relationship !== 'child';
+                }
+              }
+            },
+            'view:benefitsDisclaimerSpouse': {
+              'ui:description': benefitsDisclaimerSpouse,
+              'ui:options': {
+                hideIf: form => {
+                  const relationship = _.get('relationship', form);
+                  return relationship !== 'spouse';
+                }
+              }
+            },
             benefit: {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:',
@@ -160,25 +180,34 @@ const formConfig = {
             'view:benefitsRelinquishedInfo': {
               'ui:description': 'While receiving DEA or FRY scholarship benefits you may not receive payments of Dependency and Indemnity Compensation (DIC) or Pension and you may not be claimed as a dependent in a Compensation claim. If you are unsure of this decision it is strongly encouraged you talk with a VA counselor.',
             },
+            benefitsRelinquishedDate: date.uiSchema('Effective date'),
             'view:benefitsRelinquishedWarning': {
               'ui:description': benefitsRelinquishedWarning
             },
-            benefitsRelinquishedDate: date.uiSchema('Effective date')
           },
           schema: {
             type: 'object',
             required: ['benefit', 'benefitsRelinquishedDate'],
             properties: {
+              'view:benefitsDisclaimerChild': {
+                type: 'object',
+                properties: {}
+              },
+              'view:benefitsDisclaimerSpouse': {
+                type: 'object',
+                properties: {}
+              },
               benefit,
               'view:benefitsRelinquishedInfo': {
                 type: 'object',
                 properties: {}
               },
+
+              benefitsRelinquishedDate: dateSchema,
               'view:benefitsRelinquishedWarning': {
                 type: 'object',
                 properties: {}
               },
-              benefitsRelinquishedDate: dateSchema
             }
           }
         },
