@@ -24,3 +24,8 @@ export function eligibilityDescription() {
     </div>
   );
 }
+
+export const benefitsLabels = {
+  chapter33: <p>Post-9/11 GI Bill (Chapter 33)</p>,
+  chapter30: <p>Montgomery GI Bill (MGIB-AD, Chapter 30)</p>,
+};
