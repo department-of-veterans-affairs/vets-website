@@ -14,8 +14,8 @@ You can get a burial flag if you're the deceased Veteran's next of kin or a clos
 - Served in wartime
 - Died while on active duty after May 27, 1941
 - Served after January 31, 1955
-<!-- - Served in peacetime and left military service before June 27, 1950-->
 - Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call <span class="tel">800-827-1000</span>.
+<!-- Served in peacetime and left military service before June 27, 1950-->
 
 ### How do I get a flag?
 
