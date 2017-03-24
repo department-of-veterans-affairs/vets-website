@@ -68,9 +68,10 @@ export class SearchPage extends React.Component {
     const query = _.pick(this.props.location.query, [
       'page',
       'name',
+      'category',
       'country',
       'state',
-      'typeName',
+      'type',
       ...programFilters
     ]);
 
@@ -85,14 +86,6 @@ export class SearchPage extends React.Component {
         (filterKey === 'caution' && filterValue === 'false');
     });
 
-    // Derive type selection from typeName in the query.
-    if (institutionFilter.typeName) {
-      const typeName = institutionFilter.typeName.toLowerCase();
-      if (typeName === 'school' || typeName === 'employer') {
-        institutionFilter.type = typeName;
-      }
-    }
-
     this.props.institutionFilterChange(institutionFilter);
     this.props.fetchSearchResults(query);
   }
@@ -106,18 +99,18 @@ export class SearchPage extends React.Component {
 
   handleFilterChange(field, value) {
     // Translate form selections to query params.
-    const queryKey = field === 'type' ? 'typeName' : field;
     const queryValue = field === 'caution' ? !value : value;
-    const query = { ...this.props.location.query, [queryKey]: queryValue };
+    const query = { ...this.props.location.query, [field]: queryValue };
 
     const shouldRemoveFilter =
-      (queryKey !== 'caution' && !queryValue) ||
-      (queryKey === 'caution' && queryValue) ||
-      ((queryKey === 'country' ||
-        queryKey === 'state' ||
-        queryKey === 'typeName') && queryValue === 'ALL');
+      (field !== 'caution' && !queryValue) ||
+      (field === 'caution' && queryValue) ||
+      ((field === 'category' ||
+        field === 'country' ||
+        field === 'state' ||
+        field === 'type') && queryValue === 'ALL');
 
-    if (shouldRemoveFilter) { delete query[queryKey]; }
+    if (shouldRemoveFilter) { delete query[field]; }
     this.props.router.push({ ...this.props.location, query });
   }
 
