@@ -57,8 +57,6 @@ To start, you may want to choose a funeral director to help you plan the burial.
 <ol class="process">
 <li class="step one">
 
-<div markdown="1">
-
 ##### Gather these documents and other information you'll need to identify the deceased:
 
  - DD214, or similar discharge papers. If you can't find the discharge papers, please ask for our help to get these records. [Find out which discharge papers we accept along with your application](http://www.cem.va.gov/CEM/hmm/discharge_documents.asp). 
@@ -86,13 +84,10 @@ You may also need:
  
  [Learn about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services).</br>
  [Learn about other ways to memorialize the deceased](/burials-and-memorials/burial-planning/flags-and-memorial-certificates).
-  </div>
 
 </li>
 
 <li class="step last three">
-
-<div markdown="1">
 
 ##### Contact the National Cemetery Scheduling Office
 
@@ -102,14 +97,10 @@ The funeral director you've chosen can help you with these steps too:
 
 - Then call <span class="tel">800-535-1117</span> to confirm the burial application. Be sure to have all the information handy that’s listed above in the "Prepare" section. 
 
-</div>
-
-
 </li>
-
+</ol>
 
 <div class="call-out" markdown="0">
-
 
 ### Can I get information about the Burial at Sea program?
 
