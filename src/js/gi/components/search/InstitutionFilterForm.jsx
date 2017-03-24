@@ -62,7 +62,10 @@ class InstitutionFilterForm extends React.Component {
 
   renderCountryFilter() {
     const options = [
-      { value: 'ALL', label: `ALL (${(this.props.search.count || 0).toLocaleString()})` },
+      {
+        value: 'ALL',
+        label: `ALL (${(this.props.search.count || 0).toLocaleString()})`
+      },
       ...this.props.search.facets.country.map(country => ({
         value: country.name,
         label: `${country.name} (${country.count.toLocaleString()})`
@@ -91,7 +94,7 @@ class InstitutionFilterForm extends React.Component {
     };
 
     const options = Object.keys(stateFacets).reduce((opts, state) => {
-      const total = Number(stateFacets[state]);
+      const total = +stateFacets[state];
       const label = `${state} (${total.toLocaleString()})`;
       return [...opts, { value: state, label }];
     }, []);
@@ -116,7 +119,7 @@ class InstitutionFilterForm extends React.Component {
     const facets = this.props.search.facets;
 
     const formattedCount = (key, bool) => {
-      return Number(facets[key][bool.toString()] || 0).toLocaleString();
+      return (+facets[key][bool.toString()] || 0).toLocaleString();
     };
 
     const label = (key, desc, bool = true) => {
@@ -162,7 +165,7 @@ class InstitutionFilterForm extends React.Component {
     };
 
     const options = Object.keys(schoolTypeFacets).reduce((opts, type) => {
-      const total = Number(schoolTypeFacets[type]);
+      const total = +schoolTypeFacets[type];
       const label = `${type} (${total.toLocaleString()})`;
       return [...opts, { value: type, label }];
     }, []);
