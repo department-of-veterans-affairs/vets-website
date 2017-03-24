@@ -78,11 +78,11 @@ export default function (state = INITIAL_STATE, action) {
 
       return {
         ...INITIAL_STATE,
-        tuitionInState,
-        tuitionOutOfState,
-        tuitionFees: tuitionInState,
-        books,
-        calendar
+        tuitionInState: tuitionInState || 0,
+        tuitionOutOfState: tuitionOutOfState || 0,
+        tuitionFees: tuitionInState || 0,
+        books: books || 0,
+        calendar: calendar || 'semesters'
       };
     }
 

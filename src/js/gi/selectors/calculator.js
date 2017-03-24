@@ -21,7 +21,10 @@ const getDerivedValues = createSelector(
   getInstitution,
   getFormInputs,
   (constant, eligibility, institution, inputs) => {
-    if (constant === undefined) return {};
+    if ([constant, eligibility, institution, inputs].some(e => !e || isEmpty(e))) {
+      return {};
+    }
+
     let monthlyRate;
     let numberOfTerms;
     let ropOld;
@@ -71,11 +74,14 @@ const getDerivedValues = createSelector(
     const spouseActiveDuty = eligibility.spouseActiveDuty === 'yes';
     const serviceDischarge = cumulativeService === 'service discharge';
 
-    const isOJT = institution.type === 'ojt';
-    const isFlight = institution.type === 'flight';
-    const isCorrespondence = institution.type === 'correspondence';
+    const institutionType = institution.type.toLowerCase();
+    const isOJT = institutionType === 'ojt';
+    const isFlight = institutionType === 'flight';
+    const isCorrespondence = institutionType === 'correspondence';
     const isFlightOrCorrespondence = isFlight || isCorrespondence;
-    const isPublic = institution.type === 'public';
+    const isPublic = institutionType === 'public';
+
+    const institutionCountry = institution.country.toLowerCase();
 
     // VRE and post-9/11 eligibility
     const vre911Eligible = (giBillChapter === 31 && eligForPostGiBill === 'yes');
@@ -163,18 +169,18 @@ const getDerivedValues = createSelector(
     }
 
     // Set the net price (Payer of Last Resort) - getTuitionNetPrice
-    const tuitionNetPrice = Math.max(0, Math.min(
+    const tuitionNetPrice = Math.max(0,
       inputs.tuitionFees -
       inputs.scholarships -
       inputs.tuitionAssist
-    ));
+    );
 
     // Set the proper tuition/fees cap - getTuitionFeesCap
     if (isFlight) {
       tuitionFeesCap = constant.FLTTFCAP;
     } else if (isCorrespondence) {
       tuitionFeesCap = constant.CORRESPONDTFCAP;
-    } else if (isPublic && institution.country === 'usa') {
+    } else if (isPublic && institutionCountry === 'usa') {
       tuitionFeesCap = inputs.inState === 'yes'
                      ? institution.tuitionInState
                      : institution.tuitionOutOfState;
@@ -477,7 +483,7 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
         termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
-    } else if (institution.country !== 'usa') {
+    } else if (institutionCountry !== 'usa') {
       housingAllowTerm1 =
         termLength * rop * ((tier * constant.AVGBAH) + kickerBenefit);
     } else {
@@ -526,7 +532,7 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
         termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
-    } else if (institution.country !== 'usa') {
+    } else if (institutionCountry !== 'usa') {
       housingAllowTerm2 =
         termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
@@ -577,7 +583,7 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =
         termLength * rop * (tier * constant.AVGBAH / 2 + kickerBenefit);
-    } else if (institution.country !== 'usa') {
+    } else if (institutionCountry !== 'usa') {
       housingAllowTerm3 =
         termLength * rop * (tier * constant.AVGBAH + kickerBenefit);
     } else {
@@ -777,7 +783,7 @@ export const getCalculatedBenefits = createSelector(
   (eligibility, institution, form, derived) => {
     const calculatedBenefits = {};
 
-    if ([eligibility, institution, derived].some(e => !e || isEmpty(e))) {
+    if ([eligibility, institution, form, derived].some(e => !e || isEmpty(e))) {
       return calculatedBenefits;
     }
 
@@ -950,6 +956,7 @@ export const getCalculatedBenefits = createSelector(
 
     const { militaryStatus } = eligibility;
     const giBillChapter = +eligibility.giBillChapter;
+    const institutionType = institution.type.toLowerCase();
 
     if (giBillChapter === 31 && !derived.onlyVRE) {
       calculatedBenefits.inputs = {
@@ -962,7 +969,7 @@ export const getCalculatedBenefits = createSelector(
       };
     }
 
-    if (institution.type === 'ojt') {
+    if (institutionType === 'ojt') {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
         tuition: false,
@@ -991,7 +998,7 @@ export const getCalculatedBenefits = createSelector(
       };
     }
 
-    if (institution.type === 'flight' || institution.type === 'correspondence') {
+    if (institutionType === 'flight' || institutionType === 'correspondence') {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
         enrolled: false,
@@ -1001,7 +1008,7 @@ export const getCalculatedBenefits = createSelector(
       };
     }
 
-    if (institution.type === 'public') {
+    if (institutionType === 'public') {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
         inState: true
@@ -1067,7 +1074,7 @@ export const getCalculatedBenefits = createSelector(
       calculatedBenefits.outputs.perTerm.yellowRibbon.terms[5].visible = false;
     }
 
-    if (derived.numberOfTerms < 3 && institution.type !== 'ojt') {
+    if (derived.numberOfTerms < 3 && institutionType !== 'ojt') {
       // Hide all term 3 calculations.
       calculatedBenefits.outputs.perTerm.tuitionAndFees.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[2].visible = false;
