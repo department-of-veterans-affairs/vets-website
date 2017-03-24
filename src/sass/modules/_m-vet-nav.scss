@@ -7,14 +7,13 @@ body.va-pos-fixed {
   background-color: $color-primary-darkest;
   height: 100%;
   left: 0;
-  margin-top: .8rem;
   overflow-y: scroll;
   position: absolute;
-  padding-top: .8rem;
   width: 100%;
   z-index: 6;
 
   @include media($medium-large-screen) {
+    margin-top: 1rem;
     overflow-y: visible;
     position: static;
     width: auto;
@@ -26,23 +25,17 @@ body.va-pos-fixed {
   }
 }
 
-.vetnav-isopen {
-  // Makes menu scrollable, without scrolling entire page.
-  #content, .footer {
-    position: fixed;
-  }
-}
-
 #vetnav-menu {
   height: 62rem;
   list-style: none;
-  margin: 0;
+  margin: 1rem 0;
   overflow-y: scroll;
   padding-left: 0;
 
   @include media($medium-large-screen) {
     display: flex;
     height: auto;
+    margin-bottom: 0;
     overflow-y: visible;
     position: relative;
   }
@@ -111,9 +104,7 @@ body.va-pos-fixed {
 }
 
 #vetnav-controls {
-  margin-top: -4rem;
-  position: absolute;
-  right: 1.6rem;
+  position: relative;
   width: 100px;
 
   svg {
@@ -140,6 +131,7 @@ body.va-pos-fixed {
   left: 0;
   margin: 0;
   min-width: 100px;
+  width: auto;
 
   &[hidden] {
     display: none;
@@ -149,7 +141,7 @@ body.va-pos-fixed {
 @include media($medium-large-screen) {
   a.vetnav-level1 {
     border-bottom: 1px solid transparent;
-
+    
     &:hover {
       background-color: $color-primary;
       border-bottom-color: $color-primary;
@@ -343,22 +335,6 @@ body.va-pos-fixed {
   }
 }
 
-#login-root {
-  position: absolute;
-  right: 0;
-  padding-top: .5rem;
-  padding-right: 1.6rem;
-
-  @include media($medium-large-screen) {
-    align-self: flex-end;
-    -webkit-flex: 1 1 30rem;
-    flex: 1 1 30rem;
-    padding-bottom: 1.6rem;
-    padding-top: 0;
-    position: static;
-  }
-}
-
 @include media($medium-large-screen) {
   #vetnav-explore {
     height: 310px;
@@ -371,3 +347,69 @@ body.va-pos-fixed {
   }
 }
 
+.vet-toolbar {
+  align-items: center;
+  flex: 1 1 100%;
+  margin-left: -2rem;
+
+  > [data-reactroot], 
+  > div {
+    align-items: center;
+    display: flex;
+  }
+
+  @include media($medium-large-screen) {
+    flex: 0 1 32.5rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  [href^=tel] {
+    text-decoration: none;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+  }
+
+  .va-dropdown, 
+  .sign-in-link {
+    margin-left: 1rem;
+  }
+
+  .va-dropdown-trigger {
+    font-weight: 600;
+  }
+}
+
+.sign-in-link {
+  white-space: nowrap;
+}
+
+[id=search] {
+  width: 30rem;
+
+  [type=text] {
+    margin: 0;
+    flex: 1 0 20rem;
+  }
+
+  [type=submit] {
+    border-radius: 0 .3rem .3rem 0;
+    display: flex;
+    flex: 1 0 3rem;
+    justify-content: center;
+    margin: 0;
+    padding: 1rem;
+  }
+
+  > .va-flex {
+    align-items: center;
+  }
+}

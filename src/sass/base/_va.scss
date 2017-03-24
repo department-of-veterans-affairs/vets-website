@@ -207,17 +207,7 @@ a[href^=http] {
   padding: 0;
   margin: 0;
 
-  .login-container {
-    background: $color-primary-darkest;
-    padding: 0.3em 0 0;
-    white-space: nowrap;
-
-    .row {
-      padding: 0;
-    }
-  }
-
-  .va-notice--banner {
+ .va-notice--banner {
     display: none !important;
 
     @include media($medium-screen) {
@@ -226,15 +216,34 @@ a[href^=http] {
   }
 }
 
-.va-header-logosearch {
+.login-container {
+  background: $color-primary-darkest;
+  flex-wrap: wrap;
+  white-space: nowrap;
+  
+  .row {
+    padding: 0;
+  }
+   @include media($medium-large-screen) {
+    flex: 1 0 100%;
+  }
+}
+  
+
+#va-header-logo-menu {
+  flex-wrap: wrap;
   padding: 1em 0.75em 0;
+  
+  @include media($medium-large-screen) {
+    padding-bottom: 0;
+  }
 }
 
 .va-header-logo-wrapper {
-  flex: 1 1 10rem;
-
+  flex: 1 0 164px;
+  
   @include media($medium-large-screen) {
-    flex-basis: 60rem;
+    flex-basis: 6rem;
   }
 }
 
@@ -244,8 +253,7 @@ a[href^=http] {
   border-bottom: none;
   display: block;
   height: 40px;
-  overflow: hidden;
-  line-height: 1em;
+  //padding-left: .5rem;
   margin: 0;
   width: 164px;
 
@@ -1137,35 +1145,6 @@ li {
 
 // Search
 
-#search_form {
-  padding: 1.1em 0;
-  text-align: right;
-  label {
-    position: absolute;
-    left: -9999em;
-    font-size: 1px;
-    overflow: hidden;
-    float: left;
-  }
-  input[type='text'] {
-    height: 3em;
-    margin: 0;
-    width: 100%;
-    color: $color-gray-dark;
-    padding: .2em;
-    box-sizing: border-box;
-  }
-
-  input[type='submit'] {
-    margin: 0;
-    height: 3em;
-    text-align: center !important;
-    width: 100%;
-    padding: 0;
-    border-radius: 0px 3px 3px 0px;
-  }
-}
-
 .search-button {
   margin: 1em .5em 0 0;
   padding: 0;
@@ -1174,26 +1153,6 @@ li {
     float: right;
     margin-top: 0.1em;
   }
-}
-
-.reveal-modal #search_form {
-  margin-bottom: 1em;
-}
-
-.reveal-modal .close-reveal-modal {
-  font-size: 1em;
-  clear: both;
-  text-decoration: none;
-  color: $color-gray-dark;
-  text-align: center;
-  margin: 1em 0;
-  position: relative;
-  top: auto;
-  display: block;
-  padding: 1em 0;
-  right: auto;
-  width: 100%;
-  bottom: auto;
 }
 
 //===================================
@@ -1906,22 +1865,5 @@ p.info-message {
   p {
     font-size: 1em !important;
     color: #323a45 !important;
-  }
-}
-
-.va-search-form--narrowscr {
-  [type="text"] {
-    flex: 2 1 10rem;
-  }
-  [type="submit"] {
-    flex: 0 1 14rem;
-  }
-}
-
-.va-search-form--widescr {
-  display: none;
-
-  @include media($medium-large-screen) {
-    display: inline-block;
   }
 }
