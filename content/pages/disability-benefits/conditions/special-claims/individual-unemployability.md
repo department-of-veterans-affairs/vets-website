@@ -9,7 +9,7 @@ template: 4-action-page-pending
 
 If you can't work because of a disability related to your service in the military (a service-connected disability), you may qualify for what's called individual unemployability. This means you may be able to get disability compensation or benefits at the same level as a Veteran who has a 100% disability rating.
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

@@ -7,7 +7,7 @@ concurrence: incomplete
 
 If you are using VA educational assistance, and you’re struggling with the course work, you may be eligible for a financial supplement to pay for a tutor.
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Are you eligible for benefits?
 Yes, if:

@@ -8,7 +8,7 @@ template: 4-action-page
 
 You may have had contact with Agent Orange even if you did not serve in Vietnam or in the Korean Demilitarized Zone. Agent Orange is a toxic chemical used to clear trees and plants during the Vietnam War. Find out if you can get disability compensation or benefits for illnesses believed to be caused by contact with Agent Orange.
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

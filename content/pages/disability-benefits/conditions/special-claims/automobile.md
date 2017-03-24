@@ -8,7 +8,7 @@ template: 4-action-page-pending
 
 Do you have a disability related to your military service that prevents you from driving? If you do, you may be able to get disability compensation or benefits. 
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

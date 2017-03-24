@@ -13,7 +13,7 @@ If you're a Servicemember with a disability, the Benefits Delivery at Discharge 
 - Demobilization
 
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I use the BDD program to get my disability benefits sooner?
 

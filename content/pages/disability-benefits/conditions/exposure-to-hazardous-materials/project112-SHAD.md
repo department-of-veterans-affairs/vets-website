@@ -8,7 +8,7 @@ template: 4-action-page-pending
 
 If you were part of chemical and biological warfare testing for Projects 112 or Shipboard Hazard and Defense (SHAD) from 1962 to 1974, you may be at risk for illnesses believed to be caused by the testing. Find out if you can get disability compensation or benefits.
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

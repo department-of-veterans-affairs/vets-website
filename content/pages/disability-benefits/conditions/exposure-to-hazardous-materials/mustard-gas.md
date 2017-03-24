@@ -8,7 +8,7 @@ template: 4-action-page
 
 If you had contact with mustard gas (also known as sulfur mustard, yperite, or nitrogen mustard) or lewisite, a natural compound that contains the poison arsenic, you may have certain related long-term illnesses. Find out if you can get disability compensation or benefits.
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

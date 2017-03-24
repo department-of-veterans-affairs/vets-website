@@ -10,7 +10,7 @@ Find out if you can get disability compensation or benefits for illnesses—incl
 
 [Learn about radiation-related illnesses](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309). 
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
