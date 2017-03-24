@@ -88,7 +88,7 @@ You may also need:
 
 </li>
 
-<li class="step two">
+<li class="step last two">
 
 <div markdown="1">
 
