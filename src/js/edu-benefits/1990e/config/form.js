@@ -20,12 +20,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   transform,
-  eligibilityDescription
-} from '../helpers';
-
-import {
+  eligibilityDescription,
   benefitsLabels
-} from '../../utils/helpers';
+} from '../helpers';
 
 const {
   benefit,
