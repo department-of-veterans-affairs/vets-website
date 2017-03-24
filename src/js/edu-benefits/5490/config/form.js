@@ -6,6 +6,7 @@ import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.jso
 //  all have links, so for consistency, use the set in ../helpers
 import {
   benefitsLabels,
+  benefitsRelinquishedWarning,
   relationshipLabels,
   highSchoolStatusLabels,
   transform
@@ -156,6 +157,12 @@ const formConfig = {
                 }
               }
             },
+            'view:benefitsRelinquishedInfo': {
+              'ui:description': 'While receiving DEA or FRY scholarship benefits you may not receive payments of Dependency and Indemnity Compensation (DIC) or Pension and you may not be claimed as a dependent in a Compensation claim. If you are unsure of this decision it is strongly encouraged you talk with a VA counselor.',
+            },
+            'view:benefitsRelinquishedWarning': {
+              'ui:description': benefitsRelinquishedWarning
+            },
             benefitsRelinquishedDate: date.uiSchema('Effective date')
           },
           schema: {
@@ -163,6 +170,14 @@ const formConfig = {
             required: ['benefit', 'benefitsRelinquishedDate'],
             properties: {
               benefit,
+              'view:benefitsRelinquishedInfo': {
+                type: 'object',
+                properties: {}
+              },
+              'view:benefitsRelinquishedWarning': {
+                type: 'object',
+                properties: {}
+              },
               benefitsRelinquishedDate: dateSchema
             }
           }

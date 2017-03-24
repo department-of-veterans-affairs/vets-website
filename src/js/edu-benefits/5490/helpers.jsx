@@ -27,3 +27,11 @@ export const highSchoolStatusLabels = {
   discontinued: 'Discontinued or stopped high school',
   ged: 'Awarded GED'
 };
+
+export const benefitsRelinquishedWarning = (
+  <div className="usa-alert usa-alert-warning usa-content edu-warning-single-line">
+    <div className="usa-alert-body">
+      I certify that I understand the effects that this election to receive DEA or FRY scholarship benefits will have on my eligibility for DIC payments, and I elect to receive the selected scholarship benefit on the following date:
+    </div>
+  </div>
+);
