@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import { checkRefreshStatus } from '../actions/refresh';
 import { submitForm } from '../actions/form';
 
@@ -29,7 +29,7 @@ export class UpdatePage extends React.Component {
       this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
     }
     if (nextProps.form.ready) {
-      this.context.router.push('/download');
+      this.props.router.push('/download');
     }
   }
 
@@ -40,7 +40,7 @@ export class UpdatePage extends React.Component {
   handleSkipToDownload(e) {
     e.preventDefault();
     this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
-    this.context.router.push('/download');
+    this.props.router.push('/download');
   }
 
   render() {
@@ -62,10 +62,6 @@ export class UpdatePage extends React.Component {
   }
 }
 
-UpdatePage.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
-
 const mapStateToProps = (state) => {
   const hrState = state.health.hr;
 
@@ -80,4 +76,4 @@ const mapDispatchToProps = {
   submitForm,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdatePage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UpdatePage));
