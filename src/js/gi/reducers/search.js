@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
-import { SEARCH_STARTED, SEARCH_FAILED, SEARCH_SUCCEEDED } from '../actions';
+import { camelCase } from 'lodash';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
+import { SEARCH_STARTED, SEARCH_FAILED, SEARCH_SUCCEEDED } from '../actions';
 
 const INITIAL_STATE = {
   facets: {
@@ -41,7 +42,7 @@ function uppercaseKeys(obj) {
   return Object.keys(obj).reduce((result, key) => {
     return {
       ...result,
-      [key.toUpperCase()]: obj[key]
+      [key.toUpperCase().replace(/_/g, '-')]: obj[key]
     };
   }, {});
 }
@@ -74,7 +75,16 @@ export default function (state = INITIAL_STATE, action) {
         inProgress: false
       };
     case SEARCH_SUCCEEDED:
+      const { payload: { meta: { facets } } } = action;
       const camelPayload = camelCaseKeysRecursive(action.payload);
+
+      // In order to properly use facets for filtering, we need to
+      // keep the values from the original payload without any case conversion.
+      Object.keys(facets).forEach(facet => {
+        const camelFacet = camelCase(facet);
+        camelPayload.meta.facets[camelFacet] = facets[facet];
+      });
+
       const results = camelPayload.data.reduce((acc, result) => {
         const attributes = normalizedAttributes(result.attributes);
         return [...acc, attributes];
