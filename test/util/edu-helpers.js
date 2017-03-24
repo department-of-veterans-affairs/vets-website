@@ -115,7 +115,7 @@ function completeServicePeriods(client, data, onlyRequiredFields) {
   }
 }
 
-function completeContactInformation(client, data, onlyRequiredFields) {
+function completeVeteranAddress(client, data) {
   client
     .clearValue('input[name="root_veteranAddress_street"]')
     .setValue('input[name="root_veteranAddress_street"]', data.veteranAddress.street)
@@ -126,7 +126,13 @@ function completeContactInformation(client, data, onlyRequiredFields) {
     .clearValue('select[name="root_veteranAddress_state"]')
     .setValue('select[name="root_veteranAddress_state"]', data.veteranAddress.state)
     .clearValue('input[name="root_veteranAddress_postalCode"]')
-    .setValue('input[name="root_veteranAddress_postalCode"]', data.veteranAddress.postalCode)
+    .setValue('input[name="root_veteranAddress_postalCode"]', data.veteranAddress.postalCode);
+}
+
+// TODO: add parameter to fill either veteran or relative address
+function completeContactInformation(client, data, onlyRequiredFields) {
+  completeVeteranAddress(client, data);
+  client
     .clearValue('input[name="root_view:otherContactInfo_email"]')
     .setValue('input[name="root_view:otherContactInfo_email"]', data['view:otherContactInfo'].email)
     .clearValue('input[name="root_view:otherContactInfo_view:confirmEmail"]')
@@ -158,6 +164,7 @@ module.exports = {
   completeAdditionalBenefits,
   completeBenefitsSelection,
   completeServicePeriods,
+  completeVeteranAddress,
   completeContactInformation,
   completeDirectDeposit
 };

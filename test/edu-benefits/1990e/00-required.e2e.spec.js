@@ -30,11 +30,18 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/additional-benefits');
 
-    // Benefits eligibility (no required fields)
+    // Benefits eligibility page (no required fields)
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
+
+    // Sponsor information page
+    client
+      .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
+    EduHelpers.completeVeteranInformation(client, testData.sponsorVeteran.data, true);
+    client.click('.form-progress-buttons .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/sponsor/information');
 
     client.end();
   }

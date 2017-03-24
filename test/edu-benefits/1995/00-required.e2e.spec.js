@@ -26,7 +26,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran/information');
 
-    // Benefits eligibility
+    // Benefits eligibility page.
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
     EduHelpers.completeBenefitsSelection(client);
@@ -47,14 +47,14 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military/history');
 
-    // New school
+    // New school page.
     client
       .waitForElementVisible('label[for="root_educationType"]', Timeouts.slow);
     Edu1995Helpers.completeNewSchool(client, testData.newSchool.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/school-selection/new-school');
 
-    // Old school
+    // Old school page.
     client
       .waitForElementVisible('label[for="root_oldSchool_name"]', Timeouts.slow);
     Edu1995Helpers.completeOldSchool(client, testData.oldSchool.data, true);
@@ -68,14 +68,14 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
-    // Direct deposit page
+    // Direct deposit page.
     client
       .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
     EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
-    // Review and Submit Page.
+    // Review and Submit page.
     client
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
     client

@@ -24,19 +24,27 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/information');
 
-    // Additional benefits
+    // Additional benefits page
     client
       .waitForElementVisible('label[for="root_nonVaAssistance"]', Timeouts.slow);
     EduHelpers.completeAdditionalBenefits(client, testData.benefitEligibility.data);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/additional-benefits');
 
-    // Benefits eligibility
+    // Benefits eligibility page
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
     EduHelpers.completeBenefitsSelection(client);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
+
+    // Sponsor information page
+    client
+      .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
+    EduHelpers.completeVeteranInformation(client, testData.sponsorVeteran.data, false);
+    EduHelpers.completeVeteranAddress(client, testData.sponsorVeteran.data);
+    client.click('.form-progress-buttons .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/sponsor/information');
 
     client.end();
   }
