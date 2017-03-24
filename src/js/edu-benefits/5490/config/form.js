@@ -13,12 +13,14 @@ import {
 } from '../helpers';
 
 import {
+  hoursTypeLabels,
   stateLabels
 } from '../../utils/helpers';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
+import { uiSchema as uiSchemaDateRange } from '../../../common/schemaform/definitions/dateRange';
 import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
@@ -407,20 +409,22 @@ const formConfig = {
                   expandUnderClassNames: 'schemaform-expandUnder-indent'
                 }
               },
-              highSchoolOrGedCompletionDate: _.assign(
+              'view:highSchoolOrGedCompletionDate': _.assign(
                 date.uiSchema('When did you earn your high school diploma?'), {
                   'ui:options': {
                     hideIf: form => {
                       const status = _.get('highSchool.status', form);
                       return status !== 'graduated' && status !== 'ged';
-                    }
+                    },
+                    expandUnder: 'status'
                   }
-                }),
+                }
+              ),
               'view:hasHighSchool': {
                 'ui:options': {
                   hideIf: form => {
                     const status = _.get('highSchool.status', form);
-                    return status !== 'discontinued';
+                    return status === 'neverAttended';
                   },
                   expandUnder: 'status'
                 },
@@ -435,6 +439,28 @@ const formConfig = {
                   'ui:options': {
                     labels: stateLabels
                   }
+                },
+              },
+              'view:highSchoolCompleted': {
+                'ui:options': {
+                  hideIf: form => {
+                    const status = _.get('highSchool.status', form);
+                    return status !== 'graduated';
+                  },
+                  expandUnder: 'status'
+                },
+                dateRange: uiSchemaDateRange(),
+                hours: {
+                  'ui:title': 'Hours completed'
+                },
+                hoursType: {
+                  'ui:title': 'Type of hours',
+                  'ui:options': {
+                    labels: hoursTypeLabels
+                  }
+                },
+                degreeReceived: {
+                  'ui:title': 'Degree, diploma, or certificate received'
                 }
               }
             },
@@ -455,7 +481,6 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   status: highSchool.properties.status,
-                  highSchoolOrGedCompletionDate: date.schema,
                   'view:hasHighSchool': {
                     type: 'object',
                     properties: {
@@ -463,7 +488,17 @@ const formConfig = {
                       city: highSchool.properties.city,
                       state: highSchool.properties.state
                     }
-                  }
+                  },
+                  'view:highSchoolCompleted': {
+                    type: 'object',
+                    properties: {
+                      dateRange: highSchool.properties.dateRange,
+                      hours: highSchool.properties.hours,
+                      hoursType: highSchool.properties.hoursType,
+                      degreeReceived: highSchool.properties.degreeReceived
+                    }
+                  },
+                  'view:highSchoolOrGedCompletionDate': date.schema,
                 }
               },
               'view:hasTrainings': {
