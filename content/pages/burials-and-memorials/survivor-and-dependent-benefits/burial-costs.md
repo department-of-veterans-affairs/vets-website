@@ -20,7 +20,7 @@ You may be able to get burial allowances if you’re:
 
 </div>
 
-To get this benefit, the Veteran must not have been dishonorably discharged, and must have:
+To get this benefit, the Veteran must have been discharged under conditions other than dishonorable, and must have:
 
 - Died as a result of a service-connected disability (a disability related to service), **or**
 - Been getting a VA pension or compensation when they died, **or**
@@ -74,5 +74,5 @@ To get this benefit, the Veteran must not have been dishonorably discharged, and
 - We may also pay you back for some or all of the costs of moving the Veteran’s remains if they were hospitalized or in a VA-contracted nursing home at the time of death.
 - We may pay you back for some or all of the costs of moving the Veteran’s remains if they died while traveling to VA-authorized care
 
-**Note:** If a Veteran’s remains aren’t claimed, we’ll pay the person or organization responsible for the Veteran’s burial a $300 burial allowance. If the Veteran’s eligible, we may pay you back for the costs of moving the Veteran’s remains to a VA national cemetery. We may also pay you back for the cost of a plot. 
+**Note:** If a Veteran’s remains aren’t claimed, we’ll pay the person or organization responsible for the Veteran’s burial a $300 burial allowance. If the Veteran is eligible, we may pay you back for the costs of moving the Veteran’s remains to a VA national cemetery. We may also pay you back for the cost of a plot. 
 
