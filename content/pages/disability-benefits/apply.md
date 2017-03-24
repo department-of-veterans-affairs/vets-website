@@ -6,17 +6,17 @@ template: 1-topic-landing
 showactionbar: false
 relatedlinks:
  - url: /disability-benefits/claims-process/evidence/
-   title: How do I gather supporting documents for a disability claim? 
-   description: "Find out what you need to turn in so we can decide your claim."
+   title: Evidence (Supporting Documents)
+   description: "Find out which supporting documents you’ll need to give us so we can decide your claim."
  - url: /disability-benefits/claims-process/claim-types/
-   title: What are the different claim types and what do they mean? 
+   title: Types of Disability Claims 
    description: "Learn about standard claims, reopened claims, secondary claims, and more."
  - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
-   title: How do I file while on active duty?
-   description: "File your claim as you get ready to leave the military to speed up the claim decision process."
+   title: Predischarge Claim
+   description: "Find out how to file your claim as you get ready to leave the military to speed up the claim decision process."
  - url: /disability-benefits/apply-for-benefits/help/
-   title: How do I get help filing a claim?
-   description: "Work with a trained professional called an accredited representative."
+   title: Get Help Filing a Claim
+   description: "Find out how to work with a trained professional called an accredited representative."
 ---
 
 You can apply for disability benefits online. We've listed all the steps below so when you're ready, you can apply for this tax-free monetary benefit. Find out how to apply. 

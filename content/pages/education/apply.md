@@ -7,10 +7,10 @@ showactionbar: false
 relatedlinks:
  - url: /education/gi-bill/
    title: GI Bill
-   description: "Since 1944, millions of Veterans have used the GI Bill to pay for college."
+   description: "Learn about the GI Bill benefits that millions of Veterans like you have used to pay for college."
  - url: /education/advanced-training-and-certifications/
    title: Advanced Training and Certifications
-   description: "Use the GI Bill to pay for more than just academic programs."
+   description: "The GI Bill can pay for more than just academic programs. Use it to help cover the costs of becoming a licensed or certified professional (like a mechanic or medical technician) or a business owner."
 ---
 
 If you’re a Servicemember, Veteran, or family member interested in education and training opportunities, you can apply for your Certificate of Eligibility (COE). You can also manage your current benefits.

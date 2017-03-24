@@ -138,14 +138,14 @@ export class Main extends React.Component {
 
     const handleFormattedDate = (start = true) => {
       let handleDateChange;
-      let setInvalidDateState;
+      let setDateError;
 
       if (start) {
         handleDateChange = this.handleStartDateChange;
-        setInvalidDateState = () => this.setState({ invalidStartDateFormat: true });
+        setDateError = (errorType) => this.setState({ startDateError: errorType });
       } else {
         handleDateChange = this.handleEndDateChange;
-        setInvalidDateState = () => this.setState({ invalidEndDateFormat: true });
+        setDateError = (errorType) => this.setState({ endDateError: errorType });
       }
 
       return (e) => {
@@ -162,7 +162,9 @@ export class Main extends React.Component {
         } else {
           handleDateChange(null);
           if (dateString) {
-            setInvalidDateState();
+            setDateError('invalid');
+          } else {
+            setDateError('missing');
           }
         }
       };
@@ -170,14 +172,22 @@ export class Main extends React.Component {
 
     const datePickerDisabled = dateOption !== 'custom';
 
-    const customDateRangeError =
-      this.state.invalidStartDateFormat ||
-      this.state.invalidEndDateFormat;
+    const invalidFormatError =
+      [this.state.startDateError, this.state.endDateError]
+        .indexOf('invalid') > -1;
+    const missingDateError =
+    [this.state.startDateError, this.state.endDateError]
+      .indexOf('missing') > -1;
 
     const customDateOptionClass = classNames({
       'custom-date-option': true,
-      'date-range-error': customDateRangeError
+      'date-range-error': this.state.startDateError || this.state.endDateError
     });
+
+    const validationErrorMessages = {
+      invalidFormatError: 'Enter dates in the MM/DD/YYYY date format',
+      missingDateError: 'Enter a date range',
+    };
 
     const radioButtonProps = {
       name: 'dateRange',
@@ -190,8 +200,12 @@ export class Main extends React.Component {
           label: (
             <div className={customDateOptionClass}>
               {
-                customDateRangeError && <p className="date-range-error">
-                Enter dates in the MM/DD/YYYY date format</p>
+                invalidFormatError && <p className="date-range-error">
+                {validationErrorMessages.invalidFormatError}</p>
+              }
+              {
+                !datePickerDisabled && !invalidFormatError && missingDateError && <p className="date-range-error">
+                {validationErrorMessages.missingDateError}</p>
               }
               <span>Custom date range</span>
               <div className="date-range-fields">
@@ -199,23 +213,24 @@ export class Main extends React.Component {
                     id="custom-date-start"
                     onBlur={handleFormattedDate()}
                     onChange={this.handleStartDateChange}
-                    onFocus={() => this.setState({ invalidStartDateFormat: false })}
+                    onFocus={() => this.setState({ startDateError: null })}
                     placeholderText="MM/DD/YYYY"
                     selected={startDate}
                     disabled={datePickerDisabled}
                     maxDate={endDate}
-                    className={!datePickerDisabled && this.state.invalidStartDateFormat ? 'date-range-error' : ''}/>
+                    className={!datePickerDisabled && this.state.startDateError ? 'date-range-error' : ''}/>
                 <span>&nbsp;to&nbsp;</span>
                 <DatePicker
                     id="custom-date-end"
                     onBlur={handleFormattedDate(false)}
                     onChange={this.handleEndDateChange}
-                    onFocus={() => this.setState({ invalidEndDateFormat: false })}
+                    onFocus={() => this.setState({ endDateError: null })}
                     placeholderText="MM/DD/YYYY"
                     selected={endDate}
                     disabled={datePickerDisabled}
                     minDate={startDate}
-                    className={!datePickerDisabled && this.state.invalidEndDateFormat ? 'date-range-error' : ''}/>
+                    maxDate={moment()}
+                    className={!datePickerDisabled && this.state.endDateError ? 'date-range-error' : ''}/>
               </div>
             </div>
           ),
@@ -226,8 +241,8 @@ export class Main extends React.Component {
         if (v.dirty) {
           this.props.changeDateOption(v.value);
           this.setState({
-            invalidStartDateFormat: false,
-            invalidEndDateFormat: false
+            startDateError: null,
+            endDateError: null,
           });
         }
       },
@@ -250,6 +265,7 @@ export class Main extends React.Component {
     const checkedCount = _.countBy(types, type => selections[type]).true;
     const allValuesChecked = checkedCount === types.length;
     const noValuesChecked = !checkedCount;
+    const hasCustomDateErrors = this.state.startDateError || this.state.endDateError;
 
     return (
       <div>
@@ -271,7 +287,7 @@ export class Main extends React.Component {
             <button
                 onClick={this.handleSubmit}
                 type="submit"
-                disabled={noValuesChecked}>
+                disabled={noValuesChecked || hasCustomDateErrors}>
               Submit
             </button>
             <a className="usa-button usa-button-outline" href="/healthcare" role="button">Cancel</a>

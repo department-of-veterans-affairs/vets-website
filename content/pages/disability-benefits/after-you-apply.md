@@ -6,10 +6,10 @@ template: 1-topic-landing
 showactionbar: false
 relatedlinks:
  - url: /disability-benefits/claims-process/date/
-   title: How does VA decide when my disability compensation starts?
-   description: "Find out when you'll start getting your disability benefits (your effective date of disability)."
+   title: Effective Date of Disability
+   description: "Find out when you’ll start getting your disability payments."
  - url: /disability-benefits/claims-process/what-happens-after-rating/
-   title: What can I expect after getting a disability rating?
+   title: What to Expect After You Get a Disability Rating
    description: "Find out what happens after you get your decision notice with your rating."
 ---
 
