@@ -24,10 +24,6 @@ import {
   benefitsLabels
 } from '../helpers';
 
-// import {
-//   benefitsLabels
-// } from '../../utils/helpers';
-
 const {
   benefit,
   faaFlightCertificatesInformation,
