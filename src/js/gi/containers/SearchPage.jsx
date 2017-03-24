@@ -102,6 +102,12 @@ export class SearchPage extends React.Component {
     const queryValue = field === 'caution' ? !value : value;
     const query = { ...this.props.location.query, [field]: queryValue };
 
+    // Don't update the route if the query hasn't changed.
+    if (_.isEqual(query, this.props.location.query)) { return; }
+
+    // Reset to the first page upon a filter change.
+    delete query.page;
+
     const shouldRemoveFilter =
       (field !== 'caution' && !queryValue) ||
       (field === 'caution' && queryValue) ||
