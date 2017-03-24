@@ -11,7 +11,7 @@ If you performed a period of national service, you may be eligible for the Natio
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Are you eligible for benefits?
 

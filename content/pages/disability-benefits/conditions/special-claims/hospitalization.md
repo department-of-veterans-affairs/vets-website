@@ -12,7 +12,7 @@ Did you spend time in a VA hospital or a VA-approved hospital for a disability r
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

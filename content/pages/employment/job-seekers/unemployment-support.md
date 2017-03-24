@@ -30,7 +30,8 @@ If you can’t find a job after you separate from active-duty service, you may b
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
+
 
 ### Are you eligible?
 Yes, if:

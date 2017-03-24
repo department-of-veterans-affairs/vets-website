@@ -14,7 +14,7 @@ Find out if you can get disability compensation or benefits for illnesses—incl
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

@@ -15,7 +15,7 @@ If you served in Afghanistan, you may suffer from illnesses or other conditions 
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

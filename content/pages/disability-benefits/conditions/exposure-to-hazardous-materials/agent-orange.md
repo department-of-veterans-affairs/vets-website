@@ -11,7 +11,7 @@ The U.S. military used Agent Orange to clear plants and trees during the Vietnam
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

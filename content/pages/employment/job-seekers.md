@@ -10,7 +10,8 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
+
 
 ### You may not be completely ready to start looking for a job, but there are other ways you can prepare.
 

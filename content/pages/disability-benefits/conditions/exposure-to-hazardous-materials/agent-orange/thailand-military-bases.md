@@ -12,7 +12,7 @@ If you had regular security duty on the fenced-in perimeters of a U.S. military 
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

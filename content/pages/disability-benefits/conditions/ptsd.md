@@ -27,7 +27,7 @@ You may be able to get disability compensation or benefits if you have symptoms 
 - Were threatened with injury, sexual assault, or death
 
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

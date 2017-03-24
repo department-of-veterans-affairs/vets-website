@@ -12,7 +12,8 @@ If you think you had contact with Agent Orange, a toxic chemical used to clear t
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
+
 
 ### Can I get an Agent Orange Registry health exam?
 
