@@ -620,9 +620,37 @@ ul, ol {
 
 .maintenance-page {
   padding-top: 3.2rem;
+
+  .text-center {
+    margin: auto;
+  }
 }
 
+//========================
+// 404 page only
+//========================
 
+#search_form {
+  position: relative;
+  width: 100%;
+
+  label {
+    left: -9999rem;
+    position: absolute;
+  }
+
+  [type=text] {
+    height: 5.7rem;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  [type=submit] {
+    border-radius: 0 3px 3px 0;
+    height: 5.7rem;
+    margin: 0;
+  }
+}
 
 // Content lead paragraphs
 
@@ -1774,10 +1802,17 @@ pre[class*='language-']  {
 }
 
 // Vertically aligns in the middle when flex-direction: row;
-// Aligns center when flex-direction: column
+// Aligns center horizontally when flex-direction: column
 .va-flex--ctr {
   -webkit-align-items: center;
   align-items: center;
+}
+
+// Horizontally aligns in the center when flex-direction: row;
+// Aligns middle vertically when flex-direction: column
+.va-flex--jctr {
+  -webkit-justify-items: center;
+  justify-items: center;
 }
 
 // Stretches all flexbox items to be the same height when
