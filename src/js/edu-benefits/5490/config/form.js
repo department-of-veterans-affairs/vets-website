@@ -13,7 +13,6 @@ import {
 } from '../helpers';
 
 import {
-  hoursTypeLabels,
   stateLabels
 } from '../../utils/helpers';
 
@@ -414,7 +413,7 @@ const formConfig = {
                   'ui:options': {
                     hideIf: form => {
                       const status = _.get('highSchool.status', form);
-                      return status !== 'graduated' && status !== 'ged';
+                      return status !== 'graduated';
                     },
                     expandUnder: 'status'
                   }
@@ -424,7 +423,7 @@ const formConfig = {
                 'ui:options': {
                   hideIf: form => {
                     const status = _.get('highSchool.status', form);
-                    return status === 'neverAttended';
+                    return status !== 'discontinued';
                   },
                   expandUnder: 'status'
                 },
@@ -440,28 +439,7 @@ const formConfig = {
                     labels: stateLabels
                   }
                 },
-              },
-              'view:highSchoolCompleted': {
-                'ui:options': {
-                  hideIf: form => {
-                    const status = _.get('highSchool.status', form);
-                    return status !== 'graduated';
-                  },
-                  expandUnder: 'status'
-                },
                 dateRange: uiSchemaDateRange(),
-                hours: {
-                  'ui:title': 'Hours completed'
-                },
-                hoursType: {
-                  'ui:title': 'Type of hours',
-                  'ui:options': {
-                    labels: hoursTypeLabels
-                  }
-                },
-                degreeReceived: {
-                  'ui:title': 'Degree, diploma, or certificate received'
-                }
               }
             },
             'view:hasTrainings': {
@@ -486,16 +464,8 @@ const formConfig = {
                     properties: {
                       name: highSchool.properties.name,
                       city: highSchool.properties.city,
-                      state: highSchool.properties.state
-                    }
-                  },
-                  'view:highSchoolCompleted': {
-                    type: 'object',
-                    properties: {
+                      state: highSchool.properties.state,
                       dateRange: highSchool.properties.dateRange,
-                      hours: highSchool.properties.hours,
-                      hoursType: highSchool.properties.hoursType,
-                      degreeReceived: highSchool.properties.degreeReceived
                     }
                   },
                   'view:highSchoolOrGedCompletionDate': date.schema,
