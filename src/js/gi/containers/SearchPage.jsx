@@ -206,16 +206,19 @@ export class SearchPage extends React.Component {
 
         <div className="row">
           <div className={filtersClass}>
-            <h2>Keywords</h2>
-            <KeywordSearch
-                location={this.props.location}
-                label="City, school, or employer"
-                onFilterChange={this.handleFilterChange}/>
-            <InstitutionFilterForm
-                search={search}
-                filters={filters}
-                onFilterChange={this.handleFilterChange}/>
-            <EligibilityForm/>
+            <div className="filters-sidebar-inner">
+              {search.filterOpened && <h1>Filter your search</h1>}
+              <h2>Keywords</h2>
+              <KeywordSearch
+                  location={this.props.location}
+                  label="City, school, or employer"
+                  onFilterChange={this.handleFilterChange}/>
+              <InstitutionFilterForm
+                  search={search}
+                  filters={filters}
+                  onFilterChange={this.handleFilterChange}/>
+              <EligibilityForm/>
+            </div>
             <div className="results-button">
               <button className="usa-button" onClick={this.props.toggleFilter}>
                 See Results
