@@ -92,6 +92,7 @@ export default function createSchemaFormReducer(formConfig) {
     switch (action.type) {
       case SET_DATA: {
         const newState = _.set([action.page, 'data'], action.data, state);
+
         return recalculateSchemaAndData(newState);
       }
       case SET_EDIT_MODE: {
