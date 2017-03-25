@@ -91,23 +91,7 @@ export default function createSchemaFormReducer(formConfig) {
   return (state = initialState, action) => {
     switch (action.type) {
       case SET_DATA: {
-        // TODO: Write the documentation that says this is a thing (persistent schema
-        //  to be modified every pass)
-
-        // Use new data, but the initial schema
-        const newState = {};
-        Object.keys(state).forEach((pageName) => {
-          // Add data from state and schema / uiSchema from firstPassInitialState
-          //  for each page.
-          newState[pageName] = {
-            data: state[pageName].data,
-            ..._.omit('data', firstPassInitialState[pageName])
-          };
-        });
-
-        // Set the data just entered
-        newState[action.page].data = action.data;
-
+        const newState = _.set([action.page, 'data'], action.data, state);
         return recalculateSchemaAndData(newState);
       }
       case SET_EDIT_MODE: {

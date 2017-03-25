@@ -541,12 +541,11 @@ const formConfig = {
               educationType: {
                 'ui:options': {
                   updateSchema: (pageData, form, schema) => {
-                    // TODO: Reorder fields (maybe)...unless it's a universal change...
-                    // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/1794
-
                     const newSchema = _.cloneDeep(schema);
                     const benefitData = _.get('benefitSelection.data.benefit', form);
                     const relationshipData = _.get('applicantInformation.data.relationship', form);
+                    const labels = Object.keys(
+                      _.get('schoolSelection.uiSchema.educationProgram.educationType.ui:options.labels', form));
 
                     // Remove tuition top-up
                     const filterOut = ['tuitionTopUp'];
@@ -559,8 +558,7 @@ const formConfig = {
                       filterOut.push('flightTraining');
                     }
 
-                    newSchema.enum = _.without(filterOut)(newSchema.enum);
-
+                    newSchema.enum = _.without(filterOut)(labels);
                     return newSchema;
                   }
                 }
