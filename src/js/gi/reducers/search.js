@@ -23,6 +23,7 @@ const INITIAL_STATE = {
     totalPages: 1
   },
   inProgress: false,
+  filterOpened: false
 };
 
 function normalizedAttributes(attributes) {

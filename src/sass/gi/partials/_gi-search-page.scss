@@ -14,6 +14,24 @@
     .institution-filter-form, .eligibility-form {
       margin-top: 1.5em;
     }
+
+    @include media-maxwidth($small-screen) {
+      display: none;
+
+      &.opened {
+        display: block;
+      }
+    }
+  }
+
+  .search-results {
+    @include media-maxwidth($small-screen) {
+      display: none;
+
+      &.opened {
+        display: block;
+      }
+    }
   }
 
   .search-result {

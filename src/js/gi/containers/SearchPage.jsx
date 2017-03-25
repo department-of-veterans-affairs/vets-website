@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import {
   setPageTitle,
@@ -123,18 +124,35 @@ export class SearchPage extends React.Component {
   render() {
     const { search, filters } = this.props;
     const { count, pagination: { currentPage, totalPages } } = search;
+
+    const resultsClass = classNames(
+      'search-results',
+      'small-12',
+      'medium-9',
+      'columns',
+      { opened: !search.filterOpened }
+    );
+
+    const filtersClass = classNames(
+      'filters-sidebar',
+      'small-12',
+      'medium-3',
+      'columns',
+      { opened: search.filterOpened }
+    );
+
     let searchResults;
 
     if (search.inProgress) {
       searchResults = (
-        <div className="small-12 medium-9 columns">
+        <div className={resultsClass}>
           <LoadingIndicator message="Loading search results..."/>;
         </div>
       );
     } else {
       searchResults = (
-        <div className="small-12 medium-9 columns">
-          <div className="search-results">
+        <div className={resultsClass}>
+          <div>
             {search.results.map((result) => {
               return (
                 <SearchResult
@@ -178,7 +196,7 @@ export class SearchPage extends React.Component {
         </div>
 
         <div className="row">
-          <div className="filters-sidebar small-12 medium-3 columns">
+          <div className={filtersClass}>
             <h2>Keywords</h2>
             <KeywordSearch
                 location={this.props.location}
