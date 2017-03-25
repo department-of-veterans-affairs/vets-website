@@ -8,7 +8,8 @@ import classNames from 'classnames';
 import {
   setPageTitle,
   fetchSearchResults,
-  institutionFilterChange
+  institutionFilterChange,
+  toggleFilter
 } from '../actions';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -143,15 +144,23 @@ export class SearchPage extends React.Component {
 
     let searchResults;
 
+    // Filter button on mobile.
+    const filterButton =
+      (<button
+          className="filter-button usa-button-outline"
+          onClick={this.props.toggleFilter}>Filter</button>);
+
     if (search.inProgress) {
       searchResults = (
         <div className={resultsClass}>
-          <LoadingIndicator message="Loading search results..."/>;
+          {filterButton}
+          <LoadingIndicator message="Loading search results..."/>
         </div>
       );
     } else {
       searchResults = (
         <div className={resultsClass}>
+          {filterButton}
           <div>
             {search.results.map((result) => {
               return (
@@ -207,6 +216,11 @@ export class SearchPage extends React.Component {
                 filters={filters}
                 onFilterChange={this.handleFilterChange}/>
             <EligibilityForm/>
+            <div className="results-button">
+              <button className="usa-button" onClick={this.props.toggleFilter}>
+                See Results
+              </button>
+            </div>
           </div>
           {searchResults}
         </div>
@@ -227,7 +241,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setPageTitle,
   fetchSearchResults,
-  institutionFilterChange
+  institutionFilterChange,
+  toggleFilter
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPage));

@@ -1,5 +1,11 @@
 /* eslint-disable no-case-declarations */
-import { SEARCH_STARTED, SEARCH_FAILED, SEARCH_SUCCEEDED } from '../actions';
+import {
+  FILTER_TOGGLED,
+  SEARCH_STARTED,
+  SEARCH_FAILED,
+  SEARCH_SUCCEEDED
+} from '../actions';
+
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
@@ -63,11 +69,10 @@ function derivePaging(links) {
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
+    case FILTER_TOGGLED:
+      return { ...state, filterOpened: !state.filterOpened };
     case SEARCH_STARTED:
-      return {
-        ...state,
-        inProgress: true
-      };
+      return { ...state, inProgress: true };
     case SEARCH_FAILED:
       return {
         ...state,

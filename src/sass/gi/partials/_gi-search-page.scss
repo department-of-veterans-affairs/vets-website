@@ -24,6 +24,28 @@
     }
   }
 
+  .filter-button, .results-button {
+    display: none;
+
+    @include media-maxwidth($small-screen) {
+      display: block;
+    }
+  }
+
+  .results-button {
+    background: $color-gray-lightest;
+    bottom: 0;
+    left: 0;
+    padding: 1rem 2rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+
+    @include media-maxwidth($small-screen) {
+      display: block;
+    }
+  }
+
   .search-results {
     @include media-maxwidth($small-screen) {
       display: none;
