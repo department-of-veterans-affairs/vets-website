@@ -12,7 +12,7 @@ relatedlinks:
    description: Learn about ways to memorialize the deceased.
  - url: /burials-and-memorials/burial-planning/flags-and-memorial-certificates
    title: Flags and Presidential Memorial Certificates
-   description: Learn about burial flags and more.
+   description: Find out how to honor the military service of a deceased Veteran with a burial flag and Presidential Memorial Certificate.
 ---
 
 When a Veteran, spouse, or dependent child dies, the person who plans the burial or memorial service has to take certain steps. You can also plan ahead for a burial in 1 of our 135 national cemeteries. Find out how to plan ahead or what to do if your family member has just died. 
