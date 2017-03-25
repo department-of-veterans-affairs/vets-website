@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: What to Expect at a Funeral
 template: 6-info-page
 relatedlinks:  
- - url: /burials-and-memorials/eligibility
+ - url: /burials-and-memorials/eligibility/
    title: Burial and Memorial Benefits Eligibility
    description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
  - url: /burials-and-memorials/burial-planning/
