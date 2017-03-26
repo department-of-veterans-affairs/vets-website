@@ -26,7 +26,7 @@ Servicemembers, Veterans, and family members may be eligible for burial in a VA 
 
 Servicemembers, Veterans, and family members may be able to get burial and memorial benefits if they're:
 
-- A Veteran who wasn’t dishonorably discharged from the military, **or**
+- A Veteran who was discharged from the military under conditions other than dishonorable, **or**
 - A Servicemember who died while on active duty, active duty for training, or inactive duty for training, **or**
 - The spouse or dependent child of a Veteran, even if the Veteran died first, **or**
 - In some cases, the adult dependent child of a Veteran (if they aren't married)
