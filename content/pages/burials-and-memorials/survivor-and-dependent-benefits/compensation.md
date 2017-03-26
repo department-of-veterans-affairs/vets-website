@@ -36,7 +36,7 @@ If you’re a surviving child, you can get compensation if you aren’t married 
   - Since the Veteran’s release from active duty and for at least 5 years immediately before their death, **or**
   - For at least 1 year before their death if the Veteran was a former Prisoner of War who died after September 30, 1999
 
-**Note:** “Totally disabling” means the Veteran’s injuries make it impossible to work.
+**Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
 
 <div class="call-out" markdown="0">
 
