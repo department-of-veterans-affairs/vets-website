@@ -40,7 +40,7 @@ You can apply for this benefit if you’re:
 
 ### How do I apply for a memorial item? 
 
-**For a headstone or marker**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). [Download VA Form 40-1330](http://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
+**For a headstone, marker, or niche cover**, fill out the Claim for Standard Government Headstone or Marker (VA Form 40-1330). [Download VA Form 40-1330](http://www.va.gov/vaforms/va/pdf/VA40-1330.pdf).
 
 **For a medallion** to be placed on a privately purchased headstone or marker, fill out the Claim for Government Medallion for Placement in a Private Cemetery (VA Form 40-1330M). [Download VA Form 40-1330M](http://www.va.gov/vaforms/va/pdf/VA40-1330M.pdf).
 
@@ -71,4 +71,4 @@ We provide memorial headstones and markers for qualified Veterans when their rem
 
 For spouses who qualify for a headstone or marker, the first line on the headstone or marker must say, “In Memory of,” and it must be placed in a national cemetery, state Veterans cemetery, or military base cemetery. 
 
-Get help applying for a headstone, marker, or medallion by calling <span class="tel">800-697-6947</span>.
+Get help applying for a headstone, marker, niche cover, or medallion by calling <span class="tel">800-697-6947</span>.
