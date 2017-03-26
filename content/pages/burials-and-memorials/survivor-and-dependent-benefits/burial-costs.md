@@ -74,5 +74,5 @@ To get this benefit, the Veteran must have been discharged under conditions othe
 - We may also pay you back for some or all of the costs of moving the Veteran’s remains if they were hospitalized or in a VA-contracted nursing home at the time of death.
 - We may pay you back for some or all of the costs of moving the Veteran’s remains if they died while traveling to VA-authorized care
 
-**Note:** If a Veteran’s remains aren’t claimed, we’ll pay the person or organization responsible for the Veteran’s burial a $300 burial allowance. If the Veteran is eligible, we may pay you back for the costs of moving the Veteran’s remains to a VA national cemetery. We may also pay you back for the cost of a plot. 
+**Note:** If a Veteran’s remains aren’t claimed, we’ll pay the person or organization responsible for the Veteran’s burial a $300 burial allowance. If the deceased qualifies, we may pay you back for the costs of moving the Veteran’s remains to a VA national cemetery. We may also pay you back for the cost of a plot. 
 
