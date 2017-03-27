@@ -13,7 +13,6 @@ import {
 } from '../helpers';
 
 import {
-  hoursTypeLabels,
   stateLabels
 } from '../../utils/helpers';
 
@@ -407,24 +406,28 @@ const formConfig = {
               status: {
                 'ui:title': 'What\'s your current high school status?',
                 'ui:options': {
-                  labels: highSchoolStatusLabels
+                  labels: highSchoolStatusLabels,
+                  expandUnderClassNames: 'schemaform-expandUnder-indent'
                 }
               },
-              highSchoolOrGedCompletionDate: _.assign(
+              'view:highSchoolOrGedCompletionDate': _.assign(
                 date.uiSchema('When did you earn your high school diploma?'), {
                   'ui:options': {
                     hideIf: form => {
                       const status = _.get('highSchool.status', form);
-                      return status !== 'graduated' && status !== 'ged';
-                    }
+                      return status !== 'graduated';
+                    },
+                    expandUnder: 'status'
                   }
-                }),
+                }
+              ),
               'view:hasHighSchool': {
                 'ui:options': {
                   hideIf: form => {
                     const status = _.get('highSchool.status', form);
-                    return status !== 'graduationExpected';
-                  }
+                    return status !== 'discontinued';
+                  },
+                  expandUnder: 'status'
                 },
                 name: {
                   'ui:title': 'Name of high school'
@@ -439,18 +442,6 @@ const formConfig = {
                   }
                 },
                 dateRange: uiSchemaDateRange(),
-                hours: {
-                  'ui:title': 'Hours completed'
-                },
-                hoursType: {
-                  'ui:title': 'Type of hours',
-                  'ui:options': {
-                    labels: hoursTypeLabels
-                  }
-                },
-                degreeReceived: {
-                  'ui:title': 'Degree, diploma, or certificate received'
-                }
               }
             },
             'view:hasTrainings': {
@@ -470,7 +461,6 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   status: highSchool.properties.status,
-                  highSchoolOrGedCompletionDate: date.schema,
                   'view:hasHighSchool': {
                     type: 'object',
                     properties: {
@@ -478,11 +468,9 @@ const formConfig = {
                       city: highSchool.properties.city,
                       state: highSchool.properties.state,
                       dateRange: highSchool.properties.dateRange,
-                      hours: highSchool.properties.hours,
-                      hoursType: highSchool.properties.hoursType,
-                      degreeReceived: highSchool.properties.degreeReceived
                     }
-                  }
+                  },
+                  'view:highSchoolOrGedCompletionDate': date.schema,
                 }
               },
               'view:hasTrainings': {
