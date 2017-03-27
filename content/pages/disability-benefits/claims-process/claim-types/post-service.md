@@ -34,7 +34,11 @@ relatedlinks:
     description: ""
 ---
 
+<div class="va-introtext">
+
 If you have a disability that's related to your military service but didn't appear until after you ended your service, you can file a postservice claim for disability benefits. [File a claim now](/disability-benefits/apply-for-benefits/).
+
+</div>
 
 ### What kinds of postservice disabilities qualify you for benefits?
 

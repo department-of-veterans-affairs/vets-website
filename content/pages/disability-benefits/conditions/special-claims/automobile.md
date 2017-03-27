@@ -6,7 +6,11 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 Do you have a disability related to your military service that prevents you from driving? If you do, you may be able to get disability compensation or benefits. 
+
+</div>
 
 <div class="call-out" markdown="1">
 

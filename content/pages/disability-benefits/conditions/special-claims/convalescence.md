@@ -7,7 +7,11 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 Are you recovering from surgery or a disability related to your military service that's left you unable to move? You may be able to get a temporary 100% disability rating and disability compensation or benefits if you have this kind of immobilizing  disability. Find out if you can get this benefit. 
+
+</div>
 
 <div class="call-out" markdown="1">
 

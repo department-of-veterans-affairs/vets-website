@@ -5,7 +5,11 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you participate in the $600 Montgomery GI Bill Buy-Up program, your GI Bill monthly payments will increase.
+
+</div>
 
 ### How it works
 

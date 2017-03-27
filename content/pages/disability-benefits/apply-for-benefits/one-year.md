@@ -22,9 +22,14 @@ relatedlinks:
     description: ""
 ---
 
-You may be able to get disability benefits if you have signs of an illness like hypertension (high blood pressure), arthritis, diabetes, or peptic ulcers that started within a year after you were discharged from active military service. 
+<div class="va-introtext">
+
+You may be able to get disability benefits if you have signs of an illness like hypertension (high blood pressure), arthritis, diabetes, or peptic ulcers that started within a year after you were discharged from active military service.
+
 
 If your symptoms appear within 1 year after discharge—even if they weren't there while you were serving—we'll conclude that they're related to your service. [See the complete list of covered illnesses](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
+
+</div>
 
 <div class="call-out" markdown="1">
 

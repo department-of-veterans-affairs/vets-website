@@ -18,7 +18,11 @@ relatedlinks:
     title: Military Transcripts
 ---
 
+<div class="va-introtext">
+
 Representatives from the Veterans Economic Community Initiative (VECI) are available in 25 cities.
+
+</div>
 
 - If you are looking for a job, VECI regional liaisons can help you connect to local business leaders, schools, and nonprofit groups to maximize your education and economic opportunities.
 

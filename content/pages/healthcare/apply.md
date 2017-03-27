@@ -13,7 +13,11 @@ relatedlinks:
    description: "Find out when to expect a decision and what to do if you don’t hear back or don’t get approved."
 ---
 
+<div class="va-introtext">
+
 Once you’ve figured out if you qualify, applying for VA health care benefits is easy. Find out how to apply.
+
+</div>
 
 ### Prepare
 - Find out if you qualify. [Check your eligibility](/healthcare/eligibility/).
