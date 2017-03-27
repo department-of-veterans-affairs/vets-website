@@ -250,7 +250,7 @@ const formConfig = {
                 }
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
-                'ui:title': 'Qualifying Individual’s Social Security number',
+                'ui:title': 'Sponsor’s Social Security number',
                 'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
@@ -294,7 +294,7 @@ const formConfig = {
                 'ui:required': (formData) => _.get('relationship', formData) === 'spouse'
               },
               remarried: {
-                'ui:title': 'If you\'re the surviving spouse, did you get remarried?',
+                'ui:title': 'If you’re the surviving spouse, did you get remarried?',
                 'ui:widget': 'yesNo'
               },
               remarriageDate: _.assign(date.uiSchema('Date you got remarried'), {
@@ -310,31 +310,31 @@ const formConfig = {
             veteranFullName: _.merge(fullNameUISchema, {
               'ui:title': 'Name of qualifying individual',
               first: {
-                'ui:title': 'Qualifying individual first name'
+                'ui:title': 'First name'
               },
               middle: {
-                'ui:title': 'Qualifying individual middle name'
+                'ui:title': 'Middle name'
               },
               last: {
-                'ui:title': 'Qualifying individual last name'
+                'ui:title': 'Last name'
               },
               suffix: {
-                'ui:title': 'Qualifying individual suffix'
+                'ui:title': 'Suffix'
               }
             }),
             'view:veteranId': _.merge(veteranId.uiSchema, {
               veteranSocialSecurityNumber: {
-                'ui:title': 'Qualifying individual’s Social Security number'
+                'ui:title': 'Social Security number'
               },
               'view:noSSN': {
-                'ui:title': 'I don’t know the qualifying individual’s Social Security number',
+                'ui:title': 'I don’t know their Social Security number',
               },
               vaFileNumber: {
-                'ui:title': 'Qualifying individual file number',
+                'ui:title': 'File number',
               }
             }),
-            veteranDateOfBirth: currentOrPastDate.uiSchema('Qualifying individual date of birth'),
-            veteranDateOfDeath: currentOrPastDate.uiSchema('Qualifying individual date of death or date listed as MIA or POW'),
+            veteranDateOfBirth: currentOrPastDate.uiSchema('Date of birth'),
+            veteranDateOfDeath: currentOrPastDate.uiSchema('Date of death or date listed as MIA or POW'),
           },
           schema: {
             type: 'object',
@@ -351,15 +351,15 @@ const formConfig = {
           }
         },
         sponsorService: {
-          title: 'Qualifying individual service',
+          title: 'Qualifying individual’s service information',
           path: 'sponsor/service',
           uiSchema: {
-            'ui:title': 'Qualifying individual service',
+            'ui:title': 'Qualifying individual’s service information',
             serviceBranch: {
               'ui:title': 'Branch of service'
             },
             currentlyActiveDuty: {
-              'ui:title': 'Is the qualifying individual on active duty?',
+              'ui:title': 'Are they currently on active duty?',
               'ui:widget': 'yesNo'
             },
             outstandingFelony: {
