@@ -237,7 +237,7 @@ const formConfig = {
                 }
               },
               veteranFullName: _.merge(fullNameUISchema, {
-                'ui:title': 'Qualifying Individual’s name',
+                'ui:title': 'Sponsor’s name',
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
                   updateSchema: (data, form) => {
@@ -250,7 +250,7 @@ const formConfig = {
                 }
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
-                'ui:title': 'Sponsor’s Social Security number',
+                'ui:title': 'Social Security number',
                 'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
