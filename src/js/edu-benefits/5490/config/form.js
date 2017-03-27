@@ -537,6 +537,33 @@ const formConfig = {
             educationProgram: {
               name: {
                 'ui:title': 'Name of school, university, or training facility you want to attend'
+              },
+              educationType: {
+                'ui:options': {
+                  updateSchema: (pageData, form, schema) => {
+                    // TODO: Reorder fields (maybe)...unless it's a universal change...
+                    // https://github.com/department-of-veterans-affairs/vets.gov-team/issues/1794
+
+                    const newSchema = _.cloneDeep(schema);
+                    const benefitData = _.get('benefitSelection.data.benefit', form);
+                    const relationshipData = _.get('applicantInformation.data.relationship', form);
+
+                    // Remove tuition top-up
+                    const filterOut = ['tuitionTopUp'];
+                    // Correspondence not available to chapter35 children
+                    if (benefitData === 'chapter35' && relationshipData === 'child') {
+                      filterOut.push('correspondence');
+                    }
+                    // Flight training available to fry scholarships only
+                    if (benefitData !== 'chapter33') {
+                      filterOut.push('flightTraining');
+                    }
+
+                    newSchema.enum = _.without(filterOut)(newSchema.enum);
+
+                    return newSchema;
+                  }
+                }
               }
             }
           }
