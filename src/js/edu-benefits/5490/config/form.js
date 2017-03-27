@@ -225,7 +225,9 @@ const formConfig = {
               },
               ownServiceBenefits: {
                 'ui:title': 'Describe the benefits you used',
-                'ui:options': { expandUnder: 'view:ownServiceBenefits' }
+                'ui:options': {
+                  expandUnder: 'view:ownServiceBenefits'
+                }
               },
               'view:claimedSponsorService': {
                 'ui:title': 'Veterans education assistance based on someone else’s service',
@@ -544,21 +546,20 @@ const formConfig = {
                     const newSchema = _.cloneDeep(schema);
                     const benefitData = _.get('benefitSelection.data.benefit', form);
                     const relationshipData = _.get('applicantInformation.data.relationship', form);
-                    const labels = Object.keys(
-                      _.get('schoolSelection.uiSchema.educationProgram.educationType.ui:options.labels', form));
+                    const edTypeLabels = Object.keys(_.get('schoolSelection.uiSchema.educationProgram.educationType.ui:options.labels', form));
 
                     // Remove tuition top-up
                     const filterOut = ['tuitionTopUp'];
-                    // Correspondence not available to chapter35 children
+                    // Correspondence not available to Chapter 35 (DEA) children
                     if (benefitData === 'chapter35' && relationshipData === 'child') {
                       filterOut.push('correspondence');
                     }
-                    // Flight training available to fry scholarships only
-                    if (benefitData !== 'chapter33') {
+                    // Flight training available to Chapter 33 (Fry Scholarships) only
+                    if (benefitData && benefitData !== 'chapter33') {
                       filterOut.push('flightTraining');
                     }
 
-                    newSchema.enum = _.without(filterOut)(labels);
+                    newSchema.enum = _.without(filterOut)(edTypeLabels);
                     return newSchema;
                   }
                 }
