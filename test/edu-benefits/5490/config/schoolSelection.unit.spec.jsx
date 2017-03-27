@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-addons-test-utils';
 
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
+import educationTypeUi from '../../../../src/js/edu-benefits/definitions/educationType';
 
 describe('Edu 5490 schoolSelection', () => {
   const { schema, uiSchema } = formConfig.chapters.schoolSelection.pages.schoolSelection;
@@ -14,6 +15,15 @@ describe('Edu 5490 schoolSelection', () => {
       <DefinitionTester
           schema={schema}
           data={{}}
+          state={{
+            schoolSelection: {
+              uiSchema: {
+                educationProgram: {
+                  educationType: educationTypeUi
+                }
+              }
+            }
+          }}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}/>
     );
