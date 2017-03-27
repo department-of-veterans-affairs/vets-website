@@ -12,7 +12,6 @@ You may have had contact with Agent Orange even if you did not serve in Vietnam 
 
 </div>
 
-
 <div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?

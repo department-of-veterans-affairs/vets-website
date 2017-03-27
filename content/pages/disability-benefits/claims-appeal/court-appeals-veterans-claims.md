@@ -15,7 +15,6 @@ If you aren't sure about your claim status, call the BVA status line at <span cl
 
 </div>
 
-
 <div class="feature" markdown="0">
 
 ### The Court is made up of:

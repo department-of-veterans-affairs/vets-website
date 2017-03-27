@@ -25,7 +25,6 @@ Most accredited representatives work for Veterans Service Organizations (VSOs). 
 
 </div>
 
-
 <div class="feature" markdown="0">
 
 ### What does it take to be an accredited representative?

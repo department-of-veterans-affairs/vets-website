@@ -23,15 +23,9 @@ relatedlinks:
 
 Do you have illnesses or injuries that started—or got worse—while you were serving in the military?  Find out if you can  get disability compensation or benefits.
 
-<<<<<<< HEAD
 </div>
 
 <div class="feature" markdown="1">
-
-
-=======
-<div class="feature" markdown="0">
->>>>>>> Consolidated .feature, .call-out class names to .feature.
 
 ### Can I get disability benefits from VA?
 

@@ -9,14 +9,9 @@ template: 6-info-page
 
 When you file a claim for disability benefits, you'll need to gather all related evidence (supporting documents like a doctor's report or medical test results) so we can decide on your claim. You may have some of these documents—or be able to easily get them—but we'll need your permission to get others. [File a claim now](/disability-benefits/apply-for-benefits/).
 
-<<<<<<< HEAD
 </div>
 
 <div class="feature" markdown="1">
-
-=======
-<div class="feature" markdown="1">
->>>>>>> Consolidated .feature, .call-out class names to .feature.
 
 ### The documents you’ll need to provide include:
 
