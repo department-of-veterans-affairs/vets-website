@@ -14,6 +14,60 @@
     .institution-filter-form, .eligibility-form {
       margin-top: 1.5em;
     }
+
+    @include media-maxwidth($small-screen) {
+      background: $color-white;
+      display: none;
+      height: 100%;
+      left: 0;
+      overflow: scroll;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+
+      &.opened {
+        display: block;
+      }
+    }
+  }
+
+  .filters-sidebar-inner {
+    @include media-maxwidth($small-screen) {
+      padding-bottom: 8rem;
+    }
+  }
+
+  .filter-button, .results-button {
+    display: none;
+
+    @include media-maxwidth($small-screen) {
+      display: block;
+    }
+  }
+
+  .results-button {
+    background: $color-gray-lightest;
+    bottom: 0;
+    left: 0;
+    padding: 1rem 2rem;
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+
+    @include media-maxwidth($small-screen) {
+      display: block;
+    }
+  }
+
+  .search-results {
+    @include media-maxwidth($small-screen) {
+      display: none;
+
+      &.opened {
+        display: block;
+      }
+    }
   }
 
   .search-result {
@@ -44,6 +98,10 @@
     p.locality {
       font-weight: bold;
       margin-top: 2.2em;
+    }
+
+    p.count {
+      margin-bottom: 1rem;
     }
 
     .estimated-benefits {

@@ -52,7 +52,7 @@ export class SearchResult extends React.Component {
               </div>
             </div>
             <div className="small-12 medium-5 columns estimated-benefits">
-              <h3>Your estimated benefits</h3>
+              <h3>You may be eligible for up to:</h3>
               <div className="row">
                 <div className="columns">
                   <h4>
