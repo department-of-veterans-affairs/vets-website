@@ -57,6 +57,7 @@ describe('Edu educationProgram', () => {
       }
     });
 
+    // Array.from(formDOM.querySelectorAll('input,select')).forEach((el) => console.log(el.id));
     // Look for the address again; should be there
     expect(formDOM.querySelector('#root_address_country')).not.to.be.null;
   });
