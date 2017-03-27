@@ -61,9 +61,9 @@ describe('Edu educationProgram', () => {
     // TODO: in local dev environment, address fields appear after a delay,
     // but this is bound to be flaky in our continuous build so commenting it out
     // expect(formDOM.querySelector('#root_address_country')).not.to.be.null;
-    setTimeout(() => {
-      expect(formDOM.querySelector('#root_address_country')).not.to.be.null;
-    }, 10);
+    // setTimeout(() => {
+    //   expect(formDOM.querySelector('#root_address_country')).not.to.be.null;
+    // }, 10);
 
 
     // Change the education type to one that does not require an address
