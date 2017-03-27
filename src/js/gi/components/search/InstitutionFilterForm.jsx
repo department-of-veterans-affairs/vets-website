@@ -28,26 +28,10 @@ class InstitutionFilterForm extends React.Component {
   }
 
   renderCategoryFilter() {
-    const categoryFacets = {
-      all: this.props.search.count || 0,
-      school: 0,
-      employer: 0,
-      ...this.props.search.facets.category
-    };
-
     const options = [
-      {
-        value: 'ALL',
-        label: `All (${categoryFacets.all.toLocaleString()})`
-      },
-      {
-        value: 'school',
-        label: `Schools only (${categoryFacets.school.toLocaleString()})`
-      },
-      {
-        value: 'employer',
-        label: `Employers only (${categoryFacets.employer.toLocaleString()})`
-      }
+      { value: 'ALL', label: 'All' },
+      { value: 'school', label: 'Schools only' },
+      { value: 'employer', label: 'Employers only' }
     ];
 
     return (
@@ -62,13 +46,10 @@ class InstitutionFilterForm extends React.Component {
 
   renderCountryFilter() {
     const options = [
-      {
-        value: 'ALL',
-        label: `ALL (${(this.props.search.count || 0).toLocaleString()})`
-      },
+      { value: 'ALL', label: 'ALL' },
       ...this.props.search.facets.country.map(country => ({
         value: country.name,
-        label: `${country.name} (${country.count.toLocaleString()})`
+        label: country.name
       }))
     ];
 
@@ -88,16 +69,13 @@ class InstitutionFilterForm extends React.Component {
   }
 
   renderStateFilter() {
-    const stateFacets = {
-      ALL: this.props.search.count || 0,
-      ...this.props.search.facets.state
-    };
-
-    const options = Object.keys(stateFacets).reduce((opts, state) => {
-      const total = +stateFacets[state];
-      const label = `${state} (${total.toLocaleString()})`;
-      return [...opts, { value: state, label }];
-    }, []);
+    const options = [
+      { value: 'ALL', label: 'ALL' },
+      ...Object.keys(this.props.search.facets.state).map(state => ({
+        value: state,
+        label: state
+      }))
+    ];
 
     return (
       <Dropdown
@@ -116,15 +94,6 @@ class InstitutionFilterForm extends React.Component {
 
   renderProgramFilters() {
     const filters = this.props.filters;
-    const facets = this.props.search.facets;
-
-    const formattedCount = (key, bool) => {
-      return (+facets[key][bool.toString()] || 0).toLocaleString();
-    };
-
-    const label = (key, desc, bool = true) => {
-      return `${desc} (${formattedCount(key, bool)})`;
-    };
 
     return (
       <div>
@@ -132,43 +101,40 @@ class InstitutionFilterForm extends React.Component {
         <Checkbox
             checked={filters.caution}
             name="caution"
-            label={label('cautionFlag', 'Without Caution Flags', false)}
+            label="Without Caution Flags"
             onChange={this.handleCheckboxChange}/>
         <Checkbox
             checked={filters.studentVeteranGroup}
             name="studentVeteranGroup"
-            label={label('studentVetGroup', 'Student Vet Group')}
+            label="Student Vet Group"
             onChange={this.handleCheckboxChange}/>
         <Checkbox
             checked={filters.yellowRibbonScholarship}
             name="yellowRibbonScholarship"
-            label={label('yellowRibbonScholarship', 'Yellow Ribbon')}
+            label="Yellow Ribbon"
             onChange={this.handleCheckboxChange}/>
         <Checkbox
             checked={filters.principlesOfExcellence}
             name="principlesOfExcellence"
-            label={label('principlesOfExcellence', 'Principles of Excellence')}
+            label="Principles of Excellence"
             onChange={this.handleCheckboxChange}/>
         <Checkbox
             checked={filters.eightKeysToVeteranSuccess}
             name="eightKeysToVeteranSuccess"
-            label={label('eightKeysToVeteranSuccess', '8 Keys to Vet Success')}
+            label="8 Keys to Vet Success"
             onChange={this.handleCheckboxChange}/>
       </div>
     );
   }
 
   renderTypeFilter() {
-    const schoolTypeFacets = {
-      ALL: this.props.search.count || 0,
-      ...this.props.search.facets.type
-    };
-
-    const options = Object.keys(schoolTypeFacets).reduce((opts, type) => {
-      const total = +schoolTypeFacets[type];
-      const label = `${type} (${total.toLocaleString()})`;
-      return [...opts, { value: type, label }];
-    }, []);
+    const options = [
+      { value: 'ALL', label: 'ALL' },
+      ...Object.keys(this.props.search.facets.type).map(type => ({
+        value: type,
+        label: type
+      }))
+    ];
 
     return (
       <Dropdown

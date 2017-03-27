@@ -20,10 +20,9 @@ export class LandingPage extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.router.push({
-      pathname: 'search',
-      query: { name: this.props.autocomplete.searchTerm },
-    });
+    const { searchTerm: name } = this.props.autocomplete;
+    const query = name ? { name } : null;
+    this.props.router.push({ pathname: 'search', query });
   }
 
   render() {

@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import {
   setPageTitle,
   fetchSearchResults,
-  institutionFilterChange
+  institutionFilterChange,
+  toggleFilter
 } from '../actions';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -102,6 +104,12 @@ export class SearchPage extends React.Component {
     const queryValue = field === 'caution' ? !value : value;
     const query = { ...this.props.location.query, [field]: queryValue };
 
+    // Don't update the route if the query hasn't changed.
+    if (_.isEqual(query, this.props.location.query)) { return; }
+
+    // Reset to the first page upon a filter change.
+    delete query.page;
+
     const shouldRemoveFilter =
       (field !== 'caution' && !queryValue) ||
       (field === 'caution' && queryValue) ||
@@ -117,18 +125,43 @@ export class SearchPage extends React.Component {
   render() {
     const { search, filters } = this.props;
     const { count, pagination: { currentPage, totalPages } } = search;
+
+    const resultsClass = classNames(
+      'search-results',
+      'small-12',
+      'medium-9',
+      'columns',
+      { opened: !search.filterOpened }
+    );
+
+    const filtersClass = classNames(
+      'filters-sidebar',
+      'small-12',
+      'medium-3',
+      'columns',
+      { opened: search.filterOpened }
+    );
+
     let searchResults;
+
+    // Filter button on mobile.
+    const filterButton =
+      (<button
+          className="filter-button usa-button-outline"
+          onClick={this.props.toggleFilter}>Filter</button>);
 
     if (search.inProgress) {
       searchResults = (
-        <div className="small-12 medium-9 columns">
-          <LoadingIndicator message="Loading search results..."/>;
+        <div className={resultsClass}>
+          {filterButton}
+          <LoadingIndicator message="Loading search results..."/>
         </div>
       );
     } else {
       searchResults = (
-        <div className="small-12 medium-9 columns">
-          <div className="search-results">
+        <div className={resultsClass}>
+          {filterButton}
+          <div>
             {search.results.map((result) => {
               return (
                 <SearchResult
@@ -167,22 +200,30 @@ export class SearchPage extends React.Component {
 
         <div className="row">
           <div className="column">
-            <h1>{count ? count.toLocaleString() : null} Search Results</h1>
+            <h1>{(count || 0).toLocaleString()} Search Results</h1>
           </div>
         </div>
 
         <div className="row">
-          <div className="filters-sidebar small-12 medium-3 columns">
-            <h2>Keywords</h2>
-            <KeywordSearch
-                location={this.props.location}
-                label="City, school, or employer"
-                onFilterChange={this.handleFilterChange}/>
-            <InstitutionFilterForm
-                search={search}
-                filters={filters}
-                onFilterChange={this.handleFilterChange}/>
-            <EligibilityForm/>
+          <div className={filtersClass}>
+            <div className="filters-sidebar-inner">
+              {search.filterOpened && <h1>Filter your search</h1>}
+              <h2>Keywords</h2>
+              <KeywordSearch
+                  location={this.props.location}
+                  label="City, school, or employer"
+                  onFilterChange={this.handleFilterChange}/>
+              <InstitutionFilterForm
+                  search={search}
+                  filters={filters}
+                  onFilterChange={this.handleFilterChange}/>
+              <EligibilityForm/>
+            </div>
+            <div className="results-button">
+              <button className="usa-button" onClick={this.props.toggleFilter}>
+                See Results
+              </button>
+            </div>
           </div>
           {searchResults}
         </div>
@@ -203,7 +244,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setPageTitle,
   fetchSearchResults,
-  institutionFilterChange
+  institutionFilterChange,
+  toggleFilter
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPage));
