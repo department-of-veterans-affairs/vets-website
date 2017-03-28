@@ -3,6 +3,10 @@ layout: page-breadcrumbs.html
 title: Headstones, Markers, Niche Covers, and Medallions
 concurrence: incomplete
 template: 6-info-page
+relatedlinks:
+ - url: /burials-and-memorials/burial-planning/flags-and-memorial-certificates
+   title: Burial Flags and Presidential Memorial Certificates
+   description: Find out how to honor the military service of a deceased Veteran with a burial flag and Presidential Memorial      Certificate.
 ---
 
 
