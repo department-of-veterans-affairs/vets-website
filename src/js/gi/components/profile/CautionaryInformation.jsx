@@ -3,6 +3,30 @@ import { connect } from 'react-redux';
 import { showModal } from '../../actions';
 import AlertBox from '../../../common/components/AlertBox';
 
+const TableRow = ({ description, thisCampus, allCampuses }) => {
+  return (
+    <tr>
+      <th><strong>{description}</strong></th>
+      <td className="number">{thisCampus}</td>
+      <td className="number">{allCampuses}</td>
+    </tr>
+  );
+};
+
+const ListRow = ({ description, value }) => {
+  if (value < 1) return null;
+  return (
+    <div className="row">
+      <div className="small-11 columns">
+        <p>{description}:</p>
+      </div>
+      <div className="small-1 columns">
+        <p className="number">{value}</p>
+      </div>
+    </div>
+  );
+};
+
 export class CautionaryInformation extends React.Component {
   render() {
     const it = this.props.profile.attributes;
@@ -15,6 +39,7 @@ export class CautionaryInformation extends React.Component {
         <a onClick={this.props.showModal.bind(this, 'cautionInfo')}>Learn more about these warnings</a>
       </p>
     );
+
     const complaintData = [
       { type: 'Financial Issues (e.g., Tuition/Fee charges)', key: 'financial' },
       { type: 'Quality of Education', key: 'quality' },
@@ -30,6 +55,7 @@ export class CautionaryInformation extends React.Component {
       { type: 'Other', key: 'other' },
       { type: 'Student Complaints', totals: ['facilityCode', 'mainCampusRollUp'] }
     ];
+
     const complaints = complaintData.reduce((hydratedComplaints, complaint) => {
       const totals = complaint.totals || {};
       const { type, key, totalKey } = complaint;
@@ -41,37 +67,16 @@ export class CautionaryInformation extends React.Component {
       return [...hydratedComplaints, hydratedComplaint];
     }, []);
 
-    const TableRow = ({ description, thisCampus, allCampuses }) => {
-      return (
-        <tr>
-          <th><strong>{description}</strong></th>
-          <td className="number">{thisCampus}</td>
-          <td className="number">{allCampuses}</td>
-        </tr>
-      );
-    };
-
-    const ListRow = ({ description, value }) => {
-      if (value < 1) return null;
-      return (
-        <div className="row">
-          <div className="small-11 columns">
-            <p>{description}:</p>
-          </div>
-          <div className="small-1 columns">
-            <p className="number">{value}</p>
-          </div>
-        </div>
-      );
-    };
-
     return (
       <div className="cautionary-information">
         <AlertBox content={flagContent} isVisible={!!it.cautionFlag} status="warning"/>
 
-        <div className="table">
+        <div className="student-complaints">
           <h3>{it.complaints.mainCampusRollUp} student complaints</h3>
-          <p>(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)</p>
+          <span>(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)</span>
+        </div>
+
+        <div className="table">
           <table className="usa-table-borderless">
             <thead>
               <tr>
