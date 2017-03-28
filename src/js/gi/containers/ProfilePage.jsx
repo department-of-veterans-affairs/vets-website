@@ -15,6 +15,11 @@ import { outcomeNumbers } from '../selectors/outcomes';
 
 export class ProfilePage extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.handleViewWarnings = this.handleViewWarnings.bind(this);
+  }
+
   componentDidMount() {
     this.props.fetchProfile(this.props.params.facilityCode);
   }
@@ -31,11 +36,18 @@ export class ProfilePage extends React.Component {
     }
   }
 
+  handleViewWarnings() {
+    this._cautionaryInfo.setState({ expanded: true });
+  }
+
   render() {
     const { constants, outcomes, profile } = this.props;
     return (
       <div className="profile-page">
-        <HeadingSummary/>
+        <HeadingSummary
+            institution={this.props.profile.attributes}
+            onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
+            onViewWarnings={this.handleViewWarnings}/>
         <ul className="usa-accordion">
           <AccordionItem button="Estimate your benefits" expanded>
             <Calculator/>
@@ -51,7 +63,9 @@ export class ProfilePage extends React.Component {
             </If>
           </AccordionItem>
           <a name="viewWarnings"></a>
-          <AccordionItem button="Cautionary information">
+          <AccordionItem
+              button="Cautionary information"
+              ref={c => { this._cautionaryInfo = c; }}>
             <CautionaryInformation/>
           </AccordionItem>
           <AccordionItem button="Additional information">

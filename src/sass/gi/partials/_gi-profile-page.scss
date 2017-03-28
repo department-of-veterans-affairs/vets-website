@@ -93,27 +93,17 @@
     margin-left: 0.5em;
     margin-top: 0.2em;
   }
+
   .outcomes .column > h3 {
     display: block;
     float: left;
   }
+
   .outcomes .graph-component {
     clear: both;
   }
 
   .cautionary-information {
-    .table > h3 {
-      padding-top: 1em !important;
-      float: left;
-    }
-
-    .table > p {
-      padding-top: 2.25em !important;
-      float: left;
-      margin-left: 0.5em;
-      margin-top: 0.2em;
-    }
-
     .table .number {
       text-align: left;
     }
@@ -139,6 +129,22 @@
       .table {
         display: none;
         visibility: hidden;
+      }
+    }
+  }
+
+  .student-complaints {
+    margin: 1rem 0;
+
+    @media screen and (min-width: $small-screen) {
+      h4, span {
+        float: left;
+        line-height: 4rem;
+      }
+
+      span {
+        margin-left: 0.5em;
+        margin-top: 0.2em;
       }
     }
   }
