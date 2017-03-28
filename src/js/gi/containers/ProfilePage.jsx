@@ -14,7 +14,7 @@ import AdditionalInformation from '../components/profile/AdditionalInformation';
 import { outcomeNumbers } from '../selectors/outcomes';
 
 export class ProfilePage extends React.Component {
-  
+
   constructor(props) {
     super(props);
     this.handleViewWarnings = this.handleViewWarnings.bind(this);

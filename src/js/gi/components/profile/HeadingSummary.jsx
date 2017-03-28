@@ -6,6 +6,7 @@ class HeadingSummary extends React.Component {
 
   render() {
     const it = this.props.institution;
+
     const schoolSize = (enrollment) => {
       if (!enrollment) return 'Unknown';
       if (enrollment <= 2000) {
@@ -15,16 +16,18 @@ class HeadingSummary extends React.Component {
       }
       return 'Large';
     };
+
     const IconWithInfo = ({ icon, children, present }) => {
       if (!present) return null;
       return <span><i className={`fa fa-${icon}`}/>&nbsp;{children}</span>;
     };
+
     return (
       <div className="heading row">
         <div className="small-12 column">
           <h1>{it.name}</h1>
           <AlertBox
-              content={(<p>VA has concerns about this school. <a href="#viewWarnings" onClick={this.props.onViewWarnings}>View warnings</a></p>)}
+              content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
               isVisible={!!it.cautionFlag}
               status="warning"/>
           <p style={{ marginBottom: '1.5em' }}>
