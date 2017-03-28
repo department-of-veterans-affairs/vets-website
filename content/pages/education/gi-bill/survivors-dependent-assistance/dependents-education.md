@@ -5,7 +5,11 @@ template: 1-topic-landing
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you are the dependent of a Veteran who was permanently and totally disabled on active duty or due to a service-related condition, you may be eligible for 45 months of degree and certificate courses, apprenticeship, and on-the-job training under the Survivors' and Dependents’ Educational Assistance (DEA) program.
+
+</div>
 
 <div class="call-out usa-content" markdown="1">
 

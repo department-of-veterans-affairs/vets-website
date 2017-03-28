@@ -13,7 +13,6 @@ import {
 } from '../helpers';
 
 import {
-  hoursTypeLabels,
   stateLabels
 } from '../../utils/helpers';
 
@@ -225,7 +224,9 @@ const formConfig = {
               },
               ownServiceBenefits: {
                 'ui:title': 'Describe the benefits you used',
-                'ui:options': { expandUnder: 'view:ownServiceBenefits' }
+                'ui:options': {
+                  expandUnder: 'view:ownServiceBenefits'
+                }
               },
               'view:claimedSponsorService': {
                 'ui:title': 'Veterans education assistance based on someone else’s service',
@@ -405,24 +406,28 @@ const formConfig = {
               status: {
                 'ui:title': 'What\'s your current high school status?',
                 'ui:options': {
-                  labels: highSchoolStatusLabels
+                  labels: highSchoolStatusLabels,
+                  expandUnderClassNames: 'schemaform-expandUnder-indent'
                 }
               },
-              highSchoolOrGedCompletionDate: _.assign(
+              'view:highSchoolOrGedCompletionDate': _.assign(
                 date.uiSchema('When did you earn your high school diploma?'), {
                   'ui:options': {
                     hideIf: form => {
                       const status = _.get('highSchool.status', form);
-                      return status !== 'graduated' && status !== 'ged';
-                    }
+                      return status !== 'graduated';
+                    },
+                    expandUnder: 'status'
                   }
-                }),
+                }
+              ),
               'view:hasHighSchool': {
                 'ui:options': {
                   hideIf: form => {
                     const status = _.get('highSchool.status', form);
-                    return status !== 'graduationExpected';
-                  }
+                    return status !== 'discontinued';
+                  },
+                  expandUnder: 'status'
                 },
                 name: {
                   'ui:title': 'Name of high school'
@@ -437,18 +442,6 @@ const formConfig = {
                   }
                 },
                 dateRange: uiSchemaDateRange(),
-                hours: {
-                  'ui:title': 'Hours completed'
-                },
-                hoursType: {
-                  'ui:title': 'Type of hours',
-                  'ui:options': {
-                    labels: hoursTypeLabels
-                  }
-                },
-                degreeReceived: {
-                  'ui:title': 'Degree, diploma, or certificate received'
-                }
               }
             },
             'view:hasTrainings': {
@@ -468,7 +461,6 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   status: highSchool.properties.status,
-                  highSchoolOrGedCompletionDate: date.schema,
                   'view:hasHighSchool': {
                     type: 'object',
                     properties: {
@@ -476,11 +468,9 @@ const formConfig = {
                       city: highSchool.properties.city,
                       state: highSchool.properties.state,
                       dateRange: highSchool.properties.dateRange,
-                      hours: highSchool.properties.hours,
-                      hoursType: highSchool.properties.hoursType,
-                      degreeReceived: highSchool.properties.degreeReceived
                     }
-                  }
+                  },
+                  'view:highSchoolOrGedCompletionDate': date.schema,
                 }
               },
               'view:hasTrainings': {
@@ -537,6 +527,30 @@ const formConfig = {
             educationProgram: {
               name: {
                 'ui:title': 'Name of school, university, or training facility you want to attend'
+              },
+              educationType: {
+                'ui:options': {
+                  updateSchema: (pageData, form, schema) => {
+                    const newSchema = _.cloneDeep(schema);
+                    const benefitData = _.get('benefitSelection.data.benefit', form);
+                    const relationshipData = _.get('applicantInformation.data.relationship', form);
+                    const edTypeLabels = Object.keys(_.get('schoolSelection.uiSchema.educationProgram.educationType.ui:options.labels', form));
+
+                    // Remove tuition top-up
+                    const filterOut = ['tuitionTopUp'];
+                    // Correspondence not available to Chapter 35 (DEA) children
+                    if (benefitData === 'chapter35' && relationshipData === 'child') {
+                      filterOut.push('correspondence');
+                    }
+                    // Flight training available to Chapter 33 (Fry Scholarships) only
+                    if (benefitData && benefitData !== 'chapter33') {
+                      filterOut.push('flightTraining');
+                    }
+
+                    newSchema.enum = _.without(filterOut)(edTypeLabels);
+                    return newSchema;
+                  }
+                }
               }
             }
           }

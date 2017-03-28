@@ -22,4 +22,8 @@ relatedlinks:
 
 ---
 
+<div class="va-introtext">
+
 You are in charge of designing your own education. VA education benefits, including the GI Bill, give you a wide range of options, including on-the-job-training, apprenticeships, overseas schools, and correspondence training.
+
+</div>

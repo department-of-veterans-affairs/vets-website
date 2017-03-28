@@ -29,7 +29,7 @@ Includes Form 22-1990
 Choose **Manage Benefits** if you need to make a change to your current education benefits (for example, you’re moving to a new school).  
 Includes Form 22-1995
 
-<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
+<div class="usa-alert usa-alert-warning usa-content va-alert" markdown="1">
 	<div class="usa-alert-body">
 
 ##### For Forms 22-1990E, 22-1990N, 22-5490, and 22-5495

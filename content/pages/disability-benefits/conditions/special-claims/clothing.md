@@ -6,7 +6,11 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 Has your clothing been damaged by your prosthetic or orthopedic device (such as a wheelchair) or by the medicine you’re taking for a skin condition? If it has, you may be able to get money each year to help you buy new clothes. This is a disability compensation benefit known as an annual clothing allowance. Find out if you can get this benefit. 
+
+</div>
 
 <div class="call-out" markdown="1">
 

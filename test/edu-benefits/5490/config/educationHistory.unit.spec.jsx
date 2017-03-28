@@ -40,14 +40,6 @@ describe('Edu 5490 educationHistory', () => {
     });
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(6);
-
-    ReactTestUtils.Simulate.change(formDOM.querySelector('select'), {
-      target: {
-        value: 'ged'
-      }
-    });
-
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(6);
   });
 
   it('should render high school questions', () => {
@@ -62,11 +54,11 @@ describe('Edu 5490 educationHistory', () => {
 
     ReactTestUtils.Simulate.change(formDOM.querySelector('select'), {
       target: {
-        value: 'graduationExpected'
+        value: 'discontinued'
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(15);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(12);
   });
 
   it('should have no required inputs', () => {

@@ -7,7 +7,11 @@ plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
+
 Spina bifida is a spinal cord birth defect. A baby develops spina bifida while still in the womb. In some cases, a parent's past contact with specific chemicals causes this birth defect. If you served in South Vietnam or the Republic of Korea—and your child has spina bifida or certain other birth defects—your child may be able to get disability benefits. Find out if your child qualifies for benefits.
+
+</div>
 
 <div class="call-out" markdown="1">
 

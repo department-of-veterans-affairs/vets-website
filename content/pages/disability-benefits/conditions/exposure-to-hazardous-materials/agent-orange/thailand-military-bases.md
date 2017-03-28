@@ -6,7 +6,11 @@ plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page
 ---
 
+<div class="va-introtext">
+
 If you had regular security duty on the fenced-in perimeters of a U.S. military base in Thailand or Royal Thai Air Force Bases between January 9, 1962, and May 7, 1975, you may have had contact with Agent Orange. The U.S. military used this toxic chemical to clear trees and plants during the Vietnam War. Find out if you can get disability compensation or benefits for illnesses believed to be caused by contact with Agent Orange.
+
+</div>
 
 <div class="call-out" markdown="1">
 

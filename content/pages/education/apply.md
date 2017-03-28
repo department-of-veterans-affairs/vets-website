@@ -13,7 +13,11 @@ relatedlinks:
    description: "The GI Bill can pay for more than just academic programs. Use it to help cover the costs of becoming a licensed or certified professional (like a mechanic or medical technician) or a business owner."
 ---
 
+<div class="va-introtext">
+
 If you’re a Servicemember, Veteran, or family member interested in education and training opportunities, you can apply for your Certificate of Eligibility (COE). You can also manage your current benefits.
+
+</div>
 
 ### Prepare
 
@@ -49,7 +53,7 @@ If you need to make a change (for example, you’re moving to a new school), man
 
 <a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage Benefits</a>
 
-<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
+<div class="usa-alert usa-alert-warning usa-content va-alert" markdown="1">
 	<div class="usa-alert-body">
 
 ##### Forms 22-1990E, 22-1990N, 22-5490, and 22-5495

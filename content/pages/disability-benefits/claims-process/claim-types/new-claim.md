@@ -35,7 +35,11 @@ template: 6-info-page
 ---
 
 
+<div class="va-introtext">
+
 If you're already getting disability benefits but think you may qualify for more, you can file a new claim. [File a claim now](/disability-benefits/apply-for-benefits/).
+
+</div>
 
 <div class="call-out" markdown="1">
 

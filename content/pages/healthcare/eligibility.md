@@ -13,7 +13,11 @@ relatedlinks:
    description: "Track the status of your disability claim."
 ---
 
+<div class="va-introtext">
+
 If you're a U.S. Veteran, you may qualify for VA health care benefits. Find out if you can get VA health care benefits. 
+
+</div>
 
 <div class="feature" markdown="1">
 

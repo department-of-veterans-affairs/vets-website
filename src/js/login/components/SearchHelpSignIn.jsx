@@ -27,7 +27,8 @@ class SearchHelpSignIn extends React.Component {
             this.props.onClickSearchHelpSignIn('account', !login.utilitiesMenuIsOpen.account);
           }}
           greeting={greeting}
-          isOpen={login.utilitiesMenuIsOpen.account}/>);
+          isOpen={login.utilitiesMenuIsOpen.account}
+          onUserLogout={this.props.onUserLogout}/>);
     } else {
       content = (<div>
         <a href="#" onClick={this.props.onUserLogin}>Sign In</a><span className="signin-spacer">|</span><a href="#" onClick={this.props.onUserSignup}>Register</a>

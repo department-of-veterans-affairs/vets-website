@@ -5,7 +5,11 @@ concurrence: incomplete
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 If you want to learn a trade or skill through on-the-job training or apprenticeships, there are VA benefits that can help.
+
+</div>
 
 <div class="call-out" markdown="1">
 

@@ -13,7 +13,11 @@ relatedlinks:
     description: ""
 ---
 
+<div class="va-introtext">
+
 VA and the [Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned) (SBA), as well as other government organizations, provide you and your spouse with resources that can help you make a new or existing business a success.
+
+</div>
 
 VA can guide you through the process of [registering](http://www.va.gov/osdbu/) as a Veteran-owned or service-disabled Veteran-owned business. Once you get your certification, you are eligible for certain assistance and benefits. If you are already open for business and want to sell to the federal government, the [Procurement Technical Assistance Center](http://www.aptac-us.org) (PTAC) can help with all of the required documentation and registration to bid on government contracts.  
 

@@ -6,7 +6,11 @@ template: 4-action-page-pending
 ---
 <link href="/assets/css/vendor/prism.css" type="text/css" rel="stylesheet">
 
+<div class="va-introtext">
+
 Thank you for your interest in hiring Veterans, transitioning Servicemembers, and their families through the Veterans Employment Center (VEC). Maximize your exposure by posting jobs directly from your website to the Veterans Job Bank through the [National Labor Exchange (NLX)](https://us.jobs/postajobpartner.asp?partner=ebenefits).
+
+</div>
 
 <dl markdown="1" class="va-callout">
 <dt>Who can post a job?</dt>

@@ -13,7 +13,11 @@ relatedlinks:
    description: "Find out why some chronic (long-lasting) conditions may qualify you for disability benefits." 
 ---
 
+<div class="va-introtext">
+
 If you have a disability that was caused by—or got worse because of—your active military service, you may be able to get disability benefits from VA. Find out if you can get financial support and other benefits like health care.
+
+</div>
 
 <div class="feature" markdown="1">
 
