@@ -1,11 +1,14 @@
 const E2eHelpers = require('../../util/e2e-helpers');
-const Timeouts = require('../../util/timeouts.js');
+// const Timeouts = require('../../util/timeouts.js');
 const EduHelpers = require('../../util/edu-helpers');
-const testData = require('./schema/maximal-test.json');
+// const testData = require('./schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
     EduHelpers.initApplicationSubmitMock('1990e');
+
+    // TODO: enable once 1990e is launched
+    /*
     // Ensure introduction page renders.
     client
       .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990e`)
@@ -42,7 +45,7 @@ module.exports = E2eHelpers.createE2eTest(
     EduHelpers.completeVeteranInformation(client, testData.sponsorVeteran.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/sponsor/information');
-
+    */
     client.end();
   }
 );
