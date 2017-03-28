@@ -8,7 +8,7 @@ relatedlinks:
     description: Find out how to plan ahead or what to do if your family member has just died.
   - url: /burials-and-memorials/find-a-cemetery/
     title: Find a Cemetery or Gravesite
-    description: Find out if you can get paid back for funeral and other burial costs.
+    description: Find where a Veteran or family member is buried in a national, state, tribal, military, or Department of the       Interior cemetery.
   - url: /burials-and-memorials/survivor-and-dependent-benefits/
     title: Survivor and Dependent Benefits
     description: Find out what benefits you—or a family member—may get after the loss of a Veteran.
