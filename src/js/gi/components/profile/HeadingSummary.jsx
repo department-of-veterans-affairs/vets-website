@@ -1,13 +1,11 @@
 import React from 'react';
 import _ from 'lodash';
-import { connect } from 'react-redux';
-import { showModal } from '../../actions';
 import AlertBox from '../../../common/components/AlertBox';
 
-export class AdditionalInformation extends React.Component {
+class HeadingSummary extends React.Component {
 
   render() {
-    const it = this.props.profile.attributes;
+    const it = this.props.institution;
     const schoolSize = (enrollment) => {
       if (!enrollment) return 'Unknown';
       if (enrollment <= 2000) {
@@ -26,12 +24,12 @@ export class AdditionalInformation extends React.Component {
         <div className="small-12 column">
           <h1>{it.name}</h1>
           <AlertBox
-              content={(<p>VA has concerns about this school. <a href="#viewWarnings">View warnings</a></p>)}
+              content={(<p>VA has concerns about this school. <a href="#viewWarnings" onClick={this.props.onViewWarnings}>View warnings</a></p>)}
               isVisible={!!it.cautionFlag}
               status="warning"/>
           <p style={{ marginBottom: '1.5em' }}>
             <strong>{it.studentCount}</strong> GI Bill students
-            (<a onClick={this.props.showModal.bind(this, 'gibillstudents')}>Learn more</a>)
+            (<a onClick={this.props.onLearnMore}>Learn more</a>)
           </p>
           <div className="small-12 medium-4 column">
             <p>
@@ -80,10 +78,10 @@ export class AdditionalInformation extends React.Component {
 
 }
 
-const mapStateToProps = (state) => state;
-
-const mapDispatchToProps = {
-  showModal,
+HeadingSummary.propTypes = {
+  institution: React.PropTypes.object,
+  onLearnMore: React.PropTypes.func,
+  onViewWarnings: React.PropTypes.func
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdditionalInformation);
+export default HeadingSummary;
