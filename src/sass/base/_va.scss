@@ -204,8 +204,9 @@ a[href^=http] {
   background: $color-primary-darkest;
   color: $color-white;
   clear: both;
-  padding: 0;
   margin: 0;
+  position: relative;
+  padding: 0;
 
  .va-notice--banner {
     display: none !important;
