@@ -21,7 +21,7 @@ relatedlinks:
    description: Find out what will happen to help you prepare for this day.
  - url: /burials-and-memorials/find-a-cemetery
    title: Find a Cemetery or Gravesite 
-   description: Find where a Veteran or family member is buried in a national, state, military, or Department of the Interior cemetery.
+   description: Find where a Veteran or family member is buried in a national, state, tribal, military, or Department of the      Interior cemetery.
 ---
 
 We can help Veterans and family members plan a burial or memorial service. Find out how to get burial benefits. 
