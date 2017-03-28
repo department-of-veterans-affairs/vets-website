@@ -60,7 +60,7 @@ You may have had contact if you served in any of these ways:
     <dl class="panel-list">
       <dt>On C-123 Airplanes</dt>
       <dd>Between January 9, 1962, and May 7, 1975</dd>
-      <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about C-123 Airplanes and Agent Orange</span></a></dd>
+      <dd><a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about C-123 Airplanes and Agent Orange</span></a></dd>
     </dl>
   </li>
   <li>
@@ -68,7 +68,7 @@ You may have had contact if you served in any of these ways:
       <dt>On Thailand Military Bases</dt>
       <dd>Between January 9, 1962, and May 7, 1975</dd>
       <dd>
-        <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/thailand-military-bases/">Learn more <span class="sr-only">about Thailand military bases and Agent Orange</span></a>
+        <a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/thailand-military-bases/">Learn more <span class="sr-only">about Thailand military bases and Agent Orange</span></a>
       </dd>
     </dl>
   </li>
@@ -76,21 +76,21 @@ You may have had contact if you served in any of these ways:
     <dl class="panel-list">
       <dt>In Vietnam or Korea</dt>
       <dd>Between January 9, 1962, and May 7, 1975</dd>
-      <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-inside/">Learn more <span class="sr-only">about service in Vietnam or Korea and Agent Orange</span></a></dd>
+      <dd><a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-inside/">Learn more <span class="sr-only">about service in Vietnam or Korea and Agent Orange</span></a></dd>
     </dl>
   </li>
   <li>
     <dl class="panel-list">
       <dt>Outside of Vietnam or Korea</dt>
       <dd>Between January 9, 1962, and May 7, 1975</dd>
-      <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-outside/">Learn more <span class="sr-only">about service outside of Vietnam or Korea and Agent Orange</span></a></dd>
+      <dd><a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-outside/">Learn more <span class="sr-only">about service outside of Vietnam or Korea and Agent Orange</span></a></dd>
     </dl>
   </li>
   <li>
     <dl class="panel-list">
       <dt>In Testing and Storage Areas Outside of Vietnam</dt>
       <dd>Between 1944 and a yet-to-be-determined date</dd>
-      <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/">Learn more <span class="sr-only">about testing and storage areas outside of Vietnam and Agent Orange</span></a></dd>
+      <dd><a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/">Learn more <span class="sr-only">about testing and storage areas outside of Vietnam and Agent Orange</span></a></dd>
     </dl>
   </li>
   <li>
@@ -98,7 +98,7 @@ You may have had contact if you served in any of these ways:
       <dt>On U.S. Navy and Coast Guard Ships in Vietnam</dt>
       <dd>Between January 9, 1962, and May 7, 1975</dd>
       <dd>
-        <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/navy-coast-guard/">Learn more <span class="sr-only">about U.S. Navy and Coast Guard ships in Vietnam and Agent Orange</span></a>
+        <a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/navy-coast-guard/">Learn more <span class="sr-only">about U.S. Navy and Coast Guard ships in Vietnam and Agent Orange</span></a>
       </dd>
     </dl>
   </li>
@@ -107,7 +107,7 @@ You may have had contact if you served in any of these ways:
     <dt>In Waters in or near Vietnam</dt>
     <dd>Between January 9, 1962, and May 7, 1975</dd>
     <dd>
-      <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/water-vietnam/">Learn more <span class="sr-only">about waters in or near Vietnam and Agent Orange</span></a>
+      <a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/water-vietnam/">Learn more <span class="sr-only">about waters in or near Vietnam and Agent Orange</span></a>
     </dd>
   </dl>
 </li>
