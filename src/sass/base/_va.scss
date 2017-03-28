@@ -155,6 +155,11 @@ input.va-input-medium-large {
   max-width: 18rem;
 }
 
+// TODO(crew): Remove this at some point. Fix this by using JS for title casing or passing nav labels as an object.
+.text-capitalize {
+  text-transform: capitalize;
+}
+
 hr {
   margin: 2.5em 0;
   margin: 3rem 0 2.5rem;
