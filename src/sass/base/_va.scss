@@ -197,8 +197,12 @@ hr {
   background: $color-primary-darkest;
   color: $color-white;
   clear: both;
-  padding: 0;
   margin: 0;
+  padding: 0;
+
+  @include media($medium-screen) {
+    position: relative;
+  }
 
  .va-notice--banner {
     display: none !important;
