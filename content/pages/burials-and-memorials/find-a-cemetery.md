@@ -12,7 +12,7 @@ relatedlinks:
   - url: /burials-and-memorials/survivor-and-dependent-benefits/
     title: Survivor and Dependent Benefits
     description: Find out what benefits you—or a family member—may get after the loss of a Veteran.
-  - url: /burials-and-memorials/military-funerals/
+  - url: /burials-and-memorials/what-to-expect-at-a-funeral/
     title: What to Expect at a Funeral
     description: Find out what will happen to help you prepare for this day.
 ---
