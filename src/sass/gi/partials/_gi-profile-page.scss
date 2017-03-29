@@ -9,7 +9,7 @@
     }
   }
 
-  .calculate-your-benefits.row {
+  .calculate-your-benefits {
     h3 {
       font-size: 1.35em;
     }
@@ -21,12 +21,14 @@
 
     button {
       color: $color-primary;
-      margin: 0.5em;
+      margin: 0.5em 0;
+      padding: 1rem 2rem;
     }
 
     @media screen and (min-width: $small-screen) {
       .calculator-inputs .form-expanding-group-open {
         border-left: none;
+        padding-left: 0;
       }
     }
 
