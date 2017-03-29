@@ -8,9 +8,13 @@ const getEligibilityDetails = (state) => {
   return details;
 };
 
-const getRequiredAttributes = (_state, props) => {
-  const { type, bah } = props;
-  return { type, bah };
+const getRequiredAttributes = (state, props) => {
+  const { type, bah, country } = props;
+  return {
+    type: type && type.toLowerCase(),
+    bah,
+    country: country && country.toLowerCase()
+  };
 };
 
 function getDerivedAttributes(constant, eligibility, institution) {
