@@ -45,11 +45,16 @@ body .row {
 
 .edit-checkbox {
   label {
-    @extend a;
+    background-color: transparent;
     display: inline-block;
 
     &:before {
       display: none !important;
+    }
+
+    &:hover {
+      cursor: pointer;
+      outline: 0;
     }
   }
 }
