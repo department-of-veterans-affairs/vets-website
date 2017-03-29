@@ -64,6 +64,7 @@ export class KeywordSearch extends React.Component {
     return (
       <div className="keyword-search">
         <label
+            id="institution-search-label"
             className="institution-search-label"
             htmlFor="institution-search">
           {this.props.label}
@@ -81,6 +82,7 @@ export class KeywordSearch extends React.Component {
               value: searchTerm,
               onChange: this.handleChange,
               onKeyUp: this.handleKeyUp,
+              'aria-labelledby': 'institution-search-label',
             }}/>
       </div>
     );
