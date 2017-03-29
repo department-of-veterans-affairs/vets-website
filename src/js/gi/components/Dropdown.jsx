@@ -10,7 +10,7 @@ class Dropdown extends React.Component {
     return (
       <div className={this.props.className}>
         <label htmlFor={this.props.name}>
-          {this.props.label || this.props.children}
+          {this.props.label}
         </label>
         <select
             id={this.props.name}
@@ -34,7 +34,7 @@ Dropdown.propTypes = {
   label: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.element
-  ]),
+  ]).isRequired,
   options: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       label: React.PropTypes.string,

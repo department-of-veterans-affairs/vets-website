@@ -56,7 +56,10 @@ class CalculatorForm extends React.Component {
       <div className="row">
         <div className="small-12 columns">
           <label htmlFor="tuitionFees">
-            {this.renderLearnMoreLabel({ text: 'Tuition and fees per year', modal: 'calcTuition' })}
+            {this.renderLearnMoreLabel({
+              text: 'Tuition and fees per year',
+              modal: 'calcTuition'
+            })}
           </label>
           <input
               type="text"
@@ -111,7 +114,10 @@ class CalculatorForm extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <RadioButtons
-                label={this.renderLearnMoreLabel({ text: 'Are you a current Yellow Ribbon recipient?', modal: 'calcYr' })}
+                label={this.renderLearnMoreLabel({
+                  text: 'Are you a current Yellow Ribbon recipient?',
+                  modal: 'calcYr'
+                })}
                 name="yellowRibbonRecipient"
                 options={[
                   { value: 'yes', label: 'Yes' },
@@ -132,7 +138,10 @@ class CalculatorForm extends React.Component {
       <div className="row">
         <div className="small-12 columns">
           <label htmlFor="scholarships">
-            {this.renderLearnMoreLabel({ text: 'Scholarships (excluding Pell)', modal: 'calcScholarships' })}
+            {this.renderLearnMoreLabel({
+              text: 'Scholarships (excluding Pell)',
+              modal: 'calcScholarships'
+            })}
           </label>
           <input
               type="text"
@@ -150,7 +159,10 @@ class CalculatorForm extends React.Component {
       <div className="row">
         <div className="small-12 columns">
           <label htmlFor="tuitionAssist">
-            {this.renderLearnMoreLabel({ text: 'How much are you receiving in military tuition assistance', modal: 'calcTuitionAssist' })}
+            {this.renderLearnMoreLabel({
+              text: 'How much are you receiving in military tuition assistance',
+              modal: 'calcTuitionAssist'
+            })}
           </label>
           <input
               type="text"
@@ -197,7 +209,10 @@ class CalculatorForm extends React.Component {
       <div className="row">
         <div className="small-12 columns">
           <Dropdown
-              label={this.renderLearnMoreLabel({ text: 'Enrolled', modal: 'calcEnrolled' })}
+              label={this.renderLearnMoreLabel({
+                text: 'Enrolled',
+                modal: 'calcEnrolled'
+              })}
               name={name}
               alt="Enrolled"
               options={options}
@@ -220,6 +235,7 @@ class CalculatorForm extends React.Component {
           <div className="row">
             <div className="small-12 columns">
               <Dropdown
+                  label="How many terms per year?"
                   name="numberNontradTerms"
                   alt="How many terms per year?"
                   options={[
@@ -229,16 +245,13 @@ class CalculatorForm extends React.Component {
                   ]}
                   visible
                   value={this.props.inputs.numberNontradTerms}
-                  onChange={this.props.onInputChange}>
-                <label htmlFor="numberNontradTerms">
-                  How many terms per year?
-                </label>
-              </Dropdown>
+                  onChange={this.props.onInputChange}/>
             </div>
           </div>
           <div className="row">
             <div className="small-12 columns">
               <Dropdown
+                  label="How long is each term?"
                   name="lengthNontradTerms"
                   alt="How long is each term?"
                   options={[
@@ -257,11 +270,7 @@ class CalculatorForm extends React.Component {
                   ]}
                   visible
                   value={this.props.inputs.lengthNontradTerms}
-                  onChange={this.props.onInputChange}>
-                <label htmlFor="lengthNontradTerms">
-                  How long is each term?
-                </label>
-              </Dropdown>
+                  onChange={this.props.onInputChange}/>
             </div>
           </div>
         </div>
@@ -273,7 +282,10 @@ class CalculatorForm extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <Dropdown
-                label={this.renderLearnMoreLabel({ text: 'School Calendar', modal: 'calcSchoolCalendar' })}
+                label={this.renderLearnMoreLabel({
+                  text: 'School Calendar',
+                  modal: 'calcSchoolCalendar'
+                })}
                 name="calendar"
                 alt="School calendar"
                 options={[
@@ -316,7 +328,10 @@ class CalculatorForm extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <RadioButtons
-                label={this.renderLearnMoreLabel({ text: 'Eligible for kicker bonus?', modal: 'calcKicker' })}
+                label={this.renderLearnMoreLabel({
+                  text: 'Eligible for kicker bonus?',
+                  modal: 'calcKicker'
+                })}
                 name="kickerEligible"
                 options={[
                   { value: 'yes', label: 'Yes' },
@@ -377,6 +392,7 @@ class CalculatorForm extends React.Component {
       <div className="row">
         <div className="small-12 columns">
           <Dropdown
+              label="Will be working"
               name="working"
               alt="Will be working"
               options={[
@@ -398,12 +414,7 @@ class CalculatorForm extends React.Component {
               ]}
               visible
               value={this.props.inputs.working}
-              onChange={this.props.onInputChange}>
-            <label htmlFor="working">
-              {/* TODO: identify correct modal <LearnMoreLabel text="Will be working" modal="calcSchoolCalendar"/> */}
-              Will be working
-            </label>
-          </Dropdown>
+              onChange={this.props.onInputChange}/>
         </div>
       </div>
     );
