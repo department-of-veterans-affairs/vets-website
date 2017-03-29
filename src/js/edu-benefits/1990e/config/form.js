@@ -176,26 +176,19 @@ const formConfig = {
           title: 'Employment history',
           path: 'employment/history',
           uiSchema: {
-            employmentHistory: {
-              'view:hasNonMilitaryJobs': {
-                'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?',
-                'ui:widget': 'yesNo'
-              },
-              nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUi)
-            }
+            'view:hasNonMilitaryJobs': {
+              'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?',
+              'ui:widget': 'yesNo'
+            },
+            nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUi)
           },
           schema: {
             type: 'object',
             properties: {
-              employmentHistory: {
-                type: 'object',
-                properties: {
-                  'view:hasNonMilitaryJobs': {
-                    type: 'boolean'
-                  },
-                  nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
-                }
-              }
+              'view:hasNonMilitaryJobs': {
+                type: 'boolean'
+              },
+              nonMilitaryJobs: _.unset('items.properties.postMilitaryJob', nonMilitaryJobs)
             }
           }
         }

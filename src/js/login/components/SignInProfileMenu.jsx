@@ -29,7 +29,8 @@ SignInProfileMenu.propTypes = {
   clickHandler: React.PropTypes.func.isRequired,
   cssClass: React.PropTypes.string,
   greeting: React.PropTypes.node,
-  isOpen: React.PropTypes.bool.isRequired
+  isOpen: React.PropTypes.bool.isRequired,
+  onUserLogout: React.PropTypes.func.isRequired
 };
 
 export default SignInProfileMenu;

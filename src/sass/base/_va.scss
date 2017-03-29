@@ -750,8 +750,8 @@ ul, ol {
 }
 
 .va-nav-breadcrumbs-list {
-  @extend .columns;
   float: none;
+  position: relative;
 }
 
 //===== Playbook and Facility Locator
@@ -1437,7 +1437,6 @@ li.twenty:before {content: '20';}
   }
 
   a {
-    @extend .usa-button-primary;
     margin: .5em 0;
   }
 }
