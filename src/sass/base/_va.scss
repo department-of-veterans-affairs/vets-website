@@ -205,8 +205,11 @@ a[href^=http] {
   color: $color-white;
   clear: both;
   margin: 0;
-  position: relative;
   padding: 0;
+
+  @include media($medium-screen) {
+    position: relative;
+  }
 
  .va-notice--banner {
     display: none !important;
