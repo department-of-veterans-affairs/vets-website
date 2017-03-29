@@ -6,6 +6,7 @@ import {
   removeHiddenData,
   updateRequiredFields,
   createFormPageList,
+  updateUiSchemaFromData,
   updateSchemaFromUiSchema,
   replaceRefSchemas
 } from '../helpers';
@@ -38,6 +39,8 @@ function recalculateSchemaAndData(initialState) {
 
       // Update the schema with any fields that are now hidden because of the data change
       schema = setHiddenFields(schema, page.uiSchema, formData);
+
+      _.set('uiSchema', updateUiSchemaFromData(page.uiSchema, formData), page);
 
       // Update the schema with any general updates based on the new data
       schema = updateSchemaFromUiSchema(schema, page.uiSchema, page.data, state);
