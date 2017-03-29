@@ -6,9 +6,12 @@ class Dropdown extends React.Component {
     if (!this.props.visible) {
       return null;
     }
+
     return (
       <div className={this.props.className}>
-        {this.props.children}
+        <label htmlFor={this.props.name}>
+          {this.props.label || this.props.children}
+        </label>
         <select
             id={this.props.name}
             name={this.props.name}
@@ -28,7 +31,10 @@ class Dropdown extends React.Component {
 Dropdown.propTypes = {
   visible: React.PropTypes.bool.isRequired,
   name: React.PropTypes.string.isRequired,
-  children: React.PropTypes.node,
+  label: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.element
+  ]),
   options: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       label: React.PropTypes.string,

@@ -56,9 +56,7 @@ class CalculatorForm extends React.Component {
       <div className="row">
         <div className="small-12 columns">
           <label htmlFor="tuitionFees">
-            Tuition and fees per year (
-            <a onClick={this.props.onShowModal.bind(this, 'calcTuition')}>
-            Learn more</a>)
+            {this.renderLearnMoreLabel({ text: 'Tuition and fees per year', modal: 'calcTuition' })}
           </label>
           <input
               type="text"
@@ -134,9 +132,7 @@ class CalculatorForm extends React.Component {
       <div className="row">
         <div className="small-12 columns">
           <label htmlFor="scholarships">
-            Scholarships (excluding Pell) (
-            <a onClick={this.props.onShowModal.bind(this, 'calcScholarships')}>
-            Learn more</a>)
+            {this.renderLearnMoreLabel({ text: 'Scholarships (excluding Pell)', modal: 'calcScholarships' })}
           </label>
           <input
               type="text"
@@ -154,9 +150,7 @@ class CalculatorForm extends React.Component {
       <div className="row">
         <div className="small-12 columns">
           <label htmlFor="tuitionAssist">
-            How much are you receiving in military tuition assistance (
-            <a onClick={this.props.onShowModal.bind(this, 'calcTuitionAssist')}>
-            Learn more</a>)
+            {this.renderLearnMoreLabel({ text: 'How much are you receiving in military tuition assistance', modal: 'calcTuitionAssist' })}
           </label>
           <input
               type="text"
@@ -203,14 +197,13 @@ class CalculatorForm extends React.Component {
       <div className="row">
         <div className="small-12 columns">
           <Dropdown
+              label={this.renderLearnMoreLabel({ text: 'Enrolled', modal: 'calcEnrolled' })}
               name={name}
               alt="Enrolled"
               options={options}
               visible
               value={value}
-              onChange={this.props.onInputChange}>
-            {this.renderLearnMoreLabel({ text: 'Enrolled', modal: 'calcEnrolled' })}
-          </Dropdown>
+              onChange={this.props.onInputChange}/>
         </div>
       </div>
     );
@@ -280,6 +273,7 @@ class CalculatorForm extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <Dropdown
+                label={this.renderLearnMoreLabel({ text: 'School Calendar', modal: 'calcSchoolCalendar' })}
                 name="calendar"
                 alt="School calendar"
                 options={[
@@ -289,9 +283,7 @@ class CalculatorForm extends React.Component {
                 ]}
                 visible
                 value={this.props.inputs.calendar}
-                onChange={this.props.onInputChange}>
-              {this.renderLearnMoreLabel({ text: 'School Calendar', modal: 'calcSchoolCalendar' })}
-            </Dropdown>
+                onChange={this.props.onInputChange}/>
           </div>
         </div>
         {dependentDropdowns}
