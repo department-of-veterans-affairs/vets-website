@@ -18,3 +18,4 @@ typings.json
 typings/
 coverage
 .nyc_output
+.vscode/

@@ -1,4 +1,5 @@
 import Timeouts from './timeouts';
+import { takeScreenshot } from './screenshot';
 
 // Change select value and trigger change event programatically.
 // This is necessary because long select boxes tend to render offscreen,
@@ -16,6 +17,13 @@ function selectDropdown(client, field, value) {
       /* eslint-disable */
     },
     [select, value]);
+}
+
+// Output browser log to terminal
+function getLog(client) {
+  client.getLog('browser', function(result) {
+    console.log(result);
+  });
 }
 
 function overrideVetsGovApi(client) {
@@ -104,6 +112,10 @@ function createE2eTest(beginApplication) {
 
 // Expects navigation lands at a path with the given `urlSubstring`.
 function expectNavigateAwayFrom(client, urlSubstring) {
+
+  if (process.env.SCREENSHOTS){
+    takeScreenshot(client, urlSubstring);
+  }
   client.expect.element('.js-test-location').attribute('data-location')
     .to.not.contain(urlSubstring).before(Timeouts.normal);
 }
@@ -123,8 +135,10 @@ module.exports = {
   expectNavigateAwayFrom,
   expectValueToBeBlank,
   expectInputToNotBeSelected,
+  getLog,
   overrideVetsGovApi,
   overrideSmoothScrolling,
   overrideAnimations,
-  selectDropdown
+  selectDropdown,
+  takeScreenshot
 };
