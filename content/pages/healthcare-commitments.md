@@ -14,36 +14,36 @@ title: VA Health Care Commitments
           <div class="row">
             <div class="small-12 medium-4 columns">
               <div class="card information">
-                <span class="number">8 days</span>
-                <span class="description">Primary care</span>
+                <span class="number">94%</span>
+                <span class="description">of veterans are seen within <b>30 days</b> of their requested date</span>
               </div>
             </div>
             <div class="small-12 medium-4 columns">
               <div class="card information">
-                <span class="number">7 days</span>
-                <span class="description">Specialty care</span>
+                <span class="number">99%</span>
+                <span class="description">of referrals to a specialist are addressed within <b>30 days</b></span>
               </div>
             </div>
             <div class="small-12 medium-4 columns">
               <div class="card information">
-                <span class="number">2 days</span>
-                <span class="description">Mental health care</span>
+                <span class="number">93%</span>
+                <span class="description">of referrals to a specialist are addressed within <b>7 days</b></span>
               </div>
             </div>
           </div>
           <p>To help you make the best choice for your care, we’re sharing the data we have about VA medical centers. Now you can see:</p>
           <div class="row">
             <div class="small-12 medium-6 columns">
-              <p><a href="http://vapwt.usgovtrafficmanager.net/timeliness.html"><b>Appointment wait times</b></a><br>See wait times across VA medical centers.</p>
+              <p><a href="http://pwteastdev.azurewebsites.us/"><b>Appointment wait times</b></a><br>How quickly can my VA hospital see me?</p>
             </div>
             <div class="small-12 medium-6 columns">
-              <p><a href="http://vapwt.usgovtrafficmanager.net/qualityofcare.html"><b>Medical center comparison</b></a><br>Compare a VA medical center to other hospitals in the area.</p>
+              <p><a href="http://pwteastdev.azurewebsites.us/main/statemap/true"><b>Immediate care availability</b></a><br>Does my VA hospital have same-day services?</p>
             </div>
             <div class="small-12 medium-6 columns">
-              <p><a href="http://shepwest.azurewebsites.us"><b>Satisfaction scores</b></a><br>Find out how satisfied Veterans are with their care at different VA facilities.</p>
+              <p><a href="http://shepwest.azurewebsites.us/"><b>Satisfaction scores</b></a><br>How satisifed are Veterans with the timeliness of their care?</p>
             </div>
             <div class="small-12 medium-6 columns">
-              <p><a href="http://vapwt.usgovtrafficmanager.net/howisthevadoing.html"><b>Overall VA improvements</b></a><br>View how the VA is doing overall in improving wait times across the country.</p>
+              <p><a href="http://vapwt.usgovtrafficmanager.net/hospitalcomparedata.html"><b>Medical center comparisons</b></a><br>How well does my VA medical center compare to surrounding hospitals?</p>
             </div>
           </div>
           <div><br></div>
