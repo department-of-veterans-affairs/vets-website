@@ -48,30 +48,32 @@ export class ProfilePage extends React.Component {
             institution={this.props.profile.attributes}
             onLearnMore={this.props.showModal.bind(this, 'gibillstudents')}
             onViewWarnings={this.handleViewWarnings}/>
-        <ul className="usa-accordion">
-          <AccordionItem button="Estimate your benefits" expanded>
-            <Calculator/>
-          </AccordionItem>
-          <AccordionItem button="Veteran programs">
-            <Programs/>
-          </AccordionItem>
-          <AccordionItem button="Student outcomes">
-            <If condition={!!profile.attributes.facilityCode && !!constants} comment="TODO">
-              <Outcomes
-                  graphing={outcomes}
-                  showModal={this.props.showModal}/>
-            </If>
-          </AccordionItem>
-          <a name="viewWarnings"></a>
-          <AccordionItem
-              button="Cautionary information"
-              ref={c => { this._cautionaryInfo = c; }}>
-            <CautionaryInformation/>
-          </AccordionItem>
-          <AccordionItem button="Additional information">
-            <AdditionalInformation/>
-          </AccordionItem>
-        </ul>
+        <div className="usa-accordion">
+          <ul>
+            <AccordionItem button="Estimate your benefits" expanded>
+              <Calculator/>
+            </AccordionItem>
+            <AccordionItem button="Veteran programs">
+              <Programs/>
+            </AccordionItem>
+            <AccordionItem button="Student outcomes">
+              <If condition={!!profile.attributes.facilityCode && !!constants} comment="TODO">
+                <Outcomes
+                    graphing={outcomes}
+                    showModal={this.props.showModal}/>
+              </If>
+            </AccordionItem>
+            <a name="viewWarnings"></a>
+            <AccordionItem
+                button="Cautionary information"
+                ref={c => { this._cautionaryInfo = c; }}>
+              <CautionaryInformation/>
+            </AccordionItem>
+            <AccordionItem button="Additional information">
+              <AdditionalInformation/>
+            </AccordionItem>
+          </ul>
+        </div>
       </div>
     );
   }
