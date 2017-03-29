@@ -102,7 +102,7 @@ class Graph extends React.Component {
             </Underbar>
             <ValueLabel y="22" text={this.format(veterans)}/>
 
-            {averagePercent === null || averagePercent === undefined ?
+            {averagePercent ?
               <AverageMark
                   percent={averagePercent}
                   text={this.format(averageObject)}/> : null}

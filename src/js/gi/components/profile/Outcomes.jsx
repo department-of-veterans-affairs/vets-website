@@ -36,6 +36,13 @@ class Outcomes extends React.Component {
         </div>
 
         <div className="medium-12 column">
+          <svg>
+            <rect x="0" y="0" width="40" height="40" fill="#F1F1F1"/>
+            <line x1="20" x2="20" y1="0" y2="40" stroke="#323A45" strokeWidth="2"/>
+            <text x="50" y="30" fontFamily="SourceSansPro-Regular, Source Sans Pro" fontSize="16" fill="#323A45">
+              <tspan>National average</tspan>
+            </text>
+          </svg>
           <p>
             Access a comprehensive spreadsheet of <a title="Veteran Outcome Measures"
                 href={download.link} target="_blank">Veteran Outcome Measures ({download.info})</a>
