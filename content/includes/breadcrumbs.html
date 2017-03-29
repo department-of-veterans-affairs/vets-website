@@ -1,9 +1,9 @@
 <nav class="va-nav-breadcrumbs">
   <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
     <li><a href="/">Home</a></li>
-      {% assign my_variable = breadcrumb_path | last %}
+      {% assign current_page = breadcrumb_path | last %}
       {% for crumb in breadcrumb_path %}
-        {% if my_variable.name == crumb.name %}
+        {% if current_page.name == crumb.name %}
           <li class="active">
             {% if title %}
               {{ title }}
@@ -12,9 +12,14 @@
             {% endif %}
           </li>
         {% else %}
-          <li><a href="/{{ crumb.path }}">
-            {{ crumb.name | replace: '-', ' ' | capitalize }}
-          </a></li>
+          <li>
+            <a href="/{{ crumb.path }}">
+              {% if crumb.name == 'gi-bill' %}
+              {{ crumb.name | replace: '-', ' ' | replace: 'gi', 'GI' | replace: 'b', 'B' }}
+              {% else %}
+              {{ crumb.name | replace: '-', ' ' | capitalize }}
+              {% endif %}             
+            </a></li>
         {% endif %}
       {% endfor %}
   </ul>
