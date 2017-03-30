@@ -24,7 +24,7 @@ class IntroductionPage extends React.Component {
               <div><h6>What you need to fill out this application</h6></div>
               <ul>
                 <li>Your Social Security number (required)</li>
-                <li>Your sponsor's Social Security number (required)</li>
+                <li>The qualifying individual's (veteran's) Social Security number (required)</li>
                 <li>Basic information about the school or training facility where you want to attend</li>
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
