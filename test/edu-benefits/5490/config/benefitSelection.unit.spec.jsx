@@ -14,6 +14,16 @@ describe('Edu 5490 benefitSelection', () => {
       <DefinitionTester
           schema={schema}
           data={{}}
+          state={{
+            benefitSelection: {
+              uiSchema: {
+                benefit: {
+                  'ui:options': {
+                  }
+                }
+              }
+            }
+          }}
           uiSchema={uiSchema}/>
     );
     const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(
@@ -28,15 +38,31 @@ describe('Edu 5490 benefitSelection', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          data={{ benefit: 'chapter35' }}
+          data={{}}
+          state={{
+            benefitSelection: {
+              uiSchema: {
+                benefit: {
+                  'ui:options': {
+                  }
+                }
+              }
+            }
+          }}
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
 
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_benefit_0'), {
+      target: {
+        checked: true
+      }
+    });
     // check that an alert box is shown below the chapter35 option
-    expect(formDOM
-      .querySelector('.form-radio-buttons + span .usa-alert')
-    ).not.to.be.null;
+    setTimeout(() => {
+      expect(formDOM.querySelector('.form-radio-buttons + span .usa-alert')).not.to.be.null;
+      done(); // eslint-disable-line
+    }, 500);
   });
 
   it('should show errors when required fields are empty', () => {
@@ -46,6 +72,16 @@ describe('Edu 5490 benefitSelection', () => {
           schema={schema}
           onSubmit={onSubmit}
           data={{}}
+          state={{
+            benefitSelection: {
+              uiSchema: {
+                benefit: {
+                  'ui:options': {
+                  }
+                }
+              }
+            }
+          }}
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
@@ -61,6 +97,16 @@ describe('Edu 5490 benefitSelection', () => {
           schema={schema}
           onSubmit={onSubmit}
           data={{}}
+          state={{
+            benefitSelection: {
+              uiSchema: {
+                benefit: {
+                  'ui:options': {
+                  }
+                }
+              }
+            }
+          }}
           uiSchema={uiSchema}/>
     );
 
