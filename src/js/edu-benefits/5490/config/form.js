@@ -164,18 +164,15 @@ const formConfig = {
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
                 labels: benefitsLabels,
-                updateUiSchema: (formData, uiSchema) => {
-                  const newSchema = _.cloneDeep(uiSchema);
-                  const relationship = _.get('applicantInformation.data.relationship', formData);
+                updateSchema: (data, form, schema) => {
+                  const relationship = _.get('applicantInformation.data.relationship', form);
                   const nestedContent = {
                     chapter33: benefitSelectionWarning('chapter33', relationship),
                     chapter35: benefitSelectionWarning('chapter35', relationship),
                   };
-                  // form is immutable so doing this inside an updateSchema() callback has no effect
-                  // _.set('benefitSelection.uiSchema.benefit.ui:options.nestedContent', nestedContent, form);
-                  // return schema;
-                  _.set('ui:options.nestedContent', nestedContent, newSchema);
-                  return newSchema;
+                  const uiOptions = _.get('benefitSelection.uiSchema.benefit.ui:options', form);
+                  uiOptions.nestedContent = nestedContent;
+                  return schema;
                 }
               },
             },

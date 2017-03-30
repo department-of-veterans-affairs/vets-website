@@ -470,45 +470,6 @@ export function removeHiddenData(schema, data) {
 }
 
 /*
- * Add explanation
- */
-export function updateUiSchemaFromData(uiSchema, formData) {
-  let currentUiSchema = uiSchema;
-
-  // Recursively update child ui schemas
-  const uiChildren = Object.keys(currentUiSchema).filter(key => key.startsWith('ui:'));
-  const newChildUi = uiChildren.reduce((current, next) => {
-    const nextUi = updateUiSchemaFromData(current[next], formData);
-    if (current[next] !== nextUi) {
-      return _.set(next, nextUi, current);
-    }
-    return current;
-  }, currentUiSchema);
-
-  if (newChildUi !== uiSchema) {
-    currentUiSchema = newChildUi;
-  }
-
-  // Apply callback if it exists
-  const updateUiSchema = _.get(['ui:options', 'updateUiSchema'], uiSchema);
-  if (updateUiSchema) {
-    const updatedSchema = updateUiSchema(formData, currentUiSchema);
-    const uiProperties = Object.keys(updatedSchema).filter(key => !key.startsWith('ui:'));
-    const newUiSchema = uiProperties.reduce((current, next) => {
-      if (updatedSchema[next] !== uiSchema[next]) {
-        return _.set(next, updatedSchema[next], current);
-      }
-      return current;
-    }, currentUiSchema);
-
-    if (newUiSchema !== currentUiSchema) {
-      return newUiSchema;
-    }
-  }
-  return currentUiSchema;
-}
-
-/*
  * This is similar to the hidden fields schema function above, except more general.
  * It will step through a schema and replace parts of it based on an updateSchema
  * function in uiSchema. This means the schema can be re-calculated based on data
