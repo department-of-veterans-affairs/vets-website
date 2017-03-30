@@ -110,15 +110,27 @@ You must apply for education benefits using eBenefits if you're:
 <div markdown="0"><br></div>
 
 <script type="text/javascript">
+  // I'm open to suggestions on how to not do this here
+
   function toggleClass(elementId, className) {
     document.getElementById(elementId).classList.toggle(className);
   }
 
-  // Get the expander button and add a listener to call the toggle function
+  // Toggle the expandable apply fields
   document.getElementById('apply-expander-button')
     .addEventListener('click', function () {
-      console.log('clicked');
       toggleClass('apply-expander-content', 'hidden');
       toggleClass('apply-expander-button', 'va-button-primary');
+    });
+
+  // Make the go button go to the right place
+  document.getElementById('apply-go-button')
+    .addEventListener('click', function () {
+      var selectedForm = document.querySelector('input[name="form-selection"]:checked');
+
+      console.log('selectedForm:', selectedForm);
+      if (selectedForm) {
+        location.assign('/education/apply-for-education-benefits/application/' + selectedForm.value + '/introduction');
+      }
     });
 </script>
