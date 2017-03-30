@@ -1,22 +1,3 @@
-const mock = require('./mock-helpers');
-
-// Create API routes
-function initApplicationSubmitMock() {
-  mock(null, {
-    path: '/v0/education_benefits_claims/1995',
-    verb: 'post',
-    value: {
-      data: {
-        attributes: {
-          confirmationNumber: '123fake-submission-id-567',
-          submittedAt: '2016-05-16',
-          regionalOffice: 'Test'
-        }
-      }
-    }
-  });
-}
-
 function completeMilitaryService(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
@@ -88,7 +69,6 @@ function completeDependents(client, data, onlyRequiredFields) {
 }
 
 module.exports = {
-  initApplicationSubmitMock,
   completeMilitaryService,
   completeNewSchool,
   completeOldSchool,
