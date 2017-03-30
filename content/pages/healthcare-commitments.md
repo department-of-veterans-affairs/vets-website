@@ -10,7 +10,7 @@ title: VA Health Care Commitments
       <div class="small-12 medium-8 columns usa-content">
           <h1>Getting Veterans the health care they need. When they need it.</h1>
           <p class="va-introtext">Veterans often have to wait too long for appointments at VA medical centers. At VA, we’re actively working every day to reduce wait times and improve Veterans’ access to health care across the country.</p>
-          <h3>National wait times for new patients</h3>
+          <h3>National wait times for patients</h3>
           <div class="row">
             <div class="small-12 medium-4 columns">
               <div class="card information">
