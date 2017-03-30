@@ -36,12 +36,12 @@ class Outcomes extends React.Component {
         </div>
 
         <div className="medium-12 column">
-          <svg height="60">
+          <svg className="graph-key" viewBox="0 0 650 50">
             <g>
-              <rect x="0" y="0" width="40" height="40" fill="#F1F1F1"/>
-              <line x1="20" x2="20" y1="0" y2="40" stroke="#323A45" strokeWidth="2"/>
-              <text x="50" y="30" fontFamily="SourceSansPro-Regular, Source Sans Pro" fontSize="22" fill="#323A45">
-                <tspan>National average</tspan>
+              <rect x="0" y="0" width="30" height="30" fill="#F1F1F1"/>
+              <line x1="15" x2="15" y1="0" y2="30" stroke="#323A45" strokeWidth="2"/>
+              <text fontFamily="SourceSansPro-Regular, Source Sans Pro" fontSize="16" fill="#323A45">
+                <tspan x="40" y="20">National average</tspan>
               </text>
             </g>
           </svg>
