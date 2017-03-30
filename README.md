@@ -223,24 +223,15 @@ run on all browsers. That's wasteful. How do we determine what should be run on
 multiple browsers as opposed to on PhantomJS in Jenkins?
 
 #### E2E Troubleshooting
-##### Is `selenium` Installed?
-1. Navigate to `vets-website` dir
-1. Create new file find-selenium.js with the contents of:
+Try running your `selenium` server manually:
 ```
-const selenium = require('selenium-server');
-console.log(selenium.path);
+$ java -jar <YOUR_HOME>/Github/vets-website/node_modules/selenium-server/lib/runner/selenium-server-standalone-3.1.0.jar
 ```
-1. Run `$ node find-selenium.js` and you should see:
+and you should see:
 ```
-<YOUR_HOME>/Github/vets-website/node_modules/selenium-server/lib/runner/selenium-server-standalone-3.1.0.jar
+04:35:15.862 INFO - Selenium Server is up and running
 ```
-
-##### Is Java 8 Installed?
-Minimum required Java is 8
-```
-$ java -version
-java version "1.8.0_121"
-```
+* Selenium requires **Java 8** to run
 
 ### Automated Accessibility Testing -- aXe
 
