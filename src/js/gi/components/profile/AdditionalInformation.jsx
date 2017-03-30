@@ -8,7 +8,7 @@ export class AdditionalInformation extends React.Component {
     const it = this.props.profile.attributes;
     const accredited = !!it.cross;
     const TypeOfAccreditation = () => {
-      if (!accredited) return null;
+      if (!accredited || !it.accreditationType) return null;
       return (
         <p>
           <strong>Type of accreditation:&nbsp;</strong>
