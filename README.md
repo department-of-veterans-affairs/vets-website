@@ -222,6 +222,26 @@ TODO(awong): Figure out sauce labs integrations. Not all e2e tests should always
 run on all browsers. That's wasteful. How do we determine what should be run on
 multiple browsers as opposed to on PhantomJS in Jenkins?
 
+#### E2E Troubleshooting
+##### Is `selenium` Installed?
+1. Navigate to `vets-website` dir
+1. Create new file find-selenium.js with the contents of:
+```
+const selenium = require('selenium-server');
+console.log(selenium.path);
+```
+1. Run `$ node find-selenium.js` and you should see:
+```
+<YOUR_HOME>/Github/vets-website/node_modules/selenium-server/lib/runner/selenium-server-standalone-3.1.0.jar
+```
+
+##### Is Java 8 Installed?
+Minimum required Java is 8
+```
+$ java -version
+java version "1.8.0_121"
+```
+
 ### Automated Accessibility Testing -- aXe
 
 The automated accessibility tests are contained within the `test/accessibility`
