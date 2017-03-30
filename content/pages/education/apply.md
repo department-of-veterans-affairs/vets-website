@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Education Benefits Application Process 
+title: Education Benefits Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
@@ -34,18 +34,18 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 - Social Security number
 - Bank account direct deposit information
-- Education and military history 
+- Education and military history
 - Basic information about the school or training facility you want to attend or are attending now
 
 </div>
 
 ### Ready to apply?
 
-#### First-time applicants
+#### Applying for a new benefit
+Apply online with Form 22-1990, 22-1990E, or 22-5490:
 
-Apply online with Form 22-1990:
+[Apply for Benefits]  < this is the pattern detailed above
 
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply for Benefits</a>
 
 #### Make a change to your current education benefits
 
