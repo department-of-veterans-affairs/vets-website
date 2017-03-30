@@ -259,7 +259,7 @@ disabled by the feature flag.
 
 To enable or disable the feature in a specific build type, toggle the feature
 in `test/util/mocha-setup.js` and `config/webpack.config.js`. See
-`SampleFeature` and the associated `__SAMPLE_FEATURE__` env variables for an
+[`SampleFeature`](src/js/common/components/SampleFeature.jsx) and the associated `__SAMPLE_FEATURE__` env variables for an
 example implementation.
 
 ## More documentation
