@@ -6,6 +6,7 @@ import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.jso
 //  all have links, so for consistency, use the set in ../helpers
 import {
   benefitsLabels,
+  benefitsRelinquishedInfo,
   benefitsRelinquishedWarning,
   benefitsDisclaimerChild,
   benefitsDisclaimerSpouse,
@@ -165,7 +166,7 @@ const formConfig = {
               'ui:options': {
                 labels: benefitsLabels,
                 updateSchema: (data, form, schema) => {
-                  const relationship = _.get('relationship', form);
+                  const relationship = _.get('applicantInformation.data.relationship', form);
                   const nestedContent = {
                     chapter33: benefitSelectionWarning('chapter33', relationship),
                     chapter35: benefitSelectionWarning('chapter35', relationship),
@@ -177,7 +178,7 @@ const formConfig = {
               },
             },
             'view:benefitsRelinquishedInfo': {
-              'ui:description': 'While receiving DEA or FRY scholarship benefits you may not receive payments of Dependency and Indemnity Compensation (DIC) or Pension and you may not be claimed as a dependent in a Compensation claim. If you are unsure of this decision it is strongly encouraged you talk with a VA counselor.',
+              'ui:description': benefitsRelinquishedInfo,
               'ui:options': {
                 hideIf: form => _.get('relationship', form) !== 'child'
               }
