@@ -35,6 +35,8 @@
         "suffix": "Jr."
       },
       "veteranSocialSecurityNumber": "556789999",
+      "view:noSSN": true,
+      "vaFileNumber": "C12345678",
       "veteranAddress": {
         "street": "1 Main St",
         "city": "Central City",
