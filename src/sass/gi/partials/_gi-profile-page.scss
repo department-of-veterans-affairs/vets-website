@@ -35,6 +35,12 @@
       }
     }
 
+    @media screen and (max-width: $small-screen) {
+      .calculator-inputs .form-expanding-group-open {
+        margin-left: calc(0.5em + 2px);
+      }
+    }
+
     .calculator-result {
       .value {
         text-align: right;
