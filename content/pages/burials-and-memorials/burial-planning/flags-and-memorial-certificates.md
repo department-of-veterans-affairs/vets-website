@@ -38,7 +38,7 @@ The Veteran’s family can also donate the flag to a national cemetery that has 
 
 We can’t replace flags that are lost, destroyed, or stolen, but some Veterans organizations may be able to help if something happens to the flag we gave you.
 
-<div class="call-out" markdown="0">
+<div class="feature" markdown="0">
 
 ### Can I get a Presidential Memorial Certificate?
 
