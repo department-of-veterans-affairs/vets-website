@@ -6,7 +6,7 @@
 }
 
 .messaging-move {
-  @extend %messaging-rectangular-button;
+  @include messaging-rectangular-button;
 
   > i {
     margin-left: .5rem;
