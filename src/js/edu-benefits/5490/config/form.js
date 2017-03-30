@@ -165,7 +165,7 @@ const formConfig = {
               'ui:options': {
                 labels: benefitsLabels,
                 updateSchema: (data, form, schema) => {
-                  const relationship = _.get('applicantInformation.data.relationship', form);
+                  const relationship = _.get('relationship', form);
                   const nestedContent = {
                     chapter33: benefitSelectionWarning('chapter33', relationship),
                     chapter35: benefitSelectionWarning('chapter35', relationship),
@@ -179,18 +179,18 @@ const formConfig = {
             'view:benefitsRelinquishedInfo': {
               'ui:description': 'While receiving DEA or FRY scholarship benefits you may not receive payments of Dependency and Indemnity Compensation (DIC) or Pension and you may not be claimed as a dependent in a Compensation claim. If you are unsure of this decision it is strongly encouraged you talk with a VA counselor.',
               'ui:options': {
-                hideIf: form => _.get('relationship', form) === 'spouse'
+                hideIf: form => _.get('relationship', form) !== 'child'
               }
             },
             benefitsRelinquishedDate: _.merge(date.uiSchema('Effective date'), {
               'ui:options': {
-                hideIf: form => _.get('relationship', form) === 'spouse'
+                hideIf: form => _.get('relationship', form) !== 'child'
               }
             }),
             'view:benefitsRelinquishedWarning': {
               'ui:description': benefitsRelinquishedWarning,
               'ui:options': {
-                hideIf: form => _.get('relationship', form) === 'spouse'
+                hideIf: form => _.get('relationship', form) !== 'child'
               }
             },
           },
