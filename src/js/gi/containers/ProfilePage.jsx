@@ -76,7 +76,7 @@ export class ProfilePage extends React.Component {
                 <If condition={!!profile.attributes.facilityCode && !!constants} comment="TODO">
                   <Outcomes
                       graphing={outcomes}
-                      showModal={this.props.showModal}/>
+                      onShowModal={this.props.showModal}/>
                 </If>
               </AccordionItem>
               <a name="viewWarnings"></a>
