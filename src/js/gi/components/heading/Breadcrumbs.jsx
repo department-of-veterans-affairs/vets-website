@@ -28,9 +28,15 @@ class Breadcrumbs extends React.Component {
       crumbs.push(<span key="profile"><strong>{this.props.profileName || 'Profile'}</strong></span>);
     }
 
-    return (<div className="gi-breadcrumbs">
-      {crumbs.reduce((content, e) => { return [...content, ' › ', e]; }, []).slice(1)}
-    </div>);
+    return (
+      <nav className="va-nav-breadcrumbs">
+        <ul className="row va-nav-breadcrumbs-list gi-breadcrumbs" role="menubar" aria-label="Primary">
+          {crumbs.reduce((content, e, i) => {
+            return [...content, ' ', <li key={i} className={i === crumbs.length - 1 ? 'active' : ''}>{e}</li>];
+          }, []).slice(1)}
+        </ul>
+      </nav>
+    );
   }
 }
 
