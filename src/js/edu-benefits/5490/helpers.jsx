@@ -31,7 +31,22 @@ export const highSchoolStatusLabels = {
 export const benefitsRelinquishedWarning = (
   <div className="usa-alert usa-alert-warning usa-content edu-warning-single-line">
     <div className="usa-alert-body">
-      I certify that I understand the effects that this election to receive DEA or FRY scholarship benefits will have on my eligibility for DIC payments, and I elect to receive the selected scholarship benefit on the following date:
+      I certify that I understand the effects that this election to receive DEA or FRY scholarship benefits will have on my eligibility for DIC payments, and I elect to receive the selected scholarship benefit on the above date.
     </div>
   </div>
 );
+
+export const benefitsDisclaimerSpouse = (
+  <p>
+    IMPORTANT: If you are eligible for Chapter 35 Survivors’ and Dependents’ Educational Assistance Program (DEA) and eligible for Chapter 33 Post-9/11 GI Bill Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship), you must relinquish entitlement to the benefit that you are not applying for (even if entitlement arises from separate events). <strong>You cannot retain eligibility for both programs simultaneously</strong>.
+  </p>
+
+);
+
+export function benefitsDisclaimerChild() {
+  return (
+    <p>
+      IMPORTANT: If you are eligible for Chapter 35 Survivors’ and Dependents’ Educational Assistance Program (DEA) and eligible for Chapter 33 Post-9/11 GI Bill Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship), you must relinquish entitlement to the benefit that you are not applying for (but only with regards to the entitlement arising from the same events). <strong>You cannot retain eligibility for both programs based on the same event</strong>.
+    </p>
+  );
+}
