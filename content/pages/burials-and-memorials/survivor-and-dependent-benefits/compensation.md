@@ -6,7 +6,7 @@ template: 6-info-page
 
 If you’re the survivor or parent of a Servicemember who died in the line of duty, or the survivor or parent of a Veteran who died from a service-related injury or illness, you may be able to get a tax-free monetary benefit called Dependency and Indemnity Compensation (DIC). Find out if you can get compensation. 
 
-<div class="call-out" markdown="0">
+<div class="feature" markdown="0">
 
 ### As a surviving spouse, can I get compensation from VA?
 
@@ -17,7 +17,7 @@ If you’re a surviving spouse, you can get compensation if you:
 
 </div>
 
-<div class="call-out" markdown="0">
+<div class="feature" markdown="0">
 
 ### As a surviving child, can I get compensation from VA?
 
@@ -38,7 +38,7 @@ If you’re a surviving child, you can get compensation if you aren’t married 
 
 **Note:** “Totally disabling” means the Veteran’s injuries make it impossible for them to work.
 
-<div class="call-out" markdown="0">
+<div class="feature" markdown="0">
 
 ### What kind of benefits can I get?
 

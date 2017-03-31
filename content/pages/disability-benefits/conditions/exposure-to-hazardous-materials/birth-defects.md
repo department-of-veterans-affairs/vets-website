@@ -13,7 +13,8 @@ Spina bifida is a spinal cord birth defect. A baby develops spina bifida while s
 
 </div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Can my child get disability benefits from VA?
 

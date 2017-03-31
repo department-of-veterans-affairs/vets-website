@@ -23,7 +23,7 @@ Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymph
 - Chest pain or trouble breathing
 - Itchy skin
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

@@ -12,7 +12,7 @@ Has your clothing been damaged by your prosthetic or orthopedic device (such as 
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

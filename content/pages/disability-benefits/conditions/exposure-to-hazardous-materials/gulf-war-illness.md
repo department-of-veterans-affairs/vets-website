@@ -15,7 +15,7 @@ If you served in the Southwest Asia theater of military operations, you may suff
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

@@ -12,7 +12,7 @@ Were you part of testing or storing Agent Orange on bases in the United States o
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

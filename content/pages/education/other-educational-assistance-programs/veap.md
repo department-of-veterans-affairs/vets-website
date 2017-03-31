@@ -11,7 +11,8 @@ If you are interested in pursuing continuing-education programs, and are willing
 
 </div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Are you eligible for benefits?
 Yes, if:

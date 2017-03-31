@@ -28,7 +28,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 <div markdown="0"><br></div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 #### What documents and information do I need to apply?
 
