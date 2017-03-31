@@ -225,7 +225,7 @@ multiple browsers as opposed to on PhantomJS in Jenkins?
 #### E2E Troubleshooting
 Try running your `selenium` server manually:
 ```
-$ java -jar <YOUR_HOME>/Github/vets-website/node_modules/selenium-server/lib/runner/selenium-server-standalone-3.1.0.jar
+$ java -jar <path to GitHub>/vets-website/node_modules/selenium-server/lib/runner/selenium-server-standalone-3.1.0.jar
 ```
 and you should see:
 ```
