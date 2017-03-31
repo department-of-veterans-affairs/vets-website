@@ -1,8 +1,19 @@
+import _ from 'lodash/fp';
+
 import React from 'react';
 import { transformForSubmit } from '../../common/schemaform/helpers';
 
 export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form);
+  // Clone the form in so we don't modify the original...because of reasons FP
+  const newForm = _.cloneDeep(form);
+
+  // Copy the data if necessary
+  if (form.sponsorInformation.data['view:currentSameAsPrevious']) {
+    newForm.sponsorInformation.data['view:currentSponsorInformation'].veteranFullName = form.benefitHistory.data.previousBenefits.veteranFullName;
+    newForm.sponsorInformation.data['view:currentSponsorInformation']['view:veteranId'].veteranFullName = form.benefitHistory.data.previousBenefits.veteranSocialSecurityNumber;
+  }
+
+  const formData = transformForSubmit(formConfig, newForm);
   return JSON.stringify({
     educationBenefitsClaim: {
       form: formData
