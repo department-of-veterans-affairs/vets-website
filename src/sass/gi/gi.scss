@@ -17,7 +17,7 @@
 
   div.militaryStatusInfo {
     font-size: 0.9em;
-    background-color: #ffebcd;
+    background-color: $color-gibill-accent;
     padding: 1em;
     margin-top: 1em;
     max-width: 460px;
@@ -58,10 +58,10 @@
   .disclaimer {
     margin: 1em 0;
     padding: 0;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid $color-gray-lightest;
     z-index: 500;
-    color: #444;
-    background: #fff;
+    color: $color-gray-dark;
+    background: $color-white;
   }
 
 }
