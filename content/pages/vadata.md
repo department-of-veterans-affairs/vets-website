@@ -12,17 +12,7 @@ title: VA Data
           <p>Veterans often have to wait too long for appointments at VA medical centers. At VA, we’re actively working every day to reduce wait times and improve Veterans’ access to health care across the country.</p>
           <p>To help you make the best choice for your care, we’re sharing the data we have about VA medical centers. Now you can see:</p>
         </div>
-      </div>
-      <div class="small-12 medium-4 columns">
-        <h4 class="highlight">Find VA locations</h4>
-        <p>Looking for information on visiting your local VA facility?</p>
-        <a class="usa-button" href="/facilities">Find a VA facility near you</a>
-        <div><br></div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="small-12 columns">
-        <ul class="va-cards va-cards--3across">
+        <ul class="va-cards va-cards--2across">
           <li class="va-card">
             <a href="http://shepwest.azurewebsites.us/">
               <h3 class="va-card-title">Satisfaction Score</h3>
@@ -60,6 +50,12 @@ title: VA Data
             </a>
           </li>
         </ul>
+        <div><br></div>
+      </div>
+      <div class="small-12 medium-4 columns">
+        <h4 class="highlight">Find VA locations</h4>
+        <p>Looking for information on visiting your local VA facility?</p>
+        <a class="usa-button" href="/facilities">Find a VA facility near you</a>
         <div><br></div>
       </div>
     </div>
