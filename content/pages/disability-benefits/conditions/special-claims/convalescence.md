@@ -13,7 +13,8 @@ Are you recovering from surgery or a disability related to your military service
 
 </div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

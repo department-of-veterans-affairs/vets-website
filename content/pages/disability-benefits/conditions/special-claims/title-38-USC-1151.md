@@ -12,7 +12,7 @@ If you suffered an added disability while getting VA medical care or taking part
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get compensation from VA?
 

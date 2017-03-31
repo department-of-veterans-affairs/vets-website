@@ -11,7 +11,7 @@ When you file a claim for disability benefits, you'll need to gather all related
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### The documents you’ll need to provide include:
 

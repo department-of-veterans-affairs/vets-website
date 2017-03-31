@@ -55,16 +55,13 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
+          label="Country"
           name="country"
           options={options}
           value={this.props.filters.country}
           alt="Filter results by country"
           visible
-          onChange={this.handleDropdownChange}>
-        <label htmlFor="country">
-          Country
-        </label>
-      </Dropdown>
+          onChange={this.handleDropdownChange}/>
     );
   }
 
@@ -79,16 +76,13 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
+          label="State"
           name="state"
           options={options}
           value={this.props.filters.state}
           alt="Filter results by state"
           visible
-          onChange={this.handleDropdownChange}>
-        <label htmlFor="state">
-          State
-        </label>
-      </Dropdown>
+          onChange={this.handleDropdownChange}/>
     );
   }
 
@@ -138,16 +132,13 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
+          label="Institution type"
           name="type"
           options={options}
           value={this.props.filters.type}
           alt="Filter results by institution type"
           visible
-          onChange={this.handleDropdownChange}>
-        <label htmlFor="type">
-          Institution type
-        </label>
-      </Dropdown>
+          onChange={this.handleDropdownChange}/>
     );
   }
 

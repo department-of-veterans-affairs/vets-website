@@ -31,7 +31,7 @@ If your symptoms appear within 1 year after discharge—even if they weren't the
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

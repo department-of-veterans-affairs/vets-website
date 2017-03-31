@@ -21,7 +21,7 @@ If you are stationed within the KMC, visit the Landstuhl Benefits Delivery at Di
 
 If you are stationed outside the KMC, use the BDD or Quick Start programs through the "Fly-in" claim process, which lets you apply by fax or email before your in-person appointment. Here’s what you need to do to use the Fly-in claim process:
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 - Contact the Landstuhl BDD office by phone, fax, or email to ask for all needed information and forms.
 - Fill out and return your application as directed.

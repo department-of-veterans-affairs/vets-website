@@ -12,7 +12,8 @@ If you had contact with mustard gas (also known as sulfur mustard, yperite, or n
 
 </div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 

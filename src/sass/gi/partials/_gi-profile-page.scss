@@ -1,20 +1,15 @@
 .gi-app .profile-page {
 
-  ul.usa-accordion {
-    margin: 0;
-    list-style-type: none;
-    padding: 0;
-  }
-
   li button.usa-accordion-button {
     text-align: left;
 
     h2 {
-      font-size: 1em;
+      font-size: 1.35em;
+      padding: 0;
     }
   }
 
-  .calculate-your-benefits.row {
+  .calculate-your-benefits {
     h3 {
       font-size: 1.35em;
     }
@@ -26,12 +21,16 @@
 
     button {
       color: $color-primary;
-      margin: 0.5em;
+      margin: 0.5em 0;
+      padding: 1rem 2rem;
     }
 
-    @media screen and (min-width: $small-screen) {
-      .calculator-inputs .form-expanding-group-open {
+    .form-expanding-group-open {
+      margin-bottom: 3rem;
+
+      @media screen and (min-width: $small-screen) {
         border-left: none;
+        padding-left: 0;
       }
     }
 
@@ -101,6 +100,14 @@
 
   .outcomes .graph-component {
     clear: both;
+  }
+
+  .graph-key {
+    margin-top: 1rem;
+
+    @include media-maxwidth($medium-large-screen) {
+      width: 200%;
+    }
   }
 
   .cautionary-information {

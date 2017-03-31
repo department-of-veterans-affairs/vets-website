@@ -13,7 +13,8 @@ Asbestos is a material that was once used in many buildings and products. If you
 
 </div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
