@@ -363,7 +363,7 @@ const formConfig = {
             },
             'view:currentSameAsPrevious': {
               'ui:options': {
-                hideIf: (formData) => !formData.previousBenefits['view:claimedSponsorService']
+                hideIf: (formData) => !_.get('previousBenefits.view:claimedSponsorService', formData)
               },
               'ui:title': 'Same sponsor as previously claimed benefits'
             },
