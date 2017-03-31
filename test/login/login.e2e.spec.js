@@ -6,6 +6,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
   module.exports = E2eHelpers.createE2eTest(
     (client) => {
       const token = LoginHelpers.getUserToken();
+      const logoutUrl = LoginHelpers.getLogoutUrl();
 
       // log in and wait for little person icon to appear next to the username
       LoginHelpers.logIn(token, client, '/', 3)
@@ -21,11 +22,11 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       // click Sign Out & verify new window has correct logout url
       client
         .click('#accountMenu > ul > li:nth-child(2) > a')
-        .windowHandles(function foo(result) {
+        .windowHandles(function windowHandlesCallback(result) {
           this.verify.equal(result.value.length, 2, 'There should be 2 windows open');
           const newWindow = result.value[1];
           this.switchWindow(newWindow);
-          this.verify.urlContains(LoginHelpers.getLogoutUrl());
+          this.verify.urlContains(logoutUrl);
         });
 
       client.end();
