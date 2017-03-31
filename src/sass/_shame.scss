@@ -141,16 +141,18 @@ body .row {
 
 // /education/apply/ uses this expander button for navigation
 // Where else can I put this? Also, it could use a better name.
-.expander-button::after {
-  background-image: url(/img/arrow-down-white.svg);
-  background-position: right bottom;
-  background-repeat: no-repeat;
-  background-size: 0.6em auto;
-  display: inline-block;
-  margin-left: 0.5em;
-  margin-right: -0.3em;
-  width: 1em;
-  height: 1em;
-  content: ''; // Add content for accessibility purposes?
-  text-indent: -9999em;
+.expander-button {
+  &::after {
+    background-image: url(/img/arrow-down-white.svg);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    background-size: 0.6em auto;
+    display: inline-block;
+    margin-left: 0.5em;
+    margin-right: -0.3em;
+    width: 1em;
+    height: 1em;
+    content: ''; // Add content for accessibility purposes?
+    text-indent: -9999em;
+  }
 }
