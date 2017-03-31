@@ -1,6 +1,6 @@
-const E2eHelpers = require('../../util/e2e-helpers');
-// const Timeouts = require('../../util/timeouts.js');
-const EduHelpers = require('../../util/edu-helpers');
+const E2eHelpers = require('../../e2e/e2e-helpers');
+// const Timeouts = require('../../e2e/timeouts.js');
+const EduHelpers = require('../../e2e/edu-helpers');
 // const testData = require('./schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
