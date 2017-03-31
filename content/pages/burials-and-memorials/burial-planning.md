@@ -17,7 +17,7 @@ relatedlinks:
 
 When a Veteran, spouse, or dependent child dies, the person who plans the burial or memorial service has to take certain steps. You can also plan ahead for a burial in 1 of our 135 national cemeteries. Find out how to plan ahead or what to do if your family member has just died. 
 
-<div class="call-out" markdown="0">
+<div class="feature" markdown="0">
 
 ### Can I plan ahead for my burial?
 
