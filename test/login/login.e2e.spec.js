@@ -10,15 +10,18 @@ module.exports = E2eHelpers.createE2eTest(
     // log in and wait for little person icon to appear next to the username
     LoginHelpers.logIn(token, client, '/', 3)
       .assert.title('Vets.gov')
-      .waitForElementVisible('#login-root > div > div.sign-in-link > div > button > span > svg', Timeouts.slow);
+      .waitForElementVisible('#login-root button[aria-controls="accountMenu"]', Timeouts.slow);
 
     // click dropdown on username
-    client.click('#login-root > div > div.sign-in-link > div > button');
+    client.click('#login-root button[aria-controls="accountMenu"]');
 
-    // ensure Sign Out button is there
+    // logout button is there
     client.expect.element('#accountMenu > ul > li:nth-child(2) > a').to.be.visible;
 
-    // click Sign Out & verify new window has correct logout url
+    // logout button reads "Sign Out"
+    client.expect.element('#accountMenu > ul > li:nth-child(2) > a').text.to.equal('Sign Out');
+
+    // click Sign Out & verify new window is opened & has correct logout url
     client
       .click('#accountMenu > ul > li:nth-child(2) > a')
       .windowHandles(function windowHandlesCallback(result) {
