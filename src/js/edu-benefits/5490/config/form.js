@@ -304,7 +304,7 @@ const formConfig = {
                 }
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
-                'ui:title': 'Sponsor\'s Social Security number',
+                'ui:title': 'Sponsor’s Social Security number',
                 'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
@@ -372,6 +372,14 @@ const formConfig = {
                 hideIf: (formData) => formData['view:currentSameAsPrevious']
               },
               veteranFullName: _.merge(fullNameUi, {
+                'ui:options': {
+                  updateSchema: (data, form) => {
+                    if (!_.get('sponsorInformation.data.view:currentSameAsPrevious', form)) {
+                      return fullName;
+                    }
+                    return nonRequiredFullName;
+                  }
+                },
                 'ui:title': 'Name of Sponsor',
                 first: {
                   'ui:title': 'Sponsor first name'
@@ -388,7 +396,8 @@ const formConfig = {
               }),
               'view:veteranId': _.merge(veteranId.uiSchema, {
                 veteranSocialSecurityNumber: {
-                  'ui:title': 'Sponsor Social Security number'
+                  'ui:title': 'Sponsor Social Security number',
+                  'ui:required': (formData) => !_.get('view:currentSameAsPrevious', formData) && !_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData)
                 },
                 'view:noSSN': {
                   'ui:title': 'I don’t know my sponsor’s Social Security number',
