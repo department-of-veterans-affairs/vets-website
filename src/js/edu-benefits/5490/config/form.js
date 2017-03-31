@@ -186,7 +186,8 @@ const formConfig = {
             benefitsRelinquishedDate: _.merge(date.uiSchema('Effective date'), {
               'ui:options': {
                 hideIf: form => _.get('relationship', form) !== 'child'
-              }
+              },
+              'ui:required': form => _.get('relationship', form) === 'child'
             }),
             'view:benefitsRelinquishedWarning': {
               'ui:description': benefitsRelinquishedWarning,
