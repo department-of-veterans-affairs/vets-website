@@ -73,7 +73,7 @@ export class Programs extends React.Component {
       <div className="programs row">
         <If condition={available.length > 0}>
           <div className="medium-6 large-6 column">
-            <h3>Veteran programs available at this campus</h3>
+            <h3>Available at this campus</h3>
             {available.map((program) => this.renderProgramLabel.bind(this, program, true)())}
             <br/>
           </div>

@@ -200,7 +200,9 @@ export class SearchPage extends React.Component {
 
         <div className="row">
           <div className="column">
-            <h1>{(count || 0).toLocaleString()} Search Results</h1>
+            <h1>
+              {!search.inProgress && `${(count || 0).toLocaleString()} `}Search Results
+            </h1>
           </div>
         </div>
 

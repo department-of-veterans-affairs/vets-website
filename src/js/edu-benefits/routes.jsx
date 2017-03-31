@@ -57,6 +57,23 @@ export default function createRoutes(store) {
         },
       },
       {
+        path: '1990n',
+        indexRoute: { onEnter: (nextState, replace) => replace('/1990n/introduction') },
+        component: asyncLoader(() => {
+          return new Promise((resolve) => {
+            require.ensure([], (require) => {
+              store.replaceReducer(require('./1990n/reducer').default);
+              resolve(require('./1990n/Form1990nApp').default);
+            }, 'edu-1990n');
+          });
+        }, 'Loading Form 22-1990N'),
+        getChildRoutes(partialNextState, callback) {
+          require.ensure([], (require) => {
+            callback(null, require('./1990n/routes').default);
+          }, 'edu-1990n');
+        },
+      },
+      {
         path: '5490',
         indexRoute: { onEnter: (nextState, replace) => replace('/5490/introduction') },
         component: asyncLoader(() => {
@@ -71,6 +88,23 @@ export default function createRoutes(store) {
           require.ensure([], (require) => {
             callback(null, require('./5490/routes').default);
           }, 'edu-5490');
+        },
+      },
+      {
+        path: '5495',
+        indexRoute: { onEnter: (nextState, replace) => replace('/5495/introduction') },
+        component: asyncLoader(() => {
+          return new Promise((resolve) => {
+            require.ensure([], (require) => {
+              store.replaceReducer(require('./5495/reducer').default);
+              resolve(require('./5495/Form5495App').default);
+            }, 'edu-5495');
+          });
+        }, 'Loading Form 22-5495'),
+        getChildRoutes(partialNextState, callback) {
+          require.ensure([], (require) => {
+            callback(null, require('./5495/routes').default);
+          }, 'edu-5495');
         },
       }
     );
