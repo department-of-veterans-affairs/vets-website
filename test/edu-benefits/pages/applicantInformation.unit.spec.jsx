@@ -9,8 +9,8 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
 import applicantInformation from '../../../src/js/edu-benefits/pages/applicantInformation.js';
 
-import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
-import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
+import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
+import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 
 function fillInformation(find) {
   ReactTestUtils.Simulate.change(find('#root_relativeFullName_first'), {
