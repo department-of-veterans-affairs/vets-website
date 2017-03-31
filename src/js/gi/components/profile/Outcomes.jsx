@@ -1,6 +1,18 @@
 import React from 'react';
 import Graph from './Graph';
 
+const GraphKey = () => (
+  <svg className="graph-key" viewBox="0 0 650 50">
+    <g>
+      <rect x="0" y="0" width="30" height="30" fill="#F1F1F1"/>
+      <line x1="15" x2="15" y1="0" y2="30" stroke="#323A45" strokeWidth="2"/>
+      <text fontFamily="SourceSansPro-Regular, Source Sans Pro" fontSize="16" fill="#323A45">
+        <tspan x="40" y="20">National average</tspan>
+      </text>
+    </g>
+  </svg>
+);
+
 class Outcomes extends React.Component {
 
   render() {
@@ -36,6 +48,7 @@ class Outcomes extends React.Component {
         </div>
 
         <div className="medium-12 column">
+          <GraphKey/>
           <p>
             Access a comprehensive spreadsheet of <a title="Veteran Outcome Measures"
                 href={download.link} target="_blank">Veteran Outcome Measures ({download.info})</a>

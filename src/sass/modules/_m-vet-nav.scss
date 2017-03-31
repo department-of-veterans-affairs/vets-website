@@ -10,14 +10,13 @@ body.va-pos-fixed {
   overflow-y: scroll;
   position: absolute;
   width: 100%;
-  z-index: 6;
+  z-index: 1;
 
   @include media($medium-large-screen) {
     margin-top: 1rem;
     overflow-y: visible;
     position: relative;
     width: auto;
-    z-index: auto;
   }
   
   .va-wip-message {
@@ -352,7 +351,8 @@ body.va-pos-fixed {
   align-items: center;
   flex: 1 1 100%;
   margin-left: -2rem;
-
+  position: relative;
+  
   > [data-reactroot], 
   > div {
     align-items: center;
@@ -363,6 +363,7 @@ body.va-pos-fixed {
     flex: 0 1 32.5rem;
     margin-left: 0;
     margin-right: 0;
+    z-index: 2;
   }
 
   p {
