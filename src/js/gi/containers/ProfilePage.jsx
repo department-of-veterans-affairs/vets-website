@@ -76,7 +76,7 @@ export class ProfilePage extends React.Component {
                 <If condition={!!profile.attributes.facilityCode && !!constants} comment="TODO">
                   <Outcomes
                       graphing={outcomes}
-                      showModal={this.props.showModal}/>
+                      onShowModal={this.props.showModal}/>
                 </If>
               </AccordionItem>
               <a name="viewWarnings"></a>
@@ -86,7 +86,9 @@ export class ProfilePage extends React.Component {
                 <CautionaryInformation/>
               </AccordionItem>
               <AccordionItem button="Additional information">
-                <AdditionalInformation/>
+                <AdditionalInformation
+                    institution={this.props.profile.attributes}
+                    onShowModal={this.props.showModal}/>
               </AccordionItem>
             </ul>
           </div>
