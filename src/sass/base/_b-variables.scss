@@ -5,7 +5,7 @@
 // ~uswds/src/stylesheets/core/variables"
 
 $base-font-size:      rem(16px);
-$font-serif:          'Roboto Slab', serif;
+$font-serif:          "Roboto Slab", serif;
 
 // Magic Numbers
 // Note: USWDS value is 53rem;
@@ -14,7 +14,7 @@ $usa-form-width:      32em;
 
 // Additional breakpoints 
 $xsmall-screen:       320px; // QVGA display
-$medium-large-screen: 768px; 
+$medium-large-screen: 768px;
 
 //===================================
 // USWDS variables
@@ -37,20 +37,30 @@ $color-white:                #fff;
 
 $color-black:                #000;
 $color-link-default:         #004795;
+$color-link-default-hover:   rgba($color-black, 0.05);
 $color-primary-alt-darkest:  #046b99;
 $color-green-darker:         #195c27;
 $color-va-accent:            #988530; // New gold "metal" acccent
 $color-gold:                 #fdb81e;
-$color-warning-message:      #FAC922; // Used for Disability benefits
+$color-warning-message:      #fac922; // Used for Disability benefits
+$color-gray-light-alt:       #eee;
+$color-va-modal-bg:          rgba($color-primary-darkest, .95);
+$color-va-modal-bg--gi:      rgba($color-gray-dark, .8);
+$color-va-modal-close:       rgba($color-base, .8);
+
+$color-inset-bg:             #e0f3f8;
+$color-gibill-accent:        #fff1d2; // TODO: Replace with $color-gold-lightest;
+
+$color-white-alpha70:        rgba(255,255,255,.7);
 
 //===================================
 // Deprecated Colors; 
 // Please avoid using.
 //===================================
 
-$polar: #E8F5FA;
-$wild-sand: #f6f6f6;
+$polar:       #E8F5FA;
+$wild-sand:   #f6f6f6;
 $green-white: #eff0e6;
-$olso-gray: #849097;
+$olso-gray:   #849097;
 
 
