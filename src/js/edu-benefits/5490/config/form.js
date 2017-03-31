@@ -301,7 +301,12 @@ const formConfig = {
                     }
                     return nonRequiredFullName;
                   }
-                }
+                },
+                // Re-label the inputs to add 'sponsor'
+                first: { 'ui:title': 'Sponsor first name' },
+                last: { 'ui:title': 'Sponsor last name' },
+                middle: { 'ui:title': 'Sponsor middle name' },
+                suffix: { 'ui:title': 'Sponsor suffix' },
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
                 'ui:title': 'Sponsor\'s Social Security number',
