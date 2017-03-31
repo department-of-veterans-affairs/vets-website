@@ -9,8 +9,12 @@ export function transform(formConfig, form) {
 
   // Copy the data if necessary
   if (form.sponsorInformation.data['view:currentSameAsPrevious']) {
-    newForm.sponsorInformation.data['view:currentSponsorInformation'].veteranFullName = form.benefitHistory.data.previousBenefits.veteranFullName;
-    newForm.sponsorInformation.data['view:currentSponsorInformation']['view:veteranId'].veteranFullName = form.benefitHistory.data.previousBenefits.veteranSocialSecurityNumber;
+    newForm.sponsorInformation.data['view:currentSponsorInformation'] = {
+      veteranFullName: form.benefitHistory.data.previousBenefits.veteranFullName,
+      'view:veteranId': {
+        veteranSocialSecurityNumber: form.benefitHistory.data.previousBenefits.veteranSocialSecurityNumber
+      }
+    };
   }
 
   const formData = transformForSubmit(formConfig, newForm);
