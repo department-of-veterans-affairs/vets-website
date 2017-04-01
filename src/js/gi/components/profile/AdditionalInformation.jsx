@@ -79,7 +79,7 @@ export class AdditionalInformation extends React.Component {
                 {formatNumber(it.p911Recipients)}
               </p>
               <p>
-                <strong>Total paid (2014):&nbsp;</strong>
+                <strong>Total paid (2016):&nbsp;</strong>
                 {formatCurrency(it.p911TuitionFees)}
               </p>
             </div>
@@ -93,7 +93,7 @@ export class AdditionalInformation extends React.Component {
                 {formatNumber(it.p911YrRecipients)}
               </p>
               <p>
-                <strong>Total paid (2014):&nbsp;</strong>
+                <strong>Total paid (2016):&nbsp;</strong>
                 {formatCurrency(it.p911YellowRibbon)}
               </p>
             </div>
@@ -131,7 +131,7 @@ export class AdditionalInformation extends React.Component {
                 <tr>
                   <th>Benefit</th>
                   <th>Recipients</th>
-                  <th>Total paid (2014)</th>
+                  <th>Total paid (2016)</th>
                 </tr>
               </thead>
               <tbody>
