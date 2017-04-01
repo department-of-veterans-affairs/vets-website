@@ -18,7 +18,9 @@ export class AdditionalInformation extends React.Component {
       it.vetTuitionPolicyUrl && (
         <p>
           <strong>Veterans tuition policy:&nbsp;</strong>
-          <a href={`http://${it.vetTuitionPolicyUrl}`} target="_blank">View policy</a>
+          <a href={`http://${it.vetTuitionPolicyUrl}`} target="_blank">
+            View policy
+          </a>
         </p>
       );
 
@@ -49,7 +51,10 @@ export class AdditionalInformation extends React.Component {
             <h3>Institution summary</h3>
             <p>
               <strong>Accredited:&nbsp;</strong>
-              {it.accredited ? 'Yes' : 'No'}
+              {it.accredited ?
+                <span>Yes (<a href={`http://nces.ed.gov/collegenavigator/?id=${it.cross}#accred`} target="_blank">
+                  See accreditors
+                </a>)</span> : 'No'}
             </p>
             {typeOfAccreditation}
             {vetTuitionPolicy}
