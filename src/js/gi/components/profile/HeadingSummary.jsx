@@ -37,7 +37,7 @@ class HeadingSummary extends React.Component {
           <div className="small-12 medium-4 column">
             <p>
               <IconWithInfo icon="map-marker" present={it.city && it.country}>
-                {it.city}, {it.country === 'usa' ? it.state : it.country}
+                {it.city}, {it.state || it.country}
               </IconWithInfo>
             </p>
             <p style={{ display: 'block' }}>
