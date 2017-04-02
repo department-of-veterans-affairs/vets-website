@@ -48,7 +48,7 @@ We consider these illnesses to be presumed disabilities:
 
 [Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply-for-benefits/one-year/).
 
-[Learn more about presumed disabilities](/disability-benefits/claims-process/presumed-disability/).
+[Learn more about presumed disabilities](/disability-benefits/eligibility/presumed-disability/).
 <br>
 
 ### Who's covered?

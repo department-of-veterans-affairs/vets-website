@@ -40,7 +40,7 @@ Compensation (monthly payments)
 
 You'll need to apply for benefits. When you apply, you'll have to turn in your service treatment records. You'll also need to finish all phases of the VA/DOD medical separation examination processes before your release from the military. [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
-**Exception:** If you're less than 60 days from separation, you can file a different kind of claim called a Quick Start claim. [Learn more about Quick Start claims](/disability-benefits/claims-process/claim-types/predischarge-claim/quick-start/index.html).
+**Exception:** If you're less than 60 days from separation, you can file a different kind of claim called a Quick Start claim. [Learn more about Quick Start claims](/disability-benefits/apply/claim-types/predischarge-claim/quick-start/index.html).
 
 ### Get more information
 If you're on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you'll learn how to start your claim. You can also call us toll free at 
