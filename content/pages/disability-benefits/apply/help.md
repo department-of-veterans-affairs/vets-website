@@ -7,7 +7,7 @@ template: 1-topic-landing
 relatedlinks:
   - url: /disability-benefits/apply/claim-types/fully-developed-claim/
     title: What's the fastest way to file a claim?
-  - url: /disability-benefits/apply-for-benefits/ways/
+  - url: /disability-benefits/apply/ways/
     title: How do I file a claim?
   - url: /disability-benefits/apply/claim-types/predischarge-claim/
     title: How do I file while on active duty?

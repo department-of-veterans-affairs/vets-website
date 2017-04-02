@@ -46,7 +46,7 @@ We consider these illnesses to be presumed disabilities:
 - Shigella
 - West Nile Virus
 
-[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply-for-benefits/one-year/).
+[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/).
 
 [Learn more about presumed disabilities](/disability-benefits/eligibility/presumed-disability/).
 <br>
@@ -66,7 +66,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply-for-benefits/).
+You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
 
 [Learn more about service in Southwest Asia](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp).
 

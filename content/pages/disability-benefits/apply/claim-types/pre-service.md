@@ -37,7 +37,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you already had a disability when you started serving in the military—and that disability got worse because of your service—you can file a preservice claim for disability benefits. [File a claim now](/disability-benefits/apply-for-benefits/).
+If you already had a disability when you started serving in the military—and that disability got worse because of your service—you can file a preservice claim for disability benefits. [File a claim now](/disability-benefits/apply/).
 
 </div>
 

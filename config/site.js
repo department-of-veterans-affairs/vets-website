@@ -103,7 +103,7 @@ module.exports = {
     },
     {
       scope: {
-        path: 'disability-benefits/apply-for-benefits/'
+        path: 'disability-benefits/apply/'
       },
       values: {
         breadcrumb_2: 'Apply for Benefits'
