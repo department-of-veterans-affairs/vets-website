@@ -5,10 +5,11 @@ const testData = require('./schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    EduHelpers.initApplicationSubmitMock('1990e');
     // TODO: enable once 1990e is launched
     if (global.__BUILDTYPE__ !== 'production') {
-      // Ensure introduction page renders.
+      EduHelpers.initApplicationSubmitMock('1990e');
+
+      // Introduction page renders
       client
         .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1990e`)
         .waitForElementVisible('body', Timeouts.normal)
