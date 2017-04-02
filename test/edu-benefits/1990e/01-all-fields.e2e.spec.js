@@ -80,11 +80,11 @@ module.exports = E2eHelpers.createE2eTest(
       // Direct deposit page
       client
         .waitForElementVisible('label[for="root_bankAccount_accountType"]', Timeouts.slow);
-      EduHelpers.completeDirectDeposit2(client, testData.directDeposit.data, false);
+      EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, false);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
-      // Review and Submit page
+      // Review and submit page
       client
         .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
       client
@@ -94,7 +94,7 @@ module.exports = E2eHelpers.createE2eTest(
       client.expect.element('.js-test-location').attribute('data-location')
             .to.not.contain('/review-and-submit').before(Timeouts.submission);
 
-      // Submit message
+      // Confirmation page
       client
         .expect.element('.edu-benefits-submit-success').to.be.visible;
 

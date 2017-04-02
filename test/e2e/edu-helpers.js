@@ -168,17 +168,14 @@ function completeContactInformation(client, data, onlyRequiredFields, isRelative
   }
 }
 
-// Possibly only used in the 1995? If so, move to 1995 helpers or refactor both of these and merge
-function completeDirectDeposit(client, data, onlyRequiredFields) {
+function completePaymentChange(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
-      .click('input[name="root_bankAccountChange_1"]')
-      .setValue('input[name="root_bankAccount_accountNumber"]', data.bankAccount.accountNumber)
-      .setValue('input[name="root_bankAccount_routingNumber"]', data.bankAccount.routingNumber);
+      .click('input[name="root_bankAccountChange_1"]');
   }
 }
 
-function completeDirectDeposit2(client, data, onlyRequiredFields) {
+function completeDirectDeposit(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
       .click('input[name="root_bankAccount_accountType_1"]')
@@ -216,7 +213,7 @@ module.exports = {
   completeServicePeriods,
   completeVeteranAddress,
   completeContactInformation,
+  completePaymentChange,
   completeDirectDeposit,
-  completeDirectDeposit2,
   completeSchoolSelection
 };
