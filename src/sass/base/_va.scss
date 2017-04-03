@@ -669,6 +669,10 @@ ul, ol {
   font-size: inherit;
   padding: 1em 0;
 
+  // Gate / Sign-in pages only
+  &--gate {
+    margin-bottom: -2em;
+  }
 
   li {
     display: inline-block;
@@ -1846,10 +1850,10 @@ p.info-message {
 
 .last-updated {
   margin-top: 1.5em;
-  border-top: 2px solid #f1f1f1;
+  border-top: 2px solid $color-gray-light;
   padding: 1em 0;
   p {
     font-size: 1em !important;
-    color: #323a45 !important;
+    color: $color-gray-dark !important;
   }
 }
