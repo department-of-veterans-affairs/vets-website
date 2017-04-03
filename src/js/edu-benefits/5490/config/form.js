@@ -309,7 +309,7 @@ const formConfig = {
                 suffix: { 'ui:title': 'Sponsor suffix' },
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
-                'ui:title': 'Sponsor\'s Social Security number',
+                'ui:title': 'Sponsor Social Security number',
                 'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
