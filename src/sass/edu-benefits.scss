@@ -238,7 +238,7 @@ dl.review {
   .review-row {
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #5b616b;
+    border-top: 1px solid $color-gray-light;
     padding: 1.5rem;
     padding-left: 0;
     &> dd {
@@ -255,7 +255,7 @@ dl.review {
       margin-bottom: 0;
     }
   }
-  border-bottom: 1px solid #5b616b;
+  border-bottom: 1px solid $color-gray-light;
 }
 
 form.rjsf {
