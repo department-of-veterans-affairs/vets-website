@@ -148,6 +148,7 @@ const formConfig = {
           path: 'benefits/eligibility',
           initialData: {},
           uiSchema: {
+            'ui:title': 'Benefit selection',
             'view:benefitsDisclaimerChild': {
               'ui:description': benefitsDisclaimerChild,
               'ui:options': {
@@ -175,30 +176,12 @@ const formConfig = {
                   uiOptions.nestedContent = nestedContent;
                   return schema;
                 }
-              },
-            },
-            'view:benefitsRelinquishedInfo': {
-              'ui:description': benefitsRelinquishedInfo,
-              'ui:options': {
-                hideIf: form => _.get('relationship', form) !== 'child'
               }
-            },
-            benefitsRelinquishedDate: _.merge(date.uiSchema('Effective date'), {
-              'ui:options': {
-                hideIf: form => _.get('relationship', form) !== 'child'
-              },
-              'ui:required': form => _.get('relationship', form) === 'child'
-            }),
-            'view:benefitsRelinquishedWarning': {
-              'ui:description': benefitsRelinquishedWarning,
-              'ui:options': {
-                hideIf: form => _.get('relationship', form) !== 'child'
-              }
-            },
+            }
           },
           schema: {
             type: 'object',
-            required: ['benefit', 'benefitsRelinquishedDate'],
+            required: ['benefit'],
             properties: {
               'view:benefitsDisclaimerChild': {
                 type: 'object',
@@ -208,7 +191,35 @@ const formConfig = {
                 type: 'object',
                 properties: {}
               },
-              benefit,
+              benefit
+            }
+          }
+        },
+        benefitRelinquishment: {
+          title: 'Benefits relinquishment',
+          path: 'benefits/relinquishment',
+          initialData: {},
+          depends: {
+            applicantInformation: {
+              data: {
+                relationship: 'child'
+              }
+            }
+          },
+          uiSchema: {
+            'ui:title': 'Benefit relinquishment',
+            'view:benefitsRelinquishedInfo': {
+              'ui:description': benefitsRelinquishedInfo,
+            },
+            benefitsRelinquishedDate: currentOrPastDate.uiSchema('Effective date'),
+            'view:benefitsRelinquishedWarning': {
+              'ui:description': benefitsRelinquishedWarning,
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['benefitsRelinquishedDate'],
+            properties: {
               'view:benefitsRelinquishedInfo': {
                 type: 'object',
                 properties: {}
@@ -217,7 +228,7 @@ const formConfig = {
               'view:benefitsRelinquishedWarning': {
                 type: 'object',
                 properties: {}
-              },
+              }
             }
           }
         },

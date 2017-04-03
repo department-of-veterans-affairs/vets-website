@@ -7,8 +7,8 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
 
-describe('Edu 5490 benefitSelection', () => {
-  const { schema, uiSchema } = formConfig.chapters.benefitSelection.pages.benefitSelection;
+describe('Edu 5490 benefitRelinquishment', () => {
+  const { schema, uiSchema } = formConfig.chapters.benefitSelection.pages.benefitRelinquishment;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -24,49 +24,13 @@ describe('Edu 5490 benefitSelection', () => {
               }
             }
           }}
-          formData={{ relationship: 'spouse' }}
           uiSchema={uiSchema}/>
     );
     const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(
       ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select')
     );
 
-    expect(fields.length)
-      .to.equal(2);
-  });
-
-  it('should show nested content', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          data={{}}
-          state={{
-            benefitSelection: {
-              uiSchema: {
-                benefit: {
-                  'ui:options': {
-                  }
-                }
-              }
-            }
-          }}
-          uiSchema={uiSchema}/>
-    );
-    const formDOM = findDOMNode(form);
-
-    expect(formDOM.querySelector('.form-radio-buttons + span .usa-alert')).to.be.null;
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_benefit_0'), {
-      target: {
-        checked: true
-      }
-    });
-    // check that an alert box is shown when an option is selected
-    /*
-    setTimeout(() => {
-      expect(formDOM.querySelector('.form-radio-buttons + span .usa-alert')).not.to.be.null;
-      done(); // eslint-disable-line
-    }, 500);
-    */
+    expect(fields.length).to.equal(3);
   });
 
   it('should show errors when required fields are empty', () => {
@@ -117,11 +81,22 @@ describe('Edu 5490 benefitSelection', () => {
     const formDOM = findDOMNode(form);
     const find = formDOM.querySelector.bind(formDOM);
 
-    ReactTestUtils.Simulate.change(find('#root_benefit_0'), {
+    ReactTestUtils.Simulate.change(find('#root_benefitsRelinquishedDateMonth'), {
       target: {
-        checked: true
+        value: 1
       }
     });
+    ReactTestUtils.Simulate.change(find('#root_benefitsRelinquishedDateDay'), {
+      target: {
+        value: 1
+      }
+    });
+    ReactTestUtils.Simulate.change(find('#root_benefitsRelinquishedDateYear'), {
+      target: {
+        value: 1980
+      }
+    });
+
     submitForm(form);
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
     expect(onSubmit.called).to.be.true;
