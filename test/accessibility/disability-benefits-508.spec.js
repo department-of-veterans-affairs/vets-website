@@ -1,7 +1,7 @@
-const E2eHelpers = require('../util/e2e-helpers');
-const Timeouts = require('../util/timeouts.js');
-const DisabilityHelpers = require('../util/disability-helpers');
-const LoginHelpers = require('../util/login-helpers');
+const E2eHelpers = require('../e2e/e2e-helpers');
+const Timeouts = require('../e2e/timeouts.js');
+const DisabilityHelpers = require('../e2e/disability-helpers');
+const LoginHelpers = require('../e2e/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
