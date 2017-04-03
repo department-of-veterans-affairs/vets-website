@@ -2,6 +2,11 @@ import React from 'react';
 import _ from 'lodash';
 import AlertBox from '../../../common/components/AlertBox';
 
+const IconWithInfo = ({ icon, children, present }) => {
+  if (!present) return null;
+  return <span><i className={`fa fa-${icon}`}/>&nbsp;{children}</span>;
+};
+
 class HeadingSummary extends React.Component {
 
   render() {
@@ -15,11 +20,6 @@ class HeadingSummary extends React.Component {
         return 'Medium';
       }
       return 'Large';
-    };
-
-    const IconWithInfo = ({ icon, children, present }) => {
-      if (!present) return null;
-      return <span><i className={`fa fa-${icon}`}/>&nbsp;{children}</span>;
     };
 
     return (
@@ -37,7 +37,7 @@ class HeadingSummary extends React.Component {
           <div className="small-12 medium-4 column">
             <p>
               <IconWithInfo icon="map-marker" present={it.city && it.country}>
-                {it.city}, {it.country === 'usa' ? it.state : it.country}
+                {it.city}, {it.state || it.country}
               </IconWithInfo>
             </p>
             <p style={{ display: 'block' }}>

@@ -186,7 +186,8 @@ const formConfig = {
             benefitsRelinquishedDate: _.merge(date.uiSchema('Effective date'), {
               'ui:options': {
                 hideIf: form => _.get('relationship', form) !== 'child'
-              }
+              },
+              'ui:required': form => _.get('relationship', form) === 'child'
             }),
             'view:benefitsRelinquishedWarning': {
               'ui:description': benefitsRelinquishedWarning,
@@ -301,10 +302,15 @@ const formConfig = {
                     }
                     return nonRequiredFullName;
                   }
-                }
+                },
+                // Re-label the inputs to add 'sponsor'
+                first: { 'ui:title': 'Sponsor first name' },
+                last: { 'ui:title': 'Sponsor last name' },
+                middle: { 'ui:title': 'Sponsor middle name' },
+                suffix: { 'ui:title': 'Sponsor suffix' },
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
-                'ui:title': 'Sponsor’s Social Security number',
+                'ui:title': 'Sponsor Social Security number',
                 'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
@@ -441,7 +447,7 @@ const formConfig = {
               'ui:title': 'Branch of service'
             },
             currentlyActiveDuty: {
-              'ui:title': 'Is the qualifying individual on active duty?',
+              'ui:title': 'Is your sponsor on active duty?',
               'ui:widget': 'yesNo'
             },
             outstandingFelony: {
