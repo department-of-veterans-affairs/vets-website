@@ -414,7 +414,7 @@ const formConfig = {
               'ui:title': 'Branch of service'
             },
             currentlyActiveDuty: {
-              'ui:title': 'Is the qualifying individual on active duty?',
+              'ui:title': 'Is your sponsor on active duty?',
               'ui:widget': 'yesNo'
             },
             outstandingFelony: {
