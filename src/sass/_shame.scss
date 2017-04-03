@@ -156,3 +156,24 @@ body .row {
     text-indent: -9999em;
   }
 }
+
+// Yuck...
+#apply-expander-content {
+  max-height: 19em;
+}
+
+.expander-content {
+  transition: max-height 0.15s ease-out, opacity 0.15s ease-out;
+  a.usa-button-primary {
+    transition-delay: 0.15s;
+  }
+}
+
+.expander-content-closed {
+  max-height: 0em !important; // To override the id selector height
+  overflow: hidden;
+  opacity: 0;
+  button {
+    opacity: 0;
+  }
+}
