@@ -24,7 +24,6 @@ describe('Edu 5490 benefitRelinquishment', () => {
               }
             }
           }}
-          formData={{ relationship: 'child' }}
           uiSchema={uiSchema}/>
     );
     const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(
