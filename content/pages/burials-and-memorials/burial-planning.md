@@ -35,7 +35,7 @@ Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
     <dd>St. Louis, MO 63151</dd>
 </dl>
 
-  - Fax it to <span class="tel">855-840-8299</span>
+  - Fax it to <a href="tel:+18558408299">855-840-8299</a>
 
 
 You’ll get a letter from us telling you if you can be buried in a VA national cemetery. This is called your pre-need decision letter. Keep it in a safe place. Your family members will need this letter to request your burial after you've died. 
@@ -82,7 +82,7 @@ You may also need:
  - Type of burial: casket or cremation and size of the casket or cremation urn
  - Whether you want military honors, a burial flag, or a Presidential Memorial Certificate
  
- [Learn about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services).</br>
+ [Learn about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services).<br/>
  [Learn about other ways to memorialize the deceased](/burials-and-memorials/burial-planning/flags-and-memorial-certificates).
 
 </li>
@@ -104,6 +104,6 @@ The funeral director you've chosen can help you with these steps too:
 
 ### Can I get information about the Burial at Sea program?
 
-If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <span class="tel">866-787-0081</span>. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
+If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <a href="tel:+18667870081">866-787-0081</a>. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
 
 </div>
