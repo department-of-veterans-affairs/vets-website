@@ -16,6 +16,10 @@ function setUserToken(token, client) {
   });
 }
 
+function getLogoutUrl() {
+  return 'http://fake_logout_url';
+}
+
 /* eslint-disable camelcase */
 function initUserMock(token, level) {
   mock(token, {
@@ -49,6 +53,16 @@ function initUserMock(token, level) {
     }
   });
 }
+
+function initLogoutMock(token) {
+  mock(token, {
+    path: '/v0/sessions',
+    verb: 'delete',
+    value: {
+      logout_via_get: getLogoutUrl()
+    }
+  });
+}
 /* eslint-enable camelcase */
 
 let tokenCounter = 0;
@@ -59,6 +73,7 @@ function getUserToken() {
 
 function logIn(token, client, url, level) {
   initUserMock(token, level);
+  initLogoutMock(token);
 
   client
     .url(`${E2eHelpers.baseUrl}${url}`)
@@ -77,5 +92,6 @@ function logIn(token, client, url, level) {
 
 module.exports = {
   getUserToken,
+  getLogoutUrl,
   logIn
 };
