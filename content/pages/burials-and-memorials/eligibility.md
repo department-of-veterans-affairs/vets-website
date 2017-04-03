@@ -52,7 +52,7 @@ Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
     <dd>St. Louis, MO 63151</dd>
 </dl>
 
-- Fax it to <span class="tel">855-840-8299</span>
+- Fax it to <a href="tel:+18558408299">855-840-8299</a>
 
 You’ll get a letter from us telling you if you can be buried in a VA national cemetery. Keep this letter in a safe place.
 
