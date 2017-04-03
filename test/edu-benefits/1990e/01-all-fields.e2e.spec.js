@@ -7,7 +7,7 @@ const testData = require('./schema/maximal-test.json');
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
     // TODO: enable once 1990e is launched
-    if (global.__BUILDTYPE__ !== 'production') {
+    if (client.globals.buildtype !== 'production') {
       EduHelpers.initApplicationSubmitMock('1990e');
 
       // Introduction page renders
