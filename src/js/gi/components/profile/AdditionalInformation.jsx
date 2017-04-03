@@ -19,14 +19,14 @@ export class AdditionalInformation extends React.Component {
       );
 
     const vetTuitionPolicy =
-      it.vetTuitionPolicyUrl && (
+      it.vetWebsiteLink && (
         <p>
           <strong>
             <a onClick={this.props.onShowModal.bind(this, 'tuitionPolicy')}>
               Veterans tuition policy:
             </a>
           </strong>
-          &nbsp;<a href={`http://${it.vetTuitionPolicyUrl}`} target="_blank">
+          &nbsp;<a href={`http://${it.vetWebsiteLink}`} target="_blank">
             View policy
           </a>
         </p>
