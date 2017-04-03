@@ -28,7 +28,7 @@ describe('5490 schema tests', () => {
         expect(result.valid).to.be.true;
       });
       // Expect the data to be what's found in expected-data/${file}
-      if (expectedDataFiles.includes(file)) {
+      if (expectedDataFiles.indexOf(file) !== -1) {
         it(`submitted data for ${file} should match expected data`, () => {
           // Parse and re-stringify to mimify spaces, etc.
           const expectedData = JSON.parse(fs.readFileSync(path.join(__dirname, 'expected-data', file), 'utf8'));
