@@ -38,7 +38,7 @@ export class ProfilePage extends React.Component {
     );
 
     if (shouldUpdateTitle) {
-      this.props.setPageTitle(`${institutionName} - GI Bill Comparison Tool`);
+      this.props.setPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
     }
 
     if (profile.inProgress !== prevProps.profile.inProgress) {

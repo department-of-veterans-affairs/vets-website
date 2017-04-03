@@ -15,7 +15,7 @@ export class LandingPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.setPageTitle('GI Bill Comparison Tool: Vets.gov');
+    this.props.setPageTitle('GI Bill® Comparison Tool: Vets.gov');
   }
 
   handleSubmit(event) {
@@ -31,7 +31,7 @@ export class LandingPage extends React.Component {
         <div className="row">
 
           <div className="small-12 medium-8 columns">
-            <h1>GI Bill Comparison Tool</h1>
+            <h1>GI Bill® Comparison Tool</h1>
             <p className="subheading">Compare programs based on what benefits they can offer you.</p>
 
             <form onSubmit={this.handleSubmit}>

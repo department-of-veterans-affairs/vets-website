@@ -12,9 +12,9 @@ class Breadcrumbs extends React.Component {
     ];
 
     if (pathname.match(/search|profile/)) {
-      crumbs.push(<Link to="/" key="main">GI Bill Comparison Tool</Link>);
+      crumbs.push(<Link to="/" key="main">GI Bill® Comparison Tool</Link>);
     } else {
-      crumbs.push(<span key="gibct"><strong>GI Bill Comparison Tool</strong></span>);
+      crumbs.push(<span key="gibct"><strong>GI Bill® Comparison Tool</strong></span>);
     }
 
     if (pathname.match(/search\/?$/)) {
