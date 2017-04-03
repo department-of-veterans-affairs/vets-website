@@ -86,7 +86,7 @@ node('vets-website-linting') {
       return
     }
 
-    build job: 'vets-review-instance-deploy', parameters: [
+    build job: 'deploys/vets-review-instance-deploy', parameters: [
       stringParam(name: 'devops_branch', value: 'master'),
       stringParam(name: 'api_branch', value: 'master'),
       stringParam(name: 'web_branch', value: env.BRANCH_NAME),

@@ -4,7 +4,7 @@
 
 $messaging-label-width: 10rem;
 
-%messaging-rectangular-button {
+@mixin messaging-rectangular-button {
   background: $color-white;
   border-radius: 0;
   border: 1px solid $color-black;
