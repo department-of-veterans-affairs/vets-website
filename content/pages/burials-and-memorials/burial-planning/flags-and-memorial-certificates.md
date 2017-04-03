@@ -18,7 +18,7 @@ You can get a burial flag if you're the next of kin or a close friend of the dec
 - Served in wartime
 - Died while on active duty after May 27, 1941
 - Served after January 31, 1955
-- Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call <span class="tel">800-827-1000</span>.
+- Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call <a href="tel:+18008271000">800-827-1000</a>.
 <!-- Served in peacetime and left military service before June 27, 1950-->
 
 ### How do I get a flag?
@@ -53,7 +53,7 @@ Send the PMC request form and discharge papers to:
     <dd>Quantico, VA 22134-3903</dd>
 </dl>
 
-  - You can also fax the form to <span class="tel">800--455-7143</span>. If you need help, call <span class="tel">800-697-6947</span>.
+  - You can also fax the form to <a href="tel:+18004557143">800-455-7143</a>. If you need help, call <a href="tel:+18006976947">800-697-6947</a>.
 
 </div>
 
