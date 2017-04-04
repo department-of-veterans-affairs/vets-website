@@ -72,11 +72,15 @@ export class CautionaryInformation extends React.Component {
         <AlertBox content={flagContent} isVisible={!!it.cautionFlag} status="warning"/>
 
         <div className="student-complaints">
-          <h4>
-            {it.complaints.mainCampusRollUp}&nbsp;
-            <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank">student complaints</a>
-          </h4>
-          <span>(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)</span>
+          <div className="link-header">
+            <h3>
+              {it.complaints.mainCampusRollUp}&nbsp;
+              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank">student complaints</a>
+            </h3>
+            <span>
+              &nbsp;(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)
+            </span>
+          </div>
         </div>
 
         <div className="table">
