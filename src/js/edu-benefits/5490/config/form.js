@@ -378,32 +378,52 @@ const formConfig = {
                 hideIf: (formData) => _.get('relationship', formData) !== 'spouse'
               }
             },
-            veteranFullName: _.merge(fullNameUi, {
-              'ui:title': 'Name of Sponsor',
-              first: {
-                'ui:title': 'Sponsor first name'
+            'view:currentSameAsPrevious': {
+              'ui:options': {
+                hideIf: (formData) => !_.get('previousBenefits.view:claimedSponsorService', formData)
               },
-              middle: {
-                'ui:title': 'Sponsor middle name'
+              'ui:title': 'Same sponsor as previously claimed benefits'
+            },
+            'view:currentSponsorInformation': {
+              'ui:options': {
+                hideIf: (formData) => formData['view:currentSameAsPrevious']
               },
-              last: {
-                'ui:title': 'Sponsor last name'
-              },
-              suffix: {
-                'ui:title': 'Sponsor suffix'
-              }
-            }),
-            'view:veteranId': _.merge(veteranId.uiSchema, {
-              veteranSocialSecurityNumber: {
-                'ui:title': 'Sponsor Social Security number'
-              },
-              'view:noSSN': {
-                'ui:title': 'I don\'t know my sponsor’s Social Security number',
-              },
-              vaFileNumber: {
-                'ui:title': 'Sponsor file number',
-              }
-            }),
+              veteranFullName: _.merge(fullNameUi, {
+                'ui:options': {
+                  updateSchema: (data, form) => {
+                    if (!_.get('sponsorInformation.data.view:currentSameAsPrevious', form)) {
+                      return fullName;
+                    }
+                    return nonRequiredFullName;
+                  }
+                },
+                'ui:title': 'Name of Sponsor',
+                first: {
+                  'ui:title': 'Sponsor first name'
+                },
+                middle: {
+                  'ui:title': 'Sponsor middle name'
+                },
+                last: {
+                  'ui:title': 'Sponsor last name'
+                },
+                suffix: {
+                  'ui:title': 'Sponsor suffix'
+                }
+              }),
+              'view:veteranId': _.merge(veteranId.uiSchema, {
+                veteranSocialSecurityNumber: {
+                  'ui:title': 'Sponsor Social Security number',
+                  'ui:required': (formData) => !_.get('view:currentSameAsPrevious', formData) && !_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData)
+                },
+                'view:noSSN': {
+                  'ui:title': 'I don’t know my sponsor’s Social Security number',
+                },
+                vaFileNumber: {
+                  'ui:title': 'Sponsor file number',
+                }
+              })
+            },
             veteranDateOfBirth: currentOrPastDate.uiSchema('Sponsor date of birth'),
             veteranDateOfDeath: currentOrPastDate.uiSchema('Sponsor date of death or date listed as MIA or POW'),
           },
@@ -414,8 +434,16 @@ const formConfig = {
             ],
             properties: {
               spouseInfo,
-              veteranFullName: fullName,
-              'view:veteranId': veteranId.schema,
+              'view:currentSameAsPrevious': {
+                type: 'boolean'
+              },
+              'view:currentSponsorInformation': {
+                type: 'object',
+                properties: {
+                  veteranFullName: fullName,
+                  'view:veteranId': veteranId.schema,
+                }
+              },
               veteranDateOfBirth,
               veteranDateOfDeath
             }
