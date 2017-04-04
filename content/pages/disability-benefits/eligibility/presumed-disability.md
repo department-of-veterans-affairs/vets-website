@@ -18,5 +18,5 @@ This usually applies to a chronic (long-lasting) illness that appears within 1 y
 
 [Learn more about contact with contaminants and other hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/).
 
-[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply-for-benefits/one-year/).
+[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/).
 

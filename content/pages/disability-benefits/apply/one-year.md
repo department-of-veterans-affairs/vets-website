@@ -5,19 +5,19 @@ concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 relatedlinks:
-  - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
+  - url: /disability-benefits/apply/claim-types/fully-developed-claim/
     title: What's the fastest way to file a claim?
     description: ""
-  - url: /disability-benefits/apply-for-benefits/ways/
+  - url: /disability-benefits/apply/ways/
     title: How do I file a claim?
     description: ""
-  - url: /disability-benefits/apply-for-benefits/help/
+  - url: /disability-benefits/apply/help/
     title: How do I get help filing a claim?
     description: ""
-  - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
+  - url: /disability-benefits/apply/claim-types/predischarge-claim/
     title: How do I file while on active duty?
     description: ""
-  - url: /disability-benefits/claims-process/date/
+  - url: /disability-benefits/after-you-apply/date/
     title: How does VA decide when my disability compensation starts?
     description: ""
 ---
