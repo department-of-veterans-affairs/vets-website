@@ -46,7 +46,7 @@ export class SearchResult extends React.Component {
               <h2><Link to={`profile/${this.props.facilityCode}`}>{this.props.name}</Link></h2>
               <div style={{ position: 'relative', bottom: 0 }}>
                 <p className="locality">
-                  {this.props.city}, {this.props.country === 'usa' ? this.props.state : this.props.country}
+                  {this.props.city}, {this.props.state || this.props.country}
                 </p>
                 <p className="count">{this.props.studentCount.toLocaleString()} GI Bill Students</p>
               </div>

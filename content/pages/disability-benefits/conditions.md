@@ -23,9 +23,9 @@ relatedlinks:
 
 Do you have illnesses or injuries that started—or got worse—while you were serving in the military?  Find out if you can  get disability compensation or benefits.
 
-<div>
+</div>
 
-<div class="call-out" markdown="0">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -50,7 +50,7 @@ You may be able to get disability benefits if you have a current illness or inju
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you‘ll have to show that your conditions were likely caused by—or got worse because of—your service. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You’ll need to apply for benefits. When you apply, you‘ll have to show that your conditions were likely caused by—or got worse because of—your service. [Apply for benefits](/disability-benefits/apply/).
 
 #### What conditions are covered by these benefits?
 

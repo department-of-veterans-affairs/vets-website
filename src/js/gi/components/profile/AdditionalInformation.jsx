@@ -1,30 +1,36 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { showModal } from '../../actions';
 
 export class AdditionalInformation extends React.Component {
 
   render() {
-    const it = this.props.profile.attributes;
-    const accredited = !!it.cross;
-    const TypeOfAccreditation = () => {
-      if (!accredited) return null;
-      return (
+    const it = this.props.institution;
+
+    const typeOfAccreditation =
+      it.accredited &&
+      it.accreditationType && (
         <p>
-          <strong>Type of accreditation:&nbsp;</strong>
-          {it.accreditationType.toUpperCase()}
+          <strong>
+            <a onClick={this.props.onShowModal.bind(this, 'typeAccredited')}>
+              Type of accreditation:
+            </a>
+          </strong>
+          &nbsp;{it.accreditationType.toUpperCase()}
         </p>
       );
-    };
-    const VetTuitionPolicy = () => {
-      if (!it.vetTuitionPolicyUrl) return null;
-      return (
+
+    const vetTuitionPolicy =
+      it.vetWebsiteLink && (
         <p>
-          <strong>Veterans tuition policy:&nbsp;</strong>
-          <a href={`http://${it.vetTuitionPolicyUrl}`} target="_blank">View policy</a>
+          <strong>
+            <a onClick={this.props.onShowModal.bind(this, 'tuitionPolicy')}>
+              Veterans tuition policy:
+            </a>
+          </strong>
+          &nbsp;<a href={`http://${it.vetWebsiteLink}`} target="_blank">
+            View policy
+          </a>
         </p>
       );
-    };
 
     // Formats positive and negative currency values in USD
     const formatCurrency = (num) => {
@@ -52,18 +58,33 @@ export class AdditionalInformation extends React.Component {
           <div>
             <h3>Institution summary</h3>
             <p>
-              <strong>Accredited:&nbsp;</strong>
-              {accredited ? 'Yes' : 'No'}
+              <strong>
+                <a onClick={this.props.onShowModal.bind(this, 'accredited')}>
+                  Accredited:
+                </a>
+              </strong>
+              &nbsp;{it.accredited ?
+                <span>Yes (<a href={`http://nces.ed.gov/collegenavigator/?id=${it.cross}#accred`} target="_blank">
+                  See accreditors
+                </a>)</span> : 'No'}
             </p>
-            <TypeOfAccreditation/>
-            <VetTuitionPolicy/>
+            {typeOfAccreditation}
+            {vetTuitionPolicy}
             <p>
-              <strong>Single point of contact for veterans:&nbsp;</strong>
-              {!!it.vetPoc ? 'Yes' : 'No'}
+              <strong>
+                <a onClick={this.props.onShowModal.bind(this, 'singleContact')}>
+                  Single point of contact for veterans:
+                </a>
+              </strong>
+              &nbsp;{!!it.vetPoc ? 'Yes' : 'No'}
             </p>
             <p>
-              <strong>Credit for military training:&nbsp;</strong>
-              {!!it.creditForMilTraining ? 'Yes' : 'No'}
+              <strong>
+                <a onClick={this.props.onShowModal.bind(this, 'creditTraining')}>
+                  Credit for military training:
+                </a>
+              </strong>
+              &nbsp;{!!it.creditForMilTraining ? 'Yes' : 'No'}
             </p>
           </div>
           <div className="historical-information list">
@@ -78,7 +99,7 @@ export class AdditionalInformation extends React.Component {
                 {formatNumber(it.p911Recipients)}
               </p>
               <p>
-                <strong>Total paid (2014):&nbsp;</strong>
+                <strong>Total paid (FY 2016):&nbsp;</strong>
                 {formatCurrency(it.p911TuitionFees)}
               </p>
             </div>
@@ -92,7 +113,7 @@ export class AdditionalInformation extends React.Component {
                 {formatNumber(it.p911YrRecipients)}
               </p>
               <p>
-                <strong>Total paid (2014):&nbsp;</strong>
+                <strong>Total paid (FY 2016):&nbsp;</strong>
                 {formatCurrency(it.p911YellowRibbon)}
               </p>
             </div>
@@ -101,21 +122,21 @@ export class AdditionalInformation extends React.Component {
             <h3>Institution codes</h3>
             <p>
               <strong>
-                <a onClick={this.props.showModal.bind(this, 'facilityCode')}>VA facility code:</a>
+                <a onClick={this.props.onShowModal.bind(this, 'facilityCode')}>VA facility code:</a>
                 &nbsp;
               </strong>
               {+it.facilityCode === 0 ? 'N/A' : +it.facilityCode}
             </p>
             <p>
               <strong>
-                <a onClick={this.props.showModal.bind(this, 'ipedsCode')}>ED IPEDS code:</a>
+                <a onClick={this.props.onShowModal.bind(this, 'ipedsCode')}>ED IPEDS code:</a>
                 &nbsp;
               </strong>
               {+it.cross === 0 ? 'N/A' : +it.cross}
             </p>
             <p>
               <strong>
-                <a onClick={this.props.showModal.bind(this, 'opeCode')}>ED OPE code:</a>
+                <a onClick={this.props.onShowModal.bind(this, 'opeCode')}>ED OPE code:</a>
                 &nbsp;
               </strong>
               {+it.ope6 === 0 ? 'N/A' : +it.ope6}
@@ -130,7 +151,7 @@ export class AdditionalInformation extends React.Component {
                 <tr>
                   <th>Benefit</th>
                   <th>Recipients</th>
-                  <th>Total paid (2014)</th>
+                  <th>Total paid (FY 2016)</th>
                 </tr>
               </thead>
               <tbody>
@@ -153,10 +174,9 @@ export class AdditionalInformation extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => state;
-
-const mapDispatchToProps = {
-  showModal,
+AdditionalInformation.propTypes = {
+  institution: React.PropTypes.object,
+  onShowModal: React.PropTypes.func
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdditionalInformation);
+export default AdditionalInformation;

@@ -25,26 +25,26 @@ class Outcomes extends React.Component {
       <div className="outcomes row">
         <div className="medium-6 large-6 column">
           <h3>Retention rate</h3>
-          <p className="lml">(<a onClick={this.props.showModal.bind(this, 'retention')}>Learn more</a>)</p>
-          <Graph veterans={retention.rate} all={retention.all} average={retention.average}/>
+          <p className="lml">(<a onClick={this.props.onShowModal.bind(this, 'retention')}>Learn more</a>)</p>
+          <Graph veterans={retention.rate} all={retention.all} average={retention.average} decimals={1}/>
         </div>
 
         <div className="medium-6 large-6 column">
           <h3>Graduation rate</h3>
-          <p className="lml">(<a onClick={this.props.showModal.bind(this, 'gradrates')}>Learn more</a>)</p>
-          <Graph veterans={graduation.rate} all={graduation.all} average={graduation.average}/>
+          <p className="lml">(<a onClick={this.props.onShowModal.bind(this, 'gradrates')}>Learn more</a>)</p>
+          <Graph veterans={graduation.rate} all={graduation.all} average={graduation.average} decimals={1}/>
         </div>
 
         <div className="medium-6 large-6 column">
           <h3>Average salaries</h3>
-          <p className="lml">(<a onClick={this.props.showModal.bind(this, 'salaries')}>Learn more</a>)</p>
+          <p className="lml">(<a onClick={this.props.onShowModal.bind(this, 'salaries')}>Learn more</a>)</p>
           <Graph decimals={0} max={100000} average={salary.average} all={salary.all}/>
         </div>
 
         <div className="medium-6 large-6 column">
           <h3>Repayment rate</h3>
-          <p className="lml">(<a onClick={this.props.showModal.bind(this, 'repayment')}>Learn more</a>)</p>
-          <Graph average={repayment.average} veterans={repayment.rate} all={repayment.all}/>
+          <p className="lml">(<a onClick={this.props.onShowModal.bind(this, 'repayment')}>Learn more</a>)</p>
+          <Graph average={repayment.average} veterans={repayment.rate} all={repayment.all} decimals={1}/>
         </div>
 
         <div className="medium-12 column">
@@ -81,7 +81,7 @@ Outcomes.propTypes = {
       average: React.PropTypes.number
     }),
   }),
-  showModal: React.PropTypes.func,
+  onShowModal: React.PropTypes.func,
 };
 
 export default Outcomes;

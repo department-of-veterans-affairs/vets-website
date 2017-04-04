@@ -11,7 +11,8 @@ If you would like to learn at home or are located in a remote area, corresponden
 
 </div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Are you eligible for benefits?
 Yes, if:

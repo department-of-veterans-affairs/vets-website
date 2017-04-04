@@ -11,7 +11,7 @@ If you are a Veteran looking for employment in a field that requires a license o
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Are you eligible for compensation?
 Yes, if:

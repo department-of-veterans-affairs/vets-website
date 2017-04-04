@@ -1,0 +1,101 @@
+{
+  "privacyAgreementAccepted": true,
+  "applicantInformation": {
+    "data": {
+      "relativeFullName": {
+        "first": "Jane",
+        "last": "Doe"
+      }
+    }
+  },
+  "benefitSelection": {
+    "data": {}
+  },
+  "benefitHistory": {
+    "data": {
+      "previousBenefits": {
+        "chapter35": true,
+        "other": "Another benefit",
+        "view:claimedSponsorService": true,
+        "veteranFullName": {
+          "first": "Previous sponsor first",
+          "middle": "middle",
+          "last": "Previous sponsor last",
+          "suffix": "Sr."
+        },
+        "veteranSocialSecurityNumber": "234444333"
+      }
+    }
+  },
+  "sponsorInformation": {
+    "data": {
+      "view:currentSameAsPrevious": true,
+      "view:currentSponsorInformation": {
+        "veteranFullName": {
+          "first": "Jim",
+          "last": "Doe"
+        },
+        "veteranSocialSecurityNumber": "332344444"
+      }
+    }
+  },
+  "sponsorService": {
+    "data": {}
+  },
+  "applicantService": {
+    "data": {}
+  },
+  "additionalBenefits": {
+    "data": {}
+  },
+  "educationHistory": {
+    "data": {
+      "highSchool": {
+        "view:hasHighSchool": {
+          "dateRange": {}
+        }
+      }
+    }
+  },
+  "employmentHistory": {
+    "data": {}
+  },
+  "schoolSelection": {
+    "data": {
+      "educationProgram": {
+        "address": {
+          "country": "USA"
+        }
+      }
+    }
+  },
+  "contactInformation": {
+    "data": {
+      "relativeAddress": {
+        "street": "123 main st",
+        "city": "Boston",
+        "country": "USA",
+        "state": "ME",
+        "postalCode": "03443"
+      },
+      "view:otherContactInfo": {
+        "email": "test@test.com",
+        "view:confirmEmail": "test@test.com"
+      }
+    }
+  },
+  "secondaryContact": {
+    "data": {
+      "secondaryContact": {
+        "address": {
+          "country": "USA"
+        }
+      }
+    }
+  },
+  "directDeposit": {
+    "data": {
+      "bankAccount": {}
+    }
+  }
+}

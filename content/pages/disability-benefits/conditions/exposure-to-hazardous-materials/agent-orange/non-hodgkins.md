@@ -23,7 +23,7 @@ Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymph
 - Chest pain or trouble breathing
 - Itchy skin
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -49,7 +49,7 @@ You may be able to get disability benefits if you have non-Hodgkin’s lymphoma 
 
 You’ll need to apply for benefits. We consider non-Hodgkin’s lymphoma to be related to contact with Agent Orange. So, when you apply for benefits, you won't have to show that your illness is related to Agent Orange or that it began during—or got worse because of—your military service.
 
-[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
+[Apply for benefits](https://www.vets.gov/disability-benefits/apply/).
 
 ### Get more information
 

@@ -15,7 +15,8 @@ If you qualify for these benefits, you'll get what's called a prestabilization r
 
 </div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -34,6 +35,6 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. When you apply, you'll have to show that you have a severe, service-connected disability that's unstable and expected to continue for an unknown amount of time. This information will normally be part of your Service Treatment Record. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits. When you apply, you'll have to show that you have a severe, service-connected disability that's unstable and expected to continue for an unknown amount of time. This information will normally be part of your Service Treatment Record. [Apply for benefits](/disability-benefits/apply/).
 
 **Example:** While in active service, a Servicemember was diagnosed with Hodgkin’s disease and began chemotherapy that continued during and after her medical discharge process. She continued to get treatment through her local VA medical center, and we gave her a prestabilization rating of 100% for 1 year from her date of discharge.

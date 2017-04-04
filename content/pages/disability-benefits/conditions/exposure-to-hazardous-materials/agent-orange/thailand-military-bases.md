@@ -12,7 +12,7 @@ If you had regular security duty on the fenced-in perimeters of a U.S. military 
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -41,7 +41,7 @@ To prove that you had contact with Agent Orange during your Thailand service, yo
 - Performance evaluation reports, **or**
 - Job records (for example, records showing you worked as a dog handler or a member of a security squadron or military police unit)
 
-[Apply for benefits](/disability-benefits/apply-for-benefits/).
+[Apply for benefits](/disability-benefits/apply/).
 
 
 ### Get more information

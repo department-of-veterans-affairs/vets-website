@@ -15,7 +15,7 @@ If you aren't sure about your claim status, call the BVA status line at <a href=
 
 </div>
 
-<div class="call-out" markdown="0">
+<div class="feature" markdown="0">
 
 ### The Court is made up of:
   - 7 permanent (long-term), active judges, **and**

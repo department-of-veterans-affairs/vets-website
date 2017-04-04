@@ -24,11 +24,11 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 - [Check your eligibility](/education/eligibility/).
 - Gather the documents and information listed below that you'll need to apply for education benefits.
 - See what benefits you'll get at the school you want to attend. [Go to the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
-- Work with a trained professional with a Veterans Service Organization (VSO) who can help you pick the right program. [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
+- Work with a trained professional with a Veterans Service Organization (VSO) who can help you pick the right program. [Find an accredited representative](/disability-benefits/apply/help/index.html).
 
 <div markdown="0"><br></div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 #### What documents and information do I need to apply?
 
