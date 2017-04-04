@@ -270,7 +270,7 @@ const getDerivedValues = createSelector(
     if (inputs.buyUp === 'no' || giBillChapter !== 30) {
       buyUpRate = 0;
     } else {
-      buyUpRate = +inputs.buyUpAmount / 4;
+      buyUpRate = Math.min(+inputs.buyUpAmount, 600) / 4;
     }
 
     // Calculate Housing Allowance Rate Final - getMonthlyRateFinal

@@ -314,7 +314,7 @@ class CalculatorForm extends React.Component {
     if (this.props.inputs.buyUp === 'yes') {
       amountInput = (
         <div>
-          <label htmlFor="buyUpAmount">How much did you pay toward buy-up?</label>
+          <label htmlFor="buyUpAmount">How much did you pay toward buy-up (up to $600)?</label>
           <input
               type="text"
               name="buyUpAmount"
