@@ -74,8 +74,9 @@ RUN mkdir -p logs/selenium
 # Install required npm dependencies
 
 COPY package.json .
-# COPY npm-shrinkwrap.json .
-RUN yarn install
+COPY yarn.lock .
+# skips all dev dependencies if NODE_ENV=production.. so..
+RUN yarn install --production=false
 
 # Copy application source to image
 
