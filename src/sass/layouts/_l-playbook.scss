@@ -115,6 +115,7 @@
 
 .process--playbook {
   padding: 0;
+<<<<<<< HEAD
 
   p:last-child {
     margin-bottom: 0;
@@ -139,6 +140,70 @@
 
   &:before {
     border-color: $olso-gray;
+=======
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  h4 {
+    padding-top: 1.5em;
+
+    span {
+      display: block;
+    }
+
+<<<<<<< HEAD
+  ol:nth-child(n+2) {
+    li {
+      list-style-type: decimal;
+    }
+  }
+
+  li {
+  &.step {
+    padding-top: 1.5em;
+    border-left: 4px solid $olso-gray;
+  }
+  h4 {
+=======
+  }
+
+  h6 {
+>>>>>>> Refactored .process CSS block. Moved to partial.
+    display: inline-block;
+  }
+<<<<<<< HEAD
+  .interactive {
+    display: inline-block;
+    background: $color-link-default-hover;
+    padding: .2em .6em;
+    border-radius: 3px;
+    margin-left: 0;
+    text-transform: uppercase;
+    font-size: .85em;
+    vertical-align: 15%;
+    letter-spacing: .05em;
+
+    @include media($medium-large-screen) {
+      margin-left: 1.25em;
+    }
+=======
+}
+
+.process-step--playbook {
+  padding-top: 1.5em;
+  border-left: 4px solid $olso-gray;
+>>>>>>> Refactored .process CSS block. Moved to partial.
+
+  &:before {
+<<<<<<< HEAD
+    background: $color-white;
+    border: 4px solid $olso-gray;
+=======
+    border-color: $olso-gray;
+>>>>>>> Refactored .process CSS block. Moved to partial.
+>>>>>>> Refactored .process CSS block. Moved to partial.
     color: $olso-gray;
     font-size: 1.3em;
     font-weight: 700;
@@ -149,9 +214,33 @@
     width: 2em;
   }
 
+<<<<<<< HEAD
   &:last-child {
     border-left: 4px solid $olso-gray;
     padding: 0 0 2em 2em;
+=======
+<<<<<<< HEAD
+  &.step.four,
+  &.step.five,
+  &.step.seven,
+  &.step.nine
+   {
+    &:before {
+      background: $color-white url(/img/icons/SVG/loop2.svg)center center no-repeat;
+      display: inline-block;
+      width: 3.4em;
+      height: 2.2em;
+      background-size: contain;
+      border: none;
+      margin-left: -3.3em;
+      padding-top: .25em;
+    }
+=======
+  &:last-child {
+    border-left: 4px solid $olso-gray;
+    padding: 0 0 2em 2em;
+>>>>>>> Refactored .process CSS block. Moved to partial.
+>>>>>>> Refactored .process CSS block. Moved to partial.
   }
 
   &.list-nine {
@@ -209,7 +298,7 @@
 .design,
 .deliver {
   border-top: 4px solid $color-white;
-  border-bottom:4px solid $color-white;
+  border-bottom: 4px solid $color-white;
 
   div:nth-child(1) {
     border-right: 8px solid $color-white;
