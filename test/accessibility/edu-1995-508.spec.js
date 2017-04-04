@@ -1,7 +1,7 @@
-const E2eHelpers = require('../util/e2e-helpers');
-const Timeouts = require('../util/timeouts.js');
-const EduHelpers = require('../util/edu-helpers');
-const Edu1995Helpers = require('../util/edu-1995-helpers');
+const E2eHelpers = require('../e2e/e2e-helpers');
+const Timeouts = require('../e2e/timeouts.js');
+const EduHelpers = require('../e2e/edu-helpers');
+const Edu1995Helpers = require('../e2e/edu-1995-helpers');
 const testData = require('../edu-benefits/1995/schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(

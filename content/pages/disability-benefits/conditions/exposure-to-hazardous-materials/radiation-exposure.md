@@ -49,7 +49,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You’ll need to apply for benefits. [Apply for benefits](/disability-benefits/apply/).
 
 Your service records must show that you were part of 1 of the radiation risk activities described above. You’ll also need to claim an illness or disability believed to be caused by contact with radiation. It’s not enough to state that you had contact with radiation during service.
 

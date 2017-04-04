@@ -18,7 +18,7 @@ import {
   UPDATE_DRAFT
 } from '../../../src/js/messaging/utils/constants';
 
-import { draft, message, thread } from '../../util/messaging-helpers';
+import { draft, message, thread } from '../../e2e/messaging-helpers';
 
 describe('messages reducer', () => {
   it('should reset thread while loading', () => {

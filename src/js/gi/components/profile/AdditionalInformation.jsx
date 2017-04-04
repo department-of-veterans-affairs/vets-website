@@ -9,16 +9,26 @@ export class AdditionalInformation extends React.Component {
       it.accredited &&
       it.accreditationType && (
         <p>
-          <strong>Type of accreditation:&nbsp;</strong>
-          {it.accreditationType.toUpperCase()}
+          <strong>
+            <a onClick={this.props.onShowModal.bind(this, 'typeAccredited')}>
+              Type of accreditation:
+            </a>
+          </strong>
+          &nbsp;{it.accreditationType.toUpperCase()}
         </p>
       );
 
     const vetTuitionPolicy =
-      it.vetTuitionPolicyUrl && (
+      it.vetWebsiteLink && (
         <p>
-          <strong>Veterans tuition policy:&nbsp;</strong>
-          <a href={`http://${it.vetTuitionPolicyUrl}`} target="_blank">View policy</a>
+          <strong>
+            <a onClick={this.props.onShowModal.bind(this, 'tuitionPolicy')}>
+              Veterans tuition policy:
+            </a>
+          </strong>
+          &nbsp;<a href={`http://${it.vetWebsiteLink}`} target="_blank">
+            View policy
+          </a>
         </p>
       );
 
@@ -48,18 +58,33 @@ export class AdditionalInformation extends React.Component {
           <div>
             <h3>Institution summary</h3>
             <p>
-              <strong>Accredited:&nbsp;</strong>
-              {it.accredited ? 'Yes' : 'No'}
+              <strong>
+                <a onClick={this.props.onShowModal.bind(this, 'accredited')}>
+                  Accredited:
+                </a>
+              </strong>
+              &nbsp;{it.accredited ?
+                <span>Yes (<a href={`http://nces.ed.gov/collegenavigator/?id=${it.cross}#accred`} target="_blank">
+                  See accreditors
+                </a>)</span> : 'No'}
             </p>
             {typeOfAccreditation}
             {vetTuitionPolicy}
             <p>
-              <strong>Single point of contact for veterans:&nbsp;</strong>
-              {!!it.vetPoc ? 'Yes' : 'No'}
+              <strong>
+                <a onClick={this.props.onShowModal.bind(this, 'singleContact')}>
+                  Single point of contact for veterans:
+                </a>
+              </strong>
+              &nbsp;{!!it.vetPoc ? 'Yes' : 'No'}
             </p>
             <p>
-              <strong>Credit for military training:&nbsp;</strong>
-              {!!it.creditForMilTraining ? 'Yes' : 'No'}
+              <strong>
+                <a onClick={this.props.onShowModal.bind(this, 'creditTraining')}>
+                  Credit for military training:
+                </a>
+              </strong>
+              &nbsp;{!!it.creditForMilTraining ? 'Yes' : 'No'}
             </p>
           </div>
           <div className="historical-information list">
@@ -74,7 +99,7 @@ export class AdditionalInformation extends React.Component {
                 {formatNumber(it.p911Recipients)}
               </p>
               <p>
-                <strong>Total paid (2014):&nbsp;</strong>
+                <strong>Total paid (FY 2016):&nbsp;</strong>
                 {formatCurrency(it.p911TuitionFees)}
               </p>
             </div>
@@ -88,7 +113,7 @@ export class AdditionalInformation extends React.Component {
                 {formatNumber(it.p911YrRecipients)}
               </p>
               <p>
-                <strong>Total paid (2014):&nbsp;</strong>
+                <strong>Total paid (FY 2016):&nbsp;</strong>
                 {formatCurrency(it.p911YellowRibbon)}
               </p>
             </div>
@@ -126,7 +151,7 @@ export class AdditionalInformation extends React.Component {
                 <tr>
                   <th>Benefit</th>
                   <th>Recipients</th>
-                  <th>Total paid (2014)</th>
+                  <th>Total paid (FY 2016)</th>
                 </tr>
               </thead>
               <tbody>

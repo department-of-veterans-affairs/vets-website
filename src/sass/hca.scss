@@ -25,7 +25,12 @@ select {
 }
 
 legend {
-  @extend h4;
+  color: $color-primary-darkest;
+  font-size: 1.35em;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0 0 .5em 0;
 }
 
 .hca-success-icon {

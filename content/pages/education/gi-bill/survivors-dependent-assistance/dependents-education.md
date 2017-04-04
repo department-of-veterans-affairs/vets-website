@@ -71,3 +71,6 @@ If you're the child of a Servicemember who died in the line of duty before Augus
 - Take your application to your school or employer.
 - Ask your school to fill out a VA Enrollment Certification (VA Form 22-1999) and send it to us along with your application. [Download VA Form 22-1999](http://www.lepsn.org/images/pdfs/VA%20Form%2022-1999%20-%20VA%20Enrollment%20Certification.pdf).
 
+### Learn more
+- Read the [DEA pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch35_pamphlet_2.pdf).
+- Get help from an [accredited representative](/disability-benefits/apply/help/index.html).
