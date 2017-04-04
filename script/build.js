@@ -150,7 +150,6 @@ smith.use((files, metalsmith, done) => {
   var runningCount = 0;
   console.log('DOING THIS THING!!!!!!!!!!!!!!!!!');
   Object.keys(files).forEach((filename) => {
-    files[filename].testy = 'TEEEESTY';
     if (filename.match(/\.md$/) !== null) {
       runningCount += 1;
       const fullPath = `content/pages/${filename}`;
