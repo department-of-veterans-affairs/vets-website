@@ -48,18 +48,20 @@ Apply online with Form 22-1990, 22-1990E, or 22-5490:
 
 <p>
   <div id="apply-expander-content" class="form-expanding-group-open expander-content expander-content-closed">
-    <div>Which form do you want to use?</div>
-    <div class="form-radio-buttons">
-      <input type="radio" name="form-selection" id="form-22-1990" value="1990">
-      <label for="form-22-1990">Veterans applying for a <strong>new benefit</strong> (22-1990)</label>
-      <input type="radio" name="form-selection" id="form-22-1990e" value="1990e">
-      <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
-      <input type="radio" name="form-selection" id="form-22-5490" value="5490">
-      <label for="form-22-5490">Dependents applying where your <strong>sponsor is permanently and totally disabled</strong> their benefits to you (22-5490)</label>
-      <input type="radio" name="form-selection" id="form-22-5490" value="5490">
-      <label for="form-22-5490">Dependents applying where your <strong>sponsor is deceased, MIA, or a POW</strong> their benefits to you (22-5490)</label>
+    <div class="expander-content-inner">
+      <div>Which form do you want to use?</div>
+      <div class="form-radio-buttons">
+        <input type="radio" name="form-selection" id="form-22-1990" value="1990">
+        <label for="form-22-1990">Veterans applying for a <strong>new benefit</strong> (22-1990)</label>
+        <input type="radio" name="form-selection" id="form-22-1990e" value="1990e">
+        <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
+        <input type="radio" name="form-selection" id="form-22-5490" value="5490">
+        <label for="form-22-5490">Dependents applying where your <strong>sponsor is permanently and totally disabled</strong> their benefits to you (22-5490)</label>
+        <input type="radio" name="form-selection" id="form-22-5490" value="5490">
+        <label for="form-22-5490">Dependents applying where your <strong>sponsor is deceased, MIA, or a POW</strong> their benefits to you (22-5490)</label>
+      </div>
+      <a id="apply-go-button" class="usa-button-primary va-button-primary">Apply Now</a>
     </div>
-    <a id="apply-go-button" class="usa-button-primary va-button-primary">Apply Now</a>
   </div>
 </p>
 
