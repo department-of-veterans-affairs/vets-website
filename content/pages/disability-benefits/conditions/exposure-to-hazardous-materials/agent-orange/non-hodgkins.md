@@ -1,53 +1,58 @@
 ---
 layout: page-breadcrumbs.html
-title: Non-Hodgkin’s Lymphoma
-template: 4-action-page-pending
+title: Non-Hodgkin’s Lymphoma and Agent Orange
+plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
+template: 4-action-page
 concurrence: incomplete
 ---
 
-Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of the body’s immune system that helps to fight infection and disease.
+<div class="va-introtext">
+
+Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of your body’s immune system that helps to fight infection and illness. We believe that non-Hodgkin’s lymphoma can be caused by contact with Agent Orange, a toxic chemical used to clear trees and plants during the Vietnam War. If you had contact with Agent Orange while serving in the military—and now have non-Hodgkin’s lymphoma—you can get disability compensation or benefits.
+
+</div>
 
 ##### Signs of non-Hodgkin’s lymphoma include:
 
-- Swollen, painless lymph nodes in the neck, armpit, or groin
+- Swollen, painless lymph nodes in your neck, armpit, or groin
 - Fever
 - Night sweats
-- Fatigue
+- Fatigue (feeling very tired)
 - Weight loss
-- Abdominal pain or swelling
+- Pain or swelling in your abdomen (the area that includes your stomach)
 - Chest pain or trouble breathing
 - Itchy skin
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
-### Are you eligible for benefits?
-Yes, if:
+### Can I get disability benefits from VA?
 
-- You are ill with non-Hodgkin’s lymphoma.
-- You were exposed to Agent Orange during military service.
-- You served in Vietnam or in the waters off Vietnam during the Vietnam War Era, in the Korean Demilitarized Zone, or in another area where Agent Orange was stored, tested or sprayed.
+You may be able to get disability benefits if you have non-Hodgkin’s lymphoma and both of these are true:
+- You had contact with Agent Orange while serving in the military, **and**
+- You served in Vietnam or in the waters off Vietnam during the Vietnam War Era, in the Korean Demilitarized Zone, or in another area where Agent Orange was stored, tested, or sprayed
 
-### Who is covered
-You, your dependents and survivors
+### Who's covered?
+- Veterans
+- Qualified dependents
+- Qualified survivors
 </div>
 
-### Available benefits
+### What kind of disability benefits can I get?
 
-- Compensation
 - Health care
-- [Agent Orange Registry health exam]( http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
+- Compensation (payments)
+- [An Agent Orange Registry health exam]( http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
 
 -----
 
-### How it works
+### How do I get these benefits?
 
-VA considers non-Hodgkin’s lymphoma to be related to exposure to Agent Orange. When you apply for benefits, VA will forego the normal requirement that you prove your illness is related to Agent Orange or that it began during—or became worse because of—your military service.
+You’ll need to apply for benefits. We consider non-Hodgkin’s lymphoma to be related to contact with Agent Orange. So, when you apply for benefits, you won't have to show that your illness is related to Agent Orange or that it began during—or got worse because of—your military service.
 
-Learn more about [benefits related to Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
+[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
-#### Need help determining exposure?
+### Get more information
 
-VA will help you determine exposure to Agent Orange or other herbicides during military service after you [file a claim for compensation benefits](/disability-benefits/claims-process/).
-Learn more about [Agent Orange exposure locations](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
+Want to figure out where you may have come into contact with Agent Orange? [See locations linked to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
 
-Visit [Medline Plus](https://www.nlm.nih.gov/medlineplus/ency/article/000581.htm) to learn about treatment of non-Hodgkin’s lymphoma, the latest research, and more from the National Institutes of Health.
+Want to learn more about non-Hodgkin's lymphoma treatment, the latest research, and more from the National Institutes of Health? [Visit MedlinePlus](https://www.nlm.nih.gov/medlineplus/ency/article/000581.htm).

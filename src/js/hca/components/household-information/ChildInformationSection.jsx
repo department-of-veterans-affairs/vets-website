@@ -133,7 +133,7 @@ class ChildInformationSection extends React.Component {
       </div>);
     } else {
       content = (<fieldset>
-        <legend>Your Children’s Information</legend>
+        <h5>Your Children’s Information</h5>
         <div>
           <p>Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.</p>
           <div className="input-section">

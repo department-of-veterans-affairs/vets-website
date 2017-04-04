@@ -6,9 +6,14 @@ plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 If you’re a member of the Army, Navy, Air Force, Marine Corps or Coast Guard Reserve, Army National Guard, or Air National Guard, you may be able to get up to 36 months of education and training benefits under the Montgomery GI Bill Selected Reserve (MGIB-SR) program. Find out how.
 
-<div class="call-out usa-content" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get education benefits under this program?
 You can get education benefits if:

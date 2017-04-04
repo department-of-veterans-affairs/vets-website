@@ -6,7 +6,11 @@ plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you’re the child or spouse of a Veteran who has died or is disabled, find out if you can get help paying for school or job training through the Survivors’ and Dependents’ Educational Assistance (DEA) program.
+
+</div>
 
 <div class="call-out usa-content" markdown="1">
 

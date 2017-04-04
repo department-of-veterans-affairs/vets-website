@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import moment from 'moment';
 
 import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateLogInUrl, logOut } from '../actions';
-import SignInProfileButton from '../components/SignInProfileButton';
+import SearchHelpSignIn from '../components/SearchHelpSignIn';
 
 class Main extends React.Component {
   constructor(props) {
@@ -26,8 +25,12 @@ class Main extends React.Component {
       this.getLogoutUrl();
     }
 
-    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
-      this.setState({ loginUrl: result.authenticate_via_get });
+    this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
+      method: 'GET',
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      this.props.onUpdateLoginUrl('first', json.authenticate_via_get);
     });
 
     addEvent(window, 'message', (evt) => {
@@ -49,34 +52,58 @@ class Main extends React.Component {
   }
 
   getLogoutUrl() {
-    $.ajax({
-      url: `${environment.API_URL}/v0/sessions`,
-      type: 'DELETE',
-      headers: {
+    fetch(`${environment.API_URL}/v0/sessions`, {
+      method: 'DELETE',
+      headers: new Headers({
         Authorization: `Token token=${sessionStorage.userToken}`
-      },
-      success: (result) => {
-        this.setState({ logoutUrl: result.logout_via_get });
-      }
+      })
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      this.setState({ logoutUrl: json.logout_via_get });
     });
   }
 
   handleLogin() {
-    const myLoginUrl = this.state.loginUrl;
-    const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
+    window.dataLayer.push({
+      event: 'login-link-clicked',
+    });
+    const myLoginUrl = this.props.login.loginUrl.first;
+    if (myLoginUrl) {
+      window.dataLayer.push({
+        event: 'login-link-opened',
+      });
+      const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
   }
 
   handleSignup() {
-    const myLoginUrl = this.state.loginUrl;
-    const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
+    window.dataLayer.push({
+      event: 'register-link-clicked',
+    });
+    const myLoginUrl = this.props.login.loginUrl.first;
+    if (myLoginUrl) {
+      window.dataLayer.push({
+        event: 'register-link-opened',
+      });
+      const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
   }
 
   handleLogout() {
+    window.dataLayer.push({
+      event: 'logout-link-clicked',
+    });
     const myLogoutUrl = this.state.logoutUrl;
-    const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
+    if (myLogoutUrl) {
+      window.dataLayer.push({
+        event: 'logout-link-opened',
+      });
+      const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
   }
 
   checkTokenStatus() {
@@ -99,7 +126,9 @@ class Main extends React.Component {
   }
 
   render() {
-    return <SignInProfileButton onUserLogin={this.handleLogin} onUserSignup={this.handleSignup} onUserLogout={this.handleLogout}/>;
+    return (
+      <SearchHelpSignIn onUserLogin={this.handleLogin} onUserSignup={this.handleSignup} onUserLogout={this.handleLogout}/>
+    );
   }
 }
 

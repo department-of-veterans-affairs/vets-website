@@ -5,9 +5,14 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 Are you enrolled in a high-tech program with the goal of working in a high-tech industry? You may be able to get a lump-sum payment to cover the higher per-month costs for these courses of study. Find out how.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get these education benefits?
 You can get these benefits if you're an active-duty GI Bill recipient, in which case both degree and non-degree programs qualify and:

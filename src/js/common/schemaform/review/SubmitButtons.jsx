@@ -30,20 +30,38 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
     );
   } else {
     submitMessage = (
-      <div className="usa-alert usa-alert-error">
+      <div className="usa-alert usa-alert-error schemaform-failure-alert">
         <div className="usa-alert-body">
-          <p><strong>Due to a system error, we weren't able to process your application. Please try again later.</strong></p>
-          <p>We apologize for the inconvenience. If you'd like to complete this form by phone, please call 877-222-VETS (8387) and press 2, M-F 7:00 a.m.to 7:00 p.m. (CST), Sat 9:00 a.m. to 5:30 p.m. (CST).</p>
+          <p className="schemaform-warning-header"><strong>We're sorry, the application didn't go through.</strong></p>
+          <p>You'll have to start over. We suggest you wait 1 day while we fix this problem.</p>
         </div>
       </div>
     );
-    submitButton = (
-      <ProgressButton
-          onButtonClick={onSubmit}
-          buttonText="Send Failed"
-          disabled
-          buttonClass="usa-button-secondary form-button-disabled"
-          beforeText="x"/>
+
+    if (__BUILDTYPE__ !== 'production') {
+      submitButton = (
+        <div className="small-6 medium-6 columns">
+          <a onClick={onSubmit}>Submit again</a>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <div className="row">
+          <div className="small-12 medium-12 columns">
+            {submitMessage}
+          </div>
+        </div>
+        <div className="row form-progress-buttons schemaform-back-buttons">
+          <div className="small-6 medium-6 columns">
+            <a href="/">
+              <button className="usa-button-primary">Go Back to Vets.gov</button>
+            </a>
+          </div>
+          {submitButton}
+        </div>
+      </div>
     );
   }
   return (

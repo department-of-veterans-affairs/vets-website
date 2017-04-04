@@ -6,9 +6,9 @@ plainlanguage: 11-28-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
 If you plan to study at a foreign school, find out how you can use VA benefits to cover your tuition and fees.
-
-<div class="call-out usa-content" markdown="1">
+</div>
 
 ### Can I get VA education benefits to study at a foreign school?
 You can get education benefits if you qualify for—or already get—VA educational assistance and:

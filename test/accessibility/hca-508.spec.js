@@ -14,6 +14,8 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main')
       .click('.form-panel .usa-button-primary');
 
+    E2eHelpers.overrideSmoothScrolling(client);
+
     // Personal Information page.
     HcaHelpers.completePersonalInformation(client, HcaHelpers.testValues, true);
     client

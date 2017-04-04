@@ -1,4 +1,3 @@
-import { FineUploaderBasic } from 'fine-uploader/lib/core';
 import environment from '../../common/helpers/environment';
 import { makeAuthRequest } from '../utils/helpers';
 
@@ -18,6 +17,7 @@ export const ADD_FILE = 'ADD_FILE';
 export const REMOVE_FILE = 'REMOVE_FILE';
 export const SUBMIT_FILES = 'SUBMIT_FILES';
 export const SET_UPLOADING = 'SET_UPLOADING';
+export const SET_UPLOADER = 'SET_UPLOADER';
 export const DONE_UPLOADING = 'DONE_UPLOADING';
 export const SET_PROGRESS = 'SET_PROGRESS';
 export const SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR';
@@ -40,7 +40,7 @@ export function setNotification(message) {
 
 export function getClaims(filter) {
   return (dispatch) => {
-    makeAuthRequest('/v0/disability_claims',
+    makeAuthRequest('/v0/evss_claims',
       null,
       dispatch,
       claims => {
@@ -82,7 +82,7 @@ export function getClaimDetail(id, router) {
     dispatch({
       type: GET_CLAIM_DETAIL
     });
-    makeAuthRequest(`/v0/disability_claims/${id}`,
+    makeAuthRequest(`/v0/evss_claims/${id}`,
       null,
       dispatch,
       resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
@@ -102,7 +102,7 @@ export function submitRequest(id) {
     dispatch({
       type: SUBMIT_DECISION_REQUEST
     });
-    makeAuthRequest(`/v0/disability_claims/${id}/request_decision`,
+    makeAuthRequest(`/v0/evss_claims/${id}/request_decision`,
       { method: 'POST' },
       dispatch,
       () => {
@@ -158,90 +158,109 @@ export function submitFiles(claimId, trackedItem, files) {
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
   const trackedItemId = trackedItem ? trackedItem.trackedItemId : null;
+  window.dataLayer.push({
+    event: 'claims-upload-start',
+  });
 
   return (dispatch) => {
-    const uploader = new FineUploaderBasic({
-      request: {
-        endpoint: `${environment.API_URL}/v0/disability_claims/${claimId}/documents`,
-        inputName: 'file',
-        customHeaders: {
-          'X-Key-Inflection': 'camel',
-          Authorization: `Token token=${sessionStorage.userToken}`
-        }
-      },
-      cors: {
-        expected: true,
-        sendCredentials: true
-      },
-      multiple: false,
-      callbacks: {
-        onAllComplete: () => {
-          if (!hasError) {
-            dispatch({
-              type: DONE_UPLOADING,
-            });
-            dispatch(setNotification({
-              title: 'We have your evidence',
-              body: `Thank you for filing ${trackedItem ? trackedItem.displayName : 'additional evidence'}. We'll let you know when we've reviewed it.`
-            }));
-          } else {
-            dispatch({
-              type: SET_UPLOAD_ERROR
-            });
-            dispatch(setNotification({
-              title: 'Error uploading files',
-              body: 'There was an error uploading your files. Please try again',
-              type: 'error'
-            }));
-          }
-        },
-        onTotalProgress: (bytes) => {
-          bytesComplete = bytes;
-          dispatch({
-            type: SET_PROGRESS,
-            progress: calcProgress(totalFiles, totalSize, filesComplete, bytesComplete)
-          });
-        },
-        onComplete: () => {
-          filesComplete++;
-          dispatch({
-            type: SET_PROGRESS,
-            progress: calcProgress(totalFiles, totalSize, filesComplete, bytesComplete)
-          });
-        },
-        onError: (id, name, reason) => {
-          const errorCode = reason.substr(-3);
-          // this is a little hackish, but uploader expects a json response
-          if (!errorCode.startsWith('2')) {
-            hasError = true;
-          }
-          if (errorCode === '401') {
-            dispatch({
-              type: SET_UNAUTHORIZED
-            });
-          }
-        }
-      }
-    });
     dispatch(clearNotification());
     dispatch({
       type: SET_UPLOADING,
       uploading: true,
-      uploader
     });
     dispatch({
       type: SET_PROGRESS,
-      progress: filesComplete / files.length
+      progress: 0
     });
-
-    /* eslint-disable camelcase */
-    files.forEach(({ file, docType }) => {
-      uploader.addFiles(file, {
-        tracked_item_id: trackedItemId,
-        document_type: docType.value
+    require.ensure([], (require) => {
+      const { FineUploaderBasic } = require('fine-uploader/lib/core');
+      const uploader = new FineUploaderBasic({
+        request: {
+          endpoint: `${environment.API_URL}/v0/evss_claims/${claimId}/documents`,
+          inputName: 'file',
+          customHeaders: {
+            'X-Key-Inflection': 'camel',
+            Authorization: `Token token=${sessionStorage.userToken}`
+          }
+        },
+        cors: {
+          expected: true,
+          sendCredentials: true
+        },
+        multiple: false,
+        callbacks: {
+          onAllComplete: () => {
+            if (!hasError) {
+              window.dataLayer.push({
+                event: 'claims-upload-success',
+              });
+              dispatch({
+                type: DONE_UPLOADING,
+              });
+              dispatch(setNotification({
+                title: 'We have your evidence',
+                body: `Thank you for filing ${trackedItem ? trackedItem.displayName : 'additional evidence'}. We'll let you know when we've reviewed it.`
+              }));
+            } else {
+              window.dataLayer.push({
+                event: 'claims-upload-failure',
+              });
+              dispatch({
+                type: SET_UPLOAD_ERROR
+              });
+              dispatch(setNotification({
+                title: 'Error uploading files',
+                body: 'There was an error uploading your files. Please try again',
+                type: 'error'
+              }));
+            }
+          },
+          onTotalProgress: (bytes) => {
+            bytesComplete = bytes;
+            dispatch({
+              type: SET_PROGRESS,
+              progress: calcProgress(totalFiles, totalSize, filesComplete, bytesComplete)
+            });
+          },
+          onComplete: () => {
+            filesComplete++;
+            dispatch({
+              type: SET_PROGRESS,
+              progress: calcProgress(totalFiles, totalSize, filesComplete, bytesComplete)
+            });
+          },
+          onError: (id, name, reason) => {
+            const errorCode = reason.substr(-3);
+            // this is a little hackish, but uploader expects a json response
+            if (!errorCode.startsWith('2')) {
+              hasError = true;
+            }
+            if (errorCode === '401') {
+              dispatch({
+                type: SET_UNAUTHORIZED
+              });
+            }
+          }
+        }
       });
-    });
-    /* eslint-enable camelcase */
+      dispatch({
+        type: SET_UPLOADER,
+        uploader
+      });
+      dispatch({
+        type: SET_PROGRESS,
+        progress: filesComplete / files.length
+      });
+
+      /* eslint-disable camelcase */
+      files.forEach(({ file, docType }) => {
+        uploader.addFiles(file, {
+          tracked_item_id: trackedItemId,
+          document_type: docType.value
+        });
+      });
+      /* eslint-enable camelcase */
+    }, 'claims-uploader');
   };
 }
 
@@ -263,6 +282,9 @@ export function showMailOrFaxModal(visible) {
 export function cancelUpload() {
   return (dispatch, getState) => {
     const uploader = getState().uploads.uploader;
+    window.dataLayer.push({
+      event: 'claims-upload-cancel',
+    });
 
     if (uploader) {
       uploader.cancelAll();

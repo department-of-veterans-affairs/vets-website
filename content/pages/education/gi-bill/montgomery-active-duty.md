@@ -6,9 +6,14 @@ plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you served at least 2 years on active duty, you may qualify for the Montgomery GI Bill Active Duty (MGIB-AD) program. Find out if you qualify.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get education benefits?
 

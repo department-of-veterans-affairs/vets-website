@@ -1,19 +1,23 @@
 <div class="main" role="main">
-  <div class="section one">
-    <div class="primary">
-      <div class="row">
-        <div class="small-12 columns usa-content">
+  <div class="primary">
+    <div class="row">
+      <div class="small-12 columns usa-content">
 
-        <h1>{{ title }}</h1>
-        <!-- Page content begins -->
+      <h1>{{ title }}</h1>
+      <!-- Page content begins -->
 
-        {{ contents }}
-        <!-- Page content ends -->
-        </div>
+      {{ contents }}
+      <!-- Page content ends -->
+
+      <!-- Last updated -->
+      {% if lastupdate %}
+        {% include "content/includes/last-update.html" %}
+      {% endif %}
+
       </div>
     </div>
-    {% if relatedlinks %}
-      {% include "content/includes/main-navigation.html" %}
-    {% endif %}
   </div>
+  {% if relatedlinks %}
+    {% include "content/includes/main-navigation.html" %}
+  {% endif %}
 </div>

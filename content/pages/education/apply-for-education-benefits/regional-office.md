@@ -6,17 +6,14 @@ plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
+<div class="va-introtext">
 
 Need help with your GI Bill claim? Call <span class="tel">888-442-4551</span> (888-GI-BILL-1) from 7:00 a.m. to 6:00 p.m. (CT), Monday through Friday. 
 
 You can also contact your VA Regional Processing Office (RPO) directly. 
 There are 4 RPOs in the United States. Here are the locations and the states that each RPO serves. 
+
+</div>
 
 #### Atlanta, Georgia
 <p>Atlanta RPO:

@@ -6,8 +6,14 @@ plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
+
 If you’re the dependent or survivor of a Veteran, find out if you qualify for education benefits or job training through a GI Bill program. 
-<div class="call-out" markdown="1">
+
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get education benefits?
 You can get education benefits if you're the child or spouse of a Servicemember who:

@@ -20,12 +20,35 @@ describe('Schemaform review: ObjectField', () => {
       <ObjectField
           schema={schema}
           idSchema={{}}
-          formData={{}}
+          requiredSchema={{}}
           onChange={onChange}
           onBlur={onBlur}/>
     );
 
     expect(tree.everySubTree('SchemaField')).not.to.be.empty;
+  });
+  it('should not render hidden field', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      properties: {
+        test: {
+          'ui:hidden': true,
+          type: 'string'
+        }
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          idSchema={{}}
+          formData={{}}
+          requiredSchema={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('SchemaField')).to.be.empty;
   });
   it('should render header', () => {
     const onChange = sinon.spy();
@@ -37,14 +60,12 @@ describe('Schemaform review: ObjectField', () => {
         }
       }
     };
-    const uiSchema = {
-      'ui:title': 'Blah'
-    };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          uiSchema={uiSchema}
+          uiSchema={{}}
           schema={schema}
-          formContext={{}}
+          formContext={{ pageTitle: 'Blah' }}
+          requiredSchema={{}}
           idSchema={{ $id: 'root' }}
           formData={{}}
           onChange={onChange}
@@ -64,14 +85,12 @@ describe('Schemaform review: ObjectField', () => {
         }
       }
     };
-    const uiSchema = {
-      'ui:title': 'Blah'
-    };
     const tree = SkinDeep.shallowRender(
       <ObjectField
-          uiSchema={uiSchema}
+          uiSchema={{}}
           schema={schema}
-          formContext={{ hideTitle: true }}
+          requiredSchema={{}}
+          formContext={{ hideTitle: true, pageTitle: 'Blah' }}
           idSchema={{ $id: 'root' }}
           formData={{}}
           onChange={onChange}
@@ -80,5 +99,140 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.everySubTree('.form-review-panel-page-header-row')).not.to.be.empty;
     expect(tree.subTree('.form-review-panel-page-header').text()).to.be.empty;
+  });
+  it('should hide expand under items when false', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'boolean'
+        },
+        test2: {
+          type: 'string'
+        }
+      }
+    };
+    const uiSchema = {
+      test2: {
+        'ui:options': {
+          expandUnder: 'test'
+        }
+      }
+    };
+    const formData = {
+      test: false
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={{}}
+          formData={formData}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('SchemaField').length).to.equal(1);
+  });
+  it('should hide fields that are hide on review', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'boolean'
+        }
+      }
+    };
+    const uiSchema = {
+      test: {
+        'ui:options': {
+          hideOnReview: true
+        }
+      }
+    };
+    const formData = {
+      test: true
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={{}}
+          formData={formData}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('SchemaField')).to.be.empty;
+  });
+  it('should hide false fields that are hide on review false', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        test: {
+          type: 'boolean'
+        }
+      }
+    };
+    const uiSchema = {
+      test: {
+        'ui:options': {
+          hideOnReviewIfFalse: true
+        }
+      }
+    };
+    const formData = {
+      test: false
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={{}}
+          formData={formData}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('SchemaField')).to.be.empty;
+  });
+  it('should show expandable fields', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      properties: {
+        test: {
+          type: 'string'
+        },
+        test2: {
+          type: 'string'
+        }
+      }
+    };
+    const uiSchema = {
+      test2: {
+        'ui:options': {
+          expandUnder: 'test'
+        }
+      }
+    };
+    const tree = SkinDeep.shallowRender(
+      <ObjectField
+          schema={schema}
+          idSchema={{}}
+          uiSchema={uiSchema}
+          formData={{ test: 'thing', test2: 'Stuff' }}
+          requiredSchema={{}}
+          onChange={onChange}
+          onBlur={onBlur}/>
+    );
+
+    expect(tree.everySubTree('SchemaField').length).to.equal(2);
   });
 });

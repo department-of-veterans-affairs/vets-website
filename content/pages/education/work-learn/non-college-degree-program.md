@@ -6,9 +6,14 @@ plainlanguage: 11-22-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
+
 Find out how to use the GI Bill to pay for specific training programs, like HVAC repair, truck driving, or Emergency Medical Technician (EMT) training.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get education benefits for a non-college degree program?
 You can get education benefits through the GI Bill if:

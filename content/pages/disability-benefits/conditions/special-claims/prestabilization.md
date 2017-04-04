@@ -1,18 +1,40 @@
 ---
 layout: page-breadcrumbs.html
-title: Prestabilization Ratings
+title: Immediate Help for Temporary Disability Needs (Prestabilization)
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
+plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
-A prestabilization rating is a temporary rating for recently separated Veterans with an unstable disability and an immediate need for services and support. Prestabilization ratings may be granted at 50% or 100%, depending on the severity of the disability, and continue for one year after discharge from active service.
+<div class="va-introtext">
 
-<div class="call-out" markdown="1">
+If you recently ended your active military service and you have a disability related to your service (called a service-connected disability), you may be able to get temporary disability compensation or benefits right away.
 
-### Eligibility Requirements
-You must have been recently separated from military service with an unstable, significantly disabling service-connected disability that will continue for an indefinite amount of time.
+If you qualify for these benefits, you'll get what's called a prestabilization rating. This rating may be 50% or 100%, depending on the severity of your disability. Your prestabilization rating will continue for 1 year after your discharge from active service.
+
 </div>
 
-**Example**
-While in active service, a Servicemember was diagnosed with Hodgkin’s disease and began chemotherapy that continued during and after her medical discharge process. She coordinated through her local VA medical center for follow-on treatment. Her claim for compensation resulted in a prestabilization rating of 100% for one year from her date of discharge.
+
+<div class="feature" markdown="1">
+
+### Can I get disability benefits from VA?
+
+You may be able to get disability benefits if you recently ended your active military service, **and**
+- You have a severe service-connected disability that is unstable (meaning an illness or injury that is changing in nature or hasn't yet been fully treated), **and**
+- Your disability is expected to continue for an unknown amount of time
+
+### Who's covered?
+Veterans
+</div>
+
+### What kind of benefits can I get?
+
+- Health care
+- Compensation (payments)
+
+### How do I get these benefits?
+
+You'll need to apply for benefits. When you apply, you'll have to show that you have a severe, service-connected disability that's unstable and expected to continue for an unknown amount of time. This information will normally be part of your Service Treatment Record. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+
+**Example:** While in active service, a Servicemember was diagnosed with Hodgkin’s disease and began chemotherapy that continued during and after her medical discharge process. She continued to get treatment through her local VA medical center, and we gave her a prestabilization rating of 100% for 1 year from her date of discharge.

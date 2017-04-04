@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Standard Claim
+plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 concurrence: complete
 relatedlinks:
@@ -33,29 +34,25 @@ relatedlinks:
     description: ""
 ---
 
-If you file a standard claim, VA will gather evidence from public and private medical facilities so they can process your disability claim. VA will gather evidence from private medical facilities only with your authorization.
+<div class="va-introtext">
 
-<div class="call-out" markdown="0">
+If you'd like us to help you gather evidence (supporting documents like a doctor's report and medical test results) to support your disability benefits claim, please file a standard claim. [File a claim now](/disability-benefits/apply-for-benefits/).
 
-### Who can file a standard claim?
-You, your dependents and survivors
+With a standard claim, we'll get your permission to gather any needed evidence for you. This may include medical records from:
 
-### Why use the standard claim process?
-If you want VA to assist you in gathering evidence to support your claim, you should file a standard claim. With your approval, VA will gather needed evidence, listed in your claim, including information not held by federal agencies.
-This may include medical records from:
-
-   - private medical providers
-   - private doctors' offices
-   - state and local governments
-   - current or former employers
 </div>
 
-### Evidence Requirements
+- Your non-VA doctor
+- Other non-VA health care providers
+- State and local governments
+- Your current or former employers
 
-VA will seek to validate your claim with a variety documents, including:
+### What evidence will VA look for to support my claim?
 
-- Medical evidence of a current physical or mental disability
-- Evidence of an event, injury, or disease while you were in service
+We'll look for evidence of:
+
+- A current physical or mental disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work)
+- An event, injury, or illness that happened while you were serving in the military to cause the disability
 
 **Note:**
-A standard claim will generally take longer to process than a [Fully Developed Claim](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
+A standard claim usually takes longer to process than a fully developed claim (when you send in all supporting evidence along with your claim). [Get more information about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/).

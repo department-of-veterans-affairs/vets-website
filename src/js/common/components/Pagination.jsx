@@ -7,6 +7,7 @@ class Pagination extends React.Component {
     super(props);
     this.next = this.next.bind(this);
     this.prev = this.prev.bind(this);
+    this.last = this.last.bind(this);
     this.pageNumbers = this.pageNumbers.bind(this);
   }
 
@@ -34,16 +35,60 @@ class Pagination extends React.Component {
     return prevPage;
   }
 
-  pageNumbers(limit) {
-    const totalPages = this.props.pages;
+  last() {
+    const {
+      maxPageListLength,
+      page: currentPage,
+      pages: totalPages,
+      showLastPage
+    } = this.props;
+
+    let lastPage;
+    if (showLastPage && currentPage < totalPages - maxPageListLength + 1) {
+      lastPage = (
+        <span>
+          <a aria-label="...">
+            ...
+          </a>
+          <a aria-label="Last page" onClick={() => {this.props.onPageSelect(totalPages);}}>
+            {totalPages}
+          </a>
+        </span>
+      );
+    }
+    return lastPage;
+  }
+
+  pageNumbers() {
+    const {
+      maxPageListLength,
+      page: currentPage,
+      pages: totalPages,
+      showLastPage
+    } = this.props;
+
+    // Make space for "... (last page number)" if not in range of the last page.
+    const showEllipsisAndLastPage =
+      showLastPage &&
+      currentPage < totalPages - maxPageListLength + 1;
+
+    const limit = showEllipsisAndLastPage
+                ? maxPageListLength - 2
+                : maxPageListLength;
+
     let end;
     let start;
 
+    // If there are more pages returned than the limit to show
+    // cap the upper range at limit + the page number.
     if (totalPages > limit) {
-      // If there are more pages returned than the limit to show
-      // cap the upper range at limit + the page number.
-      start = this.props.page;
-      end = limit + this.props.page;
+      start = currentPage;
+      end = limit + currentPage;
+      // treat the last pages specially
+      if (start >= totalPages - limit + 1) {
+        start = totalPages - limit + 1;
+        end = totalPages + 1;
+      }
     } else {
       start = 1;
       end = totalPages + 1;
@@ -57,7 +102,7 @@ class Pagination extends React.Component {
       return <div/>;
     }
 
-    const pageList = this.pageNumbers(10).map((pageNumber) => {
+    const pageList = this.pageNumbers().map((pageNumber) => {
       const pageClass = classNames({
         'va-pagination-active': this.props.page === pageNumber
       });
@@ -77,7 +122,7 @@ class Pagination extends React.Component {
       <div className="va-pagination">
         <span className="va-pagination-prev">{this.prev()}</span>
         <div className="va-pagination-inner">
-          {pageList}
+          {pageList} {this.last()}
         </div>
         <span className="va-pagination-next">{this.next()}</span>
       </div>
@@ -88,7 +133,13 @@ class Pagination extends React.Component {
 Pagination.propTypes = {
   onPageSelect: React.PropTypes.func.isRequired,
   page: React.PropTypes.number.isRequired,
-  pages: React.PropTypes.number.isRequired
+  pages: React.PropTypes.number.isRequired,
+  maxPageListLength: React.PropTypes.number.isRequired,
+  showLastPage: React.PropTypes.bool,
+};
+
+Pagination.defaultProps = {
+  maxPageListLength: 10,
 };
 
 export default Pagination;

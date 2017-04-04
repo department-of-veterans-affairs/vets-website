@@ -6,9 +6,14 @@ plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 A college or university co-op training program lets you get full-time work experience in between periods of going to school full time.  You may be able to get help paying for some of your costs—like books, tuition, and housing—if you’re part of a co-op. Find out how.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get education benefits for co-op training?
 You may be able to get money for books, tuition, and housing if:

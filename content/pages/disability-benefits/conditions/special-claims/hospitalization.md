@@ -1,34 +1,41 @@
 ---
 layout: page-breadcrumbs.html
-title: Hospitalization
+title: Time Spent in a Hospital
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
+plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-If you were hospitalized for a service-connected disability at a VA or VA-approved facility, you may be eligible to receive a temporary 100% disability rating for the time you spent in the hospital.
+<div class="va-introtext">
 
-<div class="call-out" markdown="1">
+Did you spend time in a VA hospital or a VA-approved hospital for a disability related to your military service (called a service-connected disability)? If you did, you may be able to get added disability compensation or benefits with a temporary 100% disability rating for the time you spent in the hospital. Find out if you can get this benefit.
 
-### Are you eligible for compensation?
-Yes, if:
-
-  - You were hospitalized for more than 21 days in a VA hospital or other approved hospital for a service-connected disability, or
-  - You were under hospital observation for more than 21 days at VA expense for a service-connected disability.
-
-### Who is covered
-You
 </div>
 
-### Available benefits
 
-- Compensation
+<div class="feature" markdown="1">
+
+### Can I get disability benefits from VA?
+
+You may be able to get disability benefits if you:
+  - Spent more than 21 days in a VA hospital or other approved hospital for a service-connected disability, **or**
+  - Were under hospital observation for more than 21 days at our expense for a service-connected disability
+
+### Who's covered?
+Veterans
+</div>
+
+### What kind of disability benefits can I get?
+
 - Health care
+- Increased compensation (payments) for the time you spent in the hospital
 
 -----
 
-### How it works
+### How do I get these benefits?
 
-If you were not hospitalized at a VA facility, you should provide the hospital discharge summary showing the length of stay and cause for hospitalization when filing your claim.
+You'll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply-for-benefits/).
 
-**Example**
-A Veteran with a 40% service-connected disability rating for diabetes mellitus was hospitalized at a VA facility after lapsing into a diabetic coma. He required 25 days of hospitalization due to the coma and associated infections. VA temporarily raised his rating to 100% for the period of his hospitalization. After this period, his disability rating reverted to 40%.
+**Note:** If you weren't in a VA hospital, when filing your claim you'll need to give us your hospital discharge summary showing the length and cause of your hospital stay. 
+
+**Example:** A Veteran with a 40% service-connected disability rating for diabetes had to stay in a VA hospital after going into a diabetic coma. He needed to stay in the hospital for 25 days due to the coma and related infections. We temporarily raised his rating to 100% during his hospital stay. After he got out of the hospital, his disability rating went back to 40%.

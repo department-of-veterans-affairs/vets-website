@@ -6,9 +6,13 @@ plainlanguage: 12-12-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
+
 You can continue your education by using part of your military pay to help cover the cost of school. Find out if you can get benefits through the Veterans' Educational Assistance Program (VEAP)—a $2-to-$1 government-match program for educational assistance.
 
-<div class="call-out" markdown="1">
+</div>
+
+<div class="feature" markdown="1">
 
 ### Can I get this benefit?
 You can get this benefit if you went into the service for the first time between January 1, 1977, and June 30, 1985, and:

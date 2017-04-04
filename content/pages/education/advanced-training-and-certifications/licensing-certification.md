@@ -6,9 +6,13 @@ plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you paid for 1 or more tests to become a licensed or certified professional, we may pay you back. Find out how.
 
-<div class="call-out" markdown="1">
+</div>
+
+<div class="feature" markdown="1">
 
 ### Can I get paid back for licensing and certification test fees?
 You can get paid back if:

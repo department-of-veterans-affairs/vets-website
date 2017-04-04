@@ -1,32 +1,38 @@
 ---
 layout: page-breadcrumbs.html
 title: Quick Start
+plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-If you are in predischarge status between 1 and 59 days before separation, retirement, or release from active duty or demobilization, Quick Start allows you to submit a claim for disability compensation.
+<div class="va-introtext">
 
-<div class="call-out" markdown="0">
+If you're in predischarge status, Quick Start can help you get your VA benefits sooner. Through Quick Start, you can start your claim for disability benefits 1 to 59 days before:
 
-### Are you eligible for benefits?
-Yes, if:
-
-  -	You have a known separation date.
-  -	Your separation date is 1 to 59 days away.
-  -	You are full-time Active Duty, National Guard, or Reserves.
-
-### Who is covered
-You
 </div>
 
-### Available benefits
+- Separation (ending your military service)
+- Retirement
+- Release from active duty
+- Demobilization (a stand down from combat-ready status)
 
-Expedited status decision on your disability claim
+<div class="feature" markdown="0">
+
+### Can I file a Quick Start claim?
+You can file a Quick Start claim if you're a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard) and both of these are true:
+-	You have a known separation date (the date you'll be ending your active military service), **and**  
+-	Your separation date is within the next 1 to 59 days
+
+</div>
+
+### What do I get through Quick Start?
+
+You can get an expedited status decision on your disability claim (meaning you'll get your decision as soon as possible).
 
 -----
 
-### How it works
+### How do I begin a Quick Start claim?
 
-By submitting your disability compensation claim before discharge, you can receive VA disability benefits as soon as possible after separation, retirement, or demobilization.
+You'll need to apply for benefits. When you apply, please give us your service treatment records. You'll also need to make sure you finish all phases of the VA/DOD medical separation examination processes before your release from the military.
 
-You must submit your service-treatment records to VA when you submit your claim, and you must complete all phases of the VA/DOD medical separation examination process at your point of separation and before you are released from the military.
+[Apply for benefits](/disability-benefits/apply-for-benefits/).

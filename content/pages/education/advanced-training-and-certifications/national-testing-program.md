@@ -6,9 +6,12 @@ plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 concurrence: complete
 ---
 
+<div class="va-introtext">
 If you had to take a test when you applied to a college or for a training course, we may pay you back for the cost of the test. Find out how.
+</div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Can I get paid back for testing fees?
 

@@ -161,12 +161,25 @@ class VAMap extends Component {
   handleSearch = () => {
     const { currentQuery } = this.props;
 
+    const currentBounds = this.refs.map && this.refs.map.leafletElement.getBounds();
+    let currentBoundsArray;
+
+    if (currentBounds) {
+      currentBoundsArray = [
+        currentBounds._southWest.lng,
+        currentBounds._southWest.lat,
+        currentBounds._northEast.lng,
+        currentBounds._northEast.lat,
+      ];
+    }
+
     if (currentQuery.searchString && currentQuery.searchString.trim() !== '') {
       this.updateUrlParams({
         address: currentQuery.searchString,
       });
 
-      this.props.searchWithAddress(currentQuery);
+      this.props.searchWithAddress(currentQuery, currentBoundsArray);
+      this.centerMap();
     }
   }
 
@@ -339,7 +352,7 @@ class VAMap extends Component {
     const position = [coords.latitude, coords.longitude];
 
     return (
-      <div>
+      <div className="desktop-container">
         <div>
           <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch}/>
         </div>

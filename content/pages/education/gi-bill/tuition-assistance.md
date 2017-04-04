@@ -6,10 +6,12 @@ plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-
+<div class="va-introtext">
 Does your college tuition cost more than what’s covered by the Tuition Assistance (TA) program? Find out if you can get more money to help pay for school through the Tuition Assistance Top-Up program.
+</div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Can I get tuition assistance?
 You can get tuition assistance if you're approved for federal TA, and:

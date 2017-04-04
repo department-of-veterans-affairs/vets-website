@@ -43,6 +43,8 @@ relatedlinks:
     description: ""
 ---
 
+<div class="va-introtext">
+
 Since 1944, the GI Bill has helped millions of Veterans pay for college, graduate school, and other training programs. If you served on active duty after September 11, 2001, the Post-9/11 GI Bill will provide you with a housing allowance, money for books, and the option to transfer unused education benefits to your spouse or children.
 
 The GI Bill Comparison Tool and Veterans Services Organizations can help you explore options and see what benefits you can get:
@@ -50,5 +52,5 @@ The GI Bill Comparison Tool and Veterans Services Organizations can help you exp
 <br>
 [Get help from a Veterans Service Organization](http://www.va.gov/vso/).
 
-
 <a class="usa-button-primary va-button-primary" href="/education/apply/">Apply for Education Benefits</a> <a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
+</div>

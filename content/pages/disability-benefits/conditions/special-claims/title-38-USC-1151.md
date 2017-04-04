@@ -1,31 +1,46 @@
 ---
 layout: page-breadcrumbs.html
-title: Title 38 U.S.C. 1151 Claims
+title: Title 38 U.S.C. 1151 Claims 
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp
+plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-If you suffered additional disability while receiving VA hospital care, medical or surgical treatment, or examination; pursuing a course of vocational rehabilitation (under 38 U.S.C. Chapter 31); or participating in compensated work therapy (under 38 U.S.C. 1718), you may be eligible for compensation.
+<div class="va-introtext">
 
-<div class="call-out" markdown="1">
+If you suffered an added disability while getting VA medical care or taking part in a VA program designed to help you find, get, or keep a job, you may be able to get compensation.
 
-### Are you eligible for compensation?
-Yes, if:
-
-  - You have an additional disability resulting from VA medical treatment or care, or from participation in VA vocational rehabilitation or compensated work therapy.
-
-### Who is covered
-You
 </div>
 
-### Available benefits
+<div class="feature" markdown="1">
 
-Compensation
+### Can I get compensation from VA?
+
+You can get compensation from VA if you have an added disability or an injury or disease got worse as a direct result of:
+  - VA carelessness or negligence, **or**
+  - VA medical or surgical treatment, **or**
+  - A VA health exam, **or**
+  - A VA vocational rehabilitation course (under 38 U.S.C. Chapter 31), **or**
+  - VA compensated work therapy (CWT)(under 38 U.S.C. 1718)
+ 
+And the added disability wasn't a reasonably expected result or complication of treatment.
+  
+### Who's covered?
+Veterans
+</div>
+
+### What kind of benefits can I get?
+
+Compensation 
 
 -----
 
-### How it works
+### How do I get these benefits?
 
-When filing your claim, you should submit evidence that the additional disability occurred as a result of VA medical care, or from participation in VA vocational rehabilitation or compensated work-therapy programs. The additional disability cannot be a reasonably expected result of or complication from treatment.
+You'll need to apply for benefits. When you apply, you'll have to show that the added disability happened because of VA medical care or a VA program designed to help you find, get, or keep a job. [Apply for benefits](/disability-benefits/apply-for-benefits/).
 
-Compensation payments are awarded in the same manner as if the disability is service connected.
+We'll award any compensation payments in the same way we would if your disability was related to your military service (a service-connected disability).
+
+
+
+

@@ -1,0 +1,55 @@
+{
+  "privacyAgreementAccepted": true,
+  "veteranInformation": {
+    "data": {
+      "veteranFullName": {
+        "first": "asdf",
+        "last": "asdf"
+      },
+      "veteranSocialSecurityNumber": "123333333"
+    }
+  },
+  "benefitSelection": {
+    "data": {}
+  },
+  "servicePeriods": {
+    "data": {}
+  },
+  "militaryHistory": {
+    "data": {}
+  },
+  "newSchool": {
+    "data": {
+      "newSchoolAddress": {
+        "country": "USA"
+      }
+    }
+  },
+  "oldSchool": {
+    "data": {
+      "oldSchool": {
+        "address": {
+          "country": "USA"
+        }
+      }
+    }
+  },
+  "contactInformation": {
+    "data": {
+      "veteranAddress": {
+        "country": "USA"
+      },
+      "view:otherContactInfo": {}
+    }
+  },
+  "dependents": {
+    "data": {
+      "serviceBefore1977": {}
+    }
+  },
+  "directDeposit": {
+    "data": {
+      "bankAccount": {}
+    }
+  }
+}

@@ -2,12 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import { closeDisclaimer } from '../actions/disclaimer';
 import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
-import Disclaimer from '../components/Disclaimer';
 import GlossaryModal from '../components/GlossaryModal';
 
 // This needs to be a React component for RequiredLoginView to pass down
@@ -34,15 +32,12 @@ function AppContent({ children, isDataAvailable }) {
 class RxRefillsApp extends React.Component {
   render() {
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"rx"}>
+      <RequiredLoginView authRequired={3} serviceRequired={"rx"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
         <AppContent>
           <div className="row">
             <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
           </div>
           <div className="row">
-            <Disclaimer
-                isOpen={this.props.disclaimer.open}
-                handleClose={this.props.closeDisclaimer}/>
             {this.props.children}
           </div>
           <ConfirmRefillModal
@@ -68,17 +63,18 @@ RxRefillsApp.propTypes = {
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
   const modals = rxState.modals;
+  const userState = state.user;
 
   return {
-    disclaimer: rxState.disclaimer,
     glossaryModal: modals.glossary,
     refillModal: modals.refill,
     prescription: rxState.prescriptions.currentItem,
+    profile: userState.profile,
+    signInUrl: userState.login.loginUrl.first
   };
 };
 
 const mapDispatchToProps = {
-  closeDisclaimer,
   closeGlossaryModal,
   closeRefillModal,
   refillPrescription

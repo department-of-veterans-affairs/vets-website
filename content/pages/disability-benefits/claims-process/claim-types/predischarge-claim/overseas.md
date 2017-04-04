@@ -1,20 +1,35 @@
 ---
 layout: page-breadcrumbs.html
-title: How do I file when I’m overseas?
+title: File a Predischarge Claim While Overseas
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp,http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-overseas-intake-sites.asp
+plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
-If you are stationed within the Kaiserslautern Military Community (KMC), you can visit the Landstuhl Benefits Delivery at Discharge (BDD) office and start the disability claim process while you are on active duty in predischarge status. Walk-in hours are Tuesday, Wednesday, and Thursday from 10:00 to 12:00 and from 1:00 to 3:00.
+<div class="va-introtext">
 
-If you are stationed outside the KMC, you can participate in the BDD or Quick Start programs through the "Fly-in" claim process, which allows you to submit applications by fax or email before your in-person appointment. Here’s what you need to do to participate in the Fly-in claim process:
+You can file a disability claim while you're stationed overseas. 
 
-<div class="call-out" markdown="1">
+</div>
 
-- Contact the [Landstuhl BDD office]( https://ermc.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733) by phone, fax, or email to request all necessary information and forms.
-- After you complete and return the application, a BDD officer will contact you by email to schedule an examination at the Landstuhl Regional Medical Center (LRMC) and to notify you about the information and evidence required to support your claim.
-- You are responsible for contacting the clinics at LRMC to schedule necessary exams as directed, and for arranging your travel and getting the approval of your command to make the trip.
-- When you report for your examinations, you must bring a copy of your Service Treatment Records (STRs), which will be submitted to VA and not returned. BDD and Quick Start claims cannot be processed without the STRs.
+### Within the Kaiserslautern Military Community (KMC)
+
+If you are stationed within the KMC, visit the Landstuhl Benefits Delivery at Discharge (BDD) office, where you can start your disability claim while you're on active duty in predischarge status. Walk-in hours are Tuesday, Wednesday, and Thursday from 10:00 a.m. to 12:00 p.m., and from 1:00 p.m. to 3:00 p.m.
+
+### Outside the KMC
+
+If you are stationed outside the KMC, use the BDD or Quick Start programs through the "Fly-in" claim process, which lets you apply by fax or email before your in-person appointment. Here’s what you need to do to use the Fly-in claim process:
+
+<div class="feature" markdown="1">
+
+- Contact the Landstuhl BDD office by phone, fax, or email to ask for all needed information and forms.
+- Fill out and return your application as directed.
+- Look for an email from a BDD officer who will contact you to schedule an exam at the Landstuhl Regional Medical Center (LRMC) and to let you know about the information and evidence (supporting documents like doctor's reports and medical test results) needed to support your claim.
+- Contact the clinics at LRMC to schedule your exams as directed.
+- Arrange your travel, and get your command's approval to make the trip.
+- Bring a copy of your Service Treatment Records (STRs) when you report for your exams. These won't be returned. BDD and Quick Start claims can't be processed without the STRs.
+
+[Get service information for the Landstuhl BDD office](https://ermc.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733).
 
 </div>

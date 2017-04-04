@@ -5,7 +5,10 @@ template: 4-action-page-pending
 plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
+
+<div class="va-introtext">
 If you take part in the $600 Montgomery GI Bill Buy-Up program, you’ll get more money each month through your GI Bill monthly payments. Find out how.
+</div>
 
 ### How do I get this benefit? 
 

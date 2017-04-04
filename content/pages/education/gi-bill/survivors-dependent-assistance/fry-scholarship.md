@@ -6,10 +6,13 @@ plainlanguage: 12-01-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 If your parent or spouse was an active-duty Servicemember who died in the line of duty on or after September 11, 2001, you may qualify for the Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship). Find out if you can get benefits through this scholarship.
 
-<div class="call-out usa-content" markdown="1">
+</div>
 
+<div class="feature">
 ### Can I get Fry Scholarship benefits?
 You may be able to get benefits under the Fry Scholarship if you're the child or surviving spouse of an active-duty Servicemember who died in the line of duty on or after September 11, 2001.
 

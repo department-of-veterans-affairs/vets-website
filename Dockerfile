@@ -2,8 +2,9 @@
 
 FROM buildpack-deps:jessie
 
-RUN groupadd --gid 1000 node \
-  && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
+# Match the jenkins uid/gid on the host (504)
+RUN groupadd --gid 504 jenkins \
+  && useradd --uid 504 --gid jenkins --shell /bin/bash --create-home jenkins
 
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
@@ -17,7 +18,10 @@ RUN set -ex \
     B9AE9905FFD7803F25714661B63B535A4C206CA9 \
     C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
   ; do \
-    gpg --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-keys "$key"; \
+    gpg --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-keys "$key" || \
+      gpg --keyserver hkp://pgp.mit.edu:80 --recv-keys "$key" || \
+      gpg --keyserver hkp://keyserver.pgp.com:80 --recv-keys "$key" \
+      ; \
   done
 
 ENV NPM_CONFIG_LOGLEVEL info
@@ -39,20 +43,40 @@ RUN buildDeps='xz-utils' \
     && ln -s /usr/local/bin/node /usr/local/bin/nodejs \
     && npm install -g npm@$NPM_VERSION \
     && npm install -g nsp \
-    && npm install -g s3-cli
+    && npm install -g s3-cli \
+    && npm install -g codeclimate-test-reporter
 
-RUN apt-get update && apt-get install -y netcat default-jre --no-install-recommends
+# Install java8 (via https://github.com/William-Yeh/docker-java8)
+
+RUN \
+    echo "===> add webupd8 repository..."  && \
+    echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list  && \
+    echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.list.d/webupd8team-java.list  && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886  && \
+    apt-get update  && \
+    \
+    \
+    echo "===> install Java"  && \
+    echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections  && \
+    echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections  && \
+    DEBIAN_FRONTEND=noninteractive  apt-get install -y --force-yes libnss3 libgconf-2-4 libxss1 libxtst6 libgtk2.0-0 libasound2 xvfb netcat oracle-java8-installer oracle-java8-set-default
+
+RUN mkdir -p /application
 
 WORKDIR /application
+
+# Create empty directory for selenium logs
+
+RUN mkdir -p logs/selenium
 
 # Install required npm dependencies
 
 COPY package.json .
 COPY npm-shrinkwrap.json .
-
 RUN npm install
-RUN npm run selenium:bootstrap
 
 # Copy application source to image
 
 COPY . .
+RUN chown -R jenkins:jenkins /application
+USER jenkins

@@ -6,9 +6,14 @@ plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you're using VA educational assistance, and you’re struggling with the course work, we may help you pay for a tutor. Find out how.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get this benefit?
 You can if you're using VA educational assistance and:

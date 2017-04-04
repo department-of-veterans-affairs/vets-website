@@ -6,7 +6,12 @@ plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
-The Principles of Excellence program requires schools that get federal funding through programs such as the GI Bill to follow certain guidelines. Schools that are a part of the program must:
+<<<<<<< HEAD
+<div class="va-introtext">
+The Principles of Excellence program requires schools that get federal funding through programs such as the GI Bill to follow certain guidelines.
+</div>
+
+Schools that are a part of the program must:
 
 - Give you a written personal summary of the total cost of your educational program, including:
   - The costs covered by your benefits.

@@ -2,9 +2,21 @@
 layout: page-breadcrumbs.html
 title: Presumed Disability
 concurrence: incomplete
+plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 ---
 
-A presumed disability is a diagnosed disability that VA considers to be related to a Veteran’s service because of the circumstances of the Veteran’s military service.
+<div class="va-introtext">
 
-This designation usually applies to conditions that are the result of a [specific hazardous exposure](/disability-benefits/conditions/exposure-to-hazardous-materials/) or a [chronic disease that appears within one year after discharge](/disability-benefits/apply-for-benefits/one-year/).
+A presumed disability is a disability that's been diagnosed by a doctor and that we consider to be related to a Veteran’s military service because of specific aspects of service. 
+
+</div>
+
+This usually applies to a chronic (long-lasting) illness that appears within 1 year after discharge, or illnesses caused by contact with:
+- Certain contaminants (toxic chemicals), **or**
+- Other hazardous materials
+
+[Learn more about contact with contaminants and other hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/).
+
+[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply-for-benefits/one-year/).
+

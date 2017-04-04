@@ -4,9 +4,15 @@ title: National Call to Service Program
 concurrence: incomplete
 template: 1-topic-landing
 ---
+
+<div class="va-introtext">
+
 If you performed a period of national service, you may qualify for the National Call to Service program, which allows you to choose an education benefit as an alternative to the Montgomery GI Bill (MGIB).
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get this benefit?
 

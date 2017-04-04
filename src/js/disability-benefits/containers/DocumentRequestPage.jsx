@@ -1,5 +1,6 @@
 import React from 'react';
 import Scroll from 'react-scroll';
+import _ from 'lodash';
 import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
 import DueDate from '../components/DueDate';
@@ -24,12 +25,8 @@ import {
 } from '../actions';
 
 const scrollToError = () => {
-  Scroll.scroller.scrollTo('uploadError', {
-    duration: 500,
-    offset: -25,
-    delay: 0,
-    smooth: true
-  });
+  const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
+  Scroll.scroller.scrollTo('uploadError', options);
 };
 const Element = Scroll.Element;
 

@@ -20,4 +20,8 @@ relatedlinks:
 
 ---
 
+<div class="va-introtext">
+
 Figuring out how to shift from military to civilian life can be hard. We offer tools and counseling programs to help you make the most of your options. 
+
+</div>

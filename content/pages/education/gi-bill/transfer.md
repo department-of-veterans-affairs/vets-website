@@ -6,10 +6,16 @@ plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: complete
 ---
 
+
+<div class="va-introtext">
+
 Find out if you can transfer any of your unused Post-9/11 GI Bill benefits to your spouse or dependent children.
 
 **Note:** The Department of Defense (DOD) determines whether or not you can transfer benefits to your family.
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I transfer benefits?
 You can transfer benefits if you’re on active duty or in the Selected Reserve and:

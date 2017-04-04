@@ -6,9 +6,14 @@ plainlanguage: 11-21-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 Correspondence training (coursework completed by mail) may be a good option for you if you want to take classes from home or if you live far from any schools. Find out how your VA education benefits may help pay for correspondence training.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I use education benefits for correspondence training?
 

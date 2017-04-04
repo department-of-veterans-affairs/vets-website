@@ -1,92 +1,113 @@
 ---
 layout: page-breadcrumbs.html
 title: Agent Orange
+plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: 3-panel-filters
 ---
 
-The U.S. military sprayed millions of gallons of Agent Orange on trees and vegetation during the Vietnam War. Several decades later, concerns about the health effects from these chemicals continue.
+<div class="va-introtext">
 
-<div class="call-out" markdown="1">
+The U.S. military used Agent Orange to clear plants and trees during the Vietnam War. If you served in or near Vietnam during the Vietnam War Era—or in certain related jobs—you may have had contact with this toxic chemical. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
 
-### Are you eligible for compensation?
-
-Yes, if:
-
-You were exposed to Agent Orange during military service.
-
-#### Who is covered
-
-You or your dependents
 </div>
 
-### How it works
+<div class="feature" markdown="1">
 
-[These diseases are a result of exposure to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/). VA forgoes the normal requirement that you prove an illness began during or became worse because of your military service.
+### Can I get disability benefits from VA?
 
-If you have a disease that is not on this list but you believe it is a result of Agent Orange exposure, you will need to prove your illness began during or became worse because of your military service.
+You may be able to get disability benefits if:
 
-### See also
+- You have an illness believed to be caused by Agent Orange, **and**
+- You came into contact with Agent Orange while serving in the military
 
-[Agent Orange Registry Health Exam for Veterans](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
-
-[Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/)
+[See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
 
-### Were you exposed?
+#### Who's covered?
+
+- Veterans
+- Qualified dependents
+
+</div>
+
+### What kind of disability benefits can I get?
+
+- Health care
+- Compensation (payments)
+
+### How do I get these benefits?
+
+You'll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply-for-benefits/).
+
+**Note:**
+- If you have an illness believed to be caused by Agent Orange, you won't need to show the problem started during—or got worse because of—your military service. [See the list of Agent Orange‒related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+- If you have an illness that’s not on this list, but you believe it was caused by Agent Orange, you'll need to show the problem started during—or got worse because of—your military service.
+
+
+### Get more information
+
+Do you think you may have had contact with Agent Orange or other herbicides while serving in the military? [Get an Agent Orange Registry Health Exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
+
+Do you have non-Hodgkin's lymphoma (a type of cancer)? You can get VA support. [Learn about Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
+
+
+### Find out if you had contact with Agent Orange
+
+You may have had contact if you served in any of these ways:
 
 <ul class="small-block-grid-1 medium-block-grid-2">
   <li>
     <dl class="panel-list">
-      <dt>C-123 Airplanes</dt>
+      <dt>On C-123 Airplanes</dt>
       <dd>Between January 9, 1962, and May 7, 1975</dd>
-      <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about C-123- Airplanes and Agent Orange</span></a></dd>
+      <dd><a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about C-123 Airplanes and Agent Orange</span></a></dd>
     </dl>
   </li>
   <li>
     <dl class="panel-list">
-      <dt>Thailand Military Bases</dt>
+      <dt>On Thailand Military Bases</dt>
       <dd>Between January 9, 1962, and May 7, 1975</dd>
       <dd>
-        <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/thailand-military-bases/">Learn more <span class="sr-only">about Thailand Military Bases and Agent Orange</span></a>
+        <a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/thailand-military-bases/">Learn more <span class="sr-only">about Thailand military bases and Agent Orange</span></a>
       </dd>
     </dl>
   </li>
   <li>
     <dl class="panel-list">
-      <dt>Service in Vietnam or Korea</dt>
+      <dt>In Vietnam or Korea</dt>
       <dd>Between January 9, 1962, and May 7, 1975</dd>
-      <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-inside/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
+      <dd><a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-inside/">Learn more <span class="sr-only">about service in Vietnam or Korea and Agent Orange</span></a></dd>
     </dl>
   </li>
   <li>
     <dl class="panel-list">
-      <dt>Service Outside of Vietnam or Korea</dt>
+      <dt>Outside of Vietnam or Korea</dt>
       <dd>Between January 9, 1962, and May 7, 1975</dd>
-      <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-outside/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
+      <dd><a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-outside/">Learn more <span class="sr-only">about service outside of Vietnam or Korea and Agent Orange</span></a></dd>
     </dl>
   </li>
   <li>
     <dl class="panel-list">
-      <dt>Testing and Storage Areas Outside of Vietnam</dt>
-      <dd>1944–19XX</dd>
-      <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
+      <dt>In Testing and Storage Areas Outside of Vietnam</dt>
+      <dd>Between 1944 and a yet-to-be-determined date</dd>
+      <dd><a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/">Learn more <span class="sr-only">about testing and storage areas outside of Vietnam and Agent Orange</span></a></dd>
     </dl>
   </li>
   <li>
     <dl class="panel-list">
-      <dt>U.S. Navy and Coast Guard Ships in Vietnam</dt>
+      <dt>On U.S. Navy and Coast Guard Ships in Vietnam</dt>
       <dd>Between January 9, 1962, and May 7, 1975</dd>
       <dd>
-        <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/navy-coast-guard/">Learn more <span class="sr-only">about U.S. Navy and Coast Guard Ships in Vietnam and Agent Orange</span></a>
+        <a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/navy-coast-guard/">Learn more <span class="sr-only">about U.S. Navy and Coast Guard ships in Vietnam and Agent Orange</span></a>
       </dd>
     </dl>
   </li>
   <li>
   <dl class="panel-list">
-    <dt>Waters in the Vicinity of Vietnam</dt>
+    <dt>In Waters in or near Vietnam</dt>
     <dd>Between January 9, 1962, and May 7, 1975</dd>
     <dd>
-      <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/water-vietnam/">Learn more <span class="sr-only">about waters in the Vicinity of Vietnam</span></a>
+      <a class="usa-button-primary" href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/water-vietnam/">Learn more <span class="sr-only">about waters in or near Vietnam and Agent Orange</span></a>
     </dd>
   </dl>
 </li>

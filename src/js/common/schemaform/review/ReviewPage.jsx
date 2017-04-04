@@ -1,33 +1,78 @@
 import React from 'react';
+import Scroll from 'react-scroll';
+import _ from 'lodash/fp';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import SubmitButtons from './SubmitButtons';
 import PrivacyAgreement from '../../components/questions/PrivacyAgreement';
-import { createPageListByChapter, isValidForm } from '../helpers';
-import { setPrivacyAgreement, setEditMode, setSubmission, submitForm } from '../actions';
+import { isValidForm } from '../validation';
+import { focusElement, getActivePages } from '../../utils/helpers';
+import { createPageListByChapter } from '../helpers';
+import { setData, setPrivacyAgreement, setEditMode, setSubmission, submitForm } from '../actions';
 
-export class ReviewPage extends React.Component {
+const scroller = Scroll.scroller;
+
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
+
+class ReviewPage extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.goBack = this.goBack.bind(this);
     // this only needs to be run once
-    this.pagesByChapter = createPageListByChapter(this.props.formConfig);
+    this.pagesByChapter = createPageListByChapter(this.props.route.formConfig);
+  }
+
+  componentDidMount() {
+    scrollToTop();
+    focusElement('h4');
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const nextStatus = nextProps.form.submission.status;
+    const previousStatus = this.props.form.submission.status;
+    if (nextStatus !== previousStatus && nextStatus === 'applicationSubmitted') {
+      this.props.router.push(`${nextProps.route.formConfig.urlPrefix}confirmation`);
+    }
+  }
+
+  /*
+   * Returns the page list without conditional pages that have not satisfied
+   * their dependencies and therefore should be skipped.
+   */
+  getEligiblePages() {
+    const { form, route: { pageList, path } } = this.props;
+    const eligiblePageList = getActivePages(pageList, form);
+    const pageIndex = _.findIndex(item => item.pageKey === path, eligiblePageList);
+    return { eligiblePageList, pageIndex };
+  }
+
+  goBack() {
+    const { eligiblePageList, pageIndex } = this.getEligiblePages();
+    this.props.router.push(eligiblePageList[pageIndex - 1].path);
   }
 
   handleSubmit() {
-    if (this.props.form.privacyAgreementAccepted && isValidForm(this.props.form)) {
-      this.props.submitForm(this.props.formConfig, this.props.form);
+    if (isValidForm(this.props.form, this.pagesByChapter)) {
+      this.props.submitForm(this.props.route.formConfig, this.props.form);
     } else {
       this.props.setSubmission('hasAttemptedSubmit', true);
     }
   }
 
   render() {
-    const { form, formConfig } = this.props;
+    const { form } = this.props;
+    const formConfig = this.props.route.formConfig;
     return (
       <div>
-        <h4 className="edu-page-title">Review application</h4>
         <div className="input-section">
           <div>
             {Object.keys(formConfig.chapters).map(chapter => (
@@ -36,6 +81,8 @@ export class ReviewPage extends React.Component {
                   onEdit={this.props.setEditMode}
                   pages={this.pagesByChapter[chapter]}
                   chapterKey={chapter}
+                  setData={this.props.setData}
+                  setValid={this.props.setValid}
                   chapter={formConfig.chapters[chapter]}
                   data={form}/>
             ))}
@@ -47,6 +94,7 @@ export class ReviewPage extends React.Component {
             checked={form.privacyAgreementAccepted}
             showError={form.submission.hasAttemptedSubmit}/>
         <SubmitButtons
+            onBack={this.goBack}
             onSubmit={this.handleSubmit}
             submission={form.submission}/>
       </div>
@@ -54,10 +102,9 @@ export class ReviewPage extends React.Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    form: state.form,
-    formConfig: ownProps.route.formConfig
+    form: state.form
   };
 }
 
@@ -65,11 +112,17 @@ const mapDispatchToProps = {
   setEditMode,
   setSubmission,
   submitForm,
-  setPrivacyAgreement
+  setPrivacyAgreement,
+  setData
 };
 
 ReviewPage.propTypes = {
-  formConfig: React.PropTypes.object.isRequired
+  form: React.PropTypes.object.isRequired,
+  route: React.PropTypes.shape({
+    formConfig: React.PropTypes.object.isRequired
+  }).isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReviewPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReviewPage));
+
+export { ReviewPage };

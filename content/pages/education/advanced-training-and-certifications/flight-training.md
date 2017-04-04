@@ -6,9 +6,12 @@ plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
 Want to become a pilot? Find out how your VA education benefits can help pay for flight training.
+</div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Who's covered?
 

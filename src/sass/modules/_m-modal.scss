@@ -1,6 +1,12 @@
 // Styles for application modals
 // Used in prescriptions, messaging.
 
+// Hide initially, to be shown if url contains #modal
+// Alternatively, modal.hide() in content/includes/modal.html
+#va-modal {
+  display: none;
+}
+
 .va-modal {
   background: rgba($color-primary-darkest, .8);
   content: ' ';
@@ -10,14 +16,14 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 3;
+  z-index: 6;
 
   // "Forked" modal styles
   &-split {
     .va-modal-inner {
       min-width: 710px;
 
-      @media #{$small-only} {
+      @include media-maxwidth($small-screen) {
         top: 0%;
         transform: translateY(0%);
         min-width: auto;
@@ -33,9 +39,9 @@
     &-right {
       flex: 1;
       padding: 0 20px;
-      @media #{$small-only} {
+      @include media-maxwidth($small-screen) {
         flex: none;
-        padding: 0; 
+        padding: 0;
       }
     }
     &-title { margin-top: 0; }
@@ -45,7 +51,7 @@
       width: 3px;
 
       // Horizontally aligned "OR" divider for mobile
-      @media #{$small-only} {
+      @include media-maxwidth($small-screen) {
         width: 100%;
         height: 3px;
         display: flex;
@@ -62,8 +68,8 @@
         }
       }
     }
-    
-    @media #{$small-only} {
+
+    @include media-maxwidth($small-screen) {
       &-container {
         flex-flow: column;
       }
@@ -110,6 +116,18 @@
     }
   }
 
+  &-large {
+    .va-modal-inner {
+      max-width: 75rem;
+      width: 75vw;
+
+      .va-modal-body {
+        max-height: 95vh;
+        overflow-y: auto;
+      }
+    }
+  }
+
   span.exit-icon {
     background-image: url(/img/icons/exit-icon-primary.png);
     background-position: 100% 50%;
@@ -121,7 +139,7 @@
 
 .va-modal button {
   white-space: nowrap;
-} 
+}
 
 .va-modal-close {
   background-color: inherit;
@@ -133,10 +151,9 @@
   right: 0;
   top: 0;
   width: auto;
-  
+
   &:hover {
     background-color: inherit;
     color: $color-base;
   }
-} 
-
+}

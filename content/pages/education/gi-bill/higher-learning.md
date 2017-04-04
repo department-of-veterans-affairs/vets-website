@@ -6,10 +6,14 @@ plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 Want to earn an undergraduate or graduate degree? Find out if you can get VA education and training benefits to help pay for courses  at an institution of higher learning—like a 4-year university, community college, or graduate school.
 
+</div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### How do you decide what my payments will be?
 

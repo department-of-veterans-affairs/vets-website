@@ -6,9 +6,14 @@ plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 You can get help paying for books, supplies, and housing while you’re learning a trade or skill through on-the-job training (OJT) or apprenticeships. Find out how to get education benefits.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get education benefits? 
 You can get benefits if you qualify for the GI Bill, and:

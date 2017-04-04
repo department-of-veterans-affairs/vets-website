@@ -1,59 +1,75 @@
 ---
 layout: page-breadcrumbs.html
-title: Conditions
+title: Conditions Linked to Military Service
 source: https://eauth.va.gov/ebenefits/learn/compensation
+plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 relatedlinks:
   - url: /disability-benefits/conditions/ptsd/
     title: PTSD
-    description: "The basics: symptoms and help."
+    description: Learn about the symptoms of posttraumatic stress disorder—and how to get help.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/
-    title: Exposure to Hazardous Materials
-    description: Asbestos, Agent Orange, chemicals, weapons testing, Camp Lejeune, radiation, and more.
+    title: Contact with Harmful Chemicals or Other Hazardous Materials
+    description: Find out if you may have had contact with toxic chemicals or other dangers (like Agent Orange or radiation)—and what to do if you have. 
   - url: /disability-benefits/conditions/pow/
     title: Prisoners of War (<abbr>POW</abbr>s)
-    description: Physical and emotional conditions resulting from captivity.
+    description: Get support for issues resulting from captivity.
   - url: /disability-benefits/conditions/special-claims/
     title: Special Claims
-    description: Adaptive equipment, hospitalization and convalescence, dentistry, individual unemployability, and more.
+    description: Get help with needs such as special equipment, hospital or rehab care, dental care, being unable to work, and more.
 ---
 
+<div class="va-introtext">
 
-Do you have physical or emotional conditions that started—or became worse—during your active military service? If so, they may be considered service connected, and you may be eligible for monthly benefits no matter when or where you served.
+Do you have illnesses or injuries that started—or got worse—while you were serving in the military?  Find out if you can  get disability compensation or benefits.
 
-<div class="call-out" markdown="0">
+</div>
 
-### Are you eligible for compensation?
-Yes, if:
+<div class="feature" markdown="1">
 
-- You have a current physical or mental disability.
-- You became ill or were injured while serving in the military, and you are able to link your current disability to this illness or injury.
-- You had a disability before you entered the military, and activities, injury, or illness during your service made your condition worse.
+### Can I get disability benefits from VA?
+
+You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and:
+- You got sick or injured while serving in the military and can link your condition to this illness or injury, 
+ **or**
+- You had an illness or injury before you joined the military, and serving made it worse
 
 <br>
 
-### Who is covered
+### Who's covered?
 
-You and your dependents
+- Veterans
+- Qualified dependents
+
 </div>
 
-### How it works
+### What kind of disability benefits can I get?
 
-When you apply for benefits, you will need to prove your conditions were caused by, or became worse because of, your service.
+-	Health care
+-	Compensation (payments)
 
-#### What sorts of physical and mental health conditions may qualify me for benefits?
+### How do I get these benefits?
 
-- Chronic back pain
-- Respiratory disease
-- Significant loss of hearing
+You’ll need to apply for benefits. When you apply, you‘ll have to show that your conditions were likely caused by—or got worse because of—your service. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+
+#### What conditions are covered by these benefits?
+
+You may be able to get benefits for conditions such as:
+
+- Chronic (long-lasting) back pain resulting in a current diagnosed back disability
+- Breathing problems resulting from a current lung condition or lung disease
+- Severe hearing loss
 - Scar tissue
-- Loss of range of motion
+- Loss of range of motion (problems moving your body)
 - Ulcers
-- Cancer (due to hazardous exposures)
-- Traumatic brain injury
-- PTSD
-- Major depressive disorder
-- Anxiety disorder
+- Cancers caused by contact with toxic chemicals or other dangers
+
+You may also be able to get benefits for:
+
+- Traumatic brain injury (TBI)
+- Posttraumatic stress disorder (PTSD) 
+- Depression
+- Anxiety
 
 
-Access the [complete schedule of disabilities](http://www.benefits.va.gov/warms/bookc.asp).
+[Get more information about conditions that may be covered](http://www.benefits.va.gov/compensation/dbq_ListBySymptom.asp).

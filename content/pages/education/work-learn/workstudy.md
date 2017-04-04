@@ -5,9 +5,14 @@ concurrence: incomplete
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 If you’re a full-time or three-quarter-time college, vocational, or professional student using VA education benefits, find out if you can earn money while you go to school through our work-study program.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I be a part of the work-study program?
 You can be a part of VA's work-study program if you're enrolled at least three-quarter time at an institution of higher learning and:

@@ -21,14 +21,22 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .waitForElementVisible('.claim-title', Timeouts.slow);
 
+    // go to files tab
+    client
+      .click('.va-tabs li:nth-child(2) > a')
+      .waitForElementVisible('.file-request-list-item', Timeouts.normal);
+
     // alert is visible
     client
       .expect.element('.ask-va-alert').to.be.visible;
 
     // click on link to page
     client
+      // I have no idea why this pause is required, but it sure is
+      .pause(2000)
       .click('.ask-va-alert a')
-      .waitForElementVisible('.request-decision-button', Timeouts.normal);
+      .waitForElementPresent('.request-decision-button', Timeouts.normal);
+
 
     // click on disabled button
     client

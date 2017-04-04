@@ -6,9 +6,14 @@ plainlanguage: 11-28-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you’re leaving active service soon, find out how to get free educational and career counseling. 
 
-<div class="call-out usa-content" markdown="1">
+</div>
+
+<div class="feature">
+### Are you eligible for services?
 
 ### Can I get educational and career counseling?
 

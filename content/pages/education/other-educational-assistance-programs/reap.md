@@ -5,7 +5,11 @@ concurrence: incomplete
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
+
 REAP ended on November 25, 2015, but under the National Defense Authorization Act of 2016, some REAP benefits will remain in place for three more years. [Learn more about what this change means for you](http://www.benefits.va.gov/gibill/reap.asp).
+
+</div>
 
 The Post-9/11 GI Bill has replaced REAP, providing educational assistance benefits for Reserve and National Guard members called to active duty on or after September 11, 2001. [Learn more about the Post 9/11 GI Bill](/education/gi-bill/post-9-11/)
 

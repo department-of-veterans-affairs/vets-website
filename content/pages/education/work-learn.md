@@ -23,4 +23,8 @@ relatedlinks:
 
 ---
 
+<div class="va-introtext">
+
 Are you looking for education and job training options other than college? We can help. Find out if you qualify for a non-traditional education program.
+
+</div>

@@ -6,7 +6,12 @@ modal: true
 concurrence: complete
 showactionbar: false
 stickyactionbox: true
-beginbuttontext: Start Form 22-1990
+actionboxButtons:
+  - url: /education/apply-for-education-benefits/application/1990
+    text: Apply for Benefits
+    primary: true
+  - url: /education/apply-for-education-benefits/application/1995
+    text: Manage Benefits
 relatedlinks:
   - url: /education/gi-bill/survivors-dependent-assistance/
     title: Apply for Dependents’ Educational Assistance (DEA) benefits
@@ -18,26 +23,30 @@ relatedlinks:
 
 If you're a Servicemember or Veteran applying for education benefits, use Form 22-1990 to apply for your Certificate of Eligibility (COE)—the letter that tells you what benefits you qualify for.
 
-<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
+Choose **Apply for Benefits** if you are a first time applicant.  
+Includes Form 22-1990
+
+Choose **Manage Benefits** if you need to make a change to your current education benefits (for example, you’re moving to a new school).  
+Includes Form 22-1995
+
+<div class="usa-alert usa-alert-warning usa-content va-alert" markdown="1">
 	<div class="usa-alert-body">
 
-##### For Forms 22-1990E, 22-1990N, 22-1995, 22-5490, and 22-5495
+##### For Forms 22-1990E, 22-1990N, 22-5490, and 22-5495
 
 You must apply for education benefits using eBenefits.va.gov if you are:
 - A spouse or dependent
 - A survivor of a Veteran
-- A candidate for The National Call to Service program
-- A current education benefit recipient who wants to change schools
-
+- A candidate for the National Call to Service program
 
 <div markdown="0">
 	<a class="usa-button-primary usa-button-outline usa-button-outline-exit transparent" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
 </div>
 </div>
 </div>
-
 <br>
 
+<<<<<<< HEAD
 ### What are the steps to apply with Form 22-1990?
 
 <div class="small-12 columns" markdown="0">
@@ -140,10 +149,15 @@ You may be eligible for more than one benefit, based on your service. When you a
 </div>
 
 </li>
+=======
+##### Other Ways to Apply
+>>>>>>> master
 
-</ol>
+- Go to a VA regional office and have a VA employee help you. [Find a regional office near you](/facilities).
+- Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school.
+- Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
-<div class="feature usa-content" markdown="1">
+<div class="call-out usa-content" markdown="1">
 
 ##### Checking in on the status of your application?
 

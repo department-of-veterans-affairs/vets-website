@@ -5,10 +5,14 @@ plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
 
 Want to start a business? We offer entrepreneurship training through the Small Business Administration. Find out how you can use your GI Bill benefits or our other educational assistance programs for training to become a business owner or entrepreneur. 
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Can I get entrepreneurship training to start my own business?
 

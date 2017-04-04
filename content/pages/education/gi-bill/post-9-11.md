@@ -6,10 +6,11 @@ plainlanguage: 12-01-16 certified in compliance with the Plain Writing Act now
 concurrence: complete
 ---
 
+<div class="va-introtext">
 
 If you need help paying for school or job training and you’ve served on active duty after September 10, 2001, you may qualify for the Post-9/11 GI Bill. Find out how. 
 
-The Post-9/11 GI Bill is the largest expansion of education benefits since the Montgomery GI Bill.
+</div>
 
 <div class="call-out usa-content" markdown="1">
 
