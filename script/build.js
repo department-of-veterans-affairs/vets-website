@@ -164,14 +164,7 @@ smith.use((files, metalsmith, done) => {
           /* eslint-disable no-param-reassign */
           files[filename].lastupdate = new Date(log.latest.date);
           /* eslint-enable no-param-reassign */
-        } else if (err) {
-          /* eslint-disable no-param-reassign */
-          files[filename].lastupdate = 'ERROR';
-          /* eslint-enable no-param-reassign */
         } else {
-          /* eslint-disable no-param-reassign */
-          files[filename].lastupdate = 'BAD NEWS';
-          /* eslint-enable no-param-reassign */
           console.log('TERRIBLE NEWS');
         }
       }).then(() => {
