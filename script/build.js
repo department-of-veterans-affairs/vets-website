@@ -159,7 +159,7 @@ smith.use((files, metalsmith, done) => {
       console.log(`GIT LOG FOR ${filename}`);
       git.log({ file: fullPath }, (err, log) => {
         console.log(`RESULT FOR FILENAME ${filename} LENGTH ${log.all.length}`);
-        if (files[filename]) {
+        if (log.all.length > 1 && files[filename]) {
           console.log(`GOOD NEWS ${log.latest.date}`);
           /* eslint-disable no-param-reassign */
           files[filename].lastupdate = new Date(log.latest.date);
