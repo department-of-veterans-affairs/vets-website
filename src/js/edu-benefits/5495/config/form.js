@@ -1,6 +1,6 @@
 // import _ from 'lodash/fp';
 
-// import fullSchema5495 from 'vets-json-schema/dist/dependents-change-of-program-schema.json';
+// import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
 // import pages from '../../pages/';
 
