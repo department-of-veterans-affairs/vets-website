@@ -31,14 +31,14 @@ const {
   civilianBenefitsAssistance,
   educationObjective,
   nonVaAssistance,
-  reasonForChange,
-  bankAccountChange
+  reasonForChange
 } = fullSchema1995.properties;
 
 const {
   preferredContactMethod,
   school,
-  educationType
+  educationType,
+  bankAccountChange
 } = fullSchema1995.definitions;
 
 const formConfig = {
