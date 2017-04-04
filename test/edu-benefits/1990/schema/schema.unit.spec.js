@@ -179,7 +179,8 @@ function createTestVeteran() {
 }
 
 describe('Edu benefits json schema', () => {
-  it('should have matching test veteran and blank veteran shape', () => {
+  it.only('should have matching test veteran and blank veteran shape', () => {
+    console.log(schema);
     const testForm = qc.objectLike(createTestVeteran())(1);
     const blankForm = createVeteran();
 
