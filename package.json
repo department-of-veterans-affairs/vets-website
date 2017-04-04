@@ -166,7 +166,7 @@
     "svg-url-loader": "^1.1.0",
     "tinyliquid": "^0.2.33",
     "url-loader": "^0.5.7",
-    "uswds": "^1.0.0",
+    "uswds": "0.10.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema#22b76f0ff40ba90aba1d962f2709469ee9302e51",
     "webpack": "^1.13.1",
     "webpack-manifest-plugin": "^1.1.0",
