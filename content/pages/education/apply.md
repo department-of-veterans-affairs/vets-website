@@ -133,7 +133,6 @@ You must apply for education benefits using eBenefits if you're:
     .addEventListener('click', function () {
       var selectedForm = document.querySelector('input[name="form-selection"]:checked');
 
-      console.log('selectedForm:', selectedForm);
       if (selectedForm) {
         location.assign('/education/apply-for-education-benefits/application/' + selectedForm.value + '/introduction');
       }
