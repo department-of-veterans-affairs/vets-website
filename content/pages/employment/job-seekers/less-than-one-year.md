@@ -27,7 +27,7 @@ relatedlinks:
     description: ""
 ---
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 - **Who should read this?**
 

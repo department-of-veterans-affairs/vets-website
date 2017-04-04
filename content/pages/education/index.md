@@ -6,12 +6,15 @@ template: L2-section-landing
 showactionbar: false
 extraspace: true
 majorlinks:
- - url: /education/apply-for-education-benefits/
-   title: Apply for Education Benefits
-   description: Veterans and Servicemembers can apply online for the GI Bill, the Montgomery GI Bill, and VEAP. Find out how to apply if you’re a spouse, survivor, or dependent.
+ - url: /education/eligibility/
+   title: Eligibility
+   description: Find out if you can get VA education benefits, like help paying your tuition, picking a school, and exploring career options.
+ - url: /education/apply/
+   title: Application Process
+   description: Apply online now, or find out how to apply in person or by mail.
  - url: /gi-bill-comparison-tool/
-   title: GI Bill Benefits Tool
-   description: See what benefits you'll get at the school you want to attend.
+   title: Compare GI Bill Benefits
+   description: Use the GI Bill Comparison tool to see what benefits you'll get at the school you want to attend.
 relatedlinks:
  - url: /education/gi-bill/
    title: GI Bill&reg;
@@ -27,7 +30,11 @@ relatedlinks:
    description: Explore on-the-job training, online and correspondence study, and other programs.
  - url: /education/other-educational-assistance-programs/
    title: Other Educational Assistance Programs
-   description: REAP, VEAP, and Call to Service.
+   description: Learn about REAP, VEAP, and Call to Service.
 ---
 
+<div class="va-introtext">
+
 VA gives Veterans, Servicemembers, and their families generous education benefits and opportunities, including help paying tuition, picking out a school, career counseling, and more.
+
+</div>

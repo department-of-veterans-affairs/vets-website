@@ -1,7 +1,7 @@
-const E2eHelpers = require('../../util/e2e-helpers');
-const Timeouts = require('../../util/timeouts.js');
-const DisabilityHelpers = require('../../util/disability-helpers');
-const LoginHelpers = require('../../util/login-helpers');
+const E2eHelpers = require('../../e2e/e2e-helpers');
+const Timeouts = require('../../e2e/timeouts.js');
+const DisabilityHelpers = require('../../e2e/disability-helpers');
+const LoginHelpers = require('../../e2e/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -29,7 +29,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .expect.element('.claim-types h6').text.to.equal('Claim Type');
     client
-      .expect.element('.claim-contentions-list h6').text.to.equal('Your Claimed Contentions');
+      .expect.element('.claim-contentions-list h6').text.to.equal("What you've claimed");
     client
       .expect.element('.claim-date-recieved h6').text.to.equal('Date Received');
     client

@@ -13,9 +13,10 @@ export const EmailWidget = TextWidget;
 export const TextareaWidget = TextWidget;
 
 export function SelectWidget({ options, value }) {
-  const option = options.enumOptions.filter(opt => opt.val === value);
-  if (option) {
-    return <span>{option.label}</span>;
+  const { enumOptions, labels = {} } = options;
+  const selected = enumOptions.find(opt => opt.value === value);
+  if (selected) {
+    return <span>{labels[value] || selected.label}</span>;
   }
 
   return null;
@@ -35,5 +36,5 @@ export const yesNo = ({ value }) => {
 };
 
 export const CheckboxWidget = ({ value }) => {
-  return <span>{value === true ? 'Yes' : 'No'}</span>;
+  return <span>{value === true ? 'True' : ''}</span>;
 };

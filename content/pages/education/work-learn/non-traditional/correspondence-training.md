@@ -5,9 +5,14 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you would like to learn at home or are located in a remote area, correspondence training may be a good option for you. This type of training does not have to be completed within a quarter, semester, or term. You receive coursework assignments in the mail and send them back when completed.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Are you eligible for benefits?
 Yes, if:

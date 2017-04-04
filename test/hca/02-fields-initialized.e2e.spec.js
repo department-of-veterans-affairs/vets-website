@@ -1,6 +1,6 @@
-const E2eHelpers = require('../util/e2e-helpers');
-const Timeouts = require('../util/timeouts.js');
-const HcaHelpers = require('../util/hca-helpers.js');
+const E2eHelpers = require('../e2e/e2e-helpers');
+const Timeouts = require('../e2e/timeouts.js');
+const HcaHelpers = require('../e2e/hca-helpers.js');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -14,6 +14,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.form-panel', Timeouts.slow)  // First render of React may be slow.
       .click('.form-panel .usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
+    E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.

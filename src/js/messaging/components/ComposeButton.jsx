@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 class ComposeButton extends React.Component {
   constructor(props) {
@@ -11,10 +12,18 @@ class ComposeButton extends React.Component {
   }
 
   render() {
+    const { disabled } = this.props;
+    const classes = classNames({
+      'messaging-compose-button': true,
+      'va-button-primary': !disabled,
+      'usa-button-disabled': disabled,
+    });
+
     return (
       <button
+          disabled={disabled}
           onClick={this.goToComposeMessage}
-          className="va-button-primary messaging-compose-button">
+          className={classes}>
         Compose a message
       </button>
     );
@@ -22,7 +31,8 @@ class ComposeButton extends React.Component {
 }
 
 ComposeButton.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
+  disabled: React.PropTypes.bool,
 };
 
 export default ComposeButton;

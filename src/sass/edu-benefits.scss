@@ -2,6 +2,10 @@
 
 @import 'style';
 @import 'modules/m-form-process';
+@import 'modules/m-progress-bar';
+@import 'modules/m-schemaform';
+@import 'modules/m-modal';
+@import 'modules/m-omb-info';
 
 $button-stroke: inset 0 0 0 1px;
 
@@ -22,7 +26,12 @@ select {
 }
 
 legend {
-  @extend h4;
+  color: $color-primary-darkest;
+  font-size: 1.35em;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0 0 .5em 0;
 }
 
 .form-indent {
@@ -219,13 +228,6 @@ table.review td {
   }
 }
 
-.schemaform-buttons {
-  [type="submit"] {
-    margin-top: 0.5em;
-    margin-right: 0.5em;
-  }
-}
-
 .form-error-date .input-date-label {
   font-weight: bold;
   font-size: 1.7rem;
@@ -243,6 +245,10 @@ dl.review {
       font-weight: bold;
       padding-left: 5px;
       min-width: 100px;
+      text-align: left;
+    }
+    &> dt {
+      max-width: 60%;
     }
     &> dt > p {
       margin-top: 0;
@@ -256,6 +262,91 @@ form.rjsf {
   max-width: 100%;
 }
 
-.schemaform-block {
-  margin-top: 2em;
+.va-growable-review {
+  margin-top: 16px;
 }
+
+.edu-benefits-dependents-desc {
+  margin-top: 5px;
+}
+
+.edu-dd-warning {
+  margin-top: 3rem;
+}
+
+
+// ---- Additional print rules ---- //
+
+@media print {
+  // The + for on the confirmation page
+  // Will have to change when #4953 gets merged
+  .form-expanding-group-plus::after {
+    display: none;
+  }
+  .form-expanding-group {
+    margin-left: 0px;
+  }
+
+  .form-progress-buttons {
+    display: none;
+  }
+
+  .schemaform-title {
+    margin-bottom: 1rem;
+    justify-content: center;
+  }
+
+  .edu-benefits-submit-success > h3 {
+    text-align: center;
+  }
+
+  .inset {
+    margin: 1rem 0rem;
+    padding: 0px;
+  }
+}
+
+// Even up the spacing between multi-line labels and their respective elements
+label {
+  + div {
+    // Space above the date fields
+    .form-datefield-month, .form-datefield-day, .usa-form-group-year,
+    // And the inputs uswds sets a top margin for
+    input:not([type="radio"]),
+    input[type="text"], input[type="email"],
+    input[type="password"], input[type="url"],
+    input[type="tel"], input[type="number"],
+    input[type="search"], input[type="file"],
+    input[type="date"], input[type="datetime-local"],
+    input[type="month"], input[type="time"],
+    input[type="week"], textarea, select {
+      margin-top: 0.5em;
+    }
+  }
+}
+
+.row .edu-intro-spacing {
+  margin-bottom: 7rem;
+}
+
+.usa-alert ul:first-child {
+  margin-top: 0;
+}
+
+.edu-warning-single-line {
+  margin-top: 0;
+  > .usa-alert-body {
+    padding-left: 4rem; 
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .edu-warning-single-line {
+    background-size: 4.2rem;
+    background-position: 1.3rem 1.5rem;
+    > .usa-alert-body {
+      padding-left: 5rem;
+    }
+  }
+}
+

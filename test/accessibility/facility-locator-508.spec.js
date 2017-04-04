@@ -1,10 +1,14 @@
-const E2eHelpers = require('../util/e2e-helpers');
-const Timeouts = require('../util/timeouts.js');
+const E2eHelpers = require('../e2e/e2e-helpers');
+const Timeouts = require('../e2e/timeouts.js');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
     client
-      .url(`${E2eHelpers.baseUrl}/facilities/`)
+      .url(`${E2eHelpers.baseUrl}/facilities/`);
+
+    E2eHelpers.overrideSmoothScrolling(client);
+
+    client
       .waitForElementVisible('body', Timeouts.normal)
       .waitForElementVisible('.facility-locator', Timeouts.slow)
       .axeCheck('.main');

@@ -5,9 +5,14 @@ concurrence: complete
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
+
 If you are interested in pursuing continuing-education programs, and are willing to make contributions from your military pay, the VEAP is a $2-to-$1 government-match program for educational assistance.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Are you eligible for benefits?
 Yes, if:

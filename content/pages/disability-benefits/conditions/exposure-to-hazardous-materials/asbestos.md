@@ -3,38 +3,62 @@ layout: page-breadcrumbs.html
 title: Asbestos
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp
+plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
 template: 1-topic-landing
 ---
 
-If you served in Iraq or other countries in the Middle East and Southeast Asia, you may have been exposed to asbestos when older buildings were damaged, releasing the contaminant into the air. Additionally, some service occupations, tasks, and workplaces may have exposed you to asbestos, including shipyards, construction, and vehicle repair.
+<div class="va-introtext">
 
-<div class="call-out" markdown="1">
+Asbestos is a material that was once used in many buildings and products. If you served in Iraq or other countries in the Middle East and Southeast Asia, you may have had contact with asbestos when old buildings got damaged, releasing toxic chemicals into the air. Or, you may have had contact with asbestos if you worked in certain jobs or settings, like shipyards, construction, or vehicle repair. Find out if you can get disability compensation or benefits for illnesses believed to be caused by asbestos.
 
-### Are you eligible for compensation?
+</div>
 
-Yes, if:
 
-- You were exposed to asbestos while in military service.
-- You have a condition related to the asbestos exposure that occurred in military service.
+<div class="feature" markdown="1">
+
+### Can I get disability benefits from VA?
+
+You may be able to get disability benefits if you have an illness believed to be caused by contact with asbestos and:
+
+- You had contact with asbestos while serving in the military, **and**
+- You were discharged under conditions other than dishonorable
 
 <br>
 
-### Who is covered
+### Who's covered?
 
-You
+Veterans
 </div>
-
-### Available benefits
-
-- Compensation
-- Health care
 
 --------
 
-### How it works
+### What kind of disability benefits can I get?
 
-Several military occupational specialties have a risk of exposure to asbestos, including mining, milling, shipyard work, insulation work, demolition of old buildings, carpentry, and construction. VA also recognizes a risk of exposure in the manufacturing and installation of flooring, roofing, cement sheet, and pipe products, and the servicing of friction products such as clutch facings and brake linings. If you served in one of these specialties, you should be tested for related health risks. You must have been discharged under conditions other than dishonorable.
+- Health care
+- Compensation (payments)
 
-### Learn more
+### How do I get these benefits?
 
-[Health risks related to asbestos exposure](http://www.publichealth.va.gov/exposures/asbestos/index.asp)
+You'll need to apply for benefits. When you apply, you’ll have to show that your illness was likely caused by your contact with asbestos while serving in the military. [Apply for benefits](/disability-benefits/apply/).
+
+If you think you’ve had contact with asbestos, talk to your doctor about getting tested for certain illnesses that affect your lungs.
+
+Get tested if you've worked in:
+- Mining
+- Milling
+- Shipyards
+- Construction
+- Carpentry
+- Demolition (knocking down old buildings) 
+
+Get tested if you've made or worked with products like:
+- Flooring
+- Roofing
+- Cement sheet
+- Pipes
+- Insulation
+- Clutch facings and brake linings (called friction products)
+
+### Get more information
+
+Do you think you may have had contact with asbestos? [Learn about asbestos-related illnesses](http://www.publichealth.va.gov/exposures/asbestos/index.asp).

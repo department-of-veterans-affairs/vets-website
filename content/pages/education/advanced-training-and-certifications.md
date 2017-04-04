@@ -18,4 +18,8 @@ relatedlinks:
     description: ""
 ---
 
+<div class="va-introtext">
+
 You can use the GI Bill for more than just academic programs. This benefit will help you pay the fees for advanced training and certifications in your area of expertise.
+
+</div>

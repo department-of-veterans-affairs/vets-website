@@ -2,36 +2,46 @@
 layout: page-breadcrumbs.html
 title: Project 112/SHAD
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp
+plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
 template: 4-action-page-pending
 ---
 
-If you participated in the chemical and biological warfare testing associated with Projects 112 or Shipboard Hazard and Defense (SHAD) from 1963 to 1974, you may be eligible for disability benefits for any illness related to the testing.
+<div class="va-introtext">
 
-<div class="call-out" markdown="1">
-
-### Are you eligible for disability benefits?
-Yes if:
-
-  -	You participated in Projects 112 or SHAD testing.
-  -	You haveads a condition believed to be caused by this testing.
-
-### Who is covered
-You and your survivors
+If you were part of chemical and biological warfare testing for Projects 112 or Shipboard Hazard and Defense (SHAD) from 1962 to 1974, you may be at risk for illnesses believed to be caused by the testing. Find out if you can get disability compensation or benefits.
 
 </div>
 
 
-### Available benefits
+<div class="feature" markdown="1">
 
--	Compensation
+### Can I get disability benefits from VA?
+
+You may be able to get disability benefits if:
+- You were part of Projects 112 or SHAD testing from 1962 to 1974, **and**
+- You have an illness believed to be caused by the testing
+
+### Who's covered?
+
+- Veterans
+- Qualified survivors
+
+</div>
+
+
+### What kind of disability benefits can I get?
+
 -	Health care
+-	Compensation (payments)
 
 -----
 
-### How it works
+### How do I get these benefits?
 
-If you were a participant in Projects 112 or SHAD from 1963 to 1974 and need more information regarding a particular test site, ship, or unit, please refer to the declassified [Department of Defense information sheets]( http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Fact-Sheets).
+You'll need to apply for benefits. You can call the VA Special Issues Helpline at <span class="tel">800-749-8387</span>. Or apply now for disability benefits. [Apply for benefits](/disability-benefits/apply/).
 
-Veterans or family members with questions about the tests, including their possible participation in them, or who have information that can substantiate their participation, may contact the Department of Defense at 800-497-6261.
+If you were part of Projects 112 or SHAD from 1962 to 1974 and want to know more about a certain test site, ship, or unit, see the declassified Department of Defense fact sheets. [Get declassified Department of Defense fact sheets]( http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Fact-Sheets).
 
-Those who wish to file a claim for benefits based on SHAD should call the VA Special Issues Helpline at 800-749-8387.
+If you have a question about the tests, including whether you may have been part of them—or if you have any information that can help show you were part of them—contact the Department of Defense at <span class="tel">800-497-6261</span>.
+
+

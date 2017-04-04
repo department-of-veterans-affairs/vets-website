@@ -11,7 +11,9 @@ const define = require('metalsmith-define');
 const filenames = require('metalsmith-filenames');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
+const liquid = require('tinyliquid');
 const markdown = require('metalsmith-markdownit');
+const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const redirect = require('metalsmith-redirect');
@@ -20,22 +22,41 @@ const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
+const semver = require('semver');
 
 const fs = require('fs');
+const path = require('path');
 
 const sourceDir = '../content/pages';
+const minimumNpmVersion = '3.8.9';
+const minimumNodeVersion = '4.4.7';
 
-// Make sure git pre-commit hooks are installed
-['pre-commit'].forEach(hook => {
-  const src = `../hooks/${hook}`;
-  const dest = `../.git/hooks/${hook}`;
-  if (fs.existsSync(src)) {
-    if (!fs.existsSync(dest)) {
-      // Install hooks
-      fs.linkSync(src, dest);
+if (!(process.env.INSTALL_HOOKS === 'no')) {
+  // Make sure git pre-commit hooks are installed
+  ['pre-commit'].forEach(hook => {
+    const src = path.join(__dirname, `../hooks/${hook}`);
+    const dest = path.join(__dirname, `../.git/hooks/${hook}`);
+    if (fs.existsSync(src)) {
+      if (!fs.existsSync(dest)) {
+        // Install hooks
+        fs.linkSync(src, dest);
+      }
     }
-  }
-});
+  });
+}
+
+if (semver.compare(process.env.npm_package_engines_npm, minimumNpmVersion) === -1) {
+  process.stdout.write(
+    `NPM version (mininum): ${minimumNpmVersion}\n`);
+  process.stdout.write(`NPM version (installed): ${process.env.npm_package_engines_npm}\n`);
+  process.exit(1);
+}
+
+if (semver.compare(process.version, minimumNodeVersion) === -1) {
+  process.stdout.write(`Node.js version (mininum): v${minimumNodeVersion}\n`);
+  process.stdout.write(`Node.js version (installed): ${process.version}\n`);
+  process.exit(1);
+}
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
@@ -84,12 +105,18 @@ switch (options.buildtype) {
 
 const webpackConfig = webpackConfigGenerator(options);
 
-//
+// Custom liquid filter(s)
+liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
+
+
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
 //
 smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
+
+// This lets us access the {{buildtype}} variable within liquid templates.
+smith.metadata({ buildtype: options.buildtype });
 
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
@@ -101,6 +128,14 @@ smith.destination(`../build/${options.buildtype}`);
 //   ignoreList.push('disability-benefits/track-claims/*');
 // }
 // smith.use(ignore(ignoreList));
+
+const ignore = require('metalsmith-ignore');
+const ignoreList = [];
+if (options.buildtype === 'production') {
+  ignoreList.push('healthcare/health-records/*');
+  ignoreList.push('gi-bill-comparison-tool/*');
+}
+smith.use(ignore(ignoreList));
 
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
 // during templating end up not showing which file they came from. Load it very early in in the
@@ -116,68 +151,6 @@ smith.use(define({
 smith.use(collections());
 smith.use(dateInFilename(true));
 smith.use(archive());  // TODO(awong): Can this be removed?
-
-// Liquid substitution must occur before markdown is run otherwise markdown will escape the
-// bits of liquid commands (eg., quotes) and break things.
-//
-// Unfortunately this must come before permalinks and navgation because of limitation in both
-// modules regarding what files they understand. The consequence here is that liquid templates
-// *within* a single file do NOT have access to the final path that they will be rendered under
-// or any other metadata added by the permalinks() and navigation() filters.
-//
-// Thus far this has not been a problem because the only references to such paths are in the
-// includes which are handled by the layout module. The layout module, luckily, can be run
-// near the end of the filter chain and therefore has access to all the metadata.
-//
-// If this becomes a barrier in the future, permalinks should be patched to understand
-// translating .md files which would allow inPlace() and markdown() to be moved under the
-// permalinks() and navigation() filters making the variable stores uniform between inPlace()
-// and layout().
-smith.use(inPlace({ engine: 'liquid', pattern: '*.{md,html}' }));
-smith.use(markdown({
-  typographer: true,
-  html: true
-}));
-
-// Responsible for create permalink structure. Most commonly used change foo.md to foo/index.html.
-//
-// This must come before navigation module, otherwise breadcrunmbs will see the wrong URLs.
-//
-// It also must come AFTER the markdown() module because it only recognizes .html files. See
-// comment above the inPlace() module for explanation of effects on the metadata().
-smith.use(permalinks({
-  relative: false,
-  linksets: [{
-    match: { collection: 'posts' },
-    pattern: ':date/:slug'
-  }]
-}));
-
-smith.use(navigation({
-  navConfigs: {
-    sortByNameFirst: true,
-    breadcrumbProperty: 'breadcrumb_path',
-    pathProperty: 'nav_path',
-    includeDirs: true
-  }, navSettings: {} }));
-
-smith.use(assets({ source: '../assets', destination: './' }));
-
-// Note that there is no default layout specified.
-// All pages must explicitly declare a layout or else it will be rendered as raw html.
-smith.use(layouts({
-  engine: 'liquid',
-  directory: '../content/layouts/',
-  // Only apply layouts to markdown and html files.
-  pattern: '**/*.{md,html}'
-}));
-
-// TODO(awong): This URL needs to change based on target environment.
-smith.use(sitemap({
-  hostname: 'http://www.vets.gov',
-  omitIndex: true
-}));
-// TODO(awong): Does anything even use the results of this plugin?
 
 if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
@@ -200,7 +173,9 @@ if (options.watch) {
         { from: '^/disability-benefits/track-claims(.*)', to: '/disability-benefits/track-claims/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
+        { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
+        { from: '^/healthcare/health-records(.*)', to: '/healthcare/health-records/' },
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
@@ -252,6 +227,91 @@ if (options.watch) {
 } else {
   // Broken link checking does not work well with watch. It continually shows broken links
   // for permalink processed files. Only run outside of watch mode.
+
+  smith.use(webpack(webpackConfig));
+}
+
+smith.use(assets({ source: '../assets', destination: './' }));
+
+const destination = path.resolve(__dirname, `../build/${options.buildtype}`);
+
+// Webpack paths are absolute, convert to relative
+smith.use((files, metalsmith, done) => {
+  Object.keys(files).forEach((file) => {
+    if (file.indexOf(destination) === 0) {
+      /* eslint-disable no-param-reassign */
+      files[file.substr(destination.length + 1)] = files[file];
+      delete files[file];
+      /* esling-enable no-param-reassign */
+    }
+  });
+
+  done();
+});
+
+// smith.use(cspHash({ pattern: ['js/*.js', 'generated/*.css', 'generated/*.js'] }))
+
+// Liquid substitution must occur before markdown is run otherwise markdown will escape the
+// bits of liquid commands (eg., quotes) and break things.
+//
+// Unfortunately this must come before permalinks and navgation because of limitation in both
+// modules regarding what files they understand. The consequence here is that liquid templates
+// *within* a single file do NOT have access to the final path that they will be rendered under
+// or any other metadata added by the permalinks() and navigation() filters.
+//
+// Thus far this has not been a problem because the only references to such paths are in the
+// includes which are handled by the layout module. The layout module, luckily, can be run
+// near the end of the filter chain and therefore has access to all the metadata.
+//
+// If this becomes a barrier in the future, permalinks should be patched to understand
+// translating .md files which would allow inPlace() and markdown() to be moved under the
+// permalinks() and navigation() filters making the variable stores uniform between inPlace()
+// and layout().
+smith.use(inPlace({ engine: 'liquid', pattern: '*.{md,html}' }));
+smith.use(markdown({
+  typographer: true,
+  html: true
+}));
+
+// Responsible for create permalink structure. Most commonly used change foo.md to foo/index.html.
+//
+// This must come before navigation module, otherwise breadcrunmbs will see the wrong URLs.
+//
+// It also must come AFTER the markdown() module because it only recognizes .html files. See
+// comment above the inPlace() module for explanation of effects on the metadata().
+smith.use(permalinks({
+  relative: false,
+  linksets: [{
+    match: { collection: 'posts' },
+    pattern: ':date/:slug'
+  }]
+}));
+
+smith.use(navigation({
+  navConfigs: {
+    sortByNameFirst: true,
+    breadcrumbProperty: 'breadcrumb_path',
+    pathProperty: 'nav_path',
+    includeDirs: true
+  }, navSettings: {} }));
+
+// Note that there is no default layout specified.
+// All pages must explicitly declare a layout or else it will be rendered as raw html.
+smith.use(layouts({
+  engine: 'liquid',
+  directory: '../content/layouts/',
+  // Only apply layouts to markdown and html files.
+  pattern: '**/*.{md,html}'
+}));
+
+// TODO(awong): This URL needs to change based on target environment.
+smith.use(sitemap({
+  hostname: 'http://www.vets.gov',
+  omitIndex: true
+}));
+// TODO(awong): Does anything even use the results of this plugin?
+
+if (!options.watch) {
   smith.use(blc({
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
@@ -265,12 +325,78 @@ if (options.watch) {
           '/education/apply-for-education-benefits/application',
           '/healthcare/apply/application'].join('|'))
   }));
+}
 
-  smith.use(webpack(webpackConfig));
+if (options.buildtype !== 'development') {
+  //
+  // In non-development modes, we add hashes to the names of asset files in order to support
+  // cache busting. That is done via WebPack, but WebPack doesn't know anything about our HTML
+  // files, so we have to replace the references to those files in HTML and CSS files after the
+  // rest of the build has completed. This is done by reading in a manifest file created by
+  // WebPack that maps the original file names to their hashed versions. Metalsmith actions
+  // are passed a list of files that are included in the build. Those files are not yet written
+  // to disk, but the contents are held in memory.
+  //
+  smith.use((files, metalsmith, done) => {
+    // Read in the data from the manifest file.
+    const manifestKey = Object.keys(files).find((filename) => {
+      return filename.match(/file-manifest.json$/) !== null;
+    });
+    const originalManifest = JSON.parse(files[manifestKey].contents.toString());
+
+    // The manifest contains the original filenames without the addition of .entry
+    // on the JS files. This finds all of those and modifies them to add .entry.
+    const manifest = {};
+    Object.keys(originalManifest).forEach((originalManifestKey) => {
+      const matchData = originalManifestKey.match(/(.*)\.js$/);
+      if (matchData !== null && matchData[1] !== 'vendor') {
+        const newKey = `${matchData[1]}.entry.js`;
+        manifest[newKey] = originalManifest[originalManifestKey];
+      } else {
+        manifest[originalManifestKey] = originalManifest[originalManifestKey];
+      }
+    });
+
+    // For each file in the build, if it is a HTML or CSS file, loop over all
+    // the keys in the manifest object and do a search and replace for the
+    // key with the value.
+    Object.keys(files).forEach((filename) => {
+      if (filename.match(/\.(html|css)$/) !== null) {
+        Object.keys(manifest).forEach((originalAssetFilename) => {
+          const newAssetFilename = manifest[originalAssetFilename];
+          const file = files[filename];
+          const contents = file.contents.toString();
+          const regex = new RegExp(originalAssetFilename, 'g');
+          file.contents = new Buffer(contents.replace(regex, newAssetFilename));
+        });
+      }
+    });
+    done();
+  });
+
+  smith.use((files, metalsmith, done) => {
+    // Read in the data from the manifest file.
+    const chunkManifestKey = Object.keys(files).find((filename) => {
+      return filename.match(/chunk-manifest.json$/) !== null;
+    });
+    const chunkManifest = files[chunkManifestKey].contents.toString();
+
+    Object.keys(files).forEach((filename) => {
+      if (filename.match(/\.html$/) !== null) {
+        const file = files[filename];
+        const contents = file.contents.toString();
+        const regex = new RegExp("'CHUNK_MANIFEST_PLACEHOLDER'", 'g');
+        file.contents = new Buffer(contents.replace(regex, chunkManifest));
+      }
+    });
+    done();
+  });
 }
 
 smith.use(redirect({
-  '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/'
+  '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/',
+  '/disability-benefits/apply/': '/disability-benefits/apply/',
+  '/education/apply-for-education-benefits/': '/education/apply/'
 }));
 
 /* eslint-disable no-console */

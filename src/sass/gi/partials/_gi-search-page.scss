@@ -1,0 +1,141 @@
+.gi-app .search-page {
+
+  .filters-sidebar {
+    h2 {
+      font-size: 1.15em;
+    }
+
+    label {
+      margin-top: 1em;
+    }
+
+    .institution-filter-form, .eligibility-form {
+      margin-top: 1.5em;
+    }
+
+    @include media-maxwidth($small-screen) {
+      background: $color-white;
+      display: none;
+      height: 100%;
+      left: 0;
+      overflow: scroll;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+
+      &.opened {
+        display: block;
+      }
+    }
+  }
+
+  .filters-sidebar-inner {
+    @include media-maxwidth($small-screen) {
+      padding-bottom: 8rem;
+    }
+  }
+
+  .filter-button, .results-button {
+    display: none;
+
+    @include media-maxwidth($small-screen) {
+      display: block;
+    }
+  }
+
+  .results-button {
+    background: $color-gray-lightest;
+    bottom: 0;
+    left: 0;
+    padding: 1rem 2rem;
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+
+    @include media-maxwidth($small-screen) {
+      display: block;
+    }
+  }
+
+  .search-results {
+    @include media-maxwidth($small-screen) {
+      display: none;
+
+      &.opened {
+        display: block;
+      }
+    }
+  }
+
+  .search-result {
+    background-color: $color-gray-lightest;
+    padding: 0;
+    margin: 0 0 1em 0;
+
+    .row.inner {
+      padding: 1em;
+    }
+
+    h2 {
+      font-size: 1.35em;
+      margin-bottom: 0.25em;
+
+      a {
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    }
+
+    p {
+      margin: auto;
+    }
+
+    p.locality {
+      font-weight: bold;
+      margin-top: 2.2em;
+    }
+
+    p.count {
+      margin-bottom: 1rem;
+    }
+
+    .estimated-benefits {
+      h3, h4 {
+        font-size: 1em;
+      }
+      h4 {
+        margin-bottom: 0 !important;
+      }
+      h4 > span {
+        font-weight: normal;
+      }
+      h4 > div {
+        float: right;
+        text-align: right;
+      }
+      i.fa {
+        margin-right: 0.5em;
+      }
+    }
+
+    .caution-flag {
+      color: $color-gray-dark;
+      background-color: $color-gold;
+      border-top: 1px solid rgba(107, 104, 91, 0.1);
+      border-radius: 0 0 3px 3px;
+      font-size: 0.9em;
+      font-weight: bold;
+      display: inline;
+      padding: 0.1em 1.5em;
+      margin: 0 0 0 1em;
+
+      i.fa {
+        margin-right: 0.4em;
+      }
+    }
+
+  }
+}

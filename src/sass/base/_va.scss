@@ -1,25 +1,18 @@
-html {
-  font-size: $em-base;
-  font-weight: 500;
-  overflow: -moz-scrollbars-vertical;
-}
-
 html, body {
   padding: 0;
   margin: 0;
 }
 
+html {
+  font-size: $em-base;
+  font-weight: 500;
+}
+
 body {
+  background: $color-white;
   color: $color-gray-dark;
   font-family: $font-sans;
   font-size: $base-font-size;
-}
-
-// General
-body, .home {
-  background: $color-primary-darkest;
-  background-size: contain;
-  color: $color-white;
 }
 
 // Skip link
@@ -124,12 +117,7 @@ figure {
   margin-left: -$column-gutter/2;
   margin-right: -$column-gutter/2;
 
-  @media #{$small} {
-    margin-left: inherit;
-    margin-right: inherit;
-  }
-
-  @media #{$large} {
+  @include media($large-screen) {
     margin-left: -16.66667%;
     margin-right: -16.66667%;
   }
@@ -139,7 +127,6 @@ figcaption {
   color: $color-primary-darker;
 }
 
-// Change the placeholder color
 input::-webkit-input-placeholder{
   color: $color-gray;
 }
@@ -164,13 +151,13 @@ input:focus:-ms-input-placeholder {
   color: transparent;
 }
 
+input.va-input-medium-large {
+  max-width: 18rem;
+}
+
 // TODO(crew): Remove this at some point. Fix this by using JS for title casing or passing nav labels as an object.
 .text-capitalize {
   text-transform: capitalize;
-}
-
-input.va-input-medium-large {
-  max-width: 18rem;
 }
 
 hr {
@@ -180,24 +167,21 @@ hr {
 }
 
 // Utility classes
-// TODO: Move these into a partial once there are enough
-.va-util-rel {
-  position: relative
+// TODO(css): Move these into a partial once there are enough
+.va-util-rel,
+.va-pos-rel {
+  position: relative;
 }
 
-
-// Interior rows
-#content.interior a[href^='http://'],
-#content.interior a[href^='https://'] {
-  position: relative;
+.va-pos-fixed {
+  position: fixed;
 }
 
 // Adds external icon to all links that begin
 // with http (including https)
 // Using this selector makes it easier for the content team to write content
-// TODO: Refine this so that any links that do begin with https://vets.gov
-// or https://www.vets.gov are excluded.
-[href^=http] {
+[href^=http],
+[rel=external] {
   // Using longhand properties instead of the shorthand to limit
   // risk and impact of side effects
   background-image: url(/img/icons/exit-icon.png);
@@ -205,68 +189,113 @@ hr {
   background-repeat: no-repeat;
   background-size: 1em auto;
   padding-right: 1.2em;
+  position: relative;
 }
 
 // Logo and Header
 .header {
+  background: $color-primary-darkest;
+  color: $color-white;
   clear: both;
-  padding: 0;
   margin: 0;
+  padding: 0;
 
-  .login-container {
-    background: $color-primary-darkest;
-    padding: 0.3em 0 1em;
+  @include media($medium-screen) {
+    position: relative;
+  }
 
-    .row {
-      padding: 0 0.75em;
+ .va-notice--banner {
+    display: none !important;
+
+    @include media($medium-screen) {
+      display: block !important;
     }
-  }
-
-  .top-banner {
-    padding: 1em 0.75em 0;
-    display: flex;
-    align-items: center;
-  }
-
-  .flex-auto {
-    flex: 1 1 auto;
-    min-width: 0;
-    min-height: 0;
   }
 }
 
+.login-container {
+  background: $color-primary-darkest;
+  flex-wrap: wrap;
+  white-space: nowrap;
+  
+  .row {
+    padding: 0;
+  }
+   @include media($medium-large-screen) {
+    flex: 1 0 100%;
+  }
+}
+  
+
+#va-header-logo-menu {
+  flex-wrap: wrap;
+  padding: 1em 0.75em 0;
+  
+  @include media($medium-large-screen) {
+    padding-bottom: 0;
+  }
+}
+
+.va-header-logo-wrapper {
+  flex: 1 0 164px;
+  
+  @include media($medium-large-screen) {
+    flex-basis: 6rem;
+  }
+}
+
+// Also see l-playbook for more styles
 .va-header-logo {
+  background-color: transparent;
+  border-bottom: none;
+  display: block;
+  height: 40px;
+  //padding-left: .5rem;
+  margin: 0;
+  width: 164px;
+
+  &:hover {
+    .vets-logo-va path {
+      fill: $color-gold;
+    }
+  }
+}
+
+.va-header-search-widescr {
+  display: none;
   line-height: 1em;
   margin: 0;
 
-  a {
-    color: white;
-    text-indent: 180%;
-    white-space: nowrap;
-    overflow: hidden;
-    display: block;
-    background: url(/img/design/logo/logo.png) top left no-repeat;
-    background-size: contain;
-    border-bottom: none;
-    text-decoration: none;
-    height: 50px;
-    width: 205px;
+  @include media($medium-large-screen) {
+    display: inherit;
+    flex: 1 1 80%;
+  }
+}
 
-    &:hover, &:active, &:focus {
-      background-image: url(/img/design/logo/logo-hover.png);
-    }
+.vets-logo {
+  display: block;
+  height: inherit;
+  width: inherit;
 
-    @media #{$small-only} {
-      width: 164px;
-      height: 40px;
+  &-vetsdotgov,
+  &-va {
+    path, rect {
+      fill: $color-white;
     }
   }
-  // See va-playbook for styles
 }
 
 // Headings
 h1, h2 {
   font-family: $font-sans;
+}
+h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0 0 .5em 0;
+}
+
+h2 {
+  line-height: 1.2em;
 }
 
 h1:first-child {
@@ -301,6 +330,10 @@ h6 {
   font-weight: bold;
 }
 
+.text-center {
+  text-align: center;
+}
+
 // Banner
 
 #content {
@@ -310,194 +343,109 @@ h6 {
   overflow: hidden;
 }
 
-#content .popular-container {
+// TODO(css): Make these less specific. 
+.popular-container {
   background: $color-white;
   text-align: center;
 
-  .column-padded {
-    padding-left: 1em;
-    padding-right: 1em;
-  }
+  .va-flex {
+    justify-content: center;
+    margin-left: .5rem;
+    margin-right: .5rem;
 
-  .flex {
-    @media #{$small} {
+    @include media($medium-large-screen) {
+      margin: auto;
+    }
+    
+    @include media-maxwidth($small-screen) {
       display: block;
-    }
-    @media #{$medium} {
-      display: flex;
-    }
-
-    @media #{$large} {
-      display: flex;
-    }
+    }    
   }
 
-  .mx-auto {
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  h2.gold-ruled {
-    color: $color-primary-darker;
-    padding-bottom: 0.5em;
-    border-bottom: #988530 solid 2px;
-  }
-
-  a {
-    text-decoration: none;
-    color: $color-base;
-
-    &:hover {
-      background: $color-white;
+  .va-h-ruled--a {
+    margin-left: 1.6rem;
+    margin-right: 1.6rem;
+    
+    @include media($medium-large-screen) {
+      max-width: 41%;
+      margin: 2.4rem auto;
     }
   }
 
   .outline-link-block {
-    border: $color-gray-light solid 2px;
-    margin: 0.5em 0;
-    padding: 0.5em 1em;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    justify-content: center;
-    font-size: 1.2em;
-
-    &:hover {
-      border: $color-primary-darker solid 2px;
+    @include media($medium-large-screen) {
+      flex: 0 1 33%;
     }
-  }
-
-  .stars-tagline {
-    &:before{
-      content: '';
-      background: url(/img/stars.png) no-repeat top center;
-      background-size: 100%;
-      display: inline-block;
-      height: 2em;
-      width: 12em;
-      margin-top: 2em;
-    }
-
-    margin-top: 0em;
   }
 }
 
-#content .splash {
-  margin: 0;
+.outline-link-block {
+  border: $color-gray-light solid 2px;
+  color: $color-base;
+  display: block;
+  font-size: 1.2em;
+  text-decoration: none;
+  margin: .8rem;
+  padding: 2rem;
+  
+  &:hover {
+    background: transparent;
+    border: $color-primary-darker solid 2px;
+    text-decoration: inherit;
+  }
+
+  @include media($medium-large-screen) {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.splash--home {
+  align-items: center;
   background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
   background-size: cover;
   display: flex;
-  align-items: center;
+  margin: 0;
+  min-height: 14em;
+  padding: 1em 0;
+  text-align: center;
 
-
-  p {
-    color: $color-white;
-    font-family: $font-sans;
+  @include media($medium-large-screen) {
+    padding: 2em 0;
+    min-height: 42.2rem;
   }
 
-  h2.tagline {
-    max-width: 11em;
-    font-size: 2.5rem;
-    font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
+  @include media($large-screen) {
+    padding-top: 2.5em;
+    padding-bottom: 2.5em;
   }
 
-  span, h2 {
-    padding: 0;
-    display: inline;
-    line-height: 1em;
-    margin: 0;
-    white-space: pre-wrap;
-    color: $color-gray-dark;
-    a {background: $color-white; color: $color-primary-darker;}
+  .pitch {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+}
+
+.home-tagline {
+  background: $color-white;
+  color: $color-primary-darker;
+  display: inline-block;
+  font-size: 2.5rem;
+  line-height: 1.3;
+  margin: 0 auto;
+  max-width: 11em;
+  padding: 0.5em 0.4em;
+  white-space: pre-wrap;
+
+  @include media($medium-large-screen) {
+    font-size: 3.5rem;
+    padding: 0.5em .75em;
   }
 
-  h2 span {
-    clear: both;
+  @include media($large-screen) {
     padding: 0.5em 0.4em;
-    display: inline-block;
-    line-height: 30px;
-    background: $color-white;
-    font-weight: bold;
-    color: $color-primary-darker;
   }
-
-  @media #{$medium} {
-    h2 span {
-      padding: 0.5em .75em;
-      line-height: 1.3em;
-      font-size: 3.5rem;
-    }
-
-    h2.tagline {
-      max-width: 15em;
-    }
-  }
-
-  @media #{$large} {
-    h2 span {
-      padding: 0.5em 0.4em;
-      line-height: 1.3em;
-      font-size: 3.5rem;
-    }
-
-    h2.tagline {
-      max-width: 15em;
-    }
-  }
-
-  h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
-  h2 {
-    font-size: 1em;
-    display: inline-block;
-    @media #{$small} {font-size: 2em;}
-  }
-
-  h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
-}
-
-.home {
-  #content .splash {
-    @media #{$small} {
-      padding: 1em 0;
-      min-height: 14em;
-    }
-    @media #{$medium} {
-      padding: 2em 0;
-      min-height: 422px;
-    }
-
-    @media #{$large} {
-      padding: 2.5em 0;
-      min-height: 422px;
-    }
-  }
-}
-
-.splash--app {
-  padding: 0 !important;
-
-  h2 {
-    margin: 0;
-    padding: .2em;
-    line-height: 1em;
-    display: inline-block !important;
-  }
-}
-
-// TODO: Remove !important once #content ul.breadcrumbs li.active
-// is refactored.
-.splash--alternate {
-
-  li a {
-    color: $color-primary-darkest !important;
-    border-bottom: 2px solid $secondary-color !important;
-
-    &:hover {
-      border-bottom: 3px solid $color-gold !important;
-    }
-  }
-
-  li.parent:after {color: #ccc !important;}
 }
 
 .va-facloc-tagline {
@@ -507,24 +455,7 @@ h6 {
 }
 
 
-.pitch {
-  text-align: center;
-
-  @media #{$small} {
-    padding: .5em 0;
-  }
-
-  h2, h3 {
-    color: $color-primary-darkest;
-    font-weight: 400;
-    padding: .75em;
-    line-height: 1.3em;
-    display: inline-block;
-    margin: 0;
-  }
-}
-
-// TODO: Remove .feature-list ul once it's
+// TODO(css): Remove .feature-list ul once it's
 // refactored from the Markdown
 .feature-list ul,
 .va-list--feature {
@@ -547,22 +478,25 @@ h6 {
 }
 
 .primary {
-
   p {
     padding-top: 0;
     margin-top: 0;
-    
-    &:nth-child(1),
-    &:first-of-type {
-      color: $color-primary-darker;
-      letter-spacing: normal;
-      font-size: 1.25em;
-    }
   }
 
-  h3 {
-    padding: 0 0 .5em 0;
+  li p:first-of-type,
+  ul+p
+   {
+    font-weight: normal !important;
+    color: $color-gray-dark;
+    font-size: 1em;
+    padding-bottom: 0;
   }
+}
+
+.va-introtext {
+  color: $color-primary-darker;
+  letter-spacing: normal;
+  font-size: 1.25em;
 }
 
 .secondary {
@@ -580,53 +514,32 @@ h6 {
   max-width: $text-max-width;
 }
 
-// Use to add a horizontal rule under the heading
-.va-h-ruled {
-  border-bottom: 4px solid $color-primary-darkest;
-}
+//====================
+// Content callout boxes
+// ===================
 
-// tagline
-#content .tagline-content {
-  p {
-    font-size: 2.15em;
-    border-bottom: 2px solid white;
-    padding: 0 0 1em 0;
-    margin: 0 0 2em 0;
-    color: rgba(255,255,255,.7);
-    line-height: 1.2em;
-  }
-}
-
-// Content Callouts
-
-#content .main .section.one {
-  ul[class*='block-grid-'] {
-    display: block;
-    padding: 0;
-    margin: 0;
-    @media #{$small} {margin: 0 -0.625rem;}
-  }
-}
-
-.call-out {
+.feature {
   background: $color-primary-alt-lightest;
   padding: 1em;
   clear: both;
   margin: 0 0 1.5em 0;
+  min-height: 11em;
+
   p {
+    color: inherit !important;
+    font: inherit !important;
     margin-bottom: 0;
-    padding-bottom: .5em
-  }
-  p:nth-child(1) {
-    // TODO: refactor #content.interior .primary li p:first-of-type and remove !important
-    font-size: 1.25em !important;
-    color: $color-gray-dark;
-    padding-bottom: inherit;
-  }
-  h3 {
-    @media #{$small} {
-      font-size: 1.65em;
+    padding-bottom: .5em;
+
+    &:nth-child(1) {
+      font-size: 1.25em !important;
+      color: $color-gray-dark !important;
+      padding-bottom: inherit;
     }
+  }
+
+  h3 {
+    font-size: 1.65em;
   }
   ul {
     margin: 0 0 .5em 1.5em;
@@ -671,23 +584,17 @@ ul, ol {
   }
 }
 
-// Home page, 404 page
+//====================
+// Home, 404 page, maintenance page
+// ===================
+
 .navigation--major {
   .va-cards--2across {
-    @media #{$small} {
-      display:block;
-    }
-
-    @media #{$medium-only} {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+    display:block;
   }
 
-  .fourohfour &,
   .home & {
-    padding-top: 1.5em;
+    padding: 1.5em .5em 4em;
   }
 }
 
@@ -703,13 +610,50 @@ ul, ol {
     line-height: 1.2em;
     // TODO: Drop the !important when .home #content h3 and
     // body.fourohfour #content h3 are straightened out.
-    font-size: 1.65em !important;
-    color: $color-primary-darkest !important;
-    margin: 0 0 2.5em 0;
+    font-size: 1.65em;
+    color: $color-primary-darkest;
+    margin: 0 0 1rem 0;
     padding: 0 0 .2em 0;
+  }
+
+  &--commpop {
+    padding-bottom: 6.4rem;
   }
 }
 
+.maintenance-page {
+  padding-top: 3.2rem;
+
+  .text-center {
+    margin: auto;
+  }
+}
+
+//========================
+// 404 page only
+//========================
+
+#search_form {
+  position: relative;
+  width: 100%;
+
+  label {
+    left: -9999rem;
+    position: absolute;
+  }
+
+  [type=text] {
+    height: 5.7rem;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  [type=submit] {
+    border-radius: 0 3px 3px 0;
+    height: 5.7rem;
+    margin: 0;
+  }
+}
 
 // Content lead paragraphs
 
@@ -724,85 +668,6 @@ ul, ol {
   }
 }
 
-#content .main.interior {
-  background: $color-white;
-  a {text-decoration: underline;}
-}
-
-// Home page specific
-
-.home #content {
-  h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
-
-  .post-date {
-    font-size: .5em; color: $color-gold;
-  }
-
-  h3 {
-    line-height: 1.2em;
-    font-size: 1.65em;
-    color: $color-primary;
-    margin: 0 0 2.5em 0;
-    padding: 0 0 .2em 0;
-  }
-
-  h4 a {
-    text-decoration: none;
-    &:hover {
-      border-bottom: 1px solid $color-white;
-      color: $color-gold;
-    }
-  }
-
-  .read-more {
-    font-size: .5em;
-    display: inline-block;
-    border-bottom: 1px solid $secondary-color;
-    color: $secondary-color;
-    &:hover {
-      background: none;
-      color: $color-primary-darkest;
-      background: rgba(1,1,1,.1);
-      border-bottom: 1px solid $secondary-color;
-    }
-  }
-
-  .section {
-    padding: 4em 0 2em 0;
-    text-align: left;
-  }
-
-  .section.main-menu {
-    padding: 0em .5em 4em .5em;
-    overflow: hidden;
-  }
-
-
-  .home #content .section h3.alternate {
-    margin: 0 0 2em 0 !important; padding: 0;
-  }
-
-  .section.one {
-    padding: 0 0 1.5em 0;
-      @media #{$small} {padding: 2em 0 4em 0;}
-  }
-
-  .section.two {
-    padding: 2em 0;
-    a, h3 {color: $color-white;}
-    h3 {border-bottom: none;}
-    background: rgba(0,0,0,.1);
-  }
-
-  .section.three {
-    background: $color-white;
-    padding: 5em 0;
-    h2, h3, h4, h5, h6, p, li {color: $color-va-gray-cool-dark;}
-    h4 {margin: 0; padding: 0;}
-    a {color: $color-primary-darkest;}
-  }
-}
-
 #content .section.primary {
   background: none;
   padding: 2em 0;
@@ -814,71 +679,19 @@ ul, ol {
 }
 
 #content .section.secondary {
-  background: rgba(255,255,255,.85);
-}
-
-#content .section.tertiary {
-  background: $polar;
-}
-
-#content .section.quaternary {
-  background: $color-gray-lighter;
-  h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
-  h4 {font-weight: 700;}
-  .cards {
-    a {
-      height:12em;
-    }
-  }
-  .feature {background: none;}
-}
-
-#content .section.coda {
-  background: $color-primary-darker;
-  color: $color-white;
-  h2, h3, h4, h5, h6, a {color: $color-white;}
-  h4 {font-size: 1.5em;}
-}
-
-#content .section {
-  h2, h3, h4, h5, h6 {margin: 0; padding: 0 0 .5em 0;}
-  h2 {line-height: 1.2em;}
-}
-
-#content .section .feature {min-height: 11em;}
-
-#content .panel {
-  background: $color-gray-lightest;
-  padding: 1em;
-  margin-bottom: 1.5em;
-  clear: both;
-}
-
-#content .section.secondary,
-#content .section.tertiary,
-#content .section.quaternary,
-#content .section.coda {
   padding: 3em 0;
   h3 {
     font-size: 2.2em;
   }
 }
 
-// Sections
 
-.section {
-  background: $color-white;
 
-  &.one {
-    padding: 0;
-  }
-
-  &.two {
-    padding: 0 0 4em 0;
-    h3 {color: darken($color-green, 10);}
-    clear: both;
-  }
-  &.three {clear: both; padding: 2em 0;}
+#content .panel {
+  background: $color-gray-lightest;
+  padding: 1em;
+  margin-bottom: 1.5em;
+  clear: both;
 }
 
 
@@ -904,7 +717,6 @@ ul, ol {
   li {
     display: inline-block;
     margin: .25em 0;
-    //outline: 1px dashed #6c6;
     padding: .25em 0 .25em 0;
     vertical-align: middle;
 
@@ -935,22 +747,8 @@ ul, ol {
 }
 
 .va-nav-breadcrumbs-list {
-  @extend .columns;
   float: none;
-}
-
-
-//==== Facility Locator page only
-.va-nav-breadcrumbs--inline {
-  display: inline-block;
-
-  @media #{$small} {
-    margin-right: 1em !important;
-  }
-
-  li.active::before {
-    display: none;
-  }
+  position: relative;
 }
 
 //===== Playbook and Facility Locator
@@ -970,10 +768,7 @@ ul, ol {
     display: inline-block;
     line-height: 1.15em;
     vertical-align: middle;
-
-    @media #{$small} {
-      font-size: 1.35em;
-    }
+    font-size: 1.35em;
 
     &:hover  {
       border-bottom: none;
@@ -1000,7 +795,7 @@ ul, ol {
     margin: .5em 0;
     padding: .2em;
 
-    @media #{$medium} {
+    @include media($medium-large-screen) {
       font-size: 1.8em;
     }
 
@@ -1022,9 +817,6 @@ ul, ol {
     }
   }
 }
-
-
-
 
 .va-breadcrumbs-heading {
   font-size: 1em !important;
@@ -1053,12 +845,7 @@ li {
 
 //===== Navigation
 .navigation {
- padding: 1em  0;
-
-  @media #{$small} {
-    padding: 1em 0 3em 0;
-  }
-
+  padding: 1em 0 3em 0;
   background: $color-gray-lightest;
   color: $color-primary-darkest;
   border-bottom: 2px solid $color-white;
@@ -1085,11 +872,8 @@ li {
 
 // Cards
 
-[class*='block-grid-']>li {
-  padding: 0;
-  @media #{$small} {
-    padding: 0 0.625rem 1.25rem 0.625rem;
-  }
+[class*='block-grid-'] > li {
+  padding: 0 0.625rem 1.25rem 0.625rem;
 }
 
 // Telephone numbers
@@ -1112,10 +896,6 @@ li {
   }
 
   div {
-    @media #{$small} {
-      min-height: 12em;
-    }
-
     background: $color-gray-lightest;
     background: rgba(0,0,0,.05);
     margin: 0 0 .5em 0;
@@ -1131,28 +911,33 @@ li {
   }
 }
 
-// Footer
 .text-right {
   text-align: right;
 }
 
+// Footer
 .footer {
   color: $color-white;
-  padding: 0 !important;
-  margin: 0;
+  margin: 0 auto;
   background: $color-primary-darkest;
   position: relative;
   overflow: hidden;
 
-  .coda .row {
-    max-width: 70em;
+  @include media($medium-large-screen) {
+    flex-wrap: nowrap;
+  }
+
+  .va-flex {
+    flex-wrap: wrap;
+
+    @include media($medium-large-screen) {
+      flex-wrap: nowrap;
+    }
   }
 }
 
-.footer-logo a {
-  display: none;
-  @media #{$medium} {padding: 0; display: block;}
-  @media #{$medium} {background:url(/img/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
+.footer-inner {
+  padding: 2rem 1rem 0;
 }
 
 .footer-seal {
@@ -1162,48 +947,18 @@ li {
   height: 49px;
   text-indent: -999em;
   overflow: hidden;
-  margin: 0 auto;
-  @media #{$small} {margin: 0;}
-}
+  margin-bottom: 3rem;
 
-.usa-social-links {
-  dd {
-    display: inline-block;
-    margin: 0 1em 0 0;
-  }
-  a {
-  border-bottom: none;
-  float: left;
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  &:hover {
-    border-bottom: none;
-    }
+  @include media($medium-large-screen) {
+    flex-wrap: nowrap;
+    margin-bottom: 0;
   }
 }
 
-.usa-social-links,
-.va-list--linkgroup {
-  margin: 2em 0 0 0;
-
-  @media #{$medium} {
-    margin: 2em 0 1.5em 0;
-  }
-}
-
-// TODO: Move this to a list-specific partial
-.va-list--linkgroup {
-  margin: 2em 0 0 0;
-
-  @media #{$small} {
-    margin: 2em 0 1.5em 0;
-  }
-
+[class^=va-footer-linkgroup] {
   a {
     background: none;
     color: #fff;
-    display: block;
     font-size: 1em;
     font-weight: 400;
     margin: .25em 0;
@@ -1213,160 +968,148 @@ li {
       color: $color-gold;
     }
   }
+}
+
+.va-footer-linkgroup {
+  margin: 2em 0 0 0;
+  flex: 0 1 100%;
+
+  @include media($medium-large-screen) {
+    flex: 0 1 25%;
+    margin: 2em 0 1.5em 0;
+  }
 
   dd {
     padding: .25em 0;
   }
+
+  a {
+    display: inline-block;
+  }
 }
 
-.va-list--linkgroup-title {
+[id=footer-contact] {
+  order: -1;
+
+  @include media($medium-large-screen) {
+    flex: 2 0 50%;
+  }
+}
+
+.va-footer-linkgroup-title {
   -webkit-font-smoothing: antialiased;
+  color: $color-white;
   font-weight: 700;
-  display: block;
-  font-size: .95em;
+  font-size: 1em;
+  margin: 0;
   padding: 0 0 1em 0;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 
-.va-list--linkgroup--inline {
-    list-style: none;
-    margin: 0 auto;
-    padding: 1.5em 0 0 0;
-    text-align: center;
-      @media #{$large} {
-        text-align: left;
-      }
-    width: 100%;
+.va-footer-linkgroup--inline {
+  list-style: none;
+  margin: 0 auto .5rem;
+  padding: 0;
 
-    &:after {
-       visibility: hidden;
-       display: block;
-       font-size: 0;
-       content: ' ';
-       clear: both;
-       height: 0;
-    }
+  li {
+    padding: 0;
+    display: inline-block;
 
-    li {
-      padding: 0;
-      display: inline-block;
-
-      &:after {
-        content:'|';
-        padding: 0 .15em;
-      }
-
-      &:last-child {
-        margin-right: 0;
-
-        &::after {
-          padding: 0;
-          content: '';
-        }
-      }
+    &:not(:last-child):after {
+      content:'|';
+      padding: 0 1rem;
     }
 
     a {
       background: none;
-      color: inherit;
-      font-weight: 400;
-      display: inline-block;
-      padding: .35em;
-      margin: .25em 0;
-      &:hover {color: $color-gold;}
+      padding: 0;
     }
+  }
 }
 
-// Footer icon sprite
-a.facebook {
-  background: url('/img/design/sprites/sprite.png') no-repeat -22px 0;
-  background-size: 215px 72px;
-  width: 17px;
-  height: 17px;
-  text-indent: -999em;
-  overflow: hidden;
-}
+[id=va-footer-supplementallinks] {
+  align-items: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10rem;
 
-a.twitter {
-  background: url('/img/design/sprites/sprite.png') no-repeat 0 0;
-  background-size: 215px 72px;
-  width: 20px;
-  height: 16px;
-  text-indent: -999em;
-  overflow: hidden;
-}
+  @include media($medium-large-screen) {
+    flex-wrap: nowrap;
+  }
 
+  > div {
+      &:first-child {
+        @include media($medium-large-screen) {
+          flex: 0 1 60%;
+        }
+      }
+
+      &:last-child {
+        order: -1;
+
+        @include media($medium-large-screen) {
+          order: 1;
+          flex: 1 1 40%;
+        }
+      }
+  }
+}
 
 .primary blockquote {
   margin: 0 0 1em 0;
   padding: 0 0 0 1em;
   border-left: 2px solid $color-gray-lighter;
   p {
-  color: $color-primary-darker;
+    color: $color-primary-darker;
   }
 }
 
-.footer .content {
-  @media #{$small} {padding: 2em 0 0 0;}
-  margin: 0;
+[class^=va-wip] {
+  padding: .576rem 1.08rem;
+  font-size: 0.8em;
+  font-weight: 400;
 
-}
-
-.header {
-  .message {
-    padding: 0.5em 0;
-    color: $color-white;
-    font-size: 0.8em;
-    font-weight: 400;
-    flex: 1;
-  }
-
-  .va-notice--banner {
-    margin: 0;
+  a {
+    color: inherit;
+    background-image: none;
     padding: 0;
-    background: $color-primary-darker;
-    color: $color-white;
+  }
+}
 
-    a.va-crisis-line {
-      color: $color-base;
-    }
+.va-wip--wide {
+  background: $color-gray-lightest;
+  color: $color-gray-dark;
+  display: none;
+  font-size: 1.152rem;
+  margin: auto;
 
-    .flex {
-      display: flex;
-    }
+  @include media($medium-large-screen) {
+    display: block;
+  }
+}
 
-    .flex-lg {
-      @media #{$large-only} {
-        display: flex;
-      }
-    }
+.va-wip--narrow {
+  border-top: 1px solid $color-primary-darker;
+  color: $color-white;
+  margin-top: 3.2rem;
+  white-space: normal;
 
-    .row {
-      padding: 0 0.75em;
-    }
-
-    .crisis-row {
-      @media #{$medium-up} {
-        display: flex;
-        align-items: flex-start;
-      }
-
-      @media #{$medium-only} {
-        padding-right: 0em;
-      }
-    }
+  @include media($medium-large-screen) {
+    display: none;
   }
 }
 
 // Notice / feedback banners
 .va-notice--banner {
-  background: $color-primary-darker;
+  background: $color-gray-lightest;
   margin: 0 0 .75em 0;
   padding: 0;
-  font-size: .9em;
   font-weight: 400;
-  color: $color-white;
+
+  &-inner {
+    margin: auto;
+    max-width: 97rem;
+    position: relative;
+  }
 
   p {
     margin: 0;
@@ -1374,12 +1117,8 @@ a.twitter {
 
   a {
     background-image: none;
-    color: $color-white;
+    color: inherit;
     padding: 0;
-  }
-
-  .row {
-    max-width: 69.4em;
   }
 }
 
@@ -1398,6 +1137,8 @@ a.twitter {
 
 // Only used in the footer
 .va-notice--banner--alt {
+  background: $color-primary-darker;
+  color: $color-white;
   padding: 1.25em 0;
   margin: 1.5em 0 0 0;
 }
@@ -1405,10 +1146,11 @@ a.twitter {
  // Feedback widget
 
 .feedback-widget {
+  text-align: center;
   overflow: hidden;
 
-  @media #{$small-only} {
-    text-align: center;
+  @include media($medium-large-screen) {
+    text-align: left;
   }
 
   // Works with <= IE8
@@ -1434,69 +1176,14 @@ a.twitter {
 
 // Search
 
-#search_form {
-  padding: 1.1em 0;
-  text-align: right;
-  label {
-    position: absolute;
-    left: -9999em;
-    font-size: 1px;
-    overflow: hidden;
-    float: left;
-  }
-  input[type='text'] {
-    height: 3em;
-    margin: 0;
-    width: 100%;
-    color: $color-gray-dark;
-    padding: .2em;
-    box-sizing: border-box;
-  }
-
-  input[type='submit'] {
-    margin: 0;
-    height: 3em;
-    text-align: center !important;
-    width: 100%;
-    padding: 0;
-    border-radius: 0px 3px 3px 0px;
-  }
-}
-
 .search-button {
-  margin: 0.1em .5em 0 0;
+  margin: 1em .5em 0 0;
   padding: 0;
-  float: right;
-  a {
-    line-height: 1em;
-    display: inline-block;
-    padding: .41em;
-    font-size: .85em;
-    border-radius: .2em;
-    text-decoration: none;
-    background: $color-primary;
-    color: $color-white;
+
+  @include media($xsmall-screen) {
+    float: right;
+    margin-top: 0.1em;
   }
-}
-
-.reveal-modal #search_form {
-  margin-bottom: 1em;
-}
-
-.reveal-modal .close-reveal-modal {
-  font-size: 1em;
-  clear: both;
-  text-decoration: none;
-  color: $color-gray-dark;
-  text-align: center;
-  margin: 1em 0;
-  position: relative;
-  top: auto;
-  display: block;
-  padding: 1em 0;
-  right: auto;
-  width: 100%;
-  bottom: auto;
 }
 
 //===================================
@@ -1532,14 +1219,14 @@ a.twitter {
   }
 
   .number {
-    font-size: 3.25em;
+    font-size: 2em;
     font-weight: 700;
     float: left;
     margin: 0;
-    color: #003E73;
-    line-height: .65em;
-    display: inline-block;
-    padding: 0 .125em 0 0;
+    color: color-primary-darker;
+    line-height: 1em;
+    padding: 0 0 .5em;
+    border-bottom: 1px solid $color-gray-light;
   }
 
   .heading, .description {
@@ -1553,17 +1240,17 @@ a.twitter {
   }
 
   .description {
-    font-size: 1.25em;
+    font-size: 1em;
     font-weight: 400;
-    padding: .2em 0;
+    padding: .3em 0 0;
     text-align: left;
-    display: inline-block;
     width: 100%;
-    text-transform:uppercase;
+    float: left;
   }
 
   &.information {
     background: rgba(0,0,0,.05);
+    padding: 1em;
   }
 
   &.info-graphic {
@@ -1587,26 +1274,18 @@ a.twitter {
 // Dividers
 
 .divider {
-&.margin {
-  padding-top: 1em;
-  padding-bottom: 1em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-&.top {
-  border-top: 1px solid #f0f0f0;
-}
-&.bottom {
-  border-bottom: 1px solid #f0f0f0;
-}
-}
-
-// Steps
-
-.feature {
-background: $polar;
-padding: 1em;
-margin: 0;
+  &.margin {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  &.top {
+    border-top: 1px solid #f0f0f0;
+  }
+  &.bottom {
+    border-bottom: 1px solid #f0f0f0;
+  }
 }
 
 // Process line
@@ -1735,27 +1414,6 @@ li.nineteen:before {content: '19';}
 li.twenty:before {content: '20';}
 }
 
-// Icons
-
-.icon-images {width: 1.125em;}
-.icon-connection {width: 1.25em;}
-.icon-books {width: 1.125em;}
-.icon-library {width: 1.0625em;}
-.icon-price-tags {width: 1.25em;}
-.icon-history {width: 1.0625em;}
-.icon-keyboard {width: 1.125em;}
-.icon-bubbles {width: 1.125em;}
-.icon-bubbles2 {width: 1.125em;}
-.icon-bubbles3 {width: 1.125em;}
-.icon-bubbles4 {width: 1.125em;}
-.icon-users {width: 1.125em;}
-.icon-menu2 {width: 1.375em;}
-.icon-menu3 {width: 1.375em;}
-.icon-menu4 {width: 1.375em;}
-.icon-volume-high {width: 1.0625em;}
-.icon-embed2 {width: 1.25em;}
-.icon-youtube4 {width: 2.5087890625em;}
-
 // Panel list
 .panel-list {
   background: rgba(0,0,0,.05);
@@ -1776,16 +1434,33 @@ li.twenty:before {content: '20';}
   }
 
   a {
-    @extend .usa-button-primary;
     margin: .5em 0;
   }
 }
 
+
 // Highlight headings
-.highlight {
-  border-bottom: 3px solid $primary-color;
+// TODO(css): Consolidate these rules, possibly into a new class name
+.highlight,
+.va-h-ruled {
+  border-bottom: 3px solid $color-primary;
   padding-bottom: .25em;
   font-weight: 700;
+}
+
+// Ruled headings with VA Accent color. (Currently gold metal)
+.va-h-ruled--a {
+  color: $color-primary-darker;
+  padding-bottom: 0.5em;
+  border-bottom: $color-va-accent solid 2px;
+}
+
+.va-h-ruled--stars {
+  background: url(/img/stars.png) no-repeat top center;
+  background-size: 20rem auto;
+  margin: 2.4rem auto auto;
+  padding: 4.8rem 1.6rem 0;
+  text-align: center;
 }
 
 // Action bars
@@ -1818,6 +1493,15 @@ li.twenty:before {content: '20';}
   &:hover,
   &:focus {
     background-color: $color-green-darker !important;
+    text-decoration: none !important;
+  }
+
+  svg {
+    display: inline-block;
+    height: 1.2rem;
+    margin-left: .5rem;
+    width: 1.2rem;
+    vertical-align: -1px;
   }
 }
 
@@ -1840,17 +1524,25 @@ li.twenty:before {content: '20';}
 // Disclaimer
 .disclaimer {
   padding: 1em 0;
-  background: $color-white;
-  border-top: 1px solid #ddd;
-  color: $color-va-gray-cool-dark;
+
   p {
-    font-size: 0.8em;
+    font-size: 1.28rem;
+  }
+
+  a {
+    background-image: none;
+    color: inherit;
+    padding: 0;
+
+    &:hover {
+      color: $color-gold;
+    }
   }
 }
 
 // Formerly .disclaimer.minimal
 .va-note {
-  color: $color-va-gray-cool-dark;
+  color: $color-gray-light;
   font-size: 1.28rem;
   padding: .25em 0;
 }
@@ -1865,13 +1557,9 @@ li.twenty:before {content: '20';}
 }
 
 // Mobile menu
-
 /* Overlay style */
 
 .va-overlay-close {
-  @media #{$medium} {
-    display: none;
-  }
   &--icon {
     display: inline;
     margin: 0;
@@ -1884,87 +1572,75 @@ li.twenty:before {content: '20';}
   }
 }
 
+.va-overlay {
+  background: rgba($color-primary-darkest, .95);
+  height: 100%;
+  left: 0;
+  -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  transition: opacity 0.5s, visibility 0s 0.5s;
+  visibility: hidden;
+  width: 100%;
+  z-index: 800;
 
-@media #{$medium} {
-  .va-overlay-close {
+  input[type='text'] {
+    -webkit-appearance: none;
+    border-radius: 3px 0 0 3px;
+  }
+  @include media($medium-large-screen) {
     display: none;
   }
 }
 
-@media #{$small-only} {
-  .va-mobile-searchclose  {
-    border-radius: 0;
-    display: block !important;
-    width: 100% !important;
-    margin: 0;
-    width: auto;
-    background: $color-primary;
+.va-mobile-searchclose  {
+  border-radius: 0;
+  display: block !important;
+  width: 100% !important;
+  margin: 0;
+  width: auto;
+  background: $color-primary;
+}
+
+.va-overlay--open {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+
+  .columns {
+    padding: 0;
   }
+}
 
-  .va-mobile-searchtrigger {
-    padding: .5em;
-    margin-top: 0;
-    border-radius: .15em;
-  }
+.va-overlay .menu {
+  -webkit-perspective: 1200px;
+  perspective: 1200px;
+  padding: 1em 1em;
+}
 
-  .va-overlay {
-    background: rgba($color-primary-darkest, .95);
-    height: 100%;
-    left: 0;
-    -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    transition: opacity 0.5s, visibility 0s 0.5s;
-    visibility: hidden;
-    width: 100%;
-    z-index: 800;
+.va-overlay form {
+  opacity: 0.4;
+  -webkit-transform: translateY(-25%) rotateX(35deg);
+  transform: translateY(-25%) rotateX(35deg);
+  -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+  transition: transform 0.5s, opacity 0.5s;
+}
 
-    input[type='text'] {
-      -webkit-appearance: none;
-      border-radius: 3px 0 0 3px;
-    }
-  }
+.va-overlay--open form {
+  opacity: 1;
+  -webkit-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+}
 
-  .va-overlay--open {
-    opacity: 1;
-    visibility: visible;
-    -webkit-transition: opacity 0.5s;
-    transition: opacity 0.5s;
+.va-overlay-body {
+  margin: 1rem auto;
+}
 
-    .columns {
-      padding: 0;
-    }
-  }
-
-  .va-overlay .menu {
-    -webkit-perspective: 1200px;
-    perspective: 1200px;
-    padding: 1em 1em;
-  }
-
-  .va-overlay form {
-    opacity: 0.4;
-    -webkit-transform: translateY(-25%) rotateX(35deg);
-    transform: translateY(-25%) rotateX(35deg);
-    -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
-    transition: transform 0.5s, opacity 0.5s;
-  }
-
-  .va-overlay--open form {
-    opacity: 1;
-    -webkit-transform: rotateX(0deg);
-    transform: rotateX(0deg);
-  }
-
-  .va-overlay-body {
-    margin: 1rem auto;
-  }
-
-  @media screen and (max-height: 30.5em) {
-    .overlay form {
-      height: 70%;
-    }
+@media (max-height: 30.5em) {
+  .overlay form {
+    height: 70%;
   }
 }
 
@@ -2042,7 +1718,7 @@ ul li p {
   }
 }
 
-@media (max-width: 40.063em) {
+@include media($medium-screen) {
   .simpletooltip {
     top: 100%;
     left: 45%;
@@ -2126,10 +1802,17 @@ pre[class*='language-']  {
 }
 
 // Vertically aligns in the middle when flex-direction: row;
-// Aligns center when flex-direction: column
+// Aligns center horizontally when flex-direction: column
 .va-flex--ctr {
   -webkit-align-items: center;
   align-items: center;
+}
+
+// Horizontally aligns in the center when flex-direction: row;
+// Aligns middle vertically when flex-direction: column
+.va-flex--jctr {
+  -webkit-justify-items: center;
+  justify-items: center;
 }
 
 // Stretches all flexbox items to be the same height when
@@ -2184,9 +1867,9 @@ p.info-message {
 }
 
 
-/*==================
-New .plain rewrite
-===================*/
+//==================
+// New .plain rewrite
+//===================
 
 .va-list--plain {
   list-style: none;
@@ -2196,8 +1879,20 @@ New .plain rewrite
 // Used for sidebar / aside style lists of links
 .va-rellinks {
   margin-top: 0;
-  
+
   li {
     padding: .8rem 0
+  }
+}
+
+// Last updated
+
+.last-updated {
+  margin-top: 1.5em;
+  border-top: 2px solid #f1f1f1;
+  padding: 1em 0;
+  p {
+    font-size: 1em !important;
+    color: #323a45 !important;
   }
 }

@@ -5,7 +5,11 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you are transitioning out of active service soon, you are entitled to free educational and career counseling services.
+
+</div>
 
 ### Are you eligible for services?
 

@@ -1,8 +1,6 @@
 import React from 'react';
-import $ from 'jquery';
 
-import environment from '../helpers/environment.js';
-import { handleVerify, addEvent } from '../helpers/login-helpers.js';
+import { handleVerify } from '../helpers/login-helpers.js';
 
 import SystemDownView from './SystemDownView';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -11,15 +9,10 @@ class RequiredLoginView extends React.Component {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.setUserLevel = this.setUserLevel.bind(this);
-    this.setInitialLevel = this.setInitialLevel.bind(this);
-
     this.handleVerify = handleVerify;
     this.state = {
-      accountType: 0,
-      services: null,
       loading: true
     };
   }
@@ -27,67 +20,35 @@ class RequiredLoginView extends React.Component {
   componentDidMount() {
     if (sessionStorage.userToken) {
       this.setUserLevel();
-    } else {
-      this.handleLogout();
     }
-
-    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
-      this.setState({ loginUrl: result.authenticate_via_get });
-    });
-
-    addEvent(window, 'message', (evt) => {
-      this.setInitialLevel(evt);
-    });
 
     setTimeout(() => {
       this.setState({ loading: false });
     }, 2000);
   }
 
-  setInitialLevel(event) {
-    if (event.data === sessionStorage.userToken) {
-      this.setUserLevel();
-    }
-  }
-
   setUserLevel() {
-    fetch(`${environment.API_URL}/v0/user`, {
-      method: 'GET',
-      headers: new Headers({
-        Authorization: `Token token=${sessionStorage.userToken}`
-      })
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      const systemStatus = json.data.attributes.va_profile.status;
-      const requiredApp = this.props.serviceRequired;
-      const userAccounts = json.data.attributes.profile.loa;
-      const userServices = json.data.attributes.services;
+    const requiredApp = this.props.serviceRequired;
+    const userServices = this.props.userProfile.services;
+    if (userServices) {
       this.setState(
         {
-          accountType: userAccounts.current,
-          profileStatus: systemStatus,
-          services: userServices,
           isServiceAvailableForUse: userServices.includes(requiredApp),
         }
       );
-    });
+    }
   }
 
   handleLogin() {
-    const myLoginUrl = this.state.loginUrl;
+    const myLoginUrl = this.props.loginUrl;
     const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 
   handleSignup() {
-    const myLoginUrl = this.state.loginUrl;
+    const myLoginUrl = this.props.loginUrl;
     const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
-  }
-
-  handleLogout() {
-    this.setState({ accountType: 0 });
   }
 
   render() {
@@ -97,12 +58,17 @@ class RequiredLoginView extends React.Component {
       <div className="row primary">
         <div className="medium-12 small-12 columns">
           <div className="react-conatiner">
-            <h1>Sign in to your Vets.gov Account</h1>
-            <p>Vets.gov is a new website from the VA offering online services for Veterans.</p>
-            <p>To refill a prescription, send a secure message to your healthcare provider, or check the status of a disability claim, sign in to Vets.gov.</p>
+            <h1>Sign In to Your Vets.gov Account</h1>
+            <p>Vets.gov is a new VA website offering online services for Veterans.</p>
+            <p>Sign in to:</p>
+            <ul>
+              <li>Refill a prescription.</li>
+              <li>Send a secure message to your health care provider.</li>
+              <li>Check the status of a disability or pension claim.</li>
+            </ul>
             <p>
               <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Sign In</strong></button>
-              <button className="va-button-secondary usa-button-big" onClick={this.handleSignup}><strong>Create an account</strong></button>
+              <button className="va-button-secondary usa-button-big" onClick={this.handleSignup}><strong>Create Account</strong></button>
             </p>
           </div>
         </div>
@@ -133,17 +99,17 @@ class RequiredLoginView extends React.Component {
       view = <LoadingIndicator setFocus message="Loading your information"/>;
     } else {
       if (this.props.authRequired === 1) {
-        if (this.state.accountType >= 1) {
+        if (this.props.userProfile.accountType >= 1) {
           view = this.props.children;
         } else {
           view = loginComponent;
         }
       } else if (this.props.authRequired === 3) {
-        if (this.state.accountType === 3) {
-          if (this.state.profileStatus === 'SERVER_ERROR') {
+        if (this.props.userProfile.accountType === 3) {
+          if (this.props.userProfile.status === 'SERVER_ERROR') {
             // If va_profile is null, the system is down and we will show system down message.
             view = <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later."/>;
-          } else if (this.state.profileStatus === 'NOT_FOUND') {
+          } else if (this.props.userProfile.status === 'NOT_FOUND') {
             // If va_profile is "not found", we cannot find you in our system and we will show a, we can't find you message.
             view = <SystemDownView messageLine1="We couldn't find your records with that information." messageLine2="Please call the Vets.gov Help Desk at 1-855-574-7286. We're open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET)."/>;
           } else {
@@ -152,7 +118,7 @@ class RequiredLoginView extends React.Component {
               // If you have the required service show the application view.
               view = this.props.children;
             } else {
-              // If you do not have the required service in your `services` array then we will show the component but pass a prop to let them know that you don't have any data. Only passes prop on React components (functions) and not elements like divs so that React does not throw a warning
+              // If you do not have the required service in your `userServices` array then we will show the component but pass a prop to let them know that you don't have any data. Only passes prop on React components (functions) and not elements like divs so that React does not throw a warning
               view = React.Children.map(this.props.children,
                 (child) => {
                   let props = null;
@@ -167,7 +133,7 @@ class RequiredLoginView extends React.Component {
               );
             }
           }
-        } else if (this.state.accountType === 1) {
+        } else if (this.props.userProfile.accountType === 1) {
           view = verifyComponent;
         } else {
           view = loginComponent;
@@ -184,5 +150,12 @@ class RequiredLoginView extends React.Component {
     );
   }
 }
+
+RequiredLoginView.propTypes = {
+  authRequired: React.PropTypes.number.isRequired,
+  serviceRequired: React.PropTypes.string.isRequired,
+  userProfile: React.PropTypes.object.isRequired,
+  loginUrl: React.PropTypes.string,
+};
 
 export default RequiredLoginView;

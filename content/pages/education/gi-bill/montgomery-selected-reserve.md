@@ -5,10 +5,15 @@ concurrence: complete
 template: 4-action-page-pending
 ---
 
+<div class="va-introtext">
+
 If you are an eligible member of the Army Reserve, Navy Reserve, Air Force Reserve, Marine Corps Reserve, Coast Guard Reserve, Army National Guard, or Air National Guard, you may receive up to 36 months of education and training benefits under the MGIB-SR program.
 
 View [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Are you eligible for this program?
 Yes, if:

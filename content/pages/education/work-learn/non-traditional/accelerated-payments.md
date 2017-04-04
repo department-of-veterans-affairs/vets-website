@@ -5,9 +5,14 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you’re enrolled in a high-tech program and intend to work in a high-tech industry, you may be eligible to receive a lump-sum payment of 60% of tuition and fees. VA issues accelerated payment to you instead of the monthly benefits you would otherwise receive. This program covers the higher per-month costs associated with these courses of study.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Are you eligible for education benefits?
 Yes, if:

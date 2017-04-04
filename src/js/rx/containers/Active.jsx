@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import _ from 'lodash';
 
-import ErrorMessages from '../components/ErrorMessages';
-
 import {
   loadPrescriptions,
   sortPrescriptions
@@ -24,6 +22,9 @@ import { sortOptions } from '../config';
 class Active extends React.Component {
   constructor(props) {
     super(props);
+
+    const viewPref = sessionStorage.getItem('rxView');
+
     this.handleSort = this.handleSort.bind(this);
     this.pushAnalyticsEvent = this.pushAnalyticsEvent.bind(this);
 
@@ -35,11 +36,15 @@ class Active extends React.Component {
         this.setState({
           view: 'card',
         });
+      } else if (viewPref) {
+        this.setState({
+          view: viewPref,
+        });
       }
     }, 200);
 
     this.state = {
-      view: 'card',
+      view: viewPref || 'card',
     };
   }
 
@@ -107,8 +112,19 @@ class Active extends React.Component {
             const classes = classnames({
               active: this.state.view === t.key,
             });
+
+            const onClick = () => {
+              this.setState(
+                { view: t.key },
+                () => {
+                  this.pushAnalyticsEvent();
+                  sessionStorage.setItem('rxView', t.key);
+                }
+              );
+            };
+
             return (
-              <li key={t.key} className={classes} onClick={() => this.setState({ view: t.key }, this.pushAnalyticsEvent)}>{t.value}</li>
+              <li key={t.key} className={classes} onClick={onClick}>{t.value}</li>
             );
           })}
         </ul>
@@ -161,7 +177,7 @@ class Active extends React.Component {
       content = (
         <p className="rx-tab-explainer rx-loading-error">
           We couldn't retrieve your prescriptions.
-          Please refresh this page or try again later. <ErrorMessages errors={this.props.errors}/> If this problem persists, please call the Vets.gov Help Desk
+          Please refresh this page or try again later. If this problem persists, please call the Vets.gov Help Desk
           at 1-855-574-7286, Monday ‒ Friday, 8:00 a.m. ‒ 8:00 p.m. (ET).
         </p>
       );

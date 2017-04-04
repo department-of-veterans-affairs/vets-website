@@ -22,12 +22,13 @@ secondarylinks:
     description: ""
 relatedlinkstitle: "Learn new skills using online resources"
 relatedlinks:
-  - url: https://www.surveymonkey.com/r/QSGQRFN
-    title: Take a Free Online Class with Coursera
-    description: ""
   - url: https://veterans.linkedin.com/
     title: Get a Free 1-Year Subscription for Online Classes with Lynda from LinkedIn Premium
     description: ""
 ---
 
+<div class="va-introtext">
+
 We can support you in all stages of your job search. We've teamed up with the Department of Labor to give you career advice, help building your résumé, and access to employers who want to hire Veterans and military spouses.
+
+</div>

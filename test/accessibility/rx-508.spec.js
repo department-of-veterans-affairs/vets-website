@@ -1,7 +1,7 @@
-const E2eHelpers = require('../util/e2e-helpers');
-const Timeouts = require('../util/timeouts.js');
-const RxHelpers = require('../util/rx-helpers');
-const LoginHelpers = require('../util/login-helpers');
+const E2eHelpers = require('../e2e/e2e-helpers');
+const Timeouts = require('../e2e/timeouts.js');
+const RxHelpers = require('../e2e/rx-helpers');
+const LoginHelpers = require('../e2e/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -13,6 +13,8 @@ module.exports = E2eHelpers.createE2eTest(
     LoginHelpers.logIn(token, client, '/healthcare/prescriptions', 3)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main');
+
+    E2eHelpers.overrideSmoothScrolling(client);
 
     // Ensure history page renders.
     client

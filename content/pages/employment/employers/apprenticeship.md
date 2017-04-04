@@ -5,7 +5,11 @@ concurrence: complete
 template: 1-topic-landing
 ---
 
+<div class="va-introtext">
+
 Employers can set up an apprenticeship program that is approved for the GI Bill.
+
+</div>
 
 Employers provide Veterans with a job at an acceptable wage, as well as training, development, hands-on learning, and technical instruction. VA may give a stipend to Veterans. At the end of the program, Veterans receive job certification or journeyman status.
 

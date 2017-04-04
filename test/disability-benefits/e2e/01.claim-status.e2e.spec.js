@@ -1,7 +1,7 @@
-const E2eHelpers = require('../../util/e2e-helpers');
-const Timeouts = require('../../util/timeouts.js');
-const DisabilityHelpers = require('../../util/disability-helpers');
-const LoginHelpers = require('../../util/login-helpers');
+const E2eHelpers = require('../../e2e/e2e-helpers');
+const Timeouts = require('../../e2e/timeouts.js');
+const DisabilityHelpers = require('../../e2e/disability-helpers');
+const LoginHelpers = require('../../e2e/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -13,9 +13,10 @@ module.exports = E2eHelpers.createE2eTest(
 
     LoginHelpers.logIn(token, client, '/disability-benefits/track-claims', 3)
       .waitForElementVisible('a.claim-list-item', Timeouts.slow);
+
     client
       .click('a.claim-list-item:first-child')
-      .waitForElementVisible('body', Timeouts.normal)
+      .waitForElementVisible('body', Timeouts.slow)
       .waitForElementVisible('.claim-title', Timeouts.slow);
 
     // redirect to status tab
@@ -44,14 +45,14 @@ module.exports = E2eHelpers.createE2eTest(
     // timeline expand
     client
       .click('li.step.one')
-      .waitForElementVisible('li.step.one .claims-evidence', Timeouts.normal);
+      .waitForElementVisible('li.step.one .claims-evidence', Timeouts.slow);
     client
-      .expect.element('.claims-evidence:nth-child(3) .claims-evidence-item').text.equals('Your claim is complete');
+      .expect.element('.claims-evidence:nth-child(3) .claims-evidence-item').text.equals('Your claim is closed');
     client
       .expect.element('button.older-updates').to.be.present;
     client
       .click('li.step.one')
-      .waitForElementNotPresent('li.step.one .claims-evidence', Timeouts.normal);
+      .waitForElementNotPresent('li.step.one .claims-evidence', Timeouts.slow);
 
     // files needed
     client

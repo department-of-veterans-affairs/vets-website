@@ -99,7 +99,9 @@ class ErrorableRadioButtons extends React.Component {
               type="radio"
               value={optionValue}
               onChange={this.handleChange}/>
-          <label htmlFor={`${this.inputId}-${index}`}>
+          <label
+              name={`${this.props.name}-${index}-label`}
+              htmlFor={`${this.inputId}-${index}`}>
             {optionLabel}
           </label>
           {matchingSubSection}
@@ -148,7 +150,10 @@ ErrorableRadioButtons.propTypes = {
     React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.shape({
-        label: React.PropTypes.string,
+        label: React.PropTypes.oneOfType([
+          React.PropTypes.string,
+          React.PropTypes.element,
+        ]),
         value: React.PropTypes.oneOfType([
           React.PropTypes.string,
           React.PropTypes.bool

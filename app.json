@@ -2,6 +2,7 @@
   "name":"vets-website",
   "scripts":{},
   "env":{
+    "INSTALL_HOOKS": "no"
   },
   "addons":[],
   "buildpacks": [
