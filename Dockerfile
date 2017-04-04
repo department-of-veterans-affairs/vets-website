@@ -25,8 +25,9 @@ RUN set -ex \
   done
 
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 4.4.7
-ENV NPM_VERSION 3.8.9
+ENV NODE_VERSION 6.10.2
+ENV NPM_VERSION 3.10.10
+ENV YARN_VERSION 0.21.3
 ENV NODE_ENV production
 
 RUN buildDeps='xz-utils' \
@@ -42,6 +43,7 @@ RUN buildDeps='xz-utils' \
     && apt-get purge -y --auto-remove $buildDeps \
     && ln -s /usr/local/bin/node /usr/local/bin/nodejs \
     && npm install -g npm@$NPM_VERSION \
+    && npm install -g yarn@$YARN_VERSION \
     && npm install -g nsp \
     && npm install -g s3-cli \
     && npm install -g codeclimate-test-reporter
@@ -72,8 +74,8 @@ RUN mkdir -p logs/selenium
 # Install required npm dependencies
 
 COPY package.json .
-COPY npm-shrinkwrap.json .
-RUN npm install
+# COPY npm-shrinkwrap.json .
+RUN yarn install
 
 # Copy application source to image
 
