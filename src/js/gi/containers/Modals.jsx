@@ -287,7 +287,7 @@ export class Modals extends React.Component {
           <h2>In-state tuition and fees per year</h2>
           <p>Enter the amount of tuition/fees your school charges in-state students.</p>
           <p>When you select some schools, we import the average in-state tuition/fees for an undergraduate student as reported by the school to the Department of Education through IPEDS. This is the same information that is published on College Navigator.</p>
-          <p>Generally, in-state residents are charged a discounted rate of tuition and fees.VA pays the in-state tuition & fee rate at public schools. <a href="http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch33#TUITION" target="_blank">Click here for more information.</a></p>
+          <p>Generally, in-state residents are charged a discounted rate of tuition and fees. VA pays the in-state tuition & fee rate at public schools. <a href="http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch33#TUITION" target="_blank">Click here for more information.</a></p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcYr')}>
