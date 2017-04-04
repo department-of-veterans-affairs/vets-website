@@ -150,9 +150,6 @@ smith.use((files, metalsmith, done) => {
   console.log('DOING THIS THING!!!!!!!!!!!!!!!!!');
   /* eslint-enable no-var */
   Object.keys(files).forEach((filename) => {
-    /* eslint-disable no-param-reassign */
-    files[filename].testy = 'TEEEESTY';
-    /* eslint-enable no-param-reassign */
     if (filename.match(/\.md$/) !== null) {
       runningCount += 1;
       const fullPath = `content/pages/${filename}`;
