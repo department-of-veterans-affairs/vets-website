@@ -64,7 +64,7 @@ If you're the child of a Servicemember who died in the line of duty before Augus
 3. Mail the application to the VA regional processing office (RPO) where your school is located. [Find an RPO](http://www.benefits.va.gov/benefits/offices.asp#C).
 
 #### If you haven't started school or a training program:
-- [Get help from an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
+- [Get help from an accredited representative](/disability-benefits/apply/help/index.html).
 - Get more information about schools and see if we have approved your program. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 
 #### If you've already started your program:
