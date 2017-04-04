@@ -278,9 +278,16 @@ export class Modals extends React.Component {
       <span>
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcTuition')}>
           <h2>Tuition and fees per year</h2>
-          <p>Enter the total tuition/fees, you will be charged for the academic year.</p>
+          <p>Enter the total tuition/fees you will be charged for the academic year.</p>
           <p>When you select some schools, we import the average tuition/fees for an undergraduate student as reported by the school to the Department of Education through <a href="http://nces.ed.gov/ipeds/datacenter/" id="anch_442" target="blank">IPEDS</a>. This is the same information that is published on <a href="http://nces.ed.gov/collegenavigator/" id="anch_443" target="blank">College Navigator</a>.</p>
           <p>To learn more, please review our "<a href={'http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school'} target="_blank">About This Tool</a>" page.</p>
+        </Modal>
+
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcInStateTuition')}>
+          <h2>In-state tuition and fees per year</h2>
+          <p>Enter the amount of tuition/fees your school charges in-state students.</p>
+          <p>When you select some schools, we import the average in-state tuition/fees for an undergraduate student as reported by the school to the Department of Education through IPEDS. This is the same information that is published on College Navigator.</p>
+          <p>Generally, in-state residents are charged a discounted rate of tuition and fees.VA pays the in-state tuition & fee rate at public schools. <a href="http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch33#TUITION" target="_blank">Click here for more information.</a></p>
         </Modal>
 
         <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcYr')}>
@@ -328,7 +335,8 @@ export class Modals extends React.Component {
           </p>
           <p>
             For more information about MHA increases or decreases,
-            visit <a href="For more information about MHA increases or decreases click here"
+            visit <a title="For more information about MHA increases or decreases click here"
+                href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
                 target="_blank">this page</a>.
           </p>
         </Modal>

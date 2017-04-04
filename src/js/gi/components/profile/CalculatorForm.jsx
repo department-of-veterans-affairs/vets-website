@@ -46,6 +46,24 @@ class CalculatorForm extends React.Component {
 
   renderTuition() {
     if (!this.props.displayedInputs.tuition) return null;
+
+    const inStateTuitionInput =
+      this.props.inputs.inState === 'no' && (
+        <div>
+          <label htmlFor="inStateTuitionFees">
+            {this.renderLearnMoreLabel({
+              text: 'In-state tuition and fees per year',
+              modal: 'calcInStateTuition'
+            })}
+          </label>
+          <input
+              type="text"
+              name="inStateTuitionFees"
+              value={formatCurrency(this.props.inputs.inStateTuitionFees)}
+              onChange={this.props.onInputChange}/>
+        </div>
+      );
+
     return (
       <div>
         <label htmlFor="tuitionFees">
@@ -59,6 +77,7 @@ class CalculatorForm extends React.Component {
             name="tuitionFees"
             value={formatCurrency(this.props.inputs.tuitionFees)}
             onChange={this.props.onInputChange}/>
+        {inStateTuitionInput}
       </div>
     );
   }
