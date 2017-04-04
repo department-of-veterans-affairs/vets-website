@@ -170,7 +170,7 @@ smith.use((files, metalsmith, done) => {
           /* eslint-enable no-param-reassign */
         } else {
           /* eslint-disable no-param-reassign */
-          files[filename].lastupdate = 'BAD NEWS';
+          files[filename].lastupdate = `BAD NEWS ${filename} ---${log.all.length}---${files[filename]}`;
           /* eslint-enable no-param-reassign */
           console.log('TERRIBLE NEWS');
         }
