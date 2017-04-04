@@ -19,9 +19,6 @@ module.exports = {
   test_workers: false,
   test_settings: {
     'default': {
-      globals: {
-        buildtype: process.env.BUILDTYPE
-      },
       launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
       filter: './test/**/*.e2e.spec.js',
       selenium_host: 'localhost',

@@ -4,12 +4,12 @@ const EduHelpers = require('../../e2e/edu-helpers');
 const Edu1990eHelpers = require('../../e2e/edu-1990e-helpers');
 const testData = require('./schema/maximal-test.json');
 
-module.exports = E2eHelpers.createE2eTest(
-  (client) => {
-    // TODO: this is disabled sine the 1990e route is guarded for production
-    // builds (see src/js/edu-benefits/routes.jsx); this condition should be removed
-    // once the 1990e is launched in production so that these tests run on jenkins
-    if (client.globals.buildtype !== 'production') {
+// TODO: this is disabled since the 1990e route is guarded for production builds
+// (see src/js/edu-benefits/routes.jsx); this condition should be removed once
+// the 1990e is production so that these tests are run by our continuous integratino
+if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
+  module.exports = E2eHelpers.createE2eTest(
+    (client) => {
       EduHelpers.initApplicationSubmitMock('1990e');
 
       // Introduction page renders
@@ -103,5 +103,5 @@ module.exports = E2eHelpers.createE2eTest(
 
       client.end();
     }
-  }
-);
+  );
+}
