@@ -146,32 +146,25 @@ smith.use(filenames());
 smith.use((files, metalsmith, done) => {
   /* eslint-disable no-console */
   /* eslint-disable no-var */
+  /* eslint-disable no-param-reassign */
   var runningCount = 0;
   console.log('DOING THIS THING!!!!!!!!!!!!!!!!!');
-  /* eslint-enable no-var */
   Object.keys(files).forEach((filename) => {
-    /* eslint-disable no-param-reassign */
     files[filename].testy = 'TEEEESTY';
-    /* eslint-enable no-param-reassign */
     if (filename.match(/\.md$/) !== null) {
       runningCount += 1;
       const fullPath = `content/pages/${filename}`;
       console.log(`GIT LOG FOR ${filename}`);
       git.log({ file: fullPath }, (err, log) => {
         console.log(`RESULT FOR FILENAME ${filename} LENGTH ${log.all.length}`);
-        if (files[filename]) {
+        files[filename].weird = JSON.stringify(log);
+        if (log.all.length > 1 && files[filename]) {
           console.log(`GOOD NEWS ${log.latest.date}`);
-          /* eslint-disable no-param-reassign */
           files[filename].lastupdate = new Date(log.latest.date);
-          /* eslint-enable no-param-reassign */
         } else if (err) {
-          /* eslint-disable no-param-reassign */
           files[filename].lastupdate = 'ERROR';
-          /* eslint-enable no-param-reassign */
         } else {
-          /* eslint-disable no-param-reassign */
           files[filename].lastupdate = `BAD NEWS ${filename} ---${log.all.length}---${files[filename]}`;
-          /* eslint-enable no-param-reassign */
           console.log('TERRIBLE NEWS');
         }
       }).then(() => {
@@ -183,7 +176,9 @@ smith.use((files, metalsmith, done) => {
       });
     }
   });
-  /* eslint-disable no-console */
+  /* eslint-enable no-param-reassign */
+  /* eslint-enable no-var */
+  /* eslint-enable no-console */
 });
 
 smith.use(define({
