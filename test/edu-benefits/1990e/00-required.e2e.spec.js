@@ -6,7 +6,9 @@ const testData = require('./schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    // TODO: enable once 1990e is launched
+    // TODO: this is disabled sine the 1990e route is guarded for production
+    // builds (see src/js/edu-benefits/routes.jsx); this condition should be removed
+    // once the 1990e is launched in production so that these tests run on jenkins
     if (client.globals.buildtype !== 'production') {
       EduHelpers.initApplicationSubmitMock('1990e');
 
