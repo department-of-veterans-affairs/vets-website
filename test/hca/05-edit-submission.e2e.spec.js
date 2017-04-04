@@ -1,8 +1,8 @@
 const _ = require('lodash');
 
-const E2eHelpers = require('../util/e2e-helpers');
-const Timeouts = require('../util/timeouts.js');
-const HcaHelpers = require('../util/hca-helpers.js');
+const E2eHelpers = require('../e2e/e2e-helpers');
+const Timeouts = require('../e2e/timeouts.js');
+const HcaHelpers = require('../e2e/hca-helpers.js');
 
 function editSection(client) {
   client.pause(50).useXpath().click('(//button[text()="Edit"])[last()]').useCss();

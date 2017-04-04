@@ -1,7 +1,5 @@
 const mock = require('./mock-helpers');
 
-// const Timeouts = require('../util/timeouts.js');
-
 function initAskVAMock(token) {
   mock(token, {
     path: '/v0/evss_claims/11/request_decision',
