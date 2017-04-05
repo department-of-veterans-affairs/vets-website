@@ -50,4 +50,4 @@ VA help with the process of returning to the job you held before deploying
 
 ### How it works
 
-[Apply for VR&amp;E](/vre/apply-vre/) to find a Vocational Rehabilitation Counselor who can help you.
+[Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/) to find a Vocational Rehabilitation Counselor who can help you.
