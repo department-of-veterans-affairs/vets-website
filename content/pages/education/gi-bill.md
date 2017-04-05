@@ -9,7 +9,7 @@ relatedlinks:
     title: Foreign Programs
     description: ""
   - url: /education/gi-bill/higher-learning/
-    title: Institutions of Higher Learning Undergraduate and Graduate Degrees
+    title: Undergraduate and Graduate Degrees from Institutions of Higher Learning 
     description: ""
   - url: /education/gi-bill/post-9-11/
     title: Post-9/11 GI Bill
@@ -47,7 +47,7 @@ relatedlinks:
 
 Since 1944, the GI Bill has helped millions of Veterans pay for college, graduate school, and other training programs. If you served on active duty after September 11, 2001, the Post-9/11 GI Bill will provide you with a housing allowance, money for books, and the option to transfer unused education benefits to your spouse or children.
 
-The GI Bill Comparison Tool and Veterans Services Organizations can help you explore options and see what benefits you can get:<br>
+The GI Bill Comparison Tool and Veterans Service Organizations can help you explore options and find out what benefits you can get:<br>
 [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 <br>
 [Get help from a Veterans Service Organization](http://www.va.gov/vso/).
