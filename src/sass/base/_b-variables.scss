@@ -1,4 +1,6 @@
+//===================================
 // Typography
+//===================================
 
 // These variables override values set in either
 // ~uswds/src/stylesheets/core/defaults" or 
@@ -7,7 +9,42 @@
 $base-font-size:      rem(16px);
 $font-serif:          "Roboto Slab", serif;
 
+// $heading-1:
+@mixin heading-2 {
+  font-size: 1.2em;
+  line-height: 1.2;
+  font-weight: bold;
+}
+
+@mixin heading-3 {
+  font-size: 1.8em;
+  line-height: 1.5;
+  font-weight: bold;
+}
+
+@mixin heading-4 {
+  font-size: 1.35em;
+  line-height: 1.5;
+  font-weight: bold;
+}
+
+@mixin heading-5 {
+  font-size: 1.15em;
+  line-height: 1.5;
+  font-weight: bold;
+}
+
+@mixin heading-6 {
+  font-size: 0.9em;
+  line-height: 1.5;
+  font-weight: bold;
+}
+
+
+//===================================
 // Magic Numbers
+//===================================
+
 // Note: USWDS value is 53rem;
 $text-max-width:      70rem;
 $usa-form-width:      32em;
