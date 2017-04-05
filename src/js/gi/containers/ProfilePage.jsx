@@ -70,7 +70,9 @@ export class ProfilePage extends React.Component {
                 <Calculator/>
               </AccordionItem>
               <AccordionItem button="Veteran programs">
-                <Programs/>
+                <Programs
+                    institution={this.props.profile.attributes}
+                    onShowModal={this.props.showModal}/>
               </AccordionItem>
               <AccordionItem button="Student outcomes">
                 <If condition={!!profile.attributes.facilityCode && !!constants} comment="TODO">
