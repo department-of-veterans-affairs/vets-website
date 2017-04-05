@@ -9,7 +9,7 @@ extraspace: true
 majorlinks:
  - url: /education/eligibility/
    title: Eligibility
-   description: Find out if you can get VA education benefits, like help paying your tuition, picking a school, and exploring career options.
+   description: Find out if you qualify for VA education benefits through the GI Bill program and other educational assistance programs.
  - url: /education/apply/
    title: Application Process
    description: Apply online now, or find out how to apply in person or by mail.
@@ -36,6 +36,6 @@ relatedlinks:
 
 <div class="va-introtext">
 
-We offer Veterans, Servicemembers, and their families education benefits like tuition, help finding the right school or training program, and career counseling. Explore your benefit options.   
+We offer Veterans, Servicemembers, and their families education benefits like help paying tuition, help finding the right school or training program, and career counseling. Explore your benefit options.   
 
 </div>
