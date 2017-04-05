@@ -72,6 +72,7 @@ To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 
 [Download VA Form SGLV 8286](http://www.benefits.va.gov/INSURANCE/forms/8286.htm).
 
+
 ### How much will I pay for these benefits? [UX/DESIGN NOTE: Consider accordion link here]
 
 If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). [Learn more about TSGLI](/life-insurance/options-eligibility/tsgli).
