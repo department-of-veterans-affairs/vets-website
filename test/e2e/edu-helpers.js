@@ -59,20 +59,23 @@ function completeRelativeInformation(client, data, onlyRequiredFields) {
   }
 }
 
-function completeAdditionalBenefits(client, data) {
-  if (typeof data.nonVaAssistance !== 'undefined') {
-    client.click(data.nonVaAssistance ? 'input[name="root_nonVaAssistanceYes"]' : 'input[name="root_nonVaAssistanceNo"]');
+function completeAdditionalBenefits(client, data, onlyRequiredFields) {
+  if (!onlyRequiredFields) {
+    if (typeof data.nonVaAssistance !== 'undefined') {
+      client.click(data.nonVaAssistance ? 'input[name="root_nonVaAssistanceYes"]' : 'input[name="root_nonVaAssistanceNo"]');
+    }
+    if (typeof data.civilianBenefitsAssistance !== 'undefined') {
+      client.click(data.civilianBenefitsAssistance ? 'input[name="root_civilianBenefitsAssistanceYes"]' : 'input[name="root_civilianBenefitsAssistanceNo"]');
+    }
+    // TODO for 5490: set value for data.civilianBenefitsSource
   }
-  if (typeof data.civilianBenefitsAssistance !== 'undefined') {
-    client.click(data.civilianBenefitsAssistance ? 'input[name="root_civilianBenefitsAssistanceYes"]' : 'input[name="root_civilianBenefitsAssistanceNo"]');
-  }
-  // TODO for 5490: set value for data.civilianBenefitsSource
 }
 
-function completeBenefitsSelection(client) {
-  // Some but not all edu forms require a benefit to be selected, so always select one
-  client
-    .click('.form-radio-buttons:first-child input');
+function completeBenefitsSelection(client, onlyRequiredFields) {
+  if (!onlyRequiredFields) {
+    client
+      .click('.form-radio-buttons:first-child input');
+  }
 }
 
 function completeServicePeriods(client, data, onlyRequiredFields) {
@@ -129,9 +132,26 @@ function completeVeteranAddress(client, data) {
     .setValue('input[name="root_veteranAddress_postalCode"]', data.veteranAddress.postalCode);
 }
 
-// TODO: add parameter to fill either veteran or relative address
-function completeContactInformation(client, data, onlyRequiredFields) {
-  completeVeteranAddress(client, data);
+function completeRelativeAddress(client, data) {
+  client
+    .clearValue('input[name="root_relativeAddress_street"]')
+    .setValue('input[name="root_relativeAddress_street"]', data.relativeAddress.street)
+    .clearValue('input[name="root_relativeAddress_street2"]')
+    .setValue('input[name="root_relativeAddress_street2"]', data.relativeAddress.street2)
+    .clearValue('input[name="root_relativeAddress_city"]')
+    .setValue('input[name="root_relativeAddress_city"]', data.relativeAddress.city)
+    .clearValue('select[name="root_relativeAddress_state"]')
+    .setValue('select[name="root_relativeAddress_state"]', data.relativeAddress.state)
+    .clearValue('input[name="root_relativeAddress_postalCode"]')
+    .setValue('input[name="root_relativeAddress_postalCode"]', data.relativeAddress.postalCode);
+}
+
+function completeContactInformation(client, data, onlyRequiredFields, isRelative = false) {
+  if (isRelative) {
+    completeRelativeAddress(client, data);
+  } else {
+    completeVeteranAddress(client, data);
+  }
   client
     .clearValue('input[name="root_view:otherContactInfo_email"]')
     .setValue('input[name="root_view:otherContactInfo_email"]', data['view:otherContactInfo'].email)
@@ -148,12 +168,39 @@ function completeContactInformation(client, data, onlyRequiredFields) {
   }
 }
 
+function completePaymentChange(client, data, onlyRequiredFields) {
+  if (!onlyRequiredFields) {
+    client
+      .click('input[name="root_bankAccountChange_1"]');
+  }
+}
+
 function completeDirectDeposit(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
-      .click('input[name="root_bankAccountChange_1"]')
+      .click('input[name="root_bankAccount_accountType_1"]')
       .setValue('input[name="root_bankAccount_accountNumber"]', data.bankAccount.accountNumber)
       .setValue('input[name="root_bankAccount_routingNumber"]', data.bankAccount.routingNumber);
+  }
+}
+
+function completeSchoolSelection(client, data, onlyRequiredFields) {
+  selectDropdown(client, 'root_educationProgram_educationType', data.educationProgram.educationType);
+  if (!onlyRequiredFields) {
+    client
+      .clearValue('input[name="root_educationProgram_name"]')
+      .clearValue('input[name="root_educationProgram_name"]', data.educationProgram.name)
+      .setValue('input[name="root_educationProgram_address_street"]', data.educationProgram.address.street)
+      .clearValue('input[name="root_educationProgram_address_street2"]')
+      .setValue('input[name="root_educationProgram_address_street2"]', data.educationProgram.address.street2)
+      .clearValue('input[name="root_educationProgram_address_city"]')
+      .setValue('input[name="root_educationProgram_address_city"]', data.educationProgram.address.city)
+      .clearValue('select[name="root_educationProgram_address_state"]')
+      .setValue('select[name="root_educationProgram_address_state"]', data.educationProgram.address.state)
+      .clearValue('input[name="root_educationProgram_address_postalCode"]')
+      .setValue('input[name="root_educationProgram_address_postalCode"]', data.educationProgram.address.postalCode)
+      .clearValue('textarea[id="root_educationObjective"]')
+      .setValue('textarea[id="root_educationObjective"]', data.educationObjective);
   }
 }
 
@@ -166,5 +213,7 @@ module.exports = {
   completeServicePeriods,
   completeVeteranAddress,
   completeContactInformation,
-  completeDirectDeposit
+  completePaymentChange,
+  completeDirectDeposit,
+  completeSchoolSelection
 };
