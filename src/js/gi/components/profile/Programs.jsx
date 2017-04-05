@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { showModal } from '../../actions';
-import If from '../../components/If';
 
 export class Programs extends React.Component {
 
   constructor(props) {
     super(props);
+    this.renderProgramLabel = this.renderProgramLabel.bind(this);
 
     const institution = props.profile.attributes;
 
@@ -45,7 +45,7 @@ export class Programs extends React.Component {
         modal: false,
         text: 'VetSuccess on Campus',
         link: {
-          href: institution.vetSuccessEmail ? `mailto:${institution.vetSuccessEmail}` : false,
+          href: institution.vetSuccessEmail && `mailto:${institution.vetSuccessEmail}`,
           text: `Email ${institution.vetSuccessName}`,
         }
       },
@@ -62,17 +62,18 @@ export class Programs extends React.Component {
     const program = this.programs[programKey];
     const icon = available ? 'fa fa-check' : 'fa fa-remove';
 
-    let link = '';
-    if (available && program.link && program.link.href) {
-      link = <span>&nbsp;(<a href={program.link.href} target="_blank">{program.link.text}</a>)</span>;
-    }
+    const link = available && program.link && program.link.href && (
+      <span>
+        &nbsp;(<a href={program.link.href} target="_blank">
+          {program.link.text}
+        </a>)
+      </span>
+    ) || '';
 
-    let label = '';
-    if (program.modal) {
-      label = <a onClick={this.props.showModal.bind(this, program.modal)}>{program.text}</a>;
-    } else {
-      label = program.text;
-    }
+    const label = program.modal ?
+      (<a onClick={this.props.showModal.bind(this, program.modal)}>
+        {program.text}
+      </a>) : program.text;
 
     return <p key={programKey}><i className={icon}/> {label} {link}</p>;
   }
@@ -84,19 +85,23 @@ export class Programs extends React.Component {
     const notAvailable = programs.filter((key) => !!it[key] === false);
     return (
       <div className="programs row">
-        <If condition={available.length > 0}>
-          <div className="medium-6 large-6 column">
-            <h3>Available at this campus</h3>
-            {available.map((program) => this.renderProgramLabel.bind(this, program, true)())}
-            <br/>
-          </div>
-        </If>
-        <If condition={notAvailable.length > 0}>
-          <div className="medium-6 large-6 column">
-            <h3>Not available at this campus</h3>
-            {notAvailable.map((program) => this.renderProgramLabel.bind(this, program, false)())}
-          </div>
-        </If>
+        {
+          available.length > 0 && (
+            <div className="medium-6 large-6 column">
+              <h3>Available at this campus</h3>
+              {available.map((program) => this.renderProgramLabel.bind(this, program, true)())}
+              <br/>
+            </div>
+          )
+        }
+        {
+          notAvailable.length > 0 && (
+            <div className="medium-6 large-6 column">
+              <h3>Not available at this campus</h3>
+              {notAvailable.map((program) => this.renderProgramLabel.bind(this, program, false)())}
+            </div>
+          )
+        }
       </div>
     );
   }
