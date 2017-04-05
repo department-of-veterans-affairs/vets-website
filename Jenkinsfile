@@ -157,6 +157,10 @@ node('vets-website-linting') {
   }
 
   stage('Deploy') {
+    if (isContentTeamUpdate()) {
+      throw new hudson.AbortException("content branches fail intentionally")
+    }
+
     if (!isDeployable()) {
       return
     }
