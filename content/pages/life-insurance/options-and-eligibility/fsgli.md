@@ -47,26 +47,23 @@ You can get FSGLI as the spouse of someone with SGLI coverage no matter if your 
 
 Up to a maximum of $100,000 of coverage for you, not to exceed the Servicemember’s SGLI coverage, and $10,000 for each dependent child. Dependent children get free coverage. 
 
-
 ### How do I get these benefits?
 
 - **If you’re the civilian spouse of a Servicemember signed up for full-time SGLI**, we’ll automatically insure you under FSGLI. In this case, we’ll automatically take your premium out of your spouse’s pay.
 
 - **If you’re a military spouse and you were married on or after January 2, 2013**, we won’t automatically cover you. You’ll need to sign up using VA Form SGLV 8286A (Spouse Coverage Election and Certificate). Complete the form and hand it in to your unit personnel office. [Download VA Form SGLV 8286A](http://www.benefits.va.gov/INSURANCE/forms/8286A.htm).
 
-
-### Can I get extended coverage for a dependent child? [UX/Design note: Consider accordion link here]
+### Can I get extended coverage for a dependent child? **[UX/DESIGN NOTE: Consider accordion link here]**
 
 Yes, in some cases. Coverage lasts until the child is 18 years old. But, if the child is a full-time student or becomes permanently and totally disabled (unable to do everyday tasks, including meaningful work) before turning 18 and is no longer able to support themselves, we may extend the coverage.
 
-
-### Can I make changes to my coverage? [UX/Design note: Consider accordion link here]
+### Can I make changes to my coverage? **[UX/DESIGN NOTE: Consider accordion link here]**
 
 Yes, if you have spousal coverage. If you want to reduce, turn down, or cancel your spousal coverage, complete VA Form SGLV 8286A: Spouse Coverage Election and Certificate and turn it in to your unit’s personnel office. [Download VA Form SGLV 8286A](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2014-06.PDF). 
 
 **Note:** We automatically cover dependent children. This coverage can’t be turned down, reduced, or canceled.
 
-### How much will I pay for spousal coverage—and how do the premium payments work? [UX/Design note: Consider accordion link here]
+### How much will I pay for spousal coverage—and how do the premium payments work? **[UX/DESIGN NOTE: Consider accordion link here]**
 
 You’ll pay a premium for your spouse’s coverage, which will increase as your spouse ages.
 
@@ -76,14 +73,13 @@ These are the current spousal coverage monthly premium rates:
 
 If you’re signed up as a spouse in the Defense Enrollment Eligibility Reporting System (DEERS), we’ll automatically deduct the FSGLI premium from your Servicemember’s pay. If you aren’t signed up in DEERS, your Servicemember will still be responsible for premiums and back payments of unpaid premiums. 
 
-### How much will I pay for dependent coverage? [UX/Design note: Consider accordion link here]
+### How much will I pay for dependent coverage? **[UX/DESIGN NOTE: Consider accordion link here]**
 
 Nothing. We provide dependent coverage at no cost until the child is 18 years old, unless the child:
 -	Is a full-time student, **or**
 -	Becomes permanently and totally disabled—before turning 18—and can’t support themselves 
 
-
-### How do I convert an FSGLI policy to an individual insurance policy? [UX/Design note: Consider accordion link here]
+### How do I convert an FSGLI policy to an individual insurance policy? **[UX/DESIGN NOTE: Consider accordion link here]**
 
 You have the option to convert spousal FSGLI coverage to a permanent, individual insurance policy (such as whole life) within 120 days from the date of the Servicemember’s:
 
@@ -107,7 +103,4 @@ You can’t convert other types of policies—such as term, variable, or univers
 	- The Servicemember's FSGLI spousal declination
 	- The Servicemember's SGLI declination
 	- The Servicemember's proof of death (DD1300: Report of Casualty, or a civilian death certificate)
-
-
-
 
