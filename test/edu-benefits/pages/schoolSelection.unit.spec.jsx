@@ -7,8 +7,8 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/edu-benefits/pages/schoolSelection.js';
 
-import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
-import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
+import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
+import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 
 describe('Edu 1990e schoolSelection', () => {
   const { schema, uiSchema } = formConfig(fullSchema1990e, {

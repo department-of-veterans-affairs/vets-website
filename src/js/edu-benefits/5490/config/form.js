@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
+import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 
 // benefitsLabels should be imported from utils/helpers, but for now, they don't
 //  all have links, so for consistency, use the set in ../helpers
