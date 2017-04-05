@@ -87,6 +87,22 @@ function overrideAnimations(client) {
   });
 }
 
+// Set up some helper functions to make writing tests nicer
+function bootstrapHelpers(client) {
+  // Ideally, it'd just be called setValue, but that's taken
+  // Clears the current value and if |value| is specified,
+  //  enters the |value| in.
+  client.resetValue = function(selector, value) {
+    this.clearValue(selector);
+    if (typeof value !== 'undefined') {
+      this.setValue(selector, value);
+    }
+
+    // For function chaining
+    return this;
+  };
+}
+
 // Returns an object suitable for a nightwatch test case.
 //
 // Provides test framework maintainers a single entry point for annotating all tests with things
@@ -96,6 +112,7 @@ function overrideAnimations(client) {
 function createE2eTest(beginApplication) {
   return {
     'Begin application': (client) => {
+      bootstrapHelpers(client);
       overrideSmoothScrolling(client);
       beginApplication(client);
     }
