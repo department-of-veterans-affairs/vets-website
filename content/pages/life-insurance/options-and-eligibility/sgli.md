@@ -110,10 +110,10 @@ You may be able to keep your free coverage for up to 2 years after the date you 
 
 You’ll need to apply for the Servicemembers’ Group Life Insurance Disability Extension (SGLI-DE). 
 
-To apply, fill out VA Form SGLV 8715 (SGLI Disability Extension Application) and give it to your unit’s personnel officer. [Download VA Form SGLV 8715]( http://www.benefits.va.gov/INSURANCE/forms/SGLV_8715.pdf).
+To apply, fill out VA Form SGLV 8715 (SGLI Disability Extension Application) and give it to your unit’s personnel officer. [Download VA Form SGLV 8715](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8715.pdf).
 
 If you do this, you’ll get a notice 20 months after your separation date letting you know that your SGLI-DE will end and that you now have the option to pay a premium for Veterans’ Group Life Insurance (VGLI).
 
-If you pay the premium, you’ll be able to keep your life insurance coverage for as long as you keep paying the premiums. [Learn more about VGLI](/life-insurance/options-eligibility/VGLI/).
+If you pay the premium, you’ll be able to keep your life insurance coverage for as long as you keep paying the premiums. [Learn more about VGLI](/life-insurance/options-and-eligibility/VGLI/).
 
 
