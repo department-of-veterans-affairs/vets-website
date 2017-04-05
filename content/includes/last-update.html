@@ -1,3 +1,10 @@
 <div class="last-updated">
-  <p>Last updated: <time datetime="{{lastupdate| date: '%Y-%m-%d'}}">{{ lastupdate | humanizeDate }}</time></p>
+  <p>
+    Last updated:
+    {% if lastupdate_override %}
+      <time datetime="{{lastupdate_override| date: '%Y-%m-%d'}}">{{ lastupdate_override | humanizeDate }}</time>
+    {% else %}
+      <time datetime="{{lastupdate| date: '%Y-%m-%d'}}">{{ lastupdate | humanizeDate }}</time>
+    {% endif %}
+  </p>
 </div>
