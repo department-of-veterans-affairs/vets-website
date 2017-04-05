@@ -30,9 +30,11 @@ You can get education benefits if you qualify for—or already get—VA educatio
 -----
 ### Is the application process different for foreign schools? 
 
-Yes. The application process is different. First, contact the school or submit a question to us using the GI Bill site to find out if we have approved your program so you can get benefits. [Go to the GI Bill site](https://gibill.custhelp.com/app/ask/). 
+Yes. The application process is different. Here's what you'll need to do:
 
-Give us the name of the foreign school, the complete address, and the name of the program you want to enroll in. We'll let you know if your program has already been approved. 
+- Contact the school or submit a question to us using the GI Bill site to find out if we have approved your program so you can get benefits. [Go to the GI Bill site](https://gibill.custhelp.com/app/ask/). 
+
+- Then, give us the name of the foreign school, the complete address, and the name of the program you want to enroll in. We'll let you know if your program has already been approved. 
 
 If you or your qualified dependent wants to enroll in a program that we haven't approved, you'll need to ask the school to request approval. We can't take any action until an official from your school (not you) requests approval. If we don't approve your program, you'll have to pay all costs at the school, including tuition and fees.
 
