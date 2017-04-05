@@ -1,9 +1,10 @@
 // const selectDropdown = require('./e2e-helpers.js').selectDropdown;
 
-function completeEducationHistory(client, data, onlyRequiredFields) {
-  // if (!onlyRequiredFields) {
-  // }
-}
+// function completeEducationHistory(client, data, onlyRequiredFields) {
+//   if (!onlyRequiredFields) {
+//
+//   }
+// }
 
 // Same as 1990e; relocate to keep it DRY
 function completeEmploymentHistory(client, data, onlyRequiredFields) {
@@ -21,6 +22,6 @@ function completeEmploymentHistory(client, data, onlyRequiredFields) {
 }
 
 module.exports = {
-  completeEducationHistory,
+  // completeEducationHistory,
   completeEmploymentHistory
 };

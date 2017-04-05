@@ -27,7 +27,6 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/information');
 
     // Additional benefits page
-    // TODO: Modify completeAdditionalBenefits()
     client
       .waitForElementVisible('label[for="root_civilianBenefitsAssistance"]', Timeouts.slow);
     EduHelpers.completeAdditionalBenefits(client, testData.benefitEligibility.data, true);
@@ -78,6 +77,11 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/employment/history');
 
     // School selection page
+    client
+      .waitForElementVisible('input[name="root_educationProgram_name"]', Timeouts.slow);
+    EduHelpers.completeSchoolSelection(client, testData.schoolSelection.data, true);
+    client.click('.form-progress-buttons .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/school-selection');
 
     // Contact information page
     client
@@ -85,6 +89,7 @@ module.exports = E2eHelpers.createE2eTest(
     EduHelpers.completeContactInformation(client, testData.contactInformation.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
+
     // Secondary contact page
 
     // Direct deposit page

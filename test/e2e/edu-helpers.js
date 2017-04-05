@@ -66,8 +66,11 @@ function completeAdditionalBenefits(client, data, onlyRequiredFields) {
     }
     if (typeof data.civilianBenefitsAssistance !== 'undefined') {
       client.click(data.civilianBenefitsAssistance ? 'input[name="root_civilianBenefitsAssistanceYes"]' : 'input[name="root_civilianBenefitsAssistanceNo"]');
+
+      if (typeof data.civilianBenefitsSource !== 'undefined') {
+        client.resetValue('input[name="root_civilianBenefitsSource"]', data.civilianBenefitsSource);
+      }
     }
-    // TODO for 5490: set value for data.civilianBenefitsSource
   }
 }
 
