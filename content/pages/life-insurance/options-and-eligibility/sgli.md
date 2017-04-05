@@ -4,16 +4,16 @@ title: Servicemembers' Group Life Insurance (SGLI)
 concurrence: 
 template: 1-topic-landing
 relatedlinks:
-  - url: /life-insurance/options-and-eligibility/FSGLI/
+  - url: /life-insurance/options-and-eligibility/fsgli/
     title: Family Servicemembers’ Group Life Insurance (FSGLI)
     description: Add coverage for spouse and dependent children (children who rely on you for financial support).
-  - url: /life-insurance/options-and-eligibility/TSGLI/
+  - url: /life-insurance/options-and-eligibility/tsgli/
     title: Traumatic Injury Protection Program (TSGLI)
     description: Add coverage for spouse and dependent children (children who rely on you for financial support).
-  - url: /life-insurance/options-and-eligibility/VGLI/
+  - url: /life-insurance/options-and-eligibility/vgli/
     title: Veterans’ Group Life Insurance (VGLI)
     description: Get group life insurance once you’ve ended your service.
-  - url: /life-insurance/options-and-eligibility/S-DVI/
+  - url: /life-insurance/options-and-eligibility/s-dvi/
     title: Service-Disabled Veterans Insurance (S-DVI)
     description: Continue your life insurance beyond 2 years after you leave the military if you have a service-connected disability (a disability that started or got worse during your service).
   
@@ -72,7 +72,7 @@ To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 
 ### How much will I pay for these benefits? [UX/DESIGN NOTE: Consider accordion link here]
 
-If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). [Learn more about TSGLI](/life-insurance/options-and-eligibility/TSGLI/).
+If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). [Learn more about TSGLI](/life-insurance/options-and-eligibility/tsgli/).
 
 These are the SGLI premium rates effective July 1, 2014.
 
@@ -80,7 +80,7 @@ These are the SGLI premium rates effective July 1, 2014.
 
 ### How do I convert my SGLI when I leave the military? [UX/DESIGN NOTE: Consider accordion link here]
 
-When you leave the military, you can apply to convert to Veterans’ Group Life Insurance (VGLI) within 1 year and 120 days from your discharge for up to the amount of coverage you had through SGLI. [Learn more about VGLI](/life-insurance/options-and-eligibility/VGLI/).
+When you leave the military, you can apply to convert to Veterans’ Group Life Insurance (VGLI) within 1 year and 120 days from your discharge for up to the amount of coverage you had through SGLI. [Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
 
 You can also convert your SGLI policy into a civilian policy within 120 days from the date you left the military. [Convert your SGLI policy](http://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2015-06.pdf).
 
@@ -109,6 +109,6 @@ To apply, fill out VA Form SGLV 8715 (SGLI Disability Extension Application) and
 
 If you do this, you’ll get a notice 20 months after your separation date letting you know that your SGLI-DE will end and that you now have the option to pay a premium for Veterans’ Group Life Insurance (VGLI).
 
-If you pay the premium, you’ll be able to keep your life insurance coverage for as long as you keep paying the premiums. [Learn more about VGLI](/life-insurance/options-and-eligibility/VGLI/).
+If you pay the premium, you’ll be able to keep your life insurance coverage for as long as you keep paying the premiums. [Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
 
 

@@ -5,8 +5,8 @@ concurrence:
 template: 1-topic-landing
 relatedlinks:
   - url: http://www.google.com
-    title: 
-    description: 
+    title: text
+    description: text
 ---
 
 Text
