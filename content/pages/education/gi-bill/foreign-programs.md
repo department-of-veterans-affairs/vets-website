@@ -21,7 +21,6 @@ You can get education benefits if you qualify for—or already get—VA educatio
 - Qualified dependents 
 
 **Exception:** Family members who qualify for Survivors’ and Dependents’ Educational Assistance can get VA benefits while in approved postsecondary (after high school) non-college degree programs at training locations in the Philippines.
-</div>
 
 ### What benefits can I get? 
 
@@ -81,11 +80,11 @@ Normally, foreign schools certify their students for 1 academic year. Within 120
 
 ### Need help?
 
-Get more information or help with your application from:
-- If you're in the United States, go to a VA Regional Benefit Office near you. [Find a Regional Benefit Office](/facilities).
-- If you're outside the United States, call <span class="tel">001-918-781-5678</span> during business hours, 7:00 a.m. to 6:00 p.m. (CST), Monday through Friday)
-- Local representatives of Veterans organizations and the American Red Cross
-- Foreign service posts
-- Canadian Department of Veterans Affairs (Canadian schools only)
+Get more information or help with your application:
+- If you're in the United States, call 888-442-4551 (888-GI-BILL-1), 8:00 a.m. to 7:00 p.m. ET Monday through Friday. Or, go to a VA Regional Benefit Office near you. [Find a Regional Benefit Office](/facilities).
+- If you're outside the United States, call <span class="tel">001-918-781-5678</span> during business hours, 7:00 a.m. to 6:00 p.m. (CT), Monday through Friday
+- Get help from local representatives of Veterans organizations and the American Red Cross
+- Go to a foreign service post
+- Contact the Canadian Department of Veterans Affairs (Canadian schools only)
 
 You can also check your approval status or send us questions by email 24 hours a day, 7 days a week, by using the Submit a Question section of our website. [Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/).
