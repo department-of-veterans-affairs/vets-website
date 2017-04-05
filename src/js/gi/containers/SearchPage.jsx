@@ -99,8 +99,7 @@ export class SearchPage extends React.Component {
 
   handleFilterChange(field, value) {
     // Translate form selections to query params.
-    const queryValue = value;
-    const query = { ...this.props.location.query, [field]: queryValue };
+    const query = { ...this.props.location.query, [field]: value };
 
     // Don't update the route if the query hasn't changed.
     if (_.isEqual(query, this.props.location.query)) { return; }
@@ -109,10 +108,11 @@ export class SearchPage extends React.Component {
     delete query.page;
 
     const shouldRemoveFilter =
+      !value ||
       ((field === 'category' ||
         field === 'country' ||
         field === 'state' ||
-        field === 'type') && queryValue === 'ALL');
+        field === 'type') && value === 'ALL');
 
     if (shouldRemoveFilter) { delete query[field]; }
     this.props.router.push({ ...this.props.location, query });
