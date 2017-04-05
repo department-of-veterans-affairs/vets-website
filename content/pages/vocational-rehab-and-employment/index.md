@@ -11,7 +11,7 @@ majorlinks:
   - url: /vocational-rehab-and-employment/family-members/
     title: Family Members
     description: You may be eligible for certain counseling services, training, and education benefits.
-  - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
+  - url: /disability-benefits/apply/claim-types/predischarge-claim/
     title: Servicemembers
     description: Get counseling, retraining, and education benefits while on active duty if you have a service-connected disability.
 
