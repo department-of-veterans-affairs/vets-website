@@ -165,13 +165,13 @@ body .row {
 // Handles the height transition
 .expander-content {
   overflow: hidden;
-  transition: max-height 150ms ease-out;
+  transition: max-height 150ms ease-in-out;
 
   // Handles the opacity transition
   .expander-content-inner {
-    transition: opacity 150ms ease-out;
+    transition: opacity 150ms ease-in-out;
     a.usa-button-primary {
-      transition: opacity 150ms ease-out;
+      transition: opacity 150ms ease-in-out;
       transition-delay: 150ms;
     }
   }
