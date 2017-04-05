@@ -75,7 +75,7 @@ To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 
 ### How much will I pay for these benefits? [UX/DESIGN NOTE: Consider accordion link here]
 
-If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). [Learn more about TSGLI](/life-insurance/options-eligibility/tsgli).
+If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). [Learn more about TSGLI](/life-insurance/options-and-eligibility/TSGLI/).
 
 These are the SGLI premium rates effective July 1, 2014.
 
@@ -83,7 +83,7 @@ These are the SGLI premium rates effective July 1, 2014.
 
 ### How do I convert my SGLI when I leave the military? [UX/DESIGN NOTE: Consider accordion link here]
 
-When you leave the military, you can apply to convert to Veterans’ Group Life Insurance (VGLI) within 1 year and 120 days from your discharge for up to the amount of coverage you had through SGLI. [Learn more about VGLI](/life-insurance/VGLI).
+When you leave the military, you can apply to convert to Veterans’ Group Life Insurance (VGLI) within 1 year and 120 days from your discharge for up to the amount of coverage you had through SGLI. [Learn more about VGLI](/life-insurance/options-and-eligibility/VGLI/).
 
 You can also convert your SGLI policy into a civilian policy within 120 days from the date you left the military. [Convert your SGLI policy](http://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2015-06.pdf).
 
