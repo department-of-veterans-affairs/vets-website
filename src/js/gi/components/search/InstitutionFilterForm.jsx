@@ -93,11 +93,6 @@ class InstitutionFilterForm extends React.Component {
       <div>
         <p>Programs</p>
         <Checkbox
-            checked={filters.caution}
-            name="caution"
-            label="Without Caution Flags"
-            onChange={this.handleCheckboxChange}/>
-        <Checkbox
             checked={filters.studentVeteranGroup}
             name="studentVeteranGroup"
             label="Student Vet Group"
@@ -163,7 +158,6 @@ InstitutionFilterForm.propTypes = {
     type: React.PropTypes.string,
     country: React.PropTypes.string,
     state: React.PropTypes.string,
-    withoutCautionFlags: React.PropTypes.bool,
     studentVetGroup: React.PropTypes.bool,
     yellowRibbonScholarship: React.PropTypes.bool,
     principlesOfExcellence: React.PropTypes.bool,
@@ -175,7 +169,6 @@ InstitutionFilterForm.propTypes = {
     type: React.PropTypes.object,
     state: React.PropTypes.object,
     country: React.PropTypes.object,
-    cautionFlag: React.PropTypes.object,
     studentVetGroup: React.PropTypes.object,
     yellowRibbonScholarship: React.PropTypes.object,
     principlesOfExcellence: React.PropTypes.object,
