@@ -12,7 +12,7 @@ If you served on a Navy or Coast Guard ship in or around Vietnam during the Viet
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -58,7 +58,7 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
 
 If you served on 1 of the ships or boats listed above—and you have 1 or more illnesses believed to be caused by Agent Orange—we'll conclude that your illness is likely caused by contact with Agent Orange.
 

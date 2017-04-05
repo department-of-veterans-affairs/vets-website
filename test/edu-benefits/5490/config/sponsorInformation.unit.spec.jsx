@@ -16,6 +16,7 @@ describe('Edu 5490 sponsorInformation', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           data={{}}
+          state={{}}
           uiSchema={uiSchema}/>
     );
 

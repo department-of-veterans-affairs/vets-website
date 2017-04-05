@@ -1,7 +1,7 @@
-const E2eHelpers = require('../../util/e2e-helpers');
-const Timeouts = require('../../util/timeouts.js');
-const EduHelpers = require('../../util/edu-helpers');
-const Edu1995Helpers = require('../../util/edu-1995-helpers');
+const E2eHelpers = require('../../e2e/e2e-helpers');
+const Timeouts = require('../../e2e/timeouts.js');
+const EduHelpers = require('../../e2e/edu-helpers');
+const Edu1995Helpers = require('../../e2e/edu-1995-helpers');
 const testData = require('./schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
@@ -71,11 +71,12 @@ module.exports = E2eHelpers.createE2eTest(
     // Direct deposit page.
     client
       .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
+    EduHelpers.completePaymentChange(client, testData.directDeposit.data, true);
     EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
-    // Review and Submit page.
+    // Review and submit page.
     client
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
     client
@@ -85,7 +86,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);
 
-    // Submit message
+    // Confirmation page.
     client
       .expect.element('.edu-benefits-submit-success').to.be.visible;
 

@@ -14,9 +14,10 @@ const EligibilityDetails = ({ expanded, toggle }) => (
     <button onClick={toggle} className="usa-button-outline">
       {expanded ? 'Hide' : 'Edit'} eligibility details
     </button>
-    <div className="form-expanding-group-open">
-      {expanded ? <EligibilityForm/> : null}
-    </div>
+    {expanded ?
+      <div className="form-expanding-group-open">
+        <EligibilityForm/>
+      </div> : null}
   </div>
 );
 
@@ -25,13 +26,14 @@ const CalculatorInputs = ({ expanded, toggle, inputs, displayedInputs, onInputCh
     <button onClick={toggle} className="usa-button-outline">
       {expanded ? 'Hide' : 'Edit'} calculator fields
     </button>
-    <div className="form-expanding-group-open">
-      {expanded ? <CalculatorForm
-          inputs={inputs}
-          displayedInputs={displayedInputs}
-          onShowModal={onShowModal}
-          onInputChange={onInputChange}/> : null}
-    </div>
+    {expanded ?
+      <div className="form-expanding-group-open">
+        <CalculatorForm
+            inputs={inputs}
+            displayedInputs={displayedInputs}
+            onShowModal={onShowModal}
+            onInputChange={onInputChange}/>
+      </div> : null}
   </div>
 );
 

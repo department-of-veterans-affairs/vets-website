@@ -72,8 +72,15 @@ export class CautionaryInformation extends React.Component {
         <AlertBox content={flagContent} isVisible={!!it.cautionFlag} status="warning"/>
 
         <div className="student-complaints">
-          <h4>{it.complaints.mainCampusRollUp} student complaints</h4>
-          <span>(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)</span>
+          <div className="link-header">
+            <h3>
+              {it.complaints.mainCampusRollUp}&nbsp;
+              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank">student complaints</a>
+            </h3>
+            <span>
+              &nbsp;(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)
+            </span>
+          </div>
         </div>
 
         <div className="table">
@@ -82,7 +89,11 @@ export class CautionaryInformation extends React.Component {
               <tr>
                 <th>Complaint type</th>
                 <th>This campus</th>
-                <th>All campuses</th>
+                <th>
+                  <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
+                    All campuses
+                  </a>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -105,7 +116,11 @@ export class CautionaryInformation extends React.Component {
               <p className="number"><strong>{it.complaints.facilityCode}</strong></p>
             </div>
           </div>
-          <h4>All campuses</h4>
+          <h4>
+            <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
+              All campuses
+            </a>
+          </h4>
           {complaints.map((c) =>
             <ListRow key={c.description} description={c.description} value={c.allCampuses}/>)}
           <div className="row">

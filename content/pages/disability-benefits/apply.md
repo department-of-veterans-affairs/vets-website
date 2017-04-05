@@ -5,16 +5,16 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: /disability-benefits/claims-process/evidence/
+ - url: /disability-benefits/apply/evidence/
    title: Evidence (Supporting Documents)
    description: "Find out which supporting documents you’ll need to give us so we can decide your claim."
- - url: /disability-benefits/claims-process/claim-types/
+ - url: /disability-benefits/apply/claim-types/
    title: Types of Disability Claims 
    description: "Learn about standard claims, reopened claims, secondary claims, and more."
- - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
+ - url: /disability-benefits/apply/claim-types/predischarge-claim/
    title: Predischarge Claim
    description: "Find out how to file your claim as you get ready to leave the military to speed up the claim decision process."
- - url: /disability-benefits/apply-for-benefits/help/
+ - url: /disability-benefits/apply/help/
    title: Get Help Filing a Claim
    description: "Find out how to work with a trained professional called an accredited representative."
 ---
@@ -29,11 +29,11 @@ You can apply for disability benefits online. We've listed all the steps below s
 
 - [Check your eligibility](/disability-benefits/eligibility).
 - Gather the supporting documents listed below that you'll need to file a disability claim.
-- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
+- Be sure your claim is filled out completely and you have all the supporting documents ready to send in along with your claim. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/apply/claim-types/fully-developed-claim/).
 
 <div markdown="0"><br></div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 #### What documents do I need to apply?
 
@@ -60,7 +60,7 @@ For all disability claims, please provide:
 
 #### Work with a trained professional
 
-You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html)
+You can work with a trained professional who can help you file a claim.  [Find an accredited representative](/disability-benefits/apply/help/index.html)
 
 #### Apply in person
 
@@ -77,8 +77,8 @@ You don't need to do anything while you're waiting unless we send you a letter a
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">121.8 days</span>
-<span class="description">Average time to process disability-related claims in February 2017</span>
+<span class="number">114.7 days</span>
+<span class="description">Average number of days to complete disability-related claims in March 2017</span>
 </div>
 
 <div markdown="0"><br></div>

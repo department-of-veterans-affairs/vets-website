@@ -12,7 +12,7 @@ Did you serve in Vietnam (including aboard a ship on the inland waterways) or in
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -42,6 +42,6 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to show that you served in Vietnam (including aboard a ship on the inland waterways) or in the Korean Demilitarized Zone during the time periods listed above. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You’ll need to apply for benefits. When you apply, you’ll have to show that you served in Vietnam (including aboard a ship on the inland waterways) or in the Korean Demilitarized Zone during the time periods listed above. [Apply for benefits](/disability-benefits/apply/).
 
 Check the list of U.S. Navy and Coast Guard ships linked to service in Vietnam to find out if your service aboard a ship allows us to conclude that you had contact with Agent Orange. [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).

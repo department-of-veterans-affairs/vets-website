@@ -1,12 +1,15 @@
 import _ from 'lodash/fp';
 
-import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
+import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 
 // benefitsLabels should be imported from utils/helpers, but for now, they don't
 //  all have links, so for consistency, use the set in ../helpers
 import {
   benefitsLabels,
+  benefitsRelinquishedInfo,
   benefitsRelinquishedWarning,
+  benefitsDisclaimerChild,
+  benefitsDisclaimerSpouse,
   relationshipLabels,
   highSchoolStatusLabels,
   transform
@@ -19,14 +22,15 @@ import {
 import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
-import { uiSchema as uiSchemaDateRange } from '../../../common/schemaform/definitions/dateRange';
-import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
 import * as phone from '../../../common/schemaform/definitions/phone';
 import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
-import { uiSchema as nonMilitaryJobsUiSchema } from '../../../common/schemaform/definitions/nonMilitaryJobs';
-import uiSchemaPostHighSchoolTrainings from '../../definitions/postHighSchoolTrainings';
 import * as veteranId from '../../definitions/veteranId';
+
+import { uiSchema as dateRangeUi } from '../../../common/schemaform/definitions/dateRange';
+import { uiSchema as fullNameUi } from '../../../common/schemaform/definitions/fullName';
+import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import createContactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
@@ -36,8 +40,7 @@ import additionalBenefits from '../../pages/additionalBenefits';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import Chapter33Warning from '../components/Chapter33Warning';
-import Chapter35Warning from '../components/Chapter35Warning';
+import benefitSelectionWarning from '../components/BenefitSelectionWarning';
 
 const {
   benefit,
@@ -145,39 +148,87 @@ const formConfig = {
           path: 'benefits/eligibility',
           initialData: {},
           uiSchema: {
+            'ui:title': 'Benefit selection',
+            'view:benefitsDisclaimerChild': {
+              'ui:description': benefitsDisclaimerChild,
+              'ui:options': {
+                hideIf: form => _.get('relationship', form) !== 'child'
+              }
+            },
+            'view:benefitsDisclaimerSpouse': {
+              'ui:description': benefitsDisclaimerSpouse,
+              'ui:options': {
+                hideIf: form => _.get('relationship', form) !== 'spouse'
+              }
+            },
             benefit: {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
                 labels: benefitsLabels,
-                nestedContent: {
-                  chapter33: Chapter33Warning,
-                  chapter35: Chapter35Warning
+                updateSchema: (data, form, schema) => {
+                  const relationship = _.get('applicantInformation.data.relationship', form);
+                  const nestedContent = {
+                    chapter33: benefitSelectionWarning('chapter33', relationship),
+                    chapter35: benefitSelectionWarning('chapter35', relationship),
+                  };
+                  const uiOptions = _.get('benefitSelection.uiSchema.benefit.ui:options', form);
+                  uiOptions.nestedContent = nestedContent;
+                  return schema;
                 }
               }
-            },
-            'view:benefitsRelinquishedInfo': {
-              'ui:description': 'While receiving DEA or FRY scholarship benefits you may not receive payments of Dependency and Indemnity Compensation (DIC) or Pension and you may not be claimed as a dependent in a Compensation claim. If you are unsure of this decision it is strongly encouraged you talk with a VA counselor.',
-            },
-            'view:benefitsRelinquishedWarning': {
-              'ui:description': benefitsRelinquishedWarning
-            },
-            benefitsRelinquishedDate: date.uiSchema('Effective date')
+            }
           },
           schema: {
             type: 'object',
-            required: ['benefit', 'benefitsRelinquishedDate'],
+            required: ['benefit'],
             properties: {
-              benefit,
+              'view:benefitsDisclaimerChild': {
+                type: 'object',
+                properties: {}
+              },
+              'view:benefitsDisclaimerSpouse': {
+                type: 'object',
+                properties: {}
+              },
+              benefit
+            }
+          }
+        },
+        benefitRelinquishment: {
+          title: 'Benefits relinquishment',
+          path: 'benefits/relinquishment',
+          initialData: {},
+          depends: {
+            applicantInformation: {
+              data: {
+                relationship: 'child'
+              }
+            }
+          },
+          uiSchema: {
+            'ui:title': 'Benefit relinquishment',
+            'view:benefitsRelinquishedInfo': {
+              'ui:description': benefitsRelinquishedInfo,
+            },
+            benefitsRelinquishedDate: currentOrPastDate.uiSchema('Effective date'),
+            'view:benefitsRelinquishedWarning': {
+              'ui:description': benefitsRelinquishedWarning,
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['benefitsRelinquishedDate'],
+            properties: {
               'view:benefitsRelinquishedInfo': {
                 type: 'object',
                 properties: {}
               },
+              benefitsRelinquishedDate: dateSchema,
               'view:benefitsRelinquishedWarning': {
                 type: 'object',
                 properties: {}
-              },
-              benefitsRelinquishedDate: dateSchema
+              }
             }
           }
         },
@@ -252,7 +303,7 @@ const formConfig = {
                   expandUnder: 'view:claimedSponsorService'
                 }
               },
-              veteranFullName: _.merge(fullNameUISchema, {
+              veteranFullName: _.merge(fullNameUi, {
                 'ui:title': 'Sponsor Veteran’s name',
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
@@ -260,13 +311,17 @@ const formConfig = {
                     if (_.get('benefitHistory.data.previousBenefits.view:claimedSponsorService', form)) {
                       return fullName;
                     }
-
                     return nonRequiredFullName;
                   }
-                }
+                },
+                // Re-label the inputs to add 'sponsor'
+                first: { 'ui:title': 'Sponsor first name' },
+                last: { 'ui:title': 'Sponsor last name' },
+                middle: { 'ui:title': 'Sponsor middle name' },
+                suffix: { 'ui:title': 'Sponsor suffix' },
               }),
               veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
-                'ui:title': 'Sponsor\'s Social Security number',
+                'ui:title': 'Sponsor Social Security number',
                 'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
@@ -323,32 +378,52 @@ const formConfig = {
                 hideIf: (formData) => _.get('relationship', formData) !== 'spouse'
               }
             },
-            veteranFullName: _.merge(fullNameUISchema, {
-              'ui:title': 'Name of Sponsor',
-              first: {
-                'ui:title': 'Sponsor first name'
+            'view:currentSameAsPrevious': {
+              'ui:options': {
+                hideIf: (formData) => !_.get('previousBenefits.view:claimedSponsorService', formData)
               },
-              middle: {
-                'ui:title': 'Sponsor middle name'
+              'ui:title': 'Same sponsor as previously claimed benefits'
+            },
+            'view:currentSponsorInformation': {
+              'ui:options': {
+                hideIf: (formData) => formData['view:currentSameAsPrevious']
               },
-              last: {
-                'ui:title': 'Sponsor last name'
-              },
-              suffix: {
-                'ui:title': 'Sponsor suffix'
-              }
-            }),
-            'view:veteranId': _.merge(veteranId.uiSchema, {
-              veteranSocialSecurityNumber: {
-                'ui:title': 'Sponsor Social Security number'
-              },
-              'view:noSSN': {
-                'ui:title': 'I don\'t know my sponsor’s Social Security number',
-              },
-              vaFileNumber: {
-                'ui:title': 'Sponsor file number',
-              }
-            }),
+              veteranFullName: _.merge(fullNameUi, {
+                'ui:options': {
+                  updateSchema: (data, form) => {
+                    if (!_.get('sponsorInformation.data.view:currentSameAsPrevious', form)) {
+                      return fullName;
+                    }
+                    return nonRequiredFullName;
+                  }
+                },
+                'ui:title': 'Name of Sponsor',
+                first: {
+                  'ui:title': 'Sponsor first name'
+                },
+                middle: {
+                  'ui:title': 'Sponsor middle name'
+                },
+                last: {
+                  'ui:title': 'Sponsor last name'
+                },
+                suffix: {
+                  'ui:title': 'Sponsor suffix'
+                }
+              }),
+              'view:veteranId': _.merge(veteranId.uiSchema, {
+                veteranSocialSecurityNumber: {
+                  'ui:title': 'Sponsor Social Security number',
+                  'ui:required': (formData) => !_.get('view:currentSameAsPrevious', formData) && !_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData)
+                },
+                'view:noSSN': {
+                  'ui:title': 'I don’t know my sponsor’s Social Security number',
+                },
+                vaFileNumber: {
+                  'ui:title': 'Sponsor file number',
+                }
+              })
+            },
             veteranDateOfBirth: currentOrPastDate.uiSchema('Sponsor date of birth'),
             veteranDateOfDeath: currentOrPastDate.uiSchema('Sponsor date of death or date listed as MIA or POW'),
           },
@@ -359,8 +434,16 @@ const formConfig = {
             ],
             properties: {
               spouseInfo,
-              veteranFullName: fullName,
-              'view:veteranId': veteranId.schema,
+              'view:currentSameAsPrevious': {
+                type: 'boolean'
+              },
+              'view:currentSponsorInformation': {
+                type: 'object',
+                properties: {
+                  veteranFullName: fullName,
+                  'view:veteranId': veteranId.schema,
+                }
+              },
               veteranDateOfBirth,
               veteranDateOfDeath
             }
@@ -375,7 +458,7 @@ const formConfig = {
               'ui:title': 'Branch of service'
             },
             currentlyActiveDuty: {
-              'ui:title': 'Is the qualifying individual on active duty?',
+              'ui:title': 'Is your sponsor on active duty?',
               'ui:widget': 'yesNo'
             },
             outstandingFelony: {
@@ -441,14 +524,14 @@ const formConfig = {
                     labels: stateLabels
                   }
                 },
-                dateRange: uiSchemaDateRange(),
+                dateRange: dateRangeUi(),
               }
             },
             'view:hasTrainings': {
               'ui:title': 'Do you have any training after high school?',
               'ui:widget': 'yesNo'
             },
-            postHighSchoolTrainings: _.merge(uiSchemaPostHighSchoolTrainings, {
+            postHighSchoolTrainings: _.merge(postHighSchoolTrainingsUi, {
               'ui:options': {
                 expandUnder: 'view:hasTrainings'
               }
@@ -493,7 +576,7 @@ const formConfig = {
               'ui:title': 'Have you ever held a license of journeyman rating (for example, as a contractor or plumber) to practice a profession?',
               'ui:widget': 'yesNo'
             },
-            nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUiSchema)
+            nonMilitaryJobs: _.set(['ui:options', 'expandUnder'], 'view:hasNonMilitaryJobs', nonMilitaryJobsUi)
           },
           schema: {
             type: 'object',
