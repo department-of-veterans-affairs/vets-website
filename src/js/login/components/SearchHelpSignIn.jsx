@@ -15,12 +15,10 @@ class SearchHelpSignIn extends React.Component {
     const login = this.props.login;
 
     if (login.currentlyLoggedIn) {
-      if (this.props.profile.userFullName.first) {
-        const firstName = _.startCase(_.toLower(this.props.profile.userFullName.first));
-        greeting = firstName;
-      } else {
-        greeting = this.props.profile.email;
-      }
+      const firstName = _.startCase(_.toLower(
+        this.props.profile.userFullName.first || sessionStorage.userFirstName
+      ));
+      greeting = firstName || this.props.profile.email;
 
       content = (<SignInProfileMenu
           clickHandler={() => {
