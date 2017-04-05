@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Options and Eligibility
 concurrence: 
 template: 1-topic-landing
-majorlinks:
+relatedlinks:
   - url: /life-insurance/options-and-eligibility/SGLI/
     title: Servicemembers’ Group Life Insurance (SGLI) 
     description: Get group life insurance while you’re serving.
