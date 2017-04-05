@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
+import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 
 // benefitsLabels should be imported from utils/helpers, but for now, they don't
 //  all have links, so for consistency, use the set in ../helpers
@@ -148,6 +148,7 @@ const formConfig = {
           path: 'benefits/eligibility',
           initialData: {},
           uiSchema: {
+            'ui:title': 'Benefit selection',
             'view:benefitsDisclaimerChild': {
               'ui:description': benefitsDisclaimerChild,
               'ui:options': {
@@ -175,30 +176,12 @@ const formConfig = {
                   uiOptions.nestedContent = nestedContent;
                   return schema;
                 }
-              },
-            },
-            'view:benefitsRelinquishedInfo': {
-              'ui:description': benefitsRelinquishedInfo,
-              'ui:options': {
-                hideIf: form => _.get('relationship', form) !== 'child'
               }
-            },
-            benefitsRelinquishedDate: _.merge(date.uiSchema('Effective date'), {
-              'ui:options': {
-                hideIf: form => _.get('relationship', form) !== 'child'
-              },
-              'ui:required': form => _.get('relationship', form) === 'child'
-            }),
-            'view:benefitsRelinquishedWarning': {
-              'ui:description': benefitsRelinquishedWarning,
-              'ui:options': {
-                hideIf: form => _.get('relationship', form) !== 'child'
-              }
-            },
+            }
           },
           schema: {
             type: 'object',
-            required: ['benefit', 'benefitsRelinquishedDate'],
+            required: ['benefit'],
             properties: {
               'view:benefitsDisclaimerChild': {
                 type: 'object',
@@ -208,7 +191,35 @@ const formConfig = {
                 type: 'object',
                 properties: {}
               },
-              benefit,
+              benefit
+            }
+          }
+        },
+        benefitRelinquishment: {
+          title: 'Benefits relinquishment',
+          path: 'benefits/relinquishment',
+          initialData: {},
+          depends: {
+            applicantInformation: {
+              data: {
+                relationship: 'child'
+              }
+            }
+          },
+          uiSchema: {
+            'ui:title': 'Benefit relinquishment',
+            'view:benefitsRelinquishedInfo': {
+              'ui:description': benefitsRelinquishedInfo,
+            },
+            benefitsRelinquishedDate: currentOrPastDate.uiSchema('Effective date'),
+            'view:benefitsRelinquishedWarning': {
+              'ui:description': benefitsRelinquishedWarning,
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['benefitsRelinquishedDate'],
+            properties: {
               'view:benefitsRelinquishedInfo': {
                 type: 'object',
                 properties: {}
@@ -217,7 +228,7 @@ const formConfig = {
               'view:benefitsRelinquishedWarning': {
                 type: 'object',
                 properties: {}
-              },
+              }
             }
           }
         },
@@ -367,32 +378,52 @@ const formConfig = {
                 hideIf: (formData) => _.get('relationship', formData) !== 'spouse'
               }
             },
-            veteranFullName: _.merge(fullNameUi, {
-              'ui:title': 'Name of Sponsor',
-              first: {
-                'ui:title': 'Sponsor first name'
+            'view:currentSameAsPrevious': {
+              'ui:options': {
+                hideIf: (formData) => !_.get('previousBenefits.view:claimedSponsorService', formData)
               },
-              middle: {
-                'ui:title': 'Sponsor middle name'
+              'ui:title': 'Same sponsor as previously claimed benefits'
+            },
+            'view:currentSponsorInformation': {
+              'ui:options': {
+                hideIf: (formData) => formData['view:currentSameAsPrevious']
               },
-              last: {
-                'ui:title': 'Sponsor last name'
-              },
-              suffix: {
-                'ui:title': 'Sponsor suffix'
-              }
-            }),
-            'view:veteranId': _.merge(veteranId.uiSchema, {
-              veteranSocialSecurityNumber: {
-                'ui:title': 'Sponsor Social Security number'
-              },
-              'view:noSSN': {
-                'ui:title': 'I don\'t know my sponsor’s Social Security number',
-              },
-              vaFileNumber: {
-                'ui:title': 'Sponsor file number',
-              }
-            }),
+              veteranFullName: _.merge(fullNameUi, {
+                'ui:options': {
+                  updateSchema: (data, form) => {
+                    if (!_.get('sponsorInformation.data.view:currentSameAsPrevious', form)) {
+                      return fullName;
+                    }
+                    return nonRequiredFullName;
+                  }
+                },
+                'ui:title': 'Name of Sponsor',
+                first: {
+                  'ui:title': 'Sponsor first name'
+                },
+                middle: {
+                  'ui:title': 'Sponsor middle name'
+                },
+                last: {
+                  'ui:title': 'Sponsor last name'
+                },
+                suffix: {
+                  'ui:title': 'Sponsor suffix'
+                }
+              }),
+              'view:veteranId': _.merge(veteranId.uiSchema, {
+                veteranSocialSecurityNumber: {
+                  'ui:title': 'Sponsor Social Security number',
+                  'ui:required': (formData) => !_.get('view:currentSameAsPrevious', formData) && !_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData)
+                },
+                'view:noSSN': {
+                  'ui:title': 'I don’t know my sponsor’s Social Security number',
+                },
+                vaFileNumber: {
+                  'ui:title': 'Sponsor file number',
+                }
+              })
+            },
             veteranDateOfBirth: currentOrPastDate.uiSchema('Sponsor date of birth'),
             veteranDateOfDeath: currentOrPastDate.uiSchema('Sponsor date of death or date listed as MIA or POW'),
           },
@@ -403,8 +434,16 @@ const formConfig = {
             ],
             properties: {
               spouseInfo,
-              veteranFullName: fullName,
-              'view:veteranId': veteranId.schema,
+              'view:currentSameAsPrevious': {
+                type: 'boolean'
+              },
+              'view:currentSponsorInformation': {
+                type: 'object',
+                properties: {
+                  veteranFullName: fullName,
+                  'view:veteranId': veteranId.schema,
+                }
+              },
               veteranDateOfBirth,
               veteranDateOfDeath
             }

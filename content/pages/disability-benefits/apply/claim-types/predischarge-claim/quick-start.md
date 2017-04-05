@@ -35,4 +35,4 @@ You can get an expedited status decision on your disability claim (meaning you'l
 
 You'll need to apply for benefits. When you apply, please give us your service treatment records. You'll also need to make sure you finish all phases of the VA/DOD medical separation examination processes before your release from the military.
 
-[Apply for benefits](/disability-benefits/apply-for-benefits/).
+[Apply for benefits](/disability-benefits/apply/).

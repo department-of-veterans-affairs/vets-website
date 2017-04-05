@@ -1,4 +1,4 @@
-const Timeouts = require('../util/timeouts.js');
+const Timeouts = require('./timeouts.js');
 const mock = require('./mock-helpers');
 
 // Disable eslint for JSON
