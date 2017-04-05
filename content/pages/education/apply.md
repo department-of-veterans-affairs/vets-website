@@ -42,7 +42,7 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 ### Ready to apply?
 
 #### Applying for a new benefit
-Apply online with Form 22-1990, 22-1990E, or 22-5490:
+Apply online with Form 22-1990 or 22-1990E:
 
 <button id="apply-expander-button" class="usa-button-primary va-button-primary expander-button">Apply for Benefits</button>
 
@@ -55,10 +55,12 @@ Apply online with Form 22-1990, 22-1990E, or 22-5490:
         <label for="form-22-1990">Veterans applying for a <strong>new benefit</strong> (22-1990)</label>
         <input type="radio" name="form-selection" id="form-22-1990e" value="1990e">
         <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
+        <!--
         <input type="radio" name="form-selection" id="form-22-5490" value="5490">
         <label for="form-22-5490">Dependents applying where your <strong>sponsor is permanently and totally disabled</strong> their benefits to you (22-5490)</label>
         <input type="radio" name="form-selection" id="form-22-5490" value="5490">
         <label for="form-22-5490">Dependents applying where your <strong>sponsor is deceased, MIA, or a POW</strong> their benefits to you (22-5490)</label>
+        -->
       </div>
       <a id="apply-go-button" class="usa-button-primary va-button-primary">Apply Now</a>
     </div>
@@ -74,10 +76,9 @@ If you need to make a change (for example, you’re moving to a new school), man
 <div class="usa-alert usa-alert-warning usa-content va-alert" markdown="1">
 	<div class="usa-alert-body">
 
-##### Forms 22-1990E, 22-1990N, 22-5490, and 22-5495
+##### Forms 22-1990N, 22-5490, and 22-5495
 
 You must apply for education benefits using eBenefits if you're:
-- A spouse or dependent
 - A survivor of a Veteran
 - A candidate for the National Call to Service program
 
