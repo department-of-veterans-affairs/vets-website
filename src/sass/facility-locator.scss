@@ -71,6 +71,12 @@
       color: $color-link-default;
       text-decoration: none;
 
+      &:focus {
+        h5 {
+          border: $color-link-default solid thin;
+        }
+      }
+
       &:visited {
         color: $color-link-default;
       }
