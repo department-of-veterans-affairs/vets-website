@@ -76,7 +76,16 @@ If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatic
 
 These are the SGLI premium rates effective July 1, 2014.
 
-**[DESIGN NOTE: Please insert SGLI premium rates table. See issue for content.]**
+| Coverage amount | Monthly premium rate | TSGLI premium | Total monthly premium deduction |
+| --- | --- | --- | --- |
+| $400,000 | $28.00 | $1.00 | $29.00 |
+| $350,000 | $24.50 | $1.00 | $25.50 |
+| $300,000 | $21.00 | $1.00 | $22.00 |
+| $250,000 | $17.50 | $1.00 | $18.50 |
+| $200,000 | $14.00  | $1.00 |$15.00  |
+| $150,000 | $10.50 | $1.00 | $11.50 |
+| $100,000 | $7.00 | $1.00 | $8.00 |
+| $50,000 | $3.50 | $1.00 | $4.50 |
 
 ### How do I convert my SGLI when I leave the military? [UX/DESIGN NOTE: Consider accordion link here]
 
