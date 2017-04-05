@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { showModal } from '../../actions';
 
 export class Programs extends React.Component {
 
@@ -8,8 +6,7 @@ export class Programs extends React.Component {
     super(props);
     this.renderProgramLabel = this.renderProgramLabel.bind(this);
 
-    const institution = props.profile.attributes;
-
+    const { institution } = props;
     this.programs = {
       yr: {
         modal: 'yribbon',
@@ -71,7 +68,7 @@ export class Programs extends React.Component {
     ) || '';
 
     const label = program.modal ?
-      (<a onClick={this.props.showModal.bind(this, program.modal)}>
+      (<a onClick={this.props.onShowModal.bind(this, program.modal)}>
         {program.text}
       </a>) : program.text;
 
@@ -79,7 +76,7 @@ export class Programs extends React.Component {
   }
 
   render() {
-    const it = this.props.profile.attributes;
+    const it = this.props.institution;
     const programs = Object.keys(this.programs);
     const available = programs.filter((key) => !!it[key] === true);
     const notAvailable = programs.filter((key) => !!it[key] === false);
@@ -107,10 +104,9 @@ export class Programs extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => state;
-
-const mapDispatchToProps = {
-  showModal,
+Programs.propTypes = {
+  institution: React.PropTypes.object,
+  onShowModal: React.PropTypes.func
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Programs);
+export default Programs;
