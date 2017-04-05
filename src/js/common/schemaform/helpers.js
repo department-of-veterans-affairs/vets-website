@@ -196,33 +196,6 @@ export function filterViewFields(data) {
   }, {});
 }
 
-/*
- * Normal transform for schemaform data
- */
-export function transformForSubmit(formConfig, form) {
-  const activePages = getActivePages(createFormPageList(formConfig), form);
-  const flattened = flattenFormData(activePages, form);
-  const withoutViewFields = filterViewFields(flattened);
-
-  return JSON.stringify(withoutViewFields, (key, value) => {
-    // an object with country is an address
-    if (value && typeof value.country !== 'undefined' &&
-      (!value.street || !value.city || !value.postalCode)) {
-      return undefined;
-    }
-
-    // clean up empty objects, which we have no reason to send
-    if (typeof value === 'object') {
-      const fields = Object.keys(value);
-      if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
-        return undefined;
-      }
-    }
-
-    return value;
-  }) || '{}';
-}
-
 function isHiddenField(schema) {
   return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
 }
@@ -379,6 +352,13 @@ export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
  * which is a non-standard JSON Schema property
  */
 export function setHiddenFields(schema, uiSchema, formData) {
+  /*
+  if (uiSchema['ui:options'] && uiSchema['ui:options']['expandUnder'] === 'view:claimedSponsorService') { // eslint-disable-line
+    console.log('setHiddenFields(schema=%o, uiSchema=%o, formData=%o)', schema, uiSchema, formData); // eslint-disable-line
+    console.log('uiSchema title = %s', uiSchema['ui:title'] || ''); // eslint-disable-line
+    debugger; // eslint-disable-line
+  }
+  */
   if (!uiSchema) {
     return schema;
   }
@@ -405,7 +385,8 @@ export function setHiddenFields(schema, uiSchema, formData) {
 
   if (updatedSchema.type === 'object') {
     const newProperties = Object.keys(updatedSchema.properties).reduce((current, next) => {
-      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], formData);
+      const nextData = typeof formData[next] === 'object' ? formData[next] : formData;
+      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], nextData);
 
       if (newSchema !== updatedSchema.properties[next]) {
         return _.set(next, newSchema, current);
@@ -436,6 +417,13 @@ export function setHiddenFields(schema, uiSchema, formData) {
  * a user can't see.
  */
 export function removeHiddenData(schema, data) {
+  /*
+  if (Object.keys(data).includes('view:claimedSponsorService')) {
+    console.log('removeHiddenData(schema=%o, data=%o)', schema, data); // eslint-disable-line
+    console.log('schema first property = %s', schema['properties'] ? schema['properties'][0] : ''); // eslint-disable-line
+    debugger; // eslint-disable-line
+  }
+  */
   if (isHiddenField(schema) || typeof data === 'undefined') {
     return undefined;
   }
@@ -467,6 +455,52 @@ export function removeHiddenData(schema, data) {
   }
 
   return data;
+}
+
+/*
+ *
+ */
+export function removeAllHiddenData(activePages, form) {
+  const cleaned = activePages;
+  Object.keys(activePages.chapters).forEach(chapterKey => {
+    const chapter = activePages.chapter[chapterKey];
+    const cleanedChapter = chapter;
+    Object.keys(chapter.pages).forEach(pageKey => {
+      const page = chapter.pages[pageKey];
+      const cleanedPage = removeHiddenData(page.schema, form);
+      _.set(pageKey, cleanedPage, cleanedChapter);
+    });
+    _.set(chapterKey, cleanedChapter, cleaned);
+  });
+  return cleaned;
+}
+
+/*
+ * Normal transform for schemaform data
+ */
+export function transformForSubmit(formConfig, form) {
+  const activePages = getActivePages(createFormPageList(formConfig), form);
+  const cleaned = removeAllHiddenData(activePages, form);
+  const flattened = flattenFormData(cleaned, form);
+  const withoutViewFields = filterViewFields(flattened);
+
+  return JSON.stringify(withoutViewFields, (key, value) => {
+    // an object with country is an address
+    if (value && typeof value.country !== 'undefined' &&
+      (!value.street || !value.city || !value.postalCode)) {
+      return undefined;
+    }
+
+    // clean up empty objects, which we have no reason to send
+    if (typeof value === 'object') {
+      const fields = Object.keys(value);
+      if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
+        return undefined;
+      }
+    }
+
+    return value;
+  }) || '{}';
 }
 
 /*

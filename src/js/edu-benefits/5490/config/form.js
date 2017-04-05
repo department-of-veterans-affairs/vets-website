@@ -241,7 +241,6 @@ const formConfig = {
             'ui:description': 'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [
-                'view:noPreviousBenefits',
                 'disability',
                 'dic',
                 'chapter31',
@@ -253,6 +252,7 @@ const formConfig = {
                 'transferOfEntitlement',
                 'veteranFullName',
                 'veteranSocialSecurityNumber',
+                'view:noPreviousBenefits',
                 'other'
               ],
               'view:noPreviousBenefits': {
