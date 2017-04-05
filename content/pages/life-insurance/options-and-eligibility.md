@@ -4,19 +4,19 @@ title: Options and Eligibility
 concurrence: 
 template: 1-topic-landing
 majorlinks:
-  - url: 
+  - url: /life-insurance/options-and-eligibility/SGLI/
     title: Servicemembers’ Group Life Insurance (SGLI) 
     description: Get group life insurance while you’re serving.
-  - url: 
+  - url: /life-insurance/options-and-eligibility/FSGLI/ 
     title: Family Servicemembers’ Group Life Insurance (FSGLI) 
     description: Add coverage for your spouse and dependent children (children who rely on you for financial support).
-  - url: 
+  - url: /life-insurance/options-and-eligibility/TSGLI/ 
     title: Traumatic Injury Protection Program (TSGLI) 
     description: Get short-term financial support to help you recover from a severe injury.
-  - url: 
+  - url: /life-insurance/options-and-eligibility/VGLI/ 
     title: Veterans’ Group Life Insurance (VGLI) 
     description: Get group life insurance once you’ve ended your service. 
-  - url: 
+  - url: /life-insurance/options-and-eligibility/S-DVI/ 
     title: Service-Disabled Veterans Insurance (S-DVI) 
     description: Continue your life insurance beyond 2 years after you leave the military if you have a service-connected disability (a disability that started or got worse during your service). 
     
