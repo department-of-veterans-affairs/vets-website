@@ -5,8 +5,12 @@ import If from '../../components/If';
 
 export class Programs extends React.Component {
 
-  programs(institution) {
-    return {
+  constructor(props) {
+    super(props);
+
+    const institution = props.profile.attributes;
+
+    this.programs = {
       yr: {
         modal: 'yribbon',
         text: 'Yellow Ribbon',
@@ -15,6 +19,7 @@ export class Programs extends React.Component {
           text: 'See rates',
         }
       },
+
       studentVeteran: {
         modal: 'vetgroups',
         text: 'Student Veteran Group',
@@ -23,16 +28,19 @@ export class Programs extends React.Component {
           text: 'Site',
         }
       },
+
       poe: {
         modal: 'poe',
         text: 'Principles of Excellence',
         link: false
       },
+
       eightKeys: {
         modal: 'eightKeys',
         text: '8 Keys to Veteran Success',
         link: false
       },
+
       vetSuccessName: {
         modal: false,
         text: 'VetSuccess on Campus',
@@ -41,6 +49,7 @@ export class Programs extends React.Component {
           text: `Email ${institution.vetSuccessName}`,
         }
       },
+
       dodmou: {
         modal: 'ta',
         text: 'Military Tuition Assistance (TA)',
@@ -50,25 +59,29 @@ export class Programs extends React.Component {
   }
 
   renderProgramLabel(programKey, available) {
-    const program = this.programs(this.props.profile.attributes)[programKey];
+    const program = this.programs[programKey];
     const icon = available ? 'fa fa-check' : 'fa fa-remove';
+
     let link = '';
-    if (program.link && program.link.href) {
+    if (available && program.link && program.link.href) {
       link = <span>&nbsp;(<a href={program.link.href} target="_blank">{program.link.text}</a>)</span>;
     }
+
     let label = '';
     if (program.modal) {
       label = <a onClick={this.props.showModal.bind(this, program.modal)}>{program.text}</a>;
     } else {
       label = program.text;
     }
+
     return <p key={programKey}><i className={icon}/> {label} {link}</p>;
   }
 
   render() {
     const it = this.props.profile.attributes;
-    const available = Object.keys(this.programs(it)).filter((key) => !!it[key] === true);
-    const notAvailable = Object.keys(this.programs(it)).filter((key) => !!it[key] === false);
+    const programs = Object.keys(this.programs);
+    const available = programs.filter((key) => !!it[key] === true);
+    const notAvailable = programs.filter((key) => !!it[key] === false);
     return (
       <div className="programs row">
         <If condition={available.length > 0}>
