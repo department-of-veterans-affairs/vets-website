@@ -14,7 +14,7 @@ relatedlinks:
     title: Veterans’ Group Life Insurance (VGLI)
     description: Get group life insurance once you’ve ended your service.
   - url: /life-insurance/options-and-eligibility/S-DVI/
-    title:Service-Disabled Veterans Insurance (S-DVI)
+    title: Service-Disabled Veterans Insurance (S-DVI)
     description: Continue your life insurance beyond 2 years after you leave the military if you have a service-connected disability (a disability that started or got worse during your service).
   
 ---
