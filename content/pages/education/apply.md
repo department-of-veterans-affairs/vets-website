@@ -57,9 +57,9 @@ Apply online with Form 22-1990 or 22-1990E:
         <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
         <!--
         <input type="radio" name="form-selection" id="form-22-5490" value="5490">
-        <label for="form-22-5490">Dependents applying where your <strong>sponsor is permanently and totally disabled</strong> their benefits to you (22-5490)</label>
+        <label for="form-22-5490">Dependent applying for a new benefit where your <strong>sponsor is permanently and totally disabled</strong> (22-5490)</label>
         <input type="radio" name="form-selection" id="form-22-5490" value="5490">
-        <label for="form-22-5490">Dependents applying where your <strong>sponsor is deceased, MIA, or a POW</strong> their benefits to you (22-5490)</label>
+        <label for="form-22-5490">Dependent applying for a new benefit where your <strong>sponsor is deceased, MIA, or a POW</strong> (22-5490)</label>
         -->
       </div>
       <a id="apply-go-button" class="usa-button-primary va-button-primary">Apply Now</a>
@@ -79,7 +79,8 @@ If you need to make a change (for example, you’re moving to a new school), man
 ##### Forms 22-1990N, 22-5490, and 22-5495
 
 You must apply for education benefits using eBenefits if you're:
-- A survivor of a Veteran
+- A dependent whose sponsor is permanently and totally disabled
+- A dependent whose sponsor is deceased, MIA, or a POW
 - A candidate for the National Call to Service program
 
 <div markdown="0">
