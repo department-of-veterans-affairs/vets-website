@@ -15,7 +15,7 @@ majorlinks:
    description: Apply online now, or find out how to apply in person or by mail.
  - url: /gi-bill-comparison-tool/
    title: Compare GI Bill Benefits
-   description: Use the GI Bill Comparison tool to see what benefits you'll get at the school you want to attend.
+   description: Use the GI Bill Comparison Tool to see what benefits you'll get at the school you want to attend.
 relatedlinks:
  - url: /education/gi-bill/
    title: GI Bill&reg;
