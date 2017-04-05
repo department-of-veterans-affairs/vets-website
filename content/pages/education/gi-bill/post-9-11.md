@@ -8,7 +8,7 @@ concurrence: complete
 
 <div class="va-introtext">
 
-If you need help paying for school or job training and you’ve served on active duty after September 10, 2001, you may qualify for the Post-9/11 GI Bill. Find out how. 
+If you need help paying for school or job training and you’ve served on active duty after September 10, 2001, you may qualify for the Post-9/11 GI Bill. Find out if you can get education benefits through the Post-9/11 GI Bill. 
 
 </div>
 
@@ -20,7 +20,7 @@ You can get education benefits if:
 - You qualify for any GI Bill program, **and** 
 - You've served on active duty for at least 90 days—with or without a break in service—after September 10, 2001.
 
-If you qualify for more than 1 VA education benefit, you'll have to pick which one you want to use. This is an irrevocable decision, meaning you can't change your mind. 
+If you qualify for more than one VA education benefit, you'll have to pick which one you want to use. This is an irrevocable decision, meaning you can't change your mind. 
 
 ### Who's covered?
 
@@ -66,15 +66,15 @@ The benefit amount depends on which school you go to, how much active-duty servi
 You can use these types of programs and courses under the Post-9/11 GI Bill:
 
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
-- [Cooperative training](/education/work-learn/co-op-training/)
+- [Co-op training](/education/work-learn/co-op-training/)
 - [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
 - [Flight training](/education/advanced-training-and-certifications/flight-training/)
 - [Independent and distance learning](/education/work-learn/non-traditional/independent-distance-learning/)
-- [Institutions of higher learning undergraduate and graduate degrees](/education/gi-bill/higher-learning/)
+- [Undergraduate and graduate degrees](/education/gi-bill/higher-learning/)
 - [Licensing and certification reimbursement](/education/advanced-training-and-certifications/licensing-certification/)
 - [Vocational/technical training and non-college degree programs](/education/work-learn/non-college-degree-program/)
 - [National testing reimbursement](/education/advanced-training-and-certifications/national-testing-program/)
-- [On-the-job training](/education/work-learn/job-and-apprenticeship/)
+- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
 - [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
 - [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
 
@@ -86,4 +86,4 @@ You can use these types of programs and courses under the Post-9/11 GI Bill:
 - [See Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/detail/a_id/523).
 
 
-GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
+GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
