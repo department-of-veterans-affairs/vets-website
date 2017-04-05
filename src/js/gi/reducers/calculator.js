@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   tuitionInState: 0,
   tuitionOutOfState: 0,
   tuitionFees: 0,
+  inStateTuitionFees: 0,
   books: 0,
   yellowRibbonRecipient: 'no',
   yellowRibbonAmount: 0,
@@ -36,6 +37,7 @@ export default function (state = INITIAL_STATE, action) {
 
       const isDollarAmount = [
         'tuitionFees',
+        'inStateTuitionFees',
         'books',
         'yellowRibbonAmount',
         'scholarships',
@@ -58,6 +60,8 @@ export default function (state = INITIAL_STATE, action) {
           value === 'yes' ?
           state.tuitionInState :
           state.tuitionOutOfState;
+
+        newState.inStateTuitionFees = state.tuitionInState;
       }
 
       return {
@@ -81,6 +85,7 @@ export default function (state = INITIAL_STATE, action) {
         tuitionInState: tuitionInState || 0,
         tuitionOutOfState: tuitionOutOfState || 0,
         tuitionFees: tuitionInState || 0,
+        inStateTuitionFees: tuitionInState || 0,
         books: books || 0,
         calendar: calendar || 'semesters'
       };

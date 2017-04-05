@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
+import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
 import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from '../../pages/applicantInformation';

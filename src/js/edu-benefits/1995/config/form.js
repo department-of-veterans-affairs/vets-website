@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
+import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
 import {
   bankAccountChangeLabels,
@@ -31,14 +31,14 @@ const {
   civilianBenefitsAssistance,
   educationObjective,
   nonVaAssistance,
-  reasonForChange,
-  bankAccountChange
+  reasonForChange
 } = fullSchema1995.properties;
 
 const {
   preferredContactMethod,
   school,
-  educationType
+  educationType,
+  bankAccountChange
 } = fullSchema1995.definitions;
 
 const formConfig = {

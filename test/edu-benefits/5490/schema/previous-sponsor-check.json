@@ -14,12 +14,22 @@
   "benefitHistory": {
     "data": {
       "previousBenefits": {
-        "veteranFullName": {}
+        "chapter35": true,
+        "other": "Another benefit",
+        "view:claimedSponsorService": true,
+        "veteranFullName": {
+          "first": "Previous sponsor first",
+          "middle": "middle",
+          "last": "Previous sponsor last",
+          "suffix": "Sr."
+        },
+        "veteranSocialSecurityNumber": "234444333"
       }
     }
   },
   "sponsorInformation": {
     "data": {
+      "view:currentSameAsPrevious": true,
       "view:currentSponsorInformation": {
         "veteranFullName": {
           "first": "Jim",
