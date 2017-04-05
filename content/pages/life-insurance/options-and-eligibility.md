@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Options and Eligibility
 concurrence: 
-template: 
+template: 1-topic-landing
 majorlinks:
   - url: 
     title: Servicemembers’ Group Life Insurance (SGLI) 

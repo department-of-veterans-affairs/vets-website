@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Family Servicemembers' Group Life Insurance (FSGLI)
 concurrence: 
-template: 
+template: 1-topic-landing
 relatedlinks:
   - url: /life-insurance/options-and-eligibility/SGLI/
     title: Servicemembers’ Group Life Insurance (SGLI) 

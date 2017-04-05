@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Service-Disabled Veterans' Life Insurance (S-DVI)
 concurrence: 
-template: 
+template: 1-topic-landing
 relatedlinks:
   - url: http://www.google.com
     title: 
