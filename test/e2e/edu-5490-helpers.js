@@ -1,12 +1,5 @@
-// const selectDropdown = require('./e2e-helpers.js').selectDropdown;
-
-// function completeEducationHistory(client, data, onlyRequiredFields) {
-//   if (!onlyRequiredFields) {
-//
-//   }
-// }
-
-// Same as 1990e; relocate to keep it DRY
+// Same as 1990e
+// TODO: relocate to keep it DRY
 function completeEmploymentHistory(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     const nonMilitaryJobs = data.nonMilitaryJobs[0];
@@ -61,9 +54,37 @@ function completeBenefitHistory(client, data, onlyRequiredFields) {
   }
 }
 
+function completeSponsorService(client, data, onlyRequiredFields) {
+  if (!onlyRequiredFields) {
+    const activeDuty = `root_currentlyActiveDuty${data.currentlyActiveDuty ? 'Yes' : 'No'}`;
+    const felony = `root_outstandingFelony${data.outstandingFelony ? 'Yes' : 'No'}`;
+    client
+      .resetValue('input[name="root_serviceBranch"]', data.serviceBranch)
+      .click(`input[name="${activeDuty}"]`)
+      .click(`input[name="${felony}"]`);
+  }
+}
+
+function completeSecondaryContact(client, data, onlyRequiredFields) {
+  if (!onlyRequiredFields) {
+    const { address } = data;
+    client
+      .resetValue('input[name="root_secondaryContact_fullName"]', data.fullName)
+      .resetValue('input[name="root_secondaryContact_phone"]', data.phone)
+      .selectDropdown('root_secondaryContact_address_country', address.country)
+      .resetValue('input[name="root_secondaryContact_address_street"]', address.street)
+      .resetValue('input[name="root_secondaryContact_address_street2"]', address.street2)
+      .resetValue('input[name="root_secondaryContact_address_city"]', address.city)
+      .selectDropdown('root_secondaryContact_address_state', address.state)
+      .resetValue('input[name="root_secondaryContact_address_postalCode"]', address.postalCode);
+  }
+}
+
 module.exports = {
   // completeEducationHistory,
   completeEmploymentHistory,
   completeBenefitRelinquishment,
-  completeBenefitHistory
+  completeBenefitHistory,
+  completeSponsorService,
+  completeSecondaryContact
 };

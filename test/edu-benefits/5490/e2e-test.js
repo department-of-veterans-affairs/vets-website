@@ -29,7 +29,7 @@ module.export = (client, onlyRequiredFields) => {
   // Additional benefits page
   client
     .waitForElementVisible('label[for="root_civilianBenefitsAssistance"]', Timeouts.slow);
-  EduHelpers.completeAdditionalBenefits(client, testData.benefitEligibility.data, onlyRequiredFields);
+  EduHelpers.completeAdditionalBenefits(client, testData.additionalBenefits.data, onlyRequiredFields);
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/applicant/additional-benefits');
 
@@ -50,14 +50,14 @@ module.export = (client, onlyRequiredFields) => {
   // Benefit relinquishment page
   client
     .waitForElementVisible('label[for="root_benefitsRelinquishedDateMonth"]', Timeouts.slow);
-  Edu5490Helpers.completeBenefitRelinquishment(client, testData.benefitRelinquishment);
+  Edu5490Helpers.completeBenefitRelinquishment(client, testData.benefitRelinquishment.data);
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/benefits/relinquishment');
 
   // Benefit history page
   client
     .waitForElementVisible('label[for="root_previousBenefits_disability"]', Timeouts.slow);
-  Edu5490Helpers.completeBenefitHistory(client, testData.benefitRelinquishment);
+  Edu5490Helpers.completeBenefitHistory(client, testData.benefitHistory.data);
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/benefits/history');
 
@@ -73,6 +73,11 @@ module.export = (client, onlyRequiredFields) => {
   E2eHelpers.expectNavigateAwayFrom(client, '/veteran/information');
 
   // Sponsor service page
+  client
+    .waitForElementVisible('input[name="root_serviceBranch"]', Timeouts.slow);
+  Edu5490Helpers.completeSponsorService(client, testData.sponsorService.data, onlyRequiredFields);
+  client.click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/sponsor/service');
 
   // Education history page
   client
@@ -103,6 +108,11 @@ module.export = (client, onlyRequiredFields) => {
   E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
   // Secondary contact page
+  client
+    .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
+  Edu5490Helpers.completeSecondaryContact(client, testData.secondaryContact.data, onlyRequiredFields);
+  client.click('.form-progress-buttons .usa-button-primary');
+  E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
   // Direct deposit page
   client
