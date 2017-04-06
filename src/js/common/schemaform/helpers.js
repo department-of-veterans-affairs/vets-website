@@ -352,13 +352,6 @@ export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
  * which is a non-standard JSON Schema property
  */
 export function setHiddenFields(schema, uiSchema, formData) {
-  /*
-  if (uiSchema['ui:options'] && uiSchema['ui:options']['expandUnder'] === 'view:claimedSponsorService') { // eslint-disable-line
-    console.log('setHiddenFields(schema=%o, uiSchema=%o, formData=%o)', schema, uiSchema, formData); // eslint-disable-line
-    console.log('uiSchema title = %s', uiSchema['ui:title'] || ''); // eslint-disable-line
-    debugger; // eslint-disable-line
-  }
-  */
   if (!uiSchema) {
     return schema;
   }
@@ -385,6 +378,11 @@ export function setHiddenFields(schema, uiSchema, formData) {
 
   if (updatedSchema.type === 'object') {
     const newProperties = Object.keys(updatedSchema.properties).reduce((current, next) => {
+      /*
+      if (next === 'ownServiceBenefits') {
+        debugger; // eslint-disable-line
+      }
+      */
       const nextData = typeof formData[next] === 'object' ? formData[next] : formData;
       const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], nextData);
 
@@ -417,24 +415,26 @@ export function setHiddenFields(schema, uiSchema, formData) {
  * a user can't see.
  */
 export function removeHiddenData(schema, data) {
-  /*
-  if (Object.keys(data).includes('view:claimedSponsorService')) {
-    console.log('removeHiddenData(schema=%o, data=%o)', schema, data); // eslint-disable-line
-    console.log('schema first property = %s', schema['properties'] ? schema['properties'][0] : ''); // eslint-disable-line
-    debugger; // eslint-disable-line
-  }
-  */
   if (isHiddenField(schema) || typeof data === 'undefined') {
     return undefined;
   }
 
   if (schema.type === 'object') {
     return Object.keys(data).reduce((current, next) => {
+      /*
+      if (next === 'ownServiceBenefits') {
+        debugger; // eslint-disable-line
+      }
+      */
       if (typeof data[next] !== 'undefined') {
         const nextData = removeHiddenData(schema.properties[next], data[next]);
 
         if (typeof nextData === 'undefined') {
           return _.unset(next, current);
+        }
+
+        if (nextData !== current[next]) {
+          return _.set(next, nextData, current);
         }
       }
 
@@ -460,28 +460,30 @@ export function removeHiddenData(schema, data) {
 /*
  *
  */
-export function removeAllHiddenData(activePages, form) {
-  const cleaned = activePages;
-  Object.keys(activePages.chapters).forEach(chapterKey => {
-    const chapter = activePages.chapter[chapterKey];
-    const cleanedChapter = chapter;
-    Object.keys(chapter.pages).forEach(pageKey => {
+export function removeAllHiddenData(formConfig, data) {
+  let cleanData = data;
+  Object.keys(formConfig.chapters).forEach(chapterKey => {
+    const chapter = formConfig.chapters[chapterKey];
+    const cleanChapterData = Object.keys(chapter.pages).reduce((current, pageKey) => {
       const page = chapter.pages[pageKey];
-      const cleanedPage = removeHiddenData(page.schema, form);
-      _.set(pageKey, cleanedPage, cleanedChapter);
-    });
-    _.set(chapterKey, cleanedChapter, cleaned);
+      const cleanPageData = removeHiddenData(page.schema, data[pageKey].data);
+      if (cleanPageData !== data[pageKey].data) {
+        return _.set([pageKey, data], cleanPageData, current);
+      }
+      return current;
+    }, data);
+    cleanData = _.merge(cleanData, cleanChapterData);
   });
-  return cleaned;
+  return cleanData;
 }
 
 /*
  * Normal transform for schemaform data
  */
 export function transformForSubmit(formConfig, form) {
-  const activePages = getActivePages(createFormPageList(formConfig), form);
-  const cleaned = removeAllHiddenData(activePages, form);
-  const flattened = flattenFormData(cleaned, form);
+  const cleanData = removeAllHiddenData(formConfig, form);
+  const activePages = getActivePages(createFormPageList(formConfig), cleanData);
+  const flattened = flattenFormData(activePages, cleanData);
   const withoutViewFields = filterViewFields(flattened);
 
   return JSON.stringify(withoutViewFields, (key, value) => {
