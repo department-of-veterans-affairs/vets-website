@@ -22,7 +22,10 @@ module.exports = (client, onlyRequiredFields) => {
   // Applicant information page
   client
     .waitForElementVisible('input[name="root_relativeFullName_first"]', Timeouts.slow);
-  EduHelpers.completeRelativeInformation(client, testData.applicantInformation.data, onlyRequiredFields);
+  EduHelpers.completeRelativeInformation(client, {
+    relationship: testData.sponsorInformation.data.relationship,
+    ...testData.applicantInformation.data
+  }, onlyRequiredFields);
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/applicant/information');
 
@@ -54,11 +57,14 @@ module.exports = (client, onlyRequiredFields) => {
   E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
   // Benefit relinquishment page
-  client
-    .waitForElementVisible('label[for="root_benefitsRelinquishedDateMonth"]', Timeouts.slow);
-  Edu5490Helpers.completeBenefitRelinquishment(client, testData.benefitRelinquishment.data);
-  client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/benefits/relinquishment');
+  // This page will only be accessed if relationship is a child
+  if (testData.sponsorInformation.relationship === 'child') {
+    client
+      .waitForElementVisible('label[for="root_benefitsRelinquishedDateMonth"]', Timeouts.slow);
+    Edu5490Helpers.completeBenefitRelinquishment(client, testData.benefitRelinquishment.data);
+    client.click('.form-progress-buttons .usa-button-primary');
+    E2eHelpers.expectNavigateAwayFrom(client, '/benefits/relinquishment');
+  }
 
   // Benefit history page
   client
@@ -73,7 +79,7 @@ module.exports = (client, onlyRequiredFields) => {
   EduHelpers.completeVeteranInformation(client, {
     // Alternatively, we could re-write completeVeteranInformation to accommodate this
     veteranFullName: testData.sponsorInformation.data['view:currentSponsorInformation'].relativeFullName,
-    veteranSocialSecurityNumber: testData.sponsorInformation.data.veteranSocialSecurityNumber
+    veteranSocialSecurityNumber: testData.sponsorInformation.data['view:currentSponsorInformation'].veteranSocialSecurityNumber
   }, onlyRequiredFields, 'root_view:currentSponsorInformation');
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/veteran/information');

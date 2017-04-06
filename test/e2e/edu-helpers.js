@@ -41,6 +41,7 @@ function completeVeteranInformation(client, data, onlyRequiredFields, root = 'ro
 
 function completeRelativeInformation(client, data, onlyRequiredFields) {
   const dobFields = data.relativeDateOfBirth.split('-');
+  const relationshipInput = data.relationship ? `input[value="${data.relationship}"]` : 'input[name="root_relationship_1"]';
   client
     .clearValue('input[name="root_relativeFullName_first"]')
     .setValue('input[name="root_relativeFullName_first"]', data.relativeFullName.first)
@@ -50,7 +51,7 @@ function completeRelativeInformation(client, data, onlyRequiredFields) {
     .setValue('input[name="root_relativeSocialSecurityNumber"]', data.relativeSocialSecurityNumber)
     .clearValue('input[name="root_relativeDateOfBirthYear"]')
     .setValue('input[name="root_relativeDateOfBirthYear"]', parseInt(dobFields[0], 10).toString())
-    .click('input[name="root_relationship_1"]');
+    .click(relationshipInput);
   selectDropdown(client, 'root_relativeDateOfBirthMonth', parseInt(dobFields[1], 10).toString());
   selectDropdown(client, 'root_relativeDateOfBirthDay', parseInt(dobFields[2], 10).toString());
 
