@@ -79,19 +79,18 @@ You may get benefits for up to 8 semesters (4 years) of traditional academic edu
 #### Related funding or training programs that fall under MGIB-AD
 
 - [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
-
-- [College degree and certificate programs](/education/gi-bill/higher-learning/)
+- [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
 - [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
 - [Flight training](/education/advanced-training-and-certifications/flight-training/)
-- [Apprenticeships or on-the-job training](/education/work-learn/job-and-apprenticeship/)
-- [High-tech training](/education/work-learn/non-traditional/accelerated-payments/)
+- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
+- [High-tech programs](/education/work-learn/non-traditional/accelerated-payments/)
 - [Licensing and certification](/education/advanced-training-and-certifications/licensing-certification/)
 - [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
 - [National testing program](/education/advanced-training-and-certifications/national-testing-program/)
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 
-[Use the GI Bill Comparison Tool to compare benefits at schools](https://vets.gov/gi-bill-comparison-tool/). 
+[Use the GI Bill Comparison Tool to compare benefits at schools](/gi-bill-comparison-tool/). <br>
+[Read the Montgomery GI Bill Active Duty pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf).
 
 “GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase.” [Read our Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
 
-[Read the Montgomery GI Bill Active Duty pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf).
