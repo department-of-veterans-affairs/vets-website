@@ -62,11 +62,13 @@ module.export = (client, onlyRequiredFields) => {
   E2eHelpers.expectNavigateAwayFrom(client, '/benefits/history');
 
   // Sponsor information page
-  // May need to write a 5490-specific function or modify completeVeteranInformation()
-  // The selectors and data locations are different, but it's otherwise the same
   client
     .waitForElementVisible('input[name="root_view:currentSponsorInformation_veteranFullName_first"]', Timeouts.slow);
-  EduHelpers.completeVeteranInformation(client, testData.veteranInformation.data, onlyRequiredFields);
+  EduHelpers.completeVeteranInformation(client, {
+    // Alternatively, we could re-write completeVeteranInformation to accommodate this
+    veteranFullName: testData.sponsorInformation.data['view:currentSponsorInformation'].relativeFullName,
+    veteranSocialSecurityNumber: testData.sponsorInformation.data.veteranSocialSecurityNumber
+  }, onlyRequiredFields, 'root_view:currentSponsorInformation');
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/veteran/information');
 

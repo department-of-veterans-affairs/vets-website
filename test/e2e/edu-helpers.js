@@ -18,21 +18,24 @@ function initApplicationSubmitMock(form) {
   });
 }
 
-function completeVeteranInformation(client, data, onlyRequiredFields) {
+function completeVeteranInformation(client, data, onlyRequiredFields, root = 'root') {
   client
-    .clearValue('input[name="root_veteranFullName_first"]')
-    .setValue('input[name="root_veteranFullName_first"]', data.veteranFullName.first)
-    .clearValue('input[name="root_veteranFullName_last"]')
-    .setValue('input[name="root_veteranFullName_last"]', data.veteranFullName.last)
-    .clearValue('input[name="root_view:veteranId_veteranSocialSecurityNumber"]')
-    .setValue('input[name="root_view:veteranId_veteranSocialSecurityNumber"]', data.veteranSocialSecurityNumber);
+    .clearValue(`input[name="${root}_veteranFullName_first"]`)
+    .setValue(`input[name="${root}_veteranFullName_first"]`, data.veteranFullName.first)
+    .clearValue(`input[name="${root}_veteranFullName_last"]`)
+    .setValue(`input[name="${root}_veteranFullName_last"]`, data.veteranFullName.last)
+    .clearValue(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`)
+    .setValue(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`, data.veteranSocialSecurityNumber);
 
   if (!onlyRequiredFields) {
     client
       .setValue('input[name="root_veteranFullName_middle"]', data.veteranFullName.middle)
-      .setValue('select[name="root_veteranFullName_suffix"]', data.veteranFullName.suffix)
-      .click('input[name="root_view:veteranId_view:noSSN"]')
-      .setValue('input[name="root_view:veteranId_vaFileNumber"]', data.vaFileNumber);
+      .setValue('select[name="root_veteranFullName_suffix"]', data.veteranFullName.suffix);
+    if (data.vaFileNumber) {
+      client
+        .click('input[name="root_view:veteranId_view:noSSN"]')
+        .setValue('input[name="root_view:veteranId_vaFileNumber"]', data.vaFileNumber);
+    }
   }
 }
 
