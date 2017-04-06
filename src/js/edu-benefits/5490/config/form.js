@@ -78,7 +78,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  title: 'Update your Education Benefits',
+  title: 'Apply for education benefits as an eligible dependent',
   subTitle: 'Form 22-5490',
   defaultDefinitions: {
     date: dateSchema,
