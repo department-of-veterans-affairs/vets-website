@@ -12,7 +12,8 @@ If your parent or spouse was an active-duty Servicemember who died in the line o
 
 </div>
 
-<div class="feature">
+<div class="feature" markdown="1">
+
 ### Can I get Fry Scholarship benefits?
 You may be able to get benefits under the Fry Scholarship if you're the child or surviving spouse of an active-duty Servicemember who died in the line of duty on or after September 11, 2001.
 
@@ -51,7 +52,7 @@ Spouses who remarry can't get the Fry Scholarship.
 
 ##### Choose a school
 
-- The GI Bill Comparison Tool can help you pick a school. [Use the GI Bill Comparison tool](/gi-bill-comparison-tool/).
+- The GI Bill Comparison Tool can help you pick a school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 - Make sure that we have approved your selected program for VA training.
 </div>
 </li>
