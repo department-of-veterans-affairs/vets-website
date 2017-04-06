@@ -60,7 +60,6 @@ export class SearchPage extends React.Component {
 
   updateSearchResults() {
     const programFilters = [
-      'caution',
       'studentVeteranGroup',
       'yellowRibbonScholarship',
       'principlesOfExcellence',
@@ -84,8 +83,7 @@ export class SearchPage extends React.Component {
     programFilters.forEach(filterKey => {
       const filterValue = institutionFilter[filterKey];
       institutionFilter[filterKey] =
-        filterValue === 'true' ||
-        (filterKey === 'caution' && filterValue === 'false');
+        filterValue === 'true';
     });
 
     this.props.institutionFilterChange(institutionFilter);
@@ -101,8 +99,7 @@ export class SearchPage extends React.Component {
 
   handleFilterChange(field, value) {
     // Translate form selections to query params.
-    const queryValue = field === 'caution' ? !value : value;
-    const query = { ...this.props.location.query, [field]: queryValue };
+    const query = { ...this.props.location.query, [field]: value };
 
     // Don't update the route if the query hasn't changed.
     if (_.isEqual(query, this.props.location.query)) { return; }
@@ -111,12 +108,11 @@ export class SearchPage extends React.Component {
     delete query.page;
 
     const shouldRemoveFilter =
-      (field !== 'caution' && !queryValue) ||
-      (field === 'caution' && queryValue) ||
+      !value ||
       ((field === 'category' ||
         field === 'country' ||
         field === 'state' ||
-        field === 'type') && queryValue === 'ALL');
+        field === 'type') && value === 'ALL');
 
     if (shouldRemoveFilter) { delete query[field]; }
     this.props.router.push({ ...this.props.location, query });
