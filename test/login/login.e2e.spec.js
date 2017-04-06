@@ -24,6 +24,7 @@ module.exports = E2eHelpers.createE2eTest(
     // click Sign Out & verify new window is opened & has correct logout url
     client
       .click('#accountMenu > ul > li:nth-child(2) > a')
+      .pause(500)
       .windowHandles(function windowHandlesCallback(result) {
         this.verify.equal(result.value.length, 2, 'There should be 2 windows open');
         const newWindow = result.value[1];
