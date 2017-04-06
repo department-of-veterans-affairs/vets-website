@@ -20,15 +20,15 @@ Find out if you can transfer any of your unused Post-9/11 GI Bill benefits to yo
 ### Can I transfer benefits?
 You can transfer benefits if you’re on active duty or in the Selected Reserve and:
   - You’re in one of these situations:
-     - You have at least 6 years of service on the date of approval and agree to serve 4 additional years from the date of election, **or**
-     - You have at least 10 years of service on the date of approval, can't commit to 4 additional years because of either policy or statute, but agree to serve for the maximum amount of time allowed, **and**
+     - You have at least 6 years of service on the date of approval and agree to add 4 more years of service from the date of election, **or**
+     - You have at least 10 years of service on the date of approval, can't commit to add 4 more years of service because of either policy or statute, but agree to serve for the maximum amount of time allowed, **and**
   - The person getting benefits has enrolled in the Defense Enrollment Eligibility Reporting System (DEERS).
 
 ### Who's covered?
 Qualified dependents
 </div>
 
-### What benefits can they get?
+### What benefits can my qualified dependents get?
 
 If the DOD approves the Transfer of Entitlement (TOE), your spouse or dependent children can apply for up to 36 months of benefits, and may be able to get money for: 
 
@@ -39,7 +39,7 @@ If the DOD approves the Transfer of Entitlement (TOE), your spouse or dependent 
 
 ------
 
-### When can they use the transferred benefit?
+### When can they use the transferred benefits?
 
 These conditions apply to family members using transferred benefits:
 
@@ -59,7 +59,7 @@ These conditions apply to family members using transferred benefits:
 - Don't have to use the benefit within 15 years after your separation from active duty, but can't use the benefit after they've turned 26 years old.
 
 
-Your dependents may still qualify even if a child marries or you and your spouse divorce. However, Servicemembers and Veterans can revoke (meaning cancel) or change a TOE at any time. If you want to totally revoke transferred benefits for a dependent and you're still in the service, you must turn in another transfer request for the dependent through milConnect. If a dependent’s transfer eligibility (ability to get a TOE) has been totally revoked, you can't transfer benefits again to that dependent.
+Your dependents may still qualify even if a child marries or you and your spouse divorce. However, Servicemembers and Veterans can revoke (cancel) or change a TOE at any time. If you want to totally revoke transferred benefits for a dependent and you're still in the service, you must turn in another transfer request for the dependent through milConnect. If a dependent’s transfer eligibility (ability to get a TOE) has been totally revoked, you can't transfer benefits again to that dependent.
 
 
 ### How do I transfer the benefit?
@@ -68,7 +68,7 @@ While you're still on active duty, you'll request to transfer, change, or revoke
 
 If DOD approves the TOE, family members may apply for benefits. 
 - [Apply online](https://www.ebenefits.va.gov/ebenefits/vonapp). 
-- Apply by mail. You'll need to fill out and mail VA Form 22-1990e to the nearest VA regional office. [Download Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf). 
+- Apply by mail. You'll need to fill out and mail VA Form 22-1990E to the nearest VA regional office. [Download Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf). 
 
 [Find a nearby VA facility](/facilities/).
 
@@ -79,7 +79,7 @@ Once you leave active duty, you can still provide a future effective date that t
 
 - [DOD website for information on transferring benefits](http://archive.defense.gov/Home/Features/2009/0409_gibill/)
 - [Fact sheet on transferring Post-9/11 GI Bill benefits](http://www.benefits.va.gov/gibill/docs/factsheets/Transferability_Factsheet.pdf)
-- To ask about your eligibility, the status of your transfer request, and the TEB Portlet (for service-specific questions), please contact the right career counselor or personnel center from this list:
+- To find out if you qualify, the status of your transfer request, and how to use the TEB Portlet (for service-specific questions), please contact the right career counselor or personnel center from this list:
   - Army Active-Duty Officer  [Email](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
   - Army Active-Duty Enlisted  [Email](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
   - Army National Guard  [Email](mailto:ng.robinson.ngb-arng-pec.mbx.arng-hrm-o-gi-bill-ch33@mail.mil)
