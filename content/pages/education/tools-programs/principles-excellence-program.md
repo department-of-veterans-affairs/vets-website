@@ -6,10 +6,10 @@ plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
-<<<<<<< HEAD
 <div class="va-introtext">
-The Principles of Excellence program requires schools that get federal funding through programs such as the GI Bill to follow certain guidelines.
+The Principles of Excellence program requires schools that get federal funding through programs such as the GI Bill to follow certain guidelines. Learn about these guidelines.
 </div>
+
 
 Schools that are a part of the program must:
 
@@ -32,4 +32,4 @@ Schools that don't charge tuition and fees don't have to follow the Principles o
 - On-the-job training and apprenticeship programs
 - Residency and internship programs
 
-Use the GI Bill Comparison Tool to learn which schools are part of the program. You can also compare benefits offered by different schools. [Use the GI Bill Comparison Tool](https://vets.gov/gi-bill-comparison-tool/).
+Use the GI Bill Comparison Tool to learn which schools are part of the program. You can also compare benefits offered by different schools. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
