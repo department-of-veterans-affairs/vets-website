@@ -378,10 +378,12 @@ export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
  * hideIf function from uiSchema and the current page data. Sets 'ui:hidden'
  * which is a non-standard JSON Schema property
  */
-export function setHiddenFields(schema, uiSchema, formData) {
+export function setHiddenFields(schema, uiSchema, formData, path = []) {
   if (!uiSchema) {
     return schema;
   }
+
+  const containingObject = _.get(path.slice(0, -1), formData) || formData;
 
   let updatedSchema = schema;
   const hideIf = _.get(['ui:options', 'hideIf'], uiSchema);
@@ -395,7 +397,7 @@ export function setHiddenFields(schema, uiSchema, formData) {
   }
 
   const expandUnder = _.get(['ui:options', 'expandUnder'], uiSchema);
-  if (expandUnder && !formData[expandUnder]) {
+  if (expandUnder && !containingObject[expandUnder]) {
     if (!updatedSchema['ui:collapsed']) {
       updatedSchema = _.set('ui:collapsed', true, updatedSchema);
     }
@@ -405,7 +407,7 @@ export function setHiddenFields(schema, uiSchema, formData) {
 
   if (updatedSchema.type === 'object') {
     const newProperties = Object.keys(updatedSchema.properties).reduce((current, next) => {
-      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], formData);
+      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], formData, path.concat(next));
 
       if (newSchema !== updatedSchema.properties[next]) {
         return _.set(next, newSchema, current);
@@ -420,7 +422,9 @@ export function setHiddenFields(schema, uiSchema, formData) {
   }
 
   if (updatedSchema.type === 'array') {
-    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, formData);
+    // this isn't really correct; since all array items share a schema, we can't hide and remove data specific
+    // to a row
+    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, formData, path.concat(formData.length - 1));
 
     if (newSchema !== updatedSchema.items) {
       return _.set('items', newSchema, updatedSchema);
@@ -445,8 +449,14 @@ export function removeHiddenData(schema, data) {
       if (typeof data[next] !== 'undefined') {
         const nextData = removeHiddenData(schema.properties[next], data[next]);
 
+        // if the data was removed, then just unset it
         if (typeof nextData === 'undefined') {
           return _.unset(next, current);
+        }
+
+        // if data was updated (like a nested prop was removed), update it
+        if (nextData !== data[next]) {
+          return _.set(next, nextData, current);
         }
       }
 
@@ -455,15 +465,9 @@ export function removeHiddenData(schema, data) {
   }
 
   if (schema.type === 'array') {
-    return data.reduce((current, next, index) => {
-      const nextData = removeHiddenData(schema.items, next);
-
-      if (nextData !== next) {
-        return _.set(index, nextData, current);
-      }
-
-      return data;
-    }, data);
+    return data.map(item => {
+      return removeHiddenData(schema.items, item);
+    });
   }
 
   return data;
