@@ -6,11 +6,15 @@ template: 1-topic-landing
 showactionbar: false
 relatedlinks:
  - url: /education/tools-programs/education-career-counseling/
-   title: Education and career counseling
-   description: "Get help choosing a civilian career."
+   title: Education and Career Counseling
+   description: "Transitioning out of active service? Get free help taking the next steps in your education and career."
 ---
 
+<div class="va-introtext">
+
 Getting a degree, certificate, or other professional license can help you make a sucessful transition from military to civilian life. Find out what happens after you apply for education benefits. 
+
+</div>
 
 ### How long does it take VA to make a decision?
 

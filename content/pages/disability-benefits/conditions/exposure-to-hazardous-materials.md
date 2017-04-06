@@ -33,4 +33,8 @@ relatedlinks:
     description: If you served in Iraq, Afghanistan, Djibouti, or near Atsugi, Japan, you may have had contact with toxic particles or pollutants.
 ---
 
+<div class="va-introtext">
+
 Find out if you can get disability compensation or benefits for illnesses or other conditions, like the ones listed below, believed to be caused by contact with harmful chemicals or other hazardous materials while serving in the military.
+
+</div>

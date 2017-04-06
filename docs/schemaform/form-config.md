@@ -236,7 +236,11 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
     }
 
     // Function that conditionally replaces the current field's schema
-    updateSchema: function (fieldData, pageData) {
+    updateSchema: function (pageData, form, pageSchema) {
+      // form is organized like: form.pageName.data.fieldName
+      // This means it's not like formData, where all the data for all the forms is mashed
+      // together into one object. It's a bit of a pain, but this means updateSchema can also
+      // update the schema / uiSchema of other pages (but do so sparingly!).
       return {};
     }
   }
@@ -306,8 +310,8 @@ You don't have to limit your use of `ui:validations` to non-object fields (i.e. 
 If you use `ui:validations` on this object field (instead of on the email or confirmEmail fields) you can compare the two fields:
 
 ```js
-export function validateEmailsMatch(errors, formData) {
-  const { email, confirmEmail } = formData;
+export function validateEmailsMatch(errors, pageData) {
+  const { email, confirmEmail } = pageData;
   if (email !== confirmEmail) {
     errors.confirmEmail.addError('Please ensure your entries match');
   }
@@ -335,7 +339,7 @@ You can use the `updateSchema` option in uiSchema to change the list of enums:
 ```js
 {
   'ui:options': {
-    updateSchema: (fieldData, pageData) {
+    updateSchema: (pageData, form, pageSchema) {
       if (pageData.myField === 'otherOption') {
         return {
           enum: ['option1', 'option2'],

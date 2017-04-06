@@ -5,9 +5,14 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
+<div class="va-introtext">
+
 If you served at least two years on active duty, you may be eligible for the MGIB-AD program.
 
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Are you eligible for education benefits?
 

@@ -5,15 +5,33 @@ import { wrapWithRouterContext } from '../../util/unit-helpers';
 
 import { Main } from '../../../src/js/health-records/containers/Main';
 
-const props = {};
+const props = {
+  form: {
+    reportTypes: {
+      prescriptions: true,
+    },
+    dateOption: '3mo',
+    dateRange: {
+      start: null,
+      end: null,
+    },
+  },
+};
 
 describe('<Main>', () => {
-  const tree = SkinDeep.shallowRender(
-    wrapWithRouterContext(<Main {...props}/>)
-  );
-
   it('should render', () => {
+    const tree = SkinDeep.shallowRender(
+      wrapWithRouterContext(<Main {...props}/>)
+    );
     const vdom = tree.getRenderOutput();
     expect(vdom).to.exist;
+  });
+
+  it('submit button should be enabled if form is valid', () => {
+    const tree = SkinDeep.shallowRender(
+      wrapWithRouterContext(<Main {...props}/>)
+    );
+    const submitButton = tree.dive(['Main', 'button']);
+    expect(submitButton.props.disabled).to.not.be.ok;
   });
 });

@@ -11,20 +11,22 @@
   "benefitSelection": {
     "data": {}
   },
-  "previousBenefits": {
+  "benefitHistory": {
     "data": {
       "previousBenefits": {
         "veteranFullName": {}
       }
     }
   },
-  "sponsorVeteran": {
+  "sponsorInformation": {
     "data": {
-      "relativeFullName": {
-        "first": "Jim",
-        "last": "Doe"
-      },
-      "veteranSocialSecurityNumber": "332344444"
+      "view:currentSponsorInformation": {
+        "veteranFullName": {
+          "first": "Jim",
+          "last": "Doe"
+        },
+        "veteranSocialSecurityNumber": "332344444"
+      }
     }
   },
   "sponsorService": {
@@ -33,7 +35,7 @@
   "applicantService": {
     "data": {}
   },
-  "contributions": {
+  "additionalBenefits": {
     "data": {}
   },
   "educationHistory": {

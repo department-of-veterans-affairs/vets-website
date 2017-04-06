@@ -20,7 +20,7 @@ very secret.
 | add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
 | build the site with dev features enabled. | `npm run build` |
 | build the production site (dev features disabled). | `npm run build -- --buildtype production` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
-| build the site with optimizaitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
+| build the site with optimizitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,no-react`. Valid application names are in `config/webpack.config.js` |
 | run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` |
@@ -28,6 +28,7 @@ very secret.
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
 | run only e2e tests | `npm run test:e2e` | 
+| run only e2e tests for specific apps | `npm run test:e2e -- test/edu-benefits/1995/*` (provide a path to the `*.e2e.spec.js` files) |
 | run all linters | `npm run lint` |
 | run only javascript linter | `npm run lint:js` |
 | run only sass linter | `npm run lint:sass` |
@@ -35,6 +36,7 @@ very secret.
 | test for broken links | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
 | add new npm modules | `npm install -D my-module` followed by `npm shrinkwrap --dev`. There are no non-dev modules here. |
 | get the latest json schema | Update vets-json-schema in package.json with the latest commit hash, then run `npm update vets-json-schema && npm shrinkwrap --dev` |
+| check test coverage | `npm run test:coverage` |
 
 ## Directory structure
 
@@ -220,6 +222,17 @@ TODO(awong): Figure out sauce labs integrations. Not all e2e tests should always
 run on all browsers. That's wasteful. How do we determine what should be run on
 multiple browsers as opposed to on PhantomJS in Jenkins?
 
+#### E2E Troubleshooting
+Try running your `selenium` server manually:
+```
+$ java -jar <path to GitHub>/vets-website/node_modules/selenium-server/lib/runner/selenium-server-standalone-3.1.0.jar
+```
+and you should see:
+```
+04:35:15.862 INFO - Selenium Server is up and running
+```
+* Selenium requires **Java 8** to run
+
 ### Automated Accessibility Testing -- aXe
 
 The automated accessibility tests are contained within the `test/accessibility`
@@ -257,7 +270,7 @@ disabled by the feature flag.
 
 To enable or disable the feature in a specific build type, toggle the feature
 in `test/util/mocha-setup.js` and `config/webpack.config.js`. See
-`SampleFeature` and the associated `__SAMPLE_FEATURE__` env variables for an
+[`SampleFeature`](src/js/common/components/SampleFeature.jsx) and the associated `__SAMPLE_FEATURE__` env variables for an
 example implementation.
 
 ## More documentation

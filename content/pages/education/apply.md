@@ -1,62 +1,86 @@
 ---
 layout: page-breadcrumbs.html
-title: Education Benefits Application Process 
+title: Education Benefits Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
  - url: /education/gi-bill/
    title: GI Bill
-   description: "Since 1944, millions of Veterans have used the GI Bill to pay for college."
+   description: "Learn about the GI Bill benefits that millions of Veterans like you have used to pay for college."
  - url: /education/advanced-training-and-certifications/
    title: Advanced Training and Certifications
-   description: "Use the GI Bill to pay for more than just academic programs."
+   description: "The GI Bill can pay for more than just academic programs. Use it to help cover the costs of becoming a licensed or certified professional (like a mechanic or medical technician) or a business owner."
 ---
 
+<div class="va-introtext">
+
 If you’re a Servicemember, Veteran, or family member interested in education and training opportunities, you can apply for your Certificate of Eligibility (COE). You can also manage your current benefits.
+
+</div>
 
 ### Prepare
 
 - [Check your eligibility](/education/eligibility/).
 - Gather the documents and information listed below that you'll need to apply for education benefits.
 - See what benefits you'll get at the school you want to attend. [Go to the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
-- Work with a trained professional with a Veterans Service Organization (VSO) who can help you pick the right program. [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
+- Work with a trained professional with a Veterans Service Organization (VSO) who can help you pick the right program. [Find an accredited representative](/disability-benefits/apply/help/index.html).
 
 <div markdown="0"><br></div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 #### What documents and information do I need to apply?
 
 - Social Security number
 - Bank account direct deposit information
-- Education and military history 
+- Education and military history
 - Basic information about the school or training facility you want to attend or are attending now
 
 </div>
 
 ### Ready to apply?
 
-#### First-time applicants
+#### Applying for a new benefit
+Apply online with Form 22-1990 or 22-1990E:
 
-Apply online with Form 22-1990:
+<button id="apply-expander-button" class="usa-button-primary va-button-primary expander-button">Apply for Benefits</button>
 
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply for Benefits</a>
+<p>
+  <div id="apply-expander-content" class="form-expanding-group-open expander-content expander-content-closed">
+    <div class="expander-content-inner">
+      <div>Which form do you want to use?</div>
+      <div class="form-radio-buttons">
+        <input type="radio" name="form-selection" id="form-22-1990" value="1990">
+        <label for="form-22-1990">Veterans applying for a <strong>new benefit</strong> (22-1990)</label>
+        <input type="radio" name="form-selection" id="form-22-1990e" value="1990e">
+        <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
+        <!--
+        <input type="radio" name="form-selection" id="form-22-5490" value="5490">
+        <label for="form-22-5490">Dependent applying for a new benefit where your <strong>sponsor is permanently and totally disabled</strong> (22-5490)</label>
+        <input type="radio" name="form-selection" id="form-22-5490" value="5490">
+        <label for="form-22-5490">Dependent applying for a new benefit where your <strong>sponsor is deceased, MIA, or a POW</strong> (22-5490)</label>
+        -->
+      </div>
+      <a id="apply-go-button" class="usa-button-primary va-button-primary">Apply Now</a>
+    </div>
+  </div>
+</p>
 
 #### Make a change to your current education benefits
 
-If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995.
+If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995:
 
 <a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage Benefits</a>
 
-<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
+<div class="usa-alert usa-alert-warning usa-content va-alert" markdown="1">
 	<div class="usa-alert-body">
 
-##### Forms 22-1990E, 22-1990N, 22-5490, and 22-5495
+##### Forms 22-1990N, 22-5490, and 22-5495
 
 You must apply for education benefits using eBenefits if you're:
-- A spouse or dependent
-- A survivor of a Veteran
+- A dependent whose sponsor is permanently and totally disabled
+- A dependent whose sponsor is deceased, MIA, or a POW
 - A candidate for the National Call to Service program
 
 <div markdown="0">
@@ -91,3 +115,28 @@ You must apply for education benefits using eBenefits if you're:
 </div>
 
 <div markdown="0"><br></div>
+
+<script type="text/javascript">
+  // I'm open to suggestions on how to not do this here
+
+  function toggleClass(elementId, className) {
+    document.getElementById(elementId).classList.toggle(className);
+  }
+
+  // Toggle the expandable apply fields
+  document.getElementById('apply-expander-button')
+    .addEventListener('click', function () {
+      toggleClass('apply-expander-content', 'expander-content-closed');
+      toggleClass('apply-expander-button', 'va-button-primary');
+    });
+
+  // Make the go button go to the right place
+  document.getElementById('apply-go-button')
+    .addEventListener('click', function () {
+      var selectedForm = document.querySelector('input[name="form-selection"]:checked');
+
+      if (selectedForm) {
+        location.assign('/education/apply-for-education-benefits/application/' + selectedForm.value + '/introduction');
+      }
+    });
+</script>

@@ -11,12 +11,13 @@ const INITIAL_STATE = {
   tuitionInState: 0,
   tuitionOutOfState: 0,
   tuitionFees: 0,
+  inStateTuitionFees: 0,
   books: 0,
   yellowRibbonRecipient: 'no',
   yellowRibbonAmount: 0,
   scholarships: 0,
   tuitionAssist: 0,
-  enrolled: '1.0',
+  enrolled: 'full',
   enrolledOld: 'full',
   calendar: 'semesters',
   working: '30',
@@ -36,6 +37,7 @@ export default function (state = INITIAL_STATE, action) {
 
       const isDollarAmount = [
         'tuitionFees',
+        'inStateTuitionFees',
         'books',
         'yellowRibbonAmount',
         'scholarships',
@@ -45,8 +47,8 @@ export default function (state = INITIAL_STATE, action) {
       ].includes(field);
 
       if (isDollarAmount && !isFinite(value)) {
-        const dollarAmount = value[0] === '$' ? +value.substring(1) : +value;
-        convertedValue = isFinite(dollarAmount) ? dollarAmount : '';
+        // Strip all non-numeric characters.
+        convertedValue = +value.replace(/[^0-9\.]+/g, '');
       }
 
       const newState = {
@@ -58,6 +60,8 @@ export default function (state = INITIAL_STATE, action) {
           value === 'yes' ?
           state.tuitionInState :
           state.tuitionOutOfState;
+
+        newState.inStateTuitionFees = state.tuitionInState;
       }
 
       return {
@@ -78,11 +82,12 @@ export default function (state = INITIAL_STATE, action) {
 
       return {
         ...INITIAL_STATE,
-        tuitionInState,
-        tuitionOutOfState,
-        tuitionFees: tuitionInState,
-        books,
-        calendar
+        tuitionInState: tuitionInState || 0,
+        tuitionOutOfState: tuitionOutOfState || 0,
+        tuitionFees: tuitionInState || 0,
+        inStateTuitionFees: tuitionInState || 0,
+        books: books || 0,
+        calendar: calendar || 'semesters'
       };
     }
 

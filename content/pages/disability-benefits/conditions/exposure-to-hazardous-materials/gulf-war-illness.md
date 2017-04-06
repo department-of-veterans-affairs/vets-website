@@ -7,12 +7,15 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page
 ---
 
+<div class="va-introtext">
+
 If you served in the Southwest Asia theater of military operations, you may suffer from illnesses or other conditions related to service in this region. Find out if you can get disability compensation or benefits.
 
 [Learn about service in Afghanistan and Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness-from-service-in-afghanistan).  
 
+</div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -43,9 +46,9 @@ We consider these illnesses to be presumed disabilities:
 - Shigella
 - West Nile Virus
 
-[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply-for-benefits/one-year/).
+[Learn more about disabilities that appear within 1 year after discharge](/disability-benefits/apply/one-year/).
 
-[Learn more about presumed disabilities](/disability-benefits/claims-process/presumed-disability/).
+[Learn more about presumed disabilities](/disability-benefits/eligibility/presumed-disability/).
 <br>
 
 ### Who's covered?
@@ -63,7 +66,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply-for-benefits/).
+You’ll need to apply for benefits. [Apply for disability benefits](/disability-benefits/apply/).
 
 [Learn more about service in Southwest Asia](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp).
 

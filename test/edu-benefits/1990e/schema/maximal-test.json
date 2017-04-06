@@ -14,6 +14,12 @@
       "relationship": "child"
     }
   },
+  "additionalBenefits": {
+    "data": {
+      "nonVaAssistance": true,
+      "civilianBenefitsAssistance": true
+    }
+  },
   "benefitEligibility": {
     "data": {
       "view:benefitDescription": {},
@@ -29,15 +35,17 @@
         "suffix": "Jr."
       },
       "veteranSocialSecurityNumber": "556789999",
+      "view:noSSN": true,
+      "vaFileNumber": "C12345678",
       "veteranAddress": {
         "street": "1 Main St",
+        "street2": "Suite 5",
         "city": "Central City",
         "country": "USA",
         "state": "CA",
         "postalCode": "98777"
       },
-      "serviceBranch": "Marines",
-      "civilianBenefitsAssistance": true
+      "serviceBranch": "Marines"
     }
   },
   "educationHistory": {
@@ -62,14 +70,16 @@
     }
   },
   "employmentHistory": {
-    "view:hasNonMilitaryJobs": true,
-    "nonMilitaryJobs": [
-      {
-        "name": "Plumber",
-        "months": 1,
-        "licenseOrRating": "Master"
-      }
-    ]
+    "data": {
+      "view:hasNonMilitaryJobs": true,
+      "nonMilitaryJobs": [
+        {
+          "name": "Plumber",
+          "months": 1,
+          "licenseOrRating": "Master"
+        }
+      ]
+    }
   },
   "schoolSelection": {
     "data": {
@@ -77,6 +87,7 @@
         "name": "Central Flight School",
         "address": {
           "street": "2 Main Str",
+          "street2": "Apt 3",
           "city": "Central City",
           "country": "USA",
           "state": "CA",
@@ -84,8 +95,7 @@
         },
         "educationType": "flightTraining"
       },
-      "educationObjective": "Pilot",
-      "nonVaAssistance": true
+      "educationObjective": "Pilot"
     }
   },
   "contactInformation": {
@@ -93,6 +103,7 @@
       "preferredContactMethod": "mail",
       "relativeAddress": {
         "street": "3 Main St",
+        "street2": "#4",
         "city": "Central City",
         "country": "USA",
         "state": "CA",
@@ -114,5 +125,5 @@
         "accountNumber": "223445667"
       }
     }
-  }                  
+  }
 }

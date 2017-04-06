@@ -1,5 +1,7 @@
 # Design Rationale and History
 
+<div style="background: #fc0;padding: .5rem">Also see [How Templates Work](HowTemplatesWork.md).</div>
+
 *tl;dr:* React apps became the primary development churn. Webpack is the most natural tool
 which forced Node.js into the system. The site was migrated to Metalsmith from Jekyll for
 static content creationg to allow keeping things in one langauge. A single repository was

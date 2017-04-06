@@ -2,8 +2,8 @@
 
 // ----- VENDORS ---- //
 
-@import "bourbon";
-@import "neat";
+@import "~uswds/src/stylesheets/lib/bourbon";
+@import "~uswds/src/stylesheets/lib/neat";
 
 @import "~uswds/src/stylesheets/lib/normalize";
 
@@ -66,6 +66,7 @@
 @import 'modules/m-loading-indicator';
 @import 'modules/m-vet-nav';
 @import 'modules/m-print';
+@import 'modules/m-dropdown';
 
 // ----- VA SHAME ---- //
 

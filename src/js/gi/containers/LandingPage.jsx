@@ -15,15 +15,14 @@ export class LandingPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.setPageTitle('GI Bill Comparison Tool: Vets.gov');
+    this.props.setPageTitle('GI Bill® Comparison Tool: Vets.gov');
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.router.push({
-      pathname: 'search',
-      query: { name: this.props.autocomplete.searchTerm },
-    });
+    const { searchTerm: name } = this.props.autocomplete;
+    const query = name ? { name } : null;
+    this.props.router.push({ pathname: 'search', query });
   }
 
   render() {
@@ -32,12 +31,12 @@ export class LandingPage extends React.Component {
         <div className="row">
 
           <div className="small-12 medium-8 columns">
-            <h1>GI Bill Comparison Tool</h1>
+            <h1>GI Bill® Comparison Tool</h1>
             <p className="subheading">Compare programs based on what benefits they can offer you.</p>
 
             <form onSubmit={this.handleSubmit}>
-              <KeywordSearch/>
               <EligibilityForm/>
+              <KeywordSearch/>
               <button className="usa-button-big" type="submit" id="search-button">
                 <span>Search Schools</span>
               </button>

@@ -8,9 +8,13 @@ const getEligibilityDetails = (state) => {
   return details;
 };
 
-const getRequiredAttributes = (_state, props) => {
-  const { type, bah } = props;
-  return { type, bah };
+const getRequiredAttributes = (state, props) => {
+  const { type, bah, country } = props;
+  return {
+    type: type && type.toLowerCase(),
+    bah,
+    country: country && country.toLowerCase()
+  };
 };
 
 function getDerivedAttributes(constant, eligibility, institution) {
@@ -184,6 +188,8 @@ function calculateBooks(constant, eligibility, institution, derived) {
 export const estimatedBenefits = createSelector(
   [getConstants, getEligibilityDetails, getRequiredAttributes],
   (constant, eligibility, attribute) => {
+    if (constant === undefined) return {};
+
     const derived = getDerivedAttributes(constant, eligibility, attribute);
     const tuition = calculateTuition(constant, eligibility, attribute, derived);
     const housing = calculateHousing(constant, eligibility, attribute, derived);

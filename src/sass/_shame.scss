@@ -45,11 +45,16 @@ body .row {
 
 .edit-checkbox {
   label {
-    @extend a;
+    background-color: transparent;
     display: inline-block;
 
     &:before {
       display: none !important;
+    }
+
+    &:hover {
+      cursor: pointer;
+      outline: 0;
     }
   }
 }
@@ -75,16 +80,6 @@ body .row {
 
 .hidden {
   display: none !important;
-}
-
-#search_form {
-  input[type="text"] {
-    font-size: 1.9rem;
-  }
-
-  input[type="submit"] {
-    font-size: 1.9rem;
-  }
 }
 
 /* inline declarations moved here as a result of CSP rules */
@@ -142,4 +137,55 @@ body .row {
 
 .csp-inline-patch-logout {
   padding: 2em 0;
+}
+
+// /education/apply/ uses this expander button for navigation
+// Where else can I put this? Also, it could use a better name.
+.expander-button {
+  &::after {
+    background-image: url(/img/arrow-down-white.svg);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    background-size: 0.6em auto;
+    display: inline-block;
+    margin-left: 0.5em;
+    margin-right: -0.3em;
+    width: 1em;
+    height: 1em;
+    content: ''; // Add content for accessibility purposes?
+    text-indent: -9999em;
+  }
+}
+
+// Yuck...
+#apply-expander-content {
+  max-height: 19em;
+}
+
+// Handles the height transition
+.expander-content {
+  overflow: hidden;
+  transition: max-height 150ms ease-in-out;
+
+  // Handles the opacity transition
+  .expander-content-inner {
+    transition: opacity 150ms ease-in-out;
+    a.usa-button-primary {
+      transition: opacity 150ms ease-in-out;
+      transition-delay: 150ms;
+    }
+  }
+
+  // Apply this to the inner content and make a new div
+  //  with the border to expand that without the opacity
+  &.expander-content-closed {
+    max-height: 0em !important; // To override the id selector height
+
+    .expander-content-inner {
+      opacity: 0;
+      a.usa-button-primary {
+        opacity: 0;
+      }
+    }
+  }
 }

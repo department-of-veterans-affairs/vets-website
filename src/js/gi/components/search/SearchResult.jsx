@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+
 import { estimatedBenefits } from '../../selectors/estimator';
+import { formatCurrency } from '../../utils/helpers';
 
 export class SearchResult extends React.Component {
 
@@ -11,10 +13,6 @@ export class SearchResult extends React.Component {
   }
 
   estimate({ qualifier, value }) {
-    const formatCurrency = (n) => {
-      const str = Math.round(Number(n)).toString();
-      return str.replace(/\d(?=(\d{3})+$)/g, '$&,');
-    };
     if (qualifier === '% of instate tuition') {
       return <span>{value}% in-state</span>;
     }
@@ -22,7 +20,7 @@ export class SearchResult extends React.Component {
       if (value === 'N/A') return 'N/A';
       return value;
     }
-    return (<span>${formatCurrency(value)}</span>);
+    return (<span>{formatCurrency(value)}</span>);
   }
 
   render() {
@@ -48,13 +46,13 @@ export class SearchResult extends React.Component {
               <h2><Link to={`profile/${this.props.facilityCode}`}>{this.props.name}</Link></h2>
               <div style={{ position: 'relative', bottom: 0 }}>
                 <p className="locality">
-                  {this.props.city}, {this.props.country === 'usa' ? this.props.state : this.props.country}
+                  {this.props.city}, {this.props.state || this.props.country}
                 </p>
                 <p className="count">{this.props.studentCount.toLocaleString()} GI Bill Students</p>
               </div>
             </div>
             <div className="small-12 medium-5 columns estimated-benefits">
-              <h3>Your estimated benefits</h3>
+              <h3>You may be eligible for up to:</h3>
               <div className="row">
                 <div className="columns">
                   <h4>

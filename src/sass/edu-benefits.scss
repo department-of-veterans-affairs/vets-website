@@ -26,7 +26,12 @@ select {
 }
 
 legend {
-  @extend h4;
+  color: $color-primary-darkest;
+  font-size: 1.35em;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0 0 .5em 0;
 }
 
 .form-indent {
@@ -331,7 +336,7 @@ label {
 .edu-warning-single-line {
   margin-top: 0;
   > .usa-alert-body {
-    padding-left: 4rem; 
+    padding-left: 4rem;
   }
 }
 
@@ -344,4 +349,3 @@ label {
     }
   }
 }
-

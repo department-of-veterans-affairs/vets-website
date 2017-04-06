@@ -29,7 +29,7 @@ Includes Form 22-1990
 Choose **Manage Benefits** if you need to make a change to your current education benefits (for example, you’re moving to a new school).  
 Includes Form 22-1995
 
-<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
+<div class="usa-alert usa-alert-warning usa-content va-alert" markdown="1">
 	<div class="usa-alert-body">
 
 ##### For Forms 22-1990E, 22-1990N, 22-5490, and 22-5495
@@ -52,7 +52,7 @@ You must apply for education benefits using eBenefits.va.gov if you are:
 - Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school.
 - Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to request that we send the application to you. Fill it out and mail it to the VA regional claims processing office that’s in the same location as your school. [See a list of regional claims processing offices](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
-<div class="feature usa-content" markdown="1">
+<div class="call-out usa-content" markdown="1">
 
 ##### Checking in on the status of your application?
 

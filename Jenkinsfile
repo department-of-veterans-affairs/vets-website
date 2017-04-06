@@ -43,7 +43,7 @@ node('vets-website-linting') {
     def imageTag = java.net.URLDecoder.decode(env.BUILD_TAG).replaceAll("[^A-Za-z0-9\\-\\_]", "-")
 
     dockerImage = docker.build("vets-website:${imageTag}")
-    args = "-u root:root -v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
+    args = "-v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
   }
 
   // Check package.json for known vulnerabilities
@@ -77,7 +77,6 @@ node('vets-website-linting') {
 
     dockerImage.inside(args) {
       sh "cd /application && npm --no-color run test:coverage"
-      sh "cd /application && npm install -g codeclimate-test-reporter"
       sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
     }
   }
@@ -87,7 +86,7 @@ node('vets-website-linting') {
       return
     }
 
-    build job: 'vets-review-instance-deploy', parameters: [
+    build job: 'deploys/vets-review-instance-deploy', parameters: [
       stringParam(name: 'devops_branch', value: 'master'),
       stringParam(name: 'api_branch', value: 'master'),
       stringParam(name: 'web_branch', value: env.BRANCH_NAME),
@@ -158,6 +157,10 @@ node('vets-website-linting') {
   }
 
   stage('Deploy') {
+    if (isContentTeamUpdate()) {
+      throw new hudson.AbortException("content branches fail intentionally")
+    }
+
     if (!isDeployable()) {
       return
     }

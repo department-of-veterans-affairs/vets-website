@@ -24,6 +24,8 @@ const whenDataAvailable = (n1, n2, obj) => {
   };
 };
 
+const percentOrNull = (value) => (isFinite(value) ? value * 100 : null);
+
 export const outcomeNumbers = createSelector(
   [getConstants, getRequiredAttributes],
   (constant, institution) => {
@@ -41,8 +43,8 @@ export const outcomeNumbers = createSelector(
       veteranRetentionRate,
       allStudentRetentionRate,
       {
-        rate: isFinite(veteranRetentionRate) ? Number(veteranRetentionRate * 100) : null,
-        all: isFinite(allStudentRetentionRate) ? Number(allStudentRetentionRate * 100) : null,
+        rate: percentOrNull(veteranRetentionRate),
+        all: percentOrNull(allStudentRetentionRate),
         average: constant.AVERETENTIONRATE,
       }
     );
@@ -51,8 +53,8 @@ export const outcomeNumbers = createSelector(
       institution.graduationRateVeteran,
       institution.graduationRateAllStudents,
       {
-        rate: Number(institution.graduationRateVeteran * 100),
-        all: Number(institution.graduationRateAllStudents * 100),
+        rate: percentOrNull(institution.graduationRateVeteran),
+        all: percentOrNull(institution.graduationRateAllStudents),
         average: constant.AVEGRADRATE,
       }
     );
@@ -71,7 +73,7 @@ export const outcomeNumbers = createSelector(
       institution.repaymentRateAllStudents,
       {
         rate: null,
-        all: Number(institution.repaymentRateAllStudents * 100),
+        all: percentOrNull(institution.repaymentRateAllStudents),
         average: constant.AVEREPAYMENTRATE,
       }
     );

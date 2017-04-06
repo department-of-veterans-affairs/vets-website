@@ -6,14 +6,18 @@ template: 1-topic-landing
 showactionbar: false
 relatedlinks:
  - url: /healthcare/eligibility/
-   title: Eligibility
-   description: "Find out if you can get VA health care."
+   title: Health Care Benefits Eligibility
+   description: "Not sure if you qualify? Find out if you can get VA health care benefits."
  - url: /healthcare/after-you-apply/
-   title: What Happens After You Apply
-   description: "Find out how to get the most out of your VA health care benefits."
+   title: After You Apply for Health Care Benefits
+   description: "Find out when to expect a decision and what to do if you don’t hear back or don’t get approved."
 ---
 
+<div class="va-introtext">
+
 Once you’ve figured out if you qualify, applying for VA health care benefits is easy. Find out how to apply.
+
+</div>
 
 ### Prepare
 - Find out if you qualify. [Check your eligibility](/healthcare/eligibility/).
@@ -21,7 +25,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 <div markdown="0"><br></div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### What documents and information do I need to apply?
 
@@ -36,6 +40,13 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 ### Ready to apply?
 
 <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
+
+<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
+<div class="usa-alert-body">
+<h4 style="padding:0;">Are you a caregiver?</h4>
+<p style="margin:0;">This form's not quite ready for you yet. <a href="#additional-forms">Find the form you need</a>.</p>
+</div>
+</div>
 
 <div markdown="0"><br></div>
 
@@ -61,34 +72,29 @@ Go to your nearest VA medical center or clinic. Bring Form 10-10EZ with you. </b
 [Find a VA medical center or clinic near you](/facilities).</br>
 [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
+### How do I update my information if I’m already signed up?
 
+To update your personal, insurance, or financial information from an earlier application, fill out a 10-10EZR.
+
+[Download the 10-10EZR](https://www.vets.gov/healthcare/forms/vha-10-10ezr-fill.pdf).
+
+<span id="additional-forms"></span>
 ### How do I apply as a caregiver?
 
 To apply for health care as a caregiver, you'll have to fill out VA Form 10-10CG. To download this form, you must follow these steps. 
 
 #### How to download the form </br>
 
-Internet Explorer:
 1. Right click on the link to the form (below).
-2. Choose **Save Target As...**
+2. Choose your browser's download option:
+   - On **Internet Explorer**: Choose **Save Target As...**
+   - On **Firefox or Chrome**: Choose **Save Link As...**
+   - On **Safari**: Choose **Download Linked File As...**
 3. Choose where you want to save the file on your hard drive.
 4. Click **Save**.
 Double click on the downloaded file to open it.
 
-Firefox or Chrome:
-1. Right click on the link to the form (below).
-2. Choose **Save Link As...**
-3. Choose where you want to save the file on your hard drive.
-4. Click **Save**.
-Double click on the downloaded file to open it.
-
-Safari:
-1. Right click on the link to the form (below).
-2. Choose **Download Linked File As...**
-3. Choose where you want to save the file on your hard drive.
-4. Click **Save**.
-Double click on the downloaded file to open it.
-
+<div markdown="0"><br></div>
 
 [Download Form 10-10CG](/healthcare/forms/vha-10-10CG.pdf). 
 

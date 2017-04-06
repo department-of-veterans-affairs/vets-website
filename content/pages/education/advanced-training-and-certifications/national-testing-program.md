@@ -5,8 +5,13 @@ template: 4-action-page-pending
 concurrence: complete
 ---
 
+<div class="va-introtext">
+
 If you are pursuing higher education that requires testing as part of the application process, you may be eligible for reimbursement from VA.
-<div class="call-out" markdown="1">
+</div>
+
+
+<div class="feature" markdown="1">
 
 ### Are you eligible for compensation?
 Yes, if:

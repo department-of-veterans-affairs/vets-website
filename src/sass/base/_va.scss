@@ -151,13 +151,13 @@ input:focus:-ms-input-placeholder {
   color: transparent;
 }
 
+input.va-input-medium-large {
+  max-width: 18rem;
+}
+
 // TODO(crew): Remove this at some point. Fix this by using JS for title casing or passing nav labels as an object.
 .text-capitalize {
   text-transform: capitalize;
-}
-
-input.va-input-medium-large {
-  max-width: 18rem;
 }
 
 hr {
@@ -177,19 +177,11 @@ hr {
   position: fixed;
 }
 
-// TODO(css): Fix this. Should use a less specific, less broad selector
-// Interior rows
-#content.interior a[href^='http://'],
-#content.interior a[href^='https://'] {
-  position: relative;
-}
-
 // Adds external icon to all links that begin
 // with http (including https)
 // Using this selector makes it easier for the content team to write content
-// TODO: Refine this so that any links that do begin with https://vets.gov
-// or https://www.vets.gov are excluded.
-a[href^=http] {
+[href^=http],
+[rel=external] {
   // Using longhand properties instead of the shorthand to limit
   // risk and impact of side effects
   background-image: url(/img/icons/exit-icon.png);
@@ -197,6 +189,7 @@ a[href^=http] {
   background-repeat: no-repeat;
   background-size: 1em auto;
   padding-right: 1.2em;
+  position: relative;
 }
 
 // Logo and Header
@@ -204,20 +197,14 @@ a[href^=http] {
   background: $color-primary-darkest;
   color: $color-white;
   clear: both;
-  padding: 0;
   margin: 0;
+  padding: 0;
 
-  .login-container {
-    background: $color-primary-darkest;
-    padding: 0.3em 0 0;
-    white-space: nowrap;
-
-    .row {
-      padding: 0;
-    }
+  @include media($medium-screen) {
+    position: relative;
   }
 
-  .va-notice--banner {
+ .va-notice--banner {
     display: none !important;
 
     @include media($medium-screen) {
@@ -226,15 +213,34 @@ a[href^=http] {
   }
 }
 
-.va-header-logosearch {
+.login-container {
+  background: $color-primary-darkest;
+  flex-wrap: wrap;
+  white-space: nowrap;
+  
+  .row {
+    padding: 0;
+  }
+   @include media($medium-large-screen) {
+    flex: 1 0 100%;
+  }
+}
+  
+
+#va-header-logo-menu {
+  flex-wrap: wrap;
   padding: 1em 0.75em 0;
+  
+  @include media($medium-large-screen) {
+    padding-bottom: 0;
+  }
 }
 
 .va-header-logo-wrapper {
-  flex: 1 1 10rem;
-
+  flex: 1 0 164px;
+  
   @include media($medium-large-screen) {
-    flex-basis: 60rem;
+    flex-basis: 6rem;
   }
 }
 
@@ -244,8 +250,7 @@ a[href^=http] {
   border-bottom: none;
   display: block;
   height: 40px;
-  overflow: hidden;
-  line-height: 1em;
+  //padding-left: .5rem;
   margin: 0;
   width: 164px;
 
@@ -473,22 +478,25 @@ h6 {
 }
 
 .primary {
-
   p {
     padding-top: 0;
     margin-top: 0;
-
-    &:nth-child(1),
-    &:first-of-type {
-      color: $color-primary-darker;
-      letter-spacing: normal;
-      font-size: 1.25em;
-    }
   }
 
-  h3 {
-    padding: 0 0 .5em 0;
+  li p:first-of-type,
+  ul+p
+   {
+    font-weight: normal !important;
+    color: $color-gray-dark;
+    font-size: 1em;
+    padding-bottom: 0;
   }
+}
+
+.va-introtext {
+  color: $color-primary-darker;
+  letter-spacing: normal;
+  font-size: 1.25em;
 }
 
 .secondary {
@@ -506,43 +514,30 @@ h6 {
   max-width: $text-max-width;
 }
 
-// tagline
-#content .tagline-content {
-  p {
-    font-size: 2.15em;
-    border-bottom: 2px solid white;
-    padding: 0 0 1em 0;
-    margin: 0 0 2em 0;
-    color: rgba(255,255,255,.7);
-    line-height: 1.2em;
-  }
-}
+//====================
+// Content callout boxes
+// ===================
 
-// Content Callouts
-
-#content .main .section.one {
-  ul[class*='block-grid-'] {
-    display: block;
-    padding: 0;
-    margin: 0 -0.625rem;
-  }
-}
-
-.call-out {
+.feature {
   background: $color-primary-alt-lightest;
   padding: 1em;
   clear: both;
   margin: 0 0 1.5em 0;
+  min-height: 11em;
+
   p {
+    color: inherit !important;
+    font: inherit !important;
     margin-bottom: 0;
-    padding-bottom: .5em
+    padding-bottom: .5em;
+
+    &:nth-child(1) {
+      font-size: 1.25em !important;
+      color: $color-gray-dark !important;
+      padding-bottom: inherit;
+    }
   }
-  p:nth-child(1) {
-    // TODO: refactor #content.interior .primary li p:first-of-type and remove !important
-    font-size: 1.25em !important;
-    color: $color-gray-dark;
-    padding-bottom: inherit;
-  }
+
   h3 {
     font-size: 1.65em;
   }
@@ -589,7 +584,10 @@ ul, ol {
   }
 }
 
-// Home page, 404 page
+//====================
+// Home, 404 page, maintenance page
+// ===================
+
 .navigation--major {
   .va-cards--2across {
     display:block;
@@ -612,13 +610,50 @@ ul, ol {
     line-height: 1.2em;
     // TODO: Drop the !important when .home #content h3 and
     // body.fourohfour #content h3 are straightened out.
-    font-size: 1.65em !important;
-    color: $color-primary-darkest !important;
-    margin: 0 0 2.5em 0;
+    font-size: 1.65em;
+    color: $color-primary-darkest;
+    margin: 0 0 1rem 0;
     padding: 0 0 .2em 0;
+  }
+
+  &--commpop {
+    padding-bottom: 6.4rem;
   }
 }
 
+.maintenance-page {
+  padding-top: 3.2rem;
+
+  .text-center {
+    margin: auto;
+  }
+}
+
+//========================
+// 404 page only
+//========================
+
+#search_form {
+  position: relative;
+  width: 100%;
+
+  label {
+    left: -9999rem;
+    position: absolute;
+  }
+
+  [type=text] {
+    height: 5.7rem;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  [type=submit] {
+    border-radius: 0 3px 3px 0;
+    height: 5.7rem;
+    margin: 0;
+  }
+}
 
 // Content lead paragraphs
 
@@ -631,11 +666,6 @@ ul, ol {
     font-size: 1em;
     padding-bottom: 0;
   }
-}
-
-#content .main.interior {
-  background: $color-white;
-  a {text-decoration: underline;}
 }
 
 #content .section.primary {
@@ -655,30 +685,13 @@ ul, ol {
   }
 }
 
-#content .section .feature {min-height: 11em;}
+
 
 #content .panel {
   background: $color-gray-lightest;
   padding: 1em;
   margin-bottom: 1.5em;
   clear: both;
-}
-
-// Sections
-
-.section {
-  background: $color-white;
-
-  &.one {
-    padding: 0;
-  }
-
-  &.two {
-    padding: 0 0 4em 0;
-    h3 {color: darken($color-green, 10);}
-    clear: both;
-  }
-  &.three {clear: both; padding: 2em 0;}
 }
 
 
@@ -734,8 +747,8 @@ ul, ol {
 }
 
 .va-nav-breadcrumbs-list {
-  @extend .columns;
   float: none;
+  position: relative;
 }
 
 //===== Playbook and Facility Locator
@@ -1163,35 +1176,6 @@ li {
 
 // Search
 
-#search_form {
-  padding: 1.1em 0;
-  text-align: right;
-  label {
-    position: absolute;
-    left: -9999em;
-    font-size: 1px;
-    overflow: hidden;
-    float: left;
-  }
-  input[type='text'] {
-    height: 3em;
-    margin: 0;
-    width: 100%;
-    color: $color-gray-dark;
-    padding: .2em;
-    box-sizing: border-box;
-  }
-
-  input[type='submit'] {
-    margin: 0;
-    height: 3em;
-    text-align: center !important;
-    width: 100%;
-    padding: 0;
-    border-radius: 0px 3px 3px 0px;
-  }
-}
-
 .search-button {
   margin: 1em .5em 0 0;
   padding: 0;
@@ -1200,26 +1184,6 @@ li {
     float: right;
     margin-top: 0.1em;
   }
-}
-
-.reveal-modal #search_form {
-  margin-bottom: 1em;
-}
-
-.reveal-modal .close-reveal-modal {
-  font-size: 1em;
-  clear: both;
-  text-decoration: none;
-  color: $color-gray-dark;
-  text-align: center;
-  margin: 1em 0;
-  position: relative;
-  top: auto;
-  display: block;
-  padding: 1em 0;
-  right: auto;
-  width: 100%;
-  bottom: auto;
 }
 
 //===================================
@@ -1322,14 +1286,6 @@ li {
   &.bottom {
     border-bottom: 1px solid #f0f0f0;
   }
-}
-
-// Steps
-
-.feature {
-  background: $polar;
-  padding: 1em;
-  margin: 0;
 }
 
 // Process line
@@ -1478,7 +1434,6 @@ li.twenty:before {content: '20';}
   }
 
   a {
-    @extend .usa-button-primary;
     margin: .5em 0;
   }
 }
@@ -1847,10 +1802,17 @@ pre[class*='language-']  {
 }
 
 // Vertically aligns in the middle when flex-direction: row;
-// Aligns center when flex-direction: column
+// Aligns center horizontally when flex-direction: column
 .va-flex--ctr {
   -webkit-align-items: center;
   align-items: center;
+}
+
+// Horizontally aligns in the center when flex-direction: row;
+// Aligns middle vertically when flex-direction: column
+.va-flex--jctr {
+  -webkit-justify-items: center;
+  justify-items: center;
 }
 
 // Stretches all flexbox items to be the same height when
@@ -1932,22 +1894,5 @@ p.info-message {
   p {
     font-size: 1em !important;
     color: #323a45 !important;
-  }
-}
-
-.va-search-form--narrowscr {
-  [type="text"] {
-    flex: 2 1 10rem;
-  }
-  [type="submit"] {
-    flex: 0 1 14rem;
-  }
-}
-
-.va-search-form--widescr {
-  display: none;
-
-  @include media($medium-large-screen) {
-    display: inline-block;
   }
 }

@@ -20,7 +20,6 @@ import { SET_DATA,
 function recalculateSchemaAndData(initialState) {
   return Object.keys(_.omit(['privacyAgreementAccepted', 'submission'], initialState))
     .reduce((state, pageKey) => {
-      const page = state[pageKey];
       // on each data change, we need to do the following steps
 
       // Flatten the data from all the pages
@@ -34,6 +33,7 @@ function recalculateSchemaAndData(initialState) {
       }, {});
 
       // Recalculate any required fields, based on the new data
+      const page = state[pageKey];
       let schema = updateRequiredFields(page.schema, page.uiSchema, formData);
 
       // Update the schema with any fields that are now hidden because of the data change

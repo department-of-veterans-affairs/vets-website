@@ -23,6 +23,7 @@ export const FETCH_PROFILE_FAILED = 'FETCH_PROFILE_FAILED';
 export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
 export const INSTITUTION_FILTER_CHANGED = 'INSTITUTION_FILTER_CHANGED';
 export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
+export const FILTER_TOGGLED = 'FILTER_TOGGLED';
 
 export function showModal(modal) {
   return {
@@ -171,4 +172,8 @@ export function calculatorInputChange(e) {
     field,
     value
   };
+}
+
+export function toggleFilter() {
+  return { type: FILTER_TOGGLED };
 }

@@ -33,6 +33,8 @@ relatedlinks:
    description: Learn about REAP, VEAP, and Call to Service.
 ---
 
+<div class="va-introtext">
+
 VA gives Veterans, Servicemembers, and their families generous education benefits and opportunities, including help paying tuition, picking out a school, career counseling, and more.
 
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application/1990/introduction">Apply for Education Benefits</a> <a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage Benefits</a>
+</div>

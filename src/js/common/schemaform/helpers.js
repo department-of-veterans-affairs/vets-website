@@ -475,7 +475,7 @@ export function removeHiddenData(schema, data) {
  * function in uiSchema. This means the schema can be re-calculated based on data
  * a user has entered.
  */
-export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
+export function updateSchemaFromUiSchema(schema, uiSchema, pageData, form) {
   if (!uiSchema) {
     return schema;
   }
@@ -484,8 +484,8 @@ export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
 
   if (currentSchema.type === 'object') {
     const newSchema = Object.keys(currentSchema.properties).reduce((current, next) => {
-      const nextData = data ? data[next] : undefined;
-      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], nextData, formData);
+      const nextData = pageData ? pageData[next] : undefined;
+      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], nextData, form);
 
       if (current.properties[next] !== nextProp) {
         return _.set(['properties', next], nextProp, current);
@@ -500,7 +500,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
   }
 
   if (currentSchema.type === 'array') {
-    const newSchema = updateSchemaFromUiSchema(currentSchema.items, uiSchema.items, data, formData);
+    const newSchema = updateSchemaFromUiSchema(currentSchema.items, uiSchema.items, pageData, form);
 
     if (newSchema !== currentSchema.items) {
       currentSchema = _.set('items', newSchema, currentSchema);
@@ -510,7 +510,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, data, formData) {
   const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
 
   if (updateSchema) {
-    const newSchemaProps = updateSchema(data, formData, currentSchema);
+    const newSchemaProps = updateSchema(pageData, form, currentSchema);
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
       if (newSchemaProps[next] !== schema[next]) {

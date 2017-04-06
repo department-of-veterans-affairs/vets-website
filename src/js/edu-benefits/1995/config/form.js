@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
+import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
 import {
   bankAccountChangeLabels,
@@ -10,7 +10,6 @@ import {
 
 import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
-import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as dateRange from '../../../common/schemaform/definitions/dateRange';
 import * as address from '../../../common/schemaform/definitions/address';
@@ -18,6 +17,7 @@ import * as address from '../../../common/schemaform/definitions/address';
 import educationTypeUISchema from '../../definitions/educationType';
 import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
 import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
+import * as veteranId from '../../definitions/veteranId';
 
 import createContactInformationPage from '../../pages/contactInformation';
 
@@ -31,15 +31,14 @@ const {
   civilianBenefitsAssistance,
   educationObjective,
   nonVaAssistance,
-  reasonForChange,
-  bankAccountChange
+  reasonForChange
 } = fullSchema1995.properties;
 
 const {
   preferredContactMethod,
   school,
-  vaFileNumber,
-  educationType
+  educationType,
+  bankAccountChange
 } = fullSchema1995.definitions;
 
 const formConfig = {
@@ -62,41 +61,19 @@ const formConfig = {
       title: 'Veteran Information',
       pages: {
         veteranInformation: {
-          path: 'veteran-information',
+          path: 'veteran/information',
           title: 'Veteran information',
           initialData: {},
           uiSchema: {
             veteranFullName: fullName.uiSchema,
-            veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
-              'ui:required': (formData) => !formData['view:noSSN']
-            }),
-            'view:noSSN': {
-              'ui:title': 'I don’t have a Social Security number',
-              'ui:options': {
-                hideOnReview: true
-              }
-            },
-            vaFileNumber: {
-              'ui:required': (formData) => !!formData['view:noSSN'],
-              'ui:title': 'File number',
-              'ui:errorMessages': {
-                pattern: 'File number must be 8 digits'
-              },
-              'ui:options': {
-                expandUnder: 'view:noSSN'
-              }
-            }
+            'view:veteranId': veteranId.uiSchema
           },
           schema: {
             type: 'object',
             required: ['veteranFullName'],
             properties: {
               veteranFullName: fullName.schema,
-              veteranSocialSecurityNumber: ssn.schema,
-              'view:noSSN': {
-                type: 'boolean'
-              },
-              vaFileNumber
+              'view:veteranId': veteranId.schema
             }
           }
         }
@@ -107,7 +84,7 @@ const formConfig = {
       pages: {
         benefitSelection: {
           title: 'Education benefit',
-          path: 'benefits-eligibility/education-benefit',
+          path: 'benefits/eligibility',
           initialData: {},
           uiSchema: {
             benefit: {
@@ -131,7 +108,7 @@ const formConfig = {
       title: 'Military History',
       pages: {
         servicePeriods: {
-          path: 'military-history/service-periods',
+          path: 'military/service',
           title: 'Service periods',
           initialData: {
           },
@@ -156,7 +133,7 @@ const formConfig = {
         },
         militaryHistory: {
           title: 'Military history',
-          path: 'military-history/military-service',
+          path: 'military/history',
           initialData: {},
           uiSchema: {
             'view:hasServiceBefore1978': {
@@ -263,7 +240,7 @@ const formConfig = {
         contactInformation: createContactInformationPage(),
         dependents: {
           title: 'Dependents',
-          path: 'personal-information/depedents',
+          path: 'personal-information/dependents',
           initialData: {},
           depends: {
             militaryHistory: {
