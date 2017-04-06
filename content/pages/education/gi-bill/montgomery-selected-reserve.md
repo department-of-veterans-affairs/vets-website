@@ -20,22 +20,22 @@ You can get education benefits if:
 - You have a 6-year service obligation (you agreed to serve 6 years) in the Selected Reserve **or**
 - You're an officer in the Selected Reserve and you agreed to serve 6 years in addition to your initial service obligation
 
-And all of these are true:
-- You finish your initial active duty for training (IADT), **and**
-- You get a high school diploma or something of equal value, like a High School Equivalency Diploma or GED, before finishing IADT, **and**
-- You stay in good standing while serving in an active Selected Reserve unit.
+And you:
+- Finish your initial active duty for training (IADT), **and**
+- Get a high school diploma or something of equal value, like a High School Equivalency Diploma or GED, before finishing IADT, **and**
+- Stay in good standing while serving in an active Selected Reserve unit.
 </div>
 
 ### What benefits can I get? 
 
 We'll give you up to $368 per month in compensation (payments) for these types of training:
 
-- [Undergraduate and graduate programs](/education/gi-bill/higher-learning/)
+- [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
 - [Co-op training](/education/work-learn/co-op-training/)
-- [Technical or vocational courses (non-college degree programs)](/education/work-learn/non-college-degree-program/)
+- [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
 - [Flight training](/education/advanced-training-and-certifications/flight-training/)
 - [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
-- [High-tech training](/education/work-learn/non-traditional/accelerated-payments/) for Reservists in a non-degree educational program lasting two years or less
+- [High-tech training](/education/work-learn/non-traditional/accelerated-payments/) for Reservists in non-degree educational programs lasting two years or less
 - [Licensing and certification tests](/education/advanced-training-and-certifications/licensing-certification/)
 - [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
 - [Certain entrance examinations (national testing)](/education/advanced-training-and-certifications/national-testing-program/)
