@@ -15,7 +15,11 @@
   },
   "benefitSelection": {
     "data": {
-      "benefit": "chapter35",
+      "benefit": "chapter35"
+    }
+  },
+  "benefitRelinquishment": {
+    "data": {
       "benefitsRelinquishedDate": "2006-01-01"
     }
   },

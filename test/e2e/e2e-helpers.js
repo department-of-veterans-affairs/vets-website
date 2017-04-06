@@ -87,12 +87,16 @@ function overrideAnimations(client) {
   });
 }
 
-// Set up some helper functions to make writing tests nicer
+/**
+ * Set up some helper functions to make writing tests nicer
+ */
 function bootstrapHelpers(client) {
   // Ideally, it'd just be called setValue, but that's taken
-  // Clears the current value and if |value| is specified,
-  //  enters the |value| in.
-  client.resetValue = function(selector, value) {
+  /**
+   * Clears the current value and if |value| is specified,
+   *  enters the |value| in.
+   */
+  client.resetValue = function (selector, value) {
     this.clearValue(selector);
     if (typeof value !== 'undefined') {
       this.setValue(selector, value);
@@ -101,6 +105,32 @@ function bootstrapHelpers(client) {
     // For function chaining
     return this;
   };
+
+  /**
+   * For chaining selecting dropdowns
+   * Note: This takes the field name, not the whole selector because it just
+   *  uses selectDropdown above
+   */
+  client.selectDropdown = function (name, value) {
+    selectDropdown(this, name, value);
+    return this;
+  };
+
+  /**
+   * Clicks the input specified if the condition evaluates to true.
+   */
+  client.clickIf = function (selector, condition, params) {
+    let shouldClick = !!condition;
+    if (typeof condition === 'function') {
+      shouldClick = !!condition(params);
+    }
+
+    if (shouldClick) {
+      this.click(selector);
+    }
+
+    return this;
+  }
 }
 
 // Returns an object suitable for a nightwatch test case.
