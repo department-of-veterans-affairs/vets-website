@@ -7,7 +7,7 @@ concurrence: incomplete
 ---
 
 <div class="va-introtext">
-If you take part in the $600 Montgomery GI Bill Buy-Up program, you’ll get more money each month through your GI Bill monthly payments. Find out how.
+If you take part in the $600 Montgomery GI Bill Buy-Up program, you’ll get more money each month through your GI Bill monthly payments. Find out how it works.
 </div>
 
 ### How do I get this benefit? 
