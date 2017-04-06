@@ -11,14 +11,13 @@ import { updateLoggedInStatus, toggleSearchHelpUserMenu } from '../actions';
 class SearchHelpSignIn extends React.Component {
   render() {
     let content;
-    let greeting;
     const login = this.props.login;
 
     if (login.currentlyLoggedIn) {
       const firstName = _.startCase(_.toLower(
         this.props.profile.userFullName.first || sessionStorage.userFirstName
       ));
-      greeting = firstName || this.props.profile.email;
+      const greeting = firstName || this.props.profile.email;
 
       content = (<SignInProfileMenu
           clickHandler={() => {
