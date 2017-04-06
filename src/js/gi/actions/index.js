@@ -116,6 +116,11 @@ export function clearAutocompleteSuggestions() {
 export function eligibilityChange(e) {
   const field = e.target.name;
   const value = e.target.value;
+  window.dataLayer.push({
+    'event': 'gibct-form-change',
+    'gibct-form-field': field,
+    'gibct-form-value': value,
+  });
   return {
     type: ELIGIBILITY_CHANGED,
     field,
