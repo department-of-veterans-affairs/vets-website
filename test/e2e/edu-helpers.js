@@ -84,14 +84,17 @@ function completeBenefitsSelection(client, onlyRequiredFields) {
   }
 }
 
-function completeServicePeriods(client, data, onlyRequiredFields) {
-  if (!onlyRequiredFields) {
+function completeServicePeriods(client, data, onlyRequiredFields, serviceName = 'view:newService') {
+  if (onlyRequiredFields) {
+    // Turns out this is sometimes required
+    client.click(`input[name="root_${serviceName}No"]`);
+  } else {
     const dateFields = data.toursOfDuty[0].dateRange.from.split('-');
     const toDateFields = data.toursOfDuty[0].dateRange.to.split('-');
     const dateFields1 = data.toursOfDuty[1].dateRange.from.split('-');
     const toDateFields1 = data.toursOfDuty[1].dateRange.to.split('-');
     client
-      .click('input[name="root_view:newServiceYes"]')
+      .click(`input[name="root_${serviceName}Yes"]`)
       .clearValue('input[name="root_toursOfDuty_0_serviceBranch"]')
       .setValue('input[name="root_toursOfDuty_0_serviceBranch"]', data.toursOfDuty[0].serviceBranch)
       .clearValue('select[name="root_toursOfDuty_0_dateRange_fromMonth"]')

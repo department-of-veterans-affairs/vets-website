@@ -5,12 +5,12 @@ const Edu5490Helpers = require('../../e2e/edu-5490-helpers');
 const testData = require('./schema/maximal-test.json');
 
 
-module.export = (client, onlyRequiredFields) => {
+module.exports = (client, onlyRequiredFields) => {
   EduHelpers.initApplicationSubmitMock('5490');
 
   // Ensure introduction page renders
   client
-    .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1995`)
+    .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/5490`)
     .waitForElementVisible('body', Timeouts.normal)
     .assert.title('Apply for education benefits: Vets.gov')
     .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
@@ -35,10 +35,10 @@ module.export = (client, onlyRequiredFields) => {
 
   // Applicant service page
   client
-    .waitForElementVisible('label[for="root_view:newService"]', Timeouts.slow);
-  EduHelpers.completeServicePeriods(client, testData.servicePeriods.data, onlyRequiredFields);
+    .waitForElementVisible('label[for="root_view:applicantServedYes"]', Timeouts.slow);
+  EduHelpers.completeServicePeriods(client, testData.applicantService.data, onlyRequiredFields, 'view:applicantServed');
   client.click('.form-progress-buttons .usa-button-primary');
-  E2eHelpers.expectNavigateAwayFrom(client, '/military/service');
+  E2eHelpers.expectNavigateAwayFrom(client, '/applicant/service');
 
   // Benefit selection page
   client
@@ -103,7 +103,7 @@ module.export = (client, onlyRequiredFields) => {
   // Contact information page
   client
     .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-  EduHelpers.completeContactInformation(client, testData.contactInformation.data, onlyRequiredFields);
+  EduHelpers.completeContactInformation(client, testData.contactInformation.data, onlyRequiredFields, true);
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 

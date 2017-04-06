@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 // Same as 1990e
 // TODO: relocate to keep it DRY
 function completeEmploymentHistory(client, data, onlyRequiredFields) {
@@ -15,7 +17,7 @@ function completeEmploymentHistory(client, data, onlyRequiredFields) {
 }
 
 function completeBenefitRelinquishment(client, data) {
-  const date = data.benefitRelinquishment.split('-');
+  const date = data.benefitsRelinquishedDate.split('-');
   client
     .selectDropdown('root_benefitsRelinquishedDateMonth', date[1])
     .selectDropdown('root_benefitsRelinquishedDateDay', date[2])
@@ -80,11 +82,69 @@ function completeSecondaryContact(client, data, onlyRequiredFields) {
   }
 }
 
+function completeEducationHistory(client, data, onlyRequiredFields) {
+  if (!onlyRequiredFields) {
+    let completionDate = _.get('highSchool.highSchoolOrGedCompletionDate', data);
+
+    client.selectDropdown('root_highSchool_status', data.highSchool.status);
+    if (completionDate) {
+      completionDate = completionDate.split('-');
+      client
+        .selectDropdown('root_highSchool_view:highSchoolOrGedCompletionDateMonth', completionDate[1])
+        .selectDropdown('root_highSchool_view:highSchoolOrGedCompletionDateDay', completionDate[2])
+        .resetValue('input[name="root_highSchool_view:highSchoolOrGedCompletionDateYear"]', completionDate[0]);
+    }
+
+    if (!_.isEmpty(data.postHighSchoolTrainings)) {
+      // Open up the trainings section if there are trainings in the data
+      client.click('input[name="root_view:hasTrainingsYes"]');
+
+      // Fill out the information for each training
+      _.forEach(data.postHighSchoolTrainings, (training, index, allTrainings) => {
+        let dateFrom = _.get('dateRange.from', training);
+        let dateTo = _.get('dateRange.to', training);
+
+        client
+          .resetValue(`input[name="root_postHighSchoolTrainings_${index}_name"]`, training.name)
+          .resetValue(`input[name="root_postHighSchoolTrainings_${index}_city"]`, training.city)
+          .selectDropdown(`root_postHighSchoolTrainings_${index}_state`, training.state);
+
+        if (dateFrom) {
+          dateFrom = dateFrom.split('-');
+          client
+            .selectDropdown(`root_postHighSchoolTrainings_${index}_dateRange_fromMonth`, dateFrom[1])
+            .selectDropdown(`root_postHighSchoolTrainings_${index}_dateRange_fromDay`, dateFrom[2])
+            .resetValue(`input[name="root_postHighSchoolTrainings_${index}_dateRange_fromYear"]`, dateFrom[0]);
+        }
+        if (dateTo) {
+          dateTo = dateTo.split('-');
+          client
+            .selectDropdown(`root_postHighSchoolTrainings_${index}_dateRange_toMonth`, dateTo[1])
+            .selectDropdown(`root_postHighSchoolTrainings_${index}_dateRange_toDay`, dateTo[2])
+            .resetValue(`input[name="root_postHighSchoolTrainings_${index}_dateRange_toYear"]`, dateTo[0]);
+        }
+
+        client
+          .resetValue(`input[name="root_postHighSchoolTrainings_${index}_hours"]`, training.hours)
+          .selectDropdown(`root_postHighSchoolTrainings_${index}_hoursType`, training.hoursType)
+          .resetValue(`input[name="root_postHighSchoolTrainings_${index}_degreeReceived"]`, training.degreeReceived)
+          .resetValue(`input[name="root_postHighSchoolTrainings_${index}_major"]`, training.major);
+
+        // If this isn't the last training, add another
+        if (allTrainings[index + 1]) {
+          client.click('button.va-growable-add-btn');
+        }
+      });
+    }
+  }
+}
+
 module.exports = {
   // completeEducationHistory,
   completeEmploymentHistory,
   completeBenefitRelinquishment,
   completeBenefitHistory,
   completeSponsorService,
-  completeSecondaryContact
+  completeSecondaryContact,
+  completeEducationHistory
 };
