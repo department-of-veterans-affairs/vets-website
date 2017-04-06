@@ -16,7 +16,7 @@ majorlinks:
     description: Get counseling, retraining, and education benefits while on active duty if you have a service-connected disability.
 
 ---
-If you have a service-connected disability that limits your ability to work or prevents you from working, VA’s Vocational Rehabilitation and Employment (VR&amp;E) program can help you and, in some cases, your family members, explore career options and receive additional training.
+If you have a service-connected disability (a disability that was caused by—or got worse because of—your active military service) that limits your ability to work or prevents you from working, our Vocational Rehabilitation and Employment (VR&amp;E) program can help you— and, in some cases, your family members—explore career options and receive additional training.
 
 
 <div class="section do">
