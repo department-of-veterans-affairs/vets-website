@@ -58,7 +58,7 @@ function completeBenefitHistory(client, data, onlyRequiredFields) {
         .fill('input[name="root_previousBenefits_veteranSocialSecurityNumber"]', previousBenefits.veteranSocialSecurityNumber);
     }
 
-    client.fill('root_previousBenefits_other', previousBenefits.other);
+    client.fill('input[name="root_previousBenefits_other"]', previousBenefits.other);
   }
 }
 
