@@ -21,7 +21,7 @@ source: http://www.benefits.va.gov/VOW/vocational-rehabilitation.asp
 [Operation Pave: Paving Access for Veterans Employment](http://www.pva.org/site/c.ajIRK9NJLcJ2E/b.7750849/k.36C/Operation_PAVE_Paving_Access_for_Veterans_Employment.htm) helps Veterans with spinal-cord injuries find jobs and access resources for workplace accommodations.
 
 
-You can also earn a [monthly subsistence allowance](http://www.benefits.va.gov/VOCREHAB/subsistence_allowance_rates.asp) similar to Basic Allowance for Housing (BAH) while you are in an educational or training program.
+You may also be able to earn a monthly subsistence allowance similar to Basic Allowance for Housing (BAH) while you're in an educational or training program. [See the current subsistence allowance rates](http://www.benefits.va.gov/VOCREHAB/subsistence_allowance_rates.asp). 
 
 
 </div>
