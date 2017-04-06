@@ -13,6 +13,10 @@ body {
   color: $color-gray-dark;
   font-family: $font-sans;
   font-size: $base-font-size;
+
+  &.modal-open {
+    overflow: hidden;
+  }
 }
 
 // Skip link
@@ -217,7 +221,7 @@ hr {
   background: $color-primary-darkest;
   flex-wrap: wrap;
   white-space: nowrap;
-  
+
   .row {
     padding: 0;
   }
@@ -225,12 +229,12 @@ hr {
     flex: 1 0 100%;
   }
 }
-  
+
 
 #va-header-logo-menu {
   flex-wrap: wrap;
   padding: 1em 0.75em 0;
-  
+
   @include media($medium-large-screen) {
     padding-bottom: 0;
   }
@@ -238,7 +242,7 @@ hr {
 
 .va-header-logo-wrapper {
   flex: 1 0 164px;
-  
+
   @include media($medium-large-screen) {
     flex-basis: 6rem;
   }
@@ -343,7 +347,7 @@ h6 {
   overflow: hidden;
 }
 
-// TODO(css): Make these less specific. 
+// TODO(css): Make these less specific.
 .popular-container {
   background: $color-white;
   text-align: center;
@@ -356,16 +360,16 @@ h6 {
     @include media($medium-large-screen) {
       margin: auto;
     }
-    
+
     @include media-maxwidth($small-screen) {
       display: block;
-    }    
+    }
   }
 
   .va-h-ruled--a {
     margin-left: 1.6rem;
     margin-right: 1.6rem;
-    
+
     @include media($medium-large-screen) {
       max-width: 41%;
       margin: 2.4rem auto;
@@ -387,7 +391,7 @@ h6 {
   text-decoration: none;
   margin: .8rem;
   padding: 2rem;
-  
+
   &:hover {
     background: transparent;
     border: $color-primary-darker solid 2px;
