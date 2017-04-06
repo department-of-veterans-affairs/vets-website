@@ -34,28 +34,28 @@ export default function createRoutes(store) {
           callback(null, require('./1995/routes').default);
         }, 'edu-1995');
       },
-    }
+    },
+    {
+      path: '1990e',
+      indexRoute: { onEnter: (nextState, replace) => replace('/1990e/introduction') },
+      component: asyncLoader(() => {
+        return new Promise((resolve) => {
+          require.ensure([], (require) => {
+            store.replaceReducer(require('./1990e/reducer').default);
+            resolve(require('./1990e/Form1990eApp').default);
+          }, 'edu-1990e');
+        });
+      }, 'Loading Form 22-1990E'),
+      getChildRoutes(partialNextState, callback) {
+        require.ensure([], (require) => {
+          callback(null, require('./1990e/routes').default);
+        }, 'edu-1990e');
+      },
+    },
   ];
 
   if (__BUILDTYPE__ !== 'production') {
     childRoutes.push(
-      {
-        path: '1990e',
-        indexRoute: { onEnter: (nextState, replace) => replace('/1990e/introduction') },
-        component: asyncLoader(() => {
-          return new Promise((resolve) => {
-            require.ensure([], (require) => {
-              store.replaceReducer(require('./1990e/reducer').default);
-              resolve(require('./1990e/Form1990eApp').default);
-            }, 'edu-1990e');
-          });
-        }, 'Loading Form 22-1990E'),
-        getChildRoutes(partialNextState, callback) {
-          require.ensure([], (require) => {
-            callback(null, require('./1990e/routes').default);
-          }, 'edu-1990e');
-        },
-      },
       {
         path: '1990n',
         indexRoute: { onEnter: (nextState, replace) => replace('/1990n/introduction') },
