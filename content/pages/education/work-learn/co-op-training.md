@@ -8,7 +8,7 @@ template: 4-action-page-pending
 
 <div class="va-introtext">
 
-A college or university co-op training program lets you get full-time work experience in between periods of going to school full time.  You may be able to get help paying for some of your costs—like books, tuition, and housing—if you’re part of a co-op. Find out how.
+A college or university co-op training program lets you get full-time work experience in between periods of going to school full time. You may be able to get help paying for some of your costs—like books, tuition, and housing—if you’re part of a co-op. Find out if you can get these education benefits.
 
 </div>
 
