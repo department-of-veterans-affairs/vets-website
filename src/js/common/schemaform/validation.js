@@ -218,10 +218,10 @@ export function validateCurrentOrPastDate(errors, dateString, formData, formCont
  *
  * The message it adds can be customized in uiSchema.errorMessages.pastDate
  */
-export function validateFutureDate(errors, dateString, formData, formContext, errorMessages) {
+export function validateFutureDateIfExpectedGrad(errors, dateString, formData, formContext, errorMessages) {
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
-  if (!isValidFutureDate(day, month, year)) {
+  if (formData.highSchool.status === 'graduationExpected' && !isValidFutureDate(day, month, year)) {
     errors.addError(errorMessages.pastDate || 'Please provide a valid future date');
   }
 }

@@ -19,6 +19,11 @@ import {
   stateLabels
 } from '../../utils/helpers';
 
+import {
+  validateDate,
+  validateFutureDateIfExpectedGrad
+} from '../../../common/schemaform/validation';
+
 import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 // import * as futureDate from '../../../common/schemaform/definitions/futureDate';
@@ -70,7 +75,6 @@ const ssnSchema = fullSchema5490.definitions.ssn;
 const nonRequiredFullName = _.assign(fullName, {
   required: []
 });
-
 
 const formConfig = {
   urlPrefix: '/5490/',
@@ -499,11 +503,15 @@ const formConfig = {
                   'ui:options': {
                     hideIf: form => {
                       const status = _.get('highSchool.status', form);
-                      return status !== 'graduated';
+                      return status !== 'graduated' && status !== 'graduationExpected';
                     },
                     expandUnder: 'status'
                   }
-                }
+                },
+                'ui:validations': [
+                  validateDate,
+                  validateFutureDateIfExpectedGrad
+                ]
               ),
               'view:hasHighSchool': {
                 'ui:options': {
