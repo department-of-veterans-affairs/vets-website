@@ -481,9 +481,13 @@ export function removeAllHiddenData(formConfig, data) {
  * Normal transform for schemaform data
  */
 export function transformForSubmit(formConfig, form) {
+  const activePages = getActivePages(createFormPageList(formConfig), form);
+  const flattened = flattenFormData(activePages, form);
+  /*
   const cleanData = removeAllHiddenData(formConfig, form);
   const activePages = getActivePages(createFormPageList(formConfig), cleanData);
   const flattened = flattenFormData(activePages, cleanData);
+  */
   const withoutViewFields = filterViewFields(flattened);
 
   return JSON.stringify(withoutViewFields, (key, value) => {
