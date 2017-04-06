@@ -21,7 +21,7 @@ module.exports = E2eHelpers.createE2eTest(
     // logout button reads "Sign Out"
     client.expect.element('#accountMenu > ul > li:nth-child(2) > a').text.to.equal('Sign Out');
 
-    // click Sign Out & verify new window is opened with correct logout URL
+    // click Sign Out & verify new window is opened with correct logout url
     client
       .click('#accountMenu > ul > li:nth-child(2) > a')
       .pause(500)
