@@ -20,24 +20,24 @@ As a family member of a Veteran with a service-connected disability, you may hav
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for VR&amp;E counseling?
+### Am I eligible for VR&amp;E counseling?
 
-Yes, if:
+You may be able to get VR&amp;E benefits if at least 1 of these is true:
 
-- You are the dependent of a Veteran and you are eligible for a VA education benefit.
-- Your spouse or parent has been listed as Missing in Action for more than 90 days, captured in the line of duty by a hostile force, or detained or interred by a foreign government or power.
-- You are the child of a Vietnam War Veteran, and you have been diagnosed with spina bifida and other specified birth defects.
+- You're the dependent of a Veteran and you're eligible for a VA education benefit, **or**
+- Your spouse or parent has been listed as Missing in Action for more than 90 days, captured in the line of duty by a hostile force, or detained or interred by a foreign government or power, **or**
+- You're the child of a Vietnam War Veteran, and you've been diagnosed with spina bifida and other specified birth defects
 
-#### Or, if you are the spouse or child of a:
+You may also be able to get VR&amp;E benefits if you're the spouse or child of a Servicemember or Veteran who:
 
-- Servicemember or Veteran who died from a service-connected disability;
-- Servicemember or Veteran with a permanent and total service-connected disability;
-- Servicemember or Veteran who died with a permanent and total service-connected disability;
-- Servicemember who is referring care for a service-connected disablility that is considered totally and permanently disabling, and which will likely cause the Servicemember to be discharged from the military.
+- Died from a service-connected disability, **or**
+- Has a permanent and total service-connected disability, **or**
+- Died with a permanent and total service-connected disability, **or**
+- Is referring care for a service-connected disablility that is considered totally and permanently disabling, and which will likely cause the Servicemember to be discharged from the military
 
 </div>
 
-### Available benefits
+### What kind of VR&amp;E benefits can I get?
 
 - Educational and vocational counseling
 - Help exploring your abilities, aptitudes, and interests
@@ -46,15 +46,17 @@ Yes, if:
 
 <hr>
 
-### How it works
+### How do I get these benefits?
 
- After you apply for services, a Vocational Rehabilitation Counselor (VRC) will work with you to map out a vocational path.
+You'll need to apply for services. After you apply, a Vocational Rehabilitation Counselor (VRC) will work with you to map out a vocational path.
+
+Follow these steps to apply:
 
 - Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
 - Select "Additional Benefits."
 - Select "Vocational Rehabilitation and Employment Program."
 - Apply for "Education and Vocational Counseling.”
 
-If you are eligible, you will be invited to meet with a VRC.
+If you're eligible, you'll be invited to meet with a VRC.
 
-If the Veteran or Servicemember in your family is not yet using VR&amp;E benefits and services, he or she may apply online using [eBenefits](https://www.ebenefits.va.gov/sep/web/guest/vocational-rehabilitation-employment).
+If the Veteran or Servicemember in your family is not yet using VR&amp;E benefits and services, they may apply online using [eBenefits](https://www.ebenefits.va.gov/sep/web/guest/vocational-rehabilitation-employment).
