@@ -7,7 +7,7 @@ module.exports = E2eHelpers.createE2eTest(
     const token = LoginHelpers.getUserToken();
     const logoutUrl = LoginHelpers.getLogoutUrl();
 
-    // log in and wait for little person icon to appear next to the username
+    // log in & wait for little person icon to appear next to the username
     LoginHelpers.logIn(token, client, '/', 3)
       .assert.title('Vets.gov')
       .waitForElementVisible('#login-root button[aria-controls="accountMenu"]', Timeouts.slow);
