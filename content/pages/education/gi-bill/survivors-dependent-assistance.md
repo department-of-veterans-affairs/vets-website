@@ -8,7 +8,7 @@ template: 1-topic-landing
 
 <div class="va-introtext">
 
-If you’re the dependent or survivor of a Veteran, find out if you qualify for education benefits or job training through a GI Bill program. 
+If you’re the dependent or survivor of a Veteran, you may qualify for education benefits or job training through a GI Bill program. Find out if you qualify.
 
 </div>
 
@@ -20,11 +20,11 @@ You can get education benefits if you're the child or spouse of a Servicemember 
 - Died in the line of duty after September 10, 2001, **or**
 - Is missing in action or was captured in the line of duty by a hostile force, **or**
 -	Was detained (held) by force while in the line of duty by a foreign government or power, **or**
--	Is in the hospital or getting outpatient treatment for a service-connected permanent and total disability (meaning a disability resulting from your service that doesn't go away) and is likely to be discharged for that disability.
+-	Is in the hospital or getting outpatient treatment for a service-connected permanent and total disability, and is likely to be discharged for that disability. A service-connected permanent and total disability is a disability resulting from your service that doesn't go away.
   
 You can get education benefits if you're the child or spouse of a Veteran who:
 - Is permanently and totally disabled due to a service-connected disability, **or**
--	Died while on active duty or as a result of a service-connected disability.
+-	Died while on active duty or as a result of a service-connected disability
 
 You can get education benefits if you qualify for a transfer of Post-9/11 GI Bill benefits.
 
@@ -52,9 +52,9 @@ There are 2 main GI Bill programs offering educational assistance to survivors a
 - The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) is for children and spouses of Servicemembers who died in the line of duty after September 10, 2001. [Get more information about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
 - The Survivors' and Dependents' Educational Assistance (DEA) program offers education and training to qualified dependents of Veterans who are permanently and totally disabled due to a service-related condition or who died while on active duty or as a result of a service-related condition. [Get more information about the DEA program](/education/gi-bill/survivors-dependent-assistance/dependents-education/).
 
-You may qualify for both of these programs, but you can use only 1 of them. You’ll have to pick one when you apply. Once you make this decision, you can't change your mind. 
+You may qualify for both of these programs, but you can use only one of them. You’ll have to pick one when you apply. Once you make this decision, you can't change your mind. 
 
-**Exception:** As a beneficiary, you can't use the same qualifying event for more than 1 benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
+**Exception:** As a beneficiary, you can't use the same qualifying event for more than one benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
 
 <div class="va-table-overflow">
 <table class="va-table-explanatory">
@@ -73,7 +73,7 @@ You may qualify for both of these programs, but you can use only 1 of them. You�
     <td>
     <ul>
       <li><strong>Tuition and Fee Payment (paid to the school)</strong>: We cover the full in-state tuition costs for training at public schools and up to $20,035.02 per year at private schools.<br /><br /></li>
-      <li><strong>Books and Supplies Stipend (paid to the student)</strong>:
+      <li><strong>Money for Books and Supplies (paid to the student)</strong>:
     We cover up to $1,000 a year, divided up equally among the terms, for books and supplies.<br /><br /></li>
       <li><strong>Monthly Housing Allowance (paid to the student)</strong>:
       We base this amount on the local Basic Allowance for Housing (BAH) for E-5 with dependents and pay it monthly. Online students get half of the BAH national average.</li>
