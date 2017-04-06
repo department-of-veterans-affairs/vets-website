@@ -72,7 +72,7 @@ function completeAdditionalBenefits(client, data, onlyRequiredFields) {
       client.click(data.civilianBenefitsAssistance ? 'input[name="root_civilianBenefitsAssistanceYes"]' : 'input[name="root_civilianBenefitsAssistanceNo"]');
 
       if (typeof data.civilianBenefitsSource !== 'undefined') {
-        client.resetValue('input[name="root_civilianBenefitsSource"]', data.civilianBenefitsSource);
+        client.fill('input[name="root_civilianBenefitsSource"]', data.civilianBenefitsSource);
       }
     }
   }

@@ -27,7 +27,7 @@ function completeBenefitRelinquishment(client, data) {
   client
     .selectDropdown('root_benefitsRelinquishedDateMonth', date[1])
     .selectDropdown('root_benefitsRelinquishedDateDay', date[2])
-    .resetValue('input[name="root_benefitsRelinquishedDateYear"]', date[0]);
+    .fill('input[name="root_benefitsRelinquishedDateYear"]', date[0]);
 }
 
 function completeBenefitHistory(client, data, onlyRequiredFields) {
@@ -42,7 +42,7 @@ function completeBenefitHistory(client, data, onlyRequiredFields) {
     if (previousBenefits['view:ownServiceBenefits']) {
       client
         .click('input[name="root_previousBenefits_view:ownServiceBenefits"]')
-        .resetValue('input[name="root_previousBenefits_ownServiceBenefits"]', previousBenefits.ownServiceBenefits);
+        .fill('input[name="root_previousBenefits_ownServiceBenefits"]', previousBenefits.ownServiceBenefits);
     }
 
     if (previousBenefits['view:claimedSponsorService']) {
@@ -51,14 +51,14 @@ function completeBenefitHistory(client, data, onlyRequiredFields) {
         .clickIf('input[name="root_previousBenefits_chapter35"]', previousBenefits.chapter35)
         .clickIf('input[name="root_previousBenefits_chapter33"]', previousBenefits.chapter33)
         .clickIf('input[name="root_previousBenefits_transferOfEntitlement"]', previousBenefits.transferOfEntitlement)
-        .resetValue('input[name="root_previousBenefits_veteranFullName_first"]', previousBenefits.veteranFullName.first)
-        .resetValue('input[name="root_previousBenefits_veteranFullName_middle"]', previousBenefits.veteranFullName.middle)
-        .resetValue('input[name="root_previousBenefits_veteranFullName_last"]', previousBenefits.veteranFullName.last)
+        .fill('input[name="root_previousBenefits_veteranFullName_first"]', previousBenefits.veteranFullName.first)
+        .fill('input[name="root_previousBenefits_veteranFullName_middle"]', previousBenefits.veteranFullName.middle)
+        .fill('input[name="root_previousBenefits_veteranFullName_last"]', previousBenefits.veteranFullName.last)
         .selectDropdown('root_previousBenefits_veteranFullName_suffix', previousBenefits.veteranFullName.suffix)
-        .resetValue('input[name="root_previousBenefits_veteranSocialSecurityNumber"]', previousBenefits.veteranSocialSecurityNumber);
+        .fill('input[name="root_previousBenefits_veteranSocialSecurityNumber"]', previousBenefits.veteranSocialSecurityNumber);
     }
 
-    client.resetValue('root_previousBenefits_other', previousBenefits.other);
+    client.fill('root_previousBenefits_other', previousBenefits.other);
   }
 }
 
@@ -67,7 +67,7 @@ function completeSponsorService(client, data, onlyRequiredFields) {
     const activeDuty = `root_currentlyActiveDuty${data.currentlyActiveDuty ? 'Yes' : 'No'}`;
     const felony = `root_outstandingFelony${data.outstandingFelony ? 'Yes' : 'No'}`;
     client
-      .resetValue('input[name="root_serviceBranch"]', data.serviceBranch)
+      .fill('input[name="root_serviceBranch"]', data.serviceBranch)
       .click(`input[name="${activeDuty}"]`)
       .click(`input[name="${felony}"]`);
   }
@@ -77,14 +77,14 @@ function completeSecondaryContact(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     const { address } = data;
     client
-      .resetValue('input[name="root_secondaryContact_fullName"]', data.fullName)
-      .resetValue('input[name="root_secondaryContact_phone"]', data.phone)
+      .fill('input[name="root_secondaryContact_fullName"]', data.fullName)
+      .fill('input[name="root_secondaryContact_phone"]', data.phone)
       .selectDropdown('root_secondaryContact_address_country', address.country)
-      .resetValue('input[name="root_secondaryContact_address_street"]', address.street)
-      .resetValue('input[name="root_secondaryContact_address_street2"]', address.street2)
-      .resetValue('input[name="root_secondaryContact_address_city"]', address.city)
+      .fill('input[name="root_secondaryContact_address_street"]', address.street)
+      .fill('input[name="root_secondaryContact_address_street2"]', address.street2)
+      .fill('input[name="root_secondaryContact_address_city"]', address.city)
       .selectDropdown('root_secondaryContact_address_state', address.state)
-      .resetValue('input[name="root_secondaryContact_address_postalCode"]', address.postalCode);
+      .fill('input[name="root_secondaryContact_address_postalCode"]', address.postalCode);
   }
 }
 
@@ -98,7 +98,7 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
       client
         .selectDropdown('root_highSchool_view:highSchoolOrGedCompletionDateMonth', completionDate[1])
         .selectDropdown('root_highSchool_view:highSchoolOrGedCompletionDateDay', completionDate[2])
-        .resetValue('input[name="root_highSchool_view:highSchoolOrGedCompletionDateYear"]', completionDate[0]);
+        .fill('input[name="root_highSchool_view:highSchoolOrGedCompletionDateYear"]', completionDate[0]);
     }
 
     if (!_.isEmpty(data.postHighSchoolTrainings)) {
@@ -111,8 +111,8 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
         let dateTo = _.get('dateRange.to', training);
 
         client
-          .resetValue(`input[name="root_postHighSchoolTrainings_${index}_name"]`, training.name)
-          .resetValue(`input[name="root_postHighSchoolTrainings_${index}_city"]`, training.city)
+          .fill(`input[name="root_postHighSchoolTrainings_${index}_name"]`, training.name)
+          .fill(`input[name="root_postHighSchoolTrainings_${index}_city"]`, training.city)
           .selectDropdown(`root_postHighSchoolTrainings_${index}_state`, training.state);
 
         if (dateFrom) {
@@ -120,21 +120,21 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
           client
             .selectDropdown(`root_postHighSchoolTrainings_${index}_dateRange_fromMonth`, dateFrom[1])
             .selectDropdown(`root_postHighSchoolTrainings_${index}_dateRange_fromDay`, dateFrom[2])
-            .resetValue(`input[name="root_postHighSchoolTrainings_${index}_dateRange_fromYear"]`, dateFrom[0]);
+            .fill(`input[name="root_postHighSchoolTrainings_${index}_dateRange_fromYear"]`, dateFrom[0]);
         }
         if (dateTo) {
           dateTo = dateTo.split('-');
           client
             .selectDropdown(`root_postHighSchoolTrainings_${index}_dateRange_toMonth`, dateTo[1])
             .selectDropdown(`root_postHighSchoolTrainings_${index}_dateRange_toDay`, dateTo[2])
-            .resetValue(`input[name="root_postHighSchoolTrainings_${index}_dateRange_toYear"]`, dateTo[0]);
+            .fill(`input[name="root_postHighSchoolTrainings_${index}_dateRange_toYear"]`, dateTo[0]);
         }
 
         client
-          .resetValue(`input[name="root_postHighSchoolTrainings_${index}_hours"]`, training.hours)
+          .fill(`input[name="root_postHighSchoolTrainings_${index}_hours"]`, training.hours)
           .selectDropdown(`root_postHighSchoolTrainings_${index}_hoursType`, training.hoursType)
-          .resetValue(`input[name="root_postHighSchoolTrainings_${index}_degreeReceived"]`, training.degreeReceived)
-          .resetValue(`input[name="root_postHighSchoolTrainings_${index}_major"]`, training.major);
+          .fill(`input[name="root_postHighSchoolTrainings_${index}_degreeReceived"]`, training.degreeReceived)
+          .fill(`input[name="root_postHighSchoolTrainings_${index}_major"]`, training.major);
 
         // If this isn't the last training, add another
         if (allTrainings[index + 1]) {
