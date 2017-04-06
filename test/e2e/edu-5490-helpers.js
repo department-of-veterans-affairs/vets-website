@@ -16,6 +16,12 @@ function completeEmploymentHistory(client, data, onlyRequiredFields) {
   }
 }
 
+// This section is required, unlike the regular EduHelpers
+// Also actually uses the data
+function completeBenefitSelection(client, data) {
+  client.click(`input[value="${data.benefit}"]`);
+}
+
 function completeBenefitRelinquishment(client, data) {
   const date = data.benefitsRelinquishedDate.split('-');
   client
@@ -142,6 +148,7 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
 module.exports = {
   // completeEducationHistory,
   completeEmploymentHistory,
+  completeBenefitSelection,
   completeBenefitRelinquishment,
   completeBenefitHistory,
   completeSponsorService,

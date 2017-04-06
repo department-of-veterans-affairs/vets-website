@@ -43,7 +43,10 @@ module.exports = (client, onlyRequiredFields) => {
   // Benefit selection page
   client
     .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-  EduHelpers.completeBenefitsSelection(client);
+  Edu5490Helpers.completeBenefitSelection(client, testData.benefitSelection.data);
+  // It's like this isn't getting clicked...when I click it in Electron after
+  //  it's hung up, I get to the next page. I wonder if it has to do with the
+  //  expanding animation...?
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
