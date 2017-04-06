@@ -12,8 +12,7 @@ If you’re leaving active service soon, find out how to get free educational an
 
 </div>
 
-<div class="feature">
-### Are you eligible for services?
+<div class="feature" markdown="1">
 
 ### Can I get educational and career counseling?
 
@@ -22,7 +21,7 @@ You can get these services if you'll be discharged from active duty within 6 mon
 -	You qualify as a Veteran for educational assistance under a VA educational program. 
 
 **Note:** Dependents who qualify for educational assistance may get these services under the following programs:
-- [Post-9/11 GI Bill](/education/gi-bill/transfer)
+- [Post-9/11 GI Bill](/education/gi-bill/post-9-11/)
 - [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/)
 - [The Survivors’ and Dependents’ Educational Assistance Program (DEA)](/education/gi-bill/survivors-dependent-assistance/dependents-education/)
 
@@ -43,7 +42,7 @@ You can get these services if you'll be discharged from active duty within 6 mon
 
 ### How do I get these benefits? 
 
-You need to apply. 
+You'll need to apply:
 
 1. Log in to [eBenefits](https://www.ebenefits.va.gov).
 2. Select "Apply."
