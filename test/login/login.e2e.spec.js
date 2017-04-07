@@ -15,7 +15,7 @@ module.exports = E2eHelpers.createE2eTest(
     // click dropdown on username
     client.click('#login-root button[aria-controls="accountMenu"]');
 
-    // logout button is there
+    // logout button is visible
     client.expect.element('#accountMenu > ul > li:nth-child(2) > a').to.be.visible;
 
     // logout button reads "Sign Out"
