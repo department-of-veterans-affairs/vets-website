@@ -53,7 +53,7 @@ Send the PMC request form and discharge papers to:
     <dd>Quantico, VA 22134-3903</dd>
 </dl>
 
-  - You can also fax the form to <a href="tel:+18004557143">800-455-7143</a>. If you need help, call <a href="tel:+18006976947">800-697-6947</a>.
+  - You can also fax the form to 800-455-7143. If you need help, call <a href="tel:+18006976947">800-697-6947</a>.
 
 </div>
 
