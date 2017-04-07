@@ -18,6 +18,10 @@
   width: 100%;
   z-index: 6;
 
+  @include media-maxwidth($small-screen) {
+    overflow-y: scroll;
+  }
+
   // "Forked" modal styles
   &-split {
     .va-modal-inner {

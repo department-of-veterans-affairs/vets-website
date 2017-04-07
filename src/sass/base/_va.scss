@@ -13,6 +13,10 @@ body {
   color: $color-gray-dark;
   font-family: $font-sans;
   font-size: $base-font-size;
+
+  &.modal-open {
+    overflow: hidden;
+  }
 }
 
 // Skip link
@@ -344,7 +348,7 @@ h6 {
   overflow: hidden;
 }
 
-// TODO(css): Make these less specific. 
+// TODO(css): Make these less specific.
 .popular-container {
   background: $color-white;
   text-align: center;
