@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Do you want to start your own business?
+title: Small Business Entrepreneurship Training
 template: 6-info-page
 ---
 
@@ -14,17 +14,17 @@ template: 6-info-page
   </div>
 </div>
 
-If you're a Veteran with a service-connected disability and an employment barrier who has the desire and skills to run a successful business, you may be interested in the Vocational Rehabilitation and Employment (VR&amp;E) self-employment track.
-
-Through this program, a Vocational Rehabilitation Counselor (VRC) can guide you through the process of starting your own business.  
+Are you a disabled Servicemember or Veteran who has the desire and skills to run a successful business? Find out if you can get counseling to guide you through the process of starting your own business through the Vocational Rehabilitation and Employment (VR&amp;E) self-employment track.
 
 <div class="call-out" markdown="1">
 
-### Am I eligible for the VR&amp;E self-employment track?
+### Can I get help to start my own business through the VR&amp;E self-employment track?
 
-You may be eligible for the VR&amp;E self-employment track if you're a Veteran or Servicemember with a service-connected disability of at least 20&#37, **and** you have:
+You may qualify for the VR&amp;E self-employment track if you're a Servicemember or Veteran with a service-connected disability of at least 20%, and you have:
 - An employment barrier, **and**
 - A draft business plan
+
+**Note:** Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Your disability rating reflects how severe your disability is. Having an employment barrier means your service-connected disability makes it hard for you to prepare for, get, and keep a job that suits your skills and needs.
 
 #### Who's covered?
 
@@ -33,13 +33,12 @@ You may be eligible for the VR&amp;E self-employment track if you're a Veteran o
 
 </div>
 
-
 ### What kind of benefits can I get through the VR&amp;E self-employment track?
 
-- Coordination services and assistance developing a proposed business plan
+- Coordination services and help with developing a proposed business plan
 - Analysis of your business concept
 - Training in small-business operations, marketing, and finances
-- Guidance in obtaining adequate resources to implement the business plan
+- Guidance in getting the resources you'll need to put your business plan into action
 
 We may also provide minimum stocks, essential equipment, and business license fees.
 
@@ -47,4 +46,8 @@ We may also provide minimum stocks, essential equipment, and business license fe
 
 ### How do I get these benefits?
 
-After you develop your business plan, we'll review it and evaluate if self-employment and the proposed business are viable options.  
+You'll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) to help you. 
+
+[Apply for VR&amp;E Benefits](/vocational-rehab-and-employment/apply-vre/).
+
+If you qualify for VR&amp;E Benefits and develop a business plan, we'll review your plan and decide if self-employment and the proposed business are likely to succeed. If the answer is yes, we'll work with you to provide more support.
