@@ -377,12 +377,17 @@ export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
  * This steps through a schema and sets any fields to hidden, based on a
  * hideIf function from uiSchema and the current page data. Sets 'ui:hidden'
  * which is a non-standard JSON Schema property
+ *
+ * The path parameter will contain the path, relative to formData, to the
+ * form data corresponding to the current schema object
  */
 export function setHiddenFields(schema, uiSchema, formData, path = []) {
   if (!uiSchema) {
     return schema;
   }
 
+  // expandUnder fields are relative to the parent object of the current
+  // field, so get that object using path here
   const containingObject = _.get(path.slice(0, -1), formData) || formData;
 
   let updatedSchema = schema;
@@ -422,8 +427,10 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
   }
 
   if (updatedSchema.type === 'array') {
-    // this isn't really correct; since all array items share a schema, we can't hide and remove data specific
-    // to a row
+    // Our current approach is to sometimes modify the schema based on form data
+    // This breaks down with arrays, because all items share the same schema
+    // So, this is technically not correct, but the last row is probably what's visible
+    // for a user, so it should be the least bad for now
     const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, formData, path.concat(formData.length - 1));
 
     if (newSchema !== updatedSchema.items) {
