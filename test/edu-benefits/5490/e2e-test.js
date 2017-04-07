@@ -76,11 +76,16 @@ module.exports = (client, onlyRequiredFields) => {
   // Sponsor information page
   client
     .waitForElementVisible('input[name="root_view:currentSponsorInformation_veteranFullName_first"]', Timeouts.slow);
-  EduHelpers.completeVeteranInformation(client, {
-    // Alternatively, we could re-write completeVeteranInformation to accommodate this
-    veteranFullName: testData.sponsorInformation.data['view:currentSponsorInformation'].relativeFullName,
-    veteranSocialSecurityNumber: testData.sponsorInformation.data['view:currentSponsorInformation'].veteranSocialSecurityNumber
-  }, onlyRequiredFields, 'root_view:currentSponsorInformation');
+  // Alternatively, we can write a whole new function for this if this is going to
+  //  be very specific to the 5490
+  EduHelpers.completeVeteranInformation(client,
+    Object.assign({},
+      testData.sponsorInformation.data,
+      testData.sponsorInformation.data['view:currentSponsorInformation']
+    ),
+    onlyRequiredFields,
+    'root_view:currentSponsorInformation'
+  );
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/veteran/information');
 

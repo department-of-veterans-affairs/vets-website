@@ -19,22 +19,39 @@ function initApplicationSubmitMock(form) {
 }
 
 function completeVeteranInformation(client, data, onlyRequiredFields, root = 'root') {
+  // Use relativeFullname if necessary
+  const veteranFullName = data.veteranFullName || data.relativeFullName;
+
   client
-    .clearValue(`input[name="${root}_veteranFullName_first"]`)
-    .setValue(`input[name="${root}_veteranFullName_first"]`, data.veteranFullName.first)
-    .clearValue(`input[name="${root}_veteranFullName_last"]`)
-    .setValue(`input[name="${root}_veteranFullName_last"]`, data.veteranFullName.last)
-    .clearValue(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`)
-    .setValue(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`, data.veteranSocialSecurityNumber);
+    .fill(`input[name="${root}_veteranFullName_first"]`, veteranFullName.first)
+    .fill(`input[name="${root}_veteranFullName_last"]`, veteranFullName.last)
+    .fill(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`, data.veteranSocialSecurityNumber);
+
+  if (data.relationship === 'spouse') {
+    client.selectYesNo('root_spouseInfo_divorcePending', data.spouseInfo.divourcePending);
+  }
+
+  if (data.veteranDateOfBirth) {
+    client.fillDate('root_veteranDateOfBirth', data.veteranDateOfBirth);
+  }
 
   if (!onlyRequiredFields) {
     client
-      .setValue('input[name="root_veteranFullName_middle"]', data.veteranFullName.middle)
-      .setValue('select[name="root_veteranFullName_suffix"]', data.veteranFullName.suffix);
+      .setValue('input[name="root_veteranFullName_middle"]', veteranFullName.middle)
+      .setValue('select[name="root_veteranFullName_suffix"]', veteranFullName.suffix);
     if (data.vaFileNumber) {
       client
         .click('input[name="root_view:veteranId_view:noSSN"]')
         .setValue('input[name="root_view:veteranId_vaFileNumber"]', data.vaFileNumber);
+    }
+    if (data.relationship === 'spouse') {
+      client.selectYesNo('root_spouseInfo_remarried', data.spouseInfo.remarried);
+      if (data.spouseInfo.remarried) {
+        client.fillDate('root_spouseInfo_remarriageDate', data.spouseInfo.remarriageDate);
+      }
+    }
+    if (data.veteranDateOfDeath) {
+      client.fillDate('root_veteranDateOfDeath', data.veteranDateOfDeath);
     }
   }
 }

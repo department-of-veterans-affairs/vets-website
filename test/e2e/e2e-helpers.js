@@ -119,10 +119,10 @@ function bootstrapHelpers(client) {
   /**
    * Clicks the input specified if the condition evaluates to true.
    */
-  client.clickIf = function (selector, condition, params) {
+  client.clickIf = function (selector, condition, ...params) {
     let shouldClick = !!condition;
     if (typeof condition === 'function') {
-      shouldClick = !!condition(params);
+      shouldClick = !!condition(...params);
     }
 
     if (shouldClick) {
@@ -130,6 +130,35 @@ function bootstrapHelpers(client) {
     }
 
     return this;
+  }
+
+  /**
+   * Fills in a date.
+   *
+   * @param {String} fieldName The name the field without the Month, Day, or Year
+   *                           e.g. root_spouseInfo_remarriageDate
+   * @param {String} dateString The date as a string
+   *                            e.g. 1990-1-28
+   */
+  client.fillDate = function (fieldName, dateString) {
+    const date = dateString.split('-');
+    this
+      .selectDropdown(`${fieldName}Month`, parseInt(date[1]).toString())
+      .selectDropdown(`${fieldName}Day`, parseInt(date[2]).toString())
+      .fill(`input[name="${fieldName}Year"]`, parseInt(date[0]).toString());
+
+    return this;
+  }
+
+  /**
+   * Selects the appropriate option for yesNo widgets.
+   *
+   * @param {String} fieldName The name of the field without Yes or No
+   *                           e.g. root_spouseInfo_divorcePending
+   * @param {bool} condition Determines whether to select Yes or No
+   */
+  client.selectYesNo = function (fieldName, condition) {
+    this.click(`input[name="${fieldName}${!!condition ? 'Yes' : 'No'}`);
   }
 }
 
