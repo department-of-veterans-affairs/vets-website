@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Return to a Former Job
+title: Returning to Your Old Job
 template: 6-info-page
 ---
 
@@ -14,40 +14,40 @@ template: 6-info-page
   </div>
 </div>
 
-Veterans with service-connected disabilities have the opportunity to return to work with a former employer because of the [Uniformed Services Employment and Reemployment Rights Act (USERRA)](http://www.dol.gov/vets/programs/userra/). Vocational Rehabilitation and Employment (VR&amp;E) can assist in this process by helping your employer accommodate your needs. Your VR&amp;E counselor can provide a full range of rehabilitation services,  and can refer you directly to the Department of Labor to begin the process.
+Veterans with service-connected disabilities can return to the job they held before deploying to active service because of the Uniformed Services Employment and Reemployment Rights Act (USERRA). A service-connected disability means we've concluded that the Veteran was disabled by an injury or illness caused—or made worse—by their active military service. If you're a Veteran with a service-connected disability, find out if Vocational Rehabilitation and Employment (VR&amp;E) can help you return to your old job by helping  your employer accommodate your needs. 
 
-### Are you eligible for this VR&amp;E track?
+[Learn more about USERRA](http://www.dol.gov/vets/programs/userra/). 
 
-Your VR&amp;E counselor can provide a full range of rehabilitation services, and can refer you directly to the Department of Labor to begin the process.
 </div>
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for this VR&amp;E track?
+### Can I get help to return to my old job through VR&amp;E?
 
-Yes, if:
+You may qualify for help if you're a Veteran with a service-connected disability, and you:
+- Have an employment barrier/handicap (meaning your disability makes it hard for you to prepare for, get, and keep a job that suits your skills and needs), **and**
+- Are signed up for VR&amp;E, **and**
+- Would like to return to your previous place of employment
 
-- You are a Veteran with a service-connected disability and an employment barrier/handicap [enrolled in VR&amp;E](/vocational-rehab-and-employment/apply-vre/).
-- You would like to return to your previous place of employment.
+#### Who's covered?
 
-#### Who can apply
-
-You
+Veterans
 
 </div>
 
 <div markdown="1">
 
-### Available benefits
+### What kind of benefits can I get?
 
-VA help with the process of returning to the job you held before deploying
-
+- A full range of rehabilitation services with a Vocational Rehabilitation Counselor (VRC)
+- Referral to the Department of Labor to begin the process
 
 </div>
 
-
 <hr>
 
-### How it works
+### How do I get these benefits?
 
-[Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/) to find a Vocational Rehabilitation Counselor who can help you.
+You'll need to apply for these benefits to find a VRC who can help you.
+
+[Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/).
