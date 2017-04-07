@@ -10,6 +10,7 @@ import routes from './routes';
 import { store } from './store';
 
 require('../../sass/gi/gi.scss');
+require('../login/login-entry.jsx');
 
 const history = useRouterHistory(createHistory)({
   basename: '/gi-bill-comparison-tool'
