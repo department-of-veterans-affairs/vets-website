@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Independent Living
+title: Independent Living Services
 template: 6-info-page
 ---
 
@@ -14,38 +14,46 @@ template: 6-info-page
   </div>
 </div>
 
-VA may provide independent-living services if your service-connected disability impairs your ability to work and you need these services to live more independently. You may also receive independent-living services as you work to gain employment if that’s a goal you and your counselor have created. In both cases, your counselor can help you restore your daily-living activities.
+If your service-connected disability makes it hard for you to work and you need support to live more independently—or your goal is to work toward greater independence as you look for a job—you may qualify for independent-living services. Find out if you can get help with restoring your ability to take care of everyday tasks (like bathing, dressing, and getting around).
 </div>
 
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for independent-living services?
+### Can I get independent-living services through VR&amp;E?
 
-Yes, if:
+You may qualify for independent-living services if you qualify for Vocational Rehab and Employment (VR&E) benefits, **and**:
 
-- You are eligible for VR&amp;E benefits.
-- You have a service-connected disability rating of 20&#37; or higher.
-- Your injuries prevent you from immediately seeking or returning to employment.
-- Your case manager refers you after enrolling in the [VR&amp;E](/vocational-rehab-and-employment/apply-vre/) program.
+- You have a service-connected disability rating of 20&#37; or higher, **and**
+- Your injuries prevent you from seeking or returning to work right away, **and**
+- Your case manager refers you after you sign up for the VR&amp;E program
+
+Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Your disability rating reflects how severe your disability is.
 
 </div>
 
-### How to Apply
+### How do I get these benefits?
+
+First, you’ll need to apply for VR&E benefits. Then, you’ll work with your Vocational Rehabilitation Counselor (VRC). Follow these steps:
 
 <ol class="process" markdown="0">
 
 <li class="step one wow fadeIn animated" markdown="1">
-A Vocational Rehabilitation Counselor (VRC) appointed through [VR&E](/vocational-rehab-and-employment/apply-vre/) will work with you to determine the severity of your service-connected disabilities, if you are ready to work, and if you will benefit from independent-living services.
+[Apply for VR&E benefits](/vocational-rehab-and-employment/apply-vre/).
 </li>
 
 <li class="step two wow fadeIn animated" markdown="1">
-Then, your VRC will help you personalize an independent-living plan for your needs. The services generally last up to 24 months, but in some situations they may be extended beyond this time frame.
+We'll assign you a Vocational Rehabilitation Counselor (VRC). Your VRC will work with you to figure out the severity of your service-connected disability, if you're ready to work, and if you'll benefit from independent-living services.
 </li>
 
 <li class="step three last wow fadeIn animated animated" markdown="0">
-Independent-living services may include evaluation and counseling to identify your needs and goals; home consultations with specialists; referral to support resources; and guidance in understanding your eligibility for VA home-modification programs.
+Your VRC will help you create a personal independent-living plan that meets your needs. Services may include:
+- Evaluation and counseling to figure out your needs and goals
+- Home consultations with specialists
+- Referral to support resources
+- Guidance to help you understand if you qualify for our adaptive-housing programs (which can help you make changes to your home—like widening doorways or adding ramps—to help you live more independently)
 </li>
 
+Most qualified Servicemembers and Veterans get independent-living services for up to 24 months. In some cases, services may be used for longer.
 
 </ol>
