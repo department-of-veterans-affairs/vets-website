@@ -44,7 +44,10 @@ You can use VEAP benefits for these programs:
 - [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
 - [Certain entrance examinations (national testing)](/education/advanced-training-and-certifications/national-testing-program/)
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
-- Some remedial, deficiency, and refresher courses
+- In some cases:
+  -Remedial courses (classes some students must take to build up their basic skills in math, reading, or English before they can take regular college courses),
+  -Deficiency courses (classes some student must take in order to be admitted to a certain college)
+  -Refresher courses (brief courses that help people review and improve their knowledge in a certain subject area)
 
 How much you put in every month will determine how many months of benefits you get (1–36 months). You have 10 years from your release from active duty to use VEAP benefits. If VEAP benefits go unused after that 10-year period, you can ask for a refund for the amount left in your fund.
 
