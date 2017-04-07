@@ -26,6 +26,10 @@ export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
 
 export function showModal(modal) {
+  window.dataLayer.push({
+    'event': 'gibct-learn-more',
+    'gibct-modal-displayed': modal,
+  });  
   return {
     type: DISPLAY_MODAL,
     modal
