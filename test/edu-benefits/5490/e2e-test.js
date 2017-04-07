@@ -6,6 +6,12 @@ const testData = require('./schema/maximal-test.json');
 
 
 module.exports = (client, onlyRequiredFields) => {
+  // Cut out early if we're in production.
+  // Remove this once the 5490 is launched.
+  if (global.__BUILDTYPE__ === 'production') {
+    return;
+  }
+
   EduHelpers.initApplicationSubmitMock('5490');
 
   // Ensure introduction page renders
