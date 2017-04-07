@@ -1,11 +1,11 @@
 // Variables
 
-@import 'style';
-@import 'modules/m-form-process';
-@import 'modules/m-progress-bar';
-@import 'modules/m-schemaform';
-@import 'modules/m-modal';
-@import 'modules/m-omb-info';
+@import "style";
+@import "modules/m-form-process";
+@import "modules/m-progress-bar";
+@import "modules/m-schemaform";
+@import "modules/m-modal";
+@import "modules/m-omb-info";
 
 $button-stroke: inset 0 0 0 1px;
 
@@ -16,8 +16,8 @@ $button-stroke: inset 0 0 0 1px;
 }
 
 select {
-  background-image: url('/img/arrow-down.svg');
-  background-image: url('/img/arrow-down.png');
+  background-image: url("/img/arrow-down.png");
+  background-image: url("/img/arrow-down.svg");
 }
 
 .loading-message {
@@ -46,9 +46,9 @@ legend {
   margin: 2rem 0rem;
   padding: 2rem 3rem;
   line-height: 2.2rem;
-  background-color: #e0f3f8; // TODO: move these colors to variables.scss
+  background-color: $color-inset-bg;
   &.secondary {
-    background-color: #eee;
+    background-color: $color-gray-light-alt;
   }
   &.expandable {
     .form-expanding-group,
@@ -115,7 +115,7 @@ ul.claim-list{
 
 @media (max-width: 40.063em) {
   .progress-box {
-    border:none;
+    border: none;
     padding-left: 2rem - .9375rem;
     padding-right: 2rem - .9375rem;
   }
@@ -238,7 +238,7 @@ dl.review {
   .review-row {
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #5b616b;
+    border-top: 1px solid $color-gray;
     padding: 1.5rem;
     padding-left: 0;
     &> dd {
@@ -255,7 +255,7 @@ dl.review {
       margin-bottom: 0;
     }
   }
-  border-bottom: 1px solid #5b616b;
+  border-bottom: 1px solid $color-gray;
 }
 
 form.rjsf {
@@ -336,7 +336,7 @@ label {
 .edu-warning-single-line {
   margin-top: 0;
   > .usa-alert-body {
-    padding-left: 4rem; 
+    padding-left: 4rem;
   }
 }
 
@@ -349,4 +349,3 @@ label {
     }
   }
 }
-

@@ -1,5 +1,5 @@
 .va-dropdown {
-  position: relative;  
+  position: relative;
 
   // This should always be a button element
   &-trigger {
@@ -10,7 +10,7 @@
     border-top: 3px solid transparent;
     margin: 0;
     padding: .9rem 2.5rem .8rem .8rem;
-    
+
     &:hover {
       background-color: $color-primary;
     }

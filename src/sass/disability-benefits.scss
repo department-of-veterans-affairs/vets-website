@@ -1,8 +1,8 @@
-@import 'style';
-@import 'modules/va-pagination';
-@import 'modules/m-modal';
-@import 'modules/m-progress-bar';
-@import 'modules/va-tabs';
+@import "style";
+@import "modules/va-pagination";
+@import "modules/m-modal";
+@import "modules/m-progress-bar";
+@import "modules/va-tabs";
 
 .claim-alert-status {
   margin-top: 0;
@@ -147,8 +147,6 @@
     font-weight: bold;
     padding-right: 10px;
   }
-  .claims-evidence-item {
-  }
   &:last-child {
     border: none;
     padding-bottom: 0;
@@ -164,7 +162,7 @@
     margin: 0;
   }
   .date-estimation {
-    display:inline-block;
+    display: inline-block;
     font-weight: bold;
     margin-right: 10px;
   }
