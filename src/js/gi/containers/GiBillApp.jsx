@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { fetchConstants } from '../actions';
 import Modals from '../containers/Modals';
@@ -16,8 +17,30 @@ const Disclaimer = () => {
 };
 
 class GiBillApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.exitPreviewMode = this.exitPreviewMode.bind(this);
+  }
+
   componentDidMount() {
     this.props.fetchConstants(this.props.location.query.preview);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { preview } = this.props.location.query;
+    const shouldSwitchPreviewMode =
+      prevProps.location.query.preview !== preview;
+
+    if (shouldSwitchPreviewMode) {
+      if (!preview) { this.props.exitPreviewMode(); }
+      this.props.fetchConstants(preview);
+    }
+  }
+
+  exitPreviewMode() {
+    const location = { ...this.props.location };
+    delete location.query.preview;
+    this.props.router.push(location);
   }
 
   render() {
@@ -27,8 +50,13 @@ class GiBillApp extends React.Component {
       <div className="gi-app">
         <div className="row">
           <div className="columns small-12">
-            <PreviewBanner show={preview.display} version={preview.version}/>
-            <Breadcrumbs location={this.props.location} profileName={profile.attributes.name}/>
+            <PreviewBanner
+                show={preview.display}
+                version={preview.version}
+                onViewLiveVersion={this.exitPreviewMode}/>
+            <Breadcrumbs
+                location={this.props.location}
+                profileName={profile.attributes.name}/>
             {this.props.children}
             <AboutThisTool/>
             <Disclaimer/>
@@ -53,4 +81,4 @@ const mapDispatchToProps = {
   fetchConstants
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GiBillApp);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GiBillApp));

@@ -25,9 +25,9 @@ class PreviewBanner extends React.Component {
           <p>
             This is what the version of this data from {when} will look like.
             <span className="actions">
-              <a onClick={this.props.exitPreviewMode}>View live version</a>
+              <a onClick={this.props.onViewLiveVersion}>View live version</a>
               &nbsp;&nbsp;|&nbsp;&nbsp;
-              <a href={this.props.toolURL}>Go back to the data tool</a>
+              <a href={this.props.toolUrl}>Go back to the data tool</a>
             </span>
           </p>
         </div>
@@ -39,20 +39,12 @@ class PreviewBanner extends React.Component {
 PreviewBanner.propTypes = {
   show: React.PropTypes.bool.isRequired,
   version: React.PropTypes.object.isRequired,
-  toolURL: React.PropTypes.string.isRequired,
+  toolUrl: React.PropTypes.string.isRequired,
+  onViewLiveVersion: React.PropTypes.func.isRequired
 };
 
 PreviewBanner.defaultProps = {
-  toolURL: 'http://www.usds.gov', // TODO
+  toolUrl: '/gids'
 };
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => {
-  return {
-    exitPreviewMode: () => {
-      dispatch(actions.exitPreviewMode());
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PreviewBanner);
+export default PreviewBanner;
