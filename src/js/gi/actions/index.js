@@ -67,9 +67,8 @@ function withPreview(dispatch, action) {
   dispatch(action);
 }
 
-export function fetchConstants() {
-  const previewVersion = ''; // TODO
-  const url = `${api.url}/calculator_constants?preview=${previewVersion}`;
+export function fetchConstants(preview = false) {
+  const url = `${api.url}/calculator_constants${preview ? 'version=preview' : ''}`;
 
   return dispatch => {
     dispatch({ type: FETCH_CONSTANTS_STARTED });
@@ -77,7 +76,7 @@ export function fetchConstants() {
     return fetch(url, api.settings)
       .then(res => res.json())
       .then(
-        payload => dispatch({ type: FETCH_CONSTANTS_SUCCEEDED, payload }),
+        payload => withPreview(dispatch, { type: FETCH_CONSTANTS_SUCCEEDED, payload }),
         err => dispatch({ type: FETCH_CONSTANTS_FAILED, err })
       );
   };
@@ -149,8 +148,8 @@ export function fetchSearchResults(query = {}) {
   };
 }
 
-export function fetchProfile(facilityCode) {
-  const url = `${api.url}/institutions/${facilityCode}?version=1`;
+export function fetchProfile(facilityCode, version = 1) {
+  const url = `${api.url}/institutions/${facilityCode}?version=${version}`;
 
   return dispatch => {
     dispatch({ type: FETCH_PROFILE_STARTED });
