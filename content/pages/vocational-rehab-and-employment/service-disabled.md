@@ -1,23 +1,23 @@
 ---
 layout: page-breadcrumbs.html
-title: Choose Your Track
+title: Programs for Service-Disabled Veterans and Servicemembers
 template: 2-detailed-landing
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/existing-skills/
-    title: Job-Search Counseling and Rehabilitation
-    description: "Continue on your current career path with the help of our counselors."
+    title: Job-Search Counseling and Employment Coaching
+    description: "If you want to find work that matches your existing skills, find out if you can get help finding a job and settling into your new workplace."
   - url: /vocational-rehab-and-employment/service-disabled/new-skills/
-    title: Develop New Job Skills
-    description: "Find out if you qualify for vocational (job) training."
+    title: Career Counseling and New Skills Training
+    description: "If your service-connected disability is making it hard for you to work in your current field, find out if you can get counseling and training to help you move into a field that better suits your abilities."
   - url: /vocational-rehab-and-employment/service-disabled/start-business/
-    title: Consider Whether Self-employment Is for You
-    description: "If you're a Veteran with a service-connected disability, find out how we can help you start your own business. "
+    title: Small Business Entrepreneurship Training
+    description: "If you want to work for yourself, find out if you can get help to start your own business."
   - url: /vocational-rehab-and-employment/service-disabled/independent-living/
     title: Independent-Living Services
-    description: "Learn about services that can help you live more independently with your service-connected disability."
+    description: "If your disability makes daily activities (like bathing, dressing, or getting around) hard, find out if you can get help to live more independently while you look for work."
   - url: /vocational-rehab-and-employment/service-disabled/return-job/
-    title: Return to the Job You Held Before Mobilization
-    description: "You have the right to return to the civilian job you held before activating."
+    title: Returning to Your Old Job
+    description: "If you want to return to the civilian job you held before activating, you have a right to do so. Find out if you can get help with this process."
 ---
 
-If you're a Veteran or Servicemember with service-connected disabilities (disabilities that were caused by—or got worse because of—your active military service) that prevent you from continuing on your current career path, our VR&amp;E programs may be able to assist you. We offer 5 vocational assistance and employment support and services tracks to help you live more independently.
+If you're a Veteran or Servicemember with a service-connected disability that's stopping you from continuing on your current career path, our Vocational Rehab and Employment (VR&amp;E) programs may help. Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. We offer 5 different VR&amp;E program tracks to help you build your career and live more independently. Choose the track that best matches your needs.
