@@ -37,12 +37,12 @@ function completeVeteranInformation(client, data, onlyRequiredFields, root = 'ro
 
   if (!onlyRequiredFields) {
     client
-      .setValue('input[name="root_veteranFullName_middle"]', veteranFullName.middle)
-      .setValue('select[name="root_veteranFullName_suffix"]', veteranFullName.suffix);
+      .setValue(`input[name="${root}_veteranFullName_middle"]`, veteranFullName.middle)
+      .setValue(`select[name="${root}_veteranFullName_suffix"]`, veteranFullName.suffix);
     if (data.vaFileNumber) {
       client
-        .click('input[name="root_view:veteranId_view:noSSN"]')
-        .setValue('input[name="root_view:veteranId_vaFileNumber"]', data.vaFileNumber);
+        .click(`input[name="${root}_view:veteranId_view:noSSN"]`)
+        .setValue(`input[name="${root}_view:veteranId_vaFileNumber"]`, data.vaFileNumber);
     }
     if (data.relationship === 'spouse') {
       client.selectYesNo('root_spouseInfo_remarried', data.spouseInfo.remarried);
@@ -215,19 +215,13 @@ function completeSchoolSelection(client, data, onlyRequiredFields) {
   selectDropdown(client, 'root_educationProgram_educationType', data.educationProgram.educationType);
   if (!onlyRequiredFields) {
     client
-      .clearValue('input[name="root_educationProgram_name"]')
-      .clearValue('input[name="root_educationProgram_name"]', data.educationProgram.name)
-      .setValue('input[name="root_educationProgram_address_street"]', data.educationProgram.address.street)
-      .clearValue('input[name="root_educationProgram_address_street2"]')
-      .setValue('input[name="root_educationProgram_address_street2"]', data.educationProgram.address.street2)
-      .clearValue('input[name="root_educationProgram_address_city"]')
-      .setValue('input[name="root_educationProgram_address_city"]', data.educationProgram.address.city)
-      .clearValue('select[name="root_educationProgram_address_state"]')
-      .setValue('select[name="root_educationProgram_address_state"]', data.educationProgram.address.state)
-      .clearValue('input[name="root_educationProgram_address_postalCode"]')
-      .setValue('input[name="root_educationProgram_address_postalCode"]', data.educationProgram.address.postalCode)
-      .clearValue('textarea[id="root_educationObjective"]')
-      .setValue('textarea[id="root_educationObjective"]', data.educationObjective);
+      .fill('input[name="root_educationProgram_name"]', data.educationProgram.name)
+      .fill('input[name="root_educationProgram_address_street"]', data.educationProgram.address.street)
+      .fill('input[name="root_educationProgram_address_street2"]', data.educationProgram.address.street2)
+      .fill('input[name="root_educationProgram_address_city"]', data.educationProgram.address.city)
+      .fill('select[name="root_educationProgram_address_state"]', data.educationProgram.address.state)
+      .fill('input[name="root_educationProgram_address_postalCode"]', data.educationProgram.address.postalCode)
+      .fill('textarea[id="root_educationObjective"]', data.educationObjective);
   }
 }
 

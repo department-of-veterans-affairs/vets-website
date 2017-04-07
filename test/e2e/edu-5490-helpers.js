@@ -1,4 +1,6 @@
 import _ from 'lodash/fp';
+const Timeouts = require('./timeouts.js');
+
 
 // Same as 1990e
 // TODO: relocate to keep it DRY
@@ -75,10 +77,10 @@ function completeSponsorService(client, data, onlyRequiredFields) {
 
 function completeSecondaryContact(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
-    const { address } = data;
+    const { fullName, phone, address } = data.secondaryContact;
     client
-      .fill('input[name="root_secondaryContact_fullName"]', data.fullName)
-      .fill('input[name="root_secondaryContact_phone"]', data.phone)
+      .fill('input[name="root_secondaryContact_fullName"]', fullName)
+      .fill('input[name="root_secondaryContact_phone"]', phone)
       .selectDropdown('root_secondaryContact_address_country', address.country)
       .fill('input[name="root_secondaryContact_address_street"]', address.street)
       .fill('input[name="root_secondaryContact_address_street2"]', address.street2)
@@ -90,25 +92,24 @@ function completeSecondaryContact(client, data, onlyRequiredFields) {
 
 function completeEducationHistory(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
-    let completionDate = _.get('highSchool.highSchoolOrGedCompletionDate', data);
+    const completionDate = _.get('highSchool.highSchoolOrGedCompletionDate', data);
 
     client.selectDropdown('root_highSchool_status', data.highSchool.status);
     if (completionDate) {
-      completionDate = completionDate.split('-');
-      client
-        .selectDropdown('root_highSchool_view:highSchoolOrGedCompletionDateMonth', completionDate[1])
-        .selectDropdown('root_highSchool_view:highSchoolOrGedCompletionDateDay', completionDate[2])
-        .fill('input[name="root_highSchool_view:highSchoolOrGedCompletionDateYear"]', completionDate[0]);
+      client.fillDate('root_highSchool_view:highSchoolOrGedCompletionDate', completionDate);
     }
 
     if (!_.isEmpty(data.postHighSchoolTrainings)) {
       // Open up the trainings section if there are trainings in the data
-      client.click('input[name="root_view:hasTrainingsYes"]');
+      client
+        .click('input[name="root_view:hasTrainingsYes"]')
+        .waitForElementVisible('input[name="root_postHighSchoolTrainings_0_name"]', Timeouts.normal);
 
       // Fill out the information for each training
       _.forEach(data.postHighSchoolTrainings, (training, index, allTrainings) => {
-        let dateFrom = _.get('dateRange.from', training);
-        let dateTo = _.get('dateRange.to', training);
+        // I'm not convinced this is running.
+        const dateFrom = _.get('dateRange.from', training);
+        const dateTo = _.get('dateRange.to', training);
 
         client
           .fill(`input[name="root_postHighSchoolTrainings_${index}_name"]`, training.name)
@@ -116,18 +117,10 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
           .selectDropdown(`root_postHighSchoolTrainings_${index}_state`, training.state);
 
         if (dateFrom) {
-          dateFrom = dateFrom.split('-');
-          client
-            .selectDropdown(`root_postHighSchoolTrainings_${index}_dateRange_fromMonth`, dateFrom[1])
-            .selectDropdown(`root_postHighSchoolTrainings_${index}_dateRange_fromDay`, dateFrom[2])
-            .fill(`input[name="root_postHighSchoolTrainings_${index}_dateRange_fromYear"]`, dateFrom[0]);
+          client.fillDate(`root_postHighSchoolTrainings_${index}_dateRange_from`, dateFrom);
         }
         if (dateTo) {
-          dateTo = dateTo.split('-');
-          client
-            .selectDropdown(`root_postHighSchoolTrainings_${index}_dateRange_toMonth`, dateTo[1])
-            .selectDropdown(`root_postHighSchoolTrainings_${index}_dateRange_toDay`, dateTo[2])
-            .fill(`input[name="root_postHighSchoolTrainings_${index}_dateRange_toYear"]`, dateTo[0]);
+          client.fillDate(`root_postHighSchoolTrainings_${index}_dateRange_to`, dateTo);
         }
 
         client
