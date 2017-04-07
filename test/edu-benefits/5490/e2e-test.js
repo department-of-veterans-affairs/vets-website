@@ -98,7 +98,7 @@ module.exports = (client, onlyRequiredFields) => {
 
   // Education history page
   client
-    .waitForElementVisible('input[name="root_postHighSchoolTrainings_0_name"]', Timeouts.slow);
+    .waitForElementVisible('select[name="root_highSchool_status"]', Timeouts.slow);
   Edu5490Helpers.completeEducationHistory(client, testData.educationHistory.data, onlyRequiredFields);
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/education/history');
@@ -126,15 +126,14 @@ module.exports = (client, onlyRequiredFields) => {
 
   // Secondary contact page
   client
-    .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
+    .waitForElementVisible('label[for="root_secondaryContact_fullName"]', Timeouts.slow);
   Edu5490Helpers.completeSecondaryContact(client, testData.secondaryContact.data, onlyRequiredFields);
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
   // Direct deposit page
   client
-    .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
-  EduHelpers.completePaymentChange(client, testData.directDeposit.data, onlyRequiredFields);
+    .waitForElementVisible('label[for="root_bankAccount_accountType"]', Timeouts.slow);
   EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, onlyRequiredFields);
   client.click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
