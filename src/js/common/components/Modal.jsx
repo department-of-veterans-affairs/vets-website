@@ -23,10 +23,15 @@ class Modal extends React.Component {
     this.state = { lastFocus: null, focusListener: null };
   }
 
+  componentDidMount() {
+    if (this.props.visible) {
+      document.body.classList.add('modal-open');
+    }
+  }
+
   componentWillReceiveProps(newProps) {
     if (newProps.visible && !this.props.visible) {
       this.setState({ lastFocus: document.activeElement, focusListener: focusListener(newProps.focusSelector) });
-      document.body.classList.add('modal-open');
     } else if (!newProps.visible && this.props.visible) {
       document.removeEventListener('focus', this.state.focusListener, true);
       this.state.lastFocus.focus();
