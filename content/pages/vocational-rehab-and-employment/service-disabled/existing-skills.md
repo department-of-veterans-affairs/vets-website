@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Use Your Existing Skillset
+title: Job-Search Counseling and Employment Coaching
 template: 6-info-page
 ---
 
@@ -15,38 +15,40 @@ template: 6-info-page
 </div>
 
 
-If you want to follow a career path that uses your existing skillset, Vocational Rehabilitation and Employment (VR&amp;E) can help you with your job search through counseling and rehabilitation services that address your interests, abilities, and aptitudes.
+If you want to follow a career path that uses your existing skillset, Vocational Rehabilitation and Employment (VR&amp;E) can help you with your job search through counseling and rehabilitation services that address your interests and abilities. These services are added to our other employment search resources. Find out if you can get VR&amp;E job-search counseling and employment coaching.
 
-This support supplements other [VA employment search resources](/employment/job-seekers/employment-support/).
+[Learn about other VA employments resources](/employment/job-seekers/employment-support/).
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for this VR&amp;E track?
+### Can I get job-search counseling and employment coaching through VR&amp;E?
 
-Yes, if:
+You may qualify for these benefits if you’re a Veteran or Servicemember with a service-connected disability, and you have:
+-	An employment barrier
+-	Past experience, education, or training in your field of interest
 
-- You are a Veteran or Servicemember with a service-connected disability and an employment barrier.
-- You already have experience, education, or training in your field of interest.
+**Note:** Having a service-connected disability means we’ve concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Having an employment barrier means that your disability makes it hard for you to prepare for, find, and keep a job that suits your skills and needs.
 
+#### Who's covered?
 
-#### Who is covered
-
-You
+- Veterans
+- Servicemembers
 
 </div>
 
+### What kind of benefits can I get?
 
-### Available benefits
-
-- Comprehensive skills assessment
-- Preparation for a new job
+- A full assessment of your skills
+- Help preparing for a new job
 - Job search assistance
 - Coaching after you’re employed
 
 <hr>
 
-### How it works
+### How do I get these benefits?
 
-[Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/) to find a Vocational Rehabilitation Counselor (VRC) who can assist you.
+You’ll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) who can help you.
 
-Some dependents of Veterans with a service-connected disability may also qualify for career counseling. Learn how [family members may apply for VR&amp;E](/vocational-rehab-and-employment/family-members/).
+[Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/).
+
+**Note:** Some dependents of Servicemembers and Veterans with a service-connected disability may also qualify for career counseling. [Find out if your family members may qualify for VR&amp;E services](/vocational-rehab-and-employment/family-members/).
