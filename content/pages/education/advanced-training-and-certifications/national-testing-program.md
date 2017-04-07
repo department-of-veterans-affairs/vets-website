@@ -7,7 +7,7 @@ concurrence: complete
 ---
 
 <div class="va-introtext">
-If you had to take a test when you applied to a college or for a training course, we may pay you back for the cost of the test. Find out how.
+If you had to take a test when you applied to a college or for a training course, we may pay you back for the cost of the test. Find out if you qualify for this benefit.
 </div>
 
 
@@ -33,9 +33,9 @@ Payment for testing fees, including:
 
 -----
 
-### How do I get these benefits?
+### How do I get this benefit?
 
-We will charge your GI Bill benefit package for testing expenses. [Learn about how we charge your GI Bill benefit package](https://gibill.custhelp.com/app/answers/detail/a_id/29).
+We'll charge your GI Bill benefit package for testing expenses. [Learn about how we charge your GI Bill benefit package](https://gibill.custhelp.com/app/answers/detail/a_id/29).
 
 - You may need to provide your proof of payment.
 - We'll pay you back only for mandatory test fees.
