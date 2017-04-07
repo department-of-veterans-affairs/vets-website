@@ -5,18 +5,11 @@ class PreviewBanner extends React.Component {
     if (!this.props.show) {
       return null;
     }
-
-    const headerDisplacementCSS = `
-      div.header {
-        margin-top: 4em;
-      }
-    `;
     const tz = { timeZone: 'America/New_York' };
     const when = new Date(this.props.version.createdAt).toLocaleString('us', tz);
 
     return (
       <div className="gi-preview-banner">
-        <style>{headerDisplacementCSS}</style>
         <div className="outer"/>
         <div className="inner">
           <h5>Preview draft</h5>

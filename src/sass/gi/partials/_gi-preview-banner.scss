@@ -10,11 +10,12 @@
   }
 
   div.inner {
-    z-index: 1100;
-    position: fixed;
-    top: 0;
     margin: 0;
     padding: 0.8em 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1100;
 
     h5 {
       font-size: 0.8em;
@@ -27,8 +28,10 @@
       margin: 0;
 
       .actions {
+        bottom: 0;
+        position: absolute;
+        right: 2em;
         white-space: nowrap;
-        margin: auto 2em;
       }
     }
   }
