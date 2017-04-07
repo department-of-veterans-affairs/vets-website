@@ -17,13 +17,13 @@ Correspondence training (coursework completed by mail) may be a good option for 
 
 ### Can I use education benefits for correspondence training?
 
-You can, if you qualify for any GI Bill program.
+You can if you qualify for any GI Bill program.
 
 ### Who's covered?
 - Veterans
 - Qualified dependents 
 
-**Exception:**<br> Dependents using the Dependents’ Educational Assistance program may not enroll in correspondence training.
+**Exception:** Dependents using the Survivors’ and Dependents’ Educational Assistance program may not enroll in correspondence training.
 </div>
 
 ### What benefits can I get? 
