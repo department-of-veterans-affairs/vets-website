@@ -15,15 +15,16 @@ module.exports = E2eHelpers.createE2eTest(
     // click dropdown on username
     client.click('#login-root button[aria-controls="accountMenu"]');
 
-    // logout button is there
+    // logout button is visible
     client.expect.element('#accountMenu > ul > li:nth-child(2) > a').to.be.visible;
 
     // logout button reads "Sign Out"
     client.expect.element('#accountMenu > ul > li:nth-child(2) > a').text.to.equal('Sign Out');
 
-    // click Sign Out & verify new window is opened & has correct logout url
+    // click Sign Out & verify new window is opened with correct logout url
     client
       .click('#accountMenu > ul > li:nth-child(2) > a')
+      .pause(500)
       .windowHandles(function windowHandlesCallback(result) {
         this.verify.equal(result.value.length, 2, 'There should be 2 windows open');
         const newWindow = result.value[1];
