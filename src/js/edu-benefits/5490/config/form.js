@@ -505,13 +505,23 @@ const formConfig = {
                       const status = _.get('highSchool.status', form);
                       return status !== 'graduated' && status !== 'graduationExpected';
                     },
-                    expandUnder: 'status'
-                  }
+                    expandUnder: 'status',
+                    updateSchema: (pageData, form, schema) => {
+                      const status = _.get('educationHistory.data.highSchool.status', form);
+                      const field = _.get('educationHistory.uiSchema.highSchool.view:highSchoolOrGedCompletionDate', form);
+
+                      if (status === 'graduationExpected') {
+                        field['ui:title'] = 'When do you expect to earn your high school diploma?';
+                      }
+
+                      return schema;
+                    }
+                  },
+                  'ui:validations': [
+                    validateDate,
+                    validateFutureDateIfExpectedGrad
+                  ]
                 },
-                'ui:validations': [
-                  validateDate,
-                  validateFutureDateIfExpectedGrad
-                ]
               ),
               'view:hasHighSchool': {
                 'ui:options': {
