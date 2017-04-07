@@ -17,7 +17,7 @@ button,
 .usa-button-primary {
   &:hover {
     // background-color: $color-primary-darker;
-  } 
+  }
   &[href^=http] {
     background-image: none;
     // TODO: clean up #content .main.interior a then remove !important
@@ -78,7 +78,7 @@ button.short {
   line-height: 1.3;
   margin: 0;
   text-align: left;
-  
+
   -webkit-transition-duration: 0.3s;
           transition-duration: 0.3s;
 
@@ -124,6 +124,6 @@ button.short {
       margin-right: .25rem;
       pointer-events: none;
       width: 1.5rem;
-    }    
+    }
   }
 }
