@@ -15,10 +15,10 @@ To honor the military service of a deceased Veteran or Reservist, we provide the
 ### Can I get a burial flag?
 
 You can get a burial flag if you're the next of kin or a close friend of the deceased, and that person: 
-- Served in wartime
-- Died while on active duty after May 27, 1941
-- Served after January 31, 1955
-- Served in peacetime and left military service before June 27, 1950, after serving at least one enlistment, or for a disability that was caused-or made worse—by your active military service
+- Served in wartime, **or**
+- Died while on active duty after May 27, 1941, **or**
+- Served after January 31, 1955, **or**
+- Served in peacetime and left military service before June 27, 1950, after serving at least 1 enlistment, or because of a disability that was caused—or made worse—by their active military service, **or**
 - Served in the Selected Reserves (in certain cases) or served in the military forces of the Philippines while in service of the United States. For more information on either of these situations, call <span class="tel">800-827-1000</span>.
 
 ### How do I get a flag?
