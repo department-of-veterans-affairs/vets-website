@@ -10,7 +10,7 @@ concurrence: incomplete
 The Principles of Excellence program requires schools that get federal funding through programs such as the GI Bill to follow certain guidelines. Learn about these guidelines.
 </div>
 
-
+<br>
 Schools that are a part of the program must:
 
 - Give you a written personal summary of the total cost of your educational program, including:
