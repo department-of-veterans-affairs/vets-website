@@ -19,12 +19,9 @@ function initApplicationSubmitMock(form) {
 }
 
 function completeVeteranInformation(client, data, onlyRequiredFields, root = 'root') {
-  // Use relativeFullname if necessary
-  const veteranFullName = data.veteranFullName || data.relativeFullName;
-
   client
-    .fill(`input[name="${root}_veteranFullName_first"]`, veteranFullName.first)
-    .fill(`input[name="${root}_veteranFullName_last"]`, veteranFullName.last)
+    .fill(`input[name="${root}_veteranFullName_first"]`, data.veteranFullName.first)
+    .fill(`input[name="${root}_veteranFullName_last"]`, data.veteranFullName.last)
     .fill(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`, data.veteranSocialSecurityNumber);
 
   if (data.relationship === 'spouse') {
@@ -37,8 +34,8 @@ function completeVeteranInformation(client, data, onlyRequiredFields, root = 'ro
 
   if (!onlyRequiredFields) {
     client
-      .setValue(`input[name="${root}_veteranFullName_middle"]`, veteranFullName.middle)
-      .setValue(`select[name="${root}_veteranFullName_suffix"]`, veteranFullName.suffix);
+      .setValue(`input[name="${root}_veteranFullName_middle"]`, data.veteranFullName.middle)
+      .setValue(`select[name="${root}_veteranFullName_suffix"]`, data.veteranFullName.suffix);
     if (data.vaFileNumber) {
       client
         .click(`input[name="${root}_view:veteranId_view:noSSN"]`)

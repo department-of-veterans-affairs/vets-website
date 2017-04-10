@@ -56,7 +56,7 @@
         "remarriageDate": "2007-01-02"
       },
       "view:currentSponsorInformation": {
-        "relativeFullName": {
+        "veteranFullName": {
           "first": "Another sponsor name",
           "middle": "Another middle",
           "last": "Sponsor last name",
