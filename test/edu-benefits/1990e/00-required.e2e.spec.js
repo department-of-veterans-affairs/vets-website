@@ -61,7 +61,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       // Employment history page
       client
         .waitForElementVisible('label[for="root_view:hasNonMilitaryJobs"]', Timeouts.slow);
-      Edu1990eHelpers.completeEmploymentHistory(client, testData.employmentHistory.data, true);
+      EduHelpers.completeEmploymentHistory(client, testData.employmentHistory.data, true);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/employment/history');
 
