@@ -29,7 +29,6 @@ import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as phone from '../../../common/schemaform/definitions/phone';
-import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import * as veteranId from '../../definitions/veteranId';
 
@@ -256,7 +255,7 @@ const formConfig = {
                 'chapter33',
                 'transferOfEntitlement',
                 'veteranFullName',
-                'veteranSocialSecurityNumber',
+                'view:veteranId',
                 'other',
                 'view:noPreviousBenefits'
               ],
@@ -325,9 +324,18 @@ const formConfig = {
                 middle: { 'ui:title': 'Sponsor middle name' },
                 suffix: { 'ui:title': 'Sponsor suffix' },
               }),
-              veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
-                'ui:title': 'Sponsor Social Security number',
-                'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
+              'view:veteranId': _.merge(veteranId.uiSchema, {
+                veteranSocialSecurityNumber: {
+                  'ui:title': 'Sponsor Social Security number',
+                  'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData) && !_.get('previousBenefits.view:veteranId.view:noSSN', formData)
+                },
+                'view:noSSN': {
+                  'ui:title': 'I don’t know my sponsor’s Social Security number',
+                },
+                vaFileNumber: {
+                  'ui:title': 'Sponsor file number',
+                  'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData) && !!_.get('previousBenefits.view:veteranId.view:noSSN', formData)
+                },
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
                 }
@@ -341,13 +349,14 @@ const formConfig = {
             type: 'object',
             properties: {
               previousBenefits: _.merge(
-                _.unset('properties.veteranFullName', previousBenefits),
+                _.omit(['properties.veteranFullName', 'properties.veteranSocialSecurityNumber'], previousBenefits),
                 {
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },
                     'view:ownServiceBenefits': { type: 'boolean' },
                     'view:claimedSponsorService': { type: 'boolean' },
-                    veteranFullName: fullName
+                    veteranFullName: fullName,
+                    'view:veteranId': veteranId.schema
                   }
                 }
               )
