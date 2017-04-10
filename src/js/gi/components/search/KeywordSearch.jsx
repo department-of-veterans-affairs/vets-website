@@ -42,7 +42,7 @@ export class KeywordSearch extends React.Component {
 
   handleSuggestionSelected(event, data) {
     window.dataLayer.push({
-      'event': 'gibct-autosuggest',
+      event: 'gibct-autosuggest',
       'gibct-autosuggest-value': data.suggestionValue,
     });
     this.props.onFilterChange('name', data.suggestionValue);
