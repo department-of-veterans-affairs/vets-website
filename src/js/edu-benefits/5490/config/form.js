@@ -498,22 +498,21 @@ const formConfig = {
                 }
               },
               'view:highSchoolOrGedCompletionDate': _.assign(
-                date.uiSchema('When did you earn your high school diploma?'), {
+                date.uiSchema(null), {
                   'ui:options': {
                     hideIf: form => {
                       const status = _.get('highSchool.status', form);
                       return status !== 'graduated' && status !== 'graduationExpected';
                     },
                     expandUnder: 'status',
-                    updateSchema: (pageData, form, schema) => {
+                    updateSchema: (pageData, form) => {
                       const status = _.get('educationHistory.data.highSchool.status', form);
-                      const field = _.get('educationHistory.uiSchema.highSchool.view:highSchoolOrGedCompletionDate', form);
 
                       if (status === 'graduationExpected') {
-                        field['ui:title'] = 'When do you expect to earn your high school diploma?';
+                        return { title: 'When do you expect to earn your high school diploma?' };
                       }
 
-                      return schema;
+                      return { title: 'When did you earn your high school diploma?' };
                     }
                   },
                   'ui:validations': [
