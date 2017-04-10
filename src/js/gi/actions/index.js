@@ -28,7 +28,7 @@ export const FILTER_TOGGLED = 'FILTER_TOGGLED';
 export function showModal(modal) {
   window.dataLayer.push({
     event: 'gibct-learn-more',
-    gibct-modal-displayed: modal,
+    'gibct-modal-displayed': modal,
   });  
   return {
     type: DISPLAY_MODAL,
@@ -122,8 +122,8 @@ export function eligibilityChange(e) {
   const value = e.target.value;
   window.dataLayer.push({
     event: 'gibct-form-change',
-    gibct-form-field: field,
-    gibct-form-value: value,
+    'gibct-form-field': field,
+    'gibct-form-value': value,
   });
   return {
     type: ELIGIBILITY_CHANGED,
