@@ -230,12 +230,9 @@ function completeEmploymentHistory(client, data, onlyRequiredFields) {
     const nonMilitaryJobs = data.nonMilitaryJobs[0];
     client
       .click('input[name="root_view:hasNonMilitaryJobsYes"]')
-      .clearValue('input[name="root_nonMilitaryJobs_0_name"]')
-      .setValue('input[name="root_nonMilitaryJobs_0_name"]', nonMilitaryJobs.name)
-      .clearValue('input[name="root_nonMilitaryJobs_0_months"]')
-      .setValue('input[name="root_nonMilitaryJobs_0_months"]', nonMilitaryJobs.months)
-      .clearValue('input[name="root_nonMilitaryJobs_0_licenseOrRating"]')
-      .setValue('input[name="root_nonMilitaryJobs_0_licenseOrRating"]', nonMilitaryJobs.licenseOrRating);
+      .fill('input[name="root_nonMilitaryJobs_0_name"]', nonMilitaryJobs.name)
+      .fill('input[name="root_nonMilitaryJobs_0_months"]', nonMilitaryJobs.months)
+      .fill('input[name="root_nonMilitaryJobs_0_licenseOrRating"]', nonMilitaryJobs.licenseOrRating);
   }
 }
 
