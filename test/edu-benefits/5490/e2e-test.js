@@ -5,13 +5,7 @@ const Edu5490Helpers = require('../../e2e/edu-5490-helpers');
 const testData = require('./schema/maximal-test.json');
 
 
-module.exports = (client, onlyRequiredFields) => {
-  // Cut out early if we're in production.
-  // Remove this once the 5490 is launched.
-  if (global.__BUILDTYPE__ === 'production') {
-    return;
-  }
-
+const runTest = (client, onlyRequiredFields) => {
   EduHelpers.initApplicationSubmitMock('5490');
 
   // Ensure introduction page renders
@@ -160,3 +154,12 @@ module.exports = (client, onlyRequiredFields) => {
 
   client.end();
 };
+
+// Prevent the test from being run on production.
+// TODO: Remove when the form is actually launched.
+if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
+  module.exports = runTest;
+} else {
+  // Empty function to skip the tests
+  module.exports = (client) => client.end();
+}
