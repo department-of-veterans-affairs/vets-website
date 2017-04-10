@@ -196,33 +196,6 @@ export function filterViewFields(data) {
   }, {});
 }
 
-/*
- * Normal transform for schemaform data
- */
-export function transformForSubmit(formConfig, form) {
-  const activePages = getActivePages(createFormPageList(formConfig), form);
-  const flattened = flattenFormData(activePages, form);
-  const withoutViewFields = filterViewFields(flattened);
-
-  return JSON.stringify(withoutViewFields, (key, value) => {
-    // an object with country is an address
-    if (value && typeof value.country !== 'undefined' &&
-      (!value.street || !value.city || !value.postalCode)) {
-      return undefined;
-    }
-
-    // clean up empty objects, which we have no reason to send
-    if (typeof value === 'object') {
-      const fields = Object.keys(value);
-      if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
-        return undefined;
-      }
-    }
-
-    return value;
-  }) || '{}';
-}
-
 function isHiddenField(schema) {
   return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
 }
@@ -405,7 +378,13 @@ export function setHiddenFields(schema, uiSchema, formData) {
 
   if (updatedSchema.type === 'object') {
     const newProperties = Object.keys(updatedSchema.properties).reduce((current, next) => {
-      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], formData);
+      /*
+      if (next === 'ownServiceBenefits') {
+        debugger; // eslint-disable-line
+      }
+      */
+      const nextData = typeof formData[next] === 'object' ? formData[next] : formData;
+      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], nextData);
 
       if (newSchema !== updatedSchema.properties[next]) {
         return _.set(next, newSchema, current);
@@ -442,11 +421,20 @@ export function removeHiddenData(schema, data) {
 
   if (schema.type === 'object') {
     return Object.keys(data).reduce((current, next) => {
+      /*
+      if (next === 'ownServiceBenefits') {
+        debugger; // eslint-disable-line
+      }
+      */
       if (typeof data[next] !== 'undefined') {
         const nextData = removeHiddenData(schema.properties[next], data[next]);
 
         if (typeof nextData === 'undefined') {
           return _.unset(next, current);
+        }
+
+        if (nextData !== current[next]) {
+          return _.set(next, nextData, current);
         }
       }
 
@@ -467,6 +455,58 @@ export function removeHiddenData(schema, data) {
   }
 
   return data;
+}
+
+/*
+ *
+ */
+export function removeAllHiddenData(formConfig, data) {
+  let cleanData = data;
+  Object.keys(formConfig.chapters).forEach(chapterKey => {
+    const chapter = formConfig.chapters[chapterKey];
+    const cleanChapterData = Object.keys(chapter.pages).reduce((current, pageKey) => {
+      const page = chapter.pages[pageKey];
+      const cleanPageData = removeHiddenData(page.schema, data[pageKey].data);
+      if (cleanPageData !== data[pageKey].data) {
+        return _.set([pageKey, data], cleanPageData, current);
+      }
+      return current;
+    }, data);
+    cleanData = _.merge(cleanData, cleanChapterData);
+  });
+  return cleanData;
+}
+
+/*
+ * Normal transform for schemaform data
+ */
+export function transformForSubmit(formConfig, form) {
+  const activePages = getActivePages(createFormPageList(formConfig), form);
+  const flattened = flattenFormData(activePages, form);
+  /*
+  const cleanData = removeAllHiddenData(formConfig, form);
+  const activePages = getActivePages(createFormPageList(formConfig), cleanData);
+  const flattened = flattenFormData(activePages, cleanData);
+  */
+  const withoutViewFields = filterViewFields(flattened);
+
+  return JSON.stringify(withoutViewFields, (key, value) => {
+    // an object with country is an address
+    if (value && typeof value.country !== 'undefined' &&
+      (!value.street || !value.city || !value.postalCode)) {
+      return undefined;
+    }
+
+    // clean up empty objects, which we have no reason to send
+    if (typeof value === 'object') {
+      const fields = Object.keys(value);
+      if (fields.length === 0 || fields.every(field => value[field] === undefined)) {
+        return undefined;
+      }
+    }
+
+    return value;
+  }) || '{}';
 }
 
 /*
