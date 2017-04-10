@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import AlertBox from '../../../common/components/AlertBox';
+import { formatNumber } from '../../utils/helpers';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -31,7 +32,7 @@ class HeadingSummary extends React.Component {
               isVisible={!!it.cautionFlag}
               status="warning"/>
           <p style={{ marginBottom: '1.5em' }}>
-            <strong>{it.studentCount}</strong> GI Bill students
+            <strong>{formatNumber(it.studentCount)}</strong> GI Bill students
             (<a onClick={this.props.onLearnMore}>Learn more</a>)
           </p>
           <div className="small-12 medium-4 column">

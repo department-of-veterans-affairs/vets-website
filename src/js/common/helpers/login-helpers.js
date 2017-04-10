@@ -39,6 +39,7 @@ export function getUserData() {
   }).then(json => {
     if (json.data) {
       const userData = json.data.attributes.profile;
+      sessionStorage.setItem('userFirstName', userData.first_name);
       commonStore.dispatch(updateProfileField('accountType', userData.loa.current));
       commonStore.dispatch(updateProfileField('email', userData.email));
       commonStore.dispatch(updateProfileField('userFullName.first', userData.first_name));
