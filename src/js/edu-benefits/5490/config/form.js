@@ -498,7 +498,7 @@ const formConfig = {
                   expandUnderClassNames: 'schemaform-expandUnder-indent'
                 }
               },
-              'view:highSchoolOrGedCompletionDate': _.assign(
+              highSchoolOrGedCompletionDate: _.assign(
                 date.uiSchema(null), {
                   'ui:options': {
                     hideIf: form => {
@@ -562,6 +562,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   status: highSchool.properties.status,
+                  highSchoolOrGedCompletionDate: date.schema,
                   'view:hasHighSchool': {
                     type: 'object',
                     properties: {
@@ -571,7 +572,6 @@ const formConfig = {
                       dateRange: highSchool.properties.dateRange,
                     }
                   },
-                  'view:highSchoolOrGedCompletionDate': date.schema,
                 }
               },
               'view:hasTrainings': {
