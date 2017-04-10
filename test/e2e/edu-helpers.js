@@ -95,10 +95,13 @@ function completeAdditionalBenefits(client, data, onlyRequiredFields) {
   }
 }
 
-function completeBenefitsSelection(client, onlyRequiredFields) {
+function completeBenefitsSelection(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
-    client
-      .click('.form-radio-buttons:first-child input');
+    const elementSelector = data.benefit
+      ? `input[value="${data.benefit}"]`
+      : '.form-radio-buttons:first-child input';
+
+    client.click(elementSelector);
   }
 }
 

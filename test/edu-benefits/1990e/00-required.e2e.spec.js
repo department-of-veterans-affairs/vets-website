@@ -40,7 +40,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       // Benefits eligibility page
       client
         .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-      EduHelpers.completeBenefitsSelection(client, true);
+      EduHelpers.completeBenefitsSelection(client, testData.benefitEligibility, true);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 

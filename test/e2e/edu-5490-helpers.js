@@ -2,12 +2,6 @@ import _ from 'lodash/fp';
 const Timeouts = require('./timeouts.js');
 
 
-// This section is required, unlike the regular EduHelpers
-// Also actually uses the data
-function completeBenefitSelection(client, data) {
-  client.click(`input[value="${data.benefit}"]`);
-}
-
 function completeBenefitRelinquishment(client, data) {
   const date = data.benefitsRelinquishedDate.split('-');
   client
@@ -123,7 +117,6 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
 }
 
 module.exports = {
-  completeBenefitSelection,
   completeBenefitRelinquishment,
   completeBenefitHistory,
   completeSponsorService,
