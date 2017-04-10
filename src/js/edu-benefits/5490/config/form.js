@@ -613,7 +613,8 @@ const formConfig = {
               },
               educationType: {
                 'ui:options': {
-                  updateSchema: ((edTypes) => {
+                  updateSchema: (() => {
+                    const edTypes = educationType.enum;
                     // Using reselect here avoids running the filter code
                     // and creating a new object unless either benefit or
                     // relationship has changed
@@ -636,7 +637,7 @@ const formConfig = {
                       });
 
                     return (pageData, form) => filterEducationType(form);
-                  })(educationType.enum)
+                  })()
                 }
               }
             }
