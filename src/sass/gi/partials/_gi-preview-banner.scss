@@ -1,21 +1,18 @@
 .gi-preview-banner {
+  background: $color-gold;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+
   div.outer {
-    background: $color-gold;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4em;
-    z-index: 1000;
+    margin: auto;
+    position: relative;
   }
 
   div.inner {
-    margin: 0;
-    padding: 0.8em 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1100;
+    padding: 0.8em;
 
     h5 {
       font-size: 0.8em;
@@ -28,10 +25,11 @@
       margin: 0;
 
       .actions {
-        bottom: 0;
-        position: absolute;
-        right: 2em;
-        white-space: nowrap;
+        @media screen and (min-width: $medium-screen) {
+          bottom: 0;
+          position: absolute;
+          right: 1em;
+        }
       }
     }
   }
