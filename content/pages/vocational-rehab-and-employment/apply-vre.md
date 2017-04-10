@@ -40,7 +40,7 @@ You may also qualify for VR&amp;E benefits if you're a Veteran who was discharge
 
 <br>
 
-### Who's covered?
+### Who can apply?
 
 - Servicemembers
 - Veterans
