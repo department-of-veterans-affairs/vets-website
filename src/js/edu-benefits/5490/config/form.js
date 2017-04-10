@@ -19,6 +19,11 @@ import {
   stateLabels
 } from '../../utils/helpers';
 
+import {
+  validateDate,
+  validateFutureDateIfExpectedGrad
+} from '../../../common/schemaform/validation';
+
 import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
@@ -69,7 +74,6 @@ const ssnSchema = fullSchema5490.definitions.ssn;
 const nonRequiredFullName = _.assign(fullName, {
   required: []
 });
-
 
 const formConfig = {
   urlPrefix: '/5490/',
@@ -494,15 +498,28 @@ const formConfig = {
                 }
               },
               'view:highSchoolOrGedCompletionDate': _.assign(
-                date.uiSchema('When did you earn your high school diploma?'), {
+                date.uiSchema(null), {
                   'ui:options': {
                     hideIf: form => {
                       const status = _.get('highSchool.status', form);
-                      return status !== 'graduated';
+                      return status !== 'graduated' && status !== 'graduationExpected';
                     },
-                    expandUnder: 'status'
-                  }
-                }
+                    expandUnder: 'status',
+                    updateSchema: (pageData, form) => {
+                      const status = _.get('educationHistory.data.highSchool.status', form);
+
+                      if (status === 'graduationExpected') {
+                        return { title: 'When do you expect to earn your high school diploma?' };
+                      }
+
+                      return { title: 'When did you earn your high school diploma?' };
+                    }
+                  },
+                  'ui:validations': [
+                    validateDate,
+                    validateFutureDateIfExpectedGrad
+                  ]
+                },
               ),
               'view:hasHighSchool': {
                 'ui:options': {
