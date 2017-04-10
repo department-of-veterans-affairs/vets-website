@@ -42,7 +42,8 @@ const configGenerator = (options) => {
     'react-redux',
     'react-router',
     'redux',
-    'redux-thunk'
+    'redux-thunk',
+    'raven-js'
   ];
   const baseConfig = {
     entry: filesToBuild,
