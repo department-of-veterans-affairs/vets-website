@@ -57,7 +57,7 @@ describe('Edu 5490 benefitHistory', () => {
 
     // Should expand to 16
     expect(Array.from(formDOM.querySelectorAll('input,select')).length)
-      .to.equal(16);
+      .to.equal(17);
 
     expect(claimed.checked).to.be.true;
 
