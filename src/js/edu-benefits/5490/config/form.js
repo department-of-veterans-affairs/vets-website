@@ -1,4 +1,5 @@
 import _ from 'lodash/fp';
+import { createSelector } from 'reselect';
 
 import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 
@@ -630,26 +631,31 @@ const formConfig = {
               },
               educationType: {
                 'ui:options': {
-                  updateSchema: (pageData, form, schema) => {
-                    const newSchema = _.cloneDeep(schema);
-                    const benefitData = _.get('benefitSelection.data.benefit', form);
-                    const relationshipData = _.get('applicantInformation.data.relationship', form);
-                    const edTypeLabels = Object.keys(_.get('schoolSelection.uiSchema.educationProgram.educationType.ui:options.labels', form));
+                  updateSchema: (() => {
+                    const edTypes = educationType.enum;
+                    // Using reselect here avoids running the filter code
+                    // and creating a new object unless either benefit or
+                    // relationship has changed
+                    const filterEducationType = createSelector(
+                      _.get('benefitSelection.data.benefit'),
+                      _.get('applicantInformation.data.relationship'),
+                      (benefitData, relationshipData) => {
+                        // Remove tuition top-up
+                        const filterOut = ['tuitionTopUp'];
+                        // Correspondence not available to Chapter 35 (DEA) children
+                        if (benefitData === 'chapter35' && relationshipData === 'child') {
+                          filterOut.push('correspondence');
+                        }
+                        // Flight training available to Chapter 33 (Fry Scholarships) only
+                        if (benefitData && benefitData !== 'chapter33') {
+                          filterOut.push('flightTraining');
+                        }
 
-                    // Remove tuition top-up
-                    const filterOut = ['tuitionTopUp'];
-                    // Correspondence not available to Chapter 35 (DEA) children
-                    if (benefitData === 'chapter35' && relationshipData === 'child') {
-                      filterOut.push('correspondence');
-                    }
-                    // Flight training available to Chapter 33 (Fry Scholarships) only
-                    if (benefitData && benefitData !== 'chapter33') {
-                      filterOut.push('flightTraining');
-                    }
+                        return { 'enum': _.without(filterOut, edTypes) };
+                      });
 
-                    newSchema.enum = _.without(filterOut)(edTypeLabels);
-                    return newSchema;
-                  }
+                    return (pageData, form) => filterEducationType(form);
+                  })()
                 }
               }
             }
