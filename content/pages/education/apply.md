@@ -77,9 +77,9 @@ If you need to make a change (for example, you’re moving to a new school), man
 ##### Forms 22-1990N and 22-5495
 
 You must apply for education benefits using eBenefits if you're:
-- A dependent whose sponsor is permanently and totally disabled
-- A dependent whose sponsor is deceased, MIA, or a POW
-- A candidate for the National Call to Service program
+- A dependent, **moving their benefit**, whose sponsor is permanently and totally disabled
+- A dependent, **moving their benefit**, whose sponsor is deceased, MIA, or a POW
+- A candidate for the National Call to Service program applying for a new benefit
 
 <div markdown="0">
 	<a class="usa-button-primary usa-button-outline usa-button-outline-exit transparent" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
