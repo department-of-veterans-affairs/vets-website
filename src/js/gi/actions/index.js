@@ -29,7 +29,7 @@ export function showModal(modal) {
   window.dataLayer.push({
     event: 'gibct-learn-more',
     'gibct-modal-displayed': modal,
-  });  
+  });
   return {
     type: DISPLAY_MODAL,
     modal
