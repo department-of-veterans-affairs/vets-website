@@ -6,6 +6,7 @@ export const DISPLAY_MODAL = 'DISPLAY_MODAL';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
 export const ENTER_PREVIEW_MODE = 'ENTER_PREVIEW_MODE';
 export const EXIT_PREVIEW_MODE = 'EXIT_PREVIEW_MODE';
+export const SET_VERSION = 'SET_VERSION';
 export const FETCH_CONSTANTS_STARTED = 'FETCH_CONSTANTS_STARTED';
 export const FETCH_CONSTANTS_FAILED = 'FETCH_CONSTANTS_FAILED';
 export const FETCH_CONSTANTS_SUCCEEDED = 'FETCH_CONSTANTS_SUCCEEDED';
@@ -63,7 +64,13 @@ function withPreview(dispatch, action) {
       type: ENTER_PREVIEW_MODE,
       version
     });
+  } else if (version.createdAt) {
+    dispatch({
+      type: SET_VERSION,
+      version
+    });
   }
+
   dispatch(action);
 }
 
