@@ -10,7 +10,7 @@
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
     "lint:js:changed": "LIST=`git diff-index --name-only HEAD | grep .*\\.js | grep -v json`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
-    "lint:sass": "sass-lint -c config/sass-lint.yml --verbose --no-exit",
+    "lint:sass": "sass-lint -c config/sass-lint.yml --verbose",
     "nightwatch": "nightwatch -c config/nightwatch.js",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
