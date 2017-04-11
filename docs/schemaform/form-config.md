@@ -140,7 +140,19 @@ This does not apply to array fields; for those, you still need to specify an `it
 ```
 
 ### uiSchema configuration
-In addition to the uiSchema options listed in the library [https://github.com/mozilla-services/react-jsonschema-form#the-uischema-object](docs), we have some additional options that are supported for all forms:
+If you're not already familiar with the rjsf uiSchema options, check out the [https://github.com/mozilla-services/react-jsonschema-form#the-uischema-object](library docs). Some commonly used options include:
+
+- [https://github.com/mozilla-services/react-jsonschema-form#object-fields-ordering](ui:order)
+  - An array of field names in the order in which they should appear
+- [https://github.com/mozilla-services/react-jsonschema-form#alternative-widgets](ui:widget)
+  - The name of an alternative widget to use for the field
+  - Example of a custom widget: `yesNo`
+- [https://github.com/mozilla-services/react-jsonschema-form#custom-field-components](ui:field)
+  - Specifies the name of a custom field
+- [https://github.com/mozilla-services/react-jsonschema-form#custom-css-class-names](classNames)
+  - Specifies the class names to put on the component
+
+We've also been adding some additional uiSchema functionality not found in the rjsf library:
 
 ```js
 {
