@@ -1,12 +1,12 @@
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
 
-// import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
+import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
 // import pages from '../../pages/';
 
-// import common schemaform definitions from '../../../common/schemaform/definitions/'
+import * as fullName from '../../../common/schemaform/definitions/fullName';
 
-// import local modified definitions from '../../definitions/'
+import * as veteranId from '../../definitions/veteranId';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -15,8 +15,9 @@ import {
   transform
 } from '../helpers';
 
-// const {
-// } = fullSchema5495.properties;
+const {
+  veteranFullName
+} = fullSchema5495.properties;
 
 // const {
 // } = fullSchema5495.definitions;
@@ -29,6 +30,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
+    fullName: fullName.schema
   },
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5495',
@@ -45,6 +47,30 @@ const formConfig = {
             type: 'object',
             required: [],
             properties: {}
+          }
+        }
+      }
+    },
+    sponsorInformation: {
+      title: 'Sponsor information',
+      pages: {
+        sponsorInformation: {
+          path: 'sponsor/information',
+          title: 'Sponsor information',
+          uiSchema: {
+            veteranFullName: fullName.uiSchema,
+            'view:veteranId': _.merge(veteranId.uiSchema, {
+              'view:noSSN': {
+                'ui:title': 'I don’t know my sponsor’s Social Security number',
+              },
+            })
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranFullName,
+              'view:veteranId': veteranId.schema
+            }
           }
         }
       }
