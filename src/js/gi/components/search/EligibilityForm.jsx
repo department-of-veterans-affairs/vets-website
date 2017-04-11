@@ -74,7 +74,7 @@ export class EligibilityForm extends React.Component {
         {
           this.props.eligibility.militaryStatus === 'active duty' &&
           this.props.eligibility.giBillChapter === '33' &&
-          (<div className="militaryStatusInfo form-group">
+          (<div className="military-status-info warning form-group">
             <i className="fa fa-warning"></i>
             <a title="Post 9/11 GI Bill"
                 href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
@@ -86,7 +86,9 @@ export class EligibilityForm extends React.Component {
         }
 
         {
-          this.props.eligibility.giBillChapter === '31' && (<div>
+          this.props.eligibility.giBillChapter === '31' &&
+          (<div className="military-status-info info form-group">
+            <i className="fa fa-info-circle"></i>
             To apply for VR&E benefits, please <a
                 href="http://vabenefits.vba.va.gov/vonapp/main.asp"
                 target="_blank">visit this site</a>.
