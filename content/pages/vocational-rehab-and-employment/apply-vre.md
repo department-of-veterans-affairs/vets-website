@@ -4,9 +4,13 @@ title: Apply for VR&amp;E Benefits
 template: 6-info-page
 ---
 
-Vocational Rehabilitation and Employment (VR&amp;E) provides special career counseling and support to Servicemembers and Veterans who are overcoming challenges linked to service-connected disabilities (disabilities from injuries or illnesses caused—or made worse—by active military service). For Servicemembers and Veterans with service-connected disabilities so severe that they can't consider work right away, VR&amp;E offers services to help them live as independently as possible while looking for work. In some cases, qualified family members can use VR&amp;E services too. Find out if you qualify—and apply for VR&amp;E benefits now.
+<div class="va-introtext">
 
-<div class="call-out" markdown="1">
+Vocational Rehabilitation and Employment (VR&amp;E) provides special career counseling and support to Servicemembers and Veterans who are overcoming challenges linked to service-connected disabilities. These are disabilities from injuries or illnesses caused—or made worse—by active military service. For Servicemembers and Veterans with service-connected disabilities so severe that they can't consider work right away, VR&amp;E offers services to help them live as independently as possible while looking for work. In some cases, qualified family members can use VR&amp;E services too. Find out if you qualify—and apply for VR&amp;E benefits now.
+
+</div>
+
+<div class="feature">
 
 ### Can I get VR&amp;E benefits?
 
@@ -15,11 +19,11 @@ You may qualify for VR&amp;E benefits if you're a Servicemember who:
 - Has a 20% or higher predischarge disability rating (memorandum rating) and will soon leave the military, **or**
 - Is participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty
 
-You may also qualify for VR&amp;E benefits if you're a Veteran who was discharged under conditions other than dishonorable, and you:
+You may also qualify for VR&amp;E benefits if you're a Veteran who was discharged under conditions other than dishonorable and you:
 - Have a 10% or higher disability rating, **and**
-- Separated from the military or received a service-connected disability rating from VA within the past 12 years
+- Separated from the military or received a service-connected disability rating within the past 12 years
 
-**Note:** Veterans may qualify for VR&amp;E benefits after 12 years if we conclude that more time is needed because of their employment handicap.
+**Note:** Veterans may qualify for VR&amp;E benefits after 12 years if we conclude that they need more time because of their employment handicap.
 
 [Find out if you qualify as a family member](/vocational-rehab-and-employment/family-members/).
 
