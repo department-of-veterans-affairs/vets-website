@@ -32,7 +32,7 @@ export class LandingPage extends React.Component {
 
           <div className="small-12 medium-8 columns">
             <h1>GI Bill® Comparison Tool</h1>
-            <p className="subheading">Compare programs based on what benefits they can offer you.</p>
+            <p className="subheading">Learn about education programs and compare benefits by school.</p>
 
             <form onSubmit={this.handleSubmit}>
               <EligibilityForm/>
