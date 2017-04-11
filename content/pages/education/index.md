@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Education Benefits
+display_title: Education
 permalink: /education/index.html
 template: L2-section-landing
 showactionbar: false
