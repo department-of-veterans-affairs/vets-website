@@ -1,7 +1,0 @@
-// Media query helper. Use to set max-width queries.
-// Use sparingly. Please try to use @include media instead
-@mixin media-maxwidth($bp) {
-  @media screen and (max-width: #{$bp}) {
-    @content;
-  }
-}
