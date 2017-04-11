@@ -6,10 +6,13 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import {
-  setPageTitle,
+  clearAutocompleteSuggestions,
+  fetchAutocompleteSuggestions,
   fetchSearchResults,
   institutionFilterChange,
-  toggleFilter
+  setPageTitle,
+  toggleFilter,
+  updateAutocompleteSearchTerm
 } from '../actions';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -210,9 +213,13 @@ export class SearchPage extends React.Component {
               {search.filterOpened && <h1>Filter your search</h1>}
               <h2>Keywords</h2>
               <KeywordSearch
-                  location={this.props.location}
+                  autocomplete={this.props.autocomplete}
                   label="City, school, or employer"
-                  onFilterChange={this.handleFilterChange}/>
+                  location={this.props.location}
+                  onClearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
+                  onFetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+                  onFilterChange={this.handleFilterChange}
+                  onUpdateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}/>
               <InstitutionFilterForm
                   search={search}
                   filters={filters}
@@ -242,10 +249,13 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  setPageTitle,
+  clearAutocompleteSuggestions,
+  fetchAutocompleteSuggestions,
   fetchSearchResults,
   institutionFilterChange,
-  toggleFilter
+  setPageTitle,
+  toggleFilter,
+  updateAutocompleteSearchTerm
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPage));
