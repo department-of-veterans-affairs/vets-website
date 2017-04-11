@@ -180,6 +180,7 @@ body .row {
   //  with the border to expand that without the opacity
   &.expander-content-closed {
     max-height: 0em !important; // To override the id selector height
+    visibility: hidden;
 
     .expander-content-inner {
       opacity: 0;
