@@ -1,8 +1,9 @@
 // import _ from 'lodash/fp';
 
-// import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
+import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
 // import pages from '../../pages/';
+import applicantInformation from '../../pages/applicantInformation';
 
 // import common schemaform definitions from '../../../common/schemaform/definitions/'
 
@@ -33,20 +34,20 @@ const formConfig = {
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5495',
   chapters: {
-    chapterName: {
-      title: '',
+    applicantInformation: {
+      title: 'Applicant Information',
       pages: {
-        pageName: {
-          path: 'page/path',
-          title: '',
-          initialData: {},
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            required: [],
-            properties: {}
-          }
-        }
+        applicantInformation: applicantInformation(fullSchema5495, {
+          required: ['relativeFullName', 'relativeDateOfBirth'],
+          fields: [
+            'relativeFullName',
+            'relativeDateOfBirth',
+            'gender',
+            'relativeSocialSecurityNumber',
+            'view:noSSN',
+            'vaFileNumber'
+          ]
+        })
       }
     }
   }

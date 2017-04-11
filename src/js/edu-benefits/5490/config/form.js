@@ -97,7 +97,15 @@ const formConfig = {
       title: 'Applicant Information',
       pages: {
         applicantInformation: applicantInformation(fullSchema5490, {
-          labels: { relationship: relationshipLabels }
+          labels: { relationship: relationshipLabels },
+          fields: [
+            'relativeFullName',
+            'relativeSocialSecurityNumber',
+            'view:noSSN',
+            'relativeDateOfBirth',
+            'gender',
+            'relationship'
+          ]
         }),
         additionalBenefits: additionalBenefits(fullSchema5490, {
           fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource']

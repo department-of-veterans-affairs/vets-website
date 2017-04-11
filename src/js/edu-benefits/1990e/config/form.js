@@ -57,7 +57,16 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformation(fullSchema1990e),
+        applicantInformation: applicantInformation(fullSchema1990e, {
+          fields: [
+            'relativeFullName',
+            'relativeSocialSecurityNumber',
+            'view:noSSN',
+            'relativeDateOfBirth',
+            'gender',
+            'relationship'
+          ]
+        }),
         additionalBenefits: additionalBenefits(fullSchema1990e)
       }
     },
