@@ -4,8 +4,6 @@ title: Small Business Entrepreneurship Training
 template: 6-info-page
 ---
 
-<div class="main" role="main" markdown="0">
-
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
@@ -14,9 +12,13 @@ template: 6-info-page
   </div>
 </div>
 
+<div class="va-introtext">
+
 Are you a disabled Servicemember or Veteran who has the desire and skills to run a successful business? Find out if you can get counseling to guide you through the process of starting your own business through the Vocational Rehabilitation and Employment (VR&amp;E) self-employment track.
 
-<div class="call-out" markdown="1">
+</div>
+
+<div class="feature" markdown="1">
 
 ### Can I get help to start my own business through the VR&amp;E self-employment track?
 

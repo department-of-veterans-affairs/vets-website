@@ -4,8 +4,6 @@ title: Career Counseling and New Skills Training
 template: 6-info-page
 ---
 
-<div class="main" role="main" markdown="0">
-
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
@@ -14,10 +12,13 @@ template: 6-info-page
   </div>
 </div>
 
+<div class="va-introtext">
 
 Do you have a service-connected disability that makes it hard for you to succeed in your career path? Find out if you qualify for Vocational Rehabilitation and Employment (VR&amp;E) training to help you find work in a different field that better suits your abilities.
 
-<div class="call-out" markdown="1">
+</div>
+
+<div class="feature" markdown="1">
 
 ### Can I get career counseling and new skills training through VR&amp;E?
 
