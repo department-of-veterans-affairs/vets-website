@@ -1,6 +1,6 @@
 // import _ from 'lodash/fp';
 
-// import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
+import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
 // import pages from '../../pages/';
 
@@ -15,8 +15,13 @@ import {
   transform
 } from '../helpers';
 
-// const {
-// } = fullSchema5495.properties;
+import {
+  survivorBenefitsLabels
+} from '../../utils/helpers';
+
+const {
+  benefit
+} = fullSchema5495.properties;
 
 // const {
 // } = fullSchema5495.definitions;
@@ -45,6 +50,31 @@ const formConfig = {
             type: 'object',
             required: [],
             properties: {}
+          }
+        }
+      }
+    },
+    benefitSelection: {
+      title: 'Benefit Selection',
+      pages: {
+        benefitSelection: {
+          path: 'benefits/selection', // other forms this is benefits/eligibility
+          title: 'Benefit Selection',
+          uiSchema: {
+            benefit: {
+              'ui:title': 'Select the benefit that is the best match for you.',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: survivorBenefitsLabels
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: [],
+            properties: {
+              benefit
+            }
           }
         }
       }
