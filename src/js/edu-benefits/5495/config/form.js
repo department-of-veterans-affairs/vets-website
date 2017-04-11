@@ -16,7 +16,8 @@ import {
 } from '../helpers';
 
 const {
-  veteranFullName
+  veteranFullName,
+  outstandingFelony
 } = fullSchema5495.properties;
 
 // const {
@@ -63,13 +64,18 @@ const formConfig = {
               'view:noSSN': {
                 'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
-            })
+            }),
+            outstandingFelony: {
+              'ui:title': 'Do you or your sponsor have an outstanding felony and/or warrant?',
+              'ui:widget': 'yesNo'
+            }
           },
           schema: {
             type: 'object',
             properties: {
               veteranFullName,
-              'view:veteranId': veteranId.schema
+              'view:veteranId': veteranId.schema,
+              outstandingFelony
             }
           }
         }
