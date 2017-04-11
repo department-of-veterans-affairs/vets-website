@@ -34,24 +34,30 @@ Having a service-connected disability means we've concluded that you were disabl
 
 First, you’ll need to apply for VR&E benefits. Then, you’ll work with your Vocational Rehabilitation Counselor (VRC). Follow these steps:
 
-<ol class="process" markdown="0">
+<ol class="process">
 
-<li class="step one wow fadeIn animated" markdown="1">
+<li class="step one">
+
 [Apply for VR&E benefits](/vocational-rehab-and-employment/apply-vre/).
+
 </li>
 
-<li class="step two wow fadeIn animated" markdown="1">
+<li class="step two">
+
 We'll assign you a Vocational Rehabilitation Counselor (VRC). Your VRC will work with you to figure out the severity of your service-connected disability, if you're ready to work, and if you'll benefit from independent-living services.
+
 </li>
 
-<li class="step three last wow fadeIn animated animated" markdown="0">
+<li class="step last three">
+
 Your VRC will help you create a personal independent-living plan that meets your needs. Services may include:
 - Evaluation and counseling to figure out your needs and goals
 - Home consultations with specialists
 - Referral to support resources
 - Guidance to help you understand if you qualify for our adaptive-housing programs (which can help you make changes to your home—like widening doorways or adding ramps—to help you live more independently)
+
 </li>
 
-Most qualified Servicemembers and Veterans get independent-living services for up to 24 months. In some cases, services may be used for longer.
-
 </ol>
+
+Most qualified Servicemembers and Veterans get independent-living services for up to 24 months. In some cases, services may be used for longer.
