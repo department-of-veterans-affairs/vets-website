@@ -29,7 +29,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefits eligibility page.
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client);
+    EduHelpers.completeBenefitsSelection(client, testData.benefitSeletion, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
