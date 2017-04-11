@@ -19,7 +19,7 @@ majorlinks:
 
 <div class="va-introtext">
 
-If you have a service-connected disability that makes it hard for you to work or prevents you from working, our Vocational Rehabilitation and Employment (VR&amp;E) program can help you explore career options and get more training. Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. In some cases, your family members may qualify for VR&amp;E benefits too. 
+If you have a service-connected disability that makes it hard for you to work or prevents you from working, our Vocational Rehabilitation and Employment (VR&amp;E) program can help you explore career options and get more training. In some cases, your family members may qualify for VR&amp;E benefits too. 
 
 </div>
 
