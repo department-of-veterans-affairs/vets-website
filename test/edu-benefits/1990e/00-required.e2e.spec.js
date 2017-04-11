@@ -36,7 +36,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefits eligibility page
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, true);
+    EduHelpers.completeBenefitsSelection(client, testData.benefitEligibility, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
@@ -57,7 +57,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Employment history page
     client
       .waitForElementVisible('label[for="root_view:hasNonMilitaryJobs"]', Timeouts.slow);
-    Edu1990eHelpers.completeEmploymentHistory(client, testData.employmentHistory.data, true);
+    EduHelpers.completeEmploymentHistory(client, testData.employmentHistory.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/employment/history');
 
