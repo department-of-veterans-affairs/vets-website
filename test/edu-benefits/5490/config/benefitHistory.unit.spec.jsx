@@ -94,7 +94,7 @@ describe('Edu 5490 benefitHistory', () => {
   //  after expanding, which currently takes some time (see the end of the test
   //  above). To get around that, we're checking for a successful submission and
   //  then a failed submission instead of failing before suceeding.
-  it('should only have require fields conditionally', () => {
+  it('should only require fields conditionally', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -126,5 +126,47 @@ describe('Edu 5490 benefitHistory', () => {
 
     // Should only have been called the first time
     expect(onSubmit.calledOnce).to.be.true;
+  });
+
+  it('should require either ssn or file number for previous sponsor', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+
+    // Check the someone else's service box
+    const inputs = Array.from(formDOM.querySelectorAll('input'));
+    ReactTestUtils.Simulate.change(inputs.find((i) => i.id === 'root_previousBenefits_view:claimedSponsorService'), {
+      target: {
+        checked: true
+      }
+    });
+
+    // SSN should be required
+    // Looks for the required span in the label
+    expect(formDOM.querySelector('label[for="root_previousBenefits_view:veteranId_veteranSocialSecurityNumber"] > span.schemaform-required-span'))
+      .to.not.be.null;
+
+    // Check the noSSN box
+    ReactTestUtils.Simulate.change(
+      Array.from(formDOM.querySelectorAll('input')).find((i) => i.id === 'root_previousBenefits_view:veteranId_view:noSSN'),
+      {
+        target: {
+          checked: true
+        }
+      }
+    );
+
+    // File number should exist, be required
+    expect(formDOM.querySelector('label[for="root_previousBenefits_view:veteranId_vaFileNumber"] > span.schemaform-required-span'))
+      .to.not.be.null;
+
+    // SSN should not be required
+    expect(formDOM.querySelector('label[for="root_previousBenefits_view:veteranId_veteranSocialSecurityNumber"] > span.schemaform-required-span'))
+      .to.be.null;
   });
 });
