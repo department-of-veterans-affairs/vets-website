@@ -13,6 +13,7 @@ class Main extends React.Component {
     super(props);
     this.setMyToken = this.setMyToken.bind(this);
     this.getLogoutUrl = this.getLogoutUrl.bind(this);
+    this.getLoginUrl = this.getLoginUrl.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
@@ -25,13 +26,7 @@ class Main extends React.Component {
       this.getLogoutUrl();
     }
 
-    this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
-      method: 'GET',
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      this.props.onUpdateLoginUrl('first', json.authenticate_via_get);
-    });
+    this.getLoginUrl();
 
     addEvent(window, 'message', (evt) => {
       this.setMyToken(evt);
@@ -42,6 +37,16 @@ class Main extends React.Component {
 
   componentWillUnmount() {
     this.serverRequest.abort();
+  }
+
+  getLoginUrl() {
+    this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
+      method: 'GET',
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      this.props.onUpdateLoginUrl('first', json.authenticate_via_get);
+    });
   }
 
   setMyToken(event) {
@@ -75,6 +80,7 @@ class Main extends React.Component {
       });
       const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
       receiver.focus();
+      this.getLoginUrl();
     }
   }
 
