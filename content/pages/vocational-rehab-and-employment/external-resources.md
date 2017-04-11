@@ -2,13 +2,8 @@
 layout: page-breadcrumbs.html
 title: External Resources
 source: http://www.benefits.va.gov/VOW/vocational-rehabilitation.asp
+template: 6-info-page
 ---
-
-<div class="main" role="main" markdown="0">
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
 
 [A VA Employment Coordinator](http://www.benefits.va.gov/VOCREHAB/docs/EmploymentCoordinators.xls) (EC) can help you put together your résumé, develop your interview skills, and connect you with employers interested in hiring Veterans.
 
@@ -21,10 +16,3 @@ source: http://www.benefits.va.gov/VOW/vocational-rehabilitation.asp
 [Operation Pave: Paving Access for Veterans Employment](http://www.pva.org/site/c.ajIRK9NJLcJ2E/b.7750849/k.36C/Operation_PAVE_Paving_Access_for_Veterans_Employment.htm) helps Veterans with spinal-cord injuries find jobs and access resources for workplace accommodations. Workplace accommodations are changes or adjustments to a job, work environment, or work process that make it so that you can do your job despite your disability. These can be things like special equipment, ramps to make buildings wheelchair accessible, or modified work schedules.
 
 You may also qualify for a monthly subsistence allowance—like Basic Allowance for Housing (BAH)—while you're in an educational or training program. [See the current subsistence allowance rates](http://www.benefits.va.gov/VOCREHAB/subsistence_allowance_rates.asp). 
-
-
-</div>
-</div>
-</div>
-
-</div>
