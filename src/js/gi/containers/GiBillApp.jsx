@@ -26,7 +26,7 @@ class GiBillApp extends React.Component {
     this.props.fetchConstants(this.props.location.query.version);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const {
       preview,
       location: { query: { version: uuid } }
@@ -39,6 +39,12 @@ class GiBillApp extends React.Component {
       this.props.exitPreviewMode();
     } else if (shouldShowPreviewMode) {
       this.props.enterPreviewMode();
+    }
+
+    const shouldRefetchConstants = prevProps.location.query.version !== uuid;
+
+    if (shouldRefetchConstants) {
+      this.props.fetchConstants(uuid);
     }
   }
 
