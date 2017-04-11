@@ -162,6 +162,7 @@ export class SearchPage extends React.Component {
             {search.results.map((result) => {
               return (
                 <SearchResult
+                    version={this.props.location.query.version}
                     key={result.facilityCode}
                     name={result.name}
                     facilityCode={result.facilityCode}

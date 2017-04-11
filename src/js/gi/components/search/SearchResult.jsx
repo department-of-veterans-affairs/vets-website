@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 
 import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency } from '../../utils/helpers';
@@ -37,13 +37,21 @@ export class SearchResult extends React.Component {
       );
     };
 
+    const { version } = this.props;
+
     return (
       <div className="search-result">
         <div className="outer">
           <CautionFlag/>
           <div className="inner row">
             <div className="small-12 medium-7 columns">
-              <h2><Link to={`profile/${this.props.facilityCode}`}>{this.props.name}</Link></h2>
+              <h2>
+                <Link
+                    to={`profile/${this.props.facilityCode}`}
+                    query={(version ? { version } : {})}>
+                  {this.props.name}
+                </Link>
+              </h2>
               <div style={{ position: 'relative', bottom: 0 }}>
                 <p className="locality">
                   {this.props.city}, {this.props.state || this.props.country}
@@ -97,4 +105,4 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResult);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchResult));
