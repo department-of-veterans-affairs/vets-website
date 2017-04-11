@@ -43,9 +43,10 @@ class GiBillApp extends React.Component {
   }
 
   exitPreviewMode() {
-    const location = { ...this.props.location };
-    delete location.query.version;
-    this.props.router.push(location);
+    const { location } = this.props;
+    const query = { ...location.query };
+    delete query.version;
+    this.props.router.push({ ...location, query });
   }
 
   render() {
