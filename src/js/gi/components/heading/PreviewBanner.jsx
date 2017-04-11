@@ -1,12 +1,9 @@
 import React from 'react';
+import moment from 'moment';
 
 class PreviewBanner extends React.Component {
   render() {
-    if (!this.props.show) {
-      return null;
-    }
-    const tz = { timeZone: 'America/New_York' };
-    const when = new Date(this.props.version.createdAt).toLocaleString('us', tz);
+    const when = moment(this.props.version.createdAt).format('MMM D, YYYY [at] h:mm a [EST]');
 
     return (
       <div className="gi-preview-banner">
@@ -29,7 +26,6 @@ class PreviewBanner extends React.Component {
 }
 
 PreviewBanner.propTypes = {
-  show: React.PropTypes.bool.isRequired,
   version: React.PropTypes.object.isRequired,
   toolUrl: React.PropTypes.string.isRequired,
   onViewLiveVersion: React.PropTypes.func.isRequired

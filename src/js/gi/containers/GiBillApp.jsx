@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { exitPreviewMode, fetchConstants } from '../actions';
+import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import Modals from '../containers/Modals';
 import PreviewBanner from '../components/heading/PreviewBanner';
 import Breadcrumbs from '../components/heading/Breadcrumbs';
@@ -26,14 +26,19 @@ class GiBillApp extends React.Component {
     this.props.fetchConstants(this.props.location.query.version);
   }
 
-  componentDidUpdate(prevProps) {
-    const { version } = this.props.location.query;
-    const shouldSwitchVersion =
-      prevProps.location.query.version !== version;
+  componentDidUpdate() {
+    const {
+      preview,
+      location: { query: { version: uuid } }
+    } = this.props;
 
-    if (shouldSwitchVersion) {
-      if (!version) { this.props.exitPreviewMode(); }
-      this.props.fetchConstants(version);
+    const shouldHidePreviewMode = preview.display && !uuid;
+    const shouldShowPreviewMode = !preview.display && uuid && preview.version.createdAt;
+
+    if (shouldHidePreviewMode) {
+      this.props.exitPreviewMode();
+    } else if (shouldShowPreviewMode) {
+      this.props.enterPreviewMode();
     }
   }
 
@@ -50,10 +55,12 @@ class GiBillApp extends React.Component {
       <div className="gi-app">
         <div className="row">
           <div className="columns small-12">
-            <PreviewBanner
-                show={preview.display}
-                version={preview.version}
-                onViewLiveVersion={this.exitPreviewMode}/>
+            {
+              preview.display &&
+              (<PreviewBanner
+                  version={preview.version}
+                  onViewLiveVersion={this.exitPreviewMode}/>)
+            }
             <Breadcrumbs
                 location={this.props.location}
                 profileName={profile.attributes.name}/>
@@ -78,6 +85,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  enterPreviewMode,
   exitPreviewMode,
   fetchConstants
 };
