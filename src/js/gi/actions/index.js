@@ -67,8 +67,9 @@ function withPreview(dispatch, action) {
   dispatch(action);
 }
 
-export function fetchConstants(preview = false) {
-  const url = `${api.url}/calculator_constants${preview ? 'version=preview' : ''}`;
+export function fetchConstants(version) {
+  const queryString = version ? `?version=${version}` : '';
+  const url = `${api.url}/calculator_constants${queryString}`;
 
   return dispatch => {
     dispatch({ type: FETCH_CONSTANTS_STARTED });
@@ -89,12 +90,13 @@ export function updateAutocompleteSearchTerm(searchTerm) {
   };
 }
 
-export function fetchAutocompleteSuggestions(text) {
-  const previewVersion = '1'; // TODO
-  const url = [
-    `${api.url}/institutions/autocomplete?preview=${previewVersion}`,
-    `term=${text}`
-  ].join('&');
+export function fetchAutocompleteSuggestions(text, version) {
+  const queryString = [
+    `term=${text}`,
+    (version ? `version=${version}` : '')
+  ].filter(q => q).join('&');
+
+  const url = `${api.url}/institutions/autocomplete?${queryString}`;
 
   return dispatch => {
     dispatch({ type: AUTOCOMPLETE_STARTED });
@@ -127,11 +129,10 @@ export function institutionFilterChange(filter) {
 }
 
 export function fetchSearchResults(query = {}) {
-  const fullQuery = { ...query, version: 1 };
   const queryString =
-    Object.keys(fullQuery).reduce((str, key) => {
+    Object.keys(query).reduce((str, key) => {
       const sep = str ? '&' : '';
-      return `${str}${sep}${snakeCase(key)}=${fullQuery[key]}`;
+      return `${str}${sep}${snakeCase(key)}=${query[key]}`;
     }, '');
 
   const url = `${api.url}/institutions/search?${queryString}`;
@@ -148,8 +149,9 @@ export function fetchSearchResults(query = {}) {
   };
 }
 
-export function fetchProfile(facilityCode, version = 1) {
-  const url = `${api.url}/institutions/${facilityCode}?version=${version}`;
+export function fetchProfile(facilityCode, version) {
+  const queryString = version ? `?version=${version}` : '';
+  const url = `${api.url}/institutions/${facilityCode}${queryString}`;
 
   return dispatch => {
     dispatch({ type: FETCH_PROFILE_STARTED });

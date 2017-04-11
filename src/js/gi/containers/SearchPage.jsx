@@ -67,6 +67,7 @@ export class SearchPage extends React.Component {
     ];
 
     const query = _.pick(this.props.location.query, [
+      'version',
       'page',
       'name',
       'category',

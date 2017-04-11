@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { fetchConstants } from '../actions';
+import { exitPreviewMode, fetchConstants } from '../actions';
 import Modals from '../containers/Modals';
 import PreviewBanner from '../components/heading/PreviewBanner';
 import Breadcrumbs from '../components/heading/Breadcrumbs';
@@ -23,23 +23,23 @@ class GiBillApp extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchConstants(this.props.location.query.preview);
+    this.props.fetchConstants(this.props.location.query.version);
   }
 
   componentDidUpdate(prevProps) {
-    const { preview } = this.props.location.query;
-    const shouldSwitchPreviewMode =
-      prevProps.location.query.preview !== preview;
+    const { version } = this.props.location.query;
+    const shouldSwitchVersion =
+      prevProps.location.query.version !== version;
 
-    if (shouldSwitchPreviewMode) {
-      if (!preview) { this.props.exitPreviewMode(); }
-      this.props.fetchConstants(preview);
+    if (shouldSwitchVersion) {
+      if (!version) { this.props.exitPreviewMode(); }
+      this.props.fetchConstants(version);
     }
   }
 
   exitPreviewMode() {
     const location = { ...this.props.location };
-    delete location.query.preview;
+    delete location.query.version;
     this.props.router.push(location);
   }
 
@@ -78,6 +78,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  exitPreviewMode,
   fetchConstants
 };
 

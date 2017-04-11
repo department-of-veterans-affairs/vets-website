@@ -20,8 +20,14 @@ export class LandingPage extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { searchTerm: name } = this.props.autocomplete;
-    const query = name ? { name } : null;
+
+    const query = {
+      name: this.props.searchTerm,
+      version: this.props.location.query.version
+    };
+
+    if (!query.name) { delete query.name; }
+    if (!query.version) { delete query.version; }
     this.props.router.push({ pathname: 'search', query });
   }
 
@@ -55,10 +61,14 @@ export class LandingPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    autocomplete: state.autocomplete,
-  };
+  const {
+    autocomplete: { searchTerm },
+    preview: { version }
+  } = state;
+
+  return { searchTerm, version };
 };
+
 const mapDispatchToProps = {
   setPageTitle
 };

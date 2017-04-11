@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
@@ -26,7 +27,10 @@ export class ProfilePage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchProfile(this.props.params.facilityCode);
+    this.props.fetchProfile(
+      this.props.params.facilityCode,
+      this.props.location.query.version
+    );
   }
 
   componentDidUpdate(prevProps) {
@@ -119,4 +123,4 @@ const mapDispatchToProps = {
   showModal
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfilePage));
