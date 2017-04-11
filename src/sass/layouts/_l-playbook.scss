@@ -115,36 +115,6 @@
 
 .process--playbook {
   padding: 0;
-<<<<<<< HEAD
-
-  p:last-child {
-    margin-bottom: 0;
-  }
-
-  h4 {
-    padding-top: 1.5em;
-
-    span {
-      display: block;
-    }
-  }
-
-  h6 {
-    display: inline-block;
-  }
-}
-
-.process-step--playbook {
-  padding-top: 1.5em;
-  border-left: 4px solid $olso-gray;
-
-  &:before {
-    border-color: $olso-gray;
-=======
-
-  p:last-child {
-    margin-bottom: 0;
-  }
 
   h4 {
     padding-top: 1.5em;
@@ -179,6 +149,10 @@
   &:last-child {
     border-left: 4px solid $olso-gray;
     padding: 0 0 2em 2em;
+  }
+
+  &.list-nine {
+    border-left: 0;
   }
 
   &.list-nine {
