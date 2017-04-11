@@ -19,7 +19,7 @@ If you want to follow a career path that uses your existing skillset, Vocational
 
 [Learn about other VA employments resources](/employment/job-seekers/employment-support/).
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get job-search counseling and employment coaching through VR&amp;E?
 
