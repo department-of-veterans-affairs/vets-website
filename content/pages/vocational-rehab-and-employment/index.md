@@ -16,14 +16,19 @@ majorlinks:
     description: File a Predischarge Claim if you want to get counseling, retraining, and education benefits while on active duty.
 
 ---
+
+<div class="va-introtext">
+
 If you have a service-connected disability that makes it hard for you to work or prevents you from working, our Vocational Rehabilitation and Employment (VR&amp;E) program can help you explore career options and get more training. Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. In some cases, your family members may qualify for VR&amp;E benefits too. 
+
+</div>
 
 
 <div class="section do">
   <div class="row">
     <div class="small-12 columns">
       <div class="actions">
-        <a href="/vocational-rehab-and-employment/apply-vre/" class="usa-button-primary va-button-primary usa-button-big">Apply for VR&amp;E Benefits</a>
+        <a href="/vocational-rehab-and-employment/apply-vre/" class="usa-button-primary va-button-primary">Apply for VR&amp;E Benefits</a>
       </div>
     </div>
   </div>
