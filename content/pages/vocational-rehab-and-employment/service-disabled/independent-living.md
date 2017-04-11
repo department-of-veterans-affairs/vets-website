@@ -4,7 +4,6 @@ title: Independent Living Services
 template: 6-info-page
 ---
 
-<div class="main" role="main" markdown="0">
 
 <div class="action-bar">
   <div class="row">
@@ -15,7 +14,6 @@ template: 6-info-page
 </div>
 
 If your service-connected disability makes it hard for you to work and you need support to live more independently—or your goal is to work toward greater independence as you look for a job—you may qualify for independent-living services. Find out if you can get help with restoring your ability to take care of everyday tasks (like bathing, dressing, and getting around).
-</div>
 
 
 <div class="call-out" markdown="1">
