@@ -86,6 +86,14 @@ export class EligibilityForm extends React.Component {
           </div>
         </If>
 
+        {
+          this.props.eligibility.giBillChapter === '31' && (<div>
+            To apply for VR&E benefits, please <a
+                href="http://vabenefits.vba.va.gov/vonapp/main.asp"
+                target="_blank">visit this site</a>.
+          </div>)
+        }
+
         <Dropdown
             label={this.renderLearnMoreLabel({
               text: 'Cumulative Post-9/11 active duty service',
