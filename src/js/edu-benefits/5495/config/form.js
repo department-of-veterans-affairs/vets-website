@@ -59,7 +59,7 @@ const formConfig = {
       pages: {
         benefitSelection: {
           path: 'benefits/selection', // other forms this is benefits/eligibility
-          title: 'Benefit Selection',
+          title: 'Benefit selection',
           uiSchema: {
             benefit: {
               'ui:title': 'Select the benefit that is the best match for you.',
