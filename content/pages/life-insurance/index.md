@@ -12,7 +12,7 @@ majorlinks:
  - url: /life-insurance/manage-your-policy/
    title: Managing Your Policy 
    description: Check your policy’s status, update your information, or pay your bill online.
- - url: /life-insurance/disabled-and-terminally-ill
+ - url: /life-insurance/disabled-and-terminally-ill/
    title: Claims for Disabled and Terminally Ill Policyholders
    description: Learn how to file special life insurance claims if you or your spouse become totally disabled or terminally ill.
 
