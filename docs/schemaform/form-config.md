@@ -140,16 +140,16 @@ This does not apply to array fields; for those, you still need to specify an `it
 ```
 
 ### uiSchema configuration
-If you're not already familiar with the rjsf uiSchema options, check out the [https://github.com/mozilla-services/react-jsonschema-form#the-uischema-object](library docs). Some commonly used options include:
+If you're not already familiar with the rjsf uiSchema options, check out the [library docs](https://github.com/mozilla-services/react-jsonschema-form#the-uischema-object). Some commonly used options include:
 
-- [https://github.com/mozilla-services/react-jsonschema-form#object-fields-ordering](ui:order)
+- [ui:order](https://github.com/mozilla-services/react-jsonschema-form#object-fields-ordering)
   - An array of field names in the order in which they should appear
-- [https://github.com/mozilla-services/react-jsonschema-form#alternative-widgets](ui:widget)
+- [ui:widget](https://github.com/mozilla-services/react-jsonschema-form#alternative-widgets)
   - The name of an alternative widget to use for the field
   - Example of a custom widget: `yesNo`
-- [https://github.com/mozilla-services/react-jsonschema-form#custom-field-components](ui:field)
+- [ui:field](https://github.com/mozilla-services/react-jsonschema-form#custom-field-components)
   - Specifies the name of a custom field
-- [https://github.com/mozilla-services/react-jsonschema-form#custom-css-class-names](classNames)
+- [classNames](https://github.com/mozilla-services/react-jsonschema-form#custom-css-class-names)
   - Specifies the class names to put on the component
 
 We've also been adding some additional uiSchema functionality not found in the rjsf library:
