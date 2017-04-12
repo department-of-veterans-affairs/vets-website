@@ -15,9 +15,10 @@ template: 6-info-page
 </div>
 
 <div class="va-introtext">
-If you want to follow a career path that uses your existing skillset, Vocational Rehabilitation and Employment (VR&amp;E) can help you with your job search through counseling and rehabilitation services that address your interests and abilities. These services are in addition to our other employment search resources. [Learn about other VA employments resources](/employment/job-seekers/employment-support/).
+If you want to follow a career path that uses your existing skillset, Vocational Rehabilitation and Employment (VR&amp;E) can help you with your job search through counseling and rehabilitation services that address your interests and abilities. Find out if you can get VR&amp;E job-search counseling and employment coaching.
 
-Find out if you can get VR&amp;E job-search counseling and employment coaching.
+These services are in addition to our other employment search resources. [Learn about other VA employment resources](/employment/job-seekers/employment-support/).
+
 </div>
 
 <div class="feature">
