@@ -969,29 +969,6 @@ export const getCalculatedBenefits = createSelector(
       };
     }
 
-    if (institutionType === 'ojt') {
-      calculatedBenefits.inputs = {
-        ...calculatedBenefits.inputs,
-        tuition: false,
-        books: false,
-        yellowRibbon: false,
-        scholarships: false,
-        tuitionAssist: false,
-        enrolled: false,
-        enrolledOld: false,
-        working: true,
-        calendar: false,
-      };
-
-      calculatedBenefits.outputs.tuitionAndFeesCharged.visible = false;
-      calculatedBenefits.outputs.giBillPaysToSchool.visible = false;
-      calculatedBenefits.outputs.yourScholarships.visible = false;
-      calculatedBenefits.outputs.outOfPocketTuition.visible = false;
-      calculatedBenefits.outputs.totalPaidToYou.visible = false;
-      calculatedBenefits.outputs.perTerm.tuitionAndFees.visible = false;
-      calculatedBenefits.outputs.perTerm.yellowRibbon.visible = false;
-    }
-
     if (giBillChapter === 35) {
       calculatedBenefits.inputs = {
         ...calculatedBenefits.inputs,
@@ -1082,6 +1059,29 @@ export const getCalculatedBenefits = createSelector(
       calculatedBenefits.outputs.perTerm.bookStipend.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.terms[4].visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.terms[5].visible = false;
+    }
+
+    if (institutionType === 'ojt') {
+      calculatedBenefits.inputs = {
+        ...calculatedBenefits.inputs,
+        tuition: false,
+        books: false,
+        yellowRibbon: false,
+        scholarships: false,
+        tuitionAssist: false,
+        enrolled: false,
+        enrolledOld: false,
+        calendar: false,
+        working: true,
+      };
+
+      calculatedBenefits.outputs.tuitionAndFeesCharged.visible = false;
+      calculatedBenefits.outputs.giBillPaysToSchool.visible = false;
+      calculatedBenefits.outputs.yourScholarships.visible = false;
+      calculatedBenefits.outputs.outOfPocketTuition.visible = false;
+      calculatedBenefits.outputs.totalPaidToYou.visible = false;
+      calculatedBenefits.outputs.perTerm.tuitionAndFees.visible = false;
+      calculatedBenefits.outputs.perTerm.yellowRibbon.visible = false;
     }
 
     return calculatedBenefits;
