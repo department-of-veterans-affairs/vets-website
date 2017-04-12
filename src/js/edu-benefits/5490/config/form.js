@@ -65,7 +65,8 @@ const {
   dateRange,
   educationType,
   fullName,
-  postHighSchoolTrainings
+  postHighSchoolTrainings,
+  vaFileNumber
 } = fullSchema5490.definitions;
 
 const dateSchema = fullSchema5490.definitions.date;
@@ -89,7 +90,8 @@ const formConfig = {
     educationType,
     dateRange,
     fullName,
-    ssn: ssnSchema
+    ssn: ssnSchema,
+    vaFileNumber
   },
   chapters: {
     applicantInformation: {
