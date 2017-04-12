@@ -35,7 +35,7 @@ Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
     <dd>St. Louis, MO 63151</dd>
 </dl>
 
-  - Fax it to <a href="tel:+18558408299">855-840-8299</a>
+  - Fax it to 855-840-8299
 
 
 You’ll get a letter from us telling you if you can be buried in a VA national cemetery. This is called your pre-need decision letter. Keep it in a safe place. Your family members will need this letter to request your burial after you've died. 
