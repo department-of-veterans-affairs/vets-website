@@ -32,12 +32,12 @@ class GiBillApp extends React.Component {
       location: { query: { version: uuid } }
     } = this.props;
 
-    const shouldHidePreviewMode = preview.display && !uuid;
-    const shouldShowPreviewMode = !preview.display && uuid && preview.version.createdAt;
+    const shouldExitPreviewMode = preview.display && !uuid;
+    const shouldEnterPreviewMode = !preview.display && uuid && preview.version.createdAt;
 
-    if (shouldHidePreviewMode) {
+    if (shouldExitPreviewMode) {
       this.props.exitPreviewMode();
-    } else if (shouldShowPreviewMode) {
+    } else if (shouldEnterPreviewMode) {
       this.props.enterPreviewMode();
     }
 
