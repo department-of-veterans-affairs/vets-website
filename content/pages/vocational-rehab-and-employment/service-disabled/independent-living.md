@@ -16,7 +16,7 @@ template: 6-info-page
 If your service-connected disability makes it hard for you to work and you need support to live more independently, you may qualify for independent-living services. You may also be able to get these services if you want to work toward greater independence as you look for a job. Find out if you can get help restoring your ability to take care of everyday tasks, like bathing, dressing, and getting around.
 
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get independent-living services through VR&amp;E?
 
