@@ -12,9 +12,8 @@ class Breadcrumbs extends React.Component {
     ];
 
     if (pathname.match(/search|profile/)) {
-      crumbs.push(<Link to="/" query={(version ? { version } : {})} key="main">
-        GI Bill® Comparison Tool
-      </Link>);
+      const root = { pathname: '/', query: (version ? { version } : {}) };
+      crumbs.push(<Link to={root} key="main">GI Bill® Comparison Tool</Link>);
     } else {
       crumbs.push(<span key="gibct"><strong>GI Bill® Comparison Tool</strong></span>);
     }
