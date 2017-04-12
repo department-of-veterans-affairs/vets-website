@@ -14,16 +14,17 @@ template: 6-info-page
   </div>
 </div>
 
+<div class="va-introtext">
+If you want to follow a career path that uses your existing skillset, Vocational Rehabilitation and Employment (VR&amp;E) can help you with your job search through counseling and rehabilitation services that address your interests and abilities. These services are in addition to our other employment search resources. [Learn about other VA employments resources](/employment/job-seekers/employment-support/).
 
-If you want to follow a career path that uses your existing skillset, Vocational Rehabilitation and Employment (VR&amp;E) can help you with your job search through counseling and rehabilitation services that address your interests and abilities. These services are added to our other employment search resources. Find out if you can get VR&amp;E job-search counseling and employment coaching.
+Find out if you can get VR&amp;E job-search counseling and employment coaching.
+</div>
 
-[Learn about other VA employments resources](/employment/job-seekers/employment-support/).
-
-<div class="feature" markdown="1">
+<div class="feature">
 
 ### Can I get job-search counseling and employment coaching through VR&amp;E?
 
-You may qualify for these benefits if you’re a Veteran or Servicemember with a service-connected disability, and you have:
+You may qualify for these benefits if you’re a Veteran or Servicemember with a service-connected disability and you have:
 -	An employment barrier
 -	Past experience, education, or training in your field of interest
 
@@ -47,8 +48,6 @@ You may qualify for these benefits if you’re a Veteran or Servicemember with a
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) who can help you.
-
-[Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/).
+You’ll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) who can help you. [Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/).
 
 **Note:** Some dependents of Servicemembers and Veterans with a service-connected disability may also qualify for career counseling. [Find out if your family members may qualify for VR&amp;E services](/vocational-rehab-and-employment/family-members/).
