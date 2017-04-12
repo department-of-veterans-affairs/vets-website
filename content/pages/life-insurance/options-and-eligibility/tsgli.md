@@ -62,7 +62,6 @@ You can use this benefit no matter where the injury happened—whether you were 
 
 Short-term financial support to help in your recovery from a traumatic injury.
 
-
 ### How do I get these benefits?
 
 You’re automatically covered through TSGLI if you’re signed up for full-time SGLI. This insurance covers you even if your injury happened while you were off duty.
@@ -71,8 +70,7 @@ To get payments—including retroactive TSGLI payments—you’ll need to apply.
 
 [Download VA Form SGLV 8600](http://www.benefits.va.gov/INSURANCE/forms/TSGLIForm.htm).
 
-
-### How do I appeal a decision if I’m denied benefits? [UX/DESIGN note: Consider accordion link here]
+### How do I appeal a decision if I’m denied benefits?
 
 First, look at the denial letter you received from your branch of service. Your letter will tell you if you should use VA Form SGLV 8600A: TSGLI Appeal Request—and how long you’ll have to submit your appeal.
 
@@ -80,7 +78,7 @@ If your letter says to complete this form, fill out the form and submit it to yo
 
 [Download VA Form SGLV 8600A](http://benefits.va.gov/INSURANCE/forms/SGLV_8600A_ed2017-01.pdf). 
 
-### How much will I pay for these benefits? [UX/DESIGN note: Consider accordion link here]
+### How much will I pay for these benefits? 
 
 If you have SGLI coverage, your SGLI premium (which is automatically deducted from your base pay) includes a $1-per-month flat-rate premium for TSGLI. This is all you’ll pay for this benefit.
 
