@@ -62,7 +62,7 @@ const formConfig = {
           title: 'Benefit selection',
           uiSchema: {
             benefit: {
-              'ui:title': 'Select the benefit that is the best match for you.',
+              'ui:title': 'Select the benefit that is the best match for you:',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: survivorBenefitsLabels
@@ -71,7 +71,6 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [],
             properties: {
               benefit
             }
