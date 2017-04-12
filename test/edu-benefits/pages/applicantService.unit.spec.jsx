@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 
-import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
+import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import formConfig from '../../../src/js/edu-benefits/5490/config/form';
 
 describe('Edu 5490 (default) applicantService', () => {
   const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantService;
