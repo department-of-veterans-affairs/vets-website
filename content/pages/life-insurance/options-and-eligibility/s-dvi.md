@@ -13,7 +13,7 @@ relatedlinks:
   - url: /life-insurance/options-and-eligibility/tsgli/
     title: Traumatic Injury Protection Program (TSGLI)
     description: Get short-term financial support to help you recover from a severe injury. 
-  - url: http://www.google.com
+  - url: /life-insurance/options-and-eligibility/vgli/
     title: Veterans’ Group Life Insurance (VGLI)
     description: Get group life insurance once you’ve ended your service. 
 
@@ -21,7 +21,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a disability (damage to your body or mind that makes you less able to do everyday tasks, including meaningful work) that was caused by serving in the military, you may be able to get life insurance under Service-Disabled Veterans’ Insurance (S-DVI). Find out if you qualify—and how to manage your coverage.
+If you have a disability (damage to your body or mind that makes you less able to do everyday tasks, including meaningful work) that we’ve concluded was caused—or made worse—by your active service, you may be able to get life insurance under Service-Disabled Veterans’ Insurance (S-DVI). Find out if you qualify—and how to manage your coverage.
 
 </div>
 
@@ -29,7 +29,7 @@ If you have a disability (damage to your body or mind that makes you less able t
 
 ### Can I get S-DVI? 
 
-You may be able to get S-DVI if you’ve gotten a disability rating of 0% or more for a new service-connected condition (an illness or injury caused by service in the military) in the past 2 years, and you: 
+You may be able to get S-DVI if you’ve gotten a disability rating of 0% or more for a new service-connected condition (an illness or injury caused—or made worse—by service in the military) in the past 2 years, and you: 
 
 - Are in good health—except for your service-connected condition, **and**
 - Left the military on or after April 25, 1951, **and**
@@ -91,6 +91,6 @@ Get premium rates and a description of the plan options. [Download VA pamphlet 2
 
 ### Can I get a waiver so I don’t have to pay the premiums? [UX/DESIGN NOTE: Consider accordion link here]
 
-Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill).
+Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/).
 
 
