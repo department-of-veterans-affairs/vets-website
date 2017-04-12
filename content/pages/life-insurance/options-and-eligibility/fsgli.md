@@ -35,7 +35,7 @@ You may be able to get FSGLI if you’re the spouse or dependent child of:
 
 You can get FSGLI as the spouse of someone with SGLI coverage no matter if your own status is active duty, retired, or civilian.
 
-### Who’s covered?
+#### Who’s covered?
 
 -	Spouses of Servicemembers covered under SGLI
 -	Dependent children of Servicemembers covered under SGLI
@@ -163,23 +163,23 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 
 If you’re signed up as a spouse in the Defense Enrollment Eligibility Reporting System (DEERS), we’ll automatically deduct the FSGLI premium from your Servicemember’s pay. If you aren’t signed up in DEERS, your Servicemember will still be responsible for premiums and back payments of unpaid premiums. 
 
-### Can I get extended coverage for a dependent child? **[UX/DESIGN NOTE: Consider accordion link here]**
+### Can I get extended coverage for a dependent child? 
 
 Yes, in some cases. Coverage lasts until the child is 18 years old. But, if the child is a full-time student or becomes permanently and totally disabled (unable to do everyday tasks, including meaningful work) before turning 18 and is no longer able to support themselves, we may extend the coverage.
 
-### Can I make changes to my coverage? **[UX/DESIGN NOTE: Consider accordion link here]**
+### Can I make changes to my coverage? 
 
 Yes, if you have spousal coverage. If you want to reduce, turn down, or cancel your spousal coverage, complete VA Form SGLV 8286A: Spouse Coverage Election and Certificate and turn it in to your unit’s personnel office. [Download VA Form SGLV 8286A](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2014-06.PDF). 
 
 **Note:** We automatically cover dependent children. This coverage can’t be turned down, reduced, or canceled.
 
-### How much will I pay for dependent coverage? **[UX/DESIGN NOTE: Consider accordion link here]**
+### How much will I pay for dependent coverage? 
 
 Nothing. We provide dependent coverage at no cost until the child is 18 years old, unless the child:
 -	Is a full-time student, **or**
 -	Becomes permanently and totally disabled—before turning 18—and can’t support themselves 
 
-### How do I convert an FSGLI policy to an individual insurance policy? **[UX/DESIGN NOTE: Consider accordion link here]**
+### How do I convert an FSGLI policy to an individual insurance policy? 
 
 You have the option to convert spousal FSGLI coverage to a permanent, individual insurance policy (such as whole life) within 120 days from the date of the Servicemember’s:
 
