@@ -9,7 +9,7 @@ relatedlinks:
     description: Add coverage for spouse and dependent children (children who rely on you for financial support).
   - url: /life-insurance/options-and-eligibility/tsgli/
     title: Traumatic Injury Protection Program (TSGLI)
-    description: Add coverage for spouse and dependent children (children who rely on you for financial support).
+    description: Get short-term financial support to help you recover from a severe injury. 
   - url: /life-insurance/options-and-eligibility/vgli/
     title: Veterans’ Group Life Insurance (VGLI)
     description: Get group life insurance once you’ve ended your service.
