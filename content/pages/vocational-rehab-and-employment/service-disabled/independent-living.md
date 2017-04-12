@@ -28,6 +28,12 @@ You may qualify for independent-living services if you qualify for Vocational Re
 
 Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Your disability rating reflects how severe your disability is.
 
+<br>
+
+### Who's covered?
+
+Veterans
+
 </div>
 
 ### How do I get these benefits?
