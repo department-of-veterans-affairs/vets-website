@@ -988,6 +988,7 @@ export const getCalculatedBenefits = createSelector(
       calculatedBenefits.outputs.yourScholarships.visible = false;
       calculatedBenefits.outputs.outOfPocketTuition.visible = false;
       calculatedBenefits.outputs.totalPaidToYou.visible = false;
+      calculatedBenefits.outputs.perTerm.tuitionAndFees.visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.visible = false;
     }
 
