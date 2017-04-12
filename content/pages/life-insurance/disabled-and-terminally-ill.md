@@ -20,8 +20,6 @@ If you or your spouse becomes totally disabled or terminally ill, you may be abl
 
 ## Accelerated benefits for terminally ill policyholders
  
-<div class="feature">
-
 ### Can I get my life insurance benefits early if I’m terminally ill?
  
 You may be able to get your benefits early if:
@@ -34,8 +32,6 @@ You may be able to get your benefits early if:
 -	Servicemembers
 -	Covered spouses of Veterans and Servicemembers
  
-</div>
-
 ### What benefits can I get?
  
 Up to 50% of the face value of your coverage in increments of $5,000—paid to you before death
@@ -65,8 +61,6 @@ Read chapter 5 of the [Servicemembers’ and Veterans’ Group Life Insurance Ha
 
 ## Waiver of premiums for policyholders who become totally disabled
 
-<div class="feature">
-
 ### Can I get a waiver so I don’t have to pay my life insurance premiums?
 
 You may be able to get a waiver of your life insurance premiums if you have a mental or physical disability that prevents you from being able to hold a job, and your total disability:
@@ -74,8 +68,6 @@ You may be able to get a waiver of your life insurance premiums if you have a me
 -	Continues for at least 6 months in a row
 
 There are certain exceptions to the above conditions. But if you think you’re entitled to a waiver of premiums, you should apply as soon as possible and we’ll let you know if you qualify.
-
-</div>
 
 ### What benefits can I get?
 
@@ -93,15 +85,11 @@ Philadelphia, PA 19101
 
 ## Total disability income provision (TDIP) rider for policyholders who become totally disabled
 
-<div class="feature">
-
 ### Can I get life insurance payments if I become totally disabled?
 
 You may be able to get monthly payments if you have a mental or physical disability that prevents you from being able to hold a job, and your total disability:
 -	Happens before you’re 65 years old—but on or after the effective date of your TDIP rider or within 1 year of when the rider ends, **and**
 -	Continues for at least 6 months in a row
-
-</div>
 
 ### What life insurance benefits can I get with a TDIP rider?
 
