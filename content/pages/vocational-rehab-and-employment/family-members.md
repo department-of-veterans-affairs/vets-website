@@ -50,6 +50,6 @@ You can get educational and vocational counseling, plus help with:
 
 ### How do I get these benefits?
 
-You'll need to apply for services. When you apply, choose "Education and Vocational Counseling" as your program track. If you qualify, we'll invite you to meet with a Vocational Rehabilitation Counselor (VRC). Your VRC will work with you to map out a career path. [Apply online through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
+You'll need to apply for services. When you apply, choose "Education and Vocational Counseling" as your program track. If you qualify, we'll invite you to meet with a Vocational Rehabilitation Counselor (VRC). Your VRC will work with you to map out a career path. [Apply online through eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment).
 
 **Note:** If the Servicemember or Veteran in your family isn't yet using VR&amp;E benefits and services, they can also apply online through eBenefits.
