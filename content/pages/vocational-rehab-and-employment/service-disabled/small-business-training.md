@@ -20,9 +20,9 @@ Are you a disabled Servicemember or Veteran who has the desire and skills to run
 
 <div class="feature" markdown="1">
 
-### Can I get help to start my own business through the VR&amp;E self-employment track?
+### Can I get help starting my own business through the VR&amp;E self-employment track?
 
-You may qualify for the VR&amp;E self-employment track if you're a Servicemember or Veteran with a service-connected disability of at least 20%, and you have:
+You may qualify for the VR&amp;E self-employment track if you're a Servicemember or Veteran with a service-connected disability of at least 20% and you have:
 - An employment barrier, **and**
 - A draft business plan
 
@@ -42,7 +42,7 @@ You may qualify for the VR&amp;E self-employment track if you're a Servicemember
 - Training in small-business operations, marketing, and finances
 - Guidance in getting the resources you'll need to put your business plan into action
 
-We may also provide minimum stocks, essential equipment, and business license fees.
+We may also provide minimum stocks, needed equipment, and business license fees.
 
 <hr>
 
