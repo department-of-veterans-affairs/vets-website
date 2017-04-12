@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import { withRouter } from 'react-router';
 
+import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import Modals from '../containers/Modals';
 import PreviewBanner from '../components/heading/PreviewBanner';
 import Breadcrumbs from '../components/heading/Breadcrumbs';
@@ -16,18 +17,60 @@ const Disclaimer = () => {
 };
 
 class GiBillApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.exitPreviewMode = this.exitPreviewMode.bind(this);
+  }
 
-  componentWillMount() {
-    this.props.updateConstants();
+  componentDidMount() {
+    this.props.fetchConstants(this.props.location.query.version);
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      preview,
+      location: { query: { version: uuid } }
+    } = this.props;
+
+    const shouldExitPreviewMode = preview.display && !uuid;
+    const shouldEnterPreviewMode = !preview.display && uuid && preview.version.createdAt;
+
+    if (shouldExitPreviewMode) {
+      this.props.exitPreviewMode();
+    } else if (shouldEnterPreviewMode) {
+      this.props.enterPreviewMode();
+    }
+
+    const shouldRefetchConstants = prevProps.location.query.version !== uuid;
+
+    if (shouldRefetchConstants) {
+      this.props.fetchConstants(uuid);
+    }
+  }
+
+  exitPreviewMode() {
+    const { location } = this.props;
+    const query = { ...location.query };
+    delete query.version;
+    this.props.router.push({ ...location, query });
   }
 
   render() {
+    const { preview, profile } = this.props;
+
     return (
       <div className="gi-app">
         <div className="row">
           <div className="columns small-12">
-            <PreviewBanner show={this.props.preview.display} version={this.props.preview.version}/>
-            <Breadcrumbs location={this.props.location} profileName={this.props.profile.attributes.name}/>
+            {
+              preview.display &&
+              (<PreviewBanner
+                  version={preview.version}
+                  onViewLiveVersion={this.exitPreviewMode}/>)
+            }
+            <Breadcrumbs
+                location={this.props.location}
+                profileName={profile.attributes.name}/>
             {this.props.children}
             <AboutThisTool/>
             <Disclaimer/>
@@ -37,26 +80,21 @@ class GiBillApp extends React.Component {
       </div>
     );
   }
-
 }
 
 GiBillApp.propTypes = {
   children: React.PropTypes.element.isRequired
 };
 
-const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setPageTitle: (title) => {
-      dispatch(actions.setPageTitle(title));
-    },
-    enterPreviewMode: (version) => {
-      dispatch(actions.enterPreviewMode(version));
-    },
-    updateConstants: () => {
-      dispatch(actions.fetchConstants());
-    }
-  };
+const mapStateToProps = (state) => {
+  const { preview, profile } = state;
+  return { preview, profile };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GiBillApp);
+const mapDispatchToProps = {
+  enterPreviewMode,
+  exitPreviewMode,
+  fetchConstants
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GiBillApp));
