@@ -89,7 +89,7 @@ Your premium rate (the amount you’ll pay each month for your coverage) will de
 Get premium rates and a description of the plan options. [Download VA pamphlet 29-9 (Service-Disabled Veterans Insurance RH Information and Premium Rates)](http://benefits.va.gov/INSURANCE/forms/29-9.htm).
 
 
-### Can I get a waiver so I don’t have to pay the premiums? [UX/DESIGN NOTE: Consider accordion link here]
+### Can I get a waiver so I don’t have to pay the premiums? 
 
 Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/).
 
