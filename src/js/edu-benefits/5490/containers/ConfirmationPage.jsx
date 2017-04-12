@@ -6,8 +6,8 @@ import Scroll from 'react-scroll';
 import { focusElement } from '../../../common/utils/helpers';
 
 import {
-  benefitsLabels,
-} from '../helpers';
+  survivorBenefitsLabels,
+} from '../../utils/helpers';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -58,7 +58,7 @@ class ConfirmationPage extends React.Component {
           <ul className="claim-list">
             <li>
               <strong>Selected benefit</strong><br/>
-              {benefitsLabels[benefit]}
+              {survivorBenefitsLabels[benefit]}
             </li>
             <li>
               <strong>Confirmation number</strong><br/>
