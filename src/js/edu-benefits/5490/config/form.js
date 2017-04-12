@@ -1,11 +1,9 @@
 import _ from 'lodash/fp';
+import { createSelector } from 'reselect';
 
-import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
+import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 
-// benefitsLabels should be imported from utils/helpers, but for now, they don't
-//  all have links, so for consistency, use the set in ../helpers
 import {
-  benefitsLabels,
   benefitsRelinquishedInfo,
   benefitsRelinquishedWarning,
   benefitsDisclaimerChild,
@@ -16,14 +14,19 @@ import {
 } from '../helpers';
 
 import {
-  stateLabels
+  stateLabels,
+  survivorBenefitsLabels
 } from '../../utils/helpers';
+
+import {
+  validateDate,
+  validateFutureDateIfExpectedGrad
+} from '../../../common/schemaform/validation';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as phone from '../../../common/schemaform/definitions/phone';
-import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import * as veteranId from '../../definitions/veteranId';
 
@@ -70,7 +73,6 @@ const nonRequiredFullName = _.assign(fullName, {
   required: []
 });
 
-
 const formConfig = {
   urlPrefix: '/5490/',
   submitUrl: '/v0/education_benefits_claims/5490',
@@ -78,7 +80,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  title: 'Update your Education Benefits',
+  title: 'Apply for education benefits as an eligible dependent',
   subTitle: 'Form 22-5490',
   defaultDefinitions: {
     date: dateSchema,
@@ -165,7 +167,7 @@ const formConfig = {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
-                labels: benefitsLabels,
+                labels: survivorBenefitsLabels,
                 updateSchema: (data, form, schema) => {
                   const relationship = _.get('applicantInformation.data.relationship', form);
                   const nestedContent = {
@@ -241,7 +243,6 @@ const formConfig = {
             'ui:description': 'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [
-                'view:noPreviousBenefits',
                 'disability',
                 'dic',
                 'chapter31',
@@ -252,8 +253,9 @@ const formConfig = {
                 'chapter33',
                 'transferOfEntitlement',
                 'veteranFullName',
-                'veteranSocialSecurityNumber',
-                'other'
+                'view:veteranId',
+                'other',
+                'view:noPreviousBenefits'
               ],
               'view:noPreviousBenefits': {
                 'ui:title': 'None'
@@ -320,9 +322,18 @@ const formConfig = {
                 middle: { 'ui:title': 'Sponsor middle name' },
                 suffix: { 'ui:title': 'Sponsor suffix' },
               }),
-              veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
-                'ui:title': 'Sponsor Social Security number',
-                'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
+              'view:veteranId': _.merge(veteranId.uiSchema, {
+                veteranSocialSecurityNumber: {
+                  'ui:title': 'Sponsor Social Security number',
+                  'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData) && !_.get('previousBenefits.view:veteranId.view:noSSN', formData)
+                },
+                'view:noSSN': {
+                  'ui:title': 'I don’t know my sponsor’s Social Security number',
+                },
+                vaFileNumber: {
+                  'ui:title': 'Sponsor file number',
+                  'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData) && !!_.get('previousBenefits.view:veteranId.view:noSSN', formData)
+                },
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
                 }
@@ -336,13 +347,14 @@ const formConfig = {
             type: 'object',
             properties: {
               previousBenefits: _.merge(
-                _.unset('properties.veteranFullName', previousBenefits),
+                _.omit(['properties.veteranFullName', 'properties.veteranSocialSecurityNumber'], previousBenefits),
                 {
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },
                     'view:ownServiceBenefits': { type: 'boolean' },
                     'view:claimedSponsorService': { type: 'boolean' },
-                    veteranFullName: fullName
+                    veteranFullName: fullName,
+                    'view:veteranId': veteranId.schema
                   }
                 }
               )
@@ -493,16 +505,29 @@ const formConfig = {
                   expandUnderClassNames: 'schemaform-expandUnder-indent'
                 }
               },
-              'view:highSchoolOrGedCompletionDate': _.assign(
-                date.uiSchema('When did you earn your high school diploma?'), {
+              highSchoolOrGedCompletionDate: _.assign(
+                date.uiSchema(null), {
                   'ui:options': {
                     hideIf: form => {
                       const status = _.get('highSchool.status', form);
-                      return status !== 'graduated';
+                      return status !== 'graduated' && status !== 'graduationExpected';
                     },
-                    expandUnder: 'status'
-                  }
-                }
+                    expandUnder: 'status',
+                    updateSchema: (pageData, form) => {
+                      const status = _.get('educationHistory.data.highSchool.status', form);
+
+                      if (status === 'graduationExpected') {
+                        return { title: 'When do you expect to earn your high school diploma?' };
+                      }
+
+                      return { title: 'When did you earn your high school diploma?' };
+                    }
+                  },
+                  'ui:validations': [
+                    validateDate,
+                    validateFutureDateIfExpectedGrad
+                  ]
+                },
               ),
               'view:hasHighSchool': {
                 'ui:options': {
@@ -544,6 +569,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   status: highSchool.properties.status,
+                  highSchoolOrGedCompletionDate: date.schema,
                   'view:hasHighSchool': {
                     type: 'object',
                     properties: {
@@ -553,7 +579,6 @@ const formConfig = {
                       dateRange: highSchool.properties.dateRange,
                     }
                   },
-                  'view:highSchoolOrGedCompletionDate': date.schema,
                 }
               },
               'view:hasTrainings': {
@@ -613,26 +638,31 @@ const formConfig = {
               },
               educationType: {
                 'ui:options': {
-                  updateSchema: (pageData, form, schema) => {
-                    const newSchema = _.cloneDeep(schema);
-                    const benefitData = _.get('benefitSelection.data.benefit', form);
-                    const relationshipData = _.get('applicantInformation.data.relationship', form);
-                    const edTypeLabels = Object.keys(_.get('schoolSelection.uiSchema.educationProgram.educationType.ui:options.labels', form));
+                  updateSchema: (() => {
+                    const edTypes = educationType.enum;
+                    // Using reselect here avoids running the filter code
+                    // and creating a new object unless either benefit or
+                    // relationship has changed
+                    const filterEducationType = createSelector(
+                      _.get('benefitSelection.data.benefit'),
+                      _.get('applicantInformation.data.relationship'),
+                      (benefitData, relationshipData) => {
+                        // Remove tuition top-up
+                        const filterOut = ['tuitionTopUp'];
+                        // Correspondence not available to Chapter 35 (DEA) children
+                        if (benefitData === 'chapter35' && relationshipData === 'child') {
+                          filterOut.push('correspondence');
+                        }
+                        // Flight training available to Chapter 33 (Fry Scholarships) only
+                        if (benefitData && benefitData !== 'chapter33') {
+                          filterOut.push('flightTraining');
+                        }
 
-                    // Remove tuition top-up
-                    const filterOut = ['tuitionTopUp'];
-                    // Correspondence not available to Chapter 35 (DEA) children
-                    if (benefitData === 'chapter35' && relationshipData === 'child') {
-                      filterOut.push('correspondence');
-                    }
-                    // Flight training available to Chapter 33 (Fry Scholarships) only
-                    if (benefitData && benefitData !== 'chapter33') {
-                      filterOut.push('flightTraining');
-                    }
+                        return { 'enum': _.without(filterOut, edTypes) };
+                      });
 
-                    newSchema.enum = _.without(filterOut)(edTypeLabels);
-                    return newSchema;
-                  }
+                    return (pageData, form) => filterEducationType(form);
+                  })()
                 }
               }
             }

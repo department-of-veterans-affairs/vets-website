@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { showModal, hideModal, eligibilityChange } from '../../actions';
 
 import Dropdown from '../Dropdown';
-import If from '../If';
 import RadioButtons from '../RadioButtons';
 
 export class EligibilityForm extends React.Component {
@@ -72,10 +71,10 @@ export class EligibilityForm extends React.Component {
             visible={this.props.eligibility.dropdowns.giBillChapter}
             onChange={this.props.eligibilityChange}/>
 
-        <If condition={
-            this.props.eligibility.militaryStatus === 'active duty' &&
-            this.props.eligibility.giBillChapter === '33'}>
-          <div className="militaryStatusInfo form-group">
+        {
+          this.props.eligibility.militaryStatus === 'active duty' &&
+          this.props.eligibility.giBillChapter === '33' &&
+          (<div className="military-status-info warning form-group">
             <i className="fa fa-warning"></i>
             <a title="Post 9/11 GI Bill"
                 href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
@@ -83,8 +82,18 @@ export class EligibilityForm extends React.Component {
             Post 9/11 GI Bill</a> recipients serving on Active Duty (or
             transferee spouses of a servicemember on active duty) are not
             eligible to receive a monthly housing allowance.
-          </div>
-        </If>
+          </div>)
+        }
+
+        {
+          this.props.eligibility.giBillChapter === '31' &&
+          (<div className="military-status-info info form-group">
+            <i className="fa fa-info-circle"></i>
+            To apply for VR&E benefits, please <a
+                href="http://vabenefits.vba.va.gov/vonapp/main.asp"
+                target="_blank">visit this site</a>.
+          </div>)
+        }
 
         <Dropdown
             label={this.renderLearnMoreLabel({

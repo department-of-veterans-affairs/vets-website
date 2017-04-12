@@ -9,8 +9,7 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
 import applicantInformation from '../../../src/js/edu-benefits/pages/applicantInformation.js';
 
-import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
-import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
+import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
 function fillInformation(find) {
   ReactTestUtils.Simulate.change(find('#root_relativeFullName_first'), {
@@ -43,11 +42,6 @@ function fillInformation(find) {
       value: '1980'
     }
   });
-  ReactTestUtils.Simulate.change(find('#root_relationship_0'), {
-    target: {
-      checked: true
-    }
-  });
 }
 
 describe('Basic applicantInformation', () => {
@@ -56,6 +50,31 @@ describe('Basic applicantInformation', () => {
                         fullSchema1990e.definitions)
   };
   const { schema, uiSchema } = applicantInformation(applicantSchema);
+  it('should render', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(13);
+  });
+  it('should show errors when required fields are empty', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          onSubmit={onSubmit}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+    submitForm(form);
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error')).length).to.equal(5);
+    expect(onSubmit.called).not.to.be.true;
+  });
   it('should conditionally require SSN', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
@@ -71,6 +90,11 @@ describe('Basic applicantInformation', () => {
 
     // Error appears when no SSN is provided
     fillInformation(find);
+    ReactTestUtils.Simulate.change(find('#root_relationship_0'), {
+      target: {
+        checked: true
+      }
+    });
     ReactTestUtils.Simulate.change(find('#root_relativeSocialSecurityNumber'), {
       target: {
         value: null
@@ -89,107 +113,5 @@ describe('Basic applicantInformation', () => {
         }
       });
     expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-  });
-});
-
-describe('Edu 1990e applicantInformation', () => {
-  const { schema, uiSchema } = applicantInformation(fullSchema1990e);
-  it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
-    );
-    const formDOM = findDOMNode(form);
-
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(13);
-  });
-  it('should show errors when required fields are empty', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
-    );
-    const formDOM = findDOMNode(form);
-    submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be.empty;
-    expect(onSubmit.called).not.to.be.true;
-  });
-  it('should show no errors when all required fields are filled', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
-    );
-
-    const formDOM = findDOMNode(form);
-    const find = formDOM.querySelector.bind(formDOM);
-
-    fillInformation(find);
-
-    submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-    expect(onSubmit.called).to.be.true;
-  });
-});
-
-describe('Edu 5490 applicantInformation', () => {
-  // Make sure these match the fields listed in the 5490
-  const { schema, uiSchema } = applicantInformation(fullSchema5490, [
-    'relativeFullName',
-    'relativeSocialSecurityNumber',
-    'relativeDateOfBirth',
-    'gender'
-  ]);
-  it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
-    );
-    const formDOM = findDOMNode(form);
-
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(13);
-  });
-  it('should show errors when required fields are empty', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
-    );
-    const formDOM = findDOMNode(form);
-    submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be.empty;
-    expect(onSubmit.called).not.to.be.true;
-  });
-  it('should show no errors when all required fields are filled', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{}}
-          uiSchema={uiSchema}/>
-    );
-
-    const formDOM = findDOMNode(form);
-    const find = formDOM.querySelector.bind(formDOM);
-
-    fillInformation(find);
-
-    submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
-    expect(onSubmit.called).to.be.true;
   });
 });

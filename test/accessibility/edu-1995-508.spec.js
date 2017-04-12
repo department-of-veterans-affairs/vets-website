@@ -96,10 +96,9 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/dependents');
 
     // Direct deposit page
-
-    // No longer works with the updated direct deposit page
     client
       .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
+    EduHelpers.completePaymentChange(client, testData.directDeposit.data, false);
     EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, false);
     client
       .axeCheck('.main')

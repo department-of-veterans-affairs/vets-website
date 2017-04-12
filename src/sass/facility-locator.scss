@@ -1,5 +1,5 @@
-@import 'style';
-@import 'modules/va-pagination';
+@import "style";
+@import "modules/va-pagination";
 
 .facility-locator {
   // TODO(css): Fix when #content .section h* is fixed
@@ -22,17 +22,16 @@
   }
 
   .facility-phone-table {
-     border-collapse:collapse;
+     border-collapse: collapse;
   }
 
   .pointer {
     cursor: pointer;
   }
 
-  .facility-phone-table td
-  {
-     border:none;
-     outline:none;
+  .facility-phone-table td {
+     border: none;
+     outline: none;
   }
 
   .p1 {
@@ -71,6 +70,12 @@
       color: $color-link-default;
       text-decoration: none;
 
+      &:focus {
+        h5 {
+          outline: $color-link-default solid thin;
+        }
+      }
+
       &:visited {
         color: $color-link-default;
       }
@@ -81,7 +86,7 @@
     }
 
     td {
-      vertical-align:top;
+      vertical-align: top;
     }
   }
 
@@ -110,13 +115,13 @@
   .tab {
     border-color: $color-black;
     text-align: center;
-    background: #eee;
+    background: $color-gray-light-alt;
     border: solid 1px $color-black;
     border-radius: 0 !important;
 
     &.ReactTabs__Tab--selected {
       border-top: solid 3px $color-primary;
-      background: white;
+      background: $color-white;
       border-bottom: none;
     }
   }
@@ -170,10 +175,10 @@
     height: 60px;
     margin-left: -25px;
     margin-top: -25px;
-    text-align:center;
+    text-align: center;
     width: 60px;
     z-index: 999;
-    color: white;
+    color: $color-white;
   }
 
   .fa-cemetery {
@@ -182,21 +187,21 @@
   }
 
   .fa-cemetery:before {
-    content: url('/img/icons/cemetery.svg');
+    content: url("/img/icons/cemetery.svg");
   }
 
   .benefits-icon {
-    background: url('/img/icons/benefits-pin.svg') no-repeat center center;
+    background: url("/img/icons/benefits-pin.svg") no-repeat center center;
     background-size: contain;
   }
 
   .cemetery-icon {
-    background: url('/img/icons/cemetery-pin.svg') no-repeat center center;
+    background: url("/img/icons/cemetery-pin.svg") no-repeat center center;
     background-size: contain;
   }
 
   .health-icon {
-    background: url('/img/icons/health-pin.svg') no-repeat center center;
+    background: url("/img/icons/health-pin.svg") no-repeat center center;
     background-size: contain;
   }
 
@@ -204,29 +209,29 @@
     height: 32px;
     margin-left: -12px;
     margin-top: -12px;
-    text-align:center;
+    text-align: center;
     padding-top: 3px;
     width: 32px;
     z-index: 999;
-    background: url('/img/icons/map-pin.svg') no-repeat center center;
+    background: url("/img/icons/map-pin.svg") no-repeat center center;
     background-size: contain;
-    color: white;
+    color: $color-white;
   }
 
   .current-position-icon {
-    background: url('/img/icons/current-location-pin.svg') no-repeat center center;
+    background: url("/img/icons/current-location-pin.svg") no-repeat center center;
     background-size: contain;
   }
 
   .clearfix {
-    content:"";
-    display:block;
-    clear:both;
+    content: "";
+    display: block;
+    clear: both;
   }
 
   .search-controls-container {
     padding: 1.5rem 1rem;
-    border: solid thin #eee;
+    border: solid thin $color-gray-lightest;
     margin-bottom: 2rem;
     background: $color-gray-lightest;
 
@@ -238,7 +243,7 @@
       position: relative;
       background: $color-white;
       cursor: pointer;
-      border: 1px solid #5b616b;
+      border: 1px solid $color-gray;
       border-radius: 0;
       box-sizing: border-box;
       color: $color-base;

@@ -6,8 +6,7 @@ module.exports = {
     url: `${environment.API_URL}/v0/gi`,
     settings: {
       headers: {
-        'Content-Type': 'application/json',
-        // 'X-Key-Inflection': 'camel',
+        'X-Key-Inflection': 'camel'
       }
     }
   }
