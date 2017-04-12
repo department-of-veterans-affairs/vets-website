@@ -15,7 +15,7 @@ relatedlinks:
     description: Get group life insurance once you’ve ended your service.
   - url: /life-insurance/options-and-eligibility/s-dvi/
     title: Service-Disabled Veterans Insurance (S-DVI)
-    description: Continue your life insurance beyond 2 years after you leave the military if you have a service-connected disability (a disability that started or got worse during your service).
+    description: Continue your life insurance beyond 2 years after you leave the military if you’re disabled because of an injury or illness caused—or made worse—by your active service.
   
 ---
 
@@ -95,20 +95,19 @@ You can also convert your SGLI policy into a civilian policy within 120 days fro
 
 ### Can I keep my free life insurance if I’m disabled when I leave the military? [UX/DESIGN NOTE: Consider accordion link here]
 
-You may be able to keep your free coverage for up to 2 years after the date you left the military if:
+You may be able to keep your free coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date, **and**:
 
-- You’re within 2 years of your separation date (the date you left the military)
-- You’re rated 100% disabled at the time of your discharge due to being totally unable to work, or
+- You’re rated 100% disabled at the time of your discharge due to being totally unable to work, **or**
 - No matter your work status, you’ve had 1 of the following:
-- Total loss of hearing in both ears
-- Loss of speech that leaves you unable to talk—even in a whisper—without the help of an artificial device
-- Permanent (long-lasting) loss of use of:
-  - Both hands
-  - Both feet
-  - Both eyes
-  - 1 hand and 1 foot
-  - 1 foot and 1 eye
-  - 1 hand and 1 eye
+  - Total loss of hearing in both ears
+  - Loss of speech that leaves you unable to talk—even in a whisper—without the help of an artificial device
+  - Permanent (long-lasting) loss of use of:
+    - Both hands, **or**
+    - Both feet, **or**
+    - Both eyes, **or**
+    - 1 hand and 1 foot, **or**
+    - 1 foot and 1 eye, **or**
+    - 1 hand and 1 eye
 
 ### How do I get this SGLI disability extension? [UX/ DESIGN NOTE: Consider accordion link here]
 
