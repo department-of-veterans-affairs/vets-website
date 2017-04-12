@@ -787,6 +787,10 @@ export const getCalculatedBenefits = createSelector(
       return calculatedBenefits;
     }
 
+    const { militaryStatus } = eligibility;
+    const giBillChapter = +eligibility.giBillChapter;
+    const institutionType = institution.type.toLowerCase();
+
     calculatedBenefits.inputs = {
       inState: false,
       tuition: true,
@@ -821,7 +825,7 @@ export const getCalculatedBenefits = createSelector(
       },
       bookStipend: {
         visible: true,
-        value: formatCurrency(derived.bookStipendTotal)
+        value: `${formatCurrency(derived.bookStipendTotal)}${institutionType === 'ojt' ? '/mo' : ''}`
       },
       outOfPocketTuition: {
         visible: true,
@@ -953,10 +957,6 @@ export const getCalculatedBenefits = createSelector(
         }
       }
     };
-
-    const { militaryStatus } = eligibility;
-    const giBillChapter = +eligibility.giBillChapter;
-    const institutionType = institution.type.toLowerCase();
 
     if (giBillChapter === 31 && !derived.onlyVRE) {
       calculatedBenefits.inputs = {
