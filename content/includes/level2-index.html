@@ -1,0 +1,34 @@
+{% comment %}
+=====================
+ Level 2 Index 
+=====================
+
+Used for index pages in top-level paths (e.g. /disability-benefits/index.html)
+
+-== Maintenance notes ==-
+
+- Replace the `row` class with `usa-grid` when Foundation gets replaced by USWDS
+  when the time comes.
+
+{% endcomment %}
+
+<main>
+  <div class="row">
+    <article class="usa-content columns">
+      {% if path == 'employment' %}
+        <div class="csp-inline-patch-L2-section-landing">
+          <h1 class="csp-inline-patch-L2-section-landing-1">Careers and Employment</h1>
+          <h6 class="csp-inline-patch-L2-section-landing-2"> in partnership with 
+            <a href="https://www.dol.gov/vets/" class="external"> 
+              United States Department of Labor
+            </a>
+          </h6>
+        </div>
+      {% else %}
+        <h1>{{ title }}</h1>
+        {{ contents }}        
+      {% endif %}
+    </article>
+  </div>
+  {% include "content/includes/nav-link-list.html" %}
+</main>
