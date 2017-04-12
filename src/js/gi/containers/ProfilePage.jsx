@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
@@ -132,4 +131,4 @@ const mapDispatchToProps = {
   showModal
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfilePage));
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
