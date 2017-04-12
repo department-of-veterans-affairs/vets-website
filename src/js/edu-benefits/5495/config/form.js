@@ -2,8 +2,8 @@ import _ from 'lodash/fp';
 
 import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
-// import pages from '../../pages/';
 import applicantInformation from '../../pages/applicantInformation';
+import applicantServicePage from '../../pages/applicantService';
 
 import * as fullName from '../../../common/schemaform/definitions/fullName';
 
@@ -55,7 +55,8 @@ const formConfig = {
             'view:noSSN',
             'vaFileNumber'
           ]
-        })
+        }),
+        applicantService: applicantServicePage()
       }
     },
     benefitSelection: {
