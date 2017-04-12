@@ -12,6 +12,7 @@ class HeadingSummary extends React.Component {
 
   render() {
     const it = this.props.institution;
+    it.type = it.type && it.type.toLowerCase();
 
     const schoolSize = (enrollment) => {
       if (!enrollment) return 'Unknown';
@@ -60,7 +61,7 @@ class HeadingSummary extends React.Component {
             </p>
             <p>
               <IconWithInfo icon="institution" present={it.type && it.type !== 'ojt'}>
-                {_.capitalize(it.type)} institution
+                {_.capitalize(it.type)} school
               </IconWithInfo>
             </p>
             <p>
