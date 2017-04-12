@@ -32,13 +32,14 @@ You may qualify for these benefits if you’re a Servicemember or Veteran with a
 
 **Note:** You may qualify for both VR&E training and GI Bill benefits. You'll need to decide which benefit you want to use. [Learn more about the GI Bill](/education/gi-bill/).
 
-</div>
 
 #### Who's covered?
 
 - Veterans
 - Servicemembers
 - [Qualified family members](/vocational-rehab-and-employment/family-members/)
+
+</div>
 
 ### What kind of benefits can I get?
 
