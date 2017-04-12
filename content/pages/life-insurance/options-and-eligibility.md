@@ -18,7 +18,7 @@ relatedlinks:
     description: Get group life insurance once you’ve ended your service. 
   - url: /life-insurance/options-and-eligibility/s-dvi/ 
     title: Service-Disabled Veterans Insurance (S-DVI) 
-    description: Continue your life insurance beyond 2 years after you leave the military if you have a service-connected disability. 
+    description: Continue your life insurance beyond 2 years after you leave the military if you’re disabled because of an injury or illness caused—or made worse—by your active service.
     
 ---
 
