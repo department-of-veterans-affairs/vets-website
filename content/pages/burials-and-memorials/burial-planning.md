@@ -46,7 +46,7 @@ You’ll get a letter from us telling you if you can be buried in a VA national 
 
 #### If you have a pre-need decision letter confirming they can be buried in a VA national cemetery:
 
-To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <span class="tel">800-535-1117</span> to request a burial.
+To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">800-535-1117</a> to request a burial.
 
 You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a funeral](/burials-and-memorials/what-to-expect-at-a-funeral/). 
 
@@ -93,9 +93,9 @@ You may also need:
 
 The funeral director you've chosen can help you with these steps too:
 
-- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at <span class="tel">866-900-6417</span>. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran's name in the subject line. 
+- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at <a href="tel:+18669006417">866-900-6417</a>. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran's name in the subject line. 
 
-- Then call <span class="tel">800-535-1117</span> to confirm the burial application. Be sure to have all the information handy that’s listed above in the "Prepare" section. 
+- Then call <a href="tel:+18005351117">800-535-1117</a> to confirm the burial application. Be sure to have all the information handy that’s listed above in the "Prepare" section. 
 
 </li>
 </ol>
