@@ -93,7 +93,7 @@ You may also need:
 
 The funeral director you've chosen can help you with these steps too:
 
-- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at <a href="tel:+18669006417">866-900-6417</a>. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran's name in the subject line. 
+- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at 866-900-6417. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran's name in the subject line. 
 
 - Then call <a href="tel:+18005351117">800-535-1117</a> to confirm the burial application. Be sure to have all the information handy that’s listed above in the "Prepare" section. 
 
