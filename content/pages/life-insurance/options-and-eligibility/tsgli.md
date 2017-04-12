@@ -15,7 +15,7 @@ relatedlinks:
     description: Get group life insurance once you’ve ended your service. 
   - url: /life-insurance/options-and-eligibility/s-dvi/
     title: Service-Disabled Veterans Insurance (S-DVI)
-    description: Continue your life insurance beyond 2 years after you leave the military if you have a service-connected disability (a disability that started or got worse during your service).
+    description: Continue your life insurance beyond 2 years after you leave the military if you’re disabled because of an injury or illness caused—or made worse—by your active service.
 ---
 
 <div class="va-introtext">
@@ -65,7 +65,7 @@ Short-term financial support to help in your recovery from a traumatic injury.
 
 ### How do I get these benefits?
 
-You’re automatically covered through TSGLI if you’re signed up for full-time [SGLI](/life-insurance/options-and-eligibility/sgli/). This insurance covers you even if your injury happened while you were off duty.
+You’re automatically covered through TSGLI if you’re signed up for full-time SGLI. This insurance covers you even if your injury happened while you were off duty.
 
 To get payments—including retroactive TSGLI payments—you’ll need to apply. To file a claim, fill out VA Form SGLV 8600 (Application for TSGLI Benefits), and fax, email, or mail it to us. Look for the address of your service branch on the front page of the form.
 
@@ -74,7 +74,7 @@ To get payments—including retroactive TSGLI payments—you’ll need to apply.
 
 ### How do I appeal a decision if I’m denied benefits? [UX/DESIGN note: Consider accordion link here]
 
-First, look at the denial letter you received from your branch of service. Your letter will tell you if you should use VA FORM SGLV 8600A: TSGLI Appeal Request—and how long you’ll have to submit your appeal.
+First, look at the denial letter you received from your branch of service. Your letter will tell you if you should use VA Form SGLV 8600A: TSGLI Appeal Request—and how long you’ll have to submit your appeal.
 
 If your letter says to complete this form, fill out the form and submit it to your branch of service.
 
