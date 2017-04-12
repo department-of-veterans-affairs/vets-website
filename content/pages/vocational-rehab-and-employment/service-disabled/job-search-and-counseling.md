@@ -21,7 +21,6 @@ If you want to follow a career path that uses your existing skillset, Vocational
 
 <div class="feature" markdown="1">
 
-<div class="feature">
 
 ### Can I get job-search counseling and employment coaching through VR&amp;E?
 
