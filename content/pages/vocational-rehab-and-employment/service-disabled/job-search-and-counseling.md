@@ -17,8 +17,6 @@ template: 6-info-page
 <div class="va-introtext">
 If you want to follow a career path that uses your existing skillset, Vocational Rehabilitation and Employment (VR&amp;E) can help you with your job search through counseling and rehabilitation services that address your interests and abilities. Find out if you can get VR&amp;E job-search counseling and employment coaching.
 
-These services are in addition to our other employment search resources. [Learn about other VA employment resources](/employment/job-seekers/employment-support/).
-
 </div>
 
 <div class="feature">
@@ -44,6 +42,8 @@ You may qualify for these benefits if you’re a Veteran or Servicemember with a
 - Help preparing for a new job
 - Job search assistance
 - Coaching after you’re employed
+
+These services are in addition to our other employment search resources. [Learn about other VA employment resources](/employment/job-seekers/employment-support/).
 
 <hr>
 
