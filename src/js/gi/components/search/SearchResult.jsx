@@ -56,7 +56,7 @@ export class SearchResult extends React.Component {
                 <p className="locality">
                   {this.props.city}, {this.props.state || this.props.country}
                 </p>
-                <p className="count">{this.props.studentCount.toLocaleString()} GI Bill Students</p>
+                <p className="count">{(+this.props.studentCount).toLocaleString()} GI Bill Students</p>
               </div>
             </div>
             <div className="small-12 medium-5 columns estimated-benefits">
