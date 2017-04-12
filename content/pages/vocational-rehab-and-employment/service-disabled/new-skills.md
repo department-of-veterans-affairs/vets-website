@@ -20,8 +20,6 @@ Do you have a service-connected disability that makes it hard for you to succeed
 
 <div class="feature" markdown="1">
 
-<div class="feature">
-
 ### Can I get career counseling and new skills training through VR&amp;E?
 
 You may qualify for these benefits if you’re a Servicemember or Veteran with a service-connected disability (meaning we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service), **and**: 
