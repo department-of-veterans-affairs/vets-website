@@ -62,7 +62,7 @@ Servicemembers
 
 If you qualify for SGLI, we’ll automatically sign you up through your service branch. See your unit’s personnel office for more information.
 
-### Can I make changes to my benefits? [UX/DESIGN NOTE: Consider accordion link here]
+### Can I make changes to my benefits? 
 
 Yes. You can choose your level of coverage or even refuse coverage completely. You can also choose your beneficiaries (the people you pick to get the money from your life insurance policy if you die) and change them as needed.
 
@@ -70,7 +70,7 @@ To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 
 [Download VA Form SGLV 8286](http://www.benefits.va.gov/INSURANCE/forms/8286.htm).
 
-### How much will I pay for these benefits? [UX/DESIGN NOTE: Consider accordion link here]
+### How much will I pay for these benefits?
 
 If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). [Learn more about TSGLI](/life-insurance/options-and-eligibility/tsgli/).
 
@@ -87,13 +87,13 @@ These are the SGLI premium rates effective July 1, 2014.
 | $100,000 | $7.00 | $1.00 | $8.00 |
 | $50,000 | $3.50 | $1.00 | $4.50 |
 
-### How do I convert my SGLI when I leave the military? [UX/DESIGN NOTE: Consider accordion link here]
+### How do I convert my SGLI when I leave the military? 
 
 When you leave the military, you can apply to convert to Veterans’ Group Life Insurance (VGLI) within 1 year and 120 days from your discharge for up to the amount of coverage you had through SGLI. [Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
 
 You can also convert your SGLI policy into a civilian policy within 120 days from the date you left the military. [Convert your SGLI policy](http://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2015-06.pdf).
 
-### Can I keep my free life insurance if I’m disabled when I leave the military? [UX/DESIGN NOTE: Consider accordion link here]
+### Can I keep my free life insurance if I’m disabled when I leave the military? 
 
 You may be able to keep your free coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date, **and**:
 
@@ -109,7 +109,7 @@ You may be able to keep your free coverage for up to 2 years after the date you 
     - 1 foot and 1 eye, **or**
     - 1 hand and 1 eye
 
-### How do I get this SGLI disability extension? [UX/ DESIGN NOTE: Consider accordion link here]
+### How do I get this SGLI disability extension? 
 
 You’ll need to apply for the Servicemembers’ Group Life Insurance Disability Extension (SGLI-DE). 
 
