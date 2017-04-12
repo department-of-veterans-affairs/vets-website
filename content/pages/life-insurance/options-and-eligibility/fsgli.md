@@ -54,9 +54,112 @@ Up to a maximum of $100,000 of coverage for you, not to exceed the Servicemember
 
 ### How much will I pay for spousal coverage—and how do the premium payments work?
 
-You’ll pay a premium for your spouse’s coverage, which will increase as your spouse ages. Choose your spouse’s age below to view current spousal coverage monthly premium rates based on the amount of insurance you want.
+You’ll pay a premium for your spouse’s coverage, which will increase as your spouse ages. Choose your spouse’s age below to view current spousal coverage monthly premium rates based on the amount of insurance coverage you want.
 
-**[DESIGN NOTE: Please insert spousal coverage monthly premium rates table here. See issue for content]**
+[MEL TO INSERT ACCORDION] Under 35 years
+
+| Coverage amount | Monthly premium rate | 
+| --- | --- | 
+| $100,000 | $5.00 |
+| $90,000  | $4.50 |
+| $80,000  | $4.00 |
+| $70,000  | $3.50 |
+| $60,000  | $3.00 |
+| $50,000  | $2.50 |
+| $40,000  | $2.00 |
+| $30,000  | $1.50 |
+| $20,000  | $1.00 |
+| $10,000  | $0.50 |
+
+[MEL TO INSERT ACCORDION] 35 – 39 years
+
+| Coverage amount | Monthly premium rate | 
+| --- | --- | 
+| $100,000 | $6.50 |
+| $90,000  | $5.85 |
+| $80,000  | $5.20 |
+| $70,000  | $4.55 |
+| $60,000  | $3.90 |
+| $50,000  | $3.25 |
+| $40,000  | $2.60 |
+| $30,000  | $1.95 |
+| $20,000  | $1.30 |
+| $10,000  | $0.65 |
+
+[MEL TO INSERT ACCORDION] 40 – 44 years
+
+| Coverage amount | Monthly premium rate | 
+| --- | --- | 
+| $100,000 | $8.50 |
+| $90,000  | $7.65 |
+| $80,000  | $6.80 |
+| $70,000  | $5.95 |
+| $60,000  | $5.10 |
+| $50,000  | $4.25 |
+| $40,000  | $3.40 |
+| $30,000  | $2.55 |
+| $20,000  | $1.70 |
+| $10,000  | $0.85 |
+
+[MEL TO INSERT ACCORDION] 45 – 49 years
+
+| Coverage amount | Monthly premium rate | 
+| --- | --- | 
+| $100,000 | $13.00 |
+| $90,000  | $11.70 |
+| $80,000  | $10.40 |
+| $70,000  | $9.10  |
+| $60,000  | $7.80  |
+| $50,000  | $6.50  |
+| $40,000  | $5.20  |
+| $30,000  | $3.90  |
+| $20,000  | $2.60  |
+| $10,000  | $1.30  |
+
+[MEL TO INSERT ACCORDION] 50 – 54 years
+
+| Coverage amount | Monthly premium rate | 
+| --- | --- | 
+| $100,000 | $25.00 |
+| $90,000  | $22.50 |
+| $80,000  | $20.00 |
+| $70,000  | $17.50 |
+| $60,000  | $15.00 |
+| $50,000  | $12.50 |
+| $40,000  | $10.00 |
+| $30,000  | $7.50  |
+| $20,000  | $5.00  |
+| $10,000  | $2.50  |
+
+[MEL TO INSERT ACCORDION] 55 – 59 years
+
+| Coverage amount | Monthly premium rate | 
+| --- | --- | 
+| $100,000 | $37.00 |
+| $90,000  | $33.30 |
+| $80,000  | $29.60 |
+| $70,000  | $25.90 |
+| $60,000  | $22.20 |
+| $50,000  | $18.50 |
+| $40,000  | $14.80 |
+| $30,000  | $11.10 |
+| $20,000  | $7.40  |
+| $10,000  | $3.70  |
+
+[MEL TO INSERT ACCORDION] 60 years and older
+
+| Coverage amount | Monthly premium rate | 
+| --- | --- | 
+| $100,000 | $50.00 |
+| $90,000  | $45.00 |
+| $80,000  | $40.00 |
+| $70,000  | $35.00 |
+| $60,000  | $30.00 |
+| $50,000  | $25.00 |
+| $40,000  | $20.00 |
+| $30,000  | $15.00 |
+| $20,000  | $10.00 |
+| $10,000  | $5.00  |
 
 If you’re signed up as a spouse in the Defense Enrollment Eligibility Reporting System (DEERS), we’ll automatically deduct the FSGLI premium from your Servicemember’s pay. If you aren’t signed up in DEERS, your Servicemember will still be responsible for premiums and back payments of unpaid premiums. 
 
