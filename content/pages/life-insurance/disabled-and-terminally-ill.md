@@ -25,7 +25,7 @@ If you or your spouse becomes totally disabled or terminally ill, you may be abl
 ### Can I get my life insurance benefits early if I’m terminally ill?
  
 You may be able to get your benefits early if:
--	You have SGLI, Family SGLI, or VGLI life insurance
+-	You have SGLI, Family SGLI, or VGLI life insurance, **and**
 -	You or a covered spouse has a written statement from a doctor saying you have 9 months or less to live
  
 #### Who’s covered?
