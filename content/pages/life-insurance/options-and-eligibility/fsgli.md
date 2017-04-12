@@ -54,9 +54,7 @@ Up to a maximum of $100,000 of coverage for you, not to exceed the Servicemember
 
 ### How much will I pay for spousal coverage—and how do the premium payments work?
 
-You’ll pay a premium for your spouse’s coverage, which will increase as your spouse ages.
-
-These are the current spousal coverage monthly premium rates:
+You’ll pay a premium for your spouse’s coverage, which will increase as your spouse ages. Choose your spouse’s age below to view current spousal coverage monthly premium rates based on the amount of insurance you want.
 
 **[DESIGN NOTE: Please insert spousal coverage monthly premium rates table here. See issue for content]**
 
