@@ -18,14 +18,11 @@ relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
     title: Returning to Your Old Job
     description: If you want to return to the civilian job you held before activating, you have the right to do so. Find out if you can get help with this process.
-  - url: /disability-benefits/apply/claim-types/predischarge-claim/
-    title: Predischarge Claim
-    description: If you have a disability and you're currently in predischarge status, file a claim to help speed up the claim decision process.
 ---
 
 <div class="va-introtext">
 
-If you're a Servicemember or Veteran with a service-connected disability that doesn't let you continue on your current career path, our Vocational Rehabilitation and Employment (VR&amp;E) program may help. We offer 5 different VR&amp;E program tracks to help you build your career and live more independently. Find out if you qualify for this benefit—and choose the track that best matches your needs.
+If you're a Servicemember or Veteran with a service-connected disability that doesn't let you continue on your current career path, our Vocational Rehabilitation and Employment (VR&amp;E) program may help. We offer 5 different VR&amp;E program tracks to help you build your career and live more independently. Find out if you qualify—and choose the track that best matches your needs.
 
 </div>
 
