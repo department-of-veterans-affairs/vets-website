@@ -16,6 +16,7 @@ Want to become a pilot? Find out how your VA education benefits can help pay for
 ### Who's covered?
 
 Veterans who qualify for any of the GI Bill programs
+
 </div>
 
 ### What benefits can I get? 
