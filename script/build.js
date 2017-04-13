@@ -393,9 +393,11 @@ if (options.buildtype !== 'development') {
   });
 }
 
+/*
+Redirects locally. DevOps must update Nginx config for production
+*/
 smith.use(redirect({
   '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/',
-  '/disability-benefits/apply/': '/disability-benefits/apply/',
   '/education/apply-for-education-benefits/': '/education/apply/'
 }));
 

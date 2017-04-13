@@ -15,7 +15,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for Education Benefits"/>
+        <FormTitle title="Apply for education benefits as an eligible dependent"/>
         <p>This application is equivalent to Form 22-5490 (Dependents' Application for VA Education Benefits).</p>
         <div className="process schemaform-process">
           <ol>

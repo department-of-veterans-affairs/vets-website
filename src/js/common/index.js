@@ -27,6 +27,8 @@ if (!Modernizr.fetch) {
 // This polyfill has its own test logic so no need to conditionally require.
 require('polyfill-function-prototype-bind');
 
+require('./sentry.js');
+
 // Used in the footer.
 require('../legacy/menu.js');
 require('../legacy/toggle-veterans-crisis-line.js');

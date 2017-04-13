@@ -1,6 +1,6 @@
 // import _ from 'lodash/fp';
 
-// import fullSchema1990n from 'vets-json-schema/dist/ncs-benefits-schema.json';
+// import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 
 // import pages from '../../pages/';
 

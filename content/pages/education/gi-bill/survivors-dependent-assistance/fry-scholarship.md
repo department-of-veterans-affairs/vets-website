@@ -47,7 +47,7 @@ Spouses who remarry can't get the Fry Scholarship.
 ### What are the steps?
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 <div markdown="1">
 
 ##### Choose a school
@@ -57,7 +57,7 @@ Spouses who remarry can't get the Fry Scholarship.
 </div>
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 <div markdown="1">
 
 ##### Apply for benefits
@@ -68,7 +68,7 @@ Spouses who remarry can't get the Fry Scholarship.
 </div>
 </li>
 
-<li class="step last three">
+<li class="process-step list-three">
 <div markdown="1">
 
 ##### Choose your program
