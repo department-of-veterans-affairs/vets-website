@@ -245,6 +245,7 @@ const formConfig = {
             'ui:description': 'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [
+                'view:noPreviousBenefits',
                 'disability',
                 'dic',
                 'chapter31',
@@ -256,7 +257,6 @@ const formConfig = {
                 'transferOfEntitlement',
                 'veteranFullName',
                 'view:veteranId',
-                'view:noPreviousBenefits',
                 'other'
               ],
               'view:noPreviousBenefits': {
@@ -439,6 +439,7 @@ const formConfig = {
                   'ui:title': 'I don’t know my sponsor’s Social Security number',
                 },
                 vaFileNumber: {
+                  'ui:required': (formData) => !!_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData),
                   'ui:title': 'Sponsor file number',
                 }
               })
