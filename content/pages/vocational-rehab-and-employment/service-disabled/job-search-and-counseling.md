@@ -24,9 +24,6 @@ relatedlinks:
   - url: /vocational-rehab-and-employment/external-resources/
     title: External Resources
     description: Get links to more resources that can help you in your job search.  
-  - url: /vocational-rehab-and-employment/family-members/
-    title: Family Members
-    descripton: Help your family members find out if they qualify for certain counseling services, training, and education benefits.
 ---
 
 <div class="va-introtext">
@@ -44,6 +41,8 @@ You may qualify for these benefits if you’re a Servicemember or Veteran with a
 -	Past experience, education, or training in your field of interest
 
 **Note:** Having a service-connected disability means we’ve concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Having an employment barrier means that your disability makes it hard for you to prepare for, find, and keep a job that suits your skills and needs.
+
+<br>
 
 #### Who's covered?
 
