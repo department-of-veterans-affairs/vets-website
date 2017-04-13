@@ -16,6 +16,14 @@ const defaults = {
   ]
 };
 
+// Exported like this so we can share the fields between the formConfig and the tests.
+export const fieldsFor = {
+  '1990n': [
+    'educationProgram',
+    'educationObjective'
+  ]
+};
+
 export default function createSchoolSelectionPage(schema, options) {
   const mergedOptions = _.assign(defaults, options);
   const { fields, required } = mergedOptions;
