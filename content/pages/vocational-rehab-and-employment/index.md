@@ -6,7 +6,7 @@ source: http://www.benefits.va.gov/VRE/
 template: L2-section-landing
 majorlinks:
   - url: /vocational-rehab-and-employment/service-disabled/
-    title: Service-Disabled Veterans and Servicemembers
+    title: Programs for Service-Disabled Servicemembers and Veterans
     description: Find out if you qualify to get help learning new skills, finding a new job, or returning to your old job. 
   - url: /vocational-rehab-and-employment/apply-vre/
     title: Application Process
