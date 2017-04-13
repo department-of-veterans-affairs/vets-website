@@ -1135,18 +1135,12 @@ li {
   text-align: center;
   overflow: hidden;
 
-  @include media($medium-large-screen) {
-    text-align: left;
+  &:hover {
+    color: $color-gold;
   }
 
-  // Works with <= IE8
-  &:last-child {
-    opacity: 0.6;
-    padding-left: 1em;
-
-    &:hover {
-      opacity: 1;
-    }
+  @include media($medium-large-screen) {
+    text-align: left;
   }
 
   .icon {
