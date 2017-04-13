@@ -53,6 +53,7 @@ const formConfig = {
       }
     },
     schoolSelection: {
+      title: 'School Selection',
       pages: {
         schoolSelection: schoolSelectionPage(fullSchema1990n, schoolSelectionOptionsFor['1990n'])
       }
