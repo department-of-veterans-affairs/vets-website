@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { showModal } from '../../actions';
+
 import AlertBox from '../../../common/components/AlertBox';
 
 const TableRow = ({ description, thisCampus, allCampuses }) => {
@@ -36,14 +35,14 @@ const ListRow = ({ description, value }) => {
 
 export class CautionaryInformation extends React.Component {
   render() {
-    const it = this.props.profile.attributes;
+    const it = this.props.institution;
     if (!it.complaints) { return null; }
 
     const flagContent = (
       <div>
         {it.cautionFlagReason}
         <p>
-          <a onClick={this.props.showModal.bind(this, 'cautionInfo')}>
+          <a onClick={this.props.onShowModal.bind(this, 'cautionInfo')}>
             Learn more about these warnings
           </a>
         </p>
@@ -136,10 +135,9 @@ export class CautionaryInformation extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => state;
-
-const mapDispatchToProps = {
-  showModal,
+CautionaryInformation.propTypes = {
+  institution: React.PropTypes.object,
+  onShowModal: React.PropTypes.func
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CautionaryInformation);
+export default CautionaryInformation;
