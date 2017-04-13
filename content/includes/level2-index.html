@@ -7,8 +7,10 @@ Used for index pages in top-level paths (e.g. /disability-benefits/index.html)
 
 -== Maintenance notes ==-
 
-- Replace the `row` class with `usa-grid` when Foundation gets replaced by USWDS
-  when the time comes.
+As of 2017-04-13:
+
+  - Replace the `row` class with `usa-grid` when Foundation gets replaced by USWDS
+    when the time comes.
 
 {% endcomment %}
 
@@ -30,5 +32,13 @@ Used for index pages in top-level paths (e.g. /disability-benefits/index.html)
       {% endif %}
     </article>
   </div>
-  {% include "content/includes/nav-link-list.html" %}
+  {% if majorlinks != empty %}
+    {% include "content/includes/navigation-links-list.html" %}
+  {% endif %}
+
+  {% if relatedlinks != empty %}
+    {% include "content/includes/navigation-links-list.html" with isRelated = true %}
+  {% endif %}
+
+  
 </main>
