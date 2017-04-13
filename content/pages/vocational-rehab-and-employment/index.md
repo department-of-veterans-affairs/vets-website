@@ -17,7 +17,7 @@ majorlinks:
 relatedlinks:
   - url: /disability-benefits/apply/claim-types/predischarge-claim/
     title: Predischarge Claim
-    description: If you have a disability and you're currently in predischarge status, file a claim to help speed up the claim decision process.
+    description: If you have a disability and you're currently in predischarge status, file a claim now to help speed up the claim decision process.
 ---
 
 <div class="va-introtext">
