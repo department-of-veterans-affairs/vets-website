@@ -24,10 +24,7 @@ relatedlinks:
   - url: /vocational-rehab-and-employment/external-resources/
     title: External Resources
     description: Get links to more resources that can help you in your job search.  
-  - url: /vocational-rehab-and-employment/family-members/
-    title: Family Members
-    descripton: Help your family members find out if they qualify for certain counseling services, training, and education benefits.
----
+  ---
 
 <div class="va-introtext">
 
@@ -39,7 +36,7 @@ Do you have a service-connected disability that makes it hard for you to succeed
 
 ### Can I get career counseling and new skills training through VR&amp;E?
 
-You may qualify for these benefits if you’re a Servicemember or Veteran with a service-connected disability (meaning we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service), **and**: 
+You may qualify for these benefits if you’re a Servicemember or Veteran with a service-connected disability (meaning we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service), and: 
 
 - You have an employment barrier or handicap, **and**
 - You're signed up for VR&amp;E, **and**
@@ -47,6 +44,7 @@ You may qualify for these benefits if you’re a Servicemember or Veteran with a
 
 **Note:** You may qualify for both VR&E training and GI Bill benefits. You'll need to decide which benefit you want to use. [Learn more about the GI Bill](/education/gi-bill/).
 
+<br>
 
 #### Who's covered?
 
