@@ -18,6 +18,15 @@ relatedlinks:
   - url: /disability-benefits/apply/claim-types/predischarge-claim/
     title: Predischarge Claim
     description: If you have a disability and you're currently in predischarge status, file a claim to help speed up the claim decision process.
+  - url: /vocational-rehab-and-employment/vetsuccess/
+    title: VetSuccess on Campus
+    description: Find out if our counselors can help you transition from military to college life.
+  - url: /vocational-rehab-and-employment/external-resources/
+    title: External Resources
+    description: Get links to more resources that can help you in your job search.  
+  - url: /vocational-rehab-and-employment/family-members/
+    title: Family Members
+    descripton: Help your family members find out if they qualify for certain counseling services, training, and education benefits.
 ---
 
 <div class="va-introtext">
