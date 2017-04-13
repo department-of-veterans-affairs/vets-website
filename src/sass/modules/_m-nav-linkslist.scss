@@ -1,21 +1,25 @@
 //============================================
-// m-nav-channel
+// m-nav-list-block
 // Created: 2017-04-12
 //
 // - Used for link lists.
 // - Find an example on /disability-benefits
 // - Find corresponding markup in 
-//   content/includes/level2-links
+//   content/includes/navigation-links-list.html
 //============================================
 
-.va-nav--channel {
-  padding-bottom: 4rem;
+.va-nav-linkslist {
+  margin-bottom: 4rem;
+
+  &--related {
+    background: $color-gray-lightest;
+  }
 
   &-heading {
     // TODO: Replace border-bottom with a hairline
     // mixin when / if it's available
     border-bottom: 1px solid $color-gray-light;
-    margin: 3.2rem 0 0;
+    margin: 1rem 0 0;
     padding: 0 .24rem 1rem;
   }
 
