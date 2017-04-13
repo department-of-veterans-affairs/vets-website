@@ -33,6 +33,8 @@ If you're a Servicemember or Veteran with a service-connected disability that do
 
 ### Can I get VR&amp;E benefits?
 
+##### Servicemembers
+
 You may qualify for VR&amp;E benefits if you're a Servicemember who:
 
 - Has a 20% or higher predischarge disability rating (memorandum rating) and will soon leave the military, **or**
@@ -40,14 +42,15 @@ You may qualify for VR&amp;E benefits if you're a Servicemember who:
 
 **Note:** Having a service-connected disability means we've concluded that you're disabled because of an illness or injury caused—or made worse by—your active military service. Your disability rating is how we measure how severe your disability is (with 0% being not at all disabled and 100% disabled being totally disabled). 
 
+<br>
+
+##### Veterans
 
 You may also qualify for VR&amp;E benefits if you're a Veteran who was discharged under conditions other than dishonorable, and you:
 - Have a 10% or higher disability rating, **and**
 - Separated from the military or received a service-connected disability rating from VA within the past 12 years
 
 **Note:** Veterans may qualify for VR&amp;E benefits after 12 years if we conclude that more time is needed because of their employment handicap.
-
-[Find out if you qualify as a family member](/vocational-rehab-and-employment/family-members/).
 
 <br>
 
