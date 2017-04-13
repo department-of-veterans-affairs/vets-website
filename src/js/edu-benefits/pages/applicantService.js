@@ -8,7 +8,7 @@ import * as toursOfDuty from '../definitions/toursOfDuty';
  * Note: This is a function only to keep it consistent with the other pages, not
  *  because it really needs to be.
  */
-export default function applicantService() {
+export default function applicantServicePage() {
   return {
     title: 'Applicant service',
     path: 'applicant/service',

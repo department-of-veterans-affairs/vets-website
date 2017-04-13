@@ -5,10 +5,11 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
-import formConfig from '../../../src/js/edu-benefits/5490/config/form';
+import applicantServicePage from '../../../src/js/edu-benefits/pages/applicantService';
 
-describe('Edu 5490 (default) applicantService', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantService;
+describe('Edu default applicantService page', () => {
+  const formConfig = applicantServicePage();
+  const { schema, uiSchema } = formConfig;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
