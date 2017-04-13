@@ -21,7 +21,7 @@ If you're a service-disabled Servicemember or Veteran interested in career couns
 
 <li class="step one">
 
-Check to see if you qualify for VR&amp;E benefits—and choose your program track. [Find out if you qualify for programs for Service-Disabled Servicemembers and Veterans](/vocational-rehab-and-employment/service-disabled/). 
+Check to see if you qualify for VR&amp;E benefits—and choose your program track. [Find out if you qualify for programs for service-disabled Servicemembers and Veterans](/vocational-rehab-and-employment/service-disabled/). 
 
 </li>
 
