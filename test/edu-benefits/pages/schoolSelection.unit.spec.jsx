@@ -7,22 +7,24 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
-import formConfig, { schoolSelectionOptionsFor as optionsFor } from '../../../src/js/edu-benefits/pages/schoolSelection.js';
+import { schoolSelectionOptionsFor as optionsFor } from '../../../src/js/edu-benefits/pages/schoolSelection.js';
 
-import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
-import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
-import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
+import formConfig1990e from '../../../src/js/edu-benefits/1990e/config/form';
+import formConfig1990n from '../../../src/js/edu-benefits/1990n/config/form';
+import formConfig5490 from '../../../src/js/edu-benefits/5490/config/form';
 
-const schemas = {
-  '1990n': fullSchema1990n,
-  '1990e': fullSchema1990e,
-  '5490': fullSchema5490 // eslint-disable-line
+// Actually use the configs from the forms
+const configs = {
+  '1990n': formConfig1990n,
+  '1990e': formConfig1990e,
+  '5490': formConfig5490 // eslint-disable-line
 };
 
 // Describe the tests for each form
 Object.keys(optionsFor).forEach((formName) => {
   describe(`Edu ${formName} schoolSelection`, () => {
-    const { schema, uiSchema } = formConfig(schemas[formName], optionsFor[formName]);
+    // This is a bit fragile; requires the chapter and page name to be schoolSelection
+    const { schema, uiSchema } = configs[formName].chapters.schoolSelection.pages.schoolSelection;
 
     // They should all render
     it('should render', () => {
@@ -30,7 +32,7 @@ Object.keys(optionsFor).forEach((formName) => {
         <DefinitionTester
             schema={schema}
             data={{}}
-            definitions={formConfig.defaultDefinitions}
+            definitions={configs[formName].defaultDefinitions}
             uiSchema={uiSchema}/>
       );
 
@@ -40,7 +42,7 @@ Object.keys(optionsFor).forEach((formName) => {
 
       // Should have a better test than this...
       // Perhaps adding up all the elements based on optionsFor[formName].fields
-      expect(inputs.length).to.not.equal(0);
+      expect(inputs).to.not.be.empty;
     });
 
 
@@ -54,7 +56,7 @@ Object.keys(optionsFor).forEach((formName) => {
             schema={schema}
             onSubmit={onSubmit}
             data={{}}
-            definitions={formConfig.defaultDefinitions}
+            definitions={configs[formName].defaultDefinitions}
             uiSchema={uiSchema}/>
       );
       const formDOM = findDOMNode(form);

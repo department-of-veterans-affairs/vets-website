@@ -54,9 +54,7 @@ const formConfig = {
     },
     schoolSelection: {
       pages: {
-        schoolSelection: schoolSelectionPage(fullSchema1990n, {
-          fields: schoolSelectionOptionsFor['1990n']
-        })
+        schoolSelection: schoolSelectionPage(fullSchema1990n, schoolSelectionOptionsFor['1990n'])
       }
     }
   }
