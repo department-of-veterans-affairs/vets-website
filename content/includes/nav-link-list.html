@@ -1,0 +1,41 @@
+<div class="row">
+  <aside class="va-nav--channel usa-content columns">
+  {% for group in majorlinks %}
+
+    {% comment %}
+      Only add <section class="va-nav--channel">
+      if there are heading titles.
+    {% endcomment %}
+
+    {% if group.heading != empty %}
+      <section>
+        <h3 class="va-nav--channel-heading">{{ group.heading }}</h3>
+    {% endif %}
+
+    {% if group.links.length > 0 %}
+      <ul class="va-nav--channel-list">
+      {% for link in group.links %}
+        {% if link.url != empty %}
+          <li>
+            <a href="{{link.url}}">
+            {% if link.title != empty %}
+              <h4 class="va-nav--channel-title">{{ link.title }}</h4>
+            {% endif %}
+
+            {% if link.description != empty %}
+              <p class="va-nav--channel-description">{{ link.description }}</p>
+            {% endif %}
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+    {% endif %}
+
+  {% endfor %}
+
+  {% if link.heading != empty %}
+    </section>
+  {% endif %}
+  </aside>
+</div>
