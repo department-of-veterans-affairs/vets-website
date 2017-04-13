@@ -139,7 +139,7 @@ export class AdditionalInformation extends React.Component {
                 <a onClick={this.props.onShowModal.bind(this, 'opeCode')}>ED OPE code:</a>
                 &nbsp;
               </strong>
-              {it.ope6 || 'N/A'}
+              {it.ope || 'N/A'}
             </p>
           </div>
         </div>
