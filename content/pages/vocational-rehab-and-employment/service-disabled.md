@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Programs for Service-Disabled Veterans and Servicemembers
-template: 2-detailed-landing
+template: 1-topic-landing
 relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
     title: Job-Search Counseling and Employment Coaching
@@ -18,10 +18,9 @@ relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
     title: Returning to Your Old Job
     description: If you want to return to the civilian job you held before activating, you have the right to do so. Find out if you can get help with this process.
-   - url: /disability-benefits/apply/claim-types/predischarge-claim/
+  - url: /disability-benefits/apply/claim-types/predischarge-claim/
     title: Predischarge Claim
     description: If you have a disability and you're currently in predischarge status, file a claim to help speed up the claim decision process.
-    
 ---
 
 <div class="va-introtext">
@@ -30,7 +29,7 @@ If you're a Servicemember or Veteran with a service-connected disability that do
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Can I get VR&amp;E benefits?
 

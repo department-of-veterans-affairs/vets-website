@@ -36,6 +36,7 @@ You may also be able to get VR&amp;E benefits if you're the spouse or child of a
 - Is referring care for a service-connected disability that is considered totally and permanently disabling, and which will likely cause the Servicemember to be discharged from the military
 
 A service-connected disability means we've concluded that the Servicemember or Veteran was disabled by an injury or illness caused—or made worse—by their active military service. A permanent and total disability is one we've rated at 100% disabling (our rating system for measuring how severe the disability is) and that we don't expect to improve.
+
 </div>
 
 ### What kind of VR&amp;E benefits can I get?

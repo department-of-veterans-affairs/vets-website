@@ -6,10 +6,9 @@ relatedlinks:
   - url: /disability-benefits/apply/claim-types/predischarge-claim/
     title: Predischarge Claim
     description: If you have a disability and you're currently in predischarge status, file a claim to help speed up the claim decision process.
-   - url: /vocational-rehab-and-employment/family-members/
+  - url: /vocational-rehab-and-employment/family-members/
     title: Family Members
-    description: If you're the family member of a service-disabled Servicemember or Veteran, find out if you qualify for certain counseling services, training, and education benefits.
-  
+    description: If you're the family member of a service-disabled Servicemember or Veteran, find out if you qualify for certain counseling services, training, and education benefits. 
 ---
 
 <div class="va-introtext">
