@@ -3,10 +3,7 @@ import { createSelector } from 'reselect';
 
 import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 
-// benefitsLabels should be imported from utils/helpers, but for now, they don't
-//  all have links, so for consistency, use the set in ../helpers
 import {
-  benefitsLabels,
   benefitsRelinquishedInfo,
   benefitsRelinquishedWarning,
   benefitsDisclaimerChild,
@@ -17,7 +14,8 @@ import {
 } from '../helpers';
 
 import {
-  stateLabels
+  stateLabels,
+  survivorBenefitsLabels
 } from '../../utils/helpers';
 
 import {
@@ -29,7 +27,6 @@ import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as phone from '../../../common/schemaform/definitions/phone';
-import * as toursOfDuty from '../../definitions/toursOfDuty';
 import * as veteranId from '../../definitions/veteranId';
 
 import { uiSchema as dateRangeUi } from '../../../common/schemaform/definitions/dateRange';
@@ -37,11 +34,12 @@ import { uiSchema as fullNameUi } from '../../../common/schemaform/definitions/f
 import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
-import createContactInformationPage from '../../pages/contactInformation';
+import contactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
-import applicantInformation from '../../pages/applicantInformation';
+import applicantInformationPage from '../../pages/applicantInformation';
+import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
-import additionalBenefits from '../../pages/additionalBenefits';
+import additionalBenefitsPage from '../../pages/additionalBenefits';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -95,53 +93,13 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformation(fullSchema5490, {
+        applicantInformation: applicantInformationPage(fullSchema5490, {
           labels: { relationship: relationshipLabels }
         }),
-        additionalBenefits: additionalBenefits(fullSchema5490, {
+        additionalBenefits: additionalBenefitsPage(fullSchema5490, {
           fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource']
         }),
-        applicantService: {
-          title: 'Applicant service',
-          path: 'applicant/service',
-          initialData: {
-          },
-          uiSchema: {
-            'ui:title': 'Applicant service',
-            'view:applicantServed': {
-              'ui:title': 'Have you ever served on active duty in the armed services?',
-              'ui:widget': 'yesNo'
-            },
-            toursOfDuty: _.merge(toursOfDuty.uiSchema, {
-              'ui:options': {
-                expandUnder: 'view:applicantServed'
-              },
-              'ui:required': form => _.get('view:applicantServed', form),
-              items: {
-                serviceStatus: { 'ui:title': 'Type of separation or discharge' }
-              }
-            })
-          },
-          schema: {
-            type: 'object',
-            // If answered 'Yes' without entering information, it's the same as
-            //  answering 'No' as far as the back end is concerned.
-            required: ['view:applicantServed'],
-            properties: {
-              'view:applicantServed': {
-                type: 'boolean'
-              },
-              toursOfDuty: toursOfDuty.schema({
-                fields: [
-                  'serviceBranch',
-                  'dateRange',
-                  'serviceStatus'
-                ],
-                required: ['serviceBranch', 'dateRange.from']
-              })
-            }
-          }
-        },
+        applicantService: applicantServicePage(),
       }
     },
     benefitSelection: {
@@ -169,7 +127,7 @@ const formConfig = {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
-                labels: benefitsLabels,
+                labels: survivorBenefitsLabels,
                 updateSchema: (data, form, schema) => {
                   const relationship = _.get('applicantInformation.data.relationship', form);
                   const nestedContent = {
@@ -675,7 +633,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: createContactInformationPage('relativeAddress'),
+        contactInformation: contactInformationPage('relativeAddress'),
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
