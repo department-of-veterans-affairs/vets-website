@@ -1,4 +1,6 @@
+//===================================
 // Typography
+//===================================
 
 // These variables override values set in either
 // ~uswds/src/stylesheets/core/defaults" or 
@@ -7,7 +9,10 @@
 $base-font-size:      rem(16px);
 $font-serif:          "Roboto Slab", serif;
 
+//===================================
 // Magic Numbers
+//===================================
+
 // Note: USWDS value is 53rem;
 $text-max-width:      70rem;
 $usa-form-width:      32em;
