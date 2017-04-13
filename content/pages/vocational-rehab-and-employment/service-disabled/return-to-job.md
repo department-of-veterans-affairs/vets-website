@@ -24,9 +24,6 @@ relatedlinks:
   - url: /vocational-rehab-and-employment/external-resources/
     title: External Resources
     description: Get links to more resources that can help you in your job search.  
-  - url: /vocational-rehab-and-employment/family-members/
-    title: Family Members
-    descripton: Help your family members find out if they qualify for certain counseling services, training, and education benefits.
 ---
 
 <div class="va-introtext">
@@ -45,6 +42,8 @@ You may qualify for help if you're a Veteran with a service-connected disability
 - Have an employment barrier or handicap (meaning your disability makes it hard for you to prepare for, get, and keep a job that suits your skills and needs), **and**
 - Are signed up for VR&amp;E, **and**
 - Would like to return to your previous place of employment
+
+<br>
 
 #### Who's covered?
 
