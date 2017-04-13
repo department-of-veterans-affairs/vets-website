@@ -13,11 +13,11 @@ relatedlinks:
 ---
 If you have VA life insurance, the easiest way to manage your policy is online. You can use your online portal to:
 
--	Check your policy’s status to make sure it’s up to date
--	Pay your premium (the amount you’ll pay each month to keep your coverage)
--	Find out about your plan and renewal options. These will depend on which type of plan you have. 
--	Update your beneficiary (the person you’ve picked to get the money from your policy if you die). You’ll want to review your beneficiary information at least once a year to make sure the name and contact information is still right. You’ll also need to review the information—and make any needed changes—if you get divorced, have a child, or go through other big life changes.
--	File a claim for insurance benefits
+- Check your policy’s status to make sure it’s up to date
+- Pay your premium (the amount you’ll pay each month to keep your coverage)
+- Find out about your plan and renewal options. These will depend on which type of plan you have. 
+- Update your beneficiary (the person you’ve picked to get the money from your policy if you die). You’ll want to review your beneficiary information at least once a year to make sure the name and contact information is still right. You’ll also need to review the information—and make any needed changes—if you get divorced, have a child, or go through other big life changes.
+- File a claim for insurance benefits
 
 ### How do I access my policy?
 
