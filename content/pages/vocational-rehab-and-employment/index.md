@@ -8,7 +8,7 @@ majorlinks:
   - url: /vocational-rehab-and-employment/service-disabled/
     title: Service-Disabled Veterans and Servicemembers
     description: Find out if you qualify to get help learning new skills, finding a new job, or returning to your old job. 
-  - url: /vocational-rehab-and-employment/apply-vre.md
+  - url: /vocational-rehab-and-employment/apply-vre/
     title: Application Process
     description: Find out how to apply for VR&amp;E as a Servicemember or Veteran.
   - url: /vocational-rehab-and-employment/family-members/
