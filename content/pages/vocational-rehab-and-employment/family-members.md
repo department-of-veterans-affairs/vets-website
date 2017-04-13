@@ -2,15 +2,17 @@
 layout: page-breadcrumbs.html
 title: Family Members
 template: 6-info-page
+relatedlinks:
+  - url: /vocational-rehab-and-employment/vetsuccess/
+    title: VetSuccess on Campus
+    description: Find out if our counselors can help you transition from military to college life.  
+  - url: /vocational-rehab-and-employment/service-disabled/
+    title: Programs for Service-Disabled Servicemembers and Veterans
+    description: Help the Servicemember or Veteran in your family find out if they qualify for VR&amp;E benefits and services.
+  - url: /vocational-rehab-and-employment/apply-vre/
+    title: Application Process for Servicemembers and Veterans
+    description: Help the Servicemember or Veteran in your family learn how to apply for VR&amp;E benefits and services.  
 ---
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/vocational-rehab-and-employment/apply-vre/">Apply for VR&amp;E Benefits</a>
-    </div>
-  </div>
-</div>
 
 <div class="va-introtext">
 
