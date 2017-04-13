@@ -92,9 +92,8 @@ export class CautionaryInformation extends React.Component {
           </div>
         </div>
 
-        {
-          it.complaints.mainCampusRollUp &&
-          (<div className="table">
+        {it.complaints.mainCampusRollUp && (<div>
+          <div className="table">
             <table className="usa-table-borderless">
               <thead>
                 <tr>
@@ -113,23 +112,23 @@ export class CautionaryInformation extends React.Component {
                       thisCampus={c.thisCampus} allCampuses={c.allCampuses}/>)}
               </tbody>
             </table>
-          </div>)
-        }
+          </div>
 
-        <div className="list">
-          <h4>This campus</h4>
-          {complaints.map((c) =>
-            <ListRow key={c.description} description={c.description} value={c.thisCampus}/>)}
-          <h4>
-            <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
-              All campuses
-            </a>
-          </h4>
-          {complaints.map((c) =>
-            <ListRow key={c.description} description={c.description} value={c.allCampuses}/>)}
-        </div>
+          <div className="list">
+            <h4>This campus</h4>
+            {complaints.map((c) =>
+              <ListRow key={c.description} description={c.description} value={c.thisCampus}/>)}
+            <h4>
+              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
+                All campuses
+              </a>
+            </h4>
+            {complaints.map((c) =>
+              <ListRow key={c.description} description={c.description} value={c.allCampuses}/>)}
+          </div>
 
-        <p>*Each complaint can have multiple types</p>
+          <p>*Each complaint can have multiple types</p>
+        </div>)}
       </div>
     );
   }
