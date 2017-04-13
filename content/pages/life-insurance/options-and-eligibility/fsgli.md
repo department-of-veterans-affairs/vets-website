@@ -176,8 +176,8 @@ Yes, if you have spousal coverage. If you want to reduce, turn down, or cancel y
 ### How much will I pay for dependent coverage? 
 
 Nothing. We provide dependent coverage at no cost until the child is 18 years old, unless the child:
--	Is a full-time student, **or**
--	Becomes permanently and totally disabled—before turning 18—and can’t support themselves 
+- Is a full-time student, **or**
+- Becomes permanently and totally disabled—before turning 18—and can’t support themselves 
 
 ### How do I convert an FSGLI policy to an individual insurance policy? 
 
@@ -198,9 +198,9 @@ You can’t convert other types of policies—such as term, variable, or univers
 - Choose a company from the list of companies that take part in this program. [View the companies you can choose from](http://www.benefits.va.gov/INSURANCE/forms/ParticList.htm).
 - Apply at the local sales office of the company you chose
 - Give a copy of the most recent Leave and Earnings Statement (LES) to the agent, showing the deduction for spousal SGLI. You’ll also have to provide proof of coverage with one of these documents:
-	- The Servicemember's separation document (Form DD214 or NGB-22, or written orders)
-	- The Certificate of Dissolution of Marriage between the spouse and the Servicemember
-	- The Servicemember's FSGLI spousal declination
-	- The Servicemember's SGLI declination
-	- The Servicemember's proof of death (DD1300: Report of Casualty, or a civilian death certificate)
+ - The Servicemember's separation document (Form DD214 or NGB-22, or written orders)
+ - The Certificate of Dissolution of Marriage between the spouse and the Servicemember
+ - The Servicemember's FSGLI spousal declination
+ - The Servicemember's SGLI declination
+ - The Servicemember's proof of death (DD1300: Report of Casualty, or a civilian death certificate)
 
