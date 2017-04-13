@@ -4,6 +4,8 @@ import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 import applicantInformation from '../../pages/applicantInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
+import contactInformationPage from '../../pages/contactInformation';
+import directDeposit from '../../pages/directDeposit';
 
 // import common schemaform definitions from '../../../common/schemaform/definitions/'
 
@@ -83,6 +85,13 @@ const formConfig = {
             }
           }
         }
+      }
+    },
+    personalInformation: {
+      title: 'Personal Information',
+      pages: {
+        contactInformation: contactInformationPage('relativeAddress'),
+        directDeposit
       }
     },
     schoolSelection: {

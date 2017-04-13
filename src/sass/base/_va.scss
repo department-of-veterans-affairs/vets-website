@@ -294,17 +294,18 @@ hr {
 h1, h2 {
   font-family: $font-sans;
 }
+
+h1:first-child {
+  margin-top: 0;
+}
+
 h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0 0 .5em 0;
 }
 
 h2 {
-  line-height: 1.2em;
-}
-
-h1:first-child {
-  margin-top: 0;
+  @include heading-2;
 }
 
 h3, h4, h5, h6 {
@@ -312,27 +313,19 @@ h3, h4, h5, h6 {
 }
 
 h3 {
-  font-size: 1.8em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-3;
 }
 
 h4 {
-  font-size: 1.35em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-4;
 }
 
 h5 {
-  font-size: 1.15em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-5;
 }
 
 h6 {
-  font-size: 0.9em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-6;
 }
 
 .text-center {
@@ -718,6 +711,10 @@ ul, ol {
   font-size: inherit;
   padding: 1em 0;
 
+  // Gate / Sign-in pages only
+  &--gate {
+    margin-bottom: -2em;
+  }
 
   li {
     display: inline-block;
@@ -1869,7 +1866,7 @@ p.info-message {
 
 .last-updated {
   margin-top: 1.5em;
-  border-top: 2px solid $color-gray-lightest;;
+  border-top: 2px solid $color-gray-light;
   padding: 1em 0;
   p {
     font-size: 1em !important;

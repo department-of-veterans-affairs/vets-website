@@ -35,7 +35,7 @@ import { uiSchema as fullNameUi } from '../../../common/schemaform/definitions/f
 import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
-import createContactInformationPage from '../../pages/contactInformation';
+import contactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
 import applicantInformation from '../../pages/applicantInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
@@ -680,7 +680,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: createContactInformationPage('relativeAddress'),
+        contactInformation: contactInformationPage('relativeAddress'),
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
