@@ -1,7 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { setPageTitle } from '../actions';
+
+import {
+  clearAutocompleteSuggestions,
+  fetchAutocompleteSuggestions,
+  setPageTitle,
+  updateAutocompleteSearchTerm
+} from '../actions';
 
 import VideoSidebar from '../components/content/VideoSidebar';
 import KeywordSearch from '../components/search/KeywordSearch';
@@ -20,8 +26,14 @@ export class LandingPage extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { searchTerm: name } = this.props.autocomplete;
-    const query = name ? { name } : null;
+
+    const query = {
+      name: this.props.autocomplete.searchTerm,
+      version: this.props.location.query.version
+    };
+
+    if (!query.name) { delete query.name; }
+    if (!query.version) { delete query.version; }
     this.props.router.push({ pathname: 'search', query });
   }
 
@@ -32,11 +44,16 @@ export class LandingPage extends React.Component {
 
           <div className="small-12 medium-8 columns">
             <h1>GI Bill® Comparison Tool</h1>
-            <p className="subheading">Compare programs based on what benefits they can offer you.</p>
+            <p className="subheading">Learn about education programs and compare benefits by school.</p>
 
             <form onSubmit={this.handleSubmit}>
               <EligibilityForm/>
-              <KeywordSearch/>
+              <KeywordSearch
+                  autocomplete={this.props.autocomplete}
+                  location={this.props.location}
+                  onClearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
+                  onFetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+                  onUpdateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}/>
               <button className="usa-button-big" type="submit" id="search-button">
                 <span>Search Schools</span>
               </button>
@@ -55,12 +72,15 @@ export class LandingPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    autocomplete: state.autocomplete,
-  };
+  const { autocomplete } = state;
+  return { autocomplete };
 };
+
 const mapDispatchToProps = {
-  setPageTitle
+  clearAutocompleteSuggestions,
+  fetchAutocompleteSuggestions,
+  setPageTitle,
+  updateAutocompleteSearchTerm
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LandingPage));

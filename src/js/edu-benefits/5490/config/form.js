@@ -3,10 +3,7 @@ import { createSelector } from 'reselect';
 
 import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 
-// benefitsLabels should be imported from utils/helpers, but for now, they don't
-//  all have links, so for consistency, use the set in ../helpers
 import {
-  benefitsLabels,
   benefitsRelinquishedInfo,
   benefitsRelinquishedWarning,
   benefitsDisclaimerChild,
@@ -17,7 +14,8 @@ import {
 } from '../helpers';
 
 import {
-  stateLabels
+  stateLabels,
+  survivorBenefitsLabels
 } from '../../utils/helpers';
 
 import {
@@ -29,7 +27,6 @@ import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as phone from '../../../common/schemaform/definitions/phone';
-import * as ssn from '../../../common/schemaform/definitions/ssn';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import * as veteranId from '../../definitions/veteranId';
 
@@ -38,7 +35,7 @@ import { uiSchema as fullNameUi } from '../../../common/schemaform/definitions/f
 import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
-import createContactInformationPage from '../../pages/contactInformation';
+import contactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
 import applicantInformation from '../../pages/applicantInformation';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
@@ -170,7 +167,7 @@ const formConfig = {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
-                labels: benefitsLabels,
+                labels: survivorBenefitsLabels,
                 updateSchema: (data, form, schema) => {
                   const relationship = _.get('applicantInformation.data.relationship', form);
                   const nestedContent = {
@@ -256,7 +253,7 @@ const formConfig = {
                 'chapter33',
                 'transferOfEntitlement',
                 'veteranFullName',
-                'veteranSocialSecurityNumber',
+                'view:veteranId',
                 'other',
                 'view:noPreviousBenefits'
               ],
@@ -325,9 +322,18 @@ const formConfig = {
                 middle: { 'ui:title': 'Sponsor middle name' },
                 suffix: { 'ui:title': 'Sponsor suffix' },
               }),
-              veteranSocialSecurityNumber: _.merge(ssn.uiSchema, {
-                'ui:title': 'Sponsor Social Security number',
-                'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData),
+              'view:veteranId': _.merge(veteranId.uiSchema, {
+                veteranSocialSecurityNumber: {
+                  'ui:title': 'Sponsor Social Security number',
+                  'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData) && !_.get('previousBenefits.view:veteranId.view:noSSN', formData)
+                },
+                'view:noSSN': {
+                  'ui:title': 'I don’t know my sponsor’s Social Security number',
+                },
+                vaFileNumber: {
+                  'ui:title': 'Sponsor file number',
+                  'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData) && !!_.get('previousBenefits.view:veteranId.view:noSSN', formData)
+                },
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService'
                 }
@@ -341,13 +347,14 @@ const formConfig = {
             type: 'object',
             properties: {
               previousBenefits: _.merge(
-                _.unset('properties.veteranFullName', previousBenefits),
+                _.omit(['properties.veteranFullName', 'properties.veteranSocialSecurityNumber'], previousBenefits),
                 {
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },
                     'view:ownServiceBenefits': { type: 'boolean' },
                     'view:claimedSponsorService': { type: 'boolean' },
-                    veteranFullName: fullName
+                    veteranFullName: fullName,
+                    'view:veteranId': veteranId.schema
                   }
                 }
               )
@@ -666,7 +673,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: createContactInformationPage('relativeAddress'),
+        contactInformation: contactInformationPage('relativeAddress'),
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
