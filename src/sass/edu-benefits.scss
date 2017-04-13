@@ -329,8 +329,13 @@ label {
   margin-bottom: 7rem;
 }
 
-.usa-alert ul:first-child, .edu-alert-top {
+.usa-alert ul:first-child {
   margin-top: 0;
+}
+
+.edu-benefits-alert {
+  margin-top: 0;
+  margin-bottom: 23px;
 }
 
 .edu-warning-single-line {

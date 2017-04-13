@@ -13,7 +13,7 @@ export function transform(formConfig, form) {
 
 export function eligibilityDescription() {
   return (
-    <div className="usa-alert usa-alert-warning usa-content edu-alert-top">
+    <div className="usa-alert usa-alert-warning usa-content edu-benefits-alert">
       <div className="usa-alert-body">
         <ul>
           <li>You may be eligible for more than 1 education benefit program.</li>
