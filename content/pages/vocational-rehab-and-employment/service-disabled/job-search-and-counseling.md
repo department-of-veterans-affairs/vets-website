@@ -18,6 +18,12 @@ relatedlinks:
   - url: /disability-benefits/apply/claim-types/predischarge-claim/
     title: Predischarge Claim
     description: If you have a disability and you're currently in predischarge status, file a claim to help speed up the claim decision process.
+  - url: /vocational-rehab-and-employment/vetsuccess/
+    title: VetSuccess on Campus
+    description: Find out if our counselors can help you transition from military to college life.
+  - url: /vocational-rehab-and-employment/family-members/
+    title: Family Members
+    descripton: Help your family members find out if they qualify for certain counseling services, training, and education benefits.
 ---
 
 <div class="va-introtext">
@@ -30,7 +36,7 @@ If you want to follow a career path that uses your existing skillset, Vocational
 
 ### Can I get job-search counseling and employment coaching through VR&amp;E?
 
-You may qualify for these benefits if you’re a Veteran or Servicemember with a service-connected disability and you have:
+You may qualify for these benefits if you’re a Servicemember or Veteran with a service-connected disability and you have:
 -	An employment barrier
 -	Past experience, education, or training in your field of interest
 
