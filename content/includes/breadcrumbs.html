@@ -1,4 +1,8 @@
-<nav class="va-nav-breadcrumbs">
+{% if gatePage === true %}
+  {% assign gatePageClassName = 'va-nav-breadcrumbs--gate' %}
+{% endif %}
+
+<nav class="va-nav-breadcrumbs {{gatePageClassName}}">
   <ul class="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
     <li><a href="/">Home</a></li>
       {% assign current_page = breadcrumb_path | last %}
@@ -14,11 +18,14 @@
         {% else %}
           <li>
             <a href="/{{ crumb.path }}">
-              {% if crumb.name == 'gi-bill' %}
-              {{ crumb.name | replace: '-', ' ' | replace: 'gi', 'GI' | replace: 'b', 'B' }}
-              {% else %}
-              {{ crumb.name | replace: '-', ' ' | capitalize }}
-              {% endif %}             
+              {% case crumb.name %}
+                {% when 'gi-bill' %}
+                   {{ crumb.name | replace: '-', ' ' | replace: 'gi', 'GI' | replace: 'b', 'B' }}
+                {% when 'healthcare' %}
+                   Health Care
+                {% else %}
+                  {{ crumb.name | replace: '-', ' ' | capitalize }}
+              {% endcase %}             
             </a></li>
         {% endif %}
       {% endfor %}

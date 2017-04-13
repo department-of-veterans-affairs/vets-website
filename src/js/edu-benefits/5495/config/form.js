@@ -4,6 +4,8 @@ import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
 import applicantInformation from '../../pages/applicantInformation';
 import applicantServicePage from '../../pages/applicantService';
+import contactInformationPage from '../../pages/contactInformation';
+import directDeposit from '../../pages/directDeposit';
 
 import * as fullName from '../../../common/schemaform/definitions/fullName';
 
@@ -110,6 +112,13 @@ const formConfig = {
             }
           }
         }
+      }
+    },
+    personalInformation: {
+      title: 'Personal Information',
+      pages: {
+        contactInformation: contactInformationPage('relativeAddress'),
+        directDeposit
       }
     }
   }
