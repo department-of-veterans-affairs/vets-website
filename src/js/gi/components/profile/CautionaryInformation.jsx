@@ -7,12 +7,12 @@ const TableRow = ({ description, thisCampus, allCampuses }) => {
   const bold = description === 'Total Complaints';
   return (
     <tr>
-      <th><b>{description}</b></th>
+      <th><strong>{description}</strong></th>
       <td className="number">
-        {bold ? <b>{thisCampus}</b> : thisCampus}
+        {bold ? <strong>{thisCampus}</strong> : thisCampus}
       </td>
       <td className="number">
-        {bold ? <b>{allCampuses}</b> : allCampuses}
+        {bold ? <strong>{allCampuses}</strong> : allCampuses}
       </td>
     </tr>
   );
@@ -24,10 +24,10 @@ const ListRow = ({ description, value }) => {
   return (
     <div className="row">
       <div className="small-11 columns">
-        <p>{bold ? <b>{description}:</b> : `${description}:`}</p>
+        <p>{bold ? <strong>{description}:</strong> : `${description}:`}</p>
       </div>
       <div className="small-1 columns">
-        <p className="number">{bold ? <b>{value}</b> : value}</p>
+        <p className="number">{bold ? <strong>{value}</strong> : value}</p>
       </div>
     </div>
   );
