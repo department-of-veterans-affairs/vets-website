@@ -258,8 +258,8 @@ const formConfig = {
                 'transferOfEntitlement',
                 'veteranFullName',
                 'view:veteranId',
-                'other',
-                'view:noPreviousBenefits'
+                'view:noPreviousBenefits',
+                'other'
               ],
               'view:noPreviousBenefits': {
                 'ui:title': 'None'
@@ -351,7 +351,12 @@ const formConfig = {
             type: 'object',
             properties: {
               previousBenefits: _.merge(
-                _.omit(['properties.veteranFullName', 'properties.veteranSocialSecurityNumber'], previousBenefits),
+                _.omit([
+                  'anyOf',
+                  'properties.veteranFullName',
+                  'properties.veteranSocialSecurityNumber',
+                  'properties.vaFileNumber'],
+                  previousBenefits),
                 {
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },
