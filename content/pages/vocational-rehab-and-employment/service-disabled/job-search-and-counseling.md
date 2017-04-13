@@ -64,4 +64,4 @@ Connect with more resources outside VA that can help you in your job search. [Se
 
 You’ll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) who can help you. [Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/).
 
-**Note for currently active Servicemembers:** If you have a disability and you're currently in predischarge status, filing a claim before you separte from the military may help to speed up the claim decision process. [Learn more about filing a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim/). 
+**Note for currently active Servicemembers:** If you have a disability and you're currently in predischarge status, filing a claim before you separate from the military may help to speed up the claim decision process. [Learn more about filing a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim/). 
