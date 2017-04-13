@@ -60,7 +60,7 @@ We pay the remaining amount of the face value of the insurance policy to your de
  
 ### Get more information
  	
-Read chapter 5 of the [Servicemembers’ and Veterans’ Group Life Insurance Handbook](benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp) or [contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
+Read chapter 5 of the [Servicemembers’ and Veterans’ Group Life Insurance Handbook](http://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp) or [contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
 
 
 ## Waiver of premiums for policyholders who become totally disabled
