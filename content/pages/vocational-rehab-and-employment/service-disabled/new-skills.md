@@ -24,7 +24,7 @@ relatedlinks:
   - url: /vocational-rehab-and-employment/external-resources/
     title: External Resources
     description: Get links to more resources that can help you in your job search.  
-  ---
+---
 
 <div class="va-introtext">
 
