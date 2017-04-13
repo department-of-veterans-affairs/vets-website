@@ -57,7 +57,6 @@ Veterans
 First, you’ll need to apply for VR&amp;E benefits. Then, you’ll work with your Vocational Rehabilitation Counselor (VRC). Follow these steps:
 
 <ol class="process">
-
 <li class="step one">
 
 [Apply for VR&amp;E benefits](/vocational-rehab-and-employment/apply-vre/).
@@ -79,7 +78,6 @@ Your VRC will help you create a personal independent-living plan that meets your
 - Guidance to help you understand if you qualify for our adaptive-housing programs, which can help you make changes to your home—like widening doorways or adding ramps—to help you live more independently
 
 </li>
-
 </ol>
 
 Most qualified Servicemembers and Veterans get independent-living services for up to 24 months. In some cases, services may be used for longer than this period of time.
