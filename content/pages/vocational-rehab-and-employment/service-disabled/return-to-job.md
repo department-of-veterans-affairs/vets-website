@@ -15,20 +15,11 @@ relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/independent-living/
     title: Independent-Living Services
     description: If your disability makes it hard for you to do daily activities (like bathing, dressing, or getting around), find out if you can get help to live more independently while you look for work.
-  - url: /disability-benefits/apply/claim-types/predischarge-claim/
-    title: Predischarge Claim
-    description: If you have a disability and you're currently in predischarge status, file a claim to help speed up the claim decision process.
-  - url: /vocational-rehab-and-employment/vetsuccess/
-    title: VetSuccess on Campus
-    description: Find out if our counselors can help you transition from military to college life.
-  - url: /vocational-rehab-and-employment/external-resources/
-    title: External Resources
-    description: Get links to more resources that can help you in your job search.  
 ---
 
 <div class="va-introtext">
 
-If you're a Veteran with a service-connected disability, you can return to the job you held before deploying to active service because of the Uniformed Services Employment and Reemployment Rights Act (USERRA). A service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. If you're a Veteran with a service-connected disability, find out if Vocational Rehabilitation and Employment (VR&amp;E) can help you return to your old job by supporting your employer in meeting your needs. 
+If you're a Veteran with a service-connected disability, you can return to the job you held before deploying to active service because of the Uniformed Services Employment and Reemployment Rights Act (USERRA). Find out if our Vocational Rehabilitation and Employment (VR&amp;E) program can help you return to your old job by supporting your employer in meeting your needs. 
 
 [Learn more about USERRA](http://www.dol.gov/vets/programs/userra/). 
 
@@ -39,9 +30,11 @@ If you're a Veteran with a service-connected disability, you can return to the j
 ### Can I get help returning to my old job through VR&amp;E?
 
 You may qualify for help if you're a Veteran with a service-connected disability and you:
-- Have an employment barrier or handicap (meaning your disability makes it hard for you to prepare for, get, and keep a job that suits your skills and needs), **and**
+- Have an employment barrier or handicap, **and**
 - Are signed up for VR&amp;E, **and**
 - Would like to return to your previous place of employment
+
+**Note:** Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Having an employment barrier means your disability makes it hard for you to prepare for, get, and keep a job that suits your skills and needs.
 
 <br>
 
@@ -56,8 +49,16 @@ Veterans
 - A full range of rehabilitation services with a Vocational Rehabilitation Counselor (VRC)
 - Referral to the Department of Labor to begin the process
 
+### Get more information
+
+Find out if our counselors can help you transition from military to college life. [Learn about VetSuccess on Campus](/vocational-rehab-and-employment/vetsuccess/). 
+
+Connect with more resources outside VA that can help you in your job search. [See our list of external resources](/vocational-rehab-and-employment/external-resources/).
+
 <hr>
 
 ### How do I get these benefits?
 
 You'll need to apply for these benefits to find a VRC who can help you. [Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/).
+
+**Note for currently active Servicemembers:** If you have a disability and you're currently in predischarge status, filing a claim before you separate from the military may help to speed up the claim decision process. [Learn more about filing a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim/).
