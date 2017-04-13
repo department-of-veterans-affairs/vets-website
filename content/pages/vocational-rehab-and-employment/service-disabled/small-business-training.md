@@ -15,15 +15,6 @@ relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
     title: Returning to Your Old Job
     description: If you want to return to the civilian job you held before activating, you have the right to do so. Find out if you can get help with this process.
-  - url: /disability-benefits/apply/claim-types/predischarge-claim/
-    title: Predischarge Claim
-    description: If you have a disability and you're currently in predischarge status, file a claim to help speed up the claim decision process.
-  - url: /vocational-rehab-and-employment/vetsuccess/
-    title: VetSuccess on Campus
-    description: Find out if our counselors can help you transition from military to college life.
-  - url: /vocational-rehab-and-employment/external-resources/
-    title: External Resources
-    description: Get links to more resources that can help you in your job search.  
 ---
 
 <div class="va-introtext">
@@ -69,3 +60,7 @@ You'll need to apply for benefits to find a Vocational Rehabilitation Counselor 
 [Apply for VR&amp;E Benefits](/vocational-rehab-and-employment/apply-vre/).
 
 If you qualify for VR&amp;E Benefits and develop a business plan, we'll review your plan and decide if self-employment and the proposed business are likely to succeed. If the answer is yes, we'll work with you to provide more support.
+
+**Note for currently active Servicemembers:** If you have a disability and you're currently in predischarge status, filing a claim before you separate from the military may help to speed up the claim decision process. [Learn more about filing a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim/). 
+
+
