@@ -40,11 +40,14 @@ export class CautionaryInformation extends React.Component {
     if (!it.complaints) { return null; }
 
     const flagContent = (
-      <p>
+      <div>
         {it.cautionFlagReason}
-        <br/>
-        <a onClick={this.props.showModal.bind(this, 'cautionInfo')}>Learn more about these warnings</a>
-      </p>
+        <p>
+          <a onClick={this.props.showModal.bind(this, 'cautionInfo')}>
+            Learn more about these warnings
+          </a>
+        </p>
+      </div>
     );
 
     const complaintData = [
