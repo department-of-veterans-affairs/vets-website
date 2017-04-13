@@ -15,15 +15,6 @@ relatedlinks:
   - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
     title: Returning to Your Old Job
     description: If you want to return to the civilian job you held before activating, you have the right to do so. Find out if you can get help with this process.
-  - url: /disability-benefits/apply/claim-types/predischarge-claim/
-    title: Predischarge Claim
-    description: If you have a disability and you're currently in predischarge status, file a claim to help speed up the claim decision process.
-  - url: /vocational-rehab-and-employment/vetsuccess/
-    title: VetSuccess on Campus
-    description: Find out if our counselors can help you transition from military to college life.
-  - url: /vocational-rehab-and-employment/external-resources/
-    title: External Resources
-    description: Get links to more resources that can help you in your job search.  
 ---
 
 <div class="va-introtext">
@@ -42,13 +33,14 @@ You may qualify for independent-living services if you qualify for Vocational Re
 - Your injuries prevent you from looking for or returning to work right away, **and**
 - Your case manager refers you after you sign up for the VR&amp;E program
 
-**Note:** Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Your disability rating reflects how severe your disability is.
+**Note:** Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Your disability rating reflects how severe your disability is (with 0% being not at all disabled and 100% being totally disabled).
 
 <br>
 
 #### Who's covered?
 
-Veterans
+- Veterans
+- Servicemembers
 
 </div>
 
@@ -77,7 +69,9 @@ Your VRC will help you create a personal independent-living plan that meets your
 - Referral to support resources
 - Guidance to help you understand if you qualify for our adaptive-housing programs, which can help you make changes to your home—like widening doorways or adding ramps—to help you live more independently
 
+Most qualified Servicemembers and Veterans get independent-living services for up to 24 months. In some cases, services may be used for longer than this period of time.
+
 </li>
 </ol>
 
-Most qualified Servicemembers and Veterans get independent-living services for up to 24 months. In some cases, services may be used for longer than this period of time.
+**Note for currently active Servicemembers:** If you have a disability and you're currently in predischarge status, filing a claim before you separate from the military may help to speed up the claim decision process. [Learn more about filing a predischarge claim](/disability-benefits/apply/claim-types/predischarge-claim/).
