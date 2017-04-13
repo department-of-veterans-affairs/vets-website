@@ -13,7 +13,7 @@ VetSuccess on Campus supports Veterans, Servicemembers, and some qualified famil
 
 ### How do I know if I'm a qualified family member?
 
-You can get help through this program if you're the dependent of a Servicemembers or Veteran, **and** you:
-- [Qualify for the [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), **or**
+You can get help through this program if you're the dependent of a Servicemember or Veteran, and you:
+- [Qualify for the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), **or**
 - [Qualify for the Survivors’ and Dependents’ Educational Assistance Program](/education/gi-bill/survivors-dependent-assistance/dependents-education), **or**
 - Have had GI Bill benefits transferred to you from a spouse or parent
