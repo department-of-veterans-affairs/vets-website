@@ -61,7 +61,8 @@ class HeadingSummary extends React.Component {
             </p>
             <p>
               <IconWithInfo icon="institution" present={it.type && it.type !== 'ojt'}>
-                {_.capitalize(it.type)} school
+                {_.capitalize(it.type)}&nbsp;
+                {it.type === 'for profit' ? 'school' : 'institution'}
               </IconWithInfo>
             </p>
             <p>
