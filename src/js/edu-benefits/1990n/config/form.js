@@ -2,7 +2,7 @@
 
 import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 
-import schoolSelectionPage, { fieldsFor as schoolSelectionFieldsFor } from '../../pages/schoolSelection';
+import schoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 
 // import definitions from '../../definitions/';
 
@@ -55,7 +55,7 @@ const formConfig = {
     schoolSelection: {
       pages: {
         schoolSelection: schoolSelectionPage(fullSchema1990n, {
-          fields: schoolSelectionFieldsFor['1990n']
+          fields: schoolSelectionOptionsFor['1990n']
         })
       }
     }
