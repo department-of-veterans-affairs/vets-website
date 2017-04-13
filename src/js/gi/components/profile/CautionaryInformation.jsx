@@ -4,24 +4,31 @@ import { showModal } from '../../actions';
 import AlertBox from '../../../common/components/AlertBox';
 
 const TableRow = ({ description, thisCampus, allCampuses }) => {
+  if (!thisCampus && !allCampuses) return null;
+  const bold = description === 'Total Complaints';
   return (
     <tr>
-      <th><strong>{description}</strong></th>
-      <td className="number">{thisCampus}</td>
-      <td className="number">{allCampuses}</td>
+      <th><b>{description}</b></th>
+      <td className="number">
+        {bold ? <b>{thisCampus}</b> : thisCampus}
+      </td>
+      <td className="number">
+        {bold ? <b>{allCampuses}</b> : allCampuses}
+      </td>
     </tr>
   );
 };
 
 const ListRow = ({ description, value }) => {
   if (value < 1) return null;
+  const bold = description === 'Total Complaints';
   return (
     <div className="row">
       <div className="small-11 columns">
-        <p>{description}:</p>
+        <p>{bold ? <b>{description}:</b> : `${description}:`}</p>
       </div>
       <div className="small-1 columns">
-        <p className="number">{value}</p>
+        <p className="number">{bold ? <b>{value}</b> : value}</p>
       </div>
     </div>
   );
@@ -53,7 +60,7 @@ export class CautionaryInformation extends React.Component {
       { type: 'Post-Graduation Job Opportunities', key: 'job', totalKey: 'jobs' },
       { type: 'Release of Transcripts', key: 'transcript' },
       { type: 'Other', key: 'other' },
-      { type: 'Student Complaints', totals: ['facilityCode', 'mainCampusRollUp'] }
+      { type: 'Total Complaints', totals: ['facilityCode', 'mainCampusRollUp'] }
     ];
 
     const complaints = complaintData.reduce((hydratedComplaints, complaint) => {
@@ -74,8 +81,8 @@ export class CautionaryInformation extends React.Component {
         <div className="student-complaints">
           <div className="link-header">
             <h3>
-              {it.complaints.mainCampusRollUp}&nbsp;
-              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank">student complaints</a>
+              {+it.complaints.mainCampusRollUp}&nbsp;
+              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank">total complaints</a>
             </h3>
             <span>
               &nbsp;(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)
@@ -83,39 +90,34 @@ export class CautionaryInformation extends React.Component {
           </div>
         </div>
 
-        <div className="table">
-          <table className="usa-table-borderless">
-            <thead>
-              <tr>
-                <th>Complaint type</th>
-                <th>This campus</th>
-                <th>
-                  <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
-                    All campuses
-                  </a>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {complaints.map((c) =>
-                <TableRow key={c.description} description={c.description}
-                    thisCampus={c.thisCampus} allCampuses={c.allCampuses}/>)}
-            </tbody>
-          </table>
-        </div>
+        {
+          it.complaints.mainCampusRollUp &&
+          (<div className="table">
+            <table className="usa-table-borderless">
+              <thead>
+                <tr>
+                  <th>Complaint type</th>
+                  <th>This campus</th>
+                  <th>
+                    <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
+                      All campuses
+                    </a>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {complaints.map((c) =>
+                  <TableRow key={c.description} description={c.description}
+                      thisCampus={c.thisCampus} allCampuses={c.allCampuses}/>)}
+              </tbody>
+            </table>
+          </div>)
+        }
 
         <div className="list">
           <h4>This campus</h4>
           {complaints.map((c) =>
             <ListRow key={c.description} description={c.description} value={c.thisCampus}/>)}
-          <div className="row">
-            <div className="small-11 columns">
-              <p><strong>Total complaints:</strong></p>
-            </div>
-            <div className="small-1 columns">
-              <p className="number"><strong>{it.complaints.facilityCode}</strong></p>
-            </div>
-          </div>
           <h4>
             <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
               All campuses
@@ -123,14 +125,6 @@ export class CautionaryInformation extends React.Component {
           </h4>
           {complaints.map((c) =>
             <ListRow key={c.description} description={c.description} value={c.allCampuses}/>)}
-          <div className="row">
-            <div className="small-11 columns">
-              <p><strong>Total complaints:</strong></p>
-            </div>
-            <div className="small-1 columns">
-              <p className="number"><strong>{it.complaints.mainCampusRollUp}</strong></p>
-            </div>
-          </div>
         </div>
 
         <p>*Each complaint can have multiple types</p>
