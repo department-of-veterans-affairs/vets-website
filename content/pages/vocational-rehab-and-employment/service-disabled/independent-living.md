@@ -2,35 +2,46 @@
 layout: page-breadcrumbs.html
 title: Independent-Living Services
 template: 6-info-page
+relatedlinks:
+  - url: /vocational-rehab-and-employment/service-disabled/job-search-and-counseling/
+    title: Job-Search Counseling and Employment Coaching
+    description: If you want a job that matches your existing skills, find out if you can get help looking for a job and settling into your new workplace.
+  - url: /vocational-rehab-and-employment/service-disabled/new-skills/
+    title: Career Counseling and New Skills Training
+    description: If your service-connected disability makes it hard for you to work in your current field, find out if you can get counseling and training to help you move into a field that better suits your abilities.
+  - url: /vocational-rehab-and-employment/service-disabled/small-business-training/
+    title: Small Business Entrepreneurship Training
+    description: If you want to work for yourself, find out if you can get help starting your own business.
+  - url: /vocational-rehab-and-employment/service-disabled/independent-living/
+  - url: /vocational-rehab-and-employment/service-disabled/return-to-job/
+    title: Returning to Your Old Job
+    description: If you want to return to the civilian job you held before activating, you have the right to do so. Find out if you can get help with this process.
+   - url: /disability-benefits/apply/claim-types/predischarge-claim/
+    title: Predischarge Claim
+    description: If you have a disability and you're currently in predischarge status, file a claim to help speed up the claim decision process.
 ---
 
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/vocational-rehab-and-employment/apply-vre/">Apply for VR&amp;E Benefits</a>
-    </div>
-  </div>
-</div>
+<div class="va-introtext">
 
 If your service-connected disability makes it hard for you to work and you need support to live more independently, you may qualify for independent-living services. You may also be able to get these services if you want to work toward greater independence as you look for a job. Find out if you can get help restoring your ability to take care of everyday tasks, like bathing, dressing, and getting around.
 
+</div>
 
 <div class="feature" markdown="1">
 
 ### Can I get independent-living services through VR&amp;E?
 
-You may qualify for independent-living services if you qualify for Vocational Rehab and Employment (VR&E) benefits, and:
+You may qualify for independent-living services if you qualify for Vocational Rehab and Employment (VR&amp;E) benefits, and:
 
 - You have a service-connected disability rating of 20&#37; or higher, **and**
 - Your injuries prevent you from looking for or returning to work right away, **and**
 - Your case manager refers you after you sign up for the VR&amp;E program
 
-Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Your disability rating reflects how severe your disability is.
+**Note:** Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Your disability rating reflects how severe your disability is.
 
 <br>
 
-### Who's covered?
+#### Who's covered?
 
 Veterans
 
@@ -38,13 +49,13 @@ Veterans
 
 ### How do I get these benefits?
 
-First, you’ll need to apply for VR&E benefits. Then, you’ll work with your Vocational Rehabilitation Counselor (VRC). Follow these steps:
+First, you’ll need to apply for VR&amp;E benefits. Then, you’ll work with your Vocational Rehabilitation Counselor (VRC). Follow these steps:
 
 <ol class="process">
 
 <li class="step one">
 
-[Apply for VR&E benefits](/vocational-rehab-and-employment/apply-vre/).
+[Apply for VR&amp;E benefits](/vocational-rehab-and-employment/apply-vre/).
 
 </li>
 
