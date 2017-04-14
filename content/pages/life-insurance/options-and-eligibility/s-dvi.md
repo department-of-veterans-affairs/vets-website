@@ -7,7 +7,7 @@ relatedlinks:
   - url: /life-insurance/options-and-eligibility/sgli/
     title: Servicemembers’ Group Life Insurance (SGLI)
     description: Get group life insurance while you’re serving.
-   - url: /life-insurance/options-and-eligibility/fsgli/
+  - url: /life-insurance/options-and-eligibility/fsgli/
     title: Family Servicemembers’ Group Life Insurance (FSGLI)
     description: Add coverage for spouse and dependent children (children who rely on you for financial support).
   - url: /life-insurance/options-and-eligibility/tsgli/
@@ -16,7 +16,6 @@ relatedlinks:
   - url: /life-insurance/options-and-eligibility/vgli/
     title: Veterans’ Group Life Insurance (VGLI)
     description: Get group life insurance once you’ve ended your service. 
-
 ---
 
 <div class="va-introtext">
@@ -35,8 +34,9 @@ You may be able to get S-DVI if you’ve gotten a disability rating of 0% or mor
 - Left the military on or after April 25, 1951, **and**
 - Were discharged under conditions other than dishonorable
 
-**Note:** A disability rating measures how bad your disability is. An increase of a rating you had before—or a rating of Individual Unemployability (meaning you can’t work)—doesn’t qualify you for S-DVI.
+**Note:** A disability rating measures how bad your disability is (with 0% being not at all disabled and 100% being totally disabled). An increase of a rating you had before—or a rating of Individual Unemployability (meaning you can’t work)—doesn’t qualify you for S-DVI.
 
+<br>
 
 ### Can I get more life insurance coverage if I need it? 
 
@@ -48,8 +48,9 @@ You may also be able to get $30,000 of supplemental coverage if you qualify for 
 
 [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/).
 
+<br>
 
-### Who’s covered?
+#### Who’s covered?
 
 Veterans
 
@@ -59,7 +60,6 @@ Veterans
 
 - Up to $10,000 of coverage
 - Up to $30,000 of supplemental coverage
-
 
 ### How do I get these benefits?
 
@@ -79,7 +79,6 @@ To apply for Supplemental S-DVI, file VA Form 29-0188 (Application for Supplemen
 
 [Download VA Form 29-0188](http://benefits.va.gov/INSURANCE/forms/29-0188.htm).
 
-
 ### How much will I pay for these benefits?
 
 Your premium rate (the amount you’ll pay each month for your coverage) will depend on:
@@ -88,9 +87,6 @@ Your premium rate (the amount you’ll pay each month for your coverage) will de
 
 Get premium rates and a description of the plan options. [Download VA pamphlet 29-9 (Service-Disabled Veterans Insurance RH Information and Premium Rates)](http://benefits.va.gov/INSURANCE/forms/29-9.htm).
 
-
 ### Can I get a waiver so I don’t have to pay the premiums? 
 
 Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/).
-
-
