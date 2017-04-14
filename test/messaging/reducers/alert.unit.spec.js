@@ -20,7 +20,7 @@ import {
   SEND_MESSAGE_SUCCESS
 } from '../../../src/js/messaging/utils/constants';
 
-import { draft, folders } from '../../util/messaging-helpers';
+import { draft, folders } from '../../e2e/messaging-helpers';
 
 const initialState = {
   content: '',

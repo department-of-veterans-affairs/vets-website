@@ -38,7 +38,7 @@ permalink: false
     <div class="small-12 medium-6 columns">
       <ul class="plain">
         <li>
-          <a href="/disability-benefits/apply-for-benefits/">How do I apply for disability benefits?</a>
+          <a href="/disability-benefits/apply/">How do I apply for disability benefits?</a>
         </li>
         <li>
           <a href="/education/apply-for-education-benefits/">How do I apply for education benefits?</a>

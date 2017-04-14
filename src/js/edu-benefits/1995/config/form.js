@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
+import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
 import {
   bankAccountChangeLabels,
@@ -20,6 +20,7 @@ import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
 import * as veteranId from '../../definitions/veteranId';
 
 import createContactInformationPage from '../../pages/contactInformation';
+import createOldSchoolPage from '../../pages/oldSchool';
 
 import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -30,15 +31,13 @@ const {
   toursOfDuty,
   civilianBenefitsAssistance,
   educationObjective,
-  nonVaAssistance,
-  reasonForChange,
-  bankAccountChange
+  nonVaAssistance
 } = fullSchema1995.properties;
 
 const {
   preferredContactMethod,
-  school,
-  educationType
+  educationType,
+  bankAccountChange
 } = fullSchema1995.definitions;
 
 const formConfig = {
@@ -202,36 +201,7 @@ const formConfig = {
             }
           }
         },
-        oldSchool: {
-          path: 'school-selection/old-school',
-          title: 'School, university, program, or training facility you last attended',
-          initialData: {
-            oldSchool: {
-              address: {}
-            }
-          },
-          uiSchema: {
-            'ui:title': 'School, university, program, or training facility you last attended',
-            oldSchool: {
-              name: {
-                'ui:title': 'Name of school, university, or training facility'
-              },
-              address: address.uiSchema()
-            },
-            trainingEndDate: date.uiSchema('When did you stop taking classes or participating in the training program? (Future dates are ok)'),
-            reasonForChange: {
-              'ui:title': 'Why did you stop taking classes or participating in the training program? (for example, “I graduated” or “I moved” or “The program wasn’t right for me.”)'
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              oldSchool: _.set('properties.address', address.schema(), school),
-              trainingEndDate: date.schema,
-              reasonForChange
-            }
-          }
-        }
+        oldSchool: createOldSchoolPage(fullSchema1995)
       }
     },
     personalInformation: {

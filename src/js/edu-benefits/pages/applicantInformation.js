@@ -41,6 +41,7 @@ export default function applicantInformation(schema, options) {
     'view:noSSN': {
       type: 'boolean'
     },
+    vaFileNumber: schema.definitions.vaFileNumber,
     relativeDateOfBirth: schema.definitions.date,
     gender: schema.definitions.gender,
     relationship: schema.definitions.relationship
@@ -58,6 +59,16 @@ export default function applicantInformation(schema, options) {
       }),
       'view:noSSN': {
         'ui:title': 'I don’t have a Social Security number',
+      },
+      vaFileNumber: {
+        'ui:required': (formData) => !!_.get('view:noSSN', formData),
+        'ui:title': 'File number',
+        'ui:errorMessages': {
+          pattern: 'File number must be 8 digits'
+        },
+        'ui:options': {
+          expandUnder: 'view:noSSN'
+        }
       },
       relativeDateOfBirth: _.assign(currentOrPastDate.uiSchema('Date of birth'),
         {

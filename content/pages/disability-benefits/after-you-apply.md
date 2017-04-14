@@ -5,10 +5,10 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: /disability-benefits/claims-process/date/
+ - url: /disability-benefits/after-you-apply/date/
    title: Effective Date of Disability
    description: "Find out when you’ll start getting your disability payments."
- - url: /disability-benefits/claims-process/what-happens-after-rating/
+ - url: /disability-benefits/after-you-apply/what-happens-after-rating/
    title: What to Expect After You Get a Disability Rating
    description: "Find out what happens after you get your decision notice with your rating."
 ---
@@ -22,8 +22,8 @@ Find out what happens to your claim after you apply for disability benefits.
 ### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">121.8 days</span>
-<span class="description">Average time to process disability-related claims in February 2017</span>
+<span class="number">114.7 days</span>
+<span class="description">Average number of days to complete disability-related claims in March 2017</span>
 </div>
 
 #### The amount of time it takes to review your claim depends on:

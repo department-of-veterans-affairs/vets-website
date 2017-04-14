@@ -1,27 +1,33 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { showModal } from '../../actions';
+
 import AlertBox from '../../../common/components/AlertBox';
 
 const TableRow = ({ description, thisCampus, allCampuses }) => {
+  if (!thisCampus && !allCampuses) return null;
+  const bold = description === 'Total Complaints';
   return (
     <tr>
       <th><strong>{description}</strong></th>
-      <td className="number">{thisCampus}</td>
-      <td className="number">{allCampuses}</td>
+      <td className="number">
+        {bold ? <strong>{thisCampus}</strong> : thisCampus}
+      </td>
+      <td className="number">
+        {bold ? <strong>{allCampuses}</strong> : allCampuses}
+      </td>
     </tr>
   );
 };
 
 const ListRow = ({ description, value }) => {
   if (value < 1) return null;
+  const bold = description === 'Total Complaints';
   return (
     <div className="row">
       <div className="small-11 columns">
-        <p>{description}:</p>
+        <p>{bold ? <strong>{description}:</strong> : `${description}:`}</p>
       </div>
       <div className="small-1 columns">
-        <p className="number">{value}</p>
+        <p className="number">{bold ? <strong>{value}</strong> : value}</p>
       </div>
     </div>
   );
@@ -29,15 +35,18 @@ const ListRow = ({ description, value }) => {
 
 export class CautionaryInformation extends React.Component {
   render() {
-    const it = this.props.profile.attributes;
+    const it = this.props.institution;
     if (!it.complaints) { return null; }
 
     const flagContent = (
-      <p>
+      <div>
         {it.cautionFlagReason}
-        <br/>
-        <a onClick={this.props.showModal.bind(this, 'cautionInfo')}>Learn more about these warnings</a>
-      </p>
+        <p>
+          <a onClick={this.props.onShowModal.bind(this, 'cautionInfo')}>
+            Learn more about these warnings
+          </a>
+        </p>
+      </div>
     );
 
     const complaintData = [
@@ -53,7 +62,7 @@ export class CautionaryInformation extends React.Component {
       { type: 'Post-Graduation Job Opportunities', key: 'job', totalKey: 'jobs' },
       { type: 'Release of Transcripts', key: 'transcript' },
       { type: 'Other', key: 'other' },
-      { type: 'Student Complaints', totals: ['facilityCode', 'mainCampusRollUp'] }
+      { type: 'Total Complaints', totals: ['facilityCode', 'mainCampusRollUp'] }
     ];
 
     const complaints = complaintData.reduce((hydratedComplaints, complaint) => {
@@ -72,62 +81,62 @@ export class CautionaryInformation extends React.Component {
         <AlertBox content={flagContent} isVisible={!!it.cautionFlag} status="warning"/>
 
         <div className="student-complaints">
-          <h4>{it.complaints.mainCampusRollUp} student complaints</h4>
-          <span>(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)</span>
-        </div>
-
-        <div className="table">
-          <table className="usa-table-borderless">
-            <thead>
-              <tr>
-                <th>Complaint type</th>
-                <th>This campus</th>
-                <th>All campuses</th>
-              </tr>
-            </thead>
-            <tbody>
-              {complaints.map((c) =>
-                <TableRow key={c.description} description={c.description}
-                    thisCampus={c.thisCampus} allCampuses={c.allCampuses}/>)}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="list">
-          <h4>This campus</h4>
-          {complaints.map((c) =>
-            <ListRow key={c.description} description={c.description} value={c.thisCampus}/>)}
-          <div className="row">
-            <div className="small-11 columns">
-              <p><strong>Total complaints:</strong></p>
-            </div>
-            <div className="small-1 columns">
-              <p className="number"><strong>{it.complaints.facilityCode}</strong></p>
-            </div>
-          </div>
-          <h4>All campuses</h4>
-          {complaints.map((c) =>
-            <ListRow key={c.description} description={c.description} value={c.allCampuses}/>)}
-          <div className="row">
-            <div className="small-11 columns">
-              <p><strong>Total complaints:</strong></p>
-            </div>
-            <div className="small-1 columns">
-              <p className="number"><strong>{it.complaints.mainCampusRollUp}</strong></p>
-            </div>
+          <div className="link-header">
+            <h3>
+              {+it.complaints.mainCampusRollUp}&nbsp;
+              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank">total complaints</a>
+            </h3>
+            <span>
+              &nbsp;(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)
+            </span>
           </div>
         </div>
 
-        <p>*Each complaint can have multiple types</p>
+        {it.complaints.mainCampusRollUp && (<div>
+          <div className="table">
+            <table className="usa-table-borderless">
+              <thead>
+                <tr>
+                  <th>Complaint type</th>
+                  <th>This campus</th>
+                  <th>
+                    <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
+                      All campuses
+                    </a>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {complaints.map((c) =>
+                  <TableRow key={c.description} description={c.description}
+                      thisCampus={c.thisCampus} allCampuses={c.allCampuses}/>)}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="list">
+            <h4>This campus</h4>
+            {complaints.map((c) =>
+              <ListRow key={c.description} description={c.description} value={c.thisCampus}/>)}
+            <h4>
+              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
+                All campuses
+              </a>
+            </h4>
+            {complaints.map((c) =>
+              <ListRow key={c.description} description={c.description} value={c.allCampuses}/>)}
+          </div>
+
+          <p>*Each complaint can have multiple types</p>
+        </div>)}
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => state;
-
-const mapDispatchToProps = {
-  showModal,
+CautionaryInformation.propTypes = {
+  institution: React.PropTypes.object,
+  onShowModal: React.PropTypes.func
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CautionaryInformation);
+export default CautionaryInformation;

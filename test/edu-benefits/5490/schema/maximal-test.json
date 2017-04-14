@@ -15,7 +15,11 @@
   },
   "benefitSelection": {
     "data": {
-      "benefit": "chapter35",
+      "benefit": "chapter35"
+    }
+  },
+  "benefitRelinquishment": {
+    "data": {
       "benefitsRelinquishedDate": "2006-01-01"
     }
   },
@@ -51,13 +55,15 @@
         "remarried": true,
         "remarriageDate": "2007-01-02"
       },
-      "relativeFullName": {
-        "first": "Another sponsor name",
-        "middle": "Another middle",
-        "last": "Sponsor last name",
-        "suffix": "II"
+      "view:currentSponsorInformation": {
+        "veteranFullName": {
+          "first": "Another sponsor name",
+          "middle": "Another middle",
+          "last": "Sponsor last name",
+          "suffix": "II"
+        },
+        "veteranSocialSecurityNumber": "234434444"
       },
-      "veteranSocialSecurityNumber": "234434444",
       "veteranDateOfBirth": "1976-02-08",
       "veteranDateOfDeath": "1987-02-02"
     }
