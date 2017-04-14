@@ -34,7 +34,7 @@ const configGenerator = (options) => {
     filesToBuild = _.pick(entryFiles, options.entry.split(',').map(x => x.trim()));
   }
   filesToBuild.vendor = [
-    'core-js',
+    './src/js/common/polyfills',
     'history',
     'jquery',
     'react',

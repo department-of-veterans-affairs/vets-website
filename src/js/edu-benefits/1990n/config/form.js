@@ -13,9 +13,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import {
   transform
 } from '../helpers';
-//
-// const {
-// } = fullSchema1990n.properties;
+
+const {
+  payHighestRateBenefit
+} = fullSchema1990n.properties;
 
 const {
   currentlyActiveDuty
@@ -116,7 +117,27 @@ const formConfig = {
               currentlyActiveDuty
             }
           }
-        },
+        }
+      }
+    },
+    benefitSelection: {
+      title: 'Benefit Selection',
+      pages: {
+        benefitSelection: {
+          path: 'benefits/selection', // other forms this is benefits/eligibility
+          title: 'Benefit selection',
+          uiSchema: {
+            payHighestRateBenefit: {
+              'ui:title': 'If during the review made by VA I am found eligible for more than one benefit, I authorize VA to pay the benefit with the highest monthly rate.'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              payHighestRateBenefit
+            }
+          }
+        }
       }
     }
   }

@@ -27,7 +27,6 @@ import * as address from '../../../common/schemaform/definitions/address';
 import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as phone from '../../../common/schemaform/definitions/phone';
-import * as toursOfDuty from '../../definitions/toursOfDuty';
 import * as veteranId from '../../definitions/veteranId';
 
 import { uiSchema as dateRangeUi } from '../../../common/schemaform/definitions/dateRange';
@@ -37,9 +36,10 @@ import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings
 
 import contactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
-import applicantInformation from '../../pages/applicantInformation';
+import applicantInformationPage from '../../pages/applicantInformation';
+import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
-import additionalBenefits from '../../pages/additionalBenefits';
+import additionalBenefitsPage from '../../pages/additionalBenefits';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -63,7 +63,8 @@ const {
   dateRange,
   educationType,
   fullName,
-  postHighSchoolTrainings
+  postHighSchoolTrainings,
+  vaFileNumber
 } = fullSchema5490.definitions;
 
 const dateSchema = fullSchema5490.definitions.date;
@@ -87,59 +88,20 @@ const formConfig = {
     educationType,
     dateRange,
     fullName,
-    ssn: ssnSchema
+    ssn: ssnSchema,
+    vaFileNumber
   },
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformation(fullSchema5490, {
+        applicantInformation: applicantInformationPage(fullSchema5490, {
           labels: { relationship: relationshipLabels }
         }),
-        additionalBenefits: additionalBenefits(fullSchema5490, {
+        additionalBenefits: additionalBenefitsPage(fullSchema5490, {
           fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource']
         }),
-        applicantService: {
-          title: 'Applicant service',
-          path: 'applicant/service',
-          initialData: {
-          },
-          uiSchema: {
-            'ui:title': 'Applicant service',
-            'view:applicantServed': {
-              'ui:title': 'Have you ever served on active duty in the armed services?',
-              'ui:widget': 'yesNo'
-            },
-            toursOfDuty: _.merge(toursOfDuty.uiSchema, {
-              'ui:options': {
-                expandUnder: 'view:applicantServed'
-              },
-              'ui:required': form => _.get('view:applicantServed', form),
-              items: {
-                serviceStatus: { 'ui:title': 'Type of separation or discharge' }
-              }
-            })
-          },
-          schema: {
-            type: 'object',
-            // If answered 'Yes' without entering information, it's the same as
-            //  answering 'No' as far as the back end is concerned.
-            required: ['view:applicantServed'],
-            properties: {
-              'view:applicantServed': {
-                type: 'boolean'
-              },
-              toursOfDuty: toursOfDuty.schema({
-                fields: [
-                  'serviceBranch',
-                  'dateRange',
-                  'serviceStatus'
-                ],
-                required: ['serviceBranch', 'dateRange.from']
-              })
-            }
-          }
-        },
+        applicantService: applicantServicePage(),
       }
     },
     benefitSelection: {
@@ -243,6 +205,7 @@ const formConfig = {
             'ui:description': 'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [
+                'view:noPreviousBenefits',
                 'disability',
                 'dic',
                 'chapter31',
@@ -254,8 +217,7 @@ const formConfig = {
                 'transferOfEntitlement',
                 'veteranFullName',
                 'view:veteranId',
-                'other',
-                'view:noPreviousBenefits'
+                'other'
               ],
               'view:noPreviousBenefits': {
                 'ui:title': 'None'
@@ -347,7 +309,12 @@ const formConfig = {
             type: 'object',
             properties: {
               previousBenefits: _.merge(
-                _.omit(['properties.veteranFullName', 'properties.veteranSocialSecurityNumber'], previousBenefits),
+                _.omit([
+                  'anyOf',
+                  'properties.veteranFullName',
+                  'properties.veteranSocialSecurityNumber',
+                  'properties.vaFileNumber'],
+                  previousBenefits),
                 {
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },
@@ -432,6 +399,7 @@ const formConfig = {
                   'ui:title': 'I don’t know my sponsor’s Social Security number',
                 },
                 vaFileNumber: {
+                  'ui:required': (formData) => !!_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData),
                   'ui:title': 'Sponsor file number',
                 }
               })
