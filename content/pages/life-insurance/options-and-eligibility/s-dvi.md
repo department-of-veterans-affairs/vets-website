@@ -34,7 +34,7 @@ You may be able to get S-DVI if you’ve gotten a disability rating of 0% or mor
 - Left the military on or after April 25, 1951, **and**
 - Were discharged under conditions other than dishonorable
 
-**Note:** A disability rating measures how bad your disability is (with 0% being not at all disabled and 100% being totally disabled). An increase of a rating you had before—or a rating of Individual Unemployability (meaning you can’t work)—doesn’t qualify you for S-DVI.
+**Note:** Your disability rating measures how severe your disability is (with 0% meaning you're not at all disabled and 100% meaning you're totally disabled and not expected to improve). An increase of a rating you had before—or a rating of Individual Unemployability (meaning you can’t work)—doesn’t qualify you for S-DVI.
 
 <br>
 
