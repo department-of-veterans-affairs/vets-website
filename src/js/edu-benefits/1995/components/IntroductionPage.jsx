@@ -61,12 +61,12 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             <a href="/education/apply-for-education-benefits/">
               <button className="usa-button-outline">« Back</button>
             </a>
           </div>
-          <div className="small-6 medium-5 end columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
             <ProgressButton
                 onButtonClick={this.goForward}
                 buttonText="Continue"

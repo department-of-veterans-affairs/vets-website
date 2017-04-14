@@ -274,10 +274,10 @@ class HealthCareApp extends React.Component {
     if (this.props.location.pathname === '/review-and-submit') {
       buttons = (<div>
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {backButton}
           </div>
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {submitButton}
           </div>
           <div className="small-1 medium-1 end columns">
@@ -293,7 +293,7 @@ class HealthCareApp extends React.Component {
     } else if (this.props.location.pathname === '/introduction') {
       buttons = (
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             <ProgressButton
                 onButtonClick={this.handleContinue}
                 buttonText="Get Started"
@@ -305,7 +305,7 @@ class HealthCareApp extends React.Component {
     } else if (this.props.location.pathname === '/submit-message') {
       buttons = (
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {/* TODO: Figure out where this button should take the user. */}
             <a href="/">
               <button className="usa-button-primary">Back to Main Page</button>
@@ -316,10 +316,10 @@ class HealthCareApp extends React.Component {
     } else {
       buttons = (
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {backButton}
           </div>
-          <div className="small-6 medium-5 end columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
             {nextButton}
           </div>
         </div>

@@ -67,14 +67,14 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
   return (
     <div>
       <div className="row form-progress-buttons">
-        <div className="small-6 medium-5 columns">
+        <div className="small-6 usa-width-five-twelfths medium-5 columns">
           <ProgressButton
               onButtonClick={onBack}
               buttonText="Back"
               buttonClass="usa-button-outline"
               beforeText="«"/>
         </div>
-        <div className="small-6 medium-5 columns">
+        <div className="small-6 usa-width-five-twelfths medium-5 columns">
           {submitButton}
         </div>
         <div className="small-1 medium-1 end columns">
