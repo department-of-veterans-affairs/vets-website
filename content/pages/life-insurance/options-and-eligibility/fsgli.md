@@ -58,7 +58,7 @@ Up to a maximum of $100,000 of coverage for you, not to exceed the Servicemember
 
 You’ll pay a premium for your spouse’s coverage, which will increase as your spouse ages. Choose your spouse’s age below to view current spousal coverage monthly premium rates based on the amount of insurance coverage you want.
 
-[MEL TO INSERT ACCORDION] Under 35 years
+#### Under 35 years
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -73,7 +73,7 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 | $20,000  | $1.00 |
 | $10,000  | $0.50 |
 
-[MEL TO INSERT ACCORDION] 35 – 39 years
+#### 35 – 39 years
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -88,7 +88,7 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 | $20,000  | $1.30 |
 | $10,000  | $0.65 |
 
-[MEL TO INSERT ACCORDION] 40 – 44 years
+#### 40 – 44 years
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -103,7 +103,7 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 | $20,000  | $1.70 |
 | $10,000  | $0.85 |
 
-[MEL TO INSERT ACCORDION] 45 – 49 years
+#### 45 – 49 years
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -118,7 +118,7 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 | $20,000  | $2.60  |
 | $10,000  | $1.30  |
 
-[MEL TO INSERT ACCORDION] 50 – 54 years
+#### 50 – 54 years
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -133,7 +133,7 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 | $20,000  | $5.00  |
 | $10,000  | $2.50  |
 
-[MEL TO INSERT ACCORDION] 55 – 59 years
+#### 55 – 59 years
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -148,7 +148,7 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 | $20,000  | $7.40  |
 | $10,000  | $3.70  |
 
-[MEL TO INSERT ACCORDION] 60 years and older
+#### 60 years and older
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
