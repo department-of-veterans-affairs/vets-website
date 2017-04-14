@@ -45,7 +45,7 @@ Choose **Vocational Rehabilitation and Employment Program**.
 
 <li class="step five">
 
-Apply for the **Vocational Rehabilitation and Employment Program**. 
+Apply for the Vocational Rehabilitation and Employment Program. 
 
 </li>
 
