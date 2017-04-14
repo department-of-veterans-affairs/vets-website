@@ -70,7 +70,7 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </p>
             <p>
-              <IconWithInfo icon="group" present={it.undergradEnrollment && it.type && it.type !== 'ojt'}>
+              <IconWithInfo icon="group" present={it.type && it.type !== 'ojt'}>
                 {schoolSize(it.undergradEnrollment)} size
               </IconWithInfo>
             </p>
