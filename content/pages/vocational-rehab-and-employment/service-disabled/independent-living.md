@@ -33,7 +33,7 @@ You may qualify for independent-living services if you qualify for Vocational Re
 - Your injuries prevent you from looking for or returning to work right away, **and**
 - Your case manager refers you after you sign up for the VR&amp;E program
 
-**Note:** Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Your disability rating reflects how severe your disability is (with 0% being not at all disabled and 100% being totally disabled).
+**Note:** Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Your disability rating measures how severe your disability is (with 0% meaning you're not at all disabled and 100% meaning you're totally disabled and not expected to improve).
 
 <br>
 
