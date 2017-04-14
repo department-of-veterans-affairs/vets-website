@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Managing Your Policy
 concurrence: 
-template: 1-topic landing
+template: 1-topic-landing
 relatedlinks:
   - url: /life-insurance/options-and-eligibility/
     title: Options and Eligibility 
