@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+
 import AlertBox from '../../../common/components/AlertBox';
 import { formatNumber } from '../../utils/helpers';
 
@@ -48,8 +49,8 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </p>
             <p>
-              <IconWithInfo icon="calendar-o" present={it.type !== 'ojt' && (it.highestDegree === 2 || it.highestDegree === 4)}>
-                {it.highestDegree} year program
+              <IconWithInfo icon="calendar-o" present={it.type !== 'ojt' && it.highestDegree}>
+                {_.isFinite(it.highestDegree) ? `${it.highestDegree} year` : it.highestDegree} program
               </IconWithInfo>
             </p>
           </div>
@@ -71,7 +72,7 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </p>
             <p>
-              <IconWithInfo icon="group" present={it.undergradEnrollment && it.type && it.type !== 'ojt'}>
+              <IconWithInfo icon="group" present={it.type && it.type !== 'ojt'}>
                 {schoolSize(it.undergradEnrollment)} size
               </IconWithInfo>
             </p>
