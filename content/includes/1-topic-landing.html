@@ -2,19 +2,6 @@
   <div class="primary">
     <div class="row">
       <div class="small-12 columns usa-content">
-      
-        <ul class="va-list--plain va-rellinks">
-          {% if path contains 'disabled-and-terminally-ill' %}
-            <li> Need to file a benefits claim after your family member has died? <a href="/life-insurance/manage-your-policy/">Manage your policy online</a>.</li>
-            <li>Need more information? <a href="http://www.benefits.va.gov/INSURANCE/ins_publications.asp">Read our insurance publications</a>.</li>
-          {% endif %}
-
-          {% if path contains 'options-and-eligibility' %}
-            <li>Want to know more about dividends? Some life insurance policies provide dividend options (cash payments made to policy holders when the company makes a profit).
-            <li><a href="http://www.benefits.va.gov/insurance/dividends_options.asp">Learn more about dividend options.</a></li>
-            <li><a href="http://www.benefits.va.gov/insurance/dividends_special.asp">Learn the truth about dividend rumors.</a></li>
-            <li><a href="https://insurance.va.gov/UnclaimedFunds/">Search for unclaimed funds.</a></li>
-        </ul>
 
       <h1>{{ title }}</h1>
       <!-- Page content begins -->
@@ -27,15 +14,10 @@
         {% include "content/includes/last-update.html" %}
       {% endif %}
 
-
-
       </div>
     </div>
   </div>
-
   {% if relatedlinks %}
     {% include "content/includes/main-navigation.html" %}
   {% endif %}
-
-  
 </div>
