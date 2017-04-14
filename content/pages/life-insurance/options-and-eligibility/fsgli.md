@@ -35,6 +35,8 @@ You may be able to get FSGLI if you’re the spouse or dependent child of:
 
 You can get FSGLI as the spouse of someone with SGLI coverage no matter if your own status is active duty, retired, or civilian.
 
+<br>
+
 #### Who’s covered?
 
 -	Spouses of Servicemembers covered under SGLI
