@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Claims for Disabled and Terminally Ill Policyholders
 concurrence: 
-template: 
+template: 1-topic-landing
 relatedlinks:
   - url: /life-insurance/options-and-eligibility/
     title: Options and Eligibility
@@ -18,7 +18,11 @@ If you or your spouse becomes totally disabled or terminally ill, you may be abl
 
 </div>
 
+<hr>
+
 ## Accelerated benefits for terminally ill policyholders
+
+<br>
 
 <div class="feature">
 
@@ -27,7 +31,9 @@ If you or your spouse becomes totally disabled or terminally ill, you may be abl
 You may be able to get your benefits early if:
 -	You have SGLI, Family SGLI, or VGLI life insurance, **and**
 -	You or a covered spouse has a written statement from a doctor saying you have 9 months or less to live
- 
+
+<br>
+
 #### Who’s covered?
 
 -	Veterans
@@ -36,10 +42,12 @@ You may be able to get your benefits early if:
 
 </div>
 
+
 ### What benefits can I get?
  
 Up to 50% of the face value of your coverage in increments of $5,000—paid to you before death
- 
+
+
 ### How do I get these benefits?
  
 Only the insured may apply for accelerated benefits. No one may apply on their behalf. In the case of a terminally ill spouse, only the insured may apply. Use the application form for the type of coverage you have:
@@ -58,12 +66,16 @@ Roseland, NJ 07068-1733
  
 We pay the remaining amount of the face value of the insurance policy to your designated beneficiary or beneficiaries (the people you’ve picked to get the money from your policy) upon your death. In the case of a terminally ill spouse, we pay the rest of the insurance policy to you upon your spouse's death.
  
+ 
 ### Get more information
  	
-Read chapter 5 of the [Servicemembers’ and Veterans’ Group Life Insurance Handbook](benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp) or [contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
+Read chapter 5 of the [Servicemembers’ and Veterans’ Group Life Insurance Handbook](http://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp) or [contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
 
+<hr>
 
 ## Waiver of premiums for policyholders who become totally disabled
+
+<br>
 
 <div class="feature">
 
@@ -77,9 +89,11 @@ There are certain exceptions to the above conditions. But if you think you’re 
 
 </div>
 
+
 ### What benefits can I get?
 
 A waiver of premiums. This means you won’t have to pay your life insurance premiums (the monthly payments you make to hold your policy). In most cases, premiums can only be waived up to 1 year prior to receipt of a claim.
+
 
 ### How do I get these benefits?
 
@@ -91,8 +105,11 @@ Department of Veterans Affairs Regional Office and Insurance Center (WP)
 P.O. Box 7208
 Philadelphia, PA 19101
 
+<hr>
 
 ## Total disability income provision (TDIP) rider for policyholders who become totally disabled
+
+<br>
 
 <div class="feature">
 
@@ -104,10 +121,12 @@ You may be able to get monthly payments if you have a mental or physical disabil
 
 </div>
 
+
 ### What life insurance benefits can I get with a TDIP rider?
 
 -	Monthly payments to be paid to you starting on the 1st day of the 7th month of your continued total disability and continuing as long as you remain total disabled
 -	A waiver of premiums so you won’t need to pay your premium (monthly payments) for your life insurance coverage
+
 
 ### How do I get these benefits?
 

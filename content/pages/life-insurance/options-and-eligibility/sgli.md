@@ -38,12 +38,15 @@ You may be able to get full-time SGLI coverage if you’re:
 - A member of the Ready Reserve or National Guard and are scheduled to perform at least 12 periods of inactive training per year, **or**
 - A volunteer in an Individual Ready Reserve (IRR) mobilization category
 
+<br>
 
 You may also be able to get full-time SGLI coverage if you’re in non-pay status with the Ready Reserve or National Guard, and you’re:
--	Scheduled for 12 periods of inactive training for the year, **and**
--	Drilling for points rather than pay, **and**
--	Paying premiums
 
+- Scheduled for 12 periods of inactive training for the year, **and**
+- Drilling for points rather than pay, **and**
+- Paying premiums
+
+<br>
 
 ### Who’s covered? 
 
@@ -72,7 +75,7 @@ To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 
 ### How much will I pay for these benefits?
 
-If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). [Learn more about TSGLI](/life-insurance/options-and-eligibility/tsgli/).
+If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance coverage. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). [Learn more about TSGLI](/life-insurance/options-and-eligibility/tsgli/).
 
 These are the SGLI premium rates effective July 1, 2014.
 
