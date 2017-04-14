@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Managing Your Policy
 concurrence: 
-template: 
+template: 1-topic landing
 relatedlinks:
   - url: /life-insurance/options-and-eligibility/
     title: Options and Eligibility 
@@ -11,7 +11,12 @@ relatedlinks:
     title: Claims for Disabled and Terminally Ill Policyholders
     description: Learn how to file special life insurance claims if you or your spouse become totally disabled or terminally ill.
 ---
+
+<div class="va-introtext">
+
 If you have VA life insurance, the easiest way to manage your policy is online. You can use your online portal to:
+
+</div>
 
 - Check your policy’s status to make sure it’s up to date
 - Pay your premium (the amount you’ll pay each month to keep your coverage)
