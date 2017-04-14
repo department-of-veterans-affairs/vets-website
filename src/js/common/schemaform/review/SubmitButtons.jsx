@@ -40,7 +40,7 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
 
     if (__BUILDTYPE__ !== 'production') {
       submitButton = (
-        <div className="small-6 medium-6 columns">
+        <div className="small-6 usa-width-one-half medium-6 columns">
           <a onClick={onSubmit}>Submit again</a>
         </div>
       );
@@ -54,7 +54,7 @@ export default function SubmitButtons({ submission, onSubmit, onBack }) {
           </div>
         </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
-          <div className="small-6 medium-6 columns">
+          <div className="small-6 usa-width-one-half medium-6 columns">
             <a href="/">
               <button className="usa-button-primary">Go Back to Vets.gov</button>
             </a>

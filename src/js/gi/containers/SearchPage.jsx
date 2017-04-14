@@ -129,7 +129,7 @@ export class SearchPage extends React.Component {
     const resultsClass = classNames(
       'search-results',
       'small-12',
-      'medium-9',
+      'usa-width-three-fourths medium-9',
       'columns',
       { opened: !search.filterOpened }
     );
@@ -137,6 +137,7 @@ export class SearchPage extends React.Component {
     const filtersClass = classNames(
       'filters-sidebar',
       'small-12',
+      'usa-width-one-fourth',
       'medium-3',
       'columns',
       { opened: search.filterOpened }

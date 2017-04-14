@@ -54,7 +54,7 @@ class AskVAPage extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="medium-8 columns">
+          <div className="usa-width-two-thirds medium-8 columns">
             <div>
               <h1>Ask for your Claim Decision</h1>
               <p className="first-of-type">We sent you a letter in the mail asking for more evidence to support your claim. We’ll wait 30 days for your evidence. If you don’t have anything more you want to submit, let us know and we’ll go ahead and make a decision on your claim.</p>
@@ -84,7 +84,7 @@ class AskVAPage extends React.Component {
                 : null}
             </div>
           </div>
-          <div className="small-12 medium-4 columns">
+          <div className="small-12 usa-width-one-third columns">
             <AskVAQuestions/>
           </div>
         </div>

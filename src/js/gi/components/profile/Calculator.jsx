@@ -128,7 +128,7 @@ export class Calculator extends React.Component {
               toggle={this.toggleCalculatorForm}/>
         </div>
         <div className="medium-1 columns">&nbsp;</div>
-        <div className="medium-6 columns your-estimated-benefits">
+        <div className="usa-width-one-half medium-6 columns your-estimated-benefits">
           <h3>Your estimated benefits</h3>
           <div className="out-of-pocket-tuition">
             <CalculatorResultRow

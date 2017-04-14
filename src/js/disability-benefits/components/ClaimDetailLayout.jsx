@@ -37,7 +37,7 @@ export default class ClaimDetailLayout extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="medium-8 columns">
+            <div className="usa-width-two-thirds medium-8 columns">
               <div className="claim-container">
                 <div className="claim-contentions">
                   <h6>What you've claimed:</h6>
@@ -57,7 +57,7 @@ export default class ClaimDetailLayout extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="small-12 medium-4 columns">
+            <div className="small-12 usa-width-one-third columns">
               <AskVAQuestions/>
             </div>
           </div>

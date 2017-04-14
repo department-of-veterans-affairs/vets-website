@@ -115,7 +115,7 @@ class YourClaimsPage extends React.Component {
           {!loading && !synced && <ClaimSyncWarning olderVersion={claims.length}/>}
         </div>
         <div className="row">
-          <div className="small-12 medium-8 columns">
+          <div className="small-12 usa-width-two-thirds medium-8 columns">
             <p>
               <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
@@ -133,7 +133,7 @@ class YourClaimsPage extends React.Component {
                 cssClass="claims-upload-modal"
                 contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>
-          <div className="small-12 medium-4 columns">
+          <div className="small-12 usa-width-one-third columns">
             <FeaturesWarning/>
             <AskVAQuestions/>
           </div>
