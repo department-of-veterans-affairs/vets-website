@@ -31,7 +31,7 @@ You may qualify for the VR&amp;E self-employment track if you're a Servicemember
 - An employment barrier, **and**
 - A draft business plan
 
-**Note:** Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Your disability rating reflects how severe your disability is. Having an employment barrier means your service-connected disability makes it hard for you to prepare for, get, and keep a job that suits your skills and needs.
+**Note:** Having a service-connected disability means we've concluded that you were disabled by an injury or illness caused—or made worse—by your active military service. Your disability rating measures how severe your disability is (with 0% meaning you're not at all disabled and 100% meaning you're totally disabled and not expected to improve). Having an employment barrier means your service-connected disability makes it hard for you to prepare for, get, and keep a job that suits your skills and needs.
 
 <br>
 
