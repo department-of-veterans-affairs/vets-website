@@ -77,9 +77,16 @@ export class Calculator extends React.Component {
       const { visible, title, terms } = this.props.calculated.outputs.perTerm[section];
       if (!visible) return null;
 
+      const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
+
       return (
         <div key={section} className="per-term-section">
-          <h5>{title}</h5>
+          <div className="link-header">
+            <h5>{title}</h5>
+            &nbsp;(<a href={learnMoreLink} target="_blank">
+              Learn more
+            </a>)
+          </div>
           {terms.map(term =>
             <CalculatorResultRow
                 key={`${section}${term.label}`}

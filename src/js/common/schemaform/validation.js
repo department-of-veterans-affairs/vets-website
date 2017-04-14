@@ -5,6 +5,7 @@ import {
   isValidSSN,
   isValidPartialDate,
   isValidCurrentOrPastDate,
+  isValidFutureDate,
   isValidDateRange,
   isValidRoutingNumber,
   isValidUSZipCode,
@@ -209,6 +210,19 @@ export function validateCurrentOrPastDate(errors, dateString, formData, formCont
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(errorMessages.futureDate || 'Please provide a valid current or past date');
+  }
+}
+
+/**
+ * Adds an error message to errors if a date is an invalid date or in the past.
+ *
+ * The message it adds can be customized in uiSchema.errorMessages.pastDate
+ */
+export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
+  validateDate(errors, dateString);
+  const { day, month, year } = parseISODate(dateString);
+  if (formData.highSchool.status === 'graduationExpected' && !isValidFutureDate(day, month, year)) {
+    errors.addError('Please provide a valid future date');
   }
 }
 

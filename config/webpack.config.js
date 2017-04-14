@@ -34,7 +34,7 @@ const configGenerator = (options) => {
     filesToBuild = _.pick(entryFiles, options.entry.split(',').map(x => x.trim()));
   }
   filesToBuild.vendor = [
-    'core-js',
+    './src/js/common/polyfills',
     'history',
     'jquery',
     'react',
@@ -42,7 +42,8 @@ const configGenerator = (options) => {
     'react-redux',
     'react-router',
     'redux',
-    'redux-thunk'
+    'redux-thunk',
+    'raven-js'
   ];
   const baseConfig = {
     entry: filesToBuild,

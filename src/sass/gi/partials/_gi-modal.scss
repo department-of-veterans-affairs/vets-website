@@ -1,11 +1,15 @@
 .gi-app {
-  
   .va-modal {
-    background-color: rgba($color-gray-dark, .8);
+    background-color: $color-va-modal-bg--gi;
     padding: 10px;
 
     .va-modal-inner {
       max-width: 600px;
+
+      @include media-maxwidth($small-screen) {
+        transform: none;
+        top: 0;
+      }
 
       .va-modal-close {
         margin: 12.5px 12.5px 12.5px 0;

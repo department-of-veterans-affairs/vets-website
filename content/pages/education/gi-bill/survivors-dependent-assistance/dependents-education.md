@@ -69,4 +69,4 @@ If you are a spouse, you may take correspondence courses under this program. Rem
 ### Learn more
 
 - Read the [DEA pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch35_pamphlet_2.pdf).
-- Get help from an [accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
+- Get help from an [accredited representative](/disability-benefits/apply/help/index.html).

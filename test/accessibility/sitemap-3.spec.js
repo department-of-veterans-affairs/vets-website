@@ -1,5 +1,5 @@
-const Timeouts = require('../util/timeouts.js');
-const SitemapHelpers = require('../util/sitemap-helpers');
+const Timeouts = require('../e2e/timeouts.js');
+const SitemapHelpers = require('../e2e/sitemap-helpers');
 
 module.exports = {
   'sitemap 3/4': (client) => {
