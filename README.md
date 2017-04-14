@@ -20,7 +20,7 @@ very secret.
 | add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
 | build the site with dev features enabled. | `npm run build` |
 | build the production site (dev features disabled). | `npm run build -- --buildtype production` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
-| build the site with optimizitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
+| build the site with optimizations (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | run the site for local development with automatic rebuilding of Javascript and sass | `npm run watch` then visit `http://localhost:3001/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run the site for local development with automatic rebuilding of code and styles for specific apps | `npm run watch -- --entry disability-benefits,no-react`. Valid application names are in `config/webpack.config.js` |
 | run the site for local development with automatic rebuilding of code and styles for static content | `npm run watch:static`. This is equivalent to running `npm run watch -- --entry no-react` |
@@ -28,7 +28,7 @@ very secret.
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
 | run only e2e tests | `npm run test:e2e` | 
-| run only e2e tests for specific apps | `npm run test:e2e -- test/edu-benefits/1995/*` (provide a path to the `*.e2e.spec.js` files) |
+| run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
 | run all linters | `npm run lint` |
 | run only javascript linter | `npm run lint:js` |
 | run only sass linter | `npm run lint:sass` |
