@@ -274,7 +274,7 @@ const getDerivedValues = createSelector(
     }
 
     // Calculate Housing Allowance Rate Final - getMonthlyRateFinal
-    const monthlyRateFinal = ropOld * (monthlyRate + buyUpRate + kickerBenefit); // TODO: double check order of operations
+    const monthlyRateFinal = ropOld * (monthlyRate + buyUpRate) + kickerBenefit;
 
     // Calculate the names of Terms 1-4
     if (isOJT) {
