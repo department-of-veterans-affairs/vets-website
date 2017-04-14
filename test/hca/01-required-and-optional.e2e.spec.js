@@ -244,7 +244,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('[name=privacyAgreement]');
     client.click('.form-panel .usa-button-primary');
     client.expect.element('.js-test-location').attribute('data-location')
-      .to.not.contain('/review-and-submit').before(Timeouts.submission);
+      .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Submit message
     client.expect.element('.success-alert-box').to.be.visible;

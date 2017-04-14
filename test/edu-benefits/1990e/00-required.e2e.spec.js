@@ -14,7 +14,6 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for education benefits: Vets.gov')
       .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
-      .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.overrideSmoothScrolling(client);
@@ -23,91 +22,72 @@ module.exports = E2eHelpers.createE2eTest(
     // Applicant information page
     client
       .waitForElementVisible('input[name="root_relativeFullName_first"]', Timeouts.slow);
-    EduHelpers.completeRelativeInformation(client, testData.applicantInformation.data, false);
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    EduHelpers.completeRelativeInformation(client, testData.applicantInformation.data, true);
+    client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/information');
 
     // Additional benefits page
     client
-      .waitForElementVisible('label[for="root_nonVaAssistance"]', Timeouts.slow);
-    EduHelpers.completeAdditionalBenefits(client, testData.benefitEligibility.data, false);
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+      .waitForElementVisible('label[for="root_civilianBenefitsAssistance"]', Timeouts.slow);
+    EduHelpers.completeAdditionalBenefits(client, testData.benefitEligibility.data, true);
+    client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/additional-benefits');
 
     // Benefits eligibility page
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, testData.benefitEligibility, false);
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    EduHelpers.completeBenefitsSelection(client, testData.benefitEligibility, true);
+    client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
     // Sponsor information page
     client
       .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
-    EduHelpers.completeVeteranInformation(client, testData.sponsorVeteran.data, false);
-    EduHelpers.completeVeteranAddress(client, testData.sponsorVeteran.data);
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    EduHelpers.completeVeteranInformation(client, testData.sponsorVeteran.data, true);
+    client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/sponsor/information');
 
     // Education history page
     client
       .waitForElementVisible('input[name="root_postHighSchoolTrainings_0_name"]', Timeouts.slow);
-    Edu1990eHelpers.completeEducationHistory(client, testData.educationHistory.data, false);
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    Edu1990eHelpers.completeEducationHistory(client, testData.educationHistory.data, true);
+    client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/education/history');
 
     // Employment history page
     client
       .waitForElementVisible('label[for="root_view:hasNonMilitaryJobs"]', Timeouts.slow);
-    EduHelpers.completeEmploymentHistory(client, testData.employmentHistory.data, false);
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    EduHelpers.completeEmploymentHistory(client, testData.employmentHistory.data, true);
+    client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/employment/history');
 
-    // School selection page
+    // School selection
     client
       .waitForElementVisible('input[name="root_educationProgram_name"]', Timeouts.slow);
     EduHelpers.completeSchoolSelection(client, testData.schoolSelection.data, true);
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/school-selection');
 
     // Contact information page
     client
       .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-    EduHelpers.completeContactInformation(client, testData.contactInformation.data, false, true);
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    EduHelpers.completeContactInformation(client, testData.contactInformation.data, true, true);
+    client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
     // Direct deposit page
     client
       .waitForElementVisible('label[for="root_bankAccount_accountType"]', Timeouts.slow);
-    EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, false);
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, true);
+    client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
     // Review and submit page
     client
-      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
+    client
       .pause(1000)
       .click('input[type="checkbox"]')
-      .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
     client.expect.element('.js-test-location').attribute('data-location')
           .to.not.contain('/review-and-submit').before(Timeouts.slow);
@@ -115,7 +95,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Confirmation page
     client
       .expect.element('.edu-benefits-submit-success').to.be.visible;
-    client.axeCheck('.main')
-          .end();
+
+    client.end();
   }
 );
