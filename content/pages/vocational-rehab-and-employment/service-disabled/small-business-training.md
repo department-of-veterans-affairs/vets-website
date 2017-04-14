@@ -55,9 +55,7 @@ We may also provide minimum stocks, needed equipment, and business license fees.
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) to help you. 
-
-[Apply for VR&amp;E Benefits](/vocational-rehab-and-employment/apply-vre/).
+You'll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) to help you. [Apply for VR&amp;E Benefits](/vocational-rehab-and-employment/apply-vre/).
 
 If you qualify for VR&amp;E Benefits and develop a business plan, we'll review your plan and decide if self-employment and the proposed business are likely to succeed. If the answer is yes, we'll work with you to provide more support.
 
