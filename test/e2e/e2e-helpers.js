@@ -32,7 +32,7 @@ function overrideVetsGovApi(client) {
   [`http://localhost:${process.env.API_PORT || 3000}`],
   (val) => {
     // eslint-disable-next-line no-console
-    console.log(`Result of overriding VetsGov.api.url${JSON.stringify(val)}`);
+    // console.log(`Result of overriding VetsGov.api.url${JSON.stringify(val)}`);
   });
 }
 
@@ -50,7 +50,7 @@ function overrideSmoothScrolling(client) {
   },
   (val) => {
     // eslint-disable-next-line no-console
-    console.log(`Setting VetsGov.scroll = ${JSON.stringify(val)}`);
+    // console.log(`Setting VetsGov.scroll = ${JSON.stringify(val)}`);
   });
 }
 
@@ -83,7 +83,7 @@ function overrideAnimations(client) {
   [styles],
   () => {
     // eslint-disable-next-line no-console
-    console.log('Overriding animations...');
+    // console.log('Overriding animations...');
   });
 }
 

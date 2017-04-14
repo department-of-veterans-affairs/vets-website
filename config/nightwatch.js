@@ -15,7 +15,7 @@ module.exports = {
   custom_commands_path: './test/util/nightwatch-commands',
   live_output: true,
   parallel_process_delay: 10,
-  disable_colors: false,
+  disable_colors: true,
   test_workers: false,
   test_settings: {
     'default': {
