@@ -1,41 +1,37 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 
 import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/edu-benefits/1995/config/form';
+import formConfig from '../../../../src/js/edu-benefits/1990n/config/form';
 
-describe('Edu 1995 schoolSelection', () => {
-  const { schema, uiSchema } = formConfig.chapters.schoolSelection.pages.oldSchool;
-
+describe('Edu 1990n benefitSelection', () => {
+  const { schema, uiSchema } = formConfig.chapters.benefitSelection.pages.benefitSelection;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          data={{}}
           uiSchema={uiSchema}/>
     );
+    const formDOM = findDOMNode(form);
 
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input'))
-      .to.not.be.empty;
+    expect(Array.from(formDOM.querySelectorAll('input')).length).to.equal(1);
   });
 
-  it('should have no required inputs', () => {
+  it('should show no errors when are empty', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
-          formData={{}}
-          onSubmit={onSubmit}
           schema={schema}
-          data={{}}
+          onSubmit={onSubmit}
           uiSchema={uiSchema}/>
     );
+    const formDOM = findDOMNode(form);
 
-    // Submit the form with no information
     submitForm(form);
-
-    // onSubmit will only be called if there were no validation errors
+    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be.empty;
     expect(onSubmit.called).to.be.true;
   });
 });
