@@ -104,7 +104,7 @@ class ReviewCollapsiblePanel extends React.Component {
     if (sectionsVerified) {
       hiddenSection = (<div></div>);
       buttonGroup = (<div>
-        <div className="medium-6 medium-offset-6 columns">
+        <div className="usa-width-one-half medium-6 medium-offset-6 columns">
           {buttonEdit}
         </div>
       </div>

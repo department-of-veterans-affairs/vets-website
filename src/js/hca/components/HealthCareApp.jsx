@@ -363,7 +363,7 @@ class HealthCareApp extends React.Component {
         <div className="row">
           <Element name="topScrollElement"/>
           {/*
-          <div className="medium-4 columns show-for-medium-up">
+          <div className="usa-width-one-third medium-4 columns show-for-medium-up">
             <Nav
                 data={this.props.data}
                 pages={this.props.uiState.sections}
@@ -371,7 +371,7 @@ class HealthCareApp extends React.Component {
                 currentUrl={this.props.location.pathname}/>
           </div>
           */}
-          <div className="medium-8 columns">
+          <div className="usa-width-two-thirds medium-8 columns">
             <FormTitle title="Apply online for health care with the 10-10ez" subTitle="OMB No. 2900-0091"/>
             <div>
               {!_.includes(['/introduction', '/submit-message'], this.props.location.pathname) && <SegmentedProgressBar total={chapters.length} current={step}/>}

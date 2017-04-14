@@ -84,7 +84,7 @@ export class Programs extends React.Component {
       <div className="programs row">
         {
           available.length > 0 && (
-            <div className="medium-6 large-6 column">
+            <div className="usa-width-one-half medium-6 large-6 column">
               <h3>Available at this campus</h3>
               {available.map((program) => this.renderProgramLabel.bind(this, program, true)())}
               <br/>
@@ -93,7 +93,7 @@ export class Programs extends React.Component {
         }
         {
           notAvailable.length > 0 && (
-            <div className="medium-6 large-6 column">
+            <div className="usa-width-one-half medium-6 large-6 column">
               <h3>Not available at this campus</h3>
               {notAvailable.map((program) => this.renderProgramLabel.bind(this, program, false)())}
             </div>
