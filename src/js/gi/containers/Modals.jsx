@@ -355,6 +355,13 @@ export class Modals extends React.Component {
             visit <a href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
                 target="_blank">this page</a>.</p>
         </Modal>
+
+        <Modal onClose={this.props.hideModal} visible={this.shouldDisplayModal('calcWorking')}>
+          <h2>Will be working</h2>
+          <p>
+            How many hours per week will you be working on your OJT / Apprenticeship? Beneficiaries working less than 120 hours/month (or approximately 30 hours/week) receive a prorated monthly housing allowance.
+          </p>
+        </Modal>
       </span>
     );
   }
