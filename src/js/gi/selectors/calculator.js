@@ -836,7 +836,7 @@ export const getCalculatedBenefits = createSelector(
         value: formatCurrency(derived.totalToYou)
       },
       perTerm: {
-        tuitionAndFees: {
+        tuitionFees: {
           visible: true,
           title: 'Tuition and fees',
           terms: [
