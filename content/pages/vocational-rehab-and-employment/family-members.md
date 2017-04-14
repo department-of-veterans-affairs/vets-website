@@ -58,19 +58,25 @@ You'll need to apply for services. Follow these steps to apply:
 <ol class="process">
 <li class="step one">
 
-[Log in to the VR&amp;E section of eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=vocational-rehabilitation-and-employment).
+[Log in to your eBenefits account](https://www.ebenefits.va.gov/ebenefits/homepage).
 
 </li>
 
 <li class="step two">
 
-Select "Vocational Rehabilitation and Employment Program."
+Choose Additional Benefits on your dashboard.
 
 </li>
 
-<li class="step last three">
+<li class="step three">
 
-Apply for "Education and Vocational Counseling."
+Choose Vocational Rehabilitation and Employment Program.
+
+</li>
+
+<li class="step last four">
+
+Apply for Education and Vocational Counseling.
 
 </li>
 </ol>
