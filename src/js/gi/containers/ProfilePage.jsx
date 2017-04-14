@@ -97,7 +97,9 @@ export class ProfilePage extends React.Component {
               <AccordionItem
                   button="Cautionary information"
                   ref={c => { this._cautionaryInfo = c; }}>
-                <CautionaryInformation/>
+                <CautionaryInformation
+                    institution={this.props.profile.attributes}
+                    onShowModal={this.props.showModal}/>
               </AccordionItem>
               <AccordionItem button="Additional information">
                 <AdditionalInformation
