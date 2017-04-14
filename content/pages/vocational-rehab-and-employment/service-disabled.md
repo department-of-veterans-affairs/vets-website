@@ -37,7 +37,7 @@ You may qualify for VR&amp;E benefits if you're a Servicemember who:
 - Has a 20% or higher predischarge disability rating (memorandum rating) and will soon leave the military, **or**
 - Is participating in the Integrated Disability Evaluation System (IDES) process or awaiting discharge due to a medical condition resulting from a serious injury or illness that occurred in the line of duty
 
-**Note:** Having a service-connected disability means we've concluded that you're disabled because of an illness or injury caused—or made worse by—your active military service. Your disability rating is how we measure how severe your disability is (with 0% being not at all disabled and 100% disabled being totally disabled). 
+**Note:** Having a service-connected disability means we've concluded that you're disabled because of an illness or injury caused—or made worse by—your active military service. Your disability rating measures how severe your disability is (with 0% meaning you're not at all disabled and 100% meaning you're totally disabled and not expected to improve).
 
 <br>
 
