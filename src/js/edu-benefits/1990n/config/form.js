@@ -2,7 +2,8 @@
 
 import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 
-// import pages from '../../pages/';
+import contactInformationPage from '../../pages/contactInformation';
+import directDeposit from '../../pages/directDeposit';
 
 // import definitions from '../../definitions/';
 
@@ -52,6 +53,13 @@ const formConfig = {
         }
       }
     },
+    personalInformation: {
+      title: 'Personal Information',
+      pages: {
+        contactInformation: contactInformationPage(),
+        directDeposit
+      }
+    }
   }
 };
 
