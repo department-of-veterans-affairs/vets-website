@@ -3,11 +3,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 
-import { DefinitionTester, submitForm } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/edu-benefits/1995/config/form';
+import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import createOldSchoolPage from '../../../src/js/edu-benefits/pages/oldSchool';
+import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
-describe('Edu 1995 schoolSelection', () => {
-  const { schema, uiSchema } = formConfig.chapters.schoolSelection.pages.oldSchool;
+describe('Edu oldSchool page', () => {
+  const { schema, uiSchema } = createOldSchoolPage(fullSchema1995);
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
