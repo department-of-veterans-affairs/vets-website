@@ -40,7 +40,7 @@ You may be able to get S-DVI if you’ve gotten a disability rating of 0% or mor
 
 ### Can I get more life insurance coverage if I need it? 
 
-If you carry the basic S-DVI coverage and become totally disabled (unable to do everyday tasks, including meaningful work), you can apply to get up to $30,000 more in coverage. This is called Supplemental S-DVI coverage.
+If you carry the basic S-DVI coverage and become totally disabled (totally unable to do everyday tasks, including meaningful work), you can apply to get up to $30,000 more in coverage. This is called Supplemental S-DVI coverage.
 
 You may also be able to get $30,000 of supplemental coverage if you qualify for a premiums waiver, and you:
 - Apply for the coverage within 1 year from the date you get notice of the grant of waiver, **and**
