@@ -836,7 +836,7 @@ export const getCalculatedBenefits = createSelector(
         value: formatCurrency(derived.totalToYou)
       },
       perTerm: {
-        tuitionAndFees: {
+        tuitionFees: {
           visible: true,
           title: 'Tuition and fees',
           terms: [
@@ -1040,8 +1040,8 @@ export const getCalculatedBenefits = createSelector(
 
     if (derived.numberOfTerms === 1) {
       // Hide all term 2 and 3 calculations.
-      calculatedBenefits.outputs.perTerm.tuitionAndFees.terms[1].visible = false;
-      calculatedBenefits.outputs.perTerm.tuitionAndFees.terms[2].visible = false;
+      calculatedBenefits.outputs.perTerm.tuitionFees.terms[1].visible = false;
+      calculatedBenefits.outputs.perTerm.tuitionFees.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[1].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.bookStipend.terms[1].visible = false;
@@ -1054,7 +1054,7 @@ export const getCalculatedBenefits = createSelector(
 
     if (derived.numberOfTerms < 3 && institutionType !== 'ojt') {
       // Hide all term 3 calculations.
-      calculatedBenefits.outputs.perTerm.tuitionAndFees.terms[2].visible = false;
+      calculatedBenefits.outputs.perTerm.tuitionFees.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.housingAllowance.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.bookStipend.terms[2].visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.terms[4].visible = false;
@@ -1080,7 +1080,7 @@ export const getCalculatedBenefits = createSelector(
       calculatedBenefits.outputs.yourScholarships.visible = false;
       calculatedBenefits.outputs.outOfPocketTuition.visible = false;
       calculatedBenefits.outputs.totalPaidToYou.visible = false;
-      calculatedBenefits.outputs.perTerm.tuitionAndFees.visible = false;
+      calculatedBenefits.outputs.perTerm.tuitionFees.visible = false;
       calculatedBenefits.outputs.perTerm.yellowRibbon.visible = false;
     }
 
