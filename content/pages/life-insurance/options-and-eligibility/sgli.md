@@ -38,6 +38,7 @@ You may be able to get full-time SGLI coverage if you’re:
 - A member of the Ready Reserve or National Guard and are scheduled to perform at least 12 periods of inactive training per year, **or**
 - A volunteer in an Individual Ready Reserve (IRR) mobilization category
 
+<br>
 
 You may also be able to get full-time SGLI coverage if you’re in non-pay status with the Ready Reserve or National Guard, and you’re:
 
@@ -45,6 +46,7 @@ You may also be able to get full-time SGLI coverage if you’re in non-pay statu
 - Drilling for points rather than pay, **and**
 - Paying premiums
 
+<br>
 
 ### Who’s covered? 
 
@@ -73,7 +75,7 @@ To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage
 
 ### How much will I pay for these benefits?
 
-If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). [Learn more about TSGLI](/life-insurance/options-and-eligibility/tsgli/).
+If you have SGLI coverage, you’ll pay a monthly premium that’ll be automatically taken out of your base pay. The current basic SGLI premium rate is 7 cents per $1,000 of insurance coverage. The premium includes an additional $1 per month for Traumatic Injury Protection coverage (TSGLI). [Learn more about TSGLI](/life-insurance/options-and-eligibility/tsgli/).
 
 These are the SGLI premium rates effective July 1, 2014.
 
@@ -100,15 +102,15 @@ You may be able to keep your free coverage for up to 2 years after the date you 
 
 - You’re rated 100% disabled at the time of your discharge due to being totally unable to work, **or**
 - No matter your work status, you’ve had 1 of the following:
- - Total loss of hearing in both ears
- - Loss of speech that leaves you unable to talk—even in a whisper—without the help of an artificial device
- - Permanent (long-lasting) loss of use of:
-  - Both hands, **or**
-  - Both feet, **or**
-  - Both eyes, **or**
-  - 1 hand and 1 foot, **or**
-  - 1 foot and 1 eye, **or**
-  - 1 hand and 1 eye
+  - Total loss of hearing in both ears
+  - Loss of speech that leaves you unable to talk—even in a whisper—without the help of an artificial device
+  - Permanent (long-lasting) loss of use of:
+    - Both hands, **or**
+    - Both feet, **or**
+    - Both eyes, **or**
+    - 1 hand and 1 foot, **or**
+    - 1 foot and 1 eye, **or**
+    - 1 hand and 1 eye
 
 ### How do I get this SGLI disability extension? 
 
