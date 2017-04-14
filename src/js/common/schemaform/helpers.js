@@ -552,6 +552,10 @@ export function setItemTouched(prefix, index, idSchema) {
 }
 
 export function replaceRefSchemas(schema, definitions, path = '') {
+  // this can happen if you import a field that doesn't exist from a schema
+  if (!schema) {
+    throw new Error(`Schema is undefined at ${path}`);
+  }
   if (schema.$ref) {
     // There's a whole spec for JSON pointers, but we don't use anything more complicated
     // than this so far
