@@ -14,7 +14,7 @@ majorlinks:
     description: Post jobs and learn about hiring qualified Veterans.
   - url: /vocational-rehab-and-employment/
     title: Vocational Rehabilitation and Employment (VR&E)
-    description: If you’re a service-disabled Servicemember or Veteran, choose from 5 different VR&E program tracks to help you build your career and live more independently. As a family member, find out if you qualify for certain counseling services, training, and education benefits.	
+    description: Choose from 5 different VR&E program tracks to help you build your career and live more independently.	
 
 secondarylinkstitle: "Explore other ways to start a career"
 secondarylinks:
