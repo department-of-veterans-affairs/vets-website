@@ -40,7 +40,7 @@ You may be able to get full-time SGLI coverage if you’re:
 
 <br>
 
-You may also be able to get full-time SGLI coverage if you’re in non-pay status with the Ready Reserve or National Guard, and you’re:
+You may also be able to get full-time SGLI coverage if you’re in nonpay status with the Ready Reserve or National Guard, and you’re:
 
 - Scheduled for 12 periods of inactive training for the year, **and**
 - Drilling for points rather than pay, **and**
