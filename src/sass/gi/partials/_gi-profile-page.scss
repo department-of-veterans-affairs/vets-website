@@ -13,6 +13,12 @@
     padding-bottom: .5em;
   }
 
+  .caution-flag {
+    .va-alert {
+      background-color: $color-gold;
+    }
+  }
+
   li button.usa-accordion-button {
     text-align: left;
 

@@ -29,10 +29,12 @@ class HeadingSummary extends React.Component {
       <div className="heading row">
         <div className="small-12 column">
           <h1>{it.name}</h1>
-          <AlertBox
-              content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
-              isVisible={!!it.cautionFlag}
-              status="warning"/>
+          <div className="caution-flag">
+            <AlertBox
+                content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
+                isVisible={!!it.cautionFlag}
+                status="warning"/>
+          </div>
           <p style={{ marginBottom: '1.5em' }}>
             <strong>{formatNumber(it.studentCount)}</strong> GI Bill students
             (<a onClick={this.props.onLearnMore}>Learn more</a>)
