@@ -1,7 +1,7 @@
-const E2eHelpers = require('../util/e2e-helpers');
-const Timeouts = require('../util/timeouts.js');
-const DisabilityHelpers = require('../util/disability-helpers');
-const LoginHelpers = require('../util/login-helpers');
+const E2eHelpers = require('../e2e/e2e-helpers');
+const Timeouts = require('../e2e/timeouts.js');
+const DisabilityHelpers = require('../e2e/disability-helpers');
+const LoginHelpers = require('../e2e/login-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -48,7 +48,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('.va-nav-breadcrumbs-list li:nth-child(2) a')
+      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(2) a')
       .waitForElementVisible('.claim-title', Timeouts.normal);
 
     // files tab
@@ -64,7 +64,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('.va-nav-breadcrumbs-list li:nth-child(2) a')
+      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(2) a')
       .waitForElementVisible('.claim-title', Timeouts.normal)
       .click('.va-tabs li:nth-child(2) > a')
       .waitForElementVisible('.file-request-list-item', Timeouts.normal);
@@ -76,7 +76,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('.va-nav-breadcrumbs-list li:nth-child(2) a')
+      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(2) a')
       .waitForElementVisible('.claim-title', Timeouts.normal);
 
     // turn in evidence page
@@ -86,7 +86,7 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-      .click('.va-nav-breadcrumbs-list li:nth-child(2) a')
+      .click('nav:not(.va-nav-breadcrumbs--gate) .va-nav-breadcrumbs-list li:nth-child(2) a')
       .waitForElementVisible('.claim-title', Timeouts.normal);
 
     // details tab

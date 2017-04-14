@@ -140,7 +140,19 @@ This does not apply to array fields; for those, you still need to specify an `it
 ```
 
 ### uiSchema configuration
-In addition to the uiSchema options listed in the library [https://github.com/mozilla-services/react-jsonschema-form#the-uischema-object](docs), we have some additional options that are supported for all forms:
+If you're not already familiar with the rjsf uiSchema options, check out the [library docs](https://github.com/mozilla-services/react-jsonschema-form#the-uischema-object). Some commonly used options include:
+
+- [ui:order](https://github.com/mozilla-services/react-jsonschema-form#object-fields-ordering)
+  - An array of field names in the order in which they should appear
+- [ui:widget](https://github.com/mozilla-services/react-jsonschema-form#alternative-widgets)
+  - The name of an alternative widget to use for the field
+  - Example of a custom widget: `yesNo`
+- [ui:field](https://github.com/mozilla-services/react-jsonschema-form#custom-field-components)
+  - Specifies the name of a custom field
+- [classNames](https://github.com/mozilla-services/react-jsonschema-form#custom-css-class-names)
+  - Specifies the class names to put on the component
+
+We've also been adding some additional uiSchema functionality not found in the rjsf library:
 
 ```js
 {
@@ -236,7 +248,11 @@ In addition to the uiSchema options listed in the library [https://github.com/mo
     }
 
     // Function that conditionally replaces the current field's schema
-    updateSchema: function (fieldData, pageData) {
+    updateSchema: function (pageData, form, pageSchema) {
+      // form is organized like: form.pageName.data.fieldName
+      // This means it's not like formData, where all the data for all the forms is mashed
+      // together into one object. It's a bit of a pain, but this means updateSchema can also
+      // update the schema / uiSchema of other pages (but do so sparingly!).
       return {};
     }
   }
@@ -306,8 +322,8 @@ You don't have to limit your use of `ui:validations` to non-object fields (i.e. 
 If you use `ui:validations` on this object field (instead of on the email or confirmEmail fields) you can compare the two fields:
 
 ```js
-export function validateEmailsMatch(errors, formData) {
-  const { email, confirmEmail } = formData;
+export function validateEmailsMatch(errors, pageData) {
+  const { email, confirmEmail } = pageData;
   if (email !== confirmEmail) {
     errors.confirmEmail.addError('Please ensure your entries match');
   }
@@ -335,7 +351,7 @@ You can use the `updateSchema` option in uiSchema to change the list of enums:
 ```js
 {
   'ui:options': {
-    updateSchema: (fieldData, pageData) {
+    updateSchema: (pageData, form, pageSchema) {
       if (pageData.myField === 'otherOption') {
         return {
           enum: ['option1', 'option2'],

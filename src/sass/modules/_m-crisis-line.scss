@@ -17,7 +17,7 @@
 
 .crisis-line-sm {
   background: $color-white;
-  
+
   @include media($medium-large-screen) {
     display: none;
   }
@@ -65,7 +65,7 @@
 
 .va-crisis-panel--notouch {
   top: 0;
-  box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
+  box-shadow: 6px 6px 5px 0px $color-link-default-hover;
   display: none;
   transition: transform 250ms;
   position: absolute;
@@ -134,7 +134,7 @@
 
   .crisis-line-container--wide & {
     @include media($medium-large-screen) {
-      background-color: #fff;
+      background-color: $color-white;
       background-image: url(/img/arrow-down.png);
       border-radius: 0 0 0.2em 0.2em;
       padding: 0;

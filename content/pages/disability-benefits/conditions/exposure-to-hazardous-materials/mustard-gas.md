@@ -69,4 +69,4 @@ You’ll need to apply for benefits.
 
 You have to claim an actual disease or disability. It's not enough to state that you were exposed to mustard gas or lewisite during service. You’ll need to apply based on the illnesses believed to be caused by your contact with 1 of these chemicals. When you send in your claim, be sure to share any military records that show you had contact with blistering agents.
 
-[Apply for benefits](/disability-benefits/apply-for-benefits/).
+[Apply for benefits](/disability-benefits/apply/).

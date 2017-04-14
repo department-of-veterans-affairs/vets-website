@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Traumatic Injury Protection Life Insurance (TSGLI)
 concurrence: 
-template: 1-topic-landing
+template: 4-action-page
 relatedlinks:
   - url: /life-insurance/options-and-eligibility/sgli/
     title: Servicemembers’ Group Life Insurance (SGLI)

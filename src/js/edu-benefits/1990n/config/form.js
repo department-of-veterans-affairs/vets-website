@@ -1,6 +1,6 @@
 // import _ from 'lodash/fp';
 
-// import fullSchema1990n from 'vets-json-schema/dist/ncs-benefits-schema.json';
+import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 
 // import pages from '../../pages/';
 
@@ -12,10 +12,11 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import {
   transform
 } from '../helpers';
-//
-// const {
-// } = fullSchema1990n.properties;
-//
+
+const {
+  payHighestRateBenefit
+} = fullSchema1990n.properties;
+
 // const {
 // } = fullSchema1990n.definitions;
 
@@ -30,7 +31,28 @@ const formConfig = {
   },
   title: 'Apply for education benefits under the National Call to Service program',
   subTitle: 'Form 22-1990n',
-  chapters: {}
+  chapters: {
+    benefitSelection: {
+      title: 'Benefit Selection',
+      pages: {
+        benefitSelection: {
+          path: 'benefits/selection', // other forms this is benefits/eligibility
+          title: 'Benefit selection',
+          uiSchema: {
+            payHighestRateBenefit: {
+              'ui:title': 'If during the review made by VA I am found eligible for more than one benefit, I authorize VA to pay the benefit with the highest monthly rate.'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              payHighestRateBenefit
+            }
+          }
+        }
+      }
+    },
+  }
 };
 
 export default formConfig;

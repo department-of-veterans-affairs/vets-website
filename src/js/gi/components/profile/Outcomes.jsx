@@ -24,27 +24,35 @@ class Outcomes extends React.Component {
     return (
       <div className="outcomes row">
         <div className="medium-6 large-6 column">
-          <h3>Retention rate</h3>
-          <p className="lml">(<a onClick={this.props.onShowModal.bind(this, 'retention')}>Learn more</a>)</p>
-          <Graph veterans={retention.rate} all={retention.all} average={retention.average}/>
+          <div className="link-header">
+            <h3>Retention rate</h3>
+            &nbsp;(<a onClick={this.props.onShowModal.bind(this, 'retention')}>Learn more</a>)
+          </div>
+          <Graph veterans={retention.rate} all={retention.all} average={retention.average} decimals={1}/>
         </div>
 
         <div className="medium-6 large-6 column">
-          <h3>Graduation rate</h3>
-          <p className="lml">(<a onClick={this.props.onShowModal.bind(this, 'gradrates')}>Learn more</a>)</p>
-          <Graph veterans={graduation.rate} all={graduation.all} average={graduation.average}/>
+          <div className="link-header">
+            <h3>Graduation rate</h3>
+            &nbsp;(<a onClick={this.props.onShowModal.bind(this, 'gradrates')}>Learn more</a>)
+          </div>
+          <Graph veterans={graduation.rate} all={graduation.all} average={graduation.average} decimals={1}/>
         </div>
 
         <div className="medium-6 large-6 column">
-          <h3>Average salaries</h3>
-          <p className="lml">(<a onClick={this.props.onShowModal.bind(this, 'salaries')}>Learn more</a>)</p>
+          <div className="link-header">
+            <h3>Average salaries</h3>
+            &nbsp;(<a onClick={this.props.onShowModal.bind(this, 'salaries')}>Learn more</a>)
+          </div>
           <Graph decimals={0} max={100000} average={salary.average} all={salary.all}/>
         </div>
 
         <div className="medium-6 large-6 column">
-          <h3>Repayment rate</h3>
-          <p className="lml">(<a onClick={this.props.onShowModal.bind(this, 'repayment')}>Learn more</a>)</p>
-          <Graph average={repayment.average} veterans={repayment.rate} all={repayment.all}/>
+          <div className="link-header">
+            <h3>Repayment rate</h3>
+            &nbsp;(<a onClick={this.props.onShowModal.bind(this, 'repayment')}>Learn more</a>)
+          </div>
+          <Graph average={repayment.average} veterans={repayment.rate} all={repayment.all} decimals={1}/>
         </div>
 
         <div className="medium-12 column">

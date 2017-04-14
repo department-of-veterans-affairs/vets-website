@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import fullSchema1990e from 'vets-json-schema/dist/transfer-benefits-schema.json';
+import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
 import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from '../../pages/applicantInformation';
@@ -68,9 +68,7 @@ const formConfig = {
           path: 'benefits/eligibility',
           title: 'Benefits eligibility',
           uiSchema: {
-            'view:benefitDescription': {
-              'ui:description': eligibilityDescription
-            },
+            'ui:description': eligibilityDescription,
             benefit: {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that has been transferred to you.',
@@ -82,10 +80,6 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:benefitDescription': {
-                type: 'object',
-                properties: {}
-              },
               benefit
             }
           },

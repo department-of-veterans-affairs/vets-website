@@ -8,8 +8,8 @@
 }
 
 .va-modal {
-  background: rgba($color-primary-darkest, .8);
-  content: ' ';
+  background: $color-va-modal-bg;
+  content: " ";
   display: block;
   height: 100%;
   left: 0;
@@ -17,6 +17,10 @@
   top: 0;
   width: 100%;
   z-index: 6;
+
+  @include media-maxwidth($small-screen) {
+    overflow-y: scroll;
+  }
 
   // "Forked" modal styles
   &-split {
@@ -143,7 +147,7 @@
 
 .va-modal-close {
   background-color: inherit;
-  color: rgba($color-base, .8);
+  color: $color-va-modal-close;
   font-size: 2.5rem;
   padding: .5rem 1rem;
   position: absolute;

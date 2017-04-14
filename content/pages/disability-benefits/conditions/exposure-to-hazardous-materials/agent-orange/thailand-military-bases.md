@@ -41,7 +41,7 @@ To prove that you had contact with Agent Orange during your Thailand service, yo
 - Performance evaluation reports, **or**
 - Job records (for example, records showing you worked as a dog handler or a member of a security squadron or military police unit)
 
-[Apply for benefits](/disability-benefits/apply-for-benefits/).
+[Apply for benefits](/disability-benefits/apply/).
 
 
 ### Get more information
