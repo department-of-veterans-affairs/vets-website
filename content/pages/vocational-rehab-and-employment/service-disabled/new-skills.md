@@ -61,9 +61,7 @@ Connect with more resources outside VA that can help you in your job search. [Se
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) who can help you.
-
-[Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/).
+You’ll need to apply for benefits to find a Vocational Rehabilitation Counselor (VRC) who can help you. [Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/).
 
 **Note:** VR&amp;E is an employment program different from the GI Bill that may be used to pay for education needed to train you for suitable employment.
 
