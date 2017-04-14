@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Service-Disabled Veterans' Life Insurance (S-DVI)
 concurrence: 
-template: 1-topic-landing
+template: 4-action-page
 relatedlinks:
   - url: /life-insurance/options-and-eligibility/sgli/
     title: Servicemembers’ Group Life Insurance (SGLI)
