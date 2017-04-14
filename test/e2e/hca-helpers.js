@@ -1,5 +1,4 @@
 const mock = require('./mock-helpers');
-const selectDropdown = require('./e2e-helpers.js').selectDropdown;
 const Timeouts = require('./timeouts.js');
 
 const testValues = {
