@@ -61,7 +61,7 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-expanded="true" aria-controls="age-under-35">Under 35 years</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="age-under-35">Under 35 years</button>
 <div id="age-under-35" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
@@ -239,3 +239,4 @@ You can’t convert other types of policies—such as term, variable, or univers
  - The Servicemember's SGLI declination
  - The Servicemember's proof of death (DD1300: Report of Casualty, or a civilian death certificate)
 
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
