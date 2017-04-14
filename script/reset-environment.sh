@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo "Removing the node modules folder..."
-rm -rf ./node_module
+rm -rf ./node_modules
 if [ $? -eq 0 ]; then
     echo "Successfully cleaned out the node modules folder."
     npm i
