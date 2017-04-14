@@ -401,7 +401,7 @@ export class Modals extends React.Component {
             served (2 year enlistment vs. 3+ year enlistment) will impact your
             monthly payment amount when using the Montgomery GI Bill. To learn
             more about MGIB please visit
-            <a href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
+            &nbsp;<a href="http://www.benefits.va.gov/gibill/mgib_ad.asp"
                 id="anch_399" target="_blank">
               http://www.benefits.va.gov/gibill/mgib_ad.asp
             </a>.
@@ -418,7 +418,7 @@ export class Modals extends React.Component {
             based on length of consecutive days of active duty service with
             rates increasing at one year and again at two years of consecutive
             service. To learn more about REAP please visit
-            <a href="http://www.benefits.va.gov/gibill/reap.asp"
+            &nbsp;<a href="http://www.benefits.va.gov/gibill/reap.asp"
                 id="anch_403" target="_blank">
               http://www.benefits.va.gov/gibill/reap.asp
             </a>.

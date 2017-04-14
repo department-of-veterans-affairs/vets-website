@@ -238,7 +238,7 @@ dl.review {
   .review-row {
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid $color-gray;
+    border-top: 1px solid $color-gray-light;
     padding: 1.5rem;
     padding-left: 0;
     &> dd {
@@ -255,7 +255,7 @@ dl.review {
       margin-bottom: 0;
     }
   }
-  border-bottom: 1px solid $color-gray;
+  border-bottom: 1px solid $color-gray-light;
 }
 
 form.rjsf {
@@ -331,6 +331,11 @@ label {
 
 .usa-alert ul:first-child {
   margin-top: 0;
+}
+
+.edu-benefits-alert {
+  margin-top: 0;
+  margin-bottom: 23px;
 }
 
 .edu-warning-single-line {
