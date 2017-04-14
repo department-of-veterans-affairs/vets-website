@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
-import IntroductionPage from '../../../src/js/edu-benefits/1995/components/IntroductionPage';
+import { IntroductionPage } from '../../../src/js/edu-benefits/1995/components/IntroductionPage';
 
 describe('Edu 1995 <IntroductionPage>', () => {
   it('should render', () => {
