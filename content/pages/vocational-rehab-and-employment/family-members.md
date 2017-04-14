@@ -27,7 +27,7 @@ As the family member of a disabled Servicemember or Veteran, you may have had to
 You may qualify for VR&amp;E benefits if at least 1 of these is true:
 
 - You're the dependent of a Veteran, and you qualify for a VA education benefit, **or**
-- Your spouse or parent has been listed as Missing in Action for more than 90 days, captured in the line of duty by a hostile force, or detained (held) or interred by a foreign government or power, **or**
+- Your spouse or parent has been listed as Missing in Action for more than 90 days, captured in the line of duty by a hostile force, or detained (held) or interned by a foreign government or power, **or**
 - You're the child of a Vietnam War Veteran, and you've been diagnosed with spina bifida or other specified birth defects
 
 You may also be able to get VR&amp;E benefits if you're the spouse or child of a Servicemember or Veteran who:
