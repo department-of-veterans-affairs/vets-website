@@ -64,13 +64,13 @@ You'll need to apply for services. Follow these steps to apply:
 
 <li class="step two">
 
-Choose Additional Benefits on your dashboard.
+Choose **Additional Benefits** on your dashboard.
 
 </li>
 
 <li class="step three">
 
-Choose Vocational Rehabilitation and Employment Program.
+Choose **Vocational Rehabilitation and Employment Program**.
 
 </li>
 
