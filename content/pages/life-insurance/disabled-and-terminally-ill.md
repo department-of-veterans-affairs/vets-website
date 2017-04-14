@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Claims for Disabled and Terminally Ill Policyholders
 concurrence: 
-template: 1-topic-landing
+template: 4-action-page
 relatedlinks:
   - url: /life-insurance/options-and-eligibility/
     title: Options and Eligibility
