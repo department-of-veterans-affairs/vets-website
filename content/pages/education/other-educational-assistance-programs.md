@@ -27,4 +27,4 @@ If you’re a Guardsman, Reservist, or Veteran who doesn’t qualify for the Pos
 
 An accredited representative (a trained professional trusted to help with VA-related claims) who works with a Veterans Service Organization (VSO) can help you pick the right program. [Get help from an accredited representative](/disability-benefits/apply/help/index.html).
 
-The GI Bill Comparison Tool shows you what benefits you'll get at different schools. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool).
+The GI Bill Comparison Tool shows you what benefits you'll get at different schools. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
