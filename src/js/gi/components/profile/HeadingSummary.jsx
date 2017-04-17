@@ -39,7 +39,7 @@ class HeadingSummary extends React.Component {
             <strong>{formatNumber(it.studentCount)}</strong> GI Bill students
             (<a onClick={this.props.onLearnMore}>Learn more</a>)
           </p>
-          <div className="small-12 usa-width-one-third medium-4 column">
+          <div className="small-12 usa-width-one-third medium-4column">
             <p>
               <IconWithInfo icon="map-marker" present={it.city && it.country}>
                 {it.city}, {it.state || it.country}
@@ -56,7 +56,7 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </p>
           </div>
-          <div className="small-12 usa-width-one-third medium-4 column">
+          <div className="small-12 usa-width-one-third medium-4column">
             <p>
               <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
                 On-the-job training
@@ -79,7 +79,7 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </p>
           </div>
-          <div className="small-12 usa-width-one-third medium-4 column"></div>
+          <div className="small-12 usa-width-one-third medium-4column"></div>
         </div>
       </div>
     );

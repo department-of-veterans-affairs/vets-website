@@ -60,7 +60,7 @@ export class LandingPage extends React.Component {
             </form>
           </div>
 
-          <div className="small-12 usa-width-one-third medium-4 columns">
+          <div className="small-12 usa-width-one-third medium-4columns">
             <VideoSidebar/>
           </div>
 
