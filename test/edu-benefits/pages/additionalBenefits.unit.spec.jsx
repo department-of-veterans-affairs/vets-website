@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-addons-test-utils';
 
 import { DefinitionTester } from '../../util/schemaform-utils.jsx';
 import additionalBenefitsPage from '../../../src/js/edu-benefits/pages/additionalBenefits';
-import fullSchema1990e from 'vets-json-schema/dist/22-1990e-schema.json';
+import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 
 describe('Edu additionalBenefits page', () => {
