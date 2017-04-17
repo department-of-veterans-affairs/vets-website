@@ -22,12 +22,6 @@ export default function additionalBenefits(schema, options) {
   const mergedOptions = _.assign(defaults, options);
   const { fields, required } = mergedOptions;
 
-  const possibleProperties = {
-    nonVaAssistance: schema.properties.nonVaAssistance,
-    civilianBenefitsAssistance: schema.properties.civilianBenefitsAssistance,
-    civilianBenefitsSource: schema.properties.civilianBenefitsSource
-  };
-
   return {
     path: 'applicant/additional-benefits',
     title: 'Additional Benefits',
@@ -49,12 +43,16 @@ export default function additionalBenefits(schema, options) {
         'ui:options': {
           expandUnder: 'civilianBenefitsAssistance'
         }
+      },
+      seniorRotcScholarshipProgram: {
+        'ui:title': 'Are you in a senior ROTC scholarship program right now that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)',
+        'ui:widget': 'yesNo'
       }
     },
     schema: {
       type: 'object',
       required,
-      properties: _.pick(fields, possibleProperties)
+      properties: _.pick(fields, schema.properties)
     }
   };
 }

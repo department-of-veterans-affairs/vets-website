@@ -63,7 +63,8 @@ const {
   dateRange,
   educationType,
   fullName,
-  postHighSchoolTrainings
+  postHighSchoolTrainings,
+  vaFileNumber
 } = fullSchema5490.definitions;
 
 const dateSchema = fullSchema5490.definitions.date;
@@ -87,7 +88,8 @@ const formConfig = {
     educationType,
     dateRange,
     fullName,
-    ssn: ssnSchema
+    ssn: ssnSchema,
+    vaFileNumber
   },
   chapters: {
     applicantInformation: {
@@ -203,6 +205,7 @@ const formConfig = {
             'ui:description': 'Before this application, have you ever applied for or received any of the following VA benefits?',
             previousBenefits: {
               'ui:order': [
+                'view:noPreviousBenefits',
                 'disability',
                 'dic',
                 'chapter31',
@@ -214,8 +217,7 @@ const formConfig = {
                 'transferOfEntitlement',
                 'veteranFullName',
                 'view:veteranId',
-                'other',
-                'view:noPreviousBenefits'
+                'other'
               ],
               'view:noPreviousBenefits': {
                 'ui:title': 'None'
@@ -307,7 +309,12 @@ const formConfig = {
             type: 'object',
             properties: {
               previousBenefits: _.merge(
-                _.omit(['properties.veteranFullName', 'properties.veteranSocialSecurityNumber'], previousBenefits),
+                _.omit([
+                  'anyOf',
+                  'properties.veteranFullName',
+                  'properties.veteranSocialSecurityNumber',
+                  'properties.vaFileNumber'],
+                  previousBenefits),
                 {
                   properties: {
                     'view:noPreviousBenefits': { type: 'boolean' },
@@ -392,6 +399,7 @@ const formConfig = {
                   'ui:title': 'I don’t know my sponsor’s Social Security number',
                 },
                 vaFileNumber: {
+                  'ui:required': (formData) => !!_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData),
                   'ui:title': 'Sponsor file number',
                 }
               })

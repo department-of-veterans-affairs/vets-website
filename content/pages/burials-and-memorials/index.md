@@ -15,6 +15,9 @@ majorlinks:
  - url: /burials-and-memorials/survivor-and-dependent-benefits
    title: Survivor and Dependent Benefits
    description: Find out what benefits you—or a family member—may get after the loss of a Veteran.
+ - url: /burials-and-memorials/burial-planning/flags-and-memorial-certificates/
+   title: Burial Flags and Presidential Memorial Certificates
+   description: Find out how to honor the military service of a deceased Veteran with a burial flag and Presidential Memorial Certificate.
 relatedlinks:
  - url: /burials-and-memorials/what-to-expect-at-a-funeral
    title: What to Expect at a Funeral

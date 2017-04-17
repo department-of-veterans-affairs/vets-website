@@ -16,16 +16,28 @@
             {% endif %}
           </li>
         {% else %}
+          {% comment %}
+            Each breadcrumb item has a child object. One of the properties of
+            that object is `file` which loads the front matter metadata from
+            the corresponding Markdown input file.
+
+            Below, we've assigned that object to a variable named
+            'crumb_child_meta'.
+
+            If these templates are still using tinyliquid, you can
+            dump the properties of this object using {{ crumb | keys }}.
+          {% endcomment %}
+
+          {% assign crumb_child_meta = crumb.children.0.file %}
           <li>
             <a href="/{{ crumb.path }}">
-              {% case crumb.name %}
-                {% when 'gi-bill' %}
-                   {{ crumb.name | replace: '-', ' ' | replace: 'gi', 'GI' | replace: 'b', 'B' }}
-                {% when 'healthcare' %}
-                   Health Care
-                {% else %}
-                  {{ crumb.name | replace: '-', ' ' | capitalize }}
-              {% endcase %}             
+              {% if crumb_child_meta.display_title %}
+                {{ crumb_child_meta.display_title }}
+              {% elsif crumb_child_meta.title %}
+                {{ crumb_child_meta.title }}
+              {% else %}
+                {{ crumb.name | replace: '-', ' ' | capitalize }}
+              {% endif %}
             </a></li>
         {% endif %}
       {% endfor %}
