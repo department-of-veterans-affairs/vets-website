@@ -1,8 +1,8 @@
 <div class="section one va-quicklinks">
-  <div class="row">
+  <div class="usa-grid">
 
     {% if secondarylinks %}
-    <div class="small-12 medium-6 columns">
+    <div class="usa-width-one-half">
       <h3 class="va-h-ruled">{{secondarylinkstitle}}</h3>
       <ul class="va-list--plain">
         {% for link in secondarylinks %}
@@ -18,7 +18,7 @@
     {% endif %}
 
     {% if relatedlinks %}
-    <div class="small-12 medium-6 columns">
+    <div class="usa-width-one-half columns">
       <h3 class="va-h-ruled">{{relatedlinkstitle}}</h3>
       <ul class="va-list--plain">
         {% for link in relatedlinks %}
