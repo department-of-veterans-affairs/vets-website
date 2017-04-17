@@ -106,7 +106,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .click('.form-progress-buttons .usa-button-primary');
     client.expect.element('.js-test-location').attribute('data-location')
-      .to.not.contain('/review-and-submit').before(Timeouts.submission);
+      .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Submit message
     client

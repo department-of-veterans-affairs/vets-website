@@ -146,7 +146,7 @@ const runTest = (client, onlyRequiredFields) => {
     .click('input[type="checkbox"]')
     .click('.form-progress-buttons .usa-button-primary');
   client.expect.element('.js-test-location').attribute('data-location')
-    .to.not.contain('/review-and-submit').before(Timeouts.submission);
+    .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
   // Confirmation page
   client
@@ -155,11 +155,4 @@ const runTest = (client, onlyRequiredFields) => {
   client.end();
 };
 
-// Prevent the test from being run on production.
-// TODO: Remove when the form is actually launched.
-if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
-  module.exports = runTest;
-} else {
-  // Empty function to skip the tests
-  module.exports = (client) => client.end();
-}
+module.exports = runTest;
