@@ -48,7 +48,7 @@ const testValues = {
   homePhone: '5551112323',
   mobilePhone: '5551114545',
 
-  discloseFinancialInformation: false,
+  discloseFinancialInformation: true,
 
   spouseFullName: {
     first: 'Anne',
@@ -239,10 +239,18 @@ function completeVaBenefits(client) {
     .click('input[name="receivesVaPension-0"]');
 }
 
-function completeFinancialDisclosure(client) {
+function completeFinancialDisclosure(client, data, forceOption) {
+  // Yes = 0, No = 1
+  let optionNumber = data.discloseFinancialInformation ? '0' : '1';
+  // Override if necessary
+  if (typeof forceOption !== 'undefined') {
+    optionNumber = !!forceOption ? '0' : '1';
+  }
+
+  const selector = `input[name="discloseFinancialInformation-${optionNumber}"]`;
   client
-    .waitForElementVisible('input[name="discloseFinancialInformation-0"] + label', Timeouts.normal)
-    .click('input[name="discloseFinancialInformation-0"]');
+    .waitForElementVisible(`${selector} + label`, Timeouts.normal)
+    .click(selector);
 }
 
 function completeSpouseInformation(client, data) {
@@ -252,9 +260,9 @@ function completeSpouseInformation(client, data) {
     .selectDropdown('marriageMonth', data.dateOfMarriage.month)
     .selectDropdown('marriageDay', data.dateOfMarriage.day)
     .fill('input[name="fname"]', data.spouseFullName.first)
-    .fill('input[name="mname"]', 'Jacqueline')
+    .fill('input[name="mname"]', data.spouseFullName.middle)
     .fill('input[name="lname"]', data.spouseFullName.last)
-    .selectDropdown('suffix', 'Sr.')
+    .selectDropdown('suffix', data.spouseFullName.suffix)
     .fill('input[name="ssn"]', data.spouseSocialSecurityNumber)
     .fill('input[name="spouseBirthYear"]', data.spouseDateOfBirth.year)
     .fill('input[name="marriageYear"]', data.dateOfMarriage.year)
@@ -268,7 +276,6 @@ function completeSpouseInformation(client, data) {
     .selectDropdown('state', data.spouseAddress.state)
     .fill('input[name="zip"]', data.spouseAddress.zipcode)
     .click('input[name="cohabitedLastYear-1"]')
-    // Can't find this for some reason, but it doesn't fail...
     .click('input[name="provideSupportLastYear-0"]');
 }
 

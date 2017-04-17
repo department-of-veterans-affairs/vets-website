@@ -65,7 +65,8 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Financial disclosure page.
     client.expect.element('input[name="discloseFinancialInformation-0"] + label').to.be.visible;
-    HcaHelpers.completeFinancialDisclosure(client, HcaHelpers.testValues, true);
+    // Force select "No" for financial disclosure to skip the next pages for brevity
+    HcaHelpers.completeFinancialDisclosure(client, HcaHelpers.testValues, false);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/financial-disclosure');
 
