@@ -13,7 +13,8 @@ Asbestos is a material that was once used in many buildings and products. If you
 
 </div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -38,7 +39,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. When you apply, you’ll have to show that your illness was likely caused by your contact with asbestos while serving in the military. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits. When you apply, you’ll have to show that your illness was likely caused by your contact with asbestos while serving in the military. [Apply for benefits](/disability-benefits/apply/).
 
 If you think you’ve had contact with asbestos, talk to your doctor about getting tested for certain illnesses that affect your lungs.
 

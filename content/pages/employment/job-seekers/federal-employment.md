@@ -18,7 +18,7 @@ One-on-one assistance in applying for federal jobs is available at local [Employ
 ### Veterans’ Preference
 The Veterans’ Preference program awards points to you during the application process, giving you an advantage in job placement. This program assists you only when you are applying to competitive positions—those announced publicly to a pool of job seekers.
 
-<div class="call-out" markdown="1">
+<div class="feature" markdown="1">
 
 ### Are you eligible for federal Veterans’ Preference?
 

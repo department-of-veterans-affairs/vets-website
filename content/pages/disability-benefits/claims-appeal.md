@@ -19,14 +19,14 @@ You have the right to appeal any disability benefits decision made by the Vetera
 
 </div>
 
-<div class="call-out" markdown="0">
+<div class="feature" markdown="0">
 
 ### What if I don't agree with my benefits decision?  
 
 If you disagree with all or part of a VBA benefits decision, you can:
 
 - File a new claim with your regional office along with any missing evidence (supporting documents like doctor's reports or medical test results), **or**
-- Start an appeal at your regional office by filing a Notice of Disagreement (NOD). If you need help figuring out the process, contact an accredited representative (a trained professional trusted to help with VA-related claims). [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
+- Start an appeal at your regional office by filing a Notice of Disagreement (NOD). If you need help figuring out the process, contact an accredited representative (a trained professional trusted to help with VA-related claims). [Find an accredited representative](/disability-benefits/apply/help/index.html).
 </div>
 
 #### When do I file an NOD?

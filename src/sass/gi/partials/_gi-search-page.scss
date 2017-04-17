@@ -4,11 +4,9 @@
     h2 {
       font-size: 1.15em;
     }
+
     label {
       margin-top: 1em;
-    }
-    a.info-icons {
-      white-space: nowrap;
     }
 
     .institution-filter-form, .eligibility-form {
@@ -126,7 +124,7 @@
     .caution-flag {
       color: $color-gray-dark;
       background-color: $color-gold;
-      border-top: 1px solid rgba(107, 104, 91, 0.1);
+      border-top: 1px solid $color-gray;
       border-radius: 0 0 3px 3px;
       font-size: 0.9em;
       font-weight: bold;

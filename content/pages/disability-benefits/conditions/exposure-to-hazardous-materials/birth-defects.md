@@ -13,7 +13,8 @@ Spina bifida is a spinal cord birth defect. A baby develops spina bifida while s
 
 </div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Can my child get disability benefits from VA?
 
@@ -50,7 +51,7 @@ Your child may be able to get disability benefits if they have a covered birth d
 
 ### How do I get these benefits for my child?
 
-You'll need to apply for benefits for your child. When you apply, you’ll have to show that your contact with certain chemicals while serving in the military likely caused your child’s birth defect. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits for your child. When you apply, you’ll have to show that your contact with certain chemicals while serving in the military likely caused your child’s birth defect. [Apply for benefits](/disability-benefits/apply/).
 
 ### Get more information
 

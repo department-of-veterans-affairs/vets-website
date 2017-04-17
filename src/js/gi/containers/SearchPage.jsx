@@ -6,10 +6,13 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import {
-  setPageTitle,
+  clearAutocompleteSuggestions,
+  fetchAutocompleteSuggestions,
   fetchSearchResults,
   institutionFilterChange,
-  toggleFilter
+  setPageTitle,
+  toggleFilter,
+  updateAutocompleteSearchTerm
 } from '../actions';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -60,7 +63,6 @@ export class SearchPage extends React.Component {
 
   updateSearchResults() {
     const programFilters = [
-      'caution',
       'studentVeteranGroup',
       'yellowRibbonScholarship',
       'principlesOfExcellence',
@@ -68,6 +70,7 @@ export class SearchPage extends React.Component {
     ];
 
     const query = _.pick(this.props.location.query, [
+      'version',
       'page',
       'name',
       'category',
@@ -84,8 +87,7 @@ export class SearchPage extends React.Component {
     programFilters.forEach(filterKey => {
       const filterValue = institutionFilter[filterKey];
       institutionFilter[filterKey] =
-        filterValue === 'true' ||
-        (filterKey === 'caution' && filterValue === 'false');
+        filterValue === 'true';
     });
 
     this.props.institutionFilterChange(institutionFilter);
@@ -101,8 +103,7 @@ export class SearchPage extends React.Component {
 
   handleFilterChange(field, value) {
     // Translate form selections to query params.
-    const queryValue = field === 'caution' ? !value : value;
-    const query = { ...this.props.location.query, [field]: queryValue };
+    const query = { ...this.props.location.query, [field]: value };
 
     // Don't update the route if the query hasn't changed.
     if (_.isEqual(query, this.props.location.query)) { return; }
@@ -111,12 +112,11 @@ export class SearchPage extends React.Component {
     delete query.page;
 
     const shouldRemoveFilter =
-      (field !== 'caution' && !queryValue) ||
-      (field === 'caution' && queryValue) ||
+      !value ||
       ((field === 'category' ||
         field === 'country' ||
         field === 'state' ||
-        field === 'type') && queryValue === 'ALL');
+        field === 'type') && value === 'ALL');
 
     if (shouldRemoveFilter) { delete query[field]; }
     this.props.router.push({ ...this.props.location, query });
@@ -165,6 +165,7 @@ export class SearchPage extends React.Component {
             {search.results.map((result) => {
               return (
                 <SearchResult
+                    version={this.props.location.query.version}
                     key={result.facilityCode}
                     name={result.name}
                     facilityCode={result.facilityCode}
@@ -200,7 +201,9 @@ export class SearchPage extends React.Component {
 
         <div className="row">
           <div className="column">
-            <h1>{(count || 0).toLocaleString()} Search Results</h1>
+            <h1>
+              {!search.inProgress && `${(count || 0).toLocaleString()} `}Search Results
+            </h1>
           </div>
         </div>
 
@@ -210,9 +213,13 @@ export class SearchPage extends React.Component {
               {search.filterOpened && <h1>Filter your search</h1>}
               <h2>Keywords</h2>
               <KeywordSearch
-                  location={this.props.location}
+                  autocomplete={this.props.autocomplete}
                   label="City, school, or employer"
-                  onFilterChange={this.handleFilterChange}/>
+                  location={this.props.location}
+                  onClearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
+                  onFetchAutocompleteSuggestions={this.props.fetchAutocompleteSuggestions}
+                  onFilterChange={this.handleFilterChange}
+                  onUpdateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}/>
               <InstitutionFilterForm
                   search={search}
                   filters={filters}
@@ -242,10 +249,13 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  setPageTitle,
+  clearAutocompleteSuggestions,
+  fetchAutocompleteSuggestions,
   fetchSearchResults,
   institutionFilterChange,
-  toggleFilter
+  setPageTitle,
+  toggleFilter,
+  updateAutocompleteSearchTerm
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPage));

@@ -11,7 +11,8 @@ If you are a full-time or three-quarter-time college, vocational, or professiona
 
 </div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Are you eligible for benefits?
 Yes, if:

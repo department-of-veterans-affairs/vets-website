@@ -1,11 +1,19 @@
 import React from 'react';
 import _ from 'lodash';
+
 import AlertBox from '../../../common/components/AlertBox';
+import { formatNumber } from '../../utils/helpers';
+
+const IconWithInfo = ({ icon, children, present }) => {
+  if (!present) return null;
+  return <span><i className={`fa fa-${icon}`}/>&nbsp;{children}</span>;
+};
 
 class HeadingSummary extends React.Component {
 
   render() {
     const it = this.props.institution;
+    it.type = it.type && it.type.toLowerCase();
 
     const schoolSize = (enrollment) => {
       if (!enrollment) return 'Unknown';
@@ -17,27 +25,24 @@ class HeadingSummary extends React.Component {
       return 'Large';
     };
 
-    const IconWithInfo = ({ icon, children, present }) => {
-      if (!present) return null;
-      return <span><i className={`fa fa-${icon}`}/>&nbsp;{children}</span>;
-    };
-
     return (
       <div className="heading row">
         <div className="small-12 column">
           <h1>{it.name}</h1>
-          <AlertBox
-              content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
-              isVisible={!!it.cautionFlag}
-              status="warning"/>
+          <div className="caution-flag">
+            <AlertBox
+                content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
+                isVisible={!!it.cautionFlag}
+                status="warning"/>
+          </div>
           <p style={{ marginBottom: '1.5em' }}>
-            <strong>{it.studentCount}</strong> GI Bill students
+            <strong>{formatNumber(it.studentCount)}</strong> GI Bill students
             (<a onClick={this.props.onLearnMore}>Learn more</a>)
           </p>
           <div className="small-12 medium-4 column">
             <p>
               <IconWithInfo icon="map-marker" present={it.city && it.country}>
-                {it.city}, {it.country === 'usa' ? it.state : it.country}
+                {it.city}, {it.state || it.country}
               </IconWithInfo>
             </p>
             <p style={{ display: 'block' }}>
@@ -46,8 +51,8 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </p>
             <p>
-              <IconWithInfo icon="calendar-o" present={it.type !== 'ojt' && (it.highestDegree === 2 || it.highestDegree === 4)}>
-                {it.highestDegree} year program
+              <IconWithInfo icon="calendar-o" present={it.type !== 'ojt' && it.highestDegree}>
+                {_.isFinite(it.highestDegree) ? `${it.highestDegree} year` : it.highestDegree} program
               </IconWithInfo>
             </p>
           </div>
@@ -59,7 +64,8 @@ class HeadingSummary extends React.Component {
             </p>
             <p>
               <IconWithInfo icon="institution" present={it.type && it.type !== 'ojt'}>
-                {_.capitalize(it.type)} institution
+                {_.capitalize(it.type)}&nbsp;
+                {it.type === 'for profit' ? 'school' : 'institution'}
               </IconWithInfo>
             </p>
             <p>
@@ -68,7 +74,7 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </p>
             <p>
-              <IconWithInfo icon="group" present={it.undergradEnrollment && it.type && it.type !== 'ojt'}>
+              <IconWithInfo icon="group" present={it.type && it.type !== 'ojt'}>
                 {schoolSize(it.undergradEnrollment)} size
               </IconWithInfo>
             </p>

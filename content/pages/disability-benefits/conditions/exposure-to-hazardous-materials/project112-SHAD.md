@@ -12,7 +12,8 @@ If you were part of chemical and biological warfare testing for Projects 112 or 
 
 </div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -37,7 +38,7 @@ You may be able to get disability benefits if:
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. You can call the VA Special Issues Helpline at <span class="tel">800-749-8387</span>. Or apply now for disability benefits. [Apply for benefits](/disability-benefits/apply-for-benefits/).
+You'll need to apply for benefits. You can call the VA Special Issues Helpline at <span class="tel">800-749-8387</span>. Or apply now for disability benefits. [Apply for benefits](/disability-benefits/apply/).
 
 If you were part of Projects 112 or SHAD from 1962 to 1974 and want to know more about a certain test site, ship, or unit, see the declassified Department of Defense fact sheets. [Get declassified Department of Defense fact sheets]( http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Fact-Sheets).
 

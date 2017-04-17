@@ -14,9 +14,10 @@ const EligibilityDetails = ({ expanded, toggle }) => (
     <button onClick={toggle} className="usa-button-outline">
       {expanded ? 'Hide' : 'Edit'} eligibility details
     </button>
-    <div className="form-expanding-group-open">
-      {expanded ? <EligibilityForm/> : null}
-    </div>
+    {expanded ?
+      <div className="form-expanding-group-open">
+        <EligibilityForm/>
+      </div> : null}
   </div>
 );
 
@@ -25,13 +26,14 @@ const CalculatorInputs = ({ expanded, toggle, inputs, displayedInputs, onInputCh
     <button onClick={toggle} className="usa-button-outline">
       {expanded ? 'Hide' : 'Edit'} calculator fields
     </button>
-    <div className="form-expanding-group-open">
-      {expanded ? <CalculatorForm
-          inputs={inputs}
-          displayedInputs={displayedInputs}
-          onShowModal={onShowModal}
-          onInputChange={onInputChange}/> : null}
-    </div>
+    {expanded ?
+      <div className="form-expanding-group-open">
+        <CalculatorForm
+            inputs={inputs}
+            displayedInputs={displayedInputs}
+            onShowModal={onShowModal}
+            onInputChange={onInputChange}/>
+      </div> : null}
   </div>
 );
 
@@ -75,9 +77,16 @@ export class Calculator extends React.Component {
       const { visible, title, terms } = this.props.calculated.outputs.perTerm[section];
       if (!visible) return null;
 
+      const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
+
       return (
         <div key={section} className="per-term-section">
-          <h5>{title}</h5>
+          <div className="link-header">
+            <h5>{title}</h5>
+            &nbsp;(<a href={learnMoreLink} target="_blank">
+              Learn more
+            </a>)
+          </div>
           {terms.map(term =>
             <CalculatorResultRow
                 key={`${section}${term.label}`}

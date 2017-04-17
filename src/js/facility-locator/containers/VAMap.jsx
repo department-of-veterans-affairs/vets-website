@@ -160,13 +160,18 @@ class VAMap extends Component {
 
   handleSearch = () => {
     const { currentQuery } = this.props;
-    const currentBounds = this.refs.map.leafletElement.getBounds();
-    const currentBoundsArray = [
-      currentBounds._southWest.lng,
-      currentBounds._southWest.lat,
-      currentBounds._northEast.lng,
-      currentBounds._northEast.lat,
-    ];
+
+    const currentBounds = this.refs.map && this.refs.map.leafletElement.getBounds();
+    let currentBoundsArray;
+
+    if (currentBounds) {
+      currentBoundsArray = [
+        currentBounds._southWest.lng,
+        currentBounds._southWest.lat,
+        currentBounds._northEast.lng,
+        currentBounds._northEast.lat,
+      ];
+    }
 
     if (currentQuery.searchString && currentQuery.searchString.trim() !== '') {
       this.updateUrlParams({

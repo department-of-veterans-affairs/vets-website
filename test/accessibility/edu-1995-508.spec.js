@@ -1,12 +1,12 @@
-const E2eHelpers = require('../util/e2e-helpers');
-const Timeouts = require('../util/timeouts.js');
-const EduHelpers = require('../util/edu-helpers');
-const Edu1995Helpers = require('../util/edu-1995-helpers');
+const E2eHelpers = require('../e2e/e2e-helpers');
+const Timeouts = require('../e2e/timeouts.js');
+const EduHelpers = require('../e2e/edu-helpers');
+const Edu1995Helpers = require('../e2e/edu-1995-helpers');
 const testData = require('../edu-benefits/1995/schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    Edu1995Helpers.initApplicationSubmitMock();
+    EduHelpers.initApplicationSubmitMock('1995');
 
     // Ensure introduction page renders.
     client
@@ -96,10 +96,9 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/dependents');
 
     // Direct deposit page
-
-    // No longer works with the updated direct deposit page
     client
       .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
+    EduHelpers.completePaymentChange(client, testData.directDeposit.data, false);
     EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, false);
     client
       .axeCheck('.main')

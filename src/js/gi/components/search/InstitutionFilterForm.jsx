@@ -55,16 +55,13 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
+          label="Country"
           name="country"
           options={options}
           value={this.props.filters.country}
           alt="Filter results by country"
           visible
-          onChange={this.handleDropdownChange}>
-        <label htmlFor="country">
-          Country
-        </label>
-      </Dropdown>
+          onChange={this.handleDropdownChange}/>
     );
   }
 
@@ -79,16 +76,13 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
+          label="State"
           name="state"
           options={options}
           value={this.props.filters.state}
           alt="Filter results by state"
           visible
-          onChange={this.handleDropdownChange}>
-        <label htmlFor="state">
-          State
-        </label>
-      </Dropdown>
+          onChange={this.handleDropdownChange}/>
     );
   }
 
@@ -98,11 +92,6 @@ class InstitutionFilterForm extends React.Component {
     return (
       <div>
         <p>Programs</p>
-        <Checkbox
-            checked={filters.caution}
-            name="caution"
-            label="Without Caution Flags"
-            onChange={this.handleCheckboxChange}/>
         <Checkbox
             checked={filters.studentVeteranGroup}
             name="studentVeteranGroup"
@@ -138,16 +127,13 @@ class InstitutionFilterForm extends React.Component {
 
     return (
       <Dropdown
+          label="Institution type"
           name="type"
           options={options}
           value={this.props.filters.type}
           alt="Filter results by institution type"
           visible
-          onChange={this.handleDropdownChange}>
-        <label htmlFor="type">
-          Institution type
-        </label>
-      </Dropdown>
+          onChange={this.handleDropdownChange}/>
     );
   }
 
@@ -172,7 +158,6 @@ InstitutionFilterForm.propTypes = {
     type: React.PropTypes.string,
     country: React.PropTypes.string,
     state: React.PropTypes.string,
-    withoutCautionFlags: React.PropTypes.bool,
     studentVetGroup: React.PropTypes.bool,
     yellowRibbonScholarship: React.PropTypes.bool,
     principlesOfExcellence: React.PropTypes.bool,
@@ -184,7 +169,6 @@ InstitutionFilterForm.propTypes = {
     type: React.PropTypes.object,
     state: React.PropTypes.object,
     country: React.PropTypes.object,
-    cautionFlag: React.PropTypes.object,
     studentVetGroup: React.PropTypes.object,
     yellowRibbonScholarship: React.PropTypes.object,
     principlesOfExcellence: React.PropTypes.object,

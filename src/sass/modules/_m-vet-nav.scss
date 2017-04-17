@@ -1,5 +1,5 @@
 body.va-pos-fixed {
-  width: 100%;  
+  width: 100%;
   height: 100%;
 }
 
@@ -10,16 +10,15 @@ body.va-pos-fixed {
   overflow-y: scroll;
   position: absolute;
   width: 100%;
-  z-index: 6;
+  z-index: 1;
 
   @include media($medium-large-screen) {
     margin-top: 1rem;
     overflow-y: visible;
     position: relative;
     width: auto;
-    z-index: auto;
   }
-  
+
   .va-wip-message {
     padding: 0 1.6rem;
     white-space: normal;
@@ -57,8 +56,7 @@ body.va-pos-fixed {
 
   &::before {
     display: block;
-    content: ' ';
-    background: magenta;
+    content: " ";
   }
 
   ul {
@@ -101,7 +99,6 @@ body.va-pos-fixed {
       }
     }
   }
-  
 }
 
 #vetnav-controls {
@@ -142,7 +139,7 @@ body.va-pos-fixed {
 @include media($medium-large-screen) {
   a.vetnav-level1 {
     border-bottom: 1px solid transparent;
-    
+
     &:hover {
       background-color: $color-primary;
       border-bottom-color: $color-primary;
@@ -352,8 +349,9 @@ body.va-pos-fixed {
   align-items: center;
   flex: 1 1 100%;
   margin-left: -2rem;
+  position: relative;
 
-  > [data-reactroot], 
+  > [data-reactroot],
   > div {
     align-items: center;
     display: flex;
@@ -363,6 +361,7 @@ body.va-pos-fixed {
     flex: 0 1 32.5rem;
     margin-left: 0;
     margin-right: 0;
+    z-index: 2;
   }
 
   p {
@@ -379,7 +378,7 @@ body.va-pos-fixed {
     padding-left: 0;
   }
 
-  .va-dropdown, 
+  .va-dropdown,
   .sign-in-link {
     margin-left: 1rem;
   }

@@ -1,12 +1,12 @@
-const E2eHelpers = require('../../util/e2e-helpers');
-const Timeouts = require('../../util/timeouts.js');
-const EduHelpers = require('../../util/edu-helpers');
-const Edu1995Helpers = require('../../util/edu-1995-helpers');
+const E2eHelpers = require('../../e2e/e2e-helpers');
+const Timeouts = require('../../e2e/timeouts.js');
+const EduHelpers = require('../../e2e/edu-helpers');
+const Edu1995Helpers = require('../../e2e/edu-1995-helpers');
 const testData = require('./schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
-    Edu1995Helpers.initApplicationSubmitMock();
+    EduHelpers.initApplicationSubmitMock('1995');
 
     // Ensure introduction page renders.
     client
@@ -26,12 +26,12 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran/information');
 
-    // Benefits eligibility
+    // Benefits eligibility page.
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, testData.benefitSelection.data);
+    EduHelpers.completeBenefitsSelection(client, testData.benefitSeletion, true);
     client.click('.form-progress-buttons .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/benefits/elibility');
+    E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
     // Service periods page.
     client
@@ -47,14 +47,14 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military/history');
 
-    // New school
+    // New school page.
     client
       .waitForElementVisible('label[for="root_educationType"]', Timeouts.slow);
     Edu1995Helpers.completeNewSchool(client, testData.newSchool.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/school-selection/new-school');
 
-    // Old school
+    // Old school page.
     client
       .waitForElementVisible('label[for="root_oldSchool_name"]', Timeouts.slow);
     Edu1995Helpers.completeOldSchool(client, testData.oldSchool.data, true);
@@ -68,14 +68,15 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
-    // Direct deposit page
+    // Direct deposit page.
     client
       .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
+    EduHelpers.completePaymentChange(client, testData.directDeposit.data, true);
     EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, true);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
-    // Review and Submit Page.
+    // Review and submit page.
     client
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
     client
@@ -85,7 +86,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);
 
-    // Submit message
+    // Confirmation page.
     client
       .expect.element('.edu-benefits-submit-success').to.be.visible;
 

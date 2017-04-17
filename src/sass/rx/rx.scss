@@ -21,7 +21,7 @@
 .cf {
   &::before,
   &::after {
-    content: ' ';
+    content: " ";
     display: table;
     clear: both;
   }
@@ -74,7 +74,7 @@ button.usa-button-outline {
   width: auto !important;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: $color-link-default-hover;
     color: $color-link-default;
     text-decoration: inherit;
   }

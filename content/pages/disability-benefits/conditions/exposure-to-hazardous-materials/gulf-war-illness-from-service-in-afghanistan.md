@@ -15,7 +15,8 @@ If you served in Afghanistan, you may suffer from illnesses or other conditions 
 
 </div>
 
-<div class="call-out" markdown="1">
+
+<div class="feature" markdown="1">
 
 ### Can I get disability benefits from VA?
 
@@ -56,7 +57,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
+You’ll need to apply for benefits. [Apply for benefits](https://www.vets.gov/disability-benefits/apply/).
 
 
 

@@ -13,6 +13,10 @@ body {
   color: $color-gray-dark;
   font-family: $font-sans;
   font-size: $base-font-size;
+
+  &.modal-open {
+    overflow: hidden;
+  }
 }
 
 // Skip link
@@ -72,12 +76,12 @@ a {
           transition-property: color, background-color, border-color;
 
   &:hover {
-    background-color: rgba(0,0,0,0.05);
+    background-color: $color-link-default-hover;
     color: inherit;
     text-decoration: underline;
   }
   &:active {
-    background: rgba(0,0,0,.1);
+    background: $color-link-default-hover;
   }
   &:visited {
     color: $color-visited;
@@ -151,13 +155,13 @@ input:focus:-ms-input-placeholder {
   color: transparent;
 }
 
+input.va-input-medium-large {
+  max-width: 18rem;
+}
+
 // TODO(crew): Remove this at some point. Fix this by using JS for title casing or passing nav labels as an object.
 .text-capitalize {
   text-transform: capitalize;
-}
-
-input.va-input-medium-large {
-  max-width: 18rem;
 }
 
 hr {
@@ -177,19 +181,11 @@ hr {
   position: fixed;
 }
 
-// TODO(css): Fix this. Should use a less specific, less broad selector
-// Interior rows
-#content.interior a[href^='http://'],
-#content.interior a[href^='https://'] {
-  position: relative;
-}
-
 // Adds external icon to all links that begin
 // with http (including https)
 // Using this selector makes it easier for the content team to write content
-// TODO: Refine this so that any links that do begin with https://vets.gov
-// or https://www.vets.gov are excluded.
-a[href^=http] {
+[href^=http],
+[rel=external] {
   // Using longhand properties instead of the shorthand to limit
   // risk and impact of side effects
   background-image: url(/img/icons/exit-icon.png);
@@ -197,6 +193,7 @@ a[href^=http] {
   background-repeat: no-repeat;
   background-size: 1em auto;
   padding-right: 1.2em;
+  position: relative;
 }
 
 // Logo and Header
@@ -204,8 +201,12 @@ a[href^=http] {
   background: $color-primary-darkest;
   color: $color-white;
   clear: both;
-  padding: 0;
   margin: 0;
+  padding: 0;
+
+  @include media($medium-screen) {
+    position: relative;
+  }
 
  .va-notice--banner {
     display: none !important;
@@ -220,20 +221,21 @@ a[href^=http] {
   background: $color-primary-darkest;
   flex-wrap: wrap;
   white-space: nowrap;
-  
+
   .row {
     padding: 0;
   }
+
    @include media($medium-large-screen) {
     flex: 1 0 100%;
   }
 }
-  
+
 
 #va-header-logo-menu {
   flex-wrap: wrap;
   padding: 1em 0.75em 0;
-  
+
   @include media($medium-large-screen) {
     padding-bottom: 0;
   }
@@ -241,7 +243,7 @@ a[href^=http] {
 
 .va-header-logo-wrapper {
   flex: 1 0 164px;
-  
+
   @include media($medium-large-screen) {
     flex-basis: 6rem;
   }
@@ -292,17 +294,18 @@ a[href^=http] {
 h1, h2 {
   font-family: $font-sans;
 }
+
+h1:first-child {
+  margin-top: 0;
+}
+
 h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0 0 .5em 0;
 }
 
 h2 {
-  line-height: 1.2em;
-}
-
-h1:first-child {
-  margin-top: 0;
+  @include heading-2;
 }
 
 h3, h4, h5, h6 {
@@ -310,27 +313,19 @@ h3, h4, h5, h6 {
 }
 
 h3 {
-  font-size: 1.8em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-3;
 }
 
 h4 {
-  font-size: 1.35em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-4;
 }
 
 h5 {
-  font-size: 1.15em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-5;
 }
 
 h6 {
-  font-size: 0.9em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-6;
 }
 
 .text-center {
@@ -346,7 +341,7 @@ h6 {
   overflow: hidden;
 }
 
-// TODO(css): Make these less specific. 
+// TODO(css): Make these less specific.
 .popular-container {
   background: $color-white;
   text-align: center;
@@ -359,16 +354,16 @@ h6 {
     @include media($medium-large-screen) {
       margin: auto;
     }
-    
+
     @include media-maxwidth($small-screen) {
       display: block;
-    }    
+    }
   }
 
   .va-h-ruled--a {
     margin-left: 1.6rem;
     margin-right: 1.6rem;
-    
+
     @include media($medium-large-screen) {
       max-width: 41%;
       margin: 2.4rem auto;
@@ -390,7 +385,7 @@ h6 {
   text-decoration: none;
   margin: .8rem;
   padding: 2rem;
-  
+
   &:hover {
     background: transparent;
     border: $color-primary-darker solid 2px;
@@ -435,6 +430,7 @@ h6 {
   color: $color-primary-darker;
   display: inline-block;
   font-size: 2.5rem;
+  font-weight: bold;
   line-height: 1.3;
   margin: 0 auto;
   max-width: 11em;
@@ -458,7 +454,7 @@ h6 {
 }
 
 
-// TODO(css): Remove .feature-list ul once it's
+// TODO(css): Remove .feature-list ul once it"s
 // refactored from the Markdown
 .feature-list ul,
 .va-list--feature {
@@ -467,7 +463,7 @@ h6 {
   list-style: none outside;
 
   li {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid $color-gray-light;
     padding: 1em 0;
 
     &:last-of-type {
@@ -520,13 +516,14 @@ h6 {
 //====================
 // Content callout boxes
 // ===================
-.feature,
-.call-out {
+
+.feature {
   background: $color-primary-alt-lightest;
   padding: 1em;
   clear: both;
   margin: 0 0 1.5em 0;
- 
+  min-height: 11em;
+
   p {
     color: inherit !important;
     font: inherit !important;
@@ -577,7 +574,7 @@ h6 {
 }
 
 // Usually call out boxes will be definition lists, but
-// sometimes they're unordered lists.
+// sometimes they"re unordered lists.
 ul, ol {
   &.va-callout {
     li {
@@ -592,7 +589,7 @@ ul, ol {
 
 .navigation--major {
   .va-cards--2across {
-    display:block;
+    display: block;
   }
 
   .home & {
@@ -625,6 +622,49 @@ ul, ol {
 
 .maintenance-page {
   padding-top: 3.2rem;
+
+  .text-center {
+    margin: auto;
+  }
+}
+
+//========================
+// 404 page only
+//========================
+
+#search_form {
+  position: relative;
+  width: 100%;
+
+  label {
+    left: -9999rem;
+    position: absolute;
+  }
+
+  [type=text] {
+    height: 5.7rem;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  [type=submit] {
+    border-radius: 0 3px 3px 0;
+    height: 5.7rem;
+    margin: 0;
+  }
+}
+
+// Content lead paragraphs
+
+#content.interior .primary {
+  li p:first-of-type,
+  ul+p
+   {
+    font-weight: normal !important;
+    color: $color-gray-dark;
+    font-size: 1em;
+    padding-bottom: 0;
+  }
 }
 
 #content .section.primary {
@@ -632,7 +672,7 @@ ul, ol {
   padding: 2em 0;
   background: $color-primary;
   h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
-  p {color: rgba(255,255,255,1);}
+  p {color: $color-white;}
   a {color: $color-white;}
   ul li {list-style: square;}
 }
@@ -644,7 +684,7 @@ ul, ol {
   }
 }
 
-#content .section .feature {min-height: 11em;}
+
 
 #content .panel {
   background: $color-gray-lightest;
@@ -672,6 +712,10 @@ ul, ol {
   font-size: inherit;
   padding: 1em 0;
 
+  // Gate / Sign-in pages only
+  &--gate {
+    margin-bottom: -2em;
+  }
 
   li {
     display: inline-block;
@@ -680,7 +724,7 @@ ul, ol {
     vertical-align: middle;
 
     &:after {
-      content: ' › ';
+      content: " › ";
       display: inline-block;
       padding: 0 .35em;
     }
@@ -690,7 +734,7 @@ ul, ol {
       padding: .3em 0;
 
       &:after {
-        content: '';
+        content: "";
       }
     }
   }
@@ -700,14 +744,14 @@ ul, ol {
     padding: 2px;
 
     &:hover {
-      background: rgba(0,0,0,.1);
+      background: $color-link-default-hover;
     }
   }
 }
 
 .va-nav-breadcrumbs-list {
-  @extend .columns;
   float: none;
+  position: relative;
 }
 
 //===== Playbook and Facility Locator
@@ -740,7 +784,7 @@ ul, ol {
     margin: 0 0 .75em 0;
 
     &:after {
-      content:' › ';
+      content: " › ";
       display: inline-block;
       color: $color-white;
       padding: 0 .5em;
@@ -759,7 +803,7 @@ ul, ol {
     }
 
     &:before {
-      content: '';
+      content: "";
       padding: 0;
       margin: 0;
     }
@@ -771,7 +815,7 @@ ul, ol {
     color: $color-white;
     &:hover {
       text-decoration: none;
-      background: rgba(0,0,0,.1);
+      background: $color-link-default-hover;
       border-bottom: 3px solid $color-gold;
     }
   }
@@ -787,7 +831,7 @@ li {
     display: inline-block;
     padding: .5em;
     color: $color-primary-darkest;
-    background: rgba($color-primary-darkest,.05);
+    background: $color-link-default-hover;
     font-weight: bold;
     float: right;
     margin: .5em 0 1em 1em;
@@ -811,33 +855,14 @@ li {
   margin: 0 auto;
 }
 
-.draft {
-  position: absolute;
-  top: -3.5em;
-  right: -5em;
-  z-index: 1000;
-  background: rgba($color-secondary-darkest, .9);
-  color: $color-white;
-  font-size: .85em;
-  position: fixed;
-  padding: 2.5em 4em 1em 4em;
-  -ms-transform: rotate(45deg); /* IE 9 */
-  -ms-transform-origin: 20% 40%; /* IE 9 */
-  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-  -webkit-transform-origin: 20% 40%; /* Chrome, Safari, Opera */
-  transform: rotate(45deg);
-  transform-origin: 20% 40%;
-}
-
 // Cards
-
-[class*='block-grid-'] > li {
+[class*="block-grid-"] > li {
   padding: 0 0.625rem 1.25rem 0.625rem;
 }
 
 // Telephone numbers
 .tel {
-  background: rgba(0,0,0,.05);
+  background: $color-link-default-hover;
   padding: .2em;
   display: inline-block;
 }
@@ -856,12 +881,12 @@ li {
 
   div {
     background: $color-gray-lightest;
-    background: rgba(0,0,0,.05);
+    background: $color-link-default-hover;
     margin: 0 0 .5em 0;
     padding: .75em;
 
     &:hover, &:focus, &:active {
-      background: rgba(0,0,0,.1);
+      background: $color-link-default-hover;
     }
   }
   a {
@@ -900,7 +925,7 @@ li {
 }
 
 .footer-seal {
-  background:url(/img/design/sprites/sprite.png)  no-repeat 0 -23px;
+  background: url(/img/design/sprites/sprite.png) no-repeat 0 -23px;
   background-size: 215px 72px;
   width: 215px;
   height: 49px;
@@ -917,7 +942,7 @@ li {
 [class^=va-footer-linkgroup] {
   a {
     background: none;
-    color: #fff;
+    color: $color-white;
     font-size: 1em;
     font-weight: 400;
     margin: .25em 0;
@@ -974,7 +999,7 @@ li {
     display: inline-block;
 
     &:not(:last-child):after {
-      content:'|';
+      content: "|";
       padding: 0 1rem;
     }
 
@@ -1108,22 +1133,16 @@ li {
   text-align: center;
   overflow: hidden;
 
+  &:hover {
+    color: $color-gold;
+  }
+
   @include media($medium-large-screen) {
     text-align: left;
   }
 
-  // Works with <= IE8
-  &:last-child {
-    opacity: 0.6;
-    padding-left: 1em;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
   .icon {
-    background: url('/img/design/sprites/sprite.png') no-repeat -43px 0;
+    background: url("/img/design/sprites/sprite.png") no-repeat -43px 0;
     background-size: 215px 72px;
     display: inline-block;
     width: 19px;
@@ -1168,7 +1187,7 @@ li {
     visibility: hidden;
     display: block;
     font-size: 0;
-    content: ' ';
+    content: " ";
     clear: both;
     height: 0;
   }
@@ -1208,7 +1227,7 @@ li {
   }
 
   &.information {
-    background: rgba(0,0,0,.05);
+    background: $color-link-default-hover;
     padding: 1em;
   }
 
@@ -1240,19 +1259,11 @@ li {
     margin-bottom: 1em;
   }
   &.top {
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid $color-gray-lightest;;
   }
   &.bottom {
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid $color-gray-lightest;;
   }
-}
-
-// Steps
-
-.feature {
-  background: $polar;
-  padding: 1em;
-  margin: 0;
 }
 
 // Process line
@@ -1299,7 +1310,7 @@ li {
       li {list-style: square;}
     }
   &.step {
-    border-left: 8px solid #ccc;
+    border-left: 8px solid $color-gray-light;
     padding: 0 0 2em 2em;
     margin: 0 !important;
   &.last {
@@ -1337,7 +1348,7 @@ li {
   }
 
   &:before {
-    color:$color-white;
+    color: $color-white;
     float: left;
     font-size: 1.3em;
     font-weight: 700;
@@ -1359,31 +1370,31 @@ li {
   padding-bottom: 0;
 }
 
-li.one:before {content: '1';}
-li.two:before {content: '2';}
-li.three:before {content: '3';}
-li.four:before {content: '4';}
-li.five:before {content: '5';}
-li.six:before {content: '6';}
-li.seven:before {content: '7';}
-li.eight:before {content: '8';}
-li.nine:before {content: '9';}
-li.ten:before {content: '10';}
-li.eleven:before {content: '11';}
-li.twelve:before {content: '12';}
-li.thirteen:before {content: '13';}
-li.fourteen:before {content: '14';}
-li.fifteen:before {content: '15';}
-li.sixteen:before {content: '16';}
-li.seventeen:before {content: '17';}
-li.eighteen:before {content: '18';}
-li.nineteen:before {content: '19';}
-li.twenty:before {content: '20';}
+li.one:before {content: "1";}
+li.two:before {content: "2";}
+li.three:before {content: "3";}
+li.four:before {content: "4";}
+li.five:before {content: "5";}
+li.six:before {content: "6";}
+li.seven:before {content: "7";}
+li.eight:before {content: "8";}
+li.nine:before {content: "9";}
+li.ten:before {content: "10";}
+li.eleven:before {content: "11";}
+li.twelve:before {content: "12";}
+li.thirteen:before {content: "13";}
+li.fourteen:before {content: "14";}
+li.fifteen:before {content: "15";}
+li.sixteen:before {content: "16";}
+li.seventeen:before {content: "17";}
+li.eighteen:before {content: "18";}
+li.nineteen:before {content: "19";}
+li.twenty:before {content: "20";}
 }
 
 // Panel list
 .panel-list {
-  background: rgba(0,0,0,.05);
+  background: $color-link-default-hover;
   padding: 1em;
   position: relative;
   min-height: 12em;
@@ -1401,7 +1412,6 @@ li.twenty:before {content: '20';}
   }
 
   a {
-    @extend .usa-button-primary;
     margin: .5em 0;
   }
 }
@@ -1432,7 +1442,7 @@ li.twenty:before {content: '20';}
 }
 
 // Action bars
-[class^='va-action-bar'] {
+[class^="va-action-bar"] {
   background: $color-gray-lightest;
 }
 
@@ -1541,7 +1551,7 @@ li.twenty:before {content: '20';}
 }
 
 .va-overlay {
-  background: rgba($color-primary-darkest, .95);
+  background: $color-va-modal-bg;
   height: 100%;
   left: 0;
   -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
@@ -1553,7 +1563,7 @@ li.twenty:before {content: '20';}
   width: 100%;
   z-index: 800;
 
-  input[type='text'] {
+  input[type="text"] {
     -webkit-appearance: none;
     border-radius: 3px 0 0 3px;
   }
@@ -1629,22 +1639,22 @@ ul li p {
 
 // Tooltip
 .js-simple-tooltip {
-  font-family: 'Courier New', 'Courier', serif;
-  font-weight:bold;
+  font-family: "Courier New", "Courier", serif;
+  font-weight: bold;
   cursor: pointer;
-  display:inline-block;
+  display: inline-block;
   padding: 0;
   border-radius: 1.75em;
   background: $color-gray-dark;
   margin: 0 0 0 .5em;
-  color: white;
+  color: $color-white;
   height: 1.75em;
   font-size: .8em;
   width: 1.75em;
   text-align: center;
   vertical-align: middle;
 }
-.simpletooltip[aria-hidden='true'] {
+.simpletooltip[aria-hidden="true"] {
   display: none;
 }
 .simpletooltip_container {
@@ -1674,14 +1684,14 @@ ul li p {
     border-bottom: 10px solid transparent;  // left arrow slant
     border-top: 10px solid transparent; // right arrow slant
     border-right: 10px solid $color-gray-dark;
-    content: '';
+    content: "";
     font-size: 0;
     position: absolute;
     left: 0px;
     line-height: 0;
     margin-left: -10px;
-    width:0;
-    height:0;
+    width: 0;
+    height: 0;
     top: 39%;
   }
 }
@@ -1743,8 +1753,8 @@ html.touchevents {
 }
 
 .va-code-block,
-code[class*='language-'],
-pre[class*='language-']  {
+code[class*="language-"],
+pre[class*="language-"]  {
   background-color: $color-gray-lightest !important;
   font-size: .9em;
   line-height: inherit !important;
@@ -1770,10 +1780,17 @@ pre[class*='language-']  {
 }
 
 // Vertically aligns in the middle when flex-direction: row;
-// Aligns center when flex-direction: column
+// Aligns center horizontally when flex-direction: column
 .va-flex--ctr {
   -webkit-align-items: center;
   align-items: center;
+}
+
+// Horizontally aligns in the center when flex-direction: row;
+// Aligns middle vertically when flex-direction: column
+.va-flex--jctr {
+  -webkit-justify-items: center;
+  justify-items: center;
 }
 
 // Stretches all flexbox items to be the same height when
@@ -1850,10 +1867,10 @@ p.info-message {
 
 .last-updated {
   margin-top: 1.5em;
-  border-top: 2px solid #f1f1f1;
+  border-top: 2px solid $color-gray-light;
   padding: 1em 0;
   p {
     font-size: 1em !important;
-    color: #323a45 !important;
+    color: $color-gray-dark !important;
   }
 }
