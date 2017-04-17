@@ -58,22 +58,30 @@ Up to a maximum of $100,000 of coverage for you, not to exceed the Servicemember
 
 You’ll pay a premium for your spouse’s coverage, which will increase as your spouse ages. Choose your spouse’s age below to view current spousal coverage monthly premium rates based on the amount of insurance coverage you want.
 
-#### Under 35 years
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="age-under-35">Under 35 years</button>
+<div id="age-under-35" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
 | $100,000 | $5.00 |
-| $90,000  | $4.50 |
-| $80,000  | $4.00 |
-| $70,000  | $3.50 |
-| $60,000  | $3.00 |
-| $50,000  | $2.50 |
-| $40,000  | $2.00 |
-| $30,000  | $1.50 |
-| $20,000  | $1.00 |
-| $10,000  | $0.50 |
+| $90,000 | $4.50 |
+| $80,000 | $4.00 |
+| $70,000 | $3.50 |
+| $60,000 | $3.00 |
+| $50,000 | $2.50 |
+| $40,000 | $2.00 |
+| $30,000 | $1.50 |
+| $20,000 | $1.00 |
+| $10,000 | $0.50 |
 
-#### 35 – 39 years
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="age-35-39">35 - 39 years</button>
+<div id="age-35-39" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -88,7 +96,11 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 | $20,000  | $1.30 |
 | $10,000  | $0.65 |
 
-#### 40 – 44 years
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="age-40-44">40 - 44 years</button>
+<div id="age-40-44" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -103,7 +115,11 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 | $20,000  | $1.70 |
 | $10,000  | $0.85 |
 
-#### 45 – 49 years
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="age-45-49">45 – 49 years</button>
+<div id="age-45-49" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -118,7 +134,11 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 | $20,000  | $2.60  |
 | $10,000  | $1.30  |
 
-#### 50 – 54 years
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="age-50-54">50 – 54 years</button>
+<div id="age-50-54" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -133,7 +153,11 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 | $20,000  | $5.00  |
 | $10,000  | $2.50  |
 
-#### 55 – 59 years
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="age-55-59">55 – 59 years</button>
+<div id="age-55-59" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -148,7 +172,11 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 | $20,000  | $7.40  |
 | $10,000  | $3.70  |
 
-#### 60 years and older
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="age-60-older">60 years and older</button>
+<div id="age-60-older" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -162,6 +190,11 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 | $30,000  | $15.00 |
 | $20,000  | $10.00 |
 | $10,000  | $5.00  |
+
+</div>
+</li>
+</ul>
+</div>
 
 If you’re signed up as a spouse in the Defense Enrollment Eligibility Reporting System (DEERS), we’ll automatically deduct the FSGLI premium from your Servicemember’s pay. If you aren’t signed up in DEERS, your Servicemember will still be responsible for premiums and back payments of unpaid premiums. 
 
@@ -206,3 +239,6 @@ You can’t convert other types of policies—such as term, variable, or univers
  - The Servicemember's SGLI declination
  - The Servicemember's proof of death (DD1300: Report of Casualty, or a civilian death certificate)
 
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+
+<!--- TODO: find a proper place to import USWDS JS for static pages -->
