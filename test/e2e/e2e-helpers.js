@@ -29,11 +29,7 @@ function overrideVetsGovApi(client) {
     });
     return window.VetsGov;
   },
-  [`http://localhost:${process.env.API_PORT || 3000}`],
-  (val) => {
-    // eslint-disable-next-line no-console
-    // console.log(`Result of overriding VetsGov.api.url${JSON.stringify(val)}`);
-  });
+  [`http://localhost:${process.env.API_PORT || 3000}`]);
 }
 
 function overrideSmoothScrolling(client) {
@@ -47,10 +43,6 @@ function overrideSmoothScrolling(client) {
       }
     });
     return window.VetsGov;
-  },
-  (val) => {
-    // eslint-disable-next-line no-console
-    // console.log(`Setting VetsGov.scroll = ${JSON.stringify(val)}`);
   });
 }
 
@@ -80,11 +72,7 @@ function overrideAnimations(client) {
     style.innerHTML = str;
     document.getElementsByTagName('head')[0].appendChild(style);
   },
-  [styles],
-  () => {
-    // eslint-disable-next-line no-console
-    // console.log('Overriding animations...');
-  });
+  [styles]);
 }
 
 /**
