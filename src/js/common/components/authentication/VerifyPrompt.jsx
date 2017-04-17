@@ -32,7 +32,7 @@ class VerifyPrompt extends React.Component {
           </div>
         </div>
       </div>
-		);
+    );
   }
 }
 

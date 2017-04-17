@@ -44,7 +44,7 @@ class LoginPrompt extends React.Component {
           </div>
         </div>
       </div>
-		);
+    );
   }
 }
 
