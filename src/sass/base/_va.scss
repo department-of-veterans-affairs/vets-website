@@ -42,6 +42,7 @@ body .row.full {
   max-width: 100%;
 }
 
+
 // Screen Readers
 
 .sr-only {
@@ -112,23 +113,6 @@ dd {
 
 dd + dt {
   margin-top: 1.5em;
-}
-
-
-// Figure / Caption
-figure {
-  font-size: .85em;
-  margin-left: -$column-gutter/2;
-  margin-right: -$column-gutter/2;
-
-  @include media($large-screen) {
-    margin-left: -16.66667%;
-    margin-right: -16.66667%;
-  }
-}
-
-figcaption {
-  color: $color-primary-darker;
 }
 
 input::-webkit-input-placeholder{
