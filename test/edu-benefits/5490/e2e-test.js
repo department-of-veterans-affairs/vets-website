@@ -155,11 +155,4 @@ const runTest = (client, onlyRequiredFields) => {
   client.end();
 };
 
-// Prevent the test from being run on production.
-// TODO: Remove when the form is actually launched.
-if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
-  module.exports = runTest;
-} else {
-  // Empty function to skip the tests
-  module.exports = (client) => client.end();
-}
+module.exports = runTest;
