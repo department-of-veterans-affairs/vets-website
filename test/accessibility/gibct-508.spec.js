@@ -1,6 +1,6 @@
-const E2eHelpers = require('../util/e2e-helpers');
-const Timeouts = require('../util/timeouts.js');
-const GiHelpers = require('../util/gibct-helpers');
+const E2eHelpers = require('../e2e/e2e-helpers');
+const Timeouts = require('../e2e/timeouts.js');
+const GiHelpers = require('../e2e/gibct-helpers');
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
