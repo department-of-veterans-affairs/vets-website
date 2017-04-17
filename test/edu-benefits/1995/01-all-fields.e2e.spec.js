@@ -30,7 +30,9 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
     EduHelpers.completeBenefitsSelection(client, testData.benefitSeletion, true);
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
     // Service periods page.
@@ -65,7 +67,9 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
     EduHelpers.completeContactInformation(client, testData.contactInformation.data, false);
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
     // Dependents page.
@@ -96,7 +100,8 @@ module.exports = E2eHelpers.createE2eTest(
     // Confirmation page.
     client
       .expect.element('.edu-benefits-submit-success').to.be.visible;
-    client.axeCheck('.main')
-          .end();
+    client
+      .axeCheck('.main')
+      .end();
   }
 );
