@@ -4,6 +4,8 @@ import fullSchema1990n from 'vets-json-schema/dist/22-1990N-schema.json';
 
 import applicantInformationPage from '../../pages/applicantInformation';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
+import contactInformationPage from '../../pages/contactInformation';
+import directDeposit from '../../pages/directDeposit';
 
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 
@@ -138,6 +140,13 @@ const formConfig = {
             }
           }
         }
+      }
+    },
+    personalInformation: {
+      title: 'Personal Information',
+      pages: {
+        contactInformation: contactInformationPage(),
+        directDeposit
       }
     }
   }
