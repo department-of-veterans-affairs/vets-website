@@ -5,12 +5,29 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-addons-test-utils';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
+import { DefinitionTester } from '../../util/schemaform-utils.jsx';
+import additionalBenefitsPage from '../../../src/js/edu-benefits/pages/additionalBenefits';
+import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
+import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 
-describe('Edu 5490 additionalBenefits', () => {
-  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.additionalBenefits;
+describe('Edu additionalBenefits page', () => {
   it('should render', () => {
+    const { schema, uiSchema } = additionalBenefitsPage(fullSchema1990e);
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+
+    const formDOM = findDOMNode(form);
+
+    expect(formDOM.querySelectorAll('input').length).to.equal(4);
+  });
+  it('should show fund source when checked', () => {
+    const { schema, uiSchema } = additionalBenefitsPage(fullSchema5490, {
+      fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource']
+    });
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
@@ -21,17 +38,6 @@ describe('Edu 5490 additionalBenefits', () => {
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input').length).to.equal(2);
-  });
-  it('should show fund source when checked', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={schema}
-          data={{}}
-          uiSchema={uiSchema}/>
-    );
-
-    const formDOM = findDOMNode(form);
-
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_civilianBenefitsAssistanceYes'), {
       target: {
         checked: true
