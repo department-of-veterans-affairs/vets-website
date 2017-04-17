@@ -1,5 +1,4 @@
 const mock = require('./mock-helpers');
-const selectDropdown = require('./e2e-helpers.js').selectDropdown;
 const Timeouts = require('./timeouts.js');
 
 const testValues = {
@@ -49,7 +48,7 @@ const testValues = {
   homePhone: '5551112323',
   mobilePhone: '5551114545',
 
-  discloseFinancialInformation: false,
+  discloseFinancialInformation: true,
 
   spouseFullName: {
     first: 'Anne',
@@ -166,214 +165,158 @@ const testValues = {
   campLejeune: false
 };
 
-function completePersonalInformation(client, data, onlyRequiredFields) {
+function completePersonalInformation(client, data) {
   client
     .waitForElementVisible('input[name="fname"]', Timeouts.normal)
-    .clearValue('input[name="fname"]')
-    .setValue('input[name="fname"]', data.veteranFullName.first)
-    .clearValue('input[name="lname"]')
-    .setValue('input[name="lname"]', data.veteranFullName.last);
-
-  if (!onlyRequiredFields) {
-    selectDropdown(client, 'suffix', data.veteranFullName.suffix);
-    client
-      .setValue('input[name="mname"]', data.veteranFullName.middle)
-      .setValue('input[name="mothersMaidenName"]', data.mothersMaidenName);
-  }
+    .fill('input[name="fname"]', data.veteranFullName.first)
+    .fill('input[name="lname"]', data.veteranFullName.last)
+    .selectDropdown('suffix', data.veteranFullName.suffix)
+    .fill('input[name="mname"]', data.veteranFullName.middle)
+    .fill('input[name="mothersMaidenName"]', data.mothersMaidenName);
 }
 
-function completeBirthInformation(client, data, onlyRequiredFields) {
-  selectDropdown(client, 'veteranBirthMonth', data.veteranDateOfBirth.month);
-  selectDropdown(client, 'veteranBirthDay', data.veteranDateOfBirth.day);
+function completeBirthInformation(client, data) {
   client
-    .clearValue('input[name="veteranBirthYear"]')
-    .setValue('input[name="veteranBirthYear"]', data.veteranDateOfBirth.year)
-    .clearValue('input[name="ssn"]')
-    .setValue('input[name="ssn"]', data.veteranSocialSecurityNumber);
-
-  if (!onlyRequiredFields) {
-    client
-      .setValue('input[name="cityOfBirth"]', data.cityOfBirth);
-
-    selectDropdown(client, 'stateOfBirth', data.stateOfBirth);
-  }
+    .selectDropdown('veteranBirthMonth', data.veteranDateOfBirth.month)
+    .selectDropdown('veteranBirthDay', data.veteranDateOfBirth.day)
+    .fill('input[name="veteranBirthYear"]', data.veteranDateOfBirth.year)
+    .fill('input[name="ssn"]', data.veteranSocialSecurityNumber)
+    .fill('input[name="cityOfBirth"]', data.cityOfBirth)
+    .selectDropdown('stateOfBirth', data.stateOfBirth);
 }
 
-function completeDemographicInformation(client, data, onlyRequiredFields) {
-  selectDropdown(client, 'gender', data.gender);
-  selectDropdown(client, 'maritalStatus', data.maritalStatus);
-
-  if (!onlyRequiredFields) {
-    client
-      .click('input[name="isAmericanIndianOrAlaskanNative"]')
-      .click('input[name="isBlackOrAfricanAmerican"]')
-      .click('input[name="isNativeHawaiianOrOtherPacificIslander"]')
-      .click('input[name="isAsian"]')
-      .click('input[name="isWhite"]')
-      .click('input[name="isSpanishHispanicLatino"]');
-  }
-}
-
-function completeVeteranAddress(client, data, onlyRequiredFields) {
-  client.waitForElementVisible('input[name="address"]', Timeouts.normal);
+function completeDemographicInformation(client, data) {
   client
-    .clearValue('input[name="address"]')
-    .setValue('input[name="address"]', data.veteranAddress.street)
-    .clearValue('input[name="city"]')
-    .setValue('input[name="city"]', data.veteranAddress.city);
-
-  selectDropdown(client, 'country', data.veteranAddress.country);
-  selectDropdown(client, 'state', data.veteranAddress.state);
-
-  client
-    .clearValue('input[name="zip"]')
-    .setValue('input[name="zip"]', data.veteranAddress.zipcode);
-
-  if (!onlyRequiredFields) {
-    onlyRequiredFields;
-  }
+    .selectDropdown('gender', data.gender)
+    .selectDropdown('maritalStatus', data.maritalStatus)
+    .click('input[name="isAmericanIndianOrAlaskanNative"]')
+    .click('input[name="isBlackOrAfricanAmerican"]')
+    .click('input[name="isNativeHawaiianOrOtherPacificIslander"]')
+    .click('input[name="isAsian"]')
+    .click('input[name="isWhite"]')
+    .click('input[name="isSpanishHispanicLatino"]');
 }
 
-function completeVeteranContactInformation(client, data, onlyRequiredFields) {
-  if (!onlyRequiredFields) {
-    client
-      .waitForElementVisible('input.first-email', Timeouts.normal)
-      .setValue('input.first-email', data.email)
-      .setValue('input.second-email', data.emailConfirmation)
-      .setValue('input.home-phone', data.homePhone)
-      .setValue('input.mobile-phone', data.mobilePhone);
-  }
+function completeVeteranAddress(client, data) {
+  // client.waitForElementVisible('input[name="address"]', Timeouts.normal);
+  client
+    .fill('input[name="address"]', data.veteranAddress.street)
+    .fill('input[name="city"]', data.veteranAddress.city)
+    .selectDropdown('country', data.veteranAddress.country)
+    .selectDropdown('state', data.veteranAddress.state)
+    // Has to be after the dropdowns or it fails mysteriously
+    .fill('input[name="zip"]', data.veteranAddress.zipcode);
 }
 
-function completeMilitaryService(client, data, onlyRequiredFields) {
-  selectDropdown(client, 'lastServiceBranch', data.lastServiceBranch);
-  selectDropdown(client, 'lastEntryMonth', data.lastEntryDate.month);
-  selectDropdown(client, 'lastEntryDay', data.lastEntryDate.day);
-  selectDropdown(client, 'lastDischargeMonth', data.lastDischargeDate.month);
-  selectDropdown(client, 'lastDischargeDay', data.lastDischargeDate.day);
-  selectDropdown(client, 'dischargeType', data.dischargeType);
+function completeVeteranContactInformation(client, data) {
   client
+    .waitForElementVisible('input.first-email', Timeouts.normal)
+    .setValue('input.first-email', data.email)
+    .setValue('input.second-email', data.emailConfirmation)
+    .setValue('input.home-phone', data.homePhone)
+    .setValue('input.mobile-phone', data.mobilePhone);
+}
+
+function completeMilitaryService(client, data) {
+  client
+    .selectDropdown('lastServiceBranch', data.lastServiceBranch)
+    .selectDropdown('lastEntryMonth', data.lastEntryDate.month)
+    .selectDropdown('lastEntryDay', data.lastEntryDate.day)
+    .selectDropdown('lastDischargeMonth', data.lastDischargeDate.month)
+    .selectDropdown('lastDischargeDay', data.lastDischargeDate.day)
+    .selectDropdown('dischargeType', data.dischargeType)
     .clearValue('input[name="lastEntryYear"]')
     .setValue('input[name="lastEntryYear"]', data.lastEntryDate.year)
     .clearValue('input[name="lastDischargeYear"]')
     .setValue('input[name="lastDischargeYear"]', data.lastDischargeDate.year);
-
-  if (!onlyRequiredFields) {
-    onlyRequiredFields;
-  }
 }
 
-function completeVaBenefits(client, data, onlyRequiredFields) {
+function completeVaBenefits(client) {
   client
     .waitForElementVisible('input[name="compensableVaServiceConnected-0"] + label', Timeouts.normal)
     .click('input[name="compensableVaServiceConnected-0"]')
     .click('input[name="isVaServiceConnected-0"]')
     .click('input[name="receivesVaPension-0"]');
-
-  if (!onlyRequiredFields) {
-    onlyRequiredFields;
-  }
 }
 
-function completeFinancialDisclosure(client, data, onlyRequiredFields) {
-  client
-    .waitForElementVisible('input[name="discloseFinancialInformation-1"] + label', Timeouts.normal)
-    .click('input[name="discloseFinancialInformation-1"]');
-
-  if (!onlyRequiredFields) {
-    client.click('input[name="discloseFinancialInformation-0"]');
+function completeFinancialDisclosure(client, data, forceOption) {
+  // Yes = 0, No = 1
+  let optionNumber = data.discloseFinancialInformation ? '0' : '1';
+  // Override if necessary
+  if (typeof forceOption !== 'undefined') {
+    optionNumber = !!forceOption ? '0' : '1';
   }
+
+  const selector = `input[name="discloseFinancialInformation-${optionNumber}"]`;
+  client
+    .waitForElementVisible(`${selector} + label`, Timeouts.normal)
+    .click(selector);
 }
 
-function completeSpouseInformation(client, data, onlyRequiredFields) {
-  selectDropdown(client, 'spouseBirthMonth', data.spouseDateOfBirth.month);
-  selectDropdown(client, 'spouseBirthDay', data.spouseDateOfBirth.day);
-  selectDropdown(client, 'marriageMonth', data.dateOfMarriage.month);
-  selectDropdown(client, 'marriageDay', data.dateOfMarriage.day);
+function completeSpouseInformation(client, data) {
   client
-    .clearValue('input[name="fname"]')
-    .setValue('input[name="fname"]', data.spouseFullName.first)
-    .clearValue('input[name="lname"]')
-    .setValue('input[name="lname"]', data.spouseFullName.last)
-    .clearValue('input[name="ssn"]')
-    .setValue('input[name="ssn"]', data.spouseSocialSecurityNumber)
-    .clearValue('input[name="spouseBirthYear"]')
-    .setValue('input[name="spouseBirthYear"]', data.spouseDateOfBirth.year)
-    .clearValue('input[name="marriageYear"]')
-    .setValue('input[name="marriageYear"]', data.dateOfMarriage.year)
+    .selectDropdown('spouseBirthMonth', data.spouseDateOfBirth.month)
+    .selectDropdown('spouseBirthDay', data.spouseDateOfBirth.day)
+    .selectDropdown('marriageMonth', data.dateOfMarriage.month)
+    .selectDropdown('marriageDay', data.dateOfMarriage.day)
+    .fill('input[name="fname"]', data.spouseFullName.first)
+    .fill('input[name="mname"]', data.spouseFullName.middle)
+    .fill('input[name="lname"]', data.spouseFullName.last)
+    .selectDropdown('suffix', data.spouseFullName.suffix)
+    .fill('input[name="ssn"]', data.spouseSocialSecurityNumber)
+    .fill('input[name="spouseBirthYear"]', data.spouseDateOfBirth.year)
+    .fill('input[name="marriageYear"]', data.dateOfMarriage.year)
     .click('input[name="sameAddress-1"]');
   client.expect.element('input[name="address"]').to.be.visible.before(Timeouts.slow);
 
   client
-    .clearValue('input[name="address"]')
-    .setValue('input[name="address"]', data.spouseAddress.street)
-    .clearValue('input[name="city"]')
-    .setValue('input[name="city"]', data.spouseAddress.city);
-
-  selectDropdown(client, 'country', data.spouseAddress.country);
-  selectDropdown(client, 'state', data.spouseAddress.state);
-
-  client
-    .clearValue('input[name="zip"]')
-    .setValue('input[name="zip"]', data.spouseAddress.zipcode);
-
-  if (!onlyRequiredFields) {
-    selectDropdown(client, 'suffix', 'Sr.');
-    client
-      .setValue('input[name="mname"]', 'Jacqueline')
-      .click('input[name="sameAddress-1"]')
-      .click('input[name="cohabitedLastYear-0"]')
-      .click('input[name="provideSupportLastYear-0"]');
-  }
+    .fill('input[name="address"]', data.spouseAddress.street)
+    .fill('input[name="city"]', data.spouseAddress.city)
+    .selectDropdown('country', data.spouseAddress.country)
+    .selectDropdown('state', data.spouseAddress.state)
+    .fill('input[name="zip"]', data.spouseAddress.zipcode)
+    .click('input[name="cohabitedLastYear-1"]')
+    .click('input[name="provideSupportLastYear-0"]');
 }
 
-function completeAnnualIncomeInformation(client, data, onlyRequiredFields) {
+function completeAnnualIncomeInformation(client, data) {
   client
     .waitForElementVisible('input[name="veteranGrossIncome"]', Timeouts.normal)
     .setValue('input[name="veteranGrossIncome"]', data.veteranGrossIncome)
     .setValue('input[name="veteranNetIncome"]', data.veteranNetIncome)
-    .setValue('input[name="veteranOtherIncome"]', data.veteranOtherIncome);
-
-  if (!onlyRequiredFields) {
-    client
-      .setValue('input[name="spouseGrossIncome"]', data.spouseGrossIncome)
-      .setValue('input[name="spouseNetIncome"]', data.spouseNetIncome)
-      .setValue('input[name="spouseOtherIncome"]', data.spouseOtherIncome)
-      .setValue('input[name="childGrossIncome"]', data.children[0].grossIncome)
-      .setValue('input[name="childNetIncome"]', data.children[0].netIncome)
-      .setValue('input[name="childOtherIncome"]', data.children[0].otherIncome);
-  }
+    .setValue('input[name="veteranOtherIncome"]', data.veteranOtherIncome)
+    .setValue('input[name="spouseGrossIncome"]', data.spouseGrossIncome)
+    .setValue('input[name="spouseNetIncome"]', data.spouseNetIncome)
+    .setValue('input[name="spouseOtherIncome"]', data.spouseOtherIncome)
+    .setValue('input[name="childGrossIncome"]', data.children[0].grossIncome)
+    .setValue('input[name="childNetIncome"]', data.children[0].netIncome)
+    .setValue('input[name="childOtherIncome"]', data.children[0].otherIncome);
 }
 
-function completeChildInformation(client, data, onlyRequiredFields) {
+function completeChildInformation(client, data) {
   client
     .waitForElementVisible('input[name="hasChildrenToReport-0"] + label', Timeouts.normal)
     .click('input[name="hasChildrenToReport-0"]');
 
   client.expect.element('input[name="fname"]').to.be.visible.before(Timeouts.normal);
-  selectDropdown(client, 'childRelation', data.children[0].childRelation);
-  selectDropdown(client, 'childBirthMonth', data.children[0].childDateOfBirth.month);
-  selectDropdown(client, 'childBirthDay', data.children[0].childDateOfBirth.day);
-  selectDropdown(client, 'childBecameDependentMonth', data.children[0].childBecameDependent.month);
-  selectDropdown(client, 'childBecameDependentDay', data.children[0].childBecameDependent.day);
-
   client
+    .selectDropdown('childRelation', data.children[0].childRelation)
+    .selectDropdown('childBirthMonth', data.children[0].childDateOfBirth.month)
+    .selectDropdown('childBirthDay', data.children[0].childDateOfBirth.day)
+    .selectDropdown('childBecameDependentMonth', data.children[0].childBecameDependent.month)
+    .selectDropdown('childBecameDependentDay', data.children[0].childBecameDependent.day)
     .setValue('input[name="fname"]', data.children[0].childFullName.first)
+    .setValue('input[name="mname"]', 'Dirtbike')
     .setValue('input[name="lname"]', data.children[0].childFullName.last)
+    .selectDropdown('suffix', 'Jr.')
     .setValue('input[name="ssn"]', data.children[0].childSocialSecurityNumber)
     .setValue('input[name="childBirthYear"]', data.children[0].childDateOfBirth.year)
     .setValue('input[name="childBecameDependentYear"]', data.children[0].childBecameDependent.year)
-    .setValue('input[name="childEducationExpenses"]', '6000');
-
-  if (!onlyRequiredFields) {
-    selectDropdown(client, 'suffix', 'Jr.');
-    client
-      .setValue('input[name="mname"]', 'Dirtbike')
-      .click('input[name="childDisabledBefore18-0"]')
-      .click('input[name="childAttendedSchoolLastYear-0"]')
-      .click('input[name="childCohabitedLastYear-1"]')
-      .click('input[name="childReceivedSupportLastYear-0"]');
-  }
+    .setValue('input[name="childEducationExpenses"]', '6000')
+    .click('input[name="childDisabledBefore18-0"]')
+    .click('input[name="childAttendedSchoolLastYear-0"]')
+    .click('input[name="childCohabitedLastYear-1"]')
+    .click('input[name="childReceivedSupportLastYear-0"]');
 }
 
 function completeDeductibleExpenses(client, data) {
@@ -385,24 +328,18 @@ function completeDeductibleExpenses(client, data) {
 }
 
 
-function completeMedicareAndMedicaid(client, data, onlyRequiredFields) {
+function completeMedicareAndMedicaid(client, data) {
   client
     .waitForElementVisible('input[name="isMedicaidEligible-1"] + label', Timeouts.normal)
     .click('input[name="isMedicaidEligible-1"]')
-    .click('input[name="isEnrolledMedicarePartA-1"]');
-
-  if (!onlyRequiredFields) {
-    client
-      .click('input[name="isEnrolledMedicarePartA-0"]');
-
-    selectDropdown(client, 'medicarePartAEffectiveMonth', data.medicarePartAEffectiveDate.month);
-    selectDropdown(client, 'medicarePartAEffectiveDay', data.medicarePartAEffectiveDate.day);
-    client
-      .setValue('input[name="medicarePartAEffectiveYear"]', data.medicarePartAEffectiveDate.year);
-  }
+    .click('input[name="isEnrolledMedicarePartA-1"]')
+    .click('input[name="isEnrolledMedicarePartA-0"]')
+    .selectDropdown('medicarePartAEffectiveMonth', data.medicarePartAEffectiveDate.month)
+    .selectDropdown('medicarePartAEffectiveDay', data.medicarePartAEffectiveDate.day)
+    .setValue('input[name="medicarePartAEffectiveYear"]', data.medicarePartAEffectiveDate.year);
 }
 
-function completeInsuranceInformation(client, data, onlyRequiredFields) {
+function completeInsuranceInformation(client, data) {
   client
     .waitForElementVisible('input[name="isCoveredByHealthInsurance-0"] + label', Timeouts.normal)
     .click('input[name="isCoveredByHealthInsurance-0"]');
@@ -410,22 +347,16 @@ function completeInsuranceInformation(client, data, onlyRequiredFields) {
   client
     .setValue('input[name="insuranceName"]', data.providers[0].insuranceName)
     .setValue('input[name="insurancePolicyHolderName"]', data.providers[0].insurancePolicyHolderName)
-    .setValue('input[name="insurancePolicyNumber"]', data.providers[0].insurancePolicyNumber);
-
-  if (!onlyRequiredFields) {
-    client.setValue('input[name="insuranceGroupCode"]', data.providers[0].insuranceGroupCode);
-  }
+    .setValue('input[name="insurancePolicyNumber"]', data.providers[0].insurancePolicyNumber)
+    .setValue('input[name="insuranceGroupCode"]', data.providers[0].insuranceGroupCode);
 }
 
-function completeVaInsuranceInformation(client, data, onlyRequiredFields) {
-  selectDropdown(client, 'state', data.facilityState);
-  selectDropdown(client, 'vaMedicalFacility', data.vaMedicalFacility);
-
-  if (!onlyRequiredFields) {
-    client
-      .click('input[name="isEssentialAcaCoverage"]')
-      .click('input[name="wantsInitialVaContact-1"]');
-  }
+function completeVaInsuranceInformation(client, data) {
+  client
+  .selectDropdown('state', data.facilityState)
+  .selectDropdown('vaMedicalFacility', data.vaMedicalFacility)
+  .click('input[name="isEssentialAcaCoverage"]')
+  .click('input[name="wantsInitialVaContact-0"]');
 }
 
 function initApplicationSubmitMock() {
