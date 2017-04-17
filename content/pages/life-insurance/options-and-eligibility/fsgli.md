@@ -240,3 +240,5 @@ You can’t convert other types of policies—such as term, variable, or univers
  - The Servicemember's proof of death (DD1300: Report of Casualty, or a civilian death certificate)
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+
+<!--- TODO: find a proper place to import USWDS JS for static pages -->
