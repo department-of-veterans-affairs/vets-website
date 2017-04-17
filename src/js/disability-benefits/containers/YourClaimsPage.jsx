@@ -133,7 +133,7 @@ class YourClaimsPage extends React.Component {
                 cssClass="claims-upload-modal"
                 contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>
-          <div className="small-12 usa-width-one-third columns">
+          <div className="small-12 usa-width-one-third medium-4 columns">
             <FeaturesWarning/>
             <AskVAQuestions/>
           </div>
