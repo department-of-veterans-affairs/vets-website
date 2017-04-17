@@ -48,7 +48,7 @@ Veterans
 
 $10,000 to $400,000 in life insurance benefits, based on the amount of SGLI coverage you had when you left the military.
 
-When you leave the military, you can sign up through VGLI for coverage up to the amount of coverage you had through SGLI. You can also increase your coverage by $25,000 every 5 years—up to $400,000—until you’re 60 years old.
+When you leave the military, you can sign up through VGLI for coverage up to the amount you had through SGLI. You can also increase your coverage by $25,000 every 5 years—up to $400,000—until you’re 60 years old.
 
 ### How do I get these benefits?
 
@@ -641,7 +641,7 @@ Get a letter from OSGLI confirming that you have VGLI coverage (called a VGLI Co
 </li>
 </ol>
 
-**Note:** The conversion policy must be a permanent policy, such as a whole life policy. You can’t convert to other types of policies, like Term, Variable Life, or Universal Life Insurance. And supplementary policy benefits, like Accidental Death and Dismemberment or Waiver of Premium for Disability, aren’t considered part of the conversion policy.
+**Note:** The conversion policy must be a permanent policy, such as a whole life policy. You can’t convert to other types of policies, like term, variable life, or universal life insurance. And supplementary policy benefits, like Accidental Death and Dismemberment or Waiver of Premium for Disability, aren’t considered part of the conversion policy.
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
