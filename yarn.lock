@@ -1410,9 +1410,9 @@ chokidar@^1.0.0:
   optionalDependencies:
     fsevents "^1.0.0"
 
-chromedriver@^2.25.1:
-  version "2.28.0"
-  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-2.28.0.tgz#ea0c383621dd27db340c612b85fe39414c16ec79"
+chromedriver@2.27.3:
+  version "2.27.3"
+  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-2.27.3.tgz#00674dad4058643a4ad99a8015264449f736a644"
   dependencies:
     adm-zip "^0.4.7"
     kew "^0.7.0"
