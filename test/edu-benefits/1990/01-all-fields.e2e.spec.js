@@ -63,9 +63,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .expect.element('input[name="civilianBenefitsAssistance"]').to.be.present;
     EduHelpers.completeContributions(client, EduHelpers.testValues, false);
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-history/contributions');
 
     // Education history

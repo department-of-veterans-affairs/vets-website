@@ -8,7 +8,7 @@ module.exports = E2eHelpers.createE2eTest(
   (client) => {
     EduHelpers.initApplicationSubmitMock('1995');
 
-    // Introduction page
+    // Ensure introduction page renders.
     client
       .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/1995`)
       .waitForElementVisible('body', Timeouts.normal)
@@ -19,23 +19,21 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.overrideSmoothScrolling(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
-    // Veteran information page
+    // Veteran information page.
     client
       .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
     EduHelpers.completeVeteranInformation(client, testData.veteranInformation.data, false);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran/information');
 
-    // Benefits selection page
+    // Benefits eligibility page.
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
     EduHelpers.completeBenefitsSelection(client, testData.benefitSeletion, true);
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
-    // Service periods page
+    // Service periods page.
     client
       .waitForElementVisible('label[for="root_view:newService"]', Timeouts.slow);
     EduHelpers.completeServicePeriods(client, testData.servicePeriods.data, false);
@@ -49,7 +47,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military/service');
 
-    // New school page
+    // New school page.
     client
       .waitForElementVisible('label[for="root_educationType"]', Timeouts.slow);
     Edu1995Helpers.completeNewSchool(client, testData.newSchool.data, false);
@@ -63,23 +61,21 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/school-selection/old-school');
 
-    // Contact information page
+    // Contact information page.
     client
       .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
     EduHelpers.completeContactInformation(client, testData.contactInformation.data, false);
-    client
-      .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
+    client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
-    // Dependents page
+    // Dependents page.
     client
       .waitForElementVisible('label[for="root_serviceBefore1977_married"]', Timeouts.slow);
     Edu1995Helpers.completeDependents(client, testData.dependents.data, false);
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/dependents');
 
-    // Direct deposit page
+    // Direct deposit page.
     client
       .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
     EduHelpers.completePaymentChange(client, testData.directDeposit.data, false);
@@ -87,7 +83,7 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
-    // Review and submit page
+    // Review and submit page.
     client
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
     client
@@ -97,11 +93,10 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
-    // Confirmation page
+    // Confirmation page.
     client
       .expect.element('.edu-benefits-submit-success').to.be.visible;
-    client
-      .axeCheck('.main')
-      .end();
+    client.axeCheck('.main')
+          .end();
   }
 );
