@@ -23,7 +23,7 @@ export function command(context, config, _callback) {
     axe.run(document.querySelector(innerContext) || document, { // eslint-disable-line no-undef
       runOnly: {
         type: 'tag',
-        values: ['section508', 'wcag2a']
+        values: ['section508']
       }
     }, (err, results) => {
       done({ err, results });
