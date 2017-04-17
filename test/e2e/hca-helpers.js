@@ -241,8 +241,7 @@ function completeVaBenefits(client) {
 
 function completeFinancialDisclosure(client) {
   client
-    .waitForElementVisible('input[name="discloseFinancialInformation-1"] + label', Timeouts.normal)
-    .click('input[name="discloseFinancialInformation-1"]')
+    .waitForElementVisible('input[name="discloseFinancialInformation-0"] + label', Timeouts.normal)
     .click('input[name="discloseFinancialInformation-0"]');
 }
 
