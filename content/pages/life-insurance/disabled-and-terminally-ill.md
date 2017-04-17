@@ -124,7 +124,7 @@ You may be able to get monthly payments if you have a mental or physical disabil
 
 ### What life insurance benefits can I get with a TDIP rider?
 
--	Monthly payments to be paid to you starting on the 1st day of the 7th month of your continued total disability and continuing as long as you remain total disabled
+-	Monthly payments to be paid to you starting on the 1st day of the 7th month of your continued total disability and continuing as long as you remain totally disabled
 -	A waiver of premiums so you won’t need to pay your premium (monthly payments) for your life insurance coverage
 
 

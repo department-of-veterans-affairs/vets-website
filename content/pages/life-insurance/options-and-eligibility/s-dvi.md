@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Service-Disabled Veterans' Life Insurance (S-DVI)
+title: Service-Disabled Veterans Life Insurance (S-DVI)
 concurrence: 
 template: 4-action-page
 relatedlinks:
@@ -20,7 +20,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a disability (damage to your body or mind that makes you less able to do everyday tasks, including meaningful work) that we’ve concluded was caused—or made worse—by your active service, you may be able to get life insurance under Service-Disabled Veterans’ Insurance (S-DVI). Find out if you qualify—and how to manage your coverage.
+If you have a disability (damage to your body or mind that makes you less able to do everyday tasks, including meaningful work) that we’ve concluded was caused—or made worse—by your active service, you may be able to get life insurance under Service-Disabled Veterans Insurance (S-DVI). Find out if you qualify—and how to manage your coverage.
 
 </div>
 
@@ -34,7 +34,7 @@ You may be able to get S-DVI if you’ve gotten a disability rating of 0% or mor
 - Left the military on or after April 25, 1951, **and**
 - Were discharged under conditions other than dishonorable
 
-**Note:** Your disability rating measures how severe your disability is (with 0% meaning you're not at all disabled and 100% meaning you're totally disabled and not expected to improve). An increase of a rating you had before—or a rating of Individual Unemployability (meaning you can’t work)—doesn’t qualify you for S-DVI.
+**Note:** Your disability rating measures how severe your disability is (with 0% meaning you're not at all disabled and 100% meaning you're totally disabled and not expected to improve). An increase of a rating you had before—or a rating of Individual Unemployability, meaning you can’t work—doesn’t qualify you for S-DVI.
 
 <br>
 
@@ -81,7 +81,7 @@ To apply for Supplemental S-DVI, file VA Form 29-0188 (Application for Supplemen
 
 ### How much will I pay for these benefits?
 
-Your premium rate (the amount you’ll pay each month for your coverage) will depend on:
+Your premium rate (the amount you’ll pay each month for your coverage) depends on:
 -	Your age, **and**
 -	The amount of insurance you want
 
