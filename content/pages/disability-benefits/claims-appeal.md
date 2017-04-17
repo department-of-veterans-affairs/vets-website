@@ -57,7 +57,7 @@ You'll need to file a Substantive Appeal within 60 days from the date on the let
 
 #### What's the status of my appeal?
 
-Check the status of your appeal by calling <span class="tel">800-827-1000</span> or going online to eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov).
+Check the status of your appeal by calling <a href="tel:+18008271000">800-827-1000</a> or going online to eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov).
 
 #### Can I send in more evidence (supporting documents) or make a new argument to support my appeal?  
 

@@ -4,21 +4,38 @@ import * as educationProgram from '../definitions/educationProgram';
 import { uiSchema as uiSchemaDate } from '../../common/schemaform/definitions/date';
 import { civilianBenefitsLabel } from '../utils/helpers';
 
-const defaults = {
-  fields: [
-    'educationProgram',
-    'educationObjective',
-    'nonVaAssistance'
-  ],
-  required: [
-    // 'educationType',
-    // 'name'
-  ]
+
+// Exported like this so we can share the fields between the formConfig and the tests.
+export const schoolSelectionOptionsFor = {
+  '1990n': {
+    fields: [
+      'educationProgram',
+      'educationObjective'
+    ]
+  },
+  '5490': { // eslint-disable-line
+    fields: [
+      'educationProgram',
+      'educationObjective',
+      'educationStartDate',
+      'restorativeTraining',
+      'vocationalTraining',
+      'trainingState',
+      'educationalCounseling'
+    ],
+    required: ['educationType']
+  },
+  '1990e': {
+    fields: [
+      'educationProgram',
+      'educationObjective'
+    ],
+    required: ['educationType']
+  }
 };
 
 export default function createSchoolSelectionPage(schema, options) {
-  const mergedOptions = _.assign(defaults, options);
-  const { fields, required } = mergedOptions;
+  const { fields, required } = options;
 
   const possibleUISchemaFields = {
     educationProgram: educationProgram.uiSchema,

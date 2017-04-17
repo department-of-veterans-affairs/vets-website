@@ -43,5 +43,4 @@ You'll need to apply for benefits. When you apply, you'll have to turn in your s
 **Exception:** If you're less than 60 days from separation, you can file a different kind of claim called a Quick Start claim. [Learn more about Quick Start claims](/disability-benefits/apply/claim-types/predischarge-claim/quick-start/index.html).
 
 ### Get more information
-If you're on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you'll learn how to start your claim. You can also call us toll free at 
-<span class="tel">800-827-1000</span>.
+If you're on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you'll learn how to start your claim. You can also call us toll free at <a href="tel:+18008271000">800-827-1000</a>.
