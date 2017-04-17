@@ -52,7 +52,7 @@ Up to a maximum of $100,000 of coverage for you, not to exceed the Servicemember
 
 - **If you’re the civilian spouse of a Servicemember signed up for full-time SGLI**, we’ll automatically insure you under FSGLI. In this case, we’ll automatically take your premium out of your spouse’s pay.
 
-- **If you’re a military spouse and you were married on or after January 2, 2013**, we won’t automatically cover you. You’ll need to sign up using VA Form SGLV 8286A (Spouse Coverage Election and Certificate). Complete the form and hand it in to your unit personnel office. [Download VA Form SGLV 8286A](http://www.benefits.va.gov/INSURANCE/forms/8286A.htm).
+- **If you’re a military spouse and you were married on or after January 2, 2013**, we won’t automatically cover you. You’ll need to sign up using VA Form SGLV 8286A (Spouse Coverage Election and Certificate). Complete the form and hand it in to your unit's personnel officer. [Download VA Form SGLV 8286A](http://www.benefits.va.gov/INSURANCE/forms/8286A.htm).
 
 ### How much will I pay for spousal coverage—and how do the premium payments work?
 
