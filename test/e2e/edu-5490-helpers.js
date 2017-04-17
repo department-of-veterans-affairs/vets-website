@@ -35,7 +35,7 @@ function completeBenefitHistory(client, data, onlyRequiredFields) {
         .fill('input[name="root_previousBenefits_veteranFullName_middle"]', previousBenefits.veteranFullName.middle)
         .fill('input[name="root_previousBenefits_veteranFullName_last"]', previousBenefits.veteranFullName.last)
         .selectDropdown('root_previousBenefits_veteranFullName_suffix', previousBenefits.veteranFullName.suffix)
-        .fill('input[name="root_previousBenefits_veteranSocialSecurityNumber"]', previousBenefits.veteranSocialSecurityNumber);
+        .fill('input[name="root_previousBenefits_view:veteranId_veteranSocialSecurityNumber"]', previousBenefits.veteranSocialSecurityNumber);
     }
 
     client.fill('input[name="root_previousBenefits_other"]', previousBenefits.other);
@@ -74,7 +74,7 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
 
     client.selectDropdown('root_highSchool_status', data.highSchool.status);
     if (completionDate) {
-      client.fillDate('root_highSchool_view:highSchoolOrGedCompletionDate', completionDate);
+      client.fillDate('root_highSchool_highSchoolOrGedCompletionDate', completionDate);
     }
 
     if (!_.isEmpty(data.postHighSchoolTrainings)) {

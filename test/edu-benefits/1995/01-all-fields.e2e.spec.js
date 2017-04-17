@@ -91,7 +91,7 @@ module.exports = E2eHelpers.createE2eTest(
       .click('input[type="checkbox"]')
       .click('.form-progress-buttons .usa-button-primary');
     client.expect.element('.js-test-location').attribute('data-location')
-      .to.not.contain('/review-and-submit').before(Timeouts.submission);
+      .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Confirmation page.
     client
