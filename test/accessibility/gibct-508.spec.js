@@ -10,6 +10,7 @@ module.exports = E2eHelpers.createE2eTest(
       .url(`${E2eHelpers.baseUrl}/gi-bill-comparison-tool/`);
 
     E2eHelpers.overrideSmoothScrolling(client);
+    client.timeoutsAsyncScript(2000);
 
     client
       .waitForElementVisible('body', Timeouts.normal)
@@ -21,10 +22,7 @@ module.exports = E2eHelpers.createE2eTest(
     .setValue('.keyword-search input[type="text"]', 'washington dc');
 
     client
-      .axeCheck('.main')
-      .click('button[type="submit"]');
-
-    client
+      .click('button[type="submit"]')
       .axeCheck('.main');
 
     client.end();
