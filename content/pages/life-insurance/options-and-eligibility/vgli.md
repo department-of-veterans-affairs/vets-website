@@ -69,7 +69,11 @@ Philadelphia, PA 19176-9913
 
 VGLI premium rates are based on your age and the amount of insurance coverage you want. Choose your age to find monthly premium rates as of July 1, 2014.
 
-[MEL TO INSERT ACCORDION] Age 29 and below
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="age-29-below">Age 29 and below</button>
+<div id="age-29-below" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -114,7 +118,11 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 | $20,000  | $1.60  |
 | $10,000  | $0.80  |
 
-[MEL TO INSERT ACCORDION] Age 30-34
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-30-34">Age 30 - 34</button>
+<div id="vgli-age-30-34" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -159,7 +167,11 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 | $20,000  | $2.00  |
 | $10,000  | $1.00  |
 
-[MEL TO INSERT ACCORDION] Age 35-39
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-35-39">Age 35 - 39</button>
+<div id="vgli-age-35-39" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -204,7 +216,11 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 | $20,000  | $2.60  |
 | $10,000  | $1.30  |
 
-[MEL TO INSERT ACCORDION] Age 40-44
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-40-44">Age 40 - 44</button>
+<div id="vgli-age-40-44" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -249,7 +265,11 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 | $20,000  | $3.40  |
 | $10,000  | $1.70  |
 
-[MEL TO INSERT ACCORDION] Age 45-49 
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-45-49">Age 45 - 49</button>
+<div id="vgli-age-45-49" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -294,7 +314,11 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 | $20,000  | $4.40  |
 | $10,000  | $2.20  |
 
-[MEL TO INSERT ACCORDION] Age 50-54
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-50-54">Age 50 - 54</button>
+<div id="vgli-age-50-54" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -339,7 +363,11 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 | $20,000  | $7.20   |
 | $10,000  | $3.60   |
 
-[MEL TO INSERT ACCORDION] Age 55-59
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-55-59">Age 55 - 59</button>
+<div id="vgli-age-55-59" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -384,7 +412,11 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 | $20,000  | $13.40  |
 | $10,000  | $6.70   |
 
-[MEL TO INSERT ACCORDION] Age 60-64 
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-60-64">Age 60 - 64</button>
+<div id="vgli-age-60-64" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -429,7 +461,11 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 | $20,000  | $21.60  |
 | $10,000  | $10.80  |
 
-[MEL TO INSERT ACCORDION] Age 65-69
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-65-69">Age 65 - 69</button>
+<div id="vgli-age-65-69" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -474,7 +510,11 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 | $20,000  | $30.00  |
 | $10,000  | $15.00  |
 
-[MEL TO INSERT ACCORDION] Age 70-74
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-70-74">Age 70 - 74</button>
+<div id="vgli-age-70-74" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -519,7 +559,11 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 | $20,000  | $46.00  |
 | $10,000  | $23.00  |
 
-[MEL TO INSERT ACCORDION] Age 75 and over
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="vgli-age-75-over">Age 75 and over</button>
+<div id="vgli-age-75-over" class="usa-accordion-content">
 
 | Coverage amount | Monthly premium rate | 
 | --- | --- | 
@@ -564,6 +608,11 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 | $20,000  | $92.00    |
 | $10,000  | $46.00    |
 
+</div>
+</li>
+</ul>
+</div>
+
 [See the VGLI premium rates before July 1, 2014](http://www.benefits.va.gov/INSURANCE/vgli_rates_old.asp).
 
 ### Can I convert my VGLI policy into a civilian policy? 
@@ -593,3 +642,7 @@ Get a letter from OSGLI confirming that you have VGLI coverage (called a VGLI Co
 </ol>
 
 **Note:** The conversion policy must be a permanent policy, such as a whole life policy. You can’t convert to other types of policies, like Term, Variable Life, or Universal Life Insurance. And supplementary policy benefits, like Accidental Death and Dismemberment or Waiver of Premium for Disability, aren’t considered part of the conversion policy.
+
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+
+<!--- TODO: find a proper place to import USWDS JS for static pages -->
