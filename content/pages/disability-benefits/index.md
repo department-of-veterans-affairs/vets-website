@@ -4,28 +4,25 @@ title: Disability Benefits
 permalink: /disability-benefits/index.html
 source: http://www.benefits.va.gov/compensation/
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
-template: level2-index
+template: L2-section-landing
 showactionbar: false
 majorlinks:
-  - heading: Apply for Benefits
-    links:
-    - url: /disability-benefits/eligibility/
-      title: Eligibility
-      description: Find out if you can get disability benefits, like financial support and health care, from VA.
-    - url: /disability-benefits/apply/
-      title: Application Process
-      description: Apply online now, or find out how to apply in person or get help from a trained professional.
-    - url: /disability-benefits/track-claims/
-      title: Check Claim Status
-      description: Track the status of your disability claim.
-    - url: /disability-benefits/conditions/
-      title: Conditions
-      description: Discover which illnesses or injuries qualify you for benefits.
-  - heading: Claims and Appeals
-    links:
-    - url: /disability-benefits/claims-appeal/
-      title: Appeals
-      description: Find out what to do if you disagree with your disability rating decision.  
+  - url: /disability-benefits/eligibility/
+    title: Eligibility
+    description: Find out if you can get disability benefits, like financial support and health care, from VA.
+  - url: /disability-benefits/apply/
+    title: Application Process
+    description: Apply online now, or find out how to apply in person or get help from a trained professional.
+  - url: /disability-benefits/track-claims/
+    title: Check Claim Status
+    description: Track the status of your disability claim.
+  - url: /disability-benefits/conditions/
+    title: Conditions
+    description: Discover which illnesses or injuries qualify you for benefits.
+relatedlinks:
+  - url: /disability-benefits/claims-appeal/
+    title: Appeals
+    description: Find out what to do if you disagree with your disability rating decision.
 ---
 
 <div class="va-introtext">
