@@ -26,12 +26,10 @@ export function command(context, config, _callback) {
         values: ['section508']
       }
     }, (err, results) => {
-      console.log(err); // eslint-disable-line no-console
       done({ err, results });
     });
   }, [context], response => {
     if (response.state !== 'success') {
-      console.log(JSON.stringify(response)); // eslint-disable-line no-console
       this.verify.fail(`${response.state}: ${JSON.stringify(response)}`);
       return;
     }

@@ -18,7 +18,6 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .url(`${E2eHelpers.baseUrl}/healthcare/messaging/folder/0`)
       .waitForElementVisible('body', Timeouts.normal)
-      .timeoutsAsyncScript(2000)
       .axeCheck('.main');
 
     // Ensure detail page renders.
