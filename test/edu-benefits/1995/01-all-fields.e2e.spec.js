@@ -114,7 +114,8 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Confirmation page.
     client
-      .expect.element('.edu-benefits-submit-success').to.be.visible
+      .expect.element('.edu-benefits-submit-success').to.be.visible;
+    client
       .axeCheck('.main')
       .end();
   }
