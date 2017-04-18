@@ -7,13 +7,12 @@ relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
     title: Cash-Out Refinance
     description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Learn more about a Cash-Out Refinance loan.
- - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
+  - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
     title: Purchase Loan
     description: Looking to buy a home? Learn about the benefits of a VA-backed Purchase Loan.
   - url: /housing-assistance/home-loans/va-backed-loans/nadl/
     title: Native American Direct Loan (NADL) Program
     description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get a NADL to buy, build, or improve a home on Federal Trust Land.
-    
 ---
 
 <div class="va-introtext">
