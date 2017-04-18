@@ -55,6 +55,9 @@
 @import "normalize";
 
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
+// TODO: Remove m-card once templates are shifted from L2-section to
+// level2-index
+// See vets.gov-team#2122
 @import "modules/m-card";
 @import "modules/m-alert";
 @import "modules/m-crisis-line";
@@ -68,6 +71,7 @@
 @import "modules/m-vet-nav";
 @import "modules/m-print";
 @import "modules/m-dropdown";
+@import "modules/m-nav-linkslist";
 
 // ----- VA SHAME ---- //
 
