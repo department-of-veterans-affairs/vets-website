@@ -7,15 +7,13 @@ relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/nadl/
     title: Native American Direct Loan (NADL) Program
     description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get our NADL to buy, build, or improve a home on Federal Trust Land.
- - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
+  - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
     title: Interest Rate Reduction Refinance Loan (IRRRL)
     description: Have an existing VA-backed home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
- - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
+  - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
     title: Cash-Out Refinance
     description: Cash-Out Refinance
-
 ---
-
 
 <div class="va-introtext">
 
