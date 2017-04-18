@@ -60,9 +60,11 @@ You’ll need to fill out 1 part of the application, and your doctor will need t
  
 Send the completed form to:
 
-Office of Servicemembers' Group Life Insurance
-80 Livingston Avenue
-Roseland, NJ 07068-1733
+<dl class="va-address-block">
+<dd>Office of Servicemembers' Group Life Insurance</dd>
+<dd>80 Livingston Avenue</dd>
+<dd>Roseland, NJ 07068-1733</dd>
+</dl>
  
 We pay the remaining amount of the face value of the insurance policy to your designated beneficiary or beneficiaries (the people you’ve picked to get the money from your policy) upon your death. In the case of a terminally ill spouse, we pay the rest of the insurance policy to you upon your spouse's death.
  
@@ -101,9 +103,11 @@ You’ll need to apply for these benefits as soon as possible after becoming tot
 
 To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance Benefits). Mail it to:
 
-Department of Veterans Affairs Regional Office and Insurance Center (WP)
-P.O. Box 7208
-Philadelphia, PA 19101
+<dl class="va-address-block">
+<dd>Department of Veterans Affairs Regional Office and Insurance Center (WP)</dd>
+<dd>P.O. Box 7208</dd>
+<dd>Philadelphia, PA 19101</dd>
+</dl>
 
 <hr>
 
@@ -139,9 +143,11 @@ To get a TDIP rider, you’ll need to:
 
 If you have a TDIP rider on your policy and you become totally disabled, you’ll need to file a claim for TDIP payments. To do this, fill out VA Form 29-357 (Claim for Disability Benefits) and mail it to:
 
-Department of Veterans Affairs
-Regional Office and Insurance Center (WP)
-P.O. Box 7208
-Philadelphia, PA 19101
+<dl class="va-address-block">
+<dd>Department of Veterans Affairs</dd>
+<dd>Regional Office and Insurance Center (WP)</dd>
+<dd>P.O. Box 7208</dd>
+<dd>Philadelphia, PA 19101</dd>
+</dl>
 
 [Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
