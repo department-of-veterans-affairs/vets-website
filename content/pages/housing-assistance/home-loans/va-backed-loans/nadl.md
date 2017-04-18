@@ -27,13 +27,13 @@ If you’re a Veteran and you—or your spouse—is a Native American, our Nativ
 
 You may be able to get a NADL if you’re a Native American Veteran or a non–Native American Veteran married to a Native American, **and**:
 
--	Your tribal government has an agreement—or Memorandum of Understanding (MOU)—with us detailing how the program will work on its trust lands, **and**
+- Your tribal government has an agreement—or Memorandum of Understanding (MOU)—with us detailing how the program will work on its trust lands, **and**
 -	You have a valid VA home loan Certificate of Eligibility (COE), **and**
 -	You have good enough credit, **and**
 -	You have proof that you make enough money to cover the mortgage payments and other costs of owning a home, **and**
 -	You’ll live in the home you’re using the NADL to buy, build, or improve
-[Learn more about the MOU](http://www.benefits.va.gov/homeloans/nadl_mou.asp).
 
+[Learn more about the MOU](http://www.benefits.va.gov/homeloans/nadl_mou.asp).
 
 </div>
 
@@ -55,8 +55,9 @@ A NADL often offers better terms than a home loan from a private bank or mortgag
 
 First, apply for a VA home loan Certificate of Eligibility (COE). This certification confirms that you qualify for the VA home loan benefit.
 
-[Find out if you can get a COE based on your service history and duty status](/housing-assistance/home-loans/eligibility).
-[Apply for your COE](/housing-assistance/home-loans/apply-for-COE).
+[Find out if you can get a COE based on your service history and duty status](/housing-assistance/home-loans/eligibility/).
+
+[Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
 </li>
 
