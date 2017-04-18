@@ -9,7 +9,7 @@ relatedlinks:
     description: Find out which life insurance plans you may qualify for—and the benefits you’ll receive with each plan. 
   - url: /life-insurance/disabled-and-terminally-ill/
     title: Claims for Disabled and Terminally Ill Policyholders
-    description: Learn how to file special life insurance claims if you or your spouse become totally disabled or terminally ill.
+    description: Learn how to file special life insurance claims if you or your spouse becomes totally disabled or terminally ill.
 ---
 
 <div class="va-introtext">
@@ -26,9 +26,7 @@ If you have VA life insurance, the easiest way to manage your policy is online. 
 
 ### How do I access my policy?
 
-If you have a VA life insurance policy with a file number that starts with a V, RH, J, RS, K, or W—or if you’d like to apply for service-disabled life insurance (life insurance for Veterans who have become disabled as a result of serving in the military):
-
-[Access your policy online now](http://www.benefits.va.gov/INSURANCE/popups/opa.htm). 
+If you have a VA life insurance policy with a file number that starts with a V, RH, J, RS, K, or W—or if you’d like to apply for service-disabled life insurance (life insurance for Veterans who have become disabled as a result of serving in the military), access your policy online through our website. [Find your policy through our website](http://www.benefits.va.gov/INSURANCE/popups/opa.htm). 
 
 If you have a Veterans’ Group Life Insurance (VGLI) policy with a VGLI control number, access your policy online through: 
 
