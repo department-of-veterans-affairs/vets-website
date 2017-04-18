@@ -1,3 +1,13 @@
+{% comment %}
+Paths are generally in the form: 
+  `directory/markdown-file-name-without-extension`.
+
+Use `if path contains` to display content for a particular category and 
+its children.
+
+Use `if path ==` to display content for *exactly* a particular path. 
+{% endcomment %}
+
 <div class="small-12 medium-4 columns">
   <div>
     {% if path contains 'job-seekers' %}
