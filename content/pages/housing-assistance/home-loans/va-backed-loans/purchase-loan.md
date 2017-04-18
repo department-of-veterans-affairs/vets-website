@@ -26,7 +26,7 @@ With a VA-backed Purchase Loan, we can help you buy a home at a competitive inte
 ### Can I get a VA-backed Purchase Loan?
 
 You may be able to get a VA-backed Purchase Loan if you:
--	[Qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility), **and**
+-	[Qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/), **and**
 -	Meet your lender’s standards for credit, income, and any other requirements, **and**
 -	Will live in the home you’re buying with the loan
 
@@ -79,8 +79,8 @@ Buying a home is a complex process—and getting a VA-backed home loan is only 1
 <li class="step three">
 
 **Apply for your VA-backed home loan Certificate of Eligibility (COE).** You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit.
-[Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility).
-[Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility).
+[Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/).
+[Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
 </li>
 
