@@ -141,14 +141,13 @@ module.exports = E2eHelpers.createE2eTest(
     }, ['label[name="privacyAgreement-label"]']);
     client
       .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
-    client.expect.element('.js-test-location').attribute('data-location')
-      .to.not.contain('/review-and-submit').before(Timeouts.slow);
+      .click('.form-progress-buttons .usa-button-primary')
+      .expect.element('.js-test-location').attribute('data-location')
+        .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Submit message
     client
-      .expect.element('.edu-benefits-submit-success').to.be.visible;
-    client
+      .expect.element('.edu-benefits-submit-success').to.be.visible
       .axeCheck('.main')
       .end();
   }

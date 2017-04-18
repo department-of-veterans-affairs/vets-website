@@ -108,14 +108,13 @@ module.exports = E2eHelpers.createE2eTest(
       .pause(1000)
       .click('input[type="checkbox"]')
       .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');
-    client.expect.element('.js-test-location').attribute('data-location')
-          .to.not.contain('/review-and-submit').before(Timeouts.slow);
+      .click('.form-progress-buttons .usa-button-primary')
+      .expect.element('.js-test-location').attribute('data-location')
+        .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Confirmation page
     client
-      .expect.element('.edu-benefits-submit-success').to.be.visible;
-    client
+      .expect.element('.edu-benefits-submit-success').to.be.visible
       .axeCheck('.main')
       .end();
   }

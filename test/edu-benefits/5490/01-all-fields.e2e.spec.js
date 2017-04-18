@@ -14,6 +14,7 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for education benefits: Vets.gov')
       .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
+      .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.overrideSmoothScrolling(client);
@@ -26,21 +27,27 @@ module.exports = E2eHelpers.createE2eTest(
       relationship: testData.sponsorInformation.data.relationship,
       ...testData.applicantInformation.data
     }, true);
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/information');
 
     // Additional benefits page
     client
       .waitForElementVisible('label[for="root_civilianBenefitsAssistance"]', Timeouts.slow);
     EduHelpers.completeAdditionalBenefits(client, testData.additionalBenefits.data, true);
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/additional-benefits');
 
     // Applicant service page
     client
       .waitForElementVisible('label[for="root_view:applicantServedYes"]', Timeouts.slow);
     EduHelpers.completeServicePeriods(client, testData.applicantService.data, true, 'view:applicantServed');
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/service');
 
     // Benefit selection page
@@ -53,6 +60,7 @@ module.exports = E2eHelpers.createE2eTest(
     //  be visible seems to make it work.
     client
       .waitForElementVisible('div.schemaform-radio-indent', Timeouts.normal)
+      .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/eligibility');
 
@@ -62,7 +70,9 @@ module.exports = E2eHelpers.createE2eTest(
       client
         .waitForElementVisible('label[for="root_benefitsRelinquishedDateMonth"]', Timeouts.slow);
       Edu5490Helpers.completeBenefitRelinquishment(client, testData.benefitRelinquishment.data);
-      client.click('.form-progress-buttons .usa-button-primary');
+      client
+        .axeCheck('.main')
+        .click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/benefits/relinquishment');
     }
 
@@ -70,7 +80,9 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .waitForElementVisible('label[for="root_previousBenefits_disability"]', Timeouts.slow);
     Edu5490Helpers.completeBenefitHistory(client, testData.benefitHistory.data, true);
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/history');
 
     // Sponsor information page
@@ -86,56 +98,72 @@ module.exports = E2eHelpers.createE2eTest(
       true,
       'root_view:currentSponsorInformation'
     );
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran/information');
 
     // Sponsor service page
     client
       .waitForElementVisible('input[name="root_serviceBranch"]', Timeouts.slow);
     Edu5490Helpers.completeSponsorService(client, testData.sponsorService.data, true);
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/sponsor/service');
 
     // Education history page
     client
       .waitForElementVisible('select[name="root_highSchool_status"]', Timeouts.slow);
     Edu5490Helpers.completeEducationHistory(client, testData.educationHistory.data, true);
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/education/history');
 
     // Employment history page
     client
       .waitForElementVisible('label[for="root_view:hasNonMilitaryJobs"]', Timeouts.slow);
     EduHelpers.completeEmploymentHistory(client, testData.employmentHistory.data, true);
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/employment/history');
 
     // School selection page
     client
       .waitForElementVisible('input[name="root_educationProgram_name"]', Timeouts.slow);
     EduHelpers.completeSchoolSelection(client, testData.schoolSelection.data, true);
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/school-selection');
 
     // Contact information page
     client
       .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
     EduHelpers.completeContactInformation(client, testData.contactInformation.data, true, true);
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
     // Secondary contact page
     client
       .waitForElementVisible('label[for="root_secondaryContact_fullName"]', Timeouts.slow);
     Edu5490Helpers.completeSecondaryContact(client, testData.secondaryContact.data, true);
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
     // Direct deposit page
     client
       .waitForElementVisible('label[for="root_bankAccount_accountType"]', Timeouts.slow);
     EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, true);
-    client.click('.form-progress-buttons .usa-button-primary');
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
     // Review and submit page
@@ -143,14 +171,15 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
       .pause(1000)
       .click('input[type="checkbox"]')
+      .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);
 
     // Confirmation page
     client
-      .expect.element('.edu-benefits-submit-success').to.be.visible;
-
-    client.end();
+      .expect.element('.edu-benefits-submit-success').to.be.visible
+      .axeCheck('.main')
+      .end();
   }
 );
