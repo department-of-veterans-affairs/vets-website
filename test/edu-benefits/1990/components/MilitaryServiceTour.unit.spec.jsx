@@ -16,6 +16,7 @@ describe('<MilitaryServiceTour>', () => {
       <MilitaryServiceTour
           data={tour}
           view="expanded"
+          onValueChange={f => f}
           onStateChange={onStateChange}/>
     );
     expect(tree.everySubTree('ErrorableTextarea').some(box => box.props.name === 'benefitsToApplyTo')).to.be.true;

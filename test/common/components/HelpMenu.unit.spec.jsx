@@ -6,10 +6,11 @@ import HelpMenu from '../../../src/js/common/components/HelpMenu.jsx';
 
 describe('<HelpMenu>', () => {
   const props = {
-    isOpen: false
+    isOpen: false,
+    clickHandler: f => f
   };
 
-  const tree = SkinDeep.shallowRender(<HelpMenu props={props}/>);
+  const tree = SkinDeep.shallowRender(<HelpMenu {...props}/>);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();
