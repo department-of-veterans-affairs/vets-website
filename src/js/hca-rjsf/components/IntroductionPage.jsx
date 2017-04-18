@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply online for health care with the 10-10ez"/>
-        <p>Once you’ve figured out if you qualify, applying for VA health care benefits is easy. Find out how to apply.</p>
+        <p>[PLACEHOLDER] Once you’ve figured out if you qualify, applying for VA health care benefits is easy. Find out how to apply.</p>
         <div className="process schemaform-process">
           <div className="small-6 medium-5 end columns">
             <ProgressButton

@@ -5,7 +5,7 @@ import { transform } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
 
 const formConfig = {
-  urlPrefix: '/rjsf/',
+  urlPrefix: '/',
   submitUrl: '',
   trackingPrefix: 'hca-rjsf-',
   transformForSubmit: transform,
@@ -16,6 +16,13 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran information',
       pages: {
+        veteranInformation: {
+          path: 'veteran/information',
+          title: 'Veteran information',
+          initialData: {},
+          uiSchema: {},
+          schema: {}
+        }
       }
     }
   }
