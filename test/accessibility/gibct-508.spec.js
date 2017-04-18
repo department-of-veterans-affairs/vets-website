@@ -22,8 +22,13 @@ module.exports = E2eHelpers.createE2eTest(
     .setValue('.keyword-search input[type="text"]', 'washington dc');
 
     client
-      .click('button[type="submit"]')
+      .click('#search-button')
       .axeCheck('.main');
 
+    client
+      .click('.search-result a')
+      .axeCheck('.main');
+
+    client.pause();
     client.end();
   });

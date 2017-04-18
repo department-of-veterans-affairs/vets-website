@@ -428,7 +428,7 @@ function initApplicationMock() {
   });
 
   mock(null, {
-    path: '/v0/gi/institutions/10F00509?version=1',
+    path: '/v0/gi/institutions/10F00509',
     verb: 'get',
     value: singleSchool
   });
