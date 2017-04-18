@@ -31,10 +31,10 @@ Did you suffer a traumatic injury while serving in the military? Our Servicememb
 You may be able to get TSGLI if you were insured by SGLI when you experienced a traumatic injury and you:
 
 - Have a scheduled loss that is a direct result of the traumatic injury, **and**
-- You suffered the traumatic injury before midnight on the day that you left the military, **and**
-- You suffered a scheduled loss within 2 years (730 days) of the traumatic injury, **and**
-- You’ve survived for a period of not less than 7 full days from the date of the traumatic injury (the 7-day period begins on the date and time of the traumatic injury and ends 168 full hours later), **and**
-- You were an active-duty military member, a Reservist, a National Guard member, on funeral-honors duty, or on 1-day muster duty
+- Suffered the traumatic injury before midnight on the day that you left the military, **and**
+- Suffered a scheduled loss within 2 years (730 days) of the traumatic injury, **and**
+- Have survived for a period of not less than 7 full days from the date of the traumatic injury (the 7-day period begins on the date and time of the traumatic injury and ends 168 full hours later), **and**
+- Were an active-duty military member, a Reservist, a National Guard member, on funeral-honors duty, or on 1-day muster duty
 
 [View TSGLI loss standards](http://www.benefits.va.gov/insurance/tsgli_schedule_Schedule.asp).
 
