@@ -77,7 +77,7 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/va-benefits/basic-information');
 
     // Financial disclosure page.
-    HcaHelpers.completeFinancialDisclosure(client, HcaHelpers.testValues, true);
+    HcaHelpers.completeFinancialDisclosure(client, HcaHelpers.testValues, false);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/financial-disclosure');
 
@@ -116,11 +116,12 @@ module.exports = E2eHelpers.createE2eTest(
     // Edit personal info
     vetInfoCopy.veteranFullName = {
       first: 'John',
+      middle: 'Henry',
       last: 'Doe'
     };
     editSection(client);
     HcaHelpers.completePersonalInformation(client, vetInfoCopy, true);
-    verifyEdit(client, 'John Doe');
+    verifyEdit(client, 'John Henry Doe');
 
     // Edit birth info
     vetInfoCopy.veteranDateOfBirth = {
@@ -167,10 +168,15 @@ module.exports = E2eHelpers.createE2eTest(
     nextSection(client);
 
     // Edit spouse information
-    vetInfoCopy.spouseFullName.first = 'Anne';
+    vetInfoCopy.spouseFullName = {
+      first: 'Anna',
+      middle: 'Belle',
+      last: 'Cartwright',
+      suffix: ''
+    };
     editSection(client);
     HcaHelpers.completeSpouseInformation(client, vetInfoCopy, true);
-    verifyEdit(client, 'Anne Hathaway');
+    verifyEdit(client, 'Anna Belle Cartwright');
 
     client
       .pause(500)
@@ -186,7 +192,7 @@ module.exports = E2eHelpers.createE2eTest(
     });
 
     client.expect.element('.js-test-location').attribute('data-location')
-      .to.not.contain('/review-and-submit').before(Timeouts.submission);
+      .to.not.contain('/review-and-submit').before(Timeouts.slow);
 
     // Submit message
     client.expect.element('.success-alert-box').to.be.visible;

@@ -1,5 +1,3 @@
-import _ from 'lodash/fp';
-
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
@@ -44,12 +42,8 @@ function fillInformation(find) {
   });
 }
 
-describe('Basic applicantInformation', () => {
-  const applicantSchema = {
-    definitions: _.pick(['fullName', 'ssn', 'date', 'gender', 'relationship'],
-                        fullSchema1990e.definitions)
-  };
-  const { schema, uiSchema } = applicantInformation(applicantSchema);
+describe('Edu basic applicantInformation', () => {
+  const { schema, uiSchema } = applicantInformation(fullSchema1990e);
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

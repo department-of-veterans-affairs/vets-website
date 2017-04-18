@@ -121,13 +121,6 @@ const formConfig = {
         }
       }
     },
-    personalInformation: {
-      title: 'Personal Information',
-      pages: {
-        contactInformation: contactInformationPage('relativeAddress'),
-        directDeposit
-      }
-    },
     schoolSelection: {
       title: 'School Selection',
       pages: {
@@ -141,6 +134,13 @@ const formConfig = {
         oldSchool: createOldSchoolPage(fullSchema5495)
       }
     },
+    personalInformation: {
+      title: 'Personal Information',
+      pages: {
+        contactInformation: contactInformationPage('relativeAddress'),
+        directDeposit
+      }
+    }
   }
 };
 

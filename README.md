@@ -29,7 +29,7 @@ very secret.
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
 | run only e2e tests | `npm run test:e2e` | 
-| run only e2e tests for specific apps | `npm run test:e2e -- test/edu-benefits/1995/*` (provide a path to the `*.e2e.spec.js` files) |
+| run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
 | run all linters | `npm run lint` |
 | run only javascript linter | `npm run lint:js` |
 | run only sass linter | `npm run lint:sass` |

@@ -38,7 +38,7 @@ import contactInformationPage from '../../pages/contactInformation';
 import directDeposit from '../../pages/directDeposit';
 import applicantInformationPage from '../../pages/applicantInformation';
 import applicantServicePage from '../../pages/applicantService';
-import createSchoolSelectionPage from '../../pages/schoolSelection';
+import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -586,18 +586,7 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: _.merge(createSchoolSelectionPage(fullSchema5490, {
-          fields: [
-            'educationProgram',
-            'educationObjective',
-            'educationStartDate',
-            'restorativeTraining',
-            'vocationalTraining',
-            'trainingState',
-            'educationalCounseling'
-          ],
-          required: ['educationType']
-        }), {
+        schoolSelection: _.merge(createSchoolSelectionPage(fullSchema5490, schoolSelectionOptionsFor['5490']), {
           // Rephrase the question for facility name in educationProgram
           uiSchema: {
             educationProgram: {

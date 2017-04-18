@@ -17,7 +17,7 @@
     "test:e2e": "./script/run-nightwatch.sh",
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
     "test:unit": "mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
-    "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
+    "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --no-color --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:unit:msg": "mocha --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
     "test:unit:hr": "mocha --recursive 'test/health-records/**/*.unit.spec.js?(x)' ",
     "test:unit:rx": "mocha --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
