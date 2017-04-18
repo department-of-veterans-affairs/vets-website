@@ -98,6 +98,11 @@
     transform: translateY(-50%);
     width: 100%;
     cursor: auto;
+
+    @include media-maxwidth($small-screen) {
+      transform: none;
+      top: 0;
+    }
   }
 
   &-body {
