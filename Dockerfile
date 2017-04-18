@@ -25,8 +25,8 @@ RUN set -ex \
   done
 
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 6.10.2
-ENV NPM_VERSION 3.10.10
+ENV NODE_VERSION 4.4.7
+ENV NPM_VERSION 3.8.9
 ENV YARN_VERSION 0.21.3
 ENV NODE_ENV production
 
@@ -75,6 +75,7 @@ RUN mkdir -p logs/selenium
 
 COPY package.json .
 COPY yarn.lock .
+COPY .yarnrc .
 # skips all dev dependencies if NODE_ENV=production.. so..
 RUN yarn install --production=false
 
