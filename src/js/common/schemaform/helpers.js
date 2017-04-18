@@ -303,7 +303,15 @@ export function getNonArraySchema(schema) {
     }
 
     if (newProperties !== schema.properties) {
-      return _.set('properties', newProperties, schema);
+      let newSchema = _.set('properties', newProperties, schema);
+      if (newSchema.required) {
+        const newRequired = _.intersection(newSchema.required, newSchema.properties);
+        if (newRequired.length !== newSchema.required.length) {
+          newSchema = _.set('required', newRequired, newSchema);
+        }
+      }
+
+      return newSchema;
     }
   }
 
