@@ -101,13 +101,15 @@ A waiver of premiums. This means you won’t have to pay your life insurance pre
 
 You’ll need to apply for these benefits as soon as possible after becoming totally disabled. We’ll decide if you qualify, and we’ll notify you of the decision.
 
-To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance Benefits). Mail it to:
+To apply, fill out and sign VA Form 29-357 (Claim for Disability Insurance). Mail it to:
 
 <dl class="va-address-block">
 <dd>Department of Veterans Affairs Regional Office and Insurance Center (WP)</dd>
 <dd>P.O. Box 7208</dd>
 <dd>Philadelphia, PA 19101</dd>
 </dl>
+
+[Download VA Form 29-357](http://www.vba.va.gov/pubs/forms/VBA-29-357-ARE.pdf). 
 
 <hr>
 
@@ -141,7 +143,7 @@ To get a TDIP rider, you’ll need to:
 -	Be under 55 years of age when you apply, **and**
 -	Be in good health when you apply
 
-If you have a TDIP rider on your policy and you become totally disabled, you’ll need to file a claim for TDIP payments. To do this, fill out VA Form 29-357 (Claim for Disability Benefits) and mail it to:
+If you have a TDIP rider on your policy and you become totally disabled, you’ll need to file a claim for TDIP payments. To do this, fill out VA Form 29-357 (Claim for Disability Insurance) and mail it to:
 
 <dl class="va-address-block">
 <dd>Department of Veterans Affairs</dd>
