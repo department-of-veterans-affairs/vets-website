@@ -1,6 +1,18 @@
-import { createRoutes } from '../common/schemaform/helpers';
+import { createRoutes as createFormRoutes } from '../common/schemaform/helpers';
+import reducer from './reducer';
 import formConfig from './config/form';
+import HealthCareApp from './HealthCareApp.jsx';
 
-const routes = createRoutes(formConfig);
+export default function createRoutes(store) {
+  const onEnter = (r) => () => {
+    store.replaceReducer(r);
+  };
 
-export default routes;
+  return {
+    path: '/',
+    onEnter: onEnter(reducer),
+    component: HealthCareApp,
+    indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+    childRoutes: createFormRoutes(formConfig)
+  };
+}

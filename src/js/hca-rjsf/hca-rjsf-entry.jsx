@@ -6,7 +6,6 @@ import { Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
-// import HealthCareApp from './components/HealthCareApp.jsx';
 import initReact from '../common/init-react';
 import createRoutes from './routes';
 import reducer from './reducer';
@@ -19,7 +18,7 @@ require('../login/login-entry.jsx');
 const store = createStore(reducer);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/healthcare/rjsf/apply/application'
+  basename: '/healthcare/rjsf'
 });
 
 function init() {
