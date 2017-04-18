@@ -20,13 +20,13 @@ If you or your spouse becomes totally disabled or terminally ill, you may be abl
 
 <hr>
 
-## Accelerated benefits for terminally ill policyholders
+### Accelerated benefits for terminally ill policyholders
 
 <br>
 
 <div class="feature">
 
-### Can I get my life insurance benefits early if I’m terminally ill?
+#### Can I get my life insurance benefits early if I’m terminally ill?
  
 You may be able to get your benefits early if:
 -	You have SGLI, Family SGLI, or VGLI life insurance, **and**
@@ -34,7 +34,7 @@ You may be able to get your benefits early if:
 
 <br>
 
-#### Who’s covered?
+##### Who’s covered?
 
 -	Veterans
 -	Servicemembers
@@ -43,12 +43,12 @@ You may be able to get your benefits early if:
 </div>
 
 
-### What benefits can I get?
+#### What benefits can I get?
  
 Up to 50% of the face value of your coverage in increments of $5,000—paid to you before death
 
 
-### How do I get these benefits?
+#### How do I get these benefits?
  
 Only the insured may apply for accelerated benefits. No one may apply on their behalf. In the case of a terminally ill spouse, only the insured may apply. Use the application form for the type of coverage you have:
  
@@ -67,19 +67,19 @@ Roseland, NJ 07068-1733
 We pay the remaining amount of the face value of the insurance policy to your designated beneficiary or beneficiaries (the people you’ve picked to get the money from your policy) upon your death. In the case of a terminally ill spouse, we pay the rest of the insurance policy to you upon your spouse's death.
  
  
-### Get more information
+#### Get more information
  	
 Read chapter 5 of the [Servicemembers’ and Veterans’ Group Life Insurance Handbook](http://benefits.va.gov/INSURANCE/resources_handbook_ins_chapter5.asp) or [contact the Office of Servicemembers' Group Life Insurance (OSGLI)](http://benefits.va.gov/INSURANCE/resources-contact.asp).
 
 <hr>
 
-## Waiver of premiums for policyholders who become totally disabled
+### Waiver of premiums for policyholders who become totally disabled
 
 <br>
 
 <div class="feature">
 
-### Can I get a waiver so I don’t have to pay my life insurance premiums?
+#### Can I get a waiver so I don’t have to pay my life insurance premiums?
 
 You may be able to get a waiver of your life insurance premiums if you have a mental or physical disability that prevents you from being able to hold a job, and your total disability:
 -	Happens before you’re 65 years old—but after the effective date of your life insurance policy, **and**
@@ -90,12 +90,12 @@ There are certain exceptions to the above conditions. But if you think you’re 
 </div>
 
 
-### What benefits can I get?
+#### What benefits can I get?
 
 A waiver of premiums. This means you won’t have to pay your life insurance premiums (the monthly payments you make to hold your policy). In most cases, premiums can only be waived up to 1 year prior to receipt of a claim.
 
 
-### How do I get these benefits?
+#### How do I get these benefits?
 
 You’ll need to apply for these benefits as soon as possible after becoming totally disabled. We’ll decide if you qualify, and we’ll notify you of the decision.
 
@@ -107,13 +107,13 @@ Philadelphia, PA 19101
 
 <hr>
 
-## Total disability income provision (TDIP) rider for policyholders who become totally disabled
+### Total disability income provision (TDIP) rider for policyholders who become totally disabled
 
 <br>
 
 <div class="feature">
 
-### Can I get life insurance payments if I become totally disabled?
+#### Can I get life insurance payments if I become totally disabled?
 
 You may be able to get monthly payments if you have a mental or physical disability that prevents you from being able to hold a job, and your total disability:
 -	Happens before you’re 65 years old—but on or after the effective date of your TDIP rider or within 1 year of when the rider ends, **and**
@@ -122,13 +122,13 @@ You may be able to get monthly payments if you have a mental or physical disabil
 </div>
 
 
-### What life insurance benefits can I get with a TDIP rider?
+#### What life insurance benefits can I get with a TDIP rider?
 
 -	Monthly payments to be paid to you starting on the 1st day of the 7th month of your continued total disability and continuing as long as you remain totally disabled
 -	A waiver of premiums so you won’t need to pay your premium (monthly payments) for your life insurance coverage
 
 
-### How do I get these benefits?
+#### How do I get these benefits?
 
 To get these benefits, you’ll need to have had a TDIP rider on your existing life insurance plan before you became totally disabled. 
 
