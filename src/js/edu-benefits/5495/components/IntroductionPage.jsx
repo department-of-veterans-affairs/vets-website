@@ -25,13 +25,12 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>Social Security number (required)</li>
                 <li>Basic information about the school or training facility where you want to attend (required)</li>
-                <li>Military history</li>
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
-                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your military and education history, and the school you want to attend.</span>
+                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
                 </div>
               </div>
               <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you pick the right program.</p>
