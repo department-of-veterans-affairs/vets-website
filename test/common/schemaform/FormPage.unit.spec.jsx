@@ -12,7 +12,8 @@ describe('Schemaform <FormPage>', () => {
         pageKey: 'testPage',
         schema: {},
         uiSchema: {},
-        errorMessages: {}
+        errorMessages: {},
+        title: ''
       },
       pageList: [
         {
@@ -22,6 +23,8 @@ describe('Schemaform <FormPage>', () => {
     };
     const form = {
       testPage: {
+        schema: {},
+        uiSchema: {},
         data: {}
       }
     };
@@ -51,7 +54,8 @@ describe('Schemaform <FormPage>', () => {
           pageKey: 'testPage',
           schema: {},
           uiSchema: {},
-          errorMessages: {}
+          errorMessages: {},
+          title: ''
         },
         pageList: [
           {
@@ -68,6 +72,8 @@ describe('Schemaform <FormPage>', () => {
       };
       form = {
         testPage: {
+          schema: {},
+          uiSchema: {},
           data: {}
         }
       };

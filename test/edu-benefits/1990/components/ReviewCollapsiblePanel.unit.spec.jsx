@@ -18,6 +18,7 @@ describe('<ReviewCollapsiblePanel>', () => {
 
     return SkinDeep.shallowRender(
       <ReviewCollapsiblePanel
+          chapter="2"
           data={data}
           uiData={uiData}
           urlPrefix="/1990/"
@@ -31,6 +32,7 @@ describe('<ReviewCollapsiblePanel>', () => {
               }
             ]
           }
+          onStateChange={f => f}
           onFieldsInitialized={onFieldsInitialized}
           onUpdateSaveStatus={onUpdateSaveStatus}
           onUpdateVerifiedStatus={onUpdateVerifiedStatus}
