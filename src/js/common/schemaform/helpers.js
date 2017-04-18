@@ -305,7 +305,7 @@ export function getNonArraySchema(schema) {
     if (newProperties !== schema.properties) {
       let newSchema = _.set('properties', newProperties, schema);
       if (newSchema.required) {
-        const newRequired = _.intersection(newSchema.required, newSchema.properties);
+        const newRequired = _.intersection(Object.keys(newSchema.properties), newSchema.required);
         if (newRequired.length !== newSchema.required.length) {
           newSchema = _.set('required', newRequired, newSchema);
         }
