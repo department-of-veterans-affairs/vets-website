@@ -33,7 +33,7 @@
     color: $color-base;
     padding: .8rem;
     position: absolute;
-    width: 100%;
+    min-width: 100%;
     z-index: 2;
 
     a {
