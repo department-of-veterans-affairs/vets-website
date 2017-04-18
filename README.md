@@ -35,7 +35,7 @@ very secret.
 | run automated accessibility tests | `npm run build && npm run test:accessibility` |
 | test for broken links | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
 | add new npm modules | `yarn add my-module --dev`. There are no non-dev modules here. |
-| get the latest json schema | Update vets-json-schema in package.json with the latest commit hash, then run `yarn update vets-json-schema` |
+| get the latest json schema | `yarn remove vets-json-schema; yarn add https://github.com/department-of-veterans-affairs/vets-json-schema.git#{latest commit hash}` |
 | check test coverage | `npm run test:coverage` |
 
 ## Directory structure
