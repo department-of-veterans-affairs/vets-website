@@ -68,9 +68,7 @@ const formConfig = {
           path: 'benefits/eligibility',
           title: 'Benefits eligibility',
           uiSchema: {
-            'view:benefitDescription': {
-              'ui:description': eligibilityDescription
-            },
+            'ui:description': eligibilityDescription,
             benefit: {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that has been transferred to you.',
@@ -82,10 +80,6 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:benefitDescription': {
-                type: 'object',
-                properties: {}
-              },
               benefit
             }
           },

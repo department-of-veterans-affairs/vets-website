@@ -294,17 +294,18 @@ hr {
 h1, h2 {
   font-family: $font-sans;
 }
+
+h1:first-child {
+  margin-top: 0;
+}
+
 h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0 0 .5em 0;
 }
 
 h2 {
-  line-height: 1.2em;
-}
-
-h1:first-child {
-  margin-top: 0;
+  @include heading-2;
 }
 
 h3, h4, h5, h6 {
@@ -312,27 +313,19 @@ h3, h4, h5, h6 {
 }
 
 h3 {
-  font-size: 1.8em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-3;
 }
 
 h4 {
-  font-size: 1.35em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-4;
 }
 
 h5 {
-  font-size: 1.15em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-5;
 }
 
 h6 {
-  font-size: 0.9em;
-  line-height: 1.5;
-  font-weight: bold;
+  @include heading-6;
 }
 
 .text-center {
@@ -437,6 +430,7 @@ h6 {
   color: $color-primary-darker;
   display: inline-block;
   font-size: 2.5rem;
+  font-weight: bold;
   line-height: 1.3;
   margin: 0 auto;
   max-width: 11em;
@@ -718,6 +712,10 @@ ul, ol {
   font-size: inherit;
   padding: 1em 0;
 
+  // Gate / Sign-in pages only
+  &--gate {
+    margin-bottom: -2em;
+  }
 
   li {
     display: inline-block;
@@ -1135,18 +1133,12 @@ li {
   text-align: center;
   overflow: hidden;
 
-  @include media($medium-large-screen) {
-    text-align: left;
+  &:hover {
+    color: $color-gold;
   }
 
-  // Works with <= IE8
-  &:last-child {
-    opacity: 0.6;
-    padding-left: 1em;
-
-    &:hover {
-      opacity: 1;
-    }
+  @include media($medium-large-screen) {
+    text-align: left;
   }
 
   .icon {
@@ -1875,7 +1867,7 @@ p.info-message {
 
 .last-updated {
   margin-top: 1.5em;
-  border-top: 2px solid $color-gray-lightest;;
+  border-top: 2px solid $color-gray-light;
   padding: 1em 0;
   p {
     font-size: 1em !important;

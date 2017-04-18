@@ -70,6 +70,12 @@
       color: $color-link-default;
       text-decoration: none;
 
+      &:focus {
+        h5 {
+          outline: $color-link-default solid thin;
+        }
+      }
+
       &:visited {
         color: $color-link-default;
       }
@@ -237,7 +243,7 @@
       position: relative;
       background: $color-white;
       cursor: pointer;
-      border: 1px solid $color-gray;
+      border: 1px solid $color-gray-light;
       border-radius: 0;
       box-sizing: border-box;
       color: $color-base;

@@ -5,12 +5,18 @@
   }
 
   .link-header {
-    h3 {
+    h3, h5 {
       display: inline-block;
       padding: 0;
     }
 
     padding-bottom: .5em;
+  }
+
+  .caution-flag {
+    .va-alert {
+      background-color: $color-gold;
+    }
   }
 
   li button.usa-accordion-button {
@@ -100,6 +106,10 @@
   }
 
   .cautionary-information {
+    .va-alert {
+      margin: 0 0 1.5em 0;
+    }
+
     .table .number {
       text-align: left;
     }

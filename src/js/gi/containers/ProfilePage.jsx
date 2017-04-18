@@ -26,11 +26,19 @@ export class ProfilePage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchProfile(this.props.params.facilityCode);
+    this.props.fetchProfile(
+      this.props.params.facilityCode,
+      this.props.location.query.version
+    );
   }
 
   componentDidUpdate(prevProps) {
-    const { profile } = this.props;
+    const {
+      location: { query: { version: uuid } },
+      params: { facilityCode },
+      profile
+    } = this.props;
+
     const institutionName = _.get(profile, 'attributes.name');
     const shouldUpdateTitle = !_.isEqual(
       institutionName,
@@ -43,6 +51,10 @@ export class ProfilePage extends React.Component {
 
     if (profile.inProgress !== prevProps.profile.inProgress) {
       scroller.scrollTo('profilePage', getScrollOptions());
+    }
+
+    if (prevProps.location.query.version !== uuid) {
+      this.props.fetchProfile(facilityCode, uuid);
     }
   }
 
@@ -85,7 +97,9 @@ export class ProfilePage extends React.Component {
               <AccordionItem
                   button="Cautionary information"
                   ref={c => { this._cautionaryInfo = c; }}>
-                <CautionaryInformation/>
+                <CautionaryInformation
+                    institution={this.props.profile.attributes}
+                    onShowModal={this.props.showModal}/>
               </AccordionItem>
               <AccordionItem button="Additional information">
                 <AdditionalInformation

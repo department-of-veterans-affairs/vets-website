@@ -27,7 +27,7 @@ body .row {
 
 .progress-box {
   padding: 1rem 2rem;
-  margin: 1.5rem 0  ;
+  margin: 1.5rem 0;
   border: 1px solid $color-gray-lightest;
 }
 
@@ -152,14 +152,18 @@ body .row {
     margin-right: -0.3em;
     width: 1em;
     height: 1em;
-    content: ''; // Add content for accessibility purposes?
+    content: ""; // Add content for accessibility purposes?
     text-indent: -9999em;
   }
 }
 
 // Yuck...
 #apply-expander-content {
-  max-height: 19em;
+  // No max height for small screens = no animation, which is fine
+  // Also means the Apply Now button doesn't get cut off
+  @include media($small-screen) {
+    max-height: 19em;
+  }
 }
 
 // Handles the height transition
@@ -180,6 +184,7 @@ body .row {
   //  with the border to expand that without the opacity
   &.expander-content-closed {
     max-height: 0em !important; // To override the id selector height
+    visibility: hidden;
 
     .expander-content-inner {
       opacity: 0;

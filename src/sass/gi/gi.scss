@@ -14,12 +14,19 @@
 
 .gi-app {
 
-  div.militaryStatusInfo {
+  div.military-status-info {
     font-size: 0.9em;
-    background-color: $color-gibill-accent;
     padding: 1em;
     margin-top: 1em;
     max-width: 460px;
+
+    &.warning {
+      background-color: $color-gibill-accent;
+    }
+
+    &.info {
+      background: $color-primary-alt-lightest;
+    }
 
     i.fa {
       padding-right: 0.4em;
@@ -57,7 +64,7 @@
   .disclaimer {
     margin: 1em 0;
     padding: 0;
-    border-top: 1px solid $color-gray-lightest;
+    border-top: 1px solid $color-gray-light;
     z-index: 500;
     color: $color-gray-dark;
     background: $color-white;

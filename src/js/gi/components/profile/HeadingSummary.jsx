@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+
 import AlertBox from '../../../common/components/AlertBox';
 import { formatNumber } from '../../utils/helpers';
 
@@ -12,6 +13,7 @@ class HeadingSummary extends React.Component {
 
   render() {
     const it = this.props.institution;
+    it.type = it.type && it.type.toLowerCase();
 
     const schoolSize = (enrollment) => {
       if (!enrollment) return 'Unknown';
@@ -27,10 +29,12 @@ class HeadingSummary extends React.Component {
       <div className="heading row">
         <div className="small-12 column">
           <h1>{it.name}</h1>
-          <AlertBox
-              content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
-              isVisible={!!it.cautionFlag}
-              status="warning"/>
+          <div className="caution-flag">
+            <AlertBox
+                content={(<a href="#viewWarnings" onClick={this.props.onViewWarnings}>View cautionary information about this school</a>)}
+                isVisible={!!it.cautionFlag}
+                status="warning"/>
+          </div>
           <p style={{ marginBottom: '1.5em' }}>
             <strong>{formatNumber(it.studentCount)}</strong> GI Bill students
             (<a onClick={this.props.onLearnMore}>Learn more</a>)
@@ -47,8 +51,8 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </p>
             <p>
-              <IconWithInfo icon="calendar-o" present={it.type !== 'ojt' && (it.highestDegree === 2 || it.highestDegree === 4)}>
-                {it.highestDegree} year program
+              <IconWithInfo icon="calendar-o" present={it.type !== 'ojt' && it.highestDegree}>
+                {_.isFinite(it.highestDegree) ? `${it.highestDegree} year` : it.highestDegree} program
               </IconWithInfo>
             </p>
           </div>
@@ -60,7 +64,8 @@ class HeadingSummary extends React.Component {
             </p>
             <p>
               <IconWithInfo icon="institution" present={it.type && it.type !== 'ojt'}>
-                {_.capitalize(it.type)} institution
+                {_.capitalize(it.type)}&nbsp;
+                {it.type === 'for profit' ? 'school' : 'institution'}
               </IconWithInfo>
             </p>
             <p>
@@ -69,7 +74,7 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </p>
             <p>
-              <IconWithInfo icon="group" present={it.undergradEnrollment && it.type && it.type !== 'ojt'}>
+              <IconWithInfo icon="group" present={it.type && it.type !== 'ojt'}>
                 {schoolSize(it.undergradEnrollment)} size
               </IconWithInfo>
             </p>

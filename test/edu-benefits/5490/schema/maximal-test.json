@@ -15,7 +15,11 @@
   },
   "benefitSelection": {
     "data": {
-      "benefit": "chapter35",
+      "benefit": "chapter35"
+    }
+  },
+  "benefitRelinquishment": {
+    "data": {
       "benefitsRelinquishedDate": "2006-01-01"
     }
   },
@@ -52,7 +56,7 @@
         "remarriageDate": "2007-01-02"
       },
       "view:currentSponsorInformation": {
-        "relativeFullName": {
+        "veteranFullName": {
           "first": "Another sponsor name",
           "middle": "Another middle",
           "last": "Sponsor last name",
