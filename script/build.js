@@ -133,7 +133,6 @@ const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('healthcare/health-records/*');
-  ignoreList.push('gi-bill-comparison-tool/*');
 }
 smith.use(ignore(ignoreList));
 
