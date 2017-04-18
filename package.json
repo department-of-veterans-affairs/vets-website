@@ -126,7 +126,7 @@
     "modernizr-loader": "0.0.5",
     "moment": "^2.15.1",
     "morgan": "^1.7.0",
-    "nightwatch": "^0.9.11",
+    "nightwatch": "0.9.12",
     "node-fetch": "https://registry.npmjs.org/node-fetch/-/node-fetch-1.5.3.tgz",
     "node-sass": "^3.10.1",
     "null-loader": "^0.1.1",
