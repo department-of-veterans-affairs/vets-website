@@ -6,10 +6,11 @@ import SearchMenu from '../../../src/js/common/components/SearchMenu.jsx';
 
 describe('<SearchMenu>', () => {
   const props = {
-    isOpen: false
+    isOpen: false,
+    clickHandler: f => f
   };
 
-  const tree = SkinDeep.shallowRender(<SearchMenu props={props}/>);
+  const tree = SkinDeep.shallowRender(<SearchMenu {...props}/>);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();
