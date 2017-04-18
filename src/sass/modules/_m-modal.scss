@@ -102,7 +102,10 @@
   }
 
   &-body {
+    overflow-wrap: break-word;
     padding: 2rem;
+    word-break: break-word;
+    word-wrap: break-word;
   }
 
   &-button-group {
