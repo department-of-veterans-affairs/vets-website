@@ -45,7 +45,8 @@ const props = {
   },
 
   // No-op function to override dispatch
-  dispatch: () => {}
+  dispatch: () => {},
+  router: () => {}
 };
 
 describe('Folder', () => {
