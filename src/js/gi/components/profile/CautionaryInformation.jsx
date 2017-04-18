@@ -76,6 +76,8 @@ export class CautionaryInformation extends React.Component {
       return [...hydratedComplaints, hydratedComplaint];
     }, []);
 
+    const allComplaints = complaints.pop();
+
     return (
       <div className="cautionary-information">
         <div className="caution-flag">
@@ -99,6 +101,25 @@ export class CautionaryInformation extends React.Component {
 
         {it.complaints.mainCampusRollUp && (<div>
           <div className="table">
+            <table className="usa-table-borderless">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>This campus</th>
+                  <th>
+                    <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
+                      All campuses
+                    </a>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <TableRow
+                    description="All student complaints"
+                    thisCampus={allComplaints.thisCampus}
+                    allCampuses={allComplaints.allCampuses}/>
+              </tbody>
+            </table>
             <table className="usa-table-borderless">
               <thead>
                 <tr>
