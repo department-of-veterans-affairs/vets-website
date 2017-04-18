@@ -9,7 +9,7 @@ import { createStore } from 'redux';
 // import HealthCareApp from './components/HealthCareApp.jsx';
 import initReact from '../common/init-react';
 import createRoutes from './routes';
-import reducer from './reducers';
+import reducer from './reducer';
 
 require('../common');
 require('../../sass/hca.scss');
