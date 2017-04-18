@@ -103,9 +103,9 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
     // Review and submit page
-    client.waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
-    // client.pause(1000);
     client
+      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+      .pause(1000)
       .click('input[type="checkbox"]')
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');

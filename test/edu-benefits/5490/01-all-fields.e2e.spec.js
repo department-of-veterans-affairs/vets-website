@@ -140,9 +140,8 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Review and submit page
     client
-      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow);
-    // client.pause(1000)
-    client
+      .waitForElementVisible('label[name="privacyAgreement-label"]', Timeouts.slow)
+      .pause(1000)
       .click('input[type="checkbox"]')
       .click('.form-progress-buttons .usa-button-primary');
     client.expect.element('.js-test-location').attribute('data-location')

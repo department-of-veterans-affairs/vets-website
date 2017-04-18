@@ -136,11 +136,9 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
     // Review and Submit Page.
-    // client.pause(1000);
     client.execute((selector) => {
       document.querySelector(selector).click();
     }, ['label[name="privacyAgreement-label"]']);
-    // client.pause(1000);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
