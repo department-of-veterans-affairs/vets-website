@@ -9,6 +9,18 @@ include tag, e.g.:
 
 {% include "content/includes/navigation-links-list.html" with isRelated = true %}
 
+Links should use the following pattern:
+
+linkgroupname:
+  - heading:
+    links:
+    - url:
+      title:
+      description:
+
+
+where linkgroupname is relatedlinks or majorlinks
+
 {% endcomment %}
 
 {% if isRelated == true %}
