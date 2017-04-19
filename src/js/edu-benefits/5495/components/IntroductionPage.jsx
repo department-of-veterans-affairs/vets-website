@@ -25,13 +25,12 @@ class IntroductionPage extends React.Component {
               <ul>
                 <li>Social Security number (required)</li>
                 <li>Basic information about the school or training facility where you want to attend (required)</li>
-                <li>Military history</li>
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
               </ul>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
-                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your military and education history, and the school you want to attend.</span>
+                  <span><strong>You won’t be able to save your work or come back to finish.</strong> So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
                 </div>
               </div>
               <p><a href="http://www.va.gov/ogc/apps/accreditation/index.asp">An accredited representative</a> with a Veterans Service Organization (VSO) can help you pick the right program.</p>
@@ -49,7 +48,7 @@ class IntroductionPage extends React.Component {
               <div><h6>How long does it take VA to make a decision?</h6></div>
               <ul><li>We usually process claims within 30 days.</li></ul>
               <div><h6>What should I do while I wait?</h6></div>
-              <ul><li>The transition from military to civilian life can be challenging. VA offers <a href="/education/tools-programs/education-career-counseling/">tools and counseling programs</a> to help you make the most of your educational options.</li></ul>
+              <ul><li>We offer tools and counseling programs to help you make the most of your educational options. <a href="/education/tools-programs/">Learn about career counseling options.</a></li></ul>
               <div><h6>What if VA needs more information?</h6></div>
               <ul><li>We will contact you if we need more information.</li></ul>
             </li>
