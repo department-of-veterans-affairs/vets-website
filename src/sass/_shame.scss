@@ -11,6 +11,11 @@ body .row {
   padding-right: 3rem;
 }
 
+.row .row {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .form-panel {
   @include media($medium-screen) {
     max-width: $usa-form-width;
