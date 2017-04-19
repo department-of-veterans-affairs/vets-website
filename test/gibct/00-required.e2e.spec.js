@@ -32,4 +32,5 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client.end();
-  });
+  }
+);
