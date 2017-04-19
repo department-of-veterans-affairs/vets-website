@@ -12,3 +12,5 @@ require('./common/utils/sticky-action-box.js');
 require('./legacy/mega-menu.js');
 
 require('./login/login-entry.jsx');
+
+require('uswds');
