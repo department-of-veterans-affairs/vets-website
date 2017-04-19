@@ -40,7 +40,7 @@ You may be able to get full-time SGLI coverage if you’re:
 
 <br>
 
-You may also be able to get full-time SGLI coverage if you’re in nonpay status with the Ready Reserve or National Guard, and you’re:
+You may also be able to get full-time SGLI coverage if you’re in nonpay status with the Ready Reserve or National Guard and you’re:
 
 - Scheduled for 12 periods of inactive training for the year, **and**
 - Drilling for points rather than pay, **and**
@@ -94,11 +94,11 @@ These are the SGLI premium rates effective July 1, 2014.
 
 When you leave the military, you can apply to convert to Veterans’ Group Life Insurance (VGLI) within 1 year and 120 days from your discharge for up to the amount of coverage you had through SGLI. [Learn more about VGLI](/life-insurance/options-and-eligibility/vgli/).
 
-You can also convert your SGLI policy into a civilian policy within 120 days from the date you left the military. [Convert your SGLI policy](http://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2015-06.pdf).
+You can also convert your SGLI policy into a civilian policy within 120 days from the date you left the military. [Learn how to convert your SGLI coverage to an individual policy](http://www.benefits.va.gov/INSURANCE/forms/SGL133_ed2015-06.pdf).
 
 ### Can I keep my free life insurance if I’m disabled when I leave the military? 
 
-You may be able to keep your free coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date, **and**:
+You may be able to keep your free coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date and:
 
 - You’re rated 100% disabled at the time of your discharge due to being totally unable to work, **or**
 - No matter your work status, you’ve had 1 of the following:

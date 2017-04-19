@@ -60,9 +60,13 @@ Apply in 1 of 2 ways:
 
 - Fill out VA Form SGLV 8714 (Application for Veterans’ Group Life Insurance). Fax the form to 800-236-6142, or mail it to: 
 
-OSGLI
-P.O. Box 41618
-Philadelphia, PA 19176-9913
+<dl class="va-address-block">
+<dd>OSGLI</dd>
+<dd>P.O. Box 41618</dd>
+<dd>Philadelphia, PA 19176-9913</dd>
+</dl>
+
+
 [Download VA Form SGLV 8714](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8714_ed2014-07.pdf).
 
 ### How much will I pay for these benefits? 
