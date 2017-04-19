@@ -91,7 +91,7 @@ export class CautionaryInformation extends React.Component {
           <div className="link-header">
             <h3>
               {+it.complaints.mainCampusRollUp}&nbsp;
-              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank">total complaints</a>
+              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints" target="_blank">student complaints</a>
             </h3>
             <span>
               &nbsp;(<a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#sourcedata" target="_blank">Source</a>)
