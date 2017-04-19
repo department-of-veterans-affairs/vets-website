@@ -18,17 +18,18 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
-    .clearValue('.keyword-search input[type="text"]')
-    .setValue('.keyword-search input[type="text"]', 'washington dc');
+      .clearValue('.keyword-search input[type="text"]')
+      .setValue('.keyword-search input[type="text"]', 'washington dc');
 
     client
       .click('#search-button')
+      .waitForElementVisible('.search-page', Timeouts.normal)
       .axeCheck('.main');
 
     client
       .click('.search-result a')
+      .waitForElementVisible('.profile-page', Timeouts.normal)
       .axeCheck('.main');
 
-    client.pause();
     client.end();
   });
