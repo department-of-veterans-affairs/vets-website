@@ -866,6 +866,7 @@ describe('Schemaform helpers:', () => {
     it('should return fields without array', () => {
       const result = getNonArraySchema({
         type: 'object',
+        required: ['field', 'field2'],
         properties: {
           field: {
             type: 'string'
@@ -878,6 +879,7 @@ describe('Schemaform helpers:', () => {
 
       expect(result).to.eql({
         type: 'object',
+        required: ['field'],
         properties: {
           field: {
             type: 'string'
