@@ -134,6 +134,7 @@ const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('healthcare/health-records/*');
   ignoreList.push('gi-bill-comparison-tool/*');
+  ignoreList.push('healthcare/rjsf/*');
 }
 smith.use(ignore(ignoreList));
 
@@ -175,6 +176,7 @@ if (options.watch) {
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
+        { from: '^/healthcare/rjsf(.*)', to: '/healthcare/rjsf/' },
         { from: '^/healthcare/health-records(.*)', to: '/healthcare/health-records/' },
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
@@ -323,6 +325,7 @@ if (!options.watch) {
           '/employment/job-seekers/skills-translator',
           '/gi-bill-comparison-tool/',
           '/education/apply-for-education-benefits/application',
+          '/healthcare/rjsf',
           '/healthcare/apply/application'].join('|'))
   }));
 }

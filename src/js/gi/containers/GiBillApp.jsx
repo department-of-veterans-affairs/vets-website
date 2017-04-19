@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+
 import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import Modals from '../containers/Modals';
 import PreviewBanner from '../components/heading/PreviewBanner';
@@ -56,7 +58,14 @@ class GiBillApp extends React.Component {
   }
 
   render() {
-    const { preview, profile } = this.props;
+    const { preview, profile, constants } = this.props;
+    let content;
+
+    if (constants.inProgress) {
+      content = <LoadingIndicator message="Loading..."/>;
+    } else {
+      content = this.props.children;
+    }
 
     return (
       <div className="gi-app">
@@ -71,7 +80,7 @@ class GiBillApp extends React.Component {
             <Breadcrumbs
                 location={this.props.location}
                 profileName={profile.attributes.name}/>
-            {this.props.children}
+            {content}
             <AboutThisTool/>
             <Disclaimer/>
             <Modals/>
@@ -87,8 +96,8 @@ GiBillApp.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { preview, profile } = state;
-  return { preview, profile };
+  const { preview, profile, constants } = state;
+  return { preview, profile, constants };
 };
 
 const mapDispatchToProps = {

@@ -113,6 +113,7 @@
   },
   "directDeposit": {
     "data": {
+      "bankAccountChange": "startUpdate",
       "bankAccount": {
         "accountType": "checking",
         "routingNumber": "211370545",
