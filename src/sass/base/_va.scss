@@ -482,16 +482,6 @@ h6 {
     margin-top: 0;
   }
 
-  li p:first-of-type,
-  ul+p
-   {
-    font-weight: normal !important;
-    color: $color-gray-dark;
-    font-size: 1em;
-    padding-bottom: 0;
-  }
-}
-
 .va-introtext {
   color: $color-primary-darker;
   letter-spacing: normal;
