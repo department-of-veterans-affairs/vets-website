@@ -1,17 +1,14 @@
 import React from 'react';
 
-import { handleVerify } from '../helpers/login-helpers.js';
-
 import SystemDownView from './SystemDownView';
+import LoginPrompt from './authentication/LoginPrompt';
+import VerifyPrompt from './authentication/VerifyPrompt';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 class RequiredLoginView extends React.Component {
   constructor(props) {
     super(props);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleSignup = this.handleSignup.bind(this);
     this.setUserLevel = this.setUserLevel.bind(this);
-    this.handleVerify = handleVerify;
     this.state = {
       loading: true
     };
@@ -39,61 +36,11 @@ class RequiredLoginView extends React.Component {
     }
   }
 
-  handleLogin() {
-    const myLoginUrl = this.props.loginUrl;
-    const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
-  }
-
-  handleSignup() {
-    const myLoginUrl = this.props.loginUrl;
-    const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
-  }
-
   render() {
     let view;
 
-    const loginComponent = (
-      <div className="row primary">
-        <div className="medium-12 small-12 columns">
-          <div className="react-conatiner">
-            <h1>Sign In to Your Vets.gov Account</h1>
-            <p>Vets.gov is a new VA website offering online services for Veterans.</p>
-            <p>Sign in to:</p>
-            <ul>
-              <li>Refill a prescription.</li>
-              <li>Send a secure message to your health care provider.</li>
-              <li>Check the status of a disability or pension claim.</li>
-            </ul>
-            <p>
-              <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Sign In</strong></button>
-              <button className="va-button-secondary usa-button-big" onClick={this.handleSignup}><strong>Create Account</strong></button>
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-
-    const verifyComponent = (
-      <div className="row primary">
-        <div className="medium-12 small-12 columns">
-          <div className="react-container">
-            <h1>Verify your Identity with ID.me</h1>
-            <p>You need to verify your identity to access this part of Vets.gov.</p>
-            <p>To access Vets.gov services, you'll need to verify your identity through ID.me, a third party service that provides strong identity verification. We have added this protection to increase security for your information. Here's what you'll need:
-              <ul>
-                <li>Your passport or driver's license</li>
-                <li>A phone that can receive texts or calls</li>
-              </ul>
-            Don't have a supported ID? You can provide personal information and answer questions about your credit history instead.</p>
-            <p>
-              <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleVerify}><strong>Get Started</strong></button>
-            </p>
-          </div>
-        </div>
-      </div>
-    );
+    const loginComponent = <LoginPrompt loginUrl={this.props.loginUrl}/>;
+    const verifyComponent = <VerifyPrompt/>;
 
     if (this.state.loading === true) {
       view = <LoadingIndicator setFocus message="Loading your information"/>;

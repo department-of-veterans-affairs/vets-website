@@ -1,0 +1,121 @@
+{
+  "privacyAgreementAccepted": true,
+  "applicantInformation": {
+    "data": {
+      "relativeFullName": {
+        "first": "John",
+        "middle": "Q",
+        "last": "Doe",
+        "suffix": "Jr."
+      },
+      "relativeDateOfBirth": "1984-01-02",
+      "gender": "F",
+      "view:noSSN": true,
+      "vaFileNumber": "12312313"
+    }
+  },
+  "applicantService": {
+    "data": {
+      "view:applicantServed": true,
+      "toursOfDuty": [
+        {
+          "serviceBranch": "Army",
+          "dateRange": {
+            "from": "2001-03-03",
+            "to": "2003-03-02"
+          },
+          "serviceStatus": "Honorable"
+        },
+        {
+          "serviceBranch": "Navy",
+          "dateRange": {
+            "from": "2003-03-02",
+            "to": "2003-12-03"
+          },
+          "serviceStatus": "The best"
+        }
+      ]
+    }
+  },
+  "benefitSelection": {
+    "data": {
+      "benefit": "chapter33"
+    }
+  },
+  "sponsorInformation": {
+    "data": {
+      "veteranFullName": {
+        "first": "Jim",
+        "middle": "B",
+        "last": "Doe",
+        "suffix": "II"
+      },
+      "view:veteranId": {
+        "view:noSSN": true,
+        "vaFileNumber": "24234444"
+      },
+      "outstandingFelony": true
+    }
+  },
+  "newSchool": {
+    "data": {
+      "educationProgram": {
+        "name": "Smith",
+        "address": {
+          "street": "123 elm st",
+          "street2": "Apt 4",
+          "city": "Northampton",
+          "country": "USA",
+          "state": "MA",
+          "postalCode": "01060"
+        },
+        "educationType": "college"
+      },
+      "educationObjective": "Learn stuff"
+    }
+  },
+  "oldSchool": {
+    "data": {
+      "oldSchool": {
+        "name": "Mt Holyoke",
+        "address": {
+          "street": "123 main st",
+          "street2": "Apt 5",
+          "city": "South Hadley",
+          "country": "USA",
+          "state": "MA",
+          "postalCode": "01070"
+        }
+      },
+      "trainingEndDate": "2016-03-02",
+      "reasonForChange": "Don't like directionally named towns"
+    }
+  },
+  "contactInformation": {
+    "data": {
+      "relativeAddress": {
+        "street": "123 west st",
+        "street2": "Apt 2",
+        "city": "Amherst",
+        "country": "USA",
+        "state": "MA",
+        "postalCode": "01050"
+      },
+      "view:otherContactInfo": {
+        "email": "test@test.com",
+        "view:confirmEmail": "test@test.com",
+        "homePhone": "1234433444",
+        "mobilePhone": "2332244555"
+      }
+    }
+  },
+  "directDeposit": {
+    "data": {
+      "bankAccount": {
+        "accountType": "checking",
+        "routingNumber": "211370545",
+        "accountNumber": "121231233"
+      }
+    }
+  }
+}
