@@ -67,7 +67,7 @@ export class ProfilePage extends React.Component {
 
     let content;
 
-    if (profile.inProgress) {
+    if (profile.inProgress || _.isEmpty(profile.attributes)) {
       content = <LoadingIndicator message="Loading profile..."/>;
     } else {
       content = (
