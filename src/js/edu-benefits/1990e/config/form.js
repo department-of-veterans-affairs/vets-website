@@ -5,7 +5,7 @@ import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from '../../pages/applicantInformation';
 import createContactInformationPage from '../../pages/contactInformation';
-import createSchoolSelectionPage from '../../pages/schoolSelection';
+import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
 import directDeposit from '../../pages/directDeposit';
 
 import * as address from '../../../common/schemaform/definitions/address';
@@ -191,13 +191,7 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: createSchoolSelectionPage(fullSchema1990e, {
-          fields: [
-            'educationProgram',
-            'educationObjective'
-          ],
-          required: ['educationType']
-        })
+        schoolSelection: createSchoolSelectionPage(fullSchema1990e, schoolSelectionOptionsFor['1990e'])
       }
     },
     personalInformation: {

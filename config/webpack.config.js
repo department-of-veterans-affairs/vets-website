@@ -20,6 +20,7 @@ const entryFiles = {
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',
   gi: './src/js/gi/gi-entry.jsx',
   hca: './src/js/hca/hca-entry.jsx',
+  'hca-rjsf': './src/js/hca-rjsf/hca-rjsf-entry.jsx',
   'health-records': './src/js/health-records/health-records-entry.jsx',
   messaging: './src/js/messaging/messaging-entry.jsx',
   rx: './src/js/rx/rx-entry.jsx',
