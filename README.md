@@ -73,7 +73,7 @@ You should use Node Version Manager (nvm) to manage the versions of node.js on y
 To install please visit: https://github.com/creationix/nvm
 _If you are on a mac and use [homebrew](http://brew.sh/), you can install nvm by typing: brew update && brew install nvm_
 
-Once you have nvm installed you should now install node.js version 6.10.2 by running:
+Once you have nvm installed you should now install node.js version 4.4.7 by running:
 
 ```bash
 nvm install
