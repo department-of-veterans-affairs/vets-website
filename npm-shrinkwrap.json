@@ -2166,17 +2166,17 @@
         "http-errors": {
           "version": "1.5.1",
           "from": "http-errors@>=1.5.1 <1.6.0",
-          "resolved": "http://registry.npmjs.org/http-errors/-/http-errors-1.5.1.tgz"
+          "resolved": "https://registry.npmjs.org/http-errors/-/http-errors-1.5.1.tgz"
         },
         "ms": {
           "version": "0.7.2",
           "from": "ms@0.7.2",
-          "resolved": "http://registry.npmjs.org/ms/-/ms-0.7.2.tgz"
+          "resolved": "https://registry.npmjs.org/ms/-/ms-0.7.2.tgz"
         },
         "setprototypeof": {
           "version": "1.0.2",
           "from": "setprototypeof@1.0.2",
-          "resolved": "http://registry.npmjs.org/setprototypeof/-/setprototypeof-1.0.2.tgz"
+          "resolved": "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.0.2.tgz"
         },
         "statuses": {
           "version": "1.3.1",
@@ -3921,7 +3921,7 @@
         "statuses": {
           "version": "1.3.1",
           "from": "statuses@~1.3.1",
-          "resolved": "https://registry.npmjs.org/statuses/-/statuses-1.3.1.tgz"
+          "resolved": "http://registry.npmjs.org/statuses/-/statuses-1.3.1.tgz"
         }
       }
     },
@@ -6043,12 +6043,12 @@
     },
     "metalsmith-in-place": {
       "version": "1.4.4",
-      "from": "metalsmith-in-place@>=1.4.4 <2.0.0",
+      "from": "metalsmith-in-place@1.4.4",
       "resolved": "https://registry.npmjs.org/metalsmith-in-place/-/metalsmith-in-place-1.4.4.tgz",
       "dependencies": {
         "lodash.omit": {
           "version": "4.5.0",
-          "from": "lodash.omit@>=4.0.2 <5.0.0",
+          "from": "lodash.omit@^4.0.2",
           "resolved": "https://registry.npmjs.org/lodash.omit/-/lodash.omit-4.5.0.tgz"
         },
         "multimatch": {
@@ -8034,7 +8034,7 @@
         "statuses": {
           "version": "1.3.1",
           "from": "statuses@~1.3.1",
-          "resolved": "https://registry.npmjs.org/statuses/-/statuses-1.3.1.tgz"
+          "resolved": "http://registry.npmjs.org/statuses/-/statuses-1.3.1.tgz"
         }
       }
     },
@@ -8109,6 +8109,11 @@
       "version": "0.1.0",
       "from": "simple-fmt@>=0.1.0 <0.2.0",
       "resolved": "http://registry.npmjs.org/simple-fmt/-/simple-fmt-0.1.0.tgz"
+    },
+    "simple-git": {
+      "version": "1.67.0",
+      "from": "simple-git@latest",
+      "resolved": "https://registry.npmjs.org/simple-git/-/simple-git-1.67.0.tgz"
     },
     "simple-is": {
       "version": "0.2.0",

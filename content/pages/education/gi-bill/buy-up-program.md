@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 title: $600 Buy-Up Program
 template: 4-action-page-pending
 concurrence: incomplete
+lastupdate_override: 1975-12-25
 ---
 
 <div class="va-introtext">
