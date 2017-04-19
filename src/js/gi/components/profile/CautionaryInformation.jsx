@@ -8,10 +8,10 @@ const TableRow = ({ description, thisCampus, allCampuses }) => {
   return (
     <tr>
       <th><strong>{description}</strong></th>
-      <td className="number">
+      <td>
         {bold ? <strong>{thisCampus}</strong> : thisCampus}
       </td>
-      <td className="number">
+      <td>
         {bold ? <strong>{allCampuses}</strong> : allCampuses}
       </td>
     </tr>
@@ -101,7 +101,7 @@ export class CautionaryInformation extends React.Component {
 
         {it.complaints.mainCampusRollUp && (<div>
           <div className="table">
-            <table className="usa-table-borderless">
+            <table className="all-complaints usa-table-borderless">
               <thead>
                 <tr>
                   <th></th>
@@ -120,10 +120,10 @@ export class CautionaryInformation extends React.Component {
                     allCampuses={allComplaints.allCampuses}/>
               </tbody>
             </table>
-            <table className="usa-table-borderless">
+            <table className="complaints-by-type usa-table-borderless">
               <thead>
                 <tr>
-                  <th>Complaint type</th>
+                  <th>Complaints by type <span>(Each complaint can have multiple types)</span></th>
                   <th>This campus</th>
                   <th>
                     <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
