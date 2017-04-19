@@ -92,6 +92,7 @@ export class SearchResult extends React.Component {
       </div>
     );
   }
+
 }
 
 const mapStateToProps = (state, props) => {
