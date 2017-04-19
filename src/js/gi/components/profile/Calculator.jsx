@@ -132,14 +132,14 @@ export class Calculator extends React.Component {
           <h3>Your estimated benefits</h3>
           <div className="out-of-pocket-tuition">
             <CalculatorResultRow
-                label="Tuition and fees charged"
-                value={outputs.tuitionAndFeesCharged.value}
-                visible={outputs.tuitionAndFeesCharged.visible}
-                header/>
-            <CalculatorResultRow
                 label="GI Bill pays to school"
                 value={outputs.giBillPaysToSchool.value}
-                visible={outputs.giBillPaysToSchool.visible}/>
+                visible={outputs.giBillPaysToSchool.visible}
+                header/>
+            <CalculatorResultRow
+                label="Tuition and fees charged"
+                value={outputs.tuitionAndFeesCharged.value}
+                visible={outputs.tuitionAndFeesCharged.visible}/>
             <CalculatorResultRow
                 label="Your scholarships"
                 value={outputs.yourScholarships.value}
