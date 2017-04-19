@@ -219,8 +219,24 @@ the test requries features that jsdom does not provide, putting them into a
 `e2e.spec.js` file is completely valid and good.
 
 TODO(awong): Figure out sauce labs integrations. Not all e2e tests should always be
-run on all browsers. That's wasteful. How do we determine what should be run on
-multiple browsers as opposed to on PhantomJS in Jenkins?
+run on all browsers. That's wasteful. How do we determine what should be run on 
+multiple browsers as opposed to on PhantomJS in Travis? 
+
+### Continuous Integration
+Continuous integration and deployment is done via
+[Travis CI](travis-ci.org/department-of-veterans-affairs/vets-website). All of the configuration
+is stored in `.travis.yml`.
+
+All pushes kick off a matrix build for both `BUILDTYPE=development` and `BUILDTYPE=production`.
+Ensures that all PRs always work on both build configurations.
+
+Travis also always builds in optimized mode with `NODE_ENV=production`. See build section for
+distinction between BUILDTYPE and NODE_ENV.
+
+### Deploy
+Because this is a static site, deployment is simply synchronizing the generated artifacts
+with a remote s3 bucket.  Travis handles the synchronization by using the
+[s3-cli](https://www.npmjs.com/package/s3-cli) commandline tool.
 
 #### E2E Troubleshooting
 Try running your `selenium` server manually:
