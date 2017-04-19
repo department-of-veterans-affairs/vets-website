@@ -40,7 +40,7 @@ You may be able to get full-time SGLI coverage if you’re:
 
 <br>
 
-You may also be able to get full-time SGLI coverage if you’re in nonpay status with the Ready Reserve or National Guard, and you’re:
+You may also be able to get full-time SGLI coverage if you’re in nonpay status with the Ready Reserve or National Guard and you’re:
 
 - Scheduled for 12 periods of inactive training for the year, **and**
 - Drilling for points rather than pay, **and**
@@ -98,7 +98,7 @@ You can also convert your SGLI policy into a civilian policy within 120 days fro
 
 ### Can I keep my free life insurance if I’m disabled when I leave the military? 
 
-You may be able to keep your free coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date, **and**:
+You may be able to keep your free coverage for up to 2 years after the date you left the military if you're within 2 years of your separation date and:
 
 - You’re rated 100% disabled at the time of your discharge due to being totally unable to work, **or**
 - No matter your work status, you’ve had 1 of the following:
