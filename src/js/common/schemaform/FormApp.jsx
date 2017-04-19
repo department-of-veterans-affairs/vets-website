@@ -14,8 +14,8 @@ const Element = Scroll.Element;
 export default class FormApp extends React.Component {
   componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
-    if (History) {
-      History.scrollRestoration = 'manual';
+    if (window.History) {
+      window.History.scrollRestoration = 'manual';
     }
   }
 
