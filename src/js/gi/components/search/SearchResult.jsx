@@ -24,11 +24,6 @@ export class SearchResult extends React.Component {
   }
 
   render() {
-    // this.props.estimated is an empty object until constants are loaded
-    if (this.props.inProgress) {
-      return null;
-    }
-
     const tuition = this.estimate(this.props.estimated.tuition);
     const housing = this.estimate(this.props.estimated.housing);
     const books = this.estimate(this.props.estimated.books);
@@ -101,7 +96,6 @@ export class SearchResult extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    inProgress: state.constants.inProgress,
     estimated: estimatedBenefits(state, props)
   };
 };
