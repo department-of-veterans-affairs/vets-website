@@ -45,8 +45,8 @@ class AlertBox extends React.Component {
     let closeButton;
     if (this.props.onCloseAlert) {
       closeButton = (
-        <button className="va-alert-close" onClick={this.props.onCloseAlert}>
-          <i className="fa fa-close"></i>
+        <button className="va-alert-close" aria-label="Close notification" onClick={this.props.onCloseAlert}>
+          <i className="fa fa-close" aria-label="Close icon"></i>
         </button>
       );
     }

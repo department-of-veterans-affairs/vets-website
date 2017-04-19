@@ -3,6 +3,8 @@ import Timeouts from './timeouts';
 // Change select value and trigger change event programatically.
 // This is necessary because long select boxes tend to render offscreen,
 // causing Selenium to fail in unexpected ways.
+// TODO: Remove this after it's been refactored out in favor of chaining with
+//  /test/util/nightwatch-commands/selectDropdown.js
 function selectDropdown(client, field, value) {
   const select = `select[name='${field}']`;
   client
@@ -75,81 +77,6 @@ function overrideAnimations(client) {
   [styles]);
 }
 
-/**
- * Set up some helper functions to make writing tests nicer
- */
-function bootstrapHelpers(client) {
-  // Ideally, it'd just be called setValue, but that's taken
-  /**
-   * Clears the current value and if |value| is specified,
-   *  enters the |value| in.
-   */
-  client.fill = function (selector, value) {
-    this.clearValue(selector);
-    if (typeof value !== 'undefined') {
-      this.setValue(selector, value);
-    }
-
-    // For function chaining
-    return this;
-  };
-
-  /**
-   * For chaining selecting dropdowns
-   * Note: This takes the field name, not the whole selector because it just
-   *  uses selectDropdown above
-   */
-  client.selectDropdown = function (name, value) {
-    selectDropdown(this, name, value);
-    return this;
-  };
-
-  /**
-   * Clicks the input specified if the condition evaluates to true.
-   */
-  client.clickIf = function (selector, condition, ...params) {
-    let shouldClick = !!condition;
-    if (typeof condition === 'function') {
-      shouldClick = !!condition(...params);
-    }
-
-    if (shouldClick) {
-      this.click(selector);
-    }
-
-    return this;
-  }
-
-  /**
-   * Fills in a date.
-   *
-   * @param {String} fieldName The name the field without the Month, Day, or Year
-   *                           e.g. root_spouseInfo_remarriageDate
-   * @param {String} dateString The date as a string
-   *                            e.g. 1990-1-28
-   */
-  client.fillDate = function (fieldName, dateString) {
-    const date = dateString.split('-');
-    this
-      .selectDropdown(`${fieldName}Month`, parseInt(date[1]).toString())
-      .selectDropdown(`${fieldName}Day`, parseInt(date[2]).toString())
-      .fill(`input[name="${fieldName}Year"]`, parseInt(date[0]).toString());
-
-    return this;
-  }
-
-  /**
-   * Selects the appropriate option for yesNo widgets.
-   *
-   * @param {String} fieldName The name of the field without Yes or No
-   *                           e.g. root_spouseInfo_divorcePending
-   * @param {bool} condition Determines whether to select Yes or No
-   */
-  client.selectYesNo = function (fieldName, condition) {
-    this.click(`input[name="${fieldName}${!!condition ? 'Yes' : 'No'}`);
-  }
-}
-
 // Returns an object suitable for a nightwatch test case.
 //
 // Provides test framework maintainers a single entry point for annotating all tests with things
@@ -159,7 +86,6 @@ function bootstrapHelpers(client) {
 function createE2eTest(beginApplication) {
   return {
     'Begin application': (client) => {
-      bootstrapHelpers(client);
       overrideSmoothScrolling(client);
       beginApplication(client);
     }
