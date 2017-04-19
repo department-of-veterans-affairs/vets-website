@@ -9,12 +9,14 @@ import FormTitle from './FormTitle';
 const Element = Scroll.Element;
 
 /*
- * Primary component for a schema generated form app. Will eventually
- * have the Nav components
+ * Primary component for a schema generated form app.
  */
 export default class FormApp extends React.Component {
   componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
+    if (History) {
+      History.scrollRestoration = 'manual';
+    }
   }
 
   // I'm not convinced this is ever executed
