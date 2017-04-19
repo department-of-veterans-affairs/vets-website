@@ -36,7 +36,7 @@ const pageTests = (page) => {
       }
     });
 
-    expect(formDOM.textContent).to.contain('The Department of Treasury requires');
+    expect(formDOM.querySelector('.edu-dd-warning')).to.not.be.null;
   });
   it('should render bank account fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
