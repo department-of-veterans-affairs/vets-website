@@ -1,35 +1,5 @@
 const EduHelpers = require('./edu-helpers');
 
-function completeMilitaryService(client, data, onlyRequiredFields) {
-  if (!onlyRequiredFields) {
-    client
-      .click('input[name="root_view:hasServiceBefore1978Yes"]');
-  }
-}
-
-function completeNewSchool(client, data, onlyRequiredFields) {
-  client
-    .fill('select[name="root_educationType"]', data.educationType)
-    .fill('input[name="root_newSchoolName"]', data.newSchoolName);
-
-  if (!onlyRequiredFields) {
-    client
-      .clearValue('input[name="root_newSchoolAddress_street"]')
-      .setValue('input[name="root_newSchoolAddress_street"]', data.newSchoolAddress.street)
-      .clearValue('input[name="root_newSchoolAddress_street2"]')
-      .setValue('input[name="root_newSchoolAddress_street2"]', data.newSchoolAddress.street2)
-      .clearValue('input[name="root_newSchoolAddress_city"]')
-      .setValue('input[name="root_newSchoolAddress_city"]', data.newSchoolAddress.city)
-      .clearValue('select[name="root_newSchoolAddress_state"]')
-      .setValue('select[name="root_newSchoolAddress_state"]', data.newSchoolAddress.state)
-      .clearValue('input[name="root_newSchoolAddress_postalCode"]')
-      .setValue('input[name="root_newSchoolAddress_postalCode"]', data.newSchoolAddress.postalCode)
-      .setValue('textarea[id="root_educationObjective"]', data.educationObjective)
-      .click('input[name=root_nonVaAssistanceYes]')
-      .click('input[name=root_civilianBenefitsAssistanceNo]');
-  }
-}
-
 function completeOldSchool(client, data, onlyRequiredFields) {
   client
     .clearValue('input[name="root_oldSchool_name"]')
@@ -51,15 +21,6 @@ function completeOldSchool(client, data, onlyRequiredFields) {
 }
 
 
-function completeDependents(client, data, onlyRequiredFields) {
-  if (!onlyRequiredFields) {
-    client
-      .click('input[name="root_serviceBefore1977_marriedYes"]')
-      .click('input[name="root_serviceBefore1977_haveDependentsYes"]')
-      .click('input[name="root_serviceBefore1977_parentDependentYes"]');
-  }
-}
-
 function completeSponsorInformation(client, data) {
   EduHelpers.completeVeteranInformation(client,
     data,
@@ -70,9 +31,6 @@ function completeSponsorInformation(client, data) {
 }
 
 module.exports = {
-  completeMilitaryService,
-  completeNewSchool,
   completeOldSchool,
-  completeSponsorInformation,
-  completeDependents
+  completeSponsorInformation
 };
