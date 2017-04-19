@@ -61,7 +61,12 @@ body.va-pos-fixed {
 
   ul {
     list-style: none;
+    margin-top: 0;
     padding-left: 0;
+  }
+
+  li {
+    margin-bottom: 0;
   }
 
   .va-button-primary {
