@@ -69,9 +69,12 @@ You’ll need to apply for benefits in 1 of 2 ways:
 
  - Fill out VA Form 29-4364 (Application for Service-Disabled Veterans Life Insurance). Fax it to 888-748-5522, or mail it to: 
 
-Department of Veterans Affairs Regional Office and Insurance Center (RH)
-P.O. Box 7208
-Philadelphia, PA 19101
+<dl class="va-address-block">
+<dd>Department of Veterans Affairs</dd>
+<dd>Regional Office and Insurance Center (RH)</dd>
+<dd>P.O. Box 7208</dd>
+<dd>Philadelphia, PA 19101</dd>
+</dl> 
 
 [Download VA Form 29-4364](http://benefits.va.gov/INSURANCE/forms/29-4364.htm).
 
