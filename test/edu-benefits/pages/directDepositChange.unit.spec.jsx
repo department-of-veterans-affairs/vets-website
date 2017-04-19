@@ -3,11 +3,12 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-addons-test-utils';
 
-import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
-import formConfig from '../../../../src/js/edu-benefits/1995/config/form';
+import { DefinitionTester } from '../../util/schemaform-utils.jsx';
+import formConfig1995 from '../../../src/js/edu-benefits/1995/config/form';
+import formConfig5495 from '../../../src/js/edu-benefits/5495/config/form';
 
-describe('Edu 1995 directDeposit', () => {
-  const { schema, uiSchema } = formConfig.chapters.personalInformation.pages.directDeposit;
+const pageTests = (page) => {
+  const { schema, uiSchema } = page;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -35,7 +36,7 @@ describe('Edu 1995 directDeposit', () => {
       }
     });
 
-    expect(formDOM.textContent).to.contain('The Department of Treasury requires');
+    expect(formDOM.querySelector('.edu-dd-warning')).to.not.be.null;
   });
   it('should render bank account fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -81,4 +82,9 @@ describe('Edu 1995 directDeposit', () => {
 
     expect(formDOM.querySelector('.usa-input-error #root_bankAccount_routingNumber')).not.to.be.null;
   });
+};
+
+describe('Edu directDepositChangePage', () => {
+  describe('1995', () => pageTests(formConfig1995.chapters.personalInformation.pages.directDeposit));
+  describe('5495', () => pageTests(formConfig5495.chapters.personalInformation.pages.directDeposit));
 });
