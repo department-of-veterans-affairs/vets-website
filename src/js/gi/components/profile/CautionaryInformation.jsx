@@ -49,6 +49,12 @@ export class CautionaryInformation extends React.Component {
       </div>
     );
 
+    const allCampusesLink = (
+      <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
+        All campuses
+      </a>
+    );
+
     const complaintData = [
       { type: 'Financial Issues (e.g., Tuition/Fee charges)', key: 'financial' },
       { type: 'Quality of Education', key: 'quality' },
@@ -106,11 +112,7 @@ export class CautionaryInformation extends React.Component {
                 <tr>
                   <th></th>
                   <th>This campus</th>
-                  <th>
-                    <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
-                      All campuses
-                    </a>
-                  </th>
+                  <th>{allCampusesLink}</th>
                 </tr>
               </thead>
               <tbody>
@@ -125,11 +127,7 @@ export class CautionaryInformation extends React.Component {
                 <tr>
                   <th>Complaints by type <span>(Each complaint can have multiple types)</span></th>
                   <th>This campus</th>
-                  <th>
-                    <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
-                      All campuses
-                    </a>
-                  </th>
+                  <th>{allCampusesLink}</th>
                 </tr>
               </thead>
               <tbody>
@@ -144,11 +142,7 @@ export class CautionaryInformation extends React.Component {
             <h4>This campus</h4>
             {complaints.map((c) =>
               <ListRow key={c.description} description={c.description} value={c.thisCampus}/>)}
-            <h4>
-              <a href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#complaints_all_campuses" target="_blank">
-                All campuses
-              </a>
-            </h4>
+            <h4>{allCampusesLink}</h4>
             {complaints.map((c) =>
               <ListRow key={c.description} description={c.description} value={c.allCampuses}/>)}
           </div>
