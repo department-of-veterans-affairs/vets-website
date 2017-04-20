@@ -1,3 +1,4 @@
+import React from 'react';
 import { transformForSubmit } from '../common/schemaform/helpers';
 
 export function transform(formConfig, form) {
@@ -7,4 +8,8 @@ export function transform(formConfig, form) {
       form: formData
     }
   });
+}
+
+export function FacilityHelp() {
+  return <div>OR <a href="/facilities" target="_blank">Find locations with the VA Facility Locator</a></div>;
 }
