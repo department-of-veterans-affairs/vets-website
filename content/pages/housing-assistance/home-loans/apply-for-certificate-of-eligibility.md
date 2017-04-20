@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Apply for your COE
 concurrence: 
-template: level2-index
+template: 6-info-page
 relatedlinks:
   - url: /housing-assistance/home-loans/eligibility/
     title: Eligibility
@@ -28,32 +28,12 @@ Gather the information you’ll need to apply for your Certificate of Eligibilit
 | If you’re a: | You’ll need: | 
 | --- | --- | 
 | Veteran | Your DD214 |
-| Active-duty Servicemember | A statement of service—signed by your commander, adjutant, or personnel officer—showing the following information:
--	Your full name
--	Your Social Security number
--	Your date of birth
--	The date you entered duty
--	The duration of any lost time
-The name of the command providing the information |
+| Active-duty Servicemember | A statement of service—signed by your commander, adjutant, or personnel officer—showing the following information:<br><ul><li>Your full name</li><li>Your Social Security number</li><li>Your date of birth</li><li>The date you entered duty</li><li>The duration of any lost time</li><li>The name of the command providing the information</li></ul> |
 | Current or former **activated** National Guard or Reserve member | Your DD214 |
-| Current member of the National Guard or Reserves, **and** have never been activated | A statement of service—signed by your commander, adjutant, or personnel officer—showing this information:
--	Your full name
--	Your Social Security number
--	Your date of birth
--	The date you entered duty
--	Your total number of creditable years of service
--	The duration of any lost time
-The name of the command providing the information |
-| Discharged member of the National Guard, **and** were never activated | Your NGB Form 22, Report of Separation and Record of Service, for each period of National Guard service, **or**
-Your NGB Form 23, Retirement Points Account, **and** proof of the character of service |
-| Discharged member of the Reserves **and** were never activated | A copy of your latest annual retirement points, **and**
-Proof of your honorable service |
-| Surviving spouse of a Veteran who died on active duty or who had a service-connected disability | The Veteran’s discharge documents (DD214), **and**
-**If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send VA Form 26-1817 (Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses). [Download Form 26-1817](http://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf).
-**If you’re not receiving DIC benefits,** you’ll need to fill out and send VA Form 21-534 (Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child), **and**
--	A copy of your marriage license, **and**
--	The Veteran's death certificate
-[Download Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). |
+| Current member of the National Guard or Reserves, **and** have never been activated | A statement of service—signed by your commander, adjutant, or personnel officer—showing this information:<br><ul><li>Your full name</li><li>Your Social Security number</li><li>Your date of birth</li><li>The date you entered duty</li><li>Your total number of creditable years of service</li><li>The duration of any lost time</li><li>The name of the command providing the information</li></ul> |
+| Discharged member of the National Guard, **and** were never activated | <ul><li>Your NGB Form 22, Report of Separation and Record of Service, for each period of National Guard service, **or**</li><li>Your NGB Form 23, Retirement Points Account, **and** proof of the character of service</li></ul> |
+| Discharged member of the Reserves **and** were never activated | <ul><li>A copy of your latest annual retirement points, **and**</li><li>Proof of your honorable service</li></ul> |
+| Surviving spouse of a Veteran who died on active duty or who had a service-connected disability | <ul><li>The Veteran’s discharge documents (DD214), **and**</li><li>**If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send VA Form 26-1817 (Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses). [Download Form 26-1817](http://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf).</li><li>**If you’re not receiving DIC benefits,** you’ll need to fill out and send VA Form 21-534 (Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child), **and**<ul><li>A copy of your marriage license, **and**</li><li>The Veteran's death certificate<br>[Download Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf).</li></ul> |
 
 [Get your military service records online](http://www.archives.gov/veterans/military-service-records/).
 
