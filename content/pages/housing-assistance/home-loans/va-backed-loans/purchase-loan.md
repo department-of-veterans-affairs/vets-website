@@ -11,7 +11,7 @@ relatedlinks:
     title: Interest Rate Reduction Refinance Loan (IRRRL)
     description: Have an existing VA-backed home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
   - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
-    title: Cash-Out Refinance
+    title: Cash-Out Refinance Loan
     description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed Cash-Out Refinance loan.
 ---
 
