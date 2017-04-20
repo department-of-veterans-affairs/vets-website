@@ -23,7 +23,7 @@ The first step in getting a VA-backed home loan is to apply for a Certificate of
 <ol class="process">
 <li class="step one">
 
-Gather the information you’ll need to apply for your Certificate of Eligibility.
+**Gather the information you’ll need to apply for your Certificate of Eligibility.**
 
 | If you’re a: | You’ll need: | 
 | --- | --- | 
@@ -41,9 +41,10 @@ Gather the information you’ll need to apply for your Certificate of Eligibilit
 
 <li class="step last two">
 
-Apply
+**Apply**
 
 You can apply in 1 of 3 ways:
+
 **Online through eBenefits:** We recommend applying for your COE online. [Apply through eBenefits](http://www.ebenefits.va.gov/).
 
 **Through our Web LGY system:** In some cases, you can get your COE through your lender using our Web LGY system. Ask your lender about this option.
