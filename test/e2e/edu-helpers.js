@@ -21,8 +21,14 @@ function initApplicationSubmitMock(form) {
 function completeVeteranInformation(client, data, onlyRequiredFields, root = 'root') {
   client
     .fill(`input[name="${root}_veteranFullName_first"]`, data.veteranFullName.first)
-    .fill(`input[name="${root}_veteranFullName_last"]`, data.veteranFullName.last)
-    .fill(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`, data['view:veteranId'].veteranSocialSecurityNumber);
+    .fill(`input[name="${root}_veteranFullName_last"]`, data.veteranFullName.last);
+
+  if (data['view:veteranId']) {
+    client
+      .fill(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`, data['view:veteranId'].veteranSocialSecurityNumber)
+      .click(`input[name="${root}_view:veteranId_view:noSSN"]`)
+      .setValue(`input[name="${root}_view:veteranId_vaFileNumber"]`, data['view:veteranId'].vaFileNumber);
+  }
 
   if (data.relationship === 'spouse') {
     client.selectYesNo('root_spouseInfo_divorcePending', data.spouseInfo.divourcePending);
@@ -36,11 +42,6 @@ function completeVeteranInformation(client, data, onlyRequiredFields, root = 'ro
     client
       .setValue(`input[name="${root}_veteranFullName_middle"]`, data.veteranFullName.middle)
       .setValue(`select[name="${root}_veteranFullName_suffix"]`, data.veteranFullName.suffix);
-    if (data['view:veteranId']) {
-      client
-        .click(`input[name="${root}_view:veteranId_view:noSSN"]`)
-        .setValue(`input[name="${root}_view:veteranId_vaFileNumber"]`, data['view:veteranId'].vaFileNumber);
-    }
     if (data.relationship === 'spouse') {
       client.selectYesNo('root_spouseInfo_remarried', data.spouseInfo.remarried);
       if (data.spouseInfo.remarried) {
@@ -68,9 +69,8 @@ function completeRelativeInformation(client, data, onlyRequiredFields) {
   selectDropdown(client, 'root_relativeDateOfBirthDay', parseInt(dobFields[2], 10).toString());
 
   if (typeof data.relationship !== 'undefined') {
-    const relationshipInput = data.relationship ? `input[value="${data.relationship}"]` : 'input[name="root_relationship_1"]';
     client
-      .click(relationshipInput);
+      .click('input[name="root_relationship_0"]');
   }
 
   if (!onlyRequiredFields) {
