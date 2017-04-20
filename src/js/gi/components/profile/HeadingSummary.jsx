@@ -4,6 +4,27 @@ import _ from 'lodash';
 import AlertBox from '../../../common/components/AlertBox';
 import { formatNumber } from '../../utils/helpers';
 
+const AdditionalResources = () => (
+  <div className="medium-4 small-12 column">
+    <h4 className="highlight">Additional Resources</h4>
+    <p>
+      <a href="http://www.benefits.va.gov/gibill/careerscope.asp" target="_blank">
+        Explore your career
+      </a>
+    </p>
+    <p>
+      <a href="http://www.benefits.va.gov/gibill/choosing_a_school.asp" target="_blank">
+        Choose a school
+      </a>
+    </p>
+    <p>
+      <a href="/education/apply" target="_blank">
+        Apply for education benefits
+      </a>
+    </p>
+  </div>
+);
+
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
   return <span><i className={`fa fa-${icon}`}/>&nbsp;{children}</span>;
@@ -27,7 +48,7 @@ class HeadingSummary extends React.Component {
 
     return (
       <div className="heading row">
-        <div className="small-12 column">
+        <div className="medium-8 small-12 column">
           <h1>{it.name}</h1>
           <div className="caution-flag">
             <AlertBox
@@ -81,6 +102,7 @@ class HeadingSummary extends React.Component {
           </div>
           <div className="small-12 medium-4 column"></div>
         </div>
+        <AdditionalResources/>
       </div>
     );
   }
