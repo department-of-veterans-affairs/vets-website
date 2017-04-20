@@ -3,12 +3,9 @@ import _ from 'lodash/fp';
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
 import {
-  bankAccountChangeLabels,
   transform,
-  directDepositWarning
 } from '../helpers';
 
-import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as dateRange from '../../../common/schemaform/definitions/dateRange';
@@ -21,6 +18,7 @@ import * as veteranId from '../../definitions/veteranId';
 
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
+import createDirectDepositChangePage from '../../pages/directDepositChange';
 
 import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -37,7 +35,6 @@ const {
 const {
   preferredContactMethod,
   educationType,
-  bankAccountChange
 } = fullSchema1995.definitions;
 
 const formConfig = {
@@ -229,42 +226,7 @@ const formConfig = {
             }
           }
         },
-        directDeposit: {
-          title: 'Direct deposit',
-          path: 'personal-information/direct-deposit',
-          initialData: {},
-          uiSchema: {
-            bankAccountChange: {
-              'ui:title': 'Benefit payment method:',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: bankAccountChangeLabels
-              }
-            },
-            bankAccount: _.assign(bankAccount.uiSchema, {
-              'ui:options': {
-                hideIf: (formData) => formData.bankAccountChange !== 'startUpdate'
-              }
-            }),
-            'view:stopWarning': {
-              'ui:description': directDepositWarning,
-              'ui:options': {
-                hideIf: (formData) => formData.bankAccountChange !== 'stop'
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              bankAccountChange,
-              bankAccount: bankAccount.schema,
-              'view:stopWarning': {
-                type: 'object',
-                properties: {}
-              }
-            }
-          }
-        }
+        directDeposit: createDirectDepositChangePage(fullSchema1995)
       }
     }
   }
