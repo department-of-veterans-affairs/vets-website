@@ -1,12 +1,12 @@
 ---
 layout: page-breadcrumbs.html
-title: VA Backed Loans
+title: VA-backed Loans
 concurrence: 
-template: 
+template: level2-index
 relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
     title: Purchase Loan
-    description: Looking to buy a home? Find out if you can get a VA-backed Purchase Loan and get better terms than with a private-lender loan
+    description: Looking to buy a home? Find out if you can get a VA-backed Purchase Loan and get better terms than with a private-lender loan.
   - url: /housing-assistance/home-loans/va-backed-loans/nadl/
     title: Native American Direct Loan (NADL) Program
     description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get our NADL to buy, build, or improve a home on Federal Trust Land.
