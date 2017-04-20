@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Eligibility
 concurrence: 
-template: level2-index
+template: 4-action-page
 relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
     title: Purchase Loan
@@ -30,13 +30,35 @@ To get a VA home loan, you’ll need a Certificate of Eligibility (COE) to show 
 
 You may be able to get a COE if you were discharged under conditions other than dishonorable **and** you meet the service requirements below.
 
-**Service requirements for Veterans and Servicemembers on active duty:**
+**Service requirements for Veterans and Servicemembers on active duty:** [MEL: POSSIBLY ACCORDION LINK HERE?]
 
-[NOTE: SAVING TABLE TO PUT IN WITH KATE FOR LEARNING PURPOSES]
+| When did you serve? | You meet the minimum active-duty service requirement if you served for: | 
+| --- | --- | 
+| Between September 16, 1940, and July 25, 1947, (WWII) | 90 total days |
+| Between July 26, 1947, and June 26, 1950, (Post-WWII period) | 181 continuous days |
+| Between June 27, 1950, and January 31, 1955, (Korean War) | 90 total days |
+| Between February 1, 1955, and August 4, 1964, (Post-Korean War period) | 90 total days |
+| Between August 5, 1964, and May 7, 1975, (Vietnam War), **or**
+February 28, 1961, to May 7, 1975, if you served in the Republic of Vietnam | 90 total days |
+| Between May 8, 1975, and September 7, 1980, (Post-Vietnam War period), **or**
+Between May 8, 1975, and October 16, 1981, if you served as an officer | 181 continuous days |
+| Between September 8, 1980, and August 1, 1990, **or**
+Between October 17, 1981, and August 1, 1990, if you served as an officer | -	24 continuous months, **or**
+-	The full period (at least 181 days) for which you were called to active duty |
+| Between August 2, 1990, and the present (Gulf War) | -	24 continuous months, **or**
+-	The full period (at least 90 days) for which you were called or ordered to active duty |
+| I’m on active duty now | 90 continuous days |
 
-**Service requirements for National Guard and Reserve members:**
+**Service requirements for National Guard and Reserve members:** [MEL: POSSIBLY ACCORDION LINK HERE?]
 
-[NOTE: SAVING TABLE TO PUT IN WITH KATE FOR LEARNING PURPOSES]
+| When did you serve? | You meet the minimum active-duty service requirement if you served for: | 
+| --- | --- | 
+| Between August 2, 1990, and the present (Gulf War) | 90 continuous days of active service |
+| Any time period | 6 years in the Selected Reserve or National Guard, **and** you:
+-	Were discharged honorably, **or**
+-	Were placed on the retired list, **or**
+-	Were transferred to the Standby Reserve or an element of the Ready Reserve other than the Selected Reserve after service characterized as honorable, **or**
+-	Continue to serve in the Selected Reserve |
 
 ### Ready to apply?
 
@@ -87,9 +109,3 @@ You may be able to “restore” an entitlement you used in the past to buy anot
 -	You’ve repaid your prior VA-backed loan in full, but haven’t sold the home you bought with that loan (you can only do this 1 time)
 
 To request an entitlement restoration, fill out VA Form 26-1880 and submit it to the VA Eligibility Center. [Download Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). 
-
-
-
-
-
-
