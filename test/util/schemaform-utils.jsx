@@ -64,7 +64,7 @@ export class DefinitionTester extends React.Component {
           title="test"
           schema={schema}
           uiSchema={uiSchema}
-          data={data}
+          pageData={data}
           onChange={this.handleChange}
           onSubmit={this.props.onSubmit}/>
     );
