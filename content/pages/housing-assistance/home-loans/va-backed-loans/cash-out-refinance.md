@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Cash Out Refinance Loan
+title: Cash-Out Refinance Loan
 concurrence: 
 template: 1-topic-landing
 relatedlinks:
