@@ -137,7 +137,9 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              payHighestRateBenefit
+              payHighestRateBenefit: _.merge(payHighestRateBenefit, {
+                'default': true
+              })
             }
           }
         }
