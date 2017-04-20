@@ -55,61 +55,99 @@ const configGenerator = (options) => {
       chunkFilename: (options.buildtype === 'development') ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
     },
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          loader: 'babel',
-          query: {
-            // Speed up compilation.
-            cacheDirectory: '.babelcache'
+          use: {
+            loader: 'babel-loader',
+            options: {
+              // Speed up compilation.
+              cacheDirectory: '.babelcache'
 
-            // Also see .babelrc
+              // Also see .babelrc
+            }
           }
         },
         {
           test: /\.jsx$/,
           exclude: /node_modules/,
-          loader: 'babel',
-          query: {
-            presets: ['react'],
-            // Speed up compilation.
-            cacheDirectory: '.babelcache'
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['react'],
+              // Speed up compilation.
+              cacheDirectory: '.babelcache'
 
-            // Also see .babelrc
+              // Also see .babelrc
+            }
           }
         },
         {
           test: /foundation\.js$/,
-          loader: 'imports?this=>window'
+          use: {
+            loader: 'imports?this=>window'
+          }
         },
         {
           test: /modernizrrc/,
-          loader: 'modernizr'
+          use: {
+            loader: 'modernizr-loader'
+          }
         },
         {
           test: /\.scss$/,
-          loader: ExtractTextPlugin.extract('style-loader', `css!resolve-url!sass?includePaths[]=${bourbon}&includePaths[]=${neat}&includePaths[]=~/uswds/src/stylesheets&sourceMap`)
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: [
+              { loader: 'css-loader' },
+              { loader: 'resolve-url-loader' },
+              {
+                loader: 'sass-loader',
+                options: {
+                  includePaths: [
+                    bourbon,
+                    neat,
+                    '~/uswds/src/stylesheets&sourceMap'
+                  ]
+                }
+              }
+            ],
+          })
         },
         {
           test: /\.(jpe?g|png|gif)$/i,
-          loader: 'url?limit=10000!img?progressive=true&-minimize'
+          use: {
+            loader: 'url-loader?limit=10000!img?progressive=true&-minimize'
+          }
         },
         {
           test: /\.svg/,
-          loader: 'svg-url'
+          use: {
+            loader: 'svg-url-loader'
+          }
         },
         {
           test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'url-loader?limit=10000&minetype=application/font-woff'
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              mimetype: 'application/font-woff'
+            }
+          }
         },
         {
           test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'file-loader'
+          use: {
+            loader: 'file-loader'
+          }
         },
         {
           test: /\.json$/,
-          loader: 'json-loader'
+          use: {
+            loader: 'json-loader'
+          }
         },
         {
           test: /react-jsonschema-form\/lib\/components\/(widgets|fields\/ObjectField|fields\/ArrayField)/,
@@ -117,7 +155,9 @@ const configGenerator = (options) => {
             /widgets\/index\.js/,
             /widgets\/TextareaWidget/
           ],
-          loader: 'null'
+          use: {
+            loader: 'null-loader'
+          }
         }
       ],
       noParse: [/mapbox\/vendor\/promise.js$/],
@@ -127,7 +167,7 @@ const configGenerator = (options) => {
         modernizr$: path.resolve(__dirname, './modernizrrc'),
         jquery: 'jquery/src/jquery'
       },
-      extensions: ['', '.js', '.jsx']
+      extensions: ['*', '.js', '.jsx']
     },
     plugins: [
       new webpack.DefinePlugin({
@@ -149,14 +189,16 @@ const configGenerator = (options) => {
         'window.jQuery': 'jquery'
       }),
 
-      new ExtractTextPlugin((options.buildtype === 'development') ? '[name].css' : `[name].[chunkhash]-${timestamp}.css`),
+      new ExtractTextPlugin({
+        filename: (options.buildtype === 'development') ? '[name].css' : `[name].[chunkhash]-${timestamp}.css`
+      }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
-      new webpack.optimize.CommonsChunkPlugin(
-        'vendor',
-        (options.buildtype === 'development') ? 'vendor.js' : `vendor.[chunkhash]-${timestamp}.js`,
-        Infinity
-      ),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        filename: (options.buildtype === 'development') ? 'vendor.js' : `vendor.[chunkhash]-${timestamp}.js`,
+        minChunks: Infinity
+      }),
     ],
   };
 
@@ -183,12 +225,13 @@ const configGenerator = (options) => {
       filename: 'chunk-manifest.json',
       manifestVariable: 'webpackManifest'
     }));
-    baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
       beautify: false,
       compress: { warnings: false },
-      comments: false
+      comments: false,
+      sourceMap: true,
+      minimize: true,
     }));
   } else {
     baseConfig.devtool = '#eval-source-map';
