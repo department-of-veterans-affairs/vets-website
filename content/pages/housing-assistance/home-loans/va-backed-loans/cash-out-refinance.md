@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Cash Out Refinance Loan
 concurrence: 
-template: 4-action-page
+template: 1-topic-landing
 relatedlinks:
   - url: /housing-assistance/home-loans/trouble-making-payments/
     title: Trouble Making Payments?
