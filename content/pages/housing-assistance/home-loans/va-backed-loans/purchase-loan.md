@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Purchase and Cash Out Refinance Loans
 concurrence: 
-template: 
+template: 4-action-page
 relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/nadl/
     title: Native American Direct Loan (NADL) Program
