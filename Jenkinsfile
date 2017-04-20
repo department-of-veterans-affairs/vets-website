@@ -161,9 +161,9 @@ node('vets-website-linting') {
       throw new hudson.AbortException("content branches fail intentionally")
     }
 
-    if (!isDeployable()) {
-      return
-    }
+//    if (!isDeployable()) {
+//      return
+//    }
 
     archiveArtifacts artifacts: 'build/**/*', fingerprint: true
   }
