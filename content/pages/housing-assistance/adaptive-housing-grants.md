@@ -31,6 +31,8 @@ You may be able to get an SAH grant if you’re using the grant money to buy, bu
 
 For FY 2017, you may be able to get up to 3 grants—for a total of up to $77,307—through the SAH grant program. 
 
+<br>
+
 ### Can I get a Special Housing Adaptation (SHA) grant—and how much funding does this grant offer?
 
 You may be able to get a SHA grant if you’re using the grant money to buy, build, or change your permanent home (a home you plan to live in for a long time) if: 
@@ -43,6 +45,8 @@ You may be able to get a SHA grant if you’re using the grant money to buy, bui
  - Certain respiratory or breathing injuries
 
 For FY 2017, you may be able to get up to 3 grants—for a total of up to $15,462—through the SHA grant program. 
+
+<br>
 
 ### What if I need money to make changes to a family member’s home that I’m living in temporarily or for a short period of time? 
 
@@ -73,8 +77,8 @@ Mail it to your nearest regional loan center. [Find a regional loan center near 
 
 If you have trouble accessing the form, call us toll-free at <a href="tel:+1-855-574-7286">800-827-1000</a>. to have a claim form mailed to you.
 
-#### Apply in person
+#### Or, apply in person
 
 Fill out VA Form 26-4555 and bring it to your nearest VA regional office. To find a regional office near you:
--	[Use our online locator tool](* https://www.va.gov/directory/guide/home.asp), **or**
+-	[Use our online locator tool](https://www.va.gov/directory/guide/home.asp), **or**
 -	Call us at <a href="tel:+1-855-574-7286">800-827-1000</a>.
