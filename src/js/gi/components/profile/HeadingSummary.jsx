@@ -4,9 +4,34 @@ import _ from 'lodash';
 import AlertBox from '../../../common/components/AlertBox';
 import { formatNumber } from '../../utils/helpers';
 
+const AdditionalResources = () => (
+  <div className="additional-resources medium-4 small-12 column">
+    <h4 className="highlight">Additional Resources</h4>
+    <p>
+      <a href="http://www.benefits.va.gov/gibill/careerscope.asp" target="_blank">
+        Explore your career
+      </a>
+    </p>
+    <p>
+      <a href="http://www.benefits.va.gov/gibill/choosing_a_school.asp" target="_blank">
+        Choose a school
+      </a>
+    </p>
+    <p>
+      <a href="/education/apply" target="_blank">
+        Apply for education benefits
+      </a>
+    </p>
+  </div>
+);
+
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
-  return <span><i className={`fa fa-${icon}`}/>&nbsp;{children}</span>;
+  return (
+    <p className="icon-with-info">
+      <i className={`fa fa-${icon}`}/>&nbsp;{children}
+    </p>
+  );
 };
 
 class HeadingSummary extends React.Component {
@@ -27,7 +52,7 @@ class HeadingSummary extends React.Component {
 
     return (
       <div className="heading row">
-        <div className="small-12 column">
+        <div className="medium-8 small-12 column">
           <h1>{it.name}</h1>
           <div className="caution-flag">
             <AlertBox
@@ -35,52 +60,43 @@ class HeadingSummary extends React.Component {
                 isVisible={!!it.cautionFlag}
                 status="warning"/>
           </div>
-          <p style={{ marginBottom: '1.5em' }}>
-            <strong>{formatNumber(it.studentCount)}</strong> GI Bill students
-            (<a onClick={this.props.onLearnMore}>Learn more</a>)
-          </p>
-          <div className="small-12 usa-width-one-third medium-4column">
+          <div className="column">
             <p>
+              <strong>{formatNumber(it.studentCount)}</strong> GI Bill students
+              (<a onClick={this.props.onLearnMore}>Learn more</a>)
+            </p>
+          </div>
+          <div>
+            <div className="small-12 medium-6 column">
               <IconWithInfo icon="map-marker" present={it.city && it.country}>
                 {it.city}, {it.state || it.country}
               </IconWithInfo>
-            </p>
-            <p style={{ display: 'block' }}>
               <IconWithInfo icon="globe" present={it.website}>
                 <a href={it.website} target="_blank">{it.website}</a>
               </IconWithInfo>
-            </p>
-            <p>
               <IconWithInfo icon="calendar-o" present={it.type !== 'ojt' && it.highestDegree}>
                 {_.isFinite(it.highestDegree) ? `${it.highestDegree} year` : it.highestDegree} program
               </IconWithInfo>
-            </p>
-          </div>
-          <div className="small-12 usa-width-one-third medium-4column">
-            <p>
+            </div>
+
+            <div className="usa-width-one-half column">
               <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
                 On-the-job training
               </IconWithInfo>
-            </p>
-            <p>
               <IconWithInfo icon="institution" present={it.type && it.type !== 'ojt'}>
                 {_.capitalize(it.type)}&nbsp;
                 {it.type === 'for profit' ? 'school' : 'institution'}
               </IconWithInfo>
-            </p>
-            <p>
               <IconWithInfo icon="map" present={it.localeType && it.type && it.type !== 'ojt'}>
                 {_.capitalize(it.localeType)} locale
               </IconWithInfo>
-            </p>
-            <p>
               <IconWithInfo icon="group" present={it.type && it.type !== 'ojt'}>
                 {schoolSize(it.undergradEnrollment)} size
               </IconWithInfo>
-            </p>
+            </div>
           </div>
-          <div className="small-12 usa-width-one-third medium-4column"></div>
         </div>
+        <AdditionalResources/>
       </div>
     );
   }

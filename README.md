@@ -14,7 +14,7 @@ very secret.
 
 | I want to... | Then you should... |
 | ------------ | ------------------ |
-| clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, `npm install`. Run `npm install` anytime `package.json` changes. |
+| clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
 | deploy the site | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Jenkins will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
@@ -27,15 +27,15 @@ very secret.
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0`. Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
-| run only e2e tests | `npm run test:e2e` | 
+| run only e2e tests | `npm run test:e2e` |
 | run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
 | run all linters | `npm run lint` |
 | run only javascript linter | `npm run lint:js` |
 | run only sass linter | `npm run lint:sass` |
 | run automated accessibility tests | `npm run build && npm run test:accessibility` |
 | test for broken links | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
-| add new npm modules | `npm install -D my-module` followed by `npm shrinkwrap --dev`. There are no non-dev modules here. |
-| get the latest json schema | Update vets-json-schema in package.json with the latest commit hash, then run `npm update vets-json-schema && npm shrinkwrap --dev` |
+| add new npm modules | `yarn add my-module --dev`. There are no non-dev modules here. |
+| get the latest json schema | `yarn remove vets-json-schema; yarn add https://github.com/department-of-veterans-affairs/vets-json-schema.git#{latest commit hash}` |
 | check test coverage | `npm run test:coverage` |
 
 ## Directory structure
@@ -65,7 +65,7 @@ accidentally modify copies of upstream.
 
 ### Requirements
 
-The requirements for running this application are Node.js 4.4.7 and npm 3.8.9.
+The requirements for running this application are Node.js 4.4.7, npm 3.8.9, and yarn 0.21.3
 
 Node.js's version is managed using nvm. Please follow the installation instructions on `nvm`
 to ensure you are using the same version of node as others.
@@ -79,16 +79,22 @@ Once you have nvm installed you should now install node.js version 4.4.7 by runn
 nvm install
 ```
 
-Once you have node.js version 4.4.4 installed install npm version 3.8.9 by running:
+Once you have node.js version 4.4.7 installed install npm version 3.8.9 by running:
 
 ```bash
 npm i -g npm@3.8.9
+```
+
+And Yarn by running:
+```bash
+npm i -g yarn@0.21.3
 ```
 ### Verify your local requirements are set
 
 ```bash
 node --version // 4.4.7
 npm --version  // 3.8.9
+yarn --version // 0.21.3
 ```
 
 
