@@ -110,8 +110,26 @@
       margin: 0 0 1.5em 0;
     }
 
-    .table .number {
-      text-align: left;
+    .table {
+      table {
+        margin: 1em 0;
+      }
+
+      th:first-child {
+        width: 60%;
+      }
+
+      tr:last-child {
+        th, td {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    .complaints-by-type {
+      th:first-child span {
+        font-weight: normal;
+      }
     }
 
     .list {
