@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Interest Rate Reduction Refinance Loan (IRRRL)
 concurrence: 
-template: 4-action-page
+template: 1-topic-landing
 relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
     title: Cash-Out Refinance
