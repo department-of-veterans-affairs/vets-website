@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Purchase and Cash Out Refinance Loans
+title: Purchase Loan
 concurrence: 
 template: 1-topic-landing
 relatedlinks:
@@ -146,3 +146,7 @@ If you need more help:
 [Check out the Consumer Financial Protection Bureau’s home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf).
 
 [Learn more about VA-backed home loans](http://www.benefits.va.gov/home-loans/).
+
+[Watch a video about VA home loans and how to apply](https://www.youtube.com/watch?v=h3gR_BmMP7A).
+
+[Watch a video about the cost of home ownership](https://www.youtube.com/watch?v=vYr5QVwL1Ow). 
