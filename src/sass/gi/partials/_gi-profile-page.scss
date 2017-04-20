@@ -19,6 +19,16 @@
     }
   }
 
+  .additional-resources {
+    @include media-maxwidth($medium-large-screen) {
+      margin: 1rem 0;
+    }
+  }
+
+  .icon-with-info {
+    margin-top: 0;
+  }
+
   li button.usa-accordion-button {
     text-align: left;
 
