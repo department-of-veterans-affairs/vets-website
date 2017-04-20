@@ -56,6 +56,10 @@
       &.bold {
         font-weight: bold;
       }
+
+      h5 {
+        padding: 0;
+      }
     }
   }
 
@@ -78,8 +82,10 @@
     }
   }
 
-  .out-of-pocket-tuition {
-    margin-bottom: 1rem;
+  .total-paid-to-you {
+    .calculator-result {
+      margin-top: 1.6rem;
+    }
   }
 
   .per-term-section {
