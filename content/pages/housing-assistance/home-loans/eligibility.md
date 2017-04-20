@@ -30,6 +30,8 @@ To get a VA home loan, you’ll need a Certificate of Eligibility (COE) to show 
 
 You may be able to get a COE if you were discharged under conditions other than dishonorable **and** you meet the service requirements below.
 
+<br>
+
 #### Service requirements for Veterans and Servicemembers on active duty:
 | When did you serve? | You meet the minimum active-duty service requirement if you served for: | 
 | --- | --- | 
