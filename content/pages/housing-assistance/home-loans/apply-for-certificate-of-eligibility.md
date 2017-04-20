@@ -20,11 +20,65 @@ The first step in getting a VA-backed home loan is to apply for a Certificate of
 
 ### Get your Certificate of Eligibility (COE)
 
-[WILL INSERT SUBWAY MAP WITH TABLE HERE TOMORROW WITH KATE]
+<ol class="process">
+<li class="step one">
+
+Gather the information you’ll need to apply for your Certificate of Eligibility.
+
+| If you’re a: | You’ll need: | 
+| --- | --- | 
+| Veteran | Your DD214 |
+| Active-duty Servicemember | A statement of service—signed by your commander, adjutant, or personnel officer—showing the following information:
+-	Your full name
+-	Your Social Security number
+-	Your date of birth
+-	The date you entered duty
+-	The duration of any lost time
+The name of the command providing the information |
+| Current or former **activated** National Guard or Reserve member | Your DD214 |
+| Current member of the National Guard or Reserves, **and** have never been activated | A statement of service—signed by your commander, adjutant, or personnel officer—showing this information:
+-	Your full name
+-	Your Social Security number
+-	Your date of birth
+-	The date you entered duty
+-	Your total number of creditable years of service
+-	The duration of any lost time
+The name of the command providing the information |
+| Discharged member of the National Guard, **and** were never activated | Your NGB Form 22, Report of Separation and Record of Service, for each period of National Guard service, **or**
+Your NGB Form 23, Retirement Points Account, **and** proof of the character of service |
+| Discharged member of the Reserves **and** were never activated | A copy of your latest annual retirement points, **and**
+Proof of your honorable service |
+| Surviving spouse of a Veteran who died on active duty or who had a service-connected disability | The Veteran’s discharge documents (DD214), **and**
+**If you’re receiving Dependency &amp; Indemnity Compensation (DIC),** you’ll also need to fill out and send VA Form 26-1817 (Request for Determination of Loan Guaranty Eligibility—Unmarried Surviving Spouses). [Download Form 26-1817](http://www.vba.va.gov/pubs/forms/VBA-26-1817-ARE.pdf).
+**If you’re not receiving DIC benefits,** you’ll need to fill out and send VA Form 21-534 (Application for Dependency and Indemnity Compensation, Death Pension and Accrued Benefits by a Surviving Spouse or Child), **and**
+-	A copy of your marriage license, **and**
+-	The Veteran's death certificate
+[Download Form 21-534](http://www.vba.va.gov/pubs/forms/VBA-21-534-ARE.pdf). |
 
 [Get your military service records online](http://www.archives.gov/veterans/military-service-records/).
 
-[BELOW SUBWAY MAP]
+</li>
+
+<li class="step last two">
+
+Apply
+
+You can apply in 1 of 3 ways:
+**Online through eBenefits:** We recommend applying for your COE online. [Apply through eBenefits](http://www.ebenefits.va.gov/).
+
+**Through our Web LGY system:** In some cases, you can get your COE through your lender using our Web LGY system. Ask your lender about this option.
+
+**Or, by mail:** To apply by mail, fill out VA Form 26-1880 and mail it to the address below. Please keep in mind that this may take longer than applying online or through our Web LGY system. [Download Form 26-1880](http://www.vba.va.gov/pubs/forms/vba-26-1880-are.pdf).
+
+<dl class="va-address-block">
+<dd>VA Loan Eligibility Center</dd>
+<dd>Attn: COE (262)</dd>
+<dd>PO Box 100034</dd>
+<dd>Decatur, GA 30031</dd>
+</dl>
+
+</li>
+</ol>
 
 ### Next steps for getting a VA-backed home loan
 
