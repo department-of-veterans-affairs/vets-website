@@ -6,7 +6,7 @@ import applicantServicePage from '../../pages/applicantService';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createSchoolSelectionPage from '../../pages/schoolSelection';
 import contactInformationPage from '../../pages/contactInformation';
-import directDeposit from '../../pages/directDeposit';
+import createDirectDepositChangePage from '../../pages/directDepositChange';
 
 import * as fullName from '../../../common/schemaform/definitions/fullName';
 
@@ -76,7 +76,7 @@ const formConfig = {
           title: 'Benefit selection',
           uiSchema: {
             benefit: {
-              'ui:title': 'Select the benefit that is the best match for you:',
+              'ui:title': 'Which benefit are you currently using?',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: survivorBenefitsLabels
@@ -138,7 +138,7 @@ const formConfig = {
       title: 'Personal Information',
       pages: {
         contactInformation: contactInformationPage('relativeAddress'),
-        directDeposit
+        directDeposit: createDirectDepositChangePage(fullSchema5495)
       }
     }
   }
