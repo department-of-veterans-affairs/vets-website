@@ -2,48 +2,51 @@
 layout: page-breadcrumbs.html
 title: National Testing Program
 template: 4-action-page-pending
+plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 concurrence: complete
 ---
 
 <div class="va-introtext">
-
-If you are pursuing higher education that requires testing as part of the application process, you may be eligible for reimbursement from VA.
+If you had to take a test when you applied to a college or for a training course, we may pay you back for the cost of the test. Find out if you qualify for this benefit.
 </div>
 
 
 <div class="feature" markdown="1">
 
-### Are you eligible for compensation?
-Yes, if:
+### Can I get paid back for testing fees?
 
-You are a Veteran eligible for the GI Bill
+We'll pay you back for the cost of exam and testing fees if you're a Veteran or Servicemember and you qualify for the GI Bill. 
 
-### Who is covered
-You
+### Who's covered?
+
+- Veterans
+- Servicemembers
 </div>
 
-### Available benefits
+### What kind of benefits can I get? 
 
-Reimbursement for testing fees, including:
+Payment for testing fees, including:
 
-- Registration fees
-- Fees for specialized tests
+- The cost to register
+- The cost of specialized tests
 - Administrative fees
 
 -----
 
-### How it works
-- Proof of payment may be required.
-- Learn how [your GI Bill benefit package will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for testing expenses.
-- VA can reimburse you only for mandatory test fees.
+### How do I get this benefit?
 
-#### VA will not reimburse you for the following fees:
+We'll charge your GI Bill benefit package for testing expenses. [Learn about how we charge your GI Bill benefit package](https://gibill.custhelp.com/app/answers/detail/a_id/29).
 
-- Fees associated with pretests (such as Kaplan tests)
-- Fees to receive scores quickly
+- You may need to provide your proof of payment.
+- We'll pay you back only for mandatory test fees.
+
+#### We won't pay you back for:
+
+- Pretest costs (such as Kaplan tests)
+- Fees to get scores quickly
 - Optional items not required to take an approved test
 
-#### VA has approved the following tests for reimbursement:
+#### We have approved and will pay you back for these tests:
 
 - SAT (formerly "Scholastic Assessment Test")
 - LSAT (Law School Admission Test)
@@ -62,4 +65,4 @@ Reimbursement for testing fees, including:
 - ECE (Excelsior College Examinations)
 - PLA (Prior Learning Assessment) testing through learningcounts.org
 
-See the [complete list of tests and fees](http://inquiry.vba.va.gov/weamspub/buildSearchNE.do).
+[See the complete list of tests and fees](http://inquiry.vba.va.gov/weamspub/buildSearchNE.do).

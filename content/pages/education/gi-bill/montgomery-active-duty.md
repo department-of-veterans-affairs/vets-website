@@ -2,88 +2,95 @@
 layout: page-breadcrumbs.html
 title: Montgomery GI Bill Active Duty (MGIB-AD)
 template: 4-action-page-pending
+plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
 <div class="va-introtext">
 
-If you served at least two years on active duty, you may be eligible for the MGIB-AD program.
+If you served at least 2 years on active duty, you may qualify for the Montgomery GI Bill Active Duty (MGIB-AD) program. Find out if you qualify.
 
 </div>
 
 
 <div class="feature" markdown="1">
 
-### Are you eligible for education benefits?
+### Can I get education benefits?
 
-Yes, if:
+You can get education benefits if you were honorably discharged and:
 
--	You were honorably discharged.
--	You have a high school diploma, GED, or 12 hours of college credit.
--	You meet the requirements of one of the categories below:
+-	You have a high school diploma, GED, or 12 hours of college credit, **and**
+-	You meet the requirements of 1 of these categories:
 
 **CATEGORY I**
 
-- You entered active duty for the first time after June 30, 1985.
-- You had military pay reduced by $100 a month for the first 12 months of service.
-- You continuously served for three years, or two years if that was your enlistment agreement. Or if you entered the Selected Reserve within a year of leaving active duty, you continuously served for four years (the 2 by 4 program).
+- You entered active duty for the first time after June 30, 1985, **and**
+- You had military pay reduced by $100 a month for the first 12 months of service, **and**
+- You served for 3 years continuously (no breaks in service), or for 2 years if that was your agreement when you enlisted. Or, if you entered the Selected Reserve within a year of leaving active duty, you served continuously for 4 years (the 2 by 4 program)
 
 **CATEGORY II**
 
-- You entered active duty before January 1, 1977.
-- You served at least one day between October 19, 1984, and June 30, 1985, and you stayed on active duty through June 30, 1988 (or through June 30, 1987, if you entered the Selected Reserve within one year of leaving active duty and served four years).
-- On December 31, 1989, you had entitlement left from the Vietnam Era GI Bill.
+- You entered active duty before January 1, 1977, **and**
+- You served at least 1 day between October 19, 1984, and June 30, 1985, and you stayed on active duty through June 30, 1988 (or through June 30, 1987, if you entered the Selected Reserve within 1 year of leaving active duty and served 4 years), **and**
+- On December 31, 1989, you had Vietnam Era GI Bill benefits left
 
 **CATEGORY III**
 
-- You are not eligible for MGIB under categories I or II.
-- You were on active duty on September 30, 1990, and you separated involuntarily after February 2, 1991.
-- Or you involuntarily separated on or after November 30, 1993.
-- Or you voluntarily separated under either the Voluntary Separation Incentive (VSI) program or the Special Separation Benefit (SSB) program.
-- Before separation, you had military pay reduced by $1,200.
+Both of these are true: 
+
+- You don't qualify for MGIB under categories I or II, **and**
+- Before separation, you had military pay reduced by $1,200
+
+And 1 of these is true:
+
+- You were on active duty on September 30, 1990, and you separated involuntarily (not by your choice) after February 2, 1991, **or**
+- You involuntarily separated on or after November 30, 1993, **or**
+- You voluntarily separated under either the Voluntary Separation Incentive (VSI) program or the Special Separation Benefit (SSB) program
 
 **CATEGORY IV**
 
-- You were on active duty on October 9, 1996, had money remaining in a VEAP account on that date, and elected MGIB before October 9, 1997.
-- Or you entered full-time National Guard duty under title 32, USC, between July 1, 1985, and November 28, 1989, and you elected MGIB between October 9, 1996, and July 9, 1997.
-- You had military pay reduced by $100 a month for 12 months or made a $1,200 lump-sum contribution.
+You had military pay reduced by $100 a month for 12 months or made a $1,200 lump-sum contribution (meaning you paid it all at once) and:
 
-### Who is covered
+- You were on active duty on October 9, 1996, had money left in a VEAP account on that date, and chose MGIB before October 9, 1997, **or**
+- You entered full-time National Guard duty under title 32, USC, between July 1, 1985, and November 28, 1989, and you chose MGIB between October 9, 1996, and July 9, 1997
 
-You
+### Who's covered?
+
+Veterans
 </div>
 
-### Available benefits
+### What benefits can I get?
 
-School tuition or training fees
+Money for tuition or training
 
 -----
 
-### How it works
-You may receive benefits for up to eight semesters (four years) of traditional academic education. The benefits, paid monthly, depend upon the following factors:
+### How do I get these benefits?
+You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
 
-- length of service
-- type of training
-- your category (as defined below)
-- college-fund eligibility
-- your contribution to the $600 Buy-Up program
+You may get benefits for up to 8 semesters (4 years) of traditional academic education. We pay the benefits monthly and the amount depends on the following factors:
 
-#### Several related funding or training programs fall under the MGIB-AD umbrella:
+- Length of service
+- Type of training
+- Your category (as defined below)
+- Whether you qualify for a college fund
+- How much you have paid into the $600 Buy-Up program
 
-- [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can contribute a maximum of $600 to receive increased monthly benefits. With this maximum contribution, you are eligible for up to an additional $5,400 in GI Bill benefits.
+#### Related funding or training programs that fall under MGIB-AD
 
-- [College degree and certificate programs](/education/gi-bill/higher-learning/)
+- [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
+- [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
 - [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
 - [Flight training](/education/advanced-training-and-certifications/flight-training/)
-- [Apprenticeships or on-the-job training](/education/work-learn/job-and-apprenticeship/)
-- [High-tech training](/education/work-learn/non-traditional/accelerated-payments/)
+- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
+- [High-tech programs](/education/work-learn/non-traditional/accelerated-payments/)
 - [Licensing and certification](/education/advanced-training-and-certifications/licensing-certification/)
 - [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
 - [National testing program](/education/advanced-training-and-certifications/national-testing-program/)
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 
-Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
+[Use the GI Bill Comparison Tool to compare benefits at schools](/gi-bill-comparison-tool/). <br>
+[Read the Montgomery GI Bill Active Duty pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf).
 
-“GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
+“GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase.” [Read our Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
 
-Read the [Montgomery GI Bill Active Duty](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf) pamphlet.

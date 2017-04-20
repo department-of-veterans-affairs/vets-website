@@ -1,34 +1,33 @@
 ---
 layout: page-breadcrumbs.html
 title: Entrepreneurship Training
+plainlanguage: 12-05-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
 <div class="va-introtext">
 
-If you qualify for any of the GI Bill or educational assistance programs, and you are interested in starting or improving a business, VA provides entrepreneurship training through its Center for Veterans Enterprise and the Small Business Administration.
-
-You do not have to use GI Bill funding to participate in this program.
+Want to start a business? We offer entrepreneurship training through the Small Business Administration. Find out how you can use your GI Bill benefits or our other educational assistance programs for training to become a business owner or entrepreneur. 
 
 </div>
 
 
 <div class="feature" markdown="1">
 
-### Are you eligible for this training?
+### Can I get entrepreneurship training to start my own business?
 
-Yes, if you are eligible for any of the following:
+You can get this training if you qualify for any of these programs:
 
-- Montgomery GI Bill, [Active Duty](/education/gi-bill/montgomery-active-duty) or [Selected Reserve](/education/gi-bill/montgomery-selected-reserve)
-- [Post-9/11 GI Bill](/education/gi-bill/post-9-11)
-- [VEAP](/education/other-educational-assistance-programs/veap)
+- [The Post-9/11 GI Bill](/education/gi-bill/post-9-11)
+- The Montgomery GI Bill, [Active Duty](/education/gi-bill/montgomery-active-duty) (MGIB-AD) or [Selected Reserve](/education/gi-bill/montgomery-selected-reserve) (MGIB-SR)
+- [The Veterans' Educational Assistance Program (VEAP)](/education/other-educational-assistance-programs/veap)
 
-**Note:** Dependents are not eligible for this training under DEA.
+**Note:** Dependents can't get this training under the Survivors’ and Dependents’ Educational Assistance (DEA) program.
 
 </div>
 
-### How it works
+### How do I get this training? 
 
-Contact your local [VA Small Business Liaison](http://www.va.gov/osdbu/about/contacts.asp).
+[Contact your local VA Small Business Liaison](http://www.va.gov/osdbu/about/contacts.asp).
 
-Consider attending a [conference or informational event](http://www.va.gov/osdbu/library/events.asp). Many times these events are staffed by VA Small Business Liaisons and other experts in entrepreneurship training.
+Go to a conference or event to talk directly to VA Small Business Liaisons and entrepreneurs. [Find a conference or event](http://www.va.gov/osdbu/library/events.asp).

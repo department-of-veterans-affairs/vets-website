@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: CareerScope
 template: 4-action-page-pending
+plainlanguage: 11-26-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
@@ -13,4 +14,4 @@ Besides getting career counseling, you can use CareerScope, a tool that measures
 
 CareerScope recommends careers you may enjoy and jobs in which you're likely to do well. The tool also recommends courses or training programs that can help you go after those careers.
 
-The Report Interpretation guide helps you understand your CareerScope results. [Use the guide](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf). 
+The Report Interpretation guide helps you understand your CareerScope results. [Use the guide](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf).

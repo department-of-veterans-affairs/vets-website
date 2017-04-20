@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Education Benefits
+plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 display_title: Education
 permalink: /education/index.html
 template: L2-section-landing
@@ -9,13 +10,13 @@ extraspace: true
 majorlinks:
  - url: /education/eligibility/
    title: Eligibility
-   description: Find out if you can get VA education benefits, like help paying your tuition, picking a school, and exploring career options.
+   description: Find out if you qualify for VA education benefits through the GI Bill program and other educational assistance programs.
  - url: /education/apply/
    title: Application Process
    description: Apply online now, or find out how to apply in person or by mail.
  - url: /gi-bill-comparison-tool/
    title: Compare GI Bill Benefits
-   description: Use the GI Bill Comparison tool to see what benefits you'll get at the school you want to attend.
+   description: Use the GI Bill Comparison Tool to see what benefits you'll get at the school you want to attend.
 relatedlinks:
  - url: /education/gi-bill/
    title: GI Bill&reg;
@@ -31,11 +32,11 @@ relatedlinks:
    description: Explore on-the-job training, online and correspondence study, and other programs.
  - url: /education/other-educational-assistance-programs/
    title: Other Educational Assistance Programs
-   description: Learn about REAP, VEAP, and Call to Service.
+   description: If you don't qualify for the Post-9/11 GI Bill, you can apply for education benefits through VEAP and Call to Service. REAP ended in 2015, but some benefits stay in place for a couple more years.
 ---
 
 <div class="va-introtext">
 
-VA gives Veterans, Servicemembers, and their families generous education benefits and opportunities, including help paying tuition, picking out a school, career counseling, and more.
+We offer Veterans, Servicemembers, and their families education benefits like help paying tuition, help finding the right school or training program, and career counseling. Explore your benefit options.   
 
 </div>

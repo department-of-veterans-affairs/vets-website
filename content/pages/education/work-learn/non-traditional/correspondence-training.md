@@ -2,37 +2,40 @@
 layout: page-breadcrumbs.html
 title: Correspondence Training
 template: 4-action-page-pending
+plainlanguage: 11-21-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
 <div class="va-introtext">
 
-If you would like to learn at home or are located in a remote area, correspondence training may be a good option for you. This type of training does not have to be completed within a quarter, semester, or term. You receive coursework assignments in the mail and send them back when completed.
+Correspondence training (coursework completed by mail) may be a good option for you if you want to take classes from home or if you live far from any schools. Find out how your VA education benefits may help pay for correspondence training.
 
 </div>
 
 
 <div class="feature" markdown="1">
 
-### Are you eligible for benefits?
-Yes, if:
+### Can I use education benefits for correspondence training?
 
-You meet the basic requirements for any GI Bill program.
+You can if you qualify for any GI Bill program.
 
-### Who is covered
-You and your dependents
+### Who's covered?
+- Veterans
+- Qualified dependents 
+
+**Exception:** Dependents using the Survivors’ and Dependents’ Educational Assistance program may not enroll in correspondence training.
 </div>
 
-### Available benefits
+### What benefits can I get? 
 
-Reimbursed expenses. (Read more below.)
+You can get paid back for the cost of your correspondence training classes. 
 
-### How it works
+### How do I get these benefits? 
 
-Participation requirements are the same for all GI Bill programs, though the payment amount varies depending on the specific GI Bill program you are using. If you are enrolled in correspondence training, VA determines your payment amount and pays it quarterly after receiving certification of lessons completed from the school.
+- You'll need to apply for benefits. [Apply for education benefits](/education/apply-for-education-benefits/). 
 
-For Post-9/11 GI Bill recipients, VA reimburses the actual costs of the school’s in-state tuition and fees, up to the maximum amount allowed by law. View the [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+- We base payment amounts on the specific GI Bill program you're using. If you're enrolled in correspondence training, we decide your payment amount and then pay it quarterly after your school lets us know that you've finished your course of study. 
 
-For all other GI Bill recipients, VA reimburses 55% of the approved costs.
+- If you're covered under the Post-9/11 GI Bill, we pay you back for the actual costs of the school’s in-state tuition and fees, up to the maximum amount allowed by law. For all other GI Bill recipients, we reimburse 55% of the approved costs. [View the current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
-**Exception:** This assistance is not available for children training under the Dependents’ Educational Assistance program.
+
