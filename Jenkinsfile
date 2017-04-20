@@ -46,124 +46,20 @@ node('vets-website-linting') {
     args = "-v ${pwd()}/build:/application/build -v ${pwd()}/logs:/application/logs -v ${pwd()}/coverage:/application/coverage"
   }
 
-  // Check package.json for known vulnerabilities
-
-  stage('Security') {
-    if (isContentTeamUpdate()) {
-      return
-    }
-
-    dockerImage.inside(args) {
-      sh "cd /application && nsp check"
-    }
-  }
-
-  // Check source for syntax issues
-
-  stage('Lint') {
-    if (isContentTeamUpdate()) {
-      return
-    }
-
-    dockerImage.inside(args) {
-      sh "cd /application && npm --no-color run lint"
-    }
-  }
-
-  stage('Unit') {
-    if (isContentTeamUpdate()) {
-      return
-    }
-
-    dockerImage.inside(args) {
-      sh "cd /application && npm --no-color run test:coverage"
-      sh "cd /application && CODECLIMATE_REPO_TOKEN=fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24 codeclimate-test-reporter < ./coverage/lcov.info"
-    }
-  }
-
-  stage('Review') {
-    if (!isReviewable()) {
-      return
-    }
-
-    build job: 'deploys/vets-review-instance-deploy', parameters: [
-      stringParam(name: 'devops_branch', value: 'master'),
-      stringParam(name: 'api_branch', value: 'master'),
-      stringParam(name: 'web_branch', value: env.BRANCH_NAME),
-      stringParam(name: 'source_repo', value: 'vets-website'),
-    ], wait: false
-  }
-
-  // Perform a build for each required build type
-
   stage('Build') {
-    def buildList = ['production']
-
-    if (isContentTeamUpdate()) {
-      buildList = ['development']
-    }
-
-    if (env.BRANCH_NAME == 'master') {
-      buildList << 'development'
-      buildList << 'staging'
-    }
-
-    def builds = [:]
-
-    for (int i=0; i<envNames.size(); i++) {
-      def envName = envNames.get(i)
-
-      if (buildList.contains(envName)) {
-        builds[envName] = {
-          dockerImage.inside(args) {
-            sh "cd /application && npm --no-color run build -- --buildtype=${envName}"
-            sh "cd /application && echo \"${buildDetails('buildtype': envName)}\" > build/${envName}/BUILD.txt" 
-          }
+    parallel(
+      "production": {
+        dockerImage.inside(args) {
+          sh "cd /application && npm --no-color run build -- --buildtype=production"
         }
-      } else {
-        builds[envName] = {
-          println "Build '${envName}' not required, skipped."
+      },
+
+      "development": {
+        dockerImage.inside(args) {
+          sh "cd /application && npm --no-color run build -- --buildtype=staging"
         }
       }
-    }
-
-    parallel builds
-  }
-
-  // Run E2E and accessibility tests
-
-  stage('Integration') {
-    if (isContentTeamUpdate()) {
-      return
-    }
-
-    try {
-      parallel (
-        e2e: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :99 & cd /application && DISPLAY=:99 npm --no-color run test:e2e"
-          }
-        },
-
-        accessibility: {
-          dockerImage.inside(args + " -e BUILDTYPE=production") {
-            sh "Xvfb :98 & cd /application && DISPLAY=:98 npm --no-color run test:accessibility"
-          }
-        }
-      )
-    } finally {
-      step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
-    }
-  }
-
-  stage('Deploy') {
-    if (isContentTeamUpdate()) {
-      throw new hudson.AbortException("content branches fail intentionally")
-    }
-
-//    if (!isDeployable()) {
-//      return
-//    }
+    )
 
     archiveArtifacts artifacts: 'build/**/*', fingerprint: true
   }
