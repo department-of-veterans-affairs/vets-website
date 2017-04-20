@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Native American Direct Loan (NADL)
 concurrence: 
-template: 
+template: 4-action-page
 relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
     title: Purchase Loan
