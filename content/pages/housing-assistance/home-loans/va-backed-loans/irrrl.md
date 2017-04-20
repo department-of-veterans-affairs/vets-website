@@ -5,7 +5,7 @@ concurrence:
 template: 1-topic-landing
 relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
-    title: Cash-Out Refinance
+    title: Cash-Out Refinance Loan
     description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Learn more about a Cash-Out Refinance loan.
   - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
     title: Purchase Loan
@@ -25,7 +25,7 @@ Refinancing lets you replace your current loan with a new one under different te
 
 ### Can I get an IRRRL?
 
-You may be able to get an IRRRL if you
+You may be able to get an IRRRL if you:
 
 -	Already have a VA-backed home loan, **and**
 -	Are using the IRRRL to refinance your existing VA-backed home loan, **and**
@@ -57,16 +57,11 @@ Closing costs for refinancing a loan can add up to thousands of dollars. Before 
 
 <li class="step two">
 
-**Give your lender any needed information.** If you have the Certificate of Eligibility (COE) you used to get your original VA-backed home loan, take it to your lender to show the prior use of your entitlement. 
+**Give your lender any needed information.** If you have the Certificate of Eligibility (COE) you used to get your original VA-backed home loan, take it to your lender to show the prior use of your entitlement. Or, if you don’t have your original COE, ask your lender to use our e-mail confirmation procedure instead. You won’t need to apply for a new COE.
 
 </li>
 
-<li class="step three">
-
-Or, if you don’t have your original COE, ask your lender to use our e-mail confirmation procedure instead. You won’t need to apply for a new COE.
-
-</li>
-<li class="step last four">
+<li class="step last three">
 
 **Follow your lender’s process for closing on the IRRRL loan, and pay your closing costs.** With an IRRRL, you can include these costs in the new loan so you don’t have to pay up front. Or, you may be able to make the new loan at an interest rate high enough so your lender (the private bank or mortgage company providing your loan) can pay the costs.
 
