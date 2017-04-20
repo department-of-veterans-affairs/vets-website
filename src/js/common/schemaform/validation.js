@@ -98,7 +98,7 @@ export function transformErrors(errors, uiSchema) {
  * should call addError to add the error.
  */
 
-export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext, path = '') {
+export function uiSchemaValidate(errors, uiSchema, schema, pageData, formData, formContext, path = '') {
   if (uiSchema && schema) {
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
@@ -113,7 +113,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, schema.items, formData, formContext, newPath);
+        uiSchemaValidate(errors, uiSchema.items, schema.items, pageData, formData, formContext, newPath);
       });
     } else if (!uiSchema.items) {
       Object.keys(uiSchema)
@@ -132,7 +132,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext
               }
             };
           }
-          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, formContext, nextPath);
+          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], pageData, formData, formContext, nextPath);
         });
     }
 
@@ -141,9 +141,9 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext
       validations.forEach(validation => {
         const pathErrors = path ? _.get(path, errors) : errors;
         if (typeof validation === 'function') {
-          validation(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages']);
+          validation(pathErrors, currentData, pageData, formData, schema, uiSchema['ui:errorMessages']);
         } else {
-          validation.validator(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], validation.options);
+          validation.validator(pathErrors, currentData, pageData, formData, schema, uiSchema['ui:errorMessages'], validation.options);
         }
       });
     }
@@ -165,6 +165,18 @@ export function isValidForm(form, pageListByChapters) {
   const validPages = Object.keys(pages)
     .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form));
 
+  // Flatten the data on all the page to use in uiSchemaValidate
+  // This is much less than ideal to do here...
+  const formData = Object.keys(pages).reduce((carry, pageName) => {
+    if (pages[pageName].data) {
+      Object.keys(pages[pageName].data).forEach((fieldKey) => {
+        carry[fieldKey] = pages[pageName].data[fieldKey]; // eslint-disable-line
+      });
+    }
+    return carry;
+  }, {});
+
+
   const v = new Validator();
 
   return form.privacyAgreementAccepted && validPages.every(page => {
@@ -177,7 +189,7 @@ export function isValidForm(form, pageListByChapters) {
 
     if (result.valid) {
       const errors = {};
-      uiSchemaValidate(errors, uiSchema, schema, data, {});
+      uiSchemaValidate(errors, uiSchema, schema, data, formData, {});
 
       return errorSchemaIsValid(errors);
     }

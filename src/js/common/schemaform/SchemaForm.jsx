@@ -92,17 +92,18 @@ class SchemaForm extends React.Component {
     return transformErrors(errors, this.props.uiSchema);
   }
 
-  validate(formData, errors) {
+  validate(pageData, formData, errors) {
     const { schema, uiSchema } = this.props;
     if (uiSchema) {
-      uiSchemaValidate(errors, uiSchema, schema, formData);
+      uiSchemaValidate(errors, uiSchema, schema, pageData, formData);
     }
     return errors;
   }
 
   render() {
     const {
-      data,
+      pageData,
+      formData,
       schema,
       uiSchema,
       reviewMode,
@@ -121,13 +122,13 @@ class SchemaForm extends React.Component {
             noHtml5Validate
             onError={this.onError}
             onBlur={this.onBlur}
-            onChange={({ formData }) => onChange(formData)}
+            onChange={({ newData }) => onChange(newData)}
             onSubmit={onSubmit}
             schema={schema}
             uiSchema={uiSchema}
-            validate={this.validate}
+            validate={(pData, errors) => this.validate(pData, formData, errors)}
             showErrorList={false}
-            formData={data}
+            formData={pageData}
             widgets={reviewMode ? reviewWidgets : widgets}
             fields={reviewMode ? reviewFields : fields}
             transformErrors={this.transformErrors}>
