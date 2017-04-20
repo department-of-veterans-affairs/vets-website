@@ -11,7 +11,7 @@ relatedlinks:
     title: Eligibility
     description: Find out if you can get a Certificate of Eligibility (COE) for a VA-backed home loan based on your service history and duty status.
   - url: /housing-assistance/home-loans/apply-for-certificate-of-eligibility/
-    title: Application Process
+    title: Apply for Your COE
     description: Find out how to apply for a COE—and what to do next to get a VA-backed home loan.
   - url: /housing-assistance/home-loans/trouble-making-payments/
     title: Trouble Making Payments?
