@@ -217,6 +217,15 @@ const formConfig = {
           }
         }
       }
+    },
+    militaryService: {
+      title: 'Military service',
+      pages: {
+        serviceInformation: {
+        },
+        additionalInformation: {
+        }
+      }
     }
   }
 };
