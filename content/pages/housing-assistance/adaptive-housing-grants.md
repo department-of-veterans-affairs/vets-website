@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Adaptive Housing Grants
 concurrence: 
-template: level2-index
+template: 1-topic-landing
 relatedlinks:
   - url: /housing-assistance/home-loans/
     title: Home Loans
