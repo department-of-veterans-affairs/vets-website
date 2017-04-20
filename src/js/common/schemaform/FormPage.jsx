@@ -85,7 +85,6 @@ class FormPage extends React.Component {
       schema,
       uiSchema
     } = form[route.pageConfig.pageKey];
-    console.log('FormPage -> render() -> data:', data); // eslint-disable-line no-console
 
     // Flatten the data from every page to pass to SchemaForm to eventually be
     //  used in uiSchemaValidate()

@@ -95,7 +95,6 @@ class SchemaForm extends React.Component {
   validate(pageData, formData, errors) {
     const { schema, uiSchema } = this.props;
     if (uiSchema) {
-      console.log('SchemaForm -> validate() -> pageData:', pageData); // eslint-disable-line no-console
       uiSchemaValidate(errors, uiSchema, schema, pageData, formData);
     }
     return errors;
@@ -113,7 +112,6 @@ class SchemaForm extends React.Component {
       onChange,
       safeRenderCompletion
     } = this.props;
-    console.log('SchemaForm -> render() -> pageData:', pageData); // eslint-disable-line no-console
 
     return (
       <div>
@@ -125,7 +123,7 @@ class SchemaForm extends React.Component {
             noHtml5Validate
             onError={this.onError}
             onBlur={this.onBlur}
-            onChange={({ newData }) => onChange(newData)}
+            onChange={({ formData: newData }) => onChange(newData)}
             onSubmit={onSubmit}
             schema={schema}
             uiSchema={uiSchema}
