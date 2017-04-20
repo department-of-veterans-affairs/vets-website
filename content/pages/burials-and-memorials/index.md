@@ -14,7 +14,7 @@ majorlinks:
    description: Find out if you—or a family member—can be buried in a national VA cemetery or get other burial honors.
  - url: /burials-and-memorials/survivor-and-dependent-benefits
    title: Survivor and Dependent Benefits
-   description: Find out what benefits you—or a family member—may get after the loss of a Veteran.
+   description: Find out if you can get help paying for funeral costs and if you qualify for tax-free monetary benefits.
  - url: /burials-and-memorials/burial-planning/flags-and-memorial-certificates/
    title: Burial Flags and Presidential Memorial Certificates
    description: Find out how to honor the military service of a deceased Veteran with a burial flag and Presidential Memorial Certificate.

@@ -5,10 +5,6 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../common/utils/helpers';
 
-import {
-  benefitsLabels
-} from '../../utils/helpers';
-
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -19,20 +15,9 @@ const scrollToTop = () => {
 };
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isExpanded: false };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
   componentDidMount() {
     focusElement('.edu-page-title');
     scrollToTop();
-  }
-
-  handleClick(e) {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
   }
 
   render() {
@@ -40,8 +25,7 @@ class ConfirmationPage extends React.Component {
     const response = this.props.form.submission.response
       ? this.props.form.submission.response.attributes
       : {};
-    const name = form.applicantInformation.data.relativeFullName;
-    const benefit = form.benefitEligibility.data.benefit;
+    const name = form.applicantInformation.data.veteranFullName;
 
     return (
       <div className="edu-benefits-submit-success">
@@ -52,14 +36,10 @@ class ConfirmationPage extends React.Component {
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
-          <h4>Education Benefit Claim <span className="additional">(Form 22-1990e)</span></h4>
+          <h4>Education Benefit Claim <span className="additional">(Form 22-1990n)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           <ul className="claim-list">
-            <li>
-              <strong>Selected benefit</strong><br/>
-              {benefitsLabels[benefit]}
-            </li>
             <li>
               <strong>Confirmation number</strong><br/>
               <span>{response.confirmationNumber}</span>

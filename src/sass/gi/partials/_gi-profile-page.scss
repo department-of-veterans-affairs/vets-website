@@ -19,6 +19,16 @@
     }
   }
 
+  .additional-resources {
+    @include media-maxwidth($medium-large-screen) {
+      display: none;
+    }
+  }
+
+  .icon-with-info {
+    margin-top: 0;
+  }
+
   li button.usa-accordion-button {
     text-align: left;
 
@@ -56,6 +66,10 @@
       &.bold {
         font-weight: bold;
       }
+
+      h5 {
+        padding: 0;
+      }
     }
   }
 
@@ -78,8 +92,10 @@
     }
   }
 
-  .out-of-pocket-tuition {
-    margin-bottom: 1rem;
+  .total-paid-to-you {
+    .calculator-result {
+      margin-top: 1.6rem;
+    }
   }
 
   .per-term-section {
@@ -110,8 +126,26 @@
       margin: 0 0 1.5em 0;
     }
 
-    .table .number {
-      text-align: left;
+    .table {
+      table {
+        margin: 1em 0;
+      }
+
+      th:first-child {
+        width: 60%;
+      }
+
+      tr:last-child {
+        th, td {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    .complaints-by-type {
+      th:first-child span {
+        font-weight: normal;
+      }
     }
 
     .list {
