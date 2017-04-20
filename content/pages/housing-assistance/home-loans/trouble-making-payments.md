@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
-title: Trouble Making Payments
+title: Trouble Making Payments?
 concurrence: 
-template: level2-index
+template: 1-topic-landing
 relatedlinks:
   - url: /housing-assistance/home-loans/eligibility/
     title: Eligibility
@@ -11,6 +11,7 @@ relatedlinks:
     title: Application Process
     description: Find out how to apply for a COE—and what to do next to get a VA-backed home loan.
 ---
+
 <div class="va-introtext">
 
 If you fall far behind on your mortgage payments, your mortgage servicer (the company that handles collecting the money for your lender) can take your house to cover the money owed. This process is called foreclosure.  Find out how we can help guide you through your options to help you keep your house.
