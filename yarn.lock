@@ -1173,11 +1173,9 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
-bourbon-neat@^1.7.3:
+"bourbon-neat@https://github.com/thoughtbot/neat/archive/neat-1.8.0-node-sass.tar.gz":
   version "1.8.0"
-  resolved "https://registry.yarnpkg.com/bourbon-neat/-/bourbon-neat-1.8.0.tgz#2ffd6dbfee45db5140f2fff280163302c73e7335"
-  dependencies:
-    node-sass "^3.4"
+  resolved "https://github.com/thoughtbot/neat/archive/neat-1.8.0-node-sass.tar.gz#cac50f0721b9caa6d184e05133c7c75283ff4446"
 
 bourbon@^4.2.6:
   version "4.2.7"
@@ -1490,14 +1488,6 @@ cli-cursor@^1.0.1:
 cli-width@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.1.0.tgz#b234ca209b29ef66fc518d9b98d5847b00edf00a"
-
-clipboard@^1.5.5:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-1.6.1.tgz#65c5b654812466b0faab82dc6ba0f1d2f8e4be53"
-  dependencies:
-    good-listener "^1.2.0"
-    select "^1.1.2"
-    tiny-emitter "^1.0.0"
 
 cliui@^2.1.0:
   version "2.1.0"
@@ -2180,10 +2170,6 @@ del@^2.0.2:
 delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
-
-delegate@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/delegate/-/delegate-3.1.2.tgz#1e1bc6f5cadda6cb6cbf7e6d05d0bcdd5712aebe"
 
 delegates@^1.0.0:
   version "1.0.0"
@@ -3413,12 +3399,6 @@ gonzales-pe@3.4.7:
   dependencies:
     minimist "1.1.x"
 
-good-listener@^1.2.0:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/good-listener/-/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50"
-  dependencies:
-    delegate "^3.1.2"
-
 got@^5.0.0:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/got/-/got-5.7.1.tgz#5f81635a61e4a6589f180569ea4e381680a51f35"
@@ -4240,14 +4220,6 @@ jpegtran-bin@^3.0.0:
     bin-wrapper "^3.0.0"
     logalot "^2.0.0"
 
-jquery@^2.2.0:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.2.4.tgz#2c89d6889b5eac522a7eea32c14521559c6cbf02"
-
-jquery@^3.0.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
-
 js-base64@^2.1.9:
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.1.9.tgz#f0e80ae039a4bd654b5f281fc93f04a914a7fcce"
@@ -4683,6 +4655,10 @@ lodash.create@3.1.1, lodash.create@^3.1.1:
     lodash._baseassign "^3.0.0"
     lodash._basecreate "^3.0.0"
     lodash._isiterateecall "^3.0.0"
+
+lodash.debounce@^4.0.7:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
 
 lodash.deburr@^3.0.0:
   version "3.2.0"
@@ -5604,7 +5580,7 @@ node-pre-gyp@^0.6.29, node-pre-gyp@~0.6.32:
     tar "^2.2.1"
     tar-pack "^3.4.0"
 
-node-sass@^3.10.1, node-sass@^3.4:
+node-sass@^3.10.1:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-3.13.1.tgz#7240fbbff2396304b4223527ed3020589c004fc2"
   dependencies:
@@ -6033,12 +6009,6 @@ pngquant-bin@^3.0.0:
     bin-wrapper "^3.0.0"
     logalot "^2.0.0"
 
-politespace@^0.1.4:
-  version "0.1.20"
-  resolved "https://registry.yarnpkg.com/politespace/-/politespace-0.1.20.tgz#4885d143225ec2acb556c345721a9c7228e8af50"
-  dependencies:
-    jquery "^3.0.0"
-
 polyfill-function-prototype-bind@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/polyfill-function-prototype-bind/-/polyfill-function-prototype-bind-0.0.1.tgz#5067da58b3072cae261dd4184d151fda4cdd78e0"
@@ -6307,12 +6277,6 @@ pretty-bytes@^1.0.2:
     get-stdin "^4.0.1"
     meow "^3.1.0"
 
-prismjs@^1.5.1:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.6.0.tgz#118d95fb7a66dba2272e343b345f5236659db365"
-  optionalDependencies:
-    clipboard "^1.5.5"
-
 private@^0.1.6, private@~0.1.5:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.7.tgz#68ce5e8a1ef0a23bb570cc28537b5332aba63ef1"
@@ -6579,9 +6543,9 @@ react-router@^2.0.0:
     loose-envify "^1.2.0"
     warning "^3.0.0"
 
-react-scroll@^1.2.0:
-  version "1.4.8"
-  resolved "https://registry.yarnpkg.com/react-scroll/-/react-scroll-1.4.8.tgz#e441ecad47f319011ef7b973b5629876bfce5327"
+react-scroll@1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/react-scroll/-/react-scroll-1.4.5.tgz#33b2b3f6d7abb9615d2bf4d1959ebc777bb3e789"
   dependencies:
     object-assign "^4.0.1"
 
@@ -7068,10 +7032,6 @@ seek-bzip@^1.0.3:
   resolved "https://registry.yarnpkg.com/seek-bzip/-/seek-bzip-1.0.5.tgz#cfe917cb3d274bcffac792758af53173eb1fabdc"
   dependencies:
     commander "~2.8.1"
-
-select@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
 
 selenium-server@^3.0.1:
   version "3.3.1"
@@ -7783,10 +7743,6 @@ timers-browserify@^2.0.2:
   dependencies:
     setimmediate "^1.0.4"
 
-tiny-emitter@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-1.1.0.tgz#ab405a21ffed814a76c19739648093d70654fecb"
-
 tiny-lr@^0.1.5:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/tiny-lr/-/tiny-lr-0.1.7.tgz#be024d09f1ebb22e2749834c60ea17b385234175"
@@ -8045,17 +8001,16 @@ user-home@^2.0.0:
   dependencies:
     os-homedir "^1.0.0"
 
-uswds@0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/uswds/-/uswds-0.10.0.tgz#32258519eb8c05456d0e772844144ee5a950ebc8"
+uswds@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/uswds/-/uswds-1.0.0.tgz#ef881ae87b1de745a650aecf11fff87106920f52"
   dependencies:
     bourbon "^4.2.6"
-    bourbon-neat "^1.7.3"
+    bourbon-neat "https://github.com/thoughtbot/neat/archive/neat-1.8.0-node-sass.tar.gz"
+    classlist-polyfill "^1.0.3"
     cross-spawn "^2.1.5"
-    jquery "^2.2.0"
+    lodash.debounce "^4.0.7"
     normalize.css "^3.0.3"
-    politespace "^0.1.4"
-    prismjs "^1.5.1"
 
 util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
