@@ -165,32 +165,6 @@ node('vets-website-linting') {
       return
     }
 
-    def targets = [
-      'master': [
-        [ 'build': 'development', 'bucket': 'dev.vets.gov' ],
-        [ 'build': 'staging', 'bucket': 'staging.vets.gov' ],
-      ],
-
-      'production': [
-        [ 'build': 'production', 'bucket': 'www.vets.gov' ]
-      ],
-    ][env.BRANCH_NAME]
-
-    def builds = [:]
-
-    for (int i=0; i<targets.size(); i++) {
-      def target = targets.get(i)
-
-      builds[target['bucket']] = {
-        dockerImage.inside(args) {
-          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vets-website-s3',
-                              usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-          sh "s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 /application/build/${target['build']} s3://${target['bucket']}/"
-          }
-        }
-      }
-    }
-
-    parallel builds
+    archiveArtifacts artifacts: 'build/**/*', fingerprint: true
   }
 }
