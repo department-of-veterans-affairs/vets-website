@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Home Loans
 concurrence: 
-template: level2-index
+template: 1-topic-landing
 relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/
     title: VA-backed Loans
