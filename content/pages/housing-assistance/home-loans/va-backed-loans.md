@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: VA-backed Loans
 concurrence: 
-template: level2-index
+template: 1-topic-landing
 relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
     title: Purchase Loan
