@@ -205,17 +205,23 @@ const configGenerator = (options) => {
 
   if (options.buildtype === 'production' || options.buildtype === 'staging') {
     baseConfig.devtool = '#source-map';
-    baseConfig.module.loaders.push({
+    baseConfig.module.rules.push({
       test: /debug\/PopulateVeteranButton/,
-      loader: 'null'
+      use: {
+        loader: 'null-loader'
+      }
     });
-    baseConfig.module.loaders.push({
+    baseConfig.module.rules.push({
       test: /debug\/PerfPanel/,
-      loader: 'null'
+      use: {
+        loader: 'null-loader'
+      }
     });
-    baseConfig.module.loaders.push({
+    baseConfig.module.rules.push({
       test: /debug\/RoutesDropdown/,
-      loader: 'null'
+      use: {
+        loader: 'null-loader'
+      }
     });
 
     baseConfig.plugins.push(new WebpackMd5Hash());
