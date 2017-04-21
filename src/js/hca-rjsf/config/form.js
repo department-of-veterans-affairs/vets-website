@@ -2,7 +2,14 @@ import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import { transform, FacilityHelp } from '../helpers';
+import { states } from '../../common/utils/options-for-select';
+
+import {
+  transform,
+  FacilityHelp,
+  medicalCentersByState,
+  medicalCenterLabels
+} from '../helpers';
 
 import IntroductionPage from '../components/IntroductionPage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
@@ -149,12 +156,27 @@ const formConfig = {
               'view:facilityState': {
                 'ui:title': 'State',
                 'ui:options': {
-
+                  labels: states.USA.reduce((labels, state) => Object.assign(labels, {
+                    [state.value]: state.label
+                  }), {})
                 }
               },
               vaMedicalFacility: {
                 'ui:title': 'Center/clinic',
                 'ui:options': {
+                  labels: medicalCenterLabels,
+                  updateSchema: (data, form) => {
+                    const state = _.get('vaFacility.data.view:preferredFacility.view:facilityState', form);
+                    if (state) {
+                      return {
+                        'enum': medicalCentersByState[state]
+                      };
+                    }
+
+                    return {
+                      'enum': []
+                    };
+                  }
                 }
               }
             },
@@ -172,13 +194,15 @@ const formConfig = {
               isEssentialAcaCoverage,
               'view:preferredFacility': {
                 type: 'object',
+                required: ['view:facilityState', 'vaMedicalFacility'],
                 properties: {
                   'view:facilityState': {
                     type: 'string',
-                    'enum': []
+                    'enum': states.USA.map(state => state.value)
                   },
-                  vaMedicalFacility: _.merge(vaMedicalFacility, {
-                    type: 'string'
+                  vaMedicalFacility: _.assign(vaMedicalFacility, {
+                    type: 'string',
+                    'enum': []
                   })
                 }
               },
