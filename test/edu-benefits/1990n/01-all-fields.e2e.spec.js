@@ -1,7 +1,6 @@
 const E2eHelpers = require('../../e2e/e2e-helpers');
 const Timeouts = require('../../e2e/timeouts.js');
 const EduHelpers = require('../../e2e/edu-helpers');
-const Edu1990nHelpers = require('../../e2e/edu-1990n-helpers');
 const testData = require('./schema/maximal-test.json');
 
 module.exports = E2eHelpers.createE2eTest(
@@ -22,7 +21,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Applicant information page
     client.waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
-    Edu1990nHelpers.completeVeteranInformation(client, testData.applicantInformation.data);
+    EduHelpers.completeVeteranInformation(client, testData.applicantInformation.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');

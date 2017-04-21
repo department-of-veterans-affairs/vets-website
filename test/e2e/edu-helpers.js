@@ -28,6 +28,8 @@ function completeVeteranInformation(client, data, onlyRequiredFields, root = 'ro
       .fill(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`, data['view:veteranId'].veteranSocialSecurityNumber)
       .click(`input[name="${root}_view:veteranId_view:noSSN"]`)
       .setValue(`input[name="${root}_view:veteranId_vaFileNumber"]`, data['view:veteranId'].vaFileNumber);
+  } else {
+    client.fill(`input[name="${root}_veteranSocialSecurityNumber"]`, data.veteranSocialSecurityNumber);
   }
 
   if (data.relationship === 'spouse') {
