@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for education benefits under the National Call to Service program"/>
-        <p>This application is equivalent to Form 22-1990n (Form Title to be Added Here).</p>
+        <p>This application is equivalent to Form 22-1990N (Application for VA Education Benefits Under the National Call to Service (NCS) Program).</p>
         <div className="process schemaform-process">
           <ol>
             <li className="step one">
