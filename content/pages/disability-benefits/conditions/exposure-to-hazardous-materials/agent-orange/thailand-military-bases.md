@@ -3,7 +3,9 @@ layout: page-breadcrumbs.html
 title: Thailand Military Bases
 concurrence: incomplete
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
-template: 4-action-page
+template: detail-page
+collection: disabilityAgentOrange
+order: 2
 ---
 
 <div class="va-introtext">

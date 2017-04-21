@@ -2,7 +2,9 @@
 layout: page-breadcrumbs.html
 title: Agent Orange
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
-template: 3-panel-filters
+template: detail-page
+collection: exposureHazMat
+children: disabilityAgentOrange
 ---
 
 <div class="va-introtext">

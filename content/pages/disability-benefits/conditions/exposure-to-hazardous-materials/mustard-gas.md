@@ -3,7 +3,8 @@ layout: page-breadcrumbs.html
 title: Contact with Mustard Gas or Lewisite
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-mustard.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
-template: 4-action-page
+template: detail-page
+collection: exposureHazMat
 ---
 
 <div class="va-introtext">

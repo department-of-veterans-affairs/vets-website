@@ -4,7 +4,6 @@
 
 @import "~uswds/src/stylesheets/lib/bourbon";
 @import "~uswds/src/stylesheets/lib/neat";
-
 @import "~uswds/src/stylesheets/lib/normalize";
 
 @import "~foundation-sites/scss/foundation/components/grid";
@@ -23,20 +22,22 @@
   font-style: normal;
 }
 
-
 // ---- U.S. WEB DESIGN STANDARDS SETTINGS --- //
-
+// Order matters here. grid and grid-settings need to come before
+// utilities and variables. 
 @import "~uswds/src/stylesheets/core/defaults";
 @import "~uswds/src/stylesheets/core/base";
+@import "~uswds/src/stylesheets/core/grid-settings";
+@import "~uswds/src/stylesheets/core/grid";
 @import "~uswds/src/stylesheets/core/utilities";
 @import "~uswds/src/stylesheets/core/variables";
+
 
 // ---- U.S. WEB DESIGN STANDARDS ELEMENTS/COMPONENTS --- //
 @import "~uswds/src/stylesheets/elements/buttons";
 @import "~uswds/src/stylesheets/elements/inputs";
 @import "~uswds/src/stylesheets/elements/labels";
 @import "~uswds/src/stylesheets/elements/table";
-
 @import "~uswds/src/stylesheets/components/accordions";
 @import "~uswds/src/stylesheets/components/alerts";
 @import "~uswds/src/stylesheets/components/forms";
@@ -71,7 +72,7 @@
 @import "modules/m-vet-nav";
 @import "modules/m-print";
 @import "modules/m-dropdown";
-@import "modules/m-nav-linkslist";
+
 
 // ----- VA SHAME ---- //
 

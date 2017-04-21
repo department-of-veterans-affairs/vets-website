@@ -1865,3 +1865,13 @@ p.info-message {
     color: $color-gray-dark !important;
   }
 }
+
+
+// ----------------------
+// Fixes an overly-broad ul selector 
+// ----------------------
+
+.usa-sidenav-sub_list {
+  padding-left: 0;
+  list-style: none;
+}
