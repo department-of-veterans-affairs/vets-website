@@ -18,6 +18,7 @@
   // Share polyfills between files.
   "env": {
     "test": {
+      "presets": ["env", "stage-2"],
       "plugins": [ "istanbul" ]
     },
     "hot": {
