@@ -154,7 +154,7 @@ export function fetchSearchResults(query = {}) {
   const url = `${api.url}/institutions/search?${queryString}`;
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED, name: query.name });
+    dispatch({ type: SEARCH_STARTED, name: query.name || '' });
 
     return fetch(url, api.settings)
       .then(res => res.json())
