@@ -32,3 +32,12 @@ export const medicalCenterLabels = Object.keys(vaMedicalFacilities).reduce((labe
 
   return Object.assign(labels, stateLabels);
 }, {});
+
+export const dischargeTypeLabels = {
+  honorable: 'Honorable',
+  general: 'General',
+  other: 'Other Than Honorable',
+  'bad-conduct': 'Bad Conduct',
+  dishonorable: 'Dishonorable',
+  undesirable: 'Undesirable'
+};

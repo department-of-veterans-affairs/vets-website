@@ -7,6 +7,7 @@ import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
 import {
   transform,
+  dischargeTypeLabels
   FacilityHelp,
   medicalCentersByState,
   medicalCenterLabels
@@ -33,6 +34,14 @@ const {
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
+
+
+const {
+  date
+} = fullSchemaHca.definitions;
+
+const {
+} = fullSchemaHca.properties;
 
 const formConfig = {
   urlPrefix: '/',
@@ -222,6 +231,32 @@ const formConfig = {
       title: 'Military service',
       pages: {
         serviceInformation: {
+          uiSchema: {
+            lastServiceBranch: {
+              'ui:title': 'Last branch of service'
+            },
+            lastEntryDate: date.uiSchema('Start of service period'),
+            lastDischargeDate: date.uiSchema('Date of discharge'),
+            dischargeType: {
+              'ui:options': {
+                labels: dischargeTypeLabels
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              lastServiceBranch: {
+                type: 'string'
+              },
+              lastEntryDate: date.schema,
+              lastDischargeDate: date.schema,
+              dischargeType: {
+                type: 'string'
+              },
+            },
+            required: ['lastServiceBranch', 'lastEntryDate', 'lastDischargeDate', 'dischargeType']
+          }
         },
         additionalInformation: {
         }
