@@ -8,7 +8,6 @@
 trap 'kill $(jobs -p)' EXIT
 
 BUILDTYPE=${BUILDTYPE:-development}
-export BABEL_ENV='test'
 
 # Check to see if we already have an API server running on port 3000
 if [ `nc -z localhost 3000; echo $?` -ne 0 ]; then
@@ -43,4 +42,4 @@ while ! echo exit | nc localhost ${WEB_PORT:-3333}; do sleep 3; done
 #curl http://localhost:3001/generated/hca.entry.js > /dev/null 2>&1
 
 # Execute the actual tests.
-npm --no-color run nightwatch -- "${@}"
+BABEL_ENV=test npm --no-color run nightwatch -- "${@}"
