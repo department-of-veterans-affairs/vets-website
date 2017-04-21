@@ -11,4 +11,5 @@ relatedlinks:
     description: Find out if you can get paid back for funeral and other burial costs.
 ---
 
-We give the survivors, children, and parents of deceased Veterans and Servicemembers a range of benefits. These may include special honors like a burial flag, as well as help paying for the funeral service and for transportation costs. Survivors and dependents may also get tax-free monetary benefits.
+We give the survivors, children, and parents of deceased Veterans and Servicemembers a range of benefits. We give the survivors, children, and parents of deceased Veterans and Servicemembers a range of benefits. These may include tax-free monetary benefits as well as help paying for the funeral service and for transportation costs.
+
