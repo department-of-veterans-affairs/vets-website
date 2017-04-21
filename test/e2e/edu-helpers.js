@@ -21,8 +21,14 @@ function initApplicationSubmitMock(form) {
 function completeVeteranInformation(client, data, onlyRequiredFields, root = 'root') {
   client
     .fill(`input[name="${root}_veteranFullName_first"]`, data.veteranFullName.first)
-    .fill(`input[name="${root}_veteranFullName_last"]`, data.veteranFullName.last)
-    .fill(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`, data.veteranSocialSecurityNumber);
+    .fill(`input[name="${root}_veteranFullName_last"]`, data.veteranFullName.last);
+
+  if (data['view:veteranId']) {
+    client
+      .fill(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`, data['view:veteranId'].veteranSocialSecurityNumber)
+      .click(`input[name="${root}_view:veteranId_view:noSSN"]`)
+      .setValue(`input[name="${root}_view:veteranId_vaFileNumber"]`, data['view:veteranId'].vaFileNumber);
+  }
 
   if (data.relationship === 'spouse') {
     client.selectYesNo('root_spouseInfo_divorcePending', data.spouseInfo.divourcePending);
@@ -36,11 +42,6 @@ function completeVeteranInformation(client, data, onlyRequiredFields, root = 'ro
     client
       .setValue(`input[name="${root}_veteranFullName_middle"]`, data.veteranFullName.middle)
       .setValue(`select[name="${root}_veteranFullName_suffix"]`, data.veteranFullName.suffix);
-    if (data.vaFileNumber) {
-      client
-        .click(`input[name="${root}_view:veteranId_view:noSSN"]`)
-        .setValue(`input[name="${root}_view:veteranId_vaFileNumber"]`, data.vaFileNumber);
-    }
     if (data.relationship === 'spouse') {
       client.selectYesNo('root_spouseInfo_remarried', data.spouseInfo.remarried);
       if (data.spouseInfo.remarried) {
@@ -55,7 +56,6 @@ function completeVeteranInformation(client, data, onlyRequiredFields, root = 'ro
 
 function completeRelativeInformation(client, data, onlyRequiredFields) {
   const dobFields = data.relativeDateOfBirth.split('-');
-  const relationshipInput = data.relationship ? `input[value="${data.relationship}"]` : 'input[name="root_relationship_1"]';
   client
     .clearValue('input[name="root_relativeFullName_first"]')
     .setValue('input[name="root_relativeFullName_first"]', data.relativeFullName.first)
@@ -64,16 +64,26 @@ function completeRelativeInformation(client, data, onlyRequiredFields) {
     .clearValue('input[name="root_relativeSocialSecurityNumber"]')
     .setValue('input[name="root_relativeSocialSecurityNumber"]', data.relativeSocialSecurityNumber)
     .clearValue('input[name="root_relativeDateOfBirthYear"]')
-    .setValue('input[name="root_relativeDateOfBirthYear"]', parseInt(dobFields[0], 10).toString())
-    .click(relationshipInput);
+    .setValue('input[name="root_relativeDateOfBirthYear"]', parseInt(dobFields[0], 10).toString());
   selectDropdown(client, 'root_relativeDateOfBirthMonth', parseInt(dobFields[1], 10).toString());
   selectDropdown(client, 'root_relativeDateOfBirthDay', parseInt(dobFields[2], 10).toString());
+
+  if (typeof data.relationship !== 'undefined') {
+    client
+      .click('input[name="root_relationship_0"]');
+  }
 
   if (!onlyRequiredFields) {
     client
       .setValue('input[name="root_relativeFullName_middle"]', data.relativeFullName.middle)
       .click(data.gender === 'M' ? 'input[name=root_gender_0' : 'input[name=root_gender_1');
     selectDropdown(client, 'root_relativeFullName_suffix', data.relativeFullName.suffix);
+
+    if (data.vaFileNumber) {
+      client
+        .click('input[name="root_view:noSSN"]')
+        .fill('input[name="root_vaFileNumber"]', data.vaFileNumber);
+    }
   }
 }
 

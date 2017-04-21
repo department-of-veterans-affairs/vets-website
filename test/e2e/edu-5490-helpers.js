@@ -35,7 +35,7 @@ function completeBenefitHistory(client, data, onlyRequiredFields) {
         .fill('input[name="root_previousBenefits_veteranFullName_middle"]', previousBenefits.veteranFullName.middle)
         .fill('input[name="root_previousBenefits_veteranFullName_last"]', previousBenefits.veteranFullName.last)
         .selectDropdown('root_previousBenefits_veteranFullName_suffix', previousBenefits.veteranFullName.suffix)
-        .fill('input[name="root_previousBenefits_view:veteranId_veteranSocialSecurityNumber"]', previousBenefits.veteranSocialSecurityNumber);
+        .fill('input[name="root_previousBenefits_view:veteranId_veteranSocialSecurityNumber"]', previousBenefits['view:veteranId'].veteranSocialSecurityNumber);
     }
 
     client.fill('input[name="root_previousBenefits_other"]', previousBenefits.other);
