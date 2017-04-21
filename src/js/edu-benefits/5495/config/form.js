@@ -108,7 +108,7 @@ const formConfig = {
                 'ui:validations': [
                   (errors, fieldData, pageData, formData) => {
                     if (fieldData === formData.relativeSocialSecurityNumber) {
-                      errors.addError("Your sponsor's SSN cannot be the same as yours.");
+                      errors.addError('Your sponsor’s SSN cannot be the same as yours.');
                     }
                   }
                 ]
