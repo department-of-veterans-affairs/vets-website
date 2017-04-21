@@ -86,7 +86,7 @@ const configGenerator = (options) => {
         {
           test: /foundation\.js$/,
           use: {
-            loader: 'imports?this=>window'
+            loader: 'imports-loader?this=>window',
           }
         },
         {
@@ -109,7 +109,8 @@ const configGenerator = (options) => {
                     bourbon,
                     neat,
                     '~/uswds/src/stylesheets&sourceMap'
-                  ]
+                  ],
+                  sourceMap: true,
                 }
               }
             ],
