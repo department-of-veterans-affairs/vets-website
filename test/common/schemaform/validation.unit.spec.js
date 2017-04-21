@@ -95,13 +95,12 @@ describe('Schemaform validations', () => {
         'ui:errorMessages': {}
       };
       const formData = {};
-      const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, schema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, formData);
 
       expect(errors.__errors).to.be.defined;
       expect(errors.addError).to.be.function;
-      expect(validator.calledWith(errors, formData, formData, formContext, uiSchema['ui:errorMessages'])).to.be.true;
+      expect(validator.calledWith(errors, formData, formData)).to.be.true;
     });
     it('should use custom validation with object validator', () => {
       const errors = {};
@@ -117,11 +116,10 @@ describe('Schemaform validations', () => {
         'ui:errorMessages': {}
       };
       const formData = {};
-      const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, schema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, formData);
 
-      expect(validator.calledWith(errors, formData, formData, formContext, uiSchema['ui:errorMessages'], uiSchema['ui:validations'][0].options)).to.be.true;
+      expect(validator.calledWith(errors, formData, formData, uiSchema['ui:validations'][0].options)).to.be.true;
     });
     it('should use custom validation on fields in object', () => {
       const errors = {
@@ -156,11 +154,10 @@ describe('Schemaform validations', () => {
         field1: {},
         field2: {}
       };
-      const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, schema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, formData);
 
-      expect(validator1.calledWith(errors.field1, formData.field1, formData, schema.properties.field1, undefined)).to.be.true;
+      expect(validator1.calledWith(errors.field1, formData.field1, formData, undefined)).to.be.true;
     });
     it('should use custom validation on fields in array', () => {
       const errors = {};
@@ -188,11 +185,10 @@ describe('Schemaform validations', () => {
           field: {}
         }
       ];
-      const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, schema, formData, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, formData);
 
-      expect(validator.calledWith(errors[0].field, formData[0].field, formData, schema.items.properties.field, undefined)).to.be.true;
+      expect(validator.calledWith(errors[0].field, formData[0].field, formData, undefined)).to.be.true;
     });
     it('should skip validation when array is undefined', () => {
       const errors = {};
@@ -215,9 +211,8 @@ describe('Schemaform validations', () => {
           }
         }
       };
-      const formContext = {};
 
-      uiSchemaValidate(errors, uiSchema, schema, undefined, formContext);
+      uiSchemaValidate(errors, uiSchema, schema, undefined);
 
       expect(validator.called).to.be.false;
     });
