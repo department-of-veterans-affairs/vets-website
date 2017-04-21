@@ -4,8 +4,10 @@ entryname: hca
 layout: page-react.html
 body_class: page-healthcare
 in_maintenance: false
-maintenance_line1: We're sorry. The healthcare application is currently down while we fix a few things. We will be back up as soon as we can.
+maintenance_line1: We’re sorry. The healthcare application is currently down while we fix a few things. We will be back up as soon as we can.
+
 maintenance_line2: In the meantime, you can still call 1-877-222-VETS(8387) and press 2 to complete this application over the phone.
+
 ---
 <div id="main">
   <nav class="va-nav-breadcrumbs">
@@ -27,4 +29,3 @@ maintenance_line2: In the meantime, you can still call 1-877-222-VETS(8387) and 
   </div>
   <!-- HCA Application End -->
 </div>
-
