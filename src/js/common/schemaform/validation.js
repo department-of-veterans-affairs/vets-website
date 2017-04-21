@@ -100,13 +100,12 @@ export function transformErrors(errors, uiSchema) {
  * @param {Object} errors Errors object from rjsf, which includes an addError method
  * @param {Object} uiSchema The uiSchema for the current field
  * @param {Object} schema The schema for the current field
- * @param {Object} pageData The data for the page the field is in
  * @param {Object} formData The (flattened) data for the entire form
  * @param {String} path The path to the current field relative to the root of the page.
  *   Used to select the correct field data to validate against
  */
 
-export function uiSchemaValidate(errors, uiSchema, schema, pageData, formData, path = '') {
+export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '') {
   if (uiSchema && schema) {
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
@@ -121,7 +120,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, pageData, formData, p
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, schema.items, pageData, formData, newPath);
+        uiSchemaValidate(errors, uiSchema.items, schema.items, formData, newPath);
       });
     } else if (!uiSchema.items) {
       Object.keys(uiSchema)
@@ -140,7 +139,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, pageData, formData, p
               }
             };
           }
-          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], pageData, formData, nextPath);
+          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, nextPath);
         });
     }
 
@@ -149,9 +148,9 @@ export function uiSchemaValidate(errors, uiSchema, schema, pageData, formData, p
       validations.forEach(validation => {
         const pathErrors = path ? _.get(path, errors) : errors;
         if (typeof validation === 'function') {
-          validation(pathErrors, currentData, pageData, formData, schema, uiSchema['ui:errorMessages']);
+          validation(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages']);
         } else {
-          validation.validator(pathErrors, currentData, pageData, formData, schema, uiSchema['ui:errorMessages'], validation.options);
+          validation.validator(pathErrors, currentData, formData, schema, uiSchema['ui:errorMessages'], validation.options);
         }
       });
     }
@@ -225,7 +224,7 @@ export function validateDate(errors, dateString) {
  *
  * The message it adds can be customized in uiSchema.errorMessages.futureDate
  */
-export function validateCurrentOrPastDate(errors, dateString, formData, formContext, errorMessages) {
+export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages) {
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
@@ -279,7 +278,7 @@ export function validateMatch(field1, field2) {
   };
 }
 
-export function validateRoutingNumber(errors, routingNumber, formData, formContext, errorMessages) {
+export function validateRoutingNumber(errors, routingNumber, formData, schema, errorMessages) {
   if (!isValidRoutingNumber(routingNumber)) {
     errors.addError(errorMessages.pattern);
   }
@@ -296,7 +295,7 @@ function convertToDateField(dateStr) {
   }, date);
 }
 
-export function validateDateRange(errors, dateRange, formData, formContext, errorMessages) {
+export function validateDateRange(errors, dateRange, formData, schema, errorMessages) {
   const fromDate = convertToDateField(dateRange.from);
   const toDate = convertToDateField(dateRange.to);
 

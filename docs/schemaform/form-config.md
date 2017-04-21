@@ -189,14 +189,13 @@ We've also been adding some additional uiSchema functionality not found in the r
      * Note the difference between the three data parameters:
      *
      * @param {any} fieldData The data for the current field being validated
-     * @param {object} pageData The data for all the fields on the current page
      * @param {object} formData The data for all the fields in every page
      */
-    function (errors, fieldData, pageData, formData, fieldSchema, errorMessages) {
+    function (errors, fieldData, formData, fieldSchema, errorMessages) {
       errors.addError('My error');
     },
     {
-      validator: (errors, fieldData, pageData, formData, fieldSchema, errorMessages, options) => {
+      validator: (errors, fieldData, formData, fieldSchema, errorMessages, options) => {
         errors.addError('My other error');
       },
       options: {}
