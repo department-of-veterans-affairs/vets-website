@@ -92,10 +92,10 @@ class SchemaForm extends React.Component {
     return transformErrors(errors, this.props.uiSchema);
   }
 
-  validate(pageData, formData, errors) {
+  validate(formData, errors) {
     const { schema, uiSchema } = this.props;
     if (uiSchema) {
-      uiSchemaValidate(errors, uiSchema, schema, pageData, formData);
+      uiSchemaValidate(errors, uiSchema, schema, formData);
     }
     return errors;
   }
@@ -127,7 +127,7 @@ class SchemaForm extends React.Component {
             onSubmit={onSubmit}
             schema={schema}
             uiSchema={uiSchema}
-            validate={(pData, errors) => this.validate(pData, formData, errors)}
+            validate={(pData, errors) => this.validate(formData, errors)}
             showErrorList={false}
             formData={pageData}
             widgets={reviewMode ? reviewWidgets : widgets}
@@ -145,17 +145,12 @@ SchemaForm.propTypes = {
   title: React.PropTypes.string.isRequired,
   schema: React.PropTypes.object.isRequired,
   uiSchema: React.PropTypes.object.isRequired,
-  pageData: React.PropTypes.string,
-  formData: React.PropTypes.string,
+  pageData: React.PropTypes.any,
+  formData: React.PropTypes.any,
   reviewMode: React.PropTypes.bool,
   onSubmit: React.PropTypes.func,
   onChange: React.PropTypes.func,
   hideTitle: React.PropTypes.bool
-};
-
-SchemaForm.defaultProps = {
-  pageData: {},
-  formData: {}
 };
 
 export default SchemaForm;

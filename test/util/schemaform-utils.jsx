@@ -58,6 +58,8 @@ export class DefinitionTester extends React.Component {
   }
   render() {
     const { schema, uiSchema, data, formData } = this.state;
+    console.log('DefinitionTester -> data:', data); // eslint-disable-line no-console
+    console.log('DefinitionTester -> formData:', formData); // eslint-disable-line no-console
 
     return (
       <SchemaForm
