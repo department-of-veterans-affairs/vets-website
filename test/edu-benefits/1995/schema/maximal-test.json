@@ -8,9 +8,11 @@
         "last": "asdf",
         "suffix": "Jr."
       },
-      "veteranSocialSecurityNumber": "123333333",
-      "view:noSSN": true,
-      "vaFileNumber": "C12345678"
+      "view:veteranId": {
+        "veteranSocialSecurityNumber": "123333333",
+        "view:noSSN": true,
+        "vaFileNumber": "C12345678"
+      }
     }
   },
   "benefitSelection": {
