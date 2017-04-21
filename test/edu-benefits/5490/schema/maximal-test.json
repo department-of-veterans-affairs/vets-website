@@ -34,7 +34,11 @@
         "chapter33": true,
         "transferOfEntitlement": true,
         "other": "Another benefit",
-        "veteranSocialSecurityNumber": "234444333",
+        "view:veteranId": {
+          "vaFileNumber": "12345678",
+          "view:noSSN": true,
+          "veteranSocialSecurityNumber": "234444333"
+        },
         "view:noPreviousBenefits": true,
         "view:ownServiceBenefits": true,
         "view:claimedSponsorService": true,
@@ -62,7 +66,11 @@
           "last": "Sponsor last name",
           "suffix": "II"
         },
-        "veteranSocialSecurityNumber": "234434444"
+        "view:veteranId": {
+          "veteranSocialSecurityNumber": "234434444",
+          "view:noSSN": true,
+          "vaFileNumber": "12345678"
+        }
       },
       "veteranDateOfBirth": "1976-02-08",
       "veteranDateOfDeath": "1987-02-02"
