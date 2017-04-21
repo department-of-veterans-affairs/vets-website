@@ -125,7 +125,12 @@ const formConfig = {
                 type: 'array',
                 minItems: 1,
                 items: _.merge(provider, {
-                  required: ['insuranceName', 'insurancePolicyHolderName']
+                  required: [
+                    'insuranceName',
+                    'insurancePolicyHolderName',
+                    'insurancePolicyNumber',
+                    'insuranceGroupCode'
+                  ]
                 })
               }
             }
