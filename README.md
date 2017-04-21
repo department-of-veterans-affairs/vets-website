@@ -27,6 +27,7 @@ very secret.
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0`. Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
+| run only unit tests for a subset of tests | `./node_modules/.bin/mocha path/to/my/test.unit.spec.jsx` use `--recursive` to test an entire directory (assumes current working dir of `/vets-website`) |
 | run only e2e tests | `npm run test:e2e` |
 | run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
 | run all linters | `npm run lint` |
