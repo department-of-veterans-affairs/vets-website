@@ -11,6 +11,7 @@
       "relativeDateOfBirth": "1984-01-02",
       "gender": "F",
       "view:noSSN": true,
+      "relativeSocialSecurityNumber": "213333212",
       "vaFileNumber": "12312313"
     }
   },
@@ -52,6 +53,7 @@
       },
       "view:veteranId": {
         "view:noSSN": true,
+        "veteranSocialSecurityNumber": "433443223",
         "vaFileNumber": "24234444"
       },
       "outstandingFelony": true
