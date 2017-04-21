@@ -138,6 +138,7 @@ const formConfig = {
             type: 'object',
             properties: {
               payHighestRateBenefit: _.merge(payHighestRateBenefit, {
+                // Pointless comment
                 'default': true
               })
             }
