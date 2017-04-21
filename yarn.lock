@@ -5342,18 +5342,18 @@ metalsmith-watch@^1.0.3:
     tiny-lr "^0.1.5"
     unyield "0.0.1"
 
-metalsmith-webpack-dev-server@bshyong/metalsmith-webpack-dev-server:
+metalsmith-webpack-dev-server@department-of-veterans-affairs/metalsmith-webpack-dev-server:
   version "1.0.0"
-  resolved "https://codeload.github.com/bshyong/metalsmith-webpack-dev-server/tar.gz/63be8d4e048cbfcf2c15f5542fc43e37d981aa67"
+  resolved "https://codeload.github.com/department-of-veterans-affairs/metalsmith-webpack-dev-server/tar.gz/771c483e478a3b6b021fe2f8316c1b866fabaf64"
   dependencies:
     chalk "^1.1.1"
     metalsmith "^1.7.0"
     webpack "^2.4.1"
     webpack-dev-server "^1.14.1"
 
-metalsmith-webpack@bshyong/metalsmith-webpack:
+metalsmith-webpack@department-of-veterans-affairs/metalsmith-webpack:
   version "1.0.3"
-  resolved "https://codeload.github.com/bshyong/metalsmith-webpack/tar.gz/a1f16de165fdb41a274fad7853c80d65a140338d"
+  resolved "https://codeload.github.com/department-of-veterans-affairs/metalsmith-webpack/tar.gz/2f1141ffe3d9b282fa80ea9dc6b2292c04eaf7f3"
   dependencies:
     enhanced-resolve "^0.7.6"
     webpack "^2.4.1"
@@ -8395,7 +8395,7 @@ webpack-dev-middleware@^1.4.0:
     path-is-absolute "^1.0.0"
     range-parser "^1.0.3"
 
-webpack-dev-server@^1.14.1:
+webpack-dev-server@1.16:
   version "1.16.3"
   resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-1.16.3.tgz#cbb6a0d3e7c8eb5453b3e9befcbe843219f62661"
   dependencies:
