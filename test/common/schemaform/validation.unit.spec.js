@@ -157,7 +157,7 @@ describe('Schemaform validations', () => {
 
       uiSchemaValidate(errors, uiSchema, schema, formData);
 
-      expect(validator1.calledWith(errors.field1, formData.field1, formData, undefined)).to.be.true;
+      expect(validator1.calledWith(errors.field1, formData.field1, formData, schema.properties.field1, undefined)).to.be.true;
     });
     it('should use custom validation on fields in array', () => {
       const errors = {};
@@ -188,7 +188,7 @@ describe('Schemaform validations', () => {
 
       uiSchemaValidate(errors, uiSchema, schema, formData);
 
-      expect(validator.calledWith(errors[0].field, formData[0].field, formData, undefined)).to.be.true;
+      expect(validator.calledWith(errors[0].field, formData[0].field, formData, schema.items.properties.field, undefined)).to.be.true;
     });
     it('should skip validation when array is undefined', () => {
       const errors = {};
