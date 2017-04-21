@@ -83,3 +83,23 @@ export function submitForm(form) {
     preventDefault: f => f
   });
 }
+
+/**
+ * Wraps the schema and uiSchema for testing purposes.
+ *
+ * There's no reason for arrays to be the root schema, so this utility function
+ *  wraps them in an object so we can test them properly.
+ */
+export function wrapSchemas(schema, uiSchema, propertyName = 'originalSchema') {
+  return {
+    schema: {
+      type: 'object',
+      properties: {
+        [propertyName]: schema
+      }
+    },
+    uiSchema: {
+      [propertyName]: uiSchema
+    }
+  };
+}
