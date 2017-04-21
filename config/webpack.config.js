@@ -232,7 +232,6 @@ const configGenerator = (options) => {
       filename: 'chunk-manifest.json',
       manifestVariable: 'webpackManifest'
     }));
-    baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
       beautify: false,
       compress: { warnings: false },
