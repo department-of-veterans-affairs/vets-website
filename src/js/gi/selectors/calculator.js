@@ -258,12 +258,8 @@ const getDerivedValues = createSelector(
     // Determine kicker benefit level - getKickerBenefit
     if (!(inputs.kickerEligible === 'yes')) {
       kickerBenefit = 0;
-    } else if (isOJT) {
-      kickerBenefit = +inputs.kickerAmount * ropOjt;
-    } else if (oldGiBill || onlyVRE) {
-      kickerBenefit = +inputs.kickerAmount * ropOld;
     } else {
-      kickerBenefit = +inputs.kickerAmount * rop;
+      kickerBenefit = +inputs.kickerAmount;
     }
 
     // Determine buy up rates - getBuyUpRate
@@ -274,7 +270,7 @@ const getDerivedValues = createSelector(
     }
 
     // Calculate Housing Allowance Rate Final - getMonthlyRateFinal
-    const monthlyRateFinal = ropOld * (monthlyRate + buyUpRate) + kickerBenefit;
+    const monthlyRateFinal = ropOld * (monthlyRate + buyUpRate + kickerBenefit);
 
     // Calculate the names of Terms 1-4
     if (isOJT) {
@@ -474,7 +470,7 @@ const getDerivedValues = createSelector(
     } else if (oldGiBill || onlyVRE) {
       housingAllowTerm1 = totalHousingAllowance;
     } else if (militaryStatus === 'active duty' || (militaryStatus === 'spouse' && spouseActiveDuty)) {
-      housingAllowTerm1 = kickerBenefit * termLength;
+      housingAllowTerm1 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm1 = 0;
     } else if (isOJT) {
@@ -526,7 +522,7 @@ const getDerivedValues = createSelector(
     } else if (oldGiBill || onlyVRE) {
       housingAllowTerm2 = totalHousingAllowance;
     } else if (militaryStatus === 'active duty' || (militaryStatus === 'spouse' && spouseActiveDuty)) {
-      housingAllowTerm2 = kickerBenefit * termLength;
+      housingAllowTerm2 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm2 = 0;
     } else if (onlineClasses === 'yes') {
@@ -577,7 +573,7 @@ const getDerivedValues = createSelector(
     } else if (oldGiBill || onlyVRE) {
       housingAllowTerm3 = totalHousingAllowance;
     } else if (militaryStatus === 'active duty' || (militaryStatus === 'spouse' && spouseActiveDuty)) {
-      housingAllowTerm3 = kickerBenefit * termLength;
+      housingAllowTerm3 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm3 = 0;
     } else if (onlineClasses === 'yes') {
