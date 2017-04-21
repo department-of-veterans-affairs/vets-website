@@ -109,7 +109,8 @@ function completeBenefitsSelection(client, data, onlyRequiredFields) {
     if (data.benefit) {
       client.click(`input[value="${data.benefit}"]`);
     } else if (typeof data.payHighestRateBenefit !== 'undefined') {
-      client.clickIf('input[name="root_payHighestRateBenefit"]', data.payHighestRateBenefit);
+      // Defaults to true, so only click if we need to make it false
+      client.clickIf('input[name="root_payHighestRateBenefit"]', !data.payHighestRateBenefit);
     } else {
       client.click('.form-radio-buttons:first-child input');
     }
