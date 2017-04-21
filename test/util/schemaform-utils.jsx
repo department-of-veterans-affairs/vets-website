@@ -33,7 +33,8 @@ export class DefinitionTester extends React.Component {
     this.state = {
       data: newData,
       schema,
-      uiSchema
+      uiSchema,
+      formData
     };
   }
   handleChange = (data) => {
@@ -51,11 +52,13 @@ export class DefinitionTester extends React.Component {
     this.setState({
       data: newData,
       schema,
-      uiSchema
+      uiSchema,
+      formData
     });
   }
   render() {
-    const { schema, uiSchema, data } = this.state;
+    const { schema, uiSchema, data, formData } = this.state;
+
     return (
       <SchemaForm
           safeRenderCompletion
@@ -65,6 +68,7 @@ export class DefinitionTester extends React.Component {
           schema={schema}
           uiSchema={uiSchema}
           pageData={data}
+          formData={formData}
           onChange={this.handleChange}
           onSubmit={this.props.onSubmit}/>
     );
