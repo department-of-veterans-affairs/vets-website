@@ -8,10 +8,10 @@ extraspace: true
 majorlinks:
  - url: /housing-assistance/home-loans/
    title: Home Loans
-   description: Choose from 1 of the VA-backed loan options and find out how to apply for a loan to buy, improve, or refinance a home.
+   description: Choose from one of the VA-backed loan options and find out how to apply for a loan to buy, improve, or refinance a home.
  - url: /housing-assistance/adaptive-housing-grants/
    title: Adaptive Housing
-   description: Get help to make changes to your home if you have a service-connected disability.
+   description: Get financial help to make changes to your home if you have a service-connected disability.
 ---
 
 <div class="va-introtext">
