@@ -82,7 +82,7 @@ export function transformErrors(errors, uiSchema) {
   return newErrors;
 }
 
-/*
+/**
  * This pulls custom validations specified in the uiSchema and validates the formData
  * against them.
  *

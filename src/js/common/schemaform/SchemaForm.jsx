@@ -145,10 +145,17 @@ SchemaForm.propTypes = {
   title: React.PropTypes.string.isRequired,
   schema: React.PropTypes.object.isRequired,
   uiSchema: React.PropTypes.object.isRequired,
+  pageData: React.PropTypes.string,
+  formData: React.PropTypes.string,
   reviewMode: React.PropTypes.bool,
   onSubmit: React.PropTypes.func,
   onChange: React.PropTypes.func,
   hideTitle: React.PropTypes.bool
+};
+
+SchemaForm.defaultProps = {
+  pageData: {},
+  formData: {}
 };
 
 export default SchemaForm;
