@@ -38,6 +38,7 @@ export class DefinitionTester extends React.Component {
     };
   }
   handleChange = (data) => {
+    // console.log('DefinitionTester -> handleChange -> data:', data);
     const state = this.props.state;
     const uiSchema = this.state.uiSchema;
     const formData = _.merge(this.props.formData, data);
@@ -58,8 +59,8 @@ export class DefinitionTester extends React.Component {
   }
   render() {
     const { schema, uiSchema, data, formData } = this.state;
-    console.log('DefinitionTester -> data:', data); // eslint-disable-line no-console
-    console.log('DefinitionTester -> formData:', formData); // eslint-disable-line no-console
+    // console.log('DefinitionTester -> data:', data);
+    // console.log('DefinitionTester -> formData:', formData);
 
     return (
       <SchemaForm
