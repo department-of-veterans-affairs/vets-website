@@ -94,7 +94,7 @@ export function transformErrors(errors, uiSchema) {
  *   ]
  * }
  *
- * The function is passed errors, fieldData, formData, and otherData and
+ * The function is passed errors, fieldData, pageData, formData, and otherData and
  * should call addError to add the error.
  *
  * @param {Object} errors Errors object from rjsf, which includes an addError method
