@@ -102,13 +102,11 @@ export function transformErrors(errors, uiSchema) {
  * @param {Object} schema The schema for the current field
  * @param {Object} pageData The data for the page the field is in
  * @param {Object} formData The (flattened) data for the entire form
- * @param {Object} formContext The formContext object passed to rjsf's Form component.
- *   Should be removed at some point
  * @param {String} path The path to the current field relative to the root of the page.
  *   Used to select the correct field data to validate against
  */
 
-export function uiSchemaValidate(errors, uiSchema, schema, pageData, formData, formContext, path = '') {
+export function uiSchemaValidate(errors, uiSchema, schema, pageData, formData, path = '') {
   if (uiSchema && schema) {
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
@@ -123,7 +121,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, pageData, formData, f
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, schema.items, pageData, formData, formContext, newPath);
+        uiSchemaValidate(errors, uiSchema.items, schema.items, pageData, formData, newPath);
       });
     } else if (!uiSchema.items) {
       Object.keys(uiSchema)
@@ -142,7 +140,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, pageData, formData, f
               }
             };
           }
-          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], pageData, formData, formContext, nextPath);
+          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], pageData, formData, nextPath);
         });
     }
 
@@ -199,7 +197,7 @@ export function isValidForm(form, pageListByChapters) {
 
     if (result.valid) {
       const errors = {};
-      uiSchemaValidate(errors, uiSchema, schema, data, formData, {});
+      uiSchemaValidate(errors, uiSchema, schema, data, formData);
 
       return errorSchemaIsValid(errors);
     }
