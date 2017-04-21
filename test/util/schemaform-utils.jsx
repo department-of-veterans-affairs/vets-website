@@ -59,8 +59,6 @@ export class DefinitionTester extends React.Component {
   }
   render() {
     const { schema, uiSchema, data, formData } = this.state;
-    // console.log('DefinitionTester -> data:', data);
-    // console.log('DefinitionTester -> formData:', formData);
 
     return (
       <SchemaForm
