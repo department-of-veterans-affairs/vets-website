@@ -807,17 +807,21 @@ export const getCalculatedBenefits = createSelector(
     };
 
     calculatedBenefits.outputs = {
+      giBillPaysToSchool: {
+        visible: true,
+        value: `${formatCurrency(derived.totalToSchool)}/yr`
+      },
       tuitionAndFeesCharged: {
         visible: true,
         value: formatCurrency(form.tuitionFees)
       },
-      giBillPaysToSchool: {
-        visible: true,
-        value: formatCurrency(derived.totalToSchool)
-      },
       yourScholarships: {
         visible: true,
         value: formatCurrency(derived.totalScholarshipTa)
+      },
+      outOfPocketTuition: {
+        visible: true,
+        value: formatCurrency(derived.totalLeftToPay)
       },
       housingAllowance: {
         visible: true,
@@ -825,11 +829,7 @@ export const getCalculatedBenefits = createSelector(
       },
       bookStipend: {
         visible: true,
-        value: `${formatCurrency(derived.bookStipendTotal)}${institutionType === 'ojt' ? '/mo' : ''}`
-      },
-      outOfPocketTuition: {
-        visible: true,
-        value: formatCurrency(derived.totalLeftToPay)
+        value: `${formatCurrency(derived.bookStipendTotal)}${institutionType === 'ojt' ? '/mo' : '/yr'}`
       },
       totalPaidToYou: {
         visible: true,
