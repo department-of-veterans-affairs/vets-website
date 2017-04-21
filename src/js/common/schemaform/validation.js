@@ -96,6 +96,16 @@ export function transformErrors(errors, uiSchema) {
  *
  * The function is passed errors, fieldData, formData, and otherData and
  * should call addError to add the error.
+ *
+ * @param {Object} errors Errors object from rjsf, which includes an addError method
+ * @param {Object} uiSchema The uiSchema for the current field
+ * @param {Object} schema The schema for the current field
+ * @param {Object} pageData The data for the page the field is in
+ * @param {Object} formData The (flattened) data for the entire form
+ * @param {Object} formContext The formContext object passed to rjsf's Form component.
+ *   Should be removed at some point
+ * @param {String} path The path to the current field relative to the root of the page.
+ *   Used to select the correct field data to validate against
  */
 
 export function uiSchemaValidate(errors, uiSchema, schema, pageData, formData, formContext, path = '') {
