@@ -191,7 +191,7 @@ const configGenerator = (options) => {
       }),
 
       new ExtractTextPlugin({
-        filename: (options.buildtype === 'development') ? '[name].css' : `[name].[chunkhash]-${timestamp}.css`
+        filename: (options.buildtype === 'development') ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
