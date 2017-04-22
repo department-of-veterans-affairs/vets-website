@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: VA-backed Loans
+title: VA-Backed Loans
 concurrence: 
 template: 1-topic-landing
 relatedlinks:
@@ -28,4 +28,4 @@ We offer 4 VA-backed home loan options to help you buy, build, or improve a home
 
 With VA-backed home loans, we guarantee (or stand behind) a portion of the loan you get from a private bank or mortgage company (called a lender). This means we protect the lender against losing the money they lend you—up to the amount of the guarantee—if you fail to repay the loan. Since there’s less risk for the lender, they’re more likely to give you the loan under better terms. In fact, Veterans don’t need to make a down payment on nearly 90% of all VA-backed home loans.
 
-Lenders follow our VA standards when offering VA-backed home loans. They may also require you to meet other standards before giving you a loan. These standards may include having a high enough credit score or getting an updated home appraisal (an expert’s estimate of the value of the home).
+Lenders follow our VA standards when offering VA-backed home loans. They may also require you to meet other standards before giving you a loan. These standards may include having a high enough credit score or getting an updated home appraisal (an expert’s estimate of the value of your home).
