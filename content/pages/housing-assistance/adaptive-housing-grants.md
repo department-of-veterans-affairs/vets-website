@@ -21,8 +21,8 @@ We offer grants to severely disabled Servicemembers and Veterans to buy or chang
 
 You may be able to get an SAH grant if you’re using the grant money to buy, build, or change your permanent home (a home you plan to live in for a long time) if:
 
--	You own or will own the home, **and** 
--	You have 1 of these service-connected disabilities (disabilities related to your service):
+- You own or will own the home, **and** 
+- You have 1 of these service-connected disabilities (disabilities related to your service):
   - The loss or loss of use of both legs, both arms, or an arm and a leg
   - The loss or loss of use of a lower leg along with the residuals (lasting effects) of an organic (natural) disease or injury
   - Blindness in both eyes having only light perception along with the loss or loss of use of 1 leg
@@ -37,8 +37,8 @@ For FY 2017, you may be able to get up to 3 grants—for a total of up to $77,30
 
 You may be able to get an SHA grant if you’re using the grant money to buy, build, or change your permanent home (a home you plan to live in for a long time) if: 
 
--	You or a family member own or will own the home, **and**
--	You have 1 of these service-connected disabilities (disabilities related to your service):
+- You or a family member own or will own the home, **and**
+- You have 1 of these service-connected disabilities (disabilities related to your service):
   - Blindness in both eyes (with 20/200 visual acuity or less)
   - The loss or loss of use of both hands
   - Certain severe burns
