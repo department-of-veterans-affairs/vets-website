@@ -111,6 +111,7 @@ class SchemaForm extends React.Component {
       onChange,
       safeRenderCompletion
     } = this.props;
+
     return (
       <div>
         <Form
@@ -143,6 +144,8 @@ SchemaForm.propTypes = {
   title: React.PropTypes.string.isRequired,
   schema: React.PropTypes.object.isRequired,
   uiSchema: React.PropTypes.object.isRequired,
+  pageData: React.PropTypes.any,
+  formData: React.PropTypes.any,
   reviewMode: React.PropTypes.bool,
   onSubmit: React.PropTypes.func,
   onChange: React.PropTypes.func,

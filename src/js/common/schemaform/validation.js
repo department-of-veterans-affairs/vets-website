@@ -98,7 +98,7 @@ export function transformErrors(errors, uiSchema) {
  * should call addError to add the error.
  */
 
-export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext, path = '') {
+export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '') {
   if (uiSchema && schema) {
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
@@ -113,7 +113,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, schema.items, formData, formContext, newPath);
+        uiSchemaValidate(errors, uiSchema.items, schema.items, formData, newPath);
       });
     } else if (!uiSchema.items) {
       Object.keys(uiSchema)
@@ -132,7 +132,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext
               }
             };
           }
-          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, formContext, nextPath);
+          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, nextPath);
         });
     }
 
@@ -161,23 +161,22 @@ export function errorSchemaIsValid(errorSchema) {
 
 export function isValidForm(form, pageListByChapters) {
   const pageConfigs = _.flatten(_.values(pageListByChapters));
-  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
-  const validPages = Object.keys(pages)
+  const validPages = Object.keys(form.pages)
     .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form));
 
   const v = new Validator();
 
-  return form.privacyAgreementAccepted && validPages.every(page => {
-    const { uiSchema, schema, data } = pages[page];
+  return form.data.privacyAgreementAccepted && validPages.every(page => {
+    const { uiSchema, schema } = form.pages[page];
 
     const result = v.validate(
-      data,
+      form.data,
       schema
     );
 
     if (result.valid) {
       const errors = {};
-      uiSchemaValidate(errors, uiSchema, schema, data, {});
+      uiSchemaValidate(errors, uiSchema, schema, form.data);
 
       return errorSchemaIsValid(errors);
     }

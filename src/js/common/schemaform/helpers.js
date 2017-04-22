@@ -5,7 +5,7 @@ import shouldUpdate from 'recompose/shouldUpdate';
 
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
-import { getActivePages } from '../utils/helpers';
+import { getInactivePages } from '../utils/helpers';
 
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
@@ -159,16 +159,6 @@ export function parseISODate(dateString) {
 }
 
 /*
- * Merges data for pages in list into one object
- */
-export function flattenFormData(pages, form) {
-  return pages.reduce((formPages, page) => {
-    const pageData = form[page.pageKey].data;
-    return _.assign(formPages, pageData);
-  }, { privacyAgreementAccepted: form.privacyAgreementAccepted });
-}
-
-/*
  * Removes 'view:' fields from data object
  */
 export function filterViewFields(data) {
@@ -196,13 +186,22 @@ export function filterViewFields(data) {
   }, {});
 }
 
+export function filterInactivePages(pages, form) {
+  return pages.reduce((formData, page) => {
+    return Object.keys(page.schema.properties)
+      .reduce((currentData, prop) => {
+        return _.unset(prop, currentData);
+      });
+  }, form.data);
+}
+
 /*
  * Normal transform for schemaform data
  */
 export function transformForSubmit(formConfig, form) {
-  const activePages = getActivePages(createFormPageList(formConfig), form);
-  const flattened = flattenFormData(activePages, form);
-  const withoutViewFields = filterViewFields(flattened);
+  const inactivePages = getInactivePages(createFormPageList(formConfig), form.data);
+  const withoutInactivePages = filterInactivePages(inactivePages, form);
+  const withoutViewFields = filterViewFields(withoutInactivePages);
 
   return JSON.stringify(withoutViewFields, (key, value) => {
     // an object with country is an address
@@ -461,7 +460,7 @@ export function removeHiddenData(schema, data) {
 
   if (schema.type === 'object') {
     return Object.keys(data).reduce((current, next) => {
-      if (typeof data[next] !== 'undefined') {
+      if (typeof data[next] !== 'undefined' && schema.properties[next]) {
         const nextData = removeHiddenData(schema.properties[next], data[next]);
 
         // if the data was removed, then just unset it
@@ -529,7 +528,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, pageData, form) {
   const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
 
   if (updateSchema) {
-    const newSchemaProps = updateSchema(pageData, form, currentSchema);
+    const newSchemaProps = updateSchema(pageData, form, currentSchema, uiSchema);
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
       if (newSchemaProps[next] !== schema[next]) {

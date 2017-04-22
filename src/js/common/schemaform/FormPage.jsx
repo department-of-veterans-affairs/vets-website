@@ -80,10 +80,10 @@ class FormPage extends React.Component {
   render() {
     const { route } = this.props;
     const {
-      data,
       schema,
       uiSchema
-    } = this.props.form[route.pageConfig.pageKey];
+    } = this.props.form.pages[route.pageConfig.pageKey];
+    const data = this.props.form.data;
     return (
       <div className="form-panel">
         <SchemaForm
