@@ -5,7 +5,7 @@ concurrence:
 template: 1-topic-landing
 relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/
-    title: VA-backed Loans
+    title: VA-Backed Loans
     description: Learn how VA-backed home loans work—and find out which loan option may be right for you.
   - url: /housing-assistance/home-loans/eligibility/
     title: Eligibility
@@ -20,6 +20,6 @@ relatedlinks:
 
 <div class="va-introtext">
 
-VA-backed home loans help more Veterans like you build, buy, improve, or refinance a home. With a VA-backed loan, you’ll still need to have the required credit and income for the loan amount you want to borrow. But you’ll likely get better loan terms than with a loan from a private bank or mortgage company. Find out about our loan options—and how to apply.
+VA-backed home loans help Veterans like you build, buy, improve, or refinance a home. With a VA-backed loan, you’ll still need to have the required credit and income for the loan amount you want to borrow. But you’ll likely get better loan terms than with a loan from a private bank or mortgage company. Find out about our loan options—and how to apply.
 
 </div>
