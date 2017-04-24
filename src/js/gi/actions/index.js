@@ -2,6 +2,7 @@ import { snakeCase } from 'lodash';
 
 import { api } from '../config';
 
+export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 export const DISPLAY_MODAL = 'DISPLAY_MODAL';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
 export const ENTER_PREVIEW_MODE = 'ENTER_PREVIEW_MODE';
@@ -25,6 +26,10 @@ export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
 export const INSTITUTION_FILTER_CHANGED = 'INSTITUTION_FILTER_CHANGED';
 export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
+
+export function updateRoute(location) {
+  return { type: UPDATE_ROUTE, location };
+}
 
 export function showModal(modal) {
   window.dataLayer.push({
@@ -154,7 +159,7 @@ export function fetchSearchResults(query = {}) {
   const url = `${api.url}/institutions/search?${queryString}`;
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED });
+    dispatch({ type: SEARCH_STARTED, name: query.name || '' });
 
     return fetch(url, api.settings)
       .then(res => res.json())
