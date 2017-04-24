@@ -803,17 +803,21 @@ export const getCalculatedBenefits = createSelector(
     };
 
     calculatedBenefits.outputs = {
+      giBillPaysToSchool: {
+        visible: true,
+        value: `${formatCurrency(derived.totalToSchool)}/yr`
+      },
       tuitionAndFeesCharged: {
         visible: true,
         value: formatCurrency(form.tuitionFees)
       },
-      giBillPaysToSchool: {
-        visible: true,
-        value: formatCurrency(derived.totalToSchool)
-      },
       yourScholarships: {
         visible: true,
         value: formatCurrency(derived.totalScholarshipTa)
+      },
+      outOfPocketTuition: {
+        visible: true,
+        value: formatCurrency(derived.totalLeftToPay)
       },
       housingAllowance: {
         visible: true,
@@ -821,11 +825,7 @@ export const getCalculatedBenefits = createSelector(
       },
       bookStipend: {
         visible: true,
-        value: `${formatCurrency(derived.bookStipendTotal)}${institutionType === 'ojt' ? '/mo' : ''}`
-      },
-      outOfPocketTuition: {
-        visible: true,
-        value: formatCurrency(derived.totalLeftToPay)
+        value: `${formatCurrency(derived.bookStipendTotal)}${institutionType === 'ojt' ? '/mo' : '/yr'}`
       },
       totalPaidToYou: {
         visible: true,
@@ -857,6 +857,47 @@ export const getCalculatedBenefits = createSelector(
               visible: true
             },
           ],
+        },
+        yellowRibbon: {
+          visible: true,
+          title: 'Yellow Ribbon',
+          terms: [
+            {
+              label: `${derived.nameOfTerm1} (paid by school)`,
+              value: formatCurrency(derived.yrBenSchoolTerm1),
+              visible: true
+            },
+            {
+              label: `${derived.nameOfTerm1} (paid by VA)`,
+              value: formatCurrency(derived.yrBenVaTerm1),
+              visible: true
+            },
+            {
+              label: `${derived.nameOfTerm2} (paid by school)`,
+              value: formatCurrency(derived.yrBenSchoolTerm2),
+              visible: true
+            },
+            {
+              label: `${derived.nameOfTerm2} (paid by VA)`,
+              value: formatCurrency(derived.yrBenVaTerm2),
+              visible: true
+            },
+            {
+              label: `${derived.nameOfTerm3} (paid by school)`,
+              value: formatCurrency(derived.yrBenSchoolTerm3),
+              visible: true
+            },
+            {
+              label: `${derived.nameOfTerm3} (paid by VA)`,
+              value: formatCurrency(derived.yrBenVaTerm3),
+              visible: true
+            },
+            {
+              label: 'Total per year',
+              value: formatCurrency(derived.yrBenSchoolTotal + derived.yrBenVaTotal),
+              visible: true
+            },
+          ]
         },
         housingAllowance: {
           visible: true,
@@ -910,47 +951,6 @@ export const getCalculatedBenefits = createSelector(
             },
           ],
         },
-        yellowRibbon: {
-          visible: true,
-          title: 'Yellow Ribbon',
-          terms: [
-            {
-              label: `${derived.nameOfTerm1} (paid by school)`,
-              value: formatCurrency(derived.yrBenSchoolTerm1),
-              visible: true
-            },
-            {
-              label: `${derived.nameOfTerm1} (paid by VA)`,
-              value: formatCurrency(derived.yrBenVaTerm1),
-              visible: true
-            },
-            {
-              label: `${derived.nameOfTerm2} (paid by school)`,
-              value: formatCurrency(derived.yrBenSchoolTerm2),
-              visible: true
-            },
-            {
-              label: `${derived.nameOfTerm2} (paid by VA)`,
-              value: formatCurrency(derived.yrBenVaTerm2),
-              visible: true
-            },
-            {
-              label: `${derived.nameOfTerm3} (paid by school)`,
-              value: formatCurrency(derived.yrBenSchoolTerm3),
-              visible: true
-            },
-            {
-              label: `${derived.nameOfTerm3} (paid by VA)`,
-              value: formatCurrency(derived.yrBenVaTerm3),
-              visible: true
-            },
-            {
-              label: 'Total per year',
-              value: formatCurrency(derived.yrBenSchoolTotal + derived.yrBenVaTotal),
-              visible: true
-            },
-          ]
-        }
       }
     };
 
