@@ -35,7 +35,7 @@ const formConfig = {
   defaultDefinitions: {
   },
   title: 'Apply for education benefits under the National Call to Service program',
-  subTitle: 'Form 22-1990n',
+  subTitle: 'Form 22-1990N',
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -137,7 +137,9 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              payHighestRateBenefit
+              payHighestRateBenefit: _.merge(payHighestRateBenefit, {
+                'default': true
+              })
             }
           }
         }
