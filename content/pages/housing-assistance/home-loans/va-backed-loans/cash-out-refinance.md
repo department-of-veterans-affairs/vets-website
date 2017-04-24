@@ -43,16 +43,14 @@ A cash-out refinance loan may help you to:
 -	Take cash out of your home equity to pay off debt, pay for school, make home improvements, or take care of other needs, **or**
 -	Refinance a non-VA loan into a VA-backed loan
 
-**Keep closing costs in mind**
-
-Closing costs for refinancing a loan can add up to thousands of dollars. Ask your lender to help you decide if a cash-out refinance loan is the best option for you.
+You'll want to keep closing costs in mind when refinancing a loan, as they can add up to thousands of dollars. Ask your lender to help you decide if a cash-out refinance loan is the best option for you.
 
 ### How can I get a cash-out refinance loan?
 
 <ol class="process">
 <li class="step one">
 
-**Find a lender.** You’ll go through a private bank or mortgage company—not directly through us—to get a Cash-Out Refinance Loan. Terms and fees may vary so contact several lenders to check out your options.
+**Find a lender.** You’ll go through a private bank or mortgage company—not directly through us—to get a cash-out refinance loan. Terms and fees may vary, so contact several lenders to check out your options.
 
 </li>
 
@@ -69,9 +67,10 @@ Closing costs for refinancing a loan can add up to thousands of dollars. Ask you
 **Give your lender any needed information.** In addition to your COE, you’ll need to give your lender:
 -	Copies of paycheck stubs for the most recent 30-day period
 -	W-2 forms for the previous 2 years
--	A home appraisal (the lender will order this expert assessment of the value of your home)
 -	A copy of your federal income tax returns for the previous 2 years (required by many, but not all lenders)
 -	Any other information your lender requires
+
+**Note:** The lender will order a home appraisal, an expert assessment of the value of your home.
 
 </li>
 
