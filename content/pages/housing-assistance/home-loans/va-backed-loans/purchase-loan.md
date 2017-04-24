@@ -17,7 +17,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-A VA-backed purchase loan can help you if you're looking for a competitive interest rate or you’ve had trouble finding  financing. Find out if you can get this loan—and how to apply. 
+A VA-backed purchase loan can help you if you're looking for a competitive interest rate or if you’ve had trouble finding  financing to buy a house. Find out if you can get this loan—and how to apply. 
 
 </div>
 
@@ -59,7 +59,7 @@ You can also:
 
 ### How can I buy a home with a VA-backed purchase loan?
 
-Buying a home is a complex process—and getting a VA-backed home loan is only one piece of the puzzle. Stay on track by following the steps below.
+Buying a home is a complex process, and getting a VA-backed home loan is only one piece of the puzzle. Stay on track by following the steps below.
 
 #### Steps to finding a home
 
@@ -78,9 +78,7 @@ Buying a home is a complex process—and getting a VA-backed home loan is only o
 
 <li class="step three">
 
-**Apply for your VA-backed home loan Certificate of Eligibility (COE).** You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. 
-
-<br> 
+**Apply for your VA-backed home loan Certificate of Eligibility (COE).** You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. <br />
 
 [Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/). <br />
 [Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
