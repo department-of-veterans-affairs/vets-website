@@ -7,7 +7,7 @@ import _ from 'lodash';
  * Without this state, it is extremely hard (impossible?) to write UI with required fields where
  * the initial empty state does not get marked as a distracting error.
  */
-function makeField(value, optionalDirty) {
+export function makeField(value, optionalDirty) {
   const dirty = optionalDirty === undefined ? false : optionalDirty;
   return { value, dirty };
 }
@@ -15,7 +15,7 @@ function makeField(value, optionalDirty) {
 /**
  * Walks through an object hierarchy of fields and marks everything dirty.
  */
-function dirtyAllFields(field) {
+export function dirtyAllFields(field) {
   if (_.keys(field).length === 2 && _.has(field, 'value') && _.has(field, 'dirty')) {
     return makeField(field.value, true);
   } else if (_.isPlainObject(field)) {
@@ -26,5 +26,3 @@ function dirtyAllFields(field) {
 
   return field;
 }
-
-module.exports = { makeField, dirtyAllFields };
