@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import SubmitMessage from '../../../../src/js/edu-benefits/1990/components/SubmitMessage';
 import { createVeteran } from '../../../../src/js/edu-benefits/1990/utils/veteran';
 
-describe('<BenefitsWaiverFields>', () => {
+describe('<SubmitMessage>', () => {
   const veteran = createVeteran();
   const data = {
     name: veteran.veteranFullName,
@@ -23,7 +23,7 @@ describe('<BenefitsWaiverFields>', () => {
 
   it('should hide relinqushed for non-chapter 33', () => {
     data.chapter33 = false;
-    tree.reRender(<SubmitMessage {...data}/>);
+    tree.reRender(data);
     expect(tree.everySubTree('.claim-relinquished').length).to.equal(0);
   });
 });
