@@ -86,6 +86,6 @@ describe('ThreadHeader', () => {
           {...props }
           isNewMessage/>
     );
-    expect(tree.subTree('.messaging-thread-title.show-for-small-only')).to.be.ok;
+    expect(tree.subTree('.messaging-thread-title', '.show-for-small-only')).to.be.ok;
   });
 });
