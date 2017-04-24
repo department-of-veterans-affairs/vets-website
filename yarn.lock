@@ -5356,7 +5356,7 @@ metalsmith-webpack-dev-server@department-of-veterans-affairs/metalsmith-webpack-
     chalk "^1.1.1"
     metalsmith "^1.7.0"
     webpack "^2.4.1"
-    webpack-dev-server "1.16"
+    webpack-dev-server "^1.14.1"
 
 metalsmith-webpack@department-of-veterans-affairs/metalsmith-webpack:
   version "1.0.3"
@@ -8417,7 +8417,7 @@ webpack-dev-middleware@^1.10.2:
     path-is-absolute "^1.0.0"
     range-parser "^1.0.3"
 
-webpack-dev-server@1.16:
+webpack-dev-server@^1.14.1:
   version "1.16.4"
   resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-1.16.4.tgz#9a5b8e86aafa2c478e8a24d29ddb282ac696ef50"
   dependencies:
