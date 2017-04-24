@@ -100,7 +100,7 @@ export class Calculator extends React.Component {
 
     return (
       <div>
-        <h3>Estimated benefits per month</h3>
+        <h3>Estimated benefits per {this.props.calculator.type === 'OJT' ? 'month' : 'term'}</h3>
         {sections}
       </div>
     );

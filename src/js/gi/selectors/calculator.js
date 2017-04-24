@@ -790,6 +790,7 @@ export const getCalculatedBenefits = createSelector(
     const { militaryStatus } = eligibility;
     const giBillChapter = +eligibility.giBillChapter;
     const institutionType = institution.type.toLowerCase();
+    const isOJT = institutionType === 'ojt';
 
     calculatedBenefits.inputs = {
       inState: false,
@@ -909,22 +910,22 @@ export const getCalculatedBenefits = createSelector(
           terms: [
             {
               label: derived.nameOfTerm1,
-              value: formatCurrency(derived.housingAllowTerm1),
+              value: `${formatCurrency(derived.housingAllowTerm1)}${isOJT ? '/mo' : ''}`,
               visible: true
             },
             {
               label: derived.nameOfTerm2,
-              value: formatCurrency(derived.housingAllowTerm2),
+              value: `${formatCurrency(derived.housingAllowTerm2)}${isOJT ? '/mo' : ''}`,
               visible: true
             },
             {
               label: derived.nameOfTerm3,
-              value: formatCurrency(derived.housingAllowTerm3),
+              value: `${formatCurrency(derived.housingAllowTerm3)}${isOJT ? '/mo' : ''}`,
               visible: true
             },
             {
               label: derived.nameOfTerm4,
-              value: formatCurrency(derived.housingAllowTotal), // Total if not OJT
+              value: `${formatCurrency(derived.housingAllowTerm4)}${isOJT ? '/mo' : ''}`, // Total if not OJT
               visible: true
             },
           ],
@@ -935,22 +936,22 @@ export const getCalculatedBenefits = createSelector(
           terms: [
             {
               label: derived.nameOfTerm1,
-              value: formatCurrency(derived.bookStipendTerm1),
+              value: `${formatCurrency(derived.bookStipendTerm1)}${isOJT ? '/mo' : ''}`,
               visible: true
             },
             {
               label: derived.nameOfTerm2,
-              value: formatCurrency(derived.bookStipendTerm2),
+              value: `${formatCurrency(derived.bookStipendTerm2)}${isOJT ? '/mo' : ''}`,
               visible: true
             },
             {
               label: derived.nameOfTerm3,
-              value: formatCurrency(derived.bookStipendTerm3),
+              value: `${formatCurrency(derived.bookStipendTerm3)}${isOJT ? '/mo' : ''}`,
               visible: true
             },
             {
               label: derived.nameOfTerm4,
-              value: formatCurrency(derived.bookStipendTotal), // Total if not OJT
+              value: `${formatCurrency(derived.bookStipendTerm4)}${isOJT ? '/mo' : ''}`, // Total if not OJT
               visible: true
             },
           ],
