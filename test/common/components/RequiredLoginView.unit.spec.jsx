@@ -52,6 +52,7 @@ describe('<RequiredLoginView>', () => {
     userProfile: loa1User,
     loginUrl: 'http://fake-login-url'
   };
+
   function setup(props = {}) {
     const mergedProps = Object.assign({}, defaultProps, props);
     const tree = SkinDeep.shallowRender(
