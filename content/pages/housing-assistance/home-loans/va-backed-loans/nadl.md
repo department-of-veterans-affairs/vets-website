@@ -42,21 +42,20 @@ You may be able to get a NADL if you’re a Native American Veteran or a non–N
 A NADL often offers better terms than a home loan from a private bank or mortgage company (called a lender), including:
 
 - No down payment required in most cases
-- No need for Private Mortgage Insurance (PMI is a type of insurance that protects the lender if you can’t pay your mortgage. PMI is usually required if you make a down payment of less than 20% of the total mortgage amount.)
+- No need for Private Mortgage Insurance (PMI), a type of insurance that protects the lender if you can’t pay your mortgage. The lender usually requires PMI if you make a down payment of less than 20% of the total mortgage amount.
 - Low closing costs (fees you pay for services and other costs related to getting a loan and buying a home)
 - A low-interest, 30-year fixed mortgage (a fixed mortgage means your interest rate will stay the same over the full life of the loan)
-- A reusable benefit (which means you can get more than 1 NADL to buy, build, or improve another home in the future)
-- The ability to borrow up to $417,000 in most areas (with higher loan limits for some high-cost counties)
+- A reusable benefit, which means you can get more than 1 NADL to buy, build, or improve another home in the future
+- The ability to borrow up to $417,000 in most areas, with higher loan limits for some high-cost counties
 
 ### How do I get a NADL?
 
 <ol class="process">
 <li class="step one">
 
-First, apply for a VA home loan Certificate of Eligibility (COE). This certification confirms that you qualify for the VA home loan benefit.
-
-[Find out if you can get a COE based on your service history and duty status](/housing-assistance/home-loans/eligibility/).
-
+First, apply for a VA home loan Certificate of Eligibility (COE). This certification confirms that you qualify for the VA home loan benefit. <br />
+[Find out if you can get a COE based on your service history and duty status](/housing-assistance/home-loans/eligibility/). 
+<br />
 [Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
 </li>
