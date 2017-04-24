@@ -8,9 +8,11 @@ import { createUSAStateLabels } from '../../common/schemaform/helpers';
 import {
   transform,
   dischargeTypeLabels
+  lastServiceBranchLabels    
   FacilityHelp,
   medicalCentersByState,
   medicalCenterLabels
+
 } from '../helpers';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -35,12 +37,20 @@ const {
 
 const stateLabels = createUSAStateLabels(states);
 
+import * as currentOrPastDate from '../../common/schemaform/definitions/currentOrPastDate';
 
 const {
-  date
-} = fullSchemaHca.definitions;
-
-const {
+  lastServiceBranch,
+  dischargeType,
+  purpleHeartRecipient,
+  isFormerPow,
+  postNov111998Combat,
+  disabledInLineOfDuty,
+  swAsiaCombat,
+  vietnamService,
+  exposedToRadiation,
+  radiumTreatments,
+  campLejeune
 } = fullSchemaHca.properties;
 
 const formConfig = {
@@ -231,13 +241,21 @@ const formConfig = {
       title: 'Military service',
       pages: {
         serviceInformation: {
+          path: 'military-service/service-information',
+          title: 'Service periods',
           uiSchema: {
             lastServiceBranch: {
-              'ui:title': 'Last branch of service'
+              'ui:title': 'Last branch of service',
+              'ui:options': {
+                labels: lastServiceBranchLabels
+              }
             },
-            lastEntryDate: date.uiSchema('Start of service period'),
-            lastDischargeDate: date.uiSchema('Date of discharge'),
+            // TODO: this should really be a dateRange, but that requires a backend schema change. For now
+            // leaving them as dates, but should change these to get the proper dateRange validation
+            lastEntryDate: currentOrPastDate.uiSchema('Start of service period'),
+            lastDischargeDate: currentOrPastDate.uiSchema('Date of discharge'),
             dischargeType: {
+              'ui:title': 'Character of discharge',
               'ui:options': {
                 labels: dischargeTypeLabels
               }
@@ -246,19 +264,61 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              lastServiceBranch: {
-                type: 'string'
-              },
-              lastEntryDate: date.schema,
-              lastDischargeDate: date.schema,
-              dischargeType: {
-                type: 'string'
-              },
+              lastServiceBranch: _.assign(lastServiceBranch, { type: 'string' }),
+              lastEntryDate: currentOrPastDate.schema,
+              lastDischargeDate: currentOrPastDate.schema,
+              dischargeType: _.assign(dischargeType, { type: 'string' })
             },
             required: ['lastServiceBranch', 'lastEntryDate', 'lastDischargeDate', 'dischargeType']
           }
         },
         additionalInformation: {
+          path: 'military-service/additional-information',
+          title: 'Service history',
+          uiSchema: {
+            'ui:title': 'Check all that apply to you.',
+            purpleHeartRecipient: {
+              'ui:title': 'Purple Heart award recipient',
+            },
+            isFormerPow: {
+              'ui:title': 'Former prisoner of war',
+            },
+            postNov111998Combat: {
+              'ui:title': 'Served in combat theater of operations after November 11, 1998',
+            },
+            disabledInLineOfDuty: {
+              'ui:title': 'Discharged or retired from the military for a disability incurred in the line of duty',
+            },
+            swAsiaCombat: {
+              'ui:title': 'Served in Southwest Asia during the Gulf War between August 2, 1990, and Nov 11, 1998',
+            },
+            vietnamService: {
+              'ui:title': 'Served in Vietnam between January 9, 1962, and May 7, 1975',
+            },
+            exposedToRadiation: {
+              'ui:title': 'Exposed to radiation while in the military',
+            },
+            radiumTreatments: {
+              'ui:title': 'Received nose/throat radium treatments while in the military',
+            },
+            campLejeune: {
+              'ui:title': 'Served on active duty at least 30 days at Camp Lejeune from January 1, 1953, through December 31, 1987',
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              purpleHeartRecipient,
+              isFormerPow,
+              postNov111998Combat,
+              disabledInLineOfDuty,
+              swAsiaCombat,
+              vietnamService,
+              exposedToRadiation,
+              radiumTreatments,
+              campLejeune
+            }
+          }
         }
       }
     }
