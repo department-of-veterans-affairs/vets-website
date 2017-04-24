@@ -127,3 +127,50 @@ button.short {
     }
   }
 }
+
+// Opens / closes a sidebar navigation on detail pages.
+.va-btn-sidebarnav-trigger {
+  background: $color-gray-lightest;
+  border-radius: 0;
+  display: block;
+  color: $color-link-default;
+  margin: 3rem 0;
+  text-align: left;
+
+  span {
+    align-items: center;
+    display: flex;
+  }
+
+  b {
+    flex: 1 1 10rem
+  }
+
+  svg {
+    display: inline-block;
+    height: 1rem;
+    width: 1rem;
+    fill: $color-link-default;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    svg {
+      fill: $color-white;
+    }
+  }
+
+  @include media($medium-large-screen) {
+    display: none;
+  }
+}
+
+.va-btn-close-icon {
+  background: transparent url(assets/img/icons/close.svg) center no-repeat;
+  background-size: 1rem 1rem;
+  height: 1rem;
+  padding: 1rem;
+  text-indent: -9999rem;
+  width: 1rem;
+}

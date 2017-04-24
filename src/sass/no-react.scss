@@ -2,9 +2,8 @@
 @import "modules/m-modal";
 
 // ----- VA LAYOUTS (GRIDS/HEADER/FOOTER) ---- //
-
 @import "layouts/l-playbook";
 
 // ----- Modules that only affect non-React pages. ---- //
 @import "modules/m-nav-linkslist";
-@import "modules/m-next-previous";
+@import "modules/m-nav-next-previous";

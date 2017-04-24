@@ -15,7 +15,10 @@ Used to display a side navigation bar of pages in a collection.
 
 {% assign relatedPages = collections | get: collection %}
 
-<nav class="usa-width-one-fourth">
+<nav class="usa-width-one-fourth va-sidebarnav" id="va-detailpage-sidebar">
+<div>
+  <button type="button" class="va-btn-close-icon va-sidebarnav-close">Close this menu</button>
+
 {% if relatedPages != empty %}
   {% if relatedPages.metadata.name != empty %}
     <h4>{{ relatedPages.metadata.name }}</h4>
@@ -54,5 +57,6 @@ Used to display a side navigation bar of pages in a collection.
     {% endfor %}
   </ul>
 {% endif %}
+</div>
 </nav>
 
