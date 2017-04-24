@@ -57,6 +57,7 @@ class IntroductionPage extends React.Component {
               <div><h5>Decision</h5></div>
               <ul><li>We usually process claims within 30 days.</li></ul>
               <ul><li>You’ll get a Certificate of Eligibility (COE) or Award Letter in the mail if your application was approved.</li></ul>
+              <ul><li>If your application was not approved, you’ll get a denial letter in the mail.</li></ul>
             </li>
           </ol>
         </div>

@@ -226,7 +226,7 @@ const formConfig = {
                 'ui:title': 'Disability Compensation or Pension'
               },
               dic: {
-                'ui:title': 'Dependents\' Indemnity Compensation (DIC)'
+                'ui:title': 'Dependents’ Indemnity Compensation (DIC)'
               },
               chapter31: {
                 'ui:title': 'Vocational Rehabilitation benefits (Chapter 31)'
