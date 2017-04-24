@@ -12,23 +12,23 @@ relatedlinks:
     description: Have an existing VA-backed home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
   - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
     title: Purchase Loan
-    description: Looking to buy a home? Find out if you can get a VA-backed Purchase Loan and get better terms than with a private lender loan. 
+    description: Looking to buy a home? Find out if you can get a VA-backed purchase loan and get better terms than with a loan from a private lender. 
   - url: /housing-assistance/home-loans/va-backed-loans/nadl/
     title: Native American Direct Loan (NADL) Program
-    description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get our NADL to buy, build, or improve a home on Federal Trust Land.
+    description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get a loan through our NADL program to buy, build, or improve a home on Federal Trust Land.
 ---
 
 <div class="va-introtext">
 
-Refinancing lets you replace your current loan with a new one under different terms. If you want to take cash out of your home equity or refinance a non-VA loan into a VA-backed loan, a Cash-Out Refinance Loan may be right for you. Find out if you can get this type of loan—and how to apply.
+Refinancing lets you replace your current loan with a new one under different terms. If you want to take cash out of your home equity or refinance a non-VA loan into a VA-backed loan, a cash-out refinance loan may be right for you. Find out if you can get this type of loan—and how to apply.
 
 </div>
 
 <div class="feature">
 
-### Can I get a VA-backed Cash-Out Refinance Loan?
+### Can I get a VA-backed cash-out refinance loan?
 
-You may be able to get a Cash-Out Refinance Loan if you:
+You may be able to get a cash-out refinance loan if you:
 
 -	[Qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility), **and**
 -	Meet your lender’s standards for credit, income, and any other requirements, **and**
@@ -36,18 +36,18 @@ You may be able to get a Cash-Out Refinance Loan if you:
 
 </div>
 
-### Why might I want to get a Cash-Out Refinance Loan?
+### Why might I want to get a cash-out refinance loan?
 
-A Cash-Out Refinance Loan may help you to:
+A cash-out refinance loan may help you to:
 
 -	Take cash out of your home equity to pay off debt, pay for school, make home improvements, or take care of other needs, **or**
 -	Refinance a non-VA loan into a VA-backed loan
 
 **Keep closing costs in mind**
 
-Closing costs for refinancing a loan can add up to thousands of dollars. Ask your lender to help you decide if a Cash-Out Refinance Loan is the best option for you.
+Closing costs for refinancing a loan can add up to thousands of dollars. Ask your lender to help you decide if a cash-out refinance loan is the best option for you.
 
-### How can I get a Cash-Out Refinance Loan?
+### How can I get a cash-out refinance loan?
 
 <ol class="process">
 <li class="step one">
@@ -58,10 +58,8 @@ Closing costs for refinancing a loan can add up to thousands of dollars. Ask you
 
 <li class="step two">
 
-**Apply for your VA-backed home loan Certificate of Eligibility (COE).** You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit.
-
-[Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility).
-
+**Apply for your VA-backed home loan Certificate of Eligibility (COE).** You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. <br />
+[Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility). <br />
 [Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility).
 
 </li>
