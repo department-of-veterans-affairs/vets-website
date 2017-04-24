@@ -272,8 +272,6 @@ export function validateAddress(errors, address, formData, schema) {
 
 export function validateMatch(field1, field2) {
   return (errors, formData) => {
-    // console.log(`validation -> validateMatch(${field1}, ${field2}) -> formData[${field1}]:`, formData[field1]);
-    // console.log(`validation -> validateMatch(${field1}, ${field2}) -> formData[${field2}]:`, formData[field2]);
     if (formData[field1] !== formData[field2]) {
       errors[field2].addError('Please ensure your entries match');
     }

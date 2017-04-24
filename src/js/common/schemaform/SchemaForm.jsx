@@ -127,7 +127,10 @@ class SchemaForm extends React.Component {
             onSubmit={onSubmit}
             schema={schema}
             uiSchema={uiSchema}
-            validate={(pData, errors) => this.validate(formData, errors)}
+            validate={(pData, errors) => {
+              // Have to merge pData and formData otherwise validation is a step behind
+              return this.validate(_.merge(formData, pData), errors);
+            }}
             showErrorList={false}
             formData={pageData}
             widgets={reviewMode ? reviewWidgets : widgets}

@@ -53,7 +53,7 @@ describe('Edu pages contactInformation', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
   });
   it('should conditionally require phone number', () => {
     const form = ReactTestUtils.renderIntoDocument(
