@@ -7,7 +7,8 @@ import {
   updateRequiredFields,
   createFormPageList,
   updateSchemaFromUiSchema,
-  replaceRefSchemas
+  replaceRefSchemas,
+  updateItemsSchema
 } from '../helpers';
 
 import { SET_DATA,
@@ -34,7 +35,8 @@ function recalculateSchemaAndData(initialState) {
 
       // Recalculate any required fields, based on the new data
       const page = state[pageKey];
-      let schema = updateRequiredFields(page.schema, page.uiSchema, formData);
+      let schema = updateItemsSchema(page.schema, formData);
+      schema = updateRequiredFields(schema, page.uiSchema, formData);
 
       // Update the schema with any fields that are now hidden because of the data change
       schema = setHiddenFields(schema, page.uiSchema, formData);
@@ -64,7 +66,8 @@ export default function createSchemaFormReducer(formConfig) {
   const firstPassInitialState = createFormPageList(formConfig)
     .reduce((state, page) => {
       const definitions = _.assign(formConfig.defaultDefinitions || {}, page.schema.definitions);
-      const schema = replaceRefSchemas(page.schema, definitions, page.pageKey);
+      let schema = replaceRefSchemas(page.schema, definitions, page.pageKey);
+      schema = updateItemsSchema(schema);
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 
       return _.set(page.pageKey, {

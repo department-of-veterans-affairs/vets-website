@@ -325,7 +325,7 @@ export function getNonArraySchema(schema) {
  * If no required fields are changing, it makes sure to not mutate the existing schema,
  * so we can still take advantage of any shouldComponentUpdate optimizations
  */
-export function updateRequiredFields(schema, uiSchema, formData) {
+export function updateRequiredFields(schema, uiSchema, formData, index = null) {
   if (!uiSchema) {
     return schema;
   }
@@ -334,7 +334,7 @@ export function updateRequiredFields(schema, uiSchema, formData) {
     const newRequired = Object.keys(schema.properties).reduce((requiredArray, nextProp) => {
       const field = uiSchema[nextProp];
       if (field && field['ui:required']) {
-        const isRequired = field['ui:required'](formData);
+        const isRequired = field['ui:required'](formData, index);
         const arrayHasField = requiredArray.some(prop => prop === nextProp);
 
         if (arrayHasField && !isRequired) {
@@ -351,7 +351,7 @@ export function updateRequiredFields(schema, uiSchema, formData) {
 
     const newSchema = Object.keys(schema.properties).reduce((currentSchema, nextProp) => {
       if (uiSchema) {
-        const nextSchema = updateRequiredFields(currentSchema.properties[nextProp], uiSchema[nextProp], formData);
+        const nextSchema = updateRequiredFields(currentSchema.properties[nextProp], uiSchema[nextProp], formData, index);
         if (nextSchema !== currentSchema.properties[nextProp]) {
           return _.set(['properties', nextProp], nextSchema, currentSchema);
         }
@@ -368,9 +368,11 @@ export function updateRequiredFields(schema, uiSchema, formData) {
   }
 
   if (schema.type === 'array') {
-    const newItemSchema = updateRequiredFields(schema.items, uiSchema.items, formData);
-    if (newItemSchema !== schema.items) {
-      return _.set('items', newItemSchema, schema);
+    // each item has its own schema, so we need to update the required fields on those schemas
+    // and then check for differences
+    const newItemSchemas = schema.items.map((item, idx) => updateRequiredFields(item, uiSchema.items, formData, idx));
+    if (newItemSchemas.some((newItem, idx) => newItem !== schema.items[idx])) {
+      return _.set('items', newItemSchemas, schema);
     }
   }
 
@@ -400,8 +402,9 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
 
   let updatedSchema = schema;
   const hideIf = _.get(['ui:options', 'hideIf'], uiSchema);
+  const index = _.findLast(item => typeof item === 'number', path);
 
-  if (hideIf && hideIf(formData)) {
+  if (hideIf && hideIf(formData, index)) {
     if (!updatedSchema['ui:hidden']) {
       updatedSchema = _.set('ui:hidden', true, updatedSchema);
     }
@@ -435,14 +438,14 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
   }
 
   if (updatedSchema.type === 'array') {
-    // Our current approach is to sometimes modify the schema based on form data
-    // This breaks down with arrays, because all items share the same schema
-    // So, this is technically not correct, but the last row is probably what's visible
-    // for a user, so it should be the least bad for now
-    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, formData, path.concat(formData.length - 1));
+    // each item has its own schema, so we need to update the required fields on those schemas
+    // and then check for differences
+    const newItemSchemas = updatedSchema.items.map((item, idx) =>
+      setHiddenFields(item, uiSchema.items, formData, path.concat(idx))
+    );
 
-    if (newSchema !== updatedSchema.items) {
-      return _.set('items', newSchema, updatedSchema);
+    if (newItemSchemas.some((newItem, idx) => newItem !== updatedSchema.items[idx])) {
+      return _.set('items', newItemSchemas, updatedSchema);
     }
   }
 
@@ -480,9 +483,15 @@ export function removeHiddenData(schema, data) {
   }
 
   if (schema.type === 'array') {
-    return data.map(item => {
-      return removeHiddenData(schema.items, item);
+    const newItems = data.map((item, index) => {
+      return removeHiddenData(schema.items[index], item);
     });
+
+    if (newItems.some((newItem, idx) => newItem !== data[idx])) {
+      return newItems;
+    }
+
+    return data;
   }
 
   return data;
@@ -494,7 +503,7 @@ export function removeHiddenData(schema, data) {
  * function in uiSchema. This means the schema can be re-calculated based on data
  * a user has entered.
  */
-export function updateSchemaFromUiSchema(schema, uiSchema, pageData, form) {
+export function updateSchemaFromUiSchema(schema, uiSchema, pageData, form, index = null) {
   if (!uiSchema) {
     return schema;
   }
@@ -504,7 +513,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, pageData, form) {
   if (currentSchema.type === 'object') {
     const newSchema = Object.keys(currentSchema.properties).reduce((current, next) => {
       const nextData = pageData ? pageData[next] : undefined;
-      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], nextData, form);
+      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], nextData, form, index);
 
       if (current.properties[next] !== nextProp) {
         return _.set(['properties', next], nextProp, current);
@@ -519,17 +528,21 @@ export function updateSchemaFromUiSchema(schema, uiSchema, pageData, form) {
   }
 
   if (currentSchema.type === 'array') {
-    const newSchema = updateSchemaFromUiSchema(currentSchema.items, uiSchema.items, pageData, form);
+    // each item has its own schema, so we need to update the required fields on those schemas
+    // and then check for differences
+    const newItemSchemas = currentSchema.items.map((item, idx) =>
+      updateSchemaFromUiSchema(item, uiSchema.items, pageData, form, idx)
+    );
 
-    if (newSchema !== currentSchema.items) {
-      currentSchema = _.set('items', newSchema, currentSchema);
+    if (newItemSchemas.some((newItem, idx) => newItem !== currentSchema.items[idx])) {
+      currentSchema = _.set('items', newItemSchemas, currentSchema);
     }
   }
 
   const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
 
   if (updateSchema) {
-    const newSchemaProps = updateSchema(pageData, form, currentSchema);
+    const newSchemaProps = updateSchema(pageData, form, currentSchema, index);
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
       if (newSchemaProps[next] !== schema[next]) {
@@ -596,6 +609,41 @@ export function replaceRefSchemas(schema, definitions, path = '') {
     if (newItems !== schema.items) {
       return _.set('items', newItems, schema);
     }
+  }
+
+  return schema;
+}
+
+export function updateItemsSchema(schema, fieldData = null) {
+  if (schema.type === 'array') {
+    if (!Array.isArray(schema.items)) {
+      // We don't support arrays inside arrays
+      return _.assign(schema, {
+        items: [],
+        additionalItems: schema.items
+      });
+    }
+    if (!fieldData) {
+      return _.set('items', [], schema);
+    } else if (fieldData.length > schema.items.length) {
+      return _.set('items', schema.items.concat(schema.additionalItems), schema);
+    } else if (fieldData.length < schema.items.length) {
+      return _.set('items', _.dropRight(1, schema.items), schema);
+    }
+  }
+
+  if (schema.type === 'object') {
+    const newSchema = Object.keys(schema.properties).reduce((current, next) => {
+      const nextProp = updateItemsSchema(schema.properties[next], fieldData ? fieldData[next] : null);
+
+      if (current.properties[next] !== nextProp) {
+        return _.set(['properties', next], nextProp, current);
+      }
+
+      return current;
+    }, schema);
+
+    return newSchema;
   }
 
   return schema;
