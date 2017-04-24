@@ -6,16 +6,16 @@ template: 1-topic-landing
 relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/purchase-loan/
     title: Purchase Loan
-    description: Looking to buy a home? Find out if you can get a VA-backed Purchase Loan and get better terms than with a private lender loan. 
+    description: Looking to buy a home? Find out if you can get a VA-backed purchase loan and get better terms than with a private lender loan. 
   - url: /housing-assistance/home-loans/va-backed-loans/nadl/
     title: Native American Direct Loan (NADL) Program
-    description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get our NADL to buy, build, or improve a home on Federal Trust Land.
+    description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get a loan through our NADL program to buy, build, or improve a home on Federal Trust Land.
   - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
     title: Interest Rate Reduction Refinance Loan (IRRRL)
     description: Have an existing VA home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
   - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
-    title: Cash-Out Refinance
-    description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed Cash-Out Refinance loan. 
+    title: Cash-Out Refinance Loan
+    description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan. 
 ---
 
 <div class="va-introtext">
@@ -26,9 +26,9 @@ To get a VA home loan, you’ll need a Certificate of Eligibility (COE) to show 
 
 <div class="feature" markdown="1">
 
-### Can I get a Certificate of Eligibility (COE)?
+### Can I get a COE?
 
-You may be able to get a COE if you were discharged under conditions other than dishonorable **and** you meet the service requirements below.
+You may be able to get a COE if you were discharged under conditions other than dishonorable and you meet the service requirements below.
 
 </div>
 
@@ -78,32 +78,32 @@ You may still be able to get a COE if you were discharged due to:
 
 - Hardship, **or**
 - The convenience of the government, **or**
-- Reduction-in-force, **or**
+- Reduction in force, **or**
 - Certain medical conditions, **or**
 - A service-connected disability (a disability related to your military service)
 
 ### Can I get a COE as the spouse of a Veteran? 
 
-You may be able to get a COE if you are the spouse of a Veteran who:
+You may be able to get a COE if you're the spouse of a Veteran who:
 
 - Is missing in action, **or**
 - Is a prisoner of war (POW), **or**
 - Died while in service or from a service-connected disability and you didn’t remarry, **or**
 - Died while in service or from a service-connected disability and you didn’t remarry before you were 57 years old or before December 16, 2003, **or**
-- Died and had been totally disabled, but whose disability may not have been the cause of death (in certain situations)
+- Had been totally disabled and then died, but whose disability may not have been the cause of death (in certain situations)
 
-**Please note:** A surviving spouse who remarried before December 16, 2003, and on or after their 57th birthday, must have applied no later than December 15, 2004, to establish home loan eligibility. We must deny applications from surviving spouses who remarried before December 6, 2003, that are received after December 15, 2004.
+**Note:** A surviving spouse who remarried before December 16, 2003, and on or after their 57th birthday, must have applied no later than December 15, 2004, to establish home loan eligibility. We must deny applications we received after December 15, 2004, from surviving spouses who remarried before December 16, 2003.
 
 ### Can I get a COE in any other situations? 
 
 You may be able to get a COE if you:
 
-- Are a U.S. citizen who served in the Armed Forces of a government allied with the United States in WWII, **or**
+- Are a U.S. citizen who served in the Armed Forces of a government allied with the United States in World War II, **or**
 - Served as a member in certain organizations, such as a:
   - Public Health Service officer
   - Cadet at the United States Military, Air Force, or Coast Guard Academy
   - Midshipman at the United States Naval Academy
-  - Officer of National Oceanic & Atmospheric Administration
+  - Officer of the National Oceanic & Atmospheric Administration
   - Merchant seaman during World War II
   
 ### Can I use a COE I used before?
