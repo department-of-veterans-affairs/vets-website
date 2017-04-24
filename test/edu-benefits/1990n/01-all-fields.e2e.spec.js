@@ -3,7 +3,7 @@ const Timeouts = require('../../e2e/timeouts.js');
 const EduHelpers = require('../../e2e/edu-helpers');
 const testData = require('./schema/maximal-test.json');
 
-module.exports = E2eHelpers.createE2eTest(
+const runTest = E2eHelpers.createE2eTest(
   (client) => {
     EduHelpers.initApplicationSubmitMock('1990n');
 
@@ -92,3 +92,7 @@ module.exports = E2eHelpers.createE2eTest(
       .end();
   }
 );
+
+if (process.env.BUILDTYPE !== 'production') {
+  module.exports = runTest;
+}
