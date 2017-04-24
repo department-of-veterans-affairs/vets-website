@@ -6,40 +6,40 @@ template: 1-topic-landing
 relatedlinks:
   - url: /housing-assistance/home-loans/va-backed-loans/nadl/
     title: Native American Direct Loan (NADL) Program
-    description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get our NADL to buy, build, or improve a home on Federal Trust Land.
+    description: Are you a Native American Veteran or a Veteran married to a Native American? Find out if you can get a loan through our NADL program to buy, build, or improve a home on Federal Trust Land.
   - url: /housing-assistance/home-loans/va-backed-loans/irrrl/
     title: Interest Rate Reduction Refinance Loan (IRRRL)
     description: Have an existing VA-backed home loan? Find out if you can get a VA-backed IRRRL to help reduce your monthly payments or make them more stable.
   - url: /housing-assistance/home-loans/va-backed-loans/cash-out-refinance/
     title: Cash-Out Refinance Loan
-    description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed Cash-Out Refinance loan.
+    description: Want to take cash out of your home equity to pay off debt, pay for school, or take care of other needs? Find out if you can get a VA-backed cash-out refinance loan.
 ---
 
 <div class="va-introtext">
 
-With a VA-backed Purchase Loan, we can help you buy a home at a competitive interest rate—and if you’ve had trouble finding other financing. Find out if you can get this loan—and how to apply. 
+A VA-backed purchase loan can help you if you're looking for a competitive interest rate or you’ve had trouble finding  financing. Find out if you can get this loan—and how to apply. 
 
 </div>
 
 <div class="feature">
 
-### Can I get a VA-backed Purchase Loan?
+### Can I get a VA-backed purchase loan?
 
-You may be able to get a VA-backed Purchase Loan if you:
+You may be able to get a VA-backed purchase loan if you:
 -	[Qualify for a VA-backed home loan Certificate of Eligibility (COE)](/housing-assistance/home-loans/eligibility/), **and**
 -	Meet your lender’s standards for credit, income, and any other requirements, **and**
 -	Will live in the home you’re buying with the loan
 
 </div>
 
-### Why might I want a VA-backed Purchase Loan?
+### Why might I want a VA-backed purchase loan?
 
-A VA-backed Purchase Loan often offers:
+A VA-backed purchase loan often offers:
 
 - **Better terms and interest rates** than regular loans from private banks or mortgage companies (also called lenders)
 - **No down payment** as long as the sales price isn’t higher than the home’s appraised value (the value set for the home after an expert reviews the property)
-- **No need for private mortgage insurance** (PMI, a type of insurance that protects the lender if you end up not being able to pay your mortgage. PMI is usually required if you make a down payment of less than 20% of the total mortgage amount.)
-- **Fewer closing costs,** which *may* be paid by the seller
+- **No need for private mortgage insurance (PMI)**, a type of insurance that protects the lender if you end up not being able to pay your mortgage. PMI is usually required if you make a down payment of less than 20% of the total mortgage amount.
+- **Fewer closing costs**, which may be paid by the seller
 - **No penalty fee** if you pay the loan off early
 
 If you qualify for a VA-backed home loan, you can use the loan to:
@@ -57,9 +57,9 @@ You can also:
 - Assume a VA-backed home loan (which means that instead of opening a new mortgage loan, the buyer takes over the seller’s loan)
 - Have 2 VA loans at the same time—as long as the total amount of the loans is under the top amount allowed for VA-backed loans
 
-### How can I buy a home with a VA-backed Purchase Loan?
+### How can I buy a home with a VA-backed purchase loan?
 
-Buying a home is a complex process—and getting a VA-backed home loan is only 1 piece of the puzzle. Stay on track by following the steps below.
+Buying a home is a complex process—and getting a VA-backed home loan is only one piece of the puzzle. Stay on track by following the steps below.
 
 #### Steps to finding a home
 
@@ -78,8 +78,11 @@ Buying a home is a complex process—and getting a VA-backed home loan is only 1
 
 <li class="step three">
 
-**Apply for your VA-backed home loan Certificate of Eligibility (COE).** You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit.
-[Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/).
+**Apply for your VA-backed home loan Certificate of Eligibility (COE).** You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. 
+
+<br> 
+
+[Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/). <br />
 [Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
 </li>
@@ -92,14 +95,14 @@ Buying a home is a complex process—and getting a VA-backed home loan is only 1
 
 <li class="step last five">
 
-**Shop for a home.** Look at homes in your price range until you find one that works for you.
+**Shop for a home.** Look at houses in your price range until you find one that works for you.
 
 </li>
 </ol>
 
 #### Steps to buying your home
 
-Once you’ve found the home you want to buy:
+Once you’ve found the house you want to buy:
 
 <ol class="process">
 <li class="step one">
@@ -110,7 +113,7 @@ Once you’ve found the home you want to buy:
 
 <li class="step two">
 
-**Have the home appraised and inspected.** A VA-approved appraiser will appraise the house to make sure it meets basic property condition requirements. You’ll also want to hire a certified inspector to check for any major defects.
+**Have the house appraised and inspected.** A VA-approved appraiser will appraise the house to make sure it meets basic property condition requirements. You’ll also want to hire a certified inspector to check for any major defects.
 
 </li>
 
@@ -134,7 +137,7 @@ Once you’ve found the home you want to buy:
 
 <li class="step last six">
 
-**Move in.** After closing, you’re ready to move into your new home. Congratulations!  
+**Move in.** After closing, you’re ready to move in to your new home. Congratulations!  
 
 </li>
 </ol>
@@ -145,7 +148,7 @@ If you need more help:
 
 [Check out the Consumer Financial Protection Bureau’s home loan toolkit](http://files.consumerfinance.gov/f/201503_cfpb_your-home-loan-toolkit-web.pdf).
 
-[Learn more about VA-backed home loans](http://www.benefits.va.gov/home-loans/).
+[Learn more about VA-backed home loans](http://www.benefits.va.gov/homeloans/).
 
 [Watch a video about VA home loans and how to apply](https://www.youtube.com/watch?v=h3gR_BmMP7A).
 
