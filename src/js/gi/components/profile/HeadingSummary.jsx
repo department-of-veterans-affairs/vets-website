@@ -14,7 +14,7 @@ const AdditionalResources = () => (
     </p>
     <p>
       <a href="http://www.benefits.va.gov/gibill/choosing_a_school.asp" target="_blank">
-        Choose a school
+        Choose a school guide
       </a>
     </p>
     <p>
