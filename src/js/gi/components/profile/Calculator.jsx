@@ -43,7 +43,7 @@ const CalculatorResultRow = ({ label, value, header, bold, visible }) => (visibl
       {header ? <h5>{label}:</h5> : <p>{label}:</p>}
     </div>
     <div className="small-4 columns value">
-      {header ? <h5>{value}</h5> : <p>{value}</p>}
+      {header ? <h5>{value}/mo</h5> : <p>{value}/mo</p>}
     </div>
   </div>
 ) : null);
