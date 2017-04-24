@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import { states } from '../../common/utils/options-for-select';
+import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
 import {
   transform,
@@ -30,6 +31,8 @@ const {
   date,
   provider
 } = fullSchemaHca.definitions;
+
+const stateLabels = createUSAStateLabels(states);
 
 const formConfig = {
   urlPrefix: '/',
@@ -114,6 +117,7 @@ const formConfig = {
                 insurancePolicyHolderName: {
                   'ui:title': 'Name of policy holder'
                 },
+                // TODO: make these required only if the other is empty
                 insurancePolicyNumber: {
                   'ui:title': 'Policy number (either this or the group code is required)'
                 },
@@ -156,9 +160,7 @@ const formConfig = {
               'view:facilityState': {
                 'ui:title': 'State',
                 'ui:options': {
-                  labels: states.USA.reduce((labels, state) => Object.assign(labels, {
-                    [state.value]: state.label
-                  }), {})
+                  labels: stateLabels
                 }
               },
               vaMedicalFacility: {

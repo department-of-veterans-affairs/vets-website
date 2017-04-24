@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
 import formConfig from '../../../src/js/hca-rjsf/config/form';
 
-describe('Hca general insurance', () => {
+describe('Hca VA facility', () => {
   const { schema, uiSchema } = formConfig.chapters.insuranceInformation.pages.vaFacility;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -20,6 +20,8 @@ describe('Hca general insurance', () => {
 
     expect(formDOM.querySelectorAll('input,select').length)
       .to.equal(5);
+    // when there's no state selected, the facility list is empty except for
+    // a placeholder option
     expect(formDOM.querySelectorAll('select')[1].querySelectorAll('option').length).to.equal(1);
   });
 
@@ -63,5 +65,38 @@ describe('Hca general insurance', () => {
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('select')[1].querySelectorAll('option').length).to.equal(23);
+  });
+
+  it('should submit with valid data', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          state={{
+            vaFacility: {
+              data: {
+                'view:preferredFacility': {
+                  'view:facilityState': 'MA'
+                }
+              }
+            }
+          }}
+          uiSchema={uiSchema}/>
+    );
+
+    const formDOM = findDOMNode(form);
+
+    ReactTestUtils.Simulate.change(formDOM.querySelectorAll('select')[1], {
+      target: {
+        value: '631'
+      }
+    });
+
+    // submitForm(form);
+    //
+    // expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    // expect(onSubmit.called).to.be.true;
   });
 });

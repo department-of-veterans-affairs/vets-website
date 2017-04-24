@@ -59,12 +59,17 @@ describe('Hca medicare', () => {
         value: 'Y'
       }
     });
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_isMedicaidEligibleYes'), {
+      target: {
+        value: 'Y'
+      }
+    });
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
   it('should require past effective date', () => {
@@ -107,5 +112,34 @@ describe('Hca medicare', () => {
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
+  });
+  it('should submit with valid data', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}/>
+    );
+
+    const formDOM = findDOMNode(form);
+
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_isMedicaidEligibleYes'), {
+      target: {
+        value: 'Y'
+      }
+    });
+
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_isEnrolledMedicarePartANo'), {
+      target: {
+        value: 'N'
+      }
+    });
+
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 });
