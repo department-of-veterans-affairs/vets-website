@@ -191,7 +191,7 @@ export function filterInactivePages(pages, form) {
     return Object.keys(page.schema.properties)
       .reduce((currentData, prop) => {
         return _.unset(prop, currentData);
-      });
+      }, formData);
   }, form.data);
 }
 
