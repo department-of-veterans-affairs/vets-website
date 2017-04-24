@@ -43,7 +43,7 @@ const CalculatorResultRow = ({ label, value, header, bold, visible }) => (visibl
       {header ? <h5>{label}:</h5> : <p>{label}:</p>}
     </div>
     <div className="small-4 columns value">
-      {header ? <h5>{value}/mo</h5> : <p>{value}/mo</p>}
+      {header ? <h5>{value}</h5> : <p>{value}</p>}
     </div>
   </div>
 ) : null);
@@ -100,7 +100,7 @@ export class Calculator extends React.Component {
 
     return (
       <div>
-        <h3>Estimated benefits per term</h3>
+        <h3>Estimated benefits per month</h3>
         {sections}
       </div>
     );
