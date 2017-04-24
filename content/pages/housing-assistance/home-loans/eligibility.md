@@ -24,15 +24,20 @@ To get a VA home loan, you’ll need a Certificate of Eligibility (COE) to show 
 
 </div>
 
-<div class="feature" markdown=“1”>
+<div class="feature" markdown="1">
 
 ### Can I get a Certificate of Eligibility (COE)?
 
 You may be able to get a COE if you were discharged under conditions other than dishonorable **and** you meet the service requirements below.
 
-<br>
+</div>
 
-#### Service requirements for Veterans and Servicemembers on active duty:
+<div class="usa-accordion">
+<ul class="usa-unstyled-list">
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="va-loan-eligibility-vets">Service requirements for Veterans and Servicemembers on active duty</button>
+<div id="va-loan-eligibility-vets" class="usa-accordion-content">
+
 | When did you serve? | You meet the minimum active-duty service requirement if you served for: | 
 | --- | --- | 
 | Between September 16, 1940, and July 25, 1947, (WWII) | 90 total days |
@@ -45,13 +50,23 @@ You may be able to get a COE if you were discharged under conditions other than 
 | Between August 2, 1990, and the present (Gulf War) | <ul><li>24 continuous months, **or**</li><li>The full period (at least 90 days) for which you were called or ordered to active duty</li></ul> |
 | I’m on active duty now | 90 continuous days |
 
-#### Service requirements for National Guard and Reserve members:
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="va-loan-eligibility-guard">Service requirements for National Guard and Reserve members</button>
+<div id="va-loan-eligibility-guard" class="usa-accordion-content">
+
 | When did you serve? | You meet the minimum active-duty service requirement if you served for: | 
 | --- | --- | 
 | Between August 2, 1990, and the present (Gulf War) | 90 continuous days of active service |
 | Any time period | 6 years in the Selected Reserve or National Guard, **and** you:<ul><li>Were discharged honorably, **or**</li><li>Were placed on the retired list, **or**</li><li>Were transferred to the Standby Reserve or an element of the Ready Reserve other than the Selected Reserve after service characterized as honorable, **or**</li><li>Continue to serve in the Selected Reserve</li></ul> |
 
 </div>
+</li>
+</ul>
+</div>
+
+<br>
 
 ### Ready to apply?
 
@@ -100,3 +115,7 @@ You may be able to “restore” an entitlement you used in the past to buy anot
 - You’ve repaid your prior VA-backed loan in full, but haven’t sold the home you bought with that loan (you can only do this 1 time)
 
 To request an entitlement restoration, fill out VA Form 26-1880 and submit it to the VA Eligibility Center. [Download Form 26-1880](https://www.vba.va.gov/pubs/forms/VBA-26-1880-ARE.pdf). 
+
+<script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
+
+<!--- TODO: find a proper place to import USWDS JS for static pages -->
