@@ -37,7 +37,7 @@ AccordionItem.propTypes = {
 };
 
 AccordionItem.defaultProps = {
-  expanded: false
+  expanded: true
 };
 
 export default AccordionItem;
