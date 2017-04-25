@@ -21,8 +21,8 @@ module.exports = E2eHelpers.createE2eTest(
     // Ensure glossary modal triggers correctly
     client
       .click('button.rx-trigger')
-      .expect.element('#rx-glossary-modal').to.be.visible;
-    client.axeCheck('.main');
+      .expect.element('#rx-glossary-modal').to.be.visible
+      .axeCheck('.main');
 
     // Ensure glossary modal can be dismissed
     client
