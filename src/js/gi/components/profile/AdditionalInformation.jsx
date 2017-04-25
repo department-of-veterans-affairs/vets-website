@@ -54,7 +54,7 @@ export class AdditionalInformation extends React.Component {
 
     return (
       <div className="additional-information row">
-        <div className="medium-6 columns">
+        <div className="usa-width-one-half medium-6 columns">
           <div className="institution-summary">
             <h3>Institution summary</h3>
             <p>
@@ -143,7 +143,7 @@ export class AdditionalInformation extends React.Component {
             </p>
           </div>
         </div>
-        <div className="medium-6 columns">
+        <div className="usa-width-one-half medium-6 columns">
           <div className="historical-information table">
             <h3>Historical Information</h3>
             <table className="usa-table-borderless">

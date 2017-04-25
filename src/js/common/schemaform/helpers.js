@@ -600,3 +600,9 @@ export function replaceRefSchemas(schema, definitions, path = '') {
 
   return schema;
 }
+
+export function createUSAStateLabels(states) {
+  return states.USA.reduce((current, { label, value }) => {
+    return _.merge(current, { [value]: label });
+  }, {});
+}

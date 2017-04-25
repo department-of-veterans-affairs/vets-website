@@ -357,7 +357,7 @@ class VAMap extends Component {
           <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch}/>
         </div>
         <div className="row">
-          <div className="columns medium-4 small-12" style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
+          <div className="columns usa-width-one-third medium-4 small-12" style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
             <div className="facility-search-results">
               <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
               <div>
@@ -365,7 +365,7 @@ class VAMap extends Component {
               </div>
             </div>
           </div>
-          <div className="columns medium-8 small-12" style={{ minHeight: '75vh' }}>
+          <div className="columns usa-width-two-thirds medium-8 small-12" style={{ minHeight: '75vh' }}>
             <Map ref="map" center={position} zoomSnap={0.5} zoomDelta={0.5} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged}>
               <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}

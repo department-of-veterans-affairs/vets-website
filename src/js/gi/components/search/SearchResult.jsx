@@ -48,7 +48,7 @@ export class SearchResult extends React.Component {
         <div className="outer">
           <CautionFlag/>
           <div className="inner row">
-            <div className="small-12 medium-7 columns">
+            <div className="small-12 usa-width-seven-twelfths medium-7 columns">
               <h2><Link to={linkTo}>{this.props.name}</Link></h2>
               <div style={{ position: 'relative', bottom: 0 }}>
                 <p className="locality">
@@ -57,7 +57,7 @@ export class SearchResult extends React.Component {
                 <p className="count">{(+this.props.studentCount).toLocaleString()} GI Bill Students</p>
               </div>
             </div>
-            <div className="small-12 medium-5 columns estimated-benefits">
+            <div className="small-12 usa-width-five-twelfths medium-5 columns estimated-benefits">
               <h3>You may be eligible for up to:</h3>
               <div className="row">
                 <div className="columns">
