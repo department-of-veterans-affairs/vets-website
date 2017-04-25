@@ -118,9 +118,10 @@ const getDerivedValues = createSelector(
     // The monthly benefit rate for non-chapter 33 benefits
     switch (giBillChapter) {
       case 30: {
-        if (enlistmentService === '3' || enlistmentService === '2') {
-          monthlyRate = isOJT ? constant.MGIB3YRRATE * 0.75 : constant.MGIB3YRRATE;
-        }
+        const mgibRate = enlistmentService === '3'
+                       ? constant.MGIB3YRRATE
+                       : constant.MGIB2YRRATE;
+        monthlyRate = mgibRate * (isOJT ? 0.75 : 1);
         break;
       }
       case 1607: {
