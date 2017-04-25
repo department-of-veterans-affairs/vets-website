@@ -7,12 +7,11 @@ import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
 import {
   transform,
-  dischargeTypeLabels
-  lastServiceBranchLabels    
+  dischargeTypeLabels,
+  lastServiceBranchLabels,
   FacilityHelp,
   medicalCentersByState,
   medicalCenterLabels
-
 } from '../helpers';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -21,6 +20,8 @@ import InsuranceProviderView from '../components/InsuranceProviderView';
 import { uiSchema as dateUI } from '../../common/schemaform/definitions/currentOrPastDate';
 
 const {
+  lastEntryDate,
+  lastDischargeDate,
   isMedicaidEligible,
   isEnrolledMedicarePartA,
   medicarePartAEffectiveDate,
@@ -36,8 +37,6 @@ const {
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
-
-import * as currentOrPastDate from '../../common/schemaform/definitions/currentOrPastDate';
 
 const {
   lastServiceBranch,
@@ -252,8 +251,8 @@ const formConfig = {
             },
             // TODO: this should really be a dateRange, but that requires a backend schema change. For now
             // leaving them as dates, but should change these to get the proper dateRange validation
-            lastEntryDate: currentOrPastDate.uiSchema('Start of service period'),
-            lastDischargeDate: currentOrPastDate.uiSchema('Date of discharge'),
+            lastEntryDate: dateUI('Start of service period'),
+            lastDischargeDate: dateUI('Date of discharge'),
             dischargeType: {
               'ui:title': 'Character of discharge',
               'ui:options': {
@@ -265,8 +264,8 @@ const formConfig = {
             type: 'object',
             properties: {
               lastServiceBranch: _.assign(lastServiceBranch, { type: 'string' }),
-              lastEntryDate: currentOrPastDate.schema,
-              lastDischargeDate: currentOrPastDate.schema,
+              lastEntryDate,
+              lastDischargeDate,
               dischargeType: _.assign(dischargeType, { type: 'string' })
             },
             required: ['lastServiceBranch', 'lastEntryDate', 'lastDischargeDate', 'dischargeType']
