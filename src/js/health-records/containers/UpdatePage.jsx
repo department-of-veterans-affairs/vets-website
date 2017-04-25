@@ -48,7 +48,7 @@ export class UpdatePage extends React.Component {
     const completionPercentage = statuses.succeeded.length / (statuses.succeeded.length + statuses.failed.length) * 100;
 
     return (
-      <div className="updatePage medium-6">
+      <div className="updatePage usa-width-one-half medium-6">
         <ProgressBar percent={completionPercentage || 0}/>
         <h1>Updating your records</h1>
         <p>

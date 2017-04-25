@@ -35,7 +35,7 @@ import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/defini
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
-import directDeposit from '../../pages/directDeposit';
+import createDirectDepositPage from '../../pages/directDeposit';
 import applicantInformationPage from '../../pages/applicantInformation';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
@@ -222,7 +222,7 @@ const formConfig = {
                 'ui:title': 'Disability Compensation or Pension'
               },
               dic: {
-                'ui:title': 'Dependents\' Indemnity Compensation (DIC)'
+                'ui:title': 'Dependents’ Indemnity Compensation (DIC)'
               },
               chapter31: {
                 'ui:title': 'Vocational Rehabilitation benefits (Chapter 31)'
@@ -664,7 +664,7 @@ const formConfig = {
             }
           }
         },
-        directDeposit
+        directDeposit: createDirectDepositPage(fullSchema5490)
       }
     }
   }
