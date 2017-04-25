@@ -1,4 +1,4 @@
-# vets.gov - beta [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=department-of-veterans-affairs/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/) [![Test Coverage](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/badges/coverage.svg)](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/coverage)
+# vets.gov - beta [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=testing/vets-website/master)](http://jenkins.vetsgov-internal/job/department-of-veterans-affairs/job/vets-website/job/master/) [![Test Coverage](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/badges/coverage.svg)](https://codeclimate.com/github/department-of-veterans-affairs/vets-website/coverage)
 
 ## What is this?
 
@@ -14,7 +14,7 @@ very secret.
 
 | I want to... | Then you should... |
 | ------------ | ------------------ |
-| clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
+| clone the site and install dependencies | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website`, then follow the instructions below to install node, npm and yarn if needed. Finally, run `yarn install` to fetch all the dependencies. Run `yarn install` anytime `package.json` changes. |
 | deploy the site | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Jenkins will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
@@ -27,6 +27,7 @@ very secret.
 | run the site so that devices on your local network can access it  | `npm run watch -- --host 0.0.0.0`. Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
+| run only unit tests for a subset of tests | `./node_modules/.bin/mocha path/to/my/test.unit.spec.jsx` <br> or <br> `./node_modules/.bin/mocha --recursive 'path/to/my/**/*.unit.spec.js?(x)'` <br>(_assumes current working dir of `/vets-website`_) |
 | run only e2e tests | `npm run test:e2e` |
 | run only e2e tests for a subset of tests | `npm run test:e2e -- test/edu-benefits/1995/*.e2e.spec.js` (provide file paths) |
 | run all linters | `npm run lint` |

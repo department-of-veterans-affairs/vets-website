@@ -13,7 +13,7 @@ class UserProfileApp extends React.Component {
 
     view = (
       <div className="row">
-        <div className="medium-8 small-12 columns">
+        <div className="usa-width-two-thirds medium-8 small-12 columns">
           <h1>Your Vets.gov Account</h1>
           <div>
             <UserDataSection/>
