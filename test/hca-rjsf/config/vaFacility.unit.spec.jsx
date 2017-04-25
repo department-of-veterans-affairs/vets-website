@@ -78,7 +78,8 @@ describe('Hca VA facility', () => {
             vaFacility: {
               data: {
                 'view:preferredFacility': {
-                  'view:facilityState': 'MA'
+                  'view:facilityState': 'MA',
+                  vaMedicalFacility: '631'
                 }
               }
             }
@@ -87,16 +88,20 @@ describe('Hca VA facility', () => {
     );
 
     const formDOM = findDOMNode(form);
-
     ReactTestUtils.Simulate.change(formDOM.querySelectorAll('select')[1], {
       target: {
         value: '631'
       }
     });
+    ReactTestUtils.Simulate.change(formDOM.querySelectorAll('select')[0], {
+      target: {
+        value: 'MA'
+      }
+    });
 
-    // submitForm(form);
-    //
-    // expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
-    // expect(onSubmit.called).to.be.true;
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 });
