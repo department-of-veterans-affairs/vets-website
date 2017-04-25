@@ -249,7 +249,7 @@ const getDerivedValues = createSelector(
     const yellowRibbonElig = !(
       tier < 1
       || !institution.yr
-      || !inputs.yellowRibbonRecipient
+      || inputs.yellowRibbonRecipient === 'no'
       || militaryStatus === 'active duty'
       || isOJT
       || isFlightOrCorrespondence
