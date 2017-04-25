@@ -623,15 +623,9 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            otherField: 'testing2'
-          }
-        },
-        page2: {
-          data: {
-            field: 'testing'
-          }
+        data: {
+          otherField: 'testing2',
+          field: 'testing'
         }
       };
 
@@ -658,15 +652,9 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            otherField: 'testing2'
-          }
-        },
-        page2: {
-          data: {
-            field: 'testing'
-          }
+        data: {
+          otherField: 'testing2',
+          field: 'testing'
         }
       };
 
@@ -688,10 +676,8 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            'view:Test': 'thing'
-          }
+        data: {
+          'view:Test': 'thing'
         }
       };
 
@@ -710,11 +696,9 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            'view:Test': {
-              field: 'testing'
-            }
+        data: {
+          'view:Test': {
+            field: 'testing'
           }
         }
       };
@@ -732,12 +716,16 @@ describe('Schemaform helpers:', () => {
           chapter1: {
             pages: {
               page1: {
-                depends: {
-                  page2: {
-                    data: {
-                      field: 'something'
+                schema: {
+                  type: 'object',
+                  properties: {
+                    otherField: {
+                      type: 'string'
                     }
                   }
+                },
+                depends: {
+                  field: 'something'
                 }
               },
             }
@@ -750,15 +738,9 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            otherField: 'testing2'
-          }
-        },
-        page2: {
-          data: {
-            field: 'testing'
-          }
+        data: {
+          otherField: 'testing2',
+          field: 'testing'
         }
       };
 
@@ -779,11 +761,9 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            address: {
-              country: 'testing'
-            }
+        data: {
+          address: {
+            country: 'testing'
           }
         }
       };
@@ -803,13 +783,11 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            someField: {
-            },
-            someField2: {
-              someData: undefined
-            }
+        data: {
+          someField: {
+          },
+          someField2: {
+            someData: undefined
           }
         }
       };

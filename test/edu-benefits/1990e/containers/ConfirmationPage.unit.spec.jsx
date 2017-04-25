@@ -10,18 +10,12 @@ const form = {
       attributes: {}
     }
   },
-  applicantInformation: {
-    data: {
-      relativeFullName: {
-        first: 'Jane',
-        last: 'Doe'
-      }
-    }
-  },
-  benefitEligibility: {
-    data: {
-      benefit: 'chapter35'
-    }
+  data: {
+    relativeFullName: {
+      first: 'Jane',
+      last: 'Doe'
+    },
+    benefit: 'chapter35'
   }
 };
 
