@@ -6,7 +6,7 @@ import schoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/scho
 import applicantInformationPage from '../../pages/applicantInformation';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
-import directDeposit from '../../pages/directDeposit';
+import createDirectDepositPage from '../../pages/directDeposit';
 
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 
@@ -155,7 +155,9 @@ const formConfig = {
       title: 'Personal Information',
       pages: {
         contactInformation: contactInformationPage(),
-        directDeposit
+        directDeposit: createDirectDepositPage(fullSchema1990n, {
+          required: ['accountType', 'accountNumber', 'routingNumber']
+        })
       }
     }
   }

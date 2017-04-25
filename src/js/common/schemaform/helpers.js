@@ -648,3 +648,9 @@ export function updateItemsSchema(schema, fieldData = null) {
 
   return schema;
 }
+
+export function createUSAStateLabels(states) {
+  return states.USA.reduce((current, { label, value }) => {
+    return _.merge(current, { [value]: label });
+  }, {});
+}
