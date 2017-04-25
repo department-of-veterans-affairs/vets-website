@@ -87,7 +87,7 @@ class AdditionalEvidencePage extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="medium-8 columns">
+            <div className="usa-width-two-thirds medium-8 columns">
               <div className="claim-container">
                 {message &&
                   <div>
@@ -116,7 +116,7 @@ class AdditionalEvidencePage extends React.Component {
                     onDirtyFields={this.props.setFieldsDirty}/>
               </div>
             </div>
-            <div className="small-12 medium-4 columns">
+            <div className="small-12 usa-width-one-third medium-4 columns">
               <AskVAQuestions/>
             </div>
           </div>

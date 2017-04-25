@@ -95,14 +95,14 @@ class FormPage extends React.Component {
             onChange={this.onChange}
             onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
-            <div className="small-6 medium-5 columns">
+            <div className="small-6 usa-width-five-twelfths medium-5 columns">
               <ProgressButton
                   onButtonClick={this.goBack}
                   buttonText="Back"
                   buttonClass="usa-button-outline"
                   beforeText="«"/>
             </div>
-            <div className="small-6 medium-5 end columns">
+            <div className="small-6 usa-width-five-twelfths medium-5 end columns">
               <ProgressButton
                   submitButton
                   buttonText="Continue"
