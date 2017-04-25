@@ -250,7 +250,7 @@ const getDerivedValues = createSelector(
     const yellowRibbonElig = !(
       tier < 1
       || !institution.yr
-      || !inputs.yellowRibbonRecipient
+      || inputs.yellowRibbonRecipient === 'no'
       || militaryStatus === 'active duty'
       || isOJT
       || isFlightOrCorrespondence
@@ -751,6 +751,7 @@ const getDerivedValues = createSelector(
       nameOfTerm2,
       nameOfTerm3,
       nameOfTerm4,
+      yellowRibbonElig,
       yrBenSchoolTerm1,
       yrBenSchoolTerm2,
       yrBenSchoolTerm3,
@@ -1032,7 +1033,7 @@ export const getCalculatedBenefits = createSelector(
       };
     }
 
-    if (form.yellowRibbonRecipient === 'no') {
+    if (!derived.yellowRibbonElig) {
       calculatedBenefits.outputs.perTerm.yellowRibbon.visible = false;
     }
 
