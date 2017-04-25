@@ -94,11 +94,7 @@ export function scrollToFirstError() {
     // document.body.scrollTop doesn't work with all browsers, so we'll cover them all like so:
     const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     const position = errorEl.getBoundingClientRect().top + currentPosition;
-    Scroll.animateScroll.scrollTo(position - 10, {
-      duration: 500,
-      delay: 0,
-      smooth: true
-    });
+    Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
     focusElement(errorEl);
   }
 }

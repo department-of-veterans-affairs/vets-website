@@ -35,7 +35,7 @@ import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/defini
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
-import directDeposit from '../../pages/directDeposit';
+import createDirectDepositPage from '../../pages/directDeposit';
 import applicantInformationPage from '../../pages/applicantInformation';
 import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
@@ -668,7 +668,7 @@ const formConfig = {
             }
           }
         },
-        directDeposit
+        directDeposit: createDirectDepositPage(fullSchema5490)
       }
     }
   }
