@@ -115,7 +115,7 @@ export class Calculator extends React.Component {
     const { outputs } = this.props.calculated;
     return (
       <div className="row calculate-your-benefits">
-        <div className="medium-5 columns">
+        <div className="usa-width-five-twelfths medium-5 columns">
           <EligibilityDetails
               expanded={this.state.showEligibilityDetails}
               toggle={this.toggleEligibilityDetails}/>
@@ -128,7 +128,7 @@ export class Calculator extends React.Component {
               toggle={this.toggleCalculatorForm}/>
         </div>
         <div className="medium-1 columns">&nbsp;</div>
-        <div className="medium-6 columns your-estimated-benefits">
+        <div className="usa-width-one-half medium-6 columns your-estimated-benefits">
           <h3>Your estimated benefits</h3>
           <div className="out-of-pocket-tuition">
             <CalculatorResultRow

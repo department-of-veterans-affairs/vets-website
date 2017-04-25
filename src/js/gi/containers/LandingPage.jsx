@@ -42,7 +42,7 @@ export class LandingPage extends React.Component {
       <span className="landing-page">
         <div className="row">
 
-          <div className="small-12 medium-8 columns">
+          <div className="small-12 usa-width-two-thirds medium-8 columns">
             <h1>GI Bill® Comparison Tool</h1>
             <p className="subheading">Learn about education programs and compare benefits by school.</p>
 
@@ -60,7 +60,7 @@ export class LandingPage extends React.Component {
             </form>
           </div>
 
-          <div className="small-12 medium-4 columns">
+          <div className="small-12 usa-width-one-third medium-4 columns">
             <VideoSidebar/>
           </div>
 
