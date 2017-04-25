@@ -925,7 +925,7 @@ export const getCalculatedBenefits = createSelector(
             },
             {
               label: derived.nameOfTerm4,
-              value: `${formatCurrency(derived.housingAllowTerm4)}${isOJT ? '/mo' : ''}`, // Total if not OJT
+              value: `${formatCurrency(derived.housingAllowTotal)}${isOJT ? '/mo' : ''}`, // Total if not OJT
               visible: true
             },
           ],
@@ -951,7 +951,7 @@ export const getCalculatedBenefits = createSelector(
             },
             {
               label: derived.nameOfTerm4,
-              value: `${formatCurrency(derived.bookStipendTerm4)}${isOJT ? '/mo' : ''}`, // Total if not OJT
+              value: `${formatCurrency(derived.bookStipendTotal)}${isOJT ? '/mo' : ''}`, // Total if not OJT
               visible: true
             },
           ],
