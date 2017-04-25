@@ -90,6 +90,7 @@ class ErrorableTextarea extends React.Component {
     return (
       <div className={inputErrorClass}>
         <label
+            id={`${this.inputId}-label`}
             className={labelErrorClass}
             htmlFor={this.inputId}>
               {this.props.label}
@@ -100,7 +101,7 @@ class ErrorableTextarea extends React.Component {
             disabled={this.props.disabled}
             className={classes}
             aria-describedby={errorSpanId}
-            aria-label={this.props.label}
+            aria-labelledby={`${this.inputId}-label`}
             id={this.inputId}
             placeholder={this.props.placeholder}
             name={this.props.name}
