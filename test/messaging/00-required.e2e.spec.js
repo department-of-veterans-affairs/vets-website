@@ -30,6 +30,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .waitForElementVisible('#messaging-nav', Timeouts.slow)
       .waitForElementVisible('#messaging-content', Timeouts.normal)
+      .waitForElementVisible('textarea[name="messageText"]', Timeouts.slow)
       .axeCheck('.main')
       .expect.element('.messaging-thread-messages .messaging-thread-message:last-of-type .messaging-message-body').text.to.equal('Reply 3');
 

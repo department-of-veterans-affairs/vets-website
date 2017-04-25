@@ -100,6 +100,7 @@ class ErrorableTextarea extends React.Component {
             disabled={this.props.disabled}
             className={classes}
             aria-describedby={errorSpanId}
+            aria-label={this.props.label}
             id={this.inputId}
             placeholder={this.props.placeholder}
             name={this.props.name}
