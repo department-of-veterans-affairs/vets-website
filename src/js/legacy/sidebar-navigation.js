@@ -17,13 +17,11 @@ class SideBarMenu {
   }
 
   init() {
-    if(matchMedia('screen and (max-width: 768px)').matches) {
-      this.menuTrigger.map((mt) => {
-        mt.addEventListener('click', (domEvent) => {
-          this.openMenu(domEvent.currentTarget);
-        });
+    this.menuTrigger.map((mt) => {
+      mt.addEventListener('click', (domEvent) => {
+        this.openMenu(domEvent.currentTarget);
       });
-    }
+    });
   }      
 
   getMenu(element) {
