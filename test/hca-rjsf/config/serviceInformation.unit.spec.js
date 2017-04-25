@@ -29,7 +29,7 @@ describe('Hca serviceInformation', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          definitions={formConfig.defaultDefinitions}
+          definitions={definitions}
           onSubmit={onSubmit}
           uiSchema={uiSchema}/>
     );
@@ -47,7 +47,7 @@ describe('Hca serviceInformation', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          definitions={formConfig.defaultDefinitions}
+          definitions={definitions}
           onSubmit={onSubmit}
           uiSchema={uiSchema}/>
     );

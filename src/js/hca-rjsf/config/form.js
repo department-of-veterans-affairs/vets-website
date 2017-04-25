@@ -22,6 +22,17 @@ import { uiSchema as dateUI } from '../../common/schemaform/definitions/currentO
 const {
   lastEntryDate,
   lastDischargeDate,
+  lastServiceBranch,
+  dischargeType,
+  purpleHeartRecipient,
+  isFormerPow,
+  postNov111998Combat,
+  disabledInLineOfDuty,
+  swAsiaCombat,
+  vietnamService,
+  exposedToRadiation,
+  radiumTreatments,
+  campLejeune,
   isMedicaidEligible,
   isEnrolledMedicarePartA,
   medicarePartAEffectiveDate,
@@ -37,20 +48,6 @@ const {
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
-
-const {
-  lastServiceBranch,
-  dischargeType,
-  purpleHeartRecipient,
-  isFormerPow,
-  postNov111998Combat,
-  disabledInLineOfDuty,
-  swAsiaCombat,
-  vietnamService,
-  exposedToRadiation,
-  radiumTreatments,
-  campLejeune
-} = fullSchemaHca.properties;
 
 const formConfig = {
   urlPrefix: '/',
@@ -243,6 +240,9 @@ const formConfig = {
           path: 'military-service/service-information',
           title: 'Service periods',
           uiSchema: {
+            // Need to provide a widget for wrapping up the service period for review/submit
+            // What is the difference between viewField and ui:reviewWidget?
+            // ServicePeriodView does what we want, but expects a differently structured schema
             lastServiceBranch: {
               'ui:title': 'Last branch of service',
               'ui:options': {
@@ -263,12 +263,18 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              lastServiceBranch: _.assign(lastServiceBranch, { type: 'string' }),
-              lastEntryDate,
-              lastDischargeDate,
-              dischargeType: _.assign(dischargeType, { type: 'string' })
+              'view:servicePeriod': {
+                lastServiceBranch: _.assign(lastServiceBranch, { type: 'string' }),
+                lastEntryDate,
+                lastDischargeDate,
+                dischargeType: _.assign(dischargeType, { type: 'string' })
+              }
             },
-            required: ['lastServiceBranch', 'lastEntryDate', 'lastDischargeDate', 'dischargeType']
+            required: [
+              'lastServiceBranch',
+              'lastEntryDate',
+              'lastDischargeDate',
+              'dischargeType']
           }
         },
         additionalInformation: {
