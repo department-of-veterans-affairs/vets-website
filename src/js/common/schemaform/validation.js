@@ -104,7 +104,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext
     if (uiSchema.items && currentData) {
       currentData.forEach((item, index) => {
         const newPath = `${path}[${index}]`;
-        const currentSchema = index > schema.items.length
+        const currentSchema = index < schema.items.length
           ? schema.items[index]
           : schema.additionalItems;
         if (!_.get(newPath, errors)) {

@@ -19,7 +19,9 @@ export class DefinitionTester extends React.Component {
     super(props);
     const { state, uiSchema } = props;
     const pageData = props.data;
-    const formData = _.merge(props.formData, pageData);
+    const formData = props.schema.type === 'array'
+      ? pageData || []
+      : _.merge(props.formData, pageData);
 
     const definitions = _.merge(props.definitions || {}, props.schema.definitions);
     let schema = replaceRefSchemas(props.schema, definitions);
@@ -41,7 +43,9 @@ export class DefinitionTester extends React.Component {
   handleChange = (data) => {
     const state = this.props.state;
     const uiSchema = this.state.uiSchema;
-    const formData = _.merge(this.props.formData, data);
+    const formData = this.state.schema.type === 'array'
+      ? data
+      : _.merge(this.props.formData, data);
     let schema = updateItemsSchema(this.state.schema, formData);
     schema = updateRequiredFields(schema, uiSchema, formData);
     // Update the schema with any fields that are now hidden because of the data change

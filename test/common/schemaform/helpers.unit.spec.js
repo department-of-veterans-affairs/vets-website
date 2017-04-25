@@ -106,7 +106,15 @@ describe('Schemaform helpers:', () => {
     it('should set required in arrays', () => {
       const schema = {
         type: 'array',
-        items: {
+        items: [{
+          type: 'object',
+          properties: {
+            test: {
+              type: 'string'
+            }
+          }
+        }],
+        additionalItems: {
           type: 'object',
           properties: {
             test: {
@@ -122,7 +130,8 @@ describe('Schemaform helpers:', () => {
           }
         }
       };
-      expect(updateRequiredFields(schema, uiSchema).items.required[0]).to.equal('test');
+      const data = [{}];
+      expect(updateRequiredFields(schema, uiSchema, data).items[0].required[0]).to.equal('test');
     });
   });
   describe('createRoutes', () => {
@@ -361,7 +370,13 @@ describe('Schemaform helpers:', () => {
     it('should set hidden on array field', () => {
       const schema = {
         type: 'array',
-        items: {
+        items: [{
+          type: 'object',
+          properties: {
+            field: {}
+          }
+        }],
+        additionalItems: {
           type: 'object',
           properties: {
             field: {}
@@ -377,12 +392,12 @@ describe('Schemaform helpers:', () => {
           }
         }
       };
-      const data = [];
+      const data = [{}];
 
       const newSchema = setHiddenFields(schema, uiSchema, data);
 
       expect(newSchema).not.to.equal(schema);
-      expect(newSchema.items.properties.field['ui:hidden']).to.be.true;
+      expect(newSchema.items[0].properties.field['ui:hidden']).to.be.true;
     });
   });
   describe('removeHiddenData', () => {
@@ -452,13 +467,20 @@ describe('Schemaform helpers:', () => {
     it('should remove hidden field in array', () => {
       const schema = {
         type: 'array',
-        items: {
+        items: [{
           type: 'object',
           properties: {
             field: {},
             field2: {
               'ui:hidden': true
             }
+          }
+        }],
+        additionalItems: {
+          type: 'object',
+          properties: {
+            field: {},
+            field2: {}
           }
         }
       };
@@ -518,7 +540,15 @@ describe('Schemaform helpers:', () => {
     it('should update schema in array', () => {
       const schema = {
         type: 'array',
-        items: {
+        items: [{
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string'
+            }
+          }
+        }],
+        additionalItems: {
           type: 'object',
           properties: {
             field: {
@@ -543,7 +573,7 @@ describe('Schemaform helpers:', () => {
 
       const newSchema = updateSchemaFromUiSchema(schema, uiSchema, data, formData);
 
-      expect(newSchema.items.properties.field).to.eql({ type: 'number' });
+      expect(newSchema.items[0].properties.field).to.eql({ type: 'number' });
       expect(newSchema).not.to.equal(schema);
     });
   });

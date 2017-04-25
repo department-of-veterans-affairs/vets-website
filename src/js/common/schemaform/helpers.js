@@ -616,20 +616,26 @@ export function replaceRefSchemas(schema, definitions, path = '') {
 
 export function updateItemsSchema(schema, fieldData = null) {
   if (schema.type === 'array') {
+    let newSchema = schema;
     if (!Array.isArray(schema.items)) {
       // We don't support arrays inside arrays
-      return _.assign(schema, {
+      newSchema = _.assign(schema, {
         items: [],
         additionalItems: schema.items
       });
     }
+
     if (!fieldData) {
-      return _.set('items', [], schema);
-    } else if (fieldData.length > schema.items.length) {
-      return _.set('items', schema.items.concat(schema.additionalItems), schema);
-    } else if (fieldData.length < schema.items.length) {
-      return _.set('items', _.dropRight(1, schema.items), schema);
+      return _.set('items', [], newSchema);
+    } else if (fieldData.length > newSchema.items.length) {
+      const fillIn = Array(fieldData.length - newSchema.items.length)
+        .fill(newSchema.additionalItems);
+      return _.set('items', newSchema.items.concat(fillIn), newSchema);
+    } else if (fieldData.length < newSchema.items.length) {
+      return _.set('items', _.dropRight(1, newSchema.items), newSchema);
     }
+
+    return newSchema;
   }
 
   if (schema.type === 'object') {

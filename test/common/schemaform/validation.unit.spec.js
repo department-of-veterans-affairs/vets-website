@@ -166,13 +166,14 @@ describe('Schemaform validations', () => {
       const errors = {};
       const validator = sinon.spy();
       const schema = {
-        items: {
+        type: 'array',
+        items: [{
           properties: {
             field: {
 
             }
           }
-        }
+        }]
       };
       const uiSchema = {
         items: {
@@ -188,11 +189,16 @@ describe('Schemaform validations', () => {
           field: {}
         }
       ];
-      const formContext = {};
+
+      const formContext = null;
 
       uiSchemaValidate(errors, uiSchema, schema, formData, formContext);
 
-      expect(validator.calledWith(errors[0].field, formData[0].field, formData, schema.items.properties.field, undefined)).to.be.true;
+      expect(validator.calledWith(errors[0].field,
+        formData[0].field,
+        formData,
+        schema.items[0].properties.field,
+        undefined)).to.be.true;
     });
     it('should skip validation when array is undefined', () => {
       const errors = {};
