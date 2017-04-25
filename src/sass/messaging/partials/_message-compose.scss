@@ -468,7 +468,8 @@ button.msg-btn-save {
 
     .msg-write {
       label {
-        display: none;
+        left: -9999em;
+        position: absolute;
       }
     }
 
