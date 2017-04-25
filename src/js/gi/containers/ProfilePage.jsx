@@ -78,7 +78,7 @@ export class ProfilePage extends React.Component {
               onViewWarnings={this.handleViewWarnings}/>
           <div className="usa-accordion">
             <ul>
-              <AccordionItem button="Estimate your benefits" expanded>
+              <AccordionItem button="Estimate your benefits">
                 <Calculator/>
               </AccordionItem>
               <AccordionItem button="Veteran programs">
