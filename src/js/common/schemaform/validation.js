@@ -196,7 +196,7 @@ export function isValidForm(form, pageListByChapters) {
 
     if (result.valid) {
       const errors = {};
-      uiSchemaValidate(errors, uiSchema, schema, data, formData);
+      uiSchemaValidate(errors, uiSchema, schema, formData);
 
       return errorSchemaIsValid(errors);
     }
