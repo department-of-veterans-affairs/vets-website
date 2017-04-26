@@ -66,6 +66,9 @@ export const uiSchema = {
       'End of service period',
       'End of service must be after start of service'
     ),
+    serviceStatus: {
+      'ui:title': 'Type of service (Active duty, drilling reservist, IRR, etc.)'
+    },
     applyPeriodToSelected: {
       'ui:title': 'Apply this service period to the benefit I’m applying for.'
     }
