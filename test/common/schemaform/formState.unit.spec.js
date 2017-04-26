@@ -5,6 +5,7 @@ import {
   setHiddenFields,
   removeHiddenData,
   updateSchemaFromUiSchema,
+  updateItemsSchema,
   replaceRefSchemas
 } from '../../../src/js/common/schemaform/formState';
 
@@ -515,6 +516,82 @@ describe('Schemaform formState:', () => {
       const replaceCall = () => replaceRefSchemas(schema, definitions);
 
       expect(replaceCall).to.throw(Error, /Missing definition for #\/definitions\/common2/);
+    });
+  });
+  describe('updateItemsSchema', () => {
+    it('should set array and additional items', () => {
+      const schema = {
+        type: 'array',
+        items: {
+          type: 'string'
+        }
+      };
+
+      const newSchema = updateItemsSchema(schema);
+
+      expect(newSchema.additionalItems).to.equal(schema.items);
+      expect(newSchema.items).to.eql([]);
+    });
+    it('should remove all item schemas when data is falsy', () => {
+      const schema = {
+        type: 'array',
+        items: [{
+          type: 'string'
+        }]
+      };
+
+      const newSchema = updateItemsSchema(schema);
+
+      expect(newSchema.items).to.eql([]);
+    });
+    it('should remove all item schemas when data is empty', () => {
+      const schema = {
+        type: 'array',
+        items: [{
+          type: 'string'
+        }]
+      };
+      const data = [];
+
+      const newSchema = updateItemsSchema(schema, data);
+
+      expect(newSchema.items).to.eql([]);
+    });
+    it('should add item to array when form data has more items', () => {
+      const schema = {
+        type: 'array',
+        items: [{
+          type: 'string'
+        }],
+        additionalItems: {
+          type: 'string'
+        }
+      };
+      const data = ['test', 'test2', 'test3'];
+
+      const newSchema = updateItemsSchema(schema, data);
+
+      expect(newSchema.items.length).to.equal(data.length);
+      expect(newSchema.items[1]).to.equal(schema.additionalItems);
+      expect(newSchema.items[2]).to.equal(schema.additionalItems);
+    });
+    it('should remove item from schema items if fewer items in data array', () => {
+      const schema = {
+        type: 'array',
+        items: [{
+          type: 'string'
+        }, {
+          type: 'string'
+        }],
+        additionalItems: {
+          type: 'string'
+        }
+      };
+      const data = ['test'];
+
+      const newSchema = updateItemsSchema(schema, data);
+
+      expect(newSchema.items.length).to.equal(data.length);
     });
   });
 });
