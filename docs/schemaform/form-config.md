@@ -177,7 +177,8 @@ We've also been adding some additional uiSchema functionality not found in the r
   // The data in the whole form (with no page breaks) is the only parameter.
   // You should avoid having a field required in the JSON schema and using `ui:required`
   // on the same field.
-  'ui:required': function (formData) {
+  // The index argument is provided if you use `ui:required` on data inside an array
+  'ui:required': function (formData, index) {
     return true || false;
   },
   
@@ -243,12 +244,14 @@ We've also been adding some additional uiSchema functionality not found in the r
     hideOnReviewIfFalse: true || false 
 
     // Function that conditionally hides fields in the form
-    hideIf: function (formData) {
+    // The index argument is provided if you use `ui:required` on data inside an array
+    hideIf: function (formData, index) {
       return true || false;
     }
 
     // Function that conditionally replaces the current field's schema
-    updateSchema: function (pageData, form, pageSchema) {
+    // The index argument is provided if you use `ui:required` on data inside an array
+    updateSchema: function (pageData, form, pageSchema, index) {
       // form is organized like: form.pageName.data.fieldName
       // This means it's not like formData, where all the data for all the forms is mashed
       // together into one object. It's a bit of a pain, but this means updateSchema can also
