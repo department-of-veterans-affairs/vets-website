@@ -274,10 +274,10 @@ class HealthCareApp extends React.Component {
     if (this.props.location.pathname === '/review-and-submit') {
       buttons = (<div>
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {backButton}
           </div>
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {submitButton}
           </div>
           <div className="small-1 medium-1 end columns">
@@ -293,7 +293,7 @@ class HealthCareApp extends React.Component {
     } else if (this.props.location.pathname === '/introduction') {
       buttons = (
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             <ProgressButton
                 onButtonClick={this.handleContinue}
                 buttonText="Get Started"
@@ -305,7 +305,7 @@ class HealthCareApp extends React.Component {
     } else if (this.props.location.pathname === '/submit-message') {
       buttons = (
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {/* TODO: Figure out where this button should take the user. */}
             <a href="/">
               <button className="usa-button-primary">Back to Main Page</button>
@@ -316,10 +316,10 @@ class HealthCareApp extends React.Component {
     } else {
       buttons = (
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {backButton}
           </div>
-          <div className="small-6 medium-5 end columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
             {nextButton}
           </div>
         </div>
@@ -363,7 +363,7 @@ class HealthCareApp extends React.Component {
         <div className="row">
           <Element name="topScrollElement"/>
           {/*
-          <div className="medium-4 columns show-for-medium-up">
+          <div className="usa-width-one-third medium-4 columns show-for-medium-up">
             <Nav
                 data={this.props.data}
                 pages={this.props.uiState.sections}
@@ -371,7 +371,7 @@ class HealthCareApp extends React.Component {
                 currentUrl={this.props.location.pathname}/>
           </div>
           */}
-          <div className="medium-8 columns">
+          <div className="usa-width-two-thirds medium-8 columns">
             <FormTitle title="Apply online for health care with the 10-10ez" subTitle="OMB No. 2900-0091"/>
             <div>
               {!_.includes(['/introduction', '/submit-message'], this.props.location.pathname) && <SegmentedProgressBar total={chapters.length} current={step}/>}
