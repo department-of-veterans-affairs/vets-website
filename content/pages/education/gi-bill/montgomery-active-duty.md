@@ -30,9 +30,9 @@ You can get education benefits if you were honorably discharged and:
 
 **CATEGORY II**
 
-- You entered active duty before January 1, 1977, **and**
+- You entered active duty before January 1, 1977, or you entered active duty before January 2, 1978, under a delayed enlistment program contracted before January 1, 1977, **and**
 - You served at least 1 day between October 19, 1984, and June 30, 1985, and you stayed on active duty through June 30, 1988 (or through June 30, 1987, if you entered the Selected Reserve within 1 year of leaving active duty and served 4 years), **and**
-- On December 31, 1989, you had Vietnam Era GI Bill benefits left
+- You must have had at least one day remaining of chapter 34 entitlement as of December 31, 1989. 
 
 **CATEGORY III**
 
@@ -68,26 +68,32 @@ Money for tuition or training
 ### How do I get these benefits?
 You'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
 
-You may get benefits for up to 8 semesters (4 years) of traditional academic education. We pay the benefits monthly and the amount depends on the following factors:
+You may get up to 36 months of education benefits. We pay the benefits monthly and the amount depends on the following factors:
 
 - Length of service
-- Type of training
-- Your category (as defined below)
-- Whether you qualify for a college fund
+- Type of educational or training program you want to sign up for
+- Your category (as defined above)
+- Whether you qualify for a college fund or kicker
 - How much you have paid into the $600 Buy-Up program
 
 #### Related funding or training programs that fall under MGIB-AD
 
-- [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
-- [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
-- [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
-- [Flight training](/education/advanced-training-and-certifications/flight-training/)
-- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
-- [High-tech programs](/education/work-learn/non-traditional/accelerated-payments/)
-- [Licensing and certification](/education/advanced-training-and-certifications/licensing-certification/)
-- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
-- [National testing program](/education/advanced-training-and-certifications/national-testing-program/)
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
+- [Co-op training](/education/work-learn/co-op-training/)
+- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
+- [Flight training](/education/advanced-training-and-certifications/flight-training/)
+- [Independent and distance learning](/education/work-learn/non-traditional/independent-distance-learning/)
+- [Undergraduate and graduate degree programs](/education/gi-bill/higher-learning/)
+- [Licensing and certification reimbursement](/education/advanced-training-and-certifications/licensing-certification/)
+- [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
+- [National testing reimbursement](/education/advanced-training-and-certifications/national-testing-program/)
+- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
+- [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
+- [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
+- [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
+
+- [High-tech programs](/education/work-learn/non-traditional/accelerated-payments/)
+
 
 [Use the GI Bill Comparison Tool to compare benefits at schools](/gi-bill-comparison-tool/). <br>
 [Read the Montgomery GI Bill Active Duty pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf).
