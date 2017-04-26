@@ -82,11 +82,11 @@ There are 2 main GI Bill programs offering educational assistance to survivors a
 
   <tr>
     <th scope="row"><strong>Duration of Benefits</strong></th>
-    <td>**Spouses:** 20 years from the Servicemember’s date of death if they died on active duty, or 10 years from the date we determine they qualify or from the Veteran's date of death (there may be exceptions). <br />
-    **Children:** May use benefits between ages 18 and 26 (there may be exceptions).
+    <td><strong>Spouses:</strong> 20 years from the Servicemember’s date of death if they died on active duty, or 10 years from the date we determine they qualify or from the Veteran's date of death (there may be exceptions). <br />
+    <strong>Children:</strong> May use benefits between ages 18 and 26 (there may be exceptions).
   </td>
-    <td>**Spouses:** 15 years from the Servicemember’s date of death (but they lose this benefit if they remarry). <br />
-    **Children:** Qualify as of their 18th birthday, and can use this benefit until their 33rd birthday.
+  <td><strong>Spouses:</strong> 15 years from the Servicemember’s date of death (but spouses lose this benefit if they remarry). <br />
+  <strong>Children:</strong> Qualify as of their 18th birthday, and can use this benefit until their 33rd birthday.
   </td>
   </tr>
 
