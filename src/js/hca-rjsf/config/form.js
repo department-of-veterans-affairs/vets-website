@@ -240,9 +240,6 @@ const formConfig = {
           path: 'military-service/service-information',
           title: 'Service periods',
           uiSchema: {
-            // Need to provide a widget for wrapping up the service period for review/submit
-            // What is the difference between viewField and ui:reviewWidget?
-            // ServicePeriodView does what we want, but expects a differently structured schema
             lastServiceBranch: {
               'ui:title': 'Last branch of service',
               'ui:options': {
@@ -263,18 +260,17 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:servicePeriod': {
-                lastServiceBranch: _.assign(lastServiceBranch, { type: 'string' }),
-                lastEntryDate,
-                lastDischargeDate,
-                dischargeType: _.assign(dischargeType, { type: 'string' })
-              }
+              lastServiceBranch: _.assign(lastServiceBranch, { type: 'string' }),
+              lastEntryDate,
+              lastDischargeDate,
+              dischargeType: _.assign(dischargeType, { type: 'string' })
             },
             required: [
               'lastServiceBranch',
               'lastEntryDate',
               'lastDischargeDate',
-              'dischargeType']
+              'dischargeType'
+            ],
           }
         },
         additionalInformation: {
