@@ -71,7 +71,7 @@ You'll need to apply. [Apply for benefits](/education/apply-for-education-benefi
 You may get up to 36 months of education benefits. We pay the benefits monthly and the amount depends on the following factors:
 
 - Length of service
-- Type of educational or training program you want to sign up for
+- Type of educational or training program
 - Your category (as defined above)
 - Whether you qualify for a college fund or kicker
 - How much you have paid into the $600 Buy-Up program
