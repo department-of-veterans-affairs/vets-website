@@ -14,7 +14,7 @@ const AdditionalResources = () => (
     </p>
     <p>
       <a href="http://www.benefits.va.gov/gibill/choosing_a_school.asp" target="_blank">
-        Choose a school
+        Choose a school guide
       </a>
     </p>
     <p>
@@ -78,7 +78,8 @@ class HeadingSummary extends React.Component {
                 {_.isFinite(it.highestDegree) ? `${it.highestDegree} year` : it.highestDegree} program
               </IconWithInfo>
             </div>
-            <div className="small-12 medium-6 column">
+
+            <div className="usa-width-one-half column">
               <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
                 On-the-job training
               </IconWithInfo>

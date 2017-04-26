@@ -6,7 +6,7 @@ import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from '../../pages/applicantInformation';
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
-import directDeposit from '../../pages/directDeposit';
+import createDirectDepositPage from '../../pages/directDeposit';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
@@ -198,7 +198,7 @@ const formConfig = {
       title: 'Personal Information',
       pages: {
         contactInformation: createContactInformationPage('relativeAddress'),
-        directDeposit
+        directDeposit: createDirectDepositPage(fullSchema1990e)
       }
     }
   }

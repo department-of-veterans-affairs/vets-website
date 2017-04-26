@@ -28,6 +28,8 @@ function completeVeteranInformation(client, data, onlyRequiredFields, root = 'ro
       .fill(`input[name="${root}_view:veteranId_veteranSocialSecurityNumber"]`, data['view:veteranId'].veteranSocialSecurityNumber)
       .click(`input[name="${root}_view:veteranId_view:noSSN"]`)
       .setValue(`input[name="${root}_view:veteranId_vaFileNumber"]`, data['view:veteranId'].vaFileNumber);
+  } else {
+    client.fill(`input[name="${root}_veteranSocialSecurityNumber"]`, data.veteranSocialSecurityNumber);
   }
 
   if (data.relationship === 'spouse') {
@@ -104,11 +106,14 @@ function completeAdditionalBenefits(client, data, onlyRequiredFields) {
 
 function completeBenefitsSelection(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
-    const elementSelector = data.benefit
-      ? `input[value="${data.benefit}"]`
-      : '.form-radio-buttons:first-child input';
-
-    client.click(elementSelector);
+    if (data.benefit) {
+      client.click(`input[value="${data.benefit}"]`);
+    } else if (typeof data.payHighestRateBenefit !== 'undefined') {
+      // Defaults to true, so only click if we need to make it false
+      client.clickIf('input[name="root_payHighestRateBenefit"]', !data.payHighestRateBenefit);
+    } else {
+      client.click('.form-radio-buttons:first-child input');
+    }
   }
 }
 
@@ -117,41 +122,15 @@ function completeServicePeriods(client, data, onlyRequiredFields, serviceName = 
     // Turns out this is sometimes required
     client.click(`input[name="root_${serviceName}No"]`);
   } else {
-    const dateFields = data.toursOfDuty[0].dateRange.from.split('-');
-    const toDateFields = data.toursOfDuty[0].dateRange.to.split('-');
-    const dateFields1 = data.toursOfDuty[1].dateRange.from.split('-');
-    const toDateFields1 = data.toursOfDuty[1].dateRange.to.split('-');
     client
       .click(`input[name="root_${serviceName}Yes"]`)
-      .clearValue('input[name="root_toursOfDuty_0_serviceBranch"]')
-      .setValue('input[name="root_toursOfDuty_0_serviceBranch"]', data.toursOfDuty[0].serviceBranch)
-      .clearValue('select[name="root_toursOfDuty_0_dateRange_fromMonth"]')
-      .setValue('select[name="root_toursOfDuty_0_dateRange_fromMonth"]', 'May')
-      .clearValue('select[name="root_toursOfDuty_0_dateRange_fromDay"]')
-      .setValue('select[name="root_toursOfDuty_0_dateRange_fromDay"]', parseInt(dateFields[2], 10).toString())
-      .clearValue('input[name="root_toursOfDuty_0_dateRange_fromYear"]')
-      .setValue('input[name="root_toursOfDuty_0_dateRange_fromYear"]', parseInt(dateFields[0], 10))
-      .clearValue('select[name="root_toursOfDuty_0_dateRange_toMonth"]')
-      .setValue('select[name="root_toursOfDuty_0_dateRange_toMonth"]', 'Jun')
-      .clearValue('select[name="root_toursOfDuty_0_dateRange_toDay"]')
-      .setValue('select[name="root_toursOfDuty_0_dateRange_toDay"]', parseInt(toDateFields[2], 10).toString())
-      .clearValue('input[name="root_toursOfDuty_0_dateRange_toYear"]')
-      .setValue('input[name="root_toursOfDuty_0_dateRange_toYear"]', parseInt(toDateFields[0], 10))
+      .fill('input[name="root_toursOfDuty_0_serviceBranch"]', data.toursOfDuty[0].serviceBranch)
+      .fillDate('root_toursOfDuty_0_dateRange_from', data.toursOfDuty[0].dateRange.from)
+      .fillDate('root_toursOfDuty_0_dateRange_to', data.toursOfDuty[0].dateRange.to)
       .click('button.va-growable-add-btn')
-      .clearValue('input[name="root_toursOfDuty_1_serviceBranch"]')
-      .setValue('input[name="root_toursOfDuty_1_serviceBranch"]', data.toursOfDuty[1].serviceBranch)
-      .clearValue('select[name="root_toursOfDuty_1_dateRange_fromMonth"]')
-      .setValue('select[name="root_toursOfDuty_1_dateRange_fromMonth"]', 'May')
-      .clearValue('select[name="root_toursOfDuty_1_dateRange_fromDay"]')
-      .setValue('select[name="root_toursOfDuty_1_dateRange_fromDay"]', parseInt(dateFields1[2], 10).toString())
-      .clearValue('input[name="root_toursOfDuty_1_dateRange_fromYear"]')
-      .setValue('input[name="root_toursOfDuty_1_dateRange_fromYear"]', parseInt(dateFields1[0], 10))
-      .clearValue('select[name="root_toursOfDuty_1_dateRange_toMonth"]')
-      .setValue('select[name="root_toursOfDuty_1_dateRange_toMonth"]', 'Jun')
-      .clearValue('select[name="root_toursOfDuty_1_dateRange_toDay"]')
-      .setValue('select[name="root_toursOfDuty_1_dateRange_toDay"]', parseInt(toDateFields1[2], 10).toString())
-      .clearValue('input[name="root_toursOfDuty_1_dateRange_toYear"]')
-      .setValue('input[name="root_toursOfDuty_1_dateRange_toYear"]', parseInt(toDateFields1[0], 10));
+      .fill('input[name="root_toursOfDuty_1_serviceBranch"]', data.toursOfDuty[1].serviceBranch)
+      .fillDate('root_toursOfDuty_1_dateRange_from', data.toursOfDuty[1].dateRange.from)
+      .fillDate('root_toursOfDuty_1_dateRange_to', data.toursOfDuty[1].dateRange.to);
   }
 }
 

@@ -6,7 +6,7 @@ import schoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/scho
 import applicantInformationPage from '../../pages/applicantInformation';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
 import contactInformationPage from '../../pages/contactInformation';
-import directDeposit from '../../pages/directDeposit';
+import createDirectDepositPage from '../../pages/directDeposit';
 
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 
@@ -67,20 +67,8 @@ const formConfig = {
           },
           uiSchema: {
             'ui:title': 'Applicant service',
-            'view:applicantServed': {
-              'ui:title': 'Have you ever served on active duty in the armed services?',
-              'ui:widget': 'yesNo'
-            },
-            toursOfDuty: _.merge(toursOfDuty.uiSchema, {
-              'ui:options': {
-                expandUnder: 'view:applicantServed'
-              },
-              'ui:required': form => _.get('view:applicantServed', form)
-            }),
+            toursOfDuty: toursOfDuty.uiSchema,
             currentlyActiveDuty: {
-              'ui:options': {
-                expandUnder: 'view:applicantServed'
-              },
               yes: {
                 'ui:title': 'Are you on active duty now?',
                 'ui:widget': 'yesNo',
@@ -103,17 +91,12 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            // If answered 'Yes' without entering information, it's the same as
-            //  answering 'No' as far as the back end is concerned.
-            required: ['view:applicantServed'],
             properties: {
-              'view:applicantServed': {
-                type: 'boolean'
-              },
               toursOfDuty: toursOfDuty.schema({
                 fields: [
                   'serviceBranch',
-                  'dateRange'
+                  'dateRange',
+                  'serviceStatus'
                 ],
                 required: ['serviceBranch', 'dateRange.from']
               }),
@@ -155,7 +138,9 @@ const formConfig = {
       title: 'Personal Information',
       pages: {
         contactInformation: contactInformationPage(),
-        directDeposit
+        directDeposit: createDirectDepositPage(fullSchema1990n, {
+          required: ['accountType', 'accountNumber', 'routingNumber']
+        })
       }
     }
   }

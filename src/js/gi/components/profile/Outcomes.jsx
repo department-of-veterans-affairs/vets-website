@@ -23,7 +23,7 @@ class Outcomes extends React.Component {
     };
     return (
       <div className="outcomes row">
-        <div className="medium-6 large-6 column">
+        <div className="usa-width-one-half medium-6 large-6 column">
           <div className="link-header">
             <h3>Retention rate</h3>
             &nbsp;(<a onClick={this.props.onShowModal.bind(this, 'retention')}>Learn more</a>)
@@ -31,7 +31,7 @@ class Outcomes extends React.Component {
           <Graph veterans={retention.rate} all={retention.all} average={retention.average} decimals={1}/>
         </div>
 
-        <div className="medium-6 large-6 column">
+        <div className="usa-width-one-half medium-6 large-6 column">
           <div className="link-header">
             <h3>Graduation rate</h3>
             &nbsp;(<a onClick={this.props.onShowModal.bind(this, 'gradrates')}>Learn more</a>)
@@ -39,7 +39,7 @@ class Outcomes extends React.Component {
           <Graph veterans={graduation.rate} all={graduation.all} average={graduation.average} decimals={1}/>
         </div>
 
-        <div className="medium-6 large-6 column">
+        <div className="usa-width-one-half medium-6 large-6 column">
           <div className="link-header">
             <h3>Average salaries</h3>
             &nbsp;(<a onClick={this.props.onShowModal.bind(this, 'salaries')}>Learn more</a>)
@@ -47,7 +47,7 @@ class Outcomes extends React.Component {
           <Graph decimals={0} max={100000} average={salary.average} all={salary.all}/>
         </div>
 
-        <div className="medium-6 large-6 column">
+        <div className="usa-width-one-half medium-6 large-6 column">
           <div className="link-header">
             <h3>Repayment rate</h3>
             &nbsp;(<a onClick={this.props.onShowModal.bind(this, 'repayment')}>Learn more</a>)

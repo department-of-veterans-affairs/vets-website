@@ -35,7 +35,7 @@ permalink: false
     </div>
   </div>
   <div class="row">
-    <div class="small-12 medium-6 columns">
+    <div class="small-12 usa-width-one-half medium-6 columns">
       <ul class="plain">
         <li>
           <a href="/disability-benefits/apply/">How do I apply for disability benefits?</a>
@@ -49,7 +49,7 @@ permalink: false
       </ul>
     </div>
 
-    <div class="small-12 medium-6 columns">
+    <div class="small-12 usa-width-one-half medium-6 columns">
         <ul class="plain">
           <li><a href="/facilities/">How can I find VA locations?</a></li>
           <li><a target="_blank" href="https://www.veteranscrisisline.net/" class="external">How do I contact the Veterans Crisis Line?</a></li>

@@ -164,7 +164,7 @@ class ArrayField extends React.Component {
                           ? <h5>New {uiSchema['ui:options'].itemName}</h5>
                           : null}
                       <SchemaForm
-                          data={item}
+                          pageData={item}
                           schema={arrayPageConfig.schema}
                           uiSchema={arrayPageConfig.uiSchema}
                           title={pageTitle}
@@ -192,7 +192,7 @@ class ArrayField extends React.Component {
                 <div className="row small-collapse">
                   <SchemaForm
                       reviewMode
-                      data={item}
+                      pageData={item}
                       schema={arrayPageConfig.schema}
                       uiSchema={arrayPageConfig.uiSchema}
                       title={pageTitle}
@@ -224,4 +224,3 @@ ArrayField.propTypes = {
   arrayData: React.PropTypes.array,
   pageTitle: React.PropTypes.string
 };
-

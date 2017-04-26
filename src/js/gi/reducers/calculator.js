@@ -77,11 +77,13 @@ export default function (state = INITIAL_STATE, action) {
         tuitionInState,
         tuitionOutOfState,
         books,
-        calendar
+        calendar,
+        type,
       } = camelPayload.data.attributes;
 
       return {
         ...INITIAL_STATE,
+        type,
         tuitionInState: tuitionInState || 0,
         tuitionOutOfState: tuitionOutOfState || 0,
         tuitionFees: tuitionInState || 0,
