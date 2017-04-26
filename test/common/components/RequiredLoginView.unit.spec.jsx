@@ -1,6 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import _ from 'lodash';
 
 import RequiredLoginView from '../../../src/js/common/components/RequiredLoginView.jsx';
 
@@ -54,7 +55,7 @@ describe('<RequiredLoginView>', () => {
   };
 
   function setup(props = {}) {
-    const mergedProps = Object.assign({}, defaultProps, props);
+    const mergedProps = _.merge({}, defaultProps, props);
     const tree = SkinDeep.shallowRender(
       <RequiredLoginView {...mergedProps}>
         <div>Test Child</div>
@@ -71,6 +72,13 @@ describe('<RequiredLoginView>', () => {
   it('should render', () => {
     const { vdom } = setup();
     expect(vdom).to.not.be.undefined;
+  });
+
+  it('should render a loading graphic while loading', () => {
+    const { tree, instance } = setup();
+    instance.setState({ loading: true });
+    const loadingIndicatorElement = tree.dive(['LoadingIndicator']);
+    expect(loadingIndicatorElement.text()).to.contain('Loading your information');
   });
 
   describe('LOA.current=1', () => {
@@ -94,14 +102,14 @@ describe('<RequiredLoginView>', () => {
     });
     describe('userProfile.status=SERVER_ERROR', () => {
       it('should display server error message', () => {
-        const serverErrorProfile = Object.assign({}, loa3User, { status: 'SERVER_ERROR' });
+        const serverErrorProfile = _.merge({}, loa3User, { status: 'SERVER_ERROR' });
         const { tree } = setup({ userProfile: serverErrorProfile });
         expect(tree.toString()).to.contain('Sorry, our system is temporarily down while we fix a few things');
       });
     });
     describe('userProfile.status=NOT_FOUND', () => {
       it('should display not found message', () => {
-        const notFoundProfile = Object.assign({}, loa3User, { status: 'NOT_FOUND' });
+        const notFoundProfile = _.merge({}, loa3User, { status: 'NOT_FOUND' });
         const { tree } = setup({ userProfile: notFoundProfile });
         expect(tree.toString()).to.contain('We couldn&#x27;t find your records with that information.');
       });
