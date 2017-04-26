@@ -4,6 +4,7 @@ title: Health Care Application Process
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
+lastupdate_override: 
 relatedlinks:
  - url: /healthcare/eligibility/
    title: Health Care Benefits Eligibility

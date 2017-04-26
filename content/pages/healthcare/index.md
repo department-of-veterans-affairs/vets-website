@@ -1,10 +1,11 @@
 ---
 layout: page-breadcrumbs.html
 title: Health Care Benefits
+display_title: 
 permalink: /healthcare/index.html
 template: L2-section-landing
 showactionbar: false
-display_title: Health Care
+
 majorlinks:
   - url: /healthcare/eligibility/
     title: Eligibility
