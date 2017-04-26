@@ -4,18 +4,29 @@ import { expect } from 'chai';
 
 import { SearchHelpSignIn } from '../../../src/js/login/components/SearchHelpSignIn.jsx';
 
-describe('<SearchHelpSignIn>', () => {
-  const loginData = {
-    currentlyLoggedIn: false,
-    loginUrl: '',
-    utilitiesMenuIsOpen: {
-      account: false,
-      help: false,
-      search: false
-    }
-  };
+const defaultLoginProps = {
+  currentlyLoggedIn: false,
+  loginUrl: '',
+  utilitiesMenuIsOpen: {
+    account: false,
+    help: false,
+    search: false
+  }
+};
 
-  let tree = SkinDeep.shallowRender(<SearchHelpSignIn login={loginData}/>);
+const defaultProfileProps = {
+  email: 'fake@aol.com',
+  userFullName: {
+    first: 'Sharon'
+  }
+};
+
+function buildProps(defaultProps, props = {}) {
+  return Object.assign({}, defaultProps, props);
+}
+
+describe('<SearchHelpSignIn>', () => {
+  let tree = SkinDeep.shallowRender(<SearchHelpSignIn login={defaultLoginProps}/>);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();
@@ -28,18 +39,19 @@ describe('<SearchHelpSignIn>', () => {
   });
 
   it('should render <SignInProfileMenu/> when currentlyLoggedIn is true', () => {
-    const signedInData = {
-      currentlyLoggedIn: true,
-      loginUrl: '',
-      utilitiesMenuIsOpen: {
-        account: false,
-        help: false,
-        search: false
-      }
-    };
-    const profileData = { email: 'fake@aol.com', userFullName: { first: 'Sharon' } };
-    tree = SkinDeep.shallowRender(<SearchHelpSignIn login={signedInData} profile={profileData}/>);
+    const signedInData = buildProps(defaultLoginProps, { currentlyLoggedIn: true });
+    tree = SkinDeep.shallowRender(<SearchHelpSignIn login={signedInData} profile={defaultProfileProps}/>);
     const profileMenu = tree.everySubTree('SignInProfileMenu');
     expect(profileMenu).to.have.lengthOf(1);
+  });
+
+  it('should display email for an LOA1 user without a firstname', () => {
+    const loginData = buildProps(defaultLoginProps, { currentlyLoggedIn: true });
+    const loa1Profile = buildProps(defaultProfileProps, { userFullName: { first: null, middle: null, last: null } });
+    tree = SkinDeep.shallowRender(
+      <SearchHelpSignIn login={loginData} profile={loa1Profile}/>
+    );
+    const dropDownElement = tree.dive(['SignInProfileMenu', 'DropDown']);
+    expect(dropDownElement.text()).to.contain(defaultProfileProps.email);
   });
 });
