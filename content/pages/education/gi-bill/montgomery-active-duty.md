@@ -90,10 +90,8 @@ You may get up to 36 months of education benefits. We pay the benefits monthly a
 - [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
 - [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
 - [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
-- [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
-
 - [Accelerated payments for high-tech programs](/education/work-learn/non-traditional/accelerated-payments/)
-
+- [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can pay into this program up to a maximum (the highest amount allowed) of $600 to get increased monthly benefits. If you pay the maximum amount, you can qualify for up to $5,400 in added GI Bill benefits.
 
 [Use the GI Bill Comparison Tool to compare benefits at schools](/gi-bill-comparison-tool/). <br>
 [Read the Montgomery GI Bill Active Duty pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf).
