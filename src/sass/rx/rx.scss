@@ -33,10 +33,7 @@
 }
 
 .rx-app {
-  background: $color-white;
-  padding: 3rem 1.5rem;
-  margin: auto;
-  max-width: $site-max-width;
+  margin-bottom: 3rem;
 }
 
 // Enhances a USWDS style that has higher specificity.
@@ -54,10 +51,6 @@ button.usa-button-outline {
   + p {
     margin: 0 0 3rem;
   }
-}
-
-.rx-active-disclaimer {
-  margin: 0 0 3rem;
 }
 
 // Used to make functional buttons look like links.
@@ -85,6 +78,10 @@ button.usa-button-outline {
     margin: 0;
     font-size: initial !important;
   }
+}
+
+.rx-disclaimer {
+  margin-top: 0;
 }
 
 .rx-tab-explainer {
