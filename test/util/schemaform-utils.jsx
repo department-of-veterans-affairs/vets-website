@@ -7,7 +7,7 @@ import SchemaForm from '../../src/js/common/schemaform/SchemaForm';
 
 import {
   replaceRefSchemas,
-  updateSchemaData
+  updateSchemaAndData
 } from '../../src/js/common/schemaform/formState';
 
 export class DefinitionTester extends React.Component {
@@ -22,7 +22,7 @@ export class DefinitionTester extends React.Component {
     const definitions = _.merge(props.definitions || {}, props.schema.definitions);
     const schema = replaceRefSchemas(props.schema, definitions);
 
-    const { data: newData, schema: newSchema } = updateSchemaData(schema, uiSchema, formData, pageData, state);
+    const { data: newData, schema: newSchema } = updateSchemaAndData(schema, uiSchema, formData, pageData, state);
 
     this.state = {
       data: newData,
@@ -39,8 +39,7 @@ export class DefinitionTester extends React.Component {
       ? data
       : _.merge(this.props.formData, data);
 
-
-    const { data: newData, schema } = updateSchemaData(this.state.schema, uiSchema, formData, data, state);
+    const { data: newData, schema } = updateSchemaAndData(this.state.schema, uiSchema, formData, data, state);
 
     this.setState({
       data: newData,

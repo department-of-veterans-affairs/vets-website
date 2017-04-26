@@ -187,8 +187,6 @@ describe('Schemaform validations', () => {
         }
       ];
 
-      const formContext = null;
-
       uiSchemaValidate(errors, uiSchema, schema, formData);
 
       expect(validator.calledWith(errors[0].field,

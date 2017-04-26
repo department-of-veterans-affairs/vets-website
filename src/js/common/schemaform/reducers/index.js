@@ -6,7 +6,7 @@ import {
 } from '../helpers';
 
 import {
-  updateSchemaData,
+  updateSchemaAndData,
   replaceRefSchemas,
   updateItemsSchema
 } from '../formState';
@@ -36,7 +36,7 @@ function recalculateSchemaAndData(initialState) {
       // Recalculate any required fields, based on the new data
       const page = state[pageKey];
 
-      const { data, schema } = updateSchemaData(page.schema, page.uiSchema, formData, page.data, state);
+      const { data, schema } = updateSchemaAndData(page.schema, page.uiSchema, formData, page.data, state);
 
       if (page.data !== data || page.schema !== schema) {
         const newPage = _.assign(page, {

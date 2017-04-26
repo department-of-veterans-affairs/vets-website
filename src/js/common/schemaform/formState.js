@@ -358,7 +358,7 @@ export function updateItemsSchema(schema, fieldData = null) {
  * @param {Object} state The Redux state object, which contains schema and data for
  *   all pages
  */
-export function updateSchemaData(schema, uiSchema, formData, pageData, state) {
+export function updateSchemaAndData(schema, uiSchema, formData, pageData, state) {
   let newSchema = updateItemsSchema(schema, formData);
   newSchema = updateRequiredFields(newSchema, uiSchema, formData);
 
