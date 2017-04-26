@@ -111,6 +111,9 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '') 
     if (uiSchema.items && currentData) {
       currentData.forEach((item, index) => {
         const newPath = `${path}[${index}]`;
+        const currentSchema = index < schema.items.length
+          ? schema.items[index]
+          : schema.additionalItems;
         if (!_.get(newPath, errors)) {
           const currentErrors = path ? _.get(path, errors) : errors;
           currentErrors[index] = {
@@ -120,7 +123,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '') 
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, schema.items, formData, newPath);
+        uiSchemaValidate(errors, uiSchema.items, currentSchema, formData, newPath);
       });
     } else if (!uiSchema.items) {
       Object.keys(uiSchema)
