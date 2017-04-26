@@ -34,6 +34,11 @@
 
 .rx-app {
   margin-bottom: 3rem;
+
+  // TODO: Move to core?
+  .va-alert:first-child {
+    margin-top: 0;
+  }
 }
 
 // Enhances a USWDS style that has higher specificity.
@@ -78,10 +83,6 @@ button.usa-button-outline {
     margin: 0;
     font-size: initial !important;
   }
-}
-
-.rx-disclaimer {
-  margin-top: 0;
 }
 
 .rx-tab-explainer {

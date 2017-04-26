@@ -204,17 +204,15 @@ export class Detail extends React.Component {
     }
 
     return (
-      <div>
+      <div id="rx-detail">
         <AlertBox
             content={this.props.alert.content}
             isVisible={this.props.alert.visible}
             onCloseAlert={this.props.closeAlert}
             scrollOnShow
             status={this.props.alert.status}/>
-        <div id="rx-detail">
-          <h1>Prescription Refill</h1>
-          {content}
-        </div>
+        <h1>Prescription Refill</h1>
+        {content}
       </div>
     );
   }
