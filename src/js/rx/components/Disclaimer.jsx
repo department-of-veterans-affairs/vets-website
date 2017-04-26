@@ -5,7 +5,6 @@ import classNames from 'classnames';
 class Disclaimer extends React.Component {
   render() {
     const disclaimerClass = classNames(
-      'rx-disclaimer',
       { 'va-alert--open': this.props.isOpen },
       { 'va-alert usa-alert usa-alert-warning': true },
     );
