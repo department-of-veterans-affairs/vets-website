@@ -27,10 +27,12 @@ export class DefinitionTester extends React.Component {
     this.state = {
       data: newData,
       schema: newSchema,
-      uiSchema
+      uiSchema,
+      formData
     };
   }
   handleChange = (data) => {
+    // console.log('DefinitionTester -> handleChange -> data:', data);
     const state = this.props.state;
     const uiSchema = this.state.uiSchema;
     const formData = this.state.schema.type === 'array'
@@ -43,11 +45,13 @@ export class DefinitionTester extends React.Component {
     this.setState({
       data: newData,
       schema,
-      uiSchema
+      uiSchema,
+      formData
     });
   }
   render() {
-    const { schema, uiSchema, data } = this.state;
+    const { schema, uiSchema, data, formData } = this.state;
+
     return (
       <SchemaForm
           safeRenderCompletion
@@ -56,7 +60,8 @@ export class DefinitionTester extends React.Component {
           title="test"
           schema={schema}
           uiSchema={uiSchema}
-          data={data}
+          pageData={data}
+          formData={formData}
           onChange={this.handleChange}
           onSubmit={this.props.onSubmit}/>
     );
@@ -67,4 +72,24 @@ export function submitForm(form) {
   ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
     preventDefault: f => f
   });
+}
+
+/**
+ * Wraps the schema and uiSchema for testing purposes.
+ *
+ * There's no reason for arrays to be the root schema, so this utility function
+ *  wraps them in an object so we can test them properly.
+ */
+export function wrapSchemas(schema, uiSchema, propertyName = 'originalSchema') {
+  return {
+    schema: {
+      type: 'object',
+      properties: {
+        [propertyName]: schema
+      }
+    },
+    uiSchema: {
+      [propertyName]: uiSchema
+    }
+  };
 }
