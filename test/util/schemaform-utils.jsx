@@ -6,13 +6,9 @@ import React from 'react';
 import SchemaForm from '../../src/js/common/schemaform/SchemaForm';
 
 import {
-  setHiddenFields,
-  removeHiddenData,
-  updateRequiredFields,
-  updateSchemaFromUiSchema,
   replaceRefSchemas,
-  updateItemsSchema
-} from '../../src/js/common/schemaform/helpers';
+  updateSchemaData
+} from '../../src/js/common/schemaform/formState';
 
 export class DefinitionTester extends React.Component {
   constructor(props) {
@@ -24,19 +20,13 @@ export class DefinitionTester extends React.Component {
       : _.merge(props.formData, pageData);
 
     const definitions = _.merge(props.definitions || {}, props.schema.definitions);
-    let schema = replaceRefSchemas(props.schema, definitions);
-    schema = updateItemsSchema(schema, formData);
-    schema = updateRequiredFields(schema, uiSchema, formData);
-    // Update the schema with any fields that are now hidden because of the data change
-    schema = setHiddenFields(schema, uiSchema, formData);
-    // Update the schema with any general updates based on the new data
-    schema = updateSchemaFromUiSchema(schema, uiSchema, pageData, state);
-    // Remove any data that's now hidden in the schema
-    const newData = removeHiddenData(schema, pageData);
+    const schema = replaceRefSchemas(props.schema, definitions);
+
+    const { data: newData, schema: newSchema } = updateSchemaData(schema, uiSchema, formData, pageData, state);
 
     this.state = {
       data: newData,
-      schema,
+      schema: newSchema,
       uiSchema
     };
   }
@@ -46,14 +36,9 @@ export class DefinitionTester extends React.Component {
     const formData = this.state.schema.type === 'array'
       ? data
       : _.merge(this.props.formData, data);
-    let schema = updateItemsSchema(this.state.schema, formData);
-    schema = updateRequiredFields(schema, uiSchema, formData);
-    // Update the schema with any fields that are now hidden because of the data change
-    schema = setHiddenFields(schema, uiSchema, formData);
-    // Update the schema with any general updates based on the new data
-    schema = updateSchemaFromUiSchema(schema, uiSchema, data, state);
-    // Remove any data that's now hidden in the schema
-    const newData = removeHiddenData(schema, data);
+
+
+    const { data: newData, schema } = updateSchemaData(this.state.schema, uiSchema, formData, data, state);
 
     this.setState({
       data: newData,

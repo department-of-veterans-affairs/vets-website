@@ -26,18 +26,7 @@ export default function applicantServicePage() {
         },
         'ui:required': form => _.get('view:applicantServed', form),
         items: {
-          serviceStatus: {
-            'ui:title': 'Type of separation or discharge',
-            'ui:options': {
-              updateSchema: (pageData, formData, currentSchema, index) => {
-                return {
-                  minLength: _.get(`applicantService.data.toursOfDuty[${index}].serviceBranch`, formData) === 'Army'
-                    ? 2
-                    : null
-                };
-              }
-            }
-          }
+          serviceStatus: { 'ui:title': 'Type of separation or discharge' }
         }
       })
     },
