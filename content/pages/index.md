@@ -21,7 +21,7 @@ majorlinks:
     description: Get help building your career skills and finding a job.
 ---
 <div class="splash--home"> 
-  <h2 class="home-tagline">Get the VA services that you’ve earned.</h2>
+  <div class="home-tagline">Get the VA services that you’ve earned.</div>
 </div>
 
 <div class="popular-container row">

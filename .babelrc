@@ -1,7 +1,14 @@
 {
   // Javascript settings.
   "presets": [
-    "es2015",
+    ["env", {
+      "targets": {
+        "uglify": true,
+        "browsers": ["last 2 versions", "ie 11", "not ie 10"]
+      },
+      "useBuiltIns": true,
+      "modules": false,
+    }],
     "react",
     "stage-2",
   ],
@@ -11,6 +18,7 @@
   // Share polyfills between files.
   "env": {
     "test": {
+      "presets": ["env", "stage-2"],
       "plugins": [ "istanbul" ]
     },
     "hot": {

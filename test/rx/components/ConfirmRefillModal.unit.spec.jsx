@@ -14,6 +14,7 @@ const props = {
     refillSubmitDate: null,
     facilityName: 'ABC123',
   },
+  onCloseModal: f => f
 };
 
 describe('<ConfirmRefillModal>', () => {

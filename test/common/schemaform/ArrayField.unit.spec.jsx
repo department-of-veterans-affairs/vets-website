@@ -46,6 +46,7 @@ describe('Schemaform <ArrayField>', () => {
           idSchema={idSchema}
           registry={registry}
           formContext={formContext}
+          onChange={f => f}
           requiredSchema={requiredSchema}/>
     );
 
@@ -85,6 +86,7 @@ describe('Schemaform <ArrayField>', () => {
           registry={registry}
           formData={formData}
           formContext={formContext}
+          onChange={f => f}
           requiredSchema={requiredSchema}/>
     );
 

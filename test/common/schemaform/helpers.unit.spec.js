@@ -329,6 +329,35 @@ describe('Schemaform helpers:', () => {
       expect(newSchema.properties.field['ui:collapsed']).to.be.true;
       expect(newSchema).not.to.equal(schema);
     });
+    it('should set collapsed on nested expandUnder field', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          nested: {
+            type: 'object',
+            properties: {
+              field: {},
+              field2: {}
+            }
+          }
+        }
+      };
+      const uiSchema = {
+        nested: {
+          field: {
+            'ui:options': {
+              expandUnder: 'field2'
+            }
+          }
+        }
+      };
+      const data = { nested: { field: '', field2: false } };
+
+      const newSchema = setHiddenFields(schema, uiSchema, data);
+
+      expect(newSchema.properties.nested.properties.field['ui:collapsed']).to.be.true;
+      expect(newSchema).not.to.equal(schema);
+    });
     it('should set hidden on array field', () => {
       const schema = {
         type: 'array',
@@ -398,6 +427,27 @@ describe('Schemaform helpers:', () => {
       const newData = removeHiddenData(schema, data);
 
       expect(newData).to.eql({ field: 'test' });
+    });
+    it('should remove collapsed field in nested object', () => {
+      const schema = {
+        type: 'object',
+        properties: {
+          field: {},
+          nested: {
+            type: 'object',
+            properties: {
+              field2: {
+                'ui:collapsed': true
+              }
+            }
+          }
+        }
+      };
+      const data = { field: 'test', nested: { field2: 'test2' } };
+
+      const newData = removeHiddenData(schema, data);
+
+      expect(newData).to.eql({ field: 'test', nested: {} });
     });
     it('should remove hidden field in array', () => {
       const schema = {
@@ -816,6 +866,7 @@ describe('Schemaform helpers:', () => {
     it('should return fields without array', () => {
       const result = getNonArraySchema({
         type: 'object',
+        required: ['field', 'field2'],
         properties: {
           field: {
             type: 'string'
@@ -828,6 +879,7 @@ describe('Schemaform helpers:', () => {
 
       expect(result).to.eql({
         type: 'object',
+        required: ['field'],
         properties: {
           field: {
             type: 'string'

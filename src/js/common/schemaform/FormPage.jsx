@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import _ from 'lodash/fp';
+import Scroll from 'react-scroll';
 
 import SchemaForm from './SchemaForm';
 import ProgressButton from '../components/form-elements/ProgressButton';
@@ -17,6 +18,15 @@ function focusForm() {
   }
 }
 
+const scroller = Scroll.scroller;
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', window.VetsGov.scroll || {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
+
 /*
  * Component for regular form pages (i.e. not on the review page). Handles moving back
  * and forward through pages
@@ -31,11 +41,13 @@ class FormPage extends React.Component {
   }
 
   componentDidMount() {
+    scrollToTop();
     focusForm();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.route.pageConfig.pageKey !== this.props.route.pageConfig.pageKey) {
+      scrollToTop();
       focusForm();
     }
   }
@@ -83,14 +95,14 @@ class FormPage extends React.Component {
             onChange={this.onChange}
             onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
-            <div className="small-6 medium-5 columns">
+            <div className="small-6 usa-width-five-twelfths medium-5 columns">
               <ProgressButton
                   onButtonClick={this.goBack}
                   buttonText="Back"
                   buttonClass="usa-button-outline"
                   beforeText="«"/>
             </div>
-            <div className="small-6 medium-5 end columns">
+            <div className="small-6 usa-width-five-twelfths medium-5 end columns">
               <ProgressButton
                   submitButton
                   buttonText="Continue"

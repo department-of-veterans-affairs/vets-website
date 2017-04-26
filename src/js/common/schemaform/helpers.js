@@ -303,7 +303,15 @@ export function getNonArraySchema(schema) {
     }
 
     if (newProperties !== schema.properties) {
-      return _.set('properties', newProperties, schema);
+      let newSchema = _.set('properties', newProperties, schema);
+      if (newSchema.required) {
+        const newRequired = _.intersection(Object.keys(newSchema.properties), newSchema.required);
+        if (newRequired.length !== newSchema.required.length) {
+          newSchema = _.set('required', newRequired, newSchema);
+        }
+      }
+
+      return newSchema;
     }
   }
 
@@ -377,11 +385,18 @@ export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
  * This steps through a schema and sets any fields to hidden, based on a
  * hideIf function from uiSchema and the current page data. Sets 'ui:hidden'
  * which is a non-standard JSON Schema property
+ *
+ * The path parameter will contain the path, relative to formData, to the
+ * form data corresponding to the current schema object
  */
-export function setHiddenFields(schema, uiSchema, formData) {
+export function setHiddenFields(schema, uiSchema, formData, path = []) {
   if (!uiSchema) {
     return schema;
   }
+
+  // expandUnder fields are relative to the parent object of the current
+  // field, so get that object using path here
+  const containingObject = _.get(path.slice(0, -1), formData) || formData;
 
   let updatedSchema = schema;
   const hideIf = _.get(['ui:options', 'hideIf'], uiSchema);
@@ -395,7 +410,7 @@ export function setHiddenFields(schema, uiSchema, formData) {
   }
 
   const expandUnder = _.get(['ui:options', 'expandUnder'], uiSchema);
-  if (expandUnder && !formData[expandUnder]) {
+  if (expandUnder && !containingObject[expandUnder]) {
     if (!updatedSchema['ui:collapsed']) {
       updatedSchema = _.set('ui:collapsed', true, updatedSchema);
     }
@@ -405,7 +420,7 @@ export function setHiddenFields(schema, uiSchema, formData) {
 
   if (updatedSchema.type === 'object') {
     const newProperties = Object.keys(updatedSchema.properties).reduce((current, next) => {
-      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], formData);
+      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], formData, path.concat(next));
 
       if (newSchema !== updatedSchema.properties[next]) {
         return _.set(next, newSchema, current);
@@ -420,7 +435,11 @@ export function setHiddenFields(schema, uiSchema, formData) {
   }
 
   if (updatedSchema.type === 'array') {
-    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, formData);
+    // Our current approach is to sometimes modify the schema based on form data
+    // This breaks down with arrays, because all items share the same schema
+    // So, this is technically not correct, but the last row is probably what's visible
+    // for a user, so it should be the least bad for now
+    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, formData, path.concat(formData.length - 1));
 
     if (newSchema !== updatedSchema.items) {
       return _.set('items', newSchema, updatedSchema);
@@ -445,8 +464,14 @@ export function removeHiddenData(schema, data) {
       if (typeof data[next] !== 'undefined') {
         const nextData = removeHiddenData(schema.properties[next], data[next]);
 
+        // if the data was removed, then just unset it
         if (typeof nextData === 'undefined') {
           return _.unset(next, current);
+        }
+
+        // if data was updated (like a nested prop was removed), update it
+        if (nextData !== data[next]) {
+          return _.set(next, nextData, current);
         }
       }
 
@@ -455,15 +480,9 @@ export function removeHiddenData(schema, data) {
   }
 
   if (schema.type === 'array') {
-    return data.reduce((current, next, index) => {
-      const nextData = removeHiddenData(schema.items, next);
-
-      if (nextData !== next) {
-        return _.set(index, nextData, current);
-      }
-
-      return data;
-    }, data);
+    return data.map(item => {
+      return removeHiddenData(schema.items, item);
+    });
   }
 
   return data;
@@ -541,6 +560,10 @@ export function setItemTouched(prefix, index, idSchema) {
 }
 
 export function replaceRefSchemas(schema, definitions, path = '') {
+  // this can happen if you import a field that doesn't exist from a schema
+  if (!schema) {
+    throw new Error(`Schema is undefined at ${path}`);
+  }
   if (schema.$ref) {
     // There's a whole spec for JSON pointers, but we don't use anything more complicated
     // than this so far
@@ -576,4 +599,10 @@ export function replaceRefSchemas(schema, definitions, path = '') {
   }
 
   return schema;
+}
+
+export function createUSAStateLabels(states) {
+  return states.USA.reduce((current, { label, value }) => {
+    return _.merge(current, { [value]: label });
+  }, {});
 }

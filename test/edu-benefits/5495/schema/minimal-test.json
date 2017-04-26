@@ -1,0 +1,74 @@
+{
+  "privacyAgreementAccepted": true,
+  "applicantInformation": {
+    "data": {
+      "relativeFullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "relativeDateOfBirth": "1970-03-02",
+      "relativeSocialSecurityNumber": "342424444"
+    }
+  },
+  "applicantService": {
+    "data": {
+      "view:applicantServed": false
+    }
+  },
+  "benefitSelection": {
+    "data": {}
+  },
+  "sponsorInformation": {
+    "data": {
+      "veteranFullName": {
+        "first": "Jane",
+        "last": "Doe"
+      },
+      "view:veteranId": {
+        "veteranSocialSecurityNumber": "234344444",
+        "view:noSSN": false
+      },
+      "outstandingFelony": false
+    }
+  },
+  "newSchool": {
+    "data": {
+      "educationProgram": {
+        "name": "asdf",
+        "address": {
+          "country": "USA"
+        },
+        "educationType": "college"
+      }
+    }
+  },
+  "oldSchool": {
+    "data": {
+      "oldSchool": {
+        "address": {
+          "country": "USA"
+        }
+      }
+    }
+  },
+  "contactInformation": {
+    "data": {
+      "relativeAddress": {
+        "street": "123 main st",
+        "city": "Northampton",
+        "country": "USA",
+        "state": "MA",
+        "postalCode": "01060"
+      },
+      "view:otherContactInfo": {
+        "email": "test@test.com",
+        "view:confirmEmail": "test@test.com"
+      }
+    }
+  },
+  "directDeposit": {
+    "data": {
+      "bankAccount": {}
+    }
+  }
+}

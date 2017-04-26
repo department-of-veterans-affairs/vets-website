@@ -49,6 +49,10 @@
 <!-- CSS -->
 {% if entryname %}
 <link rel="stylesheet" href="/generated/{{ entryname }}.css">
+{% if entryname == 'facilities' %}
+<link href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" type="text/css" rel="stylesheet">
+{% endif %}
+
 {% else %}
 <link rel="stylesheet" href="/generated/no-react.css">
 {% endif %}

@@ -57,16 +57,17 @@ class IntroductionPage extends React.Component {
               <div><h5>Decision</h5></div>
               <ul><li>We usually process claims within 30 days.</li></ul>
               <ul><li>You’ll get a COE or Award Letter in the mail if your application was approved. Bring this to the VA certifying official at your school.</li></ul>
+              <ul><li>If your application was not approved, you’ll get a denial letter in the mail.</li></ul>
             </li>
           </ol>
         </div>
         <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             <a href="/education/apply-for-education-benefits/">
               <button className="usa-button-outline">« Back</button>
             </a>
           </div>
-          <div className="small-6 medium-5 end columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
             <ProgressButton
                 onButtonClick={this.goForward}
                 buttonText="Continue"
@@ -83,3 +84,5 @@ class IntroductionPage extends React.Component {
 }
 
 export default withRouter(IntroductionPage);
+
+export { IntroductionPage };

@@ -5,8 +5,8 @@ import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from '../../pages/applicantInformation';
 import createContactInformationPage from '../../pages/contactInformation';
-import createSchoolSelectionPage from '../../pages/schoolSelection';
-import directDeposit from '../../pages/directDeposit';
+import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../pages/schoolSelection';
+import createDirectDepositPage from '../../pages/directDeposit';
 
 import * as address from '../../../common/schemaform/definitions/address';
 import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
@@ -68,9 +68,7 @@ const formConfig = {
           path: 'benefits/eligibility',
           title: 'Benefits eligibility',
           uiSchema: {
-            'view:benefitDescription': {
-              'ui:description': eligibilityDescription
-            },
+            'ui:description': eligibilityDescription,
             benefit: {
               'ui:widget': 'radio',
               'ui:title': 'Select the benefit that has been transferred to you.',
@@ -82,10 +80,6 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:benefitDescription': {
-                type: 'object',
-                properties: {}
-              },
               benefit
             }
           },
@@ -197,20 +191,14 @@ const formConfig = {
     schoolSelection: {
       title: 'School Selection',
       pages: {
-        schoolSelection: createSchoolSelectionPage(fullSchema1990e, {
-          fields: [
-            'educationProgram',
-            'educationObjective'
-          ],
-          required: ['educationType']
-        })
+        schoolSelection: createSchoolSelectionPage(fullSchema1990e, schoolSelectionOptionsFor['1990e'])
       }
     },
     personalInformation: {
       title: 'Personal Information',
       pages: {
         contactInformation: createContactInformationPage('relativeAddress'),
-        directDeposit
+        directDeposit: createDirectDepositPage(fullSchema1990e)
       }
     }
   }

@@ -153,6 +153,7 @@ class ArrayField extends React.Component {
           {this.state.items.map((item, index) => {
             const isLast = this.state.items.length === (index + 1);
             const isEditing = this.state.editing[index];
+            const showReviewButton = !schema.minItems || this.state.items.length > schema.minItems;
             if (isEditing) {
               return (
                 <div key={index} className="va-growable-background">
@@ -177,7 +178,7 @@ class ArrayField extends React.Component {
                             <button className="float-left">Update</button>
                           </div>
                           <div className="small-6 right columns">
-                            <button type="button" className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>
+                            {showReviewButton && <button type="button" className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>}
                           </div>
                         </div>
                       </SchemaForm>
