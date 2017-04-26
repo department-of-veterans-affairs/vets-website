@@ -45,7 +45,7 @@ Qualified dependents
 
 ### What benefits can I get? 
 
-We'll make a monthly payment to the school of up to $1,021 for up to 45 months for:
+We'll make a monthly payment to the school of up to $1,024 for up to 45 months for:
 - College or graduate degree programs
 - Career-training certificate courses
 - Apprenticeships
@@ -53,14 +53,14 @@ We'll make a monthly payment to the school of up to $1,021 for up to 45 months f
 
 [View current payment rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp).
 
-For both children and spouses, if you qualify for both DEA and the Fry Scholarship, you must pick one or the other. Once you make this choice, you can't change your mind. [Learn about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
+For both children and spouses, if you qualify for both DEA and the Fry Scholarship, you must pick one or the other. Once you make this choice, you can't switch to the other program. [Learn about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
 
 **Exception:** 
 If you're the child of a Servicemember who died in the line of duty before August 1, 2011, you can use both DEA and the Fry Scholarship and get up to 81 months of education and training.
 
 ### How do I get these benefits? 
-1. Make sure we've approved the educational program to get VA benefits.
-2. Fill out VA Form 22-5490 (Application for Survivors’ and Dependents’ Educational Assistance). [Download VA Form 22-5490](http://www.vba.va.gov/pubs/forms/vba-22-5490-are.pdf).
+1. First, contact your school's certifying official to make sure your program is approved for VA benefits.
+2. Then fill out VA Form 22-5490 (Application for Survivors’ and Dependents’ Educational Assistance). [Download VA Form 22-5490](http://www.vba.va.gov/pubs/forms/vba-22-5490-are.pdf).
 3. Mail the application to the VA regional processing office (RPO) located near your school. [Find an RPO](http://www.benefits.va.gov/benefits/offices.asp#C).
 
 #### If you haven't started school or a training program:
