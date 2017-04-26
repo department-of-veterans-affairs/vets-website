@@ -241,8 +241,9 @@ const formConfig = {
       pages: {
         vaBenefits: {
           path: 'va-benefits/basic-information',
-          title: 'Current Compensation',
+          title: 'VA benefits',
           uiSchema: {
+            'ui:title': 'Current compensation',
             compensableVaServiceConnected: {
               'ui:title': 'Do you currently receive monetary compensation (pay) from the VA for a service-connected disability with a rating of 10%, 20%, 30%, or 40%?',
               'ui:widget': 'yesNo'
