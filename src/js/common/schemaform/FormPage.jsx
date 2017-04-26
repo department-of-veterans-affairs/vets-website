@@ -79,30 +79,47 @@ class FormPage extends React.Component {
 
   render() {
     const { route } = this.props;
+    const form = this.props.form;
     const {
       data,
       schema,
       uiSchema
-    } = this.props.form[route.pageConfig.pageKey];
+    } = form[route.pageConfig.pageKey];
+
+    // Flatten the data from every page to pass to SchemaForm to eventually be
+    //  used in uiSchemaValidate()
+    // I'd rather not have this here, but console.time() tells me it's executing
+    //  locally in 1.49e+12ms on the edu 5495, which is admittedly a relatively
+    //  small form, but it shouldn't be a significant hit at any rate.
+    const formData = Object.keys(form).reduce((carry, pageName) => {
+      if (form[pageName].data) {
+        Object.keys(form[pageName].data).forEach((fieldKey) => {
+          carry[fieldKey] = form[pageName].data[fieldKey]; // eslint-disable-line
+        });
+      }
+      return carry;
+    }, {});
+
     return (
       <div className="form-panel">
         <SchemaForm
             name={route.pageConfig.pageKey}
             title={route.pageConfig.title}
-            data={data}
+            pageData={data}
+            formData={formData}
             schema={schema}
             uiSchema={uiSchema}
             onChange={this.onChange}
             onSubmit={this.onSubmit}>
           <div className="row form-progress-buttons schemaform-buttons">
-            <div className="small-6 medium-5 columns">
+            <div className="small-6 usa-width-five-twelfths medium-5 columns">
               <ProgressButton
                   onButtonClick={this.goBack}
                   buttonText="Back"
                   buttonClass="usa-button-outline"
                   beforeText="«"/>
             </div>
-            <div className="small-6 medium-5 end columns">
+            <div className="small-6 usa-width-five-twelfths medium-5 end columns">
               <ProgressButton
                   submitButton
                   buttonText="Continue"

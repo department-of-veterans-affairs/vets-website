@@ -145,7 +145,8 @@ function isValidBirthInformationSection(data) {
 }
 
 function isValidDemographicInformation(data) {
-  return isNotBlank(data.gender.value);
+  return isNotBlank(data.gender.value) &&
+      isNotBlank(data.maritalStatus.value);
 }
 
 function isValidVaInformation(data) {

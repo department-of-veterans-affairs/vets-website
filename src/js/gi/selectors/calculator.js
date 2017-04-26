@@ -118,18 +118,19 @@ const getDerivedValues = createSelector(
     // The monthly benefit rate for non-chapter 33 benefits
     switch (giBillChapter) {
       case 30: {
-        if (enlistmentService === '3' || enlistmentService === '2') {
-          monthlyRate = isOJT ? constant.MGIB3YRRATE * 0.75 : constant.MGIB3YRRATE;
-        }
+        monthlyRate =
+          (enlistmentService === '3' ?
+           constant.MGIB3YRRATE :
+           constant.MGIB2YRRATE) * (isOJT ? 0.75 : 1);
         break;
       }
       case 1607: {
-        monthlyRate = constant.MGIB3YRRATE * consecutiveService;
-        monthlyRate = isOJT ? monthlyRate * 0.75 : monthlyRate;
+        monthlyRate =
+          constant.MGIB3YRRATE * consecutiveService * (isOJT ? 0.75 : 1);
         break;
       }
       case 1606: {
-        monthlyRate = isOJT ? constant.SRRATE * 0.75 : constant.SRRATE;
+        monthlyRate = constant.SRRATE * (isOJT ? 0.75 : 1);
         break;
       }
       case 35: {
@@ -249,7 +250,7 @@ const getDerivedValues = createSelector(
     const yellowRibbonElig = !(
       tier < 1
       || !institution.yr
-      || !inputs.yellowRibbonRecipient
+      || inputs.yellowRibbonRecipient === 'no'
       || militaryStatus === 'active duty'
       || isOJT
       || isFlightOrCorrespondence
@@ -258,12 +259,8 @@ const getDerivedValues = createSelector(
     // Determine kicker benefit level - getKickerBenefit
     if (!(inputs.kickerEligible === 'yes')) {
       kickerBenefit = 0;
-    } else if (isOJT) {
-      kickerBenefit = +inputs.kickerAmount * ropOjt;
-    } else if (oldGiBill || onlyVRE) {
-      kickerBenefit = +inputs.kickerAmount * ropOld;
     } else {
-      kickerBenefit = +inputs.kickerAmount * rop;
+      kickerBenefit = +inputs.kickerAmount;
     }
 
     // Determine buy up rates - getBuyUpRate
@@ -274,7 +271,7 @@ const getDerivedValues = createSelector(
     }
 
     // Calculate Housing Allowance Rate Final - getMonthlyRateFinal
-    const monthlyRateFinal = ropOld * (monthlyRate + buyUpRate) + kickerBenefit;
+    const monthlyRateFinal = ropOld * (monthlyRate + buyUpRate + kickerBenefit);
 
     // Calculate the names of Terms 1-4
     if (isOJT) {
@@ -474,7 +471,7 @@ const getDerivedValues = createSelector(
     } else if (oldGiBill || onlyVRE) {
       housingAllowTerm1 = totalHousingAllowance;
     } else if (militaryStatus === 'active duty' || (militaryStatus === 'spouse' && spouseActiveDuty)) {
-      housingAllowTerm1 = kickerBenefit * termLength;
+      housingAllowTerm1 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm1 = 0;
     } else if (isOJT) {
@@ -526,7 +523,7 @@ const getDerivedValues = createSelector(
     } else if (oldGiBill || onlyVRE) {
       housingAllowTerm2 = totalHousingAllowance;
     } else if (militaryStatus === 'active duty' || (militaryStatus === 'spouse' && spouseActiveDuty)) {
-      housingAllowTerm2 = kickerBenefit * termLength;
+      housingAllowTerm2 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm2 = 0;
     } else if (onlineClasses === 'yes') {
@@ -577,7 +574,7 @@ const getDerivedValues = createSelector(
     } else if (oldGiBill || onlyVRE) {
       housingAllowTerm3 = totalHousingAllowance;
     } else if (militaryStatus === 'active duty' || (militaryStatus === 'spouse' && spouseActiveDuty)) {
-      housingAllowTerm3 = kickerBenefit * termLength;
+      housingAllowTerm3 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm3 = 0;
     } else if (onlineClasses === 'yes') {
@@ -750,6 +747,7 @@ const getDerivedValues = createSelector(
       nameOfTerm2,
       nameOfTerm3,
       nameOfTerm4,
+      yellowRibbonElig,
       yrBenSchoolTerm1,
       yrBenSchoolTerm2,
       yrBenSchoolTerm3,
@@ -790,6 +788,7 @@ export const getCalculatedBenefits = createSelector(
     const { militaryStatus } = eligibility;
     const giBillChapter = +eligibility.giBillChapter;
     const institutionType = institution.type.toLowerCase();
+    const isOJT = institutionType === 'ojt';
 
     calculatedBenefits.inputs = {
       inState: false,
@@ -909,22 +908,22 @@ export const getCalculatedBenefits = createSelector(
           terms: [
             {
               label: derived.nameOfTerm1,
-              value: formatCurrency(derived.housingAllowTerm1),
+              value: `${formatCurrency(derived.housingAllowTerm1)}${isOJT ? '/mo' : ''}`,
               visible: true
             },
             {
               label: derived.nameOfTerm2,
-              value: formatCurrency(derived.housingAllowTerm2),
+              value: `${formatCurrency(derived.housingAllowTerm2)}${isOJT ? '/mo' : ''}`,
               visible: true
             },
             {
               label: derived.nameOfTerm3,
-              value: formatCurrency(derived.housingAllowTerm3),
+              value: `${formatCurrency(derived.housingAllowTerm3)}${isOJT ? '/mo' : ''}`,
               visible: true
             },
             {
               label: derived.nameOfTerm4,
-              value: formatCurrency(derived.housingAllowTotal), // Total if not OJT
+              value: `${formatCurrency(derived.housingAllowTotal)}${isOJT ? '/mo' : ''}`, // Total if not OJT
               visible: true
             },
           ],
@@ -935,22 +934,22 @@ export const getCalculatedBenefits = createSelector(
           terms: [
             {
               label: derived.nameOfTerm1,
-              value: formatCurrency(derived.bookStipendTerm1),
+              value: `${formatCurrency(derived.bookStipendTerm1)}${isOJT ? '/mo' : ''}`,
               visible: true
             },
             {
               label: derived.nameOfTerm2,
-              value: formatCurrency(derived.bookStipendTerm2),
+              value: `${formatCurrency(derived.bookStipendTerm2)}${isOJT ? '/mo' : ''}`,
               visible: true
             },
             {
               label: derived.nameOfTerm3,
-              value: formatCurrency(derived.bookStipendTerm3),
+              value: `${formatCurrency(derived.bookStipendTerm3)}${isOJT ? '/mo' : ''}`,
               visible: true
             },
             {
               label: derived.nameOfTerm4,
-              value: formatCurrency(derived.bookStipendTotal), // Total if not OJT
+              value: `${formatCurrency(derived.bookStipendTotal)}${isOJT ? '/mo' : ''}`, // Total if not OJT
               visible: true
             },
           ],
@@ -1030,7 +1029,7 @@ export const getCalculatedBenefits = createSelector(
       };
     }
 
-    if (form.yellowRibbonRecipient === 'no') {
+    if (!derived.yellowRibbonElig) {
       calculatedBenefits.outputs.perTerm.yellowRibbon.visible = false;
     }
 
