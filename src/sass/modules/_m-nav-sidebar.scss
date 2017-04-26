@@ -54,6 +54,10 @@
   }
 
   @include media($medium-large-screen) {
+    a {
+      padding-right: 1.6rem;
+    }
+
     &-close {
       display: none;
     }
