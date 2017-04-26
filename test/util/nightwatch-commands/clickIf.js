@@ -9,6 +9,10 @@ exports.command = function clickIf(selector, condition, ...params) {
 
   if (shouldClick) {
     this.click(selector);
+  } else {
+    // Needs to call some nightwatch function anyhow to queue this
+    // http://nightwatchjs.org/guide/#extending
+    this.perform(() => {});
   }
 
   return this;

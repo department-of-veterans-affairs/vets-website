@@ -7,6 +7,8 @@ import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
 import {
   transform,
+  dischargeTypeLabels,
+  lastServiceBranchLabels,
   FacilityHelp,
   medicalCentersByState,
   medicalCenterLabels
@@ -18,6 +20,19 @@ import InsuranceProviderView from '../components/InsuranceProviderView';
 import { uiSchema as dateUI } from '../../common/schemaform/definitions/currentOrPastDate';
 
 const {
+  lastEntryDate,
+  lastDischargeDate,
+  lastServiceBranch,
+  dischargeType,
+  purpleHeartRecipient,
+  isFormerPow,
+  postNov111998Combat,
+  disabledInLineOfDuty,
+  swAsiaCombat,
+  vietnamService,
+  exposedToRadiation,
+  radiumTreatments,
+  campLejeune,
   isMedicaidEligible,
   isEnrolledMedicarePartA,
   medicarePartAEffectiveDate,
@@ -213,6 +228,96 @@ const formConfig = {
                 properties: {}
               },
               wantsInitialVaContact
+            }
+          }
+        }
+      }
+    },
+    militaryService: {
+      title: 'Military service',
+      pages: {
+        serviceInformation: {
+          path: 'military-service/service-information',
+          title: 'Service periods',
+          uiSchema: {
+            lastServiceBranch: {
+              'ui:title': 'Last branch of service',
+              'ui:options': {
+                labels: lastServiceBranchLabels
+              }
+            },
+            // TODO: this should really be a dateRange, but that requires a backend schema change. For now
+            // leaving them as dates, but should change these to get the proper dateRange validation
+            lastEntryDate: dateUI('Start of service period'),
+            lastDischargeDate: dateUI('Date of discharge'),
+            dischargeType: {
+              'ui:title': 'Character of discharge',
+              'ui:options': {
+                labels: dischargeTypeLabels
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              lastServiceBranch: _.assign(lastServiceBranch, { type: 'string' }),
+              lastEntryDate,
+              lastDischargeDate,
+              dischargeType: _.assign(dischargeType, { type: 'string' })
+            },
+            required: [
+              'lastServiceBranch',
+              'lastEntryDate',
+              'lastDischargeDate',
+              'dischargeType'
+            ],
+          }
+        },
+        additionalInformation: {
+          path: 'military-service/additional-information',
+          title: 'Service history',
+          uiSchema: {
+            'ui:title': 'Check all that apply to you.',
+            purpleHeartRecipient: {
+              'ui:title': 'Purple Heart award recipient',
+            },
+            isFormerPow: {
+              'ui:title': 'Former prisoner of war',
+            },
+            postNov111998Combat: {
+              'ui:title': 'Served in combat theater of operations after November 11, 1998',
+            },
+            disabledInLineOfDuty: {
+              'ui:title': 'Discharged or retired from the military for a disability incurred in the line of duty',
+            },
+            swAsiaCombat: {
+              'ui:title': 'Served in Southwest Asia during the Gulf War between August 2, 1990, and Nov 11, 1998',
+            },
+            vietnamService: {
+              'ui:title': 'Served in Vietnam between January 9, 1962, and May 7, 1975',
+            },
+            exposedToRadiation: {
+              'ui:title': 'Exposed to radiation while in the military',
+            },
+            radiumTreatments: {
+              'ui:title': 'Received nose/throat radium treatments while in the military',
+            },
+            campLejeune: {
+              'ui:title': 'Served on active duty at least 30 days at Camp Lejeune from January 1, 1953, through December 31, 1987',
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              purpleHeartRecipient,
+              isFormerPow,
+              postNov111998Combat,
+              disabledInLineOfDuty,
+              swAsiaCombat,
+              vietnamService,
+              exposedToRadiation,
+              radiumTreatments,
+              campLejeune
             }
           }
         }

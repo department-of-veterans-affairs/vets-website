@@ -17,7 +17,7 @@ describe('Edu 1990n applicantService', () => {
     );
     const fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
 
-    expect(fields.length).to.equal(2);
+    expect(fields.length).to.equal(10);
   });
 
   it('should expand tours and other questions', () => {
@@ -29,17 +29,8 @@ describe('Edu 1990n applicantService', () => {
     );
     const formDOM = findDOMNode(form);
 
-    const applicantServedYes = Array.from(formDOM.querySelectorAll('input'))
-      .find(input => input.id.startsWith('root_view:applicantServedYes'));
-
-    ReactTestUtils.Simulate.change(applicantServedYes, {
-      target: {
-        checked: true
-      }
-    });
-
     let fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
-    expect(fields.length).to.equal(11);
+    expect(fields.length).to.equal(10);
 
     const currentlyActiveDuty = formDOM.querySelector('#root_currentlyActiveDuty_yesYes');
     ReactTestUtils.Simulate.change(currentlyActiveDuty, {
@@ -50,6 +41,6 @@ describe('Edu 1990n applicantService', () => {
 
     fields = Array.from(findDOMNode(form).querySelectorAll('input, select'));
 
-    expect(fields.length).to.equal(15);
+    expect(fields.length).to.equal(14);
   });
 });

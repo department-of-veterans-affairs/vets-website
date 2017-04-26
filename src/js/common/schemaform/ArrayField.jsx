@@ -47,7 +47,7 @@ export default class ArrayField extends React.Component {
     const { schema, formData = [], registry } = this.props;
     if (schema.minItems > 0 && formData.length === 0) {
       this.props.onChange(Array(schema.minItems).fill(
-        getDefaultFormState(schema.items, undefined, registry.definitions)
+        getDefaultFormState(schema.additionalItems, undefined, registry.definitions)
       ));
     }
   }
@@ -59,6 +59,15 @@ export default class ArrayField extends React.Component {
   onItemChange(indexToChange, value) {
     const newItems = _.set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
+  }
+
+  getItemSchema(index) {
+    const schema = this.props.schema;
+    if (schema.items.length > index) {
+      return schema.items[index];
+    }
+
+    return schema.additionalItems;
   }
 
   scrollToTop() {
@@ -126,7 +135,7 @@ export default class ArrayField extends React.Component {
         editing: newEditing.concat(false)
       });
       this.setState(newState, () => {
-        const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.items, undefined, this.props.registry.definitions) || {});
+        const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.additionalItems, undefined, this.props.registry.definitions) || {});
         this.props.onChange(newFormData);
         this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
       });
@@ -204,8 +213,9 @@ export default class ArrayField extends React.Component {
           <Element name={`topOfTable_${idSchema.$id}`}/>
           {items.map((item, index) => {
             // This is largely copied from the default ArrayField
+            const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
-            const itemIdSchema = toIdSchema(schema.items, itemIdPrefix, definitions);
+            const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
             const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || items.length > 1;
@@ -221,7 +231,7 @@ export default class ArrayField extends React.Component {
                           : null}
                       <div className="input-section">
                         <SchemaField key={index}
-                            schema={schema.items}
+                            schema={itemSchema}
                             uiSchema={uiSchema.items}
                             errorSchema={errorSchema ? errorSchema[index] : undefined}
                             idSchema={itemIdSchema}
