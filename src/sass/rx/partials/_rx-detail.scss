@@ -40,11 +40,6 @@
   .rx-contact-card {
     margin-bottom: 3.5rem;
     width: 100%;
-
-    @media (min-width: $medium-screen) {
-      display: inline-block;
-      width: 30rem;
-    };
   }
 }
 
