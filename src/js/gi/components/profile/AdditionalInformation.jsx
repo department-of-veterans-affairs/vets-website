@@ -26,7 +26,7 @@ export class AdditionalInformation extends React.Component {
               Veterans tuition policy:
             </a>
           </strong>
-          &nbsp;<a href={`http://${it.vetWebsiteLink}`} target="_blank">
+          &nbsp;<a href={it.vetWebsiteLink} target="_blank">
             View policy
           </a>
         </p>

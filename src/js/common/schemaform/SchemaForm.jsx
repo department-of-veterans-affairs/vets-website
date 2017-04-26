@@ -102,7 +102,8 @@ class SchemaForm extends React.Component {
 
   render() {
     const {
-      data,
+      pageData, // Unfortunately, Form calls this formData, but don't be confused,
+      formData,
       schema,
       uiSchema,
       reviewMode,
@@ -111,6 +112,7 @@ class SchemaForm extends React.Component {
       onChange,
       safeRenderCompletion
     } = this.props;
+
     return (
       <div>
         <Form
@@ -121,13 +123,16 @@ class SchemaForm extends React.Component {
             noHtml5Validate
             onError={this.onError}
             onBlur={this.onBlur}
-            onChange={({ formData }) => onChange(formData)}
+            onChange={({ formData: newData }) => onChange(newData)}
             onSubmit={onSubmit}
             schema={schema}
             uiSchema={uiSchema}
-            validate={this.validate}
+            validate={(pData, errors) => {
+              // Have to merge pData and formData otherwise validation is a step behind
+              return this.validate(_.merge(formData, pData), errors);
+            }}
             showErrorList={false}
-            formData={data}
+            formData={pageData}
             widgets={reviewMode ? reviewWidgets : widgets}
             fields={reviewMode ? reviewFields : fields}
             transformErrors={this.transformErrors}>
@@ -143,6 +148,8 @@ SchemaForm.propTypes = {
   title: React.PropTypes.string.isRequired,
   schema: React.PropTypes.object.isRequired,
   uiSchema: React.PropTypes.object.isRequired,
+  pageData: React.PropTypes.any,
+  formData: React.PropTypes.any,
   reviewMode: React.PropTypes.bool,
   onSubmit: React.PropTypes.func,
   onChange: React.PropTypes.func,

@@ -20,7 +20,6 @@ import {
   setMessageField,
   toggleConfirmDelete,
   toggleConfirmSave,
-  updateComposeCharacterCount
 } from '../actions';
 
 export class Compose extends React.Component {
@@ -199,7 +198,6 @@ const mapDispatchToProps = {
   setMessageField,
   toggleConfirmDelete,
   toggleConfirmSave,
-  updateComposeCharacterCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);

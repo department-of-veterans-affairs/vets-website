@@ -89,7 +89,7 @@ export default class ReviewCollapsibleChapter extends React.Component {
                   <SchemaForm
                       name={page.pageKey}
                       title={page.title}
-                      data={data[page.pageKey].data}
+                      pageData={data[page.pageKey].data}
                       schema={nonArraySchema}
                       uiSchema={data[page.pageKey].uiSchema}
                       hideTitle={activePages.length === 1}
@@ -151,4 +151,3 @@ ReviewCollapsibleChapter.propTypes = {
   data: React.PropTypes.object.isRequired,
   onEdit: React.PropTypes.func.isRequired
 };
-
