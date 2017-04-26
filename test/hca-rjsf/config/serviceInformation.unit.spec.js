@@ -70,7 +70,7 @@ describe('Hca serviceInformation', () => {
     });
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_lastEntryDateYear'), {
       target: {
-        value: 2010
+        value: '2010'
       }
     });
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_lastDischargeDateMonth'), {
@@ -85,7 +85,7 @@ describe('Hca serviceInformation', () => {
     });
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_lastDischargeDateYear'), {
       target: {
-        value: 2011
+        value: '2011'
       }
     });
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_dischargeType'), {
