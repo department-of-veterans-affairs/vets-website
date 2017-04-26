@@ -56,7 +56,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure history card renders
     client
-      .click('.rx-breadcrumbs a[href="/healthcare/prescriptions/"]')
+      .click('.va-nav-breadcrumbs a[href="/healthcare/prescriptions/"]')
       .waitForElementVisible('#rx-active', Timeouts.slow)
       .click('.va-tabs li:last-child a')
       .waitForElementVisible('#rx-history', Timeouts.normal)
