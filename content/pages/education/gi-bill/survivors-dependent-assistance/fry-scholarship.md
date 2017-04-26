@@ -19,7 +19,7 @@ You may be able to get benefits under the Fry Scholarship if you're the child or
 
 ### Who's covered?
 - Qualified dependents
-- Qualified survivors
+- Qualified spouses
 </div>
 
 ### What benefits can I get? 
