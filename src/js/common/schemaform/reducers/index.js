@@ -2,13 +2,14 @@ import _ from 'lodash/fp';
 import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
 
 import {
-  setHiddenFields,
-  removeHiddenData,
-  updateRequiredFields,
   createFormPageList,
-  updateSchemaFromUiSchema,
-  replaceRefSchemas
 } from '../helpers';
+
+import {
+  updateSchemaAndData,
+  replaceRefSchemas,
+  updateItemsSchema
+} from '../formState';
 
 import { SET_DATA,
   SET_EDIT_MODE,
@@ -24,21 +25,13 @@ function recalculateSchemaAndData(initialState) {
       // Recalculate any required fields, based on the new data
       const page = state.pages[pageKey];
       const formData = initialState.data;
-      let schema = updateRequiredFields(page.schema, page.uiSchema, formData);
 
-      // Update the schema with any fields that are now hidden because of the data change
-      schema = setHiddenFields(schema, page.uiSchema, formData);
-
-      // Update the schema with any general updates based on the new data
-      schema = updateSchemaFromUiSchema(schema, page.uiSchema, formData);
-
-      // Remove any data that's now hidden in the schema
-      const newData = removeHiddenData(schema, formData);
+      const { data, schema } = updateSchemaAndData(page.schema, page.uiSchema, formData);
 
       let newState = state;
 
-      if (formData !== newData) {
-        newState = _.set('data', newData, state);
+      if (formData !== data) {
+        newState = _.set('data', data, state);
       }
 
       if (page.schema !== schema) {
@@ -55,7 +48,8 @@ export default function createSchemaFormReducer(formConfig) {
   const firstPassInitialState = createFormPageList(formConfig)
     .reduce((state, page) => {
       const definitions = _.assign(formConfig.defaultDefinitions || {}, page.schema.definitions);
-      const schema = replaceRefSchemas(page.schema, definitions, page.pageKey);
+      let schema = replaceRefSchemas(page.schema, definitions, page.pageKey);
+      schema = updateItemsSchema(schema);
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 
       return _.merge(state, {

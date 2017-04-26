@@ -1,6 +1,7 @@
 const E2eHelpers = require('../../e2e/e2e-helpers');
 const Timeouts = require('../../e2e/timeouts.js');
 const EduHelpers = require('../../e2e/edu-helpers');
+const Edu1990nHelpers = require('../../e2e/edu-1990n-helpers');
 const testData = require('./schema/maximal-test.json');
 
 const runTest = E2eHelpers.createE2eTest(
@@ -36,8 +37,8 @@ const runTest = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/applicant/additional-benefits');
 
     // Applicant service page
-    client.waitForElementVisible('label[for="root_view:applicantServed"]', Timeouts.slow);
-    EduHelpers.completeServicePeriods(client, testData.applicantService.data, false, 'view:applicantServed');
+    client.waitForElementVisible('input[id="root_toursOfDuty_0_serviceBranch"]', Timeouts.slow);
+    Edu1990nHelpers.completeServicePeriods(client, testData.applicantService.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');

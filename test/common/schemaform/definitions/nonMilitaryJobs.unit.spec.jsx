@@ -1,7 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
@@ -23,11 +22,9 @@ describe('Schemaform definition nonMilitaryJobs', () => {
   });
 
   it('should add another', () => {
-    const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          onSubmit={onSubmit}
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);

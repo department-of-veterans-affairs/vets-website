@@ -132,11 +132,13 @@ describe('Schemaform review: ReviewPage', () => {
       submission: {
         hasAttemptedSubmit: false
       },
-      page1: {
-        schema: {},
-      },
-      page2: {
-        schema: {},
+      pages: {
+        page1: {
+          schema: {},
+        },
+        page2: {
+          schema: {},
+        },
       },
       data: {
         privacyAgreementAccepted: true
@@ -182,8 +184,10 @@ describe('Schemaform review: ReviewPage', () => {
       submission: {
         hasAttemptedSubmit: false
       },
-      page1: {},
-      page2: {},
+      pages: {
+        page1: {},
+        page2: {},
+      },
       data: {
         privacyAgreementAccepted: false
       }
@@ -227,8 +231,10 @@ describe('Schemaform review: ReviewPage', () => {
       submission: {
         hasAttemptedSubmit: false
       },
-      page1: {},
-      page2: {},
+      pages: {
+        page1: {},
+        page2: {},
+      },
       data: {
         privacyAgreementAccepted: false
       }
