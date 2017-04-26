@@ -26,7 +26,7 @@ You may qualify for education benefits if you're the child or spouse of a Vetera
 - Is permanently and totally disabled due to a service-connected disability, **or**
 -	Died while on active duty or as a result of a service-connected disability
 
-If you're a dependent who doesn't meet the above criteria, you may still qualify for education benefits if the Veteran or Servicemember transferred some or all of their Post-9/11 GI Bill entitlement to you while they were on active duty. 
+If you're a dependent who doesn't meet the above criteria, you may still qualify for education benefits if the Veteran or Servicemember transferred some or all of their Post-9/11 GI Bill entitlement to you while they were on active duty. [Learn about transferred benefits](/education/gi-bill/transfer/).
 
 
 ### Who's covered?
@@ -68,10 +68,10 @@ There are 2 main GI Bill programs offering educational assistance to survivors a
 <tbody>
   <tr>
     <th scope="row"><strong>Benefit Payments</strong></th>
-    <td>We pay the monthly amount directly to the student. The current monthly payment for full-time training is $1,018.</td>
+    <td>We pay the monthly amount directly to the student. The current monthly payment for full-time training is $1,024.</td>
     <td>
     <ul>
-      <li><strong>Tuition and Fee Payment (paid to the school)</strong>: We cover the full in-state tuition costs for training at public schools and up to $20,035.02 per year at private schools.<br /><br /></li>
+      <li><strong>Tuition and Fee Payment (paid to the school)</strong>: We cover the full in-state tuition costs for training at public schools and up to $22,805.34 per year at private or foreign schools.<br /><br /></li>
       <li><strong>Money for Books and Supplies (paid to the student)</strong>:
     We cover up to $1,000 a year, divided up equally among the terms, for books and supplies.<br /><br /></li>
       <li><strong>Monthly Housing Allowance (paid to the student)</strong>:
@@ -82,9 +82,11 @@ There are 2 main GI Bill programs offering educational assistance to survivors a
 
   <tr>
     <th scope="row"><strong>Duration of Benefits</strong></th>
-    <td>20 years from the Servicemember’s date of death
+    <td>**Spouses:** 20 years from the Servicemember’s date of death if they died on active duty, or 10 years from the date we determine they qualify or from the Veteran's date of death (there may be exceptions). <br />
+    **Children:** May use benefits between ages 18 and 26 (there may be exceptions).
   </td>
-    <td>15 years from the Servicemember’s date of death
+    <td>**Spouses:** 15 years from the Servicemember’s date of death (but they lose this benefit if they remarry). <br />
+    **Children:** Qualify as of their 18th birthday, and can use this benefit until their 33rd birthday.
   </td>
   </tr>
 
@@ -95,7 +97,7 @@ There are 2 main GI Bill programs offering educational assistance to survivors a
   </tr>
 
   <tr>
-    <th scope="row"><strong>Spouse Gets Both DIC and Education Benefits at Once</strong></th>
+    <th scope="row"><strong>Spouse Gets Both DIC and Education Benefits at the Same Time</strong></th>
     <td>Yes</td>
     <td>Yes</td>
   </tr>
