@@ -3,6 +3,10 @@
 //====================================
 
 .va-sidebarnav {
+  li {
+    border-top-color: $color-gray-lighter;
+  }
+
   @include media-maxwidth($medium-large-screen) {
     left: 0;
     height: 100%;
