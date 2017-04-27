@@ -11,13 +11,17 @@ import {
   lastServiceBranchLabels,
   FacilityHelp,
   medicalCentersByState,
-  medicalCenterLabels
+  medicalCenterLabels,
+  financialDisclosureText
 } from '../helpers';
 
 import IntroductionPage from '../components/IntroductionPage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 
 import { uiSchema as dateUI } from '../../common/schemaform/definitions/currentOrPastDate';
+import { schema as fullNameSchema, uiSchema as fullNameUI } from '../../common/schemaform/definitions/fullName';
+import { schema as ssnSchema, uiSchema as ssnUI } from '../../common/schemaform/definitions/ssn';
+import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
 
 const {
   lastEntryDate,
@@ -42,12 +46,22 @@ const {
   wantsInitialVaContact,
   isVaServiceConnected,
   compensableVaServiceConnected,
-  receivesVaPension
+  receivesVaPension,
+  discloseFinancialInformation,
+  spouseFullName,
+  spouseSocialSecurityNumber,
+  spouseDateOfBirth,
+  dateOfMarriage,
+  sameAddress,
+  cohabitedLastYear,
+  provideSupportLastYear,
+  spousePhone
 } = fullSchemaHca.properties;
 
 const {
   date,
-  provider
+  provider,
+  phone
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
@@ -62,7 +76,10 @@ const formConfig = {
   subTitle: 'Form 10-10ez',
   defaultDefinitions: {
     date,
-    provider
+    provider,
+    fullName: fullNameSchema,
+    ssn: ssnSchema,
+    phone
   },
   chapters: {
     veteranInformation: {
@@ -265,7 +282,155 @@ const formConfig = {
               isVaServiceConnected,
               receivesVaPension
             }
+          }
+        }
+      }
+    },
+    householdInformation: {
+      title: 'Household Information',
+      pages: {
+        financialDisclosure: {
+          path: 'household-information/financial-disclosure',
+          title: 'Financial disclosure',
+          uiSchema: {
+            'ui:title': 'Financial disclosure',
+            'ui:description': financialDisclosureText,
+            discloseFinancialInformation: {
+              'ui:title': 'Do you want to provide your financial information?',
+              'ui:widget': 'yesNo'
+            }
           },
+          schema: {
+            type: 'object',
+            required: ['discloseFinancialInformation'],
+            properties: {
+              discloseFinancialInformation
+            }
+          }
+        },
+        spouseInformation: {
+          path: 'household-information/spouse-information',
+          title: 'Spouse’s information',
+          // TODO: When veteranInformation is completed, uncomment the maritalStatus comparison
+          depends: (data) => {
+            return data.financialDisclosure.data.discloseFinancialInformation; // &&
+              // data.veteranInformation.data.maritalStatus === 'married'
+          },
+          uiSchema: {
+            'ui:title': 'Spouse’s information',
+            'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
+            spouseFullName: _.merge(fullNameUI, {
+              'ui:title': 'Spouse Name'
+            }),
+            spouseSocialSecurityNumber: _.merge(ssnUI, {
+              'ui:title': 'Spouse’s social security number',
+            }),
+            spouseDateOfBirth: {
+              'ui:title': 'Date of birth'
+            },
+            dateOfMarriage: {
+              'ui:title': 'Date of marriage'
+            },
+            sameAddress: {
+              'ui:title': 'Do you have the same address as your spouse?',
+              'ui:widget': 'yesNo'
+            },
+            cohabitedLastYear: {
+              'ui:title': 'Did your spouse live with you last year?',
+              'ui:widget': 'yesNo'
+            },
+            provideSupportLastYear: {
+              'ui:title': 'If your spouse did not live with you last year, did you provide financial support?',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                // Only show if 'No' is selected for cohabitedLastYear
+                hideIf: (formData) => formData.cohabitedLastYear !== false
+              }
+            },
+            'view:spouseContactInformation': {
+              'ui:title': 'Spouse’s address and telephone number',
+              'ui:options': {
+                // Only show if 'No' is selected for sameAddress
+                hideIf: (formData) => formData.sameAddress !== false
+              },
+              spouseAddress: _.merge(addressUI(''), {
+                'ui:options': {
+                  updateSchema: (pageData) => {
+                    let newSchema;
+                    if (!pageData.sameAddress) {
+                      // The address fields are shown, so make sure they're required
+                      newSchema = addressSchema(true);
+                    } else {
+                      // The address fields are not shown, so make sure they're not required
+                      newSchema = addressSchema(false);
+                    }
+                    return newSchema;
+                  }
+                }
+              }),
+              spousePhone: {
+                'ui:title': 'Phone'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'spouseSocialSecurityNumber',
+              'spouseDateOfBirth',
+              'dateOfMarriage',
+              'sameAddress'
+            ],
+            properties: {
+              spouseFullName,
+              spouseSocialSecurityNumber,
+              spouseDateOfBirth,
+              dateOfMarriage,
+              sameAddress,
+              cohabitedLastYear,
+              provideSupportLastYear,
+              'view:spouseContactInformation': {
+                type: 'object',
+                properties: {
+                  spouseAddress: addressSchema(),
+                  spousePhone
+                }
+              }
+            }
+          }
+        },
+        childInformation: {
+          path: 'household-information/child-information',
+          title: 'Child information',
+          depends: (data) => data.financialDisclosure.data.discloseFinancialInformation,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            required: [],
+            properties: {}
+          }
+        },
+        annualIncome: {
+          path: 'household-information/annual-income',
+          title: 'Annual income',
+          depends: (data) => data.financialDisclosure.data.discloseFinancialInformation,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            required: [],
+            properties: {}
+          }
+        },
+        deductibleExpenses: {
+          path: 'household-information/deductible-expenses',
+          title: 'Deductible expenses',
+          depends: (data) => data.financialDisclosure.data.discloseFinancialInformation,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            required: [],
+            properties: {}
+          }
         }
       }
     },
