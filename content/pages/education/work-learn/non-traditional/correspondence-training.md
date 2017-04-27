@@ -23,12 +23,12 @@ You can if you qualify for any GI Bill program.
 - Veterans
 - Qualified dependents 
 
-**Exception:** Dependents using the Survivors’ and Dependents’ Educational Assistance program may not enroll in correspondence training.
+**Exception:** Children using the Survivors’ and Dependents’ Educational Assistance program may not enroll in correspondence training.
 </div>
 
 ### What benefits can I get? 
 
-You can get paid back for the cost of your correspondence training classes. 
+We'll pay you back for the cost of your correspondence training classes if you're using the Post-9/11 GI Bill at an in-state school. If you're using other GI Bill programs, we'll pay you back for 55% of the approved costs. 
 
 ### How do I get these benefits? 
 
