@@ -39,7 +39,11 @@ export function getUserData() {
   }).then(json => {
     if (json.data) {
       const userData = json.data.attributes.profile;
-      sessionStorage.setItem('userFirstName', userData.first_name);
+      // sessionStorage coerces everything into String. this if-statement
+      // is to prevent the firstname being set to the string 'Null'
+      if (userData.first_name) {
+        sessionStorage.setItem('userFirstName', userData.first_name);
+      }
       commonStore.dispatch(updateProfileField('accountType', userData.loa.current));
       commonStore.dispatch(updateProfileField('email', userData.email));
       commonStore.dispatch(updateProfileField('userFullName.first', userData.first_name));
