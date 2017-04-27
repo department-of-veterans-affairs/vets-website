@@ -38,11 +38,11 @@ The benefits depend on the benefit program you use:
 [Get more information about payments](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp). 
 
 **If you use the Post-9/11 GI Bill**, your payment depends on the program and the type of school you're going to: 
-- If your school is a standalone Part 141 pilot school, we’ll pay the school for the net cost of training up to a yearly limit.* [See the annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+- If your school is a stand-alone Part 141 pilot school, we’ll pay the school for the net cost of training up to a yearly limit.* [See the annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 - If you're enrolled in a degree program that consists of flight training at a public college or university, we’ll pay back the school for the net cost of tuition and fees.*
 - If you're enrolled in a degree program that consists of flight training at a private college or university, we’ll pay back the school for the net cost of tuition and fees up to a yearly limit.* [See the annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
-* Your level of eligibility and/or your remaining entitlement limits the payment amount. 
+*Your level of eligibility and/or your remaining entitlement limits the payment amount. 
 
 [Find out more about the Post-9/11 GI Bill](/education/gi-bill/post-9-11/). 
 
