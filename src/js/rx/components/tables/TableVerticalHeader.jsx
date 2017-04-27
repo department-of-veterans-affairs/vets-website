@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 /*
 Table with rows that have a header as the first cell.
 Used on Rx detail page.
@@ -33,8 +34,8 @@ class TableVerticalHeader extends React.Component {
 }
 
 TableVerticalHeader.propTypes = {
-  className: React.PropTypes.string,
-  data: React.PropTypes.object.isRequired
+  className: PropTypes.string,
+  data: PropTypes.object.isRequired
 };
 
 export default TableVerticalHeader;

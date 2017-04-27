@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox.jsx';
 
@@ -15,6 +16,6 @@ export default function PrivacyAgreement({ onChange, checked, showError }) {
 }
 
 PrivacyAgreement.propTypes = {
-  onChange: React.PropTypes.func.isRequired,
-  checked: React.PropTypes.bool.isRequired
+  onChange: PropTypes.func.isRequired,
+  checked: PropTypes.bool.isRequired
 };

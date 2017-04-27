@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -60,13 +61,13 @@ class ErrorableFileInput extends React.Component {
 }
 
 ErrorableFileInput.propTypes = {
-  multiple: React.PropTypes.bool,
-  buttonText: React.PropTypes.string,
-  additionalClass: React.PropTypes.string,
-  onChange: React.PropTypes.func.isRequired,
-  accept: React.PropTypes.string,
-  name: React.PropTypes.string.isRequired,
-  errorMessage: React.PropTypes.string
+  multiple: PropTypes.bool,
+  buttonText: PropTypes.string,
+  additionalClass: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  accept: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string
 };
 
 ErrorableFileInput.defaultProps = {

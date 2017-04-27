@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class Graph extends React.Component {
@@ -114,11 +115,11 @@ class Graph extends React.Component {
 }
 
 Graph.propTypes = {
-  max: React.PropTypes.number,
-  average: React.PropTypes.number,
-  veterans: React.PropTypes.number,
-  all: React.PropTypes.number,
-  decimals: React.PropTypes.number
+  max: PropTypes.number,
+  average: PropTypes.number,
+  veterans: PropTypes.number,
+  all: PropTypes.number,
+  decimals: PropTypes.number
 };
 
 Graph.defaultProps = {

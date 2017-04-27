@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { showYesNo } from '../../../utils/helpers';
@@ -32,5 +33,5 @@ export default class MilitaryServiceReview extends React.Component {
 }
 
 MilitaryServiceReview.propTypes = {
-  data: React.PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };

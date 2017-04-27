@@ -1,4 +1,5 @@
 import { Link, browserHistory } from 'react-router';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class Breadcrumbs extends React.Component {
@@ -45,7 +46,7 @@ class Breadcrumbs extends React.Component {
 }
 
 Breadcrumbs.propTypes = {
-  profileName: React.PropTypes.string
+  profileName: PropTypes.string
 };
 
 export default Breadcrumbs;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class GlossaryList extends React.Component {
@@ -31,10 +32,10 @@ class GlossaryList extends React.Component {
 }
 
 GlossaryList.propTypes = {
-  title: React.PropTypes.string,
-  terms: React.PropTypes.arrayOf(React.PropTypes.shape({
-    term: React.PropTypes.string.isRequired,
-    definition: React.PropTypes.string.isRequired
+  title: PropTypes.string,
+  terms: PropTypes.arrayOf(PropTypes.shape({
+    term: PropTypes.string.isRequired,
+    definition: PropTypes.string.isRequired
   })).isRequired,
 };
 
