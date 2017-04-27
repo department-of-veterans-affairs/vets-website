@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Education Benefits
+display_title: Education
 plainlanguage: 12-02-16 certified in compliance with the Plain Writing Act
 permalink: /education/index.html
 template: L2-section-landing

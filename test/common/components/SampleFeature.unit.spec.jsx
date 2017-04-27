@@ -7,21 +7,17 @@ import SampleFeature from '../../../src/js/common/components/SampleFeature.jsx';
 describe('<SampleFeature>', () => {
   it('should be empty when not enabled', () => {
     const tree = SkinDeep.shallowRender(
-      <div>
-        <SampleFeature/>
-      </div>
+      <SampleFeature/>
     );
 
-    expect(tree.toString()).to.equal('<div></div>');
+    expect(tree.everySubTree('div')).to.be.empty;
   });
 
   it('should be a div when enabled', () => {
     const tree = SkinDeep.shallowRender(
-      <div>
-        <SampleFeature isEnabled/>
-      </div>
+      <SampleFeature isEnabled/>
     );
 
-    expect(tree.toString()).to.equal('<div><div></div></div>');
+    expect(tree.toString()).to.equal('<div />');
   });
 });

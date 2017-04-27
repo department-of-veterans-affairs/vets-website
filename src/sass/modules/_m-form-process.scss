@@ -41,7 +41,7 @@
 }
 
 .form-process-step {
-  color:$color-white;
+  color: $color-white;
   font-weight: 700;
   text-align: center;
   width: 2em;
@@ -69,10 +69,10 @@
     background-image: none;
     background-color: $color-primary;
     padding: 1rem 2rem;
-    color: white;
+    color: $color-white;
     width: auto;
     &:hover {
-      color: white;
+      color: $color-white;
       background-color: $color-primary-darker;
     }
     &:active {
@@ -84,13 +84,13 @@
   }
   button.usa-button-outline {
     color: $color-primary;
-    background-color: white;
+    background-color: $color-white;
     &:hover {
-      background-color: white;
+      background-color: $color-white;
       color: $color-primary-darker;
     }
     &:active {
-      background-color: white;
+      background-color: $color-white;
       color: $color-primary-darkest;
     }
   }
@@ -104,11 +104,11 @@
   }
   .edit-btn {
     &.primary-outline {
-      background-color: white;
+      background-color: $color-white;
       border: 2px solid $color-primary;
       color: $color-primary;
       &:hover {
-        background-color: white;
+        background-color: $color-white;
         border: 2px solid $color-primary-darker;
         color: $color-primary-darker;
       }

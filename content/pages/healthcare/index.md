@@ -4,6 +4,7 @@ title: Health Care Benefits
 permalink: /healthcare/index.html
 template: L2-section-landing
 showactionbar: false
+display_title: Health Care
 majorlinks:
   - url: /healthcare/eligibility/
     title: Eligibility

@@ -37,13 +37,13 @@ const CalculatorInputs = ({ expanded, toggle, inputs, displayedInputs, onInputCh
   </div>
 );
 
-const CalculatorResultRow = ({ label, value, bold, visible }) => (visible ? (
+const CalculatorResultRow = ({ label, value, header, bold, visible }) => (visible ? (
   <div className={classNames('row', 'calculator-result', { bold })}>
     <div className="small-8 columns">
-      <p>{label}:</p>
+      {header ? <h5>{label}:</h5> : <p>{label}:</p>}
     </div>
     <div className="small-4 columns value">
-      <p>{value}</p>
+      {header ? <h5>{value}</h5> : <p>{value}</p>}
     </div>
   </div>
 ) : null);
@@ -77,9 +77,16 @@ export class Calculator extends React.Component {
       const { visible, title, terms } = this.props.calculated.outputs.perTerm[section];
       if (!visible) return null;
 
+      const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
+
       return (
         <div key={section} className="per-term-section">
-          <h5>{title}</h5>
+          <div className="link-header">
+            <h5>{title}</h5>
+            &nbsp;(<a href={learnMoreLink} target="_blank">
+              Learn more
+            </a>)
+          </div>
           {terms.map(term =>
             <CalculatorResultRow
                 key={`${section}${term.label}`}
@@ -93,7 +100,7 @@ export class Calculator extends React.Component {
 
     return (
       <div>
-        <h3>Estimated benefits per term</h3>
+        <h3>Estimated benefits per {this.props.calculator.type === 'OJT' ? 'month' : 'term'}</h3>
         {sections}
       </div>
     );
@@ -108,7 +115,7 @@ export class Calculator extends React.Component {
     const { outputs } = this.props.calculated;
     return (
       <div className="row calculate-your-benefits">
-        <div className="medium-5 columns">
+        <div className="usa-width-five-twelfths medium-5 columns">
           <EligibilityDetails
               expanded={this.state.showEligibilityDetails}
               toggle={this.toggleEligibilityDetails}/>
@@ -121,17 +128,18 @@ export class Calculator extends React.Component {
               toggle={this.toggleCalculatorForm}/>
         </div>
         <div className="medium-1 columns">&nbsp;</div>
-        <div className="medium-6 columns your-estimated-benefits">
+        <div className="usa-width-one-half medium-6 columns your-estimated-benefits">
           <h3>Your estimated benefits</h3>
           <div className="out-of-pocket-tuition">
+            <CalculatorResultRow
+                label="GI Bill pays to school"
+                value={outputs.giBillPaysToSchool.value}
+                visible={outputs.giBillPaysToSchool.visible}
+                header/>
             <CalculatorResultRow
                 label="Tuition and fees charged"
                 value={outputs.tuitionAndFeesCharged.value}
                 visible={outputs.tuitionAndFeesCharged.visible}/>
-            <CalculatorResultRow
-                label="GI Bill pays to school"
-                value={outputs.giBillPaysToSchool.value}
-                visible={outputs.giBillPaysToSchool.visible}/>
             <CalculatorResultRow
                 label="Your scholarships"
                 value={outputs.yourScholarships.value}
@@ -146,11 +154,13 @@ export class Calculator extends React.Component {
             <CalculatorResultRow
                 label="Housing allowance"
                 value={outputs.housingAllowance.value}
-                visible={outputs.housingAllowance.visible}/>
+                visible={outputs.housingAllowance.visible}
+                header/>
             <CalculatorResultRow
                 label="Book stipend"
                 value={outputs.bookStipend.value}
-                visible={outputs.bookStipend.visible}/>
+                visible={outputs.bookStipend.visible}
+                header/>
             <CalculatorResultRow
                 label="Total paid to you"
                 value={outputs.totalPaidToYou.value}

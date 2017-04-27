@@ -104,7 +104,7 @@ class ReviewCollapsiblePanel extends React.Component {
     if (sectionsVerified) {
       hiddenSection = (<div></div>);
       buttonGroup = (<div>
-        <div className="medium-6 medium-offset-6 columns">
+        <div className="usa-width-one-half medium-6 medium-offset-6 columns">
           {buttonEdit}
         </div>
       </div>
@@ -132,10 +132,10 @@ class ReviewCollapsiblePanel extends React.Component {
         <ul className="usa-unstyled-list">
           <li>
             <div className="accordion-header clearfix" aria-expanded="true" aria-controls={`collapsible-${this.id}`}>
-              <div className="medium-5 columns section-label">
+              <div className="usa-width-five-twelfths medium-5 columns section-label">
                 {this.props.sectionLabel}
               </div>
-              <div className="medium-7 columns">
+              <div className="usa-width-seven-twelfths medium-7 columns">
                 {buttonGroup}
               </div>
             </div>

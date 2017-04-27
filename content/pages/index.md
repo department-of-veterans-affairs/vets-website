@@ -21,11 +21,11 @@ majorlinks:
     description: Get help building your career skills and finding a job.
 ---
 <div class="splash--home"> 
-  <h2 class="home-tagline">Get the VA services that you’ve earned.</h2>
+  <div class="home-tagline">Get the VA services that you’ve earned.</div>
 </div>
 
 <div class="popular-container row">
-  <h2 class="va-h-ruled--a">Popular on Vets.gov</h2>
+  <h2 class="va-h-ruled--a">Get started with Vets.gov</h2>
   <div class="row va-flex">   
   <a href="/healthcare/apply/" class="outline-link-block">
     Apply for health care

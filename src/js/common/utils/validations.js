@@ -179,6 +179,11 @@ function isValidCurrentOrPastDate(day, month, year) {
   return momentDate.isSameOrBefore(moment().endOf('day'), 'day');
 }
 
+function isValidFutureDate(day, month, year) {
+  const momentDate = moment({ day, month: parseInt(month, 10) - 1, year });
+  return momentDate.isAfter(moment().endOf('day'), 'day');
+}
+
 function isBlankMonthYear(field) {
   return isBlank(field.month.value) && isBlank(field.year.value);
 }
@@ -329,6 +334,7 @@ export {
   isValidCanPostalCode,
   isValidCurrentOrPastYear,
   isValidCurrentOrPastDate,
+  isValidFutureDate,
   isValidDate,
   isValidDateField,
   isValidDateOver17,

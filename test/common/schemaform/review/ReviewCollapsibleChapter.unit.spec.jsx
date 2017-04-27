@@ -10,6 +10,7 @@ describe('<ReviewCollapsibleChapter>', () => {
     const onEdit = sinon.spy();
     const pages = [{
       pageKey: 'test',
+      title: '',
       schema: {
         properties: {}
       }
@@ -44,6 +45,7 @@ describe('<ReviewCollapsibleChapter>', () => {
   it('should handle editing', () => {
     const onEdit = sinon.spy();
     const pages = [{
+      title: '',
       pageKey: 'test'
     }];
     const chapterKey = 'test';
@@ -71,6 +73,7 @@ describe('<ReviewCollapsibleChapter>', () => {
   it('should not display conditional pages with unfulfilled conditions', () => {
     const pages = [{
       pageKey: 'test1',
+      title: '',
       schema: {
         properties: {
           condition1: 'boolean',
@@ -79,6 +82,7 @@ describe('<ReviewCollapsibleChapter>', () => {
       }
     }, {
       pageKey: 'test2',
+      title: '',
       depends: {
         test1: {
           data: {
@@ -128,6 +132,7 @@ describe('<ReviewCollapsibleChapter>', () => {
   it('should display condition pages with fulfilled conditions', () => {
     const pages = [{
       pageKey: 'test1',
+      title: '',
       schema: {
         properties: {
           condition1: 'boolean',
@@ -136,6 +141,7 @@ describe('<ReviewCollapsibleChapter>', () => {
       }
     }, {
       pageKey: 'test2',
+      title: '',
       depends: {
         test1: {
           schema: {

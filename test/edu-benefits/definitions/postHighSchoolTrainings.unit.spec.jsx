@@ -1,21 +1,22 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import ReactTestUtils from 'react-addons-test-utils';
 
-import { DefinitionTester } from '../../util/schemaform-utils.jsx';
-import uiSchema from '../../../src/js/edu-benefits/definitions/postHighSchoolTrainings';
+import { DefinitionTester, wrapSchemas } from '../../util/schemaform-utils.jsx';
+import rawUiSchema from '../../../src/js/edu-benefits/definitions/postHighSchoolTrainings';
 import definitions from 'vets-json-schema/dist/definitions.json';
 
-const schema = definitions.postHighSchoolTrainings;
+const rawSchema = definitions.postHighSchoolTrainings;
 
 describe('Edu postHighSchoolTrainings', () => {
+  const name = 'postHighSchoolTrainings';
+  const { schema, uiSchema } = wrapSchemas(rawSchema, rawUiSchema, name);
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          data={[]}
           definitions={definitions}
           uiSchema={uiSchema}/>
     );
@@ -25,17 +26,14 @@ describe('Edu postHighSchoolTrainings', () => {
   });
 
   it('should add another', () => {
-    const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          onSubmit={onSubmit}
-          data={[]}
           definitions={definitions}
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_0_name'), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector(`#root_${name}_0_name`), {
       target: {
         value: 'A college name'
       }

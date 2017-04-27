@@ -4,21 +4,38 @@ import * as educationProgram from '../definitions/educationProgram';
 import { uiSchema as uiSchemaDate } from '../../common/schemaform/definitions/date';
 import { civilianBenefitsLabel } from '../utils/helpers';
 
-const defaults = {
-  fields: [
-    'educationProgram',
-    'educationObjective',
-    'nonVaAssistance'
-  ],
-  required: [
-    // 'educationType',
-    // 'name'
-  ]
+
+// Exported like this so we can share the fields between the formConfig and the tests.
+export const schoolSelectionOptionsFor = {
+  '1990n': {
+    fields: [
+      'educationProgram',
+      'educationObjective'
+    ]
+  },
+  '5490': { // eslint-disable-line
+    fields: [
+      'educationProgram',
+      'educationObjective',
+      'educationStartDate',
+      'restorativeTraining',
+      'vocationalTraining',
+      'trainingState',
+      'educationalCounseling'
+    ],
+    required: ['educationType']
+  },
+  '1990e': {
+    fields: [
+      'educationProgram',
+      'educationObjective'
+    ],
+    required: ['educationType']
+  }
 };
 
 export default function createSchoolSelectionPage(schema, options) {
-  const mergedOptions = _.assign(defaults, options);
-  const { fields, required } = mergedOptions;
+  const { fields, required } = options;
 
   const possibleUISchemaFields = {
     educationProgram: educationProgram.uiSchema,
@@ -32,11 +49,11 @@ export default function createSchoolSelectionPage(schema, options) {
     },
     educationStartDate: uiSchemaDate('The date your training began or will begin'),
     restorativeTraining: {
-      'ui:title': 'Do you want special restorative training? (for example, you need speech therapy or your disability means you need help in your courses)',
+      'ui:title': ' Are you looking for Special Restorative Training because of a disability? Special Restorative Training could include speech and voice therapy, language retraining, lip reading, or Braille reading and writing.',
       'ui:widget': 'yesNo'
     },
     vocationalTraining: {
-      'ui:title': 'Do you want special vocational training?',
+      'ui:title': 'Are you looking for Special Vocational Training or specialized courses because a disability prevents you from pursuing an education program?',
       'ui:widget': 'yesNo'
     },
     trainingState: {

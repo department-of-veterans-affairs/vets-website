@@ -5,7 +5,6 @@ const INITIAL_STATE = {
   type: 'ALL',
   country: 'ALL',
   state: 'ALL',
-  caution: false,
   studentVeteranGroup: false,
   yellowRibbonScholarship: false,
   principlesOfExcellence: false,

@@ -1,20 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 
-import {
-  fetchAutocompleteSuggestions,
-  clearAutocompleteSuggestions,
-  updateAutocompleteSearchTerm
-} from '../../actions';
-
 export class KeywordSearch extends React.Component {
-
   constructor(props) {
     super(props);
-
     this.clickedSuggestionValue = this.clickedSuggestionValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleFetchSuggestion = this.handleFetchSuggestion.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
     this.handleSuggestionSelected = this.handleSuggestionSelected.bind(this);
     this.renderSuggestion = this.renderSuggestion.bind(this);
@@ -37,10 +29,19 @@ export class KeywordSearch extends React.Component {
   }
 
   handleChange(event, data) {
-    this.props.updateAutocompleteSearchTerm(data.newValue);
+    this.props.onUpdateAutocompleteSearchTerm(data.newValue);
+  }
+
+  handleFetchSuggestion({ value }) {
+    const { version } = this.props.location.query;
+    this.props.onFetchAutocompleteSuggestions(value, version);
   }
 
   handleSuggestionSelected(event, data) {
+    window.dataLayer.push({
+      event: 'gibct-autosuggest',
+      'gibct-autosuggest-value': data.suggestionValue,
+    });
     this.props.onFilterChange('name', data.suggestionValue);
   }
 
@@ -64,6 +65,7 @@ export class KeywordSearch extends React.Component {
     return (
       <div className="keyword-search">
         <label
+            id="institution-search-label"
             className="institution-search-label"
             htmlFor="institution-search">
           {this.props.label}
@@ -71,9 +73,9 @@ export class KeywordSearch extends React.Component {
         <Autosuggest
             getSuggestionValue={this.clickedSuggestionValue}
             highlightFirstSuggestion
-            onSuggestionsClearRequested={this.props.onSuggestionsClearRequested}
+            onSuggestionsClearRequested={this.props.onClearAutocompleteSuggestions}
             onSuggestionSelected={this.handleSuggestionSelected}
-            onSuggestionsFetchRequested={this.props.onSuggestionsFetchRequested}
+            onSuggestionsFetchRequested={this.handleFetchSuggestion}
             renderSuggestion={this.renderSuggestion}
             shouldRenderSuggestions={this.shouldRenderSuggestions}
             suggestions={suggestions}
@@ -81,11 +83,11 @@ export class KeywordSearch extends React.Component {
               value: searchTerm,
               onChange: this.handleChange,
               onKeyUp: this.handleKeyUp,
+              'aria-labelledby': 'institution-search-label',
             }}/>
       </div>
     );
   }
-
 }
 
 KeywordSearch.defaultProps = {
@@ -94,25 +96,11 @@ KeywordSearch.defaultProps = {
 };
 
 KeywordSearch.propTypes = {
+  label: React.PropTypes.string,
+  onClearAutocompleteSuggestions: React.PropTypes.func,
+  onFetchAutocompleteSuggestions: React.PropTypes.func,
   onFilterChange: React.PropTypes.func,
+  onUpdateAutocompleteSearchTerm: React.PropTypes.func
 };
 
-const mapStateToProps = (state) => {
-  const { autocomplete } = state;
-  return { autocomplete };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onSuggestionsFetchRequested: ({ value }) => {
-      dispatch(fetchAutocompleteSuggestions(value));
-    },
-    onSuggestionsClearRequested: () => {
-      dispatch(clearAutocompleteSuggestions());
-    },
-    updateAutocompleteSearchTerm: (newValue) => {
-      dispatch(updateAutocompleteSearchTerm(newValue));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(KeywordSearch);
+export default KeywordSearch;

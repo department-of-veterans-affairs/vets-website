@@ -1,9 +1,9 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 // ----- VENDORS ---- //
 
-@import "bourbon";
-@import "neat";
+@import "~uswds/src/stylesheets/lib/bourbon";
+@import "~uswds/src/stylesheets/lib/neat";
 
 @import "~uswds/src/stylesheets/lib/normalize";
 
@@ -16,9 +16,9 @@
 @import "~font-awesome/scss/core";
 @import "~font-awesome/scss/icons";
 @font-face {
-  font-family: 'FontAwesome';
-  src: url('~font-awesome/fonts/fontawesome-webfont.woff2?v=#{$fa-version}') format('woff2'),
-       url('~font-awesome/fonts/fontawesome-webfont.woff?v=#{$fa-version}') format('woff');
+  font-family: "FontAwesome";
+  src: url("~font-awesome/fonts/fontawesome-webfont.woff2?v=#{$fa-version}") format("woff2"),
+       url("~font-awesome/fonts/fontawesome-webfont.woff?v=#{$fa-version}") format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -30,6 +30,9 @@
 @import "~uswds/src/stylesheets/core/base";
 @import "~uswds/src/stylesheets/core/utilities";
 @import "~uswds/src/stylesheets/core/variables";
+
+@import "~uswds/src/stylesheets/elements/buttons";
+
 
 // ---- U.S. WEB DESIGN STANDARDS ELEMENTS/COMPONENTS --- //
 @import "~uswds/src/stylesheets/elements/buttons";
@@ -44,30 +47,35 @@
 
 // ----- VA BASE (VARIABLES/HELPERS) ---- //
 
-@import 'base/b-variables';
-@import 'base/b-functions';
-@import 'base/b-utils';
+@import "base/b-variables";
+@import "base/b-mixins";
+@import "base/b-functions";
+@import "base/b-utils";
 
 // ----- VA GENERAL (MAIN FILE/OTHER) ---- //
 
-@import 'base/va';
-@import 'normalize';
+@import "base/va";
+@import "normalize";
 
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
-@import 'modules/m-card';
-@import 'modules/m-alert';
-@import 'modules/m-crisis-line';
-@import 'modules/m-growable';
-@import 'modules/m-piano-key';
-@import 'modules/m-table';
-@import 'modules/m-button';
-@import 'modules/m-form-elements';
-@import 'modules/m-search';
-@import 'modules/m-loading-indicator';
-@import 'modules/m-vet-nav';
-@import 'modules/m-print';
-@import 'modules/m-dropdown';
+// TODO: Remove m-card once templates are shifted from L2-section to
+// level2-index
+// See vets.gov-team#2122
+@import "modules/m-card";
+@import "modules/m-alert";
+@import "modules/m-crisis-line";
+@import "modules/m-growable";
+@import "modules/m-piano-key";
+@import "modules/m-table";
+@import "modules/m-button";
+@import "modules/m-form-elements";
+@import "modules/m-search";
+@import "modules/m-loading-indicator";
+@import "modules/m-vet-nav";
+@import "modules/m-print";
+@import "modules/m-dropdown";
+@import "modules/m-nav-linkslist";
 
 // ----- VA SHAME ---- //
 
-@import 'shame';
+@import "shame";

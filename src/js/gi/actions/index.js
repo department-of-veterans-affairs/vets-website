@@ -2,10 +2,12 @@ import { snakeCase } from 'lodash';
 
 import { api } from '../config';
 
+export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 export const DISPLAY_MODAL = 'DISPLAY_MODAL';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
 export const ENTER_PREVIEW_MODE = 'ENTER_PREVIEW_MODE';
 export const EXIT_PREVIEW_MODE = 'EXIT_PREVIEW_MODE';
+export const SET_VERSION = 'SET_VERSION';
 export const FETCH_CONSTANTS_STARTED = 'FETCH_CONSTANTS_STARTED';
 export const FETCH_CONSTANTS_FAILED = 'FETCH_CONSTANTS_FAILED';
 export const FETCH_CONSTANTS_SUCCEEDED = 'FETCH_CONSTANTS_SUCCEEDED';
@@ -25,7 +27,17 @@ export const INSTITUTION_FILTER_CHANGED = 'INSTITUTION_FILTER_CHANGED';
 export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
 
+export function updateRoute(location) {
+  return { type: UPDATE_ROUTE, location };
+}
+
 export function showModal(modal) {
+  if (modal) {
+    window.dataLayer.push({
+      event: 'gibct-learn-more',
+      'gibct-modal-displayed': modal,
+    });
+  }
   return {
     type: DISPLAY_MODAL,
     modal
@@ -63,13 +75,19 @@ function withPreview(dispatch, action) {
       type: ENTER_PREVIEW_MODE,
       version
     });
+  } else if (version.createdAt) {
+    dispatch({
+      type: SET_VERSION,
+      version
+    });
   }
+
   dispatch(action);
 }
 
-export function fetchConstants() {
-  const previewVersion = ''; // TODO
-  const url = `${api.url}/calculator_constants?preview=${previewVersion}`;
+export function fetchConstants(version) {
+  const queryString = version ? `?version=${version}` : '';
+  const url = `${api.url}/calculator_constants${queryString}`;
 
   return dispatch => {
     dispatch({ type: FETCH_CONSTANTS_STARTED });
@@ -77,7 +95,7 @@ export function fetchConstants() {
     return fetch(url, api.settings)
       .then(res => res.json())
       .then(
-        payload => dispatch({ type: FETCH_CONSTANTS_SUCCEEDED, payload }),
+        payload => withPreview(dispatch, { type: FETCH_CONSTANTS_SUCCEEDED, payload }),
         err => dispatch({ type: FETCH_CONSTANTS_FAILED, err })
       );
   };
@@ -90,12 +108,13 @@ export function updateAutocompleteSearchTerm(searchTerm) {
   };
 }
 
-export function fetchAutocompleteSuggestions(text) {
-  const previewVersion = '1'; // TODO
-  const url = [
-    `${api.url}/institutions/autocomplete?preview=${previewVersion}`,
-    `term=${text}`
-  ].join('&');
+export function fetchAutocompleteSuggestions(text, version) {
+  const queryString = [
+    `term=${text}`,
+    (version ? `version=${version}` : '')
+  ].filter(q => q).join('&');
+
+  const url = `${api.url}/institutions/autocomplete?${queryString}`;
 
   return dispatch => {
     dispatch({ type: AUTOCOMPLETE_STARTED });
@@ -116,6 +135,11 @@ export function clearAutocompleteSuggestions() {
 export function eligibilityChange(e) {
   const field = e.target.name;
   const value = e.target.value;
+  window.dataLayer.push({
+    event: 'gibct-form-change',
+    'gibct-form-field': field,
+    'gibct-form-value': value,
+  });
   return {
     type: ELIGIBILITY_CHANGED,
     field,
@@ -128,17 +152,16 @@ export function institutionFilterChange(filter) {
 }
 
 export function fetchSearchResults(query = {}) {
-  const fullQuery = { ...query, version: 1 };
   const queryString =
-    Object.keys(fullQuery).reduce((str, key) => {
+    Object.keys(query).reduce((str, key) => {
       const sep = str ? '&' : '';
-      return `${str}${sep}${snakeCase(key)}=${fullQuery[key]}`;
+      return `${str}${sep}${snakeCase(key)}=${query[key]}`;
     }, '');
 
   const url = `${api.url}/institutions/search?${queryString}`;
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED });
+    dispatch({ type: SEARCH_STARTED, name: query.name || '' });
 
     return fetch(url, api.settings)
       .then(res => res.json())
@@ -149,8 +172,9 @@ export function fetchSearchResults(query = {}) {
   };
 }
 
-export function fetchProfile(facilityCode) {
-  const url = `${api.url}/institutions/${facilityCode}?version=1`;
+export function fetchProfile(facilityCode, version) {
+  const queryString = version ? `?version=${version}` : '';
+  const url = `${api.url}/institutions/${facilityCode}${queryString}`;
 
   return dispatch => {
     dispatch({ type: FETCH_PROFILE_STARTED });

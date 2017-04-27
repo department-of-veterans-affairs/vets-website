@@ -141,7 +141,7 @@ export function formatReviewDate(dateString) {
   return undefined;
 }
 export function parseISODate(dateString) {
-  if (dateString) {
+  if (typeof dateString === 'string') {
     const [year, month, day] = dateString.split('-', 3);
 
     return {
@@ -303,230 +303,25 @@ export function getNonArraySchema(schema) {
     }
 
     if (newProperties !== schema.properties) {
-      return _.set('properties', newProperties, schema);
-    }
-  }
-
-  return schema;
-}
-
-/*
- * This function goes through a schema/uiSchema and updates the required array
- * based on any ui:required field properties in the uiSchema.
- *
- * If no required fields are changing, it makes sure to not mutate the existing schema,
- * so we can still take advantage of any shouldComponentUpdate optimizations
- */
-export function updateRequiredFields(schema, uiSchema, formData) {
-  if (!uiSchema) {
-    return schema;
-  }
-
-  if (schema.type === 'object') {
-    const newRequired = Object.keys(schema.properties).reduce((requiredArray, nextProp) => {
-      const field = uiSchema[nextProp];
-      if (field && field['ui:required']) {
-        const isRequired = field['ui:required'](formData);
-        const arrayHasField = requiredArray.some(prop => prop === nextProp);
-
-        if (arrayHasField && !isRequired) {
-          return requiredArray.filter(prop => prop !== nextProp);
-        } else if (!arrayHasField && isRequired) {
-          return requiredArray.concat(nextProp);
-        }
-
-        return requiredArray;
-      }
-
-      return requiredArray;
-    }, schema.required || []);
-
-    const newSchema = Object.keys(schema.properties).reduce((currentSchema, nextProp) => {
-      if (uiSchema) {
-        const nextSchema = updateRequiredFields(currentSchema.properties[nextProp], uiSchema[nextProp], formData);
-        if (nextSchema !== currentSchema.properties[nextProp]) {
-          return _.set(['properties', nextProp], nextSchema, currentSchema);
+      let newSchema = _.set('properties', newProperties, schema);
+      if (newSchema.required) {
+        const newRequired = _.intersection(Object.keys(newSchema.properties), newSchema.required);
+        if (newRequired.length !== newSchema.required.length) {
+          newSchema = _.set('required', newRequired, newSchema);
         }
       }
 
-      return currentSchema;
-    }, schema);
-
-    if (newSchema.required !== newRequired && (newSchema.required || newRequired.length > 0)) {
-      return _.set('required', newRequired, newSchema);
-    }
-
-    return newSchema;
-  }
-
-  if (schema.type === 'array') {
-    const newItemSchema = updateRequiredFields(schema.items, uiSchema.items, formData);
-    if (newItemSchema !== schema.items) {
-      return _.set('items', newItemSchema, schema);
-    }
-  }
-
-  return schema;
-}
-
-export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
-  return !deepEquals(props, nextProps);
-});
-
-/*
- * This steps through a schema and sets any fields to hidden, based on a
- * hideIf function from uiSchema and the current page data. Sets 'ui:hidden'
- * which is a non-standard JSON Schema property
- */
-export function setHiddenFields(schema, uiSchema, formData) {
-  if (!uiSchema) {
-    return schema;
-  }
-
-  let updatedSchema = schema;
-  const hideIf = _.get(['ui:options', 'hideIf'], uiSchema);
-
-  if (hideIf && hideIf(formData)) {
-    if (!updatedSchema['ui:hidden']) {
-      updatedSchema = _.set('ui:hidden', true, updatedSchema);
-    }
-  } else if (updatedSchema['ui:hidden']) {
-    updatedSchema = _.unset('ui:hidden', updatedSchema);
-  }
-
-  const expandUnder = _.get(['ui:options', 'expandUnder'], uiSchema);
-  if (expandUnder && !formData[expandUnder]) {
-    if (!updatedSchema['ui:collapsed']) {
-      updatedSchema = _.set('ui:collapsed', true, updatedSchema);
-    }
-  } else if (updatedSchema['ui:collapsed']) {
-    updatedSchema = _.unset('ui:collapsed', updatedSchema);
-  }
-
-  if (updatedSchema.type === 'object') {
-    const newProperties = Object.keys(updatedSchema.properties).reduce((current, next) => {
-      const newSchema = setHiddenFields(updatedSchema.properties[next], uiSchema[next], formData);
-
-      if (newSchema !== updatedSchema.properties[next]) {
-        return _.set(next, newSchema, current);
-      }
-
-      return current;
-    }, updatedSchema.properties);
-
-    if (newProperties !== updatedSchema.properties) {
-      return _.set('properties', newProperties, updatedSchema);
-    }
-  }
-
-  if (updatedSchema.type === 'array') {
-    const newSchema = setHiddenFields(updatedSchema.items, uiSchema.items, formData);
-
-    if (newSchema !== updatedSchema.items) {
-      return _.set('items', newSchema, updatedSchema);
-    }
-  }
-
-  return updatedSchema;
-}
-
-/*
- * Steps through data and removes any fields that are marked as hidden
- * This is done so that hidden fields don't cause validation errors that
- * a user can't see.
- */
-export function removeHiddenData(schema, data) {
-  if (isHiddenField(schema) || typeof data === 'undefined') {
-    return undefined;
-  }
-
-  if (schema.type === 'object') {
-    return Object.keys(data).reduce((current, next) => {
-      if (typeof data[next] !== 'undefined') {
-        const nextData = removeHiddenData(schema.properties[next], data[next]);
-
-        if (typeof nextData === 'undefined') {
-          return _.unset(next, current);
-        }
-      }
-
-      return current;
-    }, data);
-  }
-
-  if (schema.type === 'array') {
-    return data.reduce((current, next, index) => {
-      const nextData = removeHiddenData(schema.items, next);
-
-      if (nextData !== next) {
-        return _.set(index, nextData, current);
-      }
-
-      return data;
-    }, data);
-  }
-
-  return data;
-}
-
-/*
- * This is similar to the hidden fields schema function above, except more general.
- * It will step through a schema and replace parts of it based on an updateSchema
- * function in uiSchema. This means the schema can be re-calculated based on data
- * a user has entered.
- */
-export function updateSchemaFromUiSchema(schema, uiSchema, pageData, form) {
-  if (!uiSchema) {
-    return schema;
-  }
-
-  let currentSchema = schema;
-
-  if (currentSchema.type === 'object') {
-    const newSchema = Object.keys(currentSchema.properties).reduce((current, next) => {
-      const nextData = pageData ? pageData[next] : undefined;
-      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], nextData, form);
-
-      if (current.properties[next] !== nextProp) {
-        return _.set(['properties', next], nextProp, current);
-      }
-
-      return current;
-    }, currentSchema);
-
-    if (newSchema !== schema) {
-      currentSchema = newSchema;
-    }
-  }
-
-  if (currentSchema.type === 'array') {
-    const newSchema = updateSchemaFromUiSchema(currentSchema.items, uiSchema.items, pageData, form);
-
-    if (newSchema !== currentSchema.items) {
-      currentSchema = _.set('items', newSchema, currentSchema);
-    }
-  }
-
-  const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
-
-  if (updateSchema) {
-    const newSchemaProps = updateSchema(pageData, form, currentSchema);
-
-    const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
-      if (newSchemaProps[next] !== schema[next]) {
-        return _.set(next, newSchemaProps[next], current);
-      }
-
-      return current;
-    }, currentSchema);
-
-    if (newSchema !== currentSchema) {
       return newSchema;
     }
   }
 
-  return currentSchema;
+  return schema;
 }
+
+
+export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
+  return !deepEquals(props, nextProps);
+});
 
 export function setItemTouched(prefix, index, idSchema) {
   const fields = Object.keys(idSchema).filter(field => field !== '$id');
@@ -540,40 +335,8 @@ export function setItemTouched(prefix, index, idSchema) {
   }, {});
 }
 
-export function replaceRefSchemas(schema, definitions, path = '') {
-  if (schema.$ref) {
-    // There's a whole spec for JSON pointers, but we don't use anything more complicated
-    // than this so far
-    const refPath = schema.$ref.replace('#/definitions/', '').split('/');
-    const definition = _.get(refPath, definitions);
-    if (!definition) {
-      throw new Error(`Missing definition for ${schema.$ref} at ${path}. You probably need to add it to defaultDefinitions`);
-    }
-
-    return replaceRefSchemas(definition, definitions, path);
-  }
-
-  if (schema.type === 'object') {
-    const newSchema = Object.keys(schema.properties).reduce((current, next) => {
-      const nextProp = replaceRefSchemas(schema.properties[next], definitions, `${path}.${next}`);
-
-      if (current.properties[next] !== nextProp) {
-        return _.set(['properties', next], nextProp, current);
-      }
-
-      return current;
-    }, schema);
-
-    return newSchema;
-  }
-
-  if (schema.type === 'array') {
-    const newItems = replaceRefSchemas(schema.items, definitions, `${path}.items`);
-
-    if (newItems !== schema.items) {
-      return _.set('items', newItems, schema);
-    }
-  }
-
-  return schema;
+export function createUSAStateLabels(states) {
+  return states.USA.reduce((current, { label, value }) => {
+    return _.merge(current, { [value]: label });
+  }, {});
 }
