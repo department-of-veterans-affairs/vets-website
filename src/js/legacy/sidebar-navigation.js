@@ -2,9 +2,8 @@
 
 @param menuTrigger: One or more elements that have menus attached. Typically
 this will be .va-btn-sidebarnav-trigger
-  
-
 */
+
 class SideBarMenu {
    constructor(menuTrigger) {
     this.menuTrigger = Array.from(menuTrigger);
@@ -40,10 +39,9 @@ class SideBarMenu {
     const close = this.menu.querySelector('.va-sidebarnav-close');
     close.addEventListener('click', (domEvent) => {
       this.menu.classList.remove('va-sidebarnav--opened');
+      document.body.classList.remove('va-pos-fixed');
     })
-  }
-
-  
+  }  
 }
 
 document.addEventListener('DOMContentLoaded', () => {

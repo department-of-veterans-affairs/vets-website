@@ -7,7 +7,7 @@
     border-top-color: $color-gray-lighter;
   }
 
-  @include media-maxwidth($medium-large-screen) {
+  @include media-maxwidth($medium-screen) {
     left: 0;
     height: 100%;
     overflow: scroll;
@@ -16,7 +16,11 @@
     top: 0;
     transform: translateX(100%);
     transition: transform ease-out 250ms;
-    width: 100%;
+
+    // Necessary to override .usa-grid .usa-width-one-fourth
+    .va-l-detail-page & {
+       width: 100%;
+    }
 
     &::before {
       background: $color-link-default-hover;
@@ -33,6 +37,7 @@
     > div {
       background: $color-white;
       height: 100%;
+      max-width: 30rem;
       overflow: auto;
       padding: 3.2rem 1.6rem 1.6rem;
       position: absolute;
@@ -53,7 +58,7 @@
     }
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen + 1) {
     a {
       padding-right: 1.6rem;
     }
