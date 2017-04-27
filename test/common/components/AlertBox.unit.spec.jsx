@@ -8,14 +8,14 @@ import AlertBox from '../../../src/js/common/components/AlertBox';
 const Content = (<p/>);
 
 describe('<AlertBox>', () => {
-  it('should be an empty div if invisible', () => {
+  it('should not render if invisible', () => {
     const tree = SkinDeep.shallowRender(
       <AlertBox
           content={Content}
           status={'info'}
           isVisible={false}/>
     );
-    expect(tree.toString()).to.equal('<div aria-live="assertive" />');
+    expect(tree.subTree('AlertBox')).to.not.be.ok;
   });
 
   it('should have the expected classname', () => {
