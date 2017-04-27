@@ -38,7 +38,7 @@ You can't get OJT if you're an active-duty Servicemember or a spouse using a tra
 
 ### How do I get these benefits? 
 
-You'll need to make sure the program is approved by a State Approving Agency (SAA). [Check with your local VA office](/facilities). 
+You'll need to make sure the program is approved for VA education benefits. [Check with your local VA office](/facilities). 
 
 You'll most likely need to enter into a training contract for a set amount of time with an employer or union. During training, you'll probably get a salary from the employer or union, which can go up as you gain more skills. When you finish your training, you'll get a job certification or journeyman status.
 
