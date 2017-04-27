@@ -37,6 +37,15 @@ class ArrayField extends React.Component {
     this.scrollToRow = this.scrollToRow.bind(this);
   }
 
+  getItemSchema(index) {
+    const schema = this.props.schema;
+    if (schema.items.length > index) {
+      return schema.items[index];
+    }
+
+    return schema.additionalItems;
+  }
+
   scrollToTop() {
     setTimeout(() => {
       scroller.scrollTo(`topOfTable_${this.props.path[this.props.path.length - 1]}`, {
@@ -75,7 +84,7 @@ class ArrayField extends React.Component {
    */
   handleAdd() {
     const newState = {
-      items: this.state.items.concat(getDefaultFormState(this.props.schema.items, undefined, this.props.schema.definitions) || {}),
+      items: this.state.items.concat(getDefaultFormState(this.getItemSchema(this.state.items.length), undefined, this.props.schema.definitions) || {}),
       editing: this.state.editing.concat(true)
     };
     this.setState(newState, () => {
@@ -136,7 +145,6 @@ class ArrayField extends React.Component {
     const fieldName = path[path.length - 1];
     const title = _.get('ui:title', uiSchema) || pageTitle;
     const arrayPageConfig = {
-      schema: _.assign(schema.items, { definitions: schema.definitions }),
       uiSchema: uiSchema.items,
       pageKey: fieldName
     };
@@ -165,7 +173,7 @@ class ArrayField extends React.Component {
                           : null}
                       <SchemaForm
                           pageData={item}
-                          schema={arrayPageConfig.schema}
+                          schema={this.getItemSchema(index)}
                           uiSchema={arrayPageConfig.uiSchema}
                           title={pageTitle}
                           hideTitle
@@ -193,7 +201,7 @@ class ArrayField extends React.Component {
                   <SchemaForm
                       reviewMode
                       pageData={item}
-                      schema={arrayPageConfig.schema}
+                      schema={this.getItemSchema(index)}
                       uiSchema={arrayPageConfig.uiSchema}
                       title={pageTitle}
                       hideTitle
