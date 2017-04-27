@@ -30,7 +30,7 @@ describe('Edu postHighSchoolTrainings', () => {
           uiSchema={uiSchema}/>
     );
     const formDOM = findDOMNode(form);
-    ReactTestUtils.Simulate.change(formDOM.querySelector(`#root_${name}_0_name`), {
+    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_0_name'), {
       target: {
         value: 'A college name'
       }

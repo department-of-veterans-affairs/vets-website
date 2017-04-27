@@ -13,18 +13,7 @@ describe('Edu 5490 benefitSelection', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
-          data={{}}
-          state={{
-            benefitSelection: {
-              uiSchema: {
-                benefit: {
-                  'ui:options': {
-                  }
-                }
-              }
-            }
-          }}
-          formData={{ relationship: 'spouse' }}
+          data={{ relationship: 'spouse' }}
           uiSchema={uiSchema}/>
     );
     const fields = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(

@@ -130,7 +130,7 @@ const formConfig = {
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
                 labels: survivorBenefitsLabels,
-                updateSchema: (data, form, schema, uiSchema) => {
+                updateSchema: (form, schema, uiSchema) => {
                   const relationship = _.get('relationship', form);
                   const nestedContent = {
                     chapter33: benefitSelectionWarning('chapter33', relationship),
@@ -267,7 +267,7 @@ const formConfig = {
                 'ui:title': 'Sponsor Veteran’s name',
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
-                  updateSchema: (data, form) => {
+                  updateSchema: (form) => {
                     if (_.get('previousBenefits.view:claimedSponsorService', form)) {
                       return fullName;
                     }
@@ -365,7 +365,7 @@ const formConfig = {
               },
               veteranFullName: _.merge(fullNameUi, {
                 'ui:options': {
-                  updateSchema: (data, form) => {
+                  updateSchema: (form) => {
                     if (!_.get('view:currentSameAsPrevious', form)) {
                       return fullName;
                     }
@@ -477,7 +477,7 @@ const formConfig = {
                       return status !== 'graduated' && status !== 'graduationExpected';
                     },
                     expandUnder: 'status',
-                    updateSchema: (pageData, form) => {
+                    updateSchema: (form) => {
                       const status = _.get('highSchool.status', form);
 
                       if (status === 'graduationExpected') {
@@ -614,7 +614,7 @@ const formConfig = {
                         return { 'enum': _.without(filterOut, edTypes) };
                       });
 
-                    return (pageData, form) => filterEducationType(form);
+                    return (form) => filterEducationType(form);
                   })()
                 }
               }

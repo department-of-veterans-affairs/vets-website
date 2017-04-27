@@ -10,6 +10,15 @@ import {
   updateSchemaAndData
 } from '../../src/js/common/schemaform/formState';
 
+function getDefaultData(schema) {
+  if (schema.type === 'array') {
+    return [];
+  } else if (schema.type === 'object') {
+    return {};
+  }
+
+  return undefined;
+}
 export class DefinitionTester extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +30,7 @@ export class DefinitionTester extends React.Component {
     const {
       data: newData,
       schema: newSchema
-    } = updateSchemaAndData(schema, uiSchema, data);
+    } = updateSchemaAndData(schema, uiSchema, data || getDefaultData(schema));
 
     this.state = {
       formData: newData,
