@@ -23,11 +23,18 @@
 }
 
 // ---- U.S. WEB DESIGN STANDARDS SETTINGS --- //
-// Order matters here. grid and grid-settings need to come before
+// Order matters here! grid and grid-settings need to come before
 // utilities and variables. 
+
 @import "~uswds/src/stylesheets/core/defaults";
 @import "~uswds/src/stylesheets/core/base";
 @import "~uswds/src/stylesheets/core/grid-settings";
+
+@import "~uswds/src/stylesheets/core/grid-settings";
+
+// A VA partial. Put here so that we override grid-settings
+@import "base/b-breakpoints.scss";
+
 @import "~uswds/src/stylesheets/core/grid";
 @import "~uswds/src/stylesheets/core/utilities";
 @import "~uswds/src/stylesheets/core/variables";
@@ -50,9 +57,7 @@
 @import "base/b-utils";
 
 // ----- VA GENERAL (MAIN FILE/OTHER) ---- //
-
 @import "base/va";
-@import "normalize";
 
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
 // TODO: Remove m-card once templates are shifted from L2-section to
