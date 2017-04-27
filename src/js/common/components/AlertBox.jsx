@@ -33,7 +33,7 @@ class AlertBox extends React.Component {
 
   render() {
     if (!this.props.isVisible) {
-      return null;
+      return <div aria-live="assertive"/>;
     }
 
     const alertClass = classNames(
