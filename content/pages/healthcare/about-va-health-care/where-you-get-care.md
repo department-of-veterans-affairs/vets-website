@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Where You'll Get Care
 display_title: 
 concurrence: 
-template: 
+template: 1-topic-landing 
 lastupdate_override: 
 relatedlinks:
   - url: /healthcare/about-va-health-care/your-care-team/
