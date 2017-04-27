@@ -54,6 +54,12 @@ describe('<RequiredLoginView>', () => {
     loginUrl: 'http://fake-login-url'
   };
 
+  class TestChildComponent extends React.Component {
+    render() {
+      return (<div>Child Component {this.props.name}</div>);
+    }
+  }
+
   function setup(props = {}) {
     const mergedProps = _.merge({}, defaultProps, props);
     const tree = SkinDeep.shallowRender(
@@ -81,7 +87,27 @@ describe('<RequiredLoginView>', () => {
     expect(loadingIndicatorElement.text()).to.contain('Loading your information');
   });
 
-  describe('LOA.current=1', () => {
+  it('should display children irrespective of isServiceAvailableForUse', () => {
+    const loa3Props = _.merge({}, defaultProps, { userProfile: loa3User });
+    const tree = SkinDeep.shallowRender(
+      <RequiredLoginView {...loa3Props}>
+        <TestChildComponent name="one"/>
+        <TestChildComponent name="two"/>
+        <TestChildComponent name="three"/>
+      </RequiredLoginView>
+    );
+    tree.getMountedInstance().setState({
+      loading: false,
+      isServiceAvailableForUse: false
+    });
+
+    // each direct child should get their props.isDataAvailable set
+    tree.props.children.forEach((child) => {
+      expect(child.props.isDataAvailable).to.equal(false);
+    });
+  });
+
+  describe('logged in at LOA 1', () => {
     describe('authRequired=3', () => {
       it('should prompt for verification', () => {
         const { tree } = setup({ userProfile: loa1User });
@@ -95,7 +121,7 @@ describe('<RequiredLoginView>', () => {
       });
     });
   });
-  describe('LOA.current=3', () => {
+  describe('logged in at LOA 3', () => {
     it('should display children elements', () => {
       const { tree } = setup({ userProfile: loa3User });
       expect(tree.toString()).to.equal('<div><div>Test Child</div></div>');
@@ -115,10 +141,14 @@ describe('<RequiredLoginView>', () => {
       });
     });
   });
-  describe('when not logged in', () => {
+  describe('not logged in', () => {
     it('should prompt for login', () => {
       const { tree } = setup({ userProfile: anonymousUser });
       expect(tree.toString()).to.contain('Sign In to Your Vets.gov Account');
+    });
+    it('should display children when no LOA required', () => {
+      const { tree } = setup({ userProfile: anonymousUser, authRequired: null });
+      expect(tree.toString()).to.equal('<div><div>Test Child</div></div>');
     });
   });
 });
