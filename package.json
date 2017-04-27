@@ -139,7 +139,6 @@
     "react": "^15.5.4",
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-perf": "^15.3.0",
-    "react-addons-test-utils": "^15.3.0",
     "react-datepicker": "^0.29.0",
     "react-dom": "^15.5.4",
     "react-jsonschema-form": "0.43.0",
