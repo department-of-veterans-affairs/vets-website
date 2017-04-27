@@ -1,6 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import _ from 'lodash';
 
 import { SearchHelpSignIn } from '../../../src/js/login/components/SearchHelpSignIn.jsx';
 
@@ -22,7 +23,7 @@ const defaultProfileProps = {
 };
 
 function buildProps(defaultProps, props = {}) {
-  return Object.assign({}, defaultProps, props);
+  return _.merge({}, defaultProps, props);
 }
 
 describe('<SearchHelpSignIn>', () => {
