@@ -12,6 +12,7 @@
 
   li {
     flex: 0 0 50%;
+    position: relative;
 
     &:only-child {
       flex: 0 0 100%;
@@ -25,7 +26,7 @@
 
 // Matches links that begin va-navigation-nextprevious-
 a[class|=va-navigation-nextprevious] {
-  display: block;
+  display: inline-block;
   padding: 1rem .4rem;
   text-decoration: none;
 
@@ -55,6 +56,8 @@ a[class|=va-navigation-nextprevious] {
 .va-navigation-nextprevious-next {
   border-left: 2rem solid $color-white;
   text-align: right;
+  position: absolute;
+  right: 0;
 
   li:only-child & {
     margin-left: 50%;
