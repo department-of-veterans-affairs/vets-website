@@ -55,13 +55,16 @@ const {
   sameAddress,
   cohabitedLastYear,
   provideSupportLastYear,
-  spousePhone
+  spousePhone,
+  children
 } = fullSchemaHca.properties;
 
 const {
   date,
   provider,
-  phone
+  phone,
+  child,
+  monetaryValue
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
@@ -79,7 +82,9 @@ const formConfig = {
     provider,
     fullName: fullNameSchema,
     ssn: ssnSchema,
-    phone
+    phone,
+    child,
+    monetaryValue
   },
   chapters: {
     veteranInformation: {
@@ -405,11 +410,25 @@ const formConfig = {
           path: 'household-information/child-information',
           title: 'Child information',
           depends: (data) => data.financialDisclosure.data.discloseFinancialInformation,
-          uiSchema: {},
+          uiSchema: {
+            'view:reportChildren': {
+              'ui:title': 'Do you have any children to report?',
+              'ui:widget': 'yesNo'
+            },
+            children: {
+              'ui:title': '',
+              'ui:options': {
+                expandUnder: 'view:reportChildren'
+              }
+            }
+          },
           schema: {
             type: 'object',
             required: [],
-            properties: {}
+            properties: {
+              'view:reportChildren': { type: 'boolean' },
+              children
+            }
           }
         },
         annualIncome: {
