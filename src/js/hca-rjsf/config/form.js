@@ -355,9 +355,11 @@ const formConfig = {
               },
               spouseAddress: _.merge(addressUI(''), {
                 'ui:options': {
-                  updateSchema: (pageData) => {
+                  updateSchema: (formData, form) => {
+                    // Note: This isn't actually formData until PR #5441 gets merged
+                    //  Until then, we have to _.get() from the form
                     let newSchema;
-                    if (!pageData.sameAddress) {
+                    if (_.get('spouseInformation.data.sameAddress', form) === false) {
                       // The address fields are shown, so make sure they're required
                       newSchema = addressSchema(true);
                     } else {
