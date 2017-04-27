@@ -18,7 +18,7 @@ const Disclaimer = () => {
   );
 };
 
-class GiBillApp extends React.Component {
+export class GiBillApp extends React.Component {
   constructor(props) {
     super(props);
     this.exitPreviewMode = this.exitPreviewMode.bind(this);
