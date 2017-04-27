@@ -37,12 +37,11 @@ Ask your school to include your request for accelerated payment when it turns in
 
 You must be enrolled in one of these categories:
 
--	Life science or physical science (not social science)
+-	Life science or physical science
 -	Engineering (all fields)
 -	Mathematics
 -	Engineering and science technology
 -	Computer specialties
--	Engineering, science, and computer management
 
 **And**, you must certify that you intend to look for employment in one of these industries:
 
