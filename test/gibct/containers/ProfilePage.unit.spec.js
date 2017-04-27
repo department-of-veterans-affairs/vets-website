@@ -6,18 +6,18 @@ import SkinDeep from 'skin-deep';
 import { ProfilePage } from '../../../src/js/gi/containers/ProfilePage';
 import reducer from '../../../src/js/gi/reducers';
 
-const store = createStore(reducer);
+const defaultProps = createStore(reducer).getState();
 
 describe('<ProfilePage>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<ProfilePage {...store.getState()}/>);
+    const tree = SkinDeep.shallowRender(<ProfilePage {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
   it('should show LoadingState when profile is fetching', () => {
     const inProgressProps = {
-      ...store.getState(),
+      ...defaultProps,
       profile: { inProgress: true }
     };
     const tree = SkinDeep.shallowRender(<ProfilePage {...inProgressProps}/>);
