@@ -1,13 +1,12 @@
 //===========================
 // Additional breakpoints
 // 
-// These override USWDS defaults. 
-// They've been moved here from the b-variables file
-// so that we can load this partial
-// in an order that will make this actually work.
+// Moved here from b-variables file so that we can load this partial
+// after USWDS variables and before other partials.
 //===========================
 
 $xsmall-screen:       320px; // QVGA display
 $medium-large-screen: 768px;
+$medium-screen:       $medium-large-screen;
 
 $medium: new-breakpoint(min-width $medium-large-screen 6);

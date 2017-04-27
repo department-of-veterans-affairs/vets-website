@@ -1,10 +1,9 @@
 @charset "UTF-8";
 
-// ----- VENDORS ---- //
-
+//============ VENDOR PARTIALS ==============//
 @import "~uswds/src/stylesheets/lib/bourbon";
 @import "~uswds/src/stylesheets/lib/neat";
-@import "~uswds/src/stylesheets/lib/normalize";
+@import "~uswds/src/stylesheets/lib/normalize"; // Currently 3.0.3
 
 @import "~foundation-sites/scss/foundation/components/grid";
 @import "~foundation-sites/scss/foundation/components/block-grid";
@@ -22,22 +21,21 @@
   font-style: normal;
 }
 
-// ---- U.S. WEB DESIGN STANDARDS SETTINGS --- //
-// Order matters here! grid and grid-settings need to come before
-// utilities and variables. 
+// ============ SETTINGS ============//
+// Order matters here! Please don't change it.
 
 @import "~uswds/src/stylesheets/core/defaults";
 @import "~uswds/src/stylesheets/core/base";
 @import "~uswds/src/stylesheets/core/grid-settings";
+@import "~uswds/src/stylesheets/core/variables";
 
-@import "~uswds/src/stylesheets/core/grid-settings";
-
-// A VA partial. Put here so that we override grid-settings
-@import "base/b-breakpoints.scss";
+// A VA partial. Here so that we can override the 
+// USWDS breakpoint and grid variables from above before
+// the grid, alerts, etc are loaded.
+@import "base/b-breakpoints";
 
 @import "~uswds/src/stylesheets/core/grid";
 @import "~uswds/src/stylesheets/core/utilities";
-@import "~uswds/src/stylesheets/core/variables";
 
 // ---- U.S. WEB DESIGN STANDARDS ELEMENTS/COMPONENTS --- //
 @import "~uswds/src/stylesheets/elements/buttons";
@@ -50,7 +48,6 @@
 @import "~uswds/src/stylesheets/components/sidenav";
 
 // ----- VA BASE (VARIABLES/HELPERS) ---- //
-
 @import "base/b-variables";
 @import "base/b-mixins";
 @import "base/b-functions";
@@ -61,8 +58,7 @@
 
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
 // TODO: Remove m-card once templates are shifted from L2-section to
-// level2-index
-// See vets.gov-team#2122
+// level2-index See vets.gov-team#2122
 @import "modules/m-card";
 @import "modules/m-alert";
 @import "modules/m-crisis-line";
