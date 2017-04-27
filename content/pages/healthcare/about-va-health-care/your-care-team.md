@@ -6,7 +6,7 @@ concurrence:
 template: 1-topic-landing
 lastupdate_override: 
 relatedlinks:
-  - url: /healthcare/about-va-health-care//where-you-get-care/
+  - url: /healthcare/about-va-health-care/where-you-get-care/
     title: Where You’ll Get Care
     description: Find out how to access care for regular needs, in emergencies, and when traveling.
   - url: /healthcare/about-va-health-care//va-health-care-and-other-insurance/
