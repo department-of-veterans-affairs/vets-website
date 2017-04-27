@@ -36,7 +36,9 @@ You can get education benefits if you qualify for—or already get—VA educatio
 
 Yes. The application process is different. Here's what you'll need to do:
 
-- Contact the school or submit a question to us using the GI Bill website to find out if we have approved your program so you can get benefits. [Go to the GI Bill website](https://gibill.custhelp.com/app/ask/). 
+- Contact the school or use the GI Bill Comparison Tool to find out if we've approved your program for VA educational benefits. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
+
+- If you still have questions regarding the school or program, you may submit a question to us using the GI Bill website. [Go to the GI Bill website](https://gibill.custhelp.com/app/ask/). 
 
 - Then, give us the name of the foreign school, the complete address, and the name of the program you want to enroll in. We'll let you know if your program has already been approved. 
 
