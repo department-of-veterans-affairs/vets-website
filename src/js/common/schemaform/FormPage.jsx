@@ -67,7 +67,7 @@ class FormPage extends React.Component {
    */
   getEligiblePages() {
     const { form, route: { pageConfig, pageList } } = this.props;
-    const eligiblePageList = getActivePages(pageList, form);
+    const eligiblePageList = getActivePages(pageList, form.data);
     const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, eligiblePageList);
     return { eligiblePageList, pageIndex };
   }
