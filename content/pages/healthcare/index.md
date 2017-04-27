@@ -25,6 +25,11 @@ majorlinks:
   - url: /healthcare/messaging/
     title: Send a Message to Your Health Care Team
     description: Send a secure, private note to your doctor or other members of your VA health care team.
+relatedlinks:
+  - url: /healthcare/health-conditions/conditions-related-to-service-era/
+    title: Conditions Related to When and Where You Served
+    description: Find out what service-connected health concerns may affect you, based on when and where you served.
+
 ---
 
 <div class="va-introtext">
