@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const HelpfulLinks = () => (
+export const AdditionalResourcesLinks = () => (
   <div>
     <p>
       <a href="/education/tools-programs/careerscope" target="_blank">
@@ -23,7 +23,7 @@ export const HelpfulLinks = () => (
 const AdditionalResources = () => (
   <div className="additional-resources medium-4 small-12 column">
     <h4 className="highlight">Additional Resources</h4>
-    <HelpfulLinks/>
+    <AdditionalResourcesLinks/>
   </div>
 );
 

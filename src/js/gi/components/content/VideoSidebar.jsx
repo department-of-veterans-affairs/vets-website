@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { HelpfulLinks } from './AdditionalResources';
+import { AdditionalResourcesLinks } from './AdditionalResources';
 
 class VideoSidebar extends React.Component {
   render() {
@@ -13,7 +13,7 @@ class VideoSidebar extends React.Component {
         </p>
         <iframe width="100%" src="https://www.youtube.com/embed/Z1ttkv9oRI4"
             title="Know Before You Go" frameBorder="0" allowFullScreen></iframe>
-        <HelpfulLinks/>
+        <AdditionalResourcesLinks/>
       </div>
     );
   }
