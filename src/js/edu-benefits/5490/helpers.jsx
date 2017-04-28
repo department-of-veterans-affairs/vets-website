@@ -8,11 +8,11 @@ export function transform(formConfig, form) {
   const newForm = _.cloneDeep(form);
 
   // Copy the data if necessary
-  if (form.sponsorInformation.data['view:currentSameAsPrevious']) {
-    newForm.sponsorInformation.data['view:currentSponsorInformation'] = {
-      veteranFullName: form.benefitHistory.data.previousBenefits.veteranFullName,
+  if (form.data['view:currentSameAsPrevious']) {
+    newForm.data['view:currentSponsorInformation'] = {
+      veteranFullName: form.data.previousBenefits.veteranFullName,
       'view:veteranId': {
-        veteranSocialSecurityNumber: form.benefitHistory.data.previousBenefits.veteranSocialSecurityNumber
+        veteranSocialSecurityNumber: form.data.previousBenefits.veteranSocialSecurityNumber
       }
     };
   }

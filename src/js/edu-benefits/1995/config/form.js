@@ -210,11 +210,7 @@ const formConfig = {
           path: 'personal-information/dependents',
           initialData: {},
           depends: {
-            militaryHistory: {
-              data: {
-                'view:hasServiceBefore1978': true
-              }
-            }
+            'view:hasServiceBefore1978': true
           },
           uiSchema: {
             serviceBefore1977: serviceBefore1977.uiSchema

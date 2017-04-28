@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function CheckboxWidget({
@@ -33,15 +34,15 @@ CheckboxWidget.defaultProps = {
 };
 
 CheckboxWidget.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  value: React.PropTypes.bool,
-  required: React.PropTypes.bool,
-  autofocus: React.PropTypes.bool,
-  onChange: React.PropTypes.func,
-  disabled: React.PropTypes.bool,
-  options: React.PropTypes.object,
-  label: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object
+  id: PropTypes.string.isRequired,
+  value: PropTypes.bool,
+  required: PropTypes.bool,
+  autofocus: PropTypes.bool,
+  onChange: PropTypes.func,
+  disabled: PropTypes.bool,
+  options: PropTypes.object,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
   ])
 };

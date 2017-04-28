@@ -5,8 +5,7 @@ import shouldUpdate from 'recompose/shouldUpdate';
 
 import { deepEquals } from 'react-jsonschema-form/lib/utils';
 
-import { getActivePages } from '../utils/helpers';
-
+import { getInactivePages } from '../utils/helpers';
 export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters)
     .reduce((pageList, chapter) => {
@@ -196,13 +195,22 @@ export function filterViewFields(data) {
   }, {});
 }
 
+export function filterInactivePages(pages, form) {
+  return pages.reduce((formData, page) => {
+    return Object.keys(page.schema.properties)
+      .reduce((currentData, prop) => {
+        return _.unset(prop, currentData);
+      }, formData);
+  }, form.data);
+}
+
 /*
  * Normal transform for schemaform data
  */
 export function transformForSubmit(formConfig, form) {
-  const activePages = getActivePages(createFormPageList(formConfig), form);
-  const flattened = flattenFormData(activePages, form);
-  const withoutViewFields = filterViewFields(flattened);
+  const inactivePages = getInactivePages(createFormPageList(formConfig), form.data);
+  const withoutInactivePages = filterInactivePages(inactivePages, form);
+  const withoutViewFields = filterViewFields(withoutInactivePages);
 
   return JSON.stringify(withoutViewFields, (key, value) => {
     // an object with country is an address

@@ -1,4 +1,5 @@
 import { Link, browserHistory } from 'react-router';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class Breadcrumbs extends React.Component {
@@ -33,7 +34,7 @@ class Breadcrumbs extends React.Component {
 
     return (
       <nav className="va-nav-breadcrumbs">
-        <ul className="row va-nav-breadcrumbs-list gi-breadcrumbs" role="menubar" aria-label="Primary">
+        <ul className="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
           {crumbs.map((c, i) => {
             return <li key={i}>{c}</li>;
           })}
@@ -45,7 +46,7 @@ class Breadcrumbs extends React.Component {
 }
 
 Breadcrumbs.propTypes = {
-  profileName: React.PropTypes.string
+  profileName: PropTypes.string
 };
 
 export default Breadcrumbs;

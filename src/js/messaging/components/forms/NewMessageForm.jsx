@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -82,48 +83,48 @@ export class NewMessageForm extends React.Component {
 }
 
 NewMessageForm.propTypes = {
-  message: React.PropTypes.shape({
-    recipient: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+  message: PropTypes.shape({
+    recipient: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool
     }),
-    category: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+    category: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool
     }),
-    subject: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+    subject: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool
     }),
-    body: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+    body: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool
     }),
-    attachments: React.PropTypes.array
+    attachments: PropTypes.array
   }).isRequired,
 
-  recipients: React.PropTypes.arrayOf(
-    React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.number }),
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.string })
+  recipients: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.number }),
+      PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string })
     ])),
 
-  onAttachmentsClose: React.PropTypes.func,
-  onAttachmentUpload: React.PropTypes.func,
-  onAttachmentsError: React.PropTypes.func,
-  onBodyChange: React.PropTypes.func,
-  onCategoryChange: React.PropTypes.func,
-  onFetchRecipients: React.PropTypes.func,
-  onRecipientChange: React.PropTypes.func,
-  onSaveMessage: React.PropTypes.func.isRequired,
-  onSendMessage: React.PropTypes.func.isRequired,
-  onSubjectChange: React.PropTypes.func,
-  toggleConfirmDelete: React.PropTypes.func.isRequired,
+  onAttachmentsClose: PropTypes.func,
+  onAttachmentUpload: PropTypes.func,
+  onAttachmentsError: PropTypes.func,
+  onBodyChange: PropTypes.func,
+  onCategoryChange: PropTypes.func,
+  onFetchRecipients: PropTypes.func,
+  onRecipientChange: PropTypes.func,
+  onSaveMessage: PropTypes.func.isRequired,
+  onSendMessage: PropTypes.func.isRequired,
+  onSubjectChange: PropTypes.func,
+  toggleConfirmDelete: PropTypes.func.isRequired,
 };
 
 export default NewMessageForm;

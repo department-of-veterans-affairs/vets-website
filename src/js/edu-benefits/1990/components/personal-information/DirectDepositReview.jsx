@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getLabel } from '../../../utils/helpers';
@@ -27,5 +28,5 @@ export default class DirectDepositReview extends React.Component {
 }
 
 DirectDepositReview.propTypes = {
-  data: React.PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };
