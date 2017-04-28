@@ -12,7 +12,7 @@
     "lint:js:changed": "LIST=`git diff-index --name-only HEAD | grep .*\\.js | grep -v json`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
     "lint:sass": "sass-lint -c config/sass-lint.yml --verbose --no-exit",
     "nightwatch": "nightwatch -c config/nightwatch.js",
-    "reset:env" : "./script/reset-environment.sh",
+    "reset:env": "./script/reset-environment.sh",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
@@ -170,6 +170,7 @@
     "tinyliquid": "^0.2.33",
     "url-loader": "^0.5.7",
     "uswds": "0.10.0",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#db6c1542beda8d4bf4c2247e52f6680d2602b20a",
     "webpack": "^2.4.1",
     "webpack-manifest-plugin": "^1.1.0",
     "webpack-md5-hash": "0.0.5",
@@ -187,7 +188,6 @@
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
     "react-autosuggest": "^8.0.0",
-    "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ee444b33dd221524c71b3b0201beda250a0ffd65"
+    "reselect": "^2.5.4"
   }
 }
