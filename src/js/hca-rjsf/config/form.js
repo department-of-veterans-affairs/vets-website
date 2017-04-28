@@ -12,7 +12,8 @@ import {
   FacilityHelp,
   medicalCentersByState,
   medicalCenterLabels,
-  financialDisclosureText
+  financialDisclosureText,
+  incomeDescription
 } from '../helpers';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -58,7 +59,10 @@ const {
   cohabitedLastYear,
   provideSupportLastYear,
   spousePhone,
-  children
+  children,
+  veteranGrossIncome,
+  veteranNetIncome,
+  veteranOtherIncome
 } = fullSchemaHca.properties;
 
 const {
@@ -429,11 +433,27 @@ const formConfig = {
           path: 'household-information/annual-income',
           title: 'Annual income',
           depends: (data) => data.discloseFinancialInformation,
-          uiSchema: {},
+          uiSchema: {
+            'ui:title': 'Annual income',
+            'ui:description': incomeDescription,
+            veteranGrossIncome: {
+              'ui:title': 'Veteran gross annual income from employment'
+            },
+            veteranNetIncome: {
+              'ui:title': 'Veteran Net Income from your Farm, Ranch, Property or Business'
+            },
+            veteranOtherIncome: {
+              'ui:title': 'Veteran Other Income Amount'
+            }
+          },
           schema: {
             type: 'object',
-            required: [],
-            properties: {}
+            required: ['veteranGrossIncome', 'veteranNetIncome', 'veteranOtherIncome'],
+            properties: {
+              veteranGrossIncome,
+              veteranNetIncome,
+              veteranOtherIncome
+            }
           }
         },
         deductibleExpenses: {
