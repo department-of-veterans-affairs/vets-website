@@ -20,6 +20,10 @@ export const schema = _.merge(_.omit(
       'view:childSupportDescription': {
         type: 'object',
         properties: {}
+      },
+      childRelation: {
+        // Missing in the schema
+        type: 'string'
       }
     }
   }
