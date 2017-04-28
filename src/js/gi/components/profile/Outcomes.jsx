@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Graph from './Graph';
 
@@ -68,28 +69,28 @@ class Outcomes extends React.Component {
 }
 
 Outcomes.propTypes = {
-  graphing: React.PropTypes.shape({
-    retention: React.PropTypes.shape({
-      rate: React.PropTypes.number,
-      all: React.PropTypes.number,
-      average: React.PropTypes.number
+  graphing: PropTypes.shape({
+    retention: PropTypes.shape({
+      rate: PropTypes.number,
+      all: PropTypes.number,
+      average: PropTypes.number
     }),
-    graduation: React.PropTypes.shape({
-      rate: React.PropTypes.number,
-      all: React.PropTypes.number,
-      average: React.PropTypes.number
+    graduation: PropTypes.shape({
+      rate: PropTypes.number,
+      all: PropTypes.number,
+      average: PropTypes.number
     }),
-    salary: React.PropTypes.shape({
-      all: React.PropTypes.number,
-      average: React.PropTypes.number
+    salary: PropTypes.shape({
+      all: PropTypes.number,
+      average: PropTypes.number
     }),
-    repayment: React.PropTypes.shape({
-      rate: React.PropTypes.number,
-      all: React.PropTypes.number,
-      average: React.PropTypes.number
+    repayment: PropTypes.shape({
+      rate: PropTypes.number,
+      all: PropTypes.number,
+      average: PropTypes.number
     }),
   }),
-  onShowModal: React.PropTypes.func,
+  onShowModal: PropTypes.func,
 };
 
 export default Outcomes;

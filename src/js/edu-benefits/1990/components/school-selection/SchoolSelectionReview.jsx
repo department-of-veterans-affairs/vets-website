@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getLabel, showSchoolAddress, showYesNo } from '../../../utils/helpers';
@@ -61,5 +62,5 @@ export default class SchoolSelectionReview extends React.Component {
 }
 
 SchoolSelectionReview.propTypes = {
-  data: React.PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };

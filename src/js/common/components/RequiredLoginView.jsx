@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import SystemDownView from './SystemDownView';
@@ -99,10 +100,10 @@ class RequiredLoginView extends React.Component {
 }
 
 RequiredLoginView.propTypes = {
-  authRequired: React.PropTypes.number.isRequired,
-  serviceRequired: React.PropTypes.string.isRequired,
-  userProfile: React.PropTypes.object.isRequired,
-  loginUrl: React.PropTypes.string,
+  authRequired: PropTypes.number.isRequired,
+  serviceRequired: PropTypes.string.isRequired,
+  userProfile: PropTypes.object.isRequired,
+  loginUrl: PropTypes.string,
 };
 
 export default RequiredLoginView;

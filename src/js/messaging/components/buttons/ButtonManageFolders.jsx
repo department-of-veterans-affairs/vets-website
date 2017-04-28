@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class ButtonManageFolders extends React.Component {
@@ -14,7 +15,7 @@ class ButtonManageFolders extends React.Component {
 }
 
 ButtonManageFolders.propTypes = {
-  onClick: React.PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired
 };
 
 export default ButtonManageFolders;

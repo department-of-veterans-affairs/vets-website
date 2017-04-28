@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
@@ -146,9 +147,9 @@ export default class ReviewCollapsibleChapter extends React.Component {
 }
 
 ReviewCollapsibleChapter.propTypes = {
-  chapter: React.PropTypes.object.isRequired,
-  pages: React.PropTypes.array.isRequired,
-  form: React.PropTypes.object.isRequired,
-  onEdit: React.PropTypes.func.isRequired
+  chapter: PropTypes.object.isRequired,
+  pages: PropTypes.array.isRequired,
+  form: PropTypes.object.isRequired,
+  onEdit: PropTypes.func.isRequired
 };
 

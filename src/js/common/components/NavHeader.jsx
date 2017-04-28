@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class NavHeader extends React.Component {
@@ -30,7 +31,7 @@ export default class NavHeader extends React.Component {
 }
 
 NavHeader.propTypes = {
-  path: React.PropTypes.string.isRequired,
-  chapters: React.PropTypes.array.isRequired,
-  className: React.PropTypes.string
+  path: PropTypes.string.isRequired,
+  chapters: PropTypes.array.isRequired,
+  className: PropTypes.string
 };

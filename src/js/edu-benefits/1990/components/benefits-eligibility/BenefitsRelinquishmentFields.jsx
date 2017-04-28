@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableRadioButtons from '../../../../common/components/form-elements/ErrorableRadioButtons';
@@ -75,6 +76,6 @@ export default class BenefitsRelinquishmentFields extends React.Component {
 }
 
 BenefitsRelinquishmentFields.propTypes = {
-  onStateChange: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired
+  onStateChange: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired
 };

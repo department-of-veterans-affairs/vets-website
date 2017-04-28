@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -86,26 +87,26 @@ class ErrorableNumberInput extends React.Component {
 }
 
 ErrorableNumberInput.propTypes = {
-  errorMessage: React.PropTypes.string,
-  field: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  errorMessage: PropTypes.string,
+  field: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired,
-  label: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string,
-  min: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  min: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
   ]),
-  max: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
+  max: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
   ]),
-  pattern: React.PropTypes.string,
-  placeholder: React.PropTypes.string,
-  required: React.PropTypes.bool,
-  onValueChange: React.PropTypes.func.isRequired,
-  additionalClass: React.PropTypes.string
+  pattern: PropTypes.string,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  onValueChange: PropTypes.func.isRequired,
+  additionalClass: PropTypes.string
 };
 
 export default ErrorableNumberInput;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
@@ -224,11 +225,11 @@ class ArrayField extends React.Component {
 export default ArrayField;
 
 ArrayField.propTypes = {
-  schema: React.PropTypes.object.isRequired,
-  uiSchema: React.PropTypes.object,
-  pageKey: React.PropTypes.string.isRequired,
-  path: React.PropTypes.array.isRequired,
-  formData: React.PropTypes.object,
-  arrayData: React.PropTypes.array,
-  pageTitle: React.PropTypes.string
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object,
+  pageKey: PropTypes.string.isRequired,
+  path: PropTypes.array.isRequired,
+  formData: PropTypes.object,
+  arrayData: PropTypes.array,
+  pageTitle: PropTypes.string
 };

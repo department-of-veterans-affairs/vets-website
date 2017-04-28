@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
@@ -37,5 +38,5 @@ export default function SubmittedTrackedItem({ item }) {
 }
 
 SubmittedTrackedItem.propTypes = {
-  item: React.PropTypes.object.isRequired
+  item: PropTypes.object.isRequired
 };

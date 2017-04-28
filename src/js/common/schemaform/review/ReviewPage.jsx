@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash/fp';
@@ -117,9 +118,9 @@ const mapDispatchToProps = {
 };
 
 ReviewPage.propTypes = {
-  form: React.PropTypes.object.isRequired,
-  route: React.PropTypes.shape({
-    formConfig: React.PropTypes.object.isRequired
+  form: PropTypes.object.isRequired,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object.isRequired
   }).isRequired
 };
 
