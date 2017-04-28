@@ -21,7 +21,7 @@ export const AdditionalResourcesLinks = () => (
 );
 
 const AdditionalResources = () => (
-  <div className="additional-resources medium-4 small-12 column">
+  <div className="additional-resources usa-width-one-third medium-4 small-12 column">
     <h4 className="highlight">Additional Resources</h4>
     <AdditionalResourcesLinks/>
   </div>
