@@ -24,8 +24,8 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .waitForElementVisible('input[name="root_relativeFullName_first"]', Timeouts.slow);
     EduHelpers.completeRelativeInformation(client, {
-      relationship: testData.sponsorInformation.data.relationship,
-      ...testData.applicantInformation.data
+      relationship: testData.data.relationship,
+      ...testData.data
     });
     client
       .axeCheck('.main')
@@ -35,7 +35,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Additional benefits page
     client
       .waitForElementVisible('label[for="root_civilianBenefitsAssistance"]', Timeouts.slow);
-    EduHelpers.completeAdditionalBenefits(client, testData.additionalBenefits.data);
+    EduHelpers.completeAdditionalBenefits(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -44,7 +44,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Applicant service page
     client
       .waitForElementVisible('label[for="root_view:applicantServedYes"]', Timeouts.slow);
-    EduHelpers.completeServicePeriods(client, testData.applicantService.data, false, 'view:applicantServed');
+    EduHelpers.completeServicePeriods(client, testData.data, false, 'view:applicantServed');
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -53,7 +53,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefit selection page
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, testData.benefitSelection.data);
+    EduHelpers.completeBenefitsSelection(client, testData.data);
     // It's like this isn't getting clicked...when I click it in Electron after
     //  it's hung up, I get to the next page. I wonder if it has to do with the
     //  expanding animation...? At any rate, waiting for the expanded element to
@@ -66,10 +66,10 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Benefit relinquishment page
     // This page will only be accessed if relationship is a child
-    if (testData.sponsorInformation.relationship === 'child') {
+    if (testData.relationship === 'child') {
       client
         .waitForElementVisible('label[for="root_benefitsRelinquishedDateMonth"]', Timeouts.slow);
-      Edu5490Helpers.completeBenefitRelinquishment(client, testData.benefitRelinquishment.data);
+      Edu5490Helpers.completeBenefitRelinquishment(client, testData.data);
       client
         .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');
@@ -79,7 +79,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefit history page
     client
       .waitForElementVisible('label[for="root_previousBenefits_disability"]', Timeouts.slow);
-    Edu5490Helpers.completeBenefitHistory(client, testData.benefitHistory.data);
+    Edu5490Helpers.completeBenefitHistory(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -92,8 +92,8 @@ module.exports = E2eHelpers.createE2eTest(
     //  be very specific to the 5490
     EduHelpers.completeVeteranInformation(client,
       Object.assign({},
-        testData.sponsorInformation.data,
-        testData.sponsorInformation.data['view:currentSponsorInformation']
+        testData.data,
+        testData.data['view:currentSponsorInformation']
       ),
       false,
       'root_view:currentSponsorInformation'
@@ -106,7 +106,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Sponsor service page
     client
       .waitForElementVisible('input[name="root_serviceBranch"]', Timeouts.slow);
-    Edu5490Helpers.completeSponsorService(client, testData.sponsorService.data);
+    Edu5490Helpers.completeSponsorService(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -115,7 +115,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Education history page
     client
       .waitForElementVisible('select[name="root_highSchool_status"]', Timeouts.slow);
-    Edu5490Helpers.completeEducationHistory(client, testData.educationHistory.data);
+    Edu5490Helpers.completeEducationHistory(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -124,7 +124,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Employment history page
     client
       .waitForElementVisible('label[for="root_view:hasNonMilitaryJobs"]', Timeouts.slow);
-    EduHelpers.completeEmploymentHistory(client, testData.employmentHistory.data);
+    EduHelpers.completeEmploymentHistory(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -133,7 +133,7 @@ module.exports = E2eHelpers.createE2eTest(
     // School selection page
     client
       .waitForElementVisible('input[name="root_educationProgram_name"]', Timeouts.slow);
-    EduHelpers.completeSchoolSelection(client, testData.schoolSelection.data);
+    EduHelpers.completeSchoolSelection(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -142,7 +142,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Contact information page
     client
       .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-    EduHelpers.completeContactInformation(client, testData.contactInformation.data, false, true);
+    EduHelpers.completeContactInformation(client, testData.data, false, true);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -151,7 +151,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Secondary contact page
     client
       .waitForElementVisible('label[for="root_secondaryContact_fullName"]', Timeouts.slow);
-    Edu5490Helpers.completeSecondaryContact(client, testData.secondaryContact.data);
+    Edu5490Helpers.completeSecondaryContact(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -160,7 +160,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Direct deposit page
     client
       .waitForElementVisible('label[for="root_bankAccount_accountType"]', Timeouts.slow);
-    EduHelpers.completeDirectDeposit(client, testData.directDeposit.data);
+    EduHelpers.completeDirectDeposit(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');

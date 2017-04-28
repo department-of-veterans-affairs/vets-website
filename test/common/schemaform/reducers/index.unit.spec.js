@@ -36,8 +36,8 @@ describe('schemaform createSchemaFormReducer', () => {
     const state = reducer(undefined, {});
 
     expect(state.submission).to.be.defined;
-    expect(state.privacyAgreementAccepted).to.be.false;
-    expect(state.page1.data.field).to.eql(formConfig.chapters.test.pages.page1.initialData.field);
+    expect(state.data.privacyAgreementAccepted).to.be.false;
+    expect(state.data.field).to.eql(formConfig.chapters.test.pages.page1.initialData.field);
     expect(state.page2).to.be.defined;
   });
   describe('reducer', () => {
@@ -62,23 +62,27 @@ describe('schemaform createSchemaFormReducer', () => {
 
     it('should set data state', () => {
       const state = reducer({
-        page1: {
-          schema: {},
-          uiSchema: {},
-          data: null
-        }
+        pages: {
+          page1: {
+            schema: {},
+            uiSchema: {},
+          }
+        },
+        data: null
       }, {
         type: SET_DATA,
         page: 'page1',
         data: { field: 'test2' }
       });
 
-      expect(state.page1.data.field).to.equal('test2');
+      expect(state.data.field).to.equal('test2');
     });
     it('should set edit mode', () => {
       const state = reducer({
-        page1: {
-          editMode: false
+        pages: {
+          page1: {
+            editMode: false
+          }
         }
       }, {
         type: SET_EDIT_MODE,
@@ -86,17 +90,19 @@ describe('schemaform createSchemaFormReducer', () => {
         edit: true
       });
 
-      expect(state.page1.editMode).to.be.true;
+      expect(state.pages.page1.editMode).to.be.true;
     });
     it('should set privacy agreement', () => {
       const state = reducer({
-        privacyAgreementAccepted: false
+        data: {
+          privacyAgreementAccepted: false
+        }
       }, {
         type: SET_PRIVACY_AGREEMENT,
         privacyAgreementAccepted: true
       });
 
-      expect(state.privacyAgreementAccepted).to.be.true;
+      expect(state.data.privacyAgreementAccepted).to.be.true;
     });
     it('should set submission field', () => {
       const state = reducer({

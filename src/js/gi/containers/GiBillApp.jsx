@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -92,7 +93,7 @@ export class GiBillApp extends React.Component {
 }
 
 GiBillApp.propTypes = {
-  children: React.PropTypes.element.isRequired
+  children: PropTypes.element.isRequired
 };
 
 const mapStateToProps = (state) => {

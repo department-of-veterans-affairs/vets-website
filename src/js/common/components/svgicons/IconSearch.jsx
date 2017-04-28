@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class IconSearch extends React.Component {
@@ -22,10 +23,10 @@ class IconSearch extends React.Component {
 }
 
 IconSearch.propTypes = {
-  color: React.PropTypes.string, /* Should be a CSS color */
-  cssClass: React.PropTypes.string,
-  id: React.PropTypes.string,
-  title: React.PropTypes.string
+  color: PropTypes.string, /* Should be a CSS color */
+  cssClass: PropTypes.string,
+  id: PropTypes.string,
+  title: PropTypes.string
 };
 
 export default IconSearch;

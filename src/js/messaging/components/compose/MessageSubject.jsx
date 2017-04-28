@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 
@@ -19,14 +20,14 @@ class MessageSubject extends React.Component {
 }
 
 MessageSubject.propTypes = {
-  cssClass: React.PropTypes.string,
-  errorMessage: React.PropTypes.string,
-  onValueChange: React.PropTypes.func,
-  placeholder: React.PropTypes.string,
-  required: React.PropTypes.bool,
-  subject: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  cssClass: PropTypes.string,
+  errorMessage: PropTypes.string,
+  onValueChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  subject: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired
 };
 
