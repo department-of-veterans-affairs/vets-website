@@ -7,18 +7,18 @@ import SkinDeep from 'skin-deep';
 import { LandingPage } from '../../../src/js/gi/containers/LandingPage';
 import reducer from '../../../src/js/gi/reducers';
 
-const store = createStore(reducer);
+const defaultProps = createStore(reducer);
 
 describe('<LandingPage>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<LandingPage {...store.getState()}/>);
+    const tree = SkinDeep.shallowRender(<LandingPage {...defaultProps}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
 
   it('should handleSubmit correctly', () => {
     const props = {
-      ...store.getState(),
+      defaultProps,
       router: { push: sinon.spy() },
       location: { query: {} }
     };
