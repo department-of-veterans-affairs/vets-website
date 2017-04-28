@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 
@@ -185,15 +186,15 @@ export default class NavButtons extends React.Component {
 }
 
 NavButtons.propTypes = {
-  pages: React.PropTypes.array.isRequired,
-  path: React.PropTypes.string.isRequired,
-  data: React.PropTypes.object,
-  isValid: React.PropTypes.bool.isRequired,
-  canSubmit: React.PropTypes.bool.isRequired,
-  submission: React.PropTypes.object.isRequired,
-  onSubmit: React.PropTypes.func,
-  onNavigate: React.PropTypes.func,
-  onComplete: React.PropTypes.func,
-  dirtyPage: React.PropTypes.func,
-  onAttemptedSubmit: React.PropTypes.func
+  pages: PropTypes.array.isRequired,
+  path: PropTypes.string.isRequired,
+  data: PropTypes.object,
+  isValid: PropTypes.bool.isRequired,
+  canSubmit: PropTypes.bool.isRequired,
+  submission: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func,
+  onNavigate: PropTypes.func,
+  onComplete: PropTypes.func,
+  dirtyPage: PropTypes.func,
+  onAttemptedSubmit: PropTypes.func
 };

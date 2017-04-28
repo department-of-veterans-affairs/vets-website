@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -22,10 +23,10 @@ export default function Notification({ title, body, onClose, type }) {
 }
 
 Notification.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  body: React.PropTypes.string.isRequired,
-  onClose: React.PropTypes.func,
-  type: React.PropTypes.string
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  onClose: PropTypes.func,
+  type: PropTypes.string
 };
 
 Notification.defaultProps = {

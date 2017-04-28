@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import DropDown from './DropDown';
 import IconHelp from './svgicons/IconHelp';
@@ -30,9 +31,9 @@ class HelpMenu extends React.Component {
 }
 
 HelpMenu.propTypes = {
-  cssClass: React.PropTypes.string,
-  clickHandler: React.PropTypes.func.isRequired,
-  isOpen: React.PropTypes.bool.isRequired
+  cssClass: PropTypes.string,
+  clickHandler: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired
 };
 
 export default HelpMenu;

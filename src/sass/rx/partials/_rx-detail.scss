@@ -1,40 +1,45 @@
 /* Rx detail page */
 
-#rx-detail h2 {
-  font-size: 3rem;
-  // Overriding #content .section h*.
-  margin-top: 2rem !important;
-}
+#rx-detail {
+  h2 {
+    font-size: 3rem;
+  }
 
-#rx-detail h3 {
-  font-size: 2.5rem;
-}
+  h3 {
+    font-size: 2.5rem;
+  }
 
-#rx-detail table {
-  // Get font size to stay the same when table shrinks.
-  display: block;
-  font-size: 1.6rem;
+  table {
+    // Get font size to stay the same when table shrinks.
+    display: block;
+    font-size: 1.6rem;
 
-  tbody {
-    &:first-child {
-      th, td {
-        border-top: none;
+    tbody {
+      &:first-child {
+        th, td {
+          border-top: none;
+        }
+      }
+
+      &:last-child {
+        th, td {
+          border-bottom: none;
+        }
       }
     }
 
-    &:last-child {
-      th, td {
-        border-bottom: none;
-      }
+    th {
+      white-space: nowrap;
+    }
+
+    td:last-child {
+      width: 99%;
     }
   }
 
-  th {
-    white-space: nowrap;
-  }
-
-  td:last-child {
-    width: 99%;
+  .rx-contact-card {
+    margin-bottom: 3.5rem;
+    width: 100%;
   }
 }
 
@@ -61,16 +66,6 @@
     margin-left: 16.5rem;
     width: auto;
   }
-}
-
-#rx-detail .rx-contact-card {
-  margin-bottom: 3.5rem;
-  width: 100%;
-
-  @media (min-width: $medium-screen) {
-    display: inline-block;
-    width: 30rem;
-  };
 }
 
 .rx-history-tracking {

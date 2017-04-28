@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -83,16 +84,16 @@ class MessageSend extends React.Component {
 }
 
 MessageSend.propTypes = {
-  allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string),
-  disabled: React.PropTypes.bool,
-  maxFiles: React.PropTypes.number,
-  maxFileSize: React.PropTypes.number,
-  maxTotalFileSize: React.PropTypes.number,
-  onAttachmentUpload: React.PropTypes.func.isRequired,
-  onAttachmentsError: React.PropTypes.func.isRequired,
-  onSave: React.PropTypes.func.isRequired,
-  onSend: React.PropTypes.func.isRequired,
-  onDelete: React.PropTypes.func.isRequired,
+  allowedMimeTypes: PropTypes.arrayOf(PropTypes.string),
+  disabled: PropTypes.bool,
+  maxFiles: PropTypes.number,
+  maxFileSize: PropTypes.number,
+  maxTotalFileSize: PropTypes.number,
+  onAttachmentUpload: PropTypes.func.isRequired,
+  onAttachmentsError: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onSend: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default MessageSend;

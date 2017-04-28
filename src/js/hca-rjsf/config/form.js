@@ -207,8 +207,8 @@ const formConfig = {
                 'ui:title': 'Center/clinic',
                 'ui:options': {
                   labels: medicalCenterLabels,
-                  updateSchema: (data, form) => {
-                    const state = _.get('vaFacility.data.view:preferredFacility.view:facilityState', form);
+                  updateSchema: (form) => {
+                    const state = _.get('view:preferredFacility.view:facilityState', form);
                     if (state) {
                       return {
                         'enum': medicalCentersByState[state]

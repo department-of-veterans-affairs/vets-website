@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class ButtonMove extends React.Component {
@@ -14,7 +15,7 @@ class ButtonMove extends React.Component {
 }
 
 ButtonMove.propTypes = {
-  onClick: React.PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired
 };
 
 export default ButtonMove;

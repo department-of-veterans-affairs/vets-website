@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import range from 'lodash/fp/range';
@@ -131,11 +132,11 @@ class Pagination extends React.Component {
 }
 
 Pagination.propTypes = {
-  onPageSelect: React.PropTypes.func.isRequired,
-  page: React.PropTypes.number.isRequired,
-  pages: React.PropTypes.number.isRequired,
-  maxPageListLength: React.PropTypes.number.isRequired,
-  showLastPage: React.PropTypes.bool,
+  onPageSelect: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  pages: PropTypes.number.isRequired,
+  maxPageListLength: PropTypes.number.isRequired,
+  showLastPage: PropTypes.bool,
 };
 
 Pagination.defaultProps = {
