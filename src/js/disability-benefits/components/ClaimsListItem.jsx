@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
@@ -32,5 +33,5 @@ export default function ClaimsListItem({ claim }) {
 }
 
 ClaimsListItem.propTypes = {
-  claim: React.PropTypes.object
+  claim: PropTypes.object
 };

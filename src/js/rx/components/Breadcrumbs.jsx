@@ -51,9 +51,18 @@ class Breadcrumbs extends React.Component {
       crumbs.push(<span key="prescriptions"><strong>Prescription Refills</strong></span>);
     }
 
-    return (<div className="rx-breadcrumbs">
-      {crumbs.reduce((content, e) => { return [...content, ' › ', e]; }, []).slice(1)}
-    </div>);
+    const lastElement = crumbs.pop();
+
+    return (
+      <nav className="va-nav-breadcrumbs">
+        <ul className="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
+          {crumbs.map((c, i) => {
+            return <li key={i}>{c}</li>;
+          })}
+          <li className="active">{lastElement}</li>
+        </ul>
+      </nav>
+    );
   }
 }
 

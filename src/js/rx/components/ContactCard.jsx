@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import MessageProviderLink from './MessageProviderLink';
@@ -29,8 +30,8 @@ class ContactCard extends React.Component {
 }
 
 ContactCard.propTypes = {
-  facilityName: React.PropTypes.string.isRequired,
-  phoneNumber: React.PropTypes.string
+  facilityName: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string
 };
 
 export default ContactCard;

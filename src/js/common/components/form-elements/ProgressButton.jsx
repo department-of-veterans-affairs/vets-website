@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -33,13 +34,13 @@ class ProgressButton extends React.Component {
 }
 
 ProgressButton.propTypes = {
-  onButtonClick: React.PropTypes.func,
-  buttonText: React.PropTypes.string.isRequired,
-  buttonClass: React.PropTypes.string.isRequired,
-  beforeText: React.PropTypes.string,
-  afterText: React.PropTypes.string,
-  disabled: React.PropTypes.bool,
-  submitButton: React.PropTypes.bool
+  onButtonClick: PropTypes.func,
+  buttonText: PropTypes.string.isRequired,
+  buttonClass: PropTypes.string.isRequired,
+  beforeText: PropTypes.string,
+  afterText: PropTypes.string,
+  disabled: PropTypes.bool,
+  submitButton: PropTypes.bool
 };
 
 export default ProgressButton;

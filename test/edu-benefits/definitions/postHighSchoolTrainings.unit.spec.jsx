@@ -1,7 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester, wrapSchemas } from '../../util/schemaform-utils.jsx';
 import rawUiSchema from '../../../src/js/edu-benefits/definitions/postHighSchoolTrainings';
