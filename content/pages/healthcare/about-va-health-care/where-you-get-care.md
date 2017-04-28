@@ -9,7 +9,7 @@ relatedlinks:
   - url: /healthcare/about-va-health-care/your-care-team/
     title: Your Care Team
     description: Learn about the health providers who’ll make up your VA care team.
-   - url: /healthcare/about-va-health-care//va-health-care-and-other-insurance/
+  - url: /healthcare/about-va-health-care//va-health-care-and-other-insurance/
     title: VA Health Care and Other Insurance
     description: Learn how VA health care works with Medicaid and private insurance.
   - url: /healthcare/about-va-health-care/dental-care/
