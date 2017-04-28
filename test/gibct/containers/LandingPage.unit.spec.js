@@ -7,7 +7,7 @@ import SkinDeep from 'skin-deep';
 import { LandingPage } from '../../../src/js/gi/containers/LandingPage';
 import reducer from '../../../src/js/gi/reducers';
 
-const defaultProps = createStore(reducer);
+const defaultProps = createStore(reducer).getState();
 
 describe('<LandingPage>', () => {
   it('should render', () => {
