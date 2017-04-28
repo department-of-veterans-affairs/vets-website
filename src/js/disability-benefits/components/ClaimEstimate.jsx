@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router';
@@ -26,6 +27,6 @@ export default function ClaimEstimate({ maxDate, id }) {
 }
 
 ClaimEstimate.propTypes = {
-  maxDate: React.PropTypes.string.isRequired,
-  id: React.PropTypes.string.isRequired
+  maxDate: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired
 };

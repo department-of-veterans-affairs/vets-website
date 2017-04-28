@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { apiRequest } from '../utils/helpers';
@@ -50,8 +51,8 @@ class DownloadLink extends React.Component {
 }
 
 DownloadLink.propTypes = {
-  name: React.PropTypes.string.isRequired,
-  docType: React.PropTypes.oneOf(['pdf', 'txt']),
+  name: PropTypes.string.isRequired,
+  docType: PropTypes.oneOf(['pdf', 'txt']),
 };
 
 export default DownloadLink;

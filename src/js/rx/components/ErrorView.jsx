@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { isEmpty, some, includes, intersection, concat } from 'lodash';
 import AlertBox from '../../common/components/AlertBox';
@@ -90,7 +91,7 @@ class ErrorView extends React.Component {
 }
 
 ErrorView.propTypes = {
-  errors: React.PropTypes.array,
+  errors: PropTypes.array,
 };
 
 export default ErrorView;

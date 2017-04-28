@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class Dropdown extends React.Component {
@@ -29,21 +30,21 @@ class Dropdown extends React.Component {
 }
 
 Dropdown.propTypes = {
-  visible: React.PropTypes.bool.isRequired,
-  name: React.PropTypes.string.isRequired,
-  label: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.element
+  visible: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
   ]).isRequired,
-  options: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      label: React.PropTypes.string,
-      value: React.PropTypes.string,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
     })).isRequired,
-  value: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  alt: React.PropTypes.string.isRequired,
-  className: React.PropTypes.string,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  alt: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 Dropdown.defaultProps = {

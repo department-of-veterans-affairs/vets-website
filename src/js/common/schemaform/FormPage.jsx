@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -144,18 +145,18 @@ const mapDispatchToProps = {
 };
 
 FormPage.propTypes = {
-  form: React.PropTypes.object.isRequired,
-  route: React.PropTypes.shape({
-    pageConfig: React.PropTypes.shape({
-      pageKey: React.PropTypes.string.isRequired,
-      schema: React.PropTypes.object.isRequired,
-      uiSchema: React.PropTypes.object.isRequired
+  form: PropTypes.object.isRequired,
+  route: PropTypes.shape({
+    pageConfig: PropTypes.shape({
+      pageKey: PropTypes.string.isRequired,
+      schema: PropTypes.object.isRequired,
+      uiSchema: PropTypes.object.isRequired
     }),
-    pageList: React.PropTypes.arrayOf(React.PropTypes.shape({
-      path: React.PropTypes.string.isRequired
+    pageList: PropTypes.arrayOf(PropTypes.shape({
+      path: PropTypes.string.isRequired
     }))
   }),
-  setData: React.PropTypes.func
+  setData: PropTypes.func
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormPage));

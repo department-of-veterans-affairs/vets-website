@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -74,7 +75,7 @@ class MessagingApp extends React.Component {
 }
 
 MessagingApp.propTypes = {
-  children: React.PropTypes.node
+  children: PropTypes.node
 };
 
 const mapStateToProps = (state) => {

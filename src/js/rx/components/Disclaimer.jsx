@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -38,8 +39,8 @@ class Disclaimer extends React.Component {
 }
 
 Disclaimer.propTypes = {
-  isOpen: React.PropTypes.bool.isRequired,
-  handleClose: React.PropTypes.func.isRequired
+  isOpen: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired
 };
 
 export default Disclaimer;

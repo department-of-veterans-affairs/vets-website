@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import Form from 'react-jsonschema-form';
@@ -144,16 +145,16 @@ class SchemaForm extends React.Component {
 }
 
 SchemaForm.propTypes = {
-  name: React.PropTypes.string.isRequired,
-  title: React.PropTypes.string.isRequired,
-  schema: React.PropTypes.object.isRequired,
-  uiSchema: React.PropTypes.object.isRequired,
-  pageData: React.PropTypes.any,
-  formData: React.PropTypes.any,
-  reviewMode: React.PropTypes.bool,
-  onSubmit: React.PropTypes.func,
-  onChange: React.PropTypes.func,
-  hideTitle: React.PropTypes.bool
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  pageData: PropTypes.any,
+  formData: PropTypes.any,
+  reviewMode: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  hideTitle: PropTypes.bool
 };
 
 export default SchemaForm;
