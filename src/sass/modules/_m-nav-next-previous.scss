@@ -6,58 +6,39 @@
   margin: 8rem 0 4rem;
 
   ul {
+    display: flex;
+    justify-content: flex-end;
     list-style: none;
     padding-left: 0;
   }
 
-  li {
-    flex: 0 0 50%;
-    position: relative;
+  strong {
+    display: block;
 
-    &:only-child {
-      flex: 0 0 100%;
-
-      a {
-        width: 50%;
-      }
+    &::before {
+      font-weight: bold;
+      display: inline-block;
+      vertical-align: 1px;
     }
   }
 }
 
-// Matches links that begin va-navigation-nextprevious-
-a[class|=va-navigation-nextprevious] {
-  display: inline-block;
-  padding: 1rem .4rem;
-  text-decoration: none;
-
-  strong {
-    color: $color-base;
-  }
-
-  span {
-    display: block;
-    text-decoration: underline;
-  }
-
-  ::before {
-    font-weight: bold;
-    display: inline-block;
-    vertical-align: 1px;
-  }
+// Matches .va-navigation-nextprevious-* class names
+[class|=va-navigation-nextprevious] {
+  flex: 0 0 50%;
 }
 
 .va-navigation-nextprevious-previous {
-  border-right: 2rem solid $color-white;
   strong::before {
     content: "\2039\00A0";
+  }
+  &:only-child {
+    flex-basis: 100%
   }
 }
 
 .va-navigation-nextprevious-next {
-  border-left: 2rem solid $color-white;
   text-align: right;
-  position: absolute;
-  right: 0;
 
   li:only-child & {
     margin-left: 50%;

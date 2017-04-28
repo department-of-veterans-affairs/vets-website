@@ -20,33 +20,29 @@ Requires a collection.
 
 {% if previous != empty OR next != empty %}
 <nav class="va-navigation-nextprevious usa-content">
-  <ul class="va-flex">
+  <ul>
     {% if previous != empty %}
-    <li>
-      <a href="/{{ previous.path }}" class="va-navigation-nextprevious-previous">
-        <strong>Previous</strong>
-        <span>
+    <li class="va-navigation-nextprevious-previous">
+      <strong>Previous</strong>
+      <a href="/{{ previous.path }}">
         {% if previous.display_title %}
           {{ previous.display_title }}
         {% else %}
           {{ previous.title }}
         {% endif %}
-        </span>
       </a>
     </li>
     {% endif %}
 
     {% if next != empty %}
-    <li>
-      <a href="/{{ next.path }}" class="va-navigation-nextprevious-next">
-        <strong>Next</strong>
-        <span>
+    <li class="va-navigation-nextprevious-next">
+      <strong>Next</strong>
+      <a href="/{{ next.path }}"> 
         {% if next.display_title %}
           {{ next.display_title }}
         {% else %}
           {{ next.title }}
         {% endif %}
-        </span>
       </a>
     </li>
     {% endif %}
