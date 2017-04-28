@@ -81,7 +81,7 @@ Be sure you have enough money to care for all of your needs until VA payments be
 
 </li>
 
-<li class="process-step list-five last" markdown="0">
+<li class="process-step list-five" markdown="0">
 
 You must provide written permission for school officials to release information as necessary to VA. Failure to do so may affect receipt of VA benefits. Some countries have their own version of the Privacy Act, which is the preferred format.
 
@@ -121,7 +121,7 @@ Normally, foreign schools certify their students for one academic year. If you i
 
 </li>
 
-<li class="process-step list-five last" markdown="0">
+<li class="process-step list-five" markdown="0">
 
 You should keep the school advised of your plans for continuing enrollment in order to avoid any delay in receiving your benefits.
 

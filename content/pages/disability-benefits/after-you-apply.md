@@ -60,6 +60,7 @@ A Veterans Service Representative (VSR) will review your claim. It’ll move to 
 </li>
 
 <li class="process-step list-three">
+
 #### Evidence Gathering, Review, and Decision
 
 During this step, the VSR will do 3 things:
@@ -73,6 +74,7 @@ If we need more evidence during the review, your claim may return to this step m
 </li>
 
 <li class="process-step list-four"> 
+
 #### Preparation for Notification
 
 We’ll get your entire claim decision packet ready to be mailed.
@@ -80,6 +82,7 @@ We’ll get your entire claim decision packet ready to be mailed.
 </li>
 
 <li class="process-step list-five">
+
 #### Claim Complete
 
 We’ll send you a packet by U.S. mail that includes details of the decision on your claim. Please allow 7 to 10 business days for your packet to arrive before contacting a VA call center.

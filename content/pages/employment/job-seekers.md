@@ -76,7 +76,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 - Search for connections and job listings on [LinkedIn&trade;](https://veterans.linkedin.com/) as well as other online job boards.
 </li>
 
-<li class="process-step list-six last" markdown="1">
+<li class="process-step list-six" markdown="1">
 
 ##### Go to a career fair
 
