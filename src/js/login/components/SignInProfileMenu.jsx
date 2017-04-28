@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import DropDown from '../../common/components/DropDown';
 import IconUser from '../../common/components/svgicons/IconUser';
@@ -26,11 +27,11 @@ class SignInProfileMenu extends React.Component {
 }
 
 SignInProfileMenu.propTypes = {
-  clickHandler: React.PropTypes.func.isRequired,
-  cssClass: React.PropTypes.string,
-  greeting: React.PropTypes.node,
-  isOpen: React.PropTypes.bool.isRequired,
-  onUserLogout: React.PropTypes.func.isRequired
+  clickHandler: PropTypes.func.isRequired,
+  cssClass: PropTypes.string,
+  greeting: PropTypes.node,
+  isOpen: PropTypes.bool.isRequired,
+  onUserLogout: PropTypes.func.isRequired
 };
 
 export default SignInProfileMenu;

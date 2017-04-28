@@ -40,7 +40,7 @@ Spouses who remarry will lose their eligibility for this benefit.
 ### What are the steps?
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 <div markdown="1">
 
 ##### Choose school
@@ -50,7 +50,7 @@ Spouses who remarry will lose their eligibility for this benefit.
 </div>
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 <div markdown="1">
 
 ##### Fill out form
@@ -61,8 +61,7 @@ Spouses who remarry will lose their eligibility for this benefit.
 </div>
 </li>
 
-<li class="step last three">
-<div markdown="1">
+<li class="process-step list-three"><div markdown="1">
 
 ##### Choose program
 

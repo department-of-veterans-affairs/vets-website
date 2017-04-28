@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -98,22 +99,22 @@ class Message extends React.Component {
 }
 
 Message.propTypes = {
-  attrs: React.PropTypes.shape({
-    messageId: React.PropTypes.number.isRequired,
-    category: React.PropTypes.string.isRequired,
-    subject: React.PropTypes.string.isRequired,
-    body: React.PropTypes.string.isRequired,
-    attachment: React.PropTypes.bool.isRequired,
-    sentDate: React.PropTypes.string,
-    senderId: React.PropTypes.number.isRequired,
-    senderName: React.PropTypes.string.isRequired,
-    recipientId: React.PropTypes.number.isRequired,
-    recipientName: React.PropTypes.string.isRequired,
-    readReceipt: React.PropTypes.oneOf(['READ', 'UNREAD'])
+  attrs: PropTypes.shape({
+    messageId: PropTypes.number.isRequired,
+    category: PropTypes.string.isRequired,
+    subject: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+    attachment: PropTypes.bool.isRequired,
+    sentDate: PropTypes.string,
+    senderId: PropTypes.number.isRequired,
+    senderName: PropTypes.string.isRequired,
+    recipientId: PropTypes.number.isRequired,
+    recipientName: PropTypes.string.isRequired,
+    readReceipt: PropTypes.oneOf(['READ', 'UNREAD'])
   }).isRequired,
-  fetchMessage: React.PropTypes.func,
-  isCollapsed: React.PropTypes.bool,
-  onToggleCollapsed: React.PropTypes.func
+  fetchMessage: PropTypes.func,
+  isCollapsed: PropTypes.bool,
+  onToggleCollapsed: PropTypes.func
 };
 
 export default Message;

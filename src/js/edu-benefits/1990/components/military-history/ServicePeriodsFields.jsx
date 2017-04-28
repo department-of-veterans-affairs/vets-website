@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import GrowableTable from '../../../../common/components/form-elements/GrowableTable';
@@ -74,7 +75,7 @@ export default class ServicePeriodsFields extends React.Component {
 }
 
 ServicePeriodsFields.propTypes = {
-  onStateChange: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired,
-  initializeFields: React.PropTypes.func.isRequired
+  onStateChange: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  initializeFields: PropTypes.func.isRequired
 };

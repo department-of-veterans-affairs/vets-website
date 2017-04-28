@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export class AdditionalInformation extends React.Component {
@@ -175,8 +176,8 @@ export class AdditionalInformation extends React.Component {
 }
 
 AdditionalInformation.propTypes = {
-  institution: React.PropTypes.object,
-  onShowModal: React.PropTypes.func
+  institution: PropTypes.object,
+  onShowModal: PropTypes.func
 };
 
 export default AdditionalInformation;

@@ -111,20 +111,20 @@ describe('<RequiredLoginView>', () => {
     describe('authRequired=3', () => {
       it('should prompt for verification', () => {
         const { tree } = setup({ userProfile: loa1User });
-        expect(tree.toString()).to.contain('Verify your Identity with ID.me');
+        expect(tree.everySubTree('VerifyPrompt')).to.not.be.empty;
       });
     });
     describe('authRequired=1', () => {
       it('should display children elements', () => {
         const { tree } = setup({ authRequired: 1, serviceRequired: 'user-profile' });
-        expect(tree.toString()).to.equal('<div><div>Test Child</div></div>');
+        expect(tree.subTree('div').subTree('div').text()).to.equal('Test Child');
       });
     });
   });
   describe('logged in at LOA 3', () => {
     it('should display children elements', () => {
       const { tree } = setup({ userProfile: loa3User });
-      expect(tree.toString()).to.equal('<div><div>Test Child</div></div>');
+      expect(tree.subTree('div').subTree('div').text()).to.equal('Test Child');
     });
     describe('userProfile.status=SERVER_ERROR', () => {
       it('should display server error message', () => {
@@ -137,18 +137,18 @@ describe('<RequiredLoginView>', () => {
       it('should display not found message', () => {
         const notFoundProfile = _.merge({}, loa3User, { status: 'NOT_FOUND' });
         const { tree } = setup({ userProfile: notFoundProfile });
-        expect(tree.toString()).to.contain('We couldn&#x27;t find your records with that information.');
+        expect(tree.subTree('SystemDownView').props.messageLine1).to.equal('We couldn\'t find your records with that information.');
       });
     });
   });
   describe('not logged in', () => {
     it('should prompt for login', () => {
       const { tree } = setup({ userProfile: anonymousUser });
-      expect(tree.toString()).to.contain('Sign In to Your Vets.gov Account');
+      expect(tree.everySubTree('LoginPrompt')).to.not.be.empty;
     });
     it('should display children when no LOA required', () => {
       const { tree } = setup({ userProfile: anonymousUser, authRequired: null });
-      expect(tree.toString()).to.equal('<div><div>Test Child</div></div>');
+      expect(tree.subTree('div').subTree('div').text()).to.equal('Test Child');
     });
   });
 });

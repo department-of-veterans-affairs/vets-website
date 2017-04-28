@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Modal from '../../../common/components/Modal';
@@ -47,11 +48,11 @@ class ModalConfirmSave extends React.Component {
 }
 
 ModalConfirmSave.propTypes = {
-  cssClass: React.PropTypes.string,
-  id: React.PropTypes.string,
-  onClose: React.PropTypes.func.isRequired,
-  onSave: React.PropTypes.func.isRequired,
-  visible: React.PropTypes.bool.isRequired
+  cssClass: PropTypes.string,
+  id: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired
 };
 
 export default ModalConfirmSave;

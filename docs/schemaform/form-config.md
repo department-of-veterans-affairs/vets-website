@@ -257,12 +257,13 @@ We've also been adding some additional uiSchema functionality not found in the r
 
     // Function that conditionally replaces the current field's schema
     // The index argument is provided if you use `ui:required` on data inside an array
-    updateSchema: function (pageData, form, pageSchema, index) {
-      // form is organized like: form.pageName.data.fieldName
-      // This means it's not like formData, where all the data for all the forms is mashed
-      // together into one object. It's a bit of a pain, but this means updateSchema can also
-      // update the schema / uiSchema of other pages (but do so sparingly!).
-      return {};
+    updateSchema: function (formData, schema, uiSchema, index) {
+      // This function should return an object with the properties you want to update
+      // It will not completely replace the existing schema, just update the individual
+      // properties
+      return {
+        type: 'string'
+      };
     }
   }
 }
@@ -278,7 +279,7 @@ JSON Schema does not provide all the validation options we need in our forms, so
 
 - errors: The errors object for the field.
 - fieldData: The data for the field.
-- pageData: The current form (page) data.
+- formData: The current form data.
 - schema: The current JSON Schema for the field.
 - errorMessages: The error messsage object (if available) for the field.
 
@@ -299,7 +300,7 @@ Items in the `ui:validations` array can also be objects. Objects should have two
 
 ```js
 {
-  validator: (errors, ssn, pageData, schema, errorMessages, options) => {
+  validator: (errors, ssn, formData, schema, errorMessages, options) => {
     if (!isValidWidget(ssn, options.someOption)) {
       errors.addError('Please enter a valid 9 digit SSN (dashes allowed)');
     }
@@ -360,8 +361,8 @@ You can use the `updateSchema` option in uiSchema to change the list of enums:
 ```js
 {
   'ui:options': {
-    updateSchema: (pageData, form, pageSchema) {
-      if (pageData.myField === 'otherOption') {
+    updateSchema: (form, pageSchema) {
+      if (form.myField === 'otherOption') {
         return {
           enum: ['option1', 'option2'],
           enumNames: ['Option 1', 'Option 2']

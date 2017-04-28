@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -53,26 +54,26 @@ class ReplyForm extends React.Component {
 }
 
 ReplyForm.propTypes = {
-  disabled: React.PropTypes.bool,
-  detailsCollapsed: React.PropTypes.bool,
-  recipient: React.PropTypes.string.isRequired,
-  subject: React.PropTypes.string.isRequired,
-  reply: React.PropTypes.shape({
-    body: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool
+  disabled: PropTypes.bool,
+  detailsCollapsed: PropTypes.bool,
+  recipient: PropTypes.string.isRequired,
+  subject: PropTypes.string.isRequired,
+  reply: PropTypes.shape({
+    body: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool
     }),
-    attachments: React.PropTypes.array
+    attachments: PropTypes.array
   }).isRequired,
 
-  onAttachmentsClose: React.PropTypes.func,
-  onAttachmentUpload: React.PropTypes.func,
-  onAttachmentsError: React.PropTypes.func,
-  onBodyChange: React.PropTypes.func,
-  onSaveReply: React.PropTypes.func.isRequired,
-  onSendReply: React.PropTypes.func.isRequired,
-  toggleConfirmDelete: React.PropTypes.func,
-  toggleDetails: React.PropTypes.func
+  onAttachmentsClose: PropTypes.func,
+  onAttachmentUpload: PropTypes.func,
+  onAttachmentsError: PropTypes.func,
+  onBodyChange: PropTypes.func,
+  onSaveReply: PropTypes.func.isRequired,
+  onSendReply: PropTypes.func.isRequired,
+  toggleConfirmDelete: PropTypes.func,
+  toggleDetails: PropTypes.func
 };
 
 export default ReplyForm;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class ButtonBack extends React.Component {
@@ -23,11 +24,11 @@ class ButtonBack extends React.Component {
 }
 
 ButtonBack.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 ButtonBack.propTypes = {
-  url: React.PropTypes.string.isRequired
+  url: PropTypes.string.isRequired
 };
 
 export default ButtonBack;

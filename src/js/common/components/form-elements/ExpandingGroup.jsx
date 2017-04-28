@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import classnames from 'classnames';
@@ -33,7 +34,7 @@ export default function ExpandingGroup({ children, open, showPlus, additionalCla
 }
 
 ExpandingGroup.propTypes = {
-  open: React.PropTypes.bool,
-  additionalClass: React.PropTypes.string,
-  showPlus: React.PropTypes.bool
+  open: PropTypes.bool,
+  additionalClass: PropTypes.string,
+  showPlus: PropTypes.bool
 };

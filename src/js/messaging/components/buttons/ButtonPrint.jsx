@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class ButtonPrint extends React.Component {
@@ -24,7 +25,7 @@ class ButtonPrint extends React.Component {
 }
 
 ButtonPrint.propTypes = {
-  onClick: React.PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 export default ButtonPrint;
