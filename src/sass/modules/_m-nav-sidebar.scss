@@ -36,6 +36,7 @@
 
     > div {
       background: $color-white;
+      border-left: 1px solid $color-gray-light;
       height: 100%;
       max-width: 30rem;
       overflow: auto;
