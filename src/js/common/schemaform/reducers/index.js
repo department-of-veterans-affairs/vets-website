@@ -19,35 +19,26 @@ import { SET_DATA,
 } from '../actions';
 
 function recalculateSchemaAndData(initialState) {
-  return Object.keys(_.omit(['privacyAgreementAccepted', 'submission'], initialState))
+  return Object.keys(initialState.pages)
     .reduce((state, pageKey) => {
       // on each data change, we need to do the following steps
-
-      // Flatten the data from all the pages
-      const formData = Object.keys(state).reduce((carry, pageName) => {
-        if (state[pageName].data) {
-          Object.keys(state[pageName].data).forEach((fieldKey) => {
-            carry[fieldKey] = state[pageName].data[fieldKey]; // eslint-disable-line
-          });
-        }
-        return carry;
-      }, {});
-
       // Recalculate any required fields, based on the new data
-      const page = state[pageKey];
+      const page = state.pages[pageKey];
+      const formData = initialState.data;
 
-      const { data, schema } = updateSchemaAndData(page.schema, page.uiSchema, formData, page.data, state);
+      const { data, schema } = updateSchemaAndData(page.schema, page.uiSchema, formData);
 
-      if (page.data !== data || page.schema !== schema) {
-        const newPage = _.assign(page, {
-          data,
-          schema
-        });
+      let newState = state;
 
-        return _.set(pageKey, newPage, state);
+      if (formData !== data) {
+        newState = _.set('data', data, state);
       }
 
-      return state;
+      if (page.schema !== schema) {
+        newState = _.set(['pages', pageKey, 'schema'], schema, newState);
+      }
+
+      return newState;
     }, initialState);
 }
 
@@ -61,14 +52,21 @@ export default function createSchemaFormReducer(formConfig) {
       schema = updateItemsSchema(schema);
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 
-      return _.set(page.pageKey, {
-        data,
-        uiSchema: page.uiSchema,
-        schema,
-        editMode: false
-      }, state);
+      return _.merge(state, {
+        pages: {
+          [page.pageKey]: {
+            uiSchema: page.uiSchema,
+            schema,
+            editMode: false
+          }
+        },
+        data
+      });
     }, {
-      privacyAgreementAccepted: false,
+      data: {
+        privacyAgreementAccepted: false,
+      },
+      pages: {},
       submission: {
         status: false,
         errorMessage: false,
@@ -85,15 +83,15 @@ export default function createSchemaFormReducer(formConfig) {
   return (state = initialState, action) => {
     switch (action.type) {
       case SET_DATA: {
-        const newState = _.set([action.page, 'data'], action.data, state);
+        const newState = _.set('data', action.data, state);
 
         return recalculateSchemaAndData(newState);
       }
       case SET_EDIT_MODE: {
-        return _.set([action.page, 'editMode'], action.edit, state);
+        return _.set(['pages', action.page, 'editMode'], action.edit, state);
       }
       case SET_PRIVACY_AGREEMENT: {
-        return _.set('privacyAgreementAccepted', action.privacyAgreementAccepted, state);
+        return _.set('data.privacyAgreementAccepted', action.privacyAgreementAccepted, state);
       }
       case SET_SUBMISSION: {
         return _.set(['submission', action.field], action.value, state);

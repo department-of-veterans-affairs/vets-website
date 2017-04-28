@@ -58,6 +58,10 @@ export function getActivePages(pages, data) {
   return pages.filter(page => isActivePage(page, data));
 }
 
+export function getInactivePages(pages, data) {
+  return pages.filter(page => !isActivePage(page, data));
+}
+
 export function dateToMoment(dateField) {
   return moment({
     year: dateField.year.value,

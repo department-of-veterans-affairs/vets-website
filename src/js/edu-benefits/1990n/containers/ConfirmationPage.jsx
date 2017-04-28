@@ -36,7 +36,7 @@ class ConfirmationPage extends React.Component {
     const response = this.props.form.submission.response
       ? this.props.form.submission.response.attributes
       : {};
-    const name = form.applicantInformation.data.veteranFullName;
+    const name = form.data.veteranFullName;
 
     const docExplanation = this.state.isExpanded
       ? (<div className="usa-accordion-content">

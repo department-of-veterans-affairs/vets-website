@@ -10,46 +10,53 @@ import {
   updateSchemaAndData
 } from '../../src/js/common/schemaform/formState';
 
+function getDefaultData(schema) {
+  if (schema.type === 'array') {
+    return [];
+  } else if (schema.type === 'object') {
+    return {};
+  }
+
+  return undefined;
+}
 export class DefinitionTester extends React.Component {
   constructor(props) {
     super(props);
-    const { state, uiSchema } = props;
-    const pageData = props.data;
-    const formData = props.schema.type === 'array'
-      ? pageData || []
-      : _.merge(props.formData, pageData);
+    const { data, uiSchema } = props;
 
     const definitions = _.merge(props.definitions || {}, props.schema.definitions);
     const schema = replaceRefSchemas(props.schema, definitions);
 
-    const { data: newData, schema: newSchema } = updateSchemaAndData(schema, uiSchema, formData, pageData, state);
+    const {
+      data: newData,
+      schema: newSchema
+    } = updateSchemaAndData(schema, uiSchema, data || getDefaultData(schema));
 
     this.state = {
-      data: newData,
+      formData: newData,
       schema: newSchema,
-      uiSchema,
-      formData
+      uiSchema
     };
   }
   handleChange = (data) => {
-    // console.log('DefinitionTester -> handleChange -> data:', data);
-    const state = this.props.state;
-    const uiSchema = this.state.uiSchema;
-    const formData = this.state.schema.type === 'array'
-      ? data
-      : _.merge(this.props.formData, data);
+    const {
+      schema,
+      uiSchema
+    } = this.state;
 
-    const { data: newData, schema } = updateSchemaAndData(this.state.schema, uiSchema, formData, data, state);
+    const {
+      data: newData,
+      schema: newSchema
+    } = updateSchemaAndData(schema, uiSchema, data);
 
     this.setState({
-      data: newData,
-      schema,
-      uiSchema,
-      formData
+      formData: newData,
+      schema: newSchema,
+      uiSchema
     });
   }
   render() {
-    const { schema, uiSchema, data, formData } = this.state;
+    const { schema, uiSchema, formData } = this.state;
 
     return (
       <SchemaForm
@@ -59,8 +66,7 @@ export class DefinitionTester extends React.Component {
           title="test"
           schema={schema}
           uiSchema={uiSchema}
-          pageData={data}
-          formData={formData}
+          data={formData}
           onChange={this.handleChange}
           onSubmit={this.props.onSubmit}/>
     );
@@ -73,22 +79,3 @@ export function submitForm(form) {
   });
 }
 
-/**
- * Wraps the schema and uiSchema for testing purposes.
- *
- * There's no reason for arrays to be the root schema, so this utility function
- *  wraps them in an object so we can test them properly.
- */
-export function wrapSchemas(schema, uiSchema, propertyName = 'originalSchema') {
-  return {
-    schema: {
-      type: 'object',
-      properties: {
-        [propertyName]: schema
-      }
-    },
-    uiSchema: {
-      [propertyName]: uiSchema
-    }
-  };
-}
