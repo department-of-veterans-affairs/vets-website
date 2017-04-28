@@ -1,0 +1,8 @@
+engines:
+  duplication:
+      enabled: false
+ratings:
+  paths:
+  - src/**
+exclude_paths:
+- test/**/*
