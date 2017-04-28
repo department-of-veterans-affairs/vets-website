@@ -69,15 +69,11 @@ Turn in your application to us at least 90 days before you leave for your new sc
 
 If you get approved for benefits, turn in your Certificate of Eligibility (COE) to the school’s certifying official to show that you qualify for VA benefits. Your school’s certifying official will submit your enrollment information with VA Form 22-1999. Please note that you won't get payments until we've received and processed your enrollment information.
 
-
 </li>
 
 <li class="process-step list-two" markdown="1">
 
-
-
 Be sure you have enough money to cover all your needs until VA payments begin. And make arrangements with the school for acceptance, enrollment, payment of tuition and fees, and housing.
-
 
 </li>
 
