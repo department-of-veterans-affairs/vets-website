@@ -12,8 +12,6 @@
   padding-bottom: 4rem;
 
   &-heading {
-    // TODO: Replace border-bottom with a hairline
-    // mixin when / if it's available
     border-bottom: 1px solid $color-gray-light;
     margin: 3.2rem 0 0;
     padding: 0 .24rem 1rem;
