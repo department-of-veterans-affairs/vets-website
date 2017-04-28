@@ -21,6 +21,13 @@
       "presets": ["env", "stage-2"],
       "plugins": [ "istanbul" ]
     },
+    "production": {
+      "plugins": [
+        ["transform-react-remove-prop-types", {
+          "removeImport": true
+        }]
+      ]
+    },
     "hot": {
       "plugins": [
         [

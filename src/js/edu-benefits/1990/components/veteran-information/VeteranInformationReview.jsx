@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class PersonalInformationReview extends React.Component {
@@ -28,5 +29,5 @@ export default class PersonalInformationReview extends React.Component {
 }
 
 PersonalInformationReview.propTypes = {
-  data: React.PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };

@@ -39,7 +39,10 @@ const {
   isCoveredByHealthInsurance,
   vaMedicalFacility,
   isEssentialAcaCoverage,
-  wantsInitialVaContact
+  wantsInitialVaContact,
+  isVaServiceConnected,
+  compensableVaServiceConnected,
+  receivesVaPension
 } = fullSchemaHca.properties;
 
 const {
@@ -63,7 +66,7 @@ const formConfig = {
   },
   chapters: {
     veteranInformation: {
-      title: 'Veteran information',
+      title: 'Veteran Information',
       pages: {
         veteranInformation: {
           path: 'veteran/information',
@@ -182,8 +185,8 @@ const formConfig = {
                 'ui:title': 'Center/clinic',
                 'ui:options': {
                   labels: medicalCenterLabels,
-                  updateSchema: (data, form) => {
-                    const state = _.get('vaFacility.data.view:preferredFacility.view:facilityState', form);
+                  updateSchema: (form) => {
+                    const state = _.get('view:preferredFacility.view:facilityState', form);
                     if (state) {
                       return {
                         'enum': medicalCentersByState[state]
@@ -233,8 +236,41 @@ const formConfig = {
         }
       }
     },
+    vaBenefits: {
+      title: 'VA Benefits',
+      pages: {
+        vaBenefits: {
+          path: 'va-benefits/basic-information',
+          title: 'VA benefits',
+          uiSchema: {
+            'ui:title': 'Current compensation',
+            compensableVaServiceConnected: {
+              'ui:title': 'Do you currently receive monetary compensation (pay) from the VA for a service-connected disability with a rating of 10%, 20%, 30%, or 40%?',
+              'ui:widget': 'yesNo'
+            },
+            isVaServiceConnected: {
+              'ui:title': 'Do you currently receive monetary compensation (pay) from the VA for a service-connected disability with a rating of 50% or more?',
+              'ui:widget': 'yesNo'
+            },
+            receivesVaPension: {
+              'ui:title': 'Do you receive a VA pension?',
+              'ui:widget': 'yesNo'
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['isVaServiceConnected', 'compensableVaServiceConnected', 'receivesVaPension'],
+            properties: {
+              compensableVaServiceConnected,
+              isVaServiceConnected,
+              receivesVaPension
+            }
+          },
+        }
+      }
+    },
     militaryService: {
-      title: 'Military service',
+      title: 'Military Service',
       pages: {
         serviceInformation: {
           path: 'military-service/service-information',

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
@@ -26,9 +27,9 @@ class PreviewBanner extends React.Component {
 }
 
 PreviewBanner.propTypes = {
-  version: React.PropTypes.object.isRequired,
-  toolUrl: React.PropTypes.string.isRequired,
-  onViewLiveVersion: React.PropTypes.func.isRequired
+  version: PropTypes.object.isRequired,
+  toolUrl: PropTypes.string.isRequired,
+  onViewLiveVersion: PropTypes.func.isRequired
 };
 
 PreviewBanner.defaultProps = {

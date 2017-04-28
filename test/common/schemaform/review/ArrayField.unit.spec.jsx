@@ -97,7 +97,22 @@ describe('Schemaform review <ArrayField>', () => {
     const idSchema = {};
     const schema = {
       type: 'array',
-      items: {
+      items: [{
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }, {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string'
+          }
+        }
+      }],
+      additionalItems: {
         type: 'object',
         properties: {
           field: {
@@ -140,7 +155,15 @@ describe('Schemaform review <ArrayField>', () => {
     beforeEach(() => {
       const schema = {
         type: 'array',
-        items: {
+        items: [{
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string'
+            }
+          }
+        }],
+        additionalItems: {
           type: 'object',
           properties: {
             field: {

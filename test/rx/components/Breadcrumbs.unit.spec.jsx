@@ -27,7 +27,7 @@ describe('<Breadcrumbs>', () => {
   it('should have the expected classname', () => {
     const tree = SkinDeep.shallowRender(<Breadcrumbs {...props}/>);
 
-    expect(tree.props.className).to.equal('rx-breadcrumbs');
+    expect(tree.props.className).to.equal('va-nav-breadcrumbs');
   });
 
   it('should render the basecase correctly', () => {

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
@@ -148,9 +149,9 @@ class ReviewCollapsiblePanel extends React.Component {
 }
 
 ReviewCollapsiblePanel.propTypes = {
-  sectionLabel: React.PropTypes.string.isRequired,
-  updatePath: React.PropTypes.string.isRequired,
-  component: React.PropTypes.object.isRequired
+  sectionLabel: PropTypes.string.isRequired,
+  updatePath: PropTypes.string.isRequired,
+  component: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
