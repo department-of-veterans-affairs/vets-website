@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
@@ -292,23 +293,23 @@ export default class ArrayField extends React.Component {
 }
 
 ArrayField.propTypes = {
-  schema: React.PropTypes.object.isRequired,
-  uiSchema: React.PropTypes.object,
-  errorSchema: React.PropTypes.object,
-  requiredSchema: React.PropTypes.object,
-  idSchema: React.PropTypes.object,
-  onChange: React.PropTypes.func.isRequired,
-  onBlur: React.PropTypes.func,
-  formData: React.PropTypes.array,
-  disabled: React.PropTypes.bool,
-  readonly: React.PropTypes.bool,
-  registry: React.PropTypes.shape({
-    widgets: React.PropTypes.objectOf(React.PropTypes.oneOfType([
-      React.PropTypes.func,
-      React.PropTypes.object,
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object,
+  errorSchema: PropTypes.object,
+  requiredSchema: PropTypes.object,
+  idSchema: PropTypes.object,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
+  formData: PropTypes.array,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  registry: PropTypes.shape({
+    widgets: PropTypes.objectOf(PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.object,
     ])).isRequired,
-    fields: React.PropTypes.objectOf(React.PropTypes.func).isRequired,
-    definitions: React.PropTypes.object.isRequired,
-    formContext: React.PropTypes.object.isRequired,
+    fields: PropTypes.objectOf(PropTypes.func).isRequired,
+    definitions: PropTypes.object.isRequired,
+    formContext: PropTypes.object.isRequired,
   })
 };

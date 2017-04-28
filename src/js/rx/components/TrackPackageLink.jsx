@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
@@ -36,10 +37,10 @@ class TrackPackageLink extends React.Component {
 }
 
 TrackPackageLink.propTypes = {
-  className: React.PropTypes.string,
-  external: React.PropTypes.bool,
-  text: React.PropTypes.string.isRequired,
-  url: React.PropTypes.string.isRequired
+  className: PropTypes.string,
+  external: PropTypes.bool,
+  text: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired
 };
 
 export default TrackPackageLink;

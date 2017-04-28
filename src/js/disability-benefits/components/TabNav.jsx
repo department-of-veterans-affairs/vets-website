@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import TabItem from './TabItem';
@@ -15,7 +16,7 @@ class TabNav extends React.Component {
 }
 
 TabNav.propTypes = {
-  id: React.PropTypes.string
+  id: PropTypes.string
 };
 
 export default TabNav;

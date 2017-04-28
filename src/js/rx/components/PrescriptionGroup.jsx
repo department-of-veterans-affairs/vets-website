@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 /* Creates segments of grouped prescriptions with a title
  * and a list of prescription cards.
  *
@@ -20,12 +21,12 @@ class PrescriptionGroup extends React.Component {
 }
 
 PrescriptionGroup.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  items: React.PropTypes.arrayOf(React.PropTypes.shape({
-    attributes: React.PropTypes.object,
-    id: React.PropTypes.string,
-    type: React.PropTypes.func,
-    links: React.PropTypes.object
+  title: PropTypes.string.isRequired,
+  items: PropTypes.arrayOf(PropTypes.shape({
+    attributes: PropTypes.object,
+    id: PropTypes.string,
+    type: PropTypes.func,
+    links: PropTypes.object
   })).isRequired
 };
 

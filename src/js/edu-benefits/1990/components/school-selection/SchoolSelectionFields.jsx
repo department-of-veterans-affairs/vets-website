@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Address from '../../../../common/components/questions/Address';
@@ -73,7 +74,7 @@ export default class SchoolSelectionFields extends React.Component {
 }
 
 SchoolSelectionFields.propTypes = {
-  onStateChange: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired,
-  initializeFields: React.PropTypes.func.isRequired
+  onStateChange: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  initializeFields: PropTypes.func.isRequired
 };

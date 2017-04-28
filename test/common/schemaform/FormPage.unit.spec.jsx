@@ -22,11 +22,13 @@ describe('Schemaform <FormPage>', () => {
       ]
     };
     const form = {
-      testPage: {
-        schema: {},
-        uiSchema: {},
-        data: {}
-      }
+      pages: {
+        testPage: {
+          schema: {},
+          uiSchema: {},
+        }
+      },
+      data: {}
     };
 
     const tree = SkinDeep.shallowRender(
@@ -71,6 +73,13 @@ describe('Schemaform <FormPage>', () => {
         ]
       };
       form = {
+        pages: {
+          testPage: {
+            schema: {},
+            uiSchema: {},
+          }
+        },
+        data: {},
         testPage: {
           schema: {},
           uiSchema: {},

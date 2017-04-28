@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertBox from '../../../common/components/AlertBox';
@@ -155,8 +156,8 @@ export class CautionaryInformation extends React.Component {
 }
 
 CautionaryInformation.propTypes = {
-  institution: React.PropTypes.object,
-  onShowModal: React.PropTypes.func
+  institution: PropTypes.object,
+  onShowModal: PropTypes.func
 };
 
 export default CautionaryInformation;

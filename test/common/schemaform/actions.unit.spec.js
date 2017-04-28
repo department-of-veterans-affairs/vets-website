@@ -87,10 +87,11 @@ describe('Schemaform actions:', () => {
         chapters: {}
       };
       const form = {
-        testing: {
-          data: {
-            test: 1
-          }
+        pages: {
+          testing: {},
+        },
+        data: {
+          test: 1
         }
       };
       const thunk = submitForm(formConfig, form);
@@ -123,10 +124,11 @@ describe('Schemaform actions:', () => {
         chapters: {}
       };
       const form = {
-        testing: {
-          data: {
-            test: 1
-          }
+        pages: {
+          testing: {},
+        },
+        data: {
+          test: 1
         }
       };
       const thunk = submitForm(formConfig, form);
