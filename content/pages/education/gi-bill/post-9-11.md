@@ -45,12 +45,10 @@ The benefit amount depends on which school you go to, how much active-duty servi
 
 #### What benefits does the Post-9/11 GI Bill include? 
 
-- The full in-state tuition for state schools and up to the national maximum ($21,084.89) for private or foreign schools.
-- A Basic Allowance for Housing (BAH) based on the cost of living where your school is located.
+- The full tuition amount for in-state schools up to the maximum national average of $22,805.34
+- A Basic Allowance for Housing (BAH) based on the cost of living where your school is located
 - Up to 36 months of education benefits, in most cases payable for 15 years after your release from active duty
 - A percentage-of-maximum-benefit scale based on how much active service you've had since September 10, 2001
-
-**Example:** If you were enrolled at the University of California, Los Angeles, in 2015 (at the 100% benefit level, while going to school full time), you would get a BAH of up to $2,433 a month while in school. If you were enrolled at the University of Virginia in Charlottesville, you would get up to $1,638 while in school.
 
 **Example:** If you had 90 days of active service since September 10, 2001, you would qualify for 40% of the maximum amount. Three years of active service would qualify you for 100% of the benefit.
 
