@@ -23,6 +23,8 @@ import { schema as fullNameSchema, uiSchema as fullNameUI } from '../../common/s
 import { schema as ssnSchema, uiSchema as ssnUI } from '../../common/schemaform/definitions/ssn';
 import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
 
+import { schema as childSchema, uiSchema as childUI } from '../definitions/child';
+
 const {
   lastEntryDate,
   lastDischargeDate,
@@ -63,7 +65,6 @@ const {
   date,
   provider,
   phone,
-  child,
   monetaryValue
 } = fullSchemaHca.definitions;
 
@@ -83,7 +84,7 @@ const formConfig = {
     fullName: fullNameSchema,
     ssn: ssnSchema,
     phone,
-    child,
+    child: childSchema,
     monetaryValue
   },
   chapters: {
@@ -318,7 +319,7 @@ const formConfig = {
           title: 'Spouse’s information',
           // TODO: When veteranInformation is completed, uncomment the maritalStatus comparison
           depends: (data) => {
-            return data.financialDisclosure.data.discloseFinancialInformation; // &&
+            return data.discloseFinancialInformation; // &&
               // data.veteranInformation.data.maritalStatus === 'married'
           },
           uiSchema: {
@@ -360,18 +361,10 @@ const formConfig = {
               },
               spouseAddress: _.merge(addressUI(''), {
                 'ui:options': {
-                  updateSchema: (formData, form) => {
-                    // Note: This isn't actually formData until PR #5441 gets merged
-                    //  Until then, we have to _.get() from the form
-                    let newSchema;
-                    if (_.get('spouseInformation.data.sameAddress', form) === false) {
-                      // The address fields are shown, so make sure they're required
-                      newSchema = addressSchema(true);
-                    } else {
-                      // The address fields are not shown, so make sure they're not required
-                      newSchema = addressSchema(false);
-                    }
-                    return newSchema;
+                  updateSchema: (formData) => {
+                    // If formData.sameAddress === false, the address fields are
+                    //  shown and should be required
+                    return addressSchema(formData.sameAddress === false);
                   }
                 }
               }),
@@ -409,7 +402,7 @@ const formConfig = {
         childInformation: {
           path: 'household-information/child-information',
           title: 'Child information',
-          depends: (data) => data.financialDisclosure.data.discloseFinancialInformation,
+          depends: (data) => data.discloseFinancialInformation,
           uiSchema: {
             'view:reportChildren': {
               'ui:title': 'Do you have any children to report?',
@@ -417,6 +410,7 @@ const formConfig = {
             },
             children: {
               'ui:title': '',
+              items: childUI,
               'ui:options': {
                 expandUnder: 'view:reportChildren'
               }
@@ -434,7 +428,7 @@ const formConfig = {
         annualIncome: {
           path: 'household-information/annual-income',
           title: 'Annual income',
-          depends: (data) => data.financialDisclosure.data.discloseFinancialInformation,
+          depends: (data) => data.discloseFinancialInformation,
           uiSchema: {},
           schema: {
             type: 'object',
@@ -445,7 +439,7 @@ const formConfig = {
         deductibleExpenses: {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
-          depends: (data) => data.financialDisclosure.data.discloseFinancialInformation,
+          depends: (data) => data.discloseFinancialInformation,
           uiSchema: {},
           schema: {
             type: 'object',
