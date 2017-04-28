@@ -87,7 +87,7 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             veteranFullName: _.merge(fullNameUISchema, {
-              first: {
+              last: {
                 'ui:errorMessages': {
                   minLength: 'Please provide a valid name. Must be at least 2 characters.'
                 }
