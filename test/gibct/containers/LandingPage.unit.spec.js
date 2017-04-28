@@ -18,7 +18,7 @@ describe('<LandingPage>', () => {
 
   it('should handleSubmit correctly', () => {
     const props = {
-      defaultProps,
+      ...defaultProps,
       router: { push: sinon.spy() },
       location: { query: {} }
     };
