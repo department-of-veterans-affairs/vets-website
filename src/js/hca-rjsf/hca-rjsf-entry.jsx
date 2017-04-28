@@ -12,6 +12,7 @@ import reducer from './reducer';
 
 require('../common');
 require('../../sass/hca.scss');
+require('../../sass/edu-benefits.scss');
 
 require('../login/login-entry.jsx');
 
