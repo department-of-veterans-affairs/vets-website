@@ -3,6 +3,9 @@ engines:
       enabled: false
 ratings:
   paths:
-  - src/**
+  - src/js/**
 exclude_paths:
 - test/**/*
+- config/**/*
+- vendor/**/*
+- script/**/*
