@@ -4,7 +4,6 @@ import environment from './environment.js';
 import { updateLoggedInStatus } from '../../login/actions';
 import { updateProfileField } from '../../user-profile/actions';
 
-// TODO: this doesn't seem to be imported anywhere; verify it's dead and delete
 export function handleLogin() {
   this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
     method: 'GET',
@@ -18,6 +17,9 @@ export function handleLogin() {
 }
 
 export function handleVerify() {
+  window.dataLayer.push({
+    event: 'verify-link-clicked',
+  });
   // Open a blank window to be filled later; we open it here instead of in the callback so the
   // browser is aware that the user initiated the window open (otherwise most browsers will block it)
   const receiver = window.open('', '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
