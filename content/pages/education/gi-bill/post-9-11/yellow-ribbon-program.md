@@ -34,30 +34,35 @@ Extra money for tuition
 ### How do I get this benefit?
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 <div markdown="1">
 
 ##### Apply for GI Bill benefits
+
 If you apply and qualify for Post-9/11 GI Bill benefits, you'll get a Certificate of Eligibility (COE). [Apply for benefits](/education/apply-for-education-benefits/).
+
 </div>
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 <div markdown="1">
 
 ##### Apply for the Yellow Ribbon Program
-Bring your COE to your school's VA certifying official, financial aid or military liaison office, and ask to apply to the Yellow Ribbon Program. Each school decides how many students will get Yellow Ribbon benefits, and it's on a first-come, first-serve basis. That means you should apply for the program as soon as you get your COE. Your school will tell you if you were accepted.  
 
+Bring your COE to your school's VA certifying official, financial aid or military liaison office, and ask to apply to the Yellow Ribbon Program. Each school decides how many students will get Yellow Ribbon benefits, and it's on a first-come, first-serve basis. That means you should apply for the program as soon as you get your COE. Your school will tell you if you were accepted.
 
 </div>
 </li>
 
-<li class="step three last">
+<li class="process-step list-three">
+
 <div markdown="1">
 
 ##### Follow up
+
 Check back with your school's VA certifying official who will turn in your enrollment information to VA. That person should also work with us to make sure the Yellow Ribbon Funds are put toward the tuition costs. 
+
 </div>
 
 </li>
