@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import { handleVerify } from '../../../src/js/common/helpers/login-helpers.js';
 
-// Does this need to be a React class in order for something to magically call this.serverRequest()?
 class Dummy {
   constructor() {
     this.handleVerify = handleVerify;
@@ -12,15 +11,17 @@ class Dummy {
 
 describe('Login helpers unit tests', () => {
   describe('handleVerify', () => {
+    const dummy = new Dummy;
+
     const realFetch = global.fetch;
     const realWindow = global.window;
 
     const fetchStub = sinon.stub();
-    const openCallback = sinon.spy();
+    const openSpy = sinon.spy();
 
     beforeEach(() => {
       global.fetch = fetchStub;
-      global.window = { open: openCallback };
+      global.window = { open: openSpy };
     });
 
     afterEach(() => {
@@ -28,20 +29,14 @@ describe('Login helpers unit tests', () => {
       global.window = realWindow;
     });
 
-    it('should make a fetch request', () => {
-      const dummy = new Dummy;
+    it('should open a window and make a fetch request', () => {
       fetchStub.returns({
-        then: (fn) => fn({ ok: true, json: () => Promise.resolve() })
+        then: (fn) => fn({ json: () => Promise.resolve() })
       });
-
-      // All of these assertions fail... :(
-      expect(openCallback).to.have.been.called(); // trying something simple first
-      // expect(openCallback.calledWith(url, '_blank', 'params')).to.be.true;
-      expect(fetchStub.firstCall.args[0]).to.contain('/v0/sessions/new');
-      expect(fetchStub.firstCall.args[1].method).to.equal('GET');
-      expect(fetchStub.called).to.be.true;
-
       dummy.handleVerify();
+      expect(window.open.calledWith(''));
+      expect(fetchStub.calledWith(sinon.match(/.*\/v0\/sessions\/new/),
+                                  sinon.match({ method: 'GET' })));
     });
   });
 });
