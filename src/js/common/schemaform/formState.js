@@ -367,6 +367,9 @@ export function updateSchemaAndData(schema, uiSchema, formData) {
   // Remove any data that's now hidden in the schema
   const newData = removeHiddenData(newSchema, formData);
 
+  // We need to do this again because array data might have been removed
+  newSchema = updateItemsSchema(newSchema, newData);
+
   return {
     data: newData,
     schema: newSchema
