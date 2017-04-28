@@ -1,13 +1,13 @@
 ---
 layout: page-breadcrumbs.html
 title: VA Health Care and Other Insurance
-display_title: 
-concurrence: 
-template: 
+display_title: ""
+concurrence: ""
+template: ""
+lastupdate_override: ""
 relatedlinks:
-lastupdate_override: 
-  - url: 
-    title:
-    description: 
+  - url: ""
+    title: ""
+    description: ""
 
 ---
