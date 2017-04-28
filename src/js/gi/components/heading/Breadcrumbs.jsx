@@ -33,7 +33,7 @@ class Breadcrumbs extends React.Component {
 
     return (
       <nav className="va-nav-breadcrumbs">
-        <ul className="row va-nav-breadcrumbs-list gi-breadcrumbs" role="menubar" aria-label="Primary">
+        <ul className="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
           {crumbs.map((c, i) => {
             return <li key={i}>{c}</li>;
           })}

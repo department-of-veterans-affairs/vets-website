@@ -26,7 +26,15 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return <div className="rx-app">{view}</div>;
+  return (
+    <div className="rx-app">
+      <div className="row">
+        <div className="columns small-12">
+          {view}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 class RxRefillsApp extends React.Component {
@@ -34,12 +42,8 @@ class RxRefillsApp extends React.Component {
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"rx"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
         <AppContent>
-          <div className="row">
-            <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
-          </div>
-          <div className="row">
-            {this.props.children}
-          </div>
+          <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
+          {this.props.children}
           <ConfirmRefillModal
               prescription={this.props.refillModal.prescription}
               isLoading={this.props.refillModal.loading}

@@ -32,7 +32,7 @@ class HeadingSummary extends React.Component {
 
     return (
       <div className="heading row">
-        <div className="medium-8 small-12 column">
+        <div className="usa-width-two-thirds medium-8 small-12 column">
           <h1>{it.name}</h1>
           <div className="caution-flag">
             <AlertBox
@@ -47,7 +47,7 @@ class HeadingSummary extends React.Component {
             </p>
           </div>
           <div>
-            <div className="small-12 medium-6 column">
+            <div className="usa-width-one-half medium-6 small-12 column">
               <IconWithInfo icon="map-marker" present={it.city && it.country}>
                 {it.city}, {it.state || it.country}
               </IconWithInfo>
@@ -59,7 +59,7 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </div>
 
-            <div className="usa-width-one-half column">
+            <div className="usa-width-one-half medium-6 small-12 column">
               <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
                 On-the-job training
               </IconWithInfo>

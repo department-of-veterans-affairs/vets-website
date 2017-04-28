@@ -58,9 +58,10 @@ class ErrorView extends React.Component {
             status="warning"/>
         );
     }
+
     return (
       <div className="call-out rx-app-error rx-tab-explainer">
-        // needed due to call-out class css rule targeitng
+        // needed due to call-out class css rule targeting
         <p></p>
         {content}
       </div>

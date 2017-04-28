@@ -12,20 +12,18 @@ class Main extends React.Component {
   render() {
     return (
       <ErrorView errors={this.props.errors}>
-        <div>
-          <AlertBox
-              content={this.props.alert.content}
-              isVisible={this.props.alert.visible}
-              onCloseAlert={this.props.closeAlert}
-              scrollOnShow
-              status={this.props.alert.status}/>
-          <Disclaimer
-              isOpen={this.props.disclaimer.open}
-              handleClose={this.props.closeDisclaimer}/>
-          <h1>Prescription Refill</h1>
-          <TabNav/>
-          {this.props.children}
-        </div>
+        <AlertBox
+            content={this.props.alert.content}
+            isVisible={this.props.alert.visible}
+            onCloseAlert={this.props.closeAlert}
+            scrollOnShow
+            status={this.props.alert.status}/>
+        <Disclaimer
+            isOpen={this.props.disclaimer.open}
+            handleClose={this.props.closeDisclaimer}/>
+        <h1>Prescription Refill</h1>
+        <TabNav/>
+        {this.props.children}
       </ErrorView>
     );
   }
