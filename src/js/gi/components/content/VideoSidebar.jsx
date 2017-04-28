@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { HelpfulLinks } from './AdditionalResources';
+
 class VideoSidebar extends React.Component {
   render() {
     return (
@@ -11,23 +13,7 @@ class VideoSidebar extends React.Component {
         </p>
         <iframe width="100%" src="https://www.youtube.com/embed/Z1ttkv9oRI4"
             title="Know Before You Go" frameBorder="0" allowFullScreen></iframe>
-        <div>
-          <p>
-            <a href="http://www.benefits.va.gov/gibill/careerscope.asp" target="_blank">
-              Explore your career
-            </a>
-          </p>
-          <p>
-            <a href="http://www.benefits.va.gov/gibill/choosing_a_school.asp" target="_blank">
-              Choose a school guide
-            </a>
-          </p>
-          <p>
-            <a href="/education/apply/" target="_blank">
-              Apply for education benefits
-            </a>
-          </p>
-        </div>
+        <HelpfulLinks/>
       </div>
     );
   }

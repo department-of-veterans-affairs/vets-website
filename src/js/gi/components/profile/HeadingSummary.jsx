@@ -2,28 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 
 import AlertBox from '../../../common/components/AlertBox';
+import AdditionalResources from '../content/AdditionalResources';
 import { formatNumber } from '../../utils/helpers';
-
-const AdditionalResources = () => (
-  <div className="additional-resources medium-4 small-12 column">
-    <h4 className="highlight">Additional Resources</h4>
-    <p>
-      <a href="http://www.benefits.va.gov/gibill/careerscope.asp" target="_blank">
-        Explore your career
-      </a>
-    </p>
-    <p>
-      <a href="http://www.benefits.va.gov/gibill/choosing_a_school.asp" target="_blank">
-        Choose a school guide
-      </a>
-    </p>
-    <p>
-      <a href="/education/apply" target="_blank">
-        Apply for education benefits
-      </a>
-    </p>
-  </div>
-);
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
