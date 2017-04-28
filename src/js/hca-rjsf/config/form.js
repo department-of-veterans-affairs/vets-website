@@ -62,7 +62,10 @@ const {
   children,
   veteranGrossIncome,
   veteranNetIncome,
-  veteranOtherIncome
+  veteranOtherIncome,
+  deductibleMedicalExpenses,
+  deductibleFuneralExpenses,
+  deductibleEducationExpenses
 } = fullSchemaHca.properties;
 
 const {
@@ -460,11 +463,27 @@ const formConfig = {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
           depends: (data) => data.discloseFinancialInformation,
-          uiSchema: {},
+          uiSchema: {
+            'ui:title': 'Previous Calendar Year’s Deductible Expenses',
+            'ui:description': 'Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.',
+            deductibleMedicalExpenses: {
+              'ui:title': 'Amount you or your spouse paid in non-reimbursable medical expenses this past year.'
+            },
+            deductibleFuneralExpenses: {
+              'ui:title': 'Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.'
+            },
+            deductibleEducationExpenses: {
+              'ui:title': 'Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.'
+            }
+          },
           schema: {
             type: 'object',
-            required: [],
-            properties: {}
+            required: ['deductibleMedicalExpenses', 'deductibleFuneralExpenses', 'deductibleEducationExpenses'],
+            properties: {
+              deductibleMedicalExpenses,
+              deductibleFuneralExpenses,
+              deductibleEducationExpenses
+            }
           }
         }
       }
