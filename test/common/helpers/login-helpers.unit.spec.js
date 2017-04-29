@@ -3,16 +3,8 @@ import sinon from 'sinon';
 
 import { handleVerify } from '../../../src/js/common/helpers/login-helpers.js';
 
-class Dummy {
-  constructor() {
-    this.handleVerify = handleVerify;
-  }
-}
-
 describe('Login helpers unit tests', () => {
   describe('handleVerify', () => {
-    const dummy = new Dummy;
-
     const realFetch = global.fetch;
     const realWindow = global.window;
 
@@ -21,7 +13,7 @@ describe('Login helpers unit tests', () => {
 
     beforeEach(() => {
       global.fetch = fetchStub;
-      global.window = { open: openSpy };
+      global.window = { open: openSpy, dataLayer: [] };
     });
 
     afterEach(() => {
@@ -29,14 +21,14 @@ describe('Login helpers unit tests', () => {
       global.window = realWindow;
     });
 
-    it('should open a window and make a fetch request', () => {
+    it('should make a fetch request and open a popup', () => {
       fetchStub.returns({
         then: (fn) => fn({ json: () => Promise.resolve() })
       });
-      dummy.handleVerify();
-      expect(window.open.calledWith(''));
+      handleVerify();
       expect(fetchStub.calledWith(sinon.match(/.*\/v0\/sessions\/new/),
                                   sinon.match({ method: 'GET' })));
+      expect(window.open.calledWith(''));
     });
   });
 });

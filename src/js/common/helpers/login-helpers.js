@@ -20,17 +20,27 @@ export function handleVerify() {
   window.dataLayer.push({
     event: 'verify-link-clicked',
   });
-  // Open a blank window to be filled later; we open it here instead of in the callback so the
-  // browser is aware that the user initiated the window open (otherwise most browsers will block it)
-  const receiver = window.open('', '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-  this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=3`, {
+  const urlPromise = fetch(`${environment.API_URL}/v0/sessions/new?level=3`, {
     method: 'GET',
   }).then(response => {
     return response.json();
   }).then(json => {
-    const myVerifyUrl = json.authenticate_via_get;
-    receiver.location.href = myVerifyUrl;
-    receiver.focus();
+    return json.authenticate_via_get;
+  });
+
+  // Open the window outside of the promise callback to avoid the browser blocking it.
+  // In case the url fetch fails, we should fix this to behave more gracefully than closing the window.
+  const receiver = window.open('', '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+  urlPromise.then(myVerifyUrl => {
+    if (myVerifyUrl) {
+      receiver.location.href = myVerifyUrl;
+      receiver.focus();
+      window.dataLayer.push({
+        event: 'verify-link-opened',
+      });
+    } else {
+      receiver.close();
+    }
   });
 }
 
