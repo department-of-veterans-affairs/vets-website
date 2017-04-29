@@ -162,6 +162,6 @@ describe.only('Hca child information', () => {
     ReactTestUtils.Simulate.click(formDOM.querySelector('.va-growable-add-btn'));
 
     expect(formDOM.querySelector('.va-growable-background').textContent)
-      .to.contain('Insurer name');
+      .to.contain('John Doe');
   });
 });

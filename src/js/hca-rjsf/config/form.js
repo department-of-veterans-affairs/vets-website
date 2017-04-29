@@ -18,6 +18,7 @@ import {
 
 import IntroductionPage from '../components/IntroductionPage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
+import ChildView from '../components/ChildView';
 
 import { uiSchema as dateUI } from '../../common/schemaform/definitions/currentOrPastDate';
 import { schema as fullNameSchema, uiSchema as fullNameUI } from '../../common/schemaform/definitions/fullName';
@@ -419,7 +420,10 @@ const formConfig = {
               'ui:title': '',
               items: childUI,
               'ui:options': {
-                expandUnder: 'view:reportChildren'
+                expandUnder: 'view:reportChildren',
+                itemName: 'Child',
+                hideTitle: true,
+                viewField: ChildView
               }
             }
           },
