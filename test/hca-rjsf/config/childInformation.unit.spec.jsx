@@ -4,31 +4,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
+import { DefinitionTester, submitForm } from '../../util/schemaform-utils';
+import { fillDate } from '../../util/unit-helpers';
 import formConfig from '../../../src/js/hca-rjsf/config/form';
 
-function fillDate(formDOM, name, dateString) {
-  const date = dateString.split('-');
-  const inputs = Array.from(formDOM.querySelectorAll('input, select'));
 
-  ReactTestUtils.Simulate.change(inputs.find((i) => i.id === `${name}Month`), {
-    target: {
-      value: date[0]
-    }
-  });
-  ReactTestUtils.Simulate.change(inputs.find((i) => i.id === `${name}Day`), {
-    target: {
-      value: date[1]
-    }
-  });
-  ReactTestUtils.Simulate.change(inputs.find((i) => i.id === `${name}Year`), {
-    target: {
-      value: date[2]
-    }
-  });
-}
-
-describe.only('Hca child information', () => {
+describe('Hca child information', () => {
   const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.childInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
