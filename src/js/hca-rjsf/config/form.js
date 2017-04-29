@@ -425,7 +425,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [],
+            required: ['view:reportChildren'],
             properties: {
               'view:reportChildren': { type: 'boolean' },
               children
