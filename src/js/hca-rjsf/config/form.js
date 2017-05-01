@@ -21,7 +21,6 @@ import { uiSchema as dateUI } from '../../common/schemaform/definitions/currentO
 
 const {
   cityOfBirth,
-  stateOfBirth,
   lastEntryDate,
   lastDischargeDate,
   lastServiceBranch,
@@ -135,9 +134,11 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   cityOfBirth,
-                  stateOfBirth: _.merge(stateOfBirth, {
-                    type: 'string'
-                  })
+                  stateOfBirth: {
+                    type: 'string',
+                    'enum': states.USA.map(state => state.value),
+                    enumNames: states.USA.map(state => state.label)
+                  }
                 }
               }
             }
