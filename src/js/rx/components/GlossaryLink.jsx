@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getModalTerm } from '../utils/helpers';
@@ -26,8 +27,8 @@ class GlossaryLink extends React.Component {
 }
 
 GlossaryLink.propTypes = {
-  onClick: React.PropTypes.func,
-  term: React.PropTypes.string.isRequired
+  onClick: PropTypes.func,
+  term: PropTypes.string.isRequired
 };
 
 export default GlossaryLink;

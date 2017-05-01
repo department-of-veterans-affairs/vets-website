@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
@@ -48,16 +49,16 @@ class Email extends React.Component {
 }
 
 Email.propTypes = {
-  error: React.PropTypes.string,
-  label: React.PropTypes.string,
-  email: React.PropTypes.shape({
-    value: React.PropTypes.string,
-    dirty: React.PropTypes.bool
+  error: PropTypes.string,
+  label: PropTypes.string,
+  email: PropTypes.shape({
+    value: PropTypes.string,
+    dirty: PropTypes.bool
   }).isRequired,
-  additionalClass: React.PropTypes.string,
-  onValueChange: React.PropTypes.func.isRequired,
-  required: React.PropTypes.bool,
-  name: React.PropTypes.string
+  additionalClass: PropTypes.string,
+  onValueChange: PropTypes.func.isRequired,
+  required: PropTypes.bool,
+  name: PropTypes.string
 };
 
 Email.defaultProps = {

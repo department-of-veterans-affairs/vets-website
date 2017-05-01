@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 import { set } from 'lodash/fp';
@@ -135,31 +136,31 @@ class ErrorableDate extends React.Component {
 }
 
 ErrorableDate.propTypes = {
-  required: React.PropTypes.bool,
-  validation: React.PropTypes.shape({
-    valid: React.PropTypes.bool,
-    message: React.PropTypes.string
+  required: PropTypes.bool,
+  validation: PropTypes.shape({
+    valid: PropTypes.bool,
+    message: PropTypes.string
   }),
-  label: React.PropTypes.string,
-  name: React.PropTypes.string.isRequired,
-  date: React.PropTypes.shape({
-    day: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool,
+  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  date: PropTypes.shape({
+    day: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool,
     }),
-    month: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool,
+    month: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool,
     }),
-    year: React.PropTypes.shape({
-      value: React.PropTypes.string,
-      dirty: React.PropTypes.bool,
+    year: PropTypes.shape({
+      value: PropTypes.string,
+      dirty: PropTypes.bool,
     })
   }).isRequired,
-  onValueChange: React.PropTypes.func.isRequired,
-  toolTipText: React.PropTypes.string,
-  requiredMessage: React.PropTypes.string,
-  invalidMessage: React.PropTypes.string
+  onValueChange: PropTypes.func.isRequired,
+  toolTipText: PropTypes.string,
+  requiredMessage: PropTypes.string,
+  invalidMessage: PropTypes.string
 };
 
 ErrorableDate.defaultProps = {

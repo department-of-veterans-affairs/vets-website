@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -22,11 +23,11 @@ class SubmitRefill extends React.Component {
 }
 
 SubmitRefill.propTypes = {
-  cssClass: React.PropTypes.string,
-  mode: React.PropTypes.oneOf(['large', 'compact']),
-  onSubmit: React.PropTypes.func,
-  refillId: React.PropTypes.string,
-  text: React.PropTypes.string,
+  cssClass: PropTypes.string,
+  mode: PropTypes.oneOf(['large', 'compact']),
+  onSubmit: PropTypes.func,
+  refillId: PropTypes.string,
+  text: PropTypes.string,
 };
 
 export default SubmitRefill;

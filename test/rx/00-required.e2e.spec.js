@@ -21,8 +21,8 @@ module.exports = E2eHelpers.createE2eTest(
     // Ensure glossary modal triggers correctly
     client
       .click('button.rx-trigger')
-      .expect.element('#rx-glossary-modal').to.be.visible;
-    client.axeCheck('.main');
+      .waitForElementVisible('#rx-glossary-modal', Timeouts.slow)
+      .axeCheck('.main');
 
     // Ensure glossary modal can be dismissed
     client
@@ -56,7 +56,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure history card renders
     client
-      .click('.rx-breadcrumbs a[href="/healthcare/prescriptions/"]')
+      .click('.va-nav-breadcrumbs a[href="/healthcare/prescriptions/"]')
       .waitForElementVisible('#rx-active', Timeouts.slow)
       .click('.va-tabs li:last-child a')
       .waitForElementVisible('#rx-history', Timeouts.normal)

@@ -24,7 +24,7 @@ if (process.env.BUILDTYPE !== 'production') {
       // Applicant information page.
       client
         .waitForElementVisible('input[name="root_relativeFullName_first"]', Timeouts.slow);
-      EduHelpers.completeRelativeInformation(client, testData.applicantInformation.data, false);
+      EduHelpers.completeRelativeInformation(client, testData.data, false);
       client
         .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');
@@ -33,7 +33,7 @@ if (process.env.BUILDTYPE !== 'production') {
       // Applicant service page
       client
         .waitForElementVisible('label[for="root_view:applicantServedYes"]', Timeouts.slow);
-      EduHelpers.completeServicePeriods(client, testData.applicantService.data, false, 'view:applicantServed');
+      EduHelpers.completeServicePeriods(client, testData.data, false, 'view:applicantServed');
       client
         .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');
@@ -42,7 +42,7 @@ if (process.env.BUILDTYPE !== 'production') {
       // Benefits eligibility page.
       client
         .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-      EduHelpers.completeBenefitsSelection(client, testData.benefitSelection.data, false);
+      EduHelpers.completeBenefitsSelection(client, testData.data, false);
       client
         .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');
@@ -51,7 +51,7 @@ if (process.env.BUILDTYPE !== 'production') {
       // Sponsor information page
       client
         .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
-      Edu5495Helpers.completeSponsorInformation(client, testData.sponsorInformation.data);
+      Edu5495Helpers.completeSponsorInformation(client, testData.data);
       client
         .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');
@@ -61,7 +61,7 @@ if (process.env.BUILDTYPE !== 'production') {
       // New school page.
       client
         .waitForElementVisible('label[for="root_educationProgram_name"]', Timeouts.slow);
-      EduHelpers.completeSchoolSelection(client, testData.newSchool.data, false);
+      EduHelpers.completeSchoolSelection(client, testData.data, false);
       client
         .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');
@@ -69,7 +69,7 @@ if (process.env.BUILDTYPE !== 'production') {
       // Old school
       client
         .waitForElementVisible('label[for="root_oldSchool_name"]', Timeouts.slow);
-      Edu5495Helpers.completeOldSchool(client, testData.oldSchool.data, false);
+      Edu5495Helpers.completeOldSchool(client, testData.data, false);
       client
         .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');
@@ -78,7 +78,7 @@ if (process.env.BUILDTYPE !== 'production') {
       // Contact information page.
       client
         .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-      EduHelpers.completeContactInformation(client, testData.contactInformation.data, false, true);
+      EduHelpers.completeContactInformation(client, testData.data, false, true);
       client
         .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');
@@ -87,8 +87,8 @@ if (process.env.BUILDTYPE !== 'production') {
       // Direct deposit page.
       client
         .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
-      EduHelpers.completePaymentChange(client, testData.directDeposit.data, false);
-      EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, false);
+      EduHelpers.completePaymentChange(client, testData.data, false);
+      EduHelpers.completeDirectDeposit(client, testData.data, false);
       client
         .axeCheck('.main')
         .click('.form-progress-buttons .usa-button-primary');

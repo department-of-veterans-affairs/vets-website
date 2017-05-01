@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ClaimPhase from './ClaimPhase';
 import { getUserPhase, groupTimelineActivity } from '../utils/helpers';
@@ -39,9 +40,9 @@ export default class ClaimsTimeline extends React.Component {
 }
 
 ClaimsTimeline.propTypes = {
-  events: React.PropTypes.array,
-  phase: React.PropTypes.number.isRequired,
-  id: React.PropTypes.string.isRequired,
-  currentPhaseBack: React.PropTypes.bool,
-  everPhaseBack: React.PropTypes.bool
+  events: PropTypes.array,
+  phase: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
+  currentPhaseBack: PropTypes.bool,
+  everPhaseBack: PropTypes.bool
 };

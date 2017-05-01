@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from './Modal';
 
@@ -44,9 +45,9 @@ class OMBInfo extends React.Component {
 }
 
 OMBInfo.propTypes = {
-  resBurden: React.PropTypes.number,
-  ombNumber: React.PropTypes.string,
-  expDate: React.PropTypes.string
+  resBurden: PropTypes.number,
+  ombNumber: PropTypes.string,
+  expDate: PropTypes.string
 };
 
 export default OMBInfo;

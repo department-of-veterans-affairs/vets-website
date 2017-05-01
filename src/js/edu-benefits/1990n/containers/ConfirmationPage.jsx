@@ -15,17 +15,35 @@ const scrollToTop = () => {
 };
 
 class ConfirmationPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { isExpanded: false };
+  }
+
   componentDidMount() {
     focusElement('.edu-page-title');
     scrollToTop();
   }
+
+  toggleExpanded = (e) => {
+    e.preventDefault();
+    this.setState({ isExpanded: !this.state.isExpanded });
+  }
+
 
   render() {
     const form = this.props.form;
     const response = this.props.form.submission.response
       ? this.props.form.submission.response.attributes
       : {};
-    const name = form.applicantInformation.data.veteranFullName;
+    const name = form.data.veteranFullName;
+
+    const docExplanation = this.state.isExpanded
+      ? (<div className="usa-accordion-content">
+        <p>In the future, you might need a copy of your DD 2863 (National Call to Service (NCS) Election of Options).</p>
+        <p>Documents can be uploaded using the <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/account%252">GI Bill site</a>.</p>
+      </div>)
+      : null;
 
     return (
       <div className="edu-benefits-submit-success">
@@ -51,6 +69,22 @@ class ConfirmationPage extends React.Component {
             <li>
               <strong>Your claim was sent to</strong><br/>
               <address className="edu-benefits-pre">{response.regionalOffice}</address>
+            </li>
+          </ul>
+        </div>
+        <div id="collapsiblePanel" className="usa-accordion-bordered">
+          <ul className="usa-unstyled-list">
+            <li>
+              <div className="accordion-header clearfix">
+                <button
+                    className="usa-button-unstyled"
+                    aria-expanded={this.state.isExpanded ? 'true' : 'false'}
+                    aria-controls="collapsible-document-explanation"
+                    onClick={this.toggleExpanded}>
+                  No documents required at this time
+                </button>
+              </div>
+              {docExplanation}
             </li>
           </ul>
         </div>

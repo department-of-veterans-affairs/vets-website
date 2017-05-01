@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import classNames from 'classnames';
@@ -47,7 +48,7 @@ export default class ArrayField extends React.Component {
     const { schema, formData = [], registry } = this.props;
     if (schema.minItems > 0 && formData.length === 0) {
       this.props.onChange(Array(schema.minItems).fill(
-        getDefaultFormState(schema.items, undefined, registry.definitions)
+        getDefaultFormState(schema.additionalItems, undefined, registry.definitions)
       ));
     }
   }
@@ -59,6 +60,15 @@ export default class ArrayField extends React.Component {
   onItemChange(indexToChange, value) {
     const newItems = _.set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
+  }
+
+  getItemSchema(index) {
+    const schema = this.props.schema;
+    if (schema.items.length > index) {
+      return schema.items[index];
+    }
+
+    return schema.additionalItems;
   }
 
   scrollToTop() {
@@ -126,7 +136,7 @@ export default class ArrayField extends React.Component {
         editing: newEditing.concat(false)
       });
       this.setState(newState, () => {
-        const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.items, undefined, this.props.registry.definitions) || {});
+        const newFormData = this.props.formData.concat(getDefaultFormState(this.props.schema.additionalItems, undefined, this.props.registry.definitions) || {});
         this.props.onChange(newFormData);
         this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
       });
@@ -204,8 +214,9 @@ export default class ArrayField extends React.Component {
           <Element name={`topOfTable_${idSchema.$id}`}/>
           {items.map((item, index) => {
             // This is largely copied from the default ArrayField
+            const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
-            const itemIdSchema = toIdSchema(schema.items, itemIdPrefix, definitions);
+            const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
             const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index];
             const notLastOrMultipleRows = !isLast || items.length > 1;
@@ -221,7 +232,7 @@ export default class ArrayField extends React.Component {
                           : null}
                       <div className="input-section">
                         <SchemaField key={index}
-                            schema={schema.items}
+                            schema={itemSchema}
                             uiSchema={uiSchema.items}
                             errorSchema={errorSchema ? errorSchema[index] : undefined}
                             idSchema={itemIdSchema}
@@ -282,23 +293,23 @@ export default class ArrayField extends React.Component {
 }
 
 ArrayField.propTypes = {
-  schema: React.PropTypes.object.isRequired,
-  uiSchema: React.PropTypes.object,
-  errorSchema: React.PropTypes.object,
-  requiredSchema: React.PropTypes.object,
-  idSchema: React.PropTypes.object,
-  onChange: React.PropTypes.func.isRequired,
-  onBlur: React.PropTypes.func,
-  formData: React.PropTypes.array,
-  disabled: React.PropTypes.bool,
-  readonly: React.PropTypes.bool,
-  registry: React.PropTypes.shape({
-    widgets: React.PropTypes.objectOf(React.PropTypes.oneOfType([
-      React.PropTypes.func,
-      React.PropTypes.object,
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object,
+  errorSchema: PropTypes.object,
+  requiredSchema: PropTypes.object,
+  idSchema: PropTypes.object,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
+  formData: PropTypes.array,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  registry: PropTypes.shape({
+    widgets: PropTypes.objectOf(PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.object,
     ])).isRequired,
-    fields: React.PropTypes.objectOf(React.PropTypes.func).isRequired,
-    definitions: React.PropTypes.object.isRequired,
-    formContext: React.PropTypes.object.isRequired,
+    fields: PropTypes.objectOf(PropTypes.func).isRequired,
+    definitions: PropTypes.object.isRequired,
+    formContext: PropTypes.object.isRequired,
   })
 };
