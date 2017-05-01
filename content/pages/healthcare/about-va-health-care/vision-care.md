@@ -8,14 +8,14 @@ lastupdate_override: ""
 relatedlinks:
   - url: /healthcare/about-va-health-care/vision-care/blind-and-low-vision-veterans/
     title: Vision Care for Blind or Low Vision Veterans
-    description: Find out how we can help you live an independent life. 
+    description: Find out how we can help you live an independent life.
   - url: /healthcare/about-va-health-care/your-care-team/
     title: Your Care Team
     description: Learn about the health providers who’ll make up your VA care team.
   - url: /healthcare/about-va-health-care/where-you-get-care/
     title: Where You’ll Get Care
     description: Find out how to access care for regular needs, in emergencies, and when traveling.
-  - url: /healthcare/about-va-health-care//va-health-care-and-other-insurance/
+  - url: /healthcare/about-va-health-care/va-health-care-and-other-insurance/
     title: VA Health Care and Other Insurance
     description: Learn how VA health care works with Medicaid and private insurance.
   - url: /healthcare/about-va-health-care/dental-care/
@@ -39,11 +39,11 @@ If you qualify for VA health care benefits, you may be able to get some or all o
 
 ### Are my routine eye exams covered under my VA health care benefits?
 
-Yes. If you have VA health care benefits, we’ll cover your routine eye exams and preventive vision testing (like testing for glaucoma). 
+Yes. If you have VA health care benefits, we’ll cover your routine eye exams and preventive vision testing (like testing for glaucoma).
 
-To schedule an eye exam, talk to your VA primary care provider or contact your nearest VA medical center or clinic. [Contact your VA medical center]( https://www.va.gov/health/vamc/). 
+To schedule an eye exam, talk to your VA primary care provider or contact your nearest VA medical center or clinic. [Contact your VA medical center]( https://www.va.gov/health/vamc/).
 
-If you’re a Blind or Low Vision Veteran, you may be able to get more advanced vision care and rehabilitation services. [Find out if you qualify for Blind and Low Vision Veteran services](/healthcare/about-va-health-care/vision-care/blind-and-low-vision-veterans/). 
+If you’re a Blind or Low Vision Veteran, you may be able to get more advanced vision care and rehabilitation services. [Find out if you qualify for Blind and Low Vision Veteran services](/healthcare/about-va-health-care/vision-care/blind-and-low-vision-veterans/).
 
 </div>
 
