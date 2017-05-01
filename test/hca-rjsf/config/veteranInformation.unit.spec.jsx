@@ -34,4 +34,32 @@ describe('HCA veteranInformation', () => {
     expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
     expect(formDOM.querySelector('#root_veteranSocialSecurityNumber')).not.to.be.null;
   });
+
+  it('should render demographicInformation page', () => {
+    const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.demographicInformation;
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(8);
+    expect(formDOM.querySelector('#root_gender')).not.to.be.null;
+  });
+
+  it('should render contactInformation page', () => {
+    const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.contactInformation;
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(4);
+    expect(formDOM.querySelector('#root_email')).not.to.be.null;
+  });
 });
