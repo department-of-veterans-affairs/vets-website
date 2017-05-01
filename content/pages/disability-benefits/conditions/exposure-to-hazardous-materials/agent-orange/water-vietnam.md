@@ -4,8 +4,6 @@ title: Waters in or near Vietnam
 concurrence: incomplete
 plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
 template: 4-action-page
-collection: disabilityAgentOrange
-order: 7
 ---
 
 <div class="va-introtext" markdown="1">

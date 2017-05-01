@@ -4,8 +4,6 @@ title: U.S. Navy and Coast Guard Ships in Vietnam
 concurrence: complete
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page
-collection: disabilityAgentOrange
-order: 6
 ---
 
 <div class="va-introtext">
