@@ -20,6 +20,8 @@ import InsuranceProviderView from '../components/InsuranceProviderView';
 import { uiSchema as dateUI } from '../../common/schemaform/definitions/currentOrPastDate';
 
 const {
+  cityOfBirth,
+  stateOfBirth,
   lastEntryDate,
   lastDischargeDate,
   lastServiceBranch,
@@ -46,6 +48,7 @@ const {
 } = fullSchemaHca.properties;
 
 const {
+  fullName,
   date,
   provider
 } = fullSchemaHca.definitions;
@@ -54,16 +57,6 @@ const stateLabels = createUSAStateLabels(states);
 
 import { uiSchema as fullNameUISchema } from '../../common/schemaform/definitions/fullName';
 import * as ssn from '../../common/schemaform/definitions/ssn';
-
-const {
-  fullName,
-  date
-} = fullSchemaHca.definitions;
-
-const {
-  cityOfBirth,
-  stateOfBirth
-} = fullSchemaHca.properties;
 
 const formConfig = {
   urlPrefix: '/',
@@ -122,11 +115,14 @@ const formConfig = {
               'ui:title': 'Date of birth'
             },
             veteranSocialSecurityNumber: ssn.uiSchema,
-            cityOfBirth: {
-              'ui:title': 'City of birth'
-            },
-            stateOfBirth: {
-              'ui:title': 'State of birth'
+            'view:placeOfBirth': {
+              'ui:title': 'Place of birth',
+              cityOfBirth: {
+                'ui:title': 'City'
+              },
+              stateOfBirth: {
+                'ui:title': 'State'
+              }
             }
           },
           schema: {
@@ -135,10 +131,15 @@ const formConfig = {
             properties: {
               veteranDateOfBirth: date,
               veteranSocialSecurityNumber: ssn.schema,
-              cityOfBirth,
-              stateOfBirth: _.merge(stateOfBirth, {
-                type: 'string'
-              })
+              'view:placeOfBirth': {
+                type: 'object',
+                properties: {
+                  cityOfBirth,
+                  stateOfBirth: _.merge(stateOfBirth, {
+                    type: 'string'
+                  })
+                }
+              }
             }
           }
         },
