@@ -4,7 +4,7 @@ title: Birth Defects (Spina Bifida)
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp
 plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
-template: detail-page
+template: 1-topic-landing
 collection: exposureHazMat
 ---
 

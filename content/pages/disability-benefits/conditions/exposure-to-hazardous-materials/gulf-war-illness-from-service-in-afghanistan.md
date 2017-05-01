@@ -4,7 +4,7 @@ title: Gulf War Illness from Service in Afghanistan
 concurrence: 
 source: 
 plainlanguage: 
-template: detail-page
+template: 4-action-page
 collection: exposureHazMat
 ---
 

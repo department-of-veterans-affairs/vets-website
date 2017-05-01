@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Specific Environmental Hazards
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
-template: detail-page
+template: 1-topic-landing
 collection: exposureHazMat
 ---
 

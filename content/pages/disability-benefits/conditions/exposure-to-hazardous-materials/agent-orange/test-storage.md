@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Testing and Storage Areas Outside of Vietnam
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
-template: detail-page
+template: 4-action-page
 concurrence: incomplete
 collection: disabilityAgentOrange
 order: 5

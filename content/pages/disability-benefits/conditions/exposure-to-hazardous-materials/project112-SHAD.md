@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Project 112/SHAD
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp
 plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
-template: detail-page
+template: 4-action-page-pending
 collection: exposureHazMat
 ---
 
