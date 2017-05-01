@@ -1,0 +1,128 @@
+import { expect } from 'chai';
+import { createStore } from 'redux';
+import 'babel-polyfill';
+
+import { calculatorConstants } from '../../e2e/gibct-helpers';
+import reducer from '../../../src/js/gi/reducers';
+import { getCalculatedBenefits } from '../../../src/js/gi/selectors/calculator';
+
+const defaultState = createStore(reducer).getState();
+
+defaultState.constants = {
+  constants: {},
+  version: calculatorConstants.meta.version,
+  inProgress: false
+};
+
+calculatorConstants.data.forEach(c => {
+  defaultState.constants.constants[c.attributes.name] = c.attributes.value;
+});
+
+defaultState.profile = {
+  attributes: {
+    accreditationStatus: null,
+    accreditationType: 'regional',
+    accredited: true,
+    avgStuLoanDebt: 254.0070326,
+    bah: 2271.0,
+    books: 1000,
+    calendar: 'semesters',
+    cautionFlag: true,
+    cautionFlagReason: 'Settlement with U.S. Government, Heightened Cash Monitoring (Financial Responsibility)',
+    city: 'SEATTLE',
+    complaints: {
+      accreditationByFacCode: 1,
+      accreditationByOpeIdDoNotSum: 7,
+      creditJobByFacCode: null,
+      creditTransferByFacCode: 0,
+      creditTransferByOpeIdDoNotSum: 5,
+      degreeRequirementsByFacCode: 0,
+      degreeRequirementsByOpeIdDoNotSum: 10,
+      facilityCode: 1,
+      financialByFacCode: 0,
+      financialByOpeIdDoNotSum: 32,
+      gradesByFacCode: 0,
+      gradesByOpeIdDoNotSum: 2,
+      jobByFacCode: 0,
+      jobsByOpeIdDoNotSum: 7,
+      mainCampusRollUp: 56,
+      marketingByFacCode: 0,
+      marketingByOpeIdDoNotSum: 13,
+      otherByFacCode: 0,
+      otherByOpeIdDoNotSum: 11,
+      qualityByFacCode: 0,
+      qualityByOpeIdDoNotSum: 19,
+      refundByFacCode: 0,
+      refundByOpeIdDoNotSum: 8,
+      studentLoansByFacCode: 0,
+      studentLoansByOpeIdDoNotSum: 15,
+      transcriptByFacCode: 0,
+      transcriptByOpeIdDoNotSum: 2
+    },
+    correspondence: false,
+    country: 'USA',
+    createdAt: '2017-04-15T00:58:45.542Z',
+    creditForMilTraining: true,
+    cross: '00439057',
+    dodmou: true,
+    eightKeys: true,
+    facilityCode: '21405247',
+    flight: false,
+    graduationRateAllStudents: null,
+    graduationRateVeteran: null,
+    highestDegree: 4,
+    localeType: 'city',
+    name: 'ARGOSY UNIVERSITY-SEATTLE',
+    onlineAll: true,
+    ope: '02179913',
+    ope6: '21799',
+    p911Recipients: 14,
+    p911TuitionFees: 146895.25,
+    p911YellowRibbon: 1249.92,
+    p911YrRecipients: 3,
+    persistanceRateVeteranBa: 1.0,
+    persistanceRateVeteranOtb: 0.5,
+    poe: true,
+    repaymentRateAllStudents: 0.187458943,
+    retentionAllStudentsBa: null,
+    retentionAllStudentsOtb: null,
+    retentionRateVeteranBa: 1.0,
+    retentionRateVeteranOtb: 0.5,
+    salaryAllStudents: 37000.0,
+    sec702: null,
+    socMember: true,
+    state: 'WA',
+    studentCount: 13,
+    studentVetGrpIpeds: false,
+    studentVeteran: null,
+    studentVeteranLink: null,
+    transferOutRateAllStudents: null,
+    transferOutRateVeteran: null,
+    tuitionInState: 13663,
+    tuitionOutOfState: 13663,
+    type: 'FOR PROFIT',
+    undergradEnrollment: 152,
+    updatedAt: '2017-04-15T00:58:45.542Z',
+    vetPoc: true,
+    vetSuccessEmail: null,
+    vetSuccessName: null,
+    yr: true,
+    zip: '98121'
+  },
+
+  version: {
+    createdAt: '2017-04-15T01:00:03.494Z',
+    number: 6,
+    preview: false
+  },
+
+  inProgress: false
+};
+
+describe('getCalculatedBenefits', () => {
+  it('should calculate no housing allowance for active duty and Ch 33', () => {
+    const state = { ...defaultState };
+    state.eligibility.militaryStatus = 'active duty';
+    expect(getCalculatedBenefits(state).outputs.housingAllowance.value).to.equal('$0/mo');
+  });
+});
