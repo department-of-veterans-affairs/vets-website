@@ -549,8 +549,8 @@ depends: [
 ]
 
 // With a function
-depends: (data) => {
+depends: (formData) => {
   // return bool, true if page is active, false if page should be skipped
-  return data.pageName.data.passPhrase === 'open sesame' && data.pageName.data.codeWord === 'chicken';
+  return formData.passPhrase === 'open sesame' && formData.codeWord === 'chicken';
 }
 ```
