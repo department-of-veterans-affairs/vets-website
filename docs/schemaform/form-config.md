@@ -516,9 +516,7 @@ chapterName: {
       path: 'path/to/page',
       initialData: {},
       depends: {
-        formData: {
-          passPhrase: 'open sesame'
-        }
+        passPhrase: 'open sesame'
       },
       uiSchema: {},
       schema: {}
@@ -532,16 +530,14 @@ If you then enter 'open sesame' for the `passPhrase` on the first page, `otherPa
 ```js
 // With an object
 depends: {
-  formData: {
-    passPhrase: 'open sesame'
-  }
+  passPhrase: 'open sesame'
 }
 
 // With an array
 // This will activate the page if any of the items in the array are true. Think || not &&.
 depends: [
-  { formData: { passPhrase: 'open sesame' } } },
-  { formData: { passPhrase: 'open up!' } } }
+  { passPhrase: 'open sesame' },
+  { passPhrase: 'open up!' }
 ]
 
 // With a function
