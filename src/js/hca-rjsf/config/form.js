@@ -10,6 +10,7 @@ import {
 
 import { validateMatch } from '../../common/schemaform/validation';
 import { createUSAStateLabels } from '../../common/schemaform/helpers';
+import * as address from '../../common/schemaform/definitions/address';
 
 import {
   transform,
@@ -223,8 +224,42 @@ const formConfig = {
           path: 'veteran-information/veteran-address',
           title: 'Permanent address',
           initialData: {},
-          uiSchema: {},
-          schema: {}
+          uiSchema: {
+            address: _.merge(address.uiSchema('Permanent address'), {
+              street3: {
+                'ui:title': 'Line 3'
+              }
+            })
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              address: _.merge(address.schema(true), {
+                properties: {
+                  street: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30
+                  },
+                  street2: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30
+                  },
+                  street3: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30
+                  },
+                  city: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30
+                  }
+                }
+              })
+            }
+          }
         },
         contactInformation: {
           path: 'veteran-information/contact-information',
