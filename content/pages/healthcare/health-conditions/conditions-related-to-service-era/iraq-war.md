@@ -5,9 +5,6 @@ display_title: Iraq War
 concurrence: ""
 template: ""
 lastupdate_override: ""
-relatedlinks:
-  - url: ""
-    title: ""
-    description: ""
+relatedlinks: []
 
 ---

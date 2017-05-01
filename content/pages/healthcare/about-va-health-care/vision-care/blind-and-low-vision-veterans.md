@@ -5,10 +5,7 @@ display_title: ""
 concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
-relatedlinks:
-  - url: ""
-    title: ""
-    description: ""
+relatedlinks: []
 
 ---
 
@@ -34,15 +31,15 @@ We offer blind and low vision rehabilitation services such as:
 
 Depending on your needs, you may get care in an outpatient setting or in an inpatient clinic (where you’ll live full time for a short period of time).
 
-[Find inpatient Blind Rehabilitation Centers](http://www.rehab.va.gov/PROSTHETICS/blindrehab/locations.asp). 
+[Find inpatient Blind Rehabilitation Centers](http://www.rehab.va.gov/PROSTHETICS/blindrehab/locations.asp).
 
-[Learn more about other blind rehabilitation services](http://www.rehab.va.gov/PROSTHETICS/blindrehab/BRS_Coordinated_Care.asp). 
+[Learn more about other blind rehabilitation services](http://www.rehab.va.gov/PROSTHETICS/blindrehab/BRS_Coordinated_Care.asp).
 
 </div>
 
 ### Does VA provide guide dogs for blind Veterans?
 
-No. But we do work with non-VA agencies that provide guide dogs. 
+No. But we do work with non-VA agencies that provide guide dogs.
 
 ### How do I access these services?
 
@@ -61,4 +58,3 @@ Or, contact the Blind Rehabilitation Service Program office at:
 <dd>810 Vermont Ave. NW</dd>
 <dd>Washington, DC 20420</dd>
 </dl>
-

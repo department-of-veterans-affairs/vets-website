@@ -5,9 +5,6 @@ display_title: PTSD
 concurrence: ""
 template: ""
 lastupdate_override: ""
-relatedlinks:
-  - url: ""
-    title: ""
-    description: ""
+relatedlinks: []
 
 ---

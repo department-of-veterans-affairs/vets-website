@@ -5,9 +5,6 @@ display_title: Gulf War
 concurrence: ""
 template: ""
 lastupdate_override: ""
-relatedlinks:
-  - url: ""
-    title: ""
-    description: ""
+relatedlinks: []
 
 ---
