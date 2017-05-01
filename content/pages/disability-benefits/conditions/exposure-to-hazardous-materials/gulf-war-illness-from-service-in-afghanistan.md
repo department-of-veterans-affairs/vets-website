@@ -5,7 +5,6 @@ concurrence:
 source: 
 plainlanguage: 
 template: 4-action-page
-collection: exposureHazMat
 ---
 
 <div class="va-introtext">

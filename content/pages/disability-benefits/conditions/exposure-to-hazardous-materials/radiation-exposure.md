@@ -4,7 +4,6 @@ title: Radiation Exposure
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp,http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page
-collection: exposureHazMat
 ---
 
 <div class="va-introtext">
