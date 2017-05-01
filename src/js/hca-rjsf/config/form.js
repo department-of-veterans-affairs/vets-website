@@ -8,6 +8,7 @@ import {
   maritalStatuses
 } from '../../common/utils/options-for-select';
 
+import { validateMatch } from '../../common/schemaform/validation';
 import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
 import {
@@ -34,6 +35,7 @@ const {
   isNativeHawaiianOrOtherPacificIslander,
   isAsian,
   isWhite,
+  email,
   lastEntryDate,
   lastDischargeDate,
   lastServiceBranch,
@@ -62,7 +64,8 @@ const {
 const {
   fullName,
   date,
-  provider
+  provider,
+  phone
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
@@ -77,7 +80,8 @@ const formConfig = {
   subTitle: 'Form 10-10ez',
   defaultDefinitions: {
     date,
-    provider
+    provider,
+    phone
   },
   chapters: {
     veteranInformation: {
@@ -226,8 +230,44 @@ const formConfig = {
           path: 'veteran-information/contact-information',
           title: 'Contact information',
           initialData: {},
-          uiSchema: {},
-          schema: {}
+          uiSchema: {
+            'ui:validations': [
+              validateMatch('email', 'view:emailConfirmation')
+            ],
+            email: {
+              'ui:title': 'Email address',
+              'ui:errorMessages': {
+                pattern: 'Please put your email in this format x@x.xxx'
+              }
+            },
+            'view:emailConfirmation': {
+              'ui:title': 'Re-enter email address',
+              'ui:errorMessages': {
+                pattern: 'Please put your email in this format x@x.xxx'
+              }
+            },
+            homePhone: {
+              'ui:title': 'Home telephone number',
+              'ui:errorMessages': {
+                pattern: 'Phone number must be 10 digits'
+              }
+            },
+            mobilePhone: {
+              'ui:title': 'Mobile telephone number',
+              'ui:errorMessages': {
+                pattern: 'Phone number must be 10 digits'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              email,
+              'view:emailConfirmation': email,
+              homePhone: phone,
+              mobilePhone: phone
+            }
+          }
         }
       }
     },
