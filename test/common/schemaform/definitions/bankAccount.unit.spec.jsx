@@ -5,7 +5,10 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Form from 'react-jsonschema-form';
 
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
-import { schema, uiSchema } from '../../../../src/js/common/schemaform/definitions/bankAccount';
+import uiSchema from '../../../../src/js/common/schemaform/definitions/bankAccount';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+
+const schema = commonDefinitions.bankAccount;
 
 describe('Schemaform definition bankAccount', () => {
   it('should render bankAccount', () => {

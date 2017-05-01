@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import * as educationProgram from '../definitions/educationProgram';
-import { uiSchema as uiSchemaDate } from '../../common/schemaform/definitions/date';
+import dateUI from '../../common/schemaform/definitions/date';
 import { civilianBenefitsLabel } from '../utils/helpers';
 
 
@@ -47,7 +47,7 @@ export default function createSchoolSelectionPage(schema, options) {
       'ui:title': 'If you are on Active Duty only: are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
       'ui:widget': 'yesNo'
     },
-    educationStartDate: uiSchemaDate('The date your training began or will begin'),
+    educationStartDate: dateUI('The date your training began or will begin'),
     restorativeTraining: {
       'ui:title': ' Are you looking for Special Restorative Training because of a disability? Special Restorative Training could include speech and voice therapy, language retraining, lip reading, or Braille reading and writing.',
       'ui:widget': 'yesNo'
