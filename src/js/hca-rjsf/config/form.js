@@ -18,6 +18,8 @@ import IntroductionPage from '../components/IntroductionPage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 
 import { uiSchema as dateUI } from '../../common/schemaform/definitions/currentOrPastDate';
+import { uiSchema as fullNameUISchema } from '../../common/schemaform/definitions/fullName';
+import * as ssn from '../../common/schemaform/definitions/ssn';
 
 const {
   cityOfBirth,
@@ -53,9 +55,6 @@ const {
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
-
-import { uiSchema as fullNameUISchema } from '../../common/schemaform/definitions/fullName';
-import * as ssn from '../../common/schemaform/definitions/ssn';
 
 const formConfig = {
   urlPrefix: '/',
