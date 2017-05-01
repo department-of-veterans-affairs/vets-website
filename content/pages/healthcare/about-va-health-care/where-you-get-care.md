@@ -3,13 +3,13 @@ layout: page-breadcrumbs.html
 title: Where You'll Get Care
 display_title: ""
 concurrence: ""
-template: 1-topic-landing 
-lastupdate_override: 
+template: 1-topic-landing
+lastupdate_override:
 relatedlinks:
   - url: /healthcare/about-va-health-care/your-care-team/
     title: Your Care Team
     description: Learn about the health providers who’ll make up your VA care team.
-  - url: /healthcare/about-va-health-care//va-health-care-and-other-insurance/
+  - url: /healthcare/about-va-health-care/va-health-care-and-other-insurance/
     title: VA Health Care and Other Insurance
     description: Learn how VA health care works with Medicaid and private insurance.
   - url: /healthcare/about-va-health-care/dental-care/
@@ -41,23 +41,23 @@ Care settings may include:
   - All centers provide traditional hospital-based services—like surgery, critical care, mental health, and physical therapy.
   - Most centers provide medical and surgical specialty services—like oncology (cancer care), geriatrics (elder care), and neurology (care for conditions of the brain and nervous system).
   - Some medical centers also offer advanced services—like organ transplants and plastic surgery.
-[Connect with your medical center](https://www.va.gov/health/vamc/). 
-- **VA community-based outpatient clinics (CBOCs).** These clinics provide the most common outpatient services (like health and wellness visits) so you can take care of routine appointments in a more convenient location. We keep expanding our network of CBOCs to more rural locations so we can help you access care closer to home. [Find a clinic near you](https://www.va.gov/directory/guide/home.asp). 
-- **Vet Centers.** These centers provide community-based counseling, outreach, and referral services to Veterans who served in a combat zone as well as to their families. Mobile Vet Centers also help bring care to more rural locations. 
-[Learn more about Vet Centers](http://www.vetcenter.va.gov). 
-[Find a Vet Center near you](https://www.va.gov/directory/guide/vetcenter.asp). 
+[Connect with your medical center](https://www.va.gov/health/vamc/).
+- **VA community-based outpatient clinics (CBOCs).** These clinics provide the most common outpatient services (like health and wellness visits) so you can take care of routine appointments in a more convenient location. We keep expanding our network of CBOCs to more rural locations so we can help you access care closer to home. [Find a clinic near you](https://www.va.gov/directory/guide/home.asp).
+- **Vet Centers.** These centers provide community-based counseling, outreach, and referral services to Veterans who served in a combat zone as well as to their families. Mobile Vet Centers also help bring care to more rural locations.
+[Learn more about Vet Centers](http://www.vetcenter.va.gov).
+[Find a Vet Center near you](https://www.va.gov/directory/guide/vetcenter.asp).
 - **VA Community Living Centers and other assisted living or residential (live-in) settings.** These places provide support for Veterans who need more intense nursing care and help with everyday tasks (like bathing, dressing, or taking medicines). [Learn more about assisted living and residential care](/healthcare/about-va-health-care/assisted-living-and-home-health-care/).
 - **Your own home.** If needed, you may get medical treatment, nursing care, or help with everyday tasks in the comfort of your own home. [Learn more about home health care](/healthcare/about-va-health-care/assisted-living-and-home-health-care/).
 
 ### What if no VA location near me provides the services I need?
 
-Your provider will work with you to find the best place to get the care you need. This may mean you’ll need to travel to another VA location. Or, we may give you permission to receive the service in a non-VA community care setting. [Learn more about payment for non-VA providers and services](https://www.va.gov/PURCHASEDCARE/programs/veterans/nonvacare/). 
+Your provider will work with you to find the best place to get the care you need. This may mean you’ll need to travel to another VA location. Or, we may give you permission to receive the service in a non-VA community care setting. [Learn more about payment for non-VA providers and services](https://www.va.gov/PURCHASEDCARE/programs/veterans/nonvacare/).
 
 </div>
 
 ### Where can I go for care if I live in a rural area far from a VA medical center? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
-You may be able to get care at a VA community outpatient clinic or a Mobile Vet Center. [Learn more about Vet Centers](http://www.vetcenter.va.gov). 
+You may be able to get care at a VA community outpatient clinic or a Mobile Vet Center. [Learn more about Vet Centers](http://www.vetcenter.va.gov).
 
 You may also be able to get care from skilled health care workers who’ll come to your home or through telehealth (care provided remotely using special health monitoring equipment and telephone communication). [Learn more about home health care](/healthcare/about-va-health-care/assisted-living-and-home-health-care/).
 
@@ -67,11 +67,11 @@ If you live more than 40 miles from a VA health care location—or have other tr
 
 Call 911 or go to the nearest emergency room. You don’t have to contact us in advance. (Note: We consider an emergency to be a condition that a reasonable person believes will put your health or life at risk if you don’t get treatment right away.)
 If you’re far from a VA medical center, we may pay for emergency care in a non-VA setting. Be sure to contact your nearest VA medical center as soon as possible—and ask to talk to the patient transfer or patient administration representative. Payment for emergency care in a non-VA setting ends when a VA provider concludes that you’re stable enough to be transferred to a VA medical center.
-For more information, call your local VA medical center’s enrollment coordinator. Or, [get more details on emergency care coverage](https://www.va.gov/healthbenefits/access/emergency_care.asp). 
+For more information, call your local VA medical center’s enrollment coordinator. Or, [get more details on emergency care coverage](https://www.va.gov/healthbenefits/access/emergency_care.asp).
 
 ### What should I do if I move? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
-Let us know right away so we can help set up care in your new location. To change your address, call us at 877-222-VETS (8387). If you’re moving outside the U.S., you’ll need to sign up for our Foreign Medical Program (FMP). Through this program, we’ll pay for certain needed health care services received in foreign countries to treat a service-connected disability or a disability that’s making a service-connected condition worse. [Learn more about the FMP](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp). 
+Let us know right away so we can help set up care in your new location. To change your address, call us at 877-222-VETS (8387). If you’re moving outside the U.S., you’ll need to sign up for our Foreign Medical Program (FMP). Through this program, we’ll pay for certain needed health care services received in foreign countries to treat a service-connected disability or a disability that’s making a service-connected condition worse. [Learn more about the FMP](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp).
 
 ### What if I need care while traveling? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
@@ -84,16 +84,16 @@ Please give your VA care team:
 - Your arrival and departure dates
 - Any specific care concerns
 
-We can also mail prescription refills to you at your temporary address. Just be sure to allow about 2 weeks for the refills to arrive. [Refill your prescriptions](/healthcare/prescriptions/). 
+We can also mail prescription refills to you at your temporary address. Just be sure to allow about 2 weeks for the refills to arrive. [Refill your prescriptions](/healthcare/prescriptions/).
 
-For more information, contact your care team or the Traveling Veteran Coordinator at your local VA medical center. [Find a VA location near you](https://www.va.gov/directory/guide/home.asp). 
+For more information, contact your care team or the Traveling Veteran Coordinator at your local VA medical center. [Find a VA location near you](https://www.va.gov/directory/guide/home.asp).
 
-**Note:** If you’re planning to travel outside the U.S., you’ll need to sign up for our Foreign Medical Program (FMP). Through this program, we’ll pay for certain needed health care services received in foreign countries to treat a service-connected disability or a disability that’s making a service-connected condition worse. [Learn more about the FMP](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp). 
+**Note:** If you’re planning to travel outside the U.S., you’ll need to sign up for our Foreign Medical Program (FMP). Through this program, we’ll pay for certain needed health care services received in foreign countries to treat a service-connected disability or a disability that’s making a service-connected condition worse. [Learn more about the FMP](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp).
 
 ### Can you help me get to and from appointments? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
-Yes, we may be able to help you get to and from appointments in certain cases. Or, we may pay you back for the cost of transportation if you qualify for help. [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/). 
+Yes, we may be able to help you get to and from appointments in certain cases. Or, we may pay you back for the cost of transportation if you qualify for help. [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
 
 ### Can you help me cover travel expenses if I need to travel for care?[UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
-Yes, we may be able to help with travel expenses if you need to travel for care. [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/). 
+Yes, we may be able to help with travel expenses if you need to travel for care. [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
