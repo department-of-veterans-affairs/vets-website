@@ -17,7 +17,7 @@ majorlinks:
     description: Find out if you can get monthly payments as an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service. 
 relatedlinks:
   - url: /pensions/rates/
-    title: **Veterans Pension Rates**
+    title: Veterans Pension Rates
     description: Find out how much you qualify for. 
   - url: /pensions/pension-management-center/
     title: Pension Management Centers
