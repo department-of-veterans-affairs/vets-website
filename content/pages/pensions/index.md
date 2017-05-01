@@ -22,8 +22,10 @@ relatedlinks:
   - url: /pensions/pension-management-center/
     title: Pension Management Centers
     description: Find the location that serves you and your family. 
-
 ---
+
 <div class="va-introtext">
+
 If you’re a wartime Veteran who meets certain age or disability requirements, and your income and net worth meets certain limits, you may be able to get monthly payments through our Veterans Pension program. Some survivors may also qualify for monthly payments. Find out if you can get this tax-free benefit. 
+
 </div>
