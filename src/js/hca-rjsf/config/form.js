@@ -2,7 +2,12 @@ import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import { states } from '../../common/utils/options-for-select';
+import {
+  states,
+  genders,
+  maritalStatuses
+} from '../../common/utils/options-for-select';
+
 import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
 import {
@@ -23,6 +28,12 @@ import * as ssn from '../../common/schemaform/definitions/ssn';
 
 const {
   cityOfBirth,
+  isSpanishHispanicLatino,
+  isAmericanIndianOrAlaskanNative,
+  isBlackOrAfricanAmerican,
+  isNativeHawaiianOrOtherPacificIslander,
+  isAsian,
+  isWhite,
   lastEntryDate,
   lastDischargeDate,
   lastServiceBranch,
@@ -147,8 +158,62 @@ const formConfig = {
           path: 'veteran-information/demographic-information',
           title: 'Veteran information',
           initialData: {},
-          uiSchema: {},
-          schema: {}
+          uiSchema: {
+            gender: {
+              'ui:title': 'Gender'
+            },
+            maritalStatus: {
+              'ui:title': 'Marital status'
+            },
+            'view:demographicCategories': {
+              'ui:title': 'Which categories best describe you?',
+              'ui:description': 'You may check more than one.',
+              isSpanishHispanicLatino: {
+                'ui:title': 'Spanish, Hispanic, or Latino'
+              },
+              isAmericanIndianOrAlaskanNative: {
+                'ui:title': 'American Indian or Alaskan Native'
+              },
+              isBlackOrAfricanAmerican: {
+                'ui:title': 'Black or African American'
+              },
+              isNativeHawaiianOrOtherPacificIslander: {
+                'ui:title': 'Native Hawaiian or Other Pacific Islander'
+              },
+              isAsian: {
+                'ui:title': 'Asian'
+              },
+              isWhite: {
+                'ui:title': 'White'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['gender', 'maritalStatus'],
+            properties: {
+              gender: {
+                type: 'string',
+                'enum': genders.map(gender => gender.value),
+                enumNames: genders.map(gender => gender.label)
+              },
+              maritalStatus: {
+                type: 'string',
+                'enum': maritalStatuses
+              },
+              'view:demographicCategories': {
+                type: 'object',
+                properties: {
+                  isSpanishHispanicLatino,
+                  isAmericanIndianOrAlaskanNative,
+                  isBlackOrAfricanAmerican,
+                  isNativeHawaiianOrOtherPacificIslander,
+                  isAsian,
+                  isWhite
+                }
+              }
+            }
+          }
         },
         veteranAddress: {
           path: 'veteran-information/veteran-address',
