@@ -34,7 +34,8 @@ const {
   educationType,
   date,
   dateRange,
-  serviceBefore1977
+  serviceBefore1977,
+  fullName
 } = fullSchema1995.definitions;
 
 const formConfig = {
@@ -68,7 +69,7 @@ const formConfig = {
             type: 'object',
             required: ['veteranFullName'],
             properties: {
-              veteranFullName: fullNameUI,
+              veteranFullName: fullName,
               'view:veteranId': veteranId.schema(fullSchema1995)
             }
           }
@@ -123,7 +124,7 @@ const formConfig = {
               'view:newService': {
                 type: 'boolean'
               },
-              toursOfDuty: fullSchema1995.definitions.toursOfDuty
+              toursOfDuty: fullSchema1995.properties.toursOfDuty
             }
           }
         },

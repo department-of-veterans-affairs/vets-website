@@ -5,7 +5,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Form from 'react-jsonschema-form';
 
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
-import { schema, uiSchema } from '../../../../src/js/common/schemaform/definitions/dateRange';
+import uiSchema from '../../../../src/js/common/schemaform/definitions/dateRange';
+import { dateRange as schema, date } from 'vets-json-schema/dist/definitions.json';
 
 function fillDate(find, toFrom, day, month, year) {
   ReactTestUtils.Simulate.change(find(`#root_${toFrom}Day`), {
@@ -30,6 +31,7 @@ describe('Schemaform definition dateRange', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={{ date }}
           uiSchema={uiSchema()}/>
     );
 
@@ -44,6 +46,7 @@ describe('Schemaform definition dateRange', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={{ date }}
           uiSchema={dateRangeUISchema}/>
     );
 
@@ -62,6 +65,7 @@ describe('Schemaform definition dateRange', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={{ date }}
           uiSchema={uiSchema('My from date', 'My to date', 'My error')}/>
     );
 

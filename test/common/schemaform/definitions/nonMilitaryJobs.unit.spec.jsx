@@ -4,7 +4,8 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
-import { schema, uiSchema } from '../../../../src/js/common/schemaform/definitions/nonMilitaryJobs';
+import uiSchema from '../../../../src/js/common/schemaform/definitions/nonMilitaryJobs';
+import { nonMilitaryJobs as schema } from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition nonMilitaryJobs', () => {
   it('should render nonMilitaryJobs', () => {

@@ -318,7 +318,7 @@ const formConfig = {
                     'view:ownServiceBenefits': { type: 'boolean' },
                     'view:claimedSponsorService': { type: 'boolean' },
                     veteranFullName: fullName,
-                    'view:veteranId': veteranId.schema
+                    'view:veteranId': veteranId.schema(fullSchema5490)
                   }
                 }
               )
@@ -418,7 +418,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   veteranFullName: fullName,
-                  'view:veteranId': veteranId.schema,
+                  'view:veteranId': veteranId.schema(fullSchema5490),
                 }
               },
               veteranDateOfBirth,
