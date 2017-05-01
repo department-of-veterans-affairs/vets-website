@@ -49,6 +49,20 @@ describe('HCA veteranInformation', () => {
     expect(formDOM.querySelector('#root_gender')).not.to.be.null;
   });
 
+  it('should render veteranAddress page', () => {
+    const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranAddress;
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
+    expect(formDOM.querySelector('#root_address_country')).not.to.be.null;
+  });
+
   it('should render contactInformation page', () => {
     const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.contactInformation;
     const form = ReactTestUtils.renderIntoDocument(
