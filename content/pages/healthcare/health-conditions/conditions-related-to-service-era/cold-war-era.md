@@ -44,17 +44,19 @@ Take the steps to make sure you’re taking care of your health:
 
 <li class="step one">
 
-1.	Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator(http://www.publichealth.va.gov/exposures/coordinators.asp). 
+Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator(http://www.publichealth.va.gov/exposures/coordinators.asp). 
 
 </li>
 
 <li class="step two">
 
-2.	Ask your local VA environmental health coordinator about getting a free Ionizing Radiation Registry health exam. [Learn more about the exam](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp).
+Ask your local VA environmental health coordinator about getting a free Ionizing Radiation Registry health exam. [Learn more about the exam](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp).
 
 </li>
 
 <li class="step last three">
 
-3.	Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition caused or made worse by your active-duty service. [See if you qualify for disability benefits due to contact with toxic chemicals or other hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). 
+Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition caused or made worse by your active-duty service. [See if you qualify for disability benefits due to contact with toxic chemicals or other hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). 
 
+</li>
+</ol>
