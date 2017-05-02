@@ -44,7 +44,7 @@ Take the steps to make sure you’re taking care of your health:
 
 <li class="step one">
 
-Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator(http://www.publichealth.va.gov/exposures/coordinators.asp). 
+Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp). 
 
 </li>
 
