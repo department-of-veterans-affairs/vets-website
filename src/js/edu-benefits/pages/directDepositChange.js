@@ -14,6 +14,7 @@ export default function createDirectDepositChangePage(schema) {
     path: 'personal-information/direct-deposit',
     initialData: {},
     uiSchema: {
+      'ui:title': 'Direct deposit',
       bankAccountChange: {
         'ui:title': 'Benefit payment method:',
         'ui:widget': 'radio',

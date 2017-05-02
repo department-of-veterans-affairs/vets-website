@@ -138,7 +138,8 @@ const formConfig = {
           fields: [
             'educationProgram',
             'educationObjective'
-          ]
+          ],
+          title: 'School, university, program, or training facility you want to attend'
         }),
         oldSchool: createOldSchoolPage(fullSchema5495)
       }
