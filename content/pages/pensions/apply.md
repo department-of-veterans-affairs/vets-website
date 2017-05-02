@@ -48,7 +48,7 @@ Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/
 
 **Work with a trained professional**
 
-You can work with a trained professional called an accredited representative to get help applying for VA pension benefits.  [Find an accredited representative](/disability-benefits/apply-for-benefits/help/).
+You can work with a trained professional called an accredited representative to get help applying for VA pension benefits.  [Find an accredited representative](/disability-benefits/apply/help/).
 
 **Apply in person**
 
