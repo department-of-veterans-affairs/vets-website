@@ -54,7 +54,7 @@ Take the steps to make sure you’re taking care of your health:
 
 Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp). 
 
-- **If you have embedded fragments,** ask about getting an exam through the Toxic Embedded Fragment Surveillance Center. [Download our Toxic Embedded Fragments fact sheet]( http://www.publichealth.va.gov/docs/exposures/TEFSC-veterans-fact-sheet.pdf).  
+- **If you have embedded fragments,** ask about getting an exam through the Toxic Embedded Fragment Surveillance Center. [Download our Toxic Embedded Fragments fact sheet](http://www.publichealth.va.gov/docs/exposures/TEFSC-veterans-fact-sheet.pdf).  
 - **If you think you had contact with depleted uranium,** ask about getting screened through the Depleted Uranium Follow-up Program. [Learn more about the program](http://www.publichealth.va.gov/exposures/depleted_uranium/followup_program.asp).
 
 </li>
@@ -73,8 +73,11 @@ Ask about joining these registries to document your exposures and health concern
 
 Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition caused or made worse by your active-duty service. 
 <br />
-[See if you qualify for disability benefits due to Gulf War Illness]( https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
+[See if you qualify for disability benefits due to Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
 <br />
-[See if you qualify for disability benefits due to other service-connected conditions](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/).
+[See if you qualify for disability benefits due to other service-connected conditions](/disability-benefits/conditions/exposure-to-hazardous-materials/).
+
+</li>
+</ol>
 
 
