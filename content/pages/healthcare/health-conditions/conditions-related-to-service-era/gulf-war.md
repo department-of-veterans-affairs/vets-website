@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Gulf War: Operation Desert Shield and Desert Storm
 display_title: Gulf War
 concurrence: ""
-template: ""
+template: 1-topic-landing
 lastupdate_override: ""
 relatedlinks: []
 
@@ -17,7 +17,7 @@ If you served in the Gulf War in Operation Desert Shield or Operation Desert Sto
 
 <div class="feature" markdown=“1”>
 
-What health risks should I know about related to my service in the Gulf War?
+### What health risks should I know about related to my service in the Gulf War?
 
 You may be at risk of:
 
@@ -51,9 +51,11 @@ Take the steps to make sure you’re taking care of your health:
 
 Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp). 
 
-- **If you have embedded fragments,** ask about getting an exam through the Toxic Embedded Fragment Surveillance Center. [Download our Toxic Embedded Fragments fact sheet]( http://www.publichealth.va.gov/docs/exposures/TEFSC-veterans-fact-sheet.pdf).  
+- **If you have embedded fragments,** ask about getting an exam through the Toxic Embedded Fragment Surveillance Center. [Download our Toxic Embedded Fragments fact sheet](http://www.publichealth.va.gov/docs/exposures/TEFSC-veterans-fact-sheet.pdf).  
 
 - **If you think you had contact with depleted uranium,** ask about getting screened through the Depleted Uranium Follow-up Program. [Learn more about the program](http://www.publichealth.va.gov/exposures/depleted_uranium/followup_program.asp).
+
+</li>
 
 <li class="step two">
 
@@ -65,10 +67,15 @@ Ask about getting a free exam and joining these registries to document your expo
 <br />
 [The Ionizing Radiation Registry](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp)
 
+</li>
+
 <li class="step last three">
 
 Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition caused or made worse by your active-duty service. 
 <br />
-[See if you qualify for disability benefits due to Gulf War Illness](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
+[See if you qualify for disability benefits due to Gulf War Illness](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
 <br />
-[See if you qualify for disability benefits due to other service-connected conditions](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/).
+[See if you qualify for disability benefits due to other service-connected conditions](/disability-benefits/conditions/exposure-to-hazardous-materials/).
+
+</li>
+</ol>
