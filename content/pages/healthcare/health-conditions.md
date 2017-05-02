@@ -27,7 +27,7 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
   - [Suicide prevention](/healthcare/health-conditions/mental-health/suicide-prevention/)
 
-  - [Substance use problems](/healthcare/health-conditions/mental-health/substance-use-problems/)
+  - [Substance use problems](/healthcare/health-conditions/substance-use-problems/)
 
 - [Military sexual trauma (MST)](/healthcare/health-conditions/military-sexual-trauma/)
 
