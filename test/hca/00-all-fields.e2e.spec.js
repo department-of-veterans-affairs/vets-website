@@ -150,6 +150,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Submit message
     client.expect.element('.success-alert-box').to.be.visible;
 
+    client.axeCheck('.main');
 
     client.end();
   });
