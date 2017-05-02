@@ -17,9 +17,9 @@ If you need help with your daily activities, or you’re housebound, you may qua
 
 <div class="feature" markdown=“1”>
 
-**Can I get Aid and Attendance (A&A) or Housebound benefits from VA?**
+<strong>Can I get Aid and Attendance (A&A) or Housebound benefits from VA?</strong>
 
-You may qualify for **A&A** if you get a VA pension, **and** you:
+You may qualify for <strong>A&A</strong> if you get a VA pension, <strong>and</strong> you:
 
 - Need another person to help you perform daily activities, like bathing, feeding, and dressing, or
 - Have to stay in bed—or spend a large portion of the day in bed—because of illness, or
@@ -28,11 +28,11 @@ You may qualify for **A&A** if you get a VA pension, **and** you:
 
 You may qualify for **housebound benefits** if you get VA pension, **and** you spend most of your time in your home because of a permanent disability (a disability that doesn’t go away). 
 
-**Note:** You can’t get A&A benefits and housebound benefits at the same time.
+<strong>Note:</strong> You can’t get A&A benefits and housebound benefits at the same time.
 
-**Who’s covered:**
--	Qualified Veterans
--	Qualified surviving spouses 
+<strong>Who’s covered:</strong>
+- Qualified Veterans
+- Qualified surviving spouses 
 
 </div>
 
