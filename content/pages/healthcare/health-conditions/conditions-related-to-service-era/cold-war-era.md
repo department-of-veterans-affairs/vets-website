@@ -20,7 +20,7 @@ If you served during the Cold War Era—from 1945 to 1991—you may be at risk o
 
 You may be at risk of illnesses or injuries caused by contact with:
 
-- **[Ionizing radiation](/disability-benefits/conditions/exposure-to-hazardous-materials/ionizing-radiation/):** A type of radiation exposure from atmospheric and underground nuclear weapons tests 
+- **[Radiation](/disability-benefits/conditions/exposure-to-hazardous-materials/radiation-exposure/):** A type of radiation exposure from atmospheric and underground nuclear weapons tests 
 - **[Mustard gas](/disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/):** An odorless poisonous gas used in military tests in the 1940s 
 - **[Herbicides](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/):** Agent Orange and other herbicides used in Vietnam and tested or stored in other locations
 - **[Occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
