@@ -66,8 +66,8 @@ export class DownloadPage extends React.Component {
       this.props.openModal('Are you sure you want to leave this page?', <div>
         <p>Generating a new health record will replace your most recent download request.</p>
         <div className="va-modal-actions">
-          <Link to="/" onClick={this.props.closeModal}>
-            <button>Yes, continue</button>
+          <Link className="usa-button" to="/" onClick={this.props.closeModal}>
+            Yes, continue
           </Link>
           <button onClick={this.props.closeModal} className="usa-button-outline">Cancel</button>
         </div>
