@@ -1,5 +1,6 @@
 import React from 'react';
 import { focusElement } from '../../../common/utils/helpers';
+import FormTitle from '../../../common/schemaform/FormTitle.jsx';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -10,6 +11,7 @@ class IntroductionPage extends React.Component {
       <div>
         <div className="row">
           <div className="small-12 columns">
+            <FormTitle title="Apply for education benefits"/>
             <p>This application is equivalent to Form 22-1990 (Application for VA Education Benefits).</p>
             <div className="process schemaform-process">
               <ol>
