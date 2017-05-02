@@ -225,11 +225,7 @@ const formConfig = {
           title: 'Permanent address',
           initialData: {},
           uiSchema: {
-            address: _.merge(address.uiSchema('Permanent address'), {
-              street3: {
-                'ui:title': 'Line 3'
-              }
-            })
+            address: address.uiSchema('Permanent address')
           },
           schema: {
             type: 'object',
