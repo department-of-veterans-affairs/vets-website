@@ -187,6 +187,7 @@
   "private": true,
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
+    "metalsmith-linkcheck": "^0.3.0",
     "react-autosuggest": "^8.0.0",
     "reselect": "^2.5.4",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d0e327cd0ee93a82988914778cc4342dbf013cb4"
