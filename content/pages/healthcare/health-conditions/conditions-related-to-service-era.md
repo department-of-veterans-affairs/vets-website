@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Conditions Related to When and Where You Served
 display_title: Conditions Related to Service Era
 concurrence: ""
-template: ""
+template: 1-topic-landing
 lastupdate_override: ""
 relatedlinks: 
   - url: /healthcare/health-conditions/conditions-related-to-service-era/operation-enduring-freedom/
