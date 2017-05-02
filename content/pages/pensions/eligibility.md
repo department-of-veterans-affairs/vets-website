@@ -55,6 +55,5 @@ If you’re an unmarried surviving spouse or an unmarried child of a deceased Ve
 **Ready to apply?** 
 [Learn about the application process](pension/apply/). 
 
-[PLACEHOLDER FOR BLUE BUTTON]: 
-[Download VA Form 21P-527EZ](http://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf). 
+<a class=“usa-button-primary” href=“(http://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf)>Download VA Form 21P-527EZ/<a>. 
 
