@@ -93,7 +93,7 @@ const formConfig = {
       }
     },
     sponsorInformation: {
-      title: 'Sponsor information',
+      title: 'Sponsor Information',
       pages: {
         sponsorInformation: {
           path: 'sponsor/information',
