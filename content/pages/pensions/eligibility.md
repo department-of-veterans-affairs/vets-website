@@ -36,7 +36,7 @@ You may be able to get pension benefits if:
 
 - <strong>And:</strong>
 
-Your yearly family income and net worth meets certain limits set by Congress. Your net worth equals the value of everything you own (like your house and any stocks) plus your income minus any debt you owe. [(Find out about income limits)](/pensions/veterans-pension-rates/).
+Your yearly family income and net worth meets certain limits set by Congress. Your net worth equals the value of everything you own (like your house and any stocks) plus your income minus any debt you owe. [(Find out about income limits)](/pensions/rates/).
 
 <strong>And at least 1 of these is true:</strong>
 
