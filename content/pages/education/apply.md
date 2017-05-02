@@ -52,7 +52,7 @@ Apply online with Form 22-1990, 22-1990E, or 22-5490:
       <div>Which form do you want to use?</div>
       <div class="form-radio-buttons">
         <input type="radio" name="form-selection" id="form-22-1990" value="1990">
-        <label for="form-22-1990">Veterans applying for a <strong>new benefit</strong> (22-1990)</label>
+        <label for="form-22-1990">Veterans or Servicemembers applying for a <strong>new benefit</strong> (22-1990)</label>
         <input type="radio" name="form-selection" id="form-22-1990e" value="1990e">
         <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
         <input type="radio" name="form-selection" id="form-22-5490-1" value="5490">
@@ -138,3 +138,4 @@ You must apply for education benefits using eBenefits if you're:
       }
     });
 </script>
+
