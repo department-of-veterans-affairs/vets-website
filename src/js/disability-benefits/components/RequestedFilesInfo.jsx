@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
@@ -60,7 +61,7 @@ export default class RequestedFilesInfo extends React.Component {
 }
 
 RequestedFilesInfo.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  filesNeeded: React.PropTypes.array.isRequired,
-  optionalFiles: React.PropTypes.array.isRequired
+  id: PropTypes.string.isRequired,
+  filesNeeded: PropTypes.array.isRequired,
+  optionalFiles: PropTypes.array.isRequired
 };

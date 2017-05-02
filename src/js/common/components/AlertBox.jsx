@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -45,8 +46,8 @@ class AlertBox extends React.Component {
     let closeButton;
     if (this.props.onCloseAlert) {
       closeButton = (
-        <button className="va-alert-close" onClick={this.props.onCloseAlert}>
-          <i className="fa fa-close"></i>
+        <button className="va-alert-close" aria-label="Close notification" onClick={this.props.onCloseAlert}>
+          <i className="fa fa-close" aria-label="Close icon"></i>
         </button>
       );
     }
@@ -69,11 +70,11 @@ class AlertBox extends React.Component {
 }
 
 AlertBox.propTypes = {
-  content: React.PropTypes.node.isRequired,
-  isVisible: React.PropTypes.bool.isRequired,
-  onCloseAlert: React.PropTypes.func,
-  scrollOnShow: React.PropTypes.bool,
-  status: React.PropTypes.oneOf([
+  content: PropTypes.node.isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  onCloseAlert: PropTypes.func,
+  scrollOnShow: PropTypes.bool,
+  status: PropTypes.oneOf([
     'info',
     'error',
     'success',

@@ -1,64 +1,34 @@
 {
-  "privacyAgreementAccepted": true,
-  "applicantInformation": {
-    "data": {
-      "relativeFullName": {
-        "first": "Abcde",
-        "last": "Feghi"
-      }
-    }
-  },
-  "additionalBenefits": {
-    "data": {}
-  },
-  "benefitEligibility": {
-    "data": {}
-  },
-  "sponsorVeteran": {
-    "data": {
-      "veteranFullName": {
-        "first": "Vcxz",
-        "last": "Nmjkl"
-      },
-      "veteranSocialSecurityNumber": "443445555",
-      "veteranAddress": {
+  "data": {
+    "privacyAgreementAccepted": true,
+    "relativeFullName": {
+      "first": "Abcde",
+      "last": "Feghi"
+    },
+    "veteranFullName": {
+      "first": "Vcxz",
+      "last": "Nmjkl"
+    },
+    "veteranSocialSecurityNumber": "443445555",
+    "veteranAddress": {
+      "country": "USA"
+    },
+    "educationProgram": {
+      "address": {
         "country": "USA"
       }
-    }
-  },
-  "educationHistory": {
-    "data": {}
-   },
-  "employmentHistory": {
-    "data": {}
-  },
-  "schoolSelection": {
-    "data": {
-      "educationProgram": {
-        "address": {
-          "country": "USA"
-        }
-      }
-    }
-  },
-  "contactInformation": {
-    "data": {
-      "relativeAddress": {
-        "street": "1 Main St",
-        "city": "Central City",
-        "country": "USA",
-        "state": "CA",
-        "postalCode": "94949"
-      },
-      "view:otherContactInfo": {
-        "email": "a@b.com",
-        "view:confirmEmail": "a@b.com"
-      }
-    }
-  },
-  "directDeposit": {
-    "data": {
-      "bankAccount": {}
-    }
+    },
+    "relativeAddress": {
+      "street": "1 Main St",
+      "city": "Central City",
+      "country": "USA",
+      "state": "CA",
+      "postalCode": "94949"
+    },
+    "view:otherContactInfo": {
+      "email": "a@b.com",
+      "view:confirmEmail": "a@b.com"
+    },
+    "bankAccount": {}
   }
 }

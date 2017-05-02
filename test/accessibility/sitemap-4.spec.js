@@ -1,8 +1,9 @@
-const Timeouts = require('../util/timeouts.js');
-const SitemapHelpers = require('../util/sitemap-helpers');
+const Timeouts = require('../e2e/timeouts.js');
+const SitemapHelpers = require('../e2e/sitemap-helpers');
 
 module.exports = {
   'sitemap 4/4': (client) => {
+    client.timeoutsAsyncScript(1000);
     SitemapHelpers.sitemapURLs(urls => {
       const mark = Math.ceil(urls.length / 4);
       const segment = urls.splice(mark * 3);

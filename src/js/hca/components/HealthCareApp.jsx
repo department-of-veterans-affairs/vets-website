@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
@@ -131,10 +132,9 @@ class HealthCareApp extends React.Component {
     e.preventDefault();
     const veteran = this.props.data;
     const path = this.props.location.pathname;
-    let apiUrl = `${window.VetsGov.api.url}/api/hca/v1/application`;
-    let formSubmissionId;
-    let timestamp;
-    const testBuild = __BUILDTYPE__ === 'development' || __BUILDTYPE__ === 'staging';
+    const apiUrl = window.VetsGov.api.url === ''
+        ? `${environment.API_URL}/v0/health_care_applications`
+        : `${window.VetsGov.api.url}/v0/health_care_applications`;
     const submissionPost = {
       method: 'POST',
       headers: {
@@ -145,24 +145,14 @@ class HealthCareApp extends React.Component {
       body: veteranToApplication(veteran)
     };
 
+    submissionPost.body = JSON.stringify({ form: submissionPost.body });
+
     window.dataLayer.push({ event: 'submit-button-clicked' });
     const formIsValid = validations.isValidForm(veteran);
 
     const userToken = sessionStorage.userToken;
     if (userToken) {
       submissionPost.headers.Authorization = `Token token=${userToken}`;
-    }
-
-    // In order to test the new Rails API in staging, we are temporarily changing the
-    // endpoints to submit to the new API. Keeping the same endpoints for production.
-    if (testBuild) {
-      // Allow e2e tests to override API URL
-      // Remove the need for a separate code path here
-      apiUrl = window.VetsGov.api.url === ''
-        ? `${environment.API_URL}/v0/health_care_applications`
-        : `${window.VetsGov.api.url}/v0/health_care_applications`;
-
-      submissionPost.body = JSON.stringify({ form: submissionPost.body });
     }
 
     if (formIsValid && veteran.privacyAgreementAccepted) {
@@ -178,22 +168,14 @@ class HealthCareApp extends React.Component {
         this.removeOnbeforeunload();
 
         response.json().then(data => {
-          if (testBuild) {
-            formSubmissionId = data.formSubmissionId;
-            timestamp = data.timestamp;
-          } else {
-            formSubmissionId = data.response.formSubmissionId;
-            timestamp = data.response.timeStamp;
-          }
-
           this.props.onUpdateSubmissionStatus('applicationSubmitted', data);
           this.props.onCompletedStatus(path);
-          this.props.onUpdateSubmissionId(formSubmissionId);
-          this.props.onUpdateSubmissionTimestamp(timestamp);
+          this.props.onUpdateSubmissionId(data.formSubmissionId);
+          this.props.onUpdateSubmissionTimestamp(data.timestamp);
 
           window.dataLayer.push({
             event: 'submission-successful',
-            submissionID: formSubmissionId
+            submissionID: data.formSubmissionId
           });
         });
 
@@ -293,10 +275,10 @@ class HealthCareApp extends React.Component {
     if (this.props.location.pathname === '/review-and-submit') {
       buttons = (<div>
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {backButton}
           </div>
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {submitButton}
           </div>
           <div className="small-1 medium-1 end columns">
@@ -312,7 +294,7 @@ class HealthCareApp extends React.Component {
     } else if (this.props.location.pathname === '/introduction') {
       buttons = (
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             <ProgressButton
                 onButtonClick={this.handleContinue}
                 buttonText="Get Started"
@@ -324,7 +306,7 @@ class HealthCareApp extends React.Component {
     } else if (this.props.location.pathname === '/submit-message') {
       buttons = (
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {/* TODO: Figure out where this button should take the user. */}
             <a href="/">
               <button className="usa-button-primary">Back to Main Page</button>
@@ -335,10 +317,10 @@ class HealthCareApp extends React.Component {
     } else {
       buttons = (
         <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             {backButton}
           </div>
-          <div className="small-6 medium-5 end columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
             {nextButton}
           </div>
         </div>
@@ -382,7 +364,7 @@ class HealthCareApp extends React.Component {
         <div className="row">
           <Element name="topScrollElement"/>
           {/*
-          <div className="medium-4 columns show-for-medium-up">
+          <div className="usa-width-one-third medium-4 columns show-for-medium-up">
             <Nav
                 data={this.props.data}
                 pages={this.props.uiState.sections}
@@ -390,7 +372,7 @@ class HealthCareApp extends React.Component {
                 currentUrl={this.props.location.pathname}/>
           </div>
           */}
-          <div className="medium-8 columns">
+          <div className="usa-width-two-thirds medium-8 columns">
             <FormTitle title="Apply online for health care with the 10-10ez" subTitle="OMB No. 2900-0091"/>
             <div>
               {!_.includes(['/introduction', '/submit-message'], this.props.location.pathname) && <SegmentedProgressBar total={chapters.length} current={step}/>}
@@ -414,7 +396,7 @@ class HealthCareApp extends React.Component {
 }
 
 HealthCareApp.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

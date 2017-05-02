@@ -5,10 +5,10 @@ plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
 relatedlinks:
- - url: /disability-benefits/claims-process/date/
+ - url: /disability-benefits/after-you-apply/date/
    title: Effective Date of Disability
    description: "Find out when you’ll start getting your disability payments."
- - url: /disability-benefits/claims-process/what-happens-after-rating/
+ - url: /disability-benefits/after-you-apply/what-happens-after-rating/
    title: What to Expect After You Get a Disability Rating
    description: "Find out what happens after you get your decision notice with your rating."
 ---
@@ -22,8 +22,8 @@ Find out what happens to your claim after you apply for disability benefits.
 ### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">121.8 days</span>
-<span class="description">Average time to process disability-related claims in February 2017</span>
+<span class="number">114.7 days</span>
+<span class="description">Average number of days to complete disability-related claims in March 2017</span>
 </div>
 
 #### The amount of time it takes to review your claim depends on:
@@ -43,7 +43,7 @@ You don't need to do anything unless we send you a letter asking for more inform
 ### What happens after I apply?
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 #### Claim Received
 
@@ -51,7 +51,7 @@ You’ll see a notice from us in your claims list within about 1 hour if you app
 
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 
 #### Initial Review
 
@@ -59,7 +59,7 @@ A Veterans Service Representative (VSR) will review your claim. It’ll move to 
 
 </li>
 
-<li class="step three">
+<li class="process-step list-three">
 
 #### Evidence Gathering, Review, and Decision
 
@@ -73,15 +73,15 @@ If we need more evidence during the review, your claim may return to this step m
 
 </li>
 
-<li class="step four">
- 
+<li class="process-step list-four"> 
+
 #### Preparation for Notification
 
 We’ll get your entire claim decision packet ready to be mailed.
 
 </li>
 
-<li class="step last five">
+<li class="process-step list-five">
 
 #### Claim Complete
 

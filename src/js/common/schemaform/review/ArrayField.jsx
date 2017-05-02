@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash/fp';
 import Scroll from 'react-scroll';
@@ -35,6 +36,15 @@ class ArrayField extends React.Component {
     this.handleSetData = this.handleSetData.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
+  }
+
+  getItemSchema(index) {
+    const schema = this.props.schema;
+    if (schema.items.length > index) {
+      return schema.items[index];
+    }
+
+    return schema.additionalItems;
   }
 
   scrollToTop() {
@@ -75,7 +85,7 @@ class ArrayField extends React.Component {
    */
   handleAdd() {
     const newState = {
-      items: this.state.items.concat(getDefaultFormState(this.props.schema.items, undefined, this.props.schema.definitions) || {}),
+      items: this.state.items.concat(getDefaultFormState(this.getItemSchema(this.state.items.length), undefined, this.props.schema.definitions) || {}),
       editing: this.state.editing.concat(true)
     };
     this.setState(newState, () => {
@@ -136,7 +146,6 @@ class ArrayField extends React.Component {
     const fieldName = path[path.length - 1];
     const title = _.get('ui:title', uiSchema) || pageTitle;
     const arrayPageConfig = {
-      schema: _.assign(schema.items, { definitions: schema.definitions }),
       uiSchema: uiSchema.items,
       pageKey: fieldName
     };
@@ -153,6 +162,7 @@ class ArrayField extends React.Component {
           {this.state.items.map((item, index) => {
             const isLast = this.state.items.length === (index + 1);
             const isEditing = this.state.editing[index];
+            const showReviewButton = !schema.minItems || this.state.items.length > schema.minItems;
             if (isEditing) {
               return (
                 <div key={index} className="va-growable-background">
@@ -163,8 +173,8 @@ class ArrayField extends React.Component {
                           ? <h5>New {uiSchema['ui:options'].itemName}</h5>
                           : null}
                       <SchemaForm
-                          data={item}
-                          schema={arrayPageConfig.schema}
+                          pageData={item}
+                          schema={this.getItemSchema(index)}
                           uiSchema={arrayPageConfig.uiSchema}
                           title={pageTitle}
                           hideTitle
@@ -177,7 +187,7 @@ class ArrayField extends React.Component {
                             <button className="float-left">Update</button>
                           </div>
                           <div className="small-6 right columns">
-                            <button type="button" className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>
+                            {showReviewButton && <button type="button" className="usa-button-outline float-right" onClick={() => this.handleRemove(index)}>Remove</button>}
                           </div>
                         </div>
                       </SchemaForm>
@@ -191,8 +201,8 @@ class ArrayField extends React.Component {
                 <div className="row small-collapse">
                   <SchemaForm
                       reviewMode
-                      data={item}
-                      schema={arrayPageConfig.schema}
+                      pageData={item}
+                      schema={this.getItemSchema(index)}
                       uiSchema={arrayPageConfig.uiSchema}
                       title={pageTitle}
                       hideTitle
@@ -215,12 +225,11 @@ class ArrayField extends React.Component {
 export default ArrayField;
 
 ArrayField.propTypes = {
-  schema: React.PropTypes.object.isRequired,
-  uiSchema: React.PropTypes.object,
-  pageKey: React.PropTypes.string.isRequired,
-  path: React.PropTypes.array.isRequired,
-  formData: React.PropTypes.object,
-  arrayData: React.PropTypes.array,
-  pageTitle: React.PropTypes.string
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object,
+  pageKey: PropTypes.string.isRequired,
+  path: PropTypes.array.isRequired,
+  formData: PropTypes.object,
+  arrayData: PropTypes.array,
+  pageTitle: PropTypes.string
 };
-

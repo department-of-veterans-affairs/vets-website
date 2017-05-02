@@ -9,12 +9,14 @@ import FormTitle from './FormTitle';
 const Element = Scroll.Element;
 
 /*
- * Primary component for a schema generated form app. Will eventually
- * have the Nav components
+ * Primary component for a schema generated form app.
  */
 export default class FormApp extends React.Component {
   componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
+    if (window.History) {
+      window.History.scrollRestoration = 'manual';
+    }
   }
 
   // I'm not convinced this is ever executed
@@ -60,11 +62,11 @@ export default class FormApp extends React.Component {
     return (
       <div className="row">
         <Element name="topScrollElement"/>
-        <div className="medium-8 columns">
+        <div className="usa-width-two-thirds medium-8 columns">
           {formConfig.title && !isIntro && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
           {content}
         </div>
-        <div className="medium-4 columns show-for-medium-up">
+        <div className="usa-width-one-third medium-4 columns show-for-medium-up">
         </div>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
       </div>

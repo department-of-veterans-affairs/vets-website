@@ -1,9 +1,10 @@
 import { Link, browserHistory } from 'react-router';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class Breadcrumbs extends React.Component {
   render() {
-    const { location: { pathname } } = this.props;
+    const { pathname, query: { version } } = this.props.location;
 
     const crumbs = [
       <a href="/" key="home">Home</a>,
@@ -12,9 +13,10 @@ class Breadcrumbs extends React.Component {
     ];
 
     if (pathname.match(/search|profile/)) {
-      crumbs.push(<Link to="/" key="main">GI Bill Comparison Tool</Link>);
+      const root = { pathname: '/', query: (version ? { version } : {}) };
+      crumbs.push(<Link to={root} key="main">GI Bill® Comparison Tool</Link>);
     } else {
-      crumbs.push(<span key="gibct"><strong>GI Bill Comparison Tool</strong></span>);
+      crumbs.push(<span key="gibct"><strong>GI Bill® Comparison Tool</strong></span>);
     }
 
     if (pathname.match(/search\/?$/)) {
@@ -32,7 +34,7 @@ class Breadcrumbs extends React.Component {
 
     return (
       <nav className="va-nav-breadcrumbs">
-        <ul className="row va-nav-breadcrumbs-list gi-breadcrumbs" role="menubar" aria-label="Primary">
+        <ul className="row va-nav-breadcrumbs-list columns" role="menubar" aria-label="Primary">
           {crumbs.map((c, i) => {
             return <li key={i}>{c}</li>;
           })}
@@ -44,7 +46,7 @@ class Breadcrumbs extends React.Component {
 }
 
 Breadcrumbs.propTypes = {
-  profileName: React.PropTypes.string
+  profileName: PropTypes.string
 };
 
 export default Breadcrumbs;

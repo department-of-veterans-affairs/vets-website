@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
@@ -21,5 +22,5 @@ export default function AdditionalEvidenceItem({ item }) {
 }
 
 AdditionalEvidenceItem.propTypes = {
-  item: React.PropTypes.object.isRequired
+  item: PropTypes.object.isRequired
 };

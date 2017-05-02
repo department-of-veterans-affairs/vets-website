@@ -326,7 +326,7 @@ button.msg-btn-save {
 }
 
 .msg-attachment-close {
-  color: rgba($color-base, .7);
+  color: $color-va-modal-close;
   background: transparent;
   font-size: 1.25em;
   margin: 0;
@@ -468,7 +468,8 @@ button.msg-btn-save {
 
     .msg-write {
       label {
-        display: none;
+        left: -9999em;
+        position: absolute;
       }
     }
 

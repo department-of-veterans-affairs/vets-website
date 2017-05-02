@@ -1,7 +1,8 @@
 import { distBetween } from '../../utils/facilityDistance';
 import { Link } from 'react-router';
 import FacilityAddress from './FacilityAddress';
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 class FacilityInfoBlock extends Component {
   renderDistance() {

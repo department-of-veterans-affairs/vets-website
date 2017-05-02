@@ -1,12 +1,16 @@
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
+import fullSchema5495 from 'vets-json-schema/dist/22-5495-schema.json';
 
-// import fullSchema5495 from 'vets-json-schema/dist/dependents-change-of-program-schema.json';
+import applicantInformation from '../../pages/applicantInformation';
+import applicantServicePage from '../../pages/applicantService';
+import createOldSchoolPage from '../../pages/oldSchool';
+import createSchoolSelectionPage from '../../pages/schoolSelection';
+import contactInformationPage from '../../pages/contactInformation';
+import createDirectDepositChangePage from '../../pages/directDepositChange';
 
-// import pages from '../../pages/';
+import * as fullName from '../../../common/schemaform/definitions/fullName';
 
-// import common schemaform definitions from '../../../common/schemaform/definitions/'
-
-// import local modified definitions from '../../definitions/'
+import * as veteranId from '../../definitions/veteranId';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -15,11 +19,21 @@ import {
   transform
 } from '../helpers';
 
-// const {
-// } = fullSchema5495.properties;
+import {
+  survivorBenefitsLabels
+} from '../../utils/helpers';
 
-// const {
-// } = fullSchema5495.definitions;
+const {
+  benefit,
+  outstandingFelony,
+  veteranFullName
+} = fullSchema5495.properties;
+
+const {
+  school,
+  educationType,
+  date
+} = fullSchema5495.definitions;
 
 const formConfig = {
   urlPrefix: '/5495/',
@@ -29,24 +43,112 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
+    fullName: fullName.schema,
+    school,
+    educationType,
+    date
   },
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5495',
   chapters: {
-    chapterName: {
-      title: '',
+    applicantInformation: {
+      title: 'Applicant Information',
       pages: {
-        pageName: {
-          path: 'page/path',
-          title: '',
-          initialData: {},
-          uiSchema: {},
+        applicantInformation: applicantInformation(fullSchema5495, {
+          required: ['relativeFullName', 'relativeDateOfBirth'],
+          fields: [
+            'relativeFullName',
+            'relativeDateOfBirth',
+            'gender',
+            'relativeSocialSecurityNumber',
+            'view:noSSN',
+            'vaFileNumber'
+          ]
+        }),
+        applicantService: applicantServicePage()
+      }
+    },
+    benefitSelection: {
+      title: 'Benefit Selection',
+      pages: {
+        benefitSelection: {
+          path: 'benefits/selection', // other forms this is benefits/eligibility
+          title: 'Benefit selection',
+          uiSchema: {
+            benefit: {
+              'ui:title': 'Which benefit are you currently using?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: survivorBenefitsLabels
+              }
+            }
+          },
           schema: {
             type: 'object',
-            required: [],
-            properties: {}
+            properties: {
+              benefit
+            }
           }
         }
+      }
+    },
+    sponsorInformation: {
+      title: 'Sponsor Information',
+      pages: {
+        sponsorInformation: {
+          path: 'sponsor/information',
+          title: 'Sponsor information',
+          uiSchema: {
+            veteranFullName: fullName.uiSchema,
+            'view:veteranId': _.merge(veteranId.uiSchema, {
+              'view:noSSN': {
+                'ui:title': 'I don’t know my sponsor’s Social Security number',
+              },
+              veteranSocialSecurityNumber: {
+                'ui:validations': [
+                  (errors, fieldData, formData) => {
+                    if (fieldData === formData.relativeSocialSecurityNumber) {
+                      errors.addError('Your sponsor’s SSN cannot be the same as yours.');
+                    }
+                  }
+                ]
+              }
+            }),
+            outstandingFelony: {
+              'ui:title': 'Do you or your sponsor have an outstanding felony and/or warrant?',
+              'ui:widget': 'yesNo'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranFullName,
+              'view:veteranId': veteranId.schema,
+              outstandingFelony
+            }
+          }
+        }
+      }
+    },
+    schoolSelection: {
+      title: 'School Selection',
+      pages: {
+        newSchool: createSchoolSelectionPage(fullSchema5495, {
+          required: ['educationType', 'name'],
+          fields: [
+            'educationProgram',
+            'educationObjective'
+          ],
+          title: 'School, university, program, or training facility you want to attend'
+        }),
+        oldSchool: createOldSchoolPage(fullSchema5495)
+      }
+    },
+    personalInformation: {
+      title: 'Personal Information',
+      pages: {
+        contactInformation: contactInformationPage('relativeAddress'),
+        directDeposit: createDirectDepositChangePage(fullSchema5495)
       }
     }
   }

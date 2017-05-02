@@ -5,6 +5,7 @@ import {
   isValidSSN,
   isValidPartialDate,
   isValidCurrentOrPastDate,
+  isValidFutureDate,
   isValidDateRange,
   isValidRoutingNumber,
   isValidUSZipCode,
@@ -81,7 +82,7 @@ export function transformErrors(errors, uiSchema) {
   return newErrors;
 }
 
-/*
+/**
  * This pulls custom validations specified in the uiSchema and validates the formData
  * against them.
  *
@@ -93,16 +94,26 @@ export function transformErrors(errors, uiSchema) {
  *   ]
  * }
  *
- * The function is passed errors, fieldData, formData, and otherData and
+ * The function is passed errors, fieldData, pageData, formData, and otherData and
  * should call addError to add the error.
+ *
+ * @param {Object} errors Errors object from rjsf, which includes an addError method
+ * @param {Object} uiSchema The uiSchema for the current field
+ * @param {Object} schema The schema for the current field
+ * @param {Object} formData The (flattened) data for the entire form
+ * @param {String} path The path to the current field relative to the root of the page.
+ *   Used to select the correct field data to validate against
  */
 
-export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext, path = '') {
+export function uiSchemaValidate(errors, uiSchema, schema, formData, path = '') {
   if (uiSchema && schema) {
     const currentData = path !== '' ? _.get(path, formData) : formData;
     if (uiSchema.items && currentData) {
       currentData.forEach((item, index) => {
         const newPath = `${path}[${index}]`;
+        const currentSchema = index < schema.items.length
+          ? schema.items[index]
+          : schema.additionalItems;
         if (!_.get(newPath, errors)) {
           const currentErrors = path ? _.get(path, errors) : errors;
           currentErrors[index] = {
@@ -112,7 +123,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext
             }
           };
         }
-        uiSchemaValidate(errors, uiSchema.items, schema.items, formData, formContext, newPath);
+        uiSchemaValidate(errors, uiSchema.items, currentSchema, formData, newPath);
       });
     } else if (!uiSchema.items) {
       Object.keys(uiSchema)
@@ -131,7 +142,7 @@ export function uiSchemaValidate(errors, uiSchema, schema, formData, formContext
               }
             };
           }
-          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, formContext, nextPath);
+          uiSchemaValidate(errors, uiSchema[item], schema.properties[item], formData, nextPath);
         });
     }
 
@@ -160,23 +171,22 @@ export function errorSchemaIsValid(errorSchema) {
 
 export function isValidForm(form, pageListByChapters) {
   const pageConfigs = _.flatten(_.values(pageListByChapters));
-  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
-  const validPages = Object.keys(pages)
+  const validPages = Object.keys(form.pages)
     .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form));
 
   const v = new Validator();
 
-  return form.privacyAgreementAccepted && validPages.every(page => {
-    const { uiSchema, schema, data } = pages[page];
+  return form.data.privacyAgreementAccepted && validPages.every(page => {
+    const { uiSchema, schema } = form.pages[page];
 
     const result = v.validate(
-      data,
+      form.data,
       schema
     );
 
     if (result.valid) {
       const errors = {};
-      uiSchemaValidate(errors, uiSchema, schema, data, {});
+      uiSchemaValidate(errors, uiSchema, schema, form.data);
 
       return errorSchemaIsValid(errors);
     }
@@ -204,11 +214,24 @@ export function validateDate(errors, dateString) {
  *
  * The message it adds can be customized in uiSchema.errorMessages.futureDate
  */
-export function validateCurrentOrPastDate(errors, dateString, formData, formContext, errorMessages) {
+export function validateCurrentOrPastDate(errors, dateString, formData, schema, errorMessages) {
   validateDate(errors, dateString);
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(errorMessages.futureDate || 'Please provide a valid current or past date');
+  }
+}
+
+/**
+ * Adds an error message to errors if a date is an invalid date or in the past.
+ *
+ * The message it adds can be customized in uiSchema.errorMessages.pastDate
+ */
+export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
+  validateDate(errors, dateString);
+  const { day, month, year } = parseISODate(dateString);
+  if (formData.highSchool.status === 'graduationExpected' && !isValidFutureDate(day, month, year)) {
+    errors.addError('Please provide a valid future date');
   }
 }
 
@@ -245,7 +268,7 @@ export function validateMatch(field1, field2) {
   };
 }
 
-export function validateRoutingNumber(errors, routingNumber, formData, formContext, errorMessages) {
+export function validateRoutingNumber(errors, routingNumber, formData, schema, errorMessages) {
   if (!isValidRoutingNumber(routingNumber)) {
     errors.addError(errorMessages.pattern);
   }
@@ -262,7 +285,7 @@ function convertToDateField(dateStr) {
   }, date);
 }
 
-export function validateDateRange(errors, dateRange, formData, formContext, errorMessages) {
+export function validateDateRange(errors, dateRange, formData, schema, errorMessages) {
   const fromDate = convertToDateField(dateRange.from);
   const toDate = convertToDateField(dateRange.to);
 
