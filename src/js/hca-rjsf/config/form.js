@@ -135,7 +135,10 @@ const formConfig = {
                 'ui:title': 'City'
               },
               stateOfBirth: {
-                'ui:title': 'State'
+                'ui:title': 'State',
+                'ui:options': {
+                  labels: stateLabels
+                }
               }
             }
           },
@@ -151,8 +154,7 @@ const formConfig = {
                   cityOfBirth,
                   stateOfBirth: {
                     type: 'string',
-                    'enum': states.USA.map(state => state.value),
-                    enumNames: states.USA.map(state => state.label)
+                    'enum': states.USA.map(state => state.value)
                   }
                 }
               }
