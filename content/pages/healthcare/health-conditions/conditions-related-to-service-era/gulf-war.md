@@ -58,17 +58,17 @@ Talk to your primary health care provider or your local VA environmental health 
 <li class="step two">
 
 Ask about getting a free exam and joining these registries to document your exposures and health concerns:
-
+<br />
 [The Airborne Hazards and Open Burn Pit Registry](https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/) 
-
+<br />
 [The Gulf War Registry](http://www.publichealth.va.gov/exposures/gulfwar/benefits/registry-exam.asp)
-
+<br />
 [The Ionizing Radiation Registry](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp)
 
 <li class="step last three">
 
 Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition caused or made worse by your active-duty service. 
-
-[See if you qualify for disability benefits due to Gulf War Illness]( https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
-
+<br />
+[See if you qualify for disability benefits due to Gulf War Illness](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/).
+<br />
 [See if you qualify for disability benefits due to other service-connected conditions](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/).
