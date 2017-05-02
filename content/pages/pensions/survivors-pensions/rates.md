@@ -39,7 +39,7 @@ Standard Medicare Deduction: Actual amount will be determined by SSA based on i
 
 **For qualified surviving spouses with at least 1 dependent:**
 
-| **If you have 1 dependent child and… | Your MAPR amount is:** | 
+| **If you have 1 dependent child and…** | **Your MAPR amount is:** | 
 | --- | --- | 
 | You don’t qualify for Housebound or A&A benefits | $11,330 | 
 | You qualify for Housebound benefits | $13,249| 
