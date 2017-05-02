@@ -48,7 +48,7 @@ Your yearly family income and net worth meets certain limits set by Congress. Yo
 <strong>Who’s covered?</strong>
 Veterans
 
-If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. [Learn more about the Survivors Pension program](/pensions/survivors-pension/).
+If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. [Learn more about the Survivors Pension program](/pensions/survivors-pensions/).
 
 </div>
 
