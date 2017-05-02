@@ -25,6 +25,15 @@ export default function createDirectDepositChangePage(schema) {
       bankAccount: _.merge(bankAccountUI, {
         'ui:options': {
           hideIf: (formData) => formData.bankAccountChange !== 'startUpdate'
+        },
+        accountType: {
+          'ui:required': (formData) => _.get('bankAccountChange', formData) === 'startUpdate'
+        },
+        accountNumber: {
+          'ui:required': (formData) => _.get('bankAccountChange', formData) === 'startUpdate'
+        },
+        routingNumber: {
+          'ui:required': (formData) => _.get('bankAccountChange', formData) === 'startUpdate'
         }
       }),
       'view:stopWarning': {
