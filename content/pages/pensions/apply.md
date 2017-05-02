@@ -44,7 +44,7 @@ Fill out Form 21P-527EZ (Application for Pension). [Download Form 21P-527EZ](htt
 
 Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/pensions/pension-management-center/).
 
-[Find out how to apply for the Survivors Pension program](/pensions/survivors-pension/).
+[Find out how to apply for the Survivors Pension program](/pensions/survivors-pensions/).
 
 **Work with a trained professional**
 
