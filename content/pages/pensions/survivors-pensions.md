@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Survivor's Pension
 concurrence: "" 
 template: ""
-relatedlinks: []
+relatedlinks: 
   - url: /pensions/survivors-pensions/
     title: Survivors Pension Rates
     description: Find out how much you qualify for.
