@@ -26,6 +26,14 @@
     color: $color-primary;
   }
 
+  a.usa-button {
+    color: $color-white;
+
+    &:visited {
+      color: $color-white;
+    }
+  }
+
   .date-range-fields {
     display: flex;
     display: -webkit-flex;
