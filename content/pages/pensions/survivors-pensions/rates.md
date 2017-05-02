@@ -66,7 +66,7 @@ Standard Medicare Deduction: Actual amount will be determined by SSA based on i
 **For qualified surviving children:**
 
 | **If you’re…**| **Your MARP amount is:** |
-| --- | --- | --- |
+| --- | --- | 
 | A qualified surviving child  | $2,205 |
 
 [Get historic rate charts from past years](http://www.benefits.va.gov/pension/current_rates_survivor_pen.asp).
