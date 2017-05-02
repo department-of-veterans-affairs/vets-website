@@ -8,6 +8,7 @@ class TabNav extends React.Component {
       <ul className="va-tabs rx-nav va-dnp">
         <TabItem tabpath="/" title="Refill Prescriptions"/>
         <TabItem tabpath="/history" title="View History"/>
+        <TabItem tabpath="/notifications" title="Email Notifications"/>
       </ul>
     );
   }
