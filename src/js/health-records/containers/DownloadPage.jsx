@@ -80,7 +80,7 @@ export class DownloadPage extends React.Component {
   render() {
     return (
       <div>
-        <h1>Download Your Health Records</h1>
+        <h1>Access Your Health Records</h1>
         {this.renderMessageBanner()}
         <p>
           <strong>Request Date:</strong> {moment(this.props.form.requestDate).format('MMMM Do YYYY')}
