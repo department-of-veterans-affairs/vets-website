@@ -1,12 +1,9 @@
 ---
 layout: page-breadcrumbs.html
 title: Aid and Attendance of Housebound Allowance
-concurrence: 
-template: 
-relatedlinks:
-  - url: http://www.google.com
-    title: 
-    description: 
+concurrence: "" 
+template: ""
+relatedlinks: []
 ---
 
 <div class="va-introtext">
@@ -42,7 +39,7 @@ There are 2 ways you can get this benefit:
 
 **Write to your Pension Management Center (PMC)**
 
-You can write to the PMC for your state. [Find your PMC](pensions/pension-management-centers/). 
+You can write to the PMC for your state. [Find your PMC](/pensions/pension-management-center/). 
 
 Include this information: 
 - Evidence, like a doctor’s report, that shows you need A&A or Housebound care, or have your doctor complete VA Form 21-2680, Examination for Housebound Status or Permanent Need for Regular and Attendance
