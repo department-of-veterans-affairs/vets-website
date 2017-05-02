@@ -77,7 +77,9 @@ class EduBenefitsApp extends React.Component {
       submitBenefitsForm(this.props.data);
     };
 
-    const endpoint = currentLocation.pathname.split('/').pop();
+    const pathList = currentLocation.pathname.split('/');
+    let endpoint = pathList.pop();
+    endpoint = (endpoint.length) ? endpoint : pathList.pop();
 
     // Until we come up with a common code base between this and the schemaform
     //  forms, the following is borrowed from NavHeader
