@@ -4,6 +4,8 @@ import Folder from './containers/Folder';
 import Main from './containers/Main';
 import Thread from './containers/Thread';
 import Settings from './containers/Settings';
+import ManageFolders from './containers/ManageFolders';
+import EmailNotifications from './containers/EmailNotifications';
 
 const routes = {
   path: '/',
@@ -17,7 +19,15 @@ const routes = {
       component: Main,
       childRoutes: [
         { path: 'compose', component: Compose },
-        { path: 'settings', component: Settings },
+        {
+          path: 'settings',
+          component: Settings,
+          indexRoute: { component: ManageFolders },
+          childRoutes: [
+            { path: 'folders', component: ManageFolders },
+            { path: 'notifications', component: EmailNotifications },
+          ]
+        },
         { path: ':folderName', component: Folder },
         { path: ':folderName/:messageId', component: Thread },
       ]
