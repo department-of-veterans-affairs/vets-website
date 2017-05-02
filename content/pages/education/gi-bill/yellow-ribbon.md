@@ -65,20 +65,13 @@ Bring your COE to your school's certifying official, or to the financial aid, mi
 </div>
 </li>
 
-<li class="step last four">
+<li class="step four">
 <div markdown="1">
 
 ##### Follow up
 You'll get a notice from your school about whether it has accepted you into the program and how much money you'll get for tuition.
-</div>
-</li>
 
 </div>
 </li>
-
 </ol>
 
-### Get more information
-
-- [FAQs about the Yellow Ribbon Program](http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf)
-- [Yellow Ribbon Program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/Yellow_Ribbon_Pamphlet.pdf)

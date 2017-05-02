@@ -146,7 +146,7 @@ export function removeHiddenData(schema, data) {
 
   if (schema.type === 'object') {
     return Object.keys(data).reduce((current, next) => {
-      if (typeof data[next] !== 'undefined') {
+      if (typeof data[next] !== 'undefined' && schema.properties[next]) {
         const nextData = removeHiddenData(schema.properties[next], data[next]);
 
         // if the data was removed, then just unset it
@@ -185,7 +185,7 @@ export function removeHiddenData(schema, data) {
  * function in uiSchema. This means the schema can be re-calculated based on data
  * a user has entered.
  */
-export function updateSchemaFromUiSchema(schema, uiSchema, pageData, form, index = null) {
+export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = null) {
   if (!uiSchema) {
     return schema;
   }
@@ -194,8 +194,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, pageData, form, index
 
   if (currentSchema.type === 'object') {
     const newSchema = Object.keys(currentSchema.properties).reduce((current, next) => {
-      const nextData = pageData ? pageData[next] : undefined;
-      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], nextData, form, index);
+      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], formData, index);
 
       if (current.properties[next] !== nextProp) {
         return _.set(['properties', next], nextProp, current);
@@ -213,7 +212,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, pageData, form, index
     // each item has its own schema, so we need to update the required fields on those schemas
     // and then check for differences
     const newItemSchemas = currentSchema.items.map((item, idx) =>
-      updateSchemaFromUiSchema(item, uiSchema.items, pageData, form, idx)
+      updateSchemaFromUiSchema(item, uiSchema.items, formData, idx)
     );
 
     if (newItemSchemas.some((newItem, idx) => newItem !== currentSchema.items[idx])) {
@@ -224,7 +223,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, pageData, form, index
   const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
 
   if (updateSchema) {
-    const newSchemaProps = updateSchema(pageData, form, currentSchema, index);
+    const newSchemaProps = updateSchema(formData, currentSchema, uiSchema, index);
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
       if (newSchemaProps[next] !== schema[next]) {
@@ -354,11 +353,8 @@ export function updateItemsSchema(schema, fieldData = null) {
  * @param {Object} schema The current JSON Schema
  * @param {Object} uiSchema The current UI Schema (does not change)
  * @param {Object} formData Flattened data for the entire form
- * @param {Object} pageData The data for the current page
- * @param {Object} state The Redux state object, which contains schema and data for
- *   all pages
  */
-export function updateSchemaAndData(schema, uiSchema, formData, pageData, state) {
+export function updateSchemaAndData(schema, uiSchema, formData) {
   let newSchema = updateItemsSchema(schema, formData);
   newSchema = updateRequiredFields(newSchema, uiSchema, formData);
 
@@ -366,10 +362,13 @@ export function updateSchemaAndData(schema, uiSchema, formData, pageData, state)
   newSchema = setHiddenFields(newSchema, uiSchema, formData);
 
   // Update the schema with any general updates based on the new data
-  newSchema = updateSchemaFromUiSchema(newSchema, uiSchema, pageData, state);
+  newSchema = updateSchemaFromUiSchema(newSchema, uiSchema, formData);
 
   // Remove any data that's now hidden in the schema
-  const newData = removeHiddenData(newSchema, pageData);
+  const newData = removeHiddenData(newSchema, formData);
+
+  // We need to do this again because array data might have been removed
+  newSchema = updateItemsSchema(newSchema, newData);
 
   return {
     data: newData,

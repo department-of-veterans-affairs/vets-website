@@ -23,7 +23,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Applicant information page
     client
       .waitForElementVisible('input[name="root_relativeFullName_first"]', Timeouts.slow);
-    EduHelpers.completeRelativeInformation(client, testData.applicantInformation.data, false);
+    EduHelpers.completeRelativeInformation(client, testData.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -32,7 +32,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Additional benefits page
     client
       .waitForElementVisible('label[for="root_nonVaAssistance"]', Timeouts.slow);
-    EduHelpers.completeAdditionalBenefits(client, testData.benefitEligibility.data, false);
+    EduHelpers.completeAdditionalBenefits(client, testData.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -41,7 +41,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefits eligibility page
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, testData.benefitEligibility, false);
+    EduHelpers.completeBenefitsSelection(client, testData.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -50,8 +50,8 @@ module.exports = E2eHelpers.createE2eTest(
     // Sponsor information page
     client
       .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
-    EduHelpers.completeVeteranInformation(client, testData.sponsorVeteran.data, false);
-    EduHelpers.completeVeteranAddress(client, testData.sponsorVeteran.data);
+    EduHelpers.completeVeteranInformation(client, testData.data, false);
+    EduHelpers.completeVeteranAddress(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -60,7 +60,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Education history page
     client
       .waitForElementVisible('input[name="root_postHighSchoolTrainings_0_name"]', Timeouts.slow);
-    Edu1990eHelpers.completeEducationHistory(client, testData.educationHistory.data, false);
+    Edu1990eHelpers.completeEducationHistory(client, testData.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -69,7 +69,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Employment history page
     client
       .waitForElementVisible('label[for="root_view:hasNonMilitaryJobs"]', Timeouts.slow);
-    EduHelpers.completeEmploymentHistory(client, testData.employmentHistory.data, false);
+    EduHelpers.completeEmploymentHistory(client, testData.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -78,7 +78,7 @@ module.exports = E2eHelpers.createE2eTest(
     // School selection page
     client
       .waitForElementVisible('input[name="root_educationProgram_name"]', Timeouts.slow);
-    EduHelpers.completeSchoolSelection(client, testData.schoolSelection.data, true);
+    EduHelpers.completeSchoolSelection(client, testData.data, true);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -87,7 +87,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Contact information page
     client
       .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-    EduHelpers.completeContactInformation(client, testData.contactInformation.data, false, true);
+    EduHelpers.completeContactInformation(client, testData.data, false, true);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -96,7 +96,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Direct deposit page
     client
       .waitForElementVisible('label[for="root_bankAccount_accountType"]', Timeouts.slow);
-    EduHelpers.completeDirectDeposit(client, testData.directDeposit.data, false);
+    EduHelpers.completeDirectDeposit(client, testData.data, false);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');

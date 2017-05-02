@@ -24,6 +24,7 @@ You can get education benefits if you qualify for—or already get—VA educatio
 
 **Exception:** Family members who qualify for Survivors’ and Dependents’ Educational Assistance can get VA benefits while in approved postsecondary (after high school) non-college degree programs at training locations in the Philippines.
 
+
 </div>
 
 ### What benefits can I get? 
@@ -82,10 +83,12 @@ Be sure you have enough money to cover all your needs until VA payments begin. A
 
 <li class="step three last wow fadeIn animated" markdown="0">
 
+
 You must give written permission for school officials to release information to us as necessary. If you don't, it could affect when you get benefits. 
 
 Normally, foreign schools certify their students for 1 academic year. Within 120 days of your enrollment, you should let the school know if you plan to re-enroll, and ask the certifying official to submit an enrollment certification for you. You should make sure the school knows your plans for continued enrollment in order to avoid any delay in getting your benefits.
 
+</li>
 </ol>
 
 ### Need help?

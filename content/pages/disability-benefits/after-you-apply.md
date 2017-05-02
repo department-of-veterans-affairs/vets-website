@@ -43,7 +43,7 @@ You don't need to do anything unless we send you a letter asking for more inform
 ### What happens after I apply?
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 #### Claim Received
 
@@ -51,7 +51,7 @@ You’ll see a notice from us in your claims list within about 1 hour if you app
 
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 
 #### Initial Review
 
@@ -59,7 +59,7 @@ A Veterans Service Representative (VSR) will review your claim. It’ll move to 
 
 </li>
 
-<li class="step three">
+<li class="process-step list-three">
 
 #### Evidence Gathering, Review, and Decision
 
@@ -73,15 +73,15 @@ If we need more evidence during the review, your claim may return to this step m
 
 </li>
 
-<li class="step four">
- 
+<li class="process-step list-four"> 
+
 #### Preparation for Notification
 
 We’ll get your entire claim decision packet ready to be mailed.
 
 </li>
 
-<li class="step last five">
+<li class="process-step list-five">
 
 #### Claim Complete
 
