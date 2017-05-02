@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Gulf War: Operation Desert Shield and Desert Storm
+title: Gulf War—Operation Desert Shield and Desert Storm
 display_title: Gulf War
 concurrence: ""
 template: 1-topic-landing
