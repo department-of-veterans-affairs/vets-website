@@ -36,7 +36,7 @@ You may be able to get pension benefits if:
 
 - **And:**
 
-Your yearly family income and net worth                                                                                                                                                           meets certain limits set by Congress. Your net worth equals the value of everything you own (like your house and any stocks) plus your income minus any debt you owe. [(Find out about income limits)](/pension/veterans-pension-rates/).
+Your yearly family income and net worth                                                                                                                                                           meets certain limits set by Congress. Your net worth equals the value of everything you own (like your house and any stocks) plus your income minus any debt you owe. [(Find out about income limits)](/pensions/veterans-pension-rates/).
 
 **And at least 1 of these is true:**
 
@@ -48,7 +48,7 @@ Your yearly family income and net worth                                         
 **Who’s covered?**
 Veterans
 
-If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. [Learn more about the Survivors Pension program](/pension/survivors-pension/).
+If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. [Learn more about the Survivors Pension program](/pensions/survivors-pension/).
 
 </div>
 
