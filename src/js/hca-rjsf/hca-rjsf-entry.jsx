@@ -23,7 +23,7 @@ if (__BUILDTYPE__ === 'development' && window.devToolsExtension) {
   store = createStore(reducer, compose(applyMiddleware(thunk)));
 }
 
-// TODO: Change the basename path once we replace hca with this form
+// Change the basename path once we replace hca with this form
 // (should be 'healthcare/appy/application')
 const browserHistory = useRouterHistory(createHistory)({
   basename: '/healthcare/rjsf'
