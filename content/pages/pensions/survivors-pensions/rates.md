@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Survivor's Pension Rate Tables
 concurrence: "" 
 template: ""
-relatedlinks: []
+relatedlinks:
   - url: /pensions/eligibility/
     title: Eligibility
     description: Find out if you can get monthly payments through our Survivors Pension program.
