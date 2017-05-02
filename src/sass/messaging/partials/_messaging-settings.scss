@@ -61,6 +61,16 @@
     }
   }
 
+  .msg-notifications-inputs {
+    label {
+      margin-top: 0;
+
+      &:first-of-type {
+        margin-top: 1rem;
+      }
+    }
+  }
+
   .msg-btn-notifications {
     margin-top: 3rem;
   }

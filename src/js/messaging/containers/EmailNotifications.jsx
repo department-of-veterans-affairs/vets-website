@@ -10,7 +10,8 @@ export class EmailNotifications extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      notifications: 'each',
+      notifications: 'on',
+      frequency: 'each',
       email: 'brian.williams@gmail.com'
     };
   }
@@ -22,25 +23,52 @@ export class EmailNotifications extends React.Component {
   render() {
     return (
       <div className="va-tab-content">
-        <p>
+        <div>
           Receive email notifications of of the arrival of new messages.
-        </p>
+        </div>
         <form onSubmit={this.handleSubmit}>
-          <ErrorableRadioButtons
-              name="notifications"
-              label="New message email notification:"
-              options={[
-                { label: 'On', value: 'on' },
-                { label: 'Off', value: 'off' }
-              ]}
-              onValueChange={v => this.setState({ notifications: v.value })}
-              value={{ value: this.state.notifications }}/>
+          <label>New message email notification:</label>
+          <div className="msg-notifications-inputs">
+            <div>
+              <input
+                  id="notifications-on"
+                  type="radio"
+                  value="on"
+                  checked={this.state.notifications === 'on'}
+                  onChange={() => this.setState({ notifications: 'on' })}/>
+              <label htmlFor="notifications-on">On</label>
+              {
+                this.state.notifications === 'on' && <div className="form-expanding-group-open">
+                  <ErrorableRadioButtons
+                      name="frequency"
+                      label=""
+                      options={[
+                        { label: 'Each message', value: 'each' },
+                        { label: 'Once a day', value: 'daily' }
+                      ]}
+                      onValueChange={v => this.setState({ frequency: v.value })}
+                      value={{ value: this.state.frequency }}/>
+                </div>
+              }
+            </div>
+            <div>
+              <input
+                  id="notifications-off"
+                  type="radio"
+                  value="off"
+                  checked={this.state.notifications === 'off'}
+                  onChange={() => this.setState({ notifications: 'off' })}/>
+              <label htmlFor="notifications-off">Off</label>
+            </div>
+          </div>
           <ErrorableTextInput
               name="email"
               label="Send email notifications to:"
               onValueChange={v => this.setState({ email: v.value })}
               field={{ value: this.state.email }}/>
-          <button>Save changes</button>
+          <button className="msg-btn-notifications">
+            Save changes
+          </button>
         </form>
       </div>
     );
