@@ -5,7 +5,7 @@ display_title: Gulf War
 concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
-relatedlinks:
+relatedlinks: 
   - url: /healthcare/health-conditions/conditions-related-to-service-era/operation-enduring-freedom/
     title: Operation Enduring Freedom in Afghanistan
     description: October 7, 2001 to present
