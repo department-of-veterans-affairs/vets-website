@@ -6,6 +6,7 @@ import moment from 'moment';
 import AlertBox from '../../common/components/AlertBox';
 
 import DownloadLink from '../components/DownloadLink';
+import { openModal, closeModal } from '../actions/modal';
 
 export class DownloadPage extends React.Component {
   renderMessageBanner() {
@@ -59,6 +60,23 @@ export class DownloadPage extends React.Component {
     return <AlertBox {...alertProps}/>;
   }
 
+  renderConfirmModal() {
+    const linkOnClick = (e) => {
+      e.preventDefault();
+      this.props.openModal('Are you sure you want to leave this page?', <div>
+        <p>Generating a new health record will replace your most recent download request.</p>
+        <div className="va-modal-actions">
+          <Link className="usa-button" to="/" onClick={this.props.closeModal}>
+            Yes, continue
+          </Link>
+          <button onClick={this.props.closeModal} className="usa-button-outline">Cancel</button>
+        </div>
+      </div>);
+    };
+
+    return <a href="#" onClick={linkOnClick}>Start a new request</a>;
+  }
+
   render() {
     return (
       <div>
@@ -72,7 +90,7 @@ export class DownloadPage extends React.Component {
           <DownloadLink name="Text File" docType="txt"/>
         </div>
         <p>
-          <Link to="/">Start a new request</Link>
+          {this.renderConfirmModal()}
         </p>
       </div>
     );
@@ -87,6 +105,9 @@ const mapStateToProps = (state) => {
     refresh: hrState.refresh,
   };
 };
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  openModal,
+  closeModal,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DownloadPage);
