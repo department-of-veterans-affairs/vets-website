@@ -1298,16 +1298,25 @@ li {
   border-bottom: $color-va-accent solid 2px;
 }
 
+// If this divider gets reused and with text in the middle
+// you should create a variation of this rule that accounts
+// for the size of the text.
 .va-h-ruled--stars {
   display: flex;
   justify-content: center;
 
   &::before {
-    margin-right: 2rem;
+    margin-right: 10.5rem;
+    @include media($medium-screen) {
+       margin-right: 12.5rem;
+    }
   }
 
   &::after {
-    margin-left: 2rem;
+    margin-left: 10.5rem;
+    @include media($medium-screen) {
+       margin-left: 12.5rem;
+    }
   }
 
   &::before,
@@ -1315,22 +1324,22 @@ li {
     background: $color-gray-light;
     content: " ";
     display: inline-block;
-    flex: 1 1 20%;
+    flex: 1 1 50%;
     height: 2px;
     margin-top: -3.5rem;
     width: 10px;
-
-    @include media($medium) {
-      flex-basis: 35%;
-    };
   }
 
-  
   background: url(/img/stars.png) no-repeat top center;
   background-size: 20rem auto;
   margin: 2.4rem auto auto;
-  padding: 4.8rem 1rem 0;
+  padding: 4.8rem 1.6rem 0;
   text-align: center;
+
+  @include media($medium-screen) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 // Action bars
