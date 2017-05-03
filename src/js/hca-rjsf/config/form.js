@@ -29,6 +29,7 @@ import { uiSchema as fullNameUISchema } from '../../common/schemaform/definition
 import * as ssn from '../../common/schemaform/definitions/ssn';
 
 const {
+  mothersMaidenName,
   cityOfBirth,
   isSpanishHispanicLatino,
   isAmericanIndianOrAlaskanNative,
@@ -107,16 +108,8 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              veteranFullName: _.merge(fullName, {
-                properties: {
-                  suffix: {
-                    type: 'string'
-                  }
-                }
-              }),
-              mothersMaidenName: {
-                type: 'string'
-              }
+              veteranFullName: fullName,
+              mothersMaidenName
             }
           }
         },
@@ -235,12 +228,10 @@ const formConfig = {
               address: _.merge(address.schema(true), {
                 properties: {
                   street: {
-                    type: 'string',
                     minLength: 1,
                     maxLength: 30
                   },
                   street2: {
-                    type: 'string',
                     minLength: 1,
                     maxLength: 30
                   },
@@ -250,7 +241,6 @@ const formConfig = {
                     maxLength: 30
                   },
                   city: {
-                    type: 'string',
                     minLength: 1,
                     maxLength: 30
                   }
@@ -448,7 +438,6 @@ const formConfig = {
                     'enum': states.USA.map(state => state.value)
                   },
                   vaMedicalFacility: _.assign(vaMedicalFacility, {
-                    type: 'string',
                     'enum': []
                   })
                 }
@@ -523,10 +512,10 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              lastServiceBranch: _.assign(lastServiceBranch, { type: 'string' }),
+              lastServiceBranch,
               lastEntryDate,
               lastDischargeDate,
-              dischargeType: _.assign(dischargeType, { type: 'string' })
+              dischargeType
             },
             required: [
               'lastServiceBranch',
