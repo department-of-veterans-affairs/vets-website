@@ -14,14 +14,14 @@ To create a new collection, add a new collection object to `vets-website/script/
 ```
 smith.use(collections({
   collectionName: {
-    path: 'path/to/the/files/*.md',
+    pattern: 'path/to/the/files/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Title for collection 1'
     }
   },
   secondCollectionName: {
-    path: 'path/to/the/files/*.md',
+    pattern: 'path/to/the/files/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Title for collection two'
@@ -33,7 +33,7 @@ smith.use(collections({
 ### What each field means:
 
 - `collectionName`: should be a camel-cased or snake-cased (e.g. snake_cased, with an underscore) string that summarizes the name of the related documents.
-- `path`: should be a relative directory path to the markdown files to be grouped.
+- `pattern`: should be a directory path relative to the site root (without a leading slash), and end with `*.md`.
 - `sortBy`: is any current YAML property used in the front matter metadata (front matter data is the stuff between the `---` at the beginning of each content file). This should usually be:
 
     - `order`
@@ -53,7 +53,7 @@ layout: page-breadcrumbs.html
 title: Agent Orange
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: detail-page
-collection: exposureHazMat
+collection: disabilityExposureHazMat
 ---
 ```
 
