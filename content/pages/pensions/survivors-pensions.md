@@ -4,7 +4,7 @@ title: Survivor's Pension
 concurrence: "" 
 template: ""
 relatedlinks: 
-  - url: /pensions/survivors-pensions/
+  - url: /pensions/survivors-pensions/rates/
     title: Survivors Pension Rates
     description: Find out how much you qualify for.
   - url: /pensions/pension-management-center/
