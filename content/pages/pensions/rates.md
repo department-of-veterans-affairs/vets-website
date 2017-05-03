@@ -61,6 +61,7 @@ Standard Medicare Deduction: Actual amount will be determined by SSA based on i
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($645 for a Veteran with no spouse or child).
 
 | **For 2 Veterans who are married to each other:
+
 If you’re 2 Veterans married to each other and…** | **Your MARP amount is:** |
 | --- | --- | 
 | Neither of you qualifies for Housebound or A&A benefits | $16,902 | 
