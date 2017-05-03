@@ -12,9 +12,6 @@ relatedlinks:
   - url: /healthcare/apply/
     title: Health Care Application Process
     description: Ready to apply? Get started now.
-  - url: /healthcare/prescriptions/
-    title: Sign In to Your Vets.gov Account
-    description: Already signed up for VA health care? Manage your benefits online.
   - url: /disability-benefits/
     title: Disability Benefits
     description: Have an illness or injury caused—or made worse—by your active-duty service? Find out if you can get disability benefits.
