@@ -4,10 +4,10 @@ title: Find a Pension Management Center
 concurrence: "" 
 template: ""
 relatedlinks:
-  - url: /pages/pensions/eligibility/
+  - url: /pensions/eligibility/
     title: Eligibility
     description: Find out if you can get monthly payments through our Veterans Pension program.
-  - url: /pages/pensions/apply/
+  - url: /pensions/apply/
     title: Application Process
     description: Learn about the application process and apply for pension benefits.
   - url: /pensions/survivors-pensions/
