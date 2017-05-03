@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Find a Pension Management Center
 concurrence: "" 
 template: ""
-relatedlinks: []
+relatedlinks:
   - url: /pages/pensions/eligibility/
     title: Eligibility
     description: Find out if you can get monthly payments through our Veterans Pension program.
