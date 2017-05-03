@@ -12,9 +12,6 @@ relatedlinks:
   - url: /healthcare/apply/
     title: Health Care Application Process
     description: Ready to apply? Get started now.
-  - url: /healthcare/prescriptions/
-    title: Sign In to Your Vets.gov Account
-    description: Already signed up for VA health care? Manage your benefits online.
   - url: /healthcare/about-va-health-care/
     title: About VA Health Care Coverage
     description: Want to know more about what’s covered by your VA health care benefits? Learn more about your benefits.
