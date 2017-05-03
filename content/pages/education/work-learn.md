@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Work and Learn
 concurrence: complete
+order: 7
 template: 1-topic-landing
 relatedlinks:
   - url: /education/work-learn/workstudy/

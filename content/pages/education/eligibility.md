@@ -1,9 +1,11 @@
 ---
 layout: page-breadcrumbs.html
+display_title: Eligibility
 title: Education Benefits Eligibility 
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 showactionbar: false
+order: 1
 relatedlinks:
  - url: /education/gi-bill/post-9-11/
    title: Post-9/11 GI Bill

@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Career Counseling
 concurrence: incomplete
+order: 5
 template: 1-topic-landing
 relatedlinks:
   - url: /education/tools-programs/education-career-counseling/

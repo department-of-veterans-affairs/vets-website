@@ -156,20 +156,35 @@ smith.use(define({
 
 smith.use(collections({
   disabilityAgentOrange: {
-    path: 'disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md',
+    pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Agent Orange'
     }
   },
-  exposureHazMat: {
-    path: 'disability-benefits/conditions/exposure-to-hazardous-materials/*.md',
+  disabilityExposureHazMat: {
+    pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/*.md',
     sortBy: 'title',
     metadata: {
       name: 'Exposure to Hazardous Materials'
     }
+  },
+  education: {
+    pattern: 'education/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Education Benefits'
+    }
+  },
+  educationGIBill: {
+    pattern: 'education/gi-bill/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'GI Bill'
+    }
   }
 }));
+
 smith.use(dateInFilename(true));
 smith.use(archive());  // TODO(awong): Can this be removed?
 

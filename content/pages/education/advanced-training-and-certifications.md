@@ -3,6 +3,7 @@ layout: page-breadcrumbs.html
 title: Advanced Training and Certifications
 concurrence: incomplete
 template: 1-topic-landing
+order: 6
 relatedlinks:
   - url: /education/advanced-training-and-certifications/entrepreneurship-training
     title: Entrepreneurship Training
