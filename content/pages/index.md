@@ -43,4 +43,6 @@ majorlinks_col2:
   <a href="/track-claims/" class="outline-link-block">
     Check your claim status
   </a>
+
   </div>
+</div>
