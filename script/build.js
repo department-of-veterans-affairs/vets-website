@@ -125,7 +125,7 @@ smith.metadata({ buildtype: options.buildtype });
 // const ignore = require('metalsmith-ignore');
 // const ignoreList = [];
 // if (options.buildtype === 'production') {
-//   ignoreList.push('disability-benefits/track-claims/*');
+//   ignoreList.push('track-claims/*');
 // }
 // smith.use(ignore(ignoreList));
 
@@ -191,7 +191,7 @@ if (options.watch) {
     historyApiFallback: {
       rewrites: [
         { from: '^/track-claims(.*)', to: '/track-claims/' },
-        { from: '^/disability-benefits/track-claims(.*)', to: '/disability-benefits/track-claims/' },
+        { from: '^/track-claims(.*)', to: '/track-claims/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
