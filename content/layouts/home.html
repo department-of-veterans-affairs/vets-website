@@ -1,5 +1,11 @@
 {% include "content/includes/header.html" %}
 <main>
   {{ contents }}
-</main>
+
+  <div class="va-h-ruled--stars"></div>
+  <div class="va-homepage-benefits usa-grid">
+    {% include "content/components/navigation-links-list.html" %}
+    {% include "content/components/navigation-links-list.html" with majorlinks = majorlinks_col2 %}
+  </div>
+</div>
 {% include "content/includes/footer.html" %}
