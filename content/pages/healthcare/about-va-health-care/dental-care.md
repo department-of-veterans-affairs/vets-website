@@ -5,8 +5,19 @@ display_title: ""
 concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
-relatedlinks: []
-
+relatedlinks:
+  - url: /healthcare/eligibility/
+    title: Health Care Benefits Eligibility
+    description: Not sure if you qualify? Find out if you can get VA health care benefits.
+  - url: /healthcare/apply/
+    title: Health Care Application Process
+    description: Ready to apply? Get started now.
+  - url: /healthcare/prescriptions/
+    title: Sign In to Your Vets.gov Account
+    description: Already signed up for VA health care? Manage your benefits online.
+  - url: /disability-benefits/
+    title: Disability Benefits
+    description: Need help finding out if you qualify for disability benefits? Learn more about these benefits.
 ---
 
 <div class="va-introtext">
