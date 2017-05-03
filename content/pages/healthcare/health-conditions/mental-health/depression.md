@@ -31,7 +31,9 @@ We offer treatments such as:
 
 - Medicine proven to help treat depression, anxiety, sleep issues, and other related problems
 - Psychotherapy (also called “talk therapy”) to help treat depression. These may sessions may include learning new behaviors (like exercise and relaxation), help resolving relationship problems, and more. 
+
 <br>
+
 [Download our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). 
  
 </div>
