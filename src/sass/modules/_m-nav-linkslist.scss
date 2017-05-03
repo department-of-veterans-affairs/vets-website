@@ -3,16 +3,17 @@
 // Created: 2017-04-12
 //
 // - Used for link lists.
-// - Find an example on /disability-benefits
+// - Find an example on /disability-benefits or home page
 // - Find corresponding markup in 
 //   content/includes/navigation-links-list.html
 //============================================
 
 .va-nav-linkslist {
-  margin-bottom: 4rem;
+  margin-bottom: 6.4rem;
 
   &--related {
     background: $color-gray-lightest;
+    padding: 0 1rem;
   }
 
   &-heading {
@@ -25,6 +26,7 @@
 
   &-list {
     list-style: none;
+    margin: 0;
     padding-left: 0;
 
     a {
@@ -35,7 +37,7 @@
     }
 
     li {
-      margin: 2.4rem 0;
+      margin: 2.4rem 0 0;
     }
   }
 
