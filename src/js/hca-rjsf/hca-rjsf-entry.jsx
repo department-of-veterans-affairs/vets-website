@@ -12,6 +12,7 @@ import reducer from './reducer';
 
 require('../common');
 require('../../sass/hca.scss');
+require('../../sass/edu-benefits.scss');
 
 require('../login/login-entry.jsx');
 
@@ -22,6 +23,8 @@ if (__BUILDTYPE__ === 'development' && window.devToolsExtension) {
   store = createStore(reducer, compose(applyMiddleware(thunk)));
 }
 
+// Change the basename path once we replace hca with this form
+// (should be 'healthcare/appy/application')
 const browserHistory = useRouterHistory(createHistory)({
   basename: '/healthcare/rjsf'
 });
