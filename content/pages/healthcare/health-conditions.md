@@ -44,7 +44,7 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
 - [Women’s health care needs](/healthcare/health-conditions/womens-health-care-needs/)
 
-- [Cancers and other conditions caused by contact with harmful chemicals or other hazardous materials](/healthcare/health-conditions/health-concerns-related-to-exposures/)
+- [Cancers and other conditions caused by contact with harmful chemicals or other hazardous materials](/healthcare/health-conditions/exposure-to-hazardous-materials/)
 
 - [Dental care](/healthcare/about-va-health-care/dental-care/)
 
