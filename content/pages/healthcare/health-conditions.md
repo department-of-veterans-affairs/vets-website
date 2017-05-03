@@ -3,10 +3,21 @@ layout: page-breadcrumbs.html
 title: Health Needs and Conditions
 display_title: ""
 concurrence: ""
-template: ""
+template: 1-topic-landing
 lastupdate_override: ""
-relatedlinks: []
-
+relatedlinks:
+  - url: /healthcare/eligibility/
+    title: Health Care Benefits Eligibility
+    description: Not sure if you qualify? Find out if you can get VA health care benefits.
+  - url: /healthcare/apply/
+    title: Health Care Application Process
+    description: Ready to apply? Get started now.
+  - url: /healthcare/prescriptions/
+    title: Sign In to Your Vets.gov Account
+    description: Already signed up for VA health care? Manage your benefits online.
+  - url: /disability-benefits/
+    title: Disability Benefits
+    description: Have an illness or injury caused—or made worse—by your active-duty service? Find out if you can get disability benefits.
 ---
 
 <div class="va-introtext">
@@ -23,7 +34,7 @@ At VA, we offer many services and programs for Veterans with specific needs—li
 
   - [Posttraumatic stress disorder (PTSD)](/healthcare/health-conditions/mental-health/ptsd/)
 
-  - [Depression](/healthcare/health-conditions/mental-health/depression)
+  - [Depression](/healthcare/health-conditions/mental-health/depression/)
 
   - [Suicide prevention](/healthcare/health-conditions/mental-health/suicide-prevention/)
 
