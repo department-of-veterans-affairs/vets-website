@@ -1299,10 +1299,37 @@ li {
 }
 
 .va-h-ruled--stars {
+  display: flex;
+  justify-content: center;
+
+  &::before {
+    margin-right: 2rem;
+  }
+
+  &::after {
+    margin-left: 2rem;
+  }
+
+  &::before,
+  &::after {
+    background: $color-gray-light;
+    content: " ";
+    display: inline-block;
+    flex: 1 1 20%;
+    height: 2px;
+    margin-top: -3.5rem;
+    width: 10px;
+
+    @include media($medium) {
+      flex-basis: 35%;
+    };
+  }
+
+  
   background: url(/img/stars.png) no-repeat top center;
   background-size: 20rem auto;
   margin: 2.4rem auto auto;
-  padding: 4.8rem 1.6rem 0;
+  padding: 4.8rem 1rem 0;
   text-align: center;
 }
 
