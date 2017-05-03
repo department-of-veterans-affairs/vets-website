@@ -17,4 +17,4 @@ relatedlinks: []
 - Call 911.
 - Go to the nearest emergency room.
 
-<div class="feature" markdown=“1”>
+
