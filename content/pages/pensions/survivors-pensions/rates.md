@@ -54,8 +54,8 @@ Standard Medicare Deduction: Actual amount will be determined by SSA based on i
 
 **For qualified surviving spouses with no dependents:**
 
-| **If you have no dependents and…** | **Your MARP amount is:** | Column 3 heading |
-| --- | --- | --- |
+| **If you have no dependents and…** | **Your MARP amount is:** |
+| --- | --- |
 | You don’t qualify for Housebound or A&A benefits | $8,656 |
 | You qualify for Housebound benefits | $10,580 | 
 | You qualify for A&A benefits | $13,836 | 
