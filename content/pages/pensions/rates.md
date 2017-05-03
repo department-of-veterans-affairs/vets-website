@@ -32,16 +32,16 @@ Your yearly income = $10,000
 Your VA pension = $15,525 for the year (or $1,293.75 paid each month)
 
 **Find your Maximum Annual Pension Rate (MAPR) amount**
-\*Fine print
 Date of Cost-of-Living Increase: 12-01-2016
 Increase Factor:  .3%
 Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.
 
 **For Veterans with at least 1 dependent spouse or child:**
+
 | **If you have 1 dependent and…** | **Your MAPR amount is:** |
 | --- | --- | 
 | You don’t qualify for Housebound or A&A benefits | $16,902 | 
-| You qualify for Housebound benefits  | $19,770 | 
+| You qualify for Housebound benefits | $19,770 | 
 | You qualify for A&A benefits | $25,525 | 
 
 **Note:** 
@@ -50,6 +50,7 @@ Standard Medicare Deduction: Actual amount will be determined by SSA based on i
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($845 for a Veteran with 1 dependent).
 
 **For Veterans with no dependents:**
+
 | **If you have no dependents and…** | **Your MARP amount is:** | 
 | --- | --- | 
 | You don’t qualify for Housebound or A&A benefits | $12,907 |
