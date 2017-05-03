@@ -70,7 +70,7 @@ All mental health care at VA supports recovery. Our goal is to help you take cha
 
 </div>
 
-### How do I get mental health services through VA? [UX NOTE: CONSIDER ACCORDION LINK HERE]
+### How do I get mental health services through VA? 
 
 The VA health care program covers mental health services. To get these services, first apply for VA health care. [Apply for health care](/healthcare/apply/).
 
@@ -81,7 +81,7 @@ Once you’re signed up:
   - Call our general information hotline at <a href="tel:+1phonenumber">800-827-1000</a>, **or**
   - [Contact your local VA medical center](https://www.va.gov/health/vamc/).
 
-### What if I don’t have VA health benefits? [UX NOTE: CONSIDER ACCORDION LINK HERE]
+### What if I don’t have VA health benefits? 
 
 You may still be able to get care:
 
