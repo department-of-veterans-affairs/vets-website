@@ -50,13 +50,9 @@ describe('Hca VA facility', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
-          state={{
-            vaFacility: {
-              data: {
-                'view:preferredFacility': {
-                  'view:facilityState': 'MA'
-                }
-              }
+          data={{
+            'view:preferredFacility': {
+              'view:facilityState': 'MA'
             }
           }}
           uiSchema={uiSchema}/>
@@ -74,14 +70,10 @@ describe('Hca VA facility', () => {
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
-          state={{
-            vaFacility: {
-              data: {
-                'view:preferredFacility': {
-                  'view:facilityState': 'MA',
-                  vaMedicalFacility: '631'
-                }
-              }
+          data={{
+            'view:preferredFacility': {
+              'view:facilityState': 'MA',
+              vaMedicalFacility: '631'
             }
           }}
           uiSchema={uiSchema}/>

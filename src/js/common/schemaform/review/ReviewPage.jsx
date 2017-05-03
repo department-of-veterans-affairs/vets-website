@@ -85,14 +85,14 @@ class ReviewPage extends React.Component {
                   setData={this.props.setData}
                   setValid={this.props.setValid}
                   chapter={formConfig.chapters[chapter]}
-                  data={form}/>
+                  form={form}/>
             ))}
           </div>
         </div>
         <p><strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)</p>
         <PrivacyAgreement required
             onChange={this.props.setPrivacyAgreement}
-            checked={form.privacyAgreementAccepted}
+            checked={form.data.privacyAgreementAccepted}
             showError={form.submission.hasAttemptedSubmit}/>
         <SubmitButtons
             onBack={this.goBack}

@@ -3,12 +3,10 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester, wrapSchemas } from '../../../util/schemaform-utils.jsx';
-import { schema as rawSchema, uiSchema as rawUiSchema } from '../../../../src/js/common/schemaform/definitions/nonMilitaryJobs';
+import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
+import { schema, uiSchema } from '../../../../src/js/common/schemaform/definitions/nonMilitaryJobs';
 
 describe('Schemaform definition nonMilitaryJobs', () => {
-  const { schema, uiSchema } = wrapSchemas(rawSchema, rawUiSchema, 'nonMilitaryJobs');
-
   it('should render nonMilitaryJobs', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

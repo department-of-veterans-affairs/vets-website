@@ -68,7 +68,7 @@ class FormPage extends React.Component {
    */
   getEligiblePages() {
     const { form, route: { pageConfig, pageList } } = this.props;
-    const eligiblePageList = getActivePages(pageList, form);
+    const eligiblePageList = getActivePages(pageList, form.data);
     const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, eligiblePageList);
     return { eligiblePageList, pageIndex };
   }
@@ -80,34 +80,17 @@ class FormPage extends React.Component {
 
   render() {
     const { route } = this.props;
-    const form = this.props.form;
     const {
-      data,
       schema,
       uiSchema
-    } = form[route.pageConfig.pageKey];
-
-    // Flatten the data from every page to pass to SchemaForm to eventually be
-    //  used in uiSchemaValidate()
-    // I'd rather not have this here, but console.time() tells me it's executing
-    //  locally in 1.49e+12ms on the edu 5495, which is admittedly a relatively
-    //  small form, but it shouldn't be a significant hit at any rate.
-    const formData = Object.keys(form).reduce((carry, pageName) => {
-      if (form[pageName].data) {
-        Object.keys(form[pageName].data).forEach((fieldKey) => {
-          carry[fieldKey] = form[pageName].data[fieldKey]; // eslint-disable-line
-        });
-      }
-      return carry;
-    }, {});
-
+    } = this.props.form.pages[route.pageConfig.pageKey];
+    const data = this.props.form.data;
     return (
       <div className="form-panel">
         <SchemaForm
             name={route.pageConfig.pageKey}
             title={route.pageConfig.title}
-            pageData={data}
-            formData={formData}
+            data={data}
             schema={schema}
             uiSchema={uiSchema}
             onChange={this.onChange}
