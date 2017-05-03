@@ -45,6 +45,7 @@ Standard Medicare Deduction: Actual amount will be determined by SSA based on i
 | You qualify for Housebound benefits | $13,249| 
 | You qualify for A&A benefits| $16,506| 
 | You qualify for A&A benefits **and** you’re the surviving spouse of a Veteran who served in the Spanish-American War (SAW) | $17,006 | 
+
 **Notes:** 
 - The Survivor Benefit Plan (SBP)/Minimum Income Annuity (MIW) limitation is $8,656.
 - **If you have more than 1 child,** add $2,205 to your MAPR amount for each additional child. 
@@ -59,6 +60,7 @@ Standard Medicare Deduction: Actual amount will be determined by SSA based on i
 | You qualify for Housebound benefits | $10,580 | 
 | You qualify for A&A benefits | $13,836 | 
 | You qualify for A&A benefits **and** you’re the surviving spouse of a Veteran who served in the Spanish-American War (SAW) | $14,397 |
+
 **Notes:**
 - The Survivor Benefit Plan (SBP)/Minimum Income Annuity (MIW) limitation is $8,656.
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($432 for a surviving spouse with no dependent child). 
