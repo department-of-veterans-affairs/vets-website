@@ -18,7 +18,11 @@ relatedlinks:
     description: Find the location that serves you and your family. 
 ---
 
+<div class="va-introtext">
+
 If you qualify for survivors pension benefits, the amount you get will be based on the difference between your countable income and a limit that Congress sets (called the Maximum Annual Pension Rate (MAPR). 
+
+</div>
 
 - **Your countable income** is how much you earn, including your salary, investment and retirement payments, and any income you may have from your dependents. Some expenses, like non-reimbursable medical expenses (paid medical expenses not covered by your insurance provider), may reduce your countable income.
 
