@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Survivor's Pension
 concurrence: "" 
-template: ""
+template: 1-topic-landing
 relatedlinks: 
   - url: /pensions/survivors-pensions/rates/
     title: Survivors Pension Rates
