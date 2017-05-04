@@ -27,26 +27,28 @@ You may be able to get this benefit if your income and net worth meet certain le
 
 - Entered service on or before September 7, 1980, and served at least 90 days of active military service, with at least 1 day during a wartime period, **or**
 
-- Entered active duty after September 7, 1980, **and**:
+- Entered active duty after September 7, 1980, **and**
   - Served at least 24 months or the full period for which called or ordered to active duty, with at least 1 day during a wartime period, **and** 
   - Was discharged from service under other conditions than dishonorable
+
+<div class="feature" markdown=“1”>
 
 **Can I get this benefit as the child of a deceased wartime Veteran?**
 
 You may be able to get this benefit if you’re: 
-- Under age 18, or
-- Under age 23 and attending a VA-approved school, or
+- Under age 18, **or**
+- Under age 23 and attending a VA-approved school, **or**
 - Unable to care for yourself due to a disability that happened before age 1
 
 </div>
 
-**Ready to apply?** 
+### Ready to apply? 
 
 Fill out the Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21P-534EZ). [Download VA Form 21P-534EZ](http://vbaw.vba.va.gov/bl/20/cio/20s5/forms/VBA-21P-534EZ-ARE.pdf). 
 
 Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/pensions/pension-management-center/). 
 
-**Other Ways to Apply**
+### Other ways to apply
 
 **Work with a trained professional**
 
