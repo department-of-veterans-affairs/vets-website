@@ -194,3 +194,9 @@ node('vets-website-linting') {
     parallel builds
   }
 }
+
+post {
+        always {
+            deleteDir() /* clean up our workspace */
+        }
+}
