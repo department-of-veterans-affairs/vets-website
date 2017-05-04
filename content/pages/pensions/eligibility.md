@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Eligibility
 concurrence: ""
-template: ""
+template: 1-topic-landing
 relatedlinks:
   - url: /pensions/apply/
     title: Apply
