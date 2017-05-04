@@ -6,5 +6,6 @@
 @import "layouts/l-playbook";
 
 // ----- Modules that only affect non-React pages. ---- //
+@import "modules/m-homepage-splash";
 @import "modules/m-nav-linkslist";
 @import "modules/m-nav-next-previous";

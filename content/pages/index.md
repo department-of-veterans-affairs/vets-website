@@ -20,13 +20,15 @@ majorlinks:
     title: Careers and Employment
     description: Get help building your career skills and finding a job.
 ---
-<div class="splash--home"> 
-  <div class="home-tagline">Get the VA services that you’ve earned.</div>
+<div class="homepage-masthead">
+  <div class="splash--home usa-grid"> 
+    <div class="home-tagline">Get the VA services you’ve earned.</div>
+  </div>
 </div>
 
-<div class="popular-container row">
+<div class="popular-container usa-grid">
   <h2 class="va-h-ruled--a">Get started with Vets.gov</h2>
-  <div class="row va-flex">   
+  <div class="va-flex">   
   <a href="/healthcare/apply/" class="outline-link-block">
     Apply for health care
   </a>
