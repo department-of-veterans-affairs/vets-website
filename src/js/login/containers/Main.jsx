@@ -5,7 +5,8 @@ import moment from 'moment';
 import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogInUrl, logOut } from '../actions';
+import { updateLoggedInStatus, updateLogInUrl } from '../actions';
+import { logOut } from '../../common/actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 
 class Main extends React.Component {
