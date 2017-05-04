@@ -31,14 +31,14 @@ If you qualify for Veterans pension benefits, the amount you get will be based o
 **Example:**
 You’re a qualified Veteran with a dependent, non-Veteran spouse and no children. You also qualify for A&A benefits. You and your spouse have a combined yearly income of $10,000.
 
-Your MAPR amount = $25,525
-Your yearly income = $10,000
-Your VA pension = $15,525 for the year (or $1,293.75 paid each month)
+* Your MAPR amount = $25,525
+* Your yearly income = $10,000
+* Your VA pension = $15,525 for the year (or $1,293.75 paid each month)
 
 **Find your Maximum Annual Pension Rate (MAPR) amount**
-Date of Cost-of-Living Increase: 12-01-2016
-Increase Factor:  .3%
-Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.
+* Date of Cost-of-Living Increase: December 1, 2016
+* Increase Factor:  .3%
+* Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.
 
 **For Veterans with at least 1 dependent spouse or child:**
 
@@ -83,8 +83,12 @@ Standard Medicare Deduction: Actual amount will be determined by SSA based on i
 **Read full regulations from Title 38 Code of Federal Regulations:**
 
 [3.23 Improved Pension Rates – Veterans and Surviving Spouses](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123)
+
 [3.24 Improved Pension Rates – Surviving Children](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123)
+
 [3.271 “Income” for VA Purposes (IVAP)](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123)
+
 [3.272 Exclusions from Income](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123)
+
 [3.272 Rate Computations](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123) 
 
