@@ -46,6 +46,7 @@ class Main extends React.Component {
       return response.json();
     }).then(json => {
       this.props.onUpdateLoginUrl('first', json.authenticate_via_get);
+    }).catch(() => {
     });
   }
 
@@ -66,47 +67,37 @@ class Main extends React.Component {
       return response.json();
     }).then(json => {
       this.setState({ logoutUrl: json.logout_via_get });
+    }).catch(() => {
     });
   }
 
   handleLogin() {
-    window.dataLayer.push({
-      event: 'login-link-clicked',
-    });
+    window.dataLayer.push({ event: 'login-link-clicked' });
     const myLoginUrl = this.props.login.loginUrl.first;
     if (myLoginUrl) {
-      window.dataLayer.push({
-        event: 'login-link-opened',
-      });
+      window.dataLayer.push({ event: 'login-link-opened' });
       const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
       receiver.focus();
+      // TODO(romano): why do we fetch another login url here?
       this.getLoginUrl();
     }
   }
 
   handleSignup() {
-    window.dataLayer.push({
-      event: 'register-link-clicked',
-    });
+    window.dataLayer.push({ event: 'register-link-clicked' });
     const myLoginUrl = this.props.login.loginUrl.first;
     if (myLoginUrl) {
-      window.dataLayer.push({
-        event: 'register-link-opened',
-      });
+      window.dataLayer.push({ event: 'register-link-opened' });
       const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
       receiver.focus();
     }
   }
 
   handleLogout() {
-    window.dataLayer.push({
-      event: 'logout-link-clicked',
-    });
+    window.dataLayer.push({ event: 'logout-link-clicked' });
     const myLogoutUrl = this.state.logoutUrl;
     if (myLogoutUrl) {
-      window.dataLayer.push({
-        event: 'logout-link-opened',
-      });
+      window.dataLayer.push({ event: 'logout-link-opened' });
       const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
       receiver.focus();
     }
@@ -161,5 +152,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(Main);
+// TODO(romano): safe to remoe { pure: false } now? https://github.com/reactjs/react-redux/blob/master/docs/troubleshooting.md
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 export { Main };
