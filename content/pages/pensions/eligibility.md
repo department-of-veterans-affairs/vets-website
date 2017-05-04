@@ -32,11 +32,11 @@ If you’re a wartime Veteran who meets certain age or disability requirements, 
 You may be able to get pension benefits if:
 
 - You started on active duty prior to September 8, 1980, and you served at least 90 days on active duty with at least 1 day during wartime, **or**
-- You started on active duty after September 7, 1980, and served at least 24 months or the full period for which you were called or ordered to active duty (with some exceptions) with at least 2 day during wartime,
+- You started on active duty after September 7, 1980, and served at least 24 months or the full period for which you were called or ordered to active duty (with some exceptions) with at least 2 day during wartime, 
 
-- **And:**
+**And:**
 
-Your yearly family income and net worth meets certain limits set by Congress. Your net worth equals the value of everything you own (like your house and any stocks) plus your income minus any debt you owe. [(Find out about income limits)](/pensions/rates/).
+- Your yearly family income and net worth meets certain limits set by Congress. Your net worth equals the value of everything you own (like your house and any stocks), plus your income minus any debt you owe. [(Find out about income limits)](/pensions/rates/).
 
 **And at least 1 of these is true:**
 
