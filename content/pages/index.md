@@ -4,26 +4,21 @@ body_class: home
 title: Home
 plainlanguage: 11-1-16 Ready for Beth review
 majorlinks:
-  - heading:
-    links: 
-    - url: /healthcare/
-      title: Health Care Benefits
-      description: Apply for and manage VA health care.
-    - url: /education/
-      title: Education Benefits
-      description: Apply for and manage benefits that help you pay for college and training programs.
-    - url: /employment/
-      title: Careers and Employment
-      description: Get help building your career skills and finding a job.
-majorlinks_col2:
-  - heading:
-    links: 
-    - url: /disability-benefits/
-      title: Disability Benefits
-      description: Apply for disability compensation and other benefits for conditions related to your military service.
-    - url: /burials-and-memorials/
-      title: Burials and Memorials
-      description: Get help planning a burial or memorial service, and find out how to get survivor and dependent benefits.
+  - url: /healthcare/
+    title: Health Care Benefits
+    description: Apply for and manage VA health care.
+  - url: /disability-benefits/
+    title: Disability Benefits
+    description: Apply for disability compensation and other benefits for conditions related to your military service.
+  - url: /education/
+    title: Education Benefits
+    description: Apply for and manage benefits that help you pay for college and training programs.
+  - url: /burials-and-memorials/
+    title: Burials and Memorials
+    description: Get help planning a burial or memorial service, and find out how to get survivor and dependent benefits.
+  - url: /employment/
+    title: Careers and Employment
+    description: Get help building your career skills and finding a job.
 ---
 <div class="homepage-hero">
   <div class="homepage-hero-image usa-grid"> 
@@ -38,12 +33,18 @@ majorlinks_col2:
     Apply for health care
   </a>
 
-  <a href="/facilities/" class="usa-button usa-button-outline">
+  <a href="/facilities/" class="outline-link-block">
     Find nearby VA locations
   </a>
 
-  <a href="/track-claims/" class="usa-button usa-button-outline">
+  <a href="/track-claims/" class="outline-link-block">
     Check your claim status
   </a>
 </div>
+
+
+<div class="main" role="main">
+  <h2 class="va-h-ruled--stars">Explore Services and Benefits</h2>
+
+  {% include "content/includes/main-navigation.html" %}
 </div>
