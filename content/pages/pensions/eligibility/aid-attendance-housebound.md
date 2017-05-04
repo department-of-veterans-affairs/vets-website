@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Aid and Attendance of Housebound Allowance
 concurrence: "" 
-template: ""
+template: 1-topic-landing
 relatedlinks: []
 ---
 
