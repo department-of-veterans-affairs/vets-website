@@ -19,9 +19,13 @@ relatedlinks:
 
 ---
 
+<div class="va-introtext">
+
 You can apply in person or by mail for VA pension benefits. Follow these 2 steps to apply for this tax-free benefit.
 
-**Prepare**
+</div>
+
+### Prepare
 
 - Find out if you qualify. [Check your eligibility](/pensions/eligibility/).
 - Gather the documents listed below that you’ll need to fill out your pension application.
