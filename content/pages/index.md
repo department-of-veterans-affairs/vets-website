@@ -25,13 +25,15 @@ majorlinks_col2:
       title: Burials and Memorials
       description: Get help planning a burial or memorial service, and find out how to get survivor and dependent benefits.
 ---
-<div class="splash--home"> 
-  <div class="home-tagline">Get the VA services that you’ve earned.</div>
+<div class="homepage-masthead">
+  <div class="splash--home usa-grid"> 
+    <div class="home-tagline">Get the VA services you’ve earned.</div>
+  </div>
 </div>
 
-<div class="popular-container row">
+<div class="popular-container usa-grid">
   <h2 class="va-h-ruled--a">Get started with Vets.gov</h2>
-  <div class="row va-flex">   
+  <div class="va-flex">   
   <a href="/healthcare/apply/" class="outline-link-block">
     Apply for health care
   </a>

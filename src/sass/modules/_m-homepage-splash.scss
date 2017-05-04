@@ -1,0 +1,48 @@
+.homepage-masthead {
+  background: $color-gray-lightest;
+}
+
+.splash--home {
+  align-items: center;
+  background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
+  background-size: cover;
+  display: flex;
+  margin: auto;
+  min-height: 14em;
+  padding: 1em 0;
+  text-align: center;
+
+  @include media($medium-large-screen) {
+    padding: 2em 0;
+    min-height: 42.2rem;
+  }
+
+  @include media($large-screen) {
+    padding-top: 2.5em;
+    padding-bottom: 2.5em;
+  }
+
+  .pitch {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+}
+
+.home-tagline {
+  background: $color-white;
+  color: $color-gray-dark;
+  font-weight: bold;
+  font-size: 2.5rem;
+  line-height: 1.3;
+  margin: 0 auto;
+  padding: 0.5em 0.4em;
+
+  @include media($medium-large-screen) {
+    font-size: 3.5rem;
+    padding: 0.5em .75em;
+  }
+
+  @include media($large-screen) {
+    padding: 0.5em 0.4em;
+  }
+}
