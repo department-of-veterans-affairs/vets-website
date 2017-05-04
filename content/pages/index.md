@@ -33,15 +33,15 @@ majorlinks:
     Apply for health care
   </a>
 
-  <a href="/facilities/" class="outline-link-block">
+  <a href="/facilities/" class="usa-button usa-button-outline">
     Find nearby VA locations
   </a>
 
-  <a href="/track-claims/" class="outline-link-block">
+  <a href="/track-claims/" class="usa-button usa-button-outline">
     Check your claim status
   </a>
 </div>
-
+</div>
 
 <div class="main" role="main">
   <h2 class="va-h-ruled--stars">Explore Services and Benefits</h2>
