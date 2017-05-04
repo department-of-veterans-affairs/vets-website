@@ -31,15 +31,15 @@ If you qualify for survivors pension benefits, the amount you get will be based 
 **Example:**
 You’re a qualified surviving spouse with 1 dependent child. You also qualify for A&A benefits. Your yearly income is $10,000.
 
-Your MAPR amount = $16,506
-Your yearly income = $10,000
-Your VA pension = $6,506 for the year (or $542.17 paid each month)
+* Your MAPR amount = $16,506
+* Your yearly income = $10,000
+* Your VA pension = $6,506 for the year (or $542.17 paid each month)
 
 **Find your Maximum Annual Pension Rate (MAPR) amount**
 
-Date of Cost-of-Living Increase: 12-01-2016
-Increase Factor:  .3%
-Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.
+* Date of Cost-of-Living Increase: December 1, 2016
+* Increase Factor:  .3%
+* Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.
 
 **For qualified surviving spouses with at least 1 dependent:**
 
