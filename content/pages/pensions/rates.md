@@ -18,7 +18,11 @@ relatedlinks:
     description: Find the location that serves you and your family. 
 ---
 
+<div class="va-introtext">
+
 If you qualify for Veterans pension benefits, the amount you get will be based on the difference between your countable income and a limit that Congress sets (called the Maximum Annual Pension Rate, or MAPR). 
+
+</div>
 
 - **Your countable income** is how much you earn, including your salary, investment and retirement payments, and any income you may have from your dependents. Some expenses, like non-reimbursable medical expenses (medical expenses not covered by your insurance provider), may reduce your countable income.
 
@@ -60,7 +64,7 @@ Standard Medicare Deduction: Actual amount will be determined by SSA based on i
 **Note:**
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($645 for a Veteran with no spouse or child).
 
-| **For 2 Veterans who are married to each other: If you’re 2 Veterans married to each other and…** | **Your MARP amount is:** |
+| **For 2 Veterans who are married to each other and:** | **Your MARP amount is:** |
 | --- | --- | 
 | Neither of you qualifies for Housebound or A&A benefits | $16,902 | 
 | 1 of you qualifies for Housebound benefits | $19,770 | 
