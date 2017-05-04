@@ -193,10 +193,10 @@ node('vets-website-linting') {
 
     parallel builds
   }
-}
-
-post {
+  
+  post {
         always {
             deleteDir() /* clean up our workspace */
         }
+  }
 }
