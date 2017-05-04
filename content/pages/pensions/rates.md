@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Veteran's Pension Rate
 concurrence: "" 
-template: ""
+template: 1-topic-landing
 relatedlinks: 
   - url: /pensions/eligibility/
     title: Eligibility
