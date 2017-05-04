@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Survivor's Pension Rate Tables
 concurrence: "" 
-template: ""
+template: 1-topic-landing
 relatedlinks:
   - url: /pensions/eligibility/
     title: Eligibility
