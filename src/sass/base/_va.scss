@@ -337,56 +337,31 @@ h6 {
 .popular-container {
   background: $color-white;
   text-align: center;
+  padding: 2.4rem .25rem;
+
+  > h3 {
+    color: $color-gray-dark;
+    padding-bottom: 2.4rem;
+  }
+
+  .usa-button {
+    @include media($medium-screen) {
+      flex: 0 1 33%;
+      margin: 0;
+      &:nth-child(even) {
+        margin: 0 3rem;
+      }
+    }
+  }
 
   .va-flex {
-    justify-content: center;
+    justify-content: space-between;
     margin-left: .5rem;
     margin-right: .5rem;
-
-    @include media($medium-large-screen) {
-      margin: auto;
-    }
 
     @include media-maxwidth($small-screen) {
       display: block;
     }
-  }
-
-  .va-h-ruled--a {
-    margin: 2.4rem 1.6rem 0;
-
-    @include media($medium-large-screen) {
-      max-width: 41%;
-      margin: 2.4rem auto;
-    }
-  }
-
-  .outline-link-block {
-    @include media($medium-large-screen) {
-      flex: 0 1 33%;
-    }
-  }
-}
-
-.outline-link-block {
-  border: $color-gray-light solid 2px;
-  color: $color-base;
-  display: block;
-  font-size: 1.2em;
-  text-decoration: none;
-  margin: .8rem;
-  padding: 2rem;
-
-  &:hover {
-    background: transparent;
-    border: $color-primary-darker solid 2px;
-    text-decoration: inherit;
-  }
-
-  @include media($medium-large-screen) {
-    align-items: center;
-    display: flex;
-    justify-content: center;
   }
 }
 
