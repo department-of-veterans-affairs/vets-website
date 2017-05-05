@@ -1,25 +1,8 @@
-.crisis-line-container {
-  position: relative;
-  background: $color-white;
-
+.va-crisis-line {
   @include media($medium-large-screen) {
-    width: 283px;
-  }
-}
-
-.crisis-line-body {
-  background: $color-white;
-  border-radius: 0 0 0.2em 0.2em;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.crisis-line-sm {
-  background: $color-white;
-
-  @include media($medium-large-screen) {
-    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
 
@@ -27,10 +10,36 @@
   color: $color-primary-darkest;
   list-style: none;
   margin: 0;
-  padding: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  padding: 0 2rem;
   position: relative;
   z-index: -1;
   width: 100%;
+
+  li {
+    &:nth-child(odd) {
+      border-top: 1px solid $color-gray-lighter;
+      border-bottom: 1px solid $color-gray-lighter;
+    }
+
+    a {
+      color: $color-base;
+      display: block;
+      padding: 1.5rem 0;
+      text-decoration: none;
+    }
+  }
+
+  p:last-child {
+    font-size: .85em;
+  }
+
+  @include media($medium-large-screen) {
+    margin: auto;
+    max-width: 50%;
+  }
 
   a {
     padding: 0;
@@ -40,8 +49,10 @@
 
 .va-crisis-panel-body {
   background: $color-white;
+  height: auto;
   list-style: inherit;
   margin: 0;
+  max-height: 100%;
   padding: 0;
 
   a {
@@ -62,48 +73,32 @@
     text-align: center;
   }
 }
-
-.va-crisis-panel--notouch {
-  top: 0;
-  box-shadow: 6px 6px 5px 0px $color-link-default-hover;
-  display: none;
-  transition: transform 250ms;
-  position: absolute;
-  opacity: 0;
-
-  li {
-    padding: 2.5rem 0 0;
-  }
-
-  @include media($medium-large-screen) {
-    display: block;
-  }
+.va-crisis-panel-body-title {
+  font-size: inherit;
+  padding: 1.25rem;
+  text-align: center;
+  width: 100%;
 }
 
-.va-crisis-panel--open {
-  .va-crisis-panel--notouch {
-    opacity: 1;
-    z-index: 10;
-  }
-}
-
-//===== VA CRISIS LINE BUTTONS
-.va-crisis-line--touch {
-  border-radius: .2em;
-  margin: 2.5em 0;
-}
-
-.va-crisis-line {
+button.va-crisis-line-button {
   background: $color-white url(/img/arrow-right.svg) calc(100% - 0.5em) center no-repeat;
   background-size: .8em auto;
+  border-radius: 0;
   color: $color-base;
-  margin: 0;
-  text-align: left;
+  margin: auto;
+  padding: 0.4em 26px 0.3em 0;
   font-size: 1em;
-  width: 100%;
+  width: auto;
   display: block;
   text-decoration: none;
   font-weight: bold;
+
+  @include media($medium-large-screen) {
+    border-radius: 0 0 0.2em 0.2em;
+    box-shadow: 0 2px 5px $color-base;
+    padding: 0 26px 0 0;
+    text-align: left;
+  }
 
   &:hover {
     background-color: $color-white;
@@ -124,86 +119,18 @@
     align-items: center;
     pointer-events: none;
   }
-
-  .crisis-line-sm & {
-    border-radius: 0;
-    margin: auto;
-    padding: 0.4em 26px 0.3em 0;
-    width: auto;
-  }
-
-  .crisis-line-container--wide & {
-    @include media($medium-large-screen) {
-      background-color: $color-white;
-      background-image: url(/img/arrow-down.png);
-      border-radius: 0 0 0.2em 0.2em;
-      padding: 0;
-    }
-  }
 }
 
-.crisis-line-container--wide {
-  box-shadow: 0 2px 5px $color-base;
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 31.5rem;
+.va-footer-vcl-trigger {
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  font-weight: normal;
+  text-decoration: underline;
 
-  @include media($medium-large-screen) {
-    display: block;
-  }
-}
-
-.va-crisis-panel--open {
-  a.va-crisis-line {
-    background-image: url(/img/arrow-up.png);
-  }
-}
-
-//==== Small viewport panel touch
-.va-crisis-panel--touch {
-  padding: 0 2rem;
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-
-  .va-crisis-panel-body {
-    height: auto;
-    max-height: 100%;
-  }
-
-  li {
-    &:nth-child(odd) {
-      border-top: 1px solid $color-gray-lighter;
-      border-bottom: 1px solid $color-gray-lighter;
-    }
-
-    a {
-      color: $color-base;
-      display: block;
-      padding: 1.5rem 0;
-      text-decoration: none;
-    }
-  }
-
-  p:last-child {
-    font-size: .85em;
-  }
-
-  .va-crisis-line {
-    font-size: inherit;
-    padding: 1.25rem;
-    text-align: center;
-    width: 100%;
-  }
-}
-
-
-@include media($medium-large-screen) {
-  .va-crisis-panel--touch,
-  .va-crisis-line--touch {
-    display: none;
+  &:hover {
+    background: inherit;
+    color: $color-gold;
+    text-decoration: inherit;
   }
 }
