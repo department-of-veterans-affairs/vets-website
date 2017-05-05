@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Veteran's Pension Rate
+title: Veterans Pension Rate
 concurrence: "" 
 template: 1-topic-landing
 relatedlinks: 
