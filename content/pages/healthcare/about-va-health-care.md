@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: About VA Health Care Coverage
 display_title: ""
 concurrence: ""
-template: ""
+template: 1-topic-landing
 lastupdate_override:
 relatedlinks: 
   - url: /healthcare/about-va-health-care/your-care-team/
@@ -63,16 +63,16 @@ You should also know that being signed up for VA health care meets your Affordab
 #### What basic health care services does VA cover? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
 - Preventive care services, like:
- - Health exams (including gender-specific exams)
- - Health education (including nutrition education)
- - Immunization against infectious diseases (like flu shots)
- - Counseling on genetic diseases (diseases that run in families)
+  - Health exams (including gender-specific exams)
+  - Health education (including nutrition education)
+  - Immunization against infectious diseases (like flu shots)
+  - Counseling on genetic diseases (diseases that run in families)
 - Inpatient hospital services, like:
- - Surgeries
- - Medical treatments 
- - Kidney dialysis
- - Acute care (short-term treatment for a severe illness or injury or after surgery)
- - Specialized care (including organ transplants, intensive care for mental and physical conditions, and care for traumatic injuries).  [See more VA medical and surgical specialty care services](https://www.va.gov/healthbenefits/access/specialty_care_services.asp). 
+  - Surgeries
+  - Medical treatments 
+  - Kidney dialysis
+  - Acute care (short-term treatment for a severe illness or injury or after surgery)
+  - Specialized care (including organ transplants, intensive care for mental and physical conditions, and care for traumatic injuries). [See more VA medical and surgical specialty care services](https://www.va.gov/healthbenefits/access/specialty_care_services.asp). 
 - Emergency care in a VA hospital, outpatient clinic, or Vet Center. [Find a VA medical location near you](https://www.va.gov/directory/guide/division.asp?dnum=1). 
 - Emergency care in a non-VA hospital, clinic, or other medical setting—only under certain conditions. For us to consider covering non-VA emergency care for a non-service-connected condition, you’ll need to meet several requirements. [Learn more about non-VA medical care](https://www.va.gov/HEALTHBENEFITS/access/emergency_care.asp). 
 - Mental health services to treat certain issues like posttraumatic stress (PTSD), military sexual trauma (MST), depression, and substance use problems. [Learn more about mental health services](/healthcare/health-conditions/mental-health/).
@@ -111,6 +111,6 @@ These services are not included in your VA medical benefits package:
 - Gender alteration (gender reassignment surgery)
 - Health club or spa membership
 - Medicines and medical devices that aren’t approved by the Food and Drug Administration (FDA), except in 2 special cases:
- - You’re in an approved clinical trial, or
- - You’re seriously ill and your VA health care provider prescribes a new, unapproved medicine because there are no other comparable treatment options (called a compassionate use or expanded access exemption)
+  - You’re in an approved clinical trial, **or**
+  - You’re seriously ill and your VA health care provider prescribes a new, unapproved medicine because there are no other comparable treatment options (called a compassionate use or expanded access exemption)
  - Inpatient hospital or outpatient care if you’re a patient or inmate in a non-VA government agency institution, if that agency must provide the care or services by law
