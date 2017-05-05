@@ -44,7 +44,7 @@ Your team will include a:
 
 When you need other services to meet your goals and needs, your team may call other providers—like social workers or specialists—to help with your care.
 
-</div>---
+</div>
 
 ### How will my health care team work with me?
 
@@ -54,9 +54,9 @@ Your team’s goal is to plan for all the care you need to help you stay healthy
 
 - **Provide or arrange for preventive care**, such as immunizations (like flu shots) to prevent illness and screenings to help find diseases like cancer in their earliest stages—when treatment is most likely to be successful.
 
-- **Help you get care in the ways that work best for you.** This may include personal visits with your primary care provider, group clinics, and 24/7 telephone care. You can also get online educational information and secure messaging with your health care team through the My HeatheVet portal. [Visit My Health***e***Vet](https://www.myhealth.va.gov/).
+- **Help you get care in the ways that work best for you.** This may include personal visits with your primary care provider, group clinics, and 24/7 telephone care. You can also get online educational information and secure messaging with your health care team through the My Heath***e***Vet portal. [Visit My Health***e***Vet](https://www.myhealth.va.gov/).
 
-**Coordinate your care.** Team members will meet often to talk with you—and each other—about your progress and goals. And they’ll coordinate any care you may need from specialists outside the team.
+- **Coordinate your care.** Team members will meet often to talk with you—and each other—about your progress and goals. And they’ll coordinate any care you may need from specialists outside the team.
 
 ### Do I get to choose my primary care provider?
 
@@ -72,11 +72,28 @@ Your health care team will have a plan in place if your primary care provider is
 
 It depends. We may pay for you to receive care from a non-VA provider in some cases, such as when we conclude that:
 
-- We can’t provide the services you need, or
-- You live too far from a VA center that provides the services, or
-- You face certain excessive travel burdens in getting to a VA center that provides the services, or
+- We can’t provide the services you need, **or**
+- You live too far from a VA center that provides the services, **or**
+- You face certain excessive travel burdens in getting to a VA center that provides the services, **or**
 - You’ve been (or will be) waiting a long time for VA medical care
 
-Any non-VA provider and their services must meet our quality standards and be approved by us before they can provide care for you. [Learn more about payment for non-VA providers and services](https://www.va.gov/PURCHASEDCARE/programs/veterans/nonvacare/).
-
+Any non-VA provider and their services must meet our quality standards and be approved by us before they can provide care for you. <br />
+[Learn more about payment for non-VA providers and services](https://www.va.gov/PURCHASEDCARE/programs/veterans/nonvacare/).<br />
 [Learn more about the Veterans Choice Program](https://www.va.gov/opa/choiceact/).
+
+--------
+
+### How do I apply for VA health care benefits? 
+
+First, find out if you qualify for VA health care. [Check your eligibility](/healthcare/eligibility/).
+
+Then, apply online, in-person, by phone, or by mail. [Learn about the application process](/healthcare/apply/).
+
+### What if I need help understanding my benefits or accessing services?
+
+If you're signed up for VA health care, you can manage your VA health and benefits online through Vets.gov. <br />
+[Refill your prescriptions](/healthcare/prescriptions/). <br />
+[Send a message to your VA health care provider](/healthcare/messaging/inbox/). <br />
+[Check the status of a disability or pension claim](/disability-benefits/track-claims/your-claims/). 
+
+If you need more help, call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
