@@ -79,6 +79,8 @@ You should also know that being signed up for VA health care meets your Affordab
 - Assisted living and home health care (depending on your needs and income as well as space in the programs). [Learn more about assisted living and home health care](/healthcare/about-va-health-care/assisted-living-and-home-health-care/).
 - Prescriptions written by a VA doctor. [Refill your prescriptions](/healthcare/prescriptions/). 
 
+<br>
+
 #### What other medical services will VA cover to support my treatment?  [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
 We may cover services that your VA primary care provider concludes you need to support your treatment (called ancillary services), like:
@@ -87,6 +89,8 @@ We may cover services that your VA primary care provider concludes you need to s
 - Therapy and rehabilitation services, including physical therapy, vision rehab, and therapy for traumatic brain injury
 - Additional services, including prosthetic items, audiology (care for hearing loss), and radiation oncology (cancer care)
  
+<br>
+
 #### Will VA cover any non-medical services to support my treatment?  [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
 You may be able to get help with some non-medical services, like:
@@ -95,17 +99,23 @@ You may be able to get help with some non-medical services, like:
 - [Caregiver support (help for the person who cares for you)](http://www.caregiver.va.gov/)
 - [Veterans transportation service (help getting to and from appointments)](https://www.va.gov/healthbenefits/vtp/veterans_transportation_service.asp) 
 
+<br>
+
 #### Will VA cover my vision care?  [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
 We cover routine eye exams and preventive tests. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. [Learn more about vision care through VA](/healthcare/about-va-health-care/vision-care/).
+
+<br>
 
 #### Will VA cover my dental care?  [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
 In certain cases, you may receive dental care as part of your VA health benefits. [Find out if you can get dental care through VA](/healthcare/about-va-health-care/dental-care/).
 
-#### What services are not covered under VA health care?  [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+<br>
 
-These services are not included in your VA medical benefits package:
+#### What services are *not* covered under VA health care?  [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+
+These services are *not* included in your VA medical benefits package:
 - Abortions and abortion counseling
 - Cosmetic surgery, unless we conclude that it’s medically necessary (needed to prevent or treat a certain illness, injury, condition, disease, or symptoms)
 - Gender alteration (gender reassignment surgery)
@@ -114,3 +124,22 @@ These services are not included in your VA medical benefits package:
   - You’re in an approved clinical trial, **or**
   - You’re seriously ill and your VA health care provider prescribes a new, unapproved medicine because there are no other comparable treatment options (called a compassionate use or expanded access exemption)
  - Inpatient hospital or outpatient care if you’re a patient or inmate in a non-VA government agency institution, if that agency must provide the care or services by law
+
+<br>
+
+#### How do I apply for VA health care benefits? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+
+First, find out if you qualify for VA health care. [Check your eligibility](/healthcare/eligibility/).
+
+Then, apply online, in-person, by phone, or by mail. [Learn about the application process](/healthcare/apply/).
+
+<br>
+
+#### What if I need help understanding my benefits or accessing services? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+
+If you're signed up for VA health care, you can manage your VA health and benefits online through Vets.gov. <br />
+[Refill your prescriptions](/healthcare/prescriptions/). <br />
+[Send a message to your VA health care provider](/healthcare/messaging/inbox/). <br />
+[Check the status of a disability or pension claim](/disability-benefits/track-claims/your-claims/). 
+
+If you need more help, call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
