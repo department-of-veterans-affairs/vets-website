@@ -1,8 +1,8 @@
-.homepage-masthead {
+.homepage-hero {
   background: $color-gray-lightest;
 }
 
-.splash--home {
+.homepage-hero-image {
   align-items: center;
   background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
   background-size: cover;
@@ -21,14 +21,9 @@
     padding-top: 2.5em;
     padding-bottom: 2.5em;
   }
-
-  .pitch {
-    flex: 1 1 100%;
-    text-align: center;
-  }
 }
 
-.home-tagline {
+.homepage-hero-title {
   background: $color-white;
   color: $color-gray-dark;
   font-weight: bold;
