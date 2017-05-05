@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Aid and Attendance of Housebound Allowance
+title: Aid and Attendance or Housebound Allowance
 concurrence: "" 
 template: 1-topic-landing
 relatedlinks: []
