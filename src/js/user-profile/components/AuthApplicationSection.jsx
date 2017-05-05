@@ -1,18 +1,26 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
-
-import { handleVerify } from '../../common/helpers/login-helpers.js';
 
 class AuthApplicationSection extends React.Component {
   constructor(props) {
     super(props);
-    this.handleVerify = handleVerify;
+    this.handleVerify = this.handleVerify.bind(this);
+  }
+
+  handleVerify() {
+    window.dataLayer.push({ event: 'verify-link-clicked' });
+    const myVerifyUrl = this.props.loginUrl.third;
+    if (myVerifyUrl) {
+      window.dataLayer.push({ event: 'verify-link-opened' });
+      const receiver = window.open(`${myVerifyUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    }
   }
 
   render() {
     let content;
 
-    if (this.props.profile.accountType === 3) {
+    if (this.props.userProfile.accountType === 3) {
       content = (
         <div className="medium-12 columns">
           <p><span className="label">Your account will allow you to:</span></p>
@@ -46,12 +54,9 @@ class AuthApplicationSection extends React.Component {
   }
 }
 
-// TODO: fill this out
-const mapStateToProps = (state) => {
-  const userState = state.user;
-  return userState;
+AuthApplicationSection.propTypes = {
+  userProfile: PropTypes.object.isRequired,
+  loginUrl: PropTypes.object.isRequired
 };
 
-// TODO(awong): Remove the pure: false once we start using ImmutableJS.
-export default connect(mapStateToProps)(AuthApplicationSection);
-export { AuthApplicationSection };
+export default AuthApplicationSection;

@@ -21,9 +21,9 @@ const unavailableMviRecords = (
   </div>
 );
 
-// this needs to be a React component for RequiredLoginView to pass down props
+// This needs to be a React component for RequiredLoginView to pass down
+// the isDataAvailable prop, which is only passed on failure.
 function AppContent({ authorized, available, children, isDataAvailable }) {
-  // prop is only passed on failure
   const canUseApp = isDataAvailable === true || typeof isDataAvailable === 'undefined';
   return (
     <div className="disability-benefits-content">
@@ -43,7 +43,7 @@ class DisabilityBenefitsApp extends React.Component {
     const { available, authorized } = this.props;
 
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"evss-claims"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
+      <RequiredLoginView authRequired={3} serviceRequired={"evss-claims"} userProfile={this.props.profile} loginUrl={this.props.loginUrl}>
         <AppContent
             authorized={authorized}
             available={available}>
@@ -61,7 +61,7 @@ function mapStateToProps(state) {
     available: claimsState.claimSync.available,
     authorized: claimsState.claimSync.authorized,
     profile: userState.profile,
-    signInUrl: userState.login.loginUrl.first
+    loginUrl: userState.login.loginUrl
   };
 }
 

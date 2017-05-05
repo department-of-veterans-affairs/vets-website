@@ -15,6 +15,7 @@ class Main extends React.Component {
     this.setMyToken = this.setMyToken.bind(this);
     this.getLogoutUrl = this.getLogoutUrl.bind(this);
     this.getLoginUrl = this.getLoginUrl.bind(this);
+    this.getVerifyUrl = this.getVerifyUrl.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
@@ -26,27 +27,37 @@ class Main extends React.Component {
     if (sessionStorage.userToken) {
       this.getLogoutUrl();
     }
-
     this.getLoginUrl();
-
+    this.getVerifyUrl();
     addEvent(window, 'message', (evt) => {
       this.setMyToken(evt);
     });
-
     window.onload = this.checkTokenStatus();
   }
 
   componentWillUnmount() {
-    this.serverRequest.abort();
+    this.loginUrlRequest.abort();
+    this.verifyUrlRequest.abort();
   }
 
   getLoginUrl() {
-    this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
+    this.loginUrlRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
       method: 'GET',
     }).then(response => {
       return response.json();
     }).then(json => {
       this.props.onUpdateLoginUrl('first', json.authenticate_via_get);
+    }).catch(() => {
+    });
+  }
+
+  getVerifyUrl() {
+    this.verifyUrlRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=3`, {
+      method: 'GET',
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      this.props.onUpdateLoginUrl('third', json.authenticate_via_get);
     }).catch(() => {
     });
   }
@@ -79,7 +90,6 @@ class Main extends React.Component {
       window.dataLayer.push({ event: 'login-link-opened' });
       const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
       receiver.focus();
-      // TODO(romano): why do we fetch another login url here?
       this.getLoginUrl();
     }
   }
@@ -133,6 +143,9 @@ class Main extends React.Component {
 const mapStateToProps = (state) => {
   const userState = state.user;
   return {
+    // TODO(romano): looks like we only need userState.login.loginURL,
+    // so replace this (similar to UserProfileAp.jsx) with
+    // loginUrl: userState.login.loginUrl,
     login: userState.login,
     profile: userState.profile
   };
@@ -153,6 +166,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-// TODO(romano): safe to remoe { pure: false } now? https://github.com/reactjs/react-redux/blob/master/docs/troubleshooting.md
+// TODO(romano): safe to remove { pure: false } now?
+// https://github.com/reactjs/react-redux/blob/master/docs/troubleshooting.md
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
 export { Main };

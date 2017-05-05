@@ -40,8 +40,8 @@ class RequiredLoginView extends React.Component {
   render() {
     let view;
 
-    const loginComponent = <LoginPrompt loginUrl={this.props.loginUrl}/>;
-    const verifyComponent = <VerifyPrompt/>;
+    const loginComponent = <LoginPrompt loginUrl={this.props.loginUrl.first}/>;
+    const verifyComponent = <VerifyPrompt verifyUrl={this.props.loginUrl.third}/>;
 
     if (this.state.loading === true) {
       view = <LoadingIndicator setFocus message="Loading your information"/>;
@@ -103,7 +103,7 @@ RequiredLoginView.propTypes = {
   authRequired: PropTypes.number.isRequired,
   serviceRequired: PropTypes.string.isRequired,
   userProfile: PropTypes.object.isRequired,
-  loginUrl: PropTypes.string,
+  loginUrl: PropTypes.object.isRequired
 };
 
 export default RequiredLoginView;

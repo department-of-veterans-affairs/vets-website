@@ -9,7 +9,6 @@ class LoginPrompt extends React.Component {
   }
 
   componentDidMount() {
-    // event for google analytics that we prompted for login
     window.dataLayer.push({ event: 'login-prompt-displayed' });
   }
 

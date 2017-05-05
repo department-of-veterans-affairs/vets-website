@@ -4,46 +4,6 @@ import environment from './environment.js';
 import { updateLoggedInStatus } from '../../login/actions';
 import { updateProfileField } from '../../user-profile/actions';
 
-export function handleLogin() {
-  this.serverRequest = fetch(`${environment.API_URL}/v0/sessions/new?level=1`, {
-    method: 'GET',
-  }).then(response => {
-    return response.json();
-  }).then(json => {
-    const myVerifyUrl = json.authenticate_via_get;
-    const receiver = window.open(myVerifyUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    receiver.focus();
-  });
-}
-
-export function handleVerify() {
-  window.dataLayer.push({
-    event: 'verify-link-clicked',
-  });
-  const urlPromise = fetch(`${environment.API_URL}/v0/sessions/new?level=3`, {
-    method: 'GET',
-  }).then(response => {
-    return response.json();
-  }).then(json => {
-    return json.authenticate_via_get;
-  });
-
-  // Open the window outside of the promise callback to avoid the browser blocking it.
-  // In case the url fetch fails, we should fix this to behave more gracefully than closing the window.
-  const receiver = window.open('', '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-  urlPromise.then(myVerifyUrl => {
-    if (myVerifyUrl) {
-      receiver.location.href = myVerifyUrl;
-      receiver.focus();
-      window.dataLayer.push({
-        event: 'verify-link-opened',
-      });
-    } else {
-      receiver.close();
-    }
-  });
-}
-
 export function getUserData() {
   fetch(`${environment.API_URL}/v0/user`, {
     method: 'GET',

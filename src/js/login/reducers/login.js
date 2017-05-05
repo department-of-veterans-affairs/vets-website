@@ -33,6 +33,8 @@ function loginStuff(state = initialState, action) {
       return _.set('currentlyLoggedIn', action.value, state);
 
     case UPDATE_LOGIN_URL:
+      // Updates either the login URL (loginUrl.first) or the verify URL to uplevel
+      // from LOA1 to LOA3 (loginUrl.third)
       return _.set(`loginUrl.${action.propertyPath}`, action.value, state);
 
     case LOG_OUT:
