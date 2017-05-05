@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Survivor's Pension
+title: Survivors Pension
 concurrence: "" 
 template: 1-topic-landing
 relatedlinks: 
