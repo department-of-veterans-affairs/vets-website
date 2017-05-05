@@ -8,7 +8,7 @@ showactionbar: false
 
 majorlinks:
   - url: /healthcare/about-va-health-care/
-    title: About VA Health Care
+    title: About VA Health Care Coverage
     description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
   - url: /healthcare/eligibility/
     title: Eligibility
@@ -24,7 +24,7 @@ majorlinks:
     description: Refill prescriptions online, and track the status of your refills.
   - url: /healthcare/messaging/
     title: Send a Message to Your Health Care Team
-    description: Send a secure, private note to your doctor or other members of your VA health care team.
+    description: Send a secure, private note to your primary care provider or other members of your VA health care team.
 relatedlinks:
   - url: /healthcare/health-conditions/conditions-related-to-service-era/
     title: Conditions Related to When and Where You Served
@@ -34,7 +34,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-With VA health care, you're covered for regular checkups with your primary care doctor and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and geriatric (elder) care, plus medical equipment, prosthetics, and prescriptions.
+With VA health care, you're covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and geriatric (elder) care, medical equipment, prosthetics, and prescriptions.
 
 </div>
 
