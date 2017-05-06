@@ -39,7 +39,7 @@ We also provide specialty services, including:
 
 Please note that we cannot, by law, provide abortion services. 
 
-Through legislation announced January 19, 2017, we are expanding our fertility services to include counseling and treatment using assisted reproductive technologies—including invitro fertilization (IVF). These services will be available to Veterans and spouses of Veterans who have a service-connected disability that makes it impossible for them to have a baby without the help of fertility treatment. Veterans can begin scheduling appointments to find out if they qualify and to get a clinical exam, consultation, and initial treatment as we work to build the program’s structure. [Learn more about the recent changes in IVF coverage](https://www.va.gov/opa/pressrel/pressrelease.cfm?id=2854).
+Through legislation announced January 19, 2017, we are expanding our fertility services to include counseling and treatment using assisted reproductive technologies—including in vitro fertilization (IVF). These services will be available to Veterans and spouses of Veterans who have a service-connected disability that makes it impossible for them to have a baby without the help of fertility treatment. Veterans can begin scheduling appointments to find out if they qualify and to get a clinical exam, consultation, and initial treatment as we work to build the program’s structure. [Learn more about the recent changes in IVF coverage](https://www.va.gov/opa/pressrel/pressrelease.cfm?id=2854).
 
 <br>
 
