@@ -58,7 +58,9 @@ class Main extends React.Component {
       return response.json();
     }).then(json => {
       this.props.onUpdateLoginUrl('third', json.authenticate_via_get);
+      return Promise.resolve();
     }).catch(() => {
+      // TODO: figure out what should happen if login URL is not available
     });
   }
 
@@ -85,7 +87,7 @@ class Main extends React.Component {
 
   handleLogin() {
     window.dataLayer.push({ event: 'login-link-clicked' });
-    const myLoginUrl = this.props.login.loginUrl.first;
+    const myLoginUrl = this.props.loginUrl.first;
     if (myLoginUrl) {
       window.dataLayer.push({ event: 'login-link-opened' });
       const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
@@ -96,7 +98,7 @@ class Main extends React.Component {
 
   handleSignup() {
     window.dataLayer.push({ event: 'register-link-clicked' });
-    const myLoginUrl = this.props.login.loginUrl.first;
+    const myLoginUrl = this.props.loginUrl.first;
     if (myLoginUrl) {
       window.dataLayer.push({ event: 'register-link-opened' });
       const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
@@ -143,10 +145,7 @@ class Main extends React.Component {
 const mapStateToProps = (state) => {
   const userState = state.user;
   return {
-    // TODO(romano): looks like we only need userState.login.loginURL,
-    // so replace this (similar to UserProfileAp.jsx) with
-    // loginUrl: userState.login.loginUrl,
-    login: userState.login,
+    loginUrl: userState.loginUrl,
     profile: userState.profile
   };
 };
