@@ -26,11 +26,11 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 You can apply for VA health care in 1 of 4 ways:
 
-**1.	[Apply online](https://www.vets.gov/healthcare/apply/application/introduction).**
+**[Apply online](https://www.vets.gov/healthcare/apply/application/introduction).**
 
-**2.	Apply by phone.** Call the Vets.gov Help Desk at <a href="tel:+1phonenumber">855-574-7286</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
+**Apply by phone.** Call the Vets.gov Help Desk at <a href="tel:+1phonenumber">855-574-7286</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
-**3.	Apply by mail.** [Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf). Print the form, fill it out, and send it to this address:
+**Apply by mail.** [Download VA Form 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf). Print the form, fill it out, and send it to this address:
 
 <dl class="va-address-block">
 <dd>Health Eligibility Center</dd>
@@ -38,7 +38,7 @@ You can apply for VA health care in 1 of 4 ways:
 <dd>Atlanta, GA 30329</dd>
 </dl>
 
-**4.	Apply in person.** Go to your nearest VA medical center or clinic. Bring the 10-10EZ with you.<br />
+**Or, apply in person.** Go to your nearest VA medical center or clinic. Bring the 10-10EZ with you.<br />
 [Find a VA medical center or clinic near you](https://www.vets.gov/facilities).<br />
 [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf)
 
@@ -46,7 +46,16 @@ You can apply for VA health care in 1 of 4 ways:
 
 - Your most recent tax return
 - Social Security numbers for yourself and your qualified dependents
-- Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer) 
+- Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer)
+
+### What if I need help filling out my application forms?
+
+Need help filling out your application forms?
+Call our toll-free hotline 877-222-VETS (8387), Monday to Friday, 8:00 a.m. to 8:00 p.m. EST.
+
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a rep](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative). 
+
+Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm). 
 
 ### What happens after I apply?
 
@@ -68,8 +77,7 @@ Fill out VA Form 10-10CG.
 2. Choose Save Target As...
 3. Choose where you want to save the file on your hard drive.
 4. Click Save.
-
-Double click on the downloaded file to open it.
+5. Double click on the downloaded file to open it.
 
 **Firefox or Chrome:**
 
@@ -77,8 +85,7 @@ Double click on the downloaded file to open it.
 2. Choose Save Link As...
 3. Choose where you want to save the file on your hard drive.
 4. Click Save.
-
-Double click on the downloaded file to open it.
+5. Double click on the downloaded file to open it.
 
 **Safari:**
 
@@ -86,6 +93,4 @@ Double click on the downloaded file to open it.
 2. Choose Download Linked File As...
 3. Choose where you want to save the file on your hard drive.
 4. Click Save.
-
-Double click on the downloaded file to open it.
-
+5. Double click on the downloaded file to open it.
