@@ -79,10 +79,10 @@ If you don’t have VA health care benefits, you may still be able to get care:
 
 - **If you’re not sure what health benefits you may have earned,** contact our Women Veterans Call Center. Our trained, all-female staff will help you figure out your benefits and take the next step to getting care. Call 855-VA-WOMEN (855-829-6636). Or, [start a secure chat](https://www.womenshealth.va.gov/WOMENSHEALTH/programoverview/wvcc.asp).  
 - **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at 1 of our 300 community Vet Centers. [Find a Vet Center near you](https://www.va.gov/directory/guide/vetcenter.asp). 
-- **If you’re a homeless Veteran, get mental health care:**
-  - At a Veterans drop-in center, **or** 
-  - By contacting the National Call Center for Homeless Veterans (<a href="tel:+1phonenumber">877-424-3838</a>), **or** 
-  - By visiting our [Homeless Veterans website](https://www.va.gov/homeless/).
+- **If you’re a homeless Veteran, get information about VA health services and other non-VA resources available near you:** 
+  - [Visit our VA Homeless Veterans website](https://www.va.gov/homeless/).
+  - [Visit one of our VA Community Resource and Referral Centers](https://www.va.gov/HOMELESS/Crrc.asp). 
+  - Contact the National Call Center for Homeless Veterans at <a href="tel:+1phonenumber">877-424-3838</a>. 
 
 ### How can I get help related to sexual trauma?
 
