@@ -7,12 +7,12 @@ template: 1-topic-landing
 showactionbar: false
 lastupdate_override: ""
 relatedlinks:
- - url: /disability-benefits/eligibility
+ - url: /disability-benefits/eligibility/
    title: Disability Benefits Eligibility
-   description: "Have an illness or injury that was caused by—or got worse because of—your active military service? Find out if you can get disability compensation (monthly payments) from VA."
- - url: /disability-benefits/track-claims
+   description: Have an illness or injury that was caused by—or got worse because of—your active military service? Find out if you can get disability compensation (monthly payments) from VA.
+ - url: /disability-benefits/track-claims/
    title: Check Claim Status
-   description: "Track the status of your disability claim."
+   description: Track the status of your disability claim.
 ---
 
 <div class="va-introtext">
@@ -23,11 +23,27 @@ If you're a U.S. Veteran, you may qualify for VA health care benefits. Find out 
 
 <div class="feature" markdown="1">
 
-### Can I get VA health care coverage? 
+### Can I get VA health care benefits? 
 
-You may be able to get VA health care if you served on active duty and separated under conditions other than dishonorable. 
+You may be able to get VA health care benefits if you served on active duty and separated under conditions other than dishonorable. 
 
-You probably qualify for VA health care if at least 1 of these applies to you:
+You should know:
+
+- **If you enlisted after September 7, 1980 or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty. This minimum duty requirement may not apply if you:
+  - Were discharged for a disability that was caused—or made worse by—your active-duty service, **or**
+  - Were discharged for a hardship or "early out," **or**
+  - Served prior to September 7, 1980
+
+- **If you're a current or former member of the Reserves or National Guard,** you must have been called to active duty by a federal order and completed the full period for which you were called or ordered to active duty. If you had or have active-duty status for training purposes only, you don't qualify for VA health care.
+
+- **If you separated under conditions other than honorable, there are 2 things you can do:**
+  - You can use VA’s Health Benefits Explorer to find out if any exceptions apply to you. [Go to the Health Benefits Explorer](http://hbexplorer.vacloud.us/).
+  - Or, you can visit healthcare.gov to find out if you qualify for health insurance. [Go to healthcare.gov](https://www.healthcare.gov/). 
+
+#### Enhanced Eligibility Status
+
+You may qualify for enhanced eligibility status (meaning you'll be placed in a higher priority group, which makes you more likely to get benefits) if at least 1 of these applies to you:
+
 - You receive financial compensation (payments) from VA for a service-connected disability
 - You were discharged for a disability resulting from something that happened to you in the line of duty
 - You were discharged for a disability that got worse in the line of duty
@@ -42,8 +58,6 @@ You probably qualify for VA health care if at least 1 of these applies to you:
 
 If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](http://nationalincomelimits.vaftl.us/). 
 
-If you separated under a dishonorable discharge, visit healthcare.gov to find out if you qualify for health insurance. [Go to healthcare.gov](https://www.healthcare.gov/).
-
 </div>
 
 <div markdown="0"><br></div>
@@ -54,14 +68,46 @@ If you separated under a dishonorable discharge, visit healthcare.gov to find ou
 
 [Learn about the application process](/healthcare/apply/).
 
+#### Need help filling out your application forms?
+Call our toll-free hotline at 877-222-VETS (8387), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
 
-### How can I find out if I qualify for dental or vision care through VA?
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims).[Request a rep](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative). 
 
-In certain cases, you may get dental or vision care as part of your VA health benefits. 
-
-[Find out if you can get dental care through VA](/healthcare).
-
-[Find out if you can get vision care through VA](/healthcare).
-
+Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 <div markdown="0"><br></div>
+
+### More about VA health care eligibility
+
+#### What are priority groups and how do they affect me? [UX/DESIGN NOTE: CONSIDER ACCORDION LINK HERE]
+
+When you apply for VA health care, you’ll be assigned 1 of 8 priority groups. This system helps to make sure that Veterans who need immediate care can get signed up quickly.
+
+Your priority group may affect how soon we sign you up for health care benefits. It may also affect how much (if anything) you’ll have to pay toward the cost of your care. [Learn more about health benefit copay rates (https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp). 
+
+Your priority group will be based on:
+
+- Your military service history, and
+- Your disability rating, and
+- Your income level, and
+- Whether or not you qualify for Medicaid, and
+- Other benefits you may be receiving (like pension benefits)
+
+We assign Veterans with service-connected disabilities the highest priority. We assign the lowest priority to Veterans who earn a higher income and who don’t have any service-connected disabilities qualifying them for disability compensation (monthly payments).
+[View the different priority groups](https://www.va.gov/healthbenefits/resources/priority_groups.asp/). 
+
+#### I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits? [UX/DESIGN NOTE: CONSIDER ACCORDION LINK HERE]
+
+No. Whether or not you have health insurance coverage doesn't affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/healthcare/about-va-health-care/va-health-care-and-other-insurance/).
+
+#### I need vision (eye) care. Can I get it through VA? [UX/DESIGN NOTE: CONSIDER ACCORDION LINK HERE]
+
+We cover routine eye exams and preventive tests under VA health care benefits. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. [Learn more about vision care through VA](/healthcare/about-va-health-care/vision-care/).
+
+#### I need dental care. Can I get it through VA? [UX/DESIGN NOTE: CONSIDER ACCORDION LINK HERE]
+
+In certain cases, you may receive dental care as part of your VA health benefits. [Find out if you can get dental care through VA](/healthcare/about-va-health-care/dental-care/).
+
+#### I think I may have a service-connected disability. Can I get disability compensation (monthly payments)? [UX/DESIGN NOTE: CONSIDER ACCORDION LINK HERE]
+
+If you have an illness or injury—caused or made worse—by your active-duty service, you may be able to get disability compensation. [Find out if you qualify for disability benefits](/disability-benefits/conditions/).
