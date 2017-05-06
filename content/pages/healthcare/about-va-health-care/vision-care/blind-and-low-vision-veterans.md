@@ -29,9 +29,9 @@ We offer blind and low vision rehabilitation services such as:
 - Counseling and group therapy to help you adjust to blindness
 - Family-centered care that helps your family learn how to support you as you adjust to blindness
 
-Depending on your needs, you may get care in an outpatient setting or in an inpatient clinic (where you’ll live full time for a short period of time).
+Depending on your needs, you may get care in an outpatient setting or in an inpatient clinic (where you’ll live full time for a short period of time). <br />
 
-[Find inpatient Blind Rehabilitation Centers](http://www.rehab.va.gov/PROSTHETICS/blindrehab/locations.asp).
+[Find inpatient Blind Rehabilitation Centers](http://www.rehab.va.gov/PROSTHETICS/blindrehab/locations.asp). <br />
 
 [Learn more about other blind rehabilitation services](http://www.rehab.va.gov/PROSTHETICS/blindrehab/BRS_Coordinated_Care.asp).
 
@@ -43,9 +43,7 @@ No. But we do work with non-VA agencies that provide guide dogs.
 
 ### How do I access these services?
 
-To learn more about VA blind rehabilitation services, contact the Visual Impairment Services Team (VIST) coordinator at your nearest VA medical center.
-
-[Find a VA location near you](https://www.va.gov/directory/guide/home.asp?isFlash=1).
+To learn more about VA blind rehabilitation services, contact the Visual Impairment Services Team (VIST) coordinator at your nearest VA medical center. [Find a VA location near you](https://www.va.gov/directory/guide/home.asp?isFlash=1).
 
 Or, contact the Blind Rehabilitation Service Program office at:
 
@@ -58,3 +56,28 @@ Or, contact the Blind Rehabilitation Service Program office at:
 <dd>810 Vermont Ave. NW</dd>
 <dd>Washington, DC 20420</dd>
 </dl>
+
+------
+
+### How do I apply for VA health care benefits? 
+
+First, find out if you qualify for VA health care. [Check your eligibility](/healthcare/eligibility/).
+
+Then, apply online, in-person, by phone, or by mail. [Learn about the application process](/healthcare/apply/).
+
+### What if I need help understanding my benefits or accessing services? 
+
+If you're signed up for VA health care, you can manage your VA health and benefits online through Vets.gov. <br />
+[Refill your prescriptions](/healthcare/prescriptions/). <br />
+[Send a message to your VA health care provider](/healthcare/messaging/). <br />
+[Check the status of a disability or pension claim](/disability-benefits/track-claims/your-claims/). 
+
+If you need more help, call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
+
+### If I have hearing loss as well as low vision, can I get help from VA for my hearing loss?
+
+You may qualify for hearing aids. [Find out how to get hearing aids through VA](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp). 
+
+### How do I find out if I qualify for other disability benefits?
+
+We can help. [Learn more about disability benefits](/disability-benefits/).
