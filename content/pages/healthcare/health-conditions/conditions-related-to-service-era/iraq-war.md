@@ -97,4 +97,14 @@ Find out if you can get disability compensation (monthly payments) and other ben
 </li>
 </ol>
 
+------
+
+**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
+
+**Already signed up?** Manage your VA health and benefits online: <br />
+[Refill your prescriptions](/healthcare/prescriptions/). <br />
+[Send a message to your VA health care provider](/healthcare/messaging/). <br />
+[Check the status of a disability or pension claim](/disability-benefits/track-claims/your-claims/). 
+
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
 
