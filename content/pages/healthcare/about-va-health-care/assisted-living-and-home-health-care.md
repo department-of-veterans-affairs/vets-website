@@ -5,7 +5,29 @@ display_title: ""
 concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
-relatedlinks: []
+relatedlinks:
+  - url: /healthcare/about-va-health-care/
+    title: About VA Health Care Coverage
+    description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
+  - url: /healthcare/eligibility/
+    title: Eligibility
+    description: Find out if you can get VA health care benefits.
+  - url: /healthcare/apply/
+    title: Application Process
+    description: Apply online now, or find out how to apply in person, by phone, or by mail.
+  - url: /healthcare/health-conditions
+    title: Health Needs and Conditions
+    description: Find out how to access VA services for mental health, women’s health, and other specific needs.
+  - url: /healthcare/prescriptions/
+    title: Refill Prescriptions
+    description: Refill prescriptions online, and track the status of your refills.
+  - url: /healthcare/messaging/
+    title: Send a Message to Your Health Care Team
+    description: Send a secure, private note to your primary care provider or other members of your VA health care team.
+  - url: /healthcare/disability-benefits/
+    title: Disability Benefits
+    description: Have an illness or injury that was caused—or made worse by—your active-duty service? Find out if you can get disability benefits.
+
 ---
 
 <div class="va-introtext">
@@ -48,7 +70,9 @@ You may be able to use one or more of these services if:
 
 We may also consider other factors, like your service-connected disability status or insurance coverage.
 
-To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at 877-222-VETS (8387), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+To find out how to access these services, contact your VA social worker. Or, call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+
+If you're not currently in the VA health care program, you can apply for benefits now. [Apply now](/healthcare/apply/).
 
 ### Does VA pay for these services?
 
@@ -60,7 +84,7 @@ Other services aren’t covered under VA health care benefits. For these service
 
 ### Where can I get more information and support?
 
-- Get help setting goals and priorities and making tough decisions about things like long-term care. [Visit our guide to shared decision making (https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
+- Get help setting goals and priorities and making tough decisions about things like long-term care. [Visit our guide to shared decision making](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
 - Find services and resources to help with geriatric (elder) and long-term care. [Find services](https://www.va.gov/geriatrics/guide/longtermcare/Locate_Services.asp).  
 - Get more information about geriatric and long-term care as well as how to deal with diseases like Alzheimer’s and dementia. [Visit the geriatrics section of va.gov](https://www.va.gov/Geriatrics/).
 
