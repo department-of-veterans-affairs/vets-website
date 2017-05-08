@@ -418,7 +418,8 @@ smith.use(redirect({
 // generated? metalsmith-linkcheck only checks HTML files
 // https://github.com/gchallen/code.metalsmith-linkcheck
 smith.use(linkcheck({
-  failMissing: true
+  verbose: true,
+  timeout: '30s'
 }));
 
 /* eslint-disable no-console */
