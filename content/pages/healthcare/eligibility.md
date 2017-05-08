@@ -7,12 +7,12 @@ template: 1-topic-landing
 showactionbar: false
 lastupdate_override: ""
 relatedlinks:
- - url: /disability-benefits/eligibility/
-   title: Disability Benefits Eligibility
-   description: Have an illness or injury that was caused by—or got worse because of—your active military service? Find out if you can get disability compensation (monthly payments) from VA.
- - url: disability-benefits/track-claims/index/
-   title: Check Claim Status
-   description: Track the status of your disability claim.
+  - url: /disability-benefits/eligibility/
+    title: Disability Benefits Eligibility
+    description: Have an illness or injury that was caused by—or got worse because of—your active military service? Find out if you can get disability compensation (monthly payments) from VA.
+  - url: /track-claims/
+    title: Check Claim Status
+    description: Track the status of your disability claim.
 ---
 
 <div class="va-introtext">
@@ -69,6 +69,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 [Learn about the application process](/healthcare/apply/).
 
 #### Need help filling out your application forms?
+
 Call our toll-free hotline at 877-222-VETS (8387), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims).[Request a rep](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative). 
