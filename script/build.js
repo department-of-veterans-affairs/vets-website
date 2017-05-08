@@ -322,7 +322,6 @@ smith.use(sitemap({
   hostname: 'http://www.vets.gov',
   omitIndex: true
 }));
-// TODO(awong): Does anything even use the results of this plugin?
 
 if (!options.watch) {
   smith.use(blc({
@@ -415,10 +414,12 @@ smith.use(redirect({
   '/education/apply-for-education-benefits/': '/education/apply/'
 }));
 
-// TODO: what is the earliest place in this script where we can guarantee all HTML has been built?
-// metalsmith-linkcheck only checks HTML files
+// TODO: what is the earliest place in this script where we can guarantee all HTML files have been
+// generated? metalsmith-linkcheck only checks HTML files
 // https://github.com/gchallen/code.metalsmith-linkcheck
-smith.use(linkcheck());
+smith.use(linkcheck({
+  failMissing: true
+}));
 
 /* eslint-disable no-console */
 smith.build((err) => {
