@@ -27,13 +27,7 @@ Vets.gov uses Sass as its preprocessor with SCSS syntax.
 
 ## Browser support
 
-| Browser | Minimum version  |
-|---------|------------------|
-| Internet Explorer | 11 |
-| Microsoft Edge    | 12 |
-| Safari / iOS Safari |  9 |
-| Chrome / Android Web view | _Latest stable version_ |
-| Firefox           | _Latest stable version_ |
+Current browser [support chart](https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Engineering/DocumentedDecisions/Browser%20Support.md).
 
 ## File organization
 
