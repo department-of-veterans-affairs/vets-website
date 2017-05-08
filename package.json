@@ -10,8 +10,9 @@
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
     "lint:js:changed": "LIST=`git diff-index --name-only HEAD | grep .*\\.js | grep -v json`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
-    "lint:sass": "sass-lint -c config/sass-lint.yml --verbose --no-exit",
+    "lint:sass": "sass-lint -c config/sass-lint.yml --verbose",
     "nightwatch": "nightwatch -c config/nightwatch.js",
+    "reset:env": "./script/reset-environment.sh",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
@@ -21,6 +22,7 @@
     "test:unit:msg": "mocha --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
     "test:unit:hr": "BABEL_ENV=test mocha --recursive 'test/health-records/**/*.unit.spec.js?(x)' ",
     "test:unit:rx": "BABEL_ENV=test mocha --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
+    "test:unit:gi": "BABEL_ENV=test mocha --recursive 'test/gibct/**/*.unit.spec.js?(x)' ",
     "test:unit:login": "BABEL_ENV=test mocha --recursive 'test/login/**/*.unit.spec.js?(x)' ",
     "test:watch": "BABEL_ENV=test mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
     "watch": "node script/build.js --watch",
@@ -50,6 +52,7 @@
     "babel-plugin-istanbul": "^2.0.3",
     "babel-plugin-lodash": "^3.2.8",
     "babel-plugin-react-transform": "^2.0.2",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.2",
     "babel-polyfill": "^6.13.0",
     "babel-preset-env": "^1.4.0",
     "babel-preset-react": "^6.11.1",
@@ -138,7 +141,6 @@
     "react": "^15.5.4",
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-perf": "^15.3.0",
-    "react-addons-test-utils": "^15.3.0",
     "react-datepicker": "^0.29.0",
     "react-dom": "^15.5.4",
     "react-jsonschema-form": "0.43.0",
@@ -187,6 +189,6 @@
     "camelcase-keys-recursive": "^0.8.2",
     "react-autosuggest": "^8.0.0",
     "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ee444b33dd221524c71b3b0201beda250a0ffd65"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d0e327cd0ee93a82988914778cc4342dbf013cb4"
   }
 }

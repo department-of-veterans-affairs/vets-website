@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -67,7 +68,7 @@ class FormPage extends React.Component {
    */
   getEligiblePages() {
     const { form, route: { pageConfig, pageList } } = this.props;
-    const eligiblePageList = getActivePages(pageList, form);
+    const eligiblePageList = getActivePages(pageList, form.data);
     const pageIndex = _.findIndex(item => item.pageKey === pageConfig.pageKey, eligiblePageList);
     return { eligiblePageList, pageIndex };
   }
@@ -79,34 +80,17 @@ class FormPage extends React.Component {
 
   render() {
     const { route } = this.props;
-    const form = this.props.form;
     const {
-      data,
       schema,
       uiSchema
-    } = form[route.pageConfig.pageKey];
-
-    // Flatten the data from every page to pass to SchemaForm to eventually be
-    //  used in uiSchemaValidate()
-    // I'd rather not have this here, but console.time() tells me it's executing
-    //  locally in 1.49e+12ms on the edu 5495, which is admittedly a relatively
-    //  small form, but it shouldn't be a significant hit at any rate.
-    const formData = Object.keys(form).reduce((carry, pageName) => {
-      if (form[pageName].data) {
-        Object.keys(form[pageName].data).forEach((fieldKey) => {
-          carry[fieldKey] = form[pageName].data[fieldKey]; // eslint-disable-line
-        });
-      }
-      return carry;
-    }, {});
-
+    } = this.props.form.pages[route.pageConfig.pageKey];
+    const data = this.props.form.data;
     return (
       <div className="form-panel">
         <SchemaForm
             name={route.pageConfig.pageKey}
             title={route.pageConfig.title}
-            pageData={data}
-            formData={formData}
+            data={data}
             schema={schema}
             uiSchema={uiSchema}
             onChange={this.onChange}
@@ -144,18 +128,18 @@ const mapDispatchToProps = {
 };
 
 FormPage.propTypes = {
-  form: React.PropTypes.object.isRequired,
-  route: React.PropTypes.shape({
-    pageConfig: React.PropTypes.shape({
-      pageKey: React.PropTypes.string.isRequired,
-      schema: React.PropTypes.object.isRequired,
-      uiSchema: React.PropTypes.object.isRequired
+  form: PropTypes.object.isRequired,
+  route: PropTypes.shape({
+    pageConfig: PropTypes.shape({
+      pageKey: PropTypes.string.isRequired,
+      schema: PropTypes.object.isRequired,
+      uiSchema: PropTypes.object.isRequired
     }),
-    pageList: React.PropTypes.arrayOf(React.PropTypes.shape({
-      path: React.PropTypes.string.isRequired
+    pageList: PropTypes.arrayOf(PropTypes.shape({
+      path: PropTypes.string.isRequired
     }))
   }),
-  setData: React.PropTypes.func
+  setData: PropTypes.func
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormPage));

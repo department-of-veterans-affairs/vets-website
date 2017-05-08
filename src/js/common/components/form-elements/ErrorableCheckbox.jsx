@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -88,15 +89,15 @@ class ErrorableCheckbox extends React.Component {
 }
 
 ErrorableCheckbox.propTypes = {
-  checked: React.PropTypes.bool,
-  errorMessage: React.PropTypes.string,
-  name: React.PropTypes.string,
-  label: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object
+  checked: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  name: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object
   ]).isRequired,
-  onValueChange: React.PropTypes.func.isRequired,
-  required: React.PropTypes.bool,
+  onValueChange: PropTypes.func.isRequired,
+  required: PropTypes.bool,
 };
 
 export default ErrorableCheckbox;

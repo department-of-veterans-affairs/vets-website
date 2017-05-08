@@ -2,7 +2,8 @@ import FacilityDirectionsLink from './search-results/FacilityDirectionsLink';
 import FacilityHours from './FacilityHours';
 import FacilityInfoBlock from './search-results/FacilityInfoBlock';
 import FacilityPhoneLink from './search-results/FacilityPhoneLink';
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 
 class MobileSearchResult extends Component {

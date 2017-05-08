@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function ConsolidatedClaims({ onClose }) {
@@ -18,6 +19,6 @@ export default function ConsolidatedClaims({ onClose }) {
 }
 
 ConsolidatedClaims.propTypes = {
-  onClose: React.PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired
 };
 

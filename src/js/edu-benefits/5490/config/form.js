@@ -130,13 +130,13 @@ const formConfig = {
               'ui:title': 'Select the benefit that is the best match for you:',
               'ui:options': {
                 labels: survivorBenefitsLabels,
-                updateSchema: (data, form, schema) => {
-                  const relationship = _.get('applicantInformation.data.relationship', form);
+                updateSchema: (form, schema, uiSchema) => {
+                  const relationship = _.get('relationship', form);
                   const nestedContent = {
                     chapter33: benefitSelectionWarning('chapter33', relationship),
                     chapter35: benefitSelectionWarning('chapter35', relationship),
                   };
-                  const uiOptions = _.get('benefitSelection.uiSchema.benefit.ui:options', form);
+                  const uiOptions = _.get('ui:options', uiSchema);
                   uiOptions.nestedContent = nestedContent;
                   return schema;
                 }
@@ -164,11 +164,7 @@ const formConfig = {
           path: 'benefits/relinquishment',
           initialData: {},
           depends: {
-            applicantInformation: {
-              data: {
-                relationship: 'child'
-              }
-            }
+            relationship: 'child'
           },
           uiSchema: {
             'ui:title': 'Benefit relinquishment',
@@ -271,8 +267,8 @@ const formConfig = {
                 'ui:title': 'Sponsor Veteran’s name',
                 'ui:options': {
                   expandUnder: 'view:claimedSponsorService',
-                  updateSchema: (data, form) => {
-                    if (_.get('benefitHistory.data.previousBenefits.view:claimedSponsorService', form)) {
+                  updateSchema: (form) => {
+                    if (_.get('previousBenefits.view:claimedSponsorService', form)) {
                       return fullName;
                     }
                     return nonRequiredFullName;
@@ -369,8 +365,8 @@ const formConfig = {
               },
               veteranFullName: _.merge(fullNameUi, {
                 'ui:options': {
-                  updateSchema: (data, form) => {
-                    if (!_.get('sponsorInformation.data.view:currentSameAsPrevious', form)) {
+                  updateSchema: (form) => {
+                    if (!_.get('view:currentSameAsPrevious', form)) {
                       return fullName;
                     }
                     return nonRequiredFullName;
@@ -481,8 +477,8 @@ const formConfig = {
                       return status !== 'graduated' && status !== 'graduationExpected';
                     },
                     expandUnder: 'status',
-                    updateSchema: (pageData, form) => {
-                      const status = _.get('educationHistory.data.highSchool.status', form);
+                    updateSchema: (form) => {
+                      const status = _.get('highSchool.status', form);
 
                       if (status === 'graduationExpected') {
                         return { title: 'When do you expect to earn your high school diploma?' };
@@ -601,8 +597,8 @@ const formConfig = {
                     // and creating a new object unless either benefit or
                     // relationship has changed
                     const filterEducationType = createSelector(
-                      _.get('benefitSelection.data.benefit'),
-                      _.get('applicantInformation.data.relationship'),
+                      _.get('benefit'),
+                      _.get('relationship'),
                       (benefitData, relationshipData) => {
                         // Remove tuition top-up
                         const filterOut = ['tuitionTopUp'];
@@ -618,7 +614,7 @@ const formConfig = {
                         return { 'enum': _.without(filterOut, edTypes) };
                       });
 
-                    return (pageData, form) => filterEducationType(form);
+                    return (form) => filterEducationType(form);
                   })()
                 }
               }

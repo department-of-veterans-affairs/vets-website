@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class MessageAddAttachment extends React.Component {
@@ -30,12 +31,12 @@ class MessageAddAttachment extends React.Component {
 }
 
 MessageAddAttachment.propTypes = {
-  cssClass: React.PropTypes.string,
-  allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string),
-  id: React.PropTypes.string,
-  label: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string,
-  onChange: React.PropTypes.func
+  cssClass: PropTypes.string,
+  allowedMimeTypes: PropTypes.arrayOf(PropTypes.string),
+  id: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  onChange: PropTypes.func
 };
 
 export default MessageAddAttachment;

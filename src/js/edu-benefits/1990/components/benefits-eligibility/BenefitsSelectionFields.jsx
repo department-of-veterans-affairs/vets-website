@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableCheckbox from '../../../../common/components/form-elements/ErrorableCheckbox';
@@ -59,6 +60,6 @@ export default class BenefitsSelectionFields extends React.Component {
 }
 
 BenefitsSelectionFields.propTypes = {
-  onStateChange: React.PropTypes.func.isRequired,
-  data: React.PropTypes.object.isRequired
+  onStateChange: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired
 };

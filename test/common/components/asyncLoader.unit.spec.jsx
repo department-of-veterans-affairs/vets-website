@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { findDOMNode } from 'react-dom';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import asyncLoader from '../../../src/js/common/components/asyncLoader';
 

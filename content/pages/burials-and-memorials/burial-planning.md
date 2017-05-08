@@ -55,7 +55,7 @@ You don’t need to do anything else except prepare yourself and your family for
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director will need to take these 2 steps to apply for a burial.
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 ##### Gather these documents and other information you'll need to identify the deceased:
 
@@ -73,7 +73,7 @@ You may also need:
  
  </li>
  
- <li class="step two">
+ <li class="process-step list-two">
 
 ##### Decide on the burial details and gather all related information, including:
 
@@ -87,7 +87,7 @@ You may also need:
 
 </li>
 
-<li class="step last three">
+<li class="process-step list-three">
 
 ##### Contact the National Cemetery Scheduling Office
 

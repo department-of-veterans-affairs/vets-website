@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -269,7 +270,10 @@ export class Main extends React.Component {
 
     return (
       <div>
-        <h1>Get Your VA Health Records</h1>
+        <div className="heading-wrapper">
+          <h1>Get Your VA Health Records</h1>
+          <span className="blue-button-logo"></span>
+        </div>
         <form>
           {this.renderDateOptions()}
           <div>
@@ -299,7 +303,7 @@ export class Main extends React.Component {
 }
 
 Main.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {

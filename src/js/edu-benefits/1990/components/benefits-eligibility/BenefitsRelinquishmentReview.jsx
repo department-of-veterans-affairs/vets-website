@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getLabel, displayDateIfValid, showRelinquishedEffectiveDate } from '../../../utils/helpers';
@@ -25,5 +26,5 @@ export default class BenefitsRelinquishmentReview extends React.Component {
 }
 
 BenefitsRelinquishmentReview.propTypes = {
-  data: React.PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };

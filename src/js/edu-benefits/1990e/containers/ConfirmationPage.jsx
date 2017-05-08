@@ -40,8 +40,8 @@ class ConfirmationPage extends React.Component {
     const response = this.props.form.submission.response
       ? this.props.form.submission.response.attributes
       : {};
-    const name = form.applicantInformation.data.relativeFullName;
-    const benefit = form.benefitEligibility.data.benefit;
+    const name = form.data.relativeFullName;
+    const benefit = form.data.benefit;
 
     return (
       <div className="edu-benefits-submit-success">
@@ -52,7 +52,7 @@ class ConfirmationPage extends React.Component {
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
-          <h4>Education Benefit Claim <span className="additional">(Form 22-1990e)</span></h4>
+          <h4>Education Benefit Claim <span className="additional">(Form 22-1990E)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           <ul className="claim-list">

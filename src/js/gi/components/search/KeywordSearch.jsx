@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
 
@@ -96,11 +97,11 @@ KeywordSearch.defaultProps = {
 };
 
 KeywordSearch.propTypes = {
-  label: React.PropTypes.string,
-  onClearAutocompleteSuggestions: React.PropTypes.func,
-  onFetchAutocompleteSuggestions: React.PropTypes.func,
-  onFilterChange: React.PropTypes.func,
-  onUpdateAutocompleteSearchTerm: React.PropTypes.func
+  label: PropTypes.string,
+  onClearAutocompleteSuggestions: PropTypes.func,
+  onFetchAutocompleteSuggestions: PropTypes.func,
+  onFilterChange: PropTypes.func,
+  onUpdateAutocompleteSearchTerm: PropTypes.func
 };
 
 export default KeywordSearch;

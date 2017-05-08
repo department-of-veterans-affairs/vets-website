@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function MailOrFax({ onClose }) {
@@ -25,5 +26,5 @@ export default function MailOrFax({ onClose }) {
 }
 
 MailOrFax.propTypes = {
-  onClose: React.PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired
 };
