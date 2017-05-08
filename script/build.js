@@ -191,7 +191,6 @@ if (options.watch) {
     historyApiFallback: {
       rewrites: [
         { from: '^/track-claims(.*)', to: '/track-claims/' },
-        { from: '^/track-claims(.*)', to: '/track-claims/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
