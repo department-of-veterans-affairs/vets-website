@@ -4,6 +4,9 @@ if ! [ -x "$(command -v yarn)" ]; then
     npm i -g yarn@0.21.3
     if [ $? -eq 0 ]; then
         echo "Yarn successfulling installed globally."
+    else 
+        echo "Yarn failed to install...please install manually."
+        exit 1
     fi
 fi
 echo "Removing the node modules folder..."
