@@ -24,7 +24,7 @@
 @import "~uswds/src/stylesheets/core/base";
 @import "~uswds/src/stylesheets/core/grid-settings";
 @import "~uswds/src/stylesheets/core/variables";
-@import "base/b-variables";
+
 
 // A VA partial. Here so that we can override the 
 // USWDS breakpoint and grid variables from above before
@@ -45,6 +45,7 @@
 @import "~uswds/src/stylesheets/components/sidenav";
 
 // ----- VA BASE (VARIABLES/HELPERS) ---- //
+@import "base/b-variables";
 @import "base/b-mixins";
 @import "base/b-functions";
 @import "base/b-utils";

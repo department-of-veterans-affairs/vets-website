@@ -55,7 +55,7 @@ Do you have non-Hodgkin's lymphoma (a type of cancer)? You can get VA support. [
 
 You may have had contact if you served in any of these ways:
 
-<ul class="va-grid-columns-2">
+<ul class="va-grid-columns-2 va-list--plain">
   <li>
     <dl class="panel-list">
       <dt>On C-123 Airplanes</dt>

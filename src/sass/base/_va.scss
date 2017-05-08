@@ -1243,9 +1243,10 @@ li {
 // Panel list
 .panel-list {
   background: $color-link-default-hover;
+  margin: 0;
+  min-height: 12em;
   padding: 1em;
   position: relative;
-  min-height: 12em;
 
   dt {
     color: $color-primary-darkest;

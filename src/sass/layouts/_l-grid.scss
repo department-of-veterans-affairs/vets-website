@@ -1,5 +1,22 @@
 .va-grid-columns-2 {
+  display: flex;
+  flex-wrap: wrap;
+
   > li {
-    width: 50%;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+  }
+
+  @include media($medium-screen) {
+    > li {
+      width: 50%;
+
+      &:nth-child(odd) {
+        padding-right: 1rem;
+      }
+      &:nth-child(even) {
+        padding-left: 1rem;
+      }
+    }
   }
 }
