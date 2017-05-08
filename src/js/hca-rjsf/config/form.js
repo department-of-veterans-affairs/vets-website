@@ -64,6 +64,9 @@ const {
   veteranGrossIncome,
   veteranNetIncome,
   veteranOtherIncome,
+  spouseGrossIncome,
+  spouseNetIncome,
+  spouseOtherIncome,
   deductibleMedicalExpenses,
   deductibleFuneralExpenses,
   deductibleEducationExpenses
@@ -451,6 +454,27 @@ const formConfig = {
             },
             veteranOtherIncome: {
               'ui:title': 'Veteran Other Income Amount'
+            },
+            'view:spouseIncome': {
+              'ui:title': 'Spouse income',
+              'ui:options': {
+                hideIf: (formData) => formData.maritalStatus === 'married' // Something else too?
+              },
+              spouseGrossIncome: {
+                'ui:title': 'Spouse gross annual income from employment'
+              },
+              spouseNetIncome: {
+                'ui:title': 'Spouse Net Income from your Farm, Ranch, Property or Business'
+              },
+              spouseOtherIncome: {
+                'ui:title': 'Spouse Other Income Amount'
+              }
+            },
+            'view:childrenIncome': {
+              'ui:options': {
+                // Or should this be !formData.reportChildren?
+                hideIf: (formData) => formData.children.length === 0
+              }
             }
           },
           schema: {
@@ -459,7 +483,13 @@ const formConfig = {
             properties: {
               veteranGrossIncome,
               veteranNetIncome,
-              veteranOtherIncome
+              veteranOtherIncome,
+              'view:spouseIncome': {
+                spouseGrossIncome,
+                spouseNetIncome,
+                spouseOtherIncome
+              },
+              'view:childrenIncome': {}
             }
           }
         },
