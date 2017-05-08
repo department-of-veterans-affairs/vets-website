@@ -11,8 +11,13 @@ class DownloadLink extends React.Component {
     this.state = { downloading: false };
   }
 
-  downloadHealthRecord(e) {
+  downloadHealthRecord(e, stopPropagation = true) {
     e.preventDefault();
+
+    if (this.props.onClick && stopPropagation) {
+      this.props.onClick(e);
+      return;
+    }
 
     if (this.state.downloading) return;
 
@@ -53,6 +58,7 @@ class DownloadLink extends React.Component {
 DownloadLink.propTypes = {
   name: PropTypes.string.isRequired,
   docType: PropTypes.oneOf(['pdf', 'txt']),
+  onClick: PropTypes.func,
 };
 
 export default DownloadLink;
