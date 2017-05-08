@@ -1,22 +1,29 @@
-.va-grid-columns-2 {
+[class*=va-grid-columns] {
   display: flex;
   flex-wrap: wrap;
+}
 
+.va-grid-columns-2 {
   > li {
     padding-bottom: 1rem;
     padding-top: 1rem;
   }
 
   @include media($medium-screen) {
-    > li {
-      width: 50%;
+    justify-content: space-between;
 
-      &:nth-child(odd) {
-        padding-right: 1rem;
-      }
-      &:nth-child(even) {
-        padding-left: 1rem;
-      }
+    > li {
+      flex: 0 0 49%;
+    }
+  }
+}
+
+.va-grid-columns-4 {
+  justify-content: space-between;
+
+  @include media($medium-screen) {
+    > li {
+      flex: 0 0 23%;
     }
   }
 }

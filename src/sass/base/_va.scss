@@ -630,7 +630,7 @@ ul, ol {
 
 // Content lead paragraphs
 
-#content.interior .primary {
+#content.interior g {
   li p:first-of-type,
   ul+p
    {
@@ -648,7 +648,7 @@ ul, ol {
   h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
   p {color: $color-white;}
   a {color: $color-white;}
-  ul li {list-style: square;}
+  ul {list-style: square;}
 }
 
 #content .section.secondary {
@@ -1726,7 +1726,7 @@ p.info-message {
 //===================
 
 .va-list--plain {
-  list-style: none;
+  list-style: none !important; // .primary ul means we need to use !important.
   padding-left: 0;
 }
 
