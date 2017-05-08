@@ -361,8 +361,7 @@ h6 {
   }
 
   .va-h-ruled--a {
-    margin-left: 1.6rem;
-    margin-right: 1.6rem;
+    margin: 2.4rem 1.6rem 0;
 
     @include media($medium-large-screen) {
       max-width: 41%;
@@ -1298,12 +1297,38 @@ li {
   border-bottom: $color-va-accent solid 2px;
 }
 
+// If this divider gets reused and with text in the middle
+// you should create a variation of this rule that accounts
+// for the size of the text.
 .va-h-ruled--stars {
+  display: flex;
+  justify-content: center;
+
+  // Flexbox magic means that setting a margin on ::before
+  // applies the same margin to ::after
+  &::before {
+    margin-right: 12rem;
+  }
+
+  &::before,
+  &::after {
+    border-top: 1px solid $color-gray-light;
+    content: " ";
+    display: inline-block;
+    flex: 1 1 50%;
+    margin-top: -4rem;
+  }
+
   background: url(/img/stars.png) no-repeat top center;
-  background-size: 20rem auto;
+  background-size: 11rem auto;
   margin: 2.4rem auto auto;
   padding: 4.8rem 1.6rem 0;
   text-align: center;
+
+  @include media($medium-screen) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 // Action bars

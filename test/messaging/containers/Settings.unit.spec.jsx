@@ -9,8 +9,7 @@ const props = {
     { folderId: 101, name: 'Personal folder 1', count: 1 },
     { folderId: 102, name: 'Personal folder 2', count: 0 }
   ],
-
-  // No-op function to override dispatch
+  deleteFolder: () => {},
   dispatch: () => {}
 };
 
