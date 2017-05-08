@@ -24,7 +24,7 @@ relatedlinks:
   - url: /healthcare/messaging/
     title: Send a Message to Your Health Care Team
     description: Send a secure, private note to your primary care provider or other members of your VA health care team.
-  - url: /healthcare/disability-benefits/
+  - url: /disability-benefits/
     title: Disability Benefits
     description: Have an illness or injury that was caused—or made worse by—your active-duty service? Find out if you can get disability benefits.
 
