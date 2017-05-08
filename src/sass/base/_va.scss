@@ -857,6 +857,7 @@ li {
     background: $color-gray-lightest;
     background: $color-link-default-hover;
     margin: 0 0 .5em 0;
+    min-height: 90px;
     padding: .75em;
 
     &:hover, &:focus, &:active {
