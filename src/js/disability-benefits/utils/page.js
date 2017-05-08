@@ -2,7 +2,7 @@ import Scroll from 'react-scroll';
 
 const scroller = Scroll.animateScroll;
 
-export const basename = window.location.pathname.startsWith('/disability-benefits') ? '/disability-benefits/track-claims' : '/track-claims';
+export const basename = '/track-claims';
 import { getScrollOptions } from '../../common/utils/helpers';
 
 export function scrollToTop() {
@@ -35,4 +35,3 @@ export function isTab(url) {
   return url &&
     (url.endsWith('status') || url.endsWith('files') || url.endsWith('details'));
 }
-
