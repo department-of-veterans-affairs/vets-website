@@ -35,7 +35,7 @@ export const schoolSelectionOptionsFor = {
 };
 
 export default function createSchoolSelectionPage(schema, options) {
-  const { fields, required } = options;
+  const { fields, required, title } = options;
 
   const possibleUISchemaFields = {
     educationProgram: educationProgram.uiSchema,
@@ -83,9 +83,12 @@ export default function createSchoolSelectionPage(schema, options) {
 
   const uiSchema = pickFields(possibleUISchemaFields);
   uiSchema['ui:order'] = fields;
+  if (title) {
+    uiSchema['ui:title'] = title;
+  }
 
   return {
-    title: 'School selection',
+    title: title || 'School selection',
     path: 'school-selection',
     uiSchema,
     schema: {

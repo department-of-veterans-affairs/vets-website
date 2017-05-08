@@ -47,6 +47,9 @@ export function uiSchema(label = 'Address') {
     street2: {
       'ui:title': 'Line 2'
     },
+    street3: {
+      'ui:title': 'Line 3'
+    },
     city: {
       'ui:title': 'City'
     },

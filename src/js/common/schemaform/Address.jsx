@@ -172,6 +172,20 @@ class Address extends React.Component {
             formContext={formContext}
             onChange={(update) => {this.handleChange('street2', update);}}
             onBlur={onBlur}/>
+
+        {schema.properties.street3 ? <SchemaField
+            name="street3"
+            required={this.isRequired('street3')}
+            schema={schema.properties.street3}
+            uiSchema={uiSchema.street3}
+            idSchema={idSchema.street3}
+            formData={formData.street3}
+            errorSchema={errorSchema.street3}
+            registry={registry}
+            formContext={formContext}
+            onChange={(update) => {this.handleChange('street3', update);}}
+            onBlur={onBlur}/> : null}
+
         <SchemaField
             name="city"
             required={this.isRequired('city')}
