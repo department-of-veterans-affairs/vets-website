@@ -25,8 +25,8 @@ import IntroductionPage from '../components/IntroductionPage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
-import { uiSchema as fullNameUISchema } from '../../common/schemaform/definitions/fullName';
-import * as ssn from '../../common/schemaform/definitions/ssn';
+import fullNameUISchema from '../../common/schemaform/definitions/fullName';
+import ssnUI from '../../common/schemaform/definitions/ssn';
 
 const {
   mothersMaidenName,
@@ -67,7 +67,8 @@ const {
   fullName,
   date,
   provider,
-  phone
+  phone,
+  ssn
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
@@ -121,7 +122,7 @@ const formConfig = {
             veteranDateOfBirth: {
               'ui:title': 'Date of birth'
             },
-            veteranSocialSecurityNumber: ssn.uiSchema,
+            veteranSocialSecurityNumber: ssnUI,
             'view:placeOfBirth': {
               'ui:title': 'Place of birth',
               cityOfBirth: {
@@ -140,7 +141,7 @@ const formConfig = {
             required: ['veteranDateOfBirth', 'veteranSocialSecurityNumber'],
             properties: {
               veteranDateOfBirth: date,
-              veteranSocialSecurityNumber: ssn.schema,
+              veteranSocialSecurityNumber: ssn,
               'view:placeOfBirth': {
                 type: 'object',
                 properties: {
