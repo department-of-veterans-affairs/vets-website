@@ -60,9 +60,14 @@ Use the GI Bill Comparison Tool to see what benefits you can get at the school y
 
 
 <ol class="process">
+
 <li class="process-step list-one" markdown="1">
 
 After we approve the school, you'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/).
+=======
+<li class="step one wow fadeIn animated" markdown="1">
+
+After we approve the school, you'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
 
 Turn in your application to us at least 90 days before you leave for your new school. We'll decide what benefits you get based on your school’s location. 
 

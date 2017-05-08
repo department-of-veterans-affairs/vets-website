@@ -59,8 +59,8 @@ Bring your COE to your school's certifying official, or to the financial aid, mi
 ##### Wait for a decision
 
 ###### Your school will decide:
-  -  Whether it has already enrolled the maximum number of students for the program period. Enrollment is on a first-come, first-served basis. We have an agreement with each school about on how many students may be covered each year.
-  -  How much the entitlement will be. Your school decides this amount by adding up tuition and mandatory fees, and then subtracting any specific aid you’ve gotten from other sources—such as scholarships or grants as well as your Post-9/11 GI Bill tuition payment. Your school applies the Yellow Ribbon Program benefit to this final amount.
+-  Whether it has already enrolled the maximum number of students for the program period. Enrollment is on a first-come, first-served basis. We have an agreement with each school about on how many students may be covered each year.
+-  How much the entitlement will be. Your school decides this amount by adding up tuition and mandatory fees, and then subtracting any specific aid you’ve gotten from other sources—such as scholarships or grants as well as your Post-9/11 GI Bill tuition payment. Your school applies the Yellow Ribbon Program benefit to this final amount.
 
 </div>
 </li>
@@ -70,22 +70,8 @@ Bring your COE to your school's certifying official, or to the financial aid, mi
 
 ##### Follow up
 You'll get a notice from your school about whether it has accepted you into the program and how much money you'll get for tuition.
-</div>
-</li>
-
-<li class="process-step list-five">
-<div markdown="1">
-
-##### Confirm and coordinate
-
-You will receive notice from your school about whether you have been accepted to the program and about the application of the benefit to your tuition.
 
 </div>
 </li>
-
 </ol>
 
-### Get more information
-
-- [FAQs about the Yellow Ribbon Program](http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf)
-- [Yellow Ribbon Program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/Yellow_Ribbon_Pamphlet.pdf)
