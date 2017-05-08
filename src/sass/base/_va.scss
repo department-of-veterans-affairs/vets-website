@@ -339,9 +339,27 @@ h6 {
   text-align: center;
   padding: 2.4rem .25rem;
 
-  > h3 {
-    color: $color-gray-dark;
-    padding-bottom: 2.4rem;
+  .va-flex {
+    justify-content: center;
+    margin-left: .5rem;
+    margin-right: .5rem;
+
+    @include media($medium-large-screen) {
+      margin: auto;
+    }
+
+    @include media-maxwidth($small-screen) {
+      display: block;
+    }
+  }
+
+  .va-h-ruled--a {
+    margin: 2.4rem 1.6rem 0;
+
+    @include media($medium-large-screen) {
+      max-width: 41%;
+      margin: 2.4rem auto;
+    }
   }
 
   .usa-button {
