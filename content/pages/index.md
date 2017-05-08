@@ -46,4 +46,4 @@ majorlinks_col2:
     Check your claim status
   </a>
 </div>
-</div>
+
