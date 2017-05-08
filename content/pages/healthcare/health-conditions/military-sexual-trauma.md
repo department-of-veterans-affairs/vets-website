@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Military Sexual Trauma
 display_title: ""
 concurrence: ""
-template: ""
+template: 1-topic-landing
 lastupdate_override: ""
 relatedlinks: []
 
@@ -51,12 +51,12 @@ Here’s how to access VA services for MST:
 - **If you have a VA primary care provider,** talk to that professional about what you’ve been through. All our primary care providers are trained in MST and can help you figure out if you have related issues, like PTSD or depression. Your provider will offer treatment and support as needed.
 - **If you don’t have a VA primary care provider,** call your local VA medical center and ask to speak to the MST coordinator. You should feel free to ask for a provider of a specific gender if that makes you feel more comfortable. [Connect with your medical center](https://www.va.gov/health/vamc/). 
 - **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](https://www.va.gov/directory/guide/vetcenter.asp). 
-- **If you’re a homeless Veteran, get mental health care:**
-  - At a Veterans drop-in center, **or**
-  - By contacting the National Call Center for Homeless Veterans at 877-424-3838, or 
-  - By visiting our Homeless Veterans website. [Visit the VA Homeless Veterans website](https://www.va.gov/homeless/).
+- **If you’re homeless or at risk of becoming homeless:** 
+  - Visit our website to learn about VA programs for Veterans who are homeless. [Visit www.va.gov/homeless](https://www.va.gov/homeless/).
+  - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1phonenumber">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
+  - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
-You can also call the VA general information hotline at 800-827-1000.
+You can also call the VA general information hotline at <a href="tel:+1phonenumber">800-827-1000</a>.
 
 [Download our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). 
 
