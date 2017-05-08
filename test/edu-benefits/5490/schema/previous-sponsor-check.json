@@ -15,7 +15,10 @@
         "last": "Previous sponsor last",
         "suffix": "Sr."
       },
-      "veteranSocialSecurityNumber": "234444333"
+      "view:veteranId": {
+         "vaFileNumber": "C12345678",
+         "view:noSSN": true
+      }
     },
     "view:currentSameAsPrevious": true,
     "view:currentSponsorInformation": {
@@ -23,7 +26,10 @@
         "first": "Jim",
         "last": "Doe"
       },
-      "veteranSocialSecurityNumber": "332344444"
+      "view:veteranId": {
+         "view:noSSN": false,
+         "veteranSocialSecurityNumber": "334444333"
+      }
     },
     "highSchool": {
       "view:hasHighSchool": {
