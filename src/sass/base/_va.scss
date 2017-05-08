@@ -336,8 +336,11 @@ h6 {
 // TODO(css): Make these less specific.
 .popular-container {
   background: $color-white;
-  text-align: center;
-  padding: 2.4rem .25rem;
+
+  > h3 {
+    padding: 2.4rem 0;
+    text-align: center;
+  }
 
   .va-flex {
     justify-content: center;
