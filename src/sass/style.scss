@@ -5,10 +5,6 @@
 @import "~uswds/src/stylesheets/lib/neat";
 @import "~uswds/src/stylesheets/lib/normalize"; // Currently 3.0.3
 
-@import "~foundation-sites/scss/foundation/components/grid";
-@import "~foundation-sites/scss/foundation/components/block-grid";
-@import "~foundation-sites/scss/foundation/components/visibility";
-
 // Font Awesome WOFF/WOFF2 fonts only
 @import "~font-awesome/scss/variables";
 @import "~font-awesome/scss/core";
@@ -28,6 +24,7 @@
 @import "~uswds/src/stylesheets/core/base";
 @import "~uswds/src/stylesheets/core/grid-settings";
 @import "~uswds/src/stylesheets/core/variables";
+@import "base/b-variables";
 
 // A VA partial. Here so that we can override the 
 // USWDS breakpoint and grid variables from above before
@@ -48,7 +45,6 @@
 @import "~uswds/src/stylesheets/components/sidenav";
 
 // ----- VA BASE (VARIABLES/HELPERS) ---- //
-@import "base/b-variables";
 @import "base/b-mixins";
 @import "base/b-functions";
 @import "base/b-utils";
