@@ -1,13 +1,20 @@
 #!/usr/bin/env bash
+if ! [ -x "$(command -v yarn)" ]; then
+    echo "Installing yarn..."
+    npm install -g yarn
+    if [ $? -eq 0 ]; then
+        echo "Yarn successfulling installed globally."
+    fi
+fi
 echo "Removing the node modules folder..."
 rm -rf ./node_modules
 if [ $? -eq 0 ]; then
     echo "Successfully cleaned out the node modules folder."
-    npm i
+    yarn install
     if [ $? -eq 0 ]; then
-        echo "npm install successfully completed."
+        echo "yarn install successfully completed."
     else
-        echo "Please manually re-run npm install from the command line."
+        echo "Please manually re-run yarn install from the command line."
     fi
 else
     echo "Please manually try check your ./node_modules folder for issues."
