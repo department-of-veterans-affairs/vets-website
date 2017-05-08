@@ -175,4 +175,4 @@ You may be able to buy dental insurance at a reduced cost through the VA Dental 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
-<!--- TODO: find a proper place to import USWDS JS for static pages -->
+<!-- TODO: find a proper place to import USWDS JS for static pages -->
