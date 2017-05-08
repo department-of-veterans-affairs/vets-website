@@ -202,3 +202,23 @@ body .row {
     }
   }
 }
+
+//============================================
+// Overrides for USWDS shenanigans. 
+// See: https://github.com/18F/web-design-standards/issues/1899
+// ===========================================
+
+@include media($medium-large-screen)  {
+  .usa-grid {
+    .usa-width-one-fourth {
+      margin-right: 2.35765%;
+      width: 23.23176%;
+    }
+
+    .usa-width-three-fourths {
+      margin-right: 2.35765%;
+      width: 74.41059%;
+    }
+  }
+}
+
