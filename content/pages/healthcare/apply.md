@@ -51,7 +51,7 @@ You can apply for VA health care in 1 of 4 ways:
 ### What if I need help filling out my application forms?
 
 Need help filling out your application forms?
-Call our toll-free hotline 877-222-VETS (8387), Monday to Friday, 8:00 a.m. to 8:00 p.m. EST.
+Call our toll-free hotline 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday to Friday, 8:00 a.m. to 8:00 p.m. EST.
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a rep](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative). 
 
