@@ -50,6 +50,7 @@ const props = {
   onCreateNewFolder: () => {},
   onToggleFolders: () => {},
   toggleFolderNav: () => {},
+  router: () => {}
 };
 
 describe('<FolderNav>', () => {
