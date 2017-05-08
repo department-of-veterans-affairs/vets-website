@@ -52,7 +52,6 @@ Partials should begin with an `_` so that Sass won't compile them separately int
 
 `base` also includes `_va.scss` which is (unfortunately) a bit of a legacy catch-all file.
 
-
 ## Guidelines for good SCSS / CSS
 
 Some guidelines for writing good CSS that scales well and doesn't make your colleagues ragey.
@@ -146,3 +145,10 @@ Compiles to:
       display: inline; }
 
 Every instance of `h4` will also be applied to `label`. This is usually not the behavior we want, particularly across an entire code base. 
+
+
+## CHECK. YOUR. OUTPUT.
+
+Periodially check your generated CSS files (JavaScript too!) to ensure that you didn't introduce bloat with your selectors or asset imports. 
+
+True story: we reduced the size of our home page CSS by ~400K by removing SVG fonts. Our Webpack configuration included base64-encoded versions of SVG fonts which dramatically inflated our file size. This fact was discovered only after viewing the generated CSS files.
