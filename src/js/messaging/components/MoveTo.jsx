@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ButtonCreateFolder from './buttons/ButtonCreateFolder';
@@ -73,25 +74,25 @@ class MoveTo extends React.Component {
 }
 
 MoveTo.propTypes = {
-  currentFolder: React.PropTypes.shape({
-    folderId: React.PropTypes.number.isRequired,
-    name: React.PropTypes.string.isRequired,
-    count: React.PropTypes.number.isRequired,
-    unreadCount: React.PropTypes.number.isRequired
+  currentFolder: PropTypes.shape({
+    folderId: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    count: PropTypes.number.isRequired,
+    unreadCount: PropTypes.number.isRequired
   }),
-  folders: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      folderId: React.PropTypes.number.isRequired,
-      name: React.PropTypes.string.isRequired,
-      count: React.PropTypes.number.isRequired,
-      unreadCount: React.PropTypes.number.isRequired
+  folders: PropTypes.arrayOf(
+    PropTypes.shape({
+      folderId: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      count: PropTypes.number.isRequired,
+      unreadCount: PropTypes.number.isRequired
     })
   ).isRequired,
-  isOpen: React.PropTypes.bool,
-  messageId: React.PropTypes.number,
-  onChooseFolder: React.PropTypes.func.isRequired,
-  onCreateFolder: React.PropTypes.func.isRequired,
-  onToggleMoveTo: React.PropTypes.func.isRequired,
+  isOpen: PropTypes.bool,
+  messageId: PropTypes.number,
+  onChooseFolder: PropTypes.func.isRequired,
+  onCreateFolder: PropTypes.func.isRequired,
+  onToggleMoveTo: PropTypes.func.isRequired,
 };
 
 export default MoveTo;

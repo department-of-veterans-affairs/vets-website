@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class SecondaryContactReview extends React.Component {
@@ -47,5 +48,5 @@ export default class SecondaryContactReview extends React.Component {
 }
 
 SecondaryContactReview.propTypes = {
-  data: React.PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };

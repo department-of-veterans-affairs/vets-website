@@ -171,35 +171,22 @@ export function errorSchemaIsValid(errorSchema) {
 
 export function isValidForm(form, pageListByChapters) {
   const pageConfigs = _.flatten(_.values(pageListByChapters));
-  const pages = _.omit(['privacyAgreementAccepted', 'submission'], form);
-  const validPages = Object.keys(pages)
+  const validPages = Object.keys(form.pages)
     .filter(pageKey => isActivePage(_.find({ pageKey }, pageConfigs), form));
-
-  // Flatten the data on all the page to use in uiSchemaValidate
-  // This is much less than ideal to do here...
-  const formData = Object.keys(pages).reduce((carry, pageName) => {
-    if (pages[pageName].data) {
-      Object.keys(pages[pageName].data).forEach((fieldKey) => {
-        carry[fieldKey] = pages[pageName].data[fieldKey]; // eslint-disable-line
-      });
-    }
-    return carry;
-  }, {});
-
 
   const v = new Validator();
 
-  return form.privacyAgreementAccepted && validPages.every(page => {
-    const { uiSchema, schema, data } = pages[page];
+  return form.data.privacyAgreementAccepted && validPages.every(page => {
+    const { uiSchema, schema } = form.pages[page];
 
     const result = v.validate(
-      data,
+      form.data,
       schema
     );
 
     if (result.valid) {
       const errors = {};
-      uiSchemaValidate(errors, uiSchema, schema, formData);
+      uiSchemaValidate(errors, uiSchema, schema, form.data);
 
       return errorSchemaIsValid(errors);
     }
@@ -237,8 +224,6 @@ export function validateCurrentOrPastDate(errors, dateString, formData, schema, 
 
 /**
  * Adds an error message to errors if a date is an invalid date or in the past.
- *
- * The message it adds can be customized in uiSchema.errorMessages.pastDate
  */
 export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
   validateDate(errors, dateString);

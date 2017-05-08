@@ -866,6 +866,10 @@ babel-plugin-transform-react-jsx@^6.24.1:
     babel-plugin-syntax-jsx "^6.8.0"
     babel-runtime "^6.22.0"
 
+babel-plugin-transform-react-remove-prop-types@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.2.tgz#97e3cab4d05938df91e16c0473737ef6c575a2e6"
+
 babel-plugin-transform-regenerator@^6.22.0:
   version "6.24.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-regenerator/-/babel-plugin-transform-regenerator-6.24.1.tgz#b8da305ad43c3c99b4848e4fe4037b770d23c418"
@@ -5356,7 +5360,7 @@ metalsmith-webpack-dev-server@department-of-veterans-affairs/metalsmith-webpack-
     chalk "^1.1.1"
     metalsmith "^1.7.0"
     webpack "^2.4.1"
-    webpack-dev-server "^1.14.1"
+    webpack-dev-server "1.16"
 
 metalsmith-webpack@department-of-veterans-affairs/metalsmith-webpack:
   version "1.0.3"
@@ -6643,13 +6647,6 @@ react-addons-css-transition-group@^15.3.2:
 react-addons-perf@^15.3.0:
   version "15.4.2"
   resolved "https://registry.yarnpkg.com/react-addons-perf/-/react-addons-perf-15.4.2.tgz#110bdcf5c459c4f77cb85ed634bcd3397536383b"
-  dependencies:
-    fbjs "^0.8.4"
-    object-assign "^4.1.0"
-
-react-addons-test-utils@^15.3.0:
-  version "15.5.1"
-  resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.5.1.tgz#e0d258cda2a122ad0dff69f838260d0c3958f5f7"
   dependencies:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
@@ -8311,9 +8308,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#ee444b33dd221524c71b3b0201beda250a0ffd65":
-  version "2.5.3"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ee444b33dd221524c71b3b0201beda250a0ffd65"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#d0e327cd0ee93a82988914778cc4342dbf013cb4":
+  version "2.5.5"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d0e327cd0ee93a82988914778cc4342dbf013cb4"
 
 vinyl-assign@^1.0.1:
   version "1.2.1"
@@ -8417,9 +8414,9 @@ webpack-dev-middleware@^1.10.2:
     path-is-absolute "^1.0.0"
     range-parser "^1.0.3"
 
-webpack-dev-server@^1.14.1:
-  version "1.16.4"
-  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-1.16.4.tgz#9a5b8e86aafa2c478e8a24d29ddb282ac696ef50"
+webpack-dev-server@1.16:
+  version "1.16.5"
+  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-1.16.5.tgz#0cbd5f2d2ac8d4e593aacd5c9702e7bbd5e59892"
   dependencies:
     compression "^1.5.2"
     connect-history-api-fallback "^1.3.0"

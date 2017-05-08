@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertBox from '../../../common/components/AlertBox';
@@ -105,7 +106,7 @@ export class CautionaryInformation extends React.Component {
           </div>
         </div>
 
-        {it.complaints.mainCampusRollUp && (<div>
+        {!!it.complaints.mainCampusRollUp && (<div>
           <div className="table">
             <table className="all-complaints usa-table-borderless">
               <thead>
@@ -155,8 +156,8 @@ export class CautionaryInformation extends React.Component {
 }
 
 CautionaryInformation.propTypes = {
-  institution: React.PropTypes.object,
-  onShowModal: React.PropTypes.func
+  institution: PropTypes.object,
+  onShowModal: PropTypes.func
 };
 
 export default CautionaryInformation;

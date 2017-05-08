@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -126,33 +127,33 @@ class RadioButtons extends React.Component {
 }
 
 RadioButtons.propTypes = {
-  errorMessage: React.PropTypes.string,
-  label: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.element
+  errorMessage: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
   ]).isRequired,
-  name: React.PropTypes.string.isRequired,
-  options: React.PropTypes.arrayOf(
-    React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.shape({
-        label: React.PropTypes.oneOfType([
-          React.PropTypes.string,
-          React.PropTypes.element,
+  name: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        label: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.element,
         ]),
-        value: React.PropTypes.oneOfType([
-          React.PropTypes.string,
-          React.PropTypes.bool
+        value: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.bool
         ]),
-        additional: React.PropTypes.oneOfType([
-          React.PropTypes.string,
-          React.PropTypes.element
+        additional: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.element
         ])
       })
     ])).isRequired,
-  value: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  required: React.PropTypes.bool,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  required: PropTypes.bool,
 };
 
 export default RadioButtons;
