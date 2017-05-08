@@ -8,11 +8,11 @@ export function transform(formConfig, form) {
   const newForm = _.cloneDeep(form);
 
   // Copy the data if necessary
-  if (form.sponsorInformation.data['view:currentSameAsPrevious']) {
-    newForm.sponsorInformation.data['view:currentSponsorInformation'] = {
-      veteranFullName: form.benefitHistory.data.previousBenefits.veteranFullName,
+  if (form.data['view:currentSameAsPrevious']) {
+    newForm.data['view:currentSponsorInformation'] = {
+      veteranFullName: form.data.previousBenefits.veteranFullName,
       'view:veteranId': {
-        veteranSocialSecurityNumber: form.benefitHistory.data.previousBenefits.veteranSocialSecurityNumber
+        veteranSocialSecurityNumber: form.data.previousBenefits.veteranSocialSecurityNumber
       }
     };
   }
@@ -24,11 +24,6 @@ export function transform(formConfig, form) {
     }
   });
 }
-
-export const benefitsLabels = {
-  chapter35: <p>Survivors’ and Dependents’ Assistance (DEA, Chapter 35)<br/><a href="/education/gi-bill/survivors-dependent-assistance/fry-scholarship/" target="_blank">Learn more</a></p>,
-  chapter33: <p>The Fry Scholarship (Chapter 33)<br/><a href="/education/gi-bill/survivors-dependent-assistance/dependents-education/" target="_blank">Learn more</a></p>,
-};
 
 export const relationshipLabels = {
   child: 'Child, stepchild, adopted child',

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export class AdditionalInformation extends React.Component {
@@ -26,7 +27,7 @@ export class AdditionalInformation extends React.Component {
               Veterans tuition policy:
             </a>
           </strong>
-          &nbsp;<a href={`http://${it.vetWebsiteLink}`} target="_blank">
+          &nbsp;<a href={it.vetWebsiteLink} target="_blank">
             View policy
           </a>
         </p>
@@ -54,8 +55,8 @@ export class AdditionalInformation extends React.Component {
 
     return (
       <div className="additional-information row">
-        <div className="medium-6 columns">
-          <div>
+        <div className="usa-width-one-half medium-6 columns">
+          <div className="institution-summary">
             <h3>Institution summary</h3>
             <p>
               <strong>
@@ -118,32 +119,32 @@ export class AdditionalInformation extends React.Component {
               </p>
             </div>
           </div>
-          <div>
+          <div className="institution-codes">
             <h3>Institution codes</h3>
             <p>
               <strong>
                 <a onClick={this.props.onShowModal.bind(this, 'facilityCode')}>VA facility code:</a>
                 &nbsp;
               </strong>
-              {+it.facilityCode === 0 ? 'N/A' : +it.facilityCode}
+              {it.facilityCode || 'N/A'}
             </p>
             <p>
               <strong>
                 <a onClick={this.props.onShowModal.bind(this, 'ipedsCode')}>ED IPEDS code:</a>
                 &nbsp;
               </strong>
-              {+it.cross === 0 ? 'N/A' : +it.cross}
+              {it.cross || 'N/A'}
             </p>
             <p>
               <strong>
                 <a onClick={this.props.onShowModal.bind(this, 'opeCode')}>ED OPE code:</a>
                 &nbsp;
               </strong>
-              {+it.ope6 === 0 ? 'N/A' : +it.ope6}
+              {it.ope || 'N/A'}
             </p>
           </div>
         </div>
-        <div className="medium-6 columns">
+        <div className="usa-width-one-half medium-6 columns">
           <div className="historical-information table">
             <h3>Historical Information</h3>
             <table className="usa-table-borderless">
@@ -175,8 +176,8 @@ export class AdditionalInformation extends React.Component {
 }
 
 AdditionalInformation.propTypes = {
-  institution: React.PropTypes.object,
-  onShowModal: React.PropTypes.func
+  institution: PropTypes.object,
+  onShowModal: PropTypes.func
 };
 
 export default AdditionalInformation;

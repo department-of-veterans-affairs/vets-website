@@ -21,7 +21,7 @@
 .cf {
   &::before,
   &::after {
-    content: ' ';
+    content: " ";
     display: table;
     clear: both;
   }
@@ -33,31 +33,18 @@
 }
 
 .rx-app {
-  background: $color-white;
-  padding: 3rem 1.5rem;
-  margin: auto;
-  max-width: $site-max-width;
+  margin-bottom: 3rem;
+
+  // TODO: Move to core?
+  .va-alert:first-child {
+    margin-top: 0;
+  }
 }
 
 // Enhances a USWDS style that has higher specificity.
 // Do not refactor.
 button.usa-button-outline {
   font-weight: bold;
-}
-
-.rx-header {
-  margin-bottom: 3rem;
-}
-
-.rx-title {
-  margin-bottom: 0;
-  + p {
-    margin: 0 0 3rem;
-  }
-}
-
-.rx-active-disclaimer {
-  margin: 0 0 3rem;
 }
 
 // Used to make functional buttons look like links.
@@ -74,7 +61,7 @@ button.usa-button-outline {
   width: auto !important;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: $color-link-default-hover;
     color: $color-link-default;
     text-decoration: inherit;
   }

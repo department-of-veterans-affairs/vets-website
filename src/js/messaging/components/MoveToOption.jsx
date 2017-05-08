@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class MoveToOption extends React.Component {
@@ -20,8 +21,8 @@ class MoveToOption extends React.Component {
 }
 
 MoveToOption.propTypes = {
-  folderName: React.PropTypes.string,
-  folderId: React.PropTypes.number
+  folderName: PropTypes.string,
+  folderId: PropTypes.number
 };
 
 export default MoveToOption;

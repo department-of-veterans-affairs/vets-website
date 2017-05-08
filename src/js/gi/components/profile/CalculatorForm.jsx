@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Dropdown from '../Dropdown';
@@ -46,6 +47,24 @@ class CalculatorForm extends React.Component {
 
   renderTuition() {
     if (!this.props.displayedInputs.tuition) return null;
+
+    const inStateTuitionInput =
+      this.props.inputs.inState === 'no' && (
+        <div>
+          <label htmlFor="inStateTuitionFees">
+            {this.renderLearnMoreLabel({
+              text: 'In-state tuition and fees per year',
+              modal: 'calcInStateTuition'
+            })}
+          </label>
+          <input
+              type="text"
+              name="inStateTuitionFees"
+              value={formatCurrency(this.props.inputs.inStateTuitionFees)}
+              onChange={this.props.onInputChange}/>
+        </div>
+      );
+
     return (
       <div>
         <label htmlFor="tuitionFees">
@@ -59,6 +78,7 @@ class CalculatorForm extends React.Component {
             name="tuitionFees"
             value={formatCurrency(this.props.inputs.tuitionFees)}
             onChange={this.props.onInputChange}/>
+        {inStateTuitionInput}
       </div>
     );
   }
@@ -101,7 +121,7 @@ class CalculatorForm extends React.Component {
       <div>
         <RadioButtons
             label={this.renderLearnMoreLabel({
-              text: 'Are you a current Yellow Ribbon recipient?',
+              text: 'Will you be a Yellow Ribbon recipient?',
               modal: 'calcYr'
             })}
             name="yellowRibbonRecipient"
@@ -314,7 +334,7 @@ class CalculatorForm extends React.Component {
     if (this.props.inputs.buyUp === 'yes') {
       amountInput = (
         <div>
-          <label htmlFor="buyUpAmount">How much did you pay toward buy-up?</label>
+          <label htmlFor="buyUpAmount">How much did you pay toward buy-up (up to $600)?</label>
           <input
               type="text"
               name="buyUpAmount"
@@ -345,7 +365,10 @@ class CalculatorForm extends React.Component {
     return (
       <div>
         <Dropdown
-            label="Will be working"
+            label={this.renderLearnMoreLabel({
+              text: 'Will be working',
+              modal: 'calcWorking'
+            })}
             name="working"
             alt="Will be working"
             options={[
@@ -393,10 +416,10 @@ class CalculatorForm extends React.Component {
 }
 
 CalculatorForm.propTypes = {
-  inputs: React.PropTypes.object,
-  displayedInputs: React.PropTypes.object,
-  onShowModal: React.PropTypes.func,
-  onInputChange: React.PropTypes.func
+  inputs: PropTypes.object,
+  displayedInputs: PropTypes.object,
+  onShowModal: PropTypes.func,
+  onInputChange: PropTypes.func
 };
 
 export default CalculatorForm;

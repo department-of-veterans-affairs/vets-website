@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Checkbox from '../Checkbox';
@@ -93,11 +94,6 @@ class InstitutionFilterForm extends React.Component {
       <div>
         <p>Programs</p>
         <Checkbox
-            checked={filters.caution}
-            name="caution"
-            label="Without Caution Flags"
-            onChange={this.handleCheckboxChange}/>
-        <Checkbox
             checked={filters.studentVeteranGroup}
             name="studentVeteranGroup"
             label="Student Vet Group"
@@ -158,28 +154,26 @@ class InstitutionFilterForm extends React.Component {
 }
 
 InstitutionFilterForm.propTypes = {
-  filters: React.PropTypes.shape({
-    category: React.PropTypes.string,
-    type: React.PropTypes.string,
-    country: React.PropTypes.string,
-    state: React.PropTypes.string,
-    withoutCautionFlags: React.PropTypes.bool,
-    studentVetGroup: React.PropTypes.bool,
-    yellowRibbonScholarship: React.PropTypes.bool,
-    principlesOfExcellence: React.PropTypes.bool,
-    eightKeysToVeteranSuccess: React.PropTypes.bool,
+  filters: PropTypes.shape({
+    category: PropTypes.string,
+    type: PropTypes.string,
+    country: PropTypes.string,
+    state: PropTypes.string,
+    studentVetGroup: PropTypes.bool,
+    yellowRibbonScholarship: PropTypes.bool,
+    principlesOfExcellence: PropTypes.bool,
+    eightKeysToVeteranSuccess: PropTypes.bool,
   }),
-  onFilterChange: React.PropTypes.func,
-  search: React.PropTypes.shape({
-    category: React.PropTypes.object,
-    type: React.PropTypes.object,
-    state: React.PropTypes.object,
-    country: React.PropTypes.object,
-    cautionFlag: React.PropTypes.object,
-    studentVetGroup: React.PropTypes.object,
-    yellowRibbonScholarship: React.PropTypes.object,
-    principlesOfExcellence: React.PropTypes.object,
-    eightKeysToVeteranSuccess: React.PropTypes.object
+  onFilterChange: PropTypes.func,
+  search: PropTypes.shape({
+    category: PropTypes.object,
+    type: PropTypes.object,
+    state: PropTypes.object,
+    country: PropTypes.object,
+    studentVetGroup: PropTypes.object,
+    yellowRibbonScholarship: PropTypes.object,
+    principlesOfExcellence: PropTypes.object,
+    eightKeysToVeteranSuccess: PropTypes.object
   })
 };
 

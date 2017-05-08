@@ -4,16 +4,19 @@ title: Yellow Ribbon Program
 template: 1-topic-landing
 concurrence: incomplete
 ---
+<div class="va-introtext">
 
 The Yellow Ribbon Program can help you pay for higher out-of-state, private, or graduate school tuition that the Post-9/11 GI Bill doesn’t cover. Find out if your school is a part of this program.
 
-<div class="call-out" markdown="1">
+</div>
+
+<div class="feature" markdown="1">
 
 ### Can I get this benefit?
-You can get this benefit if:
 
- - You qualify for the maximum benefit rate under the Post-9/11 GI Bill, **and**
- - Your school takes part in the Yellow Ribbon Program and has confirmed your enrollment with us.
+You can get this benefit if:
+- You qualify for the maximum benefit rate under the Post-9/11 GI Bill, **and**
+- Your school takes part in the Yellow Ribbon Program and has confirmed your enrollment with us.
 
 You may be able to get this benefit if you’re the dependent of a Veteran who qualifies for a Transfer of Entitlement (TOE) for the Post-9/11 GI Bill. [Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).
 
@@ -23,46 +26,54 @@ You may be able to get this benefit if you’re the dependent of a Veteran who q
 
 - Veterans
 - Qualified dependents 
+
 </div>
 
-### What benefits can I get? 
-Extra money for tuition
+### What benefits can I get?
 
+Money for tuition
 
 ------
 
 ### How do I get this benefit?
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 <div markdown="1">
 
-##### Apply for GI Bill benefits
-If you apply and qualify for Post-9/11 GI Bill benefits, you'll get a Certificate of Eligibility (COE). [Apply for benefits](/education/apply-for-education-benefits/).
-</div>
-</li>
-
-<li class="step two">
-<div markdown="1">
-
-##### Apply for the Yellow Ribbon Program
-Bring your COE to your school's VA certifying official, financial aid or military liaison office, and ask to apply to the Yellow Ribbon Program. Each school decides how many students will get Yellow Ribbon benefits, and it's on a first-come, first-serve basis. That means you should apply for the program as soon as you get your COE. Your school will tell you if you were accepted.  
-
+##### Apply for benefits
+[Apply for for Post-9/11 GI Bill benefits](/education/apply-for-education-benefits/). If you qualify for benefits, you'll get a Certificate of Eligibility (COE).
 
 </div>
 </li>
 
-<li class="step three last">
+<li class="process-step list-two">
 <div markdown="1">
+
+##### Turn in your COE
+Bring your COE to your school's certifying official, or to the financial aid, military liaison, or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
+
+</div>
+</li>
+
+<li class="process-step list-three"><div markdown="1">
+
+##### Wait for a decision
+
+###### Your school will decide:
+- Whether it has already enrolled the maximum number of students for the program period. Enrollment is on a first-come, first-served basis. We have an agreement with each school about on how many students may be covered each year.
+- How much the entitlement will be. Your school decides this amount by adding up tuition and mandatory fees, and then subtracting any specific aid you’ve gotten from other sources—such as scholarships or grants as well as your Post-9/11 GI Bill tuition payment. Your school applies the Yellow Ribbon Program benefit to this final amount.
+
+</div>
+</li>
+
+<li class="process-step list-four"><div markdown="1">
 
 ##### Follow up
-Check back with your school's VA certifying official who will turn in your enrollment information to VA. That person should also work with us to make sure the Yellow Ribbon Funds are put toward the tuition costs. 
+You'll get a notice from your school about whether it has accepted you into the program and how much money you'll get for tuition.
+
 </div>
 
 </li>
 </ol>
-
-### Get more information:
-- [Yellow Ribbon Program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/Yellow_Ribbon_Pamphlet.pdf)
-- [FAQs about the Yellow Ribbon Program](http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf)

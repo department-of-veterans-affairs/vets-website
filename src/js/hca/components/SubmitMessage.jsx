@@ -7,10 +7,10 @@ class SubmitMessage extends React.Component {
     const time = this.props.submission.timestamp;
     return (
       <div>
-        <div className="medium-2 columns">
+        <div className="usa-width-one-sixth medium-2 columns">
           <i className="fa fa-check-circle hca-success-icon"></i>
         </div>
-        <div className="medium-10 columns">
+        <div className="usa-width-five-sixths medium-10 columns">
           <h4 className="success-copy">You have successfully submitted your application for health care!</h4>
         </div>
         <div>

@@ -37,7 +37,7 @@ Money for tuition
 ### How do I get this benefit?
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 <div markdown="1">
 
 ##### Apply for benefits
@@ -45,7 +45,7 @@ Money for tuition
 </div>
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 <div markdown="1">
 
 ##### Turn in your COE
@@ -53,7 +53,7 @@ Bring your COE to your school's certifying official, or to the financial aid, mi
 </div>
 </li>
 
-<li class="step three">
+<li class="process-step list-three">
 <div markdown="1">
 
 ##### Wait for a decision
@@ -65,13 +65,20 @@ Bring your COE to your school's certifying official, or to the financial aid, mi
 </div>
 </li>
 
-<li class="step last four">
+<li class="process-step list-four">
 <div markdown="1">
 
 ##### Follow up
 You'll get a notice from your school about whether it has accepted you into the program and how much money you'll get for tuition.
 </div>
 </li>
+
+<li class="process-step list-five">
+<div markdown="1">
+
+##### Confirm and coordinate
+
+You will receive notice from your school about whether you have been accepted to the program and about the application of the benefit to your tuition.
 
 </div>
 </li>

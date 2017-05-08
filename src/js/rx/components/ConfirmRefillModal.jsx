@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from '../../common/components/Modal';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -72,14 +73,14 @@ class ConfirmRefillModal extends React.Component {
 }
 
 ConfirmRefillModal.propTypes = {
-  prescription: React.PropTypes.shape({
-    prescriptionId: React.PropTypes.number.isRequired,
-    prescriptionName: React.PropTypes.string.isRequired
+  prescription: PropTypes.shape({
+    prescriptionId: PropTypes.number.isRequired,
+    prescriptionName: PropTypes.string.isRequired
   }),
-  isLoading: React.PropTypes.bool,
-  isVisible: React.PropTypes.bool,
-  refillPrescription: React.PropTypes.func,
-  onCloseModal: React.PropTypes.func
+  isLoading: PropTypes.bool,
+  isVisible: PropTypes.bool,
+  refillPrescription: PropTypes.func,
+  onCloseModal: PropTypes.func
 };
 
 export default ConfirmRefillModal;

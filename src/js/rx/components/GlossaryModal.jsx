@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import Modal from '../../common/components/Modal';
@@ -48,11 +49,11 @@ class GlossaryModal extends React.Component {
 }
 
 GlossaryModal.propTypes = {
-  content: React.PropTypes.arrayOf(React.PropTypes.shape({
-    term: React.PropTypes.string,
-    definition: React.PropTypes.string
+  content: PropTypes.arrayOf(PropTypes.shape({
+    term: PropTypes.string,
+    definition: PropTypes.string
   })),
-  onCloseModal: React.PropTypes.func
+  onCloseModal: PropTypes.func
 };
 
 export default GlossaryModal;

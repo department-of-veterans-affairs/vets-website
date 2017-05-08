@@ -5,7 +5,7 @@ import { Validator } from 'jsonschema';
 
 import { transform } from '../../../../src/js/edu-benefits/5490/helpers';
 import formConfig from '../../../../src/js/edu-benefits/5490/config/form';
-import fullSchema5490 from 'vets-json-schema/dist/dependents-benefits-schema.json';
+import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
 
 describe('5490 schema tests', () => {
   const v = new Validator();
@@ -23,7 +23,7 @@ describe('5490 schema tests', () => {
         );
 
         if (!result.valid) {
-          console.log(result.errors); // eslint-disable-line
+          // console.log(result.errors); // eslint-disable-line
         }
         expect(result.valid).to.be.true;
       });

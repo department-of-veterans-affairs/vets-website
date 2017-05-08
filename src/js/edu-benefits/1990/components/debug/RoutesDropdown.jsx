@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import routes from '../../routes';
@@ -31,7 +32,7 @@ class RoutesDropdown extends React.Component {
 }
 
 RoutesDropdown.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 export default RoutesDropdown;

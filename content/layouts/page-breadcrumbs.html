@@ -4,7 +4,13 @@
 
 <div id="content" class="interior {{ id }}">
 
-  {% case template %}
+  {% case template %}  
+    {% when 'level2-index' %}
+      {% include "content/includes/level2-index.html" %}
+
+    {% when 'detail-page' %}
+      {% include "content/includes/detail-page.html" %}
+
     {% when 'L2-section-landing' %}
       {% include "content/includes/L2-section-landing.html" %}
 
@@ -33,7 +39,7 @@
     {{ contents }}
   {% endcase %}
 
-  {% if path != 'employment' %}
+  {% if path != 'employment' AND template != 'level2-index' %}
   {% include "content/includes/general-related-links.html" %}
   {% endif %}
 </div>

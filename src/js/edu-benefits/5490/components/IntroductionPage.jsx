@@ -15,16 +15,16 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for Education Benefits"/>
-        <p>This application is equivalent to Form 22-5490 (Dependents' Application for VA Education Benefits).</p>
+        <FormTitle title="Apply for education benefits as an eligible dependent"/>
+        <p>This application is equivalent to Form 22-5490 (Dependents’ Application for VA Education Benefits).</p>
         <div className="process schemaform-process">
           <ol>
-            <li className="step one">
+            <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
               <div><h6>What you need to fill out this application</h6></div>
               <ul>
                 <li>Your Social Security number (required)</li>
-                <li>Your sponsor's Social Security number (required)</li>
+                <li>Your sponsor’s Social Security number (required)</li>
                 <li>Basic information about the school or training facility where you want to attend</li>
                 <li>Bank account direct deposit information</li>
                 <li>Education history</li>
@@ -40,11 +40,11 @@ class IntroductionPage extends React.Component {
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
               </ul>
             </li>
-            <li className="step two">
+            <li className="process-step list-two">
               <div><h5>Apply for benefits</h5></div>
               <p>Complete this form.</p>
             </li>
-            <li className="step three">
+            <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
               <div><h6>How long does it take VA to make a decision?</h6></div>
               <ul><li>We usually process claims within 30 days.</li></ul>
@@ -53,20 +53,21 @@ class IntroductionPage extends React.Component {
               <div><h6>What if VA needs more information?</h6></div>
               <ul><li>We'll contact you if we need more information.</li></ul>
             </li>
-            <li className="step four last">
+            <li className="process-step list-four">
               <div><h5>Decision</h5></div>
               <ul><li>We usually process claims within 30 days.</li></ul>
               <ul><li>You’ll get a Certificate of Eligibility (COE) or Award Letter in the mail if your application was approved.</li></ul>
+              <ul><li>If your application was not approved, you’ll get a denial letter in the mail.</li></ul>
             </li>
           </ol>
         </div>
         <div className="row progress-box progress-box-schemaform form-progress-buttons schemaform-buttons">
-          <div className="small-6 medium-5 columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 columns">
             <a href="/education/apply-for-education-benefits/">
               <button className="usa-button-outline">« Back</button>
             </a>
           </div>
-          <div className="small-6 medium-5 end columns">
+          <div className="small-6 usa-width-five-twelfths medium-5 end columns">
             <ProgressButton
                 onButtonClick={this.goForward}
                 buttonText="Continue"

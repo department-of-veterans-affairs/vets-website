@@ -3,17 +3,12 @@ import { expect } from 'chai';
 import {
   parseISODate,
   formatISOPartialDate,
-  updateRequiredFields,
   createRoutes,
   hasFieldsOtherThanArray,
   transformForSubmit,
-  setHiddenFields,
-  removeHiddenData,
-  updateSchemaFromUiSchema,
   getArrayFields,
   setItemTouched,
   getNonArraySchema,
-  replaceRefSchemas
 } from '../../../src/js/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -50,79 +45,6 @@ describe('Schemaform helpers:', () => {
         year: ''
       };
       expect(formatISOPartialDate(date)).to.be.undefined;
-    });
-  });
-  describe('updateRequiredFields', () => {
-    it('should add field to required array', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          test: {
-            type: 'string'
-          }
-        }
-      };
-      const uiSchema = {
-        test: {
-          'ui:required': () => true
-        }
-      };
-      expect(updateRequiredFields(schema, uiSchema).required[0]).to.equal('test');
-    });
-    it('should remove field from required array', () => {
-      const schema = {
-        type: 'object',
-        required: ['test'],
-        properties: {
-          test: {
-            type: 'string'
-          }
-        }
-      };
-      const uiSchema = {
-        test: {
-          'ui:required': () => false
-        }
-      };
-      expect(updateRequiredFields(schema, uiSchema).required).to.be.empty;
-    });
-    it('should not change schema if required does not change', () => {
-      const schema = {
-        type: 'object',
-        required: ['test'],
-        properties: {
-          test: {
-            type: 'string'
-          }
-        }
-      };
-      const uiSchema = {
-        test: {
-          'ui:required': () => true
-        }
-      };
-      expect(updateRequiredFields(schema, uiSchema)).to.equal(schema);
-    });
-    it('should set required in arrays', () => {
-      const schema = {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            test: {
-              type: 'string'
-            }
-          }
-        }
-      };
-      const uiSchema = {
-        items: {
-          test: {
-            'ui:required': () => true
-          }
-        }
-      };
-      expect(updateRequiredFields(schema, uiSchema).items.required[0]).to.equal('test');
     });
   });
   describe('createRoutes', () => {
@@ -220,283 +142,6 @@ describe('Schemaform helpers:', () => {
       expect(hasFieldsOtherThanArray(schema)).to.be.false;
     });
   });
-  describe('setHiddenFields', () => {
-    it('should set field as hidden', () => {
-      const schema = {};
-      const uiSchema = {
-        'ui:options': {
-          hideIf: () => true
-        }
-      };
-      const data = {};
-
-      const newSchema = setHiddenFields(schema, uiSchema, data);
-
-      expect(newSchema['ui:hidden']).to.be.true;
-      expect(newSchema).not.to.equal(schema);
-    });
-    it('should not touch non-hidden field without prop', () => {
-      const schema = {};
-      const uiSchema = {
-        'ui:options': {
-          hideIf: () => false
-        }
-      };
-      const data = {};
-
-      const newSchema = setHiddenFields(schema, uiSchema, data);
-
-      expect(newSchema['ui:hidden']).to.be.undefined;
-      expect(newSchema).to.equal(schema);
-    });
-    it('should remove hidden prop from schema', () => {
-      const schema = {
-        'ui:hidden': true
-      };
-      const uiSchema = {
-        'ui:options': {
-          hideIf: () => false
-        }
-      };
-      const data = {};
-
-      const newSchema = setHiddenFields(schema, uiSchema, data);
-
-      expect(newSchema['ui:hidden']).to.be.undefined;
-      expect(newSchema).not.to.equal(schema);
-    });
-    it('should set hidden on object field', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          field: {}
-        }
-      };
-      const uiSchema = {
-        field: {
-          'ui:options': {
-            hideIf: () => true
-          }
-        }
-      };
-      const data = { field: '' };
-
-      const newSchema = setHiddenFields(schema, uiSchema, data);
-
-      expect(newSchema.properties.field['ui:hidden']).to.be.true;
-      expect(newSchema).not.to.equal(schema);
-    });
-    it('should set hidden on nested hidden object field', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          unhide: { type: 'boolean' },
-          nestedObject: {}
-        }
-      };
-      const uiSchema = {
-        'ui:options': { hideIf: () => false },
-        nestedObject: {
-          'ui:options': { hideIf: () => true }
-        }
-      };
-      const data = { unhide: false };
-
-      const newSchema = setHiddenFields(schema, uiSchema, data);
-
-      expect(newSchema.properties.nestedObject['ui:hidden']).to.be.true;
-      expect(newSchema).not.to.equal(schema);
-    });
-    it('should set collapsed on expandUnder field', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          field: {},
-          field2: {}
-        }
-      };
-      const uiSchema = {
-        field: {
-          'ui:options': {
-            expandUnder: 'field2'
-          }
-        }
-      };
-      const data = { field: '', field2: false };
-
-      const newSchema = setHiddenFields(schema, uiSchema, data);
-
-      expect(newSchema.properties.field['ui:collapsed']).to.be.true;
-      expect(newSchema).not.to.equal(schema);
-    });
-    it('should set hidden on array field', () => {
-      const schema = {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            field: {}
-          }
-        }
-      };
-      const uiSchema = {
-        items: {
-          field: {
-            'ui:options': {
-              hideIf: () => true
-            }
-          }
-        }
-      };
-      const data = [];
-
-      const newSchema = setHiddenFields(schema, uiSchema, data);
-
-      expect(newSchema).not.to.equal(schema);
-      expect(newSchema.items.properties.field['ui:hidden']).to.be.true;
-    });
-  });
-  describe('removeHiddenData', () => {
-    it('should remove hidden field', () => {
-      const schema = {
-        'ui:hidden': true
-      };
-      const data = 'test';
-
-      const newData = removeHiddenData(schema, data);
-
-      expect(newData).to.be.undefined;
-    });
-    it('should remove hidden field in object', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          field: {},
-          field2: {
-            'ui:hidden': true
-          }
-        }
-      };
-      const data = { field: 'test', field2: 'test2' };
-
-      const newData = removeHiddenData(schema, data);
-
-      expect(newData).to.eql({ field: 'test' });
-    });
-    it('should remove collapsed field in object', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          field: {},
-          field2: {
-            'ui:collapsed': true
-          }
-        }
-      };
-      const data = { field: 'test', field2: 'test2' };
-
-      const newData = removeHiddenData(schema, data);
-
-      expect(newData).to.eql({ field: 'test' });
-    });
-    it('should remove hidden field in array', () => {
-      const schema = {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            field: {},
-            field2: {
-              'ui:hidden': true
-            }
-          }
-        }
-      };
-      const data = [{ field: 'test', field2: 'test2' }];
-
-      const newData = removeHiddenData(schema, data);
-
-      expect(newData[0]).to.eql({ field: 'test' });
-    });
-  });
-  describe('updateSchemaFromUiSchema', () => {
-    it('should update schema', () => {
-      const schema = {
-        type: 'string'
-      };
-      const uiSchema = {
-        'ui:options': {
-          updateSchema: () => {
-            return { type: 'number' };
-          }
-        }
-      };
-      const data = 'test';
-      const formData = {};
-
-      const newSchema = updateSchemaFromUiSchema(schema, uiSchema, data, formData);
-
-      expect(newSchema).to.eql({ type: 'number' });
-      expect(newSchema).not.to.equal(schema);
-    });
-    it('should update schema in object', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          field: {
-            type: 'string'
-          }
-        }
-      };
-      const uiSchema = {
-        field: {
-          'ui:options': {
-            updateSchema: () => {
-              return { type: 'number' };
-            }
-          }
-        }
-      };
-      const data = {};
-      const formData = {};
-
-      const newSchema = updateSchemaFromUiSchema(schema, uiSchema, data, formData);
-
-      expect(newSchema.properties.field).to.eql({ type: 'number' });
-      expect(newSchema).not.to.equal(schema);
-    });
-    it('should update schema in array', () => {
-      const schema = {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            field: {
-              type: 'string'
-            }
-          }
-        }
-      };
-      const uiSchema = {
-        items: {
-          field: {
-            'ui:options': {
-              updateSchema: () => {
-                return { type: 'number' };
-              }
-            }
-          }
-        }
-      };
-      const data = [{}];
-      const formData = {};
-
-      const newSchema = updateSchemaFromUiSchema(schema, uiSchema, data, formData);
-
-      expect(newSchema.items.properties.field).to.eql({ type: 'number' });
-      expect(newSchema).not.to.equal(schema);
-    });
-  });
   describe('getArrayFields', () => {
     it('should get array', () => {
       const data = {
@@ -573,15 +218,9 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            otherField: 'testing2'
-          }
-        },
-        page2: {
-          data: {
-            field: 'testing'
-          }
+        data: {
+          otherField: 'testing2',
+          field: 'testing'
         }
       };
 
@@ -608,15 +247,9 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            otherField: 'testing2'
-          }
-        },
-        page2: {
-          data: {
-            field: 'testing'
-          }
+        data: {
+          otherField: 'testing2',
+          field: 'testing'
         }
       };
 
@@ -638,10 +271,8 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            'view:Test': 'thing'
-          }
+        data: {
+          'view:Test': 'thing'
         }
       };
 
@@ -660,11 +291,9 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            'view:Test': {
-              field: 'testing'
-            }
+        data: {
+          'view:Test': {
+            field: 'testing'
           }
         }
       };
@@ -682,12 +311,16 @@ describe('Schemaform helpers:', () => {
           chapter1: {
             pages: {
               page1: {
-                depends: {
-                  page2: {
-                    data: {
-                      field: 'something'
+                schema: {
+                  type: 'object',
+                  properties: {
+                    otherField: {
+                      type: 'string'
                     }
                   }
+                },
+                depends: {
+                  field: 'something'
                 }
               },
             }
@@ -700,15 +333,9 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            otherField: 'testing2'
-          }
-        },
-        page2: {
-          data: {
-            field: 'testing'
-          }
+        data: {
+          otherField: 'testing2',
+          field: 'testing'
         }
       };
 
@@ -729,11 +356,9 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            address: {
-              country: 'testing'
-            }
+        data: {
+          address: {
+            country: 'testing'
           }
         }
       };
@@ -753,13 +378,11 @@ describe('Schemaform helpers:', () => {
         }
       };
       const formData = {
-        page1: {
-          data: {
-            someField: {
-            },
-            someField2: {
-              someData: undefined
-            }
+        data: {
+          someField: {
+          },
+          someField2: {
+            someData: undefined
           }
         }
       };
@@ -816,6 +439,7 @@ describe('Schemaform helpers:', () => {
     it('should return fields without array', () => {
       const result = getNonArraySchema({
         type: 'object',
+        required: ['field', 'field2'],
         properties: {
           field: {
             type: 'string'
@@ -828,90 +452,13 @@ describe('Schemaform helpers:', () => {
 
       expect(result).to.eql({
         type: 'object',
+        required: ['field'],
         properties: {
           field: {
             type: 'string'
           }
         }
       });
-    });
-  });
-  describe('replaceRefSchemas', () => {
-    const definitions = {
-      common: {
-        type: 'string'
-      }
-    };
-    it('should replace ref', () => {
-      const schema = {
-        $ref: '#/definitions/common'
-      };
-
-      const newSchema = replaceRefSchemas(schema, definitions);
-
-      expect(newSchema).to.eql({ type: 'string' });
-      expect(newSchema).not.to.equal(schema);
-    });
-
-    it('should replace nested $ref', () => {
-      const schema = {
-        $ref: '#/definitions/common'
-      };
-      const nestedDefinitions = {
-        common: {
-          $ref: '#/definitions/nested'
-        },
-        nested: {
-          type: 'number'
-        }
-      };
-
-      const newSchema = replaceRefSchemas(schema, nestedDefinitions);
-
-      expect(newSchema).to.eql({ type: 'number' });
-      expect(newSchema).not.to.equal(schema);
-    });
-    it('should replace ref in object', () => {
-      const schema = {
-        type: 'object',
-        properties: {
-          field: {
-            $ref: '#/definitions/common'
-          }
-        }
-      };
-
-      const newSchema = replaceRefSchemas(schema, definitions);
-
-      expect(newSchema.properties.field).to.eql({ type: 'string' });
-      expect(newSchema).not.to.equal(schema);
-    });
-    it('should update schema in array', () => {
-      const schema = {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            field: {
-              $ref: '#/definitions/common'
-            }
-          }
-        }
-      };
-
-      const newSchema = replaceRefSchemas(schema, definitions);
-
-      expect(newSchema.items.properties.field).to.eql({ type: 'string' });
-      expect(newSchema).not.to.equal(schema);
-    });
-    it('should throw error on missing schema', () => {
-      const schema = {
-        $ref: '#/definitions/common2'
-      };
-
-      const replaceCall = () => replaceRefSchemas(schema, definitions);
-
-      expect(replaceCall).to.throw(Error, /Missing definition for #\/definitions\/common2/);
     });
   });
 });

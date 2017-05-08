@@ -37,21 +37,27 @@ export class SearchResult extends React.Component {
       );
     };
 
+    const { version } = this.props;
+    const linkTo = {
+      pathname: `profile/${this.props.facilityCode}`,
+      query: version ? { version } : {}
+    };
+
     return (
       <div className="search-result">
         <div className="outer">
           <CautionFlag/>
           <div className="inner row">
-            <div className="small-12 medium-7 columns">
-              <h2><Link to={`profile/${this.props.facilityCode}`}>{this.props.name}</Link></h2>
+            <div className="small-12 usa-width-seven-twelfths medium-7 columns">
+              <h2><Link to={linkTo}>{this.props.name}</Link></h2>
               <div style={{ position: 'relative', bottom: 0 }}>
                 <p className="locality">
                   {this.props.city}, {this.props.state || this.props.country}
                 </p>
-                <p className="count">{this.props.studentCount.toLocaleString()} GI Bill Students</p>
+                <p className="count">{(+this.props.studentCount).toLocaleString()} GI Bill Students</p>
               </div>
             </div>
-            <div className="small-12 medium-5 columns estimated-benefits">
+            <div className="small-12 usa-width-five-twelfths medium-5 columns estimated-benefits">
               <h3>You may be eligible for up to:</h3>
               <div className="row">
                 <div className="columns">

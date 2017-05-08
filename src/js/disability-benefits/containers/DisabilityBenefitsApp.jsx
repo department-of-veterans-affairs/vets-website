@@ -9,15 +9,15 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 const unavailableView = (
   <div className="row">
-    <div className="columns medium-8"><ClaimsUnavailable/></div>
-    <div className="columns medium-4"><AskVAQuestions/></div>
+    <div className="columns usa-width-two-thirds medium-8"><ClaimsUnavailable/></div>
+    <div className="columns usa-width-one-third medium-4"><AskVAQuestions/></div>
   </div>
 );
 
 const unavailableMviRecords = (
   <div className="row">
-    <div className="columns medium-8"><MviRecordsUnavailable/></div>
-    <div className="columns medium-4"><AskVAQuestions/></div>
+    <div className="columns usa-width-two-thirds medium-8"><MviRecordsUnavailable/></div>
+    <div className="columns usa-width-one-third medium-4"><AskVAQuestions/></div>
   </div>
 );
 
@@ -27,7 +27,7 @@ function AppContent({ authorized, available, children, isDataAvailable }) {
   const canUseApp = isDataAvailable === true || typeof isDataAvailable === 'undefined';
   return (
     <div className="disability-benefits-content">
-      {!authorized && <div className="row"><div className="columns medium-8"><ClaimsUnauthorized/></div></div>}
+      {!authorized && <div className="row"><div className="columns usa-width-two-thirds medium-8"><ClaimsUnauthorized/></div></div>}
       {authorized && !available && unavailableView}
       {authorized && !canUseApp && available && unavailableMviRecords}
       {available && authorized && canUseApp &&

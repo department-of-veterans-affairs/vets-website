@@ -1,14 +1,11 @@
 import _ from 'lodash/fp';
 
-import fullSchema1995 from 'vets-json-schema/dist/change-of-program-schema.json';
+import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
 import {
-  bankAccountChangeLabels,
   transform,
-  directDepositWarning
 } from '../helpers';
 
-import * as bankAccount from '../../../common/schemaform/definitions/bankAccount';
 import * as fullName from '../../../common/schemaform/definitions/fullName';
 import * as date from '../../../common/schemaform/definitions/date';
 import * as dateRange from '../../../common/schemaform/definitions/dateRange';
@@ -20,6 +17,8 @@ import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
 import * as veteranId from '../../definitions/veteranId';
 
 import createContactInformationPage from '../../pages/contactInformation';
+import createOldSchoolPage from '../../pages/oldSchool';
+import createDirectDepositChangePage from '../../pages/directDepositChange';
 
 import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
 import IntroductionPage from '../components/IntroductionPage';
@@ -30,15 +29,12 @@ const {
   toursOfDuty,
   civilianBenefitsAssistance,
   educationObjective,
-  nonVaAssistance,
-  reasonForChange,
-  bankAccountChange
+  nonVaAssistance
 } = fullSchema1995.properties;
 
 const {
   preferredContactMethod,
-  school,
-  educationType
+  educationType,
 } = fullSchema1995.definitions;
 
 const formConfig = {
@@ -202,36 +198,7 @@ const formConfig = {
             }
           }
         },
-        oldSchool: {
-          path: 'school-selection/old-school',
-          title: 'School, university, program, or training facility you last attended',
-          initialData: {
-            oldSchool: {
-              address: {}
-            }
-          },
-          uiSchema: {
-            'ui:title': 'School, university, program, or training facility you last attended',
-            oldSchool: {
-              name: {
-                'ui:title': 'Name of school, university, or training facility'
-              },
-              address: address.uiSchema()
-            },
-            trainingEndDate: date.uiSchema('When did you stop taking classes or participating in the training program? (Future dates are ok)'),
-            reasonForChange: {
-              'ui:title': 'Why did you stop taking classes or participating in the training program? (for example, “I graduated” or “I moved” or “The program wasn’t right for me.”)'
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              oldSchool: _.set('properties.address', address.schema(), school),
-              trainingEndDate: date.schema,
-              reasonForChange
-            }
-          }
-        }
+        oldSchool: createOldSchoolPage(fullSchema1995)
       }
     },
     personalInformation: {
@@ -243,11 +210,7 @@ const formConfig = {
           path: 'personal-information/dependents',
           initialData: {},
           depends: {
-            militaryHistory: {
-              data: {
-                'view:hasServiceBefore1978': true
-              }
-            }
+            'view:hasServiceBefore1978': true
           },
           uiSchema: {
             serviceBefore1977: serviceBefore1977.uiSchema
@@ -259,42 +222,7 @@ const formConfig = {
             }
           }
         },
-        directDeposit: {
-          title: 'Direct deposit',
-          path: 'personal-information/direct-deposit',
-          initialData: {},
-          uiSchema: {
-            bankAccountChange: {
-              'ui:title': 'Benefit payment method:',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: bankAccountChangeLabels
-              }
-            },
-            bankAccount: _.assign(bankAccount.uiSchema, {
-              'ui:options': {
-                hideIf: (formData) => formData.bankAccountChange !== 'startUpdate'
-              }
-            }),
-            'view:stopWarning': {
-              'ui:description': directDepositWarning,
-              'ui:options': {
-                hideIf: (formData) => formData.bankAccountChange !== 'stop'
-              }
-            }
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              bankAccountChange,
-              bankAccount: bankAccount.schema,
-              'view:stopWarning': {
-                type: 'object',
-                properties: {}
-              }
-            }
-          }
-        }
+        directDeposit: createDirectDepositChangePage(fullSchema1995)
       }
     }
   }

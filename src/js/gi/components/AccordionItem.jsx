@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class AccordionItem extends React.Component {
@@ -31,13 +32,13 @@ class AccordionItem extends React.Component {
 }
 
 AccordionItem.propTypes = {
-  expanded: React.PropTypes.bool.isRequired,
-  children: React.PropTypes.node.isRequired,
-  button: React.PropTypes.string.isRequired,
+  expanded: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+  button: PropTypes.string.isRequired,
 };
 
 AccordionItem.defaultProps = {
-  expanded: false
+  expanded: true
 };
 
 export default AccordionItem;

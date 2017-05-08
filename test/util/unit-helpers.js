@@ -2,6 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import jsdom from 'jsdom';
 import polyfillDataset from 'element-dataset';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 chai.use(chaiAsPromised);
@@ -40,7 +41,7 @@ function wrapWithContext(context, contextTypes, children) {
 
 function wrapWithRouterContext(component) {
   const context = { router: {} };
-  const contextTypes = { router: React.PropTypes.object };
+  const contextTypes = { router: PropTypes.object };
   return wrapWithContext(context, contextTypes, component);
 }
 

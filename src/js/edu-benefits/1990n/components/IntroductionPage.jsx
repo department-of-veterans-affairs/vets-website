@@ -16,15 +16,14 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for education benefits under the National Call to Service program"/>
-        <p>This application is equivalent to Form 22-1990n (Form Title to be Added Here).</p>
+        <p>This application is equivalent to Form 22-1990N (Application for VA Education Benefits Under the National Call to Service (NCS) Program).</p>
         <div className="process schemaform-process">
           <ol>
-            <li className="step one">
+            <li className="process-step list-one">
               <div><h5>Prepare</h5></div>
               <div><h6>What you need to fill out this application</h6></div>
               <ul>
                 <li>Your Social Security number (required)</li>
-                <li>Your sponsor's Social Security number (required)</li>
                 <li>Education history</li>
                 <li>Basic information about the school or training facility where you want to attend</li>
                 <li>Bank account direct deposit information</li>
@@ -34,17 +33,17 @@ class IntroductionPage extends React.Component {
                   <span>You won’t be able to save your work or come back to finish. So before you start, it’s a good idea to gather information about your education history and the school you want to attend.</span>
                 </div>
               </div>
-              <p>We strongly encourage you to work with a trained professional who can help you pick the right program. <a href="/disability-benefits/apply/help/index.html">Find an accredited representative.</a> Or call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. to 7:00 p.m. (ET) to talk with an education specialist.</p>
+              <br/>
               <h6>Learn about educational programs</h6>
               <ul>
                 <li>See what benefits you’ll get at the school you want to attend. <a href="/gi-bill-comparison-tool/">Use the GI Bill Comparison Tool</a>.</li>
               </ul>
             </li>
-            <li className="step two">
+            <li className="process-step list-two">
               <div><h5>Apply for Benefits</h5></div>
               <p>Complete this form.</p>
             </li>
-            <li className="step three">
+            <li className="process-step list-three">
               <div><h5>VA Review</h5></div>
               <div><h6>How long does it take VA to make a decision?</h6></div>
               <ul><li>We usually process claims within 30 days.</li></ul>
@@ -53,10 +52,11 @@ class IntroductionPage extends React.Component {
               <div><h6>What if VA needs more information?</h6></div>
               <ul><li>We'll contact you if we need more information.</li></ul>
             </li>
-            <li className="step four last">
+            <li className="process-step list-four">
               <div><h5>Decision</h5></div>
               <ul><li>We usually process claims within 30 days.</li></ul>
               <ul><li>You’ll get a Certificate of Eligibility (COE) or Award Letter in the mail if your application was approved.</li></ul>
+              <ul><li>If your application was not approved, you'll get a denial letter in the mail.</li></ul>
             </li>
           </ol>
         </div>

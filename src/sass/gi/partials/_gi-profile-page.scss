@@ -1,5 +1,34 @@
 .gi-app .profile-page {
 
+  h3 {
+    font-size: 1.35em;
+  }
+
+  .link-header {
+    h3, h5 {
+      display: inline-block;
+      padding: 0;
+    }
+
+    padding-bottom: .5em;
+  }
+
+  .caution-flag {
+    .va-alert {
+      background-color: $color-gold;
+    }
+  }
+
+  .additional-resources {
+    @include media-maxwidth($medium-large-screen) {
+      display: none;
+    }
+  }
+
+  .icon-with-info {
+    margin-top: 0;
+  }
+
   li button.usa-accordion-button {
     text-align: left;
 
@@ -10,13 +39,8 @@
   }
 
   .calculate-your-benefits {
-    h3 {
-      font-size: 1.35em;
-    }
-
     div.eligibility-details h2 {
       display: none;
-      visibility: hidden;
     }
 
     button {
@@ -42,16 +66,18 @@
       &.bold {
         font-weight: bold;
       }
+
+      h5 {
+        padding: 0;
+      }
     }
   }
 
   .programs.row {
-    h3 {
-      font-size: 1.35em;
-    }
     .fa-check {
       color: $color-green;
     }
+
     .fa-remove {
       color: $color-gray-medium;
     }
@@ -66,8 +92,10 @@
     }
   }
 
-  .out-of-pocket-tuition {
-    margin-bottom: 1rem;
+  .total-paid-to-you {
+    .calculator-result {
+      margin-top: 1.6rem;
+    }
   }
 
   .per-term-section {
@@ -80,25 +108,8 @@
     background-size: 3rem;
   }
 
-  .outcomes.row {
-    h3 {
-      font-size: 1.35em;
-    }
-  }
-
-  .outcomes .lml {
-    display: block;
-    float: left;
-    margin-left: 0.5em;
-    margin-top: 0.2em;
-  }
-
-  .outcomes .column > h3 {
-    display: block;
-    float: left;
-  }
-
   .outcomes .graph-component {
+    margin: 1em auto;
     clear: both;
   }
 
@@ -111,8 +122,30 @@
   }
 
   .cautionary-information {
-    .table .number {
-      text-align: left;
+    .va-alert {
+      margin: 0 0 1.5em 0;
+    }
+
+    .table {
+      table {
+        margin: 1em 0;
+      }
+
+      th:first-child {
+        width: 60%;
+      }
+
+      tr:last-child {
+        th, td {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    .complaints-by-type {
+      th:first-child span {
+        font-weight: normal;
+      }
     }
 
     .list {
@@ -128,57 +161,34 @@
     @media screen and (min-width: $medium-screen) {
       .list {
         display: none;
-        visibility: hidden;
       }
     }
 
     @include media-maxwidth($medium-screen) {
       .table {
         display: none;
-        visibility: hidden;
-      }
-    }
-  }
-
-  .student-complaints {
-    margin: 1rem 0;
-
-    @media screen and (min-width: $medium-screen) {
-      h4, span {
-        float: left;
-        line-height: 4rem;
-      }
-
-      span {
-        margin-left: 0.5em;
-        margin-top: 0.2em;
       }
     }
   }
 
   .additional-information {
-    h3 {
-      font-size: 1.35em;
-      padding-top: 1.5em !important;
-    }
-
     .historical-information.list {
-      div {
-        margin-bottom: 0.5em;
+      margin: 2rem 0;
+
+      @media screen and (min-width: $medium-screen) {
+        display: none;
       }
     }
 
-    @media screen and (min-width: $medium-screen) {
-      .historical-information.list {
-        display: none;
-        visibility: hidden;
+    .institution-codes {
+      @media screen and (min-width: $medium-screen) {
+        margin-top: 2rem;
       }
     }
 
     @include media-maxwidth($medium-screen) {
       .historical-information.table {
         display: none;
-        visibility: hidden;
       }
     }
   }

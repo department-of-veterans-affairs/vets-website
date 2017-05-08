@@ -8,6 +8,7 @@ const SitemapHelpers = require('../e2e/sitemap-helpers');
 
 module.exports = {
   'sitemap 1/4': (client) => {
+    client.timeoutsAsyncScript(1000);
     SitemapHelpers.sitemapURLs(urls => {
       const mark = Math.ceil(urls.length / 4);
       const segment = urls.splice(0, mark);

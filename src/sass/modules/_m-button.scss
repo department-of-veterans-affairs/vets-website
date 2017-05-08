@@ -17,7 +17,7 @@ button,
 .usa-button-primary {
   &:hover {
     // background-color: $color-primary-darker;
-  } 
+  }
   &[href^=http] {
     background-image: none;
     // TODO: clean up #content .main.interior a then remove !important
@@ -78,7 +78,7 @@ button.short {
   line-height: 1.3;
   margin: 0;
   text-align: left;
-  
+
   -webkit-transition-duration: 0.3s;
           transition-duration: 0.3s;
 
@@ -124,6 +124,54 @@ button.short {
       margin-right: .25rem;
       pointer-events: none;
       width: 1.5rem;
-    }    
+    }
   }
+}
+
+// Opens / closes a sidebar navigation on detail pages.
+.va-btn-sidebarnav-trigger {
+  background: $color-gray-lightest;
+  border-radius: 0;
+  display: block;
+  color: $color-link-default;
+  margin: 1rem 0 2rem;
+  text-align: left;
+
+  span {
+    align-items: center;
+    display: flex;
+  }
+
+  b {
+    flex: 1 1 10rem
+  }
+
+  svg {
+    display: inline-block;
+    height: 1rem;
+    width: 1rem;
+    fill: $color-link-default;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    svg {
+      fill: $color-white;
+    }
+  }
+
+  @include media($medium-large-screen) {
+    display: none;
+  }
+}
+
+.va-btn-close-icon {
+  background: transparent url(assets/img/icons/close.svg) center no-repeat;
+  background-size: 1rem 1rem;
+  height: 2.2rem;
+  padding: 2.2rem;
+  margin: 0;
+  text-indent: -9999rem;
+  width: 1rem;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -14,6 +14,7 @@ const props = {
     refillSubmitDate: null,
     facilityName: 'ABC123',
   },
+  onCloseModal: f => f
 };
 
 describe('<ConfirmRefillModal>', () => {

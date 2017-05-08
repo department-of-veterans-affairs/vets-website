@@ -35,7 +35,7 @@ Send the application to the National Cemetery Scheduling Office in 1 of 3 ways:
     <dd>St. Louis, MO 63151</dd>
 </dl>
 
-  - Fax it to <span class="tel">855-840-8299</span>
+  - Fax it to 855-840-8299
 
 
 You’ll get a letter from us telling you if you can be buried in a VA national cemetery. This is called your pre-need decision letter. Keep it in a safe place. Your family members will need this letter to request your burial after you've died. 
@@ -46,7 +46,7 @@ You’ll get a letter from us telling you if you can be buried in a VA national 
 
 #### If you have a pre-need decision letter confirming they can be buried in a VA national cemetery:
 
-To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <span class="tel">800-535-1117</span> to request a burial.
+To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director can call the National Cemetery Scheduling Office at <a href="tel:+18005351117">800-535-1117</a> to request a burial.
 
 You don’t need to do anything else except prepare yourself and your family for the funeral. [Find out what to expect at a funeral](/burials-and-memorials/what-to-expect-at-a-funeral/). 
 
@@ -55,7 +55,7 @@ You don’t need to do anything else except prepare yourself and your family for
 To start, you may want to choose a funeral director to help you plan the burial. Then either you or the funeral director will need to take these 2 steps to apply for a burial.
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 ##### Gather these documents and other information you'll need to identify the deceased:
 
@@ -73,7 +73,7 @@ You may also need:
  
  </li>
  
- <li class="step two">
+ <li class="process-step list-two">
 
 ##### Decide on the burial details and gather all related information, including:
 
@@ -82,20 +82,20 @@ You may also need:
  - Type of burial: casket or cremation and size of the casket or cremation urn
  - Whether you want military honors, a burial flag, or a Presidential Memorial Certificate
  
- [Learn about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services).</br>
+ [Learn about military honors](https://www.dmdc.osd.mil/mfh/getLinks.do?tab=Services).<br/>
  [Learn about other ways to memorialize the deceased](/burials-and-memorials/burial-planning/flags-and-memorial-certificates).
 
 </li>
 
-<li class="step last three">
+<li class="process-step list-three">
 
 ##### Contact the National Cemetery Scheduling Office
 
 The funeral director you've chosen can help you with these steps too:
 
-- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at <span class="tel">866-900-6417</span>. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran's name in the subject line. 
+- For burial in a national cemetery, fax any discharge papers to the National Cemetery Scheduling Office at 866-900-6417. Or, scan and email the papers to [NCA.Scheduling@va.gov](mailto:NCA.Scheduling@va.gov) with the Veteran's name in the subject line. 
 
-- Then call <span class="tel">800-535-1117</span> to confirm the burial application. Be sure to have all the information handy that’s listed above in the "Prepare" section. 
+- Then call <a href="tel:+18005351117">800-535-1117</a> to confirm the burial application. Be sure to have all the information handy that’s listed above in the "Prepare" section. 
 
 </li>
 </ol>
@@ -104,6 +104,6 @@ The funeral director you've chosen can help you with these steps too:
 
 ### Can I get information about the Burial at Sea program?
 
-If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <span class="tel">866-787-0081</span>. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
+If you have questions about the Burial at Sea program, please contact the United States Navy Mortuary Affairs office toll free at <a href="tel:+18667870081">866-787-0081</a>. [Get more information about the Burial at Sea program](http://www.navy.mil/navydata/nav_legacy.asp?id=204).
 
 </div>
