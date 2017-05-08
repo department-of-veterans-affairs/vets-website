@@ -46,4 +46,9 @@ majorlinks_col2:
     Check your claim status
   </a>
 </div>
+
+<div class="main" role="main">
+  <div class="va-h-ruled--stars"></div>
+
+  {% include "content/includes/main-navigation.html" %}
 </div>
