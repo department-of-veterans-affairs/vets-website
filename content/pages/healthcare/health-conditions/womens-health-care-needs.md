@@ -53,7 +53,7 @@ If you’re a woman Veteran and you’re currently signed up for VA health care,
 
 We provide services for:
 
-- [Homeless women Veterans](https://www.va.gov/homeless//for_women_veterans.asp)
+- [Homeless women Veterans](https://www.va.gov/homeless/for_women_veterans.asp)
 - [Victims of intimate partner violence](https://www.womenshealth.va.gov/outreachmaterials/abuseandviolence/intimatepartnerviolence.asp) 
 -	Women Veterans who want: 
   - [Education and training](/education/)
@@ -79,10 +79,10 @@ If you don’t have VA health care benefits, you may still be able to get care:
 
 - **If you’re not sure what health benefits you may have earned,** contact our Women Veterans Call Center. Our trained, all-female staff will help you figure out your benefits and take the next step to getting care. Call 855-VA-WOMEN (855-829-6636). Or, [start a secure chat](https://www.womenshealth.va.gov/WOMENSHEALTH/programoverview/wvcc.asp).  
 - **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at 1 of our 300 community Vet Centers. [Find a Vet Center near you](https://www.va.gov/directory/guide/vetcenter.asp). 
-- **If you’re a homeless Veteran, get information about VA health services and other non-VA resources available near you:** 
-  - [Visit our VA Homeless Veterans website](https://www.va.gov/homeless/).
-  - [Visit one of our VA Community Resource and Referral Centers](https://www.va.gov/HOMELESS/Crrc.asp). 
-  - Contact the National Call Center for Homeless Veterans at <a href="tel:+1phonenumber">877-424-3838</a>. 
+- **If you’re homeless or at risk of becoming homeless:** 
+  - Visit our website to learn about VA programs for Veterans who are homeless. [Visit www.va.gov/homeless](https://www.va.gov/homeless/).
+  - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1phonenumber">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
+  - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 ### How can I get help related to sexual trauma?
 
