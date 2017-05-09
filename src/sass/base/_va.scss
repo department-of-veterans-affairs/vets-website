@@ -336,6 +336,7 @@ h6 {
 // TODO(css): Make these less specific.
 .popular-container {
   background: $color-white;
+  padding: 0 1rem;
 
   > h3 {
     padding: 2.4rem 0;
@@ -1126,7 +1127,7 @@ li {
   background: url(/img/stars.png) no-repeat center;
   background-size: 11rem auto;
   margin: 1.6rem auto auto;
-  padding: 2rem 1.6rem 0;
+  padding: 2rem 0 0;
   text-align: center;
 
   @include media($medium-screen) {
