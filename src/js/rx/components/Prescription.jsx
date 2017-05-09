@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
@@ -157,25 +158,25 @@ class Prescription extends React.Component {
 }
 
 Prescription.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  glossaryModalHandler: React.PropTypes.func.isRequired,
-  refillModalHandler: React.PropTypes.func.isRequired,
-  type: React.PropTypes.string.isRequired,
-  attributes: React.PropTypes.shape({
-    prescriptionId: React.PropTypes.number.isRequired,
-    prescriptionNumber: React.PropTypes.string.isRequired,
-    prescriptionName: React.PropTypes.string.isRequired,
-    refillSubmitDate: React.PropTypes.string,
-    refillDate: React.PropTypes.string.isRequired,
-    refillRemaining: React.PropTypes.number.isRequired,
-    facilityName: React.PropTypes.string.isRequired,
-    orderedDate: React.PropTypes.string.isRequired,
-    quantity: React.PropTypes.number.isRequired,
-    expirationDate: React.PropTypes.string.isRequired,
-    dispensedDate: React.PropTypes.string,
-    stationNumber: React.PropTypes.string,
-    isRefillable: React.PropTypes.bool.isRequired,
-    isTrackable: React.PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
+  glossaryModalHandler: PropTypes.func.isRequired,
+  refillModalHandler: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+  attributes: PropTypes.shape({
+    prescriptionId: PropTypes.number.isRequired,
+    prescriptionNumber: PropTypes.string.isRequired,
+    prescriptionName: PropTypes.string.isRequired,
+    refillSubmitDate: PropTypes.string,
+    refillDate: PropTypes.string.isRequired,
+    refillRemaining: PropTypes.number.isRequired,
+    facilityName: PropTypes.string.isRequired,
+    orderedDate: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+    expirationDate: PropTypes.string.isRequired,
+    dispensedDate: PropTypes.string,
+    stationNumber: PropTypes.string,
+    isRefillable: PropTypes.bool.isRequired,
+    isTrackable: PropTypes.bool.isRequired,
   }).isRequired
 };
 

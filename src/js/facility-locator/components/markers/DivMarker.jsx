@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { divIcon } from 'leaflet';
 import { Marker, Popup } from 'react-leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';

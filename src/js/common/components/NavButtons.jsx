@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 
@@ -80,7 +81,7 @@ export default class NavButtons extends React.Component {
     );
 
     let buttons;
-    if (path.endsWith('review-and-submit')) {
+    if (path.match(/review-and-submit(\/)?$/)) {
       let submitButton;
       let submitMessage;
 
@@ -112,8 +113,9 @@ export default class NavButtons extends React.Component {
         submitMessage = (
           <div className="usa-alert usa-alert-error">
             <div className="usa-alert-body">
-              <p><strong>Due to a system error, we weren't able to process your application. Please try again later.</strong></p>
-              <p>We apologize for the inconvenience. If you'd like to complete this form by phone, please call 877-222-VETS (8387) and press 2, M-F 7:00 a.m.to 7:00 p.m. (CST), Sat 9:00 a.m. to 5:30 p.m. (CST).</p>
+              <p><strong>There is currently an issue with submitting this form. We apologize for the inconvenience.</strong></p>
+              <p>Please call 855-574-7286, M-F 8:00 a.m.to 8:00 p.m. (ET) for assistance.</p>
+              <p>TTY: 800-829-4833.</p>
             </div>
           </div>
         );
@@ -145,7 +147,7 @@ export default class NavButtons extends React.Component {
           </div>
         </div>
       </div>);
-    } else if (path.endsWith('submit-message')) {
+    } else if (path.match(/submit-message(\/)?$/)) {
       buttons = (
         <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
@@ -155,7 +157,7 @@ export default class NavButtons extends React.Component {
           </div>
         </div>
       );
-    } else if (path.endsWith('introduction')) {
+    } else if (path.match(/introduction(\/)?$/)) {
       buttons = (
         <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
@@ -185,15 +187,15 @@ export default class NavButtons extends React.Component {
 }
 
 NavButtons.propTypes = {
-  pages: React.PropTypes.array.isRequired,
-  path: React.PropTypes.string.isRequired,
-  data: React.PropTypes.object,
-  isValid: React.PropTypes.bool.isRequired,
-  canSubmit: React.PropTypes.bool.isRequired,
-  submission: React.PropTypes.object.isRequired,
-  onSubmit: React.PropTypes.func,
-  onNavigate: React.PropTypes.func,
-  onComplete: React.PropTypes.func,
-  dirtyPage: React.PropTypes.func,
-  onAttemptedSubmit: React.PropTypes.func
+  pages: PropTypes.array.isRequired,
+  path: PropTypes.string.isRequired,
+  data: PropTypes.object,
+  isValid: PropTypes.bool.isRequired,
+  canSubmit: PropTypes.bool.isRequired,
+  submission: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func,
+  onNavigate: PropTypes.func,
+  onComplete: PropTypes.func,
+  dirtyPage: PropTypes.func,
+  onAttemptedSubmit: PropTypes.func
 };

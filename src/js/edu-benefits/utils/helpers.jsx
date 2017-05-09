@@ -28,7 +28,7 @@ export const benefitsLabels = {
 
 // The links and labels are different from the above
 export const survivorBenefitsLabels = {
-  chapter35: <p>Survivors’ and Dependents’ Assistance (DEA, Chapter 35)<br/><a href="/education/gi-bill/survivors-dependent-assistance/dependents-education/" target="_blank">Learn more</a></p>,
+  chapter35: <p>Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35)<br/><a href="/education/gi-bill/survivors-dependent-assistance/dependents-education/" target="_blank">Learn more</a></p>,
   chapter33: <p>The Fry Scholarship (Chapter 33)<br/><a href="/education/gi-bill/survivors-dependent-assistance/fry-scholarship/" target="_blank">Learn more</a></p>,
 };
 
@@ -183,6 +183,6 @@ export const bankAccountChangeLabels = {
 
 export const directDepositWarning = (
   <div className="edu-dd-warning">
-    The Department of Treasury requires all Federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit (direct deposit isn't an option for Chapter 32 (VEAP) recipients). If you don't have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank">www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
+    The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit (direct deposit isn't an option for Chapter 32 (VEAP) recipients). If you don't have a bank account, you must get your payment through Direct Express Debit MasterCard. To request a Direct Express Debit MasterCard you must apply at <a href="http://www.usdirectexpress.com" target="_blank">www.usdirectexpress.com</a> or by telephone at <a href="tel:8003331795" target="_blank">800-333-1795</a>. If you chose not to enroll, you must contact representatives handling waiver requests for the Department of Treasury at <a href="tel:8882242950" target="_blank">888-224-2950</a>. They will address any questions or concerns you may have and encourage your participation in EFT.
   </div>
 );

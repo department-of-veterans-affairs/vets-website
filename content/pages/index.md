@@ -25,7 +25,7 @@ majorlinks:
 </div>
 
 <div class="popular-container row">
-  <h2 class="va-h-ruled--a">Popular on Vets.gov</h2>
+  <h2 class="va-h-ruled--a">Get started with Vets.gov</h2>
   <div class="row va-flex">   
   <a href="/healthcare/apply/" class="outline-link-block">
     Apply for health care
@@ -42,7 +42,7 @@ majorlinks:
 
 
 <div class="main" role="main">
-  <h2 class="va-h-ruled--stars">Explore Services and Benefits</h2>
+  <div class="va-h-ruled--stars"></div>
 
   {% include "content/includes/main-navigation.html" %}
 </div>

@@ -13,7 +13,7 @@
       "last": "Previous sponsor last",
       "suffix": "Sr."
     },
-    "veteranSocialSecurityNumber": "234444333"
+    "vaFileNumber": "C12345678"
   },
   "veteranFullName": {
     "first": "Previous sponsor first",
@@ -21,7 +21,7 @@
     "last": "Previous sponsor last",
     "suffix": "Sr."
   },
-  "veteranSocialSecurityNumber": "234444333",
+  "vaFileNumber": "C12345678",
   "highSchool": {},
   "educationProgram": {},
   "relativeAddress": {

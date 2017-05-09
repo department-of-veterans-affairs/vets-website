@@ -2,7 +2,6 @@
 title: Refill your prescriptions
 layout: page-react.html
 entryname: rx
-gatePage: true
 ---
 
 <div id="main">

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
@@ -14,6 +15,6 @@ export default function DueDate({ date }) {
 }
 
 DueDate.propTypes = {
-  date: React.PropTypes.string.isRequired
+  date: PropTypes.string.isRequired
 };
 

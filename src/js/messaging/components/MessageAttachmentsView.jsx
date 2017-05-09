@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import MessageAttachmentsViewItem from './MessageAttachmentsViewItem';
 import _ from 'lodash';
@@ -34,7 +35,7 @@ class MessageAttachmentsView extends React.Component {
 
 // TODO: Correct this type as necessary
 MessageAttachmentsView.propTypes = {
-  attachments: React.PropTypes.array
+  attachments: PropTypes.array
 };
 
 export default MessageAttachmentsView;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ErrorableCurrentOrPastDate from '../../../common/components/form-elements/ErrorableCurrentOrPastDate';
@@ -159,9 +160,9 @@ class Child extends React.Component {
 }
 
 Child.propTypes = {
-  data: React.PropTypes.object.isRequired,
-  view: React.PropTypes.string,
-  onValueChange: React.PropTypes.func.isRequired
+  data: PropTypes.object.isRequired,
+  view: PropTypes.string,
+  onValueChange: PropTypes.func.isRequired
 };
 
 export default Child;

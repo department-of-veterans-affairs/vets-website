@@ -93,7 +93,7 @@ const formConfig = {
       }
     },
     sponsorInformation: {
-      title: 'Sponsor information',
+      title: 'Sponsor Information',
       pages: {
         sponsorInformation: {
           path: 'sponsor/information',
@@ -104,6 +104,15 @@ const formConfig = {
               'view:noSSN': {
                 'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
+              veteranSocialSecurityNumber: {
+                'ui:validations': [
+                  (errors, fieldData, formData) => {
+                    if (fieldData === formData.relativeSocialSecurityNumber) {
+                      errors.addError('Your sponsor’s SSN cannot be the same as yours.');
+                    }
+                  }
+                ]
+              }
             }),
             outstandingFelony: {
               'ui:title': 'Do you or your sponsor have an outstanding felony and/or warrant?',
@@ -129,7 +138,8 @@ const formConfig = {
           fields: [
             'educationProgram',
             'educationObjective'
-          ]
+          ],
+          title: 'School, university, program, or training facility you want to attend'
         }),
         oldSchool: createOldSchoolPage(fullSchema5495)
       }

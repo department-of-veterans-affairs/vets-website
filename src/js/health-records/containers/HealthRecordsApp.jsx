@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -58,7 +59,7 @@ export class HealthRecordsApp extends React.Component {
 }
 
 HealthRecordsApp.propTypes = {
-  children: React.PropTypes.element
+  children: PropTypes.element
 };
 
 const mapStateToProps = (state) => {

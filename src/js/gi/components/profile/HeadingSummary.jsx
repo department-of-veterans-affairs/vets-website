@@ -1,29 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
 import AlertBox from '../../../common/components/AlertBox';
+import AdditionalResources from '../content/AdditionalResources';
 import { formatNumber } from '../../utils/helpers';
-
-const AdditionalResources = () => (
-  <div className="additional-resources medium-4 small-12 column">
-    <h4 className="highlight">Additional Resources</h4>
-    <p>
-      <a href="http://www.benefits.va.gov/gibill/careerscope.asp" target="_blank">
-        Explore your career
-      </a>
-    </p>
-    <p>
-      <a href="http://www.benefits.va.gov/gibill/choosing_a_school.asp" target="_blank">
-        Choose a school guide
-      </a>
-    </p>
-    <p>
-      <a href="/education/apply" target="_blank">
-        Apply for education benefits
-      </a>
-    </p>
-  </div>
-);
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -52,7 +33,7 @@ class HeadingSummary extends React.Component {
 
     return (
       <div className="heading row">
-        <div className="medium-8 small-12 column">
+        <div className="usa-width-two-thirds medium-8 small-12 column">
           <h1>{it.name}</h1>
           <div className="caution-flag">
             <AlertBox
@@ -67,7 +48,7 @@ class HeadingSummary extends React.Component {
             </p>
           </div>
           <div>
-            <div className="small-12 medium-6 column">
+            <div className="usa-width-one-half medium-6 small-12 column">
               <IconWithInfo icon="map-marker" present={it.city && it.country}>
                 {it.city}, {it.state || it.country}
               </IconWithInfo>
@@ -79,7 +60,7 @@ class HeadingSummary extends React.Component {
               </IconWithInfo>
             </div>
 
-            <div className="usa-width-one-half column">
+            <div className="usa-width-one-half medium-6 small-12 column">
               <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
                 On-the-job training
               </IconWithInfo>
@@ -104,9 +85,9 @@ class HeadingSummary extends React.Component {
 }
 
 HeadingSummary.propTypes = {
-  institution: React.PropTypes.object,
-  onLearnMore: React.PropTypes.func,
-  onViewWarnings: React.PropTypes.func
+  institution: PropTypes.object,
+  onLearnMore: PropTypes.func,
+  onViewWarnings: PropTypes.func
 };
 
 export default HeadingSummary;

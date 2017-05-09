@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 class LoginPrompt extends React.Component {
@@ -49,7 +50,7 @@ class LoginPrompt extends React.Component {
 }
 
 LoginPrompt.propTypes = {
-  loginUrl: React.PropTypes.string
+  loginUrl: PropTypes.string
 };
 
 export default LoginPrompt;
