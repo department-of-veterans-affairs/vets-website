@@ -130,22 +130,14 @@ These services are *not* included in your VA medical benefits package:
 
 ------
 
-#### How do I apply for VA health care benefits? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+#### Get more information:
 
-First, find out if you qualify for VA health care. [Check your eligibility](/healthcare/eligibility/).
+**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
-Then, apply online, in-person, by phone, or by mail. [Learn about the application process](/healthcare/apply/).
+**Already signed up?** Manage your VA health and benefits online: 
 
-<br>
+[Refill your prescriptions](/healthcare/prescriptions/). 
+[Send a message to your VA health care provider](/healthcare/messaging/). 
+[Check the status of a disability or pension claim](/track-claims/).
 
-#### If I'm already signed up for VA health care, can I manage my benefits online? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
-
-Yes. If you're signed up for VA health care, you can manage your VA health and benefits online through Vets.gov:
-
-[Refill your prescriptions](/healthcare/prescriptions/). <br />
-[Send a message to your VA health care provider](/healthcare/messaging/). <br />
-[Check the status of a disability or pension claim](/track-claims/). 
-
-#### What if I need more help understanding my benefits or accessing services? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
-
-Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
