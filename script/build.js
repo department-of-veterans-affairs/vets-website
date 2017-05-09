@@ -4,6 +4,7 @@ const Metalsmith = require('metalsmith');
 const archive = require('metalsmith-archive');
 const assets = require('metalsmith-assets');
 const blc = require('metalsmith-broken-link-checker');
+const linkcheck = require('metalsmith-linkcheck');
 const collections = require('metalsmith-collections');
 const commandLineArgs = require('command-line-args');
 const dateInFilename = require('metalsmith-date-in-filename');
@@ -118,17 +119,7 @@ smith.destination(`../build/${options.buildtype}`);
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({ buildtype: options.buildtype });
 
-// TODO(awong): Verify that memorial-benefits should still be in the source tree.
-//    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
-
-// To use:
-// const ignore = require('metalsmith-ignore');
-// const ignoreList = [];
-// if (options.buildtype === 'production') {
-//   ignoreList.push('disability-benefits/track-claims/*');
-// }
-// smith.use(ignore(ignoreList));
-
+// File patterns that should not be live in production
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
@@ -331,7 +322,6 @@ smith.use(sitemap({
   hostname: 'http://www.vets.gov',
   omitIndex: true
 }));
-// TODO(awong): Does anything even use the results of this plugin?
 
 if (!options.watch) {
   smith.use(blc({
@@ -422,6 +412,14 @@ Redirects locally. DevOps must update Nginx config for production
 smith.use(redirect({
   '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/',
   '/education/apply-for-education-benefits/': '/education/apply/'
+}));
+
+// TODO: what is the earliest place in this script where we can guarantee all HTML files have been
+// generated? metalsmith-linkcheck only checks HTML files
+// https://github.com/gchallen/code.metalsmith-linkcheck
+smith.use(linkcheck({
+  verbose: true,
+  timeout: '30s'
 }));
 
 /* eslint-disable no-console */

@@ -5302,6 +5302,21 @@ metalsmith-layouts@^1.6.5:
     lodash.omit "^4.0.2"
     multimatch "^2.0.0"
 
+metalsmith-linkcheck@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/metalsmith-linkcheck/-/metalsmith-linkcheck-0.3.0.tgz#eadb5f3a91f1e412722ddf40bdba0c5a12a722f2"
+  dependencies:
+    async "^2.1.4"
+    cheerio "^0.22.0"
+    debug "^2.6.0"
+    dev-null "^0.1.1"
+    fs "0.0.2"
+    jsonfile "^2.4.0"
+    request "^2.79.0"
+    resolve-pathname "^2.0.2"
+    underscore "^1.8.3"
+    validator "^6.2.1"
+
 metalsmith-markdownit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/metalsmith-markdownit/-/metalsmith-markdownit-0.4.0.tgz#c74604b23dbb5cd6901d5f5919949d276d8da6bc"
