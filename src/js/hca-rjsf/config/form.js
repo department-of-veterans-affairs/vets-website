@@ -2,7 +2,13 @@ import _ from 'lodash/fp';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import { states } from '../../common/utils/options-for-select';
+import {
+  states,
+  genders,
+  maritalStatuses
+} from '../../common/utils/options-for-select';
+
+import { validateMatch } from '../../common/schemaform/validation';
 import { createUSAStateLabels } from '../../common/schemaform/helpers';
 
 import {
@@ -21,13 +27,22 @@ import InsuranceProviderView from '../components/InsuranceProviderView';
 import ChildView from '../components/ChildView';
 
 import { uiSchema as dateUI } from '../../common/schemaform/definitions/currentOrPastDate';
-import { schema as fullNameSchema, uiSchema as fullNameUI } from '../../common/schemaform/definitions/fullName';
+import { uiSchema as fullNameUI } from '../../common/schemaform/definitions/fullName';
 import { schema as ssnSchema, uiSchema as ssnUI } from '../../common/schemaform/definitions/ssn';
 import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
 
 import { schema as childSchema, uiSchema as childUI } from '../definitions/child';
 
 const {
+  mothersMaidenName,
+  cityOfBirth,
+  isSpanishHispanicLatino,
+  isAmericanIndianOrAlaskanNative,
+  isBlackOrAfricanAmerican,
+  isNativeHawaiianOrOtherPacificIslander,
+  isAsian,
+  isWhite,
+  email,
   lastEntryDate,
   lastDischargeDate,
   lastServiceBranch,
@@ -73,11 +88,13 @@ const {
 } = fullSchemaHca.properties;
 
 const {
+  fullName,
   date,
   provider,
   phone,
-  monetaryValue
+  monetaryValue,
 } = fullSchemaHca.definitions;
+
 
 const stateLabels = createUSAStateLabels(states);
 
@@ -92,22 +109,218 @@ const formConfig = {
   defaultDefinitions: {
     date,
     provider,
-    fullName: fullNameSchema,
+    fullName,
     ssn: ssnSchema,
     phone,
     child: childSchema,
-    monetaryValue
+    monetaryValue,
   },
   chapters: {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
         veteranInformation: {
-          path: 'veteran/information',
+          path: 'veteran-information/personal-information',
           title: 'Veteran information',
           initialData: {},
-          uiSchema: {},
-          schema: {}
+          uiSchema: {
+            veteranFullName: _.merge(fullNameUI, {
+              last: {
+                'ui:errorMessages': {
+                  minLength: 'Please provide a valid name. Must be at least 2 characters.'
+                }
+              }
+            }),
+            mothersMaidenName: {
+              'ui:title': 'Mother’s maiden name'
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              veteranFullName: fullName,
+              mothersMaidenName
+            }
+          }
+        },
+        birthInformation: {
+          path: 'veteran-information/birth-information',
+          title: 'Veteran information',
+          initialData: {},
+          uiSchema: {
+            veteranDateOfBirth: {
+              'ui:title': 'Date of birth'
+            },
+            veteranSocialSecurityNumber: ssnUI,
+            'view:placeOfBirth': {
+              'ui:title': 'Place of birth',
+              cityOfBirth: {
+                'ui:title': 'City'
+              },
+              stateOfBirth: {
+                'ui:title': 'State',
+                'ui:options': {
+                  labels: stateLabels
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranDateOfBirth', 'veteranSocialSecurityNumber'],
+            properties: {
+              veteranDateOfBirth: date,
+              veteranSocialSecurityNumber: ssnSchema,
+              'view:placeOfBirth': {
+                type: 'object',
+                properties: {
+                  cityOfBirth,
+                  stateOfBirth: {
+                    type: 'string',
+                    'enum': states.USA.map(state => state.value)
+                  }
+                }
+              }
+            }
+          }
+        },
+        demographicInformation: {
+          path: 'veteran-information/demographic-information',
+          title: 'Veteran information',
+          initialData: {},
+          uiSchema: {
+            gender: {
+              'ui:title': 'Gender'
+            },
+            maritalStatus: {
+              'ui:title': 'Marital status'
+            },
+            'view:demographicCategories': {
+              'ui:title': 'Which categories best describe you?',
+              'ui:description': 'You may check more than one.',
+              isSpanishHispanicLatino: {
+                'ui:title': 'Spanish, Hispanic, or Latino'
+              },
+              isAmericanIndianOrAlaskanNative: {
+                'ui:title': 'American Indian or Alaskan Native'
+              },
+              isBlackOrAfricanAmerican: {
+                'ui:title': 'Black or African American'
+              },
+              isNativeHawaiianOrOtherPacificIslander: {
+                'ui:title': 'Native Hawaiian or Other Pacific Islander'
+              },
+              isAsian: {
+                'ui:title': 'Asian'
+              },
+              isWhite: {
+                'ui:title': 'White'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['gender', 'maritalStatus'],
+            properties: {
+              gender: {
+                type: 'string',
+                'enum': genders.map(gender => gender.value),
+                enumNames: genders.map(gender => gender.label)
+              },
+              maritalStatus: {
+                type: 'string',
+                'enum': maritalStatuses
+              },
+              'view:demographicCategories': {
+                type: 'object',
+                properties: {
+                  isSpanishHispanicLatino,
+                  isAmericanIndianOrAlaskanNative,
+                  isBlackOrAfricanAmerican,
+                  isNativeHawaiianOrOtherPacificIslander,
+                  isAsian,
+                  isWhite
+                }
+              }
+            }
+          }
+        },
+        veteranAddress: {
+          path: 'veteran-information/veteran-address',
+          title: 'Permanent address',
+          initialData: {},
+          uiSchema: {
+            address: addressUI('Permanent address')
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              address: _.merge(addressSchema(true), {
+                properties: {
+                  street: {
+                    minLength: 1,
+                    maxLength: 30
+                  },
+                  street2: {
+                    minLength: 1,
+                    maxLength: 30
+                  },
+                  street3: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 30
+                  },
+                  city: {
+                    minLength: 1,
+                    maxLength: 30
+                  }
+                }
+              })
+            }
+          }
+        },
+        contactInformation: {
+          path: 'veteran-information/contact-information',
+          title: 'Contact information',
+          initialData: {},
+          uiSchema: {
+            'ui:validations': [
+              validateMatch('email', 'view:emailConfirmation')
+            ],
+            email: {
+              'ui:title': 'Email address',
+              'ui:errorMessages': {
+                pattern: 'Please put your email in this format x@x.xxx'
+              }
+            },
+            'view:emailConfirmation': {
+              'ui:title': 'Re-enter email address',
+              'ui:errorMessages': {
+                pattern: 'Please put your email in this format x@x.xxx'
+              }
+            },
+            homePhone: {
+              'ui:title': 'Home telephone number',
+              'ui:errorMessages': {
+                pattern: 'Phone number must be 10 digits'
+              }
+            },
+            mobilePhone: {
+              'ui:title': 'Mobile telephone number',
+              'ui:errorMessages': {
+                pattern: 'Phone number must be 10 digits'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              email,
+              'view:emailConfirmation': email,
+              homePhone: phone,
+              mobilePhone: phone
+            }
+          }
         }
       }
     },
@@ -255,7 +468,6 @@ const formConfig = {
                     'enum': states.USA.map(state => state.value)
                   },
                   vaMedicalFacility: _.assign(vaMedicalFacility, {
-                    type: 'string',
                     'enum': []
                   })
                 }
@@ -555,10 +767,10 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              lastServiceBranch: _.assign(lastServiceBranch, { type: 'string' }),
+              lastServiceBranch,
               lastEntryDate,
               lastDischargeDate,
-              dischargeType: _.assign(dischargeType, { type: 'string' })
+              dischargeType
             },
             required: [
               'lastServiceBranch',

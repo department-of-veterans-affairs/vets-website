@@ -33,7 +33,7 @@ Additional tuition
 ### How it works
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 <div markdown="1">
 
 ##### Submit application
@@ -41,7 +41,7 @@ After you submit your application for Post-9/11 GI Bill benefits and VA finds yo
 </div>
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 <div markdown="1">
 
 ##### Bring certificate
@@ -49,8 +49,7 @@ Bring this certificate to your participating institution’s financial aid, mili
 </div>
 </li>
 
-<li class="step three">
-<div markdown="1">
+<li class="process-step list-three"><div markdown="1">
 
 ##### Receive determination
 
@@ -61,16 +60,14 @@ Bring this certificate to your participating institution’s financial aid, mili
 </div>
 </li>
 
-<li class="step four">
-<div markdown="1">
+<li class="process-step list-four"><div markdown="1">
 
 ##### Receive notice
 You will receive notice from your school about whether you have been accepted to the program and about the application of the benefit to your tuition.
 </div>
 </li>
 
-<li class="step last five">
-<div markdown="1">
+<li class="process-step list-five"><div markdown="1">
 
 ##### Confirm and coordinate
 

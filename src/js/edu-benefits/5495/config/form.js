@@ -76,7 +76,7 @@ const formConfig = {
           title: 'Benefit selection',
           uiSchema: {
             benefit: {
-              'ui:title': 'Which benefit are you currently using?',
+              'ui:title': 'Select the benefit under which you are applying for a change in program or place of training:',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: survivorBenefitsLabels
@@ -93,7 +93,7 @@ const formConfig = {
       }
     },
     sponsorInformation: {
-      title: 'Sponsor information',
+      title: 'Sponsor Information',
       pages: {
         sponsorInformation: {
           path: 'sponsor/information',
@@ -138,7 +138,8 @@ const formConfig = {
           fields: [
             'educationProgram',
             'educationObjective'
-          ]
+          ],
+          title: 'School, university, program, or training facility you want to attend'
         }),
         oldSchool: createOldSchoolPage(fullSchema5495)
       }
