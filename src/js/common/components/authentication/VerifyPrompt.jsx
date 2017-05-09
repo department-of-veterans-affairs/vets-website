@@ -46,7 +46,7 @@ class VerifyPrompt extends React.Component {
 }
 
 VerifyPrompt.propTypes = {
-  verifyUrl: PropTypes.string
+  verifyUrl: PropTypes.string.required
 };
 
 export default VerifyPrompt;

@@ -57,7 +57,7 @@ class LoginPrompt extends React.Component {
 }
 
 LoginPrompt.propTypes = {
-  loginUrl: PropTypes.string
+  loginUrl: PropTypes.string.required
 };
 
 export default LoginPrompt;
