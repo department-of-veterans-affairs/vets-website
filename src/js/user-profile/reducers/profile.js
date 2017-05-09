@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import { UPDATE_PROFILE_FIELD } from '../actions';
-import { LOG_OUT } from '../../common/actions';
+import { LOG_OUT } from '../../login/actions';
 
 // TODO(crew): Romove before this goes to production.
 const initialState = {
