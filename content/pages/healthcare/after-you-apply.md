@@ -31,7 +31,7 @@ relatedlinks:
 
 After you’ve applied for VA health care, we’ll send you a letter in the mail to let you know if your application has been approved. Find out what happens next.
 
-</div>
+<div class="feature" markdown=“1”>
 
 ### When will I hear back about my application?
 
@@ -40,7 +40,7 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 <span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18555747286">855-574-7286</a>.</span>
 </div>
 
-#### If you approve my application, what do I do next?
+### If you approve my application, what do I do next?
 
 <ol class="process">
 <li class="step one">
@@ -67,6 +67,9 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 <li class="step last four">
 
 **Go to your first VA doctor’s appointment.** You may have requested a doctor’s appointment when you applied (either in person or on your application). If you did, we’ll set up an appointment for you with a VA doctor or provider and send you a notice with your appointment time in the mail. If you didn’t ask for a doctor’s appointment when you applied, we’ll help you set up your appointment during your welcome call. 
+
+</li>
+</ol>
 
 ### What if I need to see a doctor before my scheduled appointment?
 
