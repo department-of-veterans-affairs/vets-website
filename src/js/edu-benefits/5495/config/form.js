@@ -76,7 +76,7 @@ const formConfig = {
           title: 'Benefit selection',
           uiSchema: {
             benefit: {
-              'ui:title': 'Which benefit are you currently using?',
+              'ui:title': 'Select the benefit under which you are applying for a change in program or place of training:',
               'ui:widget': 'radio',
               'ui:options': {
                 labels: survivorBenefitsLabels
