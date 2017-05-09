@@ -9,7 +9,7 @@ class AuthApplicationSection extends React.Component {
 
   handleVerify() {
     window.dataLayer.push({ event: 'verify-link-clicked' });
-    const myVerifyUrl = this.props.loginUrl.third;
+    const myVerifyUrl = this.props.verifyUrl;
     if (myVerifyUrl) {
       window.dataLayer.push({ event: 'verify-link-opened' });
       const receiver = window.open(`${myVerifyUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
@@ -56,7 +56,7 @@ class AuthApplicationSection extends React.Component {
 
 AuthApplicationSection.propTypes = {
   userProfile: PropTypes.object.isRequired,
-  loginUrl: PropTypes.object.isRequired
+  verifyUrl: PropTypes.object.isRequired
 };
 
 export default AuthApplicationSection;
