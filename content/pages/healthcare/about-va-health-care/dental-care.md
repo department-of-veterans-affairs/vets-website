@@ -6,15 +6,24 @@ concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
 relatedlinks:
-  - url: /healthcare/eligibility/
-    title: Health Care Benefits Eligibility
-    description: Not sure if you qualify? Find out if you can get VA health care benefits.
-  - url: /healthcare/apply/
-    title: Health Care Application Process
-    description: Ready to apply? Get started now.
-  - url: /disability-benefits/
+  - url: /healthcare/about-va-health-care/your-care-team/
+    title: Your Care Team
+    description: Learn about the health providers who’ll make up your VA care team.
+  - url: /healthcare/about-va-health-care/where-you-get-care/
+    title: Where You’ll Get Care
+    description: Find out how to access care for regular needs, in emergencies, and when traveling.
+  - url: /healthcare/about-va-health-care/va-health-care-and-other-insurance/
+    title: VA Health Care and Other Insurance
+    description: Learn how VA health care works with Medicaid and private insurance.
+  - url: /healthcare/about-va-health-care/vision-care/
+    title: Vision Care
+    description: Find out if you can get vision care through VA.
+  - url: /healthcare/about-va-health-care/assisted-living-and-home-health-care/
+    title: Assisted Living and Home Health Care
+    description: Find out how to access assisted living, residential (live-in), or home health care options through VA.
+  - url: /disability-benefits/conditions/
     title: Disability Benefits
-    description: Need help finding out if you qualify for disability benefits? Learn more about these benefits.
+    description: Find out if you can get disability benefits for an illness or injury caused or made worse by your active-duty service.
 ---
 
 <div class="va-introtext">
@@ -58,10 +67,8 @@ Click on the statement below that describes you best to find out your benefits c
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-disability-100">I’m a former Prisoner of War.</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-disability-100">I have 1 or more service-connected disabilities rated 100% disabling.</button>
 <div id="dental-care-disability-100" class="usa-accordion-content">
-
-I have 1 or more service-connected disabilities rated 100% disabling.
 
 **You’re in:** Class IV
 
@@ -154,7 +161,7 @@ I have 1 or more service-connected disabilities rated 100% disabling.
 </ul>
 </div>
 
-------
+<br>
 
 ### How do I apply for VA dental care benefits? 
 
@@ -176,3 +183,19 @@ You may be able to buy dental insurance at a reduced cost through the VA Dental 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
 <!-- TODO: find a proper place to import USWDS JS for static pages -->
+
+------
+
+#### Get more information:
+
+**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
+
+**Already signed up?** Manage your VA health and benefits online: 
+[Refill your prescriptions](/healthcare/prescriptions/). 
+[Send a message to your VA health care provider](/healthcare/messaging/). 
+[Check the status of a disability or pension claim](/track-claims/).
+
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
+
+**Have an illness or injury caused or made worse by your active-duty service?** [Find out if you can get disability benefits](/disability-benefits/conditions/).
+
