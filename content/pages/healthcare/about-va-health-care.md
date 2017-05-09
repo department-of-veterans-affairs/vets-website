@@ -54,6 +54,8 @@ All Veterans receive coverage for most care and services, but only some will qua
 
 [Learn more about priority groups](/healthcare/eligibility/).
 
+<br>
+
 You should also know that being signed up for VA health care meets your Affordable Care Act (ACA) health coverage requirement of having "minimum essential health coverage." We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
 
 </div>
@@ -116,6 +118,7 @@ In certain cases, you may receive dental care as part of your VA health benefits
 #### What services are *not* covered under VA health care?  [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
 These services are *not* included in your VA medical benefits package:
+
 - Abortions and abortion counseling
 - Cosmetic surgery, unless we conclude that it’s medically necessary (needed to prevent or treat a certain illness, injury, condition, disease, or symptoms)
 - Gender alteration (gender reassignment surgery)
@@ -125,7 +128,7 @@ These services are *not* included in your VA medical benefits package:
   - You’re seriously ill and your VA health care provider prescribes a new, unapproved medicine because there are no other comparable treatment options (called a compassionate use or expanded access exemption)
  - Inpatient hospital or outpatient care if you’re a patient or inmate in a non-VA government agency institution, if that agency must provide the care or services by law
 
-<br>
+------
 
 #### How do I apply for VA health care benefits? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
@@ -135,11 +138,14 @@ Then, apply online, in-person, by phone, or by mail. [Learn about the applicatio
 
 <br>
 
-#### What if I need help understanding my benefits or accessing services? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+#### If I'm already signed up for VA health care, can I manage my benefits online? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
-If you're signed up for VA health care, you can manage your VA health and benefits online through Vets.gov. <br />
+Yes. If you're signed up for VA health care, you can manage your VA health and benefits online through Vets.gov:
+
 [Refill your prescriptions](/healthcare/prescriptions/). <br />
 [Send a message to your VA health care provider](/healthcare/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/). 
 
-If you need more help, call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+#### What if I need more help understanding my benefits or accessing services? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+
+Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
