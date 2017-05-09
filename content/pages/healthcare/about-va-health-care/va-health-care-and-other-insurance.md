@@ -65,15 +65,15 @@ No. Whether or not you have health insurance coverage doesn't affect the VA heal
 
 ### If I'm signed up for the VA health care program, does that mean I meet the requirements to have health care under the Affordable Care Act (ACA)?
 
-Yes. Being signed up for VA health care meets your Affordable Care Act health coverage requirement of having "minimum essential health coverage." You don't need any other insurance to meet this requirement.
-
-We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
+Yes. Being signed up for VA health care meets your Affordable Care Act health coverage requirement of having "minimum essential health coverage." You don't need any other insurance to meet this requirement. We’ll update this site if the ACA changes with new laws. [Learn more about the ACA, VA, and you](https://www.va.gov/health/aca/FAQ.asp).
 
 </div>
 
 **Note:** It's always a good idea to let your VA doctor know if you’re receiving care outside VA. This helps your provider coordinate your care to help keep you safe and make sure you’re getting care that’s proven to work and that meets your specific needs.
 
-### Should I give up my private health insurance or other insurance (like TRICARE or Medicare) if I'm accepted into the VA health care program? 
+### Learn more about how VA health care works with Medicare and other insurance:
+
+#### Should I give up my private health insurance or other insurance (like TRICARE or Medicare) if I'm accepted into the VA health care program? 
 
 This is your decision. You can save money if you drop your private health insurance, but there are risks. We encourage you to keep your insurance because:
 
@@ -81,7 +81,7 @@ This is your decision. You can save money if you drop your private health insura
 - We don’t know if Congress will provide enough funding in future years for us to care for all Veterans signed up for VA health care. If you're in one of the lower priority groups, you could lose your VA health care benefits in the future. And, if you don't keep your private insurance, this would leave you with no coverage.
 - If you have Medicare Part B (coverage for doctors and outpatient services) and you cancel it, you won't be able to get it back until January of the following year. And, you may have to pay a penalty to get your coverage back.
 
-### If I already have VA health care benefits, should I still sign up for Medicare when I turn 65? 
+#### If I already have VA health care benefits, should I still sign up for Medicare when I turn 65? 
 
 Yes, we encourage you to sign up for Medicare as soon as you can. This is because:
 
@@ -90,7 +90,7 @@ Yes, we encourage you to sign up for Medicare as soon as you can. This is becaus
 - If you delay signing up for Medicare Part B (coverage for doctors and outpatient services) and then need to sign up later because you lose your VA health care benefits or need more choice in care options, you’ll pay a penalty. This penalty gets bigger each year you delay signing up—and you’ll pay it every year for the rest of your life.
 - If you sign up for Medicare Part D (coverage for prescription drugs), you’ll be able to use it to get medicine from non-VA doctors and fill your prescriptions at your local pharmacy instead of through the VA mail order service. But you should know that VA prescription drug coverage is better than Medicare coverage—and there’s no penalty for delaying Medicare Part D, so you don’t have to sign up right away.
 
-### If I'm signed up for VA health care, and I also have Medicare, what's covered by each?
+#### If I'm signed up for VA health care, and I also have Medicare, what's covered by each?
 
 You’ll need to choose which benefits to use each time you receive care.
 
@@ -98,7 +98,7 @@ To use VA benefits, you’ll need to get care at a VA medical center or other VA
 
 If you go to a non-VA care setting, Medicare may pay for your care. Or, if we only authorize some services in a non-VA location, then Medicare may pay for other services you may need during your stay. Check your Medicare plan so you know which care locations and services you’re covered for. [Learn more about Medicare](http://www.medicare.gov).
 
-### Can I use my Health Savings Account (HSA) or Health Reimbursement Arrangement (HRA) to help pay for VA care for non-service-connected conditions? 
+#### Can I use my Health Savings Account (HSA) or Health Reimbursement Arrangement (HRA) to help pay for VA care for non-service-connected conditions? 
 
 Yes. We may bill and accept reimbursement from High Deductible Health Plans (HDHPs) for medical care and services to treat your non-service-connected conditions. If you have an HDHP linked to an HSA, you can use your HSA to pay your VA copayments for non-service-connected care.
 
@@ -106,16 +106,15 @@ We may also accept reimbursement from HRAs for care we provide to treat your non
 
 ------
 
-### How do I apply for VA health care benefits? 
+#### Get more information:
 
-First, find out if you qualify for VA health care. [Check your eligibility](/healthcare/eligibility/).
-Then, apply online, in-person, by phone, or by mail. [Learn about the application process](/healthcare/apply/).
+**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
-### What if I need help understanding my benefits or accessing services? 
+**Already signed up?** Manage your VA health and benefits online: 
+[Refill your prescriptions](/healthcare/prescriptions/). 
+[Send a message to your VA health care provider](/healthcare/messaging/). 
+[Check the status of a disability or pension claim](/track-claims/).
 
-If you're signed up for VA health care, you can manage your VA health and benefits online through Vets.gov. <br />
-[Refill your prescriptions](/healthcare/prescriptions/). <br />
-[Send a message to your VA health care provider](/healthcare/messaging/). <br />
-[Check the status of a disability or pension claim](/track-claims/). 
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
 
-If you need more help, call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
+**Have an illness or injury caused or made worse by your active-duty service?** [Find out if you can get disability benefits](/disability-benefits/conditions/).
