@@ -59,25 +59,18 @@ Or, contact the Blind Rehabilitation Service Program office at:
 
 ------
 
-### How do I apply for VA health care benefits? 
+#### Get more information:
 
-First, find out if you qualify for VA health care. [Check your eligibility](/healthcare/eligibility/).
+**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
-Then, apply online, in-person, by phone, or by mail. [Learn about the application process](/healthcare/apply/).
+**Already signed up?** Manage your VA health and benefits online: 
+[Refill your prescriptions](/healthcare/prescriptions/). 
+[Send a message to your VA health care provider](/healthcare/messaging/). 
+[Check the status of a disability or pension claim](/track-claims/).
 
-### What if I need help understanding my benefits or accessing services? 
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
 
-If you're signed up for VA health care, you can manage your VA health and benefits online through Vets.gov. <br />
-[Refill your prescriptions](/healthcare/prescriptions/). <br />
-[Send a message to your VA health care provider](/healthcare/messaging/). <br />
-[Check the status of a disability or pension claim](/track-claims/). 
+**Have hearing loss?** [Find out how to get hearing aids through VA](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp). 
 
-If you need more help, call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
+**Have an illness or injury caused or made worse by your active-duty service?** [Find out if you can get disability benefits](/disability-benefits/conditions/).
 
-### If I have hearing loss as well as low vision, can I get help from VA for my hearing loss?
-
-You may qualify for hearing aids. [Find out how to get hearing aids through VA](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp). 
-
-### How do I find out if I qualify for other disability benefits?
-
-We can help. [Learn more about disability benefits](/disability-benefits/).
