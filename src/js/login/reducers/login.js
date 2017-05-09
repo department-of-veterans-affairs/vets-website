@@ -1,14 +1,12 @@
 import _ from 'lodash/fp';
 
 import { UPDATE_LOGGEDIN_STATUS, UPDATE_LOGIN_URL, UPDATE_SEARCH_HELP_USER_MENU } from '../actions';
-import { LOG_OUT } from '../../common/actions';
+import { LOG_OUT, UPDATE_VERIFY_URL } from '../../common/actions';
 
 const initialState = {
   currentlyLoggedIn: true,
-  loginUrl: {
-    first: null,
-    third: null
-  },
+  loginUrl: null,
+  verifyUrl: null,
   utilitiesMenuIsOpen: {
     search: false,
     help: false,
@@ -33,9 +31,10 @@ function loginStuff(state = initialState, action) {
       return _.set('currentlyLoggedIn', action.value, state);
 
     case UPDATE_LOGIN_URL:
-      // Updates either the login URL (loginUrl.first) or the verify URL to uplevel
-      // from LOA1 to LOA3 (loginUrl.third)
-      return _.set(`loginUrl.${action.propertyPath}`, action.value, state);
+      return _.set('loginUrl', state);
+
+    case UPDATE_VERIFY_URL:
+      return _.set('verifyUrl', state);
 
     case LOG_OUT:
       return _.set('currentlyLoggedIn', false, state);
