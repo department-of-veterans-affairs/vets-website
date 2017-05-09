@@ -9,12 +9,9 @@ export function updateLoggedInStatus(value) {
   };
 }
 
-// Action creator for updating either the login URL (propertyPath == 'first')
-// or the verify URL for up-leveling from LOA1 to LOA3 (propertyPath == 'third')
-export function updateLogInUrl(propertyPath, value) {
+export function updateLogInUrl(value) {
   return {
     type: UPDATE_LOGIN_URL,
-    propertyPath,
     value
   };
 }
