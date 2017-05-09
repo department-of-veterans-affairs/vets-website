@@ -98,7 +98,6 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
   <script>
     window.dataLayer = [];
     if ( self !== top ) {
-      console.log('We are being iFramed : ' + self + ' : ' + top);
       window.dataLayer.push({ event: 'iframed', embeddedIn: document.referrer});
     }
   </script>
@@ -110,7 +109,6 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
     }];
     // We want to know if we are being iframed
     if ( self !== top ) {
-      console.log('We are being iFramed :  ' + self + ' : ' + top);
       window.dataLayer.push({ event: 'iframed', embeddedIn: document.referrer});
     }
   </script>
