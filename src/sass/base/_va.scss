@@ -361,8 +361,7 @@ h6 {
   }
 
   .va-h-ruled--a {
-    margin-left: 1.6rem;
-    margin-right: 1.6rem;
+    margin: 2.4rem 1.6rem 0;
 
     @include media($medium-large-screen) {
       max-width: 41%;
@@ -429,8 +428,8 @@ h6 {
   background: $color-white;
   color: $color-primary-darker;
   display: inline-block;
-  font-size: 2.5rem;
   font-weight: bold;
+  font-size: 2.5rem;
   line-height: 1.3;
   margin: 0 auto;
   max-width: 11em;
@@ -1250,137 +1249,11 @@ li {
     margin-bottom: 1em;
   }
   &.top {
-    border-top: 1px solid $color-gray-lightest;;
+    border-top: 1px solid $color-gray-lightest;
   }
   &.bottom {
-    border-bottom: 1px solid $color-gray-lightest;;
+    border-bottom: 1px solid $color-gray-lightest;
   }
-}
-
-// Process line
-
-.va-process,
-.process {
-  list-style: none;
-  padding: 1em 0;
-  position: relative;
-
-  h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
-  h5 {
-    font-size: 1.3em;
-    margin: 0;
-    padding: 0 0 .5em 0;
-  }
-  h6, &-subtitle {
-    font-size: 1.1em;
-    margin: 0;
-    padding: 0;
-  }
-
-  p:nth-child(1) {
-    font-size: 1em;
-    color: $color-gray-dark;
-    padding-bottom: 0;
-  }
-
-  li {
-    list-style: none;
-
-    p:nth-child(1) {
-      padding-bottom: inherit;
-    }
-
-    ol {
-      margin: 0 0 1em 1.5em;
-      padding: 0;
-      li {list-style: decimal; padding: .25em 0;}
-    }
-    ul {
-      margin: 0 0 1em 1.25em !important;
-      padding: 0;
-      li {list-style: square;}
-    }
-  &.step {
-    border-left: 8px solid $color-gray-light;
-    padding: 0 0 2em 2em;
-    margin: 0 !important;
-  &.last {
-    border-left: 0;
-    padding-left: calc(2em + 8px);
-  }
-
-  }
-  &.step.three.last,
-  &.step.four.last,
-  &.step.five.last,
-  &.step.six.last,
-  &.step.seven.last
-   {
-    &:before {
-    margin-left: -2.7em
-    }
-  }
-
-  ul {
-    margin: .25em 0 1em 0;
-    padding: 0;
-    li {
-      margin: 0;
-      padding: .1em 0;
-
-    }
-  }
-  ol {
-    margin-top: .25em;
-    margin-bottom: 1em;
-    li {
-      margin-left: .2em;
-    }
-  }
-
-  &:before {
-    color: $color-white;
-    float: left;
-    font-size: 1.3em;
-    font-weight: 700;
-    text-align: center;
-    width: 2em;
-    top: -.2em;
-    margin-left: -2.7em;
-    display: block;
-    border: 4px solid $color-white;
-    background: $olso-gray;
-    border-radius: 4em;
-    position: relative;
-  }
-}
-
-#content.interior .primary .process li p:nth-child(1) {
-  font-size: 1em;
-  color: $color-gray-dark !important;
-  padding-bottom: 0;
-}
-
-li.one:before {content: "1";}
-li.two:before {content: "2";}
-li.three:before {content: "3";}
-li.four:before {content: "4";}
-li.five:before {content: "5";}
-li.six:before {content: "6";}
-li.seven:before {content: "7";}
-li.eight:before {content: "8";}
-li.nine:before {content: "9";}
-li.ten:before {content: "10";}
-li.eleven:before {content: "11";}
-li.twelve:before {content: "12";}
-li.thirteen:before {content: "13";}
-li.fourteen:before {content: "14";}
-li.fifteen:before {content: "15";}
-li.sixteen:before {content: "16";}
-li.seventeen:before {content: "17";}
-li.eighteen:before {content: "18";}
-li.nineteen:before {content: "19";}
-li.twenty:before {content: "20";}
 }
 
 // Panel list
@@ -1424,12 +1297,38 @@ li.twenty:before {content: "20";}
   border-bottom: $color-va-accent solid 2px;
 }
 
+// If this divider gets reused and with text in the middle
+// you should create a variation of this rule that accounts
+// for the size of the text.
 .va-h-ruled--stars {
+  display: flex;
+  justify-content: center;
+
+  // Flexbox magic means that setting a margin on ::before
+  // applies the same margin to ::after
+  &::before {
+    margin-right: 12rem;
+  }
+
+  &::before,
+  &::after {
+    border-top: 1px solid $color-gray-light;
+    content: " ";
+    display: inline-block;
+    flex: 1 1 50%;
+    margin-top: -4rem;
+  }
+
   background: url(/img/stars.png) no-repeat top center;
-  background-size: 20rem auto;
+  background-size: 11rem auto;
   margin: 2.4rem auto auto;
   padding: 4.8rem 1.6rem 0;
   text-align: center;
+
+  @include media($medium-screen) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 // Action bars
@@ -1864,4 +1763,14 @@ p.info-message {
     font-size: 1em !important;
     color: $color-gray-dark !important;
   }
+}
+
+
+// ----------------------
+// Fixes an overly-broad ul selector 
+// ----------------------
+
+.usa-sidenav-sub_list {
+  padding-left: 0;
+  list-style: none;
 }
