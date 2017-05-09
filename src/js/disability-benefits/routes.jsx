@@ -14,7 +14,7 @@ import ClaimEstimationPage from './containers/ClaimEstimationPage.jsx';
 const routes = [
   <Redirect
       key="/track-claims/your-claims"
-      from="/disability-benefits/track-claims"
+      from="/disability-benefits/track-claims*"
       to="/your-claims"/>,
   <Route
       component={YourClaimsPage}
