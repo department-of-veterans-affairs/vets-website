@@ -6,28 +6,24 @@ concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
 relatedlinks:
-  - url: /healthcare/about-va-health-care/
-    title: About VA Health Care Coverage
-    description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
-  - url: /healthcare/eligibility/
-    title: Eligibility
-    description: Find out if you can get VA health care benefits.
-  - url: /healthcare/apply/
-    title: Application Process
-    description: Apply online now, or find out how to apply in person, by phone, or by mail.
-  - url: /healthcare/health-conditions/
-    title: Health Needs and Conditions
-    description: Find out how to access VA services for mental health, women’s health, and other specific needs.
-  - url: /healthcare/prescriptions/
-    title: Refill Prescriptions
-    description: Refill prescriptions online, and track the status of your refills.
-  - url: /healthcare/messaging/
-    title: Send a Message to Your Health Care Team
-    description: Send a secure, private note to your primary care provider or other members of your VA health care team.
-  - url: /disability-benefits/
+  - url: /healthcare/about-va-health-care/your-care-team/
+    title: Your Care Team
+    description: Learn about the health providers who’ll make up your VA care team.
+  - url: /healthcare/about-va-health-care/where-you-get-care/
+    title: Where You’ll Get Care
+    description: Find out how to access care for regular needs, in emergencies, and when traveling.
+  - url: /healthcare/about-va-health-care/va-health-care-and-other-insurance/
+    title: VA Health Care and Other Insurance
+    description: Learn how VA health care works with Medicaid and private insurance.
+  - url: /healthcare/about-va-health-care/dental-care/
+    title: Dental Care
+    description: Find out if you can get dental care through VA.
+  - url: /healthcare/about-va-health-care/vision-care/
+    title: Vision Care
+    description: Find out if you can get vision care through VA.
+  - url: /disability-benefits/conditions/
     title: Disability Benefits
-    description: Have an illness or injury that was caused—or made worse by—your active-duty service? Find out if you can get disability benefits.
-
+    description: Find out if you can get disability benefits for an illness or injury caused or made worse by your active-duty service.
 ---
 
 <div class="va-introtext">
@@ -87,6 +83,8 @@ Other services aren’t covered under VA health care benefits. For these service
 - Get help setting goals and priorities and making tough decisions about things like long-term care. [Visit our guide to shared decision making](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Shared_Decision_Making.asp).
 - Find services and resources to help with geriatric (elder) and long-term care. [Find services](https://www.va.gov/geriatrics/guide/longtermcare/Locate_Services.asp).  
 - Get more information about geriatric and long-term care as well as how to deal with diseases like Alzheimer’s and dementia. [Visit the geriatrics section of va.gov](https://www.va.gov/Geriatrics/).
+
+<br>
 
 ### Get more details about your care options:
 
@@ -162,3 +160,18 @@ A VA care coordinator who keeps track of your health remotely using special equi
 You may be able to get a service called respite care as part of your VA health care benefits. This service pays for a person to come into your home—or for you to go to a program outside your home—while your family caregiver takes a break. [Learn more about respite care](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Respite_Care.asp#).
 
 Other services for home health care (like adult day health care or skilled health aide services) listed above can also help to support caregivers.
+
+------
+
+#### Get more information:
+
+**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
+
+**Already signed up?** Manage your VA health and benefits online: 
+[Refill your prescriptions](/healthcare/prescriptions/). 
+[Send a message to your VA health care provider](/healthcare/messaging/). 
+[Check the status of a disability or pension claim](/track-claims/).
+
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
+
+**Have an illness or injury caused or made worse by your active-duty service?** [Find out if you can get disability benefits](/disability-benefits/conditions/).
