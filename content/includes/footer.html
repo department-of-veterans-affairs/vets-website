@@ -104,6 +104,11 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
     dataLayer = [{
       'environment': '{{ buildtype }}'
     }];
+    // We want to know if we are being iframed
+    if ( self !== top ) {
+      console.log('We are being iFramed : ' + self + ' : ' + top);
+      window.dataLayer.push({ event: 'iframed', embeddedIn: document.referrer});
+    }
   </script>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
   height="0" width="0" class="csp-inline-patch-footer"></iframe></noscript>
