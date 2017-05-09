@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Suicide Prevention
 display_title: ""
 concurrence: ""
-template: ""
+template: 1-topic-landing
 lastupdate_override: ""
 relatedlinks: []
 

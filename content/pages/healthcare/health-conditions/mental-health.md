@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Mental Health
 display_title: ""
 concurrence: ""
-template: 1-topic landing
+template: 1-topic-landing
 lastupdate_override: ""
 relatedlinks: []
 

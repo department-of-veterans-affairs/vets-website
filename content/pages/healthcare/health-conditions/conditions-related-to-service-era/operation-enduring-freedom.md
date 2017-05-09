@@ -43,7 +43,7 @@ You may be at risk of:
   - **[Depleted uranium](http://www.publichealth.va.gov/exposures/depleted_uranium/index.asp):** Uranium used in military tank armor and some bullets
 
 - Injuries caused by:
-  - **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp):** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness in the fingers and toes) caused by the effects of cold, mountainous climates
+  - **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp):** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness in the fingers and toes) caused by the effects of cold climates
   - **[Extreme heat](http://www.publichealth.va.gov/exposures/heat-injuries/index.asp):** Health problems (like heat stroke, heat exhaustion, and sunburn) that can be caused by serving in hot desert climates
   - **[Toxic embedded fragments](http://www.publichealth.va.gov/exposures/toxic_fragments/index.asp):** Shrapnel and other metals (some containing chemicals) that stay in your body after an injury and can cause injury at the site of the fragment or in other parts of your body
   - **[Explosions](http://www.publichealth.va.gov/exposures/traumatic-brain-injury.asp):** Explosions can cause concussions and traumatic brain injury (TBI), an injury to the head that affects the way your brain works
