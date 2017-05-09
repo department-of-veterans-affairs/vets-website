@@ -35,7 +35,7 @@ Use the table below to find out which benefits you may qualify for.
 
 ### What VA dental care benefits do I qualify for?
 
-**Which describes you best?** Find out your benefits class and the dental benefits you may be able to get:
+Click on the statement below that describes you best to find out your benefits class and the dental benefits you may qualify for:
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -158,7 +158,7 @@ I have 1 or more service-connected disabilities rated 100% disabling.
 
 ### How do I apply for VA dental care benefits? 
 
-You can apply online by filling out the 10-10EZ health care application. [Apply now](/healthcare/apply/application/introduction). 
+You can apply online by filling out the 10-10EZ health care application. [Apply now](/healthcare/apply/application/introduction/). 
 
 ### Where do I go for VA dental care? 
 
