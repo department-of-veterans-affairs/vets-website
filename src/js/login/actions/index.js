@@ -1,5 +1,6 @@
 export const UPDATE_LOGGEDIN_STATUS = 'UPDATE_LOGGEDIN_STATUS';
 export const UPDATE_LOGIN_URL = 'UPDATE_LOGIN_URL';
+export const UPDATE_VERIFY_URL = 'UPDATE_VERIFY_URL';
 export const UPDATE_SEARCH_HELP_USER_MENU = 'UPDATE_SEARCH_HELP_USER_MENU';
 
 export function updateLoggedInStatus(value) {
@@ -12,6 +13,13 @@ export function updateLoggedInStatus(value) {
 export function updateLogInUrl(value) {
   return {
     type: UPDATE_LOGIN_URL,
+    value
+  };
+}
+
+export function updateVerifyUrl(value) {
+  return {
+    type: UPDATE_VERIFY_URL,
     value
   };
 }

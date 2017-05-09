@@ -5,7 +5,7 @@ import moment from 'moment';
 import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogInUrl } from '../actions';
+import { updateLoggedInStatus, updateLogInUrl, updateVerifyUrl } from '../actions';
 import { logOut } from '../../common/actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 
@@ -46,8 +46,9 @@ class Main extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      this.props.onUpdateLoginUrl('first', json.authenticate_via_get);
+      this.props.onUpdateLoginUrl(json.authenticate_via_get);
     }).catch(() => {
+      // TODO: need UX for when URL is not available
     });
   }
 
@@ -57,10 +58,9 @@ class Main extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      this.props.onUpdateLoginUrl('third', json.authenticate_via_get);
-      return Promise.resolve();
+      this.props.onUpdateVerifyUrl(json.authenticate_via_get);
     }).catch(() => {
-      // TODO: figure out what should happen if login URL is not available
+      // TODO: need UX for when URL is not available
     });
   }
 
@@ -82,12 +82,13 @@ class Main extends React.Component {
     }).then(json => {
       this.setState({ logoutUrl: json.logout_via_get });
     }).catch(() => {
+      // TODO: need UX for when URL is not available
     });
   }
 
   handleLogin() {
     window.dataLayer.push({ event: 'login-link-clicked' });
-    const myLoginUrl = this.props.loginUrl.first;
+    const myLoginUrl = this.props.loginUrl;
     if (myLoginUrl) {
       window.dataLayer.push({ event: 'login-link-opened' });
       const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
@@ -98,7 +99,7 @@ class Main extends React.Component {
 
   handleSignup() {
     window.dataLayer.push({ event: 'register-link-clicked' });
-    const myLoginUrl = this.props.loginUrl.first;
+    const myLoginUrl = this.props.loginUrl;
     if (myLoginUrl) {
       window.dataLayer.push({ event: 'register-link-opened' });
       const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
@@ -137,7 +138,10 @@ class Main extends React.Component {
 
   render() {
     return (
-      <SearchHelpSignIn onUserLogin={this.handleLogin} onUserSignup={this.handleSignup} onUserLogout={this.handleLogout}/>
+      <SearchHelpSignIn
+          onUserLogin={this.handleLogin}
+          onUserSignup={this.handleSignup}
+          onUserLogout={this.handleLogout}/>
     );
   }
 }
@@ -145,7 +149,8 @@ class Main extends React.Component {
 const mapStateToProps = (state) => {
   const userState = state.user;
   return {
-    loginUrl: userState.loginUrl,
+    loginUrl: userState.login.loginUrl,
+    verifyUrl: userState.login.verifUrl,
     profile: userState.profile
   };
 };
@@ -153,19 +158,21 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUpdateLoginUrl: (field, update) => {
-      dispatch(updateLogInUrl(field, update));
+    onUpdateLoginUrl: (update) => {
+      dispatch(updateLogInUrl(update));
+    },
+    onUpdateVerifyUrl: (update) => {
+      dispatch(updateVerifyUrl(update));
     },
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
     },
+    // TODO: this handler doesn't seem to be used anywhere; delete
     onClearUserData: () => {
       dispatch(logOut());
     }
   };
 };
 
-// TODO(romano): safe to remove { pure: false } now?
-// https://github.com/reactjs/react-redux/blob/master/docs/troubleshooting.md
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(Main);
 export { Main };
