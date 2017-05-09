@@ -1,7 +1,13 @@
 import _ from 'lodash/fp';
 
-import { UPDATE_LOGGEDIN_STATUS, UPDATE_LOGIN_URL, UPDATE_SEARCH_HELP_USER_MENU } from '../actions';
-import { LOG_OUT, UPDATE_VERIFY_URL } from '../../common/actions';
+import {
+  UPDATE_LOGGEDIN_STATUS,
+  UPDATE_LOGIN_URL,
+  UPDATE_VERIFY_URL,
+  UPDATE_SEARCH_HELP_USER_MENU
+} from '../actions';
+
+import { LOG_OUT } from '../../common/actions';
 
 const initialState = {
   currentlyLoggedIn: true,
