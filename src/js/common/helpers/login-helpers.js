@@ -4,6 +4,15 @@ import environment from './environment.js';
 import { updateLoggedInStatus } from '../../login/actions';
 import { updateProfileField } from '../../user-profile/actions';
 
+export function handleVerify(verifyUrl) {
+  window.dataLayer.push({ event: 'verify-link-clicked' });
+  if (verifyUrl) {
+    window.dataLayer.push({ event: 'verify-link-opened' });
+    const receiver = window.open(`${verifyUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  }
+}
+
 export function getUserData() {
   fetch(`${environment.API_URL}/v0/user`, {
     method: 'GET',

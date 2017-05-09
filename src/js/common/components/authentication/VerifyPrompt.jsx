@@ -1,24 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-class VerifyPrompt extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleVerify = this.handleVerify.bind(this);
-  }
+import { handleVerify } from '../../helpers/login-helpers.js';
 
+class VerifyPrompt extends React.Component {
   componentDidMount() {
     window.dataLayer.push({ event: 'verify-prompt-displayed' });
-  }
-
-  handleVerify() {
-    window.dataLayer.push({ event: 'verify-link-clicked' });
-    const myVerifyUrl = this.props.verifyUrl;
-    if (myVerifyUrl) {
-      window.dataLayer.push({ event: 'verify-link-opened' });
-      const receiver = window.open(`${myVerifyUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-      receiver.focus();
-    }
   }
 
   render() {
@@ -28,15 +15,14 @@ class VerifyPrompt extends React.Component {
           <div className="react-container">
             <h1>Verify your Identity with ID.me</h1>
             <p>You need to verify your identity to access this part of Vets.gov.</p>
-            <p></p>
-            <div>To access Vets.gov services, you'll need to verify your identity through ID.me, a third party service that provides strong identity verification. We have added this protection to increase security for your information. Here's what you'll need:
+            <p>To access Vets.gov services, you'll need to verify your identity through ID.me, a third party service that provides strong identity verification. We have added this protection to increase security for your information. Here's what you'll need:
               <ul>
                 <li>Your passport or driver's license</li>
                 <li>A phone that can receive texts or calls</li>
               </ul>
-            Don't have a supported ID? You can provide personal information and answer questions about your credit history instead.</div>
+            Don't have a supported ID? You can provide personal information and answer questions about your credit history instead.</p>
             <p>
-              <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleVerify}><strong>Get Started</strong></button>
+              <button className="usa-button-primary va-button-primary usa-button-big" onClick={handleVerify(this.props.verifyUrl)}><strong>Get Started</strong></button>
             </p>
           </div>
         </div>

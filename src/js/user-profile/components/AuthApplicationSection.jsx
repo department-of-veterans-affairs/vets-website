@@ -1,22 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { handleVerify } from '../../common/helpers/login-helpers.js';
+
 class AuthApplicationSection extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleVerify = this.handleVerify.bind(this);
-  }
-
-  handleVerify() {
-    window.dataLayer.push({ event: 'verify-link-clicked' });
-    const myVerifyUrl = this.props.verifyUrl;
-    if (myVerifyUrl) {
-      window.dataLayer.push({ event: 'verify-link-opened' });
-      const receiver = window.open(`${myVerifyUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-      receiver.focus();
-    }
-  }
-
   render() {
     let content;
 
@@ -37,7 +24,7 @@ class AuthApplicationSection extends React.Component {
           <p><span className="label">Your account will allow you to:</span></p>
           <p><a href="/healthcare/apply">Apply for healthcare</a></p>
           <p><a href="/education/apply-for-education-benefits">Apply for education benefits</a></p>
-          <p><span className="label">You need to <a href="#" onClick={this.handleVerify}>verify your account</a> in order to:</span></p>
+          <p><span className="label">You need to <a href="#" onClick={handleVerify(this.props.verifyUrl)}>verify your account</a> in order to:</span></p>
           <p>Refill your prescription</p>
           <p>Message your health care team</p>
           <p>Check your claim status</p>
