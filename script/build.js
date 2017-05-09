@@ -28,8 +28,7 @@ const fs = require('fs');
 const path = require('path');
 
 const sourceDir = '../content/pages';
-const minimumNpmVersion = '3.8.9';
-const minimumNodeVersion = '4.4.7';
+const minimumNodeVersion = '6.10.3';
 
 if (!(process.env.INSTALL_HOOKS === 'no')) {
   // Make sure git pre-commit hooks are installed
@@ -43,13 +42,6 @@ if (!(process.env.INSTALL_HOOKS === 'no')) {
       }
     }
   });
-}
-
-if (semver.compare(process.env.npm_package_engines_npm, minimumNpmVersion) === -1) {
-  process.stdout.write(
-    `NPM version (mininum): ${minimumNpmVersion}\n`);
-  process.stdout.write(`NPM version (installed): ${process.env.npm_package_engines_npm}\n`);
-  process.exit(1);
 }
 
 if (semver.compare(process.version, minimumNodeVersion) === -1) {
