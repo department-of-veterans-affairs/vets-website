@@ -88,7 +88,7 @@ export default class SubmitMessage extends React.Component {
             </div>
           </ExpandingGroup>
         </div>
-        <p>Find out what happens <a href="/education/after-you-apply">after you apply</a></p>
+        <p>Find out what happens <a href="/education/after-you-apply">after you apply</a>.</p>
         <p>Need help? If you have questions, call 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.</p>
       </div>
     );
