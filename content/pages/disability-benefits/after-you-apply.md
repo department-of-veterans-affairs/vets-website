@@ -36,7 +36,7 @@ Find out what happens to your claim after you apply for disability benefits.
 
 You don't need to do anything unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them. You can check the status of your claim online. The time frame you see there may vary based on how complex your claim is.
 
-<a class="usa-button-primary" href="/disability-benefits/track-claims">Track the Status of Your Claim</a>
+<a class="usa-button-primary" href="/track-claims">Track the Status of Your Claim</a>
 
 <div markdown="0"><br></div>
 

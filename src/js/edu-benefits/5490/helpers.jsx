@@ -11,9 +11,7 @@ export function transform(formConfig, form) {
   if (form.data['view:currentSameAsPrevious']) {
     newForm.data['view:currentSponsorInformation'] = {
       veteranFullName: form.data.previousBenefits.veteranFullName,
-      'view:veteranId': {
-        veteranSocialSecurityNumber: form.data.previousBenefits.veteranSocialSecurityNumber
-      }
+      'view:veteranId': form.data.previousBenefits['view:veteranId']
     };
   }
 

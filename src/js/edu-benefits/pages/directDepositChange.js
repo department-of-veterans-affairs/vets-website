@@ -7,6 +7,10 @@ import {
   directDepositWarning
 } from '../utils/helpers';
 
+function isStartUpdate(form) {
+  return _.get('bankAccountChange', form) === 'startUpdate';
+}
+
 export default function createDirectDepositChangePage(schema) {
   const { bankAccountChange, bankAccount } = schema.definitions;
   return {
@@ -24,7 +28,16 @@ export default function createDirectDepositChangePage(schema) {
       },
       bankAccount: _.merge(bankAccountUI, {
         'ui:options': {
-          hideIf: (formData) => formData.bankAccountChange !== 'startUpdate'
+          hideIf: formData => !isStartUpdate(formData)
+        },
+        accountType: {
+          'ui:required': isStartUpdate
+        },
+        accountNumber: {
+          'ui:required': isStartUpdate
+        },
+        routingNumber: {
+          'ui:required': isStartUpdate
         }
       }),
       'view:stopWarning': {
