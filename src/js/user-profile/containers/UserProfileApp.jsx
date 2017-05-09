@@ -17,7 +17,10 @@ class UserProfileApp extends React.Component {
           <h1>Your Vets.gov Account</h1>
           <div>
             <UserDataSection/>
-            <AuthApplicationSection userProfile={this.props.profile} loginUrl={this.props.loginUrl}/>
+            <AuthApplicationSection
+                userProfile={this.props.profile}
+                loginUrl={this.props.loginUrl}
+                verifyUrl={this.props.verifyUrl}/>
             <AccountManagementSection/>
           </div>
         </div>
@@ -26,7 +29,12 @@ class UserProfileApp extends React.Component {
 
     return (
       <div>
-        <RequiredLoginView authRequired={1} serviceRequired={"user-profile"} userProfile={this.props.profile} loginUrl={this.props.loginUrl}>
+        <RequiredLoginView
+            authRequired={1}
+            serviceRequired={"user-profile"}
+            userProfile={this.props.profile}
+            loginUrl={this.props.loginUrl}
+            verifyUrl={this.props.verifyUrl}>
           {view}
         </RequiredLoginView>
       </div>
@@ -39,7 +47,8 @@ const mapStateToProps = (state) => {
 
   return {
     profile: userState.profile,
-    loginUrl: userState.login.loginUrl
+    loginUrl: userState.login.loginUrl,
+    verifyUrl: userState.login.verifyUrl
   };
 };
 
