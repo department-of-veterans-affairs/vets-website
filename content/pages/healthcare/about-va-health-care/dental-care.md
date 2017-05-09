@@ -67,7 +67,7 @@ I have 1 or more service-connected disabilities rated 100% disabling.
 
 **You’re in:** Class IV
 
-**You may qualify for:** Any needed dental care*
+**You may qualify for:** Any needed dental care\*
 
 **\*Please note:** If you’re being paid at the 100% disabling rate based on a temporary rating (for a reason such as a long stay in the hospital or rehab care), that doesn’t qualify you for this benefit. 
 
@@ -79,7 +79,7 @@ I have 1 or more service-connected disabilities rated 100% disabling.
 
 **You’re in:** Class IV
 
-**You may qualify for:** Any needed dental care*
+**You may qualify for:** Any needed dental care\*
 
 **\*Please note:** If you’re being paid at the 100% disabling rate based on a temporary rating (for a reason such as a long stay in the hospital or rehab care), that doesn’t qualify you for this benefit. 
 
@@ -97,7 +97,7 @@ I have 1 or more service-connected disabilities rated 100% disabling.
 
 - You were discharged or released under conditions other than dishonorable, **and**
 - You apply for dental care within 180 days of discharge or release, **and**
-- Your DD214 certificate of discharge doesn’t show that you had a complete dental exam and all needed dental treatment before you were discharged*
+- Your DD214 certificate of discharge doesn’t show that you had a complete dental exam and all needed dental treatment before you were discharged\*
 
 **\*Please note:** Public Law 83 enacted June 16, 1955, amended Veterans’ eligibility for outpatient dental services. As a result, any Veteran who got a dental award letter from VBA dated before 1955 in which VBA determined the dental conditions to be noncompensable is no longer eligible for Class II outpatient dental treatment.
 
