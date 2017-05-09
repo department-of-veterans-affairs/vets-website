@@ -77,10 +77,9 @@ class EduBenefitsApp extends React.Component {
       submitBenefitsForm(this.props.data);
     };
 
-    const pathList = currentLocation.pathname.split('/');
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
-    let endpoint = pathList.pop();
-    endpoint = (endpoint.length) ? endpoint : pathList.pop();
+    const pathList = trimmedPathname.split('/');
+    const endpoint = pathList.pop();
     const isIntroductionPage = endpoint === 'introduction';
 
     // Until we come up with a common code base between this and the schemaform
@@ -109,10 +108,10 @@ class EduBenefitsApp extends React.Component {
     let contentClass = classNames(
       'progress-box',
       'progress-box-schemaform',
-      { 'intro-content': endpoint === 'introduction' }
+      { 'intro-content': isIntroductionPage }
     );
 
-    const ombInfo = endpoint === 'introduction' ?
+    const ombInfo = isIntroductionPage ?
       // .row.edu-intro-spacing for the bottom spacing, columns for the padding
       (<div className="row edu-intro-spacing columns">
         <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="12/31/2019"/>
