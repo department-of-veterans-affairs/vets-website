@@ -208,15 +208,6 @@ hr {
     position: relative;
   }
 
- /*.va-notice--banner {
-    display: none !important;
-
-    @include media($medium-screen) {
-      display: block !important;
-    }
-  }*/
-}
-
 .login-container {
   background: $color-primary-darkest;
   flex-wrap: wrap;
@@ -231,6 +222,7 @@ hr {
   }
 }
 
+}
 
 #va-header-logo-menu {
   flex-wrap: wrap;

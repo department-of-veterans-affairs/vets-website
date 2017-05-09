@@ -1,10 +1,12 @@
 //=============================================================
 // Legacy styles for Crisis Line, mobile search modals
 // These styles are not quite the same as m-modal.
-// At some point, when the differences between our modals are
-// squared-away, we can probably remove this chunk.
+//
+// When the differences between our modals are
+// squared-away, we can remove this chunk.
 // See vets.gov-team#1047 
 //=============================================================
+
 .va-overlay-close {
   &--icon {
     display: inline;
@@ -31,7 +33,7 @@
   width: 100%;
   z-index: 800;
 
-  input[type="text"] {
+  [type="text"] {
     -webkit-appearance: none;
     border-radius: 3px 0 0 3px;
   }
