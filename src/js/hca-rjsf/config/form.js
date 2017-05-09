@@ -458,22 +458,25 @@ const formConfig = {
             'view:spouseIncome': {
               'ui:title': 'Spouse income',
               'ui:options': {
-                hideIf: (formData) => formData.maritalStatus === 'married' // Something else too?
+                hideIf: (formData) => formData.maritalStatus !== 'married' // Something else too?
               },
               spouseGrossIncome: {
-                'ui:title': 'Spouse gross annual income from employment'
+                'ui:title': 'Spouse gross annual income from employment',
+                'ui:required': (formData) => formData.maritalStatus === 'married'
               },
               spouseNetIncome: {
-                'ui:title': 'Spouse Net Income from your Farm, Ranch, Property or Business'
+                'ui:title': 'Spouse Net Income from your Farm, Ranch, Property or Business',
+                'ui:required': (formData) => formData.maritalStatus === 'married'
               },
               spouseOtherIncome: {
-                'ui:title': 'Spouse Other Income Amount'
+                'ui:title': 'Spouse Other Income Amount',
+                'ui:required': (formData) => formData.maritalStatus === 'married'
               }
             },
             'view:childrenIncome': {
               'ui:options': {
                 // Or should this be !formData.reportChildren?
-                hideIf: (formData) => formData.children.length === 0
+                hideIf: (formData) => _.get('children.length', formData) === 0
               }
             }
           },
@@ -485,9 +488,12 @@ const formConfig = {
               veteranNetIncome,
               veteranOtherIncome,
               'view:spouseIncome': {
-                spouseGrossIncome,
-                spouseNetIncome,
-                spouseOtherIncome
+                type: 'object',
+                properties: {
+                  spouseGrossIncome,
+                  spouseNetIncome,
+                  spouseOtherIncome
+                }
               },
               'view:childrenIncome': {}
             }
