@@ -27,9 +27,7 @@ If you qualify for VA dental care benefits, you may be able to get some or all o
 
 ### Can I get VA dental care benefits for some or all of my dental care?
 
-It depends on a number of factors, like your military service history and your current health and living situation. Based on these factors, VA places you into a benefits class—and you get the specific benefits assigned to that class.
-
-Use the table below to find out which benefits you may qualify for. 
+It depends on a number of factors, like your military service history and your current health and living situation. Based on these factors, VA places you into a benefits class—and you get the specific benefits assigned to that class. See the section below for more information.
 
 </div>
 
@@ -155,6 +153,8 @@ I have 1 or more service-connected disabilities rated 100% disabling.
 </li>
 </ul>
 </div>
+
+------
 
 ### How do I apply for VA dental care benefits? 
 
