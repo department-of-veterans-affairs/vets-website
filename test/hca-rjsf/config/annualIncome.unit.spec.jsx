@@ -8,7 +8,7 @@ import { DefinitionTester, submitForm } from '../../util/schemaform-utils';
 import formConfig from '../../../src/js/hca-rjsf/config/form';
 
 
-describe.only('Hca annual income', () => {
+describe('Hca annual income', () => {
   const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.annualIncome;
   it('should render without spouse information', () => {
     const form = ReactTestUtils.renderIntoDocument(
