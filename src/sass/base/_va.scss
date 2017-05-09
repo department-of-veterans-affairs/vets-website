@@ -1722,13 +1722,3 @@ p.info-message {
   padding-left: 0;
   list-style: none;
 }
-
-.va-homepage-benefits {
-  padding-bottom: 2rem;
-
-  @include media($medium-screen) {
-    .va-nav-linkslist {
-      @include span-columns(6); // Pulls from Neat
-    }
-  }
-}

@@ -7,12 +7,12 @@ Used for:
 - lists of links to content within a particular channel or section.
 - lists of Related Links when the `isRelated` property is set in the
 include tag, e.g.:
-{% include "content/includes/navigation-links-list.html" with isRelated = true %}
+{% include "content/components/navigation-links-list.html" with isRelated = true %}
 
 NOTE: Can also pass majorlinks or relatedlinks in as a variable on the include
 tag, e.g.:
 
-{% include "content/includes/navigation-links-list.html" with majorlinks = anothergroupofmajorlinks %}
+{% include "content/components/navigation-links-list.html" with majorlinks = anothergroupofmajorlinks %}
 
 In this example, `anothergroupofmajorlinks` is a group of links that uses the
 same YAML structure as majorlinks, but with a different group name. Pass the

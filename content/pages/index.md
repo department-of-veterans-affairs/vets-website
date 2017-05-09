@@ -15,9 +15,6 @@ majorlinks:
     - url: /employment/
       title: Careers and Employment
       description: Get help building your career skills and finding a job.
-majorlinks_col2:
-  - heading:
-    links: 
     - url: /disability-benefits/
       title: Disability Benefits
       description: Apply for disability compensation and other benefits for conditions related to your military service.
