@@ -149,6 +149,31 @@ Click on the statement below that describes you best to find out your benefits c
 </div>
 </li>
 <li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-treat">I get VA care or am scheduled for inpatient care for a health condition—and I need dental care for a dental issue that’s making my health condition harder to treat.</button>
+<div id="dental-care-treat" class="usa-accordion-content">
+
+**You’re in:** Class VI
+
+**You may qualify for:** Dental care to treat the dental issue that a VA dental care provider finds is making the health condition you’re being treated for harder to treat.
+
+</div>
+</li>
+<li>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-homeless">I’m signed up to get care through the Homeless Veterans Dental Program (VHA Directive 2007-039).
+</button>
+<div id="dental-care-homeless" class="usa-accordion-content">
+
+**You’re in:** Class IIB
+
+**You may qualify for:** A 1-time course of dental care that a VA dental care provider concludes you need to:
+
+- Relieve pain, **or**
+- Get a job, **or**
+- Treat moderate, severe, or complicated and severe gingival and periodontal conditions (gum infections that can lead to pain, swelling, and bone and tooth loss if not treated)
+
+</div>
+</li>
+<li>
 <button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-inpatient">I currently get inpatient care in a hospital, nursing home, or other supervised homelike care setting (called domiciliary care).</button>
 <div id="dental-care-inpatient" class="usa-accordion-content">
 
@@ -182,8 +207,6 @@ You may be able to buy dental insurance at a reduced cost through the VA Dental 
 
 <script src="https://standards.usa.gov/assets/js/vendor/uswds.min.js" type="text/javascript"></script>
 
-<!-- TODO: find a proper place to import USWDS JS for static pages -->
-
 ------
 
 #### Get more information:
@@ -198,4 +221,3 @@ You may be able to buy dental insurance at a reduced cost through the VA Dental 
 **Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
 
 **Have an illness or injury caused or made worse by your active-duty service?** [Find out if you can get disability benefits](/disability-benefits/conditions/).
-
