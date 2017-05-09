@@ -51,10 +51,8 @@ describe('<RequiredLoginView>', () => {
     authRequired: 3,
     serviceRequired: 'hca',
     userProfile: loa1User,
-    loginUrl: {
-      first: 'http://fake-login-url',
-      third: 'http://fake-verify-url'
-    }
+    loginUrl: 'http://fake-login-url',
+    verifyUrl: 'http://fake-verify-url'
   };
 
   class TestChildComponent extends React.Component {

@@ -52,8 +52,8 @@ describe('<Main>', () => {
     // TODO: check that it's called twice and that props are updated
     /*
     expect(fetchMock.called).to.be.true;
-    expect(tree.props.loginUrl.first).to.be.defined; // put in the value here
-    expect(tree.props.loginUrl.third).to.be.defined; // put in the value hereb
+    expect(tree.props.loginUrl).to.be.defined; // put in the value here
+    expect(tree.props.verifyUrl).to.be.defined; // put in the value hereb
      */
   });
 
