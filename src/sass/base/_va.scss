@@ -352,8 +352,6 @@ h6 {
 
   .va-flex {
     justify-content: center;
-    margin-left: .5rem;
-    margin-right: .5rem;
 
     @include media($medium-large-screen) {
       margin: auto;
@@ -1251,6 +1249,7 @@ li {
 .va-h-ruled--stars {
   display: flex;
   justify-content: center;
+  align-items: center;
 
   // Flexbox magic means that setting a margin on ::before
   // applies the same margin to ::after
@@ -1262,20 +1261,18 @@ li {
   &::after {
     border-top: 1px solid $color-gray-light;
     content: " ";
-    display: inline-block;
     flex: 1 1 50%;
-    margin-top: -4rem;
+    padding: 1rem 0;
   }
 
-  background: url(/img/stars.png) no-repeat top center;
+  background: url(/img/stars.png) no-repeat center;
   background-size: 11rem auto;
-  margin: 2.4rem auto auto;
-  padding: 4.8rem 1.6rem 0;
+  margin: 1.6rem auto auto;
+  padding: 2rem 1.6rem 0;
   text-align: center;
 
   @include media($medium-screen) {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 0;
   }
 }
 
