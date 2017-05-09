@@ -141,7 +141,7 @@ const formConfig = {
             required: ['veteranDateOfBirth', 'veteranSocialSecurityNumber'],
             properties: {
               veteranDateOfBirth: date,
-              veteranSocialSecurityNumber: ssn,
+              veteranSocialSecurityNumber: ssn.oneOf[0],
               'view:placeOfBirth': {
                 type: 'object',
                 properties: {
@@ -226,7 +226,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              address: _.merge(address.schema(true), {
+              address: _.merge(address.schema(fullSchemaHca, true), {
                 properties: {
                   street: {
                     minLength: 1,
