@@ -22,7 +22,7 @@ class VerifyPrompt extends React.Component {
               </ul>
             Don't have a supported ID? You can provide personal information and answer questions about your credit history instead.</p>
             <p>
-              <button className="usa-button-primary va-button-primary usa-button-big" onClick={handleVerify(this.props.verifyUrl)}><strong>Get Started</strong></button>
+              <button className="usa-button-primary va-button-primary usa-button-big" onClick={() => handleVerify(this.props.verifyUrl)}><strong>Get Started</strong></button>
             </p>
           </div>
         </div>
@@ -32,7 +32,7 @@ class VerifyPrompt extends React.Component {
 }
 
 VerifyPrompt.propTypes = {
-  verifyUrl: PropTypes.string.required
+  verifyUrl: PropTypes.string
 };
 
 export default VerifyPrompt;

@@ -24,7 +24,7 @@ class AuthApplicationSection extends React.Component {
           <p><span className="label">Your account will allow you to:</span></p>
           <p><a href="/healthcare/apply">Apply for healthcare</a></p>
           <p><a href="/education/apply-for-education-benefits">Apply for education benefits</a></p>
-          <p><span className="label">You need to <a href="#" onClick={handleVerify(this.props.verifyUrl)}>verify your account</a> in order to:</span></p>
+          <p><span className="label">You need to <a href="#" onClick={() => handleVerify(this.props.verifyUrl)}>verify your account</a> in order to:</span></p>
           <p>Refill your prescription</p>
           <p>Message your health care team</p>
           <p>Check your claim status</p>
@@ -43,7 +43,7 @@ class AuthApplicationSection extends React.Component {
 
 AuthApplicationSection.propTypes = {
   userProfile: PropTypes.object.isRequired,
-  verifyUrl: PropTypes.string.isRequired
+  verifyUrl: PropTypes.string
 };
 
 export default AuthApplicationSection;

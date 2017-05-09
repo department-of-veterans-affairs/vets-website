@@ -37,10 +37,10 @@ function loginStuff(state = initialState, action) {
       return _.set('currentlyLoggedIn', action.value, state);
 
     case UPDATE_LOGIN_URL:
-      return _.set('loginUrl', state);
+      return _.set('loginUrl', action.value, state);
 
     case UPDATE_VERIFY_URL:
-      return _.set('verifyUrl', state);
+      return _.set('verifyUrl', action.value, state);
 
     case LOG_OUT:
       return _.set('currentlyLoggedIn', false, state);
