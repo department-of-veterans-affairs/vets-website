@@ -43,7 +43,7 @@ class AuthApplicationSection extends React.Component {
 
 AuthApplicationSection.propTypes = {
   userProfile: PropTypes.object.isRequired,
-  verifyUrl: PropTypes.object.isRequired
+  verifyUrl: PropTypes.string.isRequired
 };
 
 export default AuthApplicationSection;
