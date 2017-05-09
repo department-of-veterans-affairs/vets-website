@@ -8,13 +8,13 @@
   background-size: cover;
   display: flex;
   margin: auto;
-  min-height: 14em;
+  min-height: 22.4rem;
   padding: 1em 0;
   text-align: center;
 
   @include media($medium-large-screen) {
     padding: 2em 0;
-    min-height: 42.2rem;
+    min-height: 32rem;
   }
 
   @include media($large-screen) {
