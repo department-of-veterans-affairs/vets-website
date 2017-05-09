@@ -78,6 +78,7 @@ class EduBenefitsApp extends React.Component {
     };
 
     const pathList = currentLocation.pathname.split('/');
+    const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     let endpoint = pathList.pop();
     endpoint = (endpoint.length) ? endpoint : pathList.pop();
     const isIntroductionPage = endpoint === 'introduction';
@@ -136,7 +137,7 @@ class EduBenefitsApp extends React.Component {
                 data={data}
                 submission={submission}
                 pages={pages}
-                path={currentLocation.pathname}
+                path={trimmedPathname}
                 isValid={isValidPage(currentLocation.pathname, data)}
                 canSubmit={isValidForm(data)}
                 dirtyPage={dirtyPage}
