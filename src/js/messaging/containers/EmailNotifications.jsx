@@ -27,9 +27,9 @@ export class EmailNotifications extends React.Component {
   }
 
   render() {
-    const { email, frequency } = this.props;
+    const { emailAddress, frequency } = this.props;
     const isNotified = ['each_message', 'daily'].includes(frequency.value);
-    const isSaveable = email.dirty || frequency.dirty;
+    const isSaveable = emailAddress.dirty || frequency.dirty;
 
     return (
       <div className="va-tab-content">
@@ -69,15 +69,17 @@ export class EmailNotifications extends React.Component {
                   type="radio"
                   value="off"
                   checked={!isNotified}
-                  onChange={() => this.props.setNotificationFrequency('none')}/>
+                  onChange={() => this.props.setNotificationFrequency(
+                    makeField('none', true)
+                  )}/>
               <label htmlFor="notifications-off">Off</label>
             </div>
           </div>
           <ErrorableTextInput
-              name="email"
+              name="emailAddress"
               label="Send email notifications to:"
               onValueChange={v => this.props.setNotificationEmail(v)}
-              field={email}/>
+              field={emailAddress}/>
           <div className="msg-notifications-save">
             <button disabled={!isSaveable}>Save changes</button>
             {

@@ -11,7 +11,7 @@ import {
 } from '../utils/constants';
 
 const initialState = {
-  email: makeField(''),
+  emailAddress: makeField(''),
   frequency: makeField('none'),
   loading: false
 };
@@ -25,7 +25,7 @@ export default function preferences(state = initialState, action) {
       const { emailAddress, frequency } = action.preferences;
       return {
         ...state,
-        email: makeField(emailAddress),
+        emailAddress: makeField(emailAddress),
         frequency: makeField(frequency),
         loading: false
       };
@@ -37,14 +37,14 @@ export default function preferences(state = initialState, action) {
 
     case SAVE_PREFERENCES_SUCCESS: {
       return {
-        email: makeField(state.email.value),
+        emailAddress: makeField(state.email.value),
         frequency: makeField(state.frequency.value),
         loading: false
       };
     }
 
     case SET_NOTIFICATION_EMAIL:
-      return { ...state, email: action.email };
+      return { ...state, emailAddress: action.email };
 
     case SET_NOTIFICATION_FREQUENCY:
       return { ...state, frequency: action.frequency };
