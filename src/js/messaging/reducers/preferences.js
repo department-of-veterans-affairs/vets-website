@@ -25,7 +25,7 @@ export default function preferences(state = initialState, action) {
 
     case SAVE_PREFERENCES_SUCCESS: {
       return {
-        emailAddress: makeField(state.email.value),
+        emailAddress: makeField(state.emailAddress.value),
         frequency: makeField(state.frequency.value)
       };
     }
