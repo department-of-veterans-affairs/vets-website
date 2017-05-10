@@ -79,6 +79,9 @@ export const uiSchema = {
   childReceivedSupportLastYear: {
     'ui:title': 'If your dependent child did not live with you last year, did you provide support?',
     'ui:widget': 'yesNo',
+    // TODO: Fix this once the bug mentioned below is fixed
+    // Hide by default, only showing after hideIf is run and overrides this
+    'ui:hidden': true,
     'ui:options': {
       // Not being invoked until the data is changed...which means this is open
       //  by default
