@@ -78,8 +78,7 @@ class EduBenefitsApp extends React.Component {
     };
 
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
-    const pathList = trimmedPathname.split('/');
-    const endpoint = pathList.pop();
+    const endpoint = trimmedPathname.split('/').pop();
     const isIntroductionPage = endpoint === 'introduction';
 
     // Until we come up with a common code base between this and the schemaform
