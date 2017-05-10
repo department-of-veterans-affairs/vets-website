@@ -58,7 +58,7 @@ describe('Edu 5490 educationHistory', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(12);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
   });
 
   it('should have no required inputs', () => {
