@@ -24,9 +24,9 @@ import {
 import IntroductionPage from '../components/IntroductionPage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 
-import { uiSchema as dateUI } from '../../common/schemaform/definitions/currentOrPastDate';
-import { uiSchema as fullNameUISchema } from '../../common/schemaform/definitions/fullName';
-import * as ssn from '../../common/schemaform/definitions/ssn';
+import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import fullNameUISchema from '../../common/schemaform/definitions/fullName';
+import ssnUI from '../../common/schemaform/definitions/ssn';
 
 const {
   mothersMaidenName,
@@ -67,7 +67,8 @@ const {
   fullName,
   date,
   provider,
-  phone
+  phone,
+  ssn
 } = fullSchemaHca.definitions;
 
 const stateLabels = createUSAStateLabels(states);
@@ -121,7 +122,7 @@ const formConfig = {
             veteranDateOfBirth: {
               'ui:title': 'Date of birth'
             },
-            veteranSocialSecurityNumber: ssn.uiSchema,
+            veteranSocialSecurityNumber: ssnUI,
             'view:placeOfBirth': {
               'ui:title': 'Place of birth',
               cityOfBirth: {
@@ -140,7 +141,7 @@ const formConfig = {
             required: ['veteranDateOfBirth', 'veteranSocialSecurityNumber'],
             properties: {
               veteranDateOfBirth: date,
-              veteranSocialSecurityNumber: ssn.schema,
+              veteranSocialSecurityNumber: ssn.oneOf[0],
               'view:placeOfBirth': {
                 type: 'object',
                 properties: {
@@ -225,7 +226,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              address: _.merge(address.schema(true), {
+              address: _.merge(address.schema(fullSchemaHca, true), {
                 properties: {
                   street: {
                     minLength: 1,
@@ -313,7 +314,7 @@ const formConfig = {
               'ui:help': 'Medicare is a social insurance program administered by the United States government, providing health insurance coverage to people aged 65 and over or who meet special criteria.'
             },
             medicarePartAEffectiveDate: _.merge(
-              dateUI('What is your Medicare Part A effective date?'), {
+              currentOrPastDateUI('What is your Medicare Part A effective date?'), {
                 'ui:required': (formData) => formData.isEnrolledMedicarePartA,
                 'ui:options': {
                   expandUnder: 'isEnrolledMedicarePartA'
@@ -500,8 +501,8 @@ const formConfig = {
             },
             // TODO: this should really be a dateRange, but that requires a backend schema change. For now
             // leaving them as dates, but should change these to get the proper dateRange validation
-            lastEntryDate: dateUI('Start of service period'),
-            lastDischargeDate: dateUI('Date of discharge'),
+            lastEntryDate: currentOrPastDateUI('Start of service period'),
+            lastDischargeDate: currentOrPastDateUI('Date of discharge'),
             dischargeType: {
               'ui:title': 'Character of discharge',
               'ui:options': {

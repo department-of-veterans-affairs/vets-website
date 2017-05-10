@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import * as dateRange from '../../common/schemaform/definitions/dateRange';
+import dateRangeUI from '../../common/schemaform/definitions/dateRange';
 import ServicePeriodView from '../components/ServicePeriodView';
 
 /**
@@ -10,7 +10,7 @@ import ServicePeriodView from '../components/ServicePeriodView';
  * Note: The order in which the names are in the array will affect the order
  *  they will appear in the form.
  */
-export function schema(userOptions) {
+export function schema(currentSchema, userOptions) {
   const options = _.assign({
     fields: ['serviceBranch', 'dateRange'],
     required: []
@@ -25,7 +25,7 @@ export function schema(userOptions) {
     serviceBranch: {
       type: 'string'
     },
-    dateRange: _.assign(dateRange.schema, {
+    dateRange: _.assign(currentSchema.definitions.dateRange, {
       required: dateRangeRequiredFields
     }),
     serviceStatus: {
@@ -61,7 +61,7 @@ export const uiSchema = {
     serviceBranch: {
       'ui:title': 'Branch of service'
     },
-    dateRange: dateRange.uiSchema(
+    dateRange: dateRangeUI(
       'Start of service period',
       'End of service period',
       'End of service must be after start of service'
