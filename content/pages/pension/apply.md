@@ -4,16 +4,16 @@ title: Application Process
 concurrence: "" 
 template: 1-topic-landing
 relatedlinks:
-  - url: /pensions/eligibility/
+  - url: /pension/eligibility/
     title: Eligibility
     description: Find out if you can get monthly payments through our Veterans Pension program.
-  - url: /pensions/rates/
+  - url: /pension/rates/
     title: Veterans Pension Rates
     description: Find out how much you qualify for.
-  - url: /pensions/survivors-pensions/
+  - url: /pension/survivors-pension/
     title: Survivors Pension
     description: Find out if you can get monthly payments as an unmarried surviving spouse or unmarried child of a deceased Veteran with wartime service.
-  - url: /pensions/pension-management-center/
+  - url: /pension/pension-management-center/
     title: Pension Management Centers
     description: Find the location that serves you and your family. 
 
@@ -27,7 +27,7 @@ You can apply in person or by mail for VA pension benefits. Follow these 2 steps
 
 ### Prepare
 
-- Find out if you qualify. [Check your eligibility](/pensions/eligibility/).
+- Find out if you qualify. [Check your eligibility](/pension/eligibility/).
 - Gather the documents listed below that you’ll need to fill out your pension application.
 
 **What documents and information do I need to apply?**
@@ -46,9 +46,9 @@ You can apply in 1 of 3 ways:
 
 Fill out Form 21P-527EZ (Application for Pension). [Download Form 21P-527EZ](https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf). 
 
-Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/pensions/pension-management-center/).
+Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/).
 
-[Find out how to apply for the Survivors Pension program](/pensions/survivors-pensions/).
+[Find out how to apply for the Survivors Pension program](/pension/survivors-pension/).
 
 **Work with a trained professional**
 

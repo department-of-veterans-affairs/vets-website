@@ -4,16 +4,16 @@ title: Survivors Pension Rate Tables
 concurrence: "" 
 template: 1-topic-landing
 relatedlinks:
-  - url: /pensions/eligibility/
+  - url: /pension/eligibility/
     title: Eligibility
     description: Find out if you can get monthly payments through our Survivors Pension program.
-  - url: /pensions/apply/
+  - url: /pension/apply/
     title: Apply
     description: Learn about the application process and apply for pension benefits.
-  - url: /pensions/survivors-pensions/
+  - url: /pension/survivors-pension/
     title: Survivors Pension
     description: Find out if you can get monthly payments as a surviving spouse. 
-  - url: /pensions/pension-management-center/
+  - url: /pension/pension-management-center/
     title: Pension Management Centers
     description: Find the location that serves you and your family. 
 ---

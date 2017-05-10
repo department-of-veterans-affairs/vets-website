@@ -4,10 +4,10 @@ title: Survivors Pension
 concurrence: "" 
 template: 1-topic-landing
 relatedlinks: 
-  - url: /pensions/survivors-pensions/rates/
+  - url: /pension/survivors-pension/rates/
     title: Survivors Pension Rates
     description: Find out how much you qualify for.
-  - url: /pensions/pension-management-center/
+  - url: /pension/pension-management-center/
     title: Pension Management Centers
     description: Find the location that serves you and your family. 
     
@@ -46,7 +46,7 @@ You may be able to get this benefit if you’re:
 
 Fill out the Application for DIC, Death Pension, and/or Accrued Benefits (VA Form 21P-534EZ). [Download VA Form 21P-534EZ](http://vbaw.vba.va.gov/bl/20/cio/20s5/forms/VBA-21P-534EZ-ARE.pdf). 
 
-Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/pensions/pension-management-center/). 
+Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/pension/pension-management-center/). 
 
 ### Other ways to apply
 

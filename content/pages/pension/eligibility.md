@@ -4,16 +4,16 @@ title: Eligibility
 concurrence: ""
 template: 1-topic-landing
 relatedlinks:
-  - url: /pensions/apply/
+  - url: /pension/apply/
     title: Apply
     description: Learn about the application process and apply for pension benefits.
-  - url: /pensions/rates/
+  - url: /pension/rates/
     title: Veterans Pension Rates
     description: Find out how much you may qualify for.
-  - url: /pensions/survivors-pensions/
+  - url: /pension/survivors-pension/
     title: Survivors Pension
     description: Find out if you can get monthly payments as an unmarried surviving spouse or unmarried child of a deceased Veteran with wartime service
-  - url: /pensions/pension-management-center/
+  - url: /pension/pension-management-center/
     title: Pension Management Centers
     description: Find the location that serves you and your family. 
 
@@ -36,7 +36,7 @@ You may be able to get pension benefits if:
 
 **And:**
 
-- Your yearly family income and net worth meets certain limits set by Congress. Your net worth equals the value of everything you own (like your house and any stocks), plus your income minus any debt you owe. [(Find out about income limits)](/pensions/rates/).
+- Your yearly family income and net worth meets certain limits set by Congress. Your net worth equals the value of everything you own (like your house and any stocks), plus your income minus any debt you owe. [(Find out about income limits)](/pension/rates/).
 
 **And at least 1 of these is true:**
 
@@ -49,12 +49,12 @@ You may be able to get pension benefits if:
 
 Veterans
 
-If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. [Learn more about the Survivors Pension program](/pensions/survivors-pensions/).
+If you’re an unmarried surviving spouse or an unmarried child of a deceased Veteran with wartime service, please check our Survivors Pension page to see if you qualify for pension benefits. [Learn more about the Survivors Pension program](/pension/survivors-pension/).
 
 </div>
 
 ### Ready to apply?
 
-[Learn about the application process](/pensions/apply/). 
+[Learn about the application process](/pension/apply/). 
 
 <a class=“usa-button-primary” href="http://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf">Download VA Form 21P-527EZ</a>.

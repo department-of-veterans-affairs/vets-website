@@ -4,16 +4,16 @@ title: Find a Pension Management Center
 concurrence: "" 
 template: 1-topic-landing
 relatedlinks:
-  - url: /pensions/eligibility/
+  - url: /pension/eligibility/
     title: Eligibility
     description: Find out if you can get monthly payments through our Veterans Pension program.
-  - url: /pensions/apply/
+  - url: /pension/apply/
     title: Application Process
     description: Learn about the application process and apply for pension benefits.
-  - url: /pensions/survivors-pensions/
+  - url: /pension/survivors-pension/
     title: Survivors Pension
     description: Find out if you can get monthly payments as a surviving spouse who’s not remarried, or as an unmarried child.
-  - url: /pensions/rates/
+  - url: /pension/rates/
     title: Veterans Pension Rates 
     description: Find out how much you qualify for.     
 ---
