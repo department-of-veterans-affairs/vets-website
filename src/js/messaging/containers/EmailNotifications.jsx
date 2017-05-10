@@ -3,17 +3,23 @@ import { connect } from 'react-redux';
 
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+import { makeField } from '../../common/model/fields';
+
+import {
+  fetchPreferences,
+  savePreferences,
+  setNotificationEmail,
+  setNotificationFrequency
+} from '../actions';
 
 export class EmailNotifications extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-    this.state = {
-      notifications: 'on',
-      frequency: 'each',
-      email: 'brian.williams@gmail.com'
-    };
+  componentDidMount() {
+    this.props.fetchPreferences();
   }
 
   handleSubmit(e) {
@@ -21,6 +27,10 @@ export class EmailNotifications extends React.Component {
   }
 
   render() {
+    const { email, frequency } = this.props;
+    const isNotified = ['each_message', 'daily'].includes(frequency.value);
+    const isSaveable = email.dirty || frequency.dirty;
+
     return (
       <div className="va-tab-content">
         <div>
@@ -34,20 +44,22 @@ export class EmailNotifications extends React.Component {
                   id="notifications-on"
                   type="radio"
                   value="on"
-                  checked={this.state.notifications === 'on'}
-                  onChange={() => this.setState({ notifications: 'on' })}/>
+                  checked={isNotified}
+                  onChange={() => this.props.setNotificationFrequency(
+                    makeField('each_message', true)
+                  )}/>
               <label htmlFor="notifications-on">On</label>
               {
-                this.state.notifications === 'on' && <div className="form-expanding-group-open">
+                isNotified && <div className="form-expanding-group-open">
                   <ErrorableRadioButtons
                       name="frequency"
                       label=""
                       options={[
-                        { label: 'Each message', value: 'each' },
+                        { label: 'Each message', value: 'each_message' },
                         { label: 'Once a day', value: 'daily' }
                       ]}
-                      onValueChange={v => this.setState({ frequency: v.value })}
-                      value={{ value: this.state.frequency }}/>
+                      onValueChange={v => this.props.setNotificationFrequency(v)}
+                      value={frequency}/>
                 </div>
               }
             </div>
@@ -56,25 +68,41 @@ export class EmailNotifications extends React.Component {
                   id="notifications-off"
                   type="radio"
                   value="off"
-                  checked={this.state.notifications === 'off'}
-                  onChange={() => this.setState({ notifications: 'off' })}/>
+                  checked={!isNotified}
+                  onChange={() => this.props.setNotificationFrequency('none')}/>
               <label htmlFor="notifications-off">Off</label>
             </div>
           </div>
           <ErrorableTextInput
               name="email"
               label="Send email notifications to:"
-              onValueChange={v => this.setState({ email: v.value })}
-              field={{ value: this.state.email }}/>
-          <button className="msg-btn-notifications">
-            Save changes
-          </button>
+              onValueChange={v => this.props.setNotificationEmail(v)}
+              field={email}/>
+          <div className="msg-notifications-save">
+            <button disabled={!isSaveable}>Save changes</button>
+            {
+              isSaveable &&
+              (<button className="usa-button-outline">
+                Cancel
+              </button>)
+            }
+          </div>
         </form>
       </div>
     );
   }
 }
 
-const mapDispatchToProps = {};
+const mapStateToProps = (state) => {
+  const msgState = state.health.msg;
+  return msgState.preferences;
+};
 
-export default connect(null, mapDispatchToProps)(EmailNotifications);
+const mapDispatchToProps = {
+  fetchPreferences,
+  savePreferences,
+  setNotificationEmail,
+  setNotificationFrequency
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EmailNotifications);
