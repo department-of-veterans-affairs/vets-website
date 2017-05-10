@@ -71,7 +71,11 @@ Yes. Being signed up for VA health care meets your Affordable Care Act health co
 
 **Note:** It's always a good idea to let your VA doctor know if you’re receiving care outside VA. This helps your provider coordinate your care to help keep you safe and make sure you’re getting care that’s proven to work and that meets your specific needs.
 
+<br>
+
 ### More about how VA health care works with Medicare and other insurance
+
+<br>
 
 #### Should I give up my private health insurance or other insurance (like TRICARE or Medicare) if I'm accepted into the VA health care program? 
 
@@ -111,8 +115,8 @@ We may also accept reimbursement from HRAs for care we provide to treat your non
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
 **Already signed up?** Manage your VA health and benefits online: 
-[Refill your prescriptions](/healthcare/prescriptions/). 
-[Send a message to your VA health care provider](/healthcare/messaging/). 
+[Refill your prescriptions](/healthcare/prescriptions/). <br />
+[Send a message to your VA health care provider](/healthcare/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/).
 
 **Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
