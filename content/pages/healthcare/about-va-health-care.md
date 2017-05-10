@@ -62,7 +62,20 @@ You should also know that being signed up for VA health care meets your Affordab
 
 ### More about your medical benefits package
 
-#### What basic health care services does VA cover? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+**Jump to a section:**
+
+- [What basic health care services does VA cover?](#health-about-basic)
+- [What other medical services will VA cover to support my treatment?](#health-about-other-services)
+- [Will VA cover any non-medical services to support my treatment?](#health-about-non-medical)
+- [Will VA cover my vision care?](#health-about-vision)
+- [Will VA cover my dental care?](#health-about-dental)
+- [What services are *not* covered under VA health care?](#health-about-not-covered)
+
+<br>
+
+<span id="health-about-basic">
+
+#### What basic health care services does VA cover?
 
 - Preventive care services, like:
   - Health exams (including gender-specific exams)
@@ -83,7 +96,9 @@ You should also know that being signed up for VA health care meets your Affordab
 
 <br>
 
-#### What other medical services will VA cover to support my treatment?  [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+<span id="health-about-other-services">
+
+#### What other medical services will VA cover to support my treatment?
 
 We may cover services that your VA primary care provider concludes you need to support your treatment (called ancillary services), like:
 
@@ -93,7 +108,9 @@ We may cover services that your VA primary care provider concludes you need to s
  
 <br>
 
-#### Will VA cover any non-medical services to support my treatment?  [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+<span id="health-about-non-medical">
+
+#### Will VA cover any non-medical services to support my treatment?
 
 You may be able to get help with some non-medical services, like:
 
@@ -103,19 +120,25 @@ You may be able to get help with some non-medical services, like:
 
 <br>
 
-#### Will VA cover my vision care?  [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+<span id="health-about-vision">
+
+#### Will VA cover my vision care?
 
 We cover routine eye exams and preventive tests. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. [Learn more about vision care through VA](/healthcare/about-va-health-care/vision-care/).
 
 <br>
 
-#### Will VA cover my dental care?  [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+<span id="health-about-dental">
+
+#### Will VA cover my dental care?
 
 In certain cases, you may receive dental care as part of your VA health benefits. [Find out if you can get dental care through VA](/healthcare/about-va-health-care/dental-care/).
 
 <br>
 
-#### What services are *not* covered under VA health care?  [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
+<span id="health-about-not-covered">
+
+#### What services are *not* covered under VA health care?
 
 These services are *not* included in your VA medical benefits package:
 
