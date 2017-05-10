@@ -4,6 +4,8 @@ import Scroll from 'react-scroll';
 import FormNav from './FormNav';
 import FormTitle from './FormTitle';
 
+import { isInProgress } from '../utils/helpers';
+
 const Element = Scroll.Element;
 
 /*
@@ -25,11 +27,9 @@ export default class FormApp extends React.Component {
   onbeforeunload = e => {
     const { currentLocation } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
-    const isIntroductionPage = trimmedPathname.endsWith('introduction');
-    const isConfirmationPage = trimmedPathname.endsWith('confirmation');
 
     let message;
-    if (!(isIntroductionPage || isConfirmationPage)) {
+    if (isInProgress(trimmedPathname)) {
       message = 'Are you sure you wish to leave this application? All progress will be lost.';
       // Chrome requires this to be set
       e.returnValue = message;     // eslint-disable-line no-param-reassign
@@ -45,10 +45,9 @@ export default class FormApp extends React.Component {
     const { currentLocation, formConfig, children } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const isIntroductionPage = trimmedPathname.endsWith('introduction');
-    const isConfirmationPage = trimmedPathname.endsWith('confirmation');
 
     let content;
-    if (isIntroductionPage || isConfirmationPage) {
+    if (!isInProgress(trimmedPathname)) {
       content = children;
     } else {
       content = (

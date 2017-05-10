@@ -22,7 +22,7 @@ import RoutesDropdown from '../components/debug/RoutesDropdown';
 import { isValidPage, isValidForm } from '../utils/validations';
 import { ensurePageInitialized, updateCompletedStatus, submitForm, veteranUpdateField, setAttemptedSubmit } from '../actions/index';
 
-import { getScrollOptions } from '../../../common/utils/helpers';
+import { getScrollOptions, isInProgress } from '../../../common/utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -59,10 +59,9 @@ class EduBenefitsApp extends React.Component {
   onbeforeunload(e) {
     const { currentLocation } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
-    const isIntroductionPage = trimmedPathname.endsWith('introduction');
-    const isConfirmationPage = trimmedPathname.endsWith('confirmation');
+
     let message;
-    if (!(isIntroductionPage || isConfirmationPage)) {
+    if (isInProgress(trimmedPathname)) {
       message = 'Are you sure you wish to leave this application? All progress will be lost.';
       // Chrome requires this to be set
       e.returnValue = message;     // eslint-disable-line no-param-reassign
@@ -82,8 +81,7 @@ class EduBenefitsApp extends React.Component {
     };
 
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
-    const endpoint = trimmedPathname.split('/').pop();
-    const isIntroductionPage = endpoint === 'introduction';
+    const isIntroductionPage = trimmedPathname.endsWith('introduction');
 
     // Until we come up with a common code base between this and the schemaform
     //  forms, the following is borrowed from NavHeader
