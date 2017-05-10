@@ -20,7 +20,7 @@ relatedlinks:
     description: 1945—1991
   - url: /healthcare/health-conditions/conditions-related-to-service-era/vietnam-war/
     title: Vietnam War
-    description: Nov. 1, 1965-April 30, 1975
+    description: Nov. 1, 1965—April 30, 1975
   - url: /healthcare/health-conditions/conditions-related-to-service-era/korean-war/
     title: Korean War
     description: June 25, 1950—July 27, 1953
