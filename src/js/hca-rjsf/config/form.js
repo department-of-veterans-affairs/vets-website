@@ -112,7 +112,7 @@ const formConfig = {
     fullName,
     ssn: ssnSchema,
     phone,
-    child: childSchema,
+    child: childSchema(fullSchemaHca),
     monetaryValue,
   },
   chapters: {

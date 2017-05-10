@@ -1,33 +1,34 @@
 import _ from 'lodash/fp';
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { uiSchema as fullNameUI } from '../../common/schemaform/definitions/fullName';
 import { uiSchema as ssnUI } from '../../common/schemaform/definitions/ssn';
 
 
-export const schema = _.merge(_.omit(
-    // Seems we don't need these properties...
-    ['properties.grossIncome', 'properties.netIncome', 'properties.otherIncome'],
-    fullSchemaHca.definitions.child
-  ), {
-    required: [
-      'childRelation',
-      'childSocialSecurityNumber',
-      'childDateOfBirth',
-      'childBecameDependent',
-      'childEducationExpenses'
-    ],
-    properties: {
-      'view:childSupportDescription': {
-        type: 'object',
-        properties: {}
-      },
-      childRelation: {
-        // Missing in the schema
-        type: 'string'
+export const schema = (hcaSchema) => {
+  return _.merge(_.omit(
+      // Seems we don't need these properties...
+      ['properties.grossIncome', 'properties.netIncome', 'properties.otherIncome'],
+      hcaSchema.definitions.child
+    ), {
+      required: [
+        'childRelation',
+        'childSocialSecurityNumber',
+        'childDateOfBirth',
+        'childBecameDependent',
+        'childEducationExpenses'
+      ],
+      properties: {
+        'view:childSupportDescription': {
+          type: 'object',
+          properties: {}
+        },
+        childRelation: {
+          // Missing in the schema
+          type: 'string'
+        }
       }
     }
-  }
-);
+  );
+};
 
 export const uiSchema = {
   'ui:order': [
