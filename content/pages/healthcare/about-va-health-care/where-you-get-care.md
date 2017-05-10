@@ -104,7 +104,7 @@ Yes, we may be able to help with travel expenses if you need to travel for care.
 
 ------
 
-#### Get more information:
+#### Get more information
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
