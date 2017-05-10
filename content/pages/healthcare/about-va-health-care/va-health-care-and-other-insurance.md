@@ -71,7 +71,7 @@ Yes. Being signed up for VA health care meets your Affordable Care Act health co
 
 **Note:** It's always a good idea to let your VA doctor know if you’re receiving care outside VA. This helps your provider coordinate your care to help keep you safe and make sure you’re getting care that’s proven to work and that meets your specific needs.
 
-### Learn more about how VA health care works with Medicare and other insurance:
+### More about how VA health care works with Medicare and other insurance
 
 #### Should I give up my private health insurance or other insurance (like TRICARE or Medicare) if I'm accepted into the VA health care program? 
 
