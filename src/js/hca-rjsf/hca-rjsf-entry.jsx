@@ -11,8 +11,7 @@ import route from './routes';
 import reducer from './reducer';
 
 require('../common');
-require('../../sass/hca.scss');
-require('../../sass/edu-benefits.scss');
+require('../../sass/hca-rjsf.scss');
 
 require('../login/login-entry.jsx');
 

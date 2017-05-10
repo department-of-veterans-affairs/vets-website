@@ -77,7 +77,10 @@ class EduBenefitsApp extends React.Component {
       submitBenefitsForm(this.props.data);
     };
 
-    const endpoint = currentLocation.pathname.split('/').pop();
+    const pathList = currentLocation.pathname.split('/');
+    let endpoint = pathList.pop();
+    endpoint = (endpoint.length) ? endpoint : pathList.pop();
+    const isIntroductionPage = endpoint === 'introduction';
 
     // Until we come up with a common code base between this and the schemaform
     //  forms, the following is borrowed from NavHeader
@@ -120,9 +123,9 @@ class EduBenefitsApp extends React.Component {
         {devPanel}
         <Element name="topScrollElement"/>
         <div className="usa-width-two-thirds medium-8 columns">
-          <FormTitle title="Apply for education benefits"/>
+          {!isIntroductionPage && <FormTitle title="Apply for education benefits" subTitle="Form 22-1990"/>}
           <div>
-            {!_.includes(['introduction', 'submit-message'], endpoint) && <SegmentedProgressBar total={chapters.length} current={step}/>}
+            {!isIntroductionPage && <SegmentedProgressBar total={chapters.length} current={step}/>}
             <div className="schemaform-chapter-progress">
               <NavHeader path={currentLocation.pathname} chapters={chapters} className="nav-header-schemaform"/>
             </div>
