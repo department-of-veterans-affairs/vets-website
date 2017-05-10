@@ -132,7 +132,9 @@ export class EmailNotifications extends React.Component {
           <ErrorableTextInput
               name="emailAddress"
               label="Send email notifications to:"
-              onValueChange={v => this.props.setNotificationEmail(v)}
+              onValueChange={({ value }) =>
+                this.props.setNotificationEmail({ value, dirty: true })
+              }
               field={emailAddress}/>
           {this.renderSaveButtons()}
         </form>
