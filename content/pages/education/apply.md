@@ -55,7 +55,7 @@ Apply online with Form 22-1990, 22-1990E, 22-1990N, or 22-5490:
           <input type="radio" name="form-selection" id="form-22-1990" value="1990">
           <label for="form-22-1990">Veterans or Servicemembers applying for a <strong>new benefit</strong> (22-1990)</label>
           <input type="radio" name="form-selection" id="form-22-1990n" value="1990n">
-          <label for="form-22-1990n">Veterans or Servicemembers applying for educations <strong>benefit through the National Call to Service program</strong> (22-1990N)<br><em>This is very rare</em></label>
+          <label for="form-22-1990n">Veterans or Servicemembers applying <strong>for education benefit through the National Call to Service program</strong> (22-1990N)<br><em>This is very rare</em></label>
           <input type="radio" name="form-selection" id="form-22-1990e" value="1990e">
           <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
           <input type="radio" name="form-selection" id="form-22-5490-1" value="5490">
