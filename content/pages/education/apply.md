@@ -53,9 +53,9 @@ Apply online with Form 22-1990, 22-1990E, 22-1990N, or 22-5490:
         <div>Which form do you want to use?</div>
         <div class="form-radio-buttons">
           <input type="radio" name="form-selection" id="form-22-1990" value="1990">
-          <label for="form-22-1990">Veterans or Servicemembers applying for a <strong>new benefit</strong> (22-1990)</label>
+          <label for="form-22-1990">Veterans or Servicemembers applying <strong>for a new benefit</strong> (22-1990)</label>
           <input type="radio" name="form-selection" id="form-22-1990n" value="1990n">
-          <label for="form-22-1990n">Veterans or Servicemembers applying <strong>for education benefit through the National Call to Service program</strong> (22-1990N)<br><em>This is very rare</em></label>
+          <label for="form-22-1990n">Veterans or Servicemembers applying <strong>for a new benefit through the National Call to Service program</strong> (22-1990N)<br><em>This is very rare</em></label>
           <input type="radio" name="form-selection" id="form-22-1990e" value="1990e">
           <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
           <input type="radio" name="form-selection" id="form-22-5490-1" value="5490">
@@ -74,7 +74,7 @@ Apply online with Form 22-1990, 22-1990E, 22-1990N, or 22-5490:
 If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995 or Form 22-5495:
 
 <div class="expander-container">
-  <button class="usa-button-primary va-button-primary expander-button">Manage benefits</button>
+  <button class="usa-button-primary va-button-primary expander-button">Manage Benefits</button>
 
   <p>
     <div class="form-expanding-group-open expander-content expander-content-closed">
@@ -91,24 +91,6 @@ If you need to make a change (for example, you’re moving to a new school), man
     </div>
   </p>
 </div>
-<div class="usa-alert usa-alert-warning usa-content va-alert" markdown="1">
-	<div class="usa-alert-body">
-
-##### Forms 22-1990N and 22-5495
-
-You must apply for education benefits using eBenefits if you're:
-- A dependent, **moving their benefit**, whose sponsor is permanently and totally disabled
-- A dependent, **moving their benefit**, whose sponsor is deceased, MIA, or a POW
-- A candidate for the National Call to Service program applying for a new benefit
-
-<div markdown="0">
-	<a class="usa-button-primary usa-button-outline usa-button-outline-exit transparent" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
-</div>
-</div>
-</div>
-<br>
-
-<div markdown="0"><br></div>
 
 ### Other ways to apply
 
