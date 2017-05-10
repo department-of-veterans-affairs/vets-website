@@ -114,7 +114,7 @@ We may also accept reimbursement from HRAs for care we provide to treat your non
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
-**Already signed up?** Manage your VA health and benefits online: 
+**Already signed up?** Manage your VA health and benefits online: <br />
 [Refill your prescriptions](/healthcare/prescriptions/). <br />
 [Send a message to your VA health care provider](/healthcare/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/).
