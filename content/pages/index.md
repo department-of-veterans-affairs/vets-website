@@ -23,14 +23,16 @@ majorlinks:
       description: Get help planning a burial or memorial service, and find out how to get survivor and dependent benefits.
 ---
 <div class="homepage-hero">
-  <div class="homepage-hero-image usa-grid"> 
-    <div class="homepage-hero-title">Get the VA services you’ve earned.</div>
+  <div class="homepage-hero-image usa-grid">
+    <!-- Keep the white space here in order to force a line break. --> 
+    <div class="homepage-hero-title">Get the VA services
+you’ve earned.</div>
   </div>
 </div>
 
 <div class="popular-container usa-grid-full">
 <h3>Get started with Vets.gov</h3>
-<div class="va-flex">   
+<div class="popular-container-links">   
   <a href="/healthcare/apply/" class="usa-button usa-button-outline">
     Apply for health care
   </a>
