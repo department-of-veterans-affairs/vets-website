@@ -21,7 +21,7 @@ import {
 
 import {
   survivorBenefitsLabels
-} from '../../utils/helpers';
+} from '../../utils/labels';
 
 const {
   benefit,

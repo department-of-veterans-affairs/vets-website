@@ -16,7 +16,7 @@ import {
 import {
   stateLabels,
   survivorBenefitsLabels
-} from '../../utils/helpers';
+} from '../../utils/labels';
 
 import {
   validateDate,

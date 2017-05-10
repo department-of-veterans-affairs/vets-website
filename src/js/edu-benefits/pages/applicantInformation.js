@@ -4,7 +4,8 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 
-import { relationshipLabels, genderLabels } from '../utils/helpers';
+import { relationshipLabels, genderLabels } from '../utils/labels';
+
 
 const defaults = (prefix) => {
   return {
