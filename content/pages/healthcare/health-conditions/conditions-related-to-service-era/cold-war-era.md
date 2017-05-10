@@ -17,7 +17,7 @@ relatedlinks:
     description: August 2, 1990—present
   - url: /healthcare/health-conditions/conditions-related-to-service-era/vietnam-war/
     title: Vietnam War
-    description: Nov. 1, 1965-April 30, 1975
+    description: Nov. 1, 1965—April 30, 1975
   - url: /healthcare/health-conditions/conditions-related-to-service-era/korean-war/
     title: Korean War
     description: June 25, 1950—July 27, 1953
@@ -59,19 +59,19 @@ You may also be at risk of illnesses caused by contact with hazards found in cer
 Take the steps to make sure you’re taking care of your health:
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator](https://www.publichealth.va.gov/exposures/coordinators.asp). 
 
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 
 Ask your local VA environmental health coordinator about getting a free Ionizing Radiation Registry health exam. [Learn more about the exam](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp).
 
 </li>
 
-<li class="step last three">
+<li class="process-step list-three">
 
 Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition caused or made worse by your active-duty service. [See if you qualify for disability benefits due to contact with toxic chemicals or other hazardous materials](/disability-benefits/conditions/exposure-to-hazardous-materials/). 
 
@@ -79,6 +79,8 @@ Find out if you can get disability compensation (monthly payments) and other ben
 </ol>
 
 ------
+
+#### Get more information
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
