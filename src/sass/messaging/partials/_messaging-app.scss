@@ -9,12 +9,14 @@
 
 
 #messaging-app-header {
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     padding: 0 1.5rem;
   }
 
-  .va-alert {
-    margin: 0 0 1.5rem;
+  @include media($medium-screen) {
+    .va-alert {
+      margin: 0 0 1.5rem;
+    }
   }
 }
 
