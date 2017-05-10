@@ -11,9 +11,10 @@ import {
 import { LOG_OUT } from '../../common/actions';
 
 const initialState = {
-  currentlyLoggedIn: true,
+  currentlyLoggedIn: false,
   loginUrl: null,
   verifyUrl: null,
+  logoutUrl: null,
   utilitiesMenuIsOpen: {
     search: false,
     help: false,

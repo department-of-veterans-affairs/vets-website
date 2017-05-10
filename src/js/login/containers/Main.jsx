@@ -89,7 +89,7 @@ class Main extends React.Component {
 
   handleLogin() {
     window.dataLayer.push({ event: 'login-link-clicked' });
-    const myLoginUrl = this.props.loginUrl;
+    const myLoginUrl = this.props.login.loginUrl;
     if (myLoginUrl) {
       window.dataLayer.push({ event: 'login-link-opened' });
       const receiver = window.open(`${myLoginUrl}&op=signin`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
@@ -100,7 +100,7 @@ class Main extends React.Component {
 
   handleSignup() {
     window.dataLayer.push({ event: 'register-link-clicked' });
-    const myLoginUrl = this.props.loginUrl;
+    const myLoginUrl = this.props.login.loginUrl;
     if (myLoginUrl) {
       window.dataLayer.push({ event: 'register-link-opened' });
       const receiver = window.open(`${myLoginUrl}&op=signup`, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
@@ -110,7 +110,7 @@ class Main extends React.Component {
 
   handleLogout() {
     window.dataLayer.push({ event: 'logout-link-clicked' });
-    const myLogoutUrl = this.props.logoutUrl;
+    const myLogoutUrl = this.props.login.logoutUrl;
     if (myLogoutUrl) {
       window.dataLayer.push({ event: 'logout-link-opened' });
       const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
@@ -150,9 +150,7 @@ class Main extends React.Component {
 const mapStateToProps = (state) => {
   const userState = state.user;
   return {
-    loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifyUrl,
-    logoutUrl: userState.login.logoutUrl,
+    login: userState.login,
     profile: userState.profile
   };
 };
