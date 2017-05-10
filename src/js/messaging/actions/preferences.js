@@ -22,7 +22,7 @@ export function fetchPreferences() {
       null,
       data => dispatch({
         type: FETCH_PREFERENCES_SUCCESS,
-        preferences: data.attributes
+        preferences: data.data.attributes
       }),
       () => dispatch({ type: FETCH_PREFERENCES_FAILURE })
     );
