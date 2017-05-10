@@ -31,7 +31,7 @@ export function fetchPreferences() {
 
 export function savePreferences(preferences) {
   const settings = {
-    method: 'POST',
+    method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(preferences)
   };

@@ -24,6 +24,11 @@ export class EmailNotifications extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    const {
+      emailAddress: { value: emailAddress },
+      frequency: { value: frequency }
+    } = this.props;
+    this.props.savePreferences({ emailAddress, frequency });
   }
 
   render() {
