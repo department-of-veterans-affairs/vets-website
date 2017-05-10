@@ -4,6 +4,7 @@ import {
   UPDATE_LOGGEDIN_STATUS,
   UPDATE_LOGIN_URL,
   UPDATE_VERIFY_URL,
+  UPDATE_LOGOUT_URL,
   UPDATE_SEARCH_HELP_USER_MENU
 } from '../actions';
 
@@ -41,6 +42,9 @@ function loginStuff(state = initialState, action) {
 
     case UPDATE_VERIFY_URL:
       return _.set('verifyUrl', action.value, state);
+
+    case UPDATE_LOGOUT_URL:
+      return _.set('logoutUrl', action.value, state);
 
     case LOG_OUT:
       return _.set('currentlyLoggedIn', false, state);

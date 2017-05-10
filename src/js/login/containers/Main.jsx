@@ -5,7 +5,7 @@ import moment from 'moment';
 import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogInUrl, updateVerifyUrl } from '../actions';
+import { updateLoggedInStatus, updateLogInUrl, updateVerifyUrl, updateLogoutUrl } from '../actions';
 import { logOut } from '../../common/actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 
@@ -38,6 +38,7 @@ class Main extends React.Component {
   componentWillUnmount() {
     this.loginUrlRequest.abort();
     this.verifyUrlRequest.abort();
+    this.logoutUrlRequest.abort();
   }
 
   getLoginUrl() {
@@ -72,7 +73,7 @@ class Main extends React.Component {
   }
 
   getLogoutUrl() {
-    fetch(`${environment.API_URL}/v0/sessions`, {
+    this.logoutUrlRequest = fetch(`${environment.API_URL}/v0/sessions`, {
       method: 'DELETE',
       headers: new Headers({
         Authorization: `Token token=${sessionStorage.userToken}`
@@ -80,7 +81,7 @@ class Main extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      this.setState({ logoutUrl: json.logout_via_get });
+      this.props.onUpdateLogoutUrl(json.logout_via_get);
     }).catch(() => {
       // TODO: need UX for when URL is not available
     });
@@ -109,7 +110,7 @@ class Main extends React.Component {
 
   handleLogout() {
     window.dataLayer.push({ event: 'logout-link-clicked' });
-    const myLogoutUrl = this.state.logoutUrl;
+    const myLogoutUrl = this.props.logoutUrl;
     if (myLogoutUrl) {
       window.dataLayer.push({ event: 'logout-link-opened' });
       const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
@@ -150,7 +151,8 @@ const mapStateToProps = (state) => {
   const userState = state.user;
   return {
     loginUrl: userState.login.loginUrl,
-    verifyUrl: userState.login.verifUrl,
+    verifyUrl: userState.login.verifyUrl,
+    logoutUrl: userState.login.logoutUrl,
     profile: userState.profile
   };
 };
@@ -163,6 +165,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUpdateVerifyUrl: (update) => {
       dispatch(updateVerifyUrl(update));
+    },
+    onUpdateLogoutUrl: (update) => {
+      dispatch(updateLogoutUrl(update));
     },
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
