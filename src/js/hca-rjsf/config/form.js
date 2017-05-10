@@ -688,7 +688,7 @@ const formConfig = {
             'view:childrenIncome': {
               'ui:options': {
                 // Or should this be !formData.reportChildren?
-                hideIf: (formData) => _.get('children.length', formData) === 0
+                hideIf: (formData) => !_.get('children.length', formData)
               }
             }
           },
