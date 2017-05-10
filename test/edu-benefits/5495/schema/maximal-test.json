@@ -12,6 +12,7 @@
     "view:noSSN": true,
     "relativeSocialSecurityNumber": "213333212",
     "vaFileNumber": "12312313",
+    "relativeVaFileNumber": "99999999",
     "view:applicantServed": true,
     "toursOfDuty": [
       {

@@ -189,6 +189,6 @@
     "camelcase-keys-recursive": "^0.8.2",
     "react-autosuggest": "^8.0.0",
     "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d0e327cd0ee93a82988914778cc4342dbf013cb4"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#916ef2b374ed52aa6053a461045ed4acab5e5a88"
   }
 }

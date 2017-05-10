@@ -62,7 +62,7 @@ const formConfig = {
             'gender',
             'relativeSocialSecurityNumber',
             'view:noSSN',
-            'vaFileNumber'
+            'relativeVaFileNumber'
           ]
         }),
         applicantService: applicantServicePage()
