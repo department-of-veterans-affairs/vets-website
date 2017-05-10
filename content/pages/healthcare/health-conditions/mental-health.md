@@ -32,7 +32,7 @@ If you qualify for VA health care, you can get high-quality mental health servic
 <div class="usa-alert usa-alert-warning va-alert">
   <div class="usa-alert-body">
 	<h5>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h5>
-	<div id="apply-expander-content" class="expander-content expander-content-closed">
+	<div id="crisis-expander-content" class="expander-content expander-content-closed">
 	  <div class="expander-content-inner">
 	    <ul>
 	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">800-273-8255</a>, then press 1 to talk to someone now.</li>
@@ -136,13 +136,9 @@ You may still be able to get care:
 
 <script type="text/javascript">
 
-  function toggleClass(elementId, className) {
-    document.getElementById(elementId).classList.toggle(className);
-  }
-
   // Toggle the expandable crisis info
   document.getElementById('crisis-expander-link')
     .addEventListener('click', function () {
-      toggleClass('apply-expander-content', 'expander-content-closed');
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
     });
 </script>
