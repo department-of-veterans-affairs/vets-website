@@ -75,17 +75,17 @@ We also treat anxiety-related conditions, like:
 
 We provide mental health services such as:
 
-- Short-term, inpatient care for Veterans suffering from severe or life-threatening mental illness
-- Outpatient care for Veterans with serious mental illness who have a lot of trouble functioning in daily life
-- Regular outpatient care, which may include care provided over the phone, for Veterans facing a difficult time in their lives
-- Rehabilitation treatment and residential (live-in) programs for Veterans with mental health problems and other needs (like those related to homelessness, job training, and education) who would be best helped by getting treatment or living in a structured setting for a period of time
-- Primary care for many common mental and behavioral problems
-- Supported work settings to help Veterans join the work force and live well in the community 
+- **Short-term, inpatient care** for Veterans suffering from severe or life-threatening mental illness
+- **Outpatient care** for Veterans with serious mental illness who have a lot of trouble functioning in daily life
+- **Regular outpatient care**, which may include care provided over the phone, for Veterans facing a difficult time in their lives
+- **Rehabilitation treatment and residential (live-in) programs** for Veterans with mental health problems and other needs (like those related to homelessness, job training, and education) who would be best helped by getting treatment or living in a structured setting for a period of time
+- **Primary care** for many common mental and behavioral problems
+- **Supported work settings** to help Veterans join the work force and live well in the community 
 
 We also provide care to Veterans in crisis. This includes:
 
-- Emergency mental health care 24 hours a day, 7 days a week, through VA medical centers and some local, non-VA hospitals
-- The Veterans Crisis Line, which offers 24/7 support for Veterans in crisis and their families and friends
+- **Emergency mental health care** 24 hours a day, 7 days a week, through VA medical centers and some local, non-VA hospitals
+- **The Veterans Crisis Line**, which offers 24/7 support for Veterans in crisis and their families and friends
 
 All mental health care at VA supports recovery. Our goal is to help you take charge of your treatment and live a full and meaningful life. Our providers also receive training about military culture, gender differences, and ethnic issues so that we can better understand each Veteran. 
 
@@ -123,10 +123,14 @@ You may still be able to get care:
 **Please note:** If you don’t qualify for VA health care, you may still be able to get certain health care services (like care for issues linked to military sexual trauma). Call our general VA hotline at <a href="tel:+1phonenumber">800-827-1000</a> to find out what your care options may be.
 
 ------
+#### Get more information:
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
-**Already signed up?** [Manage your VA health and benefits](/healthcare/prescriptions/).
+**Already signed up?** Manage your VA health and benefits online: <br />
+[Refill your prescriptions](/healthcare/prescriptions/). <br /> 
+[Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
+[Check the status of a disability or pension claim](/track-claims/).
 
 **Recently returned from deployment?** [Get resources and support](http://www.mentalhealth.va.gov/returningservicevets.asp).
 

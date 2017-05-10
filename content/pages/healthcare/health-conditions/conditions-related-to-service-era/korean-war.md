@@ -20,7 +20,7 @@ relatedlinks:
     description: 1945—1991
   - url: /healthcare/health-conditions/conditions-related-to-service-era/vietnam-war/
     title: Vietnam War
-    description: Nov. 1, 1965-April 30, 1975
+    description: Nov. 1, 1965—April 30, 1975
   - url: /healthcare/health-conditions/conditions-related-to-service-era/world-war-ii/
     title: World War II
     description: Sept. 1, 1939—Sept. 2, 1945
@@ -38,7 +38,7 @@ If you served during the Korean War—from June 25, 1950 to July 27, 1953—you 
 
 You may be at risk of illnesses or injuries caused by:
 
-- **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp):** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness in the fingers and toes) caused by the effects of cold, mountainous climates. You’re at higher risk if you served in the Chosin Reservoir Campaign, conducted from October 1950 through December 1950 in extreme subzero temperatures.
+- **[Extreme cold](http://www.publichealth.va.gov/exposures/cold-injuries/index.asp):** Health problems (like skin cancer in frostbite scars or pain, tingling, or numbness in the fingers and toes) caused by the effects of cold climates. You’re at higher risk if you served in the Chosin Reservoir Campaign, conducted from October 1950 through December 1950 in extreme subzero temperatures.
 - **[Occupational (job-related) hazards](http://www.publichealth.va.gov/exposures/categories/occupational-hazards.asp):** Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job
 - **[Noise](http://www.publichealth.va.gov/exposures/noise/index.asp):** Harmful sounds from guns, explosives, rockets, heavy weapons, jets and aircraft, and machinery that can cause or contribute to hearing loss and tinnitus (ringing in the ears)
 
@@ -49,13 +49,13 @@ You may be at risk of illnesses or injuries caused by:
 Take the steps to make sure you’re taking care of your health:
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 Talk to your primary health care provider or your local VA environmental health coordinator about other health concerns related to your military service. [Find your local VA environmental health coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp).
 
 </li>
 
-<li class="step last two">
+<li class="process-step list-two">
 
 Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition caused or made worse by your active-duty service. [Learn more about disability benefits](/disability-benefits/).
 
@@ -63,6 +63,8 @@ Find out if you can get disability compensation (monthly payments) and other ben
 </ol>
 
 ------
+
+#### Get more information
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 

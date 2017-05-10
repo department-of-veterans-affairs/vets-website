@@ -153,7 +153,7 @@ These services are *not* included in your VA medical benefits package:
 
 ------
 
-#### Get more information:
+#### Get more information
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 

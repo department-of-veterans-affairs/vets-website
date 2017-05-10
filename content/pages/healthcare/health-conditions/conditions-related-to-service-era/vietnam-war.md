@@ -50,19 +50,19 @@ You may be at risk of:
 Take the steps to make sure you’re taking care of your health:
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 Talk to your primary health care provider or your local VA environmental health coordinator about other health concerns related to your military service. [Find your local VA environmental health coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp).
 
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 
 Ask your local VA environmental health coordinator about getting a free Agent Orange Registry health exam. [Learn more about the exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
 
 </li>
 
-<li class="step last two">
+<li class="process-step list-three">
 
 Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition caused or made worse by your active-duty service. 
 <br />
@@ -74,6 +74,8 @@ Find out if you can get disability compensation (monthly payments) and other ben
 </ol>
 
 ------
+
+#### Get more information
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
