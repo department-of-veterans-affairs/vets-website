@@ -4,6 +4,7 @@ import {
   LOADING_PREFERENCES,
   SAVE_PREFERENCES_FAILURE,
   SAVE_PREFERENCES_SUCCESS,
+  SAVING_PREFERENCES,
   SET_NOTIFICATION_EMAIL,
   SET_NOTIFICATION_FREQUENCY
 } from '../utils/constants';
@@ -37,6 +38,8 @@ export function savePreferences(preferences) {
   };
 
   return dispatch => {
+    dispatch({ type: SAVING_PREFERENCES });
+
     apiRequest(
       baseUrl,
       settings,

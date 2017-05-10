@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { makeField } from '../../common/model/fields';
 
 import {
@@ -27,12 +28,30 @@ export class EmailNotifications extends React.Component {
     const {
       emailAddress: { value: emailAddress },
       frequency: { value: frequency }
-    } = this.props;
+    } = this.props.preferences;
     this.props.savePreferences({ emailAddress, frequency });
   }
 
   render() {
-    const { emailAddress, frequency } = this.props;
+    const { isLoadingPreferences, isSavingPreferences } = this.props;
+
+    if (isLoadingPreferences) {
+      return (
+        <div className="va-tab-content">
+          <LoadingIndicator message="Loading preferences..."/>
+        </div>
+      );
+    }
+
+    if (isSavingPreferences) {
+      return (
+        <div className="va-tab-content">
+          <LoadingIndicator message="Saving preferences..."/>;
+        </div>
+      );
+    }
+
+    const { emailAddress, frequency } = this.props.preferences;
     const isNotified = ['each_message', 'daily'].includes(frequency.value);
     const isSaveable = emailAddress.dirty || frequency.dirty;
 
@@ -102,7 +121,20 @@ export class EmailNotifications extends React.Component {
 
 const mapStateToProps = (state) => {
   const msgState = state.health.msg;
-  return msgState.preferences;
+
+  const {
+    preferences,
+    loading: {
+      preferences: isLoadingPreferences,
+      savingPreferences: isSavingPreferences
+    }
+  } = msgState;
+
+  return {
+    preferences,
+    isLoadingPreferences,
+    isSavingPreferences
+  };
 };
 
 const mapDispatchToProps = {

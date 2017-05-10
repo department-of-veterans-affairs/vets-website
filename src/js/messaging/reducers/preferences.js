@@ -1,10 +1,7 @@
 import { makeField } from '../../common/model/fields';
 
 import {
-  FETCH_PREFERENCES_FAILURE,
   FETCH_PREFERENCES_SUCCESS,
-  LOADING_PREFERENCES,
-  SAVE_PREFERENCES_FAILURE,
   SAVE_PREFERENCES_SUCCESS,
   SET_NOTIFICATION_EMAIL,
   SET_NOTIFICATION_FREQUENCY
@@ -12,34 +9,24 @@ import {
 
 const initialState = {
   emailAddress: makeField(''),
-  frequency: makeField('none'),
-  loading: false
+  frequency: makeField('none')
 };
 
 export default function preferences(state = initialState, action) {
   switch (action.type) {
-    case LOADING_PREFERENCES:
-      return { ...state, loading: true };
-
     case FETCH_PREFERENCES_SUCCESS: {
       const { emailAddress, frequency } = action.preferences;
       return {
         ...state,
         emailAddress: makeField(emailAddress),
-        frequency: makeField(frequency),
-        loading: false
+        frequency: makeField(frequency)
       };
     }
-
-    case FETCH_PREFERENCES_FAILURE:
-    case SAVE_PREFERENCES_FAILURE:
-      return { ...state, loading: false };
 
     case SAVE_PREFERENCES_SUCCESS: {
       return {
         emailAddress: makeField(state.email.value),
-        frequency: makeField(state.frequency.value),
-        loading: false
+        frequency: makeField(state.frequency.value)
       };
     }
 
