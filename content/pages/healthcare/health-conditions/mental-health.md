@@ -5,8 +5,22 @@ display_title: ""
 concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
-relatedlinks: []
-
+relatedlinks:
+  - url: /healthcare/health-conditions/mental-health/ptsd/
+    title: Posttraumatic stress disorder (PTSD)
+    description: Learn more about VA health services to help support Veterans with PTSD.
+  - url: /healthcare/health-conditions/mental-health/depression/
+    title: Depression
+    description: Learn more about VA health services to help support Veterans with depression.
+  - url: /healthcare/health-conditions/mental-health/suicide-prevention/
+    title: Suicide Prevention
+    description: Learn more about VA services to help support Veterans at risk of suicide and their families.
+  - url: /healthcare/health-conditions/military-sexual-trauma/
+    title: Military Sexual Trauma (MST)
+    description: Learn about VA health services to help support Veterans dealing with issues related to military sexual trauma.
+  - url: /healthcare/health-conditions/substance-use-problems
+    title: Substance Use Problems
+    description: Learn more about VA health services to help support Veterans with substance use problems.
 ---
 
 <div class="va-introtext">
@@ -44,6 +58,8 @@ We also treat anxiety-related conditions, like:
 - [Social anxiety](https://www.mentalhealth.va.gov/socialanxiety.asp)
 - [Specific phobias](https://www.mentalhealth.va.gov/specificphobias.asp)
 
+<br>
+
 ### What mental health services does VA provide?
 
 We provide mental health services such as:
@@ -62,7 +78,9 @@ We also provide care to Veterans in crisis. This includes:
 
 All mental health care at VA supports recovery. Our goal is to help you take charge of your treatment and live a full and meaningful life. Our providers also receive training about military culture, gender differences, and ethnic issues so that we can better understand each Veteran. 
 
-### Get more information
+<br>
+
+#### Get more information
 
 [Download our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf). 
 <br>
@@ -92,3 +110,15 @@ You may still be able to get care:
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 **Please note:** If you don’t qualify for VA health care, you may still be able to get certain health care services (like care for issues linked to military sexual trauma). Call our general VA hotline at <a href="tel:+1phonenumber">800-827-1000</a> to find out what your care options may be.
+
+------
+
+**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
+
+**Already signed up?** [Manage your VA health and benefits](/healthcare/prescriptions/).
+
+**Recently returned from deployment?** [Get resources and support](http://www.mentalhealth.va.gov/returningservicevets.asp).
+
+**Need more information and support?** <br />
+[Find more resources for help in a crisis](http://www.mentalhealth.va.gov/gethelp.asp).<br /> 
+[Access additional resources for ongoing support](http://www.mentalhealth.va.gov/Resources.asp). 
