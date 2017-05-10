@@ -42,38 +42,55 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 ### Ready to apply?
 
 #### Applying for a new benefit
-Apply online with Form 22-1990, 22-1990E, or 22-5490:
+Apply online with Form 22-1990, 22-1990E, 22-1990N, or 22-5490:
 
-<button id="apply-expander-button" class="usa-button-primary va-button-primary expander-button">Apply for Benefits</button>
+<div class="expander-container">
+  <button class="usa-button-primary va-button-primary expander-button">Apply for Benefits</button>
 
-<p>
-  <div id="apply-expander-content" class="form-expanding-group-open expander-content expander-content-closed">
-    <div class="expander-content-inner">
-      <div>Which form do you want to use?</div>
-      <div class="form-radio-buttons">
-        <input type="radio" name="form-selection" id="form-22-1990" value="1990">
-        <label for="form-22-1990">Veterans or Servicemembers applying for a <strong>new benefit</strong> (22-1990)</label>
-        <input type="radio" name="form-selection" id="form-22-1990e" value="1990e">
-        <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
-        <input type="radio" name="form-selection" id="form-22-1990n" value="1990n">
-        <label for="form-22-1990n">Veterans or Servicememebers applying under the <strong>National Call to Service Program</strong> (22-1990N)</label>
-        <input type="radio" name="form-selection" id="form-22-5490-1" value="5490">
-        <label for="form-22-5490-1">Dependent applying for a new benefit where your <strong>sponsor is permanently and totally disabled</strong> (22-5490)</label>
-        <input type="radio" name="form-selection" id="form-22-5490-2" value="5490">
-        <label for="form-22-5490-2">Dependent applying for a new benefit where your <strong>sponsor is deceased, MIA, or a POW</strong> (22-5490)</label>
+  <p>
+    <div class="form-expanding-group-open expander-content expander-content-closed">
+      <div class="expander-content-inner">
+        <div>Which form do you want to use?</div>
+        <div class="form-radio-buttons">
+          <input type="radio" name="form-selection" id="form-22-1990" value="1990">
+          <label for="form-22-1990">Veterans or Servicemembers applying for a <strong>new benefit</strong> (22-1990)</label>
+          <input type="radio" name="form-selection" id="form-22-1990n" value="1990n">
+          <label for="form-22-1990n">Veterans or Servicemembers applying for educations <strong>benefit through the National Call to Service program</strong> (22-1990N)<br><em>This is very rare</em></label>
+          <input type="radio" name="form-selection" id="form-22-1990e" value="1990e">
+          <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
+          <input type="radio" name="form-selection" id="form-22-5490-1" value="5490">
+          <label for="form-22-5490-1">Dependent applying for a new benefit where your <strong>sponsor is permanently and totally disabled</strong> (22-5490)</label>
+          <input type="radio" name="form-selection" id="form-22-5490-2" value="5490">
+          <label for="form-22-5490-2">Dependent applying for a new benefit where your <strong>sponsor is deceased, MIA, or a POW</strong> (22-5490)</label>
+        </div>
+        <a class="usa-button-primary va-button-primary apply-go-button">Apply Now</a>
       </div>
-      <a id="apply-go-button" class="usa-button-primary va-button-primary">Apply Now</a>
     </div>
-  </div>
-</p>
+  </p>
+</div>
 
 #### Make a change to your current education benefits
 
 If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995 or Form 22-5495:
 
-<a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage Benefits</a>
-<a href="/education/apply-for-education-benefits/application/5495" class="usa-button-primary usa-button-outline">Manage Benefits as a dependent</a>
+<div class="expander-container">
+  <button class="usa-button-primary va-button-primary expander-button">Manage benefits</button>
 
+  <p>
+    <div class="form-expanding-group-open expander-content expander-content-closed">
+      <div class="expander-content-inner">
+        <div>Which form do you want to use?</div>
+        <div class="form-radio-buttons">
+          <input type="radio" name="form-selection" id="form-22-1995" value="1995">
+          <label for="form-22-1995">Veterans, Servicemembers, or dependents applying for a change of place of training <strong>for earned or transferred benefits</strong> (22-1995)</label>
+          <input type="radio" name="form-selection" id="form-22-5495" value="5495">
+          <label for="form-22-5495">Dependents applying for a change of place of training, <strong>who are using DEA or Fry Scholarship</strong> (22-5495)</label>
+        </div>
+        <a class="usa-button-primary va-button-primary apply-go-button">Apply Now</a>
+      </div>
+    </div>
+  </p>
+</div>
 <div class="usa-alert usa-alert-warning usa-content va-alert" markdown="1">
 	<div class="usa-alert-body">
 
@@ -120,25 +137,26 @@ You must apply for education benefits using eBenefits if you're:
 <script type="text/javascript">
   // I'm open to suggestions on how to not do this here
 
-  function toggleClass(elementId, className) {
-    document.getElementById(elementId).classList.toggle(className);
+  function toggleClass(element, className) {
+    element.classList.toggle(className);
   }
 
   // Toggle the expandable apply fields
-  document.getElementById('apply-expander-button')
-    .addEventListener('click', function () {
-      toggleClass('apply-expander-content', 'expander-content-closed');
-      toggleClass('apply-expander-button', 'va-button-primary');
+  document.querySelectorAll('.expander-container').forEach(function(container) {
+    var button = container.querySelector('.expander-button');
+    var openButton = container.querySelector('.apply-go-button');
+    var content = container.querySelector('.expander-content');
+    button.addEventListener('click', function () {
+      toggleClass(content, 'expander-content-closed');
+      toggleClass(button, 'va-button-primary');
     });
-
-  // Make the go button go to the right place
-  document.getElementById('apply-go-button')
-    .addEventListener('click', function () {
-      var selectedForm = document.querySelector('input[name="form-selection"]:checked');
+    openButton.addEventListener('click', function () {
+      var selectedForm = content.querySelector('input[name="form-selection"]:checked');
 
       if (selectedForm) {
         location.assign('/education/apply-for-education-benefits/application/' + selectedForm.value + '/introduction');
       }
     });
+  })
 </script>
 
