@@ -281,6 +281,15 @@ in `test/util/mocha-setup.js` and `config/webpack.config.js`. See
 [`SampleFeature`](src/js/common/components/SampleFeature.jsx) and the associated `__SAMPLE_FEATURE__` env variables for an
 example implementation.
 
+### Supported Browsers
+| Browser | Minimum version  | Note |
+|---------|------------------| ---- | 
+| Internet Explorer | 11 |
+| Microsoft Edge    | 13 |
+| Safari / iOS Safari |  9 |
+| Chrome / Android Web view | 44 | _Latest version with >0.5% of traffic_ |
+| Firefox           | 52 | _Latest version with >0.5% of traffic_ |
+
 ## More documentation
 
 - Content

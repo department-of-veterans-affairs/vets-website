@@ -2,10 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
+import isMobile from 'ismobilejs';
 
 import AlertBox from '../../common/components/AlertBox';
 
 import DownloadLink from '../components/DownloadLink';
+import { openModal, closeModal } from '../actions/modal';
 
 export class DownloadPage extends React.Component {
   renderMessageBanner() {
@@ -59,6 +61,47 @@ export class DownloadPage extends React.Component {
     return <AlertBox {...alertProps}/>;
   }
 
+  renderConfirmModal() {
+    const linkOnClick = (e) => {
+      e.preventDefault();
+      this.props.openModal('Are you sure you want to leave this page?', <div>
+        <p>Generating a new health record will replace your most recent download request.</p>
+        <div className="va-modal-actions">
+          <Link className="usa-button" to="/" onClick={this.props.closeModal}>
+            Yes, continue
+          </Link>
+          <button onClick={this.props.closeModal} className="usa-button-outline">Cancel</button>
+        </div>
+      </div>);
+    };
+
+    return <a href="#" onClick={linkOnClick}>Start a new request</a>;
+  }
+
+  renderPDFDownloadButton() {
+    let linkOnClick;
+
+    if (isMobile.any) {
+      linkOnClick = (e) => {
+        const continueClick = () => {
+          this.props.closeModal();
+          this.pdfDownloadButton.downloadHealthRecord(e, false);
+        };
+
+        this.props.openModal('Do you wish to continue?', <div>
+          <p>Health Records PDFs tend to be 1-2MB in size, but occasionally can be much larger. If this is downloaded over the cellular network, data charges may apply.</p>
+          <div className="va-modal-actions">
+            <button onClick={continueClick}>
+              Yes, continue
+            </button>
+            <button onClick={this.props.closeModal} className="usa-button-outline">Cancel</button>
+          </div>
+        </div>);
+      };
+    }
+    return <DownloadLink ref={e => { this.pdfDownloadButton = e; }} onClick={linkOnClick} name="PDF File" docType="pdf"/>;
+  }
+
   render() {
     return (
       <div>
@@ -68,11 +111,11 @@ export class DownloadPage extends React.Component {
           <strong>Request Date:</strong> {moment(this.props.form.requestDate).format('MMMM Do YYYY')}
         </p>
         <div>
-          <DownloadLink name="PDF File" docType="pdf"/>
+          {this.renderPDFDownloadButton()}
           <DownloadLink name="Text File" docType="txt"/>
         </div>
         <p>
-          <Link to="/">Start a new request</Link>
+          {this.renderConfirmModal()}
         </p>
       </div>
     );
@@ -87,6 +130,9 @@ const mapStateToProps = (state) => {
     refresh: hrState.refresh,
   };
 };
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  openModal,
+  closeModal,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DownloadPage);

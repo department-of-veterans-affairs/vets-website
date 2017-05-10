@@ -125,7 +125,7 @@ smith.metadata({ buildtype: options.buildtype });
 // const ignore = require('metalsmith-ignore');
 // const ignoreList = [];
 // if (options.buildtype === 'production') {
-//   ignoreList.push('disability-benefits/track-claims/*');
+//   ignoreList.push('track-claims/*');
 // }
 // smith.use(ignore(ignoreList));
 
@@ -148,7 +148,28 @@ smith.use(define({
   buildtype: options.buildtype
 }));
 
-smith.use(collections());
+// See the collections documentation here:
+// https://github.com/segmentio/metalsmith-collections
+// Can sort by any front matter property you'd like, or by function.
+// Can define a collection by its path or by adding a `collection`
+// property to the Markdown document.
+
+smith.use(collections({
+  disabilityAgentOrange: {
+    path: 'disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Agent Orange'
+    }
+  },
+  exposureHazMat: {
+    path: 'disability-benefits/conditions/exposure-to-hazardous-materials/*.md',
+    sortBy: 'title',
+    metadata: {
+      name: 'Exposure to Hazardous Materials'
+    }
+  }
+}));
 smith.use(dateInFilename(true));
 smith.use(archive());  // TODO(awong): Can this be removed?
 
@@ -170,7 +191,6 @@ if (options.watch) {
     historyApiFallback: {
       rewrites: [
         { from: '^/track-claims(.*)', to: '/track-claims/' },
-        { from: '^/disability-benefits/track-claims(.*)', to: '/disability-benefits/track-claims/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
