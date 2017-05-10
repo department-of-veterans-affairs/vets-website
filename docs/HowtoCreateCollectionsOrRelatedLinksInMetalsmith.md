@@ -11,29 +11,30 @@ _**NOTE**: Content team, you may wish to file a request with the DevOps team for
 
 To create a new collection, add a new collection object to `vets-website/script/build.js`.
 
+
 ```
-smith.use(collections({
-  collectionName: {
-    pattern: 'path/to/the/files/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Title for collection 1'
+  smith.use(collections({
+    collectionName: {
+      pattern: 'path/to/the/files/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Title for collection 1'
+      }
+    },
+    secondCollectionName: {
+      pattern: 'path/to/the/files/*.md',
+      sortBy: 'order',
+      metadata: {
+        name: 'Title for collection two'
+      }
     }
-  },
-  secondCollectionName: {
-    pattern: 'path/to/the/files/*.md',
-    sortBy: 'order',
-    metadata: {
-      name: 'Title for collection two'
-    }
-  }
-}));
+  }));
 ```
 
 ### What each field means:
 
 - `collectionName`: should be a camel-cased or snake cased string that summarizes the name of the related documents.
-- `pattern`: should be a directory path relative to the site root (without a leading slash), and end with `*.md`.
+- `pattern`: should be a directory a relative to the site root (without a leading slash), and end with `*.md`.
 - `sortBy`: is any current YAML property used in the front matter metadata (front matter data is the stuff between the `---` at the beginning of each content file). This should be:
 
     - `order`
