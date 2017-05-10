@@ -3,7 +3,6 @@ layout: page-breadcrumbs.html
 title: Other Educational Assistance Programs
 concurrence: incomplete
 template: 1-topic-landing
-order: 8
 relatedlinks:
   - url: /education/other-educational-assistance-programs/reap/
     title: Reserve Educational Assistance Program (REAP)

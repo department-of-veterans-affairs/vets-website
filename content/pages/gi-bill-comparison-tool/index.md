@@ -1,11 +1,8 @@
 ---
 title: GI Bill Comparison Tool
-display_title: Compare GI Bill Benefits
 layout: page-react.html
 entryname: gi
-collection: educationGIBill
 ---
-
 <div id="main">
   <div class="section">
     <div id="react-root">
