@@ -11,15 +11,9 @@ import { folderUrl } from '../utils/helpers';
 class FolderNav extends React.Component {
   constructor(props) {
     super(props);
-    this.goToFolderSettings = this.goToFolderSettings.bind(this);
     this.makeFolderLink = this.makeFolderLink.bind(this);
     this.makeMyFolders = this.makeMyFolders.bind(this);
     this.handleCreateNewFolder = this.handleCreateNewFolder.bind(this);
-  }
-
-  goToFolderSettings() {
-    this.props.toggleFolderNav();
-    this.context.router.push('/settings');
   }
 
   handleCreateNewFolder() {
@@ -119,9 +113,9 @@ class FolderNav extends React.Component {
 
     const folderActions = (
       <li className="messaging-folder-nav-actions">
-        <ButtonManageFolders onClick={this.goToFolderSettings}/>
+        <ButtonManageFolders onClick={this.props.toggleFolderNav}/>
         <ButtonCreateFolder onClick={this.handleCreateNewFolder}/>
-        <ButtonSettings/>
+        <ButtonSettings onClick={this.props.toggleFolderNav}/>
       </li>
     );
 
@@ -133,10 +127,6 @@ class FolderNav extends React.Component {
     );
   }
 }
-
-FolderNav.contextTypes = {
-  router: PropTypes.object.isRequired
-};
 
 FolderNav.propTypes = {
   currentFolderId: PropTypes.number,
