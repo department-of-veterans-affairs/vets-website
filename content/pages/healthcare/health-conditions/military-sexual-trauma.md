@@ -15,13 +15,22 @@ Military sexual trauma (MST) refers to sexual assault or repeated, threatening s
 
 </div>
 
-**Are you in crisis? You have options.** [UX/DESIGN NOTE: WE'D LIKE THIS CRISIS CALLOUT TO BE AN ACCORDION LINK PLEASE]
-
-- Call the Veterans Crisis Line at <a href="tel:+1phonenumber">800-273-8255</a>, then press 1 to talk to someone now.
-- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/). 
-- Text <a href="tel:+1phonenumber">838255</a> to get help right away.
-- Call <a href="tel:+1phonenumber">911</a>.
-- Go to the nearest emergency room.
+<div class="usa-alert usa-alert-warning va-alert">
+  <div class="usa-alert-body">
+	<h5>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h5>
+	<div id="apply-expander-content" class="expander-content expander-content-closed">
+	  <div class="expander-content-inner">
+	    <ul>
+	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">800-273-8255</a>, then press 1 to talk to someone now.</li>
+		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
+		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+		  <li>Call <a href="tel:911">911</a>.</li>
+		  <li>Go to the nearest emergency room.</li>
+		</ul>
+	  </div>
+  	</div>
+  </div>
+</div>
 
 <div class="feature" markdown=“1”>
 
@@ -78,3 +87,15 @@ Or, get help applying for disability compensation by:
 - Go to our Make the Connection website to hear stories from Veterans about their own experiences with the effects of MST, and find more resources and support. [Visit Make the Connection](https://maketheconnection.net/).
 - Go to the Department of Defense (DOD) Safe Helpline website, a crisis support service for members of the DOD community affected by sexual assault. When you contact the Safe Helpline, you can remain anonymous (meaning you don’t have to give your name). You can get 1-on-1 advice, support, and information 24/7—by phone, text, or online chat. You can also connect with a sexual assault response coordinator near your base or installation. [Visit SafeHelpline.org](https://www.safehelpline.org/).
  
+<script type="text/javascript">
+
+  function toggleClass(elementId, className) {
+    document.getElementById(elementId).classList.toggle(className);
+  }
+
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      toggleClass('apply-expander-content', 'expander-content-closed');
+    });
+</script>
