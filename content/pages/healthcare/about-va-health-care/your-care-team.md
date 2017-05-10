@@ -15,8 +15,7 @@ relatedlinks:
   - url: /healthcare/about-va-health-care/dental-care/
     title: Dental Care
     description: Find out if you can get dental care through VA.
-  - url: /healthcare/about-va-health-care/assisted-living-and-home-health-care/
-   - url: /healthcare/about-va-health-care/vision-care/
+  - url: /healthcare/about-va-health-care/vision-care/
     title: Vision Care
     description: Find out if you can get vision care through VA.
   - url: /healthcare/about-va-health-care/assisted-living-and-home-health-care/
