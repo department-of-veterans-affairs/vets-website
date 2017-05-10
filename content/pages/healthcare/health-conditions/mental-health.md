@@ -29,13 +29,24 @@ If you qualify for VA health care, you can get high-quality mental health servic
 
 </div>
 
-**Are you in crisis? You have options.** [UX/DESIGN NOTE: WE'D LIKE THIS CRISIS CALLOUT TO BE AN ACCORDION PLEASE.]
+<div class="usa-alert usa-alert-warning va-alert">
+  <div class="usa-alert-body">
+	<h5>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h5>
+	<div id="crisis-expander-content" class="expander-content expander-content-closed">
+	  <div class="expander-content-inner">
+	    <ul>
+	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">800-273-8255</a>, then press 1 to talk to someone now.</li>
+		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
+		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+		  <li>Call <a href="tel:911">911</a>.</li>
+		  <li>Go to the nearest emergency room.</li>
+		</ul>
+	  </div>
+  	</div>
+  </div>
+</div>
 
-- Call the Veterans Crisis Line at <a href="tel:+1phonenumber">800-273-8255</a>, then press 1 to talk to someone now.
-- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/). 
-- Text 838255 to get help right away.
-- Call 911.
-- Go to the nearest emergency room.
+<br>
 
 <div class="feature" markdown=“1”>
 
@@ -126,3 +137,12 @@ You may still be able to get care:
 **Need more information and support?** <br />
 [Find more resources for help in a crisis](http://www.mentalhealth.va.gov/gethelp.asp).<br /> 
 [Access additional resources for ongoing support](http://www.mentalhealth.va.gov/Resources.asp). 
+
+<script type="text/javascript">
+
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+    });
+</script>

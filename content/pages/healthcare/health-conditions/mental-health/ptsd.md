@@ -17,13 +17,24 @@ Our National Center for PTSD is the world leader in PTSD research, education, an
 
 </div>
 
-**Are you in crisis? You have options.** [UX/DESIGN NOTE: WE'D LIKE THIS CRISIS CALLOUT TO BE AN ACCORDION LINK PLEASE]
+<div class="usa-alert usa-alert-warning va-alert">
+  <div class="usa-alert-body">
+	<h5>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h5>
+	<div id="crisis-expander-content" class="expander-content expander-content-closed">
+	  <div class="expander-content-inner">
+	    <ul>
+	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">800-273-8255</a>, then press 1 to talk to someone now.</li>
+		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
+		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+		  <li>Call <a href="tel:911">911</a>.</li>
+		  <li>Go to the nearest emergency room.</li>
+		</ul>
+	  </div>
+  	</div>
+  </div>
+</div>
 
-- Call the Veterans Crisis Line at <a href="tel:+1phonenumber">800-273-8255</a>, then press 1 to talk to someone now.
-- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/). 
-- Text <a href="tel:+1phonenumber">838255</a> to get help right away.
-- Call <a href="tel:+1phonenumber">911</a>.
-- Go to the nearest emergency room.
+<br>
 
 <div class="feature" markdown=“1”>
 
@@ -85,3 +96,12 @@ If you have symptoms of PTSD and suffered a serious injury, personal trauma, sex
 - Use our PTSD Coach Online to help manage stress. [Visit PTSD Coach Online](https://www.ptsd.va.gov/apps/ptsdcoachonline/default.htm).
 - Visit our Self-Help Resources guide for books, web resources, and mobile applications recommended by VA experts. [Get self-help resources](http://www.mentalhealth.va.gov/self_help.asp).
 - Call the VA general information hotline at <a href="tel:+1phonenumber">800-827-1000</a>.
+
+<script type="text/javascript">
+
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+    });
+</script>
