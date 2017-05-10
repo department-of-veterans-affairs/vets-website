@@ -38,20 +38,15 @@ You’ll receive regular care at one VA location of your choice. If you need spe
 Care settings may include:
 
 - **VA medical centers.** These centers offer a range of services:
-
   - All centers provide traditional hospital-based services—like surgery, critical care, mental health, and physical therapy.
   - Most centers provide medical and surgical specialty services—like oncology (cancer care), geriatrics (elder care), and neurology (care for conditions of the brain and nervous system).
   - Some medical centers also offer advanced services—like organ transplants and plastic surgery (reconstructing or repairing parts of the body in the treatment of traumatic injury). <br />
 [Connect with your medical center](https://www.va.gov/health/vamc/).
-
 - **VA community-based outpatient clinics (CBOCs).** These clinics provide the most common outpatient services (like health and wellness visits) so you can take care of routine appointments in a more convenient location. We keep expanding our network of CBOCs to more rural locations so we can help you access care closer to home. [Find a clinic near you](https://www.va.gov/directory/guide/home.asp).
-
 - **Vet Centers.** These centers provide community-based counseling, outreach, and referral services to Veterans who served in a combat zone as well as to their families. Mobile Vet Centers also help bring care to more rural locations. <br />
 [Learn more about Vet Centers](http://www.vetcenter.va.gov). <br />
 [Find a Vet Center near you](https://www.va.gov/directory/guide/vetcenter.asp).
-
 - **VA Community Living Centers and other assisted living or residential (live-in) settings.** These places provide support for Veterans who need more intense nursing care and help with everyday tasks (like bathing, dressing, or taking medicines). [Learn more about assisted living and residential care](/healthcare/about-va-health-care/assisted-living-and-home-health-care/).
-
 - **Your own home.** If needed, you may get medical treatment, nursing care, or help with everyday tasks in the comfort of your own home. [Learn more about home health care](/healthcare/about-va-health-care/assisted-living-and-home-health-care/).
 
 <br>
