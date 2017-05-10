@@ -60,12 +60,7 @@ Use the GI Bill Comparison Tool to see what benefits you can get at the school y
 
 
 <ol class="process">
-
-<li class="process-step list-one" markdown="1">
-
-After we approve the school, you'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/).
-=======
-<li class="step one wow fadeIn animated" markdown="1">
+<li class="process-step list-one">
 
 After we approve the school, you'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
 
@@ -75,17 +70,18 @@ If you get approved for benefits, turn in your Certificate of Eligibility (COE) 
 
 </li>
 
-<li class="process-step list-two" markdown="0">
+<li class="process-step list-two">
 
 Be sure you have enough money to cover all your needs until VA payments begin. And make arrangements with the school for acceptance, enrollment, payment of tuition and fees, and housing.
 
 </li>
 
-<li class="process-step list-three" markdown="0">
+<li class="process-step list-three">
 
 You must give written permission for school officials to release information to us as necessary. If you don't, it could affect when you get benefits. 
 
 Normally, foreign schools certify their students for 1 academic year. Within 120 days of your enrollment, you should let the school know if you plan to re-enroll, and ask the certifying official to submit an enrollment certification for you. You should make sure the school knows your plans for continued enrollment in order to avoid any delay in getting your benefits.
+</li>
 
 </li>
 </ol>

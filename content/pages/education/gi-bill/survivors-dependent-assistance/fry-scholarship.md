@@ -50,32 +50,30 @@ Spouses who remarry can't get the Fry Scholarship.
 
 <ol class="process">
 <li class="process-step list-one">
-<div markdown="1">
 
 ##### Choose a school
 
 - The GI Bill Comparison Tool can help you pick a school. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 - You should contact your school's certifying official to make sure your program is approved for VA benefits.  
-</div>
+
 </li>
 
 <li class="process-step list-two">
-<div markdown="1">
 
 ##### Apply for benefits
 
 - Fill out VA Form 22-5490 (Dependents' Application for VA Education Benefits) and send it to the VA regional office where you want to go to school. [Download VA Form 22-5490](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490).
 - If you aren't legally an adult, your parent or guardian must sign the application.
 - If you've already started your educational program, ask a certifying official from your school or your employer to fill out VA Form 22-1999 (Enrollment Certification). They'll need to submit it online using VA Online Certification (VA-ONCE). [Download VA Form 22-1999 (Enrollment Certification)](http://www.lepsn.org/images/pdfs/VA%20Form%2022-1999%20-%20VA%20Enrollment%20Certification.pdf).
-</div>
+
 </li>
 
-<li class="process-step list-three"><div markdown="1">
+<li class="process-step list-three">
 
 ##### Choose your program
 
 - When you apply, you must choose either the Fry Scholarship or DEA. Once you make that choice, you can't change your mind.
-</div>
+
 </li>
 
 </ol>
