@@ -86,7 +86,7 @@ Other services aren’t covered under VA health care benefits. For these service
 
 <br>
 
-### Get more details about your care options:
+### More details about your care options
 
 #### What are my options for nursing home care through VA? [UX/DESIGN NOTE: CONSIDER ACCORDION HERE]
 
