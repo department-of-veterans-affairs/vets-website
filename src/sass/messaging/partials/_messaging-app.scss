@@ -35,9 +35,14 @@
   position: relative;
 
   .msg-btn-settings {
-    position: absolute;
-    top: 0;
-    right: 0;
+    display: none;
+
+    @include media($medium-screen) {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
   }
 }
 
@@ -62,7 +67,11 @@
     width: 100%;
   }
 
-  @media (max-width: $medium-screen) {
+  .msg-btn-settings {
+    display: none;
+  }
+
+  @include media-maxwidth($medium-screen) {
     -webkit-transform: translateX(-100%);
     -ms-transform: translateX(-100%);
     transform: translateX(-100%);
@@ -85,6 +94,10 @@
     }
 
     .messaging-folder-nav-close {
+      display: block;
+    }
+
+    .msg-btn-settings {
       display: block;
     }
   }

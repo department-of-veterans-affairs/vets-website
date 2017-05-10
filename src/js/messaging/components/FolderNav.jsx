@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import ButtonCreateFolder from './buttons/ButtonCreateFolder';
 import ButtonManageFolders from './buttons/ButtonManageFolders';
+import ButtonSettings from './buttons/ButtonSettings';
 import { folderUrl } from '../utils/helpers';
 
 class FolderNav extends React.Component {
@@ -120,6 +121,7 @@ class FolderNav extends React.Component {
       <li className="messaging-folder-nav-actions">
         <ButtonManageFolders onClick={this.goToFolderSettings}/>
         <ButtonCreateFolder onClick={this.handleCreateNewFolder}/>
+        <ButtonSettings/>
       </li>
     );
 
