@@ -12,7 +12,6 @@ The Yellow Ribbon Program can help you pay for higher out-of-state, private, or 
 
 </div>
 
-
 <div class="feature" markdown="1">
 
 ### Can I get this benefit?
@@ -25,18 +24,16 @@ You may be able to get this benefit if you're the dependent of a Veteran who qua
 [Find out about transferring Post-9/11 GI Bill benefits](/education/gi-bill/transfer/).<br />
 [See the list of schools that offer the Yellow Ribbon Program](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp). <br />
 
-
 ### Who's covered?
 
 - Veterans
-- Qualified dependents
+- Qualified dependents 
 
 </div>
 
 ### What benefits can I get?
 
 Money for tuition
-
 
 ### How do I get this benefit?
 
@@ -62,8 +59,9 @@ Bring your COE to your school's certifying official, or to the financial aid, mi
 ##### Wait for a decision
 
 ###### Your school will decide:
-  -  Whether it has already enrolled the maximum number of students for the program period. Enrollment is on a first-come, first-served basis. We have an agreement with each school about on how many students may be covered each year.
-  -  How much the entitlement will be. Your school decides this amount by adding up tuition and mandatory fees, and then subtracting any specific aid you’ve gotten from other sources—such as scholarships or grants as well as your Post-9/11 GI Bill tuition payment. Your school applies the Yellow Ribbon Program benefit to this final amount.
+
+- Whether it has already enrolled the maximum number of students for the program period. Enrollment is on a first-come, first-served basis. We have an agreement with each school about on how many students may be covered each year.
+- How much the entitlement will be. Your school decides this amount by adding up tuition and mandatory fees, and then subtracting any specific aid you’ve gotten from other sources—such as scholarships or grants as well as your Post-9/11 GI Bill tuition payment. Your school applies the Yellow Ribbon Program benefit to this final amount.
 
 </li>
 
@@ -74,5 +72,5 @@ Bring your COE to your school's certifying official, or to the financial aid, mi
 You'll get a notice from your school about whether it has accepted you into the program and how much money you'll get for tuition.
 
 </li>
-</ol>
 
+</ol>

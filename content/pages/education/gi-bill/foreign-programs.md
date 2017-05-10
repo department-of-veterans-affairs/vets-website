@@ -24,7 +24,6 @@ You can get education benefits if you qualify for—or already get—VA educatio
 
 **Exception:** Family members who qualify for Survivors’ and Dependents’ Educational Assistance can get VA benefits while in approved postsecondary (after high school) non-college degree programs at training locations in the Philippines.
 
-
 </div>
 
 ### What benefits can I get? 
@@ -33,14 +32,13 @@ You can get education benefits if you qualify for—or already get—VA educatio
 - Money for your housing costs during enrollment
 
 -----
+
 ### Is the application process different for foreign schools? 
 
 Yes. The application process is different. Here's what you'll need to do:
 
 - Contact the school or use the GI Bill Comparison Tool to find out if we've approved your program for VA educational benefits. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
-
 - If you still have questions regarding the school or program, you may submit a question to us using the GI Bill website. [Go to the GI Bill website](https://gibill.custhelp.com/app/ask/). 
-
 - Then, give us the name of the foreign school, the complete address, and the name of the program you want to enroll in. We'll let you know if your program has already been approved. 
 
 If you or your qualified dependent wants to enroll in a program that we haven't approved, you'll need to ask the school to request approval. We can't take any action until an official from your school (not you) requests approval. If we don't approve your program, you'll have to pay all costs at the school, including tuition and fees.
@@ -62,7 +60,7 @@ Use the GI Bill Comparison Tool to see what benefits you can get at the school y
 
 
 <ol class="process">
-<li class="process-step list-one" markdown="1">
+<li class="process-step list-one">
 
 After we approve the school, you'll need to apply. [Apply for benefits](/education/apply-for-education-benefits/). 
 
@@ -72,14 +70,13 @@ If you get approved for benefits, turn in your Certificate of Eligibility (COE) 
 
 </li>
 
-<li class="process-step list-two" markdown="1">
+<li class="process-step list-two">
 
 Be sure you have enough money to cover all your needs until VA payments begin. And make arrangements with the school for acceptance, enrollment, payment of tuition and fees, and housing.
 
 </li>
 
-<li class="process-step list-three" markdown="1">
-
+<li class="process-step list-three">
 
 You must give written permission for school officials to release information to us as necessary. If you don't, it could affect when you get benefits. 
 

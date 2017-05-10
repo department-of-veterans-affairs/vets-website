@@ -16,7 +16,7 @@ class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply to use transferred education benefits"/>
-        <p>This application is equivalent to Form 22-1990e (Application for Family Member to Use Transferred Benefits).</p>
+        <p>This application is equivalent to Form 22-1990E (Application for Family Member to Use Transferred Benefits).</p>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
