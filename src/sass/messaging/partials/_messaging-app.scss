@@ -25,6 +25,16 @@
   margin: 1em 0 2em;
 }
 
+#messaging-app-title {
+  position: relative;
+
+  .msg-btn-settings {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
 // TODO: Refactor these styles so that they're
 // reusable across projects.
 #messaging-nav {
