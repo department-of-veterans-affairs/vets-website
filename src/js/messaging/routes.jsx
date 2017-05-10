@@ -22,7 +22,9 @@ const routes = {
         {
           path: 'settings',
           component: Settings,
-          indexRoute: { component: ManageFolders },
+          indexRoute: {
+            onEnter: (nextState, replace) => replace('/settings/folders')
+          },
           childRoutes: [
             { path: 'folders', component: ManageFolders },
             { path: 'notifications', component: EmailNotifications },
