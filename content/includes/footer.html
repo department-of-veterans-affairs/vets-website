@@ -97,10 +97,6 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
 {% if buildtype === 'development' %}
   <script>
     window.dataLayer = [];
-    // We want to know if we are being iframed
-    if ( self !== top ) {
-      window.dataLayer.push({ event: 'iframed', embeddedIn: document.referrer});
-    }
   </script>
 {% else %}
   <!-- Google Tag Manager -->
