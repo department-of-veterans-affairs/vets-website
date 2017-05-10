@@ -14,11 +14,15 @@ import {
   setNotificationFrequency
 } from '../actions';
 
+import ModalDiscardChanges from '../components/ModalDiscardChanges';
+
 export class EmailNotifications extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderSaveButtons = this.renderSaveButtons.bind(this);
+
+    this.state = { discardChanges: false };
   }
 
   componentDidMount() {
@@ -55,7 +59,7 @@ export class EmailNotifications extends React.Component {
           (<button
               className="usa-button-outline"
               type="button"
-              onClick={this.props.fetchPreferences}>
+              onClick={() => this.setState({ discardChanges: true })}>
             Cancel
           </button>)
         }
@@ -138,6 +142,10 @@ export class EmailNotifications extends React.Component {
               field={emailAddress}/>
           {this.renderSaveButtons()}
         </form>
+        <ModalDiscardChanges
+            onClose={() => this.setState({ discardChanges: false })}
+            onSubmit={this.props.fetchPreferences}
+            visible={this.state.discardChanges}/>
       </div>
     );
   }
