@@ -14,7 +14,7 @@
       <dt class="va-footer-linkgroup-title">Popular on Vets.gov</dt>
       <dd><a href="https://www.vets.gov/healthcare/apply/">Apply for health care</a></dd>
       <dd><a href="https://www.vets.gov/education/apply-for-education-benefits/">Apply for education benefits</a></dd>
-      <dd><a href="https://www.vets.gov/disability-benefits/track-claims/your-claims/">Check disability claim status</a></dd>
+      <dd><a href="https://www.vets.gov/track-claims/your-claims/">Check disability claim status</a></dd>
       <dd><a href="https://www.vets.gov/gi-bill-comparison-tool/">Education benefits by school</a></dd>
       <dd><a href="https://www.vets.gov/healthcare/prescriptions/">Refill prescriptions</a></dd>
     </dl>
@@ -104,6 +104,10 @@ visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> f
     dataLayer = [{
       'environment': '{{ buildtype }}'
     }];
+    // We want to know if we are being iframed
+    if ( self !== top ) {
+      window.dataLayer.push({ event: 'iframed', embeddedIn: document.referrer});
+    }
   </script>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
   height="0" width="0" class="csp-inline-patch-footer"></iframe></noscript>
