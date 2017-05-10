@@ -57,8 +57,12 @@ class EduBenefitsApp extends React.Component {
   }
 
   onbeforeunload(e) {
+    const { currentLocation } = this.props;
+    const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
+    const isIntroductionPage = trimmedPathname.endsWith('introduction');
+    const isConfirmationPage = trimmedPathname.endsWith('confirmation');
     let message;
-    if (this.props.location.pathname !== '/1990/introduction') {
+    if (!(isIntroductionPage || isConfirmationPage)) {
       message = 'Are you sure you wish to leave this application? All progress will be lost.';
       // Chrome requires this to be set
       e.returnValue = message;     // eslint-disable-line no-param-reassign

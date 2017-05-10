@@ -25,10 +25,11 @@ export default class FormApp extends React.Component {
   onbeforeunload = e => {
     const { currentLocation } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
-    const isIntro = trimmedPathname.endsWith('introduction');
-    const isConfirmation = trimmedPathname.endsWith('confirmation');
+    const isIntroductionPage = trimmedPathname.endsWith('introduction');
+    const isConfirmationPage = trimmedPathname.endsWith('confirmation');
+
     let message;
-    if (!(isIntro || isConfirmation)) {
+    if (!(isIntroductionPage || isConfirmationPage)) {
       message = 'Are you sure you wish to leave this application? All progress will be lost.';
       // Chrome requires this to be set
       e.returnValue = message;     // eslint-disable-line no-param-reassign
@@ -43,11 +44,11 @@ export default class FormApp extends React.Component {
   render() {
     const { currentLocation, formConfig, children } = this.props;
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
-    const isIntro = trimmedPathname.endsWith('introduction');
-    const isConfirmation = trimmedPathname.endsWith('confirmation');
+    const isIntroductionPage = trimmedPathname.endsWith('introduction');
+    const isConfirmationPage = trimmedPathname.endsWith('confirmation');
 
     let content;
-    if (isIntro || isConfirmation) {
+    if (isIntroductionPage || isConfirmationPage) {
       content = children;
     } else {
       content = (
@@ -65,7 +66,7 @@ export default class FormApp extends React.Component {
       <div className="row">
         <Element name="topScrollElement"/>
         <div className="usa-width-two-thirds medium-8 columns">
-          {formConfig.title && !isIntro && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
+          {formConfig.title && !isIntroductionPage && <FormTitle title={formConfig.title} subTitle={formConfig.subTitle}/>}
           {content}
         </div>
         <div className="usa-width-one-third medium-4 columns show-for-medium-up">
