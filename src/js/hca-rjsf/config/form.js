@@ -26,12 +26,15 @@ import IntroductionPage from '../components/IntroductionPage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import ChildView from '../components/ChildView';
 
-import { uiSchema as dateUI } from '../../common/schemaform/definitions/currentOrPastDate';
-import { uiSchema as fullNameUI } from '../../common/schemaform/definitions/fullName';
-import { schema as ssnSchema, uiSchema as ssnUI } from '../../common/schemaform/definitions/ssn';
+// <<<<<<< HEAD
+import fullNameUI from '../../common/schemaform/definitions/fullName';
 import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
 
 import { schema as childSchema, uiSchema as childUI } from '../definitions/child';
+// =======
+import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import ssnUI from '../../common/schemaform/definitions/ssn';
+// >>>>>>> master
 
 const {
   mothersMaidenName,
@@ -93,6 +96,7 @@ const {
   provider,
   phone,
   monetaryValue,
+  ssn
 } = fullSchemaHca.definitions;
 
 
@@ -110,7 +114,7 @@ const formConfig = {
     date,
     provider,
     fullName,
-    ssn: ssnSchema,
+    ssn: ssn.oneOf[0], // Mmm...not a fan.
     phone,
     child: childSchema(fullSchemaHca),
     monetaryValue,
@@ -170,7 +174,7 @@ const formConfig = {
             required: ['veteranDateOfBirth', 'veteranSocialSecurityNumber'],
             properties: {
               veteranDateOfBirth: date,
-              veteranSocialSecurityNumber: ssnSchema,
+              veteranSocialSecurityNumber: ssn.oneOf[0],
               'view:placeOfBirth': {
                 type: 'object',
                 properties: {
@@ -255,7 +259,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              address: _.merge(addressSchema(true), {
+              address: _.merge(addressSchema(fullSchemaHca, true), {
                 properties: {
                   street: {
                     minLength: 1,
@@ -343,7 +347,7 @@ const formConfig = {
               'ui:help': 'Medicare is a social insurance program administered by the United States government, providing health insurance coverage to people aged 65 and over or who meet special criteria.'
             },
             medicarePartAEffectiveDate: _.merge(
-              dateUI('What is your Medicare Part A effective date?'), {
+              currentOrPastDateUI('What is your Medicare Part A effective date?'), {
                 'ui:required': (formData) => formData.isEnrolledMedicarePartA,
                 'ui:options': {
                   expandUnder: 'isEnrolledMedicarePartA'
@@ -587,7 +591,7 @@ const formConfig = {
                   updateSchema: (formData) => {
                     // If formData.sameAddress === false, the address fields are
                     //  shown and should be required
-                    return addressSchema(formData.sameAddress === false);
+                    return addressSchema(fullSchemaHca, formData.sameAddress === false);
                   }
                 }
               }),
@@ -615,7 +619,7 @@ const formConfig = {
               'view:spouseContactInformation': {
                 type: 'object',
                 properties: {
-                  spouseAddress: addressSchema(),
+                  spouseAddress: addressSchema(fullSchemaHca),
                   spousePhone
                 }
               }
@@ -755,8 +759,8 @@ const formConfig = {
             },
             // TODO: this should really be a dateRange, but that requires a backend schema change. For now
             // leaving them as dates, but should change these to get the proper dateRange validation
-            lastEntryDate: dateUI('Start of service period'),
-            lastDischargeDate: dateUI('Date of discharge'),
+            lastEntryDate: currentOrPastDateUI('Start of service period'),
+            lastDischargeDate: currentOrPastDateUI('Date of discharge'),
             dischargeType: {
               'ui:title': 'Character of discharge',
               'ui:options': {

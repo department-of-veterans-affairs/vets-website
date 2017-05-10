@@ -12,10 +12,12 @@ const {
   preferredContactMethod
 } = schemaDefinitions;
 
-import * as phone from '../../common/schemaform/definitions/phone';
+import phoneUI from '../../common/schemaform/definitions/phone';
 import * as address from '../../common/schemaform/definitions/address';
 
-export default function createContactInformationPage(addressField = 'veteranAddress') {
+export default function createContactInformationPage(schema, addressField = 'veteranAddress') {
+  const { homePhone, mobilePhone } = schema.properties;
+
   return {
     title: 'Contact information',
     path: 'personal-information/contact-information',
@@ -44,17 +46,20 @@ export default function createContactInformationPage(addressField = 'veteranAddr
             hideOnReview: true
           }
         },
-        homePhone: _.assign(phone.uiSchema('Primary telephone number'), {
+        homePhone: _.assign(phoneUI('Primary telephone number'), {
           'ui:required': (form) => form.preferredContactMethod === 'phone'
         }),
-        mobilePhone: phone.uiSchema('Secondary telephone number')
+        mobilePhone: phoneUI('Secondary telephone number')
       }
     },
     schema: {
       type: 'object',
+      definitions: {
+        phone: schema.definitions.phone
+      },
       properties: {
         preferredContactMethod,
-        [addressField]: address.schema(true),
+        [addressField]: address.schema(schema, true),
         'view:otherContactInfo': {
           type: 'object',
           required: ['email', 'view:confirmEmail'],
@@ -67,8 +72,8 @@ export default function createContactInformationPage(addressField = 'veteranAddr
               type: 'string',
               format: 'email'
             },
-            homePhone: phone.schema,
-            mobilePhone: phone.schema
+            homePhone,
+            mobilePhone
           }
         }
       }

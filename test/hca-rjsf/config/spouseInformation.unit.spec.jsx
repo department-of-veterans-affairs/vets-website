@@ -8,7 +8,7 @@ import { DefinitionTester, submitForm } from '../../util/schemaform-utils';
 import formConfig from '../../../src/js/hca-rjsf/config/form';
 
 
-describe('Hca child information', () => {
+describe('Hca spouse information', () => {
   const { schema, uiSchema } = formConfig.chapters.householdInformation.pages.spouseInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -59,7 +59,7 @@ describe('Hca child information', () => {
     });
 
     expect(formDOM.querySelectorAll('input, select').length)
-      .to.equal(22);
+      .to.equal(23);
 
     // Expand spouse financial support
     ReactTestUtils.Simulate.change(formDOM.querySelector('#root_cohabitedLastYearNo'), {
@@ -68,6 +68,6 @@ describe('Hca child information', () => {
       }
     });
     expect(formDOM.querySelectorAll('input, select').length)
-      .to.equal(24);
+      .to.equal(25);
   });
 });

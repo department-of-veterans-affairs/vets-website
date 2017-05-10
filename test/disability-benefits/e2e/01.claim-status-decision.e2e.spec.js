@@ -10,7 +10,7 @@ module.exports = E2eHelpers.createE2eTest(
     DisabilityHelpers.initClaimsListMock(token);
     DisabilityHelpers.initClaimDetailMocks(token, true, true, false, null);
 
-    LoginHelpers.logIn(token, client, '/disability-benefits/track-claims', 3)
+    LoginHelpers.logIn(token, client, '/track-claims', 3)
       .waitForElementVisible('a.claim-list-item', Timeouts.slow);
 
     client

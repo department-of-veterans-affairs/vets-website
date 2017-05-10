@@ -1,23 +1,22 @@
 import _ from 'lodash/fp';
 
-import * as ssn from '../../common/schemaform/definitions/ssn';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import ssnUI from '../../common/schemaform/definitions/ssn';
 
-export const vaFileNumber = commonDefinitions.vaFileNumber;
-
-export const schema = {
-  type: 'object',
-  properties: {
-    veteranSocialSecurityNumber: ssn.schema,
-    'view:noSSN': {
-      type: 'boolean'
-    },
-    vaFileNumber
-  }
-};
+export function schema(currentSchema) {
+  return {
+    type: 'object',
+    properties: {
+      veteranSocialSecurityNumber: currentSchema.definitions.ssn,
+      'view:noSSN': {
+        type: 'boolean'
+      },
+      vaFileNumber: currentSchema.definitions.vaFileNumber
+    }
+  };
+}
 
 export const uiSchema = {
-  veteranSocialSecurityNumber: _.assign(ssn.uiSchema, {
+  veteranSocialSecurityNumber: _.assign(ssnUI, {
     'ui:required': (formData) => !_.get('view:veteranId.view:noSSN', formData)
   }),
   'view:noSSN': {
