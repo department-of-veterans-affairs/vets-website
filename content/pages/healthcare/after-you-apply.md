@@ -31,6 +31,8 @@ relatedlinks:
 
 After you’ve applied for VA health care, we’ll send you a letter in the mail to let you know if your application has been approved. Find out what happens next.
 
+</div>
+
 <div class="feature" markdown=“1”>
 
 ### When will I hear back about my application?
@@ -40,16 +42,18 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 <span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18555747286">855-574-7286</a>.</span>
 </div>
 
+</div>
+
 ### If you approve my application, what do I do next?
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 **Wait for your welcome call from VA.** We’ll call you to welcome you to the VA health care program, help you with scheduling your first doctor’s appointment, and answer any questions you may have about your health care benefits.
 
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 
 **Read your Veterans Health Benefits Handbook.** We’ll send this to you by mail. Your handbook will explain your specific health care benefits (based on the priority group we assigned you), how much you’ll pay in copays, and other helpful information. <br />
 [Download a sample handbook](https://www.va.gov/healthbenefits/vhbh/publications/vhbh_sample_handbook_2014.pdf). <br /> 
@@ -57,14 +61,14 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 
 </li>
 
-<li class="step three">
+<li class="process-step list-three">
 
 **Get your Veterans Health Identification Card (VHIC).** This is the card you’ll use for ID and to check in at your VA health care appointments. To get your card, contact your local VA medical center and ask for the enrollment coordinator. Ask the coordinator to help you arrange to have your picture taken for your new VHIC. Or, you can request your VHIC at your next VA health care appointment. <br /> [Learn more about the VHIC](https://www.va.gov/HEALTHBENEFITS/vhic/index.asp). <br />
 [Connect with your local VA medical center](https://www.va.gov/health/vamc/). 
 
 </li>
 
-<li class="step last four">
+<li class="process-step list-four">
 
 **Go to your first VA doctor’s appointment.** You may have requested a doctor’s appointment when you applied (either in person or on your application). If you did, we’ll set up an appointment for you with a VA doctor or provider and send you a notice with your appointment time in the mail. If you didn’t ask for a doctor’s appointment when you applied, we’ll help you set up your appointment during your welcome call. 
 

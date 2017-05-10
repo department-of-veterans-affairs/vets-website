@@ -64,13 +64,13 @@ You may be at risk of:
 Take these steps to make sure you’re taking care of your health:
 
 <ol class="process">
-<li class="step one">
+<li class="process-step list-one">
 
 Join the Airborne Hazards and Open Burn Pit Registry to document your exposures and health concerns. [Join the registry](https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/). 
 
 </li>
 
-<li class="step two">
+<li class="process-step list-two">
 
 Talk to your primary health care provider or your local VA environmental health coordinator about any health concerns related to your military service. [Find your local VA environmental health coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp). 
 
@@ -80,7 +80,7 @@ Talk to your primary health care provider or your local VA environmental health 
 
 </li>
 
-<li class="step last three">
+<li class="process-step list-three">
 
 Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition caused or made worse by your active-duty service. 
 <br />
@@ -93,6 +93,8 @@ Find out if you can get disability compensation (monthly payments) and other ben
 
 ------
 
+#### Get more information:
+
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
 **Already signed up?** Manage your VA health and benefits online: <br />
@@ -101,4 +103,3 @@ Find out if you can get disability compensation (monthly payments) and other ben
 [Check the status of a disability or pension claim](/track-claims/). 
 
 **Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-
