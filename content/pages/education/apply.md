@@ -55,6 +55,8 @@ Apply online with Form 22-1990, 22-1990E, or 22-5490:
         <label for="form-22-1990">Veterans or Servicemembers applying for a <strong>new benefit</strong> (22-1990)</label>
         <input type="radio" name="form-selection" id="form-22-1990e" value="1990e">
         <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
+        <input type="radio" name="form-selection" id="form-22-1990n" value="1990n">
+        <label for="form-22-1990n">Veterans or Servicememebers applying under the <strong>National Call to Service Program</strong> (22-1990N)</label>
         <input type="radio" name="form-selection" id="form-22-5490-1" value="5490">
         <label for="form-22-5490-1">Dependent applying for a new benefit where your <strong>sponsor is permanently and totally disabled</strong> (22-5490)</label>
         <input type="radio" name="form-selection" id="form-22-5490-2" value="5490">
@@ -67,9 +69,10 @@ Apply online with Form 22-1990, 22-1990E, or 22-5490:
 
 #### Make a change to your current education benefits
 
-If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995:
+If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995 or Form 22-5495:
 
 <a href="/education/apply-for-education-benefits/application/1995" class="usa-button-primary usa-button-outline">Manage Benefits</a>
+<a href="/education/apply-for-education-benefits/application/5495" class="usa-button-primary usa-button-outline">Manage Benefits as a dependent</a>
 
 <div class="usa-alert usa-alert-warning usa-content va-alert" markdown="1">
 	<div class="usa-alert-body">
