@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 
 import * as educationProgram from '../definitions/educationProgram';
-import { uiSchema as uiSchemaDate } from '../../common/schemaform/definitions/date';
+import dateUI from '../../common/schemaform/definitions/date';
 import { civilianBenefitsLabel } from '../utils/helpers';
 
 
@@ -35,7 +35,7 @@ export const schoolSelectionOptionsFor = {
 };
 
 export default function createSchoolSelectionPage(schema, options) {
-  const { fields, required } = options;
+  const { fields, required, title } = options;
 
   const possibleUISchemaFields = {
     educationProgram: educationProgram.uiSchema,
@@ -47,7 +47,7 @@ export default function createSchoolSelectionPage(schema, options) {
       'ui:title': 'If you are on Active Duty only: are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
       'ui:widget': 'yesNo'
     },
-    educationStartDate: uiSchemaDate('The date your training began or will begin'),
+    educationStartDate: dateUI('The date your training began or will begin'),
     restorativeTraining: {
       'ui:title': ' Are you looking for Special Restorative Training because of a disability? Special Restorative Training could include speech and voice therapy, language retraining, lip reading, or Braille reading and writing.',
       'ui:widget': 'yesNo'
@@ -83,9 +83,12 @@ export default function createSchoolSelectionPage(schema, options) {
 
   const uiSchema = pickFields(possibleUISchemaFields);
   uiSchema['ui:order'] = fields;
+  if (title) {
+    uiSchema['ui:title'] = title;
+  }
 
   return {
-    title: 'School selection',
+    title: title || 'School selection',
     path: 'school-selection',
     uiSchema,
     schema: {

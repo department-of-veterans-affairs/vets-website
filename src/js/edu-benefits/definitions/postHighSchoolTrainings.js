@@ -1,5 +1,5 @@
 import EducationView from '../components/EducationView';
-import { uiSchema as uiSchemaDateRange } from '../../common/schemaform/definitions/dateRange';
+import uiSchemaDateRange from '../../common/schemaform/definitions/dateRange';
 
 import {
   hoursTypeLabels,

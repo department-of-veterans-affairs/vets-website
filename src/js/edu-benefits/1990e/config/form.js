@@ -9,9 +9,9 @@ import createSchoolSelectionPage, { schoolSelectionOptionsFor } from '../../page
 import createDirectDepositPage from '../../pages/directDeposit';
 
 import * as address from '../../../common/schemaform/definitions/address';
-import { uiSchema as fullNameUISchema } from '../../../common/schemaform/definitions/fullName';
-import { uiSchema as dateUi } from '../../../common/schemaform/definitions/date';
-import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import fullNameUISchema from '../../../common/schemaform/definitions/fullName';
+import dateUi from '../../../common/schemaform/definitions/date';
+import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 import * as veteranId from '../../definitions/veteranId';
 
@@ -52,7 +52,7 @@ const formConfig = {
     educationType
   },
   title: 'Apply to use transferred education benefits',
-  subTitle: 'Form 22-1990e',
+  subTitle: 'Form 22-1990E',
   chapters: {
     applicantInformation: {
       title: 'Applicant Information',
@@ -128,8 +128,8 @@ const formConfig = {
             required: ['veteranFullName'],
             properties: {
               veteranFullName: fullName,
-              'view:veteranId': veteranId.schema,
-              veteranAddress: address.schema(),
+              'view:veteranId': veteranId.schema(fullSchema1990e),
+              veteranAddress: address.schema(fullSchema1990e),
               serviceBranch
             }
           }
@@ -197,7 +197,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: createContactInformationPage('relativeAddress'),
+        contactInformation: createContactInformationPage(fullSchema1990e, 'relativeAddress'),
         directDeposit: createDirectDepositPage(fullSchema1990e)
       }
     }

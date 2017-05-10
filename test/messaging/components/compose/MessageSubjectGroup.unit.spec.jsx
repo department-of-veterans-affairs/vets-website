@@ -6,8 +6,10 @@ import MessageSubjectGroup from '../../../../src/js/messaging/components/compose
 
 const props = {
   categories: ['recipient1'],
+  category: {},
   charMax: 100,
-  cssErrorClass: 'errorClass'
+  cssErrorClass: 'errorClass',
+  subject: {}
 };
 
 describe('<MessageSubjectGroup>', () => {

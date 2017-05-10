@@ -1,9 +1,6 @@
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { validateRoutingNumber } from '../validation';
 
-export const schema = commonDefinitions.bankAccount;
-
-export const uiSchema = {
+const uiSchema = {
   'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
   accountType: {
     'ui:title': 'Account type',
@@ -28,3 +25,5 @@ export const uiSchema = {
     }
   }
 };
+
+export default uiSchema;

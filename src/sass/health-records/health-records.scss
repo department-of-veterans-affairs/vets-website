@@ -26,6 +26,14 @@
     color: $color-primary;
   }
 
+  a.usa-button {
+    color: $color-white;
+
+    &:visited {
+      color: $color-white;
+    }
+  }
+
   .date-range-fields {
     display: flex;
     display: -webkit-flex;
@@ -57,6 +65,24 @@
   .updatePage {
     text-align: center;
     margin: 0 auto;
+  }
+
+  .heading-wrapper {
+    display: flex;
+    align-items: center;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  .blue-button-logo {
+    background: url(/img/bb-logo.png) no-repeat center center;
+    background-size: contain;
+    height: 40px;
+    width: 40px;
+    padding: 0 1.5em;
+    display: inline-block;
   }
 }
 
