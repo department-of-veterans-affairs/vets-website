@@ -63,7 +63,7 @@ Apply online with Form 22-1990, 22-1990E, 22-1990N, or 22-5490:
           <input type="radio" name="form-selection" id="form-22-5490-2" value="5490">
           <label for="form-22-5490-2">Dependent applying for a new benefit where your <strong>sponsor is deceased, MIA, or a POW</strong> (22-5490)</label>
         </div>
-        <a class="usa-button-primary va-button-primary apply-go-button">Apply Now</a>
+        <a id="apply-now-button" class="usa-button-primary va-button-primary apply-go-button">Apply Now</a>
       </div>
     </div>
   </p>
@@ -86,7 +86,7 @@ If you need to make a change (for example, you’re moving to a new school), man
           <input type="radio" name="form-selection" id="form-22-5495" value="5495">
           <label for="form-22-5495">Dependents applying for a change of place of training, <strong>who are using DEA or Fry Scholarship</strong> (22-5495)</label>
         </div>
-        <a class="usa-button-primary va-button-primary apply-go-button">Manage Now</a>
+        <a id="manage-now-button" class="usa-button-primary va-button-primary apply-go-button">Manage Now</a>
       </div>
     </div>
   </p>
