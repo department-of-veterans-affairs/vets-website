@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
 import AlertBox from '../../common/components/AlertBox';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { closeAlert } from '../actions';
+import ButtonSettings from '../components/buttons/ButtonSettings';
 import { isEmpty } from 'lodash';
 
 // This needs to be a React component for RequiredLoginView to pass down
@@ -67,12 +67,7 @@ class MessagingApp extends React.Component {
                 status={this.props.alert.status}/>
             <div id="messaging-app-title">
               <h1>Message your health care team</h1>
-              <Link
-                  className="va-icon-link msg-btn-settings"
-                  to="/settings">
-                <i className="fa fa-cog"></i>
-                <span>Settings</span>
-              </Link>
+              <ButtonSettings/>
             </div>
             {this.renderWarningBanner()}
           </div>
