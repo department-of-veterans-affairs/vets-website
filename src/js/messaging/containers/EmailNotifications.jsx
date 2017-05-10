@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
@@ -17,6 +18,7 @@ export class EmailNotifications extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderSaveButtons = this.renderSaveButtons.bind(this);
   }
 
   componentDidMount() {
@@ -30,6 +32,35 @@ export class EmailNotifications extends React.Component {
       frequency: { value: frequency }
     } = this.props.preferences;
     this.props.savePreferences({ emailAddress, frequency });
+  }
+
+  renderSaveButtons() {
+    const { emailAddress, frequency } = this.props.preferences;
+    const isSaveable = emailAddress.dirty || frequency.dirty;
+
+    const saveButtonClass = classNames(
+      'usa-button',
+      { 'usa-button-disabled': !isSaveable }
+    );
+
+    return (
+      <div className="msg-notifications-save">
+        <button
+            className={saveButtonClass}
+            disabled={!isSaveable}>
+          Save changes
+        </button>
+        {
+          isSaveable &&
+          (<button
+              className="usa-button-outline"
+              type="button"
+              onClick={this.props.fetchPreferences}>
+            Cancel
+          </button>)
+        }
+      </div>
+    );
   }
 
   render() {
@@ -53,7 +84,6 @@ export class EmailNotifications extends React.Component {
 
     const { emailAddress, frequency } = this.props.preferences;
     const isNotified = ['each_message', 'daily'].includes(frequency.value);
-    const isSaveable = emailAddress.dirty || frequency.dirty;
 
     return (
       <div className="va-tab-content">
@@ -104,15 +134,7 @@ export class EmailNotifications extends React.Component {
               label="Send email notifications to:"
               onValueChange={v => this.props.setNotificationEmail(v)}
               field={emailAddress}/>
-          <div className="msg-notifications-save">
-            <button disabled={!isSaveable}>Save changes</button>
-            {
-              isSaveable &&
-              (<button className="usa-button-outline">
-                Cancel
-              </button>)
-            }
-          </div>
+          {this.renderSaveButtons()}
         </form>
       </div>
     );
