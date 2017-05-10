@@ -86,7 +86,7 @@ Any non-VA provider and their services must meet our quality standards and be ap
 
 --------
 
-#### Get more information:
+#### Get more information
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
