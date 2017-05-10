@@ -86,7 +86,7 @@ If you need to make a change (for example, you’re moving to a new school), man
           <input type="radio" name="form-selection" id="form-22-5495" value="5495">
           <label for="form-22-5495">Dependents applying for a change of place of training, <strong>who are using DEA or Fry Scholarship</strong> (22-5495)</label>
         </div>
-        <a id="manage-now-button" class="usa-button-primary va-button-primary apply-go-button">Manage Now</a>
+        <a id="manage-now-button" class="usa-button-primary va-button-primary apply-go-button">Apply Now</a>
       </div>
     </div>
   </p>
