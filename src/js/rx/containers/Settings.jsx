@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import AlertBox from '../../common/components/AlertBox';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 
@@ -69,6 +70,24 @@ class Settings extends React.Component {
   }
 
   render() {
+    const { isLoading, isSaving } = this.props;
+
+    if (isLoading) {
+      return (
+        <div id="rx-settings">
+          <LoadingIndicator message="Loading preferences..."/>
+        </div>
+      );
+    }
+
+    if (isSaving) {
+      return (
+        <div id="rx-settings">
+          <LoadingIndicator message="Saving preferences..."/>
+        </div>
+      );
+    }
+
     const { alert, email, flag } = this.props;
 
     return (
@@ -111,8 +130,14 @@ class Settings extends React.Component {
 
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
-  const { email, flag } = rxState.preferences;
-  return { alert: rxState.alert, email, flag };
+  const { email, flag, loading, saving } = rxState.preferences;
+  return {
+    alert: rxState.alert,
+    email,
+    flag,
+    isLoading: loading,
+    isSaving: saving
+  };
 };
 
 const mapDispatchToProps = {
