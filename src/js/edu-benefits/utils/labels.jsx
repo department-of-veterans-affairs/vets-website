@@ -25,7 +25,7 @@ export const benefitsLabels = {
 
 // The links and labels are different from the above
 export const survivorBenefitsLabels = {
-  chapter35: <p>Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35)<br/><a href="/education/gi-bill/survivors-dependent-assistance/dependents-education/" target="_blank">Learn more</a></p>,
+  chapter35: <p>Survivors’ and Dependents’ Educational Assistance<br/>(DEA, Chapter 35)<br/><a href="/education/gi-bill/survivors-dependent-assistance/dependents-education/" target="_blank">Learn more</a></p>,
   chapter33: <p>The Fry Scholarship (Chapter 33)<br/><a href="/education/gi-bill/survivors-dependent-assistance/fry-scholarship/" target="_blank">Learn more</a></p>,
 };
 
