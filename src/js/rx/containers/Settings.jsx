@@ -6,6 +6,7 @@ import AlertBox from '../../common/components/AlertBox';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+import { makeField } from '../../common/model/fields';
 
 import { closeAlert } from '../actions/alert';
 
@@ -115,7 +116,9 @@ class Settings extends React.Component {
           <ErrorableTextInput
               name="email"
               label="Send email notifications to:"
-              onValueChange={v => this.props.setNotificationEmail(v)}
+              onValueChange={({ value }) =>
+                this.props.setNotificationEmail(makeField(value, true))
+              }
               field={email}/>
           {this.renderSaveButtons()}
         </form>
