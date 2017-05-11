@@ -7,7 +7,7 @@ import { focusElement } from '../../../common/utils/helpers';
 
 import {
   survivorBenefitsLabels,
-} from '../../utils/helpers';
+} from '../../utils/labels';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {

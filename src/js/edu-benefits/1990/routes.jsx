@@ -1,4 +1,5 @@
-import { chapterNames, hasServiceBefore1978 } from '../utils/helpers';
+import { hasServiceBefore1978 } from '../utils/helpers';
+import { chapterNames } from '../utils/labels';
 import { groupPagesIntoChapters, getPageList } from '../../common/utils/helpers';
 
 import IntroductionPage from './containers/IntroductionPage.jsx';
