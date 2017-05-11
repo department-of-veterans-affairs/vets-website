@@ -5,8 +5,19 @@ display_title: ""
 concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
-relatedlinks: []
-
+relatedlinks:
+  - url: /healthcare/health-conditions/mental-health/ptsd/
+    title: Posttraumatic Stress Disorder (PTSD)
+    description: Learn more about VA health services to help support Veterans with PTSD.
+  - url: /healthcare/health-conditions/mental-health/suicide-prevention/
+    title: Suicide Prevention
+    description: Learn more about VA health services to help support Veterans at risk of suicide and their families.
+  - url: /healthcare/health-conditions/military-sexual-trauma/
+    title: Military Sexual Trauma (MST)
+    description: Learn about VA health services to help support Veterans dealing with issues related to military sexual trauma.
+  - url: /healthcare/health-conditions/substance-use-problems/
+    title: Substance Use Problems
+    description: Learn more about VA health services to help support Veterans with substance use problems.
 ---
 
 <div class="va-introtext">
@@ -65,10 +76,10 @@ Once you’re signed up:
 You may still be able to get care:
 
 - **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at one of our 300 community Vet Centers. [Find a Vet Center near you](https://www.va.gov/directory/guide/vetcenter.asp). 
-- If you’re a homeless Veteran, get mental health care: 
-  - At a Veterans drop-in center, **or** 
-  - By contacting the National Call Center for Homeless Veterans at <a href="tel:+1phonenumber">877-424-3838</a>, or 
-  - By visiting our [Homeless Veterans website](https://www.va.gov/homeless/)
+- **If you’re homeless or at risk of becoming homeless:** 
+  - Visit our website to learn about VA programs for Veterans who are homeless. [Visit www.va.gov/homeless](https://www.va.gov/homeless/).
+  - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1phonenumber">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
+  - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 ### Where can I find more information and support? 
 
@@ -76,6 +87,20 @@ You may still be able to get care:
 - Visit our Self-Help Resources guide to get links to books, web resources, and mobile applications that have been reviewed and recommended by VA experts. [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp). 
 - Go to our Make the Connection website to get resources and watch stories of Veterans who’ve overcome depression and other mental health challenges. [Visit Make the Connection](https://maketheconnection.net/).
 - Call the VA general information hotline at <a href="tel:+1phonenumber">800-827-1000</a>.
+
+------
+
+#### Get more information
+
+**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
+
+**Already signed up?** Manage your VA health and benefits online: <br />
+
+[Refill your prescriptions](/healthcare/prescriptions/). <br /> 
+[Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
+[Check the status of a disability or pension claim](/track-claims/).
+
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 <script type="text/javascript">
 
