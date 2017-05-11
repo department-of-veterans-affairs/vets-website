@@ -5,6 +5,7 @@ display_title: Application Process
 order: 2
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: topic-landing
+children: disabilityApply
 majorlinks:
   - heading:
     links:

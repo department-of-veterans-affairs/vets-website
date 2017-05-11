@@ -6,6 +6,7 @@ order: 5
 source: https://eauth.va.gov/ebenefits/learn/compensation
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: topic-landing
+children: disabilityConditions
 majorlinks:
   - heading: Information on Specific Conditions
     links:

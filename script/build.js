@@ -154,6 +154,41 @@ smith.use(collections({
       name: 'Disability Benefits'
     }
   },
+  disabilityAfterYouApply: {
+    pattern: 'disability-benefits/after-you-apply/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Application Process'
+    }
+  },
+  disabilityApply: {
+    pattern: 'disability-benefits/apply/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Application Process'
+    }
+  },
+  disabilityClaimsAppeal: {
+    pattern: 'disability-benefits/claims-appeal/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Appeals'
+    }
+  },
+  disabilityConditions: {
+    pattern: 'disability-benefits/conditions/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Conditions'
+    }
+  },
+  disabilityEligibility: {
+    pattern: 'disability-benefits/eligibility/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Eligibility'
+    }
+  },
   disabilityAgentOrange: {
     pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md',
     sortBy: 'order',
