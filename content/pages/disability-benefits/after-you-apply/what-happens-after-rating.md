@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: What to Expect after You Get a Disability Rating
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: 6-info-page
+template: detail-page
 ---
 
 <div class="va-introtext">

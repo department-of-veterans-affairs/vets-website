@@ -4,7 +4,7 @@ title: Court of Appeals for Veterans Claims
 concurrence: complete
 source: http://www.bva.va.gov/
 plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
-template: 6-info-page
+template: detail-page
 ---
 
 <div class="va-introtext">
