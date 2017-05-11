@@ -5,10 +5,10 @@ display_title: Conditions
 order: 5
 source: https://eauth.va.gov/ebenefits/learn/compensation
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
-template: topic-landing
+template: detail-page
 children: disabilityConditions
 majorlinks:
-  - heading: Information on Specific Conditions
+  - heading:
     links:
     - url: /disability-benefits/conditions/ptsd/
       title: PTSD

@@ -4,7 +4,7 @@ title: After You Apply for Disability Benefits
 display_title: After You Apply
 order: 3
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: topic-landing
+template: detail-page
 children: disabilityAfterYouApply
 majorlinks:
   - heading:
