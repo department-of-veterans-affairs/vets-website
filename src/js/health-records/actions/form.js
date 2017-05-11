@@ -66,6 +66,9 @@ export function resetForm() {
 
 export function submitForm(formData) {
   return (dispatch) => {
+    window.dataLayer.push({
+      event: 'health-record-request',
+    });
     apiRequest('/v0/health_records',
       {
         headers: {
