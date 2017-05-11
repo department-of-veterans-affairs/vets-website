@@ -12,9 +12,9 @@
   margin: 0;
   top: 50%;
   transform: translateY(-50%);
-  padding: 0 2rem;
+  padding: 2rem;
   position: relative;
-  z-index: -1;
+  z-index: 1;
   width: 100%;
 
   li {
