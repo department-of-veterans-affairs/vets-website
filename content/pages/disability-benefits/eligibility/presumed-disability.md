@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Presumed Disability
 concurrence: incomplete
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
-template: 6-info-page
+template: detail-page
 ---
 
 <div class="va-introtext">
