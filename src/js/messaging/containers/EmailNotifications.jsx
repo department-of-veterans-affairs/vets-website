@@ -81,7 +81,7 @@ export class EmailNotifications extends React.Component {
     if (isSavingPreferences) {
       return (
         <div className="va-tab-content">
-          <LoadingIndicator message="Saving preferences..."/>;
+          <LoadingIndicator message="Saving preferences..."/>
         </div>
       );
     }
