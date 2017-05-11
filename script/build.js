@@ -175,14 +175,14 @@ smith.use(collections({
       name: 'Appeals'
     }
   },
-  disabilityClaimTypes : {
+  disabilityClaimTypes: {
     pattern: 'disability-benefits/apply/claim-types/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Claim Types'
     }
   },
-  disabilityClaimTypesPredischarge : {
+  disabilityClaimTypesPredischarge: {
     pattern: 'disability-benefits/apply/claim-types/predischarge-claim/*.md',
     sortBy: 'order',
     metadata: {
