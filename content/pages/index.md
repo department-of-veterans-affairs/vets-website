@@ -41,8 +41,7 @@ you’ve earned.</div>
     Find nearby VA locations
   </a>
 
-  <a href="/track-claims/" class="usa-button usa-button-outline">
-    Check your claim status
-  </a>
+  <button data-show="#modal-crisisline" class="va-overlay-trigger usa-button usa-button-outline">
+    In crisis? Get help now
+  </button>
 </div>
-
