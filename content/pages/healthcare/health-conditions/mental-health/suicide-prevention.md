@@ -5,8 +5,19 @@ display_title: ""
 concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
-relatedlinks: []
-
+relatedlinks:
+  - url: /healthcare/health-conditions/mental-health/ptsd/
+    title: Posttraumatic Stress Disorder (PTSD)
+    description: Learn more about VA health services to help support Veterans with PTSD.
+  - url: /healthcare/health-conditions/mental-health/depression/
+    title: Depression
+    description: Learn more about VA health services to help support Veterans with depression.
+  - url: /healthcare/health-conditions/military-sexual-trauma/
+    title: Military Sexual Trauma (MST)
+    description: Learn about VA health services to help support Veterans dealing with issues related to military sexual trauma.
+  - url: /healthcare/health-conditions/substance-use-problems/
+    title: Substance Use Problems
+    description: Learn more about VA health services to help support Veterans with substance use problems.
 ---
 
 If you’re a Veteran in a mental health crisis and you’re thinking about hurting yourself—or you know a Veteran who’s considering this—act now. You’re not alone, and you can get help.
@@ -39,6 +50,7 @@ You can also find information and support on our websites:
 ### What are the signs that someone may be considering suicide?
 
 Many Veterans don’t show any signs of an urge to harm themselves before doing so. But some may show signs of depression, anxiety, low self-esteem, or hopelessness, like:
+
 - Seeming sad, depressed, anxious, or agitated most of the time
 - Sleeping either all the time or not much at all
 - Not caring about what they look like or what happens to them
@@ -47,6 +59,7 @@ Many Veterans don’t show any signs of an urge to harm themselves before doing 
 - Expressing feelings of excessive guilt or shame, failure, lack of purpose in life, or being trapped
 
 They may also change the way they act, and start to:
+
 - Perform poorly at work or school
 - Act violently or take risks (like driving fast or running red lights)
 - Do things to prepare for a suicide (like giving away special personal items, making a will, or seeking access to guns or pills)
@@ -79,3 +92,17 @@ Get tips for talking to children of different ages about suicide:
 - [School-age children](https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto9to13.asp)
 - [Teenagers](https://www.mentalhealth.va.gov/suicide_prevention/howtotalkto14to18.asp)
 - [All ages](https://www.mirecc.va.gov/visn19/talk2kids/docs/Talk2Child_color.pdf)
+
+------
+
+#### Get more information
+
+**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
+
+**Already signed up?** Manage your VA health and benefits online: <br />
+
+[Refill your prescriptions](/healthcare/prescriptions/). <br /> 
+[Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
+[Check the status of a disability or pension claim](/track-claims/).
+
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
