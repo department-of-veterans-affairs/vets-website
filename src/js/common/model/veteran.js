@@ -717,6 +717,10 @@ function veteranToApplication(veteran) {
     /* eslint-enable no-param-reassign */
   }
 
+  if (veteran.discloseFinancialInformation.value === 'N') {
+    delete veteran.children; // eslint-disable-line no-param-reassign
+  }
+
   return JSON.stringify(veteran, (key, value) => {
     // Remove properties that are not interesting to the API.
     switch (key) {
