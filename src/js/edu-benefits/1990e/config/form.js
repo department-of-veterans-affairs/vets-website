@@ -107,7 +107,7 @@ const formConfig = {
                 'ui:title': 'Sponsor suffix',
               }
             }),
-            'view:veteranId': _.merge(veteranId.uiSchema, {
+            'view:veteranId': _.merge(veteranId.uiSchema(), {
               veteranSocialSecurityNumber: {
                 'ui:title': 'Sponsor Social Security number'
               },

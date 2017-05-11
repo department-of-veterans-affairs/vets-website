@@ -15,24 +15,28 @@ export function schema(currentSchema) {
   };
 }
 
-export const uiSchema = {
-  veteranSocialSecurityNumber: _.assign(ssnUI, {
-    'ui:required': (formData) => !_.get('view:veteranId.view:noSSN', formData)
-  }),
-  'view:noSSN': {
-    'ui:title': 'I don’t have a Social Security number',
-    'ui:options': {
-      hideOnReview: true
-    }
-  },
-  vaFileNumber: {
-    'ui:required': (formData) => !!_.get('view:veteranId.view:noSSN', formData),
-    'ui:title': 'File number',
-    'ui:errorMessages': {
-      pattern: 'File number must be 8 digits'
+export function uiSchema(prefix = 'veteran', noSSN = 'view:veteranId.view:noSSN') {
+  const fileNumberProp = (prefix === 'veteran') ? 'va' : 'relativeVa';
+
+  return {
+    [`${prefix}SocialSecurityNumber`]: _.assign(ssnUI, {
+      'ui:required': (formData) => !_.get(noSSN, formData)
+    }),
+    'view:noSSN': {
+      'ui:title': 'I don’t have a Social Security number',
+      'ui:options': {
+        hideOnReview: true
+      }
     },
-    'ui:options': {
-      expandUnder: 'view:noSSN'
+    [`${fileNumberProp}FileNumber`]: {
+      'ui:required': (formData) => !!_.get(noSSN, formData),
+      'ui:title': 'File number',
+      'ui:errorMessages': {
+        pattern: 'File number must be 8 digits'
+      },
+      'ui:options': {
+        expandUnder: 'view:noSSN'
+      }
     }
-  }
-};
+  };
+}

@@ -9,7 +9,7 @@ import * as veteranId from '../../../src/js/edu-benefits/definitions/veteranId';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 describe('Edu veteranId', () => {
-  const { uiSchema } = veteranId;
+  const uiSchema = veteranId.uiSchema();
   const schema = veteranId.schema({ definitions: commonDefinitions });
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -84,4 +84,3 @@ describe('Edu veteranId', () => {
     expect(onSubmit.called).to.be.true;
   });
 });
-

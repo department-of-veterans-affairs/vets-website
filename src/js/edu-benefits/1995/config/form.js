@@ -64,7 +64,7 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             veteranFullName: fullNameUI,
-            'view:veteranId': veteranId.uiSchema
+            'view:veteranId': veteranId.uiSchema()
           },
           schema: {
             type: 'object',

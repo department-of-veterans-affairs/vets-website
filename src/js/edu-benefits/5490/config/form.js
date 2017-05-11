@@ -281,7 +281,7 @@ const formConfig = {
                 middle: { 'ui:title': 'Sponsor middle name' },
                 suffix: { 'ui:title': 'Sponsor suffix' },
               }),
-              'view:veteranId': _.merge(veteranId.uiSchema, {
+              'view:veteranId': _.merge(veteranId.uiSchema(), {
                 veteranSocialSecurityNumber: {
                   'ui:title': 'Sponsor Social Security number',
                   'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData) && !_.get('previousBenefits.view:veteranId.view:noSSN', formData)
@@ -387,7 +387,7 @@ const formConfig = {
                   'ui:title': 'Sponsor suffix'
                 }
               }),
-              'view:veteranId': _.merge(veteranId.uiSchema, {
+              'view:veteranId': _.merge(veteranId.uiSchema(), {
                 veteranSocialSecurityNumber: {
                   'ui:title': 'Sponsor Social Security number',
                   'ui:required': (formData) => !_.get('view:currentSameAsPrevious', formData) && !_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData)

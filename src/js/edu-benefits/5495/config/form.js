@@ -101,7 +101,7 @@ const formConfig = {
           title: 'Sponsor information',
           uiSchema: {
             veteranFullName: fullNameUI,
-            'view:veteranId': _.merge(veteranId.uiSchema, {
+            'view:veteranId': _.merge(veteranId.uiSchema(), {
               'view:noSSN': {
                 'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
