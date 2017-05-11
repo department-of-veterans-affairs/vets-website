@@ -23,7 +23,9 @@ class RequiredLoginView extends React.Component {
   isServiceAvailable() {
     const requiredApp = this.props.serviceRequired;
     const userServices = this.props.userProfile.services;
-    return sessionStorage.userToken && userServices && userServices.includes(requiredApp);
+    // TODO: replace indexOf() once NodeJS versions in all environments support includes()
+    return sessionStorage.userToken && userServices &&
+           userServices.indexOf(requiredApp) !== -1;
   }
 
   render() {

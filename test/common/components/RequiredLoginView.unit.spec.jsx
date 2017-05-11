@@ -6,6 +6,9 @@ import _ from 'lodash';
 import RequiredLoginView from '../../../src/js/common/components/RequiredLoginView.jsx';
 
 describe('<RequiredLoginView>', () => {
+  beforeEach(() => {
+    global.sessionStorage = { userToken: 'abcdefg' };
+  });
   const anonymousUser = {
     accountType: null,
     dob: null,
@@ -37,6 +40,7 @@ describe('<RequiredLoginView>', () => {
     dob: '1984-07-17',
     email: 'fake@aol.com',
     gender: 'M',
+    // TODO: use services that actually require LOA3 for clarity?
     services: ['facilities', 'hca', 'user-profile', 'edu-benefits'],
     status: 'OK',
     userFullName: {
@@ -48,6 +52,7 @@ describe('<RequiredLoginView>', () => {
   };
 
   const defaultProps = {
+    // TODO: use service that actually requires level 3 auth for clarity?
     authRequired: 3,
     serviceRequired: 'hca',
     userProfile: loa1User,
@@ -88,7 +93,7 @@ describe('<RequiredLoginView>', () => {
     expect(loadingIndicatorElement.text()).to.contain('Loading your information');
   });
 
-  it('should display children irrespective of isServiceAvailableForUse', () => {
+  it('should display children when service is available', () => {
     const loa3Props = _.merge({}, defaultProps, { userProfile: loa3User });
     const tree = SkinDeep.shallowRender(
       <RequiredLoginView {...loa3Props}>
@@ -99,10 +104,28 @@ describe('<RequiredLoginView>', () => {
     );
     tree.getMountedInstance().setState({
       loading: false,
-      isServiceAvailableForUse: false
     });
 
-    // each direct child should get their props.isDataAvailable set
+    // Child components should not be passed an isDataAvailable prop
+    tree.props.children.forEach((child) => {
+      expect(child.props.isDataAvailable).to.be.undefined;
+    });
+  });
+
+  it('should display children and pass prop when service is not available', () => {
+    const props = _.merge({}, defaultProps, { userProfile: loa3User, serviceRequired: 'messaging' });
+    const tree = SkinDeep.shallowRender(
+      <RequiredLoginView {...props}>
+        <TestChildComponent name="one"/>
+        <TestChildComponent name="two"/>
+        <TestChildComponent name="three"/>
+      </RequiredLoginView>
+    );
+    tree.getMountedInstance().setState({
+      loading: false,
+    });
+
+    // Each direct child component should be passed a false isDataAvailable prop
     tree.props.children.forEach((child) => {
       expect(child.props.isDataAvailable).to.equal(false);
     });
