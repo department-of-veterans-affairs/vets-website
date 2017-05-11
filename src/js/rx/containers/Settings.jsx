@@ -64,10 +64,6 @@ class Settings extends React.Component {
             Cancel
           </button>)
         }
-        <DiscardChangesModal
-            onClose={() => this.setState({ discardChanges: false })}
-            onSubmit={this.props.fetchPreferences}
-            visible={this.state.discardChanges}/>
       </div>
     );
   }
@@ -104,6 +100,10 @@ class Settings extends React.Component {
               field={email}/>
           {this.renderSaveButtons()}
         </form>
+        <DiscardChangesModal
+            onClose={() => this.setState({ discardChanges: false })}
+            onSubmit={this.props.fetchPreferences}
+            visible={this.state.discardChanges}/>
       </div>
     );
   }
