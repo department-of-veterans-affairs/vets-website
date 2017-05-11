@@ -12,11 +12,15 @@ import {
   setNotificationFlag
 } from '../actions/preferences';
 
+import DiscardChangesModal from '../components/DiscardChangesModal';
+
 class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderSaveButtons = this.renderSaveButtons.bind(this);
+
+    this.state = { discardChanges: false };
   }
 
   componentDidMount() {
@@ -25,6 +29,11 @@ class Settings extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    const { email, flag } = this.props;
+    this.props.savePreferences({
+      emailAddress: email.value,
+      rxFlag: flag.value === 'true'
+    });
   }
 
   renderSaveButtons() {
@@ -48,10 +57,14 @@ class Settings extends React.Component {
           (<button
               className="usa-button-outline"
               type="button"
-              onClick={() => {}}>
+              onClick={() => this.setState({ discardChanges: true })}>
             Cancel
           </button>)
         }
+        <DiscardChangesModal
+            onClose={() => this.setState({ discardChanges: false })}
+            onSubmit={this.props.fetchPreferences}
+            visible={this.state.discardChanges}/>
       </div>
     );
   }
@@ -62,9 +75,9 @@ class Settings extends React.Component {
     return (
       <div id="rx-settings">
         <h1>Settings</h1>
-        <p className="rx-tab-explainer">
+        <div>
           Receive email notifications of when your prescriptions ship.
-        </p>
+        </div>
         <form onSubmit={this.handleSubmit}>
           <ErrorableRadioButtons
               name="notifications"
