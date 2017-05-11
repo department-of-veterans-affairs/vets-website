@@ -18,6 +18,7 @@ import {
 } from '../actions/preferences';
 
 import DiscardChangesModal from '../components/DiscardChangesModal';
+import SettingsButton from '../components/SettingsButton';
 
 class Settings extends React.Component {
   constructor(props) {
@@ -99,7 +100,10 @@ class Settings extends React.Component {
             onCloseAlert={this.props.closeAlert}
             scrollOnShow
             status={alert.status}/>
-        <h1>Settings</h1>
+        <div className="rx-app-title">
+          <h1>Settings</h1>
+          <SettingsButton/>
+        </div>
         <div>
           Receive email notifications of when your prescriptions ship.
         </div>

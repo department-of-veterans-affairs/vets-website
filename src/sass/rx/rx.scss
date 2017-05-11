@@ -105,3 +105,14 @@ button.usa-button-outline {
     margin: 3rem 0 0;
   }
 }
+
+.rx-app-title {
+  align-items: flex-start;
+  display: flex;
+
+  h1 {
+    display: inline-block;
+    flex: 1;
+    vertical-align: top;
+  }
+}
