@@ -5,8 +5,19 @@ display_title: PTSD
 concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
-relatedlinks: []
-
+relatedlinks:
+  - url: /healthcare/health-conditions/mental-health/depression/
+    title: Depression
+    description: Learn more about VA health services to help support Veterans with depression.
+  - url: /healthcare/health-conditions/mental-health/suicide-prevention/
+    title: Suicide Prevention
+    description: Learn more about VA services to help support Veterans at risk of suicide and their families.
+  - url: /healthcare/health-conditions/military-sexual-trauma/
+    title: Military Sexual Trauma (MST)
+    description: Learn about VA health services to help support Veterans dealing with issues related to military sexual trauma.
+  - url: /healthcare/health-conditions/substance-use-problems/
+    title: Substance Use Problems
+    description: Learn more about VA health services to help support Veterans with substance use problems.
 ---
 
 <div class="va-introtext">
@@ -57,6 +68,8 @@ We also offer other forms of treatment and support:
 
 [Find a VA medical center or clinic](https://www.va.gov/directory/guide/division.asp?dnum=1). 
 
+<br>
+
 **Please note:** If you don’t live near a VA medical center or clinic, our mental health providers can counsel you over the phone (called telemental health care). Or, we can refer you to a Vet Center or health care provider near you.
 
 </div>
@@ -96,6 +109,20 @@ If you have symptoms of PTSD and suffered a serious injury, personal trauma, sex
 - Use our PTSD Coach Online to help manage stress. [Visit PTSD Coach Online](https://www.ptsd.va.gov/apps/ptsdcoachonline/default.htm).
 - Visit our Self-Help Resources guide for books, web resources, and mobile applications recommended by VA experts. [Get self-help resources](http://www.mentalhealth.va.gov/self_help.asp).
 - Call the VA general information hotline at <a href="tel:+1phonenumber">800-827-1000</a>.
+
+------
+
+#### Get more information
+
+**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
+
+**Already signed up?** Manage your VA health and benefits online: <br />
+
+[Refill your prescriptions](/healthcare/prescriptions/). <br /> 
+[Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
+[Check the status of a disability or pension claim](/track-claims/).
+
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 <script type="text/javascript">
 
