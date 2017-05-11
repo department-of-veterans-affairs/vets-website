@@ -147,6 +147,13 @@ smith.use(define({
 // property to the Markdown document.
 
 smith.use(collections({
+  disability: {
+    pattern: 'disability-benefits/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Disability Benefits'
+    }
+  },
   disabilityAgentOrange: {
     pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md',
     sortBy: 'order',

@@ -1,22 +1,25 @@
 ---
 layout: page-breadcrumbs.html
 title: Disability Benefits Application Process
+display_title: Application Process
+order: 2
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-showactionbar: false
-relatedlinks:
- - url: /disability-benefits/apply/evidence/
-   title: Evidence (Supporting Documents)
-   description: "Find out which supporting documents you’ll need to give us so we can decide your claim."
- - url: /disability-benefits/apply/claim-types/
-   title: Types of Disability Claims 
-   description: "Learn about standard claims, reopened claims, secondary claims, and more."
- - url: /disability-benefits/apply/claim-types/predischarge-claim/
-   title: Predischarge Claim
-   description: "Find out how to file your claim as you get ready to leave the military to speed up the claim decision process."
- - url: /disability-benefits/apply/help/
-   title: Get Help Filing a Claim
-   description: "Find out how to work with a trained professional called an accredited representative."
+template: topic-landing
+majorlinks:
+  - heading:
+    links:
+    - url: /disability-benefits/apply/evidence/
+      title: Evidence (Supporting Documents)
+      description: Find out which supporting documents you’ll need to give us so we can decide your claim.
+    - url: /disability-benefits/apply/claim-types/
+      title: Types of Disability Claims 
+      description: Learn about standard claims, reopened claims, secondary claims, and more.
+    - url: /disability-benefits/apply/claim-types/predischarge-claim/
+      title: Predischarge Claim
+      description: Find out how to file your claim as you get ready to leave the military to speed up the claim decision process.
+    - url: /disability-benefits/apply/help/
+      title: Get Help Filing a Claim
+      description: Find out how to work with a trained professional called an accredited representative.
 ---
 
 <div class="va-introtext">

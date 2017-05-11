@@ -1,16 +1,19 @@
 ---
 layout: page-breadcrumbs.html
 title: Appeals
+order: 6
 concurrence: complete
 plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
-template: 6-info-page
-relatedlinks:
-  - url: /disability-benefits/claims-appeal/veterans-appeals-board/
-    title: Board of Veterans' Appeals
-    description: ""
-  - url: /disability-benefits/claims-appeal/court-appeals-veterans-claims/
-    title: Court of Appeals for Veterans Claims
-    description: ""
+template: topic-landing
+majorlinks:
+  - heading:
+    links:
+    - url: /disability-benefits/claims-appeal/veterans-appeals-board/
+      title: Board of Veterans' Appeals
+      description: ""
+    - url: /disability-benefits/claims-appeal/court-appeals-veterans-claims/
+      title: Court of Appeals for Veterans Claims
+      description: ""
 ---
 
 <div class="va-introtext">

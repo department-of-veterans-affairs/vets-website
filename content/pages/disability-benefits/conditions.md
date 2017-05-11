@@ -1,22 +1,26 @@
 ---
 layout: page-breadcrumbs.html
 title: Conditions Linked to Military Service
+display_title: Conditions
+order: 5
 source: https://eauth.va.gov/ebenefits/learn/compensation
 plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
-relatedlinks:
-  - url: /disability-benefits/conditions/ptsd/
-    title: PTSD
-    description: Learn about the symptoms of posttraumatic stress disorder—and how to get help.
-  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/
-    title: Contact with Harmful Chemicals or Other Hazardous Materials
-    description: Find out if you may have had contact with toxic chemicals or other dangers (like Agent Orange or radiation)—and what to do if you have. 
-  - url: /disability-benefits/conditions/pow/
-    title: Prisoners of War (<abbr>POW</abbr>s)
-    description: Get support for issues resulting from captivity.
-  - url: /disability-benefits/conditions/special-claims/
-    title: Special Claims
-    description: Get help with needs such as special equipment, hospital or rehab care, dental care, being unable to work, and more.
+template: topic-landing
+majorlinks:
+  - heading: Information on Specific Conditions
+    links:
+    - url: /disability-benefits/conditions/ptsd/
+      title: PTSD
+      description: Learn about the symptoms of posttraumatic stress disorder—and how to get help.
+    - url: /disability-benefits/conditions/exposure-to-hazardous-materials/
+      title: Contact with Harmful Chemicals or Other Hazardous Materials
+      description: Find out if you may have had contact with toxic chemicals or other dangers (like Agent Orange or radiation)—and what to do if you have. 
+    - url: /disability-benefits/conditions/pow/
+      title: Prisoners of War (<abbr>POW</abbr>s)
+      description: Get support for issues resulting from captivity.
+    - url: /disability-benefits/conditions/special-claims/
+      title: Special Claims
+      description: Get help with needs such as special equipment, hospital or rehab care, dental care, being unable to work, and more.
 ---
 
 <div class="va-introtext">
@@ -45,8 +49,8 @@ You may be able to get disability benefits if you have a current illness or inju
 
 ### What kind of disability benefits can I get?
 
--	Health care
--	Compensation (payments)
+- Health care
+- Compensation (payments)
 
 ### How do I get these benefits?
 
