@@ -36,8 +36,14 @@
   margin-bottom: 3rem;
 
   // TODO: Move to core?
-  .va-alert:first-child {
-    margin-top: 0;
+  .va-alert {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    & + .rx-app-title {
+      margin-top: 2.5rem;
+    }
   }
 }
 
