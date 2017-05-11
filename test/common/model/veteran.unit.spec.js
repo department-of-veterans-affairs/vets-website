@@ -8,7 +8,7 @@ import { Validator } from 'jsonschema';
 import fakeApplication from './fake-application.json';
 
 // This is a trivial test that shows the CI system is sane.
-describe.only('Veteran model', () => {
+describe('Veteran model', () => {
   describe('veteranToApplication', () => {
     const v = new Validator();
     it('completeVeteran translates exactly to fake-application.json.', () => {
