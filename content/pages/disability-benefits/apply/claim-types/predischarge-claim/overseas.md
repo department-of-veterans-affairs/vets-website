@@ -4,7 +4,8 @@ title: File a Predischarge Claim While Overseas
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp,http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-overseas-intake-sites.asp
 plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
+template: detail-page
+order: 3
 ---
 
 <div class="va-introtext">

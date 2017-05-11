@@ -3,18 +3,22 @@ layout: page-breadcrumbs.html
 title: Get Help Filing a Claim
 concurrence: incomplete
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
+template: detail-page
+collection: disabilityApply
+order: 10
 relatedlinks:
-  - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-    title: What's the fastest way to file a claim?
-  - url: /disability-benefits/apply/ways/
-    title: How do I file a claim?
-  - url: /disability-benefits/apply/claim-types/predischarge-claim/
-    title: How do I file while on active duty?
-  - url: /disability-benefits/apply/claim-types/predischarge-claim/
-    title: How do I file for disabilities that appear within 1 year after discharge?
-  - url: /disability-benefits/after-you-apply/date/
-    title: How does VA decide when my disability compensation starts?
+  - heading:
+    links:
+      - url: /disability-benefits/apply/claim-types/fully-developed-claim/
+        title: What's the fastest way to file a claim?
+      - url: /disability-benefits/apply/ways/
+        title: How do I file a claim?
+      - url: /disability-benefits/apply/claim-types/predischarge-claim/
+        title: How do I file while on active duty?
+      - url: /disability-benefits/apply/claim-types/predischarge-claim/
+        title: How do I file for disabilities that appear within 1 year after discharge?
+      - url: /disability-benefits/after-you-apply/date/
+        title: How does VA decide when my disability compensation starts?
 ---
 
 <div class="va-introtext">
