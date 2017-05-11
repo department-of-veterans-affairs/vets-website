@@ -81,7 +81,11 @@ function completeRelativeInformation(client, data, onlyRequiredFields) {
       .click(data.gender === 'M' ? 'input[name=root_gender_0' : 'input[name=root_gender_1');
     selectDropdown(client, 'root_relativeFullName_suffix', data.relativeFullName.suffix);
 
-    if (data.vaFileNumber) {
+    if (data.relativeVaFileNumber) {
+      client
+        .click('input[name="root_view:noSSN"]')
+        .fill('input[name="root_relativeVaFileNumber"]', data.relativeVaFileNumber);
+    } else if (data.vaFileNumber) {
       client
         .click('input[name="root_view:noSSN"]')
         .fill('input[name="root_vaFileNumber"]', data.vaFileNumber);
