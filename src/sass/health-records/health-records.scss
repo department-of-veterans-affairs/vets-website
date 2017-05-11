@@ -34,6 +34,14 @@
     }
   }
 
+  a.usa-button-outline {
+    color: $color-primary;
+
+    &:visited {
+      color: $color-primary;
+    }
+  }
+
   .date-range-fields {
     display: flex;
     display: -webkit-flex;

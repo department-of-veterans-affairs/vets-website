@@ -4,12 +4,13 @@ import classNames from 'classnames';
 import { set, assign } from 'lodash/fp';
 
 import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import * as address from './definitions/address';
 import { states } from '../utils/options-for-select';
 import { pureWithDeepEquals } from './helpers';
 
-const defaultStateSchema = address.schema().properties.state;
+const defaultStateSchema = address.schema({ definitions: commonDefinitions }).properties.state;
 
 const militaryStates = states.USA.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
 const militaryStateSchema = assign(defaultStateSchema, {

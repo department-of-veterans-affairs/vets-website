@@ -10,11 +10,11 @@ module.exports = E2eHelpers.createE2eTest(
     DisabilityHelpers.initClaimsListMock(token);
     DisabilityHelpers.initClaimDetailMocks(token, false, false, false, 3);
 
-    LoginHelpers.logIn(token, client, '/disability-benefits/track-claims', 3);
+    LoginHelpers.logIn(token, client, '/track-claims', 3);
 
     // Claim list page
     client
-      .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`);
+      .url(`${E2eHelpers.baseUrl}/track-claims`);
 
     E2eHelpers.overrideSmoothScrolling(client);
 

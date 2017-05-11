@@ -28,6 +28,7 @@ describe('Edu 1995 veteranInformation', () => {
       <DefinitionTester
           formData={{}}
           schema={schema}
+          definitions={definitions}
           data={{}}
           uiSchema={uiSchema}/>
     );
@@ -64,6 +65,7 @@ describe('Edu 1995 veteranInformation', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={definitions}
           onSubmit={onSubmit}
           data={{}}
           uiSchema={uiSchema}/>
