@@ -9,30 +9,21 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 class RequiredLoginView extends React.Component {
   constructor(props) {
     super(props);
-    this.setUserLevel = this.setUserLevel.bind(this);
     this.state = {
       loading: true
     };
   }
 
   componentDidMount() {
-    if (sessionStorage.userToken) {
-      this.setUserLevel();
-    }
-
     setTimeout(() => {
       this.setState({ loading: false });
     }, 2000);
   }
 
-  setUserLevel() {
+  isServiceAvailable() {
     const requiredApp = this.props.serviceRequired;
     const userServices = this.props.userProfile.services;
-    if (userServices) {
-      this.setState(
-        { isServiceAvailableForUse: userServices.includes(requiredApp) }
-      );
-    }
+    return sessionStorage.userToken && userServices && userServices.includes(requiredApp);
   }
 
   render() {
@@ -62,11 +53,11 @@ class RequiredLoginView extends React.Component {
           } else {
             // If va_profile has any other value, continue on to check if this user can
             // use this specific service.
-            if (this.state.isServiceAvailableForUse) {
+            if (this.isServiceAvailable()) {
               // If you have the required service, show the application view.
               view = this.props.children;
             } else {
-              // If the required service is not availble, the component will still be rendered,
+              // If the required service is not available, the component will still be rendered,
               // but we pass an `isDataAvailable` prop to child components indicating there is
               // no data. (Only add this prop to React components (functions), and not ordinary
               // DOM elements.)
