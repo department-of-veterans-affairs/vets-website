@@ -23,7 +23,7 @@ class DownloadLink extends React.Component {
 
     window.dataLayer.push({
       event: 'health-record-download',
-      record-type: this.props.docType
+      'record-type': this.props.docType,
     });
 
     if (this.downloadUrl) {
