@@ -718,7 +718,7 @@ function veteranToApplication(veteran) {
   }
 
   if (veteran.discloseFinancialInformation.value === 'N') {
-    delete veteran.children; // eslint-disable-line no-param-reassign
+    veteran.children = []; // eslint-disable-line no-param-reassign
   }
 
   return JSON.stringify(veteran, (key, value) => {

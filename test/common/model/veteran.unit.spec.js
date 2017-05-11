@@ -26,7 +26,7 @@ describe('Veteran model', () => {
       const result = v.validate(application, applicationSchema);
 
       expect(result.valid).to.be.true;
-      expect(application.children).to.be.undefined;
+      expect(application.children).to.be.empty;
     });
   });
 });
