@@ -5,8 +5,19 @@ display_title: ""
 concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
-relatedlinks: []
-
+relatedlinks:
+  - url: /healthcare/health-conditions/mental-health/ptsd/
+    title: Posttraumatic stress disorder (PTSD)
+    description: Learn more about VA health services to help support Veterans with PTSD.
+  - url: /healthcare/health-conditions/mental-health/depression/
+    title: Depression
+    description: Learn more about VA health services to help support Veterans with depression.
+  - url: /healthcare/health-conditions/mental-health/suicide-prevention/
+    title: Suicide Prevention
+    description: Learn more about VA services to help support Veterans at risk of suicide and their families.
+  - url: /healthcare/health-conditions/military-sexual-trauma/
+    title: Military Sexual Trauma (MST)
+    description: Learn about VA health services to help support Veterans dealing with issues related to military sexual trauma.
 ---
 
 <div class="va-introtext">
@@ -15,13 +26,24 @@ If you’re struggling with substance use problems, you’re not alone. Many Vet
 
 </div>
 
-**Are you in crisis? You have options.**
+<div class="usa-alert usa-alert-warning va-alert">
+  <div class="usa-alert-body">
+	<h5>Are you in crisis? <a id="crisis-expander-link">You have options.</a></h5>
+	<div id="crisis-expander-content" class="expander-content expander-content-closed">
+	  <div class="expander-content-inner">
+	    <ul>
+	  	  <li>Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">800-273-8255</a>, then press 1 to talk to someone now.</li>
+		  <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">Get private support online with the confidential Veterans Chat</a>.</li>
+		  <li>Text <a href="sms:838255">838255</a> to get help right away.</li>
+		  <li>Call <a href="tel:911">911</a>.</li>
+		  <li>Go to the nearest emergency room.</li>
+		</ul>
+	  </div>
+  	</div>
+  </div>
+</div>
 
-- Call the Veterans Crisis Line at <a href="tel:+1phonenumber">800-273-8255</a>, then press 1 to talk to someone now.
-- [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/). 
-- Text <a href="tel:+1phonenumber">838255</a> to get help right away.
-- Call <a href="tel:+1phonenumber">911</a>.
-- Go to the nearest emergency room.
+<br>
 
 <div class="feature" markdown=“1”>
 
@@ -84,3 +106,26 @@ You may still be able to get care:
 - Visit our Self-Help Resources guide to get links to books, web resources, and mobile applications that have been reviewed and recommended by VA experts. [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
 - Visit the resources section of our VA website to find more trusted resources outside VA that can offer information and support. [Find resources](https://www.mentalhealth.va.gov/substanceabuse.asp).
 - Download our Stay Quit Coach mobile app—designed to help Veterans with PTSD quit smoking. We based this app on steps proven to work to help people quit smoking. It includes tools to control cravings and manage smoking triggers, messages to keep you going, medication reminders, and more. [Get the Stay Quit Coach app](https://mobile.va.gov/app/stay-quit-coach).  
+
+------
+
+#### Get more information
+
+**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
+
+**Already signed up?** Manage your VA health and benefits online: <br />
+
+[Refill your prescriptions](/healthcare/prescriptions/). <br /> 
+[Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
+[Check the status of a disability or pension claim](/track-claims/).
+
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+
+<script type="text/javascript">
+
+  // Toggle the expandable crisis info
+  document.getElementById('crisis-expander-link')
+    .addEventListener('click', function () {
+      document.getElementById('crisis-expander-content').classList.toggle('expander-content-closed');
+    });
+</script>
