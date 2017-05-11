@@ -26,15 +26,14 @@ import IntroductionPage from '../components/IntroductionPage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import ChildView from '../components/ChildView';
 
-// <<<<<<< HEAD
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
 
 import { schema as childSchema, uiSchema as childUI } from '../definitions/child';
-// =======
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-// >>>>>>> master
+
+import testData from '../../../../test/hca-rjsf/test-data.json';
 
 const {
   mothersMaidenName,
@@ -658,6 +657,7 @@ const formConfig = {
         annualIncome: {
           path: 'household-information/annual-income',
           title: 'Annual income',
+          initialData: testData, // FOR TESTING ONLY
           depends: (data) => data.discloseFinancialInformation,
           uiSchema: {
             'ui:title': 'Annual income',
@@ -690,6 +690,16 @@ const formConfig = {
               }
             },
             'view:childrenIncome': {
+              children: {
+                'ui:field': 'SelectiveArrayField',
+                'ui:selectedFields': [
+                  'grossIncome',
+                  'netIncome',
+                  'otherIncome',
+                  'childRelation' // Remove after testing
+                ],
+                items: childUI
+              },
               'ui:options': {
                 // Or should this be !formData.reportChildren?
                 hideIf: (formData) => !_.get('children.length', formData)
@@ -699,6 +709,9 @@ const formConfig = {
           schema: {
             type: 'object',
             required: ['veteranGrossIncome', 'veteranNetIncome', 'veteranOtherIncome'],
+            // definitions: {
+            //   child: _.omit()
+            // },
             properties: {
               veteranGrossIncome,
               veteranNetIncome,
@@ -711,7 +724,12 @@ const formConfig = {
                   spouseOtherIncome
                 }
               },
-              'view:childrenIncome': {}
+              'view:childrenIncome': {
+                type: 'object',
+                properties: {
+                  children
+                }
+              }
             }
           }
         },

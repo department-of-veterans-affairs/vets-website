@@ -1,0 +1,18 @@
+{
+  "discloseFinancialInformation": true,
+  "children": [
+    {
+      "grossIncome": null,
+      "netIncome": null,
+      "otherIncome": null,
+      "childRelation": "son"
+    },
+    {
+      "grossIncome": null,
+      "netIncome": null,
+      "otherIncome": null,
+      "childRelation": "son"
+    }
+  ],
+  "maritalStatus": "married"
+}

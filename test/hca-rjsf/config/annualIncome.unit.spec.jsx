@@ -37,7 +37,7 @@ describe('Hca annual income', () => {
     .to.equal(6);
   });
 
-  it.skip('should render with children information', () => {
+  it.only('should render with children information', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
@@ -45,13 +45,16 @@ describe('Hca annual income', () => {
           uiSchema={uiSchema}
           data={{
             maritalStatus: 'married',
-            children: [] // Fill me in!
+            children: [
+              {},
+              {}
+            ]
           }}/>
     );
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input, select').length)
-    .to.equal(6); // Change me!
+    .to.equal(12); // Change me!
   });
 
   it('should not submit an empty form', () => {

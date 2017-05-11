@@ -1,11 +1,11 @@
 import _ from 'lodash/fp';
-import { uiSchema as fullNameUI } from '../../common/schemaform/definitions/fullName';
+import fullNameUI from '../../common/schemaform/definitions/fullName';
 import { uiSchema as ssnUI } from '../../common/schemaform/definitions/ssn';
 
 
 export const schema = (hcaSchema) => {
   return _.merge(_.omit(
-      // Seems we don't need these properties...
+      // Figure out how to hide these properties
       ['properties.grossIncome', 'properties.netIncome', 'properties.otherIncome'],
       hcaSchema.definitions.child
     ), {
