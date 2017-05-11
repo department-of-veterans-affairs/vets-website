@@ -3,7 +3,9 @@ _Added: 2017-04-27_
 
 Our current publishing system, Metalsmith, provides a way to group related content using what it calls _collections_. Using collections requires the `metalsmith-collections` plugin ([documentation](https://github.com/segmentio/metalsmith-collections)).
 
-Content grouped within a collection is displayed in the sidebar navigation. Viewing `content/components/navigation-sidebar.html` may clarify some of what's in this document.
+Content grouped within a collection is displayed in the sidebar navigation, and the next/previous links. Next and previous links are set based on the sorting order (`sortBy` property of the collection; see below) 
+
+Viewing `content/components/navigation-sidebar.html` and `content/components/navigation-next-previous.html` _may_ clarify some of what's in this document.
 
 ## Add a new collection
 
@@ -34,14 +36,14 @@ To create a new collection, add a new collection object to `vets-website/script/
 ### What each field means:
 
 - `collectionName`: should be a camel-cased or snake cased string that summarizes the name of the related documents.
-- `pattern`: should be a directory a relative to the site root (without a leading slash), and end with `*.md`.
+- `pattern`: should be a directory a relative to the site root (without a leading slash), and end with `*.md` or `*.html` (`*` is a _wildcard_ character that will match every file with an `.md` or `*.html` extension.)
 - `sortBy`: is any current YAML property used in the front matter metadata (front matter data is the stuff between the `---` at the beginning of each content file). This should be:
 
     - `order`
     - `title`
     - `display_title`
 
-- `metadata`: must be a JavaScript object that contains a `name` property. This field is optional. You may add additional properties.
+- `metadata`: must be a JavaScript object that contains a `name` property. This field is optional. You may add additional properties as here.
 
 ### Adding files to a collection even when it is not in the collection path
 
