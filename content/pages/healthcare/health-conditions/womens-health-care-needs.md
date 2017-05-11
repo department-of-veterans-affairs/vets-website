@@ -5,8 +5,19 @@ display_title: ""
 concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
-relatedlinks: []
-
+relatedlinks:
+  - url: /healthcare/eligibility/
+    title: Health Care Benefits Eligibility
+    description: Not sure if you qualify? Find out if you can get VA health care benefits.
+  - url: /healthcare/apply/
+    title: Health Care Application Process
+    description: Ready to apply? Get started now.
+  - url: /healthcare/about-va-health-care/
+    title: About VA Health Care Coverage
+    description: Want to know more about what’s covered by your VA health care benefits? Learn more about your benefits.
+  - url: /disability-benefits/conditions/
+    title: Disability Benefits
+    description: Find out if you can get disability benefits for an illness or injury caused or made worse by your active-duty service. 
 ---
 
 <div class="va-introtext">
@@ -93,3 +104,18 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
 - Our women’s health website gives you the latest information about how we help women Veterans stay well. [Visit the women’s health website](https://www.womenshealth.va.gov/).
 - Our Center for Women Veterans website tells you about health care and other benefits and programs for women Veterans. [Visit the Center for Women Veterans website](https://www.va.gov/womenvet/). 
 - Our Women Veterans Call Center representatives can help you understand your VA benefits and find the right services to fit your needs. Get free, confidential (private) guidance. Call the Center at 855-VA-WOMEN (<a href="tel:+1phonenumber">855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. ET and Saturday, 8:00 a.m. to 6:30 p.m. ET.
+
+------
+
+#### Get more information
+
+**Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
+
+**Already signed up?** Manage your VA health and benefits online: <br />
+
+[Refill your prescriptions](/healthcare/prescriptions/). <br /> 
+[Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
+[Check the status of a disability or pension claim](/track-claims/).
+
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+
