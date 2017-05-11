@@ -183,8 +183,8 @@
     "fsevents": "^1.0.7"
   },
   "engines": {
-    "node": "4.4.7",
-    "npm": "3.8.9"
+    "node": "6.10.3",
+    "yarn": "0.21.3"
   },
   "private": true,
   "dependencies": {
