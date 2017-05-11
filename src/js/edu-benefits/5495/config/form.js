@@ -21,7 +21,7 @@ import {
 
 import {
   survivorBenefitsLabels
-} from '../../utils/helpers';
+} from '../../utils/labels';
 
 const {
   benefit,
@@ -63,7 +63,7 @@ const formConfig = {
             'gender',
             'relativeSocialSecurityNumber',
             'view:noSSN',
-            'vaFileNumber'
+            'relativeVaFileNumber'
           ]
         }),
         applicantService: applicantServicePage(fullSchema5495)

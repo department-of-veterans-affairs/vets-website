@@ -16,7 +16,7 @@ import {
 import {
   stateLabels,
   survivorBenefitsLabels
-} from '../../utils/helpers';
+} from '../../utils/labels';
 
 import {
   validateDate,
@@ -519,11 +519,21 @@ const formConfig = {
             },
             'view:hasTrainings': {
               'ui:title': 'Do you have any training after high school?',
-              'ui:widget': 'yesNo'
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                hideIf: form => {
+                  const status = _.get('highSchool.status', form);
+                  return status === 'discontinued' || status === 'graduationExpected' || status === 'neverAttended';
+                }
+              }
             },
             postHighSchoolTrainings: _.merge(postHighSchoolTrainingsUi, {
               'ui:options': {
-                expandUnder: 'view:hasTrainings'
+                expandUnder: 'view:hasTrainings',
+                hideIf: form => {
+                  const status = _.get('highSchool.status', form);
+                  return status === 'discontinued' || status === 'graduationExpected' || status === 'neverAttended';
+                }
               }
             })
           },

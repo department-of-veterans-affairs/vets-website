@@ -18,7 +18,8 @@ import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 
-import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
+import { showSchoolAddress } from '../../utils/helpers';
+import { benefitsLabels } from '../../utils/labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 

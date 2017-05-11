@@ -4,7 +4,8 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 
-import { relationshipLabels, genderLabels } from '../utils/helpers';
+import { relationshipLabels, genderLabels } from '../utils/labels';
+
 
 const defaults = (prefix) => {
   return {
@@ -38,6 +39,7 @@ export default function applicantInformation(schema, options) {
   const prefix = (options && options.isVeteran) ? 'veteran' : 'relative';
   const mergedOptions = _.assign(defaults(prefix), options);
   const { fields, required, labels } = mergedOptions;
+  const fileNumberProp = prefix === 'relative' ? 'relativeVaFileNumber' : 'vaFileNumber';
 
   const possibleProperties = _.assign(schema.properties, {
     'view:noSSN': {
@@ -58,7 +60,7 @@ export default function applicantInformation(schema, options) {
       'view:noSSN': {
         'ui:title': 'I don’t have a Social Security number',
       },
-      vaFileNumber: {
+      [fileNumberProp]: {
         'ui:required': (formData) => !!_.get('view:noSSN', formData),
         'ui:title': 'File number',
         'ui:errorMessages': {
