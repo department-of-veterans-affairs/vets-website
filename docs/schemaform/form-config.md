@@ -257,7 +257,7 @@ We've also been adding some additional uiSchema functionality not found in the r
 
     // Function that conditionally replaces the current field's schema
     // The index argument is provided if you use `ui:required` on data inside an array
-    updateSchema: function (formData, schema, uiSchema, index) {
+    updateSchema: function (formData, schema, uiSchema, index, pathToCurrentData) {
       // This function should return an object with the properties you want to update
       // It will not completely replace the existing schema, just update the individual
       // properties
