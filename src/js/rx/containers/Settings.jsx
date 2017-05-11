@@ -2,8 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
+import AlertBox from '../../common/components/AlertBox';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+
+import { closeAlert } from '../actions/alert';
 
 import {
   fetchPreferences,
@@ -70,10 +73,16 @@ class Settings extends React.Component {
   }
 
   render() {
-    const { email, flag } = this.props;
+    const { alert, email, flag } = this.props;
 
     return (
       <div id="rx-settings">
+        <AlertBox
+            content={alert.content}
+            isVisible={alert.visible}
+            onCloseAlert={this.props.closeAlert}
+            scrollOnShow
+            status={alert.status}/>
         <h1>Settings</h1>
         <div>
           Receive email notifications of when your prescriptions ship.
@@ -103,10 +112,11 @@ class Settings extends React.Component {
 const mapStateToProps = (state) => {
   const rxState = state.health.rx;
   const { email, flag } = rxState.preferences;
-  return { email, flag };
+  return { alert: rxState.alert, email, flag };
 };
 
 const mapDispatchToProps = {
+  closeAlert,
   fetchPreferences,
   savePreferences,
   setNotificationEmail,
