@@ -92,20 +92,16 @@ export function uiSchema(label = 'Address', useStreet3 = false) {
           if (isRequired) {
             schemaUpdate.required = addressSchema.required.filter(field => field !== 'state');
           }
-
-          // Only Canada needs a title and we know current country is not Canada because
-          // we don't have a state list
-          if (addressSchema.properties.state.title) {
-            schemaUpdate.properties = _.unset('state.title', schemaUpdate.properties);
-          }
         }
 
+        // Canada has a different title than others, so set that when necessary
         if (country === 'CAN' && schema.title !== 'Province') {
           schemaUpdate.properties = _.set('state.title', 'Province', schemaUpdate.properties);
         } else if (country !== 'CAN' && schema.title !== 'State') {
           schemaUpdate.properties = _.set('state.title', 'State', schemaUpdate.properties);
         }
 
+        // We constrain the state list when someone picks a city that's a military base
         const city = _.get(path.concat('city'), formData);
         if (country === 'USA' && isMilitaryCity(city) && schemaUpdate.properties.state.enum !== militaryStates) {
           schemaUpdate.properties = _.set('state.enum', militaryStates, schemaUpdate.properties);
