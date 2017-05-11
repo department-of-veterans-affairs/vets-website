@@ -6,7 +6,6 @@ import environment from '../../common/helpers/environment.js';
 import { getUserData, addEvent } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateLogInUrl, updateVerifyUrl, updateLogoutUrl } from '../actions';
-import { logOut } from '../../common/actions';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 
 class Main extends React.Component {
@@ -48,8 +47,6 @@ class Main extends React.Component {
       return response.json();
     }).then(json => {
       this.props.onUpdateLoginUrl(json.authenticate_via_get);
-    }).catch(() => {
-      // TODO: need UX for when URL is not available
     });
   }
 
@@ -60,8 +57,6 @@ class Main extends React.Component {
       return response.json();
     }).then(json => {
       this.props.onUpdateVerifyUrl(json.authenticate_via_get);
-    }).catch(() => {
-      // TODO: need UX for when URL is not available
     });
   }
 
@@ -82,8 +77,6 @@ class Main extends React.Component {
       return response.json();
     }).then(json => {
       this.props.onUpdateLogoutUrl(json.logout_via_get);
-    }).catch(() => {
-      // TODO: need UX for when URL is not available
     });
   }
 
@@ -169,10 +162,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
-    },
-    // TODO: this handler doesn't seem to be used anywhere; delete
-    onClearUserData: () => {
-      dispatch(logOut());
     }
   };
 };

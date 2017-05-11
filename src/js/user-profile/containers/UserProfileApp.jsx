@@ -19,7 +19,6 @@ class UserProfileApp extends React.Component {
             <UserDataSection/>
             <AuthApplicationSection
                 userProfile={this.props.profile}
-                loginUrl={this.props.loginUrl}
                 verifyUrl={this.props.verifyUrl}/>
             <AccountManagementSection/>
           </div>
