@@ -35,10 +35,11 @@ You’re a qualified Veteran with a dependent, non-Veteran spouse and no childre
 * Your yearly income = $10,000
 * Your VA pension = $15,525 for the year (or $1,293.75 paid each month)
 
-**Find your Maximum Annual Pension Rate (MAPR) amount**
-* Date of Cost-of-Living Increase: December 1, 2016
-* Increase Factor:  .3%
-* Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.
+### Find your Maximum Annual Pension Rate (MAPR) amount
+
+* ***Date of Cost-of-Living Increase:** December 1, 2016*
+* ***Increase Factor:** .3%*
+* ***Standard Medicare Deduction:** Actual amount will be determined by SSA based on individual income.*
 
 **For Veterans with at least 1 dependent spouse or child:**
 
@@ -53,6 +54,8 @@ You’re a qualified Veteran with a dependent, non-Veteran spouse and no childre
 - **If you have a child who works,** you may exclude their income up to $10,400 for 2017.
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($845 for a Veteran with 1 dependent).
 
+<br>
+
 **For Veterans with no dependents:**
 
 | **If you have no dependents and…** | **Your MARP amount is:** | 
@@ -64,7 +67,11 @@ You’re a qualified Veteran with a dependent, non-Veteran spouse and no childre
 **Note:**
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($645 for a Veteran with no spouse or child).
 
-| **For 2 Veterans who are married to each other and:** | **Your MARP amount is:** |
+<br>
+
+**For 2 Veterans who are married to each other:**
+
+| **If you're 2 Veterans who are married to each other and:** | **Your MARP amount is:** |
 | --- | --- | 
 | Neither of you qualifies for Housebound or A&A benefits | $16,902 | 
 | 1 of you qualifies for Housebound benefits | $19,770 | 
@@ -80,7 +87,7 @@ You’re a qualified Veteran with a dependent, non-Veteran spouse and no childre
 
 [Get historic rate charts from past years](http://www.benefits.va.gov/pension/current_rates_veteran_pen.asp).
 
-**Read full regulations from Title 38 Code of Federal Regulations:**
+#### Read full regulations from Title 38 Code of Federal Regulations
 
 [3.23 Improved Pension Rates – Veterans and Surviving Spouses](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123)
 
