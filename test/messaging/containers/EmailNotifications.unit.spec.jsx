@@ -79,4 +79,27 @@ describe('<EmailNotifications>', () => {
     expect(saveButton.props.disabled).to.be.false;
     expect(cancelButton.text()).to.eql('Cancel');
   });
+
+  it('should hide frequency suboptions when notifications are off', () => {
+    const tree = SkinDeep.shallowRender(
+      <EmailNotifications {...props }/>
+    );
+    expect(tree.subTree('#notifications-on').props.checked).to.be.false;
+    expect(tree.subTree('#notifications-off').props.checked).to.be.true;
+    expect(tree.subTree('ErrorableRadioButtons')).to.not.be.ok;
+  });
+
+  it('should show frequency suboptions when notifications are on', () => {
+    const tree = SkinDeep.shallowRender(
+      <EmailNotifications
+          {...props }
+          preferences={{
+            emailAddress: makeField('test@vets.gov'),
+            frequency: makeField('each_message')
+          }}/>
+    );
+    expect(tree.subTree('#notifications-on').props.checked).to.be.true;
+    expect(tree.subTree('#notifications-off').props.checked).to.be.false;
+    expect(tree.subTree('ErrorableRadioButtons').props.value.value).to.eql('each_message');
+  });
 });
