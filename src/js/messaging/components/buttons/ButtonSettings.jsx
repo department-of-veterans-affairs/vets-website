@@ -2,22 +2,22 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
-class ButtonManageFolders extends React.Component {
+class ButtonSettings extends React.Component {
   render() {
     return (
       <Link
-          className="va-icon-link msg-btn-managefolders"
+          className="va-icon-link msg-btn-settings"
           to="/settings"
           onClick={this.props.onClick}>
-        <i className="fa fa-folder"></i>
-        <span>Manage folders</span>
+        <i className="fa fa-cog"></i>
+        <span>Settings</span>
       </Link>
     );
   }
 }
 
-ButtonManageFolders.propTypes = {
+ButtonSettings.propTypes = {
   onClick: PropTypes.func
 };
 
-export default ButtonManageFolders;
+export default ButtonSettings;
