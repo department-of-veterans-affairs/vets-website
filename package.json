@@ -19,7 +19,7 @@
     "test:unit": "BABEL_ENV=test mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --no-color --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:unit:edu": "mocha --recursive 'test/edu-benefits/**/*.unit.spec.js?(x)' ",
-    "test:unit:msg": "mocha --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
+    "test:unit:msg": "BABEL_ENV=test mocha --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
     "test:unit:hr": "BABEL_ENV=test mocha --recursive 'test/health-records/**/*.unit.spec.js?(x)' ",
     "test:unit:rx": "BABEL_ENV=test mocha --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
     "test:unit:gi": "BABEL_ENV=test mocha --recursive 'test/gibct/**/*.unit.spec.js?(x)' ",
