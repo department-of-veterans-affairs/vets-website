@@ -32,7 +32,7 @@ You may be able to get VA health care benefits if you served on active duty and 
 
 You should know:
 
-- **If you enlisted after September 7, 1980 or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty. This minimum duty requirement may not apply if you:
+- **If you enlisted after September 7, 1980, or entered active duty after October 16, 1981,** you must have served 24 continuous months or the full period for which you were called to active duty. This minimum duty requirement may not apply if you:
 
   - Were discharged for a disability that was caused—or made worse by—your active-duty service, **or**
   - Were discharged for a hardship or "early out," **or**
@@ -79,7 +79,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
 
-Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a rep](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative). 
+Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative). 
 
 Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
@@ -91,7 +91,7 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 When you apply for VA health care, you’ll be assigned 1 of 8 priority groups. This system helps to make sure that Veterans who need immediate care can get signed up quickly.
 
-Your priority group may affect how soon we sign you up for health care benefits. It may also affect how much (if anything) you’ll have to pay toward the cost of your care. [Learn more about health benefit copay rates (https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp). 
+Your priority group may affect how soon we sign you up for health care benefits. It may also affect how much (if anything) you’ll have to pay toward the cost of your care. [Learn more about health benefit copay rates](https://www.va.gov/HEALTHBENEFITS/cost/copay_rates.asp). 
 
 Your priority group will be based on:
 
@@ -102,13 +102,13 @@ Your priority group will be based on:
 - Other benefits you may be receiving (like pension benefits)
 
 We assign Veterans with service-connected disabilities the highest priority. We assign the lowest priority to Veterans who earn a higher income and who don’t have any service-connected disabilities qualifying them for disability compensation (monthly payments).
-[View the different priority groups](https://www.va.gov/healthbenefits/resources/priority_groups.asp/). 
+[View the different priority groups](https://www.va.gov/HEALTHBENEFITS/resources/priority_groups.asp/). 
 
 #### I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits? 
 
 No. Whether or not you have health insurance coverage doesn't affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/healthcare/about-va-health-care/va-health-care-and-other-insurance/).
 
-#### I need vision (eye) care. Can I get it through VA? 
+#### I need vision care. Can I get it through VA? 
 
 We cover routine eye exams and preventive tests under VA health care benefits. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. [Learn more about vision care through VA](/healthcare/about-va-health-care/vision-care/).
 
