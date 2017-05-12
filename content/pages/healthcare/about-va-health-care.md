@@ -189,7 +189,7 @@ If you have other forms of health care coverage (like a private insurance plan, 
 
 ------
 
-#### Get more information
+#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
