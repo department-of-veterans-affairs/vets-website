@@ -21,6 +21,7 @@ export class UpdatePage extends React.Component {
   componentDidMount() {
     this.props.checkRefreshStatus();
     this.pollRefresh();
+    this.refreshTimeout = setTimeout(this.submitAndDownload.bind(this), 600000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -32,6 +33,7 @@ export class UpdatePage extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.pollRefresh);
+    clearTimeout(this.refreshTimeout);
   }
 
   submitAndDownload() {
