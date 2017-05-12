@@ -35,11 +35,11 @@ You’re a qualified surviving spouse with 1 dependent child. You also qualify f
 * Your yearly income = $10,000
 * Your VA pension = $6,506 for the year (or $542.17 paid each month)
 
-**Find your Maximum Annual Pension Rate (MAPR) amount**
+### Find your Maximum Annual Pension Rate (MAPR) amount
 
-* Date of Cost-of-Living Increase: December 1, 2016
-* Increase Factor:  .3%
-* Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.
+* ***Date of Cost-of-Living Increase:** December 1, 2016*
+* ***Increase Factor:**  .3%*
+* ***Standard Medicare Deduction:** Actual amount will be determined by SSA based on individual income.*
 
 **For qualified surviving spouses with at least 1 dependent:**
 
@@ -56,6 +56,8 @@ You’re a qualified surviving spouse with 1 dependent child. You also qualify f
 - **If you have a child who works,** you may exclude their income up to $10,400 for 2017.
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($566 for a surviving spouse with 1 dependent).
 
+<br>
+
 **For qualified surviving spouses with no dependents:**
 
 | **If you have no dependents and…** | **Your MARP amount is:** |
@@ -69,6 +71,8 @@ You’re a qualified surviving spouse with 1 dependent child. You also qualify f
 - The Survivor Benefit Plan (SBP)/Minimum Income Annuity (MIW) limitation is $8,656.
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($432 for a surviving spouse with no dependent child). 
 
+<br>
+
 **For qualified surviving children:**
 
 | **If you’re…**| **Your MARP amount is:** |
@@ -77,7 +81,7 @@ You’re a qualified surviving spouse with 1 dependent child. You also qualify f
 
 [Get historic rate charts from past years](http://www.benefits.va.gov/pension/current_rates_survivor_pen.asp).
 
-**Read the full regulations from Title 38 Code of Federal Regulations:** 
+#### Read the full regulations from Title 38 Code of Federal Regulations
 
 [3.23 Improved Pension Rates – Veterans and Surviving Spouses](https://www.ecfr.gov/cgi-bin/text-idx?SID=ad275643432556b9dda942343fb89296&mc=true&node=pt38.1.3&rgn=div58#se38.1.3_123)
 
