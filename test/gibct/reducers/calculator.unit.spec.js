@@ -14,7 +14,7 @@ describe('calculator reducer', () => {
       }
     );
 
-    expect(state).to.be.eql({ field: 'value' });
+    expect(state).to.eql({ field: 'value' });
   });
 
   it('should correctly change dollar input', () => {
@@ -27,7 +27,7 @@ describe('calculator reducer', () => {
       }
     );
 
-    expect(state).to.be.eql({ tuitionFees: 1000 });
+    expect(state).to.eql({ tuitionFees: 1000 });
   });
 
   it('should correctly change inState input and set inState tuition', () => {
@@ -40,7 +40,7 @@ describe('calculator reducer', () => {
       }
     );
 
-    expect(state).to.be.eql({
+    expect(state).to.eql({
       tuitionInState: 10,
       inState: 'yes',
       inStateTuitionFees: 10,
@@ -58,7 +58,7 @@ describe('calculator reducer', () => {
       }
     );
 
-    expect(state).to.be.eql({
+    expect(state).to.eql({
       tuitionOutOfState: 100,
       inStateTuitionFees: 10,
       inState: 'no',

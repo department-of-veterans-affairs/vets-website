@@ -17,7 +17,7 @@ describe('profile reducer', () => {
       }
     );
 
-    expect(state.inProgress).to.be.eql(true);
+    expect(state.inProgress).to.eql(true);
   });
 
   it('should handle profile fetch failure', () => {
@@ -31,8 +31,8 @@ describe('profile reducer', () => {
       }
     );
 
-    expect(state.errorMessage).to.be.eql('error');
-    expect(state.inProgress).to.be.eql(false);
+    expect(state.errorMessage).to.eql('error');
+    expect(state.inProgress).to.eql(false);
   });
 
   it('should handle profile fetch success', () => {
@@ -54,8 +54,8 @@ describe('profile reducer', () => {
       }
     );
 
-    expect(state.inProgress).to.be.eql(false);
-    expect(state.attributes.name).to.be.eql('NAME');
-    expect(state.version).to.be.eql(1);
+    expect(state.inProgress).to.eql(false);
+    expect(state.attributes.name).to.eql('NAME');
+    expect(state.version).to.eql(1);
   });
 });

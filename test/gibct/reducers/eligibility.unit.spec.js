@@ -35,8 +35,8 @@ describe('eligibility reducer', () => {
       }
     );
 
-    expect(state.militaryStatus).to.be.eql('spouse');
-    expect(state.dropdowns.spouseActiveDuty).to.be.eql(true);
+    expect(state.militaryStatus).to.eql('spouse');
+    expect(state.dropdowns.spouseActiveDuty).to.eql(true);
   });
 
   it('should update eligibility for giBillChapter field', () => {
@@ -49,10 +49,10 @@ describe('eligibility reducer', () => {
       }
     );
 
-    expect(state.giBillChapter).to.be.eql('30');
-    expect(state.dropdowns.enlistmentService).to.be.eql(true);
-    expect(state.dropdowns.cumulativeService).to.be.eql(false);
-    expect(state.dropdowns.consecutiveService).to.be.eql(false);
+    expect(state.giBillChapter).to.eql('30');
+    expect(state.dropdowns.enlistmentService).to.eql(true);
+    expect(state.dropdowns.cumulativeService).to.eql(false);
+    expect(state.dropdowns.consecutiveService).to.eql(false);
   });
 
   it('should update eligibility for general field', () => {
@@ -65,6 +65,6 @@ describe('eligibility reducer', () => {
       }
     );
 
-    expect(state.fieldName).to.be.eql('fieldValue');
+    expect(state.fieldName).to.eql('fieldValue');
   });
 });

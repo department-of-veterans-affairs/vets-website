@@ -16,7 +16,7 @@ describe('constants reducer', () => {
       }
     );
 
-    expect(state.inProgress).to.be.eql(true);
+    expect(state.inProgress).to.eql(true);
   });
 
   it('should handle fetch failed', () => {
@@ -30,8 +30,8 @@ describe('constants reducer', () => {
       }
     );
 
-    expect(state.inProgress).to.be.eql(false);
-    expect(state.errorMessage).to.be.eql('error');
+    expect(state.inProgress).to.eql(false);
+    expect(state.errorMessage).to.eql('error');
   });
 
   it('should handle fetch succeeded', () => {
@@ -55,8 +55,8 @@ describe('constants reducer', () => {
       }
     );
 
-    expect(state.inProgress).to.be.eql(false);
-    expect(state.version).to.be.eql(1);
-    expect(state.constants).to.be.eql({ constantName: 'constantValue' });
+    expect(state.inProgress).to.eql(false);
+    expect(state.version).to.eql(1);
+    expect(state.constants).to.eql({ constantName: 'constantValue' });
   });
 });

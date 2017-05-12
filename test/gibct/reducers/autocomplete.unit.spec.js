@@ -20,8 +20,8 @@ describe('autocomplete reducer', () => {
       }
     );
 
-    expect(state.facilityCode).to.be.eql(null);
-    expect(state.searchTerm).to.be.eql('newSearchTerm');
+    expect(state.facilityCode).to.eql(null);
+    expect(state.searchTerm).to.eql('newSearchTerm');
   });
 
   it('should start autocomplete correctly', () => {
@@ -32,8 +32,8 @@ describe('autocomplete reducer', () => {
       }
     );
 
-    expect(state.inProgress).to.be.eql(true);
-    expect(state.suggestions).to.be.eql([]);
+    expect(state.inProgress).to.eql(true);
+    expect(state.suggestions).to.eql([]);
   });
 
   it('should handle autocomplete failure', () => {
@@ -48,9 +48,9 @@ describe('autocomplete reducer', () => {
       }
     );
 
-    expect(state.inProgress).to.be.eql(false);
-    expect(state.searchTerm).to.be.eql('searchTerm');
-    expect(state.errorMessage).to.be.eql('error');
+    expect(state.inProgress).to.eql(false);
+    expect(state.searchTerm).to.eql('searchTerm');
+    expect(state.errorMessage).to.eql('error');
   });
 
   it('should handle autocomplete success', () => {
@@ -71,19 +71,19 @@ describe('autocomplete reducer', () => {
       }
     );
 
-    expect(state.suggestions.length).to.be.eql(2);
-    expect(state.suggestions[0]).to.be.eql({
+    expect(state.suggestions.length).to.eql(2);
+    expect(state.suggestions[0]).to.eql({
       id: null,
       value: 'searchTerm',
       label: 'searchTerm'
     });
-    expect(state.suggestions[1]).to.be.eql({
+    expect(state.suggestions[1]).to.eql({
       id: 1,
       value: 'autocomplete label',
       label: 'autocomplete label'
     });
-    expect(state.previewVersion).to.be.eql(1);
-    expect(state.inProgress).to.be.eql(false);
+    expect(state.previewVersion).to.eql(1);
+    expect(state.inProgress).to.eql(false);
   });
 
   it('should handle search starting', () => {
@@ -95,6 +95,6 @@ describe('autocomplete reducer', () => {
       }
     );
 
-    expect(state.searchTerm).to.be.eql('newSearchTerm');
+    expect(state.searchTerm).to.eql('newSearchTerm');
   });
 });

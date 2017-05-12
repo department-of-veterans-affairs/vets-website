@@ -11,7 +11,7 @@ describe('search reducer', () => {
       }
     );
 
-    expect(state.filterOpened).to.be.eql(true);
+    expect(state.filterOpened).to.eql(true);
   });
 
   it('should set search inProgress', () => {
@@ -22,7 +22,7 @@ describe('search reducer', () => {
       }
     );
 
-    expect(state.inProgress).to.be.eql(true);
+    expect(state.inProgress).to.eql(true);
   });
 
   it('should set correct state on failure', () => {
@@ -36,8 +36,8 @@ describe('search reducer', () => {
       }
     );
 
-    expect(state.inProgress).to.be.eql(false);
-    expect(state.errorMessage).to.be.eql('error message');
+    expect(state.inProgress).to.eql(false);
+    expect(state.errorMessage).to.eql('error message');
   });
 
   it('should set correct state on success', () => {
@@ -73,15 +73,15 @@ describe('search reducer', () => {
       }
     );
 
-    expect(state.inProgress).to.be.eql(false);
-    expect(state.results.length).to.be.eql(1);
-    expect(state.results[0].name).to.be.eql('RESULT_NAME');
-    expect(state.facets.state.STATEFACETKEY).to.be.eql('value');
-    expect(state.facets.type.TYPEFACETKEY).to.be.eql('value');
-    expect(state.count).to.be.eql(1);
-    expect(state.version).to.be.eql(1);
-    expect(state.pagination.currentPage).to.be.eql(1);
-    expect(state.pagination.totalPages).to.be.eql(1);
-    expect(state.pagination.perPage).to.be.eql(10);
+    expect(state.inProgress).to.eql(false);
+    expect(state.results.length).to.eql(1);
+    expect(state.results[0].name).to.eql('RESULT_NAME');
+    expect(state.facets.state.STATEFACETKEY).to.eql('value');
+    expect(state.facets.type.TYPEFACETKEY).to.eql('value');
+    expect(state.count).to.eql(1);
+    expect(state.version).to.eql(1);
+    expect(state.pagination.currentPage).to.eql(1);
+    expect(state.pagination.totalPages).to.eql(1);
+    expect(state.pagination.perPage).to.eql(10);
   });
 });
