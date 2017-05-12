@@ -49,7 +49,20 @@ When you need other services to meet your goals and needs, your team may call ot
 
 </div>
 
-### How will my health care team work with me?
+### More about your VA care team
+
+**Jump to a section:**
+
+- [How will my health care team work with me?](#health-care-team)
+- [Do I get to choose my primary care provider?](#choose-primary-care-provider)
+- [What happens if my primary care provider leaves VA?](#primary-care-provider-leaves)
+- [Can I see a non-VA provider for care?](#non-va-provider)
+
+<br>
+
+<span id="health-care-team">
+
+#### How will my health care team work with me?
 
 Your team’s goal is to plan for all the care you need to help you stay healthy and well throughout your life. Your team will:
 
@@ -61,17 +74,29 @@ Your team’s goal is to plan for all the care you need to help you stay healthy
 
 - **Coordinate your care.** Team members will meet often to talk with you—and each other—about your progress and goals. And they’ll coordinate any care you may need from specialists outside the team.
 
-### Do I get to choose my primary care provider?
+<br>
+
+<span id="choose-primary-care-provider">
+
+#### Do I get to choose my primary care provider?
 
 You get to choose the main VA location where you’ll get care. We’ll assign you a health care team—including your primary care provider—based on the location you choose.
 
 If you decide you want to change to a different primary care doctor, you’ll need to talk to your health care team leader or to the patient advocate at your VA medical center. [Connect with your medical center](https://www.va.gov/health/vamc/).
 
-### What happens if my primary care provider leaves VA?
+<br>
+
+<span id="primary-care-provider-leaves">
+
+#### What happens if my primary care provider leaves VA?
 
 Your health care team will have a plan in place if your primary care provider is away or leaves VA. Your team will make sure you always have access to a qualified primary care provider and that you keep getting the ongoing care you need to continue with your health care plan.
 
-### Can I see a non-VA provider for care?
+<br>
+
+<span id="non-va-provider">
+
+#### Can I see a non-VA provider for care?
 
 It depends. We may pay for you to receive care from a non-VA provider in some cases, such as when we conclude that:
 
