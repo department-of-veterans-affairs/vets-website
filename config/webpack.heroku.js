@@ -18,11 +18,8 @@ const entryFiles = {
   'no-react': './src/js/no-react-entry.js',
 };
 
-const configGenerator = (options) => {
+const configGenerator = () => {
   var filesToBuild = entryFiles; // eslint-disable-line no-var
-  if (options.entry) {
-    filesToBuild = _.pick(entryFiles, options.entry.split(',').map(x => x.trim()));
-  }
   filesToBuild.vendor = [
     './src/js/common/polyfills',
     'history',
@@ -38,10 +35,10 @@ const configGenerator = (options) => {
   const baseConfig = {
     entry: filesToBuild,
     output: {
-      path: path.join(__dirname, `../build/${options.buildtype}/generated`),
+      path: path.join(__dirname, `../build/development/generated`),
       publicPath: '/generated/',
-      filename: (options.buildtype === 'development') ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: (options.buildtype === 'development') ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
+      filename: '[name].entry.js',
+      chunkFilename: '[name].entry.js'
     },
     module: {
       rules: [
@@ -161,7 +158,7 @@ const configGenerator = (options) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        __BUILDTYPE__: JSON.stringify(options.buildtype),
+        __BUILDTYPE__: 'development',
         __SAMPLE_ENABLED__: (process.env.SAMPLE_ENABLED === 'true'),
         'process.env': {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
@@ -180,13 +177,13 @@ const configGenerator = (options) => {
       }),
 
       new ExtractTextPlugin({
-        filename: (options.buildtype === 'development') ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
+        filename: '[name].css'
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
-        filename: (options.buildtype === 'development') ? 'vendor.js' : `vendor.[chunkhash]-${timestamp}.js`,
+        filename: 'vendor.js',
         minChunks: Infinity
       }),
     ],
