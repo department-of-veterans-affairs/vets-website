@@ -11,7 +11,7 @@ relatedlinks: []
 
 <div class="va-introtext">
 
-If you’re a blind or low vision Veteran or active duty Servicemember, you may be able to get advanced vision care and rehabilitation services through VA to help you live an independent life.
+If you’re a blind or low vision Veteran or active-duty Servicemember, you may be able to get advanced vision care and rehabilitation services through VA to help you live an independent life.
 
 </div>
 
@@ -59,7 +59,7 @@ Or, contact the Blind Rehabilitation Service Program office at:
 
 ------
 
-#### Get more information:
+#### Get more information
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
