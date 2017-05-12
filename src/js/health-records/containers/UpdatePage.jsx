@@ -16,12 +16,13 @@ export class UpdatePage extends React.Component {
       }, 30000);
     };
     this.handleSkipToDownload = this.handleSkipToDownload.bind(this);
+    this.submitAndDownload = this.submitAndDownload.bind(this);
   }
 
   componentDidMount() {
     this.props.checkRefreshStatus();
     this.pollRefresh();
-    this.refreshTimeout = setTimeout(this.submitAndDownload.bind(this), 600000);
+    this.refreshTimeout = setTimeout(this.submitAndDownload, 600000);
   }
 
   componentWillReceiveProps(nextProps) {

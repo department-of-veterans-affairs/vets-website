@@ -37,16 +37,18 @@ export default function form(state = initialState, action) {
     case 'FORM_SUBMITTING':
       return set('inProgress', true, state);
     case 'FORM_SUCCESS':
-      return set('ready', true, {
+      return {
         ...state,
+        ready: true,
         inProgress: false,
         requestDate: new Date().toISOString(),
-      });
+      };
     case 'FORM_FAILURE':
-      return set('ready', false, {
+      return {
         ...state,
         inProgress: false,
-      });
+        ready: false,
+      };
     case 'FORM_RESET':
       return initialState;
     default:

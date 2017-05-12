@@ -107,9 +107,7 @@ export class DownloadPage extends React.Component {
   renderRequestDate() {
     const { form } = this.props;
 
-    if (!form.requestDate) {
-      return null;
-    }
+    if (!form.requestDate) { return null; }
 
     return (
       <p>
