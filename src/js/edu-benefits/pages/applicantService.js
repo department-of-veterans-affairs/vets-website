@@ -8,7 +8,7 @@ import * as toursOfDuty from '../definitions/toursOfDuty';
  * Note: This is a function only to keep it consistent with the other pages, not
  *  because it really needs to be.
  */
-export default function applicantServicePage() {
+export default function applicantServicePage(currentSchema) {
   return {
     title: 'Applicant service',
     path: 'applicant/service',
@@ -39,7 +39,7 @@ export default function applicantServicePage() {
         'view:applicantServed': {
           type: 'boolean'
         },
-        toursOfDuty: toursOfDuty.schema({
+        toursOfDuty: toursOfDuty.schema(currentSchema, {
           fields: [
             'serviceBranch',
             'dateRange',

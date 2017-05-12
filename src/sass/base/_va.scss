@@ -208,15 +208,6 @@ hr {
     position: relative;
   }
 
- .va-notice--banner {
-    display: none !important;
-
-    @include media($medium-screen) {
-      display: block !important;
-    }
-  }
-}
-
 .login-container {
   background: $color-primary-darkest;
   flex-wrap: wrap;
@@ -231,6 +222,7 @@ hr {
   }
 }
 
+}
 
 #va-header-logo-menu {
   flex-wrap: wrap;
@@ -361,8 +353,7 @@ h6 {
   }
 
   .va-h-ruled--a {
-    margin-left: 1.6rem;
-    margin-right: 1.6rem;
+    margin: 2.4rem 1.6rem 0;
 
     @include media($medium-large-screen) {
       max-width: 41%;
@@ -429,6 +420,7 @@ h6 {
   background: $color-white;
   color: $color-primary-darker;
   display: inline-block;
+  font-weight: bold;
   font-size: 2.5rem;
   line-height: 1.3;
   margin: 0 auto;
@@ -889,145 +881,6 @@ li {
   text-align: right;
 }
 
-// Footer
-.footer {
-  color: $color-white;
-  margin: 0 auto;
-  background: $color-primary-darkest;
-  position: relative;
-  overflow: hidden;
-
-  @include media($medium-large-screen) {
-    flex-wrap: nowrap;
-  }
-
-  .va-flex {
-    flex-wrap: wrap;
-
-    @include media($medium-large-screen) {
-      flex-wrap: nowrap;
-    }
-  }
-}
-
-.footer-inner {
-  padding: 2rem 1rem 0;
-}
-
-.footer-seal {
-  background: url(/img/design/sprites/sprite.png) no-repeat 0 -23px;
-  background-size: 215px 72px;
-  width: 215px;
-  height: 49px;
-  text-indent: -999em;
-  overflow: hidden;
-  margin-bottom: 3rem;
-
-  @include media($medium-large-screen) {
-    flex-wrap: nowrap;
-    margin-bottom: 0;
-  }
-}
-
-[class^=va-footer-linkgroup] {
-  a {
-    background: none;
-    color: $color-white;
-    font-size: 1em;
-    font-weight: 400;
-    margin: .25em 0;
-    text-decoration: underline;
-
-    &:hover {
-      color: $color-gold;
-    }
-  }
-}
-
-.va-footer-linkgroup {
-  margin: 2em 0 0 0;
-  flex: 0 1 100%;
-
-  @include media($medium-large-screen) {
-    flex: 0 1 25%;
-    margin: 2em 0 1.5em 0;
-  }
-
-  dd {
-    padding: .25em 0;
-  }
-
-  a {
-    display: inline-block;
-  }
-}
-
-[id=footer-contact] {
-  order: -1;
-
-  @include media($medium-large-screen) {
-    flex: 2 0 50%;
-  }
-}
-
-.va-footer-linkgroup-title {
-  -webkit-font-smoothing: antialiased;
-  color: $color-white;
-  font-weight: 700;
-  font-size: 1em;
-  margin: 0;
-  padding: 0 0 1em 0;
-}
-
-.va-footer-linkgroup--inline {
-  list-style: none;
-  margin: 0 auto .5rem;
-  padding: 0;
-
-  li {
-    padding: 0;
-    display: inline-block;
-
-    &:not(:last-child):after {
-      content: "|";
-      padding: 0 1rem;
-    }
-
-    a {
-      background: none;
-      padding: 0;
-    }
-  }
-}
-
-[id=va-footer-supplementallinks] {
-  align-items: flex-end;
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 10rem;
-
-  @include media($medium-large-screen) {
-    flex-wrap: nowrap;
-  }
-
-  > div {
-      &:first-child {
-        @include media($medium-large-screen) {
-          flex: 0 1 60%;
-        }
-      }
-
-      &:last-child {
-        order: -1;
-
-        @include media($medium-large-screen) {
-          order: 1;
-          flex: 1 1 40%;
-        }
-      }
-  }
-}
-
 .primary blockquote {
   margin: 0 0 1em 0;
   padding: 0 0 0 1em;
@@ -1049,14 +902,15 @@ li {
   }
 }
 
-.va-wip--wide {
-  background: $color-gray-lightest;
+.va-wip {
+  background: $color-white;
   color: $color-gray-dark;
   display: none;
   font-size: 1.152rem;
   margin: auto;
 
   @include media($medium-large-screen) {
+    background: $color-gray-lightest;
     display: block;
   }
 }
@@ -1074,10 +928,14 @@ li {
 
 // Notice / feedback banners
 .va-notice--banner {
-  background: $color-gray-lightest;
+  background: $color-white;
   margin: 0 0 .75em 0;
   padding: 0;
   font-weight: 400;
+
+  @include media($medium-large-screen) {
+    background: $color-gray-lightest;
+  }
 
   &-inner {
     margin: auto;
@@ -1297,12 +1155,38 @@ li {
   border-bottom: $color-va-accent solid 2px;
 }
 
+// If this divider gets reused and with text in the middle
+// you should create a variation of this rule that accounts
+// for the size of the text.
 .va-h-ruled--stars {
+  display: flex;
+  justify-content: center;
+
+  // Flexbox magic means that setting a margin on ::before
+  // applies the same margin to ::after
+  &::before {
+    margin-right: 12rem;
+  }
+
+  &::before,
+  &::after {
+    border-top: 1px solid $color-gray-light;
+    content: " ";
+    display: inline-block;
+    flex: 1 1 50%;
+    margin-top: -4rem;
+  }
+
   background: url(/img/stars.png) no-repeat top center;
-  background-size: 20rem auto;
+  background-size: 11rem auto;
   margin: 2.4rem auto auto;
   padding: 4.8rem 1.6rem 0;
   text-align: center;
+
+  @include media($medium-screen) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 // Action bars
@@ -1395,94 +1279,6 @@ li {
   p {
     padding: 0;
     margin: 0;
-  }
-}
-
-// Mobile menu
-/* Overlay style */
-
-.va-overlay-close {
-  &--icon {
-    display: inline;
-    margin: 0;
-    padding: 1rem;
-    width: auto;
-
-    &:hover {
-      background: transparent;
-    }
-  }
-}
-
-.va-overlay {
-  background: $color-va-modal-bg;
-  height: 100%;
-  left: 0;
-  -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
-  opacity: 0;
-  position: fixed;
-  top: 0;
-  transition: opacity 0.5s, visibility 0s 0.5s;
-  visibility: hidden;
-  width: 100%;
-  z-index: 800;
-
-  input[type="text"] {
-    -webkit-appearance: none;
-    border-radius: 3px 0 0 3px;
-  }
-  @include media($medium-large-screen) {
-    display: none;
-  }
-}
-
-.va-mobile-searchclose  {
-  border-radius: 0;
-  display: block !important;
-  width: 100% !important;
-  margin: 0;
-  width: auto;
-  background: $color-primary;
-}
-
-.va-overlay--open {
-  opacity: 1;
-  visibility: visible;
-  -webkit-transition: opacity 0.5s;
-  transition: opacity 0.5s;
-
-  .columns {
-    padding: 0;
-  }
-}
-
-.va-overlay .menu {
-  -webkit-perspective: 1200px;
-  perspective: 1200px;
-  padding: 1em 1em;
-}
-
-.va-overlay form {
-  opacity: 0.4;
-  -webkit-transform: translateY(-25%) rotateX(35deg);
-  transform: translateY(-25%) rotateX(35deg);
-  -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
-  transition: transform 0.5s, opacity 0.5s;
-}
-
-.va-overlay--open form {
-  opacity: 1;
-  -webkit-transform: rotateX(0deg);
-  transform: rotateX(0deg);
-}
-
-.va-overlay-body {
-  margin: 1rem auto;
-}
-
-@media (max-height: 30.5em) {
-  .overlay form {
-    height: 70%;
   }
 }
 
@@ -1737,4 +1533,14 @@ p.info-message {
     font-size: 1em !important;
     color: $color-gray-dark !important;
   }
+}
+
+
+// ----------------------
+// Fixes an overly-broad ul selector 
+// ----------------------
+
+.usa-sidenav-sub_list {
+  padding-left: 0;
+  list-style: none;
 }

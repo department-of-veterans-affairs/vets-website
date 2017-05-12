@@ -22,7 +22,7 @@ import RoutesDropdown from '../components/debug/RoutesDropdown';
 import { isValidPage, isValidForm } from '../utils/validations';
 import { ensurePageInitialized, updateCompletedStatus, submitForm, veteranUpdateField, setAttemptedSubmit } from '../actions/index';
 
-import { getScrollOptions } from '../../../common/utils/helpers';
+import { getScrollOptions, isInProgress } from '../../../common/utils/helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -57,8 +57,11 @@ class EduBenefitsApp extends React.Component {
   }
 
   onbeforeunload(e) {
+    const { currentLocation } = this.props;
+    const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
+
     let message;
-    if (this.props.location.pathname !== '/1990/introduction') {
+    if (isInProgress(trimmedPathname)) {
       message = 'Are you sure you wish to leave this application? All progress will be lost.';
       // Chrome requires this to be set
       e.returnValue = message;     // eslint-disable-line no-param-reassign
@@ -77,7 +80,8 @@ class EduBenefitsApp extends React.Component {
       submitBenefitsForm(this.props.data);
     };
 
-    const endpoint = currentLocation.pathname.split('/').pop();
+    const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
+    const isIntroductionPage = trimmedPathname.endsWith('introduction');
 
     // Until we come up with a common code base between this and the schemaform
     //  forms, the following is borrowed from NavHeader
@@ -105,10 +109,10 @@ class EduBenefitsApp extends React.Component {
     let contentClass = classNames(
       'progress-box',
       'progress-box-schemaform',
-      { 'intro-content': endpoint === 'introduction' }
+      { 'intro-content': isIntroductionPage }
     );
 
-    const ombInfo = endpoint === 'introduction' ?
+    const ombInfo = isIntroductionPage ?
       // .row.edu-intro-spacing for the bottom spacing, columns for the padding
       (<div className="row edu-intro-spacing columns">
         <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="12/31/2019"/>
@@ -120,9 +124,9 @@ class EduBenefitsApp extends React.Component {
         {devPanel}
         <Element name="topScrollElement"/>
         <div className="usa-width-two-thirds medium-8 columns">
-          <FormTitle title="Apply for education benefits"/>
+          {!isIntroductionPage && <FormTitle title="Apply for education benefits" subTitle="Form 22-1990"/>}
           <div>
-            {!_.includes(['introduction', 'submit-message'], endpoint) && <SegmentedProgressBar total={chapters.length} current={step}/>}
+            {!isIntroductionPage && <SegmentedProgressBar total={chapters.length} current={step}/>}
             <div className="schemaform-chapter-progress">
               <NavHeader path={currentLocation.pathname} chapters={chapters} className="nav-header-schemaform"/>
             </div>
@@ -133,7 +137,7 @@ class EduBenefitsApp extends React.Component {
                 data={data}
                 submission={submission}
                 pages={pages}
-                path={currentLocation.pathname}
+                path={trimmedPathname}
                 isValid={isValidPage(currentLocation.pathname, data)}
                 canSubmit={isValidForm(data)}
                 dirtyPage={dirtyPage}

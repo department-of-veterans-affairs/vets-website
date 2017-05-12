@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import ThreadHeader from '../../../src/js/messaging/components/ThreadHeader';
 
 const props = {
-  currentFolder: { name: 'Inbox' },
+  currentFolder: { folderId: 0, name: 'Inbox', count: 3, unreadCount: 0 },
   currentMessageNumber: 1,
   folderMessageCount: 1,
   folders: [{ folderId: 0, name: 'Inbox' }],
@@ -13,7 +13,11 @@ const props = {
   message: { messageId: 123, subject: 'Subject' },
   messagesCollapsed: true,
   moveToIsOpen: false,
-  threadMessageCount: 2
+  threadMessageCount: 2,
+  onChooseFolder: () => {},
+  onCreateFolder: () => {},
+  onDeleteMessage: () => {},
+  onToggleMoveTo: () => {}
 };
 
 describe('ThreadHeader', () => {

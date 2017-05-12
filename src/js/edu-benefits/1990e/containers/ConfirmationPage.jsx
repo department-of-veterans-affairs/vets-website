@@ -7,7 +7,7 @@ import { focusElement } from '../../../common/utils/helpers';
 
 import {
   benefitsLabels
-} from '../../utils/helpers';
+} from '../../utils/labels';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -52,7 +52,7 @@ class ConfirmationPage extends React.Component {
           <i>Please print this page for your records.</i>
         </p>
         <div className="inset">
-          <h4>Education Benefit Claim <span className="additional">(Form 22-1990e)</span></h4>
+          <h4>Education Benefit Claim <span className="additional">(Form 22-1990E)</span></h4>
           <span>for {name.first} {name.middle} {name.last} {name.suffix}</span>
 
           <ul className="claim-list">
@@ -74,6 +74,7 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
+        <p>Find out what happens <a href="/education/after-you-apply">after you apply</a>.</p>
         <p>Need help? If you have questions, call <a href="tel:888-442-4551">888-442-4551</a> (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.</p>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">

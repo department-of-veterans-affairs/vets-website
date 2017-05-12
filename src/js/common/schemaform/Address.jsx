@@ -4,12 +4,13 @@ import classNames from 'classnames';
 import { set, assign } from 'lodash/fp';
 
 import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import * as address from './definitions/address';
 import { states } from '../utils/options-for-select';
 import { pureWithDeepEquals } from './helpers';
 
-const defaultStateSchema = address.schema().properties.state;
+const defaultStateSchema = address.schema({ definitions: commonDefinitions }).properties.state;
 
 const militaryStates = states.USA.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
 const militaryStateSchema = assign(defaultStateSchema, {
@@ -171,6 +172,20 @@ class Address extends React.Component {
             formContext={formContext}
             onChange={(update) => {this.handleChange('street2', update);}}
             onBlur={onBlur}/>
+
+        {schema.properties.street3 ? <SchemaField
+            name="street3"
+            required={this.isRequired('street3')}
+            schema={schema.properties.street3}
+            uiSchema={uiSchema.street3}
+            idSchema={idSchema.street3}
+            formData={formData.street3}
+            errorSchema={errorSchema.street3}
+            registry={registry}
+            formContext={formContext}
+            onChange={(update) => {this.handleChange('street3', update);}}
+            onBlur={onBlur}/> : null}
+
         <SchemaField
             name="city"
             required={this.isRequired('city')}
