@@ -31,15 +31,15 @@ If you qualify for survivors pension benefits, the amount you get will be based 
 **Example:**
 You’re a qualified surviving spouse with 1 dependent child. You also qualify for A&A benefits. Your yearly income is $10,000.
 
-* Your MAPR amount = $16,506
-* Your yearly income = $10,000
-* Your VA pension = $6,506 for the year (or $542.17 paid each month)
+Your MAPR amount = $16,506
+Your yearly income = $10,000
+Your VA pension = $6,506 for the year (or $542.17 paid each month)
 
 ### Find your Maximum Annual Pension Rate (MAPR) amount
 
-* ***Date of Cost-of-Living Increase:** December 1, 2016*
-* ***Increase Factor:**  .3%*
-* ***Standard Medicare Deduction:** Actual amount will be determined by SSA based on individual income.*
+*Date of Cost-of-Living Increase: December 1, 2016*
+*Increase Factor: .3%*
+*Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.*
 
 **For qualified surviving spouses with at least 1 dependent:**
 
@@ -56,8 +56,6 @@ You’re a qualified surviving spouse with 1 dependent child. You also qualify f
 - **If you have a child who works,** you may exclude their income up to $10,400 for 2017.
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($566 for a surviving spouse with 1 dependent).
 
-<br>
-
 **For qualified surviving spouses with no dependents:**
 
 | **If you have no dependents and…** | **Your MARP amount is:** |
@@ -70,8 +68,6 @@ You’re a qualified surviving spouse with 1 dependent child. You also qualify f
 **Notes:**
 - The Survivor Benefit Plan (SBP)/Minimum Income Annuity (MIW) limitation is $8,656.
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($432 for a surviving spouse with no dependent child). 
-
-<br>
 
 **For qualified surviving children:**
 
