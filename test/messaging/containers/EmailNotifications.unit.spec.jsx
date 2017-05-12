@@ -22,9 +22,16 @@ describe('<EmailNotifications>', () => {
     expect(vdom).to.be.ok;
   });
 
-  it('should show a loading screen', () => {
+  it('should show a loading screen when getting preferences', () => {
     const tree = SkinDeep.shallowRender(
       <EmailNotifications {...props } isLoadingPreferences/>
+    );
+    expect(tree.subTree('LoadingIndicator')).to.be.ok;
+  });
+
+  it('should show a loading screen when saving preferences', () => {
+    const tree = SkinDeep.shallowRender(
+      <EmailNotifications {...props } isSavingPreferences/>
     );
     expect(tree.subTree('LoadingIndicator')).to.be.ok;
   });
