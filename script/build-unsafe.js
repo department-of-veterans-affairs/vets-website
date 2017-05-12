@@ -30,7 +30,7 @@ const sourceDir = '../content/pages';
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
-const webpackConfig = webpackConfigGenerator(options);
+const webpackConfig = webpackConfigGenerator();
 
 // Custom liquid filter(s)
 liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
@@ -53,7 +53,7 @@ smith.use(filenames());
 smith.use(define({
   // Does anything even look at `site`?
   site: require('../config/site'),
-  buildtype: development
+  buildtype: 'development'
 }));
 
 // See the collections documentation here:
