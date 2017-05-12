@@ -1,18 +1,27 @@
 {
   "discloseFinancialInformation": true,
+  "view:reportChildren": true,
   "children": [
     {
+      "childFullName": {
+        "first": "John",
+        "last": "Doe"
+      },
       "grossIncome": null,
       "netIncome": null,
       "otherIncome": null,
-      "childRelation": "son"
+      "childRelation": "Son"
     },
     {
+      "childFullName": {
+        "first": "Jane",
+        "last": "Doe"
+      },
       "grossIncome": null,
       "netIncome": null,
       "otherIncome": null,
-      "childRelation": "son"
+      "childRelation": "Daughter"
     }
   ],
-  "maritalStatus": "married"
+  "maritalStatus": "Married"
 }

@@ -29,11 +29,13 @@ import ChildView from '../components/ChildView';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
 
-import { schema as childSchema, uiSchema as childUI } from '../definitions/child';
+import { schema as createChildSchema, uiSchema as childUI } from '../definitions/child';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 
 import testData from '../../../../test/hca-rjsf/test-data.json';
+
+const childSchema = createChildSchema(fullSchemaHca);
 
 const {
   mothersMaidenName,
@@ -115,7 +117,7 @@ const formConfig = {
     fullName,
     ssn: ssn.oneOf[0], // Mmm...not a fan.
     phone,
-    child: childSchema(fullSchemaHca),
+    child: childSchema,
     monetaryValue,
   },
   chapters: {
@@ -543,11 +545,7 @@ const formConfig = {
         spouseInformation: {
           path: 'household-information/spouse-information',
           title: 'Spouse’s information',
-          // TODO: When veteranInformation is completed, uncomment the maritalStatus comparison
-          depends: (data) => {
-            return data.discloseFinancialInformation; // &&
-              // data.veteranInformation.data.maritalStatus === 'married'
-          },
+          depends: (formData) => formData.discloseFinancialInformation && formData.maritalStatus === 'Married',
           uiSchema: {
             'ui:title': 'Spouse’s information',
             'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
@@ -635,7 +633,6 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             children: {
-              'ui:title': '',
               items: childUI,
               'ui:options': {
                 expandUnder: 'view:reportChildren',
@@ -647,6 +644,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            definitions: {
+              child: _.omit(
+                  // We don't want to show these here...
+                  ['properties.grossIncome', 'properties.netIncome', 'properties.otherIncome'],
+                  childSchema
+                )
+            },
             required: ['view:reportChildren'],
             properties: {
               'view:reportChildren': { type: 'boolean' },
@@ -674,34 +678,40 @@ const formConfig = {
             'view:spouseIncome': {
               'ui:title': 'Spouse income',
               'ui:options': {
-                hideIf: (formData) => formData.maritalStatus !== 'married' // Something else too?
+                hideIf: (formData) => formData.maritalStatus !== 'Married' // Something else too?
               },
               spouseGrossIncome: {
                 'ui:title': 'Spouse gross annual income from employment',
-                'ui:required': (formData) => formData.maritalStatus === 'married'
+                'ui:required': (formData) => formData.maritalStatus === 'Married'
               },
               spouseNetIncome: {
                 'ui:title': 'Spouse Net Income from your Farm, Ranch, Property or Business',
-                'ui:required': (formData) => formData.maritalStatus === 'married'
+                'ui:required': (formData) => formData.maritalStatus === 'Married'
               },
               spouseOtherIncome: {
                 'ui:title': 'Spouse Other Income Amount',
-                'ui:required': (formData) => formData.maritalStatus === 'married'
+                'ui:required': (formData) => formData.maritalStatus === 'Married'
               }
             },
-            'view:childrenIncome': {
-              children: {
-                'ui:field': 'SelectiveArrayField',
-                'ui:selectedFields': [
-                  'grossIncome',
-                  'netIncome',
-                  'otherIncome',
-                  'childRelation' // Remove after testing
-                ],
-                items: childUI
-              },
+            children: {
+              // 'ui:title': 'Child income',
+              'ui:field': 'SelectiveArrayField',
+              'ui:selectedFields': [
+                'grossIncome',
+                'netIncome',
+                'otherIncome'
+              ],
+              items: _.merge(childUI, {
+                'ui:setItemTitle': (formData, index) => {
+                  const name = formData[index].childFullName;
+                  return `${name.first} ${name.last} income`;
+                },
+                // Not working...
+                // grossIncome: { 'ui:required': () => true },
+                // netIncome: { 'ui:required': () => true },
+                // otherIncome: { 'ui:required': () => true }
+              }),
               'ui:options': {
-                // Or should this be !formData.reportChildren?
                 hideIf: (formData) => !_.get('children.length', formData)
               }
             }
@@ -709,9 +719,13 @@ const formConfig = {
           schema: {
             type: 'object',
             required: ['veteranGrossIncome', 'veteranNetIncome', 'veteranOtherIncome'],
-            // definitions: {
-            //   child: _.omit()
-            // },
+            definitions: {
+              child: _.assign(childSchema, {
+                // Why isn't this working??
+                // Even without this, I'm getting error messages: "is not of a type(s) number"
+                required: ['grossIncome', 'netIncome', 'otherIncome']
+              })
+            },
             properties: {
               veteranGrossIncome,
               veteranNetIncome,
@@ -724,12 +738,7 @@ const formConfig = {
                   spouseOtherIncome
                 }
               },
-              'view:childrenIncome': {
-                type: 'object',
-                properties: {
-                  children
-                }
-              }
+              children
             }
           }
         },

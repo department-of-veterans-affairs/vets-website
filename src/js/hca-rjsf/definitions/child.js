@@ -4,30 +4,25 @@ import { uiSchema as ssnUI } from '../../common/schemaform/definitions/ssn';
 
 
 export const schema = (hcaSchema) => {
-  return _.merge(_.omit(
-      // Figure out how to hide these properties
-      ['properties.grossIncome', 'properties.netIncome', 'properties.otherIncome'],
-      hcaSchema.definitions.child
-    ), {
-      required: [
-        'childRelation',
-        'childSocialSecurityNumber',
-        'childDateOfBirth',
-        'childBecameDependent',
-        'childEducationExpenses'
-      ],
-      properties: {
-        'view:childSupportDescription': {
-          type: 'object',
-          properties: {}
-        },
-        childRelation: {
-          // Missing in the schema
-          type: 'string'
-        }
+  return _.merge(hcaSchema.definitions.child, {
+    required: [
+      'childRelation',
+      'childSocialSecurityNumber',
+      'childDateOfBirth',
+      'childBecameDependent',
+      'childEducationExpenses'
+    ],
+    properties: {
+      'view:childSupportDescription': {
+        type: 'object',
+        properties: {}
+      },
+      childRelation: {
+        // Missing in the schema
+        type: 'string'
       }
     }
-  );
+  });
 };
 
 export const uiSchema = {
@@ -87,5 +82,14 @@ export const uiSchema = {
       //  by default
       hideIf: (formData, index) => formData.children[index].childCohabitedLastYear !== false
     }
+  },
+  grossIncome: {
+    'ui:title': 'Gross annual income from employment'
+  },
+  netIncome: {
+    'ui:title': 'Net Income from Farm, Ranch, Property or Business'
+  },
+  otherIncome: {
+    'ui:title': 'Other Income Amount'
   }
 };

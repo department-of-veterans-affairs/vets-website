@@ -91,7 +91,6 @@ class SelectiveArrayField extends React.Component {
     const definitions = registry.definitions;
     const { TitleField, SchemaField } = registry.fields;
 
-
     const title = uiSchema['ui:title'] || schema.title;
     const hideTitle = !!_.get(['ui:options', 'hideTitle'], uiSchema);
     const description = uiSchema['ui:description'];
@@ -143,25 +142,31 @@ class SelectiveArrayField extends React.Component {
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
 
+            // Use ui:setItemTitle function to set a title for each item
+            // Note: this overrides the ui:title
+            // Also, we have to create a new object or we'll have trouble with the reassignment
+            let itemUiSchema = _.assign({}, uiSchema.items);
+            if (typeof itemUiSchema['ui:setItemTitle'] === 'function') {
+              itemUiSchema['ui:title'] = itemUiSchema['ui:setItemTitle'](formData, index);
+            }
+
             return (
               <div key={index}>
                 <Element name={`table_${itemIdPrefix}`}/>
                 <div className="row small-collapse">
                   <div className="small-12 columns">
-                    <div className="input-section">
-                      <SchemaField key={index}
-                          schema={itemSchema}
-                          uiSchema={uiSchema.items}
-                          errorSchema={errorSchema ? errorSchema[index] : undefined}
-                          idSchema={itemIdSchema}
-                          formData={item}
-                          onChange={(value) => this.onItemChange(index, value)}
-                          onBlur={onBlur}
-                          registry={this.props.registry}
-                          required={false}
-                          disabled={disabled}
-                          readonly={readonly}/>
-                    </div>
+                    <SchemaField key={index}
+                        schema={itemSchema}
+                        uiSchema={itemUiSchema}
+                        errorSchema={errorSchema ? errorSchema[index] : undefined}
+                        idSchema={itemIdSchema}
+                        formData={item}
+                        onChange={(value) => this.onItemChange(index, value)}
+                        onBlur={onBlur}
+                        registry={this.props.registry}
+                        required={false}
+                        disabled={disabled}
+                        readonly={readonly}/>
                   </div>
                 </div>
               </div>
