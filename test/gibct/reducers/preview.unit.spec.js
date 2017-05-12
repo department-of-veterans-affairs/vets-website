@@ -17,8 +17,8 @@ describe('preview reducer', () => {
       }
     );
 
-    expect(state.display).to.be.eq(true);
-    expect(state.version).to.be.eq(1);
+    expect(state.display).to.be.eql(true);
+    expect(state.version).to.be.eql(1);
   });
 
   it('should exit preview mode', () => {
@@ -29,8 +29,8 @@ describe('preview reducer', () => {
       }
     );
 
-    expect(state.display).to.be.eq(false);
-    expect(state.version).to.eql({});
+    expect(state.display).to.be.eql(false);
+    expect(state.version).to.be.eql({});
   });
 
   it('should set version correctly', () => {
@@ -42,7 +42,7 @@ describe('preview reducer', () => {
       }
     );
 
-    expect(state.display).to.be.eq(false);
-    expect(state.version).to.be.eq(2);
+    expect(state.display).to.be.eql(false);
+    expect(state.version).to.be.eql(2);
   });
 });

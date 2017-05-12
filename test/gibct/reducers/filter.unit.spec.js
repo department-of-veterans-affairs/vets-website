@@ -34,14 +34,14 @@ describe('filter reducer', () => {
       }
     );
 
-    expect(state.category).to.be.eq('ALL');
-    expect(state.type).to.be.eq('ALL');
-    expect(state.country).to.be.eq('ALL');
-    expect(state.state).to.be.eq('WA');
-    expect(state.studentVeteranGroup).to.be.eq(false);
-    expect(state.yellowRibbonScholarship).to.be.eq(false);
-    expect(state.principlesOfExcellence).to.be.eq(true);
-    expect(state.eightKeysToVeteranSuccess).to.be.eq(false);
-    expect(state.typeName).to.be.eq('ALL');
+    expect(state.category).to.be.eql('ALL');
+    expect(state.type).to.be.eql('ALL');
+    expect(state.country).to.be.eql('ALL');
+    expect(state.state).to.be.eql('WA');
+    expect(state.studentVeteranGroup).to.be.eql(false);
+    expect(state.yellowRibbonScholarship).to.be.eql(false);
+    expect(state.principlesOfExcellence).to.be.eql(true);
+    expect(state.eightKeysToVeteranSuccess).to.be.eql(false);
+    expect(state.typeName).to.be.eql('ALL');
   });
 });

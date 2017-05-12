@@ -12,6 +12,6 @@ describe('title reducer', () => {
       }
     );
 
-    expect(state).to.be.eq('newTitle');
+    expect(state).to.be.eql('newTitle');
   });
 });

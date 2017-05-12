@@ -16,7 +16,7 @@ describe('modals reducer', () => {
       }
     );
 
-    expect(state.displaying).to.be.eq('openModal');
+    expect(state.displaying).to.be.eql('openModal');
   });
 
   it('should close modals when route is updated', () => {
@@ -25,6 +25,6 @@ describe('modals reducer', () => {
       { type: 'UPDATE_ROUTE' }
     );
 
-    expect(state.displaying).to.be.eq(null);
+    expect(state.displaying).to.be.eql(null);
   });
 });

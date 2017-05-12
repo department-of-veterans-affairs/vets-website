@@ -10,7 +10,7 @@ const initialState = {
   suggestions: []
 };
 
-describe('title reducer', () => {
+describe('autocomplete reducer', () => {
   it('should change autocomplete term', () => {
     const state = autocompleteReducer(
       { ...initialState, facilityCode: 'code' },
@@ -20,8 +20,8 @@ describe('title reducer', () => {
       }
     );
 
-    expect(state.facilityCode).to.be.eq(null);
-    expect(state.searchTerm).to.be.eq('newSearchTerm');
+    expect(state.facilityCode).to.be.eql(null);
+    expect(state.searchTerm).to.be.eql('newSearchTerm');
   });
 
   it('should start autocomplete correctly', () => {
@@ -32,8 +32,8 @@ describe('title reducer', () => {
       }
     );
 
-    expect(state.inProgress).to.be.eq(true);
-    expect(state.suggestions).to.eql([]);
+    expect(state.inProgress).to.be.eql(true);
+    expect(state.suggestions).to.be.eql([]);
   });
 
   it('should handle autocomplete failure', () => {
@@ -48,9 +48,9 @@ describe('title reducer', () => {
       }
     );
 
-    expect(state.inProgress).to.be.eq(false);
-    expect(state.searchTerm).to.be.eq('searchTerm');
-    expect(state.errorMessage).to.be.eq('error');
+    expect(state.inProgress).to.be.eql(false);
+    expect(state.searchTerm).to.be.eql('searchTerm');
+    expect(state.errorMessage).to.be.eql('error');
   });
 
   it('should handle autocomplete success', () => {
@@ -71,19 +71,19 @@ describe('title reducer', () => {
       }
     );
 
-    expect(state.suggestions.length).to.be.eq(2);
-    expect(state.suggestions[0]).to.eql({
+    expect(state.suggestions.length).to.be.eql(2);
+    expect(state.suggestions[0]).to.be.eql({
       id: null,
       value: 'searchTerm',
       label: 'searchTerm'
     });
-    expect(state.suggestions[1]).to.eql({
+    expect(state.suggestions[1]).to.be.eql({
       id: 1,
       value: 'autocomplete label',
       label: 'autocomplete label'
     });
-    expect(state.previewVersion).to.be.eq(1);
-    expect(state.inProgress).to.be.eq(false);
+    expect(state.previewVersion).to.be.eql(1);
+    expect(state.inProgress).to.be.eql(false);
   });
 
   it('should handle search starting', () => {
@@ -95,6 +95,6 @@ describe('title reducer', () => {
       }
     );
 
-    expect(state.searchTerm).to.be.eq('newSearchTerm');
+    expect(state.searchTerm).to.be.eql('newSearchTerm');
   });
 });
