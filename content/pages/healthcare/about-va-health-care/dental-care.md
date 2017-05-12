@@ -131,7 +131,7 @@ Click on the statement below that describes you best to find out your benefits c
 </div>
 </li>
 <li>
-<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-vre">I’m active in a 38 USC Chapter 31 vocational rehabilitation program.</button>
+<button class="usa-button-unstyled usa-accordion-button" aria-controls="dental-care-vre">I’m active in a 38 U.S.C. Chapter 31 vocational rehabilitation program.</button>
 <div id="dental-care-vre" class="usa-accordion-content">
 
 **You’re in:** Class V
