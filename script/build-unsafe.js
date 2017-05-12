@@ -7,7 +7,6 @@
 process.stdout.write(`Unsafe Build -- For use on Heroku only`);
 
 const Metalsmith = require('metalsmith');
-const archive = require('metalsmith-archive');
 const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
 const dateInFilename = require('metalsmith-date-in-filename');
@@ -21,7 +20,7 @@ const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const webpack = require('metalsmith-webpack');
-const webpackConfigGenerator = require('../config/webpack.config');
+const webpackConfigGenerator = require('../config/webpack.heroku');
 const semver = require('semver');
 
 const fs = require('fs');
@@ -95,7 +94,6 @@ smith.use(collections({
 }));
 
 smith.use(dateInFilename(true));
-smith.use(archive());  // TODO(awong): Can this be removed?
 
 smith.use(webpack(webpackConfig));
 
