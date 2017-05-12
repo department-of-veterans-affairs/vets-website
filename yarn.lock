@@ -5360,7 +5360,7 @@ metalsmith-webpack-dev-server@department-of-veterans-affairs/metalsmith-webpack-
     chalk "^1.1.1"
     metalsmith "^1.7.0"
     webpack "^2.4.1"
-    webpack-dev-server "1.16"
+    webpack-dev-server "^1.14.1"
 
 metalsmith-webpack@department-of-veterans-affairs/metalsmith-webpack:
   version "1.0.3"
@@ -6651,17 +6651,19 @@ react-addons-perf@^15.3.0:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
-react-autosuggest@^8.0.0:
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/react-autosuggest/-/react-autosuggest-8.0.1.tgz#b2df95b69d5aa4541fee1521ad015a98c74d68f3"
+"react-autosuggest@https://github.com/bshyong/react-autosuggest-ie11-compatible.git#361e3adbe90ba1a10cea9bc108ca9d2fe8281160":
+  version "9.0.1"
+  resolved "https://github.com/bshyong/react-autosuggest-ie11-compatible.git#361e3adbe90ba1a10cea9bc108ca9d2fe8281160"
   dependencies:
-    react-autowhatever "^7.0.0"
+    prop-types "^15.5.8"
+    react-autowhatever "^10.0.0"
     shallow-equal "^1.0.0"
 
-react-autowhatever@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/react-autowhatever/-/react-autowhatever-7.0.0.tgz#7ea19f8024183acf1568fc8e4b76c0d0cc250d00"
+react-autowhatever@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/react-autowhatever/-/react-autowhatever-10.0.0.tgz#2d7fd54f0a330e33c06c53a83ef789da0ebb65bf"
   dependencies:
+    prop-types "^15.5.8"
     react-themeable "^1.1.0"
     section-iterator "^2.0.0"
 
@@ -8414,7 +8416,7 @@ webpack-dev-middleware@^1.10.2:
     path-is-absolute "^1.0.0"
     range-parser "^1.0.3"
 
-webpack-dev-server@1.16:
+webpack-dev-server@^1.14.1:
   version "1.16.5"
   resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-1.16.5.tgz#0cbd5f2d2ac8d4e593aacd5c9702e7bbd5e59892"
   dependencies:
