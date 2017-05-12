@@ -60,8 +60,8 @@ You can learn more about the different types of care below or on our va.gov webs
 
 You may be able to use one or more of these services if:
 
-- You’re signed up for VA health care, and
-- We conclude that you need a specific service to help with your ongoing treatment and personal care, and
+- You’re signed up for VA health care, **and**
+- We conclude that you need a specific service to help with your ongoing treatment and personal care, **and**
 - The service (or space in the care setting) is available near you
 
 We may also consider other factors, like your service-connected disability status or insurance coverage.
@@ -126,7 +126,7 @@ These places are not run, staffed, or paid for by VA, but we do inspect and appr
 Learn more about:
 
 [Medical foster homes](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Medical_Foster_Homes.asp)
-Private homes where a few people live together and get care. [Learn more about medical foster homes
+Private homes where a few people live together and get care.
 
 [Adult family homes (or adult foster homes)](https://www.va.gov/GERIATRICS/Guide/LongTermCare/Adult_Family_Homes.asp)
 Private homes with rooms to rent for 6 or fewer people
@@ -181,7 +181,7 @@ Other services for home health care (like adult day health care or skilled healt
 
 ------
 
-#### Get more information:
+#### Get more information
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
