@@ -1,10 +1,11 @@
 import _ from 'lodash/fp';
 
-import * as currentOrPastDate from '../../common/schemaform/definitions/currentOrPastDate';
-import * as fullName from '../../common/schemaform/definitions/fullName';
-import * as ssn from '../../common/schemaform/definitions/ssn';
+import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import fullNameUI from '../../common/schemaform/definitions/fullName';
+import ssnUI from '../../common/schemaform/definitions/ssn';
 
-import { relationshipLabels, genderLabels } from '../utils/helpers';
+import { relationshipLabels, genderLabels } from '../utils/labels';
+
 
 const defaults = (prefix) => {
   return {
@@ -38,6 +39,7 @@ export default function applicantInformation(schema, options) {
   const prefix = (options && options.isVeteran) ? 'veteran' : 'relative';
   const mergedOptions = _.assign(defaults(prefix), options);
   const { fields, required, labels } = mergedOptions;
+  const fileNumberProp = prefix === 'relative' ? 'relativeVaFileNumber' : 'vaFileNumber';
 
   const possibleProperties = _.assign(schema.properties, {
     'view:noSSN': {
@@ -51,14 +53,14 @@ export default function applicantInformation(schema, options) {
     initialData: {},
     uiSchema: {
       'ui:order': fields,
-      [`${prefix}FullName`]: fullName.uiSchema,
-      [`${prefix}SocialSecurityNumber`]: _.assign(ssn.uiSchema, {
+      [`${prefix}FullName`]: fullNameUI,
+      [`${prefix}SocialSecurityNumber`]: _.assign(ssnUI, {
         'ui:required': (formData) => !_.get('view:noSSN', formData)
       }),
       'view:noSSN': {
         'ui:title': 'I don’t have a Social Security number',
       },
-      vaFileNumber: {
+      [fileNumberProp]: {
         'ui:required': (formData) => !!_.get('view:noSSN', formData),
         'ui:title': 'File number',
         'ui:errorMessages': {
@@ -68,7 +70,7 @@ export default function applicantInformation(schema, options) {
           expandUnder: 'view:noSSN'
         }
       },
-      [`${prefix}DateOfBirth`]: _.assign(currentOrPastDate.uiSchema('Date of birth'),
+      [`${prefix}DateOfBirth`]: _.assign(currentOrPastDateUI('Date of birth'),
         {
           'ui:errorMessages': {
             pattern: 'Please provide a valid date',

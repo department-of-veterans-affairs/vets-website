@@ -1,5 +1,4 @@
 import _ from 'lodash/fp';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { countries } from '../../utils/options-for-select';
 import { validateAddress } from '../validation';
 
@@ -9,11 +8,11 @@ import { validateAddress } from '../validation';
 const countryValues = countries.map(object => object.value);
 const countryNames = countries.map(object => object.label);
 
-export function schema(isRequired = false) {
+export function schema(currentSchema, isRequired = false) {
   return {
     type: 'object',
     required: isRequired ? ['street', 'city', 'country', 'postalCode'] : undefined,
-    properties: _.assign(commonDefinitions.address.properties, {
+    properties: _.assign(currentSchema.definitions.address.properties, {
       country: {
         'default': 'USA',
         type: 'string',

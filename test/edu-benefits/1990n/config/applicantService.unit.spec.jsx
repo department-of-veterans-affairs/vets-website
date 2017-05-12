@@ -12,6 +12,7 @@ describe('Edu 1990n applicantService', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={formConfig.defaultDefinitions}
           data={{}}
           uiSchema={uiSchema}/>
     );
@@ -24,6 +25,7 @@ describe('Edu 1990n applicantService', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={formConfig.defaultDefinitions}
           data={{}}
           uiSchema={uiSchema}/>
     );
