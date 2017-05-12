@@ -69,7 +69,11 @@ You should also know that being signed up for VA health care meets your Affordab
 - [Will VA cover any non-medical services to support my treatment?](#health-about-non-medical)
 - [Will VA cover my vision care?](#health-about-vision)
 - [Will VA cover my dental care?](#health-about-dental)
+- [Will VA cover my assisted living and home health care?](#about-assisted-living)
 - [What services are *not* covered under VA health care?](#health-about-not-covered)
+- [Who will care for me at VA?](#health-about-care-team)
+- [Where will I go to get care?](#health-about-care-locations)
+- [How will VA health care work if I have Medicare, Medicaid, or private insurance too?](health-about-other-insurance)
 
 <br>
 
@@ -136,6 +140,14 @@ In certain cases, you may receive dental care as part of your VA health benefits
 
 <br>
 
+<span id="health-about-assisted-living">
+
+#### Will VA cover my assisted living and home health care?
+
+As a Veteran, you may be able to get assisted living, residential (live-in), or home health care through VA. [Find out how to access these long-term care services](/healthcare/about-va-health-care/assisted-living-and-home-health-care/).
+
+<br>
+
 <span id="health-about-not-covered">
 
 #### What services are *not* covered under VA health care?
@@ -150,6 +162,30 @@ These services are *not* included in your VA medical benefits package:
   - You’re in an approved clinical trial, **or**
   - You’re seriously ill and your VA health care provider prescribes a new, unapproved medicine because there are no other comparable treatment options (called a compassionate use or expanded access exemption)
  - Inpatient hospital or outpatient care if you’re a patient or inmate in a non-VA government agency institution, if that agency must provide the care or services by law
+ 
+<br>
+
+<span id="health-about-care-team">
+ 
+#### Who will care for me at VA?
+
+At VA, we take a team approach to health care—with you at the center. Research shows this kind of approach leads to better quality care, more satisfied patients, and fewer hospital visits. [Find out who will care for you when you become part of the VA health care program](/healthcare/about-va-health-care/your-care-team/).
+
+<br>
+
+<span id="health-about-care-locations">
+
+#### Where will I go to get care?
+
+When you sign up for VA health care, you become part of the country’s largest integrated health care system—with more than 1,200 care locations serving nearly 9 million Veterans each year. [Learn more about where you’ll get care](/healthcare/about-va-health-care/where-you-get-care/).
+
+<br>
+
+<span id="health-about-other-insurance">
+
+#### How will VA health care work if I have Medicare, Medicaid, or private insurance too?
+
+If you have other forms of health care coverage (like a private insurance plan, Medicare, Medicaid, or TRICARE), you can use VA health care benefits along with these plans. [Learn more about how VA works with other health insurance](/healthcare/about-va-health-care/va-health-care-and-other-insurance/).
 
 ------
 
