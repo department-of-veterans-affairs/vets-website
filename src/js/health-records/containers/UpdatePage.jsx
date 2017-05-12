@@ -26,8 +26,7 @@ export class UpdatePage extends React.Component {
   componentWillReceiveProps(nextProps) {
     const erroredUpdates = nextProps.refresh.statuses.failed;
     if (erroredUpdates.length === 0) {
-      this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
-      this.props.router.push('/download');
+      this.submitAndDownload();
     }
   }
 
@@ -35,10 +34,14 @@ export class UpdatePage extends React.Component {
     clearInterval(this.pollRefresh);
   }
 
-  handleSkipToDownload(e) {
-    e.preventDefault();
+  submitAndDownload() {
     this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
     this.props.router.push('/download');
+  }
+
+  handleSkipToDownload(e) {
+    e.preventDefault();
+    this.submitAndDownload();
   }
 
   render() {

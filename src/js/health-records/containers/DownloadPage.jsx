@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
 import isMobile from 'ismobilejs';
+import { isEmpty } from 'lodash';
 
 import AlertBox from '../../common/components/AlertBox';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -27,7 +28,7 @@ export class DownloadPage extends React.Component {
         </div>
       );
       alertProps.status = 'error';
-    } else if (refresh && refresh.statuses.incomplete && refresh.statuses.incomplete.length > 0) {
+    } else if (refresh && !isEmpty(refresh.statuses.incomplete)) {
       alertProps.content = (
         <div>
           <h4>Your health records are not up to date</h4>
@@ -37,7 +38,7 @@ export class DownloadPage extends React.Component {
         </div>
       );
       alertProps.status = 'warning';
-    } else if (refresh && refresh.statuses.failed && refresh.statuses.failed.length > 0) {
+    } else if (refresh && !isEmpty(refresh.statuses.failed)) {
       alertProps.content = (
         <div>
           <h4>Couldn't update your records</h4>
@@ -103,6 +104,33 @@ export class DownloadPage extends React.Component {
     return <DownloadLink ref={e => { this.pdfDownloadButton = e; }} onClick={linkOnClick} name="PDF File" docType="pdf"/>;
   }
 
+  renderRequestDate() {
+    const { form } = this.props;
+
+    if (!form.requestDate) {
+      return null;
+    }
+
+    return (
+      <p>
+        <strong>Request Date:</strong> {moment(form.requestDate).format('MMMM Do YYYY')}
+      </p>
+    );
+  }
+
+  renderDownloadButtons() {
+    const { form } = this.props;
+
+    if (!form.ready) { return null; }
+
+    return (
+      <div>
+        {this.renderPDFDownloadButton()}
+        <DownloadLink name="Text File" docType="txt"/>
+      </div>
+    );
+  }
+
   render() {
     if (this.props.form.inProgress) {
       return <LoadingIndicator message="Generating Health Record"/>;
@@ -112,13 +140,8 @@ export class DownloadPage extends React.Component {
       <div>
         <h1>Access Your Health Records</h1>
         {this.renderMessageBanner()}
-        <p>
-          <strong>Request Date:</strong> {moment(this.props.form.requestDate).format('MMMM Do YYYY')}
-        </p>
-        <div>
-          {this.renderPDFDownloadButton()}
-          <DownloadLink name="Text File" docType="txt"/>
-        </div>
+        {this.renderRequestDate()}
+        {this.renderDownloadButtons()}
         <p>
           {this.renderConfirmModal()}
         </p>
