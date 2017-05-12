@@ -87,6 +87,18 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 ### More about VA health care eligibility
 
+**Jump to a section:**
+
+- [What are priority groups and how do they affect me?](#priority-groups)
+- [I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits?](#other-health-insurance)
+- [I need vision care. Can I get it through VA?](#vision-care) 
+- [I need dental care. Can I get it through VA?](#dental-care)
+- [I think I may have a service-connected disability. Can I get disability compensation (monthly payments)?](#disability-compensation)
+
+<br>
+
+<span id="priority-groups">
+
 #### What are priority groups and how do they affect me? 
 
 When you apply for VA health care, you’ll be assigned 1 of 8 priority groups. This system helps to make sure that Veterans who need immediate care can get signed up quickly.
@@ -104,17 +116,33 @@ Your priority group will be based on:
 We assign Veterans with service-connected disabilities the highest priority. We assign the lowest priority to Veterans who earn a higher income and who don’t have any service-connected disabilities qualifying them for disability compensation (monthly payments).
 [View the different priority groups](https://www.va.gov/HEALTHBENEFITS/resources/priority_groups.asp/). 
 
+<br>
+
+<span id="other-health-insurance">
+
 #### I have other health insurance (like Medicare, Medicaid, or private insurance). Does that affect whether I can get VA health care benefits? 
 
 No. Whether or not you have health insurance coverage doesn't affect the VA health care benefits you can get. [Learn more about how VA works with other insurance](/healthcare/about-va-health-care/va-health-care-and-other-insurance/).
+
+<br>
+
+<span id="other-health-insurance">
 
 #### I need vision care. Can I get it through VA? 
 
 We cover routine eye exams and preventive tests under VA health care benefits. In some cases, you may get coverage for eyeglasses or services for blind or low vision rehabilitation. [Learn more about vision care through VA](/healthcare/about-va-health-care/vision-care/).
 
+<br>
+
+<span id="dental-care">
+
 #### I need dental care. Can I get it through VA? 
 
 In certain cases, you may receive dental care as part of your VA health benefits. [Find out if you can get dental care through VA](/healthcare/about-va-health-care/dental-care/).
+
+<br>
+
+<span id="disability-compensation">
 
 #### I think I may have a service-connected disability. Can I get disability compensation (monthly payments)? 
 
