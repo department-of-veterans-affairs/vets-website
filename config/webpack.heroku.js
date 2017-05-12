@@ -1,18 +1,12 @@
 // Staging config. Also the default config that prod and dev are based off of.
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
-const WebpackMd5Hash = require('webpack-md5-hash');
 const bourbon = require('bourbon').includePaths;
 const neat = require('bourbon-neat').includePaths;
 const path = require('path');
 const webpack = require('webpack');
-const _ = require('lodash');
 
 require('babel-polyfill');
-
-const timestamp = new Date().getTime();
 
 const entryFiles = {
   'no-react': './src/js/no-react-entry.js',
@@ -35,7 +29,7 @@ const configGenerator = () => {
   const baseConfig = {
     entry: filesToBuild,
     output: {
-      path: path.join(__dirname, `../build/development/generated`),
+      path: path.join(__dirname, '../build/development/generated'),
       publicPath: '/generated/',
       filename: '[name].entry.js',
       chunkFilename: '[name].entry.js'

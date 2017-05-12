@@ -4,7 +4,7 @@
 // build process. Intent is to allow fast, lenient deploys to Heroku
 // for rapid iteration on content and visual design with a shared
 // review app.
-process.stdout.write(`Unsafe Build -- For use on Heroku only`);
+process.stdout.write('Unsafe Build -- For use on Heroku only');
 
 const Metalsmith = require('metalsmith');
 const assets = require('metalsmith-assets');
@@ -21,9 +21,7 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.heroku');
-const semver = require('semver');
 
-const fs = require('fs');
 const path = require('path');
 
 const sourceDir = '../content/pages';
@@ -40,7 +38,7 @@ liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');
 // add comments about any implicit dependencies you are introducing!!!
 //
 smith.source(sourceDir);
-smith.destination(`../build/development`);
+smith.destination('../build/development');
 
 // This lets us access the {{buildtype}} variable within liquid templates.
 smith.metadata({ buildtype: 'development' });
@@ -99,7 +97,7 @@ smith.use(webpack(webpackConfig));
 
 smith.use(assets({ source: '../assets', destination: './' }));
 
-const destination = path.resolve(__dirname, `../build/development`);
+const destination = path.resolve(__dirname, '../build/development');
 
 // Webpack paths are absolute, convert to relative
 smith.use((files, metalsmith, done) => {
