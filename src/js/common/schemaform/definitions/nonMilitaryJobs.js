@@ -1,10 +1,6 @@
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
 import EmploymentPeriodView from '../../../edu-benefits/components/EmploymentPeriodView';
 
-export const schema = commonDefinitions.nonMilitaryJobs;
-
-export const uiSchema = {
+const uiSchema = {
   items: {
     name: {
       'ui:title': 'Main job'
@@ -22,3 +18,5 @@ export const uiSchema = {
     hideTitle: true
   }
 };
+
+export default uiSchema;

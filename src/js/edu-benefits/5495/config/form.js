@@ -8,7 +8,7 @@ import createSchoolSelectionPage from '../../pages/schoolSelection';
 import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 
-import * as fullName from '../../../common/schemaform/definitions/fullName';
+import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
 import * as veteranId from '../../definitions/veteranId';
 
@@ -21,7 +21,7 @@ import {
 
 import {
   survivorBenefitsLabels
-} from '../../utils/helpers';
+} from '../../utils/labels';
 
 const {
   benefit,
@@ -32,7 +32,8 @@ const {
 const {
   school,
   educationType,
-  date
+  date,
+  fullName
 } = fullSchema5495.definitions;
 
 const formConfig = {
@@ -43,7 +44,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
-    fullName: fullName.schema,
+    fullName,
     school,
     educationType,
     date
@@ -62,10 +63,10 @@ const formConfig = {
             'gender',
             'relativeSocialSecurityNumber',
             'view:noSSN',
-            'vaFileNumber'
+            'relativeVaFileNumber'
           ]
         }),
-        applicantService: applicantServicePage()
+        applicantService: applicantServicePage(fullSchema5495)
       }
     },
     benefitSelection: {
@@ -99,7 +100,7 @@ const formConfig = {
           path: 'sponsor/information',
           title: 'Sponsor information',
           uiSchema: {
-            veteranFullName: fullName.uiSchema,
+            veteranFullName: fullNameUI,
             'view:veteranId': _.merge(veteranId.uiSchema, {
               'view:noSSN': {
                 'ui:title': 'I don’t know my sponsor’s Social Security number',
@@ -123,7 +124,7 @@ const formConfig = {
             type: 'object',
             properties: {
               veteranFullName,
-              'view:veteranId': veteranId.schema,
+              'view:veteranId': veteranId.schema(fullSchema5495),
               outstandingFelony
             }
           }
@@ -147,7 +148,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: contactInformationPage('relativeAddress'),
+        contactInformation: contactInformationPage(fullSchema5495, 'relativeAddress'),
         directDeposit: createDirectDepositChangePage(fullSchema5495)
       }
     }

@@ -18,8 +18,10 @@
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
     "test:unit": "BABEL_ENV=test mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:coverage": "NODE_ENV=test nyc --all --reporter=lcov --reporter=text --reporter=html mocha --no-color --recursive 'test/**/*.unit.spec.js?(x)' ",
-    "test:unit:edu": "mocha --recursive 'test/edu-benefits/**/*.unit.spec.js?(x)' ",
-    "test:unit:msg": "mocha --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
+    "test:unit:edu": "BABEL_ENV=test mocha --recursive 'test/edu-benefits/**/*.unit.spec.js?(x)' ",
+    "test:unit:hca": "BABEL_ENV=test mocha --recursive 'test/hca/**/*.unit.spec.js?(x)' ",
+    "test:unit:hca-rjsf": "BABEL_ENV=test mocha --recursive 'test/hca-rjsf/**/*.unit.spec.js?(x)' || echo 'Unit tests failed.'",
+    "test:unit:msg": "BABEL_ENV=test mocha --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
     "test:unit:hr": "BABEL_ENV=test mocha --recursive 'test/health-records/**/*.unit.spec.js?(x)' ",
     "test:unit:rx": "BABEL_ENV=test mocha --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
     "test:unit:gi": "BABEL_ENV=test mocha --recursive 'test/gibct/**/*.unit.spec.js?(x)' ",
@@ -181,14 +183,14 @@
     "fsevents": "^1.0.7"
   },
   "engines": {
-    "node": "4.4.7",
-    "npm": "3.8.9"
+    "node": "6.10.3",
+    "yarn": "0.21.3"
   },
   "private": true,
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
     "react-autosuggest": "^8.0.0",
     "reselect": "^2.5.4",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d0e327cd0ee93a82988914778cc4342dbf013cb4"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#916ef2b374ed52aa6053a461045ed4acab5e5a88"
   }
 }

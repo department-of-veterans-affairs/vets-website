@@ -16,7 +16,7 @@ import {
 import {
   stateLabels,
   survivorBenefitsLabels
-} from '../../utils/helpers';
+} from '../../utils/labels';
 
 import {
   validateDate,
@@ -24,14 +24,14 @@ import {
 } from '../../../common/schemaform/validation';
 
 import * as address from '../../../common/schemaform/definitions/address';
-import * as currentOrPastDate from '../../../common/schemaform/definitions/currentOrPastDate';
-import * as date from '../../../common/schemaform/definitions/date';
-import * as phone from '../../../common/schemaform/definitions/phone';
+import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
+import dateUI from '../../../common/schemaform/definitions/date';
+import phoneUI from '../../../common/schemaform/definitions/phone';
 import * as veteranId from '../../definitions/veteranId';
 
-import { uiSchema as dateRangeUi } from '../../../common/schemaform/definitions/dateRange';
-import { uiSchema as fullNameUi } from '../../../common/schemaform/definitions/fullName';
-import { uiSchema as nonMilitaryJobsUi } from '../../../common/schemaform/definitions/nonMilitaryJobs';
+import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
+import fullNameUi from '../../../common/schemaform/definitions/fullName';
+import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
@@ -55,20 +55,21 @@ const {
   spouseInfo,
   veteranDateOfBirth,
   veteranDateOfDeath,
+  benefitsRelinquishedDate
 } = fullSchema5490.properties;
 
 const {
   nonMilitaryJobs,
   secondaryContact,
+  date,
   dateRange,
   educationType,
   fullName,
   postHighSchoolTrainings,
-  vaFileNumber
+  vaFileNumber,
+  phone,
+  ssn
 } = fullSchema5490.definitions;
-
-const dateSchema = fullSchema5490.definitions.date;
-const ssnSchema = fullSchema5490.definitions.ssn;
 
 const nonRequiredFullName = _.assign(fullName, {
   required: []
@@ -84,11 +85,11 @@ const formConfig = {
   title: 'Apply for education benefits as an eligible dependent',
   subTitle: 'Form 22-5490',
   defaultDefinitions: {
-    date: dateSchema,
+    date,
     educationType,
     dateRange,
     fullName,
-    ssn: ssnSchema,
+    ssn,
     vaFileNumber
   },
   chapters: {
@@ -101,7 +102,7 @@ const formConfig = {
         additionalBenefits: additionalBenefitsPage(fullSchema5490, {
           fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource']
         }),
-        applicantService: applicantServicePage(),
+        applicantService: applicantServicePage(fullSchema5490),
       }
     },
     benefitSelection: {
@@ -171,7 +172,7 @@ const formConfig = {
             'view:benefitsRelinquishedInfo': {
               'ui:description': benefitsRelinquishedInfo,
             },
-            benefitsRelinquishedDate: currentOrPastDate.uiSchema('Effective date'),
+            benefitsRelinquishedDate: currentOrPastDateUI('Effective date'),
             'view:benefitsRelinquishedWarning': {
               'ui:description': benefitsRelinquishedWarning,
             }
@@ -184,7 +185,7 @@ const formConfig = {
                 type: 'object',
                 properties: {}
               },
-              benefitsRelinquishedDate: dateSchema,
+              benefitsRelinquishedDate,
               'view:benefitsRelinquishedWarning': {
                 type: 'object',
                 properties: {}
@@ -317,7 +318,7 @@ const formConfig = {
                     'view:ownServiceBenefits': { type: 'boolean' },
                     'view:claimedSponsorService': { type: 'boolean' },
                     veteranFullName: fullName,
-                    'view:veteranId': veteranId.schema
+                    'view:veteranId': veteranId.schema(fullSchema5490)
                   }
                 }
               )
@@ -343,7 +344,7 @@ const formConfig = {
                 'ui:title': 'If you\'re the surviving spouse, did you get remarried?',
                 'ui:widget': 'yesNo'
               },
-              remarriageDate: _.assign(date.uiSchema('Date you got remarried'), {
+              remarriageDate: _.assign(dateUI('Date you got remarried'), {
                 'ui:options': {
                   expandUnder: 'remarried',
                 },
@@ -400,8 +401,8 @@ const formConfig = {
                 }
               })
             },
-            veteranDateOfBirth: currentOrPastDate.uiSchema('Sponsor date of birth'),
-            veteranDateOfDeath: currentOrPastDate.uiSchema('Sponsor date of death or date listed as MIA or POW'),
+            veteranDateOfBirth: currentOrPastDateUI('Sponsor date of birth'),
+            veteranDateOfDeath: currentOrPastDateUI('Sponsor date of death or date listed as MIA or POW'),
           },
           schema: {
             type: 'object',
@@ -417,7 +418,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   veteranFullName: fullName,
-                  'view:veteranId': veteranId.schema,
+                  'view:veteranId': veteranId.schema(fullSchema5490),
                 }
               },
               veteranDateOfBirth,
@@ -470,7 +471,7 @@ const formConfig = {
                 }
               },
               highSchoolOrGedCompletionDate: _.assign(
-                date.uiSchema(null), {
+                dateUI(null), {
                   'ui:options': {
                     hideIf: form => {
                       const status = _.get('highSchool.status', form);
@@ -518,11 +519,21 @@ const formConfig = {
             },
             'view:hasTrainings': {
               'ui:title': 'Do you have any training after high school?',
-              'ui:widget': 'yesNo'
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                hideIf: form => {
+                  const status = _.get('highSchool.status', form);
+                  return status === 'discontinued' || status === 'graduationExpected' || status === 'neverAttended';
+                }
+              }
             },
             postHighSchoolTrainings: _.merge(postHighSchoolTrainingsUi, {
               'ui:options': {
-                expandUnder: 'view:hasTrainings'
+                expandUnder: 'view:hasTrainings',
+                hideIf: form => {
+                  const status = _.get('highSchool.status', form);
+                  return status === 'discontinued' || status === 'graduationExpected' || status === 'neverAttended';
+                }
               }
             })
           },
@@ -533,7 +544,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   status: highSchool.properties.status,
-                  highSchoolOrGedCompletionDate: date.schema,
+                  highSchoolOrGedCompletionDate: date,
                   'view:hasHighSchool': {
                     type: 'object',
                     properties: {
@@ -626,7 +637,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: contactInformationPage('relativeAddress'),
+        contactInformation: contactInformationPage(fullSchema5490, 'relativeAddress'),
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
@@ -638,7 +649,7 @@ const formConfig = {
               fullName: {
                 'ui:title': 'Name'
               },
-              phone: phone.uiSchema('Telephone number'),
+              phone: phoneUI('Telephone number'),
               sameAddress: {
                 'ui:title': 'Address for secondary contact is the same as mine'
               },
@@ -656,9 +667,9 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   fullName: secondaryContact.properties.fullName,
-                  phone: phone.schema,
+                  phone,
                   sameAddress: secondaryContact.properties.sameAddress,
-                  address: address.schema(),
+                  address: address.schema(fullSchema5490),
                 }
               }
             }
