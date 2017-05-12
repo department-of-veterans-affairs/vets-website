@@ -1,3 +1,11 @@
+//===============================================================
+// Flex grid. Added to replace Foundation's block grid.
+// Grid from USWDS <= 1.0 uses floats and therefore doesn't allow 
+// for block grids in which elements are always the same height.
+// 
+// This does. 
+//===============================================================
+
 [class*=va-grid-columns] {
   display: flex;
   flex-wrap: wrap;
