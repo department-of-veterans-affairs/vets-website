@@ -11,8 +11,9 @@ import { loadPrescription } from '../actions/prescriptions';
 import ContactCard from '../components/ContactCard';
 import GlossaryLink from '../components/GlossaryLink';
 import OrderHistory from '../components/OrderHistory';
-import TableVerticalHeader from '../components/tables/TableVerticalHeader';
+import SettingsButton from '../components/SettingsButton';
 import SubmitRefill from '../components/SubmitRefill';
+import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 import { rxStatuses } from '../config';
 import { formatDate } from '../utils/helpers';
 import { getScrollOptions } from '../../common/utils/helpers';
@@ -211,7 +212,10 @@ export class Detail extends React.Component {
             onCloseAlert={this.props.closeAlert}
             scrollOnShow
             status={this.props.alert.status}/>
-        <h1>Prescription Refill</h1>
+        <div className="rx-app-title">
+          <h1>Prescription Refill</h1>
+          <SettingsButton/>
+        </div>
         {content}
       </div>
     );

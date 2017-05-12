@@ -19,6 +19,20 @@ export default function alert(state = initialState, action) {
     case 'CLOSE_ALERT':
       return initialState;
 
+    case 'SAVE_PREFERENCES_FAILURE':
+      return {
+        content: <b>Failed to save your changes.</b>,
+        status: 'error',
+        visible: true
+      };
+
+    case 'SAVE_PREFERENCES_SUCCESS':
+      return {
+        content: <b>Your changes have been saved.</b>,
+        status: 'success',
+        visible: true
+      };
+
     case 'REFILL_FAILURE': {
       return {
         content: (
