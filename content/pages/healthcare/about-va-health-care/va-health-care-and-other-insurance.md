@@ -75,7 +75,15 @@ Yes. Being signed up for VA health care meets your Affordable Care Act health co
 
 ### More about how VA health care works with Medicare and other insurance
 
+**Jump to a section:**
+- [Should I give up my private health insurance or other insurance (like TRICARE or Medicare) if I'm accepted into the VA health care program?](#give-up-private-insurance)
+- [If I already have VA health care benefits, should I still sign up for Medicare when I turn 65?](#sign-up-for-medicare)
+- [If I'm signed up for VA health care, and I also have Medicare, what's covered by each?](#va-vs-medicare-coverage)
+- [Can I use my Health Savings Account (HSA) or Health Reimbursement Arrangement (HRA) to help pay for VA care for non-service-connected conditions?](#health-savings-account)
+
 <br>
+
+<span id="give-up-private-insurance">
 
 #### Should I give up my private health insurance or other insurance (like TRICARE or Medicare) if I'm accepted into the VA health care program? 
 
@@ -84,6 +92,10 @@ This is your decision. You can save money if you drop your private health insura
 - We don’t normally provide care for Veterans’ family members. So, if you drop your private insurance plan, your family may have no health coverage.
 - We don’t know if Congress will provide enough funding in future years for us to care for all Veterans signed up for VA health care. If you're in one of the lower priority groups, you could lose your VA health care benefits in the future. And, if you don't keep your private insurance, this would leave you with no coverage.
 - If you have Medicare Part B (coverage for doctors and outpatient services) and you cancel it, you won't be able to get it back until January of the following year. And, you may have to pay a penalty to get your coverage back.
+
+<br>
+
+<span id="sign-up-for-medicare">
 
 #### If I already have VA health care benefits, should I still sign up for Medicare when I turn 65? 
 
@@ -94,6 +106,10 @@ Yes, we encourage you to sign up for Medicare as soon as you can. This is becaus
 - If you delay signing up for Medicare Part B (coverage for doctors and outpatient services) and then need to sign up later because you lose your VA health care benefits or need more choice in care options, you’ll pay a penalty. This penalty gets bigger each year you delay signing up—and you’ll pay it every year for the rest of your life.
 - If you sign up for Medicare Part D (coverage for prescription drugs), you’ll be able to use it to get medicine from non-VA doctors and fill your prescriptions at your local pharmacy instead of through the VA mail-order service. But you should know that VA prescription drug coverage is better than Medicare coverage—and there’s no penalty for delaying Medicare Part D, so you don’t have to sign up right away.
 
+<br>
+
+<span id="va-vs-medicare-coverage">
+
 #### If I'm signed up for VA health care, and I also have Medicare, what's covered by each?
 
 You’ll need to choose which benefits to use each time you receive care.
@@ -101,6 +117,10 @@ You’ll need to choose which benefits to use each time you receive care.
 To use VA benefits, you’ll need to get care at a VA medical center or other VA location. We’ll also cover your care if we pre-authorize you (meaning we give you permission ahead of time) to get services in a non-VA hospital or other care setting. Keep in mind that you may need to pay a VA copayment for non-service-connected care.
 
 If you go to a non-VA care setting, Medicare may pay for your care. Or, if we only authorize some services in a non-VA location, then Medicare may pay for other services you may need during your stay. Check your Medicare plan so you know which care locations and services you’re covered for. [Learn more about Medicare](http://www.medicare.gov).
+
+<br>
+
+<span id="health-savings-account">
 
 #### Can I use my Health Savings Account (HSA) or Health Reimbursement Arrangement (HRA) to help pay for VA care for non-service-connected conditions? 
 
