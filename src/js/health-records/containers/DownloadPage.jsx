@@ -5,6 +5,7 @@ import moment from 'moment';
 import isMobile from 'ismobilejs';
 
 import AlertBox from '../../common/components/AlertBox';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import DownloadLink from '../components/DownloadLink';
 import { openModal, closeModal } from '../actions/modal';
@@ -103,6 +104,10 @@ export class DownloadPage extends React.Component {
   }
 
   render() {
+    if (this.props.form.inProgress) {
+      return <LoadingIndicator message="Generating Health Record"/>;
+    }
+
     return (
       <div>
         <h1>Access Your Health Records</h1>

@@ -27,8 +27,6 @@ export class UpdatePage extends React.Component {
     const erroredUpdates = nextProps.refresh.statuses.failed;
     if (erroredUpdates.length === 0) {
       this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
-    }
-    if (nextProps.form.ready) {
       this.props.router.push('/download');
     }
   }
