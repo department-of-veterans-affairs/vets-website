@@ -31,15 +31,15 @@ If you qualify for Veterans pension benefits, the amount you get will be based o
 **Example:**
 You’re a qualified Veteran with a dependent, non-Veteran spouse and no children. You also qualify for A&A benefits. You and your spouse have a combined yearly income of $10,000.
 
-* Your MAPR amount = $25,525
-* Your yearly income = $10,000
-* Your VA pension = $15,525 for the year (or $1,293.75 paid each month)
+Your MAPR amount = $25,525
+Your yearly income = $10,000
+Your VA pension = $15,525 for the year (or $1,293.75 paid each month)
 
 ### Find your Maximum Annual Pension Rate (MAPR) amount
 
-* ***Date of Cost-of-Living Increase:** December 1, 2016*
-* ***Increase Factor:** .3%*
-* ***Standard Medicare Deduction:** Actual amount will be determined by SSA based on individual income.*
+*Date of Cost-of-Living Increase: December 1, 2016*
+*Increase Factor: .3%*
+*Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.*
 
 **For Veterans with at least 1 dependent spouse or child:**
 
@@ -54,8 +54,6 @@ You’re a qualified Veteran with a dependent, non-Veteran spouse and no childre
 - **If you have a child who works,** you may exclude their income up to $10,400 for 2017.
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($845 for a Veteran with 1 dependent).
 
-<br>
-
 **For Veterans with no dependents:**
 
 | **If you have no dependents and…** | **Your MARP amount is:** | 
@@ -66,8 +64,6 @@ You’re a qualified Veteran with a dependent, non-Veteran spouse and no childre
 
 **Note:**
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($645 for a Veteran with no spouse or child).
-
-<br>
 
 **For 2 Veterans who are married to each other:**
 
