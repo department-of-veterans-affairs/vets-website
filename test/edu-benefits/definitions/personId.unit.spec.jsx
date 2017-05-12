@@ -8,7 +8,7 @@ import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
 import * as personId from '../../../src/js/edu-benefits/definitions/personId';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-describe('Edu veteranId', () => {
+describe('Edu personId', () => {
   const uiSchema = personId.uiSchema();
   const schema = personId.schema({ definitions: commonDefinitions });
   it('should render', () => {
