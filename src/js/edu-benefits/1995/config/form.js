@@ -12,7 +12,7 @@ import * as address from '../../../common/schemaform/definitions/address';
 import educationTypeUISchema from '../../definitions/educationType';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
-import * as veteranId from '../../definitions/veteranId';
+import * as personId from '../../definitions/personId';
 
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
@@ -64,14 +64,14 @@ const formConfig = {
           initialData: {},
           uiSchema: {
             veteranFullName: fullNameUI,
-            'view:veteranId': veteranId.uiSchema()
+            'view:veteranId': personId.uiSchema()
           },
           schema: {
             type: 'object',
             required: ['veteranFullName'],
             properties: {
               veteranFullName: fullName,
-              'view:veteranId': veteranId.schema(fullSchema1995)
+              'view:veteranId': personId.schema(fullSchema1995)
             }
           }
         }

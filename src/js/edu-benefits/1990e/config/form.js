@@ -13,7 +13,7 @@ import fullNameUISchema from '../../../common/schemaform/definitions/fullName';
 import dateUi from '../../../common/schemaform/definitions/date';
 import nonMilitaryJobsUi from '../../../common/schemaform/definitions/nonMilitaryJobs';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
-import * as veteranId from '../../definitions/veteranId';
+import * as personId from '../../definitions/personId';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -107,7 +107,7 @@ const formConfig = {
                 'ui:title': 'Sponsor suffix',
               }
             }),
-            'view:veteranId': _.merge(veteranId.uiSchema(), {
+            'view:veteranId': _.merge(personId.uiSchema(), {
               veteranSocialSecurityNumber: {
                 'ui:title': 'Sponsor Social Security number'
               },
@@ -128,7 +128,7 @@ const formConfig = {
             required: ['veteranFullName'],
             properties: {
               veteranFullName: fullName,
-              'view:veteranId': veteranId.schema(fullSchema1990e),
+              'view:veteranId': personId.schema(fullSchema1990e),
               veteranAddress: address.schema(fullSchema1990e),
               serviceBranch
             }

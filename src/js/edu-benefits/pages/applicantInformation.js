@@ -4,7 +4,7 @@ import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPa
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 
 import { relationshipLabels, genderLabels } from '../utils/labels';
-import * as veteranId from '../definitions/veteranId';
+import * as personId from '../definitions/personId';
 
 
 const defaults = (prefix) => {
@@ -75,7 +75,7 @@ export default function applicantInformation(schema, options) {
           labels: labels.relationship || relationshipLabels
         }
       }
-    }, veteranId.uiSchema(prefix, 'view:noSSN')),
+    }, personId.uiSchema(prefix, 'view:noSSN')),
     schema: {
       type: 'object',
       definitions: _.pick([
