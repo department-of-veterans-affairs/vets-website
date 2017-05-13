@@ -23,6 +23,30 @@ describe('alert reducer', () => {
     expect(state.visible).to.be.false;
   });
 
+  it('should alert an error for failing to save preferences', () => {
+    const state = alertReducer({
+      visible: false,
+      content: '',
+      status: 'info'
+    }, { type: 'SAVE_PREFERENCES_FAILURE' });
+
+    expect(state.visible).to.be.true;
+    expect(state.content).to.be.not.empty;
+    expect(state.status).to.eql('error');
+  });
+
+  it('should alert success for successfully saving preferences', () => {
+    const state = alertReducer({
+      visible: false,
+      content: '',
+      status: 'info'
+    }, { type: 'SAVE_PREFERENCES_SUCCESS' });
+
+    expect(state.visible).to.be.true;
+    expect(state.content).to.be.not.empty;
+    expect(state.status).to.eql('success');
+  });
+
   it('should alert an error for a failed refill', () => {
     const state = alertReducer({
       visible: false,
