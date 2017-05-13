@@ -20,6 +20,7 @@ export class UpdatePage extends React.Component {
   }
 
   componentDidMount() {
+    scrollTo(0, 0);
     this.props.checkRefreshStatus();
     this.pollRefresh();
     this.refreshTimeout = setTimeout(this.submitAndDownload, 600000);
