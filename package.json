@@ -143,6 +143,7 @@
     "react": "^15.5.4",
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-perf": "^15.3.0",
+    "react-autosuggest-ie11-compatible": "^8.0.6",
     "react-datepicker": "^0.29.0",
     "react-dom": "^15.5.4",
     "react-jsonschema-form": "0.43.0",
@@ -189,7 +190,6 @@
   "private": true,
   "dependencies": {
     "camelcase-keys-recursive": "^0.8.2",
-    "react-autosuggest": "^8.0.0",
     "reselect": "^2.5.4",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#916ef2b374ed52aa6053a461045ed4acab5e5a88"
   }

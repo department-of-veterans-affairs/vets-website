@@ -6,6 +6,7 @@ import folders from './folders';
 import loading from './loading';
 import messages from './messages';
 import modals from './modals';
+import preferences from './preferences';
 import recipients from './recipients';
 import search from './search';
 
@@ -16,6 +17,7 @@ export default combineReducers({
   loading,
   messages,
   modals,
+  preferences,
   recipients,
   search
 });
