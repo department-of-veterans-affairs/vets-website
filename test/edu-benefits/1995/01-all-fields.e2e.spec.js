@@ -23,7 +23,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Veteran information page.
     client
       .waitForElementVisible('input[name="root_veteranFullName_first"]', Timeouts.slow);
-    EduHelpers.completeVeteranInformation(client, testData.data, false);
+    EduHelpers.completeVeteranInformation(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -32,7 +32,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefits eligibility page.
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, testData.benefitSeletion, true);
+    EduHelpers.completeBenefitsSelection(client, testData.benefitSeletion);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -41,7 +41,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Service periods page.
     client
       .waitForElementVisible('label[for="root_view:newService"]', Timeouts.slow);
-    EduHelpers.completeServicePeriods(client, testData.data, false);
+    EduHelpers.completeServicePeriods(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -50,7 +50,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Military service page.
     client
       .waitForElementVisible('label[for="root_view:hasServiceBefore1978"]', Timeouts.slow);
-    Edu1995Helpers.completeMilitaryService(client, testData.data, false);
+    Edu1995Helpers.completeMilitaryService(client);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -59,7 +59,7 @@ module.exports = E2eHelpers.createE2eTest(
     // New school page.
     client
       .waitForElementVisible('label[for="root_educationType"]', Timeouts.slow);
-    Edu1995Helpers.completeNewSchool(client, testData.data, false);
+    Edu1995Helpers.completeNewSchool(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -68,7 +68,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Old school
     client
       .waitForElementVisible('label[for="root_oldSchool_name"]', Timeouts.slow);
-    Edu1995Helpers.completeOldSchool(client, testData.data, false);
+    Edu1995Helpers.completeOldSchool(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -77,7 +77,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Contact information page.
     client
       .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-    EduHelpers.completeContactInformation(client, testData.data, false);
+    EduHelpers.completeContactInformation(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -86,7 +86,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Dependents page.
     client
       .waitForElementVisible('label[for="root_serviceBefore1977_married"]', Timeouts.slow);
-    Edu1995Helpers.completeDependents(client, testData.data, false);
+    Edu1995Helpers.completeDependents(client);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -95,8 +95,8 @@ module.exports = E2eHelpers.createE2eTest(
     // Direct deposit page.
     client
       .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
-    EduHelpers.completePaymentChange(client, testData.data, false);
-    EduHelpers.completeDirectDeposit(client, testData.data, false);
+    EduHelpers.completePaymentChange(client, testData.data);
+    EduHelpers.completeDirectDeposit(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');

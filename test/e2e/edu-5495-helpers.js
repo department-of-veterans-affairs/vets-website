@@ -16,8 +16,7 @@ function completeOldSchool(client, data) {
 
 function completeSponsorInformation(client, data) {
   EduHelpers.completeVeteranInformation(client,
-    data,
-    false
+    data
   );
   client
     .clickIf('input[name="root_outstandingFelonyYes"]', data.outstandingFelony);

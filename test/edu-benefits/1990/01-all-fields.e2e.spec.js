@@ -21,7 +21,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Veteran information page.
     client
       .expect.element('input[name="fname"]').to.be.visible;
-    EduHelpers.completeVeteranInformation(client, EduHelpers.testValues, false);
+    EduHelpers.completeVeteranInformation(client, EduHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -30,7 +30,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefits eligibility
     client
       .expect.element('label[name="chapter30-label"]').to.be.visible;
-    EduHelpers.completeBenefitsSelection(client, EduHelpers.testValues, false);
+    EduHelpers.completeBenefitsSelection(client);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -39,7 +39,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefits relinquishment
     client
       .expect.element('input[name="benefitsRelinquished-1"]').to.be.present;
-    EduHelpers.completeBenefitsRelinquishment(client, EduHelpers.testValues, false);
+    EduHelpers.completeBenefitsRelinquishment(client, EduHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -48,7 +48,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Service periods page.
     client
       .expect.element('input[name="serviceBranch"]').to.be.visible;
-    EduHelpers.completeServicePeriods(client, EduHelpers.testValues, false);
+    EduHelpers.completeServicePeriods(client, EduHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -57,7 +57,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Military service page.
     client
       .expect.element('input[name="serviceAcademyGraduationYear"]').to.be.visible;
-    EduHelpers.completeMilitaryService(client, EduHelpers.testValues, false);
+    EduHelpers.completeMilitaryService(client, EduHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -66,7 +66,7 @@ module.exports = E2eHelpers.createE2eTest(
     // ROTC History
     client
       .expect.element('input[name="seniorRotcCommissioned-0"]').to.be.present;
-    EduHelpers.completeRotcHistory(client, EduHelpers.testValues, false);
+    EduHelpers.completeRotcHistory(client, EduHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -75,7 +75,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefits history
     client
       .expect.element('input[name="civilianBenefitsAssistance"]').to.be.present;
-    EduHelpers.completeContributions(client, EduHelpers.testValues, false);
+    EduHelpers.completeContributions(client, EduHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -84,7 +84,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Education history
     client
       .expect.element('select[name="highSchoolOrGedCompletionDateMonth"]').to.be.visible;
-    EduHelpers.completeEducationHistory(client, EduHelpers.testValues, false);
+    EduHelpers.completeEducationHistory(client, EduHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -93,7 +93,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Employment history
     client
       .expect.element('input[name="hasNonMilitaryJobs-0"]').to.be.present;
-    EduHelpers.completeEmploymentHistory(client, EduHelpers.testValues, false);
+    EduHelpers.completeEmploymentHistory(client, EduHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -102,7 +102,7 @@ module.exports = E2eHelpers.createE2eTest(
     // School selection
     client
       .expect.element('select[name="educationType"]').to.be.visible;
-    EduHelpers.completeSchoolSelection(client, EduHelpers.testValues, false);
+    EduHelpers.completeSchoolSelection(client, EduHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -111,7 +111,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Contact information page.
     client
       .expect.element('select[name="country"]').to.be.visible;
-    EduHelpers.completeContactInformation(client, EduHelpers.testValues, false);
+    EduHelpers.completeContactInformation(client, EduHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -120,7 +120,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Secondary contact page
     client
       .expect.element('input[name="secondaryContactName"]').to.be.visible;
-    EduHelpers.completeSecondaryContact(client, EduHelpers.testValues, false);
+    EduHelpers.completeSecondaryContact(client, EduHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -129,7 +129,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Direct deposit page
     client
       .expect.element('input[name="accountNumber"]').to.be.visible;
-    EduHelpers.completeDirectDeposit(client, EduHelpers.testValues, false);
+    EduHelpers.completeDirectDeposit(client, EduHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
