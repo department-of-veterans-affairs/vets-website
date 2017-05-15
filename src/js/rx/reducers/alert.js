@@ -19,6 +19,10 @@ export default function alert(state = initialState, action) {
     case 'CLOSE_ALERT':
       return initialState;
 
+    case 'RX_LOADING_PREFERENCES':
+    case 'RX_SAVING_PREFERENCES':
+      return initialState;
+
     case 'RX_SAVE_PREFERENCES_FAILURE':
       return {
         content: <b>Failed to save your changes.</b>,
