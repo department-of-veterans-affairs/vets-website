@@ -123,7 +123,8 @@ You may still be able to get care:
 **Please note:** If you don’t qualify for VA health care, you may still be able to get certain health care services (like care for issues linked to military sexual trauma). Call our general VA hotline at <a href="tel:+1phonenumber">800-827-1000</a> to find out what your care options may be.
 
 ------
-#### Get more information:
+
+#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
