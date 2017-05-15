@@ -69,11 +69,11 @@ You should also know that being signed up for VA health care meets your Affordab
 - [Will VA cover any non-medical services to support my treatment?](#health-about-non-medical)
 - [Will VA cover my vision care?](#health-about-vision)
 - [Will VA cover my dental care?](#health-about-dental)
-- [Will VA cover my assisted living and home health care?](#about-assisted-living)
+- [Will VA cover my assisted living and home health care?](#health-about-assisted-living)
 - [What services are *not* covered under VA health care?](#health-about-not-covered)
 - [Who will care for me at VA?](#health-about-care-team)
 - [Where will I go to get care?](#health-about-care-locations)
-- [How will VA health care work if I have Medicare, Medicaid, or private insurance too?](health-about-other-insurance)
+- [How will VA health care work if I have Medicare, Medicaid, or private insurance too?](#health-about-other-insurance)
 
 <br>
 
