@@ -30,7 +30,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Additional benefits page
     client.waitForElementVisible('label[for="root_civilianBenefitsAssistance"]', Timeouts.slow);
-    EduHelpers.completeAdditionalBenefits(client, testData.data, false);
+    EduHelpers.completeAdditionalBenefits(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -54,7 +54,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // School selection page
     client.waitForElementVisible('input[name="root_educationProgram_name"]', Timeouts.slow);
-    EduHelpers.completeSchoolSelection(client, testData.data, true);
+    EduHelpers.completeSchoolSelection(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -62,7 +62,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Contact information page
     client.waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-    EduHelpers.completeContactInformation(client, testData.data, false);
+    EduHelpers.completeContactInformation(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -70,7 +70,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Direct deposit page
     client.waitForElementVisible('label[for="root_bankAccount_accountType"]', Timeouts.slow);
-    EduHelpers.completeDirectDeposit(client, testData.data, false);
+    EduHelpers.completeDirectDeposit(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');

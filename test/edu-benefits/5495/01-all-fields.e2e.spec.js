@@ -23,7 +23,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Applicant information page.
     client
       .waitForElementVisible('input[name="root_relativeFullName_first"]', Timeouts.slow);
-    EduHelpers.completeRelativeInformation(client, testData.data, false);
+    EduHelpers.completeRelativeInformation(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -32,7 +32,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Applicant service page
     client
       .waitForElementVisible('label[for="root_view:applicantServedYes"]', Timeouts.slow);
-    EduHelpers.completeServicePeriods(client, testData.data, false, 'view:applicantServed');
+    EduHelpers.completeServicePeriods(client, testData.data, 'view:applicantServed');
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -41,7 +41,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefits eligibility page.
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, testData.data, false);
+    EduHelpers.completeBenefitsSelection(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -60,7 +60,7 @@ module.exports = E2eHelpers.createE2eTest(
     // New school page.
     client
       .waitForElementVisible('label[for="root_educationProgram_name"]', Timeouts.slow);
-    EduHelpers.completeSchoolSelection(client, testData.data, false);
+    EduHelpers.completeSchoolSelection(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -68,7 +68,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Old school
     client
       .waitForElementVisible('label[for="root_oldSchool_name"]', Timeouts.slow);
-    Edu5495Helpers.completeOldSchool(client, testData.data, false);
+    Edu5495Helpers.completeOldSchool(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -77,7 +77,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Contact information page.
     client
       .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-    EduHelpers.completeContactInformation(client, testData.data, false, true);
+    EduHelpers.completeContactInformation(client, testData.data, true);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -86,8 +86,8 @@ module.exports = E2eHelpers.createE2eTest(
     // Direct deposit page.
     client
       .waitForElementVisible('label[for="root_bankAccountChange"]', Timeouts.slow);
-    EduHelpers.completePaymentChange(client, testData.data, false);
-    EduHelpers.completeDirectDeposit(client, testData.data, false);
+    EduHelpers.completePaymentChange(client, testData.data);
+    EduHelpers.completeDirectDeposit(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
