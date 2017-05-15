@@ -36,6 +36,10 @@ export class EmailNotifications extends React.Component {
       frequency: { value: frequency }
     } = this.props.preferences;
     this.props.savePreferences({ emailAddress, frequency });
+    window.dataLayer.push({
+      event: 'sm-notification-setting',
+      'sm-notify-freq': frequency,
+    });
   }
 
   renderSaveButtons() {

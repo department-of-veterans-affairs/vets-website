@@ -40,6 +40,10 @@ export class Settings extends React.Component {
       emailAddress: email.value,
       rxFlag: flag.value === 'true'
     });
+    window.dataLayer.push({
+      event: 'rx-notification-setting',
+      'rx-notify': flag.value,
+    });
   }
 
   renderSaveButtons() {
