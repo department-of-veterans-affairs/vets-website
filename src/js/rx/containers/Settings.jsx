@@ -20,7 +20,7 @@ import {
 import DiscardChangesModal from '../components/DiscardChangesModal';
 import SettingsButton from '../components/SettingsButton';
 
-class Settings extends React.Component {
+export class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
