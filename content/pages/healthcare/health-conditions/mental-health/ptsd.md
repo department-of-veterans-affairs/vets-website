@@ -112,7 +112,7 @@ If you have symptoms of PTSD and suffered a serious injury, personal trauma, sex
 
 ------
 
-#### Get more information
+#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
