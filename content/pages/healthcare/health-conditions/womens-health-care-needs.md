@@ -107,7 +107,7 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
 
 ------
 
-#### Get more information
+#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
