@@ -28,7 +28,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you served in Iraq during Operation Iraqi Freedom or Operation New Dawn—from March 19, 2003 to December 15, 2011—you may be at risk of certain health conditions. Learn about these conditions and what to do to take care of your health.
+If you served in Iraq during Operation Iraqi Freedom or Operation New Dawn—from March 19, 2003, to December 15, 2011—you may be at risk of certain health conditions. Learn about these conditions and what to do to take care of your health.
 
 </div>
 
