@@ -35,7 +35,7 @@ import {
   SM_SAVE_PREFERENCES_FAILURE,
   SM_SAVE_PREFERENCES_SUCCESS,
   SAVING_DRAFT,
-  SAVING_PREFERENCES,
+  SM_SAVING_PREFERENCES,
   SEND_MESSAGE_FAILURE,
   SEND_MESSAGE_SUCCESS,
   SENDING_MESSAGE,
@@ -285,7 +285,7 @@ describe('loading reducer', () => {
   it('should trigger a loader when saving preferences', () => {
     const state = loadingReducer(
       { savingPreferences: false },
-      { type: SAVING_PREFERENCES }
+      { type: SM_SAVING_PREFERENCES }
     );
     expect(state.savingPreferences).to.be.true;
   });
