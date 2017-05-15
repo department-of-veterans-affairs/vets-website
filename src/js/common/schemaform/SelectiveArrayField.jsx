@@ -40,17 +40,17 @@ class SelectiveArrayField extends React.Component {
 
   getItemSchema = (index, selectedFields) => {
     const schema = this.props.schema;
-    let properties;
-    if (schema.items.length > index) {
-      properties = _.pick(selectedFields, schema.items[index].properties);
-    }
+    const itemSchema = schema.items.length > index
+      ? schema.items[index]
+      : schema.additionalItems;
 
-    properties = _.pick(selectedFields, schema.additionalItems.properties);
+    const properties = _.pick(selectedFields, itemSchema.properties);
+    const required = _.intersection(selectedFields, itemSchema.required);
 
-    return {
-      type: 'object',
-      properties
-    };
+    return _.assign(itemSchema, {
+      properties,
+      required
+    });
   }
 
   scrollToTop = () => {

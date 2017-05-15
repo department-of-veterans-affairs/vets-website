@@ -33,8 +33,6 @@ import { schema as createChildSchema, uiSchema as childUI } from '../definitions
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 
-import testData from '../../../../test/hca-rjsf/test-data.json';
-
 const childSchema = createChildSchema(fullSchemaHca);
 
 const {
@@ -661,7 +659,6 @@ const formConfig = {
         annualIncome: {
           path: 'household-information/annual-income',
           title: 'Annual income',
-          initialData: testData, // FOR TESTING ONLY
           depends: (data) => data.discloseFinancialInformation,
           uiSchema: {
             'ui:title': 'Annual income',
@@ -738,7 +735,9 @@ const formConfig = {
                   spouseOtherIncome
                 }
               },
-              children
+              children: _.merge(children, {
+                minItems: 1
+              })
             }
           }
         },
