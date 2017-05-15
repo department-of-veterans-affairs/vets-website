@@ -75,7 +75,20 @@ After you’ve applied for VA health care, we’ll send you a letter in the mail
 </li>
 </ol>
 
-### What if I need to see a doctor before my scheduled appointment?
+### More about what to do after you apply
+
+**Jump to a section:**
+
+- [What if I need to see a doctor before my scheduled appointment?](#after-see-doctor)
+- [What if I need help understanding my benefits or accessing services?](#after-need-help)
+- [What if I need to update my personal information?](#after-update-information)
+- [What if my application isn’t approved and I disagree with the decision?](#after-not-approved) 
+
+<br>
+
+<span id="after-see-doctor">
+
+#### What if I need to see a doctor before my scheduled appointment?
 
 Contact your local VA medical center or clinic and ask for:
 - The enrollment coordinator, **or**
@@ -84,7 +97,11 @@ Contact your local VA medical center or clinic and ask for:
 
 [Find a VA location near you](https://www.va.gov/directory/guide/division.asp?dnum=1).
 
-### What if I need help understanding my benefits or accessing services? 
+<br>
+
+<span id="after-need-help">
+
+#### What if I need help understanding my benefits or accessing services? 
 
 If you want to know more about your VA health care benefits, your health care team, and where you’ll go for care, we can help. [Learn more about your VA health care coverage](/healthcare/about-va-health-care/).
 
@@ -95,7 +112,11 @@ If you're signed up for VA health care, you can manage your VA health and benefi
 
 If you need more help, call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
 
-### What if I need to update my personal information?
+<br>
+
+<span id="after-update-information">
+
+#### What if I need to update my personal information?
 
 You can update your personal information, such as income, address, and insurance, with VA Form 10-10EZR (Renewal Application for Health Benefits). [Download Form 10-10EZR](http://www.va.gov/vaforms/medical/pdf/vha-10-10ezr-fill.pdf). 
 
@@ -109,6 +130,10 @@ Mail this form and any supporting materials to:
  
 You can also get help updating your personal information by visiting your local VA or calling 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>) Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. 
 
-### What if my application isn’t approved and I disagree with the decision? 
+<br>
+
+<span id="after-not-approved">
+
+#### What if my application isn’t approved and I disagree with the decision? 
 
 If you disagree with the decision, you can file an appeal. We’ll send you a letter with the reason we’re not approving your application. This letter will include instructions on how to appeal the decision. [Download our “How Do I Appeal?” booklet](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf).
