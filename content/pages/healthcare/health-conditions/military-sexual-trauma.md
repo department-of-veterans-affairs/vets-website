@@ -103,7 +103,7 @@ Or, get help applying for disability compensation by:
 
 ------
 
-#### Get more information
+#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
