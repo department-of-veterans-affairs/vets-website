@@ -973,6 +973,13 @@ li {
   color: $color-white;
   padding: 1.25em 0;
   margin: 1.5em 0 0 0;
+
+  @include media($medium-large-screen) {
+    .usa-grid {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
 }
 
  // Feedback widget
