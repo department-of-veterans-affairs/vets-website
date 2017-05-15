@@ -56,7 +56,7 @@ You may also be at risk of illnesses caused by contact with hazards found in cer
 
 ### What should I do now?
 
-Take the steps to make sure you’re taking care of your health:
+Take these steps to make sure you’re taking care of your health:
 
 <ol class="process">
 <li class="process-step list-one">
