@@ -16,6 +16,8 @@ import {
   OPEN_ALERT,
   SAVE_DRAFT_FAILURE,
   SAVE_DRAFT_SUCCESS,
+  SM_SAVE_PREFERENCES_FAILURE,
+  SM_SAVE_PREFERENCES_SUCCESS,
   SEND_MESSAGE_FAILURE,
   SEND_MESSAGE_SUCCESS
 } from '../../../src/js/messaging/utils/constants';
@@ -171,6 +173,19 @@ describe('alert reducer', () => {
     expect(newState.visible).to.be.true;
     expect(newState.status).to.eql('error');
   });
+
+  it('should alert when failing to save preferences', () => {
+    const state = alertReducer(initialState, { type: SM_SAVE_PREFERENCES_FAILURE });
+    expect(state.visible).to.be.true;
+    expect(state.status).to.eql('error');
+  });
+
+  it('should alert when successfully saving preferences', () => {
+    const state = alertReducer(initialState, { type: SM_SAVE_PREFERENCES_SUCCESS });
+    expect(state.visible).to.be.true;
+    expect(state.status).to.eql('success');
+  });
+
 
   it('should alert when sending a message succeeds', () => {
     const message = draft.data.attributes;

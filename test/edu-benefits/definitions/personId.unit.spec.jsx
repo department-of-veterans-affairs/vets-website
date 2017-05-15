@@ -5,12 +5,12 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
-import * as veteranId from '../../../src/js/edu-benefits/definitions/veteranId';
+import * as personId from '../../../src/js/edu-benefits/definitions/personId';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-describe('Edu veteranId', () => {
-  const { uiSchema } = veteranId;
-  const schema = veteranId.schema({ definitions: commonDefinitions });
+describe('Edu personId', () => {
+  const uiSchema = personId.uiSchema();
+  const schema = personId.schema({ definitions: commonDefinitions });
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -84,4 +84,3 @@ describe('Edu veteranId', () => {
     expect(onSubmit.called).to.be.true;
   });
 });
-

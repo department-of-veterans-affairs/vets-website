@@ -44,7 +44,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Applicant service page
     client
       .waitForElementVisible('label[for="root_view:applicantServedYes"]', Timeouts.slow);
-    EduHelpers.completeServicePeriods(client, testData.data, false, 'view:applicantServed');
+    EduHelpers.completeServicePeriods(client, testData.data, 'view:applicantServed');
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -95,7 +95,6 @@ module.exports = E2eHelpers.createE2eTest(
         testData.data,
         testData.data['view:currentSponsorInformation']
       ),
-      false,
       'root_view:currentSponsorInformation'
     );
     client
@@ -142,7 +141,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Contact information page
     client
       .waitForElementVisible('label[for="root_preferredContactMethod"]', Timeouts.slow);
-    EduHelpers.completeContactInformation(client, testData.data, false, true);
+    EduHelpers.completeContactInformation(client, testData.data, true);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');

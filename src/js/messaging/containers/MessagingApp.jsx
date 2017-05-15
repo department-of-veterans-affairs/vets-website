@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import AlertBox from '../../common/components/AlertBox';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { closeAlert } from '../actions';
+import ButtonSettings from '../components/buttons/ButtonSettings';
 import { isEmpty } from 'lodash';
 
 // This needs to be a React component for RequiredLoginView to pass down
@@ -69,7 +70,10 @@ class MessagingApp extends React.Component {
                 onCloseAlert={this.props.closeAlert}
                 scrollOnShow
                 status={this.props.alert.status}/>
-            <h1>Message your health care team</h1>
+            <div id="messaging-app-title">
+              <h1>Message your health care team</h1>
+              <ButtonSettings/>
+            </div>
             {this.renderWarningBanner()}
           </div>
           {this.props.children}
