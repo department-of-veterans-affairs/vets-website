@@ -32,7 +32,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Benefits eligibility page.
     client
       .waitForElementVisible('label[for="root_benefit"]', Timeouts.slow);
-    EduHelpers.completeBenefitsSelection(client, testData.benefitSeletion);
+    EduHelpers.completeBenefitsSelection(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
