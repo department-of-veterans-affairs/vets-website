@@ -193,7 +193,7 @@ Chemicals, paints, radiation, and other hazards you may have come in contact wit
 
 ------
 
-#### Get more information
+#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
