@@ -9,13 +9,13 @@ const initialState = {
 
 export default function preferences(state = initialState, action) {
   switch (action.type) {
-    case 'LOADING_PREFERENCES':
+    case 'RX_LOADING_PREFERENCES':
       return { ...state, loading: true };
 
-    case 'SAVING_PREFERENCES':
+    case 'RX_SAVING_PREFERENCES':
       return { ...state, saving: true };
 
-    case 'FETCH_PREFERENCES_SUCCESS': {
+    case 'RX_FETCH_PREFERENCES_SUCCESS': {
       const { emailAddress: email, rxFlag: flag } = action.preferences;
       return {
         ...state,
@@ -25,7 +25,7 @@ export default function preferences(state = initialState, action) {
       };
     }
 
-    case 'SAVE_PREFERENCES_SUCCESS': {
+    case 'RX_SAVE_PREFERENCES_SUCCESS': {
       return {
         email: makeField(state.email.value),
         flag: makeField(state.flag.value),
@@ -33,10 +33,10 @@ export default function preferences(state = initialState, action) {
       };
     }
 
-    case 'SET_NOTIFICATION_EMAIL':
+    case 'RX_SET_NOTIFICATION_EMAIL':
       return { ...state, email: action.email };
 
-    case 'SET_NOTIFICATION_FLAG':
+    case 'RX_SET_NOTIFICATION_FLAG':
       return { ...state, flag: action.flag };
 
     default:
