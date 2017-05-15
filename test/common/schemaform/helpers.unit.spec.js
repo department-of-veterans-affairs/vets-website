@@ -9,6 +9,7 @@ import {
   getArrayFields,
   setItemTouched,
   getNonArraySchema,
+  isValidSchema
 } from '../../../src/js/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -459,6 +460,64 @@ describe('Schemaform helpers:', () => {
           }
         }
       });
+    });
+  });
+
+  describe('isValidSchema', () => {
+    it('should return true for valid schema', () => {
+      const s = {
+        type: 'object',
+        properties: {
+          field1: {
+            type: 'string'
+          },
+          field2: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {}
+            }
+          }
+        }
+      };
+
+      let isValid;
+      try {
+        isValid = isValidSchema(s);
+      } catch (err) {
+        console.error(err.message); // eslint-disable-line no-console
+      }
+      expect(isValid).to.equal(true);
+    });
+    it('should throw an error for invalid schemas', () => {
+      const s = {
+        type: 'object',
+        properties: {
+          field1: {
+            // type: 'string'
+          },
+          field2: {
+            type: 'array',
+            items: {
+              type: 'object',
+              // properties: {}
+            }
+          },
+          field3: {
+            type: 'array',
+            // items: {}
+          }
+        }
+      };
+
+      let isValid;
+      try {
+        isValid = isValidSchema(s);
+      } catch (err) {
+        // Perhaps this should not be in this test...Seems pretty brittle.
+        expect(err.message).to.equal('Errors found in schema: Missing type in root.field1 schema. Missing object properties in root.field2.items schema. Missing items in root.field3 (array) schema.');
+      }
+      expect(isValid).to.equal(undefined);
     });
   });
 });
