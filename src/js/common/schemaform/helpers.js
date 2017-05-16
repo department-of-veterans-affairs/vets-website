@@ -359,7 +359,7 @@ export function isValidSchema(schema, errors = [], path = ['root']) {
   // Blech...need a better message for this one.
   if (schema.type === 'array') {
     if (typeof schema.items !== 'object') {
-      errors.push(`Missing items in ${path.join('.')} (array) schema.`);
+      errors.push(`Missing items schema in ${path.join('.')}.`);
     } else {
       isValidSchema(schema.items, errors, [...path, 'items']);
     }
