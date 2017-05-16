@@ -481,7 +481,7 @@ describe('Schemaform helpers:', () => {
         }
       };
 
-      let isValid;
+      let isValid = false;
       try {
         isValid = checkValidSchema(s);
       } catch (err) {
@@ -493,19 +493,43 @@ describe('Schemaform helpers:', () => {
       const s = {
         type: 'object',
         properties: {
+          // Missing type
           field1: {
-            // type: 'string'
+            // type: 'object'
           },
+          // Missing properties inside
           field2: {
-            type: 'array',
-            items: {
-              type: 'object',
-              // properties: {}
+            type: 'object',
+            // properties: {}
+          },
+          // Invalid nested property
+          field3: {
+            type: 'object',
+            properties: {
+              nestedField: {} // Missing type
             }
           },
-          field3: {
+          // Missing items
+          field4: {
             type: 'array',
             // items: {}
+          },
+          // Invalid additionalItems
+          field5: {
+            type: 'array',
+            items: {
+              nestedField: { type: 'string' }
+            },
+            additionalItems: {
+              type: 'object'
+              // properties: {} // Missing properties
+            }
+          },
+          // Invalid items
+          field6: {
+            type: 'array',
+            additionalItems: { type: 'string' },
+            items: [{ /* type: 'string' */ }]
           }
         }
       };
@@ -515,7 +539,9 @@ describe('Schemaform helpers:', () => {
         isValid = checkValidSchema(s);
       } catch (err) {
         // Perhaps this should not be in this test...Seems pretty brittle.
-        expect(err.message).to.equal('Errors found in schema: Missing type in root.field1 schema. Missing object properties in root.field2.items schema. Missing items in root.field3 (array) schema.');
+        //  Still, I'd like a way to make sure we get all the right errors and
+        //  would prefer to not write 6 different tests.
+        expect(err.message).to.equal('Errors found in schema: Missing type in root.field1 schema. Missing object properties in root.field2 schema. Missing type in root.field3.nestedField schema. Missing items schema in root.field4. Missing type in root.field5.items schema. Missing object properties in root.field5.additionalItems schema. Missing type in root.field6.items schema.');
       }
       expect(isValid).to.equal(undefined);
     });

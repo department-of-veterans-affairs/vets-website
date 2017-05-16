@@ -29,9 +29,6 @@ function recalculateSchemaAndData(initialState) {
 
       const { data, schema } = updateSchemaAndData(page.schema, page.uiSchema, formData);
 
-      // Throw an error if the new schema is invalid
-      checkValidSchema(schema);
-
       let newState = state;
 
       if (formData !== data) {
@@ -53,6 +50,8 @@ export default function createSchemaFormReducer(formConfig) {
     .reduce((state, page) => {
       const definitions = _.assign(formConfig.defaultDefinitions || {}, page.schema.definitions);
       let schema = replaceRefSchemas(page.schema, definitions, page.pageKey);
+      // Throw an error if the new schema is invalid
+      checkValidSchema(schema);
       schema = updateItemsSchema(schema);
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 

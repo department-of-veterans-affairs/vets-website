@@ -356,12 +356,27 @@ export function checkValidSchema(schema, errors = [], path = ['root']) {
     }
   }
 
-  // Blech...need a better message for this one.
   if (schema.type === 'array') {
-    if (typeof schema.items !== 'object') {
-      errors.push(`Missing items schema in ${path.join('.')}.`);
+    // Require items
+    const itemsType = typeof schema.items;
+
+    // We check this both before items is turned into additionalItems and after,
+    //  so we need to account for it being both an object and an array.
+    if (itemsType === 'object' || itemsType === 'array') {
+      if (itemsType === 'array') {
+        schema.items.forEach((item, index) => {
+          checkValidSchema(item, errors, [...path, 'items', index]);
+        });
+      } else {
+        checkValidSchema(schema.items, errors, [...path, 'items']);
+      }
     } else {
-      checkValidSchema(schema.items, errors, [...path, 'items']);
+      errors.push(`Missing items schema in ${path.join('.')}.`);
+    }
+
+    // Check additionalItems (but don't require it)
+    if (schema.additionalItems) {
+      checkValidSchema(schema.additionalItems, errors, [...path, 'additionalItems']);
     }
   }
 

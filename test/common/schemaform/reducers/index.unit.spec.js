@@ -20,13 +20,16 @@ describe('schemaform createSchemaFormReducer', () => {
               schema: {
                 type: 'object',
                 properties: {
-                  field: {}
+                  field: { type: 'string' }
                 }
               }
             },
             page2: {
               initialData: {},
-              schema: {}
+              schema: {
+                type: 'object',
+                properties: {}
+              }
             }
           }
         }
@@ -50,7 +53,7 @@ describe('schemaform createSchemaFormReducer', () => {
               schema: {
                 type: 'object',
                 properties: {
-                  field: {}
+                  field: { type: 'string' }
                 }
               }
             },
