@@ -511,12 +511,6 @@ h6 {
     font: inherit !important;
     margin-bottom: 0;
     padding-bottom: .5em;
-
-    &:nth-child(1) {
-      font-size: 1.25em !important;
-      color: $color-gray-dark !important;
-      padding-bottom: inherit;
-    }
   }
 
   h3 {
