@@ -64,6 +64,12 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main')
       .expect.element('.rx-tab-explainer').to.be.visible;
 
+    // Ensure settings page renders
+    client
+      .click('.rx-settings-button')
+      .waitForElementVisible('#rx-settings', Timeouts.slow)
+      .axeCheck('.main');
+
     client.end();
   }
 );
