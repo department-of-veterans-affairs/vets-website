@@ -36,8 +36,14 @@
   margin-bottom: 3rem;
 
   // TODO: Move to core?
-  .va-alert:first-child {
-    margin-top: 0;
+  .va-alert {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    & + .rx-app-title {
+      margin-top: 2.5rem;
+    }
   }
 }
 
@@ -93,5 +99,26 @@ button.usa-button-outline {
 #rx-active, #rx-history, #rx-detail {
   .loading-indicator-container {
     margin-top: 2rem;
+  }
+}
+
+#rx-settings {
+  .rx-tab-explainer {
+    margin-bottom: 0;
+  }
+
+  .rx-notifications-save {
+    margin: 3rem 0 0;
+  }
+}
+
+.rx-app-title {
+  align-items: flex-start;
+  display: flex;
+
+  h1 {
+    display: inline-block;
+    flex: 1;
+    vertical-align: top;
   }
 }

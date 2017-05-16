@@ -49,6 +49,8 @@ describe('Validations unit tests', () => {
       expect(isValidSSN('111-22-1%34')).to.be.false;
       expect(isValidSSN('111-22-1A34')).to.be.false;
       expect(isValidSSN('hi mom')).to.be.false;
+      expect(isValidSSN('123-456789')).to.be.false;
+      expect(isValidSSN('12345-6789')).to.be.false;
 
       // No leading or trailing spaces.
       expect(isValidSSN('111-22-1A34 ')).to.be.false;
