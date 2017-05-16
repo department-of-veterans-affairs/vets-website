@@ -324,159 +324,92 @@ const formConfig = {
         }
       }
     },
-    insuranceInformation: {
-      title: 'Insurance Information',
+    militaryService: {
+      title: 'Military Service',
       pages: {
-        medicare: {
-          path: 'insurance-information/medicare',
-          title: 'Medicaid or Medicare coverage',
-          initialData: {},
+        serviceInformation: {
+          path: 'military-service/service-information',
+          title: 'Service periods',
           uiSchema: {
-            isMedicaidEligible: {
-              'ui:title': 'Are you eligible for Medicaid?',
-              'ui:widget': 'yesNo',
-              'ui:help': 'Medicaid is a United States health program for eligible individuals and families with low income and few resources.'
-            },
-            isEnrolledMedicarePartA: {
-              'ui:title': 'Are you enrolled in Medicare Part A (hospital insurance)?',
-              'ui:widget': 'yesNo',
-              'ui:help': 'Medicare is a social insurance program administered by the United States government, providing health insurance coverage to people aged 65 and over or who meet special criteria.'
-            },
-            medicarePartAEffectiveDate: _.merge(
-              currentOrPastDateUI('What is your Medicare Part A effective date?'), {
-                'ui:required': (formData) => formData.isEnrolledMedicarePartA,
-                'ui:options': {
-                  expandUnder: 'isEnrolledMedicarePartA'
-                }
-              }
-            )
-          },
-          schema: {
-            type: 'object',
-            required: ['isMedicaidEligible', 'isEnrolledMedicarePartA'],
-            properties: {
-              isMedicaidEligible,
-              isEnrolledMedicarePartA,
-              medicarePartAEffectiveDate
-            }
-          }
-        },
-        general: {
-          path: 'insurance-information/general',
-          title: 'Other coverage',
-          uiSchema: {
-            'ui:title': 'Other coverage',
-            isCoveredByHealthInsurance: {
-              'ui:title': 'Are you covered by health insurance? (Including coverage through a spouse or another person)',
-              'ui:widget': 'yesNo'
-            },
-            providers: {
+            lastServiceBranch: {
+              'ui:title': 'Last branch of service',
               'ui:options': {
-                expandUnder: 'isCoveredByHealthInsurance',
-                viewField: InsuranceProviderView
-              },
-              items: {
-                insuranceName: {
-                  'ui:title': 'Name of provider'
-                },
-                insurancePolicyHolderName: {
-                  'ui:title': 'Name of policy holder'
-                },
-                // TODO: make these required only if the other is empty
-                insurancePolicyNumber: {
-                  'ui:title': 'Policy number (either this or the group code is required)'
-                },
-                insuranceGroupCode: {
-                  'ui:title': 'Group code (either this or policy number is required)'
-                }
+                labels: lastServiceBranchLabels
+              }
+            },
+            // TODO: this should really be a dateRange, but that requires a backend schema change. For now
+            // leaving them as dates, but should change these to get the proper dateRange validation
+            lastEntryDate: currentOrPastDateUI('Start of service period'),
+            lastDischargeDate: currentOrPastDateUI('Date of discharge'),
+            dischargeType: {
+              'ui:title': 'Character of discharge',
+              'ui:options': {
+                labels: dischargeTypeLabels
               }
             }
           },
           schema: {
             type: 'object',
-            required: ['isCoveredByHealthInsurance'],
             properties: {
-              isCoveredByHealthInsurance,
-              providers: {
-                type: 'array',
-                minItems: 1,
-                items: _.merge(provider, {
-                  required: [
-                    'insuranceName',
-                    'insurancePolicyHolderName',
-                    'insurancePolicyNumber',
-                    'insuranceGroupCode'
-                  ]
-                })
-              }
-            }
+              lastServiceBranch,
+              lastEntryDate,
+              lastDischargeDate,
+              dischargeType
+            },
+            required: [
+              'lastServiceBranch',
+              'lastEntryDate',
+              'lastDischargeDate',
+              'dischargeType'
+            ],
           }
         },
-        vaFacility: {
-          path: 'insurance-information/va-facility',
-          title: 'VA Facility',
+        additionalInformation: {
+          path: 'military-service/additional-information',
+          title: 'Service history',
           uiSchema: {
-            'ui:title': 'VA Facility',
-            isEssentialAcaCoverage: {
-              'ui:title': 'I am enrolling to obtain minimum essential coverage under the Affordable Care Act'
+            'ui:title': 'Service history',
+            'ui:description': 'Check all that apply to you.',
+            purpleHeartRecipient: {
+              'ui:title': 'Purple Heart award recipient',
             },
-            'view:preferredFacility': {
-              'ui:title': 'Select your preferred VA medical facility',
-              'view:facilityState': {
-                'ui:title': 'State',
-                'ui:options': {
-                  labels: stateLabels
-                }
-              },
-              vaMedicalFacility: {
-                'ui:title': 'Center/clinic',
-                'ui:options': {
-                  labels: medicalCenterLabels,
-                  updateSchema: (form) => {
-                    const state = _.get('view:preferredFacility.view:facilityState', form);
-                    if (state) {
-                      return {
-                        'enum': medicalCentersByState[state]
-                      };
-                    }
-
-                    return {
-                      'enum': []
-                    };
-                  }
-                }
-              }
+            isFormerPow: {
+              'ui:title': 'Former prisoner of war',
             },
-            'view:locator': {
-              'ui:description': FacilityHelp
+            postNov111998Combat: {
+              'ui:title': 'Served in combat theater of operations after November 11, 1998',
             },
-            wantsInitialVaContact: {
-              'ui:title': 'Do you want VA to contact you to schedule your first appointment?',
-              'ui:widget': 'yesNo'
+            disabledInLineOfDuty: {
+              'ui:title': 'Discharged or retired from the military for a disability incurred in the line of duty',
+            },
+            swAsiaCombat: {
+              'ui:title': 'Served in Southwest Asia during the Gulf War between August 2, 1990, and Nov 11, 1998',
+            },
+            vietnamService: {
+              'ui:title': 'Served in Vietnam between January 9, 1962, and May 7, 1975',
+            },
+            exposedToRadiation: {
+              'ui:title': 'Exposed to radiation while in the military',
+            },
+            radiumTreatments: {
+              'ui:title': 'Received nose/throat radium treatments while in the military',
+            },
+            campLejeune: {
+              'ui:title': 'Served on active duty at least 30 days at Camp Lejeune from January 1, 1953, through December 31, 1987',
             }
           },
           schema: {
             type: 'object',
             properties: {
-              isEssentialAcaCoverage,
-              'view:preferredFacility': {
-                type: 'object',
-                required: ['view:facilityState', 'vaMedicalFacility'],
-                properties: {
-                  'view:facilityState': {
-                    type: 'string',
-                    'enum': states.USA.map(state => state.value)
-                  },
-                  vaMedicalFacility: _.assign(vaMedicalFacility, {
-                    'enum': []
-                  })
-                }
-              },
-              'view:locator': {
-                type: 'object',
-                properties: {}
-              },
-              wantsInitialVaContact
+              purpleHeartRecipient,
+              isFormerPow,
+              postNov111998Combat,
+              disabledInLineOfDuty,
+              swAsiaCombat,
+              vietnamService,
+              exposedToRadiation,
+              radiumTreatments,
+              campLejeune
             }
           }
         }
@@ -548,9 +481,7 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Spouse’s information',
             'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
-            spouseFullName: _.merge(fullNameUI, {
-              'ui:title': 'Spouse Name'
-            }),
+            spouseFullName: fullNameUI,
             spouseSocialSecurityNumber: _.merge(ssnUI, {
               'ui:title': 'Spouse’s social security number',
             }),
@@ -740,96 +671,164 @@ const formConfig = {
         }
       }
     },
-    militaryService: {
-      title: 'Military Service',
+    insuranceInformation: {
+      title: 'Insurance Information',
       pages: {
-        serviceInformation: {
-          path: 'military-service/service-information',
-          title: 'Service periods',
+        medicare: {
+          path: 'insurance-information/medicare',
+          title: 'Medicaid or Medicare coverage',
+          initialData: {},
           uiSchema: {
-            lastServiceBranch: {
-              'ui:title': 'Last branch of service',
-              'ui:options': {
-                labels: lastServiceBranchLabels
-              }
+            isMedicaidEligible: {
+              'ui:title': 'Are you eligible for Medicaid?',
+              'ui:widget': 'yesNo',
+              'ui:help': 'Medicaid is a United States health program for eligible individuals and families with low income and few resources.'
             },
-            // TODO: this should really be a dateRange, but that requires a backend schema change. For now
-            // leaving them as dates, but should change these to get the proper dateRange validation
-            lastEntryDate: currentOrPastDateUI('Start of service period'),
-            lastDischargeDate: currentOrPastDateUI('Date of discharge'),
-            dischargeType: {
-              'ui:title': 'Character of discharge',
-              'ui:options': {
-                labels: dischargeTypeLabels
+            isEnrolledMedicarePartA: {
+              'ui:title': 'Are you enrolled in Medicare Part A (hospital insurance)?',
+              'ui:widget': 'yesNo',
+              'ui:help': 'Medicare is a social insurance program administered by the United States government, providing health insurance coverage to people aged 65 and over or who meet special criteria.'
+            },
+            medicarePartAEffectiveDate: _.merge(
+              currentOrPastDateUI('What is your Medicare Part A effective date?'), {
+                'ui:required': (formData) => formData.isEnrolledMedicarePartA,
+                'ui:options': {
+                  expandUnder: 'isEnrolledMedicarePartA'
+                }
               }
-            }
+            )
           },
           schema: {
             type: 'object',
+            required: ['isMedicaidEligible', 'isEnrolledMedicarePartA'],
             properties: {
-              lastServiceBranch,
-              lastEntryDate,
-              lastDischargeDate,
-              dischargeType
-            },
-            required: [
-              'lastServiceBranch',
-              'lastEntryDate',
-              'lastDischargeDate',
-              'dischargeType'
-            ],
+              isMedicaidEligible,
+              isEnrolledMedicarePartA,
+              medicarePartAEffectiveDate
+            }
           }
         },
-        additionalInformation: {
-          path: 'military-service/additional-information',
-          title: 'Service history',
+        general: {
+          path: 'insurance-information/general',
+          title: 'Other coverage',
           uiSchema: {
-            'ui:title': 'Check all that apply to you.',
-            purpleHeartRecipient: {
-              'ui:title': 'Purple Heart award recipient',
+            'ui:title': 'Other coverage',
+            isCoveredByHealthInsurance: {
+              'ui:title': 'Are you covered by health insurance? (Including coverage through a spouse or another person)',
+              'ui:widget': 'yesNo'
             },
-            isFormerPow: {
-              'ui:title': 'Former prisoner of war',
+            providers: {
+              'ui:options': {
+                expandUnder: 'isCoveredByHealthInsurance',
+                viewField: InsuranceProviderView
+              },
+              items: {
+                insuranceName: {
+                  'ui:title': 'Name of provider'
+                },
+                insurancePolicyHolderName: {
+                  'ui:title': 'Name of policy holder'
+                },
+                // TODO: make these required only if the other is empty
+                insurancePolicyNumber: {
+                  'ui:title': 'Policy number (either this or the group code is required)'
+                },
+                insuranceGroupCode: {
+                  'ui:title': 'Group code (either this or policy number is required)'
+                }
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['isCoveredByHealthInsurance'],
+            properties: {
+              isCoveredByHealthInsurance,
+              providers: {
+                type: 'array',
+                minItems: 1,
+                items: _.merge(provider, {
+                  required: [
+                    'insuranceName',
+                    'insurancePolicyHolderName',
+                    'insurancePolicyNumber',
+                    'insuranceGroupCode'
+                  ]
+                })
+              }
+            }
+          }
+        },
+        vaFacility: {
+          path: 'insurance-information/va-facility',
+          title: 'VA Facility',
+          uiSchema: {
+            'ui:title': 'VA Facility',
+            isEssentialAcaCoverage: {
+              'ui:title': 'I am enrolling to obtain minimum essential coverage under the Affordable Care Act'
             },
-            postNov111998Combat: {
-              'ui:title': 'Served in combat theater of operations after November 11, 1998',
+            'view:preferredFacility': {
+              'ui:title': 'Select your preferred VA medical facility',
+              'view:facilityState': {
+                'ui:title': 'State',
+                'ui:options': {
+                  labels: stateLabels
+                }
+              },
+              vaMedicalFacility: {
+                'ui:title': 'Center/clinic',
+                'ui:options': {
+                  labels: medicalCenterLabels,
+                  updateSchema: (form) => {
+                    const state = _.get('view:preferredFacility.view:facilityState', form);
+                    if (state) {
+                      return {
+                        'enum': medicalCentersByState[state]
+                      };
+                    }
+
+                    return {
+                      'enum': []
+                    };
+                  }
+                }
+              }
             },
-            disabledInLineOfDuty: {
-              'ui:title': 'Discharged or retired from the military for a disability incurred in the line of duty',
+            'view:locator': {
+              'ui:description': FacilityHelp
             },
-            swAsiaCombat: {
-              'ui:title': 'Served in Southwest Asia during the Gulf War between August 2, 1990, and Nov 11, 1998',
-            },
-            vietnamService: {
-              'ui:title': 'Served in Vietnam between January 9, 1962, and May 7, 1975',
-            },
-            exposedToRadiation: {
-              'ui:title': 'Exposed to radiation while in the military',
-            },
-            radiumTreatments: {
-              'ui:title': 'Received nose/throat radium treatments while in the military',
-            },
-            campLejeune: {
-              'ui:title': 'Served on active duty at least 30 days at Camp Lejeune from January 1, 1953, through December 31, 1987',
+            wantsInitialVaContact: {
+              'ui:title': 'Do you want VA to contact you to schedule your first appointment?',
+              'ui:widget': 'yesNo'
             }
           },
           schema: {
             type: 'object',
             properties: {
-              purpleHeartRecipient,
-              isFormerPow,
-              postNov111998Combat,
-              disabledInLineOfDuty,
-              swAsiaCombat,
-              vietnamService,
-              exposedToRadiation,
-              radiumTreatments,
-              campLejeune
+              isEssentialAcaCoverage,
+              'view:preferredFacility': {
+                type: 'object',
+                required: ['view:facilityState', 'vaMedicalFacility'],
+                properties: {
+                  'view:facilityState': {
+                    type: 'string',
+                    'enum': states.USA.map(state => state.value)
+                  },
+                  vaMedicalFacility: _.assign(vaMedicalFacility, {
+                    'enum': []
+                  })
+                }
+              },
+              'view:locator': {
+                type: 'object',
+                properties: {}
+              },
+              wantsInitialVaContact
             }
           }
         }
       }
-    }
+    },
   }
 };
 
