@@ -9,7 +9,7 @@ import {
   getArrayFields,
   setItemTouched,
   getNonArraySchema,
-  isValidSchema
+  checkValidSchema
 } from '../../../src/js/common/schemaform/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -463,7 +463,7 @@ describe('Schemaform helpers:', () => {
     });
   });
 
-  describe('isValidSchema', () => {
+  describe('checkValidSchema', () => {
     it('should return true for valid schema', () => {
       const s = {
         type: 'object',
@@ -483,7 +483,7 @@ describe('Schemaform helpers:', () => {
 
       let isValid;
       try {
-        isValid = isValidSchema(s);
+        isValid = checkValidSchema(s);
       } catch (err) {
         console.error(err.message); // eslint-disable-line no-console
       }
@@ -512,7 +512,7 @@ describe('Schemaform helpers:', () => {
 
       let isValid;
       try {
-        isValid = isValidSchema(s);
+        isValid = checkValidSchema(s);
       } catch (err) {
         // Perhaps this should not be in this test...Seems pretty brittle.
         expect(err.message).to.equal('Errors found in schema: Missing type in root.field1 schema. Missing object properties in root.field2.items schema. Missing items in root.field3 (array) schema.');

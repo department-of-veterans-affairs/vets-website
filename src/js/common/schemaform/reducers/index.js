@@ -3,6 +3,7 @@ import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
 
 import {
   createFormPageList,
+  checkValidSchema
 } from '../helpers';
 
 import {
@@ -27,6 +28,9 @@ function recalculateSchemaAndData(initialState) {
       const formData = initialState.data;
 
       const { data, schema } = updateSchemaAndData(page.schema, page.uiSchema, formData);
+
+      // Throw an error if the new schema is invalid
+      checkValidSchema(schema);
 
       let newState = state;
 

@@ -341,7 +341,7 @@ export const pureWithDeepEquals = shouldUpdate((props, nextProps) => {
  * @return {bool}         - true if we succeed
  * @throws {Error}        - If the schema is invalid
  */
-export function isValidSchema(schema, errors = [], path = ['root']) {
+export function checkValidSchema(schema, errors = [], path = ['root']) {
   if (typeof schema.type !== 'string') {
     errors.push(`Missing type in ${path.join('.')} schema.`);
   }
@@ -351,7 +351,7 @@ export function isValidSchema(schema, errors = [], path = ['root']) {
       errors.push(`Missing object properties in ${path.join('.')} schema.`);
     } else {
       Object.keys(schema.properties).forEach((propName) => {
-        isValidSchema(schema.properties[propName], errors, [...path, propName]);
+        checkValidSchema(schema.properties[propName], errors, [...path, propName]);
       });
     }
   }
@@ -361,7 +361,7 @@ export function isValidSchema(schema, errors = [], path = ['root']) {
     if (typeof schema.items !== 'object') {
       errors.push(`Missing items schema in ${path.join('.')}.`);
     } else {
-      isValidSchema(schema.items, errors, [...path, 'items']);
+      checkValidSchema(schema.items, errors, [...path, 'items']);
     }
   }
 
