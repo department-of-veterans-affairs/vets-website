@@ -66,6 +66,8 @@ export function resetForm() {
 
 export function submitForm(formData) {
   return (dispatch) => {
+    dispatch({ type: 'FORM_SUBMITTING' });
+
     apiRequest('/v0/health_records',
       {
         headers: {

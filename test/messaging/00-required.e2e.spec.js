@@ -62,10 +62,24 @@ module.exports = E2eHelpers.createE2eTest(
       // Ensure success alert box is shown.
       .waitForElementVisible('.usa-alert-success', Timeouts.slow);
 
-    // Ensure settings page renders.
+    // Ensure manage folders page renders.
     client.click('.msg-btn-managefolders')
-      .waitForElementVisible('#messaging-settings', Timeouts.slow)
+      .waitForElementVisible('.va-tab-content', Timeouts.slow)
       .axeCheck('.main');
+
+    // Ensure email notifications page renders
+    client
+      .click('.va-tabs li:last-child a')
+      .waitForElementVisible('.va-tab-content', Timeouts.slow)
+      .axeCheck('.main');
+
+    // Update preferences successfully.
+    client.click('#notifications-on')
+      .click('.form-radio-buttons:nth-of-type(2) input')
+      .clearValue('input[name="emailAddress"]')
+      .setValue('input[name="emailAddress"]', 'user@vets.gov')
+      .click('.msg-notifications-save button:first-child')
+      .waitForElementVisible('.usa-alert-success', Timeouts.slow);
 
     client.end();
   }

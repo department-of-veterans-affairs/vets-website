@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
-import { uiSchema as fullNameUI } from '../../common/schemaform/definitions/fullName';
-import { uiSchema as ssnUI } from '../../common/schemaform/definitions/ssn';
+import fullNameUI from '../../common/schemaform/definitions/fullName';
+import ssnUI from '../../common/schemaform/definitions/ssn';
 
 
 export const schema = (hcaSchema) => {

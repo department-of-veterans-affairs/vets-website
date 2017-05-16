@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Autosuggest from 'react-autosuggest';
+import Autosuggest from 'react-autosuggest-ie11-compatible';
 import { debounce } from 'lodash';
 
 export class KeywordSearch extends React.Component {
