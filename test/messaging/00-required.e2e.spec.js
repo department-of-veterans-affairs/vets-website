@@ -73,6 +73,14 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.va-tab-content', Timeouts.slow)
       .axeCheck('.main');
 
+    // Update preferences successfully.
+    client.click('#notifications-on')
+      .click('.form-radio-buttons:nth-of-type(2) input')
+      .clearValue('input[name="emailAddress"]')
+      .setValue('input[name="emailAddress"]', 'user@vets.gov')
+      .click('.msg-notifications-save button:first-child')
+      .waitForElementVisible('.usa-alert-success', Timeouts.slow);
+
     client.end();
   }
 );

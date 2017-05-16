@@ -155,7 +155,7 @@ const preferences = {
     type: 'messaging_preferences',
     attributes: {
       emailAddress: 'test@vets.gov',
-      frequency: 'daily'
+      rxFlag: false
     }
   }
 };
@@ -208,7 +208,7 @@ function initApplicationSubmitMock(token) {
 
   mock(token, {
     path: '/v0/prescriptions/preferences',
-    verb: 'post',
+    verb: 'put',
     value: preferences,
   });
 }

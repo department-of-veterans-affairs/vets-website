@@ -394,7 +394,7 @@ const preferences = {
     type: 'messaging_preferences',
     attributes: {
       emailAddress: 'test@vets.gov',
-      frequency: 'daily'
+      frequency: 'none'
     }
   }
 };
@@ -465,7 +465,7 @@ export function initApplicationSubmitMock(token) {
 
   mock(token, {
     path: '/v0/messaging/health/preferences',
-    verb: 'post',
+    verb: 'put',
     value: preferences,
   });
 }

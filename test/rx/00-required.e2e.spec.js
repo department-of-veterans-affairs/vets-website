@@ -70,6 +70,13 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('#rx-settings', Timeouts.slow)
       .axeCheck('.main');
 
+    // Update preferences successfully.
+    client.click('.form-radio-buttons:first-of-type input')
+      .clearValue('input[name="email"]')
+      .setValue('input[name="email"]', 'user@vets.gov')
+      .click('.rx-notifications-save button:first-child')
+      .waitForElementVisible('.usa-alert-success', Timeouts.slow);
+
     client.end();
   }
 );
