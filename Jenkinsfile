@@ -170,7 +170,7 @@ node('vets-website-linting') {
     def targets = [
       'kudos-launch': [
         [ 'build': 'development', 'bucket': 'dev.vets.gov' ],
-      },
+      ],
 
       'master': [
         [ 'build': 'staging', 'bucket': 'staging.vets.gov' ],
