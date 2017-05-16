@@ -66,7 +66,8 @@ We provide services for:
 
 - [Homeless women Veterans](https://www.va.gov/homeless/for_women_veterans.asp)
 - [Victims of intimate partner violence](https://www.womenshealth.va.gov/outreachmaterials/abuseandviolence/intimatepartnerviolence.asp) 
--	Women Veterans who want: 
+
+Women Veterans who want: 
   - [Education and training](/education/)
   - [Employment help](/employment/) 
   - Vocational rehabilitation (job training)
@@ -107,7 +108,6 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
 
 ------
 
-#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
