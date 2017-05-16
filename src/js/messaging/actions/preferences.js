@@ -21,9 +21,9 @@ export function fetchPreferences() {
     apiRequest(
       baseUrl,
       null,
-      data => dispatch({
+      response => dispatch({
         type: SM_FETCH_PREFERENCES_SUCCESS,
-        preferences: data.data.attributes
+        preferences: response.data.attributes
       }),
       () => dispatch({ type: SM_FETCH_PREFERENCES_FAILURE })
     );
