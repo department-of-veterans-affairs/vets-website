@@ -24,11 +24,11 @@ We have 3 Regional Pension Management Centers. Look at the lists below to find t
 
 </div>
 
-**Philadelphia VA Regional Benefit Office**
+### Philadelphia VA Regional Benefit Office
 
 This office serves:
 
-<div class="small-18 columns">
+<div class="small-6 columns">
 <ul>
 <li>Connecticut</li>
 <li>Florida</li>
@@ -39,6 +39,11 @@ This office serves:
 <li>Puerto Rico</li>
 <li>South Carolina</li>
 <li>Virginia</li>
+</ul>
+</div>
+
+<div class="small-6 columns">
+<ul>
 <li>Delaware</li>
 <li>Georgia</li>
 <li>Maryland</li>
@@ -64,11 +69,11 @@ To submit a pension application to this office, mail it to:
 
 [Get more information about the Philadelphia VA Regional Benefit Office](http://www.benefits.va.gov/philadelphia/). 
 
-**Milwaukee VA Pension Center**
+### Milwaukee VA Pension Center
 
 This office serves:
 
-<div class="small-12 columns">
+<div class="small-6 columns">
 <ul>
 <li>Alabama</li>
 <li>Illinois</li>
@@ -76,6 +81,11 @@ This office serves:
 <li>Michigan</li>
 <li>Missouri</li>
 <li>Tennessee</li>
+</ul>
+</div>
+
+<div class="small-6 columns">
+<ul>
 <li>Arkansas</li>
 <li>Indiana</li>
 <li>Louisiana</li>
@@ -98,11 +108,11 @@ To submit a pension application to this office, mail it to:
 
 [Get more information about the Milwaukee VA Regional Benefit Office](http://www.benefits.va.gov/milwaukee/). 
 
-**St. Paul VA Regional Benefit Office**
+### St. Paul VA Regional Benefit Office
 
 This office serves:
 
-<div class="small-22 columns">
+<div class="small-6 columns">
 <ul>
 <li>Alaska</li>
 <li>California</li>
@@ -115,6 +125,11 @@ This office serves:
 <li>South Dakota</li>
 <li>Utah</li>
 <li>Wyoming</li>
+</ul>
+</div>
+
+<div class="small-6 columns">
+<ul>
 <li>Arizona</li>
 <li>Colorado</li>
 <li>Idaho</li>
