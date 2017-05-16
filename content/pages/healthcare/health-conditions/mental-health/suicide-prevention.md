@@ -95,7 +95,6 @@ Get tips for talking to children of different ages about suicide:
 
 ------
 
-#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
