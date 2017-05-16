@@ -25,15 +25,9 @@ export default function alert(state = initialState, action) {
 
     case 'RX_SAVE_PREFERENCES_FAILURE': {
       const { errors } = action;
-      const invalidEmail = errors && errors.filter(e =>
-          e.title === 'Email address is invalid'
-        ).length > 0;
-
+      const error = errors.length && `${errors[0].title}.`;
       return {
-        content: (<b>
-          Failed to save changes.
-          {invalidEmail && ' Please enter a valid email address.'}
-        </b>),
+        content: <b>Failed to save changes. {error}</b>,
         status: 'error',
         visible: true
       };
