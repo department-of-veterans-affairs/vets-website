@@ -113,9 +113,20 @@ function completeBenefitsSelection(client, data) {
   }
 }
 
+/**
+ * Completes the service periods page.
+ *
+ * @param {Object} client   - The nightwatch client
+ * @param {Object} data     - The testing data
+ * @param {String} | {Bool} - The name of the yes / no widget or false to skip
+ *                            clicking on the yes / no
+ */
 function completeServicePeriods(client, data, serviceName = 'view:newService') {
+  if (serviceName) {
+    client
+      .click(`input[name="root_${serviceName}Yes"]`);
+  }
   client
-    .click(`input[name="root_${serviceName}Yes"]`)
     .fill('input[name="root_toursOfDuty_0_serviceBranch"]', data.toursOfDuty[0].serviceBranch)
     .fillDate('root_toursOfDuty_0_dateRange_from', data.toursOfDuty[0].dateRange.from)
     .fillDate('root_toursOfDuty_0_dateRange_to', data.toursOfDuty[0].dateRange.to)
