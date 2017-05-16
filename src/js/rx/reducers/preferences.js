@@ -15,6 +15,12 @@ export default function preferences(state = initialState, action) {
     case 'RX_SAVING_PREFERENCES':
       return { ...state, saving: true };
 
+    case 'RX_FETCH_PREFERENCES_FAILURE':
+      return { ...state, loading: false };
+
+    case 'RX_SAVE_PREFERENCES_FAILURE':
+      return { ...state, saving: false };
+
     case 'RX_FETCH_PREFERENCES_SUCCESS': {
       const { emailAddress: email, rxFlag: flag } = action.preferences;
       return {

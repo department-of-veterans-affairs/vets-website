@@ -23,12 +23,25 @@ describe('alert reducer', () => {
     expect(state.visible).to.be.false;
   });
 
+  it('should dismiss alerts when loading preferences', () => {
+    const state = alertReducer(undefined, { type: 'RX_LOADING_PREFERENCES' });
+    expect(state.visible).to.be.false;
+  });
+
+  it('should dismiss alerts when saving preferences', () => {
+    const state = alertReducer(undefined, { type: 'RX_SAVING_PREFERENCES' });
+    expect(state.visible).to.be.false;
+  });
+
   it('should alert an error for failing to save preferences', () => {
     const state = alertReducer({
       visible: false,
       content: '',
       status: 'info'
-    }, { type: 'SAVE_PREFERENCES_FAILURE' });
+    }, {
+      type: 'RX_SAVE_PREFERENCES_FAILURE',
+      errors: [{ title: 'Email address is invalid' }]
+    });
 
     expect(state.visible).to.be.true;
     expect(state.content).to.be.not.empty;
@@ -40,7 +53,7 @@ describe('alert reducer', () => {
       visible: false,
       content: '',
       status: 'info'
-    }, { type: 'SAVE_PREFERENCES_SUCCESS' });
+    }, { type: 'RX_SAVE_PREFERENCES_SUCCESS' });
 
     expect(state.visible).to.be.true;
     expect(state.content).to.be.not.empty;
