@@ -6,14 +6,16 @@ def isContentTeamUpdate = {
 
 def isReviewable = {
   env.BRANCH_NAME != 'production' &&
-    env.BRANCH_NAME != 'master'
+    env.BRANCH_NAME != 'master' &&
+    env.BRANCH_NAME != 'kudos-launch'
 }
 
 env.CONCURRENCY = 10
 
 def isDeployable = {
   (env.BRANCH_NAME == 'master' ||
-    env.BRANCH_NAME == 'production') &&
+    env.BRANCH_NAME == 'production' ||
+    env.BRANCH_NAME == 'kudos-launch') &&
     !env.CHANGE_TARGET
 }
 
@@ -166,8 +168,11 @@ node('vets-website-linting') {
     }
 
     def targets = [
-      'master': [
+      'kudos-launch': [
         [ 'build': 'development', 'bucket': 'dev.vets.gov' ],
+      },
+
+      'master': [
         [ 'build': 'staging', 'bucket': 'staging.vets.gov' ],
       ],
 
