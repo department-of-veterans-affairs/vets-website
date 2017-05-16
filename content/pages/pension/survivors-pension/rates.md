@@ -41,7 +41,7 @@ Your VA pension = $6,506 for the year (or $542.17 paid each month)
 *Increase Factor: .3%*
 *Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.*
 
-**For qualified surviving spouses with at least 1 dependent:**
+#### For qualified surviving spouses with at least 1 dependent:
 
 | **If you have 1 dependent child and…** | **Your MAPR amount is:** | 
 | --- | --- | 
@@ -56,7 +56,7 @@ Your VA pension = $6,506 for the year (or $542.17 paid each month)
 - **If you have a child who works,** you may exclude their income up to $10,400 for 2017.
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($566 for a surviving spouse with 1 dependent).
 
-**For qualified surviving spouses with no dependents:**
+#### For qualified surviving spouses with no dependents:
 
 | **If you have no dependents and…** | **Your MARP amount is:** |
 | --- | --- |
@@ -69,7 +69,7 @@ Your VA pension = $6,506 for the year (or $542.17 paid each month)
 - The Survivor Benefit Plan (SBP)/Minimum Income Annuity (MIW) limitation is $8,656.
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($432 for a surviving spouse with no dependent child). 
 
-**For qualified surviving children:**
+#### For qualified surviving children:
 
 | **If you’re…**| **Your MARP amount is:** |
 | --- | --- | 
