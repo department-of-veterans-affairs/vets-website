@@ -38,7 +38,10 @@ describe('alert reducer', () => {
       visible: false,
       content: '',
       status: 'info'
-    }, { type: 'RX_SAVE_PREFERENCES_FAILURE' });
+    }, {
+      type: 'RX_SAVE_PREFERENCES_FAILURE',
+      errors: [{ title: 'Email address is invalid' }]
+    });
 
     expect(state.visible).to.be.true;
     expect(state.content).to.be.not.empty;
