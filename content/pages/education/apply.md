@@ -115,31 +115,3 @@ If you need to make a change (for example, you’re moving to a new school), man
 </div>
 
 <div markdown="0"><br></div>
-
-<script type="text/javascript">
-  // I'm open to suggestions on how to not do this here
-
-  function toggleClass(element, className) {
-    element.classList.toggle(className);
-  }
-
-  // Toggle the expandable apply fields
-  const containers = Array.prototype.slice.call(document.querySelectorAll('.expander-container'));
-  containers.forEach(function(container) {
-    var button = container.querySelector('.expander-button');
-    var openButton = container.querySelector('.apply-go-button');
-    var content = container.querySelector('.expander-content');
-    button.addEventListener('click', function () {
-      toggleClass(content, 'expander-content-closed');
-      toggleClass(button, 'va-button-primary');
-    });
-    openButton.addEventListener('click', function () {
-      var selectedForm = content.querySelector('input[name="form-selection"]:checked');
-
-      if (selectedForm) {
-        location.assign('/education/apply-for-education-benefits/application/' + selectedForm.value + '/introduction');
-      }
-    });
-  })
-</script>
-
