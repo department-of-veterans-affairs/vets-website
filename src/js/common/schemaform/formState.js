@@ -185,7 +185,7 @@ export function removeHiddenData(schema, data) {
  * function in uiSchema. This means the schema can be re-calculated based on data
  * a user has entered.
  */
-export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = null) {
+export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = null, path = []) {
   if (!uiSchema) {
     return schema;
   }
@@ -194,7 +194,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = nul
 
   if (currentSchema.type === 'object') {
     const newSchema = Object.keys(currentSchema.properties).reduce((current, next) => {
-      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], formData, index);
+      const nextProp = updateSchemaFromUiSchema(current.properties[next], uiSchema[next], formData, index, path.concat(next));
 
       if (current.properties[next] !== nextProp) {
         return _.set(['properties', next], nextProp, current);
@@ -212,7 +212,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = nul
     // each item has its own schema, so we need to update the required fields on those schemas
     // and then check for differences
     const newItemSchemas = currentSchema.items.map((item, idx) =>
-      updateSchemaFromUiSchema(item, uiSchema.items, formData, idx)
+      updateSchemaFromUiSchema(item, uiSchema.items, formData, idx, path.concat(idx))
     );
 
     if (newItemSchemas.some((newItem, idx) => newItem !== currentSchema.items[idx])) {
@@ -223,7 +223,7 @@ export function updateSchemaFromUiSchema(schema, uiSchema, formData, index = nul
   const updateSchema = _.get(['ui:options', 'updateSchema'], uiSchema);
 
   if (updateSchema) {
-    const newSchemaProps = updateSchema(formData, currentSchema, uiSchema, index);
+    const newSchemaProps = updateSchema(formData, currentSchema, uiSchema, index, path);
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
       if (newSchemaProps[next] !== schema[next]) {

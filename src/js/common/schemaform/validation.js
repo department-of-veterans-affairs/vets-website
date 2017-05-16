@@ -248,7 +248,7 @@ export function validateAddress(errors, address, formData, schema) {
   // USA, Canada, or Mexico
   if (_.includes(address.country)(['USA', 'CAN', 'MEX'])
     && address.state === undefined
-    && schema.required) {
+    && schema.required.length) {
     errors.state.addError('Please select a state or province');
   }
 
