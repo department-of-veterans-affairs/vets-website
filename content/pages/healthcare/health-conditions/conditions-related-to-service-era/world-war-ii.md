@@ -57,9 +57,13 @@ Talk to your primary health care provider or your local VA environmental health 
 
 </li>
 
+<li class="process-step list-two">
+
 Ask your local VA environmental health coordinator about getting a free Ionizing Radiation Registry health exam. [Learn more about the exam](https://www.publichealth.va.gov/exposures/radiation/benefits/registry-exam.asp).
 
-<li class="process-step list-two">
+</li>
+
+<li class="process-step list-three">
 
 Find out if you can get disability compensation (monthly payments) and other benefits if you have a health condition that started—or became worse—during your active-duty service. [Learn more about disability benefits](/disability-benefits/).
 
