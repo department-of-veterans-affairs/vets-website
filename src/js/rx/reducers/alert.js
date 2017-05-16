@@ -23,12 +23,20 @@ export default function alert(state = initialState, action) {
     case 'RX_SAVING_PREFERENCES':
       return initialState;
 
-    case 'RX_SAVE_PREFERENCES_FAILURE':
+    case 'RX_SAVE_PREFERENCES_FAILURE': {
+      const { errors } = action;
+      const invalidEmail = errors && errors.filter(e =>
+          e.title === 'Email address is invalid'
+        ).length > 0;
+
       return {
-        content: <b>Failed to save your changes.</b>,
+        content: (<b>
+          Failed to save your changes. {invalidEmail && 'Please enter a valid email address.'}
+        </b>),
         status: 'error',
         visible: true
       };
+    }
 
     case 'RX_SAVE_PREFERENCES_SUCCESS':
       return {
