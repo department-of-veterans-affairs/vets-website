@@ -23,9 +23,6 @@ export default class ArrayField extends React.Component {
     super(props);
     // Throw an error if there's no viewField (should be React component)
     if (typeof this.props.uiSchema['ui:options'].viewField !== 'function') {
-      // I'd like to say which field this is for, but...how? Still, should be
-      //  pretty straightforward to find out; go to the page and see which
-      //  properties are arrays and go from there.
       throw new Error(`No viewField found in uiSchema for ArrayField ${this.props.idSchema.$id}.`);
     }
 
