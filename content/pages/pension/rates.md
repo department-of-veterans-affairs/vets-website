@@ -41,7 +41,7 @@ Your VA pension = $15,525 for the year (or $1,293.75 paid each month)
 *Increase Factor: .3%*
 *Standard Medicare Deduction: Actual amount will be determined by SSA based on individual income.*
 
-**For Veterans with at least 1 dependent spouse or child:**
+#### For Veterans with at least 1 dependent spouse or child:
 
 | **If you have 1 dependent and…** | **Your MAPR amount is:** |
 | --- | --- | 
@@ -54,7 +54,7 @@ Your VA pension = $15,525 for the year (or $1,293.75 paid each month)
 - **If you have a child who works,** you may exclude their income up to $10,400 for 2017.
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($845 for a Veteran with 1 dependent).
 
-**For Veterans with no dependents:**
+#### For Veterans with no dependents:
 
 | **If you have no dependents and…** | **Your MARP amount is:** | 
 | --- | --- | 
@@ -65,7 +65,7 @@ Your VA pension = $15,525 for the year (or $1,293.75 paid each month)
 **Note:**
 - **If you have medical expenses,** you may deduct only the amount that’s above 5% of your MAPR amount ($645 for a Veteran with no spouse or child).
 
-**For 2 Veterans who are married to each other:**
+#### For 2 Veterans who are married to each other:
 
 | **If you're 2 Veterans who are married to each other and:** | **Your MARP amount is:** |
 | --- | --- | 
