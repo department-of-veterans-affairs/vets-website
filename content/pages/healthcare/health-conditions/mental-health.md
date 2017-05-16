@@ -124,7 +124,6 @@ You may still be able to get care:
 
 ------
 
-#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
