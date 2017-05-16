@@ -31,7 +31,8 @@ export default function alert(state = initialState, action) {
 
       return {
         content: (<b>
-          Failed to save your changes. {invalidEmail && 'Please enter a valid email address.'}
+          Failed to save changes.
+          {invalidEmail && ' Please enter a valid email address.'}
         </b>),
         status: 'error',
         visible: true

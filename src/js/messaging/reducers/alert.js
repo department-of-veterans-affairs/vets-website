@@ -123,11 +123,19 @@ export default function alert(state = initialState, action) {
       );
     }
 
-    case SM_SAVE_PREFERENCES_FAILURE:
+    case SM_SAVE_PREFERENCES_FAILURE: {
+      const { errors } = action;
+      const invalidEmail = errors && errors.filter(e =>
+          e.title === 'Email address is invalid'
+        ).length > 0;
       return createAlert(
-        <b>Failed to save changes.</b>,
+        (<b>
+          Failed to save changes.
+          {invalidEmail && ' Please enter a valid email address.'}
+        </b>),
         alertStatus.ERROR
       );
+    }
 
     case SM_SAVE_PREFERENCES_SUCCESS:
       return createAlert(

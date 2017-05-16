@@ -51,11 +51,13 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       const data = isJson(response)
                  ? response.json()
                  : Promise.resolve(response);
+
       if (!response.ok) {
       // Refresh to show login view when requests are unauthorized.
         if (response.status === 401) { return window.location.reload(); }
         return data.then(Promise.reject.bind(Promise));
       }
+
       return data;
     })
     .then(success, error);
