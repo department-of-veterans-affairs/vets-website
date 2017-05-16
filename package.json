@@ -28,7 +28,8 @@
     "test:unit:login": "BABEL_ENV=test mocha --recursive 'test/login/**/*.unit.spec.js?(x)' ",
     "test:watch": "BABEL_ENV=test mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
     "watch": "node script/build.js --watch",
-    "watch:static": "npm run watch -- --entry no-react"
+    "watch:static": "npm run watch -- --entry no-react",
+    "postinstall": "npm rebuild node-sass"
   },
   "repository": {
     "type": "git",
