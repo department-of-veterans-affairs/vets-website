@@ -26,7 +26,7 @@ export default class ArrayField extends React.Component {
       // I'd like to say which field this is for, but...how? Still, should be
       //  pretty straightforward to find out; go to the page and see which
       //  properties are arrays and go from there.
-      throw new Error('No viewField found in uiSchema for ArrayField.');
+      throw new Error(`No viewField found in uiSchema for ArrayField ${this.props.idSchema.$id}.`);
     }
 
     /*
