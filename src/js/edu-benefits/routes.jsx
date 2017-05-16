@@ -87,6 +87,23 @@ export default function createRoutes(store) {
       },
     },
     {
+      path: '1990-rjsf',
+      indexRoute: { onEnter: (nextState, replace) => replace('/1990-rjsf/introduction') },
+      component: asyncLoader(() => {
+        return new Promise((resolve) => {
+          require.ensure([], (require) => {
+            store.replaceReducer(require('./1990-rjsf/reducer').default);
+            resolve(require('./1990-rjsf/Form1990App').default);
+          }, 'edu-1990');
+        });
+      }, 'Loading Form 22-1990'),
+      getChildRoutes(partialNextState, callback) {
+        require.ensure([], (require) => {
+          callback(null, require('./1990-rjsf/routes').default);
+        }, 'edu-1990');
+      },
+    },
+    {
       path: '5495',
       indexRoute: { onEnter: (nextState, replace) => replace('/5495/introduction') },
       component: asyncLoader(() => {
