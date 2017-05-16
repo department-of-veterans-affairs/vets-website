@@ -52,7 +52,7 @@ Depression is a serious illness, but this common mental health problem is also h
 We offer treatments such as:
 
 - Medicine proven to help treat depression, anxiety, sleep issues, and other related problems
-- Psychotherapy (also called “talk therapy”) to help treat depression. These may sessions may include learning new behaviors (like exercise and relaxation), help resolving relationship problems, and more. 
+- Psychotherapy (also called “talk therapy”) to help treat depression. These sessions may include learning new behaviors (like exercise and relaxation), help resolving relationship problems, and more. 
 
 <br>
 
@@ -90,7 +90,6 @@ You may still be able to get care:
 
 ------
 
-#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
