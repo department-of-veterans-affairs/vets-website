@@ -41,8 +41,8 @@ export class UpdatePage extends React.Component {
   }
 
   submitAndDownload() {
-    this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
     this.props.router.push('/download');
+    this.props.submitForm(JSON.parse(sessionStorage.getItem('hr-form')));
   }
 
   handleSkipToDownload(e) {
