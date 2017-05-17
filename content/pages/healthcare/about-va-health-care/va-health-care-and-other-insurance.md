@@ -139,6 +139,6 @@ We may also accept reimbursement from HRAs for care we provide to treat your non
 [Send a message to your VA health care provider](/healthcare/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/).
 
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
 
 **Have an illness or injury caused or made worse by your active-duty service?** [Find out if you can get disability benefits](/disability-benefits/conditions/).
