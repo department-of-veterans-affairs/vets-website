@@ -9,7 +9,7 @@ const incomeFields = [
 ];
 
 export const createChildSchema = (hcaSchema) => {
-  return _.omit(incomeFields, _.merge(hcaSchema.definitions.child, {
+  const s = _.merge(hcaSchema.definitions.child, {
     required: [
       'childRelation',
       'childSocialSecurityNumber',
@@ -27,7 +27,11 @@ export const createChildSchema = (hcaSchema) => {
         type: 'string'
       }
     }
-  }));
+  });
+
+  s.properties = _.omit(incomeFields, s.properties);
+
+  return s;
 };
 
 export const createChildIncomeSchema = (hcaSchema) => {
