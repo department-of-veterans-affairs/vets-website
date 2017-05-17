@@ -731,12 +731,13 @@ const formConfig = {
                 insurancePolicyHolderName: {
                   'ui:title': 'Name of policy holder'
                 },
-                // TODO: make these required only if the other is empty
                 insurancePolicyNumber: {
-                  'ui:title': 'Policy number (either this or the group code is required)'
+                  'ui:title': 'Policy number (either this or the group code is required)',
+                  'ui:required': (formData, index) => !_.get(`providers[${index}].insuranceGroupCode`, formData)
                 },
                 insuranceGroupCode: {
-                  'ui:title': 'Group code (either this or policy number is required)'
+                  'ui:title': 'Group code (either this or policy number is required)',
+                  'ui:required': (formData, index) => !_.get(`providers[${index}].insurancePolicyNumber`, formData)
                 }
               }
             }
