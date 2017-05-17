@@ -39,6 +39,21 @@
 }
 
 #rx-info {
+  tbody {
+    &:first-child {
+      td, th {
+        border-bottom: none;
+        padding-top: 0;
+      }
+    }
+
+    &:nth-child(2) {
+      td, th {
+        border-top: none;
+      }
+    }
+  }
+
   td {
     padding-right: 0;
     vertical-align: top;

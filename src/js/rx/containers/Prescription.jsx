@@ -40,8 +40,8 @@ export class Prescription extends React.Component {
       content = (
         <div>
           <ul className="va-tabs rx-nav va-dnp">
-            <TabItem tabpath={`/${currentRxId}`} title="Prescription details"/>
-            <TabItem tabpath={`/${currentRxId}/track`} title="Track package"/>
+            <TabItem tabpath={`/${currentRxId}`} title="Prescription Details"/>
+            <TabItem tabpath={`/${currentRxId}/track`} title="Track Package"/>
           </ul>
           {this.props.children}
         </div>
