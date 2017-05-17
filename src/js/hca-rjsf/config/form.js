@@ -692,21 +692,21 @@ const formConfig = {
             },
             children: {
               // 'ui:title': 'Child income',
-              'ui:field': 'SelectiveArrayField',
+              'ui:field': 'BasicArrayField',
               'ui:selectedFields': [
                 'grossIncome',
                 'netIncome',
                 'otherIncome'
               ],
               items: _.merge(childUI, {
-                'ui:setItemTitle': (formData, index) => {
-                  const name = formData[index].childFullName;
-                  return `${name.first} ${name.last} income`;
+                'ui:options': {
+                  updateSchema: (formData, schema, uiSchema, index) => {
+                    const name = formData[index].childFullName;
+                    return {
+                      title: `${name.first} ${name.last} income`
+                    };
+                  }
                 },
-                // Not working...
-                // grossIncome: { 'ui:required': () => true },
-                // netIncome: { 'ui:required': () => true },
-                // otherIncome: { 'ui:required': () => true }
               }),
               'ui:options': {
                 hideIf: (formData) => !_.get('children.length', formData)

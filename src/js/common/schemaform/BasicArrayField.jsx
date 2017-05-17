@@ -14,7 +14,7 @@ import {
 const Element = Scroll.Element;
 
 
-class SelectiveArrayField extends React.Component {
+class BasicArrayField extends React.Component {
   shouldComponentUpdate = (nextProps, nextState) => {
     return !deepEquals(this.props, nextProps) || nextState !== this.state;
   }
@@ -24,17 +24,8 @@ class SelectiveArrayField extends React.Component {
     this.props.onChange(newItems);
   }
 
-  getItemSchema = (index, selectedFields) => {
-    const schema = this.props.schema;
-    const itemSchema = schema.items[index];
-
-    const properties = _.pick(selectedFields, itemSchema.properties);
-    const required = _.intersection(selectedFields, itemSchema.required);
-
-    return _.assign(itemSchema, {
-      properties,
-      required
-    });
+  getItemSchema = (index) => {
+    return this.props.schema.items[index];
   }
 
   render() {
@@ -61,24 +52,11 @@ class SelectiveArrayField extends React.Component {
       ? uiSchema['ui:description']
       : null;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
-    const selectedFields = uiSchema['ui:selectedFields'] || Object.keys(schema.properties);
 
     // if we have form data, use that, otherwise use an array with a single default object
     const items = (formData && formData.length)
       ? formData
       : [getDefaultFormState(schema, undefined, registry.definitions)];
-
-    // uiSchema's ui:order complains loudly if there are extraneous properties
-    //  or missing properties. We take the ui:order and slap on the selectedFields
-    //  to make sure we're not missing any. _.intersection() will take the
-    //  unique values in the order in which they occur in ui:order.
-    if (uiSchema.items && uiSchema.items['ui:order']) {
-      uiSchema.items['ui:order'] = _.intersection(
-        // Make sure ALL the selectedFields are in there
-        _.concat(uiSchema.items['ui:order'], selectedFields),
-        selectedFields
-      );
-    }
 
     let containerClassNames = classNames({
       'schemaform-field-container': true,
@@ -100,7 +78,7 @@ class SelectiveArrayField extends React.Component {
         </div>}
         <div>
           {items.map((item, index) => {
-            const itemSchema = this.getItemSchema(index, selectedFields);
+            const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
 
@@ -140,7 +118,7 @@ class SelectiveArrayField extends React.Component {
   }
 }
 
-SelectiveArrayField.propTypes = {
+BasicArrayField.propTypes = {
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object,
   errorSchema: PropTypes.object,
@@ -162,4 +140,4 @@ SelectiveArrayField.propTypes = {
   })
 };
 
-export default SelectiveArrayField;
+export default BasicArrayField;

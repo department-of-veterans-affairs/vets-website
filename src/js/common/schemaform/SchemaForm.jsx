@@ -12,7 +12,7 @@ import StringField from './review/StringField';
 import widgets from './widgets/index';
 import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
-import SelectiveArrayField from './SelectiveArrayField';
+import BasicArrayField from './BasicArrayField';
 import TitleField from './TitleField';
 import ReviewObjectField from './review/ObjectField';
 import { scrollToFirstError } from '../utils/helpers';
@@ -20,7 +20,7 @@ import { scrollToFirstError } from '../utils/helpers';
 const fields = {
   ObjectField,
   ArrayField,
-  SelectiveArrayField,
+  BasicArrayField,
   address: Address,
   TitleField
 };
@@ -28,6 +28,7 @@ const fields = {
 const reviewFields = {
   ObjectField: ReviewObjectField,
   ArrayField,
+  BasicArrayField,
   address: ReviewObjectField,
   StringField
 };
