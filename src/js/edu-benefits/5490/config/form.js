@@ -524,10 +524,10 @@ const formConfig = {
             postHighSchoolTrainings: _.merge(postHighSchoolTrainingsUi, {
               'ui:options': {
                 expandUnder: 'view:hasTrainings',
-                // hideIf: form => {
-                //   const status = _.get('highSchool.status', form);
-                //   return status === 'discontinued' || status === 'graduationExpected' || status === 'neverAttended';
-                // }
+                hideIf: form => {
+                  const status = _.get('highSchool.status', form);
+                  return status === 'discontinued' || status === 'graduationExpected' || status === 'neverAttended';
+                }
               }
             })
           },
