@@ -53,7 +53,7 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 You can start your online application right now.
 
-<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/">Apply for Benefits</a>
 
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
 <div class="usa-alert-body">
