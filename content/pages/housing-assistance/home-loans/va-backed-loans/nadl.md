@@ -56,7 +56,8 @@ A NADL often offers better terms than a home loan from a private bank or mortgag
 First, apply for a VA home loan Certificate of Eligibility (COE). This certification confirms that you qualify for the VA home loan benefit. <br />
 [Find out if you can get a COE based on your service history and duty status](/housing-assistance/home-loans/eligibility/). 
 <br />
-[Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
+
+<a class="usa-button-primary va-button-primary" href="/housing-assistance/home-loans/apply-for-certificate-of-eligibility">Apply for your COE</a>
 
 </li>
 
