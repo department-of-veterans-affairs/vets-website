@@ -19,21 +19,24 @@ export class Prescription extends React.Component {
   }
 
   render() {
+    const { alert, loading, prescription } = this.props;
     const requestedRxId = this.props.params.id;
-    const currentRxId = _.get(this.props.prescription, 'rx.id');
+    const currentRxId = _.get(prescription, 'rx.id');
     const isSameRx = requestedRxId === currentRxId;
-    const title = _.get(this.props.prescription, [
-      'rx',
-      'attributes',
-      'prescriptionName'
-    ], 'Prescription Refill');
+
+    const title = _.get(
+      prescription,
+      ['rx', 'attributes', 'prescriptionName'],
+      'Prescription Refill'
+    );
+
     let content;
 
     // If the item in state doesn't reflect the item from the URL,
     // show the loader until the requested item finishes loading.
-    if (this.props.loading || (this.props.prescription && !isSameRx)) {
+    if (loading || (prescription && !isSameRx)) {
       content = <LoadingIndicator message="Loading your prescription..."/>;
-    } else if (this.props.prescription) {
+    } else if (prescription) {
       content = (
         <div>
           <ul className="va-tabs rx-nav va-dnp">
@@ -57,11 +60,11 @@ export class Prescription extends React.Component {
     return (
       <div id="rx-prescription">
         <AlertBox
-            content={this.props.alert.content}
-            isVisible={this.props.alert.visible}
+            content={alert.content}
+            isVisible={alert.visible}
             onCloseAlert={this.props.closeAlert}
             scrollOnShow
-            status={this.props.alert.status}/>
+            status={alert.status}/>
         <div className="rx-app-title">
           <h1>{title}</h1>
           <SettingsButton/>

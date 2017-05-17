@@ -18,18 +18,17 @@ export class Details extends React.Component {
   }
 
   makeContactCard() {
-    const facilityName = _.get(this.props.prescription, [
-      'rx',
-      'attributes',
-      'facilityName'
-    ]);
+    const { prescription } = this.props;
 
-    const phoneNumber = _.get(this.props.prescription, [
-      'trackings',
-      '0',
-      'attributes',
-      'rxInfoPhoneNumber'
-    ]);
+    const facilityName = _.get(
+      prescription,
+      ['rx', 'attributes', 'facilityName']
+    );
+
+    const phoneNumber = _.get(
+      prescription,
+      ['trackings', '0', 'attributes', 'rxInfoPhoneNumber']
+    );
 
     return (
       <ContactCard
