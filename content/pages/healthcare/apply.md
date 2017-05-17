@@ -96,12 +96,16 @@ Go to your nearest VA medical center or clinic. Bring the 10-10EZ with you.<br /
 
 If you've also applied for a VA pension or disability benefits, you can check the status of those claims online. [Check the status of your claim](/track-claims/).
 
+<br>
+
 ### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
 <span class="number">Less than 1 week</span>
 <span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18555747286">855-574-7286</a>.</span>
 </div>
+
+<br>
 
 ### How do I update my information if I’m already signed up?
 
