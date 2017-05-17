@@ -4,7 +4,6 @@ import _ from 'lodash/fp';
 import Form from 'react-jsonschema-form';
 
 import { uiSchemaValidate, transformErrors } from './validation';
-import Address from './Address';
 import FieldTemplate from './FieldTemplate';
 import * as reviewWidgets from './review/widgets';
 import ReviewFieldTemplate from './review/ReviewFieldTemplate';
@@ -21,7 +20,6 @@ const fields = {
   ObjectField,
   ArrayField,
   BasicArrayField,
-  address: Address,
   TitleField
 };
 

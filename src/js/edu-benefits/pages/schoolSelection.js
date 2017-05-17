@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import * as educationProgram from '../definitions/educationProgram';
 import dateUI from '../../common/schemaform/definitions/date';
-import { civilianBenefitsLabel } from '../utils/helpers';
+import { civilianBenefitsLabel } from '../utils/labels';
 
 
 // Exported like this so we can share the fields between the formConfig and the tests.

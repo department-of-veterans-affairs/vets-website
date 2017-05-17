@@ -10,7 +10,7 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 
 import fullNameUI from '../../../common/schemaform/definitions/fullName';
 
-import * as veteranId from '../../definitions/veteranId';
+import * as personId from '../../definitions/personId';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -21,7 +21,7 @@ import {
 
 import {
   survivorBenefitsLabels
-} from '../../utils/helpers';
+} from '../../utils/labels';
 
 const {
   benefit,
@@ -63,7 +63,7 @@ const formConfig = {
             'gender',
             'relativeSocialSecurityNumber',
             'view:noSSN',
-            'vaFileNumber'
+            'relativeVaFileNumber'
           ]
         }),
         applicantService: applicantServicePage(fullSchema5495)
@@ -101,7 +101,7 @@ const formConfig = {
           title: 'Sponsor information',
           uiSchema: {
             veteranFullName: fullNameUI,
-            'view:veteranId': _.merge(veteranId.uiSchema, {
+            'view:veteranId': _.merge(personId.uiSchema(), {
               'view:noSSN': {
                 'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
@@ -124,7 +124,7 @@ const formConfig = {
             type: 'object',
             properties: {
               veteranFullName,
-              'view:veteranId': veteranId.schema(fullSchema5495),
+              'view:veteranId': personId.schema(fullSchema5495),
               outstandingFelony
             }
           }

@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
-import { uiSchema as ssnUI } from '../../common/schemaform/definitions/ssn';
+import ssnUI from '../../common/schemaform/definitions/ssn';
 
 const incomeFields = [
   'grossIncome',

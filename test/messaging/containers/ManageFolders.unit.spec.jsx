@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { Settings } from '../../../src/js/messaging/containers/Settings';
+import { ManageFolders } from '../../../src/js/messaging/containers/ManageFolders';
 
 const props = {
   folders: [
@@ -13,8 +13,8 @@ const props = {
   dispatch: () => {}
 };
 
-describe('Settings', () => {
-  const tree = SkinDeep.shallowRender(<Settings {...props}/>);
+describe('ManageFolders', () => {
+  const tree = SkinDeep.shallowRender(<ManageFolders {...props}/>);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

@@ -256,7 +256,7 @@ const formConfig = {
           title: 'Permanent address',
           initialData: {},
           uiSchema: {
-            address: addressUI('Permanent address')
+            address: addressUI('Permanent address', true)
           },
           schema: {
             type: 'object',
@@ -584,7 +584,7 @@ const formConfig = {
                 // Only show if 'No' is selected for sameAddress
                 hideIf: (formData) => formData.sameAddress !== false
               },
-              spouseAddress: _.merge(addressUI(''), {
+              spouseAddress: _.merge(addressUI('', true), {
                 'ui:options': {
                   updateSchema: (formData) => {
                     // If formData.sameAddress === false, the address fields are
