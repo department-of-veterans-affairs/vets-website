@@ -133,13 +133,12 @@ export class Detail extends React.Component {
   }
 
   makeOrderHistory() {
-    const trackings = this.props.prescription.trackings;
+    const { trackings } = this.props.prescription;
     let orderHistoryTable;
 
     if (trackings && trackings.length) {
       orderHistoryTable = (
         <OrderHistory
-            className="usa-table-borderless va-table-list rx-table rx-table-list rx-detail-history"
             items={trackings}/>
       );
     }

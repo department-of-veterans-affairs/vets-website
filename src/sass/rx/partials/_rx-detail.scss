@@ -77,8 +77,9 @@
 .rx-detail-history {
   margin: 0;
 
-  @media (min-width: $medium-screen) {
+  @include media($medium-screen) {
     td {
+      vertical-align: top;
       white-space: nowrap;
     }
   }
