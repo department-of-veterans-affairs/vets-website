@@ -12,23 +12,9 @@ import {
 } from 'react-jsonschema-form/lib/utils';
 
 const Element = Scroll.Element;
-const scroller = Scroll.scroller;
 
 
 class SelectiveArrayField extends React.Component {
-  // This fills in an empty item in the array if it has minItems set
-  // so that schema validation runs against the fields in the first item
-  // in the array. This shouldn't be necessary, but there's a fix in rjsf
-  // that has not been released yet
-  componentDidMount = () => {
-    const { schema, formData = [], registry } = this.props;
-    if (schema.minItems > 0 && formData.length === 0) {
-      this.props.onChange(Array(schema.minItems).fill(
-        getDefaultFormState(schema.additionalItems, undefined, registry.definitions)
-      ));
-    }
-  }
-
   shouldComponentUpdate = (nextProps, nextState) => {
     return !deepEquals(this.props, nextProps) || nextState !== this.state;
   }
@@ -40,9 +26,7 @@ class SelectiveArrayField extends React.Component {
 
   getItemSchema = (index, selectedFields) => {
     const schema = this.props.schema;
-    const itemSchema = schema.items.length > index
-      ? schema.items[index]
-      : schema.additionalItems;
+    const itemSchema = schema.items[index];
 
     const properties = _.pick(selectedFields, itemSchema.properties);
     const required = _.intersection(selectedFields, itemSchema.required);
@@ -51,28 +35,6 @@ class SelectiveArrayField extends React.Component {
       properties,
       required
     });
-  }
-
-  scrollToTop = () => {
-    setTimeout(() => {
-      scroller.scrollTo(`topOfTable_${this.props.idSchema.$id}`, {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-        offset: -60
-      });
-    }, 100);
-  }
-
-  scrollToRow = (id) => {
-    setTimeout(() => {
-      scroller.scrollTo(`table_${id}`, {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-        offset: 0
-      });
-    }, 100);
   }
 
   render() {
@@ -106,15 +68,15 @@ class SelectiveArrayField extends React.Component {
       ? formData
       : [getDefaultFormState(schema, undefined, registry.definitions)];
 
-    // uiSchema's ui:order complains loudly if there are extraineous properties
+    // uiSchema's ui:order complains loudly if there are extraneous properties
     //  or missing properties. We take the ui:order and slap on the selectedFields
     //  to make sure we're not missing any. _.intersection() will take the
     //  unique values in the order in which they occur in ui:order.
     if (uiSchema.items && uiSchema.items['ui:order']) {
       uiSchema.items['ui:order'] = _.intersection(
         // Make sure ALL the selectedFields are in there
-        _.concat(uiSchema.items['ui:order'], uiSchema['ui:selectedFields']),
-        uiSchema['ui:selectedFields']
+        _.concat(uiSchema.items['ui:order'], selectedFields),
+        selectedFields
       );
     }
 

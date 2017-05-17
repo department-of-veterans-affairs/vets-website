@@ -675,7 +675,7 @@ const formConfig = {
             'view:spouseIncome': {
               'ui:title': 'Spouse income',
               'ui:options': {
-                hideIf: (formData) => formData.maritalStatus !== 'Married' // Something else too?
+                hideIf: (formData) => formData.maritalStatus && formData.maritalStatus.toLowerCase() !== 'married' // Something else too?
               },
               spouseGrossIncome: {
                 'ui:title': 'Spouse gross annual income from employment',
