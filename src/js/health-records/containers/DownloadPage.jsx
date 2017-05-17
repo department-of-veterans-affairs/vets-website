@@ -2,8 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
+import isMobile from 'ismobilejs';
+import { isEmpty } from 'lodash';
 
 import AlertBox from '../../common/components/AlertBox';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import DownloadLink from '../components/DownloadLink';
 import { openModal, closeModal } from '../actions/modal';
@@ -25,7 +28,7 @@ export class DownloadPage extends React.Component {
         </div>
       );
       alertProps.status = 'error';
-    } else if (refresh && refresh.statuses.incomplete && refresh.statuses.incomplete.length > 0) {
+    } else if (refresh && !isEmpty(refresh.statuses.incomplete)) {
       alertProps.content = (
         <div>
           <h4>Your health records are not up to date</h4>
@@ -35,7 +38,7 @@ export class DownloadPage extends React.Component {
         </div>
       );
       alertProps.status = 'warning';
-    } else if (refresh && refresh.statuses.failed && refresh.statuses.failed.length > 0) {
+    } else if (refresh && !isEmpty(refresh.statuses.failed)) {
       alertProps.content = (
         <div>
           <h4>Couldn't update your records</h4>
@@ -77,18 +80,66 @@ export class DownloadPage extends React.Component {
     return <a href="#" onClick={linkOnClick}>Start a new request</a>;
   }
 
+  renderPDFDownloadButton() {
+    let linkOnClick;
+
+    if (isMobile.any) {
+      linkOnClick = (e) => {
+        const continueClick = () => {
+          this.props.closeModal();
+          this.pdfDownloadButton.downloadHealthRecord(e, false);
+        };
+
+        this.props.openModal('Do you wish to continue?', <div>
+          <p>Health Records PDFs tend to be 1-2MB in size, but occasionally can be much larger. If this is downloaded over the cellular network, data charges may apply.</p>
+          <div className="va-modal-actions">
+            <button onClick={continueClick}>
+              Yes, continue
+            </button>
+            <button onClick={this.props.closeModal} className="usa-button-outline">Cancel</button>
+          </div>
+        </div>);
+      };
+    }
+    return <DownloadLink ref={e => { this.pdfDownloadButton = e; }} onClick={linkOnClick} name="PDF File" docType="pdf"/>;
+  }
+
+  renderRequestDate() {
+    const { form } = this.props;
+
+    if (!form.requestDate) { return null; }
+
+    return (
+      <p>
+        <strong>Request Date:</strong> {moment(form.requestDate).format('MMMM Do YYYY')}
+      </p>
+    );
+  }
+
+  renderDownloadButtons() {
+    const { form } = this.props;
+
+    if (!form.ready) { return null; }
+
+    return (
+      <div>
+        {this.renderPDFDownloadButton()}
+        <DownloadLink name="Text File" docType="txt"/>
+      </div>
+    );
+  }
+
   render() {
+    if (this.props.form.inProgress) {
+      return <LoadingIndicator message="Generating Health Record"/>;
+    }
+
     return (
       <div>
         <h1>Access Your Health Records</h1>
         {this.renderMessageBanner()}
-        <p>
-          <strong>Request Date:</strong> {moment(this.props.form.requestDate).format('MMMM Do YYYY')}
-        </p>
-        <div>
-          <DownloadLink name="PDF File" docType="pdf"/>
-          <DownloadLink name="Text File" docType="txt"/>
-        </div>
+        {this.renderRequestDate()}
+        {this.renderDownloadButtons()}
         <p>
           {this.renderConfirmModal()}
         </p>

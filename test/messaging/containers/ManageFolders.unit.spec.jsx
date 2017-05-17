@@ -2,20 +2,19 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { Settings } from '../../../src/js/messaging/containers/Settings';
+import { ManageFolders } from '../../../src/js/messaging/containers/ManageFolders';
 
 const props = {
   folders: [
     { folderId: 101, name: 'Personal folder 1', count: 1 },
     { folderId: 102, name: 'Personal folder 2', count: 0 }
   ],
-
-  // No-op function to override dispatch
+  deleteFolder: () => {},
   dispatch: () => {}
 };
 
-describe('Settings', () => {
-  const tree = SkinDeep.shallowRender(<Settings {...props}/>);
+describe('ManageFolders', () => {
+  const tree = SkinDeep.shallowRender(<ManageFolders {...props}/>);
 
   it('should render', () => {
     const vdom = tree.getRenderOutput();

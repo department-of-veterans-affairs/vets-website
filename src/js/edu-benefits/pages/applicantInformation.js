@@ -1,10 +1,11 @@
 import _ from 'lodash/fp';
 
-import * as currentOrPastDate from '../../common/schemaform/definitions/currentOrPastDate';
-import * as fullName from '../../common/schemaform/definitions/fullName';
-import * as ssn from '../../common/schemaform/definitions/ssn';
+import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import fullNameUI from '../../common/schemaform/definitions/fullName';
 
-import { relationshipLabels, genderLabels } from '../utils/helpers';
+import { relationshipLabels, genderLabels } from '../utils/labels';
+import * as personId from '../definitions/personId';
+
 
 const defaults = (prefix) => {
   return {
@@ -49,26 +50,10 @@ export default function applicantInformation(schema, options) {
     path: 'applicant/information',
     title: 'Applicant information',
     initialData: {},
-    uiSchema: {
+    uiSchema: _.assign({
       'ui:order': fields,
-      [`${prefix}FullName`]: fullName.uiSchema,
-      [`${prefix}SocialSecurityNumber`]: _.assign(ssn.uiSchema, {
-        'ui:required': (formData) => !_.get('view:noSSN', formData)
-      }),
-      'view:noSSN': {
-        'ui:title': 'I don’t have a Social Security number',
-      },
-      vaFileNumber: {
-        'ui:required': (formData) => !!_.get('view:noSSN', formData),
-        'ui:title': 'File number',
-        'ui:errorMessages': {
-          pattern: 'File number must be 8 digits'
-        },
-        'ui:options': {
-          expandUnder: 'view:noSSN'
-        }
-      },
-      [`${prefix}DateOfBirth`]: _.assign(currentOrPastDate.uiSchema('Date of birth'),
+      [`${prefix}FullName`]: fullNameUI,
+      [`${prefix}DateOfBirth`]: _.assign(currentOrPastDateUI('Date of birth'),
         {
           'ui:errorMessages': {
             pattern: 'Please provide a valid date',
@@ -90,7 +75,7 @@ export default function applicantInformation(schema, options) {
           labels: labels.relationship || relationshipLabels
         }
       }
-    },
+    }, personId.uiSchema(prefix, 'view:noSSN')),
     schema: {
       type: 'object',
       definitions: _.pick([

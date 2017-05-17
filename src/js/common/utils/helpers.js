@@ -42,6 +42,10 @@ export function groupPagesIntoChapters(routes, prefix = '') {
   });
 }
 
+export function isInProgress(trimmedPathname) {
+  return !(trimmedPathname.endsWith('introduction') || trimmedPathname.endsWith('confirmation'));
+}
+
 export function isActivePage(page, data) {
   if (typeof page.depends === 'function') {
     return page.depends(data);

@@ -58,7 +58,7 @@ describe('Edu 5490 educationHistory', () => {
       }
     });
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(12);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(10);
   });
 
   it('should have no required inputs', () => {
@@ -96,5 +96,24 @@ describe('Edu 5490 educationHistory', () => {
     });
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(16);
+  });
+
+  it('should render diploma date and not post high school trainings', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+          schema={schema}
+          data={{}}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}/>
+    );
+    const formDOM = findDOMNode(form);
+
+    ReactTestUtils.Simulate.change(formDOM.querySelector('select'), {
+      target: {
+        value: 'graduationExpected'
+      }
+    });
+
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(4);
   });
 });

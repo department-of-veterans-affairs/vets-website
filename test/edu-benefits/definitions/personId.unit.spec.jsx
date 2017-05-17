@@ -5,10 +5,12 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
-import * as formConfig from '../../../src/js/edu-benefits/definitions/veteranId';
+import * as personId from '../../../src/js/edu-benefits/definitions/personId';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-describe('Edu veteranId', () => {
-  const { schema, uiSchema } = formConfig;
+describe('Edu personId', () => {
+  const uiSchema = personId.uiSchema('veteran', 'view:noSSN');
+  const schema = personId.schema({ definitions: commonDefinitions });
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -48,11 +50,8 @@ describe('Edu veteranId', () => {
         }
       });
 
-    // TODO: figure out why the below assertions fail; checking the box should make SSN error disappear
-    // and VA file number error appear
-    // No error is shown for empty SSN input; error is shown for empty file number input
-    // expect(formDOM.querySelector('.usa-input-error #root_veteranSocialSecurityNumber')).to.be.null;
-    // expect(formDOM.querySelector('.usa-input-error #root_vaFileNumber')).not.to.be.null;
+    expect(formDOM.querySelector('.usa-input-error #root_veteranSocialSecurityNumber')).to.be.null;
+    expect(formDOM.querySelector('.usa-input-error #root_vaFileNumber')).not.to.be.null;
   });
   it('should submit with no errors when required field is filled', () => {
     const onSubmit = sinon.spy();

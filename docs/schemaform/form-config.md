@@ -257,7 +257,7 @@ We've also been adding some additional uiSchema functionality not found in the r
 
     // Function that conditionally replaces the current field's schema
     // The index argument is provided if you use `ui:required` on data inside an array
-    updateSchema: function (formData, schema, uiSchema, index) {
+    updateSchema: function (formData, schema, uiSchema, index, pathToCurrentData) {
       // This function should return an object with the properties you want to update
       // It will not completely replace the existing schema, just update the individual
       // properties
@@ -495,3 +495,55 @@ If you need to indent all the fields that are being expanded/collapsed with the 
 ```
 
 Now, `schemaform-expandUnder-indent` will be applied to the div that surrounds `field2` and `field3`. This class currently indents the fields, so if that's what you need, you're all set. If you need to do other styling, you can create a new class to use here and add your own styles.
+
+## I want to skip / conditionally include a page based on some information
+
+We use the `depends` property on the page to determine whether the page is active or not. For example, your chapter config might look like this:
+```js
+chapterName: {
+  title: 'Chapter Title',
+  pages: {
+    pageName: {
+      ...
+      schema: {
+        type: 'object',
+        properties: {
+          passPhrase: { type: 'string' }
+        }
+      }
+    }
+    otherPageName: {
+      title: 'Page title',
+      path: 'path/to/page',
+      initialData: {},
+      depends: {
+        passPhrase: 'open sesame'
+      },
+      uiSchema: {},
+      schema: {}
+    }
+  }
+}
+```
+If you then enter 'open sesame' for the `passPhrase` on the first page, `otherPageName` will be active. If you enter anything else (or nothing), `otherPageName` won't be active, and the page will be skipped.
+
+`depends` can work in a few ways:
+```js
+// With an object
+depends: {
+  passPhrase: 'open sesame'
+}
+
+// With an array
+// This will activate the page if any of the items in the array are true. Think || not &&.
+depends: [
+  { passPhrase: 'open sesame' },
+  { passPhrase: 'open up!' }
+]
+
+// With a function
+depends: (formData) => {
+  // return bool, true if page is active, false if page should be skipped
+  return formData.passPhrase === 'open sesame' && formData.codeWord === 'chicken';
+}
+```
