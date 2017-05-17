@@ -21,10 +21,10 @@ relatedlinks:
     description: Send a secure, private note to your primary care provider or other members of your VA health care team.
   - url: /disability-benefits/
     title: Disability Benefits
-    description: Have an illness or injury that was caused—or made worse—your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
-  - url: /education/
-    title: Education Benefits
-    description: Need help paying for college or professional training, picking a school, or exploring career options? Find out if you can get financial support and counseling from VA.
+    description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
+  - url: /track-claims/
+    title: Check Claim Status
+    description: Track the status of your disability claim.
 ---
 
 <div class="va-introtext">
