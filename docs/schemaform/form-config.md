@@ -238,6 +238,11 @@ We've also been adding some additional uiSchema functionality not found in the r
     // the expandUnder field as the first question.
     expandUnder: '',
 
+    // If you need to match on a specific value, you can use this option to specify a value
+    // that the expandUnder field's data should equal. This can also be a function, which
+    // receives the expandUnder field's data as an argument
+    expandUnderCondition: 'someValue',
+
     // If you're using the expandUnder option, you can set this option on the field specified
     // by expandUnder and it will add classes to the div that wraps all of the fields when
     // they are expanded. See cookbook for an example use case.
