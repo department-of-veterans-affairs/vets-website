@@ -6,18 +6,18 @@ concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
 relatedlinks:
+  - url: /healthcare/about-va-health-care/
+    title: About VA Health Care Coverage
+    description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
   - url: /healthcare/eligibility/
     title: Health Care Benefits Eligibility
     description: Not sure if you qualify? Find out if you can get VA health care benefits.
   - url: /healthcare/apply/
     title: Health Care Application Process
     description: Ready to apply? Get started now.
-  - url: /healthcare/about-va-health-care/
-    title: About VA Health Care Coverage
-    description: Want to know more about what’s covered by your VA health care benefits? Learn more about your benefits.
   - url: /disability-benefits/conditions/
     title: Disability Benefits
-    description: Find out if you can get disability benefits for an illness or injury caused or made worse by your active-duty service. 
+    description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA. 
 ---
 
 <div class="va-introtext">
@@ -151,8 +151,6 @@ Chemicals, paints, radiation, and other hazards you may have come in contact wit
 [Learn about disability benefits for conditions linked to contact with asbestos and other hazards](/disability-benefits/conditions/exposure-to-hazardous-materials/).
 
 ------
-
-#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 

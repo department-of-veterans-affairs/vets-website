@@ -1,23 +1,23 @@
 ---
 layout: page-breadcrumbs.html
-title: Women's Health Care Needs
+title: Women’s Health Care Needs
 display_title: ""
 concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
 relatedlinks:
+  - url: /healthcare/about-va-health-care/
+    title: About VA Health Care Coverage
+    description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
   - url: /healthcare/eligibility/
     title: Health Care Benefits Eligibility
     description: Not sure if you qualify? Find out if you can get VA health care benefits.
   - url: /healthcare/apply/
     title: Health Care Application Process
     description: Ready to apply? Get started now.
-  - url: /healthcare/about-va-health-care/
-    title: About VA Health Care Coverage
-    description: Want to know more about what’s covered by your VA health care benefits? Learn more about your benefits.
   - url: /disability-benefits/conditions/
     title: Disability Benefits
-    description: Find out if you can get disability benefits for an illness or injury caused or made worse by your active-duty service. 
+    description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
 <div class="va-introtext">
@@ -66,7 +66,8 @@ We provide services for:
 
 - [Homeless women Veterans](https://www.va.gov/homeless/for_women_veterans.asp)
 - [Victims of intimate partner violence](https://www.womenshealth.va.gov/outreachmaterials/abuseandviolence/intimatepartnerviolence.asp) 
--	Women Veterans who want: 
+
+Women Veterans who want: 
   - [Education and training](/education/)
   - [Employment help](/employment/) 
   - Vocational rehabilitation (job training)
@@ -107,7 +108,6 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
 
 ------
 
-#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 

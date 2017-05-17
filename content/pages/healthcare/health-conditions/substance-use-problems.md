@@ -102,14 +102,13 @@ You may still be able to get care:
 ### Where can I find more information and support? 
 
 - [Download our Guide to VA Mental Health Services](https://www.mentalhealth.va.gov/docs/MHG_English.pdf).
-- Go to our Make the Connection website to hear stories from Veterans about their own experiences with overcoming drug and alcohol problems, and to get access to more resources and support. [Visit MakeTheConnection.net](https://maketheconnection.net/).
+- Go to our Make the Connection website to hear stories from Veterans about their own experiences with overcoming drug and alcohol problems, and to get access to more resources and support. [Visit Make the Connection](https://maketheconnection.net/).
 - Visit our Self-Help Resources guide to get links to books, web resources, and mobile applications that have been reviewed and recommended by VA experts. [Get self-help resources](https://www.mentalhealth.va.gov/self_help.asp).
 - Visit the resources section of our VA website to find more trusted resources outside VA that can offer information and support. [Find resources](https://www.mentalhealth.va.gov/substanceabuse.asp).
 - Download our Stay Quit Coach mobile app—designed to help Veterans with PTSD quit smoking. We based this app on steps proven to work to help people quit smoking. It includes tools to control cravings and manage smoking triggers, messages to keep you going, medication reminders, and more. [Get the Stay Quit Coach app](https://mobile.va.gov/app/stay-quit-coach).  
 
 ------
 
-#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 

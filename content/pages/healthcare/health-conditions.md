@@ -6,6 +6,9 @@ concurrence: ""
 template: 1-topic-landing
 lastupdate_override: ""
 relatedlinks:
+  - url: /healthcare/about-va-health-care/
+    title: About VA Health Care Coverage
+    description: Learn more about your VA health care benefits, your health care team, and where you’ll go for care.
   - url: /healthcare/eligibility/
     title: Health Care Benefits Eligibility
     description: Not sure if you qualify? Find out if you can get VA health care benefits.
@@ -14,7 +17,7 @@ relatedlinks:
     description: Ready to apply? Get started now.
   - url: /disability-benefits/
     title: Disability Benefits
-    description: Have an illness or injury caused—or made worse—by your active-duty service? Find out if you can get disability benefits.
+    description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
 <div class="va-introtext">

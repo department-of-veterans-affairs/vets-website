@@ -9,10 +9,10 @@ lastupdate_override: ""
 relatedlinks:
   - url: /healthcare/apply/
     title: Application Process
-    description: Apply online now, or find out how to apply by person, by phone, or by mail.
+    description: Ready to apply? Get started now. 
   - url: /disability-benefits/eligibility/
     title: Disability Benefits Eligibility
-    description: Have an illness or injury that was caused by—or got worse because of—your active military service? Find out if you can get disability compensation (monthly payments) from VA.
+    description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
   - url: /track-claims/
     title: Check Claim Status
     description: Track the status of your disability claim.

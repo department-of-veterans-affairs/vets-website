@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Where You'll Get Care
+title: Where You’ll Get Care
 display_title: ""
 concurrence: ""
 template: 1-topic-landing
@@ -138,8 +138,6 @@ Yes, we may be able to help you get to and from appointments in certain cases. O
 Yes, we may be able to help with travel expenses if you need to travel for care. [Learn more about VA transportation services](https://www.va.gov/healthbenefits/vtp/).
 
 ------
-
-#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 

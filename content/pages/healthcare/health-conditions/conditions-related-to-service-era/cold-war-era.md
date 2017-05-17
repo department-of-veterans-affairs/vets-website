@@ -80,7 +80,6 @@ Find out if you can get disability compensation (monthly payments) and other ben
 
 ------
 
-#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 

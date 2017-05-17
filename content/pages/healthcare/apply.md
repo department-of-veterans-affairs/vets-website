@@ -22,7 +22,7 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 
 ### Prepare
 
-- If you haven't already done so already, find out if you qualify. [Check your eligibility](/healthcare/eligibility/).
+- If you haven't done so already, find out if you qualify. [Check your eligibility](/healthcare/eligibility/).
 - Gather the documents listed below that you'll need to fill out the application for VA health care benefits (Form 10-10EZ). 
 
 <div markdown="0"><br></div>
@@ -35,10 +35,11 @@ Once you’ve figured out if you qualify, applying for VA health care benefits i
 - Social Security numbers for yourself and your qualified dependents
 - Account numbers for any current health insurance you already have (like Medicare, private insurance, or insurance from your employer)
 
+<br>
+
 #### What if I need help filling out my application forms?
 
-Need help filling out your application forms?
-Call our toll-free hotline 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday to Friday, 8:00 a.m. to 8:00 p.m. EST.
+Call our toll-free hotline 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday to Friday, 8:00 a.m. to 8:00 p.m. EST.
 
 Get help from an accredited representative (a trained professional trusted to help with VA-related claims). [Request a representative](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=request-vso-representative). 
 
@@ -52,7 +53,7 @@ Or, [find your state’s Veterans agency](https://www.va.gov/statedva.htm).
 
 You can start your online application right now.
 
-<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/">Apply for Benefits</a>
 
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
 <div class="usa-alert-body">
@@ -95,14 +96,18 @@ Go to your nearest VA medical center or clinic. Bring the 10-10EZ with you.<br /
 
 If you've also applied for a VA pension or disability benefits, you can check the status of those claims online. [Check the status of your claim](/track-claims/).
 
-#### How long does it take VA to make a decision?
+<br>
+
+### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
 <span class="number">Less than 1 week</span>
 <span class="description">If more than a week has passed since you gave us your application and you haven’t heard back, please don’t apply again. Call <a href="tel:+18555747286">855-574-7286</a>.</span>
 </div>
 
-#### How do I update my information if I’m already signed up?
+<br>
+
+### How do I update my information if I’m already signed up?
 
 To update your personal, insurance, or financial information from an earlier application, fill out a 10-10EZR.
 

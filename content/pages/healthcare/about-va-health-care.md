@@ -6,27 +6,18 @@ concurrence: ""
 template: 1-topic-landing
 lastupdate_override:
 relatedlinks: 
-  - url: /healthcare/about-va-health-care/your-care-team/
-    title: Your Care Team
-    description: Learn about the health providers who’ll make up your VA care team.
-  - url: /healthcare/about-va-health-care/where-you-get-care/
-    title: Where You’ll Get Care
-    description: Find out how to access care for regular needs, in emergencies, and when traveling.
-  - url: /healthcare/about-va-health-care/va-health-care-and-other-insurance/
-    title: VA Health Care and Other Insurance
-    description: Learn how VA health care works with Medicaid and private insurance.
-  - url: /healthcare/about-va-health-care/dental-care/
-    title: Dental Care
-    description: Find out if you can get dental care through VA.
-  - url: /healthcare/about-va-health-care/vision-care/
-    title: Vision Care
-    description: Find out if you can get vision care through VA.
-  - url: /healthcare/about-va-health-care/assisted-living-and-home-health-care/
-    title: Assisted Living and Home Health Care
-    description: Find out how to access assisted living, residential (live-in), or home health care options through VA.
+  - url: /healthcare/eligibility/
+    title: Health Care Benefits Eligibility
+    description: Not sure if you qualify? Find out if you can get VA health care benefits.
+  - url: /healthcare/apply/
+    title: Health Care Application Process
+    description: Ready to apply? Get started now.
+  - url: /healthcare/health-conditions
+    title: Health Needs and Conditions
+    description: Find out how to access VA services for mental health, women’s health, and other specific needs.
   - url: /disability-benefits/conditions/
     title: Disability Benefits
-    description: Find out if you can get disability benefits for an illness or injury caused or made worse by your active-duty service. 
+    description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
 <div class="va-introtext">
@@ -45,6 +36,8 @@ Each Veteran’s medical benefits package is unique. Yours will include care and
 - Prevent future health problems
 - Improve your ability to function
 - Enhance your quality of life
+
+<br>
 
 All Veterans receive coverage for most care and services, but only some will qualify for added benefits like dental care. The full list of your covered benefits depends on:
 
@@ -188,8 +181,6 @@ When you sign up for VA health care, you become part of the country’s largest 
 If you have other forms of health care coverage (like a private insurance plan, Medicare, Medicaid, or TRICARE), you can use VA health care benefits along with these plans. [Learn more about how VA works with other health insurance](/healthcare/about-va-health-care/va-health-care-and-other-insurance/).
 
 ------
-
-#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
