@@ -581,8 +581,6 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'sameAddress',
                 expandUnderCondition: false
-                // // Only show if 'No' is selected for sameAddress
-                // hideIf: (formData) => formData.sameAddress !== false
               },
               spouseAddress: _.merge(addressUI('', true), {
                 'ui:options': {
