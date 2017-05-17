@@ -181,8 +181,6 @@ Other services for home health care (like adult day health care or skilled healt
 
 ------
 
-#### What else do you want to do?
-
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
 **Already signed up?** Manage your VA health and benefits online: <br />
