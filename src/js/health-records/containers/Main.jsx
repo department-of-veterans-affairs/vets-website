@@ -206,7 +206,7 @@ export class Main extends React.Component {
         { label: 'Last year', value: '1yr' },
         {
           label: (
-            <div className={customDateOptionClass}>
+            <div aria-live="assertive" className={customDateOptionClass}>
               {
                 invalidFormatError && <p className="date-range-error">
                 {validationErrorMessages.invalidFormatError}</p>
@@ -222,6 +222,7 @@ export class Main extends React.Component {
               <span>Custom date range</span>
               <div className="date-range-fields">
                 <DatePicker
+                    aria-label="Custom date range: start date"
                     id="custom-date-start"
                     onBlur={handleFormattedDate()}
                     onChange={this.handleStartDateChange}
@@ -233,6 +234,7 @@ export class Main extends React.Component {
                     className={!datePickerDisabled && this.state.startDateError ? 'date-range-error' : ''}/>
                 <span>&nbsp;to&nbsp;</span>
                 <DatePicker
+                    aria-label="Custom date range: end date"
                     id="custom-date-end"
                     onBlur={handleFormattedDate(false)}
                     onChange={this.handleEndDateChange}
