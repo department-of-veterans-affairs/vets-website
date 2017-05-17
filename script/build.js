@@ -124,8 +124,8 @@ smith.metadata({ buildtype: options.buildtype });
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('healthcare/health-records/*');
   ignoreList.push('healthcare/rjsf/*');
+  ignoreList.push('va-letters/*');
 }
 smith.use(ignore(ignoreList));
 
@@ -206,6 +206,7 @@ if (options.watch) {
         { from: '^/healthcare/health-records(.*)', to: '/healthcare/health-records/' },
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
+        { from: '^/va-letters(.*)', to: '/va-letters/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -352,7 +353,8 @@ if (!options.watch) {
           '/gi-bill-comparison-tool/',
           '/education/apply-for-education-benefits/application',
           '/healthcare/rjsf',
-          '/healthcare/apply/application'].join('|'))
+          '/healthcare/apply/application',
+          '/va-letters/'].join('|'))
   }));
 }
 
