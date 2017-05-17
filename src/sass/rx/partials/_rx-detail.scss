@@ -1,14 +1,6 @@
 /* Rx detail page */
 
-#rx-detail {
-  h2 {
-    font-size: 3rem;
-  }
-
-  h3 {
-    font-size: 2.5rem;
-  }
-
+#rx-prescription {
   table {
     // Get font size to stay the same when table shrinks.
     display: block;
@@ -38,14 +30,15 @@
   }
 
   .rx-contact-card {
-    margin-bottom: 3.5rem;
     width: 100%;
   }
 }
 
-#rx-info {
-  margin-bottom: 3.5rem;
+#rx-details {
+  padding-top: 3rem;
+}
 
+#rx-info {
   td {
     padding-right: 0;
     vertical-align: top;
@@ -66,36 +59,36 @@
     margin-left: 16.5rem;
     width: auto;
   }
-}
 
-.rx-history-tracking {
-  display: inline-block;
-  margin: 0;
-  padding-right: 2.2rem;
-}
-
-.rx-detail-history {
-  margin: 0;
-
-  @include media($medium-screen) {
-    td {
-      vertical-align: top;
-      white-space: nowrap;
-    }
-  }
-
-  @media (max-width: $medium-screen) {
-    td {
-      &:nth-child(1):before { content: "Order status: "; }
-      &:nth-child(2):before { content: "Tracking status: "; }
-    }
+  @include media-maxwidth($medium-screen) {
+    margin-bottom: 3rem;
   }
 }
 
-#rx-order-history {
-  @media (min-width: $medium-screen) {
-    p {
-      margin-top: 0;
+#rx-track-package {
+  .rx-history-tracking {
+    display: inline-block;
+    margin: 0;
+    padding-right: 2.2rem;
+  }
+
+  table {
+    margin: 0;
+
+    @include media($medium-screen) {
+      td {
+        vertical-align: top;
+        white-space: nowrap;
+      }
     }
+
+    /*
+    @media (max-width: $medium-screen) {
+      td {
+        &:nth-child(1):before { content: "Order status: "; }
+        &:nth-child(2):before { content: "Tracking status: "; }
+      }
+    }
+    */
   }
 }

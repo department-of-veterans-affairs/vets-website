@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 import moment from 'moment';
 
 import SortableTable from '../../common/components/SortableTable';
 import { formatDate } from '../utils/helpers';
-import TrackPackageLink from './TrackPackageLink';
+import TrackPackageLink from '../components/TrackPackageLink';
 
-class OrderHistory extends React.Component {
+class TrackPackage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -82,22 +82,26 @@ class OrderHistory extends React.Component {
     );
 
     return (
-      <SortableTable
-          className={tableClass}
-          currentSort={this.state.currentSort}
-          data={data}
-          fields={fields}
-          onSort={(value, order) => {
-            this.setState({
-              currentSort: { value, order }
-            });
-          }}/>
+      <div id="rx-track-package" className="va-tab-content">
+        <p className="rx-tab-explainer">* Tracking information for each order expires 30 days after shipment.</p>
+        <SortableTable
+            className={tableClass}
+            currentSort={this.state.currentSort}
+            data={data}
+            fields={fields}
+            onSort={(value, order) => {
+              this.setState({
+                currentSort: { value, order }
+              });
+            }}/>
+      </div>
     );
   }
 }
 
-OrderHistory.propTypes = {
-  items: PropTypes.array.isRequired
+const mapStateToProps = (state) => {
+  const rxState = state.health.rx;
+  return { items: rxState.prescriptions.currentItem.trackings };
 };
 
-export default OrderHistory;
+export default connect(mapStateToProps, null)(TrackPackage);
