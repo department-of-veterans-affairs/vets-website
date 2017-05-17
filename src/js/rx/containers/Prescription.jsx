@@ -48,7 +48,7 @@ export class Prescription extends React.Component {
       );
     } else {
       content = (
-        <p className="rx-tab-explainer rx-loading-error">
+        <p className="rx-loading-error">
           We couldn't retrieve your prescription.
           Please refresh this page or try again later.
           If this problem persists, please call the Vets.gov Help Desk
