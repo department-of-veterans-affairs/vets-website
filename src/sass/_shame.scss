@@ -173,7 +173,7 @@ body .row {
   transition: max-height 150ms ease-in-out;
 
   // Handles the opacity transition
-  .expander-content-inner {
+  .expander-content-question[data-state=open] {
     transition: opacity 150ms ease-in-out;
     a.usa-button-primary {
       transition: opacity 150ms ease-in-out;
@@ -183,21 +183,32 @@ body .row {
 
   // Apply this to the inner content and make a new div
   //  with the border to expand that without the opacity
-  &.expander-content-closed {
+  // &.expander-content-closed {
+  //   max-height: 0em !important; // To override the id selector height
+  //   visibility: hidden;
+  //
+  //   .expander-content-inner {
+  //     opacity: 0;
+  //     a.usa-button-primary {
+  //       opacity: 0;
+  //     }
+  //   }
+  // }
+  .expander-content-question[data-state=closed] {
     max-height: 0em !important; // To override the id selector height
     visibility: hidden;
 
-    .expander-content-inner {
-      opacity: 0;
-      a.usa-button-primary {
-        opacity: 0;
-      }
-    }
+    // .expander-content-question {
+    //   opacity: 0;
+    //   a.usa-button-primary {
+    //     opacity: 0;
+    //   }
+    // }
   }
 }
 
 //============================================
-// Overrides for USWDS shenanigans. 
+// Overrides for USWDS shenanigans.
 // See: https://github.com/18F/web-design-standards/issues/1899
 // ===========================================
 
@@ -214,4 +225,3 @@ body .row {
     }
   }
 }
-

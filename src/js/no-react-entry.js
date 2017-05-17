@@ -18,6 +18,6 @@ require('./legacy/sidebar-navigation.js');
 
 require('./login/login-entry.jsx');
 
-if(location.href.endsWith('education/apply/')){
+if (location.href.endsWith('education/apply/')) {
   require('./education-wizard.js');
 }

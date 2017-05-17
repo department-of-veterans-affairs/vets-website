@@ -41,56 +41,48 @@ If you’re a Servicemember, Veteran, or family member interested in education a
 
 ### Ready to apply?
 
-#### Applying for a new benefit
-Apply online with Form 22-1990, 22-1990E, 22-1990N, or 22-5490:
-
 <div class="expander-container">
-  <button class="usa-button-primary va-button-primary expander-button">Apply for Benefits</button>
+  <button class="usa-button-primary va-button-primary expander-button">Apply for or Update Benefits</button>
 
   <p>
     <div class="form-expanding-group-open expander-content expander-content-closed">
       <div class="expander-content-inner">
-        <div>Which form do you want to use?</div>
+        <div class="expander-content-question" data-question="create-or-update" data-state="open">Are you applying for a new benefit or updating your current education benefits?
         <div class="form-radio-buttons">
-          <input type="radio" name="form-selection" id="form-22-1990" value="1990">
-          <label for="form-22-1990">Veterans or Servicemembers applying <strong>for a new benefit</strong> (22-1990)</label>
-          <input type="radio" name="form-selection" id="form-22-1990n" value="1990n">
-          <label for="form-22-1990n">Veterans or Servicemembers applying <strong>for a new benefit through the National Call to Service program</strong> (22-1990N)<br><em>This is very rare</em></label>
-          <input type="radio" name="form-selection" id="form-22-1990e" value="1990e">
-          <label for="form-22-1990e">Dependents applying for a <strong>transferred benefit</strong> (22-1990E)</label>
-          <input type="radio" name="form-selection" id="form-22-5490-1" value="5490">
-          <label for="form-22-5490-1">Dependent applying for a new benefit where your <strong>sponsor is permanently and totally disabled</strong> (22-5490)</label>
-          <input type="radio" name="form-selection" id="form-22-5490-2" value="5490">
-          <label for="form-22-5490-2">Dependent applying for a new benefit where your <strong>sponsor is deceased, MIA, or a POW</strong> (22-5490)</label>
+          <input type="radio" name="form-selection" id="new-application" value="new-application">
+          <label for="new-application">Applying for a new benefit</label>
+          <input type="radio" name="form-selection" id="existing-application" value="existing-application">
+          <label for="existing-application">Updating my current education benefits</label>
         </div>
-        <a id="apply-now-button" class="usa-button-primary va-button-primary apply-go-button">Apply Now</a>
+        </div>
+        <div class="expander-content-question" data-question="is-a-veteran" data-state="closed">Are you a Veteran or Servicemember claiming a benefit based on your own service?
+        <div class="form-radio-buttons">
+          <input type="radio" name="form-selection" id="is-veteran" value="is-veteran">
+          <label for="is-veteran">Yes</label>
+          <input type="radio" name="form-selection" id="is-not-veteran" value="is-not-veteran">
+          <label for="is-not-veteran">No</label>
+        </div>
+        </div>
+        <div class="expander-content-question" data-question="national-call-to-service" data-state="closed">Are you claiming a National Call to Service education benefit?
+        <div class="form-radio-buttons">
+          <input type="radio" name="form-selection" id="is-ncts" value="is-ncts">
+          <label for="is-ncts">Yes</label>
+          <input type="radio" name="form-selection" id="is-not-ncts" value="is-not-ncts">
+          <label for="is-not-ncts">No</label>
+        </div>
+        </div>
+        <div class="expander-content-question" data-question="is-sponsored" data-state="closed">Are you receiving education benefits from a veteran who is deceased, permanently disabled, MIA or a POW?
+        <div class="form-radio-buttons">
+          <input type="radio" name="form-selection" id="is-sponsored" value="is-sponsored">
+          <label for="is-sponsored">Yes</label>
+          <input type="radio" name="form-selection" id="is-not-sponsored" value="is-not-sponsored">
+          <label for="is-not-sponsored">No</label>
+        </div>
+        </div>
+        <a id="apply-now-button" class="usa-button-primary va-button-primary apply-go-button">Submit</a>
       </div>
     </div>
   </p>
-</div>
-
-#### Make a change to your current education benefits
-
-If you need to make a change (for example, you’re moving to a new school), manage your benefits with Form 22-1995 or Form 22-5495:
-
-<div class="expander-container">
-  <button class="usa-button-primary va-button-primary expander-button">Manage Benefits</button>
-
-  <p>
-    <div class="form-expanding-group-open expander-content expander-content-closed">
-      <div class="expander-content-inner">
-        <div>Which form do you want to use?</div>
-        <div class="form-radio-buttons">
-          <input type="radio" name="form-selection" id="form-22-1995" value="1995">
-          <label for="form-22-1995">Veterans, Servicemembers, or dependents applying for a change of place of training <strong>for earned or transferred benefits</strong> (22-1995)</label>
-          <input type="radio" name="form-selection" id="form-22-5495" value="5495">
-          <label for="form-22-5495">Dependents applying for a change of place of training, <strong>who are using DEA or Fry Scholarship</strong> (22-5495)</label>
-        </div>
-        <a id="manage-now-button" class="usa-button-primary va-button-primary apply-go-button">Apply Now</a>
-      </div>
-    </div>
-  </p>
-</div>
 
 ### Other ways to apply
 
