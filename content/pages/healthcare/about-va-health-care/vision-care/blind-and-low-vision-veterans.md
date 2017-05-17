@@ -59,8 +59,6 @@ Or, contact the Blind Rehabilitation Service Program office at:
 
 ------
 
-#### What else do you want to do?
-
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
 **Already signed up?** Manage your VA health and benefits online: <br />
@@ -73,4 +71,3 @@ Or, contact the Blind Rehabilitation Service Program office at:
 **Have hearing loss?** [Find out how to get hearing aids through VA](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp). 
 
 **Have an illness or injury caused or made worse by your active-duty service?** [Find out if you can get disability benefits](/disability-benefits/conditions/).
-
