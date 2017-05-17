@@ -190,7 +190,9 @@ Click on the statement below that describes you best to find out your benefits c
 
 ### How do I apply for VA dental care benefits? 
 
-You can apply online by filling out the 10-10EZ health care application. [Apply now](/healthcare/apply/). 
+You can apply online by filling out the 10-10EZ health care application.
+
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
 
 ### Where do I go for VA dental care? 
 
