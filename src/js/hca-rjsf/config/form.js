@@ -10,7 +10,6 @@ import {
 
 import { validateMatch } from '../../common/schemaform/validation';
 import { createUSAStateLabels } from '../../common/schemaform/helpers';
-import * as address from '../../common/schemaform/definitions/address';
 
 import {
   transform,
@@ -18,15 +17,20 @@ import {
   lastServiceBranchLabels,
   FacilityHelp,
   medicalCentersByState,
-  medicalCenterLabels
+  medicalCenterLabels,
+  financialDisclosureText,
+  incomeDescription
 } from '../helpers';
 
 import IntroductionPage from '../components/IntroductionPage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
+import ChildView from '../components/ChildView';
 
-import { uiSchema as dateUI } from '../../common/schemaform/definitions/currentOrPastDate';
-import { uiSchema as fullNameUISchema } from '../../common/schemaform/definitions/fullName';
-import * as ssn from '../../common/schemaform/definitions/ssn';
+import fullNameUI from '../../common/schemaform/definitions/fullName';
+import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
+import { schema as childSchema, uiSchema as childUI } from '../definitions/child';
+import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
+import ssnUI from '../../common/schemaform/definitions/ssn';
 
 const {
   mothersMaidenName,
@@ -60,15 +64,37 @@ const {
   wantsInitialVaContact,
   isVaServiceConnected,
   compensableVaServiceConnected,
-  receivesVaPension
+  receivesVaPension,
+  discloseFinancialInformation,
+  spouseFullName,
+  spouseSocialSecurityNumber,
+  spouseDateOfBirth,
+  dateOfMarriage,
+  sameAddress,
+  cohabitedLastYear,
+  provideSupportLastYear,
+  spousePhone,
+  children,
+  veteranGrossIncome,
+  veteranNetIncome,
+  veteranOtherIncome,
+  spouseGrossIncome,
+  spouseNetIncome,
+  spouseOtherIncome,
+  deductibleMedicalExpenses,
+  deductibleFuneralExpenses,
+  deductibleEducationExpenses
 } = fullSchemaHca.properties;
 
 const {
   fullName,
   date,
   provider,
-  phone
+  phone,
+  monetaryValue,
+  ssn
 } = fullSchemaHca.definitions;
+
 
 const stateLabels = createUSAStateLabels(states);
 
@@ -83,7 +109,11 @@ const formConfig = {
   defaultDefinitions: {
     date,
     provider,
-    phone
+    fullName,
+    ssn: ssn.oneOf[0], // Mmm...not a fan.
+    phone,
+    child: childSchema(fullSchemaHca),
+    monetaryValue,
   },
   chapters: {
     veteranInformation: {
@@ -94,7 +124,7 @@ const formConfig = {
           title: 'Veteran information',
           initialData: {},
           uiSchema: {
-            veteranFullName: _.merge(fullNameUISchema, {
+            veteranFullName: _.merge(fullNameUI, {
               last: {
                 'ui:errorMessages': {
                   minLength: 'Please provide a valid name. Must be at least 2 characters.'
@@ -121,7 +151,7 @@ const formConfig = {
             veteranDateOfBirth: {
               'ui:title': 'Date of birth'
             },
-            veteranSocialSecurityNumber: ssn.uiSchema,
+            veteranSocialSecurityNumber: ssnUI,
             'view:placeOfBirth': {
               'ui:title': 'Place of birth',
               cityOfBirth: {
@@ -140,7 +170,7 @@ const formConfig = {
             required: ['veteranDateOfBirth', 'veteranSocialSecurityNumber'],
             properties: {
               veteranDateOfBirth: date,
-              veteranSocialSecurityNumber: ssn.schema,
+              veteranSocialSecurityNumber: ssn.oneOf[0],
               'view:placeOfBirth': {
                 type: 'object',
                 properties: {
@@ -220,12 +250,12 @@ const formConfig = {
           title: 'Permanent address',
           initialData: {},
           uiSchema: {
-            address: address.uiSchema('Permanent address')
+            address: addressUI('Permanent address', true)
           },
           schema: {
             type: 'object',
             properties: {
-              address: _.merge(address.schema(true), {
+              address: _.merge(addressSchema(fullSchemaHca, true), {
                 properties: {
                   street: {
                     minLength: 1,
@@ -313,7 +343,7 @@ const formConfig = {
               'ui:help': 'Medicare is a social insurance program administered by the United States government, providing health insurance coverage to people aged 65 and over or who meet special criteria.'
             },
             medicarePartAEffectiveDate: _.merge(
-              dateUI('What is your Medicare Part A effective date?'), {
+              currentOrPastDateUI('What is your Medicare Part A effective date?'), {
                 'ui:required': (formData) => formData.isEnrolledMedicarePartA,
                 'ui:options': {
                   expandUnder: 'isEnrolledMedicarePartA'
@@ -481,7 +511,232 @@ const formConfig = {
               isVaServiceConnected,
               receivesVaPension
             }
+          }
+        }
+      }
+    },
+    householdInformation: {
+      title: 'Household Information',
+      pages: {
+        financialDisclosure: {
+          path: 'household-information/financial-disclosure',
+          title: 'Financial disclosure',
+          uiSchema: {
+            'ui:title': 'Financial disclosure',
+            'ui:description': financialDisclosureText,
+            discloseFinancialInformation: {
+              'ui:title': 'Do you want to provide your financial information?',
+              'ui:widget': 'yesNo'
+            }
           },
+          schema: {
+            type: 'object',
+            required: ['discloseFinancialInformation'],
+            properties: {
+              discloseFinancialInformation
+            }
+          }
+        },
+        spouseInformation: {
+          path: 'household-information/spouse-information',
+          title: 'Spouse’s information',
+          // TODO: When veteranInformation is completed, uncomment the maritalStatus comparison
+          depends: (data) => {
+            return data.discloseFinancialInformation; // &&
+              // data.veteranInformation.data.maritalStatus === 'married'
+          },
+          uiSchema: {
+            'ui:title': 'Spouse’s information',
+            'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
+            spouseFullName: _.merge(fullNameUI, {
+              'ui:title': 'Spouse Name'
+            }),
+            spouseSocialSecurityNumber: _.merge(ssnUI, {
+              'ui:title': 'Spouse’s social security number',
+            }),
+            spouseDateOfBirth: {
+              'ui:title': 'Date of birth'
+            },
+            dateOfMarriage: {
+              'ui:title': 'Date of marriage'
+            },
+            sameAddress: {
+              'ui:title': 'Do you have the same address as your spouse?',
+              'ui:widget': 'yesNo'
+            },
+            cohabitedLastYear: {
+              'ui:title': 'Did your spouse live with you last year?',
+              'ui:widget': 'yesNo'
+            },
+            provideSupportLastYear: {
+              'ui:title': 'If your spouse did not live with you last year, did you provide financial support?',
+              'ui:widget': 'yesNo',
+              'ui:options': {
+                // Only show if 'No' is selected for cohabitedLastYear
+                hideIf: (formData) => formData.cohabitedLastYear !== false
+              }
+            },
+            'view:spouseContactInformation': {
+              'ui:title': 'Spouse’s address and telephone number',
+              'ui:options': {
+                // Only show if 'No' is selected for sameAddress
+                hideIf: (formData) => formData.sameAddress !== false
+              },
+              spouseAddress: _.merge(addressUI('', true), {
+                'ui:options': {
+                  updateSchema: (formData) => {
+                    // If formData.sameAddress === false, the address fields are
+                    //  shown and should be required
+                    return addressSchema(fullSchemaHca, formData.sameAddress === false);
+                  }
+                }
+              }),
+              spousePhone: {
+                'ui:title': 'Phone'
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: [
+              'spouseSocialSecurityNumber',
+              'spouseDateOfBirth',
+              'dateOfMarriage',
+              'sameAddress'
+            ],
+            properties: {
+              spouseFullName,
+              spouseSocialSecurityNumber,
+              spouseDateOfBirth,
+              dateOfMarriage,
+              sameAddress,
+              cohabitedLastYear,
+              provideSupportLastYear,
+              'view:spouseContactInformation': {
+                type: 'object',
+                properties: {
+                  spouseAddress: addressSchema(fullSchemaHca),
+                  spousePhone
+                }
+              }
+            }
+          }
+        },
+        childInformation: {
+          path: 'household-information/child-information',
+          title: 'Child information',
+          depends: (data) => data.discloseFinancialInformation,
+          uiSchema: {
+            'view:reportChildren': {
+              'ui:title': 'Do you have any children to report?',
+              'ui:widget': 'yesNo'
+            },
+            children: {
+              'ui:title': '',
+              items: childUI,
+              'ui:options': {
+                expandUnder: 'view:reportChildren',
+                itemName: 'Child',
+                hideTitle: true,
+                viewField: ChildView
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['view:reportChildren'],
+            properties: {
+              'view:reportChildren': { type: 'boolean' },
+              children
+            }
+          }
+        },
+        annualIncome: {
+          path: 'household-information/annual-income',
+          title: 'Annual income',
+          depends: (data) => data.discloseFinancialInformation,
+          uiSchema: {
+            'ui:title': 'Annual income',
+            'ui:description': incomeDescription,
+            veteranGrossIncome: {
+              'ui:title': 'Veteran gross annual income from employment'
+            },
+            veteranNetIncome: {
+              'ui:title': 'Veteran Net Income from your Farm, Ranch, Property or Business'
+            },
+            veteranOtherIncome: {
+              'ui:title': 'Veteran Other Income Amount'
+            },
+            'view:spouseIncome': {
+              'ui:title': 'Spouse income',
+              'ui:options': {
+                hideIf: (formData) => formData.maritalStatus !== 'married' // Something else too?
+              },
+              spouseGrossIncome: {
+                'ui:title': 'Spouse gross annual income from employment',
+                'ui:required': (formData) => formData.maritalStatus === 'married'
+              },
+              spouseNetIncome: {
+                'ui:title': 'Spouse Net Income from your Farm, Ranch, Property or Business',
+                'ui:required': (formData) => formData.maritalStatus === 'married'
+              },
+              spouseOtherIncome: {
+                'ui:title': 'Spouse Other Income Amount',
+                'ui:required': (formData) => formData.maritalStatus === 'married'
+              }
+            },
+            'view:childrenIncome': {
+              'ui:options': {
+                // Or should this be !formData.reportChildren?
+                hideIf: (formData) => !_.get('children.length', formData)
+              }
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranGrossIncome', 'veteranNetIncome', 'veteranOtherIncome'],
+            properties: {
+              veteranGrossIncome,
+              veteranNetIncome,
+              veteranOtherIncome,
+              'view:spouseIncome': {
+                type: 'object',
+                properties: {
+                  spouseGrossIncome,
+                  spouseNetIncome,
+                  spouseOtherIncome
+                }
+              },
+              'view:childrenIncome': {}
+            }
+          }
+        },
+        deductibleExpenses: {
+          path: 'household-information/deductible-expenses',
+          title: 'Deductible expenses',
+          depends: (data) => data.discloseFinancialInformation,
+          uiSchema: {
+            'ui:title': 'Previous Calendar Year’s Deductible Expenses',
+            'ui:description': 'Tell us a bit about your expenses this past calendar year. Enter information for any expenses that apply to you.',
+            deductibleMedicalExpenses: {
+              'ui:title': 'Amount you or your spouse paid in non-reimbursable medical expenses this past year.'
+            },
+            deductibleFuneralExpenses: {
+              'ui:title': 'Amount you paid in funeral or burial expenses for a deceased spouse or child this past year.'
+            },
+            deductibleEducationExpenses: {
+              'ui:title': 'Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.'
+            }
+          },
+          schema: {
+            type: 'object',
+            required: ['deductibleMedicalExpenses', 'deductibleFuneralExpenses', 'deductibleEducationExpenses'],
+            properties: {
+              deductibleMedicalExpenses,
+              deductibleFuneralExpenses,
+              deductibleEducationExpenses
+            }
+          }
         }
       }
     },
@@ -500,8 +755,8 @@ const formConfig = {
             },
             // TODO: this should really be a dateRange, but that requires a backend schema change. For now
             // leaving them as dates, but should change these to get the proper dateRange validation
-            lastEntryDate: dateUI('Start of service period'),
-            lastDischargeDate: dateUI('Date of discharge'),
+            lastEntryDate: currentOrPastDateUI('Start of service period'),
+            lastDischargeDate: currentOrPastDateUI('Date of discharge'),
             dischargeType: {
               'ui:title': 'Character of discharge',
               'ui:options': {

@@ -149,6 +149,17 @@ const trackings = {
   }
 };
 
+const preferences = {
+  data: {
+    id: '519e94995f48def4f0e38e5c13b85150c6bc0cc0c911324ef9a1ba7400e7ec37',
+    type: 'messaging_preferences',
+    attributes: {
+      emailAddress: 'test@vets.gov',
+      rxFlag: false
+    }
+  }
+};
+
 // Create API routes
 function initApplicationSubmitMock(token) {
   mock(token, {
@@ -187,6 +198,18 @@ function initApplicationSubmitMock(token) {
         ...prescriptions.data[1],
       }
     }
+  });
+
+  mock(token, {
+    path: '/v0/prescriptions/preferences',
+    verb: 'get',
+    value: preferences,
+  });
+
+  mock(token, {
+    path: '/v0/prescriptions/preferences',
+    verb: 'put',
+    value: preferences,
   });
 }
 

@@ -42,23 +42,27 @@ function AppContent({ children, isDataAvailable }) {
 class RxRefillsApp extends React.Component {
   render() {
     return (
-      <RequiredLoginView authRequired={3} serviceRequired={"rx"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
-        <RequiredTermsAcceptanceView termsName={"mhvac"}>
-          <AppContent>
-            <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
-            {this.props.children}
-            <ConfirmRefillModal
-                prescription={this.props.refillModal.prescription}
-                isLoading={this.props.refillModal.loading}
-                isVisible={this.props.refillModal.visible}
-                refillPrescription={this.props.refillPrescription}
-                onCloseModal={this.props.closeRefillModal}/>
-            <GlossaryModal
-                content={this.props.glossaryModal.content}
-                isVisible={this.props.glossaryModal.visible}
-                onCloseModal={this.props.closeGlossaryModal}/>
-          </AppContent>
-        </RequiredTermsAcceptanceView>
+      <RequiredLoginView
+          authRequired={3}
+          serviceRequired={"rx"}
+          userProfile={this.props.profile}
+          loginUrl={this.props.loginUrl}
+          verifyUrl={this.props.verifyUrl}>
+        <AppContent>
+          <Breadcrumbs location={this.props.location} prescription={this.props.prescription}/>
+          {this.props.children}
+          <ConfirmRefillModal
+              prescription={this.props.refillModal.prescription}
+              isLoading={this.props.refillModal.loading}
+              isVisible={this.props.refillModal.visible}
+              refillPrescription={this.props.refillPrescription}
+              onCloseModal={this.props.closeRefillModal}/>
+          <GlossaryModal
+              content={this.props.glossaryModal.content}
+              isVisible={this.props.glossaryModal.visible}
+              onCloseModal={this.props.closeGlossaryModal}/>
+        </AppContent>
+
       </RequiredLoginView>
     );
   }
@@ -78,7 +82,8 @@ const mapStateToProps = (state) => {
     refillModal: modals.refill,
     prescription: rxState.prescriptions.currentItem,
     profile: userState.profile,
-    signInUrl: userState.login.loginUrl.first
+    loginUrl: userState.login.loginUrl,
+    verifyUrl: userState.login.verifyUrl
   };
 };
 
