@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AcceptTermsPrompt from './authentication/AcceptTermsPrompt';
+// import AcceptTermsPrompt from './authentication/AcceptTermsPrompt';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 class RequiredTermsAcceptanceView extends React.Component {
@@ -13,7 +13,7 @@ class RequiredTermsAcceptanceView extends React.Component {
   }
 
   componentWillMount() {
-    fetchTerms(this.props.termsName);
+    // fetchTerms(this.props.termsName);
     window.scrollTo(0, 0);
   }
 
@@ -26,11 +26,12 @@ class RequiredTermsAcceptanceView extends React.Component {
   render() {
     let view;
 
-    const acceptTermsComponent = <AcceptTermsPrompt/>;
+    // const acceptTermsComponent = <AcceptTermsPrompt/>;
 
     if (this.state.loading === true) {
       view = <LoadingIndicator setFocus message="Loading your information"/>;
     } else {
+      // Display the appropriate thing
     }
 
     return (
@@ -41,6 +42,8 @@ class RequiredTermsAcceptanceView extends React.Component {
   }
 }
 
-RequiredLoginView.propTypes = {
+RequiredTermsAcceptanceView.propTypes = {
   termsName: PropTypes.string.isRequired
 };
+
+export default RequiredTermsAcceptanceView;
