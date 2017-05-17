@@ -127,8 +127,11 @@ button.rx-prescription-button,
   text-align: right;
 }
 
-table .rx-prescription-status {
-  text-align: left;
+table {
+  .rx-prescription-status,
+  .rx-call-provider {
+    text-align: left;
+  }
 }
 
 .rx-prescription-refill-requested {
