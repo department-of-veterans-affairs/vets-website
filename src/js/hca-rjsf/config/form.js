@@ -187,7 +187,9 @@ const formConfig = {
         demographicInformation: {
           path: 'veteran-information/demographic-information',
           title: 'Veteran information',
-          initialData: {},
+          initialData: {
+            isSpanishHispanicLatino: false
+          },
           uiSchema: {
             gender: {
               'ui:title': 'Gender'
@@ -250,12 +252,12 @@ const formConfig = {
           title: 'Permanent address',
           initialData: {},
           uiSchema: {
-            address: addressUI('Permanent address', true)
+            veteranAddress: addressUI('Permanent address', true)
           },
           schema: {
             type: 'object',
             properties: {
-              address: _.merge(addressSchema(fullSchemaHca, true), {
+              veteranAddress: _.merge(addressSchema(fullSchemaHca, true), {
                 properties: {
                   street: {
                     minLength: 1,
