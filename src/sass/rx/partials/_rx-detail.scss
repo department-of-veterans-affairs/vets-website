@@ -90,20 +90,18 @@
   table {
     margin: 0;
 
-    @include media($medium-screen) {
-      td {
-        vertical-align: top;
-        white-space: nowrap;
-      }
+    td {
+      vertical-align: top;
+      white-space: nowrap;
     }
 
-    /*
-    @media (max-width: $medium-screen) {
+    @include media-maxwidth($medium-screen) {
       td {
-        &:nth-child(1):before { content: "Order status: "; }
-        &:nth-child(2):before { content: "Tracking status: "; }
+        &:nth-child(1):before { content: "Fill date: "; }
+        &:nth-child(2):before { content: "Carrier: "; }
+        &:nth-child(3):before { content: "Tracking number: "; }
+        &:nth-child(4):before { content: "Prescriptions in package: "; }
       }
     }
-    */
   }
 }
