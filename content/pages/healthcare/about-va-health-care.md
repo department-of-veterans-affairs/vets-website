@@ -46,6 +46,8 @@ Each Veteran’s medical benefits package is unique. Yours will include care and
 - Improve your ability to function
 - Enhance your quality of life
 
+<br>
+
 All Veterans receive coverage for most care and services, but only some will qualify for added benefits like dental care. The full list of your covered benefits depends on:
 
 - Your priority group, **and**
@@ -188,8 +190,6 @@ When you sign up for VA health care, you become part of the country’s largest 
 If you have other forms of health care coverage (like a private insurance plan, Medicare, Medicaid, or TRICARE), you can use VA health care benefits along with these plans. [Learn more about how VA works with other health insurance](/healthcare/about-va-health-care/va-health-care-and-other-insurance/).
 
 ------
-
-#### What else do you want to do?
 
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
