@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SystemDownView from './SystemDownView';
+import AcceptTermsPrompt from './authentication/AcceptTermsPrompt';
 import LoginPrompt from './authentication/LoginPrompt';
 import VerifyPrompt from './authentication/VerifyPrompt';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -41,6 +42,7 @@ class RequiredLoginView extends React.Component {
     let view;
 
     const loginComponent = <LoginPrompt loginUrl={this.props.loginUrl}/>;
+    const acceptTermsComponent = <AcceptTermsPrompt/>;
     const verifyComponent = <VerifyPrompt/>;
 
     if (this.state.loading === true) {
@@ -65,6 +67,8 @@ class RequiredLoginView extends React.Component {
             if (this.state.isServiceAvailableForUse) {
               // If you have the required service show the application view.
               view = this.props.children;
+            } else if (this.props.requireTermsAcceptance) {
+              view = acceptTermsComponent;
             } else {
               // If you do not have the required service in your `userServices` array then we will show the component but pass a prop to let them know that you don't have any data. Only passes prop on React components (functions) and not elements like divs so that React does not throw a warning
               view = React.Children.map(this.props.children,
@@ -104,6 +108,7 @@ RequiredLoginView.propTypes = {
   serviceRequired: PropTypes.string.isRequired,
   userProfile: PropTypes.object.isRequired,
   loginUrl: PropTypes.string,
+  requireTermsAcceptance: PropTypes.string,
 };
 
 export default RequiredLoginView;
