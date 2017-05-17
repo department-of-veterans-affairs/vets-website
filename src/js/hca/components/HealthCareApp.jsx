@@ -366,7 +366,7 @@ class HealthCareApp extends React.Component {
           <div className="usa-width-two-thirds medium-8 columns">
             <FormTitle title="Apply online for health care with the 10-10ez" subTitle="OMB No. 2900-0091"/>
             <div>
-              {!_.includes(['/introduction', '/submit-message'], this.props.location.pathname) && <SegmentedProgressBar total={chapters.length} current={getCurrentFormStep(chapters, this.props.location)}/>}
+              {!_.includes(['/introduction', '/submit-message'], this.props.location.pathname) && <SegmentedProgressBar total={chapters.length} current={getCurrentFormStep(chapters, this.props.location.pathname)}/>}
               <div className="schemaform-chapter-progress">
                 <NavHeader path={this.props.location.pathname} chapters={chapters} className="nav-header-schemaform"/>
               </div>

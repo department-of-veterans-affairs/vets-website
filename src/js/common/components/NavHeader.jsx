@@ -1,30 +1,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { getCurrentFormStep, getCurrentPageName } from '../utils/helpers';
+
 export default class NavHeader extends React.Component {
   render() {
     const { chapters, path, className } = this.props;
     const total = chapters.length;
 
-    let step;
-    let name;
-    chapters
-      .forEach((chapter, index) => {
-        if (chapter.pages.some(page => page.path === path)) {
-          step = index + 1;
-          name = chapter.name;
-        }
-      });
-
-    return step
+    return getCurrentFormStep(chapters, path)
       ? <h4
           role="progressbar"
-          aria-valuenow={step}
+          aria-valuenow={getCurrentFormStep(chapters, path)}
           aria-valuemin="1"
-          aria-valuetext={`Step ${step} of ${total}: ${name}`}
+          aria-valuetext={`Step ${getCurrentFormStep(chapters, path)} of ${total}: ${getCurrentPageName(chapters, path)}`}
           aria-valuemax={total}
           className={`nav-header ${className}`}>
-        <span className="form-process-step current">{step}</span> of {total} {name}
+        <span className="form-process-step current">{getCurrentFormStep(chapters, path)}</span> of {total} {getCurrentPageName(chapters, path)}
       </h4>
       : null;
   }
