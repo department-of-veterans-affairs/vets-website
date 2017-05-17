@@ -10,11 +10,6 @@ export class UpdatePage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.pollRefresh = () => {
-      setInterval(() => {
-        props.checkRefreshStatus();
-      }, 30000);
-    };
     this.handleSkipToDownload = this.handleSkipToDownload.bind(this);
     this.submitAndDownload = this.submitAndDownload.bind(this);
   }
@@ -22,7 +17,7 @@ export class UpdatePage extends React.Component {
   componentDidMount() {
     scrollTo(0, 0);
     this.props.checkRefreshStatus();
-    this.pollRefresh();
+    this.pollRefresh = setInterval(this.props.checkRefreshStatus, 30000);
     this.refreshTimeout = setTimeout(this.submitAndDownload, 600000);
   }
 
