@@ -35,7 +35,7 @@ class Prescription extends React.Component {
             key={`rx-${id}-track`}
             className="usa-button"
             text="Track package"
-            url={`/${id}#rx-order-history`}/>
+            url={`/${id}/track`}/>
       );
     }
 
