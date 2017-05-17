@@ -27,6 +27,10 @@
         {% include "content/components/navigation-links-list.html" with isRelated = true %}
       {% endif %}
 
+      {% if lastupdate %}
+        {% include "content/includes/last-update.html" %}
+      {% endif %}
+
       {% include "content/components/navigation-next-previous.html" %}
     </div> 
   </div>
