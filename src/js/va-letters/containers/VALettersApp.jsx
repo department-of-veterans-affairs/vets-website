@@ -14,7 +14,7 @@ class VALettersApp extends React.Component {
 
     return (
       <div className="usa-grid">
-        <div className="usa-width-two-thirds medium-8 columns">
+        <div className="usa-width-two-thirds">
           <FormTitle title="Download VA Letters"/>
           <SegmentedProgressBar total={chapters.length} current={getCurrentFormStep(chapters, location.pathname)}/>
           <div className="schemaform-chapter-progress">

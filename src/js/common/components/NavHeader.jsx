@@ -7,16 +7,18 @@ export default class NavHeader extends React.Component {
   render() {
     const { chapters, path, className } = this.props;
     const total = chapters.length;
+    const step = getCurrentFormStep(chapters, path);
+    const name = getCurrentPageName(chapters, path);
 
-    return getCurrentFormStep(chapters, path)
+    return step
       ? <h4
           role="progressbar"
-          aria-valuenow={getCurrentFormStep(chapters, path)}
+          aria-valuenow={step}
           aria-valuemin="1"
-          aria-valuetext={`Step ${getCurrentFormStep(chapters, path)} of ${total}: ${getCurrentPageName(chapters, path)}`}
+          aria-valuetext={`Step ${step} of ${total}: ${name}`}
           aria-valuemax={total}
           className={`nav-header ${className}`}>
-        <span className="form-process-step current">{getCurrentFormStep(chapters, path)}</span> of {total} {getCurrentPageName(chapters, path)}
+        <span className="form-process-step current">{step}</span> of {total} {name}
       </h4>
       : null;
   }
