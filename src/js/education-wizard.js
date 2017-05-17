@@ -1,83 +1,91 @@
+import _ from 'lodash';
+
 {
+  function toggleClass(element, className) {
+    element.classList.toggle(className);
+  }
+  function openState(element) {
+    console.log("Opening", element);
+    element.setAttribute('data-state', 'open');
+  }
+  function closeState(element) {
+    console.log("Closing", element);
+    element.setAttribute('data-state', 'closed');
+  }
+  function isParent(element) {
+    console.log("Checking if is parent ", element);
+    const isParent = !element.dataset.selectedForm;
+    console.log("Is a Parent?", isParent);
+    return isParent;
+  }
+  function closeStateAndCheckChild(alternateQuestion, container) {
+    console.log("Closing State and Checking Children of ", alternateQuestion);
+    closeState(alternateQuestion);
+    if(!isParent(alternateQuestion)){
+      console.log(alternateQuestion, "is not a parent, closing state and returning");
+      return;
+    }
+      console.log("There should be no selected form to proceed", alternateQuestion.dataset.selectedForm);
+      const optionsElements = alternateQuestion.querySelectorAll('input');
+      console.log('optionsElements', optionsElements);
+      const options = Array.prototype.slice.call(optionsElements);
+      console.log('options', options);
+      options.forEach( option => {
+        console.log('current option', option);
+        if(option.dataset.nextQuestion){
+          const alternateChild = option.dataset.nextQuestion;
+          console.log('alternateChild', alternateChild);
+          const alternateChildElement = container.querySelector(`[data-question=${alternateChild}]`);
+          console.log('alternateChildElement', alternateChildElement);
+          console.log("rinse and repeat check for alternateChildElement");
+          return closeStateAndCheckChild(alternateChildElement, container);
+        }
+      });
+  }
   function reInitWidget() {
-    function toggleClass(element, className) {
-      element.classList.toggle(className);
-    }
-    function setState(element, newState) {
-      element.setAttribute('data-state', newState);
-    }
 
     // Toggle the expandable apply fields
     const containers = Array.prototype.slice.call(document.querySelectorAll('.expander-container'));
-    containers.forEach((container) => {
-      const questionContainer = container.querySelector('.expander-content-inner');
-      const questions = container.querySelectorAll('.expander-content-question');
+    containers.forEach(container => {
       const button = container.querySelector('.expander-button');
       const openButton = container.querySelector('.apply-go-button');
       const content = container.querySelector('.expander-content');
       const radios = container.querySelectorAll('input');
-      //map of all possible questions
-      const answers = {
-        'new-application': {
-          value: false,
-          alternative: 'existing-application',
-          next: 'is-veteran',
-        },
-        'existing-application': {
-          value: false,
-          alternative: 'new-application',
-          next: 'is-sponsored',
-        },
-        'is-veteran': {
-          value: false,
-          alternative: 'is-not-veteran',
-          next: 'national-call-to-service',
-        },
-        'is-not-veteran': {
-          value: false,
-          alternative: 'is-veteran',
-          next: 'sponsor-status',
-        }
-      };
-      //need to write a check that will update the view when the chain is updated
-      var updateList = function(){
-        // reduce view
-      }
-      radios.forEach((radio)=>{
+      const apply = container.querySelector('#apply-now-button');
+      radios.forEach(radio => {
         radio.addEventListener('click', () => {
-          // questions.forEach((question) => {
-          //this must be recursive so that next questions get updated
-          //should it store the current true, set alternative to false and closed, then set current next to closed (and answers to false), if either subs subs answer is true, repeat and new next to open
-            console.log('this answer', radio.value);
-            answers[radio.value].value = true;
-            answers[answers[radio.value].alternative].value = false;
-            //check if a nextValue to reveal questions or apply button
-            const otherNext = answers[answers[radio.value].alternative].next;
-            console.log('otherNext', otherNext);
-            const otherNextElement = container.querySelector(`#${otherNext}`);
-            console.log('otherNextElement', otherNextElement);
-            const otherNextQuestion = otherNextElement.parentNode.parentNode;
-            console.log('otherNextQuestion', otherNextQuestion);
-            setState(otherNextQuestion, 'closed');
-            const next = answers[radio.value].next
-            console.log('next', next);
-            const nextQuestion = container.querySelector(`#${next}`).parentNode.parentNode;
-            console.log('nextQuestion', nextQuestion);
-            setState(nextQuestion, 'open');
-            // console.log(answers);
-          // })
+          console.log(radio.parentNode.parentNode.dataset.question, " question answered with:", radio.value)
+          if (radio.dataset.selectedForm) {
+            console.log("End of form reached, can now navigate to ", radio.dataset.selectedForm);
+            if (apply.dataset.state === 'closed') {
+               openState(apply);
+            }
+            return apply.href = `/education/apply-for-education-benefits/application/${radio.dataset.selectedForm}/introduction`;
+          }
+          console.log("End of form not reached");
+
+          if (apply.dataset.state === 'open') {
+            console.log("Apply button visible, hiding button");
+             closeState(apply);
+          }
+          const nextQuestion = radio.dataset.nextQuestion;
+          console.log('nextQuestion', nextQuestion);
+          const nextQuestionElement = container.querySelector(`[data-question=${nextQuestion}]`);
+          console.log('nextQuestionElement', nextQuestionElement);
+          const nextQuestionAlternate = nextQuestionElement.dataset.alternate
+          console.log('nextQuestionAlternate', nextQuestionAlternate);
+          const nextQuestionAlternateElement = container.querySelector(`[data-question=${nextQuestionAlternate}]`);
+          // var alternateQuestionChild = container.querySelector(`[data-question=${alternateQuestion.alternate}]`);
+          console.log('nextQuestionAlternateElement', nextQuestionAlternateElement);
+          console.log("opening nextQuestionElement");
+          openState(nextQuestionElement);
+          console.log("closing nextQuestionAlternateElement")
+          closeStateAndCheckChild(nextQuestionAlternateElement, container);
         });
       });
       button.addEventListener('click', () => {
         toggleClass(content, 'expander-content-closed');
         toggleClass(button, 'va-button-primary');
-      });
-      openButton.addEventListener('click', () => {
-        const selectedForm = content.querySelector('input[name="form-selection"]:checked');
-
-        // if (selectedForm) {
-        //   location.assign(`/education/apply-for-education-benefits/application/${selectedForm.value}/introduction`);
-        // }
       });
     });
   }

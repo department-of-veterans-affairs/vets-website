@@ -163,14 +163,20 @@ body .row {
 }
 
 // Handles the height transition
+a[data-state=closed] {
+  display: none;
+}
+a[data-state=open] {
+  display: block;
+}
 .expander-content {
   // No max height for small screens = no animation, which is fine
   // Also means the Apply Now button doesn't get cut off
   @include media($small-screen) {
-    max-height: 24em;
+    // max-height: 24em;
   }
   overflow: hidden;
-  transition: max-height 150ms ease-in-out;
+  // transition: max-height 150ms ease-in-out;
 
   // Handles the opacity transition
   .expander-content-question[data-state=open] {
