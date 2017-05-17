@@ -1,0 +1,21 @@
+{
+  "discloseFinancialInformation": true,
+  "view:reportChildren": true,
+  "children": [
+    {
+      "childFullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "childRelation": "Son"
+    },
+    {
+      "childFullName": {
+        "first": "Jane",
+        "last": "Doe"
+      },
+      "childRelation": "Daughter"
+    }
+  ],
+  "maritalStatus": "Married"
+}

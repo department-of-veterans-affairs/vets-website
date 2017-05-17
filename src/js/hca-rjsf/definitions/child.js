@@ -2,9 +2,14 @@ import _ from 'lodash/fp';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import { uiSchema as ssnUI } from '../../common/schemaform/definitions/ssn';
 
+const incomeFields = [
+  'grossIncome',
+  'netIncome',
+  'otherIncome'
+];
 
-export const schema = (hcaSchema) => {
-  return _.merge(hcaSchema.definitions.child, {
+export const createChildSchema = (hcaSchema) => {
+  return _.omit(incomeFields, _.merge(hcaSchema.definitions.child, {
     required: [
       'childRelation',
       'childSocialSecurityNumber',
@@ -18,10 +23,18 @@ export const schema = (hcaSchema) => {
         properties: {}
       },
       childRelation: {
-        // Missing in the schema
+        // Missing in the schema -- not needed after vets-json-schema is upgraded to v2.7.0
         type: 'string'
       }
     }
+  }));
+};
+
+export const createChildIncomeSchema = (hcaSchema) => {
+  const child = hcaSchema.definitions.child;
+  return _.assign(child, {
+    properties: _.pick(incomeFields, child.properties),
+    required: incomeFields
   });
 };
 
@@ -83,6 +96,9 @@ export const uiSchema = {
       hideIf: (formData, index) => formData.children[index].childCohabitedLastYear !== false
     }
   },
+};
+
+export const childIncomeUiSchema = {
   grossIncome: {
     'ui:title': 'Gross annual income from employment'
   },

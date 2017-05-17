@@ -29,11 +29,14 @@ import ChildView from '../components/ChildView';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
 
-import { schema as createChildSchema, uiSchema as childUI } from '../definitions/child';
+import { createChildSchema, uiSchema as childUI, createChildIncomeSchema, childIncomeUiSchema } from '../definitions/child';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 
+import testData from '../../../../test/hca-rjsf/test-data.json';
+
 const childSchema = createChildSchema(fullSchemaHca);
+const childIncomeSchema = createChildIncomeSchema(fullSchemaHca);
 
 const {
   mothersMaidenName,
@@ -643,11 +646,7 @@ const formConfig = {
           schema: {
             type: 'object',
             definitions: {
-              child: _.omit(
-                  // We don't want to show these here...
-                  ['properties.grossIncome', 'properties.netIncome', 'properties.otherIncome'],
-                  childSchema
-                )
+              child: childSchema
             },
             required: ['view:reportChildren'],
             properties: {
@@ -659,6 +658,7 @@ const formConfig = {
         annualIncome: {
           path: 'household-information/annual-income',
           title: 'Annual income',
+          initialData: testData, // FOR TESTING ONLY
           depends: (data) => data.discloseFinancialInformation,
           uiSchema: {
             'ui:title': 'Annual income',
@@ -693,18 +693,17 @@ const formConfig = {
             children: {
               // 'ui:title': 'Child income',
               'ui:field': 'BasicArrayField',
-              'ui:selectedFields': [
-                'grossIncome',
-                'netIncome',
-                'otherIncome'
-              ],
-              items: _.merge(childUI, {
+              items: _.merge(childIncomeUiSchema, {
                 'ui:options': {
                   updateSchema: (formData, schema, uiSchema, index) => {
-                    const name = formData[index].childFullName;
-                    return {
-                      title: `${name.first} ${name.last} income`
-                    };
+                    const name = _.get(`children.[${index}].childFullName`, formData);
+                    if (name) {
+                      return {
+                        title: `${name.first} ${name.last} income`
+                      };
+                    }
+
+                    return schema;
                   }
                 },
               }),
@@ -717,11 +716,8 @@ const formConfig = {
             type: 'object',
             required: ['veteranGrossIncome', 'veteranNetIncome', 'veteranOtherIncome'],
             definitions: {
-              child: _.assign(childSchema, {
-                // Why isn't this working??
-                // Even without this, I'm getting error messages: "is not of a type(s) number"
-                required: ['grossIncome', 'netIncome', 'otherIncome']
-              })
+              // Override the default schema and use only the income fields
+              child: childIncomeSchema
             },
             properties: {
               veteranGrossIncome,
