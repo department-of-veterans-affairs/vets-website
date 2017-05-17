@@ -100,7 +100,7 @@ const stateLabels = createUSAStateLabels(states);
 
 const formConfig = {
   urlPrefix: '/',
-  submitUrl: '',
+  submitUrl: '/v0/health_care_applications',
   trackingPrefix: 'hca-rjsf-',
   transformForSubmit: transform,
   introduction: IntroductionPage,
