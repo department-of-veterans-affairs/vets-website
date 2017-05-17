@@ -209,8 +209,6 @@ You may be able to buy dental insurance at a reduced cost through the VA Dental 
 
 ------
 
-#### What else do you want to do?
-
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
 **Already signed up?** Manage your VA health and benefits online: <br />
