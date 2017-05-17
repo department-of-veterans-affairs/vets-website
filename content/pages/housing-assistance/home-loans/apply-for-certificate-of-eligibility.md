@@ -84,7 +84,9 @@ If you're the **surviving spouse** of a Veteran who died on active duty or who h
 
 You can apply in 1 of 3 ways:
 
-**Online through eBenefits:** We recommend applying for your COE online. [Apply through eBenefits](http://www.ebenefits.va.gov/).
+**Online through eBenefits:** We recommend applying for your COE online.
+
+<a class="usa-button-primary va-button-primary" href="http://www.ebenefits.va.gov/">Go to eBenefits to Apply</a>
 
 **Through our Web LGY system:** In some cases, you can get your COE through your lender using our Web LGY system. Ask your lender about this option.
 
