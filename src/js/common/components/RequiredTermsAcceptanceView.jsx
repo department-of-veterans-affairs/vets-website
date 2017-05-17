@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-// import AcceptTermsPrompt from './authentication/AcceptTermsPrompt';
+import AcceptTermsPrompt from './AcceptTermsPrompt';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 class RequiredTermsAcceptanceView extends React.Component {
@@ -26,12 +26,12 @@ class RequiredTermsAcceptanceView extends React.Component {
   render() {
     let view;
 
-    // const acceptTermsComponent = <AcceptTermsPrompt/>;
+    const acceptTermsComponent = <AcceptTermsPrompt/>;
 
     if (this.state.loading === true) {
       view = <LoadingIndicator setFocus message="Loading your information"/>;
     } else {
-      // Display the appropriate thing
+      view = acceptTermsComponent;
     }
 
     return (
