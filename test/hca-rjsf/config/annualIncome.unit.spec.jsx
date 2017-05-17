@@ -17,9 +17,6 @@ describe('Hca annual income', () => {
           first: 'John',
           last: 'Doe'
         },
-        grossIncome: null,
-        netIncome: null,
-        otherIncome: null,
         childRelation: 'Son'
       },
       {
@@ -27,9 +24,6 @@ describe('Hca annual income', () => {
           first: 'Jane',
           last: 'Doe'
         },
-        grossIncome: null,
-        netIncome: null,
-        otherIncome: null,
         childRelation: 'Daughter'
       }
     ],
