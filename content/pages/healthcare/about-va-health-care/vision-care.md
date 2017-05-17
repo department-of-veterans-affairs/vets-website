@@ -76,8 +76,6 @@ For more information, contact the prosthetic representative at your nearest VA m
 
 ------
 
-#### What else do you want to do?
-
 **Want to sign up for VA health care?** [Apply now](/healthcare/apply/).
 
 **Already signed up?** Manage your VA health and benefits online: <br />
