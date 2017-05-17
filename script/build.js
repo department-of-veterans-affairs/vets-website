@@ -124,7 +124,6 @@ smith.metadata({ buildtype: options.buildtype });
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('healthcare/health-records/*');
   ignoreList.push('healthcare/rjsf/*');
   ignoreList.push('va-letters/*');
 }
