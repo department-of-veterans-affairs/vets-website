@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
+import moment from 'moment';
 
 import SortableTable from '../../common/components/SortableTable';
 import { formatDate } from '../utils/helpers';
@@ -49,8 +50,20 @@ class OrderHistory extends React.Component {
             external
             text={trackingNumber}
             url={trackingUrl}/>),
-        prescriptions
+        prescriptions,
+        shippedDate
       };
+    });
+
+    data.sort((a, b) => {
+      const { value, order } = this.state.currentSort;
+
+      if (value === 'fillDate') {
+        const diff = moment(a.shippedDate).diff(moment(b.shippedDate));
+        return order === 'DESC' ? -diff : diff;
+      }
+
+      return 0;
     });
 
     const fields = [
@@ -74,7 +87,11 @@ class OrderHistory extends React.Component {
           currentSort={this.state.currentSort}
           data={data}
           fields={fields}
-          onSort={() => {}}/>
+          onSort={(value, order) => {
+            this.setState({
+              currentSort: { value, order }
+            });
+          }}/>
     );
   }
 }
