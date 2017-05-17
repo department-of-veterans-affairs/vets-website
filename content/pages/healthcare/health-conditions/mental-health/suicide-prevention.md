@@ -20,13 +20,27 @@ relatedlinks:
     description: Learn more about VA health services to help support Veterans with substance use problems.
 ---
 
+<div class="va-introtext">
+
 If you’re a Veteran in a mental health crisis and you’re thinking about hurting yourself—or you know a Veteran who’s considering this—act now. You’re not alone, and you can get help.
 
-- Call the Veterans Crisis Line at <a href="tel:+1phonenumber">800-273-8255</a>, then press 1 to talk to someone now.
+</div>
+
+<div class="usa-alert usa-alert-warning va-alert">
+<div class="usa-alert-body">
+
+##### Are you in crisis? You have options.
+
+- Call the Veterans Crisis Line at <a href="tel:+1-800-273-8255">800-273-8255</a>, then press 1 to talk to someone now.
 - [Get private support online with the confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/). 
-- Text <a href="tel:+1phonenumber">838255</a> to get help right away.
-- Call <a href="tel:+1phonenumber">911</a>.
+- Text <a href="sms:838255">838255</a> to get help right away.
+- Call <a href="tel:911">911</a>.
 - Go to the nearest emergency room.
+
+</div>
+</div>
+
+<br>
 
 <div class="feature" markdown=“1”>
 
@@ -64,15 +78,9 @@ They may also change the way they act, and start to:
 - Act violently or take risks (like driving fast or running red lights)
 - Do things to prepare for a suicide (like giving away special personal items, making a will, or seeking access to guns or pills)
 
-<br>
-
 [Get the full list of signs that someone may be considering suicide](https://www.veteranscrisisline.net/SignsOfCrisis/Identifying.aspx).
 
-<br>
-
 Learn about common suicide myths and realities, Veteran-specific suicide risks, and warning signs. [Recognize when to ask for help](https://www.mentalhealth.va.gov/suicide_prevention/whentoaskforhelp.asp). 
-
-<br>
 
 [Take our Veterans self-check quiz](https://www.vetselfcheck.org/Welcome.cfm).
 
