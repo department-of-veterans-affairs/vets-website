@@ -68,6 +68,10 @@ class CreateMHVAccountPrompt extends React.Component {
     this.state = {};
   }
 
+  componentWillMount() {
+    this.setState({ scrolledToBottom: false });
+  }
+
   handleSubmit() {
     // In here we need to POST to
     // /v0/terms_and_conditions/mhvac/versions/latest/user_data
@@ -80,10 +84,6 @@ class CreateMHVAccountPrompt extends React.Component {
     if ((ct.scrollTop + ct.offsetHeight) >= ct.scrollHeight) {
       this.setState({ scrolledToBottom: true });
     }
-  }
-
-  componentWillMount() {
-    this.setState({ scrolledToBottom: false });
   }
 
   render() {
