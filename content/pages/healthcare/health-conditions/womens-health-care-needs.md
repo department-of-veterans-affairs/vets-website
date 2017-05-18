@@ -26,11 +26,11 @@ As a woman Veteran, you’re part of the fastest-growing group within our Vetera
 
 </div>
 
-<div class="feature" markdown=“1”>
+<div class="feature">
 
 ### What women's health services does VA provide?
 
-We provide primary care services, including:
+#### We provide primary care services, including:
 
 - General services, like disease prevention and nutrition counseling
 - Female-specific services, like birth control, preconception counseling, and menopausal support (hormone replacement therapy)
@@ -38,7 +38,7 @@ We provide primary care services, including:
 - Mental health services for depression, posttraumatic stress disorder (PTSD), and substance use problems. [Learn more about mental health services](/healthcare/health-conditions/mental-health/).
 - Free, confidential (private) counseling and treatment for mental and physical health conditions related to military sexual trauma (MST). [Learn more about services for MST](/healthcare/health-conditions/military-sexual-trauma/).
  
-We also provide specialty services, including:
+#### We also provide specialty services, including:
 
 - Screening and management of chronic (long-lasting) conditions, like heart disease and diabetes
 - Screening and management of sexually transmitted diseases (STDs) like HIV/AIDS and hepatitis
@@ -83,7 +83,7 @@ Once you’re signed up:
 - Talk to your primary care provider. Your provider will connect you with any services you may need.
 - Or, contact the Women Veterans Program Manager at your local VA medical center. She will help coordinate all the services you may need—from primary care to specialized care for chronic (long-lasting) conditions or reproductive health. 
   - [Contact your local medical center and ask for the Women Veterans Program Manager](https://www.va.gov/health/vamc/), **or** 
-  - Call our Women Veterans Call Center at 855-VA-WOMEN (<a href="tel:+1phonenumber">855-829-6636</a>) and we’ll connect you with your local manager.
+  - Call our Women Veterans Call Center at 855-VA-WOMEN (<a href="tel:+1-855-829-6636">855-829-6636</a>) and we’ll connect you with your local manager.
 
 ### What if I don’t have VA health care benefits? 
 
@@ -93,7 +93,7 @@ If you don’t have VA health care benefits, you may still be able to get care:
 - **If you’ve served in a combat zone,** get free, private counseling, alcohol and drug assessment, and other support at 1 of our 300 community Vet Centers. [Find a Vet Center near you](https://www.va.gov/directory/guide/vetcenter.asp). 
 - **If you’re homeless or at risk of becoming homeless:** 
   - Visit our website to learn about VA programs for Veterans who are homeless. [Visit www.va.gov/homeless](https://www.va.gov/homeless/).
-  - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1phonenumber">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
+  - Contact the National Call Center for Homeless Veterans at 877-4AID-VET (<a href="tel:+1-877-424-3838">877-424-3838</a>) anytime day or night. A trained VA counselor will offer information about VA homeless programs, health care, and other services in your area. The call is free and confidential (private).
   - Call or visit your local VA Community  Resource and Referral Center. Even if you don’t qualify for VA health care, our staff can help you find non-VA resources you may qualify for in your community. [Find your local Community Resource and Referral Center]( https://www.va.gov/HOMELESS/Crrc.asp).
 
 ### How can I get help related to sexual trauma?
@@ -104,7 +104,7 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
 
 - Our women’s health website gives you the latest information about how we help women Veterans stay well. [Visit the women’s health website](https://www.womenshealth.va.gov/).
 - Our Center for Women Veterans website tells you about health care and other benefits and programs for women Veterans. [Visit the Center for Women Veterans website](https://www.va.gov/womenvet/). 
-- Our Women Veterans Call Center representatives can help you understand your VA benefits and find the right services to fit your needs. Get free, confidential (private) guidance. Call the Center at 855-VA-WOMEN (<a href="tel:+1phonenumber">855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. ET and Saturday, 8:00 a.m. to 6:30 p.m. ET.
+- Our Women Veterans Call Center representatives can help you understand your VA benefits and find the right services to fit your needs. Get free, confidential (private) guidance. Call the Center at 855-VA-WOMEN (<a href="tel:+1-855-829-6636">855-829-6636</a>), Monday through Friday, 8:00 a.m. to 10:00 p.m. ET and Saturday, 8:00 a.m. to 6:30 p.m. ET.
 
 ------
 
@@ -117,5 +117,5 @@ If you’re a Veteran who has experienced MST, you can get help through VA. You 
 [Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
 [Check the status of a disability or pension claim](/track-claims/).
 
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
 

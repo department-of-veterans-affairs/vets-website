@@ -190,7 +190,9 @@ Click on the statement below that describes you best to find out your benefits c
 
 ### How do I apply for VA dental care benefits? 
 
-You can apply online by filling out the 10-10EZ health care application. [Apply now](/healthcare/apply/). 
+You can apply online by filling out the 10-10EZ health care application.
+
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application/introduction">Apply for Benefits</a>
 
 ### Where do I go for VA dental care? 
 
@@ -216,6 +218,6 @@ You may be able to buy dental insurance at a reduced cost through the VA Dental 
 [Send a message to your VA health care provider](/healthcare/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/).
 
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
 
 **Have an illness or injury caused or made worse by your active-duty service?** [Find out if you can get disability benefits](/disability-benefits/conditions/).

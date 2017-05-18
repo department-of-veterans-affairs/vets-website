@@ -68,7 +68,7 @@ You can start your online application right now.
 
 ##### By phone
 
-Call the Vets.gov Help Desk at <a href="tel:+1phonenumber">855-574-7286</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
+Call the Vets.gov Help Desk at <a href="tel:+1-855-574-7286">855-574-7286</a>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
 ##### By mail
 

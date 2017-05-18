@@ -106,7 +106,7 @@ If you're signed up for VA health care, you can manage your VA health and benefi
 [Send a message to your VA health care provider](/healthcare/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/). 
 
-If you need more help, call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+If you need more help, call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
 
 <br>
 
@@ -124,7 +124,7 @@ Mail this form and any supporting materials to:
 <dd>Atlanta, GA 30329</dd>
 </dl>
  
-You can also get help updating your personal information by visiting your local VA or calling 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>) Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. 
+You can also get help updating your personal information by visiting your local VA or calling 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>) Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. 
 
 <br>
 

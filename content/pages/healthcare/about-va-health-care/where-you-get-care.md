@@ -98,7 +98,7 @@ For more information, call your local VA medical center’s enrollment coordinat
 
 #### What should I do if I move? 
 
-Let us know right away so we can help set up care in your new location. To change your address, call us at 877-222-VETS (8387). If you’re moving outside the U.S., you’ll need to sign up for our Foreign Medical Program. Through this program, we’ll pay for certain needed health care services received in foreign countries to treat a service-connected disability or a disability that’s making a service-connected condition worse. [Learn more about our Foreign Medical Program](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp).
+Let us know right away so we can help set up care in your new location. To change your address, call us at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>). If you’re moving outside the U.S., you’ll need to sign up for our Foreign Medical Program. Through this program, we’ll pay for certain needed health care services received in foreign countries to treat a service-connected disability or a disability that’s making a service-connected condition worse. [Learn more about our Foreign Medical Program](https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp).
 
 <br>
 
@@ -146,5 +146,5 @@ Yes, we may be able to help with travel expenses if you need to travel for care.
 [Send a message to your VA health care provider](/healthcare/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/).
 
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
 

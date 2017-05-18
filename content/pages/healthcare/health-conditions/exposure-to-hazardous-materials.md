@@ -26,26 +26,7 @@ Veterans may come in contact with a range of toxic chemicals or other hazardous 
 
 </div>
 
-**Jump to a section:**
-
-- [Agent Orange-related health conditions](#agent-orange)
-- [Gulf War Illness](#gulf-war-illness)
-- [Conditions linked to radiation exposure](#radiation-exposure)
-- [Conditions linked to toxic embedded fragments](#toxic-embedded-fragments)
-- [Traumatic brain injury](#traumatic-brain-injury)
-- [Cold injuries](#cold-injuries)
-- [Birth defects](#birth-defects)
-- [Infectious diseases](#infectious-diseases)
-- [Vaccinations and medicines during service](#vaccinations-and-medicines)
-- [Rabies](#rabies)
-- [Heat injuries](#heat-injuries)
-- [Job-related hazards](#job-related-hazards)
-
-<br>
-
-<span id="agent-orange">
-
-#### Agent Orange-related health conditions
+### Agent Orange-related health conditions
 
 Certain cancers (like prostate cancer and non-Hodgkin’s lymphoma) and other illnesses (like Type 2 Diabetes) have been linked to Agent Orange. The U.S. military used this toxic chemical to clear trees and plants during the Vietnam War era.
 <br />
@@ -55,9 +36,7 @@ Certain cancers (like prostate cancer and non-Hodgkin’s lymphoma) and other il
 
 <br>
 
-<span id="gulf-war-illness">
-
-#### Gulf War Illness 
+### Gulf War Illness 
 
 Illnesses with unexplained symptoms, like chronic fatigue syndrome and fibromyalgia, have been linked to service during the Gulf War era (August 2, 1990—present). 
 <br />
@@ -67,9 +46,7 @@ Illnesses with unexplained symptoms, like chronic fatigue syndrome and fibromyal
 
 <br>
 
-<span id="radiation-exposure">
-
-#### Conditions linked to radiation exposure 
+### Conditions linked to radiation exposure 
 
 Some cancers and other conditions (like certain thyroid conditions and tumors of the brain and central nervous system) may be linked to radiation exposure. 
 <br />
@@ -79,9 +56,7 @@ Some cancers and other conditions (like certain thyroid conditions and tumors of
 
 <br>
 
-<span id="toxic-embedded-fragments">
-
-#### Conditions linked to toxic embedded fragments 
+### Conditions linked to toxic embedded fragments 
 
 Shrapnel and other metals (some containing chemicals) can stay in your body after an injury and can cause injury at the site of the fragment or in other parts of your body.
 <br />
@@ -91,9 +66,7 @@ Shrapnel and other metals (some containing chemicals) can stay in your body afte
 
 <br>
 
-<span id="traumatic-brain-injury">
-
-#### Traumatic brain injury
+### Traumatic brain injury
 
 Explosions can cause concussions and traumatic brain injury (TBI), an injury to the head that disrupts the way your brain works.
 <br />
@@ -103,9 +76,7 @@ Explosions can cause concussions and traumatic brain injury (TBI), an injury to 
 
 <br>
 
-<span id="cold-injuries">
-
-#### Cold injuries 
+### Cold injuries 
 
 Health problems, like skin cancer in frostbite scars or pain, tingling, or numbness in the fingers and toes, can be caused by the effects of cold climates.
 <br />
@@ -115,9 +86,7 @@ Health problems, like skin cancer in frostbite scars or pain, tingling, or numbn
 
 <br>
 
-<span id="birth-defects">
-
-#### Birth defects
+### Birth defects
 
 Certain birth defects in the biological children of Veterans have been linked to military service in Vietnam or Korea.
 <br />
@@ -127,9 +96,7 @@ Certain birth defects in the biological children of Veterans have been linked to
 
 <br>
 
-<span id="infectious-diseases">
-
-#### Infectious diseases 
+### Infectious diseases 
 
 There are 9 infections related to Southwest Asia and Afghanistan military service: malaria, brucellosis, Campylobacter jejuni, Coxiella burnetii (Q Fever), Mycobacterium tuberculosis, nontyphoid Salmonella, shigella, visceral leishmaniasis, and West Nile virus.
 <br />
@@ -145,9 +112,7 @@ Vietnam-era Veterans are at risk for Hepatitis C, an infectious disease that can
 
 <br>
 
-<span id="vaccinations-and-medicines">
-
-#### Vaccinations and medicines during service 
+### Vaccinations and medicines during service 
 
 Some vaccines and medicines used during service may have side effects.
 <br />
@@ -157,9 +122,7 @@ Some vaccines and medicines used during service may have side effects.
 
 <br>
 
-<span id="rabies">
-
-#### Rabies 
+### Rabies 
 
 Rabies is a serious disease that’s transmitted through the bite or saliva of a warm-blooded animal. If you served in Operations Enduring Freedom, Iraqi Freedom, and New Dawn and were bitten by, or came in contact with the saliva of, a warm-blooded animal, you should get examined by a health care provider right away.
 <br />
@@ -169,9 +132,7 @@ Rabies is a serious disease that’s transmitted through the bite or saliva of a
 
 <br>
 
-<span id="heat-injuries">
-
-#### Heat injuries 
+### Heat injuries 
 
 Health problems, like heat stroke, heat exhaustion, and sunburn, can be caused by serving in hot, desert climates.
 <br />
@@ -181,9 +142,7 @@ Health problems, like heat stroke, heat exhaustion, and sunburn, can be caused b
 
 <br>
 
-<span id="job-related-hazards">
-
-#### Job-related hazards
+### Job-related hazards
 
 Chemicals, paints, radiation, and other hazards you may have come in contact with through your military job may carry health risks.
 <br />
@@ -201,4 +160,4 @@ Chemicals, paints, radiation, and other hazards you may have come in contact wit
 [Send a message to your VA health care provider](/healthcare/messaging/). <br /> 
 [Check the status of a disability or pension claim](/track-claims/).
 
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm).

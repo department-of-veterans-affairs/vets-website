@@ -47,7 +47,7 @@ To learn more about VA blind rehabilitation services, contact the Visual Impairm
 
 Or, contact the Blind Rehabilitation Service Program office at:
 
-<a href="tel:+1phonenumber">202-461-7317</a>
+<a href="tel:+1-202-461-7317">202-461-7317</a>
 
 <dl class="va-address-block">
 <dd>Department of Veterans Affairs</dd>
@@ -66,7 +66,7 @@ Or, contact the Blind Rehabilitation Service Program office at:
 [Send a message to your VA health care provider](/healthcare/messaging/). <br />
 [Check the status of a disability or pension claim](/track-claims/).
 
-**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1phonenumber">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
+**Need help accessing services?** Call our toll-free hotline at 877-222-VETS (<a href="tel:+1-877-222-8387">877-222-8387</a>), Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Or, [contact your state’s Veterans agency](https://www.va.gov/statedva.htm). 
 
 **Have hearing loss?** [Find out how to get hearing aids through VA](http://www.rehab.va.gov/PROSTHETICS/psas/Hearing_Aids.asp). 
 
