@@ -8,7 +8,7 @@ showactionbar: false
 lastupdate_override: ""
 relatedlinks:
   - url: /healthcare/apply/
-    title: Application Process
+    title: Health Care Application Process
     description: Ready to apply? Get started now. 
   - url: /disability-benefits/eligibility/
     title: Disability Benefits Eligibility
