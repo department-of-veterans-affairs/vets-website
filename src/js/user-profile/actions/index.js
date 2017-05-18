@@ -18,7 +18,7 @@ export function checkAcceptance() {
     dispatch({ type: FETCHING_MHV_TERMS_ACCEPTANCE });
 
     apiRequest(
-      'terms_and_conditions/mhvac/versions/latest/user_data',
+      '/terms_and_conditions/mhvac/versions/latest/user_data',
       null,
       response => dispatch({
         type: FETCHING_MHV_TERMS_ACCEPTANCE_SUCCESS,
