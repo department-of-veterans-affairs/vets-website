@@ -35,7 +35,7 @@ import { createChildSchema, uiSchema as childUI, createChildIncomeSchema, childI
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 
-import { validateServiceDates } from '../validation';
+import { validateServiceDates, validateMarriageDate } from '../validation';
 
 const childSchema = createChildSchema(fullSchemaHca);
 const childIncomeSchema = createChildIncomeSchema(fullSchemaHca);
@@ -488,7 +488,10 @@ const formConfig = {
         spouseInformation: {
           path: 'household-information/spouse-information',
           title: 'Spouse’s information',
-          depends: (formData) => formData.discloseFinancialInformation &&
+          initialData: {
+            veteranDateOfBirth: '1990-01-03'
+          },
+          depends: (formData) => formData.discloseFinancialInformation && formData.maritalStatus &&
             (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated'),
           uiSchema: {
             'ui:title': 'Spouse’s information',
@@ -497,12 +500,12 @@ const formConfig = {
             spouseSocialSecurityNumber: _.merge(ssnUI, {
               'ui:title': 'Spouse’s social security number',
             }),
-            spouseDateOfBirth: {
-              'ui:title': 'Date of birth'
-            },
-            dateOfMarriage: {
-              'ui:title': 'Date of marriage'
-            },
+            spouseDateOfBirth: currentOrPastDateUI('Date of birth'),
+            dateOfMarriage: _.assign(currentOrPastDateUI('Date of marriage'), {
+              'ui:validations': [
+                validateMarriageDate
+              ]
+            }),
             sameAddress: {
               'ui:title': 'Do you have the same address as your spouse?',
               'ui:widget': 'yesNo'
