@@ -12,6 +12,7 @@
     "lint:js:changed": "LIST=`git diff-index --name-only HEAD | grep .*\\.js | grep -v json`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
     "lint:sass": "sass-lint -c config/sass-lint.yml --verbose",
     "nightwatch": "nightwatch -c config/nightwatch.js",
+    "postinstall": "npm rebuild node-sass",
     "reset:env": "./script/reset-environment.sh",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
