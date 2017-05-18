@@ -1,34 +1,25 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { checkAcceptance } from '../../user-profile/actions';
 
 import AcceptTermsPrompt from './AcceptTermsPrompt';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 class RequiredTermsAcceptanceView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true
-    };
-  }
-
   componentWillMount() {
-    // fetchTerms(this.props.termsName);
+    this.props.checkAcceptance();
     window.scrollTo(0, 0);
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ loading: false });
-    }, 2000);
-  }
-
   render() {
-    let view;
-
+    const { terms } = this.props;
     const acceptTermsComponent = <AcceptTermsPrompt/>;
 
-    if (this.state.loading === true) {
+    let view;
+
+    if (terms.loading === true) {
       view = <LoadingIndicator setFocus message="Loading your information"/>;
     } else {
       view = acceptTermsComponent;
@@ -46,4 +37,17 @@ RequiredTermsAcceptanceView.propTypes = {
   termsName: PropTypes.string.isRequired
 };
 
-export default RequiredTermsAcceptanceView;
+
+const mapStateToProps = (state) => {
+  const userState = state.user;
+
+  return {
+    terms: userState.profile.terms,
+  };
+};
+
+const mapDispatchToProps = {
+  checkAcceptance,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RequiredTermsAcceptanceView);
