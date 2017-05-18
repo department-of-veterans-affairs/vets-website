@@ -463,7 +463,7 @@ describe('Schemaform helpers:', () => {
     });
   });
 
-  describe.only('checkValidSchema', () => {
+  describe('checkValidSchema', () => {
     it('should return true for valid schema', () => {
       const s = {
         type: 'object',
