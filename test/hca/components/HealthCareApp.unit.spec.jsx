@@ -1,12 +1,12 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import { createStore } from 'redux';
 
 import HealthCareApp from '../../../src/js/hca/components/HealthCareApp';
 import reducer from '../../../src/js/hca/reducers';
+import createCommonStore from '../../../src/js/common/store';
 
-const store = createStore(reducer);
+const store = createCommonStore(reducer);
 
 describe('<HealthCareApp>', () => {
   it('Sanity check the component renders', () => {

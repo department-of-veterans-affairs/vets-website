@@ -2,15 +2,16 @@ import 'core-js';
 import { createHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory } from 'react-router';
-import { store } from './store';
 import initReact from '../common/init-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import routes from './routes';
+import { store } from './store';
+import createLoginWidget from '../login/login-entry';
 
 require('../../sass/facility-locator.scss');
 
-require('../login/login-entry.jsx');
+createLoginWidget(store);
 
 const history = useRouterHistory(createHistory)({
   basename: '/facilities'

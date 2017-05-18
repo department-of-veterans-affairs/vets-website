@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux';
-
 import ModalDisplayReducer from './modals';
 import PageTitleReducer from './title';
 import PreviewModeReducer from './preview';
@@ -11,7 +9,7 @@ import InstitutionDetailsFilterReducer from './filter';
 import ProfileReducer from './profile';
 import CalculatorReducer from './calculator';
 
-const rootReducer = combineReducers({
+const rootReducer = {
   modals: ModalDisplayReducer,
   pageTitle: PageTitleReducer,
   preview: PreviewModeReducer,
@@ -22,6 +20,6 @@ const rootReducer = combineReducers({
   filters: InstitutionDetailsFilterReducer,
   profile: ProfileReducer,
   calculator: CalculatorReducer,
-});
+};
 
 export default rootReducer;
