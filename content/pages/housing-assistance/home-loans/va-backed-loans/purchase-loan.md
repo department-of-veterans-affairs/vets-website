@@ -66,34 +66,44 @@ Buying a home is a complex process, and getting a VA-backed home loan is only on
 <ol class="process">
 <li class="step one">
 
-**Look at your current finances.** Go over your credit score, income, expenses, and monthly budget. Make sure you’re ready to buy a home—and decide how much you want to spend on a mortgage. Don’t forget to include closing costs. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
+##### Look at your current finances.
+Go over your credit score, income, expenses, and monthly budget. Make sure you’re ready to buy a home—and decide how much you want to spend on a mortgage. Don’t forget to include closing costs. [Get more advice from the Consumer Financial Protection Bureau](http://www.consumerfinance.gov/owning-a-home/process/prepare/). 
 
 </li>
 
 <li class="step two">
 
-**Find a lender.** You’ll go through a private bank or mortgage company—not through us—to get your loan. Lenders offer different loan interest rates and fees, so shop around for the loan that best meets your needs. 
+##### Find a lender.
+
+You’ll go through a private bank or mortgage company—not through us—to get your loan. Lenders offer different loan interest rates and fees, so shop around for the loan that best meets your needs. 
 
 </li>
 
 <li class="step three">
 
-**Apply for your VA-backed home loan Certificate of Eligibility (COE).** You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. <br />
+##### Apply for your VA-backed home loan Certificate of Eligibility (COE).
+
+You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. <br />
 
 [Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/). <br />
+
 [Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
 </li>
 
 <li class="step four">
 
-**Find a real estate agent.** Read all agreements—and make sure you understand any charges, fees, and commissions—before signing with an agent.
+##### Find a real estate agent.
+
+Read all agreements—and make sure you understand any charges, fees, and commissions—before signing with an agent.
 
 </li>
 
 <li class="step last five">
 
-**Shop for a home.** Look at houses in your price range until you find one that works for you.
+##### Shop for a home.
+
+Look at houses in your price range until you find one that works for you.
 
 </li>
 </ol>
@@ -105,42 +115,54 @@ Once you’ve found the house you want to buy:
 <ol class="process">
 <li class="step one">
 
-**Work with your agent to put together and sign a purchase agreement.** Be sure the sales contract includes the “VA Escape Clause.” This voids the contract if the property doesn’t appraise for the contract price. 
+##### Work with your agent to put together and sign a purchase agreement.
+
+Be sure the sales contract includes the “VA Escape Clause.” This voids the contract if the property doesn’t appraise for the contract price. 
 
 </li>
 
 <li class="step two">
 
-**Have the house appraised and inspected.** A VA-approved appraiser will appraise the house to make sure it meets basic property condition requirements. You’ll also want to hire a certified inspector to check for any major defects.
+##### Have the house appraised and inspected.
+
+A VA-approved appraiser will appraise the house to make sure it meets basic property condition requirements. You’ll also want to hire a certified inspector to check for any major defects.
 
 </li>
 
 <li class="step three">
 
-**Read the Closing Disclosure.** Your lender must give you a Closing Disclosure at least 3 business days before closing. Read this carefully. It includes loan terms, fees, closing costs, and your estimated monthly mortgage payments.
+##### Read the Closing Disclosure.
+
+Your lender must give you a Closing Disclosure at least 3 business days before closing. Read this carefully. It includes loan terms, fees, closing costs, and your estimated monthly mortgage payments.
 
 </li>
 
 <li class="step four">
 
-**Complete all paperwork from your lender.** You may need to provide more information or documents to your lender during this phase.  
+##### Complete all paperwork from your lender.
+
+You may need to provide more information or documents to your lender during this phase.  
 
 </li>
 
 <li class="step five">
 
-**Go to the closing meeting.** This may be held at a title company, escrow office, or attorney’s office. Be prepared to sign a lot of documents—and be sure to take the time to read everything before you sign.
+##### Go to the closing meeting.
+
+This may be held at a title company, escrow office, or attorney’s office. Be prepared to sign a lot of documents—and be sure to take the time to read everything before you sign.
 
 </li>
 
 <li class="step last six">
 
-**Move in.** After closing, you’re ready to move in to your new home. Congratulations!  
+##### Move in.
+
+After closing, you’re ready to move in to your new home. Congratulations!  
 
 </li>
 </ol>
 
-If you need more help:
+#### If you need more help:
 
 [Look for workshops from Department of Housing and Urban Development–approved housing counseling agencies](http://www.hud.gov/offices/hsg/sfh/hcc/hcs.cfm?weblistaction=summary).
 

@@ -70,7 +70,7 @@ You may be able to get a COE if you were discharged under conditions other than 
 
 ### Ready to apply?
 
-[Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility).
+[Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility)
 
 ### What if I don’t meet the minimum service requirements?
 

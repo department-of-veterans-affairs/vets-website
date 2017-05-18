@@ -50,13 +50,17 @@ You'll want to keep closing costs in mind when refinancing a loan, as they can a
 <ol class="process">
 <li class="step one">
 
-**Find a lender.** You’ll go through a private bank or mortgage company—not directly through us—to get a cash-out refinance loan. Terms and fees may vary, so contact several lenders to check out your options.
+#### Find a lender.
+
+You’ll go through a private bank or mortgage company—not directly through us—to get a cash-out refinance loan. Terms and fees may vary, so contact several lenders to check out your options.
 
 </li>
 
 <li class="step two">
 
-**Apply for your VA-backed home loan Certificate of Eligibility (COE).** You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. <br />
+#### Apply for your VA-backed home loan Certificate of Eligibility (COE).
+
+You’ll need to show your COE to your lender as proof that you qualify for the home loan benefit. <br />
 [Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility). <br />
 [Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility).
 
@@ -64,7 +68,9 @@ You'll want to keep closing costs in mind when refinancing a loan, as they can a
 
 <li class="step three">
 
-**Give your lender any needed information.** In addition to your COE, you’ll need to give your lender:
+#### Give your lender any needed information.
+
+In addition to your COE, you’ll need to give your lender:
 -	Copies of paycheck stubs for the most recent 30-day period
 -	W-2 forms for the previous 2 years
 -	A copy of your federal income tax returns for the previous 2 years (required by many, but not all lenders)
@@ -76,7 +82,7 @@ You'll want to keep closing costs in mind when refinancing a loan, as they can a
 
 <li class="step last four">
 
-**Follow your lender’s process for closing on the loan, and pay your closing costs.** 
+#### Follow your lender’s process for closing on the loan, and pay your closing costs.
 
 </li>
 </ol>
