@@ -21,6 +21,8 @@ class RequiredTermsAcceptanceView extends React.Component {
 
     if (terms.loading === true) {
       view = <LoadingIndicator setFocus message="Loading your information"/>;
+    } else if (terms.acceptance) {
+      view = this.props.children;
     } else {
       view = acceptTermsComponent;
     }
