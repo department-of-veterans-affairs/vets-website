@@ -201,7 +201,7 @@ class ArrayField extends React.Component {
                 <div className="row small-collapse">
                   <SchemaForm
                       reviewMode
-                      pageData={item}
+                      data={item}
                       schema={this.getItemSchema(index)}
                       uiSchema={arrayPageConfig.uiSchema}
                       title={pageTitle}
