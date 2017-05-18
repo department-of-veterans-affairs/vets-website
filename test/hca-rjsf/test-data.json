@@ -9,9 +9,11 @@
   "veteranGrossIncome": 1,
   "veteranNetIncome": 2,
   "veteranOtherIncome": 3,
-  "spouseGrossIncome": 4,
-  "spouseNetIncome": 5,
-  "spouseOtherIncome": 6,
+  "view:spouseIncome": {
+    "spouseGrossIncome": 4,
+    "spouseNetIncome": 5,
+    "spouseOtherIncome": 6
+  },
   "children": [
     {
       "childFullName": {
@@ -22,7 +24,7 @@
       "childSocialSecurityNumber": "321321321",
       "childDateOfBirth": "1901-10-09",
       "childBecameDependent": "1901-10-09",
-      "childEducationExpenses": 0,
+      "childEducationExpenses": 1,
       "grossIncome": 7,
       "netIncome": 8,
       "otherIncome": 9
@@ -36,7 +38,7 @@
       "childSocialSecurityNumber": "123456543",
       "childDateOfBirth": "1902-11-03",
       "childBecameDependent": "1902-11-03",
-      "childEducationExpenses": 0,
+      "childEducationExpenses": 1,
       "grossIncome": 10,
       "netIncome": 11,
       "otherIncome": 12
@@ -73,6 +75,7 @@
     "first": "First",
     "last": "Last"
   },
+  "view:reportChildren": true,
   "privacyAgreementAccepted": true,
   "discloseFinancialInformation": true
 }
