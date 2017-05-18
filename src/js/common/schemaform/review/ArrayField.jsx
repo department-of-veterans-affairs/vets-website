@@ -152,6 +152,7 @@ class ArrayField extends React.Component {
 
     // TODO: Make this better; it's super hacky for now.
     const itemCountLocked = uiSchema['ui:field'] === 'BasicArrayField';
+    const items = itemCountLocked ? this.props.arrayData : this.state.items;
 
     return (
       <div>
@@ -164,10 +165,10 @@ class ArrayField extends React.Component {
           </div>}
         <div className="va-growable va-growable-review">
           <Element name={`topOfTable_${fieldName}`}/>
-          {this.state.items.map((item, index) => {
-            const isLast = this.state.items.length === (index + 1);
+          {items.map((item, index) => {
+            const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index];
-            const showReviewButton = !itemCountLocked && (!schema.minItems || this.state.items.length > schema.minItems);
+            const showReviewButton = !itemCountLocked && (!schema.minItems || items.length > schema.minItems);
             const itemSchema = this.getItemSchema(index);
             const itemTitle = itemSchema ? itemSchema.title : '';
 
@@ -177,7 +178,7 @@ class ArrayField extends React.Component {
                   <Element name={`table_${fieldName}_${index}`}/>
                   <div className="row small-collapse schemaform-array-row" id={`table_${fieldName}_${index}`}>
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast && uiSchema['ui:options'].itemName && this.state.items.length > 1
+                      {isLast && uiSchema['ui:options'].itemName && items.length > 1
                           ? <h5>New {uiSchema['ui:options'].itemName}</h5>
                           : null}
                       <SchemaForm
