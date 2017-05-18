@@ -124,7 +124,6 @@ smith.metadata({ buildtype: options.buildtype });
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('healthcare/health-records/*');
   ignoreList.push('healthcare/rjsf/*');
   ignoreList.push('va-letters/*');
 }
@@ -341,7 +340,7 @@ smith.use(sitemap({
 }));
 // TODO(awong): Does anything even use the results of this plugin?
 
-if (!options.watch) {
+if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
   smith.use(blc({
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.

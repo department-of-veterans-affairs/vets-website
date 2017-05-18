@@ -1,20 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { getCurrentFormStep, getCurrentPageName } from '../utils/helpers';
+
 export default class NavHeader extends React.Component {
   render() {
     const { chapters, path, className } = this.props;
     const total = chapters.length;
-
-    let step;
-    let name;
-    chapters
-      .forEach((chapter, index) => {
-        if (chapter.pages.some(page => page.path === path)) {
-          step = index + 1;
-          name = chapter.name;
-        }
-      });
+    const step = getCurrentFormStep(chapters, path);
+    const name = getCurrentPageName(chapters, path);
 
     return step
       ? <h4

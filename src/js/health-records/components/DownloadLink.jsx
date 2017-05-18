@@ -21,6 +21,11 @@ class DownloadLink extends React.Component {
 
     if (this.state.downloading) return;
 
+    window.dataLayer.push({
+      event: 'health-record-download',
+      'hr-record-type': this.props.docType,
+    });
+
     if (this.downloadUrl) {
       window.open(this.downloadUrl, '_blank');
       return;
