@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import _ from 'lodash';
 
 import { UPDATE_ADDRESS_CONFIRMATION } from '../actions/index';
 
@@ -12,7 +12,7 @@ export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_ADDRESS_CONFIRMATION: {
       newState = Object.assign({}, state);
-      _.set('addressConfirmed', action.value, newState);
+      _.set(newState, 'addressConfirmed', action.value);
       return newState;
     }
     default: {

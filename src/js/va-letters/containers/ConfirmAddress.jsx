@@ -19,13 +19,13 @@ class ConfirmAddress extends React.Component {
         <div className="usa-grid form-progress-buttons">
           <div className="small-6 medium-2 columns">
             <ProgressButton
-                onButtonClick={this.props.onConfirmationOfAddress(true)}
+                onButtonClick={() => this.props.onConfirmationOfAddress(true)}
                 buttonText="Yes"
                 buttonClass="usa-button-primary"/>
           </div>
           <div className="small-6 medium-2 end columns">
             <ProgressButton
-                onButtonClick={this.props.onConfirmationOfAddress(false)}
+                onButtonClick={() => this.props.onConfirmationOfAddress(false)}
                 buttonText="No"
                 buttonClass="usa-button-outline"/>
           </div>
@@ -50,4 +50,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmAddress);
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(ConfirmAddress);
