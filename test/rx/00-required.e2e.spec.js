@@ -38,7 +38,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Ensure refill request is submitted
     client.expect.element('.rx-prescription-card:nth-of-type(2) button.rx-trigger').text.to.equal('Submitted');
 
-    // Ensure prescription detail page is accessible
+    // Ensure prescription detail page renders
     client
       .click('.rx-prescription-info .rx-prescription-title a')
       .waitForElementVisible('#rx-details', Timeouts.slow)
@@ -48,7 +48,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Assert existence of correct message provider link
     client.expect.element('a.rx-message-provider-link').to.have.attribute('href').which.contains('/healthcare/messaging/compose');
 
-    // Ensure track package page is accessible
+    // Ensure track package page renders
     client
       .click('.va-tabs li:last-child a')
       .waitForElementVisible('#rx-track-package', Timeouts.slow)
@@ -58,6 +58,9 @@ module.exports = E2eHelpers.createE2eTest(
     client.expect.element('.rx-detail-history tr:nth-of-type(1) a.rx-track-package-link').text.to.equal('657068347564');
     client.expect.element('.rx-detail-history tr:nth-of-type(2) a.rx-track-package-link').text.to.equal('345787647659');
     client.expect.element('.rx-detail-history tr:nth-of-type(3) a.rx-track-package-link').text.to.equal('345787647654');
+    client.expect.element('.rx-detail-history tr:nth-of-type(2) div:nth-of-type(1)').text.to.equal('ACETAMINOPHEN 325MG TAB');
+    client.expect.element('.rx-detail-history tr:nth-of-type(2) div:nth-of-type(2)').text.to.equal('ETHAMBUTOL HCL 100MG TAB');
+    client.expect.element('.rx-detail-history tr:nth-of-type(2) div:nth-of-type(3)').text.to.equal('PROBUCOL 250MG TAB');
 
     // Ensure history card renders
     client

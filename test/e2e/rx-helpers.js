@@ -102,7 +102,20 @@ const trackings = {
         ndcNumber: '00781171601',
         shippedDate: '2016-07-06T04:00:00.000Z',
         deliveryService: 'UsPS',
-        otherPrescriptions: []
+        otherPrescriptions: [
+          {
+            ndcNumber: '00781171601',
+            prescriptionName: 'ETHAMBUTOL HCL 100MG TAB',
+            prescriptionNumber: '2719553',
+            stationNumber: '12'
+          },
+          {
+            ndcNumber: '00781171601',
+            prescriptionName: 'PROBUCOL 250MG TAB',
+            prescriptionNumber: '2719555',
+            stationNumber: '12'
+          }
+        ]
       },
       links: {
         self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
