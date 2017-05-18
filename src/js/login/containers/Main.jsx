@@ -162,7 +162,8 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
-    }
+    },
+    dispatch
   };
 };
 

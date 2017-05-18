@@ -16,6 +16,8 @@ export default function createCommonStore(appReducer = {}) {
 
   return createStore(combineReducers(reducer), compose(
     applyMiddleware(thunk),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
+    __BUILDTYPE__ === 'development' && window.devToolsExtension
+      ? window.devToolsExtension()
+      : f => f
   ));
 }
