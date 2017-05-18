@@ -158,9 +158,7 @@ const formConfig = {
           title: 'Veteran information',
           initialData: {},
           uiSchema: {
-            veteranDateOfBirth: {
-              'ui:title': 'Date of birth'
-            },
+            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
             veteranSocialSecurityNumber: ssnUI,
             'view:placeOfBirth': {
               'ui:title': 'Place of birth',
@@ -488,9 +486,7 @@ const formConfig = {
         spouseInformation: {
           path: 'household-information/spouse-information',
           title: 'Spouse’s information',
-          initialData: {
-            veteranDateOfBirth: '1990-01-03'
-          },
+          initialData: {},
           depends: (formData) => formData.discloseFinancialInformation && formData.maritalStatus &&
             (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated'),
           uiSchema: {
