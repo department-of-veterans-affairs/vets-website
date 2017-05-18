@@ -1,9 +1,5 @@
 def envNames = ['development', 'staging', 'production']
 
-def isContentTeamUpdate = {
-  env.BRANCH_NAME ==~ /^content\/wip\/.*/
-}
-
 def isReviewable = {
   env.BRANCH_NAME != 'production' &&
     env.BRANCH_NAME != 'master'
@@ -49,9 +45,6 @@ node('vets-website-linting') {
   // Check package.json for known vulnerabilities
 
   stage('Security') {
-    if (isContentTeamUpdate()) {
-      return
-    }
 
     dockerImage.inside(args) {
       sh "cd /application && nsp check"
@@ -61,9 +54,6 @@ node('vets-website-linting') {
   // Check source for syntax issues
 
   stage('Lint') {
-    if (isContentTeamUpdate()) {
-      return
-    }
 
     dockerImage.inside(args) {
       sh "cd /application && npm --no-color run lint"
@@ -71,9 +61,6 @@ node('vets-website-linting') {
   }
 
   stage('Unit') {
-    if (isContentTeamUpdate()) {
-      return
-    }
 
     dockerImage.inside(args) {
       sh "cd /application && npm --no-color run test:coverage"
@@ -99,10 +86,6 @@ node('vets-website-linting') {
   stage('Build') {
     def buildList = ['production']
 
-    if (isContentTeamUpdate()) {
-      buildList = ['development']
-    }
-
     if (env.BRANCH_NAME == 'master') {
       buildList << 'development'
       buildList << 'staging'
@@ -117,7 +100,7 @@ node('vets-website-linting') {
         builds[envName] = {
           dockerImage.inside(args) {
             sh "cd /application && npm --no-color run build -- --buildtype=${envName}"
-            sh "cd /application && echo \"${buildDetails('buildtype': envName)}\" > build/${envName}/BUILD.txt" 
+            sh "cd /application && echo \"${buildDetails('buildtype': envName)}\" > build/${envName}/BUILD.txt"
           }
         }
       } else {
@@ -133,9 +116,6 @@ node('vets-website-linting') {
   // Run E2E and accessibility tests
 
   stage('Integration') {
-    if (isContentTeamUpdate()) {
-      return
-    }
 
     try {
       parallel (
@@ -157,9 +137,6 @@ node('vets-website-linting') {
   }
 
   stage('Deploy') {
-    if (isContentTeamUpdate()) {
-      throw new hudson.AbortException("content branches fail intentionally")
-    }
 
     if (!isDeployable()) {
       return
