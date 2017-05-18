@@ -61,13 +61,44 @@ const noContents = () => {
 };
 
 class CreateMHVAccountPrompt extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {};
+  }
+
+  handleSubmit() {
+    // In here we need to POST to
+    // /v0/terms_and_conditions/mhvac/versions/latest/user_data
+    // to accept the terms, and then we need to let the RequiredTermsAcceptanceView
+    // display its children.
+  }
+
+  handleScroll(event) {
+    const ct = event.currentTarget;
+    if ((ct.scrollTop + ct.offsetHeight) >= ct.scrollHeight) {
+      this.setState({ scrolledToBottom: true });
+    }
+  }
+
+  componentWillMount() {
+    this.setState({ scrolledToBottom: false });
+  }
+
   render() {
+    let submitButton = <button className="usa-button-disabled" disabled>Submit</button>;
+    if (this.state.scrolledToBottom) {
+      submitButton = <button className="usa-button" onClick={this.handleSubmit}>>Submit</button>;
+    }
+
     return (
-      <div className="row primary">
+      <div className="row primary terms-acceptance">
         <div className="small-12 columns usa-content">
+          <h1>{this.state.scrolledToBottom}</h1>
           {headerContents()}
           <h1>{termsTitle()}</h1>
-          <div className="terms-scroller">
+          <div className="terms-scroller" onScroll={this.handleScroll}>
             {termsContents()}
           </div>
           <div className="form-radio-buttons">
@@ -84,7 +115,7 @@ class CreateMHVAccountPrompt extends React.Component {
             {footerContents()}
           </div>
           <div>
-            <button className="usa-button-disabled" disabled>Submit</button>
+            {submitButton}
             <button className="usa-button-outline">Cancel</button>
           </div>
         </div>

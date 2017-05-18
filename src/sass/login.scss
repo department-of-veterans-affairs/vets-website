@@ -30,3 +30,11 @@
     display: inline;
   }
 }
+
+.terms-acceptance {
+  .terms-scroller {
+    max-height: 200px;
+    overflow: auto;
+    border: 2px solid $color-gray-dark;
+  }
+}
