@@ -175,16 +175,10 @@ export class Main extends React.Component {
     };
 
     const datePickerDisabled = dateOption !== 'custom';
-
-    const invalidFormatError =
-      [this.state.startDateError, this.state.endDateError]
-        .indexOf('invalid') > -1;
-    const missingDateError =
-    [this.state.startDateError, this.state.endDateError]
-      .indexOf('missing') > -1;
-    const startDateError =
-    [this.state.startDateError, this.state.endDateError]
-      .indexOf('startDate') > -1;
+    const errors = [this.state.startDateError, this.state.endDateError];
+    const invalidFormatError = errors.includes('invalid');
+    const missingDateError = errors.includes('missing');
+    const startDateError = errors.includes('startDate');
 
     const customDateOptionClass = classNames({
       'custom-date-option': true,
