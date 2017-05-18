@@ -12,12 +12,11 @@ import reducer from './reducers';
 import createCommonStore from '../common/store';
 import createLoginWidget from '../login/login-entry';
 
-require('../common');  // Bring in the common javascript.
+require('../common');
 require('../../sass/va-letters.scss');
 
 const store = createCommonStore(reducer);
 createLoginWidget(store);
-
 const history = useRouterHistory(createHistory)({
   basename: '/va-letters'
 });
