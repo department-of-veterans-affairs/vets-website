@@ -67,7 +67,10 @@ describe('schemaform createSchemaFormReducer', () => {
       const state = reducer({
         pages: {
           page1: {
-            schema: {},
+            schema: {
+              type: 'object',
+              properties: {}
+            },
             uiSchema: {},
           }
         },
