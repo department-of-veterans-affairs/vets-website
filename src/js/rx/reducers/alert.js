@@ -19,14 +19,21 @@ export default function alert(state = initialState, action) {
     case 'CLOSE_ALERT':
       return initialState;
 
-    case 'SAVE_PREFERENCES_FAILURE':
+    case 'RX_LOADING_PREFERENCES':
+    case 'RX_SAVING_PREFERENCES':
+      return initialState;
+
+    case 'RX_SAVE_PREFERENCES_FAILURE': {
+      const { errors } = action;
+      const error = errors.length && `${errors[0].title}.`;
       return {
-        content: <b>Failed to save your changes.</b>,
+        content: <b>Failed to save changes. {error}</b>,
         status: 'error',
         visible: true
       };
+    }
 
-    case 'SAVE_PREFERENCES_SUCCESS':
+    case 'RX_SAVE_PREFERENCES_SUCCESS':
       return {
         content: <b>Your changes have been saved.</b>,
         status: 'success',

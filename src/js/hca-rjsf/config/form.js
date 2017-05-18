@@ -26,15 +26,17 @@ import IntroductionPage from '../components/IntroductionPage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import ChildView from '../components/ChildView';
 
-// <<<<<<< HEAD
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
 
-import { schema as childSchema, uiSchema as childUI } from '../definitions/child';
-// =======
+import { createChildSchema, uiSchema as childUI, createChildIncomeSchema, childIncomeUiSchema } from '../definitions/child';
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-// >>>>>>> master
+
+// import testData from '../../../../test/hca-rjsf/test-data.json';
+
+const childSchema = createChildSchema(fullSchemaHca);
+const childIncomeSchema = createChildIncomeSchema(fullSchemaHca);
 
 const {
   mothersMaidenName,
@@ -116,7 +118,7 @@ const formConfig = {
     fullName,
     ssn: ssn.oneOf[0], // Mmm...not a fan.
     phone,
-    child: childSchema(fullSchemaHca),
+    child: childSchema,
     monetaryValue,
   },
   chapters: {
@@ -254,7 +256,7 @@ const formConfig = {
           title: 'Permanent address',
           initialData: {},
           uiSchema: {
-            address: addressUI('Permanent address')
+            address: addressUI('Permanent address', true)
           },
           schema: {
             type: 'object',
@@ -544,11 +546,7 @@ const formConfig = {
         spouseInformation: {
           path: 'household-information/spouse-information',
           title: 'Spouse’s information',
-          // TODO: When veteranInformation is completed, uncomment the maritalStatus comparison
-          depends: (data) => {
-            return data.discloseFinancialInformation; // &&
-              // data.veteranInformation.data.maritalStatus === 'married'
-          },
+          depends: (formData) => formData.discloseFinancialInformation && formData.maritalStatus.toLowerCase() !== 'married',
           uiSchema: {
             'ui:title': 'Spouse’s information',
             'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
@@ -586,7 +584,7 @@ const formConfig = {
                 // Only show if 'No' is selected for sameAddress
                 hideIf: (formData) => formData.sameAddress !== false
               },
-              spouseAddress: _.merge(addressUI(''), {
+              spouseAddress: _.merge(addressUI('', true), {
                 'ui:options': {
                   updateSchema: (formData) => {
                     // If formData.sameAddress === false, the address fields are
@@ -636,7 +634,6 @@ const formConfig = {
               'ui:widget': 'yesNo'
             },
             children: {
-              'ui:title': '',
               items: childUI,
               'ui:options': {
                 expandUnder: 'view:reportChildren',
@@ -658,6 +655,7 @@ const formConfig = {
         annualIncome: {
           path: 'household-information/annual-income',
           title: 'Annual income',
+          // initialData: testData, // FOR TESTING ONLY
           depends: (data) => data.discloseFinancialInformation,
           uiSchema: {
             'ui:title': 'Annual income',
@@ -674,24 +672,26 @@ const formConfig = {
             'view:spouseIncome': {
               'ui:title': 'Spouse income',
               'ui:options': {
-                hideIf: (formData) => formData.maritalStatus !== 'married' // Something else too?
+                hideIf: (formData) => !formData.maritalStatus || (formData.maritalStatus.toLowerCase() !== 'married') // Something else too?
               },
               spouseGrossIncome: {
                 'ui:title': 'Spouse gross annual income from employment',
-                'ui:required': (formData) => formData.maritalStatus === 'married'
+                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married')
               },
               spouseNetIncome: {
                 'ui:title': 'Spouse Net Income from your Farm, Ranch, Property or Business',
-                'ui:required': (formData) => formData.maritalStatus === 'married'
+                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married')
               },
               spouseOtherIncome: {
                 'ui:title': 'Spouse Other Income Amount',
-                'ui:required': (formData) => formData.maritalStatus === 'married'
+                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married')
               }
             },
-            'view:childrenIncome': {
+            children: {
+              // 'ui:title': 'Child income',
+              'ui:field': 'BasicArrayField',
+              items: childIncomeUiSchema,
               'ui:options': {
-                // Or should this be !formData.reportChildren?
                 hideIf: (formData) => !_.get('children.length', formData)
               }
             }
@@ -699,6 +699,10 @@ const formConfig = {
           schema: {
             type: 'object',
             required: ['veteranGrossIncome', 'veteranNetIncome', 'veteranOtherIncome'],
+            definitions: {
+              // Override the default schema and use only the income fields
+              child: childIncomeSchema
+            },
             properties: {
               veteranGrossIncome,
               veteranNetIncome,
@@ -711,7 +715,9 @@ const formConfig = {
                   spouseOtherIncome
                 }
               },
-              'view:childrenIncome': {}
+              children: _.merge(children, {
+                minItems: 1
+              })
             }
           }
         },

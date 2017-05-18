@@ -9,9 +9,9 @@ export function fetchPreferences() {
     apiRequest(
       baseUrl,
       null,
-      data => dispatch({
+      response => dispatch({
         type: 'RX_FETCH_PREFERENCES_SUCCESS',
-        preferences: data.data.attributes
+        preferences: response.data.attributes
       }),
       () => dispatch({ type: 'RX_FETCH_PREFERENCES_FAILURE' })
     );
@@ -32,7 +32,10 @@ export function savePreferences(preferences) {
       baseUrl,
       settings,
       () => dispatch({ type: 'RX_SAVE_PREFERENCES_SUCCESS' }),
-      () => dispatch({ type: 'RX_SAVE_PREFERENCES_FAILURE' })
+      response => dispatch({
+        type: 'RX_SAVE_PREFERENCES_FAILURE',
+        errors: response.errors
+      })
     );
   };
 }
