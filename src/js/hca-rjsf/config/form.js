@@ -35,7 +35,7 @@ import { createChildSchema, uiSchema as childUI, createChildIncomeSchema, childI
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
 
-// import testData from '../../../../test/hca-rjsf/test-data.json';
+import { validateServiceDates } from '../validation';
 
 const childSchema = createChildSchema(fullSchemaHca);
 const childIncomeSchema = createChildIncomeSchema(fullSchemaHca);
@@ -358,7 +358,10 @@ const formConfig = {
               'ui:options': {
                 labels: dischargeTypeLabels
               }
-            }
+            },
+            'ui:validations': [
+              validateServiceDates
+            ]
           },
           schema: {
             type: 'object',
@@ -485,7 +488,8 @@ const formConfig = {
         spouseInformation: {
           path: 'household-information/spouse-information',
           title: 'Spouse’s information',
-          depends: (formData) => formData.discloseFinancialInformation && formData.maritalStatus.toLowerCase() !== 'married',
+          depends: (formData) => formData.discloseFinancialInformation &&
+            (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated'),
           uiSchema: {
             'ui:title': 'Spouse’s information',
             'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
@@ -609,19 +613,20 @@ const formConfig = {
             'view:spouseIncome': {
               'ui:title': 'Spouse income',
               'ui:options': {
-                hideIf: (formData) => !formData.maritalStatus || (formData.maritalStatus.toLowerCase() !== 'married') // Something else too?
+                hideIf: (formData) => !formData.maritalStatus ||
+                  (formData.maritalStatus.toLowerCase() !== 'married' && formData.maritalStatus.toLowerCase() !== 'separated')
               },
               spouseGrossIncome: {
                 'ui:title': 'Spouse gross annual income from employment',
-                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married')
+                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated')
               },
               spouseNetIncome: {
                 'ui:title': 'Spouse Net Income from your Farm, Ranch, Property or Business',
-                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married')
+                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated')
               },
               spouseOtherIncome: {
                 'ui:title': 'Spouse Other Income Amount',
-                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married')
+                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married' || formData.maritalStatus.toLowerCase() === 'separated')
               }
             },
             children: {

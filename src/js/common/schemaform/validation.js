@@ -272,7 +272,7 @@ export function validateRoutingNumber(errors, routingNumber, formData, schema, e
   }
 }
 
-function convertToDateField(dateStr) {
+export function convertToDateField(dateStr) {
   const date = parseISODate(dateStr);
   return Object.keys(date).reduce((dateField, part) => {
     const datePart = {};
