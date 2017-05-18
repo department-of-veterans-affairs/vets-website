@@ -19,7 +19,7 @@ function AppContent({ children, isDataAvailable }) {
   if (unregistered) {
     view = (
       <h4>
-        To view and download your VA letters, you need something something something.
+        To view and download your VA letters, you need to verify your identity (or whatever).
       </h4>
     );
   } else {
@@ -39,9 +39,11 @@ class VALettersApp extends React.Component {
     const { children, location } = this.props;
 
     return (
+      // TODO: change the service name below from "user-profile" to
+      // "evss-letters" or "va-letters" once its defined in vets-api
       <RequiredLoginView
           authRequired={3}
-          serviceRequired={"evss-letters"}
+          serviceRequired={"user-profile"}
           userProfile={this.props.profile}
           loginUrl={this.props.loginUrl}
           verifyUrl={this.props.verifyUrl}>
