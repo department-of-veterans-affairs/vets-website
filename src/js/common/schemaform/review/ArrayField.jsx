@@ -169,6 +169,7 @@ class ArrayField extends React.Component {
             const isEditing = this.state.editing[index];
             const showReviewButton = !itemCountLocked && (!schema.minItems || this.state.items.length > schema.minItems);
             const itemSchema = this.getItemSchema(index);
+            const itemTitle = itemSchema ? itemSchema.title : '';
 
             if (isEditing) {
               return (
@@ -181,7 +182,7 @@ class ArrayField extends React.Component {
                           : null}
                       <SchemaForm
                           data={item}
-                          schema={this.getItemSchema(index)}
+                          schema={itemSchema}
                           uiSchema={arrayPageConfig.uiSchema}
                           title={pageTitle}
                           hideTitle
@@ -211,7 +212,7 @@ class ArrayField extends React.Component {
                       data={item}
                       schema={itemSchema}
                       uiSchema={arrayPageConfig.uiSchema}
-                      title={itemSchema.title || ''}
+                      title={itemTitle}
                       name={fieldName}
                       onChange={(data) => this.handleSetData(index, data)}
                       onEdit={() => this.handleEdit(index, !isEditing)}
