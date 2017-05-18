@@ -55,7 +55,18 @@ class VALettersApp extends React.Component {
                 <NavHeader path={location.pathname} chapters={chapters} className="nav-header-schemaform"/>
               </div>
               <div className="form-panel">
-                {children}
+                <div className="usa-grid">
+                  <div className="usa-width-two-thirds">
+                    <FormTitle title="Download VA Letters"/>
+                    <SegmentedProgressBar total={chapters.length} current={getCurrentFormStep(chapters, location.pathname)}/>
+                    <div className="schemaform-chapter-progress">
+                      <NavHeader path={location.pathname} chapters={chapters} className="nav-header-schemaform"/>
+                    </div>
+                    <div className="progress-box progress-box-schemaform">
+                      {children}
+                    </div>
+                  </div>
+                </div>  
               </div>
             </div>
           </div>

@@ -6,9 +6,45 @@ import { updateAddressConfirmation } from '../actions';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
 class ConfirmAddress extends React.Component {
+  constructor(props) {
+    super(props);
+    this.confirmAddress = this.confirmAddress.bind(this);
+  }
+
+  confirmAddress() {
+    this.props.onConfirmationOfAddress(true);
+    this.props.router.push('/download-letters');
+  }
+
   render() {
+    const buttons = this.props.letters.addressConfirmed !== false ?
+        (<div className="usa-grid-full form-progress-buttons">
+          <div className="usa-width-one-fourth">
+            <ProgressButton
+                onButtonClick={this.confirmAddress}
+                buttonText="Yes"
+                buttonClass="usa-button-primary"/>
+          </div>
+          <div className="usa-width-one-fourth">
+            <ProgressButton
+                onButtonClick={() => this.props.onConfirmationOfAddress(false)}
+                buttonText="No"
+                buttonClass="usa-button-outline"/>
+          </div>
+        </div>) : null;
+
+    const alert = this.props.letters.addressConfirmed === false ?
+        (<div className="usa-alert usa-alert-warning">
+          <div className="usa-alert-body">
+            <h4 className="usa-alert-heading">Your address on file is incorrect</h4>
+            <p>You've told us that the address we have on file for you is incorrect.</p>
+            <p>Since we do not have the correct address, we cannot show you your VA Letters at this time.</p>
+            <p>To update your address, please call the Vets.gov Help Desk at 1-855-574-7286 (TTY: 1-800-829-4833), Monday - Friday, 8:00am - 8:00pm ET., or visit this link.</p>
+          </div>
+        </div>) : null;
+
     return (
-      <div>
+      <div className="letters-form-panel">
         <p>The address on file for you with VA Compensation and Pension is:</p>
         <p>
           <span>Jamie J. Wood</span><br/>
@@ -16,20 +52,8 @@ class ConfirmAddress extends React.Component {
           <span>Hyderabad, INDIA</span>
         </p>
         <label><strong>Is this address correct?</strong></label>
-        <div className="usa-grid form-progress-buttons">
-          <div className="small-6 medium-2 columns">
-            <ProgressButton
-                onButtonClick={() => this.props.onConfirmationOfAddress(true)}
-                buttonText="Yes"
-                buttonClass="usa-button-primary"/>
-          </div>
-          <div className="small-6 medium-2 end columns">
-            <ProgressButton
-                onButtonClick={() => this.props.onConfirmationOfAddress(false)}
-                buttonText="No"
-                buttonClass="usa-button-outline"/>
-          </div>
-        </div>
+        {buttons}
+        {alert}
       </div>
     );
   }
@@ -37,8 +61,10 @@ class ConfirmAddress extends React.Component {
 
 function mapStateToProps(state) {
   const userState = state.user;
+  const lettersState = state.vaLetters;
   return {
-    profile: userState.profile
+    profile: userState.profile,
+    letters: lettersState.letters
   };
 }
 
