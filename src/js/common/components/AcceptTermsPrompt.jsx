@@ -103,7 +103,7 @@ class CreateMHVAccountPrompt extends React.Component {
       </label>
     </div>);
 
-    if (noContents() == null) {
+    if (noContents() === null) {
       noRadio = <div></div>;
     }
 
