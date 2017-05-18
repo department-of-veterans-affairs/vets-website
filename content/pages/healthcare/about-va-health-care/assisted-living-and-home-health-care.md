@@ -21,9 +21,9 @@ relatedlinks:
   - url: /healthcare/about-va-health-care/vision-care/
     title: Vision Care
     description: Find out if you can get vision care through VA.
-  - url: /disability-benefits/conditions/
+  - url: /disability-benefits/
     title: Disability Benefits
-    description: Find out if you can get disability benefits for an illness or injury caused or made worse by your active-duty service.
+    description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
 <div class="va-introtext">
