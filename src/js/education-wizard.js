@@ -18,7 +18,7 @@
     }
     const descendentQuestion = selectionElement.dataset.nextQuestion;
     if (!descendentQuestion) {
-      return closeState(alternateQuestion);;
+      return closeState(alternateQuestion);
     }
     const descendentElement = container.querySelector(`[data-question=${descendentQuestion}]`);
     closeStateAndCheckChild(descendentElement, container);
