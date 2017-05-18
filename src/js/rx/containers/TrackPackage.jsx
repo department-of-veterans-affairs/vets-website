@@ -43,7 +43,7 @@ class TrackPackage extends React.Component {
 
       return {
         id,
-        fillDate: formatDate(shippedDate),
+        shipmentDate: formatDate(shippedDate),
         carrier: deliveryService.toUpperCase(),
         trackingLink: (<TrackPackageLink
             className="rx-history-tracking"
@@ -67,7 +67,7 @@ class TrackPackage extends React.Component {
     });
 
     const fields = [
-      { label: 'Fill date', value: 'fillDate' },
+      { label: 'Shipment date', value: 'shipmentDate' },
       { label: 'Carrier', value: 'carrier', nonSortable: true },
       { label: 'Tracking number', value: 'trackingLink', nonSortable: true },
       { label: 'Prescriptions in package', value: 'prescriptions', nonSortable: true },
