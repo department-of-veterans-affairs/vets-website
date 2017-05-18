@@ -71,16 +71,10 @@ export function submitForm(formConfig, form) {
         });
         return res.json();
       }
-      return Promise.resolve({
-        data: {
-          formSubmissionId: '123fake-submission-id-567',
-          timeStamp: '2016-05-16'
-        }
+      window.dataLayer.push({
+        event: `${formConfig.trackingPrefix}-submission-failed`,
       });
-      // window.dataLayer.push({
-      //   event: `${formConfig.trackingPrefix}-submission-failed`,
-      // });
-      // return Promise.reject(res.statusText);
+      return Promise.reject(res.statusText);
     })
     .then(
       (resp) => dispatch(setSubmitted(resp.data)),

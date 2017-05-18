@@ -24,6 +24,7 @@ import {
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import ErrorMessage from '../components/ErrorMessage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import ChildView from '../components/ChildView';
 
@@ -106,6 +107,7 @@ const formConfig = {
   transformForSubmit: transform,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  errorMessage: ErrorMessage,
   title: 'Apply for health care',
   subTitle: 'Form 10-10ez',
   defaultDefinitions: {
