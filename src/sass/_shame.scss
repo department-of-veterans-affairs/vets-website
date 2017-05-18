@@ -197,17 +197,24 @@ body .row {
 }
 // Handles the question toggling
 a[data-state=closed] {
-  display: none;
+  position: absolute;
+   top: -9999px;
+   left: -9999px;
+   opacity: 0;
 }
 a[data-state=open] {
-  display: block;
+  display: inline-block;
 }
 .expander-content-question[data-state=open] {
-  transition: opacity 150ms ease-in-out;
+  // duration from src/js/common/components/form-elements/ExpandingGroup.jsx
+  transition: opacity 700ms ease-in-out;
 }
 .expander-content-question[data-state=closed] {
   max-height: 0em !important; // To override the id selector height
-  display: none;
+  position: absolute;
+   top: -9999px;
+   left: -9999px;
+   opacity: 0;
 }
 
 //============================================

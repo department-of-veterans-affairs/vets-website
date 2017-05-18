@@ -1,4 +1,3 @@
-{
   function toggleClass(element, className) {
     element.classList.toggle(className);
   }
@@ -7,26 +6,23 @@
   }
   function closeState(element) {
     element.setAttribute('data-state', 'closed');
-  }
-  function isParent(element) {
-    const isParentElement = !element.dataset.selectedForm;
-    return isParentElement;
+    const selectionElement = element.querySelector('input:checked');
+    if (selectionElement) {
+      selectionElement.checked = false;
+    }
   }
   function closeStateAndCheckChild(alternateQuestion, container) {
-    closeState(alternateQuestion);
-    if (!isParent(alternateQuestion)) {
-      return;
+    const selectionElement = alternateQuestion.querySelector('input:checked');
+    if (!selectionElement) {
+      return closeState(alternateQuestion);
     }
-    const optionsElements = alternateQuestion.querySelectorAll('input');
-    const options = Array.prototype.slice.call(optionsElements);
-    options.forEach(option => {
-      if (option.dataset.nextQuestion) {
-        const alternateChild = option.dataset.nextQuestion;
-        const alternateChildElement = container.querySelector(`[data-question=${alternateChild}]`);
-        return closeStateAndCheckChild(alternateChildElement, container);
-      }
-      return false;
-    });
+    const descendentQuestion = selectionElement.dataset.nextQuestion;
+    if (!descendentQuestion) {
+      return closeState(alternateQuestion);;
+    }
+    const descendentElement = container.querySelector(`[data-question=${descendentQuestion}]`);
+    closeStateAndCheckChild(descendentElement, container);
+    return closeState(alternateQuestion);
   }
   function reInitWidget() {
     const container = document.querySelector('.expander-container');
@@ -35,7 +31,7 @@
     const radios = container.querySelectorAll('input');
     const apply = container.querySelector('#apply-now-button');
     radios.forEach(radio => {
-      radio.addEventListener('click', () => {
+      radio.addEventListener('change', () => {
         if (radio.dataset.selectedForm) {
           if (apply.dataset.state === 'closed') {
             openState(apply);
@@ -51,6 +47,7 @@
         const nextQuestionElement = container.querySelector(`[data-question=${nextQuestion}]`);
         const nextQuestionAlternate = nextQuestionElement.dataset.alternate;
         const nextQuestionAlternateElement = container.querySelector(`[data-question=${nextQuestionAlternate}]`);
+        nextQuestionElement.focus();
         openState(nextQuestionElement);
         return closeStateAndCheckChild(nextQuestionAlternateElement, container);
       });
@@ -62,4 +59,3 @@
   }
 
   document.addEventListener('DOMContentLoaded', reInitWidget);
-}
