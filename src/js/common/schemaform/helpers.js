@@ -357,20 +357,25 @@ export function checkValidSchema(schema, errors = [], path = ['root']) {
   }
 
   if (schema.type === 'array') {
-    // Require items
     // We check this both before items is turned into additionalItems and after,
     //  so we need to account for it being both an object and an array.
     if (Array.isArray(schema.items)) {
+      if (!schema.additionalItems) {
+        errors.push(`${path.join('.')} should contain additionalItems when items is an array.`);
+      }
       schema.items.forEach((item, index) => {
         checkValidSchema(item, errors, [...path, 'items', index]);
       });
     } else if (typeof schema.items === 'object') {
+      if (schema.additionalItems) {
+        errors.push(`${path.join('.')} should not contain additionalItems when items is an object.`);
+      }
       checkValidSchema(schema.items, errors, [...path, 'items']);
     } else {
       errors.push(`Missing items schema in ${path.join('.')}.`);
     }
 
-    // Check additionalItems (but don't require it)
+    // Check additionalItems
     if (schema.additionalItems) {
       checkValidSchema(schema.additionalItems, errors, [...path, 'additionalItems']);
     }

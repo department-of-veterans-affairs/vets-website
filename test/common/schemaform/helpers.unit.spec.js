@@ -463,31 +463,43 @@ describe('Schemaform helpers:', () => {
     });
   });
 
-  describe('checkValidSchema', () => {
+  describe.only('checkValidSchema', () => {
     it('should return true for valid schema', () => {
       const s = {
         type: 'object',
         properties: {
+          // Only type
           field1: {
             type: 'string'
           },
+          // Object with blank properties
           field2: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {}
+            type: 'object',
+            properties: {}
+          },
+          // Nested object properties
+          field3: {
+            type: 'object',
+            properties: {
+              nestedField: { type: 'string' } // Missing type
             }
+          },
+          // Array with items object
+          field4: {
+            type: 'array',
+            items: { type: 'string' }
+          },
+          // Array with items array
+          field5: {
+            type: 'array',
+            additionalItems: { type: 'string' },
+            items: [{ type: 'string' }],
           }
         }
       };
 
-      let isValid = false;
-      try {
-        isValid = checkValidSchema(s);
-      } catch (err) {
-        console.error(err.message); // eslint-disable-line no-console
-      }
-      expect(isValid).to.equal(true);
+      // If this throws an error, the test will fail
+      expect(checkValidSchema(s)).to.equal(true);
     });
     it('should throw an error for invalid schemas', () => {
       const s = {
@@ -517,20 +529,40 @@ describe('Schemaform helpers:', () => {
           // Invalid additionalItems
           field5: {
             type: 'array',
-            items: {
-              nestedField: { type: 'string' }
-            },
+            items: [{
+              type: 'object',
+              properties: {
+                nestedField: { type: 'string' }
+              }
+            }],
             additionalItems: {
               type: 'object'
               // properties: {} // Missing properties
             }
           },
-          // Invalid items
+          // Invalid items array
           field6: {
             type: 'array',
             additionalItems: { type: 'string' },
             items: [{ /* type: 'string' */ }]
-          }
+          },
+          // Invalid items object
+          field7: {
+            type: 'array',
+            items: { /* type: 'string' */ }
+          },
+          // Missing additionalItems when items is an array
+          field8: {
+            type: 'array',
+            // additionalItems: { type: 'string' },
+            items: [{ type: 'string' }]
+          },
+          // Shouldn't have additionalItems when items is an object
+          field9: {
+            type: 'array',
+            additionalItems: { type: 'string' },
+            items: { type: 'string' }
+          },
         }
       };
 
@@ -541,7 +573,7 @@ describe('Schemaform helpers:', () => {
         // Perhaps this should not be in this test...Seems pretty brittle.
         //  Still, I'd like a way to make sure we get all the right errors and
         //  would prefer to not write 6 different tests.
-        expect(err.message).to.equal('Errors found in schema: Missing type in root.field1 schema. Missing object properties in root.field2 schema. Missing type in root.field3.nestedField schema. Missing items schema in root.field4. Missing type in root.field5.items schema. Missing object properties in root.field5.additionalItems schema. Missing type in root.field6.items.0 schema.');
+        expect(err.message).to.equal('Errors found in schema: Missing type in root.field1 schema. Missing object properties in root.field2 schema. Missing type in root.field3.nestedField schema. Missing items schema in root.field4. Missing object properties in root.field5.additionalItems schema. Missing type in root.field6.items.0 schema. Missing type in root.field7.items schema. root.field8 should contain additionalItems when items is an array. root.field9 should not contain additionalItems when items is an object.');
       }
       expect(isValid).to.equal(undefined);
     });
