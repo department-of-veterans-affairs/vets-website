@@ -17,7 +17,7 @@
     "toursOfDuty": [
       {
         "serviceBranch": "Army",
-          "serviceStatus": "Stuff",
+        "serviceStatus": "Stuff",
         "dateRange": {
           "from": "1920-01-01",
           "to": "1921-02-02"

@@ -16,7 +16,7 @@ import {
 import {
   stateLabels,
   survivorBenefitsLabels
-} from '../../utils/helpers';
+} from '../../utils/labels';
 
 import {
   validateDate,
@@ -27,7 +27,7 @@ import * as address from '../../../common/schemaform/definitions/address';
 import currentOrPastDateUI from '../../../common/schemaform/definitions/currentOrPastDate';
 import dateUI from '../../../common/schemaform/definitions/date';
 import phoneUI from '../../../common/schemaform/definitions/phone';
-import * as veteranId from '../../definitions/veteranId';
+import * as personId from '../../definitions/personId';
 
 import dateRangeUi from '../../../common/schemaform/definitions/dateRange';
 import fullNameUi from '../../../common/schemaform/definitions/fullName';
@@ -281,7 +281,7 @@ const formConfig = {
                 middle: { 'ui:title': 'Sponsor middle name' },
                 suffix: { 'ui:title': 'Sponsor suffix' },
               }),
-              'view:veteranId': _.merge(veteranId.uiSchema, {
+              'view:veteranId': _.merge(personId.uiSchema(), {
                 veteranSocialSecurityNumber: {
                   'ui:title': 'Sponsor Social Security number',
                   'ui:required': (formData) => _.get('previousBenefits.view:claimedSponsorService', formData) && !_.get('previousBenefits.view:veteranId.view:noSSN', formData)
@@ -318,7 +318,7 @@ const formConfig = {
                     'view:ownServiceBenefits': { type: 'boolean' },
                     'view:claimedSponsorService': { type: 'boolean' },
                     veteranFullName: fullName,
-                    'view:veteranId': veteranId.schema(fullSchema5490)
+                    'view:veteranId': personId.schema(fullSchema5490)
                   }
                 }
               )
@@ -387,7 +387,7 @@ const formConfig = {
                   'ui:title': 'Sponsor suffix'
                 }
               }),
-              'view:veteranId': _.merge(veteranId.uiSchema, {
+              'view:veteranId': _.merge(personId.uiSchema(), {
                 veteranSocialSecurityNumber: {
                   'ui:title': 'Sponsor Social Security number',
                   'ui:required': (formData) => !_.get('view:currentSameAsPrevious', formData) && !_.get('view:currentSponsorInformation.view:veteranId.view:noSSN', formData)
@@ -418,7 +418,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   veteranFullName: fullName,
-                  'view:veteranId': veteranId.schema(fullSchema5490),
+                  'view:veteranId': personId.schema(fullSchema5490),
                 }
               },
               veteranDateOfBirth,

@@ -5,7 +5,7 @@ import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
 import {
   bankAccountChangeLabels,
   directDepositWarning
-} from '../utils/helpers';
+} from '../utils/labels';
 
 function isStartUpdate(form) {
   return _.get('bankAccountChange', form) === 'startUpdate';

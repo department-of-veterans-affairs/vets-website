@@ -75,7 +75,10 @@ class FormPage extends React.Component {
 
   goBack() {
     const { eligiblePageList, pageIndex } = this.getEligiblePages();
-    this.props.router.push(eligiblePageList[pageIndex - 1].path);
+    // if we found the current page, go to previous one
+    // if not, go back to the beginning because they shouldn't be here
+    const page = pageIndex >= 0 ? pageIndex - 1 : 0;
+    this.props.router.push(eligiblePageList[page].path);
   }
 
   render() {

@@ -26,15 +26,11 @@ import IntroductionPage from '../components/IntroductionPage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import ChildView from '../components/ChildView';
 
-// <<<<<<< HEAD
 import fullNameUI from '../../common/schemaform/definitions/fullName';
 import { schema as addressSchema, uiSchema as addressUI } from '../../common/schemaform/definitions/address';
-
 import { schema as childSchema, uiSchema as childUI } from '../definitions/child';
-// =======
 import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
-// >>>>>>> master
 
 const {
   mothersMaidenName,
@@ -254,7 +250,7 @@ const formConfig = {
           title: 'Permanent address',
           initialData: {},
           uiSchema: {
-            address: addressUI('Permanent address')
+            address: addressUI('Permanent address', true)
           },
           schema: {
             type: 'object',
@@ -586,7 +582,7 @@ const formConfig = {
                 // Only show if 'No' is selected for sameAddress
                 hideIf: (formData) => formData.sameAddress !== false
               },
-              spouseAddress: _.merge(addressUI(''), {
+              spouseAddress: _.merge(addressUI('', true), {
                 'ui:options': {
                   updateSchema: (formData) => {
                     // If formData.sameAddress === false, the address fields are

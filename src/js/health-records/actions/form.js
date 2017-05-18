@@ -16,7 +16,7 @@ function getFromDate(formData) {
   } else if (formData.dateOption === '1yr') {
     fromDate = fromDate.subtract(1, 'years');
   } else if (formData.dateOption === 'custom') {
-    fromDate = formData.dateRange.start;
+    fromDate = moment(formData.dateRange.start);
   }
   return fromDate.toISOString();
 }
@@ -24,7 +24,7 @@ function getFromDate(formData) {
 function getToDate(formData) {
   let toDate = moment();
   if (formData.dateOption === 'custom') {
-    toDate = formData.dateRange.end;
+    toDate = moment(formData.dateRange.end);
   }
   return toDate.toISOString();
 }
@@ -69,6 +69,9 @@ export function submitForm(formData) {
     window.dataLayer.push({
       event: 'health-record-request',
     });
+
+    dispatch({ type: 'FORM_SUBMITTING' });
+
     apiRequest('/v0/health_records',
       {
         headers: {
