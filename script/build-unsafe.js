@@ -6,6 +6,9 @@
 // review app.
 process.stdout.write('Unsafe Build -- For use on Heroku only');
 
+const exec = require('child_process').exec;
+exec('npm rebuild node-sass');
+
 const Metalsmith = require('metalsmith');
 const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
