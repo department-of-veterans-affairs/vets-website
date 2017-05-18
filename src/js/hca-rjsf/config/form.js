@@ -23,6 +23,7 @@ import {
 } from '../helpers';
 
 import IntroductionPage from '../components/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
 import InsuranceProviderView from '../components/InsuranceProviderView';
 import ChildView from '../components/ChildView';
 
@@ -104,6 +105,7 @@ const formConfig = {
   trackingPrefix: 'hca-rjsf-',
   transformForSubmit: transform,
   introduction: IntroductionPage,
+  confirmation: ConfirmationPage,
   title: 'Apply for health care',
   subTitle: 'Form 10-10ez',
   defaultDefinitions: {
