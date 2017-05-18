@@ -150,19 +150,27 @@ class ArrayField extends React.Component {
       pageKey: fieldName
     };
 
+    // TODO: Make this better; it's super hacky for now.
+    const itemCountLocked = uiSchema['ui:field'] === 'BasicArrayField';
+
     return (
       <div>
         {title &&
           <div className="form-review-panel-page-header-row">
             <h5 className="form-review-panel-page-header">{title}</h5>
-            <button type="button" className="edit-btn primary-outline" onClick={() => this.handleAdd()}>Add Another</button>
+            {!itemCountLocked &&
+              <button type="button" className="edit-btn primary-outline" onClick={() => this.handleAdd()}>Add Another</button>
+            }
           </div>}
         <div className="va-growable va-growable-review">
           <Element name={`topOfTable_${fieldName}`}/>
           {this.state.items.map((item, index) => {
             const isLast = this.state.items.length === (index + 1);
             const isEditing = this.state.editing[index];
-            const showReviewButton = !schema.minItems || this.state.items.length > schema.minItems;
+            const showReviewButton = !itemCountLocked && (!schema.minItems || this.state.items.length > schema.minItems);
+            const itemSchema = this.getItemSchema(index);
+            const itemTitle = itemSchema ? itemSchema.title : '';
+
             if (isEditing) {
               return (
                 <div key={index} className="va-growable-background">
@@ -173,8 +181,8 @@ class ArrayField extends React.Component {
                           ? <h5>New {uiSchema['ui:options'].itemName}</h5>
                           : null}
                       <SchemaForm
-                          pageData={item}
-                          schema={this.getItemSchema(index)}
+                          data={item}
+                          schema={itemSchema}
                           uiSchema={arrayPageConfig.uiSchema}
                           title={pageTitle}
                           hideTitle
@@ -201,11 +209,10 @@ class ArrayField extends React.Component {
                 <div className="row small-collapse">
                   <SchemaForm
                       reviewMode
-                      pageData={item}
-                      schema={this.getItemSchema(index)}
+                      data={item}
+                      schema={itemSchema}
                       uiSchema={arrayPageConfig.uiSchema}
-                      title={pageTitle}
-                      hideTitle
+                      title={itemTitle}
                       name={fieldName}
                       onChange={(data) => this.handleSetData(index, data)}
                       onEdit={() => this.handleEdit(index, !isEditing)}

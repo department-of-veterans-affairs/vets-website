@@ -24,7 +24,7 @@ export class DefinitionTester extends React.Component {
     super(props);
     const { data, uiSchema } = props;
 
-    const definitions = _.merge(props.definitions || {}, props.schema.definitions);
+    const definitions = _.assign(props.definitions || {}, props.schema.definitions);
     const schema = replaceRefSchemas(props.schema, definitions);
 
     const {
@@ -78,4 +78,3 @@ export function submitForm(form) {
     preventDefault: f => f
   });
 }
-
