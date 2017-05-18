@@ -30,3 +30,23 @@
     display: inline;
   }
 }
+
+.terms-acceptance {
+  .terms-box {
+    border: 1px solid $color-gray-light;
+
+    .terms-head {
+      padding: 10px;
+      font-weight: bold;
+      color: $color-gray-dark;
+      background-color: $color-gray-light-alt;
+      border-bottom: 1px solid $color-gray-light;
+    }
+
+    .terms-scroller {
+      padding: 10px;
+      max-height: 400px;
+      overflow: auto;
+    }
+  }
+}
