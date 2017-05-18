@@ -164,21 +164,10 @@ body .row {
 
 // Handles the height transition
 .expander-content {
-  // No max height for small screens = no animation, which is fine
-  // Also means the Apply Now button doesn't get cut off
-  @include media($small-screen) {
-    max-height: 24em;
-  }
-  overflow: hidden;
-  transition: max-height 150ms ease-in-out;
 
   // Handles the opacity transition
   .expander-content-inner {
-    transition: opacity 150ms ease-in-out;
-    a.usa-button-primary {
-      transition: opacity 150ms ease-in-out;
-      transition-delay: 150ms;
-    }
+    transition: opacity 700ms ease-in-out;
   }
 
   // Apply this to the inner content and make a new div
@@ -194,6 +183,26 @@ body .row {
       }
     }
   }
+}
+// Handles the question toggling
+a[data-state=closed] {
+  position: absolute;
+   top: -9999px;
+   left: -9999px;
+   opacity: 0;
+}
+a[data-state=open] {
+  transition: opacity 700ms ease-in-out;
+}
+.expander-content-question[data-state=open] {
+  transition: opacity 700ms ease-in-out;
+}
+.expander-content-question[data-state=closed] {
+  max-height: 0em !important; // To override the id selector height
+  position: absolute;
+   top: -9999px;
+   left: -9999px;
+   opacity: 0;
 }
 
 //============================================
