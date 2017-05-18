@@ -80,7 +80,8 @@ const trackings = {
         rxInfoPhoneNumber: '(555)772-0956',
         ndcNumber: '00781171601',
         shippedDate: '2016-09-07T04:00:00.000Z',
-        deliveryService: 'UsPS'
+        deliveryService: 'UsPS',
+        otherPrescriptions: []
       },
       links: {
         self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
@@ -100,7 +101,8 @@ const trackings = {
         rxInfoPhoneNumber: '(555)772-0956',
         ndcNumber: '00781171601',
         shippedDate: '2016-07-06T04:00:00.000Z',
-        deliveryService: 'UsPS'
+        deliveryService: 'UsPS',
+        otherPrescriptions: []
       },
       links: {
         self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
@@ -120,7 +122,8 @@ const trackings = {
         rxInfoPhoneNumber: '(555)772-0956',
         ndcNumber: '00781171601',
         shippedDate: '2016-06-26T04:00:00.000Z',
-        deliveryService: 'UsPS'
+        deliveryService: 'UsPS',
+        otherPrescriptions: []
       },
       links: {
         self: 'http://www.example.com/v0/prescriptions/13650542/trackings',
