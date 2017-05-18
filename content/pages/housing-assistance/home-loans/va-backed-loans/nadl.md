@@ -57,7 +57,7 @@ First, apply for a VA home loan Certificate of Eligibility (COE). This certifica
 [Find out if you can get a COE based on your service history and duty status](/housing-assistance/home-loans/eligibility/). 
 <br />
 
-<a class="usa-button-primary va-button-primary" href="/housing-assistance/home-loans/apply-for-certificate-of-eligibility">Apply for your COE</a>
+[Apply for your COE](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
 </li>
 

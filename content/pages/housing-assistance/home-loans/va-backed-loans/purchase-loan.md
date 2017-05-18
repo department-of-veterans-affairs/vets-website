@@ -87,7 +87,7 @@ You’ll need to show your COE to your lender as proof that you qualify for the 
 
 [Find out if you qualify for a COE](/housing-assistance/home-loans/eligibility/). <br />
 
-<a class="usa-button-primary va-button-primary" href="/housing-assistance/home-loans/apply-for-certificate-of-eligibility">Apply for your COE now</a>
+[Apply for your COE now](/housing-assistance/home-loans/apply-for-certificate-of-eligibility/).
 
 </li>
 
