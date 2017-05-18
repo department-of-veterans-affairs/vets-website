@@ -23,7 +23,8 @@ const moment = require('moment');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const webpack = require('metalsmith-webpack');
-const webpackConfigGenerator = require('../config/webpack.heroku');
+const webpackConfigGenerator = require('../config/webpack.config');
+const commandLineArgs = require('command-line-args');
 
 const path = require('path');
 
@@ -31,7 +32,20 @@ const sourceDir = '../content/pages';
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
-const webpackConfig = webpackConfigGenerator();
+const optionDefinitions = [
+  { name: 'buildtype', type: String, defaultValue: 'development' },
+  { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
+  { name: 'port', type: Number, defaultValue: 3001 },
+  { name: 'watch', type: Boolean, defaultValue: false },
+  { name: 'entry', type: String, defaultValue: null },
+  { name: 'host', type: String, defaultValue: 'localhost' },
+
+  // Catch-all for bad arguments.
+  { name: 'unexpected', type: String, multile: true, defaultOption: true },
+];
+const options = commandLineArgs(optionDefinitions);
+
+const webpackConfig = webpackConfigGenerator(options);
 
 // Custom liquid filter(s)
 liquid.filters.humanizeDate = (dt) => moment(dt).format('MMMM D, YYYY');

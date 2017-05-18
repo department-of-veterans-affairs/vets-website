@@ -5,7 +5,7 @@
   "scripts": {
     "build": "node script/build.js",
     "heroku-serve": "http-server",
-    "heroku-postbuild": "node script/build-unsafe.js",
+    "heroku-postbuild": "node script/build-unsafe.js --entry no-react",
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:changed": "npm run lint:js:changed && npm run lint:sass",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
