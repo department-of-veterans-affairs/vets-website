@@ -1,0 +1,60 @@
+// /education/apply/ uses this expander button for navigation
+// Where else can I put this? Also, it could use a better name.
+.expander-button {
+  &::after {
+    background-image: url(/img/arrow-down-white.svg);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    background-size: 0.6em auto;
+    display: inline-block;
+    margin-left: 0.5em;
+    margin-right: -0.3em;
+    width: 1em;
+    height: 1em;
+    content: ""; // Add content for accessibility purposes?
+    text-indent: -9999em;
+  }
+}
+
+// Handles the height transition
+.expander-content {
+
+  // Handles the opacity transition
+  .expander-content-inner {
+    transition: opacity 700ms ease-in-out;
+  }
+
+  // Apply this to the inner content and make a new div
+  //  with the border to expand that without the opacity
+  &.expander-content-closed {
+    max-height: 0em !important; // To override the id selector height
+    visibility: hidden;
+
+    .expander-content-inner {
+      opacity: 0;
+      a.usa-button-primary {
+        opacity: 0;
+      }
+    }
+  }
+}
+// Handles the question toggling
+a[data-state=closed] {
+  position: absolute;
+   top: -9999px;
+   left: -9999px;
+   opacity: 0;
+}
+a[data-state=open] {
+  transition: opacity 700ms ease-in-out;
+}
+.expander-content-question[data-state=open] {
+  transition: opacity 700ms ease-in-out;
+}
+.expander-content-question[data-state=closed] {
+  max-height: 0em !important; // To override the id selector height
+  position: absolute;
+   top: -9999px;
+   left: -9999px;
+   opacity: 0;
+}
