@@ -676,15 +676,15 @@ const formConfig = {
               },
               spouseGrossIncome: {
                 'ui:title': 'Spouse gross annual income from employment',
-                'ui:required': (formData) => !formData.maritalStatus || (formData.maritalStatus.toLowerCase() !== 'married')
+                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married')
               },
               spouseNetIncome: {
                 'ui:title': 'Spouse Net Income from your Farm, Ranch, Property or Business',
-                'ui:required': (formData) => !formData.maritalStatus || (formData.maritalStatus.toLowerCase() !== 'married')
+                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married')
               },
               spouseOtherIncome: {
                 'ui:title': 'Spouse Other Income Amount',
-                'ui:required': (formData) => !formData.maritalStatus || (formData.maritalStatus.toLowerCase() !== 'married')
+                'ui:required': (formData) => formData.maritalStatus && (formData.maritalStatus.toLowerCase() === 'married')
               }
             },
             children: {
