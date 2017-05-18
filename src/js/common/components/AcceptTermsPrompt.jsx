@@ -9,12 +9,11 @@ const headerContents = () => (
       <li>View your VA electronic health records</li>
       <li>Send secure messages to your health care team</li>
     </ul>
-    To do this you will need to accept our terms and conditions.
   </div>
 );
 
 const termsTitle = () => {
-  return 'Terms and Conditions to refill VA prescriptions, message your health care team, and get your VA electronic health records';
+  return '';
 };
 
 const termsContents = () => (
@@ -47,9 +46,7 @@ const termsContents = () => (
 );
 
 const footerContents = () => (
-  <p>
-    <strong>Please note:</strong> Without agreeing to the terms and conditions, Vets.gov can’t provide you access to refill VA prescriptions, view VA electronic health records, or send secure messages to your health care team. You can change your decision at any time, by visiting your profile page.
-  </p>
+  <div></div>
 );
 
 const yesContents = () => {
@@ -57,7 +54,7 @@ const yesContents = () => {
 };
 
 const noContents = () => {
-  return 'No I dislike this';
+  return null;
 };
 
 class CreateMHVAccountPrompt extends React.Component {
@@ -65,11 +62,12 @@ class CreateMHVAccountPrompt extends React.Component {
     super(props);
     this.handleScroll = this.handleScroll.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAnswer = this.handleAnswer.bind(this);
     this.state = {};
   }
 
   componentWillMount() {
-    this.setState({ scrolledToBottom: false });
+    this.setState({ scrolledToBottom: false, yesSelected: false });
   }
 
   handleSubmit() {
@@ -82,34 +80,52 @@ class CreateMHVAccountPrompt extends React.Component {
   handleScroll(event) {
     const ct = event.currentTarget;
     if ((ct.scrollTop + ct.offsetHeight) >= ct.scrollHeight) {
-      this.setState({ scrolledToBottom: true });
+      this.setState({ scrolledToBottom: true, yesSelected: this.state.yesSelected });
+    }
+  }
+
+  handleAnswer(event) {
+    if (event.currentTarget.value === 'yes' && event.currentTarget.checked) {
+      this.setState({ scrolledToBottom: this.state.scrolledToBottom, yesSelected: true });
     }
   }
 
   render() {
     let submitButton = <button className="usa-button-disabled" disabled>Submit</button>;
-    if (this.state.scrolledToBottom) {
-      submitButton = <button className="usa-button" onClick={this.handleSubmit}>>Submit</button>;
+    if (this.state.scrolledToBottom && this.state.yesSelected) {
+      submitButton = <button className="usa-button" onClick={this.handleSubmit}>Submit</button>;
+    }
+
+    let noRadio = (<div>
+      <input type="radio" name="form-selection" id="form-no" value="no" onChange={this.handleAnswer}/>
+      <label htmlFor="form-no">
+        {noContents()}
+      </label>
+    </div>);
+
+    if (noContents() == null) {
+      noRadio = <div></div>;
     }
 
     return (
       <div className="row primary terms-acceptance">
         <div className="small-12 columns usa-content">
-          <h1>{this.state.scrolledToBottom}</h1>
           {headerContents()}
           <h1>{termsTitle()}</h1>
-          <div className="terms-scroller" onScroll={this.handleScroll}>
-            {termsContents()}
+          <div className="terms-box">
+            <div className="terms-head">
+              Scroll to read the full terms and conditions to continue
+            </div>
+            <div className="terms-scroller" onScroll={this.handleScroll}>
+              {termsContents()}
+            </div>
           </div>
           <div className="form-radio-buttons">
-            <input type="radio" name="form-selection" id="form-yes" value="yes"/>
+            <input type="radio" name="form-selection" id="form-yes" value="yes" onChange={this.handleAnswer}/>
             <label htmlFor="form-yes">
               {yesContents()}
             </label>
-            <input type="radio" name="form-selection" id="form-no" value="no"/>
-            <label htmlFor="form-no">
-              {noContents()}
-            </label>
+            {noRadio}
           </div>
           <div>
             {footerContents()}
