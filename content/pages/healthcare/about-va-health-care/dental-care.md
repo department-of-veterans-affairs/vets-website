@@ -21,9 +21,9 @@ relatedlinks:
   - url: /healthcare/about-va-health-care/assisted-living-and-home-health-care/
     title: Assisted Living and Home Health Care
     description: Find out how to access assisted living, residential (live-in), or home health care options through VA.
-  - url: /disability-benefits/conditions/
+  - url: /disability-benefits/
     title: Disability Benefits
-    description: Find out if you can get disability benefits for an illness or injury caused or made worse by your active-duty service.
+    description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA.
 ---
 
 <div class="va-introtext">
