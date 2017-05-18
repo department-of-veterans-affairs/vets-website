@@ -15,7 +15,7 @@ relatedlinks:
   - url: /healthcare/apply/
     title: Health Care Application Process
     description: Ready to apply? Get started now.
-  - url: /disability-benefits/conditions/
+  - url: /disability-benefits/
     title: Disability Benefits
     description: Have an illness or injury that was caused—or made worse—by your active-duty service? Find out if you can get disability compensation (monthly payments) from VA. 
 ---
