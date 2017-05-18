@@ -3,7 +3,6 @@ layout: page-breadcrumbs.html
 title: Aid and Attendance or Housebound Allowance
 concurrence: "" 
 template: 1-topic-landing
-relatedlinks: []
 ---
 
 <div class="va-introtext">
@@ -14,9 +13,9 @@ If you need help with your daily activities, or you’re housebound, you may qua
 
 <div class="feature" markdown=“1”>
 
-<strong>Can I get Aid and Attendance (A&A) or Housebound benefits from VA?</strong>
+### Can I get Aid and Attendance (A&A) or Housebound benefits from VA?
 
-You may qualify for <strong>A&A</strong> if you get a VA pension, <strong>and</strong> you:
+You may qualify for **A&A** if you get a VA pension, **and** you:
 
 - Need another person to help you perform daily activities, like bathing, feeding, and dressing, or
 - Have to stay in bed—or spend a large portion of the day in bed—because of illness, or
@@ -25,19 +24,19 @@ You may qualify for <strong>A&A</strong> if you get a VA pension, <strong>and</s
 
 You may qualify for **housebound benefits** if you get VA pension, **and** you spend most of your time in your home because of a permanent disability (a disability that doesn’t go away). 
 
-<strong>Note:</strong> You can’t get A&A benefits and housebound benefits at the same time.
+**Note:** You can’t get A&A benefits and housebound benefits at the same time.
 
-<strong>Who’s covered:</strong>
+#### Who’s covered:
 - Qualified Veterans
 - Qualified surviving spouses 
 
 </div>
 
-**How do I get this benefit?** 
+### How do I get this benefit?
 
 There are 2 ways you can get this benefit:
 
-**Write to your Pension Management Center (PMC)**
+#### Write to your Pension Management Center (PMC)
 
 You can write to the PMC for your state. [Find your PMC](/pension/pension-management-center/). 
 
@@ -46,10 +45,12 @@ Include this information:
 - Details about what you normally do during the day and how you get places
 - Details that help show what kind of illness, injury, or mental or physical disability affects your ability to do things, like take a bath, on your own 
 
-**Or, apply in person**
+#### Or, apply in person
 
 You can bring your information to a Regional Benefits Office near you. [Find a Regional Benefits Office](/facilities/). 
 
-**How long does it take VA to make a decision?**
+### How long does it take VA to make a decision?
 
 Claims are processed in the order in which they are received unless priority processing is required.  
+
+<br>

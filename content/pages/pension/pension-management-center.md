@@ -24,29 +24,34 @@ We have 3 Regional Pension Management Centers. Look at the lists below to find t
 
 </div>
 
-**Philadelphia VA Regional Benefit Office**
+### Philadelphia VA Regional Benefit Office
 
 This office serves:
 
-<div class="small-18 columns">
+<div class="small-12 usa-width-one-half medium-6 columns">
 <ul>
 <li>Connecticut</li>
-<li>Florida</li>
-<li>Maine</li>
-<li>Massachusetts</li>
-<li>New Jersey</li>
-<li>North Carolina</li>
-<li>Puerto Rico</li>
-<li>South Carolina</li>
-<li>Virginia</li>
 <li>Delaware</li>
+<li>Florida</li>
 <li>Georgia</li>
+<li>Maine</li>
 <li>Maryland</li>
+<li>Massachusetts</li>
 <li>New Hampshire</li>
+<li>New Jersey</li>
+</ul>
+</div>
+
+<div class="small-12 usa-width-one-half medium-6 columns">
+<ul>
 <li>New York</li>
+<li>North Carolina</li>
 <li>Pennsylvania</li>
+<li>Puerto Rico</li>
 <li>Rhode Island</li>
+<li>South Carolina</li>
 <li>Vermont</li>
+<li>Virginia</li>
 <li>West Virginia</li>
 </ul>
 </div>
@@ -64,23 +69,28 @@ To submit a pension application to this office, mail it to:
 
 [Get more information about the Philadelphia VA Regional Benefit Office](http://www.benefits.va.gov/philadelphia/). 
 
-**Milwaukee VA Pension Center**
+### Milwaukee VA Pension Center
 
 This office serves:
 
-<div class="small-12 columns">
+<div class="small-12 usa-width-one-half medium-6 columns">
 <ul>
 <li>Alabama</li>
-<li>Illinois</li>
-<li>Kentucky</li>
-<li>Michigan</li>
-<li>Missouri</li>
-<li>Tennessee</li>
 <li>Arkansas</li>
 <li>Indiana</li>
+<li>Illinois</li>
+<li>Kentucky</li>
 <li>Louisiana</li>
+</ul>
+</div>
+
+<div class="small-12 usa-width-one-half medium-6 columns">
+<ul>
+<li>Michigan</li>
 <li>Mississippi</li>
+<li>Missouri</li>
 <li>Ohio</li>
+<li>Tennessee</li>
 <li>Wisconsin</li>
 </ul>
 </div>
@@ -98,34 +108,43 @@ To submit a pension application to this office, mail it to:
 
 [Get more information about the Milwaukee VA Regional Benefit Office](http://www.benefits.va.gov/milwaukee/). 
 
-**St. Paul VA Regional Benefit Office**
+### St. Paul VA Regional Benefit Office
 
 This office serves:
 
-<div class="small-22 columns">
+<div class="usa-grid-full">
+
+<div class="small-12 usa-width-one-half medium-6 columns">
 <ul>
 <li>Alaska</li>
-<li>California</li>
-<li>Hawaii</li>
-<li>Iowa</li>
-<li>Minnesota</li>
-<li>Nebraska</li>
-<li>New Mexico</li>
-<li>Oklahoma</li>
-<li>South Dakota</li>
-<li>Utah</li>
-<li>Wyoming</li>
 <li>Arizona</li>
+<li>California</li>
 <li>Colorado</li>
+<li>Hawaii</li>
 <li>Idaho</li>
+<li>Iowa</li>
 <li>Kansas</li>
+<li>Minnesota</li>
 <li>Montana</li>
-<li>North Dakota</li>
-<li>Nevada</li>
-<li>Oregon</li>
-<li>Texas</li>
-<li>Washington</li>
+<li>Nebraska</li>
 </ul>
+</div>
+
+<div class="small-12 usa-width-one-half medium-6 columns">
+<ul>
+<li>Nevada</li>
+<li>New Mexico</li>
+<li>North Dakota</li>
+<li>Oklahoma</li>
+<li>Oregon</li>
+<li>South Dakota</li>
+<li>Texas</li>
+<li>Utah</li>
+<li>Washington</li>
+<li>Wyoming</li>
+</ul>
+</div>
+
 </div>
 
 To submit a pension application to this office, mail it to:

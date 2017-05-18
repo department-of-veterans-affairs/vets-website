@@ -21,7 +21,7 @@ Survivors pension is a tax-free monetary benefit. If you’re a low-income survi
 
 <div class="feature" markdown=“1”>
 
-**Can I get this benefit as a surviving spouse?** 
+### Can I get this benefit as a surviving spouse?
 
 You may be able to get this benefit if your income and net worth meet certain levels set by Congress. Your net worth equals the value of everything you own (like your house and any stocks) plus your income minus any debt you owe. You may qualify if you meet these requirements and if the deceased Veteran:
 
@@ -31,9 +31,7 @@ You may be able to get this benefit if your income and net worth meet certain le
   - Served at least 24 months or the full period for which called or ordered to active duty, with at least 1 day during a wartime period, **and** 
   - Was discharged from service under other conditions than dishonorable
 
-<div class="feature" markdown=“1”>
-
-**Can I get this benefit as the child of a deceased wartime Veteran?**
+### Can I get this benefit as the child of a deceased wartime Veteran?
 
 You may be able to get this benefit if you’re: 
 - Under age 18, **or**
@@ -50,14 +48,14 @@ Mail it to the Pension Management Center (PMC) for your state. [Find your PMC](/
 
 ### Other ways to apply
 
-**Work with a trained professional**
+#### Work with a trained professional
 
 You can work with a trained professional called an accredited representative to get help applying for survivors pension benefits. [Find an accredited representative](/disability-benefits/apply/help/)
 
-**Apply in person**
+#### Apply in person
 
 Bring your application to a Regional Benefits Office near you. [Find a Regional Benefits Office](/facilities/). 
 
-**How long does it take VA to make a decision?**
+### How long does it take VA to make a decision?
 
 Claims are processed in the order in which they are received unless priority processing is required.   
