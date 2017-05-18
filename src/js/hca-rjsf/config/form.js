@@ -546,7 +546,7 @@ const formConfig = {
         spouseInformation: {
           path: 'household-information/spouse-information',
           title: 'Spouse’s information',
-          depends: (formData) => formData.discloseFinancialInformation && formData.maritalStatus === 'Married',
+          depends: (formData) => formData.discloseFinancialInformation && formData.maritalStatus.toLowerCase() !== 'married',
           uiSchema: {
             'ui:title': 'Spouse’s information',
             'ui:description': 'Please fill this out to the best of your knowledge. The more accurate your responses, the faster we can process your application.',
@@ -676,15 +676,15 @@ const formConfig = {
               },
               spouseGrossIncome: {
                 'ui:title': 'Spouse gross annual income from employment',
-                'ui:required': (formData) => formData.maritalStatus === 'Married'
+                'ui:required': (formData) => !formData.maritalStatus || (formData.maritalStatus.toLowerCase() !== 'married')
               },
               spouseNetIncome: {
                 'ui:title': 'Spouse Net Income from your Farm, Ranch, Property or Business',
-                'ui:required': (formData) => formData.maritalStatus === 'Married'
+                'ui:required': (formData) => !formData.maritalStatus || (formData.maritalStatus.toLowerCase() !== 'married')
               },
               spouseOtherIncome: {
                 'ui:title': 'Spouse Other Income Amount',
-                'ui:required': (formData) => formData.maritalStatus === 'Married'
+                'ui:required': (formData) => !formData.maritalStatus || (formData.maritalStatus.toLowerCase() !== 'married')
               }
             },
             children: {
