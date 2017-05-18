@@ -1,5 +1,7 @@
 import _ from 'lodash/fp';
 
+import { checkValidSchema } from './helpers';
+
 function isHiddenField(schema) {
   return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
 }
@@ -369,6 +371,8 @@ export function updateSchemaAndData(schema, uiSchema, formData) {
 
   // We need to do this again because array data might have been removed
   newSchema = updateItemsSchema(newSchema, newData);
+
+  checkValidSchema(newSchema);
 
   return {
     data: newData,
