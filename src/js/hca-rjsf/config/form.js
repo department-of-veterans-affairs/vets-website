@@ -690,20 +690,7 @@ const formConfig = {
             children: {
               // 'ui:title': 'Child income',
               'ui:field': 'BasicArrayField',
-              items: _.merge(childIncomeUiSchema, {
-                'ui:options': {
-                  updateSchema: (formData, schema, uiSchema, index) => {
-                    const name = _.get(`children.[${index}].childFullName`, formData);
-                    if (name) {
-                      return {
-                        title: `${name.first} ${name.last} income`
-                      };
-                    }
-
-                    return schema;
-                  }
-                },
-              }),
+              items: childIncomeUiSchema,
               'ui:options': {
                 hideIf: (formData) => !_.get('children.length', formData)
               }

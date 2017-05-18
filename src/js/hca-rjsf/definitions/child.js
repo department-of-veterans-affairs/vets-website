@@ -111,5 +111,17 @@ export const childIncomeUiSchema = {
   },
   otherIncome: {
     'ui:title': 'Other Income Amount'
+  },
+  'ui:options': {
+    updateSchema: (formData, schema, ui, index) => {
+      const name = _.get(`children.[${index}].childFullName`, formData);
+      if (name) {
+        return {
+          title: `${name.first} ${name.last} income`
+        };
+      }
+
+      return schema;
+    }
   }
 };
