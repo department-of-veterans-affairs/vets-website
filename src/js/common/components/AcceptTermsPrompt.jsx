@@ -47,9 +47,9 @@ const termsContents = () => (
 );
 
 const footerContents = () => (
-  <div>
+  <p>
     <strong>Please note:</strong> Without agreeing to the terms and conditions, Vets.gov can’t provide you access to refill VA prescriptions, view VA electronic health records, or send secure messages to your health care team. You can change your decision at any time, by visiting your profile page.
-  </div>
+  </p>
 );
 
 const yesContents = () => {
@@ -80,9 +80,9 @@ class CreateMHVAccountPrompt extends React.Component {
               {noContents()}
             </label>
           </div>
-          <p>
+          <div>
             {footerContents()}
-          </p>
+          </div>
           <div>
             <button className="usa-button-disabled" disabled>Submit</button>
             <button className="usa-button-outline">Cancel</button>
