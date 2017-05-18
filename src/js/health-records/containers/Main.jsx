@@ -175,6 +175,7 @@ export class Main extends React.Component {
     };
 
     const datePickerDisabled = dateOption !== 'custom';
+
     const errors = [this.state.startDateError, this.state.endDateError];
     const invalidFormatError = errors.includes('invalid');
     const missingDateError = errors.includes('missing');
