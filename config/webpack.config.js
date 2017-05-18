@@ -12,8 +12,6 @@ const _ = require('lodash');
 
 require('babel-polyfill');
 
-const timestamp = new Date().getTime();
-
 const entryFiles = {
   'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
   'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
@@ -46,15 +44,16 @@ const configGenerator = (options) => {
     'react-router',
     'redux',
     'redux-thunk',
-    'raven-js'
+    'raven-js',
+    'moment'
   ];
   const baseConfig = {
     entry: filesToBuild,
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
-      filename: (options.buildtype === 'development') ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`,
-      chunkFilename: (options.buildtype === 'development') ? '[name].entry.js' : `[name].entry.[chunkhash]-${timestamp}.js`
+      filename: (options.buildtype === 'development') ? '[name].entry.js' : '[name].entry.[chunkhash].js',
+      chunkFilename: (options.buildtype === 'development') ? '[name].entry.js' : '[name].entry.[chunkhash].js'
     },
     module: {
       rules: [
@@ -193,14 +192,14 @@ const configGenerator = (options) => {
       }),
 
       new ExtractTextPlugin({
-        filename: (options.buildtype === 'development') ? '[name].css' : `[name].[contenthash]-${timestamp}.css`
+        filename: (options.buildtype === 'development') ? '[name].css' : '[name].[contenthash].css'
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
       new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        filename: (options.buildtype === 'development') ? 'vendor.js' : `vendor.[chunkhash]-${timestamp}.js`,
-        minChunks: Infinity
+        name: ['commons', 'vendor'],
+        filename: (options.buildtype === 'development') ? '[name].js' : '[name].[chunkhash].js',
+        minChunks: 12
       }),
     ],
   };
