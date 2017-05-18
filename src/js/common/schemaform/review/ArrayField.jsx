@@ -173,7 +173,7 @@ class ArrayField extends React.Component {
                           ? <h5>New {uiSchema['ui:options'].itemName}</h5>
                           : null}
                       <SchemaForm
-                          pageData={item}
+                          data={item}
                           schema={this.getItemSchema(index)}
                           uiSchema={arrayPageConfig.uiSchema}
                           title={pageTitle}
