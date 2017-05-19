@@ -124,8 +124,8 @@ smith.metadata({ buildtype: options.buildtype });
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('healthcare/health-records/*');
   ignoreList.push('healthcare/rjsf/*');
+  ignoreList.push('va-letters/*');
 }
 smith.use(ignore(ignoreList));
 
@@ -262,6 +262,7 @@ if (options.watch) {
         { from: '^/healthcare/health-records(.*)', to: '/healthcare/health-records/' },
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
+        { from: '^/va-letters(.*)', to: '/va-letters/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -395,7 +396,7 @@ smith.use(sitemap({
 }));
 // TODO(awong): Does anything even use the results of this plugin?
 
-if (!options.watch) {
+if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
   smith.use(blc({
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
@@ -408,7 +409,8 @@ if (!options.watch) {
           '/gi-bill-comparison-tool/',
           '/education/apply-for-education-benefits/application',
           '/healthcare/rjsf',
-          '/healthcare/apply/application'].join('|'))
+          '/healthcare/apply/application',
+          '/va-letters/'].join('|'))
   }));
 }
 

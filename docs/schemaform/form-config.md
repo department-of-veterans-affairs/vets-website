@@ -238,6 +238,12 @@ We've also been adding some additional uiSchema functionality not found in the r
     // the expandUnder field as the first question.
     expandUnder: '',
 
+    // If you need to match on a specific value, you can use this option to specify a value
+    // that the expandUnder field's data should equal. 
+    expandUnderCondition: 'someValue',
+    // This can also be a function, which receives the expandUnder field's data as an argument
+    expandUnderCondition: (field) => field === 'someValue' || field === 'someOtherValue',
+
     // If you're using the expandUnder option, you can set this option on the field specified
     // by expandUnder and it will add classes to the div that wraps all of the fields when
     // they are expanded. See cookbook for an example use case.
@@ -257,7 +263,7 @@ We've also been adding some additional uiSchema functionality not found in the r
 
     // Function that conditionally replaces the current field's schema
     // The index argument is provided if you use `ui:required` on data inside an array
-    updateSchema: function (formData, schema, uiSchema, index) {
+    updateSchema: function (formData, schema, uiSchema, index, pathToCurrentData) {
       // This function should return an object with the properties you want to update
       // It will not completely replace the existing schema, just update the individual
       // properties

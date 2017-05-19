@@ -6,17 +6,16 @@ import {
   transform,
 } from '../helpers';
 
-import fullNameUI from '../../../common/schemaform/definitions/fullName';
 import * as address from '../../../common/schemaform/definitions/address';
 
 import educationTypeUISchema from '../../definitions/educationType';
 import serviceBefore1977UI from '../../definitions/serviceBefore1977';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
-import * as veteranId from '../../definitions/veteranId';
 
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
+import createApplicantInformationPage from '../../pages/applicantInformation';
 
 import { showSchoolAddress } from '../../utils/helpers';
 import { benefitsLabels } from '../../utils/labels';
@@ -35,8 +34,7 @@ const {
   educationType,
   date,
   dateRange,
-  serviceBefore1977,
-  fullName
+  serviceBefore1977
 } = fullSchema1995.definitions;
 
 const formConfig = {
@@ -55,26 +53,19 @@ const formConfig = {
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-1995',
   chapters: {
-    veteranInformation: {
-      title: 'Veteran Information',
+    applicantInformation: {
+      title: 'Applicant Information',
       pages: {
-        veteranInformation: {
-          path: 'veteran/information',
-          title: 'Veteran information',
-          initialData: {},
-          uiSchema: {
-            veteranFullName: fullNameUI,
-            'view:veteranId': veteranId.uiSchema
-          },
-          schema: {
-            type: 'object',
-            required: ['veteranFullName'],
-            properties: {
-              veteranFullName: fullName,
-              'view:veteranId': veteranId.schema(fullSchema1995)
-            }
-          }
-        }
+        applicantInformation: createApplicantInformationPage(fullSchema1995, {
+          isVeteran: true,
+          fields: [
+            'veteranFullName',
+            'veteranSocialSecurityNumber',
+            'view:noSSN',
+            'vaFileNumber'
+          ],
+          required: ['veteranFullName']
+        })
       }
     },
     benefitSelection: {

@@ -21,10 +21,17 @@ class DownloadLink extends React.Component {
 
     if (this.state.downloading) return;
 
+    window.dataLayer.push({
+      event: 'health-record-download',
+      'hr-record-type': this.props.docType,
+    });
+
     if (this.downloadUrl) {
       window.open(this.downloadUrl, '_blank');
       return;
     }
+
+    const downloadWindow = window.open();
 
     this.setState({ downloading: true });
     const requestUrl = `/v0/health_records?doc_type=${this.props.docType}`;
@@ -36,7 +43,7 @@ class DownloadLink extends React.Component {
           const downloadUrl = URL.createObjectURL(blob);
           this.downloadUrl = downloadUrl;
           this.setState({ downloading: false });
-          window.open(this.downloadUrl, '_blank');
+          downloadWindow.location.href = this.downloadUrl;
         });
       },
       () => { this.setState({ downloading: false }); }

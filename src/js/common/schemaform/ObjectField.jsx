@@ -202,17 +202,22 @@ class ObjectField extends React.Component {
           {this.orderedProperties.map((objectFields, index) => {
             if (objectFields.length > 1) {
               const [first, ...rest] = objectFields;
+              const visible = rest.filter(prop => !_.get(['properties', prop, 'ui:collapsed'], schema));
               return (
-                <ExpandingGroup open={!!formData[objectFields[0]]} key={index}>
+                <ExpandingGroup open={visible.length > 0} key={index}>
                   {renderProp(first)}
                   <div className={_.get([first, 'ui:options', 'expandUnderClassNames'], uiSchema)}>
-                    {rest.map(renderProp)}
+                    {visible.map(renderProp)}
                   </div>
                 </ExpandingGroup>
               );
             }
 
-            return renderProp(objectFields[0], index);
+            // if fields have expandUnder, but are the only item, that means the
+            // field they're expanding under is hidden, and they should be hidden, too
+            return !_.get([objectFields[0], 'ui:options', 'expandUnder'], uiSchema)
+              ? renderProp(objectFields[0], index)
+              : undefined;
           })
           }
         </div>
