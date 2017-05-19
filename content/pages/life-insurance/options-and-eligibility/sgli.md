@@ -71,7 +71,7 @@ Yes. You can choose your level of coverage or even refuse coverage completely. Y
 
 To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage—fill out the Servicemembers' Group Life Insurance Election and Certificate and give this form to your unit’s personnel officer.
 
-[Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/8286.htm).
+[Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286_ed2017-04.pdf).
 
 ### How much will I pay for these benefits?
 
