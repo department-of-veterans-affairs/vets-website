@@ -155,9 +155,36 @@ describe('getCalculatedBenefits', () => {
     expect(getCalculatedBenefits(state).inputs.tuitionAssist).to.be.true;
   });
 
+  it('should hide kicker fields for GI Bill Ch 35', () => {
+    const state = set('eligibility.giBillChapter', '35', defaultState);
+    expect(getCalculatedBenefits(state).inputs.kicker).to.be.false;
+  });
+
   it('should show the in-state field for public schols', () => {
     const state = set('profile.attributes.type', 'PUBLIC', defaultState);
     expect(getCalculatedBenefits(state).inputs.inState).to.be.true;
+  });
+
+  it('should hide kicker fields for flight schools', () => {
+    const state = set('profile.attributes.type', 'flight', defaultState);
+    expect(getCalculatedBenefits(state).inputs.kicker).to.be.false;
+  });
+
+  it('should hide kicker fields for correspondence schools', () => {
+    const state = set('profile.attributes.type', 'correspondence', defaultState);
+    expect(getCalculatedBenefits(state).inputs.kicker).to.be.false;
+  });
+
+  it('should show scholarships in calculations if there were any', () => {
+    let state = set('calculator.scholarships', 10000, defaultState);
+    state = set('calculator.tuitionAssist', 5000, state);
+    expect(getCalculatedBenefits(state).outputs.yourScholarships.visible).to.be.true;
+  });
+
+  it('should hide scholarships in calculations if there were none', () => {
+    let state = set('calculator.scholarships', 0, defaultState);
+    state = set('calculator.tuitionAssist', 0, state);
+    expect(getCalculatedBenefits(state).outputs.yourScholarships.visible).to.be.false;
   });
 
   it('should hide school-related fields for OJT', () => {
