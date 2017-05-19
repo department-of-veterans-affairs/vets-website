@@ -2,7 +2,7 @@ import React from 'react';
 
 const headerContents = () => (
   <div>
-    <h1>Manage your VA Health Care Through Vets.gov</h1>
+    <h1>Terms and Conditions for Health Tools</h1>
     Accept the terms and conditions on vets.gov to:
     <ul>
       <li>Refill VA prescriptions</li>
@@ -57,7 +57,7 @@ const noContents = () => {
   return null;
 };
 
-class CreateMHVAccountPrompt extends React.Component {
+class AcceptTermsPrompt extends React.Component {
   constructor(props) {
     super(props);
     this.handleScroll = this.handleScroll.bind(this);
@@ -119,13 +119,13 @@ class CreateMHVAccountPrompt extends React.Component {
             <div className="terms-scroller" onScroll={this.handleScroll}>
               {termsContents()}
             </div>
-          </div>
-          <div className="form-radio-buttons">
-            <input type="radio" name="form-selection" id="form-yes" value="yes" onChange={this.handleAnswer}/>
-            <label htmlFor="form-yes">
-              {yesContents()}
-            </label>
-            {noRadio}
+            <div className="form-radio-buttons">
+              <input type="radio" name="form-selection" id="form-yes" value="yes" onChange={this.handleAnswer}/>
+              <label htmlFor="form-yes">
+                {yesContents()}
+              </label>
+              {noRadio}
+            </div>
           </div>
           <div>
             {footerContents()}
@@ -140,4 +140,4 @@ class CreateMHVAccountPrompt extends React.Component {
   }
 }
 
-export default CreateMHVAccountPrompt;
+export default AcceptTermsPrompt;
