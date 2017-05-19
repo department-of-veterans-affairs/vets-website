@@ -84,7 +84,7 @@ describe('HCA veteranInformation', () => {
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(7);
-    expect(formDOM.querySelector('#root_address_country')).not.to.be.null;
+    expect(formDOM.querySelector('#root_veteranAddress_country')).not.to.be.null;
 
     submitForm(form);
 
