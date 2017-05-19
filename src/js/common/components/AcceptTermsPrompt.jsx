@@ -38,7 +38,7 @@ class AcceptTermsPrompt extends React.Component {
     // loading state for terms content is handled by parent component
     const { terms } = this.props;
 
-    if (!terms.content) {
+    if (!terms.termsContent) {
       return <div></div>;
     }
 
@@ -50,36 +50,36 @@ class AcceptTermsPrompt extends React.Component {
     let noRadio = (<div>
       <input type="radio" name="form-selection" id="form-no" value="no" onChange={this.handleAnswer}/>
       <label htmlFor="form-no">
-        {terms.content.noContent}
+        {terms.noContent}
       </label>
     </div>);
 
-    if (terms.content.noContent === null) {
+    if (terms.noContent === null) {
       noRadio = <div></div>;
     }
 
     return (
       <div className="row primary terms-acceptance">
         <div className="small-12 columns usa-content">
-          <div dangerouslySetInnerHTML={{ __html: terms.content.headerContent }}/>
-          <h1>{terms.content.title}</h1>
+          <div dangerouslySetInnerHTML={{ __html: terms.headerContent }}/>
+          <h1>{terms.title}</h1>
           <div className="terms-box">
             <div className="terms-head">
               Scroll to read the full terms and conditions to continue
             </div>
             <div className="terms-scroller" onScroll={this.handleScroll}>
-              <div dangerouslySetInnerHTML={{ __html: terms.content.termsContent }}/>
+              <div dangerouslySetInnerHTML={{ __html: terms.termsContent }}/>
             </div>
           </div>
           <div className="form-radio-buttons">
             <input type="radio" name="form-selection" id="form-yes" value="yes" onChange={this.handleAnswer}/>
             <label htmlFor="form-yes">
-              {terms.content.yesContent}
+              {terms.yesContent}
             </label>
             {noRadio}
           </div>
           <div>
-            <div dangerouslySetInnerHTML={{ __html: terms.content.footerContent }}/>
+            <div dangerouslySetInnerHTML={{ __html: terms.footerContent }}/>
           </div>
           <div>
             {submitButton}
