@@ -1,14 +1,6 @@
 /* Rx detail page */
 
-#rx-detail {
-  h2 {
-    font-size: 3rem;
-  }
-
-  h3 {
-    font-size: 2.5rem;
-  }
-
+#rx-prescription {
   table {
     // Get font size to stay the same when table shrinks.
     display: block;
@@ -38,13 +30,29 @@
   }
 
   .rx-contact-card {
-    margin-bottom: 3.5rem;
     width: 100%;
   }
 }
 
+#rx-details {
+  padding-top: 3rem;
+}
+
 #rx-info {
-  margin-bottom: 3.5rem;
+  tbody {
+    &:first-child {
+      td, th {
+        border-bottom: none;
+        padding-top: 0;
+      }
+    }
+
+    &:nth-child(2) {
+      td, th {
+        border-top: none;
+      }
+    }
+  }
 
   td {
     padding-right: 0;
@@ -66,35 +74,34 @@
     margin-left: 16.5rem;
     width: auto;
   }
+
+  @include media-maxwidth($medium-screen) {
+    margin-bottom: 3rem;
+  }
 }
 
-.rx-history-tracking {
-  display: inline-block;
-  margin: 0;
-  padding-right: 2.2rem;
-}
+#rx-track-package {
+  .rx-history-tracking {
+    display: inline-block;
+    margin: 0;
+    padding-right: 2.2rem;
+  }
 
-.rx-detail-history {
-  margin: 0;
+  table {
+    margin: 0;
 
-  @media (min-width: $medium-screen) {
     td {
+      vertical-align: top;
       white-space: nowrap;
     }
-  }
 
-  @media (max-width: $medium-screen) {
-    td {
-      &:nth-child(1):before { content: "Order status: "; }
-      &:nth-child(2):before { content: "Tracking status: "; }
-    }
-  }
-}
-
-#rx-order-history {
-  @media (min-width: $medium-screen) {
-    p {
-      margin-top: 0;
+    @include media-maxwidth($medium-screen) {
+      td {
+        &:nth-child(1):before { content: "Shipment date: "; }
+        &:nth-child(2):before { content: "Carrier: "; }
+        &:nth-child(3):before { content: "Tracking number: "; }
+        &:nth-child(4):before { content: "Prescriptions in package: "; }
+      }
     }
   }
 }

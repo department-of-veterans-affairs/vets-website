@@ -4,9 +4,6 @@
   th, td {
     border-color: $color-gray-light;
   }
-  th.sortable {
-    cursor: pointer;
-  }
 }
 
 .rx-table-list {
@@ -16,7 +13,7 @@
     }
   }
 
-  @media (max-width: $medium-screen) {
+  @include media-maxwidth($medium-screen) {
     tr {
       padding: 1.5rem 0;
     }

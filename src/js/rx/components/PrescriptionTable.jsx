@@ -4,9 +4,9 @@ import { Link } from 'react-router';
 
 import SortableTable from '../../common/components/SortableTable';
 import { formatDate } from '../utils/helpers';
-import Prescription from './Prescription';
+import PrescriptionCard from './PrescriptionCard';
 
-class RefillStatus extends Prescription {
+class RefillStatus extends PrescriptionCard {
   render() {
     return (
       <div>
