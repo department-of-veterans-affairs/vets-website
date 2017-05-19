@@ -9,8 +9,8 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 class RequiredTermsAcceptanceView extends React.Component {
   componentWillMount() {
-    this.props.checkAcceptance();
-    this.props.fetchLatestTerms();
+    this.props.checkAcceptance(this.props.termsName);
+    this.props.fetchLatestTerms(this.props.termsName);
     window.scrollTo(0, 0);
   }
 
