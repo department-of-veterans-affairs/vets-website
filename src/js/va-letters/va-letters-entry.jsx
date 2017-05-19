@@ -10,10 +10,9 @@ import initReact from '../common/init-react';
 import { commonStore } from '../common/store';
 import routes from './routes.jsx';
 
-require('../common');  // Bring in the common javascript.
+require('../common');
 require('../../sass/va-letters.scss');
 require('../login/login-entry.jsx');
-
 
 const history = useRouterHistory(createHistory)({
   basename: '/va-letters'
