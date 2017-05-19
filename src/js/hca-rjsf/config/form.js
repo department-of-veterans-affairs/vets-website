@@ -132,7 +132,9 @@ const formConfig = {
         veteranInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran information',
-          initialData: {},
+          initialData: {
+            maritalStatus: 'Married'
+          },
           uiSchema: {
             veteranFullName: _.merge(fullNameUI, {
               last: {
@@ -524,15 +526,7 @@ const formConfig = {
                 expandUnder: 'sameAddress',
                 expandUnderCondition: false
               },
-              spouseAddress: _.merge(addressUI('', true), {
-                'ui:options': {
-                  updateSchema: (formData) => {
-                    // If formData.sameAddress === false, the address fields are
-                    //  shown and should be required
-                    return addressSchema(fullSchemaHca, formData.sameAddress === false);
-                  }
-                }
-              }),
+              spouseAddress: addressUI('', true, (formData) => formData.sameAddress === false),
               spousePhone: {
                 'ui:title': 'Phone'
               }
