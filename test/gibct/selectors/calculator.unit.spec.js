@@ -206,4 +206,33 @@ describe('getCalculatedBenefits', () => {
     expect(outputs.perTerm.tuitionFees.visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.visible).to.be.false;
   });
+
+  it('should hide term 2 and 3 calculations if only attending 1 term', () => {
+    const state = set('calculator', {
+      ...defaultState.calculator,
+      calendar: 'nontraditional',
+      numberNontradTerms: '1'
+    }, defaultState);
+    const { outputs } = getCalculatedBenefits(state);
+    expect(outputs.perTerm.tuitionFees.terms[1].visible).to.be.false;
+    expect(outputs.perTerm.tuitionFees.terms[2].visible).to.be.false;
+    expect(outputs.perTerm.housingAllowance.terms[1].visible).to.be.false;
+    expect(outputs.perTerm.housingAllowance.terms[2].visible).to.be.false;
+    expect(outputs.perTerm.bookStipend.terms[1].visible).to.be.false;
+    expect(outputs.perTerm.bookStipend.terms[2].visible).to.be.false;
+    expect(outputs.perTerm.yellowRibbon.terms[2].visible).to.be.false;
+    expect(outputs.perTerm.yellowRibbon.terms[3].visible).to.be.false;
+    expect(outputs.perTerm.yellowRibbon.terms[4].visible).to.be.false;
+    expect(outputs.perTerm.yellowRibbon.terms[5].visible).to.be.false;
+  });
+
+  it('should hide term 3 calculations if attending fewer than 3 terms', () => {
+    const state = set('calculator.calendar', 'semesters', defaultState);
+    const { outputs } = getCalculatedBenefits(state);
+    expect(outputs.perTerm.tuitionFees.terms[2].visible).to.be.false;
+    expect(outputs.perTerm.housingAllowance.terms[2].visible).to.be.false;
+    expect(outputs.perTerm.bookStipend.terms[2].visible).to.be.false;
+    expect(outputs.perTerm.yellowRibbon.terms[4].visible).to.be.false;
+    expect(outputs.perTerm.yellowRibbon.terms[5].visible).to.be.false;
+  });
 });
