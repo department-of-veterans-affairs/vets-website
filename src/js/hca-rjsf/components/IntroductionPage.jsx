@@ -54,3 +54,5 @@ class IntroductionPage extends React.Component {
 }
 
 export default withRouter(IntroductionPage);
+
+export { IntroductionPage };
