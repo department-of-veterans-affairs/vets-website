@@ -137,4 +137,24 @@ describe('getCalculatedBenefits', () => {
     const { outputs } = getCalculatedBenefits(state);
     expect(outputs.perTerm.yellowRibbon.visible).to.be.false;
   });
+
+  it('should hide school-related fields for OJT', () => {
+    const state = set('profile.attributes.type', 'OJT', defaultState);
+    const { inputs, outputs } = getCalculatedBenefits(state);
+    expect(inputs.tuition).to.be.false;
+    expect(inputs.books).to.be.false;
+    expect(inputs.yellowRibbon).to.be.false;
+    expect(inputs.scholarships).to.be.false;
+    expect(inputs.tuitionAssist).to.be.false;
+    expect(inputs.enrolled).to.be.false;
+    expect(inputs.enrolledOld).to.be.false;
+    expect(inputs.calendar).to.be.false;
+    expect(outputs.tuitionAndFeesCharged.visible).to.be.false;
+    expect(outputs.giBillPaysToSchool.visible).to.be.false;
+    expect(outputs.yourScholarships.visible).to.be.false;
+    expect(outputs.outOfPocketTuition.visible).to.be.false;
+    expect(outputs.totalPaidToYou.visible).to.be.false;
+    expect(outputs.perTerm.tuitionFees.visible).to.be.false;
+    expect(outputs.perTerm.yellowRibbon.visible).to.be.false;
+  });
 });
