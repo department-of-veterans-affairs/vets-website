@@ -13,11 +13,8 @@ export const commonReducer = {
 
 export default function createCommonStore(appReducer = {}) {
   const reducer = _.assign(appReducer, commonReducer);
+  const useDevTools = __BUILDTYPE__ === 'development' && window.devToolsExtension;
 
   return createStore(combineReducers(reducer), compose(
-    applyMiddleware(thunk),
-    __BUILDTYPE__ === 'development' && window.devToolsExtension
-      ? window.devToolsExtension()
-      : f => f
-  ));
+    applyMiddleware(thunk), useDevTools ? window.devToolsExtension() : f => f));
 }
