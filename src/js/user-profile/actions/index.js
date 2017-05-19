@@ -16,12 +16,12 @@ export function updateProfileField(propertyPath, value) {
   };
 }
 
-export function checkAcceptance() {
+export function checkAcceptance(termsName) {
   return dispatch => {
     dispatch({ type: FETCHING_MHV_TERMS_ACCEPTANCE });
 
     apiRequest(
-      '/terms_and_conditions/mhvac/versions/latest/user_data',
+      `/terms_and_conditions/${termsName}/latest/user_data`,
       null,
       response => dispatch({
         type: FETCHING_MHV_TERMS_ACCEPTANCE_SUCCESS,
@@ -32,12 +32,12 @@ export function checkAcceptance() {
   };
 }
 
-export function fetchLatestTerms() {
+export function fetchLatestTerms(termsName) {
   return dispatch => {
     dispatch({ type: FETCHING_LATEST_MHV_TERMS });
 
     apiRequest(
-      '/terms_and_conditions/mhvac/versions/latest',
+      `/terms_and_conditions/${termsName}/versions/latest`,
       null,
       response => dispatch({
         type: FETCHING_LATEST_MHV_TERMS_SUCCESS,
