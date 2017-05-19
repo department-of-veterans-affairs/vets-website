@@ -46,7 +46,7 @@ You can get FSGLI as the spouse of someone with SGLI coverage no matter if your 
 
 ### What kind of life insurance benefits can I get with FSGLI?
 
-Up to a maximum of $100,000 of coverage for you, not to exceed your Servicemember’s SGLI coverage, and $10,000 for each dependent child. Dependent children get free coverage. 
+Up to a maximum of $100,000 of coverage for you as a spouse, not to exceed your Servicemember’s SGLI coverage, and $10,000 for each dependent child. Dependent children get free coverage. 
 
 ### How do I get these benefits?
 
@@ -204,7 +204,7 @@ Yes. If you have spousal coverage and you want to reduce, turn down, or cancel i
 
 **Note:** We automatically cover dependent children. This coverage can’t be turned down, reduced, or canceled.
 
-### How much will the Servicemember pay for dependent coverage? 
+### How much will my Servicemember pay for dependent coverage? 
 
 Nothing. We provide dependent coverage at no cost until the child is 18 years old, unless the child:
 - Is a full-time student, **or**
