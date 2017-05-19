@@ -36,6 +36,7 @@ class ArrayField extends React.Component {
     this.handleSetData = this.handleSetData.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
+    this.isLocked = this.isLocked.bind(this);
   }
 
   getItemSchema(index) {
@@ -49,7 +50,9 @@ class ArrayField extends React.Component {
 
   scrollToTop() {
     setTimeout(() => {
-      scroller.scrollTo(`topOfTable_${this.props.path[this.props.path.length - 1]}`, {
+      // Hacky; won't work if the array field is used in two pages and one isn't
+      //  a BasicArrayField nor if the array field is used in three pages.
+      scroller.scrollTo(`topOfTable_${this.props.path[this.props.path.length - 1]}${this.isLocked() ? '_locked' : ''}`, {
         duration: 500,
         delay: 0,
         smooth: true,
@@ -136,6 +139,10 @@ class ArrayField extends React.Component {
     });
   }
 
+  isLocked() {
+    return this.props.uiSchema['ui:field'] === 'BasicArrayField';
+  }
+
   render() {
     const {
       schema,
@@ -151,7 +158,7 @@ class ArrayField extends React.Component {
     };
 
     // TODO: Make this better; it's super hacky for now.
-    const itemCountLocked = uiSchema['ui:field'] === 'BasicArrayField';
+    const itemCountLocked = this.isLocked();
     const items = itemCountLocked ? this.props.arrayData : this.state.items;
 
     return (
@@ -164,7 +171,7 @@ class ArrayField extends React.Component {
             }
           </div>}
         <div className="va-growable va-growable-review">
-          <Element name={`topOfTable_${fieldName}`}/>
+          <Element name={`topOfTable_${fieldName}${itemCountLocked ? '_locked' : ''}`}/>
           {items.map((item, index) => {
             const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index];
