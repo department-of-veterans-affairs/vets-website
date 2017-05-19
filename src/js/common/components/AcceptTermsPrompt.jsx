@@ -80,7 +80,9 @@ class AcceptTermsPrompt extends React.Component {
           </div>
           <div>
             {submitButton}
-            <button className="usa-button-outline">Cancel</button>
+            <a href="/healthcare" className="usa-button usa-button-outline">
+              Cancel
+            </a>
           </div>
         </div>
       </div>
