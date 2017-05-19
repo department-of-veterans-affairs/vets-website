@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { createStore } from 'redux';
 import 'babel-polyfill';
+import { set } from 'lodash/fp';
 
 import { calculatorConstants } from '../../e2e/gibct-helpers';
 import reducer from '../../../src/js/gi/reducers';
@@ -121,8 +122,19 @@ defaultState.profile = {
 
 describe('getCalculatedBenefits', () => {
   it('should calculate no housing allowance for active duty and Ch 33', () => {
-    const state = { ...defaultState };
-    state.eligibility.militaryStatus = 'active duty';
+    const state = set('eligibility.militaryStatus', 'active duty', defaultState);
     expect(getCalculatedBenefits(state).outputs.housingAllowance.value).to.equal('$0/mo');
+  });
+
+  it('should show Yellow Ribbon breakdown when eligible', () => {
+    const state = set('calculator.yellowRibbonRecipient', 'yes', defaultState);
+    const { outputs } = getCalculatedBenefits(state);
+    expect(outputs.perTerm.yellowRibbon.visible).to.be.true;
+  });
+
+  it('should hide Yellow Ribbon breakdown when not eligible', () => {
+    const state = set('profile.attributes.yr', false, defaultState);
+    const { outputs } = getCalculatedBenefits(state);
+    expect(outputs.perTerm.yellowRibbon.visible).to.be.false;
   });
 });
