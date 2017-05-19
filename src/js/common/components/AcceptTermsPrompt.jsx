@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
 
-class CreateMHVAccountPrompt extends React.Component {
+class AcceptTermsPrompt extends React.Component {
   constructor(props) {
     super(props);
     this.handleScroll = this.handleScroll.bind(this);
@@ -87,4 +87,4 @@ class CreateMHVAccountPrompt extends React.Component {
   }
 }
 
-export default CreateMHVAccountPrompt;
+export default AcceptTermsPrompt;

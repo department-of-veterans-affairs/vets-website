@@ -34,6 +34,7 @@
 .terms-acceptance {
   .terms-box {
     border: 1px solid $color-gray-light;
+    margin-bottom: 10px;
 
     .terms-head {
       padding: 10px;
@@ -47,6 +48,12 @@
       padding: 10px;
       max-height: 400px;
       overflow: auto;
+    }
+
+    .form-radio-buttons {
+      padding: 0 10px 5px 10px;
+      border-top: 1px solid $color-gray-light;
+      background-color: $color-gray-light-alt;
     }
   }
 }
