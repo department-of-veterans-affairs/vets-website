@@ -1,6 +1,8 @@
 import _ from 'lodash/fp';
 import fullNameUI from '../../common/schemaform/definitions/fullName';
+import currentOrPastDateUI from '../../common/schemaform/definitions/currentOrPastDate';
 import ssnUI from '../../common/schemaform/definitions/ssn';
+import { validateDependentDate } from '../validation';
 
 const incomeFields = [
   'grossIncome',
@@ -64,12 +66,12 @@ export const uiSchema = {
   childSocialSecurityNumber: _.merge(ssnUI, {
     'ui:title': 'Child’s social security number'
   }),
-  childDateOfBirth: {
-    'ui:title': 'Child’s date of birth'
-  },
-  childBecameDependent: {
-    'ui:title': 'Date child became dependent'
-  },
+  childDateOfBirth: currentOrPastDateUI('Child’s date of birth'),
+  childBecameDependent: _.assign(currentOrPastDateUI('Date child became dependent'), {
+    'ui:validations': [
+      validateDependentDate
+    ]
+  }),
   childDisabledBefore18: {
     'ui:title': 'Was child permanently and totally disabled before the age of 18?',
     'ui:widget': 'yesNo'

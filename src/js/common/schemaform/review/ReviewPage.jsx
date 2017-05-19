@@ -95,6 +95,7 @@ class ReviewPage extends React.Component {
             checked={form.data.privacyAgreementAccepted}
             showError={form.submission.hasAttemptedSubmit}/>
         <SubmitButtons
+            errorMessage={formConfig.errorMessage}
             onBack={this.goBack}
             onSubmit={this.handleSubmit}
             submission={form.submission}/>

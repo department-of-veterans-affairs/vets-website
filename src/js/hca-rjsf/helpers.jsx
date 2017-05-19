@@ -6,9 +6,7 @@ import { vaMedicalFacilities } from '../common/utils/options-for-select.js';
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
   return JSON.stringify({
-    healthCareApplication: {
-      form: formData
-    }
+    form: formData
   });
 }
 
