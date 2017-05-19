@@ -50,7 +50,9 @@ You may be able to get retroactive TSGLI (meaning that it takes effect starting 
 - You weren’t injured while committing or trying to commit a felony, **and**
 - You weren’t injured by a physical or mental illness or disease (not including illness or disease caused by a wound infection; a chemical, biological, or radiological weapon; or accidentally swallowing a contaminated substance)
 
-You can use this benefit no matter where the injury happened—whether you were on or off duty—and no matter if your coverage was in effect when you got injured.
+You can use this benefit no matter where the injury happened—whether you were on or off duty—and no matter if your coverage was in effect when you got injured. 
+
+</br >
 
 **Note:** We’ve removed the previous requirement that you must have been injured during Operations Enduring or Iraqi Freedom (OEF or OIF). [Find out if you qualify for retroactive benefits](http://www.benefits.va.gov/insurance/tsgli-claim-questionnaire.asp). 
 
