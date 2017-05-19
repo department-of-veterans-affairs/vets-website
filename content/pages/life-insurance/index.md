@@ -20,7 +20,7 @@ majorlinks:
 
 <div class="va-introtext">
 
-If you’re a Servicemember or Veteran—or the family member of a Veteran—you may be able to get life insurance through VA. Explore your options, manage your policy, and file claims.
+If you’re a Servicemember or Veteran—or the spouse or dependent child of a Servicemember—you may be able to get life insurance through VA. Explore your options, manage your policy, and file claims.
 
 </div>
 
