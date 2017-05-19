@@ -5,6 +5,9 @@ import {
   FETCHING_MHV_TERMS_ACCEPTANCE,
   FETCHING_MHV_TERMS_ACCEPTANCE_SUCCESS,
   FETCHING_MHV_TERMS_ACCEPTANCE_FAILURE,
+  FETCHING_LATEST_MHV_TERMS,
+  FETCHING_LATEST_MHV_TERMS_SUCCESS,
+  FETCHING_LATEST_MHV_TERMS_FAILURE,
  } from '../actions';
 
 // TODO(crew): Romove before this goes to production.
@@ -22,6 +25,7 @@ const initialState = {
   terms: {
     loading: false,
     acceptance: false,
+    terms: {},
   }
 };
 
@@ -48,6 +52,32 @@ function profileInformation(state = initialState, action) {
       };
     }
     case FETCHING_MHV_TERMS_ACCEPTANCE_FAILURE: {
+      return {
+        ...state,
+        terms: {
+          loading: false,
+        }
+      };
+    }
+    case FETCHING_LATEST_MHV_TERMS: {
+      return {
+        ...state,
+        terms: {
+          content: {},
+          loading: false,
+        }
+      };
+    }
+    case FETCHING_LATEST_MHV_TERMS_SUCCESS: {
+      return {
+        ...state,
+        terms: {
+          ...action.terms,
+          loading: false,
+        }
+      };
+    }
+    case FETCHING_LATEST_MHV_TERMS_FAILURE: {
       return {
         ...state,
         terms: {
