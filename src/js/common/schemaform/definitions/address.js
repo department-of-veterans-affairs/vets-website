@@ -97,7 +97,6 @@ export function uiSchema(label = 'Address', useStreet3 = false, isRequired = nul
         const withoutEnum = _.unset('state.enum', schemaUpdate.properties);
         schemaUpdate.properties = _.unset('state.enumNames', withoutEnum);
         if (required) {
-
           schemaUpdate.required = addressSchema.required.filter(field => field !== 'state');
         }
       }
