@@ -3,8 +3,8 @@ layout: page-breadcrumbs.html
 title: About VA Health Care Coverage
 display_title: ""
 concurrence: ""
-template: 1-topic-landing
-lastupdate_override:
+template: 4-action-page-pending
+lastupdate_override: 2017-5-19
 relatedlinks: 
   - url: /healthcare/eligibility/
     title: Health Care Benefits Eligibility
