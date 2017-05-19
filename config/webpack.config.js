@@ -28,6 +28,7 @@ const entryFiles = {
   'va-letters': './src/js/va-letters/va-letters-entry.jsx',
   pensions: './src/js/pensions/pensions-entry.jsx',
 };
+const NUM_BUNDLES = Object.keys(entryFiles).length;
 
 const configGenerator = (options) => {
   var filesToBuild = entryFiles; // eslint-disable-line no-var
@@ -199,7 +200,7 @@ const configGenerator = (options) => {
       new webpack.optimize.CommonsChunkPlugin({
         name: ['commons', 'vendor'],
         filename: (options.buildtype === 'development') ? '[name].js' : '[name].[chunkhash].js',
-        minChunks: 12
+        minChunks: NUM_BUNDLES - 1
       }),
     ],
   };
