@@ -20,7 +20,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Are you the spouse or dependent child (a child who depends on a parent for financial support) of a Servicemember who’s covered under Servicemembers’ Group Life Insurance (SGLI)? If yes, you may qualify for term life insurance coverage through Family Servicemembers’ Group Life Insurance (FSGLI). Find out if you qualify—and how to manage your coverage.
+Are you the spouse or dependent child of a Servicemember who’s covered under Servicemembers’ Group Life Insurance (SGLI)? If you are, you may qualify for term life insurance coverage through Family Servicemembers’ Group Life Insurance (FSGLI). Find out if you qualify—and how to manage your coverage.
 
 </div>
 
@@ -46,17 +46,17 @@ You can get FSGLI as the spouse of someone with SGLI coverage no matter if your 
 
 ### What kind of life insurance benefits can I get with FSGLI?
 
-Up to a maximum of $100,000 of coverage for you, not to exceed the Servicemember’s SGLI coverage, and $10,000 for each dependent child. Dependent children get free coverage. 
+Up to a maximum of $100,000 of coverage for you, not to exceed your Servicemember’s SGLI coverage, and $10,000 for each dependent child. Dependent children get free coverage. 
 
 ### How do I get these benefits?
 
-- **If you’re the civilian spouse of a Servicemember signed up for full-time SGLI**, we’ll automatically insure you under FSGLI. In this case, we’ll automatically take your premium out of your spouse’s pay.
+- **If you’re the civilian spouse of a Servicemember signed up for full-time SGLI**, we’ll automatically insure you under FSGLI. In this case, we’ll automatically take your premium out of your Servicemember’s pay.
 
-- **If you’re a military spouse and you were married on or after January 2, 2013**, we won’t automatically cover you. You’ll need to sign up using VA Form SGLV 8286A (Spouse Coverage Election and Certificate). Complete the form and hand it in to your unit's personnel officer. [Download VA Form SGLV 8286A](http://www.benefits.va.gov/INSURANCE/forms/8286A.htm).
+- **If you’re a military spouse and you were married on or after January 2, 2013**, we won’t automatically cover you. You’ll need to sign up using the Spouse Coverage Election and Certificate. Fill out this form and have your Servicemember hand it in to the personnel office for their unit. [Download the Spouse Coverage Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2017-04.PDF).
 
-### How much will I pay for spousal coverage—and how do the premium payments work?
+### How much will my Servicemember pay for spousal coverage—and how do the premium payments work?
 
-You’ll pay a premium for your spouse’s coverage, which will increase as your spouse ages. Choose your spouse’s age below to view current spousal coverage monthly premium rates based on the amount of insurance coverage you want.
+Your Servicemember will pay a premium for your coverage, which will increase as you age. Choose your age below to view current spousal coverage monthly premium rates based on the amount of insurance coverage you want.
 
 <div class="usa-accordion">
 <ul class="usa-unstyled-list">
@@ -198,33 +198,33 @@ You’ll pay a premium for your spouse’s coverage, which will increase as your
 
 If you’re signed up as a spouse in the Defense Enrollment Eligibility Reporting System (DEERS), we’ll automatically deduct the FSGLI premium from your Servicemember’s pay. If you aren’t signed up in DEERS, your Servicemember will still be responsible for premiums and back payments of unpaid premiums. 
 
-### Can I get extended coverage for a dependent child? 
+### Can my Servicemember make changes to my coverage? 
 
-Yes, in some cases. Coverage lasts until the child is 18 years old. But, if the child is a full-time student or becomes permanently and totally disabled (unable to do everyday tasks, including meaningful work) before turning 18 and is no longer able to support themselves, we may extend the coverage.
-
-### Can I make changes to my coverage? 
-
-Yes, if you have spousal coverage. If you want to reduce, turn down, or cancel your spousal coverage, complete VA Form SGLV 8286A: Spouse Coverage Election and Certificate and turn it in to your unit’s personnel office. [Download VA Form SGLV 8286A](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2014-06.PDF). 
+Yes. If you have spousal coverage and you want to reduce, turn down, or cancel it, fill out the Spouse Coverage Election and Certificate and have your Servicemember turn it in to the personnel office for their unit. [Download the Spouse Coverage Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8286A_ed2014-06.PDF). 
 
 **Note:** We automatically cover dependent children. This coverage can’t be turned down, reduced, or canceled.
 
-### How much will I pay for dependent coverage? 
+### How much will the Servicemember pay for dependent coverage? 
 
 Nothing. We provide dependent coverage at no cost until the child is 18 years old, unless the child:
 - Is a full-time student, **or**
 - Becomes permanently and totally disabled—before turning 18—and can’t support themselves 
 
-### How do I convert an FSGLI policy to an individual insurance policy? 
+### Can my Servicemember get extended coverage for our dependent child? 
 
-You have the option to convert spousal FSGLI coverage to a permanent, individual insurance policy (such as whole life) within 120 days from the date of the Servicemember’s:
+Yes, in some cases. Coverage lasts until the child is 18 years old. But, if the child is a full-time student between 18 and 22 years old, we may extend the coverage. Or, if the child becomes permanently and totally disabled before turning 18 and is no longer able to support themselves, we may extend the coverage—in some cases indefinitely.
+
+### How do I convert a spousal FSGLI policy to an individual insurance policy? 
+
+You have the option to convert spousal FSGLI coverage to a permanent, individual insurance policy (such as whole life) within 120 days from the date of your Servicemember’s:
 
 - Separation from the military
-- Divorce from their current spouse
+- Divorce from you
 - Written election to end spousal SGLI coverage
 - Written election to end their SGLI coverage
 - Death
 
-If any of the above events happen, the spouse becomes solely responsible for all aspects of the policy, including premium payments.
+If any of the above events happen, you, as the Servicemember's spouse, become solely responsible for all aspects of the policy, including premium payments.
 
 You can’t convert other types of policies—such as term, variable, or universal life insurance. And, supplementary policy benefits—such as accidental death and dismemberment or a waiver of the premium for disability—aren’t considered part of the conversion policy.
 
