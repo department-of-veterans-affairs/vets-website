@@ -126,16 +126,38 @@ describe('getCalculatedBenefits', () => {
     expect(getCalculatedBenefits(state).outputs.housingAllowance.value).to.equal('$0/mo');
   });
 
-  it('should show Yellow Ribbon breakdown when eligible', () => {
+  it('should show Yellow Ribbon fields when eligible', () => {
     const state = set('calculator.yellowRibbonRecipient', 'yes', defaultState);
-    const { outputs } = getCalculatedBenefits(state);
+    const { inputs, outputs } = getCalculatedBenefits(state);
+    expect(inputs.yellowRibbon).to.be.true;
     expect(outputs.perTerm.yellowRibbon.visible).to.be.true;
   });
 
-  it('should hide Yellow Ribbon breakdown when not eligible', () => {
+  it('should hide Yellow Ribbon fields when school does not offer it', () => {
     const state = set('profile.attributes.yr', false, defaultState);
-    const { outputs } = getCalculatedBenefits(state);
+    const { inputs, outputs } = getCalculatedBenefits(state);
+    expect(inputs.yellowRibbon).to.be.false;
     expect(outputs.perTerm.yellowRibbon.visible).to.be.false;
+  });
+
+  it('should show the books field for GI Bill Ch 31', () => {
+    const state = set('eligibility.giBillChapter', '31', defaultState);
+    expect(getCalculatedBenefits(state).inputs.books).to.be.true;
+  });
+
+  it('should show the buy-up field for GI Bill Ch 30', () => {
+    const state = set('eligibility.giBillChapter', '30', defaultState);
+    expect(getCalculatedBenefits(state).inputs.buyUp).to.be.true;
+  });
+
+  it('should show the tuition assistance field for GI Bill Ch 33 with eligible military status', () => {
+    const state = set('eligibility.militaryStatus', 'national guard / reserves', defaultState);
+    expect(getCalculatedBenefits(state).inputs.tuitionAssist).to.be.true;
+  });
+
+  it('should show the in-state field for public schols', () => {
+    const state = set('profile.attributes.type', 'PUBLIC', defaultState);
+    expect(getCalculatedBenefits(state).inputs.inState).to.be.true;
   });
 
   it('should hide school-related fields for OJT', () => {
