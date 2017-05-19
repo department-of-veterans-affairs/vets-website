@@ -441,6 +441,3 @@ smith.build((err) => {
     console.log('Build finished!');
   }
 });
-
-const exec = require('child_process').exec;
-exec('yarn cache dir');
