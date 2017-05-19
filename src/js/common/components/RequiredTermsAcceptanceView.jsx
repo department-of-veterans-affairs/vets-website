@@ -9,8 +9,7 @@ import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 class RequiredTermsAcceptanceView extends React.Component {
   componentWillMount() {
-    // I get errors and the app crashes if this line is called.
-    // this.props.checkAcceptance();
+    this.props.checkAcceptance();
     window.scrollTo(0, 0);
   }
 
