@@ -20,7 +20,7 @@ relatedlinks:
 
 <div class="va-introtext">
 
-If you have a disability (damage to your body or mind that makes you less able to do everyday tasks, including meaningful work) that we’ve concluded was caused—or made worse—by your active service, you may be able to get life insurance under Service-Disabled Veterans Insurance (S-DVI). Find out if you qualify—and how to manage your coverage.
+If you have a disability (damage to your body or mind that makes you unable to work) that we’ve concluded was caused—or made worse—by your active service, you may be able to get life insurance under Service-Disabled Veterans Insurance (S-DVI). Find out if you qualify—and how to manage your coverage.
 
 </div>
 
@@ -40,7 +40,7 @@ You may be able to get S-DVI if you’ve gotten a disability rating of 0% or mor
 
 ### Can I get more life insurance coverage if I need it? 
 
-If you carry the basic S-DVI coverage and become totally disabled (unable to do everyday tasks, including meaningful work), you can apply to get up to $30,000 more in coverage. This is called Supplemental S-DVI coverage.
+If you carry the basic S-DVI coverage and become totally disabled and unable to work, you can apply to get up to $30,000 more in coverage. This is called Supplemental S-DVI coverage.
 
 You may also be able to get $30,000 of supplemental coverage if you qualify for a premiums waiver, and you:
 - Apply for the coverage within 1 year from the date you get notice of the grant of waiver, **and**
@@ -76,11 +76,11 @@ You’ll need to apply for benefits in 1 of 2 ways:
 <dd>Philadelphia, PA 19101</dd>
 </dl> 
 
-[Download VA Form 29-4364](http://benefits.va.gov/INSURANCE/forms/29-4364.htm).
+[Download VA Form 29-4364](http://benefits.va.gov/INSURANCE/forms/29-4364.pdf).
 
 To apply for Supplemental S-DVI, file VA Form 29-0188 (Application for Supplemental Service-Disabled Veterans Insurance [SRH]) or send a letter requesting this insurance over your signature. You must apply for the coverage within 1 year from the date you receive notice of the grant of waiver of premiums.
 
-[Download VA Form 29-0188](http://benefits.va.gov/INSURANCE/forms/29-0188.htm).
+[Download VA Form 29-0188](http://benefits.va.gov/INSURANCE/forms/29-0188.pdf).
 
 ### How much will I pay for these benefits?
 
@@ -93,3 +93,5 @@ Get premium rates and a description of the plan options. [Download VA pamphlet 2
 ### Can I get a waiver so I don’t have to pay the premiums? 
 
 Yes, in some cases. Under certain conditions, the basic S-DVI policy provides for a waiver of premiums for Veterans who are totally disabled. [Learn more about premium waivers](/life-insurance/disabled-and-terminally-ill/).
+
+You must pay your premiums for Supplemental S-DVI.
