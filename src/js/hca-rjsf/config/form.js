@@ -587,7 +587,7 @@ const formConfig = {
         annualIncome: {
           path: 'household-information/annual-income',
           title: 'Annual income',
-          // initialData: testData, // FOR TESTING ONLY
+          initialData: {},
           depends: (data) => data.discloseFinancialInformation,
           uiSchema: {
             'ui:title': 'Annual income',
