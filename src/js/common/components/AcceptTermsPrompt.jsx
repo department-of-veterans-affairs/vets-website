@@ -38,6 +38,10 @@ class AcceptTermsPrompt extends React.Component {
     // loading state for terms content is handled by parent component
     const { terms } = this.props;
 
+    if (!terms.content) {
+      return <div></div>;
+    }
+
     let submitButton = <button className="usa-button-disabled" disabled>Submit</button>;
     if (this.state.scrolledToBottom && this.state.yesSelected) {
       submitButton = <button className="usa-button" onClick={this.handleSubmit}>Submit</button>;
