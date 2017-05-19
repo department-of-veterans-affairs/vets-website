@@ -74,7 +74,7 @@ You’re automatically covered through TSGLI if you’re signed up for full-time
 
 To get payments—including retroactive TSGLI payments—you’ll need to apply. To file a claim, fill out VA Form SGLV 8600 (Application for TSGLI Benefits), and fax, email, or mail it to us. Look for the address of your service branch on the front page of the form.
 
-[Download VA Form SGLV 8600](http://www.benefits.va.gov/INSURANCE/forms/TSGLIForm.htm).
+[Download VA Form SGLV 8600](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8600_ed2017-01.pdf).
 
 ### How do I appeal a decision if I’m denied benefits?
 
