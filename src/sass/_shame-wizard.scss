@@ -1,0 +1,164 @@
+// This file is a place where you put all the code you're not proud of,
+// with the intention of A) isolating it and B) fixing it later. The goal
+// is for this file to be empty, but some times you just have to throw that
+// hack in there to get it working.
+
+// message while loading react app
+.loading-message {
+  text-align: center;
+  padding: 2em 0;
+}
+
+body .row {
+  max-width: 62.5em;
+}
+
+.form-panel {
+  @include media($medium-screen) {
+    max-width: $usa-form-width;
+  }
+}
+
+.main-form,
+.progress-box {
+  button {
+    width: 100%;
+  }
+}
+
+.button-icon{
+  font-size: 1.7rem;
+}
+
+.progress-box {
+  padding: 1rem 2rem;
+  margin: 1.5rem 0;
+  border: 1px solid $color-gray-lightest;
+}
+
+.form-section {
+  display: none;
+}
+
+#content .section {
+  fieldset {
+    h4 {
+      padding: 0;
+    }
+  }
+}
+
+.edit-checkbox {
+  label {
+    background-color: transparent;
+    display: inline-block;
+
+    &:before {
+      display: none !important;
+    }
+
+    &:hover {
+      cursor: pointer;
+      outline: 0;
+    }
+  }
+}
+
+.input-section {
+  margin-bottom: 2em;
+
+  .row {
+    margin: 0;
+  }
+}
+
+.usa-input-error {
+  select {
+    border: 3px solid $color-secondary-dark;
+    width: calc(100% + 1.5rem);
+  }
+}
+
+.va-alert-text {
+  margin: 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* inline declarations moved here as a result of CSP rules */
+
+.csp-inline-patch-L2-section-landing {
+  margin-bottom: 1em;
+}
+
+.csp-inline-patch-L2-section-landing-1 {
+  display: inline-block;
+  margin-bottom: 0em;
+}
+
+.csp-inline-patch-L2-section-landing-2 {
+  display: inline-block;
+}
+
+.csp-inline-patch-footer {
+  display: none;
+  visibility: hidden;
+}
+
+.csp-inline-patch-header {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+.csp-inline-patch-modal {
+  display: none;
+}
+
+.csp-inline-patch-page-breadcrumbs {
+  background-color: $color-warning-message;
+  text-align: center;
+}
+
+.csp-inline-patch-page-breadcrumbs-2 {
+  margin: 0;
+}
+
+.csp-inline-patch-page-react {
+  padding: 2em 0;
+}
+
+.csp-inline-patch-404 {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+.csp-inline-patch-application {
+  padding: 2em 0;
+}
+
+.csp-inline-patch-logout {
+  padding: 2em 0;
+}
+
+//============================================
+// Overrides for USWDS shenanigans.
+// See: https://github.com/18F/web-design-standards/issues/1899
+// ===========================================
+
+@include media($medium-large-screen)  {
+  .usa-grid {
+    .usa-width-one-fourth {
+      margin-right: 2.35765%;
+      width: 23.23176%;
+    }
+
+    .usa-width-three-fourths {
+      margin-right: 2.35765%;
+      width: 74.41059%;
+    }
+  }
+}

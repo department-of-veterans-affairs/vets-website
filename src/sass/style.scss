@@ -29,7 +29,7 @@
 @import "~uswds/src/stylesheets/core/grid-settings";
 @import "~uswds/src/stylesheets/core/variables";
 
-// A VA partial. Here so that we can override the 
+// A VA partial. Here so that we can override the
 // USWDS breakpoint and grid variables from above before
 // the grid, alerts, etc are loaded.
 @import "base/b-breakpoints";
@@ -75,7 +75,9 @@
 @import "modules/m-dropdown";
 @import "modules/m-nav-sidebar";
 @import "modules/m-overlay";
+// @import "modules/m-education-wizard";
 
 // ----- VA SHAME ---- //
 
 @import "shame";
+// @import "shame-wizard";
