@@ -7,6 +7,10 @@ export const FETCHING_MHV_TERMS_ACCEPTANCE_FAILURE = 'FETCHING_MHV_TERMS_ACCEPTA
 export const FETCHING_LATEST_MHV_TERMS = 'FETCHING_LATEST_MHV_TERMS';
 export const FETCHING_LATEST_MHV_TERMS_SUCCESS = 'FETCHING_LATEST_MHV_TERMS_SUCCESS';
 export const FETCHING_LATEST_MHV_TERMS_FAILURE = 'FETCHING_LATEST_MHV_TERMS_FAILURE';
+export const ACCEPTING_LATEST_MHV_TERMS = 'ACCEPTING_LATEST_MHV_TERMS';
+export const ACCEPTING_LATEST_MHV_TERMS_SUCCESS = 'ACCEPTING_LATEST_MHV_TERMS_SUCCESS';
+export const ACCEPTING_LATEST_MHV_TERMS_FAILURE = 'ACCEPTING_LATEST_MHV_TERMS_FAILURE';
+
 
 export function updateProfileField(propertyPath, value) {
   return {
@@ -21,11 +25,11 @@ export function checkAcceptance(termsName) {
     dispatch({ type: FETCHING_MHV_TERMS_ACCEPTANCE });
 
     apiRequest(
-      `/terms_and_conditions/${termsName}/latest/user_data`,
+      `/terms_and_conditions/${termsName}/versions/latest/user_data`,
       null,
       response => dispatch({
         type: FETCHING_MHV_TERMS_ACCEPTANCE_SUCCESS,
-        acceptance: response.data.attributes.created_at
+        acceptance: response.data.attributes.createdAt
       }),
       () => dispatch({ type: FETCHING_MHV_TERMS_ACCEPTANCE_FAILURE })
     );
@@ -44,6 +48,29 @@ export function fetchLatestTerms(termsName) {
         terms: response.data.attributes
       }),
       () => dispatch({ type: FETCHING_LATEST_MHV_TERMS_FAILURE })
+    );
+  };
+}
+
+export function acceptTerms(termsName) {
+  return dispatch => {
+    dispatch({ type: ACCEPTING_LATEST_MHV_TERMS });
+
+    const settings = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: termsName,
+      })
+    };
+
+    apiRequest(
+      `/terms_and_conditions/${termsName}/versions/latest/user_data`,
+      settings,
+      () => dispatch({
+        type: ACCEPTING_LATEST_MHV_TERMS_SUCCESS,
+      }),
+      () => dispatch({ type: ACCEPTING_LATEST_MHV_TERMS_FAILURE })
     );
   };
 }

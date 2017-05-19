@@ -15,10 +15,7 @@ class AcceptTermsPrompt extends React.Component {
   }
 
   handleSubmit() {
-    // In here we need to POST to
-    // /v0/terms_and_conditions/mhvac/versions/latest/user_data
-    // to accept the terms, and then we need to let the RequiredTermsAcceptanceView
-    // display its children.
+    this.props.onAccept(this.props.terms.name);
   }
 
   handleScroll(event) {

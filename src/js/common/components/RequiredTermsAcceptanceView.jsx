@@ -2,7 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { checkAcceptance, fetchLatestTerms } from '../../user-profile/actions';
+import {
+  checkAcceptance,
+  fetchLatestTerms,
+  acceptTerms,
+} from '../../user-profile/actions';
 
 import AcceptTermsPrompt from './AcceptTermsPrompt';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -24,7 +28,7 @@ class RequiredTermsAcceptanceView extends React.Component {
     } else if (terms.acceptance) {
       view = this.props.children;
     } else {
-      view = <AcceptTermsPrompt terms={terms}/>;
+      view = <AcceptTermsPrompt terms={terms} onAccept={this.props.acceptTerms}/>;
     }
 
     return (
@@ -51,6 +55,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   checkAcceptance,
   fetchLatestTerms,
+  acceptTerms,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequiredTermsAcceptanceView);
