@@ -181,7 +181,7 @@
     "whatwg-fetch": "http://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-1.0.0.tgz",
     "winston": "^2.2.0"
   },
-  "cacheDirectories": [".cache/yarn"],
+  "cacheDirectories": ["/app/.cache/yarn"],
   "optionalDependencies": {
     "fsevents": "^1.0.7"
   },
