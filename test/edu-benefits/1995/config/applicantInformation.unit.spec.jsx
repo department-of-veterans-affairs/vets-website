@@ -9,8 +9,8 @@ import formConfig from '../../../../src/js/edu-benefits/1995/config/form';
 
 const definitions = formConfig.defaultDefinitions;
 
-describe('Edu 1995 veteranInformation', () => {
-  const { schema, uiSchema } = formConfig.chapters.veteranInformation.pages.veteranInformation;
+describe('Edu 1995 applicantInformation', () => {
+  const { schema, uiSchema } = formConfig.chapters.applicantInformation.pages.applicantInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
