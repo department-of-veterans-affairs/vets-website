@@ -562,10 +562,6 @@ const formConfig = {
             dateOfMarriage: {
               'ui:title': 'Date of marriage'
             },
-            sameAddress: {
-              'ui:title': 'Do you have the same address as your spouse?',
-              'ui:widget': 'yesNo'
-            },
             cohabitedLastYear: {
               'ui:title': 'Did your spouse live with you last year?',
               'ui:widget': 'yesNo'
@@ -574,15 +570,19 @@ const formConfig = {
               'ui:title': 'If your spouse did not live with you last year, did you provide financial support?',
               'ui:widget': 'yesNo',
               'ui:options': {
-                // Only show if 'No' is selected for cohabitedLastYear
-                hideIf: (formData) => formData.cohabitedLastYear !== false
+                expandUnder: 'cohabitedLastYear',
+                expandUnderCondition: false
               }
+            },
+            sameAddress: {
+              'ui:title': 'Do you have the same address as your spouse?',
+              'ui:widget': 'yesNo'
             },
             'view:spouseContactInformation': {
               'ui:title': 'Spouse’s address and telephone number',
               'ui:options': {
-                // Only show if 'No' is selected for sameAddress
-                hideIf: (formData) => formData.sameAddress !== false
+                expandUnder: 'sameAddress',
+                expandUnderCondition: false
               },
               spouseAddress: _.merge(addressUI('', true), {
                 'ui:options': {
@@ -611,9 +611,9 @@ const formConfig = {
               spouseSocialSecurityNumber,
               spouseDateOfBirth,
               dateOfMarriage,
-              sameAddress,
               cohabitedLastYear,
               provideSupportLastYear,
+              sameAddress,
               'view:spouseContactInformation': {
                 type: 'object',
                 properties: {

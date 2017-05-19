@@ -4,22 +4,20 @@ import { createSelector } from 'reselect';
 import { countries, states } from '../../utils/options-for-select';
 import { validateAddress } from '../validation';
 
-/*
- * These are schema definitions for some common form fields
- */
 const countryValues = countries.map(object => object.value);
 const countryNames = countries.map(object => object.label);
 const militaryStates = states.USA
   .filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA')
   .map(state => state.value);
+const militaryLabels = states.USA
+  .filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA')
+  .map(state => state.label);
 const usaStates = states.USA.map(state => state.value);
+const usaLabels = states.USA.map(state => state.label);
 const canProvinces = states.CAN.map(state => state.value);
+const canLabels = states.CAN.map(state => state.label);
 const mexStates = states.MEX.map(state => state.value);
-const stateLabels = [...states.USA, ...states.CAN, ...states.MEX]
-  .reduce((labels, state) => {
-    labels[state.value] = state.label; // eslint-disable-line no-param-reassign
-    return labels;
-  }, {});
+const mexLabels = states.MEX.map(state => state.label);
 
 function isMilitaryCity(city = '') {
   const lowerCity = city.toLowerCase().trim();
@@ -66,18 +64,23 @@ export function uiSchema(label = 'Address', useStreet3 = false) {
       const isRequired = addressSchema.required.length > 0;
 
       let stateList;
+      let labelList;
       if (country === 'USA') {
         stateList = usaStates;
+        labelList = usaLabels;
       } else if (country === 'CAN') {
         stateList = canProvinces;
+        labelList = canLabels;
       } else if (country === 'MEX') {
         stateList = mexStates;
+        labelList = mexLabels;
       }
 
       if (stateList) {
         // We have a list and it's different, so we need to make schema updates
         if (addressSchema.properties.state.enum !== stateList) {
-          schemaUpdate.properties = _.set('state.enum', stateList, schemaUpdate.properties);
+          const withEnum = _.set('state.enum', stateList, schemaUpdate.properties);
+          schemaUpdate.properties = _.set('state.enumNames', labelList, withEnum);
 
           // all the countries with state lists require the state field, so add that if necessary
           if (isRequired && !addressSchema.required.some(field => field === 'state')) {
@@ -87,7 +90,8 @@ export function uiSchema(label = 'Address', useStreet3 = false) {
       // We don't have a state list for the current country, but there's an enum in the schema
       // so we need to update it
       } else if (addressSchema.properties.state.enum) {
-        schemaUpdate.properties = _.unset('state.enum', schemaUpdate.properties);
+        const withoutEnum = _.unset('state.enum', schemaUpdate.properties);
+        schemaUpdate.properties = _.unset('state.enumNames', withoutEnum);
         if (isRequired) {
           schemaUpdate.required = addressSchema.required.filter(field => field !== 'state');
         }
@@ -102,7 +106,8 @@ export function uiSchema(label = 'Address', useStreet3 = false) {
 
       // We constrain the state list when someone picks a city that's a military base
       if (country === 'USA' && isMilitaryCity(city) && schemaUpdate.properties.state.enum !== militaryStates) {
-        schemaUpdate.properties = _.set('state.enum', militaryStates, schemaUpdate.properties);
+        const withEnum = _.set('state.enum', militaryStates, schemaUpdate.properties);
+        schemaUpdate.properties = _.set('state.enumNames', militaryLabels, withEnum);
       }
 
       return schemaUpdate;
@@ -138,11 +143,7 @@ export function uiSchema(label = 'Address', useStreet3 = false) {
     city: {
       'ui:title': 'City'
     },
-    state: {
-      'ui:options': {
-        labels: stateLabels
-      }
-    },
+    state: {},
     postalCode: {
       'ui:title': 'Postal code',
       'ui:options': {
