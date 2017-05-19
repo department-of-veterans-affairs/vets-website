@@ -132,9 +132,7 @@ const formConfig = {
         veteranInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran information',
-          initialData: {
-            maritalStatus: 'Married'
-          },
+          initialData: {},
           uiSchema: {
             veteranFullName: _.merge(fullNameUI, {
               last: {
