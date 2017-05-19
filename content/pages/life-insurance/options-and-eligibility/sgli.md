@@ -35,7 +35,7 @@ You may be able to get full-time SGLI coverage if you’re:
 - A commissioned member of the National Oceanic and Atmospheric Administration (NOAA) or the U.S. Public Health Service (USPHS), **or**
 - A cadet or midshipman of the U.S. military academies, **or**
 - A member, cadet, or midshipman of the Reserve Officers Training Corps (ROTC) engaged in authorized training and practice cruises, **or**
-- A member of the Ready Reserve or National Guard and are scheduled to perform at least 12 periods of inactive training per year, **or**
+- A member of the Ready Reserve or National Guard, assigned to a unit, and scheduled to perform at least 12 periods of inactive training per year, **or**
 - A volunteer in an Individual Ready Reserve (IRR) mobilization category
 
 <br>
@@ -58,7 +58,7 @@ Servicemembers
 
 - Coverage up to the top limit of $400,000—in $50,000 increments
 - 120 days of free coverage from the date you left the military (if you’re an active-duty member)
-- Extension of free coverage for up to 2 years (if you’re totally disabled, meaning you’re unable to do everyday tasks, including meaningful work) when you leave the military. See below for information on the SGLI-Disability Extension.
+- Extension of free coverage for up to 2 years (if you’re totally disabled) when you leave the military. See below for information on the SGLI-Disability Extension.
 - Part-time coverage (if you’re a Reserve member who doesn’t qualify for full-time coverage)
 
 ### How do I get these benefits?
@@ -69,9 +69,9 @@ If you qualify for SGLI, we’ll automatically sign you up through your service 
 
 Yes. You can choose your level of coverage or even refuse coverage completely. You can also choose your beneficiaries (the people you pick to get the money from your life insurance policy if you die) and change them as needed.
 
-To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage—fill out VA Form 8286 (SGLI Election and Certificate) and give the form to your unit’s personnel officer.
+To change your beneficiaries—or to reduce, turn down, or restore SGLI coverage—fill out the Servicemembers' Group Life Insurance Election and Certificate and give this form to your unit’s personnel officer.
 
-[Download VA Form SGLV 8286](http://www.benefits.va.gov/INSURANCE/forms/8286.htm).
+[Download the Servicemembers' Group Life Insurance Election and Certificate](http://www.benefits.va.gov/INSURANCE/forms/8286.htm).
 
 ### How much will I pay for these benefits?
 
@@ -116,7 +116,7 @@ You may be able to keep your free coverage for up to 2 years after the date you 
 
 You’ll need to apply for the Servicemembers’ Group Life Insurance Disability Extension (SGLI-DE). 
 
-To apply, fill out VA Form SGLV 8715 (SGLI Disability Extension Application) and give it to your unit’s personnel officer. [Download VA Form SGLV 8715](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8715.pdf).
+To apply, fill out the SGLI Disability Extension Application and give it to your unit’s personnel officer. [Download the SGLI Disability Extension Application](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8715.pdf).
 
 If you do this, you’ll get a notice 20 months after your separation date letting you know that your SGLI-DE will end and that you now have the option to pay a premium for Veterans’ Group Life Insurance (VGLI).
 
