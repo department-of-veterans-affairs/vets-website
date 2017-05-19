@@ -75,16 +75,16 @@ You should use Node Version Manager (nvm) to manage the versions of node.js on y
 To install please visit: https://github.com/creationix/nvm
 _If you are on a mac and use [homebrew](http://brew.sh/), you can install nvm by typing: brew update && brew install nvm_
 
-Once you have nvm installed you should now install node.js version 4.4.7 by running:
+Once you have nvm installed you should now install node.js version 6.10.3 by running:
 
 ```bash
-nvm install
+nvm install 6.10.3
 ```
 
-Once you have node.js version 4.4.7 installed install npm version 3.8.9 by running:
+Once you have node.js 6.10.3 you should set as the default version for nvm, you do that by running: 
 
 ```bash
-npm i -g npm@3.8.9
+nvm alias default 6.10.3
 ```
 
 And Yarn by running:
@@ -94,8 +94,7 @@ npm i -g yarn@0.21.3
 ### Verify your local requirements are set
 
 ```bash
-node --version // 4.4.7
-npm --version  // 3.8.9
+node --version // 6.10.3
 yarn --version // 0.21.3
 ```
 
@@ -280,6 +279,15 @@ To enable or disable the feature in a specific build type, toggle the feature
 in `test/util/mocha-setup.js` and `config/webpack.config.js`. See
 [`SampleFeature`](src/js/common/components/SampleFeature.jsx) and the associated `__SAMPLE_FEATURE__` env variables for an
 example implementation.
+
+### Supported Browsers
+| Browser | Minimum version  | Note |
+|---------|------------------| ---- | 
+| Internet Explorer | 11 |
+| Microsoft Edge    | 13 |
+| Safari / iOS Safari |  9 |
+| Chrome / Android Web view | 44 | _Latest version with >0.5% of traffic_ |
+| Firefox           | 52 | _Latest version with >0.5% of traffic_ |
 
 ## More documentation
 

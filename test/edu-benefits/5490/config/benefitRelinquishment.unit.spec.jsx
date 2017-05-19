@@ -13,6 +13,7 @@ describe('Edu 5490 benefitRelinquishment', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={formConfig.defaultDefinitions}
           data={{}}
           state={{
             benefitSelection: {
@@ -38,6 +39,7 @@ describe('Edu 5490 benefitRelinquishment', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
           data={{}}
           state={{
@@ -63,6 +65,7 @@ describe('Edu 5490 benefitRelinquishment', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
           schema={schema}
+          definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
           data={{}}
           state={{

@@ -6,6 +6,7 @@ import { closeDisclaimer } from '../actions/disclaimer';
 import { closeAlert } from '../actions/alert.js';
 import Disclaimer from '../components/Disclaimer';
 import ErrorView from '../components/ErrorView';
+import SettingsButton from '../components/SettingsButton';
 import TabNav from '../components/TabNav';
 
 class Main extends React.Component {
@@ -21,7 +22,10 @@ class Main extends React.Component {
         <Disclaimer
             isOpen={this.props.disclaimer.open}
             handleClose={this.props.closeDisclaimer}/>
-        <h1>Prescription Refill</h1>
+        <div className="rx-app-title">
+          <h1>Prescription Refill</h1>
+          <SettingsButton/>
+        </div>
         <TabNav/>
         {this.props.children}
       </ErrorView>

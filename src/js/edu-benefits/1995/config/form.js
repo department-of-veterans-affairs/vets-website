@@ -6,27 +6,24 @@ import {
   transform,
 } from '../helpers';
 
-import * as fullName from '../../../common/schemaform/definitions/fullName';
-import * as date from '../../../common/schemaform/definitions/date';
-import * as dateRange from '../../../common/schemaform/definitions/dateRange';
 import * as address from '../../../common/schemaform/definitions/address';
 
 import educationTypeUISchema from '../../definitions/educationType';
-import * as serviceBefore1977 from '../../definitions/serviceBefore1977';
-import { uiSchema as toursOfDutyUI } from '../../definitions/toursOfDuty';
-import * as veteranId from '../../definitions/veteranId';
+import serviceBefore1977UI from '../../definitions/serviceBefore1977';
+import * as toursOfDuty from '../../definitions/toursOfDuty';
 
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
+import createApplicantInformationPage from '../../pages/applicantInformation';
 
-import { showSchoolAddress, benefitsLabels } from '../../utils/helpers';
+import { showSchoolAddress } from '../../utils/helpers';
+import { benefitsLabels } from '../../utils/labels';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 const {
   benefit,
-  toursOfDuty,
   civilianBenefitsAssistance,
   educationObjective,
   nonVaAssistance
@@ -35,6 +32,9 @@ const {
 const {
   preferredContactMethod,
   educationType,
+  date,
+  dateRange,
+  serviceBefore1977
 } = fullSchema1995.definitions;
 
 const formConfig = {
@@ -47,32 +47,25 @@ const formConfig = {
   defaultDefinitions: {
     preferredContactMethod,
     serviceBefore1977,
-    date: date.schema,
-    dateRange: dateRange.schema
+    date,
+    dateRange
   },
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-1995',
   chapters: {
-    veteranInformation: {
-      title: 'Veteran Information',
+    applicantInformation: {
+      title: 'Applicant Information',
       pages: {
-        veteranInformation: {
-          path: 'veteran/information',
-          title: 'Veteran information',
-          initialData: {},
-          uiSchema: {
-            veteranFullName: fullName.uiSchema,
-            'view:veteranId': veteranId.uiSchema
-          },
-          schema: {
-            type: 'object',
-            required: ['veteranFullName'],
-            properties: {
-              veteranFullName: fullName.schema,
-              'view:veteranId': veteranId.schema
-            }
-          }
-        }
+        applicantInformation: createApplicantInformationPage(fullSchema1995, {
+          isVeteran: true,
+          fields: [
+            'veteranFullName',
+            'veteranSocialSecurityNumber',
+            'view:noSSN',
+            'vaFileNumber'
+          ],
+          required: ['veteranFullName']
+        })
       }
     },
     benefitSelection: {
@@ -113,7 +106,7 @@ const formConfig = {
               'ui:title': 'Do you have any new periods of service to record since you last applied for education benefits?',
               'ui:widget': 'yesNo'
             },
-            toursOfDuty: _.merge(toursOfDutyUI, {
+            toursOfDuty: _.merge(toursOfDuty.uiSchema, {
               'ui:options': { expandUnder: 'view:newService' }
             })
           },
@@ -123,7 +116,7 @@ const formConfig = {
               'view:newService': {
                 type: 'boolean'
               },
-              toursOfDuty
+              toursOfDuty: fullSchema1995.properties.toursOfDuty
             }
           }
         },
@@ -191,7 +184,7 @@ const formConfig = {
                 type: 'string'
               },
               educationType,
-              newSchoolAddress: address.schema(),
+              newSchoolAddress: address.schema(fullSchema1995),
               educationObjective,
               nonVaAssistance,
               civilianBenefitsAssistance
@@ -204,7 +197,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: createContactInformationPage(),
+        contactInformation: createContactInformationPage(fullSchema1995),
         dependents: {
           title: 'Dependents',
           path: 'personal-information/dependents',
@@ -213,12 +206,12 @@ const formConfig = {
             'view:hasServiceBefore1978': true
           },
           uiSchema: {
-            serviceBefore1977: serviceBefore1977.uiSchema
+            serviceBefore1977: serviceBefore1977UI
           },
           schema: {
             type: 'object',
             properties: {
-              serviceBefore1977: serviceBefore1977.schema
+              serviceBefore1977
             }
           }
         },

@@ -388,6 +388,17 @@ export const recipients = {
   }
 };
 
+const preferences = {
+  data: {
+    id: '519e94995f48def4f0e38e5c13b85150c6bc0cc0c911324ef9a1ba7400e7ec37',
+    type: 'messaging_preferences',
+    attributes: {
+      emailAddress: 'test@vets.gov',
+      frequency: 'none'
+    }
+  }
+};
+
 // Create API routes
 export function initApplicationSubmitMock(token) {
   mock(token, {
@@ -444,5 +455,17 @@ export function initApplicationSubmitMock(token) {
     path: '/v0/messaging/health/recipients',
     verb: 'get',
     value: recipients,
+  });
+
+  mock(token, {
+    path: '/v0/messaging/health/preferences',
+    verb: 'get',
+    value: preferences,
+  });
+
+  mock(token, {
+    path: '/v0/messaging/health/preferences',
+    verb: 'put',
+    value: preferences,
   });
 }

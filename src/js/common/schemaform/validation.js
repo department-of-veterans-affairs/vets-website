@@ -224,8 +224,6 @@ export function validateCurrentOrPastDate(errors, dateString, formData, schema, 
 
 /**
  * Adds an error message to errors if a date is an invalid date or in the past.
- *
- * The message it adds can be customized in uiSchema.errorMessages.pastDate
  */
 export function validateFutureDateIfExpectedGrad(errors, dateString, formData) {
   validateDate(errors, dateString);
@@ -250,7 +248,7 @@ export function validateAddress(errors, address, formData, schema) {
   // USA, Canada, or Mexico
   if (_.includes(address.country)(['USA', 'CAN', 'MEX'])
     && address.state === undefined
-    && schema.required) {
+    && schema.required.length) {
     errors.state.addError('Please select a state or province');
   }
 

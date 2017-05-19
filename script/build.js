@@ -28,8 +28,7 @@ const fs = require('fs');
 const path = require('path');
 
 const sourceDir = '../content/pages';
-const minimumNpmVersion = '3.8.9';
-const minimumNodeVersion = '4.4.7';
+const minimumNodeVersion = '6.10.3';
 
 if (!(process.env.INSTALL_HOOKS === 'no')) {
   // Make sure git pre-commit hooks are installed
@@ -43,13 +42,6 @@ if (!(process.env.INSTALL_HOOKS === 'no')) {
       }
     }
   });
-}
-
-if (semver.compare(process.env.npm_package_engines_npm, minimumNpmVersion) === -1) {
-  process.stdout.write(
-    `NPM version (mininum): ${minimumNpmVersion}\n`);
-  process.stdout.write(`NPM version (installed): ${process.env.npm_package_engines_npm}\n`);
-  process.exit(1);
 }
 
 if (semver.compare(process.version, minimumNodeVersion) === -1) {
@@ -125,15 +117,15 @@ smith.metadata({ buildtype: options.buildtype });
 // const ignore = require('metalsmith-ignore');
 // const ignoreList = [];
 // if (options.buildtype === 'production') {
-//   ignoreList.push('disability-benefits/track-claims/*');
+//   ignoreList.push('track-claims/*');
 // }
 // smith.use(ignore(ignoreList));
 
 const ignore = require('metalsmith-ignore');
 const ignoreList = [];
 if (options.buildtype === 'production') {
-  ignoreList.push('healthcare/health-records/*');
   ignoreList.push('healthcare/rjsf/*');
+  ignoreList.push('va-letters/*');
 }
 smith.use(ignore(ignoreList));
 
@@ -148,7 +140,43 @@ smith.use(define({
   buildtype: options.buildtype
 }));
 
-smith.use(collections());
+// See the collections documentation here:
+// https://github.com/segmentio/metalsmith-collections
+// Can sort by any front matter property you'd like, or by function.
+// Can define a collection by its path or by adding a `collection`
+// property to the Markdown document.
+
+smith.use(collections({
+  disabilityAgentOrange: {
+    pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Agent Orange'
+    }
+  },
+  disabilityExposureHazMat: {
+    pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/*.md',
+    sortBy: 'title',
+    metadata: {
+      name: 'Exposure to Hazardous Materials'
+    }
+  },
+  education: {
+    pattern: 'education/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Education Benefits'
+    }
+  },
+  educationGIBill: {
+    pattern: 'education/gi-bill/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'GI Bill'
+    }
+  }
+}));
+
 smith.use(dateInFilename(true));
 smith.use(archive());  // TODO(awong): Can this be removed?
 
@@ -170,7 +198,6 @@ if (options.watch) {
     historyApiFallback: {
       rewrites: [
         { from: '^/track-claims(.*)', to: '/track-claims/' },
-        { from: '^/disability-benefits/track-claims(.*)', to: '/disability-benefits/track-claims/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/gi-bill-comparison-tool(.*)', to: '/gi-bill-comparison-tool/' },
@@ -179,6 +206,7 @@ if (options.watch) {
         { from: '^/healthcare/health-records(.*)', to: '/healthcare/health-records/' },
         { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
         { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
+        { from: '^/va-letters(.*)', to: '/va-letters/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -312,7 +340,7 @@ smith.use(sitemap({
 }));
 // TODO(awong): Does anything even use the results of this plugin?
 
-if (!options.watch) {
+if (!options.watch && !(process.env.CHECK_BROKEN_LINKS === 'no')) {
   smith.use(blc({
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
@@ -325,7 +353,8 @@ if (!options.watch) {
           '/gi-bill-comparison-tool/',
           '/education/apply-for-education-benefits/application',
           '/healthcare/rjsf',
-          '/healthcare/apply/application'].join('|'))
+          '/healthcare/apply/application',
+          '/va-letters/'].join('|'))
   }));
 }
 

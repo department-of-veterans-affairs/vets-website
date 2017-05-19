@@ -3,6 +3,11 @@
 // is for this file to be empty, but some times you just have to throw that
 // hack in there to get it working.
 
+// message while loading react app
+.loading-message {
+  text-align: center;
+  padding: 2em 0;
+}
 
 body .row {
   max-width: 62.5em;
@@ -157,17 +162,13 @@ body .row {
   }
 }
 
-// Yuck...
-#apply-expander-content {
+// Handles the height transition
+.expander-content {
   // No max height for small screens = no animation, which is fine
   // Also means the Apply Now button doesn't get cut off
   @include media($small-screen) {
-    max-height: 19em;
+    max-height: 24em;
   }
-}
-
-// Handles the height transition
-.expander-content {
   overflow: hidden;
   transition: max-height 150ms ease-in-out;
 
@@ -194,3 +195,23 @@ body .row {
     }
   }
 }
+
+//============================================
+// Overrides for USWDS shenanigans. 
+// See: https://github.com/18F/web-design-standards/issues/1899
+// ===========================================
+
+@include media($medium-large-screen)  {
+  .usa-grid {
+    .usa-width-one-fourth {
+      margin-right: 2.35765%;
+      width: 23.23176%;
+    }
+
+    .usa-width-three-fourths {
+      margin-right: 2.35765%;
+      width: 74.41059%;
+    }
+  }
+}
+

@@ -72,13 +72,13 @@ You can work with a trained professional who can help you file a claim.  [Find a
 
 You don't need to do anything while you're waiting unless we send you a letter asking for more information. If we schedule exams for you, be sure not to miss them.
 
-<a class="usa-button-primary" href="/disability-benefits/track-claims">Track the Status of Your Claim</a>
+<a class="usa-button-primary" href="/track-claims">Track the Status of Your Claim</a>
 
 #### How long does it take VA to make a decision?
 
 <div class="card information" markdown="0">
-<span class="number">114.7 days</span>
-<span class="description">Average number of days to complete disability-related claims in March 2017</span>
+<span class="number">114.2 days</span>
+<span class="description">Average number of days to complete disability-related claims in April 2017</span>
 </div>
 
 <div markdown="0"><br></div>

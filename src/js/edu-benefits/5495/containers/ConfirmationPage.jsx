@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from '../../../common/utils/helpers';
 
-import { survivorBenefitsLabels } from '../../utils/helpers';
+import { survivorBenefitsLabels } from '../../utils/labels';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -20,17 +20,11 @@ class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isExpanded: false };
-    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
     focusElement('.edu-page-title');
     scrollToTop();
-  }
-
-  handleClick(e) {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
   }
 
   render() {
@@ -40,17 +34,6 @@ class ConfirmationPage extends React.Component {
       : {};
     const name = form.data.relativeFullName;
     const benefit = form.data.benefit;
-
-    const docExplanation = this.state.isExpanded
-      ? (<div className="usa-accordion-content">
-        <p>In the future, you might need:</p>
-        <ul>
-          <li>Your reserve kicker</li>
-          <li>Documentation of additional contributions that would increase your monthly benefits.</li>
-        </ul>
-        <p>Documents can be uploaded using the <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/account%252">GI Bill site</a>.</p>
-      </div>)
-      : null;
 
     return (
       <div className="edu-benefits-submit-success">
@@ -66,7 +49,7 @@ class ConfirmationPage extends React.Component {
 
           <ul className="claim-list">
             {benefit && <li>
-              <strong>Benefit to be transferred</strong><br/>
+              <strong>Benefit</strong><br/>
               {survivorBenefitsLabels[benefit]}
             </li>}
             <li>
@@ -83,22 +66,7 @@ class ConfirmationPage extends React.Component {
             </li>
           </ul>
         </div>
-        <div id="collapsiblePanel" className="usa-accordion-bordered">
-          <ul className="usa-unstyled-list">
-            <li>
-              <div className="accordion-header clearfix">
-                <button
-                    className="usa-button-unstyled"
-                    aria-expanded={this.state.isExpanded ? 'true' : 'false'}
-                    aria-controls="collapsible-document-explanation"
-                    onClick={this.handleClick}>
-                  No documents required at this time
-                </button>
-              </div>
-              {docExplanation}
-            </li>
-          </ul>
-        </div>
+        <p>Find out what happens <a href="/education/after-you-apply">after you apply</a>.</p>
         <p>Need help? If you have questions, call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.</p>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
