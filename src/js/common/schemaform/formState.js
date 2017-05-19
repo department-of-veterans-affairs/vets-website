@@ -65,6 +65,16 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
   return schema;
 }
 
+export function isContentExpanded(data, matcher) {
+  if (typeof matcher === 'undefined') {
+    return !!data;
+  } else if (typeof matcher === 'function') {
+    return matcher(data);
+  }
+
+  return data === matcher;
+}
+
 /*
  * This steps through a schema and sets any fields to hidden, based on a
  * hideIf function from uiSchema and the current page data. Sets 'ui:hidden'
@@ -95,7 +105,8 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
   }
 
   const expandUnder = _.get(['ui:options', 'expandUnder'], uiSchema);
-  if (expandUnder && !containingObject[expandUnder]) {
+  const expandUnderCondition = _.get(['ui:options', 'expandUnderCondition'], uiSchema);
+  if (expandUnder && !isContentExpanded(containingObject[expandUnder], expandUnderCondition)) {
     if (!updatedSchema['ui:collapsed']) {
       updatedSchema = _.set('ui:collapsed', true, updatedSchema);
     }
