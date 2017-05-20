@@ -32,6 +32,15 @@
     const apply = container.querySelector('#apply-now-button');
     radios.forEach(radio => {
       radio.addEventListener('change', () => {
+        const otherChoice = radio.dataset.alternate;
+        const otherNextQuestion = container.querySelector(`#${otherChoice}`).dataset.nextQuestion;
+        if (otherNextQuestion) {
+          const otherNextQuestionElement = container.querySelector(`[data-question=${otherNextQuestion}`);
+          closeStateAndCheckChild(otherNextQuestionElement, container);
+        }
+        if (!radio.dataset.selectedForm && (apply.dataset.state === 'open')) {
+          closeState(apply);
+        }
         if (radio.dataset.selectedForm) {
           if (apply.dataset.state === 'closed') {
             openState(apply);
@@ -39,17 +48,13 @@
           apply.href = `/education/apply-for-education-benefits/application/${radio.dataset.selectedForm}/introduction`;
           return false;
         }
-
-        if (apply.dataset.state === 'open') {
-          closeState(apply);
+        if (radio.dataset.nextQuestion) {
+          const nextQuestion = radio.dataset.nextQuestion;
+          const nextQuestionElement = container.querySelector(`[data-question=${nextQuestion}]`);
+          openState(nextQuestionElement);
+          nextQuestionElement.querySelector('input').focus();
         }
-        const nextQuestion = radio.dataset.nextQuestion;
-        const nextQuestionElement = container.querySelector(`[data-question=${nextQuestion}]`);
-        const nextQuestionAlternate = nextQuestionElement.dataset.alternate;
-        const nextQuestionAlternateElement = container.querySelector(`[data-question=${nextQuestionAlternate}]`);
-        nextQuestionElement.focus();
-        openState(nextQuestionElement);
-        return closeStateAndCheckChild(nextQuestionAlternateElement, container);
+        return;
       });
     });
     button.addEventListener('click', () => {
