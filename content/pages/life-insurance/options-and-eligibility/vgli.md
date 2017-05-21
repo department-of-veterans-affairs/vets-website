@@ -619,9 +619,9 @@ VGLI premium rates are based on your age and the amount of insurance coverage yo
 
 [See the VGLI premium rates before July 1, 2014](http://www.benefits.va.gov/INSURANCE/vgli_rates_old.asp).
 
-### Can I convert my VGLI policy into a civilian policy? 
+### Can I convert my VGLI policy into a commercial policy? 
 
-Yes. You can convert your policy into a civilian (or commercial) policy at any time. You’ll be able to convert at standard premium rates, without having to provide proof that you’re in good health.
+Yes. You can convert your policy into a commercial (civilian) policy at any time. You’ll be able to convert at standard premium rates, without having to provide proof that you’re in good health.
 
 To convert your VGLI policy:
 
