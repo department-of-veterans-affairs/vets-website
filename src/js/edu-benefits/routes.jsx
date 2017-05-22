@@ -1,13 +1,20 @@
+import _ from 'lodash/fp';
+import { combineReducers } from 'redux';
 import EduBenefitsApp from './1990/containers/EduBenefitsApp';
 import routes1990 from './1990/routes';
 import form1990 from './1990/reducers';
 import asyncLoader from '../common/components/asyncLoader';
+import { commonReducer } from '../common/store';
+
+function createCommonReducer(reducer) {
+  return combineReducers(_.assign(reducer, commonReducer));
+}
 
 export default function createRoutes(store) {
   // It will be confusing to have multiple forms in one app living side by side
   // in the Redux store, so just replace everything when you go into a form
   const onEnter = (reducer) => () => {
-    store.replaceReducer(reducer);
+    store.replaceReducer(createCommonReducer(reducer));
   };
 
   const childRoutes = [
@@ -24,7 +31,7 @@ export default function createRoutes(store) {
       component: asyncLoader(() => {
         return new Promise((resolve) => {
           require.ensure([], (require) => {
-            store.replaceReducer(require('./1995/reducer').default);
+            store.replaceReducer(createCommonReducer(require('./1995/reducer').default));
             resolve(require('./1995/Form1995App').default);
           }, 'edu-1995');
         });
@@ -41,7 +48,7 @@ export default function createRoutes(store) {
       component: asyncLoader(() => {
         return new Promise((resolve) => {
           require.ensure([], (require) => {
-            store.replaceReducer(require('./1990e/reducer').default);
+            store.replaceReducer(createCommonReducer(require('./1990e/reducer').default));
             resolve(require('./1990e/Form1990eApp').default);
           }, 'edu-1990e');
         });
@@ -58,7 +65,7 @@ export default function createRoutes(store) {
       component: asyncLoader(() => {
         return new Promise((resolve) => {
           require.ensure([], (require) => {
-            store.replaceReducer(require('./5490/reducer').default);
+            store.replaceReducer(createCommonReducer(require('./5490/reducer').default));
             resolve(require('./5490/Form5490App').default);
           }, 'edu-5490');
         });
@@ -75,7 +82,7 @@ export default function createRoutes(store) {
       component: asyncLoader(() => {
         return new Promise((resolve) => {
           require.ensure([], (require) => {
-            store.replaceReducer(require('./1990n/reducer').default);
+            store.replaceReducer(createCommonReducer(require('./1990n/reducer').default));
             resolve(require('./1990n/Form1990nApp').default);
           }, 'edu-1990n');
         });
@@ -92,7 +99,7 @@ export default function createRoutes(store) {
       component: asyncLoader(() => {
         return new Promise((resolve) => {
           require.ensure([], (require) => {
-            store.replaceReducer(require('./5495/reducer').default);
+            store.replaceReducer(createCommonReducer(require('./5495/reducer').default));
             resolve(require('./5495/Form5495App').default);
           }, 'edu-5495');
         });
