@@ -52,37 +52,36 @@ You may be able to get retroactive TSGLI (meaning that it takes effect starting 
 
 You can use this benefit no matter where the injury happened—whether you were on or off duty—and no matter if your coverage was in effect when you got injured. 
 
-</br >
+<br>
 
 **Note:** We’ve removed the previous requirement that you must have been injured during Operations Enduring or Iraqi Freedom (OEF or OIF). [Find out if you qualify for retroactive benefits](http://www.benefits.va.gov/insurance/tsgli-claim-questionnaire.asp). 
 
 <br>
 
 #### Who’s covered?
--	Veterans covered by SGLI
 -	Servicemembers covered by SGLI
 
 </div>
 
 ### What kind of life insurance benefits can I get through TSGLI?
 
-Short-term financial support to help in your recovery from a traumatic injury.
+You may get $25,000 to $100,000 in short-term financial support to help in your recovery from a traumatic injury.
 
 ### How do I get these benefits?
 
 You’re automatically covered through TSGLI if you’re signed up for full-time SGLI. This insurance covers you even if your injury happened while you were off duty.
 
-To get payments—including retroactive TSGLI payments—you’ll need to apply. To file a claim, fill out VA Form SGLV 8600 (Application for TSGLI Benefits), and fax, email, or mail it to us. Look for the address of your service branch on the front page of the form.
+To get payments—including retroactive TSGLI payments—you’ll need to apply. To file a claim, fill out the Application for TSGLI Benefits, and fax, email, or mail it to us. Look for the address of your service branch on the front page of the form.
 
-[Download VA Form SGLV 8600](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8600_ed2017-01.pdf).
+[Download the Application for TSGLI Benefits](http://www.benefits.va.gov/INSURANCE/forms/SGLV_8600_ed2017-01.pdf).
 
 ### How do I appeal a decision if I’m denied benefits?
 
-First, look at the denial letter you received from your branch of service. Your letter will tell you if you should use VA Form SGLV 8600A: TSGLI Appeal Request—and how long you’ll have to submit your appeal.
+First, look at the denial letter you received from your branch of service. Your letter will tell you if you should use the TSGLI Appeal Request Form—and how long you’ll have to submit your appeal.
 
-If your letter says to complete this form, fill out the form and submit it to your branch of service.
+If your letter says to complete this form, fill it out and submit it to your branch of service.
 
-[Download VA Form SGLV 8600A](http://benefits.va.gov/INSURANCE/forms/SGLV_8600A_ed2017-01.pdf). 
+[Download the TSGLI Appeal Request Form](http://benefits.va.gov/INSURANCE/forms/SGLV_8600A_ed2017-01.pdf). 
 
 ### How much will I pay for these benefits? 
 
