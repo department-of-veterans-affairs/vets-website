@@ -30,7 +30,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
             ? [baseUrl, resource].join('')
             : resource;
 
-  commonApiClient(url, optionalSettings, success, error);
+  return commonApiClient(url, optionalSettings, success, error);
 }
 
 export function formatFileSize(bytes, decimalplaces = 2) {
