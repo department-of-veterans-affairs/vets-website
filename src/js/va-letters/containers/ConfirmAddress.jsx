@@ -12,7 +12,7 @@ class ConfirmAddress extends React.Component {
   }
 
   confirmAddress() {
-    this.props.onConfirmationOfAddress(true);
+    this.props.onAddressConfirmation(true);
     this.props.router.push('/download-letters');
   }
 
@@ -27,7 +27,7 @@ class ConfirmAddress extends React.Component {
           </div>
           <div className="usa-width-one-fourth">
             <ProgressButton
-                onButtonClick={() => this.props.onConfirmationOfAddress(false)}
+                onButtonClick={() => this.props.onAddressConfirmation(false)}
                 buttonText="No"
                 buttonClass="usa-button-outline"/>
           </div>
@@ -70,7 +70,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onConfirmationOfAddress: (value) => {
+    onAddressConfirmation: (value) => {
       dispatch(updateAddressConfirmation(value));
     }
   };
