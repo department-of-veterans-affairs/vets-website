@@ -12,7 +12,7 @@
 // ~uswds/src/stylesheets/core/defaults" or 
 // ~uswds/src/stylesheets/core/variables"
 
-$base-font-size:      rem(16px);
+$base-font-size:      16px;
 $font-serif:          "Roboto Slab", serif;
 
 //===================================
@@ -38,6 +38,7 @@ $color-gray-light:           #aeb0b5;
 $color-gray-dark:            #323a45;
 $color-primary-alt-light:    #9bdaf1;
 $color-white:                #fff;
+$white:                      $color-white;
 
 //===================================
 // DSVA colors
@@ -73,5 +74,4 @@ $polar:       #E8F5FA;
 $wild-sand:   #f6f6f6;
 $green-white: #eff0e6;
 $olso-gray:   #849097;
-
 

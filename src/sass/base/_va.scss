@@ -42,6 +42,7 @@ body .row.full {
   max-width: 100%;
 }
 
+
 // Screen Readers
 
 .sr-only {
@@ -112,23 +113,6 @@ dd {
 
 dd + dt {
   margin-top: 1.5em;
-}
-
-
-// Figure / Caption
-figure {
-  font-size: .85em;
-  margin-left: -$column-gutter/2;
-  margin-right: -$column-gutter/2;
-
-  @include media($large-screen) {
-    margin-left: -16.66667%;
-    margin-right: -16.66667%;
-  }
-}
-
-figcaption {
-  color: $color-primary-darker;
 }
 
 input::-webkit-input-placeholder{
@@ -632,7 +616,7 @@ ul, ol {
 
 // Content lead paragraphs
 
-#content.interior .primary {
+#content.interior {
   li p:first-of-type,
   ul+p
    {
@@ -650,7 +634,7 @@ ul, ol {
   h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
   p {color: $color-white;}
   a {color: $color-white;}
-  ul li {list-style: square;}
+  ul {list-style: square;}
 }
 
 #content .section.secondary {
@@ -859,6 +843,7 @@ li {
     background: $color-gray-lightest;
     background: $color-link-default-hover;
     margin: 0 0 .5em 0;
+    min-height: 90px;
     padding: .75em;
 
     &:hover, &:focus, &:active {
@@ -1118,9 +1103,10 @@ li {
 // Panel list
 .panel-list {
   background: $color-link-default-hover;
+  margin: 0;
+  min-height: 12em;
   padding: 1em;
   position: relative;
-  min-height: 12em;
 
   dt {
     color: $color-primary-darkest;
@@ -1511,7 +1497,7 @@ p.info-message {
 //===================
 
 .va-list--plain {
-  list-style: none;
+  list-style: none !important; // .primary ul means we need to use !important.
   padding-left: 0;
 }
 

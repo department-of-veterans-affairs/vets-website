@@ -12,6 +12,7 @@ import reducer from './reducers';
 import routes from './routes.jsx';
 
 require('../common');  // Bring in the common javascript.
+
 require('../../sass/hca.scss');
 
 require('../login/login-entry.jsx');
