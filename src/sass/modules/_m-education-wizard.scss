@@ -45,10 +45,7 @@ a[data-state=closed], div[data-state=closed] {
    left: -9999px;
    opacity: 0;
 }
-a[data-state=open], div[data-state=open] {
-  transition: opacity 700ms ease-in-out;
-}
-.expander-content-question[data-state=open] {
+.expander-content-question[data-state=open], a[data-state=open], div[data-state=open] {
   transition: opacity 700ms ease-in-out;
 }
 .expander-content-question[data-state=closed] {
