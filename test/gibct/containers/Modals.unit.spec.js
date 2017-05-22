@@ -1,12 +1,12 @@
-import { createStore } from 'redux';
 import { expect } from 'chai';
 import React from 'react';
 import SkinDeep from 'skin-deep';
 
 import { Modals } from '../../../src/js/gi/containers/Modals';
 import reducer from '../../../src/js/gi/reducers';
+import createCommonStore from '../../../src/js/common/store';
 
-const defaultProps = createStore(reducer).getState();
+const defaultProps = createCommonStore(reducer).getState();
 
 describe('<Modals>', () => {
   it('should render', () => {

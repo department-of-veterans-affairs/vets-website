@@ -7,11 +7,15 @@ import modals from './modals';
 import preferences from './preferences';
 import prescriptions from './prescriptions';
 
-export default combineReducers({
-  alert,
-  disclaimer,
-  errors,
-  modals,
-  preferences,
-  prescriptions
-});
+export default {
+  health: combineReducers({
+    rx: combineReducers({
+      alert,
+      disclaimer,
+      errors,
+      modals,
+      preferences,
+      prescriptions
+    })
+  })
+};

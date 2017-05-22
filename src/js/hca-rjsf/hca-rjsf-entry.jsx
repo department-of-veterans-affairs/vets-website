@@ -3,24 +3,18 @@ import ReactDOM from 'react-dom';
 import { createHistory } from 'history';
 import { Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
 
 import initReact from '../common/init-react';
 import route from './routes';
+import createCommonStore from '../common/store';
+import createLoginWidget from '../login/login-entry';
 import reducer from './reducer';
 
 require('../common');
 require('../../sass/hca-rjsf.scss');
 
-require('../login/login-entry.jsx');
-
-let store;
-if (__BUILDTYPE__ === 'development' && window.devToolsExtension) {
-  store = createStore(reducer, compose(applyMiddleware(thunk), window.devToolsExtension()));
-} else {
-  store = createStore(reducer, compose(applyMiddleware(thunk)));
-}
+const store = createCommonStore(reducer);
+createLoginWidget(store);
 
 // Change the basename path once we replace hca with this form
 // (should be 'healthcare/appy/application')

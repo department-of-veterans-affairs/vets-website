@@ -1,5 +1,3 @@
-import { commonStore } from '../store';
-
 import environment from './environment.js';
 import { updateLoggedInStatus } from '../../login/actions';
 import { updateProfileField } from '../../user-profile/actions';
@@ -13,7 +11,7 @@ export function handleVerify(verifyUrl) {
   }
 }
 
-export function getUserData() {
+export function getUserData(dispatch) {
   fetch(`${environment.API_URL}/v0/user`, {
     method: 'GET',
     headers: new Headers({
@@ -29,16 +27,16 @@ export function getUserData() {
       if (userData.first_name) {
         sessionStorage.setItem('userFirstName', userData.first_name);
       }
-      commonStore.dispatch(updateProfileField('accountType', userData.loa.current));
-      commonStore.dispatch(updateProfileField('email', userData.email));
-      commonStore.dispatch(updateProfileField('userFullName.first', userData.first_name));
-      commonStore.dispatch(updateProfileField('userFullName.middle', userData.middle_name));
-      commonStore.dispatch(updateProfileField('userFullName.last', userData.last_name));
-      commonStore.dispatch(updateProfileField('gender', userData.gender));
-      commonStore.dispatch(updateProfileField('dob', userData.birth_date));
-      commonStore.dispatch(updateProfileField('status', json.data.attributes.va_profile.status));
-      commonStore.dispatch(updateProfileField('services', json.data.attributes.services));
-      commonStore.dispatch(updateLoggedInStatus(true));
+      dispatch(updateProfileField('accountType', userData.loa.current));
+      dispatch(updateProfileField('email', userData.email));
+      dispatch(updateProfileField('userFullName.first', userData.first_name));
+      dispatch(updateProfileField('userFullName.middle', userData.middle_name));
+      dispatch(updateProfileField('userFullName.last', userData.last_name));
+      dispatch(updateProfileField('gender', userData.gender));
+      dispatch(updateProfileField('dob', userData.birth_date));
+      dispatch(updateProfileField('status', json.data.attributes.va_profile.status));
+      dispatch(updateProfileField('services', json.data.attributes.services));
+      dispatch(updateLoggedInStatus(true));
     }
   });
 }
