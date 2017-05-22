@@ -27,10 +27,7 @@ If you have VA life insurance, the easiest way to manage your policy is online. 
 
 If you have a VA life insurance policy with a file number that starts with a V, RH, J, RS, K, or W—or if you’d like to apply for service-disabled life insurance (life insurance for Veterans who have become disabled as a result of serving in the military), access your policy online through VA. [Find your policy through VA](http://www.benefits.va.gov/INSURANCE/popups/opa.htm). 
 
-If you have a Veterans’ Group Life Insurance (VGLI) policy with a VGLI control number, access your policy online through: 
+**Note:** For Service-Disabled Veterans Life Insurance (S-DVI) and Veterans’ Mortgage Life Insurance (VMLI), the Department of the Treasury requires that all payments be made through an electronic funds transfer, and will no longer send paper checks through the mail. You don’t have to share your bank information when applying for coverage. But, when you apply for an insurance payment (such as a policy loan, cash surrender, or beneficiary claim payment), you’ll be asked for this information. To make the process easier, send a voided check when you apply for your payment.
 
-- [Your insurer’s website](https://ssologin.prudential.com/app/giosgli/Login.fcc?TYPE=33554433&REALMOID=06-000eb2bc-e833-1efc-9d9b-348e307ff004&GUID=&SMAUTHREASON=0&METHOD=GET&SMAGENTNAME=giosgli&TARGET=-SM-HTTPS%3a%2f%2fgiosgli%2eprudential%2ecom%2fosgli%2fController%2flogin%3faction%3dreturn) (Prudential works with us to provide life insurance to Veterans), **or** 
-- [eBenefits](http://www.ebenefits.va.gov/)
-
-**Note:** The Department of the Treasury requires that all payments be made through an electronic funds transfer, and will no longer send paper checks through the mail. You don’t have to share your bank information when applying for coverage. But, when you apply for an insurance payment (such as a policy loan, cash surrender, or beneficiary claim payment), you’ll be asked for this information. To make the process easier, send a voided check when you apply for your payment.
+If you have a Veterans’ Group Life Insurance (VGLI) policy with a VGLI control number, access your policy online through the Office of Servicemembers’ Group Life Insurance at Prudential Insurance Company of America. Prudential works with us to provide SGLI and VGLI benefits to Servicemembers and Veterans. [Find your policy through Prudential Insurance Company of America](https://giosgli.prudential.com/osgli/web/OSGLIMenu.html).
 
