@@ -28,6 +28,10 @@ describe('hca schema tests', () => {
           expect(data.veteranAddress.zipcode).to.not.be.empty;
           expect(data.veteranAddress.postalCode).not.to.be.defined;
         }
+        if (data.veteranAddress.country !== 'USA') {
+          expect(data.veteranAddress.postalCode).to.not.be.empty;
+          expect(data.veteranAddress.zipcode).not.to.be.defined;
+        }
         if (data.spouseAddress && data.spouseAddress.country === 'USA') {
           expect(data.spouseAddress.zipcode).to.not.be.empty;
           expect(data.spouseAddress.postalCode).not.to.be.defined;
