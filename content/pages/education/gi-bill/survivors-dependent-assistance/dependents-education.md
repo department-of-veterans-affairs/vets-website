@@ -2,71 +2,74 @@
 layout: page-breadcrumbs.html
 title: Survivors' and Dependents' Educational Assistance Program
 template: 1-topic-landing
+plainlanguage: 12-07-16 certified in compliance with the Plain Writing Act
 concurrence: incomplete
 ---
 
 <div class="va-introtext">
 
-If you are the dependent of a Veteran who was permanently and totally disabled on active duty or due to a service-related condition, you may be eligible for 45 months of degree and certificate courses, apprenticeship, and on-the-job training under the Survivors' and Dependents’ Educational Assistance (DEA) program.
+Find out if you can get help paying for school or job training through the Survivors’ and Dependents’ Educational Assistance (DEA) program if you’re the child or spouse of a Veteran who has died or is disabled.
 
 </div>
 
 <div class="call-out usa-content" markdown="1">
 
-### Are you eligible for benefits?
+### Can I get education benefits?
 
-Yes, if:
+**You can get benefits if you're the child or spouse of:**
 
-**You are the son, daughter, or spouse of:**
+- A Veteran who died or who's permanently and totally disabled as the result of active service, **or**
+- A Veteran who was permanently and totally disabled as the result of active service and who died while in this condition, **or**
+- A Servicemember hospitalized or receiving outpatient treatment for a service-connected permanent and total disability who is likely to be discharged for that disability, **or**
+- A Servicemember missing in action or captured in the line of duty by a hostile force, **or**
+- A Servicemember forcibly detained (held) or interned in the line of duty by a foreign entity.
 
-- A Veteran who died or is permanently and totally disabled as the result of active service.
-- A Veteran who was permanently and totally disabled as the result of active service and who died from any cause while in this condition.
-- A Servicemember missing in action or captured in the line of duty by a hostile force.
-- A Servicemember forcibly detained or interned in the line of duty by a foreign entity.
-- A Servicemember hospitalized or receiving outpatient treatment for a service-connected permanent and total disability who is likely to be discharged for that disability.
+**If you're the child of the Veteran or Servicemember:**
 
-**If you are the child of the Veteran or Servicemember:**
+- You can get benefits if you're between the ages of 18 and 26, except in certain cases. You may be married or unmarried.
+- If you're over 18 years old and using DEA, you can't get Dependency and Indemnity Compensation (DIC) from us.
+[Learn about DIC](http://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp). 
+- If you join the military, you can't use this benefit while on active duty, and you must not be discharged under dishonorable conditions. Military service can extend your eligibility, but this increase doesn't usually go past your 31st birthday.
 
-- You must be between the ages of 18 and 26, except in special circumstances.
-- Marriage does not disqualify you from eligibility under DEA.
-- Should you join the military, you may not use this benefit while on active duty, and you must not be discharged under dishonorable conditions. Military service can extend your eligibility by the same number of days as your time on active duty, but this extension generally does not go beyond your 31st birthday.
-- You may not receive Dependency Indemnity Compensation (DIC) from VA if you are over 18 years old and using DEA.
+**If you're the spouse of the Veteran or Servicemember:**
 
-**If you are the spouse of the Veteran or Servicemember:**
-
-- Your benefits begin on the date VA finds you eligible or on the date of the Veteran’s death, and extend for 10 years.
-- If the Veteran was rated permanently and totally disabled, with an effective date that’s three years after discharge, you will remain eligible for 20 years from that effective date. This new policy began on October 10, 2008, and no benefits will be paid for training you started before October 10, 2008.
+- Your benefits start on the date we conclude that you qualify or on the date of the Veteran’s death, and last for 10 years.
+- If we rated the Veteran as permanently and totally disabled, with an effective date that’s 3 years after discharge, you'll qualify for benefits for 20 years from that effective date. This new policy began on October 10, 2008. We won't pay benefits for training you started before this date.
 - If the Servicemember died on active duty, your benefits end 20 years from the date of death.
-- You remain eligible to receive DIC payments from VA.
+- You can get DIC payments from us and use DEA benefits. 
 
-### Who is covered
 
-Your dependents
+### Who's covered?
+Qualified dependents
 </div>
 
-### Available benefits
+### What benefits can I get? 
 
-A monthly payment of up to $1,021. View [current rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp).
+We'll make a monthly payment to the school of up to $1,024 for up to 45 months for:
+- College or graduate degree programs
+- Career-training certificate courses
+- Apprenticeships
+- On-the-job training
 
--------
+[View current payment rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp).
 
-### How it works
-If you are a spouse, you may take correspondence courses under this program. Remedial, deficiency, and refresher courses may also be approved under certain circumstances. View [current DEA pay rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch35). For both children and spouses, if you are eligible for both DEA and the [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), you must choose which of these you will use. Your choice is final and cannot be changed.
+For both children and spouses, if you qualify for both DEA and the Fry Scholarship, you must pick one or the other. Once you make this choice, you can't switch to the other program. [Learn about the Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/).
 
-**Exception:** If you are the child of a Servicemember who died in the line of duty before August 1, 2011, you qualify to use both benefits subsequently for up to 81 months of education and training.
+**Exception:** 
+If you're the child of a Servicemember who died in the line of duty before August 1, 2011, you can use both DEA and the Fry Scholarship and get up to 81 months of education and training.
 
-### What happens next?
+### How do I get these benefits? 
+1. First, contact your school's certifying official to make sure your program is approved for VA benefits.
+2. Then fill out VA Form 22-5490 (Application for Survivors’ and Dependents’ Educational Assistance). [Download VA Form 22-5490](http://www.vba.va.gov/pubs/forms/vba-22-5490-are.pdf).
+3. Mail the application to the VA regional processing office (RPO) located near your school. [Find an RPO](http://www.benefits.va.gov/benefits/offices.asp#C).
 
-#### If you have not begun your educational or training program:
+#### If you haven't started school or a training program:
+- Get help from a trained professional trusted to help with VA-related claims. [Learn about accredited representatives](/disability-benefits/apply/help/index.html).
+- Get more information about schools and see if we've approved your program. [Use the GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 
-- Make sure that VA approves your selected educational or vocational program. Explore the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) for more information and to see if your program is approved.
-- Complete and submit [VA Form 22-5490](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490), Dependents’ Application for VA Education Benefits. Be sure to send the form to the VA regional office that oversees the state where you will receive the education. Find out which [Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp) will accept your form.
-
-#### If you have already started your program:
+#### If you've already started your program:
 - Take your application to your school or employer.
-- Ask them to complete VA Form 22-1999, Enrollment Certification, and send both forms to VA. (Your school must contact their VA representative to receive Form 22-1999.)
+- Ask your school to fill out VA Form 22-1999 (VA Enrollment Certification) and send it to us along with your application. [Download VA Form 22-1999](http://www.lepsn.org/images/pdfs/VA%20Form%2022-1999%20-%20VA%20Enrollment%20Certification.pdf).
 
-### Learn more
-
+### Get more information
 - Read the [DEA pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch35_pamphlet_2.pdf).
-- Get help from an [accredited representative](/disability-benefits/apply/help/index.html).

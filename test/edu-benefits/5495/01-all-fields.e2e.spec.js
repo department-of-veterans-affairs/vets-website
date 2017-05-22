@@ -23,7 +23,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Applicant information page.
     client
       .waitForElementVisible('input[name="root_relativeFullName_first"]', Timeouts.slow);
-    EduHelpers.completeRelativeInformation(client, testData.data);
+    EduHelpers.completeApplicantInformation(client, testData.data);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
