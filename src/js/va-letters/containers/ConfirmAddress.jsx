@@ -18,14 +18,14 @@ class ConfirmAddress extends React.Component {
 
   render() {
     const buttons = this.props.letters.addressConfirmed !== false ?
-        (<div className="usa-grid-full form-progress-buttons">
-          <div className="usa-width-one-fourth">
+        (<div className="form-progress-buttons">
+          <div className="small-6 medium-3 columns">
             <ProgressButton
                 onButtonClick={this.confirmAddress}
                 buttonText="Yes"
                 buttonClass="usa-button-primary"/>
           </div>
-          <div className="usa-width-one-fourth">
+          <div className="small-6 medium-3 end columns">
             <ProgressButton
                 onButtonClick={() => this.props.onAddressConfirmation(false)}
                 buttonText="No"
