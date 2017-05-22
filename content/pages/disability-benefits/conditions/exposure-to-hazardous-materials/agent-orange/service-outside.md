@@ -3,7 +3,8 @@ layout: page-breadcrumbs.html
 title: Service Outside of Vietnam or Korea
 concurrence: incomplete
 plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
-template: 4-action-page
+template: detail-page
+order: 4
 ---
 
 <div class="va-introtext">
@@ -46,6 +47,10 @@ You'll need to apply for benefits. When you apply, you'll have to show that you 
 
 **Exception:**<br>
 If you’re a Blue Water Veteran with non-Hodgkin’s lymphoma, you don't need to show that you had contact with Agent Orange. We recognize non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era. [Learn more about non-Hodgkin’s lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
+
+### Need help?
+
+Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
 
 ### Get more information
 

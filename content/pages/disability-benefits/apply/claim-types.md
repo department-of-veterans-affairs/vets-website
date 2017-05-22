@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Types of Disability Claims
 plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
-template: topic-landing
+template: detail-page
 collection: disabilityApply
 children: disabilityClaimTypes
 order: 2

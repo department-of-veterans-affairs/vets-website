@@ -5,6 +5,7 @@ plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: detail-page
 concurrence: complete
 source: http://www.bva.va.gov/index.asp
+order: 1
 ---
 
 <div class="va-introtext">

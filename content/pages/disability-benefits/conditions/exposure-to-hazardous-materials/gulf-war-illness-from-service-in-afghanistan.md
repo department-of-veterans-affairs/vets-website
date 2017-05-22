@@ -4,7 +4,7 @@ title: Gulf War Illness from Service in Afghanistan
 concurrence: 
 source: 
 plainlanguage: 
-template: 4-action-page
+template: detail-page
 ---
 
 <div class="va-introtext">
@@ -59,5 +59,6 @@ Veterans
 
 You’ll need to apply for benefits. [Apply for benefits](https://www.vets.gov/disability-benefits/apply/).
 
+### Need help?
 
-
+Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).

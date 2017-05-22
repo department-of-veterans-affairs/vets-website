@@ -3,7 +3,8 @@ layout: page-breadcrumbs.html
 title: Waters in or near Vietnam
 concurrence: incomplete
 plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
-template: 4-action-page
+template: detail-page
+order: 7
 ---
 
 <div class="va-introtext">
@@ -47,6 +48,9 @@ You’ll need to apply for benefits. When you apply, you’ll have to show that 
 
 Check the list of U.S. Navy and Coast Guard ships linked to service in Vietnam to find out if your service aboard a ship means you likely had contact with Agent Orange. [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
 
+### Need help?
+
+Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).
 
 ### Get more information
 

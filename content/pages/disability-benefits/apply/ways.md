@@ -2,23 +2,25 @@
 layout: page-breadcrumbs.html
 title: How to File a Disability Claim
 plainlanguage: 11-2-16 Ready for Beth review
-template: 1-topic-landing
+template: detail-page
 relatedlinks:
-  - url: /disability-benefits/apply/claim-types/fully-developed-claim/
-    title: What's the fastest way to file a claim?
-    description: ""
-  - url: /disability-benefits/apply/help/
-    title: How do I get help filing a claim?
-    description: ""
-  - url: /disability-benefits/apply/claim-types/predischarge-claim/
-    title: How do I file while on active duty?
-    description: ""
-  - url: /disability-benefits/apply/one-year/
-    title: How do I file for disabilities that appear within 1 year after discharge?
-    description: ""
-  - url: /disability-benefits/after-you-apply/date/
-    title: How does VA decide when my disability compensation starts?
-    description: ""
+  - heading:
+    links:
+    - url: /disability-benefits/apply/claim-types/fully-developed-claim/
+      title: What's the fastest way to file a claim?
+      description: ""
+    - url: /disability-benefits/apply/help/
+      title: How do I get help filing a claim?
+      description: ""
+    - url: /disability-benefits/apply/claim-types/predischarge-claim/
+      title: How do I file while on active duty?
+      description: ""
+    - url: /disability-benefits/apply/one-year/
+      title: How do I file for disabilities that appear within 1 year after discharge?
+      description: ""
+    - url: /disability-benefits/after-you-apply/date/
+      title: How does VA decide when my disability compensation starts?
+      description: ""
 ---
 
 <div class="va-introtext">

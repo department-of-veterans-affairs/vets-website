@@ -4,7 +4,8 @@ title: Posttraumatic Stress Disorder (PTSD)
 concurrence: complete
 source: http://www.va.gov/opa/issues/ptsd.asp
 plainlanguage: 11-14-16 certified in compliance with the Plain Language Act
-template: 1-topic-landing
+template: detail-page
+order: 1
 ---
 
 ### Are you in crisis? You have options.

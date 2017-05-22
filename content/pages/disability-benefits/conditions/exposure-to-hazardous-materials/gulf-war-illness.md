@@ -4,7 +4,7 @@ title: Gulf War Illness
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
-template: 4-action-page
+template: detail-page
 ---
 
 <div class="va-introtext">
@@ -78,3 +78,7 @@ You’ll need to apply for benefits. [Apply for disability benefits](/disability
 - The Gulf of Aden and the Gulf of Oman
 - The waters of the Persian Gulf, the Arabian Sea, and the Red Sea
 - The airspace above these locations
+
+### Need help?
+
+Want to connect with a trained professional who can help you with VA-related claims? [Find an accredited representative](/disability-benefits/apply/help/).

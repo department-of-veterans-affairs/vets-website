@@ -4,6 +4,7 @@ title: Presumed Disability
 concurrence: incomplete
 plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: detail-page
+order: 2
 ---
 
 <div class="va-introtext">

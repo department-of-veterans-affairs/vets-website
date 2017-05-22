@@ -4,7 +4,8 @@ title: Immediate Help for Temporary Disability Needs (Prestabilization)
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
-template: 1-topic-landing
+template: detail-page
+order: 9
 ---
 
 <div class="va-introtext">

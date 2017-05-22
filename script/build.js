@@ -196,25 +196,32 @@ smith.use(collections({
       name: 'Conditions'
     }
   },
-  disabilityEligibility: {
-    pattern: 'disability-benefits/eligibility/*.md',
-    sortBy: 'order',
+  disabilityConditionsExposure: {
+    pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/*.md',
+    sortBy: 'title',
     metadata: {
-      name: 'Eligibility'
+      name: 'Exposure to Hazardous Materials'
     }
   },
-  disabilityAgentOrange: {
+  disabilityConditionsSpecial: {
+    pattern: 'disability-benefits/conditions/special-claims/*.md',
+    sortBy: 'order',
+    metadata: {
+      name: 'Special Claims'
+    }
+  },
+  disabilityConditionsAgentOrange: {
     pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/*.md',
     sortBy: 'order',
     metadata: {
       name: 'Agent Orange'
     }
   },
-  disabilityExposureHazMat: {
-    pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/*.md',
-    sortBy: 'title',
+  disabilityEligibility: {
+    pattern: 'disability-benefits/eligibility/*.md',
+    sortBy: 'order',
     metadata: {
-      name: 'Exposure to Hazardous Materials'
+      name: 'Eligibility'
     }
   },
   education: {

@@ -19,6 +19,9 @@ majorlinks:
     - url: /disability-benefits/conditions/pow/
       title: Prisoners of War (<abbr>POW</abbr>s)
       description: Get support for issues resulting from captivity.
+    - url: /disability-benefits/conditions/service-connected
+      title: Disabilities Linked to Military Service
+      description: If you have a disability connected to serving in the military, you may be able to get disability compensation or benefits.
     - url: /disability-benefits/conditions/special-claims/
       title: Special Claims
       description: Get help with needs such as special equipment, hospital or rehab care, dental care, being unable to work, and more.

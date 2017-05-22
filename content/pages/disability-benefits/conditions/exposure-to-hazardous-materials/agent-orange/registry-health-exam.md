@@ -3,7 +3,8 @@ layout: page-breadcrumbs.html
 title: Agent Orange Registry Health Exam for Veterans
 concurrence: incomplete
 plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
-template: 4-action-page
+template: detail-page
+order: 10
 ---
 
 <div class="va-introtext">
@@ -57,6 +58,10 @@ Please note that:
 - The exam will not confirm if you had contact with Agent Orange.
 - You can get another free Registry exam if you have a new illness in the future.
 - Your family members can't get an Agent Orange Registry health exam. The exam is only for qualified Veterans.
+
+### Need help?
+
+Need to make an appointment for your Agent Orange Registry health exam? [Contact your local VA Environmental Health Coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp)
 
 ### Get more information
 

@@ -4,7 +4,8 @@ title: Disability Benefits for Former Prisoners of War (POWs)
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-pow.asp
 plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
-template: 1-topic-landing
+template: detail-page
+order: 3
 ---
 
 <div class="va-introtext">
