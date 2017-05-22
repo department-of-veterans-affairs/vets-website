@@ -1,12 +1,12 @@
-import { expect } from 'chai';
 import React from 'react';
+import { createStore } from 'redux';
+import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
-// note that we import the undecorated component to facilitate testing
+
 import { ProfilePage } from '../../../src/js/gi/containers/ProfilePage';
 import reducer from '../../../src/js/gi/reducers';
-import createCommonStore from '../../../src/js/common/store';
 
-const defaultProps = createCommonStore(reducer).getState();
+const defaultProps = createStore(reducer).getState();
 
 describe('<ProfilePage>', () => {
   it('should render', () => {

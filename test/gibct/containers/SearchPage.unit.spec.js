@@ -1,13 +1,13 @@
-import { expect } from 'chai';
 import React from 'react';
-import sinon from 'sinon';
+import { createStore } from 'redux';
+import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import sinon from 'sinon';
 
 import { SearchPage } from '../../../src/js/gi/containers/SearchPage';
 import reducer from '../../../src/js/gi/reducers';
-import createCommonStore from '../../../src/js/common/store';
 
-const defaultProps = createCommonStore(reducer).getState();
+const defaultProps = createStore(reducer).getState();
 
 describe('<SearchPage>', () => {
   it('should render', () => {

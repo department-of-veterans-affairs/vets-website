@@ -1,12 +1,12 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
+import { createStore } from 'redux';
 import { expect } from 'chai';
-import createCommonStore from '../../../src/js/common/store';
+import SkinDeep from 'skin-deep';
 
 import { GiBillApp } from '../../../src/js/gi/containers/GiBillApp';
 import reducer from '../../../src/js/gi/reducers';
 
-const defaultProps = createCommonStore(reducer).getState();
+const defaultProps = createStore(reducer).getState();
 
 describe('<GiBillApp>', () => {
   it('should render', () => {
