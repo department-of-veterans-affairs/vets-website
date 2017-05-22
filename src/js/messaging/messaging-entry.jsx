@@ -10,26 +10,23 @@ import { createHistory } from 'history';
 
 import initReact from '../common/init-react';
 import routes from './routes';
-import reducer from './reducers';
-import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import { commonStore } from '../common/store';
 import { updateRoute } from './actions';
 
 require('../../sass/messaging/messaging.scss');
 require('../common');  // Bring in the common javascript.
 
-const store = createCommonStore(reducer);
-createLoginWidget(store);
+require('../login/login-entry.jsx');
 
 const history = useRouterHistory(createHistory)({
   basename: '/healthcare/messaging'
 });
 
 function init() {
-  history.listen((location) => store.dispatch(updateRoute(location)));
+  history.listen((location) => commonStore.dispatch(updateRoute(location)));
 
   ReactDOM.render((
-    <Provider store={store}>
+    <Provider store={commonStore}>
       <Router history={history} routes={routes}/>
     </Provider>
     ), document.getElementById('react-root'));

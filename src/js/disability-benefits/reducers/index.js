@@ -7,16 +7,12 @@ import uploads from './uploads';
 import routing from './routing';
 import notifications from './notifications';
 
-export default {
-  disability: combineReducers({
-    status: combineReducers({
-      claims,
-      claimDetail,
-      claimAsk,
-      claimSync,
-      uploads,
-      routing,
-      notifications
-    })
-  })
-};
+export default combineReducers({
+  claims,
+  claimDetail,
+  claimAsk,
+  claimSync,
+  uploads,
+  routing,
+  notifications
+});

@@ -7,15 +7,13 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import routes from './routes';
-import createCommonStore from '../common/store';
-import createLoginWidget from '../login/login-entry';
+import { commonStore } from '../common/store';
 
 require('../common');  // Bring in the common javascript.
 require('../../sass/rx/rx.scss');
 require('../../sass/user-profile.scss');
 
-const commonStore = createCommonStore();
-createLoginWidget(commonStore);
+require('../login/login-entry.jsx');
 
 function init() {
   /*

@@ -1,12 +1,12 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { createStore } from 'redux';
 
 import RxRefillsApp from '../../../src/js/rx/containers/RxRefillsApp';
-import reducer from '../../../src/js/rx/reducers';
-import createCommonStore from '../../../src/js/common/store';
+import reducer from '../../../src/js/common/reducers';
 
-const store = createCommonStore(reducer);
+const store = createStore(reducer);
 
 describe('<RxRefillsApp>', () => {
   it('should render', () => {
