@@ -106,6 +106,12 @@ If you’re a Servicemember, Veteran, or family member interested in education a
             <label for="create-non-transfer">No</label>
           </div>
         </div>
+        <div id="transfer-warning" class="usa-alert usa-alert-warning usa-content secondary" data-state="closed">
+        <div class="usa-alert-body">
+        <h4 style="padding:0;">Have your sponsor's benefits not been transferred?</h4>
+        <p style="margin:0;">Your application cannot be approved until your sponsor transfers their benefits. To find out more, visit the DoDs <a href="http://www.defense.gov/home/features/2009/0409_gibill/">website</a> or <a href="http://milconnect.dmdc.mil/">apply now</a>.</p>
+        </div>
+        </div>
         <a id="apply-now-button" class="usa-button-primary va-button-primary apply-go-button" data-state="closed">Apply now</a>
       </div>
     </div>

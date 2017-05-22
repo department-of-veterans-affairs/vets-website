@@ -39,13 +39,13 @@
   }
 }
 // Handles the question toggling
-a[data-state=closed] {
+a[data-state=closed], div[data-state=closed] {
   position: absolute;
    top: -9999px;
    left: -9999px;
    opacity: 0;
 }
-a[data-state=open] {
+a[data-state=open], div[data-state=open] {
   transition: opacity 700ms ease-in-out;
 }
 .expander-content-question[data-state=open] {

@@ -30,6 +30,7 @@
     const content = container.querySelector('.expander-content');
     const radios = container.querySelectorAll('input');
     const apply = container.querySelector('#apply-now-button');
+    const warning = container.querySelector('#transfer-warning');
     radios.forEach(radio => {
       radio.addEventListener('change', () => {
         const otherChoice = radio.dataset.alternate;
@@ -45,6 +46,12 @@
           if (apply.dataset.state === 'closed') {
             openState(apply);
           }
+          if (!radio.id !== 'create-non-transfer') {
+            closeState(warning);
+          }
+          if (radio.id === 'create-non-transfer') {
+            openState(warning);
+          }
           apply.href = `/education/apply-for-education-benefits/application/${radio.dataset.selectedForm}/introduction`;
           return false;
         }
@@ -54,7 +61,7 @@
           openState(nextQuestionElement);
           nextQuestionElement.querySelector('input').focus();
         }
-        return;
+        return false;
       });
     });
     button.addEventListener('click', () => {
