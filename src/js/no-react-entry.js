@@ -8,7 +8,6 @@ require('foundation-sites');
 
 // Used in the footer.
 require('./legacy/menu.js');
-require('./legacy/toggle-veterans-crisis-line.js');
 require('./common/utils/sticky-action-box.js');
 
 // New navigation menu

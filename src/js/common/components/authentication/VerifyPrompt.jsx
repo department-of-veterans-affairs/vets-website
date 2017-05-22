@@ -1,15 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+
 import { handleVerify } from '../../helpers/login-helpers.js';
 
 class VerifyPrompt extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.handleVerify = handleVerify;
-  }
-
   componentDidMount() {
-		// event for google analytics that we prompted to verify account
     window.dataLayer.push({ event: 'verify-prompt-displayed' });
   }
 
@@ -27,7 +22,7 @@ class VerifyPrompt extends React.Component {
               </ul>
             Don't have a supported ID? You can provide personal information and answer questions about your credit history instead.</p>
             <p>
-              <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleVerify}><strong>Get Started</strong></button>
+              <button className="usa-button-primary va-button-primary usa-button-big" onClick={() => handleVerify(this.props.verifyUrl)}><strong>Get Started</strong></button>
             </p>
           </div>
         </div>
@@ -35,5 +30,9 @@ class VerifyPrompt extends React.Component {
     );
   }
 }
+
+VerifyPrompt.propTypes = {
+  verifyUrl: PropTypes.string
+};
 
 export default VerifyPrompt;

@@ -22,7 +22,8 @@ const {
 } = fullSchema1990n.properties;
 
 const {
-  currentlyActiveDuty
+  currentlyActiveDuty,
+  date
 } = fullSchema1990n.definitions;
 
 const formConfig = {
@@ -33,6 +34,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
+    date
   },
   title: 'Apply for education benefits under the National Call to Service program',
   subTitle: 'Form 22-1990N',
@@ -92,7 +94,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              toursOfDuty: toursOfDuty.schema({
+              toursOfDuty: toursOfDuty.schema(fullSchema1990n, {
                 fields: [
                   'serviceBranch',
                   'dateRange',
@@ -137,7 +139,7 @@ const formConfig = {
     personalInformation: {
       title: 'Personal Information',
       pages: {
-        contactInformation: contactInformationPage(),
+        contactInformation: contactInformationPage(fullSchema1990n),
         directDeposit: createDirectDepositPage(fullSchema1990n, {
           required: ['accountType', 'accountNumber', 'routingNumber']
         })

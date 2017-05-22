@@ -4,10 +4,14 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester, submitForm } from '../../util/schemaform-utils.jsx';
-import createContactInformationPage from '../../../src/js/edu-benefits/pages/contactInformation.js';
+import formConfig5495 from '../../../src/js/edu-benefits/5495/config/form';
+import formConfig5490 from '../../../src/js/edu-benefits/5490/config/form';
+import formConfig1990e from '../../../src/js/edu-benefits/1990e/config/form';
+import formConfig1990n from '../../../src/js/edu-benefits/1990n/config/form';
+import formConfig1995 from '../../../src/js/edu-benefits/1995/config/form';
 
-describe('Edu pages contactInformation', () => {
-  const { schema, uiSchema } = createContactInformationPage();
+const pageTests = (page, addressType = 'veteran') => {
+  const { schema, uiSchema } = page;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -22,25 +26,10 @@ describe('Edu pages contactInformation', () => {
 
     expect(inputs.filter(input => input.id.startsWith('root_preferredContactMethod')).length)
       .to.equal(3);
-    expect(inputs.filter(input => input.id.startsWith('root_veteranAddress')).length)
+    expect(inputs.filter(input => input.id.startsWith(`root_${addressType}Address`)).length)
       .to.equal(6);
     expect(inputs.filter(input => input.id.startsWith('root_view:otherContactInfo')).length)
       .to.equal(4);
-  });
-  it('should render address field from parameter', () => {
-    const page = createContactInformationPage('relativeAddress');
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-          schema={page.schema}
-          data={{}}
-          uiSchema={page.uiSchema}/>
-    );
-    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').concat(
-      ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'select')
-    );
-
-    expect(inputs.filter(input => input.id.startsWith('root_relativeAddress')).length)
-      .to.equal(6);
   });
   it('should render validation errors for required fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -139,4 +128,12 @@ describe('Edu pages contactInformation', () => {
       expect(findDOMNode(form).textContent).not.to.contain('test@test.com');
     });
   });
+};
+
+describe('Edu contactInformationPage', () => {
+  describe('5495', () => pageTests(formConfig5495.chapters.personalInformation.pages.contactInformation, 'relative'));
+  describe('5490', () => pageTests(formConfig5490.chapters.personalInformation.pages.contactInformation, 'relative'));
+  describe('1990e', () => pageTests(formConfig1990e.chapters.personalInformation.pages.contactInformation, 'relative'));
+  describe('1990n', () => pageTests(formConfig1990n.chapters.personalInformation.pages.contactInformation));
+  describe('1995', () => pageTests(formConfig1995.chapters.personalInformation.pages.contactInformation));
 });

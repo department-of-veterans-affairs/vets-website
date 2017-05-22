@@ -36,6 +36,7 @@ class ArrayField extends React.Component {
     this.handleSetData = this.handleSetData.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
+    this.isLocked = this.isLocked.bind(this);
   }
 
   getItemSchema(index) {
@@ -49,7 +50,9 @@ class ArrayField extends React.Component {
 
   scrollToTop() {
     setTimeout(() => {
-      scroller.scrollTo(`topOfTable_${this.props.path[this.props.path.length - 1]}`, {
+      // Hacky; won't work if the array field is used in two pages and one isn't
+      //  a BasicArrayField nor if the array field is used in three pages.
+      scroller.scrollTo(`topOfTable_${this.props.path[this.props.path.length - 1]}${this.isLocked() ? '_locked' : ''}`, {
         duration: 500,
         delay: 0,
         smooth: true,
@@ -136,6 +139,10 @@ class ArrayField extends React.Component {
     });
   }
 
+  isLocked() {
+    return this.props.uiSchema['ui:field'] === 'BasicArrayField';
+  }
+
   render() {
     const {
       schema,
@@ -150,31 +157,40 @@ class ArrayField extends React.Component {
       pageKey: fieldName
     };
 
+    // TODO: Make this better; it's super hacky for now.
+    const itemCountLocked = this.isLocked();
+    const items = itemCountLocked ? this.props.arrayData : this.state.items;
+
     return (
       <div>
         {title &&
           <div className="form-review-panel-page-header-row">
             <h5 className="form-review-panel-page-header">{title}</h5>
-            <button type="button" className="edit-btn primary-outline" onClick={() => this.handleAdd()}>Add Another</button>
+            {!itemCountLocked &&
+              <button type="button" className="edit-btn primary-outline" onClick={() => this.handleAdd()}>Add Another</button>
+            }
           </div>}
         <div className="va-growable va-growable-review">
-          <Element name={`topOfTable_${fieldName}`}/>
-          {this.state.items.map((item, index) => {
-            const isLast = this.state.items.length === (index + 1);
+          <Element name={`topOfTable_${fieldName}${itemCountLocked ? '_locked' : ''}`}/>
+          {items.map((item, index) => {
+            const isLast = items.length === (index + 1);
             const isEditing = this.state.editing[index];
-            const showReviewButton = !schema.minItems || this.state.items.length > schema.minItems;
+            const showReviewButton = !itemCountLocked && (!schema.minItems || items.length > schema.minItems);
+            const itemSchema = this.getItemSchema(index);
+            const itemTitle = itemSchema ? itemSchema.title : '';
+
             if (isEditing) {
               return (
                 <div key={index} className="va-growable-background">
                   <Element name={`table_${fieldName}_${index}`}/>
                   <div className="row small-collapse schemaform-array-row" id={`table_${fieldName}_${index}`}>
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast && uiSchema['ui:options'].itemName && this.state.items.length > 1
+                      {isLast && uiSchema['ui:options'].itemName && items.length > 1
                           ? <h5>New {uiSchema['ui:options'].itemName}</h5>
                           : null}
                       <SchemaForm
-                          pageData={item}
-                          schema={this.getItemSchema(index)}
+                          data={item}
+                          schema={itemSchema}
                           uiSchema={arrayPageConfig.uiSchema}
                           title={pageTitle}
                           hideTitle
@@ -201,11 +217,10 @@ class ArrayField extends React.Component {
                 <div className="row small-collapse">
                   <SchemaForm
                       reviewMode
-                      pageData={item}
-                      schema={this.getItemSchema(index)}
+                      data={item}
+                      schema={itemSchema}
                       uiSchema={arrayPageConfig.uiSchema}
-                      title={pageTitle}
-                      hideTitle
+                      title={itemTitle}
                       name={fieldName}
                       onChange={(data) => this.handleSetData(index, data)}
                       onEdit={() => this.handleEdit(index, !isEditing)}

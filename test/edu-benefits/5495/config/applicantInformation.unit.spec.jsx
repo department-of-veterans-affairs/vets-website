@@ -54,6 +54,6 @@ describe('Edu 5495 applicantInformation', () => {
     });
 
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelector('#root_vaFileNumber')).not.to.be.null;
+    expect(formDOM.querySelector('#root_relativeVaFileNumber')).not.to.be.null;
   });
 });

@@ -242,7 +242,7 @@ function isValidSSN(value) {
     return false;
   }
 
-  return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
+  return /^\d{9}$/.test(value) || /^\d{3}-\d{2}-\d{4}$/.test(value);
 }
 
 function isValidMonetaryValue(value) {

@@ -4,7 +4,8 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
-import { schema, uiSchema } from '../../../../src/js/common/schemaform/definitions/ssn';
+import uiSchema from '../../../../src/js/common/schemaform/definitions/ssn';
+import { ssn as schema } from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition ssn', () => {
   it('should render ssn with error', () => {

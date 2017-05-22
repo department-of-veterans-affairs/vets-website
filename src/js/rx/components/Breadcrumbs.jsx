@@ -47,6 +47,9 @@ class Breadcrumbs extends React.Component {
     } else if (pathname.match(/\/glossary\/?$/)) {
       crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
       crumbs.push(<span key="glossary"><strong>Glossary</strong></span>);
+    } else if (pathname.match(/\/settings\/?$/)) {
+      crumbs.push(<Link to="/" key="prescriptions">Prescription Refills</Link>);
+      crumbs.push(<span key="settings"><strong>Settings</strong></span>);
     } else {
       crumbs.push(<span key="prescriptions"><strong>Prescription Refills</strong></span>);
     }

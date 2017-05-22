@@ -447,6 +447,7 @@ function initApplicationMock() {
 }
 
 module.exports = {
+  calculatorConstants,
   schools,
   initApplicationMock
 };

@@ -9,6 +9,7 @@ const props = {
   fileName: 'fileName',
   fileSize: '1000',
   cssClass: 'cssClass',
+  onClose: () => {}
 };
 
 describe('<MessageUploadedAttachment>', () => {

@@ -3,6 +3,7 @@ import { getDefaultFormState } from 'react-jsonschema-form/lib/utils';
 
 import {
   createFormPageList,
+  checkValidSchema
 } from '../helpers';
 
 import {
@@ -49,6 +50,8 @@ export default function createSchemaFormReducer(formConfig) {
     .reduce((state, page) => {
       const definitions = _.assign(formConfig.defaultDefinitions || {}, page.schema.definitions);
       let schema = replaceRefSchemas(page.schema, definitions, page.pageKey);
+      // Throw an error if the new schema is invalid
+      checkValidSchema(schema);
       schema = updateItemsSchema(schema);
       const data = getDefaultFormState(schema, page.initialData, schema.definitions);
 

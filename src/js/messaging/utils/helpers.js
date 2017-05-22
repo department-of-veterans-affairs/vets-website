@@ -47,15 +47,17 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
   return fetch(url, settings)
     .then((response) => {
+      const data = isJson(response)
+                 ? response.json()
+                 : Promise.resolve(response);
+
       if (!response.ok) {
         // Refresh to show login view when requests are unauthorized.
         if (response.status === 401) { return window.location.reload(); }
-        return Promise.reject(response);
-      } else if (isJson(response)) {
-        return response.json();
+        return data.then(Promise.reject.bind(Promise));
       }
 
-      return Promise.resolve(response);
+      return data;
     })
     .then(success, error);
 }

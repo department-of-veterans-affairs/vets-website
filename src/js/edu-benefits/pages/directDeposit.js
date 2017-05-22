@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import { uiSchema as bankAccountUI } from '../../common/schemaform/definitions/bankAccount';
+import bankAccountUI from '../../common/schemaform/definitions/bankAccount';
 
 const defaults = {
   required: []

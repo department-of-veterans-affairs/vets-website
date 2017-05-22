@@ -7,11 +7,9 @@
       "last": "asdf",
       "suffix": "Jr."
     },
-    "view:veteranId": {
-      "veteranSocialSecurityNumber": "123333333",
-      "view:noSSN": true,
-      "vaFileNumber": "C12345678"
-    },
+    "veteranSocialSecurityNumber": "123333333",
+    "view:noSSN": true,
+    "vaFileNumber": "C12345678",
     "benefit": "chapter30",
     "toursOfDuty": [
       {

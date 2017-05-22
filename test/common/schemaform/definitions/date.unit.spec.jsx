@@ -5,7 +5,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Form from 'react-jsonschema-form';
 
 import { DefinitionTester } from '../../../util/schemaform-utils.jsx';
-import { schema, uiSchema } from '../../../../src/js/common/schemaform/definitions/date';
+import uiSchema from '../../../../src/js/common/schemaform/definitions/date';
+import { date as schema } from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition date', () => {
   it('should render date', () => {

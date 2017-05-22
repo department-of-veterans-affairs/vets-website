@@ -10,6 +10,7 @@ const props = {
     statuses: {
       succeeded: [],
       failed: [],
+      incomplete: [],
     }
   },
   form: {

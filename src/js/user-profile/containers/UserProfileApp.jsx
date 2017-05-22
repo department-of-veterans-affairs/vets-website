@@ -17,7 +17,9 @@ class UserProfileApp extends React.Component {
           <h1>Your Vets.gov Account</h1>
           <div>
             <UserDataSection/>
-            <AuthApplicationSection/>
+            <AuthApplicationSection
+                userProfile={this.props.profile}
+                verifyUrl={this.props.verifyUrl}/>
             <AccountManagementSection/>
           </div>
         </div>
@@ -26,7 +28,12 @@ class UserProfileApp extends React.Component {
 
     return (
       <div>
-        <RequiredLoginView authRequired={1} serviceRequired={"user-profile"} userProfile={this.props.profile} loginUrl={this.props.signInUrl}>
+        <RequiredLoginView
+            authRequired={1}
+            serviceRequired={"user-profile"}
+            userProfile={this.props.profile}
+            loginUrl={this.props.loginUrl}
+            verifyUrl={this.props.verifyUrl}>
           {view}
         </RequiredLoginView>
       </div>
@@ -34,16 +41,15 @@ class UserProfileApp extends React.Component {
   }
 }
 
-// TODO: fill this out
 const mapStateToProps = (state) => {
   const userState = state.user;
 
   return {
     profile: userState.profile,
-    signInUrl: userState.login.loginUrl.first
+    loginUrl: userState.login.loginUrl,
+    verifyUrl: userState.login.verifyUrl
   };
 };
 
-// TODO(awong): Remove the pure: false once we start using ImmutableJS.
 export default connect(mapStateToProps)(UserProfileApp);
 export { UserProfileApp };
