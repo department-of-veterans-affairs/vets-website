@@ -2,11 +2,11 @@
 // Where else can I put this? Also, it could use a better name.
 .expander-button {
   &::after {
-    background-image: url('/img/arrow-down-white.svg');
+    background-image: url("/img/arrow-down-white.svg");
     background-position: right bottom;
     background-repeat: no-repeat;
     background-size: .6em auto;
-    content: ''; // Add content for accessibility purposes?
+    content: ""; // Add content for accessibility purposes?
     display: inline-block;
     height: 1em;
     margin-left: .5em;
@@ -41,13 +41,13 @@
 }
 
 // Handles the question toggling
-[data-state='closed'] {
+[data-state="closed"] {
   left: -9999px;
   opacity: 0;
   position: absolute;
   top: -9999px;
 }
 
-[data-state='open'] {
+[data-state="open"] {
   transition: opacity 700ms ease-in-out;
 }
