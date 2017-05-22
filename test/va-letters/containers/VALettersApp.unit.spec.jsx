@@ -1,12 +1,12 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { createStore } from 'redux';
 
 import VALettersApp from '../../../src/js/va-letters/containers/VALettersApp';
-import reducer from '../../../src/js/va-letters/reducers';
-import createCommonStore from '../../../src/js/common/store';
+import reducer from '../../../src/js/common/reducers';
 
-const store = createCommonStore(reducer);
+const store = createStore(reducer);
 
 describe('<VALettersApp>', () => {
   it('should render', () => {

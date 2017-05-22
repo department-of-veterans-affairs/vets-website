@@ -1,11 +1,12 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { createStore } from 'redux';
 
 import UserProfileApp from '../../../src/js/user-profile/containers/UserProfileApp';
-import createCommonStore from '../../../src/js/common/store';
+import reducer from '../../../src/js/common/reducers';
 
-const store = createCommonStore();
+const store = createStore(reducer);
 
 describe('UserProfileApp', () => {
   const props = {
