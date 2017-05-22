@@ -59,7 +59,8 @@ You can use this benefit no matter where the injury happened—whether you were 
 <br>
 
 #### Who’s covered?
--	Servicemembers covered by SGLI
+
+Servicemembers covered by SGLI
 
 </div>
 
