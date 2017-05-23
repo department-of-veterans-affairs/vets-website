@@ -66,7 +66,7 @@ Money for tuition or training
 -----
 
 ### How do I get these benefits?
-You'll need to apply. Apply online with Form 22-1990E. [Find out how to apply](/education/apply-for-education-benefits/). 
+Apply online with Form 22-1990E. [Find out how to apply](/education/apply-for-education-benefits/). 
 
 You may get up to 36 months of education benefits. We pay the benefits monthly and the amount depends on the following factors:
 
