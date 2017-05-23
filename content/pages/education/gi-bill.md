@@ -2,13 +2,14 @@
 layout: page-breadcrumbs.html
 title: GI Bill
 concurrence: incomplete
+plainlanguage: 11-29-16 certified in compliance with the Plain Writing Act
 template: alt-1-topic-landing
 relatedlinks:
   - url: /education/gi-bill/foreign-programs/
     title: Foreign Programs
     description: ""
   - url: /education/gi-bill/higher-learning/
-    title: Institutions of Higher Learning Undergraduate and Graduate Degrees
+    title: Undergraduate and Graduate Degrees from Institutions of Higher Learning 
     description: ""
   - url: /education/gi-bill/post-9-11/
     title: Post-9/11 GI Bill
@@ -44,10 +45,9 @@ relatedlinks:
 
 <div class="va-introtext">
 
-Since 1944, the GI Bill has helped millions of Veterans pay for college so they can have successful civilian careers. The Post-9/11 GI Bill, available for Veterans with active-duty service after September 11, 2001, also offers a living allowance, money for books, and the option to transfer education benefits you don't use to your spouse or children.
+Since 1944, the GI Bill has helped millions of Veterans pay for college, graduate school, and other training programs. If you served on active duty after September 11, 2001, the Post-9/11 GI Bill will provide you with a housing allowance, money for books, and the option to transfer unused education benefits to your spouse or children.
 
-You have several options from which to choose. [Veterans Service Organizations](http://www.va.gov/vso/) and the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) can help you pick the best program for you.
+The GI Bill Comparison Tool and Veterans Service Organizations can help you explore options and find out what benefits you can get. [Find a Veterans Service Organization](http://www.va.gov/vso/).
 
+<a class="usa-button-primary va-button-primary" href="/education/apply/">Apply for Education Benefits</a> <a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
 </div>
-
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a> <a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>

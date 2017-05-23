@@ -473,10 +473,7 @@ const formConfig = {
               highSchoolOrGedCompletionDate: _.assign(
                 dateUI(null), {
                   'ui:options': {
-                    hideIf: form => {
-                      const status = _.get('highSchool.status', form);
-                      return status !== 'graduated' && status !== 'graduationExpected';
-                    },
+                    expandUnderCondition: status => status === 'graduated' || status === 'graduationExpected',
                     expandUnder: 'status',
                     updateSchema: (form) => {
                       const status = _.get('highSchool.status', form);
@@ -496,10 +493,7 @@ const formConfig = {
               ),
               'view:hasHighSchool': {
                 'ui:options': {
-                  hideIf: form => {
-                    const status = _.get('highSchool.status', form);
-                    return status !== 'discontinued';
-                  },
+                  expandUnderCondition: status => status === 'discontinued',
                   expandUnder: 'status'
                 },
                 name: {
@@ -529,11 +523,7 @@ const formConfig = {
             },
             postHighSchoolTrainings: _.merge(postHighSchoolTrainingsUi, {
               'ui:options': {
-                expandUnder: 'view:hasTrainings',
-                hideIf: form => {
-                  const status = _.get('highSchool.status', form);
-                  return status === 'discontinued' || status === 'graduationExpected' || status === 'neverAttended';
-                }
+                expandUnder: 'view:hasTrainings'
               }
             })
           },

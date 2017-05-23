@@ -66,6 +66,28 @@ export function getInactivePages(pages, data) {
   return pages.filter(page => !isActivePage(page, data));
 }
 
+export function getCurrentFormStep(chapters, path) {
+  let step;
+  chapters.forEach((chapter, index) => {
+    if (chapter.pages.some(page => page.path === path)) {
+      step = index + 1;
+    }
+  });
+
+  return step;
+}
+
+export function getCurrentPageName(chapters, path) {
+  let name;
+  chapters.forEach((chapter) => {
+    if (chapter.pages.some(page => page.path === path)) {
+      name = chapter.name;
+    }
+  });
+
+  return name;
+}
+
 export function dateToMoment(dateField) {
   return moment({
     year: dateField.year.value,

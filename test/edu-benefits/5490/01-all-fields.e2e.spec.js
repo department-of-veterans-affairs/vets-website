@@ -23,7 +23,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Applicant information page
     client
       .waitForElementVisible('input[name="root_relativeFullName_first"]', Timeouts.slow);
-    EduHelpers.completeRelativeInformation(client, {
+    EduHelpers.completeApplicantInformation(client, {
       relationship: testData.data.relationship,
       ...testData.data
     });

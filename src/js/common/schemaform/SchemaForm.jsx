@@ -11,6 +11,7 @@ import StringField from './review/StringField';
 import widgets from './widgets/index';
 import ObjectField from './ObjectField';
 import ArrayField from './ArrayField';
+import BasicArrayField from './BasicArrayField';
 import TitleField from './TitleField';
 import ReviewObjectField from './review/ObjectField';
 import { scrollToFirstError } from '../utils/helpers';
@@ -18,12 +19,14 @@ import { scrollToFirstError } from '../utils/helpers';
 const fields = {
   ObjectField,
   ArrayField,
+  BasicArrayField,
   TitleField
 };
 
 const reviewFields = {
   ObjectField: ReviewObjectField,
   ArrayField,
+  BasicArrayField,
   address: ReviewObjectField,
   StringField
 };
@@ -47,6 +50,8 @@ class SchemaForm extends React.Component {
   componentWillReceiveProps(newProps) {
     if (newProps.name !== this.props.name) {
       this.setState(this.getEmptyState(newProps));
+    } else if (newProps.title !== this.props.title) {
+      this.setState({ formContext: _.set('pageTitle', newProps.title, this.state.formContext) });
     }
   }
 
