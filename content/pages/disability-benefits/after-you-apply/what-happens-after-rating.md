@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: What to Expect after You Get a Disability Rating
+display_title: After You Get a Disability Rating
 plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: detail-page
 ---

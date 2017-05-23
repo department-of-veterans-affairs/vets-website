@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Posttraumatic Stress Disorder (PTSD)
+display_title: PTSD
 concurrence: complete
 source: http://www.va.gov/opa/issues/ptsd.asp
 plainlanguage: 11-14-16 certified in compliance with the Plain Language Act

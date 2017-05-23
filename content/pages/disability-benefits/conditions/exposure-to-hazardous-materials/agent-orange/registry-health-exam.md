@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Agent Orange Registry Health Exam for Veterans
+display_title: Agent Orange Registry Health Exam
 concurrence: incomplete
 plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
 template: detail-page

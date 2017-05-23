@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Types of Disability Claims
+display_title: Claim Types
 plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: detail-page
 collection: disabilityApply

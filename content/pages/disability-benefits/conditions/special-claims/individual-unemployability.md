@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Being Unable to Work (Individual Unemployability)
+display_title: Individual Unemployability
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-individual_unemployability.asp
 plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act

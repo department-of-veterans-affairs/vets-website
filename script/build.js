@@ -200,7 +200,7 @@ smith.use(collections({
     pattern: 'disability-benefits/conditions/exposure-to-hazardous-materials/*.md',
     sortBy: 'title',
     metadata: {
-      name: 'Exposure to Hazardous Materials'
+      name: 'Contact with Hazardous Materials'
     }
   },
   disabilityConditionsSpecial: {
