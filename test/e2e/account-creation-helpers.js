@@ -1,6 +1,8 @@
 const mock = require('./mock-helpers');
 
-function initMHVTermsMocks(token, termsName = 'mhvac') {
+// by default, mock shows that user has agreed to latest terms
+// this behavior can be set using the bypass arg
+function initMHVTermsMocks(token, termsName = 'mhvac', bypass = true) {
   mock(token, {
     path: `/v0/terms_and_conditions/${termsName}/versions/latest`,
     verb: 'get',
@@ -10,6 +12,7 @@ function initMHVTermsMocks(token, termsName = 'mhvac') {
         type: 'termsAndConditions',
         attributes: {
           name: 'mhvac',
+          yesContent: 'I agree',
         }
       }
     }
@@ -23,7 +26,7 @@ function initMHVTermsMocks(token, termsName = 'mhvac') {
         id: '1',
         type: 'termsAndConditions',
         attributes: {
-          createdAt: 'today',
+          createdAt: bypass ? 'today' : null,
         }
       }
     }
